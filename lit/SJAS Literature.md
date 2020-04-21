@@ -1,0 +1,33 @@
+- [[VIP]] VIP = Very Important Paper, top priority, [[dl]] = downloaded
+- [[DEW]]
+    - [[History]]
+        - [[People]]
+            - https://en.wikipedia.org/wiki/Dan_Willard
+                - http://www.cs.albany.edu/~dew/outside.pdf
+            - https://en.wikipedia.org/wiki/Gerald_Sacks
+            - https://en.wikipedia.org/wiki/Harvey_Friedman
+            - 
+    - [[SJAS]]
+        - [[SVT]] https://en.wikipedia.org/wiki/Self-verifying_theories
+            - [[Willard2017]] [[dl]] [[VIP]] On How the Introducing of a New θ Function Symbol Into Arithmetic's Formalism Is Germane to Devising Axiom Systems that Can Appreciate Fragments of Their Own Hilbert Consistency https://arxiv.org/abs/1612.08071
+        - [[KrieselTakeutiAlternative]] 
+            - [[Takeuti1953]] [[dl]] On a generalized logic calculus  https://www.jstage.jst.go.jp/article/jjm1924/23/0/23_0_39/_pdf/-char/en
+            - [[KrieselTakeuti1974]] [[dl]] Formally self-referential propositions for cut free classical analysis and related systems http://pldml.icm.edu.pl/pldml/element/bwmeta1.element.zamlynska-23b1447d-c2c3-4004-849e-d24eec516eb8
+            - [[Kreisel1968]] [[dl]] A Survey of Proof Theory
+            - [[Kreisel1971]] [[dl]] A Survey of Proof Theory II
+- [[Curry-Howard]] 
+    - https://news.ycombinator.com/item?id=22767509
+- [[Encoding]]
+    - Tarau 2015 https://arxiv.org/pdf/1507.06944.pdf
+    - https://en.wikipedia.org/wiki/Church_encoding
+- [[Self-Interpretation]]
+    - Artemov 2001 Reflective Lambda-Calculus https://www.academia.edu/2815376/Reflective_%CE%BB-calculus
+    - https://cs.stackexchange.com/questions/62994/mltt-not-being-turing-complete
+    - [[VIP]] [[BrownPalsberg2016]] http://math.andrej.com/2016/01/04/a-brown-palsberg-self-interpreter-for-godels-system-t/
+    - https://ipfs-sec.stackexchange.cloudflare-ipfs.com/cstheory/A/question/24986.html
+    - 
+- [[Consistency]]
+    - https://en.wikipedia.org/wiki/Takeuti%27s_conjecture
+>Takeuti's conjecture is equivalent to the consistency of [second-order arithmetic](https://en.wikipedia.org/wiki/Second-order_arithmetic) in the sense that each of the statements can be derived from each other in the weak system [PRA](https://en.wikipedia.org/wiki/Primitive_recursive_arithmetic); [consistency](https://en.wikipedia.org/wiki/Consistency_proof) refers here to the truth of the [Gödel sentence](https://en.wikipedia.org/wiki/G%C3%B6del_sentence) for second-order arithmetic. It is also equivalent to the [strong normalization](https://en.wikipedia.org/wiki/Strong_normalization) of the Girard/Reynold's [System F](https://en.wikipedia.org/wiki/System_F).
+
+System F is strongly normalizing and consistent, but can't (fully) self-interpret, per [[BrownPalsberg2016]]

@@ -1,0 +1,19 @@
+20200415Z
+
+In 280 characters: 
+
+**Designing the bootstrapping sequence for a computational system able to securely reason about its own operation.
+
+Designing the bootstrapping sequence for an introspective computational system.
+
+Designing the boot sequence for a computational system able to securely reason about its own operation.
+
+Designing the boot sequence for a computational system with sovereign security in its own operation.
+
+Designing the boot sequence for a computational system with sovereign confidence in its own operation.
+
+Designing the boot sequence for a computational system with sovereign confidence and security in its own operation.
+
+Designing the boot sequence for a computational system with sovereign confidence and security in its ability to reason about its own operation.
+
+
