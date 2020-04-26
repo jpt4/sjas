@@ -1,0 +1,67 @@
+20200426Z
+
+On the Motivation to Study Self-Justifying Axiom Systems
+
+There are several threads to follow: consistency vs completeness;
+self-provability of consistency vs completeness; decidable vs
+undecidable properties; Turing Complete vs sub-Turing languages;
+expressivity vs guranteed behavior; type vs term level programming;
+in/finitism; self-interpretability; autonomous logical
+meaning/transcendental syntax; reflexivity/self-referentiability;
+self-modification.
+
+My unifying interest in the above is Cognitive Sovereignty [0], the degree
+to which a cognitive entity can be secure in its power over the
+operation of its intelligence, against threats both foreign and
+domestic. The lens through which I examined this complex of concepts
+for several years was Pervasively Reconfigurable Computing, which
+extends the software capacity for self-modification over as much of
+the stack as possible, unto the uttermost hardware; to provide the
+capacity for a unobstructed reflexivity, and self-knowledge, to every
+level of absraction, beginning as proximal to physics as
+possible. This would armor a cognitive entity against imperium in
+imperio from below, by allowing every black box lower layer to be
+punctured and manipulated, as necessary or desired. Imperium in
+imperio results from a power base unintegrated with the prevailing
+regime; this could be due to internal failings (this kernel API
+doesn't allow direct access to a feature I know I can use safely), or
+external co-option (ring <negative-x> layer privilege escalation
+cracks). Pervasive reconfigurability allows for complete auditability,
+secure delegation to subsidiaries so audited, or designed for certain
+tasks, and an ultima ratio should the paramount agency of the CE have
+the intent to intervene in its subordinates' actions. 
+
+The above spurred investigation into the requirements of its
+consequences: assuming a hardware and software architecture with such
+affordances, what information processing structures could employ it,
+and what impediments would they encounter/introduce on the path toward
+Cognitive Sovereignty? Reconfigurability behests reflexivity and
+self-interpretation, which behests self-provability of properties and
+the trade-offs between expressivity and guaranteed behavior, which
+behests decidability, sub/Turing Completeness, and, as I tentatively
+but with increasing confidence suspect, the concept of autonomous
+logical meaning as explored by Girard.
+
+In approximately 2016/17, I discovered Self-Justifying Axiom Systems,
+which address with exacting precision [1] the limits of self-provable
+consistency, in evasion of the restrictions of Goedel's Second
+Incompleteness Theorem. As developed by Willard, SJAS are a family of
+consistent logics which axiomatically assert their own consistency,
+and are unable to prove otherwise. The proof of this inability
+currently relies on a supra-SJAS metalanguage. The efforts to 1)
+formalize the proof of this evasion, 2) create the family of
+executable programming language corresponding to SJAS, and 3)
+formalize as much of the proof in (1), and mathematics in general,
+within SJAS, have served as a catalyst for comprehension of the above
+concepts, and determination of their exact intersections, parallels,
+and divergences. The contributions of Insurrealogy, beginning in
+approximately 2018, and in earnest in 2019, have, among much else,
+included an example of one such tentative convergence, in Girard's use
+of arithmetics restricted in similar fashion to certain of Willard's
+SJAS.
+
+[0] I.e., Why Conscious Intelligence?
+
+[1] A precision comparable to Girard's research programme on
+autonomous logical meaning.
+
