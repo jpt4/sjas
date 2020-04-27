@@ -6,22 +6,6 @@
     (:require [clojure.core.match :refer [match]]
               [clojure.core.logic :as lgc]))
 
-;;Because core.logic.arithmetic is non-relational, and CFD assumes the
-;;size of the numeric domain in a way that Willard2017 does not, it is
-;;necessary to re-implement the relational, reverse binary encoded
-;;natural number system of The Reasoned Schemer, as written in
-;;https://github.com/webyrd/faster-miniKanren/blob/master/numbers.scm
-
-;appendo : included in core.logic
-
-;build-num : decimal natural numbers to reverse binary lists
-(defn build-num [n]
-      (cond
-	(odd? n) 
-	(cons 1 (build-num (/ (- n 1) 2)))
-	(and (not (zero? n)) (even? n))
-	(cons 0 (build-num (/ n 2)))
-	(zero? n) '()))
 
 ;;variants
 
@@ -46,16 +30,19 @@
 
 ;Non-Growth functions
 
+;(defn sub1o [x y z]
+ ; (conde
+   
+
 (comment
 ;;theta
 (defn theta [x xout]
   (!= xout 1)
-  (conde
-   [(powero x) (powero out)]
+  (lgc/conde
+   [(powero x 't) (powero out 't)]
    [(fresh [y yout]
-	   (!= x y) (power x) (theta y yout) (!= xout yout))]
-   [(fresh [pout]
-	   (powero x pout) (!= pout 't) (== xout '()))]))
+	   (!= x y) (power x 't) (theta y yout) (!= xout yout))]
+   [(powero x 'f) (== xout '())]))
 
 ;powero
 (defn powero [x xout]
