@@ -4,11 +4,14 @@
 
 (ns theta.core
     (:require [clojure.core.match :refer [match]]
-              [clojure.core.logic :as lgc]))
+              [clojure.core.logic :as lgc 
+               :refer [== appendo conde fresh lcons llist run]
+               :rename {== ==o}]
+              [theta.numbers
+               :refer :all]
+              :reload-all))
 
-
-;;variants
-
+;;number variants
 ;build-num-w-0 : '(0) for 0
 (defn build-num-w-0 [n]
       (cond
