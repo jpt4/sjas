@@ -22,6 +22,13 @@
        (and (not (= n 0)) (even? n))
        (cons 1 (build-num-w-0 (/ (- n 1) 2)))))
 
+;define the grammar of numbers
+(defn numo [x]
+  (conde
+   [(==o x '())]
+   [(fresh [a d]
+      (==o (lcons a d) x) (!= a 0)]
+
 
 ;;Starting Notation Conventions
 
@@ -32,7 +39,10 @@
 (def c2 '(0 1)) ;two
 
 ;Non-Growth functions
-
+(defn minuso [x y z]
+  (conde
+   [(<=lo x y) (==o z c0)]
+   [(<o y x) (pluso z y x)]))
 ;(defn sub1o [x y z]
  ; (conde
    
