@@ -103,6 +103,25 @@ Duplicate and erroneous values, after the intial correct result.
    [(fresh [r]
       (==o y '()) (<lo y '(1)) (numo x) (numo y) (numo z))]))
 
+;Logarithm
+;log base 2, integer part
+(comment
+TOFIX
+(run 5 [x y] (ilogo x y))
+<C-c C-c>
+theta.core> (run 4 [x y] (ilogo x y))
+([(1) ()] [(1) ()] [(0 1) ()] [(0 1) ()]))
+(comment
+ (run 5 [x y] (ilogo '(0 0 0 1)  y))
+theta.core> (run 1 [x y] (ilogo '(0 0 0 1)  y))
+([_0 (1 1)])
+theta.core> (run 3 [x y] (ilogo '(0 0 0 1)  y))
+theta.core> (run 2 [x y] (ilogo '(0 0 0 1)  y))
+)
+(defn ilog2o [x y]
+  (fresh [r]
+    (numo x) (numo y) (numo r) (logo x '(0 1) y r)))
+
 (comment
 ;;theta
 (defn theta [x xout]
