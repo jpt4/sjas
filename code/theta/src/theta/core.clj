@@ -5,7 +5,7 @@
 (ns theta.core
     (:require [clojure.core.match :refer [match]]
               [clojure.core.logic :as lgc 
-               :refer [== appendo conde fresh lcons llist run]
+               :refer [== != appendo conde fresh lcons llist run]
                :rename {== ==o}]
               [theta.numbers
                :refer :all]
@@ -24,11 +24,13 @@
 
 ;define the grammar of numbers
 (defn numo [x]
-  (conde
-   [(==o x '())]
-   [(fresh [a d]
-      (==o (lcons a d) x) (!= a 0)]
-
+  (fresh [a d]
+    (!= x '(0))
+    (conde
+     [(==o x '())]
+     [(==o (lcons 1 d) x) (numo d)]
+     [(==o (lcons 0 d) x) (!= '() d) (numo d)]
+     )))
 
 ;;Starting Notation Conventions
 
@@ -39,7 +41,7 @@
 (def c2 '(0 1)) ;two
 
 ;Non-Growth functions
-(defn minuso [x y z]
+(defn lng-minuso [x y z]
   (conde
    [(<=lo x y) (==o z c0)]
    [(<o y x) (pluso z y x)]))
