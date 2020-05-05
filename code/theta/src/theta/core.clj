@@ -40,6 +40,7 @@
 
 ;Non-Growth functions
 
+;Integer Subtraction
 ;TOFIX: isubo does not terminate on invalid numerical input, despite attempted 
 ;safeguards. (isubo x y '(1 0)) ought yield '(), as 
 ;(run 1 [x y z] (==o '(1 0) z) (numo z) (isubo x y z)) does.
@@ -69,12 +70,22 @@
    [(==o dz '()) (numo dx) (numo dy) (numo dz) (<=lo dx dy) 
     ])))
 
+;Integer Division
 (defn idivo [x y z]
   (fresh [r]
     (conde
      [(==o y '()) (==o z '())]
      [(!= y '()) (divo x y z r) (numo x) (numo y) (numo z) (numo r) (<lo r y)])))
-   
+
+;Maximum
+;(run 10 [x y z] (maxo x '(1 0) z))
+;()
+;^works
+(defn maxo [x y z]
+  (conde
+   [(<=lo x y) (==o z y) (numo x) (numo y) (numo z)]
+   [(<lo y x) (==o z x) (numo x) (numo y) (numo z)]))
+
 (comment
 ;;theta
 (defn theta [x xout]
