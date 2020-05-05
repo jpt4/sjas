@@ -86,6 +86,23 @@
    [(<=lo x y) (==o z y) (numo x) (numo y) (numo z)]
    [(<lo y x) (==o z x) (numo x) (numo y) (numo z)]))
 
+;Root
+;TOFIX:
+(comment
+(run 10 [x y z] (==o '(1 0 1) x) (==o '(0 1) y) (nrooto x y z))
+([(1 0 1) (0 1) ()]
+ [(1 0 1) (0 1) (1)]
+ [(1 0 1) (0 1) (1)]
+ [(1 0 1) (0 1) (0 1)])
+Duplicate and erroneous values, after the intial correct result.
+)
+(defn nrooto [x y z]
+  (conde
+   [(fresh [r]
+      (<=lo '(1) y) (logo x z y r) (numo x) (numo y) (numo z))]
+   [(fresh [r]
+      (==o y '()) (<lo y '(1)) (numo x) (numo y) (numo z))]))
+
 (comment
 ;;theta
 (defn theta [x xout]
