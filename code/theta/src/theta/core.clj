@@ -22,15 +22,13 @@
        (and (not (= n 0)) (even? n))
        (cons 1 (build-num-w-0 (/ (- n 1) 2)))))
 
-;define the grammar of numbers
+;;define the grammar of natural numbers 
 (defn numo [x]
-  (fresh [a d]
-    (!= x '(0))
-    (conde
-     [(==o x '())]
-     [(==o (lcons 1 d) x) (numo d)]
-     [(==o (lcons 0 d) x) (!= '() d) (numo d)]
-     )))
+  (!= x '(0))
+  (conde
+   [(==o x '())]
+   [(fresh [d] (==o (lcons 1 d) x) (numo d))]
+   [(fresh [d] (==o (lcons 0 d) x) (!= '() d) (numo d))]))
 
 ;;Starting Notation Conventions
 
@@ -41,14 +39,42 @@
 (def c2 '(0 1)) ;two
 
 ;Non-Growth functions
-(defn lng-minuso [x y z]
-  (conde
-   [(<=lo x y) (==o z c0)]
-   [(<o y x) (pluso z y x)]))
-;(defn sub1o [x y z]
- ; (conde
-   
 
+;TOFIX: isubo does not terminate on invalid numerical input, despite attempted 
+;safeguards. (isubo x y '(1 0)) ought yield '(), as 
+;(run 1 [x y z] (==o '(1 0) z) (numo z) (isubo x y z)) does.
+(defn isubo [x y z]
+  (fresh [dx dy dz]
+    (==o dx x) (==o dy y) (==o dz z)
+    (numo dx) (numo dy) (numo dz) 
+(comment
+  theta.core> (run 1 [q] (==o q '(1 0)) (numo q))
+  ()
+  theta.core> (run 1 [q] (numo q) (==o q '(1 0)))
+  <evaluation interrupted by user>
+  Late binding numo constraints prevents long/infinite walks through all nats.)
+  (conde 
+   [(==o dx x) (==o dy y) (==o dz z) (numo dx) (numo dy) (numo dz) (pluso dz dy dx) (<lo dy dx)
+    ]
+   ;theta.core> (run 1 [x y z] (isubo x y z) (==o z '(1 0)) (numo z))
+   ;<evaluation interrupted by user>
+   ;theta.core> (run 1 [x y z]  (==o z '(1 0)) (numo z) (isubo x y z))
+   ;()
+   ;Binding complex constraints after numo prevent another long walk.)
+   ;(run 1 [x y] (<lo x y) (numo x) (numo y) (==o '(1) x) (==o '(1 0) y))
+   ;theta.core> (run 1 [x y] (<lo x y) (==o '(1) x) (==o '(1 0) y) (numo x) (numo y))
+   ;theta.core> (run 1 [x y] (==o '(1) x) (==o '(1 0) y) (numo x) (numo y) (<lo x y))
+   ;()
+   ;Order of constraints: literals, predicates, relations
+   [(==o dz '()) (numo dx) (numo dy) (numo dz) (<=lo dx dy) 
+    ])))
+
+(defn idivo [x y z]
+  (fresh [r]
+    (conde
+     [(==o y '()) (==o z '())]
+     [(!= y '()) (divo x y z r) (numo x) (numo y) (numo z) (numo r) (<lo r y)])))
+   
 (comment
 ;;theta
 (defn theta [x xout]
