@@ -41,9 +41,19 @@
 ;Non-Growth functions
 
 ;Integer Subtraction
+
+(defn isubo [x y z]
+  (numo x) (numo y) (numo z) 
+  (conde 
+   [(numo x) (numo y) (numo z) (pluso z y x) (<lo y x)
+    ]
+   [(==o z '()) (numo x) (numo y) (numo z) (<=lo x y) 
+    ]))
+
 ;TOFIX: isubo does not terminate on invalid numerical input, despite attempted 
 ;safeguards. (isubo x y '(1 0)) ought yield '(), as 
 ;(run 1 [x y z] (==o '(1 0) z) (numo z) (isubo x y z)) does.
+(comment
 (defn isubo [x y z]
   (fresh [dx dy dz]
     (==o dx x) (==o dy y) (==o dz z)
@@ -69,6 +79,7 @@
    ;Order of constraints: literals, predicates, relations
    [(==o dz '()) (numo dx) (numo dy) (numo dz) (<=lo dx dy) 
     ])))
+)
 
 ;Integer Division
 (defn idivo [x y z]
@@ -118,9 +129,115 @@ theta.core> (run 1 [x y] (ilogo '(0 0 0 1)  y))
 theta.core> (run 3 [x y] (ilogo '(0 0 0 1)  y))
 theta.core> (run 2 [x y] (ilogo '(0 0 0 1)  y))
 )
+
+(comment 
+TOFIX: incorrect result values
+theta.core> (run 1 [q] (ilog2o '(0 1) '()))
+(_0)
+theta.core> (run 1 [q] (ilog2o '(0 1) q))
+((1))
+theta.core> (run 2 [q] (ilog2o '(0 1) q))
+((1) ())
+theta.core> (run 3 [q] (ilog2o '(0 1) q))
+((1) () ())
+theta.core> (run 4 [q] (ilog2o '(0 1) q))
+theta.core> 
+)
+
 (defn ilog2o [x y]
   (fresh [r]
     (numo x) (numo y) (numo r) (logo x '(0 1) y r)))
+
+;Count
+;TOFIX: not working, suspect pluso is failing
+(defn counto [i j o]
+  (numo i) (numo j) (numo o)
+  (conde
+   [(==o '() j) (==o '() o)]
+   [(==o '() i) (==o '() o)]
+   [(==o '(0) i) (==o '() o)]
+   [(fresh [d res jm1]
+      (numo i) (numo j) (numo o) (numo d) (numo res) (numo jm1)
+      (!= '() j) (==o (lcons 1 d) i)
+      (pluso 1 res o) 
+      (pluso jm1 1 j) 
+      (counto d jm1 res))]
+   [(fresh [d res jm1]
+      (numo i) (numo j) (numo o) (numo d) (numo res) (numo jm1)
+      (!= '() j) (==o (lcons 0 d) i)
+      (pluso 1 res o) (pluso jm1 1 j) (counto d jm1 res))]
+   ))
+
+;subtract 1
+;auxiliary for powero
+(defn isub1o [x y] (isubo x '(1) y))
+
+;powero
+;power of two? predicate with explicit true/false
+(comment
+
+)
+
+(defn powero [x xout]
+  (conde
+   [(==o x '(1)) (==o xout 't)]
+   [(fresh [s1 l1 l2] 
+      (!= '(1) x)
+      (numo s1) (numo l1) (numo l2)
+      (isub1o x s1)
+      (ilog2o x l1) 
+      (ilog2o s1 l2)
+      (==o l1 l2) 
+      (==o xout l2)
+      ;(==o xout 'f)
+      )]))
+
+(comment
+Order disunify constraints before all others.
+(run 1 [x]
+              (fresh [s1 l1 l2]
+              (numo l1) (numo l2) 
+              (!= l1 l2)
+              (isubo '(0 1) '(1) s1)))
+;Error printing return value (IllegalArgumentException) at clojure.lang.RT/seqFrom (RT.java:557).
+;Don't know how to create ISeq from: clojure.core.logic.LCons
+theta.core> (run 1 [x]
+              (fresh [s1 l1 l2]
+                (!= l1 l2)
+                (numo l1) (numo l2) 
+                (isubo '(0 1) '(1) s1)))
+(_0)
+theta.core> (run 1 [x s1 l1 l2] 
+              (!= l1 l2)
+              (numo l1) (numo l2) 
+            
+              (isubo '(0 1) '(1) s1))
+([_0 (1) () (1)])
+theta.core> 
+)
+
+(comment
+(defn powero [x xout]
+  (conde
+   [(==o x '(1)) (==o xout 't)]
+   [(fresh [s1 l1 l2] 
+      (!= '(1) x)
+      (numo s1) (numo l1) (numo l2)
+      (isub1o x s1)
+      (ilog2o x l1) 
+      (ilog2o s1 l2)
+      (==o l1 l2) 
+      (==o xout 'f))]
+   [(fresh [s1 l1 l2] 
+      (!= l1 l2) 
+      (numo s1) (numo l1) (numo l2)
+      (isub1o x s1)
+      (ilog2o x l1) 
+      (ilog2o s1 l2)
+      (==o xout 't))]))
+)
+
+
 
 (comment
 ;;theta
@@ -131,23 +248,8 @@ theta.core> (run 2 [x y] (ilogo '(0 0 0 1)  y))
    [(fresh [y yout]
 	   (!= x y) (power x 't) (theta y yout) (!= xout yout))]
    [(powero x 'f) (== xout '())]))
+)
 
-;powero
-(defn powero [x xout]
-  (conde
-   [(== x '(1)) (== xout 't)]
-   [(fresh [s1 l1 l2] 
-	   (isubo x s1)
-	   (log2o x l1) 
-	   (log2o s1 l2)
-	   (!= l1 l2) 
-	   (== xout 't))]
-   [(fresh [s1 l1 l2] 
-	   (isubo x s1)
-	   (log2o x l1) 
-	   (log2o s1 l2)
-	   (== l1 l2) 
-	   (== xout 'f))])))
 
 (defn lg-eval [exp]
       (match exp
