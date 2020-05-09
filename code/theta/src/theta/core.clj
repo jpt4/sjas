@@ -23,12 +23,16 @@
        (cons 1 (build-num-w-0 (/ (- n 1) 2)))))
 
 ;;define the grammar of natural numbers 
+(comment 
+;Transferred to numbers.clj
 (defn numo [x]
   (!= x '(0))
   (conde
    [(==o x '())]
    [(fresh [d] (==o (lcons 1 d) x) (numo d))]
    [(fresh [d] (==o (lcons 0 d) x) (!= '() d) (numo d))]))
+)
+
 
 ;;Starting Notation Conventions
 
@@ -131,7 +135,7 @@ theta.core> (run 2 [x y] (ilogo '(0 0 0 1)  y))
 )
 
 (comment 
-TOFIX: incorrect result values
+;TOFIX: incorrect result values
 theta.core> (run 1 [q] (ilog2o '(0 1) '()))
 (_0)
 theta.core> (run 1 [q] (ilog2o '(0 1) q))

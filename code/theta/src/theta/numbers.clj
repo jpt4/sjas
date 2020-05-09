@@ -10,7 +10,7 @@
 
 (ns theta.numbers
   (:require [clojure.core.logic :as lgc 
-             :refer [== appendo conde conso fresh lcons llist]
+             :refer [!= == all appendo conde conso fresh lcons llist]
              :rename {== ==o}]             
             :reload-all))
 
@@ -25,21 +25,70 @@
 	(cons 0 (build-num (/ n 2)))
 	(zero? n) '()))
 
-(defn zeroo
-  [n]
+;numo : define the grammar of natural numbers
+(defn numo [x]
+  (!= x '(0))
+  (conde
+   [(==o x '())]
+   [(fresh [d] (==o (lcons 1 d) x) (numo d))]
+   [(fresh [d] (==o (lcons 0 d) x) (!= '() d) (numo d))]))
+
+
+(defn zeroo [n]
     (==o '() n))
 
-(defn poso
+(comment
+Need (fresh) wrapping constraints in poso.
+theta.core> (run 1 [q] (numo '()))
+(_0)
+theta.core> (run 1 [q] (numo '(0)))
+()
+theta.core> (run 1 [q] (poso q))
+(())
+theta.core> (run 1 [q] (poso '()))
+(_0)
+theta.core> (defn ietst [n] (!= '() n) (==o '() n))
+#'theta.core/ietst
+theta.core> (run 1 [q] (ietst q))
+(())
+theta.core> (doc !=)
+-------------------------
+clojure.core.logic/!=
+([u v])
+  Disequality constraint. Ensures that u and v will never
+   unify. u and v can be complex terms.
+nil
+theta.core> (doc ==o)
+-------------------------
+clojure.core.logic/==
+([u v])
+  A goal that attempts to unify terms u and v.
+nil
+theta.core> )
+
+
+(comment Order matters, numo before !=)
+(defn poso [n]
+  (all (numo n) (!= n '())))
+
+(comment (defn poso
   [n]
     (fresh (a d)
       ;(conso a d n)
       (==o (lcons a d) n)
       ))
+ )
 
-(defn >1o
+(comment Order matters, poso before != to produce evens before odds.)
+(defn >1o [n]
+  (all (poso n) (!= '(1) n)))
+
+(comment (defn >1o
   [n]
     (fresh (a ad dd)
       (==o (llist a ad dd) n)))
+ )
+
 
 (defn full-addero
   [b x y r c]
