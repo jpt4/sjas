@@ -12,6 +12,7 @@
   (:require [clojure.core.logic :as lgc 
              :refer [!= == all appendo conde conso fresh lcons llist]
              :rename {== ==o}]             
+;[theta.symbolo :refer :all] not useful, will have to write custom numbero
             :reload-all))
 
 ;appendo : included in core.logic
@@ -27,125 +28,81 @@
 
 ;numo : define the grammar of natural numbers
 (defn numo [x]
-  (!= x '(0))
-  (conde
-   [(==o x '())]
-   [(fresh [d] (==o (lcons 1 d) x) (numo d))]
-   [(fresh [d] (==o (lcons 0 d) x) (!= '() d) (numo d))]))
+;   (!= x '(0)) extraneous constraint
+   (conde
+    [(==o x '())]
+    [(fresh [d] (==o (lcons 1 d) x) (numo d))]
+    [(fresh [d] (==o (lcons 0 d) x) (!= '() d) (numo d))]))
 
-
-(defn zeroo [n]
-    (==o '() n))
-
-(comment
-Need (fresh) wrapping constraints in poso.
-theta.core> (run 1 [q] (numo '()))
-(_0)
-theta.core> (run 1 [q] (numo '(0)))
-()
-theta.core> (run 1 [q] (poso q))
-(())
-theta.core> (run 1 [q] (poso '()))
-(_0)
-theta.core> (defn ietst [n] (!= '() n) (==o '() n))
-#'theta.core/ietst
-theta.core> (run 1 [q] (ietst q))
-(())
-theta.core> (doc !=)
--------------------------
-clojure.core.logic/!=
-([u v])
-  Disequality constraint. Ensures that u and v will never
-   unify. u and v can be complex terms.
-nil
-theta.core> (doc ==o)
--------------------------
-clojure.core.logic/==
-([u v])
-  A goal that attempts to unify terms u and v.
-nil
-theta.core> )
-
+(defn zeroo [n] (==o '() n))
 
 (comment Order matters, numo before !=)
 (defn poso [n]
   (all (numo n) (!= n '())))
 
-(comment (defn poso
-  [n]
-    (fresh (a d)
-      ;(conso a d n)
-      (==o (lcons a d) n)
-      ))
- )
-
 (comment Order matters, poso before != to produce evens before odds.)
 (defn >1o [n]
   (all (poso n) (!= '(1) n)))
 
-(comment (defn >1o
-  [n]
-    (fresh (a ad dd)
-      (==o (llist a ad dd) n)))
- )
-
-
-(defn full-addero
-  [b x y r c]
-    (conde
-      ((==o 0 b) (==o 0 x) (==o 0 y) (==o 0 r) (==o 0 c))
-      ((==o 1 b) (==o 0 x) (==o 0 y) (==o 1 r) (==o 0 c))
-      ((==o 0 b) (==o 1 x) (==o 0 y) (==o 1 r) (==o 0 c))
-      ((==o 1 b) (==o 1 x) (==o 0 y) (==o 0 r) (==o 1 c))
-      ((==o 0 b) (==o 0 x) (==o 1 y) (==o 1 r) (==o 0 c))
-      ((==o 1 b) (==o 0 x) (==o 1 y) (==o 0 r) (==o 1 c))
-      ((==o 0 b) (==o 1 x) (==o 1 y) (==o 0 r) (==o 1 c))
-      ((==o 1 b) (==o 1 x) (==o 1 y) (==o 1 r) (==o 1 c))))
+(defn full-addero [b x y r c]
+  (conde
+   ((==o 0 b) (==o 0 x) (==o 0 y) (==o 0 r) (==o 0 c))
+   ((==o 1 b) (==o 0 x) (==o 0 y) (==o 1 r) (==o 0 c))
+   ((==o 0 b) (==o 1 x) (==o 0 y) (==o 1 r) (==o 0 c))
+   ((==o 1 b) (==o 1 x) (==o 0 y) (==o 0 r) (==o 1 c))
+   ((==o 0 b) (==o 0 x) (==o 1 y) (==o 1 r) (==o 0 c))
+   ((==o 1 b) (==o 0 x) (==o 1 y) (==o 0 r) (==o 1 c))
+   ((==o 0 b) (==o 1 x) (==o 1 y) (==o 0 r) (==o 1 c))
+   ((==o 1 b) (==o 1 x) (==o 1 y) (==o 1 r) (==o 1 c))))
 
 ;declare gen-addero before addero
 (declare gen-addero)
 
-(defn addero
-  [d n m r]
-    (conde
-      ((==o 0 d) (==o '() m) (==o n r))
-      ((==o 0 d) (==o '() n) (==o m r)
-       (poso m))
-      ((==o 1 d) (==o '() m)
-       (addero 0 n '(1) r))
-      ((==o 1 d) (==o '() n) (poso m)
-       (addero 0 '(1) m r))
-      ((==o '(1) n) (==o '(1) m)
-       (fresh (a c)
-         ;(conso a c r)
-         (==o (lcons a c) r)
-         (full-addero d 1 1 a c)))
-      ((==o '(1) n) (gen-addero d n m r))
-      ((==o '(1) m) (>1o n) (>1o r)
-       (addero d '(1) n r))
-      ((>1o n) (gen-addero d n m r))))
+(defn addero [d n m r]
+  (all 
+   (numo n) (numo m)
+   (conde
+    ((==o 0 d) (==o '() m) (==o n r))
+    ((==o 0 d) (==o '() n) (==o m r)
+     (poso m))
+    ((==o 1 d) (==o '() m)
+     (addero 0 n '(1) r))
+    ((==o 1 d) (==o '() n) (poso m)
+     (addero 0 '(1) m r))
+    ((==o '(1) n) (==o '(1) m)
+     (fresh (a c cr)
+       (lgc/conso c '() cr)
+       (lgc/conso a cr r)
+       ;(==o (lcons a c) r)
+       (full-addero d 1 1 a c)))
+    ((==o '(1) n) 
+     (gen-addero d '(1) m r)
+     ;(gen-addero d n m r)
+     )
+    ((==o '(1) m) (>1o n) (>1o r)
+     (addero d '(1) n r))
+    ((>1o n) (gen-addero d n m r)))))
 
-(defn gen-addero
-  [d n m r]
-    (fresh (a b c e x y z)
-      ;(conso a x n)
-      (==o (lcons a x) n)
-      ;(conso b y m) (poso y)
-      (==o (lcons b y) m) 
-      ;(conso c z r) (poso z)
-      (==o (lcons c z) r) 
-      (full-addero d a b c e)
-      (addero e x y z)))
+(defn gen-addero [d n m r]
+  (fresh (a b c e x y z)
+    ;(conso a x n)
+    (==o (lcons a x) n)
+    ;(conso b y m) (poso y)
+    (==o (lcons b y) m) 
+    ;(conso c z r) (poso z)
+    (==o (lcons c z) r) 
+    (full-addero d a b c e)
+    (addero e x y z)))
 
 ;TOFIX duplicates, and (0), (0 0), etc.
-(defn pluso
-  [n m k]
-    (addero 0 n m k))
+(comment 
+theta.core> (run 16 [n m k] (pluso '(0) m k))
+([_0 () (0)])
+)
+(defn pluso [n m k] (addero 0 n m k))
 
 ;TOFIX improper lists synthesized as operands, e.g. (1 0 0 . 1)
-(defn minuso
-  [n m k]
-    (pluso m k n))
+(defn minuso [n m k] (pluso m k n))
 
 ;declare bound-*o odd-*o and *o
 (declare bound-*o)
@@ -204,6 +161,8 @@ TOFIX
             (bound-*o x y z '()))
            ((==o (lcons a3 z) n) 
             (bound-*o x y z m)))))))
+
+; 'l' -> last, rightmost, most significant bit.
 
 (comment
 (run 4 [a b] (=lo a b))
@@ -460,3 +419,65 @@ TOFIX invalid synthesized values
   [b q n]
     (logo n b q '()))
 
+(comment
+Need (fresh) wrapping constraints in poso.
+theta.core> (run 1 [q] (numo '()))
+(_0)
+theta.core> (run 1 [q] (numo '(0)))
+()
+theta.core> (run 1 [q] (poso q))
+(())
+theta.core> (run 1 [q] (poso '()))
+(_0)
+theta.core> (defn ietst [n] (!= '() n) (==o '() n))
+#'theta.core/ietst
+theta.core> (run 1 [q] (ietst q))
+(())
+theta.core> (doc !=)
+-------------------------
+clojure.core.logic/!=
+([u v])
+  Disequality constraint. Ensures that u and v will never
+   unify. u and v can be complex terms.
+nil
+theta.core> (doc ==o)
+-------------------------
+clojure.core.logic/==
+([u v])
+  A goal that attempts to unify terms u and v.
+nil
+theta.core> )
+
+(comment (defn poso
+  [n]
+    (fresh (a d)
+      ;(conso a d n)
+      (==o (lcons a d) n)
+      ))
+ )
+
+(comment (defn >1o
+  [n]
+    (fresh (a ad dd)
+      (==o (llist a ad dd) n)))
+ )
+(comment (defn addero
+  [d n m r]
+    (conde
+      ((==o 0 d) (==o '() m) (==o n r))
+      ((==o 0 d) (==o '() n) (==o m r)
+       (poso m))
+      ((==o 1 d) (==o '() m)
+       (addero 0 n '(1) r))
+      ((==o 1 d) (==o '() n) (poso m)
+       (addero 0 '(1) m r))
+      ((==o '(1) n) (==o '(1) m)
+       (fresh (a c)
+         ;(conso a c r)
+         (==o (lcons a c) r)
+         (full-addero d 1 1 a c)))
+      ((==o '(1) n) (gen-addero d n m r))
+      ((==o '(1) m) (>1o n) (>1o r)
+       (addero d '(1) n r))
+      ((>1o n) (gen-addero d n m r))))
+)
