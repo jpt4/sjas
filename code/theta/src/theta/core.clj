@@ -219,16 +219,12 @@ theta.core> (run 2 [q] (ilog2o '(0 1) q))
   ;   (numo x) (numo xout)
    ;  (powero xout 't)
     ; ]
-    [
+    [(!= xout '(1)) (powero x 't) (powero xout 't) (numo x) (numo xout) 
      (fresh [y yout]
-       (!= xout '(1))
        (!= x y) 
        (!= xout yout)
        (theta y yout) 
-       (powero x 't)
-       (powero xout 't) 
-       ;(powero yout 't) 
-       (numo x) (numo y) (numo xout) (numo yout)
+       (numo y) (numo yout)
        )
      ]
     [(powero x 'f) (==o xout '())]
