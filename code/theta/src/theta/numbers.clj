@@ -10,7 +10,7 @@
 
 (ns theta.numbers
   (:require [clojure.core.logic :as lgc 
-             :refer [!= == all appendo conde conso fresh lcons llist]
+             :refer :all
              :rename {== ==o}]             
 ;[theta.symbolo :refer :all] not useful, will have to write custom numbero
             :reload-all))

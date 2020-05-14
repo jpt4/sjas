@@ -5,7 +5,7 @@
 (ns theta.core
     (:require [clojure.core.match :refer [match]]
               [clojure.core.logic :as lgc 
-               :refer [== != all appendo conde fresh lcons llist run]
+               :refer :all
                :rename {== ==o}]
               [theta.numbers :refer :all]
 ;              [theta.symbolo :refer :all]
@@ -71,8 +71,8 @@ theta.core> C-c C-c
 ;^works
 (defn maxo [x y z]
   (conde
-   [(<=lo x y) (==o z y) (numo x) (numo y) (numo z)]
-   [(<lo y x) (==o z x) (numo x) (numo y) (numo z)]))
+   [(all (<=o x y) (==o z y) (numo x) (numo y) (numo z))]
+   [(all (<o y x) (==o z x) (numo x) (numo y) (numo z))]))
 
 ;Root
 ;TOFIX:
@@ -87,9 +87,9 @@ Duplicate and erroneous values, after the intial correct result.
 (defn nrooto [x y z]
   (conde
    [(fresh [r]
-      (<=lo '(1) y) (logo x z y r) (numo x) (numo y) (numo z))]
+      (<=o '(1) y) (logo x z y r) (numo x) (numo y) (numo z))]
    [(fresh [r]
-      (==o y '()) (<lo y '(1)) (numo x) (numo y) (numo z))]))
+      (==o y '()) (<o y '(1)) (numo x) (numo y) (numo z))]))
 
 ;Logarithm
 ;log base 2, integer part
@@ -193,7 +193,7 @@ theta.core> (run 2 [q] (ilog2o '(0 1) q))
 ;power of 2? predicate
 (defn powero [x xout]
   (conde
-   [(==o '() x) (==o xout 'f)]
+   [(==o '() x) (==o xout 'f)] ;experimental
    [(==o x '(1)) (==o xout 't)]
    [(fresh [s1 l1 l2] 
       (!= '(1) x)
@@ -212,18 +212,16 @@ theta.core> (run 2 [q] (ilog2o '(0 1) q))
       (==o xout 't))]))
 
 ;current theta defn
-(defn theta [x xout]
+(defn thetaux [x xout acc]
    (conde
-;    [(!= xout '(1))
- ;    (powero x 't)   
-  ;   (numo x) (numo xout)
-   ;  (powero xout 't)
-    ; ]
-    [(!= xout '(1)) (powero x 't) (powero xout 't) (numo x) (numo xout) 
-     (fresh [y yout]
+    [     
+     (fresh [y yout nacc]
+       (lgc/nafc lgc/membero xout acc) 
+       (powero x 't) (powero xout 't) (numo x) (numo xout) 
        (!= x y) 
        (!= xout yout)
-       (theta y yout) 
+       (==o (lcons xout acc) nacc)
+       (thetaux y yout nacc) 
        (numo y) (numo yout)
        )
      ]
@@ -231,35 +229,127 @@ theta.core> (run 2 [q] (ilog2o '(0 1) q))
     )
   )
 
+(defn theta [i o] (thetaux i o '((1))))
+
+(defn thetaux2 [x xout]
+              (all (conde [(powero xout 't)] [(powero x 'f)])
+                     (!= '(1) xout) 
+                     (fresh [y yout]
+                       (theta y yout)
+                       (conde [(!= xout yout)] [(==o x y)] [(powero x 'f)] ))
+                     (conde [(==o xout '())] [(powero x 't)])))
+
 (comment
-(defn theta [x xout]
+Error printing return value (StackOverflowError) at java.lang.AbstractStringBuilder/append (AbstractStringBuilder.java:449).
+null
+theta.core> (defn thetaux2 [x xout]
+              (fresh [y yout] 
+                (thetaux2 y yout)
+                (all (conde [(powero x 'f)] [(powero xout 't)])
+                     (!= '(1) xout) 
+                     (conde [(==o x y)] [(powero x 'f)] [(!= xout yout)])
+                     (conde [(powero x 't)] [(==o xout '())]))))
+#'theta.core/thetaux2
+theta.core> (def outt (run 1 [q] (thetaux2 '(1) q)))
+#'theta.core/outt
+theta.core> (first outt)
+Execution error (StackOverflowError) at java.lang.AbstractStringBuilder/append (AbstractStringBuilder.java:449).
+null
+theta.core> (run 1 [q] (thetaux2 '(1) q))
+Error printing return value (StackOverflowError) at java.lang.AbstractStringBuilder/append (AbstractStringBuilder.java:449).
+null
+theta.core> (defn thetaux2 [x xout]
+              (all (conde [(powero x 'f)] [(powero xout 't)])
+                     (!= '(1) xout) 
+                     (fresh [y yout]
+                       (theta y yout)
+                       (conde [(==o x y)] [(powero x 'f)] [(!= xout yout)]))
+                     (conde [(powero x 't)] [(==o xout '())])))
+#'theta.core/thetaux2
+theta.core> (run 1 [q] (thetaux2 '(1) q))
+((0 1))
+theta.core> (run 1 [q] (thetaux2 '(0 1) q))
+((0 1))
+theta.core> (run 2 [q] (thetaux2 '(0 1) q))
+((0 1) (0 1))
+theta.core> (run* [q] (thetaux2 '(0 1) q))
+theta.core> (defn thetaux2 [x xout]
+              (all (conde [(powero x 'f)] [(powero xout 't)])
+                     (!= '(1) xout) 
+                     (fresh [y yout]
+                       (theta y yout)
+                       (conda [(!= xout yout)] [(==o x y)] [(powero x 'f)] ))
+                     (conde [(powero x 't)] [(==o xout '())])))
+#'theta.core/thetaux2
+theta.core> (run 1 [q] (thetaux2 '(0 1) q))
+((0 1))
+theta.core> (defn thetaux2 [x xout]
+              (all (conda [(powero xout 't)] [(powero x 'f)])
+                     (!= '(1) xout) 
+                     (fresh [y yout]
+                       (theta y yout)
+                       (conda [(!= xout yout)] [(==o x y)] [(powero x 'f)] ))
+                     (conda [(==o xout '())] [(powero x 't)])))
+#'theta.core/thetaux2
+theta.core> (run 1 [q] (thetaux2 '(0 1) q))
+((0 1))
+theta.core> (run 10 [q] (thetaux2 '(0 1) q))
+((0 1) (0 1) (0 1) (0 1) (0 1) (0 1) (0 1) (0 1) (0 1) (0 1))
+theta.core> (run 1 [q] (thetaux2 '(0 1) '(0 0 1)))
+(_0)
+theta.core> (defn thetaux2 [x xout]
+              (all (conde [(powero xout 't)] [(powero x 'f)])
+                     (!= '(1) xout) 
+                     (fresh [y yout]
+                       (theta y yout)
+                       (conde [(!= xout yout)] [(==o x y)] [(powero x 'f)] ))
+                     (conde [(==o xout '())] [(powero x 't)])))
+#'theta.core/thetaux2
+theta.core> (run 1 [q] (thetaux2 '(0 1) '(0 0 1)))
+(_0)
+theta.core> 
+)
+
+(comment
+;nafc not behaving as expected
+
+theta.core> (defn thetaux [x xout acc]
    (conde
-    [(fresh [y yout]
-       (!= xout '(1))
+    [     
+     (fresh [y yout nacc]
+       (lgc/nafc lgc/membero xout acc) 
+       (powero x 't) (powero xout 't) (numo x) (numo xout) 
        (!= x y) 
        (!= xout yout)
-       (theta y yout) 
-       (powero x 't)
-       (powero xout 't) (powero yout 't) 
-       (numo x) (numo y) (numo xout) (numo yout)
-       )]
-    [(powero x 'f) (==o xout '())]))
+       (==o (lcons xout acc) nacc)
+       (thetaux y yout nacc) 
+       (numo y) (numo yout)
+       )
+     ]
+    [(powero x 'f) (==o xout '())]
+    )
+  )
+#'theta.core/thetaux
+theta.core> (run 1 [q] (thetaux '(0 1) '(0 1) '((0 1) () (1))))
+theta.core> (run 1 [q] (lgc/nafc lgc/membero '(0 1) '((0 1) '() (1))))
+()
+theta.core> (run 1 [q] (fresh [a]
+                         (lgc/nafc lgc/membero '(0 1) '((0 1) '() (1)))))
+()
+theta.core> (run 1 [q] (fresh [a]
+                         (lgc/nafc lgc/membero q '((0 1) '() (1)))))
+((_0
+  :-
+  (clojure.core.logic/nafc
+;   #function[clojure.core.logic/membero]
+   _0
+   ((0 1) '() (1)))))
+theta.core> (run 1 [q] (fresh [a]
+                         (==o q '(0 1))
+                         (lgc/nafc lgc/membero q '((0 1) '() (1)))))
+()
 
 )
-
-
-
-(comment
-;;theta
-(defn theta [x xout]
-  (!= xout 1)
-  (lgc/conde
-   [(powero x 't) (powero out 't)]
-   [(fresh [y yout]
-	   (!= x y) (power x 't) (theta y yout) (!= xout yout))]
-   [(powero x 'f) (== xout '())]))
-)
-
 
 (defn lg-eval [exp]
       (match exp
