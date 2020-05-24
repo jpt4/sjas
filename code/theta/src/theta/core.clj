@@ -128,7 +128,29 @@ theta.core> )
     (fd/== b2 r)
     ])))
 
-
+(defn eveno [n] (fresh [f] (fd/* f 2 n)))
+(defn oddo [n] (fresh [f p] 
+                  (fd/* f 2 p)
+                  (fd/+ p 1 n)
+                  ))
+  
+(defn build-numo [l u n r]
+  (fresh [q s newn res]
+    (fd/in l u n r res (fd/interval l u))
+    (conde
+     [(fd/== 0 n) (==o '(0) r)]
+     [(fd/== 1 n) (==o '(1) r)]
+     [(fd/> n 1)
+      (oddo n) 
+      (fd/- n 1 s)
+      (fd/quot s 2 q)
+      (build-numo l u q res)
+      (conso 1 res r)]
+     [(fd/> n 0) (eveno n)
+      (fd/quot n 2 q)
+      (build-numo l u q res)
+      (conso 0 res r)]
+)))
 
 (defn irooto-w-ilogo-w-iexpo [l u x y r]
   (fd/in l u x y r (fd/interval l u))
