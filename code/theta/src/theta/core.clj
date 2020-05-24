@@ -96,18 +96,39 @@ theta.core> )
   ;  (log l u b n r e1 r1 e2 r2)
      ))
 
+(defn idivo-repeat [l u x b n r]
+  (fresh [newx newn res]
+    (fd/in l u x b n r newx newn res (fd/interval l u))
+    (conde
+     [(fd/== 0 x) 
+      ;(fd/!= 0 n) 
+      (fd/== 0 r)]
+     [(fd/!= 0 x) (fd/== 0 n) (fd/== x r)]
+     [(fd/!= 0 x) (fd/!= 0 n)
+      (idivo x b newx)
+      (fd/- n 1 newn)
+;      (fd/+ 1 res r)
+      (idivo-repeat l u newx b newn r)
+      ])))
+
+(comment
+  repeatedly divide x by two fresh b's, up to n times, counting down
+  n. if the quotient becomes zero, then b overshoots/is too large. If the quotient is 1 after exactly n divisions, then b is the root. If the quotient is greater than 1 after n divisions, then b undershoots, is too small. if the difference between b1 and b2 is 1, such that b1 overshoots and b2 undershoots or equals 1, then b2 is the n-root of x.)
+
 (defn irooto [l u x y r]
-  (fresh [r1 r2]
-  (fd/in l u x y r r1 r2 (fd/interval l u))
+  (fresh [x1 x2 r1 r2 b1 b2]
+  (fd/in l u x y r x1 x2 r1 r2 (fd/interval l u))
   (conde
    [(fd/== 0 y) (fd/== 0 r)]
    [(fd/== 1 y) (fd/== x r)]
    [(fd/> y 1)
-    (ilogo-acc l u r1 x1 0 y)
-    (ilogo-acc l u r2 x2 0 y)
-    (conde
-     [(x1>x) (x>=x2) (- r1 r2 1)
-    ]))
+    (idivo-repeat l u x b1 y r1)
+    (idivo-repeat l u x b2 y r2)
+    (fd/- b1 b2 1) (fd/== 0 r1) (fd/>= r2 1)
+    (fd/== b2 r)
+    ])))
+
+
 
 (defn irooto-w-ilogo-w-iexpo [l u x y r]
   (fd/in l u x y r (fd/interval l u))
@@ -115,6 +136,7 @@ theta.core> )
    [(fd/== 0 y) (fd/== 0 r)]
    [(fd/>= y 1)
     (ilogo-w-iexpo l u r x y)]))
+
 (comment
 (run 1 [q] (irooto 0 100 8 3 q))
 (2)
