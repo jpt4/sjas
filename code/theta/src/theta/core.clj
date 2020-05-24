@@ -133,10 +133,10 @@ theta.core> )
                   (fd/* f 2 p)
                   (fd/+ p 1 n)
                   ))
-  
+
 (defn build-numo [l u n r]
   (fresh [q s newn res]
-    (fd/in l u n r res (fd/interval l u))
+    (fd/in l u n q s newn (fd/interval l u))
     (conde
      [(fd/== 0 n) (==o '(0) r)]
      [(fd/== 1 n) (==o '(1) r)]
@@ -151,6 +151,47 @@ theta.core> )
       (build-numo l u q res)
       (conso 0 res r)]
 )))
+
+(defn counto-aux [l u b j acc r]
+  (fresh [f d newacc resb]
+    (fd/in l u j acc r f d newacc (fd/interval l u))
+    (conde
+     [(fd/== 0 j) (fd/== r acc)]
+     [(fd/> j 0)
+      (firsto b f) (resto b resb) 
+      (fd/- j 1 d)
+      (fd/== f 0) (counto-aux l u resb d acc r)]
+     [(fd/> j 0)
+      (firsto b f) (resto b resb) 
+      (fd/- j 1 d)
+      (fd/== f 1) (fd/+ acc 1 newacc)
+      (counto-aux l u resb d newacc r)]
+)))
+
+(defn counto [l u i j r]
+  (fresh [b]
+    (fd/in l u i j (fd/interval 0 100))
+    (build-numo l u i b)
+    (counto-aux l u b j 0 r)))
+
+(comment (defn counto [i j o]
+  (conde
+   [(==o '() j) (==o '() o)]
+   [(==o '() i) (==o '() o)]
+   [(==o '(0) i) (==o '() o)]
+   [(fresh [d res jm1]
+      (numo i) (numo j) (numo o) (numo d) (numo res) (numo jm1)
+      (!= '() j) (==o (lcons 1 d) i)
+      (pluso 1 res o) 
+      (pluso jm1 1 j) 
+      (counto d jm1 res))]
+   [(fresh [d res jm1]
+      (numo i) (numo j) (numo o) (numo d) (numo res) (numo jm1)
+      (!= '() j) (==o (lcons 0 d) i)
+      (pluso 1 res o) (pluso jm1 1 j) (counto d jm1 res))]
+   ))
+)
+
 
 (defn irooto-w-ilogo-w-iexpo [l u x y r]
   (fd/in l u x y r (fd/interval l u))
