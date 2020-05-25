@@ -231,3 +231,29 @@ theta.core> (run* [q] (irooto 0 100 100 2 q))
 (8 9 10 5 6 7)
 theta.core> 
 )
+
+(defn powero [l u x xout]
+  (fresh [s l1 l2]
+    (fd/in l u x s l1 l2 (fd/interval l u))
+    (conde
+     [(fd/== 1 x) (==o xout 'f)]
+     [(fd/!= 1 x)
+      (isubo x 1 s) (ilog2o l u x l1) (ilog2o l u s l2)
+      (fd/== l1 l2) (==o xout 'f)]
+     [(fd/!= 1 x)
+      (isubo x 1 s) (ilog2o l u x l1) (ilog2o l u s l2)
+      (fd/!= l1 l2) (==o xout 't)]
+     )))
+
+(comment
+  (defn theta [l u x xout]
+    (fresh [y]
+      (fd/in l u x xout y (fd/interval))
+      (fd/!= xout 1)
+      (conde
+       []
+       [(powero x) (powero xout)])))
+  
+  )
+
+
