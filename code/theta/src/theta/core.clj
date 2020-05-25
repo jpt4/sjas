@@ -71,6 +71,10 @@ theta.core> )
       (fd/+ 1 acc nacc)
       (ilogo-acc l u b q nacc r)])))
 
+(defn ilog2o [l u n r]
+  (fd/in l u n r (fd/interval l u))
+  (ilogo-acc l u 2 n 0 r))
+
 (defn iexpo [l u b e r]
   (fresh [res s1]
     (fd/in l u b e r res (fd/interval l u))
@@ -190,8 +194,22 @@ theta.core> )
       (idivo s x y2)
       (fd/< y2 y)])))
     
+(defn ipredo [x p] (isubo x 1 p))
 
+(defn ihalfo [x h] (idivo x 2 h))
 
+(defn ipredno [x n p] (isubo x n p))
+
+(defn ihalfno [x n p]
+  (fresh [s res]
+;    (fd/in l u x n p s res (fd/interval l u))
+    (conde
+     [(fd/== 0 n) (fd/== x p)]
+     [(fd/> n 0)
+      (ihalfo x res)
+      (ipredo n s)
+      (ihalfno res s p)
+      ])))
 
 (defn irooto-w-ilogo-w-iexpo [l u x y r]
   (fd/in l u x y r (fd/interval l u))
