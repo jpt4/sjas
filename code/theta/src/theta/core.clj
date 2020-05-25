@@ -174,23 +174,23 @@ theta.core> )
     (build-numo l u i b)
     (counto-aux l u b j 0 r)))
 
-(comment (defn counto [i j o]
-  (conde
-   [(==o '() j) (==o '() o)]
-   [(==o '() i) (==o '() o)]
-   [(==o '(0) i) (==o '() o)]
-   [(fresh [d res jm1]
-      (numo i) (numo j) (numo o) (numo d) (numo res) (numo jm1)
-      (!= '() j) (==o (lcons 1 d) i)
-      (pluso 1 res o) 
-      (pluso jm1 1 j) 
-      (counto d jm1 res))]
-   [(fresh [d res jm1]
-      (numo i) (numo j) (numo o) (numo d) (numo res) (numo jm1)
-      (!= '() j) (==o (lcons 0 d) i)
-      (pluso 1 res o) (pluso jm1 1 j) (counto d jm1 res))]
-   ))
-)
+(defn ipluso [l u x y z] 
+  (fd/in l u x y z (fd/interval l u))
+  (isubo z y x) (fd/>= z x))
+
+(defn imulto [l u x y z]
+  (fresh [s y2]
+    (fd/in l u x y z s y2 (fd/interval l u))
+    (conde
+     [(fd/== 0 x) (fd/== 0 z)]
+     [(fd/== 0 y) (fd/== 0 z)]
+     [(fd/!= 0 x) (fd/!= 0 y)
+      (isubo z 1 s)
+      (idivo z x y)
+      (idivo s x y2)
+      (fd/< y2 y)])))
+    
+
 
 
 (defn irooto-w-ilogo-w-iexpo [l u x y r]
