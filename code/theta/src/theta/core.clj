@@ -236,7 +236,7 @@ theta.core>
   (fresh [s l1 l2]
     (fd/in l u x s l1 l2 (fd/interval l u))
     (conde
-     [(fd/== 1 x) (==o xout 'f)]
+     [(fd/== 1 x) (==o xout 't)]
      [(fd/!= 1 x)
       (isubo x 1 s) (ilog2o l u x l1) (ilog2o l u s l2)
       (fd/== l1 l2) (==o xout 'f)]
@@ -245,15 +245,77 @@ theta.core>
       (fd/!= l1 l2) (==o xout 't)]
      )))
 
-(comment
-  (defn theta [l u x xout]
-    (fresh [y]
-      (fd/in l u x xout y (fd/interval))
-      (fd/!= xout 1)
-      (conde
-       []
-       [(powero x) (powero xout)])))
-  
-  )
+(defn theta [l u x xout]
+  (fresh [y yout]
+    (fd/in l u x xout y yout (fd/interval l u))
+    (fd/!= xout 1)
+    (conde
+     [(powero l u x 't) (fd/!= x y)
+      (powero l u xout 't)
+      (theta l u y yout)
+      (fd/!= xout yout)
+      ]
+     [(powero l u x 'f) (fd/== 0 xout)]
+     )))
 
+(defn lifted-membero [x l xout]
+  (fresh [f r]
+    (conde
+     [(==o '() l) (==o 'f xout)]
+     [(firsto l f) (==o l x) (==o 't xout)]
+     [(firsto l f) (!= l x) (resto l r)
+      (lifted-membero x r xout)])))      
 
+(comment 
+theta.core> (run 1 [q] (thetacc 0 100 1 '(1) q))
+(2)
+theta.core> (run 2 [q] (thetacc 0 100 1 '(1) q))
+(2 2)
+theta.core> (run 4 [q] (thetacc 0 100 1 '(1) q))
+(2 2 4 2)
+theta.core> (run 4 [q] (thetacc 0 100 2 '(1 2) q))
+(4 4 8 4)
+theta.core> (run 1 [q] (thetacc 0 100 4 '(1 2 4) q))
+(8)
+theta.core> (run 1 [q] 
+              (fresh
+                [a1 t1 a2 t2 t3]
+                (fd/in a1 t1 a2 t2 t3 (fd/interval 0 100))
+                (==o '(1) a1)
+                (conso t1 a1 a2)
+                (thetacc 0 100 1 a1 t1)
+                (thetacc 0 100 t1 a2 q)))
+              
+(4)
+)
+
+(defn thetacc [l u x acc xout]
+  (fresh [y yout nacc]
+    (fd/in l u x xout y yout (fd/interval l u))
+    (lifted-membero xout acc 'f)
+    (conde
+     [(powero l u x 't) (fd/!= x y)
+      (powero l u xout 't)
+      (conso xout acc nacc)
+      (distincto nacc)
+      (thetacc l u y nacc yout)
+      (fd/!= xout yout)
+      ]
+     [(powero l u x 'f) (fd/== 0 xout)]
+     )))      
+
+(comment 
+(defn thetacc [l u x acc xout]
+  (fresh [y yout nacc]
+    (fd/in l u x xout y yout (fd/interval l u))
+    (lifted-membero xout acc 'f)
+    (conde
+     [(powero l u x 't) (fd/!= x y)
+      (powero l u xout 't)
+      (conso xout acc nacc)
+      (thetacc l u y nacc yout)
+      (fd/!= xout yout)
+      ]
+     [(powero l u x 'f) (fd/== 0 xout)]
+     )))
+)
