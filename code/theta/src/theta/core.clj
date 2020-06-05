@@ -245,6 +245,8 @@ theta.core>
       (fd/!= l1 l2) (==o xout 't)]
      )))
 
+(comment
+;deprecated, thetao wraps thetacco
 (defn theta [l u x xout]
   (fresh [y yout]
     (fd/in l u x xout y yout (fd/interval l u))
@@ -257,6 +259,8 @@ theta.core>
       ]
      [(powero l u x 'f) (fd/== 0 xout)]
      )))
+)
+
 
 (defn lifted-membero [x l xout]
   (fresh [f r]
@@ -289,7 +293,7 @@ theta.core> (run 1 [q]
 (4)
 )
 
-(defn thetacc [l u x acc xout]
+(defn thetacco [l u x acc xout]
   (fresh [y yout nacc]
     (fd/in l u x xout y yout (fd/interval l u))
     (lifted-membero xout acc 'f)
@@ -298,11 +302,28 @@ theta.core> (run 1 [q]
       (powero l u xout 't)
       (conso xout acc nacc)
       (distincto nacc)
-      (thetacc l u y nacc yout)
+      (thetacco l u y nacc yout)
       (fd/!= xout yout)
       ]
      [(powero l u x 'f) (fd/== 0 xout)]
      )))      
+
+(defn thetao [l u x xout] (thetacco l u x '(1) xout))
+
+(defn thetaccno [l u x n acc xout]
+  (fresh [a1 xnext anext nsub]
+    (fd/in l u x n xout xnext nsub (fd/interval l u))
+    (conde
+     [(fd/== 1 n) (thetacco l u x acc xout)]
+     [(fd/> n 1)      
+      (==o acc a1)
+      (thetacco l u x a1 xnext)
+      (conso xnext a1 anext)
+      (fd/- n 1 nsub)
+      (thetaccno l u xnext nsub anext xout)
+      ])))
+
+(defn thetano [l u x n xout] (thetaccno l u x n '(1) xout))
 
 (comment 
 (defn thetacc [l u x acc xout]
