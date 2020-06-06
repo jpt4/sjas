@@ -19,19 +19,21 @@
 ;Non-Growth functions
 
 ;Integer Subtraction
-(defn isubo [x y z]
+(defn isubo [l u x y z]
+  (fd/in l u x y z (fd/interval l u))
   (conde 
    [(fd/<= x y) (fd/== 0 z)]
    [(fd/< y x) (fd/+ z y x)]))
 
-(defn idivo [x y z]
-  (conde
-   [(fd/== 0 y) (fd/== 0 z)]
-   [(fd/== 0 x) (fd/== 0 z)]
-   [(fd/< x y) (fd/== 0 z)]
-   [(fresh [p d]
-      (fd/>= x y)
-      (fd/> y 0) (fd/* y z p) (fd/- x p d) (fd/< d y))]))
+(defn idivo [l u x y z]
+  (fresh [p d]
+    (fd/in x y z p d (fd/interval l u))
+    (conde
+     [(fd/== 0 y) (fd/== 0 z)]
+     [(fd/== 0 x) (fd/== 0 z)]
+     [(fd/< x y) (fd/== 0 z)]
+     [(fd/>= x y)
+      (fd/> y 0) (fd/* y z p) (fd/- x p d) (fd/< d y)])))
 
 (defn maxo [x y m]
   (conde
@@ -45,7 +47,7 @@
      [(fd/== 0 n) (fd/== 0 r)]
      [(fd/== 1 n) (fd/== 0 r)]
      [(fd/> n 1) 
-      (idivo n b q)
+      (idivo l u n b q)
       (ilogo l u b q res)
       (fd/+ 1 res r)])))
 
@@ -64,10 +66,10 @@ theta.core> )
   (fresh [q res nacc]
     (fd/in l u b n acc r q nacc res (fd/interval l u))
     (conde
-     [(fd/== 0 n) (isubo acc 1 r)]
+     [(fd/== 0 n) (isubo l u acc 1 r)]
      [(fd/== 1 n) (fd/== acc r)]
      [(fd/> n 1) 
-      (idivo n b q)
+      (idivo l u n b q)
       (fd/+ 1 acc nacc)
       (ilogo-acc l u b q nacc r)])))
 
@@ -109,7 +111,7 @@ theta.core> )
       (fd/== 0 r)]
      [(fd/!= 0 x) (fd/== 0 n) (fd/== x r)]
      [(fd/!= 0 x) (fd/!= 0 n)
-      (idivo x b newx)
+      (idivo l u x b newx)
       (fd/- n 1 newn)
 ;      (fd/+ 1 res r)
       (idivo-repeat l u newx b newn r)
@@ -174,13 +176,13 @@ theta.core> )
 
 (defn counto [l u i j r]
   (fresh [b]
-    (fd/in l u i j (fd/interval 0 100))
+    (fd/in l u i j (fd/interval l u))
     (build-numo l u i b)
     (counto-aux l u b j 0 r)))
 
 (defn ipluso [l u x y z] 
   (fd/in l u x y z (fd/interval l u))
-  (isubo z y x) (fd/>= z x))
+  (isubo l u z y x) (fd/>= z x))
 
 (defn imulto [l u x y z]
   (fresh [s y2]
@@ -189,18 +191,36 @@ theta.core> )
      [(fd/== 0 x) (fd/== 0 z)]
      [(fd/== 0 y) (fd/== 0 z)]
      [(fd/!= 0 x) (fd/!= 0 y)
-      (isubo z 1 s)
-      (idivo z x y)
-      (idivo s x y2)
+      (isubo l u z 1 s)
+      (idivo l u z x y)
+      (idivo l u s x y2)
       (fd/< y2 y)])))
     
-(defn ipredo [x p] (isubo x 1 p))
+(defn ipredo [l u x p] 
+  (fd/in l u x p (fd/interval l u))
+  (isubo l u x 1 p))
 
-(defn ihalfo [x h] (idivo x 2 h))
+(defn ihalfo [l u x h] 
+  (fd/in l u x h (fd/interval l u))
+  (idivo l u x 2 h))
 
-(defn ipredno [x n p] (isubo x n p))
+(defn ipredno [l u x n p] 
+  (fd/in l u x n p (fd/interval l u))
+  (isubo l u x n p))
 
-(defn ihalfno [x n p]
+(defn ihalfno [l u x n p]
+  (fresh [s res]
+    (fd/in l u x n p s res (fd/interval l u))
+    (conde
+     [(fd/== 0 n) (fd/== x p)]
+     [(fd/> n 0)
+      (ihalfo l u x res)
+      (ipredo l u n s)
+      (ihalfno l u res s p)
+      ])))
+
+(comment 
+(defn ihalfno [l u x n p]
   (fresh [s res]
 ;    (fd/in l u x n p s res (fd/interval l u))
     (conde
@@ -210,6 +230,8 @@ theta.core> )
       (ipredo n s)
       (ihalfno res s p)
       ])))
+)
+
 
 (defn irooto-w-ilogo-w-iexpo [l u x y r]
   (fd/in l u x y r (fd/interval l u))
@@ -238,10 +260,10 @@ theta.core>
     (conde
      [(fd/== 1 x) (==o xout 't)]
      [(fd/!= 1 x)
-      (isubo x 1 s) (ilog2o l u x l1) (ilog2o l u s l2)
+      (isubo l u x 1 s) (ilog2o l u x l1) (ilog2o l u s l2)
       (fd/== l1 l2) (==o xout 'f)]
      [(fd/!= 1 x)
-      (isubo x 1 s) (ilog2o l u x l1) (ilog2o l u s l2)
+      (isubo l u x 1 s) (ilog2o l u x l1) (ilog2o l u s l2)
       (fd/!= l1 l2) (==o xout 't)]
      )))
 
@@ -324,6 +346,26 @@ theta.core> (run 1 [q]
       ])))
 
 (defn thetano [l u x n xout] (thetaccno l u x n '(1) xout))
+
+(defn maxthetajo-aux [l u j tmax m]
+  (fresh [t1 t2 tm jsub1]
+    (fd/in j tmax m t1 t2 tm jsub1 (fd/interval l u))
+    (conde
+     [(fd/== j 0) (fd/== tmax m)]
+     [(fd/> j 0)
+      (fd/- j 1 jsub1)
+      (thetano l u 1 j t1) 
+      (maxo t1 tmax tm)
+      (maxthetajo-aux l u jsub1 tm m)])))
+
+(defn maxthetajo [l u j m] (maxthetajo-aux l u j 0 m))
+
+(defn ejo [l u j e]
+  (fresh [m h]
+    (fd/in l u j e m h (fd/interval l u))
+    (maxthetajo l u j m)
+    (ihalfno l u m j h)
+    (idivo l u m h e)))
 
 (comment 
 (defn thetacc [l u x acc xout]
