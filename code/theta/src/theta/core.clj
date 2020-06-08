@@ -367,6 +367,22 @@ theta.core> (run 1 [q]
     (ihalfno l u m j h)
     (idivo l u m h e)))
 
+ (defn tno [l u n els]
+  (fresh [e1 e2 n1 ep nels]
+    (fd/in l u n e1 e2 n1 ep (fd/interval l u))
+    (conde
+     [(fd/== n 0) (==o els els)]
+     [(fd/== n 1) (appendo els '(1) nels)]
+     [(fd/> n 1)
+      (ilog2o l u n e1)
+      (fd/- n 1 n1)
+      (ilog2o l u n1 e2)
+      (conde
+       [(fd/> e1 e2) (appendo els (llist e1) nels) 
+        (tno l u 0 nels)]
+       [(fd/== e1 e2) (fd/+ e1 1 ep) (ilog2o l u lb e1)
+        (fd/- n e1 r1) (
+
 (comment 
 (defn thetacc [l u x acc xout]
   (fresh [y yout nacc]
