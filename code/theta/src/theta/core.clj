@@ -367,22 +367,38 @@ theta.core> (run 1 [q]
     (ihalfno l u m j h)
     (idivo l u m h e)))
 
- (defn tno [l u n els]
-  (fresh [e1 e2 n1 ep nels]
-    (fd/in l u n e1 e2 n1 ep (fd/interval l u))
+(defn diff-of-2powo-aux [l u n ls o]
+  (fresh [p e e-val d1 res]
+    (fd/in l u n p e e-val d1 (fd/interval l u))
     (conde
-     [(fd/== n 0) (==o els els)]
-     [(fd/== n 1) (appendo els '(1) nels)]
-     [(fd/> n 1)
-      (ilog2o l u n e1)
-      (fd/- n 1 n1)
-      (ilog2o l u n1 e2)
-      (conde
-       [(fd/> e1 e2) (appendo els (llist e1) nels) 
-        (tno l u 0 nels)]
-       [(fd/== e1 e2) (fd/+ e1 1 ep) (ilog2o l u lb e1)
-        (fd/- n e1 r1) (
+     [(powero l u n 't) (ilog2o l u n e) (conso e ls o)]
+     [(powero l u n 'f) 
+      (ilog2o l u n e) 
+      (ilog2o l u e-val e) (powero l u e-val 't)
+      (fd/- n e-val d1) (conso e ls res)
+      (diff-of-2powo-aux l u d1 res o)])))
 
+(defn diff-of-2powo [l u n o] (diff-of-2powo-aux l u n '() o))
+
+(defn tno-aux [l u e els o]
+  (fresh [exp1 em1 exp2 d1 d2 ser nearest2pow exp1more]
+    (fd/in l u e exp1 em1 exp2 d1 d2 nearest2pow
+           (fd/interval l u))
+    (conde
+     [(powero l u e 't) 
+      (ilog2o l u e exp1)
+      (conso exp1 els o)]
+     [(powero l u e 'f)
+      (ilog2o l u e exp1) (ilog2o l u nearest2pow exp1)
+      (powero l u nearest2pow 't)
+      (fd/- e nearest2pow d1)
+      (fd/- nearest2pow d1 d2) 
+      (diff-of-2powo l u d2 ser)
+      (fd/+ exp1 1 exp1more)
+      (conso exp1more ser o)])))
+
+(defn tno [l u e o] (tno-aux l u e '() o))
+       
 (comment 
 (defn thetacc [l u x acc xout]
   (fresh [y yout nacc]
