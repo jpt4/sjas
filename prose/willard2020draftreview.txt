@@ -1,0 +1,143 @@
+20200521Z
+jpt4
+
+Revisions and corrections for Willard, 2020.
+
+Page one is missing a page number at the foot of the page. This causes
+page two to be labelled "1", page three "2", and so on. The following
+notes will use the page numbers as they currently exist in the draft.
+
+Page 2, line 8: Was reference [49] intentionally omitted from the list
+of citations?
+
+Page 3, line 7: Extra space between the period and the closing parenthesis.
+
+[5]. ) -> [5].)
+
+Page 4, line 11: Extra comma after "reach". 
+
+would, ultimately, reach, some -> would, ultimately, reach some
+
+Page 6, line 10: Plural disagreement. "formalisms uses" should be "formalism uses" or "formalisms use".
+
+Page 9, footnote 1, line 3: Extra space between opening double quote
+and "very".
+
+" very much -> "very much
+
+Page 10, line 2: Reference numbers are out of order. 
+
+42, 41, 43 -> 41, 42, 43
+
+Page 12, line 10: Missing hyphen.
+
+Self Justifying -> Self-Justifying
+
+Page 14, line 2: Inconsistent citation style. Elsewhere, citations are
+listed in numerical order, regardless of the order of their authors
+referenced in the text of the paper. Here, the citations are in
+author-order, but not numerical order.
+
+[28, 38, 27] -> [27, 28, 38]
+
+Page 14, line 13: Misspelling. 
+
+artithmeic's -> arithmetic's
+
+Page 15, Remark 3.5, line 2: Wide hyphen. Short hyphens are used
+everywhere else.
+
+Type--NS -> Type-NS
+
+Page 16, Theorem ++, final line: Missing comma.
+
+commutative distributive -> commutative, distributive
+
+Page 17, line 2: Missing period.
+
+[49] Also -> [49]. Also
+
+Page 19, line 4: Missing comma.
+
+a1, ... aj -> a1, ... ,aj
+
+Page 20, line 10: Duplicate word.
+
+Also, any any formula -> Also, any formula
+
+Page 23, line 7: Missing ellipsis and comma.
+
+(p2, phi2), ..(pk, phik) -> (p2, phi2), ..., (pk, phik)
+
+Page 23, line 11: Missing ellipsis and comma.
+
+phi2, .. phij-1 -> phi2, ..., phij-1
+
+Page 28, Theorem 4.4, line 1: Plural disagreement.
+
+mapping are -> mappings are
+
+Page 28, Theorem 4.5, lines 1 and 2: Plural disagreement.
+
+fails to be consistency-preserving mappings -> fails to be a
+consistency-preserving mapping
+
+Page 35, line 4: Missing capitalization.
+
+Second Incompleteness effect -> Second Incompleteness Effect
+
+Page 35, line 14: Plural disagreement.
+
+methodologies is -> methodology is
+
+Page 42, footnote 7, line 2: Misspelling.
+
+Incompletenss -> Incompleteness
+
+Page 42, footnote 7, line 2: Plural disagreement.
+
+sentence -> sentences
+
+Page 46, line 11: Tense disagreement.
+
+predicted -> predict
+
+Page 48, line 2: Plural disagreement.
+
+context of a SUFFICIENTLY -> context of SUFFICIENTLY
+
+Page 48, line 11: Extra hyphen.
+
+You-Tube -> YouTube
+
+Page 50, line 5: Misspelling.
+
+millenial -> millennial
+
+Page 52, line 4: Misspelling.
+
+is therfore a -> is therefore a
+
+Page 54, reference 1, line 2: Long hyphen instead of short.
+
+349--356 -> 349-356
+
+Page 55, reference 18: Consider adding the URL for the video.
+
+Lecture 4 : Godel's Blessing and Godel's Curse, https://www.youtube.com/watch?v=esH8SkSIHdI
+
+Page 56, reference 38, line 1: Misspelling.
+
+Compatibility -> Computability
+
+Page 56-57, reference 39: Consider adding the URL for the video.
+
+Gerald Sacks - Reflections on Godel, https://www.youtube.com/watch?v=PR7MTqtFl4Y
+
+Page 57, reference 46, line 4: Misspelled URL.
+
+htpps://doi.org -> https://doi.org
+
+Page 57, reference 47, line 1-2: Misspelling.
+
+tangibiltiy -> tangibility
