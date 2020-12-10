@@ -1,0 +1,24 @@
+Dear Dan and Jack,
+
+     This is a very useful paper, with a high signal to noise ratio that helped clarify several concepts for me, and allowed the formulation of the following questions, which I present for your review, at your convenience:
+     
+1. Why do the Group-2 axioms for IS_D(beta) specifically provide Hilber-Frege style proofs of beta's PI_*_1 theorems, regardless of which deductive apparatus is chosen for D? Could other proof styles be used instead, e.g. the proof style specified by the D parameter?
+
+2. Group-2 is the only component of IS_D(beta) that defines an infinitary axiom schema. Because the PI_*_1 theorems all use bounded quantifiers, their proofs are decidable. Could the infinitary axiom schema of Group-2  be replaced by a finite set of rules sufficient to construct all PI_*_1 theorems, and constructively prove them?
+
+3. Your work enumerates several families of formal systems that bracket the delicate threshold delineating the realms in which the Incompleteness Effect does and does not hold. Synthesizing the properties of these various families of systems, would it be correct to identify the strongest type of system which yet evades the Incompleteness Effect as one which:
+
+i. Is composed of terms from the language L_max, consisting of the U-Grounding functions, the symbols "0", "1", "=", and "<=", the logical connectives "NOT". "AND", "OR", and "ENTAILS" [the rightward arrow], and bounded quantifiers "THERE_EXISTS" and "FOR_ALL".
+
+ii. Employs the Tab-1 style of deduction (or an equivalent, such as unification resolution).
+
+iii. Additionally has access to Law of the Excluded Middle formulations of all DELTA_*_0 theorems (using the Z Enrichment method).
+
+Call the above system IS_Tab-1(L_max).
+
+4. Can the IS_Tab-1(L_max) system recognize that L_max's consistency property implies "both the self-justifying characteristic and consistency property" [pg. 15] for IS_Tab-1(L_max)? If not, how strong a system is required to effect such a recognition?
+
+5. Do you conjecture there to be a tighter bound on the separation between the applicability and non-applicability of the Incompleteness Effect than the ratio between 2^(n+1) and 2^2^n?
+
+Sincerely,
+--jpt4
