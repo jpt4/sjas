@@ -1,0 +1,85 @@
+202010115Z
+https://girard.perso.math.cnrs.fr/meaning1.pdf
+
+https://twitter.com/inductivestep/status/514673254540521473
+
+Does Girard's discontent with Tarskian truth semantics propagate to the formulation of the Arithmetical Hierarchy in its entirety?
+2:20 AM
+Because the notion of a metalanguage in which an object language is interpreted is isomorphic to adding another layer of search operators/quantifiers in a wrapper around one's current theory.
+2:23 AM
+Thus why Turing Complete languages can only partially interpret themselves (contra the conventional use of the term, Tarskian semantics clearly defines "interpretation" as "total/complete interpretation").
+2:26 AM
+I am also not sure Girard is correct with his characterization of syntax and semantics as distinct and separate, insofar as the choice of separation between syntax and semantics is one of the critical design decisions in developing a programming language.
+2:31 AM
+A program specifies a certain behavior. The determination of this behavior may be realized at various phases of execution, broadly divisible into compile-time versus run-time. These phases are in fact themselves determined, however, by the tools available to them: compile-term strictly means "the phase at which only static analysis is allowed", while run-time may additionally employ dynamic analysis.
+2:35 AM
+The burden of determining behavior given a spec can thus fall variously on the syntactical versus semantical rules of execution. A grammar might include a type system, for example, which demands static type inference, and thus narrows the scope of arbitrary behavior before any dynamic action occurs.
+2:38 AM
+Run-time macros and code generation might defer the ability to perform syntactic manipulation until run-time, and if they are data-dependent, syntax might be subordinated to semantics.
+2:40 AM
+At the far end of this dynamical regime are F-Expressions, as studied by John Shutt, in which no syntactical operations are guaranteed to possess a static evaluation except a minute kernel - everything else may be subject to run-time rebinding.
+2:42 AM
+This is akin to maximally fine grained phased execution. The corresponding maximally monolithic version of phased execution would be something like (though I am less sure about this end of the spectrum) a total , dependently typed programming language, in which all behavior except for that which is explicitly data dependent could be evaluated statically. Only a closed/non-data-dependent expression could exceed this.
+2:52 AM
+However, even in this maximally monolithic language, total interpretation still requires a metalanguage - even Brown and Palsberg's result that the total language F-Omega could "self-interpret" reinforces the Tarskian limit that languages can only _partially_ self-interpret.
+2:55 AM
+(As a concurrent thread, disputes about the different meanings for entailment in syntactic versus semantics contexts seem to me to not be essential, because of Goedel's Completeness Theorem, and possibly because of Heyting/Proof-Theoretic Semantics. Behavior seems to be the property of interest, which each kind of entailment on either side of the syn-sem barrier covers as best as it is able.)
+2:58 AM
+If a consequence of Girard's Transcendental Syntax is to roll-up the hierarchy of metalinguistic interpretation into a single formalism (compare how Yablo's Paradox _unrolls_ the finity of the Liar Paradox into an Aleph-1 tree), then I think exploring the connection between his and Willard's work on Self-Justifying Axiom Systems is all the more important, because SJAS already provides an executable formalism that evades a limit reminiscent of Tarski's namely that of Goedel's.Does Girard's discontent with Tarskian truth semantics propagate to the formulation of the Arithmetical Hierarchy in its entirety?
+2:20 AM
+Because the notion of a metalanguage in which an object language is interpreted is isomorphic to adding another layer of search operators/quantifiers in a wrapper around one's current theory.
+2:23 AM
+Thus why Turing Complete languages can only partially interpret themselves (contra the conventional use of the term, Tarskian semantics clearly defines "interpretation" as "total/complete interpretation").
+2:26 AM
+I am also not sure Girard is correct with his characterization of syntax and semantics as distinct and separate, insofar as the choice of separation between syntax and semantics is one of the critical design decisions in developing a programming language.
+2:31 AM
+A program specifies a certain behavior. The determination of this behavior may be realized at various phases of execution, broadly divisible into compile-time versus run-time. These phases are in fact themselves determined, however, by the tools available to them: compile-term strictly means "the phase at which only static analysis is allowed", while run-time may additionally employ dynamic analysis.
+2:35 AM
+The burden of determining behavior given a spec can thus fall variously on the syntactical versus semantical rules of execution. A grammar might include a type system, for example, which demands static type inference, and thus narrows the scope of arbitrary behavior before any dynamic action occurs.
+2:38 AM
+Run-time macros and code generation might defer the ability to perform syntactic manipulation until run-time, and if they are data-dependent, syntax might be subordinated to semantics.
+2:40 AM
+At the far end of this dynamical regime are F-Expressions, as studied by John Shutt, in which no syntactical operations are guaranteed to possess a static evaluation except a minute kernel - everything else may be subject to run-time rebinding.
+2:42 AM
+This is akin to maximally fine grained phased execution. The corresponding maximally monolithic version of phased execution would be something like (though I am less sure about this end of the spectrum) a total , dependently typed programming language, in which all behavior except for that which is explicitly data dependent could be evaluated statically. Only a closed/non-data-dependent expression could exceed this.
+2:52 AM
+However, even in this maximally monolithic language, total interpretation still requires a metalanguage - even Brown and Palsberg's result that the total language F-Omega could "self-interpret" reinforces the Tarskian limit that languages can only _partially_ self-interpret.
+2:55 AM
+(As a concurrent thread, disputes about the different meanings for entailment in syntactic versus semantics contexts seem to me to not be essential, because of Goedel's Completeness Theorem, and possibly because of Heyting/Proof-Theoretic Semantics. Behavior seems to be the property of interest, which each kind of entailment on either side of the syn-sem barrier covers as best as it is able.)
+2:58 AM
+If a consequence of Girard's Transcendental Syntax is to roll-up the hierarchy of metalinguistic interpretation into a single formalism (compare how Yablo's Paradox _unrolls_ the finity of the Liar Paradox into an Aleph-1 tree), then I think exploring the connection between his and Willard's work on Self-Justifying Axiom Systems is all the more important, because SJAS already provides an executable formalism that evades a limit reminiscent of Tarski's namely that of Goedel's.
+
+
+>with his characterization of syntax and semantics as distinct and separate
+
+He doesn't do that, he criticizes precisely that presentation.
+Taboolean
+Taboolean · 7:36 AM
+Image
+Image
+Taboolean
+Taboolean · 7:39 AM
+>Behavior seems to be the property of interest
+whence geometry of interaction.
+you might want to try to get acquainted with
+https://seiller.org/documents/articles/Stellar.pdf
+(if you want to compare his and willard's work)
+his protestations are more against realism than semantics.
+Taboolean
+Taboolean · 7:45 AM
+Does not Girard reject model theory?
+8:52 PM
+My impression was that he proposes Transcendental Syntax to account for the entirety of a logical structure's meaning in a purely proof-theoretical way.
+8:56 PM
+This monism via rejection of semantics is different than, e.g., Jean-Yves Beziau's "The path from proof theory to model theory could be said to be a continuous one".
+http://filozof.uni.lodz.pl/bulletin/pdf/35_23_8.pdf
+8:59 PM
+> his protestations are more against realism than semantics.
+
+Very well. Has he commented on Godel's _Completeness_ Theorems much?
+> (if you want to compare his and willard's work)
+
+Reviewing this a year later, Stellar propagation as an extension of unification is very promising.
+9:11 PM
+Also useful, I think: https://seiller.org/documents/articles/Quant.pdf
+9:13 PM
