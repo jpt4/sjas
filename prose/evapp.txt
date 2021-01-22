@@ -1,0 +1,76 @@
+20210115Z
+
+The first stage of the application is answering a few basic questions
+and attaching a brief proposal. Once we receive it, we'll follow up
+with you about next steps or let you know that we have declined.
+
+The proposal should consist of a proposal no longer than 1500
+words. You may also attach supplementary materials, but we will read
+the proposal first and it must stand on its own.
+
+    The first part of the proposal should be about you. Tell us your
+    personal story, and how it relates to what you wish to do. We
+    probably don't care much about your formal education, credentials,
+    or awards, unless they're particularly germane to who you are or
+    your idea. Do tell us your background briefly, but credentials are
+    not what will impress us.  Second, what is one mainstream or
+    "consensus" view that you absolutely agree with? (This is our
+    version of a "trick" question, reversing the now-fashionable
+    contrarianism.)  The third part should be about your
+    idea. Convince us that this is a great idea worth investing in,
+    and tell us what is new or unusual in your vision and
+    understanding. What's the problem you intend to solve? If you have
+    a ballpark budget (with revenue sources and expenses), let us know
+    the bare basics now; we won't hold you to it strictly.
+
+Also (if applicable) tell us how long you have been working on this
+project or idea, whether you will be working on it full time or part
+time, any existing formal or informal partnerships or supporters, and
+how you might intend to reach your users or audience.
+
+On the application of Willard's Self-Justifying Axiom Systems and related work to introspective artificial agents.
+
+I:
+My earliest exposure to the trajectory of interests that would develop into the subject of this proposal came at approximately the age of three, when I became aware of, and fascinated with, robots, via a History Channel programme on the topic. The focus of my inquiry abstracted with age: from the physical forms of 
+
+II:
+I strongly identify with environmental protectionist and
+conservationist attitudes. The EPA is, on the whole, a good
+institution; the Interior is my favortite executive department; bison,
+wolves, and mustangs should repopulate the prairie; industry must be
+balanced against, and subordinated to, the sustainable quality of our
+water, soil, air, wildlife, and human population. I believe that
+systems thinking is turned toward its highest end when considering the
+best ways to interact with, leverage, and improve the
+multi-generational cycles of our ecosystem, which form the fundamental
+substrate of all other material prosperity. This conviction is not
+only mainstream, but universal: I, like all the world, prefer to
+breathe clean air, drink untainted water, enjoy amicable climes, and
+observe the fluorishing of life. To be absent any of these is an
+indication of grave and immediate danger.
+
+III: In many respects, this application seeks to fund a independent
+mathematical research programme, with the concurrent (and hopefully
+confluent) goals of 1) co-ordinating research in several disciplines
+of mathematics, computer science, and epistemology 2) scholars within
+and without academia 3) producing executable artifacts relevant to the
+theory and practice of artificial intelligence. In the course of
+developing increased information processing capabilities (directly
+relevant to the particular tasks of a problem domain), software
+systems are also gaining a more sophisticated sense of interiority,
+through self-monitoring, automatic response handling, and
+self-modification. At the extremes of these are systems explicitly
+designed under the aegis of artificial intelligence, but this enlarged
+"internal space" marks any system with certain faculties that suggest
+a cognivist interpretation of their behavior. Indeed, without strict
+correlation to their degree of _intelligence_, software systems are
+acquiring the appearance of _agents_. Again setting aside the
+necessity for intelligence, interiority at minimum necessitates
+management of that internal space via _introspection_. Introspection
+can be precisely formalized within the same frameworks of
+computational theory and mathematical logic that model software
+systems more generally, and is critical to many of their core
+theoretical results, particularly the limitative theorems of Goedel,
+Tarski, and Turing, which concern, intuitively, the epistemic security
+of formal systems. [Brief overview of Incompleteness, Undefinability,
+and Undecidabilty].
