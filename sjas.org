@@ -1,0 +1,432 @@
+* sjas
+:PROPERTIES:
+:ID:       53f41b8a-07ec-42d1-a40b-15900dc903cf
+:END:
+
+:20220614Z:
+
+We do not directly employ the features of a Turning Machine that
+distinguish its computational expressivity from DFAs and push-down
+automata, namely, the infinite tape. Instead, it is a side-effect of
+the particular structure of its memory that programming with respect
+to the TM model is more ergonomic than with DFAs and PDAs. 
+
+1) In the reverse, while limitative theorems are rarely encountered,
+   systems which are guaranteed to be free of the restrictions imposed
+   by a limit may in turn offer ergonomic benefits.
+
+2) The dual of never using the full power of a sufficiently expressive
+   model of computation is that the limitative theorems are
+   ever-present, and so evading their restrictions, despite at the
+   cost of the more powerful MoC, is net beneficial.
+
+:END:
+
+20220611Z
+
+https://twitter.com/arsmachinae/status/1535748295989071874
+
+> i've neglected it for a long time under the impression that all
+people generally think the same way
+but i do think that underselling one's cognitive capabilities through
+not knowing their own mind's language is an issue of our time
+
+Gnothi seauton. PRC will know its own mind.
+
+https://cstheory.stackexchange.com/questions/51581/what-is-the-model-of-computation-that-corresponds-in-the-manner-of-curry-howard
+
+What is the model of computation that corresponds (in the manner of
+Curry-Howard) to the deduction rule of resolution?
+
+The Curry-Howard Correspondence is well-documented for the isomorphism
+which associates the intuitionistic natural deduction proof calculus
+(logic side) with the type system for the simply typed lambda calculus
+(computation side). To produce a proof, the proof calculus must be
+equipped with a proof procedure [0]; to produce a normalized type, the
+type system must be equipped with a type inference algorithm. What is
+the model of computation which corresponds to the rule of logical
+resolution [1], as is used in, e.g., Prolog? What is the computation
+side equivalent of the proof search procedure used to produce the
+resolvents of a resolution-based proof calculus?
+
+I inquire because, from an intuitive perspective, logic programming
+languages such as Prolog appear to directly instantiate the logic side
+of the Correspondence. Types can be satisfied by multiple terms, and
+thus multiple programs can prove the same logical
+proposition. However, logic programming terms are exactly logical
+propositions, and programs directly manipulate such propositions. Is
+it the case that Correspondence is one-sided for resolution-based
+systems? Is the Correspondence for resolution "recurrent" (i.e. the
+model of computation and logic are the same entity)?
+
+[0] https://en.wikipedia.org/wiki/Proof_procedure
+
+[1] https://en.wikipedia.org/wiki/Resolution_(logic)
+
+Tags
+curry-howard
+lo.logic
+first-order-logic
+proof-theory
+typed-lambda-calculus
+
+https://cstheory.stackexchange.com/questions/51579/is-there-a-relationship-between-brown-and-palsbergs-self-interpreter-for-f-omeg
+
+Is there a relationship between Brown and Palsberg's Self-Interpreter
+for F-Omega and Lawvere's Fixed Point Theorem?
+
+Brown and Palsberg [0] demonstrated an self-interpreter for
+F-Omega. To do so, they perform "a careful analysis of the classical
+theorem [of the impossibility of self-interpretation by total
+languages]", to "show that static type checking in Fω can exclude the
+proof’s diagonalization gadget, leaving open the possibility for a
+self-interpreter".
+
+There has been some debate [1] over the precise definition of
+"interpreter" and "self-interpreter" within [0], and more broadly in
+the field. The general impression I draw from this discussion is that
+the "representation" and "reduction" of a program are a spectrum, with
+different evaluators performing different degrees of
+representation/reduction, partially dependent on the design of the
+evaluator, as bounded by the capabilities of the implementation
+language.
+
+However, my question does not concern whether Brown and Palsberg's
+self-interpreter accomplishes interpretation, but instead whether and
+how their mechanism of forbidding diagonalization relates to other
+domains. As analogy, I appeal to Lawvere's Fixed Point Theorem (LFPT),
+which has been used to unify the presentation of a number of
+limitative theorems proven using diagonalization methods [2].
+
+Can Brown and Palsberg's evasion of the effects of diagonalization be
+applied with similar breadth? Can their diagonalization-exclusion
+mechanism be translated to other diagonalization-based proofs? How
+does it stand with respect to the preconditions for the Fixed Point
+Theorem (e.g., does the LPFT simply not apply to the problem of total
+language self-interpretation)?
+
+A further extension of this question would be to compare Brown and
+Palsberg's mechanism with Dan Willard's mechanism for avoiding
+diagonalization in his Self-Justifying Axiom Systems.
+
+[0] http://compilers.cs.ucla.edu/popl16/
+
+[1] http://math.andrej.com/2016/01/04/a-brown-palsberg-self-interpreter-for-godels-system-t/
+
+[2] https://arxiv.org/abs/math/0305282
+
+Tags: fixed-points proof-theory pl.programming-languages
+
+https://cstheory.stackexchange.com/questions/51580/is-there-a-relation-between-the-techniques-used-by-dan-willard-versus-those-of
+
+Is there a relation between the techniques used by Dan Willard, versus
+those of Brown and Palsberg, to exclude diagonalization?
+
+This question extends my inquiry from a previous post [0].
+
+Dan Willard's Self-Justifying Axiom Systems/Self-Verifying Theories
+[1] and Brown and Palsberg's self-interpreter for F-Omega [2] both
+employ techniques that might be described as "excluding
+diagonalizaton" from a given domain, while preserving other properties
+usually considered as concomitant with diagonalization.
+
+Willard: "In outline, the key to Willard's construction of his system
+is to formalise enough of the Gödel machinery to talk about
+provability internally without being able to formalise
+diagonalisation. Diagonalisation depends upon being able to prove that
+multiplication is a total function (and in the earlier versions of the
+result, addition also). Addition and multiplication are not function
+symbols of Willard's language; instead, subtraction and division are,
+with the addition and multiplication predicates being defined in terms
+of these. Here, one cannot prove the PI-0-2 sentence expressing
+totality of multiplication:"
+
+Brown and Palsberg: "After a careful analysis of the classical
+theorem, we show that static type checking in Fω can exclude the
+proof’s diagonalization gadget, leaving open the possibility for a
+self-interpreter."
+
+Therefore: Are these techniques related?
+
+Separate from this core question, but possibly useful for answerers, I
+speculate that, if so, the relation might be characterizable via a
+common bypassing of Lawvere's Fixed Point Theorem, which itself
+unifies a number of diagonalization based proofs.
+
+[0] Is there a relationship between Brown and Palsberg's
+Self-Interpreter for F-Omega and Lawvere's Fixed Point Theorem?
+
+[1] https://en.wikipedia.org/wiki/Self-verifying_theories
+
+[2] http://compilers.cs.ucla.edu/popl16/
+
+Tags:
+fixed-points
+proof-theory
+proof-complexity
+pl.programming-languages
+ct.category-theory
+
+NY Category Theory Seminar
+
+https://twitter.com/ilaba/status/1535646826077904896
+
+I am interested in charting the boundary of limitative theorems, and
+at present am "charting the charts", cataloguing the prior work of
+others who have drawn lines on the map between the securely known and
+the wilder regions.
+
+http://compilers.cs.ucla.edu/popl16/popl16-full.pdf
+
+> At first, a classical theorem in computability theory seems to imply
+that a self-interpreter for Fω is impossible. Fortunately, further
+analysis reveals that the proof relies on an assumption that a
+diagonalization gadget can always be defined for a language with a
+self-interpreter. We show this assumption to be false: by using a
+typed representation, it is possible to define a self-interpreter such
+that the diagonalization gadget cannot possibly type check
+
+Rigorization of interfaces between connectionist systems/agents is
+important because consciousness is locused at the interface/flux of
+communicating systems. SJAS cannot be tricked into corrupting its
+knowledge base with inconsistency, or into thinking its knowledge base
+is inconsistent.
+
+Concentric/consecutive attending systems can approach the recurrence
+of consciousness, but require at least three stages:
+
+object <- attender <- meta-attender
+
+Meta-attender can thus have a reference for attending, but only
+strictly downwards. Meta-attenders of increasing degree have access to
+data modelling increasingly complicated unilateral cognitive
+architectures. The concentric/consective structure could be a lattice
+or DAG rather than a poset; a recurrent, properly self-attending
+conscious system could contain a loop of arbitrary length.
+
+object <- attender-1 <------------------- meta-attender-2
+   |-<--- attender-2 <- meta-attender-1 <-----|
+
+meta-attender-2 has more complex sample cognition data than
+meta-attender-1.
+
+object <- attender <- meta-attender-1
+             |             ^
+             V             |
+          meta-attender-2 -|
+
+attender is the locus of consciousness, attending to ma2 attending to
+ma1 attending to attender, thus closing the recurrence.
+
+Q: If attending can be multiplexed, why not have a single layer
+self-attender?
+
+A: Because attending consumes physical area as a resource, like
+silicon on an IC. A "self-attender" is not two entities in spatial
+superposition (though the loop may be formed by fast switching between
+multiple functional configurations of the same subtrate, a kind of
+temporal superposition). Thus, a s-a can be represented as two
+distinct sub-systems.
+
+Temporal superposition:
+
+attender A is in configuration C1 at times t = 1 mod 2, and
+configuration C2 at t = 0 mod 2. Each configuration is spare, insofar
+as there are non-active elements in each configuration. These unused
+elements are at least partially complementary, in that some are used
+in C1 and not used C2, and others vice-versa. This allows the
+complementary unused elements to act as echoic memory of the state of
+A in configuration C(t), for A in C(t+1). WLOG, C1 can attend to C2,
+and vice-versa, forming the recurrence. Because the configurations are
+sparse and not complementary (thus not disjoint), A is not fully
+partitionable into A1 and A2 sub-systems.
+
+20220610Z 
+
+A category theoretic proof of Goedel's 2nd Incompleteness Theorem,
+using Joyal's Arithmetic Universes:
+https://twitter.com/jpt401/status/1535077983945232384
+
+:20220609Z:
+[[id:029dd4e4-bbd1-4a9e-bae6-e1498c93af6a][curry-howard-resolution]]
+Curry-Howard Correspondence for resolution based proof systems.
+
+https://www.lix.polytechnique.fr/~lutz/papers/tableau-def.pdf
+
+> This certainly makes perfect sense from the viewpoint of functional
+programming and the Curry-Howardcorrespondence, where proofs are
+programs and the proof normalization is the execution of the
+program. However, from the viewpoint of logic programming and proof
+search, this only makes little sense, since all considered proofs are
+already in normal form.
+
+How expressive can an SJAS be when employing a combinatorial proof
+based deduction system?
+:END:
+
+:20220608Z:
+#+BEGIN_PROGRAMME
+A Preliminary Research Programme for Autarkic [0] Logic
+
+Can Dan Willard's work on Goedel's Second Incompleteness Theorem be
+extended to other limitative theorems in mathematical logic and
+programming language theory? Willard's Self-Justifying Axiom Systems
+[1] provide a framework for precisely characterizing the features of a
+formal system required for Goedel's Second Incompleteness Theorem to
+apply. In particular, SJAS are formal systems which retain 1)
+consistency relative to Peano Arithmetic and 2) _self-provability of
+consistency_, at the cost of weakened, carefully tuned system
+expressivity [2]. Any systems stronger than SJAS thus satisfy the
+prerequisites for the 2nd Incompleteness Theorem to take effect,
+precluding a formal system from simultaneously i) being consistent and
+ii) containing a proof of its own consistency.
+
+From Lawvere's Fixed Point Theorem (LFPT) [4], we know that many
+limitative results have a common structure. Lawvere, using
+category theoretic formulations, and Yanovsky [5], using set theoretic
+equivalents, have demonstrated how to use LFPT to prove
+1. Cantor’s theorem that N < P(N) (the infinity of the Naturals is
+   strictly less than that of the Reals)
+2. The inadmissibility of Russell’s paradox
+3. The non-definability of satisfiability
+4. Tarski’s non-definability of truth and
+5. Godel’s first incompleteness theorem.
+6. Turing's undecidability of the Halting Problem
+
+among other limitative theorems in other areas of mathematics. This
+commonality can be extended, in particular due to the prevalence of
+mathematical objects that can encode algorithmic behavior, and thus be
+treated as instances of the Halting Problem.
+
+Additionally, it is known that Turing's result can be used to prove
+Goedel's [6]. From Undecidability, thus Incompleteness: U -> I - does
+~I -> ~U also hold? The absence of Goedel's Second Incompleteness
+Theorem from the above presents a gap that, if filled, could connect
+Willard's SJAS with Lawvere's FPT: if the 2nd Inc Thm could be
+characterized in terms of the FPT, then the features of SJAS which
+allow them to evade the Incompleteness Effect could be analyzed, to
+determine whether the features of such systems are _similarly
+generalizable_ to those fields whose limitative results the FPT
+subsumes [7].
+
+Willard touches on the epistemological implications of his work for
+"Thinking Beings" in [9]. Formal reasoning conducted within SJAS
+benefits from strong epistemic security: positive answers can be given
+to the question of "Is this reasoning system consistent?", without
+risk of encountering future deductions which contradict this
+conclusion, and without reliance on an external meta-system. An
+artificial agent _defined as_ an SJAS would therefore be the maximally
+expressive agent that retains autarkic confidence in its ability to
+make arbitrary statements about its body of knowledge, including
+self-knowledge.
+
+[0] "Self-powered"; a logic able to provide strong systemic guarantees
+using reflective methods, rather than appealing to external resources
+or meta-systems.
+
+[1] Willard 2020: https://arxiv.org/abs/2006.01057
+
+[2] Specifically, Willard identifies a trade-off between the
+arithmetic primitives available in the language of a formal system,
+and its deduction method. (1) and (2) can be viewed as a "conserved
+quantity"; the corresponding conservation law requires that more
+expressive languages be paired with less efficient deduction
+methods. The maximally expressive family of SJAS languages includes
+successor and addition as total functions, but not multiplication,
+which must be defined in terms of a relation atop the division
+function. In exchange, this family of languages must use the method of
+analytical tableaux or, it is conjectured [3], similar proof
+techniques like resolution.
+
+[3] "For the sake of simplicity, the previous sections had focused on
+the semantic tableau deductive apparatus. However, it is known [15]
+that resolution shares numerous characteristics with
+tableau. Therefore, it turns out that Theorems 4.4 and 4.5 do
+generalize when resolution replaces semantic tableau." - Willard 2020,
+p18.
+
+[4] https://ncatlab.org/nlab/show/Lawvere's+fixed+point+theorem
+
+[5] Yanofksy 2003: https://arxiv.org/abs/math/0305282
+
+[6] Oberhoff 2019: https://arxiv.org/abs/1909.04569
+
+[7] Adjacent to the technical goals of the above, it is of great
+interest whether there is a convergence between the features of SJAS
+and those of the self-interpreter for the strongly normalizing lambda
+calculus devised by Brown and Palsberg [7], which similarly speaks of
+a barrier overcome by excluding diagonalization.
+
+[8] Brown, Palsberg 2016: http://compilers.cs.ucla.edu/popl16/ 
+
+[9] Willard 2014: https://arxiv.org/abs/1307.0150
+#+END_PROGRAMME
+:END:
+
+:20220614Z:
+Misc draft notes
+
+[20220608Z]
+The great limitative theorems of mathematical logic, paradigmatically
+Goedel's Incompleteness Theorems, Tarski's Undefinability of Truth,
+and Turing's Undecidability of the Halting Problem, all share a common
+theme: the trade-off between expressivity and certainty. A system,
+capable of generating objects with certain properties, cannot also
+provide the guarantee that it will limit itself to the generation of
+objects with only those properties. 
+
+It is entirely possible that this guarantee can be obtained by some
+other, more powerful system, but the greater can only vouch for the
+lesser, not for itself, to which the same limits apply.
+
+Examining more closely, this commonality is not only thematic but
+technical: the nature of the expressivity-certainty trade-off is
+directly mappable to the barrier between the countable (aleph-null)
+and uncountable (aleph-one) infinities, as described by
+Cantor. Cantor's Diagonalization Argument _demonstrating_ this
+stratification in the infinitary hierarchy is likewise at the core of
+common proofs of the limitative theorems, though specialized to their
+particular circumstances. Lawvere's Fixed Point Theorem abstracts and
+generalizes Cantorian Diagonalization within the domain of Category
+Theory. provides an
+
+Goedel's Incompleteness Theorems are a byword for the limits of formal
+systems.
+
+Dan Willard, in his work on Self-Justifying Axiom Systems, has
+characterized the nature of the Incompleteness effect, and charted the
+precise circumstances under which a system becomes too expressive to
+avail itself of its own capacity for certainty in its expressions. As
+a result, he has devised logics that skate as close to the edge of the
+Incompleteness Theorems as possible, logics which can prove to
+themselves that they are consistent, without
+
+The great limitative theorems of mathematical logic place strong
+constraints on the epistemic capabilities of formal symbol systems. 
+
+The great limitative theorems of mathematical logic, paradigmatically
+G T and Tu, all have a common theme, of the trade-off between
+expressivity and certainty. More than a theme, they also have a common
+technical structure, and can be proven using specialized variants of
+Cantor's Diagonalization Argument, used originally to demonstrate the
+distinction between aleph-null and aleph-one. Lawvere's Fixed Point
+Theorem formalizes this observation, by providing a category theoretic
+framework for diagonalization arguments _in general_. G1, T, and Tu,
+among others, have already been proven using LFPT techniques, but not
+G2.
+
+information processing systems.
+
+
+It is entirely possible that this guarantee can be obtained by some
+other system - for any logical theory, semantic model, or programming
+language, a more powerful alternative could sidestep the limits of the
+less powerful system. But, because the limitative theorems extend
+upwards, these more powerful systems would themselves be
+susceptible. Thus, the search for a guarantee is open-ended.
+
+Examining the commonality more closely, For Goedel, completeness and
+consistency, for Tarski truth, for Turing halting
+:END:
+
+

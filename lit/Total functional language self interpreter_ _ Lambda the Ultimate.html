@@ -1,0 +1,893 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0040)http://lambda-the-ultimate.org/node/3076 -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ <title>Total functional language self interpreter? | Lambda the Ultimate</title>
+
+<!--<base href="http://lambda-the-ultimate.org/">--><base href=".">
+<style type="text/css" media="all">@import "misc/drupal.css";</style> <link rel="SHORTCUT ICON" href="http://lambda-the-ultimate.org/favicon.ico"> <link rel="stylesheet" type="text/css" href="./Total functional language self interpreter_ _ Lambda the Ultimate_files/common.css">
+<style type="text/css" media="all">@import "themes/chameleon/ltu/style.css";</style> <script src="./Total functional language self interpreter_ _ Lambda the Ultimate_files/MathJax.js" id=""></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 5px 0px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -khtml-border-radius: 5px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 1px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: .7em}
+.MathJax_MenuRadioCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuLabel {padding: 1px 2em 3px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #DDDDDD; margin: 4px 3px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: #606872; color: white}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head><body><div id="MathJax_Message" style="display: none;"></div>
+ <div id="header">  <h1 class="site-name title"><a href="http://lambda-the-ultimate.org/">Lambda the Ultimate</a></h1>  <img src="./Total functional language self interpreter_ _ Lambda the Ultimate_files/tagline.png" alt="The Programming Languages Weblog"><div id="search-form" style="text-align:right;"><form action="http://lambda-the-ultimate.org/search" method="post">  <input class="form-text" type="text" size="15" value="" name="edit[keys]" id="edit-keys">&nbsp;  <input class="form-submit" type="submit" value="Search">&nbsp;</form></div>
+</div>
+ <table id="content">
+  <tbody><tr>
+   <td id="sidebar-left"><div class="block block-block" id="block-block-1">
+ <h2 class="title"></h2>
+ <div class="content"><b>
+<div style="text-align:right">
+<p>
+<a href="http://lambda-the-ultimate.org/rss.xml"><img src="./Total functional language self interpreter_ _ Lambda the Ultimate_files/xml.gif" border="0"></a></p><p>
+<a href="http://lambda-the-ultimate.org/">Home</a></p><p>
+<a href="http://lambda-the-ultimate.org/node/view/34">Feedback</a></p><p>
+<a href="http://lambda-the-ultimate.org/node/view/40">FAQ</a></p><p>
+<a href="http://lambda-the-ultimate.org/node/view/492">Getting Started</a></p><p>
+<a href="http://lambda-the-ultimate.org/forum/1">Discussions</a></p><p>
+<a href="http://lambda-the-ultimate.org/forum/2">Site operation discussions</a></p><p>
+<a href="http://lambda-the-ultimate.org/tracker">Recent Posts</a></p><p>
+<a href="http://lambda-the-ultimate.org/node/add/forum/1">(new topic)</a></p><p>
+<a href="http://lambda-the-ultimate.org/node/view/49">Departments</a></p><p>
+<a href="http://lambda-the-ultimate.org/node/view/2">Courses</a></p><p>
+<a href="http://lambda-the-ultimate.org/node/view/4">Research Papers</a></p><p>
+<a href="http://lambda-the-ultimate.org/node/view/3">Design Docs</a></p><p>
+<a href="http://lambda-the-ultimate.org/node/view/5">Quotations</a></p><p>
+<a href="http://lambda-the-ultimate.org/node/view/7">Genealogical Diagrams</a></p><p>
+<a href="http://lambda-the-ultimate.org/classic/lambda-archive1.html">Archives</a>
+</p></div>
+</b>
+<hr style="border-width:0 0 1px 0">
+</div>
+</div>
+<div class="block block-user" id="block-user-0">
+ <h2 class="title">User login</h2>
+ <div class="content"><form action="http://lambda-the-ultimate.org/user/login?destination=node%2F3076" method="post">
+<div class="user-login-block">
+<div class="form-item">
+ <label for="edit-name">Username:</label><br>
+ <input type="text" maxlength="64" class="form-text" name="edit[name]" id="edit-name" size="15" value="">
+</div>
+<div class="form-item">
+ <label for="edit-pass">Password:</label><br>
+ <input type="password" class="form-password" maxlength="64" name="edit[pass]" id="edit-pass" size="15" value="">
+</div>
+<input type="submit" class="form-submit" name="op" value="Log in">
+</div>
+
+</form>
+<div class="item-list"><ul><li><a href="http://lambda-the-ultimate.org/user/register" title="Create a new user account.">Create new account</a></li><li><a href="http://lambda-the-ultimate.org/user/password" title="Request new password via e-mail.">Request new password</a></li></ul></div></div>
+</div>
+<div class="block block-user" id="block-user-1">
+ <h2 class="title">Navigation</h2>
+ <div class="content"><div class="menu">
+<ul>
+<li class="leaf"><a href="http://lambda-the-ultimate.org/tracker">recent posts</a></li>
+
+</ul>
+</div></div>
+</div>
+</td>
+   <td id="main">
+<div class="breadcrumb"><a href="http://lambda-the-ultimate.org/">Home</a> » <a href="http://lambda-the-ultimate.org/forum">forums</a> » <a href="http://lambda-the-ultimate.org/forum/1">LtU Forum</a></div><h2>Total functional language self interpreter?</h2>
+<!-- begin content -->
+<div class="node">
+ <div class="content">
+<p>In Turner's paper "Total Functional Programming", as seen on LtU <a href="http://lambda-the-ultimate.org/node/2003">here</a>, on page 16 it says that in a total functional language it's impossible to write an interpreter for that language.  I've seen this statement in other papers too.  None of them I've seen have shown or made reference to a proof.  Some mumble about the halting problem.  Can anyone provide a link to a paper with a proof of this, or sketch a proof themselves?</p>
+<p>It seems to me that if one were to have a language that required the programmer to give correct termination proofs of all functions, then if one could prove the termination of an interpreter for that language, one could write the interpreter in that language.  That must mean that one couldn't prove the termination of an interpreter for a total functional language.  I'm curious to know why.</p> </div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/5799" title="View user profile.">jason stumpf</a> at 2008-11-01 01:03 | <a href="http://lambda-the-ultimate.org/taxonomy/term/1">LtU Forum</a> | <a href="http://lambda-the-ultimate.org/node/3451" title="Semantics: Logic vs. PL">previous forum topic</a> | <a href="http://lambda-the-ultimate.org/node/3304" title="Right on!">next forum topic</a> | <a href="http://www.technorati.com/search/lambda-the-ultimate.org/node/3076" title="Technorati search of other blogs commenting on this post.">other blogs</a> | 18626 reads</div>
+</div>
+<a id="comment"></a>
+<form method="post" action="http://lambda-the-ultimate.org/comment"><div>
+<h2 class="title">Comment viewing options</h2><div><div class="form-item">
+ <select name="mode"> <option value="1">Flat list - collapsed</option>
+ <option value="2">Flat list - expanded</option>
+ <option value="3">Threaded list - collapsed</option>
+ <option value="4" selected="selected">Threaded list - expanded</option>
+</select>
+<select name="order"> <option value="1">Date - newest first</option>
+ <option value="2" selected="selected">Date - oldest first</option>
+</select>
+<select name="comments_per_page"> <option value="10">10 comments per page</option> <option value="30">30 comments per page</option> <option value="50">50 comments per page</option> <option value="70">70 comments per page</option> <option value="90">90 comments per page</option> <option value="150">150 comments per page</option> <option value="200" selected="selected">200 comments per page</option></select>
+<input type="hidden" name="threshold" value="0">
+ <input type="submit" class="form-submit" name="op" value="Save settings">
+
+ <div class="description">Select your preferred way to display the comments and click "Save settings" to activate your changes.</div>
+</div>
+</div><input type="hidden" name="edit[nid]" value="3076">
+</div></form><form method="post" action="http://lambda-the-ultimate.org/comment"><div>
+<input type="hidden" name="edit[nid]" value="3076">
+<a id="comment-44821"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44821" class="active">This has to do with Goedel </a></h3>
+ <div class="content"><p><a href="http://en.wikipedia.org/wiki/G%C3%83%C2%B6del&#39;s_incompleteness_theorems#Second_incompleteness_theorem">Second incompleteness theorem</a> says: <cite><br>
+For any formal recursively enumerable (i.e., effectively generated) theory T including basic arithmetical truths and also certain truths about formal provability, T includes a statement of its own consistency if and only if T is inconsistent.<br>
+</cite></p>
+<p>If you take the Curry-Howard perspective, the types in a total functional programming language form a logic (see e.g. Coq) and a proof that the evaluator terminates is a proof of Strong Normalisation for this system. From such a proof, one could derive the consistency of the system as no rule except application could permit to derive âŠ¥, and you rule out the possibility that application introduces new valid statements by cut-elimination. If we had this proof, the logic would be inconsistent by the previous theorem.</p>
+<p>In general though, one can prove the consistency of many subsystems of a formal theory in itself. E.g., in the Calculus of Inductive Constructions with universes implemented in Coq, we can easily prove that the simply-typed lambda-calculus is SN, and also that the Calculus of Inductive Constructions itself (w/o universes) is consistent (see Coq In Coq).</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/3124" title="View user profile.">Matthieu Sozeau</a> at Sat, 2008-11-01 09:24 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+<div style="margin-left:25px;">
+<a id="comment-44825"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44825" class="active">Doubt it</a></h3>
+ <div class="content"><p><em><br>
+If you take the Curry-Howard perspective, the types in a total functional programming language form a logic (see e.g. Coq)<br>
+</em></p>
+<p>I doubt this always holds. Operationally, you can easily have a programming language where the Curry-Howard correspondence does not hold (logically, on the type level, everything can be proven true because, say, it uses the infinite type), but the type system makes perfect sense from an operational perspective.</p>
+<p>The Curry-Howard correspondence is a correspondence between certain type systems and terms where terms can be seen as a programming language. It certainly doesn't mean every language satisfies that correspondence.</p>
+<p>It is too easy to say that every total functional language would satisfy the correspondence.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1360" title="View user profile.">marco</a> at Sat, 2008-11-01 12:37 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:50px;">
+<a id="comment-44826"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44826" class="active">A matter of perspective?</a></h3>
+ <div class="content"><p>Is this any different from simply saying that some of the logics involved are <em>really, really screwy</em> and not much actual use as logics? (I'm sure we can all think of type systems that aren't much use as type systems either, of course)</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1621" title="View user profile.">Philippa Cowderoy</a> at Sat, 2008-11-01 12:57 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:75px;">
+<a id="comment-44868"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44868" class="active">Nono</a></h3>
+ <div class="content"><p>I just meant to say that Curry-Howard correspondence has little to do with it. Of course you can also give a diagonalization argument in a typed calculus setting, maybe even more easy or readable (I don't know), but introducing that specific setting for this general notion is superfluous.</p>
+<p>That there are really screwy type-systems; yeah, I guess I believe that. Heck, Martin-Low even got his first approach wrong.</p>
+<p>Also, some type system for programming languages just do not fit nicely with the Curry-Howard correspondence. Or stated better, the type level is logically non-sensical/has no particular meaning. That certainly don't make them screwy type systems. </p>
+<p>[Oh, I guess you meant the latter: No. There are really fine type systems where the Curry-Howard correspondence is non-sensical. Just take the lambda-calculus where t = t -&gt; t. You could still use it to encode a calculus where, say, all terms are closed (no free vars in the term.) But the type system would be useless logically, since everything can be proven. But such a type system could also be extended to prove other properties, say safety or multiple application checks, or whatever. You would still have a very usable type system from an operational view, but non-sensical from a Curry-Howard view.)]</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1360" title="View user profile.">marco</a> at Tue, 2008-11-04 16:08 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:50px;">
+<a id="comment-44829"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44829" class="active">An overgeneralization</a></h3>
+ <div class="content"><p>My generalization is incorrect indeed. I should have said, "in a Curry-Howard setting", i.e. when you have types and there is an actual correspondence. I'd be interested in actual non-trivial examples of total functional languages not enjoying the correspondence though.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/3124" title="View user profile.">Matthieu Sozeau</a> at Sat, 2008-11-01 17:53 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<a id="comment-44822"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44822" class="active">No Total functional language self interpreter</a></h3>
+ <div class="content"><p>The nicest explanation I've seen why the language of total functions<br>
+does not include its own evaluator was given by Conor McBride, in a<br>
+message on the Haskell-Cafe mailing list posted five and a half years<br>
+ago:</p>
+<p><a href="http://www.haskell.org/pipermail/haskell-cafe/2003-May/004343.html"><br>
+http://www.haskell.org/pipermail/haskell-cafe/2003-May/004343.html</a></p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/114" title="View user profile.">Oleg</a> at Sat, 2008-11-01 11:13 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+<div style="margin-left:25px;">
+<a id="comment-44823"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44823" class="active">Problems reading his post</a></h3>
+ <div class="content"><p>I really like his post too, and I do believe that total functional languages cannot have self-interpreters. But I have some problems reading Connor's post.</p>
+<p>First, his post:</p>
+<pre>I'm sorry about the level of consternation this discussion seems to be
+generating, so let me attempt to clarify my previous remarks.
+
+The diagonalization argument which shows that any total language
+misses some total programs is the usual one: Godel-code everything in
+sight, then make the alleged universal program eat a twisted copy of
+itself. It's the Epimenides/Cantor/Russell/Quine/Godel/Turing
+argument. And it goes like this...
+
+  Suppose we have a programming language in which all expressions
+  compute to a value excluding bottom. For sake of argument, let's
+  code expressions and values as natural numbers (an ascii source file
+  is just a big number; so is a finite output). In particular, every
+  function f from Nat to Nat which lives in the language is quoted by a
+  code (quote f) :: Nat, and we know a total function which unquotes,
+  executing a coded f at a given argument
+
+    eval :: Nat -&gt; (Nat -&gt; Nat)
+
+  with spec
+
+    eval (quote f) x = f x
+    eval _         _ = 0
+
+  Given such a function, I can summon up its evil cousin, with spec:
+
+    evil :: Nat -&gt; Nat
+
+    evil code = 1 + (eval code code)
+
+  Now, if eval is total, so is evil. But if evil lies within our language,
+  it will have a number. Without loss of generality, quote evil is a human
+  number and that number is 666. So, we get
+
+    evil 666
+    = 1 + (eval 666 666)
+    = 1 + evil 666
+
+  which is plainly untrue.
+
+  Hence evil is a total function which is not expressible in the language
+  (so eval better not be expressible either).
+
+Of course, for any language of total functions, its Halting Problem is
+trivial, but that's beside the point.  There is no largest class of
+recognizably terminating programs, because no such class can include
+its own *evaluation* function, which is by definition terminating.
+Given a total language L, we can always construct a strictly larger
+language L', also recognizable, which also includes the eval function
+for L.
+
+Meanwhile, back in the cafe, why should Haskellers give a monkeys? Two
+reasons: one pertinent now, one potential.
+
+Firstly, when we make (or Haskell derives) recursive instance
+declarations, we might like to know that
+
+  (1) the compiler will not go into a spin when attempting to compute the
+        object code which generates the dictionary for a given instance
+  (2) the code so generated will not loop at run-time
+
+You might argue that (1) is not so important, because you can always
+ctrl-C, but (2) is more serious, because if it fails, you get the
+situation where the compiler approves your program, then breaks it
+by inserting bogus code, promising to deliver an instance which does
+not actually exist.
+
+To guarantee these properties, we essentially need to ensure that the
+instance declaration language is a terminating fragment of Prolog. The
+various flags available now are either way too cautious or way too
+liberal: what's a suitable middle way? There is no most general choice.
+
+Secondly, might it be desirable to isolate a recognizable sublanguage of
+Haskell which contains only total programs?  Pedagogically, Turner argues
+that it's useful to have a `safe' language in which to learn.
+Rhetorically, making bottom a value is just sophistry to hide the fact
+that looping and match failure are pretty bad side-effects available
+within an allegedly pure language---preferable to core-dumps or wiping
+your hard drive, but still bad. Logically, if you want to show a program
+is correct, it helps if you can get its totality for free. Pragmatically,
+there are fewer caveats to optimizing bottomless programs.
+
+As we've seen, such a sublanguage (perhaps called `Ask', a part of Haskell
+which definitely excludes Hell) cannot contain all the angels, but it
+certainly admits plenty of useful ones who can always answer mundane
+things you might Ask. It's ironic, but not disastrous that lucifer, the
+evaluation function by which Ask's angels bring their light, is himself an
+angel, but one who must be cast into Hell.
+
+Yours religiously
+
+Conor
+</pre><p>
+Let's start with his specification of the eval function. The type says that it takes a natural number, and another one, and returns a natural number. However, the function matches on "quote f". Am I supposed to assume that "quote f" is a natural number?</p>
+<p>[Hmm, forget it, on second thought, I guess it is short-hand for: quote f is the the function encoded by the natural number which is passed as an argument.]</p>
+<p>[Yep, he is right, it is a classic diagonalization argument. Nice proof.]</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1360" title="View user profile.">marco</a> at Sat, 2008-11-01 12:20 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:25px;">
+<a id="comment-44831"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44831" class="active">Thank you!</a></h3>
+ <div class="content"><p>That is exactly what I was looking for.  It's frustratingly nice, I can't argue with it at all, as much as I would like it not to be true.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/5799" title="View user profile.">jason stumpf</a> at Sat, 2008-11-01 19:31 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<a id="comment-44842"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44842" class="active">Be careful</a></h3>
+ <div class="content"><p>You should be careful with the statement of this proposition, because it's often used to draw incorrect conclusions about what's possible with a total programming language.</p>
+<p>In particular, it's possible to have a total programming language which includes as a value its own evaluator.  You just need to deny that programs like 'evil' above are well formed.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/3546" title="View user profile.">Matt M</a> at Sun, 2008-11-02 18:02 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+<div style="margin-left:25px;">
+<a id="comment-44866"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44866" class="active">References?</a></h3>
+ <div class="content"><p>Intuitively I tend to agree.<br>
+After all, a total PL is not obliged to encode all functions from N to N (as there are uncountably many of them).<br>
+So it just might be possible to encode eval() while impossible to encode evil().</p>
+<p>I would love to see more concrete examples or proofs, though :)</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1071" title="View user profile.">Andris Birkmanis</a> at Tue, 2008-11-04 15:25 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:50px;">
+<a id="comment-44883"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44883" class="active">Well</a></h3>
+ <div class="content"><p>If you're allowed to treat eval as a special form, then it's not very hard to accomplish.  For a trivial example, take your favorite language of total functions N-&gt;N and add a distinct program special form that evaluates to the eval function.  If you try to encode the eval function using general purpose facilities, then you run into the barrier described in this thread.  The "using general purpose facilities" is an important distinction, because I think it would be useful to have a strong total language which is capable of implementing implementing variations of itself that are just as powerful as itself (and could in turn re-implement it).  I've seen this dismissed as impossible, but I don't think that's right.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/3546" title="View user profile.">Matt M</a> at Tue, 2008-11-04 23:25 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:75px;">
+<a id="comment-44885"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44885" class="active">It *is* impossible.</a></h3>
+ <div class="content"><p><i>I've seen this dismissed as impossible, but I don't think that's right.</i></p>
+<p>The diagonalization argument says that no total language can have <code>eval</code>.  It doesn't matter whether it's a user-written program or a gift from God himself.  The only requirement is that the language be able to express the <code>evil</code> program in terms of the presumptive <code>eval</code>:</p>
+<pre>evil :: Nat -&gt; Nat
+
+    evil code = 1 + (eval code code)
+</pre><br></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/112" title="View user profile.">Tom Duff</a> at Wed, 2008-11-05 01:13 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:100px;">
+<a id="comment-44895"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44895" class="active">Typing grace</a></h3>
+ <div class="content"><p>I would not expect every program in a total PL to accept just anything, only anything of the corresponding type.<br>
+It may be possible that typing saves us from this proof in the similar way it saved from Russel's paradox.<br>
+Intuitively, would you expect any program to accept its own <em>typed</em> representation as input?</p>
+<p>Then again we will have to deal with the other branch of this discussion (Goedel via Curry-Howard)...</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1071" title="View user profile.">Andris Birkmanis</a> at Wed, 2008-11-05 08:20 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:125px;">
+<a id="comment-44903"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44903" class="active">The other branch</a></h3>
+ <div class="content"><p><em> Then again we will have to deal with the other branch of this discussion (Goedel via Curry-Howard)... </em></p>
+<p>I've worked out some of the details for a more sophisticated system than my example in this thread, but I don't go through Curry-Howard.  My guess is that it's just a matter of carefully tracking exactly what these propositions being strung together say.  The point of my initial post in this thread was that the results in this area are precise and it's easy to go wrong with informal reasoning.  </p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/3546" title="View user profile.">Matt M</a> at Wed, 2008-11-05 14:13 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:125px;">
+<a id="comment-49653"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-49653" class="active">The Concept of Termination in Functional Languages</a></h3>
+ <div class="content"><p>Nobody picked up Andris' idea, which seems to me to be clearly workable.</p>
+<p>Consider the following tower of underspecified languages, following <a href="http://www.ryanflannery.net/math/docs/Tarski-TruthInFormalLangs.pdf">The Concept of Truth in Formalized Languages</a>:</p>
+<ul>
+<li>T<sub>0</sub>: A PCF-like language with only primitive recursion and with two additional datatypes, Maybe σ as per Haskell, and Sexp of quoted code that include all programs of T<sub>0</sub> plus infinitely many constants eval<sub><i>n</i>,σ</sub> that will later be associated with the type Sexp → Maybe(σ);
+</li><li>T<sub><i>n</i>+1</sub>: T<sub><i>n</i></sub> plus eval<sub><i>n</i>,σ</sub>, that accepts Sexp s and yields Nothing, if s is either not a closed program in T<sub><i>n</i></sub> or not of type σ, or yields Just v, where v is the value of the expression described by <i>s</i>;
+</li><li>T<sub>ω</sub> is the union of all the languages T<sub><i>n</i></sub>
+</li></ul>
+<p>There are gaps in this, but I'm pretty sure that they can be filled in so that T<sub>ω</sub> is  a total functional language, where each program in the language has an evaluator. Because there is no evaluator that can evaluate a program containing itself, the diagonalisation argument does not work.</p>
+<p>I'm sure I've seen references for the idea of towers of evaluators in the lisp literature; maybe this argument has been made there.</p>
+<p><b>Postscript</b> — I know why this construction seems so familiar: it is not from lisp, but instead is closely analogous to predicative universes in Martin-LÃ¶f's type theory, where T<sub><i>n</i></sub> is type theory with <i>n</i> universes, and the constants eval<sub><i>n</i>,σ</sub> are the recursors over the universes.  MLTT has a much richer theory of constructions than what I sketched above, and its rewrite theory satisfies the weak head normal form property, giving a fully worked out, rich formalism along the lines I sketched.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/918" title="View user profile.">Charles Stewart</a> at Sat, 2009-06-27 07:29 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:150px;">
+<a id="comment-49659"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-49659" class="active">Something very similar to</a></h3>
+ <div class="content"><p>Something very similar to this was discussed lower in this thread <a href="http://lambda-the-ultimate.org/node/3076#comment-44913">here</a>.  As you note, TÏ‰ does not contain an evaluator for TÏ‰.  </p>
+<p>I interpreted Andris' comments to be more along the lines of developing a type system to implement the gameplan I've discussed elsewhere in this thread, where you do end up with an actual self-evaluator for your language.  In this approach, the type restrictions are not on what you're allowed to pass in to the evaluator, but are on what you're allowed to do with the results.</p>
+<p>I'd started writing this up previously, but then got pretty busy.  I may try to finish this out soon.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/3546" title="View user profile.">Matt M</a> at Sat, 2009-06-27 13:57 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:100px;">
+<a id="comment-44902"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44902" class="active">More detail</a></h3>
+ <div class="content"><p><em> It doesn't matter whether it's a user-written program or a gift from God himself. </em></p>
+<p>My point was that if you can construct 'eval' out of general purpose constructs, then surely any reasonable type system will let you construct 'evil' too.  On the other hand if 'eval' is a special form or has a special type, it's very easy to prevent 'evil' from being well formed or typed.  Doing this in a way that allows useful modification of the core language requires more care, but isn't impossible.</p>
+<p>Also, I gave a counterexample!  Did you find something wrong with it? Here it is in more detail:</p>
+<p>Take your favorite langauge of (total) functions Nat-&gt;Nat, for example all functions that can be proven total in ZFC or constructed in coq. Enumerate the valid programs in this language starting from 1, reserving program 0 for a special program meaning 'self-intepreter'.  Let <code>pair :: Nat -&gt; Nat -&gt; Nat</code> be some bijection of pairs of naturals with the naturals, and let <code>simple-eval :: Nat -&gt; (Nat -&gt; Nat)</code> take <code>m</code> to the function defined by the <code>m</code>th program (<code>m</code> &gt; 0) in your original total language.  Define:</p>
+<pre><code>eval (pair m n) =
+    eval n if m = 0
+    simple-eval m n otherwise </code></pre><p>
+This definition is total if <code>n &lt; pair 0 n</code> for all <code>n</code> (basically we want to avoid accidentally encoding an infinite chain of self-interpreter calls).  But that's a mild condition on <code>pair</code>.  For example, define <code>pair m n</code> by the table:</p>
+<pre> n  0  1  2  3  4  5
+m +-----------------------
+0 | 1  3  5  7  ...
+1 | 0  2  6 12 20
+2 | 4  8 14 24        
+3 |10 16 26 ...
+4 |18 28
+5 |30
+  |... </pre><p>
+So, here we have a language which represents a large class of functions Nat-&gt;Nat, with every represented function total, and it includes an encoding of its own self-evaluator.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/3546" title="View user profile.">Matt M</a> at Wed, 2008-11-05 13:04 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:125px;">
+<a id="comment-44904"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44904" class="active">Not complete</a></h3>
+ <div class="content"><p>EDIT: Oops.  This was not an appropriate place to attach this message.  I agree with Matt M.</p>
+<p>There are two assumptions that are made in this proof.<br>
+1) eval can be constructed<br>
+2) evil can be constructed (from eval).</p>
+<p>Your proof shows that we reach a contradiction from these assumptions, which means that they can't both be true.  This does not imply that 1) is the false assumption.  Your argument is convincing, certainly, but is not a proof.  It is not clear that 'any reasonable type system will let you construct evil too'.  In fact, any reasonable type system for a total language will reject it (it is, after all, non-total).</p>
+<p>The language in question isn't limited to being anything like a conventional language, either.  Consider the class of C programs that run in less than 1K of memory (space for code, data, and program counter), augmented with a primitive 'eval' construct.  I'm going to refer to the entire contents of memory as the state of the program.  We can turn this into a total language by changing the semantics a bit.<br>
+- include a value _|_ that means that "eval x" attempted to use more than 1K space, or attempted to enter an infinite loop<br>
+- evaluate a program p as follows:<br>
+-- initialize an empty "seen" list<br>
+-- to execute the "next" command (say, n) of p:<br>
+--- if the state is equal to any state on the seen list, return _|_<br>
+--- save the state to the seen list<br>
+--- if n attempted to allocate more memory than is available, return _|_<br>
+--- if n is an eval instruction, instantiate a new interpreter that uses the current seen list as its initial seen list<br>
+--- otherwise, execute the instruction normally</p>
+<p>So intuitively, this language prevents a program from repeating the same state twice, and produces an abort value (_|_) if this ever happens.  A program enters the same state twice if and only if it doesn't halt, so only total functions can be defined in this language.</p>
+<p>Of course, we can't write every total computable function in this language (by the <a href="http://en.wikipedia.org/wiki/Space_hierarchy_theorem">space hierarchy theorem</a>) - this is what the really interesting issue is.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/6210" title="View user profile.">zkincaid</a> at Wed, 2008-11-05 14:30 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:150px;">
+<a id="comment-44905"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44905" class="active"> It is not clear that 'any</a></h3>
+ <div class="content"><p><em> It is not clear that 'any reasonable type system will let you construct evil too' </em></p>
+<p>The class of "reasonable type systems" is pretty nebulous, so this claim obviously isn't something I can prove.  But it does seem somewhat clear to me that if I can construct a function <code>f :: Nat -&gt; Nat</code> through ordinary arithmetic means, then any type system that prevents me from creating the function <code> \n -&gt; 1 + (f (pair n n)) </code> has some pretty serious limitation.  Your space limited C example has the problem that it can't represent large natural numbers.</p>
+<p><em> Of course, we can't write every total computable function in this language (by the space hierarchy theorem) - this is what the really interesting issue is. </em></p>
+<p>I think it's settled that you can't have a total language in which every total computable function can be written.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/3546" title="View user profile.">Matt M</a> at Wed, 2008-11-05 15:10 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:175px;">
+<a id="comment-44907"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44907" class="active">Well I agree that a type</a></h3>
+ <div class="content"><p>Well I agree that a type system that accepts f and rejects \n -&gt; 1 + f (pair n n) is <i>odd</i>, I don't know that it is very limiting, because it depends on the choice of f.  So \n -&gt; 1 + f (pair n n) could be well-typed for all well-behaved 'f's (the type of f shouldn't be exactly Nat -&gt; Nat... it needs to reflect in some way it's "well-behaved"ness). </p>
+<p>You're right that space-limited C can't represent large natural numbers.  There's also a finite number of space-limited C programs.  So your example has (many) more definable functions than space-limited C.  It may be possible to fix these problems, but I don't think it will get us anywhere new.</p>
+<p>I would be interested to see a proof that you can't have a total language in which every total computable function can be written*.  I've seen the proof that we can't add "basis" functions to the primitive recursive functions, take the closure under composition and primitive recursion, and get the set of all total computable functions - but this isn't the same thing.  I suspect that you're right about this, though.  Do you have a reference?</p>
+<p>* EDIT - and which has a computable interpreter.  </p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/6210" title="View user profile.">zkincaid</a> at Wed, 2008-11-05 16:56 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:200px;">
+<a id="comment-44909"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44909" class="active"> Well I agree that a type</a></h3>
+ <div class="content"><p><em> Well I agree that a type system that accepts f and rejects \n -&gt; 1 + f (pair n n) is odd, I don't know that it is very limiting, because it depends on the choice of f. So \n -&gt; 1 + f (pair n n) could be well-typed for all well-behaved 'f's (the type of f shouldn't be exactly Nat -&gt; Nat... it needs to reflect in some way it's "well-behaved"ness). </em></p>
+<p>But we're talking about an f constructed from simple arithmetic operations like multiplication, addition, comparisons, and simple loops/branches.  How are you going to decide that some additional simple operation makes a function ill behaved?  I don't think that's a tenable approach.  If you have a function N-&gt;N and you compose it with a simple arithmetic operation, you should get out another one.</p>
+<p><em> Do you have a reference? </em></p>
+<p>See the reference Klaus Ostermann provided later in this thread - I think that addresses your question.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/3546" title="View user profile.">Matt M</a> at Wed, 2008-11-05 17:13 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:225px;">
+<a id="comment-44912"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44912" class="active">ranks</a></h3>
+ <div class="content"><p>The "well-behavedness" has to do with the function's use of eval (I'm assuming that eval is provided as a primitive).  The functions that are constructed from simple arithmetic operations are the primitive recursive functions.  They are the most well behaved functions (say they have rank 0).  Then functions that call eval on rank 0 functions are rank 1 functions.  And so on.  (These ranks form a type system, which looks a lot like the original type system - Russells).  Does this approach actually work?  Probably not.  But I'm not sure why.  And if we can prove that it doesn't work, that doesn't mean that there isn't <i>some</i> type system that fixes our problems.</p>
+<p>Klaus Ostermann's reference was the standard recursion theory proof.  It assumes that functions definable in our language are closed under composition and primitive recursion, which need not be the case  (for instance, using the rank system above, d(x) = eval(x, x) is not well-defined, even though it is defined by composition from eval and the identity function (which is good, because d isn't total)).</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/6210" title="View user profile.">zkincaid</a> at Wed, 2008-11-05 18:34 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:250px;">
+<a id="comment-44913"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44913" class="active">Disconnect</a></h3>
+ <div class="content"><p><em> The "well-behavedness" has to do with the function's use of eval (I'm assuming that eval is provided as a primitive). </em> </p>
+<p>Then we weren't on the same page.  Reread what I've written where you've quoted me - I was specifically talking about functions that could be constructed arithmetically (edit: in other words, no calls to a primitive 'eval') in those places.</p>
+<p>Your rank scheme will work fine, but at each point you've only ever established an evaluator for the rank below.  To have a self evaluator you'll need to do something as you pass to a limit.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/3546" title="View user profile.">Matt M</a> at Wed, 2008-11-05 18:43 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:125px;">
+<a id="comment-44927"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44927" class="active">Uh, proof by contradiction</a></h3>
+ <div class="content"><blockquote><p>
+<em>It doesn't matter whether it's a user-written program or a gift from God himself.</em>
+</p></blockquote>
+<blockquote><p>
+My point was that if you can construct 'eval' out of general purpose constructs, then surely any reasonable type system will let you construct 'evil' too. On the other hand if 'eval' is a special form or has a special type, it's very easy to prevent 'evil' from being well formed or typed. Doing this in a way that allows useful modification of the core language requires more care, but isn't impossible.
+</p></blockquote>
+<p>The first post got it right. The diagonalization argument is a proof by contradiction. Reasoning: if eval exists, then so does evil, therefor eval cannot exist.</p>
+<p>That's a classical logic argument. You can also try to prove constructively that eval does not exists. That's easy (I think). Just prove that there are an uncountable number of total functions (from N to N). You'll actually end up just giving another diagonalization argument.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1360" title="View user profile.">marco</a> at Thu, 2008-11-06 14:54 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:150px;">
+<a id="comment-44929"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44929" class="active">...</a></h3>
+ <div class="content"><p><em> Reasoning: if eval exists, then so does evil</em></p>
+<p>Reasoning: flawed</p>
+<p>At the very least, additional care is warranted in this statement.  Details can be found in this thread.  A good start would be to read the paragraph of mine that you just quoted :).</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/3546" title="View user profile.">Matt M</a> at Thu, 2008-11-06 15:39 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:175px;">
+<a id="comment-44931"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44931" class="active">... (and ...)</a></h3>
+ <div class="content"><p>Ok. I didn't really get your posts. But that's ok, I sometimes don't even get my own posts ;-).</p>
+<p><em><br>
+My point was that if you can construct 'eval' out of general purpose constructs, then surely any reasonable type system will let you construct 'evil' too.<br>
+</em></p>
+<p>So you actually agree with the proof here? For all settings where eval exists, evil is constructable, thus it cannot exist? And I don't really get your statement (for the proof by contradiction it is not necessary to prove it exists. Actually, this would be impossible since it is a proof that eval cannot exist)</p>
+<p><em><br>
+On the other hand if 'eval' is a special form or has a special type, it's very easy to prevent 'evil' from being well formed or typed. Doing this in a way that allows useful modification of the core language requires more care, </em> but isn't impossible. </p>
+<p>Yeah well, I don't know about the latter.</p>
+<p>Whatever, I guess you're just throwing ideas around. Great throw ;-)</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1360" title="View user profile.">marco</a> at Thu, 2008-11-06 16:08 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:200px;">
+<a id="comment-44932"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44932" class="active">Throw and catch</a></h3>
+ <div class="content"><p><em> So you actually agree with the proof here? For all settings where eval exists, evil is constructable, thus it cannot exist? </em></p>
+<p>No.  I disagree that evil is necessarily well-formed or well-typed.  The paragraph of mine you quoted says that <em>if</em> eval is constructible (rather than god-given), then I agree evil ought to be well-formed, and the proof goes through.  As I've shown in a trivial counter-example, though, a total language <em>can</em> have a restricted eval construct that lets one write a self-interpreter from within the language.  In my example, it can only be used in one circumstance (as the sole construct), but I claim (without evidence presented here) that this can be usefully generalized.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/3546" title="View user profile.">Matt M</a> at Thu, 2008-11-06 16:37 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:225px;">
+<a id="comment-44940"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44940" class="active">Misread your post</a></h3>
+ <div class="content"><p>I guess.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1360" title="View user profile.">marco</a> at Thu, 2008-11-06 18:41 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:150px;">
+<a id="comment-44935"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44935" class="active">A countability argument is</a></h3>
+ <div class="content"><p>A countability argument is irrelevant here.  There are (trivially) more partial "functions" than total ones, yet no one says you can't make eval in a Turing-complete language.  There are only countably many computable functions, total or not, and eval isn't even required to be able to produce all of those except in the Turing-complete case.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1510" title="View user profile.">Derek Elkins</a> at Thu, 2008-11-06 18:12 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:175px;">
+<a id="comment-44939"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44939" class="active">Nitpicking your statements</a></h3>
+ <div class="content"><p><em>A countability argument is irrelevant here.</em></p>
+<p>Ouch, true and not true. A "classic" diagonalization argument is actually almost always a hidden (un-)countability argument.</p>
+<p><em>There are (trivially) more partial "functions" than total ones,</em> </p>
+<p>True [Sorry, not true, depends on the setting. What kind of functions are we talking about?]</p>
+<p><em>yet no one says you can't make eval in a Turing-complete language.</em></p>
+<p>Uh? [???]</p>
+<p><em>There are only countably many computable functions, total or not, </em></p>
+<p>Yeah. That's actually one way to undermine the argument/shift to a language where a self-interpreter can exist. Is the set of total functions from N to N, the set-theoretic set of total functions, or is it the set of <em>expressible</em> total functions from N to N [in a certain language]? That's a big difference. [Hmm, I got something wrong here, whatever, don't feel like thinking too much about it. I guess in the general case not all total functions from N to N are expressible, and neither is eval, and some languages might exist where the set of [expressible] total functions from N to N is sufficiently small to have a self interpreter.]</p>
+<p><em>and eval isn't even required to be able to produce all of those except in the Turing-complete case.</em></p>
+<p>Not true, a self interpreter must be able to interpret all functions in the language. How can it otherwise be a self interpreter? [Me bad, misread the definition of eval as the definition of a self-interpreter, which is wrong. You're right, it only needs to be able to interpret itself for the argument.]</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1360" title="View user profile.">marco</a> at Thu, 2008-11-06 18:37 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:200px;">
+<a id="comment-44943"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44943" class="active">Bull</a></h3>
+ <div class="content"><p>Too much bullshit in the above post. Somebody who teaches this might want to respond.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1360" title="View user profile.">marco</a> at Thu, 2008-11-06 20:48 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:200px;">
+<a id="comment-44952"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44952" class="active">Picking nitpicknits</a></h3>
+ <div class="content"><p>I haven't taught this stuff in years, but anyhow:</p>
+<blockquote><blockquote>A countability argument is irrelevant here.<p></p></blockquote>
+<p>Ouch, true and not true. A "classic" diagonalization argument is actually almost always a hidden (un-)countability argument.
+</p></blockquote>
+<p>No.  Turing's <i>Entscheidungsproblem</i> refutation shows nonrepresentability of the halting problem.  In fact, if you consider turing degrees (where you allow progressive expansions of the class of recursive functions by "jumps" allowing solvability of the halting problem for lower degrees), you get a tower of sets of non-recursive functions, all of which have halting problems, and all of which are countable in size.</p>
+<blockquote><blockquote>There are (trivially) more partial "functions" than total ones,<p></p></blockquote>
+<p>True [Sorry, not true, depends on the setting. What kind of functions are we talking about?
+</p></blockquote>
+<p>The set of partial and total functions  have the same cardinality, whether we consider the uncountable space Nat=&gt;Nat, or restrict to any particular Turing degree.</p>
+<blockquote><blockquote>and eval isn't even required to be able to produce all of those except in the Turing-complete case.<p></p></blockquote>
+<p>Not true, a self interpreter must be able to interpret all functions in the language. How can it otherwise be a self interpreter?
+</p></blockquote>
+<p>I think you misunderstood Derek here.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/918" title="View user profile.">Charles Stewart</a> at Fri, 2008-11-07 09:31 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:225px;">
+<a id="comment-44958"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44958" class="active">Question</a></h3>
+ <div class="content"><p>Yeah, I misunderstood a lot of stuff, so it's great it is clarified. (This really isn't my turf: I like logics, PLs, automata theory and type-theory but usually stay away from Turing arguments)</p>
+<p>[Scrapped some nonsense]</p>
+<p>Still, just a hunch. Are all total languages with self-interpreters finite in size? [Ah forget it, got it wrong again. Grmbl ;-)]</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1360" title="View user profile.">marco</a> at Fri, 2008-11-07 17:18 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<a id="comment-44860"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44860" class="active">Self-verifying theories</a></h3>
+ <div class="content"><p>It is a widespread overreading of Goedel's incompleteness theorems to say that show that any theory strong enough to talk about it's own provability cannot prove its own consistency, and in fact Dan Willard has provided a series of systems of arithmetic that do prove their own consistency sentence.  I wrote a little about them in my advogato diary back in 2004: <a href="http://www.advogato.org/person/chalst/diary/125.html">Self-verifying theories</a>.</p>
+<p>In principle these languages might support a total functional language with a self-interpreter, although I doubt it: while the consistency sentence does arise from an algorithmic intuition (from tableau search) it does not obviously support a Dialectica interpetation (ie. the proof theory does not yield an equivalent equational theory), and so it is not clear what functional language is supposed to correspond to such a self-verifying theory.  But there is certainly a little bit of room to fit such a theory in.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/918" title="View user profile.">Charles Stewart</a> at Tue, 2008-11-04 12:09 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+<div style="margin-left:25px;">
+<a id="comment-44875"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44875" class="active">I stand corrected</a></h3>
+ <div class="content"><p>Indeed, my use of the incompleteness theorem should be restricted to the case of a total functional language having an associated proof theory through Curry-Howard. I was also assuming the system to be sufficiently expressive. The ones of Dan Willard do seem to fit an interesting spot. I'm a bit sceptic though, as it seems in these systems you don't actually prove consistency inside the system but you just add it as an axiom and prove relative consistency of the whole in a larger system (or is that in the same system?). I must be missing something here.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/3124" title="View user profile.">Matthieu Sozeau</a> at Tue, 2008-11-04 19:04 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:50px;">
+<a id="comment-44897"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44897" class="active">Two notions of consistency</a></h3>
+ <div class="content"><p>There's two notions of consistency going on here: internal consistency, which is given by the proof of the consistency sentence within the self-verifying system, and external consistency, which is given by a relative consistency proof within primitive recursive arithmetic showing that consistency of some system of regular arithmetic entails consistency of the self-verifying system.  There are a family of self-verifying systems, of arbitrarily strong consistency strength, because it is possible to add any valid pi-0-1 sentence of arithmetic to Willard's systems; consistency sentences themselves being pi-0-1.</p>
+<p>The proof of the consistency sentence is trivial in Willard's systems, because they are indeed just added as axioms.  But the intuition for the way Willard formalised consistency comes from an intuition about how provability of consistency is the same thing as saying that certain tableaux searches terminate.  </p>
+<p>There might be a function algebra corresponding to these systems, but it could not be based on the simply-typed lambda calculus.  If I were to go looking for one, some system of light linear logic would be the place I would start.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/918" title="View user profile.">Charles Stewart</a> at Wed, 2008-11-05 08:57 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<a id="comment-44861"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44861" class="active">See recursion theory</a></h3>
+ <div class="content"><p>The fact that a self-interpreter in a total language is not possible is a standard result in recursion theory, see e.g., Theorem 6.1 and 6.2 <a href="http://www.mathematik.tu-darmstadt.de/~streicher/LOGIK2/turi.pdf.gz">here</a> It's a simple diagonalization argument. Goedel is not needed.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/541" title="View user profile.">Klaus Ostermann</a> at Tue, 2008-11-04 13:59 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+<div style="margin-left:25px;">
+<a id="comment-44898"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-44898" class="active">Diagonalisation</a></h3>
+ <div class="content"><p>If this is meant to refute the point I made above, that the existence of self-verifying theories shows a gap in the argument showing the impossibility of self-interpreters in total languages, then it doesn't work.  Diagonalisation is the algorithmic core of Goedel's argument, and Willard's systems avoid representing the diagonal construction by not being able to prove the totality of the necessary functions because multiplication is not provably total.  If we had a function algebra corresponding to Willard's system, this standard result would not go through for it.</p>
+<p>As I say, I doubt the existence of such a system.  But it's clear the argument has a rather messy hole in it.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/918" title="View user profile.">Charles Stewart</a> at Wed, 2008-11-05 09:09 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<a id="comment-45179"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-45179" class="active">Approximation</a></h3>
+ <div class="content"><p>You cannot make a total functional language that includes an evaluator for the whole language, but you can do a lot with a stratified language.</p>
+<p>Take a total functional language L. Because it is total, eval_L is a total function, and if you add it to L as a primitive you still have a total language.  By repeating this process you can make a series of languages Ln for all natural n, where each Ln has primitives eval_0 ... eval_n-1 for any Lk with k &lt; l.  In general it suffices to ensure an eval_x can't evaluate a program containing itself, and that a program can't recurses infinitely through evals. Stratifying eval with any well-ordered set will do, for example <a href="http://sigfpe.blogspot.com/2008/10/whats-use-of-transfinite-ordinal.html">countable ordinals</a>.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/2755" title="View user profile.">Brandon Moore</a> at Tue, 2008-11-18 23:50 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+<div style="margin-left:25px;">
+<a id="comment-45185"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-45185" class="active">Be careful again</a></h3>
+ <div class="content"><p><em> You cannot make a total functional language that includes an evaluator for the whole language, ... </em></p>
+<p>So which of these words excludes the counterexample I presented in this thread?  "functional"?  "includes"?</p>
+<p>Explicit stratification is IMO the wrong way to go about things.  Imagine you want to put out a language that can evaluate itself (or maybe variations on itself), and so you cook up this stratification scheme and put the first language at level 1e24.  Every time someone nests deeper into eval, they lose a level.  With such a high starting number, you can spin recursing deeper into eval until the sun burns out and (barring compiler optimization) never reach bottom.  But the choice of 1e24 (or any choice) feels like a hack, and we can do better.</p>
+<p>To start off, note that each of your eval functions is just the restriction of some external eval function that can evaluate any language term.  So instead of thinking of this as a hierarchy of evals, think of it a single typed eval that requires its argument to belong to some level of the stratification.  Next, instead of requiring explicit annotation of the stratification level of each term, do inference to establish that some valid assignment of levels is possible (similar to how universes are inferred in Coq).  You may want something more fancy that allows level-polymorphism, but that's a separable issue.</p>
+<p>With this change we don't need to pick some ad hoc number of levels to our stratification, and in fact our eval function is now a proper self-evaluator since adding one more level of eval will not ever add a cycle to our graph.  In fact, one might describe what we've constructed as "a total functional language that includes an evaluator for the whole language".</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/3546" title="View user profile.">Matt M</a> at Wed, 2008-11-19 16:20 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:50px;">
+<a id="comment-45189"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-45189" class="active">Which example?</a></h3>
+ <div class="content"><p>If you say "eval" is a "special" form, then it really isn't having "eval" as part of the language. Similarly, if you add consistency as an axiom, you can't say that you can prove consistency in the system, because you just extended it. If you resort to universes/stratification, even with clever tricks like universe inference that almost make you to think you work with Type:Type, you're still missing the next level. E.g., consistency of Coq with n universes can only be proven in Coq with at least n+1 levels, at least that's what I learned.<br>
+Can we settle that it's not possible in a sufficiently expressive total functional programming language to have its own evaluator as a regular, explicitely constructible term?</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/3124" title="View user profile.">Matthieu Sozeau</a> at Wed, 2008-11-19 18:57 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:75px;">
+<a id="comment-45191"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-45191" class="active"> Which example?</a></h3>
+ <div class="content"><p><em> Which example? </em></p>
+<p>Well, now I've outlined two - in the post you just replied to and <a href="http://lambda-the-ultimate.org/node/3076#comment-44902">here</a>. In both cases, eval is a special form or has a special type.  Neither of these examples provide a compelling language design, due to the extreme restrictions they place on the use of eval.  Their purpose is to serve as counterexamples, but I still claim useful variants are possible.</p>
+<p><em> If you say "eval" is a "special" form, then it really isn't having "eval" as part of the language ... </em></p>
+<p>And why not?  Are you going to define "part of the language" now?   </p>
+<p>I find your analogy to Coq flawed in the respect that in Coq, even with the universe inference trick, you can't prove the consistency of Coq.  Whereas, the trick does allow a self-evaluator for a language.</p>
+<p>Just to be clear, here's the informal definitions I'm using:<br>
+- Functional:  Function terms define pure functions<br>
+- Total: Every well formed function term defines a function that terminates (and is even computable) on every input<br>
+- Self-evaluator: A function capable of evaluating every legal (well-formed) program that produces the result of evaluating that program</p>
+<p><em> Can we settle that it's not possible in a sufficiently expressive total functional programming language to have its own evaluator as a regular, explicitly constructible term? </em></p>
+<p>Sure.  As I've said elsewhere in the thread, I consider that settled.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/3546" title="View user profile.">Matt M</a> at Wed, 2008-11-19 21:27 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<a id="comment-45180"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-45180" class="active">Church-Turing, GÃ¶del and Curry-Howard</a></h3>
+ <div class="content"><p>I dont know if this is interesting or even makes sense to anyone but reading this thread, I was struck by an sudden realization of how Church-Turing, GÃ¶del and Curry-Howard interacts and had to write something down. Apologis if this is incoherent, apperent to everyone or off topic.</p>
+<p>A total language can not contain all total functions.<br>
+As per turing there can be no function to judge exactly<br>
+if a function terminates or not.<br>
+A non total language includes a non terminating term.<br>
+This term can have any type.<br>
+This means every type is inhabited.<br>
+Curry-Howard says that every type system corresponds to a logic.<br>
+Types to propositions and terms for profs.<br>
+This means that non total languages corresponds to logics there<br>
+every proposition can be proven.<br>
+This makes the logic trivial or inconsistent.<br>
+Total languages corresponds to consistent logics.<br>
+GÃ¶del says logics cant be both consistent and complete.<br>
+So the logic have to be incomplete.<br>
+An incomplete logic contains true propositions that can not be proven.<br>
+A type system for a total language contains types that cant be inhabitated?</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/2160" title="View user profile.">Felicia Li Svilling</a> at Wed, 2008-11-19 11:53 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+<div style="margin-left:25px;">
+<a id="comment-45254"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/3076#comment-45254" class="active">Uninhabited types</a></h3>
+ <div class="content"><p>In GHC, this type is inhabited only by bottom:<br>
+<code><br>
+data Void<br>
+</code></p>
+<p>In total languages, this type must be uninhabited, I believe.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1071" title="View user profile.">Andris Birkmanis</a> at Mon, 2008-11-24 15:43 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+</div></form>
+<!-- end content -->
+ <div id="footer"><hr style="border-width: 0pt 0pt 1px;">
+Logs:
+          <a href="http://wmf.editthispage.com/">Hack The Planet</a>
+          ; <a href="http://www.javalobby.org/">JavaLobby</a>
+          ; <a href="http://www.pythonware.com/daily">Daily Python-URL</a>
+ ; <a href="http://thedailywtf.com/default.aspx">Daily WTF</a>
+ ; <a href="http://phplens.com/phpeverywhere/">PHP everywhere</a> ; <a href="http://lambda-the-ultimate.org/node/view/13">(more)</a><br>
+Wikis:
+         <a href="http://c2.com/cgi/wiki?RecentChanges">WikiWiki</a>
+         ; <a href="http://www.trapexit.org/Special:Recentchanges">Erlang</a>
+; <a href="http://www.cliki.net/Recent%20Changes">Common Lisp</a>
+
+
+         ; <a href="http://www.haskell.org/haskellwiki/Special:Recentchanges">Haskell</a>
+         ; <a href="http://wiki.squeak.org/squeak/recent">Squeak</a>
+         ; <a href="http://purl.org/thecliff/tcl/wiki">Tcl</a> ; <a href="http://www.program-transformation.org/Transform/WebChanges">Program Transformation</a>
+</div>
+   </td>
+   <td id="sidebar-right"><div class="block block-archive" id="block-archive-0">
+ <h2 class="title">Browse archives</h2>
+ <div class="content">
+<!-- calendar -->
+<div class="calendar"><table summary="A calendar to browse the archives.">
+ <caption><a href="http://lambda-the-ultimate.org/archive/2022/05/10" title="Previous month">«</a> June 2022 &nbsp;</caption>
+ <tbody><tr class="header-week">
+ <th abbr="Sunday">Su</th>
+ <th abbr="Monday">Mo</th>
+ <th abbr="Tuesday">Tu</th>
+ <th abbr="Wednesday">We</th>
+ <th abbr="Thursday">Th</th>
+ <th abbr="Friday">Fr</th>
+ <th abbr="Saturday">Sa</th>
+</tr>
+ <tr class="row-week"><td class="day-blank">&nbsp;</td>
+<td class="day-blank">&nbsp;</td>
+<td class="day-blank">&nbsp;</td>
+  <td class="day-normal">1</td>
+  <td class="day-normal">2</td>
+  <td class="day-normal">3</td>
+  <td class="day-normal">4</td>
+ </tr>
+ <tr class="row-week">
+  <td class="day-normal">5</td>
+  <td class="day-normal">6</td>
+  <td class="day-normal">7</td>
+  <td class="day-normal">8</td>
+  <td class="day-normal">9</td>
+  <td class="day-today">10</td>
+  <td class="day-future">11</td>
+ </tr>
+ <tr class="row-week">
+  <td class="day-future">12</td>
+  <td class="day-future">13</td>
+  <td class="day-future">14</td>
+  <td class="day-future">15</td>
+  <td class="day-future">16</td>
+  <td class="day-future">17</td>
+  <td class="day-future">18</td>
+ </tr>
+ <tr class="row-week">
+  <td class="day-future">19</td>
+  <td class="day-future">20</td>
+  <td class="day-future">21</td>
+  <td class="day-future">22</td>
+  <td class="day-future">23</td>
+  <td class="day-future">24</td>
+  <td class="day-future">25</td>
+ </tr>
+ <tr class="row-week">
+  <td class="day-future">26</td>
+  <td class="day-future">27</td>
+  <td class="day-future">28</td>
+  <td class="day-future">29</td>
+  <td class="day-future">30</td>
+<td class="day-blank">&nbsp;</td>
+<td class="day-blank">&nbsp;</td>
+</tr>
+</tbody></table></div>
+
+</div>
+</div>
+<div class="block block-forum" id="block-forum-0">
+ <h2 class="title">Active forum topics</h2>
+ <div class="content"><div class="item-list"><ul><li><a href="http://lambda-the-ultimate.org/node/5646" title="4 comments">CUE: An open-source data validation language</a></li><li><a href="http://lambda-the-ultimate.org/node/5651">The hidden cost of exception handling</a></li><li><a href="http://lambda-the-ultimate.org/node/5650">My article on state machines and DSL evolution</a></li><li><a href="http://lambda-the-ultimate.org/node/5649" title="3 comments">Do we need exactly two binding constructs?</a></li><li><a href="http://lambda-the-ultimate.org/node/5644" title="1 comment">Shen Standard Library</a></li></ul></div><div class="more-link"><a href="http://lambda-the-ultimate.org/forum" title="Read the latest forum topics.">more</a></div></div>
+</div>
+<div class="block block-forum" id="block-forum-1">
+ <h2 class="title">New forum topics</h2>
+ <div class="content"><div class="item-list"><ul><li><a href="http://lambda-the-ultimate.org/node/5651">The hidden cost of exception handling</a></li><li><a href="http://lambda-the-ultimate.org/node/5650">My article on state machines and DSL evolution</a></li><li><a href="http://lambda-the-ultimate.org/node/5649" title="3 comments">Do we need exactly two binding constructs?</a></li><li><a href="http://lambda-the-ultimate.org/node/5647">Cicada language -- a new dependently typed language</a></li><li><a href="http://lambda-the-ultimate.org/node/5646" title="4 comments">CUE: An open-source data validation language</a></li></ul></div><div class="more-link"><a href="http://lambda-the-ultimate.org/forum" title="Read the latest forum topics.">more</a></div></div>
+</div>
+<div class="block block-comment" id="block-comment-0">
+ <h2 class="title">Recent comments</h2>
+ <div class="content"><div class="item-list"><ul><li><a href="http://lambda-the-ultimate.org/node/5646#comment-96895">ltu</a><br>6 days 12 hours ago</li><li><a href="http://lambda-the-ultimate.org/node/5649#comment-96894">It may be too subtle for me....</a><br>10 weeks 1 day ago</li><li><a href="http://lambda-the-ultimate.org/node/5649#comment-96893">The question is about a potential subtle difference</a><br>10 weeks 3 days ago</li><li><a href="http://lambda-the-ultimate.org/node/5649#comment-96892">There is no necessary difference. </a><br>10 weeks 4 days ago</li><li><a href="http://lambda-the-ultimate.org/node/5644#comment-96891">Thesis-Antithesis</a><br>17 weeks 4 days ago</li><li><a href="http://lambda-the-ultimate.org/node/5646#comment-96890">Nice references</a><br>23 weeks 2 days ago</li><li><a href="http://lambda-the-ultimate.org/node/5646#comment-96889">Programming with lattice structure</a><br>23 weeks 3 days ago</li><li><a href="http://lambda-the-ultimate.org/node/5646#comment-96888">A nice overview</a><br>24 weeks 2 days ago</li><li><a href="http://lambda-the-ultimate.org/node/1635#comment-96887">Updated link</a><br>27 weeks 1 day ago</li><li><a href="http://lambda-the-ultimate.org/node/5637#comment-96886">cutting the tower</a><br>28 weeks 4 days ago</li></ul></div></div>
+</div>
+</td>
+  </tr>
+ </tbody></table>
+ 
+
+</body></html>

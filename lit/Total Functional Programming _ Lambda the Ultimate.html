@@ -1,0 +1,671 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0040)http://lambda-the-ultimate.org/node/2003 -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ <title>Total Functional Programming | Lambda the Ultimate</title>
+
+<!--<base href="http://lambda-the-ultimate.org/">--><base href=".">
+<style type="text/css" media="all">@import "misc/drupal.css";</style> <link rel="SHORTCUT ICON" href="http://lambda-the-ultimate.org/favicon.ico"> <link rel="stylesheet" type="text/css" href="./Total Functional Programming _ Lambda the Ultimate_files/common.css">
+<style type="text/css" media="all">@import "themes/chameleon/ltu/style.css";</style> <script src="./Total Functional Programming _ Lambda the Ultimate_files/MathJax.js" id=""></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 5px 0px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -khtml-border-radius: 5px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 1px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: .7em}
+.MathJax_MenuRadioCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuLabel {padding: 1px 2em 3px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #DDDDDD; margin: 4px 3px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: #606872; color: white}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head><body><div id="MathJax_Message" style="display: none;"></div>
+ <div id="header">  <h1 class="site-name title"><a href="http://lambda-the-ultimate.org/">Lambda the Ultimate</a></h1>  <img src="./Total Functional Programming _ Lambda the Ultimate_files/tagline.png" alt="The Programming Languages Weblog"><div id="search-form" style="text-align:right;"><form action="http://lambda-the-ultimate.org/search" method="post">  <input class="form-text" type="text" size="15" value="" name="edit[keys]" id="edit-keys">&nbsp;  <input class="form-submit" type="submit" value="Search">&nbsp;</form></div>
+</div>
+ <table id="content">
+  <tbody><tr>
+   <td id="sidebar-left"><div class="block block-block" id="block-block-1">
+ <h2 class="title"></h2>
+ <div class="content"><b>
+<div style="text-align:right">
+<p>
+<a href="http://lambda-the-ultimate.org/rss.xml"><img src="./Total Functional Programming _ Lambda the Ultimate_files/xml.gif" border="0"></a></p><p>
+<a href="http://lambda-the-ultimate.org/">Home</a></p><p>
+<a href="http://lambda-the-ultimate.org/node/view/34">Feedback</a></p><p>
+<a href="http://lambda-the-ultimate.org/node/view/40">FAQ</a></p><p>
+<a href="http://lambda-the-ultimate.org/node/view/492">Getting Started</a></p><p>
+<a href="http://lambda-the-ultimate.org/forum/1">Discussions</a></p><p>
+<a href="http://lambda-the-ultimate.org/forum/2">Site operation discussions</a></p><p>
+<a href="http://lambda-the-ultimate.org/tracker">Recent Posts</a></p><p>
+<a href="http://lambda-the-ultimate.org/node/add/forum/1">(new topic)</a></p><p>
+<a href="http://lambda-the-ultimate.org/node/view/49">Departments</a></p><p>
+<a href="http://lambda-the-ultimate.org/node/view/2">Courses</a></p><p>
+<a href="http://lambda-the-ultimate.org/node/view/4">Research Papers</a></p><p>
+<a href="http://lambda-the-ultimate.org/node/view/3">Design Docs</a></p><p>
+<a href="http://lambda-the-ultimate.org/node/view/5">Quotations</a></p><p>
+<a href="http://lambda-the-ultimate.org/node/view/7">Genealogical Diagrams</a></p><p>
+<a href="http://lambda-the-ultimate.org/classic/lambda-archive1.html">Archives</a>
+</p></div>
+</b>
+<hr style="border-width:0 0 1px 0">
+</div>
+</div>
+<div class="block block-user" id="block-user-0">
+ <h2 class="title">User login</h2>
+ <div class="content"><form action="http://lambda-the-ultimate.org/user/login?destination=node%2F2003" method="post">
+<div class="user-login-block">
+<div class="form-item">
+ <label for="edit-name">Username:</label><br>
+ <input type="text" maxlength="64" class="form-text" name="edit[name]" id="edit-name" size="15" value="">
+</div>
+<div class="form-item">
+ <label for="edit-pass">Password:</label><br>
+ <input type="password" class="form-password" maxlength="64" name="edit[pass]" id="edit-pass" size="15" value="">
+</div>
+<input type="submit" class="form-submit" name="op" value="Log in">
+</div>
+
+</form>
+<div class="item-list"><ul><li><a href="http://lambda-the-ultimate.org/user/register" title="Create a new user account.">Create new account</a></li><li><a href="http://lambda-the-ultimate.org/user/password" title="Request new password via e-mail.">Request new password</a></li></ul></div></div>
+</div>
+<div class="block block-user" id="block-user-1">
+ <h2 class="title">Navigation</h2>
+ <div class="content"><div class="menu">
+<ul>
+<li class="leaf"><a href="http://lambda-the-ultimate.org/tracker">recent posts</a></li>
+
+</ul>
+</div></div>
+</div>
+</td>
+   <td id="main">
+<div class="breadcrumb"><a href="http://lambda-the-ultimate.org/">Home</a> » <a href="http://lambda-the-ultimate.org/forum">forums</a> » <a href="http://lambda-the-ultimate.org/forum/1">LtU Forum</a></div><h2>Total Functional Programming</h2>
+<!-- begin content -->
+<div class="node">
+ <div class="content">
+Here's an interesting paper recently mention in another thread: <a href="http://www.jucs.org/jucs_10_7/total_functional_programming/jucs_10_07_0751_0768_turner.pdf">Total Functional Programming</a>...
+
+<blockquote>Abstract: The driving idea of functional programming is to make programming more
+closely related to mathematics. A program in a functional language such as Haskell or
+Miranda consists of equations which are both computation rules and a basis for simple
+algebraic reasoning about the functions and data structures they define. The existing
+model of functional programming, although elegant and powerful, is compromised to
+a greater extent than is commonly recognized by the presence of partial functions.
+We consider a simple discipline of total functional programming designed to exclude
+the possibility of non-termination. Among other things this requires a type distinction
+between data, which is finite, and codata, which is potentially infinite.
+</blockquote>
+
+I presume that the bogus definiton of "<code>fib</code>" is a subtle reminder of the importance of eliminating bottom. </div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1296" title="View user profile.">Greg Buchholz</a> at 2007-01-23 16:35 | <a href="http://lambda-the-ultimate.org/taxonomy/term/1">LtU Forum</a> | <a href="http://lambda-the-ultimate.org/node/2272" title="Near-Concrete Program Interpretation">previous forum topic</a> | <a href="http://lambda-the-ultimate.org/node/2268" title="Tom: Piggybacking rewriting on java">next forum topic</a> | <a href="http://www.technorati.com/search/lambda-the-ultimate.org/node/2003" title="Technorati search of other blogs commenting on this post.">other blogs</a> | 92093 reads</div>
+</div>
+<a id="comment"></a>
+<form method="post" action="http://lambda-the-ultimate.org/comment"><div>
+<h2 class="title">Comment viewing options</h2><div><div class="form-item">
+ <select name="mode"> <option value="1">Flat list - collapsed</option>
+ <option value="2">Flat list - expanded</option>
+ <option value="3">Threaded list - collapsed</option>
+ <option value="4" selected="selected">Threaded list - expanded</option>
+</select>
+<select name="order"> <option value="1">Date - newest first</option>
+ <option value="2" selected="selected">Date - oldest first</option>
+</select>
+<select name="comments_per_page"> <option value="10">10 comments per page</option> <option value="30">30 comments per page</option> <option value="50">50 comments per page</option> <option value="70">70 comments per page</option> <option value="90">90 comments per page</option> <option value="150">150 comments per page</option> <option value="200" selected="selected">200 comments per page</option></select>
+<input type="hidden" name="threshold" value="0">
+ <input type="submit" class="form-submit" name="op" value="Save settings">
+
+ <div class="description">Select your preferred way to display the comments and click "Save settings" to activate your changes.</div>
+</div>
+</div><input type="hidden" name="edit[nid]" value="2003">
+</div></form><form method="post" action="http://lambda-the-ultimate.org/comment"><div>
+<input type="hidden" name="edit[nid]" value="2003">
+<a id="comment-24661"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24661" class="active">Surprised that they don't separate non-terminating functions.</a></h3>
+ <div class="content"><p>In Haskell, stateful operations are monadic.  You can see whether a function is dependent on external stuff, time, etc., by looking at its type (typically IO Int, etc.).</p>
+<p>Haskell programs are typically written with a monadic outer layer, and a non-monadic inner layer.</p>
+<p>If this paper did the same kind of thing with provably-terminating functions (that only operate on data, not codata), i.e., add termination to the type of the function, then you could still write Turing complete code, as an outer layer, with 'total functional' code inside.  The closer you can get to having a zero-sized outer layer, the more 'totally functional' your code is.</p>
+<p>Interesting paper.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/3455" title="View user profile.">ricky_clarkson</a> at Tue, 2007-01-23 17:26 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+<div style="margin-left:25px;">
+<a id="comment-24664"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24664" class="active">I had this thought just the other day...</a></h3>
+ <div class="content"><p>My idea was to allow recursion only through a modified y-combinator <code>y :: (a -&gt; a) -&gt; M a</code> where M is the 'recursion' monad. Any use of this y would automatically result in values tainted by the monad. I think that by Curry-Howard it corresponds to a modal logic where you're allowed to use circular arguments in a way that means that you're still protected from being able to prove _|_.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1545" title="View user profile.">sigfpe</a> at Tue, 2007-01-23 18:34 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:50px;">
+<a id="comment-24671"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24671" class="active">Partiality is an effect</a></h3>
+ <div class="content"><p>Tarmo Uustalu (with Thorsten Altenkirch and Venanzio Capretta) have done <a href="http://www.cs.ioc.ee/~tarmo/tday-veskisilla/uustalu-slides.pdf">some work</a> on capturing non-termination in the monad</p>
+<pre>codata Sometime a = Now a | Later (Sometime a)
+</pre><blockquote>
+This talk is about an approach to partiality from non-termination as a monadic effect using coinductive types. The intuitive idea is very simple: termination/non-termination is about waiting, this waiting can be made official. Looping is supported directly by the monad. In order to obtain general recursion, we use that the homsets of the Kleisli category are domains. This gives us a possibility to translate a language with general recursion into a total language following the general paradigm of monadic translation. We also discuss a combination of partiality with other effects based on a monad transformer.
+<p></p></blockquote></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/2681" title="View user profile.">jeremygibbons</a> at Tue, 2007-01-23 22:51 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:75px;">
+<a id="comment-24676"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24676" class="active">Resumptions</a></h3>
+ <div class="content"><pre>codata Sometime a = Now a | Later (Sometime a)
+</pre>
+This looks very similar to <a href="http://citeseer.ist.psu.edu/papaspyrou01resumption.html">resumptions</a>, funny they didn't mention that.
+
+Also, the intuitive idea of slicing (potentially) non-terminating computation into provably terminating chunks and then scheduling them in some fashion is quite popular, from operating systems to speculative computing. The main difference between them is how they prove this termination of chunks (OSes use hardware interrupts) and how open and controllable is scheduling (microkernels?).</div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1071" title="View user profile.">Andris Birkmanis</a> at Wed, 2007-01-24 07:42 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:50px;">
+<a id="comment-24720"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24720" class="active">This idea was often</a></h3>
+ <div class="content"><p>This idea was often discussed on comp.lang.functional a couple years ago (and probably several times since then).</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1510" title="View user profile.">Derek Elkins</a> at Sat, 2007-01-27 19:31 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:75px;">
+<a id="comment-24728"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24728" class="active">The original paper by Moggi...</a></h3>
+ <div class="content"><p>...included partiality as an example of a monadic side-effect. </p>
+<p>From a proof-theoretic point of view, I think that nontermination is best treated as a side-effect. However,  from a semantic point of view it has a very special status: the possibility of nontermination is at the heart of domain theory, and is basically why you can give a nontrivial semantics to the untyped lambda calculus (ie, solve a domain equation of the form <code>D == D -&gt; D</code>).</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1111" title="View user profile.">neelk</a> at Sun, 2007-01-28 17:42 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<a id="comment-24663"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24663" class="active">There has been some</a></h3>
+ <div class="content"><p>There has been some discussion of trying to use turing-incomplete/decidable languages on LtU (e.g. <a href="http://lambda-the-ultimate.org/node/1532#comment-18417">here</a>), but I've seen no mention of these techniques.</p>
+<p>Another excerpt:</p>
+<blockquote><p>
+There already exists a powerful theory of total functional programming which has been extensively studied. This is the constructive type theory of Per Martin-LÂ¨of (of which there are several different versions). This includes:<br>
+â€“ Dependent types (types indexed over values)<br>
+â€“ Second order types<br>
+â€“ An isomorphism between types and propositions, that enables programs to express proof information.<br>
+The theory was developed as a foundational language for constructive mathematics. It is certainly possible to program in it, see for example [Nordstrom et al. 1990], but it would hardly be suitable as an introductory language to teach programming.<br>
+I am interested in finding something simpler.</p>
+<p>[..]<br>
+What I propose is something much more modest than constructive type theory, namely an elementary discipline of total functional programming.  Elementary here means<br>
+1) Type structure no more complicated than Hindley/Milner, or one of its simple variants. So we will have types like Nat â†’ Nat, and polymorphic types like Î± â†’ Î±, but nothing worse.<br>
+2) Programs and proofs will be kept separate, as in conventional programming.  What we are looking for is essentially a strongly terminating subset of Miranda or Haskell (or for that matter SML, since the difference between strict and lazy goes away in a strong functional language)
+</p></blockquote>
+<p><a href="http://www.cs.kent.ac.uk/people/staff/dat/esfp.html">Here</a> is a description of the research program that seems to be associated with the paper.</p>
+<p>All the research associated with the paper seems to be pre-1998 (there is only one 200x citation), associated with the name "Elementary Strong Functional Programming" (or EFSP).<br>
+In search of further work on this I've found (so far) <a href="http://www-users.cs.york.ac.uk/~ndm/projects/catch.php">"Catch - Case Totality Checker for Haskell"</a>.</p>
+<p>This reminds me a bit of the "hair shirt" of no side-effects in Haskell: what would we find if we weren't allowed to use a particular recursion scheme before designing a termination-prover?  It seems one might at least get more insight into such algorithms' character.<br>
+They <a href="http://www.cs.kent.ac.uk/people/staff/dat/esfp.html">claim</a> to have found, e.g. interesting new results on corecursive algorithms for arbitrary-precision integers.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1195" title="View user profile.">dbfaken</a> at Tue, 2007-01-23 18:17 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+<a id="comment-24665"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24665" class="active">Along these lines</a></h3>
+ <div class="content"><p>Along these lines (termination, data and codata) is <a href="http://pll.cpsc.ucalgary.ca/charity1/www/home.html">Charity</a>. Lots of interesting literature is available from the website.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/3038" title="View user profile.">rebooted</a> at Tue, 2007-01-23 18:56 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+<a id="comment-24666"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24666" class="active">Induction on naturals?</a></h3>
+ <div class="content"><p>Anyone else get a little queasy when faced with a inductive proof on something like the naturals, which can't be fully represented on our finite hardware?  Especially in a paper on total functional programming?</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1296" title="View user profile.">Greg Buchholz</a> at Tue, 2007-01-23 19:04 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+<div style="margin-left:25px;">
+<a id="comment-24675"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24675" class="active">not if they're defined as peano numbers</a></h3>
+ <div class="content"><p>'cuz then their limit is still succ(...(zero)...).</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1925" title="View user profile.">jimdesu</a> at Wed, 2007-01-24 03:52 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:25px;">
+<a id="comment-24677"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24677" class="active">Natural queasiness</a></h3>
+ <div class="content">I share your concern. My belief is that to realize its full potential of bullet-proof approach, total programming must be resource-aware (which also probably means encoding memory, CPU, and I/O requirements in types - ouch).</div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1071" title="View user profile.">Andris Birkmanis</a> at Wed, 2007-01-24 07:47 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:50px;">
+<a id="comment-24679"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24679" class="active">2/3's the way there?</a></h3>
+ <div class="content"><p>Well, currently Haskell has its I/O requirements in types.  And if you are working in a terminating language, it seems like you should almost already know the time complexity of your algorithms (Maybe requiring people to do a complexity analysis instead of a termination proof would be an easier sell?).  So now we just need to get space usage factored into the equation.  I wonder if a language like <a href="http://www-fp.dcs.st-and.ac.uk/hume/">Hume</a> has anything to offer in this regard.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1296" title="View user profile.">Greg Buchholz</a> at Wed, 2007-01-24 16:33 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:75px;">
+<a id="comment-24689"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24689" class="active">Termination easier than complexity</a></h3>
+ <div class="content"><blockquote><p>
+And if you are working in a terminating language, it seems like you should almost already know the time complexity of your algorithms (Maybe requiring people to do a complexity analysis instead of a termination proof would be an easier sell?)
+</p></blockquote>
+<p>I doubt that. Can you give an example of an algorithm which time complexity is easier to analyse than its termination behaviour? </p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1238" title="View user profile.">Ronny Wichers Schreur</a> at Wed, 2007-01-24 22:41 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:100px;">
+<a id="comment-24690"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24690" class="active">*Almost*</a></h3>
+ <div class="content"><p>Key word that I guess I should have emphasized: <b>almost</b>.  The idea here is that by putting a little more effort into your termination proof, you might also be able to prove the complexity of your algorithm, and subsequently reap those additional rewards.  (Certainly termination is a precondition on complexity.  If you know the complexity of something, you also already know it terminates).</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1296" title="View user profile.">Greg Buchholz</a> at Wed, 2007-01-24 23:04 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:75px;">
+<a id="comment-24695"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24695" class="active">How to automate?</a></h3>
+ <div class="content"><p>Do you know of any way to automatically compute reasonably tight complexity of code? Termination is most generalized version of a complexity bound, and there are plenty of languages that only include<br>
+terminating programs. Getting more specific there are programming languages characterizing complexity classes, like <a href="http://iml.univ-mrs.fr/~lafont/pub/soft.ps.gz">polynomial time</a>, and <a href="http://www.church-project.org/reports/electronic/neergaard-flls-jun-2004.pdf">logarithmic space</a>. <a href="http://www-2.cs.cmu.edu/~rwh/courses/refinements/papers/HughesParetoSabry96/popl-96.ps">sized types</a> keep track of some sorts of constant factors, but I don't recall that paper bounded the resource requirements of functions, just that they would eventually terminate.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/2755" title="View user profile.">Brandon Moore</a> at Thu, 2007-01-25 03:25 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<a id="comment-24678"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24678" class="active">They define 0/0 as 0</a></h3>
+ <div class="content"><p>This means that the behavior on some errors (when the program tries to divide by 0) is changed from failing to proceeding with nonsense values, and thus the errors are harder to find.</p>
+<p>A similar thing can be said about Java's static exception specifications. They had tempted many programs to catch â€œimpossibleâ€ exceptions and do nothing in the handler, which makes things worse than they would have been without having to declare exceptions statically.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1547" title="View user profile.">Qrczak</a> at Wed, 2007-01-24 15:10 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+<div style="margin-left:25px;">
+<a id="comment-24680"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24680" class="active">Yes, but immediately after</a></h3>
+ <div class="content"><p>Yes, but immediately after this they point out:   [sic]</p>
+<blockquote><p>
+Runciman [Runciman 1989] gives a useful and interesting discussion of how to<br>
+make natural arithmetic closed. He argues rather presuasively that the basic<br>
+arithmetic type in a functional language should be Nat rather than Int. In a<br>
+total language it is certainly desirable to have Nat as a staticly recognised type,<br>
+even if Int is also provided, since there are functions that have no sensible value<br>
+on negative integers â€“ factorial for example.
+</p></blockquote>
+<p>..and I tend to agree: I'd rather have this handled by types (or explicit tests) than exceptions.  But this has discussed here before..</p>
+<p>Since they are trying to remove "undefined" results, including errors, I don't think its too much to ask.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1195" title="View user profile.">dbfaken</a> at Wed, 2007-01-24 17:08 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:50px;">
+<a id="comment-24684"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24684" class="active">Runciman is ever worse</a></h3>
+ <div class="content"><p>His natural number arithmetic makes <em>a</em>âˆ’<em>b</em> equal to 0 if <em>a</em>&lt;<em>b</em>. Making operations total by giving them artificial results outside their natural (no pun intended) domain is counter-productive. It leads to less robust programs, the converse of the stated goal.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1547" title="View user profile.">Qrczak</a> at Wed, 2007-01-24 21:12 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:75px;">
+<a id="comment-24694"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24694" class="active">Combinatorial subtraction</a></h3>
+ <div class="content"><p>max(0,a-b) is called 'combinatorial subtraction.'  I vaguely remember an interesting paper on the subject by Steve Johnson (author of the original Portable C Compiler) from around 1974, but I'll be damned if I can find the reference.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/112" title="View user profile.">Tom Duff</a> at Thu, 2007-01-25 01:02 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:50px;">
+<a id="comment-24685"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24685" class="active">What About the Natural Numbers</a></h3>
+ <div class="content"><p>Colin Runciman: <a href="http://citeseer.ist.psu.edu/45669.html">What About the Natural Numbers</a>.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1296" title="View user profile.">Greg Buchholz</a> at Wed, 2007-01-24 21:17 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:25px;">
+<a id="comment-24687"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24687" class="active">I hope you caught that BBC story...</a></h3>
+ <div class="content"><p>...<a href="http://www.bbc.co.uk/berkshire/content/articles/2006/12/06/divide_zero_feature.shtml">here</a>.</p>
+<p>But seriously...if you want total programming then it seems clear to me that</p>
+<p><code>(/) :: Int -&gt; Int -&gt; 1+Int</code></p>
+<p>where you can call the single element of <code>1</code> whatever you like: e.g. Exception, DivisionByZero, Infinity, Sigfpe, and you need a convenient way (eg. a monad) to lift computations on Int to computations on 1+Int. I can't see that anything more than this is needed. Certainly no need to make 0/0=0 or ditch the negative numbers.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1545" title="View user profile.">sigfpe</a> at Wed, 2007-01-24 22:08 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:50px;">
+<a id="comment-24691"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24691" class="active">This only shifts the burden to someone else</a></h3>
+ <div class="content"><p>What should the caller of the <code>/</code> function do with the potential singularity in the result, if he is quite sure that the divisor will never be zero? The contract of the caller probably leaves no space for reporting the problem. It's a total language after all, the caller must return a valid answer to its caller, it can't even loop forever!</p>
+<p>One non-solution is to extend the interface of every potentially failing function with a singularity, even if the failure is never intended to happen, and propagate it. This leaks implementation details to interfaces (a sorting function might have a superfluous singularity in its result just because it uses division somewhere), and many practical non-leaf functions are total only in theory. Propagating singularities calls for language support, and if a large function returns a singular result it might be a challenge to find out which of its components has triggered it and why.</p>
+<p>Another non-solution is to put bogus values of correct types in these impossible branches. This is a horrible consequence of having to program in a total language.</p>
+<p>I don't believe in total programming at all. Pretending that functions don't fail has no value if the way the functions are actually written contains various impossible failures in their code paths. Ruling failures out statically is impractical with present type systems.</p>
+<p>Current languages generally offer one of two choices:</p>
+<ol>
+<li>A computation may abort the whole program, possibly with a message (Haskell's <code>error</code> function). This can happen at any time.</li>
+<li>Any computation may throw an exception, which can be caught.</li>
+</ol>
+<p>The second choice is a superset of the first choice, and thus it's almost universal. Even Glasgow Haskell reinterprets Haskell 98's non-catchable failures as catchable exceptions. I've heard of no paradigm which would offer something better here.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1547" title="View user profile.">Qrczak</a> at Wed, 2007-01-24 23:41 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:75px;">
+<a id="comment-24692"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24692" class="active">The contract of the caller</a></h3>
+ <div class="content"><blockquote><p>
+The contract of the caller probably leaves no space for reporting the problem.
+</p></blockquote>
+<p>This kind of 'reporting' can be conveniently wrapped up in a monad or <a href="http://www.cs.nott.ac.uk/~ctm/Idiom.pdf">idiom</a>, or some such device. It doesn't have to be that much of a burden.<br>
+</p><blockquote><p>
+Propagating singularities calls for language support,
+</p></blockquote>
+<p>Or some higher order functions to plumb everything together.</p>
+<blockquote><p>
+if a large function returns a singular result it might be a challenge to find out which of its components has triggered it and why.
+</p></blockquote>
+<p>On the contrary. Though I doubt that total functional programming is practical (we agree on that, I just consider this to be an academic exercise), if there's one thing going for it, it's that it won't be as much of a challenge to find why a singular result was created because developers will be encouraged to explicitly handle singular cases. (My nickname came about as a result of spending so much time trying to track down mysterious SIGFPEs because in partial languages developers are not encouraged to implement code to handle singular values.)</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1545" title="View user profile.">sigfpe</a> at Thu, 2007-01-25 00:39 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:75px;">
+<a id="comment-24699"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24699" class="active">The third solution</a></h3>
+ <div class="content"><blockquote><p>What should the caller of the / function do with the potential singularity in the result, if he is quite sure that the divisor will never be zero?</p></blockquote>
+<p>A solution I'm working on basically requires a proof that the divisor will never be zero. If the programmer is quite sure a proof should be wrote down an passed to the compiler. Using qualified types to denote propositions and proofs of its propositions as evidence (as in type classes' instance dictionaries):</p>
+<pre><code>(/) :: (Nonzero i) =&gt; int -&gt; i -&gt; int
+foo a b c = if a == 0 then bar c else baz b / a
+</code></pre><p>In the example a proof is created by the compiler that in the else branch "a" isn't zero. If no proof is provided the proposition would be propagated to foo's caller. If we allow intersection/union types we could extend division's type with <code>| (Zero z, Nonzero i) =&gt; z -&gt; i -&gt; z</code> and get a nice optional optimization.<br>
+The idea isn't infeasible, though it would probably make compilation times longer if the compiler is expected to infer properties. OTOH if the programmer is supposed to provide the proofs the compiler just needs to check them, which is quite practical. A way to make this process simpler is to provide a sophisticated language for writing proofs and an interactive tool to help nail them down, both would be similar to current theorem provers, and the written proofs would work like proof-carrying code.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/852" title="View user profile.">Daniel Yokomizo</a> at Thu, 2007-01-25 09:00 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:100px;">
+<a id="comment-24701"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24701" class="active">Note that, mathematically,</a></h3>
+ <div class="content"><p>Note that, mathematically, division by zero often occurs by rewriting an equation, where said rewriting is actually invalid when division by zero occurs...<br>
+Or, in other words, there is often a perfectly sensible result corresponding to this case.</p>
+<p>Off the top of my head, I think of</p>
+<ul>
+<li> averages: if there are zero terms to average, the average is undefined.
+</li><li> roots of second-order polynomials - e.g. a x^2 + b x + c = 0.<br>
+  Using the standard formula (-b +/- sqrt(b^2 - 4ac))/2a is invalid when a==0, but a==0 means the actual equation is<br>
+  b x + c = 0,<br>
+and so the solution actually is x = -c/b, NOT "undefined".<p></p>
+</li><li> someone mentioned factorial.<br>
+  If we work with the <a href="http://en.wikipedia.org/wiki/Gamma_function">gamma function</a>, n! = gamma(n+1),<br>
+  and 0! = gamma(1) = 1.<br>
+  - but whether this is applicable depends on the origin of the factorial term.
+</li></ul>
+<p>So, generally, a "singularity" should be treated with care mathematically, not just in terms of "division errors".</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1195" title="View user profile.">dbfaken</a> at Thu, 2007-01-25 16:13 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:50px;">
+<a id="comment-24698"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24698" class="active">But integers aren't closed under division anyway...</a></h3>
+ <div class="content"><blockquote><p>But seriously...if you want total programming then it seems clear to me that<br>
+(/) :: Int -&gt; Int -&gt; 1+Int
+</p></blockquote>
+<p>I don't understand why 0/0 = 0 is any more wrong than 5/3 = 1.</p>
+<p>If you want total programming with totally meaningful results, don't you need something like</p>
+<p><code>data Rational = Rational Int Int<br>
+(/) :: Int -&gt; Int -&gt; Rational<br>
+</code></p>
+<p>where the denominator is allowed to be zero?</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/2574" title="View user profile.">Bret Victor</a> at Thu, 2007-01-25 08:04 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:75px;">
+<a id="comment-24702"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24702" class="active">Two issues</a></h3>
+ <div class="content"><p>(1) There are several kinds of division with different applications. Sometimes you want -5/3=-1, sometimes you want -5/3=minus five thirds, sometimes you want -1.66667 and sometimes you want -2. I've met applications where all of these are useful (and most popular programming languages I know offer more than one of these operations). But in my experience, almost every time I've had code attempt to divide by zero the cause has been a bug in the code. I think that's the primary reason to handle division by zero differently.
+</p><p>
+(2) Division is just an example. I think we're really talking about mathematical exceptions in general. What should the return type of sqrt or acos be? We need to deal with these properly in total functional programming.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1545" title="View user profile.">sigfpe</a> at Thu, 2007-01-25 17:21 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:100px;">
+<a id="comment-24703"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24703" class="active">And don't forget currency</a></h3>
+ <div class="content"><p>What's one-third of five dollars?  (possible answer $2, $1, $1.66, $1.67).  (Now if I can just install a program to transfer those fractional cents to my bank account).</p>
+<p>The most common place I encountered division by zero was in embedded systems, where a value will theoretically approach zero, but due to inaccuracies in measurement may result in a division by zero that has to be caught.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/3" title="View user profile.">Chris Rathman</a> at Thu, 2007-01-25 17:54 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:75px;">
+<a id="comment-24709"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24709" class="active">no kidding</a></h3>
+ <div class="content"><p>I've been wondering why (high-level) programming languages don't have a slew of different classes like this to represent the type of where your calculation is going.  To my mind (and I'm not an academic, so I've ignorance a'plenty) this is a much more serious concern than whether or not the program halts.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1925" title="View user profile.">jimdesu</a> at Fri, 2007-01-26 17:44 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<a id="comment-24706"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24706" class="active">What's wrong with Coq</a></h3>
+ <div class="content"><p>Coq is actually not too bad to demonstrate total functions.  The fixpoint keyword lets you define ML-like functions that are guaranteed to be total functions.  You just have to make them structurally recursive.  The syntax is almost exactly the same as OCaml, so it's not hard to learn.  No proofs or esoteric stuff needed.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/3750" title="View user profile.">nwhitehe</a> at Thu, 2007-01-25 21:20 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+<div style="margin-left:25px;">
+<a id="comment-25797"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-25797" class="active">Nothing's wrong with Coq (excepting for its popularity...)</a></h3>
+ <div class="content"><p>It took me quite a while to realise that Coq was a really good system for total functional programming.  I think it isn't generally advertised as such, and the tutorials available don't really give the impression that it is a good functional programming environment.  </p>
+<p>I hope that more examples and tutorials on doing software verification and total functional programming in Coq end up on the web.  I'd write one myself but I'm not yet competent enough. </p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/1988" title="View user profile.">Gavin Mendel-Gleason</a> at Tue, 2007-02-27 15:11 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<div style="margin-left:50px;">
+<a id="comment-25821"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-25821" class="active">Programs in Coq</a></h3>
+ <div class="content"><p><a href="http://www.cs.berkeley.edu/~adamc/">Adam Chlipala</a> has done a lot of work using Coq as a programming language.</p>
+<blockquote><p>My thesis research centers on building programming language tools with proofs of total correctness, using the Coq proof assistant. What distinguishes my approach is that I use dependent types in the implementations of the tools, not just their correctness proofs, following a kind of "correctness by construction" discipline.</p></blockquote>
+<p>See specifically his paper <a href="http://www.cs.berkeley.edu/~adamc/papers/PositionPLPV06/">Thoughts on Programming with Proof Assistants</a> - "My purpose in this position paper is to make the general claim that Coq is already quite useful today for non-trivial certified programming tasks..."</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/2755" title="View user profile.">Brandon Moore</a> at Tue, 2007-02-27 21:07 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div>
+<a id="comment-24713"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24713" class="active">Non-turing completeness</a></h3>
+ <div class="content"><p>One of the points this paper makes is to dispense with Turing Completeness in order to buy security and optimizability. As a practitioner I would readily give up Turing completeness, and have a separate syntactic space for the Turing complete part. HTML + Javascript is a classic example. SQL + PHP is another.</p>
+<p>The market is embracing this rapidly, because the advantages in practice are compelling. Today, more and more of the GUI is written in HTML/CSS, with some Javascript thrown in for imparting "dynamism". Over time, more of the things you need scripts for is migrating to the underlying HTML/CSS system. On the server side, database systems do the query processing, and you use Java or C# or PHP for business logic. </p>
+<p>Sridhar</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/2538" title="View user profile.">svembu</a> at Fri, 2007-01-26 21:52 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+<a id="comment-24714"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-24714" class="active">Partial functions are types</a></h3>
+ <div class="content"><p>...or they give rise to types. </p>
+<p>If T is some type, f(T) is some partial function over T, and T' is the set of all T for which f(T) is defined, it's obvious that T' is a Liskov subtype of T.</p>
+<p>Of course, in many cases determining that a given T is or is not in T' is often undecideable--otherwise we'd have no need for array bounds-checking, or ALU/FPU hardware which causes a processor exception if you try and divide by zero.</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/176" title="View user profile.">Scott Johnson</a> at Fri, 2007-01-26 23:25 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+<a id="comment-33659"></a>
+<div class="comment">
+ <h3 class="title"><a href="http://lambda-the-ultimate.org/node/2003#comment-33659" class="active">Not sure about the fib definition</a></h3>
+ <div class="content"><p>mmm, i don't understand whether the bogous definition of fib is intentional or not, can someone please enlighten me on why does the paper define the last line of fib to be &gt; fib(n+2) = fib(n+1) + fib(n+2), instead of what i believe to be the right definition of &gt; fib(n+2) = fib(n) + fib(n+1)</p>
+<p>Thanks alot!</p></div>
+ <div class="links">By <a href="http://lambda-the-ultimate.org/user/4230" title="View user profile.">Jasonw</a> at Sun, 2007-05-27 20:18 | <a href="http://lambda-the-ultimate.org/user/login">login</a> or <a href="http://lambda-the-ultimate.org/user/register">register</a> to post comments</div>
+</div>
+</div></form>
+<!-- end content -->
+ <div id="footer"><hr style="border-width: 0pt 0pt 1px;">
+Logs:
+          <a href="http://wmf.editthispage.com/">Hack The Planet</a>
+          ; <a href="http://www.javalobby.org/">JavaLobby</a>
+          ; <a href="http://www.pythonware.com/daily">Daily Python-URL</a>
+ ; <a href="http://thedailywtf.com/default.aspx">Daily WTF</a>
+ ; <a href="http://phplens.com/phpeverywhere/">PHP everywhere</a> ; <a href="http://lambda-the-ultimate.org/node/view/13">(more)</a><br>
+Wikis:
+         <a href="http://c2.com/cgi/wiki?RecentChanges">WikiWiki</a>
+         ; <a href="http://www.trapexit.org/Special:Recentchanges">Erlang</a>
+; <a href="http://www.cliki.net/Recent%20Changes">Common Lisp</a>
+
+
+         ; <a href="http://www.haskell.org/haskellwiki/Special:Recentchanges">Haskell</a>
+         ; <a href="http://wiki.squeak.org/squeak/recent">Squeak</a>
+         ; <a href="http://purl.org/thecliff/tcl/wiki">Tcl</a> ; <a href="http://www.program-transformation.org/Transform/WebChanges">Program Transformation</a>
+</div>
+   </td>
+   <td id="sidebar-right"><div class="block block-archive" id="block-archive-0">
+ <h2 class="title">Browse archives</h2>
+ <div class="content">
+<!-- calendar -->
+<div class="calendar"><table summary="A calendar to browse the archives.">
+ <caption><a href="http://lambda-the-ultimate.org/archive/2022/05/10" title="Previous month">«</a> June 2022 &nbsp;</caption>
+ <tbody><tr class="header-week">
+ <th abbr="Sunday">Su</th>
+ <th abbr="Monday">Mo</th>
+ <th abbr="Tuesday">Tu</th>
+ <th abbr="Wednesday">We</th>
+ <th abbr="Thursday">Th</th>
+ <th abbr="Friday">Fr</th>
+ <th abbr="Saturday">Sa</th>
+</tr>
+ <tr class="row-week"><td class="day-blank">&nbsp;</td>
+<td class="day-blank">&nbsp;</td>
+<td class="day-blank">&nbsp;</td>
+  <td class="day-normal">1</td>
+  <td class="day-normal">2</td>
+  <td class="day-normal">3</td>
+  <td class="day-normal">4</td>
+ </tr>
+ <tr class="row-week">
+  <td class="day-normal">5</td>
+  <td class="day-normal">6</td>
+  <td class="day-normal">7</td>
+  <td class="day-normal">8</td>
+  <td class="day-normal">9</td>
+  <td class="day-today">10</td>
+  <td class="day-future">11</td>
+ </tr>
+ <tr class="row-week">
+  <td class="day-future">12</td>
+  <td class="day-future">13</td>
+  <td class="day-future">14</td>
+  <td class="day-future">15</td>
+  <td class="day-future">16</td>
+  <td class="day-future">17</td>
+  <td class="day-future">18</td>
+ </tr>
+ <tr class="row-week">
+  <td class="day-future">19</td>
+  <td class="day-future">20</td>
+  <td class="day-future">21</td>
+  <td class="day-future">22</td>
+  <td class="day-future">23</td>
+  <td class="day-future">24</td>
+  <td class="day-future">25</td>
+ </tr>
+ <tr class="row-week">
+  <td class="day-future">26</td>
+  <td class="day-future">27</td>
+  <td class="day-future">28</td>
+  <td class="day-future">29</td>
+  <td class="day-future">30</td>
+<td class="day-blank">&nbsp;</td>
+<td class="day-blank">&nbsp;</td>
+</tr>
+</tbody></table></div>
+
+</div>
+</div>
+<div class="block block-forum" id="block-forum-0">
+ <h2 class="title">Active forum topics</h2>
+ <div class="content"><div class="item-list"><ul><li><a href="http://lambda-the-ultimate.org/node/5646" title="4 comments">CUE: An open-source data validation language</a></li><li><a href="http://lambda-the-ultimate.org/node/5651">The hidden cost of exception handling</a></li><li><a href="http://lambda-the-ultimate.org/node/5650">My article on state machines and DSL evolution</a></li><li><a href="http://lambda-the-ultimate.org/node/5649" title="3 comments">Do we need exactly two binding constructs?</a></li><li><a href="http://lambda-the-ultimate.org/node/5644" title="1 comment">Shen Standard Library</a></li></ul></div><div class="more-link"><a href="http://lambda-the-ultimate.org/forum" title="Read the latest forum topics.">more</a></div></div>
+</div>
+<div class="block block-forum" id="block-forum-1">
+ <h2 class="title">New forum topics</h2>
+ <div class="content"><div class="item-list"><ul><li><a href="http://lambda-the-ultimate.org/node/5651">The hidden cost of exception handling</a></li><li><a href="http://lambda-the-ultimate.org/node/5650">My article on state machines and DSL evolution</a></li><li><a href="http://lambda-the-ultimate.org/node/5649" title="3 comments">Do we need exactly two binding constructs?</a></li><li><a href="http://lambda-the-ultimate.org/node/5647">Cicada language -- a new dependently typed language</a></li><li><a href="http://lambda-the-ultimate.org/node/5646" title="4 comments">CUE: An open-source data validation language</a></li></ul></div><div class="more-link"><a href="http://lambda-the-ultimate.org/forum" title="Read the latest forum topics.">more</a></div></div>
+</div>
+<div class="block block-comment" id="block-comment-0">
+ <h2 class="title">Recent comments</h2>
+ <div class="content"><div class="item-list"><ul><li><a href="http://lambda-the-ultimate.org/node/5646#comment-96895">ltu</a><br>6 days 12 hours ago</li><li><a href="http://lambda-the-ultimate.org/node/5649#comment-96894">It may be too subtle for me....</a><br>10 weeks 1 day ago</li><li><a href="http://lambda-the-ultimate.org/node/5649#comment-96893">The question is about a potential subtle difference</a><br>10 weeks 3 days ago</li><li><a href="http://lambda-the-ultimate.org/node/5649#comment-96892">There is no necessary difference. </a><br>10 weeks 4 days ago</li><li><a href="http://lambda-the-ultimate.org/node/5644#comment-96891">Thesis-Antithesis</a><br>17 weeks 4 days ago</li><li><a href="http://lambda-the-ultimate.org/node/5646#comment-96890">Nice references</a><br>23 weeks 2 days ago</li><li><a href="http://lambda-the-ultimate.org/node/5646#comment-96889">Programming with lattice structure</a><br>23 weeks 3 days ago</li><li><a href="http://lambda-the-ultimate.org/node/5646#comment-96888">A nice overview</a><br>24 weeks 2 days ago</li><li><a href="http://lambda-the-ultimate.org/node/1635#comment-96887">Updated link</a><br>27 weeks 1 day ago</li><li><a href="http://lambda-the-ultimate.org/node/5637#comment-96886">cutting the tower</a><br>28 weeks 4 days ago</li></ul></div></div>
+</div>
+</td>
+  </tr>
+ </tbody></table>
+ 
+
+</body></html>
