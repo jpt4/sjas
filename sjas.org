@@ -3,6 +3,172 @@
 :ID:       53f41b8a-07ec-42d1-a40b-15900dc903cf
 :END:
 
+#+BEGIN_20220630Z
+Dear Boris,
+
+Part I:
+
+> this correspondence should be understood as a starting point for a new considerations about what logic and computation are truly about
+
+I agree that the ultimate goal is a deeper understanding of formal
+systems, for which the Curry-Howard Correspondence per se is an
+instrument rather than an end. 
+
+In particular, I am interested in the _autarkic_ aspects of formal
+systems, that is, the expressivity available to a given system, and
+the degree to which that expressivity is dependent on systems outside
+of the one under consideration. By a certain pigeonhole principle
+intuition, if one wishes to say something about a system, a
+meta-system is required. The infinite regress of meta-systems is
+closed in certain respects when a system becomes expressive (strong)
+enough to represent itself. However, although self-representation
+allows a system to see itself, it does not follow that the system can
+now speak of itself [0], or at least that question of self-speaking,
+and the knowledge that such a behavior would entail, becomes a new
+topic of investigation.
+
+The effects of self-seeing and self-speaking on self-knowledge are
+brought into sharp relief by the limitative theorems of mathematical
+logic, computation, etc., and the same generativity applies: now that
+there is a boundary governing the limits of self-knowledge, the shape
+of that boundary is of interest.
+
+The works of Girard, Seiller, and yourself on this boundary [1], and
+the broader question of autarky in formal systems, is my primary
+motivating interest in Stellar Resolution, and thus the question of
+application of the Curry-Howard Correspondence to logic programming. I
+believe that an executable variant of SR, i.e. a programming language
+based upon the SR deductive system, in a similar fashion to the basis
+of Prolog upon the Selective Linear Definite clause resolution rule,
+would be useful not only to further the study of SR itself, but also
+to see what consequences the properties of SR have for "live" formal
+systems - which is to say, software [4].
+
+Part II:
+
+> logic programming is a sort of logical hijacking allowing to do programming with logical entities, hence it is both computational and logical in some sense (but not in the sense of Curry-Howard).
+
+I am sympathetic to the difference between logic programming and
+"standard" functional programming, and would be curious as to further
+commentary on this divergence from the usual sense of Curry-Howard. It
+appears to me that the core reason should be due to the properties of
+the logical proof systems to which the different computational systems
+correspond, e.g. Natural Deduction and the Simply Typed Lambda
+Calculus, versus Resolution and <whatever computational system with
+which resolution corresponds>. The attempt to build this functor may
+be in vain, however, precisely because, as you say, logic programming
+"is both computational and logical" - the correspondence appears to
+not be universally a statement of the mapping between two domains, but
+may need to be extended with an automorphism as well.
+
+In other respects, though, the functor appears viable: Consider that
+the Lambda Calculus does not suffice for computation per se, but can
+be equipped with an evaluation strategy (ES), a choice of how to
+perform reductions (and thus more precisely, a Reduction Strategy,
+RS), giving it the dynamism necessary to actually manipulate
+symbols. This evaluation strategy can be encoded in the LC+RS, via a
+self-interpreter. As discussed in Part I, this self-interpretation in
+one respect closes the loop on the infinite regress of seeing and
+speaking about LC+ES, but opens other questions about knowledge, by
+the importation of logical antinomies into the computational domain
+(paradigmatically, by introducing Cantorian Diagonalization paradoxes
+via the Halting Problem [5]).
+
+Analogously, the computational interpretation of SLD requires an
+evaluation strategy, a choice of how to perform goal selection (GS),
+and how to search the refutation tree (Tree Search, TS). Similarly, a
+self-interpreter for SLD+GS+TS can be written, _as evidenced by_
+Prolog self-interpreters. Note this experimental, experiential factor:
+the writing of a self-interpreter that executes, that lives and
+breathes separate from the mind of the logician, or its paper
+specification, is the great differentiator of the study of computation
+from mathematics more generically: the subject of the computationalist
+has physical substance, it is incarnated philosophy.
+
+I would thus be very curious as to how Stellar Resolution relates to
+the above framework for closing the loop on executability, and
+exploring its capacity for formal autarky, via an executable artifact
+instantiating the properties of the SR system.
+
+Part III: 
+
+> What would cut-elimination look like? Are proofs sort of a certificate asserting how to get to an error from a set of atomic statements (contradiction in the specification system)? Is such a system related at all to the computational meaning of classical logic?
+
+I believe the work of Will Byrd [6] on purely relational logic
+programming in miniKanren [7] is relevant to the question of
+cut-elimination. miniKanren has been used to implement purely
+relational (no cut rule used) interpreters for Turing Complete
+languages, thus demonstrating the computational universality of pure
+relational resolution as a computational system. The restrictions of
+pure relational programming also bring clarity to problems of negation
+[8] that seem highly relevant to matters of constructivity in logic,
+and to Girard's work on negation-as-swapping.
+
+Thank you very much for answering my question, and I hope that this
+provides sufficient background for my interest in your work.
+
+Sincerely,
+James Torre
+--jpt4
+
+[0] "Whereof one cannot speak, thereof one must be silent."
+
+[1] Among others, e.g. Dan Willard's Self-Justifying Axiom Systems, and Brown and Palsberg's "Self-Interpreter" (a sleight of hand, I think, but illuminating nonetheless) for F-Omega. See these posts [2] [3] for elaboration on the interrelation of these two.
+
+[2] https://cstheory.stackexchange.com/questions/51579/is-there-a-relationship-between-brown-and-palsbergs-self-interpreter-for-f-omeg
+
+[3] https://cstheory.stackexchange.com/questions/51580/is-there-a-relation-between-the-techniques-used-by-dan-willard-versus-those-of
+
+[4] And in particular, self-modifying artificial agents.
+
+[5] And thus the relevance of Lawvere's categorification of Cantor: https://arxiv.org/abs/math/0305282
+
+[6] http://webyrd.net/
+
+[7] http://minikanren.org/
+
+[8] https://scholarworks.iu.edu/dspace/bitstream/handle/2022/8777/Byrd_indiana_0093A_10344.pdf 
+From the Conclusion, p. 238-240
+
+> After trying to wrangle a few recalcitrant relations into termination, we may be tempted to abandon the
+relational paradigm, and use miniKanren’s impure features like conda and project.
+We might then view miniKanren as merely a “cleaner”, lexically scoped version of
+Prolog, with S-expression syntax and higher-order functions. However tempting
+this may be, we lose more than the flexibility of programs once we abandon the
+relational approach: we lose the need to construct creative solutions to difficult yet
+easily describable problems, such as the rembero problem in Chapter 7.
+
+> Haskell programmers have learned, and are still learning, to avoid explicit
+effects by using an ever-expanding collection of monads; miniKanren programmers
+are learning to avoid divergence by using an ever-expanding collection of declarative
+techniques, many of which express limited forms of negation in a bottom-avoiding
+manner. Haskell and miniKanren show that, sometimes, painting yourself into a
+corner can be liberating.
+.
+A final, very speculative observation: it may be possible to push the analogy
+between monads and techniques for bottom avoidance further. Before Moggi’s work
+on monads (Moggi 1991), the relationship between different types of effects was not
+understood—signaling an error, printing a message, and changing a variable’s value
+in memory seemed like very different operations. Moggi showed how these apparently
+unrelated effects could be encapsulated using monads, providing a common
+framework for a wide variety of effects. Could it be that the various types of divergence
+described in Chapter 5 are also related, in a deep and fundamental way?
+
+> Indeed, divergence itself is an effect. From the monadic viewpoint, divergence is
+equivalent to an error, while from the relational programming viewpoint, divergence
+is equivalent to failure; is there a deeper connection?
+
+Resolution systems without cut rule = purely relational logic programming.
+
+Fully relational logic programming still requires a choice of ES, but one which excludes the cut rule (or so I speculatively characterize it). Will Byrd's work on miniKanren demonstrates that a fully relational LC interpreter is possible, and thus fully relational self-interpretation of resolution+ES is possible.
+
+Taken from this perspective
+
+ I believe that the properties of a formal system benefit from realizing them in a way that allows for experimental interaction. For example, in computability, not only that which implements Turing Machines directly, but anything that can, through a long chain of hidden computation, emulate Turing Machines, allows for arbitrary code execution; this is the motivation behind the LangSec programme, to implement automatic restrictions in expressivity at the level of language, because it is difficult to verify and restrict the interactions of the permitted statements within a language. In the other direction,  I just spent a very long time attempting to implement a certain kind of fully relational negation operation in miniKanren, which demonstrated how certain aspects of the relations manifest themselves despite my best efforts to bypass/flank/work around them.
+
+There are other kinds of autarky than self-interpretation: secure self-knowledge - SJAS. I am curious whether a system based on Stellar Resolution can be equipped with similar gnothi seauton.
+#+END_20220630Z
+
 :20220614Z:
 
 We do not directly employ the features of a Turning Machine that
@@ -428,5 +594,4 @@ susceptible. Thus, the search for a guarantee is open-ended.
 Examining the commonality more closely, For Goedel, completeness and
 consistency, for Tarski truth, for Turing halting
 :END:
-
 
