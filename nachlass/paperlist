@@ -112,31 +112,71 @@ Perspective of the Fusion Tree”, Siam Journal on Computing 29 (2000) pp. 1030�
 and Join Operations”, Journal of Computer and Systems Sciences 52 (1996) pp 157-
 169.
 
+[Willard1994]
+
+[58] M. Fredman, D. Willard, “Transdichotomous Algorithms for Minimum Spanning Trees and Shortest Paths”, 
+Journal of Computer and Systems Sciences 48 (1994) pp. 533-551.
+
 [Willard1993]
 
 [57] D. Willard, “Self-verifying axiom systems”, Computational Logic and Proof Theory:
 The Third Kurt G¨odel Colloquium (1993), Springer-Verlag LNCS#713, 325-336.
 
+[Willard1992]
+
+[57] D. Willard, “A Density Control Algorithm for Doing Insertions and Deletions in a Sequentially Ordered File in Good-Worst Case Time”,
+Information and Computation 97 (1992) pp. 150-204.
+
 [Willard1991]
 
-[56] D. Willard, “Optimal Sampling Residues for Differentiable Data Base Query Problems”, Journal of ACM, 38 (1991), pp 104-119.
+[56] D. Willard, “Optimal Sampling Residues for Differentiable Data Base Query Problems”, Journal of ACM, Volume 38 (1991), pp 104-119.
+
+[Willard1989b]
+D. Willard, “Lower Bounds for the Addition-Subtraction Operations in Orthogonal Range Queries
+and Related Problems”, Information and Computation. 82 (1989) pp. 45-64.
+
+[Willard1989a]
+
+[56] D. Willard, J. Reif,“The Very Unusual Behavior of Parallel Interpolation Search”, Formation and Computation, Volume 81 (1989), pp. 364-379.
 
 [Willard1987]
 
 [55] D. Willard, “Multi-Dimensional Search Trees that Provide New Types of Memory
 Reduction,” Journal of ACM 34 (1987), pp. 846-858.
 
-[Willard1985]
+[Willard1986]
+
+[55] D. Willard, “Log-logarithmic Selection Resolution Protocols in a Multiple Access Channel", 
+SIAM Journal on Computing, 15 (1986), pp. 468-477.
+
+[Willard1985b]
 
 [54] D. Willard, “New Data Structures for Orthogonal Range Queries,” SIAM Journal
 on Computing, 14(1985), pp. 232-253.
 
-[Willard1983]
+[Willard1985a]
+
+[54] D. Willard, “Searching Unindexed and Non-uniformly Generated Files in Log Log N Time”,
+SIAM Journal on Computing, 14 (1985), pp. 1013-1029.
+
+[Willard1984]
+
+[54] D. Willard, “New Fast Trie Data Structures Which Support Very Fast Search Operations”,
+Journal of Computer and Systems Sciences 28 (1984), pp. 379-395.
+
+[Willard1983b]
 
 [53] D. Willard, “Log-Logarithmic Worst-Case Range Queries are Possible in Space
 O(N),” Information Processing Letters 17 (1983), pp. 81-84.
 
-[Willard1982]
+[Willard1983a]
+[52] “Log-Logarithmic Worst-Case Range Queries are Possible in Space O(N)”, 
+Information Processing Letters 17 (1983), pp. 81-84.
+
+[Willard1982b]
 
 D. Willard, “Polygon Retrieval,” SIAM Journal on Computing, 11 (1982), pp. 149-
 166.
+
+[Willard1982a]
+
