@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+ <semantics>
+  <msup>
+   <mi>e</mi>
+   <mrow>
+    <mrow/>
+    <mo stretchy="false">∗</mo>
+    <mrow/>
+   </mrow>
+  </msup>
+  <annotation encoding="StarMath 5.0">e^{&lt;*&gt;} </annotation>
+ </semantics>
+</math>
