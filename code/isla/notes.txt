@@ -1,0 +1,33 @@
+[20250531T20:44:32Z-0400EDT]
+Core references:
+
+[0] Willard DE. Self-verifying axiom systems, the incompleteness theorem and related reflection principles. Journal of Symbolic Logic. 2001;66(2):536-596. doi:10.2307/2695030 
+
+https://doi.org/10.2307/2695030
+
+https://annas-archive.org/scidb/10.2307/2695030/
+
+file:///home/jpt4/Downloads/10_2307_2695030_pdf%20--%20Dan%20E_%20Willard%20--%20Journal%20of%20Symbolic%20Logic,%20%232,%2066,%20pages%20536-596,%202001%20jun%20--%20Association%20for%20Symbolic%20Logic%3b%20Cambridge%20--%2010_2307_2695030%20--%20a4c30b0ac00a86f3f95ace88518911e2%20--%20Anna%E2%80%99s%20Archive.pdf
+
+[1] An Exploration of the Partial Respects in Which an Axiom System Recognizing Solely Addition as a Total Function Can Verify Its Own Consistency 🔍
+Association for Symbolic Logic; Cambridge University Press; Cambridge University Press (CUP) (ISSN 0022-4812), Journal of Symbolic Logic, #4, 70, pages 1171-1209, 2005 dec
+Dan E. Willard
+
+DOI: 10.2307/27588421
+
+https://annas-archive.org/scidb/10.2307/27588421/
+
+file:///home/jpt4/Downloads/An%20Exploration%20of%20the%20Partial%20Respects%20in%20Which%20an%20Axiom%20--%20Dan%20E_%20Willard%20--%20Journal%20of%20Symbolic%20Logic,%20%234,%2070,%20pages%201171-1209,%202005%20dec%20--%2010_2307_27588421%20--%20b2d4a645b01a78c95a5ff97f30e6ce45%20--%20Anna%E2%80%99s%20Archive.pdf
+
+[0]: > this section will define the axiom system IS(A) and some of its
+generalizations.
+
+Our axiom systems will employ a set of seven non-growth functions, called the
+groundingfunctions. They will include:
+1. Integer Subtraction where x - y is defined to equal zero when x < y,
+2. Integer Division where x/y x when y = 0, and it otherwise equals [yj.
+3. Predecessor(x) = Max(x - 1, 0),
+4. Maximum(x, y),
+5. Logarithm(x) = [Log2(x + 1)],
+6. Root(x, y) - Ix1/Y] when y > 1, and Root(x, 0) = x.
+7. Count(x, j) designating the number of "1" bits among x's rightmost j bits
