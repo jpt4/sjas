@@ -6,6 +6,19 @@
 
 #lang racket
 
+;; isla grammar
+
+(define (isla-term t)
+  (match t
+    []
+    )
+  )
+
+;; isla-eval
+(define (isla-eval e)
+  ""
+)
+
 ;; Grounding Functions
 
 (define (g-sub x y)

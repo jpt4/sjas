@@ -31,3 +31,9 @@ groundingfunctions. They will include:
 5. Logarithm(x) = ceiling(Log2(x + 1)),
 6. Root(x, y) - floor(x^(1/y)) when y > 1, and Root(x, 0) = x.
 7. Count(x, j) designating the number of "1" bits among x's rightmost j bits
+
+[20250602T18:22:03Z-0500CDT]
+
+Configure alphaLeanTAP with the axioms of IS-lambda(A):
+
+https://github.com/namin/leanTAP/tree/master
