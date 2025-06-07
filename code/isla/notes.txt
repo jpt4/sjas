@@ -37,3 +37,79 @@ groundingfunctions. They will include:
 Configure alphaLeanTAP with the axioms of IS-lambda(A):
 
 https://github.com/namin/leanTAP/tree/master
+
+[20250603T15:45:21Z-0500CDT]
+
+****THIS ONE****
+https://arxiv.org/pdf/1108.6330 
+A Detailed Examination of Methods for Unifying, Simplifying and
+Extending Several Results About Self-Justifying Logics (2011)
+
+Programming Language -> Logic:
+Any language that implements arithmetic.
+
+Logic -> Programming Language:
+Voda's Clausal Language.
+
+TODO: Further inspection of CL, and whether it is/can be made
+meta-circular.
+
+[20250604T12:16:48Z-0500CDT]
+
+To implement tableaux + equality, adhering to the criteria of Willard,
+simply go straight to the source, and use Fitting:
+
+Do not be too concerned about performance, or reinvention (e.g.,
+LeanCOP, or other established ATPs); the goal is minimum viable,
+maximally transparent, fidelitous, implementation.
+
+More generally, there is the question of how to modularly implement
+various axiom bases within tableaux provers, and bases + deduction
+apparatuses for various SJAS. 
+
+[20250605T13:58:37Z-0500CDT]
+Grammar for SJAS expressions (restricted to formulae?)
+
+Convert SJAS-exp to horn clauses for (alpha-)mK direct unification via
+resolution?
+
+What are the consequences of a self-justifying system? What, if any,
+behaviorally distinguishes it from a non-sjas? The sj property is
+dependent on a certain computational irreducibility, that of the
+minimum symbol length necessary to build a number that encodes the
+proof of a statement contradicting its consistency axiom. 
+
+**TODO: CHECK THE CORRECTNESS OF THE FOLLOWING**
+
+An SJAS is not equipped with symbols that allow it to specify, via the
+valid arrangement of those symbols, a number large enough to encode
+the above [proof of a] statement, because the encoding number grows as
+the number of symbols increases, and needed-number-growth-per-symbol
+is greater than the specified-number-growth each symbol can
+provide. That is, the rate of growth of the number needed to encode
+the symbols which specify it is greater than the rate of growth of the
+largest number that those same symbols can support specifying.
+
+This avoids the fixed point underlying the diagonal construction of
+the Goedel sentence for G2.
+
+**TODO: IF CORRECT, CAN THIS FIXED POINT EVASION GENERALIZE?**
+
+[20250607T03:14:48Z-0500CDT]
+https://albany.libwizard.com/f/contactus
+
+Where are technical reports for the SUNY-Albany Computer Science department located?
+
+To Whom It May Concern,
+
+In the 1993 paper "Self-Verifying Axioms Systems" [0] by Dan E. Willard, a former professor of SUNY-Albany, reference is made to a tech report titled "Self-Verifying Axiom Systems and their Implications", that promises to be the "unabridged" version of paper. Prof. Willard was a member of the Computer Science Department of the University at Albany at the time; is there a repository of technical reports from that year and department, and if so, how might they be accessed?
+
+This request is made as a matter of personal interest, for purposes of private study. Your consideration of this inquiry is greatly appreciated.
+
+Sincerely,
+James Torre
+
+[0] Dan Willard, E. (1993). Self-verifying axiom systems. In: Gottlob, G., Leitsch, A., Mundici, D. (eds) Computational Logic and Proof Theory. KGC 1993. Lecture Notes in Computer Science, vol 713. Springer, Berlin, Heidelberg. https://doi.org/10.1007/BFb0022580
+
+[1] D. Willard, Self-Verifying Axiom Systems and their Implications, (the unabridged version of the present article), SUNY-Albany Tech Report, 1993.
+
