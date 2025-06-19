@@ -5,17 +5,76 @@
 ;; IS-lambda(A) implementation
 
 #lang racket
+(require minikanren)
+(require minikanren/numbers)
+(require "mk-prelude.rkt")
 
 ;; isla grammar
 #|
 TODO: Add equality and relations
 
+sj-term := sj-constant | sj-number | sj-variable | sj-function
+sj-constant := [sym-tag symbol]
+sj-number := [num-tag c0-constant] | [num-tag c1-constant]
+c0-constant |= c0
+c1-constant |= c1
+sj-variable := [var-tag symbol]
+sj-function := sj-monadic-grounding-function | sj-dyadic-grounding-function | sj-non-grounding-function
+sj-monadic-grounding-function := [sj-monadic-grounding-function-tag sj-term]
+sj-dyadic-grounding-function := [sj-dyadic-grounding-function-tag sj-term]
+sj-monadic-grounding-function-tag := predecessor | logarithm 
+sj-dyadic-grounding-function-tag := subtraction | division | maximum | root | count
+
 exp := g-fun | q-exp
+prop := variable | constant | eq-relation | leq-relation | conjunction | disjunction | negation | implication
+eq-relation := (= [variable | constant] [variable | constant])
+leq-relation := (<= [variable | constant] [variable | constant])
+
 g-fun := number | monadic-g-function | dyadic-g-function
-number :=
+number := K0 | K1 | K2
+constant := K0 | K1 | K2
+variable := [symbol\constant]
 monadic-g-function := g-pred | g-log
 dyadic-g-function := g-sub | g-div | g-max | g-root | g-count
+
+q-exp := delta-zero | 
 |#
+
+(define (sj-termo i)
+  (conde 
+   [(sj-cono i)]
+   [(sj-numo i)]
+   [(sj-varo i)]
+   [(sj-funo i)]
+   ))
+
+(define (sj-cono i)
+  (fresh (c)
+         (conde
+          [(== `(con ,c) i) (symbolo c)])))
+
+(define (sj-numo i)
+  (conde
+   [(== '(num c0) i)]
+   [(== '(num c1) i)]))
+
+(define (sj-varo i)
+  (fresh (v)
+         (conde
+          [(== `(var ,v) i) (symbolo v)])))
+
+(define (sj-funo i)
+  (fresh (f x y)
+         (conde
+          [(== `(,f ,x) i) (sj-mono f) (sj-termo x)]
+          [(== `(,f ,x ,y) i) (sj-dyao f) (sj-termo x) (sj-termo y)]
+          )))
+
+(define (sj-mono i) (membero i sj-monadic-grounding-function-list))
+(define (sj-dyao i) (membero i sj-dyadic-grounding-function-list))
+
+(define sj-monadic-grounding-function-list '(sj-pred sj-log))
+(define sj-dyadic-grounding-function-list '(sj-sub sj-div sj-max sj-root sj-count))
 
 (define (isla-term? t)
   (match t

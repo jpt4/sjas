@@ -113,3 +113,27 @@ James Torre
 
 [1] D. Willard, Self-Verifying Axiom Systems and their Implications, (the unabridged version of the present article), SUNY-Albany Tech Report, 1993.
 
+**TODO**
+Annotate Willard1993. 
+
+[20250612T00:32:31Z-0500CDT]
+The difference between formulae and quantified formulae:
+
+x+y=a+b could be not be satisfiable in all models, yet it would still
+behave appropriately to various algebraic manipulations, such as
+"adding c" to both sides. That is, conditional on (i.e.,
+blackboxing/bracketing) its correctness, the manipulations which are
+valid would preserve this correctness; however, it is not necessarily
+the case that some set of manipulations can prove its correctness
+(i.e., reduce it to known satisfiable normal form), nor have we
+expressed that our deductive system can do this. Quantifying the
+formula like so - ExEyEaEb.x+y=a+b - is an expression of the definite
+correctness of the formula, as measured by its satisfiability in all
+models, and an assertion that, if our proof calculus is sound, it can
+derive this formula from its primitive components (axioms and
+inference rules).
+
+[20250616T11:17:50Z-0500CDT]
+Terms vs formulae vs sentences.
+
+https://math.stackexchange.com/questions/48976/difference-between-formulas-and-sentences-in-formal-language
