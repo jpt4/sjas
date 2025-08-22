@@ -11,7 +11,7 @@
 
 ;; isla grammar
 #|
-TODO: Add equality and relations
+TODO: Add order predicates
 
 sj-term := sj-constant | sj-number | sj-variable | sj-function
 sj-constant := [sym-tag symbol]
@@ -21,21 +21,17 @@ c1-constant |= c1
 sj-variable := [var-tag symbol]
 sj-function := sj-monadic-grounding-function | sj-dyadic-grounding-function | sj-non-grounding-function
 sj-monadic-grounding-function := [sj-monadic-grounding-function-tag sj-term]
-sj-dyadic-grounding-function := [sj-dyadic-grounding-function-tag sj-term]
+sj-dyadic-grounding-function := [sj-dyadic-grounding-function-tag sj-term sj-term]
 sj-monadic-grounding-function-tag := predecessor | logarithm 
 sj-dyadic-grounding-function-tag := subtraction | division | maximum | root | count
+sj-non-grounding-function := sj-monadic-non-grounding-function | sj-dyadic-non-grounding-function
+sj-monadic-non-grounding-function := [sj-monadic-non-grounding-function-tag sj-term]
+sj-dyadic-non-grounding-function := [sj-dyadic-non-grounding-function-tag sj-term sj-term]
 
 exp := g-fun | q-exp
 prop := variable | constant | eq-relation | leq-relation | conjunction | disjunction | negation | implication
 eq-relation := (= [variable | constant] [variable | constant])
 leq-relation := (<= [variable | constant] [variable | constant])
-
-g-fun := number | monadic-g-function | dyadic-g-function
-number := K0 | K1 | K2
-constant := K0 | K1 | K2
-variable := [symbol\constant]
-monadic-g-function := g-pred | g-log
-dyadic-g-function := g-sub | g-div | g-max | g-root | g-count
 
 q-exp := delta-zero | 
 |#
@@ -75,6 +71,8 @@ q-exp := delta-zero |
 
 (define sj-monadic-grounding-function-list '(sj-pred sj-log))
 (define sj-dyadic-grounding-function-list '(sj-sub sj-div sj-max sj-root sj-count))
+(define sj-monadic-non-grounding-function-list '(sj-pred sj-log))
+(define sj-dyadic-non-grounding-function-list '(sj-sub sj-div sj-max sj-root sj-count))
 
 (define (isla-term? t)
   (match t
