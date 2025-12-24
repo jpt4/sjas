@@ -137,3 +137,6 @@ inference rules).
 Terms vs formulae vs sentences.
 
 https://math.stackexchange.com/questions/48976/difference-between-formulas-and-sentences-in-formal-language
+
+[20251219T15:52:01Z-0500EST]
+SJAS with Multiplication total, but addition relational/non-total/excluded from signature?
