@@ -1,0 +1,142 @@
+[20250531T20:44:32Z-0400EDT]
+Core references:
+
+[0] Willard DE. Self-verifying axiom systems, the incompleteness theorem and related reflection principles. Journal of Symbolic Logic. 2001;66(2):536-596. doi:10.2307/2695030 
+
+https://doi.org/10.2307/2695030
+
+https://annas-archive.org/scidb/10.2307/2695030/
+
+file:///home/jpt4/Downloads/10_2307_2695030_pdf%20--%20Dan%20E_%20Willard%20--%20Journal%20of%20Symbolic%20Logic,%20%232,%2066,%20pages%20536-596,%202001%20jun%20--%20Association%20for%20Symbolic%20Logic%3b%20Cambridge%20--%2010_2307_2695030%20--%20a4c30b0ac00a86f3f95ace88518911e2%20--%20Anna%E2%80%99s%20Archive.pdf
+
+[1] An Exploration of the Partial Respects in Which an Axiom System Recognizing Solely Addition as a Total Function Can Verify Its Own Consistency 🔍
+Association for Symbolic Logic; Cambridge University Press; Cambridge University Press (CUP) (ISSN 0022-4812), Journal of Symbolic Logic, #4, 70, pages 1171-1209, 2005 dec
+Dan E. Willard
+
+DOI: 10.2307/27588421
+
+https://annas-archive.org/scidb/10.2307/27588421/
+
+file:///home/jpt4/Downloads/An%20Exploration%20of%20the%20Partial%20Respects%20in%20Which%20an%20Axiom%20--%20Dan%20E_%20Willard%20--%20Journal%20of%20Symbolic%20Logic,%20%234,%2070,%20pages%201171-1209,%202005%20dec%20--%2010_2307_27588421%20--%20b2d4a645b01a78c95a5ff97f30e6ce45%20--%20Anna%E2%80%99s%20Archive.pdf
+
+[0]: > this section will define the axiom system IS(A) and some of its
+generalizations.
+
+Our axiom systems will employ a set of seven non-growth functions, called the
+groundingfunctions. They will include:
+1. Integer Subtraction where x - y is defined to equal zero when x < y,
+2. Integer Division where x/y = x when y = 0, and it otherwise equals floor(x/y).
+3. Predecessor(x) = Max(x - 1, 0),
+4. Maximum(x, y),
+5. Logarithm(x) = ceiling(Log2(x + 1)),
+6. Root(x, y) - floor(x^(1/y)) when y > 1, and Root(x, 0) = x.
+7. Count(x, j) designating the number of "1" bits among x's rightmost j bits
+
+[20250602T18:22:03Z-0500CDT]
+
+Configure alphaLeanTAP with the axioms of IS-lambda(A):
+
+https://github.com/namin/leanTAP/tree/master
+
+[20250603T15:45:21Z-0500CDT]
+
+****THIS ONE****
+https://arxiv.org/pdf/1108.6330 
+A Detailed Examination of Methods for Unifying, Simplifying and
+Extending Several Results About Self-Justifying Logics (2011)
+
+Programming Language -> Logic:
+Any language that implements arithmetic.
+
+Logic -> Programming Language:
+Voda's Clausal Language.
+
+TODO: Further inspection of CL, and whether it is/can be made
+meta-circular.
+
+[20250604T12:16:48Z-0500CDT]
+
+To implement tableaux + equality, adhering to the criteria of Willard,
+simply go straight to the source, and use Fitting:
+
+Do not be too concerned about performance, or reinvention (e.g.,
+LeanCOP, or other established ATPs); the goal is minimum viable,
+maximally transparent, fidelitous, implementation.
+
+More generally, there is the question of how to modularly implement
+various axiom bases within tableaux provers, and bases + deduction
+apparatuses for various SJAS. 
+
+[20250605T13:58:37Z-0500CDT]
+Grammar for SJAS expressions (restricted to formulae?)
+
+Convert SJAS-exp to horn clauses for (alpha-)mK direct unification via
+resolution?
+
+What are the consequences of a self-justifying system? What, if any,
+behaviorally distinguishes it from a non-sjas? The sj property is
+dependent on a certain computational irreducibility, that of the
+minimum symbol length necessary to build a number that encodes the
+proof of a statement contradicting its consistency axiom. 
+
+**TODO: CHECK THE CORRECTNESS OF THE FOLLOWING**
+
+An SJAS is not equipped with symbols that allow it to specify, via the
+valid arrangement of those symbols, a number large enough to encode
+the above [proof of a] statement, because the encoding number grows as
+the number of symbols increases, and needed-number-growth-per-symbol
+is greater than the specified-number-growth each symbol can
+provide. That is, the rate of growth of the number needed to encode
+the symbols which specify it is greater than the rate of growth of the
+largest number that those same symbols can support specifying.
+
+This avoids the fixed point underlying the diagonal construction of
+the Goedel sentence for G2.
+
+**TODO: IF CORRECT, CAN THIS FIXED POINT EVASION GENERALIZE?**
+
+[20250607T03:14:48Z-0500CDT]
+https://albany.libwizard.com/f/contactus
+
+Where are technical reports for the SUNY-Albany Computer Science department located?
+
+To Whom It May Concern,
+
+In the 1993 paper "Self-Verifying Axioms Systems" [0] by Dan E. Willard, a former professor of SUNY-Albany, reference is made to a tech report titled "Self-Verifying Axiom Systems and their Implications", that promises to be the "unabridged" version of paper. Prof. Willard was a member of the Computer Science Department of the University at Albany at the time; is there a repository of technical reports from that year and department, and if so, how might they be accessed?
+
+This request is made as a matter of personal interest, for purposes of private study. Your consideration of this inquiry is greatly appreciated.
+
+Sincerely,
+James Torre
+
+[0] Dan Willard, E. (1993). Self-verifying axiom systems. In: Gottlob, G., Leitsch, A., Mundici, D. (eds) Computational Logic and Proof Theory. KGC 1993. Lecture Notes in Computer Science, vol 713. Springer, Berlin, Heidelberg. https://doi.org/10.1007/BFb0022580
+
+[1] D. Willard, Self-Verifying Axiom Systems and their Implications, (the unabridged version of the present article), SUNY-Albany Tech Report, 1993.
+
+**TODO**
+Annotate Willard1993. 
+
+[20250612T00:32:31Z-0500CDT]
+The difference between formulae and quantified formulae:
+
+x+y=a+b could be not be satisfiable in all models, yet it would still
+behave appropriately to various algebraic manipulations, such as
+"adding c" to both sides. That is, conditional on (i.e.,
+blackboxing/bracketing) its correctness, the manipulations which are
+valid would preserve this correctness; however, it is not necessarily
+the case that some set of manipulations can prove its correctness
+(i.e., reduce it to known satisfiable normal form), nor have we
+expressed that our deductive system can do this. Quantifying the
+formula like so - ExEyEaEb.x+y=a+b - is an expression of the definite
+correctness of the formula, as measured by its satisfiability in all
+models, and an assertion that, if our proof calculus is sound, it can
+derive this formula from its primitive components (axioms and
+inference rules).
+
+[20250616T11:17:50Z-0500CDT]
+Terms vs formulae vs sentences.
+
+https://math.stackexchange.com/questions/48976/difference-between-formulas-and-sentences-in-formal-language
+
+[20251219T15:52:01Z-0500EST]
+SJAS with Multiplication total, but addition relational/non-total/excluded from signature?
