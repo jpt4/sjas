@@ -1,0 +1,123 @@
+#!/usr/bin/perl -w
+# vim:set sts=4 sw=4:
+# Find a free port for CL to listen on and execute CL and Mozilla
+use strict;
+use Socket;
+use File::Basename;
+use File::Spec;
+use Carp;
+
+our $port;
+
+sub cldied
+{
+    die "CL exited without listening on port $port";
+}
+
+sub port_found($$$@);
+
+if (scalar(@ARGV) and $ARGV[0] =~ /^-p(\d*)$/) {
+    $port = $1;
+    shift;
+    if (not $port) {
+	if (scalar(@ARGV) and shift =~ /^(\d+)$/) {
+	    $port = $1;
+	}
+    }
+}
+
+$port or $port = 17228;
+
+my $path = dirname($0)."/..";
+my $cl_bin = File::Spec->canonpath(File::Spec->rel2abs("$path/bin/cl"));
+
+-x $cl_bin or die "$cl_bin doesn't exist, or isn't executable";
+
+my $proto = getprotobyname('tcp');
+
+for (; $port < 65535; $port++) {
+    socket(Server, PF_INET, SOCK_STREAM, $proto)        || die "socket: $!";
+    setsockopt(Server, SOL_SOCKET, SO_REUSEADDR,
+					pack("l", 1))   || die "setsockopt: $!";
+    my $address = sockaddr_in($port, INADDR_LOOPBACK);
+    if (bind(Server, $address)) {
+	close (Server);
+	port_found($port,$address,$cl_bin,@ARGV);
+    }
+    close(Server);
+}
+
+die "Couldn't find a free port for CL to bind";
+
+sub spawn($$@);
+
+sub port_found($$$@)
+{
+    my ($port,$address,$cl_bin,@cl_args) = @_;
+    my ($arg,@cl_args1);
+    #Spawn CL
+    $SIG{CHLD} = \&cldied;
+    while (scalar(@cl_args)) {
+	$arg = shift @cl_args;
+	if ($arg =~ '/') {
+	    chdir dirname($arg);
+	    $arg = basename($arg);
+	    push @cl_args1, $arg, @cl_args;
+	    last;
+	} else {
+	    push @cl_args1, $arg;
+	    next;
+	}
+    }
+    my $cl_pid = spawn(0,$cl_bin,"-p$port",@cl_args1);
+
+    #Parent continues by polling the selected port to find out whether CL
+    #has already started its HTTP server.
+    #In case CL dies without starting the server, parent exits due to the
+    #signal handler set above.
+    socket(Client, PF_INET, SOCK_STREAM, $proto) ||
+					    die "socket(Client): $!";
+    sleep 1 until connect(Client,$address);
+    close(Client);
+
+    #looks like CL is up and running, spawn Mozilla
+    $SIG{CHLD} = 'DEFAULT';
+    $SIG{INT} = 'IGNORE'; #ignore Ctrl-C, but CL will not
+    my $url = "http://localhost:$port/";
+    my $mozilla_pid = spawn(1,"firefox",$url);
+    do {
+	my $exited = wait;
+	#if there's no Mozilla running, run our own one
+	if ($exited == $mozilla_pid and $? >> 8 > 0) {
+	    $mozilla_pid = spawn(1,"mozilla",$url);
+	}
+    } while 0;
+    #wait for CL to exit; if it receives SIGINT, ncurses will reset terminal
+    #to its original state; if we didn't ignore SIGINT, we might end before
+    #CL's ncurses reset terminal; that would send SIGHUP to CL and it would end
+    #immediatelly in the middle resetting terminal
+    waitpid($cl_pid,0);
+    my $cl_status = $?;
+    exit $?;
+}
+
+sub spawn($$@)
+{
+    my $flags = shift;
+    my $prog = shift;
+    my $chpid = fork;
+    defined $chpid or die "fork($prog): $!";
+    if ($chpid == 0) {
+	if ($flags & 0x0001) {
+	    setpgrp(0,0);
+	    $SIG{INT} = 'DEFAULT';
+	}
+	if ($flags & 0x0002) {
+	    close(STDERR);
+	    open(STDERR,'>/dev/null');
+	}
+	exec($prog,@_) or die "exec($prog): $!";
+    }
+    return $chpid;
+}
+

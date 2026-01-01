@@ -1,0 +1,62 @@
+#!/bin/bash
+
+SCRIPTDIR="$(dirname "$0")"
+cd "$SCRIPTDIR"
+
+. config
+if [ -z "$BIN" -o -z "$FONTS" -o -z "$FONTPREFIX" ]; then
+    echo "ERROR: bad configuration"
+    exit 1
+fi
+
+if which firefox > /dev/null || which mozilla > /dev/null; then
+    :
+else
+    echo "Cannot find Firefox or Mozilla"
+    echo "CL requires one of these browsers"
+    echo "Install Firefox and then run CL installation again"
+    echo "Press ENTER to abort installation"
+    read a
+    exit 1
+fi
+
+
+echo "Installing binaries to $BIN"
+mkdir -p "$BIN"
+cp -a bin/cl bin/runcl "$BIN"
+
+
+if [ -n "$OLDFONTS" -a -e "$OLDFONTS" ]; then
+    echo "Removing old fonts"
+    rm -r "$OLDFONTS"
+fi
+
+echo -n "Installing Unicode math fonts to $FONTS"
+mkdir -p "$FONTS"
+cd share/fonts
+for fontfamily in *; do
+    cd "$fontfamily"
+    for fontfile in *; do
+	echo -n "."
+	cp -a "$fontfile" "$FONTS/$FONTPREFIX$fontfile"
+    done
+    cd ..
+done
+echo
+cd ../..
+
+
+sed "s'^Exec=~/bin'Exec=${BIN/'/\\'}'" < share/ComeniusUniversity-clausal-language.desktop.template > share/ComeniusUniversity-clausal-language.desktop
+
+echo "Installing icon"
+xdg-icon-resource install --size 32 share/ComeniusUniversity-clausal-language.png
+
+echo "Installing menu entry (Aplications/Programming or Applications/Development)"
+xdg-desktop-menu install share/ComeniusUniversity-clausal-language.desktop
+
+echo "Installing MIME types"
+xdg-mime install share/ComeniusUniversity-clausal-language.xml
+
+echo "Associating CL with the MIME types"
+xdg-mime default ComeniusUniversity-clausal-language.desktop text/x-clausal-language
+xdg-mime default ComeniusUniversity-clausal-language.desktop application/x-clausal-language

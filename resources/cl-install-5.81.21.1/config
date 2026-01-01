@@ -1,0 +1,4 @@
+BIN="$HOME/bin"
+OLDFONTS="$HOME/.fonts/math-fonts"
+FONTS="$HOME/.fonts"
+FONTPREFIX="cl.dai.fmph.uniba.sk-"

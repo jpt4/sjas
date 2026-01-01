@@ -1,0 +1,26 @@
+#!/bin/bash
+
+SCRIPTDIR="$(dirname "$0")"
+cd "$SCRIPTDIR"
+
+. config
+if [ -z "$BIN" -o -z "$FONTS" -o -z "$FONTPREFIX" ]; then
+    echo "ERROR: bad configuration"
+    exit 1
+fi
+
+echo "Removing binaries from $BIN"
+rm "$BIN/cl"
+rm "$BIN/runcl"
+
+echo "Removing math fonts from $FONTS"
+rm "$FONTS/$FONTPREFIX"*
+
+echo "Uninstalling MIME type"
+xdg-mime uninstall share/ComeniusUniversity-clausal-language.xml
+
+echo "Uninstalling Applications menu entry"
+xdg-desktop-menu uninstall ComeniusUniversity-clausal-language.desktop
+
+echo "Uninstalling icon"
+xdg-icon-resource uninstall --size 32 ComeniusUniversity-clausal-language

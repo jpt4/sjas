@@ -1,0 +1,13 @@
+
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Terminal=true
+Name[en_US]=Clausal Language
+Comment[en_US]=Clausal Language
+Name=Clausal Language
+Comment=Clausal Language
+Exec=~/bin/runcl %f
+Icon=ComeniusUniversity-clausal-language
+Categories=Development

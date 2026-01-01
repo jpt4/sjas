@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
+  <mime-type type="text/x-clausal-language">
+    <comment>Clausal Language Source</comment>
+    <glob pattern="*.cl"/>
+    <magic>
+	<match type="string" offset="0" value="mod "/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-clausal-language">
+    <comment>Clausal Language Compiled</comment>
+    <glob pattern="*.clb"/>
+  </mime-type>
+</mime-info>
