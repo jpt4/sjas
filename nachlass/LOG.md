@@ -2,6 +2,14 @@
 
 ## 2026-05-14 - Proflog SJAS Coding Boundary
 
+- Logged the ADR-0065 follow-up: Proflog's Level-1 `SelfCons1` construction now
+  follows Willard 2011 Appendix A's fixed-point shape by generating a skeleton
+  `Gamma_1(g)`, encoding that skeleton, and using the skeleton code as the
+  `subst-prf/4` substitution argument in the final Group-3 sentence. The
+  implementation remains a finite `IS#_D(beta)` substrate: it adds the required
+  skeleton-to-Group-3 substitution entry and an object-level `sjas-axiom`
+  certificate checked through generated `axiom-member/2`, while still leaving a
+  general arbitrary-code `Subst` relation for later work.
 - Logged the follow-up Proflog implementation boundary after ADR-0063: a
   `tableau-proof/3` predicate over code terms is necessary but not sufficient for
   Willard Level-1 self-justification. The `SelfCons_k(beta,d)` formulation also
