@@ -2,6 +2,12 @@
 
 ## 2026-05-14 - Proflog SJAS Coding Boundary
 
+- Logged the ADR-0066 follow-up: Proflog now exposes the finite generated
+  substitution boundary as `subst-code/2`, separating Willard's `Subst(g,h)`
+  relation from `SubstPrf(g,t,p)`. The active implementation still generates
+  the relation for one finite `IS#_D(beta)` system rather than parsing arbitrary
+  formula codes, but `subst-prf/4` no longer couples the substitution code to
+  the theorem code being proved.
 - Logged the ADR-0065 follow-up: Proflog's Level-1 `SelfCons1` construction now
   follows Willard 2011 Appendix A's fixed-point shape by generating a skeleton
   `Gamma_1(g)`, encoding that skeleton, and using the skeleton code as the
