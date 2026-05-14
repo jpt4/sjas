@@ -2,6 +2,13 @@
 
 ## 2026-05-14 - Proflog SJAS Coding Boundary
 
+- Logged the follow-up Proflog implementation boundary after ADR-0063: a
+  `tableau-proof/3` predicate over code terms is necessary but not sufficient for
+  Willard Level-1 self-justification. The `SelfCons_k(beta,d)` formulation also
+  needs substitution-aware proof vocabulary. Proflog ADR-0064 therefore adds
+  `subst-prf/4` and changes generated `SelfCons1` to cite it, while explicitly
+  retaining the remaining gap that a general code-level `Subst` relation is not
+  yet implemented. The focused SJAS and regression gates passed for ADR-0064.
 - Logged the Proflog implementation boundary exposed after ADR-0062:
   hash-derived formula symbols can serve as finite generated codebook labels,
   but they are not Willard-style arithmetic Godel codes and cannot support a
