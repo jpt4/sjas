@@ -1,5 +1,30 @@
 # Nachlass Log
 
+## 2026-05-14 - Proflog SJAS Coding Boundary
+
+- Logged the Proflog implementation boundary exposed after ADR-0062:
+  hash-derived formula symbols can serve as finite generated codebook labels,
+  but they are not Willard-style arithmetic Godel codes and cannot support a
+  faithful object-language `tableau-proof` predicate by themselves.
+- The next Proflog ADR must review Willard's own descriptions of syntax and
+  semantic-tableau proof coding, identify compatible coding options, and replace
+  or supplement host-side opaque labels with inspectable arithmetized codes for
+  formulas, proof objects, complement relations, formula classes, substitution,
+  and tableau proof checking.
+- Completed the first Proflog-side research pass over local Willard witnesses
+  and public arXiv records. The key citation is Willard 2011, Definition D.1,
+  part iv: the Godelized method for encoding semantic-tableau proofs may be
+  essentially any natural method satisfying a lower bound of at least `5J` bits
+  for a proof with `J` function symbols; footnote 23 reformulates this as a
+  Godel number at least `32^J`. This rules out fixed-width hashes as faithful
+  formal codes.
+- Proflog ADR-0063 implemented the replacement boundary using compact base-64
+  code terms `(code-N b0 ... bN-1)`, matching the byte/base-64 direction in the
+  Willard witnesses while avoiding a deep binary numeral stack overflow. The
+  implementation still represents a finite `IS#_D(beta)` executable substrate:
+  generated decode tables make codes inspectable to `tableau-proof/3`, but full
+  arbitrary-code Delta-0 parsing/substitution remains a later fidelity step.
+
 ## 2026-05-10 - Willard Public-Witness Aggregation
 
 - Completed a public-Internet aggregation pass for the Willard bibliography in
