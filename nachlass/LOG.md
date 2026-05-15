@@ -2,6 +2,16 @@
 
 ## 2026-05-14 - Proflog SJAS Coding Boundary
 
+- Logged the Proflog ADR-0068 follow-up: `tableau-proof/3` and `subst-prf/4`
+  now build proof targets from structurally decoded theorem-code bytes when the
+  theorem code is not part of the generated Group axiom registry. The promoted
+  example is `lt(1,2)`: Proflog proves it through the SJAS arithmetic profile,
+  encodes that theorem as a compact formula code, and then checks the supplied
+  proof certificate against the decoded theorem target. Both proof predicates
+  reject the same certificate when the theorem code is changed to `lt(2,1)`.
+  The remaining implementation boundary is proof-list/Tab-1 theorem reuse over
+  code terms alone; Proflog still validates decoded targets by calling its core
+  tableau kernel.
 - Logged the Proflog ADR-0067 follow-up: the Willard SJAS profile now parses
   formula-code byte streams structurally for `wff/1`, formula-class predicates,
   `neg-pair/2`, and identity `subst-code/2`. The red characterization used the
