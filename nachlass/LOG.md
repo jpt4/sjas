@@ -2,6 +2,14 @@
 
 ## 2026-05-14 - Proflog SJAS Coding Boundary
 
+- Logged the Proflog completion audit for the finite ordinary-tableau
+  `IS#_D(beta)` substrate. The audited scope now includes arithmetized
+  formula/system/proof codes, structural syntax predicates, Level-1
+  substitution-proof vocabulary, fixed-point substitution, structural
+  theorem-code proof targets, and passing slow/fast/extended gates. The
+  remaining non-goals are Tab-1/proof-list theorem reuse, general non-identity
+  substitution beyond the generated fixed-point entry, and open proof-code
+  synthesis.
 - Logged the Proflog ADR-0068 follow-up: `tableau-proof/3` and `subst-prf/4`
   now build proof targets from structurally decoded theorem-code bytes when the
   theorem code is not part of the generated Group axiom registry. The promoted
