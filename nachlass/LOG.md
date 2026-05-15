@@ -2,6 +2,15 @@
 
 ## 2026-05-14 - Proflog SJAS Coding Boundary
 
+- Logged the Proflog ADR-0067 follow-up: the Willard SJAS profile now parses
+  formula-code byte streams structurally for `wff/1`, formula-class predicates,
+  `neg-pair/2`, and identity `subst-code/2`. The red characterization used the
+  code for `lt(1,2)`, a valid formula in the active SJAS language that was not
+  generated as a Group axiom. Before the decoder, `wff`, `delta-star-0-code`,
+  `neg-pair`, and identity `subst-code` all failed because the code was absent
+  from the finite generated formula registry. The remaining Proflog boundary is
+  that `tableau-proof/3` still bridges arbitrary theorem codes to kernel AST
+  formulas instead of checking every theorem formula wholly at the code level.
 - Logged the ADR-0066 follow-up: Proflog now exposes the finite generated
   substitution boundary as `subst-code/2`, separating Willard's `Subst(g,h)`
   relation from `SubstPrf(g,t,p)`. The active implementation still generates
