@@ -1,0 +1,21 @@
+=== tesseract (conf=0, chars=0) ===
+
+=== ocrad fallback ===
+_ 3 The SPcond Incompletenesg TheorPm
+v
+The &_om 6ys_m Peano Arlthmetic (PA) w_ defined by S_-
+tioI_ 3.1 or Mendel_on'_ t_tbook. lt _enti_y h_ three funL
+tion _ymbo_ __ponding to Addition, Multlpli_tion _d
+Succ_r and tllw Te_gni__ th_e thT_ operatlon _ "tot&"
+(wing Definition 1.9'_ notatlon). lt_ _ie[ reature i_ that lt ln-
+_ud_ the Principle or Induction _ _ ewometlc a_umptlon
+`' Ei.e _ page 150'_ "S-9" awom __eme.)
+Definition 3.l Let _ _d B denote two _omsys_m_.
+We_ll_y B i_anExtensiooor a _dwTi_ B > _ LR
+B e prove all _ 's th_rem_.
+ln Gödel'_ 1931 papeT lll, both hi_ Fint and Second ln-
+_mpleten_ Th_rem_ h_ appe__. The [ormer _tBt_ that
+neither Peano Arithmetic noT any recur_ively enumerable ex-
+_.
+_T
+

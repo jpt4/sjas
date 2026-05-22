@@ -1,0 +1,18 @@
+main reason why I felt it would be helpful to write this section. It should help you
+
+(G   better understand Section 2.7’s discussion.
+
+Definition 5.3 The symbol No has also been used to denote the cardinality of
+the set of positive integers. Under set theory notation, Nj4: is the cardinality of a
+
+set whose size is equivalent to the power-set of a set of N; cardinality.
+
+How This Section Should Have Helped You: Each of the concepts defined
+above appear in Section 2.7 of Mendelson’s textbook, and that is why I thought it
+might be helpful for my lecture notes to have a short 4-page section reviewing these
+definitions. I am not sure whether or not I will cover Corollary 2.20 in this course. I
+will definitely not do the parts of Section 2.7 that come after it. (You should read at
+
+«ce   least Corollary 2.20’s statement — although perhaps not its proof.)
+
+34

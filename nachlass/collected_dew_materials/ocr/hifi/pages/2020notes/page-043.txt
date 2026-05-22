@@ -1,0 +1,39 @@
+.
+
+However, it turns out we can show that Godel’s Second Incompleteness Theorem
+will also imply that the prior sentence is false. This fact will enable us to prove Léb’s
+Theorem (via a proof-by-contradiction) because the last sentence in the previous
+
+paragraph CANNOT be simultaneously true and false !
+
+More precisely, PA“ must be able to prove Equation (39) because PA could do
+this (and because PA~” is an extension of PA). Also by definition PA~” contains
+
+— W as an axiom. Hence, it can combine the latter fact with Equation (39) to derive
+70 (v)                                         (40)
+
+Furthermore since PA (and therefore also PA~”) can prove Lemma 11, it follows that
+PA~ can use its knowledge of Equation (40)’s truth that to derive that Equation
+(41) is also true.
+
+n0-" (0)                                   (41)
+
+However, we will now deliver the punchline that will prove Léb’s Theorm.
+
+It is that from the definiton of “ O"” ”, it must be ture that PA~” can prove
+(41) ONLY IF IT HAS KNOWLEDGE of its own consistency. But Godel’s Second
+Theorem specifies no consistent extension of PA can recognize its own consistency.
+
+Hence PA~* must consequently be inconsistent.
+
+The latter statement brings our proof-by-contradiction to its sought-after awk-
+ward end. This is because the last sentence of the first paragraph of Theorem 4’s
+proof indicated that PA~” was consistent, and the prior paragraph contradicted that
+
+assumption !
+
+Hence, we have proven Theorem 4 because we have shown that the temporary
+
+assumption that it was false has led to a contradiction.
+
+41

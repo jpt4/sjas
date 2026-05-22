@@ -1,0 +1,34 @@
+the Deduction Theorem occurs, where one can compress a proof sharply by taking
+
+certain shortcuts.
+
+And so the results about PA+ turn out to be easier to prove than their analogs
+
+about PA, although the latter is only a conservative extension of the former.
+
+On the other hand, there is a historic reason why logicians have chosen mostly
+to work in the framework of PA, rather than PA+. It is that PA is the historic
+language of the simplest branch of Mathematics, since its basic function primitives
+are Addition and Multiplication (and nothing more). Gédel’s 1931 version of the
+Incompleteness Theorem shocked the world of Mathematics because it showed that
+
+undecidability results arose in such a foundational branch of Mathematics.
+
+It also answered an open question that was explicitly raised by the mathematician
+
+David Hilbert.
+
+5 Baby Set Theory and the Completeness Theorem
+
+Let [ be a set of axioms for some language ZL, and W be any sentence in L’s
+language. Godel’s Completeness Theorem states essentially that if UV is valid in every
+model for ['’s axioms then WV will have a proof from I’ using the Hilbert-deduction
+method, appearing in Section 2.3 of Mendelson’s textbook. It thus explains why
+Section 2.3’s proof formalism is very natural (by showing that the Hilbert Deduction
+system proves exactly the full set of theorems that one would want to have formally
+
+proven).
+
+It is not our intention in this Section to repeat the proof of the Completeness
+
+29

@@ -1,0 +1,29 @@
+We will use the term U-Grounding Function to refer to a function that is one of
+
+our eight Grounding Functions or the operations of Addition and Doubling.
+
+Comment 1.1. We do not technically need both the operations of Addition and
+Doubling in our U-Grounding language L . However, it much is easier to encode
+large integers when we have access to both these function symbols. For example, any
+integer N > 1 can be encoded by a term of length O( Log(N) ) , using only the
+constant symbol for “1”, when both the addition and doubling function symbols are
+
+present. For instance, below is our binary-like encoding for the number 11
+1 + Double( 1+ Double( Double( 1)))                  (1)
+
+Henceforth, the symbol N will denote such a binary-like encoding for the integer
+N . (In the degenerate case where N = 0, 0 will simply be defined as being the
+
+constant symbol “ Cp ”, that represents zero’s value.)
+
+Definition 1.2. We will follow mostly conventional logic notation when dis-
+cussing U-Grounding functions. Thus, a term is defined to be a constant symbol, a
+variable symbol or a function symbol (followed by some input arguments, which are
+similarly defined terms). If t is a term then the quantifiers in Vu <t W(v) and
+Ju<t W(v) will be called bounded quantifiers. These two wffs will be semantically
+equivalent to the formulae of Vv (vu <t = W(v)) and 3u (vu <tA V(v)). A formula
+® will be called Ag iff all its quantifiers are bounded. Thus a Ag formula is defined to
+be a wff that is any combination of atomic formulae (using our ten U-Grounding
+functions and the equals and <_ predicates) combined by bounded quantifiers and
+
+the boolean operations of AND,OR, NOT and IMPLIES in an arbitrary manner.

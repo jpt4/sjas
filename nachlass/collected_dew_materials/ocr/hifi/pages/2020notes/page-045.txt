@@ -1,0 +1,51 @@
+Table I: List of I]; Axioms Defining The U-Grounding Func-
+tions and The Relation Predicates of = , < and <
+
+lL sWrYy zr<y @ yor
+
+2 Wrvy rey Se y2r
+
+3. WevYp zrsy ol[r=y Vv zrsy-1]
+
+4 We¥yVz zt+y=2z @ | z-r=yAz2z )
+
+5 Vr «+z = Double(z)
+
+6 Vr z=2
+
+7 WreVy r=y>y=r2
+
+& VevYyWs {z=yAy=z} > z=2z
+
+9. Yr¥y xr=y =>  Predecessor(z) =Predecessor(y) A Logarithm(r) =Logarithm(y)
+
+10. VWrVyVavb {r=aAy=b} => z-y=a-b A Z=FEAN
+Count{z,y) =Count(a,) A Maximum(z, y) =Maximum(a,b) A Root(x,y) =Root(a, b)
+
+IL WrY¥yvavb { r-y=a-b A y=b} => z=a
+
+12 WevyVYavb {r=aAy=bAr<y} => a<b
+
+iB Wry rH=yvr<yVy<z
+
+a WevyV¥s {z<yAy<z} > 2r<z
+
+ub. Yr o-m-r<r
+
+16. Wr «<1 => r=0
+
+17. Predecessar{0)=0
+
+18 Yr r#0 => _ # Predecessor{x) < x
+
+19. ¥r vy —[ Predecemor{z) < y < 3]
+
+2. Yrvysiz<y xr<y => x =Predecessor(z)
+
+2. Yr «r-O0=2
+
+2 vevy y#0 = r—-y = Predecessor{ x — Predecessor(y) )
+
+23. Yr vy z<yo EF =0
+
+2%. Wr ig=f=2

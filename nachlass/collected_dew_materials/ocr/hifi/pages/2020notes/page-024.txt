@@ -1,0 +1,34 @@
+The reason it is desirable to rewrite *¢ into ***'s equivalent form is that the latter
+expression ts technically the prociee sentence which is written in the exact language
+
+used by PA+
+
+We have developed two possible proofs of the Second Incompleteness Theorem
+that employ the formalisms of Definition 3.4 and statement **. Our first proof was
+used in ogurse notes during 2004-2018. and a second more succinct and better proof
+
+is given below:
+3.1 <A Succinct Proof of the Second Incompleteness Theorem
+
+Our proof of the Second Incomp|etencss Theorem will focus around the following
+Lemma
+
+ry
+
+Lemma 7 Let ws aseume the amnom ryricem PA & ecmrutent (breause all of con-
+ventional mathematics would collapac sf of war not) The amom system PA+ then
+
+cannot prom the Wy theorem, Cons PAe ), dadenng us on consutency.
+
+The rough intuitive reason Lemma 7 bulds is that is that PA+ is one example of an
+axiom wyrtem that satisfies the if-clause for requirements applied to & in forumula
+eee . (In particular, this invariant is a simple eansquence of Fact 3.3 and our
+
+observation that 22 eis just a rewrite of «* in a different notation).
+
+We wall now provide the reader with the exact details behind Lemma 7's proof.
+It uses, exactly, the farmal language that PA+ employs. Our formal discussion also
+
+("uses the following notation:
+
+22

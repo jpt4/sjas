@@ -1,0 +1,33 @@
+The method for encoding a proof will be similar to a formula’s encoding, except
+that it will need a 56-th symbol (called the period symbol) for separating the distinct
+formulae that appear in sequential order in the proof. As before, the sequence of n
+digits D,, D2, D3, ... Dn , describing a proof, will again be written as a number
+
+in base 64, whose value falls between 64"-! and 64"—1.
+
+Major Notation Convention: The Logic literature uses the phrase Godel
+Number or Gédel Encoding to describe a positive integer N that represents the
+sequence of characters D,, D2, D3, ... Dy, as a Base-64 integer. (Actually, the
+literature offers several different possible Gédel-like encoding schemes, and the one
+used in Section 3.4 of Mendelson’s textbook [4] is much more complicated than the
+
+variant I define in Appendix A.)
+
+Definition 2.1. An axiom system a will be said bea Aj axiom system if there
+exists a Aj formula Ax,(s) which yields a value of True for exactly those integers
+
+s which correspond to Gédel encodings for one of a’s axioms.
+
+Comment 2.2. It turns out that all conventional axiom systems have Aj
+encodings. (This is because any axiom system that fails to be Ag encode-able is
+
+difficult for a Human Being to interpret and contemplate !! )
+
+Lemma 3 Assume that a isa Aj azriom system. Then it is possible to construct
+
+two Aj formula Logical) and Prf,(p,t) with the following two properties
+
+A. Logical(x) is true exactly when x is the Gédel number of one of Mendeslon’s
+Logical arioms.
+
+11

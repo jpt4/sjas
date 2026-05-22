@@ -1,0 +1,25 @@
+x There is no Hilbert-style proof of THIS SEN-
+
+TENCE (looking at itself) from the axiom system a.
+
+To achieve this task, we let ['(g) denote the following formula
+VhVp { Subst(g,h) = -Prfag(h,p) } (22)
+
+Let N denote the Godel number of Equation (22)’s formula,
+and let us recall that the term NV was defined by Comment
+1.1. Then the IIf sentence that encodes + (whose formal
+
+name is often written as “U(a) ” ) is the sentence T( N ).
+
+In other words from Equation (22), this implies that our
+['( N ) sentence (that is often written as “ U(a) ” ) has the
+
+following encoding:
+
+VhVp { Subst(N,h) = -aPrfag(h,p) } (23)
+
+Definition 2.4. A Aj axiom system a will be called
+
+Regular iff it either includes all Table I’s axioms or at least can
+
+15

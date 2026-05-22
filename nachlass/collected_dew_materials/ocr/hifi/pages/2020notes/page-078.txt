@@ -1,0 +1,26 @@
+>  orem) Let a denote any Aj encode-able aziom system that
+is an extension of PA+ and which is consistent. The axiom
+system a then cannot prove the Il} theorem, Cons( a ),
+
+declaring its own consistency.
+
+Proof: By similar reasoning as was used in Lemma 7’s
+proof. In particular, the same reasoning that Lemma 7 used to
+
+establish that PA+ yf unable to prove Cons( PA+ ) will also
+
+® show that a cannot prove Cons( a ). O
+
+Comment 3.6. The original version of the Second Incom-
+pleteness Theorem by Gédel was slightly stronger than Theo-
+rem 3. It stated that no recursively enumerable axiom system
+that was an extension of PA (not PA+) could prove its own
+consistency. Also, let @* denote an axiom system, identical
+to PA, except that the Principle of Induction is removed. (This
+means that @* differs from PA’s definition on Page 155 by
+
+39
+
+Uz
+
+(Yy

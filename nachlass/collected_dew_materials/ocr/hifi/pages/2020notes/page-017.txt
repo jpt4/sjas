@@ -1,0 +1,35 @@
+‘¢
+
+there exists a computerized procedure P that if allowed to run indefinitely will
+produce a list of all of the Gédel numbers of a’s axioms and which will list no other
+Godel number besides these. Using this notation, we can now give the statement of
+
+a stronger version of Gédel’s First Incompleteness Theorem:
+
+Theorem 2 Every consistent recursively enumerable aziom system a is unable to
+prove some logically valid Tl; sentence. (Also, a cannot prove every logically valid
+
+Il, sentence.)
+
+The proof of Theorem 2 has a generally similar structure to Theorem 1’s proof.
+However, its details (which appear in Mendelson’s textbook) are somewhat more
+
+complicated. They will not appear here.
+
+Comment 2.6. Theorem 2 is stronger than Theorem 1 because it indicates that
+no computerized algorithm can be used to generate an axiom system that enables
+us to find all true II} or II; sentences ! It can be viewed as saying that Artificial
+Intelligence will never be able to reach the full goal that at least science fiction
+
+writers have set for it ! The theory of NP-hardness is also related to this issue.
+
+Comment 2.7. In my view, the main philosophical implication of Gédel’s Incom-
+pleteness Theorem is that computer science and computers can never achieve a set
+of over-ambitious goals, because of the “undecidability problems” raised by Gédel’s
+Incompleteness Theorem. Rather a more mature approach for computer science is
+to restrict itself to well-defined narrowly constructed engineering-style problems —
+where the essentially “undecidable tasks” that are unrealistically over-ambitious are
+
+avoided.
+
+16

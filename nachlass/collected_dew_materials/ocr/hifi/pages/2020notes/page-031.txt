@@ -1,0 +1,33 @@
+cw
+
+Theorem that Mendelson presents in Section 2.7 (because we do not know a better
+way to present it). However, my impression is that Section 2.7’s proof will be easier
+to read if a student examines my discussion in this section first. This is because
+Section 2.7 presumes a knowledge of Baby Set Theory, only briefly surveyed in the
+book’s preface. I believe that I can make Mendelson’s Section 2.7 easier to read, if I
+first present some short 4-page introduction to Baby Set Theory that will help you
+
+understand Section 2.7.
+
+In our discussion, letter such as S and 7, will denote sets. We will say S
+has cardinality less-than-or-equal to T’s cardinality (and write S =< T ) iff there
+exists a one-to-one function, called say F' , from the set S into JT. We will say
+that S and T have the same cardinality (and write S$ ¥ T ) if the function F
+is an “onto” function from S to T . That means every member of T has some
+
+member of S mapping onto it under our function F’.
+Also, the symbol S ~< T denotes the identity:
+S87 A ASST                       (28)
+
+Below are three well known facts about the cardinality operator proven somewhere
+
+in Chapter 4 of Mendelson’s book:
+VS WT [(SKATAT<S] &© SET      (29)
+VS VT SxTVTXS         (30)
+VS VT S#®T #e TSS        (31)
+
+Some of the results about the cardinality operator are a bit counter-intuitive. For
+
+example, let J be set of all positive integers, and let E be the set of positive even
+
+30

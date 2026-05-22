@@ -1,0 +1,54 @@
+5. Root(z,y) = [2/¥], and also
+
+.             6. Count(z,j) which designates the number of physical “1” bits that are stored among
+: »           z’s rightmost j bits.
+
+.
+
+Our papers used the term Grounding Function to refer to these six non-growth
+operations. Also, the term U-Grounding Function referred to a function that
+corresponds to either one of these six grounding primitives or the growth-oriented
+
+functional operations of Addition and Double(z) = z + =.
+Our language L’, defined in [50], was built out of the eight U-Grounding function    V, |
+operations plus the primitives of “0”, “1”, “=” and “<”. This language differs
+from a conventional arithmetic by ercluding a formal multiplication function symbol.
+(Instead, it treats multiplication as a 3-way relation, via the obvious employment of
+
+its Division primitive.) This notation leads to a surprisingly strong and ny   Cl   a,
+evasion of the Second Incompleteness Effect.                                                  py  4/ [ ra      ly,
+
+Lio
+
+quantifiers used in the wfils Vu <t V(v) and du <t Y(v) will be called bounded — Presumabyvenoudntocou
+
+Definition 4.1 In a context where ¢ is any term in our language L’”   , the ay
+
+quantifiers. Also, any formula in our language L’, all of whose quantifiers are so
+-        bounded, will be called a Aj formula. The II* and Lf formulae are, thus, defined by
+the usual rules, EXCEPT they DO NOT contain multiplication function symbo
+These rules are that:                              c
+
+1. Every Aj formula will also be a “TIj” and “ 5” formula.
+
+2. A wff will be called II’ when it is encoded as Vy, ... Vox ® with ® being L}_).
+
+3. A wif will be called £% when it is encoded as 31.44, &, with ® being I}_;.
+pre  a“ [/                                                                    What exact i towed in ence
+Remark 4.2 . Asentence V will be called Rank-1* when it can be encoded iba pal onioay uncthe
+
+as either a II} or Lj sentence. Our definitions for Il} or Df formulae aie from wit ciffor —> difler [because #
+
+Q                                         Gofinitions have already been ¢
+ion symbols.
+
+(This issue will turn out to be central to ourseyasions of the Second Incompleteness
+Effect.)                                    4) ““77
+
+There will be three variants of formal deductive apparatus methods, which we will
+
+Arithmetic’s conventional counterparts by excluding multiplication f
+
+compare. The first is semantic tableau. It will receive an abbreviated name of “Tab”
+
+9

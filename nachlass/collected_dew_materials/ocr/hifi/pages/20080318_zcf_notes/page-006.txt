@@ -1,0 +1,90 @@
+Thus, many readers may find it helpful to set aside, temporarily, the proofs executed in the last three sections of this paper — and to instead focus upon
+the underlying intuitions that shall be vented in the current section.
+
+A crucial point is that ZF’s inconsistencies arise not from the fault of any one of ZF’s axioms. Rather it occurs due to interaction between two of its axioms,
+often called the Replacement schemata and Power Set. As this section shall explain, the formal inconsistencies revealed by Theorems 2 and 3 would disappear
+if the Replacement schema was weakened so that it was applicable only to sets of countable cardinality.
+
+Our discussion will use the formal definition of ZF that had appeared on Page 288 of Mendelson’s. textbook. Equality is thus defined extensionally, i.e.
+z=y stands for Vz z€2 «+ z€y . In this context, ZF’s power set axiom, and its replacement and selection axiom schemata were defined as follows in
+Mendelson’s textbook:
+
+1. Power Set:  Ve JyVu (uey @ uC )
+2. Replacement:     Let Fun( 8 ) indicate that the formula W(z,y) represents a partial function in the sense that Fun( © ) stands for:
+Va Va Vb [W(s,a) A U(2,b)] => a=b]                        (12)
+
+Then for any wf W(z,y) (which as footnote * explains may contain some additional free variables), Equation (13) is called W’s instance of the
+Replacement schemata:
+
+Fin(¥) > { Vz3wV¥v [vew & Au(uez A Vu,v) ] }               (18)
+3. Selection:     For any wf &(u) that does not contain the variable y , the Selection schemata will contain any axiom of the form:
+Vz3yVu vey @&@ (vEzA Bv) )           (14)
+
+The ZF axiom formalism also contains five further axiom sentences, in addition to the power set, replacement and selection axioms. These other five axioms,
+called T, P, N, U, and I in Mendelson’s textbook [13], are not directly relevant to our current discussion.  However, they are listed below for the reader’s
+convenience.
+
+T:  VievyVz t=y > (2€z eo yez)
+
+P:  VaVydzVu {uez @& (u=2Vu=y) }
+
+N: AagzgVy xyés
+
+U:  Va3yVu {uey @& [3v (ue€v Aver) ] }
+I:  Jz @€a2 [Vz(z2z€2 > zU{z} Ez) ]
+
+Zermelo’s original 1908 version of Set Theory included all of the preceding axioms except for the Replacement schemata. Fraenkel discovered the Replacement
+schemata was necessary for axiomatic set theory to gain adequate strength. The current formal coding of this schemata was subsequently done by Skolem. The
+infinite number of axioms belonging to the Replacement schemata is strictly stronger than the Selection schemata (which can be viewed as a degenerate and
+strictly weaker form of replacement).
+
+The surprising aspect of Theorem 3 is that it establishes that there is a very fundamental difficulty with the Replacement’s and Selection’s schemata at a
+surprisingly low level. In particular, Theorem 3’s proof (unlike Theorem 2’s proof) did not even require the formalized construction of the second-level power
+set of P2 . It merely required that one take P, (which is the smallest conceivable power set with an infinite number of elements) and apply the Selection
+schemata to construct Support-ZF as a formal set. The contradictory behavior of Support-ZF was then used to show ZF was laden with inconsistencies.
+
+These difficulties could be avoided if one used a variant of Replacement’s and Selection’s schemata that forbidded their application to sets z (in Equations
+(13) and (14) ) which have cardinality equal to that of P, or higher.
+
+At first, some researchers might find it counter-intuitive that two axiom schemata, as seemingly straightforward and simple as Replacement and Selection,
+would be capable of producing inconsistencies. However, the point is that an infinite set of “uncountably large size” is such a daunting construct, due to its
+uncountable nature, that one’s initial intuitions should not necessarily be presumed to be correct. (After all, such a set includes more than merely an infinite
+number of elements ..... Its cardinality is also of the dizzying size of an “uncountable” infinity — at which point all common sense intuitions and reckonings
+may just simply terminate ! )
+
+All the difficulties that we have found with ZF Set Theory would be obviated if the Replacement and Selection schemata in Equations (13) and (14) were
+revised to additionally contain a predicate requiring that their base sets’ z had countable size.  (Indeed instead, it might feasible to merely require that the
+cardinality of z be strictly less than the cardinality of P, in these axioms.)                                 :
+
+Let us use the term Low-ZF to refer to such a weaker version of ZF. The formalism Low-ZF is probably too weak for it to be thought of as a serious variant
+of set theory. For example, common set manipulation operations such as set-subtraction, set-intersection, function-composition and the construction of the cross
+product of two sets require usage of a version of the Replacement and/or Selection schemata that are not available in Low-ZF. (Also, the definition of the set
+of non-negative integers as the minimal-sized infinite set satisfying Axiom I’s “infinity” condition requires usage of the Selection axiom.) One would therefore
+wish to add to Low-ZF a series of other proper axioms so that these functional operations and objects would be retained.
+
+Our intuition is that some starting construct, similar Low-ZF, is needed as a base for repairing ZF’s inconsistencies. However, a further difficulty is that
+Low-ZF may also be too strong (especially when it is united with new axioms for defining the set of integers and the operations of intersection, cross-product,
+function-composition and set-subtraction). The difficulty is that the unlimited usage of arbitrary quantified variables within the formulae of  W(z,y) and @(u)
+in the Replacement and/or Selection axiom schemata is potentially troublesome (and could potentially cause Low-ZF to be inconsistent).
+
+After all, Russel’s paradox concerning the conception of the notion of the “set of all sets such that ...” has a framework that has an uncomfortable
+analogy with the arbitrary use of quantifiers within the formulae of U(z,y) and &(u) in the Replacement and/or Selection axiom shemeta.... Should this be
+permitted ? .... Or alternatively should each set quantified variable in Y(z,y) and &(u) be a “bounded set quantifier” of the approximate form of “Vp € q”
+and “Apé€q™”, where g is some pre-specified fixed set?
+
+One is tempted to follow the analogy of Russel’s Paradox and to wonder whether some type of bounded quantifiers should be required to appear in  W(z,y)
+and &(u) .... But it is not 100% clear?
+
+The confusing aspect is that we were already implicitly using bounded quantifiers in Section ’s definition of Support-ZF because all the intermediate
+variables used to define the notions of completeness, consistency and maximality can be formalized by quantifiers ranging over the set of positive integers (or
+their collection of associated Gédel numbers). Thus even with this added constraint in place about quantifier ranges ....._, Theorem 3's vexing inconsistency
+result continues to remain in force unless one forbids the base sets, called z in the Replacement and Selection schemata of Equations (13) and (14), from
+having a cardinality as large as that of Pi.
+
+In a context where P, is a set whose infinite cardinality has a well-known “uncountable” dizzying nature, this restriction is unlikely to affect many results
+in Applied Mathematics, Computer Science or in the numerous concrete facets of Theoretical Mathematics.
+
+3We follow Mendelson’s notation convention that  W(z,y) in Equation (13) may implicitly contain the additional free variables of say t1 , te ,... t, .
+Then if Y(-t1,t2,...t, ) is the formal statement in Equation (13), Mendelson’s method of couching Replacement would be able to infer
+Vti Vto ... Vt, Y( t1, t2,...t, ) from the preceding formula via k applications of the generalization rule. Obviously, an alternate style for
+couching ZF’s Replacement axiom would be to write it formally as “Vt, Vto ... Vt, Y( t1,t2,...t, )” , as Cohen does in [2].        ze

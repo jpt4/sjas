@@ -1,0 +1,1451 @@
+=== Page 1 ===
+A
+360 — aes EV¢      Y p0
+       Jovaal A lyst Gal lamph       Y G2
+Referee’s report on    —       ] S aS
+
+On the Tender Line Separating Generalizations and
+Boundary-Case Exceptions for the Second Incompleteness
+Theorem under Semantic Tableaux Deduction
+by Dan E. Willard
+
+V h |   ‘            This paper is a summary and explanation, for a broad audience, of part
+of the author’s earlier work on what he calls boundary-case exceptions to
+Gédel’s second incompleteness theorem. That is, it concerns deductive sys-
+1 € q fr,        tems that, while intuitively including plenty of arithmetic, nevertheless prove
+(statements that intuitively express) their own consistency. It turns out that
+(at least) three aspects of the deductive system are important here: (1) Are
+the fundamental arithmetical operations (successor, addition, multiplication)
+) vi, fea      given as functions and thus necessarily total, or are they given as relations
+J                         that might denote only partial functions? (2) Is logic formalized as a Hilbert-
+style system, as semantic tableaux, etc.? (3) Is the law of the excluded middle
+given as a single axiom scheme, or must each instance be proved when it is
+needed? The main point of this paper is that seemingly small changes in these
+aspects can make the difference between incompleteness and an exception.
+™                        The paper contains none of the difficult proofs of the relevant theorems;
+-                   instead it refers to the author’s earlier publications. It contains careful ex-
+planations of the ideas involved, both in the results and in their proofs.
+Although I am not a proof-theorist, I found the explanations easy to fol-
+low and useful for my understanding of the issues. In addition, the paper
+contains interesting historical information, in particular about Gédel’s and
+Hilbert’s attitudes toward exceptions to the second incompleteness theorem,
+exceptions that might revive some version of Hilbert’s program.
+
+In my opinion, this paper will be interesting and useful for a wide range
+of readers, and I recommend that it be accepted for publication, subject to
+some minor corrections and suggestions.
+
+I'll send, with this report, a copy of the paper in which I’ve marked, with
+notes in the right margin, various local corrections and suggestions. Let me
+list here some gencral comments.
+
+The author uses some rather unusual terminology.  Even in the paper’s
+title, the use of “tender” strikes me as unidiomatic; I would have expected
+“fine” (since “fine line” is a standard expression) or perhaps “delicate” or
+“subtle”. Similarly, in the “Keywords and Phrases” at the bottom of page 1,
+I'd expect the standard phrase “Hilbert’s second problem”, not “Hilbert’s
+
+al
+|| iT) OT pia
+
+=== Page 2 ===
+«<
+
+4
+
+Save Sy Old Comb! CV) isd
+
+On the Tender Line Separating Generalizations and
+Boundary-Case Exceptions for the Second
+Incompleteness ‘Theorem under Semantic Tableaux
+Deduction
+
+pele
+
+Dan E. Willard
+State University of New York at Albany
+
+Abstract
+
+Our previous research has studied the semantic tableau deductive method-
+ology, of Fitting and Smullyan, and observed that it permits boundary-case ex-
+ceptions to the Second Incompleteness Theorem, when multiplication is viewed
+as a 3-way relation (rather than as a total function). It is known that tableau
+methodologies do prove a schema of theorems, verifying all instances of the Law       Delete comma before “verifying”
+of the Excluded Middle. But yet we show that if one promotes this schema of -putyet’- doleta one
+theorems into formalized logical axioms, then the meaning of the pronoun “I”,
+in our self-referencing engine, does change. Our partial evasions of the Second
+Incompleteness Theorem, thus, then come to a complete halt.
+
+CITATION INFORMATION : A shorter, less-polished conference-style “Ex-
+tended Abstract” version of this article [57] was published in Volume 11972 of Springer’s
+LNCS Series. (The LFCS conference met on January 4-7, 2020 in Deerfield, Florida.)
+
+KEYWORDS and PHRASES: Semantic Tableau deduction, Hilbert’s Second
+
+Open Question, “Hidden Implication” of Gédel’s Second Incompleteness Theorem,
+
+fibers Consistency Program and its “Future Extensions”,   ,  \2
+Now Yelm pa 6, My  a-?
+
+=== Page 3 ===
+wr \ \ }
+
+1 Introduction
+
+QP
+
+panini ie existence of a deep chasm separating the goals of Hilbert’s consistency         3 “ey
+
+program from the implications of the Second Incompleteness Theorem was evident,
+
+This article is intended to explore the “hi        ign       ,              lored implica-
+tions of Godel’s Second Incompleteness ‘  heorem and its Vv.         neralizations. Ef
+
+immediately, after Godel published [20]’s seminal announcement. We exhibited in
+[46, 47, 48, 50, 51, 52, 53, 54] a large number of articles about generalizations and
+
+boundary case exceptions to the Second Incompleteness Theorem, starting with OUF cases should decide whet
+
+1993 article [46]. These papers, which included six papers published in the JSL and   penta naif
+
+APAL, showed every extension a of Peano Arithmetic can be mapped onto an axiom =" "*sPabilty
+
+system a®* that can recognize its own consistency and prove analogs of all a’s IT,
+
+—                 nN      ra)     rm)
+Cul               /    -    fy
+
+RST  PNK ALAP!  /  Io
+
+The term “Self-Justifying” arithmetic was employed in our articles. [47, 50, 51,    oc namar he ane dene
+
+theorems (in a slightly different language, called L*).
+
+52, 54]. These papers were able to verify their own consistency by containing a built- hse, ae ue
+in self-referencing axiom that declared “J am consistent” (as will be explained later).
+In particular, our axiom systems a* used the Fixed-Point Theorem to assure a’*’s
+self-referencing analogs of the pronoun “I” would enable it to refer to itself in the
+
+context of its “J am consistent” axiomatic declaration.
+
+It turns out that such a self-referencing mechanism will produce unacceptable
+
+Gédel-style diagonalizing contradictions, when either a* or its particular deployed
+
+definition of consistency are too strong. This is because our methodologies only
+
+become contradiction-free when a* of sufficiently weak underlying structures.                ye
+These weak structures obviously a afeticnnt disadvantages. Their virtue is         ;
+
+that their formalisms a* can be arranged to prove more IJ, like theorems than Peano
+
+Arithmetic, while offering some type of partial knowledge about their own consistency.       KR) aw \
+
+UV
+
+We will call such formalisms “Declarative Exceptions” to the Second Incomplete-
+
+aa
+a
+
+ness Theorem.
+
+An alternative type of exception to the Second Incompleteness Theorem, which
+we shall call an “Infinite-Ranged Exception”, was recently developed by Sergei
+Artemov [4] (It is related to the works of Beklemishev [6] and Artemov-Beklemishev     Add a period after “14)".
+[5].) Artemov observed Peano Arithmetic can verify its own consistency, from a
+
+special infinite-ranging perspective. This means PA will generate an infinite set of
+
+=== Page 4 ===
+theorems 7;, To, T3 .... where each T; shows some subset 5S; of PA is unable DP pat (
+to prove 0 = 1 and where PA equals the formal union of these special selected S;     feo 14 2
+
+fe / ree
+
+)          |                  iat                           eles, ee
+the abstract in [4] cautiously used the adjective of “somewhat” to describe how it      ;
+sought to partially achieve the goals sought by Hilbert’s Consistency Program (with    \C ge
+
+satisfying the inclusion property of 5S; C S.C $3 Cc .
+
+This perspective, which is certainly very useful, is also not a panacea. Thus,
+
+an infinite collection of theorems T,, T, T3 .... replacing Hilbert’s intended goal of  0 | Ly -
+per
+
+finding one unifying formal consistency theorem).
+
+7:9
+
+Our “Declarative”’ exceptions to the Second Incompleteness Theorem and Arte-
+mov’s “Infinite Ranging” exceptions are two quite different rigorous results, which
+are nicely compatible with each other. This is because each acknowledged that the
+Second Incompleteness Theorem is a strong result, that will admit no full-scale er-     TZ
+ceptions. Also, these results are of interest because Godel openly conjectured that
+
+Hilbert’s Consistency Program would ultimately, reach some levels of partial success       eSBe
+(see next section). We will explain, herein, how Gédel’s conjecture can be partially    Ba
+
+justified, due to an unusual consequence of the Law of the Excluded Middle.
+
+More specifically, we shall focus on the semantic tableau deductive mechanisms
+of Fitting and Smullyan [15, 40] and their special properties from the perspective of
+our JSL-2005 article [50]. Each instance of the Law of the Excluded Middle has been
+treated by most tableau mechanisms as a provable theorem, rather than as a built-in
+logical axiom. This may, at first, appear to be an insignificant distraction because
+most deductive methodologies do not have their consistency reversed when a theorem
+
+is promoted into becoming a logical axiom.
+
+Our self-justifying axiom systems are different, ee because their built-in      ~~
+an
+
+self-referencing “J am consistent” axioms have their meanings change, fundamentally,
+when their self-referencing concept of “I” involves promoting a schema of theorems
+
+verifying the Law of Excluded Middle into formal explicitly declared logical arioms.       —_
+
+This effect is counterintuitive because similar distinctions exist almost nowhere
+else in Logic. Thus some confusion, that has surrounded our prior work, can be     (
+clarified when one realizes that an interaction between the self-referencing concept
+of “I” with the Law of Excluded Middle causes the Second Incompleteness Theorem
+
+to become activated precisely when the Law of Excluded Middle is promoted into
+
+         WA a!
+
+=== Page 5 ===
+becoming a schema of logical axioms.
+
+The intuitive reason for this unusual effect is that the transforming of derived
+theorems into logical axioms can shorten proofs under the Fitting-Smullyan seman-        Z
+tic tableau technology. In the particular context where §3’s formalism uses self-
+referencing “I am consistent” axioms and views multiplication as a 3-way relation-
+ship, these conditions will be sufficient for enacting the full power of the Second
+
+Incompleteness Theorem.
+
+The next chapter will explain how these issues are related to questions raised by
+Gédel and Hilbert about feasible boundary-case exceptions to the Second Incomplete-
+ness Effect.
+
+2 Revisiting Some Intuitions of Godel and Hilbert
+
+Interestingly, neither Gédel (unequivocally) nor Hilbert (after learning about Gédel’s
+work) would dismiss the possibility of a compromise solution, whereby a fragment of
+the goals of Hilbert’s Consistency Program would remain intact. Thus, Hilbert never
+withdrew (26]’s statement * for justifying his program:
+
+*« “Tet us admit that the situation in which we presently find ourselves with
+respect to paradozes is in the long run intolerable. Just think: in mathematics,
+this paragon of reliability and truth, the very notions and inferences, as every-
+one learns, teaches, and uses them, lead to absurdities. And where else would
+reliability and truth be found if even mathematical thinking fails?”
+
+Godel was, also, cautious (especially during the early 1930’s) not to speculate
+whether all facets of Hilbert’s Consistency program would come to a termination. He
+thus inserted the following cautious caveat into his famous 1931 paper [20]:
+
+** “It must be expressly noted that Theorem XI” (c.g. the Second Incom- angen g {which means “or exam
+pleteness Theorem) “represents no contradiction of the formalistic standpoint
+of Hilbert. For this standpoint presupposes only the existence of a consistency
+proof by finite means, and there might conceivably be finite proofs which cannot
+be stated in P orin... ”
+
+Several biographies of Gédel {11, 22, 58] have noted that Gédel’s intention (prior
+to 1930) was to establish Hilbert’s proposed objectives, before he formalized his fa-
+mous result that led in an opposite direction. Moreover, Yourgrau’s biography [58] of
+Gédel records how von Neumann found it necessary during the early 1930’s to “ar-
+
+gue against Gédel himself” about the definitive termination of Hilbert’s consistency
+
+3
+
+=== Page 6 ===
+program, which “for several years” after [20]’s publication, Gédel “was cautious not
+No      to prejudge”.
+
+|            It is known that Gédel hinted the Second Incompleteness Theorem was more sig-
+nificant in a 1933 Vienna lecture [21]. Yet, Godel (who published only about 85 pages
+during his career) was frequently ambivalent about this point. Thus, a YouTube talk
+by Gerald Sacks [39] recalled Gédel telling Sacks some type of revival of Hilbert’s
+
+Consistency Program was likely (see footnote ! for more details). Moreo  EAmi hg /
+Nerode has told us [32] he Sarena       GF l»
+with Gédel, where Gédel                is suspicion that Hilbert’s Consistency Pro-
+
+gram would be partially revived. Many scholars have been caught by surprise by
+
+Gédel’s private hesitatioid pau. the-broader-implietions f-the Second Incomplete-
+
+ness Effect. Fhi  because Godelo
+
+i           ded_upon-{20}s-statement ** .
+he para ltt
+he reséarch that followed Gédel’s seminal 1931 discovery has technically focused
+
+on studying mostly generalizations of the Second Incompleteness Theorem (instead
+
+7                          pages”
+SO-PALZES-G  ng DIS Career, already stated 6 lines earfer.
+
+of also examining its boundary-case exceptions). Many of these generalizations of the
+Second Incompleteness Theorem [2, 3, 7, 8, 9, 10, 13, 16, 23, 24, 25, 29, 33, 34, 35,
+36, 37, 41, 42, 43, 44, 45, 47, 48, 49, 51] are quite subtle.
+
+The author of this paper is especially impressed by a generalization of the Second
+Incompleteness Effect, arrived at by the combined work of Pudlék and Solovay to-
+gether with added research by Nelson and Wilkie-Paris (31, 36, 42, 45]. These results,
+which have been further amplified in (10, 16, 23, 43, 47], show the Second Incomplete-
+ness Theorem does not require the presence of the Principle of Induction to apply to
+
+most formalisms that use a Hilbert-Frege style of deduction.
+
+The next chapter’s Remark 3.5 will helpfully summarize such generalizations of
+the Second Incompleteness Effect.
+
+1 Some quotes from Sacks’s YouTube talk [39] are that Gédel “did not think” the objectives of
+Hilbert’s Consistency Program “were erased” by the Incompleteness Theorem, and Gédel believed
+(according to Sacks) it left Hilbert’s program “very much alive and even more interesting than it
+initially was”.
+
+~ wht he oh Secon Wl omplettu»
+They fin nS A Ven  power | yen}
+bail ates dnd lhe
+
+=== Page 7 ===
+3 Main Notation and Background Literature
+
+NO      Let us call an ordered pair (a, D) a Generalized Arithmetic Configuration (ab-
+breviated as a “GenAC” ) when its first and second components are defined as
+
+follows:
+
+1. The Axiom Basis “ a” for a GenAC is defined as its set of proper axioms.
+
+2. The second component “D” of a GenAC, called its Deductive Apparatus,
+is defined as the union of its logical axioms “Zp” with its rules for obtaining
+
+inferences.
+
+Example 3.1 This notation allows us to separate the logical axioms Dp , as-
+sociated with (a, D) , from its “basis axioms”, denoted as “a”. It also allows us to
+
+compare different deductive apparatuses from the literature. Thus, the Dg appara-
+
+tus, from Enderton’s textbook [12], uses only modus ponens as a rule of inference, but                     )
+it deploys a complicated 4-part schema of logical axioms. This differs from the D,             j. af
+and Dy apparatuses in the Mendelson [30] and Hajek-Pudlak [25] textboo                   Is  a
+
+—
+
+émploys a broader “tableau style” rule
+
+while proofs have different lengths
+
+y
+
+under different apparatuses, all the common appératuses produce the same set of final
+
+.                             Dolote “of botore ‘alpha, bect
+plaing) .                     \alpha ls the axiom basis.
+
+s” i ae footnote 2
+an
+
+Definition 3.2 Let a again WA te an axiom basis,     esigna
+GenAC. Henceforth, the configuration (a, D) will
+
+theorems from an initial common “axiom b
+
+a deduction
+apparatus, and (a, D) denote thej
+be called Self-Justifying wh
+
+i. one of (a, D)’s theoyems (or possibly one of a’s axioms) states that the deduc-
+tion method D,/applied to the basis system a, produces a consistent set of
+
+theorems, an
+
+ii. the GenAC/formalism (a, D) is actually, in fact, consistent.
+
+2This is becayfse all the common apparatuses satisfy the requirements of Gédel’s Completeness
+
+3                              Theorem.
+[                                 cf               5
+
+we ewe oe            EE
+
+
+=== Page 8 ===
+Example 3.3 Using Definition 3.2’s notation, our prior research [46, 47, 50, 51,
+54] constructed GenAC pairs (a,D) that were “Self Justifying”. We also proved
+that the Incompleteness Theorem implies specific limits beyond which self-justifying
+formalisms simply cannot transgress. For any (a, D), all our articles observed it was
+easy to construct a system a? D a that satisfies the Part-i condition (in an isolated       Mew
+
+context where the Part-ii condition is not also satisfied). In essence, a? could consist
+of all of a’s axioms plus the added “SelfRef(a, D)” sentence, defined aS 4 i | A
+
+® There is no proof (using D’s deduction method) of 0 = 1 from the
+union of the axiom system a with this sentence “SelfRef(a, D)” (looking
+at itself).
+
+Kleene [28] was the first to notice how to encode analogs of SelfRef(a, D)’s above
+statement, which we often call an “I AM CONSISTENT” axiom. Each of
+Kleene, Rogers and Jeroslow [28, 38, 27] emphasized a? may be inconsistent (e.g.
+violate Part-ii of self-justification’s definition despite the assertion in SelfRef(a, D)’
+
+particular statement). This is because if the pair (a, D) is too strong then a quite con-
+ventional Gédel-style diagonalization argument can be applied to the axiom basis of
+a? = a+ SelfRef(a,D), where the added presence of the statement SelfRef(a, D)
+will cause this extended version of a, ironically, to become automatically inconsis-
+tent. Thus, an encoding for “SelfRef(a, D)” is relatively easy, via an application of
+
+the Fixed Point Theorem, but this sentence is potentially devastating.
+
+Definition 3.4 Let Add(z,y,z) and Mult(z,y,z) denote two 3-way predicates
+specifying z+ y = z and x*y = z. (Obviously, arithmetic’s classic associative,
+commutative, identity and distributive axioms will have II, encodings when they are
+expressed using these two predicates.) We will say that a formalized axiom basis
+system of a@ recognizes successor, addition and multiplication as Total Functions
+
+iff it can prove all of (1) - (3) as theorems:
+
+V2 dz Add(z, 1, z)                                     (1)
+Vr Vy dz Add(z,y,z)                                       (2)
+Vz Vy Sz Mult(z,y,z)                                      (3)
+
+=== Page 9 ===
+We will call the GenAC system (a, D) a Type-M formalism iff it proves (1) - (3) as
+theorems, Type-A if it proves only (1) and (2), and it will be called Type-S if it
+proves only (1) as a theorem. Also, (a, D) will be called Type-NS iff it can prove
+none of (1) - (3).
+
+Remark 3.5 The separation of GenAC systems into the categories of Type-NS,
+Type-S, Type-A and Type-M systems helps summarize the prior literature about gen-
+eralizations and boundary-case exceptions for the Second Incompleteness Theorem.
+
+This is because:
+
+i. The combined research of Pudlék, Solovay, Nelson and Wilkie-Paris [31, 36,
+42, 45], as formalized by Theorem ++, implies that no natural Type—S system
+(a, D) can recognize its own consistency when D represents one of Example 3.1’s
+three Hilbert-Frege deductive methods of De, Dy and Dy. It thus establishes
+the following result:
+
+++  (Solovay’s modification [42] of Pudlék [36]’s formalism using
+some of Nelson and Wilkie-Paris [31, 45]’s methods) : Let (a, D)
+denote a Type-S GenAC system which assures the successor operation
+will provably satisfy both 2’ #4 0 and 2’ =y @&a=y. Then
+(a, D) cannot verify its own consistency whenever simultaneously D
+is some type of a Hilbert-Frege deductive apparatus and a treats
+
+addition and multiplication as 3-way relations, satisfying their usual
+associative, commutative, distributive and identity axioms.
+
+Essentially, Solovay [42] privately communicated to us in 1994 an analog of
+theorem ++. Many authors have noted Solovay has been reluctant to publish
+his nice privately communicated results on many occasions [10, 25, 31, 34, 36,
+45]. Thus, approximate analogs of ++ were explored subsequently by Buss-
+Ignjatovié, Hajek and Svejdar in [10, 23, 43], as well as in Appendix A of our
+paper [47] and in [49]. Also, Pudlék’s initial 1985 article [36] captured the
+majority of ++’s essence, chronologically before Solovay’s observations. Also,
+Friedman did some i       related work in [16].
+
+ii. Part of what makes ++ interesting is that [47, 50, 51] presented two types
+of self-justifying GenAC systems, whose natural hybrid is precluded by ++.
+
+Specifically, these results involve using Example 3.3’s self-referencing “J am
+
+=== Page 10 ===
+consistent” axiom (from statement @ ). Thus, they establish that some (not all)
+Type-NS systems [47, 51] can verify their own consistency under a Hilbert-Frege
+style deductive apparatus °, and some (not all) Type-A systems [46, 47, 50, 52]
+can, likewise, corroborate their consistency under a more restrictive semantic
+tableau apparatus. Also, we observed in [48, 53] how one could refine ++
+with Adamowicz-Zbierski’s methods [2] to show most Type-M systems cannot
+
+recognize their semantic tableau consistency.
+
+Remark 3.6 . Several of our papers, starting with our 1993 article [46], have
+used Example 3.3’s “J am consistent” axiomatic declaration @ for evading the
+Second Incompleteness Effect. Other possible types of evasions rest on the cut-free
+methods of Gentzen and Kreisel-Takeuti [19, 29], an interpretational approach (such
+as what Adamowicz, Bigorajska, Friedman, Nelson, Pudlék and Visser had applied
+in [1, 17, 31, 36, 44]), or Artemov’s Infinite-Range perspective [4] (where an infinite
+schema of theorems replaces one single unified consistency theorem). We encourage
+the reader to examine all these articles, each of which has.their own separate merits. *e*ow"” —> tsown’
+
+Our focus, in this paper, will be primarily on the next section’s Theorems 4.4 and 4.5.
+
+They show that some partial (and not full) evasions of the Second Incompleteness  —
+
+Effect can arise under a,semantic tableau akin  K@ My
+bd Cen hy               p yey"
+
+4 Main Theorems and Related Notation            pb {<. ig
+
+A function F is called Non-Growth when F(a,...,a;) < Mazimum(q,,..., a;)
+
+holds. Six examples of non-growth functions are:
+
+1. Integer Subtraction (where x —y is defined to equal zero when x < y ),
+2. Integer Division (where x+y equals xz when y = 0, and it equals | z/y | otherwise),
+3. Mazimum(z,y),
+
+4. Logg(z) which is an abbreviation for [ Loge( +1) ] under the conventional
+notation. (The footnote 4 explains the significance of this concept.)
+
+3The Example 3.1 had provided three examples of Hilbert-Frege style deduction operators, called
+Dg, Dy and Dy . It explained how these deductive operators differ from a tableau-style deductive
+apparatus by containing a modus ponens rule.
+
+‘The Héjek-Pudl4k textbook [25] uses the notation “ | z| ” to designate what we shall call
+
+“ Loga(z)” Thus for z > 1, Logg(z) denotes the number of symbols that will encode the
+number z, when it is written in a binary format.
+
+8
+
+=== Page 11 ===
+5. Root(z,y) = [2/¥], and also
+
+.             6. Count(z,j) which designates the number of physical “1” bits that are stored among
+: »           z’s rightmost j bits.
+
+.
+
+Our papers used the term Grounding Function to refer to these six non-growth
+operations. Also, the term U-Grounding Function referred to a function that
+corresponds to either one of these six grounding primitives or the growth-oriented
+
+functional operations of Addition and Double(z) = z + =.
+Our language L’, defined in [50], was built out of the eight U-Grounding function    V, |
+operations plus the primitives of “0”, “1”, “=” and “<”. This language differs
+from a conventional arithmetic by ercluding a formal multiplication function symbol.
+(Instead, it treats multiplication as a 3-way relation, via the obvious employment of
+
+its Division primitive.) This notation leads to a surprisingly strong and ny   Cl   a,
+evasion of the Second Incompleteness Effect.                                                  py  4/ [ ra      ly,
+
+Lio
+
+quantifiers used in the wfils Vu <t V(v) and du <t Y(v) will be called bounded — Presumabyvenoudntocou
+
+Definition 4.1 In a context where ¢ is any term in our language L’”   , the ay
+
+quantifiers. Also, any formula in our language L’, all of whose quantifiers are so
+-        bounded, will be called a Aj formula. The II* and Lf formulae are, thus, defined by
+the usual rules, EXCEPT they DO NOT contain multiplication function symbo
+These rules are that:                              c
+
+1. Every Aj formula will also be a “TIj” and “ 5” formula.
+
+2. A wff will be called II’ when it is encoded as Vy, ... Vox ® with ® being L}_).
+
+3. A wif will be called £% when it is encoded as 31.44, &, with ® being I}_;.
+pre  a“ [/                                                                    What exact i towed in ence
+Remark 4.2 . Asentence V will be called Rank-1* when it can be encoded iba pal onioay uncthe
+
+as either a II} or Lj sentence. Our definitions for Il} or Df formulae aie from wit ciffor —> difler [because #
+
+Q                                         Gofinitions have already been ¢
+ion symbols.
+
+(This issue will turn out to be central to ourseyasions of the Second Incompleteness
+Effect.)                                    4) ““77
+
+There will be three variants of formal deductive apparatus methods, which we will
+
+Arithmetic’s conventional counterparts by excluding multiplication f
+
+compare. The first is semantic tableau. It will receive an abbreviated name of “Tab”
+
+9
+
+=== Page 12 ===
+and correspond to Fitting’s textbook formalism [15]. (Its definition can also be found
+
+in the attached Appendix.) Thus, a Tab-proof for a theorem W, from an axiom basis
+
+a, is a tree-structure that begins with the sentence - W stored inside the tree’s
+
+} think the dashes in “root-to-k
+
+root and whose every root—to—leaf path establishes a contradiction by containing  shoudbe hyphens, but he
+
+some pair of contradictory nodes that will “close” its path. The
+
+and editors should decide this
+rules for generating
+fd expect the rules to general:
+
+internal nodes, along each root—to—leaf path, are that each node must be either a only the intemal nodes of thes:
+
+but also-the leaves.
+
+proper axiom of a or a deduction from an ancestor node via one of the Appendix’s “~~;
+
+stated “elimination” rules for the A, V, +, 7, V, and 3 symbols.
+
+_
+
+cs,
+
+ip
+Our second explored deductive apparatus is called Extended Tableau, and shall be  My C / b)
+abbreviated as “Xtab”. Its definition is identical to Tab-deduction, except that for
+
+any sentence ¢ in our language L*, the sentence ¢ V -¢ is allowed
+
+as an internal node
+
+in an Xtab proof tree. (In other words, Xtab-deduction differs from Tab-deduction
+
+by allowing all instances of the Law of Excluded Middle to appear as permitted
+
+logical axioms. In contrast, Tab-deduction will view these instances only as derived
+
+theorems.)
+
+Our third deductive apparatus was called Tab-1 in [50]. It is, essentially, a com-
+
+promise between Tab and Xtab, where a “Tab-1” proof for Y from an axiom basis a
+corresponds to a set of ordered pairs (p;,¢1), (pa, $2), ----» (Pk. Gx) Where
+
+lL g& = ¥
+
+Statements 1 and 2 imply that \Psi mv
+be a Rank-1* sentence. No more
+complex sentences can be proved in
+
+‘                      :      canal?
+2. Each p; is a Tab-proof of what we have called a Rank-1* Sie by sae mentional
+
+the union of a with the preceding Rank-1* sentences of $1, $2, «..-, $j-1 -
+
+The Rank-1* constraint ( defined by Remark 4.2 and utilized
+
+by the above Item
+
+2) is significant. This is because Tab-1 deduction is less efficient than Xtab when
+
+the former requires @; be a Rank-1* sentence. (In contrast, Xtab does not impose a
+
+similar Rank-1* requirement upon ¢ when its Law of the Excl
+
+¢@ V —¢ to appear anywhere as a permissible logical axiom, for
+
+uded Middle allows
+fully arbitrary ¢. )
+
+Thus, Xtab is more desirable than Tab-1 when it can actually be feasibly (?) employed.
+
+Let us say an axiom system a owns a Level-1 appreciation of its own self-
+
+consistency (under a deductive apparatus D) iff it can verify that D produces no
+
+two simultaneous proofs for a IIj sentence and its negation. Within this context,
+
+where 8 denotes any basis axiom system using L* ’s U-Grounding language, ISp(8)
+
+10
+
+=== Page 13 ===
+SS
+~
+
+.
+
+was defined in [50] to be an axiomatic formalism capable of recognizing all of ’s TI;
+theorems and corroborating its own Level-1 consistency under D’s deductive appara-
+
+tus. It consists of the following four groups of axioms:
+
+Group-Zero: Two of the Group-zero axioms will define the constant-symbols, @%
+and ¢,, designating the integers of 0 and 1. The Group-zero axioms will also
+define the growth functions of Addition and Double(r) = 2+ 2. (They will
+enable our formalism to define any integer n > 2 using fewer than 3-[ Log n ]
+
+logic symbols.)
+
+Group-1: This axiom group will consist of a finite set of II} sentences, denoted as
+F , which can prove any Aj sentence that holds true under the standard model
+of the natural numbers. (Any finite set of IIj sentences F, with this property,
+may be used to define Group-1, as [50] had noted.)
+
+Group-2: Let “7 denote ®’s Gédel Number, and HilbPrfg("$7, p) denote a Ag
+formula indicating that p is a Hilbert-Frege styled proof of theorem ® from
+axiom system f. For each II} sentence ®, the Group-2 schema will contain the
+below axiom (4). (Thus ISp(f) can trivially prove all 6’s Il} theorems.)
+
+Vp {HilbPrig("O1,p) > © }        (4)
+
+Group-3: The final part of ISp(f) will be a self-referencing II} axiom, that indicates
+ISp(8) is “Level-1 consistent” under D’s deductive apparatus. It thus amounts
+
+to the following declaration:
+
+# No two proofs exist for a Il} sentence and its negation, when D’s
+deductive apparatus is applied to an ariom system, consisting of the
+
+union of Groups 0, 1 and 2 with this sentence (looking at itself).
+One encoding for # as a self-referencing II} axiom, had appeared in [50]. Thus,
+Line (5) is a II} representation for # when:
+
+a. Prf 1Sp(8)(% b) is a Aj formula indicating that 6 is a proof of a theorem
+a from the axiom basis ISp(@) under D’s deductive apparatus, and
+b. Pair(z,y) is a Aj formula indicating that z is a Ij sentence and y
+
+represents z’s negation.
+
+11
+
+=== Page 14 ===
+Qa C eck fons S od b ryI |
+explain te Cv wf odin s
+
+Oo i a9? Loa$le vs FO
+
+C0 Chiude +547 bene J shs
+C44 he  a
+he e¥prhl ‘o \usth) Vhewm 4 ce
+\7 FET 4  ‘
+
+=== Page 15 ===
+VeVyVpVq 7 [ Pair(z,y) A Prf ISp(a(t,p) A Prf tg,¢¢)(v, 4) ]
+
+For the sake of brevity, we will not provide exact details about how Line (5)
+
+encoded under the Fixed Point Theorem. Adequate details are provided in [47
+
+Definition 4.3 Let “D” denote any one of the Tab, Xtab or Tab-1 d
+apparatus. Then we will say that the resulling mapping of ISp( e ) is Consistency
+Preserving iff ISp(8) is automatically consistent whenever all the azioms of B hold
+true under the standard model of the natural numbers.
+
+The preceding definition raises questions about whether the mappings of IS7,;(  ),
+IS7uo-1( © ), and IS x1a5( © ) are consistency preserving. It turns out that Theorem 4.4
+will show the first two of these mappings are consistency preserving, while Theorem
+4.5 explores how the Law of the Excluded Middle conflicts with IS x:45( © )’s Group-3
+
+axiom.
+
+Theorem 4.4 The IS7q,-1( © ) and IS7q,( © ) mappings are consistency pre-
+serving. (I.e. the ariom systems ISqay-1(8) and IS7ax(B) are automatically consistent
+
+whenever all B’s arioms hold true under the standard model of the Natural Numbers.)
+
+Theorem 4.5 In contrast, [Sxta,( ¢ ) fails to be a consistency-preserving map-
+ping. (More specifically, ISxtax( 8 ) is automatically inconsistent whenever B proves
+some conventional Ilj theorems stating that addition and multiplication satisfy
+
+usual associative, commutative, distributive and identity properties.)
+
+The proofs of Theorems 4.4 and 4.5 would be quite lengthy, if they were derived
+from first principles. Fortunately, it is unnecessary for us to do so herefSecause we
+gave a detailed justification of Theorem 4.4’s result for IS7a,-1( © ) in [50], and one
+canincrementally modifyheRemark 3.5’s special Invariant of ++ to justify Theorem
+4.5. Thus, it will be possible for the next two sections of this paper to adequately
+summarize the intuition behind Theorems 4.4 and 4.5, without delving into the full
+formal details. >)
+
+art of the reason Theorems 4.4 and 4.5 are of interest is because of their sur-
+prising contrast. Thus, some historians have wondered whether Hilbert and Gédel
+
+were entirely incorrect when their statements * and ** suggested some form of the
+
+(Ow fo-rof di xv Seo. in Secdtoay Sid
+
+Alen d
+
+Some poople use “Incromentall
+Modify” to mean "modify only si
+Others usa It to mean "modity &
+sequence of steps”. Clarify whk
+moan.
+
+vill Ceclany be 4h branslil plat dey, a be
+
+se ltpcerent 4s C¥pItin the       dot
+
+=== Page 16 ===
+Consistency Program would likely be viable. Moreover Gerald Sacks’s YouTube talk
+[39], as well as some added comments by Anil Nerode [32], have reinforced this point.
+This is because Gédel repeated analogs of **’s statement on several occasions, during
+the later part of his career. Thus, the contrast between Theorems 4.4 and 4.5 provides
+possible evidence that a fractional portion of what Hilbert and Gédel had advocated,
+
+might become feasible.
+
+This paper will not have the page space to go into the full details, but the next
+
+several sections will summarize the gist behind the proofs for Theorems 4.4 and 4.5.
+
+5 Intuition Behind Theorem 4.4
+
+Let us recall the acronym “Tab” stands for semantic tableau deduction. This was
+defined by Fitting [14, 15] to be a tree-like proof of a theorem W from an axiom
+basis a , whose root consists of the temporary negated assumption of — W and
+whose every root—to—leaf path establishes a contradiction by containing some pair
+of contradictory nodes that “close” its path. Each internal node along these paths
+must either be a proper axiom of a or be a deduction from an ancestor node via one           € -
+of the “elimination” rules associated with the logic symbols of A, V, 4, 3, V, ord ft te ]   Oe
+(that are illustrated in the Appendix.)                                                            }
+‘
+
+Example 5.1 Let ISM,( © ) denote a mapping transformation identical to
+Theorem 4.4’s formalism of IS74( © ), except that ist shall contain a further
+
+multiplication functiop operation and, accordingly, have its Group-3 “I am consistent”
+
+axiom statements /updated)to recognize multiplication as a total function. I
+out this change will cause IS‘/,( e ) to stop satisfying the consistency-preservation
+property, which Theorem 4.4 attributed to IS7_,( e ).
+
+The intuition behind this change can be roughly summarized if we let 29, 21, 2, ---
+
+and Yo, Y1, 2, --- denote the sequences defined by:
+
+tj = 2 = YY                  (6)
+% = Bey + Be                   (7)
+Wi = Yin * Yi-r                    (8)
+
+13
+
+=== Page 17 ===
+For i > 0, let ¢ and vj denote the sentences in (7) and (8) respectively. Also,
+Ict @p and wo denote (6)’s sentence. Then @o, 41, ...¢n imply z, = 2"*', and
+Vo, V1, Vn imply y, = 22”. Thus, the latter sequence shall grow at an exponen-
+tially faster rate than the former. It turns out that this change in growth speed causes "=""=—-_____
+
+the IS*,( e ), and IS7,( © ) to have quite opposite self-justification properties.
+
+In particular, let the quantities Log( yn) = 2" and Log(z,) = n+1 represent       —_
+the lengths for the binary codings for y, and z,,. Thus, y,’s coding will have a         —
+
+length 2", which is much larger than the n+ 1 steps of Wo, W1, ... Un (used to define
+Yn ’s existence). In contrast, 2, ’s binary encoding will have a sharply smaller length
+of size n + 1. These observations are significant because every proof establishing a
+variant of the Second Incompleteness Effect involves a Godel number z encoding a
+
+capacity to self-reference its own definition.
+
+The faster growing series Yo, 1, ; --- Yn Should, intuitively, have this self-referencing
+capacity because y,’s binary encoding has a 2"*! length that greatly exceeds the
+size of the O(n) steps used to define its value. Leaving aside many of [48, 53]’s further
+details, this fast growth explains roughly why a Type-M logic, such as IS", , satisfies
+
+the semantic tableau version of the Second Incompleteness Theorem, unlike IS 75.
+
+Our paradigm also explains why IS745’s Type-A formalism produces boundary-
+case exceptions for the semantic tableau version of the Second Incompleteness The-
+orem. This is because [50] showed that it was unable to construct numbers z that
+can self-reference their own definitions (when only the more slowly growing addition
+primitive is available). In particular assuming only two bits are needed to encode
+each sentence in the sequence $9, ¢),.--¢n , the length n + 1 for z,,’s binary encoding
+
+is insufficient for encoding this sequence.
+
+Leaving aside many of [50]’s details, this short length for x, explains the central
+intuition behind [50]’s evasion of the Second Incompleteness Theorem under IS 7m» .
+It arises essentially because of the sharp difference between the growth rates of the
+
+two sequences of 2),22,23... and Y, Y2,Y3- -
+
+i                             It's no longer an extended abs
+
+There is obviously insufficient space for this extended abstract to provide more $)y"sotnore now trateion
+
+apply here?
+details, here. A fully detailed proof of Theorem 4.4 is available in {50}. It establishes
+
+14
+
+=== Page 18 ===
+(see > ) that Peano Arithmetic can prove f’s consistency implies both the consiste
+
+and also the self-justifying property of IS74,—; (A).
+
+Our more modest goal, within the present abbreviated paper, has been to meé
+summarize the intuition behind Theorem 4.4’s surprising evasion of the Second]
+
+completeness Effect. It arises, intuitively, because of the striking difference in a
+
+growth rates between the two series of 21,272,273... and yy, Ya, ¥3- -
+
+6 Summary of Theorem 4.5’s Proof
+
+A formal proof of Theorem 4.5 is complex, but it can be nicely summarized. This is
+because this proposition’s proof is similar to the formal justification for Remark 3.5’s
+Invariant of ++ . (The latter’s insight has come from the combined work of Pudlak,
+Solovay, Nelson and Wilkie-Paris (36, 42, 31, 45]. It was, also, subsequently verified
+by several other authors [10, 16, 23, 43, 47] in slightly different forms.)
+
+The crucial aspect of the Hilbert-Frege deductive methodology is that its modus
+ponens rule assures thar a proof of a theorem ~ from an axiom system a has a length/ mar—> mat
+no more than proportional to the sum of the proof-lengths used to derive ¢ and
+¢—w. This “Linear-Sum Effect” does not apply also to Tab-deduction (because
+
+dota
+
+the latter lacks a modus ponens rule).
+
+The Xtab deductive methodology is , however, quite different from the Tab form
+of deduction, in that only Xtab supports an analog of the prior paragraph’s “Linear-
+Sum Effect”. This is because any node of an Xtab proof-tree is allowed to store any
+sentence of the form ¢ V > @ (as a consequence of its allowed use of the Law of
+Excluded Middle). This added feature will allow an Xtab proof for w to have a length
+proportional to the sum of the proof lengths for ¢ and ¢— wy. In particular, such
+
+an Xtab proof for y~ will consist of the following four steps:
+
+1. The root of an Xtab proof for w consists of the usual temporary negated hy-
+
+5The ezact meaning of this implication is subtle. This is because Peano Arithmetic (PA)
+CANNOT KNOW whether £ is consistent when 8 = PA. Thus, unlike the quite different
+formalism of IS74p-;(PA) , the system of PA shall linger in a state of self-doubt, about whether
+both PA and IS7a,-1(PA) are consistent. The main point is, however, that we humans believe
+PA is consistent, and we can use this fact to confirm that [S7.5-;(PA) is BOTH consistent and
+
+able to verify its self-consistency via its “I am consistent” aziom.
+
+15
+
+=== Page 19 ===
+pothesis of wy (which the remainder of the proof tree will show is impossible
+to hold).
+
+2. The child of this root node consists of an allowed invocation of the Law of the
+
+Excluded Middle of the particular form ¢V -—¢.
+
+3. The relevant Xtab proof tree will next employ the Appendix’s branching rule
+for allowing the two sibling nodes of @ and -@ to descend from Item 2’s
+
+node.
+
+4. Finally, our Xtab proof will insert below (3)’s left sibling node of ¢ a subtree
+that is no longer than a proof for ¢ — wy , and likewise insert a proof for ¢
+below (3)’s right sibling of + @.
+
+The point is that the very last step of the above 4-part proof has a length no
+greater than the sum of the two proof lengths for @ and ¢— w. (This is analogous
+to the proof expansions resulting from a conventional modus ponens operation.) Its
+first three steps will have entirely inconsequential effects that increase the overall
+proof length by no more than a tiny amount, that is proportional to the trivial sum
+of the lengths for the two individual sentences of “ ¢” and “yw”.
+
+Hence, the preceeding “Linear-Sum Effect” allows us to construct an analog of
+Remark 3.5 ’s earlier Theorem ++ for Xtab deduction. It is formalized by the
+statement ©) below:
+
+© Any axiom system A is automatically inconsistent whenever it satisfies the following
+three conditions:
+I. Acan verify Successor is a total function (as Line (1) formalized).
+
+II. Acan prove addition and multiplication (viewed as 3-way relations) satisfy their
+usual associative, commutative, distributive and identity-operator properties.
+
+III. A proves an added theorem (which turns out to be false) affirming its own
+
+consistency when the Xtab deductive apparatus is used.
+
+It is not possible to provide a short proof for statement ©) because it will
+rest upon the very detailed “Definable Cut” machinery from pages 172-174 of the
+
+Hajek-Pudlak textbook [25]. The intuition behind © _ is, however, quite simple.
+
+16
+
+=== Page 20 ===
+It is that statement ©) causes ++’s mechanism to generalize from Hilbert-Frege
+
+deduction to Xtab (because both satisfy the Linear-Sum Effect).
+
+The nice aspect of © __ is that its machinery establishes Theorem 4.5. This
+is because if 8 satisfies Theorem 4.5’s hypothesis then ISx+a(f) will satisfy® the
+
+conditions I-III that cause ISx1a,(8) to become inconsistent.
+
+7 More Elaborate Forms of Theorems 4.4 and 4.5
+We   piece           Avia   im
+
+Our results in Theorems 4.4 and 4.5      Onstrate self-justifying methodologies apply
+
+to “Tab”’, but not also /*Xtab” 15 is because Xtab treats the the Law
+
+of Excluded Middle as a formal schema of logical axioms, and the latter activates the
+
+power of the Second Incompleteness Effect.)
+
+Our goal in this section will be to view this machinery in more meticulous de-
+tail. Thus, we will explore at wha! eract juncture the boundary is crossed between
+
+generalizations of the Second Incompleteness Theorem and its permissible exceptions.
+
+Definition 7.1 Let L* again denote the base arithmetic language (that was de-
+fined in §3 ), and Z denote an arbitrary set of sentences appearing in the language
+L* (such as its set of ITj sentences). Let us recall that the Appendix defined a semantic
+tableau proof of a theorem V from a’s axiom system. Then a Z-Enriched modifica-
+tion for a semantic tableau proof of a theorem WV, from a’s set of proper axioms, will
+be defined as the particular refinement of the Appendix’s proof-tree formalism that
+allows Line (9) as an added permissible logical axiom, for any YT € Z.
+
+Yvait               (9)
+
+The terminology of a formula t
+e,e        ‘       P           °      P       ‘   ~                variable is
+Definition 7.2 It is also of interest to consider a slight modification of the pre-  toa cane tale hes
+formula
+
+ceeding nomenclature, where Z is a set of formulae that are allowed to be free in
+the single variable of z (instead of representing a sentence that contains no free   pase pasrpiineal ~~
+variables). In this case, T(z) will designate a formula, within the subset of Z, and
+Line (10) will replace Line (9) as the added permissible logical axiom that can be
+
+allowed to appear inside a “Z-Base Variable Enriched” proof.
+
+Vx T(r) V 7 T(z)              (10)
+
+6 Actually, ISx¢ap(8) will satisfy a requirement stronger than Item I because it recognizes addition
+as a total function.
+
+17
+
+=== Page 21 ===
+A fully detailed justification will not be provided here, but it turns out our re-
+sults from [47] can be expanded to show that their evasions of the semantic tableau
+version of the Second Incompleteness Theorem can be extended to both the cases of
+Z-Enriched and “Z-Base Variable Enriched” mechanisms, when Z represents the Aj   7 Base Vr Enriched”
+class of formulae. We can also extend our results from [49] to show that the com-
+parable evasions of the semantic tableau version of the Second Incompleteness Effect
+
+will fail at and above the IT} level.
+
+We conjecture the preceeding Aj evasions of the Second Incompleteness Theorem
+
+will continue at the IT} level, but this fact has not yet been formally proven.
+
+A fascinating aspect about this subject is that semantic tableau deduction satis-
+fies its particular variant of Gédel’s Completeness Theorem [15, 40]. Thus, the set
+of theorems proven by an axiom system a , via a conventional (unenriched) version
+of semantic tableau deduction, is idenis al to those theorems proven by a Z-enriched
+deductive mechanism. Yet despite this invariance, the proof-lengths change, quite
+sharply, under the Z-enriched formalisms of Defintions 7.1 and 7.2. This extreme
+
+change in proof-length causes the deployment of an “J am consistent” axiom to be-
+\
+
+come fully infeasible when TY in Line (9) is allowed to represent any arbitrary IT}   Gant trove ox eater hat \
+
+sentence (see footnote 7 ).
+
+8 Further Generalizations
+
+For the sake of simplicity, the previous sections had focused on the semantic tableau
+deductive apparatus. However, it is known [15] that resolution shares numerous
+characteristics with tableau. Therefore, it turns out that Theorems 4.4 and 4.5 do
+
+generalize when resolution replaces semantic tableau.
+
+In particular, let us say a theorem 7 has a Res—proof from a ’s set of proper
+axioms when there is a resolution-based proof {15] of T from a . Also, the term
+Xres—proof of T refers to the obvious extension of a Res—proof that allows all
+instances of the Law of Excluded Middle (from the base language of L* ) to appear
+
+as formalized logical axioms.
+
+7The point is that the sharp compression in proof lengths produces. Gédel-like Diagonalization
+
+compressions, similar to those particular Second Incompleteness Giegs applicable to II3 sentences,              | a
+that #P examined in [49].                                                                  we       >
+
+; p/   I                                                                     ITA |        (4
+|)                         P18
+
+Ly 47  pe. lL,
+
+=== Page 22 ===
+It turns out Xres differs from Res in the same manner Xtab differed from Tab.
+Thus, the obvious generalizations of Theorems 4.4 and 4.5 hold for Res and Xres.
+In particular, ISpes( ¢ ) is a consistency preserving transformation, but ISyres( @ )
+
+again is not.
+Some logicians may, also, wish to examine special speculations in [55]’s arXiv
+article. It contemplated an alternative approach, where self-justifying arithmetics
+
+employ an unconventional “indeterminate” functional object, called the © primitive, ~\~  /
+to formalize the traditional properties of an endless sequence of integers.                     €    0
+SO fol
+
+If a conjecture stated in [55] is correct (as we are almost certain it is), then such a
+self-justifying machine will be plausible for constructing the entire set of natural num-   fi YA
+bers, without encountering the usual incompleteness difficulties that the Theorem ++  lI -
+(of Pudlék and Solovay) associated with Type-S formalisms (that recognize merely
+
+.              :    —e            ;      a        ss           This \heta was a capital \The
+
+Successor as a total function). Interestingly, the @ function primitive of [55] should "te previous paragraph.
+allow a substantial Type-NS arithmetic to exist that can simultaneously recognize
+its own Hilbert-Frege consistency and possess a formalized ability to constructively
+
+enumerate the full infinite collection of integers 0, 1, 2, 3, ....
+
+9 Concluding Remarks
+
+Our main results in this article are surprising because it is quite unusual for an
+initially consistent formalism a to become inconsistent when its initial schema of
+theorems (establishing the widespread validity of the Law of the Excluded Middle) is
+
+transformed into being a schema of logical axioms.
+
+This unusual effect arose because the meaning of a Group-3 “J am consistent”
+axiom changes, quite substantially, when theorems are transformed into logical axioms
+(as illustrated by footnote ® ). Thus, unacceptable diagonalizing contradictions can
+occur when an “J am consistent” axiom is able to reference itself #h the contezrt of a
+SUFFICIENTLY POWERFUL mathematical machine.       Pa w My
+
+The contrast between Theorems 4.4 and 4.5 (where only the former eschews diag-   ee ened ola
+
+onalization effects) helpfully explains how Hilbert and Gédel appreciated the Second
+
+, while they were simultaneously cautious about it. Moreover,
+
+8 The point is that
+such compressions
+consistent” axioms.
+
+fs are compressed when theorems are transformed into logical axioms, and
+produce diagonalizing contradictions under some Type-A logics using “J am
+
+19
+
+=== Page 23 ===
+or! f fb osel Adhatedgns
+Gédel’s particular remark ** should not be ignored when comments from Gerald    :
+Sacks and Stanley Tennenbaum [32, 39] recalled how Gédel reiterated the gist of his    F  wy
+1931-published remark, many years after its printing. Indeed, it is noteworthy Harvey
+Friedman recorded a YouTube lecture [18], stating he was also tentatively open to the
+
+possibility that the Second Incompleteness Theorems might allow partial exceptions.
+
+Thus, while there is no doubt that the Second Incompleteness Theorem will be
+remembered for its seminal impact, its part-way exceptions are also significant. This
+is because futuristic high-tech computers will better understand their self-capacities,
+eal/o )
+ever, the distinction
+apers [46, 47], with |
+
+a               suggest deleting “year-
+the more sophisticated IS75-;(8) formalism of our         article [50] should, orhinelm empha a
+
+one line earter.
+
+if they own some partial awareness about their own consistency.
+
+There is no page space to delve into all details here. H
+
+between the initial “IS(A)” system, from our 19
+
+also, be briefly mentioned. Our older “IS(A)” formalism was actually simpler, but
+it was substantially weaker because it only recognized the non-existence of a proof   <e b S CW
+of 0 = 1 from itself. In contrast, IS7.,-;(8)’s Group-3 axiom can corroborate that             7  v
+no two simultaneous proofs exist for a Rank-1* sentence and its negation. This is
+
+an important distinction, because the First Incompleteness Theorem indicates no
+
+decision procedure exists for separating all true from false Rank-1* sentences. (See
+
+(51, 52, 54, 55] for other particular refinements for our “IS(A)” formalism.)
+
+In summary, the main purpose of this article has been to explore the contrast
+between the opposing Theorems 4.4 and 4.5. The latter theorem, thus, provides
+another helpful reminder about the millennial importance of Gédel’s seminal Second
+Incompleteness Theorem. Yet at the same time, Theorem 4.4 illustrates how some
+partial-exceptions to Gédel’s result do arise, as Hilbert and Godel predicted in their
+statements * and «x.
+
+In essence, the 2-way contrast between Theorems 4.4 and 4.5 may be as significant
+as their individual actual results. This is because the Second Incompleteness Theorem
+is fundamental to Logic. Many historians have, thus, been perplexed by the partial
+reluctance that Hilbert and Gédel had expressed about it in * and **. A partial reason
+for this reluctance is, perhaps, related to the contrast between these two opposing
+
+theorems.
+
+ACKNOWLEDGMENTS: | thank Seth Chaiken and James P. Torre, IV for
+several quite helpful comments about how to improve the presentation, ~”~> ,   “|     | lh 6 i
+
+\y   ie lp hp   bon V\)> nnn) 1) AIPA _
+
+Cm tnd)
+
+=== Page 24 ===
+Appendix providing a formal definition for a Se-
+mantic Tableau proof:
+
+Our definition of a semantic tableau proof is similar to analogs from the textbooks
+by Fitting and Smullyan [15, 40]. A tableau proof of a theorem W from a set of
+proper axioms (denoted as a ) is therefore a tree structure, whose root contains
+the temporary contradictory assumption of > and whose every descending root-
+to-leaf branch affirms a contradiction by containing both some sentence ¢ and its
+negation —@. Each internal node in this tree will be either a proper axiom of a@ ora
+deduction from a higher ancestor in this tree via one of six elimination rules for the
+logical connective symbols of A, V, — , 7, V and 3. (These rules use a
+notation where “A => B” is an abbreviation for a sentence B being an allowed
+
+ancestor.
+deduction from its ancestor of A.)                                              Delete “OF ener
+
+1 YAY => T and TAT => T.
+
+2. a>3YT => T. Other rules for the “=” symbol are: =(Y VI) =» 7YTA-T,
+ATT) = TAT, ATA) = ATv-T, 730T(v) = VWo7T(v)
+and 7VuT(v) => Jv7T(v)
+
+3. A pair of sibling nodes Y and [I is allowed when their ancestor is Y V I.
+4. A pair of sibling nodes ~=Y and TI is allowed when their ancestor is T > I.
+5. Vu Y(v) => Y(t) where ¢ may denote any term.
+
+6. SvY(v) =>» Y(p) where p is a newly introduced parameter symbol.
+
+One minor difference in notation is we treat “Vu<s (v) ” as an abbreviation
+for Ww {vss —+ (v)} and“3uv<s (v) ” as an abbreviation for
+3v {v<s A (v) }. Therefore, Rules 5 and 6 imply the following hybrid rules
+
+for processing bounded universal and bounded existential quantifiers:
+
+a. Vo<sT(v) => t<s — T(t) where t may be any arithmetic term.
+
+b. Ju<s T(v) =» p<s A T(p) where p is a new parameter symbol.
+
+Added Comment: The preceding paragraph has formalized what §4 called the
+“Tab” version of a semantic tableau proof. Its “Xtab” variant is identical except that
+any node may optionally store a sentence of the form U V 7~WU (for arbitrary U ),
+
+as a manifestation of its allowed use of the Law of the Excluded Middle.
+
+21
+
+=== Page 25 ===
+References
+
+[1] Adamowicz, Z., Bigorajska, T.: Existentially closed structures and Gédel’s second
+incompleteness theorem. JSL 66(1): 349-356 (2001).
+
+[2] Adamowicz, Z., Zbierski, P.: On Herbrand consistency in weak theories. Archives for archives —> Archive
+Mathematical Logic 40(6): 399-413 (2001).
+[3] Artemov, S.: Explicit provablity and constructive semantics. Bulletin of Symbolic Logic
+
+7(1): 1-36 (2001).                                                                       7 ns
+
+[4] Artemov, S.: The provability of consistency. Cornell Archives arXiv Report
+1902.07404v4 (2019).
+
+[5] Artemov, S., Beklemishev, L. D.: Provability logic. In Handbook on Philosophical on ->ot
+Logic, Second Edition, pp. 189-360 (2005).
+
+[6] Beklemishev, L. D.: Reflection principles and provability algebras in formal arithmetic.
+Russian Mathematical Surveys 60(2): 197-268 (2005).
+
+—_
+
+[7] Beklemishev, L. D.: Positive provability for uniform reflection principles. APAL
+165(1): 82-105 (2014).
+
+[8] Bezboruah, A., Shepherdson, J. C.: Gédel’s second incompleteness theorem for Q. JSL
+41(2): 503-512 (1976).
+
+[9] Buss, S. R.: Bounded Arithmetic. Studies in Proof Theory, Lecture Notes 3, dissemi-
+nated by Bibliopolis as revised version of Ph. D. Thesis (1986).
+
+[10] Buss, S. R., Ignjatovié, A.: Unprovability of consistency statements in fragments of
+bounded arithmetic. APAL 74(3): 221-244 (1995).
+
+[11] Dawson, J. W.: Logical Dilemmas: The life and work of Kurt Godel, AKPeters Press ies inlliariiinn shvciliilis
+(1997).                                                                                  words in tities are capitalized.
+
+[12] Enderton, H. B.: A Mathematical Introduction to Logic. Academic Press (2001).
+
+[13] Feferman, S.: Arithmetization of mathematics in a general setting. FundMath 49:
+35-92 (1960).
+
+[14] Fitting, M.: Tableau methods of proofs for modal logics. Notre Dame J on Formal on —>ot
+Logic 13(2): 237-247 (1972).
+
+[15] Fitting, M.: First Order Logic and Automated Theorem Proving. Springer-Verlag
+(1996).
+
+[16] Friedman, H. M.: On the consistency, completeness and correctness problems. Ohio
+State Tech Report (1979). See also Pudldk [37]’s summary of this result.
+
+[17] Friedman, H. M.: Translatability and relative consistency. Ohio State Tech Report
+(1979). See also Pudlék [37]’s summary of this result.
+
+[18] Friedman, H. M.: Gédel’s blessing and Gédel’s curse. (This is “Lecture 4”
+within a 5-part Ohio State YouTube lecture series, dated March 14, 2014.)
+https://www.youtube.com/watch?v=esH8SkSIHdI
+
+[19] Gentzen, G.: Die Wiederpruchsfreiheit der reinen Zahlentheorie. Mathematische An-
+nalen 112: 439-565 (1936).
+
+22
+
+=== Page 26 ===
+(20] Gadel, K.: Uber formal unentscheidbare siitze der Principia Mathematica und ver-  ene =
+wandte systeme I. Monatshefte fiir Mathematik und Physik 38: 349-360 (1931).
+
+[21] Gédel, K.: The present situation in the foundations of mathematics. In Collected
+Works Volume III: Unpublished Essays and Lectures (eds. Feferman, S., Dawson, J.
+W., Goldfarb, W., Parsons, C., Solovay, R. M.), pp. 45-53, Oxford University Press
+(2004).
+
+[22] Goldstein, R.: Incompleteness: The Proof and Parador of Kurt Gédel. Norton Press
+(2005).
+
+[23] Hajek, P.: Mathematical fuzzy logic and natural numbers. FundMath 81: 155-163
+(2007).
+
+[24] Hajek, P.: Towards metamathematics of weak arithmetics over fuzzy logics. Logic
+Journal of the IPL 19: 467-475 (2011).
+
+[25] Hajek, P., Pudlak, P.: Metamathematics of First Order Arithmetic. Springer (1991).
+[26] Hilbert, D.: Uber das unendliche. Mathematische Annalen 95: 161-191 (1926).
+
+[27] Jeroslow, R.: Consistency statements in formal theories. FundMath 72: 17-40 (1971).
+[28] Kleene, S. C.: On notation for ordinal numbers. JSLZ 3(1): 150-15 (1938).
+
+[29] Kreisel, G., Takeuti, G.: Formally self-referential propositions for cut-free classical
+analysis. Dissertationes Mathematicae 118: 1-50 (1974).
+
+[30] Mendelson, E.: Introduction to Mathematical Logic. CRC Press (2010).
+[31] Nelson, E.: Predicative Arithmetic. Mathematics Notes, Princeton University Press
+(1986)
+
+[32] Nerode, A: Some very useful comments by A. Nerode on Janaury 7, 2020, when he
+heard Willard’s conference presntation of [57]’s talk at the LFCS 2020 conference.
+Nerode said he could reinforce Gerald Sacks’s observation about Gédel’s reluctance that
+the Second Incompleteness Theorem would likely bring Hilbert’s Consistency Program
+to a halt. This was because Nerode had heard Stanley Tennenbaum state that Gédel
+expressed to Tennenbaum a significant skepticism about the broader implications of
+Incompleteness, similar to what Sacks had formally recorded in [39]’s YouTube talk.
+
+[33] Parikh, R.: Existence and feasibility in arithmetic. JSL 36(3): 494-508 (1971).
+
+[34] Paris, J. B., Dimitracopoulos, C.: A note on the undefinability of cuts. JSL 48(3):
+564-569 (1983).
+
+[35] Parsons, C.: On n—quantifier elimination. JSL 37(3): 466-482 (1972).
+
+[36] Pudl4k, P.: Cuts, consistency statements and interpretations. JSL 50(2): 423-441
+(1985).
+
+[37] Pudlék, P.: On the lengths of proofs of consistency. Collegium Logicum: 1996 Annals
+of the Kurt Gédel Society (Volume 2, pp 65-86). Springer- Wien-NewYork (1996).
+
+[38] Rogers, H. A.: Theory of Recursive Functions and Effective Computibility. McGrawHill
+(1967).
+
+23
+
+=== Page 27 ===
+[39] Sacks, G.: Some detailed recollections about Kurt Gédel during a talk by Gerald Sacks
+at the University of Pennsylvania, whose YouTube version was placed onto the internet
+on June 2, 2014. This lecture records the experiences of Sacks during the two occasions
+when he was an assistant to Gédel at the Institute of Advanced Studies. Some quotes
+from this talk are that Gédel “did not think” the goals of Hilbert’s Consistency Program
+“were erased” by the Incompleteness Theorem, and that Gédel believed (according
+to Sacks) that it left Hilbert’s program “very much alive and even more interesting
+than it initially was”. (See also [32] for some similar comments made by A. Nerode.)
+https:/ EE  PR7MTqtF14Y   A  yo      ava le  h bp  [
+
+[40] Smullyan, R.: First Order Logic. Dover Books (1995).                       '          4 |
+
+[41] Solovay, R. M.: Injecting Inconsistencies into models of PA. APAL 44(1-2): 102-132
+(1989).
+
+[42] Solovay, R. M.: Private Telephone conversations during April of 1994 between Dan
+Willard and Robert M. Solovay. During those conversations Solovay described an un-
+published generalization of one of Pudlék’s theorems [36], using some methods of
+Nelson and Wilkie-Paris [31, 45]. (The Appendix A of [47] offers a 4-page summary of
+our interpretation of Solovay’s remarks. Several other articles {10, 25, 31, 34, 36, 45]
+have also noted that Solovay often has chosen to privately communicate noteworthy
+insights that he has elected not to formally publish.)
+
+[43] Svejdar, V.: An interpretation of Robinson arithmetic in its Grzegorczjk’s weaker
+variant. Fundamenta Informaticae 81: 347-354 (2007).
+
+[44] Visser, A.: Faith and falsity. APAL 131(1-3): 103-131 (2005).
+
+[45] Wilkie, A. J., Paris, J. B.: On the scheme of induction for bounded arithmetic. APAL
+35: 261-302 (1987).
+
+[46] Willard, D. E.: Self-verifying axiom systems. In Proceedings of the Third Kurt Gédel
+Colloquium (with eds. Gottlob, G., Leitsch, A., Munduci, D.), LNCS vol. 713. pp.
+325-336, Springer, Heidelberg (1993). https://doi.org/10.1007/BFb0022580.
+
+[47] Willard, D. E.: Self-verifying systems, the incompleteness theorem and the tangibility
+reflection principle. JSL 66(2): 536-596 (2001).
+
+[48] Willard, D. E.: How to extend the semantic tableaux and cut-free versions of the
+second incompleteness theorem almost to Robinson's arithmetic Q. JSL 67(1): 465-
+496 (2002).
+
+[49] Willard, D. E.: A version of the second incompleteness theorem for axiom systems
+that recognize addition but not multiplication as a total function. In First Order Logic
+Revisited (eds. Hendricks, V., Neuhaus, F., Pedersen, S. A., Sheffler, U., Wansing, H.),
+pp. 337-368, Logos Verlag, Berlin (2004).
+
+[50] Willard, D. E.: An exploration of the partial respects in which an axiom system
+recognizing solely addition as a total function can verify its own consistency. JSL
+70(4): 1171-1209 (2005).
+
+[51] Willard, D. E.: A generalization of the second incompleteness theorem and some
+exceptions to it. APAL 141(3): 472-496 (2006).
+
+24
+
+=== Page 28 ===
+Nie
+
+BD
+
+[52] Willard, D. E.: On the available partial respects in which an axiomatization for real
+valued arithmetic can recognize its consistency. JSL 71(4): 1189-1199 (2006).
+
+[53] Willard, D. E.: Passive induction and a solution to a Paris-Wilkie open question.
+APAL 146(2): 124-149 (2007).
+
+[54] Willard, D. E.: Some specially formulated axiomizations for 1Dp manage to evade the
+Herbrandized version of the second incompleteness theorem, Jnformation and Compu-
+tation 207(10): 1078-1093 (2009).
+
+[55] Willard, D. E.: On how the introducing of a new 0 function symbol into arithmetic’s
+formalism is germane to devising axiom systems that can appreciate fragments of their
+own Hilbert consistency. Cornell Archives arXiv Report 1612.08071 (2016).
+
+[56] Willard, D. E.: About the Chasm Separating the Goals of Hilbert’s Consistency
+Program From the Second Incompleteness Theorem. Cornell Archives arXiv Report
+1807.04717 (2018). (This quite preliminary annnouncement of [57]’s results appears in
+an essentially roughly written summary-abstract form.)
+
+[57] Willard, D. E.: “On the Tender Line Separating Generalizations and Boundary-Case
+Exceptions for the Second Incompletencss Theorem under Semantic Tableaux Deduc-
+tion”, a talk given on January 7 at the LFCS 2020 conference. It preceded the current
+article, and its shorter manuscript can be found on pp. 268-286 of Volume 11972 of
+Springer’s LNCS series.
+
+[58] Yourgrau, P.: A World Without Time: The Forgotten Legacy of Gédel and Einstein.
+(See page 58 for the passages we have quoted.) Basic Books ( 2005).
+
+25
+
+Be consistent about
+
+(non)capitalization In tites of
+(English) articles.
+

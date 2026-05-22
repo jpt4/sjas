@@ -1,0 +1,37 @@
+A Jt.-m--+* +
+
+The opening paragraph of an article about Gédel in the March 19, 1999 issue of
+Time Magazine [6] stated that “many scholars consider Gédel’s Incompleteness The-
+orem to be the most important result of 20-th century mathematics”. The editors of
+Time Magazine were very careful to use the word “many” in the preceding sentence
+because there is no unanimous opinion among scholars about what are the say five
+most important results in 20th century mathematics. However my point is that while
+some scholars may not agree with the cautious skepticism I expressed in Comment
+2.7 about the importance for Computer Science focusing on narrowly defined prob-
+lems, there should be no question that the Incompleteness Theorem is an important
+result, that has implications about what directions Computer Science can and cannot
+
+profitably pursue.
+
+But what does the Incompleteness Theorem really mean? And what does it imply
+to for computer science when Theorem 2 applies to all “recursively enumerable” axiom
+
+systems?
+
+The answer to these questions are likely to be quite challenging. They may not
+
+be resolved during our life times. Or ever?
+
+We will now add the new Remarks 2.8 and 2.9 into this Year-2020 version of our
+
+notes.
+
+Remark 2.8 The main core result of this chapter is its Theorem 1. This may,
+at first, appear to be mysterious because Theorem 1’s self-referencing mechanism is
+similar to a puzzling maze of mirrors that can be found in an amusement park. It is
+
+G    known that if a human stands between two mirrors (one behind him and the other
+
+in front of him) then he will see an almost endless cascade of reflections of himself.
+
+17

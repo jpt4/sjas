@@ -1,0 +1,27 @@
+1. Every Aj formula is defined to be also both a II} and £3 formula.
+
+2. A formula is called [j,, iff for some Lj formula (vj, v2,...Un), it can be
+written in the form Vu; Vv2 ... Wun P(v1, ¥2,.--Un) . (Since this rule also applies
+when the number of quantifiers n equals zero, it follows that every D7 formula
+
+is automatically by default also IT},,.)
+
+3. Similarly, a formula is called D},, iff for some Il? formula (2, v2,..-Un), it
+can be written in the form Ju, Jv2 ... du, P(v;, V2, .--Un) . (Since this rule also
+applies when the number of quantifiers n equals zero, it follows that every II}
+
+formula is automatically by default also Dj, ,.)
+
+Example 1.5. Equations (10) are (11) are examples of a IT} sentences, and
+Equations (12) are (13) are examples of IT} sentences. Note that some II} sentences
+can be proven to be logically equivalent to II] sentences. Thus for example, the
+
+sentences in Equations (10) and (13) are logically equivalent to each other.
+
+V2 Vy 32  Z-ZE my          (10)
+Vc Vy 3     >0- = =
+
+* ¥_e Se @    -  y         (11)
+
+Va Vy    r+y =yter              (12)
+Vea Vy dz<ort+y  z-Z=y         (13)

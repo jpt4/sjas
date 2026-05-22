@@ -1,0 +1,37 @@
+since it would then prove both U(a) and its negation — U(a) (via the prior
+
+paragraph’s construction).
+
+The latter observation will now enable our proof-by-contradiction to reach its
+desired end. This is because Lemma 5’s hypothesis indicated that @ was consistent,
+
+but the last paragraph contradicted this assumption of a’s consistency.
+
+Hence to avoid this contradiction, we are forced to conclude the temporary as-
+sumption in our proof’s first sentence (that a could prove U(a) ) must be false.
+The negation of this temporary assumption demonstrates that Lemma 5 must be
+
+valid (because its negation is inherently contradictory). O
+
+Lemma 6 Again, suppose that a isa Regular Aj aziom system that is consistent.
+
+Then the sentence U(a) must be true.
+
+Proof: Lemma 5 demonstrated that a is unable to prove U(a@) . However
+U(a)’s formal statement (given in statement * ) amounts to saying “There is no
+proof of U(a) from the axiom system a”. Therefore, we are forced to conclude
+
+that U(a) is a formally true statement. 0
+
+Theorem 1 (A weak version of Gédel’s First Incompleteness Theorem) Again, sup-
+pose that a isa Regular Aj aziom system that is consistent. Then there exists a
+
+II} sentence that is true but not provable from a.
+
+Proof: From Lemmas 5 and 6, it follows that U(a) is a formally true Il} sentence
+
+that cannot be provable from a. 0
+
+Definition 2.5. An axiom system a is called Recursively Enumerable iff
+
+15

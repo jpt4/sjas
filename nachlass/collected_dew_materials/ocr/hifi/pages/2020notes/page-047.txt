@@ -1,0 +1,21 @@
+2 The First Incompleteness Theorem
+
+This section will sketch a proof of a version of the First In-
+completeness Theorem. I will omit some details in the proof
+that are basically trivial to verify. Our version of the First In-
+completeness Theorem will be less powerful than the stronger
+version in Mendelson‘s textbook [4]. However, its main virtue is
+that it is quite easy to prove. Also, our discussion will capture
+the core intuition behind the Incompleteness Theorem without
+
+going into excessive details.
+
+Each formal proof in the Predicate Order Logic can be thought
+of as a string of characters, encoded as an integer. There are
+many methods for encoding such a proof. One sample method
+is illustrated in the Appendix A . It uses an alphabet of 55 char-
+acters for encoding a formula. If each character is represented
+
+by asymbol D,; that corresponds to an integer between 0 and
+
+9

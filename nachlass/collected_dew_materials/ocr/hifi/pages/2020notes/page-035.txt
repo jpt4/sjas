@@ -1,0 +1,33 @@
+sections, are proofs-by-contradiction. They thus always have a non-constructive flavor
+
+to them.)
+
+LemmalO0 J © Square(!)
+
+Proof: Consider a function F that has the following definition:
+
+1. F maps the integer 1 onto the ordered pair (1, 1).
+2. F maps the integers 2 and 3 onto the ordered pairs of (2,1) and (1,2).
+
+3. F maps the integers 4, 5 and 6 onto the ordered pairs of (3,1) , (2,2)
+and (1,3).
+4. F maps the integers 7, 8, 9 and 10 onto the ordered pairs of (4,1) ,
+
+(3,2) , (2,3) and (1,4).
+
+5. etc.
+
+It is obvious that such a function F establishes that J = Square(J) 0
+
+Definition 5.2 The literature calls a set S Denumerable or Countable iff
+it has the same cardinality as the set of positive integers. Thus, for example the sets
+E and Square(J) were shown to be “denumerable” (or “countable”) by Lemmas 8
+
+and 10, while Lemma 9 showed that Power(J) was not also denumerable.
+
+Comment about Mendelson’s Book. It often uses the words “ Denumerable”
+or “Countable” from Definition 5.2. However, the definitions of these constructs
+
+appears only in a very tersely written passage in the textbook’s preface. That is the
+
+33

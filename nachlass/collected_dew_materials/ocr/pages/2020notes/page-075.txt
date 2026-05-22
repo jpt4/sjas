@@ -1,0 +1,20 @@
+=== tesseract (conf=0, chars=0) ===
+
+=== ocrad fallback ===
+c_ _n_ude tllBt |[ PA+ p_ved Coll_( PA+ ), then it \vould
+\)
+_e in_n_ist_t b_Bu_ ltenu l and 2 (above) show that it
+\\.ould then prove botll B _ntence (|.e. U( PA+ ) ) _d i_
+negation (ie ¬ v( PA+ T ).
+Sin_ PA+ _ p_umed _ be _n_|_ent by _nventiona
+mathem&tia, i_ rollow_ thBt PA+ must be unabLe to prove ik
+OF_ _wi__ncy, to &vold thI_ __rly impoQIble _nditlon.
+_Clarificatioo 3.5. Let me do the l_t p_t o[ the proor
+abo_ in _|_v motion _o th&t you undent_d, lin_ror-line, \vhat
+it _[ly h_ done. Suppo_ that you have p_ven the rollowing
+two _n_nc_.
+l. X _ y
+2. ¬y
+|Then or _une, you could _nclude tll&t ¬ X i_ t_e, vi& a
+_7
+

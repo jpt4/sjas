@@ -1,0 +1,41 @@
+numbers. Then the following lemma holds:
+Lemma 8 |] = E
+
+Proof: Consider a function F that maps the integer z onto 2z. Since F
+
+is a 1-to-1 and onto function, it implies J & E.0
+
+Let Power(S) be defined as the set of all subsets of the sect S . It is so-named
+because the power-sct of a finite set of n elements has a cardinality of exactly 2°
+
+clements.
+
+Also, define S x T to be the cross product of the sets S and T. (It consists
+of all ordered pairs (xy) where r€S and y€T.) We sill also use the symbol
+
+Square(S) to denote the cross-product set Sx S.
+For sets of finite cardinality, it is of course true that:
+S ~<_ Power(S)                                  (32)
+S ~< Square(S)                                 (33)
+
+However, the generaliza*’
+
+mo! the above two inequalities is more complicated for sets
+
+ns out that Equation (32) holds for all sets S of
+
+a
+eon (33) does not also hold. Among infinite-sized
+
+rs as                                             (34)
+
+a!
+wore the validity of Equations (32) and (34)
+
+’  ah   *           |  :
+AE
+Bs
+Bf Pumilive Lulegem dvneted as J. It should be
+{fur ALL SETS of infimte cardinality.
+
+31

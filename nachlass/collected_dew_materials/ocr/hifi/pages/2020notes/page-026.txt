@@ -1,0 +1,33 @@
+The reason for our interest in e is that it will lead to a nicely compact proof for
+oe   our needed Lemma 7. (Hilbert-Bernays [3] were the first to notice the usefulness of an
+analog of e’s identity for helping prove basic analogs of the Second Incompleteness
+
+Theorem. We will now slightly modify their methods.)
+
+Proof of Lemma 7 For the sake of constructing a proof-by-contradiction, let
+us entertain the “temporary” assumption that PA+ could prove Cons( PA+ ).
+Recall that Fact 3.3 noted that PA+ had a capacity to prove the statement **.
+Since PA+ can trivially prove that it is a regular axiom system, it can easily apply
+
+** to verify ? the statement that:
+# PA+ cannot prove U( PA+).
+
+‘a   We next observe that the statement # can be easily inferred by PA+ to be logically
+equivalent to the sentence U( PA+ ) . (This is essentially because PA+ can easily
+show that the only integer K satisfying Subst(V, K) in Equations (23) through (25)
+
+is U( PA+)’s Godel number.)
+
+Thus, the “temporary” italicized assumption (from the preceding paragraph) has
+established that PA+ can BOTH prove # and prove that # is logically equivalent
+
+to the sentence U( PA+ ). This implies that PA+ also has a simultaneous capacity
+
+1. to prove the sentence U( PA+ ) (since it is obviously equivalent to # ), and
+
+2. also to disprove the same sentence U( PA+ ). (The latter is an immediate
+
+consequence of the definition of U( PA+ ) and of our prior invariant of e .)
+
+2 This proof is entirely trivial because of our observation that #* and #+#s are logically identical statements,
+except for a slight difference in notation.

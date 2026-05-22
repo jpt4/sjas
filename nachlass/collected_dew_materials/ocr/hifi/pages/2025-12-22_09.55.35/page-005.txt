@@ -1,0 +1,45 @@
+becoming a schema of logical axioms.
+
+The intuitive reason for this unusual effect is that the transforming of derived
+theorems into logical axioms can shorten proofs under the Fitting-Smullyan seman-        Z
+tic tableau technology. In the particular context where §3’s formalism uses self-
+referencing “I am consistent” axioms and views multiplication as a 3-way relation-
+ship, these conditions will be sufficient for enacting the full power of the Second
+
+Incompleteness Theorem.
+
+The next chapter will explain how these issues are related to questions raised by
+Gédel and Hilbert about feasible boundary-case exceptions to the Second Incomplete-
+ness Effect.
+
+2 Revisiting Some Intuitions of Godel and Hilbert
+
+Interestingly, neither Gédel (unequivocally) nor Hilbert (after learning about Gédel’s
+work) would dismiss the possibility of a compromise solution, whereby a fragment of
+the goals of Hilbert’s Consistency Program would remain intact. Thus, Hilbert never
+withdrew (26]’s statement * for justifying his program:
+
+*« “Tet us admit that the situation in which we presently find ourselves with
+respect to paradozes is in the long run intolerable. Just think: in mathematics,
+this paragon of reliability and truth, the very notions and inferences, as every-
+one learns, teaches, and uses them, lead to absurdities. And where else would
+reliability and truth be found if even mathematical thinking fails?”
+
+Godel was, also, cautious (especially during the early 1930’s) not to speculate
+whether all facets of Hilbert’s Consistency program would come to a termination. He
+thus inserted the following cautious caveat into his famous 1931 paper [20]:
+
+** “It must be expressly noted that Theorem XI” (c.g. the Second Incom- angen g {which means “or exam
+pleteness Theorem) “represents no contradiction of the formalistic standpoint
+of Hilbert. For this standpoint presupposes only the existence of a consistency
+proof by finite means, and there might conceivably be finite proofs which cannot
+be stated in P orin... ”
+
+Several biographies of Gédel {11, 22, 58] have noted that Gédel’s intention (prior
+to 1930) was to establish Hilbert’s proposed objectives, before he formalized his fa-
+mous result that led in an opposite direction. Moreover, Yourgrau’s biography [58] of
+Gédel records how von Neumann found it necessary during the early 1930’s to “ar-
+
+gue against Gédel himself” about the definitive termination of Hilbert’s consistency
+
+3

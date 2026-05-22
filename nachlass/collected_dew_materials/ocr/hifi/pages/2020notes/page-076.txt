@@ -1,0 +1,22 @@
+In particular, since one usually presumes that PA+ is consis-
+tent, one must consequently also presume that — Y holds true
+(as item 2 requires). Moreover, Item 1 must also be true be-
+cause the heart of Lemma 7’s proof had verified it. Hence, we
+can conclude that — X is true, which is exactly what Lemma
+
+7 had claimed !!!
+
+In other words, what I did in the Paragraph 3.5 (above), was
+£   repeat in slow motion the last part of Lemma 7’s proof, so that
+
+you can have a better understanding of its underlying intuition
+
+Theorem 8 (A version of Gédel’s Second Incompleteness The-
+orem) Let a denote any Aj encode-able axiom system that
+is an extension of PA+ and which is consistent. The axiom
+system a then cannot prove the IIj theorem, Cons( a ),
+9
+
+declaring its own consistency.
+
+38

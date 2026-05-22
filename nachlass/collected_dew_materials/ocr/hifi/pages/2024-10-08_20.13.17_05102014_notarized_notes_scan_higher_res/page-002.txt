@@ -1,0 +1,154 @@
+_
+te         “
+pone e ea
+
+he                                                  , varianta of Ty,
+ing,      ‘rna out that th:        many differsne vei           PONS arte)                                                            Hilbert consistency. It was not watil
+Uerphe coe te [07] tom veradons of Type-NS At Seouncemanns iets siuene bog weet cam cam urity afferent forms Ch atproct of Pw WP. ‘The remaladst ofthis aection’spy 2008 Must we wold
+Sharh dincourey the term SISMOCPTS"anable wa gli™ wth roy’ pinttiel lnterety but Soly [Gs eco systema tom Deialtion 0 aad Baample ST REE MMP ot
+|         let to         of our self-.                                             a
+ee oe eon   seiner, Meefal remit? look wi teelf end declare that “f am consistent’, It is, convenient to have such “Introspective fom bert   ‘eyetema
+Bamer of SCbtext where A ie an {altial axlO™ Sra NS salt jaine St least th,                 { Peano Arithmetic (PA), the two main variants of iatos
+°               *, Both were               wa tify,         @ logical power o!                        .
+CE(8)" and “ISINF(S)         7                         i
+
+) and Mul       2g formal             Id recognise thel       Hilbert conelatency and also prove al!  the Thy dees ftom [47] eartied the
+
+s          ult                                                     eir own                                                                                       eo
+
+© caper iEbtly modified language where Ada(73 5,             { »2) Tepreatat Srey pecdicatss symbols that formalise addition and multiplication. The remainder of thiestchjan will affer
+
+Pearmaxtme 7 of ISCE(A)'s aad ISIN!        Aion (1)        Iscuse [47]"s related generalisation of the Second Incompletancss Theorem, which demonstrates that thang two formaliams
+Equation     ‘a
+
+The formate,                          al
+*ym!          eliem 15)        hall avoid wales        tive f       3 axiom                             {    total function, by imsteed employing am infinite mumbe               tant
+ele Con Oy, Ca, Ca Tor defining the eet Of POSTITS Ustegery, Ae constant symbole Coe and Cy, will represent the integers of 0 aad 1. Each other Cy will be datend to represent
+
+d vin essen}
+be man formally ag 8" “Additive Naming Conventien™ Indicating C4, = Cy + Oy. Since ISCE(f) techaleally dows pot contain an
+Cy41                    “Pom walang Equation (4)'s S-way addition predicate symbol:
+
+properties an,
+
+the
+Reaattty 23-1 | These integers will
+‘ve fumction symbol, ita definition of
+
+Add (Oj, Cy, Cz41)                                                                                    (4)
+
+bol "Cz
+buds will assume the “name” of the built-in constant nats a ff ‘ 's encoded waing O[ Log(j +2) ] bite, The advantage of using an “additive naming comveation", which assigns names to oaly
+‘“Ccre which are powers of 2, ia that its methodeto a function aymptr®, that the powers of 2 have Integer names that are shorter than the Jengthe of thelr binary encodings.
+as  Simce the ISCE(A) aystemn will coatain © Mearly define any {ater {OF teprenenting Integer-subtraction as a total function (where = — y is defined to be equal to sero when = <¥ );
+Mation (4) additive naming convention Can   te (atl. Th uses an f8* that is not a power of 2. For inetance since 10 = 16—4—2, the Integer 10 can be represented as “Cg — Cat C1";
+Scr As tttalled definition of ISCR(A) le provided im Uh OU ike Be analog of Example 0.4's "SelfRaf axiomatic sentence to corroborate its ows coasistency. The Theorem 3 of [47] indicated
+CEA) te w self-juctifying fermaliam that verifies                 Semelatency, In essence, ISCE(f) evades the Pudidk-Solovay variant of the Second Incompletencss Theerem because it iso
+
+TYPeNS aystem. At the same time, the Theorem 4 frow [47] demonstrated that if one used an alternate paming comveation, where aay Cf equale  g2-? nen 37> 2, then the force of
+s                         3                        22,
+
+the Seoead lncompleteaces Theorem weald return, even though the 204 formation is          erithm                   47]'e generalisation of the Second Incompletencss Th       will apply to
+OWltinge where eae replaces Equation (4)'s additive aaming Convention with (Bye settilaticctioe Naa particulars ee                                                re
+
+Mult (Cf. CF. CF4,)                                                                          (3)
+
+Tt Lures owt that if a reader wishes te glance at our article [47], them he can afford to entirely omit Ite Section § and Theorems 4 kc 5. This ie because the latter, unlike [47]'e Theorem 3,
+are warelated to the preef of P # NP. Indeed, 1 would recommend that readers, interested in maloly NP's characterisation, intially emit [47]'s Section & and its Theorema 4 & 5 because the
+latter involve @ complicated proof that fe ultim:  ely unrelated to NP‘s fundamental properties,
+
+A peculiar aspect of [47] in that it doce ematain ons other result, that we recently discovered to be crucial for proving P yt NP , although we previously presumed Theorem 6 was too
+specialived for it te have much significance. Ite awkward-but-useful formaliom involves the followlag definition:
+
+Definition 0.5 Let us assume that @ ie an aziom system that comtaine » Predecessor function eymbol, where Pred(s) = Min(# — 1,0), as well as contains a constant symbol Cy for
+Cepresenting the value “1". Also, let Predd (w) dencte « functional operation that consists of j iterations of auch « predecessor function (c.g. this notation implica that & is the     que integer
+
+Chat eatiafies the identity Pred*—1(b) © Cy ). Then a will be seid te possess Infinte Far Resch iff there existe some finite rubect of ae eet of proper axioms, called         ch that for
+wraty tntegee Lh Trees epclecem 7 ts dapableiet proving (0)'s Invariant (that inteltively atatec the Integer auentiiy & docs oeiat).                      per axioms, called say 7,
+
+ae Pred*—'a) = Cy                                           \   (6)
+
+The Theorem 6 of {7} shows it ia possible te eoastruct awkward-but-viable cel!       ifying arithmetics with infinite far reach that are copeble ef corroborating their own Hilbert consistency
+and proving the validity of all of Peane Arithmeties 1, theorems, using again « slightly modified language that treate eddition and multiplications as 3-way relations (rather than as function
+primitives). Im particular, [47]'e ISINF fermeliom cam achieve this property without violating the Pudiék-Solovey version ef the Second Incompletenses Theorem because it is a Type-NS
+farmalicen, formally ines;       of verifying any of the operations of Successor, Addition or Multiplication are total fusctioas. Moreover, thie “ISINF” clase of formalisms has a fundamentally
+different anatomy fren [47]‘s alternate “ISCE™ variant of oclf-justifying logice because the latter veces an infinite number of different instances of the axiom scheme (4) to construct the full
+infinite range of integers.
+
+‘Thus chile many eapest of [47] “ISINF~ style fermaliam are awkward and super-impractical (due to the unwieldy long proofs it preduces), thie framework differs from the alternative
+ISCE mechaniam by, at least, showing that scif-justifying axiom systems with Infinite Far Reach are theoretically capable of confirming their own Hilbert consistency.
+
+The intuition      ind ovr proof of P yt NP le that we noticed that If this invariant was falee then « hybridisation of the ISCE and ISINF frameworks will produce = eontradiation (showing
+
+that the invariant P = NP casnot possibly held). In particular assuming thet thera is available ac algorithm a that cas solve leagth—= SAT problems on = Turing machine in sey n°
+Lime, ons cam apply the ordared pals (a,b) to develop twe types of eclf-justifying axiom systems, called “Is.Bulky” and “Is.Super.Bulky”, that are natural hybrids of the ISCE aad ISINF
+frameworks, with the         ing pleasing combination of propertice:
+
+1. A meturel Gemalication of the techniques, weed to prove [47]'s Theoreme 3 aod 6, will imply that both Je.Bulky and Is.Super.Bulky are efficent and consistent, when one usce the ordered
+pair (a,b) to comstruct the axiomatic inpst 6 for our Is.Bulky and le.Super.Bulky frameworks.
+
+11. fm contrast to Item 1's positive result, a generalisation of Godel-style diagosalisatos argument will imply both of ls.Bulky and Is. Super.Bulky are inceasistent (esecatially because they
+are tee officieat to escape the reach of the Second Jacompletences Theorem).
+
+Our        of P ¢ NP will emecutially rest om the fact that Jtems I aad II are incompatible with each other whenever aA ordered pair (e, 6) formally represents » polynomial solution for SAT
+pat pote (We will, thus, derive the rassht P ¥ NP, via « preof by ceatrediction, that shows as ordered pair (0,6) would otherwise produce two incompatible results.
+
+Cheerful News about Misleeding Mirage: As earlier section of this article indicated that there existed several types of mirages, which would tead to make most computer researchers
+and logiciane overlook the essence of the proof of F yf NP. Some cheerful news, that will be sow revealed, is that our proef of P ¥ NP becomes much easier to conceptualise, intuitively,
+whee one fe aware of tore mirages that con be initially quite misleading.
+
+‘The first mirage concerns the question about whether Cddel's Sesond Iscompleteness Theorem Is 100 % rather than 99 % ubiquituous, when it describes the inability of formalisms
+te receguise theis own cuasistency. A theme of our rescach is [37]-[49] is that the the Second Incompletencss Theorem is obviously 100 % technically correct, as well as 100 % germanc
+to conventions! mathematical paradigms. Hewever, ovr reocarch perspective has been that seemingly tiny 1 % categories of boundary-case exceptions cam be helpful ia solving many open
+
+uastions, iacludiag P ¥ NF.
+=     REMOVE — pall we view the tiny 1 % category of boundery-case exceptions as also revealing. Ja o seuse the same passion to examine that fine! sccmingly miniscule tiny remaining 1 %
+categery of possibilities, thet led to the Predmas-Willard Pusion Trees at the 1990 STOC end FOCS conferences (7, 7}, will now lead to a proof of P # NP.
+
+‘The second surprising mirage alee caught this author off guard. It concerns [47]'e “ISINP™ axiomatic framework, which our APAL-2006 paper had called “awkward™ and “artificial”.
+These adjectives accurately characterise “ISINF, One might even, actually, harebly add that ISINF is se fully inefficient ond porely ortificial in ita defining structure that one con confidently predict
+THAT IT 1S INCAPABLE of ever producing ony wacquivesally poodiive result,
+
+Swch italicised and beld-faced wards, which I corteialy did mot dare insert Sato [47]’e published text, are, technically, accurate. Yet in April of 2014, I discovered, that they were alee a
+miregce! Thie is because the statement “P xf NP” le a megetive assertion, dlocussing the inability of polynomial time algerithms to simulate a mon-detarmiaistic Turing machine. The latter class
+of arcgetivict otatements have quite different anstomias and logical propartion than peritive-ctyled theoremal
+
+Thus although JSINP’s anatomy is unlikely to produce any ussful strictly positive results, it ie a useful vehicle in a proof by contradiction, which shows that a hybridisation of the ISINF
+ead ISCE frameworks makes it impossible for P = NP te held (.¢, ove Stems | & Sl ea the prior page).
+
+(vie the 2p-est argument thet was roughly summarised by the Items J ond 11, carlier in thie section).
+Hd    acwitination of Ste ‘ efficie  7 1    ber with prokibitl
+han)   the               tem i'e         reoulte,     rt     4!        ju    L                                           that ci
+5   ly PYUNP oc aay       rik   finery fig     » together wi            ene Imposed by the lacompletesess Theorem will imply    t either and both of the
+44423
+Por any (a, 4), it le easy to construct a system a! 2 @ that satlefies the Part-| condition. For Instance, a! could coseist of all of a's axioms plus an added “Selfflefla,d)" sentence,
+
+dcfined as stati                                                                                                                                        .
+
+Od ebotret This article will confirm the validity of Cook's seminal P yt NP conjecture, «  ka whose fovndetional implications hove been discussed alse by Karp and Levin. We had   ‘estured
+
+Dimace Workshop, co-cheired by Sem Buss ond Poul Besme, thet « proof of P fp NP covld be ob    a          ‘               ‘    soati                        ot a 1890
+
+2       pr co-choiel ba      r                     vel         Sey    tained by somehow hybridising the mechanics of Gadel Diegenakisation Arguments with those of the wn:    boundary case
+
+The shove conjacture was, of covres, covaterrintwitive becouse Gédel's First Incompletances Thaores (which asserts the iaherrat undecideblity of conventional arthmehic) end his Second Incempletenaas Theerem
+(ubich establishes the inability of erarentional| te aonfirm their owe avasistensy) 74 beth haves, to be concconsly robust ent rarthent tein rusnlls: Hewcecr alter researching Us lopic during the Lanesreeticity S17
+yoors (ond publishing ois pepere shout i i  ria that separate the sostoaply intacle bul cengt Lotish ws have sow, Analy, devslopad « method te demonstrate P NP by means 9 « rroat-bec  ition that
+cuploits the inherent te and divergent prope  seperate the seemingly eniniecule- ut-valid boundary case eaceptions for Gidal's Second Incomplatencss Theorem sophisiticated g  i of Gédelotyls
+
+dagenalisetion arguments.
+5 0 yr Hecrerne wil premuone thes the reader hes 9 eviTishent haowladge about Mathematical Leste ts wnderstand the mania themes in of east ons of tha gradaste-level textbooks by say Baderten, Mendelson or Papadimitrien
+* NEW Section's Title HEED
+
+Throughout this erticle, o     mote on axiom system, and d will demote @ deduction method Ay ordered pair (a, d) will be called Self Justifying when:
+
+i  ens of ws thaarems will stole that the deduction methed d, syplicd te the eystem a,
+
+wily
+a aven    ‘a ctetasl jane ah   .                 reduce © consistent set of thsorems, ond
+
+a
+fe construct « sysiem       thet satisfies the Pert-i conditi:
+For ony (2, 4)¢ it te ancy         .      a Qe             Pertl condition. For jas, at         ss      J oo ‘a asioms ps on added “SelfRafla, a)" scatence, defined as stating:
+
+7

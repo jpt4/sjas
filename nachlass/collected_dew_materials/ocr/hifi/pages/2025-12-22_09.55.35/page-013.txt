@@ -1,0 +1,48 @@
+SS
+~
+
+.
+
+was defined in [50] to be an axiomatic formalism capable of recognizing all of ’s TI;
+theorems and corroborating its own Level-1 consistency under D’s deductive appara-
+
+tus. It consists of the following four groups of axioms:
+
+Group-Zero: Two of the Group-zero axioms will define the constant-symbols, @%
+and ¢,, designating the integers of 0 and 1. The Group-zero axioms will also
+define the growth functions of Addition and Double(r) = 2+ 2. (They will
+enable our formalism to define any integer n > 2 using fewer than 3-[ Log n ]
+
+logic symbols.)
+
+Group-1: This axiom group will consist of a finite set of II} sentences, denoted as
+F , which can prove any Aj sentence that holds true under the standard model
+of the natural numbers. (Any finite set of IIj sentences F, with this property,
+may be used to define Group-1, as [50] had noted.)
+
+Group-2: Let “7 denote ®’s Gédel Number, and HilbPrfg("$7, p) denote a Ag
+formula indicating that p is a Hilbert-Frege styled proof of theorem ® from
+axiom system f. For each II} sentence ®, the Group-2 schema will contain the
+below axiom (4). (Thus ISp(f) can trivially prove all 6’s Il} theorems.)
+
+Vp {HilbPrig("O1,p) > © }        (4)
+
+Group-3: The final part of ISp(f) will be a self-referencing II} axiom, that indicates
+ISp(8) is “Level-1 consistent” under D’s deductive apparatus. It thus amounts
+
+to the following declaration:
+
+# No two proofs exist for a Il} sentence and its negation, when D’s
+deductive apparatus is applied to an ariom system, consisting of the
+
+union of Groups 0, 1 and 2 with this sentence (looking at itself).
+One encoding for # as a self-referencing II} axiom, had appeared in [50]. Thus,
+Line (5) is a II} representation for # when:
+
+a. Prf 1Sp(8)(% b) is a Aj formula indicating that 6 is a proof of a theorem
+a from the axiom basis ISp(@) under D’s deductive apparatus, and
+b. Pair(z,y) is a Aj formula indicating that z is a Ij sentence and y
+
+represents z’s negation.
+
+11

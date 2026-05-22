@@ -1,0 +1,39 @@
+determine its initially chosen hash location. (BE CAREFUL TO DOUBLE CHECK your answer
+
+to make certain that no careless errors occur.)
+
+C) Thirdly consider a version of the “Double Hashing” method for resolving collisions, where
+we insert in chronological order, the keys from the sequence ** into a file with s=10 slots under the
+rules that the rightmost digit of each key determines its initial placement and the key’s leftmost
+digit determines its employed displacement (under double hashing). First again provide two simple
+
+and equivalent 1-or-2 sentence definitions of such a Double-Hash method where:
+
+1. The first definition for “Double Hashing” views it as a special case of “open addressing”
+
+method for resolving hash collisions for a file with S slots.
+
+2. The second definition of “Double Hashing” is a trivial 1-or-2 sentence rewrite of the above
+definition that does not, technically, refer to the “open addressing” method when defining
+the “Double Hashing” method for resolving collisions in a hash file with S slots.
+
+Finally AND MOST IMPORTANT OF ALL, draw a picture of what a file of 10 slots would look
+like when you insert elements from the sequence of ** in the CHRONOLOGICAL order into a
+hash file with 10 slots under the above Double-Hashing Method. Once again assume that the
+second digit of each key is used to determine its initially chosen has location. (BE CAREFUL
+TO DOUBLE CHECK your answer to make certain that no careless errors occur.)
+
+D) Next, let us recall that the i-th universal hash for a file with S slots and prime number P
+maps a key K onto a hash-chosen address “ H?( K )”, where
+
+1. S is the number of slots in the hash file,
+2. P is a prime number whose bit-length is longer than the number of bits in any input key,
+3. K is the “key” of the record that is being mapped into a hash address
+
+4. and i designates the hash function’ s “index”, subject to the constraint that 0 < i < P.
+
+In such a context, please first write down the precise address “ HS? ( K )”, that universal hashing
+will map the key K onto. Then, assuming that S = 10 and P = 31, and (i, K) is one of the ordered
+pairs of (11,20) or (50,5) or (7,11), tell me what address they map onto. (You obviously will not be
+
+4

@@ -1,0 +1,68 @@
+>
+
+of his often-quoted controversial 1931 remark ** during numerous private conversatio
+
+shared with Gerald Sacks [31].
+
+J Funes Peastpueph— Papo
+SS Sette aad        :
+Acknowledgment: I thank Seth Chaiken and Robert Willard for improvifig the presenta-
+
+[1] Adamowicz, Z., Zbierski, P.: On Herbrand consistency in weak theories. Archive for Mathematical Logic
+40(6): 399-413 (2001).
+
+[2] Artemov, S.: Explicit provablity and constructive semantics. Bulletin of Symbolic Logic 7(1): 1-36 (2001).
+
+[3] Artemov, S.: The provability of consistency. Cornell Archives arXiv Report 1902.07404v5 (2020).
+
+[4] Artemov, S.: Missing Proofs and the Provability of Consistency. Video presentation at the 2021 Tibingen
+conference “Celebrating 90 Years of Godel’s Incomppleteness Theorem”. For the video recording see:
+https://www.youtube.com/watch?v=Nw4nERAqi2U
+
+[5] Artemov, S., Beklemishev, L. D.: Provability logic. In Handbook of Philosophical Logic, Second Edition,
+pp- 189-360 (2005).
+
+[6] Beklemishev, L. D.: Reflection principles and provability algebras in formal arithmetic. Russian Mathe-
+matical Surveys 60(2): 197-268 (2005).
+
+[7] Beklemishev, L. D.: Positive provability for uniform reflection principles. Annals Pure & Applied Logic
+165(1): 82-105 (2014).
+
+(8] Bezboruah, A., Shepherdson, J. C.: Gédel’s second incompleteness theorem for Q. Journal of Symbolic
+Logic 41(2): 503-512 (1976).
+
+[9] Buss, S. R.: Bounded Arithmetic. Studies in Proof Theory, Lecture Notes 3, disseminated by Bibliopolis
+as revised version of Ph. D. Thesis (1986).
+
+(10] Buss, S. R., Ignjatovié, A.: Unprovability of consistency statements in fragments of bounded arithmetic.
+Annals Pure & Applied Logic 74(3): 221-244 (1995).
+
+[11] Dawson, J. W.: Logical Dilemmas: The Life and Work of Kurt Gédel, AKPeters Press (1997).
+
+[12] Feferman, S.: Arithmetization of mathematics in a general setting. Fundmenta Mathematicae 49: 35-92
+(1960).
+
+(13] Fitting, M.: First Order Logic and Automated Theorem Proving. Springer-Verlag (1996).
+
+[14] Friedman, H. M.: On the consistency, completeness and correctness problems. Ohio State Tech Report
+(1979). See also Pudldk [29]’s summary of this result.
+
+[15] Gédel, K.: Uber formal unentscheidbare Satze der Principia Mathematica und verwandte Systeme I.
+Monatshefte fiir Mathematik und Physik 38: 349-360 (1931).
+
+[16] Gédel, K.: The present situation in the foundations of mathematics. In Collected Works Volume III:
+Unpublished Essays and Lectures (eds. Feferman, S., Dawson, J. W., Goldfarb, W., Parsons, C., Solovay,
+R. M.), pp. 45-53, Oxford University Press (2004).
+
+[17] Goldstein, R.: Incompleteness: The Proof and Paradoz of Kurt Godel. Norton Press (2005).
+
+[18] H&jek, P.:; Towards metamathematics of weak arithmetics over fuzzy logics. Logic Journal of the IPL 19:
+467-475 (2011).
+
+32
+
+~
+
+tion of this article.                                                           G 4 d     Ma 2     Xb y,
+
+References

@@ -1,0 +1,27 @@
+complexities far exceeding the level of II} sentences.
+
+In other words, *** is technically a IIj encoded axiom schema that flirts with
+the prospect of more complicated formulae lying inside its proof “ p”, without
+actually crossing into this dangerous domain.
+
+Much of the magic power of the ISp(PA*) formalism stems from this “Flirt-
+ing without Trespassing” effect. In particular, the self-affirming axiom system
+ISp(PA") will be able to partially evade Gédel’s Second Incompleteness Theo-
+rem by “ECHOING” Peano Arithmetic (within a context where this “echo-
+ing” is not also an extension of Peano Arithmetic).
+
+4.4 More Details about the “Echo Statement” x xx
+A duplicate copy of the prior section’s “Echo Statement” *** is provided below:
+* kk              Vp {HilbPrfpa-("®",p) > © }
+
+An interesting aspect of this statement is that one ideally wishes to be capable of
+
+of proving the existence of an integer p satisfying its clause : Oe DS
+
+Se yh  pn    O42, P @  em
+via a formal proof whose length is not much lepger than the-birarytength-of
+sal
+
+p AE. Itxis possible to achieve this goal, but we will need some more mathe-
+
+31

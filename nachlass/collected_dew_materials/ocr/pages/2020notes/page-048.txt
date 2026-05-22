@@ -1,0 +1,22 @@
+=== tesseract (conf=0, chars=0) ===
+
+=== ocrad fallback ===
+54, then B senRn_ cons_ting of n char_teR can be thought
+n
+o__Bnlnteger Dl, DI, O_, ... D, , written _ anumberin
+be_ 64 wh_e vglue fal_ between 64"-' end 64" - l . (See
+the Appendix A roT one __nple o__u_ gn en_ding method.)
+The method ror encoding &proof will be _imil_ _ a loImuLa'_
+en_ding, __pt that it will n_d a 56th sybol (c&|_ the
+period _ybol) _OT _p_ating the di_tinct _ormul_ that appear
+D in _uenti& order in the proo_ As berore, the __uence o[ n
+di__ Dl, Dt, D,, ... D, , d_cTibing & proo[, will ag_n
+be writ_n _ B number in ba_ 64, wh_e v&ue [_l_ between
+_n-l and 64"-1
+
+Major Notation Convention: The Lo&c LieratuTe
+_ the phr_e Gödel NumbeT or Gödel Encoding to
+d_cribe B positive in[eger N thBt repr_enk the _equen_ oE
+_ ___te_ D,, DI, D,, ... On _ a B_e64lnteger. (AL
+LO
+

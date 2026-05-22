@@ -1,0 +1,40 @@
+We will call the GenAC system (a, D) a Type-M formalism iff it proves (1) - (3) as
+theorems, Type-A if it proves only (1) and (2), and it will be called Type-S if it
+proves only (1) as a theorem. Also, (a, D) will be called Type-NS iff it can prove
+none of (1) - (3).
+
+Remark 3.5 The separation of GenAC systems into the categories of Type-NS,
+Type-S, Type-A and Type-M systems helps summarize the prior literature about gen-
+eralizations and boundary-case exceptions for the Second Incompleteness Theorem.
+
+This is because:
+
+i. The combined research of Pudlék, Solovay, Nelson and Wilkie-Paris [31, 36,
+42, 45], as formalized by Theorem ++, implies that no natural Type—S system
+(a, D) can recognize its own consistency when D represents one of Example 3.1’s
+three Hilbert-Frege deductive methods of De, Dy and Dy. It thus establishes
+the following result:
+
+++  (Solovay’s modification [42] of Pudlék [36]’s formalism using
+some of Nelson and Wilkie-Paris [31, 45]’s methods) : Let (a, D)
+denote a Type-S GenAC system which assures the successor operation
+will provably satisfy both 2’ #4 0 and 2’ =y @&a=y. Then
+(a, D) cannot verify its own consistency whenever simultaneously D
+is some type of a Hilbert-Frege deductive apparatus and a treats
+
+addition and multiplication as 3-way relations, satisfying their usual
+associative, commutative, distributive and identity axioms.
+
+Essentially, Solovay [42] privately communicated to us in 1994 an analog of
+theorem ++. Many authors have noted Solovay has been reluctant to publish
+his nice privately communicated results on many occasions [10, 25, 31, 34, 36,
+45]. Thus, approximate analogs of ++ were explored subsequently by Buss-
+Ignjatovié, Hajek and Svejdar in [10, 23, 43], as well as in Appendix A of our
+paper [47] and in [49]. Also, Pudlék’s initial 1985 article [36] captured the
+majority of ++’s essence, chronologically before Solovay’s observations. Also,
+Friedman did some i       related work in [16].
+
+ii. Part of what makes ++ interesting is that [47, 50, 51] presented two types
+of self-justifying GenAC systems, whose natural hybrid is precluded by ++.
+
+Specifically, these results involve using Example 3.3’s self-referencing “J am

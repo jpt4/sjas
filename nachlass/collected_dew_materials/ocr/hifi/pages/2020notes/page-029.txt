@@ -1,0 +1,34 @@
+on
+
+3.2 Philosophical Comments
+
+Although the Second Incompleteness Theorem is technically correct, there is a very
+deep philosophical question it raises — with broad implications for Computer Science
+
+and other disciplines. It is the following question
+
+Why do Human Beings choose to think and cogitate if they did not have
+faith that Thinking is a useful process? The problem is that Theorem 3
+states that any formalism having faith in its own consistency will collapse
+in inconsistency. How do Human Beings manage to grapple with this
+inherent dilemma in their day-to-day life? How do Human Beings motivate
+themselves to gather the energy to think if they did not have faith in the
+consistency of their thought processes — notwithstanding the problems
+raised by Gédel’s two theorems? And how will the computers of the future
+attempt to imitate the higher Human Thinking process when they confront
+
+the same problem?
+
+My papers about Self-Justifying axiom systems will be discussed in a later course.
+They will illustrate how some non-conventional Logics can escape the reach of Gédel’s
+Second (but not First) Incompleteness Theorem and possess some knowledge about
+
+their own consistency.
+
+I don’t want to over-state the importance of what I am doing because both Gédel’s
+theorems are technically correct. On the other hand, the web site for the Journal
+of Symbolic Logic describes itself as “Logic’s foremost journal”, and my paper [8]
+
+was the longest of the 120+ papers published by the JSL during 2001. It described
+
+27

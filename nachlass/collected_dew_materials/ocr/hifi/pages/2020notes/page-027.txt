@@ -1,0 +1,32 @@
+a
+
+Hence using this kind of “diagonalization paradox”, we can conclude that if PA+
+proves Cons( PA+ ), then it must be inconsistent because Items 1 and 2 will then
+demonstrate it would prove both a sentence U( PA+ ) and its natural formalized
+
+negation (i.e. the sentence — U( PA+ ) ).
+
+Since PA+ is presumed to be consistent by conventional mathematics, it follows
+that PA+ must be unable to prove its own consistency, to avoid this clearly impossible
+
+circumstance.
+
+Clarification 3.5. Let me now repeat the last part of this proof in slow motion
+so that you understand, line-for-line, what it exactly has done. Suppose that you
+
+have proven the following two sentences:
+lL. xX >Y
+2 ~yY
+Then of course, you could conclude that — X is true, via a proof by contradic-
+tion. The point is that the preceding proof of Lemma 7 uses essentially this kind of
+reasoning where
+A. X is the statement that “PA+ proves Cons( PA+ ) ”
+B. Y is the statement that “PA+ is inconsistent”.
+Then since one usually presumes that PA+ is consistent, one must naturally conclude
+that - Y and hence also — X are formally true statements. But — X amounts
+
+to the assertion that PA+ is unable to prove Cons( PA+ ) . (This is exactly the
+
+statement that Lemma 7 sought to prove !!!!_)
+
+25

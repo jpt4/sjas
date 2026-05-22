@@ -1,0 +1,56 @@
+theorems 7;, To, T3 .... where each T; shows some subset 5S; of PA is unable DP pat (
+to prove 0 = 1 and where PA equals the formal union of these special selected S;     feo 14 2
+
+fe / ree
+
+)          |                  iat                           eles, ee
+the abstract in [4] cautiously used the adjective of “somewhat” to describe how it      ;
+sought to partially achieve the goals sought by Hilbert’s Consistency Program (with    \C ge
+
+satisfying the inclusion property of 5S; C S.C $3 Cc .
+
+This perspective, which is certainly very useful, is also not a panacea. Thus,
+
+an infinite collection of theorems T,, T, T3 .... replacing Hilbert’s intended goal of  0 | Ly -
+per
+
+finding one unifying formal consistency theorem).
+
+7:9
+
+Our “Declarative”’ exceptions to the Second Incompleteness Theorem and Arte-
+mov’s “Infinite Ranging” exceptions are two quite different rigorous results, which
+are nicely compatible with each other. This is because each acknowledged that the
+Second Incompleteness Theorem is a strong result, that will admit no full-scale er-     TZ
+ceptions. Also, these results are of interest because Godel openly conjectured that
+
+Hilbert’s Consistency Program would ultimately, reach some levels of partial success       eSBe
+(see next section). We will explain, herein, how Gédel’s conjecture can be partially    Ba
+
+justified, due to an unusual consequence of the Law of the Excluded Middle.
+
+More specifically, we shall focus on the semantic tableau deductive mechanisms
+of Fitting and Smullyan [15, 40] and their special properties from the perspective of
+our JSL-2005 article [50]. Each instance of the Law of the Excluded Middle has been
+treated by most tableau mechanisms as a provable theorem, rather than as a built-in
+logical axiom. This may, at first, appear to be an insignificant distraction because
+most deductive methodologies do not have their consistency reversed when a theorem
+
+is promoted into becoming a logical axiom.
+
+Our self-justifying axiom systems are different, ee because their built-in      ~~
+an
+
+self-referencing “J am consistent” axioms have their meanings change, fundamentally,
+when their self-referencing concept of “I” involves promoting a schema of theorems
+
+verifying the Law of Excluded Middle into formal explicitly declared logical arioms.       —_
+
+This effect is counterintuitive because similar distinctions exist almost nowhere
+else in Logic. Thus some confusion, that has surrounded our prior work, can be     (
+clarified when one realizes that an interaction between the self-referencing concept
+of “I” with the Law of Excluded Middle causes the Second Incompleteness Theorem
+
+to become activated precisely when the Law of Excluded Middle is promoted into
+
+         WA a!

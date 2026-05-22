@@ -1,0 +1,34 @@
+C
+
+1. [] will denote ®’s Gédel number,
+2. Verify( [ ®]) will be an abbreviation for
+dp Prfpa+( [®]), Pp)             (26)
+
+3.  Verify( [#]) is simply the Gédel number for “ Verify( [®]) ” (We will
+always use this over-line symbol to denote the Gédel numbers for our stipulated
+
+proof encodings.)
+4. Double-Verify( [ ®]) is an abbreviation for
+
+Aq Prfpas( Vertfy([®]), @ )         (27)
+
+This notation may look complicated, but the idea behind it is actually quite simple.
+Thus Verify( [ ®]) indicates that there is a proof of ® from PA+, while the construct
+Double-Verify( [ ® ]) indicates that there is proof of the EXISTENCE of a formalized
+
+proof of statement ® (from again the base axiom system of PA+ ).
+
+Logicians usually don’t worry about the distinction between a verification and a
+double-verification because it is usually an unimportant distinction. This is because
+
+PA+ can trivially prove the following fact:
+
+e If ® satisfies Verify( [ ®]) then it also satisfies Double-Verify( [ © ]).
+
+The proof of e follows by an easy induction argument. It is often not explicitly
+fomalized in many logic textbooks because the Invariant e is quite obvious. (It
+stems from the fact that all proofs, by definition, have finite lengths. This implies that
+“double” verifications also do trivially generate finite-sized proofs, whose properties
+are also naturally characterized by the Principle of Induction.)
+
+23

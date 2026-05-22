@@ -1,0 +1,13 @@
+subtle mysteries that have enveloped Hilbert’s puz-
+zling Second Problem during the essentially last 120
+years.
+
+Our thesis will be simple enough to be comprehen-
+sible to a large audience at the end of a 2-semester
+
+introductory course on proof theory.
+
+Keywords and Phrases: Géodel’s Second Incompleteness Theorem, Hilbert’s Second Prob-
+lem, Consistency, Smullyan-Fitting Semantic Tableau Deduction, Hilbert-Frege Deduction.
+
+Mathematics Subject Classification: 03B52; 03F25; 03F45; 03H13

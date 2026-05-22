@@ -1,0 +1,305 @@
+=== Page 1 ===
+matical machinery to accomplish this
+
+Definition 4.2 The deduction method Tab-1. was defined in both our
+articles (46, 52]. It is, essentially, a compromise between Tab and Xtab deduc-
+tion, where a “Tab-1” proof for Y from an axiom basis a corresponds to a set
+
+of ordered pairs (p1,¢1), (2, $2), «+++ (Pk, be) where
+
+l. & = ¥
+
+2. For every j < k—1, each p; isa Tab-proof of a Rank-1* sentence ¢; from
+
+the union of a with the preceding Rank-1* sentences of ¢y, dp, ...., 5-1 -
+
+Vietrety prag
+The Rank-1* constraint, used by Item 2, is quike-significant because it makes
+le vale Albury    ber
+Tab-1 lesszeffiGentcthan Xtab in-the-extreme-worst-case. (This is because
+
+7        aud tap wnlr-gnlerx nN)
+
+Tab-1, unlike Xtab, requires all-except-its-final wff ¢; to be Rank-1* sentences,
+as Footnote’ explains.) Thus in creme cases, Tab-1 proofs from a
+base axiom system a can be sharply longer than Xtab proofs, while still
+being potentially sharply more compressed than hae proofs. In particular, the
+
+constraint that Items (1) and (2) imposés upon the string of ordered pairs
+“Unlike Tab-1, Xtab does not impose a similar Rank-1* requirement upon ¢ when its Law of the Ext               /a
+
+Middle allows ¢ V -¢ to appear anywhere as a permissible fogical axiom, for arbitrary ¢: )
+
+¢
+
+32
+
+tei Ain on Ee Dee di ae ee | me aa wall —~p__w—-
+
+=== Page 2 ===
+|
+
+matical machinery to accomplish this
+
+Definition 4.2 The deduction method Tab-1. was defined in both our
+articles [46, 52]. It is, essentially, a compromise between Tab and Xtab deduc-
+tion, where a “Tab-1” proof for V from an axiom basis @ corresponds to a set
+
+of ordered pairs (pi, $1), (D2; $2), «++» (Pk, $x) where
+i, dye
+
+2. For every j < k—1, each p; isa Tab-proof of a Rank-1* sentence ¢,; from
+
+the union of a with the preceding Rank-1* sentences of $1, $2, -.--, Pj-1-
+
+The Rank-1* constraint, used by Item 2, is noteworthy partly because it makes
+
+Tab-1 lie midway in efficiency between Tab and Xtab under extreme worst
+
+UNG yL §
+case. (This is because Tab-1, unlike Xtab, requires all-except-its-final wff ¢; to
+
+be Rank-1* sentences, as Footnote’ explains.) Thus under extreme worst case
+
+circumstances, a Tab-1 proof from a base axiom system a can be sharply longer
+
+than an Xtab proof, while still being potentially sharply more compressed than
+{      Tab pets. In particular, the constraint that Items (1) and (2) imposes upon
+
+‘Unlike Tab-1, Xtab does not impose a similar Rank-1* requirement upon ¢ when its Law of the Excluded
+Middle allows ¢ V —¢ to appear anywhere as a permissible logical axiom, for arbitrary ¢. )
+
+32
+
+=== Page 3 ===
+A  Strong e- Result
+yn Tableay 2062 Coutever
+MN Prmipn SC- 2004   Pape
+
+id          i
+}          §
+»          4
+»* 7?
+
+.                        >       »                   A     al       x   , a  a A    } .                      ?
+}    D ly i {           y  ; e  (  ©          by  f ER         C.. C  &  >  i » e   : ho, al   yA
+
+yA
+é
+
+       \
+
+“ Thex ls #70 Sem, Tal
+Proof of OF4 tro, Wwe //
+
+1         a
+4            : he    oham
+iP)  f*) Leo 095      ca os & ‘
+
+                                 .  -
+\ v4                             sm          “
+4         NOP set ine                        ¥      =    ry    eS” Sy
+P                . &§ 22s   wie   yg)                 4    fai       —s     .         a     }
+a      .   f f &   7   Cr          !   1  os          a      sé)   j
+,                      of                    :     _  —         “eu   ¢   rf    =,
+8               i.               Bey re,                 }
+é                     .          cae          :    J                                 ky       >
+_               _ mi be      4             al   wy P Bt        SF OS of he Py oa
+;       7      ‘     8.              i &<¢      — 3        ¢        hn OP Sort
+,   v   f        x    :   es Y       .          f                             2      ‘       °    ro«<
+°                                          é
+
+VOC JAMIE                     |
+“Th ees ne   Sem Tab
+
+Proot of a@ Ilq Sent ere
+aad js    +) @s, ato»    frre bre“
+=> \                            pele ff es Sip /
+FS TF Cah 5
+
+~€
+
+oh Al     lave
+
+“= 4           .      ‘                                                                    ,                                   ;
+Gleve Mort   O) CO lea 4B a.
+¥
+
+=== Page 4 ===
+complexities far exceeding the level of II} sentences.
+
+In other words, *** is technically a IIj encoded axiom schema that flirts with
+the prospect of more complicated formulae lying inside its proof “ p”, without
+actually crossing into this dangerous domain.
+
+Much of the magic power of the ISp(PA*) formalism stems from this “Flirt-
+ing without Trespassing” effect. In particular, the self-affirming axiom system
+ISp(PA") will be able to partially evade Gédel’s Second Incompleteness Theo-
+rem by “ECHOING” Peano Arithmetic (within a context where this “echo-
+ing” is not also an extension of Peano Arithmetic).
+
+4.4 More Details about the “Echo Statement” x xx
+A duplicate copy of the prior section’s “Echo Statement” *** is provided below:
+* kk              Vp {HilbPrfpa-("®",p) > © }
+
+An interesting aspect of this statement is that one ideally wishes to be capable of
+
+of proving the existence of an integer p satisfying its clause : Oe DS
+
+Se yh  pn    O42, P @  em
+via a formal proof whose length is not much lepger than the-birarytength-of
+sal
+
+p AE. Itxis possible to achieve this goal, but we will need some more mathe-
+
+31
+
+=== Page 5 ===
+Reflecting Upon the Goals of Hilbert’s Mysterious Second
+Problem From the Perspective of Echo Theory
+
+Dan 5. Willard
+State University of New York at Albany
+
+Abstract
+
+Section 2 of this article will document that both
+Godel and Hilbert had believed that Hilbert’s Con-
+sistency Program should be continued, although they
+both certainly were aware that Godel’s Second In-
+completenss ‘Theorem had discouraged many logi-
+cians from continuing Hilbert’s investigation. This
+article will use the Fitting-Smullyan tableau-style
+formalism to explain why these presumptions by
+Godel and Hilbert were quite reasonable. Moreover
+we will employ the distinction between the two “E-
+
+words” of “Extension” and “Echo” to clarify the
+
+=== Page 6 ===
+subtle mysteries that have enveloped Hilbert’s puz-
+zling Second Problem during the essentially last 120
+years.
+
+Our thesis will be simple enough to be comprehen-
+sible to a large audience at the end of a 2-semester
+
+introductory course on proof theory.
+
+Keywords and Phrases: Géodel’s Second Incompleteness Theorem, Hilbert’s Second Prob-
+lem, Consistency, Smullyan-Fitting Semantic Tableau Deduction, Hilbert-Frege Deduction.
+
+Mathematics Subject Classification: 03B52; 03F25; 03F45; 03H13
+
+=== Page 7 ===
+iy LEG £2
+
+NK Ap Pil Tam Sipe
+|                Fripod”=Styled Reply to Hilbert’s
+“Mysterious second | Problem
+
+;    |     fig     b
+flat VF        fe ia,          dog Mu
+
+State University of New York at Albany ,  rae ii je”
+l=ehv4
+
+And Exl
+
+Abstract
+
+Hilbert’s mysterious year-1900 Second Problem asked math-
+ematicians to devise a methodology whereby Peano Arithmetic
+can confirm its own consistency. Gddel’s famous 1931 pa-
+per showed that a fully positive reply can never be made to
+Hilbert’s question. This article will explain how Hilbert’s ques-
+tion is such a complicated issue that it can be better receive a
+3-way styled “Tripod” reply.
+
+We also provide substantial evidence that Godel would likely
+agree with the main opinions expressed in this article.
+
+Keywords and Phrases: Gédel’s Second Incompleteness Theorem, Hilbert’s Second Prob-
+lem, Consistency. a al i -Fitting Renee Tableau Deduction, Hilbert-Frege Deduction.
+
+Elvwrte     _   Boy tat Ev
+X" caps lola          SE 2che /)
+=¢h
+Cc 1, la            "On 4 i
+[SA ken            \
+' P vale
+4 Ww        L  -
+
+=== Page 8 ===
+1 Introduction
+
+This article is a continuation of a series of papers that began with the 1993 article [38] and
+
+So[e- AK4nYy
+continued until and through the year-2021 article [47]. This series, which included stx/papers
+
+appearing in the JSL and APAL, had focused on discussing generalizations and boundary-case
+po47
+
+exceptions for the Second Incompleteness Theorem. The two goals of this paper will be to
+
+explore the underlying philosophy Ce motivated this series and to explain how it is related to
+
+not wl
+several generalizations and Or eos exceptions to the Second Incompleteness Theorem ,
+
+including some important new results formalized by Artemov [3, 4].
+
+Our general theme will be that Hilbert’s year-1900 Second Problem is too complex an issue
+to receive a 1-directional or even 2-directional answer. Instead, it will require a 3-directional
+
+-~—               i
+answer, called the “Tripod Reply” to Hilbert’s question. }7e    mAh}  4a |
+
+.                                                                3
+pn aie fo NEC ol Esivesy Chan
+The first leg of this 3-part response to Hilbert’s Second Problem will rest on the combination
+
+of Gédel’s initial version of his Second Incompleteness Theorem and its numerous generaliza-
+tions. They collectively establish that many logical formalisms, besides Peano Arithmetic (PA),
+
+are unable to corroborate their own consistency in a fully extensive respect. While these gener-
+
+=== Page 9 ===
+I= ahs
+
+eho     end  Excl,
+
+Chafy
+About the Characterization of a Fine Line That
+Separates Generalizations and Boundary-Case
+Exceptions for the Second Incompleteness Theorem
+under Semantic Tableau Deduction
+
+Dan E. Willard
+State University of New York at Albany
+
+Abstract
+
+Our previous research showed that the semantic tableau deductive method-
+ology of Fitting and Smullyan permits boundary-case exceptions to the Second
+Incompleteness Theorem, if multiplication is viewed as a 3-way relation (rather
+than as a total function). It is known that tableau methodologies prove a
+schema of theorems verifying all instances of the Law of the Excluded Middle.
+But if one promotes this schema of theorems into formalized logical axioms,
+then the meaning of the pronoun of “I”, used by our self-referencing engine,
+changes quite sharply. Our partial evasions of the Second Incompleteness The-
+orem shall then come to a complete halt.
+
+CITATION INFORMATION : This paper was invited by the Journal of Logic
+and Computation and will appear in print in 2021. Its shorter 19-page conference-
+style version had appeared in January 2020 at the Springer-sponsored LFCS meeting
+under a slightly different title [57].
+
+KEYWORDS and PHRASES: Semantic Tableau deduction, Hilbert’s Second
+Problem, Partial Revival of Hilbert’s Consistency Program, Generalizations of the
+
+Second Incompleteness Theorem.
+
+Mathematics Subject Classification: 03B10; 03B45; 03F03; 03F25; O3F30.
+

@@ -1,0 +1,41 @@
+1 Introduction
+
+Our language L in these notes will include four symbols Co, C; , C2 and C; ,
+representing the integers of 0, 1, 2 and 3. The language L will discuss the properties
+of non-negative integers. It will define all integers larger than 3 implicitly in terms
+
+of these base integers.
+
+The predicate symbols used by our language L will be the equality and less-
+
+”
+
+than-or-equal predicates, denoted as “ =   and “ < ” . Sometimes, we will
+
+informally also use the symbols > , < and >.
+
+Define F(a), a2, ...a;) to bea NON-GROWTH FUNCTION iff for all values of
+@1, 2, ...a;, the function F satisfies F(a,,a2,...a;) < Mazximum(ay, a,...a;) . Our
+axiom systems will employ a set of eight non-growth functions, called the GROUND-
+
+ING FUNCTIONS. They will include:
+
+1. Integer Subtraction where x — y is defined to equal zero when z < y,
+
+2. Integer Division where  :  = xz when y=0, and it otherwise equals  3) :
+3. Predecessor(r) = Max(zr-—1, 0),
+
+4. Mazimum(z,y),
+
+5. Logarithm(x) = [Log2(x + 1)],
+
+6. Root(z,y) = | z/¥ | when y>1, and Root(z,0) = z.
+
+7. Count(x, j) designating the number of “1” bits among z’s rightmost j bits.
+
+8. Bit(x,i) designating the value of the integer x’s i—th rightmost bit. (Note that
+Bit(z,i) = Count(z,i) — Count(z,i— 1).)
+
+In addition to the above non-growth functions, our language L will employ two
+
+growth functions. They will correspond to Integer-Addition and Double(z) = x + z.

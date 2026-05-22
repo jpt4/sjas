@@ -1,0 +1,60 @@
+Mathematics and                     new method of sorting variables will             sequences in materials research
+Computer Science                  work on common-variety computers           where one method of determining
+because it allows computers to “fuse”           flaws involves measuring the spectral
+
+A New Sorting Algorithm
+=                                               numbers so they can sort hundreds             response of the material.
+
+For more than 30 years, instructors             of them simultaneously.
+
+and textbooks have taught that there
+
+is a limit to how fast a computer can                                                                                                  Applications of Advanced
+sort—a barrier called the “infor-                            Technologies
+
+mation-theoretic lower bound.” In                 — af                                                   Th   NSF
+1991, two NSF-funded computer                                    gure from plane geom-                    sad         program supports
+scientists developed a new algorithm          etry stretched over a frame to form a          ieneatch and development on
+that debunked this conventional                drum. (While most drums are round,         applying advanced technologies—
+there is no requirement that they be            particularly computer and com-
+
+wisdom and ultimately will have an                    v       sata                                 satenconrullad weeklies
+impact on information technology,              so.) To ge  ome gure,                           nologies—to
+‘                 .                  Ei                           mathematicians assign a set of                      science and mathematics education.
+sorting, searching and retrieval.                                                                                                                ‘           :          .
+numbers they call the spectrum of               It supports innovative projects to lay
+
+An algorithm is a precisely                      the Laplacian, which roughly de-                 the conceptual foundations for
+specified mathematical procedure                scribes the sound a drum makes                  technology that will be available
+for processing data on computers.                 when struck. A question thst ouzzied           within 10 years. The program also
+Michael Fredman at the University of         experts for years) >>, vitrased           aims to speed the advent of rev-
+California at San Diego and Dan                 as, “Can you hear th. shez: of                  olutionary computer and telecom-
+Willard at the State University of                 drum?” Thatis, i. Be          munications ideas and developments
+New York at Albany devised one that    the Laplacian cv.”         into classrooms. These applications
+could allow surprisingly fast sorting            the size and sh2, . -                                  include the following 1991 awards:
+and David Webb of ¥.                                      Geometry, John R. Anderson at
+proves as the database grows.                                   .                                                                           ;                    i,
+University and Scott ¥« ';                             Carnegie-Mellon University.
+Fredman and Willard used a new             University of Maryland have =.=                      Goals of this research are to
+method of organizing data, called a     that the answer to this question is «      develop and demonstrate greatly
+fusion tree, which allows a computer            By using knowledge of how the                           improved intelligent (compu-
+to compare one number against many          spectrum of the Laplacian behave:                     terized) tutoring techniques, and
+others during a single computa-                    for three-dimensional surfaces (such                  to produce an integrated algebra
+tional step. The method may be use-            as that of a sphere) and by taking ad-                 and geometry tutor that will cover
+ful in very large data processing                   vantage of three-dimensional sym-                     in one year the material normally
+tasks, such as transportation prob-              metries, they were able to squash                    covered in two.
+lems involving the least costly way to            surfaces together to produce two                                                 ,
+ship supplies and materials, or deter-            plane figures with identical spectra               "   ans PACER aNew he
+mining the cheapest way to connect             that are visibly different.                                      aia mental Science, Hatace Near
+nodes in a telecommunication net-                                                                                      zeig, BBN Systems & Techno-
+
+* work. The researchers stumbled                      For mathematicians this work is                    logies Corp., Cambridge, Mass.
+acrona tie method walle Gvine                 important because analytical tools                      Computer modeling is becoming
+solve another data-retrieval problem.           such as the spectrum of the Laplacian                a standard tool for both expert-
+
+provide a means to compute the char-               ment and theory, used to study
+Early results suggest that future              acteristics of geometric objects. The                 complex processes ranging from
+avenues of research eventually may             tools being developed in this re-                        the proton’s inner structure to the
+benefit from this discovery. And the            search may also have important con-                formation and decay of star
+
+12

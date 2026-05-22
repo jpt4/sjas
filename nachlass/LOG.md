@@ -1,6 +1,48 @@
 # Nachlass Log
 
-## 2026-05-14 - Proflog SJAS Coding Boundary
+## 2026-05-21 - Collected DEW Materials OCR Pass
+
+- Completed first OCR, assessment, and organization pass for
+  `nachlass/collected_dew_materials/`: 19 original PDF scans (225 pages),
+  18 unique OCR targets (one exact duplicate alias skipped).
+- Added inventory artifacts: `SHA256SUMS`, `manifest.tsv`, `README.md`,
+  `catalog/duplicates.md`, topic indexes under `catalog/by-topic/`, and
+  reproducible scripts `scripts/ocr_dew_materials.sh` and
+  `scripts/update_manifest_from_qa.sh`.
+- OCR pipeline: `pdftoppm` at 200dpi, PIL downscale to 850px grayscale,
+  `tesseract` (eng, PSM 6 with PSM 3 retry), `ocrad` fallback on low-yield
+  pages. Merged text under `ocr/text/` with per-document `*.qa.tsv` QA files.
+- Quality outcome: tesseract produced little text on most typewriter/fax-era
+  scans; ocrad fallback dominates. Sixteen documents rated `needs_review`,
+  `Correspondence_Hajek.pdf` rated `poor`, duplicate alias skipped. The 2020
+  incompleteness notebook and ZCF drafts are partially searchable but not
+  authoritative for formulas.
+- Classified Dec 2025 scans: boundary-case incompleteness draft (Dec 22 a),
+  Tab/Xtab deduction notes (Dec 22 b), Trivers-Willard biology article
+  (Dec 24 a), Hilbert consistency-program draft (Dec 24 b).
+- See [`collected_dew_materials/README.md`](collected_dew_materials/README.md).
+
+## 2026-05-21 - Hi-Fi Re-OCR (600 DPI / formula fidelity)
+
+- Added `--hifi` profile to `scripts/ocr_dew_materials.sh` and wrapper
+  `scripts/ocr_dew_materials_hifi.sh` (exclusive flock lock).
+- Settings: 600 DPI render, grayscale resize to 2550px max width,
+  tesseract PSM 4 (fallbacks 3/1/6 only when primary yields little text),
+  7200s per-pass timeout, TSV confidence QA. Output under `ocr/hifi/`.
+- Pilot on `ZFnote.pdf` at 2550px: ~42 min/page, excellent formula text
+  (`Decipher`, `ENUM`, `Support-ZFC`, etc.) vs garbage from the fast pass.
+- Root cause of empty pilot: prior 900s timeout killed tesseract mid-run;
+  concurrent tesseract jobs also starve each other — batch must run serially.
+- Second bug: script used `$LANG` for tesseract `-l`, clobbering the locale
+  (`en_US.UTF-8`); renamed to `TESS_LANG` (defaults `eng`).
+- Preprocessing: grayscale resize only at hi-fi width (autocontrast/sharpen
+  disabled — it did not improve tesseract on these scans).
+- `update_manifest_from_qa.sh --hifi` reads `ocr/hifi/text/*.qa.tsv`.
+- Full hi-fi batch completed 2026-05-22: 17/17 documents, ~225 pages under
+  `ocr/hifi/text/`; manifest refreshed from hi-fi QA.
+- Limitations unchanged: `eng` only (no `equ` math pack); OCR remains a search
+  aid, not an authoritative transcription.
+
 
 - Logged the Proflog completion audit for the finite ordinary-tableau
   `IS#_D(beta)` substrate. The audited scope now includes arithmetized

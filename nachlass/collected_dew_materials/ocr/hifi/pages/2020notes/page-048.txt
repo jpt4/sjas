@@ -1,0 +1,21 @@
+54, then a sentence consisting of n characters can be thought
+of as an integer D,, Do, D3, ....D, , written as a number in
+base 64 whose value falls between 64"~! and 64"—1. (See
+
+the Appendix A for one example of such an encoding method.)
+
+The method for encoding a proof will be similar to a formula’s
+encoding, except that it will need a 56-th symbol (called the
+period symbol) for separating the distinct formulae that appear
+in sequential order in the proof. As before, the sequence of n
+digits D,, Do, D3, ... Dn , describing a proof, will again
+be written as a number in base 64, whose value falls between
+
+64"-1 and 647-1.
+
+Major Notation Convention: The Logic literature
+uses the phrase GGdel Number or Godel Encoding to
+describe a positive integer N that represents the sequence of
+characters D,, Do, D3, ... Dy, as a Base-64 integer. (Ac-
+
+10

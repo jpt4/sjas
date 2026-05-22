@@ -1,0 +1,30 @@
+One can essentially determine the truth of this sentence with a computer program
+that consists of three nested Do-Loops of sizes n, m and n+m. In essence,
+such a 3-stage Do-Loop can be reduced to a proof that exhaustively examines the
+truth of each Aj sentence of the form W( i,j,k ) where i<n, j <™m and
+k < n+m, and then combines the results of these n-m-(n+m) mini-proofs
+
+into a proof that determines whether Equation (15) or its negation is true.
+
+Comment 1.9 Let L~ denote a language that differs from L by
+
+1. containing no Addition or Double function symbol
+
+2. having one constant symbol C,, to represent each integer n .
+
+The analogs of Aj , If and D} formulae in the language L~ are called Ap , I;
+and ¥; formulae. (In other words, these latter formulae are not allowed to use the
+growth functions of Addition or Doubling, and they recognize the existence of the
+
+integers 4,5,6..... by simply having an infinite number of constant symbols available.)
+
+It is easy to prove that an analog of Lemma 2 is true for Ap sentences.
+
+Definition 1.10 Let ADD(z, y, z) and MULT(z, y, z) denote two Aj formulae
+that are satisfied precisely when the two conditions of r+y=z and r*y=2z are
+true. Some examples of such Ap definitions of ADD(z, y, z) and MULT(z, y, z) are
+provided by Equations (16) and (17) below
+
+z-Z=y                   (16)
+
+[(c =OVy=0) >z=0] A [(x#0Ay#0) => (==yA zotcy )] (17)

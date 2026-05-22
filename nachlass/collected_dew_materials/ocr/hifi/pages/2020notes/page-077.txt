@@ -1,0 +1,28 @@
+>  proof by contradiction. The point is that the preceding proof
+}
+
+of Lemma 7 uses essentially the above reasoning where
+
+A. X is the statement that “PA+ proves Cons( PA+ ) ”
+
+B. Y is the statement that PA+ is inconsistent.
+Ty patily Me o% wally pcr
+Sithewe know PA-+ is consistent Ave-ean   y" [ity  iY
+
+be true
+
+is true (as item 2 requires). Moreover, Item 1 m
+4    because the heart of Lemma 7’s proof had verified it. Hence, we
+can conclude that — X is true, which is exactly what Lemma
+
+7 had claimed !!!
+
+In other words, what I did in the Paragraph 3.5 (above), was
+repeat in slow motion the last part of Lemma 7’s proof, so that
+you can have a better understanding of its underlying intuition
+
+Mm
+
+Theorem 3 (A version of Gédel’s Second Incompleteness The-
+
+38

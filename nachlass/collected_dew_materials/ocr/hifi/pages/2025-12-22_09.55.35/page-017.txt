@@ -1,0 +1,47 @@
+For i > 0, let ¢ and vj denote the sentences in (7) and (8) respectively. Also,
+Ict @p and wo denote (6)’s sentence. Then @o, 41, ...¢n imply z, = 2"*', and
+Vo, V1, Vn imply y, = 22”. Thus, the latter sequence shall grow at an exponen-
+tially faster rate than the former. It turns out that this change in growth speed causes "=""=—-_____
+
+the IS*,( e ), and IS7,( © ) to have quite opposite self-justification properties.
+
+In particular, let the quantities Log( yn) = 2" and Log(z,) = n+1 represent       —_
+the lengths for the binary codings for y, and z,,. Thus, y,’s coding will have a         —
+
+length 2", which is much larger than the n+ 1 steps of Wo, W1, ... Un (used to define
+Yn ’s existence). In contrast, 2, ’s binary encoding will have a sharply smaller length
+of size n + 1. These observations are significant because every proof establishing a
+variant of the Second Incompleteness Effect involves a Godel number z encoding a
+
+capacity to self-reference its own definition.
+
+The faster growing series Yo, 1, ; --- Yn Should, intuitively, have this self-referencing
+capacity because y,’s binary encoding has a 2"*! length that greatly exceeds the
+size of the O(n) steps used to define its value. Leaving aside many of [48, 53]’s further
+details, this fast growth explains roughly why a Type-M logic, such as IS", , satisfies
+
+the semantic tableau version of the Second Incompleteness Theorem, unlike IS 75.
+
+Our paradigm also explains why IS745’s Type-A formalism produces boundary-
+case exceptions for the semantic tableau version of the Second Incompleteness The-
+orem. This is because [50] showed that it was unable to construct numbers z that
+can self-reference their own definitions (when only the more slowly growing addition
+primitive is available). In particular assuming only two bits are needed to encode
+each sentence in the sequence $9, ¢),.--¢n , the length n + 1 for z,,’s binary encoding
+
+is insufficient for encoding this sequence.
+
+Leaving aside many of [50]’s details, this short length for x, explains the central
+intuition behind [50]’s evasion of the Second Incompleteness Theorem under IS 7m» .
+It arises essentially because of the sharp difference between the growth rates of the
+
+two sequences of 2),22,23... and Y, Y2,Y3- -
+
+i                             It's no longer an extended abs
+
+There is obviously insufficient space for this extended abstract to provide more $)y"sotnore now trateion
+
+apply here?
+details, here. A fully detailed proof of Theorem 4.4 is available in {50}. It establishes
+
+14

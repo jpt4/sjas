@@ -1,0 +1,26 @@
+~, tension of it can prove all the true II, sentences. The Second
+
+‘
+Incompleteness Theorem states that if a represents either
+
+Peano Arithmetic or any recursively enumerable extension of
+
+it, then a@ must be unable to prove its own consistency.
+
+Generalizations of the Incompleteness Theorem, subsequent
+to 1931, have shown both the First and Second Incompleteness
+Theorems also apply to many axiom systems weaker than Peano
+
+») Arithmetic (PA). One of the main authors to develop partial
+exceptions to the Second Incompleteness Theorem was Willard
+
+(for certain axiom systems weaker than PA).
+
+We will not discuss my work in this handout. Our goal will
+instead be to prove a version of the Second Incompleteness The-
+orem. My work will be discussed in a later course in more detail
+and perhaps summarized in the last two weeks of this course (if
+
+' 2) time allows).
+
+28

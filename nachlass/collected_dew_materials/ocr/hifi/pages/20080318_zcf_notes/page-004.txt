@@ -1,0 +1,103 @@
+A. There must be a model of ZFC that is compatible with e’s logical framework (formalized by the “Decipher” function from Item 9 of Section ). This is
+because every element of Support-ZFC, when viewed as an axiom system, is required to be consistent with ZFC. Moreover, ZFC itself must know that e
+has this property — since ZFC can prove Gédel’s Completeness Theorem. (The footnote 1 clarifies one point in this regards that may otherwise confuse
+some readers.)
+
+F Since every element of Support-ZFC (including e ) must be complete, consistent and maximal (using the terminology form items 11 — 13 of Section ), it
+follows that every sentence @ in the language L must have the property that either @ or 6 has a truth-value of “T” (true) under e's formalization
+of truth-values (defined by the “Decipher” function from Item 9 of Section ).
+
+We will now show how facts (A) and (B) enable ZFC to obtain the needed proof that Equation (11)’s statement =U cannot be valid. The first point is
+that Item (B) implies that both Definition 1’s “Formal Encoding of Paradox-ZFC” (denoted as ¢* ) and its “Dual Encoding of Paradox-ZFC” (denoted as
+~*([¢*]) ) must contain formal Boolean values of either “T” (true) of “F” (false) under under e’s formal framework for defining truth-values using the
+“Decipher” function from Item 9 of Section . (In other words, it precludes the Decipher function from assigning these predicates a psuedo-Boolean values of “B”
+or “U” under e’s framework for assigning truth values.) In order to complete our proof by contradiction, we need to show that there exists no pair of Boolean
+values that can be assigned to these two encodings for Paradox-ZFC under e that does not result in a contradictory circumstance from arising. In particular,
+there are two cases that need to be considered to justify this claim:
+
+Case I. The sentences ¢* and ~*([¢*]) have opposite Boolean values: (i.e. one is represented under e’s “Decipher” formalism by the Boolean value
+of “T” (for True) and the other by its negation of “F”’ ): This case is infeasible because it would violate Equation (8)’s invariant (which indicates
+that the two concerned predicates are logically equivalent). Moreover Equation (8) is proveable under ZFC’s logic, and Item (A) explicitly indicated
+that e ’s interpretation of the truth is consistent with ZFO’s model of the truth. Hence, Equation (8)’s invariant must also be seen as valid under e’s
+interpretation of truth, which is formally denoted as Systemz , zrc(e) . Thus, an unavoidable contradiction arises in this case.
+
+Case II. The sentences ¢* and y*([¢*]) have the same Boolean values: This case is infeasible because the syntactic structure of y*([¢*]) ’s
+statement (defined by the combination of Equations (7), (9) and (10) ) automatically causes $* and *([¢*]) to have opposite Boolean values
+(whenever Support-ZFC # @, as is this case here on account of our initial assumption (see footnote 7 ) that - © does hold). More precisely, this
+syntactic opposition can be verified under ZFC’s logic. It thus extends also to e ’s interpretation of the truth because Item (A) had indicated that
+Systemr,, zrc(e) was consistent with ZFC. It thus thereby forces a contradiction to once again arise.
+
+The point is that the Cases I and II above show that it is impossible for the element e = Choose(Support-ZFC) to own a formal definition of Truth
+consistent with ZFC. In many respects, Tarski’s theorem [20] about the inability to define arithmetic truth within the language of arithmetic is analogous to
+preceding paragraph’s paradigm. However, the ZFC paradigm contains one intriguing aspect, that has no analog in Tarski’s earlier 1936 paper [20]. It is that
+the element e = Choose(Support-ZFC) can be formally proven to be well defined whenever Support-ZFC is nonempty.
+
+Moreover what adds further compleaity to the paradigm described herein is that ZFC (itself) can prove all the just mentioned facts ....... Thus, ZFC is
+forced to conclude that an unavoidable contradiction will arise if Support-ZFC is nonempty.
+
+Hence, ZFC will contain a purely non-constructive proof of the statement U (which had formally asserted that Support-ZFC was empty). By the force of
+Lemma 2, this means that ZFC will also own a likewise non-constructive proof that ZFC (itself) is self-contradictory. 0
+
+The presence of a non-constructive proof of ZFC’s inconsistency of course does not automatically mean that ZFC is actually inconsistent. For example, let
+PA stand for Peano Arithmetic. Consider the system PA + Inconsistency(PA). Then Gédel’s seminal paper [6] presumed that this system was formally consistent
+— although PA + Inconsistency(PA) can prove a theorem declaring its own inconsistency( since its axiomatic structure is a superset of PA).
+
+Our initial hope was that ZFC would be likewise consistent — albeit capable of supporting a non-constructive proof of its own inconisitency.... Unfortunately,
+this is not the case. Section will thus use Theorem 2’s intermediate results, as a vital mediating mechanism, to formally prove that both ZFC and ZF are
+actually inconsistent (in a fully constructive sense).
+
+Analysis of ZF Set. Theory
+
+This section will have two goals. The first will be to show that Theorem 2 generalizes for ZF Set Theory (i.e. that ZF will possess a non-constructive proof
+of an inconsistency from itself). Our second objective will be to show that ZF is actually formally inconsistent. An unusually pleasing aspect of this section’s
+results is that it will show how a non-constructive proof of the existence of an inconsistency in ZF can be used as a vital intermediate step needed to show that
+it is also inconsistent (in a fully constructive sense).
+
+In addition to using the 19 notational precepts introduced in Section , our current discussion will also use the following three added notational precepts:
+
+20. Let us recall that Item 2 from Section has defined P, as the power set over the set of positive integers. The symbol ORD will denote the natural
+total ordering over this power set that uses the symbol of “ ~< ”. In particular, each element e € FP, can be associated with a bit sequence
+Bi , B2, Bo ,... such that 8; belongs to Sequence(e) iff and only if the integer i € e . In this context, two elements e* and e® of P; will satisfy
+
+the condition e4 ~< e® under the ordering of “ORD” if and only if there exists an integer k > 1 such that:
+
+a BA =.0 A BP =
+b. Every j <k satisfies Bf = BP
+
+21. Let s bea non-empty subset of P; . (Thus it is an element of the power set of P; , which is denoted as Po. ) . We willsay s is Top-Good iff there
+exists some e € s where e is a maximal element of s under Item 20’s ordering of ORD.
+
+22. The symbol Choose* will denote a partial function over the set P2 which maps each s € P2 onto its maximal element under the ordering of ORD
+— if such an element exists (as it will when s is “Top-Good”). Otherwise, Choose*(s) will be undefined.
+
+Lemma 3 The following statement + can be formally proven by ZF Set Theory.
+
++ Let @ denote an arbitrary recursively defined axiom system, and L denote the language a uses. (The concerned axiom system can be ZF Set 7
+Theory but it does not need to be.) If SupportSet(L, a) is non-empty then SupportSet(L, a) will be Top-Good and Choose*| SupportSet(L, a) ]
+will consequently be a well defined member of SupportSet(L, a).
+
+Clarifying Comment: For the sake of clarity, it is technically immaterial in this paper whether the formal statement + will turn out to be true       be.
+Rather all what is technically needed is that + is proven as a formal theorem by ZF Set Theory. This fact, by itself, will be shown to be sufficent to establish
+that ZF Set Theory is formally inconsistent.
+
+14 potential point that could initially confuse some readers is that ZFC cannot know that ZFC possesses a model, since it is presumed not to know
+whether or not it is consistent. However, the point is that our proof by contradiction (carried out within ZFC) has begun with the temporary assumption
+that statement U is false. As the negation of the statement U implies (in ZFC’s formalism) that ZFC is consistent, the proof-by-contradiction that
+we are discussing is allowed to temporarily entertain the hypothesis that ZFC is consistent.
+
+2The syntactic oppostion that arises when Support-ZFC # @ is the single most subtle point of this paper. It appears to have no analog in the
+
+ flagging single paragraph that is most responsible for producing the proof
+that ZF is inconsistent, then that flag would be placed precisely here ! In other words, the core gist of our argument is based on the logical oppositon
+
+beoreen am  v* ([e*    that is unavoid;        en Suppért-ZFC # 0.
+DAVID J. SLATER, JR.
+AYA   4   Lu                                                            Sotary Public - State of New York
+No. 01-S1.6471849
+
+Shik ef New Nok                        sralified in Schenectady County
+23, 2044
+
+                                                                                                                             My Commission Exp. Juty
+oes at  MWe sg  are  ole,  ot   March , 2 OO.
+

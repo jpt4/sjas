@@ -1,0 +1,25 @@
+Quick Notes on the Incompleteness Theorem (Oct. 4, 2020)
+
+Dan E. Willard *
+
+The October 2020 Expansion of the April 2010 draft (that was broader than the
+initial March 2004 draft by including Léb’s Theorem)
+
+Goal of these Notes: These lecture notes are intended to summarize the
+intuition behind Gédel’s First and Second Incompleteness Theorem. I believe that
+they should be easier to comprehend than Mendelson’s treatment [4] of the subject.
+They assume the reader is familiar with Sections 1.1 through 1.4, Sections 2.1 through
+2.6 and Section 3.1 of his textbook.
+
+These notes are not intended as a replacement for the Sections 3.2 through 3.5 of
+Mendelson’s textbook. Rather they are intended to prove a slightly weaker theorem
+that captures the main intuition behind those sections in a small amount of page
+
+space.
+
+The current 2020 draft is an amended version of prior notes I used during 2004-
+2018.
+
+"Address: Dep of CS, SUNYA, Albany, NY 12222 or dew@cs.albany.edu.
+
+1

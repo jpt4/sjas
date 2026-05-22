@@ -1,0 +1,22 @@
+=== tesseract (conf=0, chars=0) ===
+
+=== ocrad fallback ===
+T Le_ma T Letw __vmP Ne awom_y_tem PA+ N con-
+L
+sMtent /b_xe aJ_ oJ _n_Pnt\onaJ maNemat_c_ wou_d _l-
+_apJP iJ it wa_ not_. The awom Jy_tem PA+ then cannot
+prove _he n_ theo_m, Con_( PA_ ), declanng ik own
+_MNtPncy.
+
+The _ugh lntultIve Te_on Lemm& 7 holds i_ that ls that
+PA+ ú one __nple or an awom _y_tem _atl__lng the lr-clau_
+'? .o__taRment * +_ '_ r_uirernen_ _or _ (ThI_ implicatlon i_ a
+_Mquen_ o_ Fá_t 3.3 and our ob_r_tlon that _ _ _ ls Jwt a
+rewrite o_ _* in a diRerent notatlon)
+We _|| now provide the re_eT wlth the more exatt det_|_
+or LRmma 7'_ proor ln OUT d]scuMion, we wlll u_e the followlng
+notation:
+l. __| will denote a'_ Gödel number,
+
+>l
+

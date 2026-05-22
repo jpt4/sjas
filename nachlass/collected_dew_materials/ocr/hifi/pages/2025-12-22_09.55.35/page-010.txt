@@ -1,0 +1,48 @@
+consistent” axiom (from statement @ ). Thus, they establish that some (not all)
+Type-NS systems [47, 51] can verify their own consistency under a Hilbert-Frege
+style deductive apparatus °, and some (not all) Type-A systems [46, 47, 50, 52]
+can, likewise, corroborate their consistency under a more restrictive semantic
+tableau apparatus. Also, we observed in [48, 53] how one could refine ++
+with Adamowicz-Zbierski’s methods [2] to show most Type-M systems cannot
+
+recognize their semantic tableau consistency.
+
+Remark 3.6 . Several of our papers, starting with our 1993 article [46], have
+used Example 3.3’s “J am consistent” axiomatic declaration @ for evading the
+Second Incompleteness Effect. Other possible types of evasions rest on the cut-free
+methods of Gentzen and Kreisel-Takeuti [19, 29], an interpretational approach (such
+as what Adamowicz, Bigorajska, Friedman, Nelson, Pudlék and Visser had applied
+in [1, 17, 31, 36, 44]), or Artemov’s Infinite-Range perspective [4] (where an infinite
+schema of theorems replaces one single unified consistency theorem). We encourage
+the reader to examine all these articles, each of which has.their own separate merits. *e*ow"” —> tsown’
+
+Our focus, in this paper, will be primarily on the next section’s Theorems 4.4 and 4.5.
+
+They show that some partial (and not full) evasions of the Second Incompleteness  —
+
+Effect can arise under a,semantic tableau akin  K@ My
+bd Cen hy               p yey"
+
+4 Main Theorems and Related Notation            pb {<. ig
+
+A function F is called Non-Growth when F(a,...,a;) < Mazimum(q,,..., a;)
+
+holds. Six examples of non-growth functions are:
+
+1. Integer Subtraction (where x —y is defined to equal zero when x < y ),
+2. Integer Division (where x+y equals xz when y = 0, and it equals | z/y | otherwise),
+3. Mazimum(z,y),
+
+4. Logg(z) which is an abbreviation for [ Loge( +1) ] under the conventional
+notation. (The footnote 4 explains the significance of this concept.)
+
+3The Example 3.1 had provided three examples of Hilbert-Frege style deduction operators, called
+Dg, Dy and Dy . It explained how these deductive operators differ from a tableau-style deductive
+apparatus by containing a modus ponens rule.
+
+‘The Héjek-Pudl4k textbook [25] uses the notation “ | z| ” to designate what we shall call
+
+“ Loga(z)” Thus for z > 1, Logg(z) denotes the number of symbols that will encode the
+number z, when it is written in a binary format.
+
+8

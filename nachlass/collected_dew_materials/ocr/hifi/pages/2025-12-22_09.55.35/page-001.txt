@@ -1,0 +1,48 @@
+A
+360 — aes EV¢      Y p0
+       Jovaal A lyst Gal lamph       Y G2
+Referee’s report on    —       ] S aS
+
+On the Tender Line Separating Generalizations and
+Boundary-Case Exceptions for the Second Incompleteness
+Theorem under Semantic Tableaux Deduction
+by Dan E. Willard
+
+V h |   ‘            This paper is a summary and explanation, for a broad audience, of part
+of the author’s earlier work on what he calls boundary-case exceptions to
+Gédel’s second incompleteness theorem. That is, it concerns deductive sys-
+1 € q fr,        tems that, while intuitively including plenty of arithmetic, nevertheless prove
+(statements that intuitively express) their own consistency. It turns out that
+(at least) three aspects of the deductive system are important here: (1) Are
+the fundamental arithmetical operations (successor, addition, multiplication)
+) vi, fea      given as functions and thus necessarily total, or are they given as relations
+J                         that might denote only partial functions? (2) Is logic formalized as a Hilbert-
+style system, as semantic tableaux, etc.? (3) Is the law of the excluded middle
+given as a single axiom scheme, or must each instance be proved when it is
+needed? The main point of this paper is that seemingly small changes in these
+aspects can make the difference between incompleteness and an exception.
+™                        The paper contains none of the difficult proofs of the relevant theorems;
+-                   instead it refers to the author’s earlier publications. It contains careful ex-
+planations of the ideas involved, both in the results and in their proofs.
+Although I am not a proof-theorist, I found the explanations easy to fol-
+low and useful for my understanding of the issues. In addition, the paper
+contains interesting historical information, in particular about Gédel’s and
+Hilbert’s attitudes toward exceptions to the second incompleteness theorem,
+exceptions that might revive some version of Hilbert’s program.
+
+In my opinion, this paper will be interesting and useful for a wide range
+of readers, and I recommend that it be accepted for publication, subject to
+some minor corrections and suggestions.
+
+I'll send, with this report, a copy of the paper in which I’ve marked, with
+notes in the right margin, various local corrections and suggestions. Let me
+list here some gencral comments.
+
+The author uses some rather unusual terminology.  Even in the paper’s
+title, the use of “tender” strikes me as unidiomatic; I would have expected
+“fine” (since “fine line” is a standard expression) or perhaps “delicate” or
+“subtle”. Similarly, in the “Keywords and Phrases” at the bottom of page 1,
+I'd expect the standard phrase “Hilbert’s second problem”, not “Hilbert’s
+
+al
+|| iT) OT pia

@@ -1,0 +1,21 @@
+=== tesseract (conf=0, chars=0) ===
+
+=== ocrad fallback ===
+. Pr/oD,t) T_th the /o_lowing two p_pPkiPs
+t>
+A. Logi_[(_) iE t_P _act_y whPn z Ñ the Göde_nvmber
+oJ one o/ MendP9lon'_ Logica_ az¿onM.
+B. Pr/o(t,p) _ h_e _acUy when p IJ _he Gödel number
+o_ a p_o/wing _'s p_p_ _onu whosP J_t sPnten_
+h_ t'_ CödPl nvmbPr. _HP_ t ú c_IJ_ thP "th_rPm"
+provPn by p's l_t o/ sentPn_Ps.)
+
+Proof Sketcb. The method roT pr_ing CL_nu A and B i_
+_nti&ly the _me _pe o_ methodolo_ _ wouLd be empLoyed
+b \vri_ a _mputeri_d |_guage tr&_lator, _imil_ to a _m-
+piler, _mbler or lnterpreter. lnter_tingly, CödeL concei_d
+or thú method berore any computer h_ been rorm&ly built.
+We wiLl not provide a form& pToor o[ Cleim_ A and B be
+_u_ the rorm& _roo_s _e almo_t _ len&hy _ the writing
+lt
+

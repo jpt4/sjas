@@ -1,0 +1,38 @@
+«<
+
+4
+
+Save Sy Old Comb! CV) isd
+
+On the Tender Line Separating Generalizations and
+Boundary-Case Exceptions for the Second
+Incompleteness ‘Theorem under Semantic Tableaux
+Deduction
+
+pele
+
+Dan E. Willard
+State University of New York at Albany
+
+Abstract
+
+Our previous research has studied the semantic tableau deductive method-
+ology, of Fitting and Smullyan, and observed that it permits boundary-case ex-
+ceptions to the Second Incompleteness Theorem, when multiplication is viewed
+as a 3-way relation (rather than as a total function). It is known that tableau
+methodologies do prove a schema of theorems, verifying all instances of the Law       Delete comma before “verifying”
+of the Excluded Middle. But yet we show that if one promotes this schema of -putyet’- doleta one
+theorems into formalized logical axioms, then the meaning of the pronoun “I”,
+in our self-referencing engine, does change. Our partial evasions of the Second
+Incompleteness Theorem, thus, then come to a complete halt.
+
+CITATION INFORMATION : A shorter, less-polished conference-style “Ex-
+tended Abstract” version of this article [57] was published in Volume 11972 of Springer’s
+LNCS Series. (The LFCS conference met on January 4-7, 2020 in Deerfield, Florida.)
+
+KEYWORDS and PHRASES: Semantic Tableau deduction, Hilbert’s Second
+
+Open Question, “Hidden Implication” of Gédel’s Second Incompleteness Theorem,
+
+fibers Consistency Program and its “Future Extensions”,   ,  \2
+Now Yelm pa 6, My  a-?

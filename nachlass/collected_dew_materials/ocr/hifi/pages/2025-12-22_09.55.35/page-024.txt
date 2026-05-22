@@ -1,0 +1,45 @@
+Appendix providing a formal definition for a Se-
+mantic Tableau proof:
+
+Our definition of a semantic tableau proof is similar to analogs from the textbooks
+by Fitting and Smullyan [15, 40]. A tableau proof of a theorem W from a set of
+proper axioms (denoted as a ) is therefore a tree structure, whose root contains
+the temporary contradictory assumption of > and whose every descending root-
+to-leaf branch affirms a contradiction by containing both some sentence ¢ and its
+negation —@. Each internal node in this tree will be either a proper axiom of a@ ora
+deduction from a higher ancestor in this tree via one of six elimination rules for the
+logical connective symbols of A, V, — , 7, V and 3. (These rules use a
+notation where “A => B” is an abbreviation for a sentence B being an allowed
+
+ancestor.
+deduction from its ancestor of A.)                                              Delete “OF ener
+
+1 YAY => T and TAT => T.
+
+2. a>3YT => T. Other rules for the “=” symbol are: =(Y VI) =» 7YTA-T,
+ATT) = TAT, ATA) = ATv-T, 730T(v) = VWo7T(v)
+and 7VuT(v) => Jv7T(v)
+
+3. A pair of sibling nodes Y and [I is allowed when their ancestor is Y V I.
+4. A pair of sibling nodes ~=Y and TI is allowed when their ancestor is T > I.
+5. Vu Y(v) => Y(t) where ¢ may denote any term.
+
+6. SvY(v) =>» Y(p) where p is a newly introduced parameter symbol.
+
+One minor difference in notation is we treat “Vu<s (v) ” as an abbreviation
+for Ww {vss —+ (v)} and“3uv<s (v) ” as an abbreviation for
+3v {v<s A (v) }. Therefore, Rules 5 and 6 imply the following hybrid rules
+
+for processing bounded universal and bounded existential quantifiers:
+
+a. Vo<sT(v) => t<s — T(t) where t may be any arithmetic term.
+
+b. Ju<s T(v) =» p<s A T(p) where p is a new parameter symbol.
+
+Added Comment: The preceding paragraph has formalized what §4 called the
+“Tab” version of a semantic tableau proof. Its “Xtab” variant is identical except that
+any node may optionally store a sentence of the form U V 7~WU (for arbitrary U ),
+
+as a manifestation of its allowed use of the Law of the Excluded Middle.
+
+21

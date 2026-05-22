@@ -1,0 +1,21 @@
+=== tesseract (conf=0, chars=0) ===
+
+=== ocrad fallback ===
+_ There i_ no Hilbert-_tyle proo_ or THIS SEN-
+m
+TENC_ (looklng Bt i_elrl _Tom the _om __tem _ .
+To _hieve thl_ t_k, we let r(g) _enote the following rormuL_
+_h _p { Sub_t(g,h) _ ¬ PT_o ( h , p ) } (22)
+LRt N denote the Gödel number o_ Equation (22)'_ formula,
+and let w r_&| that tlle teTm n w_ defin_ by Comment
+1.1. Then the n_ __tence that encod_ + (wh_e _orm_
+name ú oWen written _ " U(a) " ) l_ the _entence r( Ñ )
+In other wor_ hom Equat_on (22), th_ irnpLi_ that our
+r( _ ) _nten_ (that i_ oken writRn _ " u(_) " ) h_ the
+rollowing en_ding:
+_h_p { Sub_t( R , h) _ ¬ Prro (h , p) } (23)
+
+Definition 2.4. A oó _om _ys_m _ wiLl be c&le_
+RRgular iRlt elther inclu__ Bll Table l'_ a_orns or Bt le_t can
+|_
+

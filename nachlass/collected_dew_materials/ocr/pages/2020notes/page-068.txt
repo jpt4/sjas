@@ -1,0 +1,20 @@
+=== tesseract (conf=0, chars=0) ===
+
+=== ocrad fallback ===
+lncompleten_ Tl__reln i_ that Lemma 5's pToo[ a be Eor-
+v
+m&ly done by tl]e a_om __tem PA+ (ind_d &_ by PA). Thi_
+mean_ that PA+ c_ pTove the _ollowing _en_n_:
+__ No con_i_tent _d Tegular O_ awom _y_tem a
+c&l pTo_ tlle _ntence U( _ ).
+The intuitiue re_on thBt PA+ c_ p_ve h_ is thBt it _nt&w
+the a_oM of the PrincipLe o[ lnduction (The [ormaE verifita-
+tion or. _ _ vLa PA+'_ lnductive methodolo_ Ú quite routIne,
+and it ú omitt_ )
+Defioition 3.4 The _ymbol COM( a ) wllL deno_ a n_
+_nPn_ d_|_ing the a_om __tem _ i_ con_i_tent
+Clarification: Let _ denote the lnteger that |_ the Códel
+number o_ the roTmula that defin_ the ewom __tem " a "
+|_Comblning Definltion 3.4 wlth _ '_ notation, \ve can now TewTite
+V'
+

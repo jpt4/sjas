@@ -1,0 +1,53 @@
+It turns out Xres differs from Res in the same manner Xtab differed from Tab.
+Thus, the obvious generalizations of Theorems 4.4 and 4.5 hold for Res and Xres.
+In particular, ISpes( ¢ ) is a consistency preserving transformation, but ISyres( @ )
+
+again is not.
+Some logicians may, also, wish to examine special speculations in [55]’s arXiv
+article. It contemplated an alternative approach, where self-justifying arithmetics
+
+employ an unconventional “indeterminate” functional object, called the © primitive, ~\~  /
+to formalize the traditional properties of an endless sequence of integers.                     €    0
+SO fol
+
+If a conjecture stated in [55] is correct (as we are almost certain it is), then such a
+self-justifying machine will be plausible for constructing the entire set of natural num-   fi YA
+bers, without encountering the usual incompleteness difficulties that the Theorem ++  lI -
+(of Pudlék and Solovay) associated with Type-S formalisms (that recognize merely
+
+.              :    —e            ;      a        ss           This \heta was a capital \The
+
+Successor as a total function). Interestingly, the @ function primitive of [55] should "te previous paragraph.
+allow a substantial Type-NS arithmetic to exist that can simultaneously recognize
+its own Hilbert-Frege consistency and possess a formalized ability to constructively
+
+enumerate the full infinite collection of integers 0, 1, 2, 3, ....
+
+9 Concluding Remarks
+
+Our main results in this article are surprising because it is quite unusual for an
+initially consistent formalism a to become inconsistent when its initial schema of
+theorems (establishing the widespread validity of the Law of the Excluded Middle) is
+
+transformed into being a schema of logical axioms.
+
+This unusual effect arose because the meaning of a Group-3 “J am consistent”
+axiom changes, quite substantially, when theorems are transformed into logical axioms
+(as illustrated by footnote ® ). Thus, unacceptable diagonalizing contradictions can
+occur when an “J am consistent” axiom is able to reference itself #h the contezrt of a
+SUFFICIENTLY POWERFUL mathematical machine.       Pa w My
+
+The contrast between Theorems 4.4 and 4.5 (where only the former eschews diag-   ee ened ola
+
+onalization effects) helpfully explains how Hilbert and Gédel appreciated the Second
+
+, while they were simultaneously cautious about it. Moreover,
+
+8 The point is that
+such compressions
+consistent” axioms.
+
+fs are compressed when theorems are transformed into logical axioms, and
+produce diagonalizing contradictions under some Type-A logics using “J am
+
+19

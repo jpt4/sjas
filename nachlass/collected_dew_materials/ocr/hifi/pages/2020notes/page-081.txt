@@ -1,0 +1,25 @@
+o  not First) Incompleteness Theorem and possess some knowl-
+
+edge about their own consistency.
+
+I don’t want to over-state the importance of what I am doing
+because both Gédel’s theorems are technically correct. On the
+Other hand, the web site for the Journal of Symbolic Logic
+describes itself as “Logic’s foremost journal”, and my paper
+[8] was the longest of the 120+ papers published by the JSL
+
+D  during 2001. It described non-conventional logics that evade
+the Second Incompleteness Theorem. If you are interested, they
+
+will be discussed next semester.
+
+4 Other Comments about Incompleteness and this Course
+
+In addition to exploring Section 2.7 in detail during this course,
+I also plan to do briefly survey Section 2.8 through 2.10. That
+
+survey will include a description of the statements proven in
+
+C
+
+42

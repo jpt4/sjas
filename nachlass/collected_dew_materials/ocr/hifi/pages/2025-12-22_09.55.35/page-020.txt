@@ -1,0 +1,53 @@
+It is that statement ©) causes ++’s mechanism to generalize from Hilbert-Frege
+
+deduction to Xtab (because both satisfy the Linear-Sum Effect).
+
+The nice aspect of © __ is that its machinery establishes Theorem 4.5. This
+is because if 8 satisfies Theorem 4.5’s hypothesis then ISx+a(f) will satisfy® the
+
+conditions I-III that cause ISx1a,(8) to become inconsistent.
+
+7 More Elaborate Forms of Theorems 4.4 and 4.5
+We   piece           Avia   im
+
+Our results in Theorems 4.4 and 4.5      Onstrate self-justifying methodologies apply
+
+to “Tab”’, but not also /*Xtab” 15 is because Xtab treats the the Law
+
+of Excluded Middle as a formal schema of logical axioms, and the latter activates the
+
+power of the Second Incompleteness Effect.)
+
+Our goal in this section will be to view this machinery in more meticulous de-
+tail. Thus, we will explore at wha! eract juncture the boundary is crossed between
+
+generalizations of the Second Incompleteness Theorem and its permissible exceptions.
+
+Definition 7.1 Let L* again denote the base arithmetic language (that was de-
+fined in §3 ), and Z denote an arbitrary set of sentences appearing in the language
+L* (such as its set of ITj sentences). Let us recall that the Appendix defined a semantic
+tableau proof of a theorem V from a’s axiom system. Then a Z-Enriched modifica-
+tion for a semantic tableau proof of a theorem WV, from a’s set of proper axioms, will
+be defined as the particular refinement of the Appendix’s proof-tree formalism that
+allows Line (9) as an added permissible logical axiom, for any YT € Z.
+
+Yvait               (9)
+
+The terminology of a formula t
+e,e        ‘       P           °      P       ‘   ~                variable is
+Definition 7.2 It is also of interest to consider a slight modification of the pre-  toa cane tale hes
+formula
+
+ceeding nomenclature, where Z is a set of formulae that are allowed to be free in
+the single variable of z (instead of representing a sentence that contains no free   pase pasrpiineal ~~
+variables). In this case, T(z) will designate a formula, within the subset of Z, and
+Line (10) will replace Line (9) as the added permissible logical axiom that can be
+
+allowed to appear inside a “Z-Base Variable Enriched” proof.
+
+Vx T(r) V 7 T(z)              (10)
+
+6 Actually, ISx¢ap(8) will satisfy a requirement stronger than Item I because it recognizes addition
+as a total function.
+
+17

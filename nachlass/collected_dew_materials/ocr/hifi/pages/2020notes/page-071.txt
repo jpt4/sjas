@@ -1,0 +1,31 @@
+2.  Verify( [ ® ]) will be an abbreviation for
+
+ma
+
+~
+
+dp Prfpa+( [®]), p)       (26)
+3. Verify (| ®]) issimply the Godel number for “ Verify( [®]) ”
+
+(We will always use this over-line symbol to denote the
+
+Godel numbers for designating proof encodings.)
+
+4. Double-Verify( [ ®]) is an abbreviation for
+
+Sq Prfpa+( Verify([®]), 9) (27)
+
+This notation may look complicated, but the idea behind it is
+actually quite simple. Thus Verify( [ © |) indicates that there is
+a proof of ® from PA+, while Double-Verify( [ ®]) indicates
+that there is proof of the existence of a proof of statement ©®
+
+(from again the base axiom system of PA+ ).
+
+Logicians usually don’t worry about the distinction between
+
+=)
+
+|    a verification and a double-verification because it is usually
+
+33

@@ -1,0 +1,36 @@
+(f
+
+numbers. Then the following lemma holds:
+
+Lemma8 _|] = E
+
+Proof: Consider a function F that maps the integer z onto 2z. Since F
+
+is a 1-to-] and onto function, it implies J] = £. 0
+
+Let Power(S) be defined as the act of all subscts of the sct S$. It is so-named
+because the power-sct of a finite sct of n elements has a cardinality of exactly 2”
+
+clements.
+
+Also, define S$ x T to be the cross product of the sets S and T. (It consists
+of all ordered pairs (x,y) where z€ S and y€T.) We will also use the symbol
+
+Square(S) to denote the crossproduct set Sx« S,
+For sets of finite cardinality, it is of course true that:
+S < Power(s)                               (32)
+S$ < Square(S)                              (33)
+However, the generalization of the above two inequalities is inare counplicated for sets
+with infinite cardinalities. 11 turns out that Equation (32) bolds for all sets S of
+
+infinite cardinality. However, Equation (33) does not also hald. Among infinite-sized
+
+sets, Equation (33) should be replaced by:
+
+S & Square(S)                         (31)
+
+For the sake of simplicity, | will prove the validity of Equations (32) and (34)
+for the case where S$ is the set of positive integers denoted as J . It should be
+emphasized these identifies also hold for ALL SETS of infinite cardinality.
+
+31

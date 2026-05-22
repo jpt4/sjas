@@ -1,0 +1,23 @@
+ceding paragraph) has established that PA+ can BOTH prove
+# and prove that # is logically equivalent to the sentence
+OU( PA+ ). This implies that PA+ also has a simultaneous
+
+Capacity
+
+1. to prove the sentence U( PA+ ) (since it is obviously equiv-
+
+alent to # ).
+
+2. and also to disprove the sentence U( PA+ ) , as an
+immediate consequence of the definition of U( PA+ ) and
+
+our prior-mentioned trivial invariant e .
+
+Hence using the above kind of “diagonalization paradox”, we
+can conclude that if PA+ proved Cons( PA+ ), then it would
+be inconsistent because Items 1 and 2 (above) show that it
+would then prove both a sentence (i.e. U( PA+) ) and its
+
+.  negation (i.e. + U( PA+ ) ).
+
+36

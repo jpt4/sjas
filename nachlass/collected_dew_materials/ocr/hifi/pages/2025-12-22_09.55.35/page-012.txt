@@ -1,0 +1,86 @@
+and correspond to Fitting’s textbook formalism [15]. (Its definition can also be found
+
+in the attached Appendix.) Thus, a Tab-proof for a theorem W, from an axiom basis
+
+a, is a tree-structure that begins with the sentence - W stored inside the tree’s
+
+} think the dashes in “root-to-k
+
+root and whose every root—to—leaf path establishes a contradiction by containing  shoudbe hyphens, but he
+
+some pair of contradictory nodes that will “close” its path. The
+
+and editors should decide this
+rules for generating
+fd expect the rules to general:
+
+internal nodes, along each root—to—leaf path, are that each node must be either a only the intemal nodes of thes:
+
+but also-the leaves.
+
+proper axiom of a or a deduction from an ancestor node via one of the Appendix’s “~~;
+
+stated “elimination” rules for the A, V, +, 7, V, and 3 symbols.
+
+_
+
+cs,
+
+ip
+Our second explored deductive apparatus is called Extended Tableau, and shall be  My C / b)
+abbreviated as “Xtab”. Its definition is identical to Tab-deduction, except that for
+
+any sentence ¢ in our language L*, the sentence ¢ V -¢ is allowed
+
+as an internal node
+
+in an Xtab proof tree. (In other words, Xtab-deduction differs from Tab-deduction
+
+by allowing all instances of the Law of Excluded Middle to appear as permitted
+
+logical axioms. In contrast, Tab-deduction will view these instances only as derived
+
+theorems.)
+
+Our third deductive apparatus was called Tab-1 in [50]. It is, essentially, a com-
+
+promise between Tab and Xtab, where a “Tab-1” proof for Y from an axiom basis a
+corresponds to a set of ordered pairs (p;,¢1), (pa, $2), ----» (Pk. Gx) Where
+
+lL g& = ¥
+
+Statements 1 and 2 imply that \Psi mv
+be a Rank-1* sentence. No more
+complex sentences can be proved in
+
+‘                      :      canal?
+2. Each p; is a Tab-proof of what we have called a Rank-1* Sie by sae mentional
+
+the union of a with the preceding Rank-1* sentences of $1, $2, «..-, $j-1 -
+
+The Rank-1* constraint ( defined by Remark 4.2 and utilized
+
+by the above Item
+
+2) is significant. This is because Tab-1 deduction is less efficient than Xtab when
+
+the former requires @; be a Rank-1* sentence. (In contrast, Xtab does not impose a
+
+similar Rank-1* requirement upon ¢ when its Law of the Excl
+
+¢@ V —¢ to appear anywhere as a permissible logical axiom, for
+
+uded Middle allows
+fully arbitrary ¢. )
+
+Thus, Xtab is more desirable than Tab-1 when it can actually be feasibly (?) employed.
+
+Let us say an axiom system a owns a Level-1 appreciation of its own self-
+
+consistency (under a deductive apparatus D) iff it can verify that D produces no
+
+two simultaneous proofs for a IIj sentence and its negation. Within this context,
+
+where 8 denotes any basis axiom system using L* ’s U-Grounding language, ISp(8)
+
+10

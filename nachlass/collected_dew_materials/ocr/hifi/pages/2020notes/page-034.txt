@@ -1,0 +1,34 @@
+Lemma9 I ~<_ Power{!)
+((
+Proof: Let J, denote an arbitrary subset of J . Define the characteristic
+
+sequence of T; to be an infinite sequence of Boolean values b} , b? , 6} ,... where
+
+1. & = 1 when j € 7;
+
+2. b§ = 0 when the above membership relation fails.
+
+We will prove Lemma 9 by using a proof-by contradiction. Let us therefore tem-
+porarily entertain the hypothesis that the lemma was false. Then there would exist
+a 1-to-1 function from J onto Power(J). We will show that this is impossible by
+constructing a subset, called T. of J , that does not have any integer x € I
+
+“((   mapping onto it (under F ).
+
+Let us define the bit sequence c! , c? , c’,... to have co represent the Boolean
+value of — B - Let us define T, to be the subset of J whose characteristic sequence
+
+a6 ag By CP agesr
+
+It is apparent that for each i that T; # T, (because their two characteristic
+functions will differ in their i-th bit values). Hence, our proof-by-contradiction has
+accomplished its purpose because it demonstrated that it is impossible for any integer
+
+it tohave F(i) = T.
+Oo
+Comment 5.1. The above proof was devised by Cantor during the 19-th century.
+(      It is the historically first example of what logicians call a “Diagonalization Proof”.
+
+(All diagonalization proofs, similar to the Incompleteness proofs in the prior two
+
+32

@@ -1,0 +1,131 @@
+.       .       uctive Pi ofs that
+mm shat anahle us to formalize non constr tnaanaigh,
+number of elements      Its cardinality is also of the dizzying size of an “uncountable”
+may just simply terminate ! )
+
+ca                                                                  infinity — at which point all common sense intuitions and r
+All the difficulties that we have found wi
+i            i       contain a predicate r
+
+ve                y         i    y'       F and ZFC. Weill da so
+h      to prove the inconsistenc  of the axiom systems Z
+- +s AtLLad Daint Theorem       :   1                                              :
+
+th ZF Set Theory would be obviated if the Replacement and Selection schemata in Equations (13) and
+equiring that their base sets z had countable size.  (Indeed instead, it might feasible to merely require
+tdinality of P, in these axioms.)
+
+Let us use the term Low-ZF to refer to such a weaker version of ZF. The formalism Low-
+i       i            ions such as set-subtraction, set-
+ement and/or Selection schemat
+nimal-sized infinite Set satisfying Axiom I’s “infinity”
+F a series of other Proper axioms so that these functional
+similar Low-ZF, is needed a                          8 inconsistencies, However, a further difficult;
+Low-ZF may also be too strong (especially when it is united with new axioms for defining the set of inte
+
+function-com position and set-subtraction). The diffi
+
+gers and the operations of intersection, crogs-
+culty is that the unlimited usage of arbitrary quantified variables within the formulae of  W(z,y) an
+in the Replacement and/or Selection axiom schemata is Potentially troublesom:
+
+e (and could Potentially cause Low-ZF to be inconsistent).
+cerning the conception of the notion of the ¢
+
+‘set of all sets such that...” has a framework that has an uncom
+
+@(u) in the Replacement and/or Selection axiom shemeta.... Shoul;
+permitted ? .... Or.          ively should each set quantified variable in  U(z,y) and  @(u) bea “bounded set quantifier” of the approximate form of “ v
+and “A pé€q”, where  q is some pre-specified fixed set?
+
+One is tempted to follow the analogy of Russel’s Paradox and to wonder whether some type
+and G(u) .... But it is not 100% clear?
+
+The confusing aspect is that we were already implicitly using bounded
+variables used to define the notions of completeness, consistency and maximality can b:
+their collection of associated Gédel numbers). Thug
+result continues to remain in force unless one forbi
+having a cardinality as large as that of  Py.
+
+In a context where  P, is a set whose infinite cardinality has a well-known “uncountable” dizzying nature,
+results in Applied Mathematics, Computer Science or in most of the concrete facets of Theoretical] Mathematics.
+
+NEW SECTION BREAK :   Concluding Remarks
+The prior chapter of this Paper h
+
+ZF is probably too weak for it to be thought of as a seriou
+intersection, function-composition and the construction of
+a that are not available in Low-ZF. (Also, the definition c
+
+ction axiom.) One would :
+operations and objects would be retained.
+
+of bounded quantifiers should be required to appear in
+
+upport-ZF because all the inter:
+ging over the set of Positive inte;
+
+» Theorem 3's vexing incons
+@ of Equations (13) and (14
+
+this restriction will hopefully affect no
+
+ad clearly indicated that one possible method to repair ZF Set Theory would be to simply drop its Power set axiom
+the P, power set would no longer be available to interact with the Replacement axioms. In our opinion, this option would be too radical — in that it
+force one to depart from the majestic foundational formalism that Hilbert had called “Cantor’s Paradise”.
+A better solution is to weaken ZF’s Replacement axiom
+case,
+
+schemata (which was not part of the initial
+ZF’s Replacement axiom schema:                        n infinite number of instances, but it would
+
+eauty of Set Theory to conceptualiz
+
+somewhat informally specified Cantor scheme). }
+ta would still retain a:                                                not be as broad as the current schemata.
+Our hope and anticipation is that most of the renown b                                            e highly abstract objects would be retained within such ar
+framework — while the inconsistencies that arise from the excesses of the current version of ZF would be singularly removed. In such a context, a new r
+version of ZF Set Theory would presumably support all the predictions of Applied Mathematics and most of the formalisms of Theoretical Mathematic
+while being protected from inconsistencies.
+The author of this article plans to
+
+which outlines our Proposals for revising ZF’s formalism.  We delibe
+et Theory at a short notice would be speculative (because if consti
+be sufficiently far-
+
+reaching on account of its
+
+ics, in Computer Science, i
+ably couched in terms
+
+“Cantor’s Paradise”
+he many non-recursi
+and helpful manner,
+
+e and formalize t
+
+computer science, philosophy and every-day reality in a formally consistent
+
+day reality,
+and to computer science.
+
+NEW SECTION BREAK :    Appendix: Summary of the Proof of the Statement  ++
+
+This appendix will briefly summ.
+
+arize how one can use the Gentzen Sequent Calculus formalism,
+[18], to extrapolate a proof of the following statement:
+++
+
+as it is to the formalization of
+
+a8 was summarized in Chapter 1 of Takeuti’s textbook
+For each integer k  there existsa n > k  such that ZF.
+
+We need one definition i
+Definition 2. Give
+
+nm Can prove the consistency of ZF,.
+n order to summarize how  ++ may be proven.
+
+mM any axiom system a  containing a strictly finite number of Proper axioms, the following notation will be used

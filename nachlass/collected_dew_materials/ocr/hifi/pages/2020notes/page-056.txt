@@ -1,0 +1,24 @@
+esis indicated that a was consistent, but the last paragraph
+
+contradicted this assumption of a’s consistency.
+
+Hence to avoid this contradiction, we are forced to conclude
+the temporary assumption in our proof’s first sentence (that
+a could prove U(a) ) must be false. The negation of this
+temporary assumption demonstrates that Lemma 5 must be
+
+valid (because its negation is inherently contradictory). 0
+
+Lemma 6 Again, suppose that a isa Regular Aj axiom
+system that is consistent. Then the sentence U(a) must
+
+be true.
+
+Proof: Lemma 5 demonstrated that a@ is unable to prove
+U(a) . However U(a)’s formal statement (given in statement
+* ) amounts to saying “There is no proof of U(a) from the
+axiom system a”. Therefore, we are forced to conclude that
+
+U(a) is a formally true statement. O
+
+18

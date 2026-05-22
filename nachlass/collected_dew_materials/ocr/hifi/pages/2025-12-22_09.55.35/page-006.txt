@@ -1,0 +1,50 @@
+program, which “for several years” after [20]’s publication, Gédel “was cautious not
+No      to prejudge”.
+
+|            It is known that Gédel hinted the Second Incompleteness Theorem was more sig-
+nificant in a 1933 Vienna lecture [21]. Yet, Godel (who published only about 85 pages
+during his career) was frequently ambivalent about this point. Thus, a YouTube talk
+by Gerald Sacks [39] recalled Gédel telling Sacks some type of revival of Hilbert’s
+
+Consistency Program was likely (see footnote ! for more details). Moreo  EAmi hg /
+Nerode has told us [32] he Sarena       GF l»
+with Gédel, where Gédel                is suspicion that Hilbert’s Consistency Pro-
+
+gram would be partially revived. Many scholars have been caught by surprise by
+
+Gédel’s private hesitatioid pau. the-broader-implietions f-the Second Incomplete-
+
+ness Effect. Fhi  because Godelo
+
+i           ded_upon-{20}s-statement ** .
+he para ltt
+he reséarch that followed Gédel’s seminal 1931 discovery has technically focused
+
+on studying mostly generalizations of the Second Incompleteness Theorem (instead
+
+7                          pages”
+SO-PALZES-G  ng DIS Career, already stated 6 lines earfer.
+
+of also examining its boundary-case exceptions). Many of these generalizations of the
+Second Incompleteness Theorem [2, 3, 7, 8, 9, 10, 13, 16, 23, 24, 25, 29, 33, 34, 35,
+36, 37, 41, 42, 43, 44, 45, 47, 48, 49, 51] are quite subtle.
+
+The author of this paper is especially impressed by a generalization of the Second
+Incompleteness Effect, arrived at by the combined work of Pudlék and Solovay to-
+gether with added research by Nelson and Wilkie-Paris (31, 36, 42, 45]. These results,
+which have been further amplified in (10, 16, 23, 43, 47], show the Second Incomplete-
+ness Theorem does not require the presence of the Principle of Induction to apply to
+
+most formalisms that use a Hilbert-Frege style of deduction.
+
+The next chapter’s Remark 3.5 will helpfully summarize such generalizations of
+the Second Incompleteness Effect.
+
+1 Some quotes from Sacks’s YouTube talk [39] are that Gédel “did not think” the objectives of
+Hilbert’s Consistency Program “were erased” by the Incompleteness Theorem, and Gédel believed
+(according to Sacks) it left Hilbert’s program “very much alive and even more interesting than it
+initially was”.
+
+~ wht he oh Secon Wl omplettu»
+They fin nS A Ven  power | yen}
+bail ates dnd lhe

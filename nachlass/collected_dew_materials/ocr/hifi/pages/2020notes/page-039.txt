@@ -1,0 +1,44 @@
+seems to no longer have a purpose.
+
+ce                              ra    /
+ix/will not be needed again
+
+In particular, this short appen                                    unless I revise’Section
+
+4
+
+3 in the future.
+
+This appendix will explain line-by-line how if @ was a proof of U( PA+) then we
+
+could also expand Q iyito a longer proof of tHe opposing melt  3 U( PA+ ). My
+
+proof is similar to t       iques employed in Section 2. However, I’feel no guilt repeating
+those techniques here because students may likely be feeling confused during the first
+few times tHat they witness diagonalization proofs. Ess¢ntially, the proof in this
+
+appendiy ‘is similar to the earlier discussion, except that I/will be replacing the phrase     Fo [ pe "4
+
+U(o4 with U( PA+).           Fig}                    <4,     Le
+Ve  Nusl— ES Cb                    Sec tio, oh
+To achiev   task, -~we need to first encode the sentence U( PA+ ) !
+-_      ‘0 achieve our                  encode          e                            on loys
+how Sbetorr-2 hadedonethis. We wi      let I'(g) denote the following formula          | 2 a
+VhVp { Subst(g,k) => —7Prfpar(h,p) }             (35)
+
+Let N denote the Gédel number of Equation   , ’s formula, and let us recall that
+_                                          f mae          \y C%GQq
+the term N was ach by Comment 1.1. Then fs Section 2 hac-explained, the
+
+Il; sentence iy encodgf  U( PA+ ) wasthe sentence I[( N ).
+Is
+In other words from Equation (35), this implies that U(PA+) (which is the same
+
+as T( NW ) ) is the following sentence:
+
+Vh Wp { Subst(N,h) => -Prfpas(h,p) }   (36)
+
+a     Let K denote U(PA+) ’s Gédel number. Then since Q is assumed to be a
+
+B 4!) fy } hsye / Pr rh pr? Ly ok
+Li  Vere hho)    37

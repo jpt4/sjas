@@ -1,0 +1,55 @@
+[39] Sacks, G.: Some detailed recollections about Kurt Gédel during a talk by Gerald Sacks
+at the University of Pennsylvania, whose YouTube version was placed onto the internet
+on June 2, 2014. This lecture records the experiences of Sacks during the two occasions
+when he was an assistant to Gédel at the Institute of Advanced Studies. Some quotes
+from this talk are that Gédel “did not think” the goals of Hilbert’s Consistency Program
+“were erased” by the Incompleteness Theorem, and that Gédel believed (according
+to Sacks) that it left Hilbert’s program “very much alive and even more interesting
+than it initially was”. (See also [32] for some similar comments made by A. Nerode.)
+https:/ EE  PR7MTqtF14Y   A  yo      ava le  h bp  [
+
+[40] Smullyan, R.: First Order Logic. Dover Books (1995).                       '          4 |
+
+[41] Solovay, R. M.: Injecting Inconsistencies into models of PA. APAL 44(1-2): 102-132
+(1989).
+
+[42] Solovay, R. M.: Private Telephone conversations during April of 1994 between Dan
+Willard and Robert M. Solovay. During those conversations Solovay described an un-
+published generalization of one of Pudlék’s theorems [36], using some methods of
+Nelson and Wilkie-Paris [31, 45]. (The Appendix A of [47] offers a 4-page summary of
+our interpretation of Solovay’s remarks. Several other articles {10, 25, 31, 34, 36, 45]
+have also noted that Solovay often has chosen to privately communicate noteworthy
+insights that he has elected not to formally publish.)
+
+[43] Svejdar, V.: An interpretation of Robinson arithmetic in its Grzegorczjk’s weaker
+variant. Fundamenta Informaticae 81: 347-354 (2007).
+
+[44] Visser, A.: Faith and falsity. APAL 131(1-3): 103-131 (2005).
+
+[45] Wilkie, A. J., Paris, J. B.: On the scheme of induction for bounded arithmetic. APAL
+35: 261-302 (1987).
+
+[46] Willard, D. E.: Self-verifying axiom systems. In Proceedings of the Third Kurt Gédel
+Colloquium (with eds. Gottlob, G., Leitsch, A., Munduci, D.), LNCS vol. 713. pp.
+325-336, Springer, Heidelberg (1993). https://doi.org/10.1007/BFb0022580.
+
+[47] Willard, D. E.: Self-verifying systems, the incompleteness theorem and the tangibility
+reflection principle. JSL 66(2): 536-596 (2001).
+
+[48] Willard, D. E.: How to extend the semantic tableaux and cut-free versions of the
+second incompleteness theorem almost to Robinson's arithmetic Q. JSL 67(1): 465-
+496 (2002).
+
+[49] Willard, D. E.: A version of the second incompleteness theorem for axiom systems
+that recognize addition but not multiplication as a total function. In First Order Logic
+Revisited (eds. Hendricks, V., Neuhaus, F., Pedersen, S. A., Sheffler, U., Wansing, H.),
+pp. 337-368, Logos Verlag, Berlin (2004).
+
+[50] Willard, D. E.: An exploration of the partial respects in which an axiom system
+recognizing solely addition as a total function can verify its own consistency. JSL
+70(4): 1171-1209 (2005).
+
+[51] Willard, D. E.: A generalization of the second incompleteness theorem and some
+exceptions to it. APAL 141(3): 472-496 (2006).
+
+24

@@ -1,0 +1,24 @@
+4  Prfy(p,t) with the following two properties
+
+A. Logical(x) is true exactly when x is the Gédel number
+
+of one of Mendeslon’s Logical axioms.
+
+B. Prf,(t,p) is true exactly when p is the Godel number
+of a proof using a’s proper axioms whose last sentence
+has t’s Gédel number. (Here t is called the “theorem”
+
+proven by p’s list of sentences.)
+
+Proof Sketch. The method for proving Claims A and B is
+essentially the same type of methodology as would be employed
+to write a computerized language translator, similar to a com-
+piler, assembler or interpreter. Interestingly, Godel conceived
+
+of this method before any computer had been formally built.
+
+We will not provide a formal proof of Claims A and B be-
+
+cause the formal proofs are almost as lengthy as the writing
+
+12

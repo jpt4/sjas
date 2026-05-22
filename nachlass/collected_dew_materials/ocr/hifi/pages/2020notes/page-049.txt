@@ -1,0 +1,25 @@
+‘7
+
+tually, the literature offers several different possible Gédel-like
+encoding schemes, and the one used in Section 3.4 of Mendel-
+son’s textbook [4] is much more complicated than the variant I
+
+define in Appendix A.)
+
+Definition 2.1. An axiom system a will be said bea Aj
+axiom system if there exists a Aj formula Ax,(s) which yields
+a value of True for exactly those integers s which correspond
+
+to Gédel encodings for one of a’s axioms.
+
+Comment 2.2. It turns out that all conventional axiom
+systems have Aj encodings. (This is because any axiom system
+that fails to be Aj encode-able is difficult for a Human Being
+
+to interpret and contemplate !! )
+
+Lemma 3 Assume that a isa Aj axiom system. Then
+
+it is possible to construct two Aj formula Logical(xr) and
+
+11

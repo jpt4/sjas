@@ -1,0 +1,26 @@
+Se
+
+Theorem 1 (A weak version of Godel’s First Incompleteness
+Theorem) Again, suppose that a is a Regular \3 ariom
+system that ts consistent. Then there exists a Ij sentence
+
+that is true but not provable from a .
+
+Proof: From Lemmas 5 and 6, it follows that O(a) isa
+
+formally true II} sentence that cannot be provable from a. O
+
+Definition 2.5. An axiom system a is called Recur-
+sively Enumerable iff there exisis a computenzed procedure
+P that if allowed to mm indefinitely will produce a list of all
+of the Godel numbers of a’s axioms and which will list no
+other Godel number besides these. Using this notation, we can
+now give the statement of a stronger version of Godel’s First
+
+Incompleteness Theorem:
+
+Theorem 2 Every consistent recursively enumerable az-
+
+tom system a ts unable to prove some logically valid Ij
+
+19

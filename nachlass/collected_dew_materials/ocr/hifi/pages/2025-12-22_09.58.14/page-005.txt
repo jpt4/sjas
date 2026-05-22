@@ -1,0 +1,20 @@
+Reflecting Upon the Goals of Hilbert’s Mysterious Second
+Problem From the Perspective of Echo Theory
+
+Dan 5. Willard
+State University of New York at Albany
+
+Abstract
+
+Section 2 of this article will document that both
+Godel and Hilbert had believed that Hilbert’s Con-
+sistency Program should be continued, although they
+both certainly were aware that Godel’s Second In-
+completenss ‘Theorem had discouraged many logi-
+cians from continuing Hilbert’s investigation. This
+article will use the Fitting-Smullyan tableau-style
+formalism to explain why these presumptions by
+Godel and Hilbert were quite reasonable. Moreover
+we will employ the distinction between the two “E-
+
+words” of “Extension” and “Echo” to clarify the

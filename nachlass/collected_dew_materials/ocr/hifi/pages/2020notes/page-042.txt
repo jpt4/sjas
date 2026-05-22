@@ -1,0 +1,36 @@
+Lemma 11 The statements O°" (W) and O( W ) are logically equivalent to each
+other. (This strange-looking result holds roughly because “ 07” ” was defined to
+
+mean that the special sentence “ — V ” is an additional axiom permitted in a proof.)
+
+Proof. Almost Trivial. It is well known that VY has a proof from PA if and only
+if it has a proof from PA that begins with the temporary assumption of — VY and
+ends with the contradictory statement of WV (itself). I forgot the theorem numbers,
+
+but this result has appeared in both the Enderton and Mendelson books.
+
+The point is that by definition “O-" ( W )” is the contradiction proof mentioned
+in the preceding paragraph. Hence, it trivially follows that the statements O07” (wv)
+
+and O ( © ) are logically equivalent to each other.
+
+Lemma 12 The statement of Lemma 11 can be proven by Peano Arithmetic itself.
+
+Proof. Entirely routine generalization of Lemma 11’s proof and omitted. (This
+
+“routine generalization” is messy to formalize, but trivial to intuitively appreciate.)
+
+Theorem 4 (L6b’s Seminal Theorem) If PA proves O(%) => W, then PA will
+
+also prove V (by itself).
+
+Proof by Contradiction: Suppose for the sake of establishing a contradiction
+that PA proved Equation (39), BUT IT DID NOT ALSO PROVE W
+
+o(v¥) > v           (39)
+
+Then PA~* must be consistent (since otherwise PA could prove © via a proof-by-
+
+contradiction).
+
+40

@@ -1,0 +1,155 @@
+Recording of Scientific Notes Notarized by Dan E. Willard on May10, 2  1]
+
+inncern  Lesh g bea
+
+proof of P yi NP will certainly be noa-trivial.                        are to dlesever how [37]'s faitial 1993 fermaliam for generating quite          te
+Ot rreee oe the Seced Incemplerncne Thosteis eat bets thus  taten va 214 Jorcof ef PNB. A alea sepert of this proef le that ft le meek Seale 6 orcad   Sp
+Kindsight than fn foresight (where one begine with a fall bad olor that mill nevetibiy cance many falee turns te be made), This la because thare are me                            f        C
+the roadway towards proving P vt NP. that can be avelded, with gaed healthy retreopective advice.                                                  some eamnlnal            ote alae
+
+Osr formal preef of P yt NP wilt appear In Sections 177-717, Tha oezt thres sections     explain how eur core methedelegics are related 1                              ‘s
+Selovay, Nelnca and Wilkle-Parle [37, 32, 33, 36), along oth cost sy tog mock by Duss-lgnlatevie and Svejdar [6, 33].                            ad Jacompl         by Peay
+Their results eotablich that logical axlom systete th orme telated cratsle deductive mathode, obey mard pawerful generalisations of the Seco!     ‘ewe tte            "
+traditional Cree!   Fes ons ot che erent, developped Uy tubers-Beraary on Lab [15, 22]. The appreciation of the importance of the seminal ebser              by Palin tise lhe
+
+w                                   tape                          ”       i                                                                                        side by pm
+
+wentee note  cf re flalebod om Mer 3, 30 14, Tet met A pl hat pinyi0 becacse my Wellle paper was accepted om May 2 (and rewrting It required my sttentlon),           Storey,
+
+NEW Satie’                                                                             -                                                                           t
+
+reagheut thle article, @ will denote a rece:                            opreper aslome”, and 4 will denote a ded ctlee            eed for deriving theorems froma, s
+
+lectu de conte Puies of Inferonces (08h aa modus pousechlZ enemerable $4! coma “gical asloms", denoted a4 Lg, that we consider te be past of die infrestructer® rather thee S48 trey
+(Thle seamingly miner notational relat, which views 1             the deduction matbed 4  meticulously Seperated from the eet of p       aziome a, shall sm nikon mn      frat     7
+(op eeeat, We therefore emp        hel by the aaron g ta past of she Ue Caree will always be referring to m set of propor acieate thst fo, acvematieallY.         orien fed
+axioms.)
+
+Exarnpte 0.1 The deduction methode d, thay we witl use, are quit conventional. They can, for instance, correspond to the       Jigme that were word int
+ean              J
+
+na tezthent
+Mendsiees or Popedimitrion (7, 7, T]. Thea,              -                                                                                                                     eres
+
+"a 6-part set of Ingical                     a ase rule of laf                                ff
+*  vee pedimitiien'e ‘embeck " Suamented by solely modus Penee                  erence, when ese wees [7] a5 « framework to define Lg: (This framewny, 8 thee ny
+
+2. Mendelson's framework [7], which bas we taference rales of modus ponene and generalisation, aad which would have Ly include the five pure logical eee Aas
+eetleg
+
+2.3 of [7]) ples the two equallty axioms AG AT (defined In [te Seation 2.8).
+
+the ti      Hilvert                                              bodelogy that lecludes
+In geocral, we will woe the term           Deduction te refer ie ® deduces WP com employ eccentiall ergo ponese rails and whose efficiency differs from the above wy
+
+a0 more thas « pel           jersaoe Ie proef len          proof                                                    le deductive method      will focus our stteateg  Abra ea
+HA paradigme for th                icity beea       igth, Our       pest knows t                 ee of reade:     ‘The    t                                 ed properties of     yon
+probably be found Im the HlAJek- Padlak teatbeot Tray tyrine mere eavaneed               UU mot be waed desing ovr procf ef ieee more naveee                Bae Sion Vg
+}                                                                                                                                     log
+
+Memark 0.2 Some deductii        hods                                     where they possesa the same
+teas efficient In the worst ease. This eetegery intt a noa-Hilbert caleser?: "ood reasletion methods,
+(echaiques produce, often, goed beuriaticn te encvaee                  tance, [37, 40, 48, 40] estrate how tables
+a Hmited (but real) waderstanding of their      meg                        lala how humans motivate themselves to
+eapecition of nelf-justifying logics, but they aa pet ba aaa             roof of P ¥ NP. For simplicity,
+
+Eaample 0.1.
+AEMOVE Thue happily, this second lengthy group of articles, pabllabed by ue can be Cally Ignored by a reader whe wishes te focws mostly on our proof of F # NP.)
+
+Deflaition 0.3 Once again,                                apd @ denotes deduction method. The ordered pair (a, d) will be called Self Justifying when:
+
+let a demote an axiom aystem,
+
+4 ene of o's theorems (or at lanst one of ite axieme) will state thet the deduation method d, applied te the system a, will produce = coasistent set ef theorems, and
+HL the axiom eystem @ is im fact consistent.
+
+Example 0.4 For aay (=, 4), It le cacy to conctrect « system at 2 @ that satlefies the Part-{ condition. Per instance, o4 could consist of all Of 0 axioms pins as  dded
+“Selffefle,d)" sestence, defi     as stating:
+
+© There le we proof (using d's deduction method) of 0 = 1 from the union of the axiom aystem a with this ecatence “SelfRef(a, 4)” (looking at itself).
+
+Kleene    disewaned bow to cacode approximate analogs of thie “SelfMel(a, 4)” statement, Each of Kleene, Rogers and Jeroslow [17, 20, 16] noted at may, howsvar, bs ineossiatent (de
+
+Sommers aye ‘ceertioa), thee causing It te vielole        of self-jestification’s definition, This In because if the or       pair Ta! Fj in tee strong thea = Classic Cidel use foceeteninn
+argument cas be applied to the axiom systema!t = a+ Sel     ‘a, d), where the added praseace of tha statement Se!      ‘a, d) causes thie extended versioe of © ta evnically become
+avternetically inconsistent. Thus, the machinery of the sentence “Selffef(a, 2)", while relatively easy to encode via an application of the Fixed Poiet Theorem, ie irewically mast sfc wlan!
+
+We are now ready to explain the intution that has motivated evr 21+ year quest Lo arrive at = proof of P ¥ NP, via the employment of ealf-justifying axiom systems, k wes that the fisal
+three italicioed words ba the preceding paragraph(e.g. the phrese “mest often perenne mothing other thas exactly what they suggest. Thus, our geal hae bees te cramine, is meticeloss
+detail, the tiny clase of beundary-cose formaliome that evade the typleal reach of      lel's Second laceompletences Theorem, with the objective of flading © mens te opply some onc of theor
+formaliome to demessirate F ¥ NP.
+
+Pes the cake of clarity, ear proof of P yt NP will ukimately be a theorem preven by a fully classical logie, wheee correctaess is beyoad doubt. The reneoe for ovr isterent is sosclescica!
+fagica, that evade the Seceed Lacompletences Theorem, is that these strange-looking eatitics will be a useful intermediate atep to examine durisg eur proof of P 4 np
+
+Hence, our proof of Ff NP will be arrived b:  guploring how fully classical (and unceatreversial) logice view unueual self-juctifying logice a0 = simplifying belpte) intermediate step.
+
+NEw Sansone Tale The Combined Work of Pollak,    en Levee Scuny,    a          t            wed          A    -      tem @ will be sia
+
+Threughest 1! artic!   e.y.    wlt(a, a. ®.  denote  e  Predicate eymbols «;   =.  =a  aey = 8. Awe axiom sy0  e   said te
+eecernety dition tnd menipliociies ce total Poassions if it (neladae 1-3 aa axloma,        ya Sesertne et ¥              id                                       rewogniee
+
+Ysa
+va Vy 3.
+VeVy 3s iM           2                                                                                             3)
+Also, on axiom eysicm © will be called Type-M iff it coatsine (1) — (3) as axioma, Type-A iff it contains only (1) and (2) a asioms, and Type-S iff it contains only (1) os an axiom.
+Mareorer, « wil be called Type-NS iff it contains none of these axioms.
+
+Ouse initio} paper [37] abot cclf-justification lavelved Type-A logics that cam formalize their own consistency under semantic tableaux deduction. Shortly after wy published this resek,
+Rebert Selevny telephoned us, in April of 1994, Indicating he knew bow to strengthen o variant of the Second Incompictences Theorem due to Pavel Pudlésk [27], with additional techaiqees
+developed by Nelese and Wilkie-Paris [35, 23], te show     ne reascaable Type-S axiom system (that treata Addition asd Multiplication ae 3-way relations) can verify ae own Hilbert
+mmacistonsy. This reset, cummarined by Theorem 3.1, improves upes Besborvah-Shepherdson'’s earlier work in [3].
+
+‘Theorem 3.1 (Selevay’s 1994 modification [32] of Pudlsk's 1985 fermaliom [27] using the added methedslegies of Nelsos and Wilkie-Paria [23, 35]) Let = denote ony wramstcat
+Towed sprees this ces coy ebdidion and mulnplioniion selafy their urval associative, eommvstative, distributios and identity avioms. Then @ eannet prove o theorem affirming ts own erunaiency
+wader ang of Beemple 01's forms af Hidtert-styla deduction.
+
+We will sever was Theorem 3.) during our proof of Pf NP. Ka Importance In achieving this result cannot, however, be understated. This is becavac Theorem 3.1 isdicate that only
+Type-S arithmectica are placeibly capable of verifying thelr ews Hilbert eoncistency.
+
+Uh thee indicates any hope in sving calf-justifying logics te prove P yt NP must center around the deunting propertiae of astonishingly weak Type-NS systems. (I have ov dewbs thet my
+214 yeas Alert to prove P PMP would bare taken more then roughly — gigsie, giggle — say 210+ years — if was aot aware of Theorem 3.1's crucial wegative retalt aad the tay clas of
+TypeWS boundary-cans execpiions to the Secoad Incompleiances Thearem that it implicitly permite. )
+
+SOME RELEVANT BACKGOUND INFORMATION Ose cortalaly aclestle sepect of Theorem 3.1 (e thet there is currently ne available published preef of its statement.
+whet had transpired was I published ta 1903 a proof that relatively rich Type-A logics can verify their own consistency under semantic tableaux and reseloution forme of dadu
+pee pe Sclovay subsequently telephoned me in April of 1994 [32] to tell me that he knew how to generalise a theorem of Pudlék to shew that = variaat of Theorem 3.1 would pertain to Hilbert
+
+<< Selovey wee reaching the oon here   Dovbaiey   would woot bin o very Jeazative sosly retirement ia 1994. He showed neo interest in writing up ene bop a1" rs radiss mers
+ve minutos discusaieg       matter (together        ag ment    tenes email, outlining the core aspecte of his faccinating methodology) oad suggesting I read the
+taoulte by Padlék, Nelsse ond Witkle-Pasie (27, 23, 35).
+
+Ja @ 2008 blog, Richard Liptes (21) bas indicated   't Selewny was always reluctant te write ep the     of hic reeults. For tnstance, thie blog reporta Selevay wus the caly mstlemshoos
+be ever recieve towere irom Berbeley’s       Depertment belore be published a single paper.  Also, man:      cians (8, 13, 18, 25, 27, 28, 33, 34, 35] have commented about Selevey’s unusaal
+reluctance to publich many resake be derived, asclogwus to Theerem 3.1, that      lame have greatly valued.
+
+Thes ot the ouggastiwe of os sucnymevs referee, our fret JSL article |    imaluded a deliberately abbreviated 4-page Appendix A that formalized « slightly wuakw but-mere-cosily
+somprebencible variant of Thewem 3.1. Other lasighiful reeulis, pertially but act fully enclegeus to Theorem J.J, were published by Duse-Igajatovic, Svejdar asd ourselves is [3, 33, 43]. Ales,
+Podlék's initial paper [27] comes very chess te sctablishiag Theorem §.1's result. Furthermore, Pudldk epecifics in [28] that come alsc-enpublished work by Harvey Fredmas |@] rans in some
+Partially bet-act fully analogous dires       to Pudisk's work on proof leagthe.
+
+Is aay case, the render will be hoppily relieved to lease our proof of fF yf NP will never we the formaliom of the mysterious Theorem 3.1, lying im as analog of the abso “Neverland”
+
+fron @ “Peter Pan® sovel by J, MM. Darrie, 20 am Intermediate stop. Instead, the sole function of thle aeverpeblished theorem ie le serve as 0 si    about what stapes o proof of P # NP mart
+
+yt         This le becouse thare are ae examples of viable Type-S logics that verify tbelr Hilbert otyle concletency. Our preof of P ¥ NP will thus use Theorems 3.1 as 0 beacon, signaling that only
+os coneyin  weak Type-WS fermaliome con ploasibly support a proel of P yf NP, vie self-justifying Togice, (De.   thie weeful guiding hiet, eer preof of FP # NP will net ves Theorem 3.1's
+Opec       7
+
+NEw sant Tale Coming Started                                                                                                                                                               a        ;           a
+we Fast two papers shout oalf-justify)     hom eyotoms      the evafers:            37, 56] wheee uacoaveational results were thankfully readily accepted      tepactive eames
+editere ft Getiicn, Lonech k Mesdect nad Doane h Basen The foranar poper T31y erated      relatively strong axlow systema that sat       Equation (2)'s TypeA requirement could
+Pr 4) Up coukd be antennae donciotency, The letter article (84) ladicated some Type-NS systems could sorrcberaia their eum Hilbert consistency and opeelaied whether a proot of
+od            ore                 pod-wp version of these         *                                                                                                        °
+Sections 7-10 of joni rietiy outlined the eppresimate reaseas for [38}'s core conjecture, The 18 youre that had separated the years 1996 from 2014 sbviously indicates that much
+to avmplete this task,
+
+DA
+
+ese werk wee
+
+herman Sc
+No. 03S8H6181014
+‘nary Pubjic, State of New Yort+
+ualified in Albany County
+umissior: *xpires 01/22/26

@@ -1,0 +1,23 @@
+of a computerized language translator — while at the same
+time they are conceptually as trivial and as routine as such a
+
+computerized object. O
+
+Lemma 4_ It is possible to encode a Aj formula, called
+Subst(g, h), that yields a value of True precisely when (g, h)
+
+satisfies the following condition:
+
+The integer g designates an encoding of a formula and
+h encodes a sentence identical to g, except that all
+
+free variables in g are now replaced with the term g
+
+(defined by Comment 1.1’s last sentence).
+
+Proof Sketch. Once again, the Aj encoding for Subst(g, h)
+is routine and omitted for the sake of brevity. If you are inter-
+ested in going through the details, analogs of this encoding can
+be found in many logic textbooks. For instance, Items 9 and 10
+
+13

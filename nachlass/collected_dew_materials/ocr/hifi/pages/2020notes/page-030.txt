@@ -1,0 +1,37 @@
+(Gy
+
+non-conventional logics that evade the Second Incompleteness Theorem. If you are
+
+interested, they will be discussed next semester.
+
+4 Other Comments about Incompleteness and this Course
+
+In addition to exploring Section 2.7\in detail during this course, I also plan to do
+briefly survey Section 2.8 through 2.10. That survey will include a description of the
+
+statements proven in these sections, but not their formal proofs.
+
+For example, the main Proposition 2.28 of Section 2.9 will explain that there is
+no meaningful difference between the axiom systems that I call PA and PA+ in these
+lecture notes. If L’ is a language that only has function symbols for representing the
+operations of Addition, Multiplication and Successor then both these axiom systems
+
+will prove the same set of theorems about the language L’ , by Proposition 2.28.
+
+Some logic books would call PA+ a “conservative extension” of PA because it
+proves added theorems only when one examines language primitives not in PA’s
+
+language (i.e. the sentences about the “U-Grounding Functions”).
+
+Proposition 2.28 implies such a result when one (after an essentially very minor
+change in notation) sets K = PA and K# = PA+ . And so you may wonder
+why I chose to use the axiom system PA+ rather than PA during these lecture notes
+when there is no meaningful difference between them when they use the language of
+
+PA 7?
+
+The answer to this question is solely pedagogic. The main theorems are easier to
+
+prove when one uses a broader language. This is because of a phenomena, similar to
+
+28

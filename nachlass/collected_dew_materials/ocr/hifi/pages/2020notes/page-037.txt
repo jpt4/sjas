@@ -1,0 +1,35 @@
+Appendix A : Summary of Gédel Encoding Method
+€
+
+This appendix will briefly summarize our formal method for generating Gédel num-
+bers for logical sentence and proofs. This encoding scheme will be roughly analogous
+to the natural B-adic encoding methods described by Haéjek-Pudldk [2] and Wilkie-
+Paris [7] — insofar as the number of utilized bits to encode a semantic object will be
+
+approximately proportional to the length of such an expression written by hand.
+
+Our encoding scheme will use the following 24 language symbols to formalize a
+logical sentence or proof:
+1. The standard connective symbols of A, V, 7, —, Vand 3.
+
+-       2. The left and right parenthesis symbols, and also a comma symbol (to separate
+
+the input arguments for a function).
+
+3. Ten function symbols for representing the ten U-grounding functions of subtrac-
+
+tion, division, logarithm, etc.
+4. The relation symbols of “ = ” and“ < ”.
+5. The symbol  V for designating the presence of a basic variable symbol.
+6. The symbol C for designating the presence of a constant symbol C .
+
+7. A special period symbol for separating the formulae that appear within a proof
+
+Let a byte denote an unit of six bits. Define a proof as being either a sequence of
+=>
+
+S   bytes (or equivalently being an integer, written in base 64). Each of the 24 symbols
+
+(above) will be given some unique 6-bit code, ranging between 32 and 55. Our method
+
+35

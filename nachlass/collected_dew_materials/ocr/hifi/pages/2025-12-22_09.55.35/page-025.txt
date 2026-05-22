@@ -1,0 +1,62 @@
+References
+
+[1] Adamowicz, Z., Bigorajska, T.: Existentially closed structures and Gédel’s second
+incompleteness theorem. JSL 66(1): 349-356 (2001).
+
+[2] Adamowicz, Z., Zbierski, P.: On Herbrand consistency in weak theories. Archives for archives —> Archive
+Mathematical Logic 40(6): 399-413 (2001).
+[3] Artemov, S.: Explicit provablity and constructive semantics. Bulletin of Symbolic Logic
+
+7(1): 1-36 (2001).                                                                       7 ns
+
+[4] Artemov, S.: The provability of consistency. Cornell Archives arXiv Report
+1902.07404v4 (2019).
+
+[5] Artemov, S., Beklemishev, L. D.: Provability logic. In Handbook on Philosophical on ->ot
+Logic, Second Edition, pp. 189-360 (2005).
+
+[6] Beklemishev, L. D.: Reflection principles and provability algebras in formal arithmetic.
+Russian Mathematical Surveys 60(2): 197-268 (2005).
+
+—_
+
+[7] Beklemishev, L. D.: Positive provability for uniform reflection principles. APAL
+165(1): 82-105 (2014).
+
+[8] Bezboruah, A., Shepherdson, J. C.: Gédel’s second incompleteness theorem for Q. JSL
+41(2): 503-512 (1976).
+
+[9] Buss, S. R.: Bounded Arithmetic. Studies in Proof Theory, Lecture Notes 3, dissemi-
+nated by Bibliopolis as revised version of Ph. D. Thesis (1986).
+
+[10] Buss, S. R., Ignjatovié, A.: Unprovability of consistency statements in fragments of
+bounded arithmetic. APAL 74(3): 221-244 (1995).
+
+[11] Dawson, J. W.: Logical Dilemmas: The life and work of Kurt Godel, AKPeters Press ies inlliariiinn shvciliilis
+(1997).                                                                                  words in tities are capitalized.
+
+[12] Enderton, H. B.: A Mathematical Introduction to Logic. Academic Press (2001).
+
+[13] Feferman, S.: Arithmetization of mathematics in a general setting. FundMath 49:
+35-92 (1960).
+
+[14] Fitting, M.: Tableau methods of proofs for modal logics. Notre Dame J on Formal on —>ot
+Logic 13(2): 237-247 (1972).
+
+[15] Fitting, M.: First Order Logic and Automated Theorem Proving. Springer-Verlag
+(1996).
+
+[16] Friedman, H. M.: On the consistency, completeness and correctness problems. Ohio
+State Tech Report (1979). See also Pudldk [37]’s summary of this result.
+
+[17] Friedman, H. M.: Translatability and relative consistency. Ohio State Tech Report
+(1979). See also Pudlék [37]’s summary of this result.
+
+[18] Friedman, H. M.: Gédel’s blessing and Gédel’s curse. (This is “Lecture 4”
+within a 5-part Ohio State YouTube lecture series, dated March 14, 2014.)
+https://www.youtube.com/watch?v=esH8SkSIHdI
+
+[19] Gentzen, G.: Die Wiederpruchsfreiheit der reinen Zahlentheorie. Mathematische An-
+nalen 112: 439-565 (1936).
+
+22

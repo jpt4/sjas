@@ -1,0 +1,39 @@
+les                       lea
+
+the memory space of Merge Sort. (Don’t waste much time on this question because it is not
+
+worth many points.)
+
+7. Both Heapsort and Merge Sort respect an 2(NlogN) lower bound for sorting, but Radix
+Sort is in some isolated senses faster. Again in no more than say 2-to-5 sentences, tell me
+why Radix Sort is faster. (Don’t waste much time on either this question or Item 6 because
+
+neither will be worth more than a tiny amount of points.)
+
+Question II. Issues Involving Hashing
+
+A) Define the Separate Chaining Rule for resolving collisions during hashing (known as the
+“chained hash method” in your textbook). Then show what a hash file with ten slots would look
+like when you insert the following sequence of records into a file that uses the separate chaining
+rule for resolving collisions and which inserts a key K into the address “ K mod 10”.
+
+**x 42, 46, 62, 32, 36, 28, 77,99 (keys OBVIOUSLY inserted in chronological order)
+
+B) Please next provide a 1-sentence definition for the “open addressing” method for resolving
+hash collisions (which technically involves an infinite number of hash functions H,, H2, Hs, ... ).
+Also, define the simplified version of this “open addressing” that uses the “Linear Probing” method
+for resolving collisions. You actually should provide two simple essentially equivalent 1-sentences
+of the Linear Probing methods where:
+
+1. One definition of “Linear Probing” views it as a special case of “open addressing” method
+for resolving hash collisions for a file with S slots.
+
+2. The other definition of “Linear Probing” is the trivial 1-or-2 sentence rewrite of the above
+definition that does not, technically, refer to the “open addressing” method when formally
+defining the “Linear Probing” method for resolving collisions in a hash file with S slots.
+
+Finally AND MOST IMPORTANT OF ALL, draw a picture of what a file of 10 slots would look
+like when you insert elements from the sequence of ** in the CHRONOLOGICAL order into a
+hash file with 10 slots. Once again assume that the rightmost digit of each key is used to
+
+3

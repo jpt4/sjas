@@ -1,0 +1,38 @@
+Nie
+
+BD
+
+[52] Willard, D. E.: On the available partial respects in which an axiomatization for real
+valued arithmetic can recognize its consistency. JSL 71(4): 1189-1199 (2006).
+
+[53] Willard, D. E.: Passive induction and a solution to a Paris-Wilkie open question.
+APAL 146(2): 124-149 (2007).
+
+[54] Willard, D. E.: Some specially formulated axiomizations for 1Dp manage to evade the
+Herbrandized version of the second incompleteness theorem, Jnformation and Compu-
+tation 207(10): 1078-1093 (2009).
+
+[55] Willard, D. E.: On how the introducing of a new 0 function symbol into arithmetic’s
+formalism is germane to devising axiom systems that can appreciate fragments of their
+own Hilbert consistency. Cornell Archives arXiv Report 1612.08071 (2016).
+
+[56] Willard, D. E.: About the Chasm Separating the Goals of Hilbert’s Consistency
+Program From the Second Incompleteness Theorem. Cornell Archives arXiv Report
+1807.04717 (2018). (This quite preliminary annnouncement of [57]’s results appears in
+an essentially roughly written summary-abstract form.)
+
+[57] Willard, D. E.: “On the Tender Line Separating Generalizations and Boundary-Case
+Exceptions for the Second Incompletencss Theorem under Semantic Tableaux Deduc-
+tion”, a talk given on January 7 at the LFCS 2020 conference. It preceded the current
+article, and its shorter manuscript can be found on pp. 268-286 of Volume 11972 of
+Springer’s LNCS series.
+
+[58] Yourgrau, P.: A World Without Time: The Forgotten Legacy of Gédel and Einstein.
+(See page 58 for the passages we have quoted.) Basic Books ( 2005).
+
+25
+
+Be consistent about
+
+(non)capitalization In tites of
+(English) articles.

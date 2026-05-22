@@ -1,0 +1,33 @@
+Note that while Equation (10) can be transformed into a logically equivalent IT}
+sentence (encoded by Equation (13) ), there is no analogous II} sentence equivalent
+to Equation (11). (This is because Addition but not Multiplication belongs to our
+
+set of U-Grounding functions.)
+
+Comment 1.6. The logic literature uses similar ideas, but expresses them slightly
+differently than my notation in Definition 1.4. It begins with a language that recog-
+nizes Addition and Multiplication as its starting function symbols, and it builds all
+its terms out of these two function symbols rather than from my grounding language
+(which does not employ Multiplication as a function symbol). In such an arith-
+metic language, the traditional literature uses the terms Apo , II; and ©; formulae to
+have the identical definitions as I employ, except that its rules for building terms rely
+upon the Addition and Multiplication function primitives instead of my U-Grounding
+functions. The reason I resist using the traditional terminology will be explained in
+
+class.
+
+Lemma 1_= The set of azioms appearing in Table I are sufficient to prove for any
+
+integer n_ the following theorem:
+
+Vz <n [t=O Ve=TVe=2 V wVvec=it |  (14)
+
+Proof: The proof is trivial and therefore omitted. The intuitive reason that you
+do not need to go through the proof is that if Table I’s axiom set were not rich enough
+for the lemma’s claim to be true, then I could trivially have added a couple more
+
+axioms to this table’s list of axioms to make the lemma true. 0
+
+Definition 1.7 Recall that a formula is called a “sentence” iff it contains no
+
+6

@@ -1,0 +1,29 @@
+alizations of Gédel's Second Incompleteness paradigm are indisputably important, the second
+
+section of this article will explain Hilbert and Gédel strongly doubted they constituted a full
+
+answer to Hilbert’s year-1900 problem.
+
+A second leg of a 3-part reply to Hilbert's Second Problem was formalized by Artemov
+
+recently in [3, 4]. He noted Peano Arithmetic (PA) can prove an infinite schema of theorems,
+
+whose collective union confirms PA’s own consistency. Let us call Artemov’s method a Step-By-
+
+Step Infinite-Schema approach ( SBSIS ). This technique is an extension of the Justification
+
+Logics explored by Artemov and Beklemishev (2, 5, 6]. It was motivated by Artemov’s obser-
+
+vation that the year-1900 logic community (including Hilbert) were not aware that PA would
+
+require an infinite number of proper axioms. Thus, an SBSIS schema-driven logic approach is
+
+a valid reply to Hilbert's year-1900 second problem, although its potential significance was not
+
+well appreciated during the era when Hilbert posed his Second Problem.
+
+Artemov's analysis (3, 4] uses Tarski’s partial definitions of truth for sentences with a
+
+bounded number of quantifiers as an intermediate step. It essentially constructs a sequence
+
+of finite subsets of Peano Arithmetic S; C S; C S3 C ... where

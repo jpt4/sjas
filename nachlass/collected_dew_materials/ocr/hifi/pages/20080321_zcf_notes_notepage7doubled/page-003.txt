@@ -1,0 +1,109 @@
+Our objective in the current paper is to employ the Fixed Point Theorem to prove the inconsistency of the axiom systems ZF and ZFC. We will dq so
+by using the Fixed Point Theorem to construct two sentences, called Paradox-ZFC and Paradox-ZF, that enable us to formalize non-constructive proofs that
+these two respective systems are inconsistent. The final result of this paper (Corollary 2) will actually consist of a constructive proof of the inconsistency pf
+these two systems. However, a very surprising aspect of the discourse in this paper is that it will formally need the non-constructive proofs, centering aroun!
+Paradox-ZFC and Paradox-ZF, as vital intermediate-stage steps, to formalize the constructive contradiction proofs, that will appear at the end of Section .
+
+Definition of Paradox-ZFC.
+ZFC will be a self-referencing math
+consisted of a relatively simple appl
+
+Similar to the Liar’s Paradox and its variation that had appeared in Gédel’s seminal 1931 paper [6], the sentence Paradox-
+ematical precept that is built with the help of Theorem 1’s Fixed Point Principle. Its analog in Gédel’s centennial paper
+ication of the notion of self-reference that had encoded the following sentence:
+
+* There is no proof of this sentence from the axiom system of Peano Arithmetic
+
+The most likely reason that the mathematics literature has awaited for approximately 100 years for a proof that ZF and ZFC are inconsistent is that these
+proofs require a much more complicated application of the Fixed Point Theorem than Gédel’s semantic object of * . Thus, the formal definition of the fixed
+point object Paradox-ZFC, that will be the focus of the current section, appears below. (A more complicated version of this paradigm, called Paradox-ZF and
+applicable to ZF Set Theory, will appear in the next section.)
+
+*     If Support-ZFC is a nonempty set then the application of the function
+
+unique e € Support-ZFC such that this sentence (looking at itself)
+(defined by Item 10 of Section ).
+
+“Choose” to the domain element “Support-ZFC” will produce an
+is false under e’s assignment of truth values under the “Reveal” formalism
+
+The intuitive difficulty with the sentence Paradox-ZFC is that if Support-ZFC is nonem;
+
+pty then it will imply that Paradox-ZFC will be simultaneously true
+and false (and thus enable our planned proof by method of reducto ad absurdum to reac!
+
+h its desired contractory end).
+
+Since ZFC itself can appreciate the nature of this paradox, it will be forced to conclu
+condition from arising). However surprisingly, this fact will, in turn,
+capacity of proving Gédel’s Completeness Theorem — which has indi
+
+The very short 2-sentence paragraph (above) has provided an al
+further detail by separating its underlying formalism into two lemm
+
+de that Support-ZFC is empty (in order to avoid such a contradictory
+imply that ZFC can prove a theorem affirming its own inconsistency (since ZFC has the
+cated that that ZFC is automatically inconsistent when Support-ZFC is empty).
+bbreviated summary of our main result.  The remainder of this section will describe it in
+as and one subsequent centralizing theorem.
+
+Lemma 1 It is possible to employ the machinery of Theorem 1's
+
+Fized Point Mechanism to formally encode the sentence Paradoz-ZFC, such that ZF and
+ZFC set theories will recognize its mathematical encoding to be th
+
+e logical counterpart of the English language given in the statement «x.
+
+Proof: Let #*(z) denote Equation (7)’s formula:
+
+If Support-ZFC #4 @ then [de such that e = Choose(Support-ZFC) A - Revealzzrc (z,e) ]          (7)
+
+Then Theorem 1’s Fixed Point mechanism enables us to construct a sentence  ¢* which ZF Set Theory can prove satisfies the following property:
+
+o > oO (Td*1)                                  (8)
+
+In particular, the proof of Theorem 1 had showed one can construct  ¢* by utilizing the following 2-step process
+1. First construct the analog
+
+of the sentence Y(y) appearing in Equation (5) of Theorem 1’s proof. We will call this sentence Y* ty).
+below:
+
+It is defined formally
+Vz Subst(y,z) => o*(z)                                                                  (9)
+
+2. Next, let N* denote Eq
+
+uation (9)’s Gédel number. Then ¢* is simply defined to be the sentence of Y*( N*
+defined by Equation (10).
+
+). In other words, it is the sentence
+
+(10)
+
+This sentence ¢* was shown by Theorem 1 to satisfy Equation (8)’s requirements. (In particular, Theorem 1 showed that the axiom system ZF (and hence all
+its extensions) can certainly prove the validity of Equation (8)'s if-and-only-if statement.)
+
+Vz Subst(N*,z) => p*(z)
+
+Definition 1 The sentence ¢* defined by Lemma 1’s 2-step process above will be called the Formal Encoding of Paradox-ZFC. Also, the sentence
+¥* ([¢*]) on the right side of Equation (8) will be called the Dual Encoding of Paradox-ZFC.
+
+Lemma 2 Let us assume (as will be proven later in this section) that the aziom system ZFC will prove a theorem indicating that the formal set called
+Support-ZFC is empty. Then ZFC will prove a theorem stating that ZFC is inconsistent.
+Proof Sketch. It is well known that the axiom s
+
+ystem ZF (and therefore also ZFC) are able to prove Gédel’s Completeness and Compactness theorems.
+The contrapositive forms of these theorems easily imp!
+
+ly that if Support-ZFC is empty then ZFC is inconsistent. O
+
+We are almost ready to prove the first of our three key theorems. (It will state that ZFC can prove a theorem declaring its own inconsistency). Most
+traditional proofs of inconsistency theorems have relied upon Gédel’s Incompleteness Theorem to prove impossibility results — rather than using his more
+positively oriented Completeness Theorem.  However, Lemma 2 has illustrated how the Completeness Theorem can also be applied to establish impossibility
+results (if we follow the paradigm illustrated by the proof of Lemma 2 in applying the Completeness Theorem in its contrapositive form).
+
+Theorem 2 The aziom system ZFC can prove a theorem declaring its own inconsistency. (The same property also applies to the aziom system ZF, but
+we will postpone proving this stronger result until the next section of this paper.)
+
+Proof. From Lemma 2, we may infer that ZFC will know that if Support-ZFC represents the empty-set property then ZFC must be inconsistent. Hence to
+prove Theorem 2, it suffices to establish that ZFC will prove the theorem U below

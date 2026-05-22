@@ -1,0 +1,25 @@
+important results in 20th century mathematics. However my
+point is that while some scholars may not agree with the cau-
+tious skepticism 1 expressed in Comment 2.7 about the im-
+portance for Computer Science focusing on narrowly defined
+problems, there should be no question that the Incompleteness
+Theorem is an important result, that has implications about
+what directions Computer Science can and cannot profitably
+
+pursue.
+
+>
+
+But what does the Incompleteness Theorem really mean?
+And what does it imply to for computer science when Theorem
+
+2 applies to all “recursively enumerable” axiom systems?
+
+The answer to these questions are likely to be quite chal-
+lenging. They may not be resolved during our life times. Or
+
+ever?
+
+2      We will now add the new Remarks 2.8 and 2.9 into this Year-
+
+22

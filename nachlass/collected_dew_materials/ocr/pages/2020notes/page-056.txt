@@ -1,0 +1,20 @@
+=== tesseract (conf=0, chars=0) ===
+
+=== ocrad fallback ===
+_i_ indL_ted th&t o w_ cowi_tent, but the L_t pera_&ph
+contr_icted thi_ e_umption or _'_ con_i_ten_.
+Hence to &void tll_ _ntr_iction, we _e _or_d to conclude
+the #npor_y aNumption in our pIoo_'_ fiT_t _ntence (that
+_ _uLd pTove U(_) ) mu_t be [al_. The negation o[ thi_
+tempor_y aaumption demon_trat_ that Lemm& 5 mwt be
+v_id (b_awe i_ negatlon i_ inheTently _ntr_icto_). o
+` Lem_a 6 Aga_n, supposethat _ _ aRegular aó a_om
+system tkat _ _NÑtent. Then Me _en_ence V(a) mwt
+be tTue.
+Proof: IRmma 5 demonstIated thet _ i_ unable to pTove
+U(a) . However U(al'_ _orm& _tetement (&ven in _tatement
+* l _noun_ to _eying "TheTe i_ no proo_o_ U(_) [rom the
+_om _stem _ ". TheTe_ore, we _e rorced to conclude thet
+' U(_) _ a_orm&ly true statement. o
+LB
+

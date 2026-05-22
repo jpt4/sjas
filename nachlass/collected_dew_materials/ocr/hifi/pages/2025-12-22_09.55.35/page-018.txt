@@ -1,0 +1,48 @@
+(see > ) that Peano Arithmetic can prove f’s consistency implies both the consiste
+
+and also the self-justifying property of IS74,—; (A).
+
+Our more modest goal, within the present abbreviated paper, has been to meé
+summarize the intuition behind Theorem 4.4’s surprising evasion of the Second]
+
+completeness Effect. It arises, intuitively, because of the striking difference in a
+
+growth rates between the two series of 21,272,273... and yy, Ya, ¥3- -
+
+6 Summary of Theorem 4.5’s Proof
+
+A formal proof of Theorem 4.5 is complex, but it can be nicely summarized. This is
+because this proposition’s proof is similar to the formal justification for Remark 3.5’s
+Invariant of ++ . (The latter’s insight has come from the combined work of Pudlak,
+Solovay, Nelson and Wilkie-Paris (36, 42, 31, 45]. It was, also, subsequently verified
+by several other authors [10, 16, 23, 43, 47] in slightly different forms.)
+
+The crucial aspect of the Hilbert-Frege deductive methodology is that its modus
+ponens rule assures thar a proof of a theorem ~ from an axiom system a has a length/ mar—> mat
+no more than proportional to the sum of the proof-lengths used to derive ¢ and
+¢—w. This “Linear-Sum Effect” does not apply also to Tab-deduction (because
+
+dota
+
+the latter lacks a modus ponens rule).
+
+The Xtab deductive methodology is , however, quite different from the Tab form
+of deduction, in that only Xtab supports an analog of the prior paragraph’s “Linear-
+Sum Effect”. This is because any node of an Xtab proof-tree is allowed to store any
+sentence of the form ¢ V > @ (as a consequence of its allowed use of the Law of
+Excluded Middle). This added feature will allow an Xtab proof for w to have a length
+proportional to the sum of the proof lengths for ¢ and ¢— wy. In particular, such
+
+an Xtab proof for y~ will consist of the following four steps:
+
+1. The root of an Xtab proof for w consists of the usual temporary negated hy-
+
+5The ezact meaning of this implication is subtle. This is because Peano Arithmetic (PA)
+CANNOT KNOW whether £ is consistent when 8 = PA. Thus, unlike the quite different
+formalism of IS74p-;(PA) , the system of PA shall linger in a state of self-doubt, about whether
+both PA and IS7a,-1(PA) are consistent. The main point is, however, that we humans believe
+PA is consistent, and we can use this fact to confirm that [S7.5-;(PA) is BOTH consistent and
+
+able to verify its self-consistency via its “I am consistent” aziom.
+
+15

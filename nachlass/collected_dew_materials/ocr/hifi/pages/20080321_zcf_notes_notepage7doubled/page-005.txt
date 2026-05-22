@@ -1,0 +1,155 @@
+2 ¢_ Diamelizing Set Theory and Related Systems”     On 1 March 2008 while av
+°   ke             Bo                                                               omaca inconsistency. I wrote a
+B    =0   A   By      1
+
+b. Every j <k satisfies  Bf = BP
+
+21. Let s bea non-empty subset of P, .  (Thus it is an element of the power set of P; , which is d
+exists some e€ € g where e is a maxi
+
+enoted as P2. )
+imal element of s under Item 20’s ordering of ORD.
+
+- We will say 9 is Top-Good iff there
+22. The symbol Choose*  will denote a
+
+Partial function over the set Ps which maps each s € Py
+— if such an element exists (as it
+
+onto its maximal el
+will when ¢ is “Top-Good”). Otherwise,
+
+ement under the ordering of ORD
+Choose*(s) will be undefined.
+Lemma 3 The following statement  + can be formally proven by ZF Set Theo
+
++ Let a denotean arbitrary recursively defined axiom system, and
+
+L denote the language a uses. (The concern
+Theory but it does not need to be.) If SupportSet(L, @) is non-empty
+
+then SupportSet(L, a) will be Top-Good an
+will consequently be a well defined member of SupportSet(L, a).
+
+Clarifying Comment: For the sake of clarity, it is technically immaterial in this paper whether the formal statement  + will turn out to be true or false.
+Rather all what is technically needed is that  + is proven as a formal theorem by ZF Set Theory. This fact, by itself, will be shown to be sufficent to establish
+that ZF Set Theory is formally inconsistent.
+
+Ty.
+
+ed axiom system can be ZF Set
+@ Choose*[ SupportSet(L, a) ]
+
+Proof. The justification of Lemma 3’s claim is fairly easy. The required proof is similar to Mendelson’s proof [13] of the Lindenbaum Lemma. Thus to
+Prove the existence of e¢ —  Choose*[ SupportSet(L, a)  ], ZF Set Theory will employ a sequence of elements ¢9 , e1 1 €2, ... whose limiting state
+converges upon e and which satisfies the condition of  €o ~ €1 ~ eg <~... .Ina context where Systemz a(e) was defined by Item 7 of Section , ZF Set
+Theory will employ the following 2-step method for constructing a sequence  fo; €1, €2, ... (which is intended to converge upon e ),
+
+1. The element eg €  P2 will be set equal to the empty set.  (Thus Systemz,a(e9) will be automatically be the same as the axi
+the hypothesis of the statement  + presumed was consistent on account of the f.
+
+‘act that a’s SupportSet(L, @) was non-
+2. Using the terminology form Item 4 of Section
+i—th sentence. Then Systemr ,a(e;)
+
+om system a — which
+empty.)
+» let Enum; again denote an en
+
+umeration of all the sentences in the language of L. Let  WY; denote its
+is defined by the following two rules:
+
+(a) If Systemy,a(e:—1) UY;
+
+is inconsistent then =
+(b) Otherwise, e;
+
+= e-1 (thereby causing System,
+
+ja(e;) = System z,,«(ei—1)  ).
+i (thereby causing Systemz,.(e;
+
+= 6-1 U                                     ) to essentially be the formalism of Systemz a(
+
+The point of this inducti
+that is consistent. Also,                                       Properties that eg ~ e
+what was used to prove Lindenbaum’
+
+8 Lemma and Gédel’s Compactness and C
+upon an element e that is maximal under ORD’s orderi
+a}
+
+éi-1) UW; .)
+
+0+ €1, €2, ... will be associated with a Systemz,(e:)
+
+1 ~ €2 ~ .... Moreover by reasoning that is Similar to
+ompleteness theorems, it follows that the sequence e9 1 €1, €2, ... converges
+
+ng of the elements of SupportSet(L, a)  and which has the Property that System, (e) is consistent.
+
+We are now ready to define the sentence Paradox-ZF. As with its analog in Section » Paradox-ZF will be used to prove th
+non-constructive proof of its own inconsistency. The approximate English language wording of Paradox-ZF
+identical to Paradox-ZFC (from statement ** of Section )
+
+at ZF must at least support a
+except that the Choose function is replaced by Chi
+by ZF.
+
+is given by the statement *** below. Its wording is
+oose* and references to ZFC are naturally replaced
+*** If Support-ZF is a nonempty set then the application of the partial function Choose* to the domain element “Support-ZF” will produce an
+unique e € Support-ZF such that this sentence (looking at itself) is false under e's assignment of truth values under the “Reveal” formalism
+(defined by Item 10 of Section ).
+
+Theorem 3 The axiom system ZF does Prove a theorem (using a non-constructive
+
+proof methodology) declaring its own inconsistency.
+
+Proof. The proof of Theorem 8 is similar to the proof of Theorem 2, except th:
+existence does not depend on the Axiom of Choice) has the Property that ZF Set Theory can prove the
+Once the Preceding is done, we may complete Theorem 3's Proof by essentially copying verbatim Se
+
+— except that all references to ZFC, Choose and Paradox-ZFC are changed to referrals to ZF, Choose
+
+at it needs Lemma 3 to show that the Partial fun
+
+statement + .
+ction ’s proofs of its Lemm:
+* and Paradox-ZF.
+
+ction Choose* (whose
+a 1 and 2 and its Theorem 2
+
+ntains an infinite number of different instances of its Replacement Aziom schemata. Let ZF, denote
+contains only the first &  instances of the Replacement scheme. Then th      i
+rem affirming its own inconsistency.
+
+Proof. The proof of Corollary 1 is very easy. It is an entirely trivial generalization of Theorem 3.  This is because an inspection of Theorem 3's proof (when
+tediously worked out in meticulous and extreme formal detail) shows that it requires usage of only a finite number of instances of the Replacement schema.
+Thus if m is chosen to be large enough to include all the needed in
+Prove a theorem affirmin
+
+stances of the Replacement scheme, it follows easily that that for any k >m, ZF, can
+g its own inconsistency by a Straightforward generalization of the preceding proof of Theorem 3 (by esentially doing an exact routine
+copying of the Preceding proof). O                                                                                                                .
+
+Our next result is called a “corollary” because it is another trivial and fairly obvious consequence of Theorems 2 and 8. (Thus, Theorems 2 and 3 and
+their diagonalizaton Proofs did the hard Part of the work by containing the most surprising mathematical aspects of our results th
+constructions of proofs by contradiction.)
+
+rough their complicated
+ziom system ZF ig inconsistent in a fully constructive sense (in that one can identify a formal sentence W such that ZF proves both
+
+Comment: The reason that Corollary 2 is significant is because its formal statement (unlike the intermediate results given in Theorems 2 and 3 )
+constructive and explicit statement.
+
+Proof. The followin
+extrapolate it from the G
+
+is a fully
+ig statement does not appear explicitly in Chapter 1 of Takeuti’s textbook on Proof Theory [18].  However,
+entzen Sequent Calculus
+
+it is an easy exercise to
+formalism, as was summarized in Chapter 1 of Takeuti's textbook on [18]:

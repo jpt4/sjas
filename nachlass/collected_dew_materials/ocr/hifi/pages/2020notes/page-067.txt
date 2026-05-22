@@ -1,0 +1,28 @@
+Definition 3.2. The axiom system PA+ will be defined to
+
+~~
+
+\
+be a minor extension of Peano Arithmetic (PA) that con-
+
+tains function symbols for all the U-Grounding Functions, in
+addition to the function symbols for Addition and Multiplica-
+tion. Thus, PA+ will include the nine axioms given in Section
+3.1 of Mendelson’s textbook plus the 36 axioms listed in Table
+
+I, defining the U-Grounding functions. You should note that:
+
+k     1. PA+ recognizes the validity of the Principle of Induction
+because it includes the axiom scheme S-9 from page 155 of
+
+Mendelson’s book.
+
+2. The 36 axioms from Table-I will cause PA+ to be an essen-
+tially trivial extension of PA, via its use of the U-Grounding
+function symbols and their natural implications under the
+
+“S-9” inductive schema.
+2)
+|       Fact 3.3 The key point in understanding Gddel’s Second
+
+29

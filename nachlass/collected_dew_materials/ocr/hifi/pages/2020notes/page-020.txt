@@ -1,0 +1,36 @@
+and-forth between a formal discussion and their intuitive interpretations. Thus, it is
+
+WW
+
+noteworthy that:
+
+The preceding page did not mean to ezactly suggest that Lines (22) and
+(23) and Lemmas 5 and 6 should only be considered automatically to-
+
+gether.
+
+Obviously, each such object should be initially treated individually, as well. How-
+ever, their most interesting implication does not arise from each item’s ISOLATED
+
+INTERPRETATION.
+
+Instead, the main significance of Lines (22) and (23) and Lemmas 5 and
+6 follows when they are seen as four components of a dizzying machine
+
+interacting with itself.
+
+Thus, a more Go-SLOW approach is needed, where one patiently watches the pho-
+tons bounce between our analogs of mirrors to bring about their forced collective
+
+conclusion.
+
+3 The Second Incompleteness Theorem
+
+The axiom system Peano Arithmetic (PA) was defined by Section 3.1 of Mendel-
+son’s textbook. It essentially has three function symbols corresponding to Addition,
+Multiplication and Successor and thus recognizes these three operation as “total”
+2   (using Definition 1.9’s notation). Its chief feature is that it includes the Principle of
+
+Induction as an axiomatic assumption (i.e. see page 150’s “S-9” axiom scheme.)
+
+19

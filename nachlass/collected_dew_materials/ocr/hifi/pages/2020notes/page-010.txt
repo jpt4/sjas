@@ -1,0 +1,31 @@
+The proof of this fact is not hard, but it is a bit tedious. It appears in Section 2.10
+
+of Mendelson’s book [4].
+
+We will not use the observations of Paragraphs 1.9 through 1.11 in the next two
+sections of these Lecture Notes. However, I mention them because I am likely to
+briefly survey one of my recent papers on Self-Justification at the end of this course.
+
+They [{8, 9, 10] will use the notation from these three paragraphs.
+
+2 The First Incompleteness Theorem
+
+This section will sketch a proof of a version of the First Incompleteness Theorem. I
+will omit some details in the proof that are basically trivial to verify. Our version
+of the First Incompleteness Theorem will be less powerful than the stronger version
+in Mendelson‘s textbook [4]. However, its main virtue is that it is quite easy to
+prove. Also, our discussion will capture the core intuition behind the Incompleteness
+
+Theorem without going into excessive details.
+
+Each formal proof in the Predicate Order Logic can be thought of as a string
+of characters, encoded as an integer. There are many methods for encoding such a
+proof. One sample method is illustrated in the Appendix A . It uses an alphabet of
+55 characters for encoding a formula. If each character is represented by a symbol
+D; that corresponds to an integer between 0 and 54, then a sentence consisting of
+n characters can be thought of as an integer D,, D2, D3, ... Dy , written asa
+number in base 64 whose value falls between 64"~! and 64"—1. (See the Appendix
+
+A for one example of such an encoding method.)
+
+10

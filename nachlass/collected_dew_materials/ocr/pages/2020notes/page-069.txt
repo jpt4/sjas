@@ -1,0 +1,20 @@
+=== tesseract (conf=0, chars=0) ===
+
+=== ocrad fallback ===
+_t&tem_t _ _ _ the n_ _entence __n below:
+___ _ _ l_ _ |_ areguL_ Oó _om _stem sati__lng
+Cow( _ ) then _ c_not p_ve the _enten_ U( S l.
+The r_n it i_ d_ITeble to _write _ _ into _ __'s equiva-
+lent rorm i_ thBt the latt_ _pr_ion |_ te__c&ly the p__Ñe
+_nt__ whch i_ \vritten in the _a_t langva4P wed by PA+
+,_ We have developed two poulble pToo__ of the Second Incom-
+plet__ Th_Tem that employ the rormall_m_ or Demitlon 3.4
+and ___ment ". Our fint proo_w_ wed in coune not_ em-
+ploy_ during 200_201B, _d a _e_nd more _ucclnct pToor is
+_ven below:
+_.l A S__¡ntt ProoE or th_ Setond Intompl_t_ne__ Th_r_m
+
+Our proor o[ the S_ond ln_mpleteneN Theorem wilL _ocw
+' u' _ound the rollowing IRmma
+_|
+

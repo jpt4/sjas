@@ -1,0 +1,55 @@
+(20] Gadel, K.: Uber formal unentscheidbare siitze der Principia Mathematica und ver-  ene =
+wandte systeme I. Monatshefte fiir Mathematik und Physik 38: 349-360 (1931).
+
+[21] Gédel, K.: The present situation in the foundations of mathematics. In Collected
+Works Volume III: Unpublished Essays and Lectures (eds. Feferman, S., Dawson, J.
+W., Goldfarb, W., Parsons, C., Solovay, R. M.), pp. 45-53, Oxford University Press
+(2004).
+
+[22] Goldstein, R.: Incompleteness: The Proof and Parador of Kurt Gédel. Norton Press
+(2005).
+
+[23] Hajek, P.: Mathematical fuzzy logic and natural numbers. FundMath 81: 155-163
+(2007).
+
+[24] Hajek, P.: Towards metamathematics of weak arithmetics over fuzzy logics. Logic
+Journal of the IPL 19: 467-475 (2011).
+
+[25] Hajek, P., Pudlak, P.: Metamathematics of First Order Arithmetic. Springer (1991).
+[26] Hilbert, D.: Uber das unendliche. Mathematische Annalen 95: 161-191 (1926).
+
+[27] Jeroslow, R.: Consistency statements in formal theories. FundMath 72: 17-40 (1971).
+[28] Kleene, S. C.: On notation for ordinal numbers. JSLZ 3(1): 150-15 (1938).
+
+[29] Kreisel, G., Takeuti, G.: Formally self-referential propositions for cut-free classical
+analysis. Dissertationes Mathematicae 118: 1-50 (1974).
+
+[30] Mendelson, E.: Introduction to Mathematical Logic. CRC Press (2010).
+[31] Nelson, E.: Predicative Arithmetic. Mathematics Notes, Princeton University Press
+(1986)
+
+[32] Nerode, A: Some very useful comments by A. Nerode on Janaury 7, 2020, when he
+heard Willard’s conference presntation of [57]’s talk at the LFCS 2020 conference.
+Nerode said he could reinforce Gerald Sacks’s observation about Gédel’s reluctance that
+the Second Incompleteness Theorem would likely bring Hilbert’s Consistency Program
+to a halt. This was because Nerode had heard Stanley Tennenbaum state that Gédel
+expressed to Tennenbaum a significant skepticism about the broader implications of
+Incompleteness, similar to what Sacks had formally recorded in [39]’s YouTube talk.
+
+[33] Parikh, R.: Existence and feasibility in arithmetic. JSL 36(3): 494-508 (1971).
+
+[34] Paris, J. B., Dimitracopoulos, C.: A note on the undefinability of cuts. JSL 48(3):
+564-569 (1983).
+
+[35] Parsons, C.: On n—quantifier elimination. JSL 37(3): 466-482 (1972).
+
+[36] Pudl4k, P.: Cuts, consistency statements and interpretations. JSL 50(2): 423-441
+(1985).
+
+[37] Pudlék, P.: On the lengths of proofs of consistency. Collegium Logicum: 1996 Annals
+of the Kurt Gédel Society (Volume 2, pp 65-86). Springer- Wien-NewYork (1996).
+
+[38] Rogers, H. A.: Theory of Recursive Functions and Effective Computibility. McGrawHill
+(1967).
+
+23

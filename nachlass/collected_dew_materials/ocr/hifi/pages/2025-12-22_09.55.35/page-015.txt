@@ -1,0 +1,55 @@
+VeVyVpVq 7 [ Pair(z,y) A Prf ISp(a(t,p) A Prf tg,¢¢)(v, 4) ]
+
+For the sake of brevity, we will not provide exact details about how Line (5)
+
+encoded under the Fixed Point Theorem. Adequate details are provided in [47
+
+Definition 4.3 Let “D” denote any one of the Tab, Xtab or Tab-1 d
+apparatus. Then we will say that the resulling mapping of ISp( e ) is Consistency
+Preserving iff ISp(8) is automatically consistent whenever all the azioms of B hold
+true under the standard model of the natural numbers.
+
+The preceding definition raises questions about whether the mappings of IS7,;(  ),
+IS7uo-1( © ), and IS x1a5( © ) are consistency preserving. It turns out that Theorem 4.4
+will show the first two of these mappings are consistency preserving, while Theorem
+4.5 explores how the Law of the Excluded Middle conflicts with IS x:45( © )’s Group-3
+
+axiom.
+
+Theorem 4.4 The IS7q,-1( © ) and IS7q,( © ) mappings are consistency pre-
+serving. (I.e. the ariom systems ISqay-1(8) and IS7ax(B) are automatically consistent
+
+whenever all B’s arioms hold true under the standard model of the Natural Numbers.)
+
+Theorem 4.5 In contrast, [Sxta,( ¢ ) fails to be a consistency-preserving map-
+ping. (More specifically, ISxtax( 8 ) is automatically inconsistent whenever B proves
+some conventional Ilj theorems stating that addition and multiplication satisfy
+
+usual associative, commutative, distributive and identity properties.)
+
+The proofs of Theorems 4.4 and 4.5 would be quite lengthy, if they were derived
+from first principles. Fortunately, it is unnecessary for us to do so herefSecause we
+gave a detailed justification of Theorem 4.4’s result for IS7a,-1( © ) in [50], and one
+canincrementally modifyheRemark 3.5’s special Invariant of ++ to justify Theorem
+4.5. Thus, it will be possible for the next two sections of this paper to adequately
+summarize the intuition behind Theorems 4.4 and 4.5, without delving into the full
+formal details. >)
+
+art of the reason Theorems 4.4 and 4.5 are of interest is because of their sur-
+prising contrast. Thus, some historians have wondered whether Hilbert and Gédel
+
+were entirely incorrect when their statements * and ** suggested some form of the
+
+(Ow fo-rof di xv Seo. in Secdtoay Sid
+
+Alen d
+
+Some poople use “Incromentall
+Modify” to mean "modify only si
+Others usa It to mean "modity &
+sequence of steps”. Clarify whk
+moan.
+
+vill Ceclany be 4h branslil plat dey, a be
+
+se ltpcerent 4s C¥pItin the       dot

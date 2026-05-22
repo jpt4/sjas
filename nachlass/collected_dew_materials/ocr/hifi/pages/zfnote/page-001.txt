@@ -1,0 +1,117 @@
+March 8 Notes for “On the Formally Proven Inconsistency of Zermello Frankel Set Theory and Related Systems”.    On 1 March 2008
+while at child’s fair in the Albany government plaza, | (Dan en began to work out (with some careless errors) the proof of ZFC’s omega inconsistency. I
+wrote a first darft of what I had in mind on march 2 and the morning or march 3, but did not finally decide what was proven until the evening of March 3.
+After notarizing the March 4 result, I further strengthened on the evening of March 4 to verify that ZF Is also unable to prove its own inconsistency and both
+ZF and ZFC are inconsistent (in the context of different levels of the replacement schema present). The latter document (from which a proof can be quite easily
+Snlaiser was notarized on March 7), and on March 8 I notatarized the current more polished title — whose title is planned to be similar to the title of
+
+el's        paper.
+
+Given an axiomization of set theory (including ZF), we will use the following notation:
+
+1, INT {s the set of nonesative integers.
+P, is the power set of INT.
+
+& is the power set of Fy
+
+ven any logical language L, the symbo! ENUMz will denote a an injective function from INT into INT that enumerates all the Godel numbers of the
+sentences of L . More precisely, for an integer { EINT, the symbol ENUM 1.(i) will denote the godel number of the i-th sentence in L.
+6. Let a@ denote the godel number some r.e. axiom system, es  e denote an element of Py. The symbol Decipher,,.(i,e) will denote a Boolean value
+that equals TRUE when either ENUM z(i) is an axiom of @ or i € ¢€ . More formally in a context where AxiomSet(a) represents the set of godel
+numbers for a's axioms, Decipherz,a(i,¢) is formally encoded by the formula:
+
+’
+
+4
+
+Decipher, a(i,e) = [ ENUMz(i) € AxfomSet(a) Vv i € € ]                       (4)
+
+6. The symbol [WV] will have its usual meaning of denoting V's godel number.                                                                          ;
+7. The symbol Sedat  will denote the axiom system that is natually associated with Equation (4)’s Decipher function. It will thus contain the axiom
+sentence V iff there exists an integer i such that:
+
+ENUM7(i) = [VY] A_ Decipher, ,(i,e) = TRUE                           (5)
+
+8. The symbol ConsistentSystr,o(e) will denote a Boolean value that equals TRUE if and only if the formalism Systemz,a(e) is consistent.
+9. The symbol CompleteSystz,2(e) will denote a Boolean value that equals TRUE if and only if the formalism Systemz,a(e) is complete (ie. for each
+sentence W , it must be true that either Y or —W is a formal axiomatic sentence belonging to Systemz a(e) -
+
+10. The symbol SupportSet(L,a) will will denote the set of all e satisfying both ConsistentSystz,a(e) and CompleteSystz,.(e) -
+
+11. ZF will be oie i for the godel number for the Zermello Franklin axiom system (without the Axiom of Choice). Its formal structure can be found
+in for example
+
+12. “Choose” yc   $ a function whose domain is P, and which maps each z € Fh onto some e € Py suchthat e € z. The Axiom of Choice implies
+that the function “Choose” exists and thus our nomenclature is well defined.
+
+13. ZFC will be abbreviations for the godel number for the Zermello Franklin axiom system with the Choice axiom added. Without loss in generality, we
+may assume that it contains a special function symbol added to our language for denoting the above “Choose” function. (We do not actually need the
+“Choose” function to have an especially named function symbol in our language, but it makes the notation in our discussion much more convenient.)
+
+14. Combining the notation from the last four items, the symbol Support-ZFC will denote the special degenerate version of Item 10's SupportSet(L,a) where
+a@ now represents the ZFC axiom system and L is ZFC's language. (Thus, it intuitively reperesents the set of all e € Py whose associated axiomatic
+
+sentences are consistent with ZFC.
+15. Likewize, Support-ZF will denote the special degenerate version of Item 10’s SupportSet(L,a) where a represents the ZF axiom system and L
+
+represents its language.
+
+Our immediate goal in the current setion of this paper is to present a diagonalization argurment that will show that ZFC will be able to fomally prove the
+theorem that “Support-ZFC represent the empty element belonging to FP) ". Since Zermello Franklin Set Theory can prove Godel’s Completeness Theorem,
+this will imply that ZFC can prove a theorem declaring its own inconsistency. The analgous result where the ZF axiom system replaces ZFC is sligtly more
+complicatd (and it will therefore be postponed until Section 7277
+
+The presence of the function “Choose” within the system ZFC is not crucial for the theorems proven formally in this section. However, it does simplify
+our notation, and we will therefore often employ it. (The intutive reason the “Choose” function symbol is not formally needed is because the Axiom of Choice
+implies the existence of a technically unnamed semantic object possessing all its features.
+
+To start our construction, we will use the what Mendelson [7] calls the Fixed Point Theorem. This theorem was first     licitly introduced into the logic
+literature by Carnap [7] — although both Carnap and Mendelson describe it as being implicit in Godel’s historic 1931 paper [7]. Its formal statement is given
+below:
+
+Theorem 1 (Godel-Carnap Fixed Point Theorem) Suppose a is an aziom system that makes representable the recursive functions. Then for any uff
+v(z) which is free in only the single variable z , it is possible to consruct o sentence @ such that a can prove the validity of the statement:
+
+¢ @ ¥([¢1)                                                                              (8)
+In order to review how Godel and Carnap would have us construct ¢ from v(z) , we shall use the following notation:
+
+Subst (g, 4) will denote Gddel’s classic substitution formula — which yields TRUE when g is an encoding of a formula and h is an encoding of
+a sentence that replaces all occurrence of free variables In g with a constant representing g's Godel number.
+
+Also, let T({y) denote the following formula:         :
+Vz Subst(y,z) > ¥(z)                                    (7)
+
+Then @ has been defined by the Godel-Carnap construction to be the sentence Y( [¢] ). Mendelson’s textbook [?] provides one example of a very nicely
+formulated proof showing that this particular defintion for the sentence ¢ has the property that the axiom system a can verify Equation (6)’s statement.
+
+Our objective in the current paper {s to employ the Fixed Point Theorem to prove the inconsistency of the axiom systems ZF and ZFC. We will do so
+by using the Fixed Point Theorem to construct two sentences, called Paradox-ZFC and Paradox-ZF, that enable us to formalize non-constructive proofs that
+these two respective systems are inconsistent. The final result of this paper (Theorem 777) will actually consist of a constructive proof of the inconsistency of
+these two systems. However, a very surprising pee of this discourse in this paper is that it will formally need the non-constructive proofs, aged - around
+Paradox-ZFC and Paradox-ZF, as vital intermediate steps to formalize the contstructives contradcition proofs, that will appear in the last stage of this paper.
+
+Definition of Paradox-ZFC. Similar to the Liar's Paradox and its variation that had appeared in Godel’s seminal 1931 paper [7], the sentence Paradox-
+ZFC will be a self-referencing mathematical precept that is built with the help of Theorem 1's Fixed Point Princible. Its analog in Godel’s centenial paper
+consisted of a relatively ‘isle application of the notion of self-reference that consisted of the following sentence:
+
+» There is no proof of this sentence from the axiom system of Peano Arithmetic
+‘The reason that the mathematics literature has awaited essentially 100 years for a proof that ZF and ZFC are inconsistent Is that these proofs will re uire 8
+
+much more complicated form of Fixed Point sentence than the example Godel used in * . Thus, the formal definition of construct Paradox-ZFC appears below,
+vd we shail posptone defining a yet more elaborate version of our evolving paradigm, Called Paradox-ZF, until the next section of this paper.
+
+per     \f Buppore-ZFC ts a nonempty set then the appli        f the f                 ”                          «         y                an
+A                             pplication of the function “Choose” to the domain element “Support-ZFC* produces
+element ¢  € Suppore are Such thane .@ negstion of this sentence Is trug lanier  e's assigninent of truth values to the sontend   2  ke language
+
+Suoo ~~ Ah we o~m Pe- =—   Peas
+
+odin 1        £ weet td         j                            AMES HERSH
+EY
+Notary Public, State of New York
+Qua tina IN Saratoga County
+o. O1HE6172862         \'
+¢                              «             Commssion Expires Sap, 24, 20__
+-
+\
+

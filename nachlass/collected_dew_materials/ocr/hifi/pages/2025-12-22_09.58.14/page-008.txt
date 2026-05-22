@@ -1,0 +1,33 @@
+1 Introduction
+
+This article is a continuation of a series of papers that began with the 1993 article [38] and
+
+So[e- AK4nYy
+continued until and through the year-2021 article [47]. This series, which included stx/papers
+
+appearing in the JSL and APAL, had focused on discussing generalizations and boundary-case
+po47
+
+exceptions for the Second Incompleteness Theorem. The two goals of this paper will be to
+
+explore the underlying philosophy Ce motivated this series and to explain how it is related to
+
+not wl
+several generalizations and Or eos exceptions to the Second Incompleteness Theorem ,
+
+including some important new results formalized by Artemov [3, 4].
+
+Our general theme will be that Hilbert’s year-1900 Second Problem is too complex an issue
+to receive a 1-directional or even 2-directional answer. Instead, it will require a 3-directional
+
+-~—               i
+answer, called the “Tripod Reply” to Hilbert’s question. }7e    mAh}  4a |
+
+.                                                                3
+pn aie fo NEC ol Esivesy Chan
+The first leg of this 3-part response to Hilbert’s Second Problem will rest on the combination
+
+of Gédel’s initial version of his Second Incompleteness Theorem and its numerous generaliza-
+tions. They collectively establish that many logical formalisms, besides Peano Arithmetic (PA),
+
+are unable to corroborate their own consistency in a fully extensive respect. While these gener-

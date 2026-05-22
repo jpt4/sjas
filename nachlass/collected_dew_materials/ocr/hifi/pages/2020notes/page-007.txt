@@ -1,0 +1,31 @@
+“free” variables. Similarly if a Aj formula contains no free variables then it is called
+
+a As sentence.
+
+Lemma 2 Let WV denote any Aj “sentence”. Then the set of axioms appearing
+
+in Table I can prove either VW or 7V.
+
+Proof: I will only sketch the proof of Lemma 2 because it is trivial. Let us call
+a Aj sentence degenerate iff it contains no quantifiers. It is obvious that Lemma
+2 is true for degenerate sentences because I had defined Table I’s axioms so it can
+always determine the truth of any degenerate Aj sentence by an essentially routine
+
+construction.
+
+On the other hand, every non-degenerate Aj sentence can have its truth verified
+by reducing its proof to the examination of a finite number cases, each being a proof
+of a degenerate Aj style theorem. This is because our proof methodology can use
+Lemma 1 to recognize that V x < 7 ®(z) is true if and only if each of the wffs of
+(0), ®(1) ... &(n) are provable, and likewise Jz < 7% (zx) is true if and only if at
+least one of &(0), @(1) ... &(n) are provable. Hence without delving into quite routine
+details, the idea is that each bounded quantifier of range say n will increase the proofs
+length by no more than a multiplicative factor proportional to approximately n’s size.
+
+i)
+
+Example 1.8. It is easiest to appreciate the preceding proof by considering the
+
+example of the following Aj sentence:
+
+Va<nm Jy<mM Vz<7+m   W(x, y, z)       (15)

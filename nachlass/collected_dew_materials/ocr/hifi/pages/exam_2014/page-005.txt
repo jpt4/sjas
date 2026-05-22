@@ -1,0 +1,40 @@
+able to answer the second half of this question, if you don’t know the answer to its first half. This
+question should take you LESS THAN 10 minutes to answer, if you know the correct formula.
+(This is because it involves applying three times a formula whose arithmetic calculation takes only
+
+2 minutes to do, for each of its three applications).
+
+The last two parts of this question will concern Part A’s Separate Chaining methodology.
+These parts are not hard, but they differ from Parts A-D by involving material that I did not
+cover in class. I suggest that you do not spend more than 15 minutes time on Parts E and F and
+not worry if they cause you difficulty. These parts are designed to give you extra credit if you
+have difficulties elsewhere in the test. You will not be penalized if you do not answer Parts E and
+F correctly (assuming the remainder of your test is fine).
+
+E) All hash searches have “two” expected times associated with their search processes because
+the average time to doing a “successful” search (for a key stored in the file) is different from doing
+an “unsuccessful” search (for a key that is not stored in the file). Assume that the B-th address
+has Jg > 1 records stored in its separate chain. Then please tell me what is the expected time to
+do a both successful and an unsuccessful search into this bucket. (Hint: The two quantities are
+trivially easy to calculate, and they are distinctly different numbers. Also, your answer to this
+question should DEFINITELY be NO MORE than 2-5 sentences long. This is because I really
+
+just want to see two formulas that are either correct or incorrect.)
+
+F) Let N denote the number of records stored in your hash file, and S denote its number of
+
+slots. In hash theory the “density” quantity a is the following ratio.
+e= =                                             (1)
+In this notation, please do the following:
+
+F-1 Tell me what is the average amount of time to do a unsuccessful search in a hash file as
+
+function of a. You can assume
+
+1. All bucket-addresses are searched with equal probability
+
+2. If a bucket address has zero records stored in it then it takes one unit of time less to
+search than a bucket containing one key-(a quantity that you should have calculated
+when doing the half of Part-E that involves unsuccessful searches).
+
+5

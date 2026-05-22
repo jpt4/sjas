@@ -1,0 +1,24 @@
+DECIDED NOT TO GIVE THESE QUESTIONS IN 2010
+
+Two Thinking Exercises that You Migh Wish to Try: A Henkin Sentence is a
+sentence (defined with the Fixed Point Theorem) that says “There IS a proof of me from
+Peano Arithmetic.” Note that the Henkin Sentences do differ from Godel Sentences by
+
+replacing the phrase “IS NOT” with “IS”. Here are two thinking questions:
+
+1. It takes only a couple of senteces to explain how one may use Léb’s Theorem to verify
+
+PA can prove the Henking Sentence. What does this short tiny explanation look like?
+
+2. Now here is a harder problem that may take you a day or more to do. Without using
+
+Item 1’s result, prove that PA proves the Henkin sentence.
+
+The second problem is very hard because it took mathematicians 20 years to answer
+Henkin’s open question about whether or not PA proved the Henkin sentence. It is feasible
+for you to answer this question because it involves unpaking my current proof so that it
+proves the Henkin Sentence from first princibles. However, it took me a weekend to do this
+
+seeming straightforward task} and it will also take you some time if you choose to try it ?
+
+42

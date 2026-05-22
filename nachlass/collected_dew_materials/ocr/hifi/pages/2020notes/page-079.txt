@@ -1,0 +1,23 @@
+removing all the S-9 axioms.) In 1985, a JSL paper by Pudlak
+[5] essentially showed that no extension of @Q* could prove its
+
+own consistency.
+
+Comment 3.7. We will discuss the Second Incompleteness
+Theorem in more detail during a second course. Our discussion
+will include the generalizations of it (by myself and others) and
+also partial boundary-case exceptions to it that I have devel-
+
+oped [8, 9, 11].
+
+3.2 Philosophical Comments
+
+Although the Second Incompleteness Theorem is technically
+correct, there is a very deep philosophical question it raises
+— with broad implications for Computer Science and other
+
+disciplines. It is the following question
+
+Why do Human Beings choose to think and cogitate if
+
+40

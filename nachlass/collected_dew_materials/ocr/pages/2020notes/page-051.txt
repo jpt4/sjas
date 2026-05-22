@@ -1,0 +1,21 @@
+=== tesseract (conf=0, chars=0) ===
+
+=== ocrad fallback ===
+o_ a computeri_d languBge traMlatoI - whiLe Bt the same
+tlme they _e _nceptuBlly _ trivi& and _ routine _ _u_ B
+computerlz_ obj_t. o
+
+Lemma 4 rt _ po_J\bJe to Pn_ode a aó Jormula, _l__
+Sub_t(g, h_, that yiel_ a vaJve oJ mP prPc_P_y when (g, h)
+satu__ Ne Jollounng _ndltion:
+The inRger g d_ignat_ an encodlng or a rormula and
+h en_d_ a _enten_identic& to g, _cept th&t &|
+h_ aiabl_ in g _e now repl_ed with the term ð
+(defin_ by Comment L.l's l_t _nt_ce)
+
+Proor Sketch. On_ _ain, the o_ encoding EOT Su_t(g, h)
+ú rout¡ne and omitt_ ror the _ake o[ brevity. I[ you _e inter-
+_t_ in going thTough the details, an&o_ o_ thl_ encodlng can
+be _ound ln many lo_c te_boo_. For iMtance, ltern_ > and IO
+L_
+

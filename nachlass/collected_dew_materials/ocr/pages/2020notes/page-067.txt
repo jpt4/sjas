@@ -1,0 +1,23 @@
+=== tesseract (conf=0, chars=0) ===
+
+=== ocrad fallback ===
+\ Definition 3.2. Tlle a_om __tem PA+ will be defin_ to
+v
+be B minor extension of Pe_o ATlthmetlc (PA) thBt con-
+t_n_ _nction symbol_ _or &l the U-Crounding hnctio_, ln
+addition to the _nction _ymbol_ ror Addition _d MuLtLpli_-
+tion. Thw, PA+ wilL lnclude tlle nlne _om_ _ven in S_tion
+3.1 o_ Mendel_n'_ t_tbook plu_ the 3s a_orn_ llsRd ln Table
+I, defining the U.Grounding hnction_ You _houLd note that.
+
+` l. PA+ r_gni_ the v&ldi_ o_ the PTinclple or lnductlon
+b_auP it includ_ the a_om _cheme S-9 hom page 155 or
+Mende_on's book
+2. The _6 a_oms hom Táblel will cau_e PA+ to be an _en-
+tl&ly trivi& e_e_ion o_ PA, via |_ u_e of the U-GTounding
+hnction symbo_ and thelr natur& implicatioM undeT the
+"S9" inductive s_ema
+,)_
+Fact 3.3 ThP _y polnt ln undentanding Gödel'_ Second
+_9
+

@@ -1,0 +1,9 @@
+ocr/images/
+ocr/scaled/
+ocr/hifi/images/
+ocr/hifi/scaled/
+ocr/ocr-batch.log
+ocr/hifi/ocr-hifi-batch.log
+ocr/hifi/ocr-hifi-batch.pid
+ocr/hifi/.ocr-hifi.lock
+**/*.ocrad

@@ -1,0 +1,28 @@
+Incompleteness Theorem is that Lemma. 5’s proof can be for-
+mally done by the axiom system PA+ (indeed also by PA). This
+
+means that PA+ can prove the following sentence:
+
+** No consistent and regular Aj axiom system a
+
+can prove the sentence U( a ).
+
+The intuitive reason that PA+ can prove ** is that it contains
+the axioms of the Principle of Induction. (The formal verifica-
+tion of. ** via PA+’s inductive methodology is quite routine,
+
+and it is omitted.)
+
+Definition 3.4. The symbol Cons( a ) will denote a IT}
+
+sentence declaring the axiom system a is consistent.
+
+Clarification: Let @ denote the integer that is the Godel
+
+number of the formula that defines the axiom system “a ”.
+
+|    »)  Combining Definition 3.4 with @’s notation, we can now rewrite
+
+|
+
+30

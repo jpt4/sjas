@@ -1,0 +1,37 @@
+1. PA+ recognizes the validity of the Principle of Induction because it includes the
+
+axiom scheme S-9 from page 155 of Mendelson’s book.
+
+2. The 36 axioms from Table-I will cause PA+ to be an essentially trivial exten-
+sion of PA, via its use of the U-Grounding function symbols and their natural
+
+implications under the “S-9” inductive schema.
+
+Fact 3.3 The key point in understanding Gédel’s Second Incompleteness Theorem
+is that Lemma 5’s proof can be formally done by the axiom system PA+ (indeed also
+
+by PA). This means that PA+ can prove the following sentence:
+
+** Noconsistent and regular Aj axiom system a can prove the sentence
+
+U( a ).
+
+The intuitive reason that PA+ can prove +** is that it contains the axioms of
+the Principle of Induction. (The formal verification of ** via PA+’s inductive
+
+methodology is quite routine, and it is omitted.)
+
+Definition 3.4. The symbol Cons( a ) will denote a II} formula declaring the
+
+axiom system a is consistent.
+
+Clarification: Let & denote the integer that is the Godel number of the formula
+that defines the axiom system “ a”. Combining Definition 3.4 with @’s notation,
+we can now rewrite statement ++ as the following essentially equivalent Il; encoded
+
+sentence:
+
+s*« Y@ If @ is a regular Aj axiom system satisfying Cons( @ ) then
+@ cannot prove the sentence U( @ ).
+
+21

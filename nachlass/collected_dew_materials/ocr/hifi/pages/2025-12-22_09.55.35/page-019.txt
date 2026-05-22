@@ -1,0 +1,44 @@
+pothesis of wy (which the remainder of the proof tree will show is impossible
+to hold).
+
+2. The child of this root node consists of an allowed invocation of the Law of the
+
+Excluded Middle of the particular form ¢V -—¢.
+
+3. The relevant Xtab proof tree will next employ the Appendix’s branching rule
+for allowing the two sibling nodes of @ and -@ to descend from Item 2’s
+
+node.
+
+4. Finally, our Xtab proof will insert below (3)’s left sibling node of ¢ a subtree
+that is no longer than a proof for ¢ — wy , and likewise insert a proof for ¢
+below (3)’s right sibling of + @.
+
+The point is that the very last step of the above 4-part proof has a length no
+greater than the sum of the two proof lengths for @ and ¢— w. (This is analogous
+to the proof expansions resulting from a conventional modus ponens operation.) Its
+first three steps will have entirely inconsequential effects that increase the overall
+proof length by no more than a tiny amount, that is proportional to the trivial sum
+of the lengths for the two individual sentences of “ ¢” and “yw”.
+
+Hence, the preceeding “Linear-Sum Effect” allows us to construct an analog of
+Remark 3.5 ’s earlier Theorem ++ for Xtab deduction. It is formalized by the
+statement ©) below:
+
+© Any axiom system A is automatically inconsistent whenever it satisfies the following
+three conditions:
+I. Acan verify Successor is a total function (as Line (1) formalized).
+
+II. Acan prove addition and multiplication (viewed as 3-way relations) satisfy their
+usual associative, commutative, distributive and identity-operator properties.
+
+III. A proves an added theorem (which turns out to be false) affirming its own
+
+consistency when the Xtab deductive apparatus is used.
+
+It is not possible to provide a short proof for statement ©) because it will
+rest upon the very detailed “Definable Cut” machinery from pages 172-174 of the
+
+Hajek-Pudlak textbook [25]. The intuition behind © _ is, however, quite simple.
+
+16

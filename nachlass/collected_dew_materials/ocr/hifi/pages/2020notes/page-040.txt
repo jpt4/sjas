@@ -1,0 +1,33 @@
+proof of U(PA+) , the statements in Equations (37) and (38) are both true.
+Subst( V , K )                        (37)
+
+Prfpar (K , Q )                       (38)
+
+Since Equations (37) and (38) represent logically valid Aj formulae, it follows from
+
+Lemma 2 that both these sentences are provable from PA+ .
+
+rei point is that it is trivial to verify that the conjunction of Equations (37)
+and (38) implies Equation (36) is false. Hence since PA+ can prove (37) and (38),
+it must be able to prove — U(PA+) , because = U(PA+)’s proof is constructed
+from the proofs of (37) and (38) via an entirely routine expansion of these other two
+
+proofs.
+
+Homework Problem: Suppose that p; and p2 are proofs of the Aj sentences
+in Equations (37) and (38). Finish the last paragraph of the above proof by showing
+how to construct from p, and p2 a third proof, called say p3, of the sentence
+
+1 U(PA+) .
+
+Added Remark. I will repeat a comment that was made on Page 1. You are
+the first class to receive these lecture notes. Therefore, I ask you to let me know
+what typos you have found and which points confuse you? For example, if I did not
+carefully define some construct that you wish to understand, please let me know what
+
+it is 7
+These lecture notes will be improved by your feedback.
+
+Vow  PAK
+
+38

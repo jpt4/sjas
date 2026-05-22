@@ -1,0 +1,35 @@
+Definition 2.4. A Aj axiom system a_ will be called Regular iff it either
+includes all Table I’s axioms or at least can prove all Table I’s axioms as theorems.
+(The latter condition is as good as containing Table I’s axioms because after proving
+Table I’s 36 statements, a can use them as if they were axioms during the proof of
+
+any other theorem.)
+
+Lemma 5 Suppose that a is a Regular Aj aziom system that is consistent.
+
+Then a must be unable to prove the sentence U(a) .
+
+Proof: For the sake of constructing a proof-by-contradiction, let us assume that
+Lemma 5 was false and therefore that Q represented a proof of U(a) from the
+axiom system a. Let K denote U(a) ’s Gédel number. Then by definition, the
+
+statements in Equations (24) and (25) are both true.
+Subst( N , K )                        (24)
+
+Prfa(K,Q)              (25)
+
+Since Equations (24) and (25) represent logically valid Aj formulae, it follows from
+
+Lemma 2 that both these sentences are provable from a.
+
+The next point is that it is trivial to verify that the conjunction of Equations (24)
+and (25) implies Equation (23) is false. Hence since a@ can prove (24) and (25), it
+
+must be able to prove — U(a) . (This is easy to prove as a homework exercise.)
+
+Next, we recall that the opening paragraph of our proof-by-contradiction had
+entertained the temporary assumption that a@ could prove U(a) . Hence from the
+
+last sentence of the prior paragraph, we conclude that a would then be inconsistent,
+
+14

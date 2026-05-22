@@ -1,0 +1,665 @@
+=== Page 1 ===
+Recording of Scientific Notes Notarized by Dan E. Willard on May10, 2  1]
+
+inncern  Lesh g bea
+
+proof of P yi NP will certainly be noa-trivial.                        are to dlesever how [37]'s faitial 1993 fermaliam for generating quite          te
+Ot rreee oe the Seced Incemplerncne Thosteis eat bets thus  taten va 214 Jorcof ef PNB. A alea sepert of this proef le that ft le meek Seale 6 orcad   Sp
+Kindsight than fn foresight (where one begine with a fall bad olor that mill nevetibiy cance many falee turns te be made), This la because thare are me                            f        C
+the roadway towards proving P vt NP. that can be avelded, with gaed healthy retreopective advice.                                                  some eamnlnal            ote alae
+
+Osr formal preef of P yt NP wilt appear In Sections 177-717, Tha oezt thres sections     explain how eur core methedelegics are related 1                              ‘s
+Selovay, Nelnca and Wilkle-Parle [37, 32, 33, 36), along oth cost sy tog mock by Duss-lgnlatevie and Svejdar [6, 33].                            ad Jacompl         by Peay
+Their results eotablich that logical axlom systete th orme telated cratsle deductive mathode, obey mard pawerful generalisations of the Seco!     ‘ewe tte            "
+traditional Cree!   Fes ons ot che erent, developped Uy tubers-Beraary on Lab [15, 22]. The appreciation of the importance of the seminal ebser              by Palin tise lhe
+
+w                                   tape                          ”       i                                                                                        side by pm
+
+wentee note  cf re flalebod om Mer 3, 30 14, Tet met A pl hat pinyi0 becacse my Wellle paper was accepted om May 2 (and rewrting It required my sttentlon),           Storey,
+
+NEW Satie’                                                                             -                                                                           t
+
+reagheut thle article, @ will denote a rece:                            opreper aslome”, and 4 will denote a ded ctlee            eed for deriving theorems froma, s
+
+lectu de conte Puies of Inferonces (08h aa modus pousechlZ enemerable $4! coma “gical asloms", denoted a4 Lg, that we consider te be past of die infrestructer® rather thee S48 trey
+(Thle seamingly miner notational relat, which views 1             the deduction matbed 4  meticulously Seperated from the eet of p       aziome a, shall sm nikon mn      frat     7
+(op eeeat, We therefore emp        hel by the aaron g ta past of she Ue Caree will always be referring to m set of propor acieate thst fo, acvematieallY.         orien fed
+axioms.)
+
+Exarnpte 0.1 The deduction methode d, thay we witl use, are quit conventional. They can, for instance, correspond to the       Jigme that were word int
+ean              J
+
+na tezthent
+Mendsiees or Popedimitrion (7, 7, T]. Thea,              -                                                                                                                     eres
+
+"a 6-part set of Ingical                     a ase rule of laf                                ff
+*  vee pedimitiien'e ‘embeck " Suamented by solely modus Penee                  erence, when ese wees [7] a5 « framework to define Lg: (This framewny, 8 thee ny
+
+2. Mendelson's framework [7], which bas we taference rales of modus ponene and generalisation, aad which would have Ly include the five pure logical eee Aas
+eetleg
+
+2.3 of [7]) ples the two equallty axioms AG AT (defined In [te Seation 2.8).
+
+the ti      Hilvert                                              bodelogy that lecludes
+In geocral, we will woe the term           Deduction te refer ie ® deduces WP com employ eccentiall ergo ponese rails and whose efficiency differs from the above wy
+
+a0 more thas « pel           jersaoe Ie proef len          proof                                                    le deductive method      will focus our stteateg  Abra ea
+HA paradigme for th                icity beea       igth, Our       pest knows t                 ee of reade:     ‘The    t                                 ed properties of     yon
+probably be found Im the HlAJek- Padlak teatbeot Tray tyrine mere eavaneed               UU mot be waed desing ovr procf ef ieee more naveee                Bae Sion Vg
+}                                                                                                                                     log
+
+Memark 0.2 Some deductii        hods                                     where they possesa the same
+teas efficient In the worst ease. This eetegery intt a noa-Hilbert caleser?: "ood reasletion methods,
+(echaiques produce, often, goed beuriaticn te encvaee                  tance, [37, 40, 48, 40] estrate how tables
+a Hmited (but real) waderstanding of their      meg                        lala how humans motivate themselves to
+eapecition of nelf-justifying logics, but they aa pet ba aaa             roof of P ¥ NP. For simplicity,
+
+Eaample 0.1.
+AEMOVE Thue happily, this second lengthy group of articles, pabllabed by ue can be Cally Ignored by a reader whe wishes te focws mostly on our proof of F # NP.)
+
+Deflaition 0.3 Once again,                                apd @ denotes deduction method. The ordered pair (a, d) will be called Self Justifying when:
+
+let a demote an axiom aystem,
+
+4 ene of o's theorems (or at lanst one of ite axieme) will state thet the deduation method d, applied te the system a, will produce = coasistent set ef theorems, and
+HL the axiom eystem @ is im fact consistent.
+
+Example 0.4 For aay (=, 4), It le cacy to conctrect « system at 2 @ that satlefies the Part-{ condition. Per instance, o4 could consist of all Of 0 axioms pins as  dded
+“Selffefle,d)" sestence, defi     as stating:
+
+© There le we proof (using d's deduction method) of 0 = 1 from the union of the axiom aystem a with this ecatence “SelfRef(a, 4)” (looking at itself).
+
+Kleene    disewaned bow to cacode approximate analogs of thie “SelfMel(a, 4)” statement, Each of Kleene, Rogers and Jeroslow [17, 20, 16] noted at may, howsvar, bs ineossiatent (de
+
+Sommers aye ‘ceertioa), thee causing It te vielole        of self-jestification’s definition, This In because if the or       pair Ta! Fj in tee strong thea = Classic Cidel use foceeteninn
+argument cas be applied to the axiom systema!t = a+ Sel     ‘a, d), where the added praseace of tha statement Se!      ‘a, d) causes thie extended versioe of © ta evnically become
+avternetically inconsistent. Thus, the machinery of the sentence “Selffef(a, 2)", while relatively easy to encode via an application of the Fixed Poiet Theorem, ie irewically mast sfc wlan!
+
+We are now ready to explain the intution that has motivated evr 21+ year quest Lo arrive at = proof of P ¥ NP, via the employment of ealf-justifying axiom systems, k wes that the fisal
+three italicioed words ba the preceding paragraph(e.g. the phrese “mest often perenne mothing other thas exactly what they suggest. Thus, our geal hae bees te cramine, is meticeloss
+detail, the tiny clase of beundary-cose formaliome that evade the typleal reach of      lel's Second laceompletences Theorem, with the objective of flading © mens te opply some onc of theor
+formaliome to demessirate F ¥ NP.
+
+Pes the cake of clarity, ear proof of P yt NP will ukimately be a theorem preven by a fully classical logie, wheee correctaess is beyoad doubt. The reneoe for ovr isterent is sosclescica!
+fagica, that evade the Seceed Lacompletences Theorem, is that these strange-looking eatitics will be a useful intermediate atep to examine durisg eur proof of P 4 np
+
+Hence, our proof of Ff NP will be arrived b:  guploring how fully classical (and unceatreversial) logice view unueual self-juctifying logice a0 = simplifying belpte) intermediate step.
+
+NEw Sansone Tale The Combined Work of Pollak,    en Levee Scuny,    a          t            wed          A    -      tem @ will be sia
+
+Threughest 1! artic!   e.y.    wlt(a, a. ®.  denote  e  Predicate eymbols «;   =.  =a  aey = 8. Awe axiom sy0  e   said te
+eecernety dition tnd menipliociies ce total Poassions if it (neladae 1-3 aa axloma,        ya Sesertne et ¥              id                                       rewogniee
+
+Ysa
+va Vy 3.
+VeVy 3s iM           2                                                                                             3)
+Also, on axiom eysicm © will be called Type-M iff it coatsine (1) — (3) as axioma, Type-A iff it contains only (1) and (2) a asioms, and Type-S iff it contains only (1) os an axiom.
+Mareorer, « wil be called Type-NS iff it contains none of these axioms.
+
+Ouse initio} paper [37] abot cclf-justification lavelved Type-A logics that cam formalize their own consistency under semantic tableaux deduction. Shortly after wy published this resek,
+Rebert Selevny telephoned us, in April of 1994, Indicating he knew bow to strengthen o variant of the Second Incompictences Theorem due to Pavel Pudlésk [27], with additional techaiqees
+developed by Nelese and Wilkie-Paris [35, 23], te show     ne reascaable Type-S axiom system (that treata Addition asd Multiplication ae 3-way relations) can verify ae own Hilbert
+mmacistonsy. This reset, cummarined by Theorem 3.1, improves upes Besborvah-Shepherdson'’s earlier work in [3].
+
+‘Theorem 3.1 (Selevay’s 1994 modification [32] of Pudlsk's 1985 fermaliom [27] using the added methedslegies of Nelsos and Wilkie-Paria [23, 35]) Let = denote ony wramstcat
+Towed sprees this ces coy ebdidion and mulnplioniion selafy their urval associative, eommvstative, distributios and identity avioms. Then @ eannet prove o theorem affirming ts own erunaiency
+wader ang of Beemple 01's forms af Hidtert-styla deduction.
+
+We will sever was Theorem 3.) during our proof of Pf NP. Ka Importance In achieving this result cannot, however, be understated. This is becavac Theorem 3.1 isdicate that only
+Type-S arithmectica are placeibly capable of verifying thelr ews Hilbert eoncistency.
+
+Uh thee indicates any hope in sving calf-justifying logics te prove P yt NP must center around the deunting propertiae of astonishingly weak Type-NS systems. (I have ov dewbs thet my
+214 yeas Alert to prove P PMP would bare taken more then roughly — gigsie, giggle — say 210+ years — if was aot aware of Theorem 3.1's crucial wegative retalt aad the tay clas of
+TypeWS boundary-cans execpiions to the Secoad Incompleiances Thearem that it implicitly permite. )
+
+SOME RELEVANT BACKGOUND INFORMATION Ose cortalaly aclestle sepect of Theorem 3.1 (e thet there is currently ne available published preef of its statement.
+whet had transpired was I published ta 1903 a proof that relatively rich Type-A logics can verify their own consistency under semantic tableaux and reseloution forme of dadu
+pee pe Sclovay subsequently telephoned me in April of 1994 [32] to tell me that he knew how to generalise a theorem of Pudlék to shew that = variaat of Theorem 3.1 would pertain to Hilbert
+
+<< Selovey wee reaching the oon here   Dovbaiey   would woot bin o very Jeazative sosly retirement ia 1994. He showed neo interest in writing up ene bop a1" rs radiss mers
+ve minutos discusaieg       matter (together        ag ment    tenes email, outlining the core aspecte of his faccinating methodology) oad suggesting I read the
+taoulte by Padlék, Nelsse ond Witkle-Pasie (27, 23, 35).
+
+Ja @ 2008 blog, Richard Liptes (21) bas indicated   't Selewny was always reluctant te write ep the     of hic reeults. For tnstance, thie blog reporta Selevay wus the caly mstlemshoos
+be ever recieve towere irom Berbeley’s       Depertment belore be published a single paper.  Also, man:      cians (8, 13, 18, 25, 27, 28, 33, 34, 35] have commented about Selevey’s unusaal
+reluctance to publich many resake be derived, asclogwus to Theerem 3.1, that      lame have greatly valued.
+
+Thes ot the ouggastiwe of os sucnymevs referee, our fret JSL article |    imaluded a deliberately abbreviated 4-page Appendix A that formalized « slightly wuakw but-mere-cosily
+somprebencible variant of Thewem 3.1. Other lasighiful reeulis, pertially but act fully enclegeus to Theorem J.J, were published by Duse-Igajatovic, Svejdar asd ourselves is [3, 33, 43]. Ales,
+Podlék's initial paper [27] comes very chess te sctablishiag Theorem §.1's result. Furthermore, Pudldk epecifics in [28] that come alsc-enpublished work by Harvey Fredmas |@] rans in some
+Partially bet-act fully analogous dires       to Pudisk's work on proof leagthe.
+
+Is aay case, the render will be hoppily relieved to lease our proof of fF yf NP will never we the formaliom of the mysterious Theorem 3.1, lying im as analog of the abso “Neverland”
+
+fron @ “Peter Pan® sovel by J, MM. Darrie, 20 am Intermediate stop. Instead, the sole function of thle aeverpeblished theorem ie le serve as 0 si    about what stapes o proof of P # NP mart
+
+yt         This le becouse thare are ae examples of viable Type-S logics that verify tbelr Hilbert otyle concletency. Our preof of P ¥ NP will thus use Theorems 3.1 as 0 beacon, signaling that only
+os coneyin  weak Type-WS fermaliome con ploasibly support a proel of P yf NP, vie self-justifying Togice, (De.   thie weeful guiding hiet, eer preof of FP # NP will net ves Theorem 3.1's
+Opec       7
+
+NEw sant Tale Coming Started                                                                                                                                                               a        ;           a
+we Fast two papers shout oalf-justify)     hom eyotoms      the evafers:            37, 56] wheee uacoaveational results were thankfully readily accepted      tepactive eames
+editere ft Getiicn, Lonech k Mesdect nad Doane h Basen The foranar poper T31y erated      relatively strong axlow systema that sat       Equation (2)'s TypeA requirement could
+Pr 4) Up coukd be antennae donciotency, The letter article (84) ladicated some Type-NS systems could sorrcberaia their eum Hilbert consistency and opeelaied whether a proot of
+od            ore                 pod-wp version of these         *                                                                                                        °
+Sections 7-10 of joni rietiy outlined the eppresimate reaseas for [38}'s core conjecture, The 18 youre that had separated the years 1996 from 2014 sbviously indicates that much
+to avmplete this task,
+
+DA
+
+ese werk wee
+
+herman Sc
+No. 03S8H6181014
+‘nary Pubjic, State of New Yort+
+ualified in Albany County
+umissior: *xpires 01/22/26
+
+=== Page 2 ===
+_
+te         “
+pone e ea
+
+he                                                  , varianta of Ty,
+ing,      ‘rna out that th:        many differsne vei           PONS arte)                                                            Hilbert consistency. It was not watil
+Uerphe coe te [07] tom veradons of Type-NS At Seouncemanns iets siuene bog weet cam cam urity afferent forms Ch atproct of Pw WP. ‘The remaladst ofthis aection’spy 2008 Must we wold
+Sharh dincourey the term SISMOCPTS"anable wa gli™ wth roy’ pinttiel lnterety but Soly [Gs eco systema tom Deialtion 0 aad Baample ST REE MMP ot
+|         let to         of our self-.                                             a
+ee oe eon   seiner, Meefal remit? look wi teelf end declare that “f am consistent’, It is, convenient to have such “Introspective fom bert   ‘eyetema
+Bamer of SCbtext where A ie an {altial axlO™ Sra NS salt jaine St least th,                 { Peano Arithmetic (PA), the two main variants of iatos
+°               *, Both were               wa tify,         @ logical power o!                        .
+CE(8)" and “ISINF(S)         7                         i
+
+) and Mul       2g formal             Id recognise thel       Hilbert conelatency and also prove al!  the Thy dees ftom [47] eartied the
+
+s          ult                                                     eir own                                                                                       eo
+
+© caper iEbtly modified language where Ada(73 5,             { »2) Tepreatat Srey pecdicatss symbols that formalise addition and multiplication. The remainder of thiestchjan will affer
+
+Pearmaxtme 7 of ISCE(A)'s aad ISIN!        Aion (1)        Iscuse [47]"s related generalisation of the Second Incompletancss Theorem, which demonstrates that thang two formaliams
+Equation     ‘a
+
+The formate,                          al
+*ym!          eliem 15)        hall avoid wales        tive f       3 axiom                             {    total function, by imsteed employing am infinite mumbe               tant
+ele Con Oy, Ca, Ca Tor defining the eet Of POSTITS Ustegery, Ae constant symbole Coe and Cy, will represent the integers of 0 aad 1. Each other Cy will be datend to represent
+
+d vin essen}
+be man formally ag 8" “Additive Naming Conventien™ Indicating C4, = Cy + Oy. Since ISCE(f) techaleally dows pot contain an
+Cy41                    “Pom walang Equation (4)'s S-way addition predicate symbol:
+
+properties an,
+
+the
+Reaattty 23-1 | These integers will
+‘ve fumction symbol, ita definition of
+
+Add (Oj, Cy, Cz41)                                                                                    (4)
+
+bol "Cz
+buds will assume the “name” of the built-in constant nats a ff ‘ 's encoded waing O[ Log(j +2) ] bite, The advantage of using an “additive naming comveation", which assigns names to oaly
+‘“Ccre which are powers of 2, ia that its methodeto a function aymptr®, that the powers of 2 have Integer names that are shorter than the Jengthe of thelr binary encodings.
+as  Simce the ISCE(A) aystemn will coatain © Mearly define any {ater {OF teprenenting Integer-subtraction as a total function (where = — y is defined to be equal to sero when = <¥ );
+Mation (4) additive naming convention Can   te (atl. Th uses an f8* that is not a power of 2. For inetance since 10 = 16—4—2, the Integer 10 can be represented as “Cg — Cat C1";
+Scr As tttalled definition of ISCR(A) le provided im Uh OU ike Be analog of Example 0.4's "SelfRaf axiomatic sentence to corroborate its ows coasistency. The Theorem 3 of [47] indicated
+CEA) te w self-juctifying fermaliam that verifies                 Semelatency, In essence, ISCE(f) evades the Pudidk-Solovay variant of the Second Incompletencss Theerem because it iso
+
+TYPeNS aystem. At the same time, the Theorem 4 frow [47] demonstrated that if one used an alternate paming comveation, where aay Cf equale  g2-? nen 37> 2, then the force of
+s                         3                        22,
+
+the Seoead lncompleteaces Theorem weald return, even though the 204 formation is          erithm                   47]'e generalisation of the Second Incompletencss Th       will apply to
+OWltinge where eae replaces Equation (4)'s additive aaming Convention with (Bye settilaticctioe Naa particulars ee                                                re
+
+Mult (Cf. CF. CF4,)                                                                          (3)
+
+Tt Lures owt that if a reader wishes te glance at our article [47], them he can afford to entirely omit Ite Section § and Theorems 4 kc 5. This ie because the latter, unlike [47]'e Theorem 3,
+are warelated to the preef of P # NP. Indeed, 1 would recommend that readers, interested in maloly NP's characterisation, intially emit [47]'s Section & and its Theorema 4 & 5 because the
+latter involve @ complicated proof that fe ultim:  ely unrelated to NP‘s fundamental properties,
+
+A peculiar aspect of [47] in that it doce ematain ons other result, that we recently discovered to be crucial for proving P yt NP , although we previously presumed Theorem 6 was too
+specialived for it te have much significance. Ite awkward-but-useful formaliom involves the followlag definition:
+
+Definition 0.5 Let us assume that @ ie an aziom system that comtaine » Predecessor function eymbol, where Pred(s) = Min(# — 1,0), as well as contains a constant symbol Cy for
+Cepresenting the value “1". Also, let Predd (w) dencte « functional operation that consists of j iterations of auch « predecessor function (c.g. this notation implica that & is the     que integer
+
+Chat eatiafies the identity Pred*—1(b) © Cy ). Then a will be seid te possess Infinte Far Resch iff there existe some finite rubect of ae eet of proper axioms, called         ch that for
+wraty tntegee Lh Trees epclecem 7 ts dapableiet proving (0)'s Invariant (that inteltively atatec the Integer auentiiy & docs oeiat).                      per axioms, called say 7,
+
+ae Pred*—'a) = Cy                                           \   (6)
+
+The Theorem 6 of {7} shows it ia possible te eoastruct awkward-but-viable cel!       ifying arithmetics with infinite far reach that are copeble ef corroborating their own Hilbert consistency
+and proving the validity of all of Peane Arithmeties 1, theorems, using again « slightly modified language that treate eddition and multiplications as 3-way relations (rather than as function
+primitives). Im particular, [47]'e ISINF fermeliom cam achieve this property without violating the Pudiék-Solovey version ef the Second Incompletenses Theorem because it is a Type-NS
+farmalicen, formally ines;       of verifying any of the operations of Successor, Addition or Multiplication are total fusctioas. Moreover, thie “ISINF” clase of formalisms has a fundamentally
+different anatomy fren [47]‘s alternate “ISCE™ variant of oclf-justifying logice because the latter veces an infinite number of different instances of the axiom scheme (4) to construct the full
+infinite range of integers.
+
+‘Thus chile many eapest of [47] “ISINF~ style fermaliam are awkward and super-impractical (due to the unwieldy long proofs it preduces), thie framework differs from the alternative
+ISCE mechaniam by, at least, showing that scif-justifying axiom systems with Infinite Far Reach are theoretically capable of confirming their own Hilbert consistency.
+
+The intuition      ind ovr proof of P yt NP le that we noticed that If this invariant was falee then « hybridisation of the ISCE and ISINF frameworks will produce = eontradiation (showing
+
+that the invariant P = NP casnot possibly held). In particular assuming thet thera is available ac algorithm a that cas solve leagth—= SAT problems on = Turing machine in sey n°
+Lime, ons cam apply the ordared pals (a,b) to develop twe types of eclf-justifying axiom systems, called “Is.Bulky” and “Is.Super.Bulky”, that are natural hybrids of the ISCE aad ISINF
+frameworks, with the         ing pleasing combination of propertice:
+
+1. A meturel Gemalication of the techniques, weed to prove [47]'s Theoreme 3 aod 6, will imply that both Je.Bulky and Is.Super.Bulky are efficent and consistent, when one usce the ordered
+pair (a,b) to comstruct the axiomatic inpst 6 for our Is.Bulky and le.Super.Bulky frameworks.
+
+11. fm contrast to Item 1's positive result, a generalisation of Godel-style diagosalisatos argument will imply both of ls.Bulky and Is. Super.Bulky are inceasistent (esecatially because they
+are tee officieat to escape the reach of the Second Jacompletences Theorem).
+
+Our        of P ¢ NP will emecutially rest om the fact that Jtems I aad II are incompatible with each other whenever aA ordered pair (e, 6) formally represents » polynomial solution for SAT
+pat pote (We will, thus, derive the rassht P ¥ NP, via « preof by ceatrediction, that shows as ordered pair (0,6) would otherwise produce two incompatible results.
+
+Cheerful News about Misleeding Mirage: As earlier section of this article indicated that there existed several types of mirages, which would tead to make most computer researchers
+and logiciane overlook the essence of the proof of F yf NP. Some cheerful news, that will be sow revealed, is that our proef of P ¥ NP becomes much easier to conceptualise, intuitively,
+whee one fe aware of tore mirages that con be initially quite misleading.
+
+‘The first mirage concerns the question about whether Cddel's Sesond Iscompleteness Theorem Is 100 % rather than 99 % ubiquituous, when it describes the inability of formalisms
+te receguise theis own cuasistency. A theme of our rescach is [37]-[49] is that the the Second Incompletencss Theorem is obviously 100 % technically correct, as well as 100 % germanc
+to conventions! mathematical paradigms. Hewever, ovr reocarch perspective has been that seemingly tiny 1 % categories of boundary-case exceptions cam be helpful ia solving many open
+
+uastions, iacludiag P ¥ NF.
+=     REMOVE — pall we view the tiny 1 % category of boundery-case exceptions as also revealing. Ja o seuse the same passion to examine that fine! sccmingly miniscule tiny remaining 1 %
+categery of possibilities, thet led to the Predmas-Willard Pusion Trees at the 1990 STOC end FOCS conferences (7, 7}, will now lead to a proof of P # NP.
+
+‘The second surprising mirage alee caught this author off guard. It concerns [47]'e “ISINP™ axiomatic framework, which our APAL-2006 paper had called “awkward™ and “artificial”.
+These adjectives accurately characterise “ISINF, One might even, actually, harebly add that ISINF is se fully inefficient ond porely ortificial in ita defining structure that one con confidently predict
+THAT IT 1S INCAPABLE of ever producing ony wacquivesally poodiive result,
+
+Swch italicised and beld-faced wards, which I corteialy did mot dare insert Sato [47]’e published text, are, technically, accurate. Yet in April of 2014, I discovered, that they were alee a
+miregce! Thie is because the statement “P xf NP” le a megetive assertion, dlocussing the inability of polynomial time algerithms to simulate a mon-detarmiaistic Turing machine. The latter class
+of arcgetivict otatements have quite different anstomias and logical propartion than peritive-ctyled theoremal
+
+Thus although JSINP’s anatomy is unlikely to produce any ussful strictly positive results, it ie a useful vehicle in a proof by contradiction, which shows that a hybridisation of the ISINF
+ead ISCE frameworks makes it impossible for P = NP te held (.¢, ove Stems | & Sl ea the prior page).
+
+(vie the 2p-est argument thet was roughly summarised by the Items J ond 11, carlier in thie section).
+Hd    acwitination of Ste ‘ efficie  7 1    ber with prokibitl
+han)   the               tem i'e         reoulte,     rt     4!        ju    L                                           that ci
+5   ly PYUNP oc aay       rik   finery fig     » together wi            ene Imposed by the lacompletesess Theorem will imply    t either and both of the
+44423
+Por any (a, 4), it le easy to construct a system a! 2 @ that satlefies the Part-| condition. For Instance, a! could coseist of all of a's axioms plus an added “Selfflefla,d)" sentence,
+
+dcfined as stati                                                                                                                                        .
+
+Od ebotret This article will confirm the validity of Cook's seminal P yt NP conjecture, «  ka whose fovndetional implications hove been discussed alse by Karp and Levin. We had   ‘estured
+
+Dimace Workshop, co-cheired by Sem Buss ond Poul Besme, thet « proof of P fp NP covld be ob    a          ‘               ‘    soati                        ot a 1890
+
+2       pr co-choiel ba      r                     vel         Sey    tained by somehow hybridising the mechanics of Gadel Diegenakisation Arguments with those of the wn:    boundary case
+
+The shove conjacture was, of covres, covaterrintwitive becouse Gédel's First Incompletances Thaores (which asserts the iaherrat undecideblity of conventional arthmehic) end his Second Incempletenaas Theerem
+(ubich establishes the inability of erarentional| te aonfirm their owe avasistensy) 74 beth haves, to be concconsly robust ent rarthent tein rusnlls: Hewcecr alter researching Us lopic during the Lanesreeticity S17
+yoors (ond publishing ois pepere shout i i  ria that separate the sostoaply intacle bul cengt Lotish ws have sow, Analy, devslopad « method te demonstrate P NP by means 9 « rroat-bec  ition that
+cuploits the inherent te and divergent prope  seperate the seemingly eniniecule- ut-valid boundary case eaceptions for Gidal's Second Incomplatencss Theorem sophisiticated g  i of Gédelotyls
+
+dagenalisetion arguments.
+5 0 yr Hecrerne wil premuone thes the reader hes 9 eviTishent haowladge about Mathematical Leste ts wnderstand the mania themes in of east ons of tha gradaste-level textbooks by say Baderten, Mendelson or Papadimitrien
+* NEW Section's Title HEED
+
+Throughout this erticle, o     mote on axiom system, and d will demote @ deduction method Ay ordered pair (a, d) will be called Self Justifying when:
+
+i  ens of ws thaarems will stole that the deduction methed d, syplicd te the eystem a,
+
+wily
+a aven    ‘a ctetasl jane ah   .                 reduce © consistent set of thsorems, ond
+
+a
+fe construct « sysiem       thet satisfies the Pert-i conditi:
+For ony (2, 4)¢ it te ancy         .      a Qe             Pertl condition. For jas, at         ss      J oo ‘a asioms ps on added “SelfRafla, a)" scatence, defined as stating:
+
+7
+
+=== Page 3 ===
+-  There is we proaf fering d's deduction method) 0f 0 1 from the enien of Ue eriom eretem a with IND sentence og          4 at steel)
+Uefa, a) > (lookin     i
+
+Ke        be                                                            statement Bech of Kleene, Rogers  nd
+
+Paha ie rieitee Roe poten dy  oh ie “Selena, 4)”     rer ria   O14 Jered 1%, 29, sey ato? mop, however, be &      (derplta SRR @, 2)"* assertion),
+
+bg, Tie Treble eriene bn cette me en Eaen, Cadal's paradigm, where & ee Sch raelt formelioes a ene  "8 arg       where the Second Jncom,         does generelise [1
+. 10, 12, 18, 13, 18, 18, $8, 2,    r, £8, 89, 7, 38, 93, 7, 95, 41, 43, 48h                   Peredigm whare cy nat setting? "nfossthls, dua to @   pictenaes Theorem 10% §    ene fie % 3, 4,
+
+Mevitated te employ a SeRafla, d) esiom because x! me xt SelRafex, d) is tyPically Inconsistent,                       Valente ©                        “                       _
+
+1
+
+/
+Our revearch explored epeciel circumstances [{8, 45, 46, 47] where it is foardle te conatonct oclf-tuotifying formeioms,
+witiplioation (te evvid the preesding difficulties). Te be more    ‘d4(a, 3,2) and Mult(o,y, 8) d.    These   jncctvod weakening the properties     revs about eddition ond
+Tarenlory wadhton tod wretiplcation ae Total Puen e ETc ied ae actome,      nee? mete (00 S009 predic net ym eedee we. Tes lagi will be sald to reeegealcn,
+
+Ve3s Add(s,1, 5)
+
+VeVy 2s Add
+«    Va Vy as  Meaney                                                                             a
+.                                          .                TyPeA Uf it conteins only (1,
+7 Logia epetere Sree aston kit agen Sad baer yy  a   (3) oe rimiained by items (a) and (0):    (1) ond (2) at evioms, 0nd Types iff it contains only (1) 4s on aniom Abo « system is called Type-NS i
+
+.          ;                                                       sistency wader semanti« tabicaus deduation, whe provi                         ithmetic                       Wghthy different Language,
+«   apnoea Pile 37 en oo wpe Hirpterhenint gery eT Sef tema cum Ithewina recognine thet Soret slope of all Peame Arith    ‘0 Ty theorems (im « ol    different language), was
+demenst:                                     opeich                                                             eoncistenct-
+
+b, The above ewariens of the Second Incempictenses Theorem are knows #6 be neernmanimal in @ mathematical sense,  This te                                                                       Peri (23, 37,
+:                                                                     4 Willard oubsequently (41, 48,                becouse the armbined werk of Pudiéh, Solevey, Naleon and Wilkis-:         I, 7, 92, 36)
+implied ne naturel Type-S eystem cau recoguisa its Milbert consist:              iy {41,   49) babridisad          .        ‘i       te
+‘Type-M eystems cannst resegnize their own semantic tableaus consistency:                                                  their formakoms with some tachniques of Ademewics Zhicrobd [1, 2] te cetablish thet most
+
+.               oi
+An intereotong expect of (a) ond (0) & thet there is a tight match betwern cir poriticg and negative revs from               ine, but they do not reach one’s idealined goals for deduction. This is because
+
+© TOnNletine
+there ie comething about the darp yearnings of deductive reasoning, rowpNy rusresied by Milert (6 oe and GSdel i 0, Which has net pron mtarrosed, This remaining pap will be explored by our Theorems TT, PP, 7? ond
+
+preced          identify all the                                                                                 ;
+Cédel's Incompletences Theorem is a Epert result. its first half indicates 80               berteliracee       fy       tre state,          ithmetic. Ite Second Incompletences Theorem specifics sufficiently stron,
+eretems cannot veryy their own consistency. Gidel was careful to insert Une following onveet inte his historic paper [10], indicating « greg fn of Hubert’s Consistency Program conid te seccexeful:                     :
+
+Theorem) re,     ents n            ie
+=: “Tt must be copresety noted that Proposition XI (e.g. the Seoond Incemplatencss              pres      2 contradiction              cotig standpetnt of Milbert. Por thi       tpemmt       ppeces onl;
+the exwicace of « consistency proof by finile means, and there might conceivably be finite proofs which cannot be stated in Pie forme). mad                   merece       beta             ”
+
+Yowrgran has summarised, in detesl Gidel's considerations aboot this eubject, Ther [36] indicated that ‘Jor several years after [10I's pega coss     Sdel “was cavtious net to        © whether soma unusust     kien,
+diferent from Poane ATi       vaigAt prowide come type of pree] of ite own conrislency.                                            peiteasion,                          sia alla           See
+OLDER NOTES 18 NOTES
+On Teesday March 19 while going to Dr. Eeltuer's office, I corrected my old proof of the Pudalk conjecture te make it work. { als          ible, albeit not kikely, thet it could      pres,     k's conjectere.
+Vn ne Fog apn hl ape vk nas ie gee ses i Ut sf a Cae er ce fo Pa A Se ft Sy
+the forma 2PUi) where P(i) iso polnemial of &) Thus niches my old paper about Pudlak's conjecture about generalized Atjel             ‘      roth call ©      ~               thet
+values of F{i) wll bee Nompletetly, Seneroreet Lay of sara taba ollie Sstblesas, ak Gites Foro a which f will hencefe         jepaque™ fuctions. A fraction     fell defines aif
+IR & beet te prove Pudish’s conjerture by using « modifi              a  on,   we for            led Middl
+be reduend to this formahers wih no tore than a Peipnerial growsh én proal Length, hat should actually be linear in mect cance, For tachoe Lo of zctats Male Je Be seed at suiome, All ether ete Bn
+deduction methed except thet his Growp-1 exiome are replaced by Meadeleon frvt three logical axiom achema. Also we will call « proofe Normaliaed Tableaux preef relative te an axiem ® if © oppears im the
+Teet of euch o X-tellesuz tree and newhere ele.
+Only for the sabe of notational simplicity, we will corumt eur sementic trees ere ce mermalized and that they heve ne growth function gynbels(e.g- they represent a function Fm, ©a.---g) of @ 5+) way relation
+Rg ((o1. 29, ---8 5.9) where ye the function’ eutpai)
+‘Then oll the resets of my old poper at the GWU Math conference will miele generelize. | think my new methed will called 0;     ‘     feus Blind Prebing. If rch     “candidate tree”
+wedes thes we will cay ot has on L-model “M* with L mind Tphse M we model of the watwral uumbers thal sogumes that ll integer ete en tinee wad wae Ope pes AGEL te ocicn P vesofiar the follsetag hice”
+
+Ve F(a) #0                                                “hoy
+VeSLb Pls) S$ b41                                           qi)
+Moreover, we will say @ node v im the candidate tree ts L-Consistent ino @-blind Senle ig Werk eniste cok DiPedLD where the sentence w ond oll ike encestors with the     coeeption of the tree re}
+
+catin’y the model M wader on interpertahen where cock of the named erasteats C in this proof tree sesume valucs S L. The magic bullet, used in the proof ia the observation thet of G is the godel number ef the of tha
+canes prcap af warcdaay sn cur wolf warping colons oyster hace’ *f om ernchtoat decioration? te slaved (a tea ristt eclled © Dae ee Bat wea im thea Broad & the oboerresicn that UG ie the goeed number of he of tha
+sence whea L ic a number less then cag g. (tadecd wah o Little estra werk that I will net do now, this proof will werk when L cevels Log(G).) The point ia that J know how to make thin methodology produce my nesded
+preef by ecntredctien.
+
+Moreover, | com generehae my mahted in many directions. One iovece ws that if is probably best for my    te concentrate on the simplest version of Atysi function that ere ensigeus to the incremental neming
+qeawentirn, ond then ts procred to the edduwe nameng convention of the end of the article (which obwiausly will alse rupport my methed when one walle Ureegh powers of £ brovuse i howe enough wiggle room evadable),
+Orher tsewes ore listed below
+
+J. Methed gencrukses whes © proef io defined sot by one minger p bul rather « h-tuple of such integers
+
+2 Ff kad thas emphics that my method will know that there cowis us two simuleincous proof of o scntence and its negation (beth encoded im prencs normal form for sumplicity).
+
+3. Also, ot wall opply to many wervions of the tangubilety reflection princible, includung the Tang Reet princible and stronger
+Somewhere | well wack to wor the words from 3 dope age of Shad specimen 4s stortany woth « permuteion p of L integers, bind casc, Mind specwncns, Storting Bhnd Sct, and mabe Reduced Bind SET.
+
+NOTES ADDED MARCH £3 afternoon (starting at 130pm after enercioint for TE minutes at YMCA) I saw Nieolson on Pridey af liom. ond she told me that her guces was thet « co-enther would make the writing
+of the paper harder (rether then camer. (Tharcfors, J wail not ask AG for help im writing the paper, but I might ash him to read it end thank him in the Acknowldegercnt, ewnilar to my prior papers.) Also, J weat ever tha
+beac ides on Suadey moramg ond f comemaced myealf they wert correct. (Inicrestingly, I could not recenstract my prier idea withevt firvt reading may March $1 notes (below) ond then filling im tha misoing picces. This is
+portly becouse | took « £-dey reat from my new project ond reternad to the old Wollsc project!) Anethcr new point se that I decided te call my core ides Opaque Pesude-Mode! Analysie (OPMA). It rests on the
+Sdes of tatang on X-tableowe proof whooc only cmom you doubt  NY sentence called @ and making © the reet of the proof trea (eppeoring nowhere elec. Then you catartem tha possibility that @ is Jalsa im the Standard
+Mi   Im thet case pou ann crucic « modal arncsting of a a's axioms cacept that © is replaced by — @. The call of OPMA analysis is to show that the existence of the resulting model is contradictory, which is why J
+Sudicioulsy” coll & a pornde-modal The trick ss te wer the combination of the falee preeumption of the caiitenca of tha prvede-medel M Le construct « path p through the proof tree where oll nedcs, eacapt “its rest” ©
+Meld in the model M. Thet is umpocesbic beawuct the prucf trex has wach node cnd with « contradiction. (The contradiction essentially erisce becamse the bottom nodes of the proof tree, being O eentences stemming from
+> muet be correct. This is becouse if @ & ornicuer of the formV = @(m) thea all constents     tracted by the  of ore emall enough to have O(c) be rua when we aseume our proof trea T is MINIMUM
+CONTRADICTORY PROOP.) ! wonder Wf this tochwsque is related to Percing t= Cohate dacculen Sf tha Avion of Castcdd
+
+NOTES ADDED APRIL 31, B814: Jom Wersinng tomorew to Washigton DC to yoin my oon Robert and celchrate my wift's birthday. J am certain my new methods will show that if P=aNP then there will exist «
+trensperral polyleg system of infinite for rench, ond they Lely con alse prowe P # NP itecl. The diagonalization sentence, seeded te de this is the statement:   “Ne chert pref of thare exists = shert preef of thie
+eenlence” (This ocatence will be antied °°.)
+
+Dy chort proof p we meen 6  p haweng the property that « temporarly-hypothasiecd algorith:   being SAT problems it time bu® cannot find in p waits of time csistence of @ proof of Ox! from
+sef-rcfereasing axiom spsiem and A  honing the menor addstional cowcats (from exscntiaily may donere peper) that casentially LegLey(p) io greater than soma troviclly wpaciied coustant K-            on
+
+J weil woe the tarm ISWISH[abA}) to rJor temporarily to my analog of the old ISINF(A) system im this short note., Its nama will be later presumably changed im the future te perhaps “Ie. Problematic™ or batier-yet
+
+"or “le. Verwng". it an be weed to prove FP ot NP by ws chowmng that it duplays contradictory behaviour when (2,b) is 0 generic method for solving SAT problems in polynomial tema. It will differ from
+
+repecte
+AJ It is harmlcse and makes matiore empler for [SWISi(a,b,A) to inclede the axioms of the multiplistive naming convention.
+B) The Groop-3 amsrm of laWich wal mabede the oxif-rcflacting statement thet om csch cucecsion chen it is proven thet ovr (0,0) mathedelosy in time 4 is abla to demenstats the now-enistense of « preef of 0 m1 of
+leas then L, tha avntetent JS" amsts                                                ==
+C) Mt ia possible that Se WISN's grove-3 wall alee mmaivds om analog of ISINP's statement “There is no proof of m 1 from me, but [am not eure if thet statement is necessary, but J om 99 % certain that it io
+
+Satereatingty J hens horn going to eres derwng the leet wash wnt! | reshisad the above triple dispenahsation sentence in ** sarms to wert, while Ue alternete wervion below (that has one extra use of the word “no”
+és folly.
+
+“He short proof of thare existe NO chert proof of ths sentcnse” (2-9. sacond          -     avoided, and it has boon causing ma difficulties for many years).
+
+Ths bataition behind oor proof of °° wall be to artabioh tt by eontrodiciion Tce of oo ce pale he tere ould he's short prot P of the tnsida part of °° (which I wl henceforth call * ). This shert proof of * will
+demonstrate the exisicnas of 0 short proof Q of °°. Des to the chovtnass of P ond Q, we can actablish in one single computable proaf thet both
+
+1) Q exists a0 2 chert proaf, and
+
+2) A aopy of ts proof tmmplsas tha wobidety of **
+
+Sd the peda ur the combrmotion of (1) 4 (1) emownts to 0 pros of 0 m 1 becouse they contradict each other. This leads to ow dusired pref by contradiction by showing that Q cunnat exist (im formal contradiction
+te P's Hotement}.
+
+"Or more    J think (now ao I madstate about 1) thet Uns toot                “    thet my proof leads to ISWISH(0,b,A) contradicting its “f am eonsistent™ declaration. (This is
+wig Sadak be th Laat cools of lana, & eval to Them @ that Iwas nom, ofise Bt howe of at eetlation mands th feet healthy cirenp roll, sonchuding wih 99% certainty that aa part of Group? to tnload nondad,
+os my solnilios  olroye  ane}.                                           ,
+
+"NOTES ADDED APRIL 18, 2814: wwww The theorem cosentiolly held               . [had coma dovbls abot it after J did April 11 notary and thought it wes wrong when driving with
+Irina to washsnton D.C on april 8. I carted the wight of April 18 Jacking detereped hen ghee, Pecka on ee fan min sleep around fom on April 13, realising the thasram worked end its proof wan caster then 7 thought
+when she formahom was modernicly revieed Tha ides is bo et @ wasrient of my [SWish formalism, abmact the soma os on Apri 11, whase nema I will probably call Io. Problematic ov In. Troubling or Ie. Challenging
+
+Mts definastion wall require ening « SAT(0,b} formalion for the cake of conirediction, (cfined en Aprit 11). Ita Group-3 will wee this syetem Le grow lerger numbars, ond it will use « variant of tha additive naming
+aoncention that dafinas 0 series of finds sonstonts cy, 03...04¢ where the VERY PELPPUL upper bowvad M depends on (4,6). (This bownd wes not    w April 11 notes.) M will alse contain the new group-3 clouse thet
+crates of « proof of Oa! of length L has bere fovad then no integer avists thet is larger than sey Mas(Con,2¥E ). (This cleanse males it wanecessary Jor grewp-3 to include the sentence “There 4 no proof of Om! from
+
+ma” as on asiom becouse tt aun make euch ints 6 theorem. Mowewer, the retesnng this as on aviom ts probably Aaipful in simplifying the proof.)
+
+| typically,  of = 0+ falfiet(a, 4) will be Inewnniotent because o standard Cddel-liks self-referencing construction will produce @ proof of 0 = 1 from  at, even when a is consistent.
+
+                                    TERRY A P a
+'                                 Public,
+No Reg, Ne
+Qua ifie
+Commisst
+
+=== Page 4 ===
+I Ly reply oy oy el   0 NAP 11 arentorpart       ba J-Large O sey Log! iM) > J. Then tha diagentisation seutence can be as simple as the olaieracel
+tne d-Lorge proaf al ma fy nat       i de ak eas a, at ws 009 ore Fe eee ca capee my to Sa saclpy of tb oppearat a ay Danone 1990 papek Ue sn cbercatioe
+was aveld hove J.Large mean Log? N >        cea,
+
+NOTES ADDED APRIL &, shersle ett mes ig eld Senate are ee                    “
+toripebaret edn pled  of be Y end tha emlotendiol got of Inicpere'< Lend V bs the oct of welecs ansoicaled with the evartant rymbols W thet eppeer tm 0 preef tree, where V CR. We wil
+ool  Te  TES facheneres eced tawse yi Ment rage te Que se of law of cooked mLddle will tent entenars of tha forme # Y —¥ Shere beh ¢ ed =8 ary wren te prenes
+
+lors.  =e  oan    ave          ond W ore defined.)              wa  aces a ae   ne     .     yreses
+
+Ov sectasion ornicnan @ wil be Motant eymbel C1, € WW, there war gine Bed) & tee relation deserting oer Reree ction, Our Le oa eee sores ht ¢ medal fo oa  ws
+erat a sad that er 000 macad 2 7 Reerel ed We son then wag g ronal eonstrniate thal VallOt) EY ee ei vrench of ths condutete tras wal have He cetements holding true im our modst
+Saierral end sistent eansyfere  have the rere’ ine ts tmpossitle bengal Wal severe thet we ahdote tras eonnst be @ contradiction pros], thes falehing ew tack. Ove rowel wil sormrne thet L oreale the    where
+Vey Rape ergy  a and chew Het         C omaller proof will be foread to exiet under oor model. (This e bacanse oor Ragee relationship  fae  ‘a fecnion ie  tel nevada
+Ve dy &   er
+
+PTE! MIDNIGHT TO Aalg for he emse of R pred,   hd Mototed Madal requires the enietance of « I-te-$ function R(s) mapping integers < L inte the came where this mapping from Ete &
+
+has ohn property thet Vas) mo shen 0               © Atjel pigson-whale Joaction. Por tha case of powervof-f gencreisation, the aomporetle R ts defined by
+inte} =     elaee ts  or oft 00d Y VOKO1) = then my) yy
+Perkare low ef cocteded middle shewid look
+
+Repression fol    was in beginqoote            he    Sn) ov  7 (01, €900n) where both 6(21,02--80) ond O(€1,€2--4n) ore prencz normalized.
+
+NOTES ADDED MARCH 81, shortly before             | week of dovkte,                  foaction methed will werk. The ides is to make the first bine of srmantic tablevus condidete tree
+te be the orntneee *Ve Sta tin $005    vrere ne roel of Ua! from ma, sud te hove galp the testes notes of tis provf trac be oaatemacate of tht form Oe). Such a proef tres will be eallad “aermalead*. Alses
+@ F(s) ts 0 reges function thet maps prover of § onie Power © NEN our   of ae Aljel Rogue dcfalticn will stata thal “ig le power of 2 ouch thet there exists no proof p < 9 af the scatence of O21 from
+=   R(e) ¥ 1.° Then one con noe the orvating OP ad eonsirvcted earlier thie month le injer thal ne minimal proof of Oui oun exist. (An interesting sidenote i thet f was confused over the last few deys
+about whether my old aryement woeld wonld work Instood,  = on Proving thal Y PaNP then on ebnoviens middle-level exception te the Seawnd Incempletences THcorem would exist by modifying the ISINP axiams
+mien Pom ou APAL £006 rarer. 1 se weherry wth te crated up err Mewnst I euopecied mg revised versien of tha Atjal method would produce the same rerult I figured ovt how ta de thie betocen 1.30 ond 9.30
+tonight,      >        y Pether Place               ¢ Notes, This is a much sirenger result than
+
+fa 0 fotere paper, | intend te use the term Te.Minl and Te.Middile i,                     "                  “              teneee thal arize when ene uses    ‘i
+eon ate henge hep tess power. 8 walling penersicaion of 7M Me minietrted and middle-level “boundery-case enccptions® te the Second Ineomple'                  recpectively
+
+ENDMENT DONE ON 11,d6pm        above Note Above was            oentence   is power of £ ech thal there existe ne proof p < 9 of the sentence of 8x1 from mas
+ten Rie) WL.” choad have *p Cg " replared with “p << w ° where Letter wcles thet pe, Loryalery Spay ep hdr ey f
+
+NOTES ADDED MARCH 21 Betworn £ and Jom (after sending emai te AC sieves sur iomerrew telephone call): I decided le wees the terminslegy Flegus Function Deseription to describe my geacrelisetion
+af Atyei foastions and Camteriaed Rogue Functions te describe the woes! gencrakiselion of Regus functions where the base aziom system fi ollewe for on wasountohly infinite number of different allowed rogue
+fonctions te mort ds definition. A conventional B0th century non-Repve function sould be called on mar-Tlogue Function or perhope better pet « Conventions! nen-Reguelike Functional Objeet or
+erevairntly Conventional nen-Regue-like Punstional Definition or perhaps a nem-Negue Standard-Perm Functional Definiten abrevisted as NASF. my cvarion of the Scornd Ineompletencecs
+Theorem cbvicely resis on wring on eriem ryetem af infinite far reech whose only Growth functions ors Repec fucniions. J am tentotinely ashing Brad te beawme « av-ovther (ebeet enc week from now) and fer our peper
+te be written im @ Secrutee-Plete format where Brad's weice (ihe “Mete*) eummarioce Willard’s ideas (the *Sectratss”), 1 will iauist that f be the chronological feet exther of this peper, (That corms fair becouse becouse
+Brod hae 90 years af fe ahead of him, ond ( have high blood presrere and Diabet -) I howe alse thenght aboot the tite of my peper. Sema ideas are Hew the Use of Now Convcational Reswe Ponctivns Can Be Used to
+Develop Aviom Syetems that Can *Appraciets” their Own Consistency ino        ing Strong Sense While Simoliansevely Acspect Cédel's Prohibition Agetnst Aziom Syetems “Proving® their Own Consistency in Mere
+thea A Woah Sense. After thinking about the toove during 4 te dam, Fence eat whether I chesld write thie articie atone, a opreeed to taanting Dad a 2 coco Ales an alternate title evvld be: A Reply te o
+Question by Pavel Pudiah chout    cations of A   ipeon-hole functine te Willerd's Prier Work about Seif.    Atioms Systems seme END    1    lotery
+
+nest GAN at TRIVIATEY DELETED                             Self-Juotifying      pote:           prt
+
+1 thank the article should begin with
+
+ARAANSwPags Anane:         AA RAR RARARAARRAR AAA
+
+folleweng                                                   .
+
+Aw wed              toot  reeull, whose first  badic               statements of arithmetic whoee occwad h        ot
+-  inown thet Gadel fncomplotencse Theorem    peace    Sot pew  tee ma, dectoton prosadore cas Udeat fp all the trve statements of  me   oots   hall epechieites ruffesentiy
+lemndey mee exeeptarns to Jor  re Seared Incomplsiensse Thaorem ore tniendad to be menor covsats froma theorem p  Perrpectwwe, while significant modvficetions of enc's gosls ore to caomine Cédal's historic
+
+rerull from the perepective of actometics  Zs thal vos Lo “appreciate their own coucisiency” ta, 2 en-trinial remt-robert pene while  * their owe consistency im o tender sense
+
+Pert of he motwation of our  oan be    when one recalls thal Gadel was careful to insert inte hic ground breabong poper [10], the following caveat maiceting that in 1931 he arasidered it possible that «
+
+dtvted form af Makert’s Conntotency Program could ba portiaky evceesafel:
+
+© tf OR must be expressly noted thet Proposition X! (op the Second Inaempiciences Theorem) represents no coniradiction of the formahistic slowdpemd of Mibert. For this stondpemt preavppeces only
+
+the existones of « consistency prof by finita moans, and Hhere mipht conesivebly be fails proofs which sannet be stoted tn P (or in iM or in A).
+
+Thus  és          °       :             °
+
+Lg poe Fevas Nee   Cee Pate    fo sastacaustsone teen watt teraaieen: ceaiue au eatees ey
+«  hnewe   chert  cnicte Devaphoet ko    auiom syetems should      alice              encistcncy,    ihert's epprecistion
+Cédel's hiatorse Ther ta ao         dcvalopped a vary impertont prmculision of the Fereee Tecoapistae tee theca (om the conte of thats thoes Derwebuan Condens TB Fh, Hiker
+ected erveghont tas tle thal come tore of  qecece would be vhimately ebtoined by Ms consistency program. Thus, the motte of Nubert's Consistency Progrum during the 1938-19{9 perwed was Hilbert’s fameus Wir
+were wien wer   wiorn”    whooe English trenslation is piers below
+
+2° t We west bao We wl now”         tas    as                                                        ‘a   ar
+One notable   .   towns,  it docs not tel ws what  neture    t XYZ that “we it and will knew of”. This cleorty becouse Hulbert  waceriom what XYZ  although he incis'
+eS Toe ee IT AS reap programe weovld entese ot Lect 2 Giatad mention of soasene: (Sadeed histone thee MUNG Oke Reed U Rens Jor cOmecp op Cath Tcerehts aphettion arvonged
+te hase stntrmrat ce engraved on bis tembsions.) Our theme in tha corrvat article will be thet the combination of oc¥-referencing “I om conswient® axiom sentence, whose propertics were deveribed by Willard in several
+premew article, wth what Sestion F7T wil eal *!  Peaction Definitions”, can formalise 6 sufficiently strong XYZ te chew that Nebert's statement co oun be vindienled strong partial and net. eanse for one to
+
+wnullally mouder whether the corrvat article, hese thesis mas initially developped by DW
+
+dn 0 evntent where mony articles in the      world oon
+wil de the cama. Sack chephciom io        ‘2 intially alee                                    acwrets results, developped in March of 3014. However im « context where the current
+etiche will cenre the   hat there tc « distraction                                  the letier will met eccer here.
+
+‘wah cha formakomne of       now im places, our seerch                                 ion ecrice is ready to commense. These formaheme will thas scrva as the Bina Angel
+
+style foal ta our coach for a         otyle pleact. The above gopgtp-gook poctry is encther way of suying thet Uns paper will bring Ce completion « ecrentxfic project thet f   worked on for the last $2 years.
+
+—            below
+
+Te rnd tree has J tare ond we wish bo acasider the blind ease where all its integers are Less than M ond we hove on atyei probung faction F, then we will thnk of « “bhad specimen as starting with a permutsion
+ed L entagars, whers Pii)ep(i) ond sack tare is mapped ents one taleger, Dy straight forwerd combinatorics, tha number of blind specimens m euch o bend set ic equal to M7 - Mi Thies te « number of stunning Large
+mee, experially whan one reckacs that « preef of length L will have godcl number > 2.
+
+The oymbel 5 will denete the oot of ol rock bhndopecemens®. ft will be called Starting Blind Set ond thus hove « stunning cordmakty of MM! - B41 . Thus object is called « stertmy blind  becouse none  ke
+ppm ns oe canes of on Atjat tthe aloes eh eene brain seek epncinen wilt hoon ae  vin where F(a) m0.   °       okey of            “   .       _   7   lia
+We ans alive define « gigeatic object inte @ alightly emalled obcjet anlled « “Redvacd Bi  See*. te    the come as the Storting Bad Set execpt if well require cack of its sparimens to satufy the following additional
+
+1) The terme 6 wall be enquired to be mapped onto integers lace then M ino monucr thet setishcs the defining rules of our functions cymbels,
+9) F4( 2) dewctes fememonal object of F(F( F(2))) (auth § Merations) then none of our terms t will be mapped ents on mieger 2 where for ic J, the object F#(n) 0
+
+A vaduend bad cot M well aot be quste os lorys S, but 1 will of « stwaning lorge cise greeter than certainly M4» 21 . Back epecimen of the Redwced Disnd Sct will vielete eur amems  "    me
+Son acbecone tras Chee tee feline tha tute thes soch Mme toa Poach a beeeh print, eeu ine pep ion oor wi i Sa ade oe   ing a then tack bode of teen talk walans toe
+[epey                         weree                      4 oatisfas
+demonts from R catufying ot be of Lonct half the member of modes catiafyin; (aa anacotory cimuhansensly Lencrt the @VE Pla) pf Oe made Dua ee are permuted fe ignore j OLD Locum
+
+References ALL PALE $\s bib reCew- De  VWilaed's yk
+
+Hi] £. Adamowsas, “Mertownd              ond Bowaded Aruthmenic’, Pund Methemeticas 171 (2003)
+Z Ademowias ond P.       "Ou Hertrend consistency ia weak theories”, Archiws for Mathemarretin                        % Ce   Oo
+4. Rastorwah ond J, Shoptordoon, “Chasis Second Mock ptenns eee, Mone          wmetical Logie 40 (2001) pp. 998-419.                         +
+5 bese aD a topene ey oe These) Proof Theety Wetec Bo, Dake she ipagrn 1 Srmbeke Loge ft HH} 483-644                                      45 @
+
+4A.                     1p of Consiete   Steterments in Progments of Bovaded
+
+Zz          "A ethene ete oe    ethamatice ta @ Ci aor |        Pead   is             Arithmetic", Annale   Pere      pled Logic
+
+M. Sonny, Port Orter     “sols Automated Thecmes Prowtngs Srnec Tene SP 80) pp. 38-08         _—-*            id iil eae
+ae                                       nei             Soames Preblems®, Ohio State Teak Report, 1979.
+
+Prieénen, Patneer pacts      Rdatwwe Consistency", Ohio Siete Tach Maport, 1979.                       7
+
+1h K.         5 Cher formal wnsntochaithere $live dar Principia Methzmatice ead Vorwondte Spslome        matehe
+
+1] P. Miyeh, *Methemetionl Pussy Logic ond Mature! Numbers                   5    a,      Re Kir Moth Ph,
+
+1 8: Raye, oe                             Meterel W       *, fussy logia®,       sae Mother cticae 1 fiaeh Pe pp tbe t0s (ae Seat) or, 348-300.
+
+a) Bick ond P                      ;      Piret Order arent      «Logis Journal of tha JPL 19 (2051) pp. 87-476.                     cise eppeanag om reference [1].
+
+|. Pudith, MM ctemathemstiae 9}     Order Arithenstia,
+w?     Uler       adie                                      Verdes 1991.
+Af Beyhg Licey <¥ mmed Derick grremiation (1907) by JV Metencort in Prom Prege ts Gédat:
+19 $C. Kleene, Gar nz Eectomrnls bn Formal i ot     ee®,         ale Mathematlees 78/1971) 17.
+4 Ordinal Wumbers*, Jowrnal of Symbohe Logie B (193           40.
+
+| 4. Kreplenk, Rowaded Propositional   oad Com,                 4), 166186,
+1 LA.             mal Logie 7      ty Theory, Cambridge University Press, 1996,
+G, Koained and Cr Tesco, *Pormale Seif hor, orale       tomatcatle   sae
+
+w for Finitaly ‘ae           Prepments
+jerontiol Propeciions fer
+
+Hisheord Liptoe's Mey 81, 2067 Bloginng Eolcoce REMAIN E,          Cie ears Cicseical Aealoies
+
+M. M. Lbb, A Solstion bo Problem                          RIN COMMENT LINE TO SAVE SP,
+
+Pa Bir Someta erry lent ry ioe ore
+
+Predisatovs                   Moth Notes, 19
+“"Eeicteus                                               "
+} pk,       as     ond Toso hay frahmetis®, Journal 9] SBymbotic
+
+Logie 36 ary 494-408
+a        vad CI                                   Usfpchoebiity of Cuis®, Journal of  raboks Logie ge (1943) pp. s04-609
+z Pedisn, oad Locate a} Prete of          *, ba oT tote BE Bro sa  i    H a eo             foluma
+£ Mt.     maa : *Prowebihty J            -  he hi     :           iy      “ry aa     meet —      ”
+Ser ra dec ae a Ma TF anal Rela ern TA, rh
+
+te
+
+4 Sevres Beak im Math Logic, Marvard Prose, page $14)
+
+Beond Arithmetic®, Jownal
+rgertationes A atheimalicas 111 i T7) ve Tag | (2008) pp. 624-438.
+
+Sprrager. Wien-New York, pp 66-46.
+
+i, Anmale Pare and Apphed Logie®
+le                 communications
+3) V. Sonslnen ha rere        armamvnke      dering Ape of 1954 RAMAINOSR IM COM        WE TO SAVE Srac
+“The              sr [orlevtrrpeye fA Crsceereaih’s Weaker Veriont® Pundamenta |            rn  mi   uy.
+ia Shree of Padi fac hg in oat a8 (PFA on. Big haste H (901) vy. 347-364
+
+‘owpron, A World Without Timer The Py                   7      int Arrked Lope
+-                                 ey                              Pore     ipphed              aad
+Ve       4   "fe        a      3  ms        _     Obed oad Binctate, base     rr ‘foe .     Cyetatond from ta) oan from ils page 58.)
+D Walang   of  faction Prineiy    3 of the Second aaeessLIMACE Serves ve Dissrote Wethemetics wat Teste ENCSB Seats $39 Cites
+“Tha Somantse Toltaous Vervion of the Second                 Theorem Estands to Robinson's Arthnatee Q, Procenvers of tus Tal ee! 40d Consecae SpringerVertag LNAT#IAGT, 416-430
+
+Dn ¢ Axle’
+
+‘Dan Wy Ward The before   wise.
+
+Me, 1M
+
+BERTON  - sol,
+
+2 Of New York
+6172156
+
+Nese Lots    Cy A Kemberte
+

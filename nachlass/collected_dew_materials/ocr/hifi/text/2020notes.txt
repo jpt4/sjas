@@ -1,0 +1,2657 @@
+=== Page 1 ===
+Quick Notes on the Incompleteness Theorem (Oct. 4, 2020)
+
+Dan E. Willard *
+
+The October 2020 Expansion of the April 2010 draft (that was broader than the
+initial March 2004 draft by including Léb’s Theorem)
+
+Goal of these Notes: These lecture notes are intended to summarize the
+intuition behind Gédel’s First and Second Incompleteness Theorem. I believe that
+they should be easier to comprehend than Mendelson’s treatment [4] of the subject.
+They assume the reader is familiar with Sections 1.1 through 1.4, Sections 2.1 through
+2.6 and Section 3.1 of his textbook.
+
+These notes are not intended as a replacement for the Sections 3.2 through 3.5 of
+Mendelson’s textbook. Rather they are intended to prove a slightly weaker theorem
+that captures the main intuition behind those sections in a small amount of page
+
+space.
+
+The current 2020 draft is an amended version of prior notes I used during 2004-
+2018.
+
+"Address: Dep of CS, SUNYA, Albany, NY 12222 or dew@cs.albany.edu.
+
+1
+
+=== Page 2 ===
+1 Introduction
+
+Our language L in these notes will include four symbols Co, C; , C2 and C; ,
+representing the integers of 0, 1, 2 and 3. The language L will discuss the properties
+of non-negative integers. It will define all integers larger than 3 implicitly in terms
+
+of these base integers.
+
+The predicate symbols used by our language L will be the equality and less-
+
+”
+
+than-or-equal predicates, denoted as “ =   and “ < ” . Sometimes, we will
+
+informally also use the symbols > , < and >.
+
+Define F(a), a2, ...a;) to bea NON-GROWTH FUNCTION iff for all values of
+@1, 2, ...a;, the function F satisfies F(a,,a2,...a;) < Mazximum(ay, a,...a;) . Our
+axiom systems will employ a set of eight non-growth functions, called the GROUND-
+
+ING FUNCTIONS. They will include:
+
+1. Integer Subtraction where x — y is defined to equal zero when z < y,
+
+2. Integer Division where  :  = xz when y=0, and it otherwise equals  3) :
+3. Predecessor(r) = Max(zr-—1, 0),
+
+4. Mazimum(z,y),
+
+5. Logarithm(x) = [Log2(x + 1)],
+
+6. Root(z,y) = | z/¥ | when y>1, and Root(z,0) = z.
+
+7. Count(x, j) designating the number of “1” bits among z’s rightmost j bits.
+
+8. Bit(x,i) designating the value of the integer x’s i—th rightmost bit. (Note that
+Bit(z,i) = Count(z,i) — Count(z,i— 1).)
+
+In addition to the above non-growth functions, our language L will employ two
+
+growth functions. They will correspond to Integer-Addition and Double(z) = x + z.
+
+=== Page 3 ===
+We will use the term U-Grounding Function to refer to a function that is one of
+
+our eight Grounding Functions or the operations of Addition and Doubling.
+
+Comment 1.1. We do not technically need both the operations of Addition and
+Doubling in our U-Grounding language L . However, it much is easier to encode
+large integers when we have access to both these function symbols. For example, any
+integer N > 1 can be encoded by a term of length O( Log(N) ) , using only the
+constant symbol for “1”, when both the addition and doubling function symbols are
+
+present. For instance, below is our binary-like encoding for the number 11
+1 + Double( 1+ Double( Double( 1)))                  (1)
+
+Henceforth, the symbol N will denote such a binary-like encoding for the integer
+N . (In the degenerate case where N = 0, 0 will simply be defined as being the
+
+constant symbol “ Cp ”, that represents zero’s value.)
+
+Definition 1.2. We will follow mostly conventional logic notation when dis-
+cussing U-Grounding functions. Thus, a term is defined to be a constant symbol, a
+variable symbol or a function symbol (followed by some input arguments, which are
+similarly defined terms). If t is a term then the quantifiers in Vu <t W(v) and
+Ju<t W(v) will be called bounded quantifiers. These two wffs will be semantically
+equivalent to the formulae of Vv (vu <t = W(v)) and 3u (vu <tA V(v)). A formula
+® will be called Ag iff all its quantifiers are bounded. Thus a Ag formula is defined to
+be a wff that is any combination of atomic formulae (using our ten U-Grounding
+functions and the equals and <_ predicates) combined by bounded quantifiers and
+
+the boolean operations of AND,OR, NOT and IMPLIES in an arbitrary manner.
+
+=== Page 4 ===
+Example 1.3 Below are four examples of Aj formulae.
+
+Va < 10 Wy<20 r+y=y+er           (2)
+
+Vx < 100 Sy< 60 zx < Double(y)           (3)
+
+Vz< 10 VWy<[50+Double(z)}] [ tr+y=0 > r=0Ay=0] (4)
+Ve< 10 r+l=z           (5)
+
+Note that Equation (5) is defined to be a Aj formulae (even though it is a false
+
+statement). The point is that Aj formulae can be either true or false. Their defini-
+
+tion differs from Logic’s conventional formulae only by requiring that all quantifiers
+
+be “bounded”. Also a Aj formula does not need to contain any quantifiers (e.g.
+Equations (6) and (7) are also Aj formulae).
+
+10 + 25 > 30                      (6)
+
+10+25 = 30 v 4+7 =TI       (7)
+
+Finally, let F, through Fg denote the six Aj formulae above. Then since a Aj
+
+formula can be any Boolean combination of bounded quantifiers with the “boolean
+
+operations” of AND,OR, NOT and IMPLIES, some other examples of Aj formula
+
+are:
+
+Fi A Fy A ( Fe V -7Fs)           (8)
+
+Fy A F3 => F4                              (9)
+
+Once again, we emphasize that a Aj formula can be either true or false. For instance,
+
+(8) is true while (9) is false.
+
+Definition 1.4 For any integer i > 0, this paragraph will define the notions of
+a II? and } formula. The definition has three parts and it is given below.
+
+4
+
+=== Page 5 ===
+1. Every Aj formula is defined to be also both a II} and £3 formula.
+
+2. A formula is called [j,, iff for some Lj formula (vj, v2,...Un), it can be
+written in the form Vu; Vv2 ... Wun P(v1, ¥2,.--Un) . (Since this rule also applies
+when the number of quantifiers n equals zero, it follows that every D7 formula
+
+is automatically by default also IT},,.)
+
+3. Similarly, a formula is called D},, iff for some Il? formula (2, v2,..-Un), it
+can be written in the form Ju, Jv2 ... du, P(v;, V2, .--Un) . (Since this rule also
+applies when the number of quantifiers n equals zero, it follows that every II}
+
+formula is automatically by default also Dj, ,.)
+
+Example 1.5. Equations (10) are (11) are examples of a IT} sentences, and
+Equations (12) are (13) are examples of IT} sentences. Note that some II} sentences
+can be proven to be logically equivalent to II] sentences. Thus for example, the
+
+sentences in Equations (10) and (13) are logically equivalent to each other.
+
+V2 Vy 32  Z-ZE my          (10)
+Vc Vy 3     >0- = =
+
+* ¥_e Se @    -  y         (11)
+
+Va Vy    r+y =yter              (12)
+Vea Vy dz<ort+y  z-Z=y         (13)
+
+=== Page 6 ===
+Note that while Equation (10) can be transformed into a logically equivalent IT}
+sentence (encoded by Equation (13) ), there is no analogous II} sentence equivalent
+to Equation (11). (This is because Addition but not Multiplication belongs to our
+
+set of U-Grounding functions.)
+
+Comment 1.6. The logic literature uses similar ideas, but expresses them slightly
+differently than my notation in Definition 1.4. It begins with a language that recog-
+nizes Addition and Multiplication as its starting function symbols, and it builds all
+its terms out of these two function symbols rather than from my grounding language
+(which does not employ Multiplication as a function symbol). In such an arith-
+metic language, the traditional literature uses the terms Apo , II; and ©; formulae to
+have the identical definitions as I employ, except that its rules for building terms rely
+upon the Addition and Multiplication function primitives instead of my U-Grounding
+functions. The reason I resist using the traditional terminology will be explained in
+
+class.
+
+Lemma 1_= The set of azioms appearing in Table I are sufficient to prove for any
+
+integer n_ the following theorem:
+
+Vz <n [t=O Ve=TVe=2 V wVvec=it |  (14)
+
+Proof: The proof is trivial and therefore omitted. The intuitive reason that you
+do not need to go through the proof is that if Table I’s axiom set were not rich enough
+for the lemma’s claim to be true, then I could trivially have added a couple more
+
+axioms to this table’s list of axioms to make the lemma true. 0
+
+Definition 1.7 Recall that a formula is called a “sentence” iff it contains no
+
+6
+
+=== Page 7 ===
+“free” variables. Similarly if a Aj formula contains no free variables then it is called
+
+a As sentence.
+
+Lemma 2 Let WV denote any Aj “sentence”. Then the set of axioms appearing
+
+in Table I can prove either VW or 7V.
+
+Proof: I will only sketch the proof of Lemma 2 because it is trivial. Let us call
+a Aj sentence degenerate iff it contains no quantifiers. It is obvious that Lemma
+2 is true for degenerate sentences because I had defined Table I’s axioms so it can
+always determine the truth of any degenerate Aj sentence by an essentially routine
+
+construction.
+
+On the other hand, every non-degenerate Aj sentence can have its truth verified
+by reducing its proof to the examination of a finite number cases, each being a proof
+of a degenerate Aj style theorem. This is because our proof methodology can use
+Lemma 1 to recognize that V x < 7 ®(z) is true if and only if each of the wffs of
+(0), ®(1) ... &(n) are provable, and likewise Jz < 7% (zx) is true if and only if at
+least one of &(0), @(1) ... &(n) are provable. Hence without delving into quite routine
+details, the idea is that each bounded quantifier of range say n will increase the proofs
+length by no more than a multiplicative factor proportional to approximately n’s size.
+
+i)
+
+Example 1.8. It is easiest to appreciate the preceding proof by considering the
+
+example of the following Aj sentence:
+
+Va<nm Jy<mM Vz<7+m   W(x, y, z)       (15)
+
+=== Page 8 ===
+One can essentially determine the truth of this sentence with a computer program
+that consists of three nested Do-Loops of sizes n, m and n+m. In essence,
+such a 3-stage Do-Loop can be reduced to a proof that exhaustively examines the
+truth of each Aj sentence of the form W( i,j,k ) where i<n, j <™m and
+k < n+m, and then combines the results of these n-m-(n+m) mini-proofs
+
+into a proof that determines whether Equation (15) or its negation is true.
+
+Comment 1.9 Let L~ denote a language that differs from L by
+
+1. containing no Addition or Double function symbol
+
+2. having one constant symbol C,, to represent each integer n .
+
+The analogs of Aj , If and D} formulae in the language L~ are called Ap , I;
+and ¥; formulae. (In other words, these latter formulae are not allowed to use the
+growth functions of Addition or Doubling, and they recognize the existence of the
+
+integers 4,5,6..... by simply having an infinite number of constant symbols available.)
+
+It is easy to prove that an analog of Lemma 2 is true for Ap sentences.
+
+Definition 1.10 Let ADD(z, y, z) and MULT(z, y, z) denote two Aj formulae
+that are satisfied precisely when the two conditions of r+y=z and r*y=2z are
+true. Some examples of such Ap definitions of ADD(z, y, z) and MULT(z, y, z) are
+provided by Equations (16) and (17) below
+
+z-Z=y                   (16)
+
+[(c =OVy=0) >z=0] A [(x#0Ay#0) => (==yA zotcy )] (17)
+
+=== Page 9 ===
+We will say an axiom system a can recognize Addition “as a total function” iff
+it can prove
+
+Va Vy dz Add(z,y, z)               (18)
+
+Similarly, we will say an axiom system a can recognize Multiplication “as a total
+
+function” iff it can prove
+Va Vy dz Mult(z,y, z)                    (19)
+
+Also, we will say an axiom system a can recognize Successor (i.e. the operation of
+
+“plus one”) as a total function iff it can prove
+
+Va 3z Add(z,1,z)                (20)
+
+Some axiom systems a are unable to prove Multiplication is a total function but
+can prove every true Aj sentence. Other axiom systems are unable to recognize any
+of Addition, Multiplication or Successor as total functions, but they can prove every
+valid Aj sentence. It will turn out these facts will be central to understanding the
+
+generality and limitations of Gédel’s Second Incompleteness Theorem.
+
+Fact 1.11 A sentence W is said to be written in Prenex Normal Form iff for
+some i> 0, it can be written as a II} or a Lf sentence. (Please see footnote } for
+an important clarifying comment.) It can be formally proven that a predicate logic
+using the language L can always formally prove that for every sentence ® there
+exists a prenex sentence ®* such that
+
+be o                                     (21)
+
+’ Following Definition 1.4’s notation convention, every Ij sentence can be rewritten as a Dj,, sentence
+and viceversa. Therefore Fact 1.11's first sentence does not technically need to refer to both Ij and Dj
+sentences in its definition of Prenex Normal Form.
+
+=== Page 10 ===
+The proof of this fact is not hard, but it is a bit tedious. It appears in Section 2.10
+
+of Mendelson’s book [4].
+
+We will not use the observations of Paragraphs 1.9 through 1.11 in the next two
+sections of these Lecture Notes. However, I mention them because I am likely to
+briefly survey one of my recent papers on Self-Justification at the end of this course.
+
+They [{8, 9, 10] will use the notation from these three paragraphs.
+
+2 The First Incompleteness Theorem
+
+This section will sketch a proof of a version of the First Incompleteness Theorem. I
+will omit some details in the proof that are basically trivial to verify. Our version
+of the First Incompleteness Theorem will be less powerful than the stronger version
+in Mendelson‘s textbook [4]. However, its main virtue is that it is quite easy to
+prove. Also, our discussion will capture the core intuition behind the Incompleteness
+
+Theorem without going into excessive details.
+
+Each formal proof in the Predicate Order Logic can be thought of as a string
+of characters, encoded as an integer. There are many methods for encoding such a
+proof. One sample method is illustrated in the Appendix A . It uses an alphabet of
+55 characters for encoding a formula. If each character is represented by a symbol
+D; that corresponds to an integer between 0 and 54, then a sentence consisting of
+n characters can be thought of as an integer D,, D2, D3, ... Dy , written asa
+number in base 64 whose value falls between 64"~! and 64"—1. (See the Appendix
+
+A for one example of such an encoding method.)
+
+10
+
+=== Page 11 ===
+The method for encoding a proof will be similar to a formula’s encoding, except
+that it will need a 56-th symbol (called the period symbol) for separating the distinct
+formulae that appear in sequential order in the proof. As before, the sequence of n
+digits D,, D2, D3, ... Dn , describing a proof, will again be written as a number
+
+in base 64, whose value falls between 64"-! and 64"—1.
+
+Major Notation Convention: The Logic literature uses the phrase Godel
+Number or Gédel Encoding to describe a positive integer N that represents the
+sequence of characters D,, D2, D3, ... Dy, as a Base-64 integer. (Actually, the
+literature offers several different possible Gédel-like encoding schemes, and the one
+used in Section 3.4 of Mendelson’s textbook [4] is much more complicated than the
+
+variant I define in Appendix A.)
+
+Definition 2.1. An axiom system a will be said bea Aj axiom system if there
+exists a Aj formula Ax,(s) which yields a value of True for exactly those integers
+
+s which correspond to Gédel encodings for one of a’s axioms.
+
+Comment 2.2. It turns out that all conventional axiom systems have Aj
+encodings. (This is because any axiom system that fails to be Ag encode-able is
+
+difficult for a Human Being to interpret and contemplate !! )
+
+Lemma 3 Assume that a isa Aj azriom system. Then it is possible to construct
+
+two Aj formula Logical) and Prf,(p,t) with the following two properties
+
+A. Logical(x) is true exactly when x is the Gédel number of one of Mendeslon’s
+Logical arioms.
+
+11
+
+=== Page 12 ===
+B. Prf.(t,p) is true exactly when p is the Gédel number of a proof using a’s
+proper azioms whose last sentence has t’s Gédel number. (Here t is called the
+
+“theorem” proven by p’s list of sentences.)
+
+Proof Sketch. The method for proving Claims A and B is essentially the same
+type of methodology as would be employed to write a computerized language trans-
+lator, similar to a compiler, assembler or interpreter. Interestingly, Godel conceived
+
+of this method before any computer had been formally built.
+
+We will not provide a formal proof of Claims A and B because the formal proofs
+are almost as lengthy as the writing of a computerized language translator — while at
+the same time they are conceptually as trivial and as routine as such a computerized
+
+object. O
+
+Lemma 4 _ It is possible to encode a Aj formula, called Subst(g,h), that yields a
+
+value of True precisely when (g,h) satisfies the following condition:
+
+The integer g designates an encoding of a formula and h encodes a
+sentence identical to g, except that all free variables in g are now
+
+replaced with the term g (defined by Comment 1.1’s last sentence).
+
+Proof Sketch. Once again, the Aj encoding for Subst(g, h) is routine and omit-
+ted for the sake of brevity. If you are interested in going through the details, analogs
+of this encoding can be found in many logic textbooks. For instance, Items 9 and 10
+on page 193 of Mendelson’s textbook are essentially analogous to our treatment of
+Subst(g,h). (These items are awkward to read line-by-line because their meticulous
+
+12
+
+=== Page 13 ===
+reading requires knowledge of perhaps two dozen pages preceding them.) O
+
+Added Comment: As with Lemma 3’s proof, the proof of Lemma 4 is essentially
+analogous to the writing of a straightforward computer program (using our language
+for the U-Grounding Functions and their Aj formulae to achieve the claimed func-
+
+tionality). It therefore should be trivially obvious to a computer science student that
+
+both these lemmas are true.
+
+Definition 2.3. Let us recall that the deduction system, defined in Section 2 of
+Mendelson’s textbook, is called a “Hilbert-style” proof. Let a again denote a Aj
+axiom system. We will now define a IIj sentence, called U(a) , whose translation
+
+into English amounts to the following sentence
+
+* There is no Hilbert-style proof of THIS SENTENCE (looking at
+
+itself) from the axiom system a.
+
+To achieve this task, we let ['(g) denote the following formula
+VhWp { Subst(g,h) => -Prfa(h, p) }           (22)
+
+Let N denote the Gédel number of Equation (22)’s formula, and let us recall that
+the term N_ was defined by Comment 1.1. Then the IIj sentence that encodes *
+
+(whose formal name is often written as “ U(a) ” ) is the sentence [( N ).
+
+In other words from Equation (22), this implies that our ['( N ) sentence (that
+
+is often written as “ U(a)” ) has the following encoding:
+
+VhVp { Subst( N,h) = -Prfg(h,p) }   (23)
+
+13
+
+=== Page 14 ===
+Definition 2.4. A Aj axiom system a_ will be called Regular iff it either
+includes all Table I’s axioms or at least can prove all Table I’s axioms as theorems.
+(The latter condition is as good as containing Table I’s axioms because after proving
+Table I’s 36 statements, a can use them as if they were axioms during the proof of
+
+any other theorem.)
+
+Lemma 5 Suppose that a is a Regular Aj aziom system that is consistent.
+
+Then a must be unable to prove the sentence U(a) .
+
+Proof: For the sake of constructing a proof-by-contradiction, let us assume that
+Lemma 5 was false and therefore that Q represented a proof of U(a) from the
+axiom system a. Let K denote U(a) ’s Gédel number. Then by definition, the
+
+statements in Equations (24) and (25) are both true.
+Subst( N , K )                        (24)
+
+Prfa(K,Q)              (25)
+
+Since Equations (24) and (25) represent logically valid Aj formulae, it follows from
+
+Lemma 2 that both these sentences are provable from a.
+
+The next point is that it is trivial to verify that the conjunction of Equations (24)
+and (25) implies Equation (23) is false. Hence since a@ can prove (24) and (25), it
+
+must be able to prove — U(a) . (This is easy to prove as a homework exercise.)
+
+Next, we recall that the opening paragraph of our proof-by-contradiction had
+entertained the temporary assumption that a@ could prove U(a) . Hence from the
+
+last sentence of the prior paragraph, we conclude that a would then be inconsistent,
+
+14
+
+=== Page 15 ===
+since it would then prove both U(a) and its negation — U(a) (via the prior
+
+paragraph’s construction).
+
+The latter observation will now enable our proof-by-contradiction to reach its
+desired end. This is because Lemma 5’s hypothesis indicated that @ was consistent,
+
+but the last paragraph contradicted this assumption of a’s consistency.
+
+Hence to avoid this contradiction, we are forced to conclude the temporary as-
+sumption in our proof’s first sentence (that a could prove U(a) ) must be false.
+The negation of this temporary assumption demonstrates that Lemma 5 must be
+
+valid (because its negation is inherently contradictory). O
+
+Lemma 6 Again, suppose that a isa Regular Aj aziom system that is consistent.
+
+Then the sentence U(a) must be true.
+
+Proof: Lemma 5 demonstrated that a is unable to prove U(a@) . However
+U(a)’s formal statement (given in statement * ) amounts to saying “There is no
+proof of U(a) from the axiom system a”. Therefore, we are forced to conclude
+
+that U(a) is a formally true statement. 0
+
+Theorem 1 (A weak version of Gédel’s First Incompleteness Theorem) Again, sup-
+pose that a isa Regular Aj aziom system that is consistent. Then there exists a
+
+II} sentence that is true but not provable from a.
+
+Proof: From Lemmas 5 and 6, it follows that U(a) is a formally true Il} sentence
+
+that cannot be provable from a. 0
+
+Definition 2.5. An axiom system a is called Recursively Enumerable iff
+
+15
+
+=== Page 16 ===
+the Deduction Theorem occurs, where one can compress a proof sharply by taking
+
+certain shortcuts.
+
+And so the results about PA+ turn out to be easier to prove than their analogs
+
+about PA, although the latter is only a conservative extension of the former.
+
+On the other hand, there is a historic reason why logicians have chosen mostly
+to work in the framework of PA, rather than PA+. It is that PA is the historic
+language of the simplest branch of Mathematics, since its basic function primitives
+are Addition and Multiplication (and nothing more). Gédel’s 1931 version of the
+Incompleteness Theorem shocked the world of Mathematics because it showed that
+
+undecidability results arose in such a foundational branch of Mathematics.
+
+It also answered an open question that was explicitly raised by the mathematician
+
+David Hilbert.
+
+5 Baby Set Theory and the Completeness Theorem
+
+Let [ be a set of axioms for some language ZL, and W be any sentence in L’s
+language. Godel’s Completeness Theorem states essentially that if UV is valid in every
+model for ['’s axioms then WV will have a proof from I’ using the Hilbert-deduction
+method, appearing in Section 2.3 of Mendelson’s textbook. It thus explains why
+Section 2.3’s proof formalism is very natural (by showing that the Hilbert Deduction
+system proves exactly the full set of theorems that one would want to have formally
+
+proven).
+
+It is not our intention in this Section to repeat the proof of the Completeness
+
+29
+
+=== Page 17 ===
+‘¢
+
+there exists a computerized procedure P that if allowed to run indefinitely will
+produce a list of all of the Gédel numbers of a’s axioms and which will list no other
+Godel number besides these. Using this notation, we can now give the statement of
+
+a stronger version of Gédel’s First Incompleteness Theorem:
+
+Theorem 2 Every consistent recursively enumerable aziom system a is unable to
+prove some logically valid Tl; sentence. (Also, a cannot prove every logically valid
+
+Il, sentence.)
+
+The proof of Theorem 2 has a generally similar structure to Theorem 1’s proof.
+However, its details (which appear in Mendelson’s textbook) are somewhat more
+
+complicated. They will not appear here.
+
+Comment 2.6. Theorem 2 is stronger than Theorem 1 because it indicates that
+no computerized algorithm can be used to generate an axiom system that enables
+us to find all true II} or II; sentences ! It can be viewed as saying that Artificial
+Intelligence will never be able to reach the full goal that at least science fiction
+
+writers have set for it ! The theory of NP-hardness is also related to this issue.
+
+Comment 2.7. In my view, the main philosophical implication of Gédel’s Incom-
+pleteness Theorem is that computer science and computers can never achieve a set
+of over-ambitious goals, because of the “undecidability problems” raised by Gédel’s
+Incompleteness Theorem. Rather a more mature approach for computer science is
+to restrict itself to well-defined narrowly constructed engineering-style problems —
+where the essentially “undecidable tasks” that are unrealistically over-ambitious are
+
+avoided.
+
+16
+
+=== Page 18 ===
+A Jt.-m--+* +
+
+The opening paragraph of an article about Gédel in the March 19, 1999 issue of
+Time Magazine [6] stated that “many scholars consider Gédel’s Incompleteness The-
+orem to be the most important result of 20-th century mathematics”. The editors of
+Time Magazine were very careful to use the word “many” in the preceding sentence
+because there is no unanimous opinion among scholars about what are the say five
+most important results in 20th century mathematics. However my point is that while
+some scholars may not agree with the cautious skepticism I expressed in Comment
+2.7 about the importance for Computer Science focusing on narrowly defined prob-
+lems, there should be no question that the Incompleteness Theorem is an important
+result, that has implications about what directions Computer Science can and cannot
+
+profitably pursue.
+
+But what does the Incompleteness Theorem really mean? And what does it imply
+to for computer science when Theorem 2 applies to all “recursively enumerable” axiom
+
+systems?
+
+The answer to these questions are likely to be quite challenging. They may not
+
+be resolved during our life times. Or ever?
+
+We will now add the new Remarks 2.8 and 2.9 into this Year-2020 version of our
+
+notes.
+
+Remark 2.8 The main core result of this chapter is its Theorem 1. This may,
+at first, appear to be mysterious because Theorem 1’s self-referencing mechanism is
+similar to a puzzling maze of mirrors that can be found in an amusement park. It is
+
+G    known that if a human stands between two mirrors (one behind him and the other
+
+in front of him) then he will see an almost endless cascade of reflections of himself.
+
+17
+
+=== Page 19 ===
+This near endless cascade of images can be quite stunning but it is not caused by one
+(%  or EVEN TWO mirrors in pure isolation. Instead, its mesmerizing effect is caused
+
+by combination of four objects. These are the two mirrors combined with:
+
+1. A point-like Light Source generating photons bouncing between these mirrors.
+
+2. A human being (with eyes and a brain) observing his many stunning images
+
+generated by the two puzzling mirrors with their reflecting photons
+
+The point is that this almost-infinite cascade of reflections is not generated by one of
+
+its components in isolation. Rather, it is due to their subtle interaction.
+
+And so analogously, Theorem 1’s subtle Incompleteness Effect CANNOT be at-
+tributed to ONE ISOLATED fundamental cause. Instead, it is due to the complex
+interaction between four agents. (These are the two sentences appearing in Lines
+
+(22) and (23), interacting with the paradigms specified by Lemmas 5 and 6.)
+
+In other words, it is an over-simplification to examine any of Lines (22) and (23) or
+Lemmas 5 and 6 in isolation from its other interacting agents. Thus just as a mirror in
+a cascade of mirrors cannot be fully appreciated without viewing its interaction with
+the other mirrors, with their basic common light source and with their joint mental
+observer, Lines (22) and (23) can only be fully appreciated when their combination
+with Lemmas 5 and 6 is jointly considered. Then the penultimate implications of
+
+Gédel’s Theorem does suddenly become very apparent.
+
+Remark 2.9. My wise friend, the Prof Harry Hunt, once told me that the job of
+¢    a professor is “to interpret” rather than simply reiterate the contents of a textbook.
+
+Fortunately when class notes are written, one can be more flexible and switch back-
+
+18
+
+=== Page 20 ===
+and-forth between a formal discussion and their intuitive interpretations. Thus, it is
+
+WW
+
+noteworthy that:
+
+The preceding page did not mean to ezactly suggest that Lines (22) and
+(23) and Lemmas 5 and 6 should only be considered automatically to-
+
+gether.
+
+Obviously, each such object should be initially treated individually, as well. How-
+ever, their most interesting implication does not arise from each item’s ISOLATED
+
+INTERPRETATION.
+
+Instead, the main significance of Lines (22) and (23) and Lemmas 5 and
+6 follows when they are seen as four components of a dizzying machine
+
+interacting with itself.
+
+Thus, a more Go-SLOW approach is needed, where one patiently watches the pho-
+tons bounce between our analogs of mirrors to bring about their forced collective
+
+conclusion.
+
+3 The Second Incompleteness Theorem
+
+The axiom system Peano Arithmetic (PA) was defined by Section 3.1 of Mendel-
+son’s textbook. It essentially has three function symbols corresponding to Addition,
+Multiplication and Successor and thus recognizes these three operation as “total”
+2   (using Definition 1.9’s notation). Its chief feature is that it includes the Principle of
+
+Induction as an axiomatic assumption (i.e. see page 150’s “S-9” axiom scheme.)
+
+19
+
+=== Page 21 ===
+Definition 3.1. Let a and f# denote two axiom systems. We willsay § is an
+
+(Se Extension of a and write 8 D a iff 8 can prove all a ’s theorems.
+
+In Gédel’s 1931 paper [1], both his First and Second Incompleteness Theorems
+had appeared. The former states that neither Peano Arithmetic nor any recursively
+enumerable extension of it can prove all the true II, sentences. The Second In-
+completeness Theorem states that if a represents either Peano Arithmetic or any
+recursively enumerable extension of it, then a must be unable to prove its own
+
+consistency.
+
+Generalizations of the Incompleteness Theorem, subsequent to 1931, have shown
+both the First and Second Incompleteness Theorems also apply to many axiom sys-
+tems weaker than Peano Arithmetic (PA). One of the main authors to develop partial
+
+e  exceptions to the Second Incompleteness Theorem was Willard (for certain axiom
+
+systems weaker than PA).
+
+We will not discuss my work in this handout. Our goal will instead be to prove a
+version of the Second Incompleteness Theorem. My work will be discussed in a later
+course in more detail and perhaps summarized in the last two weeks of this course
+
+(if time allows).
+
+Definition 3.2. The axiom system PA+ will be defined to be a minor extension
+of Peano Arithmetic (PA) that contains function symbols for all the U-Grounding
+Functions, in addition to the function symbols for Addition and Multiplication. Thus,
+PA+ will include the nine axioms given in Section 3.1 of Mendelson’s textbook plus
+
+C    the 36 axioms listed in Table I, defining the U-Grounding functions. You should note
+
+that:
+
+20
+
+=== Page 22 ===
+1. PA+ recognizes the validity of the Principle of Induction because it includes the
+
+axiom scheme S-9 from page 155 of Mendelson’s book.
+
+2. The 36 axioms from Table-I will cause PA+ to be an essentially trivial exten-
+sion of PA, via its use of the U-Grounding function symbols and their natural
+
+implications under the “S-9” inductive schema.
+
+Fact 3.3 The key point in understanding Gédel’s Second Incompleteness Theorem
+is that Lemma 5’s proof can be formally done by the axiom system PA+ (indeed also
+
+by PA). This means that PA+ can prove the following sentence:
+
+** Noconsistent and regular Aj axiom system a can prove the sentence
+
+U( a ).
+
+The intuitive reason that PA+ can prove +** is that it contains the axioms of
+the Principle of Induction. (The formal verification of ** via PA+’s inductive
+
+methodology is quite routine, and it is omitted.)
+
+Definition 3.4. The symbol Cons( a ) will denote a II} formula declaring the
+
+axiom system a is consistent.
+
+Clarification: Let & denote the integer that is the Godel number of the formula
+that defines the axiom system “ a”. Combining Definition 3.4 with @’s notation,
+we can now rewrite statement ++ as the following essentially equivalent Il; encoded
+
+sentence:
+
+s*« Y@ If @ is a regular Aj axiom system satisfying Cons( @ ) then
+@ cannot prove the sentence U( @ ).
+
+21
+
+=== Page 23 ===
+Cc
+
+1. PA+ recognizes the validity of the Principle of Induction because it includes the
+
+axiom scheme S-9 from page 155 of Mendelson’s book.
+
+2. The 36 axioms from Table-I will cause PA+ to be an essentially trivial exten-
+sion of PA, via its use of the U-Grounding function symbols and their natural
+
+implications under the “S-9” inductive schema.
+
+Fact 3.3 The key point in understanding Gédel’s Second Incompleteness Theorem
+
+is that Lemma 5's proof can be formally done by the axiom system PA+ (ind
+
+by PA). This means that PA+ can prove the following/sente
+
+*x« Noconsistent and regular Aj axiom system/a can prove “| B.   C   /   }
+
+U( a ).
+
+The intuitive reason that PA+ can prove **+* is that it Soe mvs E.   I  £4 —
+the Principle of Induction. (The formal verification of ++ via PA+’s inductive Fx     if
+
+methodology is quite routine, and it is omitted.)
+
+o ad
+Definition 3.4. The symbol Cons( a ) will denote a Ill} aay declaring the -   SE
+
+axiom system a is consistent.
+
+Clarification: Let & denote the integer that is the Gédel number of the formula
+that defines the axiom system “ a”. Combining Definition 3.4 with @’s notation,
+we can now rewrite statement +** as the following essentially equivalent Hegreness
+sentence:                                                                                        -                 Dac
+«** V@_ If @ is aregular Aj axiom system satisfying Cons( @ ) then
+
+@ cannot prove the sentence U( @ ).
+
+21
+
+=== Page 24 ===
+The reason it is desirable to rewrite *¢ into ***'s equivalent form is that the latter
+expression ts technically the prociee sentence which is written in the exact language
+
+used by PA+
+
+We have developed two possible proofs of the Second Incompleteness Theorem
+that employ the formalisms of Definition 3.4 and statement **. Our first proof was
+used in ogurse notes during 2004-2018. and a second more succinct and better proof
+
+is given below:
+3.1 <A Succinct Proof of the Second Incompleteness Theorem
+
+Our proof of the Second Incomp|etencss Theorem will focus around the following
+Lemma
+
+ry
+
+Lemma 7 Let ws aseume the amnom ryricem PA & ecmrutent (breause all of con-
+ventional mathematics would collapac sf of war not) The amom system PA+ then
+
+cannot prom the Wy theorem, Cons PAe ), dadenng us on consutency.
+
+The rough intuitive reason Lemma 7 bulds is that is that PA+ is one example of an
+axiom wyrtem that satisfies the if-clause for requirements applied to & in forumula
+eee . (In particular, this invariant is a simple eansquence of Fact 3.3 and our
+
+observation that 22 eis just a rewrite of «* in a different notation).
+
+We wall now provide the reader with the exact details behind Lemma 7's proof.
+It uses, exactly, the farmal language that PA+ employs. Our formal discussion also
+
+("uses the following notation:
+
+22
+
+=== Page 25 ===
+C
+
+1. [] will denote ®’s Gédel number,
+2. Verify( [ ®]) will be an abbreviation for
+dp Prfpa+( [®]), Pp)             (26)
+
+3.  Verify( [#]) is simply the Gédel number for “ Verify( [®]) ” (We will
+always use this over-line symbol to denote the Gédel numbers for our stipulated
+
+proof encodings.)
+4. Double-Verify( [ ®]) is an abbreviation for
+
+Aq Prfpas( Vertfy([®]), @ )         (27)
+
+This notation may look complicated, but the idea behind it is actually quite simple.
+Thus Verify( [ ®]) indicates that there is a proof of ® from PA+, while the construct
+Double-Verify( [ ® ]) indicates that there is proof of the EXISTENCE of a formalized
+
+proof of statement ® (from again the base axiom system of PA+ ).
+
+Logicians usually don’t worry about the distinction between a verification and a
+double-verification because it is usually an unimportant distinction. This is because
+
+PA+ can trivially prove the following fact:
+
+e If ® satisfies Verify( [ ®]) then it also satisfies Double-Verify( [ © ]).
+
+The proof of e follows by an easy induction argument. It is often not explicitly
+fomalized in many logic textbooks because the Invariant e is quite obvious. (It
+stems from the fact that all proofs, by definition, have finite lengths. This implies that
+“double” verifications also do trivially generate finite-sized proofs, whose properties
+are also naturally characterized by the Principle of Induction.)
+
+23
+
+=== Page 26 ===
+The reason for our interest in e is that it will lead to a nicely compact proof for
+oe   our needed Lemma 7. (Hilbert-Bernays [3] were the first to notice the usefulness of an
+analog of e’s identity for helping prove basic analogs of the Second Incompleteness
+
+Theorem. We will now slightly modify their methods.)
+
+Proof of Lemma 7 For the sake of constructing a proof-by-contradiction, let
+us entertain the “temporary” assumption that PA+ could prove Cons( PA+ ).
+Recall that Fact 3.3 noted that PA+ had a capacity to prove the statement **.
+Since PA+ can trivially prove that it is a regular axiom system, it can easily apply
+
+** to verify ? the statement that:
+# PA+ cannot prove U( PA+).
+
+‘a   We next observe that the statement # can be easily inferred by PA+ to be logically
+equivalent to the sentence U( PA+ ) . (This is essentially because PA+ can easily
+show that the only integer K satisfying Subst(V, K) in Equations (23) through (25)
+
+is U( PA+)’s Godel number.)
+
+Thus, the “temporary” italicized assumption (from the preceding paragraph) has
+established that PA+ can BOTH prove # and prove that # is logically equivalent
+
+to the sentence U( PA+ ). This implies that PA+ also has a simultaneous capacity
+
+1. to prove the sentence U( PA+ ) (since it is obviously equivalent to # ), and
+
+2. also to disprove the same sentence U( PA+ ). (The latter is an immediate
+
+consequence of the definition of U( PA+ ) and of our prior invariant of e .)
+
+2 This proof is entirely trivial because of our observation that #* and #+#s are logically identical statements,
+except for a slight difference in notation.
+
+=== Page 27 ===
+a
+
+Hence using this kind of “diagonalization paradox”, we can conclude that if PA+
+proves Cons( PA+ ), then it must be inconsistent because Items 1 and 2 will then
+demonstrate it would prove both a sentence U( PA+ ) and its natural formalized
+
+negation (i.e. the sentence — U( PA+ ) ).
+
+Since PA+ is presumed to be consistent by conventional mathematics, it follows
+that PA+ must be unable to prove its own consistency, to avoid this clearly impossible
+
+circumstance.
+
+Clarification 3.5. Let me now repeat the last part of this proof in slow motion
+so that you understand, line-for-line, what it exactly has done. Suppose that you
+
+have proven the following two sentences:
+lL. xX >Y
+2 ~yY
+Then of course, you could conclude that — X is true, via a proof by contradic-
+tion. The point is that the preceding proof of Lemma 7 uses essentially this kind of
+reasoning where
+A. X is the statement that “PA+ proves Cons( PA+ ) ”
+B. Y is the statement that “PA+ is inconsistent”.
+Then since one usually presumes that PA+ is consistent, one must naturally conclude
+that - Y and hence also — X are formally true statements. But — X amounts
+
+to the assertion that PA+ is unable to prove Cons( PA+ ) . (This is exactly the
+
+statement that Lemma 7 sought to prove !!!!_)
+
+25
+
+=== Page 28 ===
+Thus, what I did in the preceding Paragraph 3.5 was repeat in slow motion the
+
+©
+
+of its underlying mechanism.
+
+ast part of Lemma 7’s proof, so that you can have a somewhat better understanding
+
+Theorem 3 (A version of Gédel’s Second Incompleteness Theorem) Let a denote
+any Aj encode-able ariom system that is an extension of PA+ and which is consistent.
+The aziom system a then cannot prove the II} theorem, Cons( a), declaring its
+
+own consistency.
+
+Proof: By similar reasoning as was used in Lemma 7’s proof. In particular,
+the same reasoning that Lemma 7 used to establish that PA+ was unable to prove
+Cons( PA+ ) will also show that @ cannot prove Cons( a). 0
+
+Comment 3.6. The original version of the Second Incompleteness Theorem by
+Godel was slightly stronger than Theorem 3. It used PA (rather than PA+ ) as its
+
+base axiom systemm. It stated that no recursively enumerable axiom system that
+
+was an extension of PA could formally prove its own consistency.                       [) LEG,  f-
+
+. 77 way 4 .
+Also, let Q* denote an axiom system, identical to PA, except that the Principle    4   ‘
+yt:
+of Induction is removed. (This means that Q* differs from PA’s definition on Page     K
+155 by removing all the S-9 axioms.) In 1985, a JSL paper by Pudlak [5] essentially         ;
+
+showed that no extension of Q* could prove its own consistency.
+
+Comment 3.7. We will discuss the Second Incompleteness Theorem in more
+
+detail during a second course. Our discussion will include the generalizations of it
+
+c   (by myself and others) and also partial boundary-case exceptions to it that I have
+developed (8, 9, 11].
+
+26
+
+=== Page 29 ===
+on
+
+3.2 Philosophical Comments
+
+Although the Second Incompleteness Theorem is technically correct, there is a very
+deep philosophical question it raises — with broad implications for Computer Science
+
+and other disciplines. It is the following question
+
+Why do Human Beings choose to think and cogitate if they did not have
+faith that Thinking is a useful process? The problem is that Theorem 3
+states that any formalism having faith in its own consistency will collapse
+in inconsistency. How do Human Beings manage to grapple with this
+inherent dilemma in their day-to-day life? How do Human Beings motivate
+themselves to gather the energy to think if they did not have faith in the
+consistency of their thought processes — notwithstanding the problems
+raised by Gédel’s two theorems? And how will the computers of the future
+attempt to imitate the higher Human Thinking process when they confront
+
+the same problem?
+
+My papers about Self-Justifying axiom systems will be discussed in a later course.
+They will illustrate how some non-conventional Logics can escape the reach of Gédel’s
+Second (but not First) Incompleteness Theorem and possess some knowledge about
+
+their own consistency.
+
+I don’t want to over-state the importance of what I am doing because both Gédel’s
+theorems are technically correct. On the other hand, the web site for the Journal
+of Symbolic Logic describes itself as “Logic’s foremost journal”, and my paper [8]
+
+was the longest of the 120+ papers published by the JSL during 2001. It described
+
+27
+
+=== Page 30 ===
+(Gy
+
+non-conventional logics that evade the Second Incompleteness Theorem. If you are
+
+interested, they will be discussed next semester.
+
+4 Other Comments about Incompleteness and this Course
+
+In addition to exploring Section 2.7\in detail during this course, I also plan to do
+briefly survey Section 2.8 through 2.10. That survey will include a description of the
+
+statements proven in these sections, but not their formal proofs.
+
+For example, the main Proposition 2.28 of Section 2.9 will explain that there is
+no meaningful difference between the axiom systems that I call PA and PA+ in these
+lecture notes. If L’ is a language that only has function symbols for representing the
+operations of Addition, Multiplication and Successor then both these axiom systems
+
+will prove the same set of theorems about the language L’ , by Proposition 2.28.
+
+Some logic books would call PA+ a “conservative extension” of PA because it
+proves added theorems only when one examines language primitives not in PA’s
+
+language (i.e. the sentences about the “U-Grounding Functions”).
+
+Proposition 2.28 implies such a result when one (after an essentially very minor
+change in notation) sets K = PA and K# = PA+ . And so you may wonder
+why I chose to use the axiom system PA+ rather than PA during these lecture notes
+when there is no meaningful difference between them when they use the language of
+
+PA 7?
+
+The answer to this question is solely pedagogic. The main theorems are easier to
+
+prove when one uses a broader language. This is because of a phenomena, similar to
+
+28
+
+=== Page 31 ===
+cw
+
+Theorem that Mendelson presents in Section 2.7 (because we do not know a better
+way to present it). However, my impression is that Section 2.7’s proof will be easier
+to read if a student examines my discussion in this section first. This is because
+Section 2.7 presumes a knowledge of Baby Set Theory, only briefly surveyed in the
+book’s preface. I believe that I can make Mendelson’s Section 2.7 easier to read, if I
+first present some short 4-page introduction to Baby Set Theory that will help you
+
+understand Section 2.7.
+
+In our discussion, letter such as S and 7, will denote sets. We will say S
+has cardinality less-than-or-equal to T’s cardinality (and write S =< T ) iff there
+exists a one-to-one function, called say F' , from the set S into JT. We will say
+that S and T have the same cardinality (and write S$ ¥ T ) if the function F
+is an “onto” function from S to T . That means every member of T has some
+
+member of S mapping onto it under our function F’.
+Also, the symbol S ~< T denotes the identity:
+S87 A ASST                       (28)
+
+Below are three well known facts about the cardinality operator proven somewhere
+
+in Chapter 4 of Mendelson’s book:
+VS WT [(SKATAT<S] &© SET      (29)
+VS VT SxTVTXS         (30)
+VS VT S#®T #e TSS        (31)
+
+Some of the results about the cardinality operator are a bit counter-intuitive. For
+
+example, let J be set of all positive integers, and let E be the set of positive even
+
+30
+
+=== Page 32 ===
+(f
+
+numbers. Then the following lemma holds:
+
+Lemma8 _|] = E
+
+Proof: Consider a function F that maps the integer z onto 2z. Since F
+
+is a 1-to-] and onto function, it implies J] = £. 0
+
+Let Power(S) be defined as the act of all subscts of the sct S$. It is so-named
+because the power-sct of a finite sct of n elements has a cardinality of exactly 2”
+
+clements.
+
+Also, define S$ x T to be the cross product of the sets S and T. (It consists
+of all ordered pairs (x,y) where z€ S and y€T.) We will also use the symbol
+
+Square(S) to denote the crossproduct set Sx« S,
+For sets of finite cardinality, it is of course true that:
+S < Power(s)                               (32)
+S$ < Square(S)                              (33)
+However, the generalization of the above two inequalities is inare counplicated for sets
+with infinite cardinalities. 11 turns out that Equation (32) bolds for all sets S of
+
+infinite cardinality. However, Equation (33) does not also hald. Among infinite-sized
+
+sets, Equation (33) should be replaced by:
+
+S & Square(S)                         (31)
+
+For the sake of simplicity, | will prove the validity of Equations (32) and (34)
+for the case where S$ is the set of positive integers denoted as J . It should be
+emphasized these identifies also hold for ALL SETS of infinite cardinality.
+
+31
+
+=== Page 33 ===
+numbers. Then the following lemma holds:
+Lemma 8 |] = E
+
+Proof: Consider a function F that maps the integer z onto 2z. Since F
+
+is a 1-to-1 and onto function, it implies J & E.0
+
+Let Power(S) be defined as the set of all subsets of the sect S . It is so-named
+because the power-sct of a finite set of n elements has a cardinality of exactly 2°
+
+clements.
+
+Also, define S x T to be the cross product of the sets S and T. (It consists
+of all ordered pairs (xy) where r€S and y€T.) We sill also use the symbol
+
+Square(S) to denote the cross-product set Sx S.
+For sets of finite cardinality, it is of course true that:
+S ~<_ Power(S)                                  (32)
+S ~< Square(S)                                 (33)
+
+However, the generaliza*’
+
+mo! the above two inequalities is more complicated for sets
+
+ns out that Equation (32) holds for all sets S of
+
+a
+eon (33) does not also hold. Among infinite-sized
+
+rs as                                             (34)
+
+a!
+wore the validity of Equations (32) and (34)
+
+’  ah   *           |  :
+AE
+Bs
+Bf Pumilive Lulegem dvneted as J. It should be
+{fur ALL SETS of infimte cardinality.
+
+31
+
+=== Page 34 ===
+Lemma9 I ~<_ Power{!)
+((
+Proof: Let J, denote an arbitrary subset of J . Define the characteristic
+
+sequence of T; to be an infinite sequence of Boolean values b} , b? , 6} ,... where
+
+1. & = 1 when j € 7;
+
+2. b§ = 0 when the above membership relation fails.
+
+We will prove Lemma 9 by using a proof-by contradiction. Let us therefore tem-
+porarily entertain the hypothesis that the lemma was false. Then there would exist
+a 1-to-1 function from J onto Power(J). We will show that this is impossible by
+constructing a subset, called T. of J , that does not have any integer x € I
+
+“((   mapping onto it (under F ).
+
+Let us define the bit sequence c! , c? , c’,... to have co represent the Boolean
+value of — B - Let us define T, to be the subset of J whose characteristic sequence
+
+a6 ag By CP agesr
+
+It is apparent that for each i that T; # T, (because their two characteristic
+functions will differ in their i-th bit values). Hence, our proof-by-contradiction has
+accomplished its purpose because it demonstrated that it is impossible for any integer
+
+it tohave F(i) = T.
+Oo
+Comment 5.1. The above proof was devised by Cantor during the 19-th century.
+(      It is the historically first example of what logicians call a “Diagonalization Proof”.
+
+(All diagonalization proofs, similar to the Incompleteness proofs in the prior two
+
+32
+
+=== Page 35 ===
+sections, are proofs-by-contradiction. They thus always have a non-constructive flavor
+
+to them.)
+
+LemmalO0 J © Square(!)
+
+Proof: Consider a function F that has the following definition:
+
+1. F maps the integer 1 onto the ordered pair (1, 1).
+2. F maps the integers 2 and 3 onto the ordered pairs of (2,1) and (1,2).
+
+3. F maps the integers 4, 5 and 6 onto the ordered pairs of (3,1) , (2,2)
+and (1,3).
+4. F maps the integers 7, 8, 9 and 10 onto the ordered pairs of (4,1) ,
+
+(3,2) , (2,3) and (1,4).
+
+5. etc.
+
+It is obvious that such a function F establishes that J = Square(J) 0
+
+Definition 5.2 The literature calls a set S Denumerable or Countable iff
+it has the same cardinality as the set of positive integers. Thus, for example the sets
+E and Square(J) were shown to be “denumerable” (or “countable”) by Lemmas 8
+
+and 10, while Lemma 9 showed that Power(J) was not also denumerable.
+
+Comment about Mendelson’s Book. It often uses the words “ Denumerable”
+or “Countable” from Definition 5.2. However, the definitions of these constructs
+
+appears only in a very tersely written passage in the textbook’s preface. That is the
+
+33
+
+=== Page 36 ===
+main reason why I felt it would be helpful to write this section. It should help you
+
+(G   better understand Section 2.7’s discussion.
+
+Definition 5.3 The symbol No has also been used to denote the cardinality of
+the set of positive integers. Under set theory notation, Nj4: is the cardinality of a
+
+set whose size is equivalent to the power-set of a set of N; cardinality.
+
+How This Section Should Have Helped You: Each of the concepts defined
+above appear in Section 2.7 of Mendelson’s textbook, and that is why I thought it
+might be helpful for my lecture notes to have a short 4-page section reviewing these
+definitions. I am not sure whether or not I will cover Corollary 2.20 in this course. I
+will definitely not do the parts of Section 2.7 that come after it. (You should read at
+
+«ce   least Corollary 2.20’s statement — although perhaps not its proof.)
+
+34
+
+=== Page 37 ===
+Appendix A : Summary of Gédel Encoding Method
+€
+
+This appendix will briefly summarize our formal method for generating Gédel num-
+bers for logical sentence and proofs. This encoding scheme will be roughly analogous
+to the natural B-adic encoding methods described by Haéjek-Pudldk [2] and Wilkie-
+Paris [7] — insofar as the number of utilized bits to encode a semantic object will be
+
+approximately proportional to the length of such an expression written by hand.
+
+Our encoding scheme will use the following 24 language symbols to formalize a
+logical sentence or proof:
+1. The standard connective symbols of A, V, 7, —, Vand 3.
+
+-       2. The left and right parenthesis symbols, and also a comma symbol (to separate
+
+the input arguments for a function).
+
+3. Ten function symbols for representing the ten U-grounding functions of subtrac-
+
+tion, division, logarithm, etc.
+4. The relation symbols of “ = ” and“ < ”.
+5. The symbol  V for designating the presence of a basic variable symbol.
+6. The symbol C for designating the presence of a constant symbol C .
+
+7. A special period symbol for separating the formulae that appear within a proof
+
+Let a byte denote an unit of six bits. Define a proof as being either a sequence of
+=>
+
+S   bytes (or equivalently being an integer, written in base 64). Each of the 24 symbols
+
+(above) will be given some unique 6-bit code, ranging between 32 and 55. Our method
+
+35
+
+=== Page 38 ===
+for representing the presence of the i-th variable vu; will be to encode it is as a string
+of [logs2(i+1)] + 1 bytes, where the first byte is the “V” symbol and the
+remaining bytes encode i as a base-32 number. The same convention will be used to
+denote the presence of the i-th constant symbol C; except its first byte will be the
+
+“C” symbol.
+
+Our byte-styled encoding method will produce proof strings whose length is ap-
+proximately proportional to the effort write down such a proof by hand. The Logic
+literature uses the phrase GGdel Number or Godel Encoding to describe the pos-
+itive integer N that represents the sequence of characters D,, Dz, D3, ...Dn as
+a Base-64 integer. (Actually, the literature offers several different possible Gédel-like
+encoding schemes, and the one used in Section 3.4 of Mendelson’s textbook [4] is
+
+more complicated than the variant defined in this Appendix.)
+
+There are many analogs of such types of encodings in the prior literature (see
+for example the Hajek-Pudlék textbook [2] ). Such compressed encodings are usu-
+ally considered to be preferable and more efficient than an uncompressed encoding
+method, using say the Chinese Remainder Theorem in Mendelson’s textbook [4]. All
+our theorems have analogs under such uncompressed encoding methods, but they are
+
+substantially more Pet     hen. ‘e  ® uses efficiently compressed encodings.
+
+5 bet
+
+Appendix B :  sel Construct tffe Proof of — U( PA+) @) J  VY
+
+16 ( 2) PA Cold yenh ty Own Cans sha
+
+I should probably delete Appendix B because my new 00" version of Class notes
+
+does not use Appendix B, after I revis          On 3’s proof so it is no longer necessary.
+
+I have retained Appendi        ly because I am nervous deleting it, although it
+
+36
+
+=== Page 39 ===
+seems to no longer have a purpose.
+
+ce                              ra    /
+ix/will not be needed again
+
+In particular, this short appen                                    unless I revise’Section
+
+4
+
+3 in the future.
+
+This appendix will explain line-by-line how if @ was a proof of U( PA+) then we
+
+could also expand Q iyito a longer proof of tHe opposing melt  3 U( PA+ ). My
+
+proof is similar to t       iques employed in Section 2. However, I’feel no guilt repeating
+those techniques here because students may likely be feeling confused during the first
+few times tHat they witness diagonalization proofs. Ess¢ntially, the proof in this
+
+appendiy ‘is similar to the earlier discussion, except that I/will be replacing the phrase     Fo [ pe "4
+
+U(o4 with U( PA+).           Fig}                    <4,     Le
+Ve  Nusl— ES Cb                    Sec tio, oh
+To achiev   task, -~we need to first encode the sentence U( PA+ ) !
+-_      ‘0 achieve our                  encode          e                            on loys
+how Sbetorr-2 hadedonethis. We wi      let I'(g) denote the following formula          | 2 a
+VhVp { Subst(g,k) => —7Prfpar(h,p) }             (35)
+
+Let N denote the Gédel number of Equation   , ’s formula, and let us recall that
+_                                          f mae          \y C%GQq
+the term N was ach by Comment 1.1. Then fs Section 2 hac-explained, the
+
+Il; sentence iy encodgf  U( PA+ ) wasthe sentence I[( N ).
+Is
+In other words from Equation (35), this implies that U(PA+) (which is the same
+
+as T( NW ) ) is the following sentence:
+
+Vh Wp { Subst(N,h) => -Prfpas(h,p) }   (36)
+
+a     Let K denote U(PA+) ’s Gédel number. Then since Q is assumed to be a
+
+B 4!) fy } hsye / Pr rh pr? Ly ok
+Li  Vere hho)    37
+
+=== Page 40 ===
+proof of U(PA+) , the statements in Equations (37) and (38) are both true.
+Subst( V , K )                        (37)
+
+Prfpar (K , Q )                       (38)
+
+Since Equations (37) and (38) represent logically valid Aj formulae, it follows from
+
+Lemma 2 that both these sentences are provable from PA+ .
+
+rei point is that it is trivial to verify that the conjunction of Equations (37)
+and (38) implies Equation (36) is false. Hence since PA+ can prove (37) and (38),
+it must be able to prove — U(PA+) , because = U(PA+)’s proof is constructed
+from the proofs of (37) and (38) via an entirely routine expansion of these other two
+
+proofs.
+
+Homework Problem: Suppose that p; and p2 are proofs of the Aj sentences
+in Equations (37) and (38). Finish the last paragraph of the above proof by showing
+how to construct from p, and p2 a third proof, called say p3, of the sentence
+
+1 U(PA+) .
+
+Added Remark. I will repeat a comment that was made on Page 1. You are
+the first class to receive these lecture notes. Therefore, I ask you to let me know
+what typos you have found and which points confuse you? For example, if I did not
+carefully define some construct that you wish to understand, please let me know what
+
+it is 7
+These lecture notes will be improved by your feedback.
+
+Vow  PAK
+
+38
+
+=== Page 41 ===
+Appendix C: A Simpler Proof of Lé6b’s Theorem
+
+This appendix will provide a brief outline of a simpler proof for L6b’s Theorem than
+
+appears in Mendelson’s textbook.
+
+I saw a published version of this proof. For the sake of simplifying its notation,
+it had assumed the germane axiom system was Peano Arithmetic and that the ger-
+mane deduction method was the Hilbert-style formalism (appearing in Mendelson’s
+
+textbook).
+
+Iam almost 100 % certain this technique could generalize for the paradigm appear-
+ing in Mendelson’s textbook. However for simplicity, I will stick with the assumptions
+
+made by prior authors.
+
+We will use the following notation:
+
+1.     O ( @ ) will mean that there is a Hilbert-style proof of © from Peano
+
+Arithmetic (PA).
+
+2. PA7* will denote the union of the axiom system PA with - Y , in a context
+
+where W is some special fixed aziom that will be defined later.
+
+3. O7* (4) will mean that there is a Hilbert-style proof of ® from PA™” .
+
+Obviously in general, O7* ( ® ) and O( & ) WILL FAIL to be equivalent
+to each other for most sentences ® . However, there is one almost-silly-looking
+exception to this rule. That funny-looking exception leads to a much simpler proof of
+Léb’s Theorem than had appeared in his 1955 paper (or most subsequent textbooks).
+It is desrcibed on the next two pages. It employs the special variants of O-* ( © )
+
+and O()wherethe Y (used in O7*’s superscript) formally replaces & :
+
+39
+
+=== Page 42 ===
+Lemma 11 The statements O°" (W) and O( W ) are logically equivalent to each
+other. (This strange-looking result holds roughly because “ 07” ” was defined to
+
+mean that the special sentence “ — V ” is an additional axiom permitted in a proof.)
+
+Proof. Almost Trivial. It is well known that VY has a proof from PA if and only
+if it has a proof from PA that begins with the temporary assumption of — VY and
+ends with the contradictory statement of WV (itself). I forgot the theorem numbers,
+
+but this result has appeared in both the Enderton and Mendelson books.
+
+The point is that by definition “O-" ( W )” is the contradiction proof mentioned
+in the preceding paragraph. Hence, it trivially follows that the statements O07” (wv)
+
+and O ( © ) are logically equivalent to each other.
+
+Lemma 12 The statement of Lemma 11 can be proven by Peano Arithmetic itself.
+
+Proof. Entirely routine generalization of Lemma 11’s proof and omitted. (This
+
+“routine generalization” is messy to formalize, but trivial to intuitively appreciate.)
+
+Theorem 4 (L6b’s Seminal Theorem) If PA proves O(%) => W, then PA will
+
+also prove V (by itself).
+
+Proof by Contradiction: Suppose for the sake of establishing a contradiction
+that PA proved Equation (39), BUT IT DID NOT ALSO PROVE W
+
+o(v¥) > v           (39)
+
+Then PA~* must be consistent (since otherwise PA could prove © via a proof-by-
+
+contradiction).
+
+40
+
+=== Page 43 ===
+.
+
+However, it turns out we can show that Godel’s Second Incompleteness Theorem
+will also imply that the prior sentence is false. This fact will enable us to prove Léb’s
+Theorem (via a proof-by-contradiction) because the last sentence in the previous
+
+paragraph CANNOT be simultaneously true and false !
+
+More precisely, PA“ must be able to prove Equation (39) because PA could do
+this (and because PA~” is an extension of PA). Also by definition PA~” contains
+
+— W as an axiom. Hence, it can combine the latter fact with Equation (39) to derive
+70 (v)                                         (40)
+
+Furthermore since PA (and therefore also PA~”) can prove Lemma 11, it follows that
+PA~ can use its knowledge of Equation (40)’s truth that to derive that Equation
+(41) is also true.
+
+n0-" (0)                                   (41)
+
+However, we will now deliver the punchline that will prove Léb’s Theorm.
+
+It is that from the definiton of “ O"” ”, it must be ture that PA~” can prove
+(41) ONLY IF IT HAS KNOWLEDGE of its own consistency. But Godel’s Second
+Theorem specifies no consistent extension of PA can recognize its own consistency.
+
+Hence PA~* must consequently be inconsistent.
+
+The latter statement brings our proof-by-contradiction to its sought-after awk-
+ward end. This is because the last sentence of the first paragraph of Theorem 4’s
+proof indicated that PA~” was consistent, and the prior paragraph contradicted that
+
+assumption !
+
+Hence, we have proven Theorem 4 because we have shown that the temporary
+
+assumption that it was false has led to a contradiction.
+
+41
+
+=== Page 44 ===
+DECIDED NOT TO GIVE THESE QUESTIONS IN 2010
+
+Two Thinking Exercises that You Migh Wish to Try: A Henkin Sentence is a
+sentence (defined with the Fixed Point Theorem) that says “There IS a proof of me from
+Peano Arithmetic.” Note that the Henkin Sentences do differ from Godel Sentences by
+
+replacing the phrase “IS NOT” with “IS”. Here are two thinking questions:
+
+1. It takes only a couple of senteces to explain how one may use Léb’s Theorem to verify
+
+PA can prove the Henking Sentence. What does this short tiny explanation look like?
+
+2. Now here is a harder problem that may take you a day or more to do. Without using
+
+Item 1’s result, prove that PA proves the Henkin sentence.
+
+The second problem is very hard because it took mathematicians 20 years to answer
+Henkin’s open question about whether or not PA proved the Henkin sentence. It is feasible
+for you to answer this question because it involves unpaking my current proof so that it
+proves the Henkin Sentence from first princibles. However, it took me a weekend to do this
+
+seeming straightforward task} and it will also take you some time if you choose to try it ?
+
+42
+
+=== Page 45 ===
+Table I: List of I]; Axioms Defining The U-Grounding Func-
+tions and The Relation Predicates of = , < and <
+
+lL sWrYy zr<y @ yor
+
+2 Wrvy rey Se y2r
+
+3. WevYp zrsy ol[r=y Vv zrsy-1]
+
+4 We¥yVz zt+y=2z @ | z-r=yAz2z )
+
+5 Vr «+z = Double(z)
+
+6 Vr z=2
+
+7 WreVy r=y>y=r2
+
+& VevYyWs {z=yAy=z} > z=2z
+
+9. Yr¥y xr=y =>  Predecessor(z) =Predecessor(y) A Logarithm(r) =Logarithm(y)
+
+10. VWrVyVavb {r=aAy=b} => z-y=a-b A Z=FEAN
+Count{z,y) =Count(a,) A Maximum(z, y) =Maximum(a,b) A Root(x,y) =Root(a, b)
+
+IL WrY¥yvavb { r-y=a-b A y=b} => z=a
+
+12 WevyVYavb {r=aAy=bAr<y} => a<b
+
+iB Wry rH=yvr<yVy<z
+
+a WevyV¥s {z<yAy<z} > 2r<z
+
+ub. Yr o-m-r<r
+
+16. Wr «<1 => r=0
+
+17. Predecessar{0)=0
+
+18 Yr r#0 => _ # Predecessor{x) < x
+
+19. ¥r vy —[ Predecemor{z) < y < 3]
+
+2. Yrvysiz<y xr<y => x =Predecessor(z)
+
+2. Yr «r-O0=2
+
+2 vevy y#0 = r—-y = Predecessor{ x — Predecessor(y) )
+
+23. Yr vy z<yo EF =0
+
+2%. Wr ig=f=2
+
+=== Page 46 ===
+25. Wx Vy  z>y21>[2>0A £-1 = Fe)
+
+26. Wey {2>y => Maximun(z,y)=2} A { y>z > Maximun(z,y) = y }
+27. Logarithm(0)=0 A Logarithm(1)=1 A Logarithm(2)=2
+
+28. We x>3 => Logarithm(zr)-—1 = Logarithm( $)
+
+29. Wx Count(z,0) =Count(0,z) = 0
+
+30. Vz x>0O => Count(x—1,1) #Count(z,1) <1
+
+31, Vey { Count(z,1) >OVCount(Z,y-1)>0} = Count(z,y) > 0
+32. Vx2Vy Count(z,y)—Count(z, 1) =Count(¥,y — 1)
+
+33. Wz Root(0,r)=0 A Root(z,0) =Root(z,1) = z
+
+34. VrWy2>2 Root(z,y) < Root( pootG,  ¥- 1)
+
+35. WrVy>2Vz z>Root(z,y) = z >Root(Z,y—1)
+
+36. WzVi  Bit(z,i) = Count(z, i) - Count(z,i— 1)
+
+It is essentially unimportant, but I hope I did not leave out any axioms. I did not have the axioms
+1-5 or 36 in my JSL 2001 article because it used a different notation.
+
+References
+
+[1] K. Gédel, “ Uber formal unentscheidbare Satse der Principia Mathematica und Verwandte
+Systeme I”, Monatshefte fiir Math. Phys. 37 (1931) pp. 349-360.
+
+[2] P. Héjek and P. Pudlék, Metamathematics of First Order Arith, Springer 1991.
+[3] D. Hilbert and P. Bernays, Grundlagen der Mathematic, Springer 1939.
+[4] E. Mendelson, Introduction to Mathematical Logic, Fifth Edition, Chapman & Hall (2010).
+
+[5] P. Pudlak, “Cuts, Consistency Statements and Interpretations”, Journal of Symbolic Logic 50
+(1985) pp.423-442.
+
+[6] March 29, 1999 issue of Time Magazine, pages 132-134.
+
+[7] A. J. Wilkie and J. B. Paris, “On the Scheme of Induction for Bounded Arithmetic”, Annals
+of Pure and Applied Logic (35) 1987, 261-302
+
+{8] D. Willard, “Self-Verifying Systems, the Incompleteness Theorem and the Tangibility Reflection
+Principle”, Journal Symbolic Logic 66 (2001) 536-596.
+
+[9] D. Willard, “How to Extend The Semantic Tableaux And Cut-Free Versions of the Second
+Incompleteness Theorem Almost to Robinson’s Arithmetic Q”, Journal of Symbolic Logic 67
+(2002) pp. 465-496.
+
+(10] D. Willard, “Some New Exceptions for the Semantic Tableaux Version of the Second Incom-
+pleteness Theorem”, in Automated Reasoning with Semantic Tableaur and Related Methods,
+Springer-Verlag LNAI#2381, (2002) 281-297.
+
+[11] Willard, D. E.: “On the Tender Line Separating Generalizations and Boundary-Case Excep-
+tions for the Second Incompleteness Theorem under Semantic Tableaux Deduction”, in Pro-
+ceedings of LFCS 2020 conference (see pp. 268-286 of Volume 11972 of Springer’s LNCS series).
+
+44
+
+=== Page 47 ===
+2 The First Incompleteness Theorem
+
+This section will sketch a proof of a version of the First In-
+completeness Theorem. I will omit some details in the proof
+that are basically trivial to verify. Our version of the First In-
+completeness Theorem will be less powerful than the stronger
+version in Mendelson‘s textbook [4]. However, its main virtue is
+that it is quite easy to prove. Also, our discussion will capture
+the core intuition behind the Incompleteness Theorem without
+
+going into excessive details.
+
+Each formal proof in the Predicate Order Logic can be thought
+of as a string of characters, encoded as an integer. There are
+many methods for encoding such a proof. One sample method
+is illustrated in the Appendix A . It uses an alphabet of 55 char-
+acters for encoding a formula. If each character is represented
+
+by asymbol D,; that corresponds to an integer between 0 and
+
+9
+
+=== Page 48 ===
+54, then a sentence consisting of n characters can be thought
+of as an integer D,, Do, D3, ....D, , written as a number in
+base 64 whose value falls between 64"~! and 64"—1. (See
+
+the Appendix A for one example of such an encoding method.)
+
+The method for encoding a proof will be similar to a formula’s
+encoding, except that it will need a 56-th symbol (called the
+period symbol) for separating the distinct formulae that appear
+in sequential order in the proof. As before, the sequence of n
+digits D,, Do, D3, ... Dn , describing a proof, will again
+be written as a number in base 64, whose value falls between
+
+64"-1 and 647-1.
+
+Major Notation Convention: The Logic literature
+uses the phrase GGdel Number or Godel Encoding to
+describe a positive integer N that represents the sequence of
+characters D,, Do, D3, ... Dy, as a Base-64 integer. (Ac-
+
+10
+
+=== Page 49 ===
+‘7
+
+tually, the literature offers several different possible Gédel-like
+encoding schemes, and the one used in Section 3.4 of Mendel-
+son’s textbook [4] is much more complicated than the variant I
+
+define in Appendix A.)
+
+Definition 2.1. An axiom system a will be said bea Aj
+axiom system if there exists a Aj formula Ax,(s) which yields
+a value of True for exactly those integers s which correspond
+
+to Gédel encodings for one of a’s axioms.
+
+Comment 2.2. It turns out that all conventional axiom
+systems have Aj encodings. (This is because any axiom system
+that fails to be Aj encode-able is difficult for a Human Being
+
+to interpret and contemplate !! )
+
+Lemma 3 Assume that a isa Aj axiom system. Then
+
+it is possible to construct two Aj formula Logical(xr) and
+
+11
+
+=== Page 50 ===
+4  Prfy(p,t) with the following two properties
+
+A. Logical(x) is true exactly when x is the Gédel number
+
+of one of Mendeslon’s Logical axioms.
+
+B. Prf,(t,p) is true exactly when p is the Godel number
+of a proof using a’s proper axioms whose last sentence
+has t’s Gédel number. (Here t is called the “theorem”
+
+proven by p’s list of sentences.)
+
+Proof Sketch. The method for proving Claims A and B is
+essentially the same type of methodology as would be employed
+to write a computerized language translator, similar to a com-
+piler, assembler or interpreter. Interestingly, Godel conceived
+
+of this method before any computer had been formally built.
+
+We will not provide a formal proof of Claims A and B be-
+
+cause the formal proofs are almost as lengthy as the writing
+
+12
+
+=== Page 51 ===
+of a computerized language translator — while at the same
+time they are conceptually as trivial and as routine as such a
+
+computerized object. O
+
+Lemma 4_ It is possible to encode a Aj formula, called
+Subst(g, h), that yields a value of True precisely when (g, h)
+
+satisfies the following condition:
+
+The integer g designates an encoding of a formula and
+h encodes a sentence identical to g, except that all
+
+free variables in g are now replaced with the term g
+
+(defined by Comment 1.1’s last sentence).
+
+Proof Sketch. Once again, the Aj encoding for Subst(g, h)
+is routine and omitted for the sake of brevity. If you are inter-
+ested in going through the details, analogs of this encoding can
+be found in many logic textbooks. For instance, Items 9 and 10
+
+13
+
+=== Page 52 ===
+\
+
+‘?
+
+on page 193 of Mendelson’s textbook are essentially analogous
+to our treatment of Subst(g,h). (These items are awkward
+to read line-by-line because their meticulous reading requires
+
+knowledge of perhaps two dozen pages preceding them.) O
+
+Added Comment: As with Lemma 3’s proof, the proof of
+Lemma 4 is essentially analogous to the writing of a straightfor-
+ward computer program (using our language for the U-Grounding
+Functions and the Aj formulae to achieve the claimed function-
+ality). It therefore should be trivially obvious to a computer
+
+science student that both these lemmas are true.
+
+Definition 2.3. Let us recall that the deduction system,
+defined in Section 2 of Mendelson’s textbook, is called a “Hilbert-
+style” proof. Let a again denote a Aj axiom system. We
+will now define a II sentence, called U(a) , whose translation
+into English amounts to the following sentence
+
+14
+
+=== Page 53 ===
+x There is no Hilbert-style proof of THIS SEN-
+
+TENCE (looking at itself) from the axiom system a.
+
+To achieve this task, we let ['(g) denote the following formula
+VhVp { Subst(g,h) = -Prfag(h,p) } (22)
+
+Let N denote the Godel number of Equation (22)’s formula,
+and let us recall that the term NV was defined by Comment
+1.1. Then the IIf sentence that encodes + (whose formal
+
+name is often written as “U(a) ” ) is the sentence T( N ).
+
+In other words from Equation (22), this implies that our
+['( N ) sentence (that is often written as “ U(a) ” ) has the
+
+following encoding:
+
+VhVp { Subst(N,h) = -aPrfag(h,p) } (23)
+
+Definition 2.4. A Aj axiom system a will be called
+
+Regular iff it either includes all Table I’s axioms or at least can
+
+15
+
+=== Page 54 ===
+prove all Table I’s axioms as theorems. (The latter condition
+is as good as containing Table I’s axioms because after proving
+Table I’s 36 statements, a can use them as if they were axioms
+
+during the proof of any other theorem.)
+
+Lemma 5 Suppose that a is a Regular Aj axiom
+system that is consistent. Then a must be unable to prove
+
+the sentence U(a) .
+
+Proof: For the sake of constructing a proof-by-contradiction,
+let us assume that Lemma 5 was false and therefore that Q
+represented a proof of U(a) from the axiom system a. Let
+K denote U(a) ’s Gédel number. Then by definition, the
+
+statements in Equations (24) and (25) are both true.
+Subst( N , K )               (24)
+
+Pria( kK, Q)               (25)
+
+16
+
+=== Page 55 ===
+Since Equations (24) and (25) represent logically valid Ag for-
+mulae, it follows from Lemma 2 that both these sentences are
+
+provable from a.
+
+The next point is that it is trivial to verify that the conjunc-
+tion of Equations (24) and (25) implies Equation (23) is false.
+Hence since a@ can prove (24) and (25), it must be able to
+
+prove — U(a) . (This is easy to prove as a homework exercise.)
+
+Next, we recall that the opening paragraph of our proof-by-
+contradiction had entertained the temporary assumption that
+a@ could prove U(a) . Hence from the last sentence of the prior
+paragraph, we conclude that a would then be inconsistent,
+since it would then prove both U(a) and its negation — U(a)
+
+(via the prior paragraph’s construction).
+
+The latter observation will now enable our proof-by-contradiction
+to reach its desired end. This is because Lemma 5’s hypoth-
+
+17
+
+=== Page 56 ===
+esis indicated that a was consistent, but the last paragraph
+
+contradicted this assumption of a’s consistency.
+
+Hence to avoid this contradiction, we are forced to conclude
+the temporary assumption in our proof’s first sentence (that
+a could prove U(a) ) must be false. The negation of this
+temporary assumption demonstrates that Lemma 5 must be
+
+valid (because its negation is inherently contradictory). 0
+
+Lemma 6 Again, suppose that a isa Regular Aj axiom
+system that is consistent. Then the sentence U(a) must
+
+be true.
+
+Proof: Lemma 5 demonstrated that a@ is unable to prove
+U(a) . However U(a)’s formal statement (given in statement
+* ) amounts to saying “There is no proof of U(a) from the
+axiom system a”. Therefore, we are forced to conclude that
+
+U(a) is a formally true statement. O
+
+18
+
+=== Page 57 ===
+Se
+
+Theorem 1 (A weak version of Godel’s First Incompleteness
+Theorem) Again, suppose that a is a Regular \3 ariom
+system that ts consistent. Then there exists a Ij sentence
+
+that is true but not provable from a .
+
+Proof: From Lemmas 5 and 6, it follows that O(a) isa
+
+formally true II} sentence that cannot be provable from a. O
+
+Definition 2.5. An axiom system a is called Recur-
+sively Enumerable iff there exisis a computenzed procedure
+P that if allowed to mm indefinitely will produce a list of all
+of the Godel numbers of a’s axioms and which will list no
+other Godel number besides these. Using this notation, we can
+now give the statement of a stronger version of Godel’s First
+
+Incompleteness Theorem:
+
+Theorem 2 Every consistent recursively enumerable az-
+
+tom system a ts unable to prove some logically valid Ij
+
+19
+
+=== Page 58 ===
+>
+
+m
+
+sentence. (Also, a cannot prove every logically valid 1,
+
+sentence. )
+
+The proof of Theorem 2 has a generally similar structure
+to Theorem 1’s proof. However, its details (which appear in
+Mendelson’s textbook) are somewhat more complicated. They
+
+will not appear here.
+
+Comment 2.6. Theorem 2 is stronger than Theorem 1
+because it indicates that no computerized algorithm can be
+used to generate an axiom system that enables us to find all
+true II} or II, sentences ! It can be viewed as saying that
+Artificial Intelligence will never be able to reach the full goal
+that at least science fiction writers have set for it ! The theory
+
+of NP-hardness is also related to this issue.
+
+Comment 2.7. In my view, the main philosophical im-
+
+20
+
+=== Page 59 ===
+D
+
+2
+
+plication of Gddel’s Incompleteness Theorem is that, computer
+science and computers can never achieve a set of over-ambitious
+goals, because of the “undecidability problems” raised by Godel’s
+Incompleteness Theorem. Rather a more mature approach for
+computer science is to restrict itself to well-defined narrowly
+constructed engineering-style problems — where the essentially
+“undecidable tasks” that are unrealistically over-ambitious are
+
+avoided.
+
+The opening paragraph of an article about Godel in the
+March 19, 1999 issue of Time Magazine [6] stated that “many
+scholars consider Godel’s Incompleteness Theorem to be the
+most important result of 20-th century mathematics”. The
+editors of Time Magazine were very careful to use the word
+“many” in the preceding sentence because there is no unani-
+
+mous opinion among scholars about what are the say five most
+
+21
+
+=== Page 60 ===
+important results in 20th century mathematics. However my
+point is that while some scholars may not agree with the cau-
+tious skepticism 1 expressed in Comment 2.7 about the im-
+portance for Computer Science focusing on narrowly defined
+problems, there should be no question that the Incompleteness
+Theorem is an important result, that has implications about
+what directions Computer Science can and cannot profitably
+
+pursue.
+
+>
+
+But what does the Incompleteness Theorem really mean?
+And what does it imply to for computer science when Theorem
+
+2 applies to all “recursively enumerable” axiom systems?
+
+The answer to these questions are likely to be quite chal-
+lenging. They may not be resolved during our life times. Or
+
+ever?
+
+2      We will now add the new Remarks 2.8 and 2.9 into this Year-
+
+22
+
+=== Page 61 ===
+vy
+
+2020 version of our notes.
+
+Remark 2.8 The main core result of this chapter is its
+Theorem 1. This may, at first, appear to be mysterious be-
+cause Theorem 1’s self-referencing mechanism is similar to a
+puzzling maze of mirrors that can be found in an amusement
+park. It is known that if a human stands between two mirrors
+(one behind him and the other in front of him) then he will see
+an almost endless cascade of reflections of himself. This near
+endless cascade of images can be quite stunning but it is not
+caused by one or EVEN TWO mirrors in pure isolation. In-
+stead, its mesmerizing effect is caused by combination of four
+
+objects. These are the two mirrors combined with:
+1. A point-like Light Source generating photons bouncing be-
+tween these mirrors.
+
+2. A human being (with eyes and a brain) observing his many
+
+23
+
+=== Page 62 ===
+cy
+
+')
+
+stunning images generated by the two puzzling mirrors with
+
+their reflecting photons
+
+The point is that this almost-infinite cascade of reflections is
+not generated by one of its components in isolation. Rather, it
+
+is due to their subtle interaction.
+
+And so analogously, Theorem 1’s subtle Incompleteness Ef-
+fect CANNOT be attributed to ONE ISOLATED fundamen-
+tal cause. Instead, it is due to the complex interaction between
+four agents. (These are the two sentences appearing in Lines
+(22) and (23), interacting with the paradigms specified by Lem-
+
+mas 5 and 6.)
+
+In other words, it is an over-simplification to examine any of
+Lines (22) and (23) or Lemmas 5 and 6 in isolation from its
+other interacting agents. Thus just as a mirror in a cascade of
+
+mirrors cannot be fully appreciated without viewing its inter-
+
+24
+
+=== Page 63 ===
+<4
+
+action with the other mirrors, with their basic common light
+source and with their joint mental observer, Lines (22) and
+(23) can only be fully appreciated when their combination
+with Lemmas 5 and 6 is jointly considered. Then the penul-
+timate implications of Gddel’s Theorem does suddenly become
+
+very apparent.
+
+Remark 2.9. My wise friend, the Prof Harry Hunt, once
+told me that the job of a professor is “to interpret” rather than
+simply reiterate the contents of a textbook. Fortunately when
+class notes are written, one can be more flexible and switch
+back-and-forth between a formal discussion and their intuitive
+
+interpretations. Thus, it is noteworthy that:
+
+The preceding page did not mean to exactly suggest
+that Lines (22) and (23) and Lemmas 5 and 6 should
+only be considered automatically together.
+
+25
+
+=== Page 64 ===
+\   Obviously, each such object should be initially treated individ-
+NX)
+
+ually, as well. However, their most interesting implication does
+
+not arise from each item’s ISOLATED INTERPRETATION.
+
+Instead, the main significance of Lines (22) and (23)
+and Lemmas 5 and 6 follows when they are seen as
+four components of a dizzying machine interacting with
+
+itself.
+
+Ss
+¥)
+
+Thus, a more Go-SLOW approach is needed, where one pa-
+tiently watches the photons bounce between our analogs of mir-
+
+rors to bring about their forced collective conclusion.
+
+26
+
+=== Page 65 ===
+~\
+XN
+
+»)
+
+3 The Second Incompleteness Theorem
+
+The axiom system Peano Arithmetic (PA) was defined by Sec-
+tion 3.1 of Mendelson’s textbook. It essentially has three func-
+tion symbols corresponding to Addition, Multiplication and
+Successor and thus recognizes these three operation as “total”
+(using Definition 1.9’s notation). Its chief feature is that it in-
+cludes the Principle of Induction as an axiomatic assumption
+
+(ie. see page 150’s “S-9” axiom scheme.)
+Definition 3.1. Let a and £ denote two axiom systems.
+
+We will say 8 is an Extension of a and write 6B D a iff
+
+6 can prove all a ’s theorems.
+
+In Gédel’s 1931 paper [1], both his First and Second In-
+completeness Theorems had appeared. The former states that
+
+neither Peano Arithmetic nor any recursively enumerable ex-
+
+27
+
+=== Page 66 ===
+~, tension of it can prove all the true II, sentences. The Second
+
+‘
+Incompleteness Theorem states that if a represents either
+
+Peano Arithmetic or any recursively enumerable extension of
+
+it, then a@ must be unable to prove its own consistency.
+
+Generalizations of the Incompleteness Theorem, subsequent
+to 1931, have shown both the First and Second Incompleteness
+Theorems also apply to many axiom systems weaker than Peano
+
+») Arithmetic (PA). One of the main authors to develop partial
+exceptions to the Second Incompleteness Theorem was Willard
+
+(for certain axiom systems weaker than PA).
+
+We will not discuss my work in this handout. Our goal will
+instead be to prove a version of the Second Incompleteness The-
+orem. My work will be discussed in a later course in more detail
+and perhaps summarized in the last two weeks of this course (if
+
+' 2) time allows).
+
+28
+
+=== Page 67 ===
+Definition 3.2. The axiom system PA+ will be defined to
+
+~~
+
+\
+be a minor extension of Peano Arithmetic (PA) that con-
+
+tains function symbols for all the U-Grounding Functions, in
+addition to the function symbols for Addition and Multiplica-
+tion. Thus, PA+ will include the nine axioms given in Section
+3.1 of Mendelson’s textbook plus the 36 axioms listed in Table
+
+I, defining the U-Grounding functions. You should note that:
+
+k     1. PA+ recognizes the validity of the Principle of Induction
+because it includes the axiom scheme S-9 from page 155 of
+
+Mendelson’s book.
+
+2. The 36 axioms from Table-I will cause PA+ to be an essen-
+tially trivial extension of PA, via its use of the U-Grounding
+function symbols and their natural implications under the
+
+“S-9” inductive schema.
+2)
+|       Fact 3.3 The key point in understanding Gddel’s Second
+
+29
+
+=== Page 68 ===
+Incompleteness Theorem is that Lemma. 5’s proof can be for-
+mally done by the axiom system PA+ (indeed also by PA). This
+
+means that PA+ can prove the following sentence:
+
+** No consistent and regular Aj axiom system a
+
+can prove the sentence U( a ).
+
+The intuitive reason that PA+ can prove ** is that it contains
+the axioms of the Principle of Induction. (The formal verifica-
+tion of. ** via PA+’s inductive methodology is quite routine,
+
+and it is omitted.)
+
+Definition 3.4. The symbol Cons( a ) will denote a IT}
+
+sentence declaring the axiom system a is consistent.
+
+Clarification: Let @ denote the integer that is the Godel
+
+number of the formula that defines the axiom system “a ”.
+
+|    »)  Combining Definition 3.4 with @’s notation, we can now rewrite
+
+|
+
+30
+
+=== Page 69 ===
+statement +x as the II} sentence given below:
+\
+
+«xx VY @ If @ is aregular Aj axiom system satisfying
+
+Cons( @ ) then @ cannot prove the sentence U( @ ).
+
+The reason it is desirable to rewrite ** into * **’s equiva-
+lent form is that the latter expression is technically the precise
+
+sentence which is written in the exact language used by PA+ .
+
+Q)      We have developed two possible proofs of the Second Incom-
+pleteness Theorem that employ the formalisms of Definition 3.4
+and statement **. Our first proof was used in course notes em-
+ployed during 2004-2018, and a second more succinct proof is
+
+given below:
+
+3.1 A Succinct Proof of the Second Incompleteness Theorem
+
+Our proof of the Second Incompleteness Theorem will focus
+mY,
+Y around the following Lemma
+
+31
+
+=== Page 70 ===
+m™
+~
+
+vy)
+
+Lemma 7 Let us assume the axiom system PA+ is con-
+sistent (because all of conventional mathematics would col-
+lapse if it was not). The aziom system PA+ then cannot
+prove the II} theorem, Cons( PA+ ), declaring its own
+
+consistency.
+
+The rough intuitive reason Lemma 7 holds is that is that
+
+PA-+ is one example of an axiom system satisfying the if-clause
+
+‘of statement ¥* **’s requirements for @ (This implication is a
+
+consquence of Fact 3.3 and our observation that * * * is just a
+
+rewrite of «* in a different notation).
+
+We will now provide the reader with the more exact details
+of Lemma 7’s proof In our discussion, we will use the following
+
+notation:
+
+1. [©] will denote ®’s Gédel number,
+
+32
+
+=== Page 71 ===
+2.  Verify( [ ® ]) will be an abbreviation for
+
+ma
+
+~
+
+dp Prfpa+( [®]), p)       (26)
+3. Verify (| ®]) issimply the Godel number for “ Verify( [®]) ”
+
+(We will always use this over-line symbol to denote the
+
+Godel numbers for designating proof encodings.)
+
+4. Double-Verify( [ ®]) is an abbreviation for
+
+Sq Prfpa+( Verify([®]), 9) (27)
+
+This notation may look complicated, but the idea behind it is
+actually quite simple. Thus Verify( [ © |) indicates that there is
+a proof of ® from PA+, while Double-Verify( [ ®]) indicates
+that there is proof of the existence of a proof of statement ©®
+
+(from again the base axiom system of PA+ ).
+
+Logicians usually don’t worry about the distinction between
+
+=)
+
+|    a verification and a double-verification because it is usually
+
+33
+
+=== Page 72 ===
+‘ew,
+
+an unimportant distinction. This is because PA+ can trivially
+
+prove the following fact:
+
+e If ® satisfies Verify( [®]) then it also satisfies
+
+Double-Verify( [ ® ]).
+
+The proof of e follows by an easy induction argument. (It
+
+4-2
+is often not explicitly fomalized in Logic textbooks because In-
+variant e is obvious. (It stems from the fact that all proofs,
+by definition, have finite lengths. This implies “double” verifi-
+
+cations also trivially have finite-sized proofs, whose properties
+
+are characterized by the Principle of Induction.)
+
+- The reason for our interest in e is that it will lead to a very
+nice simple proof of our needed Lemma 7. (Hilbert-Bernays
+(3] were the first to notice the usefulness of how an analog of
+e’s simple identity will help prove the Second Incompleteness
+
+Theorem. )
+
+34
+
+=== Page 73 ===
+Proof of Lemma 7 For the sake of constructing a
+proof-by-contradiction, let us entertain the “temporary”
+assumption that PA+ could prove Cons( PA+ ). Recall
+that Fact 3.3 noted that PA+ had a capacity to prove state-
+ment **. Since PA+ can trivially prove that it is a regular
+axiom system, it can easily apply ** to verify 2 the statement
+
+that:
+
+# PA+ cannot prove U( PA+ ).
+
+We next observe that the statement # can be easily proven
+by PA+ to be logically equivalent to the sentence U( PA+ ) .
+(This is simply because PA+ can trivially verify that the only
+integer K satisfying Subst(N, K) in Equations (23) through
+
+(25) is U( PA+)’s Godel number.)
+
+Thus, the “temporary” italicized assumption (from the pre-
+
+2 This proof is entirely trivial because of our observation that «+ and +++ are logically identical statements,
+except for a slight difference in notation.
+
+35
+
+=== Page 74 ===
+ceding paragraph) has established that PA+ can BOTH prove
+# and prove that # is logically equivalent to the sentence
+OU( PA+ ). This implies that PA+ also has a simultaneous
+
+Capacity
+
+1. to prove the sentence U( PA+ ) (since it is obviously equiv-
+
+alent to # ).
+
+2. and also to disprove the sentence U( PA+ ) , as an
+immediate consequence of the definition of U( PA+ ) and
+
+our prior-mentioned trivial invariant e .
+
+Hence using the above kind of “diagonalization paradox”, we
+can conclude that if PA+ proved Cons( PA+ ), then it would
+be inconsistent because Items 1 and 2 (above) show that it
+would then prove both a sentence (i.e. U( PA+) ) and its
+
+.  negation (i.e. + U( PA+ ) ).
+
+36
+
+=== Page 75 ===
+can conclude that if PA+ proved Cons( PA+ ), then it would
+)
+be inconsistent because Items 1 and 2 (above) show that it
+
+would then prove both a sentence (i.e. U( PA+ ) ) and its
+
+negation (i.e. — U( PA+) ).
+
+Since PA+ is presumed to be consistent by conventional
+mathematics, it follows that PA+ must be unable to prove its
+
+own consistency, to avoid this clearly impossible condition.
+
+Clarification 3.5. Let me do the last part of the proof
+above in slow motion so that you understand, line-for-line, what
+it exactly has done. Suppose that you have proven the following
+
+two sentences:
+
+Ll X=>Y
+
+Zs AY
+
+Then of course, you could conclude that — X is true, via a
+
+37
+
+=== Page 76 ===
+In particular, since one usually presumes that PA+ is consis-
+tent, one must consequently also presume that — Y holds true
+(as item 2 requires). Moreover, Item 1 must also be true be-
+cause the heart of Lemma 7’s proof had verified it. Hence, we
+can conclude that — X is true, which is exactly what Lemma
+
+7 had claimed !!!
+
+In other words, what I did in the Paragraph 3.5 (above), was
+£   repeat in slow motion the last part of Lemma 7’s proof, so that
+
+you can have a better understanding of its underlying intuition
+
+Theorem 8 (A version of Gédel’s Second Incompleteness The-
+orem) Let a denote any Aj encode-able axiom system that
+is an extension of PA+ and which is consistent. The axiom
+system a then cannot prove the IIj theorem, Cons( a ),
+9
+
+declaring its own consistency.
+
+38
+
+=== Page 77 ===
+>  proof by contradiction. The point is that the preceding proof
+}
+
+of Lemma 7 uses essentially the above reasoning where
+
+A. X is the statement that “PA+ proves Cons( PA+ ) ”
+
+B. Y is the statement that PA+ is inconsistent.
+Ty patily Me o% wally pcr
+Sithewe know PA-+ is consistent Ave-ean   y" [ity  iY
+
+be true
+
+is true (as item 2 requires). Moreover, Item 1 m
+4    because the heart of Lemma 7’s proof had verified it. Hence, we
+can conclude that — X is true, which is exactly what Lemma
+
+7 had claimed !!!
+
+In other words, what I did in the Paragraph 3.5 (above), was
+repeat in slow motion the last part of Lemma 7’s proof, so that
+you can have a better understanding of its underlying intuition
+
+Mm
+
+Theorem 3 (A version of Gédel’s Second Incompleteness The-
+
+38
+
+=== Page 78 ===
+>  orem) Let a denote any Aj encode-able aziom system that
+is an extension of PA+ and which is consistent. The axiom
+system a then cannot prove the Il} theorem, Cons( a ),
+
+declaring its own consistency.
+
+Proof: By similar reasoning as was used in Lemma 7’s
+proof. In particular, the same reasoning that Lemma 7 used to
+
+establish that PA+ yf unable to prove Cons( PA+ ) will also
+
+® show that a cannot prove Cons( a ). O
+
+Comment 3.6. The original version of the Second Incom-
+pleteness Theorem by Gédel was slightly stronger than Theo-
+rem 3. It stated that no recursively enumerable axiom system
+that was an extension of PA (not PA+) could prove its own
+consistency. Also, let @* denote an axiom system, identical
+to PA, except that the Principle of Induction is removed. (This
+means that @* differs from PA’s definition on Page 155 by
+
+39
+
+Uz
+
+(Yy
+
+=== Page 79 ===
+removing all the S-9 axioms.) In 1985, a JSL paper by Pudlak
+[5] essentially showed that no extension of @Q* could prove its
+
+own consistency.
+
+Comment 3.7. We will discuss the Second Incompleteness
+Theorem in more detail during a second course. Our discussion
+will include the generalizations of it (by myself and others) and
+also partial boundary-case exceptions to it that I have devel-
+
+oped [8, 9, 11].
+
+3.2 Philosophical Comments
+
+Although the Second Incompleteness Theorem is technically
+correct, there is a very deep philosophical question it raises
+— with broad implications for Computer Science and other
+
+disciplines. It is the following question
+
+Why do Human Beings choose to think and cogitate if
+
+40
+
+=== Page 80 ===
+PLS 4  a
+
+>      they did not have faith that Thinking is a useful pro-
+cess? The problem is that Theorem 3 states that any
+formalism having faith in its own consistency will col-
+lapse in inconsistency. How do Human Beings manage
+to grapple with this inherent dilemma in their day-to-
+day life? How do Human Beings motivate themselves to
+gather the energy to think if they did not have faith in
+the consistency of their thought processes — notwith-
+standing the problems raised by Gddel’s two theorems?
+And how will the computers of the future attempt to
+imitate the higher Human Thinking process when they
+
+confront the same problem?
+
+My papers about Self-Justifying axiom systems will be dis-
+cussed in a later course. They will illustrate how some non-
+
+§ conventional Logics can escape the reach of Gédel’s Second (but
+
+41
+
+=== Page 81 ===
+o  not First) Incompleteness Theorem and possess some knowl-
+
+edge about their own consistency.
+
+I don’t want to over-state the importance of what I am doing
+because both Gédel’s theorems are technically correct. On the
+Other hand, the web site for the Journal of Symbolic Logic
+describes itself as “Logic’s foremost journal”, and my paper
+[8] was the longest of the 120+ papers published by the JSL
+
+D  during 2001. It described non-conventional logics that evade
+the Second Incompleteness Theorem. If you are interested, they
+
+will be discussed next semester.
+
+4 Other Comments about Incompleteness and this Course
+
+In addition to exploring Section 2.7 in detail during this course,
+I also plan to do briefly survey Section 2.8 through 2.10. That
+
+survey will include a description of the statements proven in
+
+C
+
+42
+

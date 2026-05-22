@@ -1,0 +1,96 @@
+++      For each integer k there existsa nm > k such that ZF, can prove the consistency of ZF,.
+
+For the convenience of those readers who are unacquainted about how to prove ++ , we provide a brief summary of its proof in the attached appendix. (We
+suggest that the reader postpone examining this appendix until after the remainder of this paper is first completed.)
+
+The reason that the statement ++ is helpful is that ZF is an extension of ZF, . Thus for any fixed integer k , the statement ++ certainly also
+implies ZF can prove the consistency of ZF,
+
+But Corollary 1 had showed that for sufficiently large & , ZF, can also prove ZF;’s own inconsistency. Hence, it certainly also follows that ZF (which is
+stronger than ZF; ) can also prove a theorem stating that ZF; is inconsistent (for a sufficiently large fixed constant k ).
+
+Combining these results, we obtain that ZF can simultaneously prove that ZF; is consistent and that it is inconsistent (for at least some fixed constant
+k ). Thus, if Y is the statement that “ZF, is inconsistent”, then we have established that ZF will prove both both W and 1 W . Hence ZF is inconsistent
+in the conventional formal sense of this construct (where it proves two statements of the form W and ~W).
+
+Remark 1: One of the fascinating aspects about the formalism of Corollary 2 and of Theorems 2 and 3 is the shortness of their combined proofs in resolving
+a 100 year-old standing open question. A clarifying comment is that the proof of ZF’s inconsistency would be probably be much more difficult and longer if it
+was carried out entirely from first principles. However, a pleasing short cut method for proving ZF’s inconsistency was revealed in this paper. It consisted of
+first providing a non-constructive proof of the existence of an inconsistency in ZF. Then the further machineries of Corollaries 1 and 2 can be used to extend this
+venae) so that we can obtain that ZF will prove two mutually incompatible results, thus rendering it to be inconsistent (in a fully conventional and constructive
+sense).
+
+Remark 2. It is presumably possible to also prove the inconsistency of ZF without the usage of our Choose and Choose* functions. However, these
+functions played an important role in shortening our proofs. This is because they made it easier to encode Paradox-ZF in a much more simple and terse form.
+
+NEW SECTION BREAK : Intuition Behind Core Results
+
+The purpose of this section is to explain the intuition behind the inconsistencies hidden in ZF Set Theory. Many readers will find this discussion helpful
+because diagonalization proofs have been notorious for being hard to understand because of their dizzying heights.
+
+Thus, many readers may find it helpful to set aside, temporarily, the proofs executed in the last three sections of this paper — and to instead focus upon
+the underlying intuitions that shall be vented in the current section.
+
+A crucial point is that ZF’s inconsistencies arise not from the fault of any one of ZF’s axioms. Rather it occurs due to interaction between two of its axioms,
+often called the Replacement schemata and Power Set. As this section shall explain, the formal inconsistencies revealed by Theorems 2 and 3 would disappear
+if the Replacement schema was weakened so that it was applicable only to sets of countable cardinality.
+
+Our discussion will use the formal definition of ZF that had appeared on Page 288 of Mendelson’s textbook. Equality is thus defined extensionally, i.e.
+z=y standsfor Vs s€z @& s€y . Also, u C @ stands for Vs s€u => 8€z . In this context, ZF’s power set axiom, and its replacement and
+selection axiom schemata were defined as follows in Mendelson’s textbook:
+
+1. Power Set:  Va dyVu (wey & uC )
+2. Replacement:     Let Fun( © ) indicate that the formula W(z,y) represents a partial function in the sense that Fun( ¥ ) stands for:
+VeWVa Vb [W(z,a) A U(z,b)] > a=b]                       (12)
+
+Then for any wf W(z,y) (which as footnote ° explains may ‘contain some additional free variables), Equation (13) is called W’s instance of the
+Replacement schemata:
+
+Fun(V) > { VzdawvVu [vew & Au(uEez A u,v) J }               (13)
+3. Selection:     For any wif ®(u) that does not contain the variable y , the Selection schemata will contain any axiom of the form:
+VzeayVu vey & (veEzA Biv) )    (14)
+
+The ZF axiom formalism also contains five further axiom sentences, in addition to the power set, replacement and selection axioms. These other five axioms,
+called T, P, N, U, and I in Mendelson’s textbook [13], are not directly relevant to our current discussion. However, they are listed below for the reader’s
+convenience.
+
+T:  ViVyVz2 2=y > (2Ez & YEz)
+
+P:  VeVysdz2Vu {uez & (u=aVu=y ) }
+
+N: daVy yer
+
+U:  ValAy Vu {uey @& [3 (wevAveEes) ] }
+I:  at @€2 [Vz(z2€2 > zU{z}Eez) ]
+
+Zermelo’s original 1908 version of Set Theory included all of the preceding axioms except for the Replacement schemata. Fraenkel discovered the Replacement
+schemata was necessary for axiomatic set theory to gain adequate strength. The current formal coding of this schemata was subsequently done by Skolem. The
+infinite number of axioms belonging to the Replacement schemata is strictly stronger than the Selection schemata (which can be viewed as a degenerate and
+strictly weaker form of replacement).
+
+The surprising aspect of Theorem 3 is that it establishes that there is a very fundamental difficulty with the Replacement’s and Selection’s schemata at a
+surprisingly low level. In particular, Theorem 3’s proof (unlike Theorem 2’s proof) did not even require the formalized construction of the second-level power
+set of P2 . It merely required that one take P, (which is the smallest conceivable power set with an infinite number of elements) and apply the Selection
+schemata to construct Support-ZF as a forma! set. The contradictory behavior of Support-ZF was then used to show ZF was laden with inconsistencies.
+
+These difficulties could be avoided if one used a variant of Replacement’s and Selection’s schemata that forbidded their application to sets z (in Equations
+(13) and (14) ) which have cardinality equal to that of P, or higher.
+
+At first, some researchers might find it counter-intuitive that two axiom schemata, as seemingly straightforward and simple as Replacement and Selection,
+would be capable of producing inconsistencies. However, the point is that an infinite set of “uncountably large size” is such a daunting construct, due to its
+uncountable nature, that one’s initial intuitions should not necessarily be presumed to be correct. (After all, such a set includes more than merely an infinite
+
+3 We follow Mendelson's notation convention that  W(z,y) in Equation (13) may implicitly contain the additional free variables of say ti , to ,... t, . Then if
+(ti, t2,...th ) is the formal statement in Equation (13), Mendelson’s method of couching Replacement would be able to infer Vt; V t2 ... Vth T(t1, ta,..-th )
+from the preceding formula via & applications of the generalization rule. Obviously, an alternate style for couching ZF’s Replacement axfom would be to write
+
+it formally as “ Vti Vto ... Vt, Y(t1, t2,-.-t% )” , as Cohen does in [2].                   a         D
+
+oT
+corr BECHASD R008
+avy Pulie,         Of       York
+
+_ Ho, O1BES 141598      Scor PB ZecheL
+
+oc ii Saratoga County
+

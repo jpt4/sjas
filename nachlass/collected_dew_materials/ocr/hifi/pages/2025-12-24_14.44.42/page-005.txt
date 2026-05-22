@@ -1,0 +1,32 @@
+axiom system, whose relationship to the ISCE(8) system is as follows:
+
+— ay
+i. The Group-1 and Group-2 schemes for ISt»( 8 ) and ISCE(8) are essentially identical.
+
+ii. The Group-Zero scheme for IStap( @ ) is stronger than that of ISCE(8) because it replaces
+the Additive Naming Convention with a stronger more compact “Type-A” statement
+
+declaring that the operations of Addition and Double(z) = z+ are total functions.
+
+iii. The Group-3 scheme for IStmp( 8 ) is, however, weaker that its analog under ISCE()
+
+because it only recognizes its self-consistency under a semantic tableau form of deduction.
+= J)
+
+In essence, ISta»( 8 ) is a self-justifying formalism that avoids being inconsistent by using a
+different type of trade-off than ISCE(8), where its Group-Zero schema is stronger while its
+
+va         u    wv
+Group-3 statement uses a weaker ceduee methodology.           y=  b         u 4 | A                mie
+
+Cords ain PO Ey BM ee
+
+Also, we will employ the Example 5.1 from [47], where ISt{,( 8 ) denotes the natural
+
+modification of ISm»( 8 ) wherein:
+
+1. The Group-Zero axiom further recognizes integer-multiplication as a total function.
+
+2. The Group-3 axiom is the same as that described in (iii) except that its Group-3 “J am
+
+25

@@ -1,0 +1,20 @@
+=== tesseract (conf=0, chars=0) ===
+
+=== ocrad fallback ===
+\ 2. Verl_( |__) will _e _ abbrevlatLon _or
+3p Pr[PA+ ( r_|) , p ) (26)
+3. _( r_|)is_implytheGódelnumber_or" VeTl_( r_|) "
+(We _viU &w&_ u_ thls o_r-llne _ymbol to denote the
+Gódel numbe_ [or d_lgnating pToo_ encodln_.)
+4. DoubLeVen_( r _|) i_ _ abbrevlation [or
+3 q PrrPA+ ( VeriJ_( r_|) , q ) (27)
+_.
+T__ notation may look _mplIcat_, but the idea beh_nd it l_
+amu&ly quiR simple Thu_ Verl_( r_ |) indic&t_ th&t there ls
+a proor or _ hom PA+, while DoubleVeri_( |_|) ind_c&t_
+that there ú p_o/ o_ tkP p__tPn_ oJ a proo_or_tatement _
+(hom again the b_e a_om sy_tem or PA+ ).
+LA_ci_ usu_ly _on't wor_ about the di_tinctlon between
+|_a verlfication and & dovb_e-_e___tion becau_e lt |_ usuBlly
+M
+

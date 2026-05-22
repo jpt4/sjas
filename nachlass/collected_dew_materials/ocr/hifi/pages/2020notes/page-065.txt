@@ -1,0 +1,27 @@
+~\
+XN
+
+»)
+
+3 The Second Incompleteness Theorem
+
+The axiom system Peano Arithmetic (PA) was defined by Sec-
+tion 3.1 of Mendelson’s textbook. It essentially has three func-
+tion symbols corresponding to Addition, Multiplication and
+Successor and thus recognizes these three operation as “total”
+(using Definition 1.9’s notation). Its chief feature is that it in-
+cludes the Principle of Induction as an axiomatic assumption
+
+(ie. see page 150’s “S-9” axiom scheme.)
+Definition 3.1. Let a and £ denote two axiom systems.
+
+We will say 8 is an Extension of a and write 6B D a iff
+
+6 can prove all a ’s theorems.
+
+In Gédel’s 1931 paper [1], both his First and Second In-
+completeness Theorems had appeared. The former states that
+
+neither Peano Arithmetic nor any recursively enumerable ex-
+
+27

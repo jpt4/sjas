@@ -1,0 +1,26 @@
+statement +x as the II} sentence given below:
+\
+
+«xx VY @ If @ is aregular Aj axiom system satisfying
+
+Cons( @ ) then @ cannot prove the sentence U( @ ).
+
+The reason it is desirable to rewrite ** into * **’s equiva-
+lent form is that the latter expression is technically the precise
+
+sentence which is written in the exact language used by PA+ .
+
+Q)      We have developed two possible proofs of the Second Incom-
+pleteness Theorem that employ the formalisms of Definition 3.4
+and statement **. Our first proof was used in course notes em-
+ployed during 2004-2018, and a second more succinct proof is
+
+given below:
+
+3.1 A Succinct Proof of the Second Incompleteness Theorem
+
+Our proof of the Second Incompleteness Theorem will focus
+mY,
+Y around the following Lemma
+
+31

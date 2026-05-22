@@ -1,0 +1,26 @@
+can conclude that if PA+ proved Cons( PA+ ), then it would
+)
+be inconsistent because Items 1 and 2 (above) show that it
+
+would then prove both a sentence (i.e. U( PA+ ) ) and its
+
+negation (i.e. — U( PA+) ).
+
+Since PA+ is presumed to be consistent by conventional
+mathematics, it follows that PA+ must be unable to prove its
+
+own consistency, to avoid this clearly impossible condition.
+
+Clarification 3.5. Let me do the last part of the proof
+above in slow motion so that you understand, line-for-line, what
+it exactly has done. Suppose that you have proven the following
+
+two sentences:
+
+Ll X=>Y
+
+Zs AY
+
+Then of course, you could conclude that — X is true, via a
+
+37

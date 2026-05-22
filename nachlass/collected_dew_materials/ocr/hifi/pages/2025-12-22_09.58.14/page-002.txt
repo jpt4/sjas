@@ -1,0 +1,33 @@
+|
+
+matical machinery to accomplish this
+
+Definition 4.2 The deduction method Tab-1. was defined in both our
+articles [46, 52]. It is, essentially, a compromise between Tab and Xtab deduc-
+tion, where a “Tab-1” proof for V from an axiom basis @ corresponds to a set
+
+of ordered pairs (pi, $1), (D2; $2), «++» (Pk, $x) where
+i, dye
+
+2. For every j < k—1, each p; isa Tab-proof of a Rank-1* sentence ¢,; from
+
+the union of a with the preceding Rank-1* sentences of $1, $2, -.--, Pj-1-
+
+The Rank-1* constraint, used by Item 2, is noteworthy partly because it makes
+
+Tab-1 lie midway in efficiency between Tab and Xtab under extreme worst
+
+UNG yL §
+case. (This is because Tab-1, unlike Xtab, requires all-except-its-final wff ¢; to
+
+be Rank-1* sentences, as Footnote’ explains.) Thus under extreme worst case
+
+circumstances, a Tab-1 proof from a base axiom system a can be sharply longer
+
+than an Xtab proof, while still being potentially sharply more compressed than
+{      Tab pets. In particular, the constraint that Items (1) and (2) imposes upon
+
+‘Unlike Tab-1, Xtab does not impose a similar Rank-1* requirement upon ¢ when its Law of the Excluded
+Middle allows ¢ V —¢ to appear anywhere as a permissible logical axiom, for arbitrary ¢. )
+
+32

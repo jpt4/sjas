@@ -1,0 +1,30 @@
+m™
+~
+
+vy)
+
+Lemma 7 Let us assume the axiom system PA+ is con-
+sistent (because all of conventional mathematics would col-
+lapse if it was not). The aziom system PA+ then cannot
+prove the II} theorem, Cons( PA+ ), declaring its own
+
+consistency.
+
+The rough intuitive reason Lemma 7 holds is that is that
+
+PA-+ is one example of an axiom system satisfying the if-clause
+
+‘of statement ¥* **’s requirements for @ (This implication is a
+
+consquence of Fact 3.3 and our observation that * * * is just a
+
+rewrite of «* in a different notation).
+
+We will now provide the reader with the more exact details
+of Lemma 7’s proof In our discussion, we will use the following
+
+notation:
+
+1. [©] will denote ®’s Gédel number,
+
+32

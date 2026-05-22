@@ -1,0 +1,34 @@
+We will say an axiom system a can recognize Addition “as a total function” iff
+it can prove
+
+Va Vy dz Add(z,y, z)               (18)
+
+Similarly, we will say an axiom system a can recognize Multiplication “as a total
+
+function” iff it can prove
+Va Vy dz Mult(z,y, z)                    (19)
+
+Also, we will say an axiom system a can recognize Successor (i.e. the operation of
+
+“plus one”) as a total function iff it can prove
+
+Va 3z Add(z,1,z)                (20)
+
+Some axiom systems a are unable to prove Multiplication is a total function but
+can prove every true Aj sentence. Other axiom systems are unable to recognize any
+of Addition, Multiplication or Successor as total functions, but they can prove every
+valid Aj sentence. It will turn out these facts will be central to understanding the
+
+generality and limitations of Gédel’s Second Incompleteness Theorem.
+
+Fact 1.11 A sentence W is said to be written in Prenex Normal Form iff for
+some i> 0, it can be written as a II} or a Lf sentence. (Please see footnote } for
+an important clarifying comment.) It can be formally proven that a predicate logic
+using the language L can always formally prove that for every sentence ® there
+exists a prenex sentence ®* such that
+
+be o                                     (21)
+
+’ Following Definition 1.4’s notation convention, every Ij sentence can be rewritten as a Dj,, sentence
+and viceversa. Therefore Fact 1.11's first sentence does not technically need to refer to both Ij and Dj
+sentences in its definition of Prenex Normal Form.

@@ -1,0 +1,35 @@
+reading requires knowledge of perhaps two dozen pages preceding them.) O
+
+Added Comment: As with Lemma 3’s proof, the proof of Lemma 4 is essentially
+analogous to the writing of a straightforward computer program (using our language
+for the U-Grounding Functions and their Aj formulae to achieve the claimed func-
+
+tionality). It therefore should be trivially obvious to a computer science student that
+
+both these lemmas are true.
+
+Definition 2.3. Let us recall that the deduction system, defined in Section 2 of
+Mendelson’s textbook, is called a “Hilbert-style” proof. Let a again denote a Aj
+axiom system. We will now define a IIj sentence, called U(a) , whose translation
+
+into English amounts to the following sentence
+
+* There is no Hilbert-style proof of THIS SENTENCE (looking at
+
+itself) from the axiom system a.
+
+To achieve this task, we let ['(g) denote the following formula
+VhWp { Subst(g,h) => -Prfa(h, p) }           (22)
+
+Let N denote the Gédel number of Equation (22)’s formula, and let us recall that
+the term N_ was defined by Comment 1.1. Then the IIj sentence that encodes *
+
+(whose formal name is often written as “ U(a) ” ) is the sentence [( N ).
+
+In other words from Equation (22), this implies that our ['( N ) sentence (that
+
+is often written as “ U(a)” ) has the following encoding:
+
+VhVp { Subst( N,h) = -Prfg(h,p) }   (23)
+
+13

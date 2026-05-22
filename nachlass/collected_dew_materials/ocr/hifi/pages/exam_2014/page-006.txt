@@ -1,0 +1,35 @@
+Your answer can be as simple as a one sentence long because I just want the correct formula.
+(I am not sure that I will give partial credit for the wrong answer, and I am simply will not
+
+attempt to give partial credit for a wrong answer that is more than 2-4 sentences long.)
+
+F-2 This part is the analog of F-1 that asks you to instead calculate the expected time for a
+successful search. This part is also not hard, but it is slightly more challenging that Part
+
+F-1. Your analysis should use the following assumptions.
+
+1. The probability of searching a bucket address B that contains Jg keys is  48
+
+2. The amount of time used to search such a bucket was calculated by you in the part of
+
+Question E that considered “successful” searches.
+
+Using Items (1) and (2), you should be able to express the expected time of your search as
+a summation formula. Please write down that very simple summation formula. Then after
+writing down that formula, you should take the limit of it as S approaches infinity (and as
+Equation (1) implies N = aS ) to calculate the value of this limit as solely a function
+
+of a.
+
+Hint: This answer should not take you more than 2-5 minutes to derive when you see the
+trick, and you are wasting your time if you don’t see the quite straightforward idea. Also
+your entire answer should must not be more than half-a-dozen sentences long, since I am
+looking only for correct answers and not intending to read long-winded answers for what is
+
+basically a simple idea.
+
+AGAIN, I REMIND ALL STUDENTS not too waste too much time on Parts E and F
+of this question because they are extra credit questions, and a student will pass the 503 exam if
+he/she ignores these parts and does well on the remainder of the 503 half of PhD exam. (Also,
+
+they are not worth very many points)

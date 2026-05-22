@@ -1,0 +1,36 @@
+I= ahs
+
+eho     end  Excl,
+
+Chafy
+About the Characterization of a Fine Line That
+Separates Generalizations and Boundary-Case
+Exceptions for the Second Incompleteness Theorem
+under Semantic Tableau Deduction
+
+Dan E. Willard
+State University of New York at Albany
+
+Abstract
+
+Our previous research showed that the semantic tableau deductive method-
+ology of Fitting and Smullyan permits boundary-case exceptions to the Second
+Incompleteness Theorem, if multiplication is viewed as a 3-way relation (rather
+than as a total function). It is known that tableau methodologies prove a
+schema of theorems verifying all instances of the Law of the Excluded Middle.
+But if one promotes this schema of theorems into formalized logical axioms,
+then the meaning of the pronoun of “I”, used by our self-referencing engine,
+changes quite sharply. Our partial evasions of the Second Incompleteness The-
+orem shall then come to a complete halt.
+
+CITATION INFORMATION : This paper was invited by the Journal of Logic
+and Computation and will appear in print in 2021. Its shorter 19-page conference-
+style version had appeared in January 2020 at the Springer-sponsored LFCS meeting
+under a slightly different title [57].
+
+KEYWORDS and PHRASES: Semantic Tableau deduction, Hilbert’s Second
+Problem, Partial Revival of Hilbert’s Consistency Program, Generalizations of the
+
+Second Incompleteness Theorem.
+
+Mathematics Subject Classification: 03B10; 03B45; 03F03; 03F25; O3F30.

@@ -1,0 +1,36 @@
+4. Assume that “Heapify{A.i}” ts an imocation that asks the *Heapify” subroutine to heapify
+the fragment of array A that lics below the address i. You do not Aare to encode thie Heaprfy
+subroutine. However, I would like you to write the code of the BuildHeap procedure that
+takes an array of A of length N and transforms it in O(N log N) time into an array that
+satisfies the max-heap property (defined in the first paragraph of this question) via repeated
+employments of the “Heapify” subroutine. Also explain, how Buildheap would process the
+input array given below. Your anewer should consist of 4 drawings because BuildHeap will
+call Heapify EXACTLY four times. What I wart you to do is show how the array below
+changes after cach iteration of “Heaps”. Thas. all you need to do this question, is to draw
+four arrays, indicating fire, second, third and fourth changes in array after ench Heapify
+
+plus additionally write the tiny amour <f ¢ade fee caumlac fragment of Buildheap.
+50, 25, 10, 70, 40, 22, 5, 90, SO
+
+5. The next. and main part of the Hospsont Afgvertha unravels a heap to build a fully sorted
+
+list in O(N Jog N) time. In regards to thy tnarhce procedure, please answer A and B:
+
+A. The mainline of MeapSort merely swans two elements ancl calls a special variant of
+Heapify to subsequently do a careetion. Please write down, formally, the code for this
+maip-line procedure. (It is anly about balf-a-dozen Lines long when you are given the
+permission to avaid writing the code for Heapify’s subroutine, as [ am providing you.)
+
+B. Hf the procedure (above) was given the tiny Gelement heap below, please indicate how
+it will build a sorted array by repeatedly doing a swap, followed by a Heapify, followed
+by a Swap, until it is done. What I wart you to do is to indicate how this list changes
+after each Swap-Heapify cycle. (Each picture should be simply a new arrangement of
+the arder in the list below after a Swap-Heapify cycle is done.)
+
+100, 10, 60, 2, 5, 13
+Thus, there will be several cycles of Swap-Heapify, and you should indicate how the
+above list changes during each cycle.
+
+6. In 2-to-5 sentences (and definitely not more), please tell me how Heapsort improves upon
+
+2

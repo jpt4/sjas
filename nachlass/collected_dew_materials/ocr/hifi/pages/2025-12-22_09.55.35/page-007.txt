@@ -1,0 +1,62 @@
+3 Main Notation and Background Literature
+
+NO      Let us call an ordered pair (a, D) a Generalized Arithmetic Configuration (ab-
+breviated as a “GenAC” ) when its first and second components are defined as
+
+follows:
+
+1. The Axiom Basis “ a” for a GenAC is defined as its set of proper axioms.
+
+2. The second component “D” of a GenAC, called its Deductive Apparatus,
+is defined as the union of its logical axioms “Zp” with its rules for obtaining
+
+inferences.
+
+Example 3.1 This notation allows us to separate the logical axioms Dp , as-
+sociated with (a, D) , from its “basis axioms”, denoted as “a”. It also allows us to
+
+compare different deductive apparatuses from the literature. Thus, the Dg appara-
+
+tus, from Enderton’s textbook [12], uses only modus ponens as a rule of inference, but                     )
+it deploys a complicated 4-part schema of logical axioms. This differs from the D,             j. af
+and Dy apparatuses in the Mendelson [30] and Hajek-Pudlak [25] textboo                   Is  a
+
+—
+
+émploys a broader “tableau style” rule
+
+while proofs have different lengths
+
+y
+
+under different apparatuses, all the common appératuses produce the same set of final
+
+.                             Dolote “of botore ‘alpha, bect
+plaing) .                     \alpha ls the axiom basis.
+
+s” i ae footnote 2
+an
+
+Definition 3.2 Let a again WA te an axiom basis,     esigna
+GenAC. Henceforth, the configuration (a, D) will
+
+theorems from an initial common “axiom b
+
+a deduction
+apparatus, and (a, D) denote thej
+be called Self-Justifying wh
+
+i. one of (a, D)’s theoyems (or possibly one of a’s axioms) states that the deduc-
+tion method D,/applied to the basis system a, produces a consistent set of
+
+theorems, an
+
+ii. the GenAC/formalism (a, D) is actually, in fact, consistent.
+
+2This is becayfse all the common apparatuses satisfy the requirements of Gédel’s Completeness
+
+3                              Theorem.
+[                                 cf               5
+
+we ewe oe            EE
+

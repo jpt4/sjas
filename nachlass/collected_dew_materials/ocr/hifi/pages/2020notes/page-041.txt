@@ -1,0 +1,38 @@
+Appendix C: A Simpler Proof of Lé6b’s Theorem
+
+This appendix will provide a brief outline of a simpler proof for L6b’s Theorem than
+
+appears in Mendelson’s textbook.
+
+I saw a published version of this proof. For the sake of simplifying its notation,
+it had assumed the germane axiom system was Peano Arithmetic and that the ger-
+mane deduction method was the Hilbert-style formalism (appearing in Mendelson’s
+
+textbook).
+
+Iam almost 100 % certain this technique could generalize for the paradigm appear-
+ing in Mendelson’s textbook. However for simplicity, I will stick with the assumptions
+
+made by prior authors.
+
+We will use the following notation:
+
+1.     O ( @ ) will mean that there is a Hilbert-style proof of © from Peano
+
+Arithmetic (PA).
+
+2. PA7* will denote the union of the axiom system PA with - Y , in a context
+
+where W is some special fixed aziom that will be defined later.
+
+3. O7* (4) will mean that there is a Hilbert-style proof of ® from PA™” .
+
+Obviously in general, O7* ( ® ) and O( & ) WILL FAIL to be equivalent
+to each other for most sentences ® . However, there is one almost-silly-looking
+exception to this rule. That funny-looking exception leads to a much simpler proof of
+Léb’s Theorem than had appeared in his 1955 paper (or most subsequent textbooks).
+It is desrcibed on the next two pages. It employs the special variants of O-* ( © )
+
+and O()wherethe Y (used in O7*’s superscript) formally replaces & :
+
+39

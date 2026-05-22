@@ -1,0 +1,19 @@
+=== tesseract (conf=0, chars=0) ===
+
+=== ocrad fallback ===
+_ding p_a&gph) h_ _tgbll_hed thgt PA+ & BOTH prove
+j
+# _d prove thet # ls logic_ly equiv&ent to the _ntence
+U( PA+ ). Thi_ lrnpli_ thgt PA+ a_o h_ a _lmultgn_w
+c&pe_ty
+l. to prove the _entence U( PA+ ) (_in_ It i_ obvio_ly equlv-
+&ent to # )
+2._d _ to disprove the _enten_ V( PA+ ) , _ an
+imm_i_e _n_quen_ or the definit_on o_ u( PA+ ) and
+OUT prior-m_tioned trivi& inv_iant .
+Hen_ wing the above hnd or ''diagonaliIation p_adow", we
+e conclude that if PA+ pTov_ Con_( PA+ ), then it wouLd
+be ln__útent becau_ ltem_ l _d 2 (above) show that lt
+would then prove both a _ntence (i.e. U( PA+ ) ) and lt_
+_ negetlon (i.e ¬u( PA+ ) )
+

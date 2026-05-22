@@ -1,0 +1,312 @@
+=== Page 1 ===
+ys yl 2  iP  258         Ayre
+ae) ¢ 4                   An | gle
+3 Ze.      L   PY ta
+?       hes Ybe4u,
+                                 CTF| J
+On a 3-Part “Tripod” Styled Reply to Hilbert’s i
+Mysterious Second Problem 41 jh) Axe.
+
+Dan E. Willard
+
+om! f              ;
+State University of New York at Albany    L “7 Wass
+0 XV gt                                              7.          hy-
+m   Jt                   Abstract           c hag   At?
+lOrgc— WKS
+Hilbert’s mysterious year-1900 Second Problem asked math-
+ematicians to devise a methodology whereby Peano Arithmetic
+can confirm its own consistency. Godel’s famous 1931 pa-
+per showed that a fully positive reply can never be made to
+Hilbert’s question. This article will explain how Hilbert’s ques-
+tion is such a complicated issue that it can be better receive a
+3-way styled “Tripod” reply.
+
+We also provide substantial evidence that Godel would likely
+agree with the main opinions expressed in this article.
+
+Keywotds and Phrases: Gédel’s Second Incompleteness Theorem, Hilbert’s Second Prob-
+lem, Consistency, Smullyan-Fitting Semantic Tableau Deduction, Hilbert-Frege Deduction.
+
+|                 :             (
+A-\  Aywt fhe  OC ¢ y  fe 4 A Dyrrbs\
+L 05 iC 1 \    Ph \psop/                   |
+
+CAM -3PM Wd dbo
+
+=== Page 2 ===
+1 Introduction
+
+This article is a continuation of a series of papers that began with the 1993 article [38] and
+
+continued until and through the year-2021 article [47]. This series, which included six papers
+
+appearing in the JSL and APAL, had focused on discussing generalizations and boundary case
+
+exceptions for the Second Incompleteness Theorem. The two goals of this paper will be to
+
+explore the underlying philosophy that motivated this series and to explain how it is related to
+
+several generalizations and boundary-case exceptions to the Second Incompleteness Theorem ,
+
+including some important new results formalized by Artemov [3, 4].
+
+Our general theme will be that Hilbert’s year-1900 Second Problem is too complex an issue
+
+to receive a 1-directional or even 2-directional answer. Instead, it will require a 3-directional
+
+answer, called the “Tripod Reply” to Hilbert's question.
+
+The first leg of this 3-part response to Hilbert’s Second Problem will rest on the combination
+
+of Gédel’s initial version of his Second Incompleteness Theorem and its numerous generaliza-
+
+tions. They collectively establish that many logical formalisms, besides Peano Arithmetic (PA),
+
+are unable to corroborate their own consistency in a fully extensive respect. While these gener-
+
+=== Page 3 ===
+alizations of Gédel's Second Incompleteness paradigm are indisputably important, the second
+
+section of this article will explain Hilbert and Gédel strongly doubted they constituted a full
+
+answer to Hilbert’s year-1900 problem.
+
+A second leg of a 3-part reply to Hilbert's Second Problem was formalized by Artemov
+
+recently in [3, 4]. He noted Peano Arithmetic (PA) can prove an infinite schema of theorems,
+
+whose collective union confirms PA’s own consistency. Let us call Artemov’s method a Step-By-
+
+Step Infinite-Schema approach ( SBSIS ). This technique is an extension of the Justification
+
+Logics explored by Artemov and Beklemishev (2, 5, 6]. It was motivated by Artemov’s obser-
+
+vation that the year-1900 logic community (including Hilbert) were not aware that PA would
+
+require an infinite number of proper axioms. Thus, an SBSIS schema-driven logic approach is
+
+a valid reply to Hilbert's year-1900 second problem, although its potential significance was not
+
+well appreciated during the era when Hilbert posed his Second Problem.
+
+Artemov's analysis (3, 4] uses Tarski’s partial definitions of truth for sentences with a
+
+bounded number of quantifiers as an intermediate step. It essentially constructs a sequence
+
+of finite subsets of Peano Arithmetic S; C S; C S3 C ... where
+
+=== Page 4 ===
+1 PA= S; US U S3U...
+
+2. Each S);4; can prove a Il, theorem asserting there exists no proof from S, of 0=1, in
+
+a context where all logical axioms in the concerned proof from S, are no more complex
+
+than Il, or L, statements. (We will henceforth call this theorem Tj. )
+
+While Artemov's SBSIS-style response to Hilbert’s year-1900 second question is intriguing, one
+
+would ideally still like access to a system that does not rely upon his infinite series S, Sz 53... .
+
+A third possible leg of a proposed Tripod reply to Hilbert’s second problem involves formal
+
+systems using Fixed Point axiomatic sentences that confirm their own consistency. For example,
+
+[38, 39, 41, 42, 47] examined systems strictly weaker than PA, that verified their own self-
+
+consistency, under mostly semantic tableau deduction [13, 32].
+
+This third leg, called the Declarative Approach, rests on using a self-referencing “J am
+
+consistent” axiomatic declaration, so that a formalism can confirm its own consistency. This
+
+approach, studied in (38, 39, 41, 42, 47], will essentially be defined by the current paper's
+
+statement @ . Its advantage is that its declaration of self-consistency is compressed into one
+
+single sentence, while its non-trivial drawback is that its particular statement @ (defined
+
+3
+
+=== Page 5 ===
+axiom system, whose relationship to the ISCE(8) system is as follows:
+
+— ay
+i. The Group-1 and Group-2 schemes for ISt»( 8 ) and ISCE(8) are essentially identical.
+
+ii. The Group-Zero scheme for IStap( @ ) is stronger than that of ISCE(8) because it replaces
+the Additive Naming Convention with a stronger more compact “Type-A” statement
+
+declaring that the operations of Addition and Double(z) = z+ are total functions.
+
+iii. The Group-3 scheme for IStmp( 8 ) is, however, weaker that its analog under ISCE()
+
+because it only recognizes its self-consistency under a semantic tableau form of deduction.
+= J)
+
+In essence, ISta»( 8 ) is a self-justifying formalism that avoids being inconsistent by using a
+different type of trade-off than ISCE(8), where its Group-Zero schema is stronger while its
+
+va         u    wv
+Group-3 statement uses a weaker ceduee methodology.           y=  b         u 4 | A                mie
+
+Cords ain PO Ey BM ee
+
+Also, we will employ the Example 5.1 from [47], where ISt{,( 8 ) denotes the natural
+
+modification of ISm»( 8 ) wherein:
+
+1. The Group-Zero axiom further recognizes integer-multiplication as a total function.
+
+2. The Group-3 axiom is the same as that described in (iii) except that its Group-3 “J am
+
+25
+
+=== Page 6 ===
+cai      —           —_—— ee ees
+
+one single theorem, asserting a formalism’s overall consistency. (Instead, it produces a
+
+sequence of theorems 7}, T>2, T3, ... , whose approximate union comprises the desired “J
+
+ren
+b. ‘The comparable drawback in Willard’s self-justifying formalisms in osha oe
+
+am consistent” statement.)                                                   x  b Yo--
+Sal
+
+es of articles is that none of these papers involve a system as powerful as Peano
+
+Arithmetic declaring its own self-consistency.
+
+The nice aspect of Remark 13’s hybridization of these two methods is that its methodology views
+the two formalisms from Propositions 1l.a and 12.a as declaring their self-consistencies under
+certain unifying perspectives, while owning a formalized awareness about Artemov’s broader
+
+expanding series of theorems 7;, T2, T3, ..... This paradigm overcomes the main challenges
+
+Can sbel
+that were posed by Items (a) and (b)     aA oJ    rl    Y / lses     “s     fo    Coarth—
+yon.  0 AvtamrAd aid    Wey     Nye fhod Voge,
+
+For the sake of clarity, Remark 13’s observations certainly should not be viewed as being a
+full panacea. ‘Thus, the Second Incompleteness Theorem certainly imposes severe restrictions
+
+upon any attempts to evade it. Thus while not fully embracing the philosophical positions of
+
+a
+
+» 4 #
+Hilbert’s and Gédel’s statements of « and **, our perspective in Remark 13 certainly conveys
+
+28
+
+=== Page 7 ===
+= J
+
+—_,
+
+compatible with self-justifying logics using semantic tableau deduction.
+
+ape Pieay nl pxpae
+
+7 Overall Perspective
+find Mays? ysl
+
+The preceding discussion has focused mainly on only one of the three legs of a more elaborate
+Tripod Response to Hilbert’s Second Problem. The other two legs, involving generalizations
+of Gédel’s Second Incompleteness Theorem and Artemov’s step-by-step SBSIS-like approach
+Ne H055 pA ONY fo- S717
+[3, 4], have been surveyed only vary        more briefly. Together, these three legs formulate a
+SUL Aru
+
+triple reply to Hilbert’s Second Problem, Moe is significantly more far-reaching than a more
+
+isolated type of one-or-two leg response.
+
+Collectively, these three legs clarify the nature of the statements * and **, which Hilbert
+
+and Gédel had articulated. Moreover, the Question +++ (in §6) is quite tantalizing, -
+
+os a HR Arig) “0m appean A D7,
+
+In essence, Hilbert’s Second Problem is so complex that an isolated one-or-two legged reply
+is insufficient to answer Hilbert’s fascinating question. Moreover, Gerald Sacks has recalled
+Gédel expressing opinions that were “almost the opposite of what every one else would have
+expected” him to make (see again §2 ). Thus, Gédel would presumably approve the philosophical
+
+approach that Remark 13 and Section 6 had formulated, since Godel repeated several analogs
+
+31
+
+=== Page 8 ===
+>
+
+of his often-quoted controversial 1931 remark ** during numerous private conversatio
+
+shared with Gerald Sacks [31].
+
+J Funes Peastpueph— Papo
+SS Sette aad        :
+Acknowledgment: I thank Seth Chaiken and Robert Willard for improvifig the presenta-
+
+[1] Adamowicz, Z., Zbierski, P.: On Herbrand consistency in weak theories. Archive for Mathematical Logic
+40(6): 399-413 (2001).
+
+[2] Artemov, S.: Explicit provablity and constructive semantics. Bulletin of Symbolic Logic 7(1): 1-36 (2001).
+
+[3] Artemov, S.: The provability of consistency. Cornell Archives arXiv Report 1902.07404v5 (2020).
+
+[4] Artemov, S.: Missing Proofs and the Provability of Consistency. Video presentation at the 2021 Tibingen
+conference “Celebrating 90 Years of Godel’s Incomppleteness Theorem”. For the video recording see:
+https://www.youtube.com/watch?v=Nw4nERAqi2U
+
+[5] Artemov, S., Beklemishev, L. D.: Provability logic. In Handbook of Philosophical Logic, Second Edition,
+pp- 189-360 (2005).
+
+[6] Beklemishev, L. D.: Reflection principles and provability algebras in formal arithmetic. Russian Mathe-
+matical Surveys 60(2): 197-268 (2005).
+
+[7] Beklemishev, L. D.: Positive provability for uniform reflection principles. Annals Pure & Applied Logic
+165(1): 82-105 (2014).
+
+(8] Bezboruah, A., Shepherdson, J. C.: Gédel’s second incompleteness theorem for Q. Journal of Symbolic
+Logic 41(2): 503-512 (1976).
+
+[9] Buss, S. R.: Bounded Arithmetic. Studies in Proof Theory, Lecture Notes 3, disseminated by Bibliopolis
+as revised version of Ph. D. Thesis (1986).
+
+(10] Buss, S. R., Ignjatovié, A.: Unprovability of consistency statements in fragments of bounded arithmetic.
+Annals Pure & Applied Logic 74(3): 221-244 (1995).
+
+[11] Dawson, J. W.: Logical Dilemmas: The Life and Work of Kurt Gédel, AKPeters Press (1997).
+
+[12] Feferman, S.: Arithmetization of mathematics in a general setting. Fundmenta Mathematicae 49: 35-92
+(1960).
+
+(13] Fitting, M.: First Order Logic and Automated Theorem Proving. Springer-Verlag (1996).
+
+[14] Friedman, H. M.: On the consistency, completeness and correctness problems. Ohio State Tech Report
+(1979). See also Pudldk [29]’s summary of this result.
+
+[15] Gédel, K.: Uber formal unentscheidbare Satze der Principia Mathematica und verwandte Systeme I.
+Monatshefte fiir Mathematik und Physik 38: 349-360 (1931).
+
+[16] Gédel, K.: The present situation in the foundations of mathematics. In Collected Works Volume III:
+Unpublished Essays and Lectures (eds. Feferman, S., Dawson, J. W., Goldfarb, W., Parsons, C., Solovay,
+R. M.), pp. 45-53, Oxford University Press (2004).
+
+[17] Goldstein, R.: Incompleteness: The Proof and Paradoz of Kurt Godel. Norton Press (2005).
+
+[18] H&jek, P.:; Towards metamathematics of weak arithmetics over fuzzy logics. Logic Journal of the IPL 19:
+467-475 (2011).
+
+32
+
+~
+
+tion of this article.                                                           G 4 d     Ma 2     Xb y,
+
+References
+

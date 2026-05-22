@@ -1,0 +1,58 @@
+25. Wx Vy  z>y21>[2>0A £-1 = Fe)
+
+26. Wey {2>y => Maximun(z,y)=2} A { y>z > Maximun(z,y) = y }
+27. Logarithm(0)=0 A Logarithm(1)=1 A Logarithm(2)=2
+
+28. We x>3 => Logarithm(zr)-—1 = Logarithm( $)
+
+29. Wx Count(z,0) =Count(0,z) = 0
+
+30. Vz x>0O => Count(x—1,1) #Count(z,1) <1
+
+31, Vey { Count(z,1) >OVCount(Z,y-1)>0} = Count(z,y) > 0
+32. Vx2Vy Count(z,y)—Count(z, 1) =Count(¥,y — 1)
+
+33. Wz Root(0,r)=0 A Root(z,0) =Root(z,1) = z
+
+34. VrWy2>2 Root(z,y) < Root( pootG,  ¥- 1)
+
+35. WrVy>2Vz z>Root(z,y) = z >Root(Z,y—1)
+
+36. WzVi  Bit(z,i) = Count(z, i) - Count(z,i— 1)
+
+It is essentially unimportant, but I hope I did not leave out any axioms. I did not have the axioms
+1-5 or 36 in my JSL 2001 article because it used a different notation.
+
+References
+
+[1] K. Gédel, “ Uber formal unentscheidbare Satse der Principia Mathematica und Verwandte
+Systeme I”, Monatshefte fiir Math. Phys. 37 (1931) pp. 349-360.
+
+[2] P. Héjek and P. Pudlék, Metamathematics of First Order Arith, Springer 1991.
+[3] D. Hilbert and P. Bernays, Grundlagen der Mathematic, Springer 1939.
+[4] E. Mendelson, Introduction to Mathematical Logic, Fifth Edition, Chapman & Hall (2010).
+
+[5] P. Pudlak, “Cuts, Consistency Statements and Interpretations”, Journal of Symbolic Logic 50
+(1985) pp.423-442.
+
+[6] March 29, 1999 issue of Time Magazine, pages 132-134.
+
+[7] A. J. Wilkie and J. B. Paris, “On the Scheme of Induction for Bounded Arithmetic”, Annals
+of Pure and Applied Logic (35) 1987, 261-302
+
+{8] D. Willard, “Self-Verifying Systems, the Incompleteness Theorem and the Tangibility Reflection
+Principle”, Journal Symbolic Logic 66 (2001) 536-596.
+
+[9] D. Willard, “How to Extend The Semantic Tableaux And Cut-Free Versions of the Second
+Incompleteness Theorem Almost to Robinson’s Arithmetic Q”, Journal of Symbolic Logic 67
+(2002) pp. 465-496.
+
+(10] D. Willard, “Some New Exceptions for the Semantic Tableaux Version of the Second Incom-
+pleteness Theorem”, in Automated Reasoning with Semantic Tableaur and Related Methods,
+Springer-Verlag LNAI#2381, (2002) 281-297.
+
+[11] Willard, D. E.: “On the Tender Line Separating Generalizations and Boundary-Case Excep-
+tions for the Second Incompleteness Theorem under Semantic Tableaux Deduction”, in Pro-
+ceedings of LFCS 2020 conference (see pp. 268-286 of Volume 11972 of Springer’s LNCS series).
+
+44

@@ -1,0 +1,22 @@
+vy
+
+2020 version of our notes.
+
+Remark 2.8 The main core result of this chapter is its
+Theorem 1. This may, at first, appear to be mysterious be-
+cause Theorem 1’s self-referencing mechanism is similar to a
+puzzling maze of mirrors that can be found in an amusement
+park. It is known that if a human stands between two mirrors
+(one behind him and the other in front of him) then he will see
+an almost endless cascade of reflections of himself. This near
+endless cascade of images can be quite stunning but it is not
+caused by one or EVEN TWO mirrors in pure isolation. In-
+stead, its mesmerizing effect is caused by combination of four
+
+objects. These are the two mirrors combined with:
+1. A point-like Light Source generating photons bouncing be-
+tween these mirrors.
+
+2. A human being (with eyes and a brain) observing his many
+
+23

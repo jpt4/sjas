@@ -1,0 +1,32 @@
+Ph D Questions for 503 Half of May 2014 Exam
+Please answer all questions.
+
+Question I. This question concerns, the subroutine Heapify, the algorithm Heapsort and its
+BuildHeap subroutine. By a heap, I mean a “Max-Heap” where each parent stores a key at least
+as large as its children. The goal of heap-sort will be to produce a sorted listed in positive order
+(e.g. lowest keys occur first and largest keys occur last). Some parts of this question will concern
+hand-drawn pictures of heaps, that will be handed out to the class. Please answer all parts of this
+
+question.
+
+1. The picture in handout Diagram (a) is actually not a heap. However, it will be transformed
+into a heap, if you call the procedure “Heapify” with its data structure as an input. Each
+operation of “Heapify” will swap the contents of two nodes, called X and Y. Please list for
+me all the swap operations, produced by Heapify, in the chronological order they are done.
+
+Your answer should therefore look something like
+Swap(P,Q) followed by Swap(S,T) followed by Swap(U,V)
+Then when you are done doing the above, draw for me the resulting heap.
+
+2. Repeat the procedure above for the pictures (b), (c) and (d) (of stating the swaps and
+
+drawing the resulting heaps).
+
+3. For any node i, please first tell me the addresses of its left and right child. Next consider the
+array below that stores 200 in the address 1, 100 in the address 2, 66 in address 3 ... and 42
+in address 13. Draw the picture of the heap (tree-like structure) that begins with the address
+2 (storing 100) and consists of the subtree descending from this address. (You will avoid
+
+careless errors if you give the 13 keys below addresses of 1-13 on a piece of scrap-paper.)
+
+200, 100, 66, 90, 70, 45, 47, 50, 55, 34, 30, 41, 42

@@ -1,0 +1,36 @@
+Definition 3.1. Let a and f# denote two axiom systems. We willsay § is an
+
+(Se Extension of a and write 8 D a iff 8 can prove all a ’s theorems.
+
+In Gédel’s 1931 paper [1], both his First and Second Incompleteness Theorems
+had appeared. The former states that neither Peano Arithmetic nor any recursively
+enumerable extension of it can prove all the true II, sentences. The Second In-
+completeness Theorem states that if a represents either Peano Arithmetic or any
+recursively enumerable extension of it, then a must be unable to prove its own
+
+consistency.
+
+Generalizations of the Incompleteness Theorem, subsequent to 1931, have shown
+both the First and Second Incompleteness Theorems also apply to many axiom sys-
+tems weaker than Peano Arithmetic (PA). One of the main authors to develop partial
+
+e  exceptions to the Second Incompleteness Theorem was Willard (for certain axiom
+
+systems weaker than PA).
+
+We will not discuss my work in this handout. Our goal will instead be to prove a
+version of the Second Incompleteness Theorem. My work will be discussed in a later
+course in more detail and perhaps summarized in the last two weeks of this course
+
+(if time allows).
+
+Definition 3.2. The axiom system PA+ will be defined to be a minor extension
+of Peano Arithmetic (PA) that contains function symbols for all the U-Grounding
+Functions, in addition to the function symbols for Addition and Multiplication. Thus,
+PA+ will include the nine axioms given in Section 3.1 of Mendelson’s textbook plus
+
+C    the 36 axioms listed in Table I, defining the U-Grounding functions. You should note
+
+that:
+
+20

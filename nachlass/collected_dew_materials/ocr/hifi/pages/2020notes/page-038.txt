@@ -1,0 +1,37 @@
+for representing the presence of the i-th variable vu; will be to encode it is as a string
+of [logs2(i+1)] + 1 bytes, where the first byte is the “V” symbol and the
+remaining bytes encode i as a base-32 number. The same convention will be used to
+denote the presence of the i-th constant symbol C; except its first byte will be the
+
+“C” symbol.
+
+Our byte-styled encoding method will produce proof strings whose length is ap-
+proximately proportional to the effort write down such a proof by hand. The Logic
+literature uses the phrase GGdel Number or Godel Encoding to describe the pos-
+itive integer N that represents the sequence of characters D,, Dz, D3, ...Dn as
+a Base-64 integer. (Actually, the literature offers several different possible Gédel-like
+encoding schemes, and the one used in Section 3.4 of Mendelson’s textbook [4] is
+
+more complicated than the variant defined in this Appendix.)
+
+There are many analogs of such types of encodings in the prior literature (see
+for example the Hajek-Pudlék textbook [2] ). Such compressed encodings are usu-
+ally considered to be preferable and more efficient than an uncompressed encoding
+method, using say the Chinese Remainder Theorem in Mendelson’s textbook [4]. All
+our theorems have analogs under such uncompressed encoding methods, but they are
+
+substantially more Pet     hen. ‘e  ® uses efficiently compressed encodings.
+
+5 bet
+
+Appendix B :  sel Construct tffe Proof of — U( PA+) @) J  VY
+
+16 ( 2) PA Cold yenh ty Own Cans sha
+
+I should probably delete Appendix B because my new 00" version of Class notes
+
+does not use Appendix B, after I revis          On 3’s proof so it is no longer necessary.
+
+I have retained Appendi        ly because I am nervous deleting it, although it
+
+36

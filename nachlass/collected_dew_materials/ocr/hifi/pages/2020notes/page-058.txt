@@ -1,0 +1,26 @@
+>
+
+m
+
+sentence. (Also, a cannot prove every logically valid 1,
+
+sentence. )
+
+The proof of Theorem 2 has a generally similar structure
+to Theorem 1’s proof. However, its details (which appear in
+Mendelson’s textbook) are somewhat more complicated. They
+
+will not appear here.
+
+Comment 2.6. Theorem 2 is stronger than Theorem 1
+because it indicates that no computerized algorithm can be
+used to generate an axiom system that enables us to find all
+true II} or II, sentences ! It can be viewed as saying that
+Artificial Intelligence will never be able to reach the full goal
+that at least science fiction writers have set for it ! The theory
+
+of NP-hardness is also related to this issue.
+
+Comment 2.7. In my view, the main philosophical im-
+
+20

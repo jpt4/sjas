@@ -1,0 +1,31 @@
+1 PA= S; US U S3U...
+
+2. Each S);4; can prove a Il, theorem asserting there exists no proof from S, of 0=1, in
+
+a context where all logical axioms in the concerned proof from S, are no more complex
+
+than Il, or L, statements. (We will henceforth call this theorem Tj. )
+
+While Artemov's SBSIS-style response to Hilbert’s year-1900 second question is intriguing, one
+
+would ideally still like access to a system that does not rely upon his infinite series S, Sz 53... .
+
+A third possible leg of a proposed Tripod reply to Hilbert’s second problem involves formal
+
+systems using Fixed Point axiomatic sentences that confirm their own consistency. For example,
+
+[38, 39, 41, 42, 47] examined systems strictly weaker than PA, that verified their own self-
+
+consistency, under mostly semantic tableau deduction [13, 32].
+
+This third leg, called the Declarative Approach, rests on using a self-referencing “J am
+
+consistent” axiomatic declaration, so that a formalism can confirm its own consistency. This
+
+approach, studied in (38, 39, 41, 42, 47], will essentially be defined by the current paper's
+
+statement @ . Its advantage is that its declaration of self-consistency is compressed into one
+
+single sentence, while its non-trivial drawback is that its particular statement @ (defined
+
+3

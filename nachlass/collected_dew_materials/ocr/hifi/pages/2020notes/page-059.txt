@@ -1,0 +1,24 @@
+D
+
+2
+
+plication of Gddel’s Incompleteness Theorem is that, computer
+science and computers can never achieve a set of over-ambitious
+goals, because of the “undecidability problems” raised by Godel’s
+Incompleteness Theorem. Rather a more mature approach for
+computer science is to restrict itself to well-defined narrowly
+constructed engineering-style problems — where the essentially
+“undecidable tasks” that are unrealistically over-ambitious are
+
+avoided.
+
+The opening paragraph of an article about Godel in the
+March 19, 1999 issue of Time Magazine [6] stated that “many
+scholars consider Godel’s Incompleteness Theorem to be the
+most important result of 20-th century mathematics”. The
+editors of Time Magazine were very careful to use the word
+“many” in the preceding sentence because there is no unani-
+
+mous opinion among scholars about what are the say five most
+
+21

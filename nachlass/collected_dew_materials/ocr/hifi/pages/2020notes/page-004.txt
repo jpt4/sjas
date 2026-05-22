@@ -1,0 +1,42 @@
+Example 1.3 Below are four examples of Aj formulae.
+
+Va < 10 Wy<20 r+y=y+er           (2)
+
+Vx < 100 Sy< 60 zx < Double(y)           (3)
+
+Vz< 10 VWy<[50+Double(z)}] [ tr+y=0 > r=0Ay=0] (4)
+Ve< 10 r+l=z           (5)
+
+Note that Equation (5) is defined to be a Aj formulae (even though it is a false
+
+statement). The point is that Aj formulae can be either true or false. Their defini-
+
+tion differs from Logic’s conventional formulae only by requiring that all quantifiers
+
+be “bounded”. Also a Aj formula does not need to contain any quantifiers (e.g.
+Equations (6) and (7) are also Aj formulae).
+
+10 + 25 > 30                      (6)
+
+10+25 = 30 v 4+7 =TI       (7)
+
+Finally, let F, through Fg denote the six Aj formulae above. Then since a Aj
+
+formula can be any Boolean combination of bounded quantifiers with the “boolean
+
+operations” of AND,OR, NOT and IMPLIES, some other examples of Aj formula
+
+are:
+
+Fi A Fy A ( Fe V -7Fs)           (8)
+
+Fy A F3 => F4                              (9)
+
+Once again, we emphasize that a Aj formula can be either true or false. For instance,
+
+(8) is true while (9) is false.
+
+Definition 1.4 For any integer i > 0, this paragraph will define the notions of
+a II? and } formula. The definition has three parts and it is given below.
+
+4

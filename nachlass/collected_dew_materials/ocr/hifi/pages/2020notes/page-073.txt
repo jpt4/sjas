@@ -1,0 +1,24 @@
+Proof of Lemma 7 For the sake of constructing a
+proof-by-contradiction, let us entertain the “temporary”
+assumption that PA+ could prove Cons( PA+ ). Recall
+that Fact 3.3 noted that PA+ had a capacity to prove state-
+ment **. Since PA+ can trivially prove that it is a regular
+axiom system, it can easily apply ** to verify 2 the statement
+
+that:
+
+# PA+ cannot prove U( PA+ ).
+
+We next observe that the statement # can be easily proven
+by PA+ to be logically equivalent to the sentence U( PA+ ) .
+(This is simply because PA+ can trivially verify that the only
+integer K satisfying Subst(N, K) in Equations (23) through
+
+(25) is U( PA+)’s Godel number.)
+
+Thus, the “temporary” italicized assumption (from the pre-
+
+2 This proof is entirely trivial because of our observation that «+ and +++ are logically identical statements,
+except for a slight difference in notation.
+
+35

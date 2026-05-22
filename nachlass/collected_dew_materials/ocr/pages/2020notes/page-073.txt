@@ -1,0 +1,21 @@
+=== tesseract (conf=0, chars=0) ===
+
+=== ocrad fallback ===
+Proof of Lemma 7 For thP _ake o/ coM_ructlng a
+p_o/.by-_n_mdl_hon, let us entertaln the "temporaTy"
+a5sumption tllet PA+ _uld prove Con_( PA+ ) RPcal
+thBt F_t 3.3 noted tllBt PA+ h_ B cBp_lty to pIo_ _tat_
+ment _ _ . Sin_ PA+ can trlvlBlly prove that it i_ & regul_
+_om s_tem, it can ea_ly apply _h to veri_ ' the statement
+that:
+# PA+ enot prove u( PA+ )
+We n_ o_r_ thet the _tatement # can be e_lly pro_n
+by PA+ D bP loácaly equlvalent to the _entence U( PA+ )
+(This Ú _imply becau_ PA+ e trivl&ly verl_ thBt the only
+in_ger W _tis_ing Subt(N, ll) in Equation_ (23) through
+(25) is u( PA+) '_ G_el number.)
+n Th_, the "_m_or_' italici_d __umption (_rom the pre
+_ 'n_ o_F_____lr _n.|_ ___dow _M[_|| |||.| .. __ .._ _|_|_U________m_n_.
+_pLE_ __VL_h____ _ ___
+J_
+

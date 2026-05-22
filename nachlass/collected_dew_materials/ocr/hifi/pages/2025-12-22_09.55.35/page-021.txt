@@ -1,0 +1,51 @@
+A fully detailed justification will not be provided here, but it turns out our re-
+sults from [47] can be expanded to show that their evasions of the semantic tableau
+version of the Second Incompleteness Theorem can be extended to both the cases of
+Z-Enriched and “Z-Base Variable Enriched” mechanisms, when Z represents the Aj   7 Base Vr Enriched”
+class of formulae. We can also extend our results from [49] to show that the com-
+parable evasions of the semantic tableau version of the Second Incompleteness Effect
+
+will fail at and above the IT} level.
+
+We conjecture the preceeding Aj evasions of the Second Incompleteness Theorem
+
+will continue at the IT} level, but this fact has not yet been formally proven.
+
+A fascinating aspect about this subject is that semantic tableau deduction satis-
+fies its particular variant of Gédel’s Completeness Theorem [15, 40]. Thus, the set
+of theorems proven by an axiom system a , via a conventional (unenriched) version
+of semantic tableau deduction, is idenis al to those theorems proven by a Z-enriched
+deductive mechanism. Yet despite this invariance, the proof-lengths change, quite
+sharply, under the Z-enriched formalisms of Defintions 7.1 and 7.2. This extreme
+
+change in proof-length causes the deployment of an “J am consistent” axiom to be-
+\
+
+come fully infeasible when TY in Line (9) is allowed to represent any arbitrary IT}   Gant trove ox eater hat \
+
+sentence (see footnote 7 ).
+
+8 Further Generalizations
+
+For the sake of simplicity, the previous sections had focused on the semantic tableau
+deductive apparatus. However, it is known [15] that resolution shares numerous
+characteristics with tableau. Therefore, it turns out that Theorems 4.4 and 4.5 do
+
+generalize when resolution replaces semantic tableau.
+
+In particular, let us say a theorem 7 has a Res—proof from a ’s set of proper
+axioms when there is a resolution-based proof {15] of T from a . Also, the term
+Xres—proof of T refers to the obvious extension of a Res—proof that allows all
+instances of the Law of Excluded Middle (from the base language of L* ) to appear
+
+as formalized logical axioms.
+
+7The point is that the sharp compression in proof lengths produces. Gédel-like Diagonalization
+
+compressions, similar to those particular Second Incompleteness Giegs applicable to II3 sentences,              | a
+that #P examined in [49].                                                                  we       >
+
+; p/   I                                                                     ITA |        (4
+|)                         P18
+
+Ly 47  pe. lL,

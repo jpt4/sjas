@@ -1,0 +1,29 @@
+‘ew,
+
+an unimportant distinction. This is because PA+ can trivially
+
+prove the following fact:
+
+e If ® satisfies Verify( [®]) then it also satisfies
+
+Double-Verify( [ ® ]).
+
+The proof of e follows by an easy induction argument. (It
+
+4-2
+is often not explicitly fomalized in Logic textbooks because In-
+variant e is obvious. (It stems from the fact that all proofs,
+by definition, have finite lengths. This implies “double” verifi-
+
+cations also trivially have finite-sized proofs, whose properties
+
+are characterized by the Principle of Induction.)
+
+- The reason for our interest in e is that it will lead to a very
+nice simple proof of our needed Lemma 7. (Hilbert-Bernays
+(3] were the first to notice the usefulness of how an analog of
+e’s simple identity will help prove the Second Incompleteness
+
+Theorem. )
+
+34

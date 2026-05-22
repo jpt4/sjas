@@ -1,0 +1,23 @@
+Since Equations (24) and (25) represent logically valid Ag for-
+mulae, it follows from Lemma 2 that both these sentences are
+
+provable from a.
+
+The next point is that it is trivial to verify that the conjunc-
+tion of Equations (24) and (25) implies Equation (23) is false.
+Hence since a@ can prove (24) and (25), it must be able to
+
+prove — U(a) . (This is easy to prove as a homework exercise.)
+
+Next, we recall that the opening paragraph of our proof-by-
+contradiction had entertained the temporary assumption that
+a@ could prove U(a) . Hence from the last sentence of the prior
+paragraph, we conclude that a would then be inconsistent,
+since it would then prove both U(a) and its negation — U(a)
+
+(via the prior paragraph’s construction).
+
+The latter observation will now enable our proof-by-contradiction
+to reach its desired end. This is because Lemma 5’s hypoth-
+
+17

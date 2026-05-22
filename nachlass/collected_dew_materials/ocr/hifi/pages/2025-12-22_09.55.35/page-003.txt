@@ -1,0 +1,68 @@
+wr \ \ }
+
+1 Introduction
+
+QP
+
+panini ie existence of a deep chasm separating the goals of Hilbert’s consistency         3 “ey
+
+program from the implications of the Second Incompleteness Theorem was evident,
+
+This article is intended to explore the “hi        ign       ,              lored implica-
+tions of Godel’s Second Incompleteness ‘  heorem and its Vv.         neralizations. Ef
+
+immediately, after Godel published [20]’s seminal announcement. We exhibited in
+[46, 47, 48, 50, 51, 52, 53, 54] a large number of articles about generalizations and
+
+boundary case exceptions to the Second Incompleteness Theorem, starting with OUF cases should decide whet
+
+1993 article [46]. These papers, which included six papers published in the JSL and   penta naif
+
+APAL, showed every extension a of Peano Arithmetic can be mapped onto an axiom =" "*sPabilty
+
+system a®* that can recognize its own consistency and prove analogs of all a’s IT,
+
+—                 nN      ra)     rm)
+Cul               /    -    fy
+
+RST  PNK ALAP!  /  Io
+
+The term “Self-Justifying” arithmetic was employed in our articles. [47, 50, 51,    oc namar he ane dene
+
+theorems (in a slightly different language, called L*).
+
+52, 54]. These papers were able to verify their own consistency by containing a built- hse, ae ue
+in self-referencing axiom that declared “J am consistent” (as will be explained later).
+In particular, our axiom systems a* used the Fixed-Point Theorem to assure a’*’s
+self-referencing analogs of the pronoun “I” would enable it to refer to itself in the
+
+context of its “J am consistent” axiomatic declaration.
+
+It turns out that such a self-referencing mechanism will produce unacceptable
+
+Gédel-style diagonalizing contradictions, when either a* or its particular deployed
+
+definition of consistency are too strong. This is because our methodologies only
+
+become contradiction-free when a* of sufficiently weak underlying structures.                ye
+These weak structures obviously a afeticnnt disadvantages. Their virtue is         ;
+
+that their formalisms a* can be arranged to prove more IJ, like theorems than Peano
+
+Arithmetic, while offering some type of partial knowledge about their own consistency.       KR) aw \
+
+UV
+
+We will call such formalisms “Declarative Exceptions” to the Second Incomplete-
+
+aa
+a
+
+ness Theorem.
+
+An alternative type of exception to the Second Incompleteness Theorem, which
+we shall call an “Infinite-Ranged Exception”, was recently developed by Sergei
+Artemov [4] (It is related to the works of Beklemishev [6] and Artemov-Beklemishev     Add a period after “14)".
+[5].) Artemov observed Peano Arithmetic can verify its own consistency, from a
+
+special infinite-ranging perspective. This means PA will generate an infinite set of

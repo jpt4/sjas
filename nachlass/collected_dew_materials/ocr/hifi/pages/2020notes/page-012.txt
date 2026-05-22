@@ -1,0 +1,33 @@
+B. Prf.(t,p) is true exactly when p is the Gédel number of a proof using a’s
+proper azioms whose last sentence has t’s Gédel number. (Here t is called the
+
+“theorem” proven by p’s list of sentences.)
+
+Proof Sketch. The method for proving Claims A and B is essentially the same
+type of methodology as would be employed to write a computerized language trans-
+lator, similar to a compiler, assembler or interpreter. Interestingly, Godel conceived
+
+of this method before any computer had been formally built.
+
+We will not provide a formal proof of Claims A and B because the formal proofs
+are almost as lengthy as the writing of a computerized language translator — while at
+the same time they are conceptually as trivial and as routine as such a computerized
+
+object. O
+
+Lemma 4 _ It is possible to encode a Aj formula, called Subst(g,h), that yields a
+
+value of True precisely when (g,h) satisfies the following condition:
+
+The integer g designates an encoding of a formula and h encodes a
+sentence identical to g, except that all free variables in g are now
+
+replaced with the term g (defined by Comment 1.1’s last sentence).
+
+Proof Sketch. Once again, the Aj encoding for Subst(g, h) is routine and omit-
+ted for the sake of brevity. If you are interested in going through the details, analogs
+of this encoding can be found in many logic textbooks. For instance, Items 9 and 10
+on page 193 of Mendelson’s textbook are essentially analogous to our treatment of
+Subst(g,h). (These items are awkward to read line-by-line because their meticulous
+
+12

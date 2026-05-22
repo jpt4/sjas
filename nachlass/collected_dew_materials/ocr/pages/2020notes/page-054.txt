@@ -1,0 +1,21 @@
+=== tesseract (conf=0, chars=0) ===
+
+=== ocrad fallback ===
+,_ prove &L Table l'_ e_om_ _ theorem_. (The latter _nditlon
+i_ _ good _ _nt_ning Table l'_ a_om_ b_au_e akeT proving
+Table l's 36 _teternen_, a cen u_e them _ ir they weTe awom_
+during the proor or any other th_rem.)
+
+Lemma 5 Suppose _at _ _ a Regu_ar Oó a_om
+system that _ _n_Ntent Then _ mwt be unable _o proue
+MP sen_ence u(_)
+
+Proof: For the _ake or coMtTuctLng & proo_-by-contra_ction,
+let w aaume that [Rmma 5 w_ _&_e and theT_ore that Q
+repr_n_ a proo_o_ U(a) hom the a_om __tem a . IRt
+K denote U(a) 's Gödel number. Then by definitLon, the
+sta_men_ in Equgtiow (24) &nd (25) a_ both t_e.
+Sub_t( R , a ) (24)
+Pl_a ( R , Q ) (25)
+lo
+

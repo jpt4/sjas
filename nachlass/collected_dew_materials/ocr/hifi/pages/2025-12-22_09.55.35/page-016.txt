@@ -1,0 +1,42 @@
+Consistency Program would likely be viable. Moreover Gerald Sacks’s YouTube talk
+[39], as well as some added comments by Anil Nerode [32], have reinforced this point.
+This is because Gédel repeated analogs of **’s statement on several occasions, during
+the later part of his career. Thus, the contrast between Theorems 4.4 and 4.5 provides
+possible evidence that a fractional portion of what Hilbert and Gédel had advocated,
+
+might become feasible.
+
+This paper will not have the page space to go into the full details, but the next
+
+several sections will summarize the gist behind the proofs for Theorems 4.4 and 4.5.
+
+5 Intuition Behind Theorem 4.4
+
+Let us recall the acronym “Tab” stands for semantic tableau deduction. This was
+defined by Fitting [14, 15] to be a tree-like proof of a theorem W from an axiom
+basis a , whose root consists of the temporary negated assumption of — W and
+whose every root—to—leaf path establishes a contradiction by containing some pair
+of contradictory nodes that “close” its path. Each internal node along these paths
+must either be a proper axiom of a or be a deduction from an ancestor node via one           € -
+of the “elimination” rules associated with the logic symbols of A, V, 4, 3, V, ord ft te ]   Oe
+(that are illustrated in the Appendix.)                                                            }
+‘
+
+Example 5.1 Let ISM,( © ) denote a mapping transformation identical to
+Theorem 4.4’s formalism of IS74( © ), except that ist shall contain a further
+
+multiplication functiop operation and, accordingly, have its Group-3 “I am consistent”
+
+axiom statements /updated)to recognize multiplication as a total function. I
+out this change will cause IS‘/,( e ) to stop satisfying the consistency-preservation
+property, which Theorem 4.4 attributed to IS7_,( e ).
+
+The intuition behind this change can be roughly summarized if we let 29, 21, 2, ---
+
+and Yo, Y1, 2, --- denote the sequences defined by:
+
+tj = 2 = YY                  (6)
+% = Bey + Be                   (7)
+Wi = Yin * Yi-r                    (8)
+
+13
