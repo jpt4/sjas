@@ -1,5 +1,31 @@
 # Nachlass Log
 
+## 2026-07-28 - Willard Deductive-Apparatus Audit
+
+- Completed a corpus-controlled review of Willard's published logic papers,
+  preprints, talks, reachable repository history, bibliographic inventory, and
+  all 17 distinct high-fidelity nachlass OCR targets for resolution, sequent
+  calculus, and other candidate SJAS deductive apparatuses. The full
+  occurrence ledger and implementation analysis is recorded in Proflog commit
+  `a7af9f7`.
+- Resolution is an affirmative SJAS candidate in two distinct author-stated
+  forms: the 2011 Skolemizing `xi_R`/`Level(0R)` route and the 2020 direct
+  Level-1 `ISRes` route. The latter has a sharp negative control:
+  LEM-as-logical-axioms changes the apparatus to `Xres`, and `ISXres` is not
+  consistency-preserving.
+- First-order cut-free sequent calculus is also affirmative for the
+  total-addition/no-total-multiplication profile. Gentzen sequents with
+  unrestricted cuts belong to a separate Hilbert-like, no-total-addition
+  profile and cannot be substituted into the cut-free result.
+- Any implementation must expose and arithmetize the exact proof objects of
+  the selected apparatus, regenerate system identity and `SelfCons` from that
+  proof predicate, and discharge its proof-growth invariant. A tableau proof
+  predicate cannot be relabeled as resolution or sequent deduction.
+- The audit retains all false positives, duplicate witnesses, and exact
+  publication-version gaps. In particular, the TABLEAUX 2003 position paper
+  remains metadata-only, and the accessible papers state but do not print a
+  complete resolution-specific stability or compactification proof.
+
 ## 2026-05-21 - Collected DEW Materials OCR Pass
 
 - Completed first OCR, assessment, and organization pass for
