@@ -1,0 +1,7915 @@
+%%  2015 sept 9 after submission CHANGES ONE SENTENCE IN EXAMPLE 2.5
+
+%% 2015 sept 7  2.20 pm (after finding addrees)
+%% after reding conclusion to BOB
+% chipped off end
+
+
+%% www.cs.albany.edu/~dew/algor
+
+
+%% 2015 home august 24 11.2  am 
+
+%% 2015 home august 22 1.1  pm (single space)
+
+
+ % 2015 july 4 3.4 am after spell 10.1 am after sinatra
+
+ % 2015 july 2 3.15 pm 
+
+%% 2015 july 2 2.50 pm upstairs 
+
+%% 2015 july 1  10.30  am downstairs
+
+
+
+%% notarized notes 2015 april 2 6.3  am april 4 notarize again 
+
+%% home 2014 feb 8 1.15am (new email address)
+
+%% home 2015 feb6 4.3 am   suny 2.40 pm home 6.15 pm
+
+
+%% gmail dan.willard.albany and Prof.DanEdwardWillard
+%% gmail password cpZ9ar48s
+
+
+%%% SUNY JAN 11 Brad Copy 8.4  pm
+
+%%  SUNY   jan11 5/30pm spell check
+
+%% 2015 HOME jan 10  9.4  pm  pm New Abstratct
+
+%% 512 6932
+
+%% Towards a Restructuring of Hilbert's Consistency Program
+
+% www.cs.albany.edu/~dew/algor/
+
+%\documentclass[11pt]{article}
+%\documentclass[10pt]{article}
+% \documentclass[12pt]{article}
+\documentclass[12pt]{article}
+
+
+%%%%%%%%%% \documentstyle[11pt]{article}
+
+
+\usepackage{amssymb}
+
+
+
+
+
+% \addtolength{\oddsidemargin}{-0.95in}
+ \addtolength{\oddsidemargin}{-0.9in}
+%\addtolength{\oddsidemargin}{-1.0in}
+% \addtolength{\oddsidemargin}{-0.95in}
+
+\setlength{\textheight}{9.6 in}
+\setlength{\textheight}{8.8 in}
+\setlength{\textheight}{9.3 in}
+\setlength{\textheight}{9.55 in}
+%above too short
+
+
+\setlength{\textwidth}{6.3 in}
+%% PRINT
+
+\setlength{\textwidth}{6.0 in}
+\setlength{\textwidth}{5.4 in}
+
+
+\setlength{\textwidth}{6.9 in}
+%% \setlength{\textwidth}{6.7 in}
+
+% \setlength{\textwidth}{6.3 in}
+
+
+% \setlength{\textwidth}{7.0 in}
+
+
+% \setlength{\textwidth}{7.0 in}
+% Above IDeall
+
+
+%% \setlength{\textwidth}{6.4 in}
+%%%% above brad with 11 point
+
+%\setlength{\textwidth}{6.0 in}
+%\setlength{\textwidth}{5.7 in}
+
+%\setlength{\textwidth}{6.4 in}
+
+%\setlength{\textwidth}{5.5 in}
+
+%\addtolength{\topmargin}{-1.0in}
+\addtolength{\topmargin}{-0.95in}
+%\addtolength{\topmargin}{-1.0in}
+%\addtolength{\topmargin}{1.2in}
+
+%\addtolength{\topmargin}{-.95in}
+%\addtolength{\topmargin}{+.7in}
+%%% delete above for pdf
+
+
+
+
+          \newcommand{\newthmwithin}[3]{\newtheorem{#1q}{#2}[#3]
+              \newenvironment{#1}{\begin{#1q}\sf}{\end{#1q}}}
+
+\newcommand{\newthm}[3]{\newtheorem{#1q}[#2q]{#3}
+                        \newenvironment{#1}{\begin{#1q}\sf}{\end{#1q}}}
+\newcommand{\newthmm}[3]{\newtheorem{#1q}[#2q]{#3}
+                        \newenvironment{#1}{\begin{#1q}\rm}}
+
+\newtheorem{theorem}{$~~~~$ Theorem}[section]
+% \newtheorem{corollary}{Corollary}[section]
+%\newtheorem{fact}{Fact}[section]
+\newcommand{\makenewheading}[1]{\begin{tabbing} {\bf #1:}
+\end{tabbing}}
+
+\newtheorem{example}[theorem]{$~~~~$ Example}
+\newtheorem{themx}[theorem]{$~~~~$ Theorem}
+\newtheorem{corollary}[theorem]{$~~~~$ Corollary}
+\newtheorem{lemma}[theorem]{$~~~~$ Lemma}
+\newtheorem{remark}[theorem]{$~~~~$Remark}
+\newtheorem{definition}[theorem]{$~~~~$Definition}
+\newtheorem{fact}[theorem]{$~~~~$Fact}
+
+
+\newtheorem{dff}[theorem]{$~~~~$ Definition}
+\newtheorem{exx}[theorem]{$~~~~$ Example}
+\newtheorem{lemm}[theorem]{$~~~~$ Lemma}
+\newtheorem{propp}[theorem]{$~~~~$ Proposition}
+\newtheorem{remm}[theorem]{$~~~~$Remark}
+
+\newtheorem{deff}[theorem]{$~~~~$Definition}
+
+
+
+
+
+% \def\Box{ QED}
+\def\nop{ }
+\def\nxp{ }
+\def\nxp{ Here $~$NXP }
+
+\def\bigc{$\,$of the unabridged version of this paper \cite{ww12}}
+
+\def\nor1{Normed$\{~2^{ \zzz \theta  \, )} ~$,$~\sqrt{~2^{ \zzz \theta  \, )}}~\}$}
+
+\def\pag5{Page 5}
+\def\pagxx{Page ?xx?}
+\def\xor2{Normed$\{ ~\sqrt{~2^{ \zzz \theta  \, )}}~,~2~ \} $}
+%\def\fffx{Fact \#}
+\def\fffx{{\bf Fact *}}
+\def\zhz{H }
+%\def\fffx{Fact \#}
+\def\appD{Appendix D }
+\def\appxD{Appendix D}
+\def\fffour{three }
+\def\zazsta{ and EA-stability}
+
+% \def\glamb{\xi}
+\def\glamb{\lambda}
+\def\glamb{P}
+\def\glamb{\theta}
+\def\pag2{Page 2}
+%% \def\zzthe{\zeta}
+
+
+\def\glamb{\zeta}
+\def\zzthe{\theta}
+
+
+
+
+
+\def\gggen{$( L^\xi  ,  \Delta_0^\xi   ,  B^\xi  ,  d  ,  G  )~$}
+\def\gggcp{$( L^\xi  ,  \Delta_0^\xi   ,  B^\xi  ,  d  ,  G  )$}
+\def\peta{\sigma}
+\def\zzxz{~ \sharp ( \, }
+\def\zzz{~ \sharp ( ~ }
+\def\zip{\sharp }
+\def\mheta{\theta^\bullet}
+\def\mxi{\xi^\bullet}
+%\def\mbi{\bullet}
+\def\mbi{\bigdot}
+\def\mbi{\bigoplus}
+\def\xxi{$\, \xi^* \,$}
+
+
+
+
+\def\tftt{~ \frac{1}{2}~ }
+\def\sss{ }
+
+\def\goodshit{\triangleright}
+\def\bullshit{\triangleleft}
+\def\foo{footnote \footnote}
+\def\Uxp{\Upsilon}
+
+\def\f55{ \normalsize  \baselineskip = 1.8 \normalbaselineskip } 
+
+
+\def\f55{  \baselineskip = 1.1 \normalbaselineskip } 
+\def\g55{  \baselineskip = 1.0 \normalbaselineskip } 
+\def\s55{ \baselineskip = 1.0 \normalbaselineskip } 
+
+\def\f55{  \baselineskip = 0.7 \normalbaselineskip } 
+
+
+
+\def\bbskip{\bigskip}
+
+
+
+\def\axst{\odot}
+\def\rp{ p^\theta } 
+\def\thsp{Theorem $ \, * \,$ }
+\def\thss{Theorem $ \, *\,$'s }
+\def\dexxt{\Delta}
+\newcommand{\co}[1]{Corollary \ref{#1}}
+\newcommand{\thx}[1]{Theorem \ref{#1}}
+\newcommand{\phx}[1]{Proposition \ref{#1}}
+ \newcommand{\dfx}[1]{Definition \ref{#1}}
+\newcommand{\lem}[1]{Lemma \ref{#1}}
+
+
+
+%% \newcommand{\co}[1]{Corollary \ref{#1}}
+%%  \newcommand{\thx}[1]{Theorem \ref{#1}}
+\newcommand{\lxem}[1]{Lemma \ref{#1}}
+\newcommand{\overx}[1]{\, \overline{ {#1} } \,} 
+
+
+\newcommand{\el}[1]{Line (\ref{#1})}
+\newcommand{\ex}[1]{Expression (\ref{#1})}
+\newcommand{\ei}[1]{item (\ref{#1})}
+
+\newcommand{\eq}[1]{(\ref{#1})}
+\newcommand{\ep}[1]{Equation (\ref{#1})}
+\newcommand{\thetlam}{ \theta }
+\newcommand{\underx}[1]{\overline{~ {#1} ~}}
+\newcommand{\appaa}{$App \forall$}
+\newcommand{\appee}{$App \exists$}
+\newcommand{\tll}[1]{Tab$- {#1} -$List}
+\newcommand{\txl}[1]{Tab$- {#1}$}
+\newcommand{\tlxl}[1]{Tab$- {#1}$ }
+\newcommand{\sll}[1]{Short$- {#1} -$List}
+\newcommand{\axx}[1]{NS$_D^{\,k,m}( ${#1}$)$}
+
+
+\newenvironment{proof}{{\bf Proof:}}{$\Box$}
+\newenvironment{sketchproof}{{\bf Sketch of Proof:}}{$\Box$}
+
+
+\begin{document}
+
+%\title{Rough Summary of March 2012 Research Before I Attended
+%the AMS March 17-18 Conference}
+
+
+%% \title{ On
+%% How the Revival of a Diluted 
+%% Version of
+%% Hilbert's Consistency Program 
+%% %is 
+%% Should
+%% Likely
+%%  Be
+%% % Plausible and
+%% % Veru
+%%  Germane
+%% to Computer Science}
+
+
+
+% \title{ A 2-Part Conjecture about How  
+
+
+
+
+\title{Why a Small Fragment of Hilbert's Consistency Program
+Ought to Be Feasible
+for Hilbert-like Deductive Methods
+After
+A New $~\theta~$ Function Primitive
+%AFTER A NEW ``$~\theta~$'' Function Primitive
+Is Added to
+A New $~\theta~$ Function Primitive
+Arithmetic's Formalism}
+
+
+\title{Why a Small Fragment of Hilbert's Consistency Program
+Ought to Be Feasible
+for Hilbert-like Deductive Methods
+After A New $~\theta~$ Function Primitive
+%AFTER A NEW ``$~\theta~$'' Function Primitive
+Is Added to Arithmetic's Formalism}
+
+
+\title{On  How the Introducing of a 
+ New $~\theta~$ Function Symbol
+Into Arithmetic's Formalism Is Germane
+to Devising Axiom Systems that Can 
+Appreciate Fragments of Their Own
+Hilbert Consistency}
+
+
+
+%% 
+%% \title{On the 
+%% Likelihood
+%% That a 
+%% Curtailed but 
+%% Well-Defined
+%% Fragment
+%%  of
+%% Hilbert's Consistency Program 
+%% Should be
+%% Feasible
+%% for the
+%% Case of
+%% Hilbert Deduction}
+
+
+% \title{On the Almost-Certain Likelihood
+% That a Sharply Curtailed but 
+% Well-Defined
+% %Significant
+% %Variant
+% Fragment
+%  of
+% Hilbert's Consistency Program 
+% Ought to be
+% %Plausible 
+% Feasible
+% for the
+% % Even the Challenging
+% Case of
+% Hilbert Deduction}
+
+
+
+% 
+% \title{ On
+% How  a Much-Diluted but Non-Trivial
+% %Variant
+% Fragment
+%  of
+% Hilbert's Consistency Program 
+% Is
+% Likely
+% %Plausible 
+% Feasible
+% for Even the 
+% Challenging
+% Case of
+% Hilbert Deduction}
+% 
+% %Plausible and
+% % Veru
+% % Germane
+% %to Computer Science}
+% 
+% 
+% %%% \title{\large \bf On the Revival of a Much-Diluted 
+% %%% but Non-Trivial
+% %%% Version of
+% %%% Hilbert's Consistency Program (And Its Applications
+%%% for Computer Science, Mathematics and Philosophy)}
+
+
+% \title{\large \bf On the Revival of a Modified and Diluted Version of
+% Hilbert's Consistency Program (Extended Abstract)} 
+
+
+
+\def\beq{\begin{equation}}
+\def\enq{\end{equation}}
+
+\def\bel{\begin{lemma}}
+\def\enl{\end{lemma}}
+
+
+\def\bec{\begin{corollary}}
+\def\enc{\end{corollary}}
+
+\def\bed{\begin{description}}
+\def\ennd{\end{description}}
+\def\bee{\begin{enumerate}}
+\def\ene{\end{enumerate}}
+
+
+\def\bxbxd{\begin{definition}}
+\def\bxbxdd{\begin{definition}}
+\def\eedd{\end{definition}}
+\def\bxbxdr{\begin{definition} \rm}
+\def\bel{\begin{lemma}}
+\def\enl{\end{lemma}}
+\def\ent{\end{theorem}}
+
+
+
+\author{  Dan E. Willard \thanks{This research 
+was partially supported
+by the NSF Grant CCR  0956495.
+%Email = dew@cs.albany.edu.}}
+%\newline
+Email = dan.willard.albany@gmail.com}}
+
+
+
+
+
+
+
+
+
+
+
+%%%\date{Copyright 2012 by Dan E. Willard}
+
+\date{University at Albany}
+
+\maketitle
+
+\setcounter{page}{0}
+\thispagestyle{empty}
+
+\normalsize
+
+
+
+
+\baselineskip = 1.3\normalbaselineskip
+
+
+
+\normalsize
+
+
+\baselineskip = 1.0 \normalbaselineskip 
+\def\bbint{\large \baselineskip = 1.6 \normalbaselineskip } 
+\def\bbint{\large \baselineskip = 1.6 \normalbaselineskip }
+\def\bbint{\normalsize \baselineskip = 1.3 \normalbaselineskip }
+
+
+
+%%\baselineskip = 1.0 \normalbaselineskip 
+%%\def\bbint{\large \baselineskip = 1.6 \normalbaselineskip } 
+%%\def\bbint{\large \baselineskip = 1.6 \normalbaselineskip }
+%%\def\bbint{\normalsize \baselineskip = 1.3 \normalbaselineskip }
+
+
+\def\bbint{\normalsize \baselineskip = 1.27 \normalbaselineskip }
+
+
+
+\def\bbint{\large \baselineskip = 2.0 \normalbaselineskip }
+
+
+\def\bbint{\normalsize \baselineskip = 1.25 \normalbaselineskip }
+\def\bbina{\normalsize \baselineskip = 1.24 \normalbaselineskip }
+
+
+
+\def\bbint{\large \baselineskip = 2.0 \normalbaselineskip } 
+
+
+
+\def\bbing{ }
+\def\bbins{ }
+\def\bbinm{ }
+
+\def\bbint{\normalsize \baselineskip = 1.95 \normalbaselineskip } 
+
+
+
+\def\bbing{ }
+\def\bbins{ }
+\def\bbinm{ }
+
+
+\def\bbint{\large \baselineskip = 2.3 \normalbaselineskip } 
+\def\bbing{ }
+\def\bbins{ }
+\def\bbinm{ }
+
+\def\bbint{\normalsize \baselineskip = 1.7 \normalbaselineskip } 
+
+\def\bbint{\large \baselineskip = 2.3 \normalbaselineskip } 
+\def\bbinm{ \baselineskip = 1.18 \normalbaselineskip }
+
+
+\def\bbint{\large \baselineskip = 2.0 \normalbaselineskip } 
+\def\bbing{ }
+\def\bbins{ }
+\def\bbinm{ }
+\def\bbinr{ }
+
+
+\def\bbint{\normalsize \baselineskip = 1.25 \normalbaselineskip }
+\def\bbina{\normalsize \baselineskip = 1.24 \normalbaselineskip }
+\def\bbinr{ \baselineskip = 1.3 \normalbaselineskip }
+\def\bbing{ \baselineskip = 1.28 \normalbaselineskip }
+\def\bbins{ \baselineskip = 1.21 \normalbaselineskip }
+\def\bbinm{  }
+
+\def\ftl{ \baselineskip = 1.5 \normalbaselineskip }
+
+
+\bbint
+
+\parskip 5 pt
+
+
+
+
+\noindent
+
+
+
+
+
+\small
+
+%\begin{abstract
+\baselineskip = 1.17 \normalbaselineskip 
+
+
+ 
+\parskip 5pt
+
+\baselineskip = 1.2 \normalbaselineskip 
+
+%\setcounter{page}{0}
+
+
+
+%%%%%%{\small
+
+
+
+
+
+
+
+
+\large
+\normalsize
+
+ \baselineskip = 1.2 \normalbaselineskip 
+
+%mmmmmmmmmmmmm
+
+
+%  PERTECT TITLE ABOVE ALTHOUHG PERHAPS OLD MANUSCRIPT BETTEDR
+
+\begin{abstract}
+
+%\Large
+
+% \baselineskip = 1.8 \normalbaselineskip 
+%aaaaaaaaaaa
+
+\large
+\LARGE
+ \normalsize
+
+
+ It is known that the combined work of Pudl\'{a}k and Solovay
+ \cite{Pu85,So94}, enhanced by some added techniques of Nelson and
+ Wilkie-Paris \cite{Ne86,WP87}, implies no reasonable axiom system can verify
+ its own Hilbert consistency, when it recognizes Successor as a total function
+ and treats addition and multiplication as 3-way relations (as Example
+ \ref{ex-2.3} will explain).  These considerations will lead us to examine
+ unconventional axiomatizations for arithmetic that continue to view addition
+ and multiplication as 3-way relations, but which replace the successor
+ function symbol with an entirely new operator, called the ``$~\theta~$''
+ primitive.
+
+\medskip
+
+%% This $~\theta~$ operator
+%% will
+%% allow us 
+%% to encode any integer $~n~$ by a term $~T_n~$
+%% whose length will exceed the $O(~$Log$~n~)$ length of a
+%% binary encoding 
+%% by
+%% only  the
+%% relatively
+%%  small magnitudes formalized by
+%% Proposition \ref{th-3.3}  and Remark \ref{rem-def-3.4}.
+% Proposition 3.3  and Remark 3.6
+
+It is likely that this paradigm can be combined 
+with our prior results from \cite{wwapal} 
+%%% 
+%% with the prior results 
+%% in our APAL 2006 paper
+%% REMOVE NEXT lINE
+to construct  axiom systems that are
+seriously
+diluted but
+able to verify their Hilbert-style 
+consistency
+in some interesting fragmentary respects.
+
+\end{abstract}
+
+\bigskip
+\bigskip
+\bigskip
+\LARGE
+
+% ttttt THIS PAPER SHOULD BE MASTER DRAFDT for future articles.
+
+
+\bigskip
+\bigskip
+\bigskip
+
+
+\normalsize
+
+{\bf Keywords:}
+Bounded Arithmetic, 
+G\"{o}del's Second Incompleteness Theorem, Hilbert's Second
+Open Question,
+Semantic Tableaux Deduction, 
+and Hilbert
+Deduction.
+
+
+
+\bigskip
+
+
+% {\bf Keywords:}
+% G\"{o}del's Second Incompleteness Theorem, Consistency, Hilbert's Second
+% Open Question,
+% Hilbert-styled Deduction (and its Frege-like analogs).
+
+
+
+
+% \bigskip
+% 
+% 
+% 
+% {\bf Mathematics Subject Classification:}
+% 03B52; 03F25; 03F45; 03H13 
+% 
+% 
+% 
+% \bigskip
+% \bigskip
+
+
+ 
+% {\bf Please Cite this Paper as:}
+% {\rm http://arxiv.org/abs/1108.6330}, 
+%  appearing in Cornell Archives 
+
+
+
+
+
+
+
+
+\def\ww22{\normalsize \baselineskip = 1.21\normalbaselineskip \parskip 4 pt}
+\def\bb22{\normalsize \baselineskip = 1.19\normalbaselineskip \parskip 4 pt}
+\def\zz22z{\normalsize \baselineskip = 1.19 \normalbaselineskip \parskip 3 pt}
+\def\xx22{\normalsize \baselineskip = 1.17\normalbaselineskip \parskip 4 pt}
+\def\vx22s{\normalsize \baselineskip = 1.16 \normalbaselineskip \parskip 3 pt} 
+\def\vv22{\normalsize \baselineskip = 1.17 \normalbaselineskip \parskip 3 pt} 
+\def\aa22{\normalsize \baselineskip = 1.15 \normalbaselineskip \parskip 3 pt} 
+\def\g55{  \baselineskip = 1.0 \normalbaselineskip } 
+\def\s55{ \baselineskip = 1.0 \normalbaselineskip } 
+\def\sm55{ \baselineskip = 0.9 \normalbaselineskip } 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\vspace*{- 1.0 em}
+
+
+\def\waw11{\normalsize \baselineskip = 1.72\normalbaselineskip}
+\def\waw11{\normalsize \baselineskip = 1.12\normalbaselineskip}
+\def\waw11{\normalsize \baselineskip = 1.85\normalbaselineskip}
+
+
+
+\def\waw11{\normalsize \baselineskip = 1.45\normalbaselineskip}
+
+
+\def\waw11{\normalsize \baselineskip = 1.7\normalbaselineskip}
+
+\def\waw11{\normalsize \baselineskip = 1.12\normalbaselineskip}
+
+
+\def\g55{  \baselineskip = 1.50 \normalbaselineskip } 
+\def\s55{ \baselineskip = 1.50 \normalbaselineskip } 
+\def\sm55{ \baselineskip = 1.5 \normalbaselineskip } 
+
+
+\def\g55{  \baselineskip = 1.50 \normalbaselineskip } 
+\def\s55{ \baselineskip = 1.50 \normalbaselineskip } 
+\def\sm55{ \baselineskip = 0.9 \normalbaselineskip } 
+
+
+
+
+
+
+\def\aa22{\normalsize  \waw11 \parskip 6 pt} 
+\def\bb22{\normalsize  \waw11 \parskip 5 pt}
+\def\ww22{\normalsize \waw11 \parskip 4 pt}
+\def\vv22{\normalsize  \waw11 \parskip 3 pt} 
+\def\tt22{\normalsize  \waw11 \parskip 2 pt} 
+
+\def\g55{  \baselineskip = 1.0 \normalbaselineskip } 
+\def\b55{  \baselineskip = 1.0 \normalbaselineskip } 
+\def\s55{ \baselineskip = 1.0 \normalbaselineskip } 
+\def\sm55{ \baselineskip = 0.9 \normalbaselineskip } 
+
+
+
+
+
+
+\def\mal{ \bf  }
+\def\nal{\mathcal}
+
+\def\cvrew{ \baselineskip = 1.6 \normalbaselineskip \parskip 3pt }
+
+
+\def\cvt{ \baselineskip = 0.98 \normalbaselineskip }
+\def\cv9{ \baselineskip = 0.99 \normalbaselineskip }
+\def\cvs{ \baselineskip = 1.0 \normalbaselineskip }
+\def\cvl{ \baselineskip = 1.0 \normalbaselineskip }
+\def\cvh{ \baselineskip = 1.03 \normalbaselineskip }
+\def\cvg{ \baselineskip = 1.00 \normalbaselineskip }
+
+
+\def\cvt{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cv9{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cvs{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cvl{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cvh{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cvg{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cvb{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cvnew{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cvmew{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cvwew{ \baselineskip = 1.6 \normalbaselineskip \parskip 5pt }
+\def\cvrew{ \baselineskip = 1.6 \normalbaselineskip \parskip 3pt }
+
+
+
+
+\def\cvt{ \baselineskip = 1.22 \normalbaselineskip }
+\def\cv9{ \baselineskip = 1.22 \normalbaselineskip }
+\def\cvs{ \baselineskip = 1.22 \normalbaselineskip }
+\def\cvl{ \baselineskip = 1.22 \normalbaselineskip }
+\def\cvh{ \baselineskip = 1.22 \normalbaselineskip }
+\def\cvg{ \baselineskip = 1.22 \normalbaselineskip }
+\def\cvb{ \baselineskip = 1.22 \normalbaselineskip }
+\def\cvnew{ \baselineskip = 1.4 \normalbaselineskip }
+\def\cvmew{ \baselineskip = 1.35 \normalbaselineskip }
+\def\cvwew{ \baselineskip = 1.4 \normalbaselineskip \parskip 5pt }
+\def\cvrew{ \baselineskip = 1.22 \normalbaselineskip \parskip 3pt }
+
+
+\def\cvt{ }
+\def\cv9{ }
+\def\cvs{ }
+\def\cvl{ }
+\def\cvh{ }
+\def\cvg{ }
+\def\cvb{ }
+\def\cvnew{ } 
+\def\cvmew{ }
+\def\cvwew{ }
+\def\cvrew{ }
+
+
+
+\def\fend{ 
+
+\medskip -------------------------------------------------------}
+
+
+\def\g55{  \baselineskip = 1.0 \normalbaselineskip } 
+\def\s55{ \baselineskip = 1.0 \normalbaselineskip } 
+\def\sm55{ \baselineskip = 1.0 \normalbaselineskip } 
+\def\h55{  \baselineskip = 1.08 \normalbaselineskip } 
+\def\b55{  \baselineskip = 1.1 \normalbaselineskip } 
+
+\normalsize
+
+%\begin{abstract}
+\baselineskip = 1.85 \normalbaselineskip 
+
+
+
+%% Sleepy  
+
+%\cvlpm %% Sleepy  
+%\cvnew
+
+
+%\small
+
+%\parskip 0p
+
+\parskip 2pt
+
+\vspace*{- 1.0 em}
+
+\newpage
+
+%\large
+
+%\setcounter{page}{0}
+\baselineskip = 1.04 \normalbaselineskip 
+\parskip 2pt
+
+\baselineskip = 0.96 \normalbaselineskip 
+%\baselineskip = 0.90 \normalbaselineskip 
+
+%\parskip 1pt
+% 
+\baselineskip = 2.16 \normalbaselineskip 
+\baselineskip = 2.3 \normalbaselineskip 
+
+\baselineskip = 0.95 \normalbaselineskip 
+%\baselineskip = 0.95 \normalbaselineskip 
+\baselineskip = 0.88 \normalbaselineskip 
+\parskip 0pt
+ 
+
+\def\gvxs{ }
+
+
+\def\gvxs{ \baselineskip = 1.0 \normalbaselineskip  \parskip 2pt}
+\def\gvxs{ \baselineskip = 2.0 \normalbaselineskip  \parskip 5pt}
+\def\gvxs{ \baselineskip = 1.0 \normalbaselineskip  \parskip 0pt}
+
+\def\gvxs{ \baselineskip = 1.6 \normalbaselineskip  \parskip 5pt}
+\def\gvxs{ \Large \baselineskip = 1.6 \normalbaselineskip  \parskip 7pt}
+\def\gvxs{ \large \baselineskip = 1.6 \normalbaselineskip  \parskip 6pt}
+\def\gvxs{ \normalsize \baselineskip = 1.6 \normalbaselineskip  \parskip 6pt}
+
+
+\def\gvxs{ \normalsize \baselineskip = 2.1 \normalbaselineskip  \parskip 7pt}
+\def\gvxs{ \normalsize \baselineskip = 1.8 \normalbaselineskip  \parskip    7pt}
+
+%\def\gvxs{ \normalsize \baselineskip = 1.4 \normalbaselineskip  \parskip    5pt}
+
+
+\noindent
+
+
+\newpage
+
+\def\gvxs{ \normalsize \baselineskip = 1.4 \normalbaselineskip  \parskip    5pt}
+\def\gvxs{ \normalsize \baselineskip = 1.44 \normalbaselineskip  \parskip    5pt}
+\def\gvxs{ \large \baselineskip = 1.44 \normalbaselineskip  \parskip    5pt}
+\def\gvxs{ \normalsize \baselineskip = 1.44 \normalbaselineskip  \parskip    5pt}\def\gvxs{ \normalsize \baselineskip = 1.74 \normalbaselineskip  \parskip    5pt}
+\def\gvxs{ \normalsize \baselineskip = 1.44 \normalbaselineskip  \parskip 5pt}
+
+\def\gvxs{   \baselineskip = 1.74 \normalbaselineskip  \parskip    5pt}
+
+\def\gvxs{ \normalsize \baselineskip = 1.44 \normalbaselineskip  \parskip 5pt}
+\def\gvxs{ \large \baselineskip = 2.0 \normalbaselineskip  \parskip 5pt}
+\def\gvxs{ \Large \baselineskip = 2.0 \normalbaselineskip  \parskip 5pt}
+% \def\gvxs{ \baselineskip = 2.0 \normalbaselineskip  \parskip 5pt}
+\def\gvxs{ \normalsize \baselineskip = 2.44 \normalbaselineskip  \parskip 5pt}
+\def\gvxs{ \normalsize \baselineskip = 2.04 \normalbaselineskip  \parskip 5pt}
+\def\gvxs{ \normalsize \baselineskip = 2.64 \normalbaselineskip  \parskip 5pt}
+\def\gvxs{ \Large \baselineskip = 1.6 \normalbaselineskip  \parskip 5pt}
+
+%\def\gvxs{ }
+
+
+\gvxs
+
+\footnotesize
+
+
+\def\gvxs{ }
+  
+
+\normalsize \baselineskip = 0.98 \normalbaselineskip
+\normalsize \baselineskip = 1.0 \normalbaselineskip
+\normalsize \baselineskip = 1.01 \normalbaselineskip
+
+
+\def\gvxs{ \normalsize \baselineskip = 1.25 \normalbaselineskip  \parskip 4pt}
+
+% \def\gvxs{ \normalsize \baselineskip = 1.23 \normalbaselineskip  \parskip 5pt}
+
+%\def\gvxs{ \normalsize \baselineskip = 1.4  \normalbaselineskip  \parskip 6pt}
+
+%\def\gvxs{ \large \baselineskip = 1.5  \normalbaselineskip  \parskip 6pt}
+
+\def\gvxs{ \Large \baselineskip = 1.6  \normalbaselineskip  \parskip 6pt}
+\def\gvxs{ \normalsize \baselineskip = 1.6  \normalbaselineskip  \parskip 6pt}
+\def\gvxs{ \large \baselineskip = 1.6  \normalbaselineskip  \parskip 6pt}
+
+\def\gvxs{ \normalsize \baselineskip = 1.227 \normalbaselineskip  \parskip 3pt}
+\def\gvxs{ \large \baselineskip = 1.8  \normalbaselineskip  \parskip 6pt}
+
+\def\gvxs{ \normalsize \baselineskip = 1.5 \normalbaselineskip  \parskip 3pt}
+
+% \def\gvxs{ \large \baselineskip = 1.8  \normalbaselineskip  \parskip 6pt}
+
+% \def\gvxs{ \normalsize \baselineskip = 1.65 \normalbaselineskip  \parskip 3pt}
+
+\def\gvxs{ \large \baselineskip = 2.1  \normalbaselineskip  \parskip 6pt}
+
+\def\gvxs{ \normalsize \baselineskip = 2.1  \normalbaselineskip  \parskip 6pt}
+
+ \def\gvxs{ \normalsize \baselineskip = 1.227 \normalbaselineskip  \parskip 3pt}
+
+% \def\gvxs{ \normalsize \baselineskip = 2.4  \normalbaselineskip  \parskip 6pt}
+
+
+
+ \def\gvxs{ \Large \baselineskip = 2.15 \normalbaselineskip  \parskip 2pt}
+ \def\lvxs{ \Large \baselineskip = 2.18 \normalbaselineskip  \parskip 2pt}
+ \def\svxs{ \Large \baselineskip = 2.11 \normalbaselineskip  \parskip - 2pt}
+\def\hvxs{ \Large \baselineskip = 2.18 \normalbaselineskip  \parskip 3pt}
+
+
+
+
+
+
+
+
+
+
+ \def\gvxs{ \large \baselineskip = 2.75 \normalbaselineskip  \parskip 2pt}
+ \def\lvxs{ \large \baselineskip = 2.78 \normalbaselineskip  \parskip 2pt}
+ \def\svxs{ \large \baselineskip = 2.71 \normalbaselineskip  \parskip - 2pt}
+\def\hvxs{ \large \baselineskip = 2.78 \normalbaselineskip  \parskip 3pt}
+
+
+ \def\fvxs{ \normalsize \baselineskip = 1,46 \normalbaselineskip  \parskip 2pt}
+ \def\fvxs{ \normalsize \baselineskip = 1,47 \normalbaselineskip  \parskip 2pt}
+ \def\gvxs{ \normalsize \baselineskip = 1,47 \normalbaselineskip  \parskip 2pt}
+ \def\lvxs{ \normalsize \baselineskip = 1,48 \normalbaselineskip  \parskip 2pt}
+ \def\svxs{ \normalsize \baselineskip = 1,41 \normalbaselineskip  \parskip - 2pt}
+ % \def\svxs{ }
+\def\hvxs{ \normalsize \baselineskip = 1,48 \normalbaselineskip  \parskip 3pt}
+\def\bvxs{ \normalsize \baselineskip = 1.5 \normalbaselineskip  \parskip 1pt}
+
+
+
+ \def\fvxs{ \normalsize \baselineskip = 1,66 \normalbaselineskip  \parskip 2pt}
+ \def\fvxs{ \normalsize \baselineskip = 1,67 \normalbaselineskip  \parskip 2pt}
+ \def\gvxs{ \normalsize \baselineskip = 1,67 \normalbaselineskip  \parskip 2pt}
+ \def\lvxs{ \normalsize \baselineskip = 1,68 \normalbaselineskip  \parskip 2pt}
+ \def\svxs{ \normalsize \baselineskip = 1,61 \normalbaselineskip  \parskip - 2pt}
+ % \def\svxs{ }
+\def\hvxs{ \normalsize \baselineskip = 1,68 \normalbaselineskip  \parskip 3pt}
+\def\bvxs{ \normalsize \baselineskip = 1.6 \normalbaselineskip  \parskip 1pt}
+
+
+
+ \def\fvxs{ \normalsize \baselineskip = 0.96 \normalbaselineskip  \parskip 2pt}
+ \def\fvxs{ \normalsize \baselineskip = 0.97 \normalbaselineskip  \parskip 2pt}
+ \def\gvxs{ \normalsize \baselineskip = 0.97 \normalbaselineskip  \parskip 2pt}
+  \def\svxs{ \normalsize \baselineskip = 0.91 \normalbaselineskip  \parskip - 2pt}
+ % \def\svxs{ }
+\def\rvxs{ \normalsize \baselineskip = 0.98 \normalbaselineskip  \parskip 3pt}
+\def\hvxs{ \normalsize \baselineskip = 0.98 \normalbaselineskip  \parskip 3pt}
+\def\bvxs{ \normalsize \baselineskip = 1.0 \normalbaselineskip  \parskip 3pt}
+\def\nvxs{ \normalsize \baselineskip = 1.0 \normalbaselineskip  \parskip 2pt}
+
+\def\hvxs{ \normalsize \baselineskip = 1.35 \normalbaselineskip  \parskip 3pt}
+\def\bvxs{ \normalsize \baselineskip = 1.35 \normalbaselineskip  \parskip 3pt}
+\def\nvxs{ \normalsize \baselineskip = 1.35 \normalbaselineskip  \parskip 2pt}
+
+
+ % \def\svxs{ }
+
+%moving
+\def\rvxs{ \normalsize \baselineskip = 0.98 \normalbaselineskip  \parskip 3pt}
+\def\lvxs{ \normalsize \baselineskip = 0.99 \normalbaselineskip  \parskip 2pt}
+\def\hvxs{ \normalsize \baselineskip = 0.98 \normalbaselineskip  \parskip 3pt}
+\def\bvxs{ \normalsize \baselineskip = 1.0 \normalbaselineskip  \parskip 3pt}
+\def\nvxs{ \normalsize \baselineskip = 1.01 \normalbaselineskip  \parskip 2pt}
+\def\tvxs{ \normalsize \baselineskip = 1.01 \normalbaselineskip  \parskip 2pt}
+
+\def\rvxs{ \normalsize \baselineskip = 2.1 \normalbaselineskip  \parskip 3pt}
+\def\lvxs{ \normalsize \baselineskip = 2.1 \normalbaselineskip  \parskip 3pt}
+\def\hvxs{ \normalsize \baselineskip = 2.1 \normalbaselineskip  \parskip 3pt}
+\def\bvxs{ \normalsize \baselineskip = 2.0 \normalbaselineskip  \parskip 3pt}
+\def\nvxs{ \normalsize \baselineskip = 2.01 \normalbaselineskip  \parskip 2pt}
+\def\tvxs{ \normalsize \baselineskip = 2.01 \normalbaselineskip  \parskip 2pt}
+
+%moving
+\def\rvxs{ \normalsize \baselineskip = 0.98 \normalbaselineskip  \parskip
+  3pt}
+\def\lvxs{ \normalsize \baselineskip = 0.99 \normalbaselineskip  \parskip 2pt}
+\def\hvxs{ \normalsize \baselineskip = 0.98 \normalbaselineskip  \parskip 3pt}
+\def\bvxs{ \normalsize \baselineskip = 1.0 \normalbaselineskip  \parskip 3pt}
+\def\nvxs{ \normalsize \baselineskip = 1.01 \normalbaselineskip  \parskip 2pt}
+\def\tvxs{ \normalsize \baselineskip = 1.01 \normalbaselineskip  \parskip 2pt}
+
+\def\tempvxs{ \normalsize \baselineskip = 2.1 \normalbaselineskip  \parskip 3pt}
+
+%\def\tempvxs{ }
+
+\lvxs
+\nvxs
+
+%%% IGNORE BELOW:
+
+%% NOTE TO ME: Page 5 is cited in paper. needs to  BE UPDATED
+%%% AND prehaps GO BACK OLD FORM.
+
+
+%%% iiiii
+\section{Introduction}
+
+\label{ss1}
+\label{ss2}
+
+\vspace*{- 0.5 em}
+
+We have published a series of articles about generalizations
+and boundary-case exceptions for the Second Incompleteness Theorem
+in \cite{ww93}-\cite{ww14}. One theme of this literature was that
+such boundary-case exceptions will arise when multiplication
+is treated as a 3-way relation by a system which verifies its own consistency
+%in a 
+under
+semantic tableaux deduction.
+% instead of Hilbert deduction 
+%%%%%%% context.
+A 15-page summary of
+this research  appeared 
+in
+\cite{ww14}, but the latter is 
+not
+% unnecessary to examine  as 
+a prerequisite for reading this paper.
+
+
+%%  our prior research 
+%% about this topic
+%% was provided in our
+%% Wollic-2014 paper \cite{ww14}, but it is unnecessary for a reader
+%% to examine \cite{ww14} as a prerequisite for this paper.
+
+\smallskip
+
+The main shortcoming in our prior research was that our formalisms
+were mostly unable to recognize their own consistency under 
+Hilbert-style deductive methods. This was because a version
+of the Second Incompleteness Theorem, 
+due to the
+combined work of Pudl\'{a}k, Solovay, Nelson and Wilkie-Paris
+\cite{Ne86,Pu85,So94,WP87}, indicated the mere assumption that the successor
+operation was a total function was sufficient to trigger off the power
+of the Second Incompleteness Theorem
+for logics that verified their own consistency relative to Hilbert
+deduction. In particular, only our paper \cite{wwapal}
+% (which was 
+%by coincidence invited by editor Sergey Artemov to appear in APAL)
+was 
+% exclusively 
+devoted to addressing this problem.
+Its ISCE formalism could verify its own Hilbert consistency, but it
+unfortunately required deploying an infinite number of separate constant
+symbols because the presence of even a successor function symbol
+would trigger off the Second Incompleteness Effect for systems corroborating
+their own Hilbert consistency.
+
+The current article will introduce a modification of \cite{wwapal}'s
+ISCE formalism, called IQFS, that 
+addresses this
+% should help partially resolve this
+challenge. It will introduce a 
+% new
+function symbol, called the ``$~\theta~$''
+primitive, that will enable an arithmetic to construct the infinite 
+collection of 
+% positive 
+integers, 
+{\it without using} counterparts of any of the
+%  conventional growth 
+% function 
+% primitives of 
+successor, addition or multiplication
+function-mappings.
+
+\medskip
+
+It is almost certain that \cite{wwapal}'s proof of ISCE's
+consistency preservation property will generalize for the
+current article's IQFS formalism. 
+We will provide no proof supporting our  conjecture in this
+extended abstract, but the intuition 
+behind it
+% supporting our conjecture 
+will become quite evident. 
+Its gist will be that our proposed
+new $~\theta~$
+primitive  
+%will be 
+should likely be
+germane to 
+%{\it some special} 
+{\it some unusual} 
+axiom systems owning a
+{\it small 
+% quite
+fragmentized}  knowledge about their own consistency.
+
+
+%% 
+%% The proof of 
+%% IQFS's self-justifying properties will, 
+%% however, be much longer
+%% than
+%% %
+%%  \cite{wwapal}'s proof of its analogous Theorem 3
+%% (if the latter result is proven with the same level of detail
+%% and
+%% %  100 \% 
+%% rigor that Theorem 3's proof did receive).
+%% We will sketch in this short conference abstract the intuitive
+%% reason why IQFS should satisfy 
+%% an analog of ISCE's consistency preservation property, but
+%% % provide 
+%% no formal proof
+%% will be provided.
+
+% a formal consistency preservation property, exactly analogous to ISCE.
+
+%%  I do
+%% not want to write up such a proof in a context where I am currently
+%% suffering from Diabetes and Hypertension. It is essentially
+%% 99 \%
+%% certain that this article's proposed new 
+%% $~\theta~$ operator should support our conjecture.
+%% The purpose of this article will be to invite the
+%% research community to investigate how one can 
+%% expand the mini-formalism from 
+%% \cite{wwapal}'s Theorem 3 to rigorously prove our
+%% stated conjecture.
+
+% 
+% \section{More Detailed Description of Goals}
+
+%\label{ss2}
+
+
+% This article will define a new
+%  ``$~\theta~$'' 
+% function symbol
+% that should enable unusual logics
+% %% 
+% %% % 5-10 \% 
+% %% boundary-case
+% %% effect where a 
+% %% system can own
+% %% 
+% to own a
+% {\it diluted but tangible} knowledge about 
+% their own
+% % its 
+% %own 
+% consistency.
+
+\bigskip
+
+
+%% {\bf More Detailed Description of Goals}
+%% %
+%% % It is  known the
+%% %  
+%% G\"{o}del's
+
+%More precisely, 
+
+During this article, we will often note
+the 
+Second Incompleteness Theorem 
+was
+%known to be
+ published in two 
+% quite 
+different 
+ forms during
+1931-1939.
+Its initial 1931 variant, formalized by Theorem XI
+in  G\"{o}del's
+% millineal 
+paper \cite{Go31},
+% 
+% 
+% Its Theorem XI,
+% later known as the ``Second  Incompleteness
+% Theorem'',
+% %,
+% %appearing in G\"{o}del's millennial paper \cite{Go31}. 
+% 
+demonstrated
+% that
+no extension
+of
+% axiom systems,
+% roughly corresponding to
+the
+%  Russell-Whitehead 
+Principia Mathematicae formalism
+% $\, P \,$
+could
+% could
+ verify
+its own consistency.
+The widely quoted more general
+result, that 
+every consistent r.e. 
+extension
+ of Peano Arithmetic must
+be unable to prove a theorem affirming its
+own consistency, 
+was 
+first
+published 
+%% 
+%% (see \footnote{ Boolos states in \cite{Bool}
+%% that it has been open to scholarly debate
+%% whether or not the 1939
+%% Hilbert-Bernays generalization of the Second Incompleteness Theorem
+%% is or (is not) a straightforward generalization of
+%% G\"{o}del's initial result} ) 
+%% 
+in the 1939 edition of
+the Hilbert-Bernays
+textbook \cite{HB39}.
+
+% It has been considered
+% to be the definitive demonstration of the broad reach of
+% the Second Incompleteness Effect.
+
+%%  
+%% It also established, beyond any reasonable doubt, that any type
+%% of formalism possessing a conventional knowledge of its own consistency,
+%% must rely upon a 
+%% foundational structure
+%%  fundamentally different from Peano Arithmetic. 
+%% (This is because the 
+%% Hilbert-Bernays 
+%% textbook formalized the forerunner of
+%% what has now been known as the 
+%% Hilbert-Bernays Derivability Conditions \cite{HB39,HP91,Lo55,Mend},
+%% as a mechanism for
+%% % foreseeing 
+%% envisioning
+%% the 
+%% astonishing
+%% broad generality of the
+%% Second Incompleteness Effect.) 
+ 
+
+It is, thus, fascinating that Hilbert,
+as the co-author of 
+% an important 
+a
+%very 
+% historic
+generalization of the Second Incompleteness Theorem,
+never withdrew the
+% chose to  never fully withdraw his 
+1926 justification
+ \cite{Hil26}
+for his consistency program:
+\begin{quote}
+\small
+\baselineskip = 0.9 \normalbaselineskip 
+$*~$~ 
+{\it ``Where 
+else 
+would 
+reliability and truth be found 
+if  even mathematical thinking fails?   The definitive nature
+of the infinite has become necessary,  not merely for the special
+interests of individual sciences, but rather { for the
+honor} of human understanding''}
+% itself.''}
+\end{quote}
+
+
+%% Indeed, 
+%% %Instead,
+%% Hilbert 
+%% always insisted  some
+%% new formalism would revive his consistency program
+%% and had its
+%% motto
+%% ({\it ``Wir m\"{u}ssen wissen,  $~$Wir werden wissen''} )  
+%% engraved on his tombstone.
+
+
+% Moreover, it 
+% 
+It 
+is also 
+known
+\cite{Da97,Go5,Yo5}
+that G\"{o}del
+was
+% also
+doubtful about the generality of the Second Incompleteness
+Theorem for at least two years after its publication.
+He thus inserted the following
+cautious caveat into
+his famous
+1931 
+% millennial
+paper  \cite{Go31}:
+% whose closing section 
+%%% 
+%%% One of the closing paragraphs of
+%%%  \cite{Go31} 
+%%% thus
+%%% included
+%
+%
+%%% contained the following cautious disclaimer:
+%caveat:
+% \newpage
+\begin{quote}
+\small
+\baselineskip = 0.9 \normalbaselineskip 
+\it
+$~**~~$ 
+``It must be
+% expressly 
+noted that
+Theorem XI
+%'s incompleteness result
+(e.g. the Second Incompleteness Theorem) 
+represents no contradiction of the formalistic
+standpoint of Hilbert. For this standpoint
+presupposes only the existence of a consistency
+proof by finite means, and  there might
+conceivably be ... ''
+%  finite proofs} which cannot
+% be stated in P or in ...''
+\end{quote}
+The 
+% above 1931
+statement $**$ has 
+had
+%been subject to 
+numerous
+%many
+different
+interpretations
+ \footnote{
+ Some 
+ scholars
+ have interpreted
+ $\,**\,$
+ as
+ %as, possibly,'
+ anticipating
+ % 
+ %  attempts
+ % to confirm Peano Arithmetic's consistency,
+ % via 
+ % either
+ % 
+ Gentzen's formalism or 
+  G\"{o}del's Dialetica interpretation.}.
+All
+ G\"{o}del's 
+biographers
+\cite{Da97,Go5,Yo5}
+%%%have
+have noted
+% 
+% 
+% 
+% (with
+% some 
+% scholars
+% viewing it as germane to
+% Gentzen's formalism or 
+%  G\"{o}del's Dialetica interpretation).
+% 
+% \gvxs
+% \nvxs
+% \bvxs
+% %\parskip 1pt
+% 
+% \noindent
+% The 
+% % above 1931
+% statement $**$ has 
+% had
+% %been subject to 
+% numerous
+% %many
+% different
+% interpretations
+% (with
+% some 
+% scholars
+% viewing it as germane to
+% Gentzen's formalism or 
+%  G\"{o}del's Dialetica interpretation).
+% % 
+% % \footnote{
+% % Some 
+% % scholars
+% % have interpreted
+% % $\,**\,$
+% % as
+% % %as, possibly,'
+% % anticipating
+% % % 
+% % %  attempts
+% % % to confirm Peano Arithmetic's consistency,
+% % % via 
+% % % either
+% % % 
+% % Gentzen's formalism or 
+% %  G\"{o}del's Dialetica interpretation.}.
+% % 
+% All
+%  G\"{o}del's 
+% biographers
+% \cite{Da97,Go5,Yo5}
+% %%%have
+% noted
+% % 
+% % 
+% 
+% 
+%
+his
+% % that G\"{o}del's
+initial intention
+was
+to
+establish
+%achieve
+Hilbert's proposed objectives, before 
+%he proved
+proving
+%proving
+% G\"{o}del proved
+a result 
+% 
+% however,
+% %%%%%his
+% G\"{o}del
+% did  originally 
+% seek 
+% % goal was 
+% to
+% establish
+% %achieve
+% Hilbert's proposed objectives before 
+% proving
+% % G\"{o}del proved
+% a result 
+% 
+leading
+%that led 
+in the opposite direction.
+Yourgrau \cite{Yo5}
+records
+%furthermore,
+ how
+von Neumann 
+% surprisingly
+%did
+{\it ``argued 
+against G\"{o}del 
+himself''}
+in the early 1930's,
+ about the definitive 
+%%%  achievement of a'
+ termination of Hilbert's
+consistency program,  
+which
+{\it ``for several years''} after \cite{Go31}'s publication,
+G\"{o}del 
+{\it ``was cautious not to prejudge''}.
+It is known 
+ G\"{o}del 
+began to 
+more fully
+endorse 
+the Second Incompleteness
+Theorem
+during a 1933
+%% Vienna
+lecture  \cite{Go33},
+and he 
+% told biographers he
+strongly
+%completely 
+% fully
+embraced it
+after learning about Turing's work
+\cite{Tur36}.
+
+\smallskip
+
+Our research
+in \cite{ww93}-\cite{ww14}
+%has been 
+has been
+% is
+related to issues 
+%analogous
+ similar 
+to those
+%that were 
+raised by Hilbert and 
+G\"{o}del
+in
+ statements  $*$ and $**$.
+This is because it is counter-intuitive and awkward to
+%presume that 
+explain how
+human beings can maintain the
+psychological drive and 
+needed energy-desire to cogitate, without
+being stimulated by 
+{\it some type (?)} of instinctive faith in their own
+consistency. The new ``$~\theta~$'' primitive, introduced in the 
+current article, will
+further
+ reinforce this perspective.
+
+%  (under a definition of 
+% % formal  consistency
+% such
+% % this concept 
+% that is suitably 
+% gentle and
+% % delicate
+% soft
+%  to 
+% be consistent with the 
+% Incompleteness Theorem's requirements).
+
+% preclude a violation of the 
+% restrictions imposed by the Incompleteness Theorem).
+
+
+\smallskip
+
+We emphasize 
+ that 
+%our current 
+the present
+paper will differ from
+all our prior research (except for \cite{wwapal}'s
+trial-balloon result) 
+{\it by changing the focus from
+semantic tableaux deduction to a Hilbert-style
+deductive methodology.}
+
+\smallskip
+
+%\parskip 0pt
+
+
+%% 
+%% Accordingly, our research in
+%% \cite{ww93}-\cite{ww14} 
+%% has explored both generalizations and
+%% boundary-case exceptions of the Incompleteness Effect, so as
+%% to determine what type of boundary-case evasions are permitted.
+%% Our prior research in \cite{ww93}-\cite{ww14} 
+%% had used mostly cut-free forms of deduction to
+%% evade the 
+%% restrictions imposed by the
+%% Second Incompleteness Effect. The current article will instead
+%% focus on more pristine Hilbert-Frege methods of deduction.
+%% They are likely to support an evasion of the Second Incompleteness
+%% Effect when our axiom systems replace the traditional  
+%% growth properties of the addition, multiplication and successor 
+%% function symbols with our new $~\theta~$ primitive.
+%% 
+%% \smallskip
+%% 
+%% The motivation for this replacement will be
+%% explained during the next section of this article.
+%% It is needed
+%% essentially
+%% because
+%% a
+%%  version of the Second Incompleteness Theorem,
+%% due to the
+%% combined work of Pudl\'{a}k, Solovay, Nelson and Wilkie-Paris
+%% \cite{Ne86,Pu85,So94,WP87},
+%% %will show 
+%% demonstrates
+%% that 
+%% if an axiom system $~\alpha~$
+%% proves any 
+%% of \eq{totxtefs} - \eq{totxtefm}'s totality statements
+%% then it is incapable of confirming its own consistency
+%% under a Hilbert-style deductive method.
+%% 
+%% 
+%% 
+%% 
+%% 
+%% \smallskip
+
+Our results will suggest  it is possible to obtain a
+{\it part-way 5-10 \%
+positive} interpretation
+for what
+Hilbert and G\"{o}del 
+% advanced
+ were seeking 
+% a Consistency Program
+to establish
+%%  seeking to accomplish
+% contemplating 
+in their 
+statements
+$*$ and $**$, within a context where 
+it is  known that the 
+Second Incompleteness Effect precludes a full achievement of
+%these 
+Hilbert's
+objectives
+from ever transpiring.
+The last five minutes of
+a 
+recent
+ 60-minute YouTube 
+presentation
+ by Harvey Friedman
+\cite{Fr14},
+entitled 
+% the 
+{\it ``The Blessing and Curse of Kurt  G\"{o}del''},
+suggested that it is
+%the themes of Hilbert and G\"{o}del's
+%remarks $*$ and $**$ by indicating that 
+%it is 
+interesting to explore futuristic partial 
+boundary-like evasions of the Second Incompleteness Theorem,
+despite the stunning strength of 
+G\"{o}del's result.
+It is within this context where our proposed use of a new
+$~\theta~$ primitive 
+symbol to replace the growth properties
+of the traditional addition, multiplication and successor function
+symbols may be of potential interest.
+
+\smallskip
+
+The development of our $~\theta~$ primitive 
+was 
+% partially 
+influenced by a private email
+communication 
+we
+% had 
+received
+from  
+Pavel Pudl\'{a}k \cite{Pupriv},
+as \textsection \ref{ss4}
+% \ref{ss3}  \& \ref{ss4} 
+%shall 
+will
+explain.
+We also emphasize that the 
+%conventional 
+usual
+interpretation of
+the
+% Second 
+Incompleteness Theorem, as precluding
+Hilbert's Consistency Program from
+% ever 
+achieving its initially
+specified objectives, is certainly correct.
+{\it Our only caveat} is that 
+some  
+{\it very  tiny} 5-10 \%
+% perhaps
+{\it fragmentized part} 
+of Hilbert's and G\"{o}del's aspirations in
+$*$ and $**$ ought to be viable.
+
+%fragment of its objectives ought to be viable.
+
+
+%% the latter should not lead  one
+%% to
+%% ignoring the role that a
+%% human's instinctive faith in his/her's internal
+%% consistency 
+%% %crucially stimulates and motivates
+%% plays in stimulating and motivating
+%% human cognition.
+
+%% 
+%% It is
+%% from this 
+%% special
+%% perspective where our prior research and
+%% new 
+%% results 
+%% %2-part conjecture 
+%% will
+%% % does 
+%% suggest that 
+%% an approximate
+%% %at least a
+%% 5-10 \%
+%% fragment 
+%% % fraction
+%% of what Hilbert and G\"{o}del 
+%% %suggested in 
+%% had
+%% sought
+%% in $*$ and $**$ 
+%% %could
+%% should be
+%%  plausibly 
+%% %is
+%% %% be formally 
+%%  feasible.
+%% 
+
+
+%\gvxs
+
+\vspace*{- 0.6 em}
+
+\section{Starting Perspective}
+%  222222}
+\label{ss3}
+
+\vspace*{- 0.6 em}
+
+%%! 
+%%! This article will be written in a style so that its
+%%! overall theme (if not full details)
+%%! should become 
+%%! {\it  quickly} comprehensible to a reader who has
+%%! examined 
+%%! only
+%%!  one of the
+%%! % introductory 
+%%! logic textbooks by say Enderton,
+%%! Fitting, H\'{a}jek-Pudl\'{a}k,
+%%!  Mendelson
+%%! or Papadimitriou \cite{End,Fi96,HP91,Mend,Papa}.
+%%! %% 
+%%! %% We will rely mostly upon the
+%%! %% precise
+%%! %% deductive calculi notation employed
+%%! %% in Section 2.4 of Enderton's textbook,
+%%! %% but any of 
+%%! %% the 
+%%! %% similar
+%%! %% Hilbert-style deductive calculi of 
+%%! %%  H\'{a}jek-Pudl\'{a}k,
+%%! %%  Mendelson
+%%! %% or Papadimitriou \cite{HP91,Mend,Papa}.
+%%! %% will also be suitable for achieving our results.
+%%! 
+%%! %% 
+%%! %%  
+%%! %% ( Papadimitriyou's textbook
+%%! %% generously states it employs a deductive notation
+%%! %% that 
+%%! %% has
+%%! %% stemmed from its predecessor in 
+%%! %% Enderton's textbook.)
+%%! 
+%%! 
+
+
+
+%% In order to make our 
+%% results
+%% %research 
+%% apply to the 
+%% formalism
+
+It is helpful to employ a flexible vocabulary so
+% that our
+our 
+results
+will apply 
+%research 
+%to the 
+%formalisms
+to any of the
+%% 
+%% accessible to
+%% some 
+%% readers who are acquainted with only one of the 
+%% 
+textbook 
+formalisms of
+% settings outlined by 
+%  
+say 
+Enderton,
+Fitting, H\'{a}jek-Pudl\'{a}k,
+or Mendelson
+\cite{End,Fit,HP91,Mend}.
+% 
+% ,
+% %% or
+% %%  Papadimitriou 
+% %% \cite{End,Fit,HP91,Mend,Papa},
+% %% 
+% %% 
+% %the widest
+% % possible  
+% %audience, 
+% it is 
+% helpful
+% % useful to 
+% use
+% %employ 
+% a
+% % very 
+% flexible
+%  vocabulary.
+% %%
+% %%that 
+% %%allows a reader to 
+% %%%quickly 
+% %%%translate results 
+% %%traverse
+% %%from
+% %%one textbook to another.
+% % Therefore, let us define a
+Let us 
+% thereby
+call an
+%\newpage
+%
+%\noindent
+ordered pair $(\alpha,d)$ a
+    {\bf ``Generalized Arithmetic''}
+% therefore
+iff its 
+% first and second 
+two components 
+%% 
+%%  Each of the 
+%% textbooks \cite{End,Fi96,Mend,Papa,HP96} have
+%% employed
+%% substantially
+%%  different variants of Basis and 
+%%  Deductive-Apparatus structures. 
+%% 
+are 
+% described
+formalized
+% defined 
+as below:
+%% 
+%% Their
+%% definitions in
+%%  Items (1) and (2)
+%% %simple 
+%% %%%definitions of these two notions
+%% %given below,
+%%     allow one to easily translate 
+%% %theorems 
+%% formalisms
+%% % methodologies
+%% from
+%% one textbook 
+%% % source
+%% to another:
+%% 
+%% %\njp
+%% % \newpage
+%% \parskip 2pt
+\bee
+\item
+The {\bf ``Axiom Basis''} $~\alpha~$ 
+for an arbitrary arithmetic
+shall be defined as
+the set of 
+{\it proper axioms} employed by the 
+formalism  $(  \alpha  , d  )$.
+\item
+An arithmetic's {\bf ``Deductive Apparatus''} $~d~$ 
+is defined as
+the 
+{\it combination} of its formal rules for inference
+and 
+%its
+the
+ built-in
+ logical axioms ``$~L_d~$''
+%  (that are 
+% implicitly 
+employed by these rules.
+\ene
+
+%%%\item
+%%%The term {\bf ``Deductive Apparatus''} $~d~$ will
+%%%refer to the 
+%%%{\it combination} of the rules of inference
+%%%used by an arithmetic and its
+%%%the logical axioms ``$~L_d~$'' that 
+%%%render meaning to
+%%%%are an automatic part of
+%%%$~d\,$'s machinery.
+
+
+\begin{exx}
+\label{ex-2.1}
+%\label{ex-basis}
+\rm
+This notation 
+allows one to
+ conveniently separate  the logical axioms
+$~L_d~,~$ associated
+with  $(  \alpha  , d  )~$, from 
+ $\, \alpha \,$'s
+ ``basis axioms''.
+%basis axioms
+It also allows one to  isolate
+and compare
+%  , conveniently, 
+various
+apparatus techniques,
+%technique,
+% employed in the exact formalisms 
+including the
+ $~d_E~$,  
+ $~d_M~$, 
+ $~d_H~$,  
+and  $~d_F~$
+methods
+%that we will now define:
+defined below:
+%% 
+%%  Three
+%% examples of this are illustrated below,
+%% in a context where
+%% are the deductive apparatus machineries defined
+%% in  Enderton's, Mendelson's and Fitting's textbooks
+%% \cite{End,Fi96,Mend}.
+%% 
+\bed
+\item[   i. ]
+The  $~d_E~$ apparatus,
+formalized in 
+\textsection
+ 2.4 of  Enderton's textbook, 
+% will
+uses only  modus ponens
+as a rule of inference.
+The latter will be accompanied
+by 
+a
+4-part 
+system of
+ logical axioms,
+called $~L_{d_E}~$, $\,$ to endow
+ $~d_E~$ 
+with an
+ability to  support
+% apparatus
+% agility so that it  supports
+%can satisfy
+%the analog of 
+G\"{o}del's Completeness Theorem.
+%% '
+%% (similar to  other'
+%% % full-scale '
+%% deductive methodologies).'
+%% 
+%%%% 
+%%%% (Papadimitriyou's
+%%%% % in-depth  exploration
+%%%% textbook \cite{Papa}  about
+%%%% % examination  of 
+%%%% the Logic-Computer interface
+%%%% relies
+%%%% explicitly 
+%%%%  upon
+%%%% % uses  
+%%%% Enderton's  
+%%%% % underlying 
+%%%% apparatus mechanism.)
+%%%% 
+%% %uses
+%% relies upon
+%%  Enderton's 
+%% approach   $d_E$.)  
+
+%% %relies 
+%% does rely
+%% upon 
+%% Enderton's apparatus
+\item[  ii. ]
+The  $~d_M~$ 
+apparatus in
+\textsection 2.3 
+of  Mendelson's textbook
+and  the $d_H$ 
+ apparatus
+in  \textsection 0.10
+of the H\'{a}jek-Pudl\'{a}k's
+ textbook
+employ a more compressed set of logical axioms
+than $\, d_E \,$,
+but
+they 
+instead
+use
+two rules of inference
+% (formalizing separately
+( modus ponens and generalization).
+%% plus a smaller set of logical axioms, which Mendelson
+%% has called A1-A5.
+%% Also, the $d_H$ 
+%%  apparatus 
+%% on pages ???? 
+%% of the 
+%%  H\'{a}jek-Pudl\'{a}k textbook
+%% uses a slightly different variation of a generalization. 
+%% (In the end, 
+In the end, 
+% both
+ $~d_M~$ 
+and  $~d_H~$ 
+prove the same
+% set of 
+theorems
+as   $~d_E~$ with 
+only
+%  minor and 
+unimportant changes in
+proof length.
+\item[ iii. ]
+The 
+``semantic tableaux''
+ $\,d_F \,$ 
+apparatus in
+Fitting's 
+and Smullyan's 
+textbooks 
+\cite{Fit,Smul}
+was
+ the 
+% main 
+focus of our 
+investigations in \cite{ww93,ww1,ww5,ww6,ww14}.
+It will be rarely used
+in the current article,
+however.
+Unlike
+ $~d_E~$,  $~d_M~$  and  $~d_H~$, it
+employs no logical axioms.
+It instead
+ uses a more complicated rule of inference.
+This tableaux apparatus 
+% and also Resolution, have  been 
+ has 
+% been found to  have many 
+many
+%a wide array of
+applications
+% underfor 
+in
+automated deduction,
+although it is 
+less efficient than
+ $  d_E  $,  $  d_M  $  and  $  d_H  $   
+in
+% under
+% extremal
+worst-case 
+environments.
+% settings.
+%circumstances.
+\ennd
+\end{exx}
+
+\tvxs
+
+\begin{dff}
+\label{def-2.2}
+\rm
+Each of the
+% deductive 
+methods of
+ $  d_E  $,  $  d_M  $  and  $  d_H  $   
+have the property that if a theorem $\, \Psi \,$
+has a proof
+with  length $~L~$ 
+ from an arbitrary 
+axiom basis $~\alpha~$ 
+under one of these deductive systems,
+then it will have a proof from these other formalisms
+with lengths bounded by Polynomial$(L)$.
+The term 
+{\bf ``Hilbert-style''} deductive method will,
+thus, refer to any  deductive 
+% apparatus will refer to any other
+apparatus $~d~$ that
+has a modus ponens rule and
+employs
+% similarity has its 
+proof lengths
+% being 
+equivalent to within a polynomial magnitude
+to
+%of
+the comparable proof lengths from $d_E$,  $d_M$  and  $d_H$.
+\end{dff}
+
+
+%% and which 
+%% also
+%% assures 
+%% that the proofs of any
+%% two theorems $~\Phi~$ 
+%% and $~\Psi~$ 
+%% (under $d$ from any
+%% axiom basis $~\alpha~$) 
+%% will
+%% always 
+%% have
+%% % by more than a constant factor 
+%% the sum of the lengths of the proofs
+%% of $~\Phi \rightarrow \Psi ~$ and $~\Phi~$ 
+%% % under $~d~$ from $\alpha$ always 
+%% formally
+%% bound the length of
+%% $~\Psi\,$'s proof. 
+%% \end{dff}
+
+
+\begin{exx}
+\label{ex-2.3}
+%\label{ex-basis}
+\rm
+Some added notation is
+ needed to
+explain why
+% help outline
+% an important distinction between 
+a Hilbert style
+deductive apparatus, such as $\,d_E\,$,  $\,d_H\,$
+ or $\,d_M\,$, should be distinguished from
+ $d_F$'s
+``tableaux'' apparatus.
+Let
+% the symbols
+ $Add(x,y,z)$ and    $Mult(x,y,z)$
+once again 
+% will
+denote 
+two 
+3-way predicate symbols
+specifying
+that
+$x+y=z$ and
+$x*y=z$.
+Also, let us recall 
+that 
+an
+axiom basis
+ ``$\, \alpha \,$''
+is said to
+{\bf recognize}
+successor, 
+ addition  and multiplication
+as {\bf Total Functions} if 
+%%%%%%%%% $\, \alpha \,$ 
+it
+includes
+\eq{totdefxs} - \eq{totdefxm}
+as theorems.
+
+% {\small
+{\vspace*{- 0.6 em}
+{
+\small
+\beq 
+\label{totdefxs}
+\forall x ~ \exists z ~~~Add(x,1,z)~~
+\enq
+\vspace*{- 1.7 em}
+\beq 
+\label{totdefxa}
+\forall x ~\forall y~ \exists z ~~~Add(x,y,z)~~
+\enq
+\vspace*{- 1.7 em}
+\beq 
+\label{totdefxm}
+\forall x ~\forall y ~\exists z ~~~Mult(x,y,z)~
+\enq }
+}
+
+\vspace*{- 1.4 em}
+
+\noindent
+%Then an 
+In this context, an
+``axiom basis''
+$\alpha$
+will be called 
+{\bf Type-M} if it contains
+\eq{totdefxs}-\eq{totdefxm}
+% \ref{totdefxs}-\ref{totdefxm}
+as theorems,  
+{\bf Type-A} if it contains 
+%only
+\eq{totdefxs} and \eq{totdefxa} as theorems,
+and {\bf Type-S} if it contains
+only \eq{totdefxs} as a
+ theorem. 
+%Moreover, 
+Also,
+$\alpha$ 
+%will be 
+is
+called 
+{\bf Type-NS} if it  can prove
+none of these theorems.
+%In this context,
+%The
+%Items (a) and (b) illustrate 
+%%%Below are illustrated several
+%%%implications of this notation:
+The implications of this notation
+are formalized by Items a and b:
+
+%% 
+%% 
+%% , below, 
+%% %will 
+%% illustrate how
+%% a
+%% %% 
+%% %%  the
+%% %% prior
+%% %%  literature has
+%% %% 
+%% %% 
+%% ``Hilbert-style''
+%% deductive apparatus, such as $\,d_E\,$
+%%  or $\,d_M\,$, supports very different generalizations
+%% of the Second Incompleteness Theorem
+%% than  $\,d_F\,$'s
+%% ``tableaux-style'' apparatus:  
+%% 
+%%  the prior literature most germane
+%% to our current article is summarized as follows:
+%% 
+%% 
+%% The relationship of these constructs to 
+%% self-justification 
+%% is explained by
+%% items (a) and (b):
+\bed
+\item[   a.  ]
+The
+%%  
+%% above 
+%% evasions of the Second Incompleteness
+%% Theorem are known to be near-maximal in a mathematical sense.
+%% This is because
+%% the
+%% 
+combined work of Pudl\'{a}k, Solovay, Nelson and Wilkie-Paris
+\cite{Ne86,Pu85,So94,WP87},
+as formalized by statement $\, ++ \,$,
+%has  implied  
+implies
+no
+natural 
+Type-S system can recognize  its
+own  consistency
+under
+any of $\, d_E \,$'s, $\, d_H \,$'s  
+or
+ $\, d_M \,$'s
+  Hilbert-style 
+versions
+of deduction:
+\begin{quote}
+{\bf ++ }
+\small
+% \footnotesize
+ \baselineskip = 0.9 \normalbaselineskip 
+{\it 
+(Solovay's  
+modification
+%Generalization 
+\cite{So94}
+%1994 Generalization \cite{So94}
+%of a 1985 theorem 
+of Pudl\'{a}k \cite{Pu85}'s formalism 
+with
+%using 
+%some of 
+Nelson and Wilkie-Paris \cite{Ne86,WP87}'s
+methods)} :
+Let $ \, \alpha \, $ denote 
+%%! any consistent
+% a logic
+an axiom  
+basis  
+% axiom system 
+%basis  system 
+%supporting
+% which contains 
+able to prove
+Line
+\eq{totdefxs}'s
+Type-S statement
+and 
+assuring
+%which assures 
+%that 
+the successor operation
+%always 
+does satisfy
+both 
+% the axioms of 
+ $  \,   x'     \neq 0     $ and
+the identity
+$     x'     =     y' \Leftrightarrow x=y $.
+$~$Then $~\alpha~$
+cannot verify its
+%will be unable to recognize its
+%own  
+consistency
+under any Hilbert-style 
+%deductive 
+apparatus $d$,
+%whenever
+if  it
+ treats addition and multiplication
+as 3-way relations, 
+satisfying 
+the usual % identity,
+associative, commutative 
+ distributive 
+and identity axioms.
+%   -axiom
+% properties.
+\end{quote}
+Essentially, Solovay \cite{So94} 
+privately communicated 
+to us 
+in 1994
+%to us
+an analog of $++$'s result. 
+%but 
+Many authors
+have noted Solovay
+ has 
+been
+%often
+reluctant to publish
+% several of 
+his 
+nice 
+privately communicated
+results 
+on many occasions
+%in several contexts
+\cite{BI95,HP91,Ne86,PD83,Pu85,WP87}. 
+Thus,
+%polished
+approximate  analogs of 
+%statement
+ $++$
+ were  explored 
+subsequently
+by
+Buss-Ignjatovic,
+H\'{a}jek 
+and
+\v{S}vejdar in \cite{BI95,Ha7,Sv7},
+as well as in Appendix A of 
+our paper
+\cite{ww1}.
+Also, 
+Pudl\'{a}k's initial 1985 article  \cite{Pu85} 
+% implicitly
+did capture 
+essentially
+the 
+{\it great majority} 
+%most
+%%%  much 
+of $++$'s 
+% main
+% underlying
+formalism,
+and
+Friedman did 
+related work
+in
+\cite{Fr79a}.
+
+\item[   b.  ]
+Part of what makes
+% the Pudl\'{a}k-Solovay discovery in
+ $++$ interesting is that 
+\cite{ww93,ww1,ww5,wwapal}
+%Willard
+developed various 
+% separate
+methods for 
+basis systems
+%%% $\alpha$ 
+to confirm their own consistency, whose
+main
+further  improvements are 
+prohibited by either the invariant $++$ 
+or by
+\cite{ww2,ww7}'s hybridization of 
+$++$'s formalism with some further methods of 
+ Adamowicz-Zbierski
+\cite{AZ1}. (As a consequence of these facts, it is known
+that 
+some 
+Type-A 
+and Type-NS
+arithmetics can verify their
+respective
+ semantic tableaux and 
+ Hilbert-styled consistencies,
+but 
+Type-S arithmetics cannot verify their Hilbert consistency and
+most Type-M systems cannot verify their semantic tableaux
+consistency.)
+ \ennd
+\end{exx}
+
+% natural hybridizations is precluded by $++$. These results involve
+% either a Type-NS
+% % basis 
+% system 
+% 
+%  verifying its own consistency
+% under 
+% any  of the 
+%  $d_E$ or  $d_H$
+%  or $d_M$'s
+% Hilbert-style methods,
+% or   a Type-A 
+% %basis 
+% system \cite{ww93,ww1,ww5,ww6,ww14} 
+% verifying
+%  its
+% % own 
+% self-consistency
+% under $d_F$'s tableaux 
+% %deductive 
+% apparatus.
+% Also, Willard \cite{ww2,ww7} observed how one could
+% refine $++$ with Adamowicz-Zbierski's
+% methodology \cite{AZ1} to show 
+%  Type-M  systems
+% cannot recognize their semantic tableaux consistency.
+% \ennd
+% \end{exx}
+
+\lvxs
+\nvxs
+
+
+% \tempvxs
+
+
+%% A more detailed 15-page summary,
+%% % of our prior research, 
+%% germane to
+%% % the
+%%  Item (b),
+%% % , above, 
+%% %can be found in our article
+%% appears in
+%%   \cite{ww14}.
+
+% NNN NEED TO REWRITE NEXT TWO PARAGRAPHS
+
+
+A full 15-page summary
+% of our prior research, 
+of
+ Item (b)'s results
+% , above, 
+%can be found in our article
+can be found in
+  \cite{ww14}.
+It does not need
+ to be read,
+however,
+ as a prerequisite for understanding
+the current paper. This is because our goal
+%%%  in the current paper
+will be to explore axiom basis systems that can recognize their
+own 
+Hilbert-styled
+consistency, and the invariant $++$ indicates that each of the
+classes of Type-S, Type-A and Type-M 
+arithmetics
+are irrelevant to 
+this objective.
+%our goals.
+
+
+%% %% formalisms 
+%% own
+%% % contain 
+%% excessive
+%% growth properties that 
+%% lie outside 
+%% our goals.
+
+%this goal.
+
+%are incompatible with our goals.
+ 
+Instead, the \textsection \ref{seee3} will introduce a new
+growth function symbol, called the ``$~\theta~$'' primitive,
+that allows us to reside within the domain of a Type-NS arithmetic
+because {\it none of the  identities in
+Lines 
+ \eq{totdefxs}-\eq{totdefxm}} 
+will be provable consequences
+of $\theta$'s speedy but unconventional growth properties.
+
+This $\theta$ primitive will be attractive because
+Proposition \ref{th-3.3}
+and Remark \ref{rem-def-3.4} will imply  it supports
+respective $O(~$Log$^3 \, n \,)$ and $O(~$Log$ \, n \,)$
+growth speeds for constructing arbitrary integers $~n$
+(depending on what linguistic notation one uses for encoding integers).
+As a result,
+%%% of this fact,  
+\textsection \ref{ss32}
+ will conjecture that
+a seemingly minor ``IQFS'' modification of \cite{wwapal}'s
+ISCE formalism is an arithmetic that possesses some interesting abilities
+to confirm its own 
+% Hilbert-style 
+Hilbert 
+consistency.
+
+We might add that the discussion in this article will be
+{\it entirely self-contained}
+because 
+ \textsection \ref{ss32}
+ will summarize  \cite{wwapal}'s
+definition of the ISCE formalism.
+
+\begin{deff}
+\label{def-2.4}
+\rm
+Let
+$~\alpha~$ again 
+denote an axiom basis 
+and $~d~$ 
+designate
+ a
+deduction apparatus.
+%  
+%  During our discussion about the open questions
+%  raised by Hilbert's and 
+%   G\"{o}del's
+%  statements 
+%  $*$ and $**\,$,
+%  an 
+%  %
+%  % Then the  
+%  
+In this context, an
+ordered pair
+ $~(  \alpha  , d  )$
+will
+be called  {\bf Self Justifying} when:
+\begin{description}
+% \xxitch
+% \small
+  \item[  i   ] one of $ \, \alpha \,$'s  theorems
+(or at least one of its axioms)
+will
+state that the deduction method $ \, d, \, $ applied to the
+system $ \, \alpha, \, $ will 
+produce a consistent set of theorems, and
+\item[  ii   ]
+     the axiom system $ \, \alpha  \, $ is in fact consistent.
+\end{description}
+\end{deff}
+
+
+\begin{exx}
+\label{ex-2.5}
+ \baselineskip = 1.04 \normalbaselineskip 
+\rm
+% Using 
+% Definition \ref{def-2.4}'s
+%  notation, our research  
+% 
+Our research  
+in
+\cite{ww93,ww1,ww5,wwapal,ww9,ww14}
+developed
+%\cite{ww93}-\cite{ww14}
+%has  consisted of
+% developing
+ordered pairs  $~(  \alpha  , d  )$
+that 
+were
+%are
+``Self Justifying''.
+It 
+%  has 
+also explored
+how the Second Incompleteness Theorem formalizes
+limits beyond which such formalisms cannot transgress.
+For any  $\,(\alpha,d) \,$, 
+it is 
+easy 
+to construct a 
+% second
+%%% axiom 
+system $ \, \alpha^d \, \supseteq  \,  \alpha  \, $
+ that  satisfies
+the
+Part-i 
+condition.
+%of 
+% this definition.
+For instance,  $ \, \alpha^d \, $  could
+consist of all of $~\alpha \,$'s axioms plus 
+an added {\bf $\,$``SelfRef$(\alpha,d)$''$\,$} sentence,
+defined as stating:
+%%%
+%%% the following 
+%%% %%% added
+%%% further
+%%% sentence,  
+%%% called
+%%% %%% that we call
+%%% {\bf SelfRef$(\alpha,d)~$}:
+\begin{quote}
+\small
+% \baselineskip = 0.95 \normalbaselineskip  
+%\xxitch
+$\oplus~~~$ 
+There is no proof 
+(using 
+$d$'s deduction method)
+of  $0=1$
+from the  {\it union}
+ of
+the
+ axiom system $\, \alpha \, $
+with {\it this}
+sentence  ``SelfRef$(\alpha,d) \,$'' (looking at itself).
+\end{quote}
+Kleene 
+\cite{Kl38} 
+discussed
+how
+to
+encode
+approximate
+ analogs of this
+{\bf $\,$``SelfRef$(\alpha,d)$''$\,$}
+statement.
+%%% SelfRef$(\alpha,d)$'s
+%%% self-referential statement.
+Both Kleene and 
+Rogers  \cite{Kl38,Ro67}
+% 
+% Each of
+% Kleene, 
+% Rogers and Jeroslow 
+%  \cite{Kl38,Ro67,Je71}
+% 
+ noted
+$\alpha ^d$ 
+may
+% , however,  
+be inconsistent
+(despite SelfRef$(\alpha,d)$'s assertion),
+thus causing 
+it
+to violate Part-ii of   self-justification's
+definition.
+This is because if the 
+%  ordered
+ pair $(\alpha,d)$ is too strong
+then a classic G\"{o}del-style diagonalization argument can
+be applied to the axiom system 
+$\alpha^d~~=~~ \alpha \, + \, $ SelfRef$(\alpha,d)$,
+where the added presence of 
+% statement 
+SelfRef$(\alpha,d)$'s axiomatic   statement 
+will cause 
+%% this extended version of 
+$\, \alpha^d\,$, ironically,
+ to
+ become automatically inconsistent.
+Thus, the machinery of the sentence
+``SelfRef$(\alpha,d)$'' is relatively easy to 
+encode,
+%make well-defined 
+via an application of the Fixed Point Theorem,
+but it
+is
+ironically 
+%%%%%{\it most often  
+{\it 
+typically
+%usually
+useless! }
+\end{exx}
+
+%\newpage
+
+
+Unlike our earlier work, which focused 
+ mostly around a 
+semantic
+tableaux apparatus for deduction,
+the current paper
+will
+explore
+%paper will explore
+\dfx{def-2.2}'s
+more pristine Hilbert-style methodologies.
+%% 
+%% analogous to 
+%% Example
+%% \ref{ex-2.1}'s 
+%% textbook
+%% methods.
+%% 
+% of 
+% $d_E$,  $d_M$
+% and  $d_H$.
+%%! 
+%%! in
+%%! the textbooks by 
+%%!  Enderton,  H\'{a}jek-Pudl\'{a}k,
+%%! Mendelson and Papadamiriyou \cite{End,HP91,Mend,Papa}.
+There are, of course, many types of generalizations
+of the Second Incompleteness Theorem known to
+arise in  Hilbert-like  settings
+\cite{BS76,Bu86,BI95,Fe60,Fr79a,Go31,Ha7,Ha11,HP91,HB39,Lo55,Kr87,Kr95,Pa71,Pa72,Pu85,Pu96,So94,Sv7,Vi5,WP87,ww1,wwapal}.
+Each such
+generalization
+formalizes
+a paradigm where 
+self-justification is infeasible
+under a Hilbert-style apparatus.
+
+\smallskip
+
+Our 
+main
+prior research about
+%%! 
+%%! main work about arithmetics displaying knowledge
+%%! about their 
+%%! 
+Hilbert consistency appeared in \cite{wwapal}.
+Its ISCE$(\beta)$ 
+system could recognize its
+own 
+Hilbert consistency and 
+%%could 
+prove analogs of 
+the  $\Pi_1$ theorems of
+any 
+% r.e. 
+extension $~\beta$ of
+Peano Arithmetic.
+%  's $\Pi_1$ theorems.
+It unfortunately required
+% the 
+use of  infinitely many
+% number of 
+constant symbols, with
+ ISCE$(\beta)$ 
+using one built-in constant
+% symbol 
+$C_i$
+for each power of 2.
+(Such a series of constants seriously
+ deviated from 
+Hilbert's
+intended
+ goals
+in statement $*\,$, as
+we will explain during
+\textsection \ref{ss32}'s detailed review of
+\cite{wwapal}'s results.)
+
+
+%  An alternative in  \cite{wwapal},
+% called ISINF$(\beta)$, required use of only three constant symbols,
+% but its proof lengths were impractically long. 
+
+
+%%! required
+%%! % in excess of
+%%! an impractical
+%%!  $O(N)$ length proof to construct an integer $N$.
+
+\smallskip
+
+Prior to \cite{wwapal}'s publication, 
+Pavel Pudl\'{a}k
+\cite{Pupriv}
+examined this article and asked 
+%us
+% the crucial question about 
+whether
+we could improve 
+upon ISCE
+% 's properties
+ by using Ajtai's observations
+\cite{Aj94}
+ about
+the Pigeon Hole principle.
+%%  
+%% Sam Buss \cite{Bupriv} also asked us
+%% a 
+%% %similar 
+%% related
+%% question
+%% (during a more 
+%% informal 
+%% %abbreviated
+%% conversation).
+%% %(in a more informal manner).
+%% 
+Our prior
+partial
+answer to  Pudl\'{a}k's
+question
+was offered  
+%issue
+%appeared
+%in Sections 6 and 7 of \cite{wwapal}.
+in Sections 6 of \cite{wwapal}.
+A 
+% very 
+different type of reply will be offered
+% 
+% We will offer 
+% % an alternate much  
+% a 
+% % much
+% more sophisticated
+% and different 
+% type of reply
+% % analysis
+% %  formalism 
+% 
+in
+the current 
+paper.
+%article.
+
+
+%%! an abbreviated version of a similar
+%%! question after we verbally summarized to him \cite{wwapal}'s
+%%! planned results.
+
+% in 1997.
+
+
+\begin{deff}
+\label{def-2.6}
+\rm
+Throughout our discussion, a
+% A
+primitive $~F~$ will be called a 
+{\bf Q-Function} 
+iff is is 
+sufficiently ambiguous
+for there to exist an uncountably infinite set of
+% different 
+distinct
+{\it 
+plausible  sequences} of
+ordered pairs in expression \eq{wow} where
+$~F(i)=a_i~$  is allowed as a
+% logically 
+permissible
+%plausible 
+%formalization 
+representation of $F$
+under some fixed axiom system $~\gamma~$. 
+\begin{equation}
+\label{wow}
+  (0,a_0) 
+ ~,~  (1,a_1)   ~,~  (2,a_2)   ~,~  (3,a_3)   ~,~  (4,a_4)~ ...
+\end{equation} 
+\end{deff}
+
+% \gvxs2
+
+\vspace*{- 0.6 em} 
+%It turns out most
+
+%  
+% Most
+% Q-Function symbols are
+% unsuitable for 
+% analyzing
+% %producing a positive resolution to
+% Hilbert's  Second Open Question or most 
+% issues in
+% % other prominent
+% % % mathematical 
+% % questions within 
+% mathematics.
+
+Most
+Q-Function symbols are
+awkward to employ.
+ This is because the
+presence of an 
+ uncountably
+ infinite
+  number of
+different 
+plausible  sequences,
+formalized by Line
+\eq{wow} for solving
+$~F(i)=a_i~,~$  is 
+typically more of a burden than a benefit.
+A
+possible
+%potential
+ exception to this general rule
+of thumb
+ will be
+provided by
+ the next
+section's $~\theta~$ operator: It
+% because it
+ will,
+conveniently,
+ lie outside the scope of
+ $\, ++ \,$'s generalization of the Second Incompleteness
+Theorem.
+This fact will ultimately lead to our
+main  conjecture
+about stronger variants of Type-NS logics
+recognizing their own Hilbert consistency.
+
+
+
+% an enticing manner.
+
+
+%  It 
+% will
+% % should 
+% provide an
+% % enticing
+%  avenue for
+% Type-NS axiom systems to recognize their own
+% Hilbert consistency (if
+% \textsection \ref{ss5}'s 
+% ``IQFS''
+% %anticipated
+% conjecture is
+% correct). 
+
+
+%% 
+%% and suggest a mechanism whereby an efficient form of
+%% ``Type-NS''self-justifying 
+%% arithmetic
+%% can recognize its own Hilbert consistency,
+%% without
+%% viewing
+%% % recognizing 
+%% %%%%%% any of  addition, multiplication and
+%% even
+%% successor  as
+%% a total function.
+
+%In other words,
+% \smallskip
+
+
+%% 
+%% 
+%% \medskip
+%% Thus in a context where the partial drawbacks of
+%% our 
+%% new $~\theta~$ primitive
+%% will be beyond doubt, it will
+%% % simultaneously
+%% renew the
+%% serious
+%%  question about whether a  
+%% {\it 
+%% part-way 
+%% 5-10 \% fragment} of
+%% %positive} interpretation
+%% %can be assigned to
+%% Hilbert's and G\"{o}del's
+%% goals in $*$ and $**$
+%% can be acheived.
+
+
+%% 
+%% Our
+%% suggestion
+%% % conjecture
+%%  will be that
+%% Q-functions 
+%% might
+%% allow one to assign a
+%% {\it 
+%% % part-way 
+%% 5-10 \%
+%% positive} interpretation
+%% for what
+%% Hilbert and G\"{o}del 
+%% were
+%% seeking
+%% %referring to
+%% % a Consistency Program
+%% % to establish
+%% %%  seeking to accomplish
+%% % contemplating 
+%% in their 
+%% famous
+%% %often quoted
+%% statements
+%% $*$ and $**$.
+%% 
+
+%% 
+%% It will enable us to develop ground terms for formulating
+%% any integer $~N~$ using
+%%  $O\{~$Log$(N)~\}~$ 
+%% logical symbols,
+%% in a context where
+%% {\it  none of the} addition, multiplication or
+%% successor  function symbols are employed
+%% by $~\theta \,$'s analog of an 
+%%  $O\{~$Log$(N)~\}~$ 
+%% lengthed 
+%% binary-like 
+%% encoding 
+%% for integers.
+%% % of an integer as a binary number. 
+%% This  alternate
+%%  $O\{~$Log$(N)~\}~$ 
+%% format
+%% for encoding an integer $~N~$ is 
+%% potneitlally useful
+%% %fascinating
+%% because  
+%% Item $\, ++ \,$'s generalization of the Second Incompleteness
+%% Theorem, due to the
+%% combined work of Pudl\'{a}k, Solovay, Nelson and Wilkie-Paris
+%% \cite{Ne86,Pu85,So94,WP87},
+%% does not preclude evasions of its invariant when a
+%% ``Type-NS''
+%% axiom system ceases to recognize 
+%%  addition, multiplication and
+%% successor  as total functions.
+
+
+ 
+% Most
+% Q-Function symbols are
+% unsuitable for 
+% analyzing
+% %producing a positive resolution to
+% Hilbert's  Second Open Question.
+% A special class of Q-Functions
+% %  , however,
+% will
+% walk through
+%   Cantor's 
+% % the
+% world of the Uncountably Infinite
+% %% in a more 
+% in an
+% enticing manner,
+% however.
+% %% however.
+% %It 
+% They
+% will suggest a
+% %%% much
+%  {\it  diluted but non-trivial}
+% variant
+% of the aspirations
+% which 
+% %that 
+% Hilbert and G\"{o}del 
+% expressed
+%  in
+% $*$ and $**$ 
+% are 
+% %applicable to
+% feasible under
+% % plausible in the context of 
+% Hilbert Deduction.
+% (This
+% % Q-function a
+% analysis will be 
+% %%%%%%%%%%%%%% quite
+% % entirely 
+% different
+% from 
+% \cite{ww14}'s 
+% examination of
+% %formalisms
+% %the formalisms appearing in our Wollic-2014 paper
+% %%% because 
+% %it will replace 
+% semantic tableaux deduction
+% because it will
+% apply  
+% uniquely 
+% to 
+% Definition \ref{def-2.2}'s 
+% ``Hilbert-styled'' deduction methods.)
+
+ 
+%%% is replaced by the more efficient
+%%% %with the more pristine 
+%%% Hilbert-style deductive methodology.)
+
+%can be achieved.
+
+
+%%! This will suggest
+%%! a {\it limited}  
+%%! and very-much {\it down-sized} version of the formalism that
+%%!  Hilbert
+%%! advocated
+%%! is
+%%! likely
+%%! %probably
+%%! feasible
+%%! and 
+%%! germane to 
+%%! the
+%%! future
+%%! %  computational 
+%%! needs of automated
+%%! theorem provers.
+%%! Our 
+%%! exploration 
+%%!  will also provide a
+%%! % quite
+%%!  new interpretation of the
+%%! meaning of the statements $*$, $**$ and
+%%!  $***$.
+
+% by Hilbert and G\"{o}del.
+
+
+
+% \section{Revisiting a World which Hilbert called
+% {\it ``Cantor's Paradise''}}
+
+%\section{Main Formalism}
+
+% \section{Deploying a New ``$~\theta~$'' Primitive}
+
+% \vspace*{- 0.9 em} 
+
+
+
+%\section{Need for a New ``$~\theta~$'' Primitive}
+
+
+%\section{Mysterious New ``$~\theta~$'' Primitive}
+
+
+% \section{The Surprisingly Useful ``$~\theta~$'' Primitive}
+
+%\section{The  ``$~\theta~$'' Primitive and Its Potential Uses}
+
+\vspace*{- 0.5 em} 
+\section{Arithmetic Under The  ``$~\theta~$'' Primitive}
+\label{ss4}
+\label{seee3}
+
+%333333333333333333333333333
+
+\vspace*{- 0.5 em} 
+
+%\vspace*{- 0.9 em} 
+
+
+% OLD Title was {\it Notation and Basic Concepts}
+
+% Throughout this 
+% paper,
+% %article,
+% % a 
+
+A function 
+ $\, H \, $ 
+will be     called
+a
+ {\bf Non-Growth} operation 
+iff  
+$ H(a_1,a_2,...a_j) 
+\leq   Maximum(a_1,a_2,...a_j)$
+for all  $a_1,a_2,...a_j$.  Six  examples of  
+ non-growth functions are:
+\bee
+%\small
+\footnotesize
+\parskip - 3pt
+ \baselineskip = 0.6 \normalbaselineskip 
+\item
+{\it Integer Subtraction} 
+where ``$~x-y~$'' is defined to equal zero 
+in {the special case} where
+ $~x \leq y,$
+\item
+{\it Integer 
+Division}
+where ``$~x \div y~$'' equals
+$~x~$ when $~y=0~$ and
+it equals $~\lfloor ~x/y ~\rfloor~$ otherwise,
+\item
+$Root(x,y)~$ which equals $~ \lfloor ~x^{1/y}~ \rfloor$ when $~y\geq 1~$
+%% 
+%% and
+%% it equals $~x~$ when $~y=0.$
+%% 
+(and zero otherwise),
+\item
+$Maximum(x,y),~~$
+\item
+$ Logarithm(x)~=~\lfloor ~$Log$_2(x)~ \rfloor~$
+and
+\item
+$Count(x,j)~~=~~$the number of ``1'' bits
+among $~x$'s rightmost $~j~$ bits.
+\ene
+%% 
+%% 
+%% \bee
+%% \baselineskip = 0.8 \normalbaselineskip 
+%% 
+%% \item
+%% {\it Integer Subtraction} 
+%% where ``$~x-y~$'' is defined to equal zero 
+%% in {\it the special case} where
+%%  $~x \leq y,$
+%% \item
+%% {\it Integer 
+%% Division}
+%% where ``$~x \div y~$'' equals
+%% $~x~$ when $~y=0,~$ and
+%% it equals $~\lfloor ~x/y ~\rfloor~$ otherwise,
+%% \item
+%% $Root(x,y)~$ which equals $~ \ulcorner ~x^{1/y}~ \urcorner$ when $~y\geq 1,~$
+%% and
+%% it equals $~x~$ when $~y=0.$
+%% \item
+%% $Maximum(x,y),~~$
+%% \item
+%% $ Logarithm(x)~=~\lfloor ~$Log$_2(x)~ \rfloor~$ when $~x \geq 2,~$
+%% and  zero otherwise. 
+%% \item
+%% $Count(x,j)~~=~~$the number of ``1'' bits
+%% among $~x$'s rightmost $~j~$ bits.
+%% \end{enumerate}
+%% 
+These operations were called
+either the 
+{\bf ``Grounding''} 
+or {\bf ``Ground-Level''} 
+ functions
+in our articles \cite{ww1,ww5,ww14}.
+% We will use the
+We will rely upon the
+% The 
+latter nomenclature in the current article
+ because the notion of a  ``Ground-Level''
+function should not be confused with the
+% very 
+quite
+different notion
+of a ``Grounded Term'' (employed by Definition
+\ref{def-3.4}). 
+
+%  TWO DEFS or ONE ???????? 
+
+
+
+Our
+starting  language $L^G$ 
+will
+% shall 
+also contain
+the
+two atomic 
+symbols
+%% relations 
+of ``$~=~$'' and ``$~\leq~$'' and three
+built in constants symbols, $~C_0~$, $~C_1~$ and $~C_2~$, 
+for representing
+the values of 0, 1 and 2. 
+Within this context, 
+ Expressions 
+% Lines
+\eq{newadd} and \eq{newmult} formalize how addition and multiplication
+can be encoded as two 3-way predicates,
+%%  in  $L^G$,
+ denoted as
+Add$(x,y,z)$ and Mult$(x,y,z)$.
+% 
+% (Their
+% %  unusual
+% particular
+% definitions
+% are 
+% % quite
+% %highly
+% useful because they
+% allow our ``Type-NS'' arithmetic to evade
+% satisfying
+% %  Lines 
+%  \eq{totdefxs}-\eq{totdefxm}'s
+% forbidden
+% function-existence
+%  conditions.)
+% 
+%%%%undesirable constraints.)
+% 
+% they do not imply addition
+% and multiplication are total functions (e.g.
+% they permit our arithmetic to be a 
+% ``Type NS system''.) 
+% 
+%  further conditions.)
+% 
+% (These 
+% definitions
+% % for Add$(x,y,z)$ and Mult$(x,y,z)$
+% {\bf notably  allow} a
+% %two 3-way predicates are consistent with a 
+% ``Type NS system'' to
+% {\it evade satisfying} Lines  \eq{totdefxs}-\eq{totdefxm}
+% {\it forbidden}
+% constraints.) 
+% %  further conditions.)
+
+\newpage
+%bbbbbb
+{ \small
+\vspace*{- 1.2 em} 
+\beq 
+\label{newadd}
+z ~ -~x~~=~~ y~~~~ \wedge ~~~~ z~\geq~x
+\end{equation}
+
+\vspace*{- 1.2 em} 
+\begin{equation}
+\label{newmult}
+[~(x=0    \vee    y=0 ) \Rightarrow z=0~ ]~ ~\wedge ~~ 
+[~(x \neq 0 \wedge y \neq 0~) ~ \Rightarrow ~
+(~ \frac{z}{x}=y  ~\wedge \, ~  \frac{z-1}{x}<y~~)~]
+\end{equation} }
+$~~~~$Also, 
+our constant symbols,
+ $~C_1~$ and $~C_2~,~$ for representing
+the quantities 1 and 2, 
+will  allow us to
+formalize the following further
+%useful 
+%%%%%%%% function 
+operations:
+\bed
+\small
+\topsep -4pt
+\itemsep -1pt
+\it
+\item[   $~$a.  ] 
+Pred$(x)~~=~~x-1$
+(in a context where 
+%Item 1's
+%the prior paragraph's
+our prior
+definition for Subtraction implies
+Pred(0)$=0$.$~)$   
+\item[   $~$b.  ] 
+Half$(x)~~=~~x \div 2$
+(in a context 
+where 
+``$ ~x \div 2~$'' equals technically 
+$~\lfloor \, \frac{x}{2} \, \rfloor~$ 
+under 
+%our
+% the prior paragraph's 
+our
+notation).
+% of Item 2's definition for Division).  
+\item[   $~$c.  ] 
+Pred$^n(x)$ defined to be $~n~$ iterations of the
+Predecessor operation
+\item[   $~$d.  ] 
+Half$^{ \,n}(x)$ defined to be $~n~$ iterations of the
+halving operation.
+%%
+%%\item[   $~$e.  ] 
+%%Bit$(x,j)~=~$ $Count(x,j)~-~Count(x,j-1)~$
+%%(e.g. the value of $~x \,$'s rightmost
+%% $j-$th bit)
+%%\item[   $~$f.  ] 
+%%Min$(x,y)~~=~~x~-~(y-x)~~$
+%%(e.g. a quantity that represents the minimum of $x$ and $y$
+%%because our definition of ``integer subtraction'' 
+%%implies  $~y-x \,= \, 0 ~$ whenever $\, x \geq y$.$~~)$  
+%%
+\ennd
+
+\nvxs
+
+Let us say
+that
+ a function symbol $H(x_1,x_2...x_j)$
+is
+ {\bf Growth Permitting}
+iff for each integer $~k \geq 2~$ there exists a 
+``growth-tuple''
+$(a_1,a_2...a_j)$ 
+satisfying
+  $~H(a_1,a_2...a_j) \, >\, k~$
+and 
+also
+% simultaneously 
+having
+each $ \, a_i \leq k$ \, 
+It will  be necessary 
+%% for  us 
+to employ
+ either an infinite number
+of constant symbols or some Growth-Permitting function 
+so that an extension of the 
+language $L^G$ can construct the 
+full
+%infinite
+collection of
+ integers of $~3,4,5,6~....~$.
+
+
+
+
+%% One  awkward aspect of this notation is that 
+%% it provides
+%%  no guarantee
+%% that    integers larger than 2 will exist         without the 
+%% presence of some 
+%% further
+%% methodology for producing larger integers.
+
+
+% 
+\smallskip
+
+
+One method for resolving this problem was presented in \cite{wwapal}.
+% 
+% It employed  an infinite number of further constant symbols. The
+% latter's
+%  ISCE$(\beta)$ 
+%  system was
+% %   shown to be 
+% compatible with                     self-justification,
+% but such an infinite number of constant symbols clearly trespassed on
+% Hilbert's goal of using a 
+% %strictly 
+% finite-sized formalism.
+% 
+Its  ISCE$(\beta)$ axiom basis
+deployed  an infinite number of 
+% further 
+distinct
+constant symbols. It
+was
+compatible with   self-justification,
+but deviated from 
+%{\it very sharply from} 
+Hilbert's
+intended
+ goals 
+because it employed
+% by employing 
+%an  
+a {\it highly awkward}
+infinite number of 
+distinct
+ constant symbols.
+(The reader will 
+better
+appreciate this point when
+\textsection \ref{ss32}
+reviews 
+% the
+% properties of 
+ISCE's defining formalism.
+This  difficulty is fundamental 
+% to avoid 
+because
+the Invariant $++$'s generalization of the
+Second Incompleteness Theorem indicates that
+Type-S arithmetics are unable to confirm their
+own Hilbert consistency.)
+
+
+
+\medskip
+
+
+
+%% The 
+%% % self-justifying
+%% ``ISINF'' formalism 
+%% % in
+%% of 
+%% \cite{wwapal} 
+%% offered an alternate method for resolving this difficulty.
+%% %% in the context of a self-justifying logic. 
+%% It
+%% % required the use of
+%% used
+%%  {\it only
+%% three} constant symbols.  It   could prove analogs of all
+%% of Peano Arithmetic's
+%% $\Pi_1$ theorems, but almost all
+%% of
+%%  its proofs
+%% unfortunately
+%%  had lengths longer 
+%% than the number of atoms in the universe.
+%% Most other approaches, for resolving this dilemma, 
+%% % are 
+%% were
+%% also problematic
+%% because
+%% Example \ref{ex-2.3}'s
+%% invariant
+%%  $~++~$
+%% % 
+%% % which Example \ref{ex-2.3}
+%% % attributed to the joint work of 
+%% %   Pudl\'{a}k, Solovay, Nelson and Wilkie-Paris,
+%% % 
+%% showed that essentially every Type-S arithmetic is unable to
+%% recognize its
+%% own consistency under a Hilbert-style deductive apparatus.
+%% 
+%\smallskip
+
+
+% The challenge posed by $++$ 
+% is, thus,
+% substantial.
+% % certainly formidable.
+
+Our goal in 
+%the current 
+this
+article
+will be to suggest 
+how
+%that 
+a Q-function primitive $F(x)$,
+that has
+% an extraordinarily 
+a deliberately
+ambiguous
+ function definition,
+can help overcome the constraints that $++$ imposes. 
+Such an
+% ultra-ambiguous defined 
+unusual
+primitive $~F~$ will have
+an  uncountable number
+of vectors, analogous to Line \eq{wow}, that are permitted 
+solutions to
+$F$'s
+definition.
+Our basic goal
+% in this article 
+will be to outline 
+how this unusual concept is
+likely  germane to the
+self-justifying
+axiom system satisfying
+{\it  a very diluted} but not
+immaterial subset of
+%% 
+%% why it is
+%% likely such Q-functions will enable one to build
+%% surprisingly efficient self-justifying logics that
+%% partially (but not fully) achieve the 
+%% %{\it  diluted portion} of the
+%% 
+%aspirations  
+%that
+Hilbert's and G\"{o}del's goals in 
+%expressed in 
+statements 
+$*$ and
+$**~$.
+
+\smallskip
+
+%\normalsize \baselineskip = 0.98 \normalbaselineskip
+%\gvxs
+
+
+%% \el{wow}'s 
+%% dizzying
+%% $\aleph_1$ distinct solutions.
+%% We will traverse in the opposite direction in this article
+%% because 
+%% Definition \ref{def-2.6}
+%% %\eq{wow} 
+%% formalizes 
+%% % fascinating 
+%% %  a possible
+%% an 
+%% avenue
+%% available
+%% for evading $++$'s generalization of the 
+%% %Second 
+%% Incompleteness
+%% Theorem.
+
+% {\it in at least a partial sense.}
+
+
+%%  
+%% %They 
+%% This level of multiplicity will be
+%% %These will turn out to be 
+%% useful in the present setting
+%% because
+%% %% 
+%% %% Our hypothesis is that such
+%% %% solutions, while awkward and  disadvantageous
+%% %% in many 
+%% %% evident
+%% %% %%%%%obvious 
+%% %% respects,
+%% %% should not be discarded.
+%% %% This is 
+%% %%  because 
+%% %% 
+%% it
+%% can
+%% formalize a type of 
+%% allowed
+%% growth-permitting function,
+%% that is
+%% not prohibited by $++$'s generalization of the Second Incompleteness
+%% Theorem. 
+%% 
+%% 
+
+%\smallskip
+
+\begin{deff}
+\label{def-3.1}
+\rm
+Let us say 
+% an integer-valued
+a function symbol
+$F(x_1,x_2,...x_j)$ is {\bf `` 1-Definitive ''} iff it has only one
+solution under its definition by an axiom system $\gamma$. 
+Let us call $~F~$  {\bf ``Indeterminate''} otherwise.
+%(The remainder of this article 
+(Mathematicians
+obviously typically avoid using 
+function definitions
+%%%%%%%%%, $~F~$ 
+with 
+%that have 
+%%%%  having
+even two solutions, not to
+speak of
+what will be
+\el{wow}'s 
+surprising
+%dizzying
+quantity
+of
+%potential
+%possible
+%% possibly $\aleph_1$ distinct 
+ potentially infinitely many distinct 
+% number of 
+solutions.
+This is
+because such objects are typically more of a burden than a benefit.
+Our conjecture
+% , in this paper, 
+will be that a special new
+Indeterminate function, called ``$~\theta~$'', will 
+be different and
+offer
+% an
+%%%a surprisingly
+%%% efficient means to eschew $++$'s prohibitions.)
+a 
+%surprisingly efficient 
+means to eschew $++$'s 
+%prohibitions.)
+prohibitions with pleasing levels of
+% quantitative
+efficency.)
+% efficency.)
+
+
+\end{deff}
+
+
+% considered in the current article.
+% Our 
+% % main
+% conjecture will be that this unconventional
+% approach is 
+% germane to the challenge posed
+% by  $++$'s 
+% %
+% % broad-scale
+% generalization of the 
+% %Second 
+% Incompleteness
+% Theorem
+% %
+% %This is because our conjecture will be that
+% %
+% because the  new
+% proposed $~\theta~$ 
+% primitive
+%  will represent
+% an efficient Indeterminate 
+% function
+% that eschews  $++$'s prohibitions.) 
+% \end{deff}
+
+% helpful when addressing 
+% the challenge 
+% We will traverse in 
+% an unconventional
+% %  the opposite 
+% direction in this article
+% because
+% our conjecture will be that
+% Indeterminate functions 
+% with $\aleph_1$ different 
+% allowed solutions for
+% \el{wow} 
+% formalize
+% %%  
+% %% Definition \ref{def-3.1}
+% %% % {def-2.6}
+% %% %\eq{wow} 
+% %% will formalize 
+% %% a 
+% %% possible
+% %% %feasible
+% %% %plausible
+% %% 
+% an
+% avenue
+% % available
+% for evading $++$'s 
+% broad-scale
+% generalization of the 
+% %Second 
+% Incompleteness
+% Theorem.)
+% 
+% (Our conjecture in this article will be that
+% %%
+% %%The next two sections
+% %%will explore
+% %%how 
+% %%
+% \el{wow}'s indeterminate ``Q-Function'' symbol $F$
+% %%%can clarify
+% is germane to
+% the
+% aspirations 
+% that 
+% Hilbert and G\"{o}del
+% % expressed
+% stated
+%  in 
+% % statements 
+% $*$ and
+% $** \, $, $\,$when
+% one employs an 
+% operator
+% $ \, F \, $ 
+% that
+% owns
+% % has
+% $\aleph_1$ distinct 
+% available
+% solutions). 
+% \end{deff}
+
+
+%%are viable,
+%%especially in an automated theorem proving setting,
+%%when Ambiguous function operatives are judiciously
+%%employed.
+%%
+
+%%!  
+%%! can
+%%! %%and germane about automated
+%%! %%deduction, will 
+%%! % theorem proving,
+%%! %computational deduction,
+%%! be satisfied by a self-justifying logic that employs
+%%! one 
+%%! %single $\aleph_1$ 
+%%!   Growth-Permitting function $F(x)$,
+%%! that is
+%%! % inherently 
+%%! ``ambiguous'',
+%%!  {\it accompanied 
+%%! by} a finite number of non-growth primitives
+%%! % {\it  non-growth}
+%%!  $G_1,~G_1,~... G_k$
+%%! that are ``unambiguous''.
+%%! 
+%%! It will also be explained how such results should have useful 
+%%! applications for automated theorem proving, even when they
+%%! employ 
+%%! only
+%%! diluted forms of  self-justifying logics.
+
+%% 
+%% \vspace*{- 1.0 em}
+%% 
+%% \subsection{Main Notation Conventions}
+%% % about Cantor's Paradise}
+%% % \large
+%% % \baselineskip = 1.8 \normalbaselineskip 
+%% 
+%% %\vspace*{- 0.7 em}
+
+%\gvxs
+
+{\bf More Notation:}
+$~$Let us say
+an axiom system $~\alpha~$ 
+has 
+{\bf Infinite Far Reach} iff
+it relies upon
+{\it only a  finite number} of
+axioms to
+% distinct constant symbols
+% (and/or axiom sentences) to 
+prove 
+for each $n$
+the
+\el{farreach}'s invariant.
+
+%for each particular integer $n$.
+
+\vspace*{- 0.8 em} 
+
+\beq
+%% \small
+\label{farreach}
+\exists ~~x~~~ \mbox{Pred}^n(x)~\geq ~1
+\enq
+
+%\newpage
+
+
+\nvxs
+
+\noindent
+The ``ISINF'' axiomatic       framework 
+from
+   \cite{wwapal} 
+was
+    a self-justifying
+system with Infinite Far Reach.
+%% 
+%% The opening paragraph of
+%% \cite{wwapal}'s Section 6
+%% %%% quite 
+%% %was frank 
+%% warned the reader
+%% about ISINF's limitations. 
+%% These arose because
+%% 
+%% 
+%% It
+%% used the word ``unnatural'' to describe 
+%% the ISINF system.
+%% Such caution
+%% % deliberately
+%% % self-deprecating term 
+%% was appropriate because
+%% 
+Unfortunately, this result was mostly useless because
+nearly all
+   theorem-proofs
+%of trivial theorems0000000 
+from ISINF 
+were
+longer than the number of atoms in the universe.
+
+\newpage
+\parskip 0pt
+
+The reason
+\cite{wwapal} defined ISINF,  
+%ISINF was worthy of mention,
+despite 
+its evident impractical  characteristics,
+% 
+% such
+% %%% these
+% % plainly 
+% %%%  obvious 
+% limitations,
+% 
+was 
+because
+ISINF 
+demonstrated some
+unusual
+ self-justifying logics,
+knowledgeable about their own Hilbert consistency,
+were
+{\it technically} 
+able to
+prove all of Peano Arithmetic's $\Pi_1$ theorems
+together with the
+existence of
+the infinite set of integers $ \, 1,2,3,... \,  \, $.
+This result 
+% is interesting because it casts 
+did cast
+% casts 
+a
+new 
+perspective
+%light 
+on  $\,++\,$'s  
+invariant
+% $++$  (appearing on \pag2)
+by showing how
+{\it  some  unusual}
+Type-NS
+forms of self-justifying arithmetics
+did
+escape $++$'s almost-ubiquitous 
+ reach
+by managing to possess infinite far reach
+ without taking
+% {\it without recognizing} 
+Successor as a total function.
+
+
+%%  of the current article.
+%% The latter result indicated that Type-S arithmetics, recognizing merely
+%% Successor as a total function, are unable to confirm their own
+%% Hilbert consistency. 
+%% Yet,
+%% %%  despite this fact, 
+%% ISINF was able to produce an 
+%% {\it  eye-squinting} caveat because it 
+%% supported the above ``Infinite Far Reach'' property
+%% without 
+%% needing
+%% %being able to prove
+%%  Line
+%% \eq{totdefxs}'s declaration that successor is a total function.
+
+%\smallskip
+
+We sent an advanced copy of \cite{wwapal}
+to
+Pudl\'{a}k.
+He
+appreciated the nature of the challenge we faced.
+% 
+% ,
+% concerning the delicate nature of self-justifying 
+% arithmetics that are
+% able to prove
+% % satisfy 
+% \eq{farreach}'s invariant
+% {\it for each fixed $~n~$} while 
+% being prohibited 
+% by $++$
+% from
+% recognizing  successor as a total
+% function.
+% % (due to $++$'s restrictions).
+% 
+% 
+Pudl\'{a}k's
+subsequent  
+%private 
+%His
+emailed communications
+\cite{Pupriv}
+suggested 
+that we look at 
+Ajtai's
+work 
+\cite{Aj94}
+about a
+%the 
+Pigeon-Hole function
+ $~ \glamb(x)~$ defined by the identities
+\eq{zm1} and \eq{zm2}.
+
+% \newpage
+\vspace*{- 1.2 em} 
+\beq
+%% \small
+\label{zm1}
+\forall ~~x~~~~~ \glamb(x)~ \neq ~ 0
+\enq
+
+\vspace*{- 1.2 em} 
+
+\beq
+\label{zm2}
+%% \small
+\forall ~~x~~~ \forall ~~y~~~~ x ~ \neq~ y ~~ \Rightarrow ~~
+\glamb(x)~ \neq ~\glamb(y)
+\enq
+The relevance of 
+$~\glamb~$ 
+% Pigeon-Hole functions
+can be
+best 
+%readily 
+appreciated
+% if 
+when
+%we let
+$~\glamb^n(x)~$ 
+ denotes
+% the 
+a
+term
+ $~\glamb(~\glamb(~ ... \glamb(x)))~$
+consisting of $~n~$ iterations of the $~\glamb~$ operator.
+Then the below
+% the
+%%% \el{DUMB1}'s composite
+term $~S_n~$
+% , defined below, shall
+will
+% then 
+satisfy
+Pred$^n(~S_n~)~\geq ~1.~$ 
+%% 
+%% An axiom system, employing the primitive 
+%% operation
+%%  $~ \glamb~,~$ 
+%% can thus 
+%% can easily
+%% prove
+%% Line \eq{farreach}'s 
+%% assertion.
+%% %claim.
+%% %under almost all conventional logics.
+%% 
+%% 
+\beq
+% \vspace*{- 0.5 em}
+\label{DUMB1}
+S_n~~~=~~~\mbox{Max}[~\glamb(0)~,~\glamb^2(0)~,~\glamb^3(0)~,~...~~\glamb^n(0)~]
+\enq
+Pudl\'{a}k
+observed
+that
+%the
+% Pigeon-Hole function 
+ $~ \glamb(x)~$  
+will
+grow too slowly
+(under well-defined non-standard models)
+% (in the worst case)
+for
+one to be able to 
+deduce
+successor is a total function
+from its properties.
+%%   
+%% % further observed that it is known 
+%%  \footnote{
+%% \tiny
+%%  \baselineskip = 0.94 \normalbaselineskip
+%%  The operation $\glamb(x)$ will grow
+%% at a slower rate than Successor, 
+%% if it equals $x+1$ for all standard
+%% numbers $~x~$ and if $\glamb(x)=x-1$ 
+%%  when $~x~$ is
+%% a non-standard integer. This seemingly minute detail
+%% implies  one cannot infer 
+%% Successor is a total function from
+%%  $\glamb$'s behavior.}.
+%% 
+%% 
+%% 
+%%  since the latter is contradicted by a
+%%  model  where
+%%  all  non-standard
+%% numbers have 
+%% %their 
+%% sizes bounded by some fixed  
+%% % non-standard 
+%% number B.
+%% (This 
+%% subtle 
+%% %detail, 
+%% raised by
+%% Pudl\'{a}k's email \cite{Pupriv}, was fascinating because
+%% it 
+%% %shows that
+%% raised the question about whether
+%%  a partial exception to
+%% Example \ref{ex-2.3}'s
+%% invariant $++$
+%% %% on \pag2,  
+%% might plausibly exist.)  }.
+%% 
+%% 
+%% thus, 
+%% suggests the 
+%% Pudl\'{a}k-Solovay 
+%% version of the Second Incompleteness
+%% Theorem (stated on \pag2) 
+%% might
+%% %%%%%should
+%% allow for
+%% potential
+%%  exceptions 
+%% to it
+%% arising from the 
+%% %delicate 
+%% formal
+%% behaviour of
+%% some
+%% %% 
+%% %% presence of
+%% %% %some
+%% %% these permissible
+%% %% 
+%% %% 
+%%  non-standard 
+%% variants of
+%% % interpretations for 
+%% the  Pigeon-Hole function $\glamb$.  }.
+%% 
+%% 
+%that 
+%prove 
+%%% 
+%%% 
+%%% 
+%%%  (in the worst case)
+%%% for
+%%% one to be able to 
+%%% deduce
+%%% successor is a total function
+%%% from its properties  
+%%% % further observed that it is known 
+%%%  \footnote{
+%%% \tiny
+%%%  \baselineskip = 0.94 \normalbaselineskip
+%%%  The operation $\glamb(x)$ will grow
+%%% at a slower rate than Successor, 
+%%% if it equals $x+1$ for all standard
+%%% numbers $~x~$ and if $\glamb(x)=x-1$ 
+%%%  when $~x~$ is
+%%% a non-standard integer. This seemingly minute detail
+%%% implies  one cannot infer 
+%%% Successor is a total function from
+%%%  $\glamb$'s behavior.}.
+%% 
+%% 
+%%  since the latter is contradicted by a
+%%  model  where
+%%  all  non-standard
+%% numbers have 
+%% %their 
+%% sizes bounded by some fixed  
+%% % non-standard 
+%% number B.
+%% (This 
+%% subtle 
+%% %detail, 
+%% raised by
+%% Pudl\'{a}k's email \cite{Pupriv}, was fascinating because
+%% it 
+%% %shows that
+%% raised the question about whether
+%%  a partial exception to
+%% Example \ref{ex-2.3}'s
+%% invariant $++$
+%% %% on \pag2,  
+%% might plausibly exist.)  }.
+%% 
+%% 
+%% thus, 
+%% suggests the 
+%% Pudl\'{a}k-Solovay 
+%% version of the Second Incompleteness
+%% Theorem (stated on \pag2) 
+%% might
+%% %%%%%should
+%% allow for
+%% potential
+%%  exceptions 
+%% to it
+%% arising from the 
+%% %delicate 
+%% formal
+%% behaviour of
+%% some
+%% %% 
+%% %% presence of
+%% %% %some
+%% %% these permissible
+%% %% 
+%% %% 
+%%  non-standard 
+%% variants of
+%% % interpretations for 
+%% the  Pigeon-Hole function $\glamb$.  }.
+%% 
+%% 
+%that 
+%prove 
+His insightful email \cite{Pupriv} asked
+whether 
+the inequality 
+Pred$^n(~S_n~)~\geq ~1~$
+might
+%would,
+thus, 
+% still
+enable a formalism,
+% based around
+utilizing the
+ $\, \glamb \,$ operative, 
+to 
+somehow
+improve upon \cite{wwapal}'s results ?
+
+
+% our
+% formalisms could be 
+% revised
+% %modified 
+% so that 
+% % the  Pigeon-Hole function 
+%  $~ \glamb(x)~$ 
+%  could improve upon \cite{wwapal}'s results.
+
+%%
+%%(possibly using Ajtai's methodologies \cite{Aj-focs}).
+%%Sam Buss raised, interestingly,  a 
+%%partially
+%%similar 
+%%issue during an informal conversation
+%% \cite{Bu-priv} in 1977.
+%%
+%%\smallskip
+%%
+%%These questions
+%%% by
+%%%Pudl\'{a}k and Buss 
+%%were insightful because they isolated 
+%%an
+%%important juncture where $++$'s underlying methodology does not apply.
+%%A partial answer to these questions appeared in 
+%%\cite{wwapal}'s closing section, but a more comprehensive full
+%%answer  has always eluded us.
+
+%This is  because there always seemed to appear
+%one wrinkle of details that precluded a full proof.
+
+
+\smallskip
+
+
+It  was
+initially
+ unclear 
+%%%%% to us
+whether a positive answer to 
+Pudl\'{a}k's
+ probing
+ question would resolve ISINF's main difficulties.
+This is
+because
+% Expression 
+\eq{DUMB1}'s
+term
+$~S_n~$  requires $O(~n^2~)$ logic symbols to encode
+% essentially 
+an integer quantity
+greater than
+ $~n~$
+(since its term
+$~\glamb^j(0)~$ uses $O(j)$ logic symbols).
+%an integer quantity that exceeds the quantity $~n~$ in size.
+Thus once again, the quantity $~2^{100}~,~$ whose binary encoding
+requires 100 bits,  would require in excess of 
+ $~2^{100}~$ bits to encode. 
+Such large  quantities are obviously undesirable.
+
+
+% Such impractical quantities are obviously distant
+% from what is desired.
+
+
+% Such quantities, exceeding the number of atoms in the universe,
+% were troubling because our 
+% general
+% goal has been to 
+% construct self-justifying arithmetics
+% with  pragmatic features.
+
+
+%%  that 
+%%  possessed, at least,
+%% some
+%% partial  facets of
+%%  pragmatic value.
+
+
+% 
+% find a partial
+% answer to Hilbert's
+% Year-1900 Second
+% Problem  
+%  that would 
+%  possess, at least,
+% some
+% partial  facets of
+%  pragmatic value.
+% 
+
+\medskip
+\nvxs
+
+The remainder of this section will outline how a different type of
+Q-Function operator will 
+be
+%  much 
+better than
+ $~ \glamb~$ for meeting our needs.  
+During our discussion,
+Power$(x)$ will denote 
+a primitive specifying
+% that
+ $~x~$ is
+a power of
+$~2~$.  
+Its formal encoding
+in $L^G\,$'s language
+ is illustrated by \eq{wep2}. 
+%% 
+%% It is 
+%% %formally 
+%% encoded
+%% by 
+%% \eq{wep2} 
+%% because
+%% %under
+%% our Grounding language
+%% has
+%% ``Logarithm$(x) \,$''$ ~ = ~ \lfloor \,$Log$_2(x) \, \rfloor \,$.
+\beq
+\vspace*{- 0.6 em}
+\label{wep2} 
+%\small
+x=1 ~~~\vee ~~~ \mbox{Logarithm}(~x~)~\neq~\mbox{Logarithm}(~x-1~)
+\enq
+In this context,
+ $\zzthe(x)$ 
+will denote the analog of
+the $\glamb(x)$ function  
+%% haphazard
+that walks among the powers of 2 in a manner 
+similar to 
+$\glamb(x)$'s
+%  haphazard
+ walk through conventional
+integers. 
+It is 
+% formally
+defined by \eq{walk1}-\eq{walk4}.
+% 
+% It will thus satisfy
+% the axiomatic constraints below (which are 
+% $\zzthe(x)$'s analog of the more modest constraints given in
+% % sentences 
+% \eq{zm1} and \eq{zm2}).
+% The most important difference between these two constructs
+% is that axiom \eq{walk1} requires that 
+%  $\zzthe(x)$ maps power of 2 onto powers of 2.
+
+{
+%\small
+
+\vspace*{- 0.6 em}
+{\parskip -6 pt
+\beq
+\label{walk1}
+\forall ~~x~~~~~ \mbox{Power}(x) ~~~ \Rightarrow  ~~
+\mbox{Power}(~ \zzthe(x)~)
+\enq
+\beq
+\label{walk2}
+\forall ~~x~~~~~ \zzthe(x)~ \neq ~ 1
+\enq
+\beq
+\label{walk3}
+\forall ~~x~~~ \forall ~~y ~~~~[~ x ~ \neq~ y ~
+\wedge ~\mbox{Power}(x)~]
+ \Rightarrow ~~ 
+\zzthe(x)~ \neq ~\zzthe(y)
+\enq
+\beq
+\label{walk4}
+\forall ~~x~~~~~ \neg ~ ~\mbox{Power}(x)~~~~ \Rightarrow ~~~~ 
+\zzthe(x)~=~0
+\enq} }
+
+\vspace*{- 1.2 em}
+\noindent
+{\it It needs to be emphasized} that 
+ \eq{walk1} -- \eq{walk4} will be the
+{\it only vehicle} our
+proposed formalisms will
+%self-justifying axioms 
+%will 
+have available to construct
+integers $\geq \, 3$. $~$These
+axioms will be called
+%They will be henceforth called
+the {\bf $~$Up-Walking$~$} axioms. 
+(The axiom \eq{walk4} 
+is
+% does not,
+%% , technically, 
+unnecessary
+ to construct any
+integer  $\geq \, 1\, $, but it is helpful 
+for 
+% because
+% it 
+% % allows us to 
+% formalizes 
+formalizing
+how our methodology will treat  integers
+which are not powers of 2.)
+
+% \gvxs
+% \svxs
+
+\smallskip
+
+
+Both
+$\glamb$ 
+ and $\zzthe$ are
+% unusual
+% complicated
+% entities 
+Q-functions
+%because they 
+that
+own
+% potentially
+ infinitely many distinct 
+% $\aleph_1$
+%  distinct 
+vectors, 
+%analogous 
+similar
+to 
+ Line \eq{wow},
+for representing them.
+We will soon see
+their 
+underlying
+% computational
+ complexities 
+% properties 
+are 
+%sharply 
+%quite
+surprisingly
+different.
+
+
+%% 
+%% they have sharply
+%% contrasting
+%% %%very
+%% %sharply 
+%% %% different
+%% computational
+%% % complexity 
+%% properties.
+%% 
+
+%% Both
+%% the 
+%% Q-functions 
+%% % the operators 
+%% $\glamb$ 
+%%  and $\zzthe$ are 
+%% %awkward 
+%% challenging
+%% to analyze
+%% %challenging
+%% %daunting
+%% because there are
+%% % a  
+%% % dizzying
+%% $\aleph_1$ distinct 
+%% vectors, analogous to 
+%%  Line \eq{wow}, 
+%% that are
+%% %where their definitions permits 
+%% representations of these functions.
+%% %% 
+%% %% Also, we may combine either operation with our 
+%% %% language $L^G$'s grounding function-primitives to formulate a term
+%% %% $~T_n~$ that defines any arbitrary integer $~n~$.
+%% %% 
+%% We will soon see that
+%% there is, however, a
+%% distinction
+%% %  major difference 
+%% between these
+%%  two concepts
+%% from a
+%% % computational 
+%% complexity perspective.
+
+\begin{definition}
+\label{defx-3.2}
+\rm
+Let $~L^Q~$ 
+and $~L^{Q^*}~$ 
+denote the 
+extensions
+of $~L^G\,$'s Grounding language that contain the
+respective
+additional 
+function symbols of  
+  $\zzthe$
+ and
+$\glamb$. Then 
+$~~L^Q~$ shall be called the {\bf  Q-Grounding} language, and 
+ $~~L^{Q^*}~$ 
+will be called the  {\bf  Q* Grounding} language. 
+\end{definition}
+
+\begin{propp}
+\label{th-3.3}
+In contrast to the
+Q* Grounding language 
+that requires $O(~n^2~)$ function symbols
+for defining a term $~T^*_n~$ for representing the integer
+$~n,~$ the    Q-Grounding language
+%% will need no more than 
+needs
+% uses 
+only
+$O(~$Log$^{ \, 3\,} \,n~)$ symbols to 
+encode
+%formalize 
+a term 
+$~T_n~$ representing
+$~n$.
+\end{propp}
+
+\vspace*{- 1.0 em}
+
+\begin{center}
+% \small
+% Our proof of \phx{th-3.3} 
+\phx{th-3.3}'s 
+proof
+will rely upon the following notation  convention:
+\end{center}
+
+\vspace*{- 0.8 em}
+
+\begin{definition}
+\label{def-3.3}
+\rm
+Let
+ $~\zzthe^j(x)~$
+denote the term
+ $~\zzthe(~\zzthe(~ ... \zzthe(x)))~$
+where there are 
+$~j~$ iterations of the 
+ $~\zzthe~$ operation.
+% Throughout this article,
+Then
+%for any  $~j \, \geq 1~,~$ 
+%the symbol 
+$~E_j~$ 
+will
+% shall
+% will 
+denote
+the quantity produced by
+\eq{ej-def}'s division operation: 
+
+\vspace*{- 0.6 em}
+
+\beq
+\small
+\label{ej-def}
+ \frac{~\mbox{Max}
+~[~\zzthe^{\, j \,}(1)~,~~\zzthe^{\, j-1 \, }(1)~,~... ~\zzthe(1)~~] }
+{~~\mbox{Half}^{\,j\,} ~ \{ ~\mbox{Max}~[
+ ~\zzthe^{\, j \,}(1)~,~~\zzthe^{\, j-1 \, }(1)~,~... ~\zzthe(1)~]~ 
+ ~ \}~~ } 
+%
+% \mbox{Max}(~\zzthe^j(1),~\zzthe^{j-1}(1),~... ~\zzthe^1(1)~ 
+\enq
+It is each to see
+$  E_j  =  2^j  $ for every
+$j   \geq 1$.
+This is
+ because \el{ej-def}'s
+twice-repeating
+ term
+% object  of
+``$\,  \mbox{Max}
+~[~\zzthe^j(1),  \zzthe^{j-1}(1),...\zzthe(1) \,]\,$''
+% is at least as large as $\, 2^j\,$.
+is a power of 2 exceeding  $\, 2^j\,$.
+%% 
+%% The definitions of the
+%% % Q-Grounding 
+%% functions of ``Half'', ``Max'' and
+%% ``$~\zzthe~$''   imply 
+%% $~E_j~=~2^j~$ for each
+%% $j \, \geq 1$. 
+%% 
+For the additional case where $~j=0~,~$
+we will 
+% formally
+define  $~E_0~=~1~$ (by 
+using the 
+%%
+%%setting it equal to 
+%%our
+%%%the
+%%
+built-in constant symbol
+of $~C_1~$).
+\end{definition}
+
+%% , which 
+%% is intended to
+%% %formally 
+%% represent the integer of ``1'').
+
+
+
+{\bf Proof of  \phx{th-3.3}:}
+%The justification of   \phx{th-3.3} is an 
+Easy consequence of
+\dfx{def-3.3}'s machinery. Thus if $~n~$ is a power of
+2 of the form $~2^j~$ then
+% the preceding
+% definition's
+expression $~E_j~$ is a term representing $~n \,$'s value
+that employs
+  $O(~$Log$^{ \, 2\,} \,n~)$ 
+logical
+symbols. On the other hand, if  
+ $~n~$ is not a power of
+2 then it can be defined 
+with   $O(~$Log$^{ \, 3\,} \,n~)$ symbols by 
+setting
+$~E_j~$ equal to the least power of 2 greater than $~n~$ and
+subtracting from $~E_j~$ those powers of 2 that are needed to
+produce $\,n\,$'s  value. 
+For example since $76~=~128~-~32~-~16~-~4~,\,$ it can
+be formalized as a term $T_{76}$ defined by
+$~E_7 \, - \,E_5 \, - \,E_4 \, - \,E_2 ~$.
+
+% $~~~~\Box$
+
+% \baselineskip = 1.8 \normalbaselineskip 
+
+\begin{definition}
+\label{def-3.4}
+\rm
+A term in mathematical logic
+is defined to be a syntactic object,  built
+out of
+solely
+ symbols for representing 
+functions,
+constants and variables.
+% 
+% The nomenclature in
+% % classical
+% logic has 
+% %formally 
+% defined
+% a {\it ``term''} to be a syntactic object,  built
+% out of symbols for representing 
+% functions,
+% constants and variables.
+% 
+% 
+Such an object is called
+% either 
+a {\bf ``Ground Term''} 
+%% (or for precision a
+%%% {\bf ``Tree-Oriented Ground Term''} )
+when it  is built {\it out of solely}
+function and
+ constant symbols.
+For example in our Q-Grounding language (which 
+uses
+%owns only
+$  C_0  $, $  C_1  $ and $  C_2  $ 
+as its
+built-in
+ constants),
+% symbols), 
+the expression
+%of 
+``$\, C_2-  C_1\,$'' 
+is 
+% such 
+a Ground term.
+Two more complex 
+examples of 
+Ground terms are
+``Max$(   C_2 ,  C_1 - C_0)$'' 
+and ``Max$( ~\zzthe(C_1)~,~C_2 ~)$''.
+Also,
+expression $~E_j~$ 
+in Line \eq{ej-def}
+should be viewed as 
+a Ground term (when one 
+views
+its
+use of the
+symbol
+ ``1'' as an %informal 
+abbreviation
+for the
+constant
+ ``$~C_1~$''). 
+\end{definition}
+
+
+\begin{remm}
+\label{rem-def-3.4}
+{\bf (sharply improving upon 
+ \phx{th-3.3}'s result) : }
+\rm
+A longer version of this article
+will 
+%technically 
+distinguish between two
+kinds of Ground terms, which it calls the
+%
+%{\bf Comment of Definition \ref{def-3.4}'s Notation:} 
+%We will  distinguish  between two
+%kinds of Ground terms in Section \textsection \ref{ss6},
+%called its 
+{\bf ``Tree-Oriented''} and 
+{\bf ``Dag-Oriented''} formats.
+The latter will differ from a more 
+conventional tree structure
+by having a 
+Directed Acyclic Graph structure replace 
+a logic's
+usual 
+ tree format for defining its quantitative values.
+It will turn out that
+ Dag-Oriented Ground Terms
+will allow one to compress multiple repeating
+terms into single objects.
+This will
+%and thus 
+reduce the number of logical symbols in 
+ \phx{th-3.3}'s 
+$O(~$Log$^{ \, 3\,} \,n~)$ sized 
+%ground 
+terms to a 
+ more compact
+$O(~$Log$\, \,n~)$ quantity.
+(This is almost analogous to the 
+% (in a context where the pointers to our
+$O(~$Log$\, \,n~)$ 
+size of an integer's binary encoding,
+except that we will need  $O(~$LogLog$\, \,n~)$
+further bits to encode the pointers to 
+each 
+specified
+object.)
+ \end{remm}
+
+
+%% quantity
+%% $O(~$Log$\, \,n~)$ 
+%% objects will require  $O(~$LogLog$\, \,n~)$
+%% bits per pointer). 
+%% %(analogous to the classical binary encoding of an integer).
+
+% 
+%  {\it This is the same length
+% as would occur in a conventional
+% $O(~$Log$\, \,n~)$ sized binary encoding of an integer.}
+% We will refer to this improvement later in the current
+% article because it will suggest that 
+%  \phx{th-3.3}'s 
+% $O(~$Log$^{ \, 3\,} \,n~)$ sized ground terms attain a length
+% not too different from the binary encoding of an integer,
+% after further refinements are undertaken.
+% 
+
+
+
+\begin{definition}
+\label{def-3.5}
+\rm
+A ground term
+% $~T~$ will be 
+is
+called an 
+{\bf ``Observable''} 
+object iff it has a
+%{\it only one} 
+% an
+unique
+interpretation of its 
+quantified value in the
+%meaning  in our
+Q-Grounding language.
+It 
+%will be
+ is
+called an
+{\bf ``Unobservable''} iff it has multiple 
+%plausible 
+such
+interpretations
+due to $\zzthe$'s ``indeterminate'' definition
+(e.g. see Definition \ref{def-3.1}). 
+\end{definition}
+
+%%% (due to the 
+%%% %uncountably 
+%%% ambiguous nature of 
+%%% % our built-in function 
+%%% $~\zzthe~~$).
+%%% \end{definition}
+
+\begin{exx}
+\label{ex-3.6}
+\rm
+The previously mentioned ground term
+Max$( ~\zzthe(C_1)~,~C_2 ~)$ is an ``unobservable''
+because it can assume any of the plausible integer values
+of $~2 \, , \, 4 \, , \,8  \,  , \,16  \, 
+ \, ... ~$.
+On the other hand,
+
+\newpage
+ 
+\gvxs
+\nvxs
+\parskip 0pt
+
+\noindent
+\el{xoo} 
+%is 
+provides
+an 
+example of an
+``observable''
+that
+ represents
+ the integer value of ``3''.
+(This is because 
+its 
+twice-repeating
+term 
+``$~\mbox{Max}[ ~C_2~,  ~\zzthe(C_2)~, ~\zzthe^{ \, 2 \,}(C_2)~]~$'' is bounded
+below by 4, causing the left and right sides of its subtraction
+operation to differ by 
+% an amount of 
+exactly 3.) 
+\beq
+%% \small
+\label{xoo}
+\mbox{Max}[ ~C_2~, ~\zzthe(C_2)~, ~\zzthe^{ \, 2 \,}(C_2)~] ~~-~~
+\mbox{Pred}^{\, 3 \,} \{~\mbox{Max}[ ~C_2~, ~\zzthe(C_2)~, ~\zzthe^{ \, 2 \,}(C_2)~]~\} 
+\enq
+Our notation 
+%thus 
+also
+implies that Line \eq{ej-def}'s
+ expression $~E_j~$ 
+is an
+ ``observable''. This implies, in turn, that 
+ \phx{th-3.3}'s term $~T_n~$ is an  ``observable''
+ (employing 
+conveniently
+no more than 
+ $O(~$Log$^{ \, 3\,} \,n~)$ 
+logical
+symbols).
+\end{exx}
+% 
+% 
+% For example since $76~=~128~-~32~-~16~-~4~,\,$ 
+% it follows that $~ T_{76}~$
+% corresponds to the term
+% $~E_7 \, - \,E_5 \, - \,E_4 \, - \,E_2 ~$,
+% $~$where each $~E_j~$ employs only 
+%  $O(~$Log$^{ \, 2\,} \,j~)$ symbols.
+% %%%%%\end{exx}
+
+
+\nvxs
+\hvxs
+
+
+Thus, \dfx{def-3.5} and Example \ref{ex-3.6} have illustrated
+%that 
+how
+the realm of ``observable'' objects is a 
+% very 
+broad and accessible world,
+of 
+potential usefulness.
+% 
+% non-trivial
+% %% pragmatic
+%  significance.
+% 
+It allows every integer $~n~$ to be represented by a
+% reasonably small 
+term $~T_n~$ with
+% an
+a tight
+ $O(~$Log$^{ \, 3\,} \,n~)$ length
+(in a context where
+Remark \ref{rem-def-3.4}'s refinement
+% Section \textsection \ref{ss6}'s more elaborate formalism
+%will allow us to 
+will 
+reduce this length
+almost to a more compact
+% 
+% nearly
+%  to a 
+% % far 
+% more
+% attractive  
+% 
+$O(~$Log$ \,n~)$ magnitude).
+
+
+The distinction between
+``Observables'' and ``Unobservables''
+% ground terms 
+will 
+%also 
+%% 
+%% cast a
+%% delightful
+%% 
+offer a
+ new perspective on
+the aspirations
+% that 
+which
+Hilbert and G\"{o}del 
+expressed
+in 
+their
+statements $*$ and $**$.
+%
+% under our proposed formalism.
+It
+ will suggest
+how the Second Incompleteness Theorem
+can
+%  remain to 
+be seen as a majestic result
+from a purist perspective, while
+a {\it well-defined fragment} of
+%their 
+what
+Hilbert and G\"{o}del
+sought in 
+ $*$ and $**$
+%aspirations
+%% in  statements $*$ and $**$
+can 
+likely
+%almost certainly
+be 
+%part-way
+satisfied (in at least a 
+% well-defined 
+limited sense).
+% 
+% 
+% 
+% 
+% \begin{remm}
+% \label{rem-3.7}
+% {\bf (explaining the goals of this paper):$~$}
+% \rm
+% Let us say 
+% that
+% a basis axiom system $~\alpha~$ owns
+% a {\it ``Finitized Perspective''}  of the Natural Numbers
+% if it requires only a 
+% {\it finite number} of proper axioms
+% to construct the full set of integers
+% $~0,1,2,3~... ~$. All conventional arithmetics have this property.
+% %It is useful to divide such 
+% Such
+% logics
+% %arithmetics
+% fall into two categories,
+% called {\it Single} and {\it Double-Formatted} systems.
+% %as defined below: 
+% They are defined below: 
+%  %These constructs are defined below:
+% \bed
+% \item[   a.  ]
+% %An axiom basis $~\alpha~$
+% %will be called
+% {\bf Single-Formatted Arithmetics} consist of
+% axiomatic basis systems
+% % $~\alpha~$
+% %all of 
+% whose 
+% %iff all its 
+% ground terms are 
+% all 
+% Observables.
+% (Most conventional arithmetics
+% %%%% will 
+% %fall into this 
+% lie in this
+% category
+% %when the 
+% because they
+% employ the
+%  growth
+% %  function
+% properties 
+%  of
+% the  Successor
+% operation
+% %function
+%  in
+% % a straightforward 
+% %the
+% %% a  conventional
+% the traditional
+% manner.)
+% %% since the 
+% %% the simple  growth function of Successor
+% %% easily
+% %% generates
+% %% all the natural numbers). 
+% %are {\it ``Single-Formatted Formatted''} logics. 
+% \item[   b.  ]
+% {\bf Double-Formatted Arithmetics} 
+% % representing 
+% represent
+% systems
+% %%%consisting of
+% %%%%axiomatic 
+% %%%logics
+% %%%%%basis systems
+% whose ground terms 
+% may be either
+%  Observables
+% or Unobservables.
+% (Axiomizations
+% for Q-Grounded logics 
+% %%  of
+% %% the
+% %% % our
+% %% Q-Grounding language
+% are
+% %%% will 
+% %obviously 
+% %%% be
+% ``Double-Formatted''
+% because they
+% allow $\theta$'s analog of 
+% \el{wow}'s function symbol $F$ 
+% to have
+% an uncountable number of 
+% different allowed
+% representations).
+% % 
+% % (Our
+% % Q-Grounding language 
+% % gives support to such a system.
+% % This is because it
+% % can  have its function primitives
+% % defined by a finite number of 
+% % proper axioms,)
+% % %axiom-sentences.) 
+% % \ennd
+% The distinction between 
+% categories
+% %Items 
+% (a) and (b) is
+% significant
+% % important
+% because 
+% Example \ref{ex-2.3}
+% %%%  \pag2 
+% %%% had 
+% already explained how
+%  statement $++$'s generalization
+% of the Second Incompleteness Theorem applies to 
+% any formalism recognizing Successor as a total function.
+% Thus, Item (b)'s Double-Formatted logics 
+% are useful, if one wishes to consider alternatives
+% to
+% %formalism that do not recognize
+% successor as a total function.
+% %More precisely, 
+% In this context,
+% 
+This will be because
+Hilbert's 
+%  famous 
+%Year-1900 
+Second 
+Open
+Problem
+can be viewed
+ as a  {\it  2-part question}, 
+composed of sub-queries Q-1 and Q-2:
+%%%%%
+%%%%% {\it  2-part question}.
+%%%%%The separation of Hilbert's question into two parts,
+%%%%%called Q-1 and Q-2, will allow 
+%%%%%%% 
+%%%%%%% This 
+%%%%%%% bipartite
+%%%%%%% distinction 
+%%%%%%% is useful because it
+%%%%%%% can enable 
+%%%%%%% 
+%%%%%the academic community to better
+%%%%%  with
+%%%%% what Hilbert and G\"{o}del were
+%%%%%seeking to accomplish
+%%%%%in 
+%%%%%their
+%%%%%statements
+%%%%%of $*$, $**$ and $***$.
+\bed
+\small
+\item[ {\bf Question Q-1$~~$}] {\it Are any axiom systems
+able to
+ prove 
+theorems 
+verifying
+ their own consistency in a robust sense?$~~$}
+The answer to Q-1 is clearly ``No'' because the combination
+ G\"{o}del's initial 1931 result \cite{Go31} with 
+%the 
+%further
+Hilbert-Bernays's result 
+\cite{HB39} 
+and the Pudl\'{a}k-Solovay invariant $++$
+(from Example \ref{ex-2.3})
+%% \pag2) 
+imply 
+arithmetics of ordinary strength cannot prove
+their own consistency in a robust sense.
+\item[ {\bf Question Q-2$~~$}]
+ {\it Can 
+logic systems
+%arithmetic logics
+%axiomatizations of Arithmetic
+%  , at least, 
+%somehow 
+``appreciate'' 
+% (not formally ``prove'')
+ their
+own consistency in some 
+{\bf REDUCED} sense, that is diluted
+but not fully immaterial?}
+$~~\,$The answer to 
+%question 
+Q-2 is 
+complex
+%%% more complex than Q-1
+%less clear-cut
+because 
+%several types of 
+some
+arithmetics,
+such as \cite{ww93,ww1,ww5,wwapal,ww9,ww14}'s paradigms,
+ can
+formalize
+% ``recognize''
+their 
+own consistency 
+using Example \ref{ex-2.5}'s
+% a 
+Fixed-Point {\it ``I am consistent''}
+axiom.
+Moreover,
+ Definition \ref{def-3.5}'s 
+% further 
+separation of
+the concepts  of ``Observables'' from ``Unobservables''
+%
+%the notions of Observable from Unobservable objects 
+%
+raises
+some
+% further
+% very
+subtle issues beyond these distinctions.
+\ennd
+
+
+%% %  sentence $\,\oplus\,$.
+%% %%Using
+%% %%%%%%%%%Under
+%% % Using the notation from 
+%% Under
+%% Lines
+%% \eq{totdefxs}--\eq{totdefxm}'s notation,
+%% these paradigms include:
+%% % both:
+%% \bee
+%% \small
+%% \baselineskip = .86 \normalbaselineskip 
+%% \item
+%%  Type-A arithmetics
+%% \cite{ww93,ww1,ww5,wwapal,ww9,ww14}
+%% %capable of 
+%% recognizing their self-consistencies under
+%% either the deductive mechanics of semantic tableaux or one
+%% of its cousins. (See especially \cite{ww14}'s
+%% recent Wollic-2014 paper.)
+%% \item
+%%  Type-NS arithmetics recognizing their Hilbert consistency,
+%% such as the formalisms of \cite{ww1,wwapal}
+%% %further 
+%% improved, possibly,
+%% with the added techniques introduced in
+%% this  article.
+%% \ene
+%% 
+%% \ennd
+
+One theme
+in 
+% the remainder  of 
+this article will be that
+the
+Second Incompleteness Theorem represents a
+$100 \, \% $ 
+full
+% comprehensive
+reply to question Q-1 
+but only a
+% and a
+ 90 \% 
+% adequate
+ reply to question Q-2.   
+Our
+tiny
+% only 
+%tiny
+ caveat to Q-2 will be related to Hilbert's 
+insistence that {\it some type of ``new formalism''} 
+% was needed
+will be needed
+to explain how
+% it is 
+humans
+motivate themselves to engage
+in cognition. 
+
+%The next section of this article will
+%  note 
+
+Our discussion will
+observe
+% that
+mathematicians 
+% had
+made no distinction between 
+Unobservable and  Observable ground terms during the
+% early 
+1930's.
+% We 
+It
+will suggest 
+a 
+% tiny new 
+revised
+interpretation can be assigned to the 
+% historic 
+%often-quoted
+statements $*$ and $** \,$
+of
+%by 
+Hilbert and G\"{o}del,
+when one 
+views
+them
+ from the perspective of 
+arithmetics that 
+rely upon indeterminate growth functions,
+similar to $\theta$.
+
+%employ $\theta-$like
+% growth functions.
+
+% logics that allow deploying unobservable  ground terms.
+
+ 
+% owns two types of ground terms.
+
+% looks more closely at these two types of
+% ground terms.
+
+
+%% where the remaining  5-10 \% fraction of
+%% unresolved issues is connected to the 
+%% fundamental
+%% distinction
+%%  separating
+%% % separation of
+%% Unobservable from  Observable ground terms.
+
+
+% that the final
+% tiny remaining
+%  5-10 \%
+% gap, pointed to
+% in
+% % by
+% Hilbert's and G\"{o}del's 
+% statements $*$ and $** \,$,  can be viewed as
+% being related to this 
+% fundamental
+% distinction.
+
+
+%% Some 
+%% %other insightful 
+%% different
+%% approaches to these dilemmas
+
+%Some other 
+
+Other insightful
+approaches
+to
+% the 
+Incompleteness paradigms
+are related to 
+ Gentzen's perspectives about
+transfinite induction 
+under his $\epsilon_0$ ordinal
+\cite{Ge36,Ta87}, the 
+%% 
+%% 
+%% explore
+%% how \cite{wwapal}'s results for a Single-Formatted logic
+%% can be revised
+%% % with our new $~\zzthe~$ function
+%% under a
+%% 
+%% Before 
+%% broaching
+%%  this topic it should be mentioned that
+%% %0fascinating
+%% other approaches to
+%% %efforts to partially 
+%%  the Second Incompleteness Theorem 
+%% % do
+%% have centered around
+%% 
+ Kreisel-Takeuti's    ``CFA''
+system \cite{KT74}
+and
+the {\it interpretational frameworks} of
+Friedman,
+Nelson, Pudl\'{a}k and Visser
+\cite{Fr79b,Ne86,Pu85,Vi5}.
+These systems are unrelated to 
+our 
+%% main
+%\cite{ww93}--\cite{ww14}'s 
+methods.
+%approach.
+They
+do not use
+% Kleene-like 
+{\it ``I am consistent''} axiom-sentences,
+similar to Example \ref{ex-2.5}'s
+``SelfRef'' statement.
+Also,
+they
+%apply to 
+employ
+``cut-free'' logics
+(rather 
+than
+a 
+% preferable 
+Hilbert-style 
+deductive 
+apparatus).
+%that 
+%%%%%%%%%%% explored 
+%%%%%%%%%%% in 
+%%%%%%%%%%% \textsection \ref{ss32} ).
+%%%we are considering).
+%%
+%%Instead, CFA uses the 
+%%special
+%%properties of ``second order'' generalizations of Gentzen's
+%%{\it cut-free}
+%%Sequent Calculus, 
+%%and 
+%%the
+%%interpretational approach
+%%formalizes how some systems 
+%%recognize their
+%% Herbrand consistency 
+%%on localized sets of integers,
+%%which 
+%%unbeknownst to 
+%%themselves,
+%%includes all
+%%integers.
+%%
+%%%These
+%   alternate 
+%%%approaches 
+Their 
+%alternate 
+% very
+ fascinating
+perspectives  
+should
+% certainly,
+ be examined by researchers
+interested in the
+% Second 
+Incompleteness Theorem,
+but they are unrelated to 
+our 
+objectives
+%IQFS formalism.
+
+\smallskip
+
+
+%% During our 
+%% % description 
+%% investigation
+%% of IQFS, 
+
+Also during the next chapter,
+the reader should keep
+in mind that 
+Proposition \ref{th-3.3}'s
+% characterization of the 
+$O(~$Log$^3 \, n \,)$
+lengths for encoding $T_n$'s ground terms can be reduced to
+% an essentially 
+% a more compact
+%nearly an
+ essentially an
+  $O(~$Log$ \, n \,)$ complexity,
+when these terms are encoded 
+using
+%under
+ Remark \ref{rem-def-3.4}'s 
+more compressed 
+Directed Acyclic Graph
+% formalism.
+methodology.
+This fact will make IQFS's formalism look
+% much 
+% significantly more tempting.
+%%%% very
+quite
+  tempting.
+
+% cccc ddddddd 
+
+%% the next chapter's discussion.
+%% 
+%% 
+%% Their insights are important but 
+%% unrelated to 
+%% our particular
+%% % the next section's 
+%% %specific analysis of
+%% %%% type of
+%% Hilbert-styled self-justifying effects,
+%% explored in the next chapter.
+%% 
+
+
+
+\gvxs
+
+\vspace*{- 0.6 em}
+
+\section{Proposed New IQFS Formalism}
+
+ \label{ss32}
+\label{ss5}
+
+\vspace*{- 0.6 em}
+
+
+\nvxs
+
+% \rvxs
+
+
+\parskip 1 pt
+
+The only aspect of our prior research that will be 
+related to our proposed new IQFS formalism
+is the ISCE framework,
+defined in \cite{wwapal}'s Sections 3 \& 4.
+The next several paragraphs will review 
+\cite{wwapal}'s results, 
+so that a reader 
+can omit examining \cite{wwapal}. 
+
+
+% will not need to examine 
+% \cite{wwapal}'s 
+% formal treatment.
+%results.
+%%%%%%%%%%%%%%%for the reader's convenience.
+%% 
+%% This section will
+%% review \cite{wwapal}'s results in sufficient detail
+%% so that a reader need not examine \cite{wwapal}'s formal 
+%% text,
+%% 
+%% %%%%%definition of the ISCE axiom system. 
+%% 
+%% During our discussion, 
+%% 
+
+% \lvxs
+% \parskip 1 pt
+
+\smallskip
+
+During our 
+discussion,
+%review of \cite{wwapal}'s results,
+$~L^G~$ will  again denote
+our
+ ``Grounding-level'' 
+language 
+that 
+formalizes
+%employs
+\textsection \ref{seee3}'s
+six non-growth
+%  functions of
+operations of
+ Subtraction, Division,
+Maximum, Logarithm, Root and Count determination.
+%%% 
+%%%  the six ``Grounding-level'' 
+%%% % non-growth 
+%%% functions defined on Page 5.
+%  
+%  consisting
+%   of 
+%  the
+%  Subtraction, Division,
+%  Maximum, Logarithm, Root and Count operations.
+%  
+Also, $\,C_0\,$, $\,C_1\,$ and $\,C_2\,$ will denote
+three constant symbols designating the
+integers 
+%values 
+of 
+``0'', ``1'' and  ``2''.
+In a context where Pred$(x)$ is an abbreviation for
+``$\,x \,- \, 1\,$'',
+%% (or more precisely ``$\,x \,- \, C_1\,$'' ), 
+the ISCE axiom system
+% from \cite{wwapal}
+used
+\eq{start}'s axiom
+ statement 
+to define
+ $\,C_0\,$, $\,C_1\,$ and $\,C_2~$:
+% these three constants:  
+\begin{equation}
+\label{start}
+\small
+\mbox{Pred}(    C_0    )  =  C_0~ \, \wedge ~ \,
+C_1 \neq C_0~ \, \wedge ~ \,
+\mbox{Pred}(    C_1    )  =  C_0 ~ \, \wedge ~ \,
+\mbox{Pred}(    C_2    )  =  C_1 
+\end{equation}
+%Also,
+The  challenge 
+\cite{wwapal} 
+faced was its formalism could
+not use any of the
+%  conventional 
+operations 
+%function-operations 
+of
+successor, addition or multiplication to infer the existence
+of larger integers from the initial constants of 
+$\,C_0\,$, $\,C_1\,$ and $\,C_2\,$
+(without violating $++$'s generalization of the Second Incompleteness
+Theorem).
+% 
+%  This was because
+% the Pudl\'{a}k-Solovay result $++$ 
+% indicated
+%   the 
+% presumption  successor is a total function 
+% precludes   
+% most
+% %axiom 
+% systems
+% from recognizing their
+% own Hilbert
+% consistency.
+
+\smallskip
+
+
+Our article
+\cite{wwapal} 
+considered two 
+methods for achieving these tasks,
+%alternatives
+%to a conventional Successor 
+%function symbol 
+% for overcoming these difficulties,
+ called
+the  {\bf Additive} and  {\bf Multiplicative Naming}
+conventions.
+They defined 
+some
+further constant symbols $~C_3,~C_4,~ C_5,~ ...~$
+and  $~C^*_3,~ C^*_4,~ C^*_5,~ ...~$
+where 
+%respectively
+$~C_j~=~2^{j-1}~$ and $~C^*_j~=~2^{\,  2^{ \,j-2}}~$.
+
+\smallskip
+
+
+The definition of these
+% new 
+constants
+%  symbols
+is 
+easy
+%straightforward
+under $L^G\,$'s
+% Grounding-level 
+language.
+% called $L^G~,~$
+%all of whose function objects are non-growth primitives. 
+This is because
+Lines
+\eq{newadd}  and \eq{newmult}
+%had 
+specify how
+% that
+two 3-way predicates, called
+Add$(,x,y,z)$  and  Mult$(,x,y,z)\,$, 
+%can 
+%do
+encode the identities of
+% can be encoded to specify,  respectively,
+$x=y+z$ and $x*y=z$.
+Our additive and multiplicative 
+% naming 
+conventions
+can,
+%will,
+ then, define 
+ $~C_3,~C_4,~ C_5,~ ...~$
+and  $~C^*_3,~ C^*_4,~ C^*_5,~ ...~$
+%by  using
+via
+an infinite number of instances  of
+%utilizing respectively
+ \eq{addcov} and
+\eq{multcov}'s
+%{\it infinitely long}
+axioms:
+%%%%%%%%%% schemas:
+% two infinite schemas of  axiom-sentences:
+%% 
+%% that belong to our 
+%%  ``Additive'' and  ``Multiplicative
+%%  Naming Conventions'',
+%% then the values for 
+%% $~C_j~$ and 
+%% $~C^*_j~$ can be easily derived from $j-2$ instances of
+%% %respectively \eq{addcov} and \eq{multcov}'s 
+%% these
+%% schema:
+%% 
+
+
+{
+\small
+\beq
+\label{addcov}
+\mbox{Add}(~C_{j-1}~,~C_{j-1}~,~C_{j}~)
+\enq
+\beq
+\label{multcov}
+\mbox{Mult}(~C^*_{j-1}~,~C^*_{j-1}~,~C^*_{j}~)
+\enq}
+The methodology in
+ \cite{wwapal} 
+%% employed \eq{addcov}  and  \eq{multcov}'s schema in a context where it 
+presumed
+% assured
+%the Y of 
+the ``names'' for its constants $ C_j $ 
+and $ C^*_j $ 
+had nice compact encodings using $O(~Log(j)~)$ bits.  
+Its formalism calculated
+%, thereby, 
+the values of ``unnamed'' integers from 
+named entities via the {\it non-growth} Subtraction and
+Division primitives. For instance since $~20~=~32-8-4~,~$
+the quantity 20 
+can be encoded as $~C_6-C_4-C_3$.
+%%%%%%%%%%%%%%%% under \eq{addcov}'s naming convention.
+
+
+%% required
+%% $O(~Log(j)~)$ bits.  
+%% Thus, the length of these encodings was 
+%% much 
+%% smaller
+%% than the respective
+%% numbers
+%% % magnitudes of 
+%%  $2^{j-1}~$ and $2^{2^{j-2}}$ 
+%% %that 
+%% these constants represent.
+
+\smallskip
+
+
+The challenge \cite{wwapal} 
+faced was to determine whether 
+%it was possible to formulate 
+self-justification
+was possible
+under 
+%% either
+\eq{addcov}'s
+% ``Additive'' 
+or  \eq{multcov}'s 
+% ``Multiplicative'' 
+%% naming
+schema.
+It found 
+%that 
+ \eq{multcov}'s 
+multiplicative
+% naming 
+convention was  incompatible 
+with self-justification (due to its 
+%%very 
+speedy growth rate),
+but
+%In contrast,
+\eq{addcov}'s additive 
+% naming 
+schema did
+% conveniently,
+ permit self-justification. 
+
+\medskip
+
+Our new proposed IQFS
+axiom system is easiest to describe, if we first
+review \cite{wwapal}'s definition of ISCE
+and then
+explain how our IQFS framework 
+%% 
+%% will improve upon
+%% it (by not requiring
+%% the definition of an infinite number of separate
+%% constant symbols).
+%% 
+can  incrementally refine it.
+The extension of our base-language $~L^G~$
+that includes the Additive Naming Convention (ANC)'s
+additional constants 
+ $~C_3,~C_4,~ C_5,~ ...~$
+will be called
+an {\bf ANC-Based Language}.
+It will be denoted
+as  $~L^{ANC}~$. 
+Also if
+ $\, t \,$ denotes   any term in $\, L^{ANC} \,$'s   
+language, then 
+the quantifiers in 
+the two wffs of
+$~ \forall ~ v \leq t~~ \Psi (v)~$ and
+$\exists ~ v \leq t~~ \Psi (v)$
+will be  called $\, L^{ANC} \,$'s   
+{\bf ``Bounded 
+Quantifiers''}.
+
+
+\begin{deff}
+\label{def-3.8}
+\rm
+The analogs of
+% a
+ conventional
+% arithmetic's
+$\Delta_0$, $\Pi_n$ and $\Sigma_n$ 
+formulae
+in the
+language $L^{ANC}$ will be denoted as
+$\Delta^{ANC}_0$,
+ $\Pi^{ANC}_n$
+ and $\Sigma^{ANC}_n$.
+Thus,
+a formula will be defined to be
+$\Delta^{ANC}_0$  iff all its quantifiers are bounded.  
+The
+%%%%%%%%%  below 
+definitions 
+of  $\Pi^{ANC}_n$ and $\Sigma^{ANC}_n$
+formulae are
+%  also  
+quite conventional:
+\bee
+%\small
+\parskip -2 pt
+\baselineskip = 0.8 \normalbaselineskip 
+\item
+\small
+Every  
+$\Delta_0^{ANC}$ formula is considered to
+be 
+also 
+a
+$\Pi_0^{ANC}$  and 
+an
+$\Sigma_0^{ANC}  $ expression.
+%% 
+%% ``$~\Pi_0^{ANC}~ \,$''  and 
+%% %  also 
+%%  ``$~\Sigma_0^{ANC}~ \, $''. 
+%% 
+\item
+A
+formula
+is  called
+ $ \,\Pi_n^{ANC} \,$
+when it
+% is 
+can be
+encoded as 
+$\forall v_1 ~ ...~ \forall v_k ~ \Phi$  
+where
+%with
+$\Phi$ is  $\Sigma_{n-1}^{ANC}$
+\item
+A formula
+is  called
+ $\Sigma_n^{ANC}$
+when it can be encoded as 
+$\exists v_1~ ...~ \exists v_k ~ \Phi,$  where
+$\Phi$ is  $\Pi_{n-1}^{ANC}$.
+\ene
+\end{deff}
+
+
+
+%%\begin{deff}
+%%\label{def3.9}
+%%\rm
+
+ \parskip 0pt
+
+
+Given an initial axiom system $\beta,$
+the Theorem 3 of \cite{wwapal} defined a 
+self-justifying logic, called
+ISCE$(\beta)$ 
+that could prove all 
+$~\beta\,$'s $\Pi_1^{ANC}$ theorems and 
+verify its own consistency under a Hilbert-style deductive
+apparatus. It consisted of the following four
+groups of axioms:
+%
+%  \newpage
+\begin{description}
+\small
+ \parskip 2pt
+\item
+{\bf GROUP-ZERO:} 
+This 
+schema
+%  axiom group 
+will
+use \el{start}'s axiom to define the constants of
+$\,C_0\,$, $\,C_1\,$ and $\,C_2\,$ 
+and 
+%employed
+%an infinite number of instances of
+\el{addcov}'s Additive Naming 
+schema
+%convention
+to define 
+ the further constants
+ $    C_3,  C_4,  C_5,  ...   $  
+\item
+{\bf GROUP-1:}
+It is convenient  to
+define
+ ISCE's Group-1 and Group-2
+axioms using a notation that 
+will support \cite{wwapal}'s Theorem 3
+in a 
+% slightly
+ more 
+general sense than
+appeared in \cite{wwapal},
+%%% under a slightly different notation convention,
+% is transparently equivalent
+% (but slightly different) from \cite{wwapal}'s counterpart,
+so our
+% a 
+new
+% proposed
+%%%% second
+ ``IQFS''
+formalism
+(appearing later in this section)
+% shall
+will
+%proposal shall
+% framework will 
+be easier to define.
+Let us
+therefore
+ say  a $\Pi_1^{ANC} $  sentence is {\bf Simple}
+iff the only built-in constants it employs are
+$\,C_0\,$, $\,C_1\,$ and $\,C_2$.
+Then ISCE's Group-1 scheme will
+allowed to
+ be any finite set of 
+simple $\Pi_1^{ANC} $  axioms, called $~S~,~$
+that is consistent with Group-zero schema and
+which
+ has
+the following 
+two
+properties:
+\bee
+\item
+  The union of $~S~$ with ISCE's Group-Zero
+axioms
+%will be capable of proving 
+%do 
+will
+prove
+all true $\Delta^{ANC}_0 $
+sentences.  
+%
+% statements which
+% are true.
+\item
+  The union of $~S~$ with ISCE's Group-Zero
+scheme
+%will be capable of proving 
+will
+% do
+ prove
+that
+the ``=" and ``$\leq$" predicates
+% own 
+support
+their conventional
+transitivity, reflexivity, symmetry and total ordering
+properties.
+\ene
+Any finite set 
+$\Pi_1^{ANC} $  axioms
+with the above properties can be used to define $~S~$
+and 
+support
+%prove 
+an analog of
+\cite{wwapal}'s Theorem 3,
+by a trivial generalization
+of
+\cite{wwapal}'s results.
+% 
+% \footnote{A formal proof of this generalization of
+% \cite{wwapal}'s results is 
+% %absolutely 
+% entirely
+% routine.
+% %  and omitted here for the sake of brevity.}
+% For the sake of brevity, it  is
+% omitted.} 
+% 
+%  of
+% the methodologies from Sections 3 and 4 of
+% \cite{wwapal}. (Thus,
+% any such finite set $~S~$ supporting Conditions (1) and (2)
+% can  be employed
+% by
+% ISCE's
+% Group-1 part.)
+%%% 
+%%% and it is unimportant which
+%%% particular defining
+%%%  set is used.
+% 
+% BBB111
+%  
+% This
+% % schema
+% axiom group 
+% consisted of a finite
+% set of 
+% $\Pi_1^{ANC} $ axioms
+% %, CALLED $F$,
+%  defining ISCE's
+% Grounding  function primitives. 
+% %This means that
+% For each  such function $G$ and set of numbers 
+% $    {k},   {k_1},    {k_2}, ...    {k_m}$,
+% %the combination of 
+% the Group-Zero and Group-1 axioms 
+% %must
+% will
+%  imply 
+% $ G(    {k_1},    {k_2}, ...    {k_m}) \,=\,    {k}   $ when
+% this sentence is true
+% \footnote{ \f55 
+% Our
+%  $\Pi^{ANC}_1$
+% encoding for the
+% Group-1 scheme  needs,
+% technically, 
+% % employ
+%  only
+% employ
+%  the three constant symbol $C_0$, $C_1$ and $C_2$ for the
+% union of all 
+% the
+%  Group-Zero and Group-1 axioms
+% to satisfy 
+% their
+% %its
+% %the 
+% above requirements.} .
+% The Group-1 schema
+% of \cite{wwapal} 
+% will also
+% assign the ``=" and ``$<$" predicates
+% their conventional
+% %  logical
+% properties.
+% %footnoted property.}
+% %%
+% %%(Any finite 
+% %%set of  $\Pi_1^{ANC} $
+% %%sentences  meeting these conditions is
+% %%suitable.)
+% %%
+\item
+{\bf GROUP-2:}
+Let
+$\ulcorner \, \Phi \, \urcorner$ denote $\Phi$'s G\"{o}del number, and
+$\mbox{HilbPrf}_{ \beta  }(x,y)$
+denote a 
+%%%%%%%%%%%  $\Delta _0^{ANC+}$ 
+$\Delta _0^{ANC}$ 
+formula indicating  $y$ is a
+Hilbert-styled
+proof
+from axiom system $\beta  $ of the theorem 
+$x$.
+%
+% Suppose that
+%$~\beta~$ uses the same Grounding function symbols as
+%ISCE$^{ANC}(\beta)$,
+%and it therefore generates
+%a set of 
+%% $\Pi_1^{ANC+} $ theorems.
+% $\Pi_1^{ANC} $ 
+%theorems.
+%
+For each 
+%$\Pi_1^{ANC+} $
+$\Pi_1^{ANC} $
+ sentence  $\Phi$,
+the Group-2 schema
+for ISCE$(\beta)$ 
+%
+%was defined in  \cite{wwapal} 
+%did 
+will 
+contain
+% an 
+one
+axiom of the form:
+%% 
+%% \begin{equation}
+%% \small
+%% \label{group2nold}
+%% \forall ~x~\forall ~y~
+%% ~~\{~~[~~ \sigma_{~ \ulcorner \, \Phi \, \urcorner
+%%  ~}(x)~\wedge~
+%% \{~ \mbox{HilbPrf}~_\beta
+%% ~(~ x ~,~y~)~~]~~
+%% \Rightarrow ~~ \Phi~~ \}
+%% \end{equation}
+%% % {\bf IMPORTANT CLARIFICATION:} 
+%% %{\small 
+%% %%{{\bf DECIPHERING LINE \eq{group2nold}:$~$}
+%% {{\bf Clarification:$~$ }
+%%  \el{group2nold} is {\it helpful}
+%% because   ISCE(\beta)$  can             infer
+%% \eq{group2old}'s {\it simpler statement}
+%% directly
+%% from the combination of
+%% \eq{group2nold},
+%% % it,
+%% the Group-1 schema and \el{deltf}'s definition of
+%% ``$~\sigma~$''.}
+%% 
+\begin{equation}
+% \small
+\label{group2old}
+\forall ~y~~~\{~ \mbox{HilbPrf}~_\beta
+~(~ \ulcorner \Phi \urcorner ~,~y~)~~
+\Rightarrow ~~ \Phi~~\}
+\end{equation}
+\item
+{\bf GROUP-3:}
+This last part of
+%%%%%%%%%%%%%%%  \cite{wwapal}'s
+ISCE$(\beta)$
+% formalism 
+was
+ a single 
+self-referencing
+$\Pi_1^{ANC}$
+sentence  
+stating:
+ %% essentially declaring:
+\begin{quote}
+% \small
+%%%%%%%%%%%%% $ \oplus ~ \oplus ~~~$
+$ \oplus  \oplus ~~~$
+ ``There 
+%is 
+exists
+no
+Hilbert-style proof of 0=1 from the union of the Group-0, 1 and 2
+axioms  with {\it THIS  SENTENCE} (referring to itself)''.
+\end{quote}
+\end{description}
+%{\bf CLARIFICATION:}
+{\bf Clarifying $ \oplus  \oplus$'s Meaning:}
+ $~$Several of our articles
+\cite{ww1,ww5,wwapal,ww9}
+employed
+self-referential
+  $\Pi_1^{ANC}$ constructions,
+similar 
+to 
+%%%%%%%%%the sentence
+ $ \oplus  \oplus \,$,
+as Example \ref{ex-2.5} had mentioned.
+%% 
+%% whose 
+%% % precise implications were outlined in
+%% significance was explained by
+%% %formalized by 
+%% Example \ref{ex-2.5}.
+%% 
+A reader can find
+several
+%detailed
+slightly different
+ illustrations about how 
+$~ \oplus  \oplus ~ $
+%  $\, \oplus  \oplus $'s 
+%   self-referential statement 
+is encoded in  these articles.
+
+
+% 
+% Each of these articles provide examples of
+% how analogs for
+% $\, \oplus  \oplus $'s 
+% self-referential
+% statement
+% are encoded.
+
+
+ 
+% If the reader wishes to see
+% a formal encoding  for
+% $\, \oplus  \oplus $'s 
+% %self-referential
+% % Fixed-Point 
+% statement,
+% %it 
+% one such example
+% is provided by  
+% \cite{wwapal}'s 
+%  Lemma 1.
+% 
+
+
+\begin{deff}
+\label{def-3.9x10}
+\rm
+Let $~I(~\bullet~)~$ denote
+an operation that maps
+an initial axiom basis $\, \beta \,$ onto an alternate
+system  $\,I(\beta)\, $.
+(One example of
+such an operation is the
+  ISCE$( \, \bullet \, )$ 
+framework,
+that maps 
+an initial axiom basis of 
+  $~\beta~$ onto 
+the alternate formalism of
+ ISCE$(\beta).~)~$ 
+Such an operation  $~I(~\bullet~)~$
+is  called {\bf Consistency Preserving}
+iff  $\,I(\beta)\, $ is consistent whenever 
+the union of
+ $\beta$ with the Groups 0 and 1 axiom schemas is
+consistent.
+\end{deff}
+
+
+%Most of our research in 
+% \cite{ww93}-\cite{ww14}
+% has 
+
+Several of our research projects 
+%centered around
+%had 
+employed
+ \dfx{def-3.9x10}'s
+framework.
+For instance, 
+%% 
+%% the 
+%% 
+%% 
+%% Its
+%% %%%  main
+%% % central 
+%% focus in
+\cite{wwapal} 
+demonstrated
+%consisted of showing
+ the   ISCE$( \, \bullet \, )$ 
+mapping was consistency preserving.
+Thus if PA+ denotes the extension of
+Peano Arithmetic that 
+includes
+PA's traditional  Addition and Multiplication
+functions
+%% 
+%% 1n addition to the conventional
+%% functions of addition and multiplication
+%% contains 
+%% 
+%% 
+plus $L^G\,$'s six
+added
+%previously mentions
+ Grounding-level function 
+primitives,
+%functions,
+then
+ ISCE$( \, $PA+$ \, )$
+will 
+be automatically
+%be
+ consistent
+(because  PA+ was consistent).
+% consistent whenever PA+ is consistent.
+Hence while Peano Arithmetic is unable to
+verify its own consistency,
+%  (on account of G\"{o}del's
+% seminal 1931 discovery), 
+it is sufficiently agile to
+prove the following relative-consistency statement:
+\begin{center}
+%% \small
+$\#~~~$ If PA is consistent then 
+ ISCE$( \, $PA+$ \, )$ is  
+ self-justifying.
+ \end{center}
+This
+%The above
+% statement
+ relative-consistency statement
+%does offer 
+provides
+a partial 
+positive
+answer to
+the
+Q-2 version of Hilbert's Second  Question.
+It 
+captures
+% Brad change encapsulizes 
+one
+% positive 
+respect
+in which
+%such as  
+ISCE$( \, $PA+$ \, )$
+can {\it appreciate} its own consistency.
+% 
+% \newpage
+% 
+% \svxs
+% 
+% \noindent
+%This is because it formalizes one respect 
+This respect is, obviously,
+only
+of a limited nature
+because $++$'s generalization of the Second
+Incompleteness Theorem indicates 
+that
+no Type-S arithmetic
+can
+% simultaneously 
+recognize 
+% {\it both} 
+its Hilbert consistency and
+take
+successor 
+to be
+ a total function.
+%The consistency-preservation property of 
+% ISCE$( \, \bullet \, )$
+%dies, however,
+It does,  however,
+ raise the following
+enticing
+ question:
+\newpage
+
+\lvxs
+\parskip 0pt
+
+\begin{quote}
+$\# \, \#~ $
+\small
+Can the infinite number of
+distinct
+ constant symbols, employed by
+ISCE's Group-Zero schema, be reduced to a finite size
+by a Type-NS Self-Justifying Logic,
+without resorting to \cite{wwapal}'s inefficient
+``ISINF'' 
+methodology (which requires 
+a proof 
+having an expensive
+ $\Omega(N)$ length for constructing integers $N$
+whose binary encoding uses $O(~$Log$(N)~)$ bits) ?
+\end{quote}
+The remainder of this section will outline how an encouraging
+answer to 
+$\, \# \, \# \, $'s query
+is likely to
+%%%should,
+% conveniently
+arrive,
+%be plausible
+when one 
+% carefully
+%delicately 
+modifies ISCE's formalism
+with  the Q-function operative of $~\zzthe~$.
+
+\begin{deff}
+\label{def-3.10}
+\rm
+Let $L^Q$ 
+% once 
+again denote the extension of
+$~L^G\,$'s Grounding language that includes
+the
+% further
+ Q-function symbol of $\, \theta $.
+Then
+$\Delta^Q_0$,
+ $\Pi^Q_n$ and $\Sigma^Q_n$
+will,
+intuitively,
+%similarly
+ denote the
+%  1-to-1 
+analogs of
+\dfx{def-3.8}'s
+$\Delta^{ANC}_0$,
+ $\Pi^{ANC}_n$ and $\Sigma^{ANC}_n$'s
+formulae
+in $~L^G\,$'s  language.
+In particular, if $~\Phi~$ 
+is one of an
+$\Delta^{ANC}_0$,
+ $\Pi^{ANC}_n$ or $\Sigma^{ANC}_n$
+formula,
+then
+% the formula 
+$~\Phi^Q~$
+will be called
+% respectively
+$\Delta^Q_0$,
+ $\Pi^Q_n$ or $\Sigma^Q_n$
+when
+%if 
+it
+differs from $~\Phi~$ 
+only
+by
+ replacing each constant $~C_J~$
+from the set $~C_3,C_4,C_5...~$ 
+with Line \eq{ej-def}'s 
+% mathematically equivalent term of
+term  $~E_{J-1}~$. 
+\end{deff}
+
+\parskip 2pt
+
+%% 444444444444444
+
+\begin{example}
+\label{ex-3.11}
+\rm
+Suppose $~\Phi$ 
+is one of a 
+$\Delta^{ANC}_0$,
+ $\Pi^{ANC}_n$ or $\Sigma^{ANC}_n$
+sentence that employs the three constant symbols
+of $C_4$,   $C_6$ and  $C_{10}\,$
+for
+ representing the
+three numbers
+of 8, 32 and 512. 
+Let us recall 
+that
+ $E_3$,   $E_5$ and  $E_9\,$
+%  do
+formulate these three quantities
+under  Line \eq{ej-def}'s notation.
+Then $~\Phi^Q$  will have an 
+identical definition as
+ $~\Phi$ 
+except each $C_j$ is replaced by
+$E_{j-1}$.
+
+
+A formula is,
+moreover,
+ defined to lie in one
+of the 
+$\Delta^Q_0$,
+ $\Pi^Q_n$ or $\Sigma^Q_n$
+classes 
+{\it only if} it is constructed in such a manner.
+This fact
+% brad assures 
+ensures
+that all the terms employed in these
+three classes of sentences are 
+{\it ``Observable''} terms.
+Hence ``Unobservable'' ground terms are allowed in
+$~L^Q\,$'s language, but {\it they are excluded}
+from occurring in the 
+{\it ``end-product''} 
+$\Delta^Q_0$,
+ $\Pi^Q_n$ or $\Sigma^Q_n$
+theorems 
+that 
+%%will now be discussed.
+%it proves !
+do
+encapsulate
+%formalize
+ the {\it intended use of 
+%its
+this 
+formalism.}
+\end{example}
+
+
+\begin{deff}
+  \label{def-3.12}
+\rm
+The term {\bf IQFS($ ~\bullet~$)$~$}
+will  refer
+to the self-justifying analog of
+  ISCE($ ~\bullet~$)$~$
+%that will be employed 
+under  $L^Q\,$'s
+language.
+(The acronym ``IQFS'' stands for 
+``Introspective Q-Function Semantics''.)
+In a context where $~\beta~$ is 
+%some i
+an initial axiom
+system that proves theorems 
+%under
+in 
+the 
+language  $L^Q$, the 
+system
+%formalism 
+ IQFS($ \, \beta\,$)
+%$~$
+will 
+be defined as a
+ 4-part 
+formalism,
+analogous to  ISCE($\beta$),
+except for the following 
+%relatively modest 
+three 
+relatively
+modest
+changes: 
+\bed
+\small
+\parskip 0pt
+\item[  a.  ]
+The Group-Zero schema of
+ IQFS will
+differ from ISCE's analog
+by replacing 
+\el{addcov}'s ``Additive Naming'' schema with  
+the
+Up-Walking axioms,
+given in Lines  \eq{walk1}--\eq{walk4}.
+(This is because
+the language  $L^Q$ differs from
+ $L^{ANC}$ by 
+having the 
+ Q-function operator of $~\zzthe~$
+define the formal quantities that are represented by
+the constant symbols
+of $~C_3,C_4,C_5~~....~$ 
+under  $L^{ANC}.~~)$ 
+%% 
+%% Otherwise both
+%% these
+%% Group-Zero 
+%% schemes will be 
+%% identical.
+%% Thus,
+%%  they 
+%% will 
+%% both 
+%% use \el{start}'s axiom to define the 
+%% three initial constants of
+%% $\,C_0\,$, $\,C_1\,$ and $\,C_2\,~$.
+%% 
+\item[  b.  ]
+All the $\Pi_1^Q$ axioms lying in IQFS's
+Group-1 and Group-2 schemes will be
+% identical
+analogous to their counterparts
+under ISCE, except  they
+will
+ employ 
+\dfx{def-3.10}'s machinery for translating 
+ $ \,\Pi_1^{ANC} \,$ 
+sentences into
+essentially their
+% equivalent
+ $ \,\Pi_1^Q \,$ counterparts. 
+\item[  c.  ]
+The Group-3 axiom of  IQFS
+will be similar to ISCE's Group-3 
+{\it ``I am consistent''} 
+axiom-statement, except 
+the latter's notion of ``I'' will reflect the above
+changes in the Groups 0, 1 and 2 schemes. 
+It
+%Thus, the new
+%Group-3 axiom 
+will,
+thus,
+be a $\Pi_1^Q$ sentence declaring that
+{\it ``There is no 
+Hilbert-style
+proof of 0=1 from the union of the preceding axioms
+with THIS SENTENCE (looking at itself)''.}
+\ennd
+\end{deff}
+
+%\noindent
+
+\bvxs
+\parskip 2pt
+
+{\bf REVISITING THE Q-2 VERSION OF
+  HILBERT'S SECOND OPEN
+QUESTION FROM THE PERSPECTIVE OF  ``IQFS'' .}
+$~$
+Let us recall
+% that 
+\textsection \ref{ss4} indicated 
+that   Hilbert's Second Open Problem could be
+divided into two sub-queries, 
+that were
+called Q-1 and Q-2.
+The former query asked whether axiom systems could
+verify their own consistency in a robust sense, and the latter
+inquired whether some 
+{\it weaker but non-trivial} forms of
+self-justification might exist.
+The 
+Q-1
+paradigm
+% 
+% former query
+% addressed the larger part of Hilbert's
+% open question. It
+% % We already noted that the Q-1 version of this query
+% 
+was definitively resolved in a negative direction
+by the combination of G\"{o}del's initial Second Incompleteness
+Effect,
+its
+generalization
+appearing
+% documented 
+in the 
+Hilbert-Bernays textbook \cite{HB39} and  the
+Result $++$ due to the combined work of
+ combined work of Pudl\'{a}k, Solovay, Nelson and Wilkie-Paris
+\cite{Ne86,Pu85,So94,WP87}.
+In contrast,
+we noted in
+\textsection \ref{ss4} 
+ that there
+were other
+issues raised by the Q-2 version of Hilbert's
+question that were 
+not yet
+fully
+resolved.
+
+% \gvxs
+ 
+\smallskip
+
+It is within 
+this
+context where 
+Definition \ref{def-3.12}'s IQFS framework is helpful.
+The strong similarity between the definitions of ISCE and IQFS,
+{\it by itself,} 
+suggests that IQFS is likely to satisfy a
+consistency-preservation property analogous to ISCE.
+Moreover, all the techniques that were used to prove
+either $++$'s generalization of the Second Incompleteness
+Theorem
+% 
+%  (due to the combined 
+% work of Pudl\'{a}k, Solovay, Nelson and Wilkie-Paris
+% \cite{Ne86,Pu85,So94,WP87}) 
+% 
+or the related subsequent 
+results of
+% 
+% generalizations
+% %% of the Second Incompleteness Effect 
+% that
+% Example \ref{ex-2.3} attributed
+% to 
+% 
+Buss-Ignjatovic,
+H\'{a}jek, 
+\v{S}vejdar 
+and Willard 
+ \cite{BI95,Ha7,Sv7,ww1}
+% \cite{BI95,Ha7,Sv7,ww1,wwlogos}
+lose their relevance in IQFS's context.
+
+\medskip
+
+This is because a longer version of the current article
+demonstrates
+the Groups 0, 1 and 2 axioms of IQFS
+{\it  are unable}
+to prove 
+% an invariant implying
+successor is a total function, 
+while the 
+incompleteness results
+of   \cite{BI95,Ha7,Ne86,Pu85,So94,Sv7,WP87,ww1}
+require taking
+successor as a total function.
+
+% is
+% precisely what is needed for these formalisms to 
+% become applicable
+%  to IQFS.
+
+% (because they require a counterpart of a successor
+% function operation).
+
+
+
+\smallskip
+
+The properties of IQFS
+ are
+interesting
+% especially intriguing 
+from a 
+% Computer Science 
+Complexity perspective
+because
+\phx{th-3.3} showed 
+% that 
+every integer $\,n\,$ 
+can
+%could 
+be encoded
+%under it by
+by
+%via
+a
+ term $T_n$ that has an $O\{~[~$Log$(n)~]^3~\}$ length.
+This is
+unlike the 
+%much 
+%%%%%%%%%% far worse 
+asymptote  $\Omega(n^2)$ that results
+when the 
+$~\zzthe$ primitive 
+(from Lines  \eq{walk1}-\eq{walk4})
+is replaced by 
+Lines \ref{zm1} and  \ref{zm2}'s
+less efficient
+primitive of 
+$~\glamb~$.  
+Moreover, Remark \ref{rem-def-3.4}
+indicated
+% our
+that these
+ $O\{~[~$Log$(n)~]^3~\}$ lengths
+could be reduced
+to almost an  $O\{~$Log$(n)~\}$ size if 
+$L^Q\,$'s Ground terms were encoded as 
+Directed Acyclic Graphs (rather than as tree-like objects).
+
+We consider it 99 \% likely that
+{\it BOTH} 
+Definition \ref{def-3.12}'s
+%precise
+specified
+formulation of 
+% the
+ IQFS($ ~\bullet~)$
+%construct 
+and its 
+% more compressed Dag 
+implied Dag
+refinement
+(using  Remark \ref{rem-def-3.4}'s additional machinery)
+%modification
+will satisfy 
+a consistency preservation property analogous to ISCE.
+If this 
+2-part
+conjecture is correct, it will support our
+hypothesis that the Q-2 version of Hilbert's Second Open
+Question 
+% would 
+does
+support some 
+{\it fragmentary}
+positive results,
+in the context of
+% with regards to
+Hilbert-styled deductive methods using the
+$~\zzthe$ primitive for formulating growth among integers.
+
+Moreover, a reader should not be
+especially
+ concerned that the Group-2
+axiom schemas for ISCE and IQFS involve employing
+an infinite number of separate incarnations
+of \el{group2old}'s axiom schema.
+This is because these
+Group-2 schemas
+can be
+% should be able to be
+nicely
+ reduced to a 
+purely
+finite size, with almost no loss 
+in
+%of useful
+information. This was done in \cite{ww14} 
+for the Group-2
+scheme
+of its IS$_D(\beta)$ formalism, 
+with the latter
+%%%%%%%%%%%%%%%% still 
+%where the
+% 
+% germane Group-2 scheme was
+% reduced to one
+% single  axiom sentence 
+% while the resulting 
+% 
+% latter
+%formalism still
+% produced
+producing
+isomorphic counterparts
+of all of $~\beta \,$'s
+full set of
+ $\Pi_1$ theorems
+(e.g. see 
+%Sections 5 and 6 
+\textsection $\,$5
+of    \cite{ww14}).
+The same methods will
+% trivially 
+%routinely
+easily
+generalize for
+%%%% the
+% 
+% Analogs of the techniques from Sections 5 and 6 of 
+% \cite{ww14} 
+% % will easily 
+% apply to each of the 
+% 
+ IQFS, 
+% axiom framework, 
+if it does satisfy
+Definition \ref{def-3.9x10}'s
+Consistency Preservation property (as we
+conjecture it does).
+
+% it does).
+
+\vspace*{- 1.0 em}
+
+%\section{Broader Perspectives Produced by These Results}
+
+
+\section{Concluding Remarks}
+
+\vspace*{- 0.8 em}
+
+\lvxs
+
+\label{nnnew}
+
+%\Large
+% \baselineskip = 1.8 \normalbaselineskip 
+
+There is no question that the 
+% Second 
+Incompleteness Theorem
+%does imply
+% demonstrates
+illustrates 
+that 
+90-95 \% of the initial objectives of
+Hilbert's Consistency Program were overly ambitious.
+It would, nevertheless, be of interest if
+some 5-10 \%
+fragment of 
+Hilbert's
+% initially 
+intended 
+goals
+% objectives 
+were
+partially
+ achieved.
+
+%% bbbbbb
+
+\smallskip
+
+
+This is because it is difficult to fathom how humans
+can
+maintain
+their psychological motive to engage in cognition without owning some
+type of
+% qualified 
+instinctive faith in their own consistency.
+%% 
+%% Moreover, the close similarity between the defining structures of the
+%% ISCE and IQFS frameworks strongly suggests
+%% \cite{wwapal}'s proof of ISCE's consistency preservation property
+%% should generalize for both 
+%% IQFS  and 
+%%  IQFS$^*$ under a more elaborate
+%% % and sophisticated
+%% inductive machinery.
+%% 
+Moreover, it is fascinating that 
+the distinction between
+Unobservable and Observable ground terms, using 
+Proposition \ref{th-3.3}'s  and Remark \ref{rem-def-3.4}'s
+ $\, \theta \, $ operator,
+% 
+% whose $O(~$Log$^3\,n )$ and $O(~$Log$~n )$ complexities
+% are characterized
+% by Proposition \ref{th-3.3}  and Remark \ref{rem-def-3.4},
+% 
+%%%%%%
+$\,$does 
+seem to 
+lend credibility to a
+% fraction 
+{\it  partial  subset}
+% {\it fragment}
+of the goals
+that
+Hilbert and G\"{o}del 
+advanced
+%% were seeking 
+in
+% aspiring to in
+their
+statements $*$ and $**~$.
+
+\smallskip
+
+\nvxs
+
+Also, the last five minutes of a YouTube lecture
+by Harvey Friedman,
+entitled
+% the 
+{\it ``The Blessing and Curse of Kurt  G\"{o}del''},
+raised the question 
+\cite{Fr14}
+of whether 
+some type of 
+{\it sharply  circumscribed} boundary-case exception
+to 
+the Second Incompleteness
+Theorem 
+might be possible.
+
+
+% 
+% could be evaded with some
+% % new
+% non-recursive  function symbol
+% (which under
+% \cite{Fr14}'s
+% % Friedman's
+% hypothetical
+%  example
+% involved deploying the laws of Physics
+% instead of
+% %  rather than 
+% Lines  \eq{walk1}-\eq{walk4}'s
+% indeterminate definition).
+
+
+
+% (in a context where the broader ambitions of these
+% two statements 
+% are clearly untenable).
+
+%% infeasible
+
+
+%Thus,
+
+% \medskip
+
+
+Our proposed IQFS 
+% axiom system 
+framework
+is intended to
+be no full remedy,
+when the
+traditional growth properties of the  addition,
+multiplication and successor function operations are replaced
+by an
+alternative  $~\theta~$ function symbol.
+It is only a partial solution, similar to our
+alternative class of 
+partially
+positive
+ results in
+\cite{ww93,ww1,ww5,ww14},
+involving 
+%axiom systems 
+arithmetics
+that
+ sacrifice
+%      sacrificed 
+their
+understanding that multiplication is a total function
+for the sake of gaining an appreciation of their 
+semantic
+tableaux consistency.
+
+\smallskip
+
+Neither of these
+% results 
+formalisms
+are perfect, and 
+imperfections 
+will 
+% be ever-present
+always be 
+ present
+%result
+%be inevitable
+when one
+%  explores
+considers
+ the
+%  tight
+ dilemma posed by the
+% 
+% must
+%  always
+% % have to 
+% be tolerated
+% 
+% when examining the  dilemma posed by the
+Second Incompleteness 
+Effect. 
+It is within such a  context that
+{\it a well-defined fragment} of 
+%what 
+the goals
+% which
+that
+Hilbert and 
+G\"{o}del sought in
+$*$ and $**$ 
+should be
+%% 
+%% looks 
+%% %part-way 
+%% like it is probably
+%% 
+%         realistically feasible 
+possible to 
+reach
+%realize
+under
+%  some
+certain
+% % might be plausibly 
+% %possible 
+% should be 
+% possible 
+% to obtain
+{\it meticulously defined weak-logic settings$\,$,}
+if IQFS satisfies an
+analog of ISCE's
+ consistency-preservation
+property (as we conjecture it 
+will almost certainly
+ do). 
+
+%\textsection \ref{ss5}'s conjectures about IQFS do
+%old to be ture.
+
+
+%  special
+% % broad
+% % potential 
+% interest.
+% 
+
+
+   \medskip
+
+{\bf Acknowledgments:}
+%%%%As  several Sections 1-4, 
+%\textsection \ref{ss2}, 
+I am
+% much
+%very 
+grateful to
+%was influenced by an emailed letter from 
+Pavel Pudl\'{a}k
+for suggesting 
+\cite {Pupriv}
+I investigate how to apply
+% an analog of 
+Ajtai's study
+\cite{Aj94} of Pigeon-Hole effects 
+for
+refining my prior results about self-justifying logics.
+(The combination of
+ Pudl\'{a}k's
+insightful             suggestion
+% \cite {Pupriv}
+and our
+subsequent
+% further 
+        distinguishing
+between the
+$~\glamb   ~$ and $~\theta~$ operators
+has led to the 
+conjectured
+ improvement of 
+\cite{wwapal}'s ISCE formalism.)
+% I am very grateful to Pudl\'{a}k for making this
+% suggestion. 
+I also thank Bradley Armour-Garb
+and Seth Chaiken
+ for
+%  many
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%several
+comments
+%  about how to improve 
+that improved 
+ the 
+%this paper's
+presentation.
+
+
+\footnotesize
+% \tiny
+\parskip -3 pt
+
+%\baselineskip =  0.92 \normalbaselineskip 
+\baselineskip =  0.5 \normalbaselineskip 
+%\baselineskip =  0.65 \normalbaselineskip 
+\bibliographystyle{abbrv}
+\bibliography{aa}
+
+ \end{document}
+\newpage
+
+rrrrrrrrrrrrrr
+
+
+\Large
+
+
+On How the Introducing of a New $~\theta~$ Function Symbol Into Arithmetic's
+Formalism Is Germane to Devising Axiom Systems that Can Appreciate Fragments
+of Their Own Hilbert Consistency
+
+
+Why a Small Fragment of Hilbert's Consistency Program
+Ought to Be Feasible
+for Hilbert-like Deductive Methods
+After A New $~\theta~$ Function Primitive
+Is Added to Arithmetic's Formalism
+
+AFTER A NEW ``$~\theta~$'' Function Primitive
+
+
+ \baselineskip = 1.5 \normalbaselineskip 
+
+It is known that the combined work of Pudlak and Solovay, enhanced by some
+added techniques of Nelson and Wilkie-Paris, implies no reasonable axiom
+system can verify its own Hilbert consistency, when it recognizes Successor as
+a total function and treats addition and multiplication as 3-way relations.
+These considerations will lead us to examine unconventional axiomatizations
+for arithmetic that continue to view addition and multiplication as 3-way
+relations, but which replace the successor function symbol with an entirely
+new operator, called the $\theta$ primitive.
+
+
+
+It is likely that this paradigm can be combined with the prior results in our
+APAL 2006 paper to construct axiom systems that are seriously diluted but able
+to verify their Hilbert-style consistency in some interesting fragmentary
+respects.
+
+
+
+%% This operator will allow us to encode any integer  n  by a term $T_n$ whose
+%% length will exceed the O(Log n) length of a binary encoding by only the
+%% relatively small magnitudes formalized by our Proposition 3.3 and Remark 3.6.
+%% It is likely that this paradigm can be combined with the prior results in our
+%% APAL-2006 paper to construct axiom systems that are seriously diluted but able
+%% to verify their Hilbert-style consistency in certain interesting respects.
+
+
+
+{\bf Keywords:}
+
+G\"{o}del's Second Incompleteness Theorem, 
+Hilbert's Second Open Question,
+Bounded Arithmetic, 
+Distinction Between Semantic Tableaux and Hilbert Deduction, 
+Weak Arithmetics.
+
+\end{document}
+
+% \parskip 2pt
+
+The 
+significance
+% roles 
+of
+% Observations
+(a) and (b)
+%in our research
+%from the current example, 
+will become
+% more 
+evident
+as this article progresses. 
+Essentially, our
+prior research
+% ,
+% best summarized in \cite{ww14},
+%  has 
+%
+% had 
+focused
+% mostly 
+on Type-A arithmetics
+that could verify their consistency under
+% either 
+semantic tableaux deduction 
+and/or its near cousins.
+%% 
+%% or some near-cousin of this concept
+%% (e.g. see \cite{ww14}'s  summary
+%% of \cite{ww93}-\cite{ww9}'s results).
+%% The 
+%% 
+(A 15-page summary of this research appears in
+\cite{ww14},
+ but 
+it
+%the latter
+does need to be examined.)
+%%% 
+%%%  is 
+%%% not
+%%% % unnecessary to examine  as 
+%%% a prerequisite for reading this paper.
+%%% 
+%%% 
+%%%  but this technical
+%%% material does not need to be examined.) 
+%%% does hot need to examine
+%%% this material for the 
+%%% 
+%%% 
+Our
+% new
+$~\theta~$ operator, defined in the next section, will
+raise the question about whether a
+% surprising
+% powerful 
+new
+class of 
+%new 
+Type-NS systems 
+will
+%may 
+satisfy an analogous
+property in the context of
+Definition \ref{def-2.2}'s more pristine
+Hilbert-style methodology for deduction. 
+
+\medskip
+
+% have
+% a similar property.(The article \cite{ww14} offers a nice 16-page summary
+% of our prior results 
+% \cite{ww93}-\cite{ww9}
+% about Type-A arithmetics, but 
+% none of these results will
+% be
+%  needed
+% %  to be examined 
+% during our current article's exploration of 
+% the properties of the new % 
+% $~\theta~$ operator.)
+
+% It will be unnecessary for a reader to examine any of our
+
+ 
+%% % year-2014 
+%% Wollic-2014 paper \cite{ww14}
+%% summarized and extended our
+%% results about
+%% semantic tableaux consistency.
+%% % and this 
+%% The current 
+%% new 
+%% year-2015
+%% paper 
+%% will, now,
+%% explore whether
+%%  systems  can
+%% also corroborate
+%% their Hilbert-styled consistency
+%% under certain well-defined circumstances.
+
+%% (and seek to explore the restrictions $++$ imposes upon
+%% Hilbert-styled deduction).
+
+% 
+% (The latter topic
+% % is 
+% %very 
+% %entirely
+% %different 
+% differs
+% from the former
+% because
+% constraint  $++$ 
+% applies only 
+% to its
+% particular
+%  domain.)
+
+%in the second context.)
+
+
+%% The constraints imposed by $++$ 
+%% are challenging 
+%% because Type-NS arithmetics 
+
+This
+topic
+% subject 
+is 
+interesting
+%challenging 
+because 
+%% essentially all
+Type-S arithmetics
+are forbidden by $++$ from
+verifying the consistency
+of their own Hilbert-styled deductions
+%%%%%%%%%%%%%%%%%%% (and conventional 
+%forms of
+(while
+Type-NS formalisms are
+%typically 
+ usually 
+quite weak).
+%% 
+%% (Thus, our efforts
+%% to design
+%% self-verifying systems
+%%  must focus on
+%% Type-NS arithmetics).
+%% 
+Our new 
+$~\theta~$ operator,
+together with
+Proposition \ref{th-3.3}
+and Remark \ref{rem-def-3.4}, 
+% and \ref{th-6.1}
+will suggest a 
+%possible
+% plausible 
+partial
+solution to this 
+problem by
+% daunting challenge by
+illustrating how
+an {\it unusual class} of 
+Type-NS arithmetics can efficiently construct the
+full set of integers $~0,1,2,3,...~$
+% by finite means 
+{\it without using}
+any of the successor, addition or multiplication
+% functional 
+operations.
+
+% function symbols. 
+
+As a result, we will suggest 
+a
+%  a {\it part-way} 
+% that an interesting
+%%% non-trivial (although diluted)
+{\it small fragment}
+of what Hilbert
+and G\"{o}del
+% sought 
+% referred to
+did seek
+%sought
+in 
+statements 
+$*$ and $**$ 
+% will
+%  be formally  achieved 
+% become tempting 
+is likely
+% be 
+viable
+under Definition \ref{def-2.4}'s formalism.
+
+
+
+% 
+% This
+% topic
+% % subject 
+% is challenging because 
+% $++$'s 
+% Type-NS arithmetics 
+% %  obviously 
+% have sharply circumscribed powers
+% (demonstrating the 
+% broad reach
+% % ubiquitous  nature 
+% of
+% %the Second Incompleteness Theorem's reach).
+% G\"{o}del's 
+% second theorem).
+% %%  
+% %% The current article will
+% %% show, however,  that 
+% %% some Type-NS arithmetics are 
+% %% substantially
+% %%  stronger than previously 
+% %% anticipated
+% %% (and they will have useful applications 
+% %% in
+% %% computer science settings).
+% %% 
+% %% Thus in a context where 
+% %% the power of both G\"{o}del's initial
+% %% Second Incompleteness Theorem and $++$'s strengthening of it
+% %% are stunning
+% %% and
+% %% have pervasive implications,
+% %% we will show that a 
+% %% {\it partial-and-much-less-than-full}
+% %% fragment 
+% %% of what Hilbert
+% %% desired
+% %%  in statements $*$ and $**$ an be
+% %% positively  achieved.
+% %% 
+% The current article will
+% %show, however, 
+% suggest,
+% however, 
+% % that 
+% some Type-NS arithmetics are
+% % , however,  
+% % significantly 
+% %% substantially
+% more far-reaching
+% than 
+% previously 
+% anticipated. Thus,  a 
+% % well-defined 
+%   {\it
+% partial but non-trivial} fragment of what Hilbert
+% and G\"{o}del
+% % sought 
+% % referred to
+%  anticipated
+% in 
+% statements 
+% $*$ and $**$ will
+% %  be formally  achieved 
+% % become tempting 
+% look
+% % be 
+% viable
+% under Definition \ref{def-2.4}'s formalism.
+
+
+
+\end{document}
+
+% \textsextion
+
+%\setlength{\textwidth}{5.0 in}
+
+\gvxs
+
+Line 1
+
+
+Line 1
+
+
+Line 1
+
+
+Line 1
+
+
+%% eeeeee
+
+\newpage
+
+A theme of this article will be that
+% distinction 
+the distinguishing
+between questions Q-1 and Q-2 and 
+the separation of Observables from
+Unobservables
+is 
+related
+% likely central 
+to the mystery
+% that has enshrouded 
+enshrouding
+the Second Incompleteness Theorem.
+This is
+%is germane to the aspirations of automated theorem proving
+%will be germane to this article 
+because there 
+%is no doubt
+can be no doubt that
+% can be no question 
+%%%%%%%% that 
+the Second
+Incompleteness Theorem is  fully
+robust
+% result 
+from a purist 
+%pristine 
+mathematical perspective.
+Yet,
+it is still problematic to fully
+% 
+%  simultaneously
+% % at the same time,
+% it is 
+% hard to 
+% entirely
+% 
+dismiss
+ Hilbert's 1926
+suggestion that 
+ some 
+specialized forms of logics should
+%declaration 
+%% 
+%% concerns
+%% in $\,*\,$ 
+%% that 
+%% {\it ``the honor of human understanding''}
+%% requires
+%% examining
+%% % explaining 
+%% % considering
+%% how  logic systems can
+%% 
+possess
+a type of well-defined 
+ knowledge about their
+own 
+internal
+consistency.
+(This is because it is
+highly
+ awkward to explain how and why
+human beings 
+are able to
+%can 
+%manage to 
+motivate 
+their 
+%cogitations,
+cognitive process,
+% themselves to think,
+ if they do not own
+some type of 
+% instinctive
+internal
+knowledge about their own
+ consistency.)
+
+% sufficient
+% % enough 
+%  knowledge about their
+% % own 
+% internal
+% consistency
+% to motivate 
+% cognition.
+
+% Bad change above
+%cogitation.
+% themselves to cogitate. 
+
+%%It is also
+%%especially 
+%%% very 
+%%tempting 
+%%to divide Hilbert's Year-1900
+%%Open Question into its Q-1 and Q-2 separate parts
+%% during the 21st century,
+%%as computers share with humans cogitative abilities.
+%%
+%%Maybe DELETE above sentence ??? 
+%\end{remm}
+
+% \baselineskip = 1.8 \normalbaselineskip 
+
+\smallskip
+
+The next 
+section will 
+formalize our
+% new
+ proposed IQFS formalism.
+% 
+% describe our 
+% 2-part
+% conjecture about how 
+% %a
+% Double-Formatted Logics are 
+% likely to 
+% %produce some 
+% cast
+% new perspectives
+% on 
+% this topic.
+% %the nature of the Second Incompleteness Theorem.
+% 
+Before starting this subject, it should be mentioned
+that other unusual interpretations of the Second Incompleteness
+Theorem have followed
+from Gentzen's perspectives about
+transfinite induction 
+under his $\epsilon_0$ ordinal
+\cite{Ge36,Ta87}, the 
+%% 
+%% 
+%% explore
+%% how \cite{wwapal}'s results for a Single-Formatted logic
+%% can be revised
+%% % with our new $~\zzthe~$ function
+%% under a
+%% 
+%% Before 
+%% broaching
+%%  this topic it should be mentioned that
+%% %0fascinating
+%% other approaches to
+%% %efforts to partially 
+%%  the Second Incompleteness Theorem 
+%% % do
+%% have centered around
+%% 
+ Kreisel-Takeuti's    ``CFA''
+system \cite{KT74}
+and also
+the {\it interpretational frameworks} of
+Friedman,
+Nelson, Pudl\'{a}k and Visser
+\cite{Fr79b,Ne86,Pu85,Vi5}.
+These systems are unrelated to 
+our 
+%% main
+%\cite{ww93}--\cite{ww14}'s 
+methods.
+%approach.
+They
+do not use
+Kleene-like {\it ``I am consistent''} axiom-sentences.
+Also,
+they
+%apply to 
+employ
+``cut-free'' logics
+(rather 
+than
+a 
+% preferable 
+Hilbert-style 
+deductive 
+apparatus).
+%that 
+%%%%%%%%%%% explored 
+%%%%%%%%%%% in 
+%%%%%%%%%%% \textsection \ref{ss32} ).
+%%%we are considering).
+%%
+%%Instead, CFA uses the 
+%%special
+%%properties of ``second order'' generalizations of Gentzen's
+%%{\it cut-free}
+%%Sequent Calculus, 
+%%and 
+%%the
+%%interpretational approach
+%%formalizes how some systems 
+%%recognize their
+%% Herbrand consistency 
+%%on localized sets of integers,
+%%which 
+%%unbeknownst to 
+%%themselves,
+%%includes all
+%%integers.
+%%
+%%%These
+%   alternate 
+%%%approaches 
+Their 
+%alternate 
+% very
+ fascinating
+perspective  
+should
+% certainly,
+ be examined by researchers
+interested in the
+Second 
+Incompleteness Theorem,
+although 
+%but
+it is
+%% 
+% they are 
+unrelated to 
+our particular
+% the next section's 
+%specific analysis of
+%%% type of
+Hilbert-styled self-justifying effects,
+studied in the current article.
+
+
+%% systems 
+%% formalizing
+%% %verifying 
+%% their
+%% own consistency
+%% %%%%%Definition \ref{def-2.2}'s
+%% %%% approximate 
+%% under
+%% Hilbert-styled 
+%% deduction.
+
+
+%deduction.
+%  Hilbert deduction.
+
+%methods.
+%formalism.
+
+
+%% It is,
+%% % They
+%% %are, 
+%% however,  not germane to the next section's
+%% perspective.
+
+%methodology.
+%main formalisms.
+%methods.
+%results.
+
+ % \baselineskip = 1.8 \normalbaselineskip 
+
+%\section{
+%\small 
+%Improving \cite{wwapal}'s Results with a 
+%``Double-Formatted'' Logic  }
+
+\newpage
+xxxxxxxxxxx
+

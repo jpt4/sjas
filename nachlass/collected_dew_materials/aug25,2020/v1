@@ -1,0 +1,170 @@
+% 2020 Aug 25 1.30   pm
+
+% From 2020 Aug 20 415  pm
+
+
+ % 2018 pesquera
+
+ \documentstyle[12 pt]{article}
+ \addtolength{\oddsidemargin}{-1.1in}
+ %\addtolength{\textwidth}{1.0in}
+ \addtolength{\textwidth}{1.9in}
+ \addtolength{\topmargin}{-1.2 in}
+ \addtolength{\textheight}{2.5in}
+ %\parskip 1 pt
+
+ \newcommand{\newthmwithin}[3]{\newtheorem{#1q}{#2}[#3]
+                         \newenvironment{#1}{\begin{#1q}\sf}{\end{#1q}}}
+
+ \newcommand{\newthm}[3]{\newtheorem{#1q}[#2q]{#3}
+                         \newenvironment{#1}{\begin{#1q}\sf}{\end{#1q}}}
+ \newcommand{\newthmm}[3]{\newtheorem{#1q}[#2q]{#3}
+                         \newenvironment{#1}{\begin{#1q}\rm}}
+
+ \newtheorem{theorem}{Theorem}
+ %\newtheorem{theorem}{Theorem}[section]
+ \newtheorem{lemma}{Lemma}
+ \newtheorem{corollary}{Corollary}
+ \newtheorem{fact}{Fact}[section]
+ \newcommand{\makenewheading}[1]{\begin{tabbing} {\bf #1:} \end{tabbing}}
+ \newcommand{\set}[1]{\{ #1 \}}
+
+ \newcommand{\cp}[1]{\mbox{\sc cap}(#1)}
+ \newcommand{\dem}[1]{\mbox{\sc dem}(#1)}
+
+ %\newenvironment{proof}{{\it Proof:}}
+ \newenvironment{proof}{{\it Proof:}}{$\Box$}
+ \newenvironment{sketchproof}{{\it Sketch of Proof:}}{$\Box$}
+
+ \newcommand{\order}[1]{$\mbox{O}\left(#1\right)$}                   
+
+ \newcommand{\rootm}{\sqrt{m}}
+
+ \newcommand{\floorz}{$ (\lfloor|Z|/2  \rfloor -1) $}
+ \newcommand{\mfloorz}{ (\lfloor|Z|/2  \rfloor -1)}
+ \newcommand{\mceilz}{ (\lceil|Z|/2 \rceil + 1)}
+ \newcommand{\ceilz}{$ (\lceil|Z|/2 \rceil ) $}
+
+ \newcommand{\floor}[1]{\lfloor #1 \rfloor}
+ \newcommand{\lbound}[1]{$\Omega\left(#1\right)$}
+
+ \newcommand{\mod}[1]{\left| #1 \right|}
+ \newcommand{\belongs}{$\in$}
+
+ \def\bed{\begin{description}}
+ \def\ennd{\end{description}}
+ \def\bee{\begin{enumerate}}
+ \def\ene{\end{enumerate}}
+
+
+ \newcommand{\co}[1]{Corollary \ref{#1}}
+ \newcommand{\th}[1]{Theorem \ref{#1}}
+ \newcommand{\lem}[1]{Lemma \ref{#1}}
+ \newcommand{\eq}[1]{(\ref{#1})}
+ \newcommand{\ep}[1]{Equation (\ref{#1})}
+ \newcommand{\underx}[1]{\underbrace{~ {#1} ~}}
+
+
+
+
+
+
+
+
+
+
+
+ \begin{document}
+ \thispagestyle{empty}
+ \large
+ \normalsize
+ % \small
+ \baselineskip = 1.6 \normalbaselineskip
+
+ \parskip 5 pt
+ %\begin{center}
+ $.$
+ \small
+ \bigskip
+ \noindent
+ {\bf  NNN Notarized Scientific Notes of Dan E. Willard on August  20,2020}, $~~~$  
+
+
+  % 266
+
+ \Large
+\normalsize
+\footnotesize
+\baselineskip =1.0 \normalbaselineskip
+
+\Large
+\baselineskip =1.6 \normalbaselineskip
+\parskip 4 pt
+
+On Aug 20, I reported
+ After giving Robert some classes about logic (over internet),
+ I developped a much refined undersanding about the Propositional
+ Calculus version of the compactness theorem (appearing in Enderton's
+ textbook). Now after an Aug 24 class, I developped a second improved
+ proof of preceding that uses a logic with 2.2 logic symbols, where the
+ symbol submols is an ``unknown'' symbol when a Boolean value is unknown.
+ called ``Zippy'' and the fourth symbol is a never-employed
+ symbol ``Opps'' Here False, True, Zippy and Opps caried the numeral values of 0, 1, 2, and 3 in a ``quadruple'' analog of a decimal encoding.
+
+ Also, I discovered yesterday. I don.t have time to go into details here
+ of either of the above because I need to do my taxes today.  I also
+ want to record that I plan to telephone Peter Bloniarz tommorow
+ about a glitch in New York State security that he may not know about.
+ It is that workrs in the NYS bureaucracy are using their insecure home
+ computers when servicing customers via transferred telephone calls.
+ Since these workers have access to social security numbers, an
+ pbvious security breach is possible.
+
+ \end{document}
+ \newpage
+
+ \section{Most of Old Notes with frist pargarph Deleted}
+
+
+
+ I   NOW FULLY understand how it can be used to prove the
+ conjecture about the $\Theta$
+ primitive in my arXiv paper
+
+ The ol
+ probability argument would also work, but a cleaner
+ proof follows when using Compactness.  Both show that
+ $\Theta$
+ arithmetic is a self justifying formalism
+ when Enderton's deductive calculus for First Order logic is
+ used.  (Both employ ZF set theory to prove  the consistency preservation
+ property holds for my self justifying  $\Theta$ arithetic axiom system.) 
+
+ The result holds for other Hilbert-style deductive methods,
+ but Enderton's formalism simplifies the 
+ proof because it uses only modus ponens as a rule of inference
+ (thereby making propositional calculus easier to apply
+ to what Enderton has called ``prime formulae'' ).
+
+ This proof was designed by me without the help of Nate and Cameron.
+ I am tentatively planning to allow them co-authorship if they write
+ up the paper.  (I will not object to listing names in alphabetical
+ order if they do the write-up AND THE PAPER EXPLAINS MY ROLE IN CONCEIVING
+ the result.)
+
+ The latter is needed because I want to get a new job
+ (and this will be challenging when I am 72 years old and
+ suffering from macular eye degeration)
+ I am actually being quite generous in this offer because they
+ can use the tex files from my arXiv paper and Florida articles to
+ AS ROUGH DRAFTS to write some sections.
+
+
+
+
+
+ 
+ \end{document}
+ 
+
+

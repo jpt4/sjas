@@ -1,0 +1,294 @@
+\begin{thebibliography}{10}
+
+\bibitem{Ad2}
+Z.~Adamowicz.
+\newblock Herbrand consistency and bounded arithmetic.
+\newblock {\em Fundamenta Mathematicae}, 171(3):279--292, 2002.
+
+\bibitem{AZ1}
+Z.~Adamowicz and P.~Zbierski.
+\newblock On \mbox{Herbrand} consistency in weak theories.
+\newblock {\em Archive for Mathematical Logic}, 40(6):399--413, 2001.
+
+\bibitem{BS76}
+A.~Bezboruah and J.~C. Shepherdson.
+\newblock G\"{o}del's second incompleteness theorem for \mbox{Q}.
+\newblock {\em Jour. Symb. Logic}, 41(2):503--512, 1976.
+
+\bibitem{Bu86}
+S.~R. Buss.
+\newblock {\em Bounded Arithmetic}.
+\newblock Studies in Proof Theory, Lecture Notes 3, published by Bibliopolis,
+  1986.
+\newblock (Revised version of Ph. D. Thesis.).
+
+\bibitem{BI95}
+S.~R. Buss and A.~Ignjatovic.
+\newblock Unprovability of consistency statements in fragments of bounded
+  arithmetic.
+\newblock {\em Annals Pure and Applied Logic}, 74(3):221--244, 1995.
+
+\bibitem{Da97}
+J.~W. Dawson.
+\newblock {\em Logical Dilemmas the life and work of Kurt G\"{o}del}.
+\newblock AKPeters, 1997.
+
+\bibitem{Fe60}
+S.~Feferman.
+\newblock Arithmetization of metamathematics in a general setting.
+\newblock {\em Fundamenta Mathematicae}, 49:35--92, 1960.
+
+\bibitem{Fi90}
+M.~Fitting.
+\newblock {\em First Order Logic and Automated Theorem Proving}.
+\newblock Springer, 1996.
+
+\bibitem{Fr79a}
+H.~M. Friedman.
+\newblock On the consistency, completeness and correctness problems.
+\newblock Technical report, Ohio State Univ, 1979.
+\newblock See Pudl\'{a}k \cite{Pu96}'s summary of this result.
+
+\bibitem{Fr79b}
+H.~M. Friedman.
+\newblock Translatability and relative consistency.
+\newblock Technical report, Ohio State Univ, 1979.
+\newblock See Pudl\'{a}k \cite{Pu96}'s summary of this result.
+
+\bibitem{Go31}
+K.~G\"{o}del.
+\newblock {\"{U}ber formal unentscheidbare S\"{a}tze der Principia Mathematica
+  und verwandter Systeme I}.
+\newblock {\em Monatshefte f\"{u}r Math. Phys.}, 38:173--198, 1931.
+
+\bibitem{Go33}
+K.~G\"{o}del.
+\newblock The present situation in the foundations of mathematics.
+\newblock In S.~Feferman, J.~W. Dawson, W.~Goldfarb, C.~Parson, and R.~Solovay,
+  editors, {\em Collected Works Volume III: Unpublished Essays and Lectures},
+  pages 45--53. Oxford University Press, 2004.
+\newblock Our quotes from this 1933 lecture come from its page 52.
+
+\bibitem{Go5}
+R.~Goldstein.
+\newblock {\em Incompleteness The Proof and Paradox of Kurt G\"{o}del}.
+\newblock Norton, 2005.
+
+\bibitem{Ha7}
+P.~H\'{a}jek.
+\newblock Mathematical fuzzy logic and natural numbers.
+\newblock {\em Fundamenta Mathematicae}, 81:155--163, 2007.
+
+\bibitem{Ha11}
+P.~H\'{a}jek.
+\newblock Towards metamathematics of weak arithmetics over fuzzy.
+\newblock {\em Logic Journal of the IPL}, 19(3):467--475, 2011.
+
+\bibitem{HP91}
+P.~H\'{a}jek and P.~Pudl\'{a}k.
+\newblock {\em Metamathematics of First Order Arithmetic}.
+\newblock Springer Verlag, 1991.
+
+\bibitem{Hil26}
+D.~Hilbert.
+\newblock {\"{U}ber das Unendliche}.
+\newblock {\em Mathematische Annalen}, 95:161--191, 1926.
+
+\bibitem{HB39}
+D.~Hilbert and P.~Bernays.
+\newblock {\em Grundlagen der Mathematik (Vol II)}.
+\newblock Springer, 1939.
+
+\bibitem{Je71}
+R.~G. Jeroslow.
+\newblock Consistency statements in formal theories.
+\newblock {\em Fundamenta Mathematicae}, 72:17--40, 1971.
+
+\bibitem{Kl38}
+S.~C. Kleene.
+\newblock On notation for ordinal numbers.
+\newblock {\em Jour. Symb. Logic}, 3(1):150--156, 1938.
+
+\bibitem{Ko6}
+L.~A. Ko{\l}odziejczyk.
+\newblock On the \mbox{Herbrand} notion of consistency for finitely
+  axiomatizable fragments of bounded arithmetic theories.
+\newblock {\em Jour. Symb. Logic}, 71(2):624--638, 2006.
+
+\bibitem{Kr95}
+J.~Kraj\'{i}cek.
+\newblock {\em Bounded Propositional Logic and Complexity Theory}.
+\newblock Cambridge University Press, 1995.
+
+\bibitem{KT74}
+G.~Kreisel and G.~Takeuti.
+\newblock Formally self-referential propositions in cut-free classical analysis
+  and related systems.
+\newblock {\em Dissertationes Mathematicae}, 118:1--50, 1974.
+
+\bibitem{Lo55}
+M.~H. L\"{o}b.
+\newblock A solution of a problem of \mbox{Leon Henkin}.
+\newblock {\em Jour. Symb. Logic}, 20(2):115--118, 1955.
+
+\bibitem{Mend}
+E.~Mendelson.
+\newblock {\em Introduction to Mathematical Logic}.
+\newblock Chapman Hall, 2010.
+
+\bibitem{Ne86}
+E.~Nelson.
+\newblock {\em Predicative Arithmetic}.
+\newblock Math Notes, Princeton Univ Press, 1986.
+
+\bibitem{Pa71}
+R.~Parikh.
+\newblock Existence and feasibility in arithmetic.
+\newblock {\em Jour. Symb. Logic}, 36(3):494--508, 1971.
+
+\bibitem{Pa72}
+C.~H. Parsons.
+\newblock On $n-$quantifier induction.
+\newblock {\em Jour. Symb. Logic}, 37(3):466--482, 1972.
+
+\bibitem{Pu85}
+P.~Pudl\'{a}k.
+\newblock Cuts, consistency statements and interpretations.
+\newblock {\em Jour. Symb. Logic}, 50(2):423--442, 1985.
+
+\bibitem{Pu96}
+P.~Pudl\'{a}k.
+\newblock On the lengths of proofs of consistency.
+\newblock In {\em Collegium Logicum: Annals of the Kurt G\"{o}del}, volume~2,
+  pages 65--86. Springer-Wien, 1996.
+
+\bibitem{Ro67}
+H.~A. Rogers.
+\newblock {\em Theory of Recursive Functions and Effective Compatibility}.
+\newblock McGraw Hill, 1967.
+
+\bibitem{Sa12}
+S.~Salehi.
+\newblock Herbrand consistency of some arithmetical theories.
+\newblock {\em Jour. Symb. Logic}, 77(3):807--827, 2012.
+
+\bibitem{Smul}
+R.~M. Smullyan.
+\newblock {\em First Order Logic}.
+\newblock Diver, 1995.
+
+\bibitem{So94}
+R.~M. Solovay.
+\newblock Telephone conversation in 1994 describing Solovay's generalization of
+  one of Pudl\'{a}k's theorems \cite{Pu85}, using some methods of Nelson and
+  Wilkie-Paris \cite{Ne86,WP87}. (The Appendix A of \cite{ww1} offers a 4-page
+  summary of this conversation.).
+
+\bibitem{Sv7}
+V.~Svejdar.
+\newblock {An interpretation of Robinson arithmetic in its Grzegorczjk's weaker
+  variant}.
+\newblock {\em Fundamenta Mathematicae}, 81:347--354, 2007.
+
+\bibitem{Vi5}
+A.~Visser.
+\newblock Faith and falsity.
+\newblock {\em Annals Pure and Applied Logic}, 131(1):103--131, 2005.
+
+\bibitem{WP87}
+A.~J. Wilkie and J.~B. Paris.
+\newblock On the scheme of induction for bounded arithmetic.
+\newblock {\em Annals Pure and Applied Logic}, 35:261--302, 1987.
+
+\bibitem{ww93}
+D.~E. Willard.
+\newblock Self-verifying axiom systems.
+\newblock {\em Springer LNCS}, 713:325--336, 1993.
+\newblock Proceedings of Third Kurt G\"{o}del Symposium.
+
+\bibitem{sp0}
+D.~E. Willard.
+\newblock The semantic tableaux version of the second incompleteness theorem
+  extends almost to \mbox{Robinson's} arithmetic \mbox{Q}.
+\newblock {\em Springer LNCS}, 1847:415--430, 2000.
+\newblock Proceedings of ``Tableaux-2000'' Conference.
+
+\bibitem{ww1}
+D.~E. Willard.
+\newblock Self-verifying systems, the incompleteness theorem and the
+  tangibility reflection principle.
+\newblock {\em Jour. Symb. Logic}, 66(2):536--596, 2001.
+
+\bibitem{ww2}
+D.~E. Willard.
+\newblock How to extend the semantic tableaux and cut-free versions of the
+  second incompleteness theorem almost to \mbox{Robinson's} arithmetic
+  \mbox{Q}.
+\newblock {\em Jour. Symb. Logic}, 67(1):465--496, 2002.
+
+\bibitem{tab2}
+D.~E. Willard.
+\newblock Some new exceptions for the semantic tableaux version of the second
+  incompleteness theorem.
+\newblock {\em Springer LNCS}, 2381:281--297, 2002.
+\newblock (``Tableaux-2002'' Conference Proceedings).
+
+\bibitem{wwlogos}
+D.~E. Willard.
+\newblock A version of the second incompleteness theorem for axiom systems that
+  recognize addition but not multiplication as a total function.
+\newblock In V.~Hendricks, F.~Neuhaus, S.~A. Pederson, U.~Scheffler, and
+  H.~Wansing, editors, {\em First Order Logic Revisited}, pages 337--368,
+  Berlin, 2004. Logos Verlag.
+
+\bibitem{ww5}
+D.~E. Willard.
+\newblock An exploration of the partial respects in which an axiom system
+  recognizing solely addition as a total function can verify its own
+  consistency.
+\newblock {\em Jour. Symb. Logic}, 70(4):1171--1209, 2005.
+
+\bibitem{wwapal}
+D.~E. Willard.
+\newblock A generalization of the second incompleteness theorem and some
+  exceptions to it.
+\newblock {\em Annals Pure and Applied Logic}, 141(3):472--496, 2006.
+
+\bibitem{ww6}
+D.~E. Willard.
+\newblock On the available partial respects in which an axiomatization for real
+  valued arithmetic can recognize its consistency.
+\newblock {\em Jour. Symb. Logic}, 71(4):1189--1199, 2006.
+
+\bibitem{ww7}
+D.~E. Willard.
+\newblock {Passive induction and a solution to a Paris-Wilkie open question}.
+\newblock {\em Annals Pure and Applied Logic}, 146(2):124--149, 2007.
+
+\bibitem{ww9}
+D.~E. Willard.
+\newblock {Some specially formulated axiomizations for I$\Sigma_0$ manage to
+  evade the Herbrandized version of the second incompleteness theorem}.
+\newblock {\em Information and Computation}, 207(10):1078--1093, 2009.
+
+\bibitem{ww14}
+D.~E. Willard.
+\newblock On the broader epistemological significance of self-justiying axiom
+  systems.
+\newblock {\em Springer LNCS}, 8652:221--236, 2014.
+\newblock (an earlier more abbreviated version of this current article that had
+  appeared in the Proceedings of 21st Wollic Conference).
+
+\bibitem{Wr78}
+C.~Wrathall.
+\newblock Rudimentary predicates and relative computation.
+\newblock {\em Siam Journal on Computing}, 7:194--209, 1978.
+
+\bibitem{Yo5}
+P.~Yourgrau.
+\newblock {\em A World Without Time: The Forgotten Legacy of G\"{o}del and
+  Einstein}.
+\newblock Basic Books, 2005.
+\newblock See page 58 for the passages we have quoted.
+
+\end{thebibliography}

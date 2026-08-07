@@ -1,0 +1,1242 @@
+% 2020 5  june 6 6.1 am ( aftr spell and subsequent corredions)
+ 
+
+
+
+% 2017  august 30 8.5 am MINOR REVISONS PAGE 6
+%%Removing rphraisng  skinny as Robert recomeneded
+ 
+
+
+% vladimir mechanic 265-2212
+
+% ``%ss% = sections seth recommendedI skip
+
+%\documentclass[11pt]{article}
+%\documentclass[10pt]{article}
+% \documentclass[11pt]{article}
+\documentclass[12pt]{article}
+
+
+%%%%%%%%%% \documentstyle[11pt]{article}
+
+
+\usepackage{amssymb}
+
+
+\addtolength{\oddsidemargin}{-1.1in}
+\setlength{\textheight}{9.4 in}
+\setlength{\textwidth}{6.5 in}
+%%%% above paper
+
+%\setlength{\textwidth}{6,0 in}
+%\setlength{\textwidth}{5,5 in}
+
+\addtolength{\topmargin}{-0.75in}
+
+
+%% 
+%% \addtolength{\oddsidemargin}{-0.5 in}
+%% \setlength{\textheight}{10.1 in}
+%% \setlength{\textwidth}{7.5 in}
+%% \addtolength{\topmargin}{-0.5in}
+
+
+
+
+
+
+          \newcommand{\newthmwithin}[3]{\newtheorem{#1q}{#2}[#3]
+              \newenvironment{#1}{\begin{#1q}\sf}{\end{#1q}}}
+
+\newcommand{\newthm}[3]{\newtheorem{#1q}[#2q]{#3}
+                        \newenvironment{#1}{\begin{#1q}\sf}{\end{#1q}}}
+\newcommand{\newthmm}[3]{\newtheorem{#1q}[#2q]{#3}
+                        \newenvironment{#1}{\begin{#1q}\rm}}
+
+\newtheorem{theorem}{$~~~~$ Theorem}[section]
+% \newtheorem{corollary}{Corollary}[section]
+%\newtheorem{fact}{Fact}[section]
+\newcommand{\makenewheading}[1]{\begin{tabbing} {\bf #1:}
+\end{tabbing}}
+
+\newtheorem{example}[theorem]{$~~~~$ Example}
+\newtheorem{themx}[theorem]{$~~~~$ Theorem}
+\newtheorem{corollary}[theorem]{$~~~~$ Corollary}
+\newtheorem{lemma}[theorem]{$~~~~$ Lemma}
+\newtheorem{remark}[theorem]{$~~~~$Remark}
+\newtheorem{definition}[theorem]{$~~~~$Definition}
+\newtheorem{fact}[theorem]{$~~~~$Fact}
+
+
+\newtheorem{dff}[theorem]{$~~~~$ Definition}
+\newtheorem{exx}[theorem]{$~~~~$ Example}
+\newtheorem{lemm}[theorem]{$~~~~$ Lemma}
+\newtheorem{propp}[theorem]{$~~~~$ Proposition}
+\newtheorem{remm}[theorem]{$~~~~$Remark}
+\newtheorem{ccr}[theorem]{$~~~~$Corrolary}
+\newtheorem{coj}[theorem]{$~~~~$Conjecture}
+
+
+\newtheorem{deff}[theorem]{$~~~~$Definition}
+
+
+
+
+
+% \def\Box{ QED}
+\def\nop{ }
+\def\nyp{\newpage }
+% \def\nxp{ }
+\def\nxp{ Here $~$NXP }
+
+
+%  \def\nyp{ }
+% \def\nyp{ }
+
+\def\bigc{$\,$of the unabridged version of this paper \cite{ww12}}
+
+\def\nor1{Normed$\{~2^{ \zzz \theta  \, )} ~$,$~\sqrt{~2^{ \zzz \theta  \, )}}~\}$}
+
+\def\pagxx{Page ?xx?}
+\def\xor2{Normed$\{ ~\sqrt{~2^{ \zzz \theta  \, )}}~,~2~ \} $}
+%\def\fffx{Fact \#}
+\def\fffx{{\bf Fact *}}
+\def\zhz{H }
+%\def\fffx{Fact \#}
+\def\appD{Appendix D }
+\def\appxD{Appendix D}
+\def\fffour{three }
+\def\zazsta{ and EA-stability}
+
+% \def\glamb{\xi}
+\def\glamb{\lambda}
+\def\glamb{P}
+\def\glamb{\theta}
+\def\pag2{Page 2}
+%% \def\zzthe{\zeta}
+
+
+\def\glamb{\zeta}
+\def\zzthe{\theta}
+
+
+
+
+
+\def\gggen{$( L^\xi  ,  \Delta_0^\xi   ,  B^\xi  ,  d  ,  G  )~$}
+\def\gggcp{$( L^\xi  ,  \Delta_0^\xi   ,  B^\xi  ,  d  ,  G  )$}
+\def\peta{\sigma}
+\def\zzxz{~ \sharp ( \, }
+\def\zzz{~ \sharp ( ~ }
+\def\zip{\sharp }
+\def\mheta{\theta^\bullet}
+\def\mxi{\xi^\bullet}
+%\def\mbi{\bullet}
+\def\mbi{\bigdot}
+\def\mbi{\bigoplus}
+\def\xxi{$\, \xi^* \,$}
+
+
+
+
+\def\tftt{~ \frac{1}{2}~ }
+\def\sss{ }
+
+\def\goodshit{\triangleright}
+\def\bullshit{\triangleleft}
+\def\foo{footnote \footnote}
+\def\Uxp{\Upsilon}
+
+\def\f55{ \normalsize  \baselineskip = 1.8 \normalbaselineskip } 
+
+
+\def\f55{  \baselineskip = 1.1 \normalbaselineskip } 
+\def\g55{  \baselineskip = 1.0 \normalbaselineskip } 
+\def\s55{ \baselineskip = 1.0 \normalbaselineskip } 
+
+\def\f55{  \baselineskip = 0.7 \normalbaselineskip } 
+
+
+
+\def\bbskip{\bigskip}
+
+
+
+\def\axst{\odot}
+\def\rp{ p^\theta } 
+\def\thsp{Theorem $ \, * \,$ }
+\def\thss{Theorem $ \, *\,$'s }
+\def\dexxt{\Delta}
+\newcommand{\co}[1]{Corollary \ref{#1}}
+\newcommand{\thx}[1]{Theorem \ref{#1}}
+\newcommand{\cjx}[1]{Conjecture \ref{#1}}
+\newcommand{\phx}[1]{Proposition \ref{#1}}
+ \newcommand{\dfx}[1]{Definition \ref{#1}}
+\newcommand{\lem}[1]{Lemma \ref{#1}}
+
+
+
+%% \newcommand{\co}[1]{Corollary \ref{#1}}
+%%  \newcommand{\thx}[1]{Theorem \ref{#1}}
+\newcommand{\lxem}[1]{Lemma \ref{#1}}
+\newcommand{\overx}[1]{\, \overline{ {#1} } \,} 
+
+
+\newcommand{\el}[1]{Line (\ref{#1})}
+\newcommand{\ex}[1]{Expression (\ref{#1})}
+\newcommand{\ei}[1]{item (\ref{#1})}
+
+\newcommand{\eq}[1]{(\ref{#1})}
+\newcommand{\ep}[1]{Equation (\ref{#1})}
+\newcommand{\thetlam}{ \theta }
+\newcommand{\underx}[1]{\overline{~ {#1} ~}}
+\newcommand{\appaa}{$App \forall$}
+\newcommand{\appee}{$App \exists$}
+\newcommand{\tll}[1]{Tab$- {#1} -$List}
+\newcommand{\txl}[1]{Tab$- {#1}$}
+\newcommand{\tlxl}[1]{Tab$- {#1}$ }
+\newcommand{\sll}[1]{Short$- {#1} -$List}
+\newcommand{\axx}[1]{NS$_D^{\,k,m}( ${#1}$)$}
+
+
+\newenvironment{proof}{{\bf Proof:}}{$\Box$}
+\newenvironment{sketchproof}{{\bf Sketch of Proof:}}{$\Box$}
+
+
+\begin{document}
+
+%\title{Rough Summary of March 2012 Research Before I Attended
+%the AMS March 17-18 Conference}
+
+
+%% \title{ On
+%% How the Revival of a Diluted 
+%% Version of
+%% Hilbert's Consistency Program 
+%% %is 
+%% Should
+%% Likely
+%%  Be
+%% % Plausible and
+%% % Veru
+%%  Germane
+%% to Computer Science}
+
+
+\title{$Very~~ Very~$
+Informal Notes for Cameron and Nate from Dan}
+
+
+%% \title{On  How
+%%   A Novel Indeterminately Defined
+%% %$~\theta~ \gimel$ 
+%% Function Primitive 
+%% Enables Some Axiom Systems
+%% To
+%% Appreciate Fragments of Their Own
+%% Hilbert Consistency}
+%% 
+%% 
+
+%% 
+%% \title{On  How
+%%   An Indeterminately Defined
+%% $~\theta~ \gimel$ Function Prmitive 
+%% Enables Some Axiom Systems
+%% To
+%% Appreciate Fragments of Their Own
+%% Hilbert Consistency}
+%% 
+%% 
+
+
+
+
+
+
+
+%%% 
+
+
+%X%% \title{On  How the 
+%X%% Ixntroducing of a 
+%X%%  New $~\theta~$ Function Symbol
+%X%% Into Arithmetic's Formalism Is 
+%X%% %Likely 
+%X%% Germane
+%X%% to Devising Axiom Systems that Can 
+%X%% Appreciate Fragments of Their Own
+%X%% Hilbert Consistency}
+
+%% \title{Why a Small Fragment of Hilbert's Consistency Program
+%% Ought to Be Feasible
+%% for Hilbert-like Deductive Methods
+%% After A New $~\theta~$ Function Primitive
+%% %AFTER A NEW ``$~\theta~$'' Function Primitive
+%% Is Added to Arithmetic's Formalism}
+%% 
+
+%% \title{ A 2-Part Conjecture about
+%% How  a Much-Diluted but Non-Trivial
+%% %Variant
+%% Fragment
+%%  of
+%% Hilbert's Consistency Program 
+%% Is
+%% Likely
+%% %Plausible 
+%% Feasible
+%% for the
+%% % Even the Challenging
+%% Case of
+%% Hilbert Deduction}
+
+
+
+% 
+% \title{ On
+% How  a Much-Diluted but Non-Trivial
+% %Variant
+% Fragment
+%  of
+% Hilbert's Consistency Program 
+% Is
+% Likely
+% %Plausible 
+% Feasible
+% for Even the 
+% Challenging
+% Case of
+% Hilbert Deduction}
+% 
+% %Plausible and
+% % Veru
+% % Germane
+% %to Computer Science}
+% 
+% 
+% %%% \title{\large \bf On the Revival of a Much-Diluted 
+% %%% but Non-Trivial
+% %%% Version of
+% %%% Hilbert's Consistency Program (And Its Applications
+%%% for Computer Science, Mathematics and Philosophy)}
+
+
+
+
+\def\beq{\begin{equation}}
+\def\enq{\end{equation}}
+
+\def\bel{\begin{lemma}}
+\def\enl{\end{lemma}}
+
+
+\def\bec{\begin{corollary}}
+\def\enc{\end{corollary}}
+
+\def\bed{\begin{description}}
+\def\ennd{\end{description}}
+\def\bee{\begin{enumerate}}
+\def\ene{\end{enumerate}}
+
+
+\def\bxbxd{\begin{definition}}
+\def\bxbxdd{\begin{definition}}
+\def\eedd{\end{definition}}
+\def\bxbxdr{\begin{definition} \rm}
+\def\bel{\begin{lemma}}
+\def\enl{\end{lemma}}
+\def\ent{\end{theorem}}
+
+
+
+\author{  Dan E.Willard }
+%Email = dew@cs.albany.edu.}}
+%\newline
+%Email = dan.willard.albany@gmail.com}}
+
+
+
+
+
+
+
+
+
+
+
+%%%\date{Copyright 2012 by Dan E. Willard}
+
+\date{State University of New York at Albany}
+
+\maketitle
+
+\setcounter{page}{0}
+\thispagestyle{empty}
+
+\normalsize
+
+
+
+
+\baselineskip = 1.3\normalbaselineskip
+
+
+
+\normalsize
+
+
+\baselineskip = 1.0 \normalbaselineskip 
+\def\bbint{\large \baselineskip = 1.6 \normalbaselineskip } 
+\def\bbint{\large \baselineskip = 1.6 \normalbaselineskip }
+\def\bbint{\normalsize \baselineskip = 1.3 \normalbaselineskip }
+
+
+
+%%\baselineskip = 1.0 \normalbaselineskip 
+%%\def\bbint{\large \baselineskip = 1.6 \normalbaselineskip } 
+%%\def\bbint{\large \baselineskip = 1.6 \normalbaselineskip }
+%%\def\bbint{\normalsize \baselineskip = 1.3 \normalbaselineskip }
+
+
+\def\bbint{\normalsize \baselineskip = 1.27 \normalbaselineskip }
+
+
+
+\def\bbint{\large \baselineskip = 2.0 \normalbaselineskip }
+
+
+\def\bbint{\normalsize \baselineskip = 1.25 \normalbaselineskip }
+\def\bbina{\normalsize \baselineskip = 1.24 \normalbaselineskip }
+
+
+
+\def\bbint{\large \baselineskip = 2.0 \normalbaselineskip } 
+
+
+
+\def\bbing{ }
+\def\bbins{ }
+\def\bbinm{ }
+
+\def\bbint{\normalsize \baselineskip = 1.95 \normalbaselineskip } 
+
+
+
+\def\bbing{ }
+\def\bbins{ }
+\def\bbinm{ }
+
+
+\def\bbint{\large \baselineskip = 2.3 \normalbaselineskip } 
+\def\bbing{ }
+\def\bbins{ }
+\def\bbinm{ }
+
+\def\bbint{\normalsize \baselineskip = 1.7 \normalbaselineskip } 
+
+\def\bbint{\large \baselineskip = 2.3 \normalbaselineskip } 
+\def\bbinm{ \baselineskip = 1.18 \normalbaselineskip }
+
+
+\def\bbint{\large \baselineskip = 2.0 \normalbaselineskip } 
+\def\bbing{ }
+\def\bbins{ }
+\def\bbinm{ }
+\def\bbinr{ }
+
+
+\def\bbint{\normalsize \baselineskip = 1.25 \normalbaselineskip }
+\def\bbina{\normalsize \baselineskip = 1.24 \normalbaselineskip }
+\def\bbinr{ \baselineskip = 1.3 \normalbaselineskip }
+\def\bbing{ \baselineskip = 1.28 \normalbaselineskip }
+\def\bbins{ \baselineskip = 1.21 \normalbaselineskip }
+\def\bbinm{  }
+
+\def\ftl{ \baselineskip = 1.5 \normalbaselineskip }
+
+
+\bbint
+
+\parskip 5 pt
+
+
+
+
+\noindent
+
+
+
+
+
+\small
+
+
+\baselineskip = 1.14 \normalbaselineskip 
+
+
+ 
+\parskip 5pt
+
+\baselineskip = 1.2 \normalbaselineskip 
+
+%\setcounter{page}{0}
+
+
+
+%%%%%%{\small
+
+
+
+
+
+
+
+
+\large
+\normalsize
+
+ \baselineskip = 1.2 \normalbaselineskip 
+
+%mmmmmmmmmmmmm
+
+\begin{center}
+\large
+June 6, 2020
+\end{center}
+
+\begin{abstract}
+\Large
+\baselineskip = 1.65 \normalbaselineskip  
+These notes are written quite informally
+and they are meant to summarize the types of
+probability distributions that will construct 
+a decently 
+``randomly''
+formalized $\Theta$ function for my Cornell paper. This manuscript was
+written in only a couple of hours time, and I therefore apologize
+for many likely examples of carelessness in my QUITE INFORMAL extension
+of \cite{ww16}'s results.
+\end{abstract}
+
+
+
+
+
+
+
+
+
+\def\ww22{\normalsize \baselineskip = 1.21\normalbaselineskip \parskip 4 pt}
+\def\bb22{\normalsize \baselineskip = 1.19\normalbaselineskip \parskip 4 pt}
+\def\zz22z{\normalsize \baselineskip = 1.19 \normalbaselineskip \parskip 3 pt}
+\def\xx22{\normalsize \baselineskip = 1.17\normalbaselineskip \parskip 4 pt}
+\def\vx22s{\normalsize \baselineskip = 1.16 \normalbaselineskip \parskip 3 pt} 
+\def\vv22{\normalsize \baselineskip = 1.17 \normalbaselineskip \parskip 3 pt} 
+\def\aa22{\normalsize \baselineskip = 1.15 \normalbaselineskip \parskip 3 pt} 
+\def\g55{  \baselineskip = 1.0 \normalbaselineskip } 
+\def\s55{ \baselineskip = 1.0 \normalbaselineskip } 
+\def\sm55{ \baselineskip = 0.9 \normalbaselineskip } 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\vspace*{- 1.0 em}
+
+
+\def\waw11{\normalsize \baselineskip = 1.72\normalbaselineskip}
+\def\waw11{\normalsize \baselineskip = 1.12\normalbaselineskip}
+\def\waw11{\normalsize \baselineskip = 1.85\normalbaselineskip}
+
+
+
+\def\waw11{\normalsize \baselineskip = 1.45\normalbaselineskip}
+
+
+\def\waw11{\normalsize \baselineskip = 1.7\normalbaselineskip}
+
+\def\waw11{\normalsize \baselineskip = 1.12\normalbaselineskip}
+
+
+\def\g55{  \baselineskip = 1.50 \normalbaselineskip } 
+\def\s55{ \baselineskip = 1.50 \normalbaselineskip } 
+\def\sm55{ \baselineskip = 1.5 \normalbaselineskip } 
+
+
+\def\g55{  \baselineskip = 1.50 \normalbaselineskip } 
+\def\s55{ \baselineskip = 1.50 \normalbaselineskip } 
+\def\sm55{ \baselineskip = 0.9 \normalbaselineskip } 
+
+
+
+
+
+
+\def\aa22{\normalsize  \waw11 \parskip 6 pt} 
+\def\bb22{\normalsize  \waw11 \parskip 5 pt}
+\def\ww22{\normalsize \waw11 \parskip 4 pt}
+\def\vv22{\normalsize  \waw11 \parskip 3 pt} 
+\def\tt22{\normalsize  \waw11 \parskip 2 pt} 
+
+\def\g55{  \baselineskip = 1.0 \normalbaselineskip } 
+\def\b55{  \baselineskip = 1.0 \normalbaselineskip } 
+\def\s55{ \baselineskip = 1.0 \normalbaselineskip } 
+\def\sm55{ \baselineskip = 0.9 \normalbaselineskip } 
+
+
+
+
+
+
+\def\mal{ \bf  }
+\def\nal{\mathcal}
+
+\def\cvrew{ \baselineskip = 1.6 \normalbaselineskip \parskip 3pt }
+
+\def\ttt2c{ }
+\def\tttc{ }
+
+\def\tttc{\tiny \baselineskip = 0.8 \normalbaselineskip  \parskip 0pt }
+\def\ttt2c{\tiny \baselineskip = 0.7 \normalbaselineskip  \parskip 0pt }
+\def\tttc{ \baselineskip = 2.1 \normalbaselineskip  \parskip 5pt }
+\def\ttt2c{ \baselineskip = 2.1 \normalbaselineskip  \parskip 5pt }
+
+\def\tttc{ \baselineskip = 1.15 \normalbaselineskip  \parskip 5pt }
+\def\ttt2c{ \baselineskip = 1.15 \normalbaselineskip  \parskip 5pt }
+
+
+\def\tttc{ \baselineskip = 1.12 \normalbaselineskip  \parskip 4pt }
+\def\ttt2c{ \baselineskip = 1.12 \normalbaselineskip  \parskip 4pt }
+
+
+\def\tttc{ \baselineskip = 1.14 \normalbaselineskip  \parskip 3pt }
+\def\ttt2c{ \baselineskip = 1.14 \normalbaselineskip  \parskip 4pt }
+
+\def\cvt{ \baselineskip = 0.98 \normalbaselineskip }
+\def\cv9{ \baselineskip = 0.99 \normalbaselineskip }
+\def\cvs{ \baselineskip = 1.0 \normalbaselineskip }
+\def\cvl{ \baselineskip = 1.0 \normalbaselineskip }
+\def\cvh{ \baselineskip = 1.03 \normalbaselineskip }
+\def\cvg{ \baselineskip = 1.00 \normalbaselineskip }
+
+
+\def\cvt{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cv9{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cvs{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cvl{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cvh{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cvg{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cvb{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cvnew{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cvmew{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cvwew{ \baselineskip = 1.6 \normalbaselineskip \parskip 5pt }
+\def\cvrew{ \baselineskip = 1.6 \normalbaselineskip \parskip 3pt }
+
+
+
+
+\def\cvt{ \baselineskip = 1.22 \normalbaselineskip }
+\def\cv9{ \baselineskip = 1.22 \normalbaselineskip }
+\def\cvs{ \baselineskip = 1.22 \normalbaselineskip }
+\def\cvl{ \baselineskip = 1.22 \normalbaselineskip }
+\def\cvh{ \baselineskip = 1.22 \normalbaselineskip }
+\def\cvg{ \baselineskip = 1.22 \normalbaselineskip }
+\def\cvb{ \baselineskip = 1.22 \normalbaselineskip }
+\def\cvnew{ \baselineskip = 1.4 \normalbaselineskip }
+\def\cvmew{ \baselineskip = 1.35 \normalbaselineskip }
+\def\cvwew{ \baselineskip = 1.4 \normalbaselineskip \parskip 5pt }
+\def\cvrew{ \baselineskip = 1.22 \normalbaselineskip \parskip 3pt }
+
+
+\def\cvt{ }
+\def\cv9{ }
+\def\cvs{ }
+\def\cvl{ }
+\def\cvh{ }
+\def\cvg{ }
+\def\cvb{ }
+\def\cvnew{ } 
+\def\cvmew{ }
+\def\cvwew{ }
+\def\cvrew{ }
+
+
+
+\def\fend{ 
+
+\medskip -------------------------------------------------------}
+
+
+\def\g55{  \baselineskip = 1.0 \normalbaselineskip } 
+\def\s55{ \baselineskip = 1.0 \normalbaselineskip } 
+\def\sm55{ \baselineskip = 1.0 \normalbaselineskip } 
+\def\h55{  \baselineskip = 1.08 \normalbaselineskip } 
+\def\b55{  \baselineskip = 1.1 \normalbaselineskip } 
+
+\normalsize
+
+\baselineskip = 1.85 \normalbaselineskip 
+
+
+
+%% Sleepy  
+
+%\cvlpm %% Sleepy  
+%\cvnew
+
+
+%\small
+
+%\parskip 0p
+
+\parskip 2pt
+
+\vspace*{- 1.0 em}
+
+% \newpage
+
+%\large
+
+%\setcounter{page}{0}
+\baselineskip = 1.04 \normalbaselineskip 
+\parskip 2pt
+
+\baselineskip = 0.96 \normalbaselineskip 
+%\baselineskip = 0.90 \normalbaselineskip 
+
+%\parskip 1pt
+% 
+\baselineskip = 2.16 \normalbaselineskip 
+\baselineskip = 2.3 \normalbaselineskip 
+
+\baselineskip = 0.95 \normalbaselineskip 
+%\baselineskip = 0.95 \normalbaselineskip 
+\baselineskip = 0.88 \normalbaselineskip 
+\parskip 0pt
+ 
+
+
+\noindent
+
+% 
+% 
+% NNEW COMMENT
+% 
+% 
+% The pdf version of this draft is verbatim identical to August's Version 3.
+% The prior draft's abstract was incorrectly broadcast by Arxiv on the 
+% Internet, after I pressed a wrong computer button. Thus, 
+% Version 4 was issued.
+
+
+\newpage
+
+\def\gvs{ \normalsize \baselineskip = 1.4 \normalbaselineskip  \parskip    5pt}
+\def\gvs{ \normalsize \baselineskip = 1.44 \normalbaselineskip  \parskip    5pt}
+\def\gvs{ \large \baselineskip = 1.44 \normalbaselineskip  \parskip    5pt}
+\def\gvs{ \normalsize \baselineskip = 1.44 \normalbaselineskip  \parskip    5pt}\def\gvs{ \normalsize \baselineskip = 1.74 \normalbaselineskip  \parskip    5pt}
+\def\gvs{ \normalsize \baselineskip = 1.44 \normalbaselineskip  \parskip 5pt}
+
+\def\gvs{   \baselineskip = 1.74 \normalbaselineskip  \parskip    5pt}
+
+\def\gvs{ \normalsize \baselineskip = 1.44 \normalbaselineskip  \parskip 5pt}
+\def\gvs{ \large \baselineskip = 2.0 \normalbaselineskip  \parskip 5pt}
+\def\gvs{ \Large \baselineskip = 2.0 \normalbaselineskip  \parskip 5pt}
+% \def\gvs{ \baselineskip = 2.0 \normalbaselineskip  \parskip 5pt}
+\def\gvs{ \normalsize \baselineskip = 2.44 \normalbaselineskip  \parskip 5pt}
+\def\gvs{ \normalsize \baselineskip = 2.04 \normalbaselineskip  \parskip 5pt}
+\def\gvs{ \normalsize \baselineskip = 2.64 \normalbaselineskip  \parskip 5pt}
+\def\gvs{ \Large \baselineskip = 1.6 \normalbaselineskip  \parskip 5pt}
+
+%\def\gvs{ }
+
+
+\gvs
+
+\footnotesize
+
+
+\def\gvs{ }
+  
+
+\normalsize \baselineskip = 0.98 \normalbaselineskip
+\normalsize \baselineskip = 1.0 \normalbaselineskip
+\normalsize \baselineskip = 1.01 \normalbaselineskip
+
+
+\def\gvs{ \normalsize \baselineskip = 1.25 \normalbaselineskip  \parskip 4pt}
+
+% \def\gvs{ \normalsize \baselineskip = 1.23 \normalbaselineskip  \parskip 5pt}
+
+%\def\gvs{ \normalsize \baselineskip = 1.4  \normalbaselineskip  \parskip 6pt}
+
+%\def\gvs{ \large \baselineskip = 1.5  \normalbaselineskip  \parskip 6pt}
+
+\def\gvs{ \Large \baselineskip = 1.6  \normalbaselineskip  \parskip 6pt}
+\def\gvs{ \normalsize \baselineskip = 1.6  \normalbaselineskip  \parskip 6pt}
+\def\gvs{ \large \baselineskip = 1.6  \normalbaselineskip  \parskip 6pt}
+
+\def\gvs{ \normalsize \baselineskip = 1.227 \normalbaselineskip  \parskip 3pt}
+\def\gvs{ \large \baselineskip = 1.8  \normalbaselineskip  \parskip 6pt}
+
+\def\gvs{ \normalsize \baselineskip = 1.5 \normalbaselineskip  \parskip 3pt}
+
+% \def\gvs{ \large \baselineskip = 1.8  \normalbaselineskip  \parskip 6pt}
+
+% \def\gvs{ \normalsize \baselineskip = 1.65 \normalbaselineskip  \parskip 3pt}
+
+\def\gvs{ \large \baselineskip = 2.1  \normalbaselineskip  \parskip 6pt}
+
+\def\gvs{ \normalsize \baselineskip = 2.1  \normalbaselineskip  \parskip 6pt}
+
+%%%old 
+
+ \def\gvs{ \normalsize \baselineskip = 1.227 \normalbaselineskip  \parskip 3pt}
+
+ \def\gvs{ \large  \baselineskip = 1.6 \normalbaselineskip  \parskip 5pt}
+%% march 31
+
+\def\gvs{ \Large  \baselineskip = 1.8 \normalbaselineskip  \parskip 5pt}
+\def\gvs{ \LARGE  \baselineskip = 1.8 \normalbaselineskip  \parskip 5pt}
+\def\gvs{ \normalsize  \baselineskip = 2.0 \normalbaselineskip  \parskip 5pt}
+
+\def\gvs{ \Large  \baselineskip = 2.0 \normalbaselineskip  \parskip 5pt}
+
+\def\gvs{ \large  \baselineskip = 2.2 \normalbaselineskip  \parskip 5pt}
+
+\def\gvs{ \normalsize \baselineskip = 2.4  \normalbaselineskip  \parskip 6pt}
+
+\def\gvs{ \normalsize \baselineskip = 2.6  \normalbaselineskip  \parskip 6pt}
+\def\gvs{ \normalsize \baselineskip = 2.2  \normalbaselineskip  \parskip 6pt}
+\def\gvs{ \normalsize \baselineskip = 1.8  \normalbaselineskip  \parskip 5pt}
+% \def\gvs{ \normalsize \baselineskip = 1.5  \normalbaselineskip  \parskip 5pt}
+
+\def\sgvs{ \small \baselineskip = 1.33  \normalbaselineskip  \parskip 1pt}
+\def\tttc{ }
+%\baselineskip = 1.14 \normalbaselineskip  \parskip 4pt }
+\def\ttt2c{ }
+%\baselineskip = 1.14 \normalbaselineskip  \parskip 4pt }
+
+\def\gv2{ \normalsize \baselineskip = 1.30  \normalbaselineskip  \parskip 3pt}
+
+
+
+\def\gvs{ }
+
+
+\def\gvs{ \normalsize \baselineskip = 2.1 \normalbaselineskip  \parskip 7pt}
+\def\gvs{ \normalsize \baselineskip = 1.8 \normalbaselineskip  \parskip    7pt}
+
+%\def\gvs{ \normalsize \baselineskip = 1.4 \normalbaselineskip  \parskip    5pt}
+
+ \def\gvs{ \large \baselineskip = 1.7  \normalbaselineskip  \parskip 9pt}
+\def\gvs{ \normalsize \baselineskip = 2.0  \normalbaselineskip  \parskip 9pt}
+
+\def\gv2{ \normalsize \baselineskip = 1.30  \normalbaselineskip  \parskip 3pt}
+
+
+\def\gvs{ \large \baselineskip = 1.7  \normalbaselineskip  \parskip 5pt}
+
+
+\def\gvs{ \normalsize \baselineskip = 2.0  \normalbaselineskip  \parskip 8pt}
+\def\gvs{ \Large \baselineskip = 2.5  \normalbaselineskip  \parskip 8pt}
+
+
+%fffff
+
+
+%fffff
+\def\gvs{ \normalsize \baselineskip = 1.3 \normalbaselineskip  \parskip   5pt}
+
+\def\gvx{ \normalsize \baselineskip = 1.23 \normalbaselineskip  \parskip    3pt}
+
+\def\gvs{ \Large \baselineskip = 1.9 \normalbaselineskip  \parskip    5pt}
+
+\section{Crudely Composed Notes}
+% \section{Scientific Notes of Dan Willard Notarized on Nov 22,2016}
+%%%%%%%%%% 1111111111111111}
+\label{ss1}
+
+
+
+
+
+\gvs
+
+I will use the phrase ``probability distribution'' quite informally
+in our discussion.  The goal is thus to ``invent'' {\it any type}
+of Lebesgue measure that will assure that there is a probability
+bounded below by some tiny constant $~c~$ where
+\cite{ww16}'s $\Theta$ function will produce a consistent self-justifying
+formalism.  {\it Even if that probability is tiny,} any discovered 
+lower bound  $~c~> ~ 0 ~$, 
+will assure that the  IQFS($\beta$)
+formalism is consistent when $~\beta~$ 
+holds true under the Standard Model. This is 
+ because
+IQFS($\beta$)'s
+ Group 0, 1 and 2 axioms trivially hold true under the standard model
+and its final Group-3 axiom sentence cannot be proven false 
+when our probability framework can generate a model
+where it holds with 
+an explicit
+probability lower bound lower bound of  $~c~> ~ 0 ~$.
+
+(In other words since ZF Set Theory can formalize the validity of
+G\"{o}del's Completeness  Theorem, the existence of some model
+satisfying a  probability lower bound lower bound  $~c~> ~ 0 ~$
+will be sufficient for establishing that
+the
+ Group-3 axiom's 
+self-justification statement will not be contradicted.)
+
+
+Please allow me to be informal here because I am trying to
+quickly
+ compose
+a rough approximation of working notes, without delving into 
+a bevy of 
+tedious details.  
+
+Let us recall that page 11 of \cite{ww16}
+defines the $\zzthe(x)$ function-mapping  
+%% haphazard
+to be an
+operation
+ that maps powers of 2
+onto powers of 2
+subject to the following rules:
+
+\vspace*{- 0.6 em}
+{\parskip -6 pt
+\beq
+\label{walk1}
+\forall ~~x~~~~~ \mbox{Power}(x) ~~~ \Rightarrow  ~~
+\mbox{Power}(~ \zzthe(x)~)
+\enq
+\beq
+\label{walk2}
+\forall ~~x~~~~~ \zzthe(x)~ \neq ~ 1
+\enq
+\beq
+\label{walk3}
+\forall ~~x~~~ \forall ~~y ~~~~[~ x ~ \neq~ y ~
+\wedge ~\mbox{Power}(x)~]
+ \Rightarrow ~~ 
+\zzthe(x)~ \neq ~\zzthe(y)
+\enq
+\beq
+\label{walk4}
+\forall ~~x~~~~~ \neg ~ ~\mbox{Power}(x)~~~~ \Rightarrow ~~~~ 
+\zzthe(x)~=~0
+\enq}
+We want our probability
+ distribution to have the property
+that any recursively defined function has a zero
+ probability of
+occurring.  Thus the countable set of all recursively defined functions
+will also have a probability zero of occurring.   BUT YET 
+the $\zzthe(x)$ primitive will grow at a slow enough rate
+that it is incapable of producing a fatal diagonalizing contradiction,
+while satisfying the crucial constraints in Lines  \eq{walk1}-  \eq{walk3}.
+
+I can immediately think of three likely ways of doing this.
+{\it 
+It is (?)  possible all three 
+methods  will
+work,
+successfully.} Among the three plausible methods,
+Method A is the simplest procedure, and Method C is the most
+complicated. The virtue of Method C is that it is the one that
+I am most confident about, although its procedure is a complex
+hybrid of methods A and B.
+
+All three of these 
+randomized
+methods will first generate the value of  
+$ ~\zzthe(1)~$, and then calculate in chronological
+oder the values of 
+ $ ~\zzthe(2)~$,  $ ~\zzthe(4)~$,  $ ~\zzthe(8)~$ etc., 
+This chronological order is important because
+once  $ ~\zzthe(2^i)~$ 
+is assigned a values of  $~2^K~$
+then all  $~ j \, > \, i~$ are forbidden by rule 3
+from mapping    $ ~\zzthe(2^j)~$ onto $~2^K~$.
+This Rule 3 will be called the {\bf Exclusion Principle}
+during our discussion of Methods A-C below:
+
+
+\subsection{Method A: The ``Pairing Method''}
+
+The Pairing method will begin by finding the two smallest
+powers of 2, 
+at least as large as 2,  where no $ j<i $ has  $ ~\zzthe(2^j)~$ 
+correspond to  one of these two powers of 2,
+which we write as $~2^{K_1}$ and 
+ $~2^{K_2}$. It will then set    $ ~\zzthe(2^i)~$
+ equal to one
+of these two values,
+ with each quantity receiving a 50 \%
+probability of occurring. 
+
+It would not surprise me if this Pairing rule (by itself)
+would 
+be sufficient to produce our
+ needed final result.  It might, however,
+be problematic because it would cause   $ ~\zzthe(2^i)~$
+to always satisfy the following
+possibly excessively
+ tight constraint of:
+\beq
+\label{tight}
+\forall ~~x~~~~~ \zzthe(x)
+  ~ \leq ~ 4 ~ x^2
+\enq
+
+\subsection{Method B: The Almost-Stochastic Independence Method}
+
+This method will assume that we have an infinite set of
+real numbers greater than zero, $~p_1~,~p_2~,~p_3~,... $
+such that $~p_j~$~ is the probability that 
+$~ \zzthe(2^0)~=~ 2^j$.  (
+The easiest example
+\footnote{ \normalsize If
+ $~p_j~=~ 2^{-j~} $  then
+$\sum ~p_j~~=~~ \frac{1}{2}~+~  \frac{1}{4}~+~  \frac{1}{8}~+~...~~~ =~~~1.$}  
+ of this
+is when $~p_j~=~ 2^{-j~} $.) 
+ Then for each 
+subsequent 
+power of 2, denoted as $2^L$, the same probability distribution
+will be used, except that the  ``Exclusion Principle''
+will be followed in precluding
+repetitions from
+occurring.
+  Thus, let  the prior  powers of
+2 be mapped onto the quantities of
+ $2^{K_0}$   $2^{K_1}$, ...   $2^{K_{L-1}}$ 
+and let $~S~$ be defined as below:
+\beq
+\label{s-sum}
+S~~=~~ \sum_{i=0}^{L-1}{ p_{k_i}}
+%
+%%% p_{ \small K_0}~+~ p_{ \small K_1}~+~ p_{ \small K_2}~+~.... ~+~
+%%%% p_{ \small K_{L-1}}
+\enq
+Then assuming $~2^j$~ is not one of the previously 
+taken
+       positions of
+ $2^{K_0}$   $2^{K_1}$, ...   $2^{K_{L-1}}$, the method B will
+have 
+hold
+$~ \zzthe(2^L)~=~ 2^j$ with an obviously adjusted  probability
+of 
+\beq
+\label{adj-prob}
+\frac{p_j}{1-S}
+\enq
+\subsection{Hybridizations of Methods A and B}
+Again, we would not be surprised if either Methods A or B
+(or both)
+ would 
+establish the conjectured self-justification property.
+However, there are also 
+other
+plausible hybrid methods
+that would establish this  property.
+Here are two examples
+\bed
+\item{$~~  Method-C-1 $}. 
+We follow Method A's approach with probability 0.5 and
+method B's approach with probability 0.5.  
+Thus, either of Method A's two choices occur with a 
+precise
+probability
+        of
+$~\frac{1}{4}~,~$ and Method B's setting
+of 
+$~ \zzthe(2^L)~=~ 2^j$ occurs with an exact  probability of:
+\beq
+\label{adj-prob1}
+\frac{p_j}{2~(1-S)}
+\enq
+\item{$~~  Method-C-2 $}. 
+We follow Method A's approach with probability of $~S~$ and
+method B's approach with probability $~1-S~$.
+Thus, either of Method A's two choices will hold with probability of
+$~\frac{S}{2}~$ and Method B's setting of
+$~ \zzthe(2^L)~=~ 2^J$ occurs with a  probability of
+exactly $~p_j~$.
+\end{description}
+
+\section{Basic Strategy}
+
+The basic strategy is to show that  if
+axiom basis
+$~\beta~$ holds valid in the standard model
+then it is impossible for a minimal proof of $0=1$
+to exist, Providing, just an overview,
+this should be able to be proved,
+{\it roughly,}
+ by contradiction.
+
+In particular, if $~\beta~$ holds valid in the standard model
+then all the Group 0, 1 and 2 axioms will hold valid under the
+Standard Model.   Hence
+if the consistency preservation property fails, then
+the Group-3
+ {\it ``I am consistent"  axiom}
+must be false under the standard model.
+Thus, the proof of the falsification of the
+ Group-3
+ axiom
+ must be able to self-reference itself
+and
+thereby
+ establish its own incorrectness.
+
+At this juncture, one must use a natural encoding for the
+G\"{o}del 
+numbers of a proof
+(such as what was formally given in 
+\cite{ww1,wwapal}'s
+examples of G\"{o}del encodings).
+  The proof of the existence of such a proof
+will exceed the proof's length by a factor $\lambda > 4$
+(or more)
+ under all
+natural encodings of proofs
+(including the examples given in 
+\cite{ww1,wwapal}).
+ But the point  
+is that our formalism
+{\it  has only the} $\Theta$ operation as
+a primitive,
+for
+ representing growth.
+Thus, the natural probability
+distributions from the prior section should establish something
+to the effect that there is a
+probability  lower 
+bound
+of
+ $c > 0$,
+such  that an
+excessively fast
+ growth-rate will be impossible.  
+
+Thus leaving aside many
+messy details, this lower bound will assure that there is stochastic
+model where growth is precluded at a fast enough rate for some
+demonstrated model to form the type of counterexample
+that G\"{o}del's Completeness Theorem needs to show that the
+ {\it ``I am consistent"  axiom} needs for corroborating its claim
+for self-justification.
+
+This result differs from my earlier work in that it needs ZF Set Theory
+(rather than Peano Arithmetic) to corroborate what I call the 
+Consistency Preservation Property.  That is fine and legal
+because the system IQFS($\beta$) 
+affirms its own consistency via
+a 1-sentence axiom.
+Thus, ZF Set Theory's knowledge about
+Lebesgue measures 
+should, likely,
+indicate  IQFS($\beta$) 
+is a competent
+enough
+ formalism to make no false claims.
+
+\newpage
+My apologies that the preceeding
+short summary
+ is not a formal proof.
+It merely outlines,
+{\it very roughly},
+ what I have in mind.
+
+
+
+\begin{thebibliography}{99}
+
+
+
+ \normalsize
+\parskip 5 pt
+\baselineskip =  1.3 \normalbaselineskip
+
+
+
+\bibitem{ww1}
+Willard, D. E.:
+ ``Self-verifying  systems, the incompleteness
+theorem and the tangibiltiy reflection
+principle'', in
+{\it Journal of Symbolic Logic}
+$~66~ (2001)\,$ pp. 536-596.
+(Unlike our later articles, \cite{ww1,wwapal}
+spends some time explaining how we generate
+our analogs of
+ G\"{o}del numbers
+ for itemized sentences and proofs.)
+
+\bibitem{wwapal}
+Willard, D. E.:
+``A generalization of the second incompleteness 
+theorem and some exceptions to it''.
+{\it Annals of Pure and Applied Logic}
+141 (2006)
+pp. 472-496.
+(Unlike our later articles, \cite{ww1,wwapal}
+spends some time explining how we generate
+our analogs of
+ G\"{o}del numbers
+ for itemized sentences and proofs.)
+
+
+
+\bibitem{ww16}
+Willard, D. E.:
+On  how the introducing of a 
+ new $~\theta~$ function symbol
+into arithmetic's formalism is 
+germane
+to devising axiom systems that can 
+appreciate fragments of their own
+Hilbert consistency.
+{\it
+Cornell Archives arXiv Report}      
+1612.08071v5
+         (2017).
+
+
+\bibitem{ww20}
+Willard, D. E.:
+``On the Tender Line
+Separating Generalizations and Boundary-Case Exceptions for the
+Second Incompleteness Theorem under Semantic Tableaux
+Deduction'',
+a talk given 
+on January 7 at the LFCS 2020 conference.
+Early version in 
+Volume 11972 of
+ Springer's LNCS series, and longer version sent to
+Cameron and Nate.
+
+
+\end{thebibliography}
+\end{document}
+

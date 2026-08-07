@@ -1,0 +1,4931 @@
+%% suny feb 11 noon removed bib
+
+% home 2014 Feb 9 9.6 -3pm old title  with key words and bibliog added
+
+%% NEED to do SPELL
+
+%% godel t0 goedel and spell 
+
+%%% home jan17 8.31  am 
+
+%%% suny jannary11 spell 6pm
+
+% home 2015 january 10 7 am -minor amendment while listening Sinatra
+
+%   home 2015 january 4 1.1 pm
+
+%   home 2015 january 3  2.3 pm abstract and new-bib; jan4 3,1am reformat 
+
+
+%% 2014 home march 29  8.5  pm
+%% AFTER PAPER SUBMITTED CHANGED LAST paragraph 
+
+%% 2014 home march 28, 4.1 am  suny 10.1 am changed 7 -10 to  6 -10
+
+%IMPORTANT REMINDER Long Paper should prove Theorem 3 for D= sem tab
+
+%\documentclass[12pt]{article}
+%\documentclass[10pt]{article}
+%\documentclass[11pt]{article}
+\documentclass[11pt]{article}
+
+
+
+
+
+ 
+
+
+\usepackage{amssymb}
+
+
+
+\addtolength{\oddsidemargin}{-0.9in}
+
+\setlength{\textheight}{9.0 in}
+
+
+\setlength{\textwidth}{6.5 in}
+\setlength{\textwidth}{6.6 in}
+\setlength{\textwidth}{6.4 in}
+
+
+
+%  \addtolength{\topmargin}{-.5in}
+%  \addtolength{\topmargin}{-.9in}
+  \addtolength{\topmargin}{-.6in}
+
+
+
+          \newcommand{\newthmwithin}[3]{\newtheorem{#1q}{#2}[#3]
+              \newenvironment{#1}{\begin{#1q}\sf}{\end{#1q}}}
+
+\newcommand{\newthm}[3]{\newtheorem{#1q}[#2q]{#3}
+                        \newenvironment{#1}{\begin{#1q}\sf}{\end{#1q}}}
+\newcommand{\newthmm}[3]{\newtheorem{#1q}[#2q]{#3}
+                        \newenvironment{#1}{\begin{#1q}\rm}}
+
+\newtheorem{theorem}{$~~~~$ Theorem}[section]
+\newtheorem{corollary}{Corollary}
+\newtheorem{fact}{Fact}[section]
+\newcommand{\makenewheading}[1]{\begin{tabbing} {\bf #1:}
+\end{tabbing}}
+
+\newtheorem{example}[theorem]{$~~~~$ Example}
+\newtheorem{lemma}[theorem]{$~~~~$ Lemma}
+\newtheorem{remark}[theorem]{$~~~~$Remark}
+\newtheorem{definition}[theorem]{$~~~~$Definition}
+
+%%% changed to double numbers
+
+\def\nor1{Normed$\{~2^{ \zzz \theta  \, )} ~$,$~\sqrt{~2^{ \zzz \theta  \, )}}~\}$}
+
+\def\pagxx{Page ?xx?}
+\def\xor2{Normed$\{ ~\sqrt{~2^{ \zzz \theta  \, )}}~,~2~ \} $}
+\def\fffx{Fact \#}
+\def\zhz{H }
+\def\appD{Appendix D }
+\def\appxD{Appendix D}
+\def\fffour{three }
+\def\zazsta{ and EA-stability}
+
+
+\def\iii{IS$_D(\aaa)$}
+\def\I2{IS$^{\#}_D(\beta)$}
+\def\ik3{IS$^{\#}_D(\beta_{A,i})$}
+
+\def\js{IS$_D(A^*)$}
+\def\ns{IS$^{\#}_D(\beta^*)$}
+
+
+
+
+\def\gggen{$( L^\xi  ,  \Delta_0^\xi   ,  B^\xi  ,  d  ,  G  )~$}
+\def\gggcp{$( L^\xi  ,  \Delta_0^\xi   ,  B^\xi  ,  d  ,  G  )$}
+\def\peta{\sigma}
+\def\zzxz{~ \sharp ( \, }
+\def\zzz{~ \sharp ( ~ }
+\def\zip{\sharp }
+\def\mheta{\theta^\bullet}
+\def\mxi{\xi^\bullet}
+\def\xxi{$\, \xi^* \,$}
+
+
+
+
+\def\tftt{~ \frac{1}{2}~ }
+\def\sss{ }
+
+\def\goodshit{\triangleright}
+\def\bullshit{\triangleleft}
+\def\foo{footnote \footnote}
+\def\Uxp{\Upsilon}
+
+
+\def\f55{ \normalsize  \baselineskip = 1.8 \normalbaselineskip } 
+
+
+\def\f55{  \baselineskip = 1.1 \normalbaselineskip } 
+\def\g55{  \baselineskip = 1.0 \normalbaselineskip } 
+\def\s55{ \baselineskip = 1.0 \normalbaselineskip } 
+
+
+
+
+\def\bbskip{\bigskip}
+
+
+
+\def\axst{\odot}
+\def\rp{ p^\theta } 
+\def\thsp{Theorem $ \, * \,$ }
+\def\thss{Theorem $ \, *\,$'s }
+\def\dexxt{\Delta}
+\newcommand{\co}[1]{Corollary \ref{#1}}
+\newcommand{\thx}[1]{Theorem \ref{#1}}
+\newcommand{\phx}[1]{Theorem \ref{#1}}
+\newcommand{\lem}[1]{Lemma \ref{#1}}
+\newcommand{\eq}[1]{(\ref{#1})}
+\newcommand{\ep}[1]{Equation (\ref{#1})}
+\newcommand{\thetlam}{ \theta }
+\newcommand{\underx}[1]{\overline{~ {#1} ~}}
+\newcommand{\appaa}{$App \forall$}
+\newcommand{\appee}{$App \exists$}
+\newcommand{\tll}[1]{Tab$- {#1} -$List}
+\newcommand{\txl}[1]{Tab$- {#1}$}
+\newcommand{\tlxl}[1]{Tab$- {#1}$ }
+\newcommand{\sll}[1]{Short$- {#1} -$List}
+\newcommand{\axx}[1]{NS$_D^{\,k,m}( ${#1}$)$}
+
+
+\newenvironment{proof}{{\bf Proof:}}{$\Box$}
+\newenvironment{sketchproof}{{\bf Sketch of Proof:}}{$\Box$}
+
+
+\begin{document}
+
+
+%% 
+%%  \title{
+%% %\Large 
+%% On the 
+%% %Broader
+%% Epistemological 
+%% Significance of 
+%% Self-Justifying Axiom Systems
+%% from a Semantic Tableaux Perspective}
+%% 
+
+
+
+
+% old title is
+
+ \title{
+%\Large 
+On the Broader
+Epistemological 
+Significance of 
+Self-Justifying Axiom Systems}
+% from the Perspective of Analytic Tableaux}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\def\aaa{A}
+\def\ccc{Class}
+
+
+
+
+
+
+\def\ulxyz{\lceil}
+\def\urxyz{\rceil}
+
+\def\ulxyz{\ulcorner}
+\def\urxyz{\urcorner}
+
+
+
+
+
+
+\def\beq{\begin{equation}}
+\def\enq{\end{equation}}
+
+\def\bel{\begin{lemma}}
+\def\enl{\end{lemma}}
+
+
+\def\bec{\begin{corollary}}
+\def\enc{\end{corollary}}
+
+\def\bed{\begin{description}}
+\def\ennd{\end{description}}
+\def\bee{\begin{enumerate}}
+\def\ene{\end{enumerate}}
+
+
+\def\bxbxd{\begin{definition}}
+\def\bxbxdd{\begin{definition}}
+\def\eedd{\end{definition}}
+\def\bxbxdr{\begin{definition} \rm}
+\def\bel{\begin{lemma}}
+\def\enl{\end{lemma}}
+\def\ent{\end{theorem}}
+
+
+
+\author{  Dan E.Willard\thanks{\normalsize This research 
+was partially supported
+by the NSF Grant CCR  0956495.
+\newline
+Email = dan.willard.albany@gmail.com}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\date{State University of New York at Albany}
+
+\maketitle
+
+ \setcounter{page}{0}
+ \thispagestyle{empty}
+
+
+
+\begin{abstract}
+\large
+\baselineskip = 1.5 \normalbaselineskip 
+This article will be a continuation of our 
+research into self-justifying 
+systems.
+It will introduce 
+several 
+new theorems
+(one of which
+will transform our previous infinite-sized
+self-verifying
+logics 
+into formalisms 
+or purely finite size). 
+It will explain how self-justification
+is useful, even when the Incompleteness
+Theorem 
+clearly
+does sharply 
+limit its 
+scope.
+\end{abstract}
+
+
+\bigskip
+\bigskip
+\bigskip
+
+\bigskip
+\bigskip
+\bigskip
+
+\bigskip
+\bigskip
+\bigskip
+
+{\large
+{\bf Keywords and Phrases:}
+G\"{o}del's Second Incompleteness Theorem,  Hilbert's Second
+Open Question, Semantic Tableaux Deduction,  
+  Consistency.}
+
+
+%% 
+%% \begin{quote}
+%% %{\bf $~~~~$ Detailed Abstract (as requested by Call for Papers):}
+%% {\bf $~~~~ $     Abstract:}
+%%  $~$
+%% This article will be a continuation of our research into self-justifying
+%% systems.  It will introduce several new theorems and then explore their
+%% philosophical significance.  Its two specific goals will be to:
+%% \bed
+%% \item[   A. ]
+%%       Explain how to transform our prior results about infinite-sized
+%%       self-verifying axiom systems into tighter results about axiom 
+%%       systems   of purely finite cardinality.
+%% \item[   B. ]
+%%      Explain how self-justifying axiom systems are useful {\it even when
+%%      the Second Incompleteness Theorem specifies limits for their reach.}
+%%      In particular, this second part of our 
+%% research
+%% %results
+%% discourse 
+%% will explain how
+%%      self-justification is related to open questions and conjectures that
+%%      G\"{o}del and Hilbert raised in 1926 and 1931.
+%% \ennd
+%% \end{quote}
+
+%% 
+%% Our discussion will have a more philosophical and easier-to-comprehend tone
+%% than the more mathematically styled presentation in our prior published
+%% papers.  
+%% %
+%% %Our discussion will have a more philosophical and easier-to-comprehend tone
+%% %than the more mathematically styled  in our prior published papers. 
+%% %% 
+%% %% The discussion in this article will have a more philosophical and
+%% %% easier-to-comprehend tone than the mostly mathematical discourse in our
+%% %% prior published papers.  Its 
+%% %% 
+%% Its
+%% concluding section will offer a new
+%% interpretation of the Second Incompleteness Theorem, where G\"{o}del's
+%% historic result is taken as being {\it robust and ubiquitous} from a purist
+%% theoretical perspective, while 
+%% % still 
+%% permitting enough wiggle room to
+%% explain how humans gain the {\it psychological motive} to cogitate in
+%% applications-oriented engineering-style environments.
+
+
+
+
+\normalsize
+
+
+
+
+\baselineskip = 1.5\normalbaselineskip
+
+
+
+\normalsize
+
+
+\baselineskip = 1.0 \normalbaselineskip 
+\def\bbint{\large \baselineskip = 1.6 \normalbaselineskip } 
+\def\bbint{\large \baselineskip = 1.6 \normalbaselineskip }
+\def\bbint{\normalsize \baselineskip = 1.3 \normalbaselineskip }
+
+
+\def\bbint{\normalsize \baselineskip = 1.27 \normalbaselineskip }
+
+
+
+\def\bbint{\large \baselineskip = 2.0 \normalbaselineskip }
+
+
+\def\bbint{\normalsize \baselineskip = 1.25 \normalbaselineskip }
+\def\bbina{\normalsize \baselineskip = 1.24 \normalbaselineskip }
+
+
+
+\def\bbint{\large \baselineskip = 2.0 \normalbaselineskip } 
+
+
+
+\def\bbing{ }
+\def\bbins{ }
+\def\bbinm{ }
+
+\def\bbint{\normalsize \baselineskip = 1.95 \normalbaselineskip } 
+
+
+
+\def\bbing{ }
+\def\bbins{ }
+\def\bbinm{ }
+
+
+\def\bbint{\large \baselineskip = 2.3 \normalbaselineskip } 
+\def\bbing{ }
+\def\bbins{ }
+\def\bbinm{ }
+
+\def\bbint{\normalsize \baselineskip = 1.7 \normalbaselineskip } 
+
+\def\bbint{\large \baselineskip = 2.3 \normalbaselineskip } 
+\def\bbinm{ \baselineskip = 1.18 \normalbaselineskip }
+
+
+\def\bbint{\large \baselineskip = 2.0 \normalbaselineskip } 
+\def\bbing{ }
+\def\bbins{ }
+\def\bbinm{ }
+\def\bbinr{ }
+
+
+\def\bbint{\normalsize \baselineskip = 1.25 \normalbaselineskip }
+\def\bbina{\normalsize \baselineskip = 1.24 \normalbaselineskip }
+\def\bbinr{ \baselineskip = 1.3 \normalbaselineskip }
+\def\bbing{ \baselineskip = 1.28 \normalbaselineskip }
+\def\bbins{ \baselineskip = 1.21 \normalbaselineskip }
+\def\bbinm{  }
+
+\def\fgf {\baselineskip = 1.3 \normalbaselineskip }
+
+
+
+\bbint
+
+
+
+
+\normalsize  
+%% \LARGE\baselineskip = 1.1\normalbaselineskip
+\baselineskip = 1.2\normalbaselineskip
+
+%\vspace*{- 3.0 em}
+
+\newpage
+
+
+\def\J1{IS$_D(~\cdot ~)$}
+
+
+
+\def\K1{IS$_D(~\cdot ~)$}
+\def\J2{IS$^{\#}_D(~\cdot ~)$}
+
+
+%%% ssssssssssssss
+%% TEXT IS HERE
+
+ \parskip 5 pt
+
+%%%%%\large
+ \baselineskip = 1.235 \normalbaselineskip 
+
+\large
+
+\baselineskip = 1.6 \normalbaselineskip 
+\baselineskip = 2.0 \normalbaselineskip 
+\normalsize \baselineskip = 1.22 \normalbaselineskip 
+ 
+\def\ssspace{\normalsize \baselineskip = 1.24 \normalbaselineskip }
+
+% \def\ssspace{\normalsize \baselineskip = 2.1 \normalbaselineskip }
+
+\ssspace
+
+ \parskip 5 pt
+
+\section{Introduction}
+\label{pppp1}
+
+
+G\"{o}del's Incompleteness Theorem 
+has two parts.
+Its
+first half indicates no decision
+procedure can identify 
+all of
+arithmetic's
+ true statements.
+Its
+ ``Second Incompleteness'' 
+result
+ specifies
+sufficiently strong 
+logics
+{\it cannot} verify their own consistency.
+G\"{o}del 
+was  careful to insert 
+a
+ caveat
+into
+his historic paper 
+\cite{Go31}, 
+indicating  
+a
+{\it
+diluted} 
+form
+of Hilbert's Consistency Program 
+might 
+% have some success:
+reach some
+levels of 
+partial
+ success:
+\begin{quote} 
+$*~$ 
+%  (G\"{o}del  \cite{Go31} 1931):
+{\it ``It must be 
+expressly 
+noted 
+Proposition XI 
+(e.g. G\"{o}del's
+``Second'' Incompleteness
+Result)
+represents no contradiction of the formalistic
+standpoint of Hilbert. For this standpoint
+presupposes only the existence of a consistency
+proof by finite means, and { there might
+conceivably be finite proofs} which cannot
+be stated in P or in ...''} 
+\end{quote}
+Some 
+scholars
+have interpreted
+$\,*\,$
+as, possibly,
+anticipating attempts
+to confirm Peano Arithmetic's consistency,
+via 
+either
+Gentzen's formalism or 
+ G\"{o}del's Dialetica interpretation.
+On the other hand, 
+the Stanford's Encyclopedia's
+entry about  G\"{o}del
+quotes him,
+in its
+ Section 2.2.4,
+stating
+he was hesitant to
+view     the
+Second Incompleteness Theorem
+ as    
+fully
+ubiquitous, until 
+learning 
+of Turing's
+work.
+Moreover,
+Yourgrau \cite{Yo5}
+states
+von Neumann 
+{\it ``argued 
+against G\"{o}del 
+himself''}
+in the early 1930's,
+ about the definitive termination of Hilbert's
+consistency program,  
+which
+{\it ``for several years''} after \cite{Go31}'s publication,
+G\"{o}del 
+{\it ``was cautious not to prejudge''}.
+Also, it is known
+ \cite{Da97,Go5,Yo5} 
+that  
+G\"{o}del
+ initially
+presumed the
+second theorem
+was false, before proving his stunning 
+result.
+%hhhh
+
+
+
+\smallskip
+
+
+
+In any case  
+several
+ year after he wrote    $*$'s
+initial
+ statement, 
+G\"{o}del gave a
+1933
+ lecture \cite{Go33},
+where he 
+told his audience
+that
+Hilbert's
+initial
+1926 objectives, summarized 
+formally
+by
+ $**$ below,
+had
+ {\it ``unfortunately''}
+no
+{\it 
+ ``hope of succeeding along''}
+its originally intended plans.
+\begin{quote} 
+$**~$ (Hilbert  \cite{Hil26} 1926):
+{\it ``Where 
+else 
+would 
+reliability and truth be found 
+if  even mathematical thinking fails?   The definitive nature
+of the infinite has become necessary,  not merely for the special
+interests of individual sciences, but rather { for the
+honor} of human understanding itself.''}
+\end{quote}
+
+Our research, in both the current article
+and 
+the
+prior papers
+\cite{ww93}-\cite{ww14}
+% \cite{ww93,sp0,ww1,ww2,tab2,wwlogos,ww5,wwapal,ww6,ww7,ww9},
+was stimulated by the prospect that we find $**$ enticing,
+even though  the Second Incompleteness
+Theorem 
+{\it unequivocally}
+ demonstrates that logics
+{\it cannot} recognize
+their own consistency
+{\it in a robust sense.}
+Accordingly, we have studied
+{\it both} generalizations and boundary-case exceptions
+for the Second Incompleteness Theorem 
+in
+\cite{ww93}-\cite{ww14}.
+% \cite{ww93,sp0,ww1,ww2,tab2,wwlogos,ww5,wwapal,ww6,ww7,ww9}.
+The current article will  seek to
+{\it both} strengthen these prior
+results,
+in the context of axiom systems 
+with
+{\it 
+ strictly finite cardinalities},
+and to also provide a more intuitive explanation of the
+meaning 
+behind
+\cite{ww93}-\cite{ww14}'s
+% \cite{ww93,sp0,ww1,ww2,tab2,wwlogos,ww5,wwapal,ww6,ww7,ww9}'s
+results.
+
+The thesis of this article will be delicate
+because there can be no doubt that 
+ the Second Incompleteness
+Theorem is
+sharply robust,
+when  viewed
+from a 
+ conventional 
+purist 
+mathematical
+ perspective.
+On the other hand, we will argue that there are certain facets
+of a ``Self-Justifying Logics'', that are tempting
+under a hard-nosed
+engineering perspective,
+contemplating
+ sharply
+ {\it  curtailed forms} of Hilbert's goals.
+These results will be
+         fragile 
+{\it but
+not
+fully
+immaterial.}
+
+
+%bbbb
+In other words, this
+article  will offer a somewhat complicated
+2-part interpretation of the Second Incompleteness Theorem
+where:
+\bee
+\item
+The Second Incompleteness Theorem is seen as
+being 100 \% 
+robust from a mathematical perspective
+because of  the
+% ubiquitous and 
+widely
+encompassing nature of the 1939 
+Hilbert-Bernays analysis \cite{HB39} (centering around
+their three 
+well-known
+``Derivability Conditions'' \cite{Mend} ).
+\item
+On the other hand, our discourse
+will partially
+appreciate Hilbert's reluctance
+to fully embrace the Second Incompleteness Theorem,
+despite his 
+joint
+work with Bernays \cite{HB39}
+generalizing the Second Incompleteness Effect.
+(This is
+because it is awkward to explain how human beings can
+% undeniable 
+acquire the mental energy 
+for motivating themselves to cogitate,
+without possessing some type of instinctive faith  
+in their own self-consistency.)
+\ene
+%It is in the context where 
+Thus,
+the current article
+ will seek to
+separate a {\it ``mathematical''} from  
+what perhaps  should be
+{\it ``engineering-style''} 
+ appreciation
+of one's 
+internal consistency. We will seek to define and explore the
+latter
+%nature of this 
+%engineering  notion in the current article
+(with the hope that it will help formalize how future
+21st century computers can benefit from its engineering-style
+%% notion 
+perspective,
+while still respecting 
+%%% at the same time
+the strict prohibitions formalized by
+G\"{o}del's millennial result.)
+
+
+As the reader examines this paper, it should be kept in mind
+that 
+it does
+focus on 
+% the properties of 
+semantic tableaux
+deduction (similar to the earlier 
+% more abbreviated 
+discussion that had
+appeared in \cite{ww14}'s more abbreviated 
+conference-style summary of our results).
+A second paper, currently under preparation, 
+will examine Hilbert-style deductive systems (whose 
+self-justification properties
+are partially analogous and partly 
+quite
+different from
+% our
+tableaux-style systems). 
+The combination of these two results will formally
+define both the potential of self-justifying logics
+and the limitations which the Second Incompleteness
+Theorem imposes upon them.
+
+
+%% 
+%% In other words, the theme of this article will be that conventional
+%% interpretations of the Second Incompleteness Theorem are 
+%% certainly 100 \%
+%% correct from a mathematical perspective.
+%% as foreseen very rigorously
+%% as early as 1939
+%%  by Hilbert-Bernays \cite{HB39}.
+%% This is because
+%% no formalism can
+%% recognize its own consistency in a very robust
+%% strictly
+%% %purely
+%%  mathematical
+%% respect. 
+%% On the other hand, it also
+%% seems 
+%% evident
+%% %% appears apparent
+%% % undeniable 
+%% that
+%% human beings 
+%% will
+%% %would 
+%% find it awkward
+%% %be unable 
+%% to acquire the mental energy 
+%% for motivating themselves to cogitate,
+%% without possessing some type of instinctive faith  
+%% in their own self-consistency.
+%% This perhaps  should be
+%% called an
+%% % {\it quasi-
+%% {\it engineering=style appreciation} of one's 
+%% internal consistency. We seek to define and explore the
+%% nature of this 
+%% engineering  notion in the current article
+%% (with the hope that it will help formalize how future
+%% 21st century computers can benefit from this engineering-style
+%% notion while, of course, respecting 
+%% %%% at the same time
+%% the strict prohibitions formalized by
+%% G\"{o}del's millennial result.)
+
+
+
+\section{Background Setting} 
+\label{pppp2}
+
+
+Let
+ $(  \alpha  , d  )$ 
+denote any axiom system
+and deduction method satisfying
+the
+simple {\bf ``Split Rule''}
+below$\,$\footnote{Our 
+ ``Split Rule'' 
+is  the trivial requirement
+                   that all the axiom sentences in
+$~\alpha~$ are 
+technically
+{\it proper axioms}, and
+  that 
+deduction method $~d~$ is 
+required
+to include 
+{\bf BOTH} a finite number of rules of inference
+and
+whatever ``logical axioms'' are needed
+{\it  (if any ? )} 
+by $\,d$'s methodology.
+(This
+trivial
+Split-Rule
+notation convention will 
+help  us to provide a 
+%%hhhh
+precisely formalized statement of our results.
+ .)}.
+This pair 
+will 
+be called  {\bf ``Self Justifying''} when:
+\begin{description}
+  \item[  i   ] one of $ \, \alpha \,$'s  theorems
+will
+state that the deduction method $ \, d, \, $ applied to the
+system $ \, \alpha, \, $ will 
+produce a consistent set of theorems, and
+\item[  ii   ]
+     the axiom system $ \, \alpha  \, $ is in fact consistent.
+\end{description}
+For any  $\,(\alpha,d) \,$, 
+it is 
+easy 
+to construct a 
+second
+ $ \, \alpha^d \, \supseteq  \,  \alpha  \, $
+ that  satisfies
+the
+Part-i 
+requirement.
+For instance,  $ \, \alpha^d \, $  could
+consist of all of $~\alpha \,$'s axioms plus 
+an added {\bf $\,$``SelfRef$(\alpha,d)$''$\,$} sentence,
+defined as stating:
+\begin{quote} 
+$\bullet~$ 
+There is no proof 
+(using 
+$d$'s deduction method)
+of  $0=1$
+from the  {\it union}
+ of the
+system $ \alpha  $
+with {\it this}
+sentence  ``SelfRef$(\alpha,d)$'' (looking at itself).
+\end{quote}
+Kleene 
+\cite{Kl38} 
+noted
+how
+to
+encode
+rough
+ analogs of 
+ ``SelfRef$(\alpha,d)$''.
+Each of
+Kleene, 
+Rogers and Jeroslow 
+ \cite{Kl38,Ro67,Je71}
+ noted
+$\alpha ^d$ 
+may,
+however,  be inconsistent
+(despite SelfRef$(\alpha,d)$'s assertion),
+thus causing 
+it
+to violate Part-ii's
+requirement.
+
+
+%% hhhh
+This problem arises in
+many
+contexts besides
+ G\"{o}del's
+paradigm,
+where $\alpha$  was an extension of Peano Arithmetic
+(see
+\cite{Ad2,AZ1,BS76,Bu86,BI95,Fe60,Fr79a,Go31,Ha7,Ha11,HP91,HB39,Ko6,KT74,Lo55,Pa71,Pa72,Pu85,Pu96,Ro67,Sa12,So94,Sv7,Vi5,WP87,ww2,wwlogos,ww7}).
+Such results formalize 
+paradigms where 
+self-justification is infeasible,
+due to  diagonalization issues.
+(It should,
+perhaps, 
+ be added that among this
+lengthy list of articles,
+it was especially 
+\cite{Ad2,Bu86,Go31,Lo55,Pu85,So94,WP87}'s
+incompleteness results that
+influenced our
+work in
+\cite{ww93}-\cite{ww14}.)
+% in \cite{ww93,sp0,ww1,ww2,tab2,wwlogos,ww5,wwapal,ww6,ww7,ww9}.)
+In any case, the main point is that
+most
+logicians 
+have
+hesitated 
+to
+ employ 
+an
+analog of a
+ SelfRef$(\alpha,d)$
+ axiom
+because
+ $  \alpha^d  = \alpha+$SelfRef$(\alpha,d)  $
+is 
+typically 
+inconsistent. 
+
+
+
+
+
+
+
+
+
+Our research
+in \cite{ww93,ww1,ww5,ww6,wwapal}
+focused on
+paradigms
+where  
+self-justification is feasible.
+It
+involved weakening
+the properties 
+a 
+logic
+can prove 
+about
+addition and/or 
+multiplication
+(to avoid 
+potential
+difficulties).
+To be more precise, let
+ $Add(x,y,z)$ and    $Mult(x,y,z)$ 
+denote 
+3-way predicates
+specifying
+$x+y=z$ and
+$x*y=z$.
+Then a
+logic
+will be said to
+{\bf recognize}
+successor, 
+ addition  and multiplication
+as {\bf Total Functions} iff it 
+includes
+sentences
+1-3 as axioms.
+
+\vspace*{- 0.4 em}
+{\small
+\beq 
+\label{totdefxs}
+\forall x ~ \exists z ~~~Add(x,1,z)~~
+\enq
+\vspace*{- 1.7 em}
+\beq 
+\label{totdefxa}
+\forall x ~\forall y~ \exists z ~~~Add(x,y,z)~~
+\enq
+\vspace*{- 1.7 em}
+\beq 
+\label{totdefxm}
+\forall x ~\forall y ~\exists z ~~~Mult(x,y,z)~
+\enq }
+
+\vspace*{- 1.2 em}
+
+A
+logic
+$\alpha$
+will be called 
+{\bf Type-M} iff it contains
+\ref{totdefxs}-\ref{totdefxm}
+as axioms,  
+{\bf $~$Type-A} iff it contains only
+\eq{totdefxs} and \eq{totdefxa} as axioms,
+{\bf $~$Type-S} iff it contains
+only \eq{totdefxs} as an
+ axiom, and 
+{\bf $\,$Type-NS$\,$} iff it  contains
+none of these axioms.
+The relationship of these constructs to 
+self-justification 
+is explained by
+items (a) and (b):
+\bed
+\item[  a.  ]
+The existence of
+Type-A systems that can  recognize 
+their own
+consistency under semantic tableaux deduction,
+while proving
+analogs of
+all 
+Peano Arithmetic's
+ $\Pi_1$ theorems (in a slightly different language),
+were
+%%hhhh
+demonstrated in
+\cite{tab2,ww5}.
+Also, \cite{ww1,wwapal} noted that 
+some 
+specialized
+forms 
+of
+Type-NS systems 
+can 
+likewise
+recognize their
+own Hilbert consistency.
+
+
+
+\item[   b.  ]
+The above 
+evasions of the Second Incompleteness
+Theorem are known to be near-maximal in a mathematical sense.
+This is because
+the
+combined work of Pudl\'{a}k, Solovay, Nelson and Wilkie-Paris
+\cite{Ne86,Pu85,So94,WP87} implied  no
+natural 
+Type-S system can recognize  its  Hilbert consistency,
+and   Willard
+subsequently
+ \cite{ww2,ww7,ww9} 
+hybridized their formalisms with some techniques of
+Adamowicz-Zbierski 
+\cite{Ad2,AZ1} 
+to establish that  most
+Type-M  systems cannot recognize their
+own semantic
+tableaux consistency.
+\ennd
+
+
+ 
+Other
+fascinating
+efforts to 
+evade the Second Incompleteness Theorem 
+have used
+the Kreisel-Takeuti    ``CFA''
+system \cite{KT74}
+or the 
+the {\it interpretational framework} of
+Friedman,
+Nelson, Pudl\'{a}k and Visser
+\cite{Fr79b,Ne86,Pu85,Vi5}.
+These systems are unrelated to our approach
+because they
+do not use
+Kleene-like {\it ``I am consistent''} axiom-sentences.
+Instead, CFA uses the 
+special
+properties of ``second order'' generalizations of Gentzen's
+{\it cut-free}
+Sequent Calculus, 
+and 
+the
+interpretational approach
+formalizes how some systems 
+recognize their
+ Herbrand consistency 
+on localized sets of integers,
+which 
+unbeknownst to 
+themselves,
+includes all
+integers.
+(These alternate results are interesting but
+unrelated to our approach.)
+
+ 
+
+
+
+
+
+\section{Defining Notation and Earlier Results}
+\label{pppp3}
+
+\label{sect3}
+
+
+
+A function $F $
+will be called {\bf Non-Growth}
+iff 
+$ F(a_1...a_j) 
+\leq   Maximum(a_1...a_j)$
+holds.
+Six  examples of  
+non-growth functions are
+\bee
+\small
+\parskip 0pt
+%hhhh
+\item
+{\it Integer Subtraction} 
+(where $~x-y~$ is defined to equal zero when
+ $~x \leq y~),~~$
+\item
+{\it Integer 
+Division}
+(where $x \div y$ 
+equals
+$~x~$ when $y=0$, and
+it equals $~\lfloor ~x/y ~\rfloor~$ otherwise),
+\item
+$Maximum(x,y),$
+\item
+$ Logarithm(x)~=~\lfloor ~$Log$_2(x)~ \rfloor~$
+\item
+$\,Root(x,y) \, =  \, \lfloor  \, x^{1/y} \,  \rfloor~$. and
+\item$Count(x,j)$  designating the number of ``1'' bits
+among $  x$'s rightmost $  j  $ bits.
+\ene
+The term
+{\bf U-Grounding Function} 
+referred in \cite{ww5} to
+a set of 
+primitives,
+which included the
+preceding
+functions plus the {\it growth operations} of addition and
+{\it Double$(x)=x+x$}. 
+Our language $L^*$  was 
+built
+out of these 
+symbols, 
+plus the primitives of 
+``0'', ``1'',
+   ``$ \, = \, $''
+and ``$ \, \leq \, $''.
+
+
+
+
+In a context where  $~\, t \, ~$ is  any term in \cite{ww5}'s
+language $L^*$, 
+$\,$the quantifiers in
+%%  the wffs
+$~ \forall ~ v \leq t~~ \Psi (v)~$ and $~ \exists ~ v \leq t~~ \Psi (v)$
+were called {\it bounded 
+quantifiers}.
+Any formula in 
+ $L^*$, 
+all of whose
+quantifiers are bounded, was called
+a $\Delta_0^*$ formula.
+The  $~\Pi_n^{* }~$ and  $~\Sigma_n^{* }~$ formulae 
+were
+then defined by the 
+usual
+rules that:
+\bee
+\item
+Every  
+$\Delta_0^*$ formula is considered to
+be 
+``$~\Pi_0^{* }~$''  and 
+also 
+ ``$~\Sigma_0^{* }~$''. 
+\item
+A
+wff
+is  called
+ $ \,\Pi_n^{* } \,$
+when it is encoded as 
+$\forall v_1 ~ ...~ \forall v_k ~ \Phi$  with
+$\Phi$ being  $\Sigma_{n-1}^{* }$
+\item
+Also,
+a wff
+is  called
+ $\Sigma_n^*$
+when it is encoded as 
+$\exists v_1 ..\exists v_k ~ \Phi,$  where
+$\Phi$ is  $\Pi_{n-1}^{* }$.
+\ene
+
+%%bbb
+Our articles \cite{ww93,tab2,ww5} used the symbol $~D~$ to denote
+a deduction method. 
+They focused mostly around the 
+semantic tableaux deductive methodology,
+whose formal definition can be found in the textbooks
+by Fitting and Smullyan
+\cite{Fi90,Smul} and whose
+definition is also reviewed
+by Appendix A of the current article.
+
+%%bbb
+Our articles \cite{wwlogos,ww5}
+also considered an improved faster deductive technology,
+ called
+{\bf Tab-k
+ deduction}, that 
+consists of a 
+speeded-up version of a 
+tableaux,
+which 
+permits a
+{\it limited analog} of 
+Gentzen-style deductive
+cuts
+for  $\Pi_k^*$ and   $\Sigma_k^*$ formulae.
+Thus, if
+ $~H~$ 
+denotes a sequence of ordered pairs
+$~(t_1,p_1),~(t_2,p_2),~...~(t_n,p_n),~$
+where $~p_i~$ is a Semantic Tableaux proof of the theorem $~t_i,~$
+then  $H$ 
+has been
+ called a
+{\bf ``Tab-k
+Proof''}
+of a theorem $~T~$ 
+from  $\alpha$'s axioms
+  iff $~T=t_n~$
+and also:
+\begin{enumerate}
+\item
+Each of the ``intermediately derived theorems'' 
+$~t_1,t_2, \, ... \, , t_{n-1}~$
+have a complexity no greater than that of
+either a $\Pi_k^*$ or $\Sigma_k^*$ sentence.
+\item
+Each
+proper axiom in  $ p_i$'s
+proof 
+comes 
+either
+from $\alpha$ or is
+ one of $ t_1,t_2, \, ... \, , t_{i-1} $. 
+\end{enumerate}
+Thus, a 
+Tab-k proof is essentially a generalization of a classic
+semantic tableaux proof that essentially owns the equivalent of
+an
+extra specialized modus ponens rule for 
+ $\Pi_k^*$ and $\Sigma_k^*$ sentences.
+
+Let
+us say 
+an axiom system $\alpha$ 
+has a {\bf Level-J Understanding}
+of its own 
+consistency 
+under a deduction method $D$ 
+iff $\alpha$ can prove that there exists no proofs
+using
+its axioms and $D$'s deduction
+of both a
+$\Pi_J^*$ theorem and its negation.
+In this notation, items A and B summarize
+\cite{sp0,ww2,wwlogos,ww5,ww7}'s 
+main
+results:
+\bed
+\item[   A.   ] 
+ For 
+any
+axiom system $A$ using $L^*\,$'s
+ U-Grounding language, 
+\cite{ww5} 
+showed its
+IS$_D(A)$  formalism 
+could prove
+all $A$'s $\Pi_1^*$ theorems and simultaneously
+verify its 
+Level-1
+consistency under
+\txl{1} deduction.
+
+\smallskip
+
+\item[   B.   ] 
+Two negative results, tightly complementing
+item A's
+positive result,
+were exhibited
+in 
+\cite{sp0,ww2,wwlogos,ww7}. The first
+was that \cite{sp0,ww2,ww7} showed
+most 
+systems
+are 
+unable to verify their 
+Level-0 consistency under
+semantic tableaux 
+deduction, 
+ when they included 
+statement
+\eq{totdefxm}'s ``Type-M''
+axiom  that multiplication
+is a total function. Moreover, \cite{wwlogos}
+offered an alternate
+form
+of this
+ incompleteness
+result,
+showing statement
+\eq{totdefxa}'s
+{\it 
+far weaker} 
+Type-A 
+systems
+cannot
+verify
+their Level-0 consistency under
+\txl{2} deduction.
+\ennd
+
+
+
+
+The contrast between these
+positive and negative results
+has
+ led to our conjecture that
+automated
+theorem provers
+are likely
+ to 
+eventually
+achieve
+a fragmentary part of the ambitions 
+that were
+suggested by  Hilbert
+in 
+$**\,$.
+This is because
+the question of whether a
+formalism can support an 
+{\it idealized Utopian}
+conception of
+its own consistency is {\it 
+different} from 
+exploring the degrees to which 
+theorem-provers
+can possess 
+a {\it fragmentary
+knowledge} of 
+their own
+consistency. 
+The 
+Incompleteness Theorem 
+has demonstrated 
+an Utopian idealized form of self-justification
+is unobtainable,
+but our research has found some 
+diluted
+cousins
+of this construct  are 
+feasible
+%%% hhhh
+and warrant examination.
+
+
+%%%bbbbb
+In summary,
+%as a reader examines the remainder of this article,
+it should be kept in mind,
+during the remainder of this article,
+that the Hilbert-Bernays Derivability Conditions
+\cite{HP91,HB39,Mend}
+impose severe limits upon any  evasion of
+the Second Incompleteness Theorem.
+% that are inexorable. 
+On the other hand, 
+it appears that a
+ human's
+ faith in his own consistency
+is an essential
+prequisite to gain the needed
+ psychological
+motivation for 
+% cogitating.
+stimulating cogitation?
+% motivate  to cogitate. 
+%cogitation, is also a non-trivial agent.
+(This is why we suspect Hilbert was never willing
+to concede that all facets of his consistency program
+%would be 
+were
+hopeless.)  
+A broad theme of this paper will,
+% thus
+thus, 
+be that it
+is helpful to distinguish between the goals of
+a
+theoretical-oriented study of arithmetic from
+that of
+a more engineering-styled approach,
+since the
+Second Incompleteness Theorem is a perfect result
+from the first perspective while it permits
+for
+% some 
+well-defined
+limited-scale part-way exceptions from
+the second vantage point. 
+
+%% Above sentence replaces below
+
+
+%%  Our interest in
+%%  the contrast between Paradigms A and B, as well as
+%%  the  distinction between a
+%%  ``Fragmentary'' and ``Idealized-Utopian'' notion of consistency, 
+%%  was
+%%  % stimulated by such 
+%%  raised by these
+%%  considerations.
+
+
+%% It is for this reason that
+%% the contrast between Paradigms A and B, as well as
+%% the  distinction between a
+%% ``Fragmentary'' and ``Idealized-Utopian'' notion of consistency, 
+%% from the preceding two paragraphs,
+%% warrant investigation.
+%% 
+%are so important.
+
+
+%%  Their
+%% two subtle contrasts will be our
+%% main
+%% focus
+%% % of our attention 
+%% %in the remainder of this article.
+%% in the rest of this article.
+%% 
+
+
+\section{The IS$_D(A)$ Axiom System}
+\label{pppp4}
+
+
+\label{sect4}
+
+In a context where $~A~$ denotes any axiom
+system using
+ $L^*\,$'s 
+U-Grounding language, IS$_D(A)$ 
+was defined 
+in \cite{ww5}
+to be an axiomatic
+formalism  capable of recognizing all of 
+$A$'s $\Pi_1^*$ theorems and 
+corroborating 
+its own Level-1 consistency under $D$'s deductive method.
+It 
+consisted of the 
+following four
+groups of axioms:
+\begin{description}
+\item[Group-Zero:]
+Two of the Group-zero axioms 
+did
+% will 
+define
+the
+constant-symbols,
+$\bar{c}_0$
+and $\bar{c}_1$,
+designating the integers of 0 and 1.
+The
+Group-zero axioms
+will
+also define the
+growth functions of addition and 
+$~Double(x) \, = \, x+x.~$
+The
+net effect of these 
+axioms will be to set up a machinery to
+define
+any 
+integer
+$~n \geq 2~$ 
+using fewer than
+$3 \cdot \lceil \, $Log$~n~ \rceil \,$ 
+logic symbols.
+
+
+
+
+
+\item[Group-1:] 
+This axiom group 
+did
+% will 
+ consist of a
+finite set of $\Pi_1^{*} $ sentences, denoted as $~F~$, which
+can prove any $\Delta_0^*$ sentence that
+holds true under the standard model of the natural numbers.
+(Any finite set of 
+$\Pi_1^{*} $ sentences $~F~$ 
+with this property
+may be used to define Group-1,
+as    \cite{ww5}  noted.)
+
+
+
+\item[Group-2:]
+Let $\ulxyz \Phi \urxyz$ denote
+$\Phi$'s G\"{o}del Number, and
+HilbPrf$_A(\ulxyz \Phi \urxyz,p)$ denote a
+$\Delta_0^{*} $ formula indicating 
+$~p~$ is a
+Hilbert-styled proof of 
+theorem $~\Phi~$ from
+axiom system $A$.
+For each $\Pi_1^{*}  $ sentence  $\Phi$, the 
+Group-2 schema
+of \cite{ww5}
+did
+% will 
+ contain an axiom of 
+form \eq{group2}.
+(Thus IS$_D(A)$ can trivially prove
+ all $A$'s 
+$\Pi_1^{*}  $ theorems.) 
+\begin{equation}
+\forall ~p~~~\{~ \mbox{HilbPrf$_A(\ulxyz \Phi \urxyz,p)$}
+ ~~
+\Rightarrow ~~ \Phi~~\}
+\label{group2}
+\end{equation}
+\item[Group-3:]
+This final part of the IS$_D(\aaa)$ 
+essentially represented
+% will be 
+a
+self-referencing
+$\Pi_1^*$
+axiom,
+indicating 
+IS$_D(\aaa)$ meets 
+\textsection   3's criteria of being
+``Level-1 consistent'' 
+under deductive method $D$.
+It 
+amounts,
+%is, 
+thus, 
+to the following  declaration:
+\begin{quote} 
+\# $~${\it No two
+proofs exist
+for 
+a $\Pi_1^{*} $ sentence
+and its negation, when
+$D$'s deductive method is applied to an axiom system,
+consisting of  
+the {\it union}
+of 
+Groups 0, 1 and 2 with {\bf $\,$this sentence$\,$}
+(looking at itself).}
+\end{quote}
+
+One encoding of \#,
+$\,$as a self-referencing
+$\Pi_1^{*} $
+axiom,
+appears
+ in 
+\cite{ww5}.
+%% hhhh0000000000
+Thus, 
+the 
+below
+sentence
+\eq{group3} 
+represents 
+\cite{ww5}'s
+$\Pi_1^{*}\, $ styled
+encoding for$~$
+  \#
+in a context where:
+\bed
+\item[    i. ]
+$~~\mbox{Prf} \, _{\mbox{IS}_D(A)}(a,b) \, $ is
+a 
+ $\Delta_0^{*} $ formula 
+indicating 
+that 
+$ \, b \, $ is a proof
+ of a theorem $\, a\,$
+under
+  $\mbox{IS}_D(A)$'s axiom system
+and $D$'s deduction method, 
+$\,~$and 
+\item[   ii. ]
+$~~$Pair$(x,y)$ is a $\Delta_0^{*} $ formula
+indicating 
+that $ \, x \, $ is  a
+ $\Pi_1^{*} $ sentence 
+and 
+% that
+ $ \, y \, $ 
+represents 
+$ \, x \,$'s negation.
+\end{description}
+%% A summary of the formal techniques that
+%% \cite{ww5} used to encode
+%% sentence
+%% \eq{group3} is provided in Appendix B. 
+\end{description}
+\begin{equation}
+\forall  ~x~\forall  ~y~\forall  ~p~\forall  ~q~~~~ \neg ~~
+[~~ \mbox{Pair}(x,y)~ \wedge ~ 
+~\mbox{Prf}~_{\mbox{IS}_D(\aaa)}(x,p)~
+\wedge ~ ~\mbox{Prf}~_{\mbox{IS}_D(\aaa)}(y,q)~ ]
+\label{group3}
+\end{equation}
+ 
+\begin{remark} \label{remc}
+\rm
+A 
+fully formal
+summary of the techniques that
+\cite{ww5} used to encode
+%the
+sentence
+\eq{group3} is provided by
+the combination of  Appendices B and C. 
+The former appendix summarizes our
+methods for generating the G\"{o}del numbers
+of semantic tableaux and  \txl{k} proofs
+in an optimally compressed manner.
+The latter appendix explores how
+sentence
+\eq{group3}'s self-referencing statement is precisely encoded. 
+\end{remark}
+
+{\bf Notation.} An operation $~I(~\bullet~)~$ that maps
+an initial axiom system $\,\aaa \,$ onto an alternate
+system  $\,I(\aaa)\, $ will be called {\bf Consistency Preserving}
+iff  $\,I(\aaa)\, $ is consistent whenever all of $\aaa$'s axioms hold
+true under the standard model of the natural numbers. In this
+context, 
+\cite{ww5} demonstrated:
+
+
+\begin{theorem}
+\label{ttt1}
+\label{thold}
+Suppose 
+the symbol $D$ denotes either semantic
+tableaux deduction or its \txl{1} generalization.
+Then the  IS$_D(~\bullet~)~$ mapping operation is consistency preserving
+(e.g. 
+IS$_D(\aaa) $ 
+will be consistent whenever all of $\aaa$'s axioms hold
+true under the standard model of the natural numbers).
+\end{theorem}
+
+We emphasize 
+the most difficult part of \cite{ww5}'s
+result was 
+neither the definition of its  
+IS$_D(\aaa) $'s axiom system nor the
+$\Pi_1^*$ fixed-point
+ encoding of \eq{group3}'s Group-3 axiom.
+Instead, 
+the key challenge
+ was the 
+confirming
+of \thx{thold}'s 
+``Consistency Preservation''
+property.
+
+
+The 
+confirming of
+this
+property
+is
+subtle
+because its invariant breaks down when 
+$~D~$ is a deduction method only slightly stronger than
+either semantic tableaux or  \txl{1} deduction.
+Thus,  Pudl\'{a}k's and Solovay's
+work \cite{Pu85,So94}
+implies  \thx{thold}'s analog fails when $D$ represents
+Hilbert deduction, and \cite{wwlogos} showed its generalization
+ fails
+even when  $D$ represents  \txl{2} deduction.
+
+
+
+
+
+
+
+
+\section{A Finitized Generalization of  \thx{thold}'s Methodology}
+\label{pppp5}
+
+
+\label{sect5}
+
+%%%mmmm
+One 
+difficulty with IS$_D(\aaa)$ 
+was
+is
+that it 
+employed
+an infinite number of different
+incarnations of
+sentence \eq{group2}
+in its Group-2 scheme (since it contained one incarnation
+of this sentence for each $\Pi_1^*$ sentence $\Phi$ in
+$L^*\,$'s language). Such a Group-2 schema is awkward because
+it simulates $A$'s 
+$\Pi_1^*$
+knowledge almost via a brute-force 
+enumeration.
+
+
+Our Definition \ref{dd-is2} and Theorems
+\ref{ttt2} and \ref{ttt3} will show how
+to 
+mostly
+overcome this problem by  
+compressing the infinite number
+of
+instances of sentence \eq{group2} in
+IS$_D(\aaa)$'s Group-2 schema into
+a purely finite structure.
+
+\smallskip
+
+\begin{definition}
+\label{dd-is2}
+\rm
+Let $~\beta~$ denote any
+finite set of
+axioms that have 
+ $\Pi_1^*$ encodings.
+Then 
+\I2 
+will denote an axiom system,
+similar to  IS$_D(\aaa)$, except 
+its Group-2
+scheme will employ $~\beta\,$'s set of axioms,
+instead of using an infinite number of applications
+of
+statement \eq{group2}'s scheme.
+(Thus,
+the 
+{\it ``I am consistent''} statement
+in \I2's Group-3
+axiom will be the same as before, except that
+the  {\it ``I am''} 
+fragment of its
+self-referencing
+statement
+will reflect 
+these
+ changes in Group-2 in the obvious manner.)
+\end{definition}
+ 
+
+
+\begin{theorem}
+\label{ttt2}
+Let 
+ $D$ again denote either
+semantic
+tableaux 
+or  \txl{1} deduction,
+and $\beta$ again denote a set of
+$\Pi_1^*$ axioms.
+Then
+\I2 
+will be consistent whenever all 
+$\beta$'s axioms hold
+true under the standard model.
+(In other words, 
+ \I2 
+will satisfy an analog of \thx{ttt1}'s
+consistency preservation property for IS$_D(\aaa) $.) 
+\end{theorem}
+
+%%bbbb
+\thx{ttt2}'s
+proof
+is almost identical to
+\cite{ww5}'s proof of \thx{ttt1}.
+Its proof is too lengthy to repeat here.
+Instead \textsection \ref{newppp9}
+will 
+briefly summarize its
+%%                                                        
+%%    provide
+%% a 
+%% brief
+%% %detailed
+%% % an intuitive 
+%% summary
+%% of the 
+%% formal
+%% % germane 
+%% 
+proof.
+This 
+abbreviated discussion
+%% discourse 
+should be sufficient to explain
+the gist behind the
+proof's core
+%needed 
+formalism,
+%proofs,
+without delving into
+\cite{ww5}'s
+full 
+%%%%% too many
+%full
+% formal 
+details.
+
+%%bbbb
+Our next definition will enable us to formalize
+the main application of 
+\thx{ttt2} that will be considered
+here.
+%during the present article.
+It will essentially explain how
+{\bf finite-sized}
+ self-justifying 
+ logics
+  can provide an
+  {\bf infinite amount }
+ of 
+ ``kernelized''
+   $\Pi_1^*$ 
+styled
+information.  
+
+
+
+%%% It will.
+%%% not be 
+%%% repeated in this extended abstract.
+%%% Instead, 
+%%% this section
+%%% will  apply
+%%% \thx{ttt2}
+%%% to 
+%%% show how
+%%% {\bf finite-sized}
+%%% self-justifying 
+%%% logics
+%%%  can provide an
+%%%  {\bf infinite amount }
+%%% of 
+%%% ``kernelized''
+%%%   $\Pi_1^*$ information.  
+%%% 
+
+\begin{definition}
+\label{dkern}
+\rm
+Let
+Test$_i(t,x)$ 
+denote any $\Delta_0^*$ formula,
+and $~\ulcorner \Psi \urcorner ~$ denote
+$\, \Psi\,$'s G\"{o}del number. Then
+Test$_i(t,x)$ will be called a {\bf Kernelized Formula}
+iff Peano Arithmetic can prove every $\Pi_1^*$ sentence
+$~\Psi~$ satisfies \eq{testker}'s
+identity:
+\beq
+\label{testker}
+\Psi ~~~ \Longleftrightarrow~~~ \forall ~x~~
+\mbox{Test}_i  (~\ulxyz~\Psi~\urxyz~,~x~)
+\enq
+There are 
+infinitely
+many 
+ $\Delta_0^*$  predicates
+Test$_1(t,x)$, Test$_2(t,x)$, Test$_3(t,x)$ ...
+satisfying this kernelized condition
+(one of which is illustrated by Example \ref{eex1}).
+An enumerated list  of all 
+the available kernels
+is
+called a  {\bf Kernel-List}.
+\end{definition}
+
+\begin{example} \label{eex1} \rm
+The set of
+true $\Sigma_1^*$ sentences is
+r.e.
+This 
+implies
+there 
+exists a $\Delta_0^*$ formula,
+called say Probe$(g,x)$, 
+such
+that $~g~$ 
+is
+the G\"{o}del number of
+a $\Sigma_1^*$ statement that holds true in the Standard
+Model 
+if and only if
+%iff
+\eq{e-probe} is true: 
+\beq
+\label{e-probe}
+\exists ~x~~~ \mbox{Probe}(g,x)~\wedge~ x \geq g
+\enq
+Now, let Pair$(t,g)$ denote a $\Delta_0^*$ formula
+that specifies $~t~$ is the  G\"{o}del number of
+a $\Pi_1^*$ statement and
+ $~g~$ is
+the  $\Sigma_1^*$ formula which is its negation.
+Then our notation implies 
+that
+  $~t~$ 
+is
+a true 
+ $\Pi_1^*$ statement 
+if and only if \eq{e-2probe} holds true:
+\beq
+\label{e-2probe}
+\forall ~x~~~ 
+\neg~[~\exists ~g ~\leq~x~~~~~ \mbox{Pair}(t,g)~\wedge~\mbox{Probe}(g,x)~~]
+\enq
+Thus if
+Test$_0(t,x)$
+denotes the $\Delta_0^*$ formula of
+$~ \neg~[~\exists ~g \, \leq \, x~~ 
+\mbox{Pair}(t,g)~\wedge~\mbox{Probe}(g,x)]$,
+it
+is one example of what 
+Definition \ref{dkern}
+would
+call a
+``Kernelized Formula''.
+\end{example}
+
+\begin{definition}
+\label{def3}
+\rm
+Let us recall 
+Definition \ref{dkern}
+defined 
+{\bf Kernel-List} to be an enumeration of
+all the
+kernelized formulae 
+Test$_1(t,x)$,
+ Test$_2(t,x)$, Test$_3(t,x)...~$.
+Assuming
+Test$_i(t,x)$ is the $i-$th element in this
+list
+and 
+$\Psi$ is an arbitrary $\Pi_1^*$ sentence,
+the
+{\bf i-th Kernel Image}
+of $\, \Psi \,$
+ will be  
+defined as
+the 
+following $\Pi_1^*$
+sentence:
+\beq
+\label{imagker}
+ \forall ~x~~
+\mbox{Test}_{\, i \,} (~\ulxyz~\Psi~\urxyz~,~x~)
+\enq
+\end{definition}
+
+\begin{example} \label{eex2}  \rm
+The Definitions 
+\ref{dkern}
+and \ref{def3} suggest that there is a
+ subtle relationship
+between a sentence $~\Psi~$ and its $i-$th kernel image.
+This is because 
+Definition \ref{dkern}
+indicates that Peano Arithmetic can prove the invariant
+\eq{testker},  indicating that 
+ $~\Psi~$ 
+is equivalent to
+ its $i-$th kernel image.
+However, a weak axiom system 
+can be plausibly uncertain about
+whether this 
+equivalence
+does formally hold.
+This invariant is duplicated below:
+\beq
+\label{againtestker}
+\Psi ~~~ \Longleftrightarrow~~~ \forall ~x~~
+\mbox{Test}_i  (~\ulxyz~\Psi~\urxyz~,~x~)
+\enq
+
+% equivalence holds.
+
+%mm% 
+Thus if a weak axiom system proves statement 
+\eq{imagker} (rather than $~\Psi~$), 
+it 
+%% may
+will
+ not be able to equate these
+two
+results
+(unless it is able to verify
+\eq{againtestker}'s identity).
+This problem will apply to \thx{ttt3}'s
+formalism.
+However, \thx{ttt3} will
+%  be 
+still
+remain
+ of much interest
+because \textsection \ref{pppp6} will 
+illustrate a 
+methodology that
+can overcome
+many of \thx{ttt3}'s limitations.
+\end{example}
+
+
+
+
+
+
+
+\begin{theorem}
+\label{ttt3}
+Let $~A~$ denote any
+system, 
+whose
+ axioms hold 
+true 
+in arithmetic's standard model,
+and $~i~$ denote the index
+of any of
+Definition \ref{dkern}'s
+kernelized formulae
+ Test$_i(t,x)$.
+Then it is possible to construct a
+finite-sized 
+collection of $\Pi_1^*$ sentences, called say
+ $\beta_{A,i}$,
+where 
+\ik3
+satisfies the following invariant:
+\begin{quote}
+If $~\Psi~$ is one of the 
+$\Pi_1^*$ theorems of
+ $~A~$
+then  \ik3 can prove 
+\eq{imagker}'s
+statement 
+ (e.g. it will prove the
+``the $\, i-$th kernelized image'' 
+of 
+$~\Psi\,$).
+\end{quote}
+\end{theorem}
+
+\newpage
+
+\noindent
+{\bf Proof Sketch:}
+Our justification of 
+\thx{ttt3} will 
+use the following notation:
+\bee
+\item
+Check$(t)$ will denote a $\Delta_0^*$ formula
+that 
+produces a Boolean value of ``True'' when
+$t$ represents the G\"{o}del
+number of a $\Pi_1^*$ sentence.
+\item
+ $~\mbox{HilbPrf}_A \,(   t   ,   q   )~$ 
+will denote
+ a  $\Delta_0^*$ formula that indicates
+$~q~$ is a Hilbert-style proof of the theorem
+$~t~$ from axiom system   $~A~$.
+\item
+For any kernelized
+Test$_i(t,x)$ 
+formula, GlobSim$_i$ 
+will 
+denote \eq{globsim}'s $\Pi_1^*$ sentence.
+(It will be called $A$'s $i-$th
+{\bf ``Global Simulation Sentence''}.)
+\ene
+\beq
+\label{globsim}
+\forall ~t~~
+\forall ~q~~
+\forall ~x~~\{~~
+[~~\mbox{HilbPrf}_A \,(   t   ,   q   )~~ \wedge ~~
+\mbox{Check}(t)~~]~~~
+\Longrightarrow ~~~ 
+\mbox{Test}_i(t,x)~~~ \}
+\enq
+
+%%mm 
+In this notation, 
+%%%the requirements of 
+\thx{ttt3} 
+shall
+%will
+be satisfied by any
+version of the axiom system \I2, whose Group-2 schema $~\beta~$
+is a finite sized
+consistent set of $\Pi_1^*$ sentences
+that has 
+\eq{globsim}
+as an axiom.
+(This includes 
+the minimal sized such system,
+%  which we will 
+denoted as $~\beta_{A,i}~$, 
+that has only \eq{globsim} as an axiom.)
+This is because 
+%Thus,
+if 
+$\Psi$ is any 
+$\Pi_1^*$ theorem of $A$ whose proof
+is denoted as $~\bar{p}~$,  then both the
+$\Delta_0^*$ predicates of
+$\mbox{HilbPrf}_A \,( \ulxyz \Psi \urxyz , \bar{p}    )$ and
+$\mbox{Check}(  \ulxyz \Psi \urxyz )$ 
+will hold true.
+%are true. 
+Moreover,
+IS$^{\#}_D$'s
+%%%%%%%%%%%%%%  \I2's 
+Group-1 axiom subgroup was defined so that
+it can automatically prove all
+ $\Delta_0^*$ sentences that are true. 
+Hence,
+%Thus, 
+ \ik3 will
+ prove these two statements and 
+then automatically
+%hence 
+corroborate (via axiom
+\eq{globsim}) the further statement
+of:
+\beq
+\label{interm}
+\forall ~x~~
+\mbox{Test}_{\, i \,}(~  \ulxyz \Psi \urxyz ~,~x~ )
+\enq 
+%Hence 
+Thus
+for each of the infinite number of $\Pi_1^*$
+theorems that $~A~$ proves, the above defined
+formalism will prove a matching statement
+that corresponds to 
+its
+%% the 
+ $\, i-$th kernelized image.  $~~\Box$
+
+
+%% of 
+%% each
+%% such  proven theorem.
+%%  $~~\Box$
+
+\section{ L-Fold Generalizations of \thx{ttt3} } 
+\label{pppp6}
+
+
+
+
+\thx{ttt3} 
+is of
+interest
+because every axiom system $\,A\,$
+will have
+its formalism
+\ik3 
+prove the 
+ $\, i-$th kernelized image of every
+ $\Pi_1^*$  theorem that $A$ proves.
+This fact is helpful
+because 
+\eq{testker}'s invariance
+holds for all $\Pi_1^*$ sentences.
+Moreover, our  
+``U-Grounded''
+$\Pi_1^*$ sentences
+capture all 
+Conventional Arithmetic's
+{\it crucial}
+$\Pi_1$ 
+information
+because they can 
+view
+multiplication as a 3-way 
+ $\Delta_0^*$ 
+predicate
+Mult$(x,y,z)$
+via 
+\eq{neweq1}'s
+encoding of this predicate.
+\begin{equation}
+\label{neweq1}
+[~(x=0    \vee    y=0 ) \Rightarrow z=0~ ]~ ~\wedge ~~ 
+[~(x \neq 0 \wedge y \neq 0~) ~ \Rightarrow ~
+(~ \frac{z}{x}=y  ~\wedge \, ~  \frac{z-1}{x}<y~~)~]
+\end{equation}
+
+One difficulty with 
+\I2
+and \ik3 
+was mentioned by 
+Example \ref{eex2}. 
+It was that 
+while
+ Peano 
+Arithmetic 
+can corroborate
+\eq{testker}'s invariance for every $\Pi_1^*$ sentence $\, \Psi \,$,
+these latter 
+systems 
+cannot  
+also do so.
+
+
+
+While there will
+probably
+never be a 
+perfect method for
+fully
+ resolving this 
+challenge,
+there is
+a  pragmatic engineering-style solution
+that is often available.
+This is essentially because
+ our proof of \thx{ttt3}
+employed
+a formalism $~\beta~$ that 
+used essentially
+only one axiom sentence (e.g. 
+\eq{globsim}'s $\Pi_1^*$ declaration ).
+
+
+Since  the  \I2 formalism was intended 
+for use
+by any finite-sized system $\beta$,
+it is clearly possible to
+include any
+finite number
+of formally true
+$\Pi_1^*$ sentences in $\beta$.
+Thus for some fixed constant $L$, 
+one can easily let
+ $\beta$ include
+$L$ copies of   \eq{globsim}'s axiom framework for a finite
+number of different
+Test$_1$, Test$_2$ ... Test$_L$ 
+predicates, each of which satisfy Definition \ref{dkern}'s
+criteria for being kernelized formulae. In this case, 
+\I2 
+will formally
+ map each  initial 
+$\Pi_1^*$ theorem 
+$\Psi$
+of some axiom system $~A~$ onto 
+$L$ 
+resulting
+different
+$\Pi_1^*$ 
+theorems
+of
+the form
+\eq{imagker}.
+
+
+
+\begin{remark} \label{remc2}
+\rm
+Our 
+basic
+conjecture is,
+essentially,
+that
+a goodly number of issues, concerning
+logic-based
+engineering applications
+called say $E$, 
+may
+have convenient solutions via
+self-justifying 
+logics,
+that follow the
+preceding 
+outlined 
+L-fold
+strategy. 
+Thus, we are suggesting that if 
+ $~\beta~$ is a large-but-finite set of axioms, that
+consists of 
+$L$ copies of   \eq{globsim}'s axiom framework for 
+different
+Test$_1$...Test$_L$ 
+predicates, then 
+some
+future
+engineering applications $~E~$
+may possibly
+ have their needs met by an
+\I2 formalisms, when a
+software
+ engineer meticulously  chooses
+an
+appropriately
+constructed
+finite-sized
+ $\beta$.
+\end{remark}
+
+
+
+
+\begin{remark} \label{rem2} \rm
+The preceding 
+was not meant to overlook 
+that the Second Incompleteness Theorem is a 
+robust  result,
+applying to
+all 
+logics of sufficient strength.
+Our suggestion, however,  is
+that computers
+are becoming 
+so 
+powerful, in both speed and memory size as
+the 21st century
+is progressing, that   there 
+will likely
+emerge engineering-style applications
+$~E~$
+ that will benefit from  \I2's 
+self-referencing
+formalisms when a {\it large-but-finite-sized}
+ $~\beta~$ is delicately chosen.
+Moreover, it is of interest to speculate
+whether such computers
+can partially
+imitate 
+a human being's 
+approximate instinctive 
+conjectures
+about
+his
+own consistency (that, as 
+common colloquially 
+held
+conjectures, 
+seem
+to serve as
+{\it essential prerequisites} for humans to 
+gain their 
+motivation
+to cogitate).
+\end{remark}
+
+Sections \ref{pppp7}-\ref{pppxppp10}
+ will examine the preceding 
+issues
+in
+further
+detail. 
+%% hhhh
+% 
+% Part of
+% their theme will be
+% that 
+% while boundary-case exceptions to the Second Incompleteness
+% Theorem are important and noteworthy in certain
+% specialized
+%  contexts,
+% they still
+% do not 
+% narrow the 
+% main intentions 
+% of
+%  G\"{o}del's
+% seminal  result.
+% 
+Also, 
+Section \ref{newppp9}
+will offer an intuitive
+summary
+of the techniques 
+that
+\cite{ww5} 
+used to prove 
+Theorem \ref{ttt1}, so that the reader
+can understand 
+%the intuition behind 
+\cite{ww5}'s gist without reading the full details of 
+\cite{ww5}'s
+formal
+proof.
+
+% its proof.
+
+
+\section{Comparing  Type-M and Type-A
+Formalisms} 
+
+\label{pppp7}
+
+Let us 
+recall 
+axioms
+\eq{totdefxs}-\eq{totdefxm} indicated
+Type-A 
+systems
+differ from Type$-$M formalisms by treating Multiplication
+as a 3-way relation (rather than as a total function).
+For the sake of accurately characterizing what our systems
+can and cannot do, we have described our results as
+being fringe-like exceptions to the Second Incompleteness
+Theorem, from the perspective of an Utopian view of Mathematics,
+while  perhaps 
+being
+more significant results from an
+engineering-style perspective of knowledge. Our goal in
+this section will be to 
+amplify
+upon
+this 
+perspective by taking a closer look at Type-A and Type-M
+formalisms.
+
+
+
+Let us assume that 
+$\,x_0 = \, 2 \, = \, y_0\,$ and that
+$      x_1,   x_2, x_3,     ...    $ 
+and  $      y_1,   y_2,  y_3,    ...  $
+are defined by the recurrence 
+rules of:
+\beq
+\label{smart-squeeze}
+x_{i+1}~=~x_{i}~+~x_{i}
+  ~~~~~~~ \mbox{AND} ~~~~~~~
+y_{i+1}~=~y_{i}~*~y_{i}
+\enq
+The sequences 
+$   x_0,   x_1,   x_2,     ...    $ 
+and  $   y_0,   y_1,   y_2,     ...  $
+will 
+thus
+ represent the growth rates
+associated with the addition and multiplication primitives,
+lying in the 
+statements
+\eq{totdefxa} and \eq{totdefxm}'s
+{\bf ``Type-A''} and {\bf ``Type-M''} 
+axioms.
+
+Since $\,x_0 = \, 2 \, = \, y_0\,$,
+the rule
+\eq{smart-squeeze} implies 
+$ \, y_n \, = \, 2^{2^n} \, $ and
+ $ \, x_n \, = \, 2^{ n+1} \,  \, $. 
+The  $   y_0,   y_1,   y_2,     ...  $ sequence will,
+thus,
+grow 
+much more quickly than
+the
+$   x_0,   x_1,   x_2,     ...    $ 
+sequence (since
+ $ \, y_n \,$'s binary encoding will have an Log$(y_n)\, = \,2^n~$ 
+length
+while  $ \, x_n \,$'s binary encoding will have
+a shorter length 
+of size
+$~$Log$(x_n) \, = \, n+1~~$).
+
+
+
+Our prior papers noted that the 
+difference between these
+growth rates 
+was the 
+reason that \cite{sp0,ww2,ww7}
+showed 
+all natural 
+Type-M
+systems, recognizing 
+integer-multiplication as a total function, were unable
+to recognize their 
+tableaux-styled 
+consistency ---
+while \cite{ww93,ww1,ww5} showed 
+some Type-A 
+systems could 
+simultaneously prove all Peano Arithmetic $\Pi_1^*$ theorems and
+corroborate their own 
+tableaux consistency.
+Their gist
+was that a
+G\"{o}del-like diagonalization argument, which causes an
+axiom system to become inconsistent as soon as it proves
+a theorem affirming its own 
+tableaux consistency,
+stems,
+ultimately,
+ from
+the exponential growth in 
+the  series  $   y_0,   y_1,   y_2,     ...$ .
+
+This growth
+will, thus,
+facilitate
+% facilitates 
+an intense
+cascading
+amount of self-referencing,
+using 
+the identity
+Log$(y_n)\, \cong \,2^n~,~$
+that will,
+ultimately,
+ invoke the force of
+G\"{o}del's seminal
+diagonalization
+machinery.
+It 
+% thus raises
+will thus raise
+the following 
+enticing
+question: 
+\begin{quote} 
+$***~$ How natural are exponentially growing sequences,
+such as
+  $   y_0,   y_1,   y_2     ..  $, whose $n-$th member
+needs
+ $2^n$ bits 
+for its encoding, $~$when such lengths are
+greater than
+ the number of atoms in the universe
+when
+merely
+ $~n\,> \, 100~$?
+%hhhh
+Is the use of
+such a sequence
+%use, 
+for corroborating the Second Incompleteness
+Effect
+%  , thus essentially,
+%thereby 
+resting
+% , essentially,
+%, at least partially, 
+upon an
+% an inherently
+almost
+artificial construct 
+(with
+ an
+inherently 
+dizzying growth rate) ? 
+\end{quote}
+
+
+
+We will not attempt to derive a Yes-or-No answer to Question $***$
+because 
+we think that such a direct 
+response
+%%% answer 
+is too simplistic.
+Our point is that 
+both a positive and negative reply to
+ $***$
+are useful in different respects.
+%% 
+%% it
+%% is one of those epistemological questions that can be
+%%  debated
+%% endlessly.
+%% Our point is that  $***$
+%% probably does not require a definitive
+%% positive or negative answer because both perspectives
+%% are useful.
+%% 
+%% Thus,
+%% the theoretical existence of a sequence  
+This because 
+the theoretical existence of a sequence  
+integers 
+of $   y_0,   y_1,   y_2,     ...  $, whose binary
+encodings are doubling in length, is tempting
+from the perspective of 
+an Utopian view of mathematics, while 
+awkward from an engineering styled 
+perspective.
+We therefore ask: {\it ``Why not be tolerant
+of both perspectives? ''}
+
+One virtue of 
+this tolerance is 
+it 
+ushers in 
+a greater understanding
+for the statements $*$ and $**$ that G\"{o}del and
+Hilbert made during 
+1926 and 1931.
+This 
+is
+because the 
+Incompleteness Theorem
+demonstrates 
+no 
+formalism can display
+an understanding of its own consistency in an
+idealized
+ Utopian
+sense. On the other hand,  
+\textsection 6
+suggested
+these 
+two
+remarks by G\"{o}del and Hilbert 
+ might receive
+more sympathetic interpretations, 
+if one 
+sought to explore
+such questions from a less ambitious
+almost engineering-style perspective.
+
+
+
+
+Our
+main  thesis is 
+supported by a 
+theorem
+from \cite{ww6}.  It indicated that 
+tableaux
+variations of self-justifying systems have no difficulty
+in recognizing that an infinitized generalization of
+a computer's
+floating point multiplication (with rounding) is a total
+function. The latter 
+differs from integer-multiplication,
+by not having its output become double the length of
+its input when a number is multiplied by itself.
+Thus, the 
+intuitive
+reason 
+\cite{ww6}'s
+ multiplication-with-rounding operation
+is compatible with self-justification is
+because it
+ avoids the 
+inexorable
+exponential
+growth under
+rule \eq{smart-squeeze}'s sequence 
+ $   y_0,   y_1,   y_2     .. ~  $.
+
+\bigskip
+
+
+%\newpage
+
+
+%% 
+%% \large
+%% \normalsize
+%%  \baselineskip = 2.0 \normalbaselineskip 
+
+
+%% bbbbbbb
+Also,  \thx{ttt4} indicates 
+self-justifying logics
+can view
+double-precision
+integer multiplication
+similarly
+as
+ a  total function.
+In particular for 
+any arbitrary pair 
+of integers
+ $(a,b)$,
+let us employ a notation convention where:
+\bee
+\item 
+{\bf Size(a,b)} denotes the maximum of
+$ \, \lceil  \, 1 \, + \,$Log$_2 \,a \, \rceil \,  $ 
+and 
+$ \, \lceil  \, 1 \, + \,$Log$_2 \,b \, \rceil \,  $. 
+% $\, 1 \, + \,$Log$_2 \,b \,$.
+\item The quantities 
+{\bf Left$(a,b)$}
+and {\bf Right$(a,b)$}
+represent the multiplicative product
+of 
+the integers
+$~a~$ and $~b~,~$ insofar as 
+Right$(a,b)$ 
+represents the rightmost bits of this product
+of length Size(a,b), and 
+Left$(a,b)$ encodes the remaining bits to the left
+of Right$(a,b)$ 
+(whose length will also be bounded by Size(a,b) ). 
+\ene
+Within this context,  
+\thx{ttt4} indicates 
+self-justifying logics
+self-justification 
+are able to view double-precision
+integer-multiplication as
+a total function.
+
+%% bbbbb
+\begin{theorem}
+\label{ttt4}
+Let us assume 
+the $ \,A \,$ in 
+IS$_D(\aaa)$ and 
+$\ \beta \,$ in 
+\I2
+are axiom systems all of whose $\Pi_1^*$ 
+theorems are true statements under the standard model
+of the natural numbers.
+Then 
+if $D$ corresponds to either semantic tableaux or
+\txl{1} deduction,
+it is possible to formalize 
+systems
+$~A^* \, \supseteq \, A~$
+and
+$~\beta^* \, \supseteq \, \beta~$
+such that \js and \ns are self-justifying
+extensions of respectively
+IS$_D(\aaa)$ and 
+\I2
+which can recognize 
+%that 
+each of
+the 
+double-multiplicative precision
+operations of 
+ Size$(a,b)$, 
+Left$(a,b)$ and
+Right$(a,b)$ 
+%(that define the double-precision multiplicative product
+%of $a$ and $b$) 
+as total functions.
+\end{theorem}
+
+%% bbbbb
+{\bf Proof Sketch;} The justification of \thx{ttt4}
+is
+% very 
+similar to 
+\cite{ww6}'s analysis of
+Floating Point Multiplication
+(with rounding). Our proof of   \thx{ttt4}
+will therefore be quite abbreviated.
+
+%% bbbbb
+The first point is that it is 
+% quite 
+straightforward
+to develop three $\Delta_0^*$ formulae,
+called $\theta_1(a,b,y)$,
+ $~\theta_2(a,b,y)$
+and
+ $\theta_3(a,b,y)$,
+that are the graphs of the functions
+ Size$(a,b)$, 
+Left$(a,b)$ and
+Right$(a,b)$.
+% Moreover, it 
+It
+is also easy to construct a
+finite set of $\Pi_1^*$ sentences,
+holding true in the Standard Model, 
+called $~\gamma~$,
+that  know how to correctly interpret these three
+ $\Delta_0^*$ formulae,
+insofar as $~\gamma~$ knows:
+\bee
+\item For each 
+%fixed 
+$a$ and $b$, there exists no more
+than one integer $~y~$ that satisfies each of our
+three  $\theta_j(a,b,y)$ formulae. 
+\item For each 
+%fixed 
+$a$ and $b$, 
+our three  $\theta_j(a,b,y)$ formulae 
+correctly simulate 
+the
+graphs of
+the respective
+functions of 
+ Size$(a,b)$, 
+Left$(a,b)$ and
+Right$(a,b)$.
+\ene
+%Moreover since 
+Since 
+our U-Grounding language contains the built-in
+function primitives of ``Maximum'' and``Double$(x)$'',
+the Group-1 component of
+IS$_D$ 
+and IS$_D^{\#}$
+% formalisms 
+can 
+easily
+verify that
+the
+ operation
+$F(a,b)$, defined below is a total function:
+\beq
+\label{F-def}
+~F(a,b)~~=~~\mbox{ Double (Double (Double (Max}(a,b))))
+\enq
+This implies, in turn, that
+there exists a $\Pi_1^*$ sentence, called $\gamma^*$, that
+will enable our formalism to verify that each of
+ Size$(a,b)$, 
+Left$(a,b)$ and
+Right$(a,b)$ are total functions (simply because
+their output values are less than 
+$~F(a,b)$'s output).
+
+The main point is that the hypothesis of \thx{ttt4} 
+ indicated that
+all the axioms of
+ $ \,A \,$ and
+$\ \beta \,$ 
+did hold
+true under the Standard Model,
+and the preceding paragraph showed the same
+was
+ true for all the axioms in  
+ $~\gamma~$  and $~\gamma^*~$,
+Hence all the axioms in
+$~A^*~=~A~+~ \gamma~+~\gamma^*~$
+and 
+$~\beta^*~=~\beta~+~ \gamma~+~\gamma^*~$
+also
+hold true in the Standard Model.
+By Theorems \ref{ttt1} and \ref{ttt2},
+this implies that 
+IS$_D(\aaa)$ and 
+\I2 and are self-justifying formalism
+satisfying \thx{ttt4}'s claims. $~~\Box$
+
+
+
+%% \ik3  
+%% represents Peano Arithmetic. Then
+%% IS$_D(\aaa)$ and \ik3  
+%% can formalize
+%% two  total functions, called Left$(a,b)$
+%% and Right$(a,b)$, 
+%% where any  pair
+%% of integers
+%%  $(a,b)$
+%% is mapped onto
+%% the left and right halves of
+%%  $a$ and $b$'s multiplicative
+%% product.
+
+
+\begin{remark}
+\rm
+\label{rem-new}
+One 
+subtle
+%% slightly tricky 
+aspect is that our positive
+results,
+involving
+\cite{ww6}'s
+floating point multiplication
+primitive 
+and \thx{ttt4}'s
+analogous
+double precision multiplication
+operation, 
+{\it should
+not be confused} with a
+quite  different 
+exploration of integer multiplication
+in the context of our analysis of Herbrand
+consistency 
+in \cite{ww9}. 
+The latter took advantage
+of the fact that
+our deployed
+ Herbrand-styled proofs
+%%% in \cite{ww9}'s paradigm , are
+in \cite{ww9} were
+exponentially
+longer than their 
+tableaux
+counterparts
+(thus allowing \cite{ww9} 
+to formalize
+a limited use of multiplication).
+This was because 
+% its 
+\cite{ww9}'s
+deductive 
+methods 
+were
+%%%%% were, inherently,
+exponentially
+less efficient
+at an inherent
+level.
+Thus 
+  \cite{ww9}'s result,
+while 
+of
+%somewhat
+%%
+%%certainly
+%%perhaps
+%%
+theoretical 
+%theoretically 
+interest,
+is
+%essentially
+%%% hhhhh
+basically
+irrelevant to
+the core
+engineering environments,
+%e.g. 
+which 
+constitutes
+% are
+the
+ main 
+% central
+focus of
+ Theorems \ref{ttt1}--\ref{ttt4}.
+%% 
+%% (especially in regards to their
+%% particular interpretations
+%% given in
+%% Remark   \ref{rem2}).
+%% 
+\end{remark}
+
+
+%% In other words, Remark \ref{rem-new}'s
+%% observation is, once again, connected to
+%% the crucial distinction between
+%% % an 
+%% engineering
+%% and mathematical viewpoints 
+%% about
+%%  the 
+%% significance of theorem-proving.
+
+
+
+%%%bbbb
+Remark \ref{rem-new}'s
+contrast between 
+ \cite{ww9}'s results and \thx{ttt4}
+ is, once again, connected to
+the  distinction between
+the
+engineering
+and mathematical viewpoints 
+about
+ the main 
+intentions
+%importance
+%significance 
+of theorem-proving.
+% From an engineering perspective,
+\thx{ttt4}
+is helpful 
+from an engineering perspective
+because most 
+% of the 
+pragmatic
+%engineering 
+applications
+of integer multiplication 
+are analogous to either
+%% 
+%% correspond to 
+%% essentially
+%% % what correspond to be 
+%% the standard computerized word-oriented integer-multiplication
+%% primitive
+%% %operations 
+%% or 
+%% its
+%% %their 
+%% conventional
+%% 
+ computerized  double-precision 
+multiplication or its
+quadruple-precision or hexagonal
+% -precision 
+%  computerized
+generalizations.  
+
+\thx{ttt4} 
+(and its quadruple-precision 
+and 
+% hexagonal-precision generalizations)
+hexagonal generalizations)
+% helpfully 
+indicate 
+% such 
+these
+% pragmatic
+operations are
+%  fully
+compatible with a formalism recognizing its own
+semantic tableaux 
+%and \txl{1} 
+consistency.
+
+\section{A Different Type of Evidence Supporting 
+Our
+Thesis}
+
+\label{pppp8}
+
+
+Let us recall
+ Pudl\'{a}k and Solovay 
+\cite{Pu85,So94} 
+observed
+that 
+essentially all
+Type-S
+systems, 
+containing merely
+statement  \eq{totdefxs}'s
+axiom that successor is a total function,
+cannot verify their own consistency under 
+Hilbert deduction. 
+(See also related work by 
+Buss-Ignjatovic \cite{BI95},
+H\'{a}jek and
+ \v{S}vejdar \cite{Sv7},
+as well as  \cite{ww1}'s
+Appendix A.) 
+
+
+It turns out that
+\cite{wwlogos} generalized 
+these
+ results to
+show that 
+\ep{totdefxa}'s
+Type-A 
+systems are unable to verify their
+own consistency under the 
+\txl{2} deduction
+system 
+(defined 
+in
+\textsection  
+ \ref{pppp3}).
+At the same time,  
+the IS$_D$
+and IS$^{\#}_D$
+frameworks,
+from Sections \ref{pppp4}
+ and \ref{pppp5}, can verify
+their own consistency under
+\txl{1} deduction. Our goal in this section will be to
+illustrate how the
+tight
+ contrast between these positive and negative
+results 
+is
+analogous to the differing growth rates
+of
+the 
+sequences
+$   x_0,   x_1,   x_2,     ...    $ 
+and  $   y_0,   y_1,   y_2,     ...  $
+from
+ rule  \eq{smart-squeeze}. 
+
+
+
+
+During our discussion 
+$~G_i(v)~$ will denote 
+the scalar-multiplication
+operation  that maps
+an integer $~v~$ onto 
+$~ 2^{2^i}\cdot v~$. 
+Also, $~\Upsilon_i~$ will  denote 
+the statement, in the U-Grounding language, that 
+declares that 
+ $~G_i~$ is a total function.
+Our paper \cite{wwlogos}
+proved that  $~\Upsilon_i~$ has
+a $\Pi_2^*$ encoding. It also implied that $~G_i~$
+satisfied:
+\beq
+\label{e-Gi}
+G_{i+1}(v) ~~~ = ~~~ G_i(~ \, G_i(v)~ \, )
+\enq
+It was 
+noted in \cite{wwlogos} that 
+this identity
+implies  one
+can construct 
+an axiom system $  \beta  $, comprised of
+solely $\Pi_1^*$ sentences,
+where
+a semantic tableaux proof 
+can establish
+$  \Upsilon_{i+1}$  
+from
+$  \beta+\Upsilon_i$  
+in a constant number of steps. 
+This implies, in turn, that a \txl{2} proof from
+$  \beta  $ will require no more that O$(n)$ steps
+to prove $  \Upsilon_{n}$ (when it uses the obvious
+n-step process to
+confirm in chronological order 
+$~\Upsilon_1 \, , \,  \Upsilon_2 \, , \,  ... \Upsilon_n ~.~~)$
+
+
+\smallskip
+
+These observations are significant because 
+$G_n(1)=2^{2^n}$.
+Thus,
+\cite{wwlogos}
+% showed 
+established that
+a \txl{2} proof
+from $\beta$ can verify
+in 
+only
+ O$(n)$ steps   
+that this
+quite large
+ integer exists.
+
+
+\smallskip
+
+This example is  helpful because it illustrates
+the difference between the growth speeds
+under
+\txl{1} and \txl{2} deduction, is  analogous
+to the 
+differing
+growth 
+rates
+of
+the
+sequences $   x_0,   x_1,   x_2,     ...    $ 
+and  $   y_0,   y_1,   y_2,     ...  $ 
+from rule \eq{smart-squeeze}.
+Hence once again, a faster growth-rate 
+will usher in
+the Second Incompleteness Theorem's power
+(e.g. see \cite{wwlogos}).
+
+
+This analogy suggests
+that the 
+Second 
+Incompleteness
+Theorem has different implications from the perspectives
+of 
+Utopian and engineering
+theories about
+ the intended
+applications of mathematics. Thus, a Utopian
+may  possibly be 
+ comfortable
+with 
+a
+perspective, that contemplates sequences
+ $   y_0,   y_1,   y_2,     ...  $ 
+with
+elements growing in length
+at an exponential speed, but many engineers may be
+suspicious of such
+growths.
+
+
+
+
+
+
+A hard-core engineer,
+in contrast, might
+ surmise that the inability of self-justifying
+formalisms to be compatible with \txl{2} deduction is
+not 
+as disturbing
+ as it might 
+initially 
+appear to be.
+This is
+because \txl{2}
+differs from 
+ \txl{1} deduction
+by producing 
+exponential growths that are so sharp
+that their material realization has no analog
+in the everyday mechanical reality that is the
+focus of an engineer's 
+interest.
+
+Our personal preference is for
+a perspective lying
+half-way
+between 
+that of an Utopian mathematician and
+a hard-nosed engineer. 
+Its
+dualistic
+approach
+suggests
+some form of diluted
+partial agreement
+with  Hilbert's goals
+in  $**$ (in a context where the broad significance of
+the Second Incompleteness Theorem is obviously
+undeniable).
+
+
+
+
+
+
+
+
+\section{Outline of \thx{ttt2}'s Proof and 
+% Exploration of 
+% Further Discussion
+Its Implications}
+
+\label{new9}
+\label{newppp9}
+
+
+The prior two sections of this article 
+offered an intuitive explanation about why our
+self-justifying axiom systems needed omit the
+assumption that multiplication is a total function
+and
+could verify their  consistency 
+% verified their own consistency 
+only 
+ under
+% for 
+semantic tableaux and
+\txl{1} deduction.
+
+
+%%% \txl{1} deduction
+%%% (rather than a stronger \txl{2}  
+%%% rule of inference).
+
+
+We already noted 
+%that 
+\thx{ttt2}'s
+observation that
+ IS$_D^{\#}$ 
+%% proof 
+%% that 
+is  consistency-preserving
+%transformation
+has essentially an 
+analogous
+% hhhh
+%identical 
+proof as \cite{ww5}'s
+demonstration that 
+%\K1 
+ IS$_D$
+is  consistency-preserving.
+It is not our intention to repeat
+such a  proof  here.
+
+%%a
+%%virtual
+%% analog of
+%%\cite{ww5}'s proof  here.
+
+Instead, our goal will be to  provide a brief overview
+of the techniques 
+%appeared in \cite{ww5}'s proof. This
+that \cite{ww5} 
+had
+used. This
+overview
+will be
+% brief but
+%%% 
+%%% will not delve into all \cite{ww5}'s details.
+%%% It will,
+%%% however, be 
+%%% 
+sufficient
+for
+% so that 
+a reader
+to
+% can quickly
+appreciate
+the 
+% main 
+underlying
+intuition.
+
+%the underlying intuition.
+
+
+%%gain an intuition behind the 
+%%underlying nature
+%% of Theorems \ref{ttt1}
+%%and \ref{ttt2}. 
+
+\bigskip
+
+More precisely,
+two different types of proofs of \thx{ttt1}
+had appeared in our 2002 conference paper \cite{tab2}
+and subsequent journal paper \cite{ww5}. The
+latter 
+%result 
+was more appropriate for an archival 
+journal because its self-justification result
+applied to both semantic tableaux deduction and its
+\txl{1} generalization. 
+The more compressed conference paper 
+\cite{tab2} proved the analog of \thx{ttt1}
+only for tableaux deduction
+(using a technique
+% thus
+that was
+%pleasantly 
+somewhat
+shorter
+than \cite{ww5}'s more elaborate
+result). 
+Our
+% brief 
+summary of \thx{ttt1}'s
+proof,
+here,
+ will focus on the semantic tableaux deduction
+methodology so it can apply to either of
+\cite{tab2}
+or \cite{ww5}'s 
+methods.
+%results.
+
+%%
+%%Our discussion
+%%%in this section 
+%%will focus mostly on
+%%\cite{ww5}'s more 
+%%sophisticated
+%% result, but it should
+%%be also helpful to readers who 
+%%wish to
+%%examine only
+%%\cite{tab2}'s
+%%simpler
+%%but 
+%%%% 
+%%%% and slightly simpler
+%%%% presentation of a 
+%%%% 
+%%less ambitious result.
+
+Both of \cite{tab2,ww5}
+%% had
+% formalisms were
+justified \thx{ttt1} 
+by means of proofs by
+contradiction.
+Thus if \thx{ttt1} 
+was false,
+they 
+% both
+noted
+% then there would exist
+%two 
+a pair of
+proofs 
+%of 
+for
+a $\Pi_1^*$ sentence and its negation
+would exist
+from
+IS$_D(\aaa) $. 
+
+
+
+Let us call these two proofs $P$ and $Q$.
+Then \cite{tab2,ww5} both
+showed 
+(using different constructions) that
+one could construct from $(P,Q)$
+two other proofs  $(p,q)$ of another
+$\Pi_1^*$ sentence and its negation
+such that:
+\beq
+\label{catch}
+\mbox{Max}(p,q) ~~ < ~~ 
+\mbox{Max}(P,Q) 
+\enq
+The inequality in \eq{catch}
+is significant because it 
+will enable our proofs-by-contradiction to establish
+ the non-existence
+of an ordered pair
+  $(P,Q)$ violating \thx{ttt1}'s assumption.
+This is because 
+%otherwise 
+\eq{catch}
+would 
+otherwise 
+violate the Principle of Induction by showing
+there exists no such minimal ordered pair
+ $(P,Q)$
+eschewing \thx{ttt1}'s formalism. 
+
+The 
+exact
+details of these proofs by contradictions are too lengthy
+%for us 
+to fully summarize
+% them 
+here.
+For the case where $D$ in \thx{ttt1}
+is the semantic tableaux deduction method, they used the fact
+that  if $(P,Q)$ was the ordered pair with
+minimal $ \mbox{Max}(P,Q)$ value violating
+\thx{ttt1}'s hypothesis,
+then one could 
+isolate 
+two
+particular root-to-leaf paths in the tableaux
+proofs $P$ and $Q$ that would enable us to construct an
+additional pair $(p,q)$
+that violated \thx{ttt1} and satisfied
+\eq{catch}'s inequality.
+
+This  construction of 
+ $(p,q)$ from $(P,Q)$ 
+utilized the fact that
+ \thx{ttt1}'s 
+axiom system
+ IS$_D(\alpha) $ recognized addition but not multiplication
+as a total function.
+Otherwise,   \thx{ttt1}'s delicate
+proof-by-contradiction would collapse entirely
+(as a result of 
+the exponentially faster growth
+properties 
+of multiplication
+that was formalized by the
+series
+ $      y_1,   y_2,  y_3,    ...  $
+under Line \eq{smart-squeeze}'s
+ recurrence 
+relationship).
+
+
+These observations reinforce the theme of
+\textsection \ref{pppp7}
+about the contrast between the slower growing series 
+ $      x_1,   x_2,  x_3,    ...  $
+and its exponentially faster counterpart
+ $      y_1,   y_2,  y_3,    ...  $
+under Line \eq{smart-squeeze}'s
+ recurrence 
+relationship.
+These two series defined the 
+% respective
+growth rates produced by the addition and
+multiplication function symbols
+% with  
+as, respectively,
+$ \, x_n \, = \, 2^{ n+1} \,  \, $ and
+$ \, y_n \, = \, 2^{2^n} \, $.
+They 
+thus illustrated
+% thus, once again, illustrate
+how multiplication's faster growth rate
+leads to such a
+%% 
+%% The themes of Sections \ref{ppp7} and
+%% \ref{ppp8} was that the latter growth rate
+%% represented a 
+%% 
+dizzying exponential speed-up,
+that 
+% will
+% would 
+makes
+one at least partially sympathetic to a
+hard-nosed engineer's skepticism about
+its 
+implications.
+
+%significance. 
+
+Thus if one were to
+preclude such a dizzying growth rate then
+a partial justification of a diluted version
+of Hilbert's consistency program would arise,
+in the context of systems possessing 
+{\it weak but well defined} knowledges of
+their own consistency.
+On the other hand, if the conventional assumption
+that multiplication is a total function is presumed,
+then the traditional interpretation of the
+Second Incompleteness Theorem will
+% , of course, fully 
+prevail.
+
+
+%% 
+%% 
+%% Hence some partial caveats can be attached to the
+%% Second Incompleteness Theorem that carry some
+%% credibility from an hard-nosed engineering
+%% perspective, while 
+%% simultaneously
+%% they 
+%%  fail to apply to a
+%% %at the same time not
+%% %be germane to a fully 
+%% pristine 
+%% mathematical
+%% perspective
+%% focused around the 
+%% Logical Platonism
+%% (that G\"{o}del
+%% had 
+%% explicitly explored).
+%% %wrote about).
+
+
+% \large
+
+% \baselineskip = 1.5 \normalbaselineskip 
+
+
+\section{Related Reflection Principles}
+
+
+\label{pppxppp10}
+
+An added point is that there are many 
+types of
+self-justifying systems  available, with some
+better suited for  engineering environments
+than others.
+
+
+% bbb 
+For instance, our initial 1993 paper \cite{ww93}
+employed a Group-3 {\it ``I am consistent''} axiom
+that was much weaker than 
+the current  specimen.
+The distinction was that
+\cite{ww93}'s self-consistency declaration 
+excluded 
+merely
+the existence of a semantic tableaux proof
+of $0=1$ from itself, while 
+the
+sentence \eq{group3} is
+more elaborate because
+it excludes the existence of simultaneous proofs
+of a $\Pi_1^*$ theorem and its negation.
+
+
+Ideally, one would  like to
+develop self-justifying
+systems $~S~$ that 
+% could 
+can
+corroborate the validity
+of \eq{brxefl}'s reflection principle for all sentences 
+$\Phi$.
+\beq
+\label{brxefl}
+\forall p ~~[~ Prf_S^D(\ulxyz \Phi \urxyz,p)
+  ~~ \Rightarrow  ~~ \Phi~~]
+\enq
+L\"{o}b's Theorem 
+establishes,
+however,
+ that all
+ systems $S$,
+containing 
+Peano Arithmetic's
+strength, are able to prove
+\eq{brxefl}'s invariant 
+{\it only in the degenerate case} where they 
+do
+prove $\Phi$
+itself. Also, the Theorem 7.2 from \cite{ww1}
+showed 
+essentially all
+axiom systems,
+{\it weaker} than Peano Arithmetic, are unable to prove \eq{brxefl}
+for all $\Pi_1^*$ sentences $\Phi$
+simultaneously. Thus,
+\thx{ttt5}
+will be near optimal:
+
+%% xxxxx
+
+%%% bbbbb
+\begin{theorem}
+\label{ttt5}
+Let us recall that the difference between \thx{ttt1}'s
+axiom system 
+ IS$_D(A)$ 
+and \thx{ttt3}'s formalism
+\ik3 
+was that the latter replaced 
+ IS$_D(A)$'s infinite-sized Group-2 axiom schema
+with \ik3's compact 1-sentence axiom 
+\eq{globsim}, so that the latter system could at least verify 
+\eq{t5kern}'s kernelized statement
+for
+each $\Pi_1^*$ theorem that $A$ proved.
+\beq
+\label{t5kern}
+ \forall ~x~~
+\mbox{Test}_{\, i \,} (~\ulxyz~\Psi~\urxyz~,~x~)
+\enq
+Let likewise $IS^\lambda_\#( \, \beta_{A,i} \, )$
+denote the modification of \cite{ww1}'s  $IS^\lambda(A)$
+self-justifying
+system
+that replaces the latter's Group-2 schema with 
+\eq{globsim}'s more compact single-sentence axiom declaration
+(and 
+%  again
+%accordingly
+then
+has its Group-3 {\rm ``I am consistent''}
+axiom statement
+reflect this change, 
+once again).
+Then in a context where ``semtab'' is an abbreviation for
+semantic tableaux deduction, 
+the formalism $IS^\lambda_\#( \, \beta_{A,i} \, )$
+will be able to:
+\bee
+\item
+Verify that 
+semantic tableaux
+ deduction supports the
+following analog of 
+\eq{brxefl}'s 
+self-reflection principle
+under
+ $IS^\lambda_\#( \, \beta_{A,i} \, )$
+%%%  $S$
+for any
+$\Delta_0^*$ and $\Sigma_1^*$ 
+sentences $\Phi~~$:
+\beq
+\label{nrxefl}
+\forall p ~[~ Prf_{IS^\lambda_\#( \, \beta_{A,i} \, )}^{\rm semtab}
+(\ulxyz \Phi \urxyz,p)
+  ~~ \Rightarrow  ~~ \Phi~~]
+\enq
+\item
+Verify 
+\eq{rdilute}'s more general
+{\bf ``root-diluted''} reflection principle
+for  $IS^\lambda_\#( \, \beta_{A,i} \, )$
+whenever
+$\theta$ is $\Sigma \, _{1}^*$ 
+and
+ $\Phi$ is a $\Pi_2^*$ sentence of the
+form ``$~\forall u_1  ... \forall u_n~~    
+  \theta(u_1... u_n  )~$''. 
+\beq
+\label{rdilute}
+\forall p ~[~ Prf_{IS^\lambda_\#( \, \beta_{A,i} \, )}^{\rm semtab}
+(\ulxyz \Phi \urxyz,p)
+  ~~  \Longrightarrow  ~   \forall x~
+ \forall u_1< \sqrt{x}~~     ... ~~ \forall u_n< \sqrt{x}~~      
+  \theta(u_1... u_n  ) ~]
+\enq
+\ene
+\end{theorem}
+
+
+
+%% bbbb
+As is suggested by the similarity between the
+definitions of   $IS^\lambda(A)$ and
+ $IS^\lambda_\#( \, \beta_{A,i} \, )$,
+the proof of \thx{ttt5} is essentially
+identical to 
+\cite{ww1}'s
+analysis of  $IS^\lambda(A)$.
+For the sake of brevity, we will not repeat
+the relevant proof here.
+
+
+
+
+%%% 
+%%% \begin{theorem}
+%%% \label{tts5}
+%%% For any
+%%% input axiom system $A$,
+%%% it is possible to extend the self-justifying
+%%% IS$_D(\aaa)$ and \ik3
+%%% systems,
+%%% from  Theorems \ref{ttt1} and \ref{ttt3}, 
+%%% so
+%%% that the resulting 
+%%% self-justifying logics
+%%% $S$
+%%% can also:
+%%% \bee
+%%% \item
+%%% Verify that \txl{1} deduction supports the
+%%% following analog of 
+%%% \eq{brxefl}'s 
+%%% self-reflection principle
+%%% under $S$
+%%% for any
+%%% $\Delta_0^*$ and $\Sigma_1^*$ 
+%%% sentences $\Phi~~$:
+%%% \beq
+%%% \label{nrxefl}
+%%% \forall p ~~[~ Prf_S^{\rm Tab-1}
+%%% (\ulxyz \Phi \urxyz,p)
+%%%   ~~ \Rightarrow  ~~ \Phi~~]
+%%% \enq
+%%% \item
+%%% Verify 
+%%% \eq{rdilute}'s more general
+%%% {\bf ``root-diluted''} reflection principle
+%%% for $~S~$ 
+%%% whenever
+%%% $\theta$ is $\Sigma \, _{1}^*$ 
+%%% and
+%%%  $\Phi$ is a $\Pi_2^*$ sentence of the
+%%% form ``$~\forall u_1  ... \forall u_n~~    
+%%%   \theta(u_1... u_n  )~$''. 
+%%% \beq
+%%% \label{rdilute}
+%%% \forall p ~[~ Prf_S^{\rm Tab-1}
+%%% (\ulxyz \Phi \urxyz,p)
+%%%   ~~  \Longrightarrow  ~   \forall x~
+%%%  \forall u_1< \sqrt{x}~~     ... ~~ \forall u_n< \sqrt{x}~~      
+%%%   \theta(u_1... u_n  ) ~]
+%%% \enq
+%%% \ene
+%%% \end{theorem}
+%%% 
+
+
+%% \thx{ttt5}'s proof
+%% will
+%% rest 
+%% upon 
+%%  hybridizing
+%% the techniques from
+%% \cite{ww1}'s
+%% tangibility reflection principle 
+%%  with Theorem
+%%  \ref{ttt3}'s
+%% methodologies,
+%% in a 
+%% natural
+%% very
+%%  manner.
+%% %hhhh
+%% Its proof is summarized in Appendix D.
+
+
+
+% \baselineskip = 1.21 \normalbaselineskip 
+\parskip 4pt
+
+Analogous to our 
+other
+results,
+\thx{ttt5} 
+reinforces
+% the
+our
+ theme about how 
+exceptions 
+to
+the Second Incompleteness Theorem 
+may 
+appear to
+be 
+{\it quite
+minor} 
+from the perspective of
+an Utopian 
+view of mathematics,  
+while 
+being
+significant
+from an  engineering standpoint.
+In \thx{ttt5}'s
+particular case,
+this is 
+because:
+\bed
+\item[A. ]
+The ability of  \thx{ttt5}'s
+system
+%%% $S$ 
+to 
+support
+\eq{nrxefl}'s 
+self-reflection principle
+under
+tableaux
+%\txl{1} 
+proofs for
+any
+ $\Delta_0^*$ and $\Sigma_1^*$ sentence, 
+as well as
+to 
+support
+\eq{rdilute}'s
+root
+reflection principle 
+for  $\Pi_2^*$ sentences,
+is 
+clearly
+significant.
+\item[B. ] 
+The incompleteness result
+of  \cite{ww1}'s
+Theorem 7.2
+imposes,
+however, 
+sharp limitations upon Item A's
+generality
+(in that it  cannot be extended to
+fully all
+  $\Pi_1^*$ sentences, 
+{\it in an  undiluted sense).}
+\ennd
+%
+% \noindent
+Thus,
+the tight fit 
+between
+ A and B
+is
+reminiscent of
+other  
+slender 
+borderlines,
+that separated
+generalizations and 
+boundary-case exceptions
+for the 
+Incompleteness Theorem,
+explored
+earlier.
+Once again, 
+the Second Incompleteness
+Theorem 
+is
+seen
+ as robust,
+from an 
+idealized
+Utopian perspective on mathematics,
+while 
+permitting
+caveats
+from 
+engineering 
+styled 
+perspectives.
+
+This
+ dualistic 
+viewpoint
+allows one to
+nicely
+share 
+{\it   partial (and not full)} 
+agreement with 
+Hilbert's
+main aspirations in $**$, 
+$\,$while also 
+ appreciating
+the 
+ stunning
+achievement
+of
+the Second Incompleteness Theorem.
+
+
+
+
+
+
+
+
+\section{Concluding Remarks}
+
+\label{ppppp10}
+
+
+At a purely technical level,
+this  article has reached beyond 
+our prior papers in 
+several
+respects,
+including  
+\textsection \ref{pppp5}'s demonstration
+that any 
+initial 
+system $A$
+can have a kernelized image of its 
+ $\Pi_1^*$ knowledge duplicated by
+\ik3's {\bf strictly finite sized}
+self-justifying  
+system, 
+as well as
+%and also by
+ Section
+\ref{pppp6}'s
+and 
+Remark \ref{rem2}'s
+quite
+ pragmatic 
+ L-fold generalizations
+of 
+\thx{ttt3}.
+
+% this result. 
+
+
+
+ 
+These 
+perspectives
+%results 
+help resolve the mystery
+that has 
+enshrouded
+the Second Incompleteness Theorem and the statements
+$*$ and $**$ 
+of G\"{o}del and Hilbert.
+This is because 
+we have 
+{\it meticulously separated}
+the goals of a 
+pristine theoretical study of mathematical
+logic 
+from
+those of 
+a 
+ {\it 
+finite-sized}
+axiomatic
+subset of mathematics,
+intended
+ for modeling
+mostly  
+an engineering environment.
+
+
+
+
+
+
+
+
+
+There is no question that 
+G\"{o}del's Second 
+Theorem
+is  ideally robust,
+relative to a  
+purely pristine 
+approach to mathematics.
+On the other hand, we suspect
+Hilbert
+was
+{\it half-way
+correct} by
+ speculating 
+in 
+ $**$ 
+about humans
+possessing
+a knowledge 
+about
+ their own consistency,
+{\it in  at least some 
+% strikingly
+ weak
+and
+ tender sense,} as 
+essentially a
+% fundamental 
+prerequisite
+for
+{\it psychologically
+ motivating}
+their cogitations.
+%%%%  hhhhhh
+Thus in a context where the limitations of axiom systems, 
+that fail to recognize multiplication as a total function, 
+are manifestly
+obvious,
+%% 
+%% 
+%% 
+%% even when 
+%% such systems
+%% duplicate
+%% Peano Arithmetic's
+%% central
+%% $\Pi_1^*$ knowledge, 
+%% 
+it is legitimate to
+inquire
+ whether some 
+future 
+specialized
+21st century computers
+ might 
+find
+some 
+{\it partial-albeit-and-not-full} redeeming
+value
+in formalisms 
+having
+{\it weak-style}
+ knowledges
+of
+their 
+ \txl{1} consistency,
+as well as possessing a knowledge of 
+Peano Arithmetic's 
+$\Pi_1^*$ theorems.
+
+
+%%%% hhhh
+%%More precisely, 
+Sections 
+\ref{pppp5}-\ref{pppxppp10}
+were,
+thus,
+ intended 
+to provide
+a  
+unified 
+broad-scale
+interpretation of our
+diverse
+ earlier 
+results
+that had appeared
+%appearing
+in \cite{ww93}-\cite{ww9}.
+%from
+%\cite{ww93,sp0,ww1,ww2,wwlogos,ww5,wwapal,ww6,ww7,ww9}.
+In a
+context where
+the
+Incompleteness
+Theorem is 
+%% 
+%% firmly 
+%% understood 
+%% to be
+%%
+ sufficiently 
+ubiquitous
+ to preclude Hilbert's
+aspirations in $**$ 
+from 
+ever 
+being fully realized, 
+they show
+how
+some
+{\it fragmentary portion} of Hilbert's
+conjectures
+can
+be corroborated by
+{\it judiciously weakened} logics, 
+using a formalism, that is
+{\it much less} than ideally robust,
+{\it although
+not fully immaterial}.
+
+%\medskip
+
+\bigskip
+
+Such partial evasions of the Second Incompleteness Effect
+are certainly not broad-scale, but they
+do corroborate a fragment of what G\"{o}del and Hilbert
+%referred to
+had
+sought
+as 
+% ideal 
+their
+desired
+goals,
+expressed
+ in the statements $*$ and $**$.
+
+\newpage
+
+%\bigskip
+
+  {\bf Acknowledgments:} $~$I thank 
+  Bradley Armour-Garb  and Seth Chaiken  for 
+many
+ useful suggestions about how to
+improve the presentation of our results.
+%% I also thank the anonymous referees for their comments.
+This research was
+partially supported
+by  NSF Grant CCR  0956495.
+
+
+\small
+ \parskip 2 pt
+\baselineskip = 0.86 \normalbaselineskip 
+
+
+
+\bibliographystyle{abbrv}
+\bibliography{b15}
+
+
+
+
+% eeee end end
+% \newpage
+
+
+
+
+
+%\large
+% \baselineskip = 1.5 \normalbaselineskip 
+
+% \baselineskip = 1.2 \normalbaselineskip 
+
+ \parskip 4 pt
+
+\ssspace
+
+\section*{Appendix A: Definition of a
+Semantic Tableaux Proof }
+
+The 
+definition of a semantic tableaux proof,
+provided here,
+will be  similar to analogous definitions used in 
+say Fitting's or  Smullyan's textbooks
+ \cite{Fi90,Smul}.  
+
+%% For simplicity
+%% during our discourse, 
+%% a sentence $~\Psi~$
+%% will be called PRENEX$^*$ iff it is written in the
+%% form $Q_1 \, x_1~Q_2\, x_2...~Q_n \, x_n~~\theta(x_1,x_2...x_n)~$
+%% where $~\theta(x_1,x_2...x_n)~$ is a $\Sigma_0^-$ formula
+%% and $Q_i$ denotes either the symbol $\forall$ or $\exists$.
+
+During our 
+discussion, a
+% discourse, a
+{\bf $\Phi$-Based Candidate Tree} for
+an axiom system $\, \alpha \,$
+will be defined
+to be a  tree structure 
+whose root corresponds to
+the sentence $~\neg \, \Phi~,~$  rewritten in
+prenex normal form, and whose all other nodes are
+either axioms of $~\alpha~$ or deductions from higher
+nodes of the tree
+(using the Rules 1-6 defined below).
+More precisely, our six  rules
+(below)
+ have
+``$~ \cal{A} ~ \longmapsto ~ \cal{B} ~$''  denote
+that $~  \cal{B} ~$ 
+is a valid deduction
+from $~ \cal{A} ~$.
+They 
+% thus 
+specify when such a 
+descendant
+node $~  \cal{B} ~$  is allowed to
+appear below an ancestor $~  \cal{A} $ 
+%% 
+%%  is an ancestor of $~  \cal{B} ~$
+%% in the candidate tree $~T~$.  In this notation, the deduction
+%% rules allowed 
+%% 
+in a candidate tree:
+\begin{enumerate}
+ \parskip 1 pt
+\item $~ \Upsilon \wedge \Gamma \, ~ \longmapsto ~ \, \Upsilon
+~$ 
+and 
+$~ \Upsilon \wedge \Gamma \, ~ \longmapsto ~ \, \Gamma ~$ .
+\item $~ \neg  \,\neg \, \Upsilon ~ \longmapsto ~ \Upsilon~$.  
+Other 
+% valid Tableaux 
+rules for
+the ``$~ \neg ~$'' symbol  include: $~$
+$~\neg ( \Upsilon \vee \Gamma ) ~ \longmapsto ~ \neg \Upsilon
+\wedge \neg \Gamma~$,
+$ \, \neg ( \Upsilon \Rightarrow \Gamma )  \,  \longmapsto  \,   \Upsilon
+\wedge \neg \Gamma \, $,
+$ ~~~~\, \neg ( \Upsilon \wedge \Gamma )  \,  \longmapsto  \,  \neg
+\Upsilon \vee \neg \Gamma \, $,
+ $~ \,   \neg \, \exists v \, \Upsilon  (v)  \,  \longmapsto  \,  
+\forall v   \neg \, \Upsilon  (v)  \, $ and
+ $ ~\,   \neg \, \forall v \, \Upsilon  (v)  \,  \longmapsto  \,  
+\exists v \,  \neg  \Upsilon  (v)$
+\item A pair of sibling nodes $~ \Upsilon ~$ and $~ \Gamma ~$ is
+allowed in
+a 
+%candidate 
+proof
+tree when their ancestor is
+$~\Upsilon \, \vee \, \Gamma~$.
+\item A pair of sibling nodes $~ \neg \Upsilon ~$ and $~ \Gamma ~$ is
+allowed in
+a 
+%candidate 
+proof
+ tree when their ancestor is
+$~\Upsilon \, \Rightarrow \, \Gamma~$.
+\item $~ \exists v \, \Upsilon  (v) ~ \longmapsto ~ \, \Upsilon(u) ~$
+where $~u~$ denotes a newly introduced ``Parameter Symbol''. 
+\item $~ \forall v \, \Upsilon  (v) ~ \longmapsto ~ \, \Upsilon(t) ~$
+where $~t~$ denotes a ``Composite Term''.
+These terms  here are
+built out of
+combination of
+ the U-Grounding Function symbols,
+the constant symbols representing ``0'' and ``1''
+and  the parameter symbols $~u_1,u_2,..,u_n~$,
+where each 
+%symbol 
+$~u_i~$ {\bf was previously}
+introduced by 
+% instance of 
+applying 
+Rule 5 
+%applying 
+to
+an ancestor
+of the node storing 
+% the current new deduction
+ ``$ ~ \, \Upsilon(t) ~$''.
+\end{enumerate}
+Define a particular leaf-to-root branch in a candidate
+tree $~T~$ to be {\bf Closed} iff it contains both some sentence
+$~ \Upsilon ~$ and its negation $~ \neg \, \Upsilon ~$.  
+ A {\bf  Semantic
+Tableaux} proof of $~\Phi~$  will then be defined to be
+a candidate tree whose root stores the sentence
+$~ \neg \Phi~$ (written in prenex normal
+form) and all of whose  root-to-leaf branches are
+closed. 
+
+% All our theorems in the current article have,
+
+Our
+% discussion in the 
+current article has,
+% will, 
+for simplicity,
+used the preceding definition for a semantic tableaux proof.
+Some of our prior articles 
+%have 
+used a minor modification
+of this definition where there were two additional deduction
+rules for ``bounded quantifiers'' of the form
+``$~ \exists \, v \, \leq t~~ \Upsilon  (v)~$''
+and ``$~ \forall \, v \, \leq t~~ \Upsilon  (v)$''.
+It is technically unnecessary to use special rules for
+such bounded quantifiers because these two expressions
+can be treated as being equivalent to 
+\eq{bex} and \eq{beu}, respectively.
+\beq
+\label{bex}
+\exists \, v ~~~~ v \leq t~\wedge~ \Upsilon  (v)
+\enq
+\beq
+\label{beu}
+\forall \, v ~~~~ v \leq t~\Rightarrow~ \Upsilon  (v)
+\enq
+Thus, we technically do not need special Elimination Rules
+for bounded quantifiers of the form
+``$~ \exists \, v \, \leq t~~ \Upsilon  (v)~$''
+and ``$~ \forall \, v \, \leq t~~ \Upsilon  (v)$''
+because statement
+\eq{bex} allows the 
+ former to be eliminated 
+by applying Rules 5 and 1, and  likewise
+\eq{beu} can 
+be processed via Rules 6 and 4.
+
+
+%% For simplicity, we will thus rely upon the above 6-part definition
+%% of semantic tableaux during the current article.
+%% 
+%% ???? Remove above sentence  ??? bbbbbbbbbbbbbbbbb
+
+\section*{Appendix B:  Summary of G\"{o}del Encoding Method}
+
+Every 
+%% formalization of either a 
+generalization and
+% a  
+boundary-case
+exception for
+ the Second Incompleteness
+Theorem 
+does
+require
+ deploying a 
+ G\"{o}del encoding methodology
+(to make it well defined).
+Such an encoding scheme will be 
+called
+{\bf Optimally Linearly Compressed} if  it requires: 
+\bed
+\item[   A.  ]
+Only
+$O(1)$ bits to store 
+each occurrence
+of  any
+logical symbol
+% any of  the logical symbols
+appearing in a tableaux proof 
+(except for the objects that 
+Items 5 and 6 of Appendix A called the $i-$th 
+``variable'' and ``parameter'' symbols). 
+\item[   B.  ]
+No more than
+$O(~1~+~$Log$(i) ~)$ bits to
+encode
+ a proof's
+$i-$th 
+``variable'' and ``parameter'' symbols. 
+(This  $O(~1~+~$Log$(i) ~)$ magnitude is unavoidable
+because  
+there is no finite limit to the number of different
+variable and parameter objects that may appear in
+one of Appendix A's
+semantic tableaux proofs.)
+\ennd
+All our published results about either 
+generalizations or 
+boundary-case
+exception 
+for the Second Incompleteness Theorem have used such optimally
+compressed encodings.  
+
+
+In particular,
+our  scheme for
+encoding
+a semantic tableaux proof
+ will use  
+the following
+24 language  symbols:
+\begin{enumerate}
+\small
+ \baselineskip = 1.1 \normalbaselineskip 
+\item The standard connective symbols of
+$\wedge ,~ \vee ,~ \neg ,~ \rightarrow ,~ \forall$
+and $~ \exists$.
+\item Two 
+left and two right parenthesis symbols
+denoted as: $~(~$ , $~)~$
+$~\underline{\, ( \,}~$ and $~\underline{\, ) \,}.~$
+\item 
+Two symbols to represent the special constants of ``0'' and ``1''.
+\item
+Eight function symbols for representing for representing
+the eight formal U-grounding functions of Addition, Doubling, Subtraction,
+Division, Logarithm, etc.
+\item 
+The relation symbols of
+``$~=~$'' and ``$~ \leq ~$''.
+\item The symbol $~ \hat{V} ~$  for designating
+the presence of a  basic variable $~v~$
+in a logical sentence.
+\item The symbol $~ \hat{U} ~$  for designating
+the presence of a parameter constant $~u~$
+in a logical sentence (which is produced by 
+Appendix A's
+deduction rule 5  for
+eliminating
+existential quantifiers).
+\end{enumerate}
+Define a byte to be an unit consisting of six bits. 
+We 
+may
+%will
+ think of a proof as
+comprising
+ either 
+ a sequence of
+bytes or  being an 
+equivalent
+integer
+written in base 64.
+Each of the 24 symbols (above) will be given
+some  unique 6-bit  code, ranging between  32 and
+55.
+Our method for representing the presence of
+the i-th variable $~v_i$
+will be to encode it is as
+a string 
+comprised
+of 
+$\, \lceil \, log_{\, 32 \,}(i+1) \, \rceil ~+~1~$ bytes, where the
+first byte is the ``$\, \hat{V} \,$'' symbol and the remaining bytes
+encode
+i as a base-32 number.
+% with the convention that the lead bit in each 
+%byte's 6-bit sequence  is ``0''.
+The same convention will be used to denote the presence of
+the i-th parameter  $~u_i~$
+except its first byte will be the ``$\, \hat{U} \,$'' symbol.
+
+
+
+Our notation has employed {\it two types} of
+parenthesis symbols because the first pair of
+parenthesis symbols will have their usual meaning in punctuating a 
+mathematical
+sentence, whereas the latter pair of symbols
+ $~\underline{\, ( \,}~$ and  $~\underline{\, ) \,}~$
+will {\it separate} the individual sentences in
+a Semantic Tableaux proof tree.  For example,
+consider a tree which stores
+1) the sentence $~\psi_1~$ as its root, 2)
+the sentences $~\psi_2~$ and $~\psi_3~$ as the root's children, and 3)
+$~\psi_4~$ as the child of $~\psi_3.~$ There are several
+possible notation conventions for using the 
+ $~\underline{\, ( \,}~$ and  $~\underline{\, ) \,}~$ symbols
+to encode a Semantic Proof tree. 
+Our encoding
+convention will 
+presume
+%be that
+$~\psi_i~$
+is an ``ancestor'' of $~\psi_j~$ {\it if and only if} the range beginning
+with the
+parenthesis to $\psi_i$'s immediate left and continuing
+to the matching right parenthesis includes
+$~\psi_j.~$
+The example of our 4-node proof tree is thus 
+encoded as:  
+\begin{equation} 
+\label{paren}
+ ~~\underline{\, ( \,}~~ \psi_1
+ ~~\underline{\, ( \,}~~ \psi_2~
+ ~\underline{\, ) \,}~ 
+ ~~\underline{\, ( \,}~~ \psi_3
+ ~~\underline{\, ( \,}~~ \psi_4~
+ ~\underline{\, ) \,}~~ \underline{\, ) \,}~~ \underline{\, ) \,}~ 
+\end{equation}
+
+
+The preceding paragraph summarized our method for
+encoding semantic tableaux proofs. Its
+generalization 
+for 
+the
+encoding of \txl{1} proofs is
+straightforward. Thus if 
+ $~p_1,p_2,...p_n~$ 
+collectively constitute
+a list of  semantic tableaux proofs
+then the
+ natural  concatenation 
+of their byte strings will be the corresponding
+ \txl{1}
+proof.
+
+This ``Optimally Linearly Compressed'' encoding scheme
+is 
+%noteworthy 
+essential
+because all the core axiom systems, employed
+in this article, are Type-A formalisms, that recognize Addition
+but not Multiplication as a total function. If such formalisms
+were less than optimally compressed then our main theorems
+would lose relevance because the formalization 
+of
+unnecessarily expansive encodings would be awkward
+in the context of the slow growth properties of
+Type-A formalisms. Thus, 
+our results carry much greater significance when their
+% it is useful that our 
+encodings
+of a proof satisfy the maximal compression properties,
+% outlined in the first paragraph of 
+%that are 
+defined in
+this appendix. 
+
+
+%% 
+%% This byte-styled encoding method is approximately analogous
+%% to what Wilkie-Paris \cite{WP87} have called
+%% a {\it natural B-adic} encoding or a similar
+%% counterpart in the H\'{a}jek-Pudl\'{a}k textbook
+%% \cite{HP91}. Such
+%% compressed encodings are
+%%  considered  to be  more
+%% meaningful and efficient than an uncompressed encoding method,
+%% using say a Prime Number decomposition scheme \cite{Me97}
+%% (because the latter has an unnecessarily long bit-length). 
+%% All our theorems                 would also be
+%% valid for uncompressed
+%% encoding methods.
+%% However, they are more meaningful when one uses an
+%% efficiently compressed
+%% B-adic encoding method.
+%% 
+%% %\newpage
+%% 
+
+
+
+%% 
+%% \large
+%% \normalsize
+%%  \baselineskip = 2.0 \normalbaselineskip 
+
+
+
+\section*{Appendix C: Formal Encoding of 
+%Statmenent \eq{group3}'s 
+the
+Group-3 Axiom}
+
+Let us recall 
+%that 
+Appendix A 
+reviewed the definition of
+a
+semantic tableaux
+and \txl{1}
+ proof,
+ and Appendix B  formalized the 
+encodings
+of  such proofs. The goal of this appendix
+will be to summarize the methodology
+%% \cite{ww5} 
+%%  that was 
+used  to define
+Statmenent \eq{group3}'s Group-3 
+axiom
+in \cite{ww5} .
+
+%%% Passive Voice change in above sentence much
+%%% better because it understates my use of \cite{ww5} . 
+
+
+%% {\bf More Detailed Description of the Group-3 Axiom:} $~$ 
+%% A formal description of
+%%  IS$_D(A)$'s
+%% Group-3 axiom is more complicated than the abbreviated
+%% descriptions   given either by
+%% Sentence$~*~$ or by \ep{group3}'s analog.
+%% The
+%% main added complication is because
+%% the Group-3 axiom declares the consistency of
+%% a formal set of axioms that includes ``itself'' 
+%% (in the words of Sentence$~*~).~$ 
+%% As was noted in Section 1, the notion of an 
+%% axiom including
+%% ``itself'' when it refers to the consistency
+%% of an axiom schema dates back to Kleene's 1938 paper \cite{Kl38}.
+%% However, Kleene's abbreviated
+%% description is insufficient to establish that
+%% \ep{group3} can be encoded precisely as
+%% a 
+%% $\Pi_1^*$ sentence. The next two paragraphs will
+%% explain how this can be done.
+
+Let
+ UNION($A$)  denote the union of IS$_D(A)$'s Group-Zero,
+Group-1 and Group-2 axioms.    
+It will be useful to employ the following notation:
+\begin{description}
+\item[  i]   $\mbox{Prf}_{~UNION(A)}^D~( \, t \, , \, p \,)$ 
+will denote a formula  designating
+that $~p~$ is  a proof of the theorem $~t~$ from the axiom
+system  UNION($A)$ using the deduction method $~D.~$
+\smallskip
+\item[ ii]  
+$\mbox{ExPrf}_{~UNION(A)}^D~( \, h \, , \, t \, , \, p \,)$  
+will be a formula stating that
+$~p~$ is a proof
+(using the deduction method $~D~)~$
+ of
+a theorem $~t~$ 
+from the union 
+of the axiom system
+UNION(A) with the added axiom
+sentence specified by the integer
+$\, h \,$. 
+\smallskip
+\item[iii]  
+ $\mbox{Subst} \, ( \, g \, , \, h \, )$ will denote
+G\"{o}del's
+classic substitution formula --- which yields TRUE when $\, g \,$
+is an encoding of a formula
+and $\, h \,$ is an encoding of a sentence
+that replaces all occurrence of free variables in $\, g \,$ with
+% the formally 
+an
+encoded term 
+% of 
+$~\underx{g}~$
+(that designates $g$'s G\"{o}del number.)
+\smallskip
+\item[ iv]   
+$\mbox{SubstPrf}_{~UNION(A)}^D~( \, g \, , \, t \, , \, p \,)$  
+will denote the natural 
+hybridizations of the constructs from Items (ii) and (iii)
+which yields a Boolean value of TRUE exactly when there
+exists some integer $~h~$ 
+simultaneously 
+satisfying
+{\it both}
+the conditions
+  $\mbox{Subst} \, ( \, g \, , \, h \, )$ and
+$\mbox{ExPrf}_{~UNION(A)}^D~( \, h \, , \, t \, , \, p \,)$.
+
+\end{description}
+Each of (i)--(iv)
+can be encoded as $\Delta_0^*$ formulae.
+Thus, Appendices C and D of  \cite{ww1}
+%% thus,
+ explained how 
+the first three of these predicates can receive
+ $\Delta_0^*$ encodings when one applies 
+the theory of LinH functions 
+\cite{HP91,Kr95,Wr78}.
+Hence, \eq{encode} illustrates
+one possible  $\Delta_0^*$ encoding for 
+$\mbox{SubstPrf}_{~UNION(A)}^D \,(   g   ,   t   ,   p  )$'s 
+graph. (It is
+equivalent to
+the statement 
+$~$``$~\exists ~h~[~\mbox{Subst}    (    g    ,    h    )~\wedge~
+\mbox{ExPrf}_{~UNION(A)}^D(    h    ,    t    ,    p   )\, ] \, \,$''$,~$
+  but \eq{encode} is 
+ a $\Delta_0^*$ formula --- {\it unlike} the quoted
+expression.)
+\begin{equation}
+\label{encode}
+\mbox{Prf}_{~UNION(A)}^D~( \, t \, , \, p \,)~~~\vee~~~\exists ~h\leq p
+~~[~ \mbox{Subst} \, ( \, g \, , \, h \, )~\wedge~
+\mbox{ExPrf}_{~UNION(A)}^D~( \, h \, , \, t \, , \, p \,)~]  
+\end{equation}
+
+Let us recall that
+$\mbox{Pair}(x,y)$ is a $\Delta_0^*$ sentence
+specifying  that
+ $~x~$ 
+and $~y~$
+are
+the encodings of 
+ a $\Pi_1^*$
+and $\Sigma_1^*$ sentence,
+that are logical negations of each other.
+Using
+ \eq{encode}'s
+  $\Delta_0^*$ encoding for 
+$\mbox{SubstPrf}_{UNION(A)}^D(   g   ,   t   ,   p  )$, 
+we can now explain 
+how
+statement 
+\eq{group3}'s Group-3 Axiom can
+be formally encoded.
+Let
+$~\Gamma(g)~$ 
+denote  \ep{encode2}'s formula, 
+% and let
+  $~n~$ denote $~\Gamma(g)$'s
+G\"{o}del number
+and  $\underx{n}$
+denote a term encoding $n$ in the U-Grounding language.
+$~\,$Then
+it will turn out that  $~$``$~\Gamma(~ \underx{n}~)~$''$~$ 
+will be a $\Pi_1^*$ sentence 
+that is equivalent to
+ this Group-3 axiom.
+\begin{equation}
+\label{encode2}
+\small
+\forall   \, x \, \forall   \, y \, \forall   \, p \, \forall   \, q \,  \,  \neg  \,  \, 
+[ \,\mbox{Pair}(x,y)  \wedge 
+\mbox{SubstPrf}_{UNION(A)}^D  (    g    ,    x    ,    p   )
+\wedge  
+\mbox{SubstPrf}_{UNION(A)}^D  (    g    ,    y    ,    q   )  \,]
+\end{equation}
+More precisely, \eq{newencode2} formalizes the encoding
+of 
+ $~$``$~\Gamma(~ \underx{n}~)~$''.
+\begin{equation}
+\label{newencode2}
+\small
+\forall   \, x \, \forall   \, y \, \forall   \, p \, \forall   \, q \,  \,  \neg  \,  \, 
+[ \,\mbox{Pair}(x,y)  \wedge 
+\mbox{SubstPrf}_{UNION(A)}^D  (   \underx{n}   ,    x    ,    p   )
+\wedge  
+\mbox{SubstPrf}_{UNION(A)}^D  (      \underx{n}    ,    y    ,    q   )  \,]
+\end{equation}
+%In particular, 
+Thus,
+if we view 
+$~~$``$~\mbox{SubstPrf}_{~UNION(A)}^D~( \,
+ \underx{n} \, , \, t \, , \, p \,)~$''
+in \eq{newencode2} 
+as our formal method of
+encoding the concept that was previously informally
+called 
+``$~\mbox{Prf}~_{\mbox{IS}_D(A)}(t,p)~$''
+by Statement \eq{group3},
+then \eq{newencode2} amounts to
+the formal encoding of 
+\eq{group3}'s Group-3 
+{\it ``I am consistent''} axiom declaration.
+
+\bigskip
+
+{\bf Reminder about
+the Significance of 
+ \eq{newencode2}'s Encoding :}
+The preceding construction 
+%shows 
+had showed
+merely that it is possible
+to encode
+Sentence
+\eq{group3}'s Group-3 
+{\it ``I am consistent''} axiom declaration
+in a well-defined manner as a $\Pi_1^*$
+sentence.
+It does not answer the more subtle question about whether or not
+its
+{\it ``I am consistent''} axiom declaration
+holds 
+true
+ under the Standard model.
+%of the natural numbers. 
+As we have noted before,
+most analogs of 
+%the above sentence
+\eq{newencode2}
+produce false statements
+%fail to hold True
+under the Standard Model 
+because a conventional G\"{o}del-like
+diagonalization argument will imply
+that 
+most deduction methods $D$ will produce
+%their resulting 
+axiom systems
+$\mbox{IS}_D(A)$
+that are
+ inconsistent. 
+
+\medskip
+
+The reason for our 
+particular
+interest in 
+\eq{newencode2}'s
+formal encoding is that 
+Theorems \ref{ttt1} and \ref{ttt2}
+indicate that $\mbox{IS}_D(A)$
+is 
+%indeed 
+consistent when $D$ denotes
+either the semantic tableaux or \txl{1}
+deduction methodologies. Thus
+\eq{newencode2}'s
+Fixed-Point construction should be seen as a
+methodology that has 
+%limited-but-subtle
+limited applications,
+but which is also
+quite helpful (when it is feasible).
+
+%quite significant.
+\end{document}
+
