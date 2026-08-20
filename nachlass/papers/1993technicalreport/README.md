@@ -37,20 +37,27 @@ checked against surrounding content.
 ## Collated searchable PDF
 
 `willard1993_self_verifying_axiom_systems_tr93_10_searchable.pdf`
-(61 letter pages, ~23.6 MB) collates the three parts in order and carries an
-aligned invisible OCR text layer, making the report full-text searchable and
-highlightable.
+(61 pages, all uniformly letter-size 612×792 pt, ~23.5 MB) collates the three
+parts in order and carries an aligned invisible OCR text layer, making the
+report full-text searchable and highlightable.
 
 Pipeline (2026-08-20, present CLI tools only):
 
 1. `pdftoppm -gray -scale-to-x 2550 -scale-to-y -1 -png` per part
    (normalizes part 2's oversized 1540×1995 pt pages to the same pixel width);
-2. `convert <page>.png -quality 55 <page>.jpg` (ImageMagick; grayscale JPEG so
-   the OCR PDF embeds a compressed image);
+2. page-size regularization to exactly 2550×3300 px at a declared 300 dpi:
+   `convert <page>.png -resize 2550x3300 -background white -gravity center
+   -extent 2550x3300 -quality 55 -density 300 -units PixelsPerInch <page>.jpg`
+   (ImageMagick; parts 0/1 render at 2550×3300 already; part 2's pages vary
+   3299–3370 px in height, so they are aspect-preservingly fitted and
+   white-padded — no distortion, no cropping. The explicit 300 dpi JFIF
+   density matters: tesseract honors image density metadata over `--dpi`, and
+   the first pass's low part-2 density reproduced the oversized pages);
 3. `tesseract <page>.jpg <page> pdf txt --dpi 300` (tesseract 5.3.4, eng,
-   default PSM; 2550 px at 300 dpi ⇒ letter-size pages);
+   default PSM; 2550×3300 px at 300 dpi ⇒ 612×792 pt letter pages);
 4. `pdfunite` over the 61 per-page PDFs in scan order;
-5. verification: `pdfinfo` page count/size; `pdftotext` spot checks (title
+5. verification: `pdfinfo -f 1 -l 61` per-page size uniformity (61 × 612×792
+   pt); `pdftotext` spot checks (title
    page; printed p. 26 "8. Proof of Proposition 3" at collated p. 28; printed
    p. 42 TreeCheck appendix material at collated p. 44); `pdftotext -bbox`
    word-coordinate check for highlight alignment; per-page PDF integrity

@@ -30,6 +30,15 @@
   and gap-note amendment, `paperlist` entry `[16-TR]`, and
   `papers/1993technicalreport/README.md` (provenance, structure map,
   reproducible pipeline).
+- Checkpoint follow-up (same day): the first collation left part-2 pages at
+  1569×2033–2049 pt versus letter for parts 0/1 — tesseract honors JFIF
+  density metadata over `--dpi`, and part 2's low effective density (~117 dpi)
+  reproduced its oversized, per-page-varying source dimensions. Regularized by
+  aspect-preserving fit + white-pad of the 18 part-2 renders to exactly
+  2550×3300 px with declared 300 dpi, re-OCR, and re-collation. All 61 pages
+  now verify uniformly 612×792 pt; content, word count (24,221), and
+  text-layer alignment re-verified; collation checksum replaced in
+  `papers/SHA256SUMS` (sources unchanged).
 
 ## 2026-07-28 - Willard Deductive-Apparatus Audit
 
