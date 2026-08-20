@@ -125,6 +125,11 @@ Journal of Computer and Systems Sciences 48 (1994) pp. 533-551.
 [16] D. Willard, “Self-verifying axiom systems”, Computational Logic and Proof Theory:
 The Third Kurt G¨odel Colloquium (1993), Springer-Verlag LNCS#713, 325-336.
 
+[16-TR] D. Willard, “Self-Verifying Axiom Systems and the Incompleteness Theorem”,
+SUNY-Albany Computer Science Department Technical Report 93-10 (1993). Full-length
+original of [16] (its preface: [16] is “a 12-page abbreviated version of this paper”).
+Local witness: papers/1993technicalreport/ (searchable collation of three scan parts).
+
 [Willard1992]
 
 [15] D. Willard, “A Density Control Algorithm for Doing Insertions and Deletions in a Sequentially Ordered File in Good-Worst Case Time”,

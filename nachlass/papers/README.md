@@ -44,6 +44,7 @@ Additional related Willard witnesses that are not direct paperlist rows:
 
 | Work | Local witness | Public source |
 | --- | --- | --- |
+| Self-Verifying Axiom Systems and the Incompleteness Theorem, SUNY-Albany TR 93-10 (full-length original of the `Willard1993` KGC chapter) | `1993technicalreport/willard1993_self_verifying_axiom_systems_tr93_10_searchable.pdf` (searchable collation of scan parts `tr1993-0/1/2.pdf`; see [`1993technicalreport/README.md`](1993technicalreport/README.md)) | private scan of the original report; not publicly hosted |
 | On the Results of a 14-Year Effort to Generalize Godel's Second Incompleteness Theorem and Explore Its Partial Exceptions | `willard2007_fourteen_year_effort_author_kgs6.pdf` | archived SUNY author copy `kgs6.pdf` |
 | On the Nature of Godel's Second Incompleteness Theorem | `willard2006_nature_godel_second_incompleteness_talk.pdf` | Dartmouth logic seminar PDF |
 | On the Significance of Self-Justifying Axiom Systems from the Perspective of Analytic Tableaux | `willard2013_significance_self_justifying_axiom_systems_arxiv_1307.0150.pdf` | arXiv `1307.0150` |
@@ -58,6 +59,11 @@ Additional related Willard witnesses that are not direct paperlist rows:
   `Willard1997` Springer KGC chapter or `Willard1993` Springer KGC chapter
   through legal public sources. Their DOI/DBLP metadata remains public, but no
   author-side PDF was found in the SUNY archive crawl.
+- For `Willard1993`, the full-length origin text is now locally witnessed:
+  SUNY-Albany TR 93-10 (`1993technicalreport/`, searchable collation added
+  2026-08-20) states on its preface page that the published KGC chapter is its
+  12-page abbreviated version. The published chapter itself remains without a
+  standalone witness (the LNCS 713 volume exists in `lit/` as DJVU).
 - Public full-text witnesses were not located for the older data-structure and
   database entries `Willard1996`, `Willard1992`, `Willard1991`, `Willard1990`,
   `Willard1989a/b`, `Willard1987`, `Willard1986`, `Willard1985a/b`,

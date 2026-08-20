@@ -1,5 +1,36 @@
 # Nachlass Log
 
+## 2026-08-20 - TR 93-10 Searchable Collation (SJAS Codification, component C1)
+
+- First component of the SJAS Codification stage (`prose/sjas_synthesis.txt`;
+  plan approved 2026-08-20; branch `sjas-codification`). All codification work
+  is conducted within `nachlass/`; audit tooling is portable bash/CLI; user
+  feedback is collected after each definite component until autonomous
+  execution is authorized.
+- Collated `papers/1993technicalreport/tr1993-{0,1,2}.pdf` (three image-only
+  scan parts, 61 pages) into
+  `papers/1993technicalreport/willard1993_self_verifying_axiom_systems_tr93_10_searchable.pdf`:
+  SUNY-Albany TR 93-10, "Self-Verifying Axiom Systems and the Incompleteness
+  Theorem" — the full-length original of the published `Willard1993` KGC
+  chapter, per its own preface page. Foundational witness for Codification.
+- Pipeline (present tools only): pdftoppm 2550px grayscale renders → ImageMagick
+  JPEG q55 → tesseract 5.3.4 per-page `pdf txt` at `--dpi 300` → pdfunite in
+  scan order. Letter-size output, ~23.6 MB, aligned invisible text layer
+  (searchable/highlightable), 24,221 words extracted.
+- Verified: part order 0→1→2 with seam continuity (printed pp. 25→26, 41→42);
+  printed-page completeness by OCR header sweep (gap-free lattices: part 0 =
+  title + preface + pp. 1–25, part 1 = pp. 26–41, part 2 = pp. 42–55 +
+  Figures 1–4); per-page PDF integrity via `pdfinfo` (one page damaged by an
+  interrupted first OCR run was detected and regenerated before uniting);
+  `pdftotext` content spot checks at collated pp. 1/28/44; `-bbox`
+  word-coordinate alignment check. OCR layer is a search aid; page images
+  remain authoritative for formulas.
+- Recorded: `papers/SHA256SUMS` entries for the three parts and the collation
+  (`sha256sum -c` clean over the full file), `papers/README.md` witness row
+  and gap-note amendment, `paperlist` entry `[16-TR]`, and
+  `papers/1993technicalreport/README.md` (provenance, structure map,
+  reproducible pipeline).
+
 ## 2026-07-28 - Willard Deductive-Apparatus Audit
 
 - Completed a corpus-controlled review of Willard's published logic papers,
