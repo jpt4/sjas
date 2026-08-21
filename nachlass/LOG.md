@@ -1,5 +1,36 @@
 # Nachlass Log
 
+## 2026-08-20 - Codification Charter, Scaffold, and Corpus Ruling (component C3)
+
+- Wrote the charter ADR (`codification/ADR-0001-codification-charter.md`):
+  layered method (corpus → extraction → concordance → synthesis), fixed
+  extraction template, component roadmap C1–C16 with status, acceptance
+  criteria A1–A7 and sufficiency tests T1–T5, and the standing user
+  directions (nachlass-scoped, bash tooling, human-readable registries,
+  throughline test, obligatory checkpoints).
+- Completed the corpus ruling pass (`codification/registry/corpus.md`):
+  45 rows — 19 core (pilot Willard2005; origin TR 93-10 + KGC 1993; spine
+  2011/2001/2020; tiers A/B/C), 5 motivation, 9 witness-grade (nachlass +
+  resume), 6 out (data-structures/database line, biology line, teaching
+  exam, duplicate alias), 4 gaps (Willard1997, Willard2021, ASL-2005 TR,
+  TABLEAUX-2003 unconfirmed), 2 accepted micro-item classes (BSL abstracts,
+  St. Petersburg abstract). Every in/out ruling carries a throughline
+  rationale.
+- Seeded the registries (`systems.md`, `results.md`, `notation.md` schemas;
+  `gaps.md` populated G1–G13) and the concordance drift ledger (D1: TR 93-10
+  vs "March 1994" citation identity).
+- Added `codification/audit.sh` (portable bash+awk): parses the registry
+  tables; checks key uniqueness, enum validity, ruling–extraction
+  consistency, witness-file existence, and cross-registry key references.
+  Green on the seeded state (45 corpus rows, 13 gap rows).
+- Added `codification/regen-sources-text.sh` and generated
+  `codification/sources-text/`: 25 plain-text extractions (~336K words) of
+  the text-bearing in-corpus witnesses, as grep/anchor aids. Excluded by
+  design: the image-only DIMACS volume (gap G10), the LNCS 11972 volume
+  (chapter extract suffices), and nachlass scans (OCR lives under
+  `collected_dew_materials/ocr/`).
+- Added `codification/README.md` as the layer map / entry point.
+
 ## 2026-08-20 - LFCS 2020 Volume Acquisition and Chapter Witness (C2 follow-up)
 
 - The user downloaded the dokumen.pub upload of the LFCS 2020 proceedings by

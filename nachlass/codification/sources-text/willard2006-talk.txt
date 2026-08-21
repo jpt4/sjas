@@ -1,0 +1,35 @@
+On the Nature of Gödel’s Second Incompleteness Theorem
+Dan E. Willard, SUNY-Albany, Albany, New York 12222, Email=dew@cs.albany.edu
+
+Gödel’s “Second” Incompleteness Theorem states that axiom systems of sufficiently great
+strength are unable to formally verify their own consistency. Let A(x, y, z) denote a 3-way
+predicate relation indicating that x + y = z, and let M (x, y, z) indicate that x ∗ y = z. Let
+us say an axiom system α recognizes addition and multiplication as “Total” functions iff it
+can prove:
+∀x ∀y ∃z A(x, y, z) AND ∀x ∀y ∃z M (x, y, z) .
+(1)
+In several recent articles, we have shown how such totality conditions are related to both generalizations and boundary-case style exceptions for Gödel’s Second Incompleteness Theorem.
+This talk will survey several of our most recently published results [1, 2, 3, 4, 5, 6, 7] about
+this subject.
+
+References
+[1] D. Willard, “Self-Verifying Systems, the Incompleteness Theorem and the Tangibility Reflection Principle”, Journal of Symbolic Logic 66 #2 (2001) pp. 536-596
+[2] D. Willard, “How to Extend The Semantic Tableaux And Cut-Free Versions of the Second Incompleteness
+Theorem Almost to Robinson’s Arithmetic Q”, Journal of Symbolic Logic 67 #1 (2002) pp. 465-496.
+[3] D. Willard, “A Version of the Second Incompleteness Theorem For Axiom Systems that Recognize
+Addition But Not Multiplication as a Total Function”, First Order Logic Revisited, Logos Verlag (Berlin)
+2004, pp. 337–368.
+[4] D. Willard, “An Exploration of the Partial Respects in which an Axiom System Recognizing Solely
+Addition as a Total Function Can Verify Its Own Consistency”, Journal of Symbolic Logic 70 #4 (2005)
+pp. 1171-1209.
+[5] D. Willard, ”On the Partial Respects in which a Real Valued Arithmetic System Can Verify its Tableaux
+Consistency”. Conference version of this result in SpringerVerlag LNCS#3702, (2005), pp. 292-306, with
+a more polished and extended journal-style version of this result to appear in the December 2006 issue
+of the Journal of Symbolic Logic.
+[6] D. Willard, “A New Variant of Hilbert Styled Generalization of the Second Incompleteness Theorem
+and Some Exceptions to It”, Annals of Pure and Applied Logic 141 (2006) pp. 472-496.
+[7] D. Willard, “The Axiom System IΣ0 Manages to Simultaneously Obey and Evade the Herbrandized
+Version of the Second Incompleteness Theorem”, to appear in 2006 in Electronic Notes in Theoretical
+Computer Science, (in the journal’s volume containing the Proceedings of the Wollic-2006 Conference).
+
+

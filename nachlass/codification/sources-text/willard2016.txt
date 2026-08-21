@@ -1,0 +1,1745 @@
+arXiv:1612.08071v5 [math.LO] 12 Oct 2017
+
+On How the Introducing of a New θ Function Symbol Into
+Arithmetic’s Formalism Is Germane to Devising Axiom Systems
+that Can Appreciate Fragments of Their Own Hilbert Consistency
+Dan E.Willard∗
+State University of New York at Albany
+
+Abstract
+
+A new θ function primitive is proposed that almost achieves the
+combined efficiency of the addition, multiplication and successor
+growth operations. This θ function symbol enables the constructing
+of an “IQFS(PA+)” axiom system that can corroborate a fragmentary definition of its own Hilbert consistency, while it will simultaneously verify isomorphic counterparts of all Peano Arithmetic’s
+Π1 theorems. Many propositions and intermediate results are also
+established. Only one intermediate result, which most readers will
+intuit should be true, does remain formally unproven.
+
+Keywords and Phrases: Gödel’s Second Incompleteness Theorem, Consistency, Hilbert’s Second
+Open Question, Hilbert-styled Deduction (and its Frege-like analogs).
+Mathematics Subject Classification: 03B52; 03F25; 03F45; 03H13
+Comment: All the theorems and propositons are the same in this Version 5 as in Version 4. The
+difference is that the writing style is now significantly more polished.
+
+∗
+
+This research was partially supported by the NSF Grant CCR 0956495.
+
+1
+
+Introduction
+
+Two historic results were established by Gödel’s millennial paper [20]. The First Incompleteness
+Theorem showed no decision procedure exists for identifying all the true statements of Arithmetic.
+The Theorem XI in [20], later known as the “Second Incompleteness Theorem”, demonstrated no
+extension of the Russell-Whitehead Principia Mathematicae formalism can verify its own consistency. Gödel’s two observations were historic because they demonstrated, unequivocally, that the
+initial objectives of Hilbert’s Consistency Program were much too far-reaching. Thus at best, only
+a sharply curtailed form of Hilbert’s goals would be plausible.
+These observations were reinforced by a new version of the Second Incompleteness Theorem,
+due to the combined work of Pudlák and Solovay [39, 44], enhanced by some added techniques of
+Nelson and Wilkie-Paris [35, 49]. It established the prohibition (stated in §3’s Theorem ++) that
+no conventional arithmetic formalism can verify its own “Hilbert-style” consistency, when it merely
+recognizes Successor as a formally total functional operation.
+Within such curtailed limits, we have published since 1993 a series of articles [50]-[59], outlining
+generalizations of the Second Incompleteness Theorem and its sometimes-feasible boundary-case
+exceptions. Pavel Pudlák examined an early preprint of our article [55] and suggested [41] we
+consider attempting to hybridize its formalism with some of Ajtai’s observations about the Pigeon
+Hole effects [3]. On a more informal basis during a lunch at a 1997 conference, Sam Buss [10]
+conveyed to us an approximately similar suggestion. The Section 6 of [55] did subsequently formalize
+one type of response to these insightful observations. Our new results in this current paper will
+examine a much more ambitious approach to [55]’s particular topic, that is germane to an arithmetic
+appreciating some very delicately defined fragments of its Hilbert-styled formalizations of its self
+consistency.
+During our discussion, Add(x, y, z) and M ult(x, y, z) will denote two 3-way predicate symbols
+specifying that x + y = z and x ∗ y = z, which are known by our formalism to satisfy Π1 encodings
+for axioms formalizing the associative, commutative, identity and distributive principles. Let us
+say an axiom system α recognizes successor, addition and multiplication as Total Functions iff
+it can additionally prove (1) - (3) as theorems.
+∀x ∃z
+
+Add(x, 1, z)
+
+(1)
+
+∀x ∀y ∃z
+
+Add(x, y, z)
+
+(2)
+
+∀x ∀y ∃z
+
+M ult(x, y, z)
+
+(3)
+
+Our studied axiomatizations for integer arithmetics will differ from their conventional counterparts
+by neither possessing an ability to prove any of the totality statements (1) - (3) above, nor containing
+function symbols for formalizing the traditional addition, multiplication and successor function
+operations. Instead, we will rely upon an entirely new different type of primitive function, called
+1
+
+the “ θ ” operator, to construct the endless sequence of integers 3, 4, 5, ... from merely the three
+initial starting constants of 0, 1 and 2. (The exact number of logical symbols for encoding a term
+Tn , that represents an integer n ≥ 3 , will satisfy either an O( Log3 n ) or O( Log n ) upper bound
+under our Propositions 4.3 and 7.1, depending on whether a tree, as opposed to a Dag-oriented
+methodology, is used to encode Tn .)
+Assuming only the very modest assumptions of our Conjecture 6.6 are true 1 , Theorem 6.7
+will imply any consistent arithmetic axiom system A (including Peano Arithmetic itself ) can be
+mapped onto a consistent axiom system “IQFS(A)”, where IQFS(A) can simultaneously :
+1. corroborate its own Hilbert consistency,
+2. confirm the validity of all A’s Π1 theorems in a slightly revised language that uses the preceeding Add(x, y, z) and M ult(x, y, z) 3-way predicate symbols, and
+3. use only the three starting constants of 0, 1 and 2, to construct any term Tn for representing
+any natural number n ≥ 3, while satisfying Propositions 4.3 and 7.1’s specified O( Log3 n )
+and O( Log n) bounds for the length of Tn ’s construction.
+Items 1-3 are potentially significant because [55]’s earlier ISCE formalism could achieve the first
+two objectives, only when it had used an unfortunately infinite number of constant symbols.
+Theorem 6.7’s result should be viewed, cautiously, as only a boundary-case evasion of the Second
+Incompleteness Theorem. This is because its “IQFS(A)” formalism will be too weak to treat even
+Successor as a total function. Yet assuming our Conjecture 6.6 is correct (as the Appendix will
+demonstrate it is nearly 100 % certain to be), the semantics of IQFS shall partially answer an open
+question, that was raised by Harvey Friedman, at the end of the fourth lecture within his 5-part
+year-2014 You Tube series [18].
+It concerned whether some exotic boundary case exceptions to the Second Incompleteness Theorem might exist. The intuition behind IQFS(A)’s improved behavior will be that Proposition 4.3’s
+θ primitive will capture much of the growth properties of the addition, multiplication and successor
+operations, without employing those of their special functionalities, that are known to particularly
+support [39, 44]’s broad-scale generalizations of the Second Incompleteness Theorem.
+The present article, fortunately, can be read without examining any of our previous papers. If
+a reader does wish to skim one of our earlier articles, we recommend Sections 3 & 4 of [55]. (The
+reading of [55] is optional because a later chapter will summarize its content in more than adequate
+detail.)
+1
+
+Conjecture 6.6 is the result, mentioned in the abstract, which shall be demonstrated to be almost certainly true
+by the appendix attached to §6.
+
+2
+
+2
+
+Returning to the 1931-1939 Period
+
+Gödel’s Second Incompleteness Theorem was published in two stages during the 1931-1939 period. Its initial 1931 announcement, formalized by Theorem XI in Gödel’s millineal paper [20],
+demonstrated that no extension of the Russell-Whitehead Principia Mathematicae formalism could
+corroborate its own consistency. The widely quoted more general result, that every consistent r.e.
+extension of Peano Arithmetic must be unable to corroborate its own consistency, was, technically,
+first published in the 1939 edition of the Hilbert-Bernays textbook [27]. The latter has been considered to be the first definitive2 demonstration of the broad reach of the Second Incompleteness
+Effect. Its formalism established, beyond any reasonable doubt, that any kind of axiom system
+corroborating its own consistency must rely upon a foundational structure different from Peano
+Arithmetic. (This is because the Hilbert-Bernays textbook formalized the forerunner of what is
+now known as the Hilbert-Bernays Derivability Conditions [27, 25, 33, 34], as a mechanism for
+envisioning the broad generality of the Second Incompleteness Effect.)
+It is, thus, fascinating that Hilbert, as a co-author of an important generalization of the Incompleteness Theorem, never withdrew the justification [26] for his consistency program:
+∗ “ Let us admit that the situation in which we presently find ourselves with respect to paradoxes
+is in the long run intolerable. Just think: in mathematics, this paragon of reliability and truth,
+the very notions and inferences, as everyone learns, teaches, and uses them, lead to absurdities.
+And where else would reliability and truth be found if even mathematical thinking fails?”
+
+Indeed, Hilbert always insisted that some special new formalism would at least partially vindicate
+the prior goals of his consistency program. He thus arranged to have its often-quoted motto (“Wir
+müssen wissen—Wir werden wissen” ) engraved on his tombstone 3 .
+It is known [12, 22, 61] that Gödel was also doubtful about the generality of the Second Incompleteness Theorem for at least two years after its publication. He thus inserted the following
+historically noteworthy caveat into his famous 1931 millennial paper [20]:
+∗ ∗ “It must be expressly noted that Theorem XI” (e.g. the Second Incompleteness Theorem)
+“represents no contradiction of the formalistic standpoint of Hilbert. For this standpoint presupposes only the existence of a consistency proof by finite means, and there might conceivably
+be finite proofs which cannot be stated in P or in ... ”
+
+The statement ∗∗ has had numerous different interpretations 4 . All Gödel’s biographers [12, 22,
+61] have noted his intention (prior to 1930) was to establish Hilbert’s proposed objectives, before
+2
+Boolos [8] states there has been some debate among scholars whether Peano Arithmetic’s precise generalization
+of the Second Incompleteness Theorem should be fully credited to Gödel’s seminal paper [20], as opposed to having
+been implicit from it. In any case, the Hilbert-Bernays textbook [27] vented this generalization in its 1939 second
+edition, and von Neumann (unpublished) is also known [12, 22, 61] to have made similar observations.
+3
+English translation: “We must know, We will know.”
+4
+Some scholars have interpreted ∗∗ as anticipating attempts to confirm Peano Arithmetic’s consistency, via either
+Gentzen’s formalism or Gödel’s Dialetica interpretation. Other scholars have viewed ∗∗ as having more ambitious
+goals in 1931 (that is, goals which Gödel essentially formally withdrew later).
+
+3
+
+he proved a result leading in the opposite direction. Yourgrau [61] records how von Neumann
+surprisingly “argued against Gödel himself ” in the early 1930’s, about the definitive termination
+of Hilbert’s consistency program, which “for several years” after [20]’s publication, Gödel “was
+cautious not to prejudge”. It is known Gödel began to more fully endorse the Second Incompleteness
+Theorem during a 1933 lecture [21], and he completely embraced it after learning about Turing’s
+work [47].
+Our research in [50]-[59] is related to issues similar to those raised by Hilbert and Gödel in
+statements ∗ and ∗∗. This is because it is awkward to explain how human beings can maintain the
+psychological drive and needed energy-desire to cogitate, without being stimulated by an instinctive
+faith in their own consistency (under a definition of such that is suitably gentle and soft to be
+consistent with the Incompleteness Effect).
+Accordingly, our research in [50]-[59] has explored both generalizations and boundary-case exceptions for the Incompleteness Effect, so as to determine exactly which boundary-case evasions are
+permissible. Our prior research in [50]-[59] used mostly cut-free forms of deduction to evade the
+restrictions imposed by the Second Incompleteness Effect. The current article will instead focus on
+the more pristine Hilbert-Frege methods of deduction. Assuming the tempting assumptions of our
+Conjecture 6.6 are correct (as we do), the present article will show how a new type of θ function
+symbol, employing an “indeterminate-styled” definition of growth (formalized in §4), will usher in
+a surprising evasion of the Second Incompleteness Effect.
+More details about θ will be explained in the next two sections. Essentially, θ is needed because
+a version of the Second Incompleteness Theorem, due to the combined work of Pudlák, Solovay,
+Nelson and Wilkie-Paris [35, 39, 44, 49], demonstrates that if an axiom system α proves merely
+any one of (1) - (3)’s totality statements, then it will be incapable of confirming its own consistency
+under a Hilbert-style deductive method.
+Our Theorem 6.7 will suggest it is possible to obtain a partially positive interpretation for what
+Hilbert and Gödel were seeking in their statements ∗ and ∗∗, in a context where it is known the
+Second Incompleteness Effect, clearly, precludes a full achievement of their earlier objectives.
+
+3
+
+Motivation for Research and its Broad Perspective
+
+It is helpful to employ a flexible vocabulary so our results will apply to any of the textbook
+formalisms of say Enderton, Fitting, Hájek-Pudlák, or Mendelson [13, 15, 25, 34]. Let us call an
+ordered pair (α, d) a “Generalized Arithmetic” iff its two components are defined as follows:
+1. The Axiom Basis “ α ” of an arithmetic is defined as its set of proper axioms it employs.
+2. The Deductive Apparatus “ d ” of an arithmetic is defined as the combination of its formal
+rules for inference and the built-in logical axioms “ Ld ” that are used by these rules.
+4
+
+Example 3.1 This notation allows one to conveniently separate the logical axioms Ld ,
+associated with (α, d) , from the “basis axioms” α . It also allows one to isolate and compare
+various apparatus techniques, including the dE , dM , dH , and dF methods defined below:
+i.
+
+The dE apparatus, introduced in §2.4 of Enderton’s textbook, uses only modus ponens as a
+rule of inference. The latter will be accompanied by a 4-part system of logical axioms, called
+LdE , to endow dE with an ability to support Gödel’s Completeness Theorem.
+
+ii.
+
+The dM apparatus in §2.3 of Mendelson’s textbook and the dH apparatus in §0.10 of the
+Hájek-Pudlák’s textbook employ a more compressed set of logical axioms than dE , in a
+context where they use two rules of inference (modus ponens and generalization). In the end,
+dM and dH prove the same set of theorems as dE with only minor and unimportant
+changes in proof length.
+
+iii.
+
+The “semantic tableaux” dF apparatus in Fitting’s and Smullyan’s textbooks [15, 43] was
+the main focus of our investigations in [50, 51, 53, 54, 56, 59]. It will be rarely used in the
+current article, however. Unlike dE , dM and dH , it employs no logical axioms. It instead
+uses more complicated rules of inference. It has many applications in automated deduction,
+but is less efficient than dE , dM and dH in worst-case environments.
+Definition 3.2 The term “Hilbert-style” deductive method shall refer to any deductive
+
+apparatus d which employs a modus ponens rule and also satisfies Gödel’s Completeness Theorem.
+(Thus, each of the dE , dM and dH are examples of Hilbert-style deductive methodologies.)
+Example 3.3 Some added notation is needed to explain why a Hilbert style deductive apparatus, such as dE , dH or dM , should be distinguished from dF ’s “tableaux” apparatus. Let
+Add(x, y, z) and M ult(x, y, z) again denote two 3-way predicate symbols specifying that x + y = z
+and x ∗ y = z. Also, let us recall an axiom basis “ α ” is said to recognize successor, addition and
+multiplication as “Total Functions” iff (4)-(6) are among its derived theorems.
+∀x ∃z
+
+Add(x, 1, z)
+
+(4)
+
+∀x ∀y ∃z
+
+Add(x, y, z)
+
+(5)
+
+∀x ∀y ∃z
+
+M ult(x, y, z)
+
+(6)
+
+An “axiom basis” α is called Type-M iff it includes (4)-(6) as theorems, Type-A if it includes (4)
+and (5) as theorems, and Type-S if it contains only (4) as a theorem. Also, α is called Type-NS
+iff it can prove none of these theorems. A summary of the prior literature, using this particular
+notation, is provided below:
+a.
+
+The combined research of Pudlák, Solovay, Nelson and Wilkie-Paris [35, 39, 44, 49], as
+
+is formalized by statement ++ , implies no natural Type-S generalized arithmetic (α, d) can
+5
+
+recognize its own consistency when d is one of Example 3.1’s three Hilbert-style deduction
+operators of dE , dH or dM :
+++
+
+(Solovay’s modification [44] of Pudlák [39]’s formalism with Nelson and
+
+Wilkie-Paris [35, 49]’s methods) : Let (α, d) denote a generalized arithmetic supporting the Line (4)’s Type-S statement and assuring the successor operation will
+satisfy both x′ 6= 0 and x′ = y ′ ⇔ x = y.
+
+Then (α, d) cannot verify its own
+
+consistency whenever simultaneously d is a Hilbert-style deductive apparatus and
+α treats addition and multiplication as 3-way relations, satisfying their usual associative, commutative distributive and identity axioms.
+Essentially, Solovay [44] privately communicated to us in 1994 an analog of theorem ++.
+Many authors have noted Solovay has been reluctant to publish his nice privately communicated results on many occasions [11, 25, 35, 37, 39, 49]. Thus, approximate analogs of ++
+were explored subsequently by Buss-Ignjatovic, Hájek and Švejdar in [11, 23, 45], as well as in
+Appendix A of our paper [51]. Also, Pudlák’s initial 1985 article [39] captured the majority
+of ++’s essence, chronologically before Solovay’s observations. Also, Friedman did related
+work in [16].
+b.
+
+Part of what makes ++ interesting is that [51, 54, 55] developed two methods for generalized arithmetics to confirm their own consistency, whose natural hybridizations are precluded
+by ++. Specifically, these results involve either a Type-NS system [51, 55] verifying its own
+consistency under any of our three discussed variants of Hilbert-style methods, or a Type-A
+system [50, 51, 54, 56, 59] verifying its self-consistency under dF ’s tableaux apparatus. Also,
+Willard [52, 57] observed how one could refine ++ with Adamowicz-Zbierski’s methodology
+[1, 2] to show Type-M systems cannot recognize their semantic tableaux consistency.
+
+The roles of Items (a) and (b) in our research will become more evident as this article progresses.
+Essentially, our prior research had focused mostly on Type-A arithmetics that could verify their
+consistency under either semantic tableaux deduction or some near-cousin of this concept (as was
+explained in [59]’s short 16-page summary of [50]-[58]’s results). The main challenge, faced by
+our prior research, was that
+
++ + ’s generalization of the Second Incompleteness Theorem for
+
+Type-S arithmetics caused us to rely on analogs of [55]’s “ISCE” Type-NS framework, when a logic
+recognizes its own Hilbert consistency. (The latter, unfortunately, dropped the assumption that
+successor is a total function. It instead constructed the infinite set of integers by employing an
+infinite set of distinct constant symbols C1 , C2 , C3 , .... where Cj = 2j−1 .) In this article, we will
+improve upon ISCE by showing how one needs only three built-in constant symbols, corresponding
+to the integers of 0, 1 and 2, to construct an “IQFS” axiom system that can verify its own Hilbert
+consistency − − − where here IQFS has access to a new type of “ θ ” function primitive (defined
+later) for constructing the infinite range of integers from these three starting constants.
+6
+
+Definition 3.4 Let α again denote an axiom basis, and d designate a deduction apparatus.
+Then the ordered pair (α, d) will be called a Self Justifying configuration when:
+i one of (α, d)’s theorems (or possibly one of α’s axioms) do state that the deduction method d,
+applied to the basis system α, produces a consistent set of theorems, and
+ii the axiom system α is in fact consistent.
+Example 3.5 Using Definition 3.4’s notation, our prior research in [50, 51, 54, 55, 58, 59]
+developed arithmetics (α, d) that were “Self Justifying”. It also proved the Second Incompleteness
+Theorem implies specific limits beyond which self-justifying formalisms cannot transgress. For any
+(α, d) , it is almost trivial to construct a system αd ⊇ α that satisfies the Part-i condition (in an
+isolated context where the Part-ii condition is not also satisfied). For instance, αd could consist of
+all of α ’s axioms plus an added “SelfRef(α, d)” sentence, defined as stating:
+⊕
+
+There is no proof (using d’s deduction method) of 0 = 1 from the union of the
+
+axiom system α with this sentence “SelfRef(α, d) ” (looking at itself).
+Kleene discussed in [29] how to encode rough analogs of the above “I Am Consistent” axiom
+statement. Each of Kleene, Rogers and Jeroslow [29, 42, 28], however, emphasized that αd may be
+inconsistent (e.g. violating Part-ii of self-justification’s definition), despite SelfRef(α, d)’s formalized
+assertion. This is because if the pair (α, d) is too strong then a classic Gödel-style diagonalization
+argument can be applied to the axiom system αd = α + SelfRef(α, d), where the added presence
+of the statement SelfRef(α, d) will cause this extended version of α , ironically, to become automatically inconsistent. Thus, the encoding of “SelfRef(α, d)” is relatively easy, via an application
+of the Fixed Point Theorem, but this sentence is ironically typically useless!
+Unlike our earlier work, which focused mostly on a semantic tableaux apparatus for deduction,
+the current paper will explore Definition 3.2’s more pristine Hilbert-style methodologies. There
+are, of course, many types of generalizations of the Second Incompleteness Theorem known to arise
+in Hilbert-like settings [4, 5, 6, 7, 9, 11, 14, 16, 20, 23, 24, 25, 27, 33, 30, 31, 36, 38, 39, 40, 44, 45,
+48, 49, 51, 55]. Each such generalization formalizes a paradigm where self-justification is infeasible
+under a Hilbert-style apparatus.
+Our main prior research about Hilbert consistency appeared in [55]. Its ISCE(β) formalism
+could recognize its own Hilbert consistency and prove analogs of any r.e. extension β of Peano
+Arithmetic’s Π1 theorems. It unfortunately required the use of an infinite number of constant
+symbols, with ISCE(β) using one built-in constant symbol Ci , for each power of 2.
+Prior to [55]’s publication, Pavel Pudlák [41] examined our article and asked whether one could
+improve upon ISCE’s properties by using Ajtai’s observations [3] about the Pigeon Hole principle.
+7
+
+In a briefer and more informal respect, Sam Buss asked us a similar question during a lunch at a
+1997 logic conference [10]. Our prior partial answer to these questions was offered in Sections 6 of
+[55]. A different and substantially more interesting reply to these questions will be offered in the
+current paper.
+Definition 3.6 Relative to any fixed given axiom system γ , a formal function symbol F
+will be called a Q-Function iff γ is sufficiently ambiguous for there to exist an UNCOUNTABLY
+infinite number of different plausible sequences of formally enumerated ordered pairs ( i , ai ) in
+expression (7) where F (i) = ai is allowed as a permissible representation for F under γ’s axioms.
+(0, a0 ) , (1, a1 ) , (2, a2 ) , (3, a3 ) , (4, a4 ) ...
+
+(7)
+
+Most Q-Function symbols are unsuitable for analyzing Hilbert’s Second Open Question or most
+issues in mathematics. This is because the presence of an uncountably infinite number of different
+plausible sequences, using Line (7) to specify F (i) = ai , is more of a burden than a benefit (in
+most cases). An exception to this general rule of thumb will be provided by the next section’s θ
+operator. It will be germane to ++ ’s generalization of the Second Incompleteness and suggest a
+mechanism whereby an efficient form of “Type-NS”self-justifying arithmetic can recognize its own
+Hilbert consistency in a quite substantial sense.
+
+4
+
+Starting Notation Conventions
+
+A function H will be called Non-Growth whenever H(a1 , a2 , ..., aj ) ≤ M aximum(a1 , a2 , ..., aj )
+for all a1 , a2 , ..., aj . Six examples of non-growth functions are:
+1. Integer Subtraction where “ x − y ” is defined to equal zero when x ≤ y,
+2. Integer Division where “ x ÷ y ” equals 0 when y = 0 and it equals ⌊ x/y ⌋ otherwise,
+3. M aximum(x, y),
+4. Root(x, y) which equals ⌊ x1/y ⌋ when y ≥ 1 (and zero otherwise),
+5. Logarithm(x) = ⌊ Log2 (x) ⌋ and
+6. Count(x, j) = the number of “1” bits among x’s rightmost j bits.
+
+These operations were called either the “Grounding” or “Ground-Level” functions in our articles [51, 53, 54, 59]. We will use the latter nomenclature in the current article because the notion of
+a “Ground-Level” function should not be confused with the very different notion of a “Grounded
+Term” employed by Definition 4.5.
+Our starting language LG will also contain the two atomic symbols of “ = ” and “ ≤ ” and
+three built in constants symbols, C0 , C1 and C2 , for representing the values of 0, 1 and 2.
+In this context, expressions (8) and (9) formalize exactly how addition and multiplication can be
+encoded as two 3-way predicates, denoted as Add(x, y, z) and Mult(x, y, z).
+z − x = y
+
+∧
+8
+
+z ≥ x
+
+(8)
+
+z−1
+z
+=y ∧
+<y )]
+(9)
+x
+x
+and C2 , for representing the quantities 1 and 2, allow us to
+
+[ (x = 0 ∨ y = 0) ⇒ z = 0 ] ∧ [ (x 6= 0 ∧ y 6= 0 ) ⇒ (
+Also, our constant symbols, C1
+
+formalize the following further non-growth operations:
+a.
+
+Pred(x)
+=
+x − 1 (in a context where the prior paragraph’s definition for Subtraction implies
+Pred(0)= 0. )
+b. Half(x) = x ÷ 2 (in a context where “ x ÷ 2 ” equals technically ⌊ x2 ⌋ under the prior paragraph’s
+notation).
+c. Predn (x) defined to be n iterations of the Predecessor operation
+d. Half n (x) defined to be n iterations of the halving operation.
+
+Let us say that a function symbol H(x1 , x2 ...xj ) is Growth Permitting iff for each integer
+k ≥ 2 there exists a “growth-tuple” (a1 , a2 , .., aj ) satisfying H(a1 , a2 , .., aj ) > k and also having
+each ai ≤ k It will be necessary to employ either an infinite number of constant symbols or some
+Growth-Permitting function, so that an extension of our language LG can construct the naturally
+extended broader set of integers 3, 4, 5, 6 .... from its starting objects of 0,1 and 2.
+One method for resolving this problem has been presented in [55]. Its ISCE(β) axiom basis did
+employ an infinite number of further constant symbols. It was compatible with self-justification,
+but deviated from Hilbert’s intended goals because it employed a highly awkward infinite number
+of distinct constant symbols.
+The challenge posed by ++ is, thus, formidable. Our goal in this article will be to suggest how
+a Q-function primitive F (x), constrained by deliberately ambiguous axioms, can help overcome the
+constraint that ++ imposes. Such an unusual primitive F will have an uncountable number of
+vectors, analogous to Line (7), as permissible solutions for F ’s definition. Our basic goal will be
+to outline how this unusual concept is germane to the self-justifying aspirations that Hilbert and
+Gödel had expressed in ∗ and ∗ ∗ .
+Definition 4.1 Let us say a formal function symbol F (x1 , x2 , ...xj ) is “1-Definitive” iff it has
+only one permissible solution under an axiom system γ’s definition of it. Let us call the function
+F “Indeterminate” otherwise.
+Mathematicians obviously typically avoid using axiom systems that entail using ambiguous
+function definitions (e.g. they certainly usually avoid analogs of Line (7)’s dizzying quantity of
+possibly ℵ1 distinct solutions for its defined function F ). Our effort to overcome ++’s broad-scale
+generalization of the Second Incompleteness Theorem will be unconventional because we will use
+an indeterminate function, called the θ operator, to overcome ++’s challenge. It will turn out
+that the θ operator will almost duplicate the logarithmic efficiency of the traditional addition
+and multiplication function symbols for constructing the natural numbers, while simultaneously
+dove-tail around ++’s generalization of the Second Incompleteness Theorem.
+9
+
+The indeterminate nature of θ will be crucial to our evasion of the Second Incompleteness Effect.
+Our research into this topic was greatly influenced by an email we received from Pavel Pudlák [41],
+shortly after he received an advanced copy of our article [55]. He appreciated the nature of the
+challenge the ISCE axiom framework faced, when it used an awkwardly infinite number of constant
+symbols. (ISCE relied on this infinite magnitude to evade ++’s requirement that no evasion of
+the Second Incompleteness Theorem can take place when an arithmetic recognizes Successor as a
+total function.) Pudlák’s emailed communications [41], thereby suggested we look at Ajtai’s work
+[3] about a Pigeon-Hole function ζ(x) , defined by the identities (10) and (11).
+
+∀ x
+∀ x
+
+∀ y
+
+ζ(x) 6= 0
+
+x 6= y ⇒ ζ(x) 6= ζ(y)
+
+(10)
+(11)
+
+The relevance of ζ can be best appreciated when ζ n (x) denotes a term ζ( ζ( ...ζ(x))) consisting
+of n iterations of the ζ operator. Line (12)’s composite term Sn will then satisfy the lower
+bound of Sn > n.
+
+Sn
+
+=
+
+Max[ ζ(0) , ζ 2 (0) , ζ 3 (0) , ... ζ n (0) ]
+
+(12)
+
+Pudlák observed ζ(x) will grow too slowly (in the worst case) for one to be able to deduce successor
+is a total function from its properties 5 . His email [41] hinted the inequality Sn > n might enable
+a formalism, utilizing the ζ operative, to improve upon [55]’s results.
+It was initially unclear whether a positive answer to Pudlák’s interesting question would resolve
+ISCE’s main difficulties. This is because (12)’s term Sn requires O( n2 ) logic symbols to encode
+an integer quantity greater than n (since its term ζ j (0) uses O(j) logic symbols). Thus, the
+integer 2100 ,
+
+whose binary encoding uses 100 bits, would actually require in excess of 2200
+
+bits to encode. Such quantities, exceeding the number of atoms in the universe, were troubling
+because our general goal has been to construct self-justifying arithmetics that possessed, at least,
+some partial facets of pragmatic value.
+The remainder of this section will outline how a different type of Q-Function operator will
+be much better than ζ for meeting our needs. During our discussion, Power(x) will denote a
+primitive specifying x is a power of 2 . It is encoded by (13) because our Grounding language
+has “Logarithm(x) ” = ⌊ Log2 (x) ⌋ .
+x=1
+
+∨
+
+Logarithm( x ) 6= Logarithm( x − 1 )
+
+5
+
+(13)
+
+The operation ζ(x) will grow at a slower rate than Successor, if it equals x + 1 for all standard numbers x and
+if ζ(x) = x − 1 when x is a non-standard integer. This seemingly minute detail implies one cannot infer Successor is
+a total function from ζ’s behavior, since the latter is contradicted by a model where all non-standard numbers have
+sizes bounded by some fixed number B. (This subtle detail, raised by Pudlák’s email [41], was fascinating because it
+raised the question about whether a partial exception to Example 3.3-a’s invariant ++ might plausibly exist.)
+
+10
+
+In this context, θ(x) will denote our new analog of the ζ(x) function that walks among the powers
+of 2 in a manner similar to ζ(x)’s walk through conventional integers. It is defined by (14)-(17).
+∀ x
+
+Power(x)
+∀ x
+
+∀ x
+
+∀ y
+
+⇒ Power( θ(x) )
+
+(14)
+
+θ(x) 6= 1
+
+(15)
+
+[ x 6= y ∧ Power(x) ] ⇒ θ(x) 6= θ(y)
+
+∀ x
+
+¬ Power(x)
+
+⇒
+
+θ(x) = 0
+
+(16)
+(17)
+
+It needs to be emphasized that (14) – (17) will be the only vehicle our self-justifying axioms have
+available to construct integers ≥ 3.
+
+These axioms will be called the Up-Walking axioms.
+
+(The axiom (17) is, technically, unnecessary to construct integers ≥ 1 , but it is helpful because it
+formalizes how our methodology will treat integers which are not powers of 2.)
+Both the Q-functions ζ and θ are challenging because there are a dizzying ℵ1 distinct vectors,
+analogous to Line (7), that are representations of these functions. We will soon see, however, that
+there is a sharp distinction between these concepts from a computational complexity perspective.
+Definition 4.2 Let LQ and LQ
+
+∗
+
+denote the extensions of LG ’s Grounding language that
+
+contain the respective additional function symbols of θ and ζ. Then
+Q-Grounding language, and
+
+LQ
+
+∗
+
+LQ shall be called the
+
+will be called the Q* Grounding language.
+
+Proposition 4.3 In contrast to the Q* Grounding language that requires O( n2 ) function
+symbols for defining a term Tn∗ for representing the integer n, the Q-Grounding language needs
+only O( Log 3 n ) symbols to encode a term Tn representing n.
+Proposition 4.3’s proof will rely upon the following notation convention:
+Definition 4.4 Let θ j (x) denote the term θ( θ( ...θ(x))) where there are j iterations of
+the θ operation. Let Ej denote the quantity produced by (18)’s division operation:
+Max [ θ j (1) , θ j−1 (1) , ... θ(1) ]
+Half j { Max [ θ j (1) , θ j−1 (1) , ... θ(1) ] }
+
+(18)
+
+It is easy to establish that Ej = 2j for every j ≥ 1. This is because (18)’s twice-repeating term of
+Max [ θ j (1), θ j−1 (1), ...θ(1) ] is a power of 2 exceeding 2j . For the additional case where j = 0 ,
+we shall define E0 = 1 (by having the formal constant symbol of C1 stand for “1” ).
+Proof of Proposition 4.3: Easy consequence of Definition 4.4’s machinery. Thus if n is a
+power of 2 of the form 2j then expression Ej is a term representing n ’s value that employs
+O( Log 2 n ) logical symbols. On the other hand, if n is not a power of 2 then it can be defined
+with O( Log 3 n ) symbols by setting Ej equal to the least power of 2 greater than n and
+subtracting from Ej those powers of 2 that are needed to produce n ’s value. For example since
+76 = 128 − 32 − 16 − 4 , it can be formalized as a term T76 defined by E7 − E5 − E4 − E2 .
+11
+
+Definition 4.5 A “term” in mathematical logic is defined to be a syntactic object, built out
+of solely symbols for representing functions, constants and variables. Such an object is called a
+“Ground Term” when it is built out of solely function and constant symbols. For example in our
+Q-Grounding language (which uses C0 , C1 and C2 as built-in constants), the expression “ C2 − C1 ”
+is a ground term. Two more complex examples of ground terms are “Max(C2 , C1 − C0 )” and
+“Max( θ(C1 ) , C2 )”. Also, expression Ej in Line (18) should be viewed as a ground term (when
+one views its use of the symbol “1” as an abbreviation for the constant “ C1 ”).
+Remark 4.6 . We will distinguish in Proposition 7.1 and in other parts of §7 between two kinds
+of ground terms, that are called the “Tree-Oriented” and “Dag-Oriented” formats. The latter
+will differ from a more conventional tree structure by having a Directed Acyclic Graph structure
+replace a term’s usual tree format for defining its quantitative values. Our discussion in the next
+several sections will be simplified if we use the shorter phrase of “Ground Term” to refer to what
+§7 will more accurately called a “Tree-Oriented Ground Term”. (It will turn out Proposition 7.1
+will later explain how Dag-oriented ground terms differ from their tree-oriented counterparts by
+reducing the O( Log 3 n ) length of a tree-oriented term to a more compact O( Log n ) size.)
+Definition 4.7 A ground term T will be called an “Observable” object iff there is an unique
+interpretation of its quantified value in the Q-Grounding language. It is called an “Unobservable”
+iff it has multiple such interpretations due to θ’s “indeterminate” definition (e.g. see Definition 4.1).
+Example 4.8 The previously mentioned ground term Max( θ(C1 ) , C2 ) is an “unobservable”
+because it can assume any of the plausible integer values of 2 , 4 , 8 , 16 ... . On the other hand,
+(19) is an “observable” that represents the integer value of “3”. (This is because its twice-repeating
+term “ Max[ C2 , θ(C2 ) , θ 2 (C2 ) ] ” is bounded below by 4, causing the left and right sides of its
+subtraction operation to differ by exactly 3.)
+Max[ C2 , θ(C2 ) , θ 2 (C2 ) ] − Pred 3 { Max[ C2 , θ(C2 ) , θ 2 (C2 ) ] }
+
+(19)
+
+Our notation also implies that Line (18)’s expression Ej is an “observable”. This implies, in turn,
+that Proposition 4.3’s term Tn is an “observable” employing no more than O( Log 3 n ) logical
+symbols. For example since 76 = 128 − 32 − 16 − 4 , it follows that T76 corresponds to the
+observable term E7 − E5 − E4 − E2 , where each Ej employs only O( Log 2 j ) symbols.
+Thus, Definition 4.7 and Example 4.8 have illustrated how the realm of “observable” objects is a
+broad and accessible world, of non-trivial significance. It allows every integer n to be represented
+by a term Tn with a tight O( Log 3 n ) length (in a context where Proposition 7.1’s more elaborate
+formalism will allow us to reduce this length to a yet more attractive O( Log n ) size).
+The distinction between “Observables” and “Unobservables” will offer a new perspective on
+the aspirations which Hilbert and Gödel stated in their statements ∗ and ∗∗, under the new IQFS
+12
+
+axiomatic framework that is proposed later in this article. It will suggest how the Second Incompleteness Theorem can be seen as a fascinating majestic result from a purist perspective, while a
+well-defined fragment of what Hilbert and Gödel sought in ∗ and ∗∗ can be satisfied, in at least a
+diluted sense.
+Remark 4.9 (explaining the goals of this paper): Let us say a basis axiom system α
+owns a “Finitized Perspective” of the Natural Numbers if it requires only a finite number of proper
+axioms to construct the full set of integers 0, 1, 2, 3 ... . All conventional arithmetics have this
+property. Such logics fall into two categories, called Single and Double-Formatted systems. They
+are defined below:
+a.
+
+Single-Formatted Arithmetics consist of axiomatic basis systems whose ground terms are
+all Observables. (Most conventional arithmetics lie in this category because they typically
+employ the Successor operation in a traditional manner.)
+
+b.
+
+Double-Formatted Arithmetics represent systems whose ground terms may be either Observables or Unobservables. (Axiomizations for Q-Grounded logics are “Double-Formatted”
+because they allow θ’s analog of Line (7)’s function symbol F to have an uncountable number
+of different allowed representations).
+
+The distinction between categories (a) and (b) is significant because Example 3.3-a explained how
+statement ++’s generalization of the Second Incompleteness Theorem applies to any formalism
+recognizing Successor as a total function. Thus, Double-Format logics are useful, if one wishes
+to consider alternatives where successor is not seen as a total function. In this context, Hilbert’s
+Second Open Problem can be viewed as a 2-part question, composed of sub-queries Q-1 and Q-2:
+Question Q-1
+
+Are any axiom systems able to prove theorems verifying their own consistency in
+
+a robust sense?
+
+The answer to Q-1 is clearly “No” because the combination Gödel’s initial
+
+1931 result [20] with Hilbert-Bernays’s result [27] and the Pudlák-Solovay invariant ++ (from
+Example 3.3-a) imply arithmetics of ordinary strength cannot prove their own consistency in
+a robust sense.
+Question Q-2
+
+Can logic systems “appreciate” their own consistency in some REDUCED
+
+sense, that is diluted but not fully immaterial?
+
+The answer to Q-2 is complex because some
+
+logics, such as our proposal in §5 and [50, 51, 54, 55, 58, 59]’s weaker and earlier paradigms,
+can formalize their own consistency, using Example 3.5’s Fixed-Point “I am consistent” axiom.
+A theme of this article will be that the distinguishing between questions Q-1 and Q-2 and
+between Single and Double-Formatted Logics is related to the mystery enshrouding the Second
+Incompleteness Theorem. This is because there can be no doubt that the Second Incompleteness
+Theorem is fully robust from a purist mathematical perspective. Yet, it is still problematic to fully
+13
+
+dismiss Hilbert’s 1926 suggestion that some specialized forms of logics should possess a type of
+well-defined knowledge about their own internal consistency. (This is because it is very awkward
+to explain how human beings are able to motivate their own cognitive process, otherwise.)
+Thus the distinguishing between the questions Q-1 and Q-2, combined with Example 3.5’s
+“SelfRef”formalism and Proposition 4.3’s “θ primitive”, will usher in our new approach.
+Before discussing our new “IQFS” methodology, it should be mentioned that other unusual
+interpretations of the Second Incompleteness Theorem have followed from Gentzen’s perspectives
+about transfinite induction under his ǫ0 ordinal [19, 46], the Kreisel-Takeuti’s “CFA” system [32]
+and also the interpretational frameworks of Friedman, Nelson, Pudlák and Visser [17, 35, 39, 48].
+These systems are unrelated to our methods. They do not use Kleene-like “I am consistent” axiomsentences. Also, they employ “cut-free” logics (rather than a preferable Hilbert-style deductive
+apparatus). Their fascinating perspective should be examined by researchers interested in the
+Second Incompleteness Theorem, although it is unrelated to our approach in the next section.
+
+5
+
+The ISCE and IQFS Axiomatic Formalisms
+
+The only aspect of our prior research that will be directly related to our new IQFS axiomatic
+framework is [55]’s ISCE formalism. The next several paragraphs will review [55]’s defintions of
+ISCE, given in its Sections 3 & 4. After reviewing ISCE’s properties, the remainder of this section
+will explain, intuitively, how our new IQFS framework can be incrementally defined, by suitably
+revising ISCE’s prior definition. (A subsequent formal proof, affirming IQFS’s exact self-justification
+properties, will appear in §6.)
+During our discussion, LG will again denote our Grounding-level language built out of our
+six basic non-growth functions (e.g. the Subtraction, Division, Maximum, Logarithm, Root and
+Count operations). Also, C0 , C1 and C2 will again denote three constant symbols designating
+the integers values of “0”, “1” and “2”. In a context where Pred(x) is an abbreviation for “ x − 1 ”
+(or more precisely “ x − C1 ” ), the ISCE axiom system from [55] had used (20)’s axiom statement
+to define C0 , C1 and C2 :
+Pred(C0 ) = C0 ∧ C1 6= C0 ∧ Pred(C1 ) = C0 ∧ Pred(C2 ) = C1 ∧ ∀ x ¬ ( C0 < x < C1 ) (20)
+The challenge [55] faced was its formalism could not use any of the function-operations of successor,
+addition or multiplication to infer the existence of larger integers from the initial constants of C0 ,
+C1 and C2 . This was because the Pudlák-Solovay result ++ indicated the presumption successor
+is a total function precludes most systems from recognizing their own Hilbert consistency.
+Our article [55] considered two alternatives for overcoming these difficulties, called the Additive and Multiplicative Naming conventions. They defined some further constant symbols
+
+14
+
+C3 , C4 , C5 , ... and C3∗ , C4∗ , C5∗ , ... where Cj = 2j−1 and Cj∗ = 2 2
+
+j−2
+
+under these two
+
+conventions.
+The definition of these constants is easy under LG ’s language. This is because Lines (8) and
+(9) specify how two 3-way predicates, called Add(x, y, z) and Mult(x, y, z) , encode the identities of
+x = y+z and x∗y = z. Our additive and multiplicative conventions can, then, define C3 , C4 , C5 , ...
+and C3∗ , C4∗ , C5∗ , ... via an infinite number of instances of (21) and (22)’s particular axiom schemas,
+respectively:
+
+Add( Cj−1 , Cj−1 , Cj )
+
+(21)
+
+∗
+∗
+Mult( Cj−1
+, Cj−1
+, Cj∗ )
+
+(22)
+
+The methodology in [55] presumed the “names” for its constants Cj and Cj∗ had nice compact
+encodings using O( Log(j) ) bits. Its formalism calculated the values of “unnamed” integers
+from named entities via the non-growth Subtraction and Division primitives. For instance since
+20 = 32 − 8 − 4 , the quantity 20 can be encoded as C6 − C4 − C3 .
+The challenge [55] faced was to determine whether self-justification was possible under either
+(21)’s or (22)’s schema. It found (22)’s multiplicative convention was incompatible with selfjustification (due to its speedy growth rate), but (21)’s additive schema did, conveniently, permit
+self-justification.
+Our new proposed Double-Formatted form of a self-justifying axiom system is easiest to describe,
+if we first review [55]’s Single-Formatted formalism and then refine it.
+The extension of our base-language LG that includes the Additive Naming Convention (ANC)’s
+additional constants C3 , C4 , C5 , ... will be called an ANC-Based Language and be denoted
+as LAN C . Also if t denotes any term in LAN C ’s language, then the quantifiers in the two wffs of
+∀ v ≤ t Ψ(v) and ∃ v ≤ t Ψ(v) will be called LAN C ’s “Bounded Quantifiers”.
+
+Definition 5.1 The analogs of a conventional arithmetic’s ∆0 , Πn and Σn formulae in the
+C , ΠAN C and ΣAN C . Thus, a formula is defined to be
+language LAN C will be denoted as ∆AN
+n
+n
+0
+C iff all its quantifiers satisfy the prior paragraph’s bounding condition. The definitions of
+∆AN
+0
+C and ΣAN C formulae, in Items 1-3, are also quite conventional:
+ΠAN
+n
+n
+C formula is considered to be also a ΠAN C and an ΣAN C expression.
+1. Every ∆AN
+0
+0
+0
+C when it can be encoded as ∀v ... ∀v Φ where Φ is ΣAN C
+2. A formula is called ΠAN
+1
+k
+n
+n−1
+C when it can be encoded as ∃v ... ∃v Φ, where Φ is ΠAN C .
+3. A formula is called ΣAN
+1
+k
+n
+n−1
+
+15
+
+Given an initial axiom system β, the Theorem 3 of [55] did formalize a self-justifying logic,
+C theorems and which could also verify its own
+called ISCE(β), that could prove all β ’s ΠAN
+1
+
+consistency under any Hilbert-style deductive apparatus (including the dE , dM and dH deductive
+methodologies) The axiom basis for ISCE(β) was comprised, formally, of the following four distinct
+groups of axioms:
+GROUP-ZERO: This schema will use Line (20)’s axiom to define the constants of C0 , C1 and
+C2 and Line (21)’s Additive Naming schema to define the further constants C3 , C4 , C5 , ...
+GROUP-1: It is convenient to define ISCE’s Group-1 schema using a notation that will support
+[55]’s Theorem 3 in a more general sense than had appeared in [55], so that our new “IQFS”
+formalism (appearing later in this section) will be easier to describe. Let us therefore say a
+C sentence is Simple iff the only built-in constants it employs are C , C and C . Then
+ΠAN
+0
+1
+2
+1
+C axioms, called
+ISCE’s Group-1 scheme will be allowed to be any finite set of simple ΠAN
+1
+
+S , that is consistent with the Group-zero schema and which has the following properties:
+C
+1. The union of S with ISCE’s Group-Zero axioms will be capable of proving all ∆AN
+0
+
+statements which are true.
+2. The union of S with ISCE’s Group-Zero scheme will also be capable of proving that
+the “=” and “≤” predicates support their conventional transitivity, reflexivity, symmetry
+and total ordering properties.
+C axioms with the above properties can be used to define S and
+Any finite set of ΠAN
+1
+
+support an analog of [55]’s Theorem 3, by an easy generalization 6 of the methodologies from
+Sections 3 and 4 of [55]. (Thus, any such finite set S supporting Conditions (1) and (2) can
+be employed to define ISCE’s Group-1 axiom schema.)
+C formula
+GROUP-2: Let p Φ q denote Φ’s Gödel number, and HilbPrfβ (x, y) denote a ∆AN
+0
+C
+indicating y is a Hilbert-styled proof from axiom system β of the theorem x. For each ΠAN
+1
+C axiom of the form:
+sentence Φ, the Group-2 schema for ISCE(β) will contain a ΠAN
+1
+
+∀y
+
+{ HilbPrf β ( pΦq , y ) ⇒ Φ }
+
+(23)
+
+C sentence
+GROUP-3: This last part of [55]’s ISCE(β) formalism is a single self-referencing ΠAN
+1
+
+stating:
+⊕⊕
+
+“There exists no Hilbert-style proof of 0=1 from the union of the Group-0,
+
+1 and 2 axioms with THIS SENTENCE (referring to itself)”.
+C
+Clarifying ⊕⊕’s Meaning: Several of our articles [51, 54, 55, 58] employed self-referential ΠAN
+1
+
+constructions, similar to ⊕ ⊕ , as the Example 3.5 did mention. A reader can, thus, find several
+illustrations about how ⊕ ⊕ is encoded in these articles.
+6
+
+A proof of this specific generalization of [55]’s results is entirely routine. For the sake of brevity, it is omitted.
+
+16
+
+Definition 5.2 Let I( • ) denote an operation that maps an initial axiom basis β onto an
+alternate system I(β) . (One example of such an operation is the ISCE( • ) framework, that maps
+an initial axiom basis of β onto the alternate formalism of ISCE(β). ) Such an operation I( • )
+is called Consistency Preserving iff I(β) is consistent whenever the union of β with the Groups
+0 and 1 axiom schemas is consistent.
+Example 5.3 Several of our research projects had employed Definition 5.2’s framework. For
+instance, [55] demonstrated the ISCE( • ) mapping was consistency preserving. Thus if PA+ denotes the extension of Peano Arithmetic that includes PA’s traditional Addition and Multiplication
+functions plus LG ’s six added Grounding-level function primitives, then ISCE( PA+ ) must automatically be consistent (because PA+ was consistent). Hence while Peano Arithmetic is unable
+to verify its own consistency (on account of Gödel’s seminal 1931 discovery), it is known to be
+sufficiently agile to prove the following relative-consistency statement:
+#
+
+If PA is consistent then ISCE( PA+ ) is self-justifying.
+
+The preceding relative-consistency statement provides a partial positive answer to the Q-2 version of Hilbert’s Second Question. It captures one respect in which ISCE( PA+ ) can appreciate its
+own consistency. This respect is, obviously, of a sharply limited nature because ++’s generalization
+of the Incompleteness Theorem indicates no Type-S arithmetic can recognize its Hilbert consistency
+and view successor as a total function. It does, however, raise an enticing question:
+# # Can the infinite number of distinct constant symbols, employed by ISCE’s GroupZero schema, be reduced to a finite size by a Type-NS Self-Justifying Logic in some
+type of formal manner?
+The next two sections of this paper will outline how a quite encouraging answer to # # ’s query
+shall arrive, when one modifies ISCE’s formalism with the Q-function operative of θ .
+Definition 5.4 Let LQ once again denote the special extension of LG ’s Grounding language
+Q
+Q
+that includes the added new Q-function symbol of θ. Then ∆Q
+0 , Πn and Σn will denote the
+C , ΠAN C and ΣAN C ’s formulae under LQ ’s modified language. In
+analogs of Definition 5.1’s ∆AN
+n
+n
+0
+C , ΠAN C or ΣAN C formula, then ΦQ will be called ∆Q , ΠQ
+particular, if Φ is one of an ∆AN
+n
+n
+n
+0
+0
+
+or ΣQ
+n when it differs from Φ by exactly replacing each constant CJ from the set C3 , C4 , C5 ...
+with Line (18)’s term EJ−1 .
+C , ΠAN C or ΣAN C sentence that employs the three
+Example 5.5 Suppose Φ is one of a ∆AN
+n
+n
+0
+
+constant symbols of C4 , C6 and C10 for representing the three numbers of 8, 32 and 512. Let us
+recall that E3 , E5 and E9 formulate these three quantities under Line (18)’s notation. Then ΦQ
+will have an identical definition as Φ except each Cj is replaced by Ej−1 .
+17
+
+Q
+Q
+A formula is, moreover, defined to lie in one of the ∆Q
+0 , Πn or Σn classes if and only if it is
+
+constructed in exactly such a manner. This fact ensures that all the main primary terms employed
+in our three major classes of sentences are “Observable” terms. Hence “Unobservable” ground terms
+are allowed in LQ ’s language, but they are excluded from occurring as the “end-product primary”
+Q
+Q
+terms in the ∆Q
+0 , Πn or Σn theorems that do encapsulate the intended use of our formalism. We
+
+will need one more preliminary definition before “IQFS” can be defined.
+
+Definition 5.6 Let us recall that Example 3.1 defined three examples of Hilbert-style deductive
+methodologies.. The symbol dER will denote the particular version of Hilbert-style deduction that
+we will use in this article. It will be a minor revision of Enderton’s dE apparatus (that was
+mentioned in Example 3.1). Unlike Enderton’s schema, it will not take all tautologies as axioms.
+Instead, it will use the following three axiom schemas, from Mendelson’s textbook [34], to prove all
+tautologies as theorems:
+I. B ⇒ ( C ⇒ B )
+II. [ B ⇒ ( C ⇒ D ] ⇒ [ ( B ⇒ C ) ⇒ ( B ⇒ D ) ]
+III. [ ( ¬C ) ⇒ ( ¬ B ) ] ⇒ { [ ( ¬ C) ⇒ B] ⇒ C }
+This approach is preferable because the problem of identifying tautologies is NP-hard (e.g. it is
+preferable to avoid viewing tautologies as axioms and to instead employ the axiom schemas I-III to
+prove tautologies as theorems). Thus, the logical axioms of dER shall consist of the axiom schemas
+I-III plus the below schemas 2-4 from §2.4 of Enderton’s textbook. The deductive apparatus dER
+will also follow [13]’s example by treating ∀ x Ψ automatically as a logical axiom whenever Ψ is
+a logical axiom.
+2.
+
+∀ x φ(x) ⇒ φ(t) when t is substitutable for x in φ.
+
+3.
+
+∀x(φ ⇒ ψ) ⇒
+
+4.
+
+ψ ⇒ ∀x ψ when x does not occur free in ψ.
+
+{(∀xφ) ⇒ (∀xψ)}
+
+The symbol LdER will henceforth denote this set of six basic logical axiom schemas (e.g. items
+I-III combined with 2-4). Our dER deduction methodology will follow Enderton’s example by using
+modus ponens as its only employed rule of inference 7 .
+The remainder of this section will combine the formalisms of Defintions 5.4 and 5.6 to define
+our new axiom system, IQFS(β), that can prove all β ’s ΠQ
+1 theorems as well as recognize its own
+consistency under dER ’s form of Hilbert-style deduction. In essence, IQFS(β) will be the direct
+7
+
+Unlike several other textbooks, Enderton [13] does not view generalization as a formalized rule of inference
+because he takes Items (3) and (4) as logical axioms.
+
+18
+
+analog of [55]’s ISCE(β) axiom system (when the logic’s base language is changed from LAN C to
+C to ΠQ theorems).
+LQ and our focus changes from ΠAN
+1
+1
+
+Definition 5.7 The acronym “IQFS” stands for “Introspective Q-Function Semantics”. In a
+context where β is an initial axiom system that proves theorems in the language LQ , the system,
+IQFS( β ) will be designed to be a 4-part formalism, analogous to ISCE(β), that can prove all β’s
+ΠQ
+1 theorems and recognize its own consistency. In essence, IQFS(β)’s definition will be identical
+to ISCE(β), except for the following four changes (three of which are trivial):
+a.
+
+The GROUP-ZERO schema of IQFS will differ from ISCE’s analog by replacing Line (21)’s
+“Additive Naming” schema with the Up-Walking axioms, from Lines (14)–(17). (This is
+because the language LQ differs from LAN C by having the Q-function operator of θ define
+the formal quantities that are represented by the constant symbols of C3 , C4 , C5 .... under
+LAN C . ) In order to assure that the four Up-Walking axioms are adequate to determine Ej
+is numerically equivalent to Cj+1 , our new Group-Zero schema will include Line (20)’s axiom
+(for defining the starting constants of C0 , C1 and C2 ) as well as (24)’s added axiom:
+∀ x { [ Power(x) ∧ x ≥ 2 ] ⇒
+
+b.
+
+x
+= 2}
+Half(x)
+
+(24)
+
+The GROUP-1 scheme of IQFS will be identical to ISCE’s counterpart, except it will reflect
+Item a’s modification of the Group-Zero scheme for LQ ’s particular revised language (e.g.
+the footnote 8 describes this easily straightforward revision of ISCE’s Group-1 scheme.)
+
+c.
+
+All the ΠQ
+1 axioms lying in IQFS’s GROUP-2 scheme will be identical to their counterparts
+C senunder ISCE, except they will employ Definition 5.4’s machinery for translating ΠAN
+1
+
+tences into their equivalent ΠQ
+1 counterparts. In particular, let us assume the Gödel number
+“ pΦq ” is defined via the “Byte-Style” encoding method (defined in the next section) and
+HilbPrfβ (x, y) denotes a ∆Q
+0 formula indicating y is a Hilbert-styled proof of the theorem x
+from axiom system β. Then for each ΠQ
+1 sentence Φ, IQFS(β)’s Group-2 schema will contain
+a ΠQ
+1 axiom of the form:
+∀y
+d.
+
+{ HilbPrf β ( pΦq , y ) ⇒ Φ }
+
+(25)
+
+The GROUP-3 axiom of IQFS will be essentially similar to ISCE’s Group-3 “I am consistent”
+axiom, except the latter’s notion of “I” will trivially reflect the above changes in the Groups
+0, 1 and 2 schemes. It will, thus, be a ΠQ
+1 sentence declaring that:
+
+In a context where a ΠQ
+1 sentence is called “Simple” when it contains no Ej term with j ≥ 2 , the Group-1
+scheme of IQFS will be analogous to ISCE’s counterpart by consisting of any finite set of simple ΠQ
+1 axioms, called
+S ∗ , that is consistent with Group-zero schema and which has the following properties:
+8
+
+1. The union of S ∗ with IQFS’s Group-Zero axioms will be capable of proving all ∆Q
+0 statements which are true.
+2. The union of S ∗ with IQFS’s Group-Zero scheme will also be capable of proving that the “=” and “≤”
+predicates support their conventional transitivity, reflexivity, symmetry and total ordering properties.
+The above two properties are the 1-to-1 analogs of their counterparts used by ISCE’s Group-1 scheme. As was the
+∗
+case with ISCE’s formalism, any finite set of simple ΠQ
+1 axioms with the above properties can be used to define S .
+∗
+Once again, it is unimportant which particular finite-sized definition for S is used.
+
+19
+
+⊕ ⊕ ⊕ “Under Definition 5.6’s Hilbert-style deductive methodology, there will exist
+no proof of 0=1 from the union of the preceding axioms with THIS SENTENCE
+(looking at itself )”.
+Readers familiar with our previous papers [50, 51, 54, 55] about “I am consistent” axioms
+should be able to appreciate, intuitively, it is feasible to formulate a ΠQ
+1 encoding for ⊕ ⊕ ⊕.
+This fourth part of our definition of the IQFS’s axiom system should, however, be articulated
+in greater detail because it is more complicated than IQFS(β)’s other three parts. Therefore,
+the next chapter’s Lemma 6.3 will formalize precisely how ⊕ ⊕ ⊕ is endowed with a ΠQ
+1
+encoding.
+Our main goal will be to show that IQFS satisfies Definition 5.2’s Consistency-Preserving property, analogous to [55]’s ISCE methodology. The particular virtue of IQFS is that it needs only
+three starting constants, C0 , C1 , and C2 , to define the full infinity of natural numbers, unlike ISCE.
+(Moreover, our Proposition 4.3 will imply IQFS can encode every integer n efficiently with a term
+Tn with an O{ [ Log(n) ]3 } length, and Proposition 7.1 will show this quantity can be reduced to
+a yet-more-efficient logarithmic size, when ground terms are encoded as directed acyclic graphs.)
+
+6
+
+Main Results about IQFS
+
+Our main results about the IQFS formalism will be proven in this chapter. Its discussion will be
+divided into two parts where:
+1. Section 6.1 will formalize the encoding of ⊕ ⊕ ⊕ ’s Group-3 axiom (e.g. the Item (d) from
+Definition 5.7).
+2. Section 6.2 will display our main theorems about IQFS’s consistency-preservation property.
+
+6.1
+
+The ΠQ
+1 Encoding for IQFS’s Group- 3 Axiom
+
+Before discussing how to endow ⊕ ⊕ ⊕ with a ΠQ
+1 encoding, it is necessary to first outline our
+methodology for generating a proof’s Gödel number. It will be analogous to the natural B-adic
+encoding methods used by Buss [9], Hájek-Pudlák [25] and Wilkie-Paris [49] — insofar as the
+number of utilized bits to encode a semantic object will be approximately proportional to the
+length of such an expression written by hand. We will say a byte is a string of 6 bits, and encode
+each proof as an integer, written in base 64, comprising a sequence of bytes. Our encoding will use
+less than 32 logical symbols; thus, each symbol will be encoded by an unique integer between 32
+and 63. These symbols shall include:
+1. The standard connective symbols of ∧, ∨, ¬, ⇒, ∀ and ∃.
+2. The left and right parenthesis symbols, and also a comma symbol (to separate terms) and a period
+symbol (to specify the end of a sentence)
+
+20
+
+3. Seven function symbols for representing our six grounding functions and the new θ primitive.
+4. The relation symbols of “ = ” and “ ≤ ”.
+5. The symbol V̂ for designating the presence of a basic variable symbol.
+6. Three constant symbols to represent the built in constants of 0, 1 and 2.
+
+The V̂ symbol is somewhat different from our other logical symbols because there are an infinite
+number of different variable names that may occur in a proof. The j−th variable will be represented
+by a sequence of 1 + ⌈ Log32 (j + 1) ⌉ bytes, where the first byte encodes the V̂ symbol and the
+remaining bytes encode j as a Base-32 number.
+Definition 6.1 Let α denote a set of proper axioms. Then the symbol AxiomCheckα (x) will
+denote a predicate formula that yields a value of True when x is the Gödel number of one of α’s
+axioms. Also, ProofCheckα (s) will denote a formula that is True when s represents a byte string
+for a proof, whose proper axioms come from α and whose logical axioms and deductive apparatus
+were formalized by Definition 5.6’s “dER ” formalism. The relationship between these two concepts
+is formalized by Lemma 6.2.
+Q
+Lemma 6.2 The predicate ProofCheckα (s) is ∆Q
+0 encodable whenever AxiomCheckα (x) is ∆0
+
+encodable. (The latter condition does hold for the majority of r.e. axiom systems α.)
+Proof Summary: It is well known that Lemma 6.2 holds for classic arithmetics that use ∆0
+encodings, instead of ∆Q
+0 encodabilities. (There are many proofs of this fact. One can use the fact
+that Wrathall’s notion of LinH functions are known [25, 31, 60] to have the property that a formula
+has a ∆0 encoding if and only if it can be corroborated by a LinH decision procedure.) A similar
+paradigm trivially generalizes for ∆Q
+0 encodings. Other routine details about Lemma 6.2’s proof
+are omitted for the sake of brevity.
+
+
+
+Lemma 6.2 is obviously trivial, but it was worth mentioning because we will use it during one
+of the footnotes in Lemma 6.3’s proof.
+Lemma 6.3 The Group-3 axiom of IQFS(β), introduced informally by Definition 5.7’s statement ⊕ ⊕ ⊕, can be formally encoded as a ΠQ
+1 axiom sentence.
+Proof. Let UNION(β) denote the union of IQFS(β)’s Group-Zero, Group-1 and Group-2
+axioms (given in Items a-c of Definition 5.7) ). We will also use the notation conventions below:
+i.
+
+Prf U N ION (β) ( t , p ) will denote a formula designating that p is a proof of the theorem t
+from the axiom system UNION(β), using Definition 5.6’s deduction method dER .
+
+ii. ExPrf U N ION (β) ( h , t , p ) will be a formula stating that p is a proof (using deduction method
+dER ) of a theorem t from the union of the axiom system UNION(β) with an added axiom
+whose Gödel number equals h .
+21
+
+iii. Subst ( g , h ) will denote Gödel’s classic substitution formula — which yields TRUE when g
+is an encoding of a formula and h is an encoding of a sentence that replaces all occurrence
+of free variables in g with the Gödel-encoded term
+
+g .
+
+iv. SubstPrf U N ION (β) ( g , t , p ) will denote the natural hybridizations of the constructs from
+Items (ii) and (iii). It will yield a Boolean value of TRUE exactly when there exists some integer h simultaneously satisfying both the conditions Subst ( g , h ) and ExPrf U N ION (β) ( h , t , p ).
+Each of (i)–(iii) can be easily 9 encoded as ∆Q
+0 formulae .
+lustrates one possible ∆Q
+0
+
+In such a context, Line (26) il-
+
+encoding for SubstPrf U N ION (β) (g, t, p)’s graph. (It is equivalent to
+
+“ ∃ h [ Subst(g, h) ∧ ExPrfU N ION (β) (h, t, p) ] ” , but Line (26) is a ∆Q
+0 formula — unlike the
+quoted expression.)
+Prf U N ION (β) ( t , p )
+
+∨
+
+∃ h ≤ p [ Subst ( g , h ) ∧ ExPrf U N ION (β) ( h , t , p ) ]
+
+(26)
+
+Utilizing (26)’s particular ∆Q
+0 encoding for SubstPrfU N ION (β) (g, t, p), it is easy to encode
+IQFS(β)’s Group-3 axiom, specified by Definition 5.7’s statement ⊕ ⊕ ⊕, as a ΠQ
+1 sentence.
+Thus, let Γ(g) denote Line (27)’s formula, and let n denote Γ(g)’s Gödel number. Then
+“ Γ( n ) ” is a ΠQ
+1 sentence encoding IQFS(β)’s Group-3 axiom.
+∀p
+
+¬ SubstPrf U N ION (β) ( g , p 0 = 1 q , p )
+
+(27)
+
+In other words, ⊕ ⊕ ⊕ is encoded as: “∀ p ¬ SubstPrf U N ION (β) ( n , p0 = 1q , p )”.
+
+Remark 6.4 We shall not provide IQFS(β)’s Groups 1 and 2 axioms with ΠQ
+1 encodings,
+similar to Lemma 6.2’s construction. Such is unnecessary because these Group-1 and Group2 axioms have obvious encodings, unlike the preceding encoding of IQFS(β)’s Group-3 axiom,
+described above.
+
+6.2
+
+Main Conjecture and Main Theorem
+
+This section will introduce our main conjecture and accompanying theorem. The attached appendix
+will provide evidence, very strongly suggesting that Conjecture 6.6 is correct. This evidence shall
+almost reach the critical-mass level of amounting to a proof. We will begin our discussion by
+introducing one preliminary definition, that will help facilitate the relationship between Conjecture
+6.6 and Theorem 6.7.
+Definition 6.5 A ΠQ
+1 sentence ∀ x φ(x) will be said to be a Size K Breaking Pont iff φ(K)
+is false and φ(x) is true for all x < K .
+9
+
+In particular, the ∆Q
+0 encodings for Items (i) and (ii) are immediate consequences of Lemma 6.2.
+
+22
+
+Conjecture 6.6 Suppose γ is an axiom system that includes:
+A. All IQFS’s Group-zero and Group-1 axioms (from Definition 5.7 ),
+B. A set of additional ΠQ
+1 axiom statements, all of which hold true in the Standard Model, except
+for one special ΠQ
+1 sentence, called Ψ, that constitutes a Size K Breaking Pont (with K > 2).
+Suppose P is a proof from γ of 0 = 1 (using again Definition 5.6’s dER deductive method).
+Then P , viewed as a Gödel number, will impose the following constraint on K ’s magnitude
+Log2 K
+
+1
+Log2 P
+6
+
+<
+
+(28)
+
+We are essentially 100 % confident that Conjecture 6.6 is true. Indeed, Line (28)’s estimate of an
+upper bound on K’s length is actually an excessively conservative over-estimate. An approximate
+intuitive justification of this inequality is provided in the attached appendix. (It actually falls
+only one tiny iota short of being a formal proof.) Our immediate goal is to discuss and prove the
+Theorem 6.7. We recommend that the reader postpone examining the Appendix’s justification of
+Conjecture 6.6, until after Theorem 6.7 and its proof have been both first read.
+Theorem 6.7 The Conjecture 6.6 does imply that IQFS’s axiomatic framework satisfies
+Definition 5.2’s Consistency Preservation property. (E.g. that if β is an axiom system consistent
+with IQFS’s Group-0 and 1 axioms then IQFS(β) is also consistent.)
+Proof. Similar to the Consistency Preservation analysis in our earlier papers, the proof of
+Theorem 6.7 will be a proof by contradiction.
+Let UNION(β) once again denote the union of IQFS(β)’s Group-Zero, Group-1 and Group-2
+axioms. If Theorem 6.7 was false then it easily follows that all the axioms in UNION(β) will hold
+true in the standard model, but IQFS(β) will be contradictory. We will show this is impossible.
+In particular, if IQFS(β) was contradictory, then there must exist a minimal sized proof of 0 = 1
+from IQFS(β), called say P . We call the reader’s attention to the fact that UNION(β) consists of
+all of IQFS(β)’s axioms, except for its Group-3 axiom. Lemma 6.3 showed that IQFS(β)’s Group-3
+axiom can be encoded as a ΠQ
+1 sentence of the form:
+∀x
+
+ψ(x)
+
+(29)
+
+Then since P denotes the minimal proof of 0 = 1 and since IQFS(β)’s Group-3 axiom states
+“There exists no proof of 0 = 1 from IQFS(β)”, it follows that this italicized sentence is false.
+Thus, Line (29) must own a Size−K Breaking Point, for some K.
+The Conjecture 6.6 indicates K < P (because of (28)’s inequality). This is impossible because
+P was defined to be the minimal proof of 0 = 1 , and K represents a smaller such proof of 0 = 1 .
+Hence, the IQFS( • ) framework must be consistency-preserving to avoid this contradiction.
+23
+
+
+
+Remark 6.8 Our earlier Consistency Preservation results in [50, 51, 54, 58] also relied upon
+proofs-by-contradiction, mostly analogous to Theorem 6.7’s verification. One important distinction
+is, however, that Theorem 6.7’s proof employed Conjecture 6.6’s paradigm as an intermediate step.
+There are good reasons for believing this conjecture is correct. In particular, the attached appendix
+provides strong evidence confirming this conjecture, in a context where its informal justification
+falls only one small iota short of being a fully formalized proof. At this juncture, we encourage the
+reader to take a quick glance at the Appendix’s justification for Conjecture 6.6.
+
+7
+
+Further Results and Useful Added Perspectives
+
+Both the virtues and drawbacks of the IQFS formalism are consequences of Proposition 4.3’s characterization of the O{ [ Log(n) ]3 } quantity of logical symbols used for encoding an integer n as
+a grounded term Tn . Thus, this quantity is clearly significantly better than the alternate O( n2 )
+length that arises when the θ function symbol is replaced by the less efficient primitive ζ ,
+defined by Lines (10) and (11). On the other hand, one would ideally prefer our ground terms
+to resemble conventional encodings of a binary number that use O{ Log(n) } logical symbols to
+encode an arbitrary number n .
+It turns out it is possible to improve Proposition 4.3’s encodings to such a compressed O{ Log(n) }
+size, if one adds only a minor wiggle to the logic’s notation convention. This distinction arises because most traditional logic languages formalize Definition 4.5’s “Ground terms” as tree-like structures. An easy alternative mechanism will allow these terms to own the more generalized structure
+of a Directed Acyclic Graph (Dag).
+Traditionally, this distinction has been viewed as an unimportant wrinkle because it can be easily
+proven that almost every Dag-oriented term can be converted into its Tree-oriented counterpart with
+usually only a Polynomial increase in length. The reason for our special interest in Dag-formulated
+ground terms is that the IQFS formalism possesses access only to the specialized θ primitive for
+generating growth among integers. Thus, Proposition 7.1 will indicate that Proposition 4.3’s earlier
+ground terms can have their lengths nicely compressed from an O{ [ Log(n) ]3 } size into a more
+enticing O{ Log(n) } magnitude, when a Dag notation is employed.
+Proposition 7.1 Let us consider a Dag-analog of §4’s formalism where once again:
+1. θ is the only available growth permitting function symbol,
+2. the only built-in constant symbols are, again, C0 , C1 and C2 , for representing 0, 1 and 2,
+3. and the three function symbols for representing integer-subtraction, integer-division and the
+maximum operation are, once again, available.
+In this context, any integer n can be encoded by a Dag-oriented Ground term Gn using only
+O{ Log(n) } logical symbols. (As the pointers needed to separate these O{ Log(n) } logical objects
+24
+
+use O{ LogLog(n) } bits, the total amount of memory required for encoding a Dag-oriented Ground
+term will employ at most O{ Log(n) · LogLog(n) } bits.)
+The proof for Proposition 7.1 rests essentially on a more elaborate version of §4’s justification
+of Proposition 4.3. It uses the fact that Proposition 4.3’s ground term Tn do have many repeating
+subterms that can be compressed into single objects under a Dag-style notation.
+Detailed Proof: It is easy to convert the preceding paragraph’s summary of the intuition
+behind Proposition 7.1 into a formal proof. Let Gn denote our Directed Acyclic Graph (Dag) for
+representing an integer n, and let M be an abbreviation for the quantity ⌈ 1 + Log2 (n) ⌉ . Our
+directed graph Gn will consist of approximately 5 · Log(n) nodes. The first five of its six groups
+of nodes in Gn ’s graph are defined below in bottom-up order:
+1. The bottom-most nodes in Gn ’s graph will correspond to the three built-in constant symbols
+of C0 , C1 and C2 , that represent the values of 0, 1 and 2.
+2. Let θ j (x) denote the term θ( θ( ...θ(x))) where there are j iterations of the θ operation.
+For each j ≤ M , the next j levels of Gn ’s directed graph will define nodes Aj that formalize
+the quantity θ j (1) . In a context where A0 is an abbreviation for C1 , the remaining Aj
+are defined by:
+Aj
+
+=
+
+θ( Aj−1 )
+
+(30)
+
+3. For each j ≤ M , let Bj denote the value of Max(A0 , A1 , A2 , ..., Aj ). In a context where B0
+is an abbreviation for the entity C1 , the remaining Bj are defined chronologically in Gn ’s
+directed graph by:
+Bj
+
+=
+
+Max(Aj , Bj−1 )
+
+(31)
+
+4. For each j ≤ M , let Dj denote the value of 2−j · BM . In a context where D0 is equivalent
+to the prior entry BM in our directed graph, the remaining Dj nodes in our graph will be
+defined via (32)’s Division operation:
+Dj
+
+=
+
+Dj−1
+2
+
+e.g.
+
+Dj
+
+=
+
+Dj−1
+C2
+
+(32)
+
+5. For each j ≤ M , the node Ej will represent the quantity 2j . These nodes in Gn ’s graph
+will be defined by (33)’s Division operation:
+Ej
+
+=
+
+DM
+DM −j
+
+(33)
+
+Some added notation is needed to describe the last part of Gn ’s graph for formalizing n’s representation as a Dag-oriented ground term employing O{ Log(n) } logic symbols. Let Tn denote
+Proposition 4.3’s formulation of n as a Tree-oriented ground term, and Gn denote its Dag counterpart (using the five intermediate steps itemized above). Our prior proof of Proposition 4.3 noted Tn
+25
+
+was constructed by setting EM equal to the least power of 2 greater than n and then subtracting
+from it those powers of 2 which are needed to produce the quantity n.
+The exact same methodology will now be used to construct our Gn representation of n , except
+we will now obviously use the methodologies from Items 1-5 to assure no more than O{ Log(n) }
+graph nodes are used to construct all Line (33)’s Ej terms. (For example since 86 = 128−32−8−2
+which in turn equals “ E7 − E5 − E3 − E1 ”, the final stage of our construction of G86 will first set
+node F1 equal to “ E7 − E5 ”, then set node F2 equal to “ F1 − E3 ” and lastly have the output
+node F3 represent the final answer as the quantity of “ F2 − E1 ”.)
+It is easy to see that this methodology will never use more than O{ Log(n) } logical symbols
+to encode Gn as a Dag-oriented ground term. Moreover, the needed pointers in the Dag graph
+Gn will require no more than LogLog(n) bits to distinguish between these O{ Log(n) } separate
+objects. Hence if one selects to use a pointer methodology to formulate Gn ’s graph, then no more
+than O{ Log(n) · LogLog(n) } bits will be needed to encode all these pointers (as the last sentence
+of Proposition 7.1 had claimed).
+
+
+
+Remark 7.2 . Let IQFS∗ denote the analog of our IQFS framework that has Proposition 7.1’s
+Dag-oriented Ground Terms replace §4’s earlier Tree-oriented Ground Terms in an accordingly
+revised language. A construction exactly analogous to Theorem 6.7 will show IQFS∗ also satisfies
+the Consistency Preserving paradigm, assuming (as we do again) that Conjecture 6.6 is correct.
+Thus, IQFS∗ is a better formalism, although somewhat more complicated to describe.
+Remark 7.3 . It should be mentioned that the infinite number of axiom sentences, appearing
+in the Group-2 schemas for ISCE(β), IQFS(β) and IQFS∗ (β), can be nicely reduced to a purely
+finite sizes, with almost no loss in information. This was done in [59] for the Group-2 scheme
+of its ISD (β) formalism, with the latter producing isomorphic counterparts of all of β ’s full set
+of Π1 theorems (e.g. see Sections 5 and 6 of [59]). The same methods will routinely generalize
+for the ISCE, IQFS and IQFS∗ frameworks. It will imply that easy modifications of IQFS(PA+)
+and IQFS∗ (PA+), owning a strictly finite number of axiom sentences, are able to prove isomorphic
+counterparts of the full infinity of Π1 theorems, produced by Peano Arithmetic
+Remark 7.4 There is one other amendment to the IQFS and IQFS∗ formalisms that should
+be mentioned because of its pragmatic significance. Let Sj denote (34)’s sentence. Let IQFSR and
+IQFS∗R denote the minor modifications of IQFS and IQFS∗ that include S1 , S2 , S3 , ... as axioms.
+Ej − Ej−1
+
+=
+
+Ej−1
+
+(34)
+
+The addition of these Sj as axioms cannot possibly affect IQFS’s consistency because each Sj is
+provable from the Group-Zero and Group-1 axioms as a theorem. The advantage of treating such
+Sj as such built-in axioms (rather than as theorems) is that many of IQFS(β)’s other theorems can
+have their proofs conveniently shortened in length in this case.
+Remark 7.5 Our proposed θ primitive is likely to be of philosophical interest, quite apart from
+its implications for Hilbert’s Second Open Question. This is because:
+26
+
+1. It is interesting that the θ primitive, combined with the non-growth subtraction, division
+and maximum operands, can represent any integer n with a complexity comparable to the
+O( Log(n) ) sized representations of an integer under its conventional binary encoding. Does
+this suggest the foundational reasoning capacities of either a child or of the anthropological
+predecessors of modern man possess access to a technique for reasoning that constructs the
+natural numbers without the traditional uses of the addition and multiplication functions?
+There is likely to be no easy yes-or-no answer to this question. (Our suspicion is that an
+infant-child’s primitive thoughts rely upon an analog of θ’s basic indeterminate functionality.)
+2. Also, it is philosophically curious whether or not the Group-2 axioms of Definition 5.7’s IQFS
+formalism capture the majority of the engineering implications of Peano Arithmetic? This
+is because one may wonder whether the purist engineering implications of Peano Arithmetic
+consist of its particular theorems, that can be encoded in such “ ΠQ
+1 formats” ?
+There is no space available in this article to adequately address these philosophical issues. Our
+point is, however, that IQFS raises other issues besides besides this article’s main theme, that some
+fragments of the historic aspirations of Hilbert and Gödel in ∗ and ∗∗ should be revisited.
+
+8
+
+Disentangling Some Confusing Interpretations of Theorem 6.7
+and Its Corollaries that Could Otherwise Plausibly Arise
+
+It was during one of the final stages of this paper, as its draft was nearing completion, that we
+elected to add a very short further chapter into this article, “disentangling” some confusions that
+might “otherwise plausibly arise” . It was desirable to insert a chapter into this article, whose title
+contained the preceeding italicized words, so that the exact meaning of Theorem 6.7’s central result
+could not be confused.
+Theorem 6.7’s meaning is complicated by the fact10 that IQFS(P A+), as well as its several
+predecessors in [50]-[59], were able to prove theorems, asserting their own consistency, only by
+employing Example 3.5’s built-in “I am consistent” statements, as invoked axiomatic declarations.
+This approach, which was centered around Item ⊕ from Example 3.5, will naturally cause many
+readers to raise the following skeptical question:
+# # # Is it not almost cheating when an axiom system verifies its own consistency
+by using ⊕ ’s formalized “I am consistent” axiom as an intermediate step, to verify
+its own consistency? After all, such a technique can verify its own consistency only
+in a technically purely legalistic sense. (It is certainly, however, not meaningful in the
+much broader almost philosophical respect, that Hilbert was grasping for in his famous
+year-1900 Second Open Question.)
+It will be necessary for us to introduce the formalisms of Definition 8.1 and Corollary 8.2, before
+replying to # # # ’s query.
+10
+
+PA+ was defined in our articles to be the trivial extension of Peano Arithmetic that uses a language that
+includes the six Grounding level functions, in addition to the usual addition and multiplication primitives.
+
+27
+
+Definition 8.1
+
+Let β again denote an axiom system that uses LQ ’s language (whose
+
+collection of function symbols include the six usual Grounding-level primitives plus θ’s special
+indeterminately-defined function operation). Also, let IQFS(β) once again denote Definition 5.7’s
+self-referencing formalism, that proves all of β ’s ΠQ
+1 theorems and which additionally recognizes
+its own formalized Hilbert consistency, via its use of an invoked “I am consistent” axiom. Then
+β will be called Platonically Stable iff IQFS(β) is a consistent axiom system. ( Likewise, if
+IQFS(β) is inconsistent then β will be called “Platonically Unstable”.)
+Corrolary 8.2
+
+Let us assume Conjecture 6.6 is correct (as we are almost 100 % certain it
+
+is). Suppose β is an axiom system which is consistent with IQFS’s Group-0 and 1 axioms. Then β
+is automatically “Platonically Stable” (e.g. the formalism IQFS(β) is consistent).
+The formal statements of Theorem 6.7 and Corollary 8.2 are closely related. This is because
+Corollary 8.2 applies Definition 8.1’s notion of “Platonic Stability” in essentially every place where
+Theorem 6.7 had used Definition 5.2’s “Consistency Preserving” paradigm. Thus, there is no need
+to formally prove Corollary 8.2 because it is almost a direct consequence of Theorem 6.7.
+The nice aspect of Corollary 8.2 is its vocabulary will allow us to better frame a reply to # # # ’s
+query. In particular, it would certainly be preferable (and more Utopian) if human beings could
+muster more sophisticated justifications for their thought processes than had appeared in Example
+3.5’s short 1-sentence axiom statement ⊕ (which simply declared “I am consistent”). However,
+such a reply to # # # ’s query is unnecessary for the planet Earth’s high-IQ primates to gain
+adequate confidence to justify their thought processes. All that is strictly necessary, from a purist
+perspective, is for an advanced Thinking Being to find a robust formalism that satisfies Definition
+8.1’s criteria of “Platonic Stability”. The significant aspect of our Corollary 8.2 is it shows adequate
+forms of Platonic Stability are available to allow an introspective thinker to simultaneously:
+1. presume its own consistency as a built-in assumption, and
+2. rest assured this assumption will not spin its IQFS(β) formalism into a cycle of inconsistency.
+
+Corollary 8.2’s notion of Platonic Stability, thus, partially reinforces Gödel’s philosophy of Mathematical Platonism, and it also helps make comprehensible the aspirations that motivated Hilbert’s
+and Gödel’s famous statements ∗ and ∗∗. This perspective is useful when we remind ourselves that
+the invariant + + , which Example 3.3 had attributed to the joint work of Pudlák, Solovay, Nelson
+and Wilkie-Paris, [35, 39, 44, 49], established that self-justifying formalisms, much stronger than
+IQFS(β), are simply impossible.
+Remark 8.3 (Snapshot Perspective): Summarizing our last 25 years of research into one
+short paragraph, it is certainly true that any proof that relies upon Example 3.5’s “I am consistent”
+axiom is, in some respects, a quite skinny form of proof, that one is almost first tempted to ignore.
+On the other hand, this perspective is actually quite useful because Corollary 8.2 does reminds us
+that we do live in what Definition 8.1 had called a “ Platonically Stable” world.
+28
+
+9
+
+Concluding Remarks
+
+All our published articles about self-justifying arithmetics have emphasized that evasions of the
+Second Incompleteness Effect rested on using arithmetics that were weaker than traditional arithmetics in, at least, some respects. (The Second Incompleteness Theorem’s significance in refuting
+the original objectives of Hilbert’s Consistency Program is thus, simply, undeniable.) It would,
+nevertheless, be of interest if some fragments of Hilbert’s and Gödel’s objectives, as announced in
+their formal statements ∗ and ∗∗, were achieved.
+It is in this context and also with knowledge about how the scope of the Second Incompleteness
+Theorem has been enhanced in many respects during the last 35 years, that we hope our boundarycase exceptions to the Second Incompleteness paradigm shall be found to be useful.
+This is not merely because it would be pleasantly reassuring to see achieved some select portions
+of what early 20-th century articles had advocated. (For instance, Gödel’s preference [12, 22] for a
+“Platonist” philosophy is partially reinforced by Corollary 8.2’s “Platonic Stability”.) Our results
+are, also of interest because future computers will, perhaps, have their capacities enhanced, if they
+can simulate a human’s gut instinctive faith in his own consistency.
+Thus, it is in such respects that Theorem 6.7 and the related Propositions 4.3 and 7.1 will
+help us better appreciate the aspirations that Hilbert and Gödel were pursuing in their formal
+statements ∗ and ∗∗, as well as to formalize what limited aspects of their stated goals in ∗ and ∗∗
+can actually be achieved.
+It also should be mentioned that some special philosophical issues were raised by Remark 7.5
+and in Remark 8.3’s observation that symbolic logic has a “Platonically Stable” structure.
+ACKNOWLEDGMENTS: I am grateful to Pavel Pudlák for sending me an email letter [41]
+that suggested I investigate how to apply Ajtai’s study [3] of Pigeon-Hole effects to refine my prior
+results about self-justifying logics. (The combination of Pudlák’s suggestion and our subsequent
+distinguishing between the ζ and θ operators has led to the stipulated improvements upon
+[55]’s ISCE formalism.) I also thank Bradley Armour-Garb and Seth Chaiken for several helpful
+comments about how to improve this paper’s presentation. As was mentioned earlier, Sam Buss
+should also be credited for partially influencing my research when, during a casual lunch at a 1977
+meeting of the Kurt Gödel Society, he suggested I might look at the implications the Pigeon Hole
+Principle had for my on-going research.
+
+References
+[1] Z. Adamowicz, “Herbrand consistency and bounded arithmetic”, Fundamenta Mathematicae 171 (2002)
+pp. 279-292.
+[2] Z. Adamowicz and P. Zbierski, “On Herbrand consistency in weak theories”, Archives for Mathematical
+Logic 40(2001) 399-413
+[3] M. Ajtai, “Complexity of the pigeon hole principle” Combinatorica 14:4 (1994), pp. 417-433.
+
+29
+
+[4] L. D. Beklemishev, “Iterated local reflection versus iterated consistency”, Annals of Pure and Applied
+Logic 75 (1995) pp. 25-48.
+[5] L. D. Beklemishev, “Induction rules, reflection principles and provably recursive functions”, Annals of
+Pure and Applied Logic 85 (1997) pp. 193-242.
+[6] L. D. Beklemishev, “Proof theoretic analysis by iterated reflection”, Archives on Mathematical Logic
+42 (2003) pp. 515-552.
+[7] A. Bezboruah and J. C. Shepherdson, “Gödel’s second incompleteness theorem for Q”, Journal of
+Symbolic Logic 41 (1976) pp. 503-512
+[8] G. Boolos, The Logic of Provability, Cambridge University Press 1993 (The passage on pages xxii-xxiii
+is germane to Footnote 2.)
+[9] S. R. Buss, Bounded Arithmetic, (Ph D Thesis) Proof Theory Notes #3, Bibliopolis 1986.
+[10] S. R. Buss, Informal private conversations during a lunch in Vienna at the 5-th meeting of the Kurt
+Gödel Colloquium, 1997.
+[11] S. R. Buss and A. Ignjatovic, “Unprovability of consistency statements in fragments of bounded arithmetic”, Annals of Pure and Applied Logic 74 (1995) pp. 221-244.
+[12] J. W. Dawson, Logical Dilemmas: The life and work of Kurt Gödel, AKPeters, 1997
+[13] H. B Enderton, A Mathematical Introduction to Logic, Academic Press, 2001
+[14] S. Feferman, “Arithmetization of mathematics in a general setting”, Fundamenta Mathematicae 49
+(1960) pp. 35-92.
+[15] M. Fitting, First Order Logic and Automated Theorem Proving, Springer-Verlag, 1996.
+[16] H. M. Friedman, “On the consistency, completeness and correctness problems”, Ohio State Tech Report,
+1979.
+[17] H. M. Friedman, “Translatability and relative consistency”, Ohio State Tech Report, 1979.
+[18] H. M. Friedman, “ Gödel’s blessing and Gödel’s curse”. (This is “Lecture 4” within a 5-part Ohio
+State YouTube lecture, dated March 14, 2014, whose last few minutes is devoted to summarizing the
+mysteries left unsolved by the Second Incompleteness Theorem,)
+[19] G. Gentzen, “Die wiederpruchsfreiheit der zeinen zahlentheorie”, Mathematische Annalen 112 (936),
+pp. 439-565.
+[20] K. Gödel, “ Über formal unentscheidbare sätze der principia mathematica und verwandte systeme I”,
+Monatshefte für Mathematik und Physik 37 (1931) pp. 349-360.
+[21] K. Gödel, “The present situation in the foundations of mathematics”’, in Collected Works Volume III:
+Unpublished Essays and Lectures, 2004, pp. 45–53, edited by S. Feferman, Oxford University Press.
+[22] R. Goldstein, Incompleteness: The Proof and Paradox of Kurt Gödel, Norton Press, 2005.
+[23] P. Hájek, “Mathematical fuzzy logic and natural numbers”, Fundamenta Mathematicae 81 (2007), pp.
+155-163.
+[24] P. Hájek, “Towards metamathematics of weak arithmetics over fuzzy logic”, Logic Journal of the IPL
+19 (2011), pp. 467-475.
+[25] P. Hájek and P. Pudlák, Metamathematics of First Order Arithmetic, Springer Verlag 1991.
+[26] D. Hilbert, “ Über das unendliche”, Mathematische Annalen 95 (1926) pp. 161-191.
+[27] D. Hilbert and P. Bernays, Grundlagen der Mathematic, Springer 1939.
+[28] R. Jeroslow, “Consistency statements in mathematics ”, Fundamenta Math 72 (1971) pp.17-40.
+
+30
+
+[29] S. C. Kleene, “On the notation of ordinal numbers”, Journal of Symbolic Logic 3 (1938), 150-156.
+[30] J. Krajı́cek, “A note on proofs of falsehood”, Archives on Math Logic 26 (1987) pp. 169-176.
+[31] J. Krajı́cek, Bounded Propositional Logic and Complexity Theory, Cambridge University Press 1995.
+[32] G. Kreisel and G. Takeuti, “Formally self-referential propositions for cut-free classical analysis”, Dissertationes Mathematicae 118 (1974).
+[33] M. H. Löb, “A solution to a problem by Leon Henkin”, Journal of Symbolic Logic 20 (1955) 115-118.
+[34] E. Mendelson, Introduction to Mathematical Logic, CRC Press, 2010.
+[35] E. Nelson, Predicative Arithmetic, Mathematics Notes, Princeton University Press, 1986.
+[36] R. Parikh, “Existence and feasibility in arithmetic”, Journal of Symbolic Logic 36 (1971), pp. 494-508
+[37] J. B. Paris and C. Dimitracopoulos, “A note on undefinability of cuts”, Journal Symbolic Logic 48
+(1983) 564-569
+[38] C. Parsons, “On n−quantifier elimination”, Journal of Symbolic Logic 37 (1972), pp. 466-482.
+[39] P. Pudlák, “Cuts, consistency statements and interpretations”, Journal of Symbolic Logic 50 (1985),
+pp. 423-442
+[40] P. Pudlák, “On the lengths of proofs of consistency”, in Collegium Logicum: 1996 Annals of the Kurt
+Gödel Society ( Volume 2), Springer-Wien-NewYork, pp 65-86.
+[41] P. Pudlák, Private emailed communications, 2001.
+[42] H. A. Rogers, Theory of Recursive Functions and Effective Compatibility, McGrawHill 1967.
+[43] R. Smullyan, First Order Logic, Springer-Verlag, 1968.
+[44] R. M. Solovay, Private telephone conversation in 1994 describing Solovay’s generalization of one of
+Pudlák’s theorems [39], using some methods of Nelson and Wilkie-Paris [35, 49]. (The Appendix A of
+[51] offers a 4-page summary of this conversation.)
+[45] V. Švejdar, ”An interpretation of Robinson arithmetic in its Grzegorczjk’s weaker variant” Fundamenta
+Informaticae 81 (2007) pp. 347-354.
+[46] G. Takeuti, Proof Theory, Studies in Logic Volume 81, North Holland, 1987.
+[47] A. Turing, “On the computable numbers with an application to the entscheidungsproblem”, Proceedings
+of London Mathematics Soceity, 1936, pp. 230-265.
+[48] A. Visser, “Faith and falsity”, Annals of Pure and Applied Logic 131 (2005) pp. 103-131.
+[49] A. J. Wilkie and J. B. Paris, “On the scheme of induction for bounded arithmetic”, Annals of Pure
+and Applied Logic (35) 1987, 261-302.
+[50] D. Willard, “Self-verifying axiom systems”, Computational Logic and Proof Theory: The Third Kurt
+Gödel Colloquium (1993), Springer-Verlag LNCS#713, 325-336.
+[51] D. Willard, “Self-verifying systems, the incompleteness theorem and the tangibiltiy reflection principle”,
+in Journal of Symbolic Logic 66 (2001) pp. 536-596.
+[52] D. Willard, “How to extend the semantic tableaux and cut-free versions of the second incompleteness
+theorem almost to robinson’s arithmetic Q”, Journal of Symbolic Logic 67 (2002) pp. 465–496.
+[53] D. Willard, “A version of the second incompleteness theorem for axiom systems that recognize addition
+but not multiplication as a total function”, First Order Logic Revisited, Logos Verlag, pp. 337–368.
+[54] D. Willard, “An exploration of the partial respects in which an axiom system recognizing solely addition
+as a total function can verify its own consistency”, Journal of Symbolic Logic 70 (2005) pp. 1171-1209.
+[55] D. Willard, “A generalization of the second incompleteness theorem and some exceptions to it”. Annals
+of Pure and Applied Logic 141 (2006) pp. 472-496.
+
+31
+
+[56] D. Willard, “On the available partial respects in which an axiomatization for real valued arithmetic
+can recognize its consistency”, Journal of Symbolic Logic 71 (2006) pp. 1189-1199.
+[57] D. Willard, “Passive induction and a solution to a Paris-Wilkie question”, Annals of Pure and Applied
+Logic 146(2007) pp. 124-149.
+[58] D. Willard, “Some specially formulated axiomizations for IΣ0 manage to evade the herbrandized version
+of the second incompleteness theorem”, Information and Computation 207 (2009), pp. 1078-1093.
+[59] D. Willard, “On the broader epistemological significance of self-justiying axiom systems”, Proceedings
+of 21st Wollic Conference, Springer Verlag LNCS 8652 (2014), pp. 221-236.
+[60] C. Wrathall, “Rudimentary Predicates and Relative Computation”, Siam Journal on Computing 7
+(1978), pp 194-209.
+[61] P. Yourgrau, A World Without Time: The Forgotten Legacy of Gödel and Einstein, Basic Books, 2005.
+(See page 58 for the passages we have quoted.)
+
+Appendix Justifying Conjecture 6.6
+This appendix should be read only after Section 6 has been finished. It will have two purposes.
+They will be to:
+1. Outline an approximate intuitive justification for Conjecture 6.6’s validity.
+2. Explore this conjecture’s broader significance.
+
+A.1
+
+An Approximate Intuitive Sketch Justifying Conjecture 6.6
+
+The underlying intuition supporting Conjecture 6.6 is easy to summarize. It stems from the fact that
+θ is the only growth-permitting function (or primitive) in LQ ’s language. Moreover, the definitions
+Q
+of ΠQ
+1 and Σ1 sentences (in Item 5.4) forbid θ’s appearance anywhere in these sentences, outside of
+
+the particular places where Definition 4.4’s Ej terms use the θ primitive as an intermediate device
+for defining the quantity 2j .
+These facts seem to obviously imply that a proof can construct integers n > 2 only by applying
+the Up-Walking axioms, from Lines (14)–(17), in the directly canonical and cumbersome manner.
+That is, a proof P appears to be able to verify the existence of an integer n ≥ 2d only after it has
+isolated d + 1 distinct terms, which correspond to d + 1 distinctly different powers of 2.
+Let Md denote a finite-sized model for the subset of Natural Numbers, all of which satisfy the
+exact inequality of x < 2d . Also, let S denote the set of ΠQ
+1 axiom sentences that were defined
+by Part (B) of Conjecture 6.6. If d = ⌊ Log2 K ⌋ then Part (B) implies that all of the axioms in
+S hold true within the model Md . However, its particular “Breaking Point” sentence Ψ does
+become false in the model Md+1 , while all the other axioms of S continue to hold true within each
+of the models of Md+1 , Md+2 , Md+3 , ... .
+At an intuitive (somewhat informal) level, these facts suggest that the proof P , alluded to in
+Line (28), can establish “0 = 1” only after it has first constructed more than 1 + ⌊ Log2 K ⌋ distinct
+powers of 2. (This is because the sentence Ψ ultimately forces a contradiction, in such a context,
+because of its “Size-K Breaking Point” property.).
+32
+
+Under our rules for encoding P (which requires six bits to encode each of P ’s 23 logical symbols),
+such a lengthy sequence of d + 1 distinctly different terms will cause P to be so large that Log2 (P )
+exceeds by at least a factor of 6 the size of Log2 (K). Indeed, the quantity 61 in Line (28)’s upper
+bound is actually a conservative overestimate of the actual bounding quantity. But we will not
+delve further into such a discussion, here, because this section was intended to provide only an
+intuitive sketch justifying Conjecture 6.6.
+A 1-sentence summary of the intuition behind Conjecture 6.6 is that its axiom system γ is so
+weak that it cannot construct a required integer, larger than K, without engaging in a proof that
+directly requires more than 6 · Log2 K bits.
+
+A.2 More Details about Conjecture 6.6
+Our IQFS(β) axiom system does not need an actual formal proof of Conjecture 6.6 for it to become
+mathematically very significant. All it needs, from a strictly minimalistic perspective, is for the
+Conjecture 6.6 to hold true under the Standard Model (even if its formal proof is independent from
+the exact axioms of say Peano Arithmetic and/or ZF Set Theory).
+A rigorous proof of Conjecture 6.6’s is, obviously, still desirable. This proof is likely to be
+tedious and lengthy because the analog of Conjecture 6.6’s inequality (28) is, simply, not true when
+IQFS’s Group-zero axiom replaces our new θ function operation with the Successor primitive.
+In particular, the Pudlák-Solovay Assertion ++, from Example 3.3-a, was able to generalize the
+Second Incompleteness Theorem, only by using the fact that analogs of Conjecture 6.6 are false
+when Successor replaces θ.
+The intuitive reason that θ operates so differently from Successor is that these two operations
+differ in the following three significant respects:
+1. Integers grow at a monotonically uniform rate under the successor operation, while any finite
+sequence θ(2), θ( θ(2)) , θ( θ( θ(2))) ... θ k (2) is allowed to be monotonically decreasing under
+the θ primitive.
+2. The θ primitive satisfies Definition 3.6’s property of being a “Q-function” with ℵ1 different possible solution vectors, while there is only one unique representation of the successor
+function.
+3. The Π1 encodings for axioms about the 3-way arithmetic predicates Add(x, y, z) and M ult(x, y, z),
+such as the associative rules for addition and multiplication, help one characterize the implications of the Successor function. But these rules are fully irrelevant to θ’s behavior.
+Thus, Items 1-3 make us essentially 100 % confident that the θ and Successor primitives shall differ
+sufficiently for Conjecture 6.6 to apply to the former primitive, although certainly not also to its
+counterpart under the Successor operation.
+
+33
+
+

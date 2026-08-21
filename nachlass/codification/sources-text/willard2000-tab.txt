@@ -1,0 +1,917 @@
+The Semantic Tableaux Version of the Second
+Incompleteness Theorem Extends Almost to
+Robinson’s Arithmetic Q
+Dan E. Willard
+Dept. of Computer Science, University at Albany, dew@cs.albany.edu. ??
+
+Abstract. We will generalize the Second Incompleteness Theorem almost to the level of Robinson’s System Q. We will prove there exists a Π1
+sentence V , such that if α is any finite consistent extension of Q+V
+then α will be unable to prove its Semantic Tableaux consistency.
+SpringerVerlag LNCS # 1847, 2000, pp. 415–430 (Tableaux 2000 Proc.)
+
+1
+
+Introduction
+
+As originally formulated by Gödel, the Second Incompleteness Theorem discussed the inability of any possible extension of Peano Arithmetic (PA) to verify
+its self-consistency when it examined a proof-encoding that used a Hilbert-style
+methodology [5] as the underlying deductive calculi. Many generalizations of the
+Second Incompleteness Theorem were developed subsequently. For instance, let
+us recall that Robinson’s Arithmetic system Q differs from Peano Arithmetic
+by containing no Induction axioms [10, 16]. In 1985, Pudlák strengthened a theorem by Bezboruah and Shepherdson [3] to show that Q was subject to many
+limitations similar to Peano Arithmetic. In particular, Pudlák established that
+if α is any extension of Q then α must be unable to prove the non-existence
+of a proof of 0=1 when the proof formalism uses simultaneously a Hilbert-style
+calculi for deduction [5] and α represents its set of proper axioms. Moreover,
+Robert Solovay (private communications, [18]) combined several formalisms of
+Pudlák, Nelson [11] and Wilkie-Paris [22] to observe that Pudlák’s theorem generalized to systems weaker than Q in that they would recognize Successor (but
+not Addition and Multiplication) as total functions.
+The main gap left by the prior literature was that it had not resolved whether
+or not the Second Incompleteness Theorem was also valid for weak systems with
+respect to cut-free forms of deductive calculi, such as Semantic Tableaux. In
+particular, let us say an axiom system α has an ability to verify its tableauxbased self-consistency iff α can formally prove the non-existence of a proof
+of 0=1 in a deduction system that uses simultaneously α as the set of proper
+axioms and Fitting’s precise rules for Semantic Tableaux [5] as the employed
+deductive calculi. The prior literature had not clarified fully to what extent the
+Second Incompleteness Theorem prohibits weak axiom systems α from proving
+this particular notion of their self-consistency.
+??
+
+Supported by NSF Grant CCR 99-02726
+
+For example, consider an axiom system that uses a special atomic symbol
+M (x, y, z) to represent that the multiplicative product of x times y equals z.
+Such a system would not necessarily recognize that Multiplication is a “total
+function” (i.e. it need not recognize that “ ∀x ∀y ∃z : M (x, y, z) ”). We devised
+in [23, 24] a consistent axiom system of this type, called IS(A), that could
+1. recognize its tableaux-based self-consistency (in the particular sense that was
+defined on the preceding page).
+2. recognize Addition as a total function, and
+3. prove all the Π1 -like theorems of Peano Arithmetic in a slightly modified language that replaces the the Multiplication Function symbol with a
+M (x, y, z)−atomic predicate symbol.
+A very different type of partial caveat for the Semantic Tableaux version
+of the Second Incompleteness Theorem has been described by the literature
+[8, 9, 11, 14, 20, 22]. The strongest version of this caveat has been described by
+Pudlák, and we will therefore use [6, 14]’s notation. Say a formula Υ (v) is a
+definable cut for an an axiom system α if α can prove both : Υ (0) and
+∀v { Υ (v) ⊃ Υ (v + 1) } . Then [8, 9, 11, 14, 20] have illustrated several examples
+of different formulae Υ (v), which are Definable Cuts for α, such that α
+can prove its Semantic Tableaux consistency local to these Cuts. Thus if the
+notation “ SemPrf α (x, y) ” designates that y is a semantic tableaux proof of
+the theorem x and if d Ψ e designates Ψ ’s Gödel number, the prior literature has
+shown how several quite different axiom systems α can prove the cut-localized
+statement of their semantic tableaux consistency indicated below:
+∀y
+
+{ Υ (y)
+
+⊃
+
+¬ SemPrf α ( d 0 = 1 e , y ) }
+
+(1)
+
+In light of these examples about how the Semantic Tableaux version of
+the Second Incompleteness Theorem can be partially evaded by certain types
+of formalisms, it is noteworthy that Adamowicz [1] has proven that the veryfrequently-studied [6, 22] axiom system IΣ0 +Ω2 satisfies the Second Incompleteness property for semantic tableaux. Since IΣ0 + Ω2 has an ability to prove the
+totality of functions growing substantially faster than Multiplication, Adamowicz’s theorem raises the following two questions:
+1. Where between the axiom system IS(A)’s evasion of the Second Incompleteness Theorem and IΣ0 + Ω2 ’s obeying of it, does the Second Incompleteness
+effect become valid for Semantic Tableaux deduction?
+2. Does the Second Incompleteness Effect for Semantic Tableaux proofs become
+valid for Robinson’s System Q, or other axiom systems very near it?
+We will offer a partial (albeit not complete) answer to these questions. We will
+prove there exists a Π1 sentence, henceforth called V , such that if α is
+any consistent and finite extension of Q + V then α will be unable to formally
+prove a theorem asserting its own tableaux-based self-consistency. Moreover, this
+result will generalize for axiom systems α with infinite cardinality (although we
+will have insufficient space to prove this generalization here.)
+
+2
+
+Notation and Intuition
+
+For simplicity, our base language will be the language of Robinson’s Q. Thus only
+Addition and Multiplication function symbols will appear in its terms t , and
+the existential and universal quantifiers in “∃ x ≤ t φ(x)” and “∀ x ≤ t φ(x)” will
+be called bounded quantifiers. A formula will be called ∆0 if all its quantifiers
+are bounded. Similarly if Ψ (x1 , x2 , ...xk ) is ∆0 , then we will use the term Π1 to
+describe the normalized sentence ∀x1 , ∀x2 ... ∀xk Ψ (x1 , x2 , ...xk ) .
+In our discussion, SemPrfα (x, y) will denote a ∆0 formula indicating that y
+is a semantic tableaux proof of the theorem x from the axiom system α . For
+simplicity, we shall use a definition of Semantic Tableaux proof similar to that in
+Chapters 3.1 and 6.1 in Fitting’s textbook [5]. However with one minor caveat,
+our version of the Second Incompleteness Theorem will actually generalize to all
+the other major definitions of semantic tableaux. The caveat is that each different
+definition of semantic tableaux deduction will be associated with a different Π1
+sentence V such that Q + V is a threshold for the Second Incompleteness
+Theorem. (This is essentially because the Π1 sentence V , constructed in the
+next section, will contain a ∆0 subformula “SemPrf” that is dependent on the
+particular definition of Semantic Tableaux proof used.)
+Given a sequence of integers i1 , i2 , i3 , ...im , we will say a ∆0 formula
+Φ(g, j, x) makes g an encoding of this sequence iff Φ(g, j, x) is satisfied
+only when x represents the j−th element in the sequence i1 , i2 , i3 , ...im .
+We will say g is a linear compressed encoding
+Pm of this sequence if Log(g)
+has a magnitude proportional to the size of
+j=1 Log(ij + 2) . Buss, Hájek,
+Paris, Pudlák and Wilkie [4, 6, 22] have all given examples of such ∆0 encodings,
+and we will therefore not also do so here. The Linear Compressed Encodings
+are considered to be the most efficient possible method to do a formal Gödel
+encoding of a sentence or proof, and we will therefore study it in this paper.
+Let the symbol ⊥ denote the Gödel number of the sentence 0 = 1 . The
+weakest possible definition of α’s Semantic Tableaux Consistency is:
+∀p ¬ SemPrfα ( ⊥ , p )
+
+(2)
+
+If Def( α ) denotes the above definition of α’s tableaux consistency then there
+are also other available definitions, denoted as say Def∗ ( α ) , such that the two
+definitions are equivalent in adequately strong fragments of arithmetic, but not in
+sufficiently weak fragments (see for instance [24–26]). It is preferable to employ
+the weakest available definition when generalizing the Second Incompleteness
+Theorems. This is why our present article uses Equation (2)’s definition.
+An alternate definition of a “semantic tableaux proof” appears below:
+Definition 1. Let Log(x) denote Base-2 Logarithm, with downwards rounding
+to the lowest integer. Let Log(x, k) denote Log(Log(Log...(Log(x)))) − where
+there are k iterations of logarithm. For any fixed constant K > 1 , the symbol
+SemPrfK
+α ( x , y , z ) will denote a ∆0 formula indicating that SemPrfα ( x , y)
+is valid and that y < Log( z , K ) .
+
+Oddly, our final theorem will be couched solely in terms of Equation (2)’s more
+desirable SemPrf( x , y) formalism, but the intermediate steps of our proof
+will be much simplified by using as well Definition 1’s “SemPrfK
+α (x, y, z)” formalism to shorten their analysis.
+In particular, let D(α) denote the following diagonalization sentence:
+*
+
+There is no Semantic Tableaux proof of this sentence.
+
+Also, let DK (α) denote the following SemPrfK
+α (x, y, z) modification of this diagonalizing sentence:
+** In a context where one employs the slightly modified “ SemPrfK
+α (x, y, z) ”
+proof-notation, there exists no code (y, z) that “proves” this sentence.
+It is very easy to formally encode DK (α) as a Π1 sentence following the example
+of the prior literature on diagonalization. Thus, let Subst(g, h) denote Gödel’s
+classic ∆0 substitution relation, defined below:
+Subst(g, h) = The integer g is an encoding of a formula, and h
+encodes a sentence identical to g, except that all free variables in g
+are replaced with a constant, whose value equals g.
+Then DK (α) can be defined as being the Π1 sentence Γ ( n̄ ) , where Γ (g)
+denotes the formula (3) and n̄ denotes Γ (g)’s Gödel number.
+∀h ∀y ∀z
+
+{ Subst(g, h)
+
+⊃
+
+¬ SemPrf K
+α (h, y, z) }
+
+(3)
+
+In essence, our version of a proof of the Second Incompleteness Theorem will
+be similar to the classic diagonalization proofs, except that many intermediate
+steps will use DK (α) instead of D(α) .
+Theorem 1. Let α `S Λ denote that there is a semantic tableaux proof of the
+theorem Λ from the axiom system α . Then the combination of α `S Λ,
+α `S Θ, and α `S Λ ∧ Θ ⊃ Ξ implies α `S Ξ .
+Proof. Immediate from Gentzen’s Cut Elimination Theorem [19, 21].
+
+t
+u
+
+Theorem 2. Suppose α is a finite extension of Robinson’s system Q that (for
+some constant K) proves the three theorems below. Then α is inconsistent.
+A)
+B)
+C)
+
+∀p ¬ SemPrfα ( ⊥ , p )
+K
+{ ∃y ∃z SemPrfK
+∃x SemPrfα ( ⊥ , x )
+α ( d D (α) e , y, z ) } ⊃
+∗
+∀g ∀h ∀h { Subst( g , h ) ∧ Subst( g , h∗ ) } ⊃ h = h∗
+
+Proof. Let D∗ denote the Gödel-like “diagonalizing” sentence below:
+D∗
+
+=df { ∀ y ∀ z
+
+K
+¬ SemPrfK
+α ( d D (α) e , y, z ) }
+
+(4)
+
+We will apply Theorem 1 several times to help shorten the proof of Theorem 2.
+First, let us apply Theorem 1 with Λ and Θ denoting the sentences from (A)
+
+and (B) in Theorem 2’s hypothesis and with Ξ representing the sentence D∗
+(from Equation (4)). For these three particular values for Λ , Θ and Ξ , it is
+immediately apparent that α `S Λ ∧ Θ ⊃ Ξ . Hence, Theorem 1 implies
+D∗
+
+`S
+
+α
+
+(5)
+
+For any fixed K, DK (α) and D∗ are certainly equivalent sentences in sufficiently strong models of Arithmetic. However, we need more than this fact to
+duplicate Gödel’s diagonalization proof in the present setting. We need that the
+weak axiom system α is yet strong enough to also recognize this equivalence !
+To establish this fact, we begin by recalling that n̄ denotes (3)’s Gödel
+number and that DK (α)’s definition implies Subst( n̄ , d DK (α) e ) is true.
+Since Subst( n̄ , d DK (α) e ) is a valid ∆0 sentence and since Robinson’s System
+Q can prove all valid ∆0 sentences, it follows that Q can prove this sentence.
+Thus since Theorem 2’s hypothesis indicates that α is an extension of Q, we get:
+α
+
+Subst( n̄ , d DK (α) e )
+
+`S
+
+(6)
+
+We will now use Equation (6) to infer the validity of (7) below. In particular, we do so by applying Theorem 1 with Λ representing the sentence
+Subst( n̄ , d DK (α) e ) , with Θ representing the sentence (C) in Theorem
+2’s hypothesis, and with Ξ being the identity DK (α) ≡ D∗ . For these three
+values for Λ , Θ and Ξ , we can infer that α `S Λ ∧ Θ ⊃ Ξ (because
+Λ ∧ Θ enables α to prove that the only value for h satisfying the left side of
+Equation (3) is the quantity d DK (α) e ). Hence, Theorem 1 implies:
+α
+
+DK (α) ≡ D∗
+
+`S
+
+(7)
+
+Our final application of Theorem 1 is quite easy. We set Λ and Θ to be the
+sentences D∗ and DK (α) ≡ D∗ and use Equations (5) and (7) to infer
+α
+
+`S
+
+DK (α)
+
+(8)
+
+We will now finish Theorem 2’s proof by following Gödel’s paradigm about
+proving a sentence that states roughly “There is no proof of me”. Thus, let
+p denote (8)’s proof of the theorem DK (α), q be a second integer satisfying
+Log(q, K) > p , and r denote DK (α)’s Gödel number. Let us also recall that if
+n̄ denotes (3)’s Gödel number, then DK (α) is the sentence:
+∀h ∀y ∀z
+
+{ Subst( n̄ , h )
+
+⊃
+
+¬ SemPrf K
+α (h, y, z) }
+
+(9)
+
+We will follow Gödel’s example by observing that (9) must be false because if we
+replace its three variables y, z, and h with the three constants p, q, and r then
+(9)’s formal statement is negated. Moreover, Robinson’s System Q is known to
+have the capacity to formally disprove any Π1 sentence that is invalid in the
+Standard Model. Hence, since α is an extension of Q, we get
+α
+
+`S
+
+¬ DK (α)
+
+The combination of (8) and (10) shows that α is inconsistent.
+
+(10)
+t
+u
+
+3
+
+Main Theorems
+
+We will assume that x − y = 0 when x < y (so that Subtraction can be viewed
+as a total function). Also, Log(x, u) was defined by Definition 1.
+Lemma 1. There exists two ∆0 formulae S(x, y, z) and P (x, u, z) such that:
+1. The graphs of S(x, y, z) and P (x, u, z) represent the set of ordered triples
+satisfying respectively the Subtraction and Logarithm functions
+2. A Π1 sentence, henceforth denoted as V1 , will indicate that the two ∆0
+formulae S(x, y, z) and P (x, k, z) represent total functions assigning Subtraction and Logarithm their usual properties.
+Proof Sketch. Item 1’s claims about Subtraction are obviously true. The
+unabridged version of this paper (which the author can mail to any interested
+readers) showed how P (x, k, z) can encode Log(x, k) = z as a ∆0 formula. (Its
+proof essentially uses Benett’s dissertation [2] and the theory of LinH functions
+[6, 7, 27]) in a routine manner.) The further claims of Item 2 require no proof
+because they are an immediate consequence of Item 1 and of the fact that Subtraction and Logarithm are non-growth functions.
+Lemma 2. Using the predicates S(x, y, z) and P (x, u, z) (from Lemma 1), one
+can easily encode four Π1 sentences, henceforth denoted as A1 , A2 , A3 and A4 ,
+that indicate that the functions Subtraction and Log(x, k) have the following four
+well-known properties:
+1.
+2.
+3.
+4.
+
+∀ x ∀y ∀z xy ≤ z ⊃ Log(z, 1) ≥ Log(x, 1)+Log(y, 1)
+∀ x ∀y x2 ≤ y ⊃ Log(y, 2) ≥ Log(x, 2) + 1
+∀ x ∀y Log(x, y + 1) = Log ( Log(x, y) , 1 )
+∀ x ∀y y ≤ x ⊃ [ y = x ∨ y ≤ x − 1 ]
+
+Proof. A trivial consequence of Lemma 1.
+t
+u
+Let FinAx(α) denote a ∆0 formula, which will return the Boolean value of
+TRUE when the integer α is a Gödel number that represents a finite-length
+list of logical sentences. The formula FinAx(α) will serve as a mechanism for
+recognizing when α represents a finite list of axioms. It thus allows us to treat
+“ SemPrf α (x, y) ” as a ∆0 formula with three input variables x , y , α (rather
+than just x and y ). Likewise, “SemPrfkα (x, y, z)” will now denote (in this section)
+a ∆0 formula free in five variables x, y, z, α and k.
+Lemma 3. There exists a ∆0 formula, henceforth denoted as Map(α, k, d) ,
+which has the property that the triple (α, k, d) satisfies this formula if and only
+if d equals the Gödel number of Section 2’s diagonalization sentence Dk (α) .
+(This implies that Paradox(y, z, α, k) , defined below, also has a ∆0 encoding.)
+=df ∃ d < z Map(α, k, d) ∧ SemPrfkα ( d , y , z ) (11)
+Justification. We will omit giving Lemma 3’s proof here because its underlying structure is similar to Section 4 of our earlier paper [26]. It thus relies on
+Paradox(y, z, α, k)
+
+[6, 7, 27]’s theory of LinH functions. It uses the fact that every LinH procedure
+can be transformed into an analogous ∆0 formula, in a context where the the
+tuples satisfying Paradox(y, z, α, k) and Map(α, k, d) can be identified by
+LinH decision procedures.
+We are now ready to define the “V” used by our axiom system Q+V. It can
+be thought of as either one long Π1 sentence, representing a conjunction of five
+Π1 clauses V1 ∧V2 ∧V3 ∧V4 ∧V5 or as a list of five different Π1 axiom-sentences. Its
+sentence V1 was defined by Lemma 1. In our discussion, FinAx5 (α) will denote
+a ∆0 formula indicating α is a Gödel number which encodes some finite list
+of axioms that includes all the axioms of Q + V . Also, FinAx4 (α) will have
+an identical definition as FinAx5 (α), except it will require α’s list of axioms
+include only Q + V1 + V2 + V3 + V4 . Below are defined V2 , V3 , V4 and V5 .
+V2
+
+V3
+
+=df A1 ∧ A2 ∧ A3 ∧ A4 where Lemma 2 defines these Ai
+
+(12)
+
+=df { ∀g ∀h ∀h∗ { Subst( g , h ) ∧ Subst( g , h∗ ) } ⊃ h = h∗ } (13)
+V4
+
+=df
+
+{ ∀α ∀k ∀g ∀h ∀y ∀z [ Υ (α, k, g, h, y, z)
+
+⊃
+
+(14)
+
+∃h∗ ≤ h ∃y ∗ ≤ y ∃z ∗ ≤ z Υ (α, k, g, h∗ , y ∗ , z ∗ ) ] }
+WHERE Υ (α, k, g, h, y, z ) =df { Subst(g, h) ∧ SemPrfkα ( h , y , z ) }
+Comment: Since V4 is provable from Q, some readers may wonder why it is
+needed? The answer is a redundant axiom can super-exponentially shorten the
+length of some cut-free proofs (a fact that we will use when we prove Lemma 9).
+V5 =df { ∀y ∀z ∀α ∀k { [ FinAx4(α) ∧ k ≥ α ∧ Paradox(y, z, α, k) ] ⊃
+
+(15)
+
+∃ x < z SemPrfα ( ⊥ , x ) }}
+Below are listed our two main theorems about Q+V.
+Theorem 3. The axiom system Q+V is consistent.
+Theorem 4. Suppose α is a consistent axiom system that is a finite extension
+of Q+V. Then α cannot prove a theorem asserting its Semantic Tableaux
+consistency (i.e. it cannot verify ∀ x ¬ SemPrfα ( ⊥ , x ) ).
+Comment : Before presenting the proofs of Theorems 3 and 4, it is desirable to briefly reflect upon our overall goals and strategies. The chief goal is, of
+course, to establish the existence of some Π1 sentence V where Q + V satisfies
+simultaneously Theorem 3’s consistency property and Theorem 4’s Incompleteness property. It turns out that there are many different Π1 sentences V
+
+that possess both these properties. Some of these V will oddly cause Theorem
+3’s half of the proof to be shorter, while others will cause Theorem 4’s portion
+of the proof to be shorter. After some experimentation with this subject, we
+discovered that the paper’s overall presentation would be best abbreviated if we
+chose to work with a particular axiom-sentence V where Theorem 4’s portion
+of the proof would become extremely short, but Theorem 3’s part of the proof
+would become much longer. The reason we are informing our readers about this
+trade-off is that some readers might otherwise find Theorem 4’s proof (below) to
+be so alarmingly abbreviated to make them initially troubled by it. The best way
+to soothe such concerns is to remind our readers that it is possible to find some
+sentences V , where Q + V ’s Incompleteness property has an astonishingly
+short proof, provided Theorem 3’s proof of Q + V ’s consistency property then
+becomes correspondingly longer.
+Proof of Theorem 4. Suppose for the sake of contradiction the theorem was
+false. Then there would exist some fixed integer constant, denoted as say ᾱ ,
+such that FinAx5( ᾱ ) is true and where ᾱ , viewed as an axiom system, is
+consistent and verifies its own Semantic-Tableaux-Consistency.
+Hence, we may begin our contradiction proof by letting ᾱ represent a consistent axiom system satisfying
+ᾱ
+
+`
+
+∀ x ¬ SemPrfᾱ ( ⊥ , x )
+
+(16)
+
+Our goal is to show how Equation (16) will lead to a contradiction.
+Let us now introduce a second constant k̄ = ᾱ + 1 . We claim that the
+ordered pair ( ᾱ , k̄ ) will satisfy the hypothesis of Theorem 2. To establish
+this fact, we must show that ᾱ can prove the three theorems (A), (B) and (C)
+required by Theorem 2’s hypothesis. Below is the justification for this claim:
+1. Equation (16) shows that ᾱ can prove Item (A) from Theorem 2’s hypothesis.
+2. We will next show that ᾱ also proves Theorem 2’s needed sentence (B).
+Let Λ and Θ denote the following two sentences:
+FinAx4(ᾱ) ∧ k̄ ≥ ᾱ ∧ Map(ᾱ, k̄, d Dk̄ ( ᾱ )e )
+∀y ∀z { [ FinAx4(ᾱ) ∧ k̄ ≥ ᾱ ∧ Paradox(y, z, ᾱ, k̄) ] ⊃ ∃ x < z SemPrfᾱ ( ⊥ , x)}
+
+Both these sentences are provable from ᾱ. In particular, ᾱ ` Λ holds
+because ᾱ can prove every ∆0 sentence that is valid in the Standard Model
+of the Natural Numbers, and ᾱ ` Θ holds because Θ’s formal statement is
+identical to ᾱ’s V5 axiom except that V5 ’s universally quantified variables
+α and k are replaced by the constants ᾱ and k̄ . Moreover, if we let Ξ
+denote the sentence (B) from Theorem 2’s hypothesis, it is straightforward
+to obtain ᾱ ` Λ ∧ Θ ⊃ Ξ from the underlying structure of these three
+sentences. Hence from Theorem 1, we immediately obtain that ᾱ can prove
+(B) from Theorem 2’s hypothesis.
+3. Since Theorem 2’s sentence (C) and ᾱ’s axiom V3 are the same sentence, ᾱ
+can trivially prove (C).
+
+Hence since ᾱ satisfies Theorem 2’s three requirements, the theorem implies ᾱ is
+inconsistent. This observation completes our proof-by-contradiction because its
+first paragraph assumed ᾱ was consistent. 2
+
+4
+
+The Consistency of Q+V
+
+The axiom system Q+V and the preceding Theorem 4 would obviously both
+be entirely useless if Q+V was inconsistent. Therefore to establish their significance, we must prove Q+V’s consistency. Our proof of Theorem 3 will require
+introducing several preliminary lemmas.
+Lemma 4. The first four axioms of V are valid in the Standard Model of the
+Natural Numbers, and these axioms can be written as Π1 sentences.
+Proof. Lemmas 1 and 2 indicate the axioms V1 and V2 are valid Π1 sentences in the Standard Model of the Natural Numbers. It is trivial that V3
+is also a valid Π1 sentence. Finally for any ∆0 formula φ(x, y), the sentence
+“ ∀d ∀e [ φ(d, e) ⊃ ∃f ≤ e φ(d, f )] ” is clearly a valid Π1 sentence. This implies
+that V4 is also a valid Π1 sentence, since its Equation (14) has a form identical
+to the preceding sentence except that it replaces d with (α, k, g), e with (h, y, z)
+t
+u
+and f with (h∗ , y ∗ , z ∗ ).
+The remainder of this section will finish the proof of Theorem 3 by showing
+that the axiom V5 satisfies a logical validity property similar to V1 through V4 .
+Lemma 5. If the clause on the left side of the axiom V5 ’s implication symbol
+is true then y < Log( z , 23,000 ).
+Proof. The formula on the left side of the axiom V5 ’s ⊃ symbol is:
+FinAx4(α) ∧ k ≥ α ∧ Paradox(y, z, α, k)
+
+(17)
+
+Clearly k ≥ 23,000 because (17) indicates that k ≥ α and α must require more
+than 3,000 bits to encode an axiom system that includes Q + V1 + V2 + V3 + V4 .
+Moreover since (17) indicates that Paradox(y, z, α, k) is satisfied, Equation (11)
+and Definition 1 imply y < Log(z, k)).
+t
+u
+Lemma 6. Let φ ( x1 , x2 ... xm ) denote a ∆0 formula. For any m-tuple of
+constants ( c̄1 , c̄2 ... c̄m ) with each ci ≤ n , assume that the semantic tableaux
+proof (or disproof ) of φ ( c̄1 , c̄2 ... c̄m ) from the axiom system α requires
+a tree with no more than s nodes. Let the symbol “ Qi ( xi ≤ k̄i ) ” be an
+abbreviation for either a bounded existential or universal quantifier. (In other
+words, “ Qi ( xi ≤ k̄i ) ” is an abbreviation for either “ ∃ xi ≤ k̄i ” or for
+“ ∀ xi ≤ k̄i ”.) Let Ψ denote a canonical ∆0 sentence of the following form:
+Q1 ( x1 ≤ k̄1 ), Q2 ( x2 ≤ k̄2 ) ... Qm ( xm ≤ k̄m ) { φ ( x1 , x2 ... xm )}
+Assume α is an extension of Q + V2 and
+Then it follows that:
+
+(18)
+
+n ≥ MAX ( k̄1 , k̄2 , ... k̄m ) .
+
+1. If the sentence Ψ (formally defined by Equation (18)) is TRUE then there
+will exist a semantic tableaux proof of it of approximate size O( s · nm ) .
+2. And if the sentence Ψ is FALSE then there will analogously exist a semantic
+tableaux disproof of it of approximate size O( s · nm ) .
+Proof Sketch. Since all the quantifiers in Equation (18) are bounded quantifiers, it is immediately apparent that a brute-force algorithm can span the
+cross-product space of approximate size O(nm ) and determine via a trivial procedure whether or not the sentence (18) is true or false. The fundamental point
+is that whenever an axiom system α is rich enough to include all four clauses
+of Equation (12)’s V2 axiom, a corresponding a semantic tableaux proof from it
+can simulate the exhaustive search paradigm and produce a similar-sized proof
+or disproof of (18) having an approximate O(s · nm ) length. (There is insufficient page space to provide more details about Lemma 6’s proof here, but the
+preceding proof-sketch should be adequate to explain the main intuition.)
+Definition 2. Given an axiom system α , say q is a closed subtree rooted
+in Ψ iff q has a structure identical to a semantic tableaux proof, except that
+the root of q consists of “ Ψ ” (rather than “ ¬ Ψ ”).
+Lemma 7. Let ᾱ , k̄ and ḡ denote three constants and consider the following
+sentence:
+∀h ∀y ∀z
+
+{ Subst(ḡ, h) ⊃ ¬ SemPrfk̄ᾱ ( h , y , z ) }
+
+(19)
+
+Suppose p is a Semantic Tableaux proof from ᾱ of the theorem (19). Let Υ
+denote the formula from Equation (14). Then for any triple (h̄, ȳ, z̄) , it is
+possible to map p onto a “closed” tableaux subtree q where:
+a. The root of q is “ ∃h∗ ≤ h̄ ∃y ∗ ≤ ȳ ∃z ∗ ≤ z̄ Υ ( ᾱ , k̄ , ḡ , h∗ , y ∗ , z ∗ ) ”
+b. There will be a natural correspondence between the paths in p and the
+corresponding paths in q . Under this correspondence, the resulting path in
+q will have a length exceeding the path in p by no more than some constant
+C whose value is independent of ᾱ, k̄, ḡ h̄, ȳ and z̄. (Different authors use
+slightly different definitions of a “semantic tableaux deduction”, and these
+minor variations will produce slightly different values of Lemma 7’s constant
+C. Under a typical definition, such as say that in Fitting’s textbook [5], C
+can represent a constant roughly ∼
+= 12. )
+Proof. It is obvious that (19) is provable only if the root of q’s subtree is false
+(and refutable). Thus, one would intuitively expect to be able to map the proof
+p onto an analogous tree-proof q of roughly the same height. The formal nature
+of this transformation is trivial, and omitted.
+t
+u
+Definition 3. Given a natural number N , its canonical binary representation, denoted formally as “ |{z}
+N ”, will be a term of length O( Log N ) that
+
+defines the value N using only the constant symbols for the numbersP
+0, 1 and 2.
+m
+i
+In particular, let b0 , b1 , ...bm denote a sequence of bits where N =
+i=0 bi 2
+and bm = 1 . Then |{z}
+N will be the term:
+
+( b0 + 2 · ( b1 + 2 · ( b2 + 2 · ( ... (bm−1 + 2 · bm )))))
+Lemma 8. Suppose n, z and e > 2 satisfy Log(z, e) > n. Let Ψ denote a
+theorem which states “ ∃r Log( r , |{z}
+e ) > |{z}
+n ” (where “Log” is obviously
+
+encoded using Lemma 1’s notation). Then there exists a constant C (whose
+value is independent of n, z and e ) such that a semantic tableaux proof t of
+the theorem Ψ from the axiom system Q + V can have its proof-length bounded
+by O{ [ LogLog(z) ]C }.
+
+Proof. Fitting’s definition of semantic tableaux [5] indicates that a proof of the
+theorem “ ∃r Log( r , |{z}
+e ) > |{z}
+n ” will store the negation of this sentence in
+its root. Thus, the root will be essentially:
+
+∀r Log( r , |{z}
+e ) ≤ |{z}
+n
+
+(20)
+
+The remainder of t’s proof will consist of two fragments, which we shall denote
+as x1 and x0 . The substring x1 will be the topmost section of the proof-tree
+t . It will use the fact that Q+V recognizes multiplication as a total function to
+create a series of newly-created constant symbols u0 , u1 , u2 , ...un , satisfying
+u0 = 2 , ui+1 = (ui )2 and having its last term un satisfy z < un ≤ z 2 .
+The second portion of the proof tree t will be called x0 . It will use the last
+paragraph’s un > z inequality to formally contradict the root’s sentence (stated
+in (20)). It is fairly straightforward to use the four clauses of the axiom V2 to
+construct a formal semantic tableaux proof such that the proof substring x1 will
+contain O { LogLog(z) } nodes, and x0 will contain O { [ LogLog(z) ]C }
+nodes (for some constant C ).
+t
+u
+Lemma 9. Suppose that the 4-tuple ( y , z , α , k ) satisfies the formula on the
+left side of the axiom V5 ’s ⊃ symbol. This formula is duplicated below:
+FinAx4(α) ∧ k ≥ α ∧ Paradox(y, z, α, k)
+
+(21)
+
+Then there will exist some constant C whose value is independent of y, z, α, k
+such that there exists a semantic tableaux proof x from α of the theorem 0=1 ,
+where x ’s bit-length ≤ O { [ LogLog(z) ]C } .
+Proof. Although the statements of Lemmas 8 and 9 are very different, it turns
+out that Lemma 9’s proof tree x has some very similar components to Lemma
+8’s tree t . In particular, x will be divided into five fragments, denoted as
+x0 , x1 , x2 , x3 , x4 . The first two of these five components will be identical to
+the x0 and x1 fragments of Lemma 8’s proof tree t .
+Some notation will clarify the differences between these two proof trees. If
+xi denotes any one of x0 , x1 , x2 , x3 , x4 , let us use the following terminology:
+1. The fragment xi , viewed as an integer encoding a string of bits, will
+be said to be z-tiny iff Log(xi ) ≤ O( LogLogLog(z) ) (there are three
+iterations of “Log” attached here to z ).
+
+2. The bit-string xi will be said to be z-adequately small when xi satisfies
+the inequality Log(xi ) ≤ O { [ LogLog(z) ]C } .
+Our proof-tree x will be essentially the concatenation of two “z-adequately
+small” parts, x0 and x1 , with three “z-tiny” subtrees, x2 , x3 and x4 .
+As we already noted, x0 and x1 will be identical to their counterparts from
+Lemma 8’s tree t . (Thus, it will turn out that the sole differences between the
+proof-trees, t and x , will be three very minuscule-sized “z-tiny” fragments.)
+We will now formally describe the proof-tree x . Since x is a proof of the
+theorem 0=1, the root of its proof-tree will obviously be “ 0 6= 1 ”. Immediately
+below this root will be the fragment x1 from Lemma 8’s proof. It will thus
+consist of an iterated series of newly-created constant symbols u0 , u1 , u2 , ...un ,
+satisfying u0 = 2 , ui+1 = (ui )2 and having its last term un satisfy
+z < un ≤ z 2
+
+(22)
+
+At the bottom of the proof fragment x1 will appear two further sentences. The
+first will be Equation (14)’s axiom V4 . (It is permissible to include this axiom
+in the proof x because Equation (21)’s FinAx4(α) clause indicates that the
+axiom system α includes this axiom.) The last sentence at the bottom of the
+segment x1 is formally defined by Equation (23) at the end of this paragraph.
+This last sentence will be identical to the axiom V4 , except that V4 ’s six
+universally quantified variables will now be replaced by six terms, denoted as
+α , |{z}
+k , g , |{z}
+h , y and un . The following rules will define these terms:
+|{z}
+|{z}
+|{z}
+1. Let us recall that Lemma 9’s hypothesis indicated that ( y , z , α , k ) would
+satisfy Equation (21). The values of |{z}
+α , |{z}
+k
+and y
+will represent
+|{z}
+the corresponding quantities in the tuple ( y , z , α , k ) . Formally, these
+three terms will be encoded using the “Canonical Binary” form of Definition
+3. (The last term un will obviously satisfy Equation (22).)
+2. Let us recall that Equation (21)’s Paradox(y, z, α, k) formula indicates that
+y is a proof of the theorem Dk (α) . Let h denote Dk (α)’s Gödel number.
+We saw previously in Equation (3) of Section 2 how h was constructed.
+(It basically was constructed using methods similar to Gödel’s construction
+of a sentence that states “There is no proof of me”. In particular, h was
+constructed by taking a “masking formula” g , that was free in one variable,
+and letting h denote the unique integer that satisfies the Gödel-like formula
+of Subst(g, h). ) Our formal definition of the terms
+g
+and |{z}
+h
+is
+|{z}
+that they will be canonical binary terms that represent the particular integer
+values associated with these two numbers g and h .
+Thus in a context Items (1) and (2) define the terms |{z}
+α , |{z}
+k , g , |{z}
+h , y
+|{z}
+|{z}
+and un , the node immediately below V4 in our proof tree will be identical to
+V4 , except that V4 ’s six universally quantified variables of α , k , g , h , y and z
+will be replaced by these corresponding terms. This sentence is shown below.
+
+Υ ( |{z}
+α , |{z}
+k , g , |{z}
+h , y , un ) ⊃ ∃h∗ ≤ |{z}
+h ∃y ∗ ≤ y ∃z ∗ ≤ un
+|{z}
+|{z}
+|{z}
+Υ ( |{z}
+α , |{z}
+k , g , h∗ , y ∗ , z ∗ ) }
+|{z}
+
+(23)
+
+First Branch-Split in the Proof x Immediately below the node storing
+the sentence (23) will occur the first branch-split in x’s semantic tableaux proof.
+This split will be generated by the ⊃Elimination Rule. The two children of (23)’s
+sentence are therefore given by equations (24) and (25) below:
+∃h∗ ≤ |{z}
+h ∃y ∗ ≤ y ∃z ∗ ≤ un
+|{z}
+
+Υ ( |{z}
+α , |{z}
+k , g , h∗ , y ∗ , z ∗ ) }
+|{z}
+
+¬ Υ ( |{z}
+α , |{z}
+k , g , |{z}
+h , y , un )
+|{z}
+|{z}
+
+(24)
+(25)
+
+Construction of the Substring x2 and the Proof of its z-Tiny
+Size: The substring x2 will represent a closed subtree of z-tiny size that is
+rooted in Equation (24)’s sentence. The reason it is possible to build x2 is that
+the hypothesis of Lemma 9 indicated that Paradox(y, z, α, k) was satisfied. From
+Lemma 7A, this implies x2 exists. Moreover, its size must be z-tiny (because
+Lemma 7B implies x2 has the same magnitude as y and Lemma 5 indicated
+y was actually much smaller than z-tiny).
+The Remaining Fragments of the Proof-Tree x and Their Small
+sizes: To complete Lemma 9’s proof, we must show how the subtree descending
+from (25) is also closed and adequately small. This sentence is the statement
+“ ¬ Υ ( |{z}
+α , |{z}
+k , g , |{z}
+h , y , un ) ” where Υ was defined by (14). After
+|{z}
+|{z}
+applying the Semantic-Tableaux ¬ Elimination Rule to the preceding quoted
+sentence, our remaining part of the proof-tree is rooted in the sentence
+¬ Subst(
+
+g , h )
+|{z} |{z}
+
+∨
+
+k
+|{z}
+¬ SemPrf α ( |{z}
+h , y , un )
+|{z}
+|{z}
+
+(26)
+
+Applying the ∨ −Elimination Rule to (26), we get a branch-split generating the
+following two sibling nodes:
+¬ Subst(
+
+g , h )
+|{z} |{z}
+
+k
+|{z}
+¬ SemPrf α ( |{z}
+h , y , un )
+|{z}
+|{z}
+
+(27)
+
+(28)
+
+Moreover from Definition 1, it is apparent we can make another branch split
+below (28) that will generate the sibling nodes given in (29) and (30).
+¬ SemPrf α ( |{z}
+h , y )
+|{z}
+|{z}
+
+(29)
+
+¬
+
+y < Log(un , |{z}
+k )
+(30)
+|{z}
+Thus to show that the subtree descending from (25) is closed and also sufficiently
+small, we must analyze the three subtrees that descend from the corresponding
+sentences (27), (29) and (30). These three subtrees will be called x3 , x4 and
+x0 , and their size analysis is given below:
+1. The quantities g and h from (27)’s formula “ Subst(
+
+g , h ) ” must
+|{z} |{z}
+be integers less than y (simply because y is a proof of the theorem whose
+Gödel number = h ) . Since, Subst is a ∆0 formula, it then follows from
+Lemma 6 that the subtree x3 descending from (27) has a size approximately
+equal to y ’s magnitude. The final point is that Lemma 5 indicated that
+y was actually much smaller than z−tiny. Hence, the subtree x3 must
+certainly have a z-tiny magnitude (since its length is governed by y’s size).
+2. The proof that the subtree x4 descending from (29) is z-tiny is almost
+identical to Item 1’s analysis of x3 essentially because SemPrf α ( |{z}
+h , y )
+|{z}
+|{z}
+is also a ∆0 formula. Thus once again, Lemma 5 allows us to assume that
+y (and therefore again also h ) are sharply smaller than z-tiny. Also, an
+obvious analog of Lemma 5 is similarly applicable to α . Hence since all
+three of SemPrf α ( |{z}
+h , y )’s terms are sufficiently small, we can again
+|{z}
+|{z}
+apply Lemma 6 to conclude that the subtree x4 is z-tiny.
+3. The proof that the subtree x0 descending from (30) is z-adequately small
+is essentially an immediate consequence of Lemma 8. In particular, the tree
+t , constructed in Lemma 8’s proof, contained a subtree, which was also
+called x0 , whose structure is identical to the object descending from (30)’s
+sentence. Thus by our preceding discussion, x0 is z-adequately small.
+
+The above observations have completed our proof of Lemma 9 because they
+have shown that each of the five subtrees x0 , x1 , x2 , x3 , x4 are sufficiently
+small to satisfy Lemma 9
+t
+u
+Lemma 10. The axiom V5 is valid in the Standard Model of the Natural Numbers.
+Proof Sketch. Almost all the details needed to establish Lemma 10 already
+appeared in Lemma 9’s proof. This is because the formal statement of Lemma
+9 is almost identical to the formal statement of axiom V5 . Thus Lemma 9’s
+formal statement indicated that any tuple ( y , z , α , k ) satisfying the formula
+(21) can be mapped onto an element x, representing a semantic tableaux proof
+of 0=1, whose bit-length is bounded by O { [ LogLog(z) ]C } The point is
+that V5 ’s formal statement differs only by indicating that x < z .
+The additional details to convert Lemma 9’s Log(x) < O { [ LogLog(z) ]C }
+bound into a strict x < z inequality are extremely routine, albeit a bit tedious.
+For the sake of brevity, these final details are omitted. 2
+Finishing the Proof of Theorem 3: The combination of Lemmas 4 and
+10 implies Theorem 3’s validity because they show all Q + V ’s axioms are valid
+in the Standard Model (hence establishing its consistency). 2
+
+Recapitulating This Proof: It is now possible to offer a pleasantly short
+2-sentence intuitive summary of Theorem 3’s proof. The heart of the proof rested
+on showing the existence of a proof-tree x that was sufficiently small to assure
+the validity of the axiom V5 ’s requirements for x . The intuitive reason such an
+x must exist is that its bit-length has the same order of magnitude as Lemma
+8’s proof-tree t, and Lemma 8 showed the latter was sufficiently small.
+
+5
+
+Final remarks
+
+Section 1 explained the basic reason for our interest in this subject. It was
+because our prior papers [23, 24] established that significant exceptions to the
+semantic-tableaux version of the Second Incompleteness Theorem do occur when
+one transforms Multiplication from a total function into a 3-way relation. (Thus,
+our prior papers [23, 24] showed that some axiom systems can verify all Peano
+Arithmetic’s Π1 theorems while simultaneously proving their Semantic Tableaux
+consistency when Multiplication is changed from a total function into a 3-way
+relation.) Since Theorem 4 isolates a single Π1 sentence preventing the same
+effect when Multiplication serves as a total function, the combined results of our
+several papers establish a fairly tight characterization of exactly when the Second
+Incompleteness Theorem is and is not valid for Semantic Tableaux.
+It should be emphasized the particular Π1 sentence V defined by equations
+(12) through (15) is not the main point, since Section 4 noted many other Π1
+sentences can also satisfy Theorems 3 and 4. Rather what is noteworthy is that
+this paper has established the first documented example of some Π1 sentence
+V with these Second Incompleteness properties.
+A slightly longer version of the present article has also been prepared, and
+it can be emailed to any interested readers. It includes fuller proofs for Lemmas 1 and 10 and a stronger version of Theorem 4 (which indicates that the
+Semantic Tableaux Incompleteness Effect is also valid for axiom systems α
+with infinite cardinality). Moreover, with a little additional work, our variant of
+the Second Incompleteness Theorem can also be generalized to other cut-free
+methods of deduction, such as Herbrand deduction, the cut-free version of the
+Sequent Calculus, and Resolution.
+Finally, we wish to end this article on a mildly amusing note. Many readers
+will smile with amusement when they learn the true reason that the Semantic
+Tableaux version of the Second Incompleteness Theorem breaks down when Multiplication is changed from a total function into a 3-way relation. It is essentially
+that Lemma 8 and its short proof then become no longer valid. (Lemma 8 was
+crucial because Lemma 9’s proof used the x0 and x1 substrings from Lemma 8’s
+proof as an interim step. Without it, our proof of the Semantic Tableaux version
+of the Second Incompleteness Theorem collapses entirely ! )
+
+References
+1. Z. Adamowicz, “On Tableaux consistency in weak theories”, circulating manuscript
+from the Mathematics Institute of the Polish Academy of Sciences (1999).
+
+2. J. Benett, Ph. D. Dissertation, Princeton University, 1962.
+3. A. Bezboruah & J. Shepherdson, “Gödel’s Second Incompleteness Theorem for Q”,
+Journal of Symbolic Logic 41 (1976), pp. 503–512.
+4. S. Buss, Bounded Arithmetic, in Proof Theory Lecture Notes, Vol. 3, published by
+Bibliopolis, Naples, 1986.
+5. M. Fitting, First Order Logic and Automated Theorem Proving, Springer-Verlag,
+1990.
+6. P. Hájek & P. Pudlák, Metamathematics of First Order Arithmetic, SpringerVerlag, 1991.
+7. J. Krajı́cek, Bounded Propositional Logic and Complexity Theory, Cambridge University Press 1995.
+8. G. Kreisel, “A Survey of Proof Theory, Part I” in Journal of Symbolic Logic 33
+(1968), pp. 321–388, and “ Part II” in Proceedings of Second Scandinavian Logic
+Symposium (1971), pp. 109-170, North Holland Press, Amsterdam.
+9. G. Kreisel & G. Takeuti, “Formally Self-Referential Propositions for Cut-Free Classical Analysis and Related Systems”, Dissertationes Mathematicae 118 (1974), pp.
+1–55.
+10. E. Mendelson, Introduction to Mathematical Logic, Wadsworth-Brooks-Cole Math
+Series, 1987. See page 157 for Q’s definition.
+11. E. Nelson, Predicative Arithmetic, Princeton University Press, 1986.
+12. R. Parikh, “Existence and Feasibility in Arithmetic”, Journal of Symbolic Logic
+36 (1971), pp. 494–508.
+13. J. Paris & A. Wilkie, “∆0 Sets and Induction”, Proceedings of the Jadswin Logic
+Conference (Poland), Leeds University Press (1981), pp. 237–248.
+14. P. Pudlák, “Cuts Consistency Statements and Interpretations”, Journal of Symbolic Logic 50 (1985), pp. 423–442.
+15. P. Pudlák, “On the Lengths of Proofs of Consistency”, in Collegium Logicum: Annals of the Kurt Gödel Society Volume 2, pp. 65–86, published (1996) by SpringerWien-NewYork in cooperation with Technische Universität Wien.
+16. R. Robinson, “An Essentially Undecidable Axiom System”, Proceedings of 1950
+International Congress on Mathematics, pp. 729-730, and/or page 157 of ref. [10].
+17. R. Smullyan, First Order Logic, Springer-Verlag, 1968.
+18. R. Solovay, Private Communications (1994) about Pudlák’s main theorem from
+[14]. See Appendix A of [24] for a 4-page summary of Solovay’s idea.
+19. R. Statman, “Herbrand’s theorem and Gentzen’s Notion of a Direct Proof”, Handbook on Mathematical Logic, North Holland (1983), pp. 897–913.
+20. G. Takeuti, “On a Generalized Logical Calculus”, Japan Journal on Mathematics
+23 (1953), pp. 39–96.
+21. G. Takeuti, Proof Theory, Studies in Logic Volume 81, North Holland, 1987.
+22. A. Wilkie & J. Paris, “On the Scheme of Induction for Bounded Arithmetic”,
+Annals on Pure and Applied Logic 35 (1987), pp. 261–302.
+23. D. Willard, “Self-Verifying Axiom Systems”, Third Kurt Gödel Symp (1993), pp.
+325–336, Springer-Verlag LNCS#713. See also [24] for more details.
+24. D. Willard, “Self-Verifying Systems, the Incompleteness Theorem & Tangibility
+Reflection Principle”, to appear in the Journal of Symbolic Logic.
+25. D. Willard, “Self-Reflection Principles and NP-Hardness”, Dimacs Series in Discrete Math&Theoretical Comp Science #39 (1997), pp. 297–320 (AMS Press).
+26. D. Willard, “The Tangibility Reflection Principle”, Fifth Kurt Gödel Colloquium
+(1997), Springer-Verlag LNCS#1289, pp. 319–334.
+27. C. Wrathall, “Rudimentary Predicates and Relative Computation”, Siam Journal
+on Computing 7 (1978), pp. 194–209.
+
+

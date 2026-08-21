@@ -1,0 +1,214 @@
+On the Results of a 14-Year Effort to Generalize Gödel’s
+Second Incompleteness Theorem and Explore Its Partial
+Exceptions
+Dan E. Willard ?
+University at Albany
+
+This paper was published in Collegium Logicum IX (2007) pp. 81-86.
+
+The Second Incompleteness Theorem states that axiom systems of sufficient strength
+are unable to verify their own consistency. Part of the reason that Gödel’s theorem has
+fascinated logicians is that it almost defies common sense. This is because when human
+beings cogitate, they implicitly presume that thinking is a useful process. However, this
+tacit assumption would initially appear to presume that logic is consistent (since an
+inconsistent logic formalism is known to prove all true and false theorems — thereby
+rendering logical deduction quite useless). Thus, the Second Incompleteness Theorem
+seems to suggest that it is almost impossible — and certainly very awkward — to
+formalize the common-sense assumption that thinking is useful (because sufficiently
+strong axiom systems are unable to recognize their own consistency.)
+The preceding mystery about the nature of incompleteness lies at the heart of the
+scholarly community’s fascination with Gödel’s historic discovery [3]. Several of Gödel’s
+biographers [4, 21] have also noted that Gödel explicitly hedged in one of the closing
+paragraphs in his paper [5] about whether or not the Second Incompleteness Theorem
+should be interpreted as meaning all efforts for an axiom system to verify its own consistency by finite means are baseless. For instance, page 58 of Yourgrau’s biography
+[21] of Gödel points out that Von Neumann viewed the Second Incompleteness Theorem as having a much broader range of applications than Gödel for several years after
+the publication of Gödel’s seminal 1931 paper.
+What we have sought to do during the last 14 years was to simultaneously explore
+paradigms where an unusual axiom system can formalize at least a partial conception
+?
+
+Supported partially by NSF Grant CCR 99-02726. Email=dew@cs.albany.edu
+
+of its own internal consistency, as well as to develop new generalizations of the Second
+Incompleteness Theorem. In most of our recent articles, we have deliberately used the
+phrase “Boundary Case Exception” to describe the partial respects in which an axiom
+system can evade the incompleteness phenomena. This is because the Second Incompleteness Theorem is of course too powerful for a full-fledged exception to it to ever
+arise. (Therefore the cautious phrase “boundary case exception” is quite appropriate.)
+There are two reasons as to why such partial exceptions to the Second Incompleteness Theorem are of scholarly interest. The first is that the academic community’s knowledge of the meaning of the Second Incompleteness Theorem is significantly
+sharpened by exploring the broadest generalizations of the incompleteness phenomena,
+as well as by investigating the partial circumstances where the Second Incompleteness
+Theorem fails to apply. Especially when Gödel’s Incompleteness Theorem is often considered the paramount discovery of 20th century mathematics, it beckons the scholarly
+community to classify its maximum generalization and partial limitations.
+The second point is that while unconventional logics will certainly lack some of the
+mathematical features that one would prefer a logic formalism to ideally encompass,
+these unconventional formalisms still do possess certain partial virtues. This is because
+it is undeniable that human beings choose to think because they instinctively believe
+that cogitation is a useful process. Unconventional logics can offer a means to at least
+partially formalize how it is that human beings retain some type of partial knowledge
+of their own consistency.
+Thus in order to achieve these two goals, we have published approximately a dozen
+articles over the last 14 years, including three papers in the Journal of Symbolic Logic
+and a fourth paper in the Annals of Pure and Applied Logic [13, 14, 17, 19]. The remainder of this extended abstract will summarize several of these results. We shall make no
+claim that the unconventional logics, employed by our proposed self justifying axiom
+systems, are a full answer to the question of: “Why do human beings choose to think?”
+Indeed, there is likely to be no full answer to this question because most philosophical
+questions are never fully resolved.
+2
+
+Notation Conventions:
+
+Let A(x, y, z) and M (x, y, z) denote two 3-way predi-
+
+cates indicating x + y = z and x ∗ y = z. Also, our published papers have used the
+term “ Π1− ” sentence to refer to a notion identical to classic arithmetic’s Π1 sentences
+except that addition and multiplication are treated as 3-way predicates instead of as
+function symbols. Another notation convention is that a formal system α will be said
+to recognize addition and multiplication as Total Functions iff it contains the axioms:
+“∀x ∀y ∃z A(x, y, z)”
+
+and
+
+“∀x ∀y ∃z M (x, y, z)”
+
+All our efforts to construct axiom systems that partially evade the Second Incompleteness Theorem have involved studying formal systems that have dropped the formal
+axiom declaring that integer-multiplication is a total function. These systems can treat
+multiplication as a 3-way predicate, and prove all the Π1− theorems of Peano Arithmetic. We do not wish to minimize the difficulties inherent in studying formal systems
+that drop the axiom that multiplication is a total function. However, our thesis is that
+there are also some benefits inherent from such an investigation because it offers at least
+a partial explanation to the questions of “Why and How do human beings have a partial instinctive faith about the consistency and usefulness of their thought processes”.
+For instance, we have recently published a paper [18] showing that our self-justifying
+axiom systems can recognize an infinitized analog of a computer’s floating point instruction set as a total function. Thus while the dropping of the axiom declaring integer
+multiplication is a total function is unquestionably a real sacrifice, our formalisms are
+able unify an understanding of the capacities of floating point multiplication with at
+least some form of limited understanding of their own self consistency.
+Underlying Intuitions: Given any ordered pair (α, D) specifying an axiom system α and a deduction method D, Kleene [6] noticed in 1938 that it was technically
+feasible to define a second axiom system αD ⊃ α that at least “formally” recognized
+its own consistency. Kleene’s proposal was for αD to essentially consist of all of α ’s
+axioms plus the following additional sentence, which is called Diagonal(α, D) :
+There is no proof (using deduction method D ) of the “falsity sentence” 0 = 1
+from the union of the axiom system α with this sentence “Diagonal(α, D) ”
+(looking at itself).
+3
+
+Several of Kleene’s students have recalled how he would typically explain in a logic
+class how the twin concepts of Diagonal(α, D) and αD were well defined constructs
+and then challenge the students of his class to explain why αD did not contradict
+Gödel’s Second Incompleteness Theorem (since αD does retain an ability to use its
+axiom Diagonal(α, D) to prove its own consistency).
+The answer is that while Diagonal(α, D) and αD are indisputably well defined
+constructs, the axiom system αD is typically inconsistent despite the fact that its axiom system Diagonal(α, D) declares its own consistency. Indeed, a Gödel-like diagonalization will lead one to conclude that the very presence of the axiom Diagonal(α, D)
+within the formalism of αD will typically cause the latter to become inconsistent and
+therefore useless.
+One of our research objectives has been to identify circumstances where the initial axiom system α will be sufficiently weak so that the resulting system αD can
+somehow manage to escape a Gödel-like diagonalization argument and be consistent.
+The challenge of finding (α, D) that can escape this paradigm is non-trivial. This is
+because a version of the Second Incompleteness Theorem, that is essentially due to
+the combined work of Pudlák and Solovay [7, 8], implies that it is impossible to construct any consistent axiom system that simultaneously recognizes successor as a total
+function, views addition and multiplication as 3-way plausibly non-total relations, and
+which retains a capacity to recognize its own Hilbert consistency.
+Thus in light of these challenges, our research has sought to develop new generalizations of the Second Incompleteness Theorem as well as to classify its boundary-case
+exceptions — so that the exact meaning and generality of Gödel’s historic theorem can
+be better understood.
+If a researcher wishes to read only one of our eleven papers listed in the bibliography section, then we recommend that [17] be the article that is examined first. Below
+is a summary of our eleven articles, illustrating both their both positive and closelymatching negative opposing results:
+A. The papers [10, 13] were our initial results appearing in conference and journal
+formats. Their most memorable result was to show that for any consistent axiom
+4
+
+system A , it is possible to construct a system IS(A) that can simultaneously internally recognize its own cut-free consistency, the validity of all A’s Π1− theorems
+and that integer addition is a total function.
+B. The papers [12, 14] formally proved that the above partial exception to the Second
+Incompleteness Theorem fails to generalize when an axiom system recognizes integer multiplication as a total function. They also resolved a 20-year old Paris-Wilkie
+open question [9] by showing that the standard and classical textbook axiomization
+of IΣ0 satisfies a version of Gödel’s Second Incompleteness Theorem applying to
+cut-free deduction. (Prior to our work, [1, 2] had shown that IΣ0 + Ω1 could not
+recognize its cut-free consistency. We strengthened the over-all formalism so that
+the cut-free version of the Second Incompleteness Theorem would apply to IΣ0 .)
+C. Let us define Level−k deduction to be a modified form of semantic tableaux that
+allows a Gentzen-style deductive cut rule to be applied to Πk− and Σk− sentences.
+The article [17] showed that our boundary-case exceptions to the Second Incompleteness Theorem can be extended from classic cut-free deduction to Level-1 deduction. In contrast, [16] formalized a generalization of the Second Incompleteness
+Theorem that showed a similar result would not extend to Level-2.
+D. The article [18] showed that self-justifying axiom systems can recognize floating
+point multiplication as a total function. (This adds a level of robustness to a formalism that can treat floating point multiplication in a much more flexible manner
+than integer multiplication.) Moreover, [18] observed that its partial exception to
+the Second Incompleteness Theorem will nicely hybridize with [17]’s result (summarized in Item C) so that for any initial axiom system A that is valid under the
+standard model of the natural numbers, one can construct a system I(A) which can:
+1. recognize the validity of all A’s Π1− and Σ1− theorems;
+2. recognize integer addition and all the floating point operations of real-number
+arithmetic (including floating point multiplication) as total functions; and
+3. recognize its own internal self consistency under the Level-1 deduction method
+(defined by Item C).
+The over-all theme of [18]’s discussion is that while Gödel’s Second Incompleteness Theorem certainly generalizes to Floating Point Arithmetic, it nevertheless has
+5
+
+the property that Numerical Analysis supports much more robust partial exceptions
+to the Second Incompleteness Theorem than Number Theory can do !
+E. Consider a special sequence of “named constant symbols” C0 , C1 , C2 , ... where
+C0 = 2 and where
+1. Ci+1 = Ci + Ci under the “Additive Naming Convention”, and
+2. Ci+1 = Ci ∗ Ci under the “Multiplicative Naming Convention”.
+The article [19] considers a paradigm where none of addition, multiplication or
+successor are viewed as total functions. (The Pudlák-Solovay version of the Second
+Incompleteness Theorem for Hilbert Deduction is thus inapplicable.) Instead, the
+axiom systems of [19] formalize the infinite growth among integers by using either
+the additive or multiplicative “naming conventions”. The two main theorems of
+[19] are that:
+1. It is possible to develop very strong boundary-case exceptions to the Second
+Incompleteness Theorem when the Additive Naming convention is present (involving a system recognizing its own Hilbert consistency and proving all Peano
+Arithmetic’s Π1− theorems).
+2. In contrast, the Second Incompleteness Theorem does hold for Hilbert deduction when the multiplicative naming convention is present.
+F. Our paper [20] establishes the surprising result that an unconventional axiomatization of IΣ0 proves the same theorems as its conventional axiomatization, but
+the former (unlike the latter) is an anti-threshold for the Herbrandized version of
+the Second Incompleteness Theorem. (The intuitive reason that these two logically
+equivalent systems have opposite threshold properties is that these two systems are
+unable to prove their equivalence to each other — although they are equivalent).
+G. The articles [11, 13] discuss an additional invariant that most of our self-justifying
+axiom systems will satisfy called the Tangibility Reflection Principle.
+The general theme of our research is that the Second Incompleteness Theorem possesses philosophically interesting boundary-case exceptions, although full-fledged execptions to it certainly do not exist
+6
+
+References
+1. Z. Adamowicz, “Herbrand Consistency and Bounded Arithmetic”, Fundamenta Mathematica 171 (2002) pp. 279-292.
+2. Z. Adamowicz and P. Zbierski, “On Herbrand consistency in weak theories”, Archive for
+Mathematical Logic 40 (2001) pp. 399-413.
+3. J. L. Casti and W. DePauli, Gödel A Life of Logic, Persues Publishing 2001.
+4. J. Dawson, Logical Dilemmas: The Life and Works of Kurt Gödel, A.K. Peters 1997.
+5. K. Gödel, “ Über formal unentscheidbare Sätse der Principia Mathematica und Verwandte
+Systeme I”, Monatshefte für Math. Phys. 37 (1931) pp. 349-360.
+6. S. Kleene, “On the Notation of Ordinal Numbers”, Journal of Symb Logic 3 (1938), 150-156.
+7. P. Pudlák, “Cuts, Consistency Statements and Interpretations”, Journal of Symbolic Logic 50
+(1985) 423-442
+8. R. Solovay, Private telephone communications during April of 1994. The Appendix A of
+[13] offers a very useful 4-page summary of the intuition behind Solovay’s idea.
+9. A. Wilkie and J. Paris, “On the Scheme of Induction for Bounded Arithmetic”, Annals of
+Pure and Applied Logic (35) 1987, 261-302
+10. D. Willard, “Self-Verifying Axiom Systems”, Third Kurt Gödel Sympos., 1993 SpringerVerlag LNCS#713, 325-336.
+11. D. Willard, “The Tangibility Reflection Principle”, Fifth Kurt Gödel Symposium (1997),
+SpringerVerlag LNCS#1289, pp. 319–334.
+12. D. Willard, “The Semantic Tableaux Version of the Second Incompleteness Theorem Extends Almost to Robinson’s Arithmetic Q”, Springer Verlag LNCS#1847, pp. 415-430.
+13. D. Willard, “Self-Verifying Systems, the Incompleteness Theorem and the Tangibility Principle”, in Journal of Symbolic Logic 66 (2001) pp. 536-596.
+14. D. Willard, “How to Extend The Semantic Tableaux And Cut-Free Versions of the Second
+Incompleteness Theorem Almost to Robinson’s Arithmetic Q”, in Journal of Symbolic
+Logic 67 (2002) pp. 465–496.
+15. D. Willard, “Some Exceptions for the Semantic Tableaux Version of the Second Incompleteness Theorem”, Proceedings of the Tableaux 2002 Conference, SpringerVerlag LNAI#2381,
+pp. 281–297. (This is the year-2002 conference version of our journal paper [17]. Its results are actually somewhat weaker than [17]’s more advanced theorems. However, [15] is
+included in our list of papers because it was the predecessor to [17]’s more advanced results.)
+16. D. Willard, “A Version of the Second Incompleteness Theorem For Axiom Systems that
+Recognize Addition But Not Multiplication as a Total Function”, First Order Logic Revisited,
+Logos Verlag (Berlin) 2004, pp. 337–368.
+17. D. Willard, “An Exploration of the Partial Respects in which an Axiom System Recognizing
+Solely Addition as a Total Function Can Verify Its Own Consistency”, Journal of Symbolic
+Logic 70 #4 (2005) pp. 1171-1209.
+18. D. Willard, ”On the Partial Respects in which a Real Valued Arithmetic System Can Verify
+its Tableaux Consistency” SpringerVerlag LNCS#3702, pp. 292-306.
+19. D. Willard, “A New Variant of Hilbert Styled Generalization of the Second Incompleteness
+Theorem and Some Exceptions to It”, to appear in 2006 in Annals of Pure and Applied Logic.
+(Elsevier already posted on January 20 this paper on their web cite.)
+20. D. Willard, “The Axiom System IΣ0 Manages to Simultaneously Obey and Evade the Herbrandized Version of the Second Incompleteness Theorem”. To appear in the Proceedings of
+Wollics 2006, which are disseminated by Elsevier’s ENTCS series.
+21. P. Yourgrau, A World Without Time, The Forgotten Legacy of Gödel and Einstein, Basic
+Books 2005.
+
+7
+
+

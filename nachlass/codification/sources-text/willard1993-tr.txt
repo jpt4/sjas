@@ -1,0 +1,7930 @@
+Self-Verifying Axiom Systems
+and the Incompleteness Theorem
+D. Willard
+Technical Report 93-10
+
+Computer Science Department
+University at Albany
+State University of New York
+1400 Washington Avenue
+
+Albany, NY 12222
+
+A 12-page abbreviated version of this paper, entitled Self-Verifying Axiom Systems, was published
+on 25 August 1993 in the Proceedings of the Third Kurt Godel Symposium pp. 325-336 (published as
+Springer-Verlag LNCS # 713). This new longer draft has been issued as SUNY-Albany Comp. Science
+TR 93-10.
+
+Self-Verifying Axiom Systems and the Incompleteness Theorem
+Dan E, Willard
+
+*
+
+University at Albany
+Abstract: We introduce some weak First Order axiom systems which can simultaneously
+verify their own consistency and prove more I; theorems than Peano Arithmetic. The rule of
+inference used by these axiom systems may be semantic tableaux, or any other cut-free deduction method. These systems will not violate Godel’s Incompleteness Theorem essentially
+because they will treat non-zero division, rather than multiplication, as a total function.
+
+The
+
+definition of self-consistency employed in this paper may be either knowledge of the nonexistence of a proof of 0=1 ora strong version of the 2, reflection principle. Our systems
+can be modified to support Gentzen-style deduction with cuts,
+
+if Subtraction and Division
+
+replace Addition and Multiplications as the declared total functions. We also prove that these
+results do not generalize when I], reflection is present, and show that certain versions of our
+axiom system become inconsistent when multiplication replaces division as one of the formally
+defined atomic functions.
+
+Most of the material in this paper is quite technical, but Sections 1 thru 4 were written so
+that they should be comprehensible to a skilled researcher with a more modest background in
+Logic.
+
+NOTE TO THE READER: This paper is not quite as long as its paper weight might suggest. The
+formal theorem proving is only 20 pages long (pp. 13-32). The remainder consists mostly of an
+informal 12-page intuitive introduction and a 16-page description of the formal Godel encoding of
+IS(A) (in Appendix A). The latter Godel encoding was inserted into this article only for the sake of
+completeness: A reader can fully understand the gist without delving into Appendix A.
+
+*Partially funded by NSF Grants CCR-90-60509 and CCR-93-02920.
+Author’s Address: Computer Science Department, State University of New York at Albany,
+Albany, NY 12222.
+
+1400 Washington Ave.,
+
+1. Introduction:
+
+Define an axiom system A
+
+i)
+
+one of the theorems implied by A
+
+ii)
+
+the axiom system is in fact consistent.
+
+to be self-verifying iff
+
+is the statement of its own consistency,
+
+and
+
+Rogers has noted that Kleene’s Fixed Point Theorem implies that every recursively enumerable
+axiom system
+
+A
+
+can be easily expanded into a broader system
+
+[K138,R067].
+
+The catch is that
+
+A°
+
+A*
+
+which satisfies condition (i)
+
+can be inconsistent even while it asserts its own consistency,
+
+hence violating condition (ii). This problem arises not only in Godel’s paradigm,
+least the strength of Peano Arithmetic (PA),
+weaker than PA.
+
+For instance,
+
+where A
+
+has at
+
+but also for many axiom systems which are much
+
+it is known that even weakened axiom systems that include only
+
+PA's £? — Induction Principle can not be self-verifying [Fe88,Sm83], and [Bu86] provides proofs of
+some versions of Godel’s Second Theorem for certain very weak cut-free systeins.
+Examples of self-verifying axiom systems in the prior literature appear in [Bo79,
+
+Kr71,
+
+KT74,
+
+Ro67,
+
+Ta53].
+
+Je71,
+
+Fe60,
+
+It is difficult to make exact comparisons between our proposed IS(A)
+
+system and any of the previous self-verifying systems because Godel’s Incompleteness Theorem
+requires that every self verifying system must breach in
+
+Hilbert-Bernays conditions [Me87].
+
+The breach,
+
+some
+
+way one of the three fundamental
+
+which can be very subtle,
+
+may arise because of
+
+either the axiom system employed or the choice of deduction method, but not necessarily due to
+both. For instance, [Fe60] illustrates a self-verifying system which employs all the axioms of Peano
+Arithmetic, but which draws upon a deduction method which captures the numerical but not intensional definition of classic deduction. The IS(A) formalism, studied by us, will be a class of First
+
+. Order self-verifying systems which can prove more
+
+II,
+
+theorems than Peano Arithmetic and simul-
+
+taneously rely upon a deduction method as natural as semantic tableaux.
+from becoming inconsistent, several of the
+
+axioms of Peano Arithmetic,
+
+the multiplication function is total, are weakened under IS(A).
+
+However to preclude IS(A)
+including the axiom that
+
+[Ta53,KT74] have illustrated some
+
+fascinating Second Order cut-free self-verifying systems which can prove all the translated mappings
+of the theorems of Peano Arithmetic into a second order language.
+Robert Solovay [S094] recently proved a new version of Godel’s Incompleteness Theorem,
+shortly after leaming of our work.
+tem,
+
+Solovay’s theorem implies that it is impossible for an axiom sys-
+
+satisfying both parts of the definition of self verification,
+
+to prove all Peano Arithmetic’s
+
+theorems about the Subtraction and Non-zero Division functions while simultaneously:
+
+IT,
+
+ge
+a)
+
+employing a Gentzen-style deduction method
+
+WITH A CUT RULE,
+
+b)
+
+recognizing Addition (or even successor) as a total function.
+
+Solovay’s Theorem is the almost direct complement to our Propositions
+
+and
+
+1 & 7,
+
+in that these
+
+theorems show that self-verifying axioms systems can be constructed when either condition (a) or
+(b) is relaxed.
+
+Propositions 2 thru 6 will further tighten our results by clarifying
+1)
+
+what types of reflection principles are and are not compatible with self verification.
+
+2)
+
+in what sense is a total multiplication function incompatible with a cut-free self-verifying
+axiom system.
+Every
+
+self-verifying axiom systems will be of course subject to very tight limits upon its per-
+
+missible strength, by the limits imposed by the Godel Incompleteness Theorem. From this perspective, Feferman draws the distinction between an intensionally and numerically correct definition of
+deduction,
+
+Solovay’s new theorem imposes strict limits on self-verifying systems using Gentzen-
+
+Style deductive cuts,
+
+and it is well known that no self-verifying formalism can satisfy the three
+
+Hilbert-Bernays conditions [HB39,Me87].
+
+But yet on the other hand, human beings appear to implicitly presume ( at some type of weak
+level
+
+2?) their own consistency when they reason because otherwise it is awkward ( if not impossi-
+
+ble 7?) to justify the mental energy expended during cogitation. Thus, it is a valid research topic to
+investigate how powerful, in the light of Godel’s Theorem, can self-verifying systems become ?
+
+2. General Perspectives:
+This section will define the general Introspective Semantics (IS),
+
+proving their own consistency.
+
+which shall be capable of
+
+Let A denote a recursive axiom system. Then the axiom system
+
+IS(A) will consist essentially of the following three groups of axioms.
+1)
+
+an initial axiom group defining a preliminary set of functions and relations,
+
+2)
+
+the statement that all IT, theorems (defined formally on the next page), proven by ‘‘the inner
+axiom system’’
+
+3)
+
+A, are true;
+
+the statement that the full system IS(A),
+
+including this third sentence,
+
+is consistent. (Several
+
+alternate means for formalizing this “self-verification assertion” will be explored.)
+Our chief goal will be to assure that if A is consistent then it will automatically follow that IS(A) is
+also consistent.
+
+As noted in section 1, there are many examples of well-defined axiom systems
+
+ae
+which assert their own consistency but which are inconsistent. An example is PA’ which consists of
+all the axioms of Peano Arithmetic (PA) plus the assertion
+
+"Peano Arithmetic is consistent,
+
+is the combination of Peano Arithmetic with this last statement”
+
+[Ro67].
+
+and so
+
+Our main theorem will
+
+show that IS(A) does not suffer an inconsistency problem analogous to PA’.
+Point
+
+F(Xy
+
+of Clarification:
+
+Say
+
+f(x,,X2,..:X,)
+
+X25 ony Xq) S Max( x1, Xz, .-.X_),
+
+is a non-growth
+
+and call f(x,,X2,....%,)
+
+All our formalisms will employ non-growth functions,
+
+function
+
+iff it satisfies
+
+a growth function otherwise.
+
+such as Subtraction and non-zero Division.
+
+The difficulty in proving IS(A) satisfies part (ii) of the definition of ‘‘self-verification’’ will increase
+dramatically as one extends IS(A)’s Group-1 Axioms to include more growth functions.
+
+Thus,
+
+our
+
+systems will fall into three categories depending on whether they have no growth functions,
+
+permit
+
+Addition as a function, or recognize both Multiplication and Addition as total functions.
+
+It will be
+
+only the first category of self-verifying systems,
+
+analyzed in Proposition 7, that will be capable of
+
+permitting Gentzen-style deductive cuts without becoming inconsistent.
+
+Solovay’s Theorem will
+
+imply that these systems can not be extended to include even a Successor function. Propositions 1-4
+will show that there are reasonable examples of self-verifying systems that recognize Addition as a
+function, provided cut-free deduction is employed.
+
+Proposition 6 will show that there are examples
+
+of cut-free IS(A) systems becoming inconsistent when Multiplication is added to their Group-1 functions!
+Added Introductory Comment: The results,
+
+mentioned above,
+
+are quite unlike Presburger
+
+Arithmetic because IS(A) will recognize non-zero Division as a total function
+
+(and hence can view
+
+Multiplication as a well-defined partial function).
+We will now define IS(A) formally.
+
+Since it will be desirable to view subtraction and division
+
+as total functions over the set of non-negative integers, x-y
+and x/0
+nate
+
+is defined to equal zero when
+
+is defined to equal zero. In five of our seven main theorems, the symbol
+
+IS(A)’s set of Group-1 axioms.
+
+Go
+
+xSy,
+
+will desig-
+
+The eight formally defined functions of Gg will consist of
+
+Addition, Subtraction, Division, plus the following further functions:
+i)
+
+StringCount (x,y,j) = the number of repetitions of the j-bit
+
+binary encoding of the integer y in
+
+x
+
+when one views x as a sequence of j-bit alphabet symbols of length = flog> (x+1)/j].
+ii)
+
+Shift (x, y) designating the integer z = x/2”.
+
+iii) | Extract (x,y,z) designating the integer w which stores the same values as x between bit-positions y and z,
+and stores zeroes everywhere else.
+;
+iv)
+
+Andreverse(x,y,i,j) designating the string obtained by reversing x’s sequence of bits between the
+addresses i and j and then taking the bitwise AND of the result with y.
+
+v)
+
+Address(x,y,z,i,j) indicating the least k S$ [log x] /j where if s is a string enumerating x’s first kj
+bits then StingCount(s,y,j) - StringCount(s,z,j) = i (if such k exists), and Address(x,y,z,i,j) = 0 otherwise
+
+-4-
+
+Other axioms in Gg
+statement
+
+Vx:x+1#x,
+
+k=k-141
+
+and for each integer constant k=
+
+1, 2. cu .y
+
+the two special axioms
+
+and Vx x<k 3 x=OVx=1V +++ Vx=k-1.
+
+Notation:
+dvsz
+
+will include the definitions of the usual relations equality and greater-than, the
+
+or
+
+An existential or universal quantifier will be called bounded iff it occurs in a form
+WvSz,
+
+where
+
+z
+
+symbol.
+
+A _ wff
+
+(x; X2 *** Xj), whose only free variables are x; x2 *** x; will be called a Ap formula
+
+iff all its
+
+universal and existential
+
+quantifiers are bounded.
+
+iSj,
+
+canonical form of a II;
+
+and
+
+£,
+
+denotes
+
+either
+
+a
+
+constant
+
+or
+
+variable
+
+Given such a Ag formula
+
+®
+
+and
+
+the
+
+formula is defined as Vx, V x2 °+- Vx; : B(x, x2 °** xj) and
+
+"xy 3xQ 65+ 3x, 2 P(x, xQ °° x;). A sentence will be defined as a formula with no free variables,
+
+and the Ag, 2, II; and I, sentences will thus be defined accordingly.
+Formal Definition of the Axiom Group Go : The axiom indicating that the addition function
+is total can obviously be written as a IT, sentence.
+functions,
+
+Since all Go’s other functions are non-growth
+
+its remaining axioms can be written as I], sentences.
+
+Any
+
+finite set of II; axioms,
+
+validly defining Go’s functions and relations, is adequate.
+Define a first-order axiom system
+
+A to be nice iff A
+
+is consistent with the Group-1 axioms
+
+of IS and there exists a Ap formula Axa(y) expressing that y is the Godel number of an axiom of A.
+For technical reasons,
+resolution,
+
+it is convenient to view all encodings of proofs as one of semantic tableaux,
+
+or cut-free sequent calculus. The Godel Completeness Theorem [Go30] holds for each of
+
+these methods [Be56,Fi90,Ge69,Sc56,Sm68,Ta87].
+
+tableaux proofs.
+
+For simplicity,
+
+we rely mostly on the semantic
+
+Prf,(x,y) will thus denote the Ap formula asserting that y is a semantic tableaux
+
+proof of x from a nice system A. Since Turing(a,b,c) and Axa(d) are both Ag formulae, it will be
+possible to encode Prf,(x,y) as a Ay formula, as Section 5 and its Appendix will explain.
+In our discussion, Pra(x) denotes the formula "Sy Prf,(x,y)",
+
+and
+
+[>]
+
+denotes ©’s Godel
+
+number. For each Il sentence ®, the second axiom group will contain one sentence of the form:
+
+Pra( [01 )>@
+
+(2.1)
+
+Note (2.1) is Tl, (when written in prenex normal form) because Prf,(x,y) is Ap
+In its simplest form,
+
+the third axiom group of IS(A) consists of a single sentence asserting
+
+"The union of the first two groups of axioms with this very sentence forms a consistent set of
+
+axioms."
+
+This self-referential sentence is known to be well defined via fixed point operators (see
+
+(Ro67,Je71]).
+proofs
+
+(We will formally define it in the Appendix to Section 5.)
+
+in this paper
+
+are conducted
+
+in the
+
+semantic
+
+tableaux
+
+formalism
+
+As noted before,
+[Fi90,Sm68].
+
+all
+
+In this
+
+aie
+formalism,
+
+an inconsistency proof is a semantic tableaux whose axioms are those of IS(A),
+
+all paths of the semantic tableaux are closed.
+
+where
+
+If L is the empty sentence (or equivalently the state-
+
+ment 0 = 1 ) then self-consistency can be formalized as the statement:
+
+Vy — PrfiscayC y)
+
+(2.2)
+
+The first theorem of this paper, stated formally in the next section, asserts that if A is nice then
+IS(A) must be consistent. This paper will contain six other theorems.
+
+Our result would not be very
+
+strong if (2.2) was the sole respect in which this paper established self-consistency (because in the
+special context of weak cut-free axiom systems assertion (2.2) is not ideally informative). Our formal
+results are listed in the next section. The remainder of this section will explain intuitively why
+
+IS
+
+treats addition as a function, but multiplication only as a relation.
+The axiom system
+sistency.
+
+For simplicity,
+
+b bits of memory.
+than 2>,
+
+IS was intended to enable computerized algorithms to prove their own conlet us temporarily assume our formal system is a finite state machine with
+
+Then the formal system will be technically unable to construct integers larger
+
+Thus in one sense, assertion (2.3) can be viewed as iricorrect because z can exceed 2° when
+
+x and y are b-bit integers exceeding 2°-!.
+VxVydz:z=xty
+Nevertheless,
+(2.3),
+
+(2.3)
+
+there will be another very different,
+
+somewhat informal interpretation of Equation
+
+where the expression can be viewed as valid,
+
+even when the variables x, y and z have fixed
+
+bounded domains.
+
+Let us interpret (2.3) as stating whenever our finite state machine has enough
+
+storage space to ask the question “What is the value of x + y?", it also has enough memory available
+to store the answer.
+
+In particular,
+
+since the symbol "+" must require at least one bit of storage,
+
+variables x and y must require fewer than b—1 bits,
+
+the
+
+implying there is sufficient space in a b-bit
+
+memory to store their sum z.
+The analog of (2.3)
+
+is, surprisingly,
+
+inapplicable to multiplication.
+
+Vxsziz
+Then if x = 27/4,
+
+Consider the equation
+
+= x*x
+
+(2.4)
+
+the right hand side of (2.4) can be stored in fewer than b bits of memory while
+
+z>2° can not be! At first, it may appear that this counterexample is artificial because it requires at
+least two occurrences of the same variable x on the right sides of (2.4) to force
+
+z> 2°. However, the
+
+proof of Godel’s Incompleteness Theorem used essentially the same double appearance of a variable
+when it provided a counterexample to self-verification via a diagonalization argument.
+
+One of our
+
+ais
+theorems will show that the classic paradigm,
+
+where an axiom system becomes automatically incon-
+
+Sistent as soon as it proves its own consistency, is inapplicable to the cut-free versions of IS.
+The axiom family IS(A),
+
+can be intuitively regarded as a class of structures, lying halfway
+
+between Peano Arithmetic and Presburger Arithmetic,
+Incompleteness Theorem.
+
+That is,
+
+which satisfy Godel’s First but not Second
+
+since the predicate Turing (x,y,z) is expressible under IS(A),
+
+there clearly can exist no decision procedure for classifying the theorems provable from IS(A).
+the other hand, unlike Peano Arithmetic,
+
+On .
+
+the various versions of IS(A) will be able to verify their
+
+own consistency.
+Moreover from at least some perspectives,
+
+matic computation by viewing
+
+@(w)
+
+IS does not lose much information relevant to prag-
+
+multiplication as not being a function. Consider the example
+
+=
+
+{Vx<¥w
+
+Vy<Vw
+
+Then IS(Peano) can prove the sentence Vw ®(w)
+
+Jz<w:
+
+z=x*y}
+
+(2.5)
+
+(by using the Group-2 axioms and the fact that
+
+this sentence is provable in Peano Arithmetic). This example and its many generalizations illustrate
+that although IS(Peano) can not prove multiplication formally to be a function, it will still be able to
+treat multiplication as a function in a wide class of concrete applications involving integers (see *).
+Or to be more precise,
+
+the preceding paragraph and footnote illustrate at least one reasonable
+
+criteria for examining the pragmatic.
+
+They are not meant to imply that other equally reasonable cri-
+
+teria would not find IS(Peano) to be lacking.
+
+To the contrary,
+
+in a context where the Incomplete- ©
+
+ness Theorem indicates that every axiom system either fails to prove its consistency or fails to meet
+the full Hilbert-Bernays conditions,
+
+this would not be a reasonable expectation.
+
+Another way to motivate the axiom system
+
+IS is to consider a philosopher’s response to the
+
+question of whether multiplication is a function.
+
+His first answer would likely be “of course yes".
+
+But if one then asked the philosopher to construct a sequence of natural numbers a, a1, a2, 43 ...
+where ap 2 2 and aj4; = (a;)*, a hedge would quickly follow because a, requires at least 2" bits. The
+expected response would then be that “multiplication is a function in theory but not always in practice".
+
+Note that the philosopher would not give such a quick answer about addition because the
+
+sequence bp, by, b2, b3 ... with bj,; =b, +b;
+
+is characterized by proofs of the existence of b,
+
+* The point is that concrete applications (or at least very concrete applications) can usually be encoded so that some type
+of approximate analog of w bounds all the pertaining multiplicative products z when one encodes the problem in a
+suitably reasonable form. It is extremely rare for a pragmatic application to involve numbers so large that some type of
+analog of w is unavailable for all possible natural encodings of the problem 1 (Also, it should be noted that IS
+can represent floating point multiplication as a total function, provided some form of constraints are present on the bitlength of the mantissa.)
+
+nfs
+requiring more bits than b,’s binary encoding (in cut-free proof systems where the Principle of
+Induction is unavailable).
+binary encoding when
+
+This means there will always be adequate memory for writing
+
+there is sufficient memory
+
+b,’s
+
+for storing a semantic tableaux proof of its
+
+existence (whereas the same is plainly not true when multiplication is assumed to be a function).
+For instance, multiplication allows one to establish the existence of a number a399_
+with approximately
+
+300 lines),
+
+atoms in the universe.
+
+(in a proof
+
+whose binary encoding requires more digits than the number of
+
+In sharp contrast,
+
+even the full cardinality of the universe is insufficient to
+
+construct a cut-free proof from the Addition Axioms of the existence of a number whose bit length is
+as large as the universe.
+
+(The caveats that the Principle of Induction is absent and that cut-free
+
+deduction is employed are necessary for the preceding metaphor to retain meaning.)
+The seven main theorems of this paper will generalize this metaphor by showing how the fast
+growth properties of the multiplication function prevents cut-free axiom
+verifying.
+
+As an over-simplified metaphor,
+
+systems from being self- .
+
+our IS(A) system shall circumvent these difficulties by
+
+adopting the perspective of the philosopher who declares “multiplication is a function in theory but
+not always in practice".
+
+aspect,
+
+Thus,
+
+the inner axiom system A of IS(A) corresponds to the theoretical
+
+which can view multiplication as a function.
+
+On the other hand,
+
+the outer three groups of
+
+IS(A)’s axioms stopped just short of recognizing multiplication as a function,
+““fast-prowing’’ sequence ao, a), 42, a3 ... forcing IS(A)
+
+The last paragraph called the preceding examples
+are applicable only to cut-free systems.
+
+so as to preclude a
+
+to become inconsistent.
+
+‘‘over-simplified metaphors’’ because they
+
+These metaphors lose meaning when cuts are present
+
+because Addition can then be employed to implicitly define a sequence that grows actually faster than
+ag, 4y, 42, a3 ..... Solovay’s proof that IS(A) is incompatible with deductive cuts [S094] rests on this
+
+fast growth property.
+
+(Actually,
+
+IS(A)
+
+can support a cut mle for Ag
+
+sentences,
+
+and Solovay’s
+
+theorem relies on the cut rule for sentences with unbounded quantifiers.)
+Finally,
+
+it should be reiterated that the preceding metaphors were intended only to help |
+
+motivate the subject matter.
+
+They offer an accurate description of cut-free systems,
+
+but are over-
+
+simplistic when cuts are present. The true direction of this article will not be apparent until after the
+next chapter lists and explains the significance of our seven main theorems. By studying IS(A),
+seekto learn to what precise extent can one formalize the notion of self-consistency.
+and negative results will be derived,
+
+in regards to which deductive methods,
+
+ciples, and what type of growth functions IS(A) can and cannot support.
+Equation (2.2),
+
+we
+
+Both positive
+
+which reflection prin-
+
+It should be stressed that
+
+in isolation, is a fairly weak form of the assertion of self-consistency.
+
+The seven
+
+-8theorems,
+
+listed in the next section,
+
+offer a much better summary of our results.
+
+3. Formal Summary of Main Results:
+Section 6 of this paper will prove:
+Proposition 1: For each nice axiom system
+
+A,
+
+A disadvantage
+
+such
+
+to weak
+
+axiom
+
+systems,
+
+IS(A) is consistent.
+
+as
+
+JIS(A),
+
+is that several
+
+definitions of consistency, which are equivalent under Peano Arithmetic,
+under IS(A).
+
+conventional
+
+are not also equivalent
+
+Thus, most of this paper will attempt to generalize Proposition 1 for stronger notions
+
+of self-verification than was indicated by Equation (2.2).
+Some added notation is needed.
+
+The symbol PA+ will denote the natural generalization of
+
+Peano Arithmetic that includes the eight atomic functions from IS’s Group-1 axioms.
+
+The symbol
+
+IS§(A, G) will denote the generalization of IS(A) where d is the deduction method employed,
+
+an arbitrary set of Group-1 axioms and
+self-verification statement.
+
+G
+
+is
+
+s is some type of Group-3 class providing some type of
+
+Whenever we omit one or more of the symbols d,
+
+G or
+
+s from
+
+IS§(A, G), they will assume the default definitions given in Section 2.
+The local reflection statement for a sentence ® and fixed axiom system B is the assertion:
+
+Prp([®]) >
+
+(3.1)
+
+Some articles omit the word “local” when referring to reflection principles.
+We will also study four stronger
+
+(and more “uniform")
+
+Let @(v) denote a formula with only
+
+v free, and
+
+(3.4) will be called B’s first uniform,
+
+second uniform
+
+and
+
+semi-uniform
+
+reflection principles for ®
+
+(3.2)
+
+Vv (Pra( Id, 1) > &(v)}
+
+(3.3)
+
+Define an existential quantifier to be bounded by y
+
+to be bounded by
+
+denote the sentence ®(i). Then Eq. (3.2) thu
+
+(Vv Pra( 1, 1)} > Vv ®(v)
+
+Pra( [Vv &(v)1) >,
+
+is a Z; sentence, define }
+
+&,
+
+versions of the reflection principle.
+
+to be a modified
+
+for all fixed integers i
+
+(3.4)
+
+iff it is an expression similar to Ju<y.
+
+If ®,
+
+form of ®, which requires all its existential quantifiers
+
+y. The strong-uniform ~, reflection principle for an axiom system
+
+B
+
+is the
+
+statement that all Z, formulae P(v) satisfy
+
+Vv Wy {Prfg([®)1,y) > 3}
+
+(3.5)
+
+%Lob’s Theorem states that traditional axiom systems are unable to prove any of their reflection
+principles,
+them.
+
+except for in the degenerate case where the right side of the implicant is provable by
+
+See [Bo79]
+
+for an extremely simple proof of Lob’s Theorem
+
+[Lo55,
+
+Me87],
+
+and [Fe62,
+
+Sm83] for a discussion of when the first and second uniform principles are equivalent.
+Proposition 2 thru 4 (below) illustrate that introspective axiom systems support reflection properties more
+
+fully than traditional axiom
+
+reflection principles represent a much
+
+systems.
+
+These theorems
+
+are important because the
+
+stronger form of self-verification than Equation (2.2). (See
+
+footnote * for an intuitive explanation.)
+Proposition 2. (proven in Section 7)
+by Lob’s Theorem,
+
+a)
+
+In contrast to the conventional axiom systems discussed
+
+IS(PA+) can prove
+
+its local reflection statements for every Ag sentence,
+
+b) _ its local reflection statement for the subset of I], sentences ‘¥ which are decidable,
+
+c)
+
+its semi-uniform reflection statement whenever D; in Equation (3.4) is Ao.
+
+Proposition 3.
+
+(proven in Section 8)
+
+Define Is™ (A) as an axiom system whose Group-1 and
+
+Group-2 axioms are identical to those of IS(A) and where Group-3 now includes the stronger assertion that IS™ (A)’s strong-uniform reflection property is valid for all £, formulae.
+
+Then for any nice
+
+A, IS™(A) is consistent.
+Proposition 4.
+
+(proven in Section 9)
+
+The system Is” (PA+)
+
+(as well as Is’
+
+(PA+) and
+
+is°™ (PA+) defined in Remark 1) can prove ®’s semi-uniform reflection statements when ®, is X, .
+
+Remark 1. Define IS“ (A), Is“ ™(A), ISY ™(A) and IS" “°(A) to be four alternate axiom systems whose Group 3 axioms instead assert their local Ap reflection, local , reflection, second uniform ,
+
+reflection,
+
+and second uniform Ag reflection properties,
+
+respectively.
+
+Since each of these
+
+systems are weaker than Is™ (A), Proposition 3 immediately implies their consistencies. Also,
+positions
+
+Pro-
+
+2 & 4 generalize for any A which is an extension of PA+.
+
+Proposition 5 and 6 (below) are negative results. They illustrate respects in which each of Pro-
+
+positions 2, 3 and 4 can not be strengthened. In particular, they show that the addition of either IT,
+reflection or the multiplication function to the preceding systems will produce inconsistencies!
+* Equation (2.2) merely indicates that IS(A) knows it can not prove -L. This does not automatically guarantee that upon
+proving yD,
+
+IS(A) can automatically infer that it can not prove @.
+
+It needs access to some reflection principle, such
+
+as for example Equation (3.1) with B = IS(A), to conclude the latter from the proof of —P
+
+|
+
+-10-
+
+Proposition 5. (proven in Section 11) Let ise™ (A) denote an axiom system whose Group-1
+and Group-2 axioms are again identical to those of IS(A),
+ist
+
+but where Group-3 now asserts that the
+
+(A)’s Local Reflection Property is valid for all II, sentences.
+
+Then there exists nice A where
+
+1s ™ (A) is inconsistent. (An example of a nice system forcing introspective inconsistencies in Propositions 5 & 6 is PA+,
+Proposition 6.
+
+or any extension of it.)
+(proven in Section 12) Let G,, denote an extension of Gg which contains
+
+the added axiom that the multiplication function is total.
+Is” 40(A) = 1s"
+
+(A,Go) was consistent for all nice A.
+
+Recall that Remark
+
+1 indicated that
+
+Nevertheless, there do exist nice
+
+A
+
+where
+
+1s¥ “9A G,,) is inconsistent. (This result obviously applies also to ISU ™(A,G,,) and IS“ (A,Gm),
+since the latter two axioms systems are extensions of 1s¥ 400A G..).)
+
+The most surprising facet of the preceding results is the contrast between Proposition 5, which
+asserts that introspective axiom systems are incompatible with even a weak form of Nl, reflection,
+and the quite close approximations to IT, reflection established in Propositions 2c and 4. (See also
+Section 9 for the more general partial reflexive implications of proofs of II, theorems.)
+In all six of the preceding theorems,
+
+the subscript d in IS§(A, G) was omitted,
+
+deduction corresponded by default to semantic tableaux.
+
+indicating the
+
+It is trivial to generalize Propositions 1-6
+
+for the cases where d corresponds to resolution [Fi90] and the cut-free sequent calculus [Ta87],
+
+since these methods exclude unnecessary uses of the Law of the Excluded Middle in a manner analogous to semantic tableaux.
+cuts,
+
+The subscript
+
++ will henceforth denote deduction systems that permit
+
+such as Hilbert systems. (See [Ta87] for a formal definition of cuts.)
+
+Our main theorem about
+
+self-verifying IS, (A) systems appears below:
+Proposition 7. Let G_ denote a set of Group-1 axioms identical to Gg except that G_
+not include the axiom indicating that Addition is a total function.
+is consistent,
+
+does
+
+Then for any nice A, IS,(A, G_)
+
+(Generalizations of Proposition 7 and its proof appear in Section 13.)
+
+As noted in Section
+
+Incompleteness Theorem,
+Solovay’s Theorem.
+
+1,
+
+Robert Solovay [So94] discovered a néw version of Godel’s Second
+
+shortly after learning of our results. It is stated below:
+There exists a finite set F of the II,
+
+theorems proven in Peano Arith-
+
+metic such that no consistent Gentzen-style sequent calculus system employing cuts can simultane-
+
+ously prove all the theorems of F, recognize Subtraction, non-zero Division and Successor as total
+functions, and prove its own consistency.
+
+-]i-
+
+Let G, denote a set of Group-1 axioms identical to Gg and G_
+
+(in Propositions 1 & 7), except
+
+that Successor is the only growth function recognized by G, . Then Solovay’s Theorem implies that
+
+IS,(PA+, G,) is inconsistent.
+
+This fact is quite startling because Solovay’s inconsistent system
+
+IS,(PA+, G,) would be transformed into a consistent system if either
+a) deductive cuts were removed from.the formalism (i.e. apply Proposition 1),
+b) or if the successor function was removed from G,
+
+Thus,
+
+(i.e. apply Proposition 7).
+
+Solovay’s Theorem and the other negative results in Propositions
+
+different variants of inconsistent axiom systems,
+
+whose formal definitions differ only slightly from
+
+the well-behaved systems in Propositions 1-4 and 7. (Actually,
+
+the fit between Solovay’s Theorem
+
+and Proposition 1 is even tighter than indicated in item (a) because
+tule for Ap sentences,
+
+and
+
+2)
+
+IS(PA+)
+
+5 & 6 define three
+
+1) IS(PA+)
+
+can support a cut
+
+recognizes Addition as a total function while
+
+IS, (PA+)
+
+can not tolerate even Successor !-)
+
+One final definition will help further clarify the significance of Propositions 1-4 & 7.
+formal system S
+
+B,
+
+satisfies the
+
+Ap
+
+cut-reflection principle iff for any pair of Ag
+
+sentences
+
+Say a
+@
+
+S can prove
+
+WxVy : (Prfs(lal,x) A Prig(fa>Bl,y) } > B
+Say
+
+and
+
+S satisfies Equation (3.6) in the strong sense iff S’s
+
+structure independent of a and
+
+semantic tableaux proof of (3.6) has a
+
+fB (this means that for any pair of Ag
+
+proof of (3.6) for (a, B’)
+
+will be the same as the proof for (a,f)
+
+of the sentences
+
+in the first proof will be replaced by
+
+a and f
+
+satisfies the strong uniform
+
+Ap
+
+and also for any pair of Ag
+
+formulae (a)
+
+(3.6)
+
+sentences
+
+(a’,f’),
+
+the
+
+except that each appearance
+
+a’ and
+
+f’ .) Lastly, say that S
+
+cut-reflection principle iff the preceding conditions are satisfied,
+and ‘Y(b), S can prove the following uniformized gen-
+
+eralization of Equation (3.6) :
+
+Vx Vy VaVb: { Prfs([®,]1,x) A Pris([®,>%
+ly) } > ®,
+A trivial corollary to Proposition 2a is that IS(PA+)
+
+(3.7)
+
+satisfies the weak form of the Ap
+
+cut-
+
+reflection principle. The proof of this corollary is only two or three sentences long, and it is equally
+
+easy to verify that the systems IS‘“°(PA+) and ISY“°(PA+) (from Remark 1) satisfy the strong
+and strong-uniform versions of the
+
+Ag
+
+implies that Proposition 3’s Is™ (PA+)
+
+cut-reflection principle,
+
+respectively.
+
+This result,
+
+in turn,
+
+system satisfies the strong-uniform version of the Ag
+
+cut-
+
+-12reflection principle because 1s” (PA+)
+
+is strictly stronger than 1s’“(PA+).
+
+The results above are surprising because classical axiom systems are incapable of proving any
+version of the Ap
+
+cut-reflection principles
+
+(see *). Thus while Solovay’s Theorem indicates that
+
+nearly all our IS(A) systems are incapable of of accommodating a Gentzen-style cut rule for eliminating sentences with unbounded quantifiers, there is nevertheless a different type of Ap cut principle which is compatible with our but not with conventional logic formalisms !!!!
+A well-known corollary to the Godel Incompleteness Theorem is that every self-verifying system must violate one of the Hilbert-Bernays conditions [HB39,Me87].
+difficulty is that only in the degenerate case where
+
+For the case of IS(A),
+
+x and y are fixed constants can IS(A) prove the
+
+Hilbert-Bernays condition that if x is a proof of « and y is a proof of a>6
+some
+
+z that proves
+
+f. This weakness of IS(A),
+
+the
+
+then there exists
+
+together with the other limitations on it imposed
+
+by Solovay’s Theorem and Propositions 5 & 6, clearly illustrate how IS(A) can not fully characterize the complexity of human thought. But on the other hand,
+
+it would also appear to be simplistic
+
+to fully ignore self-verifying systems because humans appear to implicitly presume their consistency
+
+(at some type ? of weak level), for the sake of justifying the energy expended during cogitation.
+We suggest that the truth
+
+(7) may possibly lie between these two extremes.
+
+That both the
+
+self-verifying and non-self-verifying perspectives may convey some useful partial insights.
+pluralistic view is partially analogous to Godel’s First Incompleteness Theorem,
+
+Such a
+
+which indicates that
+
+no single r.e. axiom system can enumerate all the theorems one desires to learn about arithmetic.
+Or at leastin a context where a modest change in a formalism’s definition will cause Propositions 1 thru 7 and Solovay’s Theorem to produce starkly different results,
+
+it appears premature to
+
+develop hasty conclusions, whether positive or negative, about self-verifying systems.
+One reason we suspect that it would be premature to dismiss self-verifying axiom systems in
+an overly hasty manner is that the preceding discussion has shown how some self-verifying systems
+can support Equation (3.7)’s strong uniform
+
+Ag
+
+cut-reflection princible,
+
+while Peano Arithmetic
+
+and all other conventional axiom systems are incompatible with it.
+* Consider the example where
+© = B = { 0=1 }. A conventional axiom system would be incapable of proving (3.6) forsuch O and B because it would then verify its own consistency !!
+
+-134. Intuition Behind the Proof of Proposition 1
+
+The formal proof of Proposition 1 appears in Section 6. In this section,
+
+we will sketch the
+
+intuition behind the proof. The proof of Proposition 1 will be by contradiction. It will assume that p
+is the minimal integer which is a Godel encoding of an inconsistency proof using the axiom system
+IS(A),
+
+and show this assumption leads to a contradiction.
+
+The proof utilizes the fact that if A is nice, then all its Group-1 and Group-2 axioms are consistent with each other. Thus p can represent an inconsistency proof only if the final axiom sentence
+in Group-3 contradicts the union of the Group-1 and Group-2 axioms.
+The single sentence in Group-3 was the statement that "IS(A) is consistent".
+
+Section 6 will
+
+prove that the Group-1 and 2 axioms can contradict this statement only if the proof p constructs
+within itself a second "witness integer" p" (not necessarily distinct from p) such that p’ is also a
+proof of IS(A)’s inconsistency.
+Since p is defined to be the minimal integer encoding a contradiction proof,
+
+it follows that the
+
+witness p° satisfies p’ > p. If IS(A) had included multiplication as a function, it would be possible
+for an inconsistency proof p to construct within itself a representation of the necessary p’ > p.
+(Essentially, section 2 noted that in strictly fewer than logsp bits, it is possible to encode via multiplication numbers p" 2p.
+
+The construction of p* "inside p" in the proof of Proposition 6 will
+
+employ essentially the the analog of the Eq.
+
+(2.4) implied by Godel’s Incompleteness Theorem.)
+
+However a crucial difference between Propositions 1 and 6 is that the Group-1 Axioms of the former
+contain only Addition as a growth function.
+the
+
+contradiction
+
+witness
+
+p’
+
+“inside
+
+log (x + y) S MAX (log x, log y) +1.
+
+p".
+
+This restriction makes impossible the construction of
+In
+
+particular,
+
+Addition
+
+grows
+
+so
+
+slowly
+
+that
+
+This implies essentially that it is impossible in logap — 1
+
+bits to encode a number as large as p. Using these facts, Section 6 will prove that p cannot possibly be long enough to construct the necessary witness p” 2 p for p to be an inconsistency proof !!
+Added Remark.
+
+For the sake of simplicity, we have mentioned only Propositions 1 & 6 dur-
+
+ing the intuitive discussion above.
+3, 5, 7 and Solovay’s Theorem.
+
+However,
+
+similar reasoning is necessary to prove Propositions
+
+That is, the positive self-verification results in Propositions 3 & 7
+
+rest on showing that it is impossible to construct the necessary contradiction witness p’ 2 p “inside
+p". Similarly,
+
+the negative inconsistency results indicated in Proposition 5 and Solovay’s Theorem
+
+depend ultimately on showing how to construct the contrary witness p’ > p “inside p".
+
+Pe
+5. Semantic Tableaux Formalism.
+
+The formal proofs of Propositions 1-7 appear in Sections 6-13 (essentially one proof per section).
+
+The first version of our proofs was conceived using Gentzen’s cut-free sequent calculus nota-
+
+tion.
+
+Later, we observed that our proofs could be simplified significantly,
+
+the semantic tableaux notation [Fi90,Sm68],
+
+if we instead employed
+
+sometimes also called semantic trees,
+
+exceptionally well with Section 6’s notation.
+
+because it mixes
+
+This section will outline the formal encodings of
+
+semantic tableaux proofs and related preliminary information.
+One difficulty will be that multiplication (and hence also x* (for fixed exponent
+functions under
+
+IS.
+
+4)) are not
+
+Lemma 5.1 illustrates how we can overcome this difficulty by treating
+
+x*
+
+almost as if it was a function!!!
+
+Lemma 5.1. Say a formula ®(x;X2...x,)
+
+is majorized with exponent A iff each universally
+
+and existentially quantified variable v in ®
+
+is required to be less than x;* for some
+
+i<L.
+
+for each majorized formula
+
+there exists an “essentially equivalent”
+
+Ag
+
+W" (xyX9...X_)
+
+‘¥(x,X2...X,)
+
+such that every L-tuple
+
+Informal Proof Sketch.
+
+formula
+
+(ij,i2...i,) satisfies V(i,,i2...i,) = W* (i ,i---iL).
+
+To construct ¥"
+
+3vy <x Svy <x --* Jv <x,
+
+Then
+
+we will replace each Jv<x*
+
+with the sequence
+
+and treat universal quantifiers analogously. Define Y” to be the
+
+natural modification of ‘¥Y when the string
+
+v is so divided into 2A corresponding smaller strings.
+
+(The string v is divided into 2A rather than 2 substrings to avoid round-off errors.) It is obvious
+that such a construction will produce a
+
+satisfying Lemma 5.1.
+
+QED
+
+Let El and E2 denote two different methodologies for encoding a proof formalism.
+and E2 to be linearly equivalent
+
+Define E1
+
+iff each proof string in El can be translated into a string in E2
+
+(and vice versa), where the translations may increase the lengths of the encodings by no more than a
+constant factor.
+
+Lemma
+
+5.1 implies that the
+
+set of Ay
+
+equivalent encodings must be essentially isomorphic.
+where multiplication is treated as a function,
+
+formulae for two distinct but linearly
+
+(In the context of conventional axiom systems,
+
+one typically ignores such minute levels of detail.
+
+Lemma 5.1 assures that the absence of a formal multiplication function in IS(A) does not raise any
+new complications,
+
+with regards to linearly equivalent encodings.)
+
+Define a byte to be an unit consisting of six bits.
+
+Our encoding of wffs
+
+and proofs will
+
+comprise a string of bytes whose length is essentially guaranteed to be proportional to the length of
+
+-15-
+
+the English language sentence making the same statement (so as to achieve the ideal "linear" bit
+compression).
+
+In particular, we will assign special 6-bit codes to the following symbols:
+
+1) _ the standard six logical connectives:
+2)
+
+A, V, —, >, V, and J
+
+_ three types of left and right parenthesis symbols: (, ), [, ],
+A
+
+3)
+
+five conventional symbols A,
+
++ constant,
+4)
+
+{, and }, and a comma symbol.
+
+A
+
+), é, & and f to denote an atomic formula,
+
+a variable, a fixed
+
+a proof-parameter and a function in a semantic tableaux proof [Fi90].
+
+two special new symbols u# and v#, explained in the next paragraph,
+repeatedly storing long constants.
+
+which allows us to omit
+
+Instead, the symbols u# and v# allow us to use the "u" and
+
+"vy" symbols to act as pointers to constants.
+Integers
+
+i will be encoded using « Llog 3 iJ +3 bytes (i.e.
+
+Llog 32 iJ + 1 bytes to encode i as a base-32 number,
+bol).
+
+one byte to initiate the integer code,
+
+and a final byte serving as a termination sym-
+
+The byte strings oti) and + fi, representing the i-th parameter and variable,
+
+encoded using Log32 iJ +3 bytes.
+
+will be thus
+
+Similarly, the i-th function (with j arguments t, tp --- tj) will
+
+be encoded as f[i,j} (ti, t2 --+ tj], and Afi,j] [ty, tp ~*~ tj] will encode the i-th atomic formula.
+The symbol ei] will also have a quite standard meaning,
+
+represents the integer j. If j is a very large number,
+
+it will designate a constant that
+
+then its repeated appearance in a proof could
+
+cause the proof to grow to an unacceptably large size. Therefore, our notation will employ two special symbols to reduce the bit length of a proof. The symbol u#[i, j] may appear in any position normally occupied by the constant symbol
+in u#[i,j]’s position,
+
+efi). It will treat the indicated sentence as if €[j] was stored
+
+and also specify that all appearances of O [i] in the subtree descending from
+
+this sentence should be treated as if it was the constant ef) (written only in an abbreviated form).
+Similarly the sentence "v#[i, j] ® 0 [i])" is a bit compressed representation for oe [j]).
+
+Part of the
+
+reason for this new notation is explained by Lemma 5.2.
+Lemma 5.2. For fixed j and variable ®,
+
+maps the Godel number of [(9[1])]
+
+@
+
+is fixed.
+
+can prove that there exists a function that
+
+onto the Godel number for [v#[1,j]®(?[1])1. Also, it
+
+recognizes a function that maps the byte string
+
+variable and
+
+IS(PA+)
+
+“ ef] "
+
+(The reason for the new
+
+onto
+
+‘‘ v#’’
+
+[v#[1, j]® (Ftp) |
+
+when
+
+j
+
+isa
+
+notation is that the two analogous map-
+
+pings onto [® (efj) | are unknown by IS(PA+) to be total functions ! )
+
+-16’
+
+Proof of Lemma 5.2’s First Sentence. Since PA+
+can prove for each
+number
+
+FIXED
+
+of the form
+
+j,
+
+there exists some
+
+[®(%[1])]
+
+[v# (1, j]® (ot) 1.
+
+and
+
+Moreover,
+
+kx = x+x+x+...+x).
+
+[o@t])1
+
+FIXED
+then
+
+k
+
+Jz<y_
+
+such that Vx Vy if x is a Godel
+which
+
+(The verification of this fact is not hard.)
+
+represents a II, theorem of PA+,
+IS(PA+).
+
+y =kx
+
+has access to the Principle of Induction, it
+
+IS(PA+)
+
+is the Godel number of
+
+Since the italicized statement
+
+the Group-2 axioms will imply that it is also a theorem of
+recognizes
+
+scalar
+
+multiplication
+
+The last two sentences imply that IS(PA+)
+
+onto [v#[1,j] ®(9[1))1
+
+isa total function.
+
+Proof of Lemma 5.2’s Second Sentence.
+
+as
+
+a
+
+total
+
+function
+
+(since
+
+can also prove that the mapping of
+
+QED
+
+Essentially the same as the preceding paragraph,
+
+with the roles of j and ® reversed.
+Added Comment: Proofs analogous to the above are used repeatedly in this paper. They will
+show how IS(PA+)’s
+
+Group-2 Axioms,
+
+together with the fact that its Group-1
+
+nize scalar multiplication as a total function,
+
+axioms can recog-
+
+identifies other functions which
+
+IS(PA+)
+
+can also
+
+recognize as total. We will return to this subject when Lemma 5.3 discusses the u# notation.
+To encode the underlying tree structure of a semantic tableaux proof,
+
+we will need either
+
+pointers or parenthesis to formally represent the parent-child relationship. The terms pointer encodings and parenthesis encodings will refer to these two representations of a tree’s underlying structure. Our results hold for either representation,
+is more ideally compressed. , Therefore { P
+string
+
+P,
+
+and where
+
+Notation.
+“Wx<y”
+
+and the parenthesis notation is preferable because it
+
+{a}
+
+{B}
+
+} denotes a tree whose root stores the byte
+
+{ 0} and { B } describe the possible subtrees descending from this root.
+
+Recall
+
+that a bounded
+
+or ‘*3dx<y’”.
+
+quantifier
+
+is defined
+
+to be an expression
+
+Say an unbounded quantifier is broad iff its range,
+
+indicated by the
+
+symbols "(" and ")", includes all the atoms and bounded quantifiers in the sentences
+(Bounded
+
+quantifiers,
+
+by
+
+definition,
+
+will
+
+never
+
+be
+
+Positive Normal Form iff no broad quantifier has a =
+
+‘‘broad’’ .)
+
+Define
+
+similar to
+
+containing
+
+a sentence
+
+to
+
+be
+
+it.
+in
+
+symbols to its left. We will often desire to
+
+transform an initial sentence Q into an alternate equivalent sentence written in positive normal form.
+The latter will be called the Positive Rewrite of
+
+,
+
+and be denoted as Positive(Q).
+
+It can be
+
+defined as comprising that positive normal sentence which is identical to Q except that:
+i)
+
+all of the "4" symbols appearing to the left of Q’s broad quantifiers are removed from Positive(Q)
+
+ii)
+
+to preserve the logical equivalence of Q and Positive(Q) after operation (i) is performed,
+
+a “5"
+
+symbol will be placed to the right of °’s rightmost broad quantifier (if necessary),
+
+and the
+
+"" and "J" symbols in ’s and Positive(Q)’s broad quantifiers are interchanged when necessary.
+
+-17-
+
+For example,
+
+Equation (5.2) is the positive rewrite of (5.1).
+
+aVvdwaVxaAV
+JvVwVxdy
+
+y (v=wAdz=xty)
+
+(5.1)
+
+7 (v=wAdz=xty)
+
+(5.2)
+
+General definitions of semantic tableaux proofs can be found in [Fi90,Sm68].
+
+The variant stu-
+
+died in this paper will define a semantic proof of ‘¥ as a tree of sentences where
+1)
+
+The root consists of the sentence
+
+Positive(‘\V),
+
+(i.e. it represents the temporary con-
+
+tradiction assumption that ‘Y is false). Each other node consists of an axiom or a deduction from a higher node in the tree using the standard rules [Fi90,Sm68] for eliminating
+the logical symbols A, V, >, V and i and right-shifting the position of the symbol —.
+These rules are listed in Figure 1. The rule for eliminating existential quantifiers will
+require that the node inferring (Gfi]) from 4 v[j] P(v[j]) be the child of the latter and
+that no ancestor of these two nodes will have previously introduced the parameter
+
+2)
+
+ili).
+
+Every tree branch is "closed" (by containing both ® and —® for some sentence ®),
+
+Semantic tableaux proofs are known to satisfy the Godel Completeness Theorem [Fi90,
+
+Sm68].
+
+Hence in some sense they have power commensurate to Hilbert-style proofs.
+The definitions in this chapter were chosen carefully so that it would be easy to transform a
+proof of VG] OA{j) into a proof of ([k]).
+
+Thus,
+
+if the initial axiom system is consistent and
+
+has its axiom sentences written in positive normal form,
+
+then two nodes in V9Gj] oA{j)’s proof tree
+
+must be the root 3 9[j] .®({j]) and its child
+
+4 @(U{i]). A corresponding proof of ®([k]) can
+
+be constructed by replacing these two nodes with —(u#[i,k]).
+
+Since no other changes are neces-
+
+sary, this transformation will increase the proof’s Godel number by no more than a fixed constant
+multiplicative factor. This fact will be employed to prove Lemma 5.3.
+Lemma
+
+5.3.
+
+Let
+
+transformed proof of
+T(p,k)
+
+p
+
+be the Godel number of a proof of V 9G]
+
+@(C[k]),
+
+can be recognized by
+
+as defined above.
+
+For any FIXED
+
+IS(PA+) to be a total function.
+
+recognize the mapping of the byte string " é[k] "onto
+
+AG)
+
+k,
+
+and
+
+T(p,k) denote the
+
+the mapping of p
+
+onto
+
+Likewise for FIXED p, IS(PA+) can
+
+T(p,k) to be a total function.
+
+-18Proof. Both claims of Lemma 5.3 have proofs similar to Lemma 5.2. We will therefore sketch
+only the proof of the first claim. Since PA+
+mapping of the Godel number
+
+p onto
+
+has the strength of Peano Arithmetic,
+
+T(p,k)
+
+is total and satisfies the inequality
+
+it can prove the
+T(p,k) SLy-p
+
+(where Ly, is a constant depending on k).
+
+Hence, PA+
+
+can prove the I], sentence that Vp Vx
+
+x=L‘p
+
+then 4q<x
+
+which is a proof of (CIk]).
+
+and pis a proof of WORT)
+
+Since the italicized statement represents a II, theorem of PA+,
+
+if
+
+the Group-2 axioms will imply
+
+that it is also a theorem of IS(PA+). As before, IS(PA+) will recognize multiplication by any scalar
+constant
+
+as a total function
+
+because
+
+Ly, p=ptp+pt...tp.
+
+The
+
+last two
+
+sentences
+
+IS(PA+) can also prove that the mapping of p onto T(p,k) to be a total function.
+It should be noted that Lemma 5.3 would not follow,
+different definitions
+
+that
+
+QED
+
+had this section employed slightly
+
+u# ), because T(p,k)
+
+SL, p could then fail for
+
+all constants Ly. Our definitions had guaranteed T(p,k) S Ly p because,
+
+under normal human rea-
+
+soning,
+VOL
+
+(such as omitting the symbol
+
+imply
+
+the proof of (C[k])
+OO[)).
+
+appears to never have much more complexity than the proof of
+
+In any case, even without such a formalism supporting Lemma 5.3, most of our seven
+
+main theorems,
+
+including Propositions 1, 2a, 3, 5, & 7 will remain valid.
+
+A formal 16-page description of the Godel encodings of Prfisca)(x,y) asa Ap formula appears
+in Appendix A.
+
+In the remainder of this section,
+
+we will briefly summarize the salient aspects of
+
+Prfjscay(x,
+y)’s enncoding.
+By applying Lemma 5.1, it is not hard to verify that:
+I)
+
+There exists a Ap formula Turing (x, y, z) which states x is an encoding of the first y states of
+
+a Turing Machine whose initial state is z;
+I)
+
+If an axiom system A has a Ap formula Ax,(a) indicating that a is an axiom of A,
+
+then there
+
+will exist a Ap formula Prf,(x, y) indicating that y is a semantic tableaux proof of x from A.
+While it is not hard to apply Lemma 5.1 to prove I and II, it is substantially harder to verify that the
+hypothesis
+
+of II also
+
+implies
+
+that
+
+there
+
+exists
+
+Aj
+
+formulae
+
+for representing
+
+Prfjscay(x,y),
+
+Prfis?1(a)(x,¥), Prfjs¥1(ay(x,y), etc. The Godel encodings for the latter Ay formulae is complex
+because it employs fix point operators to represent self verification. It is difficult to briefly summarize Appendix A’s 16-page construction, but the proof of Lemma 5.4 (below) should explain at least
+some of the intuition.
+
+-19Lemma 5.4.
+
+Let Prf25(x, ¥1, Y2) denote a Ag formula indicating y, is a semantic tableaux
+
+proof of x from B, and y2 is a description of the successive states of a Turing Machine that verifies
+
+y; is well defined.
+
+Define IS2§(A) to be the analog of IS§(A) that uses the Ap formula
+
+Prf2 js23(a)(X» Y1» Y2) in the place of Prfjssca)(x, y). Then for all nice A, there are Ap encodings for
+
+Prf2ts2(ay(X+ Yi» Ya)» Prf2yso%¢ay(Xs Yi» Y2)s Prf2is2¥%1(ay(X, Yi, Y2), ete.
+Quite Informal Proof Sketch.
+
+imply that every r.e.
+
+Kleene’s Fixed Point Theorem [Ke38] is known
+
+axiom system A can be extended into a r.e.
+
+[Ro67] to
+
+system which formally asserts
+
+(albeit often incorrectly) its own consistency. Rogers points out that this result holds for all the standard definitions of self-consistency (thus for inability to prove 0=1,
+reflection, etc.).
+
+, local reflection, 2, uniform
+
+Since the variable y2 in Prf2(x, y;, y2) essentially simulates r.e.
+
+computations,
+
+Kleene’s Fixed Point Construction can be shown to imply that each of the axiom systems IS2(A),
+
+IS2™(A), 182% ™*(A) etc. can be provided with formal r.e. encodings. Since Turing (x,y,z) can be
+encoded as a Ap formula,
+
+it then follows that each of Prf252(a)(X, y1, Y2), Prf2s2(ay(Xs Y1» Yo),
+
+Prf2 15271(a)(X, ¥1, Y2), etc. have corresponding Ap definitions.
+
+The preceding proof sketch was deliberately kept
+to illustrate intuitively
+
+Theorem.
+
+how
+
+the encoding
+
+QED.
+
+‘‘quite informal’’, and its only purpose was
+
+of Prf2 js;a)(x,y)
+
+is related to Kleene’s
+
+Fixed
+
+Point
+
+In Appendix A, the discussion is both more rigorous and stronger (in that it applies to the
+
+Prf rather than the
+
+Prf2
+
+formula).
+
+We strongly recommend that the reader postpone examining
+
+Appendix A’s formal Ap encoding of Prfjscq)(x, y) until after he has finished Section 6-14 because
+Appendix A is tedious and distracts from the more important themes of Sections 6-14.
+
+Moreover,
+
+Appendix A is in some sense unnecessary because each theorem in Sections 6-14, about IS, retains
+meaning,
+
+even without Appendix A,
+
+if Lemma 5.4’s slightly weaker IS2 formalism is used to
+
+replace IS. That is, each theorem about IS can be translated into an analogous result about IS2 by
+
+simply replacing y with the ordered pair (y1, y2)-
+
+6. Proof of Proposition 1
+In this section,
+
+we will frequently refer to the subcomponents of a particular sentence. The
+
+definition of this construct is slightly different from the notion of a “subformula”.
+(X,Y)
+
+which specifies X is a subcomponent
+
+of Y to be the minimal relation satisfying the
+
+following five constraints:
+i) The formulae
+
+X
+
+and
+
+ii) The formulae =X and
+
+Y
+
+will be subcomponents of
+Y
+
+Define a relation
+
+X
+
+VY and
+
+will be subcomponents of X > Y;
+
+X AY;
+
+-20iii) For any parameter
+of Va X(a) and
+iv)
+
+X
+
+is
+
+u
+
+or constant c, the formulae X(u) and
+
+will be subcomponents
+
+for
+
+the
+
+Ja X(a);
+a
+
+subcomponent
+
+of
+
+——X;
+
+_
+
+other
+
+(AXATY , “KVY)),
+
+(aXVAY , (KAY),
+
+(Wa-— X(a),
+
+(3a
+
+X(a),
+
+and
+
+Y
+
+v) If X
+
+X(c)
+
+13a X(a)) , and
+
+is a subcomponent of Y
+
+miles
+
+symbol
+
+—
+
+are
+
+(XARY , (XY),
+
+«Va X(a)).
+
+is a subcomponent of Z, then
+
+X
+
+will also be a
+
+subcomponent of Z.
+Every semantic tableaux or resolution proof [Fi90,
+
+Sm68] of
+
+from an axiom system
+
+A
+
+must have every sentence of the proof tree (except possibly its root) constitute a subcomponent of
+some axiom of A. This characteristic of semantic tableaux and resolution proofs will be called their
+“cut-free" property.
+calculus proof.
+
+It is closely analogous to Gentzen’s notion [Ge69,Ta87] of a cut-free sequent
+
+Whenever the subscript
+
+d from IS¥(A,G) is omitted in this paper,
+
+technically applies to semantic tableaux deduction,
+
+our theorem
+
+although it trivially generalizes to resolution,
+
+as
+
+well as any formal ‘‘cut-free’’ deduction method.
+Let Prfiscay(L, y) denote the provability formula from Equation (2.2), which asserts that y is
+a semantic tableaux proof of L.
+
+Then Equation
+= Vy
+
+=
+
+(6.1)
+
+indicates that IS(A) is inconsistent:
+
+Prfiscay(L,
+
+y)
+
+(6.1)
+
+Lemma 6.1 The sentence (6.1) is not a subcomponent of any Group
+Proof Sketch.
+
+1 or 2 axiom of IS(A).
+
+It is clear that (6.1) is not a subcomponent of any Group-1 axiom. The cannon-
+
+ical form for Group-2 axioms appeared in (2.1), and it is rewritten below:
+
+Pra( [] )>®
+
+(2.1-rewritten)
+
+Since the definition of Group-2 requires that ® be a II, sentence, it is clear that sentence (6.1) can
+not be subcomponent of ®. Also,
+
+the definition of Pra( [| ) implies that (6.1) can not possibly be
+
+a subcomponent of — Pra( [@] ). QED
+Lemma 6,2 ‘If the axiom system
+IS(A)
+
+A
+
+is nice then a semantic tableaux proof
+
+p of 1
+
+from
+
+is impossible without p formally constructing a parameter or constant element p’, such that
+
+one node of p’s proof tree is the sentence —Prfiscay(1, p’)Proof
+
+A proof of IS(A)’s inconsistency would consist of a tree whose axioms come from
+
+IS(A) and whose branches are all closed.
+
+Since
+
+A
+
+is nice,
+
+the Group
+
+1 and 2 axioms must be
+
+-21-
+
+certainly consistent with each other and valid under the standard model of the natural numbers.
+Hence, an inconsistency proof
+
+p
+
+must use the Group
+
+1 and 2 axioms to contradict the self-
+
+consistency statement (2.2), which is rewritten below:
+
+(2.2-rewritten)
+
+Vy 7 Prfiscay(L, y)
+
+But Lemma 6.1 showed assertion (6.1) was not a subcomponent of any of the Group-1 or Group-2
+axioms!
+
+Hence,
+
+the necessary contradiction of (2.2) is technically possible only if the Group-1 and
+
+Group-2 axioms contradict a subcomponent of (2.2) of the form —Prfjscay(L, p’),
+ally contradict (2.2) directly.
+
+rather than actu-
+
+QED
+
+We will now introduce some further notation that will simplify the main proof.
+
+Rather than
+
+use an‘m-ary function symbol f(x,,X2...Xm) to denote a function f, we will represent each function
+with
+
+(m+l)-ary
+
+relation
+
+symbol
+
+A(x),X2,...Xm,W)
+
+together
+
+with
+
+the
+
+added
+
+axiom
+
+Vx, VXx2 ... WXm Sw: A¢(x] X2...Xm W)In this context, the semantic tableaux rule for eliminating an existential quantifier will replace
+Saw ‘Y(w) with a sentence of the form ‘¥(u),
+
+where
+
+u is the symbol for a newly introduced parame-
+
+ter. Similarly, the rule for eliminating the universal quantifier in Vw ®(w) will replace it with the
+sentence @(k), where k represents here either one of the natural numbers 0137...
+
+ter
+
+u
+
+,
+
+OF a parame-
+
+that was introduced during the elimination of an existential quantifier at a tree node position
+
+which is an ancestor to the node specifying ®(u).
+In the rest of this section,
+
+we will assume that p denotes the minimal Godel number satisfying
+
+Prfiscay(L, p), and we will derive a contradiction by showing that a smaller p* must also satisfy this
+formula.
+
+Let N denote a node in the proof tree p. Define ANCESTOR(N) to be the list of all the
+
+sentences in the proof p that lie in the node N or one of its ancestors but which exclude from this
+set any sentence.of the exact form (2.2) (i.e. excluded from ANCESTOR(N) is the Group-3 axiom
+which formally asserts IS(A)’s self-consistency).
+Say N is ancestor-consistent iff there exists an "interpretation" function, denoted as INT, that
+assigns an integer value to each parameter symbol u;,
+
+such that all IS(A)’s Group-1 and 2 axioms
+
+and all the sentences in ANCESTOR(N) are valid (under the Standard Model)
+are assigned their designated integer values under INT.
+
+when the symbols u;
+
+Call the node N maximal iff it is a node of
+
+maximal depth in the proof tree p possessing some such interpretation function.
+
+-22It is easy to apply the preceding definitions and lemmas to verify
+1)
+
+that a maximal node N has an unique child N*,
+
+2)
+
+that
+
+N* stores a sentence of the form — Prfjscay(1, p’) (where p represents either a constant
+
+or a parameter),
+3)
+
+that N* has no ancestor-consistent interpretation function (because N was maximal).
+
+We will now derive a contradiction by showing that these three conditions force p’ to represent
+another inconsistency proof which is strictly less than p.
+Let mj), M2, m3... designate the integer constants and uj ,U2,U3 ...U; denote the parameter symbols appearing in the branch of p’s proof tree associated with N’s ancestors.
+
+Let my,
+
+denote the
+
+largest of m,, M2, M3..... Then since the proof p consists of only logap bits and since more than j of
+these bits are needed to represent uj U2 -** u;, it must follow that
+Mmax <p 27
+
+We will now calculate the value of INT(u;) for each
+
+(6.2)
+
+u;.
+
+Without loss of generality,
+
+let us also
+
+assume that INT(u,)SINT(u2) SINT(u3) etc. We claim it must be true that
+
+INT(u;) $ 2) + imax
+
+(6.3)
+
+The proof of (6.3) rests on the facts that Addition is IS(A)’s only increasing function and that
+the existential quantifiers in the Group-2 axioms are nonincreasing (because of the requirement that
+® in a Group-2 axiom be aI,
+
+sentence).
+
+tion defines a new parameter uj;4;
+
+Hence,
+
+Thus if u; is the largest constant before the addition func-
+
+then it must be true that INT(uj,; ) S 2Max( INT(uj), Mmax)-
+
+equation (6.3) follows because no more than j doublings are associated with uju2 --~- u;,
+
+and the largest constant before these doublings occur is bounded by MmaxThe combination of (6.2) and (6.3) imply that INT(p*) must satisfy (6.4) (in both the cases
+where p* represents a constant and a parameter).
+
+INT(p") S MAX (INT(uj) , max ) <P-
+
+(6.4)
+
+But INT becomes inconsistent on the tree branch associated with N* at precisely the point where N*
+introduces the sentence —Prfjsiay(L, p’). This implies that p’ must represent (under INT’s interpretation) an element smaller than p satisfying
+
+Priiscay(L, p*)
+
+(6.5)
+
+This is the desired contradiction, since p was presumed to be the smallest inconsistency proof. QED
+
+7. Proof of Proposition 2
+Define a terse proof of Q to be a tree of sentences, partially analogous to a semantic tableaux
+
+proof, satisfying the following two rules:
+i)
+
+Each
+
+node in a terse proof will be either an axiom or a deduction from a higher node of the
+
+proof tree. (This property is the same as its analog in semantic tableaux proofs except that the
+root of {2's terse proof does not store the contradictory assumption
+ii)
+
+Terse proofs
+
+will
+
+of the proof tree be
+
+not
+
+=
+
+).
+
+be required to satisfy the semantic tableaux condition that all branches
+
+‘‘closed’’
+
+(by containing a pair of contradictory sentences). Instead, one
+
+(and only one) branch will be allowed to be an exception to this rule. The exceptional branch
+in Q’s terse proof will be called its pivotal branch, and its leaf will instead contain the sentence Positive(Q).
+
+(This sentence was defined in section 5 as essentially the rewriting of the
+
+sentence Q in positive normal form).
+
+Terse proofs are a much weaker mode of deduction than semantic tableaux proofs because Part
+(i) of their definition precluded performing proofs by contradiction. Their significance is easiest to
+appreciate if one considers the example where t represents a terse proof of
+a semantic tableaux proof of ®. Let Glue(t,p)
+the sentence { 041}
+
++
+
+and p represents
+
+denote the proof tree whose rootis
+
+{41}
+
+(ie.
+
+), which has the subtree t descend from the root, and which has the proof tree
+
+tree p descend from the bottom of t’s
+
+pivotal branch. It is easy to see that Glue(t,p) is a seman-
+
+tic tableaux proof of L.
+But since it is impossible for a consistent axiom system to have a semantic tableaux proof of
+
+L,
+
+it follows that no consistent axiom system can simultaneously
+
+semantic tableaux proof of ®.
+merely a meta-theorem:
+
+have a terse proof of ~® and a
+
+The non-trivial aspect of the italicized sentence is that it is not
+
+Rather Lemma 7.1 will show that the axiom system
+
+IS(PA+)
+
+will have
+
+sufficient power to formally prove an essentially self-reflexive form of this sentence!
+While examining this chapter, the reader should bear in mind that our goal is to study semantic tableaux proofs (rather than the weaker terse proofs), and to formally prove Proposition 2. The
+terse proofs in Lemma 7.1 will serve solely as a vehicle for analyzing the properties of semantic
+tableaux proofs, and for proving Proposition 2 later in this chapter.
+Lemma 7.1 If there exists a terse proof tree for .® employing the axioms from IS(PA+),
+then IS(PA+)
+
+can prove
+
+that it will be unable to construct a semantic tableaux proof of ©.
+
+-24Proof. The hypotheses of Lemma 7.1 indicates that there exists a constant
+Godel number of —®’s
+
+terse proof.
+
+Let
+
+must therefore also exist).
+
+While IS(PA+)
+
+k = 64°g° [41]
+
+g representing the
+
+denote a second constant
+
+(which
+
+can not recognize multiplication as a function,
+
+it cer-
+
+tainly can verify the scalar product kp = ptp+pt...tp
+
+is a function. Thus it can prove
+
+Vp ay { y=kp=64-[AL]-g:p }
+
+(7.1)
+
+Since the axiom system PA+ is stronger than Peano Arithmetic,
+
+it can verify neither its con-
+
+sistency
+
+nor
+
+the
+
+“Wt Vp Vy if
+y=64°
+
+consistency
+
+of IS(PA+).
+
+However,
+
+t is a terse proof of -®
+
+[1] ‘trp
+
+then
+
+Jq<y
+
+and
+
+satisfying
+
+p
+
+PA+
+
+is strong enough
+
+is a semantic tableaux
+
+Prfjscq)(L,q)’’.
+
+(In particular,
+
+to
+
+verify
+
+that
+
+proof of ® and
+any system
+
+as
+
+strong as Peano Arithmetic can prove that Glue(t,p) satisfies the properties required of q.)
+Since the bold-face sentence is a Il, theorem of PA+,
+theorem of IS(PA+).
+
+Moreover,
+
+since
+
+IS(PA+)
+
+the Group-2 axioms imply it is also a
+
+can prove (7.1) for some g which is a terse proof,
+
+it can also recognize that the preceding bold face statement implies
+tableaux proof of ®
+
+then
+
+3q
+
+satisfying Prfis@pas(,q)”.
+
+the second statement in bold print,
+implies
+
+p is a semantic
+
+Lastly, ISC@PA+) can recognize that
+
+Hence,
+
+IS(PA+)
+
+can prove
+
+(see the the next paragraph for an important clarifying comment).
+2.
+
+V pif
+
+combined with the Group-3 axiom ‘*Vq—Prfis@as (1,q)”’,
+
+‘‘V p 4Prfis@ay ( [o], p)’’.
+
+Remark
+
+‘‘
+
+‘‘Vp—Prfis@as ( [>], p)”’
+
+QED
+
+In the preceding paragraph and often elsewhere in this paper, our proofs shall
+
+apply a cut rule at the meta-theoretical level. That is, suppose it is known that a cut-free IS(PA+)
+system
+
+can prove the two statements
+
+[Be56,Ge69,Sc56,Fi90,Sm68,Ta87],
+
+a
+
+IS(PA+)
+
+and a>f.
+
+Then
+
+by the Cut Elimination Theorem
+
+will also support a cut-free proof of B.
+
+For the sake
+
+of shortening many of the proofs in this paper, we will often omit constructing formally the cut-free
+proofs of such theorems
+
+: Instead, their theoretical existence will be established implicitly via the
+
+Cut Elimination Theorem and the fact that proofs for ® and a>f
+
+exist! Such meta-reasoning had
+
+greatly simplified the proof of Lemma 7.1. In particular, if o% and B designate the two bold-face sentences in Lemma 7.1’s proof,
+and
+
+a>.
+
+and
+
+@
+
+then our proof had directly implied only that IS(PA+) could prove a
+
+Meta-Logic had then implictly implied that IS(PA+) could also prove B ! Also,
+
+denote the sentences
+
+Vq—Prfiggpayy(L,q)
+
+and
+
+Vp—Prfiscpas ( [D1, p), then the final
+
+line of Lemma 7.1’s proof had used Meta-Logic and the fact that IS(@PA+) could prove
+BAy > @ to conclude that IS(PA+) could also prove
+
+if y
+
+B, y and
+
+@ itself. Meta-Logic will be used frequently
+
+in the remainder of this paper to shorten and simplify the proofs of many of our theorems.
+
+-25We will now use Lemma 7.1 to prove Proposition 2a. Consider first the case where ® is false.
+Since it is a false Ag sentence,
+2 illustrates how
+that
+
+—®
+
+there must exist a constant c satisfying
+
+must then have a terse proof from the system
+
+c exists and that one of IS(PA+)’s
+
+Prfpa, (ol
+IS(PA+)
+
+Group-2 axioms is the sentence
+
+perty when ®
+
+Figure
+
+(because the facts
+
+Pr pa, ( [+0]
+
+leads to a natural construction of a terse proof). Hence by Lemma 7.1, IS(PA+)
+there exists no proof of ©.
+
+,c).
+
+) > 49%)
+
+can formally prove
+
+This implies that ISCPA+) can formally verify ©’s local reflection pro-
+
+is false. Proposition 2a is also valid when ® is true because every true Ap sentence is
+
+automatically proveable (thereby implying IS(PA+) can trivially verify its reflection princible). QED
+We will now use meta-logic (see Remark 2) and Lemmas 7.1 and 5.3 to prove Proposition 2b.
+For simplicity,
+
+assume the I, sentence has the form ‘Y = {Vx ®(x)}.
+
+Y is refutable.
+
+Then since —'¥ is 2, both PA+ and IS(PA+) can prove
+
+(see footnote *). Since — |
+
+is Ap,
+
+Consider first the case where
+— ©; for some integer k
+
+we can again construct a terse proof of it. The new facet is that
+
+we can now use Lemma 5.3 to map every proof q of Vx (x) onto a proof f;(q) of Dy, where fy is a
+provable function under IS(PA+).
+
+But Lemma 7.1 in the context of — ®;’s terse proof implies
+
+IS(PA+) can prove it has no semantic tableaux proof of Dz. Hence since IS(PA+) can verify fg is a
+function,
+
+it must be able to confirm that there is no proof of Wx ®(x).
+
+This shows IS(PA+) can ver-
+
+ify the local reflection statement for Vx ®(x) when this sentence is refutable.
+
+The proof for the reflection statement of Vx (x) is trivial in the alternate case where this sentence is verifiable.
+
+Hence the reflection statement for Vx (x) is provable in IS(PA+) whenever this
+
+sentence is decidable. QED
+A similar methodology is used to prove Proposition 2c. Proposition 2a indicates that IS(PA+)
+can prove (7.2) when ®; is a Ap sentence and i is fixed.
+
+(Ay Prfiseasy ([%], y)} >,
+
+(7.2)
+
+Also Lemma 5.3 indicates that IS(PA+) can certainly prove
+
+{3x Prfispasy (FWv(v) 1, x)} > (By Prfispasy (TO, y)}
+Since IS(PA+) can prove (7.2) & (7.3), it must be able to prove also (7.4),
+
+of the Cut Elimination Theorem
+
+(7.3)
+
+by the transitive version
+
+(defined below).
+
+{3x Prfispasy ([Vv@(v)], x)} > O;
+
+QED
+
+(7.4)
+
+Definition. The transitive version of the Cut Elimiation Theorem is used often in this paper. It
+indicates that if IS(PA+) can prove Y>@
+
+and
+
+@2DH,
+
+then it can also prove YO.
+
+* Prom ZF set theory, one can infer that such a k must exist because Proposition 1 implies that the standard model for
+the Natural Numbers is a model for IS(PA+).
+
+-26-
+
+8. Proof of Proposition 3
+In the proof of Proposition 3, the lower case symbols
+may be either a proof-parameter or a constant.
+
+q, r, and
+
+s_
+
+represent.elements that
+
+By a ‘‘constant’’ in a proof, we mean any one of
+
+Section 5’s three possible representations of a constant,
+
+i.e.
+
+one of Chi] or either of an oti] or fi]
+
+appearing within the range of a u#[i,j] or v#[i, j] form.
+Throughout this section,
+
+p denotes a proof of a Z; sentence,
+
+by induction that all p satisfy
+
+denoted as ‘¥. We will prove
+
+Proposition 3’s strong-uniform 2; reflection principle.
+
+The proof’s
+
+overall structure will be similar to that of Proposition 1, although it will be a bit more elaborate.
+For some Ap formula B(x), x2
+
+***
+
+Xz),
+
+let us assume that (8.1) denotes VY.
+
+W = (3x; dx, --+ Sx, : Bx; , x2 *** XL)}
+
+(8.1)
+
+Define the I], normalized ciakradicdon of ‘¥ to be the I, formula
+Wx; Vxp
+
+-+* Vxp : a B(x, x2
+
+For any set of parameters or constants s;, $2, ***
+
+°°
+
+Xz)
+
+(8.2)
+
+Sz, define the corresponding sharp contradiction
+
+of ‘¥ to be any formula of the form:
+
+— B(s;, Sz *** Sz)
+Define an intermediate contradiction of
+
+(8.3)
+
+to be either its II;-normalized contradiction or a formula
+
+of one of the L-1 forms
+Vx2 Wx3 Vx4
+Vx3 Vxq4
+
+°'*
+‘°°
+
+Vx_
+
+Wxz_
+: 4B(S], X2 X3 °°*
+Wx : -B(s; S2,X3
+
+: —B(s;, 52, °**
+
+Xz)
+
+*** XL)
+
+St-1,XL)
+
+(8.4)
+
+The strong-uniform 2, reflection principle for Is” (A) was defined in Section 3 to be the
+statement that all 2; formulae D, satisfy
+
+Vv Vy {Prfistay([®)1,y) > 3}
+For any pair of parameters or constants
+
+(8.5)
+
+r and q, define a primary and secondary deduction from
+
+the strong-uniform reflection axiom (8.5) to be a sentence similar to (8.6) and (8.7) respectively.
+
+Vy {Prfjs2a)(1®,1,y) > 2}
+
+(8.6)
+
+(oddball
+
+-27Prf istay([®,1,q) > 9
+Our proof of Proposition
+INT from section 6.
+
+3 will employ
+
+some very close analogs
+
+of ANCESTOR(N)
+
+ANCESTOR*(N)
+
+be
+
+For our current discussion,
+
+all the sentences in the proof p that lie in either the node
+excluded are all the Group-3 axioms,
+tions of ‘¥.
+
+(8.7)
+
+will
+
+defined as
+
+and
+
+the list of
+
+N
+
+or one of its ancestors, except that
+
+their primary deductions,
+
+and all the intermediate contradic-
+
+(Sharp contradictions of ‘¥ and secondary deductions from Group-3 axioms are permit-
+
+ted in ANCESTOR(N).) Once again, let us say N is ancestor-consistent iff there exists an "interpretation" function,
+
+denoted as INT*,
+
+that assigns an integer value to each parameter symbol Ofi] such
+
+that all IS” (A)’s Group-1 and 2 axioms and all the sentences in ANCESTOR(N)
+
+the Standard Model)
+Again, N
+
+are valid
+
+(under
+
+when the symbols Ofi) are assigned their designated integer values under INT*.
+
+is called maximal if it is a node of maximal depth in the proof tree p possessing some
+
+such interpretation function.
+Let N denote a maximal node
+only one child, and
+similar,
+
+N*
+
+and let N*
+
+denote N’s child. In Section 6, N could have
+
+stored a sentence of the form — Prfjgca)(L, q).
+
+and the carefully chosen definition of ANCESTOR*,
+
+Our present application is
+
+in this case,
+
+forces
+
+N*
+
+to store
+
+either a sharp contradiction of ‘¥ or a secondary deduction from a Group-3
+
+axiom,
+
+(i.e.
+
+one of
+
+Equations (8.3) or (8.7)).
+
+We are now ready
+and
+
+let N
+
+and
+
+N*
+
+to prove
+
+beas
+
+defined
+
+Proposition
+above.
+
+3. Let p be an arbitary proof of a 2,
+
+Since N*
+
+must
+
+store
+
+a sentence of the form
+
+theorem,
+(8.3)
+
+or
+
+(8.7), we need merely to check that the proof p satisfies the strong-uniform 2, reflection property
+for the two cases below:
+Proof
+
+when
+
+B(INT’(s;), INT’(s2),
+
+p’s
+
+node
+
+°°:
+
+N*
+
+contains
+
+a
+
+sharp
+
+contradiction
+
+of
+
+‘Y:
+
+In
+
+this
+
+INT*(s,)) must be true because otherwise — B(s,, so,
+
+***
+
+S_) would
+
+not provide the contradiction of INT* (which by definition is associated with N*).
+Addition is the only increasing function available in the proof
+INT’(s;)<p
+
+p,
+
+case
+
+Moreover since
+
+it must be true that
+
+each
+
+(for the same reasons that the similar bound appeared in the proof of Proposition 1).
+
+Hence, each of the s; are small enough for the strong-uniform 2, reflection principle to be valid for
+the proof p. QED
+Proof for the
+
+‘‘“ALTERNATE”’
+
+tion of a Group-3 axiom:
+
+case where
+
+p’s
+
+node
+
+N* contains a secondary deduc-
+
+To prove strong-uniform 2, reflection for this case,
+
+show that it is impossible for this case to occur.
+
+it is sufficient to
+
+d
+
+- 28 Our proof will begin by inductively assuming that all Godel numbers i < p
+
+satisfy strong-
+
+uniform x reflection.
+
+[f the sentence appearing in N* was Equation (8.7)’s secondary deduction,
+
+then Prfjst;ay( [Dnt
+
+| ,INT’q))
+
+> o AE
+
+contradicts the sentence Prfjst1(a)( [o, ] 4)
+
+would be false (because the interpretation INT*
+
+> ®}
+
+in this case ). Once again,
+
+rate of the Addition function implies that INT°(q) <p.
+
+Thus,
+
+the slow growth
+
+some integer i < p must violate the
+
+strong-uniform , reflection principle. The preceding statement contradicts the inductive hypothesis,
+and hence shows this
+
+‘‘alternate’’ case can not occur. QED
+
+Remark 3. Define a GZ, formula to be a wif 2 = ( Qy xy Qo x2 *** Qi xj : O(a, x2 °** X)}
+
+where each Q; is either an existential quantifier or a bounded universal quantifier, and where © is
+Ao formula.
+
+Proposition 3 can be strengthened to indicate the consistency of a system is™ (A),
+
+whose Group-3 axioms indicate that the strong uniform Z, reflection princible holds for all GZ, formulae
+
+(see footnote *)
+Remark 4. Propositions 1 & 3 hold both when the language of Is™ (A) uses an m-ary function
+
+symbol
+
+f(x;,X2...Xm) to denote a function,
+
+and when it is represented
+
+symbol Af(x),X2,--.Xm,W) together with the added axiom
+(Only for the sake of simplifying the proof notation,
+
+by an (m+l)-ary relation
+
+Wx, Wx2 ... WXm Sw: A¢(x, X2...Xm W).
+
+Section 6 had assumed the latter during its
+
+growth analysis in Equations (6.2) thru (6.4).)
+
+9. Proof of Proposition 4 and a Discussion of its Generalizations
+The proof of Proposition 4 is quite simple.
+
+Lemma 5.3 implies that Is™ (PA+) can prove (9.1)
+
+for any fixed i.
+
+(3x Prfist pax ([Vvo(v)], x)} > (Ay Prisha (Ijl, y))
+Also Is” (PA+)’s
+
+, reflection property implies that it can verify (9.2) when
+
+©; is &).
+
+(9.2)
+
+{By Prfistpay (1, y)} >
+Since IS™ (PA+) can prove (9.1) & (9.2) (for any ®
+
+(9.1)
+
+which is ~,), the Cut Elimination Theorem
+
+implies Is” (PA+) can also prove (9.3).
+
+{3x Prfist¢pas (TVv(v)1, x)} 3%
+
+QED
+
+* The formal proof of the footnoted statement requires some tedious notation, but it is easy to explain the intuition
+behind it. It intuitively follows from the fact that every GY, formula 2 can be mapped onto a
+1 formula Q
+
+such that £2 = QQ”
+
+under the natural interpretation of bounded quantifiers.
+
+(9.3)
+
+-29The perhaps most interesting facet of Proposition 4 and the proof above is that they can be generalized significantly.
+
+Let ‘¥ denote an arbitrary I12, sentence of the canonical form (9.4), where ©
+
+below is a Ag formula.
+W = (Vx, Sy, Vx2 Fy2 «. WXq A¥n : O(Xy X2---Xn Y1¥2--Yn)}
+Let I = (C;,C2...cp)
+the Z,
+
+formula
+
+denote an arbitrary n-tuple of integer constants.
+
+{ Sy; Ay2...dy, : O(c;c2...cnyiY2--¥n)}
+
+required to satisfy the constraint y; <p-Max(c;,C2...cj).
+I,]y...Im,
+
+define its E-Tree,
+
+denoted as Treey(p,
+
+(9.4)
+
+Define Branchy(p, 1) to be
+
+with the added caveat that each y; is
+Given
+
+a set of
+
+m
+
+distinct n-tuples
+
+11,I2...Im), to be the Ag formula which asserts that
+
+the conjunction of the formulae Branchy(p, I,), Branchy(p, I,)...Branchy(p,I,,) is true,
+
+tionally if each of the first k constants in
+values in Branchy(p,
+
+];) and Branchy(p,
+
+An axiom system
+
+B’s_
+
+and addi-
+
+1; and Jj are identical then the first k of the y,y2---Yr
+Jj) are required to be matching.
+
+E-Tree Reflection Principle for ‘Y and (1),],...1,,) is the sentence:
+
+(9.5)
+
+Vp {Prig(I¥1,p) > Treey(p, TisIo---Im) }
+Also,
+
+its Bounded E-Tree Reflection Principle for Y , (1j,])...l,)
+
+and a fixed exponent A is the
+
+assertion:
+
+Vp {(( 4 x=p*) A Prfg(I¥1 ,p)] > Treey(, Li,b.Im) }
+In [Wi94],
+
+(9.6)
+
+we generalize the techniques of Sections 7 & 8 to prove:
+
+Proposition 8.
+
+For each nice system
+
+A,
+
+there exists an introspective system ISE™®(A),
+
+which is consistent and whose Group-3 axioms are strong enough to verify its E-Tree Reflection
+
+Principle for every Y and (1),]2.--Im)The proof of Proposition 8 has been postponed until [Wi94] because of its length.
+
+is possible to sketch a short proof for Proposition 9 below
+
+However,
+
+it
+
+(which is only slightly weaker than Pro-
+
+position 8),
+Proposition 9.
+
+Let
+
+A
+
+denote either the axiom system
+
+PA+,
+
+or any extension of it. Then
+
+the system Is (A) can prove the validity of its Bounded E-Tree Reflection Principle for every
+
+‘¥
+
+and (I;,I5...I,,) with =m _ in Equation (9.6).
+Very Informal Proof Sketch. Employing an analog of Lemma 5.3’s proof, the system
+associate a fixed constant
+
+K with each fixed tuple (1,12...1,), such that if p is a proof of
+
+there exists q<K-p™
+
+, 11,]g..Im).
+
+which is a proof of Treey(
+
+can be encoded as a I; sentence,
+
+As before,
+
+implying that the Group-2 axioms
+
+A can
+then
+
+the preceding remark
+
+will cause it to be a theorem
+
+-30-
+
+of IS™ (A). Since Is™ (A) recognizes scalar multiplication as a function, it can thus prove:
+
+Vp Vx {[x=p™APrfishay(P¥1 ,p)] > 3q Prfist(ay([Treey
+(ce, I) ,1p-.[m)].4)}
+
+(9.7)
+
+Moreover, IS”"(A) ’s strong-uniform =, reflection axioms indicate that
+(9.8)
+
+ay([Treep (eo, 11,]2.Im)I , q) > Treey(e, 1).]2---Im)
+
+3q Preis
+
+Hence, IS™ (A) can prove (9.6) with A=m,
+
+by the Cut Elimination Theorem and the fact that Is" (A)
+
+can prove (9.7) & (9.8). (A more detailed justification of Propositions 8 & 9 appears in [Wi94].)
+
+10. Philosophical Implications of Propositions 2c, 4, 8 and 9
+The significance of Propositions 2c,
+
+4,
+
+8 and 9 is perhaps not quite self-evident.
+
+these reflection principles provide some form of information not available in classical logics,
+Lob’s Theorem
+principles,
+
+Clearly
+since
+
+[Me87] states that traditional axiom systems are unable to prove their reflection
+
+except in the trivial case where the right side of the implicant is also provable.
+
+On the
+
+other hand, since every Ag sentence is decidable from merely the Group 1 axioms and since all valid
+2, sentences are provable from Group 1, these reflection principles have only limited implications in
+extending what one is capable of learning.
+proofs for each ®,, ®2, @3
+tence Vv P(v)
+
+---.
+
+Their main significance lies in unifying the seperate
+
+For instance by Proposition
+
+4, a single proof for the II, sen-
+
+is kiown INTERNALLY by introspective systems to have a reflection power com-
+
+parable to more expensive separate proofs for each of its 2, instances
+
+, ©., PB; --- . (The E-
+
+trees in Proposition 8 & 9 generalize this effect.)
+The most surprising facet of Propositions 2c, 4, 8 and 9 will be their stark contrast with Proposition 5 (whose proof appears in the next section). Proposition 5 asserts that the local reflection
+sentences for certain II; sentences Vv D(v)
+positions 2c,
+
+can not be presumed by an IS-like system,
+
+4,
+
+8 &
+
+9 show that the analogous
+
+“semi-uniform"
+
+instance set Dy
+
+, Dz,
+
+D3°°*
+
+(!!!) automatically follow.
+
+does nevertheless
+
+while Pro-
+
+reflection principle for its Ap
+
+One way to appreciate philosophically Propositions 2c, 4, 8 and 9 is to view man as living a
+quite mundane bounded life, where he is technically able to recognize and perceive the truth of only
+very tangible Ag sentences.
+
+In a sense (formalized by Proposition 5),
+
+even the simplest form of
+
+infinite sentences (of the Il, type) are beyond the human’s horizon for comprehension.
+proof of a Il, theorem,
+
+However, the
+
+unlike its formal statement, appears to be technically (!!!) within man’s
+
+intellectual grasp because it helps to more orderly organize the world of Ag knowledge (in a sense
+formalized by Propositions 2c, 4, 8 and 9),
+
+se
+
+<4] «
+11. Proof of Proposition 5
+In this section,
+is either
+
+PA+
+
+the keyword INVALID.1 will designate the axiom system si ™ (A), where A
+
+or an extension of it. (A second variant of ‘‘invalid axioms system’’ will be dis-
+
+cussed in Section 12.) This section will prove INVALID.]1 is inconsistent by applying Godel’s paradigm to essentially the sentence asserting ‘‘Every proof x from the axiom system INVALID.1 fails
+to verify this sentence’. The combination of the fact that this sentence can be encoded as a I, statement and the I], Local Reflection Principle will be used to prove INVALID.1 must be inconsistent.
+Define SUBST(a,b) to be the classic Aj formula expressing that if a is the Godel number of
+@(x) then SUBST(a,b)
+
+is satisfied only by that
+
+obtained by replacing
+
+x with the constant
+
+b
+
+which is the Godel number of the sentence
+
+a (see *). The italicized sentence from the previous
+
+paragraph can be formally represented by taking ® from (11.1) and forming the sentence © ([@]).
+® = {Vx2 Vx3 [SUBST (x), x2) >
+
+Prfinvaup.1 (X2, X3)]}
+
+(11.1)
+
+Let H denote the special integer satisfying
+
+SUBST (I ], H).
+
+(11.2)
+
+INVALID.1 can obviously prove that ® ([@]) is equivalent to (11.3).
+Y=
+
+{ Vx Prfinvaup. CH, x) }
+
+(11.3)
+
+A semantic tableaux proof of ‘Y appears in Figure 3. Let q denote this proof, and Tr denote
+
+INVALID.1’s proof that Y is equivalent to ®([@]).
+and fr as fixed constants,
+
+it must be able to recognize a third Godel number p,
+
+proof of D( [®]).
+
+(To be precise,
+
+existence of q and
+
+fT by the Meta-Logic,
+
+POINT
+
+Since INVALID.1 can recognize both q
+
+the existence of p
+
+corresponding to a
+
+is an immediate consequence of the
+
+described in Remark 2 of Section 7).
+
+THE
+
+MAIN
+
+IS that D( []) asserts it has no such proof p ! This implies INVALID.1 is inconsistent.
+
+Or if one wishes to be strictly formal, the precise paradox is that:
+Since Pp isa fixed constant, representing a proof of D( [@1), there is a formal proof in INVALID.1
+of the theorem statement that p is a proof of ®([@]). This latter theorem formally contradicts
+D( [o] ), which is another theorem of INVALID.1 ! Hence, INVALID.1 is inconsistent.
+
+* While essentially all interesting introspective axiom systems are too weak to prove D is functionally determined by
+@ under the SUBST(a,b) relation, they nevertheless have no difficulty in expressing SUBST(a,b) as a Ao formula.
+The formal encoding of SUBST follows from the combination of Lemma 5.1. and Theorem A.1 (from Appendix A).
+
+ABs
+
+Pew sta
+
+my
+12. Justification
+Let
+
+the
+
+of Proposition 6.
+
+keyword
+
+INVALID.2
+
+be
+
+an
+
+abbreviation
+
+for
+
+Proposition
+
+6’s
+
+axiom
+
+system
+
+1s” “(PA+ , G,,). The following lemma will help us prove INVALID.2’s inconsistency.
+Lemma 12.1.
+
+All of INVALID.2’s local reflection statements for TI, sentences are theorems
+
+of this axiom system.
+Proof Sketch: For each
+
+A%>0
+
+Ag
+
+formula
+
+‘P(v) with only
+
+such that PA+ can prove (12.1) as a theorem.
+
+v_
+
+free,
+
+there exists some constant
+
+(One needs to merely apply Lemma 5.3’s T-
+
+transformation to verify this fact.)
+
+VaVbWeld<c : {¢ =(ab)* A Prfinvaup2(I¥v¥(v)1, a)} > Prfinvauip2(1, d)
+Since (12.1) is a Tl, theorem of PA+,
+theorem of INVALID.2.
+
+the class of Group-2 axioms imply that it will also be a
+
+Since INVALID.2 recognizes multiplication as a total function, another
+
+theorem of it will clearly be {VaVbac c = (ab)*}. These two facts
+Meta-Logic)
+
+Moreover,
+
+(12.1)
+
+(via another application of
+
+imply that (12.2) must also be a formal theorem of INVALID.2.
+
+VaWb3d: Prfpwvaup2(lVvY(v)I, a) > Prfyvauip2(l%1.4)
+
+(12.2)
+
+the proof of ‘¥,, is known within INVALID.2 to imply ‘Y,’s validity
+
+(in the ‘‘uniform’’
+
+sense), by INVALID.2’s
+
+U Ag reflection property. Thus, it can verify
+
+VbVd: Prfmvaup2(l¥51,d) > Yb)
+Since INVALID.2 can prove (12.2) & (12.3),
+
+the Cut Elimination Theorem, via
+
+(12.3)
+Remark 2’s per-
+
+spective (from page 22), implies it can also prove (12.4):
+Va:
+
+Since ‘Y is an arbitrary Ay
+its local IT,
+
+Prfijvaup 2(Vv¥(v)] »a) > Vv ‘Y(v).
+
+(12.4)
+
+formula, the preceding argument shows that INVALID.2 can prove all
+
+reflection statements. QED
+
+The main part of the proof of Proposition 6 is nearly the same as Proposition 5’s proof. This is
+because Proposition 5 implied that any introspective system which includes the LIT,
+axioms is automatically inconsistent,
+
+reflection
+
+and Lerhma 12.1 indicated that the LTT, reflection statements
+
+are indeed theorems of INVALID.2.
+The previous paragraph contained the phrase ‘‘nearly the same proof’’ because one remaining
+difference between Propositions 5 & 6 is that INVALID.I treats LIT, reflection as an axiom schema,
+whereas Lemma 12,1 only established the LITT,
+
+reflection sentences as theorems of INVALID.2.
+
+-33-
+
+This fact implies that the precise semantic tableaux in Figure 3 is not helpful for proving Proposition
+6 because the third line in Figure 3’s tableaux is technically permissible only when LT], reflection is
+an axiom.
+& 6:
+
+This detail is mostly a technical rather than conceptual distinction between Propositions 5
+
+Appendix B explains formally how after one minor modification the exact formalism from
+
+Chapter 11 can be extended to also prove Proposition 6.
+
+13. Proof of Proposition 7 and Added Remarks.
+Define a tableaux proof with cuts to be a deduction formalism identical to semantic tableaux,
+
+except that it is permissible to include the sentence © V 4,
+proof tree.
+
+for any sentence ®, in any node of a
+
+Although this section proves Proposition 7 formally for tableaus with cuts,
+
+its proof
+
+trivially generalizes to all the other usual deduction methods allowing cuts.
+In our proof, ‘¥ will denote IS,(A,G_)’s
+
+Model(k)
+
+indicated below.
+
+(13.1)
+
+}
+
+{ Vx 3Prfisa,c)(1,x)
+
+Y=
+Let
+
+Group-3 axiom sentence,
+
+denote the finite model generated by the first k+1 natural numbers 0,1,2,...k
+
+the functions and relations of the axiom group
+
+G_.
+
+under
+
+(This definition is reasonable because all the
+
+functions f of G_ satisfy f(xy ,X2,-.,Xn) S Max(x1,X2,--:%n).) Let GE be a set of
+Group-1
+
+axioms
+
+0,1,2 -++ Kk,
+Since
+
+identical
+
+G_,
+
+except
+
+that
+
+G*
+
+Also let Schema(k) denote the union of
+
+Schema(k)
+
+is valid under
+
+some integer k such that
+assuming,
+
+to
+
+Model(k),
+
+discusses
+G¥
+
+only
+
+the
+
+first
+
+with IS,(A, G_)’s
+
+k+l
+
+constants
+
+Group-2 axioms.
+
+IS,(A, G_)
+
+can be inconsistent only if there exists
+
+‘VY is invalid under Model(k).
+
+We will prove that this can not occur by
+
+for the sake of contradiction,
+
+that
+
+n
+
+is the minimal integer where
+
+—‘Y
+
+is valid under
+
+Model(n).
+
+This assumption implies that there exists some
+
+tSn
+
+in Model(n)
+
+such that t
+
+satisfies
+
+(13.2)
+
+Prfis,ca,c.)(L,t)
+Let
+
+m
+
+denote the largest constant appearing in the proof
+
+have the same definitions as Schema(k)
+
+and
+
+Model(k).
+
+t,
+
+and let
+
+Schema(m)
+
+By definition,
+
+‘PV
+
+axiom which may appear in the proof t and which is not in Schema(m).
+Schema(m)
+imply that ‘Y
+
+t.
+
+are
+
+valid under
+
+is invalid
+
+under
+
+Model(m),
+Model(m).
+
+the combination
+Clearly
+
+m
+
+of
+
+(13.2)
+
+is less than
+
+Model(m)
+
+is the only possible
+
+Since all the axioms of
+
+and the previous sentence
+
+t, since it appears in the proof
+
+The last two sentences provide the desired contradiction because
+
+presumed to be the least integer such that —‘Y
+
+and
+
+is valid under Model(n).
+
+m<tSn,
+QED
+
+and
+
+n
+
+was
+
+-34Remark 5. Some hybrid versions of Proposition 7 that follow from the techniques of Sections
+
+8-11 are that IS2"(A, G_), ISU™(A, G_), ISk™(A, G_), ISU (A, G_), etc. are consistent
+for all nice A, and that once again the same is false for Isk my (A, G_).
+Remark 6. For simplicity,
+
+this paper has employed the definition of Go, introduced in Sec-
+
+tion 2. Its definition was quite arbitrary,
+definitions.
+
+For instance,
+
+fii] (x, »X25-0Xj)
+
+and our main theorems trivially extend for more general
+
+say the function symbol
+
+S i2J - Max (X1,X25-+-%j)-
+
+of slowly growing functions is added to Gg,
+
+fii]
+
+(from Section 5) is slowly growing iff
+
+Propositions 1-4 and 8 & 9 will hold when any set
+
+and Propostion 7 is valid when any set of non-growth
+
+functions is added to G_.
+Remark 7. Let R denote any recursively enumerable axiom system that uses the language sym-
+
+bols of IS and which is consistent with Gg.
+such that
+Go
+
+@
+
+Clearly, there will then exist a Ap formula Deriv(x,y)
+
+is a theorem of R if and only if Jy Deriv ([o], y). Define Ap to be the union of
+
+with the added axiom schema of the form
+
+Vy { Deriv([], y) > ®}
+
+(13.3)
+
+The system
+
+Ag is obviously nice, and Propositions 1, 3 & 7 will consequently imply that IS( Ap ),
+
+Is™ (Ag),
+
+and IS,(Ap,G_)
+
+are consistent systems that prove all the Tl, theorems of R.
+
+14. Philosophical Speculations
+This article has sought to determine how
+Theorem,
+
+powerful,
+
+in light of Godel’s Incompleteness
+
+can self-verifying systems become? Propositions 1-4 and 7-9 have illustrated the limited
+
+but tangible power of self-verifying formalisms,
+the inconsistency of both
+
+IS,(PA+)
+
+and
+
+while Propositions
+
+IS,(PA+,G,)
+
+5 & 6 and Solovay’s proof of
+
+have formalized several restrictions on
+
+these systems.
+Propositions 1 & 7 clarify the meaning of Solovay’s version of the Incompleteness Theorem by
+showing that the inconsistent systems
+
+IS,(PA+,G,)
+
+and ISj(PA+, Gg)
+
+become consistent when
+
+one either excludes Gentzen-style cuts or removes the successor function from the Group-1 formalism of G,.
+Our research was motivated,
+
+in part,
+
+by the perspective that humans must (in some weak
+
+sense ? ) presume their own consistency to justify the mental energy expended during cogitation.
+The CFA system of Kreisel and Takeuti [KT74] differs from our approach by being a self-verifying
+second order system.
+
+It also warrants the reader’s close attention.
+
+-35It is difficult to list crisp philosophical conclusions that follow from the theorems of this paper
+because many of our self-verifying formalisms become inconsistent when their underlying definitions
+are changed only slightly.
+
+A possible explanation for the sharp contrast between Proposition 5’s
+
+invalid T1, local reflection principle and the quite valid close approximations to it in Propositions 2c,
+4, 8 and9
+
+was given in Section 10.
+
+me noted, there are valid epistemological perspectives,
+
+where
+
+a proof of a II, theorem should be viewed exclusively as a proof, rather than also as a theorem!
+It should be mentioned that all our formalisms in Propositions 1-4 and 8 & 9 remain consistent
+in the presence of Gentzen-style cuts,
+(see *). Thus,
+
+in the degenerate case where the sentence being cut is Ap
+
+Solovay’s Theorem about the inconsistency of IS,(PA+)
+
+deduction rule to sentences with unbounded quantifiers.
+
+rests on applying the cut
+
+Also the passage containing Equation (3.7)
+
+described types of Ao cut princibles such that these cut princibles are valid for introspective IS-like
+systems but invalid for classical axiom systems.
+One interesting question concerns the relationship between Zermelo-Fraenkel Set Theory (ZF)
+and the axiom system IS(ZF). While ZF set theory can not prove its own consistency [Go31],
+
+proofs within this paper can be carried out within ZF.
+
+all the
+
+This is a bit interesting because it means ZF
+
+can prove its consistency is equivalent to an alternate system IS(ZF), which is self-verifying and
+
+affirms the consistency of ZF.
+
+(Indeed,
+
+IS(ZF) confirms ZF’s Il, validity.) This raises the philo-
+
+sophical question of whether when humans think they are using an analog of ZF for reasoning,
+
+they
+
+may be actually relying unconsciously upon some variant of a more introspective IS(ZF) (or perhaps
+
+upon IS"(ZF), IS“ (ZF), 18° ™(ZF) or ISY (ZF) etc.).
+To some extent, Logic appears to be analogous to Physics, where neither the wave nor particle
+theory convey the full truth, and individual axiomatic frameworks can convey only partial perspectives.
+
+In a similar spirit,
+
+it is awkward to both use a self-verifying system (because of its weak
+
+structure), or to employ a non-self-verifying systems (because it does not explain how humans justify the mental energy expended during cogitation without implicitly presuming their consistency).
+Some hybrid perspective where one can readily shift perspectives,
+
+as in the example of Physics,
+
+perhaps needed.
+
+ZF and IS(ZF),
+
+In this regard, we note that the pair of systems,
+
+do allow one to
+
+* One way to formally extend IS(A) to include Ap cutting is to simply add to IS(A) an axiom DV 4@ for
+each Ap sentence @ (and verify that all our Propositions remain valid under such a modification). However, this is
+essentially unnecessary because
+
+IS(A), without modification,
+
+tence Prfy([DViAd|)
+
+> OVA.
+
+crease in proof
+
+length. This_pice property holds because if
+
+can simulate a Ag
+
+is
+
+cut rule with only a polynomial in-
+
+is Ap then IS(A)'s Group-2 axioms include the sen-
+
+- 36-
+
+readily shift perspectives in that:
+i)
+
+ZF is strong, and it can comprehend
+that ZF
+
+ii)
+
+(through its own internalized version of Model Theory)
+
+is consistent if and only if IS(ZF) is consistent.
+
+IS(ZF) is self-verifying and clearly able to employ ZF at the level of comprehending
+
+ZF’s
+
+MT,
+
+theorems.
+
+Thus,
+
+the pair of systems, ZF and IS(ZF),
+
+has both a strong and self-verifying component, with
+
+each component understanding quite well the significance of the other
+
+!!!
+
+(Curiously,
+
+the ZF half
+
+of this 2-part system can be viewed as performing deduction with Gentzen-style cuts, if ZF is defined
+to include the axiom
+
+©®V—-—®
+
+for each sentence ®.
+
+On the other hand by the combination of
+
+Solovay’s negative and Proposition 7’s positive result, the IS(ZF) fragment of this system can not
+consistently employ deduction with Gentzen cuts, unless all growth functions, including Successor,
+are removed from IS(ZF)’s Group-1 axioms ! )
+
+The results of this paper are likely to also have some significance even if one subscribes to the
+philosophical position that human thought is too complicated to be encaptured by any single
+pair)
+
+of r.e. axiom systems.
+
+For example,
+
+consider an axiom system
+
+A
+
+taking the union of a countable class of transcending axiom systems Ay
+where each A; but not A
+
+is r.e.
+
+(or
+
+which is constructed by
+
+C Az
+
+C A3
+
+C
+
+-:--
+
+There was insufficient space to explore such structures in this
+
+paper, but Propositions 1 thru 9 clearly have some implications for them,
+
+since they define respects
+
+in which the sub-components A, can be required to be self-verifying.
+Finally,
+rather than
+
+it should be noted that the title of this chapter was
+‘‘Concluding Remarks’’.
+
+‘‘Philosophical Speculations’’
+
+The former title was selected because it is difficult to list crisp
+
+philosophical conclusions following from our theorems when many of the self-verifying formalisms
+become inconsistent after their underlying definitions are changed only slightly.
+Thus,
+
+the most important conclusion of this paper may be merely that several provably correct
+
+self-verifying axiom systems become inconsistent when their underlying definitions are changed only
+
+slightly.
+Acknowledgments: I warmly thank the University of Tel Aviv for hosting my sabbatical in
+1992 while this paper was conceived.
+
+As a child of two parents who barely survived the Holocaust,
+
+I was especially glad to spend my sabbatical in Israel. I also thank Sam Buss and Robert Solovay
+for their suggestions on how to improve the presentation.
+
+I thank the Computer Science Department
+
+of the University at Albany for providing me with the extra time needed to write up this draft.
+
+-37-
+
+APPENDIX
+
+A
+
+This appendix will show that for each nice A, it is possible to encode Prfjsay (x,y) as a Ap formula.
+
+For simplicity,
+
+our discussion will focus exclusively on the IS(A) system from Propositions 1
+
+& 2.
+
+An easy generalization will imply that for any G2Go,
+
+it is also possible to provide the
+
+IS§(A, G) systems in Proposition 3 thru 9 with a Ap formula for encoding Prfiss (a,c) (x,y).
+
+We will often employ the following notation.
+i)
+ii)
+
+| UNION(A) designates the union of IS(A)’s Group-1 and Group-2 axioms.
+ExPrfg (x,y,z)
+
+designates the formula that y is a semantic tableaux proof of
+
+x
+
+using the
+
+axiom system B plus the added axiom whose Godel number equals z.
+iii)
+
+SUBST;
+
+(x,y) denotes Godel’s classic substitution relation which yields TRUE when
+
+Godel number of a formula that contains a free variable
+
+formula generated by replacing each appearance of
+where
+
+fi] »
+
+y
+
+is not the Godel
+
+number
+
+of a formula,
+
+is a
+
+is the Godel number of a
+
+«Mi ”” with the Godel number
+
+Si] is always free in x and it has at least one such appearance.
+
+define SUBST ; (x,0) to be TRUE when x
+
+x
+
+x, and
+
+(It is convenient to
+
+fails one of the preceding conditions,
+
+i.e. when
+
+it does not contain an appearance of fi],
+
+x
+
+or some
+
+appearance of ¥[i] is not free.)
+Our notation will imply that if H is the Godel number of the sentence specifying IS(A)’s Group-3
+axiom then
+
+ExPrfyyion(ay (X,y,H)
+
+essentially formalizes
+
+Prfjsca)(x,y).
+
+The relation
+
+SUBST
+
+will
+
+be employed to define formally the integer H, as will be shown in Equations (A.2) & (A.3).
+Point of Clarification. Since it does not recognize multiplications as a function, IS(A) will
+clearly be too weak to prove that
+
+Vx dy SUBST ; (x,y).
+
+However, IS(A) will be able to prove for
+
+any fixed integer k that 3y SUBST; (k, y). It will turn out that the latter will be sufficient for IS(A)
+to formally define the particular instance of the reflection principle needed-to define H.
+
+Theorem A.1. Recall that the class of majorized formulae were defined in Lemma 5.1. This
+class is broad enough so that:
+a)
+
+SUBST;
+
+(x,y) can be encoded by a majorized formula;
+
+b)
+
+the three statements that a Godel number
+axiom systems of PA, PA+,
+
+c)
+
+or
+
+ZF
+
+x is an axiom belonging to one of the conventional
+
+can be encoded as majorized formulae;
+
+for any axiom system B which can be encoded by a majorized formula, the expression
+Prfg (x,y) can also be encoded as a majorized formula;
+
+d)
+
+forany nice A, the expression ExPrfynioncay (%,y.Z) (and hence also Prfynionca) (x,y) ) can
+be encoded as majorized formulae.
+
+~ 38 Before proving Theorem A.1, its significance should be explained. The combination of Lemma
+5.1 and Theorem A.1 imply that SUBST; (x,y),
+be encoded as Ag formulae.
+
+Prfunioncay (x.y)
+
+This implies that Equation
+
+Notation in Equation
+omit Section 5’s
+
+9
+
+(A.1).
+
+symbol.
+
+ExPrfynioncay (%Y.Z) can
+
+(A.1) can be encoded as a I, formula.
+
+Our notation has been informal in this article, and we usually
+For instance,
+
+technically be written as ty]
+cit meaning is clear.
+
+and
+
+and
+
+the symbols
+
+y
+
+and
+
+z in Equation (A.1) should
+
+¢[z), but we omit the tiresome notation because their impli-
+
+One exception to this rule is that the formal symbol
+
+$fi]
+
+is employed in
+
+Equation (A.1) because otherwise it is not evident that the designated variable has the same index
+as the SUBST ; relation. Essentially, this is the only exception appearing in this article.
+
+Vy
+
+—{ Prfunionay (L,y)
+
+VY [3z<y
+
+SUBST; (¥f[i], z) A ExPrfunioncay (L.y,z)]}
+
+Let
+
+J denote the Godel number of Equation (A.1).
+
+(A-1)
+
+This Godel number will enable us to formally
+
+define the construct Prfjsca)(x,y), which was employed but not given a formal definition in Sections
+2 thru 7.
+
+Equation (A.3) is the formal definition of Prfjsca)(x,y),
+
+ing Group-3 axiom
+
+(of the generic form
+
+"Wy — Prfiscay(1,y)" ). (These equations enable us to
+
+formalize Prfjsca) (x;y) because the only integer
+& (A.3)
+
+is (A.2)’s
+
+Godel number.)
+
+Equation
+
+(A.2) is a I];
+
+sentence,
+
+Since
+
+and
+
+and (A.2) is IS(A)’s correspond-
+
+z satisfying
+
+SUBST,
+
+(A.3)
+
+Prf and
+
+is a Ag
+
+SUBST; (J,z)
+ExPrf
+
+formula.
+
+in equations
+
+can be given
+
+Ap
+
+(A.2)
+
+definitions,
+
+These definitions of provability
+
+and of IS(A)’s Group-3 axiom will thus meet the requirements of the closing paragraph in Section 5.
+
+Vy
+
+— ( Prfunionay (L.y)
+
+V
+
+[A z<y SUBST;(J, z) A ExPrfunionca) (1.y.2)]}
+
+Prfymion(a) (X,Y)
+
+Vo
+
+{3z<y
+
+SUBST
+
+;(J, z) A ExPrfynioncay (X, ¥,Z)
+
+(A.2)
+
+}
+
+(A.3)
+
+Clarifying Comment 1. Equation (A.3) appears to be the simplest possible representation of
+Prfiscay(X,y) as a Ap formula.
+number satisfying
+system
+
+UNION(A).
+
+The reason is easiest to appreciate if K
+
+SUBST;(J,K).
+Then
+
+Let
+
+y<K_
+
+denotes the unique Godel
+
+encode a proof of the sentence
+
+y will not satisfy the curly bracket expression in Equation (A.3),
+
+the formula Prfyyionay (x, y) in Equation (A.3) is necessary to indicate that
+from the axiom system
+
+x from the axiom
+
+IS(A).
+
+On the other hand,
+
+axiom will have a Godel number greater than
+
+K.
+
+any proof
+
+Thus,
+
+y
+
+y
+
+and
+
+is a valid proof
+
+that includes IS(A)’s Group-3
+
+the curly bracket expression in Equation
+
+(A.3) is sufficient to test for whether y is this second type of proof of x.
+
+-39-
+
+Clarifying Comment 2. The preceding discussion has shown how the combination of Parts
+(a) & (d) of Theorem A.1 enables us to construct a Ap definition for Prfisca)(x,y).
+Parts (b) or (c) of Theorem A.1,
+
+Lemma 5.1,
+
+Part (b)
+
+and their significance’should now be explained.
+
+implies that the axiom systems
+
+PA,
+
+PA+
+
+and
+
+Thus, these axiom systems meet the requirements for Propositions
+IS(PA), IS(PA+) and IS(ZF).
+
+It did not employ
+
+ZF
+
+Combined with
+
+have Ag definitions..
+
+1 thru 9 to be applicable to
+
+The combination of Lemma 5.1 and Part (c) of Theorem A.1 imply
+
+that for each nice axiom system A, Prf,(x,y) can be encoded as a Ag formula.
+
+This fact is impor-
+
+tant because it justifies our presumption that all IS(A)’s Group-2 axioms can be encoded as II; sentences (i.e., it justifies the sentence which had followed Equation (2.1) ).
+The remainder of this Appendix will be devoted to proving Theorem A.1’s four claims.
+
+As is
+
+often the case with the construction of Godel encodings, the formal details of the proofs are quite
+tedious.
+
+These details are included only for the sake of completeness.
+
+The main theorems of Sec-
+
+tions 3-14 are clearly of greater conceptual interest. It is strongly recommended that they be examined before the remainder of this Appendix.
+
+(Indeed, since Section 5 showed Prf2 (x,y,z) can be
+
+trivially encoded with a Ag definition, readers not caring about the technical distinction between Prf
+
+and Prf2 can reasonably choose to omit the entire remainder of this Appendix.)
+Recall that a byte is defined in this paper as an unit consisting of six bits.
+function of
+strings).
+
+Gg, listed in Section 2,
+
+manipulated essentially binary encodings of integers
+
+Since this Appendix will be studying mostly byte strings
+
+be convenient to define several further compound
+Eighteen such compound functions,
+
+The eight atomic
+
+functions,
+
+(rather than bit strings),
+
+(as bit
+it will
+
+built from these atomic functions:
+
+mostly for byte manipulation,
+
+are defined below.
+
+(Since only
+
+54 letters appeared in the alphabet defined in Section 5, we may assume without loss of generality
+that no alphabetic symbol is encoded by the byte of zero.)
+1)
+
+Count (x,b) = the number of repetitions of the byte b in the byte string
+
+x {formally encoded
+
+as Count(x,b) = StringCount(x,
+b, 6) }.
+
+2)
+
+Log* (x)
+
+designating
+
+Plog. (x+1) 1.
+
+{formally
+
+encoded
+
+as
+
+Log* (x) = StringCount(x,0, 1) + StringCount(x, 1,1) }.
+3)
+
+Length(x)
+
+4)
+
+Scalar, (x):
+
+designating
+
+comprising a family of functions that for any fixed constant k
+
+scalar product of k-x.
+IS(A)
+
+x’s byte length {formally encoded as Length(x) = (Log* (x)+5)/6 }
+
+because
+
+represents the
+
+{Unlike normal multiplication, scalar multiplication is a function under
+
+it is defined
+
+by
+
+Scalarp (x)=0
+
+and
+
+Scalar,.,, (x) = Scalar, (x)+x.
+
+The
+
+- 40notation
+
+2x, 3x, 4x,....
+
+will
+
+be
+
+an
+
+abbreviation
+
+in
+
+this
+
+paper
+
+for
+
+Scalar, (x), Scalarg (x), Scalar, (x), .... .}
+
+5)
+
+Substring (x,i,j) designating the substring of x consisting of its i-th through j-th
+into right-justified form
+
+{formally encoded as Shift( Extract(x , 6i-5,6j)
+
+6)
+
+Byte
+
+x’s
+
+7)
+
+Bit
+
+8)
+
+Power (x) = the greatest number
+
+(x,i) designating
+(x,i) designating
+
+x’s
+
+i-th byte
+i-th bit
+
+bytes put
+
+, 6i-6) }
+
+{formally encoded as Substring(x,i,i) }.
+
+{formally encoded
+as Shift ( Extract(x,i,i) , i-1)
+
+ySx
+
+which
+
+is a power of 2
+
+}.
+
+{constructed by setting
+
+Power(x) = Extract(x,Log* (x),Log* (x)) }
+9)
+
+Ones (x) = 2-Power(x)—1
+
+{i.e. a sequence of "1" bits whose bitlength equals Log* (x)}.
+
+10)
+
+Maximum (x,y) which can be defined as x + (y- x)
+
+{Since Section 2’s definition of subtrac-
+
+tion indicated that y - x = 0 when x2y }.
+11)
+
+Minimum (x,y)
+
+12)
+
+And(x,y) = bitwise AND of x and y {constructed by setting
+
+13)
+
+Indicate
+
+14)
+
+(x,y)
+
+defined similarly as x + y - Maximum(x,y).
+
+=
+
+x
+
+when
+
+y#0,
+
+it equals
+
+zero
+
+Indicate(x,y)
+
+= x/(y/y)
+
+Find (x,i,b)
+
+designating the address in the byte string
+
+when
+
+x of the
+
+(if such an occurrence exists), and
+
+Find(x,i,b) = 0 otherwise.
+
+than 64
+
+for
+
+(so that it is impossible
+
+Next (x,i,b)
+
+=
+
+K
+
+{formally
+
+encoded
+
+as
+
+{Let
+
+b
+
+K .be any integer greater
+Then
+
+Find(x,i,b)
+
+can be
+
+}
+x
+
+of the first occurrence of the byte
+
+right of the address i (if such an occurrence exists), and
+u-—v
+
+}
+
+i-th occurrence of the byte
+
+to designate a byte).
+
+the address in the byte string
+
+Since Section’2 defined
+
+y=0.
+
+since section 2’s definition of division indicated that a/0=0.)
+
+encodedas Address(x,b,K,i,6)/6.
+15)
+
+and
+
+And(x,y) = Andreverse(x,y, 1, 1).}
+
+Next(x,i,b)
+
+as equal to zero when uSv,
+
+b
+
+to the
+
+= Length(x) otherwise.
+
+Next(x,i,b) can be encoded as
+
+Find [x , Count(Substring(x, l,i), b) + 1, b] + Indicate[ Length(x) , 1 — Find(x, Count(Substring(x, l,i), b) + 1, b) J.
+
+16)
+
+Bracket (x,i) = the address in the byte string x of the first occurrence of either the byte
+
+"{"
+
+or
+
+"}"
+
+Minimum
+
+17)
+
+to
+
+the
+
+right
+
+[ Next(x,i,"{")
+
+ReverseOrder
+
+(x)
+
+of
+,
+
+for
+
+address
+
+i.
+
+It
+
+of
+
+length
+
+is
+
+formally
+
+encoded
+
+as
+
+L = Log*t(x)
+
+such
+
+that
+
+encoded
+
+as
+
+Next(x, i, "}" )]
+
+designating
+
+Bit(s,i) = Bit(x, L+1-i)
+
+the
+
+the
+
+each
+
+Andreverse(x , Ones(x), 1, Log* (x) ).
+
+bit-string
+i<L+l.
+
+s
+
+ReverseOrder(x)
+
+is
+
+formally
+
+wd «
+18)
+
+ReverseAddress (x,b,c,j)
+contains
+
+j
+
+indicating the greatest integer k where
+
+more appearances of the byte
+does
+
+than of the byte
+
+ReverseAddress(x,b,c,j)=0
+
+if
+
+Address
+
+and
+
+since
+
+Address
+
+with the bytes processed in reverse order}.
+
+ReverseOrder,
+
+k
+
+b
+
+not exist
+
+Substring(x, k, Length(x))
+c
+
+(if such k exists),
+
+{trivially encoded
+
+with
+
+and
+
+the functions
+
+ReverseAddress is essentially the same as the function
+
+Recall that Section 5 indicated that a tree, whose root contains the string P and where the subtrees {0,}, {2}, {03}, ‘** {Gy} are the children of the root, will be encoded as the parenthesized
+expression { P { 04 } {2}
+
+{03}
+
++: {O,}
+
+}. The symbol P will henceforth be called the root’s princi-
+
+ple string, and it will be assumed to be a non-empty string containing no instances of the special
+punctuating
+
+bytes
+
+"{" or "}". Each node
+
+{0}
+
+descending from the root will have an analogous
+
+recursively defined construction.
+Lemma
+
+A.2. There exists a Ag formula TreeCheck(s) which will determine whether an arbi-
+
+trary byte string s is a parenthesis tree (as defined above).
+Proof. It is easy to verify that s is a parenthesized tree if and only if it satisfies the following
+five conditions:
+i)
+
+the first byte in s is "{" and its last byte is "}";
+
+ii)
+
+Every "}" byte, except for the last byte of s,
+
+is immediately followed by a byte which
+
+is either "{" or "}";
+iii)
+
+No
+
+"{" is immediately followed by the byte
+
+"}"
+
+or
+
+"{"
+
+(since at the very least a
+
+nonempty principle string will separate these two bytes);
+iv)
+
+the same number of "{" and
+
+v)
+
+For eachi< Length(s),
+
+"}" bytes appear in s ;
+
+there are more appearances of "{"
+
+than
+
+"}"
+
+among the first i
+
+bytes of s.
+The formal encoding of these five conditions as Ap formulae are indicated below:
+i)
+
+Byte(s,1)="{"
+
+A Byte(s,Lengths(s)) = "}"
+
+ii)
+
+Wi<Length(s)
+
+:
+
+Byte(s,i)=")"
+
+>
+
+Byte(s,itl)="}" or "{"
+
+iii)
+
+Vi<Length(s)
+
+:
+
+Byte(s,ij)="{"
+
+>
+
+Byte(s,itl1)#"}" or "{"
+
+iv)
+
+Count(s, "}" ) = Count(s, "{" )
+
+v)
+
+Wi<Length(s): i=O V Count(Substring(s, 1,i),"{") > Count( Substring(s, 1,i),"}")
+
+ye
+Hence TreeCheck(s) can be encoded as Ag formulac, because it is a conjunction of the preceding five
+Ay formulae.
+
+QED
+
+Lemma A.3. In this paper, a binary tree is defined as a rooted tree, where every internal node
+has one or two children. There exists a Ag formula,
+
+BinaryTrecCheck(s),
+
+which indicates whether
+
+Proof. Equation (A.4) is a Ay formula which yields FALSE when s
+
+is a binary tree, yields
+
+or not a string s so encodes a binary tree.
+
+TRUE when s
+
+is anon-binary tree, and its truth-valuc is unpredictable when
+
+3x, <Length(s) 3x2 <x, 3X3 < x2 3x4 <x3
+
+s is not a tree.
+
+: TreeCheck( Substring(s ,x2,x,;)) A
+
+TreeCheck( Substring(s , x3 ,X2—1 ) ) A TreeCheck( Substring(s , xs ,x3 —1 ) )
+
+(A.4)
+
+Since both TreeCheck(s) and Equation (A.4) have Ag encodings, so will there be a Ag encoding for
+the statement that TreeCheck(s) is true and Equation (A.4) is false. The latter formula is a Ag encod-
+
+ing for BinaryTreeCheck(s).
+
+QED
+
+Let s denote a byte string encoding a tree with N nodes in parenthesized notation. Each node v
+of this tree will be associated with a unique principle string.
+
+Define the index of v to be the integer
+
+indicating the number of "{"
+
+symbols which are positioned in the byte string s to the left of v’s
+
+princible string. (Each of the
+
+N_ nodes in a byte string
+
+index number between
+
+N.)
+
+1 and
+
+s will be thus associated with an unique
+
+Lemma A.4 (below) describes functions, ranging over the set of
+
+index numbers, induced by s.
+Lemma
+
+A.4.
+
+Five further compound
+
+functions, which are well defined whenever s is a
+
+parenthesized encoding of a tree, are:
+a)
+
+NODE(i,s) designating the byte address of the i-th symbol “{" in s if this symbol exists (and
+zero otherwise).
+
+b)
+
+INDEX{(j,s) indicating how many repetitions of the symbol "{" appear among the first j bytes
+of s.
+
+(Since INDEX(NODE(i,s), s) = i, the INDEX
+
+function can be viewed intuitively as the
+
+inverse of the NODE function.)
+c)
+
+PRINCIPLE(i,s) representing the substring which is NODE(i,s)'s
+
+principle string.
+
+d)
+
+ANCESTOR(i,L,s) indicating the index of the ancestor of i which lies L levels above i, if such
+an ancestor exists (and where ANCESTOR(i,L,s) = 0 if this ancestor does not exist in s);
+
+e)
+
+PARENT(i,s)
+
+=
+
+ANCESTOR(i,1,s)
+
+- 43 Proof The formal encodings of functions (a) thru (d) appear below:
+
+NODE(i,s)
+INDEX(j,s)
+PRINCIPLE(i,s)
+
+ANCESTOR(i,L,s)
+
+= Find(s,i, “‘{”)
+
+(A.5)
+
+= Count( Substring(s, 1,j), ‘'{” )
+
+(A.6)
+
+= Substring(s , NODE(i,s)+1 , Bracket(s, NODE(i,s))—1
+
+)
+
+(A.7)
+
+= INDEX{ReverseAddress( Substring(s,
+|, NODE(i,s)) , ‘*{” , ‘'}”, L+1), 5}
+
+(A.8)
+
+Notation: The exponent A will always denote a fixed constant employed to establish the range
+for the quantifiers
+
+V
+
+v<x* and
+
+Jv <x*.
+
+We will demonstrate how various logical constructs can
+
+be expressed with formulae so ‘‘majorized’’ by 4. Lemma 5.1 indicated that each ‘‘majorized formula’’ can be transformed into a Ap formula.
+
+Thus while the next fourteen propositions technically
+
+discuss only majorized formulae, they implicitly indicate the existence of Ap formulae as well.
+Lemma A.5.
+of a formula.
+
+Proof
+
+Let FormulaCheck(x) express that the byte string
+
+Then FormulaCheck(x)
+
+Sketch.
+
+[ASU86,LRS76],
+
+Since
+
+the
+
+a parse tree confirming that
+
+x
+
+can be encoded as a majorized formula.
+
+set
+
+each such formula
+
+x is a well defined encoding
+
+of
+
+well-defined
+
+formulae
+
+is
+
+context
+
+x must be associated with some string
+
+is a well defined encoding.
+
+let us assume that the principle string of the
+
+i-th
+
+t<x %
+
+free
+
+language
+
+such that
+
+t is
+
+Let PARSE(t,x) therefore represent the
+
+formula indicating that t is a parse tree showing that x is well defined.
+
+“*1B’’, where
+
+a
+
+Without loss of generality,
+
+leaf in the tree t consists of a 2-byte sequence
+
+‘‘!’’ is a special punctuation mark indicating the presence of a leaf, and B
+
+is a byte
+
+corresponding to the i-th byte of x. It is easy to prove that one can formally encode the relation
+PARSE(t,x)
+
+i)
+
+asa
+
+Ap formula.
+
+This is because
+
+For each individual production
+Testp(i,t),
+
+P
+
+which expresses that the
+
+in the Grammar,
+i-th
+
+node in the string
+
+P. For example, if P represents E — FG,
+dj<tdk<tVm<t
+
+:j<kA
+
+one can trivially encode a Ag formula
+t is a root node for the production
+
+then Testp(i,t) would be the Ap formula
+
+{ PRINCIPLE(i,t)=E A PRINCIPLE(j,t)=F A
+
+(A.9)
+
+PRINCIPLE(k,t)=G A PARENT(j,t) = i = PARENT(k,t) A (PARENT(m,t)=i > m=j ork) }
+Thus for any context free grammar with L productions,
+Test; (i,t) V Testz(i,t)
+Grammar’s
+
+L
+
+V «**
+
+productions.
+
+one can construct a Ap formula
+
+V Test (i,t)
+
+indicating that the
+
+Then
+
+is a Ap formula asserting that
+
+(A.10)
+
+i-th
+
+node satisfies one of the
+t is a valid parse
+
+- 44 tree. (In Eq (A.10), the parenthesis expression to the left of > indicates that i is a valid index
+number,
+
+and it is presumed that the Grammar’s terminal symbols [ASU86,LRS76]
+
+are recog-
+
+nized by a degenerate production Testo(i,t), which has an empty string to the right of "—>".)
+
+Vi<t
+ii)
+
+: NODE(i, t}#0 >
+
+| Equation (A.11) is a Ag formula which states that V i S$ Length(x) if B
+then the i-th leaf of t will store
+VisLength(x)
+
+The
+
+{Testo(i,t) V Test; (i,t) V Test,(i,t) V ... V Test, (i,0)}
+
+formal
+
+Ag
+
+TreeCheck(t)
+
+encoding
+
+of
+
+(A.10)
+
+is the i-th
+
+byte of x
+
+‘‘\B’’ in its principle string.
+: Byte(x, i) = Byte(t, Find(t,i, ‘‘!”)+1)
+
+PARSE(t,x)
+
+will thus be the assertion
+
+(A.11)
+
+that the conjunction
+
+of
+
+and Equations (A.10) and (A.11) holds.
+
+The first sentence of this proof indicated that
+A t<x* satisfying PARSE(t,x).
+
+x is an encoding of a formula if and only if
+
+Since PARSE(t,x) was just shown to have a Ag encoding, it follows
+
+that FormulaCheck(x) has a majorized encoding.
+
+QED
+
+Lemma A.6 There exists a majorized formula,
+
+SentenceCheck(x),
+
+indicating that
+
+x
+
+is a well
+
+defined encoding of a sentence.
+Proof.
+declaration
+
+Without loss of generality we may assume that a formula’s every universal quantifier
+‘‘V ?[k]”’ and every existential quantifier declaration
+
+‘‘J [k]’’ is immediately followed
+
+by a pair of left and right parenthesis symbols indicating their range. The left and right parenthesis
+symbols
+
+“(" and
+
+curly brackets
+
+"{"
+
+")"
+
+within a formula clearly induce an implicit tree structure,
+
+and
+
+"}"
+
+providing a tree structure for the encoding of a proof.
+
+analog of Lemma A.4’s ANCESTOR
+
+which yields True when
+substring
+
+analogous to the
+
+function,
+
+we can easily devise a Ag formula
+
+i<j A Byte[x,i] = Byte[x,j] = “and
+
+Thus using an
+Test, (i,j,k,x)
+
+Byte(x,j)
+
+is the initial byte of a
+
+‘Y[k] ’ that lies within the range of some quantifier declaration,
+
+“W9IK]”’ or ‘B0Iky”,
+
+indicated by x’s i-th byte.
+Also, it is easy to develop a Ag formula
+
+Test, (j) which yields True when
+
+and it corresponds to the second byte of a substring “Pk”?
+Test , (i,j,k,x) and Test (j) have Ap definitions,
+Vj <Length(x) Sisj 3k<x
+It is clear that a string
+FormulaCheck(x)
+
+x
+
+: Byte(x,j)= “”
+
+or “S0[K]”,
+
+Byte[x,j] = ‘0’,
+
+lying within
+
+x. Since
+
+so can (A.12) be expressed as a Ap formula.
+>
+
+Test, (i,j,.k,x)
+V Test (j)
+
+(A.12)
+
+represents a sentence if and only if it satisfies the conjunction of
+
+and Equation (A.12).
+
+Since both these formulae have majorized encodings,
+
+so
+
+«dif.
+must also the formula SentenceCheck(x),
+
+X,;
+
+asserting their conjunction,
+
+be majorized.
+
+QED
+
+Lemma A.7 There exists a majorized formula ReplaceCheck(x,,5;,%2,82)
+
+which specifies that
+
+and
+
+s,;
+
+x»
+
+are identical byte strings,
+
+exccpt that appearances of the substring
+
+within
+
+x,
+
+are
+
+ReplaceCheck(x,,8;,X2,S2)
+
+as
+
+replaced by s2 in x.
+Proof.
+
+There are many different simple methods for encoding
+
+a majorized formula.
+
+We will illustrate one.
+
+Say two byte strings
+
+d and
+
+e
+
+sequential order the bytes from x;
+
+double encode
+and
+
+x
+
+element of the string x; precisely when
+
+the strings
+
+x;
+
+and
+
+subject to the constraint that
+
+Byte(d,j) = i or 3.
+
+Fori=1
+
+x2
+
+iff e enumerates in
+
+Byte(e,j)
+
+represents an
+
+or 2, this condition will be
+
+encoded by the Ap formula Test; (d, ¢, x; ) indicated below:
+Vm SLength(x;) 3nSLength(c): {0<m=Count(Substring(d,
+1,n),3) + Count(Substring(d, I,n),i) A Byte(d,n)=i or 3}
+>
+
+Byte(e,n)
+
+= Byte(x;,m)
+
+(A.13)
+
+An analogous Ap formula can enforce the constraint that Byte(d,j) always equals 3 except when
+i)
+
+d-contains a block of consecutive
+
+‘‘1’’ bytes of cardinality = Length(s,;)
+
+of consecutive ‘‘2’’ bytes of cardinality = Length(s2),
+ii)
+
+followed by a block
+
+and
+
+the corresponding fragment of e enumerates the substring s, followed by sp.
+
+Hence there exists a Ag formula,
+constraints (i), (ii) and
+
+ReplaceTest(x; ,s;,X2,S2,d,e),
+
+Test, (d,e, x, ) A Test2(d,e, x2)
+
+mula expressing the condition
+dd< {Max(x,,X2)}°
+
+denoted as
+
+simultaneously.
+
+ReplaceCheck( x, , S; , X2,S2)
+
+de< {Max(x1,X2)}°
+
+which enforces
+
+Then a majorized for-
+
+will be
+
+: ReplaceTest( x; , 8; ,X2,S2,d,e)
+
+(A.14)
+
+QED
+Observation A.8.
+
+Several of the proofs in this Appendix will require that we be quite precise
+
+about how an integer will be encoded as a bit string.
+employed,
+
+Two methods for encoding integers will be
+
+its natural encoding and its godelized encoding.
+
+i will be denoted as simply
+
+i : it will denote
+
+ized encoding of i, defined in Section 5,
+
+The former representation of an integer
+
+i’s representation as a base-2 number.
+
+represented
+
+a termination byte
+
+i as a sequence of
+
+bytes,
+
+B,,
+
+encoding i as a base-32 number.
+
+(Without loss of generality we may assume that a base-32 digit b
+32+b.)
+
+and
+
+log32 il+3
+
+including an initialization byte
+
+will be formally represented by the 6-bit code
+
+B2,
+
+The godel-
+
+Henceforth
+
+logs iJ+1 > main bytes for
+
+i°
+
+will denote
+
+i’s godelized
+
+- 46 encoding.
+
+Since
+
+i” > i®/5,
+
+constitutes a total function.
+Equation (A.15),
+
+IS(A) will be incapable of recognizing that the mapping of i onto i”
+However,
+
+it will be able to recognize as a relation, the Ag formula in
+
+denoted as ConvertCheck (i, i’),
+
+which expresses this relationship between
+
+i* . (The formal encoding of ConvertCheck (i, i’),
+
+in Equation (A.15),
+
+i and
+
+utilizes the fact that multi-
+
+plication by the scalar constants of 5 and 6 is recognized by IS(A) as total functions.)
+
+Vm<Length(i')
+Wns5 : (m22An>0) > Bit(i’,6m)=1 A Bit(i’, n+6(m—1))
+= Bit(i, n+5(m-2))} A
+Byte(i’,1)=B, A Byte(i", Length(i’))=B,
+Corollary A.9.
+
+(A.15)
+
+Part (a) of Theorem A.1 is a consequence of the preceding lemmas.
+
+(That is,
+
+SUBST; (x,y) can be encoded as a majorized formula.)
+Proof.
+
+Let Test; (x) be a formula which yields
+
+TRUE
+
+iff x is the Godel number of a for-
+
+mula which contains at least one appearance of the variable Qi],
+is free.
+
+Lemma
+
+ReplaceCheck
+
+A.5 trivially implics
+
+and every occurrence of fi] in x
+
+Test; (x) can be encoded as a majorized formula.
+
+and ConvertCheck also have majorized encodings,
+
+Since
+
+it is apparent that Equation
+
+(A.16) (below) is a majorized encoding of SUBST; (x,y).
+{ Assy : ConvertCheck(x, s)
+
+A ReplaceCheck(x, y, l Sui |,s) ATest;(x)
+
+}
+
+V
+
+{—Testj(x)
+
+A y=0}
+
+(A.16)
+
+QED
+Observation A.10.
+that the byte string
+
+Define the formula
+
+ConcatenateCheck,, (Z, X;,X2,
+
+z is begotten by concatenating
+
+x;,X2,
+
+°°"
+
+»%m-
+
+prove that concatenation is a total function over the domain arguments
+
+tainly can represent ConcatenateCheck,,
+
+(Zz, X;,%X2, °°" »Xm)
+
+°°"
+
+»Xm) to indicate
+
+While IS(A) is too weak to
+xX, ,X2, °**
+
+aS a Ag formula.
+
+,Xm,
+
+it cer-
+
+For instance,
+
+Equation (A.17) is a Ap representation of ConcatenateCheck2 (z, X; , X2).
+Substring(z, 1,Length(x,;))=x,
+Lemma A.11.
+
+A Substring(z,Length(x}+1 ,Length(z))=x2
+
+(A.17)
+
+There exists a majorized formula InductAx(s) which indicates that s is a Godel
+
+number of one of Peano Arithmetic’s induction axioms.
+Proof.
+
+Peano Arithmetic’s induction axioms consists of all sentences of the form:
+(0)
+
+A Vv(M(v)
+
+> O(v+1))
+
+D
+
+Vw)
+
+(A.18)
+
+Define the focal substrings of Equation (A.18) to be its subformulae "®(0)", "D(v)", "@(v+1)" and
+"“@(w)".
+
+Since as byte strings these subformulae are identical except for a change in their base term,
+
+Lemma A.7 implies a majorized formula can recognize when two strings are identical except for
+
+a8T
+such a modification.
+
+Hence,
+
+there shall exist a majorized formula Testi (a,, 02, 3, Oy) that
+
+checks whether four strings 01, O, @3 and Oy differ only by replacing "0" in the first string with
+"vy", "v+l" and "w" in the latter three strings.
+Define Test2 (s, 1, G2, 03, Os) to be the statement that the string
+catenating the four focal substrings a, = (0), &
+manner indicated by Equation (A.18).
+
+= @(v), G, =@(v+1),
+
+s
+
+is begotten by con-
+
+and a, =@(w)
+
+in the
+
+By Observation A.10, there will exist a Ag encoding of
+
+Test2 (s, &, 2, 3, Oy).
+Also, Lemma
+
+A.6 indicates that the formula SentenceCheck(s) is a majorized expression that
+
+verifies that s is indeed a well defined sentence. The preceding observations imply that a majorized
+encoding for InductAx(s) is
+
+Ja, <s Jay <s 3a; <sdoy<s
+Corollary A.12.
+
+: Testl (0), G2, 03, Oy) A Test2 (s, 1, G2, OH, Gy) A SentenceCheck(s)
+The three assertions of Part (b) of Theorem A.1 are valid.
+
+That is, there exist
+
+three majorized formulae which confirm whether a Godel number is an axiom of Peano Arithmetic
+(PA),
+
+of PA+, or of Zermello Fraenkel Set Theory.
+
+Proof.
+
+Lemma A.11 showed that the induction axioms of PA can be recognized by a major-
+
+ized formula.
+
+Since the remaining noninduction axioms of Peano Arithmetic are only finite in
+
+number,
+
+a majorized formula must certainly be able to also recognize them.
+
+Hence,
+
+Peano Arith-
+
+metic certainly satisfies Corollary A.12.
+Similar proof methodologies apply also to PA+ and Zermello Fraenkel Set Theory, since they
+contain also only a finite number of axioms outside an easily recognized infinite schema.
+Lemma
+
+QED
+
+A.13 The notion of a ‘‘Positive Rewrite’’ was defined in Section 5. There exists a
+
+majorized formula PositiveCheck(g,h) which checks whether h equals the Positive Rewrite of g.
+Proof Outline For the sake of simplifying the proof’s notation,
+
+we will assume that each sen-
+
+tence g is written in a syntax where its first "(" symbol appears to the immediate right of its rightmost broad quantifier.
+
+Define Prefix(g) to be the fragment of byte string g that lies to the immedi-
+
+ate left of this "(" symbol,
+Prefix(g).
+
+and define Suffix(g)
+
+to be the remainder of g_ that lies to the right of
+
+Both these functions are recognized by IS(A), since they can be encoded by combining
+
+the functions Substring, Find and Length,
+
+as illustrated below:
+
+Prefix(g) = Substring(g, 1, Find(g, 1, ‘(” )-1 )
+
+(A.22)
+
+Suffix(g) = Substring( g , Length(Prefix(g)}+1 , Length(g) )
+
+(A.23)
+
+(A.19)
+
+- 48 Also define Parity(g,i) to be a function that equals zero
+
+iff there are an even number of appearances
+
+of the symbol "4" among the first i bytes of g, and
+
+iff there are an odd number of appearances
+
+of "4".
+
+one
+
+Equation (A.24) illustrates how Parity(g,i) can be encoded.
+
+Parity (g) = And (1, Count( Substring(g, 1,1), “1” ) )
+
+(A.24)
+
+Define Test1 (g,x) to be a formula that is satisfied only by the unique string x which is identical
+
+to Prefix(g),
+
+Parity(g,i)
+
+= 1.
+
+except
+
+that its i-th byte
+
+is changed
+
+from
+
+"V"
+
+to "3"
+
+(and
+
+vice versa)
+
+when
+
+A Ap encoding of the formula Test! (g,x) is given below:
+
+VisLength(Prefix(g))
+
+: { [(Parity(g, i)=0 V Byte(g,i)4''3” V Byte(g,i)#'‘V”)>Byte(x, i)=Byte(g,i)] A
+[(Parity(g,
+i)=1 A Byte(g,i)="3”)>Byte(x,i)=""V"]
+
+A
+
+{(Parity(g,i)=1 A Byte(g,i)="‘V”)>Byte(x,i)="‘3” ] )
+A
+
+Length(x) = Length ( Prefix(g) )
+
+(A.25)
+
+Define Test2 (x, y) to be a formula which asserts that x and y are identical byte strings except
+that each appearance of the symbol
+
+"—"
+
+in x is removed
+
+from y.
+
+Lemma
+
+A.7
+
+implies
+
+that
+
+Test2 (x,y) will have a majorized encoding.
+Define Test3 (g,h,x,y) to be a formula which asserts that Testl (g,x) and Test2 (x,y) are true
+
+and that h equals
+i)
+
+the concatenation of y with
+
+Suffix(g)
+
+when
+
+Parity(g,
+
+Length(Prefix(g))) = 0 ;
+
+ii)
+
+the
+
+of
+
+the
+
+symbol
+
+“-"
+
+triple
+
+concatenation
+
+y,
+
+and _
+
+Suffix(g)
+
+when
+
+Parity(g , Length(Prefix(g))) # 0.
+The combination of the preceding discussion and Observation A.10 imply that Test3 (g,h,x,y) can be
+provided with a majorized encoding.
+
+willbe
+
+Hence, a majorized formula representing
+
+3x <g? Jy <g? : Test3(g,h, x, y)
+
+PositiveCheck(g,h)
+
+| QED.
+
+We are now almost ready to prove Part (c) of Theorem A.1.
+
+Define a sentence tree to be a
+
+binary tree where the principle string of each node is a well-defined sentence. Equation (A.26), henceforth called
+
+SentenceTreeCheck(t),
+
+Lemmas A.3 and A.6 indicated that
+
+will verify that
+BinaryTreeCheck(t)
+
+a byte string
+and
+
+t is a sentence tree.
+
+SentenceCheck(s)
+
+Since
+
+are majorized for-
+
+mulae, it follows that Equation (A.26) represents SentenceTreeCheck(s) as a majorized formula,
+BinaryTreeCheck(t) A { V i<t:
+
+NODE(i,t) #0 > SentenceCheck( PRINCIPLE(i,t))}
+
+(A.26)
+
+- 49 The following lemma is the main component of the proof of Part (c) of Theorem A.1.
+Lemma
+
+A.14.
+
+Assume that the byte string
+
+exists a majorized formula
+
+DeductionCheck(i,t)
+
+t satisfies
+
+which specifics that the sentence
+
+is a valid deduction from some ancestor of NODE(i,t),
+tion rules [Sm68,Fi90]
+
+SentenceTreeCheck(t).
+
+for eliminating the symbols
+
+Then there
+
+PRINCIPLE(i,t)
+
+using the standard semantic tableaux deduc-
+
+“*A”,
+
+‘“V”,
+
+‘'3”,
+
+“VW”,
+
+‘*3”,
+
+and right
+
+shifting and/or eliminating ‘‘”.
+Proof.
+
+1.
+tule
+
+The twelve permissible deduction rules in a semantic tableaux proof are listed in Figure
+
+Arule of the form a — B indicates that B is a valid deduction from its ancestor a. Also the
+a -— B81 y
+
+in Figure 1
+
+indicates that the two sibling nodes
+
+B
+
+and
+
+y
+
+may be jointly
+
+inferred form their common ancestor @.
+For j<9
+
+and arbitrary sentences
+
+and
+
+B (encoded as byte strings),
+
+formula which is satisfied when the concatenated byte string
+1.
+
+For j$8,
+
+‘‘a—f’’
+
+let Test; (a,B) be a
+
+satisfies Rule j in Figure
+
+each Test; (a,B) can be encoded as a majorized formula by employing
+
+teCheck in a straightforward manner.
+
+The formula Testy, (o,$)
+
+Concatena-
+
+for Rule 9 can likewise be encoded
+
+very simply by using ReplaceCheck.
+Let Check; (i,t) be a formula stating that PRINCIPLE(i,t) is a deduction in the proof tree t by
+applying the Rule j to one of the ancestors of NODE(i,t).
+
+For
+
+j<9, Equation (A.27) is a majorized
+
+formula expressing this relationship.
+
+AL St
+
+: Test ;(PRINCIPLE( ANCESTORG,L,t), t) , PRINCIPLE(i, t) )
+
+For j = 10,
+
+11 or 12,
+
+Check; (i,t)
+
+as a majorized formula.
+
+parameter
+
+u
+
+must
+
+(A.27)
+
+an only slightly more complicated construction is needed to formulate
+The only further requirement to encode Rule
+
+not be also employed by any of P(u)’s ancestors;
+
+10
+
+is that the
+
+this condition can be easily
+
+encoded as a majorized formula using the ANCESTOR and PRINCIPLE functions from Lemma A.4.
+The
+
+added
+
+NODE(,t)
+
+requirement
+
+for encoding
+
+Check; (i,t)
+
+and
+
+Checkj
+
+must satisfy the special constraints required by Rules
+
+11
+
+(i,t)
+
+is that the sibling
+
+of
+
+and
+
+12. This is also easily
+
+encoded as a majorized formula using the PARENT and PRINCIPLE functions from Lemma A.4.
+Since for each
+
+Check (i,t)
+
+j < 12,
+
+V Check, (i,t)
+
+DeductionCheck(i,t).
+
+QED
+
+Check; (i,t),
+
+V +++
+
+can be encoded as a majorized
+
+V Check;2 (i,t)
+
+will
+
+be
+
+a
+
+majorized
+
+formula,
+
+the formula
+
+representation
+
+for
+
+-50Corollary A.15.
+
+Part (c) of Theorem A.1 is valid. That is, for any axiom system B which can
+
+be encoded by a majorized formula,
+Proof.
+
+A byte string
+
+Prfg (x,y) can also be encoded as a majorized formula.
+
+y will be a semantic tableaux proof of x from an axiom system
+
+B
+
+iff
+
+itis a sentence tree satisfying the following three constraints:
+
+1)
+
+Its root is the positive rewrite of the negation of the sentence with Godel number
+
+Il)
+
+Every other sentence in the tree y will either be an axiom of B or a deduction from a higher
+
+x.
+
+tree node (via Lemma A.14’s DeductionCheck formula).
+
+mM)
+
+Every branch in the proof tree y is closed.
+To prove Corollary A.15,
+
+we must show that there exists majorized formulae for enforcing the
+
+three constraints above. The construction of such formulae are given below:
+
+1)
+
+Let Negation(x,g)
+
+be a Ap formula which asserts that g is a byte string identical to x except
+
+that g contains one additional byte "—." as its lead symbol.
+
+3 g<x?
+Since
+
+PositiveCheck
+
+Let NR(x,h)
+
+be the formula
+
+: Negation(x,g) A PositiveCheck(g,h)
+
+(A.28)
+
+was shown by Lemma A.13 to have a majorized encoding,
+
+ing formula also has a majorized encoding.
+
+Hence constraint
+
+I
+
+the preced-
+
+can also be checked by the
+
+majorized formula NR(x , PRINCIPLE(1,y) ).
+
+2)
+
+The hypothesis of Corollary A.15 implies there exists a majorized formula,
+
+henceforth denoted
+
+as
+
+is an axiom of B.
+
+AxiomCheck(i,y),
+
+which indicates whether or not
+
+Since Lemma A.14 indicated that DeductionCheck(i,y)
+
+PRINCIPLE(i,y)
+
+was another majorized formula,
+
+lows that Equation (A.29) is a third majorized formula,
+satisfies constraint
+
+Vi<y
+
+3)
+
+Let
+
+Closed(i,y)
+
+QED
+
+V AxiomCheck(i,y)
+
+be a formula which indicates that the tree branch associated with
+
+trivially encoded
+
+~
+
+> DeductionCheck(i,y)
+
+denote a formula which verifies that the i-th node of the tree
+
+that it contains both some sentence
+
+Negation(x,g)
+
+which checks that the proof tree
+
+y
+
+II.
+
+: 0 #NODE(i,y)#1
+
+Leaf(i,y)
+
+it fol-
+
+as majorized
+
+@
+
+formulae,
+
+y
+
+(A.29)
+
+is a leaf,
+
+and
+
+i is closed
+
+(i.e.
+
+and its negation
+
+—®.)
+
+Both these relations can be
+
+using Lemma
+
+A.4’s
+
+ancestor function and the
+
+relation. A majorized formula enforcing constraint III would then simply be:
+Vi<y
+
+: Leaf(i, y) > Closed(i,y).
+
+(A.30)
+
+ee
+The next two lemmas will help prove Part (d) of Theorem A.1
+Lemma A.16 There exists a majorized formula AxGr (x) which expresses that x is the Godel
+number of one of IS(A)’s Group-1 axioms.
+Proof Sketch.
+
+The set Go
+
+of IS(A)’s Group 1 axioms was defined only informally in Section
+
+2. It will now be necessary for us to define these axioms more formally in section 5’s notation.
+each integer k>1,
+
+Go will include two axioms of the precise syntactical form:
+
+C[k] = C[k-1] + ¢[1]
+Vv (v <k]
+
+(A.31)
+
+> (v=C[0]
+V v=Cll] V v=C[2] V «+:
+
+V v=Clk-1]))
+
+Let Testl (x) and Test2 (x) be two formulae that check whether a Godel number
+tence of the respective forms (A.31) and (A.32).
+
+mulae.
+
+Test (x) is encoded by using
+
+ward manner.
+
+For
+
+(A.32)
+x
+
+is a sen-
+
+Both these tests can be encoded as majorized for-
+
+ConvertCheck
+
+and
+
+ConcatenateCheck in a very straightfor-
+
+The majorized encoding of Test2 (x) will essentially have two parts. Its first fragment
+
+will employ the function Substring and the formula ConvertCheck to verify that the initial bytes in x
+correspond to the string ‘‘Vv (v <@[k]
+the string “v=C[k-1]))”’.
+
+string "v = efj]v"
+
+>
+
+(v=C[0] Vv”,
+
+The second fragment of Test2
+
+and its final sequence of bytes consists of
+will verify that for each
+
+j}<k—2,
+
+the byte
+
+(in the middle section of x) is immediately followed by string the "v = Cfj-+1]"
+
+(by employing the primitives
+
+Substring and ConvertCheck again in a straightforward manner.)
+
+The axiom group Gg was defined so that it would contain only a finite number of axioms
+beyond the two infinite schemes of the form (A.31) and (A.32).
+Testl (x)
+
+and Test2 (x)
+
+can determine whether
+
+x
+
+Hence since the majorized formulae
+
+lies in one of these two classes, it is also possi-
+
+ble to provide the full formula AxGr, (x) with a majorized encoding.
+Lemma
+
+A.17.
+
+For each nice axiom system A,
+
+QED
+
+there exists a majorized formula AxGr, (x)
+
+which expresses that x is the Godel number of one of IS(A)’s Group-2 axioms.
+Proof.
+
+For each II, sentence
+
+®,
+
+Equation (A.33) will represent the corresponding Group-2
+
+axiom of IS(A):
+
+Vv (Prf,(I@l,v) > ®)
+
+(A.33)
+
+It is easy to construct a majorized formula for recognizing the Godel number of a Group-2 axiom,
+by combining the results from Lemmas
+
+A.6,
+
+A.8,
+
+A.10
+
+extend Lemma A.6 to construct a majorized formula Test(s)
+
+and
+
+A.15.
+
+In particular,
+
+it is trivial to
+
+which recognizes when a byte string s
+
+«S2«
+formally corresponds to the encoding of some I], sentence
+
+®.
+
+both such a string
+
+Since
+
+ing
+
+"@"
+
+and its godelized encoding
+
+"[®]".
+
+Note that Equation (A.33) contains
+[4]
+
+is the unique string satisfy-
+
+ConvertCheck(s, [] ), we can use Observation A.8 to conclude that there is a Aj formula for
+
+uniquely recognizing the byte string "[@]".
+Moreover,
+
+since the axiom system
+
+A
+
+is nice, the combination of Lemma 5.1 and Corollary
+
+A.15 will imply that
+i)
+
+there exists a Ag formula for expressing the relation Prf,([®],v),
+
+ii)
+
+a majorized formula can recognize the byte string which formally encodes (i).
+Finally, we observe that Equation (A.33),
+
+catenating the five substrings
+
+of
+
+‘“‘Vv(’’
+
+,
+
+and
+
+viewed strictly as a byte string,
+“Pref, ([@], v)”
+
+»,
+
+“D>”,
+
+is begotten by con-
+
+“d”
+
+and
+
+‘‘)’’.
+
+The
+
+preceding discussion has certainly implied that each of these five component substrings of (A.33) can
+be individually recognized by majorized formulae.
+
+Moreover since Observation A.10 shows that
+
+arbitrary concatenations can be recognized by a Ag formulae,
+
+it follows that a majorized formula can
+
+certainly determine whether or not an arbitrary string
+
+is a Group-2 axiom,
+
+catenating these five subcomponents.
+Corollary A.18.
+
+x
+
+begotten by con-
+
+QED
+
+Part (d) of Theorem A.1 is valid.
+
+That is, for any nice axiom system A,
+
+the
+
+expressions Prfynion(a) (x,y) and ExPrfynioncay (x, ¥,Z) can be encoded as majorized formulae.
+Proof Let UNION(A) denote the union of IS(A)’s Group-1 and Group-2 axioms.
+
+nation of Lemmas
+expresses that
+
+x
+
+A.16 and A.17 implies that there exists a majorized formula Test(x),
+is an axiom of UNION(A).
+
+Hence from Corollary
+
+another majorized formula will express Prfynioncay(X, y).
+
+A.15,
+
+also be expressible as a majorized formula.
+Comment.
+
+translate, into
+
+Since ExPrfynioncay(X y, Z) differs from
+
+mula can be translated into a Ag
+
+Ag
+
+the latter must
+
+QED
+
+As already noted,
+
+statements about
+
+which
+
+we may conclude that
+
+the preceding formula only by allowing the additional Godel number z as an axiom,
+
+Added
+
+The combi-
+
+each of the theorems in this Appendix immediately
+
+formulae because Lemma 5.1 shows that every majorized for-
+
+formula.
+
+The sole reason that majorized formulae appeared in our
+
+discussion was that our proofs are simpler by first introducing the majorized formulae, and then relying on Lemma
+Go’s
+
+Ao
+
+5.1’s translation methodology.
+
+atomic functions of
+
+formula.
+
+Addition,
+
+Similarly,
+
+StringCount,
+
+Shift
+
+our discussion technically only needed
+and
+
+Extract
+
+The sole purpose of Go’s functions of Andreverse,
+
+sion (defined in Section 2) was to simplify the presentation.
+
+to encode Prfjs¢a)(x,y) as a
+
+Address,
+
+Subtraction
+
+and
+
+Divi-
+
+-53APPENDIX
+Let
+
+©,
+
+Chapter 11,
+
+B
+H
+
+and
+
+Y
+
+have the same meanings in the proof of Proposition 6 as they did in
+
+except that they now pertain to Prfjyyatip.2 rather than to Prfjyyauip.1.
+
+the formula given in Equation (B.1),
+
+H
+
+is the Godel number of the sentence
+
+Thus
+
+D( [o] ),
+
+®
+
+and
+
+is
+¥ is
+
+the sentence defined by Equation (B.2).
+
+@ = {Vx Vx3 [SUBST (x, x2) >= Prfyvatip2 (%2, X3)]}
+Y=
+
+(B.1)
+
+{ Vx-Prfinvauip2 GH, x) }
+
+(B.2)
+
+To prove Proposition 6, we need to construct a semantic tableaux proof of the sentence (B.2) from
+the axiom system INVALID.2, analogous to the semantic tableaux proof which had been employed
+in Figure 3 of Chapter 11.
+The top seven levels of such a tableaux proof of ‘¥ are shown in Figure 4. Its first two levels
+have the same justification as their counterparts in Figure 3. Thus,
+porary assumption that
+
+‘Y
+
+is false,
+
+Line 1 is justified as the tem-
+
+and Line 2 is the deduction from (1) following from
+
+existential
+
+quantifier elimination (with parameter p).
+The remainder of the Figure 4 is quite different from Figure 3 because INVALID.2 has no
+access to the
+
+LIT reflection axioms.
+
+reflection axioms.
+
+Let ©;
+
+Its reflection principle is weaker,
+
+and provides only the UAg
+
+thus denote the Ag sentence:
+
+@; = { SUBST ([®], H) > Prfyvaup2 (H, i) }
+
+(B.3)
+
+Line 3 is INVALID.2’s UAg reflection axiom for ©;. Line 4 is a deduction from
+quantifier elimination.
+Rule.
+
+For a fixed
+
+(3) via universal
+
+The two sentences on Line 5 are deductions from (4) via the > Elimination
+
+2 >0
+
+whose value will be determined later,
+
+let Q,
+
+and
+
+I
+
+denote the two
+
+I,
+
+sentences defined below:
+
+Q,
+
+=
+
+{Vy Vz3we<z:
+
+[Prfinvaup2 (Hy) Az=y"]
+
+T
+
+=
+
+> Prfinvauip2 ([e,] ,w)}
+
+(B.4)
+
+SUBST([],H)
+
+(B.5)
+
+The two sentences at Level 6 of Figure 4 are each Group-2 Axioms of INVALID.2.
+tences at Level 7 are deductions from Level 6, following from the
+
+The four sen-
+
+> Elimination Rule.
+
+-54Assuming the constant
+
+4 is assigned a sufficiently large initial value,
+
+cending from Level 7 can be all closed.
+system
+
+G,,
+
+This is intuitively because
+
+the four subtrees des-
+
+INVALID.2’s Group-1 axiom
+
+can be shown to contradict the conjunction of the seven sentences on each branch of
+
+Figure 4’s proof tree (see footnote * for a formal justification of this point). THE MAIN POINT IS
+that Chapter 11’s proof of the inconsistency of INVALID.1 produces the verbatim same
+
+proof of
+
+the inconsistency of INVALID.2 , when q from Chapter 11 is merely changed to designate Figure
+4’s semantic tableaux.
+
+Summarizing Comment.
+
+The closing two paragraphs in Section 12 had explained how one
+
+would intuitively expect INVALID.2
+because
+
+Lemma
+
+theorems
+
+(similar to INVALID.1).
+
+to experience the same inconsistency problem as INVALID.1
+
+12.1 showed that INVALID.2
+
+could prove all its LIT;
+
+The complication in formally proving
+
+semantic tableaux proofs allow
+
+only axioms
+
+intermediate stages of a proof
+
+(i.e. provable theorems are disallowed).
+
+(and their
+
+"cut-free"
+
+the third line in Figure 4’s proof tree can not explicitly specify
+
+as
+
+was that
+
+deductions) to appear in the
+Therefore unlike Figure 3,
+sentence.
+
+Instead,
+
+LII, reflection by constructing its
+
+this is the reason that q’s
+
+construction was a bit
+
+more complicated in Proposition 6’s proof than it was for Proposition 5.
+
+Since it is well known
+
+[Fi90,Ge69,Sm83,Ta87]
+
+Fundamentally,
+
+Proposition 6
+
+an LI], reflection
+
+Levels 4 thru 7 of Figure 4’s tableaux had implicitly exploited
+essential cut-free implications.
+
+reflection sentences
+
+that deductive
+
+(with only a different proof length),
+
+systems
+
+with
+
+and
+
+without
+
+cuts prove the same
+
+theorems
+
+one would intuitively expect that the only difference between
+
+the proofs of Y in Figures 3 & 4 to be the lengths of their proofs
+
+(as has been formally demon-
+
+strated in this Appendix).
+
+* The leftmost branch is closed by using the fact that that when A is assigned a sufficiently large initial value,
+
+Gy,
+
+contradicts the seventh line on the leftmost branch. (In particular for such A, PA+ can (trivially !! ) prove Lemma
+§.3’s T-transfgrmation
+can construct w from y and z in a manner specified by Equation (B.4), thus contradicting
+
+— Prpa+ (12,
+
+) .) The second branch is the most revealing of the four cases because it is the only case that
+
+uses the fact that G,,
+
+recognizes multiplication as 4 total function. This branch is closed because
+
+Gas multiplication
+
+function enables it to recognize that V7 y diz= y’’, and the latter invariant contradicts the combination of the second,
+fifth and seventh sentences on the second branch. The seventh sentence on the third branch is trivially contradicted by
+Gy. The second, fifth and seventh sentences on the rightmost branch contradict each other.
+
+References
+
+[ASU86] Compiler Design Theory, A. Aho, R. Sethi and J. Ullman, Compilers: Principles, Techniques and Tools, Addison
+Weslcy (1986).
+
+[BeS6}
+[Bo79]
+
+[BS76]
+[Bu85)
+[Bu86]
+
+[En72}
+(Fc60}
+
+[Fe62]
+[Fe88]
+[Fi90]
+
+E.W. Beth, Semantical Entailment and Formal Derivability Indag. Math. 19 (1956) pp. 357-388.
+G. Boolos, The Unprovability of Consistency: An Essay on Modal Logic Cambridge University Press, 1979.
+A. Bezboruah and J. Shepherdson, Godel’s Second Incompleteness Theorem for Q, Journal of Symbolic Logic 41
+(1976) pp. 503-512.
+S. Buss, Polynomial Hicrarchy and Fragments of Bounded, Proceedings of 17th Annual ACM Symposium on
+Theory of Computing (1985) pp. 285-290
+S. Buss, Bounded Arithmetic, Princeton Ph. D. dissertation published in Proof Theory Lecture Notes #3 by
+Bibliopolic (1986), scc also (Bu85).
+H. Enderton A Mathematical Introduction to Logic Academic Press 1972.
+aaa
+
+Arithmetization of Mctamathematics in a General Setting, Fundamenia Mathematicae 49 (1960) pp.
+
+S. Feferman, Transfinite Recursive Progressions of Axiomatic Theories, J. of Symbolic Logic, 27 (1962) 259-316.
+S. Feferman, Finitary
+Inductively Presented Logics, in Proceedings of Logic Colloquiwn 88, North Holland Publishing House (1989) pp. 191-220.
+M. dg First Order Logic and Automated Theorem Proving, Springer Verlag Monograph in Computer Sci-
+
+ence,
+
+i
+
+[Ge69}
+[Go30]
+
+G. Gentzen Collected Papers, translated by M.E. Szabo, North Holland , 1969.
+aan” Dir Vollstandigkeit der Axiome des logischen Funktionenkalkuls, Monatsh Math Phys, 37, (1930) pp.
+
+[Go31]
+
+K. Godel, Uber formal unentschcidbare Satze der Principia Mathematica und verwandter Systeme, I. Monatsh
+Math Phys, 38, (1931) pp. 173-198.
+
+[HB39}
+[HP87}
+[Je71]
+[Je73]
+[Je75]
+
+(K138}
+(Kr71]
+
+[KT74]
+{Loss}
+[LRS76]
+
+D. Hilbert and B. Bernays, Grundlager der Mathematik Volume 1 (1934) and Volume 2 (1939), Springer.
+
+P, Hajek and P. Pudlak, Metamathematics of First Order Arithmetic, Springer-Verlag (1987).
+R. Jeroslow, Consistency Statements in Formal Mathematics, Fundamentae Mathematicae 72 (1971) pp. 17-40.
+
+R. Jeroslow, Redundancies in the Hilbert-Bemnays Derivability Conditions for Godel’s Second Incompleteness
+Theorem Journal of Symbolic Logic 38 (1973) pp. 359-367.
+R. Jeroslow, Experimental Logics and AJ Theories, Journal of Philosophic Logic 4 (1975) pp. 253-267.
+S. C. Kleene, On the Notaion of Ordinal Numbers, Journal of Symbolic Logic 3 (1938), pp. 150-156.
+G. Kreisel, A Survey of Proof Theory, Part I in Journal of Symbolic Logic 33 (1968) pp. 321-388 (see ——
+footnote 8 and page 349); Part Il in Proceedings of Second Scandinavian Logic Symposium (1971) North
+Holland
+Press (with Fenstad ed.), Amsterdam (see especially pp. 117(d) & 166).
+
+G. Kreise] and G, Takeuti, Formally self-referential propositions
+tems, Dissertations Mathematica 118, 1974 pp. 1 -55.
+
+for cut-free classical analysis and related sys-
+
+M. Lob, Solution of a Problem of Leon Henkin, Journal of Symbolic Logic 20 (1955) pp. 115-118.
+P. Lewis, D. Rosenkrantz and R. Stearns, Compiler Design Theory, Addison Wesley (1976).
+
+[M374]
+
+R. Magari, Su certe teori non enumerabili, Ann. Mat. Pura. Appl.
+
+[Mc87]
+[Ro67]
+
+E. Mendelson, Introduction to Mathematical Logic, Wadsworth & Brooks/Cole Mathematics Series, 1987.
+
+[Sc56]
+[Sc83]
+
+H. Rogers, Theory of Recursive Functions and Effective Compatibility, McGraw Hill 1967, see especially pp.
+186-188.
+K. Schutte, Ein System des verknupfenden Schliessens, Archiv. Math. Logic Grundlagenf 2 (1956) pp. 55-67.
+H. Schwichteberg, Proof Theory: Some Applications of Cut Elimination, in Handbook on Mathematical Logic,
+North Holland Publishing House (1983) pp.
+
+[Sm61]
+[Sm68]
+[Sm83]
+[S094]
+[S183]
+[Ta53]
+[Ta87]
+[Wi93]
+
+[Wi94]
+
+98 (1974) pp. 119-152.
+
+867-896.
+
+R. Smullyan, The Theory of Formal Systems, Princeton University Press, 1961.
+
+R. Smullyan, First Order Logic, Springer-Verlag, 1968.
+C. Smorynski, The Incompleteness Theorem Handbook on Mathematical Logic, pp. 821-866, 1983.
+R. Solovay, private communications (April 1994).
+R. Statman, Herbrand’s theorem and Gentzen's Notion of a Direct Proof, in Handbook on Mathematical Logic,
+North Holland Publishing House (1983) pp. 897-913.
+
+G. Takeuti, On a Generalized Logical Calculus, Japan Journal on Mathematics 23 (1953) pp. 39-96.
+G. Takeuti, Proof Theory, Studies in Logic Volume 81, North Holland, 1987.
+D. Willard, Self-Verifying Axiom Systems, in Proceedings of the Third Kurt Godel Symposiwn (1993) pp. 325-
+
+336, published in Springer-Verlag LNCS #713.
+D, Willard, The ETR Reflection Principles for Self-Verifying Axiom Systems, forthcoming report.
+
+1)
+
+PAQ
+
+-
+
+P
+
+2)
+
+PAQ
+
+>
+
+Q
+
+3)
+
+—a-73P->
+
+P
+
+4)
+
+APAQ
+
+>
+
+(AP)
+V (AQ)
+
+5)
+
+APVO
+
+>
+
+(AP)A(AQ)
+
+6)
+
+4(P5>Q) > PA-=Q
+
+7)
+
+aAVv Pv)
+
+8)
+
+33v Rv) > Vv 4P(y)
+
+9)
+
+Vv
+
+P(v)
+
+—
+
+P(s)
+
+where s is an arbitrary term
+
+10)
+
+dv
+
+P(v)
+
+—
+
+P(u)
+
+whereu is a parameter not used by any ancestor of P(u)
+
+11)
+
+PVQ
+
+>
+
+P
+
+—
+
+Jv
+
+AP)
+
+1!
+
+Q
+
+12)
+
+FIGURE 1
+
+The twelve permissible deduction rules in a semantic tableaux proof are listed above.
+the form
+
+oa — B
+
+a —
+
+B 1 y
+
+mon
+
+ancestor
+
+indicates that
+
+f
+
+is a valid deduction
+
+indicates that the two sibling nodes
+a.
+
+B
+
+from its ancestor
+
+a.
+
+A rule of
+
+Also the rule
+
+and y may be jointly inferred form their com-
+
+FIGURE 2
+
+(vx { Prfpas([4@l,x) > =
+
+})
+
+(1)
+
+Prf par (41,c) > A®
+
+(2)
+
+GPiteae(1,¢))
+
+(closed
+
+@)
+
+Subtree)
+
+Pivotal
+
+Branch
+
+The canonical form of the top three levels of IS(@PA+)’s terse proof of
+false Ao sentence.
+
+Line 1 is a Group-2 Axiom of IS(PA+).
+
+introduces the constant
+
+c
+
+.® when ©
+
+is a
+
+Line 2 is a deduction from Line 1 which
+
+to eliminate the universal quantifier. The two sentences on Line 3 are
+
+deductions from (2) via the > Elimination Rule.
+
+As noted in the proof of Lemma 7.1, the constant
+
+c is chosen to be the Godel number of PA+’s proof of -®@.
+the left branch below Line 3 can be trivially closed.
+
+Since
+
+c satisfies Prf pa,( [40], c ),
+
+By definition,
+
+the presence of the sentence —®
+
+at the bottom of the ‘‘pivotal branch’’ implies that the proof is terse.
+
+FIGURE
+
+3
+
+é x Prfinvaup.1 (1.3)
+
+(1)
+
+( Pefowvats (H.p))
+
+(2)
+
+((3xPrfnvauo. (H, >a
+
+o([])
+
+sw {3x Prfpyvauip.: (H, x)}
+
+(Closed
+
+(3)
+
+101) )
+
+Branch )
+
+( Closed
+
+(4)
+
+Subtree)
+
+The top four levels of the Semantic Tableaux Proof of ¥ (stated in Equation (11.3)). Line 1
+is justified as the temporary assumption that ‘Y is false. Line 2 is the deduction from (1) following
+from
+
+existential quantifier elimination (with parameter p). Line 3 is a I], local reflection axiom.
+
+The left and right sentences on Line 4 are deductions from (3) via the > Elimination Rule.
+
+Line 1 contradicts the left side of line 4, this branch is closed. Also,
+tree descending
+
+from
+
+( [ 1)
+
+which
+
+is closed
+
+because
+
+&([@]) model theoretically incompatible with Line 2.
+
+Since
+
+it is easy to construct a sub-
+
+INVALID.1’s
+
+Group-1
+
+axioms
+
+render
+
+(=
+
+é x Prfinvauip.2 (H,x) )
+
+(1)
+
+(Prfrwauwe ip) )
+
+(2)
+
+(v i { Prinvauip2 (19;1) > i)
+
+(3)
+
+(Penvauio2 ([e,1) > °,)
+
+(4)
+
+Panvauins ( [o,] )
+
+(5)
+
+(6)
+
+(7)
+
+(ciosed Subires) (ciosed Subtree)
+
+FIGURE 4.
+
+( Closed Subiree) (Closed Subtree)
+
+INVALID.2’s semantic tableaux proof of V.
+
+

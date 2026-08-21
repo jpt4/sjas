@@ -1,0 +1,138 @@
+# ADR-0001 (Codification): Charter for the SJAS Codification Stage
+
+Status: Accepted
+
+Date: 2026-08-20
+
+Scope note: this ADR series is local to `nachlass/codification/` and distinct
+from any other ADR series in the repository or its parent.
+
+## Context
+
+`prose/sjas_synthesis.txt` (master 53d56a0) proposes synthesizing Willard's
+SJAS literature into a single mature statement — the **Codified SJAS** — that
+abstracts over contingencies, de-duplicates replicated context, and clarifies
+the motivation, articulation, and demonstration of the essential results. Its
+governing caution: SJAS properties are delicately sensitive to precise
+definitions, and Willard's publications are overlapping but **not coincident**
+formalizations; codification must therefore establish exactly what the
+variants are before abstracting over them. The Codified SJAS feeds the
+Refinement stage (which may freely depart from Willard's presentation to
+articulate the objective concept) and the computational-analogue program
+(NC-SJAS plan; affine-tree ADR line; Proflog SJAS profile).
+
+User directions in force (2026-08-20): all codification work is conducted
+within `nachlass/`; audit tooling is portable bash + standard CLI (not Ruby);
+registries and extraction records must be human-readable, themselves teaching
+the structure of the literature; corpus membership is decided by the
+**throughline test** (anything without which understanding of Willard's
+conceptualization of SJAS would be impaired is in; nothing is included for
+completionism; secondary literature belongs to Refinement); user-feedback
+checkpoints after each definite component are obligatory until autonomous
+execution is authorized.
+
+## Decision
+
+Execute the Codification as a layered, registry-audited workstream in
+`nachlass/codification/`, on branch `sjas-codification`:
+
+1. **Corpus layer** (`registry/corpus.md`): every Willard-authored item ruled
+   in or out with rationale, witnesses named, extraction state tracked.
+2. **Extraction layer** (`extraction/<key>.md`): per-item formal inventories
+   using the fixed template below; saturation-closed (a re-pass finding zero
+   new numbered items).
+3. **Concordance layer** (`concordance/`): canonical system genealogy, the
+   variation axes (language profile / deduction apparatus / consistency
+   notion / axiomatization finiteness / base-theory assumptions), the
+   affirmative–negative–open result matrix, the drift ledger (discrepancies
+   retained, not resolved), and the replication map (the de-duplication
+   instrument).
+4. **Synthesis layer** (`codified-sjas.md`): the single mature statement,
+   every definition and theorem carrying provenance and variant deltas.
+5. **Audit** (`audit.sh`): bash/awk parsing of the registry tables —
+   referential integrity, witness existence, enum validity, coverage counts.
+   Green audit is a merge condition for every component.
+
+**Extraction template** (per item): 1. Identity & witness; 2. Role in corpus
+(Willard's own claim recorded; verification deferred to the concordance);
+3. Systems defined (paper's own notation); 4. Numbered-item inventory
+(definition/theorem/lemma/remark/conjecture: page anchor, tight paraphrase —
+verbatim where load-bearing — proof status full|sketch|cited|stated-only,
+dependencies); 5. Notation table; 6. Replicated context; 7. Discrepancies &
+errata; 8. Saturation record. Motivation-tier items use a lighter variant
+(§1, §2, distilled theses, §7, §8). Witness-tier (nachlass) items get
+witness-grade records anchored to page images; OCR text is a search aid and
+never an anchor for formal statements.
+
+**Components and status:**
+
+| # | Component | Status |
+| --- | --- | --- |
+| C1 | TR 93-10 searchable collation | done 2026-08-20 (309ab69, a589920) |
+| C2 | Web coverage verification (+ acquisitions) | done 2026-08-20 (48707d6, 01daf26, 714ee5c) |
+| C3 | Charter, scaffold, corpus ruling pass | this ADR |
+| C4 | Pilot extraction: Willard2005 (method gate) | pending |
+| C5 | Origin: Willard1993-TR + Willard1993 | pending |
+| C6–C8 | Spine: Willard2011, Willard2001, Willard2020 | pending |
+| C9 | Tier A: Willard2002a, Willard2004, Willard2006a, Willard2020-LFCS (+Willard2021 when acquired) | pending |
+| C10 | Tier B: Willard2002c, Willard2000-TAB, Willard2006-WoLLIC, Willard2009, Willard2016 | pending |
+| C11 | Tier C: Willard2005-TAB, Willard2006b, Willard2007-APAL, Willard1998, Willard1997 (when acquired), motivation items | pending |
+| C12 | Tier D: nachlass witness records | pending |
+| C13 | Concordance | pending |
+| C14–C15 | `codified-sjas.md` composition | pending |
+| C16 | Audits, acceptance, AAR | pending |
+
+The **C4 method gate**: the Willard2005 extraction is fidelity-checked
+against the two known-good partial re-derivations (the affine-tree design
+document §2–§3; the 2026-07-27 deductive-apparatus survey in the parent
+repository). Divergences fix the template before scaling. The **C6
+subsumption audit**: Willard2011's claims to unify/subsume earlier results
+are audited against the Willard2001/2005 extractions — first substantive
+drift-ledger entries — never assumed.
+
+## Success criteria
+
+- **A1** Every `core`/`motivation`/`witness` corpus row has an extraction
+  record with a recorded zero-new-items saturation re-pass.
+- **A2** `audit.sh` green: keys unique, witnesses exist, enums valid, every
+  results/systems/notation row keyed to a corpus row; every extracted result
+  mapped into the codified statement/result matrix or listed with exclusion
+  rationale.
+- **A3** C4 fidelity gate passed with no unexplained divergence.
+- **A4** Sufficiency tests against `codified-sjas.md` alone: T1 state any
+  affirmative Willard system exactly (profile + apparatus + groups); T2
+  locate any claimed result's proof status and exact source; T3 read off any
+  (profile, apparatus, consistency-notion) cell of the result matrix; T4
+  re-derive the Willard column of the affine-tree transfer dictionary and
+  the 2026-07-28 apparatus-audit claims; T5 enumerate every known drift for
+  a given concept.
+- **A5** `registry/gaps.md` complete: every missing witness, stated-not-
+  proved result, and version/identity question carries an action or an
+  explicit accepted ruling.
+- **A6** The C2 coverage conclusion stands or is amended by recorded
+  evidence.
+- **A7** After-action report appended to this ADR at completion.
+
+## Failure criteria / explicitly not claimed
+
+- No claim that the corpus is coherent in advance of the concordance; where
+  variants conflict, the drift ledger retains the conflict and the codified
+  statement states both readings with provenance.
+- Codification does not modernize, simplify, or repair Willard's
+  presentation (that is Refinement); it does not mechanize (that is the
+  Proflog/affine-tree line).
+- OCR-derived text (TR 93-10 layer, nachlass scans, DIMACS volume when
+  collated) never anchors a formal statement; page images are authoritative.
+- If the C4 gate exposes template inadequacy, the template is revised and
+  C4 repeated before any further extraction is accepted.
+
+## Consequences
+
+- The registries become the citable index of Willard's SJAS literature
+  (human-readable first; machine-checked always).
+- Each component ends with a commit, a LOG entry in `../LOG.md`, and a user
+  checkpoint until autonomy is authorized.
+- The Refinement stage inherits: the codified statement, the result matrix,
+  the drift ledger, and the recorded hooks (Beklemishev simplification
+  claim; Lawvere-FPT and Rosser-analogue formulations; the Solovay
+  private-communication thread surfaced in Willard2020-LFCS ref. 41).

@@ -1,0 +1,2514 @@
+Passive Induction and a Solution to a Paris-Wilkie Open
+Question
+Dan E. Willard ∗
+More polished version in Annals of Pure and Applied Logic 146 (2007) pp.
+124-149
+
+Abstract
+In 1981, Paris and Wilkie raised the open question about whether and to what extent
+the axiom system IΣ0 did satisfy the Second Incompleteness Theorem under Semantic
+Tableaux deduction. Our prior work showed that the semantic tableaux version of the
+Second Incompleteness Theorem did generalize for the most common definition of IΣ0
+appearing in the standard textbooks.
+However, there was an alternate interesting definition of this axiom system in the
+Wilkie-Paris article in the Annals of Pure and Applied Logic 35 (1987) pp. 261-302 which
+we did not examine in our year-2002 article in the Journal of Symbolic Logic. Our first
+goal is to show that the incompleteness results of our prior paper can generalize in this
+alternate context. We will also develop a formal analysis, using a new technique called
+Passive Induction, that is simpler than the formalism we had used before.
+A further reason our results are of interest is that we have shown in a companion paper
+published in Electronic Notes in Theoretical Computer Science 165 (2006) pp. 213–226
+that some very unorthodox axiomizations for IΣ0 are anti-thresholds for the Herbrandized
+version of the Second Incompleteness Theorem. Thus, different axiomizations for IΣ0
+have nearly fully opposite incompleteness properties.
+This paper is self-contained. It will not require a knowledge of our earlier results.
+
+1
+
+Introduction
+
+This paper addresses an open question raised by Paris and Wilkie in 1981 [23]. It is well known
+that Gödel’s Second Incompleteness Theorem [12] asserts that neither Peano Arithmetic nor
+any consistent extension of it can prove a theorem affirming its own consistency under Hilbert
+deduction. There have been numerous generalizations and extensions of Gödel’s seminal result
+[1, 2, 3, 4, 5, 7, 9, 10, 14, 19, 16, 17, 22, 23, 24, 25, 26, 27, 28, 30, 33, 35, 36, 37, 38, 40, 42, 44].
+For example, the combined work of Pudlák and Solovay [25, 30] has shown that essentially no
+∗
+
+University of Albany, Email=dew@cs.albany.edu. Partially supported by NSF Grant CCR 99-02726
+
+1
+
+axiom system that recognizes Successor(x) = x + 1 as a total function can prove a theorem
+affirming its own consistency under Hilbert deduction.
+In 1981, Paris and Wilkie [23] asked whether the axiom system IΣ0 , often also called I∆0 ,
+did satisfy the Second Incompleteness Theorem for cut-free methods of deduction, such as
+Semantic Tableaux. Interestingly, Wilkie-Paris [37] discovered IΣ0 +Exp is unable to prove
+the Hilbert consistency of the axiom system Q. Thus, the Paris-Wilkie open question pertains
+essentially to Semantic Tableaux and Herbrand deduction.
+We will use a convention where a formula is called ∆0 iff all its quantifiers are bounded
+quantifiers in the language of arithmetic (i.e. the quantifiers “ ∀ v ≤ T ” and “ ∃ v ≤ T ”
+use terms T that are built with only the addition and multiplication function symbols).
+A formula will be called Π1 iff it can be written as ∀ v1 ∀ v2 ... ∀ vn φ(v1 , v2 , ...vn ) where
+φ(v1 , v2 , ...vn ) is a ∆0 formula.
+Let us next recall that Tarski-Mostowski-Robinson [33] defined Q to be a very weak
+axiom system that defined addition and multiplication to be total functions but contained
+no induction principle or much other useful information about addition and multiplication.
+There are two natural ways for defining the IΣ0 axiom system. It can be defined as using
+either Equations (1) or (2)’s limited induction scheme for ∆0 formulae, combined with the
+Tarski-Mostowski-Robinson [33] axiom system, called Q.
+∀x { { φ(x, 0) ∧ ∀y [ φ(x, y) =⇒ φ(x, y 0 ) ] } =⇒ ∀y φ(x, y) }
+
+(1)
+
+∀x ∀z { { φ(x, 0) ∧ ∀y ≤ z [ φ(x, y) =⇒ φ(x, y 0 ) ] } =⇒ ∀y ≤ z φ(x, y) }
+
+(2)
+
+Both ∆0 induction schemes are known to produce an identical set of theorems when they
+are combined with Q’s axioms.
+
+In essence, the first induction scheme appeared in the
+
+logic textbooks by Hájek-Pudlák [13], Kaye [15] and Krajı́cek [18]. Equation (2)’s alternate IΣ0 induction scheme was used in the Wilkie-Paris article [37]. We will henceforth use
+the terms Type-1 and Type-2 to describe these two induction schemes for IΣ0 .
+An initial effort to answer the 1981 Paris-Wilkie open question [23] about whether IΣ0 would
+satisfy the Second Incompleteness Theorem for cut-free deduction such as Semantic Tableaux
+and Herbrand deduction, was undertaken by Adamowicz and Zbierski [1, 4]. They presented a
+positive solution to the Paris-Wilkie open question [23] for the axiom system IΣ0 +Ω1 . Willard
+[38, 40] subsequently strengthened their result to show that the Type-1 induction scheme for
+IΣ0 satisfied the semantic tableaux version of the Second Incompleteness Theorem. On 16
+November 2005, we received a very insightful email communication from L.A. Kolodziejczyk.
+It pointed out the formal difference between the Type-1 and Type-2 induction schemes for
+2
+
+IΣ0 and asked whether it would be possible to generalize [40]’s results to IΣ0 ’s Type-2
+induction scheme?
+A simple answer to Kolodziejczyk’s question is that the basic incompleteness results from
+[40] will generalize for IΣ0 ’s Type-2 induction scheme. However, a full answer to Kolodziejczyk’s
+fascinating question is somewhat more complicated because our research has also discovered a
+third class of axiomizations for IΣ0 , called Ax-3 in our companion paper [45], that proves the
+same set of theorems as its Type-1 and Type-2 axiomizations but which is an anti-threshold
+for at least the Herbandized version of the Second Incompleteness Theorem. (The formal
+definition of an “anti-threshold” for the Second Incompleteness is provided in footnote 1 .)
+The intuitive reason that Ax-3 will prove the same set of theorems as the Type-1 and Type-2
+formalizations of IΣ0 — while possessing an essentially opposite incompleteness property —
+is that these three systems will be unable to formally recognize that they prove the same set
+of theorems (although they actually do generate identical sets of theorems).
+This unexpected contrast high-lights the importance of the open question that Paris-Wilkie
+posed in their initial 1981 paper [23] and which Leszek Kolodziejczyk (after having conversations with Zofia Adamowicz and Konrad Zdanowksi in Warsaw) essentially reformulated in
+his November 16, 2005 email to us. It is that the axiom system IΣ0 so closely straddles the
+border between the feasible and infeasible that different logically equivalent versions of it will
+surprisingly support essentially opposing incompleteness properties !
+Our discussion of this topic has been divided into two separate parts. Under this division, our companion paper [45] explores some unorthodox-but-valid axiomizations of IΣ0 that
+should be viewed as boundary-case exceptions for at least Herbrandized version of the Second
+Incompleteness Theorem. In contrast, the current article focuses instead on generalizations
+of the Second Incompleteness Theorem for the Type-1 and Type-2 versions of IΣ0 .
+Our research has discovered two slightly different methods available for showing that the
+Type-2 version of IΣ0 has similar incompleteness properties as its Type-1 version. One is a
+revision of the proof techniques that had appeared in our earlier paper [40]. (We will sketch
+the structure of this technique later in Appendix C.) An alternate method, which is simpler,
+1
+
+In a context where D is a deduction method, an axiom system α will be called an “anti-threshold”
+of the Second Incompleteness Theorem relative to D iff there exists a consistent axiom system α∗ that
+contains all α ’s formal axioms and which can prove the following statement:
+“There exists no proof of 0 = 1 when the deduction method D is applied to the axiom system
+α∗ .”
+One reason this “anti-threshold” construct is useful is that it signals that a conventional Gódel-like diagonalization proof cannot be applied to analyze the properties of either α or α∗ (because the latter’s ability to prove
+the above quoted statement shows that a conventional diagonalization proof must certainly be infeasible.)
+
+3
+
+uses a new technique, called Passive Induction. It did not appear in [40]. It also allows one
+to simultaneously prove that both the Type-1 and Type-2 versions of IΣ0 satisfy the semantic
+tableaux version of the Second Incompleteness Theorem. It will be the focus of the current
+paper.
+Passive Induction is likely to be viewed as an interesting technique unto itself, quite apart
+from quite apart from its relevance to the 25-year old Paris-Wilkie open question, explained
+in Sections 3 and 4.
+
+2
+
+Notation and Structural Remarks
+
+Our formal definition of a semantic tableaux proof is similar to that appearing in Fitting’s and
+Smullyan’s textbooks [11, 29]. It is given below in Definition 1. (For the sake of simplifying
+our presentation, this definition views the bounded quantifier “ ∀v ≤ s ” as a syntactic object
+different from the unbounded quantifier of “ ∀v ”. It likewise separates bounded existential
+quantifier “ ∃v ≤ s ” from the unbounded existential quantifier “ ∃v ”.)
+
+Definition 1 . A Semantic Tableaux Proof of a theorem Φ will consist of a tree whose
+root is the sentence ¬ Φ and whose all other nodes are either axioms of α or deductions
+from higher nodes in the proof-tree. Let the notation “ A 7−→ B ” indicate that B is a
+valid deduction when
+
+A is an ancestor of
+
+B in the proof-tree T . In this notation, the
+
+deduction rules allowed under our definition of Semantic Tableaux are:
+1. Θ ∧ Γ 7−→ Θ and Θ ∧ Γ 7−→ Γ .
+2. ¬ ¬ Θ 7−→ Θ . Other elimination rules for the “ ¬ ” symbol include:
+(a)
+
+¬(Θ ∨ Γ) 7−→ ¬Θ ∧ ¬Γ
+
+(b)
+
+¬(Θ ∧ Γ) 7−→ ¬Θ ∨ ¬Γ
+
+(c)
+
+¬(Θ ⇒ Γ) 7−→ ( ¬ ¬ Θ ) ∧ ¬Γ
+
+(d)
+
+¬ ∃v Θ(v) 7−→ ∀v¬ Θ(v) ,
+
+(e)
+
+¬ ∀v Θ(v) 7−→ ∃v ¬Θ(v)
+
+(f)
+
+¬ ∃v ≤ t Θ(v) 7−→ ∀v ≤ t ¬ Θ(v)
+
+(g)
+
+¬ ∀v ≤ t Θ(v) 7−→ ∃v ≤ t ¬Θ(v).
+
+3. The pair of sibling nodes Θ and Γ may appear in a candidate tree whenever Θ ∨ Γ
+is their common ancestor.
+4
+
+4. Similarly, a pair of sibling nodes ¬Θ and Γ may appear a candidate tree when
+Θ ⇒ Γ is their common ancestor.
+5. ∃v Θ(v) 7−→ Θ(U ) where U denotes a newly introduced pseudo-constant symbol
+(often also called in literature a newly introduced “parameter symbol”),
+6. For any term s, the Rule 5’s analog for bounded existential quantifiers is
+∃v ≤ s Θ(v)
+
+7−→
+
+U ≤ s ∧ Θ(U )
+
+where U again denotes a newly introduced parameter symbol.
+7. ∀v Θ(v)
+
+7−→
+
+Θ(t) where t denotes a term free in Θ.
+
+8. For any term s, the analog of Rule 7 for bounded universal quantifiers is:
+∀v ≤ s Θ(v)
+
+7−→
+
+t ≤ s ⇒ Θ(t)
+
+where t again denotes a term free in Θ.
+Define a particular leaf-to-root branch in a candidate tree T to be Closed iff it contains
+both some sentence Λ and its negation ¬ Λ . Then following Smullyan’s convention [11, 29],
+a Semantic Tableaux proof of Φ is defined to be a tree whose root stores the sentence
+¬Φ and whose every root-to-leaf branch is closed.
+More Notation:
+
+Let SemPrfα (x, y) denote a ∆0 formula indicating that y is a semantic
+
+tableaux proof of the theorem x from the axiom system α . Given a sequence of integers
+i1 , i2 , i3 , ...im , we will say a ∆0 formula Φ(g, j, x) makes g an encoding of this sequence iff
+Φ(g, j, x) is satisfied only when x represents the j−th element in the sequence i1 , i2 , i3 , ...im .
+We will say g is a Linear Compressed Encoding of this sequence if Log(g) has a magnitude
+proportional to the size of
+
+Pm
+
+j=1
+
+Log(ij + 2) . Buss, Hájek, Paris, Pudlák and Wilkie
+
+[8, 13, 37] have all given examples of such ∆0 encodings, and we will therefore not also do
+so here. The Linear Compressed Encodings are considered to be the most efficient possible
+method to do a formal Gödel encoding of a sentence or of a proof. We will therefore focus on
+studying such encodings in this paper. (It is probably unnecessary for a reader to examine our
+formal convention for generating Godel numbers, but a 1-page description of it is available in
+Appendix A.)
+
+5
+
+The symbol
+
+⊥
+
+will denote the Gödel number of the sentence 0 = 1 . The weakest
+
+possible definition of α’s Semantic Tableaux Consistency is the following assertion:
+∀p ¬ SemPrfα ( ⊥ , p )
+
+(3)
+
+The Definition 2 (below) will offer a different definition of a semantic tableaux deduction
+and therefore (implicitly) also a different notion of semantic tableaux consistency. Our main
+interest will be, of course, to derive a final result about semantic tableaux consistency using
+Equation (3)’s formalization of consistency, rather than to employ the more artificial construct
+that is implied by the Definition 2 (below). However, one nice aspect of Definition 2’s construct
+is that it is a useful intermediate step for analyzing Equation (3)’s notion of semantic tableaux
+consistency.
+Definition 2 . Let Log(x) denote Base-2 Logarithm, with downwards rounding to the lowest
+integer. (We shall assume Log(0) = 0. ) Let Log(x, k) denote Log(Log(Log...(Log(x)))) −
+where there are k iterations of logarithm. For any fixed constant K > 1 , the symbol
+SemPrfK
+α ( x , y , z ) will denote a ∆0 formula indicating that SemPrfα ( x , y) is valid
+AND that y ≤ Log( z , K ) . Often in this paper when K is a fixed constant, we will use
+the notation y ≤ LogK ( z ) as an abbreviation for y ≤ Log( z , K ) .
+Remark 1 (concerning Definition 2’s notation). It was observed in Benett’s Ph. D.
+dissertation that the graph of exponentiation has a ∆0 encoding [6]. Expanding upon Benett’s
+idea, Lemma 3.1 of [40] has observed how to formally encode the graphs of Log(x, k) and hence
+SemPrfK
+α (x, y, z) as ∆0 formulae. Moreover for a fixed constant K, let us say an integer y
+is K−small iff it satisfies the condition
+∃z
+
+y ≤ Log( z , K )
+
+(4)
+
+Many articles in the prior literature [1, 4, 9, 16, 22, 24, 25, 26, 27, 28, 30, 34, 35, 36, 37,
+38, 40, 42, 44] have noted that the study of K−small integers and the analogous variants
+of Definition 2’s small-proof predicate are useful in generalizing the Second Incompleteness
+Theorem. These generalizations turn out to be easier to derive when one has available a
+cut-permissive method of deduction, such as Hilbert deduction, than when only a cut-free
+deductive calculi is available (such as Herbrand deduction or semantic tableaux). This is
+because the former can take advantage more easily of the theory for analyzing Definable Cuts
+on account of its permissible use of a Gentzen-style deductive cut methodology. Prior to our
+current article, the use of K−small integers to develop new theorems about cut-free deduction
+have included Adamowicz-Zbierski’s study of IΣ0 +Exp [1, 4], Takeuti’s and Kolodziejczyk’s
+6
+
+analysis [16, 32] of Buss’s and Ignjatovic’s theorems about Bounded Arithmetic [8, 9], Willard’s
+proof that the Type-1 axiomization of IΣ0 satisfies the semantic tableaux version of the Second
+Incompleteness Theorem [38, 40], and some interconnected generalizations of the latter result
+in [41, 44].
+Definition 3 . Let D(α) denote Gödel’s famous diagonalization sentence (formally defined
+below):
+* There is no Semantic Tableaux proof of this sentence.
+Also, let DK (α) denote the following SemPrfK
+α (x, y, z) modification of this sentence:
+**
+
+In a context where one employs the slightly modified “ SemPrfK
+α (x, y, z) ”
+
+proof-notation, there exists no code (y, z) that “proves” this sentence.
+It is very easy to formally encode DK (α) as a Π1 sentence following the example of the prior
+literature on diagonalization. Thus, let Subst(g, h) denote Gödel’s classic ∆0 substitution
+relation, defined below:
+Subst(g, h)
+
+=
+
+The integer g is an encoding of a formula, and h encodes a
+
+sentence identical to g,
+
+except that all free variables in g are replaced with a
+
+mathematical term representing the numeric quantity of g.
+Then DK (α) can be defined as being the Π1 sentence Γ( N̄ ) , where Γ(g) denotes the
+formula (5) and N̄ denotes Γ(g)’s Gödel number.
+∀y ∀z ∀h
+
+{ Subst( g , h )
+
+⇒
+
+¬ SemPrf K
+α (h, y, z) }
+
+(5)
+
+The sentence DK (α) defined above will be henceforth called a Generalized Godel Diagonalization Sentence. Thus in a context, where N̄ denotes (5)’s Gödel number, the formal
+mathematical definition of DK (α) is:
+∀y ∀z ∀h
+
+{ Subst( N̄ , h )
+
+⇒
+
+¬ SemPrf K
+α (h, y, z) }
+
+(6)
+
+In essence, our version of a proof of the Second Incompleteness Theorem in this paper (and
+in its earlier version [40]) are similar to the classic diagonalization proofs, except that many
+intermediate steps will use DK (α) instead of D(α) . One would first naturally suspect
+that there must be some serious penalty for letting the unconventional diagonalizing sentence
+DK (α) replace D(α) . However, it will turn out that there is no serious disadvantage for
+7
+
+this change because it is only our intermediate steps (rather than our final theorems) that
+will be affected by this change. We need now to mention one theorem from our earlier paper
+[40] before we turn to our new results:
+Theorem 1 Suppose α is an extension of Q which (for some standard number K ) proves
+the three theorems below. Then α is inconsistent.
+A
+
+∀p ¬ SemPrfα ( ⊥ , p )
+
+B
+
+∀g ∀h ∀h∗ { Subst( g , h ) ∧ Subst( g , h∗ ) } ⇒ h = h∗
+
+C
+
+K
+{ ∃y ∃z SemPrfK
+α ( d D (α) e , y, z ) } ⇒
+
+∃x SemPrfα ( ⊥ , x )
+
+A roughly 1-page formal proof of Theorem 1 can be found in Section 2 of our earlier paper
+[40] (under the heading of “Theorem 2.3”). There is no point to repeating that proof here.
+(It is actually the only theorem that we will be using from our earlier work. The remainder of
+our discussion in this paper will be new, different, mostly stronger and significantly simpler.)
+Our formal proof in the next section will actually not use Theorem 1 directly. Instead, it will
+employ a minor variant of it, which is formalized by Theorem 2. This theorem’s statement
+will actually be the same as the prior statement of Theorem 1 except that it introduces a new
+constant of M into the formalism and replaces the old Condition-C of Theorem 1 with a
+new condition C*.
+Theorem 2 Suppose α is an extension of Q where for two fixed integers from the standard
+model of the natural numbers called K and M, the axiom system α can proves the three
+theorems below. Then α is inconsistent.
+A
+
+∀p ¬ SemPrfα ( ⊥ , p )
+
+B
+
+∀g ∀h ∀h∗ { Subst( g , h ) ∧ Subst( g , h∗ ) } ⇒ h = h∗
+
+C*
+
+K
+{ ∃y > LogK M ∃z SemPrfK
+α (dD (α)e, y, z) } ⇒ ∃x SemPrfα (⊥, x)
+
+Proof by Contradiction.
+
+If Theorem 2 was false then we could construct an axiom
+
+system α that satisfies the following two conditions
+i. α is consistent.
+ii. α can prove the statements A, B and C*, mentioned in Theorem 2’s hypothesis.
+8
+
+The next paragraph will show that Assumptions (i) and (ii) imply that α can also prove
+the statements A, B and C from Theorem 1’s hypothesis. However, the latter is impossible
+because Assumption (i) indicates that α is consistent, and Theorem 1 indicates that no
+consistent α can prove all of statements A, B and C. Using this reasoning, our proof-bycontradiction will establish that it is impossible to construct a system that violates Theorem
+2’s hypothesis.
+More precisely, we need to show that (i) and (ii) imply that α can prove the statement
+C from Theorem 1’s hypothesis. The footnote 2 demonstrates that Item (i) implies that the
+following statement must be valid in the standard model of the natural numbers:
+∀ y ≤ LogK M
+
+K
+¬ SemPrfK
+α ( d D (α) e , y, M )
+
+(7)
+
+Moreover, Equation (7) is similar to a ∆0 formula because its universal quantifier has only a
+finite range. It is well known that Q can formally prove all valid such ∆0 -like formulae whose
+quantifiers have finite range. Hence, Q can prove (7)’s statement. Also from Definition 2’s
+formal description of SemPrfK , it is obvious that Q, as well as any more elaborate axiom
+system α ⊇ Q , can prove Equation (8)’s statement (see footnote 3 )
+K
+K
+K
+∀y ≤ LogK M ∀z { SemPrfK
+α (dD (α)e, y, z) ⇒ SemPrfα (dD (α)e, y, M ) }
+
+(8)
+
+In turn, this fact implies that Q can prove prove the Statement C from Theorem 1’s hypothesis
+(because the latter is a consequence of the combination of C* and Equations (7) and (8) —
+all of which are provable from α). Hence, our proof-by-contradiction has reached its desired
+end because it has shown that α must satisfy Theorem 2’s claim because it would otherwise
+violate Theorem 1’s required constraints. (This is because α would otherwise be a consistent
+axiom system having a capacity for proving simultaneously Theorem 1’s statements A, B and
+C — a possibility precluded by Theorem 1.) 2
+Further Introductory Comments.
+
+Most of the remainder of this paper will introduce
+
+the Passive Induction formalism, that has no direct analog in our prior work. When combined
+with Theorem 2’s machinery, Passive Induction will produce a stronger and simpler analysis
+for corroborating the IΣ0 version of the Second Incompleteness Theorem than was published
+in [40].
+2
+
+The point is that Item (i) indicates that α is consistent, and no consistent α can be associated with
+an ordered pair (y, M ) that proves the sentence DK (α) because it would then prove the diagonalization
+sentence that states “There is no ordered pair (y, M ) that proves me”. Thus Equation (7) must be certainly
+valid.
+3
+K
+The point is that by definition, SemPrfK
+y, z ) implies the validity of
+α ( d D (α) e ,
+K
+K
+SemPrfα ( d D (α) e , y, ), which turn implies the validity of SemPrfK
+α ( d D (α) e , y, M ) when
+K
+y ≤ Log M .
+
+9
+
+Before describing Passive Induction, it is helpful to introduce some further notation. There
+are essentially three different natural definitions of the Tarski-Mostowski-Robinson, axiom
+system called Q [33]. The symbol Q0 will denote the version of Q, used in the current paper.
+It is is formalized by the Π1 sentences in Equations (9) – (16).
+0 = 0 ∧ 1 = 00 ∧ 2 = 10 ∧ 0 ≤ 0 ∧ 00 6= 0 ∧ ¬ [ 00 ≤ 0 ]
+
+(9)
+
+∀ x ( x+0 = x ∧ x·0 = 0 ∧ x·1 = x )
+
+(10)
+
+∀x ∀y ( x0 = y 0 ⇐⇒ x = y )
+
+(11)
+
+∀x ∀y ( x ≤ y ⇐⇒ ( x0 ≤ y ∨ x = y )
+
+(12)
+
+x · y 0 = (x · y) + x
+
+∀x ∀y
+∀x ∀y ∀z
+
+x + y 0 = (x + y)0
+
+(13)
+
+[x=y ∧ y=z ] ⇒ [x=z ∧ z=x]
+
+(14)
+
+∧
+
+∀x ∀y ∀z
+
+[x=y ∧ y≤z ] ⇒ x≤z
+
+(15)
+
+∀x ∀y ∀z
+
+[x=y ∧ z≤y ] ⇒ z≤x
+
+(16)
+
+Also, let Q1 denote a system that is begotten by taking the union of Q0 with Equation (17)’s
+axiom (which declares that multiplication is a total function). Similarly, Q2 will denote the
+union of Q0 with the Equations (17) and (18) (that indicate multiplication and squaring are
+total functions).
+∀x ∀y ∃z
+
+x∗y =z
+
+∀x ∃z x ∗ x = z
+
+(17)
+(18)
+
+It is apparent that all three of these definitions of Q can prove the same set of theorems
+(since the presence of a multiplication symbol in Equations (9) – (16) assures that Q0 can
+prove the validity of the statements that multiplication and squaring are total functions —
+even if they are not formally incorporated as axioms). Thus, the only difference between Q0 ,
+Q1 and Q2 are the lengths of the proofs they generate (rather than the final theorems that
+they produce).
+Also for i = 1 or 2 and j = 0, 1 or 2, let Type-i-j denote a form of the axiom system
+IΣ0 that combines the Type−i version of IΣ0 ’s induction scheme with the Qj version of the
+axiom system Q. Our semantic tableaux version of the Second Incompleteness Theorem in
+the current article will actually apply to all six of the axiom systems of Type-1-0, Type-1-1,
+Type-1-2, Type-2-0, Type-2-1 and Type-2-2. However before starting our discussion, it is
+useful to address a question some logicians have asked us concerning which precise versions
+of IΣ0 did the prior results of [40] actually pertain to?
+10
+
+The brief answer is that [40]’s results, if very narrowly interpreted, proved that the Type-1-1
+version of IΣ0 satisfied the semantic tableaux version of the Second Incompleteness Theorem
+and that Type-1-2 similarily applied to Herbrand deduction. However, there are several easy
+generalizations of these results for other paradigms. For instance, Appendix B illustrates
+that it would be easy to generalize [40]’s results for the Type-1-0 versions of IΣ0 . Also, the
+Appendix C (which presupposes that the reader has already examined our earlier article [40]
+) summarizes how [40]’s formalism can be adjusted to verify the semantic tableaux version of
+the Second Incompleteness Theorem for each of the Types 2-0, 2-1 and 2-2 axiomizations for
+IΣ0 without the use of the passive induction technique introduced in the current article.
+Both the Appendices B and C are likely to be difficult to peruse quickly if the reader has
+not already examined our previous paper [40] in considerable detail. They are not vital for
+an understanding of the current article because its formalisms will be both self-contained and
+easier to understand (on account of the new concept of passive induction).
+Also as the reader examines the remainder of this article, it should be kept in mind that
+some unorthodox-but-valid axiomizations of IΣ0 (formalized in our companion article [45] ) are
+“anti-thresholds” for at least the Herbrandized version of the Second Incompleteness Theorem
+(using the terminology from Footnote 1 of Section 1.) Thus, the study of IΣ0 is central for
+understanding the precise threshold-point where the Second Incompleteness Theorem does
+become active. (The intuitive reason that [45]’s “Ax-3” version of IΣ0 will prove the same set
+of theorems as its sundry Type-1 and Type-2 formalizations — while possessing an essentially
+opposite incompleteness property — is that these systems will be unable to formally recognize
+that they prove the same set of theorems — although they actually do generate identical sets
+of theorems.)
+
+3
+
+Passive Induction
+
+A ∆0 formula will be called Passive iff it includes no free variables. For example, if we
+write a formula using the formal notation convention of “ φ(x, y) ” but there are actually
+no free occurrences of x or y or any other variable in φ’s body, then we will call this
+formula “passive”. Obviously, if “ φ(x, y) ” is passive then there is no strong reason why it
+was necessary to use the variable names “x” and “y” to designate this formula’s name —
+since it could be more tersely denoted as “ φ ”. However from a strictly legalistic mathematical
+perspective, “ φ(x, y) ” is a legitimate although perhaps redundant name for this formula.
+Let us now apply this concept to the main induction formulae that are used by the axiom
+
+11
+
+system IΣ0 . These two ∆0 induction schemes were defined by the Equations (1) and (2) of
+Section 1, and they are rewritten below. They are called the Type-1 and Type-2 inductive
+schemes for IΣ0 . Both schemes prove the same set of theorems when they are combined with
+Q’s axiom system.
+∀x { { φ(x, 0) ∧ ∀y [ φ(x, y) =⇒ φ(x, y 0 ) ] } =⇒ ∀y φ(x, y) }
+
+(19)
+
+∀x ∀z { { φ(x, 0) ∧ ∀y ≤ z [ φ(x, y) =⇒ φ(x, y 0 ) ] } =⇒ ∀y ≤ z φ(x, y) }
+
+(20)
+
+Using the nomenclature from the preceding two paragraphs, the induction formulae in
+Equations (19) and (20) will be called Passive when their ∆0 base formula φ(x, y) is
+passive. Although this notation is certainly well defined, many readers will initially feel
+somewhat uncomfortable with “Passive Induction”. This is because it would initially appear
+that the meaning of Equations (19) and (20) is quite diluted when they discuss a formula φ
+that has no active free variables of x and y. In other words, the following question will
+naturally arise in the minds of most meticulous logicians:
+∗
+
+What is the meaning of Equations (19) and (20) when no variable, including x
+
+and y, is free in the formula φ(x, y) ? Do these two sentences actually have any
+greater meaning than a simple trivial 1-atom sentence consisting of the Boolean
+constant of True?
+The answer to the preceding question is oddly both “yes” and “no” — depending on which
+kind of deduction methodology one is applying. The “no” half of ∗ ’s answer concerns Hilbert
+deduction, where a passive induction sentence clearly adds no more useful information than a
+tautology (that technically contains no formally functional information). On the other hand,
+if one uses a cut-free method of deduction, such as semantic tableaux, Herbrand deduction
+or the cut-free predicate form of the sequent calculus (which Takeuti [31] has called “ LKprovability”), then it will turn out that even the passive form of Equations (19) and (20)’s
+axioms can cause a theorem’s formal proof to have its length drop in size by an exponential
+or greater magnitude! It will be on account of this change in proof length that we are able to
+reply to Kolodziejczyk’s emailed questions with a positive answer that our IΣ0 Incompleteness
+Theorem will generalize for the Type-2 axiomizations for IΣ0 .
+To appreciate the nature of this formalism, let α now denote an initial axiom system, and
+α
+
+∗
+
+denote a second formalism that includes all α ’s axioms plus for every sentence Ψ an
+
+added axiom of the form:
+Ψ
+
+∨
+12
+
+¬Ψ
+
+(21)
+
+From either Godel’s Completeness Theorem or Gentzen’s Cut Elimination Theorem, it is well
+known that α and α∗ prove the same set of theorems. However, it is also well known that
+proofs under α∗ can be super-exponentially shorter than proofs from α under Semantic
+Tableaux and Herbrand deduction. This is because Equation (21)’s schema allows α∗ to
+essentially simulate a Gentzen-style cut rule. It is well known that this causes Semantic
+Tableaux proofs from α∗ to have essentially lengths comparable to proofs from α using
+Hilbert deduction.
+The remainder of this article will observe that the passive forms of the induction formulae
+in Equations (19) and (20) have essentially the same property as the also-redundant axiom in
+Equation (21). That is, neither will broaden the set of theorems that can be proven. However,
+passive uses of the induction axioms can exponentially shorten the lengths of cut-free tableauxlike proofs, in a manner that is completely analogous to Equation (21)’s well-known shortening
+effect for proof lengths.
+As a result of this shortening effect, we will derive a simpler proof of the IΣ0 incompleteness
+theorem than had appeared in our previous article. Also, our new result will apply to both
+the Type-1 and Type-2 axiomizations for IΣ0 , unlike [40]’s formalism which applied only to
+the former.
+Definition 4 . For i = 1 or 2 and j = 0, 1 or 2, let us recall that Section 2 had used
+the symbol Type-i-j to denote a form of the axiom system IΣ0 that combines the Type−i
+version of IΣ0 ’s induction scheme with the Qj version of the axiom system Q. Most of our
+discussion in the remainder of this article will concern the special versions of the Type-ij construct where j = 0. It is therefore convenient to use the symbols T-1 and T-2 as
+abbreviations for Type-1-0 and Type-2-0. (Our main results in this paper will state that the
+T-1 and T-2 versions of the axiom system IΣ0 satisfy the semantic tableaux version of the
+Second Incompleteness Theorem. Since for all i and j , the Type-i-j axiomizations either
+equal T-1 or T-2 or are a superset of one of these two systems, our main result will imply
+that each of the six versions of the Type-i-j formalism will also satisfy the semantic tableaux
+version of the Second Incompleteness Theorem.)
+Definition 5 . Let us say an axiom system α satisfies the Tableaux ∆0 Compression
+property if for every ∆0 sentence Ψ and for every arbitrary sentence Γ, there will exist
+assuredly a length O( L + G ) semantic tableaux proof of Γ from α whenever α supports
+proofs of Ψ and of Ψ ⇒ Γ with respective lengths of L and G .
+Lemma 1 Some examples of formalisms that satisfy Tableaux ∆0 Compression are:
+13
+
+i. Any axiom system α that contains Equation (21)’s axiom “ Φ ∨ ¬ Φ ” for every ∆0
+sentence Φ .
+ii. Both the T-1 and T-2 axiomizations for IΣ0 .
+iii. Any extension of the T-1 and T-2 axiomizations for IΣ0 .
+Proof of Assertion (i) :
+
+The validity of Assertion (i) is well known. However, we will
+
+review Assertion (i)’s proof because Assertion (ii)’s proof will rest on a more complicated
+version of the same methodology.
+We begin by recalling that Definition 1 indicated that the root of a semantic tableaux proof
+of the theorem Γ must store the sentence ¬ Γ in the tree’s root. Also for any ∆0 formula
+Ψ, the sentence ¬Ψ ∨ ¬ ¬ Ψ is a formal axiom of α under hypothesis (i). Thus, we may
+insert this axiom directly below the root in our proof tree. Then using Definition 1’s Rule 3
+(for ∨ elimination), we may insert the following two sibling nodes below this node:
+¬Ψ
+
+(22)
+
+¬¬Ψ
+
+(23)
+
+Let S1 denote a closed subtree descending from Equation (22): We will make its formal
+structure simply simulate the proof of Ψ . Moreover, since Equation (23) stores the sentence
+¬ ¬ Ψ and the root (above it) stores ¬ Γ , we may hang a subtree S2 descending from
+Equation (23), that resembles the proof of Ψ ⇒ Γ . Hence since G and L denotes the
+lengths of these two proofs (according to Definition 5’s terminology), it follows that Γ ’s proof
+will have an O( G + L ) length.
+Proof of Part (ii) :
+
+2
+
+The analysis of both the T-1 and T-2 axiomizations for IΣ0 are
+
+similar. We will therefore focus on the latter for simplicity.
+Below is written an instance of Equation (20)’s induction axiom where ¬ Ψ replaces the
+generic symbol “ φ(x, y) ”. (Here ¬ Ψ is a passive formula because it has no free variables):
+∀x ∀z { { ¬Ψ ∧ ∀y ≤ z [ ¬Ψ =⇒ ¬Ψ ] } =⇒ ∀y ≤ z ¬Ψ }
+
+(24)
+
+Definition 1 had indicated that the root of a semantic tableaux proof of the theorem Γ will
+store the sentence ¬ Γ. Since an axiom can be inserted anywhere in a semantic tableaux
+proof, we will make Equation (24)’s sentence the root’s child. The next two nodes in our
+semantic tableaux proof will consist of straight-line path consisting of two applications of
+Definition 1’s ∀ Elimination Rule. These applications will eliminate both x and z’s universal
+14
+
+quantifiers in Equation (24) and replace both these variables with the constant of “1”. The
+resulting great grandchild of the root will then be
+{ ¬Ψ ∧ ∀y ≤ 1 [ ¬Ψ =⇒ ¬Ψ ] } =⇒ ∀y ≤ 1 ¬Ψ
+Next we apply Definition 1’s
+
+⇒
+
+(25)
+
+Elimination rule to the node (25) and thus derive via
+
+Definition 1’s Rule 4 the following pair of sibling nodes:
+¬ { ¬Ψ ∧ ∀y ≤ 1 [ ¬Ψ =⇒ ¬Ψ ] }
+∀y ≤ 1
+
+¬Ψ
+
+(26)
+(27)
+
+There are eight additional reduction steps, and we will omit itemizing them for the sake of
+brevity. At the end of these eight steps, our proof tree will be split into four branches (with
+the terminating nodes A and B descending from Equation (26) and with C and D descending
+from Equation (27) ).
+A. ( ¬ ¬ ¬ Ψ ) ∧ ( ¬ ¬ Ψ )
+B. ¬ ¬ Ψ
+C. ¬ Ψ
+D. ¬ ( 0 ≤ 1 )
+
+(The footnote 4 justifies Items C and D’s presence.))
+
+The nice aspect of this semantic tableaux proof is that the branches descending from nodes A
+and D terminate promptly because they are inherently contradictory (see the footnote 5 for a
+clarification). On the other hand, the nodes B and C store the same sentences as the nodes in
+Part (i)’s proof that stored the contents of Equations (22) and (23). Thus we may end Part
+(ii)’s proof in the same manner as we had ended Part (i)’s simpler proof.
+In particular, we shall insert a copy of Ψ’s proof below node C (because it stores “¬ Ψ”)
+and a copy of the proof of Ψ ⇒ Γ below node B (because node B stores “ ¬ ¬ Ψ” and the
+4
+
+The quantity “0” is selected when applying Definition 1’s Rule 8 (for eliminating the “Bounded ∀ ”
+quantifiers) to Equation (27)’s sentence. This rule allows one to choose any term one desires for “ t ”,
+including a term (such as “0” ) that forces a quick contradiction, which pleasantly shortens the length of our
+semantic tableaux proof). In particular, the application of Rule 8 to Equation (27)’s sentence will produce
+the deduction of “ 0 ≤ 1 ⇒ ¬ Ψ ”. In turn, an application of the ⇒ elimination rule to this last
+sentence will produce a branch in the proof-tree yielding the two sibling nodes stored in Items C and D.
+5
+By “terminate promptly” in the footnoted paragraph, it is meant that the proofs descending from nodes
+A and D have lengths that are unrelated and independent of the quantities L and G , which Definition 5
+had indicated were the length of the proofs for the sentences of Ψ and of Ψ → Γ. Thus when we wish to
+calculate the length of Γ ’s proof as a function of L and G , it is the nodes B and C (rather than A and D)
+whose subtrees have proof-lengths related to L and G .
+
+15
+
+tree’s root had stored “ ¬ Γ ” ). Hence using Definition 5’s terminology, where G and L
+are the lengths of the proofs for Ψ and for Ψ ⇒ Γ , we obtain that Γ ’s proof will have an
+O( G + L ) length.
+
+2
+
+Proof of Part (iii) : Essentially the same as Part (ii)’s proof.
+
+2
+
+Definition 6 . For arbitrary n, the symbol Υn will denote the following ∆0 sentence that
+n
+
+uses O(n) symbols and asserts the existence of an integer vn that equals 22 .
+∃ v0 ≤ 2 ∃ v1 ≤ v0 ∗ v0 ∃ v2 ≤ v1 ∗ v1 ... ∃ vn ≤ vn−1 ∗ vn−1
+v0 = 2 ∧ v1 = v0 ∗ v0 ∧ v2 = v1 ∗ v1 ∧ ... ∧ vn = vn−1 ∗ vn−1
+
+(28)
+
+Lemma 2 There exists a constant d such that the sentence Υn has a length O( nd ) proof
+from either the T-1 or T-2 axiomization for IΣ0 .
+Proof Sketch. Let Φ0 denote another way of writing the sentence Υ0 , and let Φi be
+defined below:
+Φi
+
+{ Υi−1 ⇒ Υi }
+
+=def
+
+(29)
+
+Then Appendix D will offer a quite routine proof of the following statement
+( + )
+
+For some fixed constant c, the sentence Φi will have a proof with an
+
+c
+
+O( i ) length from either the T-1 or T-2 axiomization for IΣ0 .
+Moreover, the sentences Υ0 , Υ1
+
+Υ2 ... are all ∆0 formulae which satisfy Lemma 1’s
+
+hypothesis. Therefore by applying n iterations of Lemma 1’s Part-ii formalism, it easily
+follows that Υn ’s proof will have a length proportional to the sums of the lengths for the
+proofs of the theorems Φ0 , Φ1 , Φ2 , ...Φn . In other words, its length is proportional to:
+n
+X
+
+ic
+
+=
+
+O( nc+1 )
+
+(30)
+
+i=0
+
+Hence, Equation (30) implies the validity of Lemma 2 when we define the constant d to
+equal c + 1.
+
+2
+
+Definition 7 . Let Θ denote some Π1 sentence. For notational simplicity, let us assume
+that Θ is encoded as ∀ x1 , ∀ x2 , ... ∀ xk
+
+φ(x1 , x2 , ...xk ) and that none of the free variable
+
+appearing in φ include v1 , v2 , ...vn Then Local(n, Θ) will be informally defined to be a ∆0
+sentence asserting the statement:
+16
+
+n
+
+n
+
+∀ x1 ≤ 22 , ∀ x2 ≤ 22 , ... ∀ xk ≤ 22
+
+n
+
+φ(x1 , x2 , ...xk )
+
+We have called the above an “informal definition” of Local(n, Θ) because it is not technically
+n
+
+a ∆0 sentence (when it uses a term of the type “ 22 ”). The formal logically precise ∆0
+definition for Local(n, Θ), using Equation (28)’s Υn notation, is given below. (Note that the
+n
+
+n
+
+variable vn in Equation (31) represents the quantity 22 . However unlike “ 22 ” itself, vn ’s
+implicit representation of this quantity is permitted to appear in a ∆0 formula !!! )
+∃ v0 ≤ 2 ∃ v1 ≤ v0 ∗ v0 ∃ v2 ≤ v1 ∗ v1 ... ∃ vn ≤ vn−1 ∗ vn−1
+{ v0 = 2 ∧ v1 = v0 ∗ v0 ∧ v2 = v1 ∗ v1 ∧ ... ∧ vn = vn−1 ∗ vn−1
+∧ [ ∀ x1 ≤ vn , ∀ x2 ≤ vn , ... ∀ xk ≤ vn
+
+φ(x1 , x2 , ...xk ) ] }
+
+(31)
+
+To appreciate the meaning of Equation (31), it should be noted that Υn , (defined by Equation
+(28) ) has an identical structure as (31) — except that Equation (31) contains an added square
+bracket expression in its third line.
+
+Lemma 3 Suppose a proof of the Π1 sentence Θ has a length of L (from either the T-1
+or T-2 axiomization for IΣ0 ). Then for some fixed constant d, the proof of Local(n, Θ) will
+have a length proportional to O( L + nd ).
+Proof Sketch. Our proof of Lemma 3 will use the fact that the sentence Local(n, Θ) has
+an identical structure as Υn , except that Equation (31)’s definition of Local(n, Θ) contains
+an additional square bracket expression in its third line. More precisely in a context where
+Θ has a proof of length L, this implies that “ Υn ⇒ Local(n, Θ) ” has a proof whose length
+is bounded by O( L + n Log n ) (see footnote 6 ).
+Moreover, Υn falls under the scope of Lemma 1’s paradigm (because it is a ∆0 formula
+which will satisfy Lemma 1’s Tableaux ∆0 Compression property.) Also, Lemma 2 had indicated that for some fixed constant d ≥ 2, the sentence Υn has a proof with length O(nd ).
+Thus, we may again apply the combination of Definition 4 and Part ii of Lemma 1 to finish our
+proof. They imply that Local(n, Θ)’s proof-length is proportional to the sum of the lengths
+of the proofs for Υn and for “ Υn ⇒ Local(n, Θ) ”. Hence, O( L + nd ) bounds the length
+of its proof.
+
+2
+
+6
+
+The reason an additional tiny quantity of n Log n is needed to be added to the proof-length is merely to
+take into account the bit-length for encoding the phrase “ Υn ”. Beyond this point, the claim of the footnoted
+sentence is obviously valid. This is because Θ has a length L proof and it is obviously a stronger statement
+than Local(n, Θ).
+
+17
+
+Theorem 3 . (Unlike our prior paper [40] whose Section 6 applied only to IΣ0 ’s T-1 axiomization, this theorem will apply to both the T-1 or T-2 axiomizations for IΣ0 )
+
+Let Θ
+
+again denote a Π1 sentence, and suppose that it has a semantic tableaux proof of length L
+from T-i. Also for some sentence Γ,
+
+suppose that there exists a semantic tableaux proof of
+
+length J from T-i of the theorem “ Local(n, Θ)
+d,
+
+→
+
+Γ ” Then for some fixed constant
+
+there will exist a semantic tableaux proof of Γ from T-i whose length is bounded by
+
+O( J + L + nd ).
+Proof.
+
+Since Θ has a proof of length L from T-i, Lemma 3 indicates Local(n, Θ)
+
+will certainly have a proof of length O( L + nd ) from T-i, for some fixed constant d.
+Also, the hypothesis of Theorem 3 stated that there was a proof of length J from T-i of the
+theorem “ Local(n, Θ)
+
+→
+
+Γ ” . Applying Lemma 1 to these last two upper bounds on
+
+proof lengths, we obtain that Γ has a semantic tableaux proof whose length is no greater
+than O( J + L + nd ).
+
+2
+
+Theorem 3 is clearly a straightforward consequence of Lemmas 1 – 3 combined with Definition 7’s Local(N, Θ) formalism. Nevertheless, it is significant because it allows us to almost
+(not quite) simulate a Gentzen-style deductive cut rule for Π1 sentences under either the T-1
+or T-2 encodings of IΣ0 .
+
+4
+
+The IΣ0 Version of the Second Incompleteness Theorem
+
+This section will explain how Passive Induction enables one to prove that both the T-1 and
+T-2 axiomizations of IΣ0 satisfy the semantic tableaux version of the Second Incompleteness
+Theorem. (Aside from producing a simpler proof methodology than had appeared in our
+earlier paper [40], the proof in this section is significant because [40]’s theorem technically
+discussed only the properties of T-1.) It is useful to begin our discussion by reviewing why
+the question about the properties of IΣ0 , raised by Paris and Wilkie in [23], has challenged
+researchers for the last 25 years.
+Let ω1 (x) denote the usual function operator that maps the integer x onto the quantity
+xLog(x) . Also for a fixed integer K, let ω1K (x) denote the functional operation that maps
+x onto the number ω1 ( ω1 ( ω1 ( .... ω1 ( x)))) — where there are here K iterations of the
+operation ω1 .
+In this context it is well known that most axiom systems α have the property that:
+18
+
+∗
+
+If p is a proof of the theorem T from α, then a proof from α that “p
+
+proves T from α ” will assuredly have a Gödel number less that ω1K (p), for some
+fixed constant K .
+The proof that many axiom systems satisfy the Second Incompleteness Theorem often involves
+some sub-step, where the concerned system is shown to satisfy the condition ∗.
+One complicated aspect of IΣ0 is that it does not recognize the operation of ω1 (and
+therefore also ω1K as a “total function”). Thus, IΣ0 cannot prove:
+∀x ∃y
+
+ω1 (x) = y
+
+(32)
+
+Nevertheless despite the fact that IΣ0 cannot prove (32), Wilkie-Paris [37] did show that the
+Second Incompleteness Theorem held in a very strong sense for IΣ0 . (They demonstrated
+IΣ0 +Exp is unable to prove the Hilbert-consistency of a system as weak as Q. )
+The proof of this result by Wilkie-Paris used at least a remote analog of Equation (32)’s
+totality condition. (For those familiar with the theory of Definable Cuts, Wilkie-Paris roughly
+used the fact that IΣ0 could essentially treat Equation (32) as being valid within the localized
+range of a Definable Cut. It turns out that this localized condition is sufficient for establishing
+the validity of the Second Incompleteness Theorem for the axiom system IΣ0 under Hilbert
+deduction.)
+However, the Definable Cut methodology is not well suited for generalizing the Second
+Incompleteness Theorem to IΣ0 under semantic tableaux deduction. This is because of the
+cut-free nature of the latter deductive method. It precludes IΣ0 from possessing certain
+essential speed-up properties when one uses a cut-free deduction methodology.
+Our solution to this problem is based upon using Definition 7’s Local(n, Θ) construct to fill
+in the missing gaps. For an arbitrary integer n and for an arbitrary Π1 sentence Θ , the
+n
+
+∆0 sentence Local(n, Θ) will state that Θ is valid for integers as large as 22 . The point
+is that double exponentiation is a much faster growing function than ω1 . It will be roughly
+what will be needed for producing our generalization of the Second Incompleteness Theorem.
+For the sake of clarity, IΣ0 certainly cannot prove that ω1 or any faster growing function
+is total in a global sense. However when the axiom system IΣ0 reasons about its own metalogical powers, it will know that for a fixed integer n, the sentence “Local(n, Θ)” will certainly
+formalize a very rapid growth among integers within its own local and fixed domain. It turns
+out that this property of Local(n, Θ) will be exactly what is needed to prove that the T-1 and
+T-2 axiomizations of IΣ0 satisfy the semantic tableaux version of the Second Incompleteness
+Theorem.
+19
+
+Definition 8 . The symbol “ |{z}
+N ”, will denote the canonical binary representation of
+the natural number N . It will be a term of length O( Log N ) that defines the value of N
+using only the constant symbols for the numbers 0, 1 and 2. In particular, let b0 , b1 , ...bm
+denote a sequence of bits where N =
+
+Pm
+
+i
+i=0 bi 2
+
+and bm = 1 . Then |{z}
+N is defined as:
+
+( b0 + 2 · ( b1 + 2 · ( b2 + 2 · ( ... (bm−1 + 2 · bm )))))
+Henceforth, the symbol d Ψ e will denote the Gödel number of Ψ (as formally defined by
+Appendix A). Also, d Ψ e will denote the canonical binary representation of d Ψ e .
+| {z }
+
+Definition 9 . The length (or perhaps one should say “bit-length”) of a proof p is represented by the quantity Log2 (p) when p is written in a binary notation. An often followed
+notation convention is that |p| denotes Log2 (p). We shall follow this notation convention in
+the remainder of this paper.
+
+Definition 10 . Let i = 1 or 2 . Throughout this paper, the symbol SemPrf i (t, p) will
+denote that p is a semantic tableaux proof of the theorem t from the T-i axiomization of IΣ0 .
+(When we speak of a theorem t possessing a “semantic tableaux proof”, we will be referring
+to this notion, rather than to Definition 2’s special artificial concept of a SemPrfKi (t, p, z)
+construction.)
+
+Definition 11 . A Π1 sentence 0 will satisfy the Trivial Manipulation Property iff it
+satisfies the following two conditions:
+A.
+
+0 is provable from the axiom system IΣ0 .
+
+B. In the context of Definition 10’s special “SemPrf i (t, p)” notation, an arbitrary Π1 sentence Ψ will have a proof p satisfying the condition “ SemPrf i ( d Ψ e , p ) ” only
+| {z }
+
+when there exists a proof q (from the union of the T-i axiomization of IΣ0 with the
+additional sentence of Local( p , 0 ) ) of the theorem of “ SemPrf i ( d Ψ e ,
+such that q ’s size is governed by the inequality of:
+2
+
+q ≤ O( 2
+20
+
+| {z }
+
+p )”
+|{z}
+
+√
+p
+
+)
+
+(33)
+
+Lemma 4 There exists a Π1 sentence 0 that satisfies Definition 11’s Trivial Manipulation
+Property.
+Informal Justification:
+
+Lemma 4 is one of those propositions whose proof is trivial,
+
+although somewhat tedious. This is because its formal proof employs a rather lengthy coding
+argument. We will therefore provide only an intuitive justification of Lemma 4.
+The underlying intuition is that Lemma 4 permits one to load any finite number of Π1
+clauses into 0’s formal definition, as long as all these clauses are provable from IΣ0 . (This is
+why Section 2’s starting choice of a particular encoding of Q is mostly unimportant, since
+we can add other clauses later into 0’s formal definition.) Thus loaded into 0 will certainly
+be the associative, commutative and distributive principles for addition and multiplication.
+We can even insert axioms declaring that multiplication and squaring are total functions,
+provided that they are encoded as Π1 sentences (rather than in their more abbreviated and
+conventional Π2 formats). By this we mean,
+
+the formalized Π1 encodings of these two
+
+assertions should resemble the Equations (34) and (35) (whose bound on z’s size causes these
+sentences to be Π1 statements).
+∀x ∀y ∃z ≤ x ∗ y
+
+x · y = z
+
+(34)
+
+∀x ∃z ≤ x ∗ x
+
+x · x = z
+
+(35)
+
+..... And the list of Π1 sentences that are available to profitably insert into the sentence
+0 goes on ... and on ... and on ... Any finite number of Π1 sentences that are provable
+by IΣ0 may be inserted into the sentence 0 . This endows it with an enormous amount of
+potential strength.
+The point is that if we add enough sentences to 0 ’s defining structure, it is easy to establish
+that if p is an initial proof of some Π1 theorem Ψ , then Local(p, 0) will be rich enough so
+that its union with the T-i axiom system supports a second proof q, verifying that “p is a
+formal proof ” and satisfying Equation (33)’s inequality. The underlying intuition as to why
+Equation (33) can be satisfied is that nearly all axiom systems can accompany an initial proof
+p with a second proof q that verifies
+
+“ p encodes a proof ” and simultaneously satisfies
+
+q < O[ ω1K (p) ] (for some fixed constant K ). Our task is actually much easier than this
+objective because
+we need merely verify that q satisfies the more relaxed upper bound of
+√
+q < O[ 22
+be valid.
+
+p
+
+] . Thus, it is quite easy to at least intuitively appreciate why Lemma 4 must
+
+2
+
+Remark 2
+
+For the sake of brevity, the proof-sketch (above) had not provided a formal
+
+description of 0’s required set of Π1 sentences. However, it is actually easy to provide two
+21
+
+additional explanations as to why it is actually quite easy to construct 0. They are given
+below:
+2
+
+1. It can be formally proven that Equation (33)’s inequality “ q ≤ O( 2
+
+√
+p
+
+) ” is a sharp
+
+over-shoot. That is, one can actually construct a sentence 0 that will force q to
+√
+p
+
+satisfy the much tighter constraint of q ≤ O( 2
+
+) . The reason that we had decided
+
+to work with Equation (33)’s more relaxed inequality is merely that it makes it easier
+to accomplish our main goals and purposes. This is because Equation (33) is such a
+whopping large inequality and over-shoot that it is trivially obvious that an adequately
+long list of Π1 sentences, inserted into 0 ’s definition, will make this inequality hold.
+2. Moreover from a technical standpoint,
+we do not actually formally need Equation (33)’s
+√
+inequality of “ q ≤ O( 22
+
+p
+
+) ” to formally hold either. This is because the final
+
+results of this section will √work equally well if we had replaced its inequality’s term of
+2
+
+2
+
+√
+p
+
+with 2
+
+22
+
+√
+p
+
+22
+
+2
+
+or 2
+
+p
+
+or with ..... The reason any finite sequence of powers of
+
+2 is adequate on the right side of Equation (33) is that the underlying diagonalization
+machinery of Theorem 2 is quite broadly encompassing. Thus, if one simply adjusts the
+exponent K in this theorem to equal the length of the tower of powers of 2, then it
+will be suitable for justifying the IΣ0 incompleteness theorem, which shall be the final
+result of this article.
+Hence, the point of Items 1 and 2 is that the reader should truthfully
+not pay too much
+√
+attention to the details of Equation (33)’s inequality of “ q ≤ O( 22
+
+p
+
+) ”. This is because
+
+our formalism, based on applying the machineries of Theorems 1 and 2, easily has access to
+enough degrees of freedom for an entire family of alternative inequalities to be available, if
+they were needed.
+
+Definition 12 . Let us recall that Benett’s dissertation [6] had established that the relation
+“ y =Log(x) ” had a ∆0 graph, thereby implying that so does automatically “ w =LogLog(z) ”
+have a ∆0 graph. Using this graph’s ∆0 notation, a Π1 sentence 0∗ will be said to satisfy
+the Trivial Exponentiation Property iff it satisfies the following two conditions:
+A.
+
+0∗ is provable from the axiom system IΣ0 .
+
+B. For some fixed constant d and any integer j, the union of the sentence Local( j , 0∗ )
+with either the T-1 of T-2 axiomizations for IΣ0 can support a semantic tableaux proof
+of O( j d ) length proof of:
+22
+
+∃z
+
+LogLog(z) ≥
+
+j
+
+(36)
+
+|{z}
+
+Lemma 5 There exists a Π1 sentence 0∗ that satisfies Definition 12’s Trivial Exponentiation
+Property.
+Proof Sketch:
+
+It was already established by Lemma 2 that there exists a constant d
+
+such that the sentence Υj has a length O( j d ) proof from either the T-1 or T-2 axiomization
+for IΣ0 . By definition, the j−th variable vj of the sentence Υj satisfies the equality
+LogLog(vj )
+
+=
+
+j
+
+(37)
+
+Thus, Lemma 2 has already enabled our current proof to be almost done. One Π1 clause that
+needs to be inserted into 0∗ ’s sentence is the statement that: “ ∀ x LogLog(x2 ) = LogLog(x)+
+1 00 . (Since the j variables in Υj have the property that vi = (vi−1 )2 , this equality implies
+the validity of Equation (37)’s identity.) There is some minor additional work for a formal
+proof to verify (internally within itself) that the canonical binary term “
+
+j
+
+” in Equation
+
+|{z}
+
+(36) actually does formally represent the quantity j from Equation (37). (For instance from
+a technical standpoint, a proof-formalism does not need any additional Π1 sentences to formally recognize that “
+
+j
+
+” encodes the integer j’s value. However, the exponent d for
+
+|{z}
+
+Lemma 5’s O( j d ) asymptote can be substantially reduced — if a few additional Π1 clauses
+are inserted into 0∗ ’s structure.)
+
+2
+
+Definition 13 . Let Subst(g, h) denote Gödel’s classic ∆0 substitution relation, whose formal
+definition is provided below:
+Subst(g, h)
+
+=
+
+The integer g is an encoding of a formula, and h encodes a
+
+sentence identical to g,
+
+except that all free variables in g are replaced with
+
+terms using Definition 8’s “canonical encoding notation” for defining g’s value.
+(This means that all the free variables in g will be replaced by the term
+
+“ g ”
+|{z}
+
+.)
+
+A Π1 sentence 0∗∗ will satisfy the Trivial Substitution Property iff the following two
+conditions hold:
+A.
+
+0∗∗ is provable from the axiom system IΣ0 .
+
+B. Let g and h denote a pair of integers satisfying the condition Subst(g, h) . Then for
+some fixed integer d, the ∆0 sentence Local( h , 0∗∗ ) will support an O( hd ) length
+proof of the statement “Subst(
+
+g
+
+, |{z}
+h ) ”, as well as of the statement that h is
+the unique integer solution for this “Subst” predicate.
+|{z}
+
+23
+
+Lemma 6 There exists a Π1 sentence 0∗∗ that satisfies Definition 13’s Trivial Substitution
+Property.
+Proof. Trivial and similar in overall structure to the proofs for Lemmas 4 and 5.
+
+Definition 14 . The sentence Trivial-M will henceforth denote the conjunction of the three
+Π1 sentences of 0 and 0∗ and 0∗∗ .
+Corollary 1 The sentence Trivial-M is provable from IΣ0 .
+
+It also satisfies the Trivial-
+
+Manipulation, Exponentiation and Substitution conditions, formalized by the preceding three
+lemmas.
+Proof. Since Trivial-M is defined to be the conjunction of the three Π1 sentences of 0
+and 0∗ and 0∗∗ , Corollary 1 is an immediate consequence of Lemmas 4 – 6.
+
+2
+
+Definition 15 . Let us recall that the “Generalized” Gödel Sentence” DK ( α ) was defined
+by Equation (6). Henceforth the symbols DK (1) and DK (2) will denote the particular
+forms of the DK ( α ) diagonalization sentence where α respectively denotes the T-1 and
+T-2 axiomizations for IΣ0 .
+Lemma 7 For the cases where i = 1 or 2 , suppose that p satisfies the condition
+SemPrf i ( D2 ( i ) , p ) (i.e. it is a semantic tableaux proof of D2 ( i ) from the T-i axiomization
+for IΣ0 ). Also, let αi denote the union of the T-i with the added sentence of Local( p , TrivialM ). Then there will exist a semantic tableaux proof q of the sentence ¬ D2 ( i ) from
+√
+p
+
+axiom system αi whose proof length |q| is bounded by O( 2
+
++ pd ) for some constant d
+
+(whose value is independent of p ). More formally, this proof q will satisfy the condition:
+SemPrf αi ( ¬ D2 ( i ) , q )
+
+(38)
+
+Proof: Lemma 7 is essentially a routine consequence of the combination of Lemmas 1, 2,
+4, 5 and 6. We will sketch its proof in substantial detail because it is very central for proving
+our two main theorems.
+Let βi denote an axiom system that is the union of the axiom system αi with the added
+sentence Υp (from Definition 6). In a context where q1 is a proof of Υp from αi and q2
+is a proof of ¬ D2 ( i ) from βi , Part-iii of Lemma 1 implies our proof q can be given a
+24
+
+bit-length whose magnitude is proportional to the sum of the lengths of the two proofs q1
+and q2 . Lemma 2 implies that the former proof will have an O( pd ) length (where d is some
+fixed constant). Hence to establish, Lemma 7, all we need do is to show that |q2 | can be
+√
+p
+
+endowed with an O( 2
+
++ pd ) bit-length, for at least some constructed fixed constant d.
+
+This is easy to do. Since q2 formalizes a semantic tableaux proof of the theorem ¬ D2 ( i ) ,
+it can be endowed with a proof-tree whose top portion will consist of the following 5 parts:
+1. The root of the proof of ¬ D2 ( i ) will contain the usual starting contradiction assumption of ¬ ¬ D2 ( i ) . Applying Definition 1’s Rule 2 (i.e. ¬ elimination), the child of
+this root sentence will then be the simple sentence of:
+D2 ( i )
+
+(39)
+
+2. Below Equation (39)’s node will be stored βi ’s axiom of Υp .
+3. A sequence of p+1 iterations of Definition 1’s bounded-existential quantifier elimination
+rule will then follow. (This is Definition 1’s reduction rule 6.) Its i−th iteration will
+eliminate the i-th existential quantified variable vi from Υp and replace it with a
+i
+
+parameter Ui (that represents the number of 22 ).
+4. The Definitions 2 and 3 of Section 2 had defined DK (α) and SemPrfK
+α (x, y, z). Item 1
+of our current construction also has noted that the child of the proof-tree’s root is the
+sentence D2 (i). Unpacking this formal notation into its component parts, the Gödel
+diagonalization sentence D2 (i) can thus be formally written as:
+∀y ∀z ∀h { Subst( |{z}
+N , h ) ⇒ ¬ [ SemPrf K
+i (h, y) ∧ y ≤ LogLog(z)]
+
+(40)
+
+in a context where N was the Gödel number of
+∀y ∀z ∀h { Subst( g , h ) ⇒ ¬ [ SemPrf K
+i (h, y) ∧ y ≤ LogLog(z)]
+
+(41)
+
+Let M be the Gödel number of Equation (40)’s sentence. Then the next step of our
+semantic tableaux proof will apply three instances of Definition 1’s ∀ Elimination Rule
+to Equation (40)’s stored node. It will replace the variables y, z and h with the terms
+of
+
+p , Up and |M
+{z } , as shown below:
+
+|{z}
+
+Subst( |{z}
+N , |{z}
+M ) ) ⇒ ¬ [ SemPrf K
+M , p ) ∧ p ≤ LogLog(Up )]
+i ( |{z}
+|{z}
+
+25
+
+|{z}
+
+(42)
+
+5. Finally by applying Definition 1’s three elimination rules for the
+
+⇒ , ¬ and
+
+∨
+
+connectives to (42)’s stored node, three separate branches of the proof-tree will be
+generated descending from the node (42). The terminating sentences in these three
+branches will be:
+¬ Subst( |{z}
+N , |M
+{z } ) p )
+
+(43)
+
+¬ SemPrf2i (
+
+(44)
+
+|{z}
+
+D2 ( i ) ,
+|
+
+¬ {
+
+{z
+
+}
+
+p )
+|{z}
+
+p ≤ LogLog(Up ) }
+
+(45)
+
+|{z}
+
+The significance of the sentences stored in the nodes (43) – (45) is that the Lemmas 4 – 6 had
+indicated how closed subtrees can be inserted underneath these three nodes whose bit-lengths,
+√
+p
+
+at a minimum, satisfy the formal upper bound O( 2
+
++ pd ). (This is because one can think
+
+of the nodes (43) – (45) as representing the roots of proof trees that verify the negations of
+their formal statements.) Hence, these last three parts of the proof q2 have sufficiently short
+lengths to finish our justification of Lemma 7.
+Important Reminder:
+
+2
+
+During our proof of Theorem 4, we will rely upon Definition 9’s
+
+notation. It indicated that |p| denotes the length of a proof p . Its bit-length corresponds
+to the quantity of Log2 (p).
+
+Theorem 4 . Let i = 1 or 2 depending on whether we are discussing the T-1 or
+T-2 axiomizations for IΣ0 . Let c and d denote two fixed constants (whose values are
+independent of p ).
+
+Suppose that p is a proof of the Gödel sentence D2 (i) . Then there
+
+exists a proof q of 0 = 1 from the T-i axiomization of IΣ0 whose bit-length satisfies the
+following inequality:
+|q|
+Proof.
+
+<
+
+√
+p
+
+c · [2
+
++ pd ]
+
+(46)
+
+Some notation will be needed to set up Theorem 4’s proof. In a context of proofs
+
+that employ the T-i axiomizations for IΣ0 , let
+1. q1 denote a proof of “ Local( p , D2 (i) ) ”
+2. q2 denote a proof of “ Local( p , D2 (i) ) ⇒ 0 = 1 ”
+3. q3 denote a proof of “ Local( p , Trivial-M ) ”
+4. q4 denote a proof of “Local(p,Trivial-M) ⇒ [ Local(p, D2 (i)) ⇒ 0 = 1 ]”
+26
+
+Note that Local( p , D2 (i) ) is a ∆0 sentence. The combination of Items (1) and (2) with
+Part-ii of Lemma 1 therefore implies we can construct a proof q of 0=1 from IΣ0 ’s T-i
+axiomization that satisfies the inequality:
+|q|
+
+≤
+
+O( |q1 | + |q2 | )
+
+(47)
+
+Likewise because Local( p , Trivial-M ) is a ∆0 sentence, a second application of Part-ii of
+Lemma 1 implies that we can construct q2 so that it satisfies
+|q2 |
+
+≤
+
+O( |q3 | + |q4 | )
+
+(48)
+
+Thus by combining the results from Equations (47) and (48), it follows that q can be
+constructed so that it satisfies:
+|q|
+
+≤
+
+O( |q1 | + |q3 | + |q4 | )
+
+(49)
+
+Thus to calculate a bound on |q|’s size, we need to estimate the lengths for q1 , q3 and q4 . This
+is done below:
+a. Since the hypothesis of Theorem 4 indicated that p was a proof of D2 (i) , we may
+apply Lemma 3’s formalism to construct a proof q1 that satisfies (50)’s inequality:
+|q1 |
+
+≤
+
+O( |p| + pd )
+
+=
+
+O( pd )
+
+(50)
+
+b. It was already established by Corollary 1 that Trivial-M is provable from IΣ0 . Therefore,
+let r denote such a proof of Trivial-M. In this context, we can apply Lemma 3 to
+construct a proof q3 that satisfies the inequality:
+|q3 |
+
+O( |r| + pd )
+
+≤
+
+(51)
+
+Moreover, our O-notation in Equation (51) is intended to describe the properties of a
+constant c whose value is independent of quantities p and d. Since the proof r is
+a fixed constant whose structure does not depend in any manner upon p and d, we
+may therefore absorb it into the O-notation’s constant c and thus rewrite this equation
+in the following simpler form:
+|q3 |
+
+≤
+
+O( pd )
+
+(52)
+
+c. Lemma 7 showed a semantic tableaux proof of ¬ D2 (i) from the union of the T-i
+axiomization of IΣ0 with the added sentence of Local( p , Trivial-M ) must have a proof√
+p
+
+length no greater than O( 2
+
++ pd ) , for some fixed constant d . The same bound must
+27
+
+also apply to a proof of the theorem “Local(p,Trivial-M) ⇒ [Local(p, D2 (i)) ⇒ 0 = 1 ]”
+from T-i because these two proofs will have lengths that differ obviously by no more than
+an inconsequentially small number of additional lines. (see the footnote 7 for a detailed
+justification of this last point).
+Thus by substituting these three upper bounds on the lengths of q1 , q2 and q4 ’s proofs into
+Equation (49), one verifies the inequality in Equation (46) that Theorem 4 had claimed.
+
+2
+
+Corollary 2 . The result of Theorem 4 also applies to any axiom system α that is an
+extension of the T-1 or T-2 axiomizations for IΣ0 . Thus, let c and d denote two fixed
+constants (whose values are independent of p ).
+
+Suppose that p is a proof of the Gödel
+
+2
+
+sentence D (α) . Then there exists a proof q of 0 = 1 from α whose bit-length satisfies
+the following inequality:
+|q|
+
+√
+p
+
+c · [2
+
+<
+
++ pd ]
+
+(53)
+
+.
+Proof: Same as Theorem 4’s proof.
+
+2
+
+Remark 3. The next three propositions in this paper will extend the results of Corollary
+2 and Theorem 4 to show that the semantic tableaux version of the Second Incompleteness
+Theorem is valid for both the T-1 and T-2 axiomizations for IΣ0 . The same result will also
+apply to a Herbrandized version of IΣ0 ’s Incompleteness Theorem. However, it is impractical
+to cover both topics in one paper. Instead of treating the topic of Herbrandization formally, we
+have inserted an abbreviated Appendix E into this paper that explains the underlying intuition
+as to why Herbrand deduction behaves so very similarly to semantic tableaux deduction. (The
+abbreviated discussion in Appendix E is too brief to be a formal proof. Thus, it may be very
+beneficial for some other author to compose a more formal proof about this subject.) Since
+Appendix E assumes that the reader has some prior experience with Herbrand deduction
+7
+
+The claim made by the footnoted sentence is actually quite trivial to verify. A proof from T-i of
+“ Local( p , Trivial-M ) ⇒ [ Local( p , D2 (i) ) ⇒ 0 = 1 ] ”
+
+(∗)
+
+will obviously have the same asymptotic length as a proof from the union of T-i with the added axiom of
+“ Local( p , Trivial-M ) ” of the theorem “ Local( p , D2 (i) ) ⇒ 0 = 1 ”.
+Moreover from the definition of the latter sentence, it is easy to confirm that the latter’s proof will
+exceed the asymptotic length of the proof of ¬ D2 (i) by no more than an additive increment of O( pd ) for
+some fixed constant d. Hence since Lemma 7 had demonstrated that a semantic tableaux proof of ¬ D2 (i)
+from the union of the T-i axiomization
+of IΣ0 with the sentence Local( p , Trivial-M ) will be assured to
+√
+p
+have a length no greater than O( 2
++ pd ) for some fixed constant d , the same bound must apply to a
+proof of the statement (∗).
+
+28
+
+systems, some readers may prefer to omit this appendix during their first pass through this
+article.
+Lemma 8 Let α denote any axiom system that includes all the formal axioms of either T-1
+or T-2. Then there will exist two constants, K and M , such that α can prove the following
+statement about itself:
+K
+{ ∃y > LogK M ∃z SemPrfK
+α ( dD (α)e , y, z ) } ⇒ ∃x SemPrfα (⊥, x)
+
+(54)
+
+Proof. The entire proof of Theorem 4 and its Corollary 2 can be carried out formally
+within the domain of IΣ0 . Therefore, the axiom system α mentioned in Lemma 8’s hypothesis
+can formalize these proofs. This implies that α can also prove Equation (54) because (54)’s
+statement follows from Theorem 4 when we set K = 2 and make M large enough. (The
+footnote 8 provides the formal details about how this generalization is actually very easy.) 2
+Theorem 5 Suppose α is an axiom system that contains all the axioms of either the T-1
+or T-2 axiomization for IΣ0 . Then if α can prove a theorem asserting “There exists no
+semantic tableaux proof of 0=1 from α ” then α must be automatically inconsistent.
+Proof.
+
+If α could prove the bold-face sentence mentioned in Theorem 5 then it
+
+would satisfy the first of the three conditions that Theorem 2 had indicated would make it
+automatically inconsistent (i.e. Theorem 2’s condition A). Moreover, it is obvious that α can
+also prove Theorem 2’s condition (B) (simply because α is an extension of the axiom system
+IΣ0 ). Furthermore, Lemma 8 showed that α also could prove Theorem 2’s third required
+condition (called C* ). Hence if α proves a theorem asserting its own semantic tableaux
+consistency, then Theorem 2 will imply α is inconsistent.
+
+2
+
+Theorem 6 Every consistent extension of either the T-1 or T-2 axiomizations for IΣ0 is
+unable to prove a theorem asserting its own semantic tableaux consistency.
+Proof.
+
+An immediate consequence of Theorem 5 because Theorem 6 is a logically
+
+equivalent statement, simply rewritten in a contrapositive form.
+
+2
+
+Finally, we wish to invite the reader to examine some of our other published papers [39,
+42, 43, 44, 45] about this subject. These papers had noted that some formal systems are able
+p
+
+8
+
+Since by definition |q| = Log2 (q), Equation (53) easily implies that q < 22 when q > M for
+some fixed constant M . Thus, Equation (54)’s statement follows when one thinks of its variables y and x as
+corresponding to p and q from Equation (53) and when one sets K = 2 and makes M sufficiently large.
+
+29
+
+to retain an ability to at least partially corroborate their own consistency in a context where
+they omit the axiom that multiplication is a total function. (One of these systems is even able
+to prove the theorem that multiplication is a total function, in a context where [45]’s main
+result would collapse entirely if such a statement about multiplication’s totality property was
+merely changed from being a theorem into becoming an axiom. In particular, [45]’s system
+relies upon a third type of axiomization of IΣ0 to partially evade the Second Incompleteness
+Theorem.)
+Thus, part of what makes Theorem 6 interesting is the fact that evasions of the Second
+Incompleteness Theorem are indeed feasible under axiom systems whose paradigms are only
+slightly weaker than Theorem 6’s setting.
+Acknowledgments: I warmly thank Leszek Kolodziejczyk for the interesting questions
+that he had emailed me on November 16, 2005. Those initial questions had played a major role
+in encouraging me to explore the topics discussed in this article. I also thank Zofia Adamowicz
+and Konrad Zdanowksi, who helped at least partially stimulate the emailed questions from
+Leszek Kolodziejczyk during their 3-way conversations in Warsaw. I want to emphasize that
+those questions played a major role in stimulating me to write this current paper, as well as
+to write the companion paper [45] (which outlines an unusual paradigm where the Second
+Incompleteness Theorem can be partially evaded under a third axiomization for IΣ0 ).
+I also thank the anonymous referee for several very useful suggestions, including the suggestion that Appendix C be added to this article.
+
+Appendix A: Summary of Gödel Encoding Method
+This appendix describes our formal method for encoding semantic tableaux proofs as Gödel
+numbers. Our encoding scheme will be roughly analogous to the “natural B-adic” encoding
+methods of Hájek-Pudlák [13] and Wilkie-Paris [37] — insofar as the number of utilized bits
+to encode a semantic object will be approximately proportional to the length of such an
+expression written by hand. This appendix will be somewhat unnecessary because a reader
+should be able to appreciate the gist of our article without examining a description of our
+Gödel encoding method. However in a context where Sections 2–4 often allude to the “ Gödel
+encoding” of a syntactic object, it is clearly helpful to summarize our encoding method.
+Our scheme for encoding a semantic tableaux proof will use the following 20 language
+symbols:
+
+30
+
+1. The standard connective symbols of ∧, ∨, ¬, ⇒, ∀ and ∃.
+2. Two pairs of left and two right parenthesis symbols denoted as: ( , )
+
+( and ) .
+
+3. Three symbols to represent the special constants of “0”, “1” and “2”.
+4. Three function symbols for representing the operations of addition, multiplication and
+integer-successor.
+5. The relation symbols of “ = ” and “ ≤ ”.
+6. The symbol V̂ for designating the presence of a basic variable v in a logical sentence.
+7. The symbol Û for designating the presence of a parameter constant u in a logical
+sentence (which is produced by Definition 1’s deduction rules 5 and 6 for eliminating
+existential quantifiers).
+Define a byte to be an unit consisting of six bits. We will think of a proof as either comprising
+a sequence of bytes (or being an integer written in base 64). Each of the 20 symbols (above)
+will be given some unique 6-bit code, ranging between 32 and 51. Our method for representing
+the presence of the i-th variable vi will be to encode it is as a string of d log 32 (i + 1) e + 1
+bytes, where the first byte is the “ V̂ ” symbol and the remaining bytes encode i as a base-32
+number, with the convention that the lead bit in each byte’s 6-bit sequence is “0”. The same
+convention will be used to denote the presence of the i-th parameter ui except its first byte
+will be the “ Û ” symbol.
+Our notation has employed two types of parenthesis symbols because the first pair of parenthesis symbols will have their usual meaning in punctuating a mathematical sentence, whereas
+the latter pair of symbols ( and ) will separate the individual sentences in a Semantic
+Tableaux proof tree. For example, consider a tree which stores 1) the sentence ψ1 as its
+root, 2) the sentences ψ2 and ψ3 as the root’s children, and 3) ψ4 as the child of ψ3 .
+There are several possible notation conventions for using the ( and ) symbols to encode a
+Semantic Proof tree. Our encoding convention will be that ψi is an “ancestor” of ψj if and
+only if the range beginning with the parenthesis to ψi ’s immediate left and continuing to the
+matching right parenthesis includes ψj . The example of our 4-node proof tree would thus be
+encoded as:
+( ψ1 ( ψ2 )
+
+( ψ3 ( ψ4 ) ) )
+
+(55)
+
+This byte-styled encoding method is approximately analogous to what Wilkie-Paris [37]
+have called a natural B-adic encoding or a similar counterpart in the Hájek-Pudlák textbook
+31
+
+[13]. Such compressed encodings are considered to be more meaningful and efficient than
+an uncompressed encoding method, using say a Prime Number decomposition scheme [20]
+(because the latter has an unnecessarily long bit-length). All our theorems will therefore
+employ such compressed encoding methods.
+
+Appendix B: An Easy Extension of [40]’s Formalism
+This appendix employs the notation from Section 2. Thus, Q0 will denote an axiomization
+of Q that uses the Π1 axioms from Equations (9) – (16). Also, Q1 will again denote a
+system that is begotten by taking the union of Q0 with Equation (56)’s axiom, and Q2 will
+represent the union of Q0 with the Equations (56) and (57).
+∀x ∀y ∃z
+
+x∗y =z
+
+(56)
+
+∀x ∃w
+
+x∗x=z
+
+(57)
+
+A key point is that although Equations (56) and (57) are Π2 sentences, there do exist Π1
+sentences that imply their validity. For example, Equations (58) and (59) are such Π1 sentences
+(because the range of their variables z and w are bounded).
+∀x ∀y ∃z ≤ x ∗ y
+
+x∗y =z
+
+(58)
+
+∀x ∃w ≤ x ∗ x
+
+x∗x=z
+
+(59)
+
+One of the results in [40] was that there existed two Π1 sentences, called V and V ∗ , such that:
+1. No consistent α ⊃ Q1 + V can prove a theorem affirming its own semantic tableaux
+consistency,
+2. No consistent α ⊃ Q2 +V ∗ can prove a theorem affirming its own Herbrand consistency.
+Now let W denote the conjunction of the Π1 sentences of V and V ∗ with the sentences in
+Equations (58) and (59). Since Q0 + W ⊃ Q1 + V and Q0 + W ⊃ Q2 + V ∗ , it immediately
+follows that no consistent α ⊃ Q0 +W can prove a theorem affirming either its own semantic
+tableaux consistency or its own Herbrand consistency.
+The latter observation is significant because W is a Π1 sentence (similar to V and V ∗ ).
+Section 6 of [40] had shown that Π1 sentences have a very special property, which its Definition
+6.1 had called “Hyper-Constructivity”. The Π1 form of the Hyper-Constructive condition is
+essentially the following property:
+32
+
+∗
+
+Any sentence Γ will automatically possess an O(G + L) length semantic
+
+tableaux proof from the Type-1-1 axiomization of IΣ0 when there exists a Π1
+sentence Ψ having a length L proof from Type-1-1 and there also exists a
+length G tableaux proof of Ψ ⇒ Γ
+An application of this hyper-constructive property to the Π1 sentence V was employed by
+Theorem 6.4 of [40] to show that the semantic tableaux version of the Second Incompleteness
+Theorem was valid for the Type-1-1 axiomization for IΣ0 . (The idea behind Theorem 6.4
+was roughly that the super-exponential growth in proof length, that normally occurs when
+one connects together two cut-free proofs, can be circumvented when V is the connecting
+sentence because of its associated O(G + L) linear growth rate. This fact allowed [40] to
+conclude that the semantic tableaux version of the Second Incompleteness Theorem held for
+the Type-1-1 axiomization for IΣ0 because V was a Π1 theorem of IΣ0 .)
+The point is that W is also a Π1 theorem of IΣ0 . (Hence, it also falls under the scope
+of the invariant ∗ . ) Therefore, one can certainly apply Section 6’s full formalism also to
+it. Thus using the same reasoning as before (see footnote 9 ), one obtains that the Type-1-0
+axiomization for IΣ0 also satisfies the semantic tableaux version of the Second Incompleteness
+Theorem.
+Hence, if one wishes to meticulously separate the definitions of IΣ0 (depending upon whether
+they use Q0 ’s instead of Q1 ’s definition of Q), then both formalisms will have essentially
+identical properties. In particular, if one simply replaces the Π1 sentence V in Section 6 of
+[40] with the Π1 sentence of W , then the remainder of [40]’s proof of IΣ0 ’s semantic tableaux
+incompleteness property for its Type-1-1 axiomizations generalizes readily for Type-1-0.
+
+Appendix C
+Our main proof that the Types 2-0, 2-1 and 2-2 axiomizations for IΣ0 do satisfy the semantic
+tableaux version of the Second Incompleteness Theorem will appear in Section 4 of this article.
+This proof will employ Section 3’s notion of passive induction as a helpful intermediate step.
+It is also possible to devise a different type of proof of this fact using the earlier methodologies from [40]. We will sketch such a proof very briefly in this appendix. Our discussion will
+presuppose that the reader possesses a detailed knowledge of our article [40]. If a reader has
+9
+
+The point is that because no consistent α ⊃ Q0 + W can prove a theorem affirming its own semantic
+tableaux consistency and because W is a Π1 theorem of IΣ0 , we can use the invariant ∗ in the identical
+manner as had appeared in Section 6 of [40] to obtain this slightly stronger version of the IΣ0 incompleteness
+result.
+
+33
+
+not yet examined [40], he will find the new proof in Sections 2–4 to be easier to comprehend
+than the sharply abbreviated discussion in this appendix.
+The Definition 6.1 from [40] had introduced the notion of an axiom system α possessing
+an Hyper-Constructive Semantic Proof of the theorem Υ . This construct had meant
+that a sentence “ ΘΥ ” existed such that
+1. α contains the formal axiom “ ΘΥ ⇒ Υ ”, and
+2. the sentence ΘΥ is a theorem of α.
+We will also call “ ΘΥ ” the Hyper-Constructed Representative of Υ.
+Let us say a Π1 sentence Υ is y–focused iff it can be written in the form ∀ y φ(y) where
+φ(y) is a ∆0 formula. Although Section 6 of [40] did not explicitly deal with the detailed
+distinction between the Type “1-0” “1-1” and “1-2” constructs, it can be viewed as implying
+that hyper-connectivity is very useful for analyzing each of these three Type-1 axiomization
+for IΣ0 (see footnote 10 ). This is because for each of the cases where j equals 0, 1 or 2, the
+Type-1-j axiomization for IΣ0 will satisfy the following two conditions for every y−focused
+Π1 sentence Υ :
+a. The Type-1-j axiomization for IΣ0 will assure that each of its Π1 theorems Υ will have
+a Hyper-Constructed Representative, denoted as ΘΥ and satisfying the conditions (1)
+and (2) above, such that if Type-1-j supports a length N proof of Υ then it will also
+support an O( N ) length semantic tableaux proof for ΘΥ .
+b. For an arbitrary sentence Ψ and for an arbitrary y-focused Π1 sentence Υ (which
+satisfies Item (a)’s paradigm), if Type-1-j supports an O( M ) length semantic tableaux
+proof for Υ ⇒ Ψ and also an O( N ) length proof for Υ , then it will support
+an O( M + N ) length semantic tableaux proof for Ψ. (The justification of this fact
+can be found in Section 6 of [40]. It is essentially a consequence of the combination of
+Condition (a) and of Part-1 of the definition of a Hyper-Constructed Representative. )
+The above two conditions are interesting because semantic tableaux is a cut-free deduction
+method. Thus, Ψ (in Item b) could potentially have a proof, super-exponentially longer
+than M + N . Items (a) and (b) indicate this problematic exponential growth will simply
+not occur when the Hyper-Constructive condition is present.
+10
+
+In particular, the easy argument given in Appendix B explains intuitively why each of Types 1-0, 1-1 and
+1-2 have similar properties.
+
+34
+
+In particular, it was as a result of Item (b)’s linear compression in proof length that Section
+6 of [40] was able to establish that the Type-1 axiomizations of IΣ0 satisfied the semantic
+tableaux version of the Second Incompleteness Theorem. (Thus, [40]’s proof of this fact rested
+on essentially combining the prior appendix’s methodologies with Item (b)’s linear property
+for Hyper-Constructivity.)
+The remainder of this appendix will explain how an analogous construction can be applied
+to the Type-2-1 and Type-2-0 axiomizations for IΣ0 . (We do not discuss the Type-2-2 axiomization explicitly in this appendix because it is plainly simpler than the Type 2-1 case.)
+The proof for each of these cases will be somewhat more complicated than the Type-1 proofs
+because a precise analog of Hyper-Constructivity will be simply unavailable (since an analog
+of Condition (a) is absent). However, an analog of Item (b)’s invariant will be established by
+the combination of the Facts 1 and 2 below:
+Fact 1 Let Υ denote a y−focused Π1 sentence of the form “ ∀ y φ(y) ” where φ(y)
+is ∆0 . Suppose that Υ has a semantic tableaux proof from the Type-2-1 axiomization of
+IΣ0 consisting of N
+
+sentences. Also suppose that for some term t and sentence Ψ
+
+there exists a proof from the Type-2-1 axiomization of IΣ0 consisting of M sentences of the
+following theorem:
+φ(t) ⇒ Ψ
+
+(60)
+
+Then there exists a proof from the Type-2-1 axiomization of IΣ0 of Ψ which consists of no
+more than O( N + M ) sentences.
+
+Proof Sketch. The definition of a semantic tableaux proof can be found in the Fitting’s
+and Smullyan’s textbooks [11, 29], as well as in Definition 1 of Section 2. Our proof of Fact 1
+will assume the reader is familiar with at least one of these definitions of a semantic tableaux
+proof. Also, we will use the symbol φ̄(y) as a convenient abbreviation for the predicate of
+¬ ¬ φ(y) . (The footnote 11 explains how φ̄(y) has different properties from φ(y) although
+these two predicates are logically equivalent.)
+A semantic tableaux proof of Ψ will begin by storing ¬ Ψ in its root. The definition of
+a semantic tableaux proof allows one to store an axiom in any non-root node of this proof.
+The child of our root will thus store Equation (2)’s Type-2 induction scheme axiom for the
+predicate φ̄(y) . Its grandchild will store Equation (61)’s sentence. (This grandchild is the
+11
+
+One of the intermediate steps of the proof-tree that we shall construct will be related to Definition 1’s
+Rule 2-c for eliminating a ¬ symbol. Since Rule 2-c produces a double negation term on its right side, the
+predicate of φ̄(y) is preferable over the logically equivalent expression of φ(y) .
+
+35
+
+same as the Type-2 induction axiom except that we have applied the semantic tableaux ∀
+Elimination Rule to eliminate Equation (2)’s ∀ x quantifier. Since the predicate φ̄(y) does
+not contain the free variable x in this example, the Equation (61) below does not have any
+term s operate as a replacement for the so-eliminated variable of x . )
+∀z { { φ̄(0) ∧ ∀y ≤ z [ φ̄(y) =⇒ φ̄(y 0 ) ] } =⇒ ∀y ≤ z φ̄(y) }
+
+(61)
+
+We will next apply a second instance of the ∀ elimination rule to replace the variable z with
+the term t in Equation (61). Then the child of Equation (61) will be:
+{ φ̄(0) ∧ ∀y ≤ t [ φ̄(y) =⇒ φ̄(y 0 ) ] } =⇒ ∀y ≤ t φ̄(y)
+
+(62)
+
+A subsequent application of the semantic tableaux ⇒ elimination rule will produce the following resultant pair of sibling nodes.
+¬ { φ̄(0) ∧ ∀y ≤ t [ φ̄(y) =⇒ φ̄(y 0 ) ] }
+
+(63)
+
+∀y ≤ t φ̄(y)
+
+(64)
+
+The remainder of our semantic proof of Ψ will possess a structure similar to its analogs
+in Section 6 of [40]. Thus a closed subtree with O( N ) sentences can be placed below
+Equation (63)’s sentence because this subtree will consist of essentially two copies of Υ ’s
+proof. Similarly because ¬ Ψ is an ancestor of (64)’s sentence, we may insert roughly a copy
+of Equation (60)’s proof below Equation (64)’s sentence. This proof will consist of M nodes.
+Hence the full proof of Ψ will consist of no more than O( N + M ) sentences.
+
+2
+
+Fact 2 Let Υ denote a y−focused Π1 sentence of the form “ ∀ y φ(y) ” where φ(y) is ∆0 .
+Suppose that
+1. Υ has a semantic tableaux proof from the Type-2-1 axiomization of IΣ0 consisting of
+N sentences.
+2. For some sentence Ψ, there is proof of Υ ⇒ Ψ from the Type-2-1 axiomization of
+IΣ0 consisting of M sentences.
+Then there exists a proof of Ψ from Type-2-1 which consists of no more than O( N + M )
+sentences.
+
+36
+
+Proof Sketch: Let us recall that the Type-2-1 axiomization for IΣ0 contains Equation (65)
+as an axiom.
+∀x ∀y ∃z
+
+x∗y =z
+
+(65)
+
+Using techniques from our article [40], we may construct a sub-fragment of a semantic tableaux
+proof tree consisting of O(K) sentences (within a straightline path) establishing the existence
+of a sequence of parameters u0 , u1 , u2 , ... uK such that u0 = 2 and ui+1 = ui ∗ ui . Hence
+this fragment of our proof-tree will consist of K applications of Equation (65)’s axiom, used
+to establish the following identity:
+uK = 22
+
+K
+
+(66)
+
+Also, the combination of Conditions (1) and (2) in Fact 2’s hypothesis easily implies that there
+exists some integer K whose magnitude is bounded by O(N + M ) such that there exists a
+proof with no more than O(K) sentences of the theorem: φ( uK )
+
+⇒
+
+Ψ.
+
+(We omit the
+
+formal proof of this fact because it uses reasoning similar to that employed in Section 4. It is
+K
+
+also fairly obvious because uK represents the quantity 22 .)
+The central point is that the combination of Fact 1 with the observations that K ≤ O(N +
+M ) and that there is a length O(K) proof of φ( uk ) ⇒ Ψ imply Fact 2’s validity.
+
+2
+
+The reason Fact 2 is significant is that it establishes an O(N + M ) bound on the length
+of Ψ’s proof, similar to Item (b)’s linearity constraint for the Type-1 axiomizations for IΣ0 .
+Thus, the remainder of the justification that the Type-2-1 axiomization for IΣ0 satisfies the
+semantic tableaux version of the Second Incompleteness Theorem is similar to its analog in
+Section 6 of our prior paper [40].
+We will now turn our attention to the somewhat harder Type-2-0 axiomization of IΣ0 .
+Unlike the Type-2-1 system, it does not contain Equation (65) as an axiom. Therefore it,
+needs a slightly more complicated argument to establish that its analog of Fact 2 is true. The
+formalisms of Definition 16 and Fact 3 will enable us to do this.
+Definition 16 . Let Ψ1 , Ψ2 , ... ΨK denote a sequence of sentences that appears within a
+semantic tableaux proof tree T that employs the axiom system α. A Semantic Tableaux
+Fragment supporting this set of sentences will be defined to be a sub-tree S within the
+proof-tree T that meets the following three conditions
+1. The root of S is some axiom of α.
+2. One branch of S , called its Major Branch, will contain each of the sentences of
+Ψ1 , Ψ2 , ... ΨK .
+37
+
+3. All the other branches of S will satisfy the usual semantic tableaux requirement that
+they contain a pair of contradictory sentences.
+Clarifying Comment:
+
+We call the reader’s attention to the fact that Definition 16
+
+does not require the “major branch” to contain a pair of contradicting sentences physically
+stored within the sub-tree S . (It merely requires that all the other branches of S have
+this property. The intuitive reason that the major branch is not required to contain a pair
+of contradictory sentences is that S will be embedded inside a larger proof tree T where
+every branch does indeed end with a contradiction.)
+
+Fact 3 Let u0 be another way of writing the named constant of “2” (which was defined
+by the axiom in Equation (9)). Let u1 , u2 , ... uK denote K parameters that are defined by
+i
+
+Equation (67)’s identity (which causes ui = 22 ).
+ui
+
+= ui−1 ∗ ui−1 ∧ ui−1 ≥ 2 ∧ ui ≥ 2
+
+(67)
+
+Let Ψ1 , Ψ2 , ... ΨK denote the versions of Equation (67) where i denotes 1 , 2 , ... K .
+Then for some fixed constant L (whose value is independent of K ), it is always possible
+under the axiom system T-2 to construct a semantic tableaux fragment which consist of no
+more than L·K nodes and whose major branch includes all the sentences of Ψ1 , Ψ2 , ... ΨK ,
+Proof Sketch. We will use the principle of induction to prove Fact 3. Thus, we shall
+assume that there is available a length L · (K − 1) semantic tableaux fragment SK−1
+representing the sentences Ψ1 , Ψ2 , ... ΨK−1 . We shall extend this part of our semantic
+tableaux proof to construct a length L · K semantic tableaux fragment SK representing the
+sentences Ψ1 , Ψ2 , ... ΨK .
+In our discussion, Ξ will denote the node at the bottom of SK−1 ’s major branch, and
+φ∗ (y) will denote the following somewhat awkward-looking ∆0 formula:
+∃ a ≤ y∗y
+
+[ a = y∗y ∧ y ≥2 ∧ a≥2 ]
+
+(68)
+
+All the additional nodes of the subtree SK will be inserted directly below Ξ . The first two
+of these nodes will consist of the Type-2 induction axiom for the formula φ∗ (y) and the
+formula that results from the preceding when the ∀ x quantifier is eliminated. The latter is
+illustrated below. (It is structured identically to the earlier Equation (61) except that we are
+now using φ∗ (y) rather than φ̄(y) as the base predicate.)
+∀z { { φ∗ (0) ∧ ∀y ≤ z [ φ∗ (y) =⇒ φ∗ (y 0 ) ] } =⇒ ∀y ≤ z φ∗ (y) }
+38
+
+(69)
+
+We will now apply a second instance of the ∀ elimination rule to replace the variable z with
+the term uK−1 in Equation (69). Then the child of Equation (69) will be:
+{ φ∗ (0) ∧ ∀y ≤ uK−1 [ φ∗ (y) =⇒ φ∗ (y 0 ) ] } =⇒ ∀y ≤ uK−1 φ∗ (y)
+
+(70)
+
+A subsequent application of the semantic tableaux ⇒ elimination rule will produce the following pair of sibling nodes:
+¬ { φ∗ (0) ∧ ∀y ≤ uK−1 [ φ∗ (y) =⇒ φ∗ (y 0 ) ] }
+
+(71)
+
+∀y ≤ uK−1 φ∗ (y)
+
+(72)
+
+We will next apply to the ∀ Elimination rule to the node (72) so that y is replaced by the
+new parameter uK−1 and thus obtain the sentence:
+uK−1 ≤ uK−1 ⇒ φ∗ (uK−1 )
+
+(73)
+
+Applying the ⇒ elimination rule to the node (73), we then obtain the following pair of two
+sibling nodes:
+¬ uK−1 ≤ uK−1
+
+(74)
+
+φ∗ (uK−1 )
+
+(75)
+
+Our construction of SK is now essentially done. This is because Equation (68)’s definition of
+φ∗ (together with the fact that a node storing the sentence ΨK−1 is an ancestor of (75)’s node)
+trivially implies that one can develop a subtree that descends from Equation (75)’s sentence
+and whose every branch ends with either the sentence ΨK or with a pair of contradicting
+sentences. Moreover from Equation (68)’s definition for φ∗ , it is also obvious that one can
+insert subtrees below the two nodes storing Equations (71) and (74) that contain the required
+contradictions for closing these branches of the proof tree. Since it is easy to check that this
+construction assures that the difference between the number of sentences stored in SK−1 and
+SK is a fixed constant L (whose value is independent of K ), our proof of Fact 3 is done.
+2
+On the Significance of Fact 3:
+
+The interesting aspect of Fact 3 is that it shows
+
+that the Type-2-1 and Type-2-0 axiomizations of IΣ0 have similar properties, despite the fact
+that the latter does not contain Equation (65)’s axiom that multiplication is a total function.
+This is because Fact 3 showed that even when this axiom is absent, there still will exist a
+K
+
+semantic tableaux fragment with O(K) nodes establishing the existence of the quantity 22 ,
+represented by the parameter symbol uK . (The only difference is that the constant hidden
+39
+
+in the O-notation is larger in the latter case, i.e. its O-notation uses a larger constant L —
+whose value once again does not depend on K.)
+As a result of this similarity, our proof that the Type-2-1 axiomization of IΣ0 satisfies the
+semantic tableaux version of the Second Incompleteness version generalizes easily also for its
+Type-2-0 axiomization. We will not provide more details about this topic here because an
+alternate and seemingly simpler proof of the same result will appear in Sections 3 and 4, using
+the notion of a passive induction proof as a simplifying step. The reason that we had briefly
+sketched an alternate type of proof in this appendix is that it connects more closely to the
+type of methodologies that were used in our earlier paper [40]. (Thus, one can establish the
+validity of the semantic tableaux version for the classic axiomizations of IΣ0 by using either a
+variant of Hyper-Connectivity as an intermediate step, or by employing the notion of passive
+induction that is formalized by Sections 3 and 4 of the current article.)
+
+Appendix D: Finishing Lemma 2’s proof
+In the context of Definition 6’s sentence Υi , Lemma 2’s proof had formally defined Φi to
+be the sentence:
+Φi
+
+=def
+
+{ Υi−1 ⇒ Υi }
+
+(76)
+
+Moreover, Lemma 2’s proof required that we establish the following invariant be true:
+( + )
+
+For some fixed constant c, the sentence Φi will have a proof with an
+
+O( ic ) length from either the T-1 or T-2 axiomization for IΣ0 .
+The formal proof of Equation (76) will consist of the following 5 steps:
+1. The root of Φi ’s proof will contain the usual starting contradiction assumption that its
+negation is true. Then applying Part 2-c of Definition 1’s ¬ elimination rule, Equation
+(77) will represent the root’s child.
+( ¬ ¬ Υi−1 ) ∧ ¬ Υi
+
+(77)
+
+A further application of the ∧ elimination rule will produce a straight-line path containing the two sentences of:
+¬ ¬ Υi−1
+
+(78)
+
+¬ Υi
+
+(79)
+
+40
+
+2. The application of i iterations of Definition 1’s ∃ elimination rule (together with i + 1
+iterations of Definition 1’s ∧ elimination rule) to Equation (78)’s sentence will create
+i − 1 new parameters called U0 , U1 , U2 ...Ui−1 so that a new node on this straight-line
+path (after simplification) shall store the sentence
+U0 = 2 ∧ U1 = U0 ∗ U0 ∧ U2 = U1 ∗ U1 ∧ ... ∧ Ui−1 = Ui−2 ∗ Ui−2
+
+(80)
+
+3. The application of i + 1 cycles of Definition 1’s ¬ elimination rule to Equation (79)’s
+sentence will cause another new node on this straight-line path to store the sentence:
+∀ v0 ≤ 2 ∀ v1 ≤ v0 ∗ v0 ∀ v2 ≤ v1 ∗ v1 ... ∀ vi ≤ vi−1 ∗ vi−1
+¬ [ v0 = 2 ∧ v1 = v0 ∗ v0 ∧ v2 = v1 ∗ v1 ∧ ... ∧ vi = vi−1 ∗ vi−1
+
+]
+
+(81)
+
+4. The fourth step of our proof will apply i + 1 iterations of Definition 1’s rule for eliminating bounded universal quantifiers to the node that stores Equation (81)’s sentence.
+For j ≤ i − 1 , the variable vj will be replaced by the parameter Uj , and Equation
+(82)’s final variable of vi will be replaced by the term of Ui−1 ∗ Ui−1 . The resulting
+node in our straight-line path will then be:
+
+[ U0 ≤ 2 ∧ U1 ≤ U0 ∗ U0 ∧ ... Ui−1 ≤ Ui−2 ∗ Ui−2 ∧ Ui−1 ∗ Ui−1 ≤ Ui−1 ∗ Ui−1 ]
+
+=⇒
+
+¬ [ U0 = 2 ∧ U1 = U0 ∗ U0 ∧ ... Ui−1 = Ui−2 ∗ Ui−2 ∧ Ui−1 ∗ Ui−1 = Ui−1 ∗ Ui−1 ]
+
+(82)
+5. The last part of our proof tree is based on the observation that the sentences stored
+in Equations (80) and (82) lie in a straight-line path and contradict each other. The
+formal reason that they contradict each other is because Equation (80) implies that each
+j
+
+parameter Uj equals 22 — whereas the “ ¬ ” symbol in the second line of Equation
+(82) indicates that this cannot be the case. Thus on account of this contradiction, it
+is possible to develop a further proof subtree that descends from the sentences storing
+these two nodes, all of whose branches are “closed”.
+
+41
+
+We will not provide further details concerning the construction of Equation (76)’s proof because its overall structure should be evident from the above 5-step description. The fundamental point is that if one works out the details of constructing Step 5’s proof tree, then (with
+a little care) one can assure it will have an O( ic ) length, for some fixed constant c
+
+as
+
+required by the statement + this appendix has sought to prove.
+
+Appendix E
+The abbreviated discussion in this appendix will assume that the reader has already seen
+a formal definition of Herbrand Deduction, in for example [1, 13, 16]. Roughly speaking a
+Herbrand proof that an axiom system α is inconsistent consists of a 4-step process that
+1) first writes α’s axioms in their prenex normal forms, 2) next transforms these axioms
+into Skolemized statements, 3) then generates a finite number of instances of these axioms,
+where each instance is produced by replacing all the Skolemized statement’s free variables
+(from universal quantifier declarations) with terms built from the combination of the Skolem
+functions and of the language’s initial built-in functions, and 4) finally develops a propositional
+calculus style proof that these finite set of instances are unsatisfiable (i.e. that they produce
+a proof of “ ⊥ ”). An interesting facet of Herbrand Deduction is that the set of available
+Skolem functions makes an enormous difference in the efficiency (or proof length) of such a
+construction.
+For instance, let S(x) denote the Skolemized operation of squaring the integer x. Since
+S(x) = x∗x, it is obvious that multiplication has the logical capacity to simulate a Herbrand
+function that performs the squaring operation. However, it typically does such a simulation
+much less efficiently than the squaring operation.
+Thus, if one starts with a constant c that represents the number 2 and wishes to write
+the number 22
+
+n
+
+then this quantity could be represented quite efficiently by performing n
+
+iterations of the squaring function, (i.e. as formally in 22
+
+n
+
+= S n (c) where S n denotes n
+
+iterations of S ). However in contrast, if only the Skolemized multiplication function symbol
+n
+
+is available to write the number 22 , then a very inefficient 2n − 1 applications of the
+multiplication function are required to write the number 22
+
+n
+
+(i.e. as in a product using the
+
+normalized multiplicative form of: 2 ∗ 2 ∗ 2 ∗ ... ∗ 2 ).
+Since a major part of our proofs for Lemmas 2 – 7 required calculating numbers of the form
+2n
+
+2
+
+efficiently, we need some methodology to overcome the preceding paragraph’s problem
+
+42
+
+about inefficient uses of multiplication (see the footnote 12 for a clarification). The solution
+is to move away from the notion of Skolemized functions for constructing our Herbrand
+proof of the falsity sentence ⊥ and instead to use an “ascending sequence” of Skolemized
+constants. As we shall see, the latter can produce constructions as efficient as squaring (and
+much more efficient than a use of solely the multiplication Skolem function).
+More Details about the Formal Nature of “Ascending Sequences” of Skolemized Constants:
+
+Four examples will help illustrate how Skolemized constants can very
+
+efficiently replace Skolemized functions. Consider the prenex normal sentence appearing in
+Equation (83). Since this sentence contains no universal quantifiers, it is natural to view
+each existentially quantified variable vi as being a place holder for a Skolemized constant.
+(In other words, the “Skolemized function notation” is technically inappropriate for Equation
+(83) because this sentence contains no universal quantifiers. Instead it is preferable to view
+the variables v0 , v1 ...vn as being transformed into what we shall call an “ascending sequence
+of Skolemized constants”.)
+∃ v0 ∃ v1 ∃ v2 ...∃ vn
+
+ψ(v0 , v1 , v2 ... vn )
+
+(83)
+
+Next in a context where t0 represents the term “2” and where ti is the term “ vi−1 ∗ vi−1 ,
+let us apply a similar Skolemization methodology to the two logically equivalent sentences
+below.
+∃ v0 ∃ v1 ...∃ vn
+
+[ v0 ≤ t0 ∧ v1 ≤ t1 ∧ ... vn ≤ tn ∧ φ(v0 , v1 , ... vn )]
+
+∃ v0 ≤ t0 ∃ v1 ≤ t1 ...∃ vn ≤ tn
+
+φ(v0 , v1 , v2 ... vn )
+
+(84)
+(85)
+
+Since Equation (84) has the same generic format as Equation (83), its variables v0 , v1 , v2 ... vn
+should also be viewed as place-holders for Skolemized constants. Moreover since equations
+(84) and (85) are logically equivalent expressions, it is natural for one to adapt a definition
+of Skolemizations so that the variables v0 , v1 , v2 ... vn are also viewed as place-holders for
+Skolemized constants in Equation (85). Thus, it is very natural for the bounded existential
+quantifiers to be treated similarly as unbounded existential quantifiers for the purposes of
+defining Skolemized constants.
+Let us now explore the implications of such a treatment of Equation (85)’s bounded quantifiers. Consider the possibility that ti is defined as above and that φ(v0 , v1 , v2 ... vn ) is the
+12
+
+In other words, our discussion is motivated by the fact that squaring is not an available operation under
+the T-1 and T-2 axiomizations for IΣ0 . Thus, we need an alternate methodology to simulate its efficiency. This
+appendix will be essentially devoted to showing how we can solve this problem with an analog of Definition
+6’s sentence of Υn .
+
+43
+
+sentence appearing in Equation (86).
+v0 = 2 ∧ v1 = v0 ∗ v0 ∧ v2 = v1 ∗ v1 ∧ ... ∧ vn = vn−1 ∗ vn−1
+
+(86)
+
+Then if we substitute Equation (86)’s definition of φ(v0 , v1 , v2 ... vn ) into Equation (85)’s
+formal axiom, the resulting expression corresponds to Definition 6’s sentence of Υn . This
+sentence was the focus of much of our mathematical machinery in Sections 3 and 4 of this
+article.
+The latter observation is useful because it illustrates that we do not need an explicit use of
+Skolem functions, growing at least as fast as squaring, for an axiom system α to efficiently
+n
+
+construct the quantity 22 via a Skolemization system. Indeed, if α contains the sentence of
+Υn as an axiom, then α can use this particular sentence’s formalism to efficiently simulate
+the first n iterations of the operation of squaring. (This is because Υn formalizes what we
+call an “ascending sequence of Skolemized constants”. )
+We are now ready to collect together the informal arguments given in this appendix to
+explain, at least intuitively, how the results in Sections 3 and 4 can be generalized from
+semantic tableaux deduction to Herbrand deduction. It firstly should be noted that the
+sentence Υn is not an axiom of either of our two axiomizations for IΣ0 , (called its T-1 and
+T-2 encodings). Therefore, some added work is certainly needed to explain how Υn can be
+treated as essentially as a virtual axiom, instead.
+The main point is that Υn is a ∆0 sentence. Thus, it is permissible for it to formally
+appear as a passive-inductive subformula within the Type-1 and Type-2 induction axioms of
+IΣ0 . Thus, the entire mathematical machinery of Sections 3 and 4 can treat Υn as perhaps
+what should be called an “almost” or “virtual” axiom. By this we mean that analogs of
+Lemmas 1 and 2 will apply to Herbrand deduction so that the following invariant can be
+established:
+∗
+
+For i = 1 or 2, if L denotes the length of some Herbrand proof of a
+
+theorem Γ from the union of T-i axiomization of IΣ0 with Υn , then for some
+fixed constant d the proof of Γ from T-i will have an O( L + nd ) length
+Moreover after one has established that Υn satisfies the statement ∗ ’s property of having an almost-axiom-like behavior, the other parts of the machineries of Sections 3 and 4
+should generalize as well so as to support the Herbrandized analogs of the IΣ0 incompleteness
+theorems.
+Our discussion in this appendix was certainly informal. We felt this article would probably
+be too long if it sought to deal in depth with both semantic tableaux and Herbrand deduction.
+44
+
+However, we hope that at least our intuitive outline has adequately explained some of the
+underlying intuitions.
+What we are trying to suggest in this appendix is that while a proof of the Herbrandized
+version of the IΣ0 incompleteness theorem will be certainly quite interesting and very different
+from our semantic tableaux analysis, we would anticipate that there are some types of proofs of
+the Herbrandized version of this incompleteness theorem that partially resemble the analysis
+techniques used in Sections 3 and 4 for semantic tableaux deduction.
+
+References
+[1] Z. Adamowicz, “Herbrand Consistency and Bounded Arithmetic”, Fund. Math. 171
+(2002) pp. 279-292.
+[2] Z. Adamowicz and T. Bigorajska, “Existentially Closed Structures and Gödel’s Second
+Incompleteness Theorem”, Journal of Symbolic Logic 66 (2001), pp. 349-356.
+[3] Z. Adamowicz and P. Zbierski, The Logic of Mathematics, John Wiley and Sons, 1997.
+[4] Z. Adamowicz and P. Zbierski, “On Herbrand consistency in weak theories”, Archive for
+Mathematical Logic 40 (2001) pp. 399-413.
+[5] T. Arai, “Derivability Conditions on Rosser’s Proof Predicates”, Notre Dame Journal on
+Formal Logic 30 (1990) pp, 487-490.
+[6] J. Benett, Ph. D. Dissertation, Princeton University, 1962.
+[7] A. Bezboruah and J. Shepherdson, “Gödel’s Second Incompleteness Theorem for Q”,
+Journal of Symb Logic 41 (1976) 503-512.
+[8] S. Buss, Bounded Arithmetic, in Proof Theory Lecture Notes, Vol. 3, published by Bibliopolis, Naples, 1986.
+[9] S. Buss and A. Ignjatovic, “Unprovability of Consistency Statements in Fragments of
+Bounded Arithmetic”, Annals of Pure and Applied Logic 74 (1995) pp. 221-244.
+[10] S. Feferman, “Arithmetization of Mathematics in a General Setting”, Fund Math 19
+(1960) pp. 35-92.
+[11] M. Fitting, First Order Logic and Automated Theorem Proving, Springer-Verlag, 1996.
+
+45
+
+[12] K. Gödel, “ Über formal unentscheidbare Sätse der Principia Mathematica und Verwandte Systeme I”, Monatshefte für Math. Phys. 37 (1931) pp. 349-360.
+[13] P. Hájek and P. Pudlák, Metamathematics of First Order Arithmetic, Springer Verlag
+1991.
+[14] D. Hilbert and P. Bernays, Grundlagen der Mathematic, Springer 1939.
+[15] R. Kaye, Models of Peano Arithmetic, Oxford University Press, 1991.
+[16] L.A. Kolodziejczyk, On the Herbrand Notion of Consistency for Finitely Axiomitizable
+Fragments of Bounded Arithmetic, to appear in Journal of Symbolic Logic.
+[17] J. Krajı́cek, “A Note on Proofs of Falsehood”, Archives on Math Logic 26 (1987) pp.
+169-176.
+[18] J. Krajı́cek, Bounded Propositional Logic and Complexity Theory, Cambridge University
+Press, 1995.
+[19] M. H. Löb, A Solution to a Problem by Leon Henkin, Journal of Symbolic Logic 20 (1955)
+pp. 115-118.
+[20] E. Mendelson, Introduction to Mathematical Logic.
+[21] E. Nelson, Predicative Arithmetic, Princeton Math Notes, 1986.
+[22] J. Paris and C. Dimitracopoulos, “A Note on the Undefinability of Cuts”, Journal of
+Symbolic Logic 48 (1983) pp. 564-569.
+[23] J. Paris and A. Wilkie, “∆0 Sets and Induction”, 1981 Jadswin Conf Proc, pp. 237-248.
+[24] P. Pudlák, “On Lengths of Proofs of Finisitic Consistency Statements in First order
+Theories”, Logic Colloquium 84, North Holland (1986) pp. 165-196.
+[25] P. Pudlák, “Cuts, Consistency Statements and Interpretations”, Journal of Symb Logic
+50 (1985) 423-442
+[26] P. Pudlák, “On the Lengths of Proofs of Consistency”, in Collegium Logicum: 1996
+Annals of the Kurt Gödel Society ( Volume 2), Springer-Wien-NewYork, pp 65-86.
+[27] J. Rosser, “Extensions of Theorems by Gödel and Church”, Journal of Symbolic Logic 1
+(1936) pp. 87-91.
+
+46
+
+[28] C. Smoryński, “Non-standard Models and Related Developments in the Work of Harvey
+Friedman”, in Harvey Friedman’s Research in Foundations of Math., North Holland 1985.
+[29] R. Smullyan, First Order Logic, Springer-Verlag, 1968.
+[30] R. Solovay, Private telephone communications during 1994 describing Solovay’s generalization of one of Pudlák’s theorems [25], using the additional formalisms of Nelson and
+Wilkie-Paris [21, 37]. Solovay never published this result or any of his other observations
+about Definable Cuts that several logicians [9, 13, 18, 21, 22, 23, 25, 26, 37] have attributed to his private communications. The Appendix A of [39] offers a 4-page summary
+of Solovay’s theorem specifying that no reasonable axiom system recognizing Successor
+as a total function can prove a theorem affirming its own Hilbert consistency.
+[31] G. Takeuti, Proof Theory, Studies in Logic Volume 81, North Holland, 1987.
+[32] G. Takeuti, “Gödel Sentences of Bounded Arithmetic”, Journal of Symbolic Logic 65
+(2000) pp. 1338-1346
+[33] A. Tarski, A. Mostowski and R. M. Robinson, Undecidable Theories, North Holland,
+1953.
+[34] A. Visser, “An Inside View of Exp”, Journal of Symbolic Logic 57 (1992) 131–165
+[35] A. Visser, “The Unprovability of Small Inconsistency”, Archive for Mathematical Logic
+32 (1993) pp. 275-298.
+[36] A. Visser, “Faith and Falsity”, Annals of Pure and Applied Logic 131 (2005) pp. 103-131.
+[37] A. Wilkie and J. Paris, “On the Scheme of Induction for Bounded Arithmetic”, APAL
+(35) 1987, 261-302
+[38] D. Willard, “The Semantic Tableaux Version of the Second Incompleteness Theorem
+Extends Almost to Robinson’s Arithmetic Q”, Springer Verlag LNCS#1847, July 2000,
+pp. 415-430.
+[39] D. Willard, “Self-Verifying Systems, the Incompleteness Theorem and the Tangibility
+Principle”, in Journal of Symbolic Logic 66 (2001) pp. 536-596.
+[40] D. Willard, “How to Extend The Semantic Tableaux And Cut-Free Versions of the Second
+Incompleteness Theorem Almost to Robinson’s Arithmetic Q”, in
+
+Journal of Symbolic
+
+Logic 67 (2002) pp. 465–496. (A more informal abbreviated 16-page description of this
+
+47
+
+result is available in the year-2000 conference paper [38], which was the precursor to this
+longer journal length article.)
+[41] D. Willard, “A Version of the Second Incompleteness Theorem For Axiom Systems that
+Recognize Addition But Not Multiplication as a Total Function”, First Order Logic Revisited, (Year 2003 Proceedings FOL-75 Conference), Logos Verlag (Berlin) 2004, pp.
+337–368.
+[42] D. Willard, “An Exploration of the Partial Respects in which an Axiom System Recognizing Solely Addition as a Total Function Can Verify Its Own Consistency”, Journal of
+Symbolic Logic 70 #4 (2005) pp. 1171-1209.
+[43] D. Willard, “On the Available Partial Respects in which an Axiomatization for Real
+Valued Arithmetic Can Recognize its Consistency”, Journal of Symbolic Logic 71 pp.
+1189-1199.
+[44] D. Willard, “A Generalization of the Second Incompleteness Theorem and Some Exceptions to It”. Annals of Pure and Applied Logic 141 (2006) pp. 472-496.
+[45] — , “The Axiom System IΣ0 Manages to Simultaneously Obey and Evade the Herbrandized Version of the Second Incompleteness Theorem”, in Electronic Notes in Theoretical Computer Science 165 (November 2006) pp. 213–226 (The volume 165 of Elsevier’s
+ENTCS consists of the July 2006 Proceedings of the 13-th Wollic conference).
+
+48
+
+

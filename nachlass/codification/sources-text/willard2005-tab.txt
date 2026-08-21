@@ -1,0 +1,686 @@
+On the Partial Respects in which a Real Valued
+Arithmetic System Can Verify its Tableaux Consistency
+Dan E. Willard ?
+State University of New York at Albany
+
+Citation Information : As a preliminary result, this paper was published in Automated Reasoning with Analytic Tableaux and Related Methods (2005 Proceedings), Springer–Verlag LNCS # 3702, pp. 292-306. Its
+more polished final draft was published in Journal of Symbolic Logic 71
+(2006) pp. 1189–1999.
+1
+
+Introduction
+
+Let A(x, y, z) and M (x, y, z) denote two 3-way predicates indicating x + y = z and
+x ∗ y = z. An axiom system α will be said to recognize successor, addition and
+multiplication as Total Functions iff it can prove (1), (2) and (3).
+∀x ∃z A(x, 1, z)
+
+(1)
+
+∀x ∀y ∃z A(x, y, z)
+
+(2)
+
+∀x ∀y ∃z M (x, y, z)
+
+(3)
+
+It is known that Equations (1) – (3) are related to both generalizations of Gödel’s Second Incompleteness Theorem and to its boundary-case exceptions. For instance, Equation (1) will enable the Second Incompleteness Theorem to apply to Hilbert deduction.
+Also, [36, 38] showed that the semantic tableaux version of the Second Incompleteness
+Theorem generalizes for essentially all axiom systems that can prove the validity of
+Equations (1) – (3) for integer arithmetic. On the other hand, [35, 38, 39, 41] showed
+exceptions to the semantic tableaux version of the Second Incompleteness Theorem do
+exist when an axiom system fails to support Equation (3).
+The preceding research naturally raises the question whether or not an analogous
+phenomenon holds when one changes the venue of application from integer arithmetic
+to the addition and multiplication operations of a computer’s floating point arithmetic
+set. Throughout this paper, we will use the term simulated real-arithmetic to refer to
+an instruction set that is slightly more general and powerful than the common floating
+point instructions on a digital computer’s hardware. We will prove that simulated real
+arithmetic is quite unlike integer arithmetic — insofar as an axiom system can simultaneously recognize its semantic tableaux consistency and the validity of Equations (1) –
+(3) for simulated real arithmetic.
+This result is significant because a computer’s floating point instruction set has essentially as many practical applications as an integer arithmetic. Moreover, Section 5
+?
+
+Supported partially by NSF Grant CCR 99-02726. Email=dew@cs.albany.edu
+
+will formalize another very unusual aspect of simulated arithmetic. It will be that our
+partial exceptions to the Second Incompleteness Theorem actually house a novel type
+of limited Gentzen-style deductive cut rule for simulated real arithmetic, whose analog for integer-based arithmetics is infeasible. Thus, our main contribution will be the
+demonstration that simulated real-valued arithmetic in several respects supports more
+robust forms of tableaux-like exceptions to Gödel’s Second Incompleteness Theorem
+than an integer arithmetic can feasibly do.
+
+2
+
+Literature Survey
+
+Gödel’s 1931 paper on incompleteness [10] contained two major results, called the
+“First” and “Second” Incompleteness Theorems. The former theorem (after Rosser [23]
+strengthened it) established that it was impossible to construct a consistent r.e. axiomatic
+extension of Peano Arithmetic that could prove or disprove every logical sentence.
+Gödel’s “Second Incompleteness Theorem” showed that neither Peano Arithmetic
+nor any extension of it can confirm its own consistency. During the last 75 years, there
+has been a substantial effort to determine under exactly what circumstances, Gödel’s
+Second Incompleteness Theorem is applicable to axiom systems weaker than Peano
+Arithmetic. In our summary of this topic, it is it is useful to classify an “integer” arithmetic axiom system α as being of:
+a. Type-M iff α can formally prove the assertions in Equations (1) – (3), indicating
+that “integer” multiplication, addition and successor are “total” functions.
+b. Type-A iff α can prove that integer addition and successor satisfy Equations (1)
+and (2), but α cannot formally prove integer multiplication satisfies (3).
+c. Type-S iff α can prove successor is a total function (as specified by Equation (1)),
+but it is uncertain about whether integer arithmetic satisfies (2) and (3).
+d. Type-NS iff α is unable to prove any of Equations (1), (2) or (3).
+The research into generalizations of the Incompleteness Theorem for weak axiom systems began with Tarski-Mostowski-Robinson [30]’s observation that a Type-M axiom
+system, which they called Q, had the property that Q (but none of its proper subsets)
+satisfied a condition called “essential undecidability”. Also, Bezboruah-Shepherdson
+[6] proved a version of the Second Incompleteness Theorem for Q which stated that
+Q was unable to prove some types of particularized theorems affirming its own Hilbert
+consistency. The subsequent research can be roughly summarized as follows:
+I. Pudlák (1985) made the seminal observation [20] that the Bezboruah-Shepherdson
+[6] result could be generalized for all extensions of Q, all encodings of its Hilbertproof predicate, and also for all its local extensions in the range of a specified
+“Definable Cut”. Wilkie-Paris [34] further noted that the axiom system IΣ0 + Exp
+is unable to prove the Hilbert consistency of Q. Nelson [17] observed that many of
+the properties of the Tarski-Mostowski-Robinson [30] axiom system Q can be extended to also hold for Type-S axiom systems. In 1994, Solovay [26] had combined
+these three formalisms to obtain the following result:
+2
+
+Theorem 1. (Solovay’s modification [26] of Pudlák’s Theorem 2.3 from
+[20] using the additional mathematical methodologies of Nelson and WilkieParis [17, 34].) No consistent Type-S axiom system, formalizing integer
+addition and multiplication as 3-way relations A(x,y,z) and M(x,y,z), can
+prove the non-existence of a Hilbert-proof of 0 = 1 from itself.
+II. An open question that Paris-Wilkie [19] posed in 1981 was whether an analog
+of Theorem 1 held for cut-free methods of deduction, such as semantic tableaux.
+Adamowicz-Zbierski [1, 4] answered this question in the positive for the axiom system IΣ0 + Ω1 , and Willard extended their result for IΣ0 and yet weaker derivatives
+of this system. The main result of [36, 38] was to construct a Π1 sentence V such
+that every consistent Type-M system α ⊃ V is necessarily unable to prove a theorem affirming its semantic tableaux consistency. (Here and elsewhere in this paper,
+our definition of semantic tableaux is similar to that in Fitting’s textbook [9].
+A more detailed literature review about the properties of the Second Incompleteness
+Theorem is provided in [41]. Since the sundry generalizations of the Second Incompleteness Theorem are quite powerful, we have cautiously called our partial evasions
+of the Second Incompleteness Effect “boundary-case exceptions”. These exceptions
+have consisted mostly of Type-NS systems [37] that can verify their Hilbert consistency and Type-A systems [37, 39] that can verify their tableaux-oriented consistencies.
+These results are near-maximal because the Type-NS evasions closely interface against
+Item I’s generalization of the Second Incompleteness Theorem for Type-S systems, and
+similarly Item II’s variant of the Second Incompleteness Theorem for Type-M systems
+complements [35, 37, 39]’s Type-A evasions.
+Our new results in the current article will differ from the prior work by changing
+the venue of application from integer arithmetic to a computer’s simulated real-valued
+arithmetic instruction set, so that our tableaux-style partial exceptions to the Second
+Incompleteness Theorem shall be able to recognize both addition and multiplication
+as total functions for simulated real arithmetic. Aside from directly eschewing Item II’s
+integer-based form of the Second Incompleteness Theorem (given above), this approach
+will also help clarify the nature of numerical analysis’s logical foundations.
+Let us now assume α is an axiom system and D a deduction method. The pair
+( α , D ) will be called an Introspectively Unified Logic iff
+A ) one of α ’s formal theorems will state that the deduction method D, applied to
+the axiom system α, will produce a consistent set of theorems,
+B ) and the axiom system α is in fact consistent.
+Also, an axiom system α will be called Self-Justifying iff there exists some frequently
+employed deduction method D, such as perhaps the tableaux, Hilbert, Herbrand or
+sequent-calculus formalisms, where ( α , D ) is an introspectively unified logic.
+Kleene’s Fixed Point Theorem implies that every r.e. axiom system α can be easily
+extended into a broader system α∗ which satisfies Part-A of the definition for introspective unification. For a fixed deduction method D, Kleene essentially proposed [14] to
+let α∗ contain all α’s axioms plus one additional axiom sentence stating :
+3
+
++
+
+There is no proof (using deduction method D ) of a prototypical absurditysentence (such as for example “0=1”) from the union of the axiom system α with
+this sentence “+”(looking at itself).
+
+Kleene explained how to apply the Fixed Point Theorem to encode a self-referencing
+statement, similar to the axiom (above). However, he pointed out that the catch is that
+α∗ may be inconsistent even while its added axiom formally asserts α∗ ’s consistency.
+For this reason, Kleene, Rogers and Jeroslow [13, 14, 22] each warned their readers
+that most axiom systems, similar to α∗ , were useless on account of their inconsistency,
+although they were technically well-defined. In the notation used in this section, the
+difficulty is that (α∗ , D) may satisfy Part-A but not the equally important Part-B of
+the definition of “introspective unification”.
+This problem arises in settings considerably more general than Gödel’s original
+paradigm, where α was an extension of Peano Arithmetic. Thus, [1–6, 8, 12, 18–21,
+24–26, 29–31, 34, 36, 38, 40, 42] discuss a variety of generalizations of the incompleteness theorem where a similar paradigm applies to weak axiom systems.
+Our interest in this topic began [35, 37, 39] with the observation that there are certain well-defined settings where it is feasible to construct introspectively unified logics
+( α , D ) using the Kleene-like “I am consistent” axioms, analogous to the sentence
++ . In particular, boundary-case exceptions to the Second Incompleteness Theorem
+do exist when either 1) α is a Type-NS axiom system and D represents Hilbert
+deduction, or when 2) α is a Type-A integer arithmetic and D represents
+some cut-free deductive method, such as a tableaux formalism. We again remind the
+reader that these two results are near maximal on account of [20, 26, 36, 38]’s Type-S
+and Type-M generalizations of the Second Incompleteness Effect, summarized earlier
+by Items I and II of this section.
+Prior to our research, the proof-theoretic literature has sought to partially evade the
+Second Incompleteness Theorem largely by studying what perhaps can be called the
+localized (α, D, ϕ)−consistency statements. In particular, let d Ψ e denote a formula
+Ψ ’s Gödel number, and PrfD
+α (t, p) denote p is a proof of the theorem t from the
+axiom system α using the deduction method D . Let us say α can recognize its
+localized (α, D, ϕ)−consistency property if α can prove the theorem:
+∀p
+
+{ ϕ(p) → ¬ PrfD
+α ( d0 = 1e , p ) }
+
+(4)
+
+In order to analyze Equation (4)’s meaning, let Sequence(ϕ) denote the formula:
+ϕ(0) AND ∀ x ϕ(x) → ϕ(x + 1)
+
+(5)
+
+Let Induction(ϕ) denote (6)’s statement about the validity of the principle of induction:
+→
+
+Sequence(ϕ)
+
+∀x ϕ(x)
+
+(6)
+
+It is clear that any conventional axiom system that can simultaneously prove Equations (4) – (6) will be able to combine these results to infer its own global consistency
+(and thereby evade the Second Incompleteness Theorem). To avoid these effect, [11, 12,
+15–21, 25–27, 31–34] have considered localized (α, D, ϕ)−consistency statements that
+4
+
+come tantalizingly close to such an evasion via their axiom systems retaining an ability to prove Equations (4) and (5) but not the also-needed Equation (6). The strongest
+results about this subject matter were derived by Pudlák [20], who showed that if α
+represents essentially any axiom system of finite cardinality and D denotes either the
+Herbrand or tableaux deduction method, then there exists formulae ϕ(x) where α
+has the tantalizing property that it can prove the first two of the preceding three wffs.
+It is difficult to make detailed comparisons between our self-justifying formalisms,
+which employ the Statement + ’s “I am consistent axiom”, with the literature about localized consistency because each approach has its own separate objectives, advantages
+and difficulties when it seeks to evade the Second Incompleteness Theorem. Thus, selfjustifying systems are unable to recognize integer multiplication as a total function,
+whereas the comparable sacrifice in the literature concerning localized consistency is
+that sentences, similar to Equation (4), have their meaning diluted when α is unable to
+prove Induction(ϕ). In both cases, it is of theoretic interest to categorize the maximal
+types of partial evasions of the Second Incompleteness Theorem that are feasible.
+
+3
+
+General Self-Justification Framework
+
+Define a mapping F (a1 , a2 ...aj ) to be a Non-Growth function iff it satisfies the
+invariant F (a1 , a2 , ...aj ) ≤ M aximum(a1 , a2 , ...aj ). Six examples of non-growth
+functions are Integer Subtraction (where x−y is defined to equal zero when x ≤ y ),
+Integer Division (where x ÷ y is defined to equal x when y = 0 , and it equals
+b x/y c otherwise), M aximum(x, y), Logarithm(x), Root(x, y) = d x1/y e and
+Count(x, j) designating the number of “1” bits among x’s rightmost j bits. These
+function are called the Grounding Functions.
+The term U-Grounding Function will refer to a set of eight operations, which
+includes the six non-growth “Grounding” functions plus the growth operations of addition and Double(x) = x + x. For simplicity, we will use a U-Grounding language. Its
+notation is technically unnecessary — because a system that uses Equation (7) (which
+specifies addition is a total function) along with our first six non-growth Grounding
+operations would have properties similar to the U-Grounding language.
+∀x ∀y ∃z
+
+x = z − y
+
+(7)
+
+However, the U-Grounded notation makes it easier to present our results.
+Our formal analogs for Logic’s Πn and Σm sentences in the U-Grounding language
+∗
+. Here, a term t is defined to be a constant, variable or a
+will be called Πn∗ and Σm
+U-Grounding function symbol (whose input arguments are recursively defined terms).
+Also, the quantifiers in the wffs ∀ v ≤ t Ψ (v) and ∃ v ≤ t Ψ (v) are called bounded
+integer quantifiers. Any formula in the U-Grounding language, all of whose quantifiers
+are bounded, will be called ∆∗0 . Following conventional notation, every ∆∗0 formula
+will be considered to satisfy the “ Π0∗ ” and “ Σ0∗ ” conditions. For n ≥ 1 , a formula Υ
+∗
+shall be called Πn∗ iff it is written in the form ∀v1 ∀v2 ... ∀vk Φ, where Φ is Σn−1
+.
+∗
+Likewise, Υ is called Σn iff it is written in the form ∃v1 ∃v2 ... ∃vk Φ, where Φ is
+∗
+Πn−1
+. Henceforth, we will also use the following definitions:
+5
+
+1. A Level(n) Definition of an axiom system α’s tableaux consistency is the declaration that there exists no Πn∗ sentence Υ supporting simultaneous semantic
+tableaux proofs from α of both Υ and its negation.
+2. A Level( 0− ) Definition of a system α’s tableaux consistency is the statement
+that there exists no proof of 0=1 from α.
+We will also sometimes use a notation referring to Πn− and Σn− sentences. These
+sentences will have the same definitions as Πn∗ and Σn∗ except that they will use a
+language employing the Grounding (instead of U-Grounding) functions.
+In essence, both notations are useful. The U-Grounding based notation is preferable
+when an axiom system uses Equation (7)’s axiom, declaring addition is a total function.
+It then leads to more succinct proofs. On the other hand, the slightly more cumbersome
+Πn− and Σn− notation is essential for axiom systems that do not recognize addition
+as a total function. In essence, we will employ the U-Grounding notation in Sections 3
+and 5 and the Grounding language notation in Section 4.
+Theorem 2. . (A summary of the central results published in [35, 37, 39] ) Let A
+denote an arbitrary consistent axiom system employing the U-Grounding language.
+Then it is possible to construct two further consistent axiom systems, called IS(A) and
+IS-1(A) [35, 37, 39], having the following properties.
+1. Both IS(A) and IS-1(A) will retain a capacity to prove all the Π1∗ theorems of A ,
+2. Both IS(A) and IS-1(A) will recognize addition as a total function,
+3. IS(A) will retain an ability to recognize its own Level(0-) consistency, and IS-1(A)
+will have a stronger ability to also recognize its Level(1) consistency.
+The underlying technique used in [35, 37, 39] was that IS(A) and IS-1(A) axiom
+systems would apply an essentially 2-part formalism to achieve the above conditions.
+Their first part would achieve the conditions (1) and (2) by essentially simulating the
+actions of the axiom system A in a relatively straightforward manner. These axiom systems will satisfy the property (3) by using an analog of a Kleene-like “I am consistent”
+axiom, similar to the statement + (defined in Section 2).
+The main challenge in [35, 37, 39] was to demonstrate that the axiom systems IS(A)
+and IS-1(A) did not become inconsistent on account of the presence of their final axiom — which declared their own consistencies. In the nomenclature of Section 2, the
+challenge was to show that the presence of the axiom + did not cause either IS(A) or
+IS-1(A) to violate Part-B of Section 2’s definition of introspective unification.
+In particular, let us recall that Section 2 had noted that if an axiom system α is sufficiently strong and we add to it a Kleene-like “I am consistent” axiom, then the resulting
+new system α∗ will be rendered inconsistent because of the presence of a Gödel-like
+diagonalization proof. The main theorems in [37, 39] showed that this difficulty did not
+pertain to either IS(A) or the stronger IS-1(A) system because these formalisms treated
+integer multiplication as a 3-way relation, rather than as a total function.
+Our articles [35, 37, 39] of course, raised almost as many as questions as they had
+settled because an axiom system that fails to recognize multiplication as total is inherently weak. How useful is it to employ such axiom systems which gain a knowledge
+6
+
+about their own consistency only by sacrificing the common axiom that multiplication
+is a total function? This question is especially pressing because [36, 38] demonstrated
+it is impossible to construct a consistent axiom system that simultaneously recognizes
+integer-multiplication as a total function and its own consistency — even when one uses
+the quite weak Level(0-) definition of tableaux consistency !
+Within such a context, we will now show that there is an analog of a computer’s
+floating point instruction set, called simulated-real arithmetic, where the axiom systems
+IS(A) and IS-1(A) from [37, 39] can prove that addition, multiplication, subtraction and
+division among simulated real numbers are total functions.
+Definition 1. We will use two formalizations of an integer, called NN and IPN,
+in this paper. The first definition “NN” will represent the set of non-negative integers.
+(This is the usual definition employed when investigating the Incompleteness Theorem.)
+Our alternate definition “IPN” will regard an integer as being any positive or negative
+whole number, as well as reserve a special symbol for representing ∞ .
+Definition 2. The symbol F will denote a 1-1 function F that maps the set of NN
+integers onto IPN integers. In particular, let Even(x) denote a function that equals 1 if
+x is an even number and − 1 if x is odd. Let Half(x) denote the integer-truncated
+quantity b x ÷ 2 c . Then F (x) is defined by the convention that:
+F (x) = Even(x) · Half(x) when x 6= 1
+
+AND
+
+F (1) = ∞
+
+Lower case letters x will henceforth denote NN-integers, and upper case letters X
+will denote IPN integers.
+Definition 3. Let i denote an arbitrary indexing integer. Then the i−th Simulated
+Real-Number will be defined to be an ordered pair (Mi , Ei ) where Mi is an IPN
+number storing the mantissa, and Ei is a second IPN integer storing the exponent. The
+bold-face symbol Ri will denote this simulated real-number. It is defined as follows:
+1. If Ei 6= ∞ and 0 6= Mi 6= ∞ then Ri = Mi · 2 − b Log2 ( | Mi | ) c · 2 Ei .
+2. If Ei = ∞ and Mi is a power of 2 , then Ri represents the real number 0 written
+in a binary notation with Log( Mi ) digits to the right of the decimal point.
+3. Otherwise, Ri will represent an “overflow” symbol following division by zero.
+Important Comment: We will often use the NN notation (mi , ei ) to denote a
+simulated real number, instead of IPN. In this case, Definition 2’s function F will map
+(mi , ei ) onto its IPN counterpart (Mi , Ei ) , so as to calculate Ri ’s value.
+Definition 4. Let R1 , R2 and R3 denote three simulated real-numbers that are encoded by the respective ordered pairs (m1 , e1 ), (m2 , e2 ) and (m3 , e3 ) when written in
+the NN-integer notation. Let S denote one of the four arithmetic symbols of + ,
+× ,
+− or ÷ . Then ΘS (m1 , e1 , m2 , e2 , m3 , e3 ) will henceforth denote a
+formula which states that the two real numbers R1 and R2 , combined under the arithmetic operation of S , will produce a third simulated real of R3 . More precisely,
+ΘS (m1 , e1 , m2 , e2 , m3 , e3 )’s definition will employ the usual computerized floating
+point hardware rounding convention that R3 ’s computed mantissa has a bit-length L
+equal to the maximum of the lengths for the two input mantissas of R1 and R2 . It will
+7
+
+thus specify R3 represents the closest approximation of the combination of R1 and R2
+under the operation S that is feasible for a number which has a mantissa-length of L
+and which uses Definition 3’s formula for defining R3 ’s value.
+Lemma 1. For each of the four cases where S denotes one of the symbols of + ,
+× , − or ÷ , the predicate ΘS (m1 , e1 , m2 , e2 , m3 , e3 ) has a ∆∗0 encoding.
+Proof Sketch: For the cases where S denotes the + or − symbols, it is easy
+to encode ΘS (m1 , e1 , m2 , e2 , m3 , e3 ) as a ∆∗0 formula. It is also reasonably routine to
+encode ΘS (m1 , e1 , m2 , e2 , m3 , e3 ) as a Σ1∗ formula when S denotes the × or ÷
+symbol. A much more meticulous analysis in a longer version of this paper will show
+that this formal encoding for multiplication and division can, in fact, be compressed
+into a more ideally terse ∆∗0 form. The intuition behind this compression is for one to
+break the initial mantissas m1 and m2 into two substrings of essentially equal length,
+each, so that they are sufficiently short so that the Σ1∗ formula’s unbounded existential
+quantifiers can then be made bounded. 2.
+Lemma 2. Let S again denote one of the four arithmetic symbols of + , × , −
+or ÷ under simulated real arithmetic. In each of these four cases using the NN-integer
+notation, the statement that S is a total function can be encoded as a Π1∗ sentence.
+Proof: It is clear that if the statement of Lemma 2 was changed so that the totality
+of S was expressed as a Π2∗ (rather than Π1∗ ) sentence, then Lemma 2 would be an
+immediate consequence of Lemma 1. This is because in each of the four cases where
+S denotes the symbol of + , × , − or ÷ , Equation (8) is a formal statement
+declaring the totality of the operation of S :
+∀ m1 ∀ e1 ∀ m2 ∀ e2 ∃ m3 ∃ e3 ΘS (m1 , e1 , m2 , e2 , m3 , e3 )
+
+(8)
+
+In order to construct a Π1∗ sentence that is equivalent to (8) under the Standard Model,
+we will use the fact that in each of the four cases where S denotes the symbol of + ,
+× , − or ÷ , a 6-tuple will satisfy ΘS (m1 , e1 , m2 , e2 , m3 , e3 ) only when:
+∗∗
+
+m3 ≤ Double(Max(m1 , m2 )) AND e3 ≤ Double(Double(Max(e1 , e2 )))
+
+Let t denote the term of Double(Double(Max(m1 , m2 , e1 , e2 ))). Item ∗ ∗ then
+implies that Equation (9) is a Π1∗ sentence that logically implies the validity of Equation
+(8) under the Standard Model of the Natural Numbers:
+∀ m1 ∀ e1 ∀ m2 ∀ e2 ∃ m3 ≤ t ∃ e3 ≤ t
+
+ΘS (m1 , e1 , m2 , e2 , m3 , e3 )
+
+(9)
+
+Definition 5. In a context where R denotes a simulated real number, the term
+Expand(R) will denote a second simulated real whose value is identical to that of R
+except that the mantissa for Expand(R) will have one extra bit of precision. Thus, if
+R1 = (m1 , e1 ) and R2 = (m2 , e2 ) then Equation (10) is a ∆∗0 formula, denoted
+formally as Θ∗ (m1 , e1 , m2 , e2 ) , which indicates that R2 = Expand(R1 ) .
+m2 = Double(m1 ) − Count(m1 , 1) AND e1 = e2
+8
+
+(10)
+
+Lemma 3. There exists a Π1∗ formula indicating that Expand(R) is a total function.
+Proof: Obvious because the Equation (11) is the needed formula:
+∀ m1 ∀ e1 ∃ m2 ≤ Double(m1 ) ∃ e2 ≤ e1
+
+Θ∗ (m1 , e1 , m2 , e2 )
+
+(11)
+
+Theorem 3. (An initial result that will be made much more robust in Section 5): For
+every consistent axiom system A employing the U-Grounding functions, there exists
+a consistent axiom system α that can 1) prove all A’s Π1∗ theorems, 2) recognize
+integer-addition as a total function, 3) confirm that simulated real arithmetic operations of addition, multiplication, subtraction, division and Expand are each total
+functions, and 4) recognize its own Level(1) semantic tableaux consistency.
+Proof: Let Ψ1 , Ψ2 , Ψ3 , Ψ4 and Ψ5 denote the five Π1∗ sentences, defined by
+Lemmas 2 and 3 that indicate the operations of addition, multiplication, subtraction,
+division and Expand are each total functions. Let A0 denote the union of the axiom
+system A with these five added Π1∗ sentences of Ψ1 , Ψ2 , Ψ3 , Ψ4 and Ψ5 .
+It follows from the combination of Theorem 2 and Lemmas 2 and 3 that the axiom
+system IS-1(A0 ) satisfies Theorem 3’s four requirements 2
+The remainder of this article will have two parts. Section 4 will introduce two new
+versions of the Second Incompleteness Theorem, whose negative results tightly contrast
+against Theorem 3’s positive result. Section 5 will introduce a stronger form of Theorem 3, which replaces the notion of Level(1) tableaux consistency with the significantly
+stronger construct of “T ier(1)” tableaux consistency. It will also contemplate potential
+applications to numerical analysis. It will arrive at a pleasing mathematical observation
+about the foundational nature of Gentzen-style deductive cuts.
+
+4
+
+Generalizations of the Second Incompleteness Theorem
+
+The term “Base” substructure will refer to the starting axiom system A which Theorem 2 used to construct its more elaborate self-justifying axiom systems of IS(A) and
+IS-1(A). It is apparent that Theorem 3’s partial exception to the Second Incompleteness Theorem possesses some type of non-trivial quality because its axiom systems of
+IS(A) and IS-1(A) have a capacity to prove all the Π1∗ theorems of Peano Arithmetic
+(PA) whenever A ⊃ P A. Since the Second Incompleteness Theorem precludes a
+self-justifying axiom system α from becoming excessively strong, it is thus helpful to
+remind ourselves about the exact properties which α is precluded from possessing. For
+example, Items I and II from the literature survey chapter indicated Type-S axiomizations of integer arithmetic cannot recognize their own Hilbert consistency [20, 26], and
+similarly Type-M axiomizations of integer arithmetic cannot recognize their Level(0-)
+tableaux consistency [38]. Also in another recent article [40], we established Type-A
+axiomizations of integer arithmetic are unable to recognize their own Level(2) tableaux
+consistency. In this section, we will develop two variants of the Second Incompleteness
+Theorem that apply uniquely to simulated real arithmetics.
+Definition 6. Let AddComp(m1 , e1 , m2 , e2 , m3 , e3 ) denote a ∆−
+0 predicate formula indicating that (m3 , e3 ) represents the additive sum of the simulated real numbers
+9
+
+of (m1 , e1 ) and (m2 , e2 ) that satisfies the usual computerized hardware-rounding
+convention that the mantissa m3 has a bit-length equal to the maximum of the bitlengths for m1 and m2 . Also, let LongMult(m1 , e1 , m2 , e2 , m3 , e3 ) denote a ∆−
+0
+predicate formula indicating that (m3 , e3 ) represents the untruncated multiplicative
+product of the simulated real numbers of (m1 , e1 ) and (m2 , e2 ) . (This is the variant
+of multiplication where the floating-point truncate-and-round operation is now absent.)
+The first of our two new versions of the Second Incompleteness Theorem is Theorem 4. It will show that Theorem 3’s partial evasion of the Second Incompleteness
+Theorem has no analog when one tries to generalize it from semantic tableaux styled
+definitions of consistency to stronger definitions of consistency focused around Hilbert
+deduction. Theorem 4’s result is surprising because semantic tableaux and Hilbert deduction produce the same set of theorems in first order logic. The intuitive reason that
+Theorems 3 and 4 provide such a contrasting pair of results is because these two formalisms produce sharply different proof lengths.
+Theorem 4. There exists a Π1− sentence W (with a relatively simple structure) such
+that every consistent Grounding-language based axiom system α ⊃ W is unable to
+both prove its own consistency (under the Hilbert-styled method of deduction) and to
+also prove Equation (12)’s Π2− sentence. (The latter states AddComp formalizes a
+total function among simulated real numbers).
+∀ m1 ∀ e1 ∀ m2 ∀ e2 ∃ m3 ∃ e3
+
+AddComp(m1 , e1 , m2 , e2 , m3 , e3 )
+
+(12)
+
+Proof Sketch: We shall employ the Theorem 1 by Pudlák-Solovay, which had indicated that no axiom system can simultaneously recognize successor as a total function
+and prove a theorem affirming its own Hilbert consistency. Our current discussion cannot assume apriori that Theorem 4’s axiom system α will recognize successor as a
+total function — because α is employing a Grounding (rather than U-Grounding) language without growth functions. Thus to prove Theorem 4, we will need to show that
+α can infer from Equation (12) that successor is a total function.
+Let us first recall that our notation convention has the upper case symbol X replacing the lower case symbol x when we are viewing an integer object in the IPN rather
+than the NN notation. Also, let C̄ be a representation for the constant “ +1 ” written
+in IPN notation. Using this notation to simplify (12) and letting C̄ substitute for m1
+and m2 , it follows that the axiom system α can infer (13) from (12).
+∀ E 1 ∃ M3 ∃ E 3
+
+AddComp( C̄ , E1 , C̄ , E1 , M3 , E3 )
+
+(13)
+
+A longer version of this paper will use Equation (13) to derive that if our threshold
+Π1∗ sentence W contains more than some tiny amount of strength then any α ⊃ W
+which proves Equation (12)’s validity shall be able to infer from (13) that successor is
+a total function among the set of NN integers. Also assuming that W contains more
+than a tiny amount of initial strength, α will then satisfy Theorem 1’s hypothesis. Thus
+α cannot verify its own Hilbert consistency. 2
+
+10
+
+Theorem 5. There exists some particular Π1− sentence W such that no consistent
+axiom system α ⊃ W can simultaneously prove its own Level(0-) tableaux consistency and the validity of Equation (14)’s Π2− sentence. (Equation (14) indicates that
+LongMult formalizes a total function among simulated real numbers).
+∀ m1 ∀ e1 ∀ m2 ∀ e2 ∃ m3 ∃ e3
+
+LongMult(m1 , e1 , m2 , e2 , m3 , e3 )
+
+(14)
+
+Proof Sketch: Our justification of Theorem 5 will be brief because its proof is
+similar to Theorem 4’s proof. After one changes the underlying notation from NN to
+IPN, it is apparent that LongMult(M1 , E1 , M2 , E2 , M3 , E3 ) can be satisfied only when
+M3 = M1 · M2 . Hence, (14) implies multiplication is a total function among IPN
+integers. Also, there clearly exists a Π1− sentence Φ that can infer multiplication is a
+total function among NN integers from its totality among IPN integers.
+Let us next recall that our Tableaux-2000 conference paper [36] (and/or its journal
+counterpart [38]) constructed a Π1− sentence V where no Type-M integer-based system α ⊃ V can prove its Level(0-) tableaux consistency. The analog of this result for
+simulated real arithmetics thus follows by setting W = V ∪ Φ . 2
+On the Significance of Theorems 4 and 5: We suspect that Theorem 4 is the
+more important of the two restrictions upon the capacities of simulated real systems.
+One reason Theorem 5 is less significant is because digital computers simply do not
+process floating point numbers with the LongMult instruction set. (If they did, then
+the bit-length of a floating point number would double each time a multiplication was
+performed: It would exceed the number of atoms in the universe after roughly 100
+consecutive multiplications.) It is thus reassuring that numerical analysts, starting with
+Leibnitz and Newton, have demonstrated most mathematical computations are only infinitesimally changed when one one throws away their low-order bits.
+On the other hand, Theorem 4 formalizes a more serious constraint on self-justifying
+systems. It signals a Gentzen-style deductive cut rule will usher in the force of the
+Second Incompleteness Theorem. Thus, we are left to inquire: In what respects, beyond
+those delineated by Theorem 3, can Theorem 4’s actual generalization of the Second
+Incompleteness Theorem be evaded? Also how robust may such evasions be? The next
+section will contain our chief results. It will bring this article to a surprising conclusion.
+
+5
+
+On the Two Surprising Facets of Hybrid Deduction Formalisms
+
+Let us say a U-Grounding sentence belongs to the Tier(k) class if it is either Πk∗ or Σk∗ .
+Also, let H denote a sequence of ordered pairs (t1 , p1 ), (t2 , p2 ), ... (tn , pn ) , where
+pi is a semantic tableaux proof of the theorem ti . In a context where < designates
+some class of sentences, such as possibly Tier(k), Πk∗ or Σk∗ , define H to be a Tab−<
+proof of a theorem T from the axiom system α iff T = tn and also:
+1. Each axiom in pi ’s proof is either one of t1 , t2 , ...ti−1 or comes from α.
+2. Each of the “intermediate results” t1 , t2 , ...tn−1 lie in the pre-specified class < .
+11
+
+Thus, Tab−< deduction is stronger than classic tableaux by allowing for a type of
+Gentzen-like deductive cut rule for sentences that belong to the intermediate class, that
+is formalized by < . From Gentzen’s Cut Elimination Theorem [28] it is known that the
+set of the theorems that can be proven by a Tab−< proof are the same as those that can
+be derived by a purely cut-free proof formalism, similar to semantic tableaux. However,
+the proof length efficiencies of these two alternate approaches can be quite different.
+If < denotes the universal class of all possible sentences then Tab−< deduction
+will thus be essentially equivalent to the Hilbert-style deductive method in its proofefficiency. On the other hand, if < denotes a class of sentences that is a strict subset
+of the universal class, such as for example Tier(k), then Tab−< will be a methodology
+lying properly between classic tableaux and Hilbert deduction.
+This terminology was introduced in [40]. It proved Type-A axiom systems are unable to verify their self-consistency under either Tab−Σ2∗ or Tab−Π2∗ deduction.
+The acronym Tab−1 will refer to a version of Tab−< deduction with < = Tier(1).
+An expanded version of our Tableaux-2002 paper [39], which will soon appear in the
+Journal of Symbolic Logic [41], will explore a stronger variant of [39]’s IS-1(A) formalism, called ISD (A) . Their difference is that ISD (A) can recognize its consistency
+under Tab−1 deduction, while IS-1(A) recognized its consistency under only Section
+3’s Level(1) definition. (Both formalisms prove all A ’s Π1∗ theorems.) The last page of
+our Tableaux-2002 paper actually defined ISD (A) and called it “IS-1*(A)”. The longer
+JSL article [41] will finish this topic by formally proving ISD (A) is consistent.
+Theorem 6. (A stronger version of Theorem 3) For every consistent axiom system A
+employing the U-Grounding functions, there exists a consistent axiom system α that
+can 1) prove all A’s Π1∗ theorems, 2) recognize integer-addition as a total function,
+3) confirm that the five basic operations of simulated real arithmetic are total functions,
+and 4) recognize its own consistency under Tab−1 deduction.
+Proof Sketch: The proof for Theorem 6 is identical to Theorem 3’s proof, except
+that all references to the prior paper [39]’s IS-1 system should be replaced by the forthcoming paper [41]’s ISD system to achieve Feature (4)’s added functionality. 2
+IMPORTANT COMMENT: Since Theorem 6 is a direct generalization of Theorem 3, it is tempting to suspect both results have similar implications. To the contrary,
+we will now show Theorem 6 has a special added “Tier(1)⊕ floating-point” property,
+which is actually central for achieving our main goals and purposes.
+NOTATION: The symbol hm, ei will denote the simulated real number with mantissa m and exponent e. Also | hm, ei |J will denote the quantity begotten by taking
+the absolute value of this simulated real number and raising it to the J−th power. Assuming that J 6= 0 , hn, f i ≥ 1 and that Length(m) denotes m ’s bit-length, the
+formal expression of hm, ei JL hn, ei will have the following meaning:
+1. Length(m) ≤ Length(n) + L and if J ≥ 1 then | hn, f i |J ≥ | hm, ei | ≥ 1.
+2. Length(m) ≤ Length(n) + L and if J ≤ −1 then | hn, f i |J ≤ | hm, ei | ≤ 1.
+Assuming that R is a term that specifies the value of a simulated real number whose
+value is greater than 1, we will also use the preceding notation to define Bounded
+12
+
+Real Quantifiers of the form ∃ hm, ei JL R and ∀ hm, ei JL R . The term
+Bounded Integer Quantifiers will refer to the expressions of the form ∀ x ≤ t and
+∃ x ≤ t that were defined in Section 3. A wff will be called ∆⊕
+0 if it is built in
+any arbitrary manner out of these four forms of bounded quantifiers, together with the
+usual U-Grounding function symbols, the equality and greater-than predicates and the
+standard Boolean connectives. If Ψ is a ∆⊕
+0 formula then the formal expressions of
+∀ v1 ∀ v2 ... ∀ vk Ψ and ∃ v1 ∃ v2 ... ∃ vk Ψ will be called Π1⊕ and Σ1⊕ formulae.
+Also a sentence will be called Tier(1)⊕ when it is either Π1⊕ or Σ1⊕ .
+Theorem 7. There exists a computable function F that maps each Tier(1)⊕ formula
+φ onto a Tier(1) formula Φ such that φ and Φ are logically equivalent to each other.
+The theory of LinH functions [43] can be used to prove Theorem 7. This proof is
+rather lengthy. It will thus appear in a longer version of this article.
+On the Surprising Combined Implications of Theorems 3, 4, 6 and 7: Theorem 4 had showed that Theorem 3’s evasion of the Second Incompleteness Effect for
+tableaux deduction does not generalize for Hilbert deduction. In this context, Theorem
+6 had offered an alternate hybrid approach, called Tab−1 deduction, for at least partially extending the prior tableaux results. One subsequent question is therefore to ask:
+How much more robust is Tab−1 deduction than classic tableaux ?
+In order to answer this question, let Φ denote a Tier(1) sentence of either the form
+of ∀ v1 ∀ v2 .. ∀ vk Ψ or ∃ v1 ∃ v2 .. ∃ vk Ψ , and let us call Ψ the ∆∗0 Stem of Φ.
+Since by definition, all the quantifiers in the stem are bounded integer quantifiers of the
+form ∀ x ≤ t or ∃ x ≤ t , it follows that the size of the integer x is greatly limited
+by the size of the input integers p1 , p2 ...pj for the term t. In particular since the only
+growth functions available in our U-Grounding language are addition and doubling, the
+size of x may exceed Max(p1 , p2 ...pj ) by only a scalar constant of k — whose
+value depends on the number of function symbols in t . The latter fact shows that the
+ISD (A) self-justifying formalism can actually prove only a limited range of theorems
+about “integer” arithmetics because ISD (A) is able to include only the Π1∗ theorems of
+A as its generating set of axioms, and it can apply a Gentzen-style deductive cut rule
+only to the quite limited Tier(1) class of formulae.
+However if one shifts the venue of application from integer arithmetic to real-value
+arithmetic, then the range of permissible uses of a Gentzen-style deductive cut rule
+becomes much more robust. This is because Theorem 7 stated that every Tier(1)⊕
+formula φ can be translated into an equivalent Tier(1) formula Φ. Moreover, the
+bounded real quantifiers in a Tier(1)⊕ formula of the form ∃ hm, ei JL R and
+∀ hm, ei JL R allow hm, ei ’s real number to attain values essentially as large as
+RJ (quite unlike the narrower range of values associated with integer-based bounded
+quantifiers). Thus from the perspective of real valued arithmetic, the ISD (A) axiom has
+a good deal of flexibility, since any logically valid Π1⊕ sentence can essentially be
+made into an axiom (by choosing an initial broad enough base axiom system of A ) ,
+and the Tab−1 deductive cut rule can then be applied to any Tier(1)⊕ formula.
+Hence, while self-justifying systems may be viewed as primarily a theoretical-only
+device for exploring integer arithmetics, their significance is broader for real-valued
+arithmetics because of the permissible use of bounded real quantifiers.
+13
+
+To reinforce this point, we observe that all the major algorithms in numerical analysis [7] can be simulated by proofs under simulated real arithmetic. The basic purpose of
+numerical analysis is to produce sequences of real numbers R1 , R2 , R3 , ... that converge upon target answers with a decreasing error rate 1 , 2 , 3 , ... . By choosing to use
+mantissas with sufficiently large lengths, it is easy to formalize such algorithms under
+simulated real arithmetic. Each of the axiom systems of IS(A), IS-1(A) and ISD (A) can
+accomplish this task. Their distinction is that they house the desired simulations under
+three increasingly broad definitions of tableaux self-consistency.
+The seminal nature of Gödel’s Second Incompleteness Theorem is, of course, impossible to overestimate. It has had many fascinating generalizations. Our exceptions
+to Gödel’s Second Incompleteness Theorem illustrate that there are certain limited-buttangible respects where a formalism not using the integer version of multiplication, can
+possess a partial-but-not-full knowledge of its own consistency.
+Acknowledgments: I thank the referees for their careful reading of this article and
+for several suggestions on how to improve the presentation.
+
+References
+1. Z. Adamowicz, “Herbrand Consistency and Bounded Arithmetic”, Fundamenta Mathematica 171 (2002) pp. 279-292.
+2. Z. Adamowicz and T. Bigorajska, “Existentially Closed Structures and Gödel’s Second Incompleteness Theorem”, Journal of Symbolic Logic 66 (2001), pp. 349-356.
+3. Z. Adamowicz and P. Zbierski, The Logic of Mathematics, John Wiley and Sons, 1997.
+4. Z. Adamowicz and P. Zbierski, “On Herbrand consistency in weak theories”, Archive for
+Mathematical Logic 40 (2001) pp. 399-413.
+5. T. Arai, “Derivability Conditions on Rosser’s Proof Predicates”, Notre Dame Journal on
+Formal Logic 31 (1990) pp. 487-497.
+6. A. Bezboruah and J. Shepherdson, “Gödel’s Second Incompleteness Theorem for Q”, Journal of Symb Logic 41 (1976) 503-512.
+7. R. Burden and J. Faires, Numerical Methods, Brookes-Cole (2003)
+8. S. Buss and A. Ignjatovic, “Unprovability of Consistency Statements in Fragments of
+Bounded Arithmetic”, Annals of Pure and Applied Logic 74 (1995) pp. 221-244.
+9. M. Fitting, First Order Logic & Automated Theorem Proving, SpringerVerlag 1996.
+10. K. Gödel, “ Über formal unentscheidbare Sätse der Principia Mathematica und Verwandte
+Systeme I”, Monatshefte für Math. Phys. 37 (1931) pp. 349-360.
+11. P. Hájek, “On Interpretability in Set Theory” Part I in Com. Math. Univ. Carol 12 (1971) pp.
+73–79 and Part II in Comm. Math. Univ. Carol 13 (1972) pp 445-455.
+12. P. Hájek and P. Pudlák, Metamathematics of First Order Arithmetic, Springer Verlag 1991.
+13. R. Jeroslow, “Consistency Statements in Formalal Mathematics.”, Fundamenta Mathemtaica
+72 (1971) pp. 17-40.
+14. S. Kleene, “On the Notation of Ordinal Numbers”, Journal Symb Logic 3 (1938), 150-156.
+15. J. Krajı́cek, “A Note on Proofs of Falsehood”, Archive for Math Logic 26 (1987) 169-176.
+16. G. Kreisel and G. Takeuti, “Formally Self-Referential Propositions for Cut-Free Classical
+Analysis”, Dissertationes Mathematicae 118 (1974) pp. 1–55
+17. E. Nelson, Predicative Arithmetic, Princeton Math Notes, 1986.
+18. J. Paris and C. Dimitracopoulos, “A Note on the Undefinability of Cuts”, Journal of Symbolic
+Logic 48 (1983) pp. 564-569.
+
+14
+
+19. J. Paris and A. Wilkie, “∆0 Sets and Induction”, 1981 Jadswin Conf Proc, pp. 237-248.
+20. P. Pudlák, “Cuts, Consistency Statements and Interpretations”, Journal of Symbolic Logic 50
+(1985) 423-442.
+21. P. Pudlák, “On the Lengths of Proofs of Consistency”, in Collegium Logicum: 1996 Annals
+of the Kurt Gödel Society ( Volume 2), Springer-Wien-NewYork, pp 65-86.
+22. H. Rogers Jr. , Recursive Functions and Effective Compatibility, McGrawHill 1967.
+23. J. Rosser, “Extensions of Theorems by Gödel and Church”, Jour Symb Logic 1 (1936) 87-91.
+24. S. Salehi, Ph D thesis for the Polish Academy of Sciences, Oct. 2001.
+25. C. Smoryński, “Non-standard Models and Related Developments in the Work of Harvey
+Friedman”, in Harvey Friedman’s Research in Foundations of Math., North Holland 1985.
+26. R. Solovay, Private telephone communications during 1994 describing Solovay’s generalization of one of Pudlák’s theorems [20], using the additional formalisms of Nelson and
+Wilkie-Paris [17, 34]. Solovay never published this result (called Theorem 1 in Section 2)
+or his other observations that several logicians [12, 17–21, 34] have attributed to his private
+communications. The Appendix A of [37] offers a 4-page summary of Solovay’s theorem.
+27. V. Švejdar, ”Modal Analysis of Generalized Rosser Sentences”, Journal of Symbolic Logic
+48 (1983) 986-999.
+28. G. Takeuti, Proof Theory, Studies in Logic Volume 81, North Holland, 1987.
+29. G. Takeuti, “Gödel Sentences of Bounded Arithmetic”, Journal of Symbolic Logic 65 (2000)
+pp. 1338-1346
+30. A. Tarski, A. Mostowski and R. M. Robinson, Undecidable Theories, North Holland, 1953.
+31. A. Visser, “The Unprovability of Small Inconsistency”, Archive for Mathematical Logic 32
+(1993) pp. 275-298.
+32. A. Visser, “Faith and Falsity”, to appear in Annals of Pure and Applied Logic.
+33. P. Vopěnka and P. Hájek, “Existence of a Generalized Semantic Model of Gödel-Bernays Set
+Theory”, Bulletin de l’Academie Polonaise des Sciences 12 (1973) pp.1079-1086.
+34. A. Wilkie and J. Paris, “On the Scheme of Induction for Bounded Arithmetic”, Annals of
+Pure and Applied Logic (35) 1987, 261-302
+35. D. Willard, “Self-Verifying Axiom Systems”, Proceedings of the Third Kurt Gödel Colloquium (1993), Springer-Verlag LNCS#713, pp. 325-336.
+36. D. Willard, “The Semantic Tableaux Version of the Second Incompleteness Theorem Extends Almost to Robinson’s Arithmetic Q”, Proceedings of the Tableaux 2000 Conference,
+SpringerVerlag LNAI#1847, pp. 415-430.
+37. D. Willard, “Self-Verifying Systems, the Incompleteness Theorem and the Tangibility Principle”, in Journal of Symbolic Logic 66 (2001) pp. 536-596.
+38. D. Willard, “How to Extend The Semantic Tableaux And Cut-Free Versions of the Second
+Incompleteness Theorem Almost to Robinson’s Arithmetic Q”, in Journal of Symbolic
+Logic 67 (2002) pp. 465–496.
+39. D. Willard, “Some Exceptions for the Semantic Tableaux Version of the Second Incompleteness Theorem”, Proceedings of the Tableaux 2002 Conference, SpringerVerlag LNAI#2381,
+pp. 281–297.
+40. D. Willard, “A Version of the Second Incompleteness Theorem For Axiom Systems that
+Recognize Addition But Not Multiplication as a Total Function”, First Order Logic Revisited,
+(Year 2003 Proceedings FOL-75 Conference), Logos Verlag (Berlin) 2004, pp. 337–368.
+41. D. Willard, “An Exploration of the Partial Respects in which an Axiom System Recognizing Solely Addition as a Total Function Can Verify Its Own Consistency”, to appear in the
+Journal of Symbolic Logic.
+42. D. Willard, “A New Variant of Hilbert Styled Generalization of the Second Incompleteness
+Theorem and Some Exceptions to It”, to appear in the Annals of Pure and Applied Logic.
+43. C. Wrathall, “Rudimentary Predicates and Relative Computation”, Siam Journal on Computing 7 (1978), 194-209
+
+15
+
+
