@@ -123,6 +123,32 @@ Dan Edward Willard, 1948-09-19 – 2023-01-21 (Wikipedia). The nachlass scans
 in `../collected_dew_materials/` are the estate-side channel; the Dec-2025
 scans there postdate his death and are estate material.
 
+## Addendum (2026-08-20, user-directed acquisition attempt for A1/A2)
+
+At user direction, an automated pull of the shadow-hosted copies was
+attempted from this environment. Results, recorded for the gaps ledger:
+
+- DOIs resolved via Crossref: LFCS 2020 chapter = `10.1007/978-3-030-36755-8_17`
+  (chapter 17 of 17 in the volume); JLC article = `10.1093/logcom/exaa083`
+  (online 2020-12-30).
+- OpenAlex authoritative OA check: **both DOIs closed, no OA location**.
+- dokumen.pub hosts **two** uploads of the LFCS 2020 volume (slugs
+  `logical-foundations-of-computer-science-international-symposium-lfcs-2020-…`
+  and `logical-foundations-of-computer-science-lfcs-2020-9783030367541-…`);
+  both sit behind an interactive Cloudflare JS challenge that blocks every
+  non-browser route available here (curl with browser UA, WebFetch, r.jina.ai
+  reader proxy; archive.today rate-limited). A human browser passes the
+  challenge trivially — manual download handed off to the user.
+- Library Genesis forks (libgen.li/.la/.bz): the JLC article exists as
+  **metadata only** (edition id 130538053), no file — consistent with the
+  scimag upload freeze at end-2020; the LFCS volume is absent from the book
+  DB entirely. Classic mirrors (.is/.rs/.st), Sci-Hub mirrors, Anna's
+  Archive, vdoc.pub unreachable or challenged; ebin.pub/idoc.pub do not
+  mirror the slug. Springer's direct chapter PDF endpoint serves the paywall.
+- Net status: **A1 (LFCS chapter) is obtainable only via a manual browser
+  download of a dokumen.pub upload or via purchase/ILL. A2 (JLC article) has
+  no known shadow copy anywhere; purchase/ILL is the only identified route.**
+
 ## Conclusion
 
 Two genuine escapes exist (A1, A2 — the terminal LFCS-2020/JLC-2021 pair);
