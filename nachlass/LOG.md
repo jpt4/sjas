@@ -78,6 +78,56 @@
   consistency of ZF") that resurfaces in the 2008 ZCF nachlass drafts; and the
   floating-point remark (chapter p. 329) anticipating the ASL-2005 line by
   twelve years.
+- **Visual verification pass over the TR main body (same day, after
+  checkpoint review).** Nothing had been blocking it - the deferral was a
+  scoping call, not an obstruction - so printed pp. 14, 15, 20, 23, 28, 29, 32
+  and 34 were rendered and read. **Three proof-status judgements taken from the
+  OCR sweep were wrong**: Lemmas 5.1, 6.1 and 12.1 carry *Proof Sketch* labels,
+  not full proofs, and Proposition 9's is a "Very Informal Proof Sketch". All
+  three sketched lemmas are load-bearing (5.1 underwrites the Delta0 encoding,
+  6.1 is half of Proposition 1's proof, 12.1 is the entire mechanism of
+  Proposition 6), so the TR's real proof profile is weaker than recorded.
+  Registry now: 58 results rows, 25 full / 5 sketch / 2 cited / 16 stated-only.
+- **`ETR` decoded**: TR printed p. 29 defines the **E-Tree Reflection
+  Principle** and states Proposition 8 about a system `IS^{ETR}(A)`, saying
+  "In [Wi94], we generalize the techniques of Sections 7 & 8 to prove" it. So
+  gap G14's `[Wi94]` "The **ETR** Reflection Principles for Self-Verifying
+  Axiom Systems" is precisely the paper proving Proposition 8; Proposition 9
+  (the *Bounded* form) is the fragment Willard could sketch without it.
+- **Remark 6 relativizes the signature drift** (printed p. 34): `G_0`'s
+  definition "was quite arbitrary", and Propositions 1-4, 8, 9 hold when *any*
+  set of **slowly growing** functions (bounded by i*2^j*Max) is added, with
+  Proposition 7 taking any non-growth set. The differing 1993/2005 function
+  lists (D10, D11) therefore do not compete - the invariant is the growth
+  class, not the signature. Obligation O13; this also independently
+  corroborates the affine-tree design's decision to abstract to a growth
+  discipline.
+- **Remark 4 sharpens D12** (printed p. 28): in 1993 a total function may be
+  given *either* by a function symbol *or* by a relation symbol plus a
+  totality axiom, interchangeably. By 2005 they are not interchangeable - a
+  Pi2 totality axiom is inadmissible in a Normed(a,b) system - so the
+  function-symbol presentation becomes obligatory. A real tightening that is
+  easy to misread as agreement.
+- **The pointer notation is a totality device** (printed p. 15): the encoding's
+  `u#`/`v#` symbols "act as pointers to constants", and Lemma 5.2's
+  parenthetical gives the reason - the analogous mappings onto the expanded
+  constant form "are unknown by IS(PA+) to be total functions". Expanding a
+  long constant in place is exactly what the system cannot prove total. This
+  sharpens D14 considerably: Willard's sharing is load-bearing, not a cost
+  optimisation, so any transposition that bans sharing outright owes an answer
+  to the problem the pointers solve.
+- **New drift D15**: multiplication is fatal for two different stated reasons -
+  1993 (Lemma 12.1) because multiplication-totality makes local Pi1 reflection
+  derivable, which Proposition 5 shows inconsistent; 2005 (Remark 4) because
+  growth overwhelms Definition 5's envelope arithmetic. Two routes to one
+  boundary; obligation O14.
+- Also recovered: the proofs "were conceived using Gentzen's cut-free sequent
+  calculus notation" and only later transposed to tableaux (p. 14) - stronger
+  evidence for apparatus generality than the bare "trivially generalizes"
+  claims; terse proofs, `Glue(t,p)` and Lemma 7.1's internalization of a
+  meta-theorem (p. 23); the INVALID.1/INVALID.2 naming behind Figures 1-4; and
+  the phrase "limited but **tangible** power" (p. 34), the lexical origin of
+  the Tangibility Reflection Principle (obligation O15).
 - Verification discipline: everything marked `V` in the extraction records was
   read from page images; OCR-only items are marked `O` and may not be quoted
   in the codified statement until pass 2. The TR's OCR layer renders

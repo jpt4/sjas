@@ -108,6 +108,10 @@ readings remain on record).
 - The TR is the later and more refined witness (it cites the chapter), so the
   reduction from fourteen to eight is a deliberate simplification, not an
   omission by the abstract.
+- **Relativized by TR Remark 6** (printed p. 34): `G₀`'s definition "was quite
+  arbitrary", and the theorems extend to *any* set of **slowly growing**
+  functions (`f̂[i,j](x̄) ≤ i·2^j·Max(x̄)`). The lists therefore do not compete;
+  the growth class is the invariant. Same relativization applies to D11.
 - Note `Andmultiply(x,y,z)` in the chapter's list — multiply, then mask with
   `z`, hence non-growth: a *bounded* multiplication was admissible from the
   start, which sharpens what "multiplication is excluded" actually means.
@@ -194,6 +198,15 @@ Recorded against prior in-house work, not against Willard.
   would make *proof size* an unfaithful cost measure. But they point opposite
   ways rhetorically, and the codified statement should record what Willard
   actually permits rather than importing the implementation-side rule.
+- **Sharpened by the C5 visual pass.** In the TR the sharing is not an optional
+  strengthening but part of the official encoding: printed p. 15 introduces the
+  symbols `u#` and `v#` that "act as **pointers to constants**", and Lemma 5.2's
+  parenthetical gives the reason — "the two analogous mappings *onto*
+  `⌜Φ(ĉ[j])⌝` **are unknown by `IS(PA+)` to be total functions**". Expanding a
+  long constant in place is precisely what the system cannot prove total, so
+  the pointer form is a **totality device**, not a cost optimisation. Any
+  transposition that bans sharing outright must supply its own answer to the
+  problem the pointers solve.
 - Status: open.
 
 ---
@@ -309,3 +322,21 @@ C4 fidelity check (`../extraction/willard2005-fidelity-check.md`).
 - The affine-tree documents belong to another branch and are **not edited** by
   this workstream.
 - Status: open (carry into C14–C15 composition).
+
+---
+
+## D15 — Why multiplication is fatal: two different explanations
+
+- Reading 1 (`Willard1993-TR` §12, printed p. 32): multiplication-totality lets
+  the system prove `∀a∀b∃c c=(ab)^λ`, which upgrades a bounded reflection
+  statement into **all** local Π₁ reflection statements (Lemma 12.1) — and
+  Proposition 5 has already shown local Π₁ reflection to be inconsistent. The
+  fatal step is *derivability of a reflection principle*.
+- Reading 2 (`Willard2005` Remark 4, p. 21): multiplication as a ninth function
+  symbol makes value growth "overwhelm Definition 5's constraints", so no
+  θ-compactification exists. The fatal step is *envelope arithmetic*.
+- Both are Willard's, neither supersedes the other, and they are not obviously
+  the same argument. The codified statement should present them as two routes
+  to one boundary rather than paraphrasing either as *the* reason multiplication
+  is excluded.
+- Status: open (composition obligation O14).

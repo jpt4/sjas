@@ -38,6 +38,16 @@
 - the **informal growth argument** that Willard 2005 Definition 5 formalizes
   as θ-compactification (§3.3).
 
+**Genesis of the proofs** (printed p. 14): "The formal proofs of
+Propositions 1-7 appear in Sections 6-13 (essentially one proof per section).
+**The first version of our proofs was conceived using Gentzen's cut-free
+sequent calculus notation.** Later, we observed that our proofs could be
+simplified significantly, if we instead employed the semantic tableaux
+notation… because it mixes exceptionally well with Section 6's notation."
+This is stronger evidence for the apparatus-generality claim than the bare
+"trivially generalizes" assertions elsewhere: the argument was *born* in
+cut-free sequent calculus and transposed to tableaux for readability.
+
 Willard's own framing (p. 2, chapter p. 326): "when human beings normally
 think, they implicitly presume their own consistency… Also in the distant
 future computers should be able to imitate such human self-confidence." The
@@ -117,6 +127,71 @@ deduction, pick one.
 The chapter calls `IS^{Σ₁}(A)` by the name `IS*(A)` — a notation difference
 **between the two 1993 witnesses** (drift D8).
 
+### 3.5 The encoding, and why it uses pointers
+
+Printed pp. 14–15. A **byte is six bits** — identical to `Willard2005`
+Appendix A's convention, so the coding density is stable across the corpus.
+6-bit codes are assigned to the six connectives, three kinds of parentheses
+plus comma, five symbols (`Â`, `v̂`, `ĉ`, `û`, `f̂`) for atomic formula /
+variable / fixed constant / proof-parameter / function, and **two special
+symbols `u#` and `v#`** that "allow us to use the `u` and `v` symbols to act
+as **pointers to constants**". Integers cost `⌊log₃₂ i⌋ + 3` bytes.
+
+Two consequences worth carrying forward:
+
+- **Linear equivalence.** Two encodings are *linearly equivalent* iff each
+  translates into the other with at most constant-factor length increase.
+  "Lemma 5.1 implies that the set of Δ₀ formulae for two distinct but linearly
+  equivalent encodings must be essentially isomorphic… Lemma 5.1 assures that
+  the absence of a formal multiplication function in `IS(A)` does not raise any
+  new complications, with regards to linearly equivalent encodings." This is
+  the corpus's earliest coding-invariance statement, and the ancestor of
+  `Willard2011` Definition D.1(iv)'s "essentially any natural method".
+- **Pointers are a totality device, not an optimisation.** Lemma 5.2's
+  parenthetical is explicit: the `v#` notation is needed because "the two
+  analogous mappings *onto* `⌜Φ(ĉ[j])⌝` **are unknown by `IS(PA+)` to be total
+  functions**". Expanding a long constant in place is exactly the operation the
+  system cannot prove total; the pointer form keeps substitution inside the
+  budget. See drift D14.
+
+### 3.6 Terse proofs and the internalization step
+
+Printed p. 23 (§7). A **terse proof** of Ω is a tree in which (i) every node is
+an axiom or a deduction from a higher node — the root does *not* store `¬Ω`,
+so proof by contradiction is precluded — and (ii) exactly one branch, the
+**pivotal branch**, may be open, its leaf holding `Positive(Ω)`.
+
+If `t` is a terse proof of `¬Φ` and `p` a tableaux proof of `Φ`, then
+`Glue(t,p)` — rooted at `¬⊥`, with `t` below the root and `p` hanging from the
+bottom of `t`'s pivotal branch — is a tableaux proof of `⊥`. Hence no
+consistent system has both. Willard's point is that this is "**not merely a
+meta-theorem**": Lemma 7.1 shows `IS(PA+)` proves a self-reflexive form of it.
+That internalization is how Proposition 2's reflection is obtained, and it has
+no direct counterpart in `Willard2005`, where Level-1 reflection instead comes
+from the Tab−U\*₁−List modus ponens.
+
+### 3.7 Why multiplication is fatal — the 1993 mechanism
+
+Printed p. 32 (§12). Willard abbreviates Proposition 6's system
+`IS^{UΔ₀}(PA+,G_m)` as **INVALID.2** (Proposition 5's is INVALID.1; the TR's
+Figures 1–4 illustrate their inconsistency proofs). Lemma 12.1's route:
+
+1. for each Δ₀ `Ψ(v)` there is λ with PA+ ⊢ (12.1), by Lemma 5.3's
+   T-transformation;
+2. (12.1) is Π₁, so Group-2 makes it a theorem of INVALID.2;
+3. **because INVALID.2 recognizes multiplication as total**, it also proves
+   `∀a∀b∃c c=(ab)^λ`, and the two together give (12.2);
+4. its `UΔ₀` reflection gives (12.3); the **Cut Elimination Theorem** (via
+   Remark 2, p. 22) then yields (12.4);
+5. so INVALID.2 proves *all* its local Π₁ reflection statements — which
+   Proposition 5 has already shown to be fatal.
+
+**Multiplication kills the system by making local Π₁ reflection derivable.**
+This is a materially different explanation from `Willard2005` Remark 4, where
+multiplication is fatal because its growth "overwhelms Definition 5's
+constraints". Both are Willard's; the codified statement should present them as
+two routes to one boundary rather than paraphrasing either as *the* reason.
+
 ## 4. Numbered-item inventory
 
 Verification column: `V` = read from the page image; `O` = OCR text only,
@@ -133,22 +208,28 @@ visual verification deferred to pass 2.
 | Proposition 5 | 10 | **Negative.** `IS^{LΠ₁}(A)` (Group-3 asserts local reflection for all Π₁ sentences) is **inconsistent** for some nice `A` — PA+ or any extension | full (§11) | V |
 | Proposition 6 | 10 | **Negative.** With `G_m` = `G₀` plus multiplication-totality: `IS^{UΔ₀}(A,G₀)` is consistent for all nice `A`, but there exist nice `A` where `IS^{UΔ₀}(A,G_m)` is **inconsistent**; likewise `IS^{UΣ₁}(A,G_m)` and `IS^{Σ₁}(A,G_m)` | full (§12) | V |
 | Proposition 7 | 10 | With `G₋` = `G₀` minus addition-totality: for any nice `A`, **`IS₊(A,G₋)` is consistent** — i.e. self-verification survives *cuts* when addition-totality is dropped | full (§13) | V |
-| Proposition 8 | 29 | For each nice `A` there exists an introspective system `IS^{E…}(A)` satisfying a reflection principle for every Ψ and (i₁…i_m) | **deferred** — "postponed until [Wi94] because of its length" | O |
-| Proposition 9 | 29 | A slightly weaker variant of Proposition 8, for which a short proof is sketched | **sketch** ("it is possible to sketch a short proof"; fuller justification in [Wi94]) | O |
+| Proposition 8 | 29 | For each nice `A` there exists a consistent **`IS^{ETR}(A)`** whose Group-3 axioms verify its **E-Tree Reflection Principle** (Eq. 9.5) for every Ψ and every tuple (I₁…I_m) | **deferred** — "postponed until [Wi94] because of its length" | V |
+| Proposition 9 | 29 | `IS^{Σ₁}(A)` (for `A` = PA+ or any extension) proves its **Bounded** E-Tree Reflection Principle (Eq. 9.6) for every Ψ and tuple, with λ = m | **sketch**, labeled "**Very Informal Proof Sketch**"; fuller justification in [Wi94] | V |
 | Solovay's Theorem | 10 | **Cited, unpublished.** There exists a finite set `F` of the Π₁ theorems of Peano Arithmetic such that no consistent Gentzen-style sequent calculus system **employing cuts** can simultaneously prove all theorems of `F`, recognize Subtraction, non-zero Division and Successor as total functions, and prove its own consistency. Discovered "shortly after learning of our results" | cited [So94] | V |
 
 ### Lemmas, remarks, appendix
 
 | Label | Page | Content | Proof | Ver. |
 | --- | --- | --- | --- | --- |
-| Lemma 5.1 | 14 | Majorized-formula machinery: how the absence of a formal multiplication function is overcome for the encoding | full | O |
-| Lemma 5.2 | 15 | Variant for fixed `j` and variable Φ | full | O |
+| Lemma 5.1 | 14 | A formula is **majorized with exponent λ** iff every quantified variable is bounded by `x_i^λ` for some `i`; every majorized Ψ has an "essentially equivalent" **Δ₀** Ψ\* agreeing on all L-tuples. Construction: replace `∃v < x^λ` by `∃v₁<x … ∃v_{2λ}<x` (2λ, not λ, to avoid round-off) | **sketch** — labeled "Informal Proof Sketch" | V |
+| Lemma 5.2 | 15 | For fixed `j`, variable Φ: `IS(PA+)` proves a map from `⌜Φ(v̂[1])⌝` onto `⌜v#[1,j] Φ(v̂[1])⌝`. **Rationale**: "the two analogous mappings *onto* `⌜Φ(ĉ[j])⌝` **are unknown by `IS(PA+)` to be total functions**" — the pointer notation exists to stay inside the provable-totality budget | full (statement V) | V |
 | Lemma 5.3 | 28 | Used to show `IS^{Σ₁}(PA+)` can prove Eq. (9.1) | full | O |
-| Lemma 6.1 | 20 | Sentence (6.1) is not a subcomponent of any Group-1 or Group-2 axiom (= chapter Lemma 1) | full | O |
-| Lemma 6.2 | 20 | A tableaux proof of `IS(A)`'s inconsistency is impossible without constructing a witness `p*` (= chapter Lemma 2) | full | O |
-| Lemma 7.1 | 23 | Terse proof trees | full | O |
-| Lemma 12.1 | 32 | Used in Proposition 6's proof | full | O |
-| Remarks 1–7 | 9, 28, 33–34 | Remark 1: the four alternate reflection systems (V). Remarks 2–7: generalizations, `G^Z` formula classes, language variants, and the recursively-enumerable extension `R` | mixed | Remark 1 V; 2–7 O |
+| Lemma 6.1 | 20 | Sentence (6.1) `¬∀y ¬Prf_{IS(A)}(⊥,y)` is not a subcomponent of any Group-1 or Group-2 axiom | **sketch** — labeled "Proof Sketch", where the chapter's identical Lemma 1 carries a full "Proof" | V |
+| Lemma 6.2 | 20 | A tableaux proof of `IS(A)`'s inconsistency is impossible without formally constructing **a parameter or constant element** `p*` with a node `¬Prf_{IS(A)}(⊥,p*)` (chapter Lemma 2 says only "an element") | full | V |
+| Lemma 7.1 | 23 | If a **terse** proof tree for `¬Φ` exists from `IS(PA+)`, then `IS(PA+)` **can prove** it will be unable to construct a semantic tableaux proof of `Φ`. Willard stresses this is "**not merely a meta-theorem**" — the internalization step behind Proposition 2 | full (statement V) | V |
+| Lemma 12.1 | 32 | All of **INVALID.2**'s (= `IS^{UΔ₀}(PA+,G_m)`) local Π₁ reflection statements are its theorems — so Proposition 5 makes it inconsistent | **sketch** — labeled "Proof Sketch" | V |
+| Remark 1 | 9 | The four alternate reflection systems, all weaker than `IS^{Σ₁}(A)` | n/a | V |
+| Remark 2 | 22 | The Cut Elimination Theorem perspective, invoked by the proofs of Propositions 4 and 6 | n/a | page located; content **O** |
+| Remark 3 | 28 | **`GΣ₁`** formulae — every quantifier existential *or bounded universal* over a Δ₀ matrix — and the claim that Proposition 3 strengthens to `IS^{GΣ₁}(A)`. The footnote supplies only the intuition, saying the formal proof "requires some tedious notation" | **stated-only** | V |
+| Remark 4 | 28 | Propositions 1 and 3 hold whether a total function is given by an **m-ary function symbol** or by an **(m+1)-ary relation symbol plus a totality axiom** `∀x̄∃w A_f(x̄,w)`. §6's growth analysis assumed the latter only to simplify notation | stated-only | V |
+| Remark 5 | 34 | Cut-permitting hybrids over `G₋` — `IS^{Σ₁}₊`, `IS^{UΣ₁}₊`, `IS^{LΣ₁}₊`, `IS^{UΔ₀}₊` — are consistent for nice `A`, "once again" with `IS^{LΠ₁}₊(A,G₋)` the exception. "Follow from the techniques of Sections 8–11" | **stated-only** | V |
+| Remark 6 | 34 | **`G₀`'s definition is "quite arbitrary".** Call `f̂[i,j]` **slowly growing** iff `f̂[i,j](x̄) ≤ i·2^j · Max(x̄)`. Propositions 1–4, 8 and 9 hold when **any** set of slowly growing functions is added to `G₀`; Proposition 7 holds when any set of non-growth functions is added to `G₋` | **stated-only** | V |
+| Remark 7 | 34 | For any r.e. `R` in IS's language consistent with `G₀`, the wrapper `A_R = G₀ ∪ {∀y(Deriv(⌜Φ⌝,y) ⊃ Φ)}` is nice, so `IS(A_R)`, `IS^{Σ₁}(A_R)` and `IS₊(A_R,G₋)` are consistent and **prove all of `R`'s Π₁ theorems** | stated-only | V |
 | Theorem A.1, Lemmas A.1–A.12, Corollaries A.9, A.12 | 37–53 | Appendix A: the Gödel-encoding machinery — majorized formulae, `TreeCheck`, `BinaryTreeCheck`, `NODE`/`INDEX`/`PRINCIPLE`/`ANCESTOR`/`PARENT`, `ReplaceCheck`, string identity | full (appendix) | O — **inventory incomplete, pass 2** |
 
 ## 5. Notation table
@@ -233,6 +314,22 @@ since Proposition 8's proof is otherwise unavailable in the corpus.
   Note the chapter's `Andmultiply(x,y,z)` — multiply then mask with `z`, hence
   non-growth — shows a *bounded* multiplication was admissible from the start.
 
+### Remark 6 relativizes the signature drift
+
+Before reading D10–D11 as a serious divergence, note **Remark 6** (printed
+p. 34): `G₀`'s definition "was **quite arbitrary**, and our main theorems
+trivially extend for more general definitions". Call `f̂[i,j]` **slowly
+growing** iff `f̂[i,j](x̄) ≤ i·2^j · Max(x̄)`. Then Propositions 1–4, 8 and 9
+hold when **any** set of slowly growing functions is added to `G₀`, and
+Proposition 7 when any set of non-growth functions is added to `G₋`.
+
+So the differing function lists (D10, D11) are **not** competing claims about
+what the system is: the load-bearing invariant is the **growth class**, not the
+signature. This is the earliest corpus statement of that principle, it is what
+licenses 1993's bit-string eight and 2005's arithmetic eight to be the same
+theory, and it independently corroborates the affine-tree design's decision to
+abstract to a growth discipline. Recorded as composition obligation **O13**.
+
 ### Against later corpus members
 
 - **D11 — the signature is not the U-Grounding eight.** Both 1993 lists are
@@ -248,6 +345,13 @@ since Proposition 8's proof is otherwise unavailable in the corpus.
   the U-Grounding language, so the corresponding axioms are Π\*₁ — which is
   what allows Definition 4's Normed class to require every axiom to be
   Π\*₁/Σ\*₁. The U-Grounding language exists to remove this Π₂ axiom.
+  **Sharpened by Remark 4** (printed p. 28): in 1993 Willard explicitly says
+  Propositions 1 and 3 hold *either* with a function symbol *or* with a
+  relation symbol plus the totality axiom `∀x̄∃w A_f(x̄,w)` — the two
+  presentations are interchangeable. By 2005 they are **not**: a Π₂ totality
+  axiom is inadmissible in a Normed(a,b) system, so the function-symbol
+  presentation becomes obligatory. A genuine tightening across the corpus, and
+  a case where 1993's greater permissiveness is easy to misread as agreement.
 
 ### Errata
 
@@ -260,7 +364,20 @@ since Proposition 8's proof is otherwise unavailable in the corpus.
 | Pass | Date | Method | Items | Result |
 | --- | --- | --- | --- | --- |
 | 1 | 2026-08-21 | OCR sweep of the 61-page collated text for item headings, plus **visual reading** of the formal core: TR printed pp. 3, 4, 9, 10, 11, 55 (references) and the whole 12-page published chapter | 9 Propositions, Solovay's Theorem, 7+ Lemmas, 7 Remarks, Appendix A block | Formal core complete and visually verified; Appendix A inventoried at heading level only |
-| 2 | *pending* | Visual pass over §§5–14 and Appendix A; complete the Lemma A.\* inventory; confirm E1993-1 | — | — |
+| 1v | 2026-08-21 | **Visual control pass over the main body**: printed pp. 14, 15, 20, 23, 28, 29, 32, 34 | 0 new items; **8 items re-graded** | See below |
+| 2 | *pending* | Visual pass over Appendix A (printed pp. 37–53) to complete the Lemma A.\* inventory; verify Remark 2's content (p. 22) and Lemma 5.3's statement (p. 17); confirm E1993-1 | — | — |
+
+**Outcome of pass 1v.** Eight items were re-graded against the page images,
+and **three proof-status judgements taken from the OCR layer were wrong** —
+Lemmas 5.1, 6.1 and 12.1 are labeled *Proof Sketch* (or "Informal Proof
+Sketch"), not full proofs, and Proposition 9's is a "**Very Informal Proof
+Sketch**". Since all three sketched lemmas are load-bearing (5.1 underwrites
+the Δ₀ encoding, 6.1 is half of Proposition 1's proof, 12.1 is the whole
+mechanism of Proposition 6), the TR's real proof-status profile is
+appreciably weaker than the OCR sweep suggested. Newly verified: Proposition
+8's system is `IS^{ETR}(A)` and its principle is **E-Tree Reflection**, which
+decodes the title of the unlocated `[Wi94]` (gap G14); Remarks 2–7 are now
+individually inventoried.
 
 **Visual control.** The OCR layer of this witness is materially worse than a
 publisher text layer — it renders `IS^{Σ₁}(A)` as `is™ (A)`, `G₀` as `Gg`,
