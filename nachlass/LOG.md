@@ -1,5 +1,28 @@
 # Nachlass Log
 
+## 2026-08-20 - LFCS 2020 Volume Acquisition and Chapter Witness (C2 follow-up)
+
+- The user downloaded the dokumen.pub upload of the LFCS 2020 proceedings by
+  browser (automation was Cloudflare-blocked; see the coverage report
+  addendum). Verified as the genuine Springer LNCS 11972 volume (297 pp.,
+  Artemov–Nerode eds., Acrobat-Distiller-produced).
+- Renamed to `papers/willard2020_tender_line_lfcs2020_lncs11972_volume.pdf`
+  and extracted the Willard chapter, "On the Tender Line Separating
+  Generalizations and Boundary-Case Exceptions for the Second Incompleteness
+  Theorem Under Semantic Tableaux Deduction", LNCS 11972 pp. 268–286
+  (pdf-pages 278–296), DOI `10.1007/978-3-030-36755-8_17`, as
+  `papers/willard2020_tender_line_lfcs2020_lncs11972_chapter.pdf`
+  (ghostscript page-range extraction, 19 pp., 8,945 words searchable; the
+  pdfseparate+pdfunite route duplicated shared resources to 12.4 MB and was
+  discarded).
+- Cataloged: `papers/SHA256SUMS` entries for volume and chapter
+  (`sha256sum -c` clean), `papers/README.md` witness rows and gap-note
+  update, `paperlist` entries `[36-LFCS]`/`Willard2020-LFCS` (witnessed) and
+  `[37]`/`Willard2021` (metadata-only; the JLC 31(1) 2021 journal version
+  remains the sole unacquired terminal item — no OA, no known shadow copy).
+- Observed for later extraction: the chapter's ref. 41 cites private
+  April-1994 telephone conversations between Willard and Robert M. Solovay.
+
 ## 2026-08-20 - Willard Literature Coverage Verification (SJAS Codification, component C2)
 
 - Completed the precautionary web coverage pass over arXiv (author API with

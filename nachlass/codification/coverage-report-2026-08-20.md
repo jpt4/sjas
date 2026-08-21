@@ -148,6 +148,18 @@ attempted from this environment. Results, recorded for the gaps ledger:
 - Net status: **A1 (LFCS chapter) is obtainable only via a manual browser
   download of a dokumen.pub upload or via purchase/ILL. A2 (JLC article) has
   no known shadow copy anywhere; purchase/ILL is the only identified route.**
+- **Resolution (same day): A1 acquired.** The user downloaded the dokumen.pub
+  volume by browser; verified as the genuine Springer LNCS 11972 proceedings
+  (297 pp., Artemov–Nerode eds.). Cataloged as
+  `../papers/willard2020_tender_line_lfcs2020_lncs11972_volume.pdf` with the
+  Willard chapter extracted (ghostscript page-range extraction; the
+  pdfseparate route bloats 31×) as
+  `../papers/willard2020_tender_line_lfcs2020_lncs11972_chapter.pdf`
+  (LNCS pp. 268–286, 19 pp., searchable). Checksummed; `paperlist` gains
+  `[36-LFCS]` and a metadata-only `[37]`/`Willard2021` entry. **A2 remains
+  the sole unacquired terminal item.** Notable at first glance: the
+  chapter's ref. 41 cites private April-1994 telephone conversations
+  between Willard and Robert M. Solovay.
 
 ## Conclusion
 

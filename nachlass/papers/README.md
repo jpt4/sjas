@@ -39,6 +39,8 @@ This pass intentionally does not add Sci-Hub material as a new witness.
 | Willard2000 data structures | `willard2000_fusion_tree_perspective_sicomp.pdf` | archived SUNY author copy `sicomp.pdf` |
 | Willard1998 | `willard1998_self_reflection_np_hardness_dimacs_volume.pdf` | symlink to existing `../../lit/Dimacs1996.pdf` volume witness |
 | Willard1993 | `willard1993_self_verifying_axiom_systems_kgc_lncs713.pdf` | symlink to existing `../../lit/danwillard1993.pdf` (published 12-page KGC chapter; reconciled 2026-08-20 coverage pass) |
+| Willard2020-LFCS | `willard2020_tender_line_lfcs2020_lncs11972_chapter.pdf` | chapter extract (LNCS 11972 pp. 268–286, DOI `10.1007/978-3-030-36755-8_17`) from the volume witness below |
+| Willard2020-LFCS | `willard2020_tender_line_lfcs2020_lncs11972_volume.pdf` | full LNCS 11972 proceedings volume; dokumen.pub upload, user browser download 2026-08-20 (Cloudflare-blocked for automation; see `../codification/coverage-report-2026-08-20.md`) |
 | Willard1994 | `WillardFredman_SUNYarchive.pdf` | existing SUNY archive scan; not OCR text |
 
 Additional related Willard witnesses that are not direct paperlist rows:
@@ -73,12 +75,15 @@ Additional related Willard witnesses that are not direct paperlist rows:
 - Post-2020 coverage gap found by the 2026-08-20 pass (see
   `../codification/coverage-report-2026-08-20.md`): the LFCS 2020 conference
   paper "On the Tender Line Separating Generalizations and Boundary-Case
-  Exceptions for the Second Incompleteness Theorem Under Semantic Tableaux
-  Deduction" and its journal version, "About the characterization of a fine
-  line that separates generalizations and boundary-case exceptions for the
-  Second Incompleteness Theorem under semantic tableau deduction", Journal of
-  Logic and Computation 31(1) (2021), pp. 375-392, have no local witnesses
-  and no located legal open-access copies yet.
+  Exceptions..." is now witnessed (chapter extract + volume, rows above;
+  acquired by user browser download from dokumen.pub the same day). Its
+  journal version, "About the characterization of a fine line that separates
+  generalizations and boundary-case exceptions for the Second Incompleteness
+  Theorem under semantic tableau deduction", Journal of Logic and
+  Computation 31(1) (2021), pp. 375-392, DOI `10.1093/logcom/exaa083`,
+  remains without a witness: no legal OA location exists (OpenAlex: closed)
+  and no shadow copy is known (libgen metadata-only). Purchase or
+  interlibrary loan is the identified route.
 - Public full-text witnesses were not located for the older data-structure and
   database entries `Willard1996`, `Willard1992`, `Willard1991`, `Willard1990`,
   `Willard1989a/b`, `Willard1987`, `Willard1986`, `Willard1985a/b`,
