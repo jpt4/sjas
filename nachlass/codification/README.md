@@ -10,10 +10,10 @@ Chronological record: [`../LOG.md`](../LOG.md).
 | --- | --- | --- |
 | Coverage | [`coverage-report-2026-08-20.md`](coverage-report-2026-08-20.md) | C2 done; two escapes found, one acquired |
 | Corpus ruling | [`registry/corpus.md`](registry/corpus.md) | C3 done; 45 rows ruled |
-| Extraction records | `extraction/` | from C4 |
-| Registries (systems, results, notation) | [`registry/`](registry/) | schemas seeded; filled from C4 |
-| Gaps | [`registry/gaps.md`](registry/gaps.md) | live |
-| Concordance | [`concordance/`](concordance/) | drift ledger seeded; built at C13 |
+| Extraction records | [`extraction/`](extraction/) | C4 pilot done ([`willard2005.md`](extraction/willard2005.md) + its [fidelity check](extraction/willard2005-fidelity-check.md)); 1 of 33 extractable rows |
+| Registries (systems, results, notation) | [`registry/`](registry/) | live; 26 results, 4 systems, 27 notation rows |
+| Gaps | [`registry/gaps.md`](registry/gaps.md) | live; G1–G13 |
+| Concordance | [`concordance/`](concordance/) | drift ledger live (D1–D6); axes and matrix built at C13 |
 | Codified statement | `codified-sjas.md` | composed at C14–C15 |
 
 Tooling (portable bash + CLI only): [`audit.sh`](audit.sh) checks registry

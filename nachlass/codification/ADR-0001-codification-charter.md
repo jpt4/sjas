@@ -71,7 +71,7 @@ never an anchor for formal statements.
 | C1 | TR 93-10 searchable collation | done 2026-08-20 (309ab69, a589920) |
 | C2 | Web coverage verification (+ acquisitions) | done 2026-08-20 (48707d6, 01daf26, 714ee5c) |
 | C3 | Charter, scaffold, corpus ruling pass | this ADR |
-| C4 | Pilot extraction: Willard2005 (method gate) | pending |
+| C4 | Pilot extraction: Willard2005 (method gate) | done 2026-08-21; gate passed, see `extraction/willard2005-fidelity-check.md` |
 | C5 | Origin: Willard1993-TR + Willard1993 | pending |
 | C6–C8 | Spine: Willard2011, Willard2001, Willard2020 | pending |
 | C9 | Tier A: Willard2002a, Willard2004, Willard2006a, Willard2020-LFCS (+Willard2021 when acquired) | pending |

@@ -23,7 +23,7 @@ in-scope micro-item class, deliberately not chased (enumerate lazily).
 
 | Key | Witness | Pages | Ruling | Tier | Rationale | Extraction |
 | --- | --- | --- | --- | --- | --- | --- |
-| Willard2005 | nachlass/papers/willard2005_addition_total_consistency_author_jsl5.pdf | 43 | core | pilot | Engine paper: Normed(a,b), theta-compactification, Theorem 1, section 5.2 lemmas; two known-good partial re-derivations exist, so it is the method gate | pending |
+| Willard2005 | nachlass/papers/willard2005_addition_total_consistency_author_jsl5.pdf | 43 | core | pilot | Engine paper: Normed(a,b), theta-compactification, Theorem 1, section 5.2 lemmas; two known-good partial re-derivations exist, so it is the method gate | extracted:2026-08-21 |
 | Willard1993-TR | nachlass/papers/1993technicalreport/willard1993_self_verifying_axiom_systems_tr93_10_searchable.pdf | 61 | core | origin | Full-length origin text (SUNY-Albany TR 93-10); C1 collation; OCR layer is a search aid | pending |
 | Willard1993 | nachlass/papers/willard1993_self_verifying_axiom_systems_kgc_lncs713.pdf; lit/danwillard1993.pdf | 12 | core | origin | Published 12-page KGC abbreviation of TR 93-10 (LNCS 713, pp. 325-336) | pending |
 | Willard2011 | nachlass/papers/willard2011_self_justifying_logics_arxiv_1108.6330.pdf | 64 | core | spine | Willard's own unification/simplification/extension of the SJAS families; subsumption claims audited at C6, never assumed | pending |

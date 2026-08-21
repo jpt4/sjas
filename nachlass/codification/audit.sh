@@ -101,25 +101,36 @@ done < <(rows registry/corpus.md)
 in_corpus_key() { echo "$CORPUS_KEYS" | grep -qw "$1"; }
 
 # ---------- results.md ----------
-declare -A rid_seen
+declare -A rid_seen proof_count
+n_results=0
 while IFS=$'\t' read -r id paper label type page topic proof depends notes; do
   [ -z "$id" ] && continue
+  n_results=$((n_results + 1))
   [ -n "${rid_seen[$id]:-}" ] && err "results: duplicate id '$id'"
   rid_seen[$id]=1
   in_corpus_key "$paper" || err "results[$id]: unknown corpus key '$paper'"
   case "$type" in def|thm|lemma|prop|remark|conj) ;; *) err "results[$id]: bad type '$type'" ;; esac
-  case "$proof" in full|sketch|cited|stated-only|n/a) ;; *) err "results[$id]: bad proof status '$proof'" ;; esac
+  case "$proof" in
+    full|sketch|cited|stated-only|n/a) ;;
+    *) err "results[$id]: bad proof status '$proof'" ;;
+  esac
+  [ -z "${proof_count[$proof]:-}" ] && proof_count[$proof]=0
+  proof_count[$proof]=$(( ${proof_count[$proof]} + 1 ))
 done < <(rows registry/results.md)
 
 # ---------- systems.md ----------
+n_systems=0
 while IFS=$'\t' read -r canonical paper rest; do
   [ -z "$canonical" ] && continue
+  n_systems=$((n_systems + 1))
   in_corpus_key "$paper" || err "systems[$canonical]: unknown corpus key '$paper'"
 done < <(rows registry/systems.md)
 
 # ---------- notation.md ----------
+n_notation=0
 while IFS=$'\t' read -r paper symbol rest; do
   [ -z "$paper" ] && continue
+  n_notation=$((n_notation + 1))
   in_corpus_key "$paper" || err "notation: unknown corpus key '$paper' (symbol '$symbol')"
 done < <(rows registry/notation.md)
 
@@ -144,6 +155,12 @@ done
 for e in pending extracted saturated n/a blocked accepted; do
   [ -n "${extr_count[$e]:-}" ] && echo "  extraction $e: ${extr_count[$e]}"
 done
+echo "results rows: $n_results"
+for p in full sketch cited stated-only n/a; do
+  [ -n "${proof_count[$p]:-}" ] && echo "  proof $p: ${proof_count[$p]}"
+done
+echo "systems rows: $n_systems"
+echo "notation rows: $n_notation"
 echo "gaps rows: $n_gaps"
 
 if [ "$FAIL" -eq 0 ]; then echo "AUDIT PASS"; exit 0; else echo "AUDIT FAIL"; exit 1; fi

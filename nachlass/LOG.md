@@ -1,5 +1,61 @@
 # Nachlass Log
 
+## 2026-08-21 - Pilot Extraction of Willard 2005 and Fidelity Gate (component C4)
+
+- Completed the pilot extraction of `Willard2005` (JSL 70, pp. 1171-1209, the
+  engine paper) per the charter template:
+  `codification/extraction/willard2005.md`. Full sequential read of all 43
+  pages; 26 numbered items inventoried (Definitions 1-6, Theorems 1-6 plus the
+  cited Theorem *, Lemmas 1-4, Corollary 1, Remarks 1-8), each with page
+  anchor, statement digest, proof status, and dependencies.
+- Registries populated: 26 results rows, 4 systems rows (`IS_D(A)`,
+  `NS^{k,m}_D(A)`, `N_D(A,Psi)`, `PA+`), 27 notation rows. `audit.sh` extended
+  to report registry sizes and proof-status counts; verified red-green against
+  a deliberately corrupted table (bad enum and unknown corpus key both caught).
+- **Proof-status profile of the paper**: 10 full, 1 sketch (Lemma 3), 1 cited
+  (Theorem *), **6 stated-only**, 8 definitional. The stated-only set is
+  load-bearing: Remark 1 (cut-free sequent calculus, Herbrand, Tab-Q\*1-List
+  and Q\*1-restricted Hilbert all preserve consistency - "we will not have the
+  page space"), Remark 6 (tangibility hybridization), Remark 8 (three stronger
+  forms of the negative result). Gap G8 widened accordingly.
+- **Fidelity gate passed** (`extraction/willard2005-fidelity-check.md`).
+  Agreement with both known-good re-derivations - the affine-tree design
+  document sections 2-3 and the 2026-07-27 apparatus survey - on every
+  load-bearing definition, theorem statement, and proof structure, including
+  the nine-case induction in Lemma 1 and the verbatim sense of Remark 4.
+- **Divergence found in the affine-tree re-derivation** (drift ledger D6):
+  coding density bounds the compactification exponent theta from *below*
+  (`theta >= 1/d` via Lemma 1's hypothesis, footnote 5), while Definition 5
+  bounds it from above (`theta < 1/3`); Willard proves `theta = 1/4` with
+  density 5, i.e. selects a value inside the window `[1/5, 1/3)`. The ADR's
+  "theta <= 1/5" inverts the inequality and the design document's "theta =
+  1/c" collapses the window to a point; the design document states the
+  relation correctly in section 8 and incorrectly in sections 3-4. The design
+  conclusions survive (density 5 gives a non-empty window; "density 3 is the
+  theta = 1/3 boundary" is correct as the `d > 3` condition), but the stated
+  derivation does not. Also recorded: three distinct constants must not be
+  conflated - 6 bits per language symbol (Appendix A), the constant 5 in
+  Eq. (20) bounding U-Height, and theta = 1/4 (drift ledger D3).
+- Other drift entries seeded: D2 (`Willard2006a` cited under a pre-publication
+  title naming the Hilbert-styled framing), D4 (the Solovay April-1994
+  private-communication thread, unpublished Theorem *, expositions only by
+  Willard - the same thread as `Willard2020-LFCS` ref. 41), D5 (`IS(A)` vs
+  `IS_D(A)`).
+- Gap G3 provenance confirmed: Remark 7 identifies the unlocated ASL-2005
+  technical report as the only full-length source for the floating-point
+  result in which `IS_D(A)` recognizes addition, multiplication, subtraction
+  and division as total over computer reals.
+- **Corpus-wide extraction hazard discovered**: `pdftotext` renders JSL
+  small-caps headings with a space after the initial letter (`D EFINITION 4.`,
+  `T HEOREM 1.`), so a naive `^Definition` grep matches only prose
+  cross-references and silently misses every real heading. Reproducible sweep
+  and warning recorded in the extraction record section 8; affects
+  `Willard2001`, `Willard2002a`, `Willard2006b`, and other venues must be
+  probed per-publisher.
+- Template verdict: no change required. The eight-section template carried the
+  paper without strain, and its sections 6 and 7 are what surfaced the drift
+  entries.
+
 ## 2026-08-20 - Codification Charter, Scaffold, and Corpus Ruling (component C3)
 
 - Wrote the charter ADR (`codification/ADR-0001-codification-charter.md`):
