@@ -13,9 +13,14 @@ relationship (transcribed from the scan):
 > Kurt Godel Symposium pp. 325-336 (published as Springer-Verlag LNCS # 713).
 > This new longer draft has been issued as SUNY-Albany Comp. Science TR 93-10.
 
-The published 12-page KGC chapter (`paperlist` key `Willard1993`) still has no
-standalone local witness; a copy of the LNCS 713 volume exists in `lit/` as a
-DJVU. TR 93-10 is the full-length origin text of that chapter.
+The published 12-page KGC chapter (`paperlist` key `Willard1993`) is witnessed
+at `../willard1993_self_verifying_axiom_systems_kgc_lncs713.pdf` (a symlink to
+`lit/danwillard1993.pdf`, reconciled by the 2026-08-20 coverage pass); a copy
+of the LNCS 713 volume also exists in `lit/` as a DJVU. TR 93-10 is the
+full-length origin text of that chapter. JSL 2001 reference [41] cites this
+report as "SUNY-Albany Technical Report, March 1994" (50 pages, expanding the
+12-page Extended Abstract); this is treated as the same artifact as TR 93-10
+under a loose date/page description, pending contrary evidence.
 
 ## Source scans (immutable witnesses)
 

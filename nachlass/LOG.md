@@ -1,5 +1,37 @@
 # Nachlass Log
 
+## 2026-08-20 - Willard Literature Coverage Verification (SJAS Codification, component C2)
+
+- Completed the precautionary web coverage pass over arXiv (author API with
+  version numbers), DBLP (full 1978–2021 record), targeted web searches,
+  Willard's own September-2015 résumé (`lit/dewresume.pdf`), and an internal
+  sweep of every technical-report and BSL-abstract mention in the witnessed
+  corpus. Full report: `codification/coverage-report-2026-08-20.md`.
+- **Two escapes found**, Willard's terminal publication pair, both
+  unwitnessed: the LFCS 2020 chapter "On the Tender Line Separating
+  Generalizations and Boundary-Case Exceptions for the Second Incompleteness
+  Theorem Under Semantic Tableaux Deduction" and its journal version in the
+  Journal of Logic and Computation 31(1) (2021), pp. 375–392. Both actioned
+  as acquisitions (no legal OA located; shadow-library copies excluded per
+  the 2026-05-10 pass precedent). The JLC paper may bear on the apparatus
+  audit's unprinted resolution-stability-proof finding.
+- **Closed a recorded gap from local holdings**: `lit/danwillard1993.pdf` is
+  the published 12-page KGC 1993 chapter itself; symlinked into `papers/` as
+  `willard1993_self_verifying_axiom_systems_kgc_lncs713.pdf`, checksummed,
+  README rows amended. `Willard1993` is now doubly witnessed (published
+  chapter + TR 93-10 full-length origin).
+- All six arXiv witnesses verified to be the latest versions (1108.6330v8,
+  1307.0150v2, 1612.08071v5, 1707.00039v2, 1807.04717v2, 2006.01057v1).
+- Technical-report class bounded: TR 93-10 identified with JSL 2001 ref.
+  [41]'s "March 1994, 50-page" citation (same artifact, loose description;
+  drift-ledger note); one unlocated companion TR behind JSL 2005 ref. [71]
+  (ASL-2005 Athens floating-point talk; published successors witnessed).
+- Micro-item classes recorded with ruling proposals (~25 BSL 300-word ASL
+  abstracts 1995–2012; the 2003 St. Petersburg 200-word abstract): enumerate
+  lazily, do not chase. TABLEAUX 2003 position paper remains metadata-only
+  and unconfirmed by any queried source.
+- Biographical anchor recorded: Willard 1948-09-19 – 2023-01-21.
+
 ## 2026-08-20 - TR 93-10 Searchable Collation (SJAS Codification, component C1)
 
 - First component of the SJAS Codification stage (`prose/sjas_synthesis.txt`;
