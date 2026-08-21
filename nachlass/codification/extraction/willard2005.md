@@ -122,8 +122,8 @@ proof), `n/a` (definitional).
 
 | Label | Page | Statement digest | Proof | Depends |
 | --- | --- | --- | --- | --- |
-| Definition 1 | 10 | **Consistency Preserving.** A map ℑ from an axiom system `A` (U-Grounding language) to `ℑ(A)` is consistency-preserving iff `ℑ(A)` is guaranteed consistent whenever `A`'s Π\*₁ theorems are valid in the standard model. Willard: "the main problem considered in this article is to identify the axiom mapping functions ℑ(·) that are consistency-preserving" | n/a | — |
-| Definition 2 | 11 | **Log notation.** `Log` = base-2 logarithm rounded down; `Log^k` = k-fold iterate; `2^m_k` = least `z` with `Log^k(z) ≥ m`; `Υ(k,m)` = the Σ\*₁ sentence `∃z Log^k(z) ≥ m` (Eq. 9) | n/a | — |
+| Definition 1 | 10 | **Consistency Preserving.** A map **ℑ** (Fraktur capital I — `pdftotext` substitutes `=`; visually verified p. 11) from an axiom system `A` (U-Grounding language) to `ℑ(A)` is consistency-preserving iff `ℑ(A)` is guaranteed consistent whenever `A`'s Π\*₁ theorems are valid in the standard model. Willard: "the main problem considered in this article is to identify the axiom mapping functions ℑ(·) that are consistency-preserving" | n/a | — |
+| Definition 2 | 11 | **Log notation.** `Log` = base-2 logarithm rounded down; `Log^k` = k-fold iterate; `2^m_k` = least `z` with `Log^k(z) ≥ m`; `Υ(k,m)` = the Σ\*₁ sentence `∃z Log^k(z) ≥ m̄` (Eq. 9) — **the bound is the numeral term `m̄`, not a free variable**, which is what makes Υ(k,m) a sentence (visually verified; the overbar is dropped by `pdftotext`) | n/a | — |
 | Definition 3 | 11 | **`NS^{k,m}_D(A)`.** As `IS_D(A)` but (a) Group-0 gains `Υ(k,m)`; (b) Group-3's "this" is sensitive to (a) | n/a | §3 `IS_D(A)`, Def. 2 |
 | Definition 4 | 19 | **Normed(a,b).** For `a > b ≥ 1`, α is Normed(a,b) iff (1) every axiom of α is a Π\*₁ sentence satisfying `App∀(a)` or a Σ\*₁ sentence satisfying `App∃(b)`; **(2) α's language employs the eight U-Grounding function symbols and absolutely no other function symbols** — "designed to preclude α from employing a multiplication function symbol — or any of its many functional equivalents" | n/a | App∀/App∃ (Eqs. 16–17, p. 18) |
 | Definition 5 | 19 | **θ-Compactified.** For α Normed(a,b) with `a > b ≥ 1`, Φ a Π\*₁ or Σ\*₁ sentence, `p` the Gödel number of a D-proof of Φ from α, θ < 1/3 a positive constant, and `p ≤ ⌈a/b⌉ + 1` (Eq. 18): D is θ-compactified iff every such tuple `(α,Φ,p,a,b)` satisfies **(A)** if Φ is Σ\*₁ then Φ has `App∃(b·p^θ)` validity, and **(B)** if Φ is Π\*₁ then Φ has `App∀(a/p^θ)` validity. Willard: "the main engine used to prove `IS_D(·)`'s consistency preservation property… It did not exist in our prior papers" | n/a | Def. 4 |
@@ -190,7 +190,7 @@ proof), `n/a` (definitional).
 | Definable Cut `ϕ(x)` | Eq. (10); Thinning = Eq. (11) | pp. 12–13 |
 | Cut-Localized D-consistency | Eq. (15): `∀p { ϕ(p) → ¬Prf^D_α(⌜0=1⌝, p) }` | p. 13 |
 | `Consₐ(n)` | Finitistic consistency: no proof of `0=1` from α of length `< n` | p. 32 |
-| `f`, `f(s,b)` | Gödel diagonalization sentences for `NS^{k,m}_D(PA+)`; `f(s,b)` restricted to proofs `p < 2^b_s`; Π\*₁ via `Γ(n̄)`, Eq. (24) | pp. 32–33 |
+| `℧`, `℧(s,b)` | Gödel diagonalization sentences for `NS^{k,m}_D(PA+)`; `℧(s,b)` restricted to proofs `p < 2^b_s`; Π\*₁ via `Γ(n̄)`, Eq. (24). The glyph is a turned-omega/mho-like script character, **not** the letter `f` that `pdftotext` substitutes (visually verified p. 33) | pp. 32–33 |
 | `ζ(p)` | Map from an `NS`-proof to the shortest `IS`-proof of the same theorem; proof-length gap bounded by `C > 2^m_k` | p. 31 |
 | byte | **Six** bits; proofs are base-64 integers; 24 language symbols coded 32–55 | p. 39 |
 
@@ -270,7 +270,51 @@ de-duplication map's first entries:
 | Pass | Date | Method | New numbered items | Result |
 | --- | --- | --- | --- | --- |
 | 1 | 2026-08-21 | Full sequential read of the page-marked text extraction (43 pp.), plus a mechanical sweep for smallcaps item headings (`D EFINITION`/`T HEOREM`/`L EMMA`/`R EMARK`/`C OROLLARY`) | 26 (Defs. 1–6, Thms. 1–6 + Theorem ∗, Lemmas 1–4, Corollary 1, Remarks 1–8) | Complete first pass; inventory §4 populated |
+| 1v | 2026-08-21 | **Visual control pass** over the PDF pages carrying the load-bearing formalism — pp. 11, 19, 22, 26, 33 rendered at 130 dpi and read as images | 0 new items | Five corrections/confirmations, §8.1 |
 | 2 | *pending* | Re-pass required for saturation closure (charter A1) | — | — |
+
+### 8.1 Visual control pass — what the text layer lost
+
+`pdftotext` is a **lossy** rendering of mathematical typesetting, and its
+losses are silent: it substitutes plausible ASCII for unavailable glyphs
+rather than failing. Reading the page images is therefore not optional for
+math-critical pages. Findings:
+
+| Source (visual) | `pdftotext` renders | Consequence |
+| --- | --- | --- |
+| **ℑ** (Fraktur capital I), Definition 1's consistency-preserving map | `=` | Severe: an equals sign in place of the paper's central function symbol. "Let us call this function **=** Consistency Preserving" is nonsense that reads as a typo rather than a substitution |
+| **℧**-like script glyph for the Gödel diagonalization sentence, §6.2 | `f` | A distinct symbol reads as an ordinary function letter |
+| **Numeral overbars** `m̄`, `b̄`, `n̄`, `t̄` (U-Grounded binary representations) | bare `m`, `b`, `n`, `t` | Load-bearing: `Γ(n̄)` vs `Γ(n)` is the difference between substituting the *numeral term* and substituting a *variable*, which is the fixed-point construction itself. Likewise Eq. (9) is `∃z Log^k(z) ≥ m̄`, not `≥ m` |
+| **Tower notation** `2^m_k`, `2^b_s`, `2^b_{a−1}`, `2^b_a` | `2m k`, `2bs`, `2ba−1`, `2ba` | Super/subscripts vanish; the tower reads as a product |
+| **Iterated logarithm** `Log^k(z)`, `Log^{a−1}p` | `Log k (z)`, `Loga−1 p` | Iteration count reads as an argument |
+| Floor/ceiling `⌊x/y⌋`, `⌈x^{1/y}⌉` | `b x/y c`, `d x1/y e` | Delimiters become stray letters |
+
+Confirmed unchanged by the visual pass (i.e. the text extraction was faithful):
+Definitions 4, 5 and Theorem 1 verbatim (p. 19); Eq. (18) `p ≤ ⌈a/b⌉+1`;
+Theorem 2's `θ = 1/4` **and** Eq. (20)'s `U-Height(p) < (1/5)Log₂(p)` as
+visibly distinct constants (p. 26); Eq. (19) `Val(u) ≤ b·2^{Δ(s)}` and the
+U-Length/U-Depth/U-Height definitions (p. 22); Definition 6, Lemma 3's
+explicit "Proof Sketch" label, Corollary 1, Lemma 4 and Eq. (26) (p. 33);
+Definitions 2 and 3 (p. 11).
+
+Errata **E1** (Corollary 1 writes `F(p,t)` where Definition 6 and Lemma 3 write
+`F(t,p)`) and **E2** (the doubled period in "T HEOREM 2. .") were both
+**confirmed present in the typeset source** — they are Willard's, not
+extraction artifacts. This distinction can only be drawn visually.
+
+**Procedure for later extractions.** Render and read the pages carrying each
+system definition, each definition/theorem the codified statement will quote,
+and every displayed equation whose constants matter:
+
+```bash
+pdftoppm -f <page> -l <page> -r 130 -png <witness>.pdf <outdir>/p
+```
+
+then read the PNG. Text extraction locates material and supports grep; the
+page image governs every formula, glyph, and constant that enters a registry
+or the codified statement. This restates, at the level of individual symbols,
+the standing nachlass policy that page images are authoritative — the policy
+applies to publisher-typeset PDFs and not only to OCR'd scans.
 
 Mechanical sweep command (reproducible):
 

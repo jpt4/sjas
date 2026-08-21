@@ -59,10 +59,32 @@ Execute the Codification as a layered, registry-audited workstream in
 (definition/theorem/lemma/remark/conjecture: page anchor, tight paraphrase —
 verbatim where load-bearing — proof status full|sketch|cited|stated-only,
 dependencies); 5. Notation table; 6. Replicated context; 7. Discrepancies &
-errata; 8. Saturation record. Motivation-tier items use a lighter variant
-(§1, §2, distilled theses, §7, §8). Witness-tier (nachlass) items get
-witness-grade records anchored to page images; OCR text is a search aid and
-never an anchor for formal statements.
+errata; 8. Saturation record **including a visual control pass**. Motivation-tier
+items use a lighter variant (§1, §2, distilled theses, §7, §8). Witness-tier
+(nachlass) items get witness-grade records anchored to page images; OCR text is
+a search aid and never an anchor for formal statements.
+
+**Visual control (mandatory, all tiers).** `pdftotext` is a lossy rendering of
+mathematical typesetting and its losses are *silent* — it substitutes plausible
+ASCII rather than failing. The C4 pilot found it rendering Fraktur `ℑ` as `=`,
+a script glyph as `f`, and silently dropping numeral overbars, tower
+super/subscripts, iterated-logarithm exponents, and floor/ceiling delimiters
+(pilot record §8.1). Therefore: every page carrying a system definition, a
+definition or theorem the codified statement will quote, or a displayed
+equation whose constants matter, **must be rendered and read as an image**
+(`pdftoppm -r 130 -png`) before its content enters a registry or the codified
+statement. Text extraction locates material and supports grep; the page image
+governs every formula, glyph, and constant. This extends the standing nachlass
+page-images-are-authoritative policy from OCR'd scans to publisher-typeset
+PDFs, where the risk is less obvious and therefore greater.
+
+**Composition obligations.** Any finding that the codified statement must act
+on — a side condition to discharge, a variant to present as two readings, a
+constant to keep distinct — is appended to
+`concordance/composition-obligations.md` as it is discovered, in addition to
+wherever else it is recorded. That register is the C14–C15 checklist; findings
+buried only inside a drift entry or a fidelity check will not surface reliably
+at composition time.
 
 **Components and status:**
 

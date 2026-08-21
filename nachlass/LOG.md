@@ -52,9 +52,34 @@
   and warning recorded in the extraction record section 8; affects
   `Willard2001`, `Willard2002a`, `Willard2006b`, and other venues must be
   probed per-publisher.
-- Template verdict: no change required. The eight-section template carried the
-  paper without strain, and its sections 6 and 7 are what surfaced the drift
-  entries.
+- Template verdict: no change required for the eight sections themselves; two
+  method additions were made in response to checkpoint review (below).
+- **Visual control pass added and run** (extraction record section 8.1). Read
+  the PDF page images for the pages carrying the load-bearing formalism
+  (pp. 11, 19, 22, 26, 33) to control for text-layer rendering. `pdftotext`
+  fails *silently* on mathematical typesetting: it rendered Fraktur `Im`
+  (Definition 1's consistency-preserving map) as `=`, the Godel-sentence
+  script glyph as `f`, and dropped numeral overbars, tower super/subscripts,
+  iterated-log exponents, and floor/ceiling delimiters. The overbar loss is
+  the dangerous one - `Gamma(n-bar)` versus `Gamma(n)` is numeral- versus
+  variable-substitution, i.e. the fixed point itself. Corrected two notation
+  rows and Eq. (9) in the extraction record; confirmed Definitions 4/5,
+  Theorem 1, Eqs. (18)/(19)/(20), and Theorem 2's theta = 1/4 unchanged, so
+  the D6 divergence survives visual verification. Also established that
+  errata E1 and E2 are genuine features of the typeset source rather than
+  extraction artifacts - a distinction the text layer cannot support. The
+  charter now requires a visual control pass for every page carrying a system
+  definition, a quotable definition or theorem, or a displayed equation whose
+  constants matter, for all tiers and not only OCR'd scans.
+- **Composition-obligations register created**
+  (`codification/concordance/composition-obligations.md`, O1-O7). Findings the
+  codified statement must act on were previously recorded only inside drift
+  entries and the fidelity check, where they would not surface reliably at
+  C14-C15; they are now also collected in one checklist: the Theorem 1 small-m
+  side condition, the three-constants distinction, the corrected density/theta
+  window, the stated-only apparatus cells, Theorem *'s unpublished provenance,
+  the destroyed glyphs, and the `IS(A)` versus `IS_D(A)` distinction. The
+  charter makes appending to it a standing obligation.
 
 ## 2026-08-20 - Codification Charter, Scaffold, and Corpus Ruling (component C3)
 

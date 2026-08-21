@@ -141,17 +141,38 @@ astronomically large — but it is a genuine side condition, and the codified
 statement should discharge it explicitly rather than inherit the gloss from
 both sources.
 
-## Hazard discovered (corpus-wide)
+## Hazards discovered (corpus-wide)
 
-`pdftotext` renders JSL small-caps item headings with a space after the
-initial letter: `D EFINITION 4.`, `T HEOREM 1.`, `L EMMA 2.`, `R EMARK 4.`,
-`C OROLLARY 1.` A naive `grep -E '^(Definition|Theorem|Lemma)'` therefore
-matches **only prose cross-references and misses every actual heading** — it
-returned zero true headings on this paper while appearing to succeed. Every
-JSL-typeset witness in the corpus is affected (`Willard2001`, `Willard2002a`,
-`Willard2006b`), and other publishers' small-caps conventions must be probed
-per-venue before an inventory sweep is trusted. The reproducible sweep and
-this warning are recorded in the extraction record §8.
+**H1 — small-caps headings.** `pdftotext` renders JSL small-caps item headings
+with a space after the initial letter: `D EFINITION 4.`, `T HEOREM 1.`,
+`L EMMA 2.`, `R EMARK 4.`, `C OROLLARY 1.` A naive
+`grep -E '^(Definition|Theorem|Lemma)'` therefore matches **only prose
+cross-references and misses every actual heading** — it returned zero true
+headings on this paper while appearing to succeed. Every JSL-typeset witness
+is affected (`Willard2001`, `Willard2002a`, `Willard2006b`), and other
+publishers' conventions must be probed per-venue before a sweep is trusted.
+
+**H2 — silent glyph substitution and lost typography.** The text layer
+substitutes plausible ASCII for glyphs it cannot represent, and drops
+super/subscripts and diacritics, without any error signal. On this paper it
+rendered Fraktur **ℑ** (Definition 1's consistency-preserving map) as `=`,
+the Gödel-sentence script glyph as `f`, numeral overbars (`m̄`, `b̄`, `n̄`) as
+bare letters, `2^m_k` as `2m k`, and `Log^k(z)` as `Log k (z)`. The overbar
+loss is the dangerous one: `Γ(n̄)` versus `Γ(n)` is numeral-substitution versus
+variable-substitution — the fixed-point construction itself.
+
+The control is to read the page image. The C4 visual pass (extraction record
+§8.1) covered pp. 11, 19, 22, 26, 33, corrected two notation-registry entries
+and one equation in the extraction record, and **confirmed that errata E1 and
+E2 are genuine features of the typeset source rather than extraction
+artifacts** — a distinction that cannot be drawn from the text layer at all.
+The charter now requires a visual control pass for every page carrying a
+system definition, a quotable definition or theorem, or a displayed equation
+whose constants matter.
+
+Notably, the divergence this gate was built to catch (F1) survives visual
+verification unchanged: Theorem 2's `θ = 1/4` and Eq. (20)'s `(1/5)Log₂(p)`
+are visibly distinct constants on p. 26.
 
 ## Actions taken
 
@@ -159,8 +180,11 @@ this warning are recorded in the extraction record §8.
 | --- | --- |
 | Record F1/F2/F3 as drift-ledger entries against R1 | `../concordance/drift-ledger.md` D6 |
 | Raise the Remark-1 stated-only finding against gap G8 | `../registry/gaps.md` G8 |
-| Record the small-`m` side condition as an obligation for the codified Theorem 1 | drift-ledger D6, note |
-| Record the extraction hazard | extraction record §8; this file |
+| Record the small-`m` side condition as an obligation for the codified Theorem 1 | `../concordance/composition-obligations.md` **O1** (also drift D6) |
+| Record the three-constants distinction as a composition obligation | `../concordance/composition-obligations.md` **O2** (also drift D3) |
+| Record the corrected density/θ relation as a composition obligation | `../concordance/composition-obligations.md` **O3** |
+| Record the stated-only apparatus cells for the result matrix | `../concordance/composition-obligations.md` **O4** |
+| Record hazards H1/H2 and the visual-control procedure | extraction record §8 and §8.1; charter "Visual control"; this file |
 
 The affine-tree ADR and design document are **not edited** by this workstream —
 they belong to a different branch and workstream. The corrections are recorded

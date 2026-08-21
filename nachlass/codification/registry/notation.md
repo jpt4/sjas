@@ -35,7 +35,9 @@ collisions with other papers' uses.
 | Willard2005 | Cut-Localized D-consistency | Eq. (15): no D-proof of 0=1 with Godel number inside the cut | cut-local-consistency | p. 13 | The prior literature's approach, contrasted with IS_D(A)'s global Group-3 |
 | Willard2005 | Upsilon(k,m) | The Sigma\*1 sentence "exists z with Log^k(z) >= m" (Eq. 9) | Upsilon(k,m) | p. 11 | Definition 2 |
 | Willard2005 | 2^m_k | Least z with Log^k(z) >= m | tower(k,m) | p. 11 | Definition 2 |
-| Willard2005 | f, f(s,b) | Godel diagonalization sentences for NS; f(s,b) bounded to proofs below 2^b_s | diag, diag(s,b) | pp. 32-33 | Pi\*1 via Gamma(n-bar), Eq. (24) |
+| Willard2005 | mho-like script glyph, written here as U(s,b) | Godel diagonalization sentences for NS; U(s,b) bounded to proofs below 2^b_s | diag, diag(s,b) | pp. 32-33 | Pi\*1 via Gamma(n-bar), Eq. (24). **pdftotext substitutes the letter f**; visually verified p. 33 |
+| Willard2005 | Fraktur capital I | Definition 1's consistency-preserving mapping symbol | preserve-map | p. 10 | **pdftotext substitutes "=" for it**, which reads as nonsense ("call this function = Consistency Preserving"); visually verified p. 11 |
+| Willard2005 | overbar on a numeral, e.g. m-bar, b-bar, n-bar | The U-Grounded binary representation term denoting that integer | quote-numeral | p. 5 | **pdftotext silently drops the overbar.** Load-bearing: Gamma(n-bar) vs Gamma(n) is numeral-substitution vs variable-substitution, i.e. the fixed point itself; Eq. (9) is "exists z Log^k(z) >= m-bar" |
 | Willard2005 | CheckProof(t,p,q), F(t,p) | Proof-verification predicate and its minimal-witness function | CheckProof, F | p. 33 | Corollary 1 slips the argument order to F(p,t) |
 | Willard2005 | zeta(p) | Maps an NS-proof to the shortest IS-proof of the same theorem | zeta | p. 31 | Length gap bounded by C > 2^m_k |
 | Willard2005 | byte | Six bits; proofs are base-64 integers over 24 language symbols | byte | p. 39 | Appendix A. Distinct from Eq. (20)'s constant 5 and from theta = 1/4 (fidelity check F2) |
