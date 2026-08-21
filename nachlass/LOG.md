@@ -1,5 +1,89 @@
 # Nachlass Log
 
+## 2026-08-21 - Origin Extraction: TR 93-10 and the KGC 1993 Chapter (component C5)
+
+- Extracted both origin witnesses: `codification/extraction/willard1993-tr.md`
+  (full template) and `codification/extraction/willard1993.md`
+  (delta-focused companion, since the chapter is the TR's 12-page
+  abbreviation). Registries now hold 52 results, 11 systems, 41 notation rows;
+  audit green.
+- **Drift D1 resolved, gap G9 closed.** The TR's reference list (printed p. 55,
+  read from the page image) cites `[So94] R. Solovay, private communications
+  (April 1994)`, cites the published chapter as `[Wi93]`, and forward-
+  references `[Wi94]`. A report citing April-1994 communications cannot
+  predate April 1994, so TR 93-10 is a **1994 text carrying a 1993-series
+  report number** - exactly why Willard cites it in JSL 2001 as a "SUNY-Albany
+  Technical Report, March 1994". One artifact, two accurate descriptions.
+- **New gap G14**: `[Wi94]` D. Willard, "The ETR Reflection Principles for
+  Self-Verifying Axiom Systems", forthcoming report - cited as containing the
+  proof of Proposition 8. Absent from paperlist, DBLP, arXiv and the resume,
+  and not found by the C2 coverage pass. Its title closely matches the
+  unlocated KGC-5 chapter `Willard1997` (G2), whose priority is raised
+  accordingly.
+- Structure recovered: the TR proves Propositions 1-7 (chapter proves only
+  Proposition 1 and states 2-4 as "not proven in this 12-page Extended
+  Abstract"), defers Proposition 8 to [Wi94], sketches Proposition 9, and
+  carries Lemmas 5.1-5.3, 6.1-6.2, 7.1, 12.1, Remarks 1-7 and Appendix A.
+- **The origin boundary, in Willard's own tabulation** (TR printed p. 3):
+  systems fall into three categories by growth capacity - no growth functions,
+  addition total, or both addition and multiplication total - and only the
+  first "will be capable of permitting Gentzen-style deductive cuts without
+  becoming inconsistent". Sharpest form (p. 11): Solovay's inconsistent
+  `IS_+(PA+,G_s)` becomes consistent by removing *either* cuts *or* the
+  successor function. One inconsistent system, two independent repairs.
+- **The engine's informal ancestor** (chapter p. 329): proofs of `b_n`'s
+  existence under addition require more bits than `b_n`'s binary encoding,
+  whereas under multiplication `a_n`'s existence proof is exponentially
+  shorter than its encoding. This is `Willard2005` Definition 5 and Eq. (20)
+  in embryo. The 1993 proof skeleton (minimal inconsistency proof `p`, witness
+  `p*` at least `p`, `INT(c_j) <= 2^j * m_max` because addition is the only
+  increasing function) maps step for step onto 2005's Theorem 1 opening and
+  Eq. (19); `INT` is `VAL`, "s-consistent" is `Positive(a,b)`. What 2005 adds
+  is the abstraction barrier of Definition 5, separating the engine from the
+  per-apparatus analysis - which is why Willard says it "did not exist in our
+  prior papers".
+- **The Main Conjecture and its refutation** (chapter section 6): Willard
+  conjectured that the cut-permitting `IS_+(A)` and `IS*_+(A)` are also
+  self-verifying. His own later work refutes it - TR Proposition 7 buys cuts
+  only by dropping addition-totality, Solovay's Theorem kills the
+  successor-carrying case, `Willard2004` closes Tab-Sigma\*2/Pi\*2, and
+  `Willard2005` Theorem 5 recovers only a Level-1 restricted modus ponens.
+  Recorded as composition obligation O8: the codified statement must carry the
+  arc, not just the mature result.
+- **Provenance correction (drift D13, obligation O9)**: the affine-tree
+  documents present the identification of the multiplication boundary with
+  *variable duplication* as a finding of their tree transposition. Willard
+  states it himself at chapter p. 328 - `x*x` needs "two occurrences of the
+  same variable", and "the proof of Godel's Incompleteness Theorem used
+  essentially the same double appearance of a variable". The insight is
+  corroborated rather than novel, which strengthens it; the transposition's
+  real contribution is its carrier-independence.
+- Further drift recorded: D7 (the deduction method is notation in 1993 but
+  definitional by 2005; "self-verifying" and "self-justifying" are different
+  predicates), D8 (`IS*(A)` vs `IS^{Sigma1}(A)` between the two 1993
+  witnesses), D9 (the two witnesses define Pi1/Sigma1/Delta0 differently, and
+  1993's unstarred classes are 2005's starred ones), D10 (the chapter lists
+  fourteen Group-1 functions, the TR eight), D11 (the 1993 and 2005 "eight
+  function" signatures share only Addition, Subtraction, Division - the
+  shared cardinality is a trap), D12 (addition-totality is Pi2 in 1993 but
+  Pi\*1 in 2005, which is *why* the U-Grounding function language exists),
+  D14 (Willard permits pointer-sharing proof compression and says it
+  strengthens his results, where the NC-SJAS plan forbids all sharing).
+- Also recorded from the origin: `SUBST` demoted to a Delta0 relation with
+  unprovable totality but per-instance verifiability (chapter p. 332); the
+  "subcomponent" relation defining the cut-free property, absent from 2005;
+  resolution and cut-free sequent calculus named as covered by the same
+  analysis at TR pp. 4 and 10 and chapter p. 332 - **stated-only in every
+  place**; the ZF thread ("IS(ZF) is self-verifying and affirms the
+  consistency of ZF") that resurfaces in the 2008 ZCF nachlass drafts; and the
+  floating-point remark (chapter p. 329) anticipating the ASL-2005 line by
+  twelve years.
+- Verification discipline: everything marked `V` in the extraction records was
+  read from page images; OCR-only items are marked `O` and may not be quoted
+  in the codified statement until pass 2. The TR's OCR layer renders
+  `IS^{Sigma1}(A)` as `is-TM (A)` and `G_0` as `Gg`, so the visual control was
+  not optional. Appendix A's Lemma A.\* inventory is deferred to pass 2.
+
 ## 2026-08-21 - Pilot Extraction of Willard 2005 and Fidelity Gate (component C4)
 
 - Completed the pilot extraction of `Willard2005` (JSL 70, pp. 1171-1209, the

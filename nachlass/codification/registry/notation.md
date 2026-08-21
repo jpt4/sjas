@@ -41,3 +41,15 @@ collisions with other papers' uses.
 | Willard2005 | CheckProof(t,p,q), F(t,p) | Proof-verification predicate and its minimal-witness function | CheckProof, F | p. 33 | Corollary 1 slips the argument order to F(p,t) |
 | Willard2005 | zeta(p) | Maps an NS-proof to the shortest IS-proof of the same theorem | zeta | p. 31 | Length gap bounded by C > 2^m_k |
 | Willard2005 | byte | Six bits; proofs are base-64 integers over 24 language symbols | byte | p. 39 | Appendix A. Distinct from Eq. (20)'s constant 5 and from theta = 1/4 (fidelity check F2) |
+| Willard1993-TR | IS(A) | Introspective Semantics over inner axiom system A | SJAS-Origin | section 2 | "Introspective Semantics" is the origin expansion of the initialism IS |
+| Willard1993-TR | IS^s_d(A,G) | Full system notation: reflection strength s, deduction method d, Group-1 set G | SJAS-Origin | printed p. 10 | Omitting d means semantic tableaux. The d parameter exists in 1993 notation but not in the definition of self-verifying |
+| Willard1993-TR | subscript plus | Deduction systems permitting cuts, such as Hilbert systems | cut-permitting | printed p. 10 | |
+| Willard1993-TR | G_0, G_minus, G_s, G_m | Group-1 variants: the eight functions; minus addition-totality; successor-only growth; plus multiplication-totality | boundary-parameters | printed pp. 3, 10, 11 | These four sets carry the entire origin boundary |
+| Willard1993-TR | non-growth function | f(x1..xn) <= Max(x1..xn) | non-growth | printed p. 3 | Definition identical to Willard2005 section 2 |
+| Willard1993-TR | Delta0, Pi1, Sigma1, Pi2 | Bounded-quantifier class and its prefix extensions | Delta0-T, Pi1-T, Sigma1-T | printed p. 4 | **Unstarred**; these are Willard2005's Delta\*0/Pi\*1/Sigma\*1. Reading 1993 with 2005 conventions is an error (drift D9) |
+| Willard1993-TR | nice | A is consistent with the Group-1 axioms and has a Delta0 axiom-recognition formula Ax_A(y) | nice | printed p. 4 | The origin admission condition; ancestor of "A's Pi\*1 theorems true in the standard model" |
+| Willard1993 | SUBST(a,b) | Godel substitution as a Delta0 **relation** | Subst | p. 332 | IS(A) cannot prove totality but verifies each instance; the demote-to-relation pattern at its origin |
+| Willard1993 | subcomponent, angle-bracket X Y | Five-clause structural relation defining the cut-free property | subcomponent | p. 332 | Absent from Willard2005, which uses the Positive-branch machinery instead |
+| Willard1993 | INT, LIST(beta,d), s-consistent | Interpretation function on parameter symbols; depth-d sentence list; validity under INT | valuation, positive-branch | p. 333 | **Ancestor of Willard2005's VAL and Positive(a,b)** |
+| Willard1993 | IS\*(A) | The chapter's name for the TR's IS^{Sigma1}(A) | SJAS-Origin-Reflection | p. 330 | Drift D8 |
+| Willard1993 | IS_+(A), IS\*_+(A) | Cut-permitting generalizations, subject of the Main Conjecture | cut-permitting | p. 334 | |

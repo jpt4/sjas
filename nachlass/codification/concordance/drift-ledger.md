@@ -24,10 +24,177 @@ readings remain on record).
   Extended Abstract [40].)"
 - Working identification: same artifact under a loose date/page description
   (55 printed pages + 4 figure pages vs "50 pages"; series number 93-10 vs
-  issue date March 1994). To be confirmed by content-level comparison when
-  Willard1993-TR (C5) and Willard2001 (C7) are extracted: every [41] usage
-  in JSL 2001 must resolve to TR 93-10 content.
-- Status: open (gaps ledger G9).
+  issue date March 1994).
+- **Resolved by C5 (2026-08-21).** The TR's own reference list (printed p. 55,
+  read from the page image) contains `[So94] R. Solovay, private
+  communications (**April 1994**)`, cites the already-published KGC chapter as
+  `[Wi93]`, and forward-references `[Wi94]` as a forthcoming report. A report
+  citing April-1994 communications cannot have been finalized before April
+  1994. The document is therefore a **1994 text carrying a 1993-series report
+  number**, which is exactly why Willard cites it in JSL 2001 as a
+  "SUNY-Albany Technical Report, March 1994". Both readings describe one
+  artifact; neither is an error.
+- Residual minor discrepancies, recorded and not pursued: "March" (JSL 2001)
+  versus April-or-later (TR content); "50-page" (JSL 2001) versus 55 printed
+  pages plus four figure pages.
+- Status: explained:2026-08-21 (gaps ledger G9 closed).
+
+---
+
+## D7 — The deduction method becomes a definitional parameter
+
+- Reading 1 (`Willard1993`, p. 325): "Define an axiom system `A` to be
+  **self-verifying** iff (i) one of the theorems implied by `A` is the
+  statement of its own consistency, and (ii) the axiom system is in fact
+  consistent." No deduction method appears.
+- Reading 1' (`Willard1993-TR`, printed p. 10): the *notation* `IS^s_d(A,G)`
+  does carry a deduction parameter `d`, "omitted, indicating the deduction
+  corresponded by default to semantic tableaux"; and `Willard1993` §6
+  proposes `IS(A,g,d)` for "IS-like systems".
+- Reading 2 (`Willard2005`, p. 2): the pair `(α, D)` is definitional —
+  "Introspectively Unified Logic" is a property of the pair, and
+  "**Self-Justifying**" is a property of α, namely that some frequently
+  employed `D` makes the pair introspectively unified.
+- Consequence: "self-verifying" (1993, a property of a system) and
+  "self-justifying" (2005, a property of a system quantified over methods) are
+  **not the same predicate**, and the intermediate notion — the pair — has no
+  1993 counterpart in the definition, only in the notation. The codified
+  statement must fix one vocabulary and record the other two.
+- Status: open.
+
+---
+
+## D8 — `IS*(A)` versus `IS^{Σ₁}(A)` within the 1993 pair
+
+- `Willard1993` p. 330 names the Σ₁-strengthened system `IS*(A)`.
+- `Willard1993-TR` printed p. 9 names the same system `IS^{Σ₁}(A)`, and uses
+  the superscript slots systematically (`IS^{LΔ₀}`, `IS^{LΣ₁}`, `IS^{UΣ₁}`,
+  `IS^{UΔ₀}`, `IS^{LΠ₁}`).
+- The chapter's `IS*` collides visually with nothing in 1993 but must not be
+  confused with `Willard2001`'s or `Willard2005`'s starred *formula classes*
+  (`Π*₁`, `Σ*₁`), where the star means something entirely different.
+- Status: open.
+
+---
+
+## D9 — The formula classes are defined differently in the two 1993 witnesses
+
+- `Willard1993-TR` (printed p. 4): a quantifier is **bounded** iff it occurs
+  as `∃v ≤ z` or `∀v ≤ z` with `z` a constant or variable symbol; a wff is
+  **Δ₀** iff all its quantifiers are bounded; the canonical **Π₁**/**Σ₁**
+  forms are a universal/existential prefix over a Δ₀ matrix.
+- `Willard1993` (p. 327): Φ is **Π₁** iff "each variable `x` introduced by an
+  existential quantifier in that sentence is required to either have a value
+  less than or equal to the **maximum of the universally quantified variables
+  enclosing it**, or `x` is required to be less than a prespecified constant"
+  — a majorization-style condition, and the chapter adds "(The Δ₀ sentences
+  are defined slightly differently in some textbooks.)"
+- These are close but not identically stated, and the results are sensitive to
+  exactly this class. The TR's form is the one that survives into
+  `Willard2005`'s `Π*₁`/`Σ*₁`.
+- Status: open — the codified statement must adopt one and note the other.
+
+---
+
+## D10 — The Group-1 function list differs between the two 1993 witnesses
+
+- `Willard1993` (p. 326): addition, subtraction, division **plus eleven**
+  further functions — `Count`, `Shift`, `Remove`, `Extract`, `Compress`,
+  `Andreverse`, `Andmacro`, `Andmultiply`, `Andexpand`, `Address`, `Width`
+  (fourteen in all).
+- `Willard1993-TR` (printed p. 3): "The **eight** formally defined functions of
+  `G₀` will consist of Addition, Subtraction, Division, plus… `StringCount`,
+  `Shift`, `Extract`, `Andreverse`, `Address`."
+- The TR is the later and more refined witness (it cites the chapter), so the
+  reduction from fourteen to eight is a deliberate simplification, not an
+  omission by the abstract.
+- Note `Andmultiply(x,y,z)` in the chapter's list — multiply, then mask with
+  `z`, hence non-growth: a *bounded* multiplication was admissible from the
+  start, which sharpens what "multiplication is excluded" actually means.
+- Status: open.
+
+---
+
+## D11 — The 1993 and 2005 signatures share only three function symbols
+
+- `Willard1993-TR` `G₀` (eight): Addition, Subtraction, Division,
+  StringCount, Shift, Extract, Andreverse, Address — bit-string manipulation.
+- `Willard2005` U-Grounding (eight): Subtraction, Division, Root, Maximum,
+  Logarithm, Count, Addition, Double — arithmetic-flavoured.
+- Common: **Addition, Subtraction, Division only** (1993's `StringCount(x,y,j)`
+  counts repetitions of `y`'s `j`-bit encoding in `x`; 2005's `Count(x,j)`
+  counts `1` bits among `x`'s rightmost `j` — different functions).
+- Both have exactly eight members and both obey the same non-growth
+  discipline, which makes the coincidence of *cardinality* a trap: any claim
+  of the form "Willard's system recognizes exactly these eight functions" must
+  name its source paper.
+- Status: open.
+
+---
+
+## D12 — Addition-totality changes logical form between 1993 and 2005
+
+- `Willard1993-TR` printed p. 4: "The axiom indicating that the addition
+  function is total can obviously be written as a **Π₂ sentence**. Since all
+  `G₀`'s other functions are non-growth, its remaining axioms can be written
+  as Π₁ sentences."
+- `Willard2005`: addition and `Double` are **function symbols of the
+  U-Grounding language**, so the corresponding axioms are Π\*₁ — which is what
+  permits Definition 4's Normed class to require *every* axiom to be Π\*₁ or
+  Σ\*₁, and hence permits Theorem 1's proof to assert that "all these axioms
+  can be encoded as Π\*₁ sentences".
+- Reading: the U-Grounding *function* language exists precisely to eliminate
+  the 1993 Π₂ axiom. 2005 §2 says as much ("our notation is much simplified
+  under a language employing function symbols also for addition and Double")
+  without stating the Π₂→Π\*₁ consequence, which is the load-bearing part.
+- Status: open — a genuine explanatory point the codified statement should
+  make explicit.
+
+---
+
+## D13 — The affinity/duplication insight has a 1993 origin
+
+Recorded against prior in-house work, not against Willard.
+
+- Reading 1 (`docs/adr/ADR-0001-affine-tree-sjas.md`, "Decisive Finding"; and
+  `docs/design/affine-tree-sjas.md` §4): the addition/multiplication boundary
+  is, on a native carrier, the **affinity/duplication** boundary — a variable
+  occurring twice in a term — presented as a finding produced by transposing
+  Willard's engine onto trees, and sourced to `Willard2005` (Definitions 4–5,
+  Theorem 1, §5.2, Remark 4) with `Willard2001`/`Willard2020`.
+- Reading 2 (`Willard1993`, p. 328): Willard states the identification himself,
+  in the arithmetic setting. `∀x∃z : z = x*x` fails the memory argument, and:
+  "At first, it may appear that this counterexample is artificial because it
+  requires at least **two occurrences of the same variable `x`** on the right
+  sides of (2.4). However, the proof of Gödel's Incompleteness Theorem used
+  essentially the same **double appearance of a variable** when it provided a
+  counterexample to self-verification via a diagonalization argument."
+- Assessment: the affine-tree insight is **corroborated, not contradicted** —
+  which strengthens it, since the design's central identification turns out to
+  be Willard's own. What needs correcting is only the attribution: the
+  documents present it as a discovery of the transposition and do not cite the
+  1993 passage. The codified statement should attribute it here.
+- Status: open (composition obligation O9).
+
+---
+
+## D14 — Proof compression: Willard permits pointer sharing, the NC-SJAS plan forbids it
+
+- Reading 1 (`Willard1993`, p. 327): "our results are slightly **strengthened**
+  if we assume one is allowed to slightly compress a proof `p` by physically
+  writing the bit representation of any 'long constant' `k` only once and
+  storing its other appearances as **pointers** to this long representation."
+- Reading 2 (`native-computational-sjas-plan.md`, cost rules; carried into
+  `docs/design/affine-tree-sjas.md` §6 and its DAG negative control): "No DAG
+  sharing, memoization, normalization, or host callback may count as free
+  proof compression", and DAG-compressed certificates are rejected.
+- These are not in contradiction — Willard's allowance is a bounded
+  constant-sharing that makes the *encoding* more efficient and hence the
+  bit-counting argument tighter, whereas the plan's rule forbids sharing that
+  would make *proof size* an unfaithful cost measure. But they point opposite
+  ways rhetorically, and the codified statement should record what Willard
+  actually permits rather than importing the implementation-side rule.
+- Status: open.
 
 ---
 
