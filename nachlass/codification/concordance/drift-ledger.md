@@ -132,7 +132,21 @@ readings remain on record).
   discipline, which makes the coincidence of *cardinality* a trap: any claim
   of the form "Willard's system recognizes exactly these eight functions" must
   name its source paper.
-- Status: open.
+- **Largely dissolved by the C5 appendix pass.** Three findings converge:
+  (i) TR Remark 6 — `G₀` is "quite arbitrary"; any **slowly growing** set works;
+  (ii) TR Appendix A's Added Comment (printed p. 52) — only **four** of the
+  eight are needed for the arithmetization ("our discussion technically only
+  needed `G₀`'s atomic functions of Addition, StringCount, Shift and Extract…
+  The sole purpose of `G₀`'s functions of Andreverse, Address, Subtraction and
+  Division… was to simplify the presentation");
+  (iii) several 2005 primitives are 1993 *derived* functions — `Double` is
+  1993's `Scalar₂` ("`2x, 3x, 4x`" abbreviate `Scalar₂, Scalar₃, Scalar₄`), and
+  `Maximum`/`Minimum`, primitive in 2005, are derived in 1993 as
+  `x + (y−x)` on truncated subtraction.
+  So the two signatures are related by promotion and derivation within one
+  growth class, not by disagreement. What must still be said explicitly is that
+  neither list is canonical.
+- Status: open (reduced to a presentational obligation, O10/O13).
 
 ---
 
@@ -340,3 +354,28 @@ C4 fidelity check (`../extraction/willard2005-fidelity-check.md`).
   to one boundary rather than paraphrasing either as *the* reason multiplication
   is excluded.
 - Status: open (composition obligation O14).
+
+---
+
+## D16 — Axiom versus theorem: a recurring structural device
+
+Not a discrepancy but a device the corpus reuses, which the codified statement
+should name once rather than re-explain per paper.
+
+- `Willard1993-TR` Appendix B (printed p. 54): INVALID.1 carries LΠ₁ reflection
+  **as an axiom schema**; INVALID.2 has the same sentences only **as theorems**
+  (Lemma 12.1). Under a cut-free apparatus this is not cosmetic — "semantic
+  tableaux proofs allow only axioms (and their 'cut-free' deductions) to appear
+  in the intermediate stages of a proof (i.e. provable theorems are
+  disallowed)", so Figure 4 must reconstruct "the essential cut-free
+  implications" instead of citing the principle.
+- `Willard2005` §6.1 (pp. 30–32): `IS_D(A)` *proves* `Υ(k,m)` while
+  `NS^{k,m}_D(A)` has it *as a Group-0 axiom*; both can prove it, but only the
+  latter can use it in one step, and the proof-length gap `C > 2^m_k` changes
+  what the Group-3 "this" denotes — producing opposite consistency results
+  (Theorems 5 and 6).
+- Same device, twelve years apart, on different principles (Π₁ reflection;
+  `Υ(k,m)`). The codified statement should present *axiom-versus-theorem under
+  a cut-free apparatus* as a named mechanism of the boundary.
+- Status: open.
+

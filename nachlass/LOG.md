@@ -128,6 +128,50 @@
   meta-theorem (p. 23); the INVALID.1/INVALID.2 naming behind Figures 1-4; and
   the phrase "limited but **tangible** power" (p. 34), the lexical origin of
   the Tangibility Reflection Principle (obligation O15).
+- **Appendix pass (same day, after user correction).** The plan excludes only
+  material irrelevant to Willard's development of SJAS, and the exclusion test
+  applies to whole corpus items - `Willard1993-TR` is ruled `core`, so
+  sub-selecting within it was wrong. Every page of Appendix A and Appendix B
+  was read (printed pp. 37-54). Results:
+  - **An entire Appendix B had been missed** by the OCR-derived structure note.
+    It is the worked seven-level tableaux derivation of INVALID.2's
+    inconsistency that Figure 4 draws, and its Summarizing Comment states the
+    axiom-versus-theorem mechanism (drift D16, obligation O18): a cut-free
+    proof cannot cite a theorem as an intermediate step, so INVALID.2 must
+    reconstruct LPi1 reflection's "essential cut-free implications" - the same
+    device that separates Willard2005's IS_D from NS^{k,m}_D.
+  - Appendix A defines `UNION(A)`, `ExPrf` and `SUBST` - the three constructs
+    Willard2005 section 3 reuses verbatim - and its equations (A.1)-(A.3) are
+    Willard2005's Eq. (7) with the diagonal argument fixed to a constant rather
+    than abstracted to a parameter. A precise, checkable lineage claim.
+  - **Corollary A.15 is the arithmetized proof-checker in origin form** (root
+    check, node-justification check, closure check), the direct ancestor of
+    Proflog's tableau-proof predicate and the affine-tree Deriv.
+  - **Observation A.8 explains the 5-versus-6 constants** flagged as obligation
+    O2 in C4: a base-32 digit is stored in a 6-bit byte, so the godelized form
+    costs 6/5 of the natural one - five bits of content per six-bit symbol.
+    That is where Willard2011's "at least 5J bits, Godel number at least 32^J"
+    comes from, the 32 being the base-32 alphabet.
+  - **Observation A.10: IS(A) cannot prove concatenation total**, and handles
+    it by the same demote-to-relation move. The affine-tree design argues
+    concatenation-strength from the external literature; Willard states the
+    system-side fact himself (obligation O16).
+  - **Scalar multiplication always was total**: `Scalar_k` is a function for
+    fixed k, and Willard2005's `Double` is exactly 1993's `Scalar_2`. "Multi-
+    plication is not total" means *variable* multiplication (obligation O17).
+  - **The Added Comment (p. 52) reduces the working signature to four
+    functions** - Addition, StringCount, Shift, Extract - the other four being
+    presentational. With Remark 6 this largely dissolves drift D10/D11: the
+    1993 and 2005 signatures are related by promotion and derivation within one
+    growth class, not by disagreement. (Willard2005's primitive `Maximum` is
+    derived in 1993 as x + (y-x).)
+  - Three appendix items are sketch-grade: A.5 (Proof Sketch), A.13 (Proof
+    Outline), A.16 (Proof Sketch). Registry now: 76 results rows, 38 full /
+    8 sketch / 2 cited / 16 stated-only / 12 n-a.
+  - Lemma A.16 also records that `G_0` is finitely many axioms **plus two
+    infinite schemata** for the integer constants - schemata the 2005
+    U-Grounding language eliminates by making numerals terms, which sharpens
+    obligation O11 about why that language exists.
 - Verification discipline: everything marked `V` in the extraction records was
   read from page images; OCR-only items are marked `O` and may not be quoted
   in the codified statement until pass 2. The TR's OCR layer renders

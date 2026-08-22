@@ -18,7 +18,7 @@
 | Text aid | `../sources-text/willard1993-tr.txt` (24,221 words, OCR — **not authoritative**) |
 | Relation to `Willard1993` | The full-length original. Its preface states the published KGC chapter is "a 12-page abbreviated version of this paper"; its own reference list cites the chapter as `[Wi93]`, so the TR postdates it |
 | **Actual date** | **No earlier than April 1994** — see §7 D1-resolution |
-| Structure | §1 Introduction (pp. 1–2); §2 General Perspectives (pp. 2–7); §3 Formal Summary of Main Results (pp. 8–12); §4 (pp. 12–13); §5 Semantic Tableaux Formalism (pp. 14–18); §6 Proof of Proposition 1 (pp. 19–22); §7 Proof of Proposition 2 (pp. 23–25); §8 Proof of Proposition 3 (pp. 26–27); §9 Proof of Proposition 4 and Generalizations (pp. 28–29); §10 Philosophical Implications of Propositions 2c, 4, 8, 9 (p. 30); §11 Proof of Proposition 5 (p. 31); §12 Justification (p. 32); §13 Proof of Proposition 7 and Added Remarks (p. 33); §14 Philosophical Speculations (p. 34); Appendix A (pp. 37–53); References (p. 55); Figures 1–4 |
+| Structure | §1 Introduction (pp. 1–2); §2 General Perspectives (pp. 2–7); §3 Formal Summary of Main Results (pp. 8–12); §4 (pp. 12–13); §5 Semantic Tableaux Formalism (pp. 14–18); §6 Proof of Proposition 1 (pp. 19–22); §7 Proof of Proposition 2 (pp. 23–25); §8 Proof of Proposition 3 (pp. 26–27); §9 Proof of Proposition 4 and Generalizations (pp. 28–29); §10 Philosophical Implications of Propositions 2c, 4, 8, 9 (p. 30); §11 Proof of Proposition 5 (p. 31); §12 Justification (p. 32); §13 Proof of Proposition 7 and Added Remarks (p. 33); §14 Philosophical Speculations (p. 34); **Appendix A (pp. 37–52)**; **Appendix B (pp. 53–54)**; References (p. 55); Figures 1–4 |
 
 ## 2. Role in corpus
 
@@ -192,6 +192,135 @@ multiplication is fatal because its growth "overwhelms Definition 5's
 constraints". Both are Willard's; the codified statement should present them as
 two routes to one boundary rather than paraphrasing either as *the* reason.
 
+### 3.8 Appendix A — the arithmetization (printed pp. 37–52)
+
+**Purpose** (p. 37): "for each nice `A`, it is possible to encode
+`Prf_{IS(A)}(x,y)` as a Δ₀ formula", generalizing to `IS^s_d(A,G)` for any
+`G ⊇ G₀`, hence covering Propositions 3–9.
+
+**The vocabulary is already 2005's.** Three constructs are defined here and
+survive verbatim into `Willard2005` §3:
+
+| 1993 (p. 37) | 2005 (pp. 9–10) |
+| --- | --- |
+| `UNION(A)` = union of IS(A)'s Group-1 and Group-2 axioms | `UNION(A)` = Groups 0+1+2 (2005 splits 1993's Group-1) |
+| `ExPrf_B(x,y,z)` = `y` proves `x` from `B` **plus the added axiom with Gödel number `z`** | `ExPrf^D_{UNION(A)}(h,t,p)` |
+| `SUBST_i(x,y)` — Gödel substitution as a **relation** | `Subst(g,h)` |
+
+**The fixed point** (p. 38). With `J` the Gödel number of (A.1):
+
+- (A.2), the Group-3 axiom: `∀y ¬{ Prf_{UNION(A)}(⊥,y) ∨ [∃z<y SUBST_i(J,z) ∧ ExPrf_{UNION(A)}(⊥,y,z)] }`
+- (A.3), the definition of `Prf_{IS(A)}(x,y)`: `Prf_{UNION(A)}(x,y) ∨ { ∃z<y SUBST_i(J,z) ∧ ExPrf_{UNION(A)}(x,y,z) }`
+
+Compare `Willard2005` Eq. (7):
+`SubstPrf^D_{UNION(A)}(g,t,p) ≡ Prf^D_{UNION(A)}(t,p) ∨ ∃h ≤ p [ Subst(g,h) ∧ ExPrf^D_{UNION(A)}(h,t,p) ]`.
+**These are the same formula**, differing only in that 1993 fixes the first
+argument to the constant `J` while 2005 abstracts it to a parameter `g` (and
+`z<y` becomes `h ≤ p`). 2005's `SubstPrf` is this construction with the
+diagonal argument promoted to a variable — a precise, checkable lineage claim.
+
+*Clarifying Comment 1* explains the two disjuncts: with `K` the unique number
+satisfying `SUBST_i(J,K)`, proofs not using Group-3 have Gödel number `< K` and
+are caught by the first disjunct; proofs using it exceed `K` and are caught by
+the second.
+
+**The demote-to-relation pattern, stated exactly** (p. 37, "Point of
+Clarification"): "Since it does not recognize multiplications as a function,
+`IS(A)` will clearly be too weak to prove that `∀x∃y SUBST_i(x,y)`. However,
+`IS(A)` will be able to prove for **any fixed integer `k̄`** that
+`∃y SUBST_i(k̄,y)`. It will turn out that the latter will be sufficient for
+`IS(A)` to formally define **the particular instance of the reflection
+principle** needed to define `H`."
+
+**Theorem A.1** has four parts: (a) `SUBST_i` is majorized; (b) axiomhood for
+**PA, PA+ and ZF** is majorized; (c) for any majorized-encodable `B`, `Prf_B`
+is majorized; (d) for any nice `A`, `ExPrf_{UNION(A)}` and `Prf_{UNION(A)}` are
+majorized. Part (b) is what licenses `IS(PA)`, `IS(PA+)` and **`IS(ZF)`** (p. 39).
+
+**The eighteen items** (`Willard` calls A.5–A.18 "the next fourteen
+propositions", p. 43 — a count that checks):
+
+| Item | Page | Content | Proof |
+| --- | --- | --- | --- |
+| Theorem A.1 | 37 | Parts (a)–(d) above | via A.9, A.12, A.15, A.18 |
+| Lemma A.2 | 41 | `TreeCheck(s)` — `s` is a parenthesis tree `{ P {α₁}…{αₙ} }`; five conditions | full |
+| Lemma A.3 | 42 | `BinaryTreeCheck(s)` (internal nodes have one or two children) | full |
+| Lemma A.4 | 42 | `NODE`, `INDEX`, `PRINCIPLE`, `ANCESTOR(i,L,s)`, `PARENT` over tree encodings | full |
+| Lemma A.5 | 43 | `FormulaCheck(x)`; well-formed formulae are a **context-free language** [ASU86, LRS76], checked by an explicit parse tree | **sketch** ("Proof Sketch") |
+| Lemma A.6 | 44 | `SentenceCheck(x)` | full |
+| Lemma A.7 | 45 | `ReplaceCheck(x₁,s₁,x₂,s₂)` via double encoding | full |
+| Observation A.8 | 45 | Two integer encodings: the **natural** `i` (base 2) and the **godelized** `i*` (`⌊log₃₂ i⌋+3` bytes, base-32 digit `b` as the 6-bit code `32+b`) | n/a |
+| Corollary A.9 | 46 | **Part (a)** of Theorem A.1 | full |
+| Observation A.10 | 46 | `ConcatenateCheck_m`. "**While `IS(A)` is too weak to prove that concatenation is a total function**… it certainly can represent `ConcatenateCheck_m` as a Δ₀ formula" | n/a |
+| Lemma A.11 | 46 | `InductAx(s)` — PA's induction axioms | full |
+| Corollary A.12 | 47 | **Part (b)**: PA, PA+, ZF. Each has "only a finite number of axioms outside an easily recognized infinite schema" | full |
+| Lemma A.13 | 47 | `PositiveCheck(g,h)` — `h` is the Positive Rewrite of `g`; uses `Parity`, `Prefix`, `Suffix` | **sketch** ("Proof Outline") |
+| Lemma A.14 | 49 | `DeductionCheck(i,t)` — the main component of Part (c). **Figure 1 lists twelve permissible deduction rules**; rule 10 carries the eigenvariable condition ("the parameter `u` must not be also employed by any of `P(u)`'s ancestors") | full |
+| Corollary A.15 | 50 | **Part (c)**: `Prf_B(x,y)` majorized, via three constraints — (I) root is the positive rewrite of the negated target, (II) every other node is an axiom or a `DeductionCheck` deduction, (III) every branch is closed | full |
+| Lemma A.16 | 51 | `AxGr₁(x)` — Group-1 axiomhood. Notes `G₀` was "defined only informally in Section 2"; formally it is finitely many axioms **plus two infinite schemata** (A.31) `ĉ[k] = ĉ[k−1] + ĉ[1]` and (A.32) `∀v (v<ĉ[k] ⊃ ⋁_{j<k} v=ĉ[j])` | **sketch** ("Proof Sketch") |
+| Lemma A.17 | 51 | `AxGr₂(x)` — Group-2 axiomhood, via concatenation of five substrings | full |
+| Corollary A.18 | 52 | **Part (d)** | full |
+
+**Corollary A.15 is the arithmetized proof-checker in origin form**: root check,
+node-justification check, closure check. It is the direct ancestor of the
+Proflog `tableau-proof` predicate and of the affine-tree design's
+`Deriv(s,p,φ)`, and it is worth quoting when the codified statement reaches the
+proof predicate.
+
+**Added Comment (p. 52) — the minimal signature.** "our discussion technically
+only needed `G₀`'s atomic functions of **Addition, StringCount, Shift and
+Extract** to encode `Prf_{IS(A)}(x,y)` as a Δ₀ formula. The sole purpose of
+`G₀`'s functions of Andreverse, Address, Subtraction and Division… was to
+simplify the presentation." Only **four** of the eight are load-bearing for the
+arithmetization. Together with Remark 6 this all but dissolves the apparent
+signature drift (D10/D11).
+
+**Eighteen compound functions** are derived from the atomic ones (pp. 39–41),
+among them `Scalar_k` — "**Unlike normal multiplication, scalar multiplication
+is a function under `IS(A)`** because it is defined by `Scalar₀(x)=0` and
+`Scalar_{k+1}(x) = Scalar_k(x)+x`" — with "`2x, 3x, 4x, …`" abbreviating
+`Scalar₂, Scalar₃, Scalar₄`. So **`Willard2005`'s `Double` is 1993's
+`Scalar₂`**, and multiplication by any *fixed* constant was always total;
+"multiplication is not total" concerns *variable* multiplication only.
+`Maximum` and `Minimum`, primitive in 2005, are here **derived**
+(`Maximum(x,y) = x + (y−x)` on truncated subtraction).
+
+**Where the density constant comes from.** Observation A.8 encodes a base-32
+digit in a **6-bit** byte, so the godelized form costs `6/5` of the natural
+form; p. 46 uses exactly this — "Since `i* > i^{6/5}`, `IS(A)` will be
+incapable of recognizing that the mapping of `i` onto `i*` constitutes a total
+function. However, it will be able to recognize **as a relation**…
+`ConvertCheck(i,i*)`". This is the origin of the `5`-versus-`6` pair that
+`Willard2005` Appendix A (6-bit bytes) and Eq. (20) (the constant 5) inherit,
+and that `Willard2011` D.1(iv) states as "≥ 5J bits… Gödel number ≥ 32^J" —
+where the `32` is the base-32 alphabet. See composition obligation O2.
+
+### 3.9 Appendix B — the worked inconsistency derivation (printed pp. 53–54)
+
+Appendix B completes Proposition 6 by exhibiting the tableaux proof of `Ψ` from
+INVALID.2 that **Figure 4** draws. With `Φ ≡ {∀x₂∀x₃ [SUBST(x₁,x₂) ⊃
+¬Prf_{INVALID.2}(x₂,x₃)]}` (B.1), `H` the Gödel number of `Φ(⌜Φ⌝)`, and
+`Ψ ≡ {∀x ¬Prf_{INVALID.2}(H,x)}` (B.2), the proof runs seven levels; the
+footnote records that **only one of its four branches uses multiplication
+totality**.
+
+Its **Summarizing Comment** is the conceptually important part:
+
+> The complication in formally proving Proposition 6 was that semantic tableaux
+> proofs allow only axioms (and their "cut-free" deductions) to appear in the
+> intermediate stages of a proof (i.e. provable theorems are disallowed).
+> Therefore *unlike* Figure 3, the third line in Figure 4's proof tree **cannot
+> explicitly specify an LΠ₁ reflection sentence**. Instead, Levels 4 thru 7 …
+> had **implicitly exploited LΠ₁ reflection by constructing its essential
+> cut-free implications**.
+
+So the difference between INVALID.1 and INVALID.2 is precisely whether a
+principle is available **as an axiom** or only **as a theorem** — and under a
+cut-free apparatus that difference is not cosmetic, because a cut-free proof
+cannot cite a theorem as an intermediate step. This is the same device that
+drives `Willard2005`'s Theorem 5/6 contrast, where `IS_D(A)` *proves* `Υ(k,m)`
+while `NS^{k,m}_D(A)` has it *as an axiom*. Recorded as drift **D16**.
+
 ## 4. Numbered-item inventory
 
 Verification column: `V` = read from the page image; `O` = OCR text only,
@@ -230,7 +359,8 @@ visual verification deferred to pass 2.
 | Remark 5 | 34 | Cut-permitting hybrids over `G₋` — `IS^{Σ₁}₊`, `IS^{UΣ₁}₊`, `IS^{LΣ₁}₊`, `IS^{UΔ₀}₊` — are consistent for nice `A`, "once again" with `IS^{LΠ₁}₊(A,G₋)` the exception. "Follow from the techniques of Sections 8–11" | **stated-only** | V |
 | Remark 6 | 34 | **`G₀`'s definition is "quite arbitrary".** Call `f̂[i,j]` **slowly growing** iff `f̂[i,j](x̄) ≤ i·2^j · Max(x̄)`. Propositions 1–4, 8 and 9 hold when **any** set of slowly growing functions is added to `G₀`; Proposition 7 holds when any set of non-growth functions is added to `G₋` | **stated-only** | V |
 | Remark 7 | 34 | For any r.e. `R` in IS's language consistent with `G₀`, the wrapper `A_R = G₀ ∪ {∀y(Deriv(⌜Φ⌝,y) ⊃ Φ)}` is nice, so `IS(A_R)`, `IS^{Σ₁}(A_R)` and `IS₊(A_R,G₋)` are consistent and **prove all of `R`'s Π₁ theorems** | stated-only | V |
-| Theorem A.1, Lemmas A.1–A.12, Corollaries A.9, A.12 | 37–53 | Appendix A: the Gödel-encoding machinery — majorized formulae, `TreeCheck`, `BinaryTreeCheck`, `NODE`/`INDEX`/`PRINCIPLE`/`ANCESTOR`/`PARENT`, `ReplaceCheck`, string identity | full (appendix) | O — **inventory incomplete, pass 2** |
+| Appendix A items (18) | 37–52 | Full inventory in §3.8 below | mixed | **V** |
+| Appendix B | 53–54 | The explicit tableaux inconsistency derivation for INVALID.2 (§3.9) | full | **V** |
 
 ## 5. Notation table
 
@@ -365,7 +495,19 @@ abstract to a growth discipline. Recorded as composition obligation **O13**.
 | --- | --- | --- | --- | --- |
 | 1 | 2026-08-21 | OCR sweep of the 61-page collated text for item headings, plus **visual reading** of the formal core: TR printed pp. 3, 4, 9, 10, 11, 55 (references) and the whole 12-page published chapter | 9 Propositions, Solovay's Theorem, 7+ Lemmas, 7 Remarks, Appendix A block | Formal core complete and visually verified; Appendix A inventoried at heading level only |
 | 1v | 2026-08-21 | **Visual control pass over the main body**: printed pp. 14, 15, 20, 23, 28, 29, 32, 34 | 0 new items; **8 items re-graded** | See below |
-| 2 | *pending* | Visual pass over Appendix A (printed pp. 37–53) to complete the Lemma A.\* inventory; verify Remark 2's content (p. 22) and Lemma 5.3's statement (p. 17); confirm E1993-1 | — | — |
+| 1a | 2026-08-21 | **Visual pass over the appendices**: every page of Appendix A and B read (printed pp. 37–54) | **19 items added** (Theorem A.1, Lemmas A.2–A.7, Observations A.8/A.10, Corollaries A.9/A.12/A.15/A.18, Lemmas A.11/A.13/A.14/A.16/A.17, Appendix B) | Structure corrected — **Appendix B had been missed entirely**; inventory complete |
+| 2 | *pending* | Remaining unverified: Remark 2's content (printed p. 22) and Lemma 5.3's statement (printed p. 17), both located but read only in OCR; confirm E1993-1 | — | — |
+
+**Outcome of pass 1a (appendices).** Reading the appendices was not optional
+housekeeping: it recovered an entire **Appendix B** that the OCR-based structure
+note had missed, the three constructs (`UNION(A)`, `ExPrf`, `SUBST`) that
+`Willard2005` reuses verbatim, the fixed-point equations (A.1)–(A.3) of which
+2005's Eq. (7) is the parameterized form, the arithmetized proof-checker
+(Corollary A.15), the explanation of the 5-versus-6 density constants
+(Observation A.8), the statement that **concatenation is not provably total**
+(Observation A.10), the fact that **scalar multiplication always was** total,
+and the Added Comment reducing the working signature to four functions. Three
+further items are sketch-grade (A.5, A.13, A.16).
 
 **Outcome of pass 1v.** Eight items were re-graded against the page images,
 and **three proof-status judgements taken from the OCR layer were wrong** —
