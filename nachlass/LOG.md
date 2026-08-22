@@ -172,6 +172,53 @@
     infinite schemata** for the integer constants - schemata the 2005
     U-Grounding language eliminates by making numerals terms, which sharpens
     obligation O11 about why that language exists.
+- **Completion pass (same day).** Cleared the two items left unverified, and
+  the clearing turned up three more:
+  - **Lemma 5.4 had been missed entirely** (printed p. 19). It defines
+    `Prf2_B(x,y1,y2)` - a proof `y1` paired with **a Turing-machine trace `y2`
+    verifying `y1` is well defined** - and the system `IS2` built on it.
+    Willard adds that "Appendix A is in some sense **unnecessary**" because
+    every theorem about IS translates to IS2 by replacing `y` with the pair.
+    The chapter offers the same escape under `Prf-star`. A trace-carrying proof
+    predicate is therefore Willard's own device from 1993, not a
+    native-computational innovation of the NC-SJAS line (obligation O20). Its
+    proof is labeled "**Quite Informal Proof Sketch**", the weakest label in
+    the document.
+  - **Remark 2 is on p. 24, not p. 22**, and is a global methodological
+    caveat: "our proofs shall *apply a cut rule at the meta-theoretical
+    level*… we will *often omit constructing formally the cut-free proofs*…
+    Instead, *their theoretical existence* will be established implicitly via
+    the Cut Elimination Theorem." The object systems are cut-free; the
+    metatheory uses cut freely (drift D17, obligation O19).
+  - **Lemma 5.3 is a sketch**, not a full proof, and Willard states that it
+    **fails without the `u#` pointer notation** - "Lemma 5.3 would not follow,
+    had this section employed slightly different definitions (such as omitting
+    the symbol u#)" - while scoping the loss: Propositions 1, 2a, 3, 5 and 7
+    survive without it, so only 2b, 2c, 4 and 6 depend on it. This settles
+    drift D14: Willard's constant-pointer compression is **necessary to four
+    of the origin results**, so a no-sharing cost model must replace it or
+    give those results up.
+- Two further passages recovered from printed p. 12 (still section 3, not
+  section 4 as the OCR structure had it):
+  - **Which derivability condition fails**: "only in the *degenerate case*
+    where x and y are *fixed constants*" can IS(A) prove the Hilbert-Bernays
+    condition that from proofs of alpha and alpha-implies-beta a proof of beta
+    exists. Fixed-parameter totality versus uniform totality is the corpus's
+    recurring device - the same shape as SUBST for fixed k-bar, Lemma 5.3's
+    T(p,k), and Scalar_k (obligation O22).
+  - **Willard states the delicacy thesis himself**: "a modest change in a
+    formalism's definition will cause Propositions 1 thru 7 and Solovay's
+    Theorem to produce starkly different results… it appears premature to
+    develop hasty conclusions". That is the premise of
+    `prose/sjas_synthesis.txt`, asserted by Willard about his own results in
+    1993 - the Codification's governing caution is the corpus's own lesson
+    (obligation O21).
+- E1993-1 resolved and not an erratum: section 4 does carry a display heading,
+  "Intuition Behind the Proof of Proposition 1" (p. 13); the OCR sweep missed
+  it because the running page number ran into the heading (`-134. Intuition`).
+  Lemma 5.4 and Appendix B were missed the same way, so the pass-2 obligation
+  is now specifically to re-sweep for items the heading passes could not see.
+- Registry: 77 results rows (37 full, 10 sketch, 2 cited, 16 stated-only).
 - Verification discipline: everything marked `V` in the extraction records was
   read from page images; OCR-only items are marked `O` and may not be quoted
   in the codified statement until pass 2. The TR's OCR layer renders

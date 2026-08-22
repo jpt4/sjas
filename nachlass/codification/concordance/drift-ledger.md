@@ -221,6 +221,16 @@ Recorded against prior in-house work, not against Willard.
   the pointer form is a **totality device**, not a cost optimisation. Any
   transposition that bans sharing outright must supply its own answer to the
   problem the pointers solve.
+- **Settled by the C5 completion pass.** Willard states the dependency outright
+  at printed p. 18: "**Lemma 5.3 would not follow, had this section employed
+  slightly different definitions (such as omitting the symbol `u#`)**, because
+  `T(p,k) ≤ L_k p` could then fail for all constants `L_k`." He also scopes the
+  loss: "even without such a formalism supporting Lemma 5.3, most of our seven
+  main theorems, **including Propositions 1, 2a, 3, 5, & 7 will remain valid**"
+  — so Propositions 2b, 2c, 4 and 6 are the ones that depend on it. The
+  constant-pointer compression is therefore **necessary to four of the origin
+  results**, and a no-sharing cost model must either replace it or give those
+  results up.
 - Status: open.
 
 ---
@@ -378,4 +388,21 @@ should name once rather than re-explain per paper.
   `Υ(k,m)`). The codified statement should present *axiom-versus-theorem under
   a cut-free apparatus* as a named mechanism of the boundary.
 - Status: open.
+
+---
+
+## D17 — Cut-free object systems, cut-using metatheory
+
+- `Willard1993-TR` Remark 2 (printed p. 24): "our proofs shall *apply a cut
+  rule at the meta-theoretical level*… we will *often omit constructing
+  formally the cut-free proofs* of such theorems β: Instead, *their theoretical
+  existence* will be established implicitly via the Cut Elimination Theorem."
+- The object systems are cut-free (that is the whole point of Propositions
+  1–4); the reasoning *about* them uses cut freely. This is not a contradiction
+  — the metatheory is not the object system — but it is easy to misread, and it
+  qualifies the proof-status of every result whose proof invokes Meta-Logic.
+- It also sharpens D16: the axiom-versus-theorem distinction bites inside the
+  system precisely *because* cut is unavailable there.
+- Status: open — the codified statement should state the convention once, where
+  it presents the origin proofs.
 

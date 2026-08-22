@@ -18,7 +18,7 @@
 | Text aid | `../sources-text/willard1993-tr.txt` (24,221 words, OCR — **not authoritative**) |
 | Relation to `Willard1993` | The full-length original. Its preface states the published KGC chapter is "a 12-page abbreviated version of this paper"; its own reference list cites the chapter as `[Wi93]`, so the TR postdates it |
 | **Actual date** | **No earlier than April 1994** — see §7 D1-resolution |
-| Structure | §1 Introduction (pp. 1–2); §2 General Perspectives (pp. 2–7); §3 Formal Summary of Main Results (pp. 8–12); §4 (pp. 12–13); §5 Semantic Tableaux Formalism (pp. 14–18); §6 Proof of Proposition 1 (pp. 19–22); §7 Proof of Proposition 2 (pp. 23–25); §8 Proof of Proposition 3 (pp. 26–27); §9 Proof of Proposition 4 and Generalizations (pp. 28–29); §10 Philosophical Implications of Propositions 2c, 4, 8, 9 (p. 30); §11 Proof of Proposition 5 (p. 31); §12 Justification (p. 32); §13 Proof of Proposition 7 and Added Remarks (p. 33); §14 Philosophical Speculations (p. 34); **Appendix A (pp. 37–52)**; **Appendix B (pp. 53–54)**; References (p. 55); Figures 1–4 |
+| Structure | §1 Introduction (pp. 1–2); §2 General Perspectives (pp. 2–7); §3 Formal Summary of Main Results (pp. 8–12); §4 Intuition Behind the Proof of Proposition 1 (p. 13); §5 Semantic Tableaux Formalism (pp. 14–18); §6 Proof of Proposition 1 (pp. 19–22); §7 Proof of Proposition 2 (pp. 23–25); §8 Proof of Proposition 3 (pp. 26–27); §9 Proof of Proposition 4 and Generalizations (pp. 28–29); §10 Philosophical Implications of Propositions 2c, 4, 8, 9 (p. 30); §11 Proof of Proposition 5 (p. 31); §12 Justification (p. 32); §13 Proof of Proposition 7 and Added Remarks (p. 33); §14 Philosophical Speculations (p. 34); **Appendix A (pp. 37–52)**; **Appendix B (pp. 53–54)**; References (p. 55); Figures 1–4 |
 
 ## 2. Role in corpus
 
@@ -192,6 +192,104 @@ multiplication is fatal because its growth "overwhelms Definition 5's
 constraints". Both are Willard's; the codified statement should present them as
 two routes to one boundary rather than paraphrasing either as *the* reason.
 
+### 3.7b Two methodological caveats Willard states about his own proofs
+
+**Meta-Logic (Remark 2, printed p. 24).** Many proofs in the TR do *not*
+construct cut-free proofs; they establish their existence at the meta level:
+
+> our proofs shall *apply a cut rule at the meta-theoretical level*. That is,
+> suppose it is known that a *cut-free* `IS(PA+)` system can prove the two
+> statements `α` and `α ⊃ β`. Then by the Cut Elimination Theorem … `IS(PA+)`
+> will also support a cut-free proof of `β`. For the sake of shortening many of
+> the proofs in this paper, we will *often omit constructing formally the
+> cut-free proofs* of such theorems `β`: Instead, *their theoretical existence*
+> will be established implicitly …
+
+This is a global qualification on the document's proof-status profile, and it
+sits in a pointed relation to the object-level story: the *systems* are
+cut-free, while the *reasoning about them* freely uses cut. It also explains
+several of the sketch-grade labels. Note the interaction with drift D16: the
+axiom-versus-theorem distinction matters *inside* the system precisely because
+cut is unavailable there — but Willard helps himself to cut outside it.
+
+**The `u#` notation is necessary, not convenient (printed p. 18).** Lemma 5.3's
+proof is followed by:
+
+> It should be noted that **Lemma 5.3 would not follow, had this section
+> employed slightly different definitions (such as omitting the symbol `u#`)**,
+> because `T(p,k) ≤ L_k p` could then fail for all constants `L_k`.
+
+So the constant-pointer compression of §3.5 is load-bearing for a lemma, not an
+optional strengthening. Willard then scopes the damage himself: "even without
+such a formalism supporting Lemma 5.3, most of our seven main theorems,
+**including Propositions 1, 2a, 3, 5, & 7 will remain valid**" — so only the
+results routed through Lemma 5.3 (Propositions 2b, 2c, 4 and 6) depend on it.
+This settles drift **D14**: any transposition that forbids sharing outright is
+not merely stylistically at odds with Willard, it loses these four results
+unless it supplies a replacement.
+
+**`IS2`: the trace-carrying fallback (Lemma 5.4, printed p. 19).** `Prf2_B(x,
+y₁, y₂)` holds when `y₁` is a tableaux proof of `x` from `B` **and `y₂`
+describes the successive states of a Turing Machine verifying that `y₁` is well
+defined**; `IS2^s_d(A)` is the analogue built on it. Willard's scoping is
+explicit:
+
+> Appendix A is in some sense **unnecessary** because each theorem in Sections
+> 6–14, about IS, retains meaning, even without Appendix A, if Lemma 5.4's
+> slightly weaker `IS2` formalism is used to replace `IS`. That is, each
+> theorem about `IS` can be translated into an analogous result about `IS2` by
+> simply replacing `y` with the ordered pair `(y₁, y₂)`.
+
+The published chapter offers the same escape hatch under the name `Prf*_A(x,
+y₁, y₂)` (p. 327). Two consequences: the corpus's *results* do not depend on
+Appendix A's 16-page arithmetization (though its *constructs* are what 2005
+inherits — §3.8); and **a proof predicate that carries an explicit computation
+trace is Willard's own device**, from 1993 — the ancestor of the trace-based
+checking (`Step`/`TraceOK`, `EvalTraceOK`) that the NC-SJAS plan and the
+affine-tree design treat as a native-computational innovation.
+
+### 3.7c Which derivability condition fails, and Willard on the delicacy
+
+Two passages from the close of §3 (printed p. 12) that the codified statement
+should carry.
+
+**The Hilbert–Bernays condition IS(A) violates.** "A well-known corollary to
+the Gödel Incompleteness Theorem is that every self-verifying system must
+violate one of the Hilbert-Bernays conditions [HB39, Me87]. For the case of
+`IS(A)`, the difficulty is that **only in the *degenerate case* where `x` and
+`y` are *fixed constants*** can `IS(A)` prove the Hilbert-Bernays condition
+that *if `x` is a proof of `α` and `y` is a proof of `α ⊃ β` then there exists
+some `z` that proves `β`*."
+
+This names the exact failure point — the second derivability condition
+(provable modus ponens) — and does so in the *same* shape as every other
+restriction in the document: it holds for **fixed parameters** and fails
+uniformly. The pattern recurs at `SUBST_i(k̄,y)` for fixed `k̄` (§3.8), at
+Lemma 5.3's `T(p,k)` for fixed `k` or fixed `p` (§3.7b), and at `Scalar_k` for
+fixed `k`. The codified statement should present *fixed-parameter totality
+versus uniform totality* as the single recurring device, of which the
+multiplication restriction is one instance.
+
+**Willard states the delicacy thesis himself.** "Or at least in a context where
+a **modest change in a formalism's definition will cause Propositions 1 thru 7
+and Solovay's Theorem to produce starkly different results**, it appears
+premature to develop hasty conclusions, whether positive or negative, about
+self-verifying systems."
+
+This is the premise of `prose/sjas_synthesis.txt` — "the properties of a formal
+system can be delicately sensitive to its precise definition" — asserted by
+Willard in 1993 about his own results. The Codification's governing caution is
+therefore not an external methodological choice imposed on the corpus; it is
+the corpus's own stated lesson, and the codified statement should quote it
+where it explains why variants are tracked rather than merged. Recorded as
+composition obligation **O21**.
+
+Willard's surrounding position is pluralist rather than triumphal: `IS(A)`
+"can not fully characterize the complexity of human thought", yet it is
+"simplistic to fully ignore self-verifying systems because humans appear to
+implicitly presume their consistency (at some type? of weak level)"; "the truth
+(?) may possibly lie between these two extremes."
+
 ### 3.8 Appendix A — the arithmetization (printed pp. 37–52)
 
 **Purpose** (p. 37): "for each nice `A`, it is possible to encode
@@ -347,13 +445,14 @@ visual verification deferred to pass 2.
 | --- | --- | --- | --- | --- |
 | Lemma 5.1 | 14 | A formula is **majorized with exponent λ** iff every quantified variable is bounded by `x_i^λ` for some `i`; every majorized Ψ has an "essentially equivalent" **Δ₀** Ψ\* agreeing on all L-tuples. Construction: replace `∃v < x^λ` by `∃v₁<x … ∃v_{2λ}<x` (2λ, not λ, to avoid round-off) | **sketch** — labeled "Informal Proof Sketch" | V |
 | Lemma 5.2 | 15 | For fixed `j`, variable Φ: `IS(PA+)` proves a map from `⌜Φ(v̂[1])⌝` onto `⌜v#[1,j] Φ(v̂[1])⌝`. **Rationale**: "the two analogous mappings *onto* `⌜Φ(ĉ[j])⌝` **are unknown by `IS(PA+)` to be total functions**" — the pointer notation exists to stay inside the provable-totality budget | full (statement V) | V |
-| Lemma 5.3 | 28 | Used to show `IS^{Σ₁}(PA+)` can prove Eq. (9.1) | full | O |
+| Lemma 5.3 | 17–18 | With `T(p,k)` the **T-transformation** of a proof `p` of `∀v̂[j]Φ(v̂[j])` into a proof of `Φ(ĉ[k])`: for any **fixed** `k` the map `p ↦ T(p,k)` is recognized total by `IS(PA+)`; likewise for **fixed** `p` the map `ĉ[k] ↦ T(p,k)`. Neither joint totality is claimed | **sketch** — "We will therefore sketch only the proof of the first claim" | **V** |
+| Lemma 5.4 | 19 | Defines `Prf2_B(x,y₁,y₂)` — `y₁` is a tableaux proof of `x` from `B` **and `y₂` is a Turing-machine trace verifying `y₁` is well defined** — and `IS2^s_d(A)`, the analogue of `IS^s_d(A)` built on it. For all nice `A` these have Δ₀ encodings | **sketch** — labeled "**Quite Informal Proof Sketch**", the weakest label in the document; argues from Kleene's Fixed Point Theorem [Ke38, Ro67] | **V** |
 | Lemma 6.1 | 20 | Sentence (6.1) `¬∀y ¬Prf_{IS(A)}(⊥,y)` is not a subcomponent of any Group-1 or Group-2 axiom | **sketch** — labeled "Proof Sketch", where the chapter's identical Lemma 1 carries a full "Proof" | V |
 | Lemma 6.2 | 20 | A tableaux proof of `IS(A)`'s inconsistency is impossible without formally constructing **a parameter or constant element** `p*` with a node `¬Prf_{IS(A)}(⊥,p*)` (chapter Lemma 2 says only "an element") | full | V |
 | Lemma 7.1 | 23 | If a **terse** proof tree for `¬Φ` exists from `IS(PA+)`, then `IS(PA+)` **can prove** it will be unable to construct a semantic tableaux proof of `Φ`. Willard stresses this is "**not merely a meta-theorem**" — the internalization step behind Proposition 2 | full (statement V) | V |
 | Lemma 12.1 | 32 | All of **INVALID.2**'s (= `IS^{UΔ₀}(PA+,G_m)`) local Π₁ reflection statements are its theorems — so Proposition 5 makes it inconsistent | **sketch** — labeled "Proof Sketch" | V |
 | Remark 1 | 9 | The four alternate reflection systems, all weaker than `IS^{Σ₁}(A)` | n/a | V |
-| Remark 2 | 22 | The Cut Elimination Theorem perspective, invoked by the proofs of Propositions 4 and 6 | n/a | page located; content **O** |
+| Remark 2 | 24 | **Meta-Logic.** "our proofs shall *apply a cut rule at the meta-theoretical level*": if a cut-free `IS(PA+)` proves `α` and `α ⊃ β`, the Cut Elimination Theorem gives a cut-free proof of `β`, so "we will *often omit constructing formally the cut-free proofs*" and establish only their *theoretical existence*. "Meta-Logic will be used frequently in the remainder of this paper" | n/a | **V** |
 | Remark 3 | 28 | **`GΣ₁`** formulae — every quantifier existential *or bounded universal* over a Δ₀ matrix — and the claim that Proposition 3 strengthens to `IS^{GΣ₁}(A)`. The footnote supplies only the intuition, saying the formal proof "requires some tedious notation" | **stated-only** | V |
 | Remark 4 | 28 | Propositions 1 and 3 hold whether a total function is given by an **m-ary function symbol** or by an **(m+1)-ary relation symbol plus a totality axiom** `∀x̄∃w A_f(x̄,w)`. §6's growth analysis assumed the latter only to simplify notation | stated-only | V |
 | Remark 5 | 34 | Cut-permitting hybrids over `G₋` — `IS^{Σ₁}₊`, `IS^{UΣ₁}₊`, `IS^{LΣ₁}₊`, `IS^{UΔ₀}₊` — are consistent for nice `A`, "once again" with `IS^{LΠ₁}₊(A,G₋)` the exception. "Follow from the techniques of Sections 8–11" | **stated-only** | V |
@@ -485,9 +584,11 @@ abstract to a growth discipline. Recorded as composition obligation **O13**.
 
 ### Errata
 
-- **E1993-1.** OCR-only observation (pass 2 to confirm visually): section
-  numbering jumps in the OCR heading sweep suggest §4 begins mid-page rather
-  than with a display heading.
+- **E1993-1 — resolved, not an erratum.** §4 *does* carry a display heading,
+  "Intuition Behind the Proof of Proposition 1" (printed p. 13, mirroring the
+  chapter's §4). The OCR sweep missed it because the running page number ran
+  into the heading text, producing `-134. Intuition Behind…`. A reminder that
+  the heading sweep's silence is evidence of nothing.
 
 ## 8. Saturation record
 
@@ -496,7 +597,8 @@ abstract to a growth discipline. Recorded as composition obligation **O13**.
 | 1 | 2026-08-21 | OCR sweep of the 61-page collated text for item headings, plus **visual reading** of the formal core: TR printed pp. 3, 4, 9, 10, 11, 55 (references) and the whole 12-page published chapter | 9 Propositions, Solovay's Theorem, 7+ Lemmas, 7 Remarks, Appendix A block | Formal core complete and visually verified; Appendix A inventoried at heading level only |
 | 1v | 2026-08-21 | **Visual control pass over the main body**: printed pp. 14, 15, 20, 23, 28, 29, 32, 34 | 0 new items; **8 items re-graded** | See below |
 | 1a | 2026-08-21 | **Visual pass over the appendices**: every page of Appendix A and B read (printed pp. 37–54) | **19 items added** (Theorem A.1, Lemmas A.2–A.7, Observations A.8/A.10, Corollaries A.9/A.12/A.15/A.18, Lemmas A.11/A.13/A.14/A.16/A.17, Appendix B) | Structure corrected — **Appendix B had been missed entirely**; inventory complete |
-| 2 | *pending* | Remaining unverified: Remark 2's content (printed p. 22) and Lemma 5.3's statement (printed p. 17), both located but read only in OCR; confirm E1993-1 | — | — |
+| 1b | 2026-08-21 | **Completion pass**: printed pp. 12, 13, 17, 18, 19, 24 read | **2 items added** (Lemma 5.4; Remark 2 relocated to p. 24), 1 re-graded (Lemma 5.3 → sketch) | All numbered items now visually verified; E1993-1 resolved |
+| 2 | *pending* | Saturation re-pass (charter A1): re-sweep for any item the heading passes missed, as Lemma 5.4 and Appendix B both were | — | — |
 
 **Outcome of pass 1a (appendices).** Reading the appendices was not optional
 housekeeping: it recovered an entire **Appendix B** that the OCR-based structure
