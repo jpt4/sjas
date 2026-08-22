@@ -105,8 +105,14 @@ Incompleteness Theorem”, Proceedings of the Tableaux 2002 Conference SpringerV
 
 [Willard2001]
 
-[22] D. Willard, “Self-verifying systems, the incompleteness theorem and the tangibility
-reflection principle”, in Journal of Symbolic Logic 66 (2001) pp. 536-596.
+[22] D. Willard, “Self-Verifying Axiom Systems, the Incompleteness Theorem and Related
+Reflection Principles”, in Journal of Symbolic Logic 66 (2001) pp. 536-596.
+
+[Title corrected 2026-08-21 (Codification C6) against the paper's own title page.
+Willard's self-citation in the 2005 JSL paper, ref. [67], gives the subtitle as
+"the tangibility reflection principle", which this list had inherited; that phrase
+names a construct inside the paper and the title of the 1997 KGC-5 chapter, not
+this paper. See codification/concordance/drift-ledger.md D20.]
 
 [Willard2000]
 

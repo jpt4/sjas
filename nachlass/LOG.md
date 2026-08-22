@@ -1,5 +1,96 @@
 # Nachlass Log
 
+## 2026-08-21 - Spine Extraction: Willard 2011 and the Subsumption Audit (component C6)
+
+- Extracted `Willard2011` (arXiv 1108.6330v8, 64 pp.), the unification paper:
+  `codification/extraction/willard2011.md`, 47 numbered items. Registries now
+  hold 126 results, 16 systems, 53 notation rows; audit green.
+- The charter's distinct C6 deliverable, the **subsumption audit**, is
+  `codification/extraction/willard2011-subsumption-audit.md`. Verdicts:
+  **unifying** verified, **simplifying** verified, **extending** verified -
+  with three qualifications recorded below. Two of the four claimed paradigms
+  (`Willard2006a`, `Willard2009`) are not yet extracted, so those halves are
+  explicitly **deferred to C9/C10** with the specific checks named, rather
+  than assumed.
+- **The unification device** is Definition 3.4's **generic configuration**, a
+  5-tuple `(L^xi, Delta^xi_0, B^xi, d, g)`. Language, formula class, base
+  system, deduction method **and the Godel coding method** all become
+  parameters, and each earlier system becomes one choice of xi. Verified
+  verbatim matches to `Willard2005`: the U-Grounding eight, the Mult graph
+  (2011 Eq. 45 = 2005 Eq. 4), the eight tableau rules, the Group-2 schema,
+  and the fixed point (2011 Eq. 35 = 2005 Eq. 7; Eq. 36 = 2005 Eq. 8 with
+  Neg^k for Pair and the level parameter k added).
+- **But the correspondence is not element-wise** (drift D21). Willard's own
+  attributions map xi-star *and* xi-star-star to `Willard2005` (sections 5 and
+  5.3), xi-minus to `Willard2006a` Theorem 3, and xi-R to `Willard2009` -
+  leaving **`Willard1993` without a configuration of its own**. And 2011 is
+  **not self-contained**: it declines to repeat the Tab-U\*1 definition
+  ("It will be unnecessary to repeat here") and imports the Normed and
+  Fact D.3 machinery from 2005 for its own stability proof.
+- **The simplification is identifiable and partly relocation.** 2005's
+  Definition 5 (theta-compactification, parts A and B, with theta < 1/3 free)
+  **splits into two named properties** - Definition 5.1 **A-Stable** (the Pi
+  half) and Definition 5.3 **E-Stable** (the Sigma half) - each with the fixed
+  constant 1/2. 2005's App-forall/App-exists pair collapses into the single
+  measure `sharp`. Theorem 5.9 has the same skeleton as 2005's Theorem 1 but
+  a sharper ending: both a sentence and its negation land on the *same*
+  Good{half sharp}, so the contradiction is immediate - which is why 2005's
+  Theorem 1 needs the small-m side condition (obligation O1) and 2011's does
+  not. **O1 is now scoped as a 2005-only obligation.** What does not vanish is
+  the per-configuration combinatorics: 2005's section 5.2 nine-case induction
+  reappears as Appendix D-2's four-page Theorem D.4.
+- **Four genuinely new results** with no antecedent in the extracted 1993 or
+  2005 material: Theorem 6.12's **Translational Reflection Principle** (the
+  abstract's headline - reflection into a Standard-M-equivalent Pi^xi_1
+  translation, which Loeb does not block because Psi and Psi-translated are
+  *not* equivalent from the system's own perspective); the **Global Simulation
+  Sentence**; Appendix G's three-axiom result; and Theorem E.1, which shows
+  the translational principle is inoperative for conventional logics.
+- **Willard 2011 answers a question asked in this repository.**
+  `prose/to-dw-20201206z.txt` question 2 asks whether Group-2's infinitary
+  schema can be replaced by a finite set sufficient for all Pi\*1 theorems.
+  The answer is two-stage: a single **Global Simulation Sentence** replaces
+  the schema but yields only the Test-relativized form (Definition 6.8,
+  Remark 6.9); **three** added sentences yield the theorems *purely*, but only
+  for a quantifier-count bound c fixed in advance (Theorems G.2, G.3).
+  Recorded as composition obligation **O23**.
+- **Willard's own limitation, recorded** (Remark 6.16b, obligation O24):
+  `SelfCons` "causes axiom systems to produce essentially a **1-line proof**
+  of their own consistency… an **instinctive faith** in its own consistency
+  (rather than it supporting a full-length proof-justification of this fact)".
+  Any presentation omitting this overstates what SJAS delivers.
+- New drift: **D18** (2011's "Self Justifying" is 2005's "Introspectively
+  Unified Logic"; with 1993's "self-verifying" the corpus now carries three
+  closely-named non-equivalent predicates - obligation O25); **D19** (a third,
+  materially different formulation of Solovay's unpublished theorem);
+  **D20** (see below); **D21** (the paradigm/configuration mismatch).
+- **Bibliographic correction to our own inventory (D20).** `Willard2001`'s
+  actual title is "Self-Verifying **Axiom** Systems, the Incompleteness
+  Theorem and **Related Reflection Principles**". Willard's 2005 self-citation
+  renders the subtitle as "the tangibility reflection principle", and
+  `nachlass/paperlist` had inherited that; the phrase names a construct inside
+  the paper and the title of the 1997 KGC-5 chapter, not this paper.
+  `paperlist` and `registry/corpus.md` corrected, with the provenance recorded.
+- Obligations refined: **O2** (the coding condition's mature form is the
+  **Conventional Tableaux Encoding Requirement** - Godel number at least 32^J
+  for J function symbols - justified in 2011 as "at least 2J logical symbols
+  and thus at least 5J bits", a different derivation of the same 5 from
+  1993's base-32-in-6-bit-bytes route); **O11** discharged in substance by
+  Definition D.1(ii), which writes addition-totality as
+  `for all x,y exists z <= x+y (z = x+y)` and calls it "a very precise Pi\*1
+  styled declaration" - the function symbol is what makes the bound
+  expressible, and the bounded existential is what keeps it Pi\*1.
+- Also recorded: the **Type-M / Almost-M / A / S / NS** growth taxonomy (the
+  origin of "Type-NS" as used in this repository's README); `SelfCons_k` as
+  the origin of the Proflog line's `SelfCons1`; Appendix F's **Epistemological
+  Bundle Theory**, in which A- and E-stability formalize how a thinking agent
+  can treat short proofs from a technically inconsistent view as useful,
+  provided its proofs are shorter than the errors.
+- Verification: text-layer read of all 64 pages, plus visual control of
+  printed pp. 14, 16, 18, 32 and 39 (Tight; A-/E-Stable; Theorem 5.9;
+  Appendix A's equations; the coding condition). Pagination convention for
+  this witness: **printed page = PDF page - 1**.
+
 ## 2026-08-21 - Origin Extraction: TR 93-10 and the KGC 1993 Chapter (component C5)
 
 - Extracted both origin witnesses: `codification/extraction/willard1993-tr.md`

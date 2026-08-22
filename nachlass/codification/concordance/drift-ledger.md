@@ -406,3 +406,75 @@ should name once rather than re-explain per paper.
 - Status: open — the codified statement should state the convention once, where
   it presents the origin proofs.
 
+---
+
+## D18 — "Self Justifying" changes referent between 2005 and 2011
+
+- `Willard2005` (p. 2): the **pair** `(α, D)` is an "**Introspectively Unified
+  Logic**"; an axiom system α is "**Self-Justifying**" iff *there exists* some
+  frequently employed `D` making the pair introspectively unified.
+- `Willard2011` (§1): "The ordered pair `(α, d)` will be called **Self
+  Justifying** when: i … ii …" — i.e. 2011's *Self Justifying* **is** 2005's
+  *Introspectively Unified Logic*, and 2005's *Self-Justifying* (the
+  existential over `d`) has no 2011 name.
+- With `Willard1993`'s **self-verifying** (a property of a system, no `d` at
+  all — drift D7), the corpus now carries **three** closely-named,
+  non-equivalent predicates. The codified statement must fix one vocabulary
+  and tabulate the other two.
+- Status: open.
+
+---
+
+## D19 — A third formulation of Solovay's unpublished theorem
+
+| Source | Statement |
+| --- | --- |
+| `Willard1993-TR` p. 10 | No consistent **Gentzen-style sequent calculus system employing cuts** can prove a finite set `F` of PA's Π₁ theorems, recognize Subtraction, non-zero Division and Successor as total, and prove its own consistency |
+| `Willard2005` Theorem ∗, p. 14 | No consistent system satisfying the **"Successor-Based Arithmetic" criteria** (footnote 1) can prove the non-existence of a **Hilbert** proof of `0=1` from itself |
+| `Willard2011` Theorem 2.1, p. 4 | No α containing the **Type-S** axiom (with `x'≠0`, `x'=y' ⇔ x=y`) can recognize its own **Hilbert** consistency while treating `+`, `∗` as 3-way relations with the usual identity/associative/commutative/distributive properties |
+
+All three are attributed to the same unpublished April-1994 private
+communication (drift D4). They are not obviously interchangeable: the 1993
+version is about sequent calculus with cuts and names three total functions;
+the 2005 and 2011 versions are about Hilbert deduction and differ in how they
+characterize the admissible systems. The codified statement must present
+Theorem ∗ / Theorem 2.1 with its formulation named, not as a single fixed
+result.
+
+- Status: open.
+
+---
+
+## D20 — `Willard2001`'s title is mis-cited by Willard and by our inventory
+
+- The paper's own title page reads: "**Self-Verifying Axiom Systems, the
+  Incompleteness Theorem and Related Reflection Principles**".
+- `Willard2005` ref. [67] cites it as "Self-verifying systems, the
+  incompleteness theorem and **the tangibility reflection principle**".
+- `Willard2011` ref. [61] gets the subtitle right but writes "Self-Verifying
+  **Systems**" for "Self-Verifying **Axiom** Systems".
+- Our `nachlass/paperlist` inherited the 2005 form, and `registry/corpus.md`
+  described the paper by it.
+- **Corrected in C6** in both files, with this entry recording the provenance
+  of the error. The "tangibility reflection principle" is a *construct within*
+  the paper (and the title of the KGC-5 chapter `Willard1997`), not the 2001
+  title — a confusion easy to inherit because both papers exist.
+- Status: explained:2026-08-21.
+
+---
+
+## D21 — The four paradigms and the four configurations do not correspond element-wise
+
+- `Willard2011` p. 3 says Theorems 5.9, 5.11 and 6.6 "unite these four
+  paradigms", citing **[59, 64, 66, 68]** = `Willard1993`, `Willard2005`,
+  `Willard2006a`, `Willard2009`.
+- Appendix D supplies **four configurations** ξ\*, ξ\*\*, ξ⁻, ξ^R.
+- But Willard's own attributions map ξ\* **and** ξ\*\* to `Willard2005`
+  (§5 and §5.3), ξ⁻ to `Willard2006a` Theorem 3, ξ^R to `Willard2009` —
+  leaving **`Willard1993` without a configuration of its own**.
+- This is defensible (1993 and 2005 §5 are the same Type-A/tableaux paradigm,
+  both covered by ξ\*), but the two lists enumerate different things — papers
+  in one case, paradigms in the other. The codified statement must not present
+  a four-to-four correspondence.
+- Status: open (full analysis in `../extraction/willard2011-subsumption-audit.md` §2.2).
+

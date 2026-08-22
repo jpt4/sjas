@@ -53,3 +53,16 @@ collisions with other papers' uses.
 | Willard1993 | INT, LIST(beta,d), s-consistent | Interpretation function on parameter symbols; depth-d sentence list; validity under INT | valuation, positive-branch | p. 333 | **Ancestor of Willard2005's VAL and Positive(a,b)** |
 | Willard1993 | IS\*(A) | The chapter's name for the TR's IS^{Sigma1}(A) | SJAS-Origin-Reflection | p. 330 | Drift D8 |
 | Willard1993 | IS_+(A), IS\*_+(A) | Cut-permitting generalizations, subject of the Main Conjecture | cut-permitting | p. 334 | |
+| Willard2011 | xi, (L^xi, Delta^xi_0, B^xi, d, g) | Generic configuration, the 5-tuple | generic-config | Def. 3.4 | The unification device |
+| Willard2011 | Scope_E(Upsilon, N) | Unbounded quantifiers rebounded by E(N) = 2^N | scope-envelope | Def. 4.2 | Replaces Willard2005's App-forall(a)/App-exists(b) pair |
+| Willard2011 | Good(N), sharp(Upsilon) | Envelope truth at N; the largest such N | good, sharp | Defs. 4.3-4.4 | The single measure replacing 2005's (a,b) pair |
+| Willard2011 | Tight | Log(q_beta) >= sharp(beta) + 2 | tight | Def. 4.5 | The simplest statement of the growth balance in the corpus |
+| Willard2011 | A-Stable, E-Stable, EA-Stable, 0-Stable | The four stability properties over all R-Views | stability-classes | Defs. 5.1, 5.3, 5.5, 5.10 | A- and E-Stable are the two halves of Willard2005 Definition 5, with 1/2 replacing the free exponent theta |
+| Willard2011 | R-View theta, RE-Class(xi) | An r.e. set of Pi^xi_1 sentences, **not required to be true**; the class of all of them | r-view | section 5 | Generalizes 2005's Normed(a,b): stability must hold against untrue views too |
+| Willard2011 | SelfRef(alpha,d), SelfCons_k(beta,d) | The two "I am consistent" axioms | selfref, selfcons-k | section 1, Def. 5.7 | SelfCons_k is the origin of the Proflog line's SelfCons1 |
+| Willard2011 | G^xi_k(theta) | theta union B^xi union SelfCons_k of their union | preserve-map | Def. 6.2 | Willard2005's consistency-preserving map, indexed by k and xi |
+| Willard2011 | Check^xi, Test^xi_j, NegPrf^xi, GlobSim | Global-simulation machinery | global-sim | section 6, Def. 6.8 | A single finite axiom simulating the infinite Group-2 schema |
+| Willard2011 | Reflect^T, Psi^T | Translational reflection and the translated sentence | translational-reflection | Eq. 34 | Psi and Psi^T are Standard-M equivalent but **not equivalent from the system's own perspective**, which is what defuses the diagonal |
+| Willard2011 | Braced(Phi,j), Count(Psi), Size^xi(c) | Appendix G machinery | braced, size | Def. G.1 | Size^xi(c) is the set of Pi^xi_1 sentences with at most c quantifiers |
+| Willard2011 | Type-M, Type-Almost-M, Type-A, Type-S, Type-NS | The growth taxonomy by which totality axioms are present | growth-taxonomy | section 1, printed p. 2 | Supersedes 1993's informal three categories; Type-NS is the term used in the repository README's local objectives |
+
