@@ -224,6 +224,23 @@ de-duplication map's first entries:
 - **E4 (author-copy artifact).** The archived copy's inserted note reads "This
   paper was pubished in 2005" (p. 1) — typo not present in the JSL version of
   record.
+- **E6 (probable citation slip — Švejdar).** §4 Item D (p. 16) cites `[55]`
+  twice, both times for content about definable cuts and the interpretability
+  of ZF in GB: "Hájek, Švejdar and Vopěnka **[55, 63]** have shown GB views
+  these theories differently inside the ranges of definable cuts… Moreover,
+  Švejdar **[55]** has generalized this phenomena with regards to
+  interpretability." But the bibliography gives
+  **[55] = "Modal analysis of generalized Rosser sentences", JSL 48 (1983),
+  pp. 986–999**, whereas
+  **[54] = "Degrees of interpretability", Comm. Math. Univ. Carolinae 19
+  (1978), pp. 783–813** — which is the paper the claim describes. `[54]`
+  appears correctly in Item E's list, so Willard does use it elsewhere.
+  Reading: **both Item D occurrences of `[55]` are slips for `[54]`.**
+  Recorded as *probable* rather than certain: Švejdar worked on both Rosser
+  sentences and interpretability, so confirming this requires checking the
+  1983 paper's contents, which is not in the corpus. Consequence for the
+  codified statement: cite Švejdar's interpretability result as [54] /
+  *Degrees of interpretability*, not via 2005's reference number.
 - **E5 (internal notation drift).** `Tab−U\*₁−List` (Theorems 4, 6) and
   `Tab−U\*₁` (Theorems 5, Remark 6) are used interchangeably for the same
   method.

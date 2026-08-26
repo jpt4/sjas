@@ -1,5 +1,40 @@
 # Nachlass Log
 
+## 2026-08-21 - Two Corrections from Checkpoint Review (C4/C6 follow-up)
+
+- **Erratum E6 recorded against `Willard2005`.** Section 4 Item D (p. 16) cites
+  `[55]` twice - "Hajek, Svejdar and Vopenka [55, 63]" and "Svejdar [55] has
+  generalized this phenomena with regards to interpretability" - but `[55]` is
+  Svejdar's "Modal analysis of generalized Rosser sentences" (JSL 48, 1983),
+  whereas `[54]` is "Degrees of interpretability" (Comm. Math. Univ. Carolinae
+  19, 1978), which is the paper the claim describes. `[54]` is cited correctly
+  in Item E's list. Reading: both Item D occurrences are slips for `[54]`,
+  recorded as **probable** rather than certain since confirming it requires the
+  1983 paper's contents, which are not in the corpus. The codified statement
+  should cite Svejdar's interpretability result by title, not by 2005's
+  reference number.
+- **Obligation O26 recorded, correcting a formulation of mine.** In discussion
+  I contrasted Rosser-style self-verification ("changes what provable means")
+  with Willard's ("changes what total function means"). The second half is
+  wrong and the user corrected it: **Willard redefines nothing.** "Total
+  function" keeps its standard meaning throughout; what varies is *which
+  totality axioms a system takes* and *which function symbols its language
+  carries*. `Willard1993-TR` p. 3 is explicit that IS(A) "will recognize
+  non-zero Division as a total function (and hence can view Multiplication as a
+  well-defined **partial** function)", and Willard2011's Type-M / Almost-M /
+  A / S / NS taxonomy is purely a question of which of axioms (1)-(3) are
+  present. The obligation records that the codified statement must never imply
+  SJAS uses a weaker *notion* of totality or of provability - that reading
+  converts an honest weakening of the theory into a definitional trick, and is
+  exactly the Feferman-style "numerically correct but intensionally incorrect"
+  route Willard rules out in the 1993 chapter's opening page.
+- Context: the corpus cites Rosser only historically (the 1936 removal of
+  omega-consistency) and carries Arai's "Derivability Conditions on Rosser's
+  Proof Predicates" and Svejdar's "Modal Analysis of Rosser Sentences" in the
+  bibliographies of both spine papers **without engaging either in the body**.
+  A Rosser-comparison for the Refinement stage is therefore open rather than
+  foreclosed; O26 records the constraint it must respect.
+
 ## 2026-08-21 - Spine Extraction: Willard 2011 and the Subsumption Audit (component C6)
 
 - Extracted `Willard2011` (arXiv 1108.6330v8, 64 pp.), the unification paper:
