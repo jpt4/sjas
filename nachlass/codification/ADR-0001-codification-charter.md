@@ -96,7 +96,8 @@ at composition time.
 | C4 | Pilot extraction: Willard2005 (method gate) | done 2026-08-21; gate passed, see `extraction/willard2005-fidelity-check.md` |
 | C5 | Origin: Willard1993-TR + Willard1993 | done 2026-08-21; formal core visually verified, Appendix A inventory deferred to pass 2 |
 | C6 | Spine: Willard2011 + subsumption audit | done 2026-08-21 |
-| C7–C8 | Spine: Willard2001, Willard2020 | pending |
+| C7 | Spine: Willard2001 | done 2026-08-26 |
+| C8 | Spine: Willard2020 | pending |
 | C9 | Tier A: Willard2002a, Willard2004, Willard2006a, Willard2020-LFCS (+Willard2021 when acquired) | pending |
 | C10 | Tier B: Willard2002c, Willard2000-TAB, Willard2006-WoLLIC, Willard2009, Willard2016 | pending |
 | C11 | Tier C: Willard2005-TAB, Willard2006b, Willard2007-APAL, Willard1998, Willard1997 (when acquired), motivation items | pending |

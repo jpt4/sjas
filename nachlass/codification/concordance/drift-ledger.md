@@ -478,3 +478,97 @@ result.
   a four-to-four correspondence.
 - Status: open (full analysis in `../extraction/willard2011-subsumption-audit.md` §2.2).
 
+
+## D22 — `Willard2001`'s witness has a post-publication bibliography
+
+| Source | Statement |
+| --- | --- |
+| Witness cover note | "The text in this pdf file is identical to my JSL 2001 article, except that I have used a larger type faunt" |
+| Witness ref. [45] | "A Generalization of the Second Incompleteness Theorem and Some Exceptions to It, Annals of Pure and Applied Logic 141 (**2006**) pp. 472-496" |
+| Witness ref. [44] | "A longer more detailed version of this paper **will appear soon in the JSL**" |
+
+- A 2001 article cannot cite a 2006 one, so the claim of textual identity fails
+  at least for the reference list; [45] appears **nowhere in the body**, which
+  is consistent with a later insertion. [44]'s surviving forward reference shows
+  the update was partial rather than a wholesale revision.
+- Consequence: this witness is authoritative for the mathematics and for
+  Willard's own later citation practice, **not** for the JSL 2001 text. Cite
+  section and item labels; never JSL page numbers from this witness.
+- Status: open (gap G15).
+
+## D23 — Seven grounding functions versus six
+
+| Source | Statement |
+| --- | --- |
+| `Willard2001` p. 9 | **Seven**: Subtraction, Division, **Predecessor**, Maximum, Logarithm, Root, Count. `Logarithm(x) = ⌈Log₂(x+1)⌉`, `Root(x,y) = ⌊x^{1/y}⌋` |
+| `Willard2005` | **Six** (no Predecessor), with `⌊Log₂(x)⌋` and `⌈x^{1/y}⌉` — **opposite roundings on both** |
+| `Willard2011` | ξ⁻ is described as having "six" |
+
+- Both the count and the roundings differ. **Neither is load-bearing**, and
+  `Willard2001` says so itself (p. 10): Group-1 may be expanded by "any larger
+  set `F` of additional non-growth functions that is axiomatized by any finite
+  set of Π⁻₁ axioms", with all theorems preserved; Remark C.5 adds that even
+  such extensions keep the Group-3 axioms Π⁻₁.
+- The only real constraint is **non-growth** (`F(a₁,…,a_j) ≤ Maximum(a₁,…,a_j)`)
+  plus finite Π⁻₁ axiomatisability. The codified statement should present that
+  condition and exhibit one concrete set, not adjudicate between six and seven.
+- Status: **resolved** — presentational, not substantive. Recorded so a reader
+  comparing papers does not mistake it for a divergence.
+
+## D24 — The admission condition on the base system has three names
+
+| Source | Statement |
+| --- | --- |
+| `Willard2001` p. 12 | `A` is **Regularly Consistent** iff `Prf_A(x,y)` has a Δ⁻₀ encoding **and** the Group-2 axioms (7) are **valid in the Standard Model** for every Π⁻₁ sentence `Φ` |
+| `Willard2005` | `A` is **Π\*₁-true** |
+| `Willard2011` | the base `B^ξ` is a Σ^ξ₁-complete set true in Standard-M |
+
+- These are not the same predicate. 2001's condition is a conjunction that
+  carries an **encoding requirement** (Δ⁻₀ `Prf_A`) alongside the semantic one;
+  2005's and 2011's are purely semantic, with the encoding requirement carried
+  separately (2011 by the generic configuration's `g` component).
+- Note also that "regularly consistent" names a **soundness** condition, not a
+  consistency condition — the word is misleading in isolation.
+- Status: open — C13 must state one admission condition and tabulate the rest.
+
+## D25 — The coding-density constant, apparently 6 / 5 / 6-over-5 / 32
+
+| Source | Statement |
+| --- | --- |
+| `Willard2001` pp. 22, 28, 51 | `2^{⌊β_i/6⌋−2}`; `β_i − β_{i−1} ≥ 6`; "a byte … consisting of **six bits**"; formula encodings in **base 64** |
+| `Willard2001` p. 51 | constants encoded in **base 32**, one tag bit per byte |
+| `Willard1993`/`-TR` | six-bit bytes, base 32; `i* > i^{6/5}` |
+| `Willard2005` Eq. (20) | `U-Height(p) < (1/5)Log₂ p` |
+| `Willard2011` | "Conventional Tableaux Encoding Requirement": Gödel number `≥ 32^J` |
+
+- **These do not conflict.** One scheme: a byte is six bits, of which five are
+  base-32 payload and one is a tag. 2001 counts **bits per byte** (6, base 64);
+  2005 and 2011 count **payload bits per byte** (5, base 32); 1993's exponent
+  `6/5` is exactly the ratio of the two.
+- Status: **resolved on sight**. Recorded because a naive collation produces
+  four incompatible-looking requirements; obligation O33 requires the codified
+  statement to state the bits/payload distinction once, explicitly.
+
+## D26 — Where the size threshold lives: object language versus metatheory
+
+| Source | Statement |
+| --- | --- |
+| `Willard2001` Eqs. (9), (10), (16), (61), (71) | The size comparison is **inside the Group-3 axiom**: `y^λ < z/x`, `Size(y) ≤ x−1`, `Size(y) < x ≤ z/2`, `y·Log₂(x+2) < Log₂ z` |
+| `Willard2001` Eq. (8) | `IS(A)`'s Group-3 has **no** size comparison — the flat `∀y ¬SemPrf(⌜0=1⌝,y)` |
+| `Willard2005`, `Willard2011` | The threshold is metatheoretic — θ, `Good(N)`, `♯` are conditions on the *analysis*, not clauses of an axiom |
+
+- The corpus therefore contains **both** designs, and 2001 contains both itself:
+  `IS(A)` is Level-0 (flat axiom, all the bounding in the metatheory) while
+  `IS^λ(A)`, `ISREF(A)`, `ISTR(A)`, `ISM(A)` are Level-1 (the bound is a clause
+  the system itself quantifies over).
+- **This corrects a claim made in
+  `../discussion/2026-08-21-engine-machinery-and-rosser.md`**, where the
+  comparison to Rosser's trick asserted that Willard's threshold "lives entirely
+  in the metatheory". That is true of `Willard2005`/`Willard2011` and of 2001's
+  `IS(A)`, and **false** of 2001's schematic systems. The Rosser contrast itself
+  survives — Rosser alters the provability predicate of a *fixed* theory,
+  whereas Willard's Group-3 clause is an axiom of a *new* theory whose ordinary
+  provability predicate is unchanged — but the "entirely metatheoretic" phrasing
+  must not be carried into the codified statement.
+- Status: open — C13 must present the Level-0/Level-1 distinction as a design
+  axis, and correct the discussion record's phrasing at composition time.

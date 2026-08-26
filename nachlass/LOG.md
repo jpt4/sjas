@@ -1,5 +1,81 @@
 # Nachlass Log
 
+## 2026-08-26 - Extraction of Willard 2001, the JSL Foundation (component C7)
+
+- **Extracted `Willard2001` in full** to
+  `nachlass/codification/extraction/willard2001.md` (all 67 witness pages,
+  including Appendices A-D and Tables I-II). 41 numbered items inventoried;
+  registries now at 167 results / 25 systems / 73 notation rows. `audit.sh`
+  green. Added `cor` to the audit's type enum - 2001 contains a genuine
+  Corollary (6.2), which the enum did not admit.
+- **The witness is not the JSL 2001 text.** Willard's cover note claims
+  identity apart from type size, but reference `[45]` cites an APAL **2006**
+  paper (cited nowhere in the body) while `[44]` still calls the JSL version
+  forthcoming - a partial post-publication bibliography update. Drift **D22**,
+  gap **G15**: authoritative for the mathematics, not for JSL pagination.
+- **Nine systems, where 2005 and 2011 have far fewer**: `IS(A)`, `IS^lambda(A)`,
+  `ISREF(A)`, plus `ISTR(A)` (Bitwise-Or), `ISM(A)`, `ISMULT(A)`,
+  `XIS^lambda(PAX)`, `ISREF^U(A)` and `IS^(lambda U)(A)`. "IS" abbreviates
+  **Introspective Semantics** - stated only here.
+- **The multiplication picture is not what the later papers suggest.**
+  `ISM(A)` recognises Multiplication as total and *is* consistency-preserving;
+  what it loses is the ability to state "+++" ("I am unable to produce a
+  Semantic Tableaux proof of 0=1"), because its Group-3 gap is too wide.
+  Meanwhile `XIS^lambda(PAX)` - multiplication *plus* tangibility reflection -
+  is inconsistent for every lambda (Theorem 7.3). So multiplication is fatal to
+  reflection, not to consistency-preservation. Obligation **O31**.
+- **Two apparent drifts dissolved on inspection.** (a) Seven grounding
+  functions here versus six in 2005/2011, with opposite roundings on Logarithm
+  and Root - but p. 10 says any finite Pi^-_1-axiomatised set of non-growth
+  functions works, and Remark C.5 says such extensions still keep Group-3
+  Pi^-_1. Presentational (**D23**). (b) The coding-density constants 6, 5, 6/5
+  and 32 across four papers are one scheme measured differently: a byte is six
+  bits, five of them base-32 payload plus a tag (**D25**, obligation **O33**).
+- **The density argument is at its clearest here.** Case 11 of Lemma 4.8: the
+  addition axiom's tertiary deduction at most doubles a parameter's bound, and
+  encoding the sentence that does it costs at least six bits - exactly one unit
+  of the `2^(beta/6)` budget. The budget covers addition and nothing faster.
+  Remark 4.5 then localises the multiplication failure to the loss of Lemma 4.2
+  alone (`u_(i+1) = u_i^2` gives `2^(2^n)`). Obligation **O30**.
+- **Lineage confirmed.** Lemma 3.2 (Pi^-_1 transfers down into the finite model
+  `M_i`) with Remark 3.3 (Sigma^-_1/Delta^-_0 transfers up) is the ancestor of
+  2005's `Normed(a,b)` and 2011's A-/E-Stable pair; `Phi^i_j` is the ancestor of
+  `App-forall/App-exists` and `Scope_E`; the pseudo-formula machinery (club
+  placeholders, `PseudoTransform`, `ExSemPrf`) is the ancestor of 2011's
+  `SubstPrf`/`Gamma^k(n-bar)`. Willard states that TR 93-10 and the 1993
+  abstract "contained intermediate results that were essentially equivalent to
+  the Assertion ++", confirming the C5 reading of the TR's Lemma 6.2.
+- **Willard forecloses the ideal system.** Section 1 lists seven comparison
+  criteria, credits the definable-cut literature with I-IV and his own systems
+  with V-VII, and concludes it is "futile to seek an idealized form of
+  self-verifying system". Recorded as obligation **O35** - a direct constraint
+  on the Refinement stage's ambition, asserted by Willard about his own work.
+  Related: tangibility is precisely a definable cut minus closure under
+  successor (**O29**), which makes the relation to Nelson/Pudlak/Wilkie-Paris
+  exact rather than atmospheric.
+- **A claim from the 2026-08-21 discussion is corrected.** I had told the user
+  that Willard's size threshold "lives entirely in the metatheory" in contrast
+  to Rosser's trick. True of 2005, 2011 and 2001's `IS(A)`; **false** of 2001's
+  schematic systems, whose Group-3 axioms carry the size comparison in the
+  object language (Eqs. 9, 10, 16, 61). Recorded as drift **D26**; the verbatim
+  transcript is left intact with a correction addendum appended. The Rosser
+  contrast itself survives in corrected form.
+- **New gaps.** G15 (witness/JSL divergence), G16 (five stated-only results,
+  including the lambda range the system is *defined* over versus the single
+  lambda = 3/4 actually proven, and section 8's computable-variant boundary
+  catalogue), G17 (`Willard1997` also holds `ISTR(A)`'s proofs - raising G2's
+  priority a second time; note 2001 misprints its venue as the "Third" rather
+  than Fifth Kurt Godel Colloquium), G18 (Solovay's full theorem is stronger
+  than the printed Appendix A and was never published - accepted).
+- Eight further errata recorded in the extraction record section 7, including a
+  genuine repeated `<`/`<=` mismatch between the Group-3 pseudo-formulae and
+  their instantiations (Eqs. 89/90 and 95/96), image-verified on pp. 54 and 60.
+- **Visual control pass** (charter requirement) on pp. 9, 10, 19, 22, 28, 51,
+  54, 60. It caught three text-layer corruptions: `pdftotext` rendered the
+  fraction `1/3` as `31` (p. 19), dropped every overbar on the Group-Zero
+  constant symbols (p. 10, where `2n` is twice `n`, not `2^n`), and rendered
+  the valuation symbol `varpi` as `$`. Hazard H2 as charted.
+
 ## 2026-08-21 - Two Corrections from Checkpoint Review (C4/C6 follow-up)
 
 - **Erratum E6 recorded against `Willard2005`.** Section 4 Item D (p. 16) cites
