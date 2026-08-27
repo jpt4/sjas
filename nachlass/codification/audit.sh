@@ -188,6 +188,21 @@ while IFS='|' read -r _ item pages read_r swept images state _rest; do
     some|several|a\ few|few|various|many|most|yes|partial|done|n/a|none|tbd)
       err "coverage[$item]: Images '$images' is an adjective, not page numbers" ;;
   esac
+  # every page of every document, both modalities (ADR-0001 "Visual control",
+  # amended 2026-08-27): a `complete` row must image the whole witness
+  if [ "$state" = "complete" ]; then
+    pages=$(echo "$pages" | xargs)
+    missing=$(echo "$images" | awk -v n="$pages" '
+      { gsub(/[^0-9,\-]/, " "); split($0, parts, /[ ,]+/)
+        for (i in parts) {
+          if (parts[i] ~ /^[0-9]+-[0-9]+$/) { split(parts[i], r, "-"); for (k = r[1]; k <= r[2]; k++) seen[k] = 1 }
+          else if (parts[i] ~ /^[0-9]+$/) seen[parts[i]] = 1
+        } }
+      END { miss = ""; c = 0
+            for (k = 1; k <= n + 0; k++) if (!(k in seen)) { c++; if (c <= 6) miss = miss " " k }
+            if (c > 0) print c "  (e.g." miss " )" }')
+    [ -z "$missing" ] || err "coverage[$item]: state 'complete' but $missing pages are not imaged"
+  fi
   COVSEEN="$COVSEEN $item"
 done < <(grep '^| ' "$cov")
 

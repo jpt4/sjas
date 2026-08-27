@@ -44,6 +44,15 @@ discarding twenty. When `Read` does not cover a range, no item anchored in that
 range may carry a proof status other than `unverified`, and the extraction
 record must say which items are affected.
 
+**Every page, both modalities.** As of 2026-08-27 the standard is
+unconditional: every page of every in-scope document is read twice, once as
+extracted text and once as a rendered image, with no gaps. `audit.sh` fails a
+row in state `complete` whose `Images` ranges do not cover the witness's full
+page count. The earlier rule — image the pages that carry formulas — required
+judging from the text layer which pages mattered, and the text layer is the
+artefact the rule exists to distrust; it let `℧` reach a registry as the digit
+`0`.
+
 **The `Images` column is not optional.** The charter makes a rendered page a
 precondition for any formula, glyph or constant entering a registry. The C10
 pass of 2026-08-27 initially recorded constants for `Willard2000-TAB`,

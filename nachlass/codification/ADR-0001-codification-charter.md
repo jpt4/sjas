@@ -69,14 +69,28 @@ mathematical typesetting and its losses are *silent* — it substitutes plausibl
 ASCII rather than failing. The C4 pilot found it rendering Fraktur `ℑ` as `=`,
 a script glyph as `f`, and silently dropping numeral overbars, tower
 super/subscripts, iterated-logarithm exponents, and floor/ceiling delimiters
-(pilot record §8.1). Therefore: every page carrying a system definition, a
-definition or theorem the codified statement will quote, or a displayed
-equation whose constants matter, **must be rendered and read as an image**
-(`pdftoppm -r 130 -png`) before its content enters a registry or the codified
-statement. Text extraction locates material and supports grep; the page image
-governs every formula, glyph, and constant. This extends the standing nachlass
+(pilot record §8.1). Therefore: **every page of every in-scope document must be
+read twice — once as extracted text and once as a rendered image**
+(`pdftoppm -r 130 -png`), with no gaps, lacunae, or omissions. Text extraction
+locates material and supports grep; the page image governs every formula,
+glyph, and constant. This extends the standing nachlass
 page-images-are-authoritative policy from OCR'd scans to publisher-typeset
 PDFs, where the risk is less obvious and therefore greater.
+
+**Amended 2026-08-27 (user direction).** The rule previously read "every page
+carrying a system definition, a definition or theorem the codified statement
+will quote, or a displayed equation whose constants matter". That let the
+reader decide, page by page, whether an image was needed — and the decision was
+made from the *text layer*, which is precisely the artefact the rule exists to
+distrust. Three failures followed from it: `Willard2000-TAB`'s constants entered
+registries with no image at all; `Willard2016`'s Conjecture 6.6 was
+reconstructed from a mangled fraction; and `Willard2007-APAL`'s `℧` was
+recorded as the digit `0`, because the text layer's rendering read as plausible
+English and nothing flagged the page as needing a look. A criterion applied to
+a corrupted source cannot detect the corruption. The rule is therefore
+unconditional: **all pages, all documents, both modalities.**
+`audit.sh` fails a coverage row in state `complete` whose `Images` ranges do not
+cover the witness's full page count.
 
 **Composition obligations.** Any finding that the codified statement must act
 on — a side condition to discharge, a variant to present as two readings, a
