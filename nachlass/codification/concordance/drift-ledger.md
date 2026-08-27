@@ -626,3 +626,128 @@ result.
   Establish which of the two indexings the codification adopts, and state where
   Almost-M sits in it.
 - Status: open (C13).
+
+## D30 — the Linear-Sum construction is `Willard2002a` Lemma 6.3, eighteen years early
+
+| Source | Statement |
+| --- | --- |
+| `Willard2002a` Lemma 6.3 (p. 25) | root `¬Ψ`; the axiom `Θ_Υ ⇒ Υ`; `⇒`-elimination splitting into `¬Θ_Υ` and `Υ`; proof `p` below `¬Θ_Υ`; proof `q` below `Υ` |
+| `Willard2020` §6 (p. 17) | root `¬ψ`; the axiom `φ ∨ ¬φ`; `∨`-branching into `φ` and `¬φ`; a proof of `φ → ψ` below `φ`; a proof of `φ` below `¬φ` |
+
+- **The same construction.** 2002a drives it with an *implication* axiom, 2020
+  with a *LEM* axiom; both restore linear-sum proof composition to a cut-free
+  apparatus by making a **branching axiom** available.
+- The underlying fact recurs five times across the corpus: `Willard2001` Lemma
+  7.1's comment; `Willard2002a` Theorem 2.2's proof sketch ("super-exponentially
+  longer"); `Willard2002a` `V₄`'s CLARIFICATION ("a redundant axiom can
+  super-exponentially shorten … cut-free … proofs"); `Willard2002a` Lemma 6.3;
+  `Willard2020` §6, where it is finally named and made the mechanism.
+- Status: open — C13 should present one construction with its two instantiations.
+
+## D31 — "Conventional Deciphering Property" names two different conditions
+
+| Source | Statement |
+| --- | --- |
+| `Willard2002a` Definition 5.1 | a **finite subset** `F ⊆ α` suffices to prove, for each canonical binary term `N̲`, that `N` is the Gödel number of an axiom of α |
+| `Willard2004` Remark 1 | a **`Σ*₀` sentence `Test(n)`** is true exactly when `n` is the Gödel number of an axiom of α |
+
+- These are not equivalent: 2002a's is a *finite-axiomatisability-of-recognition*
+  condition, 2004's a *definability* condition. `Willard2006a` adds a third
+  related notion, **Concise Encoding**, described as "slightly stronger than a
+  requirement that a `Δ⁻₀` predicate identify all α's axioms".
+- `Willard2002a`'s own abstract further calls its property the "Conventional
+  **Encoding** Property" while Definition 5.1 says "Deciphering".
+- Status: open — C13 must name the three conditions distinctly.
+
+## D32 — Definable Cut has four inequivalent definitions
+
+| Source | Clauses |
+| --- | --- |
+| `Willard2001` p. 5 | (a) `Υ(k̄)` for each fixed `k`; (b) downward closure; (c) closure under successor |
+| `Willard2002a` Eq. (1) | `Υ(0)`; closure under successor |
+| `Willard2006a` Eq. (4) | `ϕ(0)`; closure under successor; downward closure |
+| `Willard2020-LFCS` Definition 4 | `Φ(0)`, `Φ(1)`, `Φ(2)`; closure under **`ω_j`**; downward closure |
+
+- 2002a's omits downward closure; 2001's replaces `Υ(0)` with a schema over all
+  fixed numerals; LFCS's replaces successor-closure with closure under a
+  **fast-growing** function, giving the `Ω_i`-style cut of the Pudlák /
+  Wilkie–Paris tradition inside `L*`.
+- This matters for obligation **O29**: the claim "tangibility is a definable cut
+  minus successor-closure" is stated against `Willard2001`'s definition and must
+  be re-checked against whichever definition C13 adopts.
+- Status: open (C13).
+
+## D33 — `Willard2020`'s `Tab-1` is `Willard2004`'s `Tab₁List`
+
+| Source | Statement |
+| --- | --- |
+| `Willard2004` p. 7–8 | `Tab-ℜ-List` proof: `(t₁,p₁)…(t_n,p_n)`, each `p_i` a tableaux proof of `t_i` from α plus earlier `t`s, every `t_i ∈ ℜ`. `Tab₁List` sets `ℜ = Π*₁ ∪ Σ*₁` |
+| `Willard2020` p. 11 | `Tab-1` proof: `(p₁,φ₁)…(p_k,φ_k)`, each `p_j` a Tab-proof of the **Rank-1\*** sentence `φ_j` from α plus earlier `φ`s |
+
+- Identical, with `Rank-1*` (2020's name for `Π*₁ ∪ Σ*₁`) replacing `ℜ`.
+  `Willard2020` attributes `Tab-1` to [50] = `Willard2005`; the construct is
+  already general in 2004.
+- Status: **resolved** — one apparatus, three names (`Tab₁List`, `Tab-1`, and
+  `Willard2005`'s form). Fix one at C13.
+
+## D34 — 2004's `ℜ` dial and 2020's `Z` dial are different parameterisations
+
+| Source | Parameterises |
+| --- | --- |
+| `Willard2004` | **ℜ** — which *intermediate theorems* a `Tab-ℜ-List` proof may use |
+| `Willard2020` §7 | **Z** — which *LEM instances* are admitted as logical axioms |
+
+- Both report the same shape of answer — a `Π*₁`-level positive and a `Π*₂`
+  negative — but they are not the same dial, and 2020 does not say so.
+- **This sharpens the open conjecture.** On 2004's dial the `Π*₁ ∪ Σ*₁` case is
+  **proved** (Theorem 3, at Level(1)); on 2020's dial the `Π*₁` case is
+  **conjectured**. So `Willard2020`'s conjecture is precisely the claim that
+  2004's proved positive result **transfers from the `ℜ` dial to the `Z` dial**.
+- Status: open — appended to gap G22 and obligation O46.
+
+## D35 — the Non-Growth condition itself varies
+
+| Source | Condition |
+| --- | --- |
+| `Willard2001`, `Willard2004`, `Willard2020` | `F(a₁,…,a_j) ≤ Maximum(a₁,…,a_j)` |
+| `Willard2006a` p. 6 | `F(a₁,…,a_j) ≤ Maximum(**2**, a₁,…,a_j)` |
+
+- The `2` is real (image-verified) and is needed because 2006a's
+  `Logarithm(x) = 1 + ⌊Log₂x⌋` exceeds `Maximum(x)` at small arguments.
+- Recorded because D23 concluded that the *choice of grounding functions* is not
+  load-bearing; that conclusion stands, but the **defining condition** they must
+  satisfy is itself not stated identically, and the codified statement should
+  give one condition that all four papers' function sets satisfy.
+- Status: open (C13).
+
+## D36 — `Willard2011`'s subsumption of `Willard2006a` is partial
+
+| 2006a contributes | Carried by `Willard2011`? |
+| --- | --- |
+| `ISCE(A)`, a Hilbert-apparatus self-justifying system | **yes** |
+| The **naming-convention axis** (incremental / additive / multiplicative) | **no** — ξ parameterises language, base and coding `g`, but not how constants are *named* |
+| **Continuously Expanding** | **no** |
+| **Infinitely Far-Reaching** / `ISINF(A)` | **no** |
+| Theorems 4/4\*/7 (Hilbert negatives) | partially — cited, not reproduced |
+
+- 2011 absorbs 2006a's positive *system* and drops its *boundary axis*. This is
+  the second element-wise failure of the unification claim, alongside **D21**.
+- Status: open — closes the C6-deferred `Willard2006a` subsumption check.
+
+## D37 — the LFCS chapter is not superseded by the arXiv expansion
+
+| Source | Statement |
+| --- | --- |
+| `Willard2020-LFCS` Appendix B | contains **Definition 4 (Locally-J-Closed)**, **Theorem 3**, the `ω_j` hierarchy, and the explanation of why Theorems 1 and 2 diverge |
+| `Willard2020` | contains none of these |
+| `Willard2020-LFCS` p. 16 | "a formal proof of Theorem 3 will be **postponed until a longer version of this article**" |
+
+- **This partially reverses D27's recommendation.** The LFCS chapter is not a
+  deltas-only variant: it is the only place in the corpus that explains how
+  `Willard2020`'s statement ⊙ reaches Hájek–Pudlák's definable-cut machinery —
+  via LEM → Linear-Sum Effect → short proofs of the Locally-J-Closed conditions
+  → the cut diagonalization.
+- The "longer version" that was to carry Theorem 3's proof is **not** the arXiv
+  paper, which drops it. That is direct textual support for the priority raised
+  on **G1** (`Willard2021`), previously inferred only from its title and date.
+- Status: open — extracted as a first-class record, `willard2020-lfcs.md`.

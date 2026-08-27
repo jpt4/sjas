@@ -98,7 +98,7 @@ at composition time.
 | C6 | Spine: Willard2011 + subsumption audit | done 2026-08-21 |
 | C7 | Spine: Willard2001 | done 2026-08-26 |
 | C8 | Spine: Willard2020 | done 2026-08-26 |
-| C9 | Tier A: Willard2002a, Willard2004, Willard2006a, Willard2020-LFCS (+Willard2021 when acquired) | pending |
+| C9 | Tier A: Willard2002a, Willard2004, Willard2006a, Willard2020-LFCS (+Willard2021 when acquired) | done 2026-08-26; partial reads logged as G23 |
 | C10 | Tier B: Willard2002c, Willard2000-TAB, Willard2006-WoLLIC, Willard2009, Willard2016 | pending |
 | C11 | Tier C: Willard2005-TAB, Willard2006b, Willard2007-APAL, Willard1998, Willard1997 (when acquired), motivation items | pending |
 | C12 | Tier D: nachlass witness records | pending |

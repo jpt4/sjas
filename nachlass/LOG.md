@@ -1,5 +1,95 @@
 # Nachlass Log
 
+## 2026-08-26 - Tier A Extraction: the Negative Side (component C9)
+
+- Extracted four items to `nachlass/codification/extraction/`: `willard2002a.md`
+  (33 pp.), `willard2004.md` (32 pp.), `willard2006a.md` (45 pp.) and
+  `willard2020-lfcs.md` (19 pp.). Registries now at 249 results / 36 systems /
+  104 notation rows; gaps G23-G24; drift D30-D37; obligations O43-O48.
+  `audit.sh` green.
+- **The single best structural finding of the component**: the doubling/squaring
+  pair `x_i = x_(i-1)+x_(i-1)` versus `y_i = y_(i-1)*y_(i-1)` is the corpus's
+  one unifying device, appearing on **both sides** of the boundary -
+  Willard2001 Remark 4.5 footnote 7 (squaring breaks Lemma 4.2, so the positive
+  engine collapses), Willard2002a Lemma 4.7 (the same squaring makes the
+  *negative* proof's subtree short), Willard2006a Eqs. (2)-(3) (the additive and
+  multiplicative **naming conventions**, an explicit design axis), and
+  Willard2020 section 5 (only y_n's encoding is long enough to hold its own
+  derivation). Obligation **O44**.
+- **The Linear-Sum construction is eighteen years older than its name.**
+  Willard2002a Lemma 6.3's five-step tableau construction is Willard2020 section
+  6's four-step one with an *implication* axiom in place of *LEM*. The same fact
+  recurs five times across the corpus, including Willard2002a's V_4
+  CLARIFICATION - "a redundant axiom can super-exponentially shorten the length
+  of some cut-free and/or Semantic Tableaux proofs" - written in 2002. Drift
+  **D30**, obligation **O43**.
+- **Willard2002a locates the boundary explicitly**: "it is the very act of
+  changing Multiplication from a 3-variable relation to a total function which
+  is the exact juncture point where the Semantic-Tableaux version of Godel's
+  Second Incompleteness Theorem becomes valid." It also **answers a Paris-Wilkie
+  open question of 1981** (Theorem 6.4). Remark 5.6 supplies the complementary
+  positive: omega-consistent extensions of Q\* (multiplication as a relation)
+  can prove what extensions of Q cannot, and Willard claims IS^lambda(A)
+  **internally recognizes its own omega-consistency** - a strong, unsupported
+  claim recorded as gap **G24**.
+- **Willard2004 supplies the corpus's canonical Level hierarchy** (Level(0-),
+  Level(n), Level(n+) over Q\*_n sentences) with the reason it is a real axis:
+  the levels coincide in strong models but weak systems cannot prove the
+  equivalence (**O45**). Its `Tab-R-List` deduction is the origin of
+  Willard2020's `Tab-1` (**D33**).
+- **The open conjecture is sharper than recorded at C8.** Willard2004
+  parameterizes by R - which *intermediate theorems* a TabList proof may use -
+  and **proves** the Pi\*_1 union Sigma\*_1 case at Level(1) (Theorem 3), while
+  proving the Pi\*_2 and Sigma\*_2 cases fail (Theorem 2). Willard2020
+  parameterizes by Z - which *LEM instances* are logical axioms - and leaves
+  Pi\*_1 open. **Different dials.** So Willard2020's conjecture is precisely the
+  claim that 2004's proved positive result transfers from the R dial to the Z
+  dial. Drift **D34**, obligation **O46**, appended to G22.
+- **Willard2006a opens an axis found nowhere else**: the **naming convention**
+  for constant symbols. ISCE(A) is a **Hilbert-apparatus** self-justifying
+  system using the additive convention, and Willard states it is Willard2001's
+  Theorem 3.4 (ISREF(A)) upgraded from incremental naming - the upgrade buying
+  the **Continuous Expansion** property that the incremental convention fails
+  because "it grows too slowly" (**O47**). Section 6's ISINF(A) is
+  simultaneously Infinitely Far-Reaching, self-verifying and Pi^-_1-complete
+  for PA.
+- **The C6-deferred Willard2006a subsumption check is closed, negatively.**
+  Willard2011 absorbs ISCE(A) but drops the naming-convention axis, Continuous
+  Expansion and Infinite Far-Reach entirely. This is the **second** element-wise
+  failure of 2011's unification claim, alongside D21. Drift **D36**.
+- **Willard2020-LFCS is not superseded by the arXiv expansion** - which reverses
+  part of D27. Its Appendix B carries Definition 4 (**Locally-J-Closed**), the
+  omega_j hierarchy, and **Theorem 3**, none of which appear in Willard2020, plus
+  the only explanation in the corpus of how statement (circled dot) reaches
+  Hajek-Pudlak's definable-cut machinery: LEM -> Linear-Sum Effect -> short
+  proofs of the Locally-J-Closed conditions -> the cut diagonalization
+  (**O48**). And its Theorem 3's proof is "postponed until a longer version of
+  this article" - which the arXiv paper is not, since it drops the theorem. That
+  is **direct textual support for G1's raised priority**, previously inferred
+  only from Willard2021's title and date. Drift **D37**.
+- Provenance corroborated: the LFCS chapter thanks only Seth Chaiken and still
+  reads "mapping are" at Theorem 1 - the exact error at item 24 of
+  `prose/willard2020draftreview.txt`, corrected in the arXiv version, whose
+  acknowledgments add James P. Torre, IV. The D28 timeline holds.
+- **Other drift**: "Conventional Deciphering Property" names two inequivalent
+  conditions in 2002a and 2004 (**D31**); Definable Cut now has **four**
+  inequivalent definitions across 2001, 2002a, 2006a and the LFCS chapter
+  (**D32**), which means obligation O29's "tangibility is a definable cut minus
+  successor-closure" must be re-checked against whichever definition C13 adopts;
+  and the Non-Growth condition itself differs, 2006a alone using
+  `Maximum(2, ...)` (**D35**).
+- **Visual control passes** on `willard2002a` p. 14 (confirmed C ~= 12, the
+  underbrace numerals, the squaring sequence), `willard2004` p. 4 (six grounding
+  functions, 2·Log_2 N, non-growth without the 2), `willard2006a` p. 6 (seven
+  functions, Logarithm = 1 + floor(Log_2 x), non-growth **with** the 2), and
+  `willard2020-lfcs` p. 16 (omega_0(x)=x^2, omega_(j+1)(x)=2^(omega_j(2·Log_2(x+1))),
+  omega_1(x) >= x^x, Definition 4's three clauses).
+- **Honest scope note**: `Willard2004` sections 4-6 and `Willard2006a` sections
+  3-6 with Appendices A-D were swept for numbered items and read at the level of
+  statements, not line by line, so some proof statuses there are provisional.
+  Recorded as gap **G23** with the action assigned to C13. `Willard2002a` and
+  `Willard2020-LFCS` were read in full.
+
 ## 2026-08-26 - Two Boundary-Result Elaborations (C8 follow-up)
 
 - Recorded at `nachlass/codification/discussion/2026-08-26-boundary-results-and-the-pi1-conjecture.md`
