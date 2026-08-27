@@ -93,12 +93,12 @@ at composition time.
 | C1 | TR 93-10 searchable collation | done 2026-08-20 (309ab69, a589920) |
 | C2 | Web coverage verification (+ acquisitions) | done 2026-08-20 (48707d6, 01daf26, 714ee5c) |
 | C3 | Charter, scaffold, corpus ruling pass | this ADR |
-| C4 | Pilot extraction: Willard2005 (method gate) | done 2026-08-21; gate passed, see `extraction/willard2005-fidelity-check.md` |
-| C5 | Origin: Willard1993-TR + Willard1993 | done 2026-08-21; formal core visually verified, Appendix A inventory deferred to pass 2 |
+| C4 | Pilot extraction: Willard2005 (method gate) | done 2026-08-21; gate passed, see `extraction/willard2005-fidelity-check.md`; coverage completed 2026-08-27 |
+| C5 | Origin: Willard1993-TR + Willard1993 | done 2026-08-21; coverage completed 2026-08-27 (both witnesses `complete`, G29 closed) |
 | C6 | Spine: Willard2011 + subsumption audit | done 2026-08-21 |
 | C7 | Spine: Willard2001 | done 2026-08-26 |
 | C8 | Spine: Willard2020 | done 2026-08-26 |
-| C9 | Tier A: Willard2002a, Willard2004, Willard2006a, Willard2020-LFCS (+Willard2021 when acquired) | done 2026-08-26; partial reads logged as G23 |
+| C9 | Tier A: Willard2002a, Willard2004, Willard2006a, Willard2020-LFCS (+Willard2021 when acquired) | done 2026-08-26; reads completed 2026-08-27, G23 closed |
 | C10 | Tier B: Willard2002c, Willard2000-TAB, Willard2006-WoLLIC, Willard2009, Willard2016 | pending |
 | C11 | Tier C: Willard2005-TAB, Willard2006b, Willard2007-APAL, Willard1998, Willard1997 (when acquired), motivation items | pending |
 | C12 | Tier D: nachlass witness records | pending |
