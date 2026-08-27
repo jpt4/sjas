@@ -1067,3 +1067,22 @@ Appendix A of `Willard2001` as subsequent explorations.
   Non-Growth requirement survives — but a codified grounding language must pick
   one, and any statement proved about `Root`'s exact values inherits the choice.
 - Status: open (C13).
+
+## D54 — six tableaux rules or eight, depending on the paper
+
+| Source | Presentation |
+| --- | --- |
+| `Willard2007-APAL` Definition 1 (p. 4) | **Eight** rules. "For the sake of simplifying our presentation, this definition views the bounded quantifier `∀v ≤ s` as a syntactic object **different from** the unbounded quantifier `∀v`", so rules 6 and 8 are primitive |
+| `Willard2020-LFCS` Appendix A (p. 15) | **Six** rules. `∀v ≤ s Φ(v)` is "an abbreviation for `∀v {v ≤ s → Φ(v)}`" and likewise for `∃`, so the bounded rules **a** and **b** are *derived* |
+| `Willard2002c` §2 (p. 7) | **Six** rules, plus a PRENEX\* normalisation requirement on the root and a restriction that `∀`-elimination terms be built from Grounding Functions over **previously introduced** parameters |
+
+- One calculus, three presentations, and the count of "the elimination rules"
+  differs between them. This matters for citation: `Willard2009` Appendix B
+  invokes "[55]'s **eight** elimination rules" **by number** — rules 6, 7 and 8
+  — so it is keyed to `Willard2007-APAL`'s numbering specifically, and a reader
+  holding `Willard2020-LFCS`'s six-rule list cannot follow it (gap G32).
+- `Willard2002c`'s extra restriction on `∀`-elimination terms is not
+  presentational: it bounds what parameters a candidate tree may mention, which
+  is what makes the `(L,M)`-Conservative valuation well defined.
+- The codified statement should fix one presentation and give the numbering map.
+- Status: open (C13).
