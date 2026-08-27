@@ -111,7 +111,7 @@ while IFS=$'\t' read -r id paper label type page topic proof depends notes; do
   in_corpus_key "$paper" || err "results[$id]: unknown corpus key '$paper'"
   case "$type" in def|thm|lemma|cor|prop|remark|conj|example) ;; *) err "results[$id]: bad type '$type'" ;; esac
   case "$proof" in
-    full|sketch|cited|stated-only|n/a) ;;
+    full|sketch|cited|stated-only|unverified|n/a) ;;
     *) err "results[$id]: bad proof status '$proof'" ;;
   esac
   [ -z "${proof_count[$proof]:-}" ] && proof_count[$proof]=0
@@ -156,11 +156,49 @@ for e in pending extracted saturated n/a blocked accepted; do
   [ -n "${extr_count[$e]:-}" ] && echo "  extraction $e: ${extr_count[$e]}"
 done
 echo "results rows: $n_results"
-for p in full sketch cited stated-only n/a; do
+for p in full sketch cited stated-only unverified n/a; do
   [ -n "${proof_count[$p]:-}" ] && echo "  proof $p: ${proof_count[$p]}"
 done
 echo "systems rows: $n_systems"
 echo "notation rows: $n_notation"
+# --- coverage registry: every extracted corpus item must declare what was read ---
+COVSEEN=""
+cov="registry/coverage.md"
+[ -f "$cov" ] || err "coverage: registry/coverage.md is missing"
+cov_rows=0
+while IFS='|' read -r _ item pages read_r swept images state _rest; do
+  item=$(echo "$item" | xargs); state=$(echo "$state" | xargs); read_r=$(echo "$read_r" | xargs)
+  case "$item" in ''|Item|---|'**Open'*) continue ;; esac
+  cov_rows=$((cov_rows+1))
+  case "$state" in
+    complete|partial|unrecorded) ;;
+    *) err "coverage[$item]: bad state '$state'" ;;
+  esac
+  [ -n "$read_r" ] || err "coverage[$item]: empty Read column"
+  if [ "$state" = "complete" ] && [ "$read_r" = "unrecorded" ]; then
+    err "coverage[$item]: state 'complete' with unrecorded Read ranges"
+  fi
+  COVSEEN="$COVSEEN $item"
+done < <(grep '^| ' "$cov")
+
+# every corpus item marked extracted: must have a coverage row
+while IFS='|' read -r _ key _rest; do
+  key=$(echo "$key" | xargs)
+  case "$key" in ''|Key|---) continue ;; esac
+  if grep -q "^| $key .*| extracted:" registry/corpus.md 2>/dev/null; then
+    case " $COVSEEN " in
+      *" $key "*) ;;
+      *) err "coverage: '$key' is marked extracted in corpus.md but has no coverage row" ;;
+    esac
+  fi
+done < <(grep '^| ' registry/corpus.md)
+
+echo "coverage rows: $cov_rows"
+for st in complete partial unrecorded; do
+  n=$(awk -F'|' -v s="$st" 'NR>2 && $0 ~ /^\| / {gsub(/^ +| +$/,"",$7); if ($7==s) c++} END{print c+0}' "$cov")
+  echo "  coverage $st: $n"
+done
+
 echo "gaps rows: $n_gaps"
 
 if [ "$FAIL" -eq 0 ]; then echo "AUDIT PASS"; exit 0; else echo "AUDIT FAIL"; exit 1; fi

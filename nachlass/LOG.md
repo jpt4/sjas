@@ -1,5 +1,39 @@
 # Nachlass Log
 
+## 2026-08-27 - Coverage Discipline: making "what was read" machine-checkable
+
+- **The C9 coverage claim was false and is corrected.** `registry/gaps.md` G23
+  had said `Willard2002a` and `Willard2020-LFCS` "were read in full". Neither
+  was. Actual ranges are now in the new `registry/coverage.md`: Willard2002a
+  pp. 1-14 and 20-28 read (**pp. 15-19 and 29-33 unread** - the second half of
+  section 4's proof of Theorem 3.4 including Lemmas 4.8-4.9, plus the Appendix
+  body); Willard2020-LFCS pp. 15-17 read (pp. 1-14 not read directly, but
+  item-for-item correspondent to Willard2020 sections 3-5, read in full at C8);
+  Willard2004 pp. 4-9; Willard2006a pp. 3-8; Willard2020 pp. 4-28 plus a partial
+  opening. The two overstated saturation lines were corrected too.
+- **Root cause**: coverage lived only in narration, where nothing could check
+  it. Working agreement 5 - once an item is ruled core, every part is extracted
+  - already forbade the underlying error and did not prevent it. So the fix is a
+  mechanical check, not a restated rule.
+- **New `registry/coverage.md`**: one row per extracted item with Read / Swept /
+  Images / State (`complete` | `partial` | `unrecorded`). `audit.sh` now fails
+  when an item marked `extracted:` in `corpus.md` has no coverage row, and when
+  `complete` is claimed over unrecorded ranges. Both checks verified red-green.
+  Current tally: 1 complete, 5 partial, 4 unrecorded.
+- **New `unverified` proof status** in the results registry enum. The previous
+  enum (full | sketch | cited | stated-only | n/a) had no way to say "I have not
+  read this proof", which is part of why plausible statuses were entered for
+  unread ranges instead of honest ones.
+- **Charter amended** with a Coverage discipline section; criterion **A1** now
+  requires a coverage row in state `complete` rather than a prose assertion.
+- **Gap G25** opened and accepted: the four C4-C6 items predate this registry
+  and their ranges are not reconstructible, so they are marked `unrecorded`
+  rather than guessed.
+- Working agreements 6-9 added to persistent memory: record coverage as ranges
+  and never as "read in full"; split an oversized component at the start rather
+  than compressing depth silently; record ignorance rather than a plausible
+  guess; never report an edit before the tool call returns.
+
 ## 2026-08-26 - Tier A Extraction: the Negative Side (component C9)
 
 - Extracted four items to `nachlass/codification/extraction/`: `willard2002a.md`

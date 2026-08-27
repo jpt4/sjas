@@ -161,7 +161,10 @@ See `willard2006a.md` §3 and obligation **O44**.
 
 | Pass | Date | Method | New items |
 | --- | --- | --- | --- |
-| 1 | 2026-08-26 | Full text-layer read of §§1–6 and Appendix; awk item sweep | 24 numbered items |
+| 1 | 2026-08-26 | Text-layer read of pp. 1–14 and 20–28; awk item sweep across all 33 pp. | 24 numbered items |
 | 2 | 2026-08-26 | Visual control pass, p. 14 | 0 new; confirmed `C ≅ 12`, the underbrace notation, and `u_{i+1} = (u_i)²` |
 
-Zero-new-items re-pass **not yet run**; saturation **open**.
+**pp. 15–19 and 29–33 were not read** — the second half of §4's proof of Theorem 3.4
+(Lemmas 4.8–4.9) and the Appendix body. Corrected 2026-08-27; the pass-1 line
+previously overstated this as a full read. Zero-new-items re-pass **not yet run**;
+saturation **open**, gap **G23**.

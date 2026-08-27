@@ -126,4 +126,7 @@ the added acknowledgment).
 | 1 | 2026-08-26 | Item sweep across all 19 pp.; full read of Appendices A–B | 16 numbered items, 3 of them absent from `Willard2020` |
 | 2 | 2026-08-26 | Visual control pass, p. 16 | 0 new; confirmed `ω₀(x) = x²`, `ω_{j+1}(x) = 2^{ω_j(2·Log₂(x+1))}`, `ω₁(x) ≥ x^x`, and Definition 4's three clauses |
 
-§§1–4 were read only as deltas against `willard2020.md`. Saturation **open**.
+pp. 1–14 were **not read directly**; they correspond item-for-item to `Willard2020`
+§§3–5, which were read in full at C8, and were mapped by that correspondence (§2
+above). Defensible, but not the same as a direct read. Saturation **open**, gap
+**G23**.

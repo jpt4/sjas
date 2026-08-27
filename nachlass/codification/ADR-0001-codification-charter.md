@@ -114,6 +114,22 @@ subsumption audit**: Willard2011's claims to unify/subsume earlier results
 are audited against the Willard2001/2005 extractions — first substantive
 drift-ledger entries — never assumed.
 
+## Coverage discipline (added 2026-08-27)
+
+Extraction records state what was read as **page ranges** in
+[`registry/coverage.md`](registry/coverage.md), never as an adjective. Every
+item marked `extracted:` in `corpus.md` must carry a coverage row;
+[`audit.sh`](audit.sh) fails when one is missing and when `complete` is claimed
+over unrecorded ranges. Proof statuses for unread ranges are recorded as
+`unverified` rather than guessed.
+
+Added after C9 recorded two items as "read in full" that were not
+(`Willard2002a` pp. 15-19 and 29-33; `Willard2020-LFCS` pp. 1-14). The
+pre-existing rule — once an item is ruled core, every part is extracted — did
+not prevent it, because coverage lived only in prose where nothing could check
+it. Criterion **A1** is amended accordingly: saturation requires a coverage row
+in state `complete`, not a prose assertion.
+
 ## Success criteria
 
 - **A1** Every `core`/`motivation`/`witness` corpus row has an extraction
