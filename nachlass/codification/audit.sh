@@ -178,6 +178,16 @@ while IFS='|' read -r _ item pages read_r swept images state _rest; do
   if [ "$state" = "complete" ] && [ "$read_r" = "unrecorded" ]; then
     err "coverage[$item]: state 'complete' with unrecorded Read ranges"
   fi
+  # the visual control pass is mandatory for all tiers (ADR-0001 "Visual control"),
+  # so a row that records reading must also record which pages were rendered
+  images=$(echo "$images" | xargs)
+  if [ "$read_r" != "unrecorded" ] && [ -z "$images" ]; then
+    err "coverage[$item]: empty Images column; the visual control pass is mandatory for all tiers"
+  fi
+  case "$(echo "$images" | tr 'A-Z' 'a-z')" in
+    some|several|a\ few|few|various|many|most|yes|partial|done|n/a|none|tbd)
+      err "coverage[$item]: Images '$images' is an adjective, not page numbers" ;;
+  esac
   COVSEEN="$COVSEEN $item"
 done < <(grep '^| ' "$cov")
 
