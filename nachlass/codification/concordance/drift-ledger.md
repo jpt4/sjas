@@ -1014,7 +1014,19 @@ reluctant to publish his nice privately communicated results on many occasions
 [11, 25, 35, 37, 39, 49]." Independent confirmation, twenty-two years later, of
 the dating that closed **D1** and gap **G9** — TR 93-10's `[So94]` citation is
 to an April-1994 private communication, so the TR is a 1994 text carrying a
-1993 series number. `Willard2016` also credits **Pudlák's 1985 article [39]**
+1993 series number. `Willard2006-WoLLIC`'s reference **[26]** is the fullest citation of it anywhere
+in the corpus, and it was found only by the full-document visual pass of
+2026-08-27: "R. Solovay, **Telephone conversations between Solovay and Willard
+(during April of 1994)** describing Solovay's generalization of one of Pudlák's
+theorems [23], using some of Nelson's and Wilkie-Paris's methodologies. **The
+Appendix A of [34] offers a 4-page interpretation of the fundamental intuition
+behind Solovay's idea.**" — where [23] is Pudlák's "Cuts, Consistency Statements
+and Interpretations", JSL 50 (1985) 423–442, and [34] is `Willard2001`. So the
+corpus's own four-page exposition of the theorem that forces its whole
+two-branch architecture is **`Willard2001` Appendix A**, and the April-1994
+dating is fixed in print rather than inferred.
+
+`Willard2016` also credits **Pudlák's 1985 article [39]**
 with "the majority of `++`'s essence, chronologically before Solovay's
 observations", and notes Buss–Ignjatovic, Hájek and Švejdar [11, 23, 45] and
 Appendix A of `Willard2001` as subsequent explorations.

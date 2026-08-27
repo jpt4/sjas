@@ -30,9 +30,9 @@ page), `partial` (gaps remain, and a gaps-ledger row says so), or `unrecorded`
 | Willard2006a | 45 | 1-45 | all | 6 | complete |
 | Willard2020-LFCS | 19 | 1-19 | all | 16 | complete |
 | Willard2002c | 17 | 1-17 | all | 8, 10, 16 | complete |
-| Willard2000-TAB | 16 | 1-16 | all | 7, 9, 10 | complete |
+| Willard2000-TAB | 16 | 1-16 | all | 1-16 | complete |
 | Willard2009 | 33 | 1-33 (30-33 are references) | all | 4, 8, 10, 11, 12, 14, 19, 22, 25, 26, 27, 28 | complete |
-| Willard2006-WoLLIC | 15 | 1-15 (13-15 are references) | all | 8, 9, 10 | complete |
+| Willard2006-WoLLIC | 15 | 1-15 (13-15 are references) | all | 1-15 | complete |
 | Willard2016 | 34 | 1-34 (PDF pages; PDF = printed + 1) | all | 6, 8, 11, 12, 15, 16, 18, 19, 24, 25 | complete |
 
 **A sweep is not a read.** The `Swept` column records that a mechanical pass
