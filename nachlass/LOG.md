@@ -1,5 +1,77 @@
 # Nachlass Log
 
+## 2026-08-27 - Visual Pass over TR 93-10 (closing G29)
+
+- Rendered and read the 23 pages of the collated TR that had never been seen as
+  images: PDF 1-4, 7-10, 18, 23-24, 27-29, 32-33, 35, 37-38, and the four
+  unnumbered **Figure pages** 58-61, which no earlier pass had covered either.
+  Every page of the witness is now visually read; `registry/coverage.md` reads
+  **10 complete, 0 partial, 0 unrecorded**. **G29 closed.**
+- The pass was **not** confirmatory. It produced three drift entries, four
+  obligations, and a decisive strengthening of D1.
+- **Drift D1 is settled.** PDF 2's front matter: "A 12-page abbreviated version
+  of this paper ... was published on **25 August 1993** in the Proceedings of the
+  Third Kurt Godel Symposium ... **This new longer draft has been issued as
+  SUNY-Albany Comp. Science TR 93-10.**" With printed p. 1's "Robert Solovay
+  recently proved a new version of Godel's Incompleteness Theorem, **shortly
+  after learning of our work**", the order is fixed: chapter August 1993 ->
+  Solovay April 1994 -> this report, which carries a 1993 series number.
+- **=> `Willard2020`'s `Xtab` is the TR's "tableaux proof with cuts", verbatim**
+  (**D42**, **O55**). Printed p. 33: "Define a tableaux proof with cuts to be a
+  deduction formalism identical to semantic tableaux, except that it is
+  permissible to include the sentence `Phi v not-Phi`, for any sentence Phi, in
+  any node of a proof tree." Printed p. 36 gives the identification directly - a
+  system "can be viewed as performing deduction **with Gentzen-style cuts**, if
+  [it] is defined to include the axiom `Phi v not-Phi` for each sentence Phi".
+  So Willard2020's contribution is the negative theorem about an apparatus the
+  corpus defined at the outset, not the apparatus itself.
+- **=> The TR supplies the argument `Willard2020` section 7 omits** (**D43**,
+  **O56**), which materially improves **G22**. Printed p. 35's footnote performs
+  exactly Definition 7.1's Z-enrichment at Z = Delta\*_0 - "add to IS(A) an axiom
+  `Phi v not-Phi` for each Delta_0 sentence Phi" - and explains why it is
+  harmless: IS(A) already "can simulate a Delta_0 cut rule with only a
+  **polynomial increase in proof length**", because Group-2 supplies
+  `Prf_A(<Phi v not-Phi>) => Phi v not-Phi`. That is the no-additional-
+  compression condition the Linear-Sum analysis needs, and it sharpens the open
+  Pi\*_1 question to whether Group-2 still delivers those instances cheaply one
+  level up.
+- **=> The corpus's two branches are derived on printed p. 2** (**D44**,
+  **O57**). Solovay's theorem forbids (a) a Gentzen method with a cut rule and
+  (b) Addition-totality **together**; "Solovay's Theorem is the almost direct
+  complement to our Propositions 1 & 7, in that these theorems show that
+  self-verifying axioms systems can be constructed when **either** condition (a)
+  **or** (b) is relaxed." Proposition 1 relaxes (a) - the tableaux line;
+  Proposition 7 relaxes (b) - the Hilbert line that becomes ISREF and ISCE.
+- **Machinery recovered**: `IS^s_d(A,G)` parameterises by deduction method,
+  Group-1 axioms **and** the Group-3 self-verification class - three of xi's five
+  components, with `s` the ancestor of SelfCons_k's index; a **five-way
+  reflection taxonomy** whose strong-uniform Sigma_1 form uses the bounded
+  `Phi^y_v`, ancestor of Willard2001 Definition 1.1; **Positive Normal Form** and
+  the **Positive(Omega)** rewrite over **broad** quantifiers, the origin of the
+  prenex\* convention behind O27 and O42; **ANCESTOR(N)**, **ancestor-consistent**
+  and **maximal node**, the root of the (k,m)-Affirmative / G-good / Normed
+  lineage; **primary/secondary deductions** and **sharp/intermediate
+  contradictions**, the source of 2001's terminology.
+- **Delta_0 cuts are safe and unbounded-quantifier cuts fatal**, stated twice
+  (printed pp. 7 and 35) - the K-deduction threshold avant la lettre - with the
+  reason cuts change everything: "Addition can then be employed to **implicitly
+  define** a sequence that grows actually faster than a_0, a_1, a_2 ...".
+- **"Tangible" is a 1993/94 word** (printed p. 30, "only very tangible Delta_0
+  sentences"), so Willard2011's zero occurrences of "tangib" is the abandonment
+  of a founding notion, not the fading of a mid-period device (**O58**). The same
+  page cites **[Wi94]**, confirming gap G14.
+- The four **Figures** were never previously read. Figure 1 lists **twelve**
+  tableaux rules (8 in 2001/2005, 6 elsewhere); Figure 2 names the **terse
+  proof** and the **pivotal branch**; Figures 3 and 4 give INVALID.1's and
+  INVALID.2's inconsistency proofs. All four instantiate the branching-axiom
+  construction, moving **D30**'s origin from Willard2002a back to this report.
+- Also: floating-point multiplication as a total function is already in the TR
+  (printed p. 6 footnote), so it does not originate in the unlocated ASL-2005
+  companion; PA+ is said to carry **eight** Group-1 functions where the chapter
+  lists **eleven**; and printed p. 1 states that **every** self-verifying system
+  must breach a Hilbert-Bernays condition, "because of **either** the axiom
+  system employed **or** the choice of deduction method".
+
 ## 2026-08-27 - Verifying the C4-C6 Coverage (closing G25)
 
 - The four items extracted before `registry/coverage.md` existed are resolved.

@@ -828,3 +828,59 @@ result.
 - Record the distinction; a codified statement that makes density universally
   load-bearing would misstate the Hilbert side.
 - Status: open (C13).
+
+## D42 — `Willard2020`'s `Xtab` is TR 93-10's "tableaux proof with cuts", verbatim
+
+| Source | Statement |
+| --- | --- |
+| `Willard1993-TR` printed p. 33 | "Define a **tableaux proof with cuts** to be a deduction formalism identical to semantic tableaux, except that it is permissible to include the sentence **`Φ ∨ ¬Φ`, for any sentence `Φ`, in any node of a proof tree**." |
+| `Willard2020` p. 11 | "Its definition is identical to Tab-deduction, except that for any sentence `φ` in our language `L*`, the sentence `φ ∨ ¬φ` is allowed as an internal node in an Xtab proof tree." |
+| `Willard1993-TR` printed p. 36 | ZF "can be viewed as performing deduction **with Gentzen-style cuts**, if ZF is defined to include the axiom `Φ ∨ ¬Φ` for each sentence `Φ`" |
+
+- The two definitions are word-for-word the same construct, twenty-seven years
+  apart, and the TR states the underlying identification in both directions:
+  **admitting LEM as logical axioms *is* admitting cuts.**
+- The results differ in the expected way. TR Proposition 7 is a **positive**
+  result for it (consistent once all growth functions, including Successor, are
+  removed from Group-1); `Willard2020` Theorem 4.5 is the **negative** result for
+  the case where Addition stays total. Together they are the (a)/(b) pair below.
+- Consequence: `Willard2020`'s headline is not the discovery of `Xtab` but the
+  proof that the apparatus the TR already defined is fatal at Type-A.
+- Status: open — C13 should present `Xtab` with its 1993/94 provenance.
+
+## D43 — TR 93-10 supplies the argument `Willard2020` §7 omits for `Δ*₀`
+
+| Source | Statement |
+| --- | --- |
+| `Willard2020` p. 19 | "our results from [47] can be expanded to show that their evasions … can be extended to both the cases of Z-Enriched and Z-Base Variable Enriched mechanisms, when Z represents the `Δ*₀` class" — with "a fully detailed justification will not be provided here" |
+| `Willard1993-TR` printed p. 35, footnote | "One way to formally extend `IS(A)` to include **`Δ₀` cutting** is to simply add to `IS(A)` an axiom **`Φ ∨ ¬Φ` for each `Δ₀` sentence `Φ`** (and verify that all our Propositions remain valid under such a modification). However, this is essentially unnecessary because `IS(A)`, without modification, can **simulate a `Δ₀` cut rule with only a polynomial increase in proof length**. This nice property holds because if `Φ` is `Δ₀` then `IS(A)`'s Group-2 axioms include the sentence `Prf_A(⌜Φ ∨ ¬Φ⌝) ⊃ Φ ∨ ¬Φ`." |
+
+- The TR's construction **is** Definition 7.1's Z-enrichment at `Z = Δ*₀`, and it
+  is asserted safe **with a reason**: those LEM instances are already derivable
+  through Group-2 at polynomial cost, so promoting them to axioms yields **no
+  additional proof compression** — precisely the condition `Willard2020` §6's
+  Linear-Sum analysis needs for the enrichment to be harmless.
+- **This materially improves gap G22.** The `Δ*₀` flank of the Π\*₁ conjecture is
+  not merely asserted; a justification exists in the corpus's founding technical
+  report. It also sharpens the conjecture: the question at `Π*₁` is exactly
+  whether Group-2 can still supply the LEM instances cheaply enough, which it
+  demonstrably can at `Δ₀` and demonstrably cannot once unbounded quantifiers
+  enter (TR printed pp. 7 and 35).
+- Status: open — cross-referenced from G22 and obligation O48.
+
+## D44 — the corpus's two branches are derived on TR 93-10's printed p. 2
+
+| Source | Statement |
+| --- | --- |
+| `Willard1993-TR` printed pp. 1–2 | Solovay's theorem forbids proving all PA's Π₁ theorems about Subtraction and Non-zero Division while **simultaneously** (a) "employing a Gentzen-style deduction method **WITH A CUT RULE**" and (b) "recognizing Addition (or even successor) as a total function" |
+| same, printed p. 2 | "Solovay's Theorem is the almost direct complement to our **Propositions 1 & 7**, in that these theorems show that self-verifying axioms systems can be constructed when **either** condition (a) **or** (b) is relaxed" |
+
+- **Proposition 1 relaxes (a)** — cut-free, Addition total. That is the tableaux
+  line: `IS(A)`, `IS^λ(A)`, `IS_D(A)`, `IS_{Tab}`.
+- **Proposition 7 relaxes (b)** — cuts permitted, all growth functions including
+  Successor removed (confirmed printed p. 36). That is the Hilbert line:
+  `ISREF(A)`, `ISCE(A)`, `ISINF(A)`.
+- So the corpus's entire two-branch structure is a direct reading of Solovay's
+  1994 theorem, stated in the founding report. The codified statement should
+  introduce the branches this way rather than as two independent programmes.
+- Status: open (C13).

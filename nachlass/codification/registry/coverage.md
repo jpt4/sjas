@@ -20,7 +20,7 @@ page), `partial` (gaps remain, and a gaps-ledger row says so), or `unrecorded`
 | Item | Pages | Read | Swept | Images | State |
 | --- | --- | --- | --- | --- | --- |
 | Willard2005 | 43 | 1-43 | all | recorded in `willard2005-fidelity-check.md` | complete |
-| Willard1993-TR | 61 | text: 1-61 (OCR); **visual: printed 3-4, 9-15, 17-20, 23-24, 28-29, 32, 34, 37-55** (PDF = printed + 2) | all | as the Read column's visual list | partial |
+| Willard1993-TR | 61 | text: 1-61 (OCR); **visual: every page** — printed 1-55 plus front matter and the four unnumbered Figure pages (PDF 1-61) | all | PDF 1-61 | complete |
 | Willard1993 | 12 | 1-12 (printed 325-336) | all | some | complete |
 | Willard2011 | 64 | 1-64 | all | printed 14, 16, 18, 32, 39 (PDF = printed + 1) | complete |
 | Willard2001 | 67 | 2-67 | all | 9, 10, 19, 22, 28, 39, 40, 51, 54, 60 | complete |
@@ -40,10 +40,10 @@ closed). `Willard1993` and `Willard2005` were read to completion in that
 session. `Willard2011`'s range is taken from its own saturation record — pass 1
 was a "full text-layer read of all 64 pp." — and independently corroborated by
 an uncapped inventory sweep and a re-read of §§1, 4 and Appendices A–C.
-`Willard1993-TR` stays **`partial`**: it is an OCR witness where page images
-govern, its saturation record enumerates exactly which pages had a visual pass,
-and roughly seventeen printed main-body pages (1–2, 5–8, 16, 21–22, 25–27,
-30–31, 33, 35–36) were covered only at OCR-sweep level. Tracked as gap **G29**.
+`Willard1993-TR` is now **`complete`**: gap **G29** closed on 2026-08-27 by a
+visual pass over the 23 pages that had never been rendered — PDF 1–4, 7–10, 18,
+23–24, 27–29, 32–33, 35, 37–38 and the four Figure pages 58–61. Since this is an
+OCR witness where page images govern, every page has now been read as an image.
 
 An uncapped, **case-insensitive** re-sweep of all four confirmed **no numbered
 item is missing from any extraction record**. It did find nine `Willard2011`

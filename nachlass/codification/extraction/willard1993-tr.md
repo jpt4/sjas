@@ -634,3 +634,77 @@ pdftoppm -f <collated> -l <collated> -r 135 -png \
   nachlass/papers/1993technicalreport/willard1993_self_verifying_axiom_systems_tr93_10_searchable.pdf out/c
 # collated page = printed page + 2
 ```
+
+
+## Visual pass over the remaining pages, 2026-08-27 (closing gap G29)
+
+Every page of the witness has now been read as an image — the 23 that had never
+been rendered were PDF 1–4, 7–10, 18, 23–24, 27–29, 32–33, 35, 37–38 and the
+four unnumbered **Figure pages** 58–61, which no earlier pass had covered.
+The pass was not confirmatory; it produced the following.
+
+**Drift D1 settled.** PDF 2's front matter: "A 12-page abbreviated version of
+this paper, entitled *Self-Verifying Axiom Systems*, was published on **25
+August 1993** in the Proceedings of the Third Kurt Gödel Symposium pp. 325–336 …
+**This new longer draft has been issued as SUNY-Albany Comp. Science TR 93-10.**"
+With printed p. 1's "Robert Solovay [So94] recently proved a new version of
+Gödel's Incompleteness Theorem, **shortly after learning of our work**", the
+order is fixed: chapter August 1993 → Solovay April 1994 → this report. The same
+page gives the structure ("The formal theorem proving is only 20 pages long
+(pp. 13–32)") and two grants, NSF CCR-90-60509 **and** CCR-93-02920.
+
+**`Xtab` is defined here** (printed p. 33): "Define a **tableaux proof with
+cuts** to be a deduction formalism identical to semantic tableaux, except that
+it is permissible to include the sentence `Φ ∨ ¬Φ`, for any sentence `Φ`, in any
+node of a proof tree" — verbatim `Willard2020`'s `Xtab`. Printed p. 36 states
+the identification in the other direction. Drift **D42**, obligation **O55**.
+
+**The `Δ₀` end of `Willard2020`'s Z dial is justified here** (printed p. 35,
+footnote), by adding `Φ ∨ ¬Φ` as an axiom for each `Δ₀` `Φ` and observing that
+`IS(A)` already "can simulate a `Δ₀` cut rule with only a polynomial increase in
+proof length", because Group-2 supplies `Prf_A(⌜Φ ∨ ¬Φ⌝) ⊃ Φ ∨ ¬Φ`. Drift
+**D43**, obligation **O56**; improves gap **G22**.
+
+**The two branches are derived on printed p. 2** from Solovay's (a)/(b) pair —
+Proposition 1 relaxes the cut rule, Proposition 7 relaxes Addition-totality.
+Drift **D44**, obligation **O57**.
+
+**Further machinery recovered:**
+
+- `IS^s_d(A,G)` (printed p. 8) parameterises by deduction method `d`, Group-1
+  axioms `G` **and** the Group-3 self-verification class `s` — three of `ξ`'s
+  five components, with `s` the ancestor of `SelfCons_k`'s level index.
+- A **five-way reflection taxonomy** (Eqs. 3.1–3.5): local, first uniform,
+  second uniform, semi-uniform, and **strong-uniform `Σ₁`**, the last written
+  `∀v∀y {Prf_B(⌜Φ_v⌝,y) ⊃ Φ^y_v}` — whose bounded `Φ^y_v` is the ancestor of
+  `Willard2001` Definition 1.1's `Φ^i_j`.
+- **Positive Normal Form** and the **Positive(Ω)** rewrite, over **broad**
+  quantifiers (printed p. 16) — the origin of 2001/2005's prenex\* convention,
+  bearing on obligations O27 and O42.
+- **ANCESTOR(N)**, **ancestor-consistent**, **maximal node** (printed p. 21) and
+  the refined **ANCESTOR\*(N)** (printed p. 27) — the root of the
+  (k,m)-Affirmative / G-good / `Normed` lineage.
+- **Δ₀ cuts are safe, unbounded-quantifier cuts fatal** (printed pp. 7 and 35),
+  the K-deduction threshold avant la lettre; and printed p. 7's reason cuts
+  change everything — "Addition can then be employed to **implicitly define** a
+  sequence that grows actually faster than `a₀, a₁, a₂ …`".
+- **Every self-verifying system must breach a Hilbert–Bernays condition**, and
+  "the breach … may arise because of **either** the axiom system employed **or**
+  the choice of deduction method" (printed p. 1).
+- **"Tangible"** already carries its philosophical sense (printed p. 30: "only
+  very tangible `Δ₀` sentences"), and the same page cites **[Wi94]** for
+  Propositions 8 and 9, confirming gap G14. Obligation **O58**.
+- **Primary / secondary deductions** and **sharp / intermediate / `Π₁`-normalized
+  contradictions** are defined on printed p. 26 — the source of 2001's
+  Primary/Secondary/Tertiary terminology.
+- **Figure 1** lists **twelve** tableaux rules (8 in 2001/2005, 6 elsewhere);
+  **Figure 2** names the **terse proof** and the **pivotal branch**; **Figures 3
+  and 4** give `INVALID.1`'s and `INVALID.2`'s inconsistency proofs. All four
+  are instances of the branching-axiom construction, moving drift **D30**'s
+  origin from `Willard2002a` back to this report.
+- Floating-point multiplication as a total function is already noted (printed
+  p. 6 footnote), so it does not originate in the unlocated ASL-2005 companion.
+- `PA+` is said to carry **eight** atomic Group-1 functions where the published
+  chapter lists **eleven** — a count drift; and the **transitive version of the
+  Cut Elimination Theorem** (printed p. 25) is this report's form of
+  `Willard2001` Lemma 7.1 / `Willard2002a` Theorem 2.2.
