@@ -656,8 +656,12 @@ page gives the structure ("The formal theorem proving is only 20 pages long
 **`Xtab` is defined here** (printed p. 33): "Define a **tableaux proof with
 cuts** to be a deduction formalism identical to semantic tableaux, except that
 it is permissible to include the sentence `Φ ∨ ¬Φ`, for any sentence `Φ`, in any
-node of a proof tree" — verbatim `Willard2020`'s `Xtab`. Printed p. 36 states
-the identification in the other direction. Drift **D42**, obligation **O55**.
+node of a proof tree" — verbatim `Willard2020`'s `Xtab`. Printed p. 36 adds a
+parenthetical remark that **ZF** "can be viewed as performing deduction *with
+Gentzen-style cuts*, if ZF is defined to include the axiom `Φ ∨ ¬Φ` for each
+sentence `Φ`" — corroborating, but hedged and system-specific, and **not** a
+stated identification of LEM-as-axioms with cuts. Drift **D42**, obligation
+**O55**.
 
 **The `Δ₀` end of `Willard2020`'s Z dial is justified here** (printed p. 35,
 footnote), by adding `Φ ∨ ¬Φ` as an axiom for each `Δ₀` `Φ` and observing that

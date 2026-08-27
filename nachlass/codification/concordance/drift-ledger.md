@@ -835,11 +835,20 @@ result.
 | --- | --- |
 | `Willard1993-TR` printed p. 33 | "Define a **tableaux proof with cuts** to be a deduction formalism identical to semantic tableaux, except that it is permissible to include the sentence **`Φ ∨ ¬Φ`, for any sentence `Φ`, in any node of a proof tree**." |
 | `Willard2020` p. 11 | "Its definition is identical to Tab-deduction, except that for any sentence `φ` in our language `L*`, the sentence `φ ∨ ¬φ` is allowed as an internal node in an Xtab proof tree." |
-| `Willard1993-TR` printed p. 36 | ZF "can be viewed as performing deduction **with Gentzen-style cuts**, if ZF is defined to include the axiom `Φ ∨ ¬Φ` for each sentence `Φ`" |
+| `Willard1993-TR` printed p. 36 | "(Curiously, the ZF *half* of this 2-part system can be viewed as performing deduction *with Gentzen-style cuts*, if ZF is defined to include the axiom `Φ ∨ ¬Φ` for each sentence `Φ`.)" |
 
-- The two definitions are word-for-word the same construct, twenty-seven years
-  apart, and the TR states the underlying identification in both directions:
-  **admitting LEM as logical axioms *is* admitting cuts.**
+- The two **definitions** are word-for-word the same construct, twenty-seven
+  years apart. That is the whole of D42's claim, and it rests on printed p. 33
+  alone, which is a definition and not a remark.
+- **Correction, 2026-08-27.** An earlier version of this entry said the TR
+  "states the underlying identification in both directions: admitting LEM as
+  logical axioms *is* admitting cuts." It does not. Printed p. 36 is a hedged
+  parenthetical about **one system** — ZF "*can be viewed as* performing
+  deduction with Gentzen-style cuts" under that definition — not a general
+  claim, not an equivalence, and not asserted in Willard's own voice as a
+  theorem. It **corroborates** that Willard treats LEM-as-axioms and cuts as
+  closely related; it does not state their identity. The definitional content is
+  entirely in p. 33's naming of the apparatus.
 - The results differ in the expected way. TR Proposition 7 is a **positive**
   result for it (consistent once all growth functions, including Successor, are
   removed from Group-1); `Willard2020` Theorem 4.5 is the **negative** result for

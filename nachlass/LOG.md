@@ -1,5 +1,24 @@
 # Nachlass Log
 
+## 2026-08-27 - Correction to D42's supporting citation
+
+- The G29 entry below, drift **D42** and obligation **O55** each said that TR
+  93-10's printed p. 36 "states the identification directly" that admitting the
+  Law of the Excluded Middle as logical axioms *is* admitting cuts. **It does
+  not.** The passage is a hedged parenthetical about a single system: "(Curiously,
+  the ZF *half* of this 2-part system **can be viewed as** performing deduction
+  *with Gentzen-style cuts*, **if** ZF is defined to include the axiom
+  `Phi v not-Phi` for each sentence `Phi`.)" That is one-directional, system-
+  specific, and not asserted as a theorem.
+- Two of the three places also quoted it with "[it]" substituted for "ZF", which
+  generalised a claim Willard made about ZF alone - a paraphrase presented as a
+  quotation.
+- **D42's substance is unaffected**: it rests on printed p. 33, which *defines*
+  "a tableaux proof with cuts" as semantic tableaux plus `Phi v not-Phi`
+  admissible at any node - verbatim Willard2020's `Xtab`. That is a definition,
+  and it carries the claim on its own. Printed p. 36 is now recorded as
+  corroborating rather than as stating the identification.
+
 ## 2026-08-27 - Visual Pass over TR 93-10 (closing G29)
 
 - Rendered and read the 23 pages of the collated TR that had never been seen as
@@ -20,11 +39,13 @@
   (**D42**, **O55**). Printed p. 33: "Define a tableaux proof with cuts to be a
   deduction formalism identical to semantic tableaux, except that it is
   permissible to include the sentence `Phi v not-Phi`, for any sentence Phi, in
-  any node of a proof tree." Printed p. 36 gives the identification directly - a
-  system "can be viewed as performing deduction **with Gentzen-style cuts**, if
-  [it] is defined to include the axiom `Phi v not-Phi` for each sentence Phi".
-  So Willard2020's contribution is the negative theorem about an apparatus the
-  corpus defined at the outset, not the apparatus itself.
+  any node of a proof tree." That definition is the whole basis of the claim.
+  Printed p. 36 adds only a hedged parenthetical about **ZF** - it "can be viewed
+  as performing deduction *with Gentzen-style cuts*, if ZF is defined to include
+  the axiom `Phi v not-Phi` for each sentence Phi" - which corroborates the
+  association but does not state an identification. So Willard2020's
+  contribution is the negative theorem about an apparatus the corpus defined at
+  the outset, not the apparatus itself.
 - **=> The TR supplies the argument `Willard2020` section 7 omits** (**D43**,
   **O56**), which materially improves **G22**. Printed p. 35's footnote performs
   exactly Definition 7.1's Z-enrichment at Z = Delta\*_0 - "add to IS(A) an axiom
