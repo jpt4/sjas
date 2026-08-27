@@ -1051,3 +1051,19 @@ Appendix A of `Willard2001` as subsequent explorations.
   every primary term in it is an *observable*.
 - The codified statement needs one canonical class notation with a translation
   table, not ten. Status: open (C13).
+
+## D53 — `Root(x, y)` rounds two different ways
+
+| Source | Definition |
+| --- | --- |
+| `Willard2002c` p. 3 | `Root(x, y) = ⌈ x^{1/y} ⌉` — **ceiling** |
+| `Willard2016` p. 9 | `Root(x, y) = ⌊ x^{1/y} ⌋` when `y ≥ 1`, and zero otherwise — **floor** |
+
+- The same name, in the same list of grounding functions, in two papers. Neither
+  says the other is different. `Willard2016` additionally fixes the `y = 0` case,
+  which `Willard2002c` leaves undefined.
+- Whether it matters is not obvious: `Root` is a Non-Growth function under either
+  rounding when `y ≥ 1` (since `⌈x^{1/y}⌉ ≤ x` for `x ≥ 1`, `y ≥ 1`), so the
+  Non-Growth requirement survives — but a codified grounding language must pick
+  one, and any statement proved about `Root`'s exact values inherits the choice.
+- Status: open (C13).
