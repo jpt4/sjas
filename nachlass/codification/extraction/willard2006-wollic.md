@@ -38,4 +38,7 @@ clean expansion: the conference form is a proper part of the journal form.
 | --- | --- | --- | --- |
 | 1 | 2026-08-27 | Uncapped, case-insensitive item sweep across all 15 pp.; deltas read against `Willard2009` | 0 items absent from `Willard2009` |
 
-Coverage **partial** — swept in full, read as deltas. Gap **G31**.
+| 2 | 2026-08-27 | **Visual control pass**, pp. 8, 9 | 0 new items; Lemma 1, Lemma 2, Definitions 3–5 confirmed verbatim against `Willard2009`, including `B`-Bounded Arithmetic Sets (22), `B`-Bounded Valid `Π^R₁` (23)–(24), and the **Canonical Arithmetic Condition** (all axioms `Π^R₁` **and** including `Q₀`'s nine) |
+
+Coverage **partial** — swept in full, read as deltas; gap **G31**, which no
+longer covers the visual pass.

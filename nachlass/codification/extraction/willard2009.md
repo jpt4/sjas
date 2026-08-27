@@ -123,6 +123,10 @@ construct `R` with `Θ(R) < Θ(P)`, contradicting minimality.
 | --- | --- | --- | --- |
 | 1 | 2026-08-27 | Read of pp. 1–17 in full plus the Appendix A/B statements; uncapped, case-insensitive item sweep across all 33 pp. | 8 Definitions, 7 Lemmas, 5 Theorems, 4 Remarks |
 
-Coverage recorded as **partial**: pp. 1–17 read in full, pp. 18–33 (Appendix A's
-proof of Theorem 2 and Appendix B's proofs of Lemmas 5–7 and Theorem 5) swept
-and read at statement level only. Gap **G31**. No visual pass yet.
+| 2 | 2026-08-27 | **Visual control pass**, pp. 4, 11, 12, 14 | 0 new items; Split Representation, `Q₀`'s nine axioms, Definition 6 and Theorems 2–3 confirmed as recorded; **Lemma 1's statement recorded properly** as `Val(t) ≥ 4 ⟹ Val(t) < MinG(t)` |
+
+Coverage **partial**: pp. 1–17 read in full, pp. 18–33 (Appendix A's proof of
+Theorem 2 and Appendix B's proofs of Lemmas 5–7 and Theorem 5) read at statement
+level only — gap **G31**, which no longer covers the visual pass. Eq. (14)'s
+constraint is `a₁ ≤ a₀ ∧ … ∧ a_N ≤ a₀`, with `a₀` the base and not itself
+constrained.

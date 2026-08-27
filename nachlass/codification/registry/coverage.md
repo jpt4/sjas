@@ -30,10 +30,17 @@ page), `partial` (gaps remain, and a gaps-ledger row says so), or `unrecorded`
 | Willard2006a | 45 | 1-45 | all | 6 | complete |
 | Willard2020-LFCS | 19 | 1-19 | all | 16 | complete |
 | Willard2002c | 17 | 1-17 | all | 8, 10, 16 | complete |
-| Willard2000-TAB | 16 | 1-16 | all | none (constants verified via Willard2002a at C9) | complete |
-| Willard2009 | 33 | 1-17 | all | none | partial |
-| Willard2006-WoLLIC | 15 | deltas only | all | none | partial |
-| Willard2016 | 34 | 6, 8-9 and Appendix in full; 1-5, 7 at statement level | all | none | partial |
+| Willard2000-TAB | 16 | 1-16 | all | 7, 9, 10 | complete |
+| Willard2009 | 33 | 1-17 | all | 4, 11, 12, 14 | partial |
+| Willard2006-WoLLIC | 15 | deltas only | all | 8, 9 | partial |
+| Willard2016 | 34 | 6, 8-9 and Appendix in full; 1-5, 7 at statement level | all | 12, 24 | partial |
+
+**The `Images` column is not optional.** The charter makes a rendered page a
+precondition for any formula, glyph or constant entering a registry. The C10
+pass of 2026-08-27 initially recorded constants for `Willard2000-TAB`,
+`Willard2009`, `Willard2006-WoLLIC` and `Willard2016` without one; the
+subsequent visual pass corrected three registry rows, including the printed form
+of `Willard2016`'s Conjecture 6.6. Never enter a constant ahead of the image.
 
 **All C9 items and `Willard2020` are `complete`** — the outstanding ranges were
 read on 2026-08-27 and gap **G23** closed. The completion read found items the

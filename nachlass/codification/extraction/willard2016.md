@@ -61,8 +61,11 @@ of the addition, multiplication and successor growth operations", and it is
 > from γ of `0 = 1` under `d_ER`. Then
 >
 > ```
-> Log₂K / Log₂P  <  1/6                                   (28)
+> Log₂ K   <   (1/6) Log₂ P                               (28)
 > ```
+>
+> *(printed form, image-verified 2026-08-27; "Breaking **Pont**" is the
+> original's typo)*
 
 Willard: "We are **essentially 100 % confident** that Conjecture 6.6 is true.
 Indeed, Line (28)'s estimate … is actually an excessively conservative
@@ -161,6 +164,13 @@ Obligation **O65**.
 | --- | --- | --- | --- |
 | 1 | 2026-08-27 | Uncapped, case-insensitive item sweep across all 34 pp.; full read of §§6, 8–9 and the Appendix; statement-level read of §§1–5, 7 | ~30 numbered items |
 
-Coverage **partial** — §§1–5 and §7 read at statement level. Gap **G31** extended.
-No visual pass yet; the `1/6` of Eq. (28) and Proposition 4.3's `O{[Log n]³}`
-were read from a clean LaTeX text layer but should be image-checked at C13.
+| 2 | 2026-08-27 | **Visual control pass**, pp. 12 and 24 | 0 new items; **two corrections** |
+
+Coverage **partial** — §§1–5 and §7 read at statement level (gap **G31**), but
+the **visual pass has been run** on every page whose constants entered a
+registry. It corrected two things I had recorded from the text layer:
+Conjecture 6.6 prints as **`Log₂K < (1/6) Log₂P`**, not the equivalent
+rearrangement I reconstructed from a mangled fraction; and Proposition 4.3
+contrasts the **Q\* Grounding language** (`O(n²)` function symbols) with the
+**Q-Grounding language** (`O(Log³ n)` symbols), not θ against ζ. The original
+also misprints "Breaking **Pont**".

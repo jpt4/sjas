@@ -77,7 +77,12 @@ proof "astonishingly short" at the cost of Theorem 3's.
 | --- | --- | --- | --- |
 | 1 | 2026-08-27 | Full text read of pp. 1–16; uncapped, case-insensitive item sweep | 10 Lemmas, 4 Theorems, 3 Definitions — all corresponding to `Willard2002a` items |
 
-Coverage **complete** (pp. 1–16). No visual pass: every load-bearing constant
-here has a `Willard2002a` counterpart already image-verified at C9, and the four
-divergences above were read from a clean LNAI text layer. Zero-new-items re-pass
-not yet run.
+| 2 | 2026-08-27 | **Visual control pass**, pp. 7, 9, 10 | 0 new items; all four divergences confirmed on the page |
+
+Coverage **complete** (pp. 1–16). Pass 1 recorded the divergent constants
+without an image, on the reasoning that `Willard2002a`'s counterparts had been
+image-verified at C9. That reasoning was wrong — the whole point of those rows
+is that the constants **differ**, so the C9 verification could not cover them.
+The pass has been run: `Log(z, 2^{3,000})` and its "more than 3,000 bits"
+justification, `O(s·n^m)`, "all four clauses of Equation (12)'s `V₂`", `C ≅ 12`
+and Definition 3's `O(Log N)` are all confirmed as printed.
