@@ -231,3 +231,61 @@ longer than the analogous Peano proofs."
 | --- | --- | --- | --- | --- |
 | 1 | 2026-08-21 | **Full visual read of all 12 pages** plus text-layer sweep | Propositions 1–4, Lemmas 1–2, Main Conjecture | Complete |
 | 2 | *pending* | Re-pass for saturation closure | — | — |
+
+
+## Verification pass, 2026-08-27
+
+Read to completion (pp. 1–12 = printed 325–336) as part of the C4–C6 coverage
+verification. The inventory was confirmed complete by an uncapped,
+case-insensitive item sweep. Six findings not previously recorded:
+
+1. **The Group-1 functions are eleven bit-manipulation primitives** — Count,
+   Shift, Remove, Extract, Compress, Andreverse, Andmacro, Andmultiply,
+   Andexpand, Address, Width — wholly unlike the six or seven grounding
+   functions of every later paper. Willard notes `Turing(x,y,z)` is expressible,
+   so the language is strictly stronger than Presburger Arithmetic.
+2. **The class definitions differ substantively.** A prenex sentence is `Π₁`
+   here iff every existentially quantified variable is bounded by *the maximum
+   of the enclosing universally quantified variables* or by a constant — not
+   "all quantifiers bounded". This makes D9/O12 a **definitional** drift, not
+   merely a notational one.
+3. **The corpus's founding statement of the growth device** (p. 329). With
+   `a₀ ≥ 2`, `a_{i+1} = (a_i)²` needing `2ⁿ` bits, against `b_{i+1} = b_i + b_i`:
+   the additive sequence "is characterized by proofs of the existence of `b_n`
+   requiring **more bits than `b_n`'s binary encoding**", so "there will always
+   be adequate memory to write down the binary representation of `b_n` when
+   there is sufficient memory for storing the proof of its existence (whereas
+   the same is plainly not true when multiplication is assumed to be a function
+   because then `a_n`'s existence proof is **exponentially shorter than its
+   binary encoding**!)" — with the illustration that multiplication proves `a₁₀`
+   exists "within the 400-line length of this paper, whose binary encoding
+   requires more digits than the number of atoms in the universe", while "even
+   the full cardinality of the universe is insufficient for the Addition Axioms
+   to prove the existence of a number whose bit length is as large as the
+   universe". **This is `Willard2006a` Remark 3 and `Willard2020` §5, thirteen
+   and twenty-seven years early** (obligations O44, O50).
+4. **"Cut" is defined via the Law of the Excluded Middle** (p. 335): "a detour
+   in a theorem proof (**following from an unnecessary application of the Law of
+   the Excluded Middle**) that is considered redundant". `Willard2020`'s result
+   is the formalisation of this 1993 definition. Immediately after it Willard
+   states the **apparatus-identity thesis** (O38): proof systems with and
+   without cuts "are known to prove the **identical set of theorems**", yet a
+   system employing cuts "has **sharply different properties**".
+5. **`Willard2011`'s generic configuration is foreshadowed here** (p. 334):
+   "`IS(A,g,d)` and `IS*(A,g,d)` … where **g** is the set of proposed Group-1
+   Axioms and **d** is the deduction method … **IS-like systems**". Two of the
+   five components of Definition 3.4's `ξ = (L, Δ₀, B, d, g)`, in 1993 notation.
+6. **The ZF result** (pp. 331, 335) is the 1993 root of the 2008 ZCF/ZF nachlass
+   material: ZF cannot prove its own consistency but *can* prove Proposition 1,
+   so "ZF can prove its own consistency is equivalent to an alternative
+   `IS(ZF)`, which is self-verifying and affirms the consistency of ZF. Indeed,
+   `IS(ZF)` confirms ZF's `Π₁` validity" — with the question "whether when
+   humans think they are using ZF to reason, they may be actually relying upon
+   `IS(ZF)` unconsciously???"
+
+Also noted: `nice` is the 1993 admission condition (a fifth member of D24's
+family); the **subcomponent** relation and the definition of the **cut-free**
+property (p. 332); the claim that `IS(Peano)`'s `Π₁` proofs are "sometimes
+dramatically shorter and never more than a small polynomial factor longer" than
+PA's (p. 331); and the "eternally unable to formally justify" scenario (p. 335),
+a companion to O24.
