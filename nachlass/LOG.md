@@ -1,5 +1,77 @@
 # Nachlass Log
 
+## 2026-08-27 - Tier B Extraction (component C10)
+
+- Extracted all five Tier B items: `willard2002c.md`, `willard2000-tab.md`,
+  `willard2006-wollic.md`, `willard2009.md`, `willard2016.md`. Registries at
+  **311 results / 44 systems / 135 notation rows**; drift D45-D46; obligations
+  O59-O66; **G21 closed**, G30-G31 opened. `audit.sh` green.
+- **Willard2002c was badly under-ruled and was taken first**, as flagged at the
+  last checkpoint. It is the source of the **Level hierarchy**, of **IS-1(A)**
+  and its Group-3 `Pair`-form axiom (verbatim the shape of Willard2011 Eq. 37
+  and Willard2020 Eq. 5), of **PROBE**, **(L,M)-Conservative Branches**,
+  **Top**, **Check**, **Constraint** and **MaxVal** - the machinery Willard2004's
+  appendix invokes while telling the reader to keep this paper "on his desk".
+- **O59 - the rule that governs the whole corpus**: "it is desirable to use the
+  **weakest** possible definition ... when one is seeking to **generalize** the
+  Second Incompleteness Theorem. On the other hand, the opposite is true when one
+  seeks to develop **boundary-case exceptions**." That single sentence explains
+  why the negative papers sit at Level(0-) and the positive ones at Level(1).
+- **The 1/2 constant is Willard2002c's.** Check(X,Y,P,Q) is
+  `∀a [a <= (1/2)Max(P,Q)] ⊃ phi(a)`, and Lemmas 2 and 3 set L and M around it -
+  which is where Willard2011's A-/E-Stability constant comes from.
+- **D46/O60 - the corpus's sharpest located threshold is in a Tier B paper.**
+  `R(i,j)` Tableaux-Hierarchy deduction carries **two** indices, and Willard2002c
+  reports the collapse at **R(1,1) -> R(2,1)**, raising the Pi index alone. Every
+  successor - Tab_1List, Tab-U\*_1-List, Tab-1, and Willard2004's
+  Tab-Pi\*_2/Tab-Sigma\*_2 pair - collapses the pair to one class and cannot
+  express it. The R dial of D38 is a projection.
+- **D45**: four papers use four different truncation operators for one job -
+  Willard2002c's Psi^M bounds universals only, Willard2001's bounds all unbounded
+  quantifiers, Willard2005 splits the two bounds, Willard2011 re-merges them.
+- **Willard2000-TAB** is the conference form of Willard2002a. The journal version
+  is a strict superset, but four constants differ: V_2 has four clauses not six,
+  Lemma 5 uses 2^3000 not 2^1000, Lemma 6 bounds O(s·n^m) not O(s·n^2m), and
+  Lemma 10 is a sketch. It also cites an "**unabridged version** ... which the
+  author can mail to any interested readers" that is neither this chapter nor
+  Willard2002a - gap **G30**.
+- **Willard2009 needed a new axis** (**O61**). Ax-1, Ax-2 and Ax-3 prove
+  **exactly the same theorems** (Theorem 1), yet Ax-3\* is consistent and
+  recognises its own **Herbrand** consistency (Theorem 4). The evasion comes from
+  the **axiomatization**, not from weakening the theory - via **Split
+  Representations**, base-(a_0+1) digit tuples that let every quantifier bound be
+  a Max. Its **Threshold / Anti-Threshold** vocabulary (**O63**) is the corpus's
+  cleanest for boundary results, and its "contains" means **axiom** containment -
+  the same axiom-versus-theorem distinction behind Type-Almost-M and
+  Willard2020's LEM result.
+- **O62 - the Paris-Wilkie 1981 question gets a split answer**: Willard2002a
+  Theorem 6.4 affirms the tableaux half, Willard2009 Theorem 4 refutes the
+  Herbrand half. **O64** records the counterweight: Willard2009's own Theorem 5
+  shows the same Ax-3 **obeys** the tableaux version, so Theorem 4 must never be
+  quoted alone. Provenance: the paper answers an email from **L. A.
+  Kolodziejczyk, 16 November 2005**, out of conversations with Adamowicz and
+  Zdanowski.
+- **G21 closed by extracting Willard2016.** The claim is **Conjecture 6.6**:
+  `Log_2 K / Log_2 P < 1/6` for a Size-K Breaking Point and a proof P of 0=1.
+  **Theorem 6.7 - IQFS's consistency preservation - is conditional on it**,
+  making this the only affirmative result in the corpus resting on an unproved
+  lemma. Willard is "essentially 100% confident" and calls the appendix's
+  justification "one tiny iota short of a formal proof"; the iota is that it
+  bounds the **canonical** route to large integers, not every route (**O66**).
+  The `1/6` is the corpus's recurring density constant again.
+- **O65 - Willard's own summary judgement**, from Willard2016 section 9:
+  evasions "rested on using arithmetics that were **weaker than traditional
+  arithmetics**", and the Second Incompleteness Theorem's significance in
+  refuting Hilbert's original objectives "is thus, simply, **undeniable**". With
+  Remark 8.3's admission that an "I am consistent" proof is "a **quite skinny
+  form of proof**", this joins O24 and O35 as the three places Willard states the
+  programme's limits in his own voice.
+- **Honest scope**: `Willard2009` pp. 18-33, the WoLLIC chapter, and
+  `Willard2016` sections 1-5 and 7 were read at statement level, and none of the
+  three has had a visual pass. Recorded as **G31** with the specific items at
+  risk named - Appendix B's proof statuses, Eq. (28)'s `1/6`, and Proposition
+  4.3's `O{[Log n]^3}`.
+
 ## 2026-08-27 - Correction to D42's supporting citation
 
 - The G29 entry below, drift **D42** and obligation **O55** each said that TR

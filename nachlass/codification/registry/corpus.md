@@ -37,7 +37,7 @@ in-scope micro-item class, deliberately not chased (enumerate lazily).
 | Willard2000-TAB | nachlass/papers/willard2000_tableaux_robinson_q_author_tab2000.pdf | 16 | core | B | Conference precursor of Willard2002a (LNCS 1847, pp. 415-430) | extracted:2026-08-27 |
 | Willard2006-WoLLIC | nachlass/papers/willard2006_i_sigma0_herbrand_author_wollic.pdf | 15 | core | B | ISigma0 simultaneously obeys and evades herbrandized G2 (ENTCS 165) | extracted:2026-08-27 |
 | Willard2009 | nachlass/papers/willard2009_i_sigma0_herbrand_author_inf9.pdf | 33 | core | B | Specially formulated ISigma0 axiomatizations evading herbrandized G2 | extracted:2026-08-27 |
-| Willard2016 | nachlass/papers/willard2016_theta_function_symbol_arxiv_1612.08071.pdf; nachlass/papers/willard2017.pdf; lit/willard2017thetafunction.pdf | 34 | core | B | Theta-function-symbol systems appreciating Hilbert-consistency fragments | pending |
+| Willard2016 | nachlass/papers/willard2016_theta_function_symbol_arxiv_1612.08071.pdf; nachlass/papers/willard2017.pdf; lit/willard2017thetafunction.pdf | 34 | core | B | Theta-function-symbol systems appreciating Hilbert-consistency fragments | extracted:2026-08-27 |
 | Willard2005-TAB | nachlass/papers/willard2005_real_valued_tableaux_author_tab5.pdf | 15 | core | C | Real-valued tableaux consistency (LNCS 3702; ASL-2005 floating-point line) | pending |
 | Willard2006b | nachlass/papers/willard2006_real_valued_arithmetic_author_jsl6.pdf | 11 | core | C | Real-valued arithmetic JSL paper (floating-point line, journal form) | pending |
 | Willard2007-APAL | nachlass/papers/willard2007_passive_induction_author_apal7.pdf | 48 | core | C | Passive induction; solution to a Paris-Wilkie question | pending |
