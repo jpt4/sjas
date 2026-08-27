@@ -126,7 +126,23 @@ the added acknowledgment).
 | 1 | 2026-08-26 | Item sweep across all 19 pp.; full read of Appendices A–B | 16 numbered items, 3 of them absent from `Willard2020` |
 | 2 | 2026-08-26 | Visual control pass, p. 16 | 0 new; confirmed `ω₀(x) = x²`, `ω_{j+1}(x) = 2^{ω_j(2·Log₂(x+1))}`, `ω₁(x) ≥ x^x`, and Definition 4's three clauses |
 
-pp. 1–14 were **not read directly**; they correspond item-for-item to `Willard2020`
-§§3–5, which were read in full at C8, and were mapped by that correspondence (§2
-above). Defensible, but not the same as a direct read. Saturation **open**, gap
-**G23**.
+| 3 | 2026-08-27 | Completion read of pp. 1–14 | 1 new item (**Example 1**); one earlier claim corrected |
+
+**Coverage complete** (pp. 1–19). Zero-new-items re-pass **not yet run**.
+
+### Corrected at the 2026-08-27 completion read
+
+The C9 record claimed the **Declarative Exceptions / Infinite-Ranged
+Exceptions** distinction was present here and absent from `Willard2020`. That
+was wrong — it is on `Willard2020` pp. 2–3, which had not been read. Both papers
+carry it, and it is the corpus's only direct engagement with the
+Artemov/Beklemishev line.
+
+Real deltas: the LFCS chapter dates Sacks's recollection to **1961–1962** where
+`Willard2020` leaves it undated, and says Gödel "published fewer than 85 pages"
+against "only about 85 pages". Conversely the arXiv version **adds** to footnote
+4/5 the sentence "we humans believe PA is consistent, and we can use this fact
+to confirm that `IS_{Tab-1}(PA)` is BOTH consistent and able to verify its
+self-consistency" — so the epistemic gloss recorded at C8 is an arXiv-era
+addition. Erratum 2 of [`willard2020.md`](willard2020.md) (`2^{n+1}` for
+`2ⁿ + 1`) is **inherited from this chapter**, not introduced in the expansion.

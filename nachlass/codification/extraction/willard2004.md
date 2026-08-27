@@ -117,6 +117,33 @@ conjecture is precisely the claim that **2004's proved positive result transfers
 from the `ℜ` dial to the `Z` dial**. Recorded as drift **D34**, obligation
 **O46**, and appended to gap **G22**.
 
+## 7a. G-good: the envelope machinery, dated 2004
+
+The appendix's proof of Theorem 3 defines, with `χ(p_i)` the logical-symbol count
+of `p_i` and `ℑ(H) = Σ χ(p_i)`:
+
+- a **`Σ*₁`** sentence is **G-good** iff it has a `Tab₁List` proof `H ≤ G` whose
+  witnesses are bounded by `2^{ℑ(H)}`;
+- a **`Π*₁`** sentence is **G-good** iff it has such a proof whose universal
+  bounds are `G·2^{−ℑ(H)}`;
+
+and then argues that "it is impossible for both `X` and `Y` to have G-good
+proofs". The `Σ` bound rises with proof size and the `Π` bound falls — which is
+`Willard2005`'s `App∃`/`App∀` envelope pair and `Normed(a,b)`, and
+`Willard2011`'s `Good(N)`. The impossibility step is obligation **O27**'s
+ancestor. Obligation **O54**.
+
+The density constant recurs here as `ℑ(P) < (1/3)Log₂(G)`, matching
+`Willard2002a` Lemma 4.2 and `Willard2006a` Eq. (27).
+
+**`IS-1*(A)`** (Eq. 30) and the renaming of `Willard2002c`'s "R(1,1) Hierarchy
+Deduction" to `Tab₁List` are recorded in the systems and notation registries;
+the latter makes **four** names for one apparatus (drift D33). `Willard2002c`
+also holds **PROBE**, **(L,M)-Conservative Branches** — the sibling of
+`Willard2001`'s (k,m)-Affirmative Branches — **Constraint(p,β)**, Lemmas
+1-t/2-t/3-t and Theorem 2-t, which makes it considerably more load-bearing than
+its Tier B ruling suggests. Flag for C10 sequencing.
+
 ## 8. Discrepancies and errata
 
 1. **"Conventional Deciphering Property" is redefined.** `Willard2002a`
@@ -136,6 +163,34 @@ from the `ℜ` dial to the `Z` dial**. Recorded as drift **D34**, obligation
 | 1 | 2026-08-26 | Full text-layer read of §§1–3 and item sweep across all 32 pp. | 13 numbered items |
 | 2 | 2026-08-26 | Visual control pass, `pdftoppm -r 125 -png`, p. 4 | 0 new; confirmed the six grounding functions, `Root = ⌈x^{1/y}⌉`, non-growth as `≤ Maximum(a₁,…,a_j)` (no `2`), `2·Log₂N`, and Eq. (2) |
 
-Zero-new-items re-pass **not yet run**; saturation **open**. Only §§1–3 were read
-in full; §§4–6's proof detail was swept for numbered items but not read line by
-line — recorded as gap **G23**.
+| 3 | 2026-08-27 | Completion read of pp. 1–3 and 10–32 | 1 new item (**Theorem \***); **five proof-status corrections**; four deferrals recorded as G26 |
+
+**Coverage complete** (pp. 1–32). Zero-new-items re-pass **not yet run**.
+
+### Added at the 2026-08-27 completion read
+
+- **Theorem \*** (p. 2): Solovay's extension of Pudlák, stated here as a named
+  unnumbered item — the same content as `Willard2006a` Theorem 2 and
+  `Willard2020` Theorem ++.
+- **Proof statuses corrected**: Theorem 2 → `sketch`, Theorem 4 → `cited`
+  (to `Willard2002a` Theorem 2.3), Theorem 5 → `cited`, Lemma 5 → `sketch`,
+  Lemma 7 → `sketch`. Verified `full`: Theorem 1, Lemmas 1–4 and 6.
+- **Four deferrals to "a longer version of this article"** that appears never to
+  have been published (gap **G26**) — including the details generalising §4 to
+  **Theorem 2**, which is the result `Willard2020` §7 cites for the Π\*₂ failure.
+  So that flank of the Π\*₁ conjecture is sketch-only in its source.
+- **`W` has nine clauses `W₀…W₈`**, not eight; `W*` omits `W₈`. **`W₄` and `W₅`
+  are LEM axioms** for `Prf` and `Subst` (Eqs. 12–13) — exactly the shape of
+  `Willard2020` Definition 7.2, and used in Lemma 5 to generate its two
+  `∨`-Elimination splits. Drift **D39**.
+- **The mechanism of the Level hierarchy** (pp. 13–14): with `G_i(x) = 2^{2^i}·x`,
+  `Υ_i` saying `G_i` is total, `Θ_m = [Υ_{m−1} → Υ_m]` and
+  `0_n = Υ₀ ∧ Θ₁ ∧ … ∧ Θ_n`, there is a **Hilbert** proof of `Υ_n` of length
+  `≤ c·n^c` (a method Willard attributes to Solovay's unpublished communications),
+  but **no comparably short tableaux proof of `Υ_n`**, while `0_n` is cheap under
+  both. Lemma 2(ii) gives the reason: `0_n`'s proof length is "essentially no
+  greater than the **sum**" of its conjuncts' — conjunctions compose linearly
+  under `∧`-Elimination, implications need modus ponens. **That is why the Level
+  hierarchy is non-trivial for tableaux and collapses for Hilbert** (O45).
+- **Partial Proof / Open Branch / Bottom Node** (p. 17), introduced in prose.
+- **The appendix carries the envelope machinery as "G-good"** — see §7 below.

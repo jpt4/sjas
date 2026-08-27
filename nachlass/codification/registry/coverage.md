@@ -24,14 +24,16 @@ page), `partial` (gaps remain, and a gaps-ledger row says so), or `unrecorded`
 | Willard1993 | 12 | unrecorded | all | some | unrecorded |
 | Willard2011 | 64 | unrecorded | all | several | unrecorded |
 | Willard2001 | 67 | 2-67 | all | 9, 10, 19, 22, 28, 39, 40, 51, 54, 60 | complete |
-| Willard2020 | 28 | 1-3 (partial), 4-28 | all | 10, 12, 15, 17 | partial |
-| Willard2002a | 33 | 1-14, 20-28 | all | 14 | partial |
-| Willard2004 | 32 | 4-9 | all | 4 | partial |
-| Willard2006a | 45 | 3-8 | all | 6 | partial |
-| Willard2020-LFCS | 19 | 15-17 | all | 16 | partial |
+| Willard2020 | 28 | 1-28 | all | 10, 12, 15, 17 | complete |
+| Willard2002a | 33 | 1-33 | all | 14 | complete |
+| Willard2004 | 32 | 1-32 | all | 4 | complete |
+| Willard2006a | 45 | 1-45 | all | 6 | complete |
+| Willard2020-LFCS | 19 | 1-19 | all | 16 | complete |
 
-**Open partials** are tracked as gap **G23** (C9 items) and, for `Willard2020`,
-pp. 1-3 which were seen only through a `pdftotext | head` of the opening.
+**All C9 items and `Willard2020` are now `complete`** — the outstanding ranges
+were read on 2026-08-27 and gap **G23** closed. The completion read found items
+the C9 sweep's length cap had dropped (gap **G28**, closed) and corrected six
+proof statuses.
 The four `unrecorded` rows are C4-C6 items extracted before this registry
 existed; their ranges are not reconstructible and are **not** to be guessed.
 Recorded as gap **G25**.

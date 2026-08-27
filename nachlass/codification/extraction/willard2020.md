@@ -87,6 +87,23 @@ because it supplies three things no earlier paper states as cleanly:
    (§5): whether a number's binary encoding is long enough to hold the
    derivation that defines it.
 
+## 2a. Declarative versus Infinite-Ranged exceptions (§1, pp. 2–3)
+
+Willard names his own programme's output **"Declarative Exceptions"** to the
+Second Incompleteness Theorem: formalisms `α*` that "prove more Π₁ like theorems
+than Peano Arithmetic, while offering some type of partial knowledge about their
+own consistency". He contrasts these with **"Infinite-Ranged Exceptions"**, the
+approach of **Artemov** [4] (related to **Beklemishev** [6] and
+Artemov–Beklemishev [5]): Peano Arithmetic generates `T₁, T₂, T₃, …` where each
+`T_i` shows some subset `S_i` of PA cannot prove `0=1`, with
+`S₁ ⊂ S₂ ⊂ S₃ ⊂ …` and PA the union of the `S_i`. Willard notes that [4]'s
+abstract "cautiously used the adjective 'somewhat'", an infinite collection of
+theorems standing in for Hilbert's one unifying consistency theorem.
+
+**This is the corpus's only direct engagement with the Artemov/Beklemishev
+line**, and a live hook for the Refinement stage. (Added 2026-08-27; §1 had not
+been read at C8.)
+
 ## 3. Systems and machinery defined
 
 ### 3.1 GenAC, and the apparatus-identity thesis
@@ -492,6 +509,7 @@ Feeds `../registry/notation.md`.
 | --- | --- | --- | --- |
 | 1 | 2026-08-26 | Full read of all 28 pages from the text layer; form-feed-stripped awk sweep for numbered items and headings | 16 numbered items + 5 unnumbered results |
 | 2 | 2026-08-26 | Visual control pass, `pdftoppm -r 130 -png`, pp. 10, 12, 15, 17 | 0 new items; **1 text-layer correction** (⊙ rendered as `J`); erratum 2 confirmed as genuine |
+| 3 | 2026-08-27 | Completion read of pp. 1–3 | §1's Declarative / Infinite-Ranged material (§2a above); coverage now complete |
 
 Zero-new-items re-pass **not yet run** — saturation is **open** pending a third
 pass (charter criterion A1).

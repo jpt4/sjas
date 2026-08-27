@@ -751,3 +751,68 @@ result.
   paper, which drops it. That is direct textual support for the priority raised
   on **G1** (`Willard2021`), previously inferred only from its title and date.
 - Status: open — extracted as a first-class record, `willard2020-lfcs.md`.
+
+## D38 — the boundary has three dials, and only one has its threshold located
+
+| Source | Dial | Positive side | Negative side |
+| --- | --- | --- | --- |
+| `Willard2004` | **ℜ** — which intermediate theorems a `Tab-ℜ-List` proof may use | `Π*₁ ∪ Σ*₁`, at Level(1) — **proved** (Theorem 3) | `Π*₂` and `Σ*₂`, at Level(0−) — **sketched** (Theorem 2) |
+| `Willard2006a` | **Hybrid(H)** — the naming convention's growth rate, `C_i = ⌈2^{[Log i]^H}⌉·C_{i−1}` | **H = 1** — Theorem 3's exception "remains valid" | **H > 1** — Theorems 4 and 4\* "can be generalized" |
+| `Willard2020` | **Z** — which LEM instances are logical axioms | `Δ*₀` — stated-only | `Π*₂` and above — stated-only; `Π*₁` **conjectured** |
+
+- Three different parameterisations of one boundary, none of which Willard
+  relates to the others. **Hybrid(H) is the only one whose threshold is stated
+  exactly** (at `H = 1`), and it is also the only one on the Hilbert side.
+- The codified statement should present the boundary as a single phenomenon
+  with three known coordinatisations, and say for each whether the transition
+  point is proved, sketched or conjectured.
+- Status: open (C13). Supersedes the narrower D34.
+
+## D39 — `Willard2004`'s W₄/W₅ are already Z-enrichment axioms
+
+| Source | Statement |
+| --- | --- |
+| `Willard2004` Eqs. (12), (13) | `W₄ = ∀α∀t∀n [Prf_α(t,n) ∨ ¬Prf_α(t,n)]`; `W₅ = ∀g∀h [Subst(g,h) ∨ ¬Subst(g,h)]` |
+| `Willard2020` Definition 7.2 | a Z-Base-Variable-Enriched proof admits `∀x Υ(x) ∨ ¬Υ(x)` for `Υ(x) ∈ Z` |
+
+- `W₄` and `W₅` are exactly Definition 7.2's shape, for the two `Σ*₀` predicates
+  `Prf` and `Subst`, and Lemma 5's proof uses them precisely to generate the two
+  `∨`-Elimination splits that let the argument case-split.
+- So the LEM-as-axiom device that `Willard2020` makes its centrepiece is already
+  **in the base theory of the 2004 negative theorem**, sixteen years earlier, in
+  restricted form. `Willard2020`'s Z-enrichment generalises it from two fixed
+  `Σ*₀` predicates to an arbitrary class.
+- This is the family resemblance behind D38's first and third dials, and it
+  makes the Π\*₁ conjecture legible: 2004 already knows that LEM at `Σ*₀` is
+  safe and that `Π*₂` intermediate theorems are fatal.
+- Status: open (C13).
+
+## D40 — the corpus carries two toolkits, and `Willard2006a` says why
+
+| Source | Statement |
+| --- | --- |
+| `Willard2006a` p. 12 | "Definable Cuts are not always ideally suited for generalizing the Second Incompleteness Theorem when D represents a **cut-free** deduction method, such as Herbrand deduction, semantic tableaux or the cut-free sequent calculus" — hence **Generalized Gödel Sentences** |
+
+- Definable cuts and their thinnings serve the Hilbert-side results
+  (`Willard2006a` Theorems 1, 2, 4, 7); generalized Gödel sentences
+  `⧫^λ_D(α)`, built on `ShortPrf^λ_{α,D}`, serve the cut-free ones
+  (`Willard2002a`, `Willard2004`). `Willard2004` is explicitly a hybrid.
+- The codified statement should introduce both toolkits once, with this reason,
+  rather than letting each paper's apparatus appear ad hoc.
+- Status: open (C13).
+
+## D41 — coding compression is load-bearing on the tableaux side and merely clarifying on the Hilbert side
+
+| Source | Statement |
+| --- | --- |
+| `Willard2001` p. 28, `Willard2020` §5 | density is what makes the positive tableaux engine work; without it Case 11 and Lemma 4.2 fail |
+| `Willard2006a` p. 15 | "Our results also generalize in various forms for **non-compressed encodings**, where `C_i` has an `O(i)` bit-length instead… uncompressed encodings are inherently unnatural" |
+| `Willard2006a` p. 37 | "All our theorems have analogs under such uncompressed encoding methods, but they are **substantially more meaningful** when one uses efficiently compressed encodings" |
+
+- So D6/O30's thesis — that coding density is a hypothesis rather than a
+  convenience — holds for the **tableaux** results but is explicitly disclaimed
+  for `Willard2006a`'s **Hilbert** results, where compression affects
+  significance rather than validity.
+- Record the distinction; a codified statement that makes density universally
+  load-bearing would misstate the Hilbert side.
+- Status: open (C13).

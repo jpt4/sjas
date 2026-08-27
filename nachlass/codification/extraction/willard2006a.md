@@ -141,5 +141,49 @@ Recorded as drift **D36**; extends the C6 audit.
 | 1 | 2026-08-26 | Text-layer read of §§1–2 and the theorem statements; awk item sweep across all 45 pp. | 22 numbered items |
 | 2 | 2026-08-26 | Visual control pass, p. 6 | 0 new; confirmed seven grounding functions, `Logarithm = 1+⌊Log₂x⌋`, `Root = ⌈x^{1/y}⌉`, and non-growth with `Maximum(2, …)` |
 
-§§3–6 and Appendices A–D were swept but **not read line by line**; several proof
-statuses above are provisional. Gap **G23**. Saturation **open**.
+| 3 | 2026-08-27 | Completion read of pp. 1–2 and 9–45 | **6 new items** (Theorem 3\*, Remarks 1–3, Corollary 1, Definitions 4–5, plus Hybrid(H) and Pudlák's question); **four proof-status corrections** |
+
+**Coverage complete** (pp. 1–45). Zero-new-items re-pass **not yet run**.
+
+### Added at the 2026-08-27 completion read
+
+- **`ISCE` = "Introspective Semantics with Continuous Expansion"** (p. 16).
+  Group-1 delegates explicitly to "**Table I of [46]**" = `Willard2001`, and
+  Lemma 1's encoding to "Appendixes B through D of our article [46]" —
+  confirming the C7 delegation chain from the far side.
+- **Formal naming conventions** (pp. 13–14) replacing the informal Eqs. (1)–(3),
+  with `ADD`/`MULT` as Δ⁻₀ predicates, plus `Bit(x,i) = Count(x,i) − Count(x,i−1)`,
+  `σ_d(x)`, and **2-reduced** Π⁻₁ sentences — the devices that let `ISCE(A)`
+  work without a constant symbol for every natural.
+- **Remark 3 (p. 24) is the crux of the paper** and the cleanest statement of
+  the growth restriction in the corpus — see obligation **O50**.
+- **Hybrid(H) naming** (p. 30): `C_i = ⌈2^{[Log i]^H}⌉·C_{i−1}`, with the
+  positive result surviving at **H = 1** and the negative results generalising
+  for **H > 1**. The corpus's only exactly-located boundary threshold (D38).
+- **`ISINF(A)`'s Group-3 has two axioms** (41) and (42), the latter an
+  **Expansion Axiom**, defined simultaneously by the Fixed Point Theorem; the
+  trick is `JumpPrf_α(x,y)`, which is Δ⁻₀ **even though α recognises neither
+  successor nor doubling as total**. Theorem 6's Item 1 is only sketched.
+  `ISINF(A)` "appears to be **incompatible** with the tangibility reflection
+  principles", unlike `ISCE(A)` — so the Hilbert-side positives split, one
+  keeping reflection and one trading it for Infinite Far Reach.
+- **Pudlák's open question** (pp. 33–34), gap **G27** — see §5's inventory.
+- **Appendix D**'s obstacle and its resolution: a non-standard model with
+  `F(x) = x+1` on standard `x` and `F(x) = x−1` elsewhere is consistent with
+  (43)–(45) yet slower-growing than successor; `Ψ(x) = ∀t≤x F(t) > t` is shown
+  to satisfy the three cut conditions, making successor total **locally** within
+  `Ψ` and the Pudlák–Solovay machinery applicable.
+- **Appendix A corroborates D25/O33 from a fourth paper**: a byte is six bits,
+  proofs are base-64 integers, **20** symbols with 6-bit codes, variables in
+  `⌈log₃₂(i+1)⌉ + 1` bytes — identical to `Willard2001` Appendix B but for 20
+  symbols rather than 21, the missing one being the tableaux parameter marker.
+- **But compression is disclaimed as necessary here** (pp. 15, 37): the results
+  "generalize in various forms for non-compressed encodings" and are merely
+  "substantially more meaningful" with compression. Drift **D41**, obligation **O51**.
+- **Proof statuses corrected**: Theorem 3\* → `stated-only`, Corollary 1 →
+  `sketch`, Lemma 3 → `sketch`, Theorem 5 → `cited`. Verified: Theorems 3, 4
+  `full`; Lemmas 4, 5 `full`; Lemmas 6, 7 `stated-only`.
+- The literature survey (§2, 11 items) is the best related-work map in the
+  corpus, and item 6 identifies **Solovay's never-published thinning
+  construction, proved on Hájek–Pudlák pp. 172–173** — which is exactly the
+  citation `Willard2020` gives for statement ⊙, completing obligation O48's chain.

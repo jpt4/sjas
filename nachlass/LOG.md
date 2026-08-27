@@ -1,5 +1,78 @@
 # Nachlass Log
 
+## 2026-08-27 - C9 Completion Reads (closing G23)
+
+- Read to completion the ~92 pages left unread at C9: `Willard2002a` pp. 15-19
+  and 29-33, `Willard2004` pp. 1-3 and 10-32, `Willard2006a` pp. 1-2 and 9-45,
+  `Willard2020-LFCS` pp. 1-14, `Willard2020` pp. 1-3. `registry/coverage.md` now
+  shows six items `complete`, none `partial`. **G23 closed.** Registries at 262
+  results / 39 systems / 116 notation rows.
+- **The C9 sweep had a hole.** Its awk recipe filtered items with
+  `length(l)<95`, silently dropping any whose first line ran longer. The
+  uncapped re-sweep found `Willard2002a` **Claim A.2** and **Definition 6.5** and
+  `Willard2020-LFCS` **Example 1**; a registry cross-check found six
+  `Willard2006a` items in the extraction record but not in `results.md`. All now
+  recorded. Gap **G28**, closed. The sweep recipe must never carry a length cap.
+- **Ten proof statuses were wrong**, all in the direction of overstating what
+  was proved: Willard2004 Theorem 2 -> sketch, Theorems 4 and 5 -> cited,
+  Lemmas 5 and 7 -> sketch; Willard2006a Theorem 3\* -> stated-only, Corollary 1
+  -> sketch, Lemma 3 -> sketch, Theorem 5 -> cited, Theorem 6 -> sketch.
+- **`Willard2004` defers four things to "a longer version of this article"**
+  that appears never to have been published - including the details that would
+  complete **Theorem 2**. Since Willard2020 section 7 cites exactly that theorem
+  for the Pi\*_2 failure, **the Pi\*_1 conjecture is flanked by a Delta\*_0
+  positive that is stated-only in 2020 and a Pi\*_2 negative that is sketch-only
+  in 2004.** Gap **G26**.
+- **The boundary has three dials** (**D38**): Willard2004's R (which intermediate
+  theorems a TabList proof may use), Willard2006a's **Hybrid(H)** (naming growth
+  rate, C_i = ceil(2^([Log i]^H))·C_(i-1)) and Willard2020's Z (which LEM
+  instances are logical axioms). Willard never relates them. **Hybrid(H) is the
+  only one whose threshold is stated exactly** - H = 1 positive, H > 1 negative.
+- **Willard2020's LEM-as-axiom device is already in Willard2004** (**D39**):
+  W_4 and W_5 are `∀..[Prf ∨ ¬Prf]` and `∀..[Subst ∨ ¬Subst]`, exactly Definition
+  7.2's shape for two Sigma\*_0 predicates, and Lemma 5 uses them to generate its
+  two ∨-Elimination splits. Sixteen years earlier, in restricted form.
+- **Willard2004's appendix already contains the envelope machinery** (**O54**),
+  under the name **G-good**: a Sigma\*_1 sentence is G-good iff its witnesses are
+  bounded by 2^I(H), a Pi\*_1 sentence iff its universal bounds are G·2^(-I(H)),
+  and "it is impossible for both X and Y to have G-good proofs". That is
+  Willard2005's Normed(a,b) and Willard2011's Good(N), plus obligation O27's
+  impossibility step, dated 2004.
+- **Willard2002a section 7 is the mirror of Willard2001 Remark 4.5**: the
+  tableaux G2 collapses under multiplication-as-relation "essentially [because]
+  Lemma 4.7 ... would then become no longer valid". 2001 localises the *positive*
+  engine's collapse to Lemma 4.2; 2002a localises the *negative* theorem's to
+  Lemma 4.7 - **and both lemmas are about the squaring sequence** (O44).
+- **Willard2006a Remark 3 is the cleanest statement of the growth restriction in
+  the corpus** (**O50**): a proof of N's existence has a *larger* Godel number
+  than N under additive naming and a *sharply smaller* one under multiplicative
+  naming, "and this difference in magnitude is the reason the Second
+  Incompleteness Theorem will generalize under the multiplicative naming
+  paradigm".
+- **A second frontier problem** (**G27**, **O53**): Pudlak's private-communication
+  question of 2001, whether an **Extender Function** can build a self-justifying
+  system of Infinite Far Reach. Willard defines IS.Extender(A), conjectures it
+  consistent, and shows monotonicity provably fatal (Theorem 7). Carry it
+  alongside Willard2020's Pi\*_1 conjecture.
+- **Density is load-bearing for tableaux, merely clarifying for Hilbert**
+  (**D41**, **O51**): Willard2006a twice disclaims the necessity of compressed
+  encodings for its own results, where the tableaux engine genuinely fails
+  without it.
+- **Willard2006a explains why the corpus carries two toolkits** (**D40**,
+  **O52**): definable cuts suit Hilbert, generalised Godel sentences suit
+  cut-free methods. Its 11-item literature survey also identifies **Solovay's
+  never-published thinning construction, proved at Hajek-Pudlak pp. 172-173** -
+  the exact citation Willard2020 gives for statement (circled dot), completing
+  obligation O48's chain.
+- **Willard2002c is more load-bearing than its Tier B ruling suggests**: it
+  holds IS-1(A), PROBE, (L,M)-Conservative Branches, Constraint(p,beta), Lemmas
+  1-t/2-t/3-t and Theorem 2-t, and introduced the Level hierarchy. Flag for C10.
+- **One of my own C9 claims was wrong and is corrected**: I had recorded that the
+  Declarative / Infinite-Ranged distinction was in the LFCS chapter and absent
+  from Willard2020. It is on Willard2020 pp. 2-3, which I had not read - an
+  inference drawn from an unread range, which is precisely what the coverage
+  discipline exists to prevent. Willard2020's record gains a section 2a for it.
+
 ## 2026-08-27 - Coverage Discipline: making "what was read" machine-checkable
 
 - **The C9 coverage claim was false and is corrected.** `registry/gaps.md` G23

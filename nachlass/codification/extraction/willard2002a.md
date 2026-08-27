@@ -163,8 +163,32 @@ See `willard2006a.md` §3 and obligation **O44**.
 | --- | --- | --- | --- |
 | 1 | 2026-08-26 | Text-layer read of pp. 1–14 and 20–28; awk item sweep across all 33 pp. | 24 numbered items |
 | 2 | 2026-08-26 | Visual control pass, p. 14 | 0 new; confirmed `C ≅ 12`, the underbrace notation, and `u_{i+1} = (u_i)²` |
+| 3 | 2026-08-27 | Completion read of pp. 15–19 and 29–33; uncapped item re-sweep | **2 new items** (Claim A.2, Definition 6.5), both dropped by pass 1's `length<95` filter |
 
-**pp. 15–19 and 29–33 were not read** — the second half of §4's proof of Theorem 3.4
-(Lemmas 4.8–4.9) and the Appendix body. Corrected 2026-08-27; the pass-1 line
-previously overstated this as a full read. Zero-new-items re-pass **not yet run**;
-saturation **open**, gap **G23**.
+**Coverage complete** (`registry/coverage.md`: pp. 1–33). Lemmas 4.8 and 4.9
+verified `full`. Zero-new-items re-pass **not yet run**; saturation **open**.
+
+### Added at the 2026-08-27 completion read
+
+- **Lemma 4.8** (p. 15) defines **z-tiny** (`Log(x_i) ≤ O(LogLogLog z)`) and
+  **z-adequately small** (`Log(x_i) ≤ O{[LogLog z]^C}`), and splits its proof
+  tree into `x₀…x₄`. Its first branch split is `⇒`-Elimination **on the
+  redundant `V₄` axiom** — a third site of the branching-axiom construction in
+  this paper, alongside `V₄`'s CLARIFICATION and Lemma 6.3 (drift D30).
+- **Lemma 4.9** (p. 18) completes Theorem 3.4 via `f(z) = D·[LogLog z]^C`, a
+  constant `M`, and a vacuous-satisfaction argument for `z ≤ M`.
+- The comment after Lemma 4.7 explains why Lemmas 4.4/4.6/4.7 are abbreviated:
+  "our main objectives are not centered around the specific Π₁ sentence `V`".
+- **§7's open question**: what is the shortest Π₁ sentence `V` making `Q+V` a
+  threshold? "likely that our current sentence `V` could be shortened considerably".
+- **§7's closing note is the mirror of `Willard2001` Remark 4.5.** The tableaux
+  G2 collapses when multiplication becomes a 3-way relation "essentially [because]
+  **Lemma 4.7 and its seemingly trivial short 3-paragraph proof would then become
+  no longer valid**", after which "all the other successive stages of our proof
+  will collapse in a one-by-one, step-by-step manner". `Willard2001` localises
+  the *positive* engine's collapse to the loss of Lemma 4.2; this localises the
+  *negative* theorem's collapse to the loss of Lemma 4.7 — **and both lemmas are
+  about the squaring sequence** (obligation O44).
+- **Claim A.2** (p. 31), missed by pass 1: `P*(x,u,z)` has a LinH procedure; the
+  `z ≠ 0` clause forces `(1+Log s_i) ≤ (2/3)(1+Log s_{i−1})`, giving `O(Log x)`.
+- **Definition 6.5** (p. 27), missed by pass 1: supporting notation for Theorem 6.6.
