@@ -31,9 +31,10 @@ page), `partial` (gaps remain, and a gaps-ledger row says so), or `unrecorded`
 | Willard2020-LFCS | 19 | 1-19 | all | 1-19 | complete |
 | Willard2002c | 17 | 1-17 | all | 1-17 | complete |
 | Willard2000-TAB | 16 | 1-16 | all | 1-16 | complete |
-| Willard2009 | 33 | 1-33 (30-33 are references) | all | 4, 8, 10, 11, 12, 14, 19, 22, 25, 26, 27, 28 | complete |
+| Willard2009 | 33 | 1-33 (30-33 are references) | all | 1-33 | complete |
 | Willard2006-WoLLIC | 15 | 1-15 (13-15 are references) | all | 1-15 | complete |
 | Willard2016 | 34 | 1-34 (PDF pages; PDF = printed + 1) | all | 6, 8, 11, 12, 15, 16, 18, 19, 24, 25 | complete |
+| Willard2007-APAL | 48 | 1-48 (44-48 are references) | all | 4, 20, 26, 29 | partial |
 
 **A sweep is not a read.** The `Swept` column records that a mechanical pass
 found an item's *label*; only the `Read` column records that its *content* was

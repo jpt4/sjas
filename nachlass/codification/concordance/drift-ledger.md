@@ -1042,10 +1042,14 @@ Appendix A of `Willard2001` as subsequent explorations.
 | `Willard2016` §5 | `Δ^ANC₀`, `Π^ANC_n`, `Σ^ANC_n` — over the Additive-Naming-Convention language |
 | `Willard2016` §5 | `Δ^Q₀`, `Π^Q_n`, `Σ^Q_n` — over `L^Q`, with every `C_J` replaced by `E_{J−1}` |
 
-- Every one of these is "the bounded formulas of *this* language", and no paper
-  states the relations between them except `Willard2009` p. 20, which says the
-  starred classes are "roughly analogous" to the R-superscripted ones **except
-  that they contain no multiplication function symbol** (drift D33).
+- Every one of these is "the bounded formulas of *this* language". **Two**
+  relations between them are stated anywhere in the corpus, both by
+  `Willard2009`: p. 20 says the starred classes are "roughly analogous" to the
+  R-superscripted ones **except that they contain no multiplication function
+  symbol** (drift D33), and **footnote 3 on p. 13** says "the `Δ^R₀` class of
+  formulae is **broader than** `Δ⁻₀`" — so `Willard2001`/`Willard2002c`'s
+  minus-superscript class is a proper subclass of `Willard2009`'s. Every other
+  pair is unrelated in print.
 - `Willard2016`'s two are the most constrained: a formula lies in `Δ^Q₀` **iff**
   it is built by the `C_J → E_{J−1}` substitution, which is what guarantees
   every primary term in it is an *observable*.
