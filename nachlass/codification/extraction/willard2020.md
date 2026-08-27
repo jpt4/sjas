@@ -308,6 +308,46 @@ This is the sharpest boundary statement in the corpus and it names a clean open
 problem. Footnote 7: the failure at Π\*₂ happens because "the sharp compression
 in proof lengths produces Gödel-like Diagonalization compressions".
 
+**Z is the right dial because it is the set of licensed modus-ponens middle
+terms.** §6's four-step construction recovers the Linear-Sum Effect by invoking
+LEM "of the *particular* form `φ ∨ ¬φ`", where `φ` is the middle term being
+simulated; in a Z-enriched proof that step is licensed exactly for `φ ∈ Z`. So
+the boundary question is: *how complex must the middle terms be before the
+resulting proof compression suffices to run the diagonalization?* Δ\*₀ is not
+enough; Π\*₂ is; Π\*₁ is open. Theorems 4.4 and 4.5 are the two endpoints
+(`Z = ∅` and `Z` = all sentences) of this one family.
+
+**Two structural observations, not made by Willard**, recorded so C13 need not
+re-derive them:
+
+- **Π\*₁ is the class of the system's own axioms.** Group-1 is a finite set of
+  Π\*₁ sentences, Group-2's schema (Eq. 4) is Π\*₁, Group-3 is explicitly "a
+  self-referencing Π\*₁ axiom" (Eq. 5), and **Level-1 self-consistency is
+  *defined* over that class** ("no two proofs … for a Π\*₁ sentence and its
+  negation"). Π\*₁-enrichment is therefore precisely the setting in which the
+  tableau may branch on the very sentences the consistency axiom quantifies
+  over — where self-reference would be expected to bite if anywhere.
+- **The two indexings are offset by one level.** For `Υ = ∀v φ(v)` with
+  `φ ∈ Δ*₀`, `Υ ∨ ¬Υ ≡ ∀v ∃w (φ(v) ∨ ¬φ(w))`, which by Definition 4.1 is
+  **Π\*₂**. So `Z = Π*₁` already introduces logical axioms whose prenex form
+  carries the complexity Willard identifies as fatal *when it is the disjunct's*
+  complexity. The conjecture thus asks whether the Π\*₂ failure is driven by the
+  syntactic form of the added axioms or by the strength of the modus-ponens
+  steps they license — the former predicts failure at Π\*₁, the latter
+  survival. Note this computation depends on a prenex-normalisation convention
+  the paper never fixes (**O42**).
+
+**Do not collapse Definitions 7.1 and 7.2.** At `Z = Δ*₀`, Definition 7.2 admits
+`∀x (Υ(x) ∨ ¬Υ(x))`, which is *itself* Π\*₁. So the settled Δ\*₀ case already
+licenses some Π\*₁ enrichment *axioms* — just not Π\*₁ *disjuncts*.
+
+**What is actually established is less than it appears.** "A fully detailed
+justification will not be provided here" governs **both** the Δ\*₀ positive and
+the Π\*₂ negative; each is asserted as an extension of an earlier paper. §7 does
+not establish a boundary with one rung open — it **asserts** a boundary with one
+rung open (gap G22). `Willard2021` (gap G1) is the likely location of the
+proofs and possibly of the answer; see G1's priority note.
+
 ### 3.11 Resolution, and the θ primitive (§8)
 
 Resolution "shares numerous characteristics with tableau" [15], so Theorems 4.4

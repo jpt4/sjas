@@ -14,7 +14,7 @@ Chronological record: [`../LOG.md`](../LOG.md).
 | Registries (systems, results, notation) | [`registry/`](registry/) | live; 187 results, 31 systems, 88 notation rows |
 | Gaps | [`registry/gaps.md`](registry/gaps.md) | live; G1–G22 (G9 closed) |
 | Concordance | [`concordance/`](concordance/) | drift ledger live (D1–D29); [composition obligations](concordance/composition-obligations.md) live (O1–O42); axes and matrix built at C13 |
-| Discussion records | [`discussion/`](discussion/) | longer conversational notes, linked from the LOG |
+| Discussion records | [`discussion/`](discussion/) | longer conversational notes, linked from the LOG; [engine machinery and Rosser](discussion/2026-08-21-engine-machinery-and-rosser.md), [boundary results and the Pi\*1 conjecture](discussion/2026-08-26-boundary-results-and-the-pi1-conjecture.md) |
 | Codified statement | `codified-sjas.md` | composed at C14–C15 |
 
 Tooling (portable bash + CLI only): [`audit.sh`](audit.sh) checks registry

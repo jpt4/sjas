@@ -1,5 +1,51 @@
 # Nachlass Log
 
+## 2026-08-26 - Two Boundary-Result Elaborations (C8 follow-up)
+
+- Recorded at `nachlass/codification/discussion/2026-08-26-boundary-results-and-the-pi1-conjecture.md`
+  (summary + verbatim transcript), covering two checkpoint questions about what
+  the corpus's negative results actually establish.
+- **`XIS^lambda(PAX)` is genuinely syntactically inconsistent.** Theorem 7.3
+  establishes (75) unconditionally; Theorem 7.2's proof then derives both
+  alpha |- Theta and alpha |- not-Theta for Theta = Gamma(n-bar). Three
+  qualifications: the witness step is metatheoretic (two derivations exist, no
+  size bound on either - obligation **O37**), inconsistency is of the axiom set
+  and so apparatus-independent, and no step covertly assumes consistency. New
+  observation: Eq. (71)'s consequent is Theta^x where Eq. (9)'s is Psi^x_z, so
+  the schema is weaker than the literal analogue and the theorem correspondingly
+  stronger (erratum 11).
+- **The Pi\*_1 conjecture is one rung of a parameterized family.** Definitions
+  7.1/7.2 make Theorems 4.4 and 4.5 the endpoints (Z empty, Z everything) of a
+  single spectrum: Delta\*_0 holds, Pi\*_2 fails, Pi\*_1 open. Z is the right
+  dial because section 6's four-step construction licenses the Linear-Sum Effect
+  exactly for middle terms in Z - so the question is how complex the simulated
+  modus-ponens middle terms must be before compression suffices to run the
+  diagonalization.
+- Two structural observations recorded in the extraction record, flagged as
+  inference rather than Willard's statement: **Pi\*_1 is the class of
+  IS_D(beta)'s own axioms** (Groups 1, 2 and 3 are all Pi\*_1) *and* of its
+  Level-1 consistency claim; and `Upsilon v not-Upsilon` for Pi\*_1 Upsilon is
+  already **Pi\*_2 in prenex form**, so the two indexings are offset by one
+  level. Also: Definitions 7.1 and 7.2 must not be collapsed - 7.2 at Delta\*_0
+  already admits Pi\*_1 *axioms*, just not Pi\*_1 *disjuncts*.
+- **Section 7 asserts a boundary rather than establishing one.** The Delta\*_0
+  positive and the Pi\*_2 negative are both unproved in `Willard2020`, so the
+  conjecture cannot be assessed until those extensions are checked (gap G22,
+  now cross-linked to G1).
+- **G1's priority raised.** `Willard2021` is titled "About the characterization
+  of a **fine line** that separates generalizations and boundary-case
+  exceptions..." and appeared online 2020-12-30, ~7 months after
+  arXiv:2006.01057. The title shift from the LFCS chapter's "tender line
+  separating" to "characterization of a fine line that separates" reads as a
+  move from *there is a line* to *here is where it is*, making it the likely
+  location of G22's missing proofs and possibly of the conjecture's answer.
+  Inference from title and date only - the paper is unseen. Acquisition is no
+  longer merely a completeness item.
+- Process note, recorded in the discussion file: in both exchanges I stated that
+  records had been updated before the edits were made, and the edits followed a
+  turn later. The registries are the source of truth; a claim of recording is
+  worth only the commit behind it.
+
 ## 2026-08-26 - Extraction of Willard 2020, the Terminal Statement (component C8)
 
 - **Extracted `Willard2020`** (arXiv:2006.01057v1, "How the Law of Excluded
