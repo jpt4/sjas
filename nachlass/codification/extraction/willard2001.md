@@ -315,7 +315,37 @@ assume that α recognizes either Addition or Multiplication as total functions."
 **Theorem 7.3**: `XIS^λ(PAX)` (= `IS^λ(PAX)` + Multiplication total, Group-3
 self-referential) is **inconsistent for every λ** — multiplication makes
 `∀x∀y∃z y^λ < z/x` provable, collapsing the Group-3 guard into full canonical
-reflection, which Theorem 7.2 forbids.
+reflection (75), which Theorem 7.2 forbids.
+
+**The inconsistency is syntactic and the pair is nameable.** Theorem 7.3
+establishes (75) *unconditionally* — no consistency assumption enters. Theorem
+7.2's proof, instantiated at α = `XIS^λ(PAX)` and D = semantic tableaux, then
+derives **both** (68) `α ⊢ Θ` and (70) `α ⊢ ¬Θ` for `Θ = Γ(n̄)`. Three
+qualifications belong with that:
+
+- **The witness step is metatheoretic.** (68) → (69) leaves α: because α proves
+  `Θ`, a proof object exists, so `SemPrf_α(⌜Θ⌝, m̄)` is a *true Δ⁻₀ sentence*
+  and α proves it. What is established is that two derivations **exist**; no
+  size bound is given for either, and no single contradiction-derivation is
+  exhibited. This is the exact converse of the positive side of the corpus,
+  where every argument is a minimal-witness construction carrying explicit
+  bounds. The asymmetry should be stated, not smoothed over — obligation O37.
+- **Inconsistency is of the axiom set, hence apparatus-independent.** Willard
+  writes `⊢_D` in Theorem 7.2 and bare `⊢` in Theorem 7.3; it does not matter,
+  since Lemma 7.1 requires `D` α-sound and α-complete, and for such `D` proving
+  `Θ` and `¬Θ` means the axioms have no model. Unusual in this corpus, where
+  apparatus choice is normally decisive.
+- **No step covertly assumes consistency.** Lemma 7.1B argues semantically
+  (soundness, then completeness) and stays valid vacuously when α has no
+  models, so the refutation is not circular.
+
+**Observation not made by Willard**: (71)'s consequent is **`Θ^x`**, where
+Eq. (9)'s is `Ψ^x_z`. By Lemma 3.1.C, `Ψ^x_z ⊃ Ψ^x`, so (71) is a **weaker**
+axiom than the literal analogue of `IS^λ`'s schema — and the system is
+inconsistent anyway, which makes Theorem 7.3 stronger than a like-for-like
+reading suggests. Willard does not remark on the difference; whether it is
+streamlining for the proof or inadvertent is undetermined. Recorded as erratum
+11 in §7.
 
 **Theorem 7.4** (Proof Sketch): α consistent, Multiplication total, plus the
 proof-compression hypothesis (76) ⟹ α cannot prove the **Second Uniform**
@@ -547,6 +577,12 @@ Feeds `../registry/notation.md`. See that registry for the canonical mapping.
    Same axiom; noted so a reader does not hunt for a difference.
 10. **`TransProof_A(x,y)` is called a `Δ₀` formula** (p. 10) where the
     surrounding text uses `Δ⁻₀` throughout. Probably a slip for `Δ⁻₀`.
+11. **Eq. (71) weakens the Group-3 consequent** from Eq. (9)'s `Ψ^x_z` to
+    `Θ^x`, without comment. Not an error — the proof of Theorem 7.3 goes
+    through, and the weakening strengthens the theorem — but it means
+    `XIS^λ(PAX)` is not the literal "IS^λ(PAX) plus multiplication" its
+    definition line suggests. Flag at C13 so the negative result is not
+    misread as applying to a *stronger* schema than it does.
 
 ## 8. Saturation record
 
