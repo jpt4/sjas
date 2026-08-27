@@ -19,7 +19,7 @@ page), `partial` (gaps remain, and a gaps-ledger row says so), or `unrecorded`
 
 | Item | Pages | Read | Swept | Images | State |
 | --- | --- | --- | --- | --- | --- |
-| Willard2005 | 43 | unrecorded | all | recorded in `willard2005-fidelity-check.md` | unrecorded |
+| Willard2005 | 43 | 1-43 | all | recorded in `willard2005-fidelity-check.md` | complete |
 | Willard1993-TR | 61 | unrecorded | all | many (OCR witness; see record) | unrecorded |
 | Willard1993 | 12 | 1-12 (printed 325-336) | all | some | complete |
 | Willard2011 | 64 | unrecorded | all | several | unrecorded |
