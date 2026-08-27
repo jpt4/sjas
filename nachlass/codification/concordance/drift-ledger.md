@@ -893,3 +893,40 @@ result.
   1994 theorem, stated in the founding report. The codified statement should
   introduce the branches this way rather than as two independent programmes.
 - Status: open (C13).
+
+## D45 — the engine's truncation operator bounds different quantifiers in different papers
+
+| Source | Operator | What it bounds |
+| --- | --- | --- |
+| `Willard2001` p. 22 | `Ψ̃⇓m` | **all** unbounded quantifiers, after replacing parameters by their values |
+| `Willard2002c` p. 8 | `Ψ^M` | only the previously-unrestricted **universal** quantifiers; bounded universals and **all** existentials are unchanged |
+| `Willard2005` Eqs. (16)–(17) | `App∀(a)` / `App∃(b)` | universals and existentials **separately**, by two different bounds |
+| `Willard2011` Definition 4.2 | `Scope_E(Υ,N)` | **both** unbounded universals and unbounded existentials, by the same `E(N)` |
+
+- Four papers, four truncation conventions, all called on to do the same job:
+  make a false self-consistency axiom locally true so a minimal counterexample
+  can be cornered.
+- The differences are not cosmetic. `Willard2002c`'s universals-only truncation
+  is what lets `Check` compare `X = ∀a φ(a)` against `Y = ∃a ¬φ(a)` asymmetrically;
+  `Willard2005` splits the two bounds precisely so they can be tuned against each
+  other; `Willard2011` re-merges them and pays for it with the `♯` machinery.
+- C13 must fix **one** operator and restate each paper's lemmas against it, or
+  the engine will appear to be four unrelated arguments. Pairs with **O27**.
+- Status: open (C13).
+
+## D46 — `Willard2002c` locates the boundary more finely than any successor
+
+| Source | Statement |
+| --- | --- |
+| `Willard2002c` p. 16 | "Theorem 2 and its generalizations **collapse when `R(2,1)` deduction replaces `R(1,1)`**" — with a `Π₁⁻` sentence `W` provable from IΣ₀ blocking Addition-total systems |
+| `Willard2004` Theorem 2 | no consistent `α ⊃ V_A` proves its Level(0-) consistency under **`Tab-Π*₂-List`**; none `⊃ V_B` under **`Tab-Σ*₂-List`** |
+
+- `R(i,j)` carries **two** indices — intermediate theorems may be `Π*ᵢ` **or**
+  `Σ*ⱼ`. `Willard2002c` reports the transition at `R(1,1) → R(2,1)`, i.e. from
+  **raising the `Π` index alone while holding `Σ` at 1**.
+- `Willard2004`'s dial has collapsed to a single class, so its two negative
+  results move both indices together and cannot express the finer statement.
+- Consequence for **D38**: the `ℜ` dial is a *projection* of a
+  two-dimensional parameter, and the corpus's sharpest located threshold is in
+  the paper ruled Tier B. Obligation **O60**.
+- Status: open (C13).

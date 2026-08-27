@@ -29,6 +29,7 @@ page), `partial` (gaps remain, and a gaps-ledger row says so), or `unrecorded`
 | Willard2004 | 32 | 1-32 | all | 4 | complete |
 | Willard2006a | 45 | 1-45 | all | 6 | complete |
 | Willard2020-LFCS | 19 | 1-19 | all | 16 | complete |
+| Willard2002c | 17 | 1-17 | all | 8, 10, 16 | complete |
 
 **All C9 items and `Willard2020` are `complete`** — the outstanding ranges were
 read on 2026-08-27 and gap **G23** closed. The completion read found items the
