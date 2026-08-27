@@ -345,3 +345,35 @@ space after the first letter, so a naive `^Definition` grep finds only prose
 cross-references and **misses every actual heading**. This is a corpus-wide
 extraction hazard; it applies to all JSL-typeset witnesses (`Willard2001`,
 `Willard2002a`, `Willard2006b`).
+
+
+## Verification pass, 2026-08-27
+
+Read to completion (pp. 1–43) during the C4–C6 coverage verification. The
+inventory was confirmed complete by an uncapped, case-insensitive sweep; the
+pilot record stands. Findings worth carrying forward:
+
+- **The paper's own framing is limited modus ponens.** `K`-Deduction has modus
+  ponens for `Σ*_K` and `Π*_K` but not higher, and the headline result is
+  self-consistency under **1-deduction** — a boundary dial with its threshold
+  located, since `K = 2` is "provably infeasible" by `Willard2004` (drift D38).
+- **`Tab-ℜ-List` is defined here** (p. 7), with `Tab-Q*_K`, `Tab-U*_k`
+  (`U*_k = Σ*_k ∪ Π*_k`), `Tab-Σ*_k` and `Tab-Π*_k` variants. `Tab-U*₁-List` is
+  the apparatus of the main theorem — so `Willard2020`'s `Tab-1`,
+  `Willard2004`'s `Tab₁List`, `Willard2002c`'s "R(1,1) Hierarchy Deduction" and
+  this are one construct under **five** names (drift D33).
+- **The dial's endpoints are the two apparatuses**: "If `ℜ` represents the
+  universal set of all sentences, then `Tab-ℜ-List` deduction will have a
+  deductive-efficiency essentially equivalent to that of a **Hilbert-style
+  proof**." That is the structural reason the `ℜ` and `Z` dials behave alike.
+- **A sharp `Σ*₁`/`Π*₁` dichotomy on adding a valid sentence as an axiom**
+  (p. 37): with `N_D(A,Ψ)` the analogue of `NS^{k,m}_D(A)` that adds `Ψ` to
+  Group-zero, "there is no analog of this inconsistency when `Ψ` is a logically
+  valid `Π*₁` sentence… `N_D(A,Ψ)` is always consistent". **The ancestor of
+  `Willard2011` Lemma 6.1.**
+- The **unlimited-bounded-quantifier property** (p. 37) is a named side-condition
+  Willard says carries the result's strength.
+- **Remark 7 identifies the unlocated ASL-2005 companion TR's content**: on
+  floating-point arithmetic `IS_D(A)` *can* recognise multiplication as total.
+- The **Prenex\* root requirement is present here**, as in `Willard2001` and
+  unlike `Willard2002a`/`2004`/`2020` — which settles obligation **O42**'s scope.

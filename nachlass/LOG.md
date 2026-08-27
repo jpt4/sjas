@@ -1,5 +1,61 @@
 # Nachlass Log
 
+## 2026-08-27 - Verifying the C4-C6 Coverage (closing G25)
+
+- The four items extracted before `registry/coverage.md` existed are resolved.
+  Coverage now reads **9 complete, 1 partial, 0 unrecorded**.
+- **Inventory verification first.** An uncapped, **case-insensitive** sweep of
+  all four confirmed **no numbered item is missing from any extraction record**.
+  The earlier sweeps could not have shown this: hazard H1 joins "D EFINITION"
+  into all-caps DEFINITION, which a case-sensitive `^Definition` test rejects.
+  The sweep must be uncapped *and* case-insensitive.
+- **Nine `Willard2011` items had no `results.md` row** - Facts B.1-B.3, Lemmas
+  C.1-C.2, Definition D.2, Fact D.3, Remark E.2, Remark G.4 - because the
+  extraction record carries them as *combined* inventory rows. Same defect class
+  as the six `Willard2006a` items found in phase 1. All added.
+- **`Willard1993` read to completion, and it is the richest surprise of the
+  component.** Three findings reassign credit backwards: (a) the growth device
+  that O44 and O50 attribute to `Willard2006a` and `Willard2020` is stated in
+  full on p. 329 - additive sequences have proofs *longer* than the numbers they
+  construct, multiplicative ones *exponentially shorter*, with the "atoms in the
+  universe" illustration; (b) **"cut" is defined there as arising from "an
+  unnecessary application of the Law of the Excluded Middle"**, so
+  `Willard2020`'s result is the formalisation of a 1993 definition; (c)
+  `Willard2011`'s generic configuration is foreshadowed by 1993's `IS(A,g,d)`
+  "IS-like systems", whose `g` and `d` are two of xi's five components. The
+  **apparatus-identity thesis (O38) is also stated in 1993**. Separately: the
+  1993 Group-1 functions are **eleven bit-manipulation primitives**, not
+  grounding functions, and its `Pi_1` is a genuinely different definition
+  (bounded by the max of enclosing universals), making D9/O12 a definitional
+  rather than notational drift. The **ZF result** is the 1993 root of the 2008
+  ZCF/ZF nachlass material.
+- **`Willard2005` read to completion.** Its own framing is **limited modus
+  ponens** (K-deduction, K=1 feasible and K=2 provably not) - a fifth boundary
+  dial. `Tab-R-List` is defined here too, and **its endpoints are the two
+  apparatuses**: R empty gives tableaux, R = all sentences gives
+  Hilbert-equivalent efficiency, which is the structural reason the R and Z
+  dials behave alike. Section 7 gives a sharp `Sigma\*_1`/`Pi\*_1` dichotomy on
+  adding a valid sentence as an axiom - the ancestor of `Willard2011` Lemma 6.1.
+  Remark 7 identifies the unlocated ASL-2005 companion TR's content: on
+  floating-point arithmetic `IS_D(A)` **can** recognise multiplication as total.
+  The **Prenex\* root requirement** is present in 2001 and 2005 and absent from
+  2002a, 2004 and 2020, which settles obligation **O42**'s scope.
+- **`Willard2011`**: coverage taken from its own saturation record's full
+  text-layer read, corroborated by the sweep and a re-read of sections 1 and 4
+  and Appendices A-C. **D29 sharpened**: Type-Almost-M is not a totality-strength
+  class at all but the **theorem-versus-axiom** distinction - alpha proves the
+  two totality statements *as theorems while treating none as axioms* - which is
+  exactly the axis `Willard2020`'s result turns on. Appendix A's "Reminder about
+  Equation (37)" explains the `k <= 1` restriction: SelfCons_k is **false** under
+  Standard-M for nearly all (beta,d) once k >= 2 - 2011's version of the ceiling
+  that 2004 calls Level(2+) and 2005 calls K=2.
+- **`Willard1993-TR` remains `partial`, deliberately** (gap **G29**). It is an
+  OCR witness where page images govern; C5's record enumerates which pages had a
+  visual pass, and about seventeen printed main-body pages were covered only at
+  OCR-sweep level. Every numbered item and both appendices were visually
+  verified at C5 and the sweep found nothing missing, so the risk is low - but
+  `complete` would be a false claim.
+
 ## 2026-08-27 - C9 Completion Reads (closing G23)
 
 - Read to completion the ~92 pages left unread at C9: `Willard2002a` pp. 15-19

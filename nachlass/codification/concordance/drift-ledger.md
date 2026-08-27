@@ -618,9 +618,21 @@ result.
 
 - `Willard2020` defines the classes purely by which of the totality axioms
   (1)–(3) a system proves, which admits exactly four possibilities in the
-  nested reading. **Type-Almost-M** is not a point on that lattice — it names an
-  intermediate condition on multiplication that the axiom-counting definition
-  cannot express.
+  nested reading. **Type-Almost-M is not a point on that lattice** — and the
+  reason is sharper than "an intermediate condition on multiplication"
+  (corrected 2026-08-27 after reading `Willard2011` p. 3). Its definition is:
+  α proves `∀x∀y∃z x+y=z` and `∀x∀y∃z x*y=z` **as theorems while treating none
+  of (1)–(5) as axioms**, with those two written using genuine `+` and `*`
+  **function symbols** where (1)–(3) use the 3-way predicates. So Type-Almost-M
+  is the **theorem-versus-axiom** distinction, not a totality-strength one, and
+  "many axiom systems that use function symbols '+' and '*' fall technically
+  into" it.
+- **That is precisely the distinction `Willard2020`'s result turns on** — "if one
+  promotes this schema of theorems into formalized logical axioms, then the
+  meaning of the pronoun 'I' in our self-referencing engine changes". So the
+  taxonomy and the LEM result share one underlying axis, which neither paper
+  says. Type-Almost-M systems (`Willard2009`) "verify their Herbrand but not
+  also semantic tableaux consistency".
 - The codified statement must therefore not present 2020's four-class scheme as
   a simplification of 2011's five-class scheme; they are indexed differently.
   Establish which of the two indexings the codification adopts, and state where

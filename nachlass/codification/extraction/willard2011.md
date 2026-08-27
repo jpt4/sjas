@@ -375,3 +375,27 @@ Verification: `V` = read from the page image; `T` = text layer only.
 | 1 | 2026-08-21 | Full text-layer read of all 64 pp.; permissive label sweep across both `N.M` and `A.N` numbering; bibliography resolution for [59]–[68] | 47 numbered items | Inventory complete |
 | 1v | 2026-08-21 | **Visual control** of printed pp. 14, 16, 18, 32, 39 (Tight; A-/E-Stable; Theorem 5.9; Appendix A Eqs. 35–37; the coding condition) | 0 new | All confirmed; pagination offset established |
 | 2 | *pending* | Saturation re-pass; visual verification of Appendix D's Theorem D.4 proof and Appendix E | — | — |
+
+
+## Verification pass, 2026-08-27
+
+Coverage recorded (pp. 1–64; the range is this record's own pass-1 "full
+text-layer read of all 64 pp.", corroborated by an uncapped inventory sweep and
+a re-read of §§1, 4 and Appendices A–C). Three corrections:
+
+1. **Nine items had no `results.md` row** — Facts B.1–B.3, Lemmas C.1–C.2,
+   Definition D.2, Fact D.3, Remark E.2, Remark G.4 — because §4's inventory
+   carries them as *combined* rows. Now added individually.
+2. **Lemma C.1's statement**, previously paraphrased loosely: every generic
+   configuration that is E-stable or A-stable **automatically satisfies
+   0-stability**, since `Scope_E(Υ,N) ≡ Υ` for `Δ^ξ₀` `Υ`.
+3. **Type-Almost-M is the theorem-versus-axiom distinction** (p. 3), not a
+   totality-strength one: α proves `∀x∀y∃z x+y=z` and `∀x∀y∃z x*y=z` **as
+   theorems while treating none of (1)–(5) as axioms**, with those two written
+   using genuine `+` and `*` function symbols. **That is the same axis
+   `Willard2020`'s result turns on** (drift D29, sharpened).
+
+Also recorded: Appendix A's "Reminder about Equation (37)" explains the `k ≤ 1`
+restriction — `SelfCons_k` is **false** under Standard-M for nearly all `(β,d)`
+once `k ≥ 2` — which is 2011's version of the ceiling `Willard2004` calls
+Level(2+) and `Willard2005` calls `K = 2`.
