@@ -10,10 +10,10 @@ Chronological record: [`../LOG.md`](../LOG.md).
 | --- | --- | --- |
 | Coverage | [`coverage-report-2026-08-20.md`](coverage-report-2026-08-20.md) | C2 done; two escapes found, one acquired |
 | Corpus ruling | [`registry/corpus.md`](registry/corpus.md) | C3 done; 45 rows ruled |
-| Extraction records | [`extraction/`](extraction/) | C4 pilot ([`willard2005.md`](extraction/willard2005.md) + [fidelity check](extraction/willard2005-fidelity-check.md)); C5 origin ([`willard1993-tr.md`](extraction/willard1993-tr.md), [`willard1993.md`](extraction/willard1993.md)); C6 spine ([`willard2011.md`](extraction/willard2011.md) + [subsumption audit](extraction/willard2011-subsumption-audit.md)); C7 spine ([`willard2001.md`](extraction/willard2001.md)); 5 of 33 extractable rows |
-| Registries (systems, results, notation) | [`registry/`](registry/) | live; 167 results, 25 systems, 73 notation rows |
-| Gaps | [`registry/gaps.md`](registry/gaps.md) | live; G1–G18 (G9 closed) |
-| Concordance | [`concordance/`](concordance/) | drift ledger live (D1–D26); [composition obligations](concordance/composition-obligations.md) live (O1–O36); axes and matrix built at C13 |
+| Extraction records | [`extraction/`](extraction/) | C4 pilot ([`willard2005.md`](extraction/willard2005.md) + [fidelity check](extraction/willard2005-fidelity-check.md)); C5 origin ([`willard1993-tr.md`](extraction/willard1993-tr.md), [`willard1993.md`](extraction/willard1993.md)); C6 spine ([`willard2011.md`](extraction/willard2011.md) + [subsumption audit](extraction/willard2011-subsumption-audit.md)); C7 spine ([`willard2001.md`](extraction/willard2001.md)); C8 spine ([`willard2020.md`](extraction/willard2020.md)); 6 of 33 extractable rows |
+| Registries (systems, results, notation) | [`registry/`](registry/) | live; 187 results, 31 systems, 88 notation rows |
+| Gaps | [`registry/gaps.md`](registry/gaps.md) | live; G1–G22 (G9 closed) |
+| Concordance | [`concordance/`](concordance/) | drift ledger live (D1–D29); [composition obligations](concordance/composition-obligations.md) live (O1–O42); axes and matrix built at C13 |
 | Discussion records | [`discussion/`](discussion/) | longer conversational notes, linked from the LOG |
 | Codified statement | `codified-sjas.md` | composed at C14–C15 |
 

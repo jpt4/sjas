@@ -109,7 +109,7 @@ while IFS=$'\t' read -r id paper label type page topic proof depends notes; do
   [ -n "${rid_seen[$id]:-}" ] && err "results: duplicate id '$id'"
   rid_seen[$id]=1
   in_corpus_key "$paper" || err "results[$id]: unknown corpus key '$paper'"
-  case "$type" in def|thm|lemma|cor|prop|remark|conj) ;; *) err "results[$id]: bad type '$type'" ;; esac
+  case "$type" in def|thm|lemma|cor|prop|remark|conj|example) ;; *) err "results[$id]: bad type '$type'" ;; esac
   case "$proof" in
     full|sketch|cited|stated-only|n/a) ;;
     *) err "results[$id]: bad proof status '$proof'" ;;

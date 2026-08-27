@@ -572,3 +572,57 @@ result.
   must not be carried into the codified statement.
 - Status: open — C13 must present the Level-0/Level-1 distinction as a design
   axis, and correct the discussion record's phrasing at composition time.
+
+## D27 — `Willard2020` and `Willard2020-LFCS` are one paper at two lengths
+
+| Source | Statement |
+| --- | --- |
+| `Willard2020` p. 20 | "The initial **19-page draft of this article** was accepted by the LFCS-2020 conference and was published by Springer [57]" |
+| `Willard2020` ref. [57] | "On the Tender Line Separating Generalizations and Boundary-Case Exceptions for the Second Incompleteness Theorem under Semantic Tableaux Deduction" … "It **preceded the current article**, and its shorter manuscript can be found on pp. 268-286 of Volume 11972" |
+| `registry/corpus.md` | rules `Willard2020` spine/C8 and `Willard2020-LFCS` core/Tier-A/C9, with no relation recorded |
+
+- The terminal lineage is `Willard2018` (arXiv 1807.04717, self-described as "a
+  quite preliminary announcement … in an essentially roughly written
+  summary-abstract form") → `Willard2020-LFCS` (LNCS 11972, 19 pp.) →
+  `Willard2020` (arXiv 2006.01057v1, 28 pp.) → `Willard2021` (JLC, gap G1).
+- Consequence: C9 should extract `Willard2020-LFCS` as a **variant witness**,
+  recording only its deltas against this record, not as an independent paper.
+  The same applies to `Willard2018`.
+- Status: open (action assigned to C9).
+
+## D28 — this repository is inside `Willard2020`'s provenance
+
+| Source | Statement |
+| --- | --- |
+| `prose/willard2020draftreview.txt` | Dated `20200521Z`, signed `jpt4`; 40 numbered copy-edits keyed to a manuscript's page/line |
+| `Willard2020` p. 23 | "ACKNOWLEDGMENTS: I thank Seth Chaiken and **James P. Torre, IV** for several quite helpful comments about how to improve the presentation." |
+
+- The review's page references map onto the arXiv witness at a consistent ≈2.2×
+  ratio (review p. 15 → witness p. 8; p. 28 → p. 13; pp. 54–57 → pp. 25–28), so
+  the reviewed document is a looser-set manuscript of *this* paper.
+- Corrections **applied** in v1 include "mappings are" (Thm 4.4), "fails to be
+  **a** consistency-preserving mapping" (Thm 4.5), "Type-NS" (Rem 3.5), the
+  comma in Theorem ++, and the added YouTube URLs at refs. [18] and [39]. At
+  least one was **not**: p. 7 still reads "Self Justifying" unhyphenated.
+- Status: **resolved** — recorded so the codified statement's provenance
+  apparatus can cite the review as a first-party artifact rather than treating
+  it as an untraced loose file, and so G19 is closed as accepted rather than
+  chased.
+
+## D29 — the growth taxonomy has five classes in 2011 and four in 2020
+
+| Source | Statement |
+| --- | --- |
+| `Willard2011` | Type-M / Type-**Almost-M** / Type-A / Type-S / Type-NS |
+| `Willard2020` Definition 3.4 | Type-M / Type-A / Type-S / Type-NS |
+
+- `Willard2020` defines the classes purely by which of the totality axioms
+  (1)–(3) a system proves, which admits exactly four possibilities in the
+  nested reading. **Type-Almost-M** is not a point on that lattice — it names an
+  intermediate condition on multiplication that the axiom-counting definition
+  cannot express.
+- The codified statement must therefore not present 2020's four-class scheme as
+  a simplification of 2011's five-class scheme; they are indexed differently.
+  Establish which of the two indexings the codification adopts, and state where
+  Almost-M sits in it.
+- Status: open (C13).

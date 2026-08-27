@@ -1,5 +1,89 @@
 # Nachlass Log
 
+## 2026-08-26 - Extraction of Willard 2020, the Terminal Statement (component C8)
+
+- **Extracted `Willard2020`** (arXiv:2006.01057v1, "How the Law of Excluded
+  Middle Pertains to the Second Incompleteness Theorem and its Boundary-Case
+  Exceptions") to `nachlass/codification/extraction/willard2020.md`. 16 numbered
+  items plus 5 unnumbered results; registries now at 187 results / 31 systems /
+  88 notation rows. `audit.sh` green, `example` added to the type enum.
+  `nachlass/papers/willard2020.pdf` and the `lit/` copy are byte-identical.
+- **`Willard2020` and `Willard2020-LFCS` are one paper at two lengths.** Willard
+  states the "initial 19-page draft of this article" was the LFCS-2020 chapter
+  [57]. Terminal lineage: `Willard2018` (arXiv, self-described as roughly
+  written) -> `Willard2020-LFCS` (LNCS 11972) -> `Willard2020` (arXiv, 28 pp.)
+  -> `Willard2021` (JLC, still gap G1). Drift **D27**: C9 should extract the
+  LFCS chapter as a variant witness recording deltas only, not as an
+  independent paper.
+- **This repository sits inside the paper's provenance.**
+  `prose/willard2020draftreview.txt` (2020-05-21, signed jpt4) copy-edits a
+  looser-set manuscript of this paper - its page references map onto the
+  witness at a consistent ~2.2x ratio - and several of its corrections are
+  visibly applied in arXiv v1 ("mappings are", "fails to be *a*
+  consistency-preserving mapping", "Type-NS", the comma in Theorem ++, the
+  added YouTube URLs at refs. 18 and 39). One was not: p. 7 still reads "Self
+  Justifying" unhyphenated. Willard's Acknowledgments thank Seth Chaiken and
+  **James P. Torre, IV**. Drift **D28**; gap **G19** accepted rather than
+  chased, since the arXiv version supersedes the manuscript.
+- **Three things this paper states more clearly than any other in the corpus.**
+  (a) The **apparatus-identity thesis** (Example 3.1, restated section 7): all
+  common apparatuses prove the same theorems from a common basis, at different
+  proof lengths - so the codification's apparatus axis is extensionally
+  degenerate and intensionally decisive (**O38**). (b) The **growth mechanism
+  on objects rather than proof-encodings** (section 5): with x_i doubling and
+  y_i squaring from 2, Log(x_n)=n+1 but Log(y_n)=2^n, so y_n's encoding is long
+  enough to hold the derivation defining it and x_n's is not (**O39**). (c) The
+  **Linear-Sum Effect** (section 6): modus ponens bounds a proof of psi by the
+  sum of the lengths for phi and phi->psi; Tab lacks it; Xtab recovers it via
+  LEM in four tree steps - so **proof compression, not expressive power, is
+  what activates the Second Incompleteness Effect** (**O40**).
+- **The headline result**: Theorem 4.4 (IS_Tab and IS_{Tab-1} are consistency
+  preserving) versus Theorem 4.5 (IS_Xtab is not - it is outright inconsistent
+  once beta proves the usual Pi\*_1 arithmetic identities). Neither is proved
+  here; Theorem 4.4's Tab-1 case is credited to Willard2005 and its **Tab case
+  is unsourced** (gap **G20**), while Theorem 4.5 is summarised via the new
+  statement (circled dot), which itself rests on Hajek-Pudlak pp. 172-174 and
+  is explicitly not given a short proof.
+- **The boundary is now exact and names an open problem.** Section 7's
+  Z-Enriched and Z-Base-Variable-Enriched tableau: the evasions survive at
+  Delta\*_0, **fail at and above Pi\*_2**, and the **Pi\*_1 case is an explicit
+  open conjecture** - "this fact has not yet been formally proven". All three
+  section 7 results and section 8's Res/Xres generalization are stated-only
+  (gap **G22**).
+- **Willard grades his own two decades** (p. 22): the 1993/2001 `IS(A)` was
+  "simpler, but substantially weaker because it only recognized the
+  non-existence of a proof of 0=1 from itself", where `IS_{Tab-1}(beta)`
+  corroborates that no two proofs exist for a Rank-1\* sentence and its
+  negation - the distinction mattering because the **First** Incompleteness
+  Theorem denies any decision procedure separating true from false Rank-1\*
+  sentences. Recorded as **O41**, the justification for treating Level-0 versus
+  Level-1 as a codification axis rather than a presentational variation.
+- **New unification device.** `GenAC` = (alpha, D) with D decomposed as logical
+  axioms L_D union rules of inference. Where Willard2011's generic configuration
+  parameterizes language and coding, GenAC parameterizes the apparatus - which
+  is what the LEM result needs, since the theorem is precisely about migrating
+  sentences between L_D and the derived theorems. Definition 3.2's
+  Self-Justifying is a **fifth** definition of the term across the corpus.
+- **Other drift.** The growth taxonomy has four classes here against
+  Willard2011's five - Type-Almost-M is not a point on the axiom-counting
+  lattice (**D29**). Willard2001's title is mis-cited *again* in ref. [47],
+  the same error Willard2005 made, so it is a systematic self-citation error
+  persisting 19 years (strengthens **D20**). The tableau Appendix drops
+  Willard2001's prenex\* normalisation of the root, which Willard2001's
+  footnote 8 relied on - **O42** requires the codified engine to fix one
+  convention and re-establish the closing-pair fact under it.
+- **Also resolved**: `nachlass/collected_dew_materials/2020Notes.pdf` is
+  Willard's "Quick Notes on the Incompleteness Theorem (Oct. 4, 2020)",
+  pedagogical lecture notes supplementing Mendelson with a March 2004 -> April
+  2010 -> October 2020 lineage. Image-only, no text layer. It is not the
+  reviewed draft, and its Tier D ruling stands.
+- **Visual control pass** (charter requirement) on pp. 10, 12, 15, 17. It caught
+  `pdftotext` rendering the statement symbol (circled dot) as `J` throughout
+  section 6, and confirmed erratum 2 (p. 15's "2^(n+1)" should be "2^n + 1",
+  contradicting Log(y_n)=2^n three lines above) as genuine rather than a
+  text-layer artifact. Also noted: page markers need form-feed stripping before
+  a `^=== PAGE` grep will match.
+
 ## 2026-08-26 - Extraction of Willard 2001, the JSL Foundation (component C7)
 
 - **Extracted `Willard2001` in full** to
