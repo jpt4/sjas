@@ -165,12 +165,33 @@ Obligation **O65**.
 | 1 | 2026-08-27 | Uncapped, case-insensitive item sweep across all 34 pp.; full read of §§6, 8–9 and the Appendix; statement-level read of §§1–5, 7 | ~30 numbered items |
 
 | 2 | 2026-08-27 | **Visual control pass**, pp. 12 and 24 | 0 new items; **two corrections** |
+| 3 | 2026-08-27 | **Completion read of PDF pp. 1–20 and 24–27** (§§1–5, §7) with a visual pass on pp. 6, 8, 11, 15, 16, 18, 19, 25 | **28 numbered items that pass 1 had swept but never recorded**, including the entire Type taxonomy, statement `++`, `d_ER`, the Q-Function definition and the Q-1/Q-2 split |
 
-Coverage **partial** — §§1–5 and §7 read at statement level (gap **G31**), but
-the **visual pass has been run** on every page whose constants entered a
-registry. It corrected two things I had recorded from the text layer:
-Conjecture 6.6 prints as **`Log₂K < (1/6) Log₂P`**, not the equivalent
-rearrangement I reconstructed from a mangled fraction; and Proposition 4.3
-contrasts the **Q\* Grounding language** (`O(n²)` function symbols) with the
-**Q-Grounding language** (`O(Log³ n)` symbols), not θ against ζ. The original
-also misprints "Breaking **Pont**".
+Coverage **complete** — PDF pp. 1–34. **Anchoring**: PDF page = printed page **+ 1**
+(PDF 15 carries printed 14); registry anchors for this item are PDF pages.
+
+**What the completion read changed, and why the sweep did not catch it.** Pass 1
+recorded "~30 numbered items" as swept but entered only **10** into
+`results.md`. The sweep found the labels; the statement-level read then decided,
+silently, which ones were worth a row — and it kept only §6's chain and §8's
+corollary, discarding all of §3's framing, §4's definitions and §7's remarks.
+That is the same failure as the C9 combined-inventory rows: a mechanical sweep
+proves an item **exists**, never that it was **read**. The 28 rows now added
+include the corpus's most explicit apparatus taxonomy (Example 3.1), the
+Type-M/A/S/NS classification and statement `++` (Example 3.3), the two-branch
+derivation restated (Example 3.3b, drift **D49**), the definition of a
+Self-Justifying configuration (Definition 3.4), the Q-Function definition
+(Definition 3.6) and Willard's own Q-1/Q-2 split of Hilbert's Second Question
+(Remark 4.9, obligation **O72**).
+
+**Errata.** §1 and §3 date Sam Buss's lunch question to a **1997** conference;
+the acknowledgments date it to **1977**. The 1997 reading is right — the
+research it prompted is the [55] = `Willard2006a` line. Also, the arXiv v5
+header records that "all the theorems and propositions are the same in this
+Version 5 as in Version 4; the difference is that the writing style is now
+significantly more polished", so v4/v5 are interchangeable for content.
+
+**Two more H2 instances.** `pdftotext` renders `C*_j = 2^{2^{j−2}}` as
+`Cj∗ = 2 2 j−2`, collapsing the double superscript — a growth-rate distinction
+made invisible. It also renders the earlier corrections' source, Conjecture
+6.6's fraction, in scattered pieces.

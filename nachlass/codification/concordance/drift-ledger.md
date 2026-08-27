@@ -699,8 +699,17 @@ result.
 - Identical, with `Rank-1*` (2020's name for `Π*₁ ∪ Σ*₁`) replacing `ℜ`.
   `Willard2020` attributes `Tab-1` to [50] = `Willard2005`; the construct is
   already general in 2004.
-- Status: **resolved** — one apparatus, three names (`Tab₁List`, `Tab-1`, and
-  `Willard2005`'s form). Fix one at C13.
+| `Willard2009` p. 19 | `Herb−k` proof: `(t₁,p₁)…(t_n,p_n)`, each `p_i` a **Herbrand** proof of `t_i` from α plus earlier `t`s, every intermediate `t_i` in `Level-k` (`= Π^R_k ∪ Σ^R_k`) |
+
+- Status: **resolved** — one apparatus, **four** names (`Tab₁List`, `Tab-1`,
+  `Willard2005`'s form, and `Willard2009`'s `Herb−k`). Fix one at C13.
+- `Willard2009` p. 20 is the only place Willard writes the correspondence down
+  himself: he defines `Tab−k` as `Herb−k` with tableaux proofs and `Π*_k`/`Σ*_k`
+  intermediates, and adds the gloss that `Π*_k`/`Σ*_k` are "roughly analogous"
+  to `Π^R_k`/`Σ^R_k` **except that they contain no multiplication function
+  symbol**, using the 3-way relation `M(x,y,z)` instead. That one sentence is
+  the corpus's clearest statement of what separates the starred classes from
+  the R-superscripted ones.
 
 ## D34 — 2004's `ℜ` dial and 2020's `Z` dial are different parameterisations
 
@@ -771,10 +780,21 @@ result.
 | `Willard2004` | **ℜ** — which intermediate theorems a `Tab-ℜ-List` proof may use | `Π*₁ ∪ Σ*₁`, at Level(1) — **proved** (Theorem 3) | `Π*₂` and `Σ*₂`, at Level(0−) — **sketched** (Theorem 2) |
 | `Willard2006a` | **Hybrid(H)** — the naming convention's growth rate, `C_i = ⌈2^{[Log i]^H}⌉·C_{i−1}` | **H = 1** — Theorem 3's exception "remains valid" | **H > 1** — Theorems 4 and 4\* "can be generalized" |
 | `Willard2020` | **Z** — which LEM instances are logical axioms | `Δ*₀` — stated-only | `Π*₂` and above — stated-only; `Π*₁` **conjectured** |
+| `Willard2009` | **Herb−k** — which intermediate theorems a `Herb−k` proof may use (Definition 7) | **k = 1** — stated-only (Item II) | **k = 2** — stated-only (Item I) |
 
-- Three different parameterisations of one boundary, none of which Willard
-  relates to the others. **Hybrid(H) is the only one whose threshold is stated
-  exactly** (at `H = 1`), and it is also the only one on the Hilbert side.
+- Four different parameterisations of one boundary, none of which Willard
+  relates to the others. **Amended 2026-08-27** on reading `Willard2009`'s
+  Section 6: the claim that Hybrid(H) is the only dial with an exactly stated
+  threshold no longer holds. `Herb−k` has one too (positive at `k = 1`,
+  negative at `k = 2`), as does `Willard2002c`'s `R(i,j)` (D46). What is now
+  distinctive about Hybrid(H) is only that it is on the **Hilbert** side.
+- The `Herb−k` dial is the weakest-supported of the four: both halves are
+  **stated without proof** — "we will not prove results I and II here because
+  each has a rather long proof" — with Item I said to be analogous to
+  `Willard2004`'s main theorem and Item II to follow from hybridizing
+  `Willard2005`'s with `Willard2009` §4's machinery. It is nevertheless the
+  only dial that runs on Herbrand deduction, so it is the only evidence that
+  the boundary phenomenon is apparatus-independent.
 - The codified statement should present the boundary as a single phenomenon
   with three known coordinatisations, and say for each whether the transition
   point is proved, sketched or conjectured.
@@ -930,3 +950,92 @@ result.
   two-dimensional parameter, and the corpus's sharpest located threshold is in
   the paper ruled Tier B. Obligation **O60**.
 - Status: open (C13).
+
+## D47 — `Willard2006-WoLLIC` and `Willard2009` are not a superset pair
+
+| Source | Statement |
+| --- | --- |
+| `Willard2006-WoLLIC` p. 10, Clarifying Comment | "It does not indicate that `Diag(i)` is a logically valid statement… **In fact, `Diag(1)` and `Diag(2)` can be proven to be logically invalid statements** (see footnote 1). In contrast, Theorem 4 (below) will prove `Diag(3)` is logically valid." |
+| `Willard2009` p. 13, Clarifying Comment | "It does not indicate that `Diag(Ax-3)` is a logically valid statement… In order to establish prove that `Diag(Ax-3)` is also valid, we will need the added force of Theorem 4 below." |
+
+- The journal version drops the conference version's **indexed** notation
+  `Diag(i)`, the `Diag(1)`/`Diag(2)` invalidity claim, and footnote 1's
+  three-sentence statement of the programme. Its §5 also replaces the
+  conference's "third facet of a 3-part project" framing (`Ax-1` obeys / `Ax-2`
+  obeys / `Ax-3` evades) with the Kreisel–Takeuti–Pudlák comparison.
+- So the conference form is **not** a proper part of the journal form, though
+  the journal is more than twice its length and adds Remarks 1–4, Definition 8,
+  Appendix A and the whole of Appendix B. Of the corpus's three
+  conference/journal pairs, only `Willard2000-TAB`/`Willard2002a` is a strict
+  expansion; this one and `Willard2020-LFCS`/`Willard2020` both drop material.
+- The dropped claim is the sharpest form of the paper's thesis and should be
+  carried from the conference witness — obligation **O69**.
+- Status: open (C13).
+
+## D48 — `Willard2009`'s Appendix B is not self-contained
+
+| Source | Statement |
+| --- | --- |
+| `Willard2009` p. 24 | "The discussion in this abbreviated appendix will **assume that the reader is familiar with [55]'s proof** that `Ax-1` and `Ax-2` satisfy the semantic tableaux version of the Second Incompleteness Theorem. We will also often rely upon the notation convention from the second paragraph of Section 2 of [55] (which defined semantic tableaux deduction's **eight elimination rules**)." |
+
+- `[55] = Willard2007-APAL` ("Passive Induction and a Solution to a Paris-Wilkie
+  Open Question", APAL 146 (2007) pp. 124–149), a **Tier C** corpus item. Lemma
+  5's proof invokes its rules 6, 7 and 8 by number; Lemma 7 invokes its
+  "passive induction"; Theorem 5 defers "the remaining details" to [50,55].
+- The same shape as `Willard2011`'s deferral of `Tab-U*₁` to `Willard2005`
+  (D19): a paper the codification treats as Tier B rests on one it ranks Tier C.
+  **`Willard2007-APAL` must be extracted before Theorem 5 can be presented with
+  its proof**, not merely with its statement.
+- Status: open — actioned as gap **G32**.
+
+## D49 — the two-branch derivation, restated 23 years later in new vocabulary
+
+| Source | Statement |
+| --- | --- |
+| `Willard1993-TR` p. 2 | Solovay's theorem forbids Gentzen-with-cut and Addition-totality *together*; **Proposition 1** relaxes the apparatus (→ the tableaux line), **Proposition 7** relaxes totality (→ the Hilbert line) |
+| `Willard2016` Example 3.3, item b (p. 6) | "[51, 54, 55] developed two methods for generalized arithmetics to confirm their own consistency, **whose natural hybridizations are precluded by ++**": either a **Type-NS** system verifying its consistency under a Hilbert-style method, or a **Type-A** system verifying it under `d_F`'s tableaux apparatus |
+
+- Same derivation, same forbidding theorem, entirely different vocabulary. The
+  1993 text names the two branches by proposition number; the 2016 text names
+  them by the **Type** taxonomy and the apparatus symbol. Nothing in either
+  text says they are the same split.
+- `Willard2016` adds a third datum the TR does not have: Willard [52, 57]
+  refined `++` with Adamowicz–Zbierski [1, 2] to show **Type-M systems cannot
+  recognize their semantic tableaux consistency** — closing the remaining cell.
+- The codified statement should present the split once, in one vocabulary, and
+  record both namings — obligation **O71**.
+- Status: open (C13).
+
+## D1-supplement — `Willard2016` corroborates the 1994 Solovay communication
+
+`Willard2016` Example 3.3 (p. 6): "**Solovay [44] privately communicated to us
+in 1994 an analog of theorem ++.** Many authors have noted Solovay has been
+reluctant to publish his nice privately communicated results on many occasions
+[11, 25, 35, 37, 39, 49]." Independent confirmation, twenty-two years later, of
+the dating that closed **D1** and gap **G9** — TR 93-10's `[So94]` citation is
+to an April-1994 private communication, so the TR is a 1994 text carrying a
+1993 series number. `Willard2016` also credits **Pudlák's 1985 article [39]**
+with "the majority of `++`'s essence, chronologically before Solovay's
+observations", and notes Buss–Ignjatovic, Hájek and Švejdar [11, 23, 45] and
+Appendix A of `Willard2001` as subsequent explorations.
+
+## D50 — ten formula-class notations for one idea
+
+| Paper | Classes |
+| --- | --- |
+| `Willard1993-TR`, `Willard2001` | `Π₁`, `Σ₁` over the grounding language |
+| `Willard2002a`, `Willard2004`, `Willard2005`, `Willard2011`, `Willard2020` | `Δ*₀`, `Π*ₙ`, `Σ*ₙ` — starred: **no multiplication function symbol**, multiplication as the 3-way relation `M(x,y,z)` |
+| `Willard2004` | `Q*ₙ` — the Level(n+) classes |
+| `Willard2009`, `Willard2006-WoLLIC` | `Δ^R₀`, `Π^R₁`, `Σ^R_k` — quantifier-bounding terms may use **only `Max`** |
+| `Willard2016` §5 | `Δ^ANC₀`, `Π^ANC_n`, `Σ^ANC_n` — over the Additive-Naming-Convention language |
+| `Willard2016` §5 | `Δ^Q₀`, `Π^Q_n`, `Σ^Q_n` — over `L^Q`, with every `C_J` replaced by `E_{J−1}` |
+
+- Every one of these is "the bounded formulas of *this* language", and no paper
+  states the relations between them except `Willard2009` p. 20, which says the
+  starred classes are "roughly analogous" to the R-superscripted ones **except
+  that they contain no multiplication function symbol** (drift D33).
+- `Willard2016`'s two are the most constrained: a formula lies in `Δ^Q₀` **iff**
+  it is built by the `C_J → E_{J−1}` substitution, which is what guarantees
+  every primary term in it is an *observable*.
+- The codified statement needs one canonical class notation with a translation
+  table, not ten. Status: open (C13).
