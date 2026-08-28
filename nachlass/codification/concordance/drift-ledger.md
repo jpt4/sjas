@@ -1088,6 +1088,8 @@ Appendix A of `Willard2001` as subsequent explorations.
 | `Willard2007-APAL` Definition 1 (p. 4) | **Eight** rules. "For the sake of simplifying our presentation, this definition views the bounded quantifier `∀v ≤ s` as a syntactic object **different from** the unbounded quantifier `∀v`", so rules 6 and 8 are primitive |
 | `Willard2020-LFCS` Appendix A (p. 15) | **Six** rules. `∀v ≤ s Φ(v)` is "an abbreviation for `∀v {v ≤ s → Φ(v)}`" and likewise for `∃`, so the bounded rules **a** and **b** are *derived* |
 | `Willard2002c` §2 (p. 7) | **Six** rules, plus a PRENEX\* normalisation requirement on the root and a restriction that `∀`-elimination terms be built from Grounding Functions over **previously introduced** parameters |
+| `Willard2005` §2 (p. 6) | **Eight** rules, bounded quantifiers primitive (rules 6 and 8), *plus* the Prenex\* requirement on the root *and* the previously-introduced-parameter restriction — the union of `Willard2002c`'s and `Willard2007-APAL`'s conventions |
+| `Willard2002a` §2 (p. 3) | **Six** rules, with rule 6 performing a **simultaneous multi-variable** `∀`-elimination `∀v₁…∀v_k Υ(v̄) ⟹ Υ(t̄)` |
 
 - One calculus, three presentations, and the count of "the elimination rules"
   differs between them. This matters for citation: `Willard2009` Appendix B
@@ -1106,6 +1108,7 @@ Appendix A of `Willard2001` as subsequent explorations.
 | --- | --- |
 | `Willard2020` Definition 4.3 (p. 13) | `IS_D(•)` is Consistency Preserving iff `IS_D(β)` is automatically consistent **whenever all the axioms of β hold true under the standard model of the natural numbers** |
 | `Willard2016` Definition 5.2 (p. 18) | `I(•)` is Consistency Preserving iff `I(β)` is consistent **whenever the union of β with the Groups 0 and 1 axiom schemas is consistent** |
+| `Willard2005` Definition 1 (p. 11) | `ℑ(•)` is Consistency Preserving iff `ℑ(A)` is consistent **whenever `A`'s `Π*₁` theorems are valid in the standard model** |
 
 - The 2020 hypothesis is **semantic** (β is true in ℕ); the 2016 hypothesis is
   **syntactic and weaker in one direction, stronger in another** (β together
@@ -1117,8 +1120,14 @@ Appendix A of `Willard2001` as subsequent explorations.
   definition, while `Willard2020` Theorem 4.4's `IS_Tab` result is read off the
   2020 one. Stating both as "consistency preserving" without qualification
   makes them look like instances of one theorem schema when they are not.
-- Status: open (C13); the codified statement must name the two hypotheses
-  separately.
+- **Amended 2026-08-28**: there are **three**, not two. `Willard2005`'s is
+  weaker than `Willard2020`'s (only `A`'s `Π*₁` theorems need be true in ℕ, not
+  all of `A`) and incomparable with `Willard2016`'s. All three are called
+  "Consistency Preserving" and all three are the hypothesis of a headline
+  theorem — `Willard2005` Theorems 3 and 5, `Willard2016` Theorem 6.7,
+  `Willard2020` Theorems 4.4 and 4.5.
+- Status: open (C13); the codified statement must name the three hypotheses
+  separately and never write the phrase unqualified.
 
 ## D56 — four names for the branch that is allowed to stay open
 

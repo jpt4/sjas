@@ -19,7 +19,7 @@ page), `partial` (gaps remain, and a gaps-ledger row says so), or `unrecorded`
 
 | Item | Pages | Read | Swept | Images | State |
 | --- | --- | --- | --- | --- | --- |
-| Willard2005 | 43 | 1-43 | all | recorded in `willard2005-fidelity-check.md` | complete |
+| Willard2005 | 43 | 1-43 | all | 1-43 | complete |
 | Willard1993-TR | 61 | text: 1-61 (OCR); **visual: every page** — printed 1-55 plus front matter and the four unnumbered Figure pages (PDF 1-61) | all | PDF 1-61 | complete |
 | Willard1993 | 12 | 1-12 (printed 325-336) | all | 1-12 (all; the record's pass 1 is a full visual read) | complete |
 | Willard2011 | 64 | 1-64 | all | printed 14, 16, 18, 32, 39 (PDF = printed + 1) | complete |
