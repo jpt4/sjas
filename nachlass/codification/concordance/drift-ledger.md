@@ -781,6 +781,7 @@ result.
 | `Willard2006a` | **Hybrid(H)** — the naming convention's growth rate, `C_i = ⌈2^{[Log i]^H}⌉·C_{i−1}` | **H = 1** — Theorem 3's exception "remains valid" | **H > 1** — Theorems 4 and 4\* "can be generalized" |
 | `Willard2020` | **Z** — which LEM instances are logical axioms | `Δ*₀` — stated-only | `Π*₂` and above — stated-only; `Π*₁` **conjectured** |
 | `Willard2009` | **Herb−k** — which intermediate theorems a `Herb−k` proof may use (Definition 7) | **k = 1** — stated-only (Item II) | **k = 2** — stated-only (Item I) |
+| `Willard2004` §1 | **Level(n)** — which class the consistency *statement* quantifies over | **Level(1)** — proved in `Willard2002c` | **Level(2+)** — **proved** (Theorem 1, finite cardinality) |
 
 - Four different parameterisations of one boundary, none of which Willard
   relates to the others. **Amended 2026-08-27** on reading `Willard2009`'s
@@ -788,7 +789,15 @@ result.
   threshold no longer holds. `Herb−k` has one too (positive at `k = 1`,
   negative at `k = 2`), as does `Willard2002c`'s `R(i,j)` (D46). What is now
   distinctive about Hybrid(H) is only that it is on the **Hilbert** side.
-- The `Herb−k` dial is the weakest-supported of the four: both halves are
+- **Amended again 2026-08-28** by the full-document pass of `Willard2004`: that
+  paper turns **two** dials, not one. Beside `ℜ`, its §1 states the **Level**
+  dial and calls the gap "very narrow" — Level(1) positive (from
+  `Willard2002c`), Level(2+) negative (Theorem 1). This is the **only** dial in
+  the corpus whose negative half is *proved* rather than sketched or stated,
+  and the two dials are not the same: `ℜ` parameterises which intermediate
+  theorems a TabList proof may use, Level(n) parameterises which class the
+  consistency *statement* quantifies over.
+- The `Herb−k` dial is the weakest-supported of the five: both halves are
   **stated without proof** — "we will not prove results I and II here because
   each has a rather long proof" — with Item I said to be analogous to
   `Willard2004`'s main theorem and Item II to follow from hybridizing
@@ -1110,3 +1119,20 @@ Appendix A of `Willard2001` as subsequent explorations.
   makes them look like instances of one theorem schema when they are not.
 - Status: open (C13); the codified statement must name the two hypotheses
   separately.
+
+## D56 — four names for the branch that is allowed to stay open
+
+| Source | Name | Definition |
+| --- | --- | --- |
+| `Willard2002c` §1.2 | *(unnamed)* — the branch PROBE returns | The `(L,M)`-Conservative Branch `β` of a tableaux proof `p` |
+| `Willard2004` §5 (p. 353) | **Partial Proof**, its **Open Branch**, its **Bottom Node** | A tableaux proof tree except that one branch is released from the requirement of containing a contradictory pair |
+| `Willard2007-APAL` Definition 16 (p. 37) | **Semantic Tableaux Fragment**, its **Major Branch** | A subtree `S` of `T` whose root is an axiom, one of whose branches carries `Ψ₁ … Ψ_K`, all of whose other branches close |
+| `Willard2009` Lemma 5 (p. 25) | the **pivotal branch** of the fragment `F` | The one branch of `F` that is not closed, carrying `U₀ … U_n` |
+
+- One construct, four names, and each paper introduces it as though new.
+  `Willard2004`'s Clarifying Comment and `Willard2007-APAL`'s both make the same
+  point — the open branch need not close *inside* the fragment, because the
+  fragment sits inside a larger tree where every branch eventually does.
+- The construct is what makes every short-proof argument in the corpus work:
+  it is where the `u_{i+1} = u_i · u_i` ladder is laid down.
+- Status: open (C13) — fix one name.
