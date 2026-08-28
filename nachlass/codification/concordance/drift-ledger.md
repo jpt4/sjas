@@ -1090,3 +1090,23 @@ Appendix A of `Willard2001` as subsequent explorations.
   is what makes the `(L,M)`-Conservative valuation well defined.
 - The codified statement should fix one presentation and give the numbering map.
 - Status: open (C13).
+
+## D55 — "Consistency Preserving" has two inequivalent definitions
+
+| Source | Definition |
+| --- | --- |
+| `Willard2020` Definition 4.3 (p. 13) | `IS_D(•)` is Consistency Preserving iff `IS_D(β)` is automatically consistent **whenever all the axioms of β hold true under the standard model of the natural numbers** |
+| `Willard2016` Definition 5.2 (p. 18) | `I(•)` is Consistency Preserving iff `I(β)` is consistent **whenever the union of β with the Groups 0 and 1 axiom schemas is consistent** |
+
+- The 2020 hypothesis is **semantic** (β is true in ℕ); the 2016 hypothesis is
+  **syntactic and weaker in one direction, stronger in another** (β together
+  with the target system's own base groups is consistent). Neither implies the
+  other: a β true in ℕ may be inconsistent with Group-1 if the two disagree,
+  and a β consistent with Groups 0–1 need not be true in ℕ.
+- This matters because `Willard2016` Example 5.3's headline consequence — "**if
+  PA is consistent then ISCE(PA+) is self-justifying**" — is read off the 2016
+  definition, while `Willard2020` Theorem 4.4's `IS_Tab` result is read off the
+  2020 one. Stating both as "consistency preserving" without qualification
+  makes them look like instances of one theorem schema when they are not.
+- Status: open (C13); the codified statement must name the two hypotheses
+  separately.

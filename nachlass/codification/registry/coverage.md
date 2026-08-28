@@ -24,7 +24,7 @@ page), `partial` (gaps remain, and a gaps-ledger row says so), or `unrecorded`
 | Willard1993 | 12 | 1-12 (printed 325-336) | all | 1-12 (all; the record's pass 1 is a full visual read) | complete |
 | Willard2011 | 64 | 1-64 | all | printed 14, 16, 18, 32, 39 (PDF = printed + 1) | complete |
 | Willard2001 | 67 | 2-67 | all | 9, 10, 19, 22, 28, 39, 40, 51, 54, 60 | complete |
-| Willard2020 | 28 | 1-28 | all | 10, 12, 15, 17 | complete |
+| Willard2020 | 28 | 1-28 | all | 1-28 | complete |
 | Willard2002a | 33 | 1-33 | all | 14 | complete |
 | Willard2004 | 32 | 1-32 | all | 4 | complete |
 | Willard2006a | 45 | 1-45 | all | 6 | complete |
