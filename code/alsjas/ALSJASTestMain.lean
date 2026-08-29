@@ -3,6 +3,7 @@ import ALSJASTest.Typing
 import ALSJASTest.System
 import ALSJASTest.Reduction
 import ALSJASTest.Checker
+import ALSJASTest.Metatheory
 
 def main : IO Unit := do
   ALSJASTest.SExpr.run
@@ -10,3 +11,4 @@ def main : IO Unit := do
   ALSJASTest.System.run
   ALSJASTest.Reduction.run
   ALSJASTest.Checker.run
+  ALSJASTest.Metatheory.run

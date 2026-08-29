@@ -16,7 +16,7 @@ name a checked theorem, executable test, or retained red/green log.
 | C05 | Normalization | Well-typed core term lacks a normal form | `normalization` | Pending |
 | C06 | Canonical forms/base consistency | Closed normal `zero` accepted | `base_consistent` | Pending |
 | C07 | Checker adequacy | `test-runs/phase-04-reduction-checker-red.md` | 13 native checker cases green; inductive soundness/completeness pair pending | In progress |
-| C08 | Explicit tree boxes | Sharing instruction submitted in phase 04 | raw grammar rejects references and quotes retain payloads; preservation theorem pending | In progress |
+| C08 | Explicit tree boxes | Sharing instruction submitted in phase 04 | raw grammar rejects references; universal serialization and `quote_is_reduction_normal` preserve complete payloads; typed no-duplication theorem pending | In progress |
 | C09 | Structural identity | phase 03 red logs plus stale controls in phase 04 | binder/profile layer and checker-level stale rejection green; `system_seal_sound` pending | In progress |
 | R01 | Selected fixed point | Fold/unfold artifact rejected | fixed-point derivations and demo | Pending |
 | R02 | Necessitation/composition/introspection | Missing native checker paths in phase 04 red | quotation, boxed composition, and positive introspection checker cases green; derivation theorems pending | In progress |
@@ -36,7 +36,7 @@ name a checked theorem, executable test, or retained red/green log.
 | T04 | Partial computation representation | Standard TM lacks native representation | finite-run correspondence theorem | Pending |
 | T05 | No total-run claim | Core imports total universal evaluator | dependency/source audit | Pending |
 | Q01 | Forbidden declarations absent | Seeded forbidden fixture not detected | source-audit self-test | Pending |
-| Q02 | Axiom dependencies reviewed | Headline theorem omitted from audit | build-time `#print axioms` manifest | Pending |
+| Q02 | Axiom dependencies reviewed | Headline theorem omitted from audit | `ALSJAS.AxiomAudit` now covers first seven universal declarations; final headline set pending | In progress |
 | Q03 | Reproducible CLI | Pinned clean build or demo suite fails | release script and transcript | Pending |
 
 ## Required negative corpus
