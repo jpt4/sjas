@@ -9,7 +9,7 @@ name a checked theorem, executable test, or retained red/green log.
 
 | ID | Requirement | Red test or probe | Green evidence | Status |
 | --- | --- | --- | --- | --- |
-| C01 | Canonical S-expression round trip | Parser module absent or malformed input accepted | `sexpr_roundtrip`; parser tests | Pending |
+| C01 | Canonical S-expression round trip | `test-runs/phase-01-sexpr-red.md` | 19 executable cases green; universal `sexpr_roundtrip` theorem pending | In progress |
 | C02 | Decidable affine typing | Duplicated variable accepted | `typing_decidable`; affinity negatives | Pending |
 | C03 | Deterministic reduction | One term steps to unequal results | `step_deterministic` | Pending |
 | C04 | Subject reduction | Typed step loses its type | `subject_reduction` | Pending |

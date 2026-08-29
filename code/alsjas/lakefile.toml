@@ -1,0 +1,13 @@
+name = "alsjas"
+version = "0.1.0"
+defaultTargets = ["ALSJAS", "alsjas_tests"]
+
+[[lean_lib]]
+name = "ALSJAS"
+
+[[lean_lib]]
+name = "ALSJASTest"
+
+[[lean_exe]]
+name = "alsjas_tests"
+root = "ALSJASTestMain"
