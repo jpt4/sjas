@@ -11,15 +11,15 @@ name a checked theorem, executable test, or retained red/green log.
 | --- | --- | --- | --- | --- |
 | C01 | Canonical S-expression round trip | `test-runs/phase-01-sexpr-red.md` | 19 executable cases green; universal `sexpr_roundtrip` theorem pending | In progress |
 | C02 | Decidable affine typing | `test-runs/phase-02-affine-typing-red.md` | total `Typing.infer`; 20 executable cases including contraction negatives | Complete |
-| C03 | Deterministic reduction | One term steps to unequal results | `step_deterministic` | Pending |
+| C03 | Deterministic reduction | `test-runs/phase-04-reduction-checker-red.md` | `Reduction.step_deterministic` and 9 executable cases | Complete |
 | C04 | Subject reduction | Typed step loses its type | `subject_reduction` | Pending |
 | C05 | Normalization | Well-typed core term lacks a normal form | `normalization` | Pending |
 | C06 | Canonical forms/base consistency | Closed normal `zero` accepted | `base_consistent` | Pending |
-| C07 | Checker adequacy | Forged tree accepted or real derivation unencodable | soundness and completeness pair | Pending |
-| C08 | Explicit tree boxes | Shared/back-reference certificate accepted | `tree_payload_preserved`; negative parser tests | Pending |
-| C09 | Structural identity | `test-runs/phase-03-system-identity-red.md` and `phase-03b-system-reference-red.md` | binder/profile identity layer and 14 cases green; checker-level stale rejection theorem pending | In progress |
+| C07 | Checker adequacy | `test-runs/phase-04-reduction-checker-red.md` | 13 native checker cases green; inductive soundness/completeness pair pending | In progress |
+| C08 | Explicit tree boxes | Sharing instruction submitted in phase 04 | raw grammar rejects references and quotes retain payloads; preservation theorem pending | In progress |
+| C09 | Structural identity | phase 03 red logs plus stale controls in phase 04 | binder/profile layer and checker-level stale rejection green; `system_seal_sound` pending | In progress |
 | R01 | Selected fixed point | Fold/unfold artifact rejected | fixed-point derivations and demo | Pending |
-| R02 | Necessitation/composition/introspection | Any required Loeb operation missing | typed derivations and checker tests | Pending |
+| R02 | Necessitation/composition/introspection | Missing native checker paths in phase 04 red | quotation, boxed composition, and positive introspection checker cases green; derivation theorems pending | In progress |
 | G01 | Coding-independent G2 | Abstract assumptions fail to produce formalized G2 | `abstract_computational_g2`; import audit | Pending |
 | S01 | Structural `self0` preservation | Hypothetical self0 contradiction not eliminable | `self0_preservation` | Pending |
 | S02 | Concrete consistency | Exact sealed system not instantiated | `alsjas_consistent`; axiom audit | Pending |

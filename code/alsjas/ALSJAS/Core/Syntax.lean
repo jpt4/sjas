@@ -117,4 +117,69 @@ inductive Term where
   | copyBox : SystemRef → Ty → Term
 deriving BEq, Repr
 
+namespace Term
+
+/-- Canonical serialization of raw terms. Proof payloads remain complete
+S-expressions and are inserted directly rather than replaced by references. -/
+def toSExpr : Term → SExpr
+  | .var index => .list [.atom "var", .atom (toString index)]
+  | .triv => .list [.atom "triv"]
+  | .pair left right => .list [.atom "pair", left.toSExpr, right.toSExpr]
+  | .letTensor scrutinee body =>
+      .list [.atom "let-tensor", scrutinee.toSExpr, body.toSExpr]
+  | .lam domain body => .list [.atom "lam", domain.toSExpr, body.toSExpr]
+  | .app function argument =>
+      .list [.atom "app", function.toSExpr, argument.toSExpr]
+  | .abort resultType contradiction =>
+      .list [.atom "abort", resultType.toSExpr, contradiction.toSExpr]
+  | .quote system conclusion proof =>
+      .list [.atom "quote", system.toSExpr, conclusion.toSExpr, proof]
+  | .boxComp function argument =>
+      .list [.atom "box-comp", function.toSExpr, argument.toSExpr]
+  | .boxIntrosp proof => .list [.atom "box-introsp", proof.toSExpr]
+  | .godelFold system proof =>
+      .list [.atom "godel-fold", system.toSExpr, proof.toSExpr]
+  | .godelUnfold system proof =>
+      .list [.atom "godel-unfold", system.toSExpr, proof.toSExpr]
+  | .self0 system => .list [.atom "self0", system.toSExpr]
+  | .collapse1 system => .list [.atom "collapse1", system.toSExpr]
+  | .copyBox system copiedType =>
+      .list [.atom "copy-box", system.toSExpr, copiedType.toSExpr]
+
+/-- Decode exactly the raw-term grammar. There are no node IDs, references,
+or sharing instructions, so a successfully decoded proof program is a tree. -/
+def fromSExpr : SExpr → Option Term
+  | .list [.atom "var", .atom index] => do
+      pure (.var (← index.toNat?))
+  | .list [.atom "triv"] => some .triv
+  | .list [.atom "pair", left, right] => do
+      pure (.pair (← fromSExpr left) (← fromSExpr right))
+  | .list [.atom "let-tensor", scrutinee, body] => do
+      pure (.letTensor (← fromSExpr scrutinee) (← fromSExpr body))
+  | .list [.atom "lam", domain, body] => do
+      pure (.lam (← Ty.fromSExpr domain) (← fromSExpr body))
+  | .list [.atom "app", function, argument] => do
+      pure (.app (← fromSExpr function) (← fromSExpr argument))
+  | .list [.atom "abort", resultType, contradiction] => do
+      pure (.abort (← Ty.fromSExpr resultType) (← fromSExpr contradiction))
+  | .list [.atom "quote", system, conclusion, proof] => do
+      pure (.quote (← SystemRef.fromSExpr system) (← Ty.fromSExpr conclusion) proof)
+  | .list [.atom "box-comp", function, argument] => do
+      pure (.boxComp (← fromSExpr function) (← fromSExpr argument))
+  | .list [.atom "box-introsp", proof] => do
+      pure (.boxIntrosp (← fromSExpr proof))
+  | .list [.atom "godel-fold", system, proof] => do
+      pure (.godelFold (← SystemRef.fromSExpr system) (← fromSExpr proof))
+  | .list [.atom "godel-unfold", system, proof] => do
+      pure (.godelUnfold (← SystemRef.fromSExpr system) (← fromSExpr proof))
+  | .list [.atom "self0", system] => do
+      pure (.self0 (← SystemRef.fromSExpr system))
+  | .list [.atom "collapse1", system] => do
+      pure (.collapse1 (← SystemRef.fromSExpr system))
+  | .list [.atom "copy-box", system, copiedType] => do
+      pure (.copyBox (← SystemRef.fromSExpr system) (← Ty.fromSExpr copiedType))
+  | _ => none
+
+end Term
+
 end ALSJAS

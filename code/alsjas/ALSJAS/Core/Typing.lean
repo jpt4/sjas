@@ -26,6 +26,7 @@ inductive TypeError where
   | expectedBox : Ty → TypeError
   | usageLengthMismatch
   | quoteRequiresProofCheck
+  | invalidQuote
   | capabilityForbidden : String → TypeError
 deriving BEq, Repr
 
@@ -67,23 +68,29 @@ private def mergeAt : Nat → List Bool → List Bool →
 def mergeUsage (left right : List Bool) : Except TypeError (List Bool) :=
   mergeAt 0 left right
 
+/-- Internal quotation hook. The native proof checker supplies the only hook
+that can succeed; ordinary type inference supplies one that always defers. -/
+abbrev QuoteValidator := SystemRef → Ty → SExpr → Except TypeError Unit
+
 /-- Infer a raw term in an affine context. The result has one usage bit per
-context entry. Modal quotation is the sole constructor intentionally handed to
-the proof-checking layer. -/
-def infer (profile : RuleProfile) (context : List Ty) : Term →
+context entry. A successful quotation hook certifies only that the complete
+payload proves the declared conclusion under the declared system. -/
+def inferWith (validateQuote : QuoteValidator) (profile : RuleProfile)
+    (context : List Ty) : Term →
     Except TypeError Inferred
   | .var index => inferVariable index context
   | .triv => .ok { type := .one, usage := unused context }
   | .pair left right => do
-      let leftResult ← infer profile context left
-      let rightResult ← infer profile context right
+      let leftResult ← inferWith validateQuote profile context left
+      let rightResult ← inferWith validateQuote profile context right
       let usage ← mergeUsage leftResult.usage rightResult.usage
       pure { type := .tensor leftResult.type rightResult.type, usage }
   | .letTensor scrutinee body => do
-      let scrutineeResult ← infer profile context scrutinee
+      let scrutineeResult ← inferWith validateQuote profile context scrutinee
       match scrutineeResult.type with
       | .tensor leftType rightType =>
-          let bodyResult ← infer profile (rightType :: leftType :: context) body
+          let bodyResult ←
+            inferWith validateQuote profile (rightType :: leftType :: context) body
           match bodyResult.usage with
           | _ :: _ :: outerUsage => do
               let usage ← mergeUsage scrutineeResult.usage outerUsage
@@ -91,14 +98,14 @@ def infer (profile : RuleProfile) (context : List Ty) : Term →
           | _ => .error .usageLengthMismatch
       | actual => .error (.expectedTensor actual)
   | .lam domain body => do
-      let bodyResult ← infer profile (domain :: context) body
+      let bodyResult ← inferWith validateQuote profile (domain :: context) body
       match bodyResult.usage with
       | _ :: outerUsage =>
           pure { type := .lolli domain bodyResult.type, usage := outerUsage }
       | [] => .error .usageLengthMismatch
   | .app function argument => do
-      let functionResult ← infer profile context function
-      let argumentResult ← infer profile context argument
+      let functionResult ← inferWith validateQuote profile context function
+      let argumentResult ← inferWith validateQuote profile context argument
       match functionResult.type with
       | .lolli domain codomain =>
           if domain == argumentResult.type then
@@ -108,15 +115,18 @@ def infer (profile : RuleProfile) (context : List Ty) : Term →
             .error (.typeMismatch domain argumentResult.type)
       | actual => .error (.expectedFunction actual)
   | .abort resultType contradiction => do
-      let contradictionResult ← infer profile context contradiction
+      let contradictionResult ←
+        inferWith validateQuote profile context contradiction
       if contradictionResult.type == .zero then
         pure { type := resultType, usage := contradictionResult.usage }
       else
         .error (.typeMismatch .zero contradictionResult.type)
-  | .quote _ _ _ => .error .quoteRequiresProofCheck
+  | .quote system conclusion proof => do
+      validateQuote system conclusion proof
+      pure { type := .box system conclusion, usage := unused context }
   | .boxComp function argument => do
-      let functionResult ← infer profile context function
-      let argumentResult ← infer profile context argument
+      let functionResult ← inferWith validateQuote profile context function
+      let argumentResult ← inferWith validateQuote profile context argument
       match functionResult.type with
       | .box system (.lolli domain codomain) =>
           let expectedArgument := Ty.box system domain
@@ -127,21 +137,21 @@ def infer (profile : RuleProfile) (context : List Ty) : Term →
             .error (.typeMismatch expectedArgument argumentResult.type)
       | actual => .error (.expectedBox actual)
   | .boxIntrosp proof => do
-      let proofResult ← infer profile context proof
+      let proofResult ← inferWith validateQuote profile context proof
       match proofResult.type with
       | .box system boxedType =>
           let resultType := Ty.box system (Ty.box system boxedType)
           pure ({ type := resultType, usage := proofResult.usage } : Inferred)
       | actual => .error (.expectedBox actual)
   | .godelFold system proof => do
-      let proofResult ← infer profile context proof
+      let proofResult ← inferWith validateQuote profile context proof
       let expected := Ty.box system (.lolli (.godel system) .zero)
       if proofResult.type == expected then
         pure { type := .godel system, usage := proofResult.usage }
       else
         .error (.typeMismatch expected proofResult.type)
   | .godelUnfold system proof => do
-      let proofResult ← infer profile context proof
+      let proofResult ← inferWith validateQuote profile context proof
       let expected := Ty.godel system
       if proofResult.type == expected then
         let resultType := Ty.box system (Ty.lolli (Ty.godel system) Ty.zero)
@@ -161,6 +171,12 @@ def infer (profile : RuleProfile) (context : List Ty) : Term →
           let boxed := Ty.box system copiedType
           let resultType := Ty.lolli boxed (Ty.tensor boxed boxed)
           .ok { type := resultType, usage := unused context }
+
+/-- Ordinary term inference never accepts a raw quote. This keeps callers from
+substituting an opaque host oracle for native proof checking. -/
+def infer (profile : RuleProfile) (context : List Ty) (term : Term) :
+    Except TypeError Inferred :=
+  inferWith (fun _ _ _ => .error .quoteRequiresProofCheck) profile context term
 
 /-- Check a term against an expected type while preserving the inferred usage
 certificate for subsequent affine composition. -/
