@@ -1,23 +1,53 @@
 # ALSJAS Theorem Dependency Graph
 
-Status: Normative completion map for ADR-0002
+Status: Completion map for ADR-0002 as reordered by ADR-0003
 
 Date: 2026-08-28
+
+Paper-first revision: 2026-08-29
 
 ## Headline graph
 
 ```text
+paper_review_accepted
+  -> intrinsic_profiles_B_J_C
+intrinsic_profiles_B_J_C
+  -> affine_judgment_and_rules
+  -> reduction_matches_paper
+
+affine_judgment_and_rules
+  -> affine_occurrence
+  -> affine_substitution
+  -> subject_reduction
+
+reduction_matches_paper + affine_occurrence
+  -> baseline_J_normalization
+baseline_J_normalization + subject_reduction
+  -> canonical_forms
+canonical_forms
+  -> base_consistent
+
+reduction_matches_paper + affine_substitution
+  -> hereditary_height_nonincrease
+hereditary_height_nonincrease + canonical_forms
+  -> self0_elimination
+base_consistent + self0_elimination
+  -> alsjas_consistent
+  -> self0_is_genuine_native_consistency
+
 sexpr_roundtrip
   -> surface_roundtrip
 
-affinity_decidable -> typing_decidable -> checker_adequate
-                           |                    |
-deterministic_step --------+                    |
-subject_reduction ------------------------------+
-normalization -> canonical_forms -> base_consistent
+affinity_decidable
+  -> typing_decidable
+typing_decidable + intrinsic_profiles_B_J_C
+  -> checker_adequate
+reduction_matches_paper
+  -> deterministic_step
 
 tree_payload_preserved -> no_hidden_sharing
-resource_model_sound  -> no_polymorphic_copy_box
+open_type_model_sound -> no_polymorphic_copy_box
+payload_provenance_sound -> no_unknown_payload_copy
 
 system_seal_sound -> stale_identity_rejected
                   -> baseline_copy_identity_distinct
@@ -31,19 +61,16 @@ box_contraction_from_copy
   -> copy_boom_typed
 
 proper_subtree_well_founded
-normalization
+baseline_J_normalization
 tree_payload_preserved
-  -> self0_elimination
   -> self0_preservation
-base_consistent + self0_preservation
-  -> alsjas_consistent
-  -> self0_is_genuine_native_consistency
 
 clash_collapse + self0_checked
   -> self1_checked
 
 copy_boom_typed + baseline_copy_rejected
 no_polymorphic_copy_box
+no_unknown_payload_copy
 baseline_copy_identity_distinct
   -> matched_copy_control_complete
 
@@ -54,6 +81,13 @@ tm_translation_step_iff
   -> tm_finite_run_iff
   -> partial_computations_representable
 ```
+
+The older names `normalization`, `canonical_forms`, and `self0_preservation`
+are retained below for compatibility with the acceptance matrix. Their theorem
+statements are governed by Sections 9 and 10 of
+[`../theory/alsjas-calculus.md`](../theory/alsjas-calculus.md). No path may skip
+`paper_review_accepted` by defining the intrinsic relation around existing
+checker behavior.
 
 ## Architectural dependency prohibition
 

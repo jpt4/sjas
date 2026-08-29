@@ -110,3 +110,12 @@ can be done.
 
 Claim: (3) would provide autonomous confidence in the consistency of
 the system so proved to be, by closing over the metatheory.
+
+## Current ALSJAS theory line
+
+The Affine Lambda SJAS experiment is currently at a paper-first theory gate.
+Its normative pre-mechanization calculus, typing and reduction rules, and
+natural-language metatheory are in
+[`docs/theory/alsjas-calculus.md`](docs/theory/alsjas-calculus.md). ADR-0003
+suspends further implementation until that paper is explicitly reviewed; the
+existing Lean code is an exploratory prototype pending conformance audit.

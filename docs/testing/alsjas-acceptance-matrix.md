@@ -1,17 +1,28 @@
 # ALSJAS Acceptance Matrix
 
-Status: Active checklist for ADR-0002
+Status: Suspended implementation checklist; paper-first gates active under
+ADR-0003
 
 Date: 2026-08-28
+
+Paper-first revision: 2026-08-29
 
 No row is complete merely because its test name exists. Evidence columns must
 name a checked theorem, executable test, or retained red/green log.
 
+Rows completed before ADR-0003 are prototype evidence only until P00–P03 pass.
+They establish behavior of the exploratory implementation, not conformance to
+an independently specified calculus.
+
 | ID | Requirement | Red test or probe | Green evidence | Status |
 | --- | --- | --- | --- | --- |
+| P00 | Theory paper accepted | Review questions in paper Section 19 | [`docs/theory/alsjas-calculus.md`](../theory/alsjas-calculus.md) draft | Review pending |
+| P01 | Minimal grammar and `B/J/C` profiles accepted | Existing design has one mixed constructor list | Paper Sections 3–7 | Review pending |
+| P02 | Natural-language metatheory accepted | Existing theorem names lack anchoring proofs | Paper Sections 9–14 | Review pending |
+| P03 | Prototype conformance audited | Rule-by-rule paper/code comparison not run | Classification of every ALSJAS module | Blocked by P00 |
 | C01 | Canonical S-expression round trip | `test-runs/phase-01-sexpr-red.md` | 19 executable cases green; universal `sexpr_roundtrip` theorem pending | In progress |
-| C02 | Decidable affine typing | `test-runs/phase-02-affine-typing-red.md` | total `Typing.infer`; 20 executable cases including contraction negatives | Complete |
-| C03 | Deterministic reduction | `test-runs/phase-04-reduction-checker-red.md` | `Reduction.step_deterministic` and 9 executable cases | Complete |
+| C02 | Decidable affine typing | `test-runs/phase-02-affine-typing-red.md` | total `Typing.infer`; 20 executable cases including contraction negatives | Prototype green; P03 pending |
+| C03 | Deterministic reduction | `test-runs/phase-04-reduction-checker-red.md` | `Reduction.step_deterministic` and 9 executable cases | Prototype green; P03 pending |
 | C04 | Subject reduction | Typed step loses its type | `subject_reduction` | Pending |
 | C05 | Normalization | Well-typed core term lacks a normal form | `normalization` | Pending |
 | C06 | Canonical forms/base consistency | Closed normal `zero` accepted | `base_consistent` | Pending |
@@ -20,10 +31,10 @@ name a checked theorem, executable test, or retained red/green log.
 | C09 | Structural identity | phase 03 red logs plus stale controls in phase 04 | binder/profile layer and checker-level stale rejection green; `system_seal_sound` pending | In progress |
 | R01 | Selected fixed point | `test-runs/phase-08-baseline-reflection-red.md` | standalone checker-accepted fold/unfold artifacts and six-case green transcript; derivation theorem pending | In progress |
 | R02 | Necessitation/composition/introspection | Missing native checker paths in phase 04 red | quotation, boxed composition, and positive introspection checker cases green; derivation theorems pending | In progress |
-| G01 | Coding-independent G2 | `test-runs/phase-07-abstract-g2-red.md` | `contradictionFromSelf0`, `self0Excluded`, import separation, and axiom audit | Complete |
+| G01 | Coding-independent G2 | `test-runs/phase-07-abstract-g2-red.md` | `contradictionFromSelf0`, `self0Excluded`, import separation, and axiom audit | Prototype green; affine-interface audit pending |
 | S01 | Structural `self0` preservation | Hypothetical self0 contradiction not eliminable | `self0_preservation` | Pending |
 | S02 | Concrete consistency | Exact sealed system not instantiated | `alsjas_consistent`; axiom audit | Pending |
-| S03 | Native `self0` | `test-runs/phase-08-baseline-reflection-red.md` | exact checked artifact, executable demo, and stale-identity control | Complete |
+| S03 | Native `self0` | `test-runs/phase-08-baseline-reflection-red.md` | exact checked artifact, executable demo, and stale-identity control | Prototype green; P03 pending |
 | S04 | Native `self1` | `test-runs/phase-08-baseline-reflection-red.md` | native `collapse1` and derived affine `self1` accepted; stale-identity control green; malformed-clash control pending | In progress |
 | X01 | Copy realizes box contraction | Copy extension cannot discharge repeated box use | operational duplication plus abstract box-contraction interface green; named derivation theorem pending | In progress |
 | X02 | Copy contradiction | `test-runs/phase-06-copy-control-red.md` | complete nested `boom : 0` certificate accepted; checker-adequacy theorem pending | In progress |

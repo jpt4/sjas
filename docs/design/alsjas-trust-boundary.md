@@ -4,6 +4,8 @@ Status: Normative for ADR-0002
 
 Date: 2026-08-28
 
+Paper-first revision: 2026-08-29
+
 ## Trusted for the mechanized claims
 
 - the pinned Lean 4.32.1 kernel;
@@ -16,6 +18,12 @@ Date: 2026-08-28
 Lean's kernel is the external metatheory. Therefore ALSJAS consistency is
 relative to that metatheory; the project does not claim absolute foundational
 consistency.
+
+ADR-0003 adds a prior specification boundary: human acceptance of
+[`../theory/alsjas-calculus.md`](../theory/alsjas-calculus.md) determines what
+the Lean declarations are meant to formalize. Agreement between a checker and
+an intrinsic relation invented from that checker's branches is not sufficient;
+both must refine the independently reviewed paper calculus.
 
 ## Not trusted for native acceptance
 

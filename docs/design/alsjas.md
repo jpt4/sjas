@@ -1,8 +1,21 @@
 # ALSJAS Formal Design
 
-Status: Normative design for ADR-0002; implementation in progress
+Status: Architecture for ADR-0002; implementation suspended by ADR-0003
+pending review of the normative calculus paper
 
 Date: 2026-08-28
+
+Paper-first revision: 2026-08-29
+
+Normative object calculus:
+[`../theory/alsjas-calculus.md`](../theory/alsjas-calculus.md)
+
+Sequencing correction:
+[`../adr/ADR-0003-alsjas-paper-first.md`](../adr/ADR-0003-alsjas-paper-first.md)
+
+The grammar and proof sketches below are architectural summaries. Where they
+differ from the paper, the paper governs. They must not be used independently
+to invent Lean rules.
 
 ## 1. Purpose
 
@@ -336,6 +349,12 @@ which system identity was expected and found without treating a hash as the
 identity itself.
 
 ## 15. Completion discipline
+
+Paper gate P00 precedes every implementation gate. The calculus paper must
+receive an explicit acceptance decision, and existing prototype modules must
+then pass a rule-by-rule conformance audit. No executable result obtained
+before that review is evidence for normalization, consistency, `self0`
+preservation, or copy non-definability.
 
 The exact gates are maintained in the acceptance matrix. A theorem is complete
 only when its declaration builds, its dependency list is audited, and its

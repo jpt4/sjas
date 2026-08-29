@@ -1,13 +1,19 @@
 # ADR-0002: Affine Lambda SJAS
 
-Status: Accepted; implementation in progress; every headline metatheorem is a
-completion gate
+Status: Accepted research scope; implementation sequence suspended by
+[ADR-0003](ADR-0003-alsjas-paper-first.md) pending theory-paper review; every
+headline metatheorem remains a completion gate
 
 Date: 2026-08-28
+
+Sequencing revised: 2026-08-29 by ADR-0003
 
 Branch: `adr-0002-alsjas`
 
 Companion design: [`../design/alsjas.md`](../design/alsjas.md)
+
+Normative calculus draft:
+[`../theory/alsjas-calculus.md`](../theory/alsjas-calculus.md)
 
 Theorem dependency graph:
 [`../design/alsjas-theorem-dependencies.md`](../design/alsjas-theorem-dependencies.md)
@@ -133,7 +139,12 @@ The project is incomplete until all of the following are proved without
 - Verification of every supplied finite run, with no total universal `run` and
   no theorem that all encoded runs halt.
 
-## Test-first implementation order
+## Paper-first and test-first implementation order
+
+ADR-0003 supersedes the ordering below. Before step 1, the calculus grammar,
+judgments, reductions, and natural-language proofs in the normative theory
+paper must be reviewed and accepted. Existing implementation is exploratory
+until it passes the resulting conformance audit.
 
 Every executable feature begins with a failing test or compile-time theorem
 probe. The sequence is:
