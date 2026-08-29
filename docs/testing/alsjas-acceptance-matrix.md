@@ -17,7 +17,7 @@ name a checked theorem, executable test, or retained red/green log.
 | C06 | Canonical forms/base consistency | Closed normal `zero` accepted | `base_consistent` | Pending |
 | C07 | Checker adequacy | Forged tree accepted or real derivation unencodable | soundness and completeness pair | Pending |
 | C08 | Explicit tree boxes | Shared/back-reference certificate accepted | `tree_payload_preserved`; negative parser tests | Pending |
-| C09 | Structural identity | Stale/edited identity accepted | `system_seal_sound`; CLI rejection | Pending |
+| C09 | Structural identity | `test-runs/phase-03-system-identity-red.md` and `phase-03b-system-reference-red.md` | binder/profile identity layer and 14 cases green; checker-level stale rejection theorem pending | In progress |
 | R01 | Selected fixed point | Fold/unfold artifact rejected | fixed-point derivations and demo | Pending |
 | R02 | Necessitation/composition/introspection | Any required Loeb operation missing | typed derivations and checker tests | Pending |
 | G01 | Coding-independent G2 | Abstract assumptions fail to produce formalized G2 | `abstract_computational_g2`; import audit | Pending |
