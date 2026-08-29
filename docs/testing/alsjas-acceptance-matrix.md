@@ -18,16 +18,16 @@ name a checked theorem, executable test, or retained red/green log.
 | C07 | Checker adequacy | `test-runs/phase-04-reduction-checker-red.md` | 13 native checker cases green; inductive soundness/completeness pair pending | In progress |
 | C08 | Explicit tree boxes | Sharing instruction submitted in phase 04 | raw grammar rejects references; universal serialization and `quote_is_reduction_normal` preserve complete payloads; typed no-duplication theorem pending | In progress |
 | C09 | Structural identity | phase 03 red logs plus stale controls in phase 04 | binder/profile layer and checker-level stale rejection green; `system_seal_sound` pending | In progress |
-| R01 | Selected fixed point | Fold/unfold artifact rejected | fixed-point derivations and demo | Pending |
+| R01 | Selected fixed point | Fold/unfold artifact rejected | concrete fold/unfold drives checker-accepted G2/boom programs; standalone derivation theorem/demo pending | In progress |
 | R02 | Necessitation/composition/introspection | Missing native checker paths in phase 04 red | quotation, boxed composition, and positive introspection checker cases green; derivation theorems pending | In progress |
-| G01 | Coding-independent G2 | Abstract assumptions fail to produce formalized G2 | `abstract_computational_g2`; import audit | Pending |
+| G01 | Coding-independent G2 | `test-runs/phase-07-abstract-g2-red.md` | `contradictionFromSelf0`, `self0Excluded`, import separation, and axiom audit | Complete |
 | S01 | Structural `self0` preservation | Hypothetical self0 contradiction not eliminable | `self0_preservation` | Pending |
 | S02 | Concrete consistency | Exact sealed system not instantiated | `alsjas_consistent`; axiom audit | Pending |
 | S03 | Native `self0` | Stale or forged self0 accepted | checked artifact and demo | Pending |
 | S04 | Native `self1` | Malformed clash accepted | `collapse`, `self1`; positive/negative demos | Pending |
-| X01 | Copy realizes box contraction | Copy extension cannot discharge repeated box use | `box_contraction_from_copy` | Pending |
-| X02 | Copy contradiction | Copy system plus self0 has no explicit contradiction | `copy_boom_typed`; accepted demo | Pending |
-| X03 | Matched baseline rejection | Copy boom accepted by baseline | same bytes rejected at copy node | Pending |
+| X01 | Copy realizes box contraction | Copy extension cannot discharge repeated box use | operational duplication plus abstract box-contraction interface green; named derivation theorem pending | In progress |
+| X02 | Copy contradiction | `test-runs/phase-06-copy-control-red.md` | complete nested `boom : 0` certificate accepted; checker-adequacy theorem pending | In progress |
+| X03 | Matched baseline rejection | Phase 06 baseline analogue and identity controls | regenerated baseline certificate and copy-identity certificate both rejected; theorem-level rejection pending | In progress |
 | X04 | Copy non-definability | Baseline polymorphic copy candidate typechecks | free-model/logical-relation theorem | Pending |
 | X05 | Identity regenerated | Baseline and copy identities compare equal | identity-distinction theorem and CLI | Pending |
 | T01 | Trace checker sound | Accepted adjacent pair is not a `Step` | `trace_checker_sound` | Pending |
