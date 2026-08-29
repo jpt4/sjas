@@ -6,6 +6,7 @@ import ALSJASTest.Checker
 import ALSJASTest.Metatheory
 import ALSJASTest.CopyControl
 import ALSJASTest.AbstractG2
+import ALSJASTest.BaselineReflection
 
 def main : IO Unit := do
   ALSJASTest.SExpr.run
@@ -16,3 +17,4 @@ def main : IO Unit := do
   ALSJASTest.Metatheory.run
   ALSJASTest.CopyControl.run
   ALSJASTest.AbstractG2.run
+  ALSJASTest.BaselineReflection.run

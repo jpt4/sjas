@@ -7,6 +7,7 @@ import ALSJAS.Checker
 import ALSJAS.AxiomAudit
 import ALSJAS.Reflection.Programs
 import ALSJAS.Reflection.AbstractG2
+import ALSJAS.Reflection.BaselinePrograms
 
 /-!
 The public root of the ALSJAS library.  Imports are added here only after their
