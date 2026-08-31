@@ -38,10 +38,10 @@ in-scope micro-item class, deliberately not chased (enumerate lazily).
 | Willard2006-WoLLIC | nachlass/papers/willard2006_i_sigma0_herbrand_author_wollic.pdf | 15 | core | B | ISigma0 simultaneously obeys and evades herbrandized G2 (ENTCS 165) | extracted:2026-08-27 |
 | Willard2009 | nachlass/papers/willard2009_i_sigma0_herbrand_author_inf9.pdf | 33 | core | B | Specially formulated ISigma0 axiomatizations evading herbrandized G2 | extracted:2026-08-27 |
 | Willard2016 | nachlass/papers/willard2016_theta_function_symbol_arxiv_1612.08071.pdf; nachlass/papers/willard2017.pdf; lit/willard2017thetafunction.pdf | 34 | core | B | Theta-function-symbol systems appreciating Hilbert-consistency fragments | extracted:2026-08-27 |
-| Willard2005-TAB | nachlass/papers/willard2005_real_valued_tableaux_author_tab5.pdf | 15 | core | C | Real-valued tableaux consistency (LNCS 3702; ASL-2005 floating-point line) | pending |
-| Willard2006b | nachlass/papers/willard2006_real_valued_arithmetic_author_jsl6.pdf | 11 | core | C | Real-valued arithmetic JSL paper (floating-point line, journal form) | pending |
-| Willard2007-APAL | nachlass/papers/willard2007_passive_induction_author_apal7.pdf | 48 | core | C | Passive induction; solution to a Paris-Wilkie question | pending |
-| Willard1998 | nachlass/papers/willard1998_self_reflection_np_hardness_dimacs_volume.pdf; lit/Dimacs1996.pdf | 170 | core | C | Reflection-principles prehistory (Self-Reflection and NP-Hardness; volume witness is image-only — searchable collation pending, see gaps) | pending |
+| Willard2005-TAB | nachlass/papers/willard2005_real_valued_tableaux_author_tab5.pdf | 15 | core | C | Real-valued tableaux consistency (LNCS 3702; ASL-2005 floating-point line) | extracted:2026-08-29 |
+| Willard2006b | nachlass/papers/willard2006_real_valued_arithmetic_author_jsl6.pdf | 11 | core | C | Real-valued arithmetic JSL paper (floating-point line, journal form) | extracted:2026-08-29 |
+| Willard2007-APAL | nachlass/papers/willard2007_passive_induction_author_apal7.pdf | 48 | core | C | Passive induction; solution to a Paris-Wilkie question; canonical eight-rule tableaux definition (G32) | extracted:2026-08-29 |
+| Willard1998 | nachlass/papers/willard1998_self_reflection_np_hardness_dimacs_volume.pdf; lit/Dimacs1996.pdf | 170 | core | C | Reflection-principles prehistory (Self-Reflection and NP-Hardness). Witness is the 170pp DIMACS volume containing the chapter (printed 297–320 / PDF 158–170); chapter-only OCR aid produced (G10 closed) | extracted:2026-08-29 |
 | Willard1997 | (none) | - | gap | C | KGC5 tangibility chapter (LNCS 1289, pp. 319-334), which Willard2001 builds on; acquisition: ILL/SpringerLink | blocked |
 | Willard2021 | (none) | - | gap | A | Journal version of Willard2020-LFCS (JLC 31(1), pp. 375-392, DOI 10.1093/logcom/exaa083); no OA, no known shadow copy; acquisition: ILL/purchase | blocked |
 
@@ -49,25 +49,25 @@ in-scope micro-item class, deliberately not chased (enumerate lazily).
 
 | Key | Witness | Pages | Ruling | Tier | Rationale | Extraction |
 | --- | --- | --- | --- | --- | --- | --- |
-| Willard2013 | nachlass/papers/willard2013_significance_self_justifying_axiom_systems_arxiv_1307.0150.pdf; lit/willard2014sjassignificanceanalytictableaux.pdf | 34 | motivation | C | Extended epistemological-significance statement (arXiv form of Willard2014) | pending |
-| Willard2014 | nachlass/papers/willard2014.pdf; nachlass/papers/willard2014_broader_epistemological_author_archive.pdf | 16 | motivation | C | WoLLIC 2014 published form; Willard's recommended entry point (resume note) | pending |
-| Willard2018 | nachlass/papers/willard2018.pdf | 35 | motivation | C | Hilbert-consistency-program chasm essay | pending |
-| Willard2007-KGS6 | nachlass/papers/willard2007_fourteen_year_effort_author_kgs6.pdf | 7 | motivation | C | Fourteen-year-effort summary (Collegium Logicum IX); spine-consistency probe during C6-C8 | pending |
-| Willard2006-Talk | nachlass/papers/willard2006_nature_godel_second_incompleteness_talk.pdf | 1 | motivation | C | Dartmouth talk abstract page | pending |
+| Willard2013 | nachlass/papers/willard2013_significance_self_justifying_axiom_systems_arxiv_1307.0150.pdf; lit/willard2014sjassignificanceanalytictableaux.pdf | 34 | motivation | C | Extended epistemological-significance statement (arXiv form of Willard2014); Miniaturized Finitism framing | extracted:2026-08-29 |
+| Willard2014 | nachlass/papers/willard2014.pdf; nachlass/papers/willard2014_broader_epistemological_author_archive.pdf | 16 | motivation | C | WoLLIC 2014 published form; Willard's recommended entry point (resume note). **G33/O73**: keep motivation for framing §§1-4,7-10, but §§5-6 (`IS_D^#(β)` finite Group-2) extracted at full core depth in the same record | extracted:2026-08-29 |
+| Willard2018 | nachlass/papers/willard2018.pdf | 35 | motivation | C | Hilbert-consistency-program chasm essay; Willard2020#Ref56 calls it preliminary summary-abstract form | extracted:2026-08-29 |
+| Willard2007-KGS6 | nachlass/papers/willard2007_fourteen_year_effort_author_kgs6.pdf | 7 | motivation | C | Fourteen-year-effort summary (Collegium Logicum IX); spine-consistency probe during C6-C8 | extracted:2026-08-29 |
+| Willard2006-Talk | nachlass/papers/willard2006_nature_godel_second_incompleteness_talk.pdf | 1 | motivation | C | Dartmouth talk abstract page; G13 accepted as-is (no fuller slides) | extracted:2026-08-29 |
 
 ## In-corpus: witness grade (nachlass and bibliographic)
 
 | Key | Witness | Pages | Ruling | Tier | Rationale | Extraction |
 | --- | --- | --- | --- | --- | --- | --- |
-| DEW-Resume | lit/dewresume.pdf | 8 | witness | D | Willard's own bibliography and research narrative (Sept 2015); coverage authority | pending |
-| dew-2020-incompleteness-notes | nachlass/collected_dew_materials/2020Notes.pdf | 81 | witness | D | Incompleteness/Loeb notebook; late-period conceptualization | pending |
-| dew-2008-zcf-group | nachlass/collected_dew_materials/20080314_ZCF_notes.pdf; nachlass/collected_dew_materials/20080318_ZCF_notes.pdf; nachlass/collected_dew_materials/20080321_ZCF_notes_notepage7doubled.pdf; nachlass/collected_dew_materials/ZFnote.pdf; nachlass/collected_dew_materials/DOC102924-10292024193202.pdf | 26 | witness | D | 2008 ZF/ZCF set-theory program (the "possibly ZF manuscript" application named in the synthesis); per-file grain in ../collected_dew_materials/manifest.tsv | pending |
-| dew-2014-notarized | nachlass/collected_dew_materials/2024-10-08 20.13.17_05102014_notarized_notes_scan_higher_res.pdf; nachlass/collected_dew_materials/05102014_notarized_notes_scan_low_res.pdf | 6 | witness | D | 2014 notarized notes (SJAS-era priority claims); content review at C12 | pending |
-| dew-hajek-correspondence | nachlass/collected_dew_materials/Correspondence_Hajek.pdf | 9 | witness | D | Correspondence with Hajek (poor scan quality; page images authoritative) | pending |
-| dew-2025-boundary-draft | nachlass/collected_dew_materials/2025-12-22 09.55.35.pdf | 28 | witness | D | Boundary-case incompleteness draft (frontier) | pending |
-| dew-2025-tab-xtab-notes | nachlass/collected_dew_materials/2025-12-22 09.58.14.pdf | 9 | witness | D | Tab/Xtab deduction-method notes (frontier; bears on apparatus identity) | pending |
-| dew-2025-hilbert-draft | nachlass/collected_dew_materials/2025-12-24 14.44.42.pdf | 8 | witness | D | Hilbert consistency-program draft (frontier) | pending |
-| dew-1991-nsf-report | nachlass/collected_dew_materials/NSF_1991_Report.pdf | 3 | witness | D | NSF reporting from the SJAS gestation period; historical arc | pending |
+| DEW-Resume | lit/dewresume.pdf | 8 | witness | D | Willard's own bibliography and research narrative (Sept 2015); coverage authority | extracted:2026-08-29 |
+| dew-2020-incompleteness-notes | nachlass/collected_dew_materials/2020Notes.pdf | 81 | witness | D | Incompleteness/Loeb notebook; late-period conceptualization | extracted:2026-08-29 |
+| dew-2008-zcf-group | nachlass/collected_dew_materials/20080314_ZCF_notes.pdf; nachlass/collected_dew_materials/20080318_ZCF_notes.pdf; nachlass/collected_dew_materials/20080321_ZCF_notes_notepage7doubled.pdf; nachlass/collected_dew_materials/ZFnote.pdf; nachlass/collected_dew_materials/DOC102924-10292024193202.pdf | 26 | witness | D | 2008 ZF/ZCF set-theory program (the "possibly ZF manuscript" application named in the synthesis); per-file grain in ../collected_dew_materials/manifest.tsv | extracted:2026-08-29 |
+| dew-2014-notarized | nachlass/collected_dew_materials/2024-10-08 20.13.17_05102014_notarized_notes_scan_higher_res.pdf; nachlass/collected_dew_materials/05102014_notarized_notes_scan_low_res.pdf | 6 | witness | D | 2014 notarized notes (SJAS-era priority claims); content review at C12 | extracted:2026-08-29 |
+| dew-hajek-correspondence | nachlass/collected_dew_materials/Correspondence_Hajek.pdf | 9 | witness | D | Correspondence with Hajek (poor scan quality; page images authoritative) | extracted:2026-08-29 |
+| dew-2025-boundary-draft | nachlass/collected_dew_materials/2025-12-22 09.55.35.pdf | 28 | witness | D | Boundary-case incompleteness draft (frontier) | extracted:2026-08-29 |
+| dew-2025-tab-xtab-notes | nachlass/collected_dew_materials/2025-12-22 09.58.14.pdf | 9 | witness | D | Tab/Xtab deduction-method notes (frontier; bears on apparatus identity) | extracted:2026-08-29 |
+| dew-2025-hilbert-draft | nachlass/collected_dew_materials/2025-12-24 14.44.42.pdf | 8 | witness | D | Hilbert consistency-program draft (frontier) | extracted:2026-08-29 |
+| dew-1991-nsf-report | nachlass/collected_dew_materials/NSF_1991_Report.pdf | 3 | witness | D | NSF reporting from the SJAS gestation period; historical arc | extracted:2026-08-29 |
 
 ## Out of corpus
 

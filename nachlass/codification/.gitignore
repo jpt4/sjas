@@ -1,0 +1,3 @@
+# Working renders for visual-control passes (regenerable via pdftoppm).
+# Page images govern formulas during extraction but are not corpus witnesses.
+page-images/

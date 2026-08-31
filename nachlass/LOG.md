@@ -1,5 +1,155 @@
 # Nachlass Log
 
+## 2026-08-29 - Components C11 and C12 complete (checkpoint)
+
+- **C10** was already done (2026-08-27; G31 closed). No unfinished Tier B work.
+- **C11** done: all witnessed Tier C core + motivation items extracted;
+  `Willard1997` remains blocked (G2). `audit.sh` **AUDIT PASS**.
+  Registries at **514 results / 62 systems / 224 notation**; coverage
+  **33 complete**. ADR-0001 C11/C12 lines updated.
+- **C12** done: nine Tier D witness records. Gap searches: G30/G35/G37
+  accepted (no longer versions in nachlass); G3/G36 remain open (ASL-2005 TR).
+- Next per charter: **C13 Concordance** (axes, result matrix, freeze
+  canonical system names). User checkpoint before commit/push.
+- Working `page-images/` renders gitignored (regenerable); do not commit
+  binaries. Ask before committing the C11/C12 logical unit.
+
+## 2026-08-29 - Willard2007-APAL C11 extraction (closes G32)
+
+- Finished the incomplete Tier C extraction: full-document visual pass
+  (Images **1-48**), 44 results / 3 systems / 11 notation rows, corpus
+  `extracted:2026-08-29`. Recovered **`℧`** (text layer digit `0`); Fact 2
+  added. **G32 closed**; O70 discharged. `Willard2009` Theorem 5 remains
+  `sketch` in its own paper. Drift **D51**: `Q₀` is eight axioms here, nine
+  in Willard2009.
+
+## 2026-08-29 - Willard1998 C11 extraction (last pending C11 item)
+
+- Fully extracted **Willard1998** ("Self-Reflection Principles and NP-Hardness",
+  DIMACS vol 39, pp. 297–320) at
+  `nachlass/codification/extraction/willard1998.md` (core template §§1–8).
+- Witness: image-only volume `lit/Dimacs1996.pdf` (170 pp., two-page spreads).
+  Chapter on PDF **158–170** = printed **297–320**. Visual control: every
+  chapter spread rendered `pdftoppm -r 130` and read as images (both halves).
+- OCR search aid: `sources-text/willard1998.txt` (chapter only; never formal
+  anchor). **G10 closed/accepted** as chapter-only OCR aid; full-volume
+  collation not required once the chapter is extracted.
+- Content focus recorded: Self-Justifying (two conditions); TangPred /
+  TangDiv_k / TangRoot_k; Tangibility Reflection Eq. (2); ISREF(A) + 4-tape
+  UTM; NP / P=?NP via ISREF^R and Thms 9.5–9.6; dropping Mult/Add/Successor
+  totality. Related carefully to Willard2001 (ISTR proofs cite Willard1997,
+  not this paper).
+- Drifts **D79** (TangPred 1998 vs 2001), **D80** (Root ceiling vs floor);
+  obligation **O96**. Registries: systems / results / notation rows;
+  corpus `extracted:2026-08-29` (Pages stay 170 = volume); coverage Pages=13
+  (chapter PDF spreads, State complete, chapter-only clarified).
+- ADR-0001 C11 → **done 2026-08-29**; Willard1997 remains blocked/G2.
+- Do not commit (task constraint). Prior C11/C12 uncommitted work left intact.
+
+## 2026-08-29 - Tier D C12: nine witness-grade nachlass extractions
+
+- Extracted all nine Tier D witness items under `nachlass/codification/extraction/`:
+  `DEW-Resume.md`, `dew-2020-incompleteness-notes.md`, `dew-2008-zcf-group.md`,
+  `dew-2014-notarized.md`, `dew-hajek-correspondence.md`,
+  `dew-2025-boundary-draft.md`, `dew-2025-tab-xtab-notes.md`,
+  `dew-2025-hilbert-draft.md`, `dew-1991-nsf-report.md`. Visual control:
+  every page of every witness rendered `pdftoppm -r 130 -png` under
+  `page-images/` and read as an image. Coverage rows all `complete`.
+- **ZCF (O36 cited).** March 2008 notarized ZF/ZFC-inconsistency drafts
+  (Boolean-4, Paradox-ZF(C), WZF, Statement ++). Unpublished draft claims —
+  registered as `stated-only` with explicit "do not treat as established".
+  Finite-set SJAS reading remains `Willard2001` Rem 3.8 (obligation **O94**).
+- **Willard2021 pipeline scraps (G1 / O95 / D78).** `dew-2025-tab-xtab-notes`
+  p.9 is a printed JLC-2021 **"Fine Line"** title page; `dew-2025-boundary-draft`
+  opens with the JLC referee report preferring fine/delicate/subtle over
+  "tender". Full JLC text still missing.
+- **Hajek packet (D77).** Letter *to* Hájek dated 1976-08-17, signed **"Bill …"**
+  — third-party interpretability note, not Willard-authored.
+- **Gap searches G30/G35/G36/G37 (and G3):** not found in `nachlass/papers`,
+  `collected_dew_materials`, or `lit`. **G30 accepted**; **G35 accepted**
+  (Thms 2–3 permanently sketch); **G37 accepted** (deferred proofs stand);
+  **G3/G36 remain open** for estate / SUNY Albany CS TR series.
+- ADR-0001: C12 → done 2026-08-29; C11 Willard1998 completed separately (see entry above).
+- Do not commit (task constraint). Prior uncommitted C11 work left intact.
+
+## 2026-08-29 - Coverage Images catch-up (Willard2011 / 2001 / 2006a)
+
+- Pre-existing audit failures: three `complete` rows still listed only the
+  early formula-page Images subsets after the 2026-08-27 unconditional
+  visual-pass amendment. Rendered all pages (`pdftoppm -r 130 -png`) and
+  spot-checked previously unimaged formula pages (Fraktur / overbars / mho /
+  towers). **No registry corrections** — Hybrid(H) `⌈2^{[Log i]^H}⌉`, Club ♣,
+  varpi, hats, and towers match existing extraction/notation. Updated
+  `coverage.md` Images to `1-64`, `1-67`, `1-45`. Do not commit.
+
+## 2026-08-29 - Motivation-tier C11 batch (Willard2013/2014/2018/2007-KGS6/2006-Talk)
+
+- Extracted all five motivation-tier items: `willard2013.md`, `willard2014.md`,
+  `willard2018.md`, `willard2007-kgs6.md`, `willard2006-talk.md`. Visual
+  control: every page of every witness rendered `pdftoppm -r 130 -png` and
+  read as an image. Coverage rows all `complete`.
+- **G33 / O73 resolved (hybrid).** Kept `Willard2014` as `motivation` for
+  framing §§1-4, 7-10; extracted §§5-6 at **full core depth**. The finite
+  system is printed **`IS_D^#(β)`** (superscript `#`); `Willard2016` Rem 7.3's
+  "`ISD(β)`" is a naming conflation — drift **D76**. Theorem 3 + GlobSim_i
+  give the kernel-image finite simulation of Group-2; §6 L-fold generalizes.
+  Systems row `SJAS-Add-Level1-Finite`; full results rows for Defs 1-3, Thms
+  2-3, GlobSim, Remarks 1-2.
+- **G13 closed (accepted).** Dartmouth `willardtalk.pdf` is byte-identical to
+  the nachlass 1-page abstract; no fuller Dartmouth slides found. WoLLIC 2006
+  slides are a different talk (IΣ₀).
+- Motivation distillates: `Willard2013` Miniaturized Finitism; `Willard2018`
+  Rank-enriched tableaux preview of Tab/Xtab (author later calls it
+  preliminary — Willard2020#Ref56); `Willard2007-KGS6` fourteen-year A-G map.
+- Do not commit (task constraint).
+
+## 2026-08-29 - Tier C Extraction: Willard2005-TAB (component C11)
+
+- Extracted `Willard2005-TAB` (TABLEAUX 2005 / LNCS 3702; 15 pp. author copy)
+  at full core depth: `extraction/willard2005-tab.md`. Visual control: all 15
+  pages rendered `pdftoppm -r 130 -png` and read as images before formulas
+  entered registries. Coverage row `complete` (Read 1-15, Images 1-15).
+  Saturation re-pass: zero new numbered items.
+- **Systems / results.** Positive: Theorem 3 — `IS-1(A')` with five `Pi*_1`
+  simulated-real totality axioms recognizes Level(1) tableaux consistency;
+  Theorem 6 strengthens to `IS_D(A')` under Tab-1. Negatives: Theorem 4
+  (Hilbert vs `AddComp`) and Theorem 5 (Level(0-) vs `LongMult`). Theorem 7
+  translates Tier(1)^⊕ → Tier(1) (stated-only; LinH deferred). Imported:
+  Theorem 1 (Solovay), Theorem 2 (`IS`/`IS-1` summary).
+- **Relationship to Willard2006b.** Conference precursor of the journal form
+  already extracted the same day (drift **D70**): shared Defs. 1–4 and the
+  truncated-vs-LongMult dial; theorem numbers diverge; journal is shorter.
+- **Drifts / obligations / gaps.** D72 (JSL page-range typo 1189–1999), D73
+  (Definition numbering restart), D74 (Thm 4 `Pi_1^-` vs `Pi_1*` slip), D75
+  (`ISD`/`IS_D`/`IS-1*` naming). D70/D71 amended for the TAB witness.
+  Obligations **O92** (Thm 6 ≠ restatement of Thm 3), **O93** (deferred
+  proofs not discharged by journal form); O90/O91 amended to cite TAB.
+  Gap **G37** opened for the three "longer version" deferrals; G3/G36
+  amended (both published successors now extracted).
+- Registries appended for this paper; left uncommitted for parent agent.
+
+## 2026-08-29 - Tier C Extraction: Willard2006b (component C11)
+
+- Extracted `Willard2006b` (JSL 71 pp. 1189–1199; 11 pp. author copy) at full
+  core depth: `extraction/willard2006b.md`. Visual control: all 11 pages
+  rendered `pdftoppm -r 130 -png` and read as images before formulas entered
+  registries. Coverage row `complete` (Read 1-11, Images 1-11).
+- **Systems / results.** Main positive: Theorem 2 — `IS_D(A')` with five
+  `Pi*_1` simulated-real totality axioms (truncated `+ × - ÷` and `Expand`)
+  is Tab-1 self-justifying. Main negatives: Theorem 5 (Hilbert vs simulated
+  addition) and Theorem 6 (`LongMult` vs tableaux). Theorem 1 is cited from
+  `Willard2005`; Theorem 3 translates Tier(1)^oplus to Tier(1).
+- **Relationship to Willard2005-TAB.** Journal form of the TABLEAUX-2005
+  announcement (footnote 1), but **not a renumbering or strict expansion**
+  (drift **D70**): 11 vs 15 pp., theorem numbers diverge after Def. 4, Expand
+  totality folded into Lemma 2, reference list collapsed to `[??]`.
+- **Drifts / obligations / gaps.** D70 (TAB/journal inventory), D71 (Def. 3
+  value formula destroyed by pdftotext — image governs). Obligations **O90**
+  (truncated-vs-LongMult dial — corpus's only affirmative multiplication
+  totality for an SJAS) and **O91** (Numerical Analysis vs Number Theory
+  framing). G3/G36 amended: journal form now extracted; TR still sought.
+- Registries appended; `audit.sh` run after this entry.
+
 ## 2026-08-27 - Tier B Extraction (component C10)
 
 - Extracted all five Tier B items: `willard2002c.md`, `willard2000-tab.md`,

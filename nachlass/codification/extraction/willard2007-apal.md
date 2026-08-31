@@ -183,5 +183,7 @@ consistent only because (33) bounds `q` and (46) bounds `|q| = Log₂ q`.
 | --- | --- | --- | --- |
 | 1 | 2026-08-27 | Full read of pp. 1–48 including all five appendices; uncapped, case-insensitive item sweep | 16 Definitions, 6 Theorems, 8 Lemmas, 3 Remarks, 2 Corollaries, 3 Facts |
 | 2 | 2026-08-27 | **Visual control pass**, pp. 4, 20, 26, 29 | 0 new items; **`℧` recovered** from the text layer's `0`; Definition 1's eight rules, Eq. (33)'s double exponential and Theorem 4's single exponential all confirmed as printed |
+| 3 | 2026-08-29 | **Full-document visual pass**, all 48 pages rendered `pdftoppm -r 130 -png` and read; registries populated; Fact 2 added (Appendix C companion, previously swept but unrecorded) | 0 new numbered items beyond Fact 2's registry row; coverage Images **1-48**, state `complete`; G32 closed |
 
-Coverage **complete** (pp. 1–48; pp. 44–48 are the reference list).
+Coverage **complete** (pp. 1–48; pp. 44–48 are the reference list). Registries:
+44 results / 3 systems / 11 notation rows under this key.

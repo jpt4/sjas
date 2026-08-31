@@ -176,3 +176,64 @@ collisions with other papers' uses.
 | Willard2016 | ⊕, ⊕⊕, ⊕⊕⊕ | The SelfRef(alpha,d) sentence (Example 3.5); ISCE's Group-3 axiom; IQFS's Group-3 axiom | self-referential axiom | pp. 7, 16, 21 | Three increasingly specific forms of the "I am consistent" axiom in one paper. Willard on the generic form: "relatively easy [to encode] … but this sentence is ironically **typically useless**!" |
 | Willard2016 | Byte-Style encoding | The j-th variable is `1 + ceil(Log_32(j+1))` bytes: one byte for the V-hat symbol, the rest encoding j in **base 32** | coding density | §6.1, p. 22 | Joins the corpus's base-32 / six-bit-byte family (drift D25) |
 | Willard2006-WoLLIC | B-Bounded Arithmetic Set / Term; B-Bounded Valid Pi^R_1; Canonical Arithmetic Condition | S includes +, \* and successor and its other G satisfy G(x_1..x_n) <= Max(x_1..x_n) when Max(x_1..x_n) < B (22); a term using only 0,1,2 with function symbols from such an S; Eq. (23) is B-Bounded Valid iff (24) holds in the standard model; alpha is **Canonical** iff all its axioms are Pi^R_1 **and include Q_0's nine axioms** | — | Definitions 3-5, p. 8 | Image-verified 2026-08-27; these are shared verbatim with `Willard2009` |
+| Willard2005-TAB | NN, IPN, F | Non-negative integers; signed integers plus infinity; the bijection F with F(1)=infinity | simreal-ints | Defs 1-2, p. 7 | Lower-case = NN, upper-case = IPN throughout |
+| Willard2005-TAB | R_i = (M_i, E_i), (m_i, e_i) | Simulated real as mantissa-exponent pair (IPN / NN encodings) | simreal | Definition 3, p. 7 | Three cases: normalized value, zero-with-precision, overflow |
+| Willard2005-TAB | Theta_S, Theta* | Truncated floating-point op for S in {+,* -, /}; Expand relation | simreal-op | Defs 4-5, pp. 7-8 | Output mantissa length = max of inputs; Eq. (10) is m2 = Double(m1) - Count(m1,1) |
+| Willard2005-TAB | Expand(R) | Same value as R with one extra mantissa bit of precision | Expand | Definition 5, p. 8 | Fifth of the five totality sentences in Theorems 3 and 6 |
+| Willard2005-TAB | AddComp, LongMult | Delta^-_0 truncated real-addition; Delta^-_0 untruncated real-multiplication | AddComp / LongMult | Definition 6, pp. 9-10 | **Must stay distinct** (O90): Thm 4's negative uses AddComp; Thm 5's uses LongMult; the positive results use truncated Theta_* only |
+| Willard2005-TAB | C-bar | The IPN constant +1 | quote-numeral | p. 10 | Used in Eq. (13) to specialize AddComp-totality to successor-totality |
+| Willard2005-TAB | Tab-R, Tab-1, Tier(k) | Hybrid tableaux with Gentzen-like cut on intermediate theorems from class R; Tab-1 is R = Tier(1) | TabList / Tab-1 | pp. 11-12 | Same apparatus as Tab_1List / Tab-U*_1-List (drift D33); attributed here to [40] = Willard2004 |
+| Willard2005-TAB | ll_L^J , Tier(1)^oplus, Delta_0^oplus | Bounded-real constraint Length(m) <= Length(n)+L with magnitude vs abs(n,f)^J; the Tier(1) enrichment allowing those quantifiers | Tier(1)^oplus | pp. 12-13 | **Image-verified 2026-08-29**. The glyph is ≪ with superscript J and subscript L. Heading line slips and repeats e for the second pair; body uses f |
+| Willard2005-TAB | IS_D(A) / ISD(A) / IS-1*(A) | The Tab-1 self-justifying system applied to simulated-real bases | SJAS-Add-Level1 / SJAS-SimReal-Tab1 | p. 12 | Three names for one system in one paragraph (drift D75); [41] = Willard2005 |
+| Willard2006b | NN, IPN | Non-negative integers; signed integers plus a reserved infinity symbol | — | Definition 1, p. 2 | Encoding substrate for simulated reals |
+| Willard2006b | F, Even, Half | 1-1 map NN -> IPN; F(1)=infinity; Half(x)=floor(x÷2) | — | Definition 2, p. 2 | Image-verified |
+| Willard2006b | R_i, (M_i,E_i), (m_i,e_i) | Bold simulated real; IPN / NN mantissa-exponent pairs | simulated-real | Definition 3, p. 3 | Value formula image-verified (drift D71); pdftotext destroys the exponentiation |
+| Willard2006b | Theta_S, Theta_E, Theta_G | Truncated op graph; Expand graph; real >= | — | Definitions 4-5, Lemma 1 | Hardware rounding: output mantissa length = max of input lengths |
+| Willard2006b | Expand, LongMult | Extra zero mantissa bit; untruncated product | — | Definitions 5-6, pp. 3-4 | LongMult is formally outside the simulated-arithmetic instruction set |
+| Willard2006b | Tab-R, Tab-k, Tier(k) | Tableaux-list deduction with intermediate class R; Tier(k)=Pi*_k union Sigma*_k | Tab-1 | Definition 7, p. 5 | Same apparatus family as Willard2005 Tab-R-List / Willard2020 Tab-1 (drift D33) |
+| Willard2006b | IS_D(A), IS_D(A') | Self-justifying system of Willard2005; floating-point instance at A' | SJAS-Add-Level1 / SJAS-SimReal-Tab1 | Theorems 1-2, pp. 5-7 | Text layer renders ISD (A); keep IS_D matching Willard2005 |
+| Willard2006b | Delta^oplus_0, Pi^oplus_1, Sigma^oplus_1, Tier(1)^oplus | Classes allowing bounded **real** quantifiers via ≪_L^J | — | p. 7 | Where Remarks 1-2 locate the evasion's robustness |
+| Willard2006b | ≪_L^J, Double^{L'}, Double^{J'} | Bounded-real envelope; L'=L+2, J'=ceil(Log(|J|))+2 iterated Doubles | — | pp. 7-8 | Image-verified; text layer drops superscripts |
+| Willard2006b | Pi^-_1 | Pi*_1 sentences containing no Addition or Double symbols | Pi^-_1 | p. 9 | Hypothesis class for Theorems 5-6; Grounding (not U-Grounding) language |
+| Willard2006b | Type-S, Type-A, Type-M | Successor / addition / multiplication totality taxonomy | Type taxonomy | p. 1 | Same taxonomy as Willard2016 / Willard2005-TAB |
+| Willard2014 | IS_D(A) | Infinite-Group-2 Level-1 system (review of Willard2005) | SJAS-Add-Level1 | §4, PDF p. 5 | Text layer often prints ISD (A) |
+| Willard2014 | IS_D^#(β) | Finite-Group-2 variant; Group-2 = finite β | SJAS-Add-Level1-Finite | Def 1, PDF p. 6 | **Image-verified**: superscript # on IS, subscript D. Willard2016 Rem 7.3 writes ISD(β) — drift D76 |
+| Willard2014 | Test_i(t,x), Kernel-List, Kernel Image | Kernelized Δ₀\* formula; their enumeration; ∀x Test_i(⌜Ψ⌝,x) | kernel-test / kernel-list / kernel-image | Defs 2-3, pp. 6-7 | — |
+| Willard2014 | GlobSim_i | Global Simulation Sentence (10) | GlobSim | Thm 3 proof, p. 8 | Ancestor of Willard2011 Def 6.8 |
+| Willard2014 | Check(t), HilbPrf_A | Δ₀\* coding predicates | Check, HilbPrf | Thm 3 proof | — |
+| Willard2014 | Type-M / A / S / NS | Totality taxonomy | Type taxonomy | §2, p. 3 | Same as Willard2016/2018 |
+| Willard2013 | Miniaturized Finitism | Programme name for curtailed-growth SJAS | — | §11, p. 28 | Motivation-layer term |
+| Willard2018 | Rank-k / Rank-Zero / Rank-Zero-Plus enriched tableaux | LEM enrichments of semantic tableaux | enriched-tableaux | Def 3.11 | Precursor to Tab/Xtab |
+| Willard2018 | Linear Constrained Cut Rule | Def 3.8 property that infinite enrichments share with Hilbert | — | Def 3.8 | — |
+| Willard2007-KGS6 | Diagonal(α,D), α^D | Kleene self-referential consistency sentence and the extended system | SelfRef / alpha^D | p. 3 | Same construct as Willard2014 SelfRef(α,d) |
+| Willard2006-Talk | A(x,y,z), M(x,y,z) | 3-way Add/Mult predicates; totality via (1) | Add-rel, Mult-rel | p. 1 | — |
+| Willard2007-APAL | SemPrf / SemPrf^K / SemPrf_i | Semantic tableaux proof predicate; K-fold iterated-logarithm bound; indexed by T-i | proof predicate | Definitions 2, 10, pp. 6, 20 | SemPrf^K_alpha(x,y,z) = SemPrf_alpha(x,y) and y <= Log(z,K). Image-verified |
+| Willard2007-APAL | D(alpha), D^K(alpha) | Godel diagonalization sentence; Generalized form with SemPrf^K | diagonal sentence | Definition 3, p. 7 | Intermediate steps (not final theorems) affected by the K-generalization |
+| Willard2007-APAL | Passive Induction | Instantiate induction at a *passive* formula ¬Psi to recover Delta_0 Compression without Phi v ¬Phi axioms | cut-recovery device | Lemma 1(ii), p. 13 | Third cut-recovery route beside Xtab/LEM and TabList. Invoked by name in Willard2009 Lemma 7 |
+| Willard2007-APAL | Tableaux Delta_0 Compression | O(L+G) linear-sum bound for composing a Delta_0 proof of length L with a Psi => Gamma proof of length G | Linear-Sum Effect | Definition 5, p. 13 | Third name for the Linear-Sum Effect (drift D30). Part (i) via LEM-as-axiom; Part (ii) via Passive Induction |
+| Willard2007-APAL | Upsilon_n | Delta_0 sentence asserting v_0=2, v_i = v_(i-1)*v_(i-1), hence v_n = 2^(2^n) (28) | tower sentence | Definition 6, p. 16 | **Verbatim** the sentence Willard2009 Remark 1 calls Upsilon_n. Image-verified |
+| Willard2007-APAL | Local(n, Theta) | Theta's universals rebounded to 2^(2^n) via Upsilon_n; Delta_0 | local rebound | Definition 7, p. 16 | v_n "is permitted to appear in a Delta_0 formula!!!" |
+| Willard2007-APAL | N̲ / underbrace | Canonical binary representation of N: O(Log N) term over 0,1,2 | canonical binary | Definition 8, p. 20 | Text layer renders as &#124;{z} on a separate line |
+| Willard2007-APAL | ℧, ℧*, ℧** | Pi_1 sentences with Trivial Manipulation / Exponentiation / Substitution Properties | trivial-property sentences | Definitions 11-13, pp. 20-23 | **pdftotext renders ℧ as the digit 0** (hazard H2). Image-verified 2026-08-27/29 |
+| Willard2007-APAL | Trivial-M | ℧ ∧ ℧* ∧ ℧** | combined trivial sentence | Definition 14, p. 24 | ISigma_0-provable; carries all three properties (Corollary 1) |
+| Willard2007-APAL | Semantic Tableaux Fragment / Major Branch | Subtree whose root is an axiom, one branch (Major) carries Psi_1..Psi_K, all others close | pivotal-branch construct | Definition 16, p. 37 | Willard2009 Lemma 5's "pivotal branch"; Willard2004's Partial Proof / Open Branch (drift D56) |
+| Willard2007-APAL | eight elimination rules | Def 1: (1) ∧-elim (2) ¬-elim a-g (3) ∨-branch (4) ⇒-branch (5) ∃ (6) ∃≤ (7) ∀ (8) ∀≤ | tableaux calculus | Definition 1, p. 4 | **Canonical eight-rule presentation.** Willard2009 Appendix B invokes rules 6, 7, 8 by number. Six-rule papers treat bounded quantifiers as abbreviations (drift D54) |
+| dew-2008-zcf-group | Boolean-4 | Four truth values T/F/B/U for Decipher | draft set-theory | Mar 14/18/21 | Unpublished ZCF apparatus |
+| dew-2008-zcf-group | Paradox-ZFC / Paradox-ZF | Fixed-point inconsistency sentences | draft set-theory | Mar 8–21 | Unpublished |
+| dew-2008-zcf-group | Choose* / Top-Good | Maximal-element selector on SupportSet | draft set-theory | Mar 14/21 | Unpublished |
+| dew-2025-hilbert-draft | SBSIS | Artemov's Step-By-Step Infinite-Schema | Tripod leg 2 | p.3 | Cited from Artemov [3,4] |
+| dew-2025-hilbert-draft | Declarative ⊕ | Fixed-point "I am consistent" axiom | Tripod leg 3 | p.4 | Willard's SJAS-shaped leg |
+| dew-2025-tab-xtab-notes | Echo Statement *** | ∀p {HilbPrf_PA(⌜Φ⌝,p)⇒Φ} inside IS_D(PA*) | echo theory | p.4 | Flirting without Trespassing |
+| Willard1998 | Self-Justifying | (i) proves own consistency; (ii) is consistent | self-justifying | p. 297 | Two-clause definition; later papers reuse under varied names |
+| Willard1998 | TangPred(x) | ∃z x = z − 1 | Tangible | p. 300 | **Differs from Willard2001** ∃v x < v−1 (drift D79) |
+| Willard1998 | TangDiv_k(x), TangRoot_k(x) | ∃z x < z/k ; ∃z x < z^{1/k} | Tangible | p. 300 | Same shape as Willard2001 Def 1.2 |
+| Willard1998 | Eq. (2) | Tangibility Reflection Principle | TangRefl | p. 300 | Same schematic role as Willard2001 Eq. (2) |
+| Willard1998 | ISREF(A) | Introspective Semantics with Reflection | SJAS-NoAddition-Hilbert | pp. 301-303 | Prehistory of Willard2001 ISREF |
+| Willard1998 | ISTR(A), IS^lambda(A) | Bitwise-Or / Addition-total variants | SJAS-BitwiseOr-Hilbert / SJAS-Tableaux-Level1 | p. 306 | Stated only; ISTR proofs on Willard1997 (G2) |
+| Willard1998 | ISREF^R(A), ISREF*(A) | R-bounded OUTPUT / TangPred+Prf* variants | SJAS-ISREF-R / SJAS-ISREF-Star | pp. 308-309 | Unique to this paper in witnessed corpus |
+| Willard1998 | ISTM^lambda(A) | Time-bounded Group-3; reduced Group-Zero | SJAS-ISTM | pp. 314-315 | Cascade-self-verification line; proofs in [35] |
+| Willard1998 | Size(y), Prf*, OUTPUT, PARADOX^R, Υ_c(k) | Proof-size; minimal-proof; UTM output; NP diagonal apparatus | — | §§3,7-9 | NP-linkage predicates |
+| Willard1998 | PAX | PA + grounding symbols + Add/Mult | PAX | p. 306 | Same role as later PAX / PA+ |
+| Willard1998 | CASCONS_α(k) | Concatenation x_1…x_k is not an α-proof of 0=1 | cascade-consistency | p. 315 | Cascade-self-verifying = proves CASCONS for every fixed k |
+| Willard1998 | Delta_0^+, Pi_1^+ | Bounded / universal-over-bounded with Sub/Div (/Turing) | Delta0-T / Pin-T | p. 302 | Plus-superscript = Turing-function language; cf. Willard2001 Delta^+_0 in App. B |
+| Willard1998 | Root(x,y) | ⌈x^{1/y}⌉ (ceiling) | Root | p. 302 | **Ceiling** here; Willard2001 uses floor (drift D80) |

@@ -161,13 +161,14 @@ for p in full sketch cited stated-only unverified n/a; do
 done
 echo "systems rows: $n_systems"
 echo "notation rows: $n_notation"
+trim() { local v="$1"; v="${v#"${v%%[![:space:]]*}"}"; v="${v%"${v##*[![:space:]]}"}"; printf '%s' "$v"; }
 # --- coverage registry: every extracted corpus item must declare what was read ---
 COVSEEN=""
 cov="registry/coverage.md"
 [ -f "$cov" ] || err "coverage: registry/coverage.md is missing"
 cov_rows=0
 while IFS='|' read -r _ item pages read_r swept images state _rest; do
-  item=$(echo "$item" | xargs); state=$(echo "$state" | xargs); read_r=$(echo "$read_r" | xargs)
+  item=$(trim "$item"); state=$(trim "$state"); read_r=$(trim "$read_r")
   case "$item" in ''|Item|---|'**Open'*) continue ;; esac
   cov_rows=$((cov_rows+1))
   case "$state" in
@@ -180,7 +181,7 @@ while IFS='|' read -r _ item pages read_r swept images state _rest; do
   fi
   # the visual control pass is mandatory for all tiers (ADR-0001 "Visual control"),
   # so a row that records reading must also record which pages were rendered
-  images=$(echo "$images" | xargs)
+  images=$(trim "$images")
   if [ "$read_r" != "unrecorded" ] && [ -z "$images" ]; then
     err "coverage[$item]: empty Images column; the visual control pass is mandatory for all tiers"
   fi
@@ -191,7 +192,7 @@ while IFS='|' read -r _ item pages read_r swept images state _rest; do
   # every page of every document, both modalities (ADR-0001 "Visual control",
   # amended 2026-08-27): a `complete` row must image the whole witness
   if [ "$state" = "complete" ]; then
-    pages=$(echo "$pages" | xargs)
+    pages=$(trim "$pages")
     missing=$(echo "$images" | awk -v n="$pages" '
       { gsub(/[^0-9,\-]/, " "); split($0, parts, /[ ,]+/)
         for (i in parts) {

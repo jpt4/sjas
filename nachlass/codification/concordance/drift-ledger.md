@@ -993,9 +993,24 @@ result.
   "passive induction"; Theorem 5 defers "the remaining details" to [50,55].
 - The same shape as `Willard2011`'s deferral of `Tab-U*₁` to `Willard2005`
   (D19): a paper the codification treats as Tier B rests on one it ranks Tier C.
-  **`Willard2007-APAL` must be extracted before Theorem 5 can be presented with
-  its proof**, not merely with its statement.
-- Status: open — actioned as gap **G32**.
+- **Closed 2026-08-29**: `Willard2007-APAL` extracted at full depth (G32 closed).
+  `Willard2009` Theorem 5 remains `sketch` in its own paper; the dependency is
+  no longer an unextracted source. Obligation **O70** discharged.
+- Status: closed (dependency extracted; Theorem 5 status unchanged).
+
+## D51 — `Q₀` names two different axiom sets
+
+| Source | `Q₀` |
+| --- | --- |
+| `Willard2007-APAL` pp. 5–6 | **Eight** `Π₁` sentences (9)–(16); no `Max` axiom |
+| `Willard2009` / `Willard2006-WoLLIC` | **Nine** `Π₁` sentences, including a `Max` axiom |
+
+- Same name, different cardinalities, both used as the base of an `IΣ₀`
+  axiomatization that the paper then varies. Neither paper notes the other's
+  count. A codified statement that writes "`Q₀`" without a source will silently
+  pick the wrong axiom set when moving between the Passive-Induction line and
+  the Ax-3 line.
+- Status: open (C13).
 
 ## D49 — the two-branch derivation, restated 23 years later in new vocabulary
 
@@ -1145,3 +1160,142 @@ Appendix A of `Willard2001` as subsequent explorations.
 - The construct is what makes every short-proof argument in the corpus work:
   it is where the `u_{i+1} = u_i · u_i` ladder is laid down.
 - Status: open (C13) — fix one name.
+
+
+## D57 — `Willard2005-TAB` misprints the JSL page range as 1189–1999
+
+| Source | Reading |
+| --- | --- |
+| `Willard2005-TAB` p. 1 | "Journal of Symbolic Logic 71 (2006) pp. 1189–**1999**" |
+| `Willard2006b` p. 1 (inserted note) and JSL of record | **1189–1199** |
+
+- One-digit slip in the conference form's forward citation. Confirmed on both page images.
+- Status: explained:2026-08-29.
+
+## D70 — `Willard2005-TAB` / `Willard2006b` are not a renumbering
+
+Also see **D57** (JSL page-range typo in the conference form).
+
+| Source | Inventory shape |
+| --- | --- |
+| `Willard2005-TAB` (LNCS 3702, 15 pp.) | Theorem 1 = Solovay; Theorems 3/6 = positive floating-point results (IS-1 / IS_D); Theorem 7 = Tier(1)^oplus translation; Theorems 4–5 = Hilbert / LongMult negatives; Expand-totality is separate Lemma 3; includes a literature survey |
+| `Willard2006b` (JSL 71, 11 pp.) | Theorem 1 = `IS_D(A)` **cited from `Willard2005`**; Theorem 2 = positive floating-point (TAB 3/6 compressed); Theorem 3 = Tier(1)^oplus (TAB 7); Theorem 4 = Solovay (TAB 1); Theorems 5–6 = Hilbert / LongMult (TAB 4–5); Expand folded into Lemma 2; **no reference list** (all citations are `[??]`) |
+
+- Shared: Defs. 1–4 simulated-real semantics, footnote announcing the Tableaux-2005 first publication, the truncated-vs-LongMult dial.
+- The journal form is **shorter**, not a strict expansion — same relational shape as `Willard2006-WoLLIC`/`Willard2009` (D47), opposite of `Willard2000-TAB`/`Willard2002a`.
+- A correspondence table built on "same numbering" would mis-key every theorem after Definition 4.
+- Status: open (C13). **Amended 2026-08-29**: `Willard2005-TAB` now extracted; correspondence table can be composed. Conference form carries the literature survey, separate Expand Lemma 3, and Level(1) positive (Thm 3) that the journal collapses into the Tab-1 result.
+
+## D71 — Def. 3's simulated-real value formula is destroyed by `pdftotext`
+
+| Source | Reading |
+| --- | --- |
+| Page image (`willard2006b` p. 3; likewise `willard2005-tab` p. 7) | `R_i = M_i · 2^{-⌊Log₂(|M_i|)⌋} · 2^{E_i}` when `E_i ≠ ∞` and `0 ≠ M_i ≠ ∞` |
+| `sources-text/willard2006b.txt` / `willard2005-tab.txt` | `Ri = Mi · 2 − b Log2 ( | Mi | ) c · 2 Ei` — exponentiation, unary minus, and floor delimiters collapsed into subtraction and stray letters |
+
+- Silent substitution of the exact kind the C4 pilot warned about (Fraktur `ℑ`→`=`, overbars dropped). Any codified statement of simulated-real semantics must be taken from the page image.
+- Status: explained:2026-08-29 (image governs; text layer recorded as unusable for this formula). **Amended 2026-08-29**: same destruction confirmed on the `Willard2005-TAB` text aid.
+
+## D72 — `Willard2005-TAB` prints the JSL page range as 1189–1999
+
+| Source | Reading |
+| --- | --- |
+| `Willard2005-TAB` p. 1 (image) | "Journal of Symbolic Logic 71 (2006) pp. 1189–**1999**" |
+| `Willard2006b` author-copy header / corpus | JSL 71 (2006) pp. **1189–1199** |
+
+- Digit transposition in the conference witness's own citation of its journal successor. Image-verified 2026-08-29.
+- Status: explained:2026-08-29.
+
+## D73 — Definition numbering restarts inside `Willard2005-TAB`
+
+| Location | Content |
+| --- | --- |
+| p. 6 | Unnumbered pair labeled "1." / "2.": Level(n) and Level(0-) definitions |
+| pp. 7–10 | **Definition 1**–**Definition 6** restart for NN/IPN, F, simulated reals, Θ_S, Expand, AddComp/LongMult |
+
+- A registry keyed only on "Definition 1" would collide the Level(n) pair with NN/IPN. Record both; do not merge.
+- Status: open (C13 presentation).
+
+## D74 — Theorem 4's threshold sentence is `Π₁⁻` in the statement and `Π₁*` in the proof sketch
+
+| Location | Class written for `W` |
+| --- | --- |
+| Theorem 4 statement, p. 10 | `Π₁⁻` |
+| Theorem 4 proof sketch, p. 10 | once writes `Π₁*` |
+
+- Under the paper's own §3 convention, `*` is U-Grounding and `−` is Grounding-only, and Theorem 4's `α` is explicitly Grounding-language (no growth functions). The statement's `Π₁⁻` matches the setup; the proof-sketch `*` is a slip.
+- Status: explained:2026-08-29 (statement governs).
+
+## D75 — Three names for `IS_D` on one page of `Willard2005-TAB`
+
+| Form on p. 12 | Identified with |
+| --- | --- |
+| `ISD(A)` (no subscript) | the forthcoming [41] = `Willard2005` |
+| `IS_D(A)` intent | same |
+| `IS-1*(A)` | "the last page of our Tableaux-2002 paper [39]" |
+
+- Same collision family as drift **D5** (`IS(A)` vs `IS_D(A)`), now with a third conference alias. Codified statements should use `IS_D(A)` and treat `ISD` / `IS-1*` as orthographic variants of the Tab-1 system.
+- Status: open (C13); pairs with D5.
+
+## D76 — `Willard2016` Rem 7.3's "`ISD(β)`" is `Willard2014`'s `IS_D^#(β)`
+
+| Source | Printed name | What it denotes |
+| --- | --- | --- |
+| `Willard2014` Def 1 (image, PDF p. 6) | `IS_D^#(β)` (superscript `#`, subscript `D`) | Finite-Group-2 variant of `IS_D(A)` |
+| `Willard2016` Remark 7.3 | `ISD(β)` | Cites [59] = Willard2014 §§5-6 for the finite reduction |
+| `Willard2014` §4 | `IS_D(A)` | Infinite-schema parent (Willard2005) |
+
+- The finite and infinite systems must stay distinct. Codified statements use `IS_D^#(β)` for the finite form; treat Rem 7.3's `ISD(β)` as a loose reference, not a third system.
+- Status: explained:2026-08-29. Gap G33 closed; obligation O73 discharged.
+
+## D77 — `dew-hajek-correspondence` is a third-party letter to Hájek, not Willard's
+
+| Source | What the image shows |
+| --- | --- |
+| PDF p. 1 | "Dear Professor Hajek," dated Aug 17, 1976 |
+| PDF p. 9 (handwritten p. 16) | Closing "Sincerely yours," signature **"Bill …"** (surname uncertain) |
+| Body | Rosser-variant Φ: ZF+Φ not interpretable in ZF; GB+Φ interpretable in GB |
+
+- Filename and corpus rationale say "Correspondence with Hajek". The packet is
+  a letter **to** Hájek from a correspondent signed Bill, retained in Willard's
+  papers. Do not cite as Willard-authored mathematics.
+- Status: explained:2026-08-29 (C12).
+
+## D78 — C12 frontier packets mix Willard2021 pipeline scraps across keys
+
+| Packet | Willard2021-relevant content |
+| --- | --- |
+| `dew-2025-boundary-draft` | JLC referee report (accept; prefers "fine/delicate/subtle" over "tender") + annotated tender-line MS |
+| `dew-2025-tab-xtab-notes` p.9 | Printed **"Fine Line"** JLC-2021 title page ("will appear in print in 2021") |
+| `dew-2025-hilbert-draft` | Tripod / SBSIS / Declarative ⊕ draft citing through 2021 [47] |
+
+- The three Dec-2025 scans are scrapbooks, not clean monographs. G1 still
+  needs the published JLC text; these are pipeline witnesses only.
+- Status: open (C13 / G1 acquisition).
+
+## D79 — `Willard1998` TangPred differs from `Willard2001`
+
+- **Claim A (`Willard1998` p. 300, image-verified):**
+  `TangPred(x) ≡ ∃z  x = z − 1`.
+- **Claim B (`Willard2001` Definition 1.2, p. 4, image-verified):**
+  `TangPred(x) ≡ ∃v  x < v − 1`.
+- These are not typographically equivalent. 1998 says `x` is in the range of
+  Predecessor (equivalently: a successor of `x` exists as `z`); 2001 says
+  there is a `v` at least two above `x`. Both papers pair TangPred with
+  ISREF-style `x−1` size reflection, so the *intended* apparatus link is the
+  same, but the printed predicates differ.
+- Action: keep both printings; never silently rewrite 1998 into 2001’s form.
+- Status: open (C13 must choose a canonical TangPred or record the delta).
+
+## D80 — `Willard1998` Root uses ceiling; `Willard2001` uses floor
+
+- **Claim A (`Willard1998` p. 302, image-verified):**
+  `Root(x, y) = ⌈x^{1/y}⌉`.
+- **Claim B (`Willard2001` p. 9, image-verified):**
+  `Root(x, y) = ⌊x^{1/y}⌋` (with `Root(x,0)=x`).
+- Also: 1998’s non-growth bound is `≤ Maximum(2, a₁,…,a_j)`; 2001 omits the
+  constant `2`. 1998 lists eight grounding functions including `Bit`; 2001
+  lists seven (Bit recoverable from Count).
+- Action: treat as presentational / early-vs-journal polishing unless a proof
+  is found that depends on ceiling vs floor.
+- Status: open (note at C13; low urgency).

@@ -114,8 +114,8 @@ at composition time.
 | C8 | Spine: Willard2020 | done 2026-08-26 |
 | C9 | Tier A: Willard2002a, Willard2004, Willard2006a, Willard2020-LFCS (+Willard2021 when acquired) | done 2026-08-26; reads completed 2026-08-27, G23 closed |
 | C10 | Tier B: Willard2002c, Willard2000-TAB, Willard2006-WoLLIC, Willard2009, Willard2016 | done 2026-08-27; three partial reads logged as G31 |
-| C11 | Tier C: Willard2005-TAB, Willard2006b, Willard2007-APAL, Willard1998, Willard1997 (when acquired), motivation items | pending |
-| C12 | Tier D: nachlass witness records | pending |
+| C11 | Tier C: Willard2005-TAB, Willard2006b, Willard2007-APAL, Willard1998, Willard1997 (when acquired), motivation items | done 2026-08-29 (Willard1998 extracted; G10 closed chapter-only; **Willard1997 remains blocked/G2**) |
+| C12 | Tier D: nachlass witness records | done 2026-08-29 |
 | C13 | Concordance | pending |
 | C14–C15 | `codified-sjas.md` composition | pending |
 | C16 | Audits, acceptance, AAR | pending |

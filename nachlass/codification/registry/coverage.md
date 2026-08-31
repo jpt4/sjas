@@ -22,19 +22,36 @@ page), `partial` (gaps remain, and a gaps-ledger row says so), or `unrecorded`
 | Willard2005 | 43 | 1-43 | all | 1-43 | complete |
 | Willard1993-TR | 61 | text: 1-61 (OCR); **visual: every page** — printed 1-55 plus front matter and the four unnumbered Figure pages (PDF 1-61) | all | PDF 1-61 | complete |
 | Willard1993 | 12 | 1-12 (printed 325-336) | all | 1-12 (all; the record's pass 1 is a full visual read) | complete |
-| Willard2011 | 64 | 1-64 | all | printed 14, 16, 18, 32, 39 (PDF = printed + 1) | complete |
-| Willard2001 | 67 | 2-67 | all | 9, 10, 19, 22, 28, 39, 40, 51, 54, 60 | complete |
+| Willard2011 | 64 | 1-64 | all | 1-64 (PDF = printed + 1) | complete |
+| Willard2001 | 67 | 1-67 | all | 1-67 | complete |
 | Willard2020 | 28 | 1-28 | all | 1-28 | complete |
 | Willard2002a | 33 | 1-33 | all | 1-33 | complete |
 | Willard2004 | 32 | 1-32 | all | 1-32 | complete |
-| Willard2006a | 45 | 1-45 | all | 6 | complete |
+| Willard2006a | 45 | 1-45 | all | 1-45 | complete |
 | Willard2020-LFCS | 19 | 1-19 | all | 1-19 | complete |
 | Willard2002c | 17 | 1-17 | all | 1-17 | complete |
 | Willard2000-TAB | 16 | 1-16 | all | 1-16 | complete |
 | Willard2009 | 33 | 1-33 (30-33 are references) | all | 1-33 | complete |
 | Willard2006-WoLLIC | 15 | 1-15 (13-15 are references) | all | 1-15 | complete |
 | Willard2016 | 34 | 1-34 (PDF pages; PDF = printed + 1) | all | 1-34 | complete |
-| Willard2007-APAL | 48 | 1-48 (44-48 are references) | all | 4, 20, 26, 29 | partial |
+| Willard2007-APAL | 48 | 1-48 (44-48 are references) | all | 1-48 | complete |
+| Willard2005-TAB | 15 | 1-15 (14-15 are references) | all | 1-15 | complete |
+| Willard2006b | 11 | 1-11 | all | 1-11 | complete |
+| Willard2013 | 34 | 1-34 | all | 1-34 | complete |
+| Willard2014 | 16 | 1-16 | all | 1-16 | complete |
+| Willard2018 | 35 | 1-35 | all | 1-35 | complete |
+| Willard2007-KGS6 | 7 | 1-7 | all | 1-7 | complete |
+| Willard2006-Talk | 1 | 1 | all | 1 | complete |
+| DEW-Resume | 8 | 1-8 | all | 1-8 | complete |
+| dew-2020-incompleteness-notes | 81 | 1-81 | all | 1-81 | complete |
+| dew-2008-zcf-group | 26 | 1-26 | all | 1-26 | complete |
+| dew-2014-notarized | 6 | 1-6 | all | 1-6 | complete |
+| dew-hajek-correspondence | 9 | 1-9 | all | 1-9 | complete |
+| dew-2025-boundary-draft | 28 | 1-28 | all | 1-28 | complete |
+| dew-2025-tab-xtab-notes | 9 | 1-9 | all | 1-9 | complete |
+| dew-2025-hilbert-draft | 8 | 1-8 | all | 1-8 | complete |
+| dew-1991-nsf-report | 3 | 1-3 | all | 1-3 | complete |
+| Willard1998 | 13 | 1-13 (PDF 158-170 / printed 297-320; **Willard chapter only** within the 170pp volume — not all volume pages; G10 closed chapter-only) | all | 1-13 | complete |
 
 **A sweep is not a read.** The `Swept` column records that a mechanical pass
 found an item's *label*; only the `Read` column records that its *content* was
