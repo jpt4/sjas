@@ -1,5 +1,44 @@
 # Nachlass Log
 
+## 2026-08-31 - C14: codified-sjas.md skeleton and core statement
+
+Ten-chapter skeleton laid down; sections 1-5 written in full - the core
+statement of what an SJAS is. Sections 6-9 carry their sources, their
+obligations and their gap markers, ready for C15.
+
+Written:
+
+1. Motivation and the historical arc - framed by Willard's own Q-1/Q-2 split of
+   Hilbert's Second Problem (Q-1 is answered no; the whole corpus answers Q-2),
+   Hilbert's and Godel's statements * and **, the two independent chains of
+   testimony about Godel's late private view (Sacks direct, Nerode via
+   Tennenbaum), and the four places Willard states his own limits.
+2. Preliminaries - generalized arithmetic, self-justification with the
+   axiom-or-theorem disjunction, threshold/anti-threshold with axiom
+   containment, Solovay's April 1994 theorem, and the derivation of the corpus's
+   two branches from it.
+3. Language profiles - the Type-M/A/S/NS classification, why Type-S is empty,
+   the six/seven/eight grounding-function sets, and the eleven formula-class
+   relativisations with the only two relations ever stated in print.
+4. Deductive apparatuses - the five named apparatuses, the apparatus-identity
+   thesis in Willard's own voice (extensionally degenerate, intensionally
+   decisive), the two unrelated senses of "cut", a fixed tableau definition with
+   its two travelling conventions, the three devices that recover the cut, and
+   the five unproved apparatus-generality claims.
+5. The construction - the four axiom groups, the consistency-level axis, the
+   growth restriction as the mechanism of the entire corpus (with the negative
+   proofs shown to consume the same device), axiom-versus-theorem, the Hilbert
+   line as a study of naming conventions, and the three finiteness reductions
+   with the price each charges.
+
+Also recorded: obligations O81-O89 were never issued. Eighty-seven obligations,
+ids unique, none lost; the block is left unallocated rather than renumbered,
+because the ids are cited from results.md, the drift ledger and the extraction
+records.
+
+Next: C15, the full draft - sections 6 (preservation engine), 7 (boundary and
+negative side), 8 (result matrix) and 9 (frontier).
+
 ## 2026-08-31 - C13 Concordance complete
 
 Sanity check of the C11/C12 work first (committed as f2b1789): audit green,

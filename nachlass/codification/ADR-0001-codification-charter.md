@@ -117,7 +117,8 @@ at composition time.
 | C11 | Tier C: Willard2005-TAB, Willard2006b, Willard2007-APAL, Willard1998, Willard1997 (when acquired), motivation items | done 2026-08-29 (Willard1998 extracted; G10 closed chapter-only; **Willard1997 remains blocked/G2**) |
 | C12 | Tier D: nachlass witness records | done 2026-08-29 |
 | C13 | Concordance | done 2026-08-31 (axes, genealogy, result matrix, replication map; topic taxonomy and canonical system names frozen and audit-enforced) |
-| C14–C15 | `codified-sjas.md` composition | pending |
+| C14 | `codified-sjas.md` skeleton + core statement | done 2026-08-31 (sections 1-5 written; 6-9 scaffolded) |
+| C15 | `codified-sjas.md` full draft | pending |
 | C16 | Audits, acceptance, AAR | pending |
 
 The **C4 method gate**: the Willard2005 extraction is fidelity-checked
