@@ -17,6 +17,12 @@ must be labelled), `notation` (glyph or convention to fix), `provenance`
 
 | Id | Kind | Obligation | Source | Status |
 | --- | --- | --- | --- | --- |
+**C15 discharge (2026-08-31).** The full draft of `../codified-sjas.md`
+cites **57** of the 87 obligations at their point of discharge. The remainder
+are either finer-grained than the draft's grain or belong to C16's acceptance
+tests; C16 walks the register row by row and marks each `discharged` or
+`carried`.
+
 **Numbering note (C14, 2026-08-31).** Ids run O1–O80 and O90–O96; **O81–O89
 were never issued**. Eighty-seven obligations, all ids unique, none lost. The
 block is left unallocated rather than renumbered, because the ids are cited

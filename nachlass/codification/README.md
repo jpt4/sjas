@@ -16,7 +16,7 @@ Chronological record: [`../LOG.md`](../LOG.md).
 | Gaps | [`registry/gaps.md`](registry/gaps.md) | live; G1–G37 (many closed/accepted at C11–C12; G1/G2/G3/G36 still open for acquisition) |
 | Concordance | [`concordance/`](concordance/) | **C13 done**: [axes](concordance/axes.md) (five variation axes), [genealogy](concordance/genealogy.md) (canonical names frozen), [result matrix](concordance/result-matrix.md), [replication map](concordance/replication-map.md); [drift ledger](concordance/drift-ledger.md) D1-D80; [composition obligations](concordance/composition-obligations.md) O1-O96 |
 | Discussion records | [`discussion/`](discussion/) | longer conversational notes, linked from the LOG; [engine machinery and Rosser](discussion/2026-08-21-engine-machinery-and-rosser.md), [boundary results and the Pi\*1 conjecture](discussion/2026-08-26-boundary-results-and-the-pi1-conjecture.md) |
-| Codified statement | [`codified-sjas.md`](codified-sjas.md) | **C14 done**: skeleton complete, core statement written (§§1-5 — motivation and the two Hilbert questions, preliminaries and Solovay's theorem, language profiles, apparatuses, the construction). §§6-9 scaffolded with sources, obligations and gap markers for C15 |
+| Codified statement | [`codified-sjas.md`](codified-sjas.md) | **C15 done**: full draft, all ten chapters (~1250 lines). Motivation, preliminaries, language profiles, apparatuses, the construction, the preservation engine, the negative side, the result matrix, the frontier, provenance |
 
 Tooling (portable bash + CLI only): [`audit.sh`](audit.sh) checks registry
 integrity (run it before committing registry changes; green audit is a merge

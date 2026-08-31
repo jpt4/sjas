@@ -118,7 +118,7 @@ at composition time.
 | C12 | Tier D: nachlass witness records | done 2026-08-29 |
 | C13 | Concordance | done 2026-08-31 (axes, genealogy, result matrix, replication map; topic taxonomy and canonical system names frozen and audit-enforced) |
 | C14 | `codified-sjas.md` skeleton + core statement | done 2026-08-31 (sections 1-5 written; 6-9 scaffolded) |
-| C15 | `codified-sjas.md` full draft | pending |
+| C15 | `codified-sjas.md` full draft | done 2026-08-31 (all ten chapters; 57 of 87 obligations cited at point of discharge) |
 | C16 | Audits, acceptance, AAR | pending |
 
 The **C4 method gate**: the Willard2005 extraction is fidelity-checked

@@ -1,5 +1,47 @@
 # Nachlass Log
 
+## 2026-08-31 - C15: codified-sjas.md full draft
+
+All ten chapters written; ~1250 lines. Sections 6-9 composed from the C13
+concordance and the registries, with every cross-reference verified to resolve
+(57 obligations, 12 drift entries, 6 gaps, 5 relative links - no dangling ids).
+
+Section 6, the preservation engine, states Willard2005's machinery in full: the
+three inequivalent "consistency preserving" hypotheses; the envelope rebuilt
+five times from Willard2001's Phi^i_j through Willard2011's Scope_E/sharp;
+Normed(a,b) and theta-Compactification; Theorem 1 as an apparatus-NEUTRAL
+engine, with everything apparatus-specific pushed into a single hypothesis;
+Lemmas 1-2 with the Probe algorithm and its nine subcases; and the window
+1/5 <= theta < 1/3 with theta = 1/4 proved, correcting ADR-0001's inverted
+"theta <= 1/5". Remark 4 closes the circle: the engine is impossible once
+multiplication is admitted, under ANY apparatus.
+
+Section 7, the negative side, gives the Paris-Wilkie question answered in two
+opposite directions by two Willard papers; the three places he names the exact
+lemma that dies when multiplication stops being total; the negative controls;
+the Ax-3 row where one theory under three axiomatizations has opposite
+properties; the Level dial; and an explicit subsection on what the negative side
+does NOT establish - four deferred proofs, four sketch statuses, one unproved
+generality claim.
+
+Section 8 states the boundary once and gives its five coordinatisations, with
+the warning not to merge the R dial with the Z dial. Section 9 shows that
+distinction is exactly what makes the Pi*_1 conjecture statable: it is the claim
+that Willard2004's proved positive transfers from one dial to the other. It also
+records why Conjecture 6.6 is hard - its analog is false when Successor replaces
+theta, and ++ is proved by using that falsity.
+
+Section 10 carries the provenance apparatus and the two extraction hazards,
+including the U+2127-as-digit-zero case that forced the unconditional
+visual-control rule.
+
+Two corrections made from my own page reads while drafting: Lemma 1's induction
+is nine subcases = one axiom case plus one per elimination rule, not nine rules;
+and results.md carried two rows for Willard2005 Remark 1, now merged (513 rows).
+
+Next: C16 - acceptance tests T1-T5, the results/statement cross-map (criterion
+A2), the obligation register walk, and the AAR.
+
 ## 2026-08-31 - C14: codified-sjas.md skeleton and core statement
 
 Ten-chapter skeleton laid down; sections 1-5 written in full - the core
