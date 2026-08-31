@@ -1,5 +1,40 @@
 # Nachlass Log
 
+## 2026-08-31 - C13 Concordance complete
+
+Sanity check of the C11/C12 work first (committed as f2b1789): audit green,
+coverage and corpus keys agree 33 = 33, no duplicate ledger ids, the U+2127
+hazard did not recur, and two load-bearing rows spot-checked verbatim against
+rendered pages (Willard2001 Remark 4.5 footnote 7; Willard2006a Hybrid(H)).
+Three corrections: audit.sh trimmed table fields with xargs, which truncates at
+an apostrophe; Willard2001's coverage Read range was 2-67 against Images 1-67;
+a stray empty page-images/willard1998/ directory.
+
+C13 delivers four concordance files:
+
+- `axes.md` - the five variation axes (language profile, apparatus, consistency
+  level, axiomatization finiteness, admission condition), with every system
+  placed and the reason Type-S is empty.
+- `genealogy.md` - canonical names FROZEN, with the map from every paper's
+  notation. The headline finding is that 62 registry rows collapse to about
+  twenty systems: SJAS-Tableaux-Level1 alone has five notations across five
+  papers spanning 1998-2020, and no paper says so. Also a name-collision table
+  ("cut", Level-k, Q_0, "Consistency Preserving", IS-1*, U+2127).
+- `result-matrix.md` - the (profile x apparatus) grid with consistency level and
+  proof status per cell. Reading it honestly: the affirmative side is mostly
+  full, the negative side is mostly sketch, and the two dials with exactly
+  located thresholds are stated-only on both halves.
+- `replication-map.md` - nine blocks that account for most of the repetition
+  across ~600 pages, each with the source to present it from once.
+
+Registry alignment: 322 results rows retopiced into 24 canonical topic slugs
+derived from the axes; audit.sh now rejects any other (red-green verified).
+Canonical system names frozen in systems.md. Proof-status counts unchanged
+through the migration (137 full / 74 sketch / 40 cited / 58 stated-only /
+205 n/a).
+
+Next per charter: C14-C15, composition of codified-sjas.md.
+
 ## 2026-08-29 - Components C11 and C12 complete (checkpoint)
 
 - **C10** was already done (2026-08-27; G31 closed). No unfinished Tier B work.

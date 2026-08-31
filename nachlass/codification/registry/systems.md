@@ -4,7 +4,10 @@ One row per formal system (or system family) Willard defines, keyed to the
 paper that defines it. `Canonical` assigns the codification-wide name;
 several papers' notations may map to one canonical system, and one paper may
 define several systems. The genealogy narrative and the variation axes live in
-`../concordance/`. Canonical names are **provisional** until C13 freezes them.
+`../concordance/`. Canonical names were **frozen at C13** — see
+[`../concordance/genealogy.md`](../concordance/genealogy.md), which carries the
+map from every paper's own notation and the list of name collisions to keep
+apart.
 
 Columns — **Canonical**: codification-wide system name. **Paper**: corpus key
 (`corpus.md`) of the defining source. **Paper notation**: the system's name in

@@ -109,6 +109,11 @@ while IFS=$'\t' read -r id paper label type page topic proof depends notes; do
   [ -n "${rid_seen[$id]:-}" ] && err "results: duplicate id '$id'"
   rid_seen[$id]=1
   in_corpus_key "$paper" || err "results[$id]: unknown corpus key '$paper'"
+  # topic taxonomy frozen at C13 (see ../concordance/axes.md)
+  case "$topic" in
+    admission-condition|arithmetization|boundary-dial|consistency-level|corpus-architecture|definable-cut|diagonalization|encoding-density|envelope|finite-axiomatization|frontier|growth-device|language-profile|linear-sum|meta-logic|motivation|np-linkage|preservation-negative|preservation-positive|proof-apparatus|provenance|reflection-principle|set-theory|simulated-real) ;;
+    *) err "results[$id]: topic '$topic' is not in the C13 canonical set" ;;
+  esac
   case "$type" in def|thm|lemma|cor|prop|remark|conj|example) ;; *) err "results[$id]: bad type '$type'" ;; esac
   case "$proof" in
     full|sketch|cited|stated-only|unverified|n/a) ;;
