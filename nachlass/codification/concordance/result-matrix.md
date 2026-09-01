@@ -18,10 +18,20 @@ Legend: **+** affirmative (a self-justifying system exists) · **−** negative
 
 | Profile ↓ / Apparatus → | Hilbert-Frege | Semantic tableaux | TabList / Tab-1 | Herbrand | Xtab |
 | --- | --- | --- | --- | --- | --- |
-| **Type-M** (×, +, S total) | **−** Pudlák 1985 / Solovay `∗` | **−** `Willard2002a` Thm 6.4 · *sketch* | — | **−** `Willard2007-APAL` Thm 6 · *full* — **but see §3** | — |
-| **Type-A** (+, S total) | **−** by Solovay `∗` a fortiori | **+** Level(1) · `Willard2005` Thm 3 · *full* | **+** Level(1) · `Willard2005` Thm 5 · *full*; `Willard2004` Thm 3 · *sketch* | **+** Level(0) · `Willard2011` `ξ^R` | **−** `Willard2020` Thm 4.5 · *sketch* |
+| **Type-M** (×, +, S total) | **−** Pudlák 1985 / Solovay `∗` | **−** `Willard2002a` Thm 6.4 · *sketch*; `Willard2007-APAL` Thm 6 · *full* | — | **−** Adamowicz–Zbierski, Salehi — **not a Willard result**; see §3 | — |
+| **Type-A** (+, S total) | **−** by Solovay `∗` a fortiori | **+** Level(1) · `Willard2005` Thm 3 · *full* | **+** Level(1) · `Willard2005` Thm 5 · *full*; `Willard2004` Thm 3 · *sketch* | — | **−** `Willard2020` Thm 4.5 · *sketch* |
+| **Type-Almost-M** *(off-lattice — see below)* | — | **−** `Ax-3` · `Willard2009` Thm 5 · *sketch* | — | **+** Level(0^R) · `Willard2011` `ξ^R`; **+** `Ax-3` · `Willard2009` Thm 4 · *full* | — |
 | **Type-S** (S total only) | **−** Solovay `∗` · *cited, never published* | *not studied* | — | — | — |
 | **Type-NS** (nothing total) | **+** — see §2 for the naming-convention split | — | — | — | — |
+
+**Type-Almost-M is not a point on the totality lattice.** `Willard2011`
+defines it as proving addition- and multiplication-totality **as theorems while
+treating none of the totality sentences as axioms**, with genuine `+` and `·`
+function symbols — so it is the axiom-versus-theorem distinction, not a
+totality-strength one (drift **D29**). `ξ^R` is such a system by Willard's own
+statement (Appendix D), and so is `Ax-3`; both belong in this row rather than
+in Type-A. That both of them verify Herbrand but not tableaux consistency is
+one phenomenon, not two.
 
 **The empty and the absent are informative.** Type-S under Hilbert is the cell
 Solovay's theorem closes, and closing it is what forces the corpus's two
@@ -45,10 +55,11 @@ fast the system's integers grow.
 | **multiplicative** | `C_{i−1}·C_{i−1}` | **−** | `Willard2006a` Thm 4 · *full*; Thm 4\* · *sketch* | |
 | **θ Up-Walking** | three constants only | **+** *conditionally* | `Willard2016` Thm 6.7 · *full* — **conditional on Conjecture 6.6**, which is *stated-only* | |
 
-**Hybrid(H) is the corpus's only exactly located threshold.** Every other
-boundary is bracketed between a positive and a negative result; here the
-transition point is named — `H = 1` works, `H > 1` fails — though only as a
-remark, without proof.
+**Three dials name their transition point** rather than bracketing it:
+Hybrid(H) at `H = 1`, `Herb−k` at `k = 1`, and — most finely —
+`Willard2002c`'s two-index **`R(i,j)`**, where `R(1,1)` works and `R(2,1)`
+fails, of which `Willard2004`'s `ℜ` is a one-index projection (drift **D46**).
+All three are `stated-only` on both halves.
 
 **`Willard2006a` p. 7 says why the ordering is what it is**: the incremental
 convention "grows too slowly" to be Continuously Expanding; the multiplicative
@@ -66,7 +77,7 @@ theorems** (Theorem 1), and yet:
 
 | System | Herbrand | Semantic tableaux |
 | --- | --- | --- |
-| `Ax-1`, `Ax-2` (= `T-1`, `T-2`) | **−** threshold · `Willard2007-APAL` Thm 6 · *full* | **−** threshold · `Willard2007-APAL` Thm 6 · *full* |
+| `Ax-1`, `Ax-2` (= `T-1`, `T-2`) | **−** threshold · **not a Willard result**: `Willard2009` p. 18 credits Adamowicz–Zbierski [1,3] and Salehi [33] | **−** threshold · `Willard2007-APAL` Thm 6 · *full* |
 | **`Ax-3`** | **+ anti-threshold** · `Willard2009` Thm 4 · *full* | **−** threshold · `Willard2009` Thm 5 · *sketch* |
 | `Ax-4` | **+ anti-threshold** · Lem. 6 · *sketch* | **−** threshold · Lem. 5 · *sketch* |
 
@@ -104,7 +115,7 @@ than sketched or asserted — and even that proof defers its `T* ≤ N²` step t
 
 ## 5. The restricted-cut dial
 
-Four parameterisations of "how much cut may I have", none related to the others
+Five parameterisations of "how much cut may I have", none related to the others
 by any paper (drift **D38**).
 
 | Dial | Positive | Negative | Status of both halves |
@@ -118,9 +129,9 @@ by any paper (drift **D38**).
 **The one genuinely open question in the corpus** is the `Π*₁` cell of the `Z`
 dial: `Willard2020` §7 conjectures that the `Δ*₀` evasion continues at `Π*₁`
 "but this fact has not yet been formally proven". Drift **D34** sharpens it —
-on `Willard2004`'s ℜ dial the `Π*₁ ∪ Σ*₁` case is **proved**, so the conjecture
-is exactly the claim that the result **transfers from the ℜ dial to the `Z`
-dial**.
+on `Willard2004`'s ℜ dial the `Π*₁ ∪ Σ*₁` case is affirmative but only *sketch*
+(G35), so the conjecture is exactly the claim that the result **transfers from
+the ℜ dial to the `Z` dial** — and that what transfers is itself unproved.
 
 ---
 

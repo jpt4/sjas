@@ -637,7 +637,15 @@ result.
   a simplification of 2011's five-class scheme; they are indexed differently.
   Establish which of the two indexings the codification adopts, and state where
   Almost-M sits in it.
-- Status: open (C13).
+- **Discharged 2026-08-31 (C15 review).** `codified-sjas.md` §3.1 adopts the
+  **four-class lattice** as Axis 1 and places Type-Almost-M **beside** it as a
+  second, independent coordinate, since it is the axiom-versus-theorem
+  distinction rather than a totality-strength one. Two corrections followed:
+  `Willard2011`'s `ξ^R` had been sitting in the Type-A row of the result matrix
+  and of §8, and is by Willard's own statement (Appendix D) a Type-Almost-M
+  system at Level(0^R); and `Ax-3` belongs in the same row. That both verify
+  Herbrand but not tableaux consistency is one phenomenon.
+- Status: **explained:2026-08-31** — the two indexings remain on record.
 
 ## D30 — the Linear-Sum construction is `Willard2002a` Lemma 6.3, eighteen years early
 
@@ -721,7 +729,8 @@ result.
 - Both report the same shape of answer — a `Π*₁`-level positive and a `Π*₂`
   negative — but they are not the same dial, and 2020 does not say so.
 - **This sharpens the open conjecture.** On 2004's dial the `Π*₁ ∪ Σ*₁` case is
-  **proved** (Theorem 3, at Level(1)); on 2020's dial the `Π*₁` case is
+  affirmative but only **`sketch`** (Theorem 3, at Level(1); gap G35 accepts
+  that status as permanent); on 2020's dial the `Π*₁` case is
   **conjectured**. So `Willard2020`'s conjecture is precisely the claim that
   2004's proved positive result **transfers from the `ℜ` dial to the `Z` dial**.
 - Status: open — appended to gap G22 and obligation O46.
@@ -777,7 +786,7 @@ result.
 
 | Source | Dial | Positive side | Negative side |
 | --- | --- | --- | --- |
-| `Willard2004` | **ℜ** — which intermediate theorems a `Tab-ℜ-List` proof may use | `Π*₁ ∪ Σ*₁`, at Level(1) — **proved** (Theorem 3) | `Π*₂` and `Σ*₂`, at Level(0−) — **sketched** (Theorem 2) |
+| `Willard2004` | **ℜ** — which intermediate theorems a `Tab-ℜ-List` proof may use | `Π*₁ ∪ Σ*₁`, at Level(1) — **sketched** (Theorem 3; G35) | `Π*₂` and `Σ*₂`, at Level(0−) — **sketched** (Theorem 2) |
 | `Willard2006a` | **Hybrid(H)** — the naming convention's growth rate, `C_i = ⌈2^{[Log i]^H}⌉·C_{i−1}` | **H = 1** — Theorem 3's exception "remains valid" | **H > 1** — Theorems 4 and 4\* "can be generalized" |
 | `Willard2020` | **Z** — which LEM instances are logical axioms | `Δ*₀` — stated-only | `Π*₂` and above — stated-only; `Π*₁` **conjectured** |
 | `Willard2009` | **Herb−k** — which intermediate theorems a `Herb−k` proof may use (Definition 7) | **k = 1** — stated-only (Item II) | **k = 2** — stated-only (Item I) |

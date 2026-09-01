@@ -1,5 +1,62 @@
 # Nachlass Log
 
+## 2026-08-31 - C14/C15 review corrections
+
+A subagent review of the codified statement found 22 findings; I verified the
+severe ones independently against page images before acting. All are corrected,
+in the document and in the upstream concordance entries three of them came from.
+
+Severe, all confirmed:
+
+- The sentence explaining why Ax-1/Ax-2/Ax-3 have opposite incompleteness
+  properties was attributed to Willard2009. It is Willard2007-APAL p. 3 - two
+  occurrences there, zero anywhere in Willard2009.
+- Willard2007-APAL Theorem 6 is about semantic tableaux only, but sat in both
+  the Herbrand and tableaux columns of section 7.4 and of the result matrix, at
+  `full`. The Ax-1/Ax-2 Herbrand cell therefore had no Willard source at all;
+  Willard2009 p. 18 credits it to Adamowicz-Zbierski and Salehi.
+- Section 9.1 called Willard2004 Theorem 3 "proved". It is `sketch`, and G35
+  accepts that permanently. The frontier argument rested on the word. D34, D38
+  and O46 carried the same stale claim - they predate the pass that produced
+  G35 - and are corrected too.
+- Section 6.7 quoted Willard2005 Remark 4's "no useful analog ... under any
+  possible deduction method" after the words "and consequently", deleting the
+  clause that attributes it to a separately cited theorem in [68]. The
+  apparatus-independence is inherited from Willard2002a, not read off the
+  compactification machinery, and carries that paper's sketch status.
+- "nearly 100% certain" was not a quotation; the source says "essentially 100 %
+  confident", as our own G21 already recorded.
+- Section 6.1 said "None implies another" and then that 2005's hypothesis is
+  weaker than 2020's, which contradicts it. Corrected with the direction stated.
+
+Two further reported items, both verified and both real:
+
+- D29 required the codification to state where Type-Almost-M sits, and it did
+  not. It is now placed: the four-class lattice is Axis 1 and Almost-M sits
+  beside it as an independent coordinate, being the axiom-versus-theorem
+  distinction rather than a totality-strength one. Willard2011 Appendix D says
+  in terms that xi^R is Almost-M, so it has been moved out of the Type-A row in
+  both section 8 and the result matrix, alongside Ax-3. D29 discharged.
+- Willard2000-TAB Lemma 8 had no results.md row. The defect was larger than
+  reported: the paper has 17 numbered items and the registry held 8. All 11
+  missing items are now recorded from the source - Definitions 1-3, Lemmas 1-4,
+  7-9, Theorem 2 - including Lemma 8, which is the lemma section 5 says the
+  negative proof "collapses entirely" without, and the subject of O76.
+  results.md 513 -> 524.
+
+Also fixed: the Kleene/Rogers/Jeroslow quote was orphaned and is Willard2005's;
+Willard2007-APAL Lemma 1(i) restricts LEM to Delta_0 sentences, which is a point
+on the Z dial and was flattened to "arbitrary"; the NS inconsistency claim was
+over-quantified; the 1993 Main Conjecture's refutation is a codifier's inference
+(O8), not a Willard result, and now says so; Root rounds up in four papers and
+down in two, not one; three counts and two internal cross-references; a
+quotation convention now distinguishes verbatim Willard from editorial
+restatement.
+
+Sections 6.3-6.6 - the engine and every constant in it - were checked against
+page images and found faultless, including the direction of the density
+inequality.
+
 ## 2026-08-31 - C15: codified-sjas.md full draft
 
 All ten chapters written; ~1250 lines. Sections 6-9 composed from the C13
