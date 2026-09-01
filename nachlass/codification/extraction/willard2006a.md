@@ -83,7 +83,7 @@ Classes are `Δ⁻₀`, `Π⁻₁` (as `Willard2001`), not the starred forms.
 | Lemma 1 | 17 | A `Δ⁻₀` encoding result underlying `ISCE(A)` | full |
 | Remark 2 | 19 | On the `Δ⁻₀` assignment to `HilbPrf_{ISCE(A)}(x,y)` | n/a |
 | Theorem 3\* | 22 | Strengthened form of Theorem 3 | full |
-| Definition 1 | 23 | **Concise Encoding** property (with the constraint `q < 2^p`) | n/a |
+| Definition 1 | 23 | **Concise Encoding** property: `HilbPrf_α(x,y)` is `Δ⁻₀` **and** for some constant `R > 0` and finite `F ⊂ α`, (I) any proof `p` of `t` from `α` has **`∃q < 2^{p^R}`** an `F`-proof of Eq. (31), and (II) PA proves `(α,F,R)` satisfies (I). **Image-verified 2026-09-01 (Q21)** — previously recorded as `q < 2^p`, dropping the exponent `R`. Willard: the bound "is somewhat excessive because `q` will typically have a much smaller magnitude" | n/a |
 | Lemma 2 | 23 | For α proving all PA's `Π⁻₁` theorems | full |
 | Remark 3 | 24 | n/a | n/a |
 | Definition 2 | 24 | An encoding of `N` using only the constant symbols and the overbrace notation | n/a |

@@ -1,5 +1,44 @@
 # Nachlass Log
 
+## 2026-09-01 - C16 image queue Q1-Q26 closed; review of the C16 work
+
+Reviewed the C16 component and cleared the residue it had left open.
+
+The mechanical half holds. I red-tested M1 against the real historical failure
+rather than the synthetic one: deleting Willard2000-TAB#Lem8 produces
+"AUDIT-FAIL: M1[Willard2000-TAB]: swept label 'lemma 8' has no results.md row",
+and audit.sh sources audit-m.sh, so it fails the merge gate. The eight waivers
+are all Tier D scans with no text layer; 25 papers are checked for real. R5
+found six new cited-only obligations of exactly the O60 class (O2, O23, O52,
+O53, O59, O93), and A-D's count of 67 drift entries with D52 and D58-D69 never
+issued is accurate.
+
+The objection was the disposition of Q1-Q26 - the mathematics quotations and
+pre-rule glyph rows - as "carried to Refinement". That is wrong twice over:
+Refinement is the stage that departs from Willard's presentation, so fidelity
+verification cannot live there, and 26 image checks is a few hours, not a stage.
+Cleared instead.
+
+Result: 24 confirmed, 2 defects.
+
+- Q21: Willard2006a Definition 1's Concise Encoding constraint is q < 2^(p^R)
+  for a constant R > 0, not q < 2^p. Both results.md and the extraction record
+  had dropped the exponent, which is load-bearing - Willard calls even the
+  correct bound "somewhat excessive".
+- Q25: the record claimed Willard2020-LFCS Appendix A transposes rules 5 and 6
+  relative to Willard2020's Appendix. Both were image-verified and order them
+  identically - rule 5 universal, rule 6 existential. The erratum is false and
+  is withdrawn. The queue's own page anchor was also wrong: pp. 18-19 are the
+  reference list, Appendix A is p. 15.
+
+Two smaller notes. Q8's second half ("substantially more than 1,000 bits") is
+not on Willard2002a p. 12 and remains unanchored. And Q12 turned up an
+apparatus-generality claim earlier than any recorded: Willard2001 Remark 5.6
+extends Theorem 5.1 to Herbrand deduction, Resolution and the cut-free sequent
+calculus - 2001, before the 2002 claim O80 records as the earliest.
+
+A-R is now met with no carried R1/R7 residue.
+
 ## 2026-09-01 - C16 AAR (Audits, acceptance, After Action)
 
 Component C16 complete per [`codification/C16-verification-goal.md`](codification/C16-verification-goal.md).

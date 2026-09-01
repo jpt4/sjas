@@ -119,7 +119,7 @@ at composition time.
 | C13 | Concordance | done 2026-08-31 (axes, genealogy, result matrix, replication map; topic taxonomy and canonical system names frozen and audit-enforced) |
 | C14 | `codified-sjas.md` skeleton + core statement | done 2026-08-31 (sections 1-5 written; 6-9 scaffolded) |
 | C15 | `codified-sjas.md` full draft | done 2026-08-31 (all ten chapters; **53** of 87 obligations cited at point of discharge — C16 corrected the earlier "57" count) |
-| C16 | Audits, acceptance, AAR | **done 2026-09-01** — [`C16-verification-goal.md`](C16-verification-goal.md); M1–M8 in [`audit.sh`](audit.sh)/[`audit-m.sh`](audit-m.sh) red-green tested ([`audit-tests.sh`](audit-tests.sh)); review record [`concordance/C16-review-record.md`](concordance/C16-review-record.md); AAR in [`../LOG.md`](../LOG.md) |
+| C16 | Audits, acceptance, AAR | **done 2026-09-01** — [`C16-verification-goal.md`](C16-verification-goal.md); M1–M8 in [`audit.sh`](audit.sh)/[`audit-m.sh`](audit-m.sh) red-green tested ([`audit-tests.sh`](audit-tests.sh)); review record [`concordance/C16-review-record.md`](concordance/C16-review-record.md); AAR in [`../LOG.md`](../LOG.md) **Image queue Q1–Q26 closed 2026-09-01** (24 confirmed, 2 defects corrected); R1/R7 no longer carry a residue |
 
 The **C4 method gate**: the Willard2005 extraction is fidelity-checked
 against the two known-good partial re-derivations (the affine-tree design

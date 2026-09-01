@@ -115,9 +115,15 @@ the added acknowledgment).
 
 1. "mapping are" (Theorem 1) and "fails to be consistency-preserving mappings"
    (Theorem 2) — corrected in the arXiv version.
-2. Appendix A's rules **5 and 6 are transposed** relative to `Willard2020`'s
-   Appendix: here rule 5 is `∀`-elimination and rule 6 `∃`-elimination; there
-   rule 5 is `∃` and rule 6 `∀`. Content identical.
+2. ~~Appendix A's rules 5 and 6 are transposed relative to `Willard2020`'s
+   Appendix.~~ **Withdrawn 2026-09-01 (Q25): the claim is false.** Both
+   appendices order the rules identically — rule 5 is `∀v Υ(v) ⟹ Υ(t)` and
+   rule 6 is `∃v Υ(v) ⟹ Υ(p)` in the LFCS chapter (p. 15 / printed 282) *and*
+   in `Willard2020` (PDF p. 24 / printed 23). Both were image-verified. The
+   only difference is wording: the chapter says "In our year-2005 article [49],
+   we thus applied Rules 5 and 6 to derive the following further hybrid rules",
+   where `Willard2020` says "Therefore, Rules 5 and 6 imply the following
+   hybrid rules". The hybrid rules **a** and **b** are identical in both.
 
 ## 6. Saturation record
 

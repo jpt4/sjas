@@ -245,8 +245,60 @@ before A-T is signed off. That file was out of scope for the correction pass.
 1. ~~Write back R5 dispositions into `composition-obligations.md` Status column.~~ **Done 2026-09-01.**
 2. R6 `remains-open` findings that need further document fixes beyond D42 —
    **carried to Refinement** with the list in [`C16-R6-dispositions.md`](C16-R6-dispositions.md).
-3. Image-verification queue Q1–Q26 (R1 math + R7 pre-rule glyphs) —
-   **carried to Refinement** (explicit; not compressed).
+3. ~~Image-verification queue Q1–Q26 (R1 math + R7 pre-rule glyphs).~~
+   **Closed 2026-09-01** — all 26 read as images; 24 confirmed, 2 defects
+   corrected. See §11. The "carried to Refinement" disposition was withdrawn:
+   fidelity verification cannot be done in a stage whose purpose is to depart
+   from Willard's presentation.
 4. ~~Stage 5 extraction quote/attribution pass.~~ **Done** in three batches (§7).
 5. ~~T1–T5 / A-T.~~ **Done** (§8.2). Residual: amend goal §6's "ADR-0001's Willard column" naming (cosmetic).
 6. ~~File AAR in `../LOG.md`.~~ See LOG entry dated 2026-09-01.
+
+---
+
+## 11. Image queue Q1–Q26 — closed 2026-09-01
+
+The R1 rule ("any quotation containing mathematics must be checked against a
+rendered page image") and R7 (pre-rule glyph rows) were the two checks C16
+originally dispositioned **carried to Refinement**. That disposition was wrong
+on two counts: Refinement is the stage that *departs* from Willard's
+presentation, so fidelity verification cannot live there; and 26 image checks is
+a few hours, not a stage. The queue has been cleared instead.
+
+**Method.** Every Q item rendered at `pdftoppm -r 130 -png` and read as an image.
+Result: **24 confirmed as recorded, 2 defects found.**
+
+| Q | Anchor | Result |
+| --- | --- | --- |
+| Q1 | `Willard2011` printed 39, fn. 23 | **Confirmed, and it settles F9**: the witness genuinely reads "must be **least** as large as `32^J`" — "at" is omitted in the original. `2J` logical symbols, `5J` bits confirmed |
+| Q2 | `Willard2005` p. 36, Remark 8(3) | Confirmed; the `2^m_k` tower is as recorded |
+| Q3 | `Willard2005` p. 10 | Confirmed verbatim — "Our results would be substantially less significant if Equation (6) had a weaker `Π*₂` encoding" |
+| Q4 | `Willard2005` p. 7 | Confirmed verbatim, including the `Tab−Q*_k`, `Tab−U*_k`, `Tab−Σ*_k`, `Tab−Π*_k` family |
+| Q5 | `Willard2005` p. 37 | Confirmed — `N_D(A,Ψ)` "is always consistent when `Ψ` and all `A`'s `Π*₁` theorems are valid in the standard model" |
+| Q6 | `Willard2020` p. 18 | Confirmed — Defs. 7.1/7.2, Lines (9) and (10) |
+| Q7 | `Willard2020` p. 19 | Confirmed — `Δ*₀` survives, fails "at and above the `Π*₂` level", `Π*₁` conjectured "but this fact has not yet been formally proven" |
+| Q8 | `Willard2002a` p. 12 | Confirmed for `Log(z, 2^{1,000})` in Lemma 4.2. **Partial:** the phrase "substantially more than 1,000 bits" is *not* on p. 12; its anchor is unverified |
+| Q9 | `Willard2016` p. 16 | Confirmed (image-read 2026-08-28): `C*_j = 2^{2^{j−2}}`, which the text layer flattens |
+| Q10 | `Willard2001` p. 11 | Confirmed — Eq. (9)'s `y^λ < z/x`, and `0.01 < λ < 1` |
+| Q11 | `Willard2001` p. 21 | Confirmed (image-read 2026-08-31): `u₀ = 2`, `u_{i+1} = u_i²`, `VALUE(u_n) = 2^{2^n}` |
+| Q12 | `Willard2001` p. 34 | Confirmed — Eq. (55) and the side condition `k > 1/(1−λ)`. **New:** Remark 5.4 records `λ = 3/4`; Remark 5.5 that `λ = .01` is achievable; **Remark 5.6 extends Theorem 5.1 to Herbrand, Resolution and the cut-free sequent calculus** — an apparatus-generality claim from **2001**, earlier than the 2002 one O80 records |
+| Q13 | `Willard2001` p. 36 | Confirmed — Eq. (61) and footnote 14 |
+| Q14 | `Willard2001` p. 38 | Confirmed — Eq. (63)'s bounded `∀h ≤ x`; `PAX` defined on the same page |
+| Q15 | `Willard2001` pp. 63–64 | Confirmed by counting the printed Table I: **30** items |
+| Q16 | `Willard2001` p. 56 | Confirmed — Theorem C.1 reads "twenty-five itemized conditions" |
+| Q17 | `Willard2004` p. 9 | Confirmed verbatim; the Fraktur `ℜ` renders correctly on the page |
+| Q18 | `Willard2004` p. 27 | Confirmed — `ℑ(H) = Σ χ(p_i)`, witness bound `2^{ℑ(H)}` (32), universal bound `G·2^{−ℑ(H)}` (33) |
+| Q19 | `Willard2004` pp. 13–14 | Confirmed — `G_i(x) = 2^{2^i}·x`, `Υ_i` **`Π*₂`**, `Θ_m` (8), **`℧_n`** (9). The `℧` glyph renders correctly, confirming the 2026-08-28 correction of the `0_n` misreading |
+| Q20 | `Willard2006a` p. 30 | Confirmed (image-read 2026-08-31): `C_i = ⌈2^{[Log i]^H}⌉·C_{i−1}`, `H = 1` / `H > 1` |
+| **Q21** | `Willard2006a` p. 23 | **DEFECT.** The Concise Encoding constraint is **`q < 2^{p^R}`** for a constant `R > 0`, not `q < 2^p`. Both `results.md` and the extraction record dropped the exponent. **Corrected** |
+| Q22 | `Willard2006a` p. 14 | Confirmed — `Bit(x,i) = Count(x,i) − Count(x,i−1)` (15), `σ_d(x)` (16) |
+| Q23 | `Willard2002c` pp. 13–14 | Confirmed (image-read 2026-08-28): Lemmas 2 and 3's `L`/`M`/`T` settings and the `½` |
+| Q24 | `Willard2020-LFCS` p. 17 | Confirmed — the Linear-Sum Effect passage and lines (11)/(12); footnote 7's "Locally 1-Closure" |
+| **Q25** | `Willard2020-LFCS` Appendix A | **DEFECT — the claimed erratum is false.** The record asserted rules 5 and 6 are transposed relative to `Willard2020`. Both were image-verified and order them **identically**: rule 5 is `∀v Υ(v) ⟹ Υ(t)`, rule 6 is `∃v Υ(v) ⟹ Υ(p)`. **Withdrawn.** The queue's own page anchor was also wrong — pp. 18–19 are the reference list; Appendix A is p. 15 |
+| Q26 | `Willard2006-WoLLIC` p. 5 | Confirmed (image-read 2026-08-27): Eq. (15)'s `ψ*` and `Size_L` |
+
+**A-R is now met without a carried R1/R7 residue.** Two defects found in 26
+checks — a rate consistent with the goal's stated expectation that verification
+finds defects rather than confirming cleanliness, and both of exactly the class
+the queue existed to catch: one dropped exponent, one asserted erratum that the
+witness contradicts.
