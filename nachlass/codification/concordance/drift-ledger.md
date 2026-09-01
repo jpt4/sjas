@@ -1308,3 +1308,20 @@ Also see **D57** (JSL page-range typo in the conference form).
 - Action: treat as presentational / early-vs-journal polishing unless a proof
   is found that depends on ceiling vs floor.
 - Status: open (note at C13; low urgency).
+
+## D81 — `SemPrf^K`'s bound is strict in 2000 and non-strict in 2007
+
+| Source | Definition |
+| --- | --- |
+| `Willard2000-TAB` Definition 1 (p. 3) | `SemPrf^K_α(x,y,z)` holds iff `SemPrf_α(x,y)` is valid **and `y < Log(z,K)`** |
+| `Willard2007-APAL` Definition 2 (p. 6) | … **and `y ≤ Log(z,K)`** |
+
+- Found 2026-09-01 during the Refinement's R1 pass, while stating the predicate
+  once for both papers. Neither paper notes the change, and no argument in
+  either appears to turn on it — the predicate is used only to bound a proof
+  below an iterated logarithm, and both bounds do that.
+- It is recorded because the Refinement is licensed to reformulate, and a
+  reformulation that quietly picked one form would be exactly the silent
+  unification the drift ledger exists to prevent. A codified `SemPrf^K` must
+  choose, and say which paper it followed.
+- Status: open (Refinement R3).

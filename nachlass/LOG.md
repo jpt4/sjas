@@ -1,5 +1,59 @@
 # Nachlass Log
 
+## 2026-09-01 - Refinement R1: the essential idea
+
+Opened the Refinement stage at `nachlass/refinement/` (ADR-0002) and completed
+R1, its stated deliverable: the essential idea of SJAS identified and
+explicated, in `refined-sjas.md`.
+
+The claim, in one sentence: a formal system can consistently assert its own
+consistency exactly when naming an integer is not cheaper than proving
+something about it.
+
+The argument has four moves.
+
+1. The diagonal is not the obstacle. Lawvere's Fixed Point Theorem gives the
+   fixed point unconditionally; Willard's systems contain it as an axiom and are
+   consistent. What G2 needs beyond the fixed point is the derivability
+   conditions - the system must verify its own proof-checking - and that is a
+   statement about cost, not about self-reference. This also explains the
+   apparatus-identity thesis: the apparatuses agree on what is provable and
+   differ on what proving costs, and G2 is a theorem about cost.
+2. The cost is naming. Certifying a length-L proof requires naming a number
+   below omega_1^K(p). A system that can do that closes the diagonalisation; one
+   that cannot, stalls.
+3. The criterion: naming must be non-compressive - no proof of length L may
+   denote an integer whose binary encoding exceeds O(L). Checked against all
+   five naming conventions in the corpus, and matching Willard2011 Definition
+   4.5's Tight condition, Log(q_beta) >= sharp(beta) + 2, which is the same
+   inequality written as arithmetic.
+4. The five boundary dials of D38 are one dial - how much compression is
+   permitted - measured five ways. That the five agree is the best evidence the
+   criterion is the right invariant.
+
+The Rosser hook is discharged, and the finding is that the trick is already
+there, undeclared: SemPrf^K bounds the diagonal by magnitude where Rosser bounds
+it by comparison, and every consistency-preservation proof in the corpus is a
+least-number-principle argument on Godel number. The Lawvere hook is downgraded
+to a framing - it separates existence of a fixed point from derivability of its
+consequences, which is clarifying, but gives no categorical proof of any result.
+
+The computational analogue is concrete: Brown-Palsberg's F_omega
+self-interpreter keeps the diagonal and denies the composite by typing, which is
+the same move Willard makes by growth restriction. Both are "keep the
+self-reference; make the use of it unaffordable".
+
+Found while writing: drift D81 - SemPrf^K's bound is strict (y < Log(z,K)) in
+Willard2000-TAB Definition 1 and non-strict (y <= Log(z,K)) in Willard2007-APAL
+Definition 2. Nothing turns on it, but a refinement licensed to reformulate must
+not unify it silently.
+
+The stage is NOT complete. B4 (compare Beklemishev) is blocked on gap G7 - the
+survey that is the stage's named inspiration is not held, so whether this
+identification agrees with his simplification is undeterminable. B5 (make the
+criterion a definition and prove the five dials are instances) is open, and is
+where the Refinement would become mathematics rather than exposition.
+
 ## 2026-09-01 - C16 image queue Q1-Q26 closed; review of the C16 work
 
 Reviewed the C16 component and cleared the residue it had left open.
