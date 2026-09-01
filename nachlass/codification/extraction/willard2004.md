@@ -20,8 +20,10 @@
 **Type-A** case — systems recognising Addition but *not* Multiplication as
 total, which is exactly where `Willard2001`/`Willard2005`'s positive results
 live. It is therefore the negative result that bounds the corpus's own
-affirmative systems, and it is the source `Willard2020` §7 cites for "the
-evasions fail at and above the Π\*₂ level".
+affirmative systems, and it is the source `Willard2020` §7 cites — as its
+ref. [49], which resolves to this paper — when it says the comparable evasions
+of the semantic tableau version of the Second Incompleteness Effect "will fail
+at and above the Π∗2 level".
 
 ## 3. The Level hierarchy — the corpus's canonical definition
 

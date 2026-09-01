@@ -57,7 +57,7 @@ Hilbert's Second Problem asked for a consistency proof of arithmetic by
 finitary means. Gödel's Theorem XI of 1931, generalised in the second edition
 of Hilbert–Bernays (1939), is normally read as closing it.
 
-`Willard2016` Remark 4.9 observes that the question was never one question, and
+`Willard2016` Remark 4.9 (p. 13) observes that the question was never one question, and
 splits it:
 
 > **Q-1** Are any axiom systems able to prove theorems verifying their own
@@ -131,7 +131,7 @@ both acknowledging that G2 "will admit no full-scale exceptions".
 
 Four statements, from four papers, that any honest presentation must carry.
 
-**On what self-justification buys** (`Willard2011` Remark 6.16b) — a system
+**On what self-justification buys** (`Willard2011` Remark 6.16b, p. 28) — a system
 proving its consistency from its own SelfCons axiom has "essentially a
 **1-line proof**", which is instinctive faith rather than proof-justification.
 Obligation **O24**.
@@ -329,12 +329,24 @@ The set varies, and the variation is not cosmetic:
 The U-Grounding set is the tableaux line's language: addition is total there,
 so it may be a function symbol. The six-function set is the Hilbert line's.
 
-Two variations are recorded rather than resolved: the Non-Growth condition
-itself differs (`Willard2006a` writes `≤ Maximum(2, a₁,…,a_j)`; drift **D35**),
-and `Root(x,y)` rounds **up** in `Willard1998`, `Willard2002c`, `Willard2004`
-and `Willard2005` but **down** in `Willard2001` and `Willard2016` (drifts
-**D53**, **D80**). The corpus is split, not one outlier against a consensus,
-and a codified grounding language must choose.
+Three variations are recorded rather than resolved. The **set size** itself
+divides the corpus — six functions against seven, the seventh being
+predecessor — and that divergence is drift **D23**, which also records that
+neither count is load-bearing: `Willard2001` p. 10 permits Group-1 to be
+expanded by "any larger set `F` of additional non-growth functions that is
+axiomatized by any finite set of `Π⁻₁` axioms", with all theorems preserved,
+so the only real constraint is non-growth plus finite `Π⁻₁` axiomatisability.
+The **Non-Growth condition** itself differs (`Willard2006a` writes
+`≤ Maximum(2, a₁,…,a_j)`; drift **D35**). And **`Root(x,y)`** rounds **up** in
+`Willard1998`, `Willard2002c`, `Willard2004` and `Willard2005` but **down** in
+`Willard2001` and `Willard2016` (drifts **D53**, **D80**). The corpus is split,
+not one outlier against a consensus, and a codified grounding language must
+choose.
+
+The **eight**-function U-Grounding set is not a fourth divergence and carries
+no drift id: it is the six- or seven-function set plus the two symbols that
+Type-A totality licenses, and it moves with the language profile of §3.1
+rather than against the other sources.
 
 ### 3.3 Formula classes
 
@@ -360,7 +372,7 @@ other pair is unrelated in the literature. Obligation **O12**.
 
 Two further cautions. `Willard1993-TR` writes `Δ₀/Π₁/Σ₁` for what 2005 writes
 starred — the classes are the same, the notation is not. And it is the **growth
-class**, not the signature, that is load-bearing: `Willard1993-TR` Remark 6
+class**, not the signature, that is load-bearing: `Willard1993-TR` Remark 6 (p. 34)
 says so directly (obligation **O13**).
 
 ---
@@ -401,7 +413,7 @@ requirements of Gödel's Completeness Theorem".
 
 So the apparatus axis is **not** a strength axis. It is a **proof-length**
 axis. That is precisely why it can carry an incompleteness boundary:
-`Willard2002a` Theorem 2.2 notes that cut elimination guarantees the combined
+`Willard2002a` Theorem 2.2 (p. 7) notes that cut elimination guarantees the combined
 proof **exists** while its length "can certainly be **super-exponentially
 longer**". The apparatus axis is extensionally degenerate and intensionally
 decisive, and the codified statement must say both. Obligations **O38**,
@@ -431,9 +443,24 @@ Eq. (4):
   systems, strictly weaker than Peano Arithmetic, contain some definable cut
   that is not provably equivalent to the full set of integers."
 
-Willard's own systems are **not** cut-localized (`Willard2002c` Remark 6): their
+The three clauses just given are `Willard2006a` Eq. (4)'s form, and they are
+**one of four inequivalent definitions** the corpus uses: `Willard2001` p. 5
+replaces `φ(0)` with a schema over all fixed numerals, `Willard2002a` Eq. (1)
+omits downward closure, and `Willard2020-LFCS` Definition 4 replaces
+successor-closure with closure under a fast-growing `ω_j`. That is drift
+**D32**, and it is the drift entry a reader enumerating divergence for "cut"
+wants.
+
+**The name collision itself carries no drift id, and should not.** A drift
+entry records a divergence *between papers*; here the papers agree. Willard
+disambiguates the two senses twice, in the same direction both times, and no
+paper uses either word in the other's sense. What makes the collision
+dangerous is the reader's inheritance from the wider proof-theory literature,
+not any inconsistency in the corpus — so it is recorded as a standing hazard
+here and as obligations **O52** and **O78**, not as drift.
+
+Willard's own systems are **not** cut-localized (`Willard2002c` Remark 6, p. 6): their
 consistency statements are global, not relativised to a definable cut.
-Obligations **O52**, **O78**.
 
 ### 4.4 The tableau apparatus, and which definition to fix
 
@@ -461,7 +488,7 @@ but destroys length — and no paper presents them together.
 | Device | Source | Mechanism |
 | --- | --- | --- |
 | **LEM as axioms** (`Xtab`) | `Willard2020` App. | admit `℧ ∨ ¬℧` for **arbitrary** `℧`; branch; hang the two subproofs |
-| **LEM at `Δ₀` only** | `Willard2007-APAL` Lem. 1(i) | the same construction, but `Φ ∨ ¬Φ` is required only for every **`Δ₀`** sentence `Φ` — a weaker hypothesis, and a point on the `Z` dial (§8.1) |
+| **LEM at `Δ₀` only** | `Willard2007-APAL` Lem. 1(i) (p. 13) | the same construction, but `Φ ∨ ¬Φ` is required only for every **`Δ₀`** sentence `Φ` — a weaker hypothesis, and a point on the `Z` dial (§8.1) |
 | **Restricted-cut hierarchies** | `Willard2005` §2; `Willard2004` §6; `Willard2009` Def. 7 | `Tab-ℜ-List`, `Tab₁List`, `Tab-1`, `Herb−k`, `R(i,j)`: a sequence of proofs whose **intermediate theorems** are confined to a class |
 | **Passive Induction** | `Willard2007-APAL` §3 | instantiate the induction axiom at a formula with **no free variables**; four branches result, two of which close immediately |
 
@@ -480,7 +507,7 @@ schema the system already has**, with no added axiom, and it is what
 
 `Willard2002a` p. 5 (2002) — Herbrand, **resolution**, cut-free sequent
 calculus, subject to replacing `V` by an apparatus-specific `V_d`.
-`Willard2005` Remark 1 — cut-free sequent, Herbrand, `Tab-Q*₁-List`, and a
+`Willard2005` Remark 1 (p. 20) — cut-free sequent, Herbrand, `Tab-Q*₁-List`, and a
 `Q*₁`-restricted **Hilbert** variant. `Willard2004` §7. `Willard2006a` p. 30.
 `Willard2020` §8 — `Res`/`Xres`.
 
@@ -506,6 +533,15 @@ Given a base theory `A` (or `β`) and an apparatus `D`, the constructed system
 integers. This is where the language profile of §3 lives, and on the Hilbert
 line it is the *only* thing that varies between systems (§5.5).
 
+On the **tableaux** line the question of a naming scheme does not arise, and
+that asymmetry should be stated rather than left as a silence: `Willard2005`'s
+Group-0 is four axioms giving the constants `c̄₀`, `c̄₁` and the two growth
+functions addition and `Double(x) = x+x`, and every `n ≥ 2` is then named by an
+ordinary term using `O(Log n)` function-symbol occurrences. A naming
+*convention* is needed only where addition is not available as a function
+symbol — that is, only on the Hilbert line, which is exactly why §5.5 is a
+Hilbert-line table.
+
 **Group-1 — the finite base.** A **finite** set of `Π₁`-class axioms which,
 with Group-0, proves every **true** `Δ₀`-class sentence and gives `=` and `≤`
 their transitivity, reflexivity, symmetry and total-ordering properties. Any
@@ -513,16 +549,26 @@ finite set with these properties will serve; the particular choice is
 immaterial.
 
 **Group-2 — the reflection schema.** For each `Π₁`-class sentence `Φ` of the
-base theory, the axiom
+base theory's language, the axiom
 
 > `∀y { Prf_A(⌜Φ⌝, y) ⇒ Φ }`
 
-This group is **infinite** by construction — one axiom per theorem of `A` — and
-it is what Axis 4 (§5.6) attacks.
+The index set is **the `Π₁`-class sentences, not the `Π₁`-class theorems of
+`A`** (`Willard2005` Eq. 5). The distinction is worth stating because the two
+readings are easy to run together and only one of them is decidable: for a `Φ`
+that `A` does not prove, the axiom is vacuously true rather than absent, so the
+schema is well defined without deciding theoremhood. This group is **infinite**
+by construction — there are infinitely many such `Φ` — and it is what Axis 4
+(§5.6) attacks.
 
 **Group-3 — the self-referential axiom.** A single sentence asserting, of the
-union of Groups 0–2 **with itself**, that no `D`-proof of `0=1` exists. Built
-by the Kleene fixed point over a substitution predicate.
+union of Groups 0–2 **with itself**, that `D` derives no contradiction from
+them. **What counts as a contradiction is a free parameter** — the consistency
+*level* of §5.2 — and it must be fixed before a system is identified:
+`Willard1993-TR` and `Willard2001` take it to be a `D`-proof of `0=1`
+(Level(0−)), while `Willard2005`'s `IS_D(A)` takes it to be `D`-proofs of both
+a `Π*₁` sentence and its negation (Level(1), Eq. 6). Built by the Kleene fixed
+point over a substitution predicate.
 
 The essential technical requirement is that Group-3 admit a **`Π₁`-class**
 encoding. `Willard2005` stresses that a `Π*₁` — not `Π*₂` — encoding is what
@@ -532,12 +578,12 @@ makes the preservation argument work.
 
 Group-3 can say more or less, and how much it says is an independent axis.
 
-| Level | The axiom asserts | Introduced |
-| --- | --- | --- |
-| **primitive / Level(0−)** | there is no `D`-proof of `0=1` from me | `Willard1993-TR`, `Willard2001` |
-| **Level(1)** | for no `Π*₁` sentence `Ψ` do proofs of both `Ψ` and `¬Ψ` exist | `Willard2002c` |
-| **Level(n)** | as Level(1), over `Π*ₙ` | `Willard2004` |
-| **Level(n+)** | as Level(n), over `Q*ₙ` | `Willard2004` |
+| Level | The axiom asserts | Introduced | Systems at this level |
+| --- | --- | --- | --- |
+| **primitive / Level(0−)** | there is no `D`-proof of `0=1` from me | `Willard1993-TR`; `Willard2001` Thm 3.4 (p. 13, `full`), Thm 4.3 (p. 20, `full`) | the whole Hilbert line: `ISREF(A)`, `IS(A)`, `ISCE(A)` (`Willard2006a` Thm 3, p. 6 — "the non-existence of a **Hilbert-style** proof of `0=1` from itself"), `IQFS(β)` (`Willard2016` Thm 6.7, p. 24, whose minimal-proof argument is over proofs of `0=1`); and `Willard2011`'s `ξ^R` at the `Δ^R₀`-relativised **Level(0^R)** (App. D, pp. 47–48) |
+| **Level(1)** | for no `Π*₁` sentence `Ψ` do proofs of both `Ψ` and `¬Ψ` exist | `Willard2002c` Thm 2 (p. 11, `full`) | `IS-1(A)`; `Willard2005`'s `IS_D(A)` (Eq. 6) and hence every system of §6 |
+| **Level(n)** | as Level(1), over `Π*ₙ` | `Willard2004` §1 (p. 3) | none constructed — the dial's negative half (§7.5) |
+| **Level(n+)** | as Level(n), over `Q*ₙ` | `Willard2004` §1 (p. 3) | none constructed — Thm 1 (p. 6, `full`) closes Level(2+) |
 
 `Willard2004` §§1–2 state the crucial qualification:
 
@@ -613,7 +659,7 @@ most `(k,m,D,A)`.
 > statement about multiplication's totality property was merely changed from
 > being a **theorem** into becoming an **axiom**.
 
-And `Willard2016` Remark 7.4 uses the same lever in the benign direction:
+And `Willard2016` Remark 7.4 (p. 26) uses the same lever in the benign direction:
 `IQFS^R` adds sentences already provable from Groups 0–1 **as axioms**, purely
 to shorten proofs, with no effect on consistency.
 
@@ -624,13 +670,13 @@ Drift **D29**; obligations **O18**, **O74**.
 On the Hilbert line the four groups barely change between papers. What changes
 is Group-0's naming convention — that is, the growth rate of §5.3.
 
-| Convention | `C_i` | System | Verdict |
-| --- | --- | --- | --- |
-| incremental | `C_{i−1} + 1` | `ISREF(A)` (`Willard2001` Thm 3.4) | **works**, not Continuously Expanding |
-| **additive** | `C_{i−1} + C_{i−1}` | `ISCE(A)` (`Willard2006a` Thm 3) | **works**, Continuously Expanding |
-| Hybrid(H) | `⌈2^{[Log i]^H}⌉·C_{i−1}` | `Willard2006a` p. 30 | `H=1` works, `H>1` fails |
-| multiplicative | `C_{i−1}·C_{i−1}` | `Willard2006a` Thm 4 | **fails** |
-| θ Up-Walking | three constants only | `IQFS` (`Willard2016`) | works, *conditionally* |
+| Convention | `C_i` | System | Source | Verdict |
+| --- | --- | --- | --- | --- |
+| incremental | `C_{i−1} + 1` | `ISREF(A)` | `Willard2001` Thm 3.4 (p. 13, `full`) | **works**, not Continuously Expanding |
+| **additive** | `C_{i−1} + C_{i−1}` | `ISCE(A)` | `Willard2006a` Thm 3 (p. 6, `full`) | **works**, Continuously Expanding |
+| Hybrid(H) | `⌈2^{[Log i]^H}⌉·C_{i−1}` | — | `Willard2006a` p. 30 (`stated-only`) | `H=1` works, `H>1` fails |
+| multiplicative | `C_{i−1}·C_{i−1}` | — | `Willard2006a` Thm 4 (p. 7, `full`) | **fails** |
+| θ Up-Walking | three constants only | `IQFS` | `Willard2016` Thm 6.7 (p. 24, `full`, **conditional** on Conj. 6.6, p. 24, `stated-only`) | works, *conditionally* |
 
 `ISCE` **is** `ISREF` with the convention upgraded — `Willard2006a` says so:
 `Willard2001`'s Theorem 3.4 "is the degenerate incremental-naming version".
@@ -651,21 +697,23 @@ Group-2 is infinite by construction. Three results reduce it, and each charges
 a price the codified statement must state.
 
 **`Willard2011` Appendix G** — **three added sentences** suffice to prove every
-*Braced* theorem purely and to assert self-consistency (Thm G.2, `sketch`); and for any
-constant `c`, all `Π^ξ₁` theorems with at most `c` quantifiers are provable
-purely (Thm G.3, `sketch`). *The price:* `c` is fixed in advance. This is the answer to
+*Braced* theorem purely and to assert self-consistency (Thm G.2, p. 56,
+`full`); and for any constant `c`, all `Π^ξ₁` theorems with at most `c`
+quantifiers are provable purely (Thm G.3, p. 57, `sketch` — printed as a "Proof
+Sketch"). *The price:* `c` is fixed in advance. This is the answer to
 the finite-axiomatization question put to Willard in this repository's own
 correspondence (obligation **O23**).
 
 **`Willard2014` §§5–6** — `IS_D^#(β)`, a finite-Group-2 variant. For
 standard-model-valid `A` and a kernel index `i`, a finite `β_{A,i}` exists such
 that `IS_D^#(β_{A,i})` proves the `i`-th **kernel image** of every `Π*₁`
-theorem of `A` (Thm 3, `sketch`). *The price:* the finite system proves not the theorems
+theorem of `A` (Thm 3, p. 7, `sketch`). *The price:* the finite system proves not the theorems
 of `A` but their kernel images `∀x Test_i(⌜Ψ⌝,x)`, and Example 2 notes that PA
-equates the two while a weak system may not.
+equates the two while a weak system may not. `Willard2014` is a corpus item
+ruled `motivation`, and this is the only place it is used here.
 
-**`Willard2016` Remark 7.3** — the same reduction "will routinely generalize"
-to `ISCE`, `IQFS` and `IQFS*`. *Status:* `cited`, not proved.
+**`Willard2016` Remark 7.3** (p. 26) — the same reduction "will routinely
+generalize" to `ISCE`, `IQFS` and `IQFS*`. *Status:* `cited`, not proved.
 
 ---
 
@@ -868,7 +916,7 @@ principal finding and the reason the pilot existed.
 
 ### 6.7 Why the boundary sits where it does
 
-`Willard2005` Remark 4 is the strongest apparatus-independent statement in the
+`Willard2005` Remark 4 (p. 21) is the strongest apparatus-independent statement in the
 corpus. Definition 5's parts (A) and (B)
 
 > "are **impossible to satisfy** when Part-2 of the definition of a
@@ -906,15 +954,15 @@ paper's proof status.
 
 ### 6.8 The other apparatuses
 
-`Willard2005` Theorem 4 (`full`) shows `Tab-U*₁-List` is `θ`-Compactified at
-`θ = 1/4`, by induction over the proof list reducing to Theorem 2; Theorem 5
-(`full`) is the corresponding preservation result and the paper's main positive
-theorem.
+`Willard2005` Theorem 4 (p. 28, `full`) shows `Tab-U*₁-List` is
+`θ`-Compactified at `θ = 1/4`, by induction over the proof list reducing to
+Theorem 2; Theorem 5 (p. 29, `full`) is the corresponding preservation result
+and the paper's main positive theorem.
 
-Remark 1 asserts that Theorem 1's machinery also covers the **cut-free sequent
-calculus**, **Herbrand deduction**, **`Tab-Q*₁-List`**, and a `Q*₁`-restricted
-variant of **Hilbert** deduction — "although we will not have the page space to
-do so". That is four apparatus claims, all `stated-only`, and the last of them
+Remark 1 (p. 20, `stated-only`) asserts that Theorem 1's machinery also covers
+the **cut-free sequent calculus**, **Herbrand deduction**, **`Tab-Q*₁-List`**,
+and a `Q*₁`-restricted variant of **Hilbert** deduction — "although we will not
+have the page space to do so". That is four apparatus claims, all `stated-only`, and the last of them
 is the only place in the corpus where a Hilbert-style method is claimed for the
 tableaux-line engine. Obligations **O4**, **O67**, **O80**.
 
@@ -923,12 +971,18 @@ tableaux-line engine. Obligations **O4**, **O67**, **O80**.
 The Hilbert line does not use `θ`-Compactification. Its preservation results
 are proved directly, by minimal counterexample:
 
-| System | Theorem | Status | Mechanism |
-| --- | --- | --- | --- |
-| `ISREF(A)` | `Willard2001` Thm 3.4 | `full` | minimal-`i` triple `(Ψ, p, i)` |
-| `IS(A)` | `Willard2001` Thm 4.3 | `full` | `A` regularly consistent ⟹ `IS(A)` consistent |
-| `ISCE(A)` | `Willard2006a` Thm 3 | `full` | as Thm 3.4, with additive naming |
-| `IQFS(β)` | `Willard2016` Thm 6.7 | `full`, **conditional** | on Conjecture 6.6 |
+| System | Theorem | Status | Hypothesis on the base theory | Mechanism |
+| --- | --- | --- | --- | --- |
+| `ISREF(A)` | `Willard2001` Thm 3.4 (p. 13) | `full` | `A` **regularly consistent** (below) — the paper defines that condition and "consistency preserving" together, on p. 12 | minimal-`i` triple `(Ψ, p, i)` |
+| `IS(A)` | `Willard2001` Thm 4.3 (p. 20) | `full` | `A` **regularly consistent**: `Prf_A(x,y)` has a `Δ⁻₀` encoding **and** the Group-2 axioms are valid in the standard model for every `Π⁻₁` sentence (`Willard2001` p. 12) | `A` regularly consistent ⟹ `IS(A)` consistent |
+| `ISCE(A)` | `Willard2006a` Thm 3 (p. 6) | `full` | `A` consistent, `Π⁻₁` theorems standard-model-valid, `HilbPrf_A` `Δ⁻₀`-encodable | as Thm 3.4, with additive naming |
+| `IQFS(β)` | `Willard2016` Thm 6.7 (p. 24) | `full`, **conditional** | `β` consistent with `IQFS`'s Groups 0–1 (`Willard2016` Def. 5.2, §6.1's second row) | on Conjecture 6.6 (p. 24, `stated-only`) |
+
+Note that `Willard2001`'s admission condition is a **fourth** reading of the
+antecedent beside §6.1's three: unlike `Willard2005`'s and `Willard2011`'s,
+which are purely semantic, it conjoins an **encoding** requirement to the
+semantic one, and despite its name it is a soundness rather than a consistency
+condition. Drift **D24** holds the three names side by side.
 
 `Willard2016`'s conditionality must be carried **wherever the result is used**,
 not only where it is introduced (obligation **O66**). Theorem 6.7 is a full
@@ -1005,12 +1059,12 @@ that builds `u₀ = 2`, `u_{i+1} = u_i·u_i` in `O(n)` nodes.
 
 So the growth device of §5.3 is not merely how the affirmative systems are
 built: **it is what the negative proofs consume.** The two halves of the corpus
-are two readings of one observation, and `Willard2005` Remark 4 (§6.7) closes
+are two readings of one observation, and `Willard2005` Remark 4 (p. 21, §6.7) closes
 the circle by showing the affirmative engine is impossible on the other side of
 the same line. Obligation **O76**.
 
 Earlier statements of the same point are in `Willard1993` pp. 328–331 and
-`Willard2001` Remark 4.5, the latter localising the failure precisely:
+`Willard2001` Remark 4.5 (p. 21), the latter localising the failure precisely:
 `ISMULT(A)` satisfies an analogue of the `++` invariant but has **no analogue
 of Lemma 4.2**, because "multiplication allows a sequence of parameters
 `u₀, u₁, …, u_n` to grow at a *very much, much faster rate*".
@@ -1037,25 +1091,39 @@ strengthenings; the "generalizes to all cut-free methods" clause is
 `IS_Xtab(β)` is **automatically inconsistent** whenever `β` proves the usual
 `Π*₁` associativity, commutativity, distributivity and identity properties. So
 admitting excluded middle as a *logical axiom* — which is exactly what recovers
-the cut (§4.5) — destroys the construction. The identification of LEM-as-axioms
-with cuts is already in `Willard1993-TR`; obligation **O55**.
+the cut (§4.5) — destroys the construction. The *apparatus* (tableaux nodes
+carrying `φ ∨ ¬φ`) is already named in `Willard1993-TR` printed p. 33 as a
+"**tableaux proof with cuts**"; the TR's p. 36 parenthetical about ZF "*can be
+viewed as*" performing Gentzen-style cuts under that definition is a hedge
+about one system, not a general identification of LEM-as-axioms with cuts
+(drift **D42**). Obligation **O55**.
 
 ### 7.4 The axiomatization line: one theory, opposite properties
 
 `Willard2009` holds the theory fixed and varies **only the axiomatization**.
-`Ax-1`, `Ax-2` and `Ax-3` prove **the same theorems** (Theorem 1, `sketch` —
-and the premise of everything that follows), and yet:
+`Ax-1`, `Ax-2` and `Ax-3` prove **the same theorems** (Theorem 1, p. 6,
+`sketch` — and the premise of everything that follows), and yet:
 
 | System | Herbrand | Semantic tableaux |
 | --- | --- | --- |
-| `Ax-1`, `Ax-2` | **threshold** — **not a Willard result**: `Willard2009` p. 18 credits Adamowicz–Zbierski [1,3] and Salehi [33] | **threshold** — `Willard2007-APAL` Thm 6, `full` |
-| **`Ax-3`** | **anti-threshold** — `Willard2009` Thm 4, `full` | **threshold** — Thm 5, `sketch` |
-| `Ax-4` | anti-threshold — Lem. 6, `sketch` | threshold — Lem. 5, `sketch` |
+| `Ax-1`, `Ax-2` (= `T-1`, `T-2`) | **threshold** — **not a Willard result**: `Willard2009` p. 18 credits Adamowicz–Zbierski [1,3] and Salehi [33]. No status is recorded here, because this document's statuses are read off Willard's own witnesses | **threshold** — `Willard2007-APAL` Thm 6 (p. 29), `full` |
+| **`Ax-3`** | **anti-threshold** — `Willard2009` Thm 4 (p. 14), `full` | **threshold** — `Willard2009` Thm 5 (p. 29), `sketch` |
+| `Ax-4` | anti-threshold — `Willard2009` Lem. 6 (p. 26), `sketch` | threshold — `Willard2009` Lem. 5 (p. 24), `sketch` |
 
 `Willard2007-APAL` Theorem 6 concerns **semantic tableaux only** — "unable to
 prove a theorem asserting its own *semantic tableaux* consistency" — and belongs
 in that column alone. The corpus supplies no Willard proof for the
 `Ax-1`/`Ax-2` Herbrand cell.
+
+**Where these four systems sit in §8's matrix.** All four axiomatize the same
+theory, `IΣ₀`, so they share its theorems — but they differ on the coordinate
+§3.1 measures, which is *how* totality is held. `Ax-1` and `Ax-2` are the
+textbook and Wilkie–Paris axiomatizations, with multiplication total in the
+ordinary way, and they are therefore the systems occupying §8's **Type-M** row
+under both Herbrand and tableaux. `Ax-3` and `Ax-4` prove the totality
+sentences without taking any of them as axioms, which is precisely §3.1's
+**Type-Almost-M**, and they occupy that row. This is why one table here
+corresponds to two rows there.
 
 The explanation is that the three systems **cannot prove that they are
 equivalent**. `Willard2007-APAL` p. 3 states it: "these three systems will be
@@ -1083,11 +1151,12 @@ Fix Type-A and tableaux; vary what Group-3 quantifies over (§5.2).
 > language — hence with Addition total — can recognize its own **Level(2+)**
 > tableaux consistency.
 
-With `Willard2002c`'s Level(1) positive result, this brackets the boundary in
-what `Willard2004` §1 calls a "**very narrow** gap". Remark 1 trades the
-finite-cardinality hypothesis for the Conventional Deciphering Property
-(`stated-only`). Theorem 2 gives the companion `Π*₂`/`Σ*₂` negative at
-Level(0−) under `Tab-ℜ-List` (`sketch`).
+With `Willard2002c`'s Level(1) positive result — **Theorem 2 (p. 11, `full`)**:
+`IS-1(·)` is consistency preserving, the corpus's first Level(1) system — this
+brackets the boundary in what `Willard2004` §1 calls a "**very narrow** gap".
+Remark 1 trades the finite-cardinality hypothesis for the Conventional
+Deciphering Property (`stated-only`). Theorem 2 (p. 8, `sketch`) gives the
+companion `Π*₂`/`Σ*₂` negative at Level(0−) under `Tab-ℜ-List`.
 
 This is the only dial in the corpus whose negative half is *proved*. Even so,
 its proof defers the `T* ≤ N²` step to "a longer version of this paper", in a
@@ -1121,16 +1190,42 @@ the corresponding affirmative claim in `Willard2020` §8, and equally unproved.
 
 ## 8. The result matrix
 
-The full source-anchored grid is
-[`concordance/result-matrix.md`](concordance/result-matrix.md). Its shape:
+[`concordance/result-matrix.md`](concordance/result-matrix.md) carries the same
+grid with its per-cell derivations. The shape is:
 
 | Profile ↓ / Apparatus → | Hilbert | Tableaux | TabList | Herbrand | Xtab |
 | --- | --- | --- | --- | --- | --- |
-| **Type-M** | **−** Pudlák/Solovay | **−** `sketch` | — | **−** `full` (**but §7.4**) | — |
+| **Type-M** | **−** Pudlák/Solovay | **−** `sketch` / `full` | — | **−** *not a Willard result* (§7.4) | — |
 | **Type-A** | **−** by Solovay `∗` | **+** Level(1) `full` | **+** Level(1) `full` | — | **−** `sketch` |
 | **Type-S** | **−** Solovay `∗`, *cited, unpublished* | not studied | — | — | — |
 | **Type-NS** | **+** — by naming convention, §5.5 | — | — | — | — |
 | **Type-Almost-M** *(off-lattice, §3.1)* | — | **−** `Ax-3`, `sketch` | — | **+** Level(0^R) `Willard2011` `ξ^R`; **+** `Ax-3` `full` | — |
+
+### 8.0 The eleven populated cells, with their third coordinate and source
+
+The grid above has two axes; the corpus has three (§5.2's consistency **level**
+is the axis a two-dimensional picture cannot show). The table below restores
+it, and gives each cell the paper, numbered item and page that bears its proof
+status, so that a cell can be read off rather than chased. Every populated cell
+of the grid appears here exactly once; a cell not listed is empty, for the
+reasons in §8.2.
+
+| Profile | Apparatus | Consistency notion | Sign | Status | Source |
+| --- | --- | --- | --- | --- | --- |
+| Type-M | Hilbert | Level(0−), Hilbert | **−** | `cited`, never published | Pudlák 1985 as generalised by Solovay `∗`; the corpus's most formal presentation is `Willard2006a` pp. 4–5, Theorem 2 (§2.4) |
+| Type-M | Tableaux | Level(0−) | **−** | `sketch`, and `full` for the two `IΣ₀` axiomatizations | `Willard2002a` Thm 6.4 (p. 25, `sketch`) — the Paris–Wilkie question; `Willard2007-APAL` Thm 6 (p. 29, `full`) for `T-1`/`T-2` = `Ax-1`/`Ax-2` (§7.1, §7.4) |
+| Type-M | Herbrand | Herbrand consistency | **−** | **no status recorded** — see right | **Not a Willard result.** `Willard2009` p. 18 credits Adamowicz–Zbierski [1,3] and Salehi [33]; the corpus supplies no Willard proof (§7.4), and this document assigns statuses only to Willard's own witnesses. The systems concerned are `Ax-1`/`Ax-2` |
+| Type-A | Hilbert | Level(0−) and above | **−** | `cited` | Solovay `∗` (§2.4) a fortiori: Type-A proves successor totality, which is that theorem's hypothesis (A) |
+| Type-A | Tableaux | **Level(1)** | **+** | `full` | `Willard2002c` Thm 2 (p. 11, `full`) for `IS-1(A)`; `Willard2005` Thm 3 (p. 27, `full`) for `IS_D(A)`, from Thm 1 (p. 19) and Thm 2 (p. 26) |
+| Type-A | TabList | **Level(1)** | **+** | `full`; the `ℜ = Π*₁ ∪ Σ*₁` strengthening only `sketch` | `Willard2005` Thm 5 (p. 29, `full`) for `Tab-U*₁-List`, via Thm 4 (p. 28, `full`); `Willard2004` Thm 3 (p. 8, `sketch`) for `Tab₁List` (gap **G35**) |
+| Type-A | Xtab | Level(1) | **−** | `sketch` | `Willard2020` Thm 4.5 (p. 13, `sketch`) — §7.3 |
+| Type-S | Hilbert | Level(0−), Hilbert | **−** | `cited`, unpublished | Solovay `∗` (§2.4). The class is empty (§3.1), and this cell is why |
+| Type-NS | Hilbert | Level(0−) | **+** | `full`; `IQFS` conditional | `Willard2001` Thm 3.4 (p. 13, `full`) and Thm 4.3 (p. 20, `full`); `Willard2006a` Thm 3 (p. 6, `full`); `Willard2016` Thm 6.7 (p. 24, `full`, conditional on Conj. 6.6) — §5.5, §6.9 |
+| Type-Almost-M | Tableaux | Level(0^R) — the `Δ^R₀`-relativised primitive level (§3.3) | **−** | `sketch` | `Willard2009` Thm 5 (p. 29, `sketch`) for `Ax-3`; Lem. 5 (p. 24, `sketch`) for `Ax-4` |
+| Type-Almost-M | Herbrand | Level(0^R) | **+** | `full` for `Ax-3`; `sketch` for `Ax-4` | `Willard2009` Thm 4 (p. 14, `full`) for `Ax-3`; Lem. 6 (p. 26, `sketch`) for `Ax-4`; `Willard2011`'s `ξ^R`, App. D pp. 47–48 |
+
+The last two rows are one system read under two apparatuses, and that is the
+content of §7.4: the sign flips while the profile and the notion stay fixed.
 
 ### 8.1 State the boundary once, then coordinatise it
 
@@ -1285,10 +1380,23 @@ unabridged `Willard2000-TAB` (**G30**) and `Willard2004`'s longer version
 
 ### 10.1 Conventions
 
-Provenance is inline: every claim above names its paper, its numbered item and
-its page. Proof statuses are `registry/results.md`'s and are restated at the
-point of *use*, not only at introduction — §6.9 and §8.2 exist for that reason.
-Divergences between papers are cited to the drift ledger and left standing.
+Provenance is inline, and the standard is exact in this form: **every numbered
+item cited above — theorem, lemma, definition, remark or conjecture — names its
+paper, its numbered item and its page where it is introduced.** That holds in
+the block quotes of §§6–7, in the tables of §5.2, §5.5, §5.6, §6.9 and §7.4,
+and in §8.0's cell table. Two qualifications, both deliberate. A result
+restated at the point of *use* (§7.6's status roll-up, §6.7's back-reference)
+carries the status and the item but not a second copy of the page; the page is
+at the introduction. And where a claim is cited to a section or a bare page
+without a numbered item — `Willard2002a` p. 5, `Willard2004` §7, `Willard2020`
+§8 — it is because Willard states it there without numbering it, and every such
+claim is `stated-only` and marked as such (§4.6).
+
+Proof statuses are `registry/results.md`'s and are restated at the
+point of *use*, not only at introduction — §6.9, §8.0 and §8.2 exist for that
+reason. Divergences between papers are cited to the drift ledger and left
+standing; §10.2 states how many such divergences there are, so that a citation
+here can be checked against a known total.
 
 ### 10.2 The machine-checked layer
 
@@ -1296,10 +1404,56 @@ Divergences between papers are cited to the drift ledger and left standing.
 | --- | --- |
 | [`registry/corpus.md`](registry/corpus.md) | 45 items ruled by the throughline test; 33 extracted |
 | [`registry/systems.md`](registry/systems.md) | 62 rows → ~20 systems, names frozen at C13 |
-| [`registry/results.md`](registry/results.md) | 524 numbered items, 24 canonical topics |
+| [`registry/results.md`](registry/results.md) | 528 numbered items, 24 canonical topics |
 | [`registry/notation.md`](registry/notation.md) | 224 symbol rows |
 | [`registry/coverage.md`](registry/coverage.md) | what was actually read, as page ranges — 33 rows, all `complete` |
 | [`registry/gaps.md`](registry/gaps.md) | 37 gaps, each actioned or accepted |
+
+And the two concordance registers this document cites by id:
+
+| Register | Contents |
+| --- | --- |
+| [`concordance/drift-ledger.md`](concordance/drift-ledger.md) | **68 entries under 67 ids.** Ids run **D1–D51, D53–D57, D70–D80**; **D52 and D58–D69 were never issued**, so id continuity may not be assumed. The 68th entry is `D1-supplement`, a later corroboration filed against D1 |
+| [`concordance/composition-obligations.md`](concordance/composition-obligations.md) | 87 obligations; ids O1–O80 and O90–O96, with O81–O89 never issued (§10.4) |
+
+### 10.2.1 Drift by concept: the index
+
+The ledger's own order is chronological, by the extraction pass that found each
+entry, so it cannot be read by subject. This index supplies the subject order,
+and it is **exhaustive**: every one of the 67 ids appears below exactly once,
+under the concept it primarily concerns. A reader asked to enumerate all known
+drift for a concept should read the row, then read those entries in the ledger.
+
+| Concept | Drift entries |
+| --- | --- |
+| **Bibliographic and witness identity** — which artifact is which, and what the page actually shows | D1 (+ `D1-supplement`), D2, D20, D22, D27, D37, D57, D70, D71, D72, D73, D77, D78 |
+| **The Solovay communication** and its formulations | D4, D19 |
+| **System identity and naming** | D5, D8, D18, D21, D33, D51, D75, **D76** |
+| **Language: grounding functions and signature** | D10, D11, **D23**, **D35**, **D53**, **D80** |
+| **Formula classes** | D9, **D50**, D74 |
+| **Deductive apparatus, tableaux rules, and "cut"** | D7, D17, **D30**, **D32**, **D42**, D48, **D54** |
+| **Totality, growth, and axiom-versus-theorem** | D12, D15, D16, **D29** |
+| **The envelope and its constants** | **D3**, **D6**, D25, D26, D41, D45, **D56** |
+| **Consistency notion, reflection, and admission conditions** | **D24**, D31, **D55**, D79 |
+| **Boundary dials, the two branches, and the frontier** | **D34**, **D38**, **D39**, D43, D44, **D46**, **D47**, **D49** |
+| **Corpus architecture and the downstream lines** (§10.5) | D13, D14, D28, D36, D40 |
+
+Ids in **bold** are the twenty-two this document cites at their point of use;
+the rest are recorded in the ledger and not needed by the statement above. Four
+entries bear on a second concept and should be read from both rows: **D29**
+(also Type-Almost-M, §3.1), **D32** (also "cut", §4.3), **D42** (also the `Z`
+dial, §7.3), and **D46** (also system naming, §8.1).
+
+Worked example, for the concept T5 of the acceptance suite probes. *Semantic
+tableaux*: the row above gives D7, D17, D30, D32, D42, D48, D54, and this
+document cites four of them at the point of use — **D54** (six rules or eight,
+§4.4), **D30** (the Linear-Sum Effect's three names, §4.5), **D42**
+(LEM-as-axioms is not Gentzen's cut, §7.3) and **D32** (four definitions of
+Definable Cut, §4.3). The remaining three — D7 (when the apparatus became a
+definitional parameter), D17 (cut-free object systems reasoned about with cut),
+D48 (`Willard2009` Appendix B is not self-contained) — are in the ledger and
+are not cited above. That is the complete enumeration, and it is checkable
+against the total.
 
 `audit.sh` enforces referential integrity, the type/proof/topic enumerations,
 and — since 2026-08-27 — that every `complete` coverage row images the witness
@@ -1336,3 +1490,84 @@ are the checklist this document was composed against. Ids run O1–O80 and
 O90–O96; O81–O89 were never issued. Obligations discharged in this draft are
 cited inline at the point of discharge; those still outstanding are marked in
 the register.
+
+### 10.5 Who reads this document next, and the two re-derivation targets
+
+This statement was not written to stand alone as an end in itself. Its charter
+(`ADR-0001-codification-charter.md`) names three consumers, and a reader
+checking this document against their work needs to know they exist.
+
+- **The Refinement stage**, which may freely depart from Willard's
+  presentation to articulate the objective concept, and which inherits this
+  statement, the result matrix, and the drift ledger.
+- **The computational-analogue programme** — the NC-SJAS plan, the
+  **affine-tree ADR line**, and the Proflog SJAS profile — which mechanises
+  rather than restates.
+- **The C4 method gate**, which fidelity-checked the `Willard2005` extraction
+  against two prior, independently produced partial re-derivations of the same
+  material. Those two are the targets below.
+
+**Target 1 — the affine-tree transfer dictionary's Willard column.** The
+affine-tree design document (`docs/design/affine-tree-sjas.md` §2–§3, with its
+summary in `docs/adr/ADR-0001-affine-tree-sjas.md` under "Decisive Finding")
+re-derives the 2005 preservation engine and tabulates a **transfer
+dictionary**: a two-column map whose left-hand — *Willard* — column names each
+construct of that engine, and whose right-hand column gives the affine-tree
+counterpart. The Willard column is re-derivable from this document alone, and
+these are its entries with the section that states each:
+
+| Willard-column entry | Anchor | Here |
+| --- | --- | --- |
+| `Normed(a,b)`, both clauses, including "absolutely no other function symbols" | `Willard2005` Def. 4, p. 19 | §6.3 |
+| `θ`-Compactification, parts (A) and (B), with side condition `p ≤ ⌈a/b⌉+1` and `θ < 1/3` | Def. 5 + Eq. (18), p. 19 | §6.3 |
+| The engine theorem | Thm 1, p. 19, `full` | §6.4 |
+| Its proof recital: minimal pair, `Normed(m−1, 1)`, and the **`m ≥ 3`** side condition the printed argument glosses | pp. 19–20; obligation **O1** | §6.4 |
+| `App∀(a)` / `App∃(b)`, restricting **unbounded** quantifiers only | Eqs. (16)–(17) | §6.2, §6.3 |
+| U-Length, U-Depth, U-Height | p. 22 | §6.5 |
+| The valuation bound `Val(u) ≤ b·2^{Δ(s)}`, and "the Double operation is the fastest available growth function" | Eq. (19); Lemma 1 case (c) | §6.5 |
+| Lemma 1, Positive Branch, greedy `Probe(a,b,T)`, **nine** subcases | Lemma 1, p. 23, `full` | §6.5 |
+| Lemma 2, non-closure, and the delicacy in the *negation* | Lemma 2, p. 25, `full`; obligation **O27** | §6.5 |
+| The coding-density window `1/d ≤ θ < 1/3`, `d = 5`, `θ = 1/4` — three constants, not one | Eq. (20); Thm 2, p. 26; Def. 5 | §6.6 |
+| Remark 4: multiplication as a ninth function symbol makes Def. 5 impossible, and the inherited apparatus-independence | Remark 4, p. 21 | §6.7 |
+| `IS_D(β)` and its aliases | drift **D76** | §5.1, §5.5 |
+
+A re-derivation is *checked*, not merely produced, by comparing it against what
+the gate already found. It found three divergences, all in this target, all at
+one point — the relation between coding density and `θ`. §6.6 carries the
+correction (`θ ≤ 1/5` inverts the relation; drift **D6**, obligation **O3**);
+§6.6's three-constants table carries the second (drift **D3**, obligation
+**O2**); and §4.6 and §6.8 carry the third, the dropped `stated-only` caveat on
+the non-tableau apparatuses (gap **G8**). A re-derivation that reproduces the
+inversion has failed the check; one that reproduces §6.6's window has passed.
+
+**Target 2 — the 2026-07-27 apparatus-audit claims.** One artifact, dated two
+ways, and both dates are correct: the survey is
+`docs/interdev/2026-07-27-willard-deductive-apparatus-survey.md`, written
+2026-07-27 and committed as Proflog `a7af9f7` on 2026-07-28. It asked which
+mechanisms besides tableaux, Hilbert and Herbrand can serve as the `D` of a
+self-justifying system. It made five claims, each of which this document
+carries:
+
+1. **A deductive apparatus is its logical axioms *together with* its inference
+   rules**, so adding LEM as logical axioms yields a *different* apparatus even
+   when the terminal rule is unchanged — §2.1, §4.1, and §7.3's `Xtab`.
+2. **Resolution is an affirmative candidate**, on two independent statements:
+   `Willard2011`'s `ξ^R` (a Herbrand-style or Skolemizing method) and
+   `Willard2020` §8's `Res`/`Xres` split — §4.6, §8.0's Type-Almost-M rows.
+3. **Cut-free sequent calculus is an affirmative candidate for the Type-A
+   line**, while Gentzen-with-cut is Hilbert-like and is excluded for that line
+   by Solovay's theorem — §2.4, §4.6, §6.8.
+4. **None of these generalizations is printed.** No complete resolution- or
+   sequent-specific compactification proof exists in the accessible corpus —
+   §4.6 ("claimed five times, proved never"), §6.8's Remark 1, gap **G8**.
+5. **Several neighbouring devices are not values of `D` at all** —
+   Kreisel–Takeuti cut-free analysis, definable-cut localization, passive
+   induction, Gentzen transfinite induction, the Dialectica interpretation and
+   Artemov's infinite-schema approach change the logic, the domain, or the
+   shape of the consistency target instead — §1.3 (Artemov), §4.3 (definable
+   cuts), §4.5 (passive induction, a device *within* tableaux, not an
+   apparatus).
+
+A reader who derives a different list from §4 has found either an error here or
+a change in the survey, and either is worth reporting: catching exactly that
+divergence is what the gate is for.

@@ -25,8 +25,8 @@ recognise its own Herbrand consistency while the conventional axiomatizations
 cannot. Obligation **O61**.
 
 It is also one of the four papers `Willard2011` claims to unify ([68] there),
-and the source of `Willard2020`'s remark that Type-Almost-M systems "verify
-their Herbrand but not also semantic tableaux consistency".
+and the source of `Willard2011`'s remark (printed p. 3) that Type-Almost-M
+systems "verify their Herbrand but not also semantic tableaux consistency".
 
 **Provenance.** The paper answers a question put to Willard by **L. A.
 Kolodziejczyk in an email of 16 November 2005**, itself "an outgrowth out of
@@ -158,3 +158,9 @@ on `Ψ = ∀v ψ̃(v)` being an `Ax-4` axiom while `Ψ* = ∀z ψ̲(z)` is an `A
 axiom, so the text layer makes the lemma unreadable. The same pages render the
 successor prime `y′` as `y 0`, and p. 10 renders `MinG(t) = 2^{C_t+F_t}` as
 `2Ct+Ft` and the example value `2^25` as `225`.
+
+## M1 exclusions
+
+| Label | Reason |
+| --- | --- |
+| Example 3 | Prose / non-inventory example reference; no free-standing Example 3 row required |

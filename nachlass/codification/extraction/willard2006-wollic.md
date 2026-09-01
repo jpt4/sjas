@@ -88,3 +88,23 @@ pair is a strict expansion.
 | 3 | 2026-08-27 | **Full read of pp. 1–15**, plus a visual pass on p. 10 | 0 new numbered items, but **three pieces of content the journal version drops** (the `Diag(1)`/`Diag(2)` invalidity claim, footnote 1, the 3-part-project framing) and one bibliographic identification ([40] = the SUNYA-CS-06-01 preprint of `Willard2007-APAL`); the Definition 7/8 numbering divergence corrected |
 
 Coverage **complete** (pp. 1–15; pp. 13–15 are the reference list).
+
+## M1 exclusions
+
+| Label | Reason |
+| --- | --- |
+| Definition 1 | Same numbering as Willard2009 Definition 1; recorded under the journal key |
+| Definition 2 | Same numbering as Willard2009 Definition 2; recorded under the journal key |
+| Definition 3 | Same numbering as Willard2009 Definition 3; recorded under the journal key |
+| Definition 4 | Same numbering as Willard2009 Definition 4; recorded under the journal key |
+| Definition 5 | Same numbering as Willard2009 Definition 5; recorded under the journal key |
+| Definition 6 | Same numbering as Willard2009 Definition 6; recorded under the journal key |
+| Definition 7 | Conference numbering; journal renumbers to Definition 8 (Herb-k inserted). Journal form is the registry home |
+| Lemma 1 | Same numbering as Willard2009 Lemma 1; recorded under the journal key |
+| Lemma 2 | Same numbering as Willard2009 Lemma 2; recorded under the journal key |
+| Lemma 3 | Same numbering as Willard2009 Lemma 3; recorded under the journal key |
+| Lemma 4 | Same numbering as Willard2009 Lemma 4; recorded under the journal key |
+| Theorem 1 | Same numbering as Willard2009 Theorem 1; recorded under the journal key |
+| Theorem 2 | Same numbering as Willard2009 Theorem 2; recorded under the journal key |
+| Theorem 3 | Same numbering as Willard2009 Theorem 3; recorded under the journal key |
+| Theorem 4 | Same numbering as Willard2009 Theorem 4; recorded under the journal key |

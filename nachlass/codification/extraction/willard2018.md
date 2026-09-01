@@ -48,11 +48,14 @@ they are not new systems for the registry beyond the enrichment taxonomy.
    (Lemma 3.10) — the engineering intuition behind later Xtab.
 6. **Boundary claim (Remark 3.12)**: `IS_D(α)` works for conventional and
    Rank-Zero / Rank-Zero-Plus enriched tableaux; Type-S systems fail under
-   enrichments; Rank-2+ under Type-A reactivates Second Incompleteness; Rank-1
-   left as an open question in this draft.
+   **infinite** enrichments (the remark restricts the Type-S failure to that
+   case, not to enrichment in general); Rank-2+ under Type-A reactivates
+   Second Incompleteness; Rank-1 left as an open question in this draft.
 7. **Three "almost cheating" style objections** to `IS_D(α)` answered in §5–6:
    Type-A weakness, weak tableaux apparatus, reliance on an "I am consistent"
-   axiom — preview of `Willard2016` statement `###` / Platonic Stability.
+   axiom — the same objection `Willard2016` (Dec 2016) had already put as its
+   statement `###` / Platonic Stability, restated here two years later. The
+   phrase "almost cheating" is `Willard2016`'s, not this paper's.
 8. **Authorial caveat**: treat as preliminary relative to `Willard2020`.
 
 ## 4. Structure map
@@ -96,3 +99,24 @@ No new canonical system row beyond the enrichment taxonomy note.
 | 2 | 2026-08-29 | Visual control: PDF pages 1–35 | zero new formal results |
 
 **Coverage**: Read 1–35; Images 1–35; state `complete`.
+
+## M1 exclusions
+
+| Label | Reason |
+| --- | --- |
+| Comment 3.1 | Motivation-layer; preliminary announcement per Willard2020 Ref [56] |
+| Definition 2.2 | Motivation-layer; taxonomy restated from earlier papers |
+| Definition 2.4 | Motivation-layer; taxonomy restated from earlier papers |
+| Definition 3.2 | Motivation-layer; preview of Tab/Xtab, formal home in Willard2020 |
+| Definition 3.3 | Motivation-layer; preview of Tab/Xtab, formal home in Willard2020 |
+| Definition 3.6 | Motivation-layer; preview of Tab/Xtab, formal home in Willard2020 |
+| Definition 3.7 | Motivation-layer; preview of Tab/Xtab, formal home in Willard2020 |
+| Definition 3.8 | Motivation-layer; Linear Constrained Cut preview |
+| Example 2.1 | Motivation-layer |
+| Example 2.3 | Motivation-layer |
+| Example 3.4 | Motivation-layer |
+| Example 3.9 | Motivation-layer |
+| Lemma 3.10 | Motivation-layer; enrichment preview for later Xtab |
+| Remark 2.5 | Motivation-layer; Type taxonomy restatement |
+| Remark 3.5 | Motivation-layer |
+| Remark 4.1 | Motivation-layer |

@@ -712,3 +712,13 @@ Drift **D44**, obligation **O57**.
   chapter lists **eleven** — a count drift; and the **transitive version of the
   Cut Elimination Theorem** (printed p. 25) is this report's form of
   `Willard2001` Lemma 7.1 / `Willard2002a` Theorem 2.2.
+
+## M1 exclusions
+
+| Label | Reason |
+| --- | --- |
+| Comment 1 | Unnumbered clarifying comment, not a registry item |
+| Comment 2 | Unnumbered clarifying comment, not a registry item |
+| Proposition 2a | Internal case of Proposition 2, not a separately numbered item |
+| Proposition 2b | Internal case of Proposition 2, not a separately numbered item |
+| Proposition 2c | Internal case of Proposition 2, not a separately numbered item |

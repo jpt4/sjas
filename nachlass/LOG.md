@@ -1,5 +1,61 @@
 # Nachlass Log
 
+## 2026-09-01 - C16 AAR (Audits, acceptance, After Action)
+
+Component C16 complete per [`codification/C16-verification-goal.md`](codification/C16-verification-goal.md).
+Review record: [`codification/concordance/C16-review-record.md`](codification/concordance/C16-review-record.md).
+
+### Acceptance
+
+| Criterion | Result |
+| --- | --- |
+| **A-M** | `codification/audit.sh` **AUDIT PASS** with M1–M8; each red-green tested (`audit-tests.sh` 13/13) |
+| **A-R** | Review record filed; every R1–R7 finding dispositioned (`corrected` / `accepted, with reason` / `carried to Refinement`) |
+| **A-O** | All 87 obligations dispositioned (52 discharged / 6 cited-only with reason / 29 carried) — [`C16-R5-dispositions.md`](codification/concordance/C16-R5-dispositions.md); Status column written back |
+| **A-D** | All 67 existing drift entries dispositioned (31 resolved / 31 remains-open / 5 carried) — [`C16-R6-dispositions.md`](codification/concordance/C16-R6-dispositions.md); D52, D58–D69 never issued |
+| **A-T** | T1–T5 **PASS** against `codified-sjas.md` alone after correction pass — [`C16-T1-T5.md`](codification/concordance/C16-T1-T5.md) |
+| **A-A** | This entry |
+
+### Deficiency table (§1 of the goal) — what each hardening caught
+
+| # | Deficiency | What C16 hardening caught / did |
+| --- | --- | --- |
+| 1 | Coverage ≠ inventory | **M1** green only after exclusions declared + Lem4.8/4.9, Def4.2/4.4 added; variant papers (WoLLIC, LFCS) must declare journal-key exclusions rather than silently omit |
+| 2 | Overstated `full` statuses | **M7** advisory queue; R4 priority list; incidental G.2/`full` vs G.3/`sketch` correction in §5.6 during T2 pass |
+| 3 | Text-layer corruption in registries | R1 math → image-queue (Q1–Q26); P3/M1 exclusions; charter Visual control restated |
+| 4 | Stale derived claims | **M8** stale-dependency queue; D42 overclaim in §7.3 **corrected**; O49 text noted stale vs G35 |
+| 5 | Cross-paper misattribution | Dominant Stage 5 finding (batches 1–2): 10 corrections including IQFS expansion, `[45]`≠Willard2009, Almost-M attribution, conference/journal swaps |
+| 6 | Non-verbatim quotation | Sampled deficiency quotes already repaired in C15 draft; APAL "One of these systems" form verified; batch 1–2 found 7 not-verbatim (mostly attribution, not wording) |
+| 7 | Elision moving ground | §6.7 Remark 4 ground clause present; batch 2 found first deficiency-7 instance in `willard1993.md` growth caveat — **carried** |
+| 8 | Near-duplicate rows | **M2** enforces Paper+Label uniqueness (red-green) |
+| 9 | Counts drift | **M5** caught README 514→528; obligation citation 57→53; drift denominator added to §10.2 |
+| 10 | Obligations cited-only | **R5**: six cited-only with reasons (O2, O23, O52, O53, O59, O93); **O60 itself discharged** in §8.1 |
+| 11 | Components leave obligations open | **R6**: D29 verified resolved; 25 remains-open with findings documented |
+| 12 | Batch edits abort silently | **P1** observed; audit-tests mutate-then-restore pattern |
+| 13 | Pre-rule registry content | R7 worklist = image-queue + pre-2026-08-27 formula rows — **carried to Refinement** (size exceeds one component; declared) |
+
+### Artifacts added
+
+- `codification/audit-m.sh` — M1–M8
+- `codification/audit-tests.sh` — red-green harness
+- `codification/concordance/C16-review-record.md` and supporting R5/R6/T1–T5/R1-batch files
+- M1 exclusions/waivers in extraction records; four new `results.md` rows
+
+### Carried to Refinement (explicit)
+
+- Image-queue Q1–Q26 (math quotations; pre-rule glyphs)
+- R6 remains-open document fixes beyond D42
+- 29 carried obligations (tangibility cluster, floating-point cluster, 1993 mechanism block)
+- Goal §6 cosmetic rename of "ADR-0001's Willard column"
+
+### Mechanical note
+
+`results.md` now **528** rows (was 524 at C15 close; +4 from M1). Registries:
+528 results / 62 systems / 224 notation / 33 coverage / 37 gaps / 45 corpus /
+87 obligations.
+
+---
+
 ## 2026-08-31 - C14/C15 review corrections
 
 A subagent review of the codified statement found 22 findings; I verified the

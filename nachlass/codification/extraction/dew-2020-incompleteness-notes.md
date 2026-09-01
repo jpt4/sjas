@@ -79,3 +79,7 @@ they restate textbook Gödel/Löb under Willard's notation.
 | 2 | 2026-08-29 | Re-pass / structure cross-check | zero new research items |
 
 **Coverage**: Read 1-81; Images 1-81; state `complete`.
+
+## M1 inventory
+
+waiver: no `sources-text/` layer for this nachlass scan; numbered-item inventory is carried by this extraction record alone (Tier D witness-grade).

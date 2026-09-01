@@ -406,3 +406,9 @@ image-verified on cropped halves where needed.
 
 **OCR**: chapter search aid written to `sources-text/willard1998.txt`; never
 used as a formal anchor.
+
+## M1 exclusions
+
+| Label | Reason |
+| --- | --- |
+| Remark 6.4 | Cross-reference into another paper's Remark 6.4, not a 1998 inventory header |

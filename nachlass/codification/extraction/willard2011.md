@@ -399,3 +399,10 @@ Also recorded: Appendix A's "Reminder about Equation (37)" explains the `k ≤ 1
 restriction — `SelfCons_k` is **false** under Standard-M for nearly all `(β,d)`
 once `k ≥ 2` — which is 2011's version of the ceiling `Willard2004` calls
 Level(2+) and `Willard2005` calls `K = 2`.
+
+## M1 exclusions
+
+| Label | Reason |
+| --- | --- |
+| Claim * | Starred claim citation / display label, not a free-standing numbered item beyond existing Claim rows |
+| Theorem 7.2 | Citation of an earlier paper's Theorem 7.2, not a 2011 numbered item |

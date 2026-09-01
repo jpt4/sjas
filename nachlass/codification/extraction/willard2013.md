@@ -98,3 +98,24 @@ statement of the finite-Group-2 theorems.
 | 2 | 2026-08-29 | Visual control: PDF pages 1–34 | zero new |
 
 **Coverage**: Read 1–34; Images 1–34; state `complete`.
+
+## M1 exclusions
+
+| Label | Reason |
+| --- | --- |
+| Definition 3.2 | Motivation-layer extraction; technical inventory deferred to Willard2014 / Willard2005 |
+| Definition 5.1 | Motivation-layer; §§5–6 deferred to Willard2014 |
+| Definition 5.3 | Motivation-layer; §§5–6 deferred to Willard2014 |
+| Definition 5.5 | Motivation-layer; §§5–6 deferred to Willard2014 |
+| Example 3.1 | Motivation-layer; framing only |
+| Example 5.4 | Motivation-layer; §§5–6 deferred to Willard2014 |
+| Example 5.6 | Motivation-layer; §§5–6 deferred to Willard2014 |
+| Remark 3.3 | Motivation-layer; framing only |
+| Remark 6.1 | Motivation-layer; §§5–6 deferred to Willard2014 |
+| Remark 6.2 | Motivation-layer; §§5–6 deferred to Willard2014 |
+| Theorem 4.1 | Motivation-layer; Willard2014 labels are canonical for registry IDs |
+| Theorem 5.2 | Motivation-layer; deferred to Willard2014 / appendix note |
+| Theorem 5.7 | Motivation-layer; deferred to Willard2014 |
+| Theorem 7.1 | Motivation-layer; = Willard2014 Theorem 4 |
+| Theorem 7.2 | Motivation-layer / citation |
+| Theorem 9.1 | Motivation-layer; appendix proof sketch noted, not re-extracted |

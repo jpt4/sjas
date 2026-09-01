@@ -41,9 +41,12 @@ incorrect*) that support very strong self-verification… Our research studies a
 very different type of problem, where the rule of inference is required to be
 an *intensionally correct*, very natural method."
 
-`Willard2001` reference [67] describes this witness as summarizing "the
+`Willard2005` reference [67] describes this witness as summarizing "the
 intuition behind the IS(A) axiom system, without formal proofs" — accurate for
-Propositions 2–4 but not for Proposition 1, which is proved here in §5.
+Propositions 2–4 but not for Proposition 1, which is proved here in §5. The
+annotation sits on `Willard2005`'s entry for `Willard2001` ([67]) and points
+back at its [65], which is this chapter; `Willard2001`'s own bibliography stops
+at [46] and contains no such note.
 
 ## 3. What this witness states versus proves
 
@@ -257,13 +260,17 @@ case-insensitive item sweep. Six findings not previously recorded:
    there is sufficient memory for storing the proof of its existence (whereas
    the same is plainly not true when multiplication is assumed to be a function
    because then `a_n`'s existence proof is **exponentially shorter than its
-   binary encoding**!)" — with the illustration that multiplication proves `a₁₀`
-   exists "within the 400-line length of this paper, whose binary encoding
-   requires more digits than the number of atoms in the universe", while "even
+   binary encoding**!)" — with the illustration that multiplication proves
+   `a_400` exists "within the 400-line length of this paper, whose binary
+   encoding requires more digits than the number of atoms in the universe",
+   while "even
    the full cardinality of the universe is insufficient for the Addition Axioms
    to prove the existence of a number whose bit length is as large as the
-   universe". **This is `Willard2006a` Remark 3 and `Willard2020` §5, thirteen
-   and twenty-seven years early** (obligations O44, O50).
+   universe". The TR's parallel passage (printed p. 7) writes `a399` in a proof
+   of "approximately 300 lines", so the subscript scales with the paper, not
+   with a fixed small index. **This is `Willard2006a` Remark 3 and
+   `Willard2020` §5, thirteen and twenty-seven years early** (obligations O44,
+   O50).
 4. **"Cut" is defined via the Law of the Excluded Middle** (p. 335): "a detour
    in a theorem proof (**following from an unnecessary application of the Law of
    the Excluded Middle**) that is considered redundant". `Willard2020`'s result

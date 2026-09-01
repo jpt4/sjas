@@ -187,3 +187,10 @@ Recorded as drift **D36**; extends the C6 audit.
   corpus, and item 6 identifies **Solovay's never-published thinning
   construction, proved on Hájek–Pudlák pp. 172–173** — which is exactly the
   citation `Willard2020` gives for statement ⊙, completing obligation O48's chain.
+
+## M1 exclusions
+
+| Label | Reason |
+| --- | --- |
+| Theorem 2.3 | Citation of Pudlák / prior literature, not a 2006a numbered item |
+| Theorem 3.4 | Citation of Willard2001 Theorem 3.4, not a 2006a numbered item |

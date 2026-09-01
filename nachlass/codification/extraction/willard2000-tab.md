@@ -15,7 +15,7 @@
 | Venue | TABLEAUX 2000, Springer LNAI **1847**, pp. 415–430 |
 | Witness | `nachlass/papers/willard2000_tableaux_robinson_q_author_tab2000.pdf` (16 pp.) |
 | Funding | NSF Grant CCR 99-02726 |
-| Relation | The conference form of `Willard2002a` (JSL 67, 2002, pp. 465–496), whose §1 calls this "presented initially as a 16-page conference abstract" |
+| Relation | The conference form of `Willard2002a` (JSL 67, 2002, pp. 465–496). `Willard2001` ref. [44] calls this "presented initially as a 16–page conference abstract"; `Willard2002a` itself nowhere mentions the conference version |
 
 ## 2. Item correspondence with `Willard2002a`
 
@@ -86,3 +86,10 @@ is that the constants **differ**, so the C9 verification could not cover them.
 The pass has been run: `Log(z, 2^{3,000})` and its "more than 3,000 bits"
 justification, `O(s·n^m)`, "all four clauses of Equation (12)'s `V₂`", `C ≅ 12`
 and Definition 3's `O(Log N)` are all confirmed as printed.
+
+## M1 exclusions
+
+| Label | Reason |
+| --- | --- |
+| Lemma 7A | Internal case label within Lemma 7 |
+| Lemma 7B | Internal case label within Lemma 7 |

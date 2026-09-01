@@ -43,11 +43,13 @@ It also supplies four things the rest of the corpus depends on:
    as the ancestor of the Linear-Sum Effect (drift **D30**).
 
 **Willard's own closing statement of the axiom-versus-theorem distinction**
-(p. 29, the sharpest in the corpus): `Willard2009`'s system "is even able to
+(p. 30, the sharpest in the corpus): "**One of these systems** is even able to
 prove the theorem that multiplication is a total function, in a context where
 [45]'s main result would **collapse entirely** if such a statement about
 multiplication's totality property was merely changed from being a **theorem**
-into becoming an **axiom**." Drift **D29**, obligation **O74**.
+into becoming an **axiom**." Here `[45]` is `Willard2006-WoLLIC` (ENTCS 165,
+2006, pp. 213–226) — this paper predates `Willard2009`, which is that paper's
+journal expansion. Drift **D29**, obligation **O74**.
 
 ## 3. Systems defined
 
@@ -187,3 +189,11 @@ consistent only because (33) bounds `q` and (46) bounds `|q| = Log₂ q`.
 
 Coverage **complete** (pp. 1–48; pp. 44–48 are the reference list). Registries:
 44 results / 3 systems / 11 notation rows under this key.
+
+## M1 exclusions
+
+| Label | Reason |
+| --- | --- |
+| Definition 6.1 | Cross-reference / non-header citation, not a free-standing APAL Definition 6.1 |
+| Theorem 2.3 | Citation of prior literature, not a 2007-APAL numbered item |
+| Theorem 6.4 | Citation / cross-reference, not a free-standing 2007-APAL Theorem 6.4 |

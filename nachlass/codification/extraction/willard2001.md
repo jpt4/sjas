@@ -593,3 +593,14 @@ Feeds `../registry/notation.md`. See that registry for the canonical mapping.
 
 Zero-new-items re-pass **not yet run** — saturation is **open** pending a
 third pass (charter criterion A1).
+
+## M1 exclusions
+
+| Label | Reason |
+| --- | --- |
+| Lemma 3.1a | Internal case label within Lemma 3.1 |
+| Lemma 3.1b | Internal case label within Lemma 3.1 |
+| Lemma 7.1b | Internal case label within Lemma 7.1 |
+| Theorem 44 | Bibliographic / citation noise in the text layer, not a 2001 theorem |
+| Theorem 5.7 | Cross-reference into another numbering; not a free-standing 2001 inventory header |
+| Theorem 6.2 | Cross-reference / citation, not a free-standing 2001 inventory header |

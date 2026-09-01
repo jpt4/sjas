@@ -115,3 +115,10 @@ fragment is updated to reflect the finite Group-2.
 | 2 | 2026-08-29 | Visual control: PDF pages 1–16; archive §§5–6 cross-check | zero new; confirmed `IS_D^#(β)` glyph (superscript `#`) |
 
 **Coverage**: Read 1–16; Images 1–16; state `complete`.
+
+## M1 exclusions
+
+| Label | Reason |
+| --- | --- |
+| Remark 3 | Prose remark about [42], not a free-standing numbered Remark 3 in the registry sense |
+| Theorem 7.2 | Citation of [37] Theorem 7.2, not a 2014 numbered item |

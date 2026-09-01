@@ -112,3 +112,7 @@ separate theory.
 
 **Coverage**: Read 1-26 across witnesses; Images full for each PDF; state
 `complete`. Corpus Pages column **26**.
+
+## M1 inventory
+
+waiver: no `sources-text/` layer for this nachlass scan; numbered-item inventory is carried by this extraction record alone (Tier D witness-grade).

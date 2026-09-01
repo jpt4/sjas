@@ -62,3 +62,7 @@ published match — record here and in notation only as draft aliases.
 
 **Coverage**: Read 1-4 (hires) + 1-2 (lores); Images 1-4 (hires primary; lores
 also imaged); state `complete`. Corpus page count **6** = 4+2.
+
+## M1 inventory
+
+waiver: no `sources-text/` layer for this nachlass scan; numbered-item inventory is carried by this extraction record alone (Tier D witness-grade).

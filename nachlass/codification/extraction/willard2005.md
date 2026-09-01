@@ -356,7 +356,8 @@ pilot record stands. Findings worth carrying forward:
 - **The paper's own framing is limited modus ponens.** `K`-Deduction has modus
   ponens for `Σ*_K` and `Π*_K` but not higher, and the headline result is
   self-consistency under **1-deduction** — a boundary dial with its threshold
-  located, since `K = 2` is "provably infeasible" by `Willard2004` (drift D38).
+  located, since `K = 2` is "provably infeasible" — this paper's own p. 2
+  wording for the result of its ref. [70] = `Willard2004` (drift D38).
 - **`Tab-ℜ-List` is defined here** (p. 7), with `Tab-Q*_K`, `Tab-U*_k`
   (`U*_k = Σ*_k ∪ Π*_k`), `Tab-Σ*_k` and `Tab-Π*_k` variants. `Tab-U*₁-List` is
   the apparatus of the main theorem — so `Willard2020`'s `Tab-1`,

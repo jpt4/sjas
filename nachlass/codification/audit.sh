@@ -9,6 +9,8 @@
 #   systems.md   - every Paper value is a corpus key.
 #   notation.md  - every Paper value is a corpus key.
 #   gaps.md      - id uniqueness; status enum.
+#   coverage.md  - extracted items covered; complete => fully imaged.
+#   M1–M8        - C16 mechanical checks (see audit-m.sh / C16-verification-goal.md).
 # Exit 0 with "AUDIT PASS" iff no check fails.
 
 set -u
@@ -231,5 +233,10 @@ for st in complete partial unrecorded; do
 done
 
 echo "gaps rows: $n_gaps"
+
+# ---------- C16 M1–M8 ----------
+# shellcheck source=audit-m.sh
+. ./audit-m.sh
+run_all_m
 
 if [ "$FAIL" -eq 0 ]; then echo "AUDIT PASS"; exit 0; else echo "AUDIT FAIL"; exit 1; fi

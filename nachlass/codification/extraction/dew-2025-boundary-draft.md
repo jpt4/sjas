@@ -62,3 +62,7 @@ refereeing witness** for the JLC successor (G1), not a new formal source.
 | 2 | 2026-08-29 | Re-pass | zero new numbered research items beyond published line |
 
 **Coverage**: Read 1-28; Images 1-28; state `complete`.
+
+## M1 inventory
+
+waiver: no `sources-text/` layer for this nachlass scan; numbered-item inventory is carried by this extraction record alone (Tier D witness-grade).

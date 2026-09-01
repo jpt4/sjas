@@ -45,7 +45,7 @@ of the addition, multiplication and successor growth operations", and it is
 - **Definition 5.1** gives the `Δ^Q₀`, `Π^Q_n`, `Σ^Q_n` classes — a **ninth**
   class notation across the corpus. Critically, **`Π^Q₁` and `Σ^Q₁` sentences
   forbid θ's appearance** except inside the `E_j` terms.
-- **Definition 5.7**: **`IQFS`** = "**Introspective Q-Function System**", a
+- **Definition 5.7**: **`IQFS`** = "**Introspective Q-Function Semantics**", a
   four-group system in the corpus's usual shape; `IQFS(PA+)` verifies isomorphic
   counterparts of all Peano Arithmetic's `Π₁` theorems and corroborates a
   fragmentary definition of its own **Hilbert** consistency.
@@ -146,7 +146,7 @@ Obligation **O65**.
 | Definition 5.1 | 16 | `Δ^Q₀`, `Π^Q_n`, `Σ^Q_n` — θ forbidden outside `E_j` terms | n/a |
 | Definition 5.2, Example 5.3 | 18 | The mapping `I(•)` and **Consistency Preservation** | n/a |
 | Definition 5.4, Example 5.5, Definition 5.6 | 18–19 | `L_Q`; the `d_ER` deductive method | n/a |
-| **Definition 5.7** | 20 | **`IQFS`** — "Introspective Q-Function System" | n/a |
+| **Definition 5.7** | 20 | **`IQFS`** — "Introspective Q-Function Semantics" | n/a |
 | Definition 6.1, Lemma 6.2 | 22 | `Ax_α`; `ProofCheck_α(s)` is `Δ^Q…` | full |
 | Lemma 6.3 | 22 | `IQFS(β)`'s Group-3 axiom has a `Π^Q₁` encoding | full |
 | Remark 6.4 | 23 | Groups 1 and 2 are not given `Π…` form here | n/a |
@@ -195,3 +195,10 @@ significantly more polished", so v4/v5 are interchangeable for content.
 `Cj∗ = 2 2 j−2`, collapsing the double superscript — a growth-rate distinction
 made invisible. It also renders the earlier corrections' source, Conjecture
 6.6's fraction, in scattered pieces.
+
+## M1 exclusions
+
+| Label | Reason |
+| --- | --- |
+| Remark 6.8 | Cross-reference noise / non-header in the text layer |
+| Theorem 3 | Prose mention of Gödel / prior theorem, not a free-standing 2016 Theorem 3 |

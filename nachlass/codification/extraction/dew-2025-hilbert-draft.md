@@ -61,3 +61,7 @@ No new numbered research theorems beyond the conceptual **Tripod Reply** and
 | 2 | 2026-08-29 | Re-pass | zero new numbered theorems |
 
 **Coverage**: Read 1-8; Images 1-8; state `complete`.
+
+## M1 inventory
+
+waiver: no `sources-text/` layer for this nachlass scan; numbered-item inventory is carried by this extraction record alone (Tier D witness-grade).

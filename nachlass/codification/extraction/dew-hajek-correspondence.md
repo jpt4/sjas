@@ -52,3 +52,7 @@ results. Record only as third-party interpretability construction (T, Φ, GB).
 | 2 | 2026-08-29 | Re-pass | zero new |
 
 **Coverage**: Read 1-9; Images 1-9; state `complete`.
+
+## M1 inventory
+
+waiver: no `sources-text/` layer for this nachlass scan; numbered-item inventory is carried by this extraction record alone (Tier D witness-grade).

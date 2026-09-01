@@ -65,3 +65,7 @@ Record this packet as apparatus-identity witness only.
 | 2 | 2026-08-29 | Re-pass | zero new beyond published apparatus line |
 
 **Coverage**: Read 1-9; Images 1-9; state `complete`.
+
+## M1 inventory
+
+waiver: no `sources-text/` layer for this nachlass scan; numbered-item inventory is carried by this extraction record alone (Tier D witness-grade).

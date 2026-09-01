@@ -513,3 +513,9 @@ Feeds `../registry/notation.md`.
 
 Zero-new-items re-pass **not yet run** — saturation is **open** pending a third
 pass (charter criterion A1).
+
+## M1 exclusions
+
+| Label | Reason |
+| --- | --- |
+| Remark * | Starred remark display label; covered by existing Remark rows |

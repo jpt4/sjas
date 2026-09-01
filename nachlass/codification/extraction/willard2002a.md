@@ -192,3 +192,11 @@ verified `full`. Zero-new-items re-pass **not yet run**; saturation **open**.
 - **Claim A.2** (p. 31), missed by pass 1: `P*(x,u,z)` has a LinH procedure; the
   `z ≠ 0` clause forces `(1+Log s_i) ≤ (2/3)(1+Log s_{i−1})`, giving `O(Log x)`.
 - **Definition 6.5** (p. 27), missed by pass 1: supporting notation for Theorem 6.6.
+
+## M1 exclusions
+
+| Label | Reason |
+| --- | --- |
+| Definition 2.1 | Prose mention / non-header; no free-standing Definition 2.1 in the paper |
+| Lemma 4.6a | Internal case of Lemma 4.6 |
+| Lemma 4.6b | Internal case of Lemma 4.6 |

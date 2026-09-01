@@ -146,3 +146,18 @@ to confirm that `IS_{Tab-1}(PA)` is BOTH consistent and able to verify its
 self-consistency" — so the epistemic gloss recorded at C8 is an arXiv-era
 addition. Erratum 2 of [`willard2020.md`](willard2020.md) (`2^{n+1}` for
 `2ⁿ + 1`) is **inherited from this chapter**, not introduced in the expansion.
+
+## M1 exclusions
+
+| Label | Reason |
+| --- | --- |
+| Definition 1 | Variant of Willard2020 Definition 3.2; recorded under the journal key rather than duplicated |
+| Definition 2 | Variant of Willard2020 Definition 3.4; recorded under the journal key rather than duplicated |
+| Definition 3 | Variant of Willard2020 Definition 4.3; recorded under the journal key rather than duplicated |
+| Example 2 | Variant of Willard2020 Example 3.3; recorded under the journal key rather than duplicated |
+| Example 3 | Variant of Willard2020 Example 5.1; recorded under the journal key rather than duplicated |
+| Remark * | Starred remark display label |
+| Remark 1 | Variant of Willard2020 Remark 3.5; recorded under the journal key rather than duplicated |
+| Remark 2 | Variant of Willard2020 Remark 3.6; recorded under the journal key rather than duplicated |
+| Theorem 1 | Variant of Willard2020 Theorem 4.4; recorded under the journal key rather than duplicated |
+| Theorem 2 | Variant of Willard2020 Theorem 4.5; recorded under the journal key rather than duplicated |

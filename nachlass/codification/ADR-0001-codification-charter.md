@@ -118,13 +118,16 @@ at composition time.
 | C12 | Tier D: nachlass witness records | done 2026-08-29 |
 | C13 | Concordance | done 2026-08-31 (axes, genealogy, result matrix, replication map; topic taxonomy and canonical system names frozen and audit-enforced) |
 | C14 | `codified-sjas.md` skeleton + core statement | done 2026-08-31 (sections 1-5 written; 6-9 scaffolded) |
-| C15 | `codified-sjas.md` full draft | done 2026-08-31 (all ten chapters; 57 of 87 obligations cited at point of discharge) |
-| C16 | Audits, acceptance, AAR | pending — specified in [`C16-verification-goal.md`](C16-verification-goal.md), which supersedes this line. Eight new machine checks (M1-M8), seven reading checks (R1-R7), four process rules (P1-P4), designed around thirteen dated process deficiencies |
+| C15 | `codified-sjas.md` full draft | done 2026-08-31 (all ten chapters; **53** of 87 obligations cited at point of discharge — C16 corrected the earlier "57" count) |
+| C16 | Audits, acceptance, AAR | **done 2026-09-01** — [`C16-verification-goal.md`](C16-verification-goal.md); M1–M8 in [`audit.sh`](audit.sh)/[`audit-m.sh`](audit-m.sh) red-green tested ([`audit-tests.sh`](audit-tests.sh)); review record [`concordance/C16-review-record.md`](concordance/C16-review-record.md); AAR in [`../LOG.md`](../LOG.md) |
 
 The **C4 method gate**: the Willard2005 extraction is fidelity-checked
 against the two known-good partial re-derivations (the affine-tree design
-document §2–§3; the 2026-07-27 deductive-apparatus survey in the parent
-repository). Divergences fix the template before scaling. The **C6
+document `docs/design/affine-tree-sjas.md` §2–§3; the 2026-07-27
+deductive-apparatus survey in the parent repository,
+`docs/interdev/2026-07-27-willard-deductive-apparatus-survey.md`, commit
+`a7af9f7` — the artifact **A4** also names). Divergences fix the template
+before scaling. The **C6
 subsumption audit**: Willard2011's claims to unify/subsume earlier results
 are audited against the Willard2001/2005 extractions — first substantive
 drift-ledger entries — never assumed.
@@ -159,8 +162,15 @@ in state `complete`, not a prose assertion.
   locate any claimed result's proof status and exact source; T3 read off any
   (profile, apparatus, consistency-notion) cell of the result matrix; T4
   re-derive the Willard column of the affine-tree transfer dictionary and
-  the 2026-07-28 apparatus-audit claims; T5 enumerate every known drift for
+  the **2026-07-27** apparatus-audit claims; T5 enumerate every known drift for
   a given concept.
+
+  *Date corrected 2026-08-31.* A4 previously dated the apparatus audit
+  2026-07-28 while the C4 method gate below dated the same survey 2026-07-27,
+  leaving it unclear whether T4 had one target or two. There is one artifact:
+  `docs/interdev/2026-07-27-willard-deductive-apparatus-survey.md`, written
+  2026-07-27 and committed as Proflog `a7af9f7` on 2026-07-28. Both dates
+  described it correctly; only one names it.
 - **A5** `registry/gaps.md` complete: every missing witness, stated-not-
   proved result, and version/identity question carries an action or an
   explicit accepted ruling.
