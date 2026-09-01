@@ -1,5 +1,58 @@
 # Nachlass Log
 
+## 2026-09-01 - R1 reviewed; G7 resolved as unacquirable; Pakhomov 2019 acquired
+
+Searched for Beklemishev's "simplified presentation of SJAS" (gap G7, the
+Refinement's named inspiration). It does not exist as an acquirable document.
+
+The trail terminates in a footnote. Pakhomov 2019 (arXiv:1907.00877) footnote 3:
+"Note that Beklemishev have developed a still unpublished simplification of
+Willard's construction (which is different from the approach used in the present
+paper)." Corroborated three ways: Willard's own Beklemishev citations are all
+reflection-principle papers, none a survey of his systems; the current Wikipedia
+Self-verifying theories article no longer mentions Beklemishev at all, and the
+earlier revision's wording matches Pakhomov's footnote; and no published
+Beklemishev work on Willard's construction surfaced in search. G7 closed
+`accepted` - unacquirable, not unlocated. ADR-0002's criterion B4 is unmeetable
+as written and is replaced by B4'.
+
+The search succeeded anyway, and better than intended. It produced Fedor
+Pakhomov, "A weak set theory that proves its own consistency" - published, on
+arXiv, and a genuine external refinement of the SJAS idea. Acquired to
+nachlass/refinement/lit/ with checksum.
+
+It falsifies R1's headline claim. R1 said a system can assert its own
+consistency "exactly when" naming an integer is not cheaper than proving
+something about it. Pakhomov's H_{<omega} proves its own Hilbert-style
+consistency AND proves the existence of every hereditarily finite set - it is
+not growth-restricted in Willard's sense at all. On R1's criterion as written it
+should be inconsistent.
+
+The mechanisms are different but the shape is the same, and that shape is the
+better statement of the essential idea: a system is self-verifying when, for
+every proof it can write, a bounded semantic witness that the proof is not a
+refutation can be constructed within its own means. Willard bounds a partial
+valuation on one tableau branch (Willard2005 Lemmas 1-2, Val(u) <= b*2^Delta(s));
+Pakhomov bounds a full finite model of the axioms actually used (size <= 2^0_p),
+and relativises to the superexponential cut. R1's naming criterion is the
+arithmetic instance, not the general form. Corrected.
+
+Four further review findings corrected: the failing derivability condition is
+specifically D3, not "the derivability conditions"; the incremental convention
+does reach every integer and is merely not Continuously Expanding; Pakhomov's
+external critique that Willard's axioms "are not completely natural in the sense
+that some of axioms are constructed using Diagonal Lemma" is now carried in the
+costs section; and the Brown-Palsberg computational analogue is labelled an
+analogy rather than a correspondence.
+
+New gap G38: Beklemishev-Shamkanov 2016, "Some abstract versions of Godel's
+second incompleteness theorem based on non-classical logics", which Pakhomov
+describes as giving an abstract G2 that FAILS for a contraction-free logic.
+Directly relevant to refined-sjas section 2's claim about what G2 needs beyond
+the fixed point. Not held; acquisition target for R5.
+
+Sections of R1 checked and found sound: 3, 4, 5.1, 6, 9.
+
 ## 2026-09-01 - Refinement R1: the essential idea
 
 Opened the Refinement stage at `nachlass/refinement/` (ADR-0002) and completed

@@ -1,6 +1,6 @@
 # ADR-0002 — Refinement Charter
 
-**Status.** Opened 2026-09-01. R1 done; R2–R5 pending.
+**Status.** Opened 2026-09-01. R1 done and reviewed; R2 partly done; R3–R5 pending.
 
 ## Context
 
@@ -48,7 +48,7 @@ Codification.
 | Id | Component | Status |
 | --- | --- | --- |
 | **R1** | The essential idea: identify and explicate | **done 2026-09-01** — [`refined-sjas.md`](refined-sjas.md) |
-| **R2** | Acquire and integrate Beklemishev (gap **G7**) | **blocked** — not held; see below |
+| **R2** | Acquire and integrate the external refinements | **partly done 2026-09-01** — Beklemishev **unacquirable** (G7 closed: unpublished); **Pakhomov 2019 acquired and integrated** ([`R1-review.md`](R1-review.md)); Beklemishev–Shamkanov 2016 outstanding (**G38**) |
 | **R3** | Make the §5 criterion a definition, and prove the five dials are instances | pending |
 | **R4** | The computational analogue: test the type-theoretic reading against Brown–Palsberg | pending |
 | **R5** | Secondary-literature pass: Artemov, Pudlák, Visser, Adamowicz, Kolodziejczyk, Salehi | pending |
@@ -56,19 +56,23 @@ Codification.
 R1 delivers the stage's stated deliverable. R3 is where it would become
 mathematics rather than exposition.
 
-## The blocked hook
+## The blocked hook — resolved 2026-09-01
 
-**G7 — Beklemishev's survey is not held.** It is the *named* inspiration for
-the stage. `refined-sjas.md` §1–§5 is an independent identification of the
-essential idea, arrived at from the codified material; whether it agrees with
-Beklemishev's simplification is undetermined and undeterminable without the
-paper.
+**G7 — there is no Beklemishev survey.** It was the *named* inspiration for
+the stage, and it does not exist: Pakhomov 2019 footnote 3 records the
+simplification as "still unpublished". G7 is closed `accepted` rather than left
+pending, and B4 is replaced by B4′. What follows was written before that was
+known.
 
-This is recorded rather than papered over because the risk is specific: an
-independent derivation that happens to coincide with a published one should be
-credited to it, and one that diverges should be reconciled with it. Neither can
-be done now. **Acquiring G7 is the first action of any continuation**, and R1
-should be re-read against it before the Refinement is called complete.
+`refined-sjas.md` §§1–5 is therefore an independent identification, and there is
+nothing in the published record to reconcile it with. The risk the original
+entry named — that an independent derivation might silently duplicate a
+published one — does not arise.
+
+The search for it was not wasted. It produced **Pakhomov 2019**, a published
+external refinement that **falsified R1's headline claim** and forced its
+generalisation ([`R1-review.md`](R1-review.md) §2), and surfaced
+**Beklemishev–Shamkanov 2016** (gap **G38**) as the next acquisition target.
 
 ## Acceptance
 
@@ -79,11 +83,13 @@ should be re-read against it before the Refinement is called complete.
 - **B3** The Lawvere and Rosser hooks discharged or explicitly downgraded.
   *(R1 §§2, 6 — met: Rosser is discharged as already-present-and-undeclared;
   Lawvere is downgraded to a framing, §9.)*
-- **B4** Beklemishev's claim compared. *(R2 — **not met**, blocked on G7.)*
+- **B4′** The identification compared against *published* external refinements. *(R2 — **met** for Pakhomov 2019, which falsified R1's headline claim and forced its generalisation. The original B4, comparing Beklemishev's claim, is **unmeetable**: the work is unpublished, G7 closed.)*
 - **B5** The criterion made a definition and its instances proved. *(R3 — not
   met.)*
 
-**The stage is not complete.** R1's deliverable is complete; B4 and B5 are
-outstanding, one blocked and one open. Recording this rather than declaring
-completion is the same discipline the C16 review applied to its own image
-queue.
+**The stage is not complete.** R1's deliverable is complete and has been
+reviewed against external literature; B4′ is met for the one published external
+refinement that exists; **B5 is open**, and is where the Refinement would become
+mathematics. R3 is now better specified than it was: the criterion must cover
+both Willard's bounded valuation and Pakhomov's bounded finite model, not the
+arithmetic instance alone.

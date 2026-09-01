@@ -16,13 +16,27 @@ it.*
 
 Thirty years of this literature can be compressed to one sentence.
 
-> **A formal system can consistently assert its own consistency exactly when
-> naming an integer is not cheaper than proving something about it.**
+> **A system can consistently assert its own consistency when, for every proof
+> it can write, it can construct within its own means a bounded semantic witness
+> that the proof is not a refutation.**
 
-Everything else — the four axiom groups, the five apparatus families, the
-eleven formula classes, the five boundary dials — is machinery for making that
-sentence precise in one setting or another, or for locating the point at which
-it stops being true.
+In Willard's arithmetic setting that condition takes one specific form, and it
+is this form that the rest of the document develops:
+
+> **naming an integer must not be cheaper than proving something about it.**
+
+Everything else in the corpus — the four axiom groups, the five apparatus
+families, the eleven formula classes, the five boundary dials — is machinery for
+making the arithmetic form precise in one setting or another, or for locating
+the point at which it stops being true.
+
+**The arithmetic form is not the whole idea, and R1's first draft wrongly said
+it was.** Pakhomov's `H_{<ω}` (2019) proves its own consistency while proving
+the existence of every hereditarily finite set — so it is not growth-restricted
+in Willard's sense — and satisfies the general condition by a different route:
+every finite subtheory has a **finite model**, bounded by `2⁰_p` in the proof `p`.
+Willard bounds a *partial valuation on a tableau branch*; Pakhomov bounds a
+*full finite model of the axioms used*. See [`R1-review.md`](R1-review.md) §2.
 
 The rest of this document argues that this is the right sentence: §§2–4 say why
 the usual reading of Gödel's Second Theorem misidentifies the obstacle, §5
@@ -64,7 +78,9 @@ proof-checking**.
 > own work.
 
 Willard's systems are exactly the systems that cannot afford it. They keep the
-diagonal and lose the derivability conditions, and that is why they survive.
+diagonal and lose **`D3`** — `□φ → □□φ`, the condition that the system verify
+its own verifications. `D1` and `D2` are not the obstruction; `D3` is, because
+it is the one that requires writing down an object larger than the proof.
 
 This also explains a fact the codification records but does not explain: the
 **apparatus-identity thesis** (codified §4.2). Willard states that all the
@@ -139,7 +155,7 @@ Checked against the corpus:
 
 | Naming convention | `n` steps reach | encoding | compressive? | verdict |
 | --- | --- | --- | --- | --- |
-| incremental `C_{i−1}+1` | `n` | `Log n` | no — but too slow to build ℕ | works; not Continuously Expanding |
+| incremental `C_{i−1}+1` | `n` | `Log n` | no | works, but **not Continuously Expanding** — it reaches every integer, just too slowly for the `K_i` sequence `Willard2006a` p. 7 requires |
 | **additive** `C_{i−1}+C_{i−1}` | `2^n` | `n` | **no** | **works** |
 | Hybrid(H), `H = 1` | — | — | no | works |
 | Hybrid(H), `H > 1` | — | — | yes | fails |
@@ -249,6 +265,13 @@ things are given up, and Willard says all four himself (codified §1.4).
    Stability* — a formalism in which presuming one's own consistency provably
    will not spin one into inconsistency.
 
+5. **The axioms are not natural.** Pakhomov's assessment, from outside the
+   corpus: Willard's theories "are not completely natural in the sense that
+   **some of axioms are constructed using Diagonal Lemma**". His `H_{<ω}` is
+   offered explicitly as "a more natural example of this kind". That is a fair
+   charge — the Group-3 axiom *is* a fixed point, by construction (§2) — and it
+   is the sharpest external criticism of the programme on record.
+
 The refined claim is therefore **not** that Hilbert's programme survives. It is
 that the reason it fails is narrower and more interesting than "self-reference
 is paradoxical": it fails because **checking your own work costs more than
@@ -281,7 +304,8 @@ by growth restriction. Both are instances of
 
 > keep the self-reference; make the *use* of it unaffordable.
 
-That correspondence is the concrete form of the "computational analogue" the
+That **analogy** — it is not yet a correspondence, since no formal mapping has
+been established — is the concrete form of the "computational analogue" the
 synthesis is aiming at, and it suggests the transfer to test first: **the
 naming-rate criterion of §5 should have a type-theoretic reading, in which
 "non-compressive naming" becomes a bound on the size of the type a term can
