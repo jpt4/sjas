@@ -119,7 +119,7 @@ at composition time.
 | C13 | Concordance | done 2026-08-31 (axes, genealogy, result matrix, replication map; topic taxonomy and canonical system names frozen and audit-enforced) |
 | C14 | `codified-sjas.md` skeleton + core statement | done 2026-08-31 (sections 1-5 written; 6-9 scaffolded) |
 | C15 | `codified-sjas.md` full draft | done 2026-08-31 (all ten chapters; 57 of 87 obligations cited at point of discharge) |
-| C16 | Audits, acceptance, AAR | pending |
+| C16 | Audits, acceptance, AAR | pending — specified in [`C16-verification-goal.md`](C16-verification-goal.md), which supersedes this line. Eight new machine checks (M1-M8), seven reading checks (R1-R7), four process rules (P1-P4), designed around thirteen dated process deficiencies |
 
 The **C4 method gate**: the Willard2005 extraction is fidelity-checked
 against the two known-good partial re-derivations (the affine-tree design
