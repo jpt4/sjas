@@ -18,8 +18,14 @@ results matter here.
 **Gödel's argument presupposes `□`-contraction.** Contraction is
 `Γ, φ, φ ⊢ ψ ⟹ Γ, φ ⊢ ψ`, which the paper glosses as "any hypothesis can be
 used several times". Restricted to `□`-formulas, its admissibility is what the
-G2 argument silently consumes. Fixed-point **uniqueness** separately requires
-the correspondingly restricted weakening.
+G2 argument **implicitly** consumes — the paper's word is that the argument
+"presupposes" it, and the point is that nobody had isolated it, not that anyone
+concealed it.
+
+A second, independent result about the same system: **uniqueness** of the
+Gödelian fixed point fails there, and what uniqueness needs is the restricted
+**weakening**, not the restricted contraction. That is a further property of
+their toy system, not a further prerequisite of the G2 argument.
 
 **Dropping it invalidates G2 while keeping the fixed point.** They exhibit a
 modal K4 over the **contraction-free** fragment of classical logic, extended by
@@ -40,19 +46,36 @@ R1's §2 said Willard's systems "keep the diagonal and lose the derivability
 conditions, and in particular `□φ → □□φ`", i.e. **D3**.
 
 The numbering was right — D3 *is* `□φ → □□φ`, exactly as Pakhomov lists the
-three conditions. **The attribution was wrong**, twice over:
+three conditions, and as Willard himself lists them as `Willard2001`
+Theorem A.1's conditions (1)–(3). What was wrong was the attribution, and then
+the first attempt to repair it:
 
-- **HBL is not the operative frame.** Willard's systems sit far below the
-  theories where the conditions hold. Pakhomov: "HBL conditions do not necessary
-  hold in the case of some weaker arithmetical c.e. theories". The theorem
-  Willard evades is **Pudlák's**, whose essential step is **cut-shortening**,
-  which needs **successor totality** — precisely what his systems deny. No
-  derivability condition is the pivot.
-- **At the abstract level the pivot is `□`-contraction, not D3.** That is this
-  paper's result, and it is a *structural* rule rather than one of Löb's three.
+- **The condition named was wrong, but so was the correction.** A first repair
+  claimed "no derivability condition is the pivot" and pointed at Pudlák's
+  cut-shortening instead. That is also wrong. **Willard frames his own work in
+  HBL terms throughout**: `Willard1993-TR` says three times that "every self
+  verifying system must breach in some way one of the three fundamental
+  Hilbert-Bernays conditions"; `Willard2001` Appendix A proves **Theorem A.1**, a
+  version of the theorem sharpened to apply below PA; and `Willard2011` notes
+  that *conventional* configurations satisfy the conditions and are "thus
+  automatically inconsistent". HBL is exactly the operative frame.
+- **The real content is that the breach's *location* is a design choice.**
+  `Willard1993-TR`: the breach "may arise because of either the axiom system
+  employed or the choice of deduction method, **but not necessarily due to
+  both**" — Feferman keeps PA's axioms and breaches via the apparatus; Willard
+  keeps a natural apparatus and breaches via the axioms.
+- **And the specific condition differs between Willard's two branches**, which
+  is why the earlier drafts kept failing: there is no single answer. The
+  tableaux line (Type-A, cut-free) breaches **(2)**; the Hilbert line (Type-NS,
+  modus ponens intact) breaches **(1)**. See `refined-sjas.md` §2.3, where the
+  assignment is labelled as this Refinement's inference and each half is checked
+  against the control that fails.
+- **`□`-contraction is the abstract counterpart**, not a competitor: conditions
+  (1) and (2) are both permissions to use a proof again, and contraction is that
+  permission stated as a structural rule.
 
-§2 is corrected accordingly, and now names Pudlák's cut-shortening for the
-arithmetic case and `□`-contraction for the abstract one.
+§2 is rewritten around Willard's own frame rather than around whichever paper
+was read most recently.
 
 ### 2.2 It confirms R1's central thesis, from an independent direction
 
@@ -78,7 +101,8 @@ and a system escapes exactly when it will not or cannot pay for the second use:
 
 | Route | How the second use is denied |
 | --- | --- |
-| **Willard** | it cannot be **named** — the growth restriction makes the object that would witness it unwriteable |
+| **Willard, tableaux line** | condition (2) is denied: the apparatus is cut-free, so combining two proofs is not internally available at bounded length |
+| **Willard, Hilbert line** | condition (1) is denied: with no totality axiom, a long proof cannot be **named**, so its existence cannot be asserted |
 | **Pakhomov** | it is bounded **semantically** — every finite subtheory has a finite model, so no proof reaches a refutation |
 | **Beklemishev–Shamkanov** | it is denied **structurally** — the logic has no `□`-contraction |
 

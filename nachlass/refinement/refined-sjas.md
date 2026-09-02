@@ -45,7 +45,7 @@ phenomenon outside arithmetic.
 
 ---
 
-## 2. The diagonal is not the obstacle
+## 2. Where the breach goes
 
 The standard reading of G2 is that self-reference is the problem: a system
 strong enough to talk about itself can build "I am not provable", and that
@@ -54,73 +54,112 @@ sentence destroys any attempt at self-certification.
 That reading is wrong, and Willard's systems are the counterexample. **They
 contain the fixed point as an axiom and are consistent.**
 
+### 2.1 The fixed point is free; the derivability conditions are not
+
 Lawvere's Fixed Point Theorem makes the point structurally. In a cartesian
 closed category, if there is a weakly point-surjective `f : A × A → B`, then
 **every** endomorphism `t : B → B` has a fixed point. Cantor, Russell, Tarski,
 Turing and Gödel's *First* theorem are the contrapositive: exhibit a
-fixed-point-free `t`, conclude no such `f` exists. (Yanofsky's treatment,
-held at `lit/…Working Category Theorist…pdf`, develops the family.)
+fixed-point-free `t`, conclude no such `f` exists. (Yanofsky's treatment, held
+at `lit/…Working Category Theorist…pdf`, develops the family.)
 
-What Lawvere gives is **existence**. The fixed point is free; it costs almost
-no theory. Kleene's recursion theorem is the arithmetic form, and Willard uses
-it directly — every affirmative system in the corpus builds its Group-3 axiom
-by exactly this construction (codified §5.1).
+What Lawvere gives is **existence**, and it costs almost no theory. Kleene's
+recursion theorem is the arithmetic form, and Willard uses it directly: every
+affirmative system in the corpus builds its Group-3 axiom by exactly this
+construction (codified §5.1). Willard2001's own footnote makes the division
+explicit — the fixed-point identity "is the **only** aspect of the proof of the
+Hilbert-Bernays Theorem that needs Peano Arithmetic for justifying it", and
+"the remainder of the proof rests solely on" the derivability conditions.
 
-What Lawvere does *not* give is the paradox. To turn a fixed point into a
-contradiction you need something more, and identifying *what* is the substance
-of this section.
+So the paradox is not in the diagonal. It is in what must hold *around* it.
 
-The Hilbert–Bernays–Löb conditions on a provability predicate `□` are
+### 2.2 Willard's own frame: the breach is obligatory, its location is not
 
-> **D1** `T ⊢ φ ⟹ T ⊢ □φ`  ·  **D2** `T ⊢ □(φ→ψ) → (□φ → □ψ)`  ·
-> **D3** `T ⊢ □φ → □□φ`
+`Willard1993-TR` states the governing fact three times, and it is the frame the
+whole corpus is built in:
 
-and D3 — provable Σ₁-completeness for `□` itself — is the expensive one, since
-verifying a verification means writing down an object larger than the proof.
+> "Gödel's Incompleteness Theorem requires that **every self verifying system
+> must breach in some way one of the three fundamental Hilbert-Bernays
+> conditions**. **The breach, which can be very subtle, may arise because of
+> either the axiom system employed or the choice of deduction method, but not
+> necessarily due to both.**"
 
-**But HBL is the wrong frame for Willard's systems, and an earlier draft of this
-section was wrong to name D3 as what they lose.** They are far below the
-theories for which HBL holds; Pakhomov puts it plainly — "**HBL conditions do
-not necessary hold in the case of some weaker arithmetical c.e. theories**". The
-theorem Willard actually evades is **Pudlák's**: no consistent c.e. theory
-extending Robinson's `Q` proves its own Hilbert-style consistency, later
-extended to predicate-only theories that prove **successor totality** — "the
-totality of successor function is important since it is necessary for the
-**cut-shortening technique** employed by Pudlák". Willard's systems deny exactly
-that totality. What they lose is not a derivability condition but the
-cut-shortening that Pudlák's argument consumes.
+`Willard2001` Appendix A sharpens the theorem being breached so that it applies
+to systems far below PA — **Theorem A.1**: if `α` proves all of PA's `Π⁻₁`
+theorems and `Der` satisfies
 
-At the abstract level the requirement has been isolated, and it is not D3
-either. Beklemishev and Shamkanov generalise Löb's conditions to logics weaker
-than classical and show that **Gödel's argument presupposes admissibility of the
-contraction rule restricted to `□`-formulas** (fixed-point *uniqueness*
-additionally needs the correspondingly restricted weakening). Contraction is
-`Γ, φ, φ ⊢ ψ ⟹ Γ, φ ⊢ ψ` — in their gloss, "any hypothesis can be used several
-times". Drop it and the argument fails: their K4 over contraction-free classical
-logic, with fixed-point operators, has Gödelian fixed points and **no** formalized
-G2.
+> **(1)** `α ⊢ Φ ⟹ α ⊢ Der(⌜Φ⌝)` · **(2)** `α ⊢ {Der(⌜Φ⌝) ∧ Der(⌜Φ ⊃ Ψ⌝)} ⊃ Der(⌜Ψ⌝)` · **(3)** `α ⊢ Der(⌜Φ⌝) ⊃ Der(⌜Der(⌜Φ⌝)⌝)`
 
-So the thing beyond the fixed point that G2 needs is the licence to **use a
-derived fact more than once**. That is one description of a structural rule and
-another description of a resource — which is why it can be denied either
-structurally, as Beklemishev–Shamkanov do, or by cost, as Willard does.
+then consistent `α` cannot prove `¬Der(⌜0=1⌝)`. Willard notes this "differs from
+the classic Hilbert-Bernays theorem only by not requiring `α` to be an extension
+of Peano Arithmetic", and that proving PA's `Π⁻₁` theorems "is actually the core
+fact that is needed by the classic proof". `Willard2011` puts the consequence
+plainly: "**Conventional** generic configurations `ξ` will satisfy the
+Hilbert-Bernays derivability conditions… Their `G^ξ_k(θ)` will thus be
+**automatically inconsistent**."
+
+Willard's systems prove all of PA's `Π⁻₁` theorems. They therefore *must* breach
+one of (1)–(3). **The research programme is the study of where to put the
+breach**, and that is why its results trade design parameters against one
+another rather than converging on a single system.
+
+Willard contrasts his choice with Feferman's: `[Fe60]` "illustrates a
+self-verifying system which employs **all the axioms of Peano Arithmetic**, but
+which draws upon a **deduction method** which captures the numerical but not
+intensional definition of classic deduction", whereas `IS(A)` keeps "a deduction
+method as natural as semantic tableaux" and instead weakens "several of the
+axioms of Peano Arithmetic, **including the axiom that the multiplication
+function is total**". Same obligatory breach; opposite placement.
+
+### 2.3 The two branches are two placements — an inference, with its evidence
+
+Willard says the breach is one of the three; he does not, anywhere located in
+this corpus, say **which**. The following assignment is therefore this
+Refinement's inference, and it is stated as one. Its support is that each half
+predicts a known negative result.
+
+| Branch | Profile | Apparatus | Breached | Why |
+| --- | --- | --- | --- | --- |
+| **Tableaux line** (`IS^λ(A)`, `IS_D(A)`, …) | **Type-A** — successor **and addition total**; multiplication a 3-way relation | cut-free | **(2)** | Internalised modus ponens *is* cut. `Willard2002a` Thm 2.2: cut elimination guarantees the combined proof **exists** while its length "can certainly be **super-exponentially longer**". The system cannot assert the existence of a proof it cannot name |
+| **Hilbert line** (`ISREF`, `ISCE`, `IQFS`) | **Type-NS** — nothing total | modus ponens intact | **(1)** | Condition (2) is unproblematic where proofs concatenate. But asserting `Der(⌜Φ⌝)` means asserting a proof **exists**, which means naming it — and with no totality axiom the naming convention is the only route to large integers |
+
+**Each half is confirmed by the control that fails.** Restore cut to the
+tableaux line — that is exactly what `Xtab` does, admitting excluded middle as
+logical axioms — and condition (2) returns; `Willard2020` Theorem 4.5 says
+`IS_Xtab(β)` is then **automatically inconsistent**. Make naming cheap on the
+Hilbert line — the multiplicative convention — and condition (1) returns;
+`Willard2006a` Theorem 4 says the system is then **unable** to prove its own
+consistency.
+
+This also corrects a claim it is easy to make and which an earlier draft of this
+section made: **it is not true that Willard's systems deny successor totality.**
+Only the Hilbert line does. The tableaux line proves successor *and* addition
+total and gives up multiplication alone. Which totality is surrendered is one of
+the design parameters, not a fixed feature of the programme.
+
+### 2.4 What the breach is, said once
+
+Condition (2) licenses using `Der(⌜Φ⌝)` and `Der(⌜Φ ⊃ Ψ⌝)` **together**;
+condition (1) licenses producing `Der(⌜Φ⌝)` at all. Both are permissions to
+*use a proof again* — once as an object, once as a step.
+
+Beklemishev and Shamkanov reach the same place from the opposite end, with no
+arithmetic at all. Generalising Löb's conditions to logics weaker than classical,
+they show that Gödel's argument **implicitly** presupposes admissibility of the
+**contraction** rule restricted to `□`-formulas — `Γ, φ, φ ⊢ ψ ⟹ Γ, φ ⊢ ψ`, in
+their gloss "any hypothesis can be used several times". Their contraction-free
+K4 with fixed-point operators has Gödelian fixed points and **no** formalized
+G2. (Fixed-point *uniqueness* fails there too, and needs the restricted
+weakening rather than the restricted contraction; that is a second result about
+the same system, not a further requirement of the G2 argument.)
 
 > **Refined reading of G2.** Gödel's Second Theorem is not a theorem about
 > self-reference. It is a theorem about systems that can afford to **use a proof
 > twice**.
 
-Willard's systems are exactly the systems that cannot afford the reuse. They
-keep the diagonal and lose the ability to pay for the second use of it.
-
-This also explains a fact the codification records but does not explain: the
-**apparatus-identity thesis** (codified §4.2). Willard states that all the
-common apparatuses "produce the same set of final theorems", justified by
-Gödel Completeness — so the apparatus is not a strength axis. Yet it carries an
-incompleteness boundary. That is only coherent on the present reading: the
-apparatuses agree on *what is provable* and differ on *what it costs to prove*,
-and G2 is a theorem about cost.
-
----
+Willard cannot afford it and says so via the axioms; Beklemishev–Shamkanov
+forbid it and say so via the structural rules. §§3–5 develop the cost side,
+which is the corpus's own.
 
 ## 3. What the cost actually is
 

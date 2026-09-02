@@ -1,5 +1,59 @@
 # Nachlass Log
 
+## 2026-09-01 - refined-sjas section 2 rewritten from the full evidence
+
+Section 2 had been rewritten twice in quick succession, each time from whichever
+paper had just been read, without integrating. User called it flailing, which it
+was. Rewritten once, from Willard's own frame.
+
+The governing evidence was in the corpus the whole time. Willard1993-TR says
+three times that "every self verifying system must breach in some way one of the
+three fundamental Hilbert-Bernays conditions". Willard2001 Appendix A proves
+Theorem A.1, a version of the Hilbert-Bernays theorem sharpened to apply below
+PA - it needs only that alpha prove all of PA's Pi^-_1 theorems, which Willard
+notes "is actually the core fact that is needed by the classic proof".
+Willard2011 adds that conventional configurations satisfy the conditions and are
+"thus automatically inconsistent". So HBL is exactly the operative frame, and the
+claim that "no derivability condition is the pivot" was wrong.
+
+What the TR actually says is better than either earlier draft: the breach "may
+arise because of either the axiom system employed or the choice of deduction
+method, but not necessarily due to both". Feferman keeps all of PA's axioms and
+breaches via the apparatus; Willard keeps a natural apparatus and breaches via
+the axioms. The breach is obligatory; its location is the design choice, which is
+why the programme trades parameters rather than converging.
+
+Three corrections the user identified, all correct:
+
+- Not all Willard systems deny successor totality. The tableaux line is Type-A -
+  successor AND addition total, multiplication a 3-way relation. Only the Hilbert
+  line is Type-NS. Which totality is surrendered is a design parameter.
+- "silently consumes" is wrong about Beklemishev-Shamkanov; "implicitly" is the
+  accurate word. Their word is "presupposes", and the point is that nobody had
+  isolated the rule, not that anyone concealed it.
+- "separately" was ambiguous. Fixed-point uniqueness failing, and needing the
+  restricted weakening, is a second result about their toy system, not a further
+  prerequisite of the G2 argument.
+
+New in section 2.3, labelled as this Refinement's inference rather than Willard's
+claim, since he says "one of the three" without assigning it: the tableaux line
+breaches condition (2), internalised modus ponens, because the apparatus is
+cut-free and Willard2002a Theorem 2.2 says the combined proof exists but may be
+super-exponentially longer; the Hilbert line breaches condition (1), because
+asserting a proof exists means naming it and no totality axiom is available.
+
+Each half is checked against the control that fails. Restore cut to the tableaux
+line - which is what Xtab does - and condition (2) returns; Willard2020 Theorem
+4.5 says IS_Xtab is then automatically inconsistent. Make naming cheap on the
+Hilbert line - the multiplicative convention - and condition (1) returns;
+Willard2006a Theorem 4 says the system then cannot prove its own consistency.
+That the two controls fail in the two predicted ways is the evidence for the
+assignment.
+
+Conditions (1) and (2) are both permissions to use a proof again, once as an
+object and once as a step, which is why box-contraction is their abstract
+counterpart rather than a competitor.
+
 ## 2026-09-01 - G38 acquired; R1 section 2 corrected on D3
 
 Two things, both arising from a question about which derivability condition D3 is.
