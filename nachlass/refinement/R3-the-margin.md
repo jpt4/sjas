@@ -24,16 +24,61 @@ is deliberate: the criterion should be recognisable as his.
 | `Scope_E(Υ,N)` | `Υ` with every **unbounded** quantifier rebounded by `E(N)`; bounded ones untouched (Def. 4.2) |
 | `Υ` is **`Good(N)`** | `Scope_E(Υ,N)` is true in the standard model (Def. 4.3) |
 | **`♯(Υ)`** | the largest `J` with `Υ` `Good(J)`; `∞` if all (Def. 4.4) |
-| `q_β` | the shortest proof of `0=1` from `β` |
+| `q_β` | the shortest proof of `0=1` from `β` (Def. 4.5) |
 
 `♯(Υ)` is the **envelope**: how far out `Υ` remains true when its quantifiers are
-cut down to `2^N`. `Log(q_β)` is the **cost**: the bit-length of the cheapest
-refutation.
+cut down to `2^N`. `Log(q_β)` is the **cost**.
 
 Willard's Definition 4.5 puts them in one inequality. A configuration `ξ` is
 **Tight** iff every inconsistent `β ⊃ B^ξ` of `Π^ξ₁` sentences satisfies
 
 > **`Log(q_β) ≥ ♯(β) + 2`**
+
+### 1.1 What `q_β` and `Log(q_β)` actually measure
+
+Definition 4.5 says only "the shortest proof of `0 = 1` from `β`", so the measure
+has to be read off the corpus's standing conventions. It is worth pinning,
+because the margin is a difference of two quantities and one of them is
+encoding-relative.
+
+- **`q_β` is a Gödel number**, not a symbol count. This is forced by the notation
+  — one takes `Log` of it — and confirmed by the corpus's convention:
+  `Willard2007-APAL` Definition 9, "the length (or perhaps one should say
+  **bit-length**) of a proof `p` is represented by the quantity `Log₂(p)` when
+  `p` is written in a binary notation… `|p|` denotes `Log₂(p)`."
+- **`Log` is base 2, rounded down** (`Willard2000-TAB` Def. 1;
+  `Willard2007-APAL` Def. 2). So **`Log(q_β)` is the bit-length of the Gödel
+  number** of the cheapest refutation.
+- **"Shortest" means least Gödel number.** Every consistency-preservation proof
+  in the corpus is a minimal-counterexample argument on exactly that quantity —
+  "take `P` minimising `Θ(P)`" — and constructs a smaller `R` with
+  `Θ(R) < Θ(P)` (codified §6.9).
+
+**The bridge to symbol count is an explicit hypothesis, not an assumption.**
+`Willard2011` Appendix D imposes the **Conventional Tableaux Encoding
+Requirement**: the Gödel number of a tableaux proof with `J` function symbols
+"must be [at] least as large as `32^J`" — so a proof with `J` function symbols
+"will contain at least `2J` logical symbols and thus employ at least `5J` bits"
+(footnote 23, image-verified; the printed text omits the "at"). That is what
+makes `Log(q_β)` a faithful proxy for the proof as written, and Willard notes
+"all the usual methods for encoding semantic tableaux proofs satisfy this
+criteria".
+
+**Consequence for the margin: it is encoding-relative.** `♯(β)` is
+model-theoretic and encoding-free; `Log(q_β)` is not. `M(ξ)` is therefore
+well-defined only relative to a Gödel numbering meeting the Conventional
+Encoding Requirement, and the requirement is doing real work — a wasteful
+encoding would inflate `Log(q_β)` and manufacture margin where there is none.
+This is the same condition the corpus's coding-density family (drift **D25**,
+obligation **O33**) exists to pin down, and it is why `Willard2005`'s Eq. (20),
+`U-Height(p) < (1/5)·Log₂(p)`, is stated for "any other reasonable encoding
+methodology" rather than for one scheme.
+
+Three distinct size measures coexist in the corpus and should not be conflated:
+the **Gödel bit-length** `Log₂(p)` used here; **`χ(p)`**, the count of logical
+symbols (`Willard2004` §6, where `ℑ(H) = Σ χ(p_i)`); and **`U-Height`**, a count
+of U-Grounding function symbols along a branch (`Willard2005` §5.2). The
+encoding requirement is precisely what keeps them within constant factors.
 
 ---
 
@@ -43,6 +88,10 @@ Willard's Definition 4.5 puts them in one inequality. A configuration `ξ` is
 > margin** is
 >
 > `M(ξ) = inf { Log(q_β) − ♯(β) : β ⊃ B^ξ a set of Π^ξ₁ sentences, β inconsistent }`
+>
+> where `q_β` is the **least Gödel number** of a proof of `0=1` from `β`, `Log`
+> is base-2 with downward rounding, and the Gödel numbering satisfies the
+> Conventional Encoding Requirement of §1.1.
 >
 > `ξ` is **Tight** exactly when `M(ξ) ≥ 2`.
 
@@ -149,6 +198,11 @@ inequality flips, and no such computation is offered here.
 (`Willard2004` Thms 2 and 3, gap **G35**, permanently sketch), and two are
 `stated-only` on both halves (Hybrid(H), `Herb−k`). The margin cannot be firmer
 than the dials it organises.
+
+**Encoding-relativity is a live caveat, not a formality.** Because `Log(q_β)`
+is measured on Gödel numbers, any derivation of a transition point must carry the
+encoding hypothesis explicitly. `Willard2011`'s own Appendix D does this; a
+future proof of the instances must too.
 
 **What would make it a proof.** For each dial, derive the transition point from
 the inequality rather than reading it off Willard's results: compute `♯(β)` and
