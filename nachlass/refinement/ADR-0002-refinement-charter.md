@@ -1,6 +1,6 @@
 # ADR-0002 — Refinement Charter
 
-**Status.** Opened 2026-09-01. R1 done and reviewed; R2 partly done; R3–R5 pending.
+**Status.** Opened 2026-09-01. R1 done and reviewed; R2 done; R3–R5 pending.
 
 ## Context
 
@@ -48,9 +48,9 @@ Codification.
 | Id | Component | Status |
 | --- | --- | --- |
 | **R1** | The essential idea: identify and explicate | **done 2026-09-01** — [`refined-sjas.md`](refined-sjas.md) |
-| **R2** | Acquire and integrate the external refinements | **partly done 2026-09-01** — Beklemishev **unacquirable** (G7 closed: unpublished); **Pakhomov 2019 acquired and integrated** ([`R1-review.md`](R1-review.md)); Beklemishev–Shamkanov 2016 outstanding (**G38**) |
+| **R2** | Acquire and integrate the external refinements | **done 2026-09-01** — Beklemishev **unacquirable** (G7 closed: unpublished); **Pakhomov 2019 acquired and integrated** ([`R1-review.md`](R1-review.md)); **Beklemishev–Shamkanov 2016 acquired and assessed** ([`R2-beklemishev-shamkanov-assessment.md`](R2-beklemishev-shamkanov-assessment.md), G38 closed) — **R2 done** |
 | **R3** | Make the §5 criterion a definition, and prove the five dials are instances | pending |
-| **R4** | The computational analogue: test the type-theoretic reading against Brown–Palsberg | pending |
+| **R4** | The computational analogue: test the type-theoretic reading against Brown–Palsberg. **Carries obligation RO1**: affineness alone does not evade G2 — `□`-contraction can hold in affine PA (Beklemishev–Shamkanov §3) | pending |
 | **R5** | Secondary-literature pass: Artemov, Pudlák, Visser, Adamowicz, Kolodziejczyk, Salehi | pending |
 
 R1 delivers the stage's stated deliverable. R3 is where it would become
@@ -90,6 +90,9 @@ generalisation ([`R1-review.md`](R1-review.md) §2), and surfaced
 **The stage is not complete.** R1's deliverable is complete and has been
 reviewed against external literature; B4′ is met for the one published external
 refinement that exists; **B5 is open**, and is where the Refinement would become
-mathematics. R3 is now better specified than it was: the criterion must cover
-both Willard's bounded valuation and Pakhomov's bounded finite model, not the
-arithmetic instance alone.
+mathematics. R3's target has been sharpened twice by R2: the criterion must
+cover Willard's bounded valuation, Pakhomov's bounded finite model **and**
+Beklemishev–Shamkanov's structural absence of `□`-contraction — the last having
+no size parameter at all. Whether "bounded witness" and "no reuse" are one
+condition or two that coincide in the arithmetic case is the stage's open
+question.

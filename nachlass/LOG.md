@@ -1,5 +1,53 @@
 # Nachlass Log
 
+## 2026-09-01 - G38 acquired; R1 section 2 corrected on D3
+
+Two things, both arising from a question about which derivability condition D3 is.
+
+**The numbering was right, the attribution was wrong.** D3 is
+`Prv(phi) -> Prv(Prv(phi))`, exactly as Pakhomov lists the three HBL conditions.
+But refined-sjas section 2 named it as what Willard's systems lose, and that is
+wrong twice over. HBL is not the operative frame - Pakhomov: "HBL conditions do
+not necessary hold in the case of some weaker arithmetical c.e. theories" - and
+what Willard actually evades is Pudlak's theorem, whose essential step is
+cut-shortening, which requires successor totality. And at the abstract level the
+pivot is not a derivability condition at all. Section 2 corrected.
+
+**G38 acquired**: Beklemishev and Shamkanov, "Some abstract versions of Godel's
+second incompleteness theorem based on non-classical logics", arXiv:1602.05728,
+the Liber Amicorum Alberti chapter. Held with checksum.
+
+They generalise Loeb's conditions to weaker-than-classical logics and isolate
+what Godel's argument silently consumes: admissibility of the contraction rule
+restricted to boxed formulas - "any hypothesis can be used several times".
+Fixed-point uniqueness separately needs the restricted weakening. Their K4 over
+contraction-free classical logic, with fixed-point operators, has Godelian fixed
+points and no formalized G2, by cut-elimination. They call it a toy system.
+
+Effect on the Refinement, three ways.
+
+It corrects section 2, as above. It confirms section 2's central thesis from an
+independent direction, with no arithmetic at all: a system with fixed points and
+no G2 is the strongest available evidence that self-reference is not what does
+the work. And it supplies the unification R1 was missing - contraction is reuse,
+and reuse is what costs, so "bounded witness" and "no box-contraction" are the
+same condition described twice. Three routes now: Willard denies the second use
+by naming, Pakhomov bounds it semantically, Beklemishev-Shamkanov deny it
+structurally.
+
+A caution for this repository, recorded as obligation RO1. The paper notes that
+box-contraction "actually holds for some meaningful arithmetical systems lacking
+general contraction rule, for example, for a version of Peano arithmetic based
+on affine predicate logic". So this repo's affine-tree line cannot infer from
+affineness that G2 is evaded; it must show box-contraction fails, not merely
+that general contraction does.
+
+R2 done. R3 is now sharply specified: a definition adequate to all three routes
+must cover a bounded valuation, a bounded finite model, and a structural absence
+of box-contraction, the last having no size parameter. Whether those are one
+condition or two that coincide in the arithmetic case is the stage's open
+question.
+
 ## 2026-09-01 - R1 reviewed; G7 resolved as unacquirable; Pakhomov 2019 acquired
 
 Searched for Beklemishev's "simplified presentation of SJAS" (gap G7, the

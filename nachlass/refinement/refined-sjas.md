@@ -67,20 +67,50 @@ it directly — every affirmative system in the corpus builds its Group-3 axiom
 by exactly this construction (codified §5.1).
 
 What Lawvere does *not* give is the paradox. To turn a fixed point into a
-contradiction you need something more: the system must be able to **verify,
-internally, that the fixed point says what it says** — the Hilbert–Bernays–Löb
-derivability conditions, and in particular `□φ → □□φ`. That condition is not
-about self-reference at all. It is a statement about the **cost of internalised
-proof-checking**.
+contradiction you need something more, and identifying *what* is the substance
+of this section.
+
+The Hilbert–Bernays–Löb conditions on a provability predicate `□` are
+
+> **D1** `T ⊢ φ ⟹ T ⊢ □φ`  ·  **D2** `T ⊢ □(φ→ψ) → (□φ → □ψ)`  ·
+> **D3** `T ⊢ □φ → □□φ`
+
+and D3 — provable Σ₁-completeness for `□` itself — is the expensive one, since
+verifying a verification means writing down an object larger than the proof.
+
+**But HBL is the wrong frame for Willard's systems, and an earlier draft of this
+section was wrong to name D3 as what they lose.** They are far below the
+theories for which HBL holds; Pakhomov puts it plainly — "**HBL conditions do
+not necessary hold in the case of some weaker arithmetical c.e. theories**". The
+theorem Willard actually evades is **Pudlák's**: no consistent c.e. theory
+extending Robinson's `Q` proves its own Hilbert-style consistency, later
+extended to predicate-only theories that prove **successor totality** — "the
+totality of successor function is important since it is necessary for the
+**cut-shortening technique** employed by Pudlák". Willard's systems deny exactly
+that totality. What they lose is not a derivability condition but the
+cut-shortening that Pudlák's argument consumes.
+
+At the abstract level the requirement has been isolated, and it is not D3
+either. Beklemishev and Shamkanov generalise Löb's conditions to logics weaker
+than classical and show that **Gödel's argument presupposes admissibility of the
+contraction rule restricted to `□`-formulas** (fixed-point *uniqueness*
+additionally needs the correspondingly restricted weakening). Contraction is
+`Γ, φ, φ ⊢ ψ ⟹ Γ, φ ⊢ ψ` — in their gloss, "any hypothesis can be used several
+times". Drop it and the argument fails: their K4 over contraction-free classical
+logic, with fixed-point operators, has Gödelian fixed points and **no** formalized
+G2.
+
+So the thing beyond the fixed point that G2 needs is the licence to **use a
+derived fact more than once**. That is one description of a structural rule and
+another description of a resource — which is why it can be denied either
+structurally, as Beklemishev–Shamkanov do, or by cost, as Willard does.
 
 > **Refined reading of G2.** Gödel's Second Theorem is not a theorem about
-> self-reference. It is a theorem about systems that can afford to check their
-> own work.
+> self-reference. It is a theorem about systems that can afford to **use a proof
+> twice**.
 
-Willard's systems are exactly the systems that cannot afford it. They keep the
-diagonal and lose **`D3`** — `□φ → □□φ`, the condition that the system verify
-its own verifications. `D1` and `D2` are not the obstruction; `D3` is, because
-it is the one that requires writing down an object larger than the proof.
+Willard's systems are exactly the systems that cannot afford the reuse. They
+keep the diagonal and lose the ability to pay for the second use of it.
 
 This also explains a fact the codification records but does not explain: the
 **apparatus-identity thesis** (codified §4.2). Willard states that all the
