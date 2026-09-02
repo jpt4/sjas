@@ -1,5 +1,47 @@
 # Nachlass Log
 
+## 2026-09-02 - Reuse is condition (3); the section 2.4 unification withdrawn
+
+User asked in what way conditions (1) and (2) are "permissions to use a proof
+again", noting that proof reuse is the third derivability criterion. Correct on
+both counts.
+
+Taken one at a time: (1) licenses internalisation once - from having a proof,
+assert one exists. (2) licenses composition - combine proofs of Phi and
+Phi -> Psi. (3) licenses iteration - from Der(Phi), assert Der(Der(Phi)), which
+is the same proof reflected one level up. Reuse is (3). The earlier gloss
+flattened three distinct licences into one and was wrong.
+
+Also recorded: (3) is the strongest of the three, since proving Der(Der(Phi))
+requires internalising (1), so a system failing (1) fails (3) a fortiori.
+Section 2.3's assignment is therefore a claim about which of the WEAKER
+conditions already gives way - which is what the design parameter controls - not
+a claim that (3) survives.
+
+The second error was bigger. Section 2.4 had claimed Beklemishev-Shamkanov's
+box-contraction and the cost account were "the same condition described twice".
+Checked where contraction is actually consumed in their Proposition 3.8: it is
+the step from Gamma |- phi and Gamma |- not-phi to Gamma |- not-top, which
+reuses the CONTEXT, not a proof. It is a rule of the ambient consequence
+relation, more elementary than Loeb's conditions and lying underneath them, and
+it is not a restatement of any of the three.
+
+What survives is weaker and worth keeping: G2 is over-determined. It needs a
+fixed point, the derivability conditions, and a structural licence to use a
+context twice, and the literature now removes each independently - Willard a
+derivability condition, Pakhomov the semantic step, Beklemishev-Shamkanov the
+structural rule. A system escapes by failing any one. That is a catalogue of
+independent failure points, not a unifying condition.
+
+Section 2.4 replaced by 2.4 (what each condition licenses) and 2.5 (contraction
+as a structural rule, with the quoted proof step). The slogan is restated
+accordingly: G2 is a theorem about systems that meet all of its several
+prerequisites at once, and the corpus is the catalogue of ways to fail one.
+
+R3 is correspondingly harder, and the charter now says so: whether a single
+condition subsumes the three routes, or whether self-verification is simply the
+disjunction of G2's failure modes, is the stage's open question.
+
 ## 2026-09-01 - refined-sjas section 2 rewritten from the full evidence
 
 Section 2 had been rewritten twice in quick succession, each time from whichever

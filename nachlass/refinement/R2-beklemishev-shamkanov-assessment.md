@@ -95,19 +95,33 @@ can construct, within its own means, a **bounded semantic witness** that a given
 proof is not a refutation. That is a statement about *cost*.
 
 Beklemishev–Shamkanov's is a statement about *structure*: the argument needs
-`□`-contraction. **These are the same condition described twice.** Contraction
-*is* reuse; reuse is what costs. Gödel's argument must use `□φ` more than once,
-and a system escapes exactly when it will not or cannot pay for the second use:
+`□`-contraction.
+
+**A first draft here claimed these were "the same condition described twice".
+That was too strong**, and their own proof shows why. Contraction is consumed at
+one identifiable step of Proposition 3.8 — the step from `Γ ⊢ φ` and `Γ ⊢ ¬φ` to
+`Γ ⊢ ¬⊤`, which reuses the **context**, not a proof. It is a rule of the ambient
+consequence relation, more elementary than Löb's conditions and lying underneath
+them. Nor is it a restatement of any single condition: **reuse, among the three,
+is condition (3)** — `Der(⌜Φ⌝) ⊃ Der(⌜Der(⌜Φ⌝)⌝)`, the one that reflects a proof
+upward. (1) internalises once; (2) composes two *different* proofs.
+
+What survives is weaker and still worth having: **G2 is over-determined.** It
+needs a fixed point, the derivability conditions, and a structural licence to
+use a context twice — and the literature now removes each of the three
+independently. A system escapes by failing any one:
 
 | Route | How the second use is denied |
 | --- | --- |
-| **Willard, tableaux line** | condition (2) is denied: the apparatus is cut-free, so combining two proofs is not internally available at bounded length |
+| **Willard, tableaux line** | condition (2) is denied: the apparatus is cut-free, so composing two proofs is not internally available at bounded length |
 | **Willard, Hilbert line** | condition (1) is denied: with no totality axiom, a long proof cannot be **named**, so its existence cannot be asserted |
-| **Pakhomov** | it is bounded **semantically** — every finite subtheory has a finite model, so no proof reaches a refutation |
-| **Beklemishev–Shamkanov** | it is denied **structurally** — the logic has no `□`-contraction |
+| **Pakhomov** | the argument is blocked **semantically** — every finite subtheory has a finite model |
+| **Beklemishev–Shamkanov** | the **structural** licence is withdrawn — no `□`-contraction, so a context proving `φ` and `¬φ` is not thereby inconsistent |
 
-This is a materially better statement of the essential idea than R1 had, and it
-is the first version of it that is not read off Willard alone.
+This is still a materially better position than R1 had, and it is the first
+version not read off Willard alone — but it is a catalogue of independent
+failure points, not a single unifying condition. Finding whether one exists is
+R3's problem, and §4 records that it is now harder than it looked.
 
 ---
 

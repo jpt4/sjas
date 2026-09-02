@@ -90,9 +90,11 @@ generalisation ([`R1-review.md`](R1-review.md) §2), and surfaced
 **The stage is not complete.** R1's deliverable is complete and has been
 reviewed against external literature; B4′ is met for the one published external
 refinement that exists; **B5 is open**, and is where the Refinement would become
-mathematics. R3's target has been sharpened twice by R2: the criterion must
-cover Willard's bounded valuation, Pakhomov's bounded finite model **and**
-Beklemishev–Shamkanov's structural absence of `□`-contraction — the last having
-no size parameter at all. Whether "bounded witness" and "no reuse" are one
-condition or two that coincide in the arithmetic case is the stage's open
+mathematics. R3's target has been sharpened twice by R2, and made harder. The
+three known routes fail **three different prerequisites** of one argument — a
+derivability condition (Willard), the semantic step (Pakhomov), and a structural
+rule of the ambient logic (Beklemishev–Shamkanov). An earlier draft claimed
+these were one condition under three descriptions; they are not. Whether a
+single condition subsumes them, or whether G2 is simply over-determined and
+self-verification is the disjunction of its failure modes, is the stage's open
 question.

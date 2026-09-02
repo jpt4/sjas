@@ -137,29 +137,68 @@ Only the Hilbert line does. The tableaux line proves successor *and* addition
 total and gives up multiplication alone. Which totality is surrendered is one of
 the design parameters, not a fixed feature of the programme.
 
-### 2.4 What the breach is, said once
+### 2.4 What each condition licenses, and what contraction licenses
 
-Condition (2) licenses using `Der(⌜Φ⌝)` and `Der(⌜Φ ⊃ Ψ⌝)` **together**;
-condition (1) licenses producing `Der(⌜Φ⌝)` at all. Both are permissions to
-*use a proof again* — once as an object, once as a step.
+The three conditions are not three versions of one thing, and an earlier draft
+of this section flattened them by calling (1) and (2) "permissions to use a proof
+again". They are not. Taken one at a time:
 
-Beklemishev and Shamkanov reach the same place from the opposite end, with no
-arithmetic at all. Generalising Löb's conditions to logics weaker than classical,
-they show that Gödel's argument **implicitly** presupposes admissibility of the
-**contraction** rule restricted to `□`-formulas — `Γ, φ, φ ⊢ ψ ⟹ Γ, φ ⊢ ψ`, in
-their gloss "any hypothesis can be used several times". Their contraction-free
-K4 with fixed-point operators has Gödelian fixed points and **no** formalized
-G2. (Fixed-point *uniqueness* fails there too, and needs the restricted
-weakening rather than the restricted contraction; that is a second result about
-the same system, not a further requirement of the G2 argument.)
+| | Licenses | |
+| --- | --- | --- |
+| **(1)** | **internalisation**: from *having* a proof, assert that one exists | once |
+| **(2)** | **composition**: combine proofs of `Φ` and `Φ ⊃ Ψ` into a proof of `Ψ` | two *different* proofs |
+| **(3)** | **iteration**: from the assertion `Der(⌜Φ⌝)`, assert `Der(⌜Der(⌜Φ⌝)⌝)` | **the same proof, one level up** |
+
+**Reuse is (3).** It is the condition that takes a statement already *about* a
+proof and makes that statement itself a proved object — the proof is used again,
+reflected upward. (1) internalises once; (2) composes two distinct derivations.
+
+(3) is also the strongest of the three in a way worth recording: proving
+`Der(⌜Der(⌜Φ⌝)⌝)` requires internalising (1), so **a system that fails (1) fails
+(3) a fortiori**. §2.3's assignment is therefore a claim about which of the
+*weaker* conditions already gives way — which is what the design parameter
+controls — not a claim that (3) survives.
+
+### 2.5 Contraction is a structural rule, not one of the three
+
+It is tempting, and this Refinement earlier yielded to the temptation, to say
+that Beklemishev–Shamkanov's `□`-contraction is one of the derivability
+conditions restated. It is not, and their proof says where it is used.
+
+Contraction is `Γ, φ, φ ⊢ ψ ⟹ Γ, φ ⊢ ψ` — a rule of the ambient consequence
+relation about reusing a **hypothesis**, not about reusing a proof. In their
+Proposition 3.8 it is consumed at one specific step, establishing their condition
+**C3**:
+
+> "By Lemma 3.3(i) we have: `φ, ¬φ, ⊤ ⊢ ⊥`. Hence, `φ, ¬φ ⊢ ⊤ → ⊥`, therefore
+> `φ, ¬φ ⊢ ¬⊤` by Condition 1. **The rules of transitivity and contraction imply
+> that, if `Γ ⊢ φ` and `Γ ⊢ ¬φ`, then `Γ ⊢ ¬⊤`.**"
+
+So what contraction licenses is the step from *two derivations off the same
+context* — one of `φ`, one of `¬φ` — to a single derivation of absurdity. Without
+it, a context that proves both a formula and its negation is not thereby
+inconsistent. That is more elementary than any of Löb's conditions and sits
+underneath all of them.
+
+The correct picture is therefore that Gödel's argument needs **three separate
+things**, and the literature now contains a way of removing each:
+
+| Ingredient | Removed by |
+| --- | --- |
+| the **fixed point** | nobody — Lawvere gives it away, and every system here keeps it |
+| the **derivability conditions** | **Willard** — (2) on the tableaux line, (1) on the Hilbert line (§2.3); and **Pakhomov**, whose finite models block the argument semantically |
+| the **structural licence** to use a context twice | **Beklemishev–Shamkanov** — contraction-free K4 |
+
+These are three different steps of one argument, not one condition under three
+descriptions. The unification claimed in an earlier draft was too strong, and
+what survives it is weaker but still worth stating: **G2 is over-determined**,
+and a system escapes by failing any one of its several independent
+prerequisites — which is why the corpus reads as a study of design parameters
+rather than a search for a single trick.
 
 > **Refined reading of G2.** Gödel's Second Theorem is not a theorem about
-> self-reference. It is a theorem about systems that can afford to **use a proof
-> twice**.
-
-Willard cannot afford it and says so via the axioms; Beklemishev–Shamkanov
-forbid it and say so via the structural rules. §§3–5 develop the cost side,
-which is the corpus's own.
+> self-reference. It is a theorem about systems that meet *all* of its several
+> prerequisites at once — and the corpus is the catalogue of ways to fail one.
 
 ## 3. What the cost actually is
 
