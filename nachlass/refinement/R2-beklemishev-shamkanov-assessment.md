@@ -15,23 +15,66 @@ consequence relation with a `□` operator, and generalisations of Löb's
 derivability conditions that make sense for logics weaker than classical. Two
 results matter here.
 
-**Gödel's argument presupposes `□`-contraction.** Contraction is
-`Γ, φ, φ ⊢ ψ ⟹ Γ, φ ⊢ ψ`, which the paper glosses as "any hypothesis can be
-used several times". Restricted to `□`-formulas, its admissibility is what the
-G2 argument **implicitly** consumes — the paper's word is that the argument
-"presupposes" it, and the point is that nobody had isolated it, not that anyone
-concealed it.
+**Gödel's argument implicitly consumes contraction.** Definition 3.7 (p. 8,
+image-verified) gives the *plain* rules:
 
-A second, independent result about the same system: **uniqueness** of the
-Gödelian fixed point fails there, and what uniqueness needs is the restricted
-**weakening**, not the restricted contraction. That is a further property of
-their toy system, not a further prerequisite of the G2 argument.
+> - satisfies **contraction** if `Γ, φ, φ ⊢ ψ` implies `Γ, φ ⊢ ψ`;
+> - satisfies **weakening** if `Γ ⊢ ψ` implies `Γ, φ ⊢ ψ`, for any `φ`.
+
+with the gloss that contraction "intuitively means that any hypothesis can be
+used several times in a derivation", and the verdict: "**a certain amount of
+contraction is essential for the proof of G2.**"
+
+Two hypotheses, not one, and they do different work:
+
+- **Theorem 3** (their G2): `S` satisfies **contraction** and `□` satisfies
+  Löb's conditions.
+- **Theorem 4** (uniqueness of the Gödelian fixed point): `S` satisfies
+  **contraction *and* weakening** and `□` satisfies Löb's conditions; then all
+  Gödelian fixed points are equivalent to `⊠⊤ =_S □⊥`.
+
+An earlier draft said uniqueness needs "the restricted **weakening**, not the
+restricted contraction". Weakening is what uniqueness needs *in addition*;
+contraction is required by both theorems. (The abstract's "the uniqueness … is
+based on the similarly restricted form of weakening" is naming the increment,
+and the draft read it as an exclusive.) The same draft gave Theorem 4's
+conclusion as `⊠⊤ =_S ⊥` — the text layer had stripped the `□`; it is
+`⊠⊤ =_S □⊥`.
+
+**Plain versus `□`-restricted.** Theorems 3 and 4 are stated with the *plain*
+rules. **Remark 3.9** then weakens them: plain contraction and weakening "are
+somewhat excessive requirements", and
+
+> - satisfies **`□`-contraction** if `Γ, □φ, □φ ⊢ ψ` implies `Γ, □φ ⊢ ψ`;
+> - satisfies **`□`-weakening** if `Γ ⊢ φ` implies `Γ, □ψ ⊢ φ`, for any `ψ`.
+
+together with `C3′` and `C5′`, suffice for more general versions of both. Note
+the asymmetry the plain forms do not have: `□`-weakening may adjoin only a
+**boxed** formula. Earlier drafts of this document used "contraction" and
+"`□`-contraction" interchangeably; the distinction is exactly what §3's caution
+turns on, so it is kept sharp from here.
 
 **Dropping it invalidates G2 while keeping the fixed point.** They exhibit a
 modal K4 over the **contraction-free** fragment of classical logic, extended by
-fixed-point operators, and prove by cut-elimination that the formalized G2
-**fails** in it — with Gödelian and Henkinian fixed points existing, and
-existing in infinite supply rather than uniquely.
+fixed-point operators, and prove by cut-elimination that the **formalized** G2
+fails in it — with Gödelian and Henkinian fixed points existing, and existing in
+infinite supply rather than uniquely.
+
+**But `S` is not self-verifying, and the paper says so.** §6, p. 14
+(image-verified):
+
+> "the system `S` does not provide a counterexample to the non-formalized version
+> of Gödel's second incompleteness theorem, since `⇒ ¬□⊥` is not provable in it"
+
+and, closing:
+
+> "we are still missing convincing examples of mathematical theories based on
+> weak logics for which Gödel's second incompleteness theorem would fail"
+
+So this route **breaks the argument without obtaining the object**. That is a
+real result — it isolates a prerequisite nobody had isolated — but it is not a
+third self-verifying system, and §2.3 and `R3-the-margin.md` §5 are corrected
+where they treated it as one.
 
 They call the example a "(toy)" system, and that qualification is theirs, not a
 softening added here.
@@ -55,8 +98,10 @@ the first attempt to repair it:
   cut-shortening instead. That is also wrong. **Willard frames his own work in
   HBL terms throughout**: `Willard1993-TR` says three times that "every self
   verifying system must breach in some way one of the three fundamental
-  Hilbert-Bernays conditions"; `Willard2001` Appendix A proves **Theorem A.1**, a
-  version of the theorem sharpened to apply below PA; and `Willard2011` notes
+  Hilbert-Bernays conditions"; `Willard2001` Appendix A **states** (does not prove — the row is
+  `stated-only`; "no formal proof given", footnote 16 arguing only that the
+  classic proof needs no more than `Π^-₁` capacity) **Theorem A.1**, a version
+  of the theorem sharpened to apply below PA; and `Willard2011` notes
   that *conventional* configurations satisfy the conditions and are "thus
   automatically inconsistent". HBL is exactly the operative frame.
 - **The real content is that the breach's *location* is a design choice.**
@@ -64,15 +109,25 @@ the first attempt to repair it:
   employed or the choice of deduction method, **but not necessarily due to
   both**" — Feferman keeps PA's axioms and breaches via the apparatus; Willard
   keeps a natural apparatus and breaches via the axioms.
-- **And the specific condition differs between Willard's two branches**, which
-  is why the earlier drafts kept failing: there is no single answer. The
-  tableaux line (Type-A, cut-free) breaches **(2)**; the Hilbert line (Type-NS,
-  modus ponens intact) breaches **(1)**. See `refined-sjas.md` §2.3, where the
-  assignment is labelled as this Refinement's inference and each half is checked
-  against the control that fails.
-- **`□`-contraction is the abstract counterpart**, not a competitor: conditions
-  (1) and (2) are both permissions to use a proof again, and contraction is that
-  permission stated as a structural rule.
+- **Willard names the condition himself, for one branch.** `Willard1993-TR`
+  printed p. 12 (image-verified) identifies **condition (2)** as what `IS(A)`
+  breaches, and does so as a *uniformity* failure — the implication holds "only
+  in the *degenerate case* where `x` and `y` are *fixed constants*". This is
+  recorded at `../codification/extraction/willard1993-tr.md` §3.7c, which an
+  earlier draft of this row failed to consult before asserting he never says.
+  The Hilbert line's condition is **not** stated in the corpus; an earlier
+  assignment of it to (1) is **withdrawn**. See `refined-sjas.md` §§2.3–2.3a.
+- **Willard also has a route that bypasses HBL entirely**, which bears on how
+  much weight this frame can carry: `Willard2001` Lemma 7.1 "replaces the
+  Hilbert-Bernays derivability conditions with a semantic argument", which is
+  why that paper's §7 theorems need no arithmetic inside `α`.
+- **`□`-contraction is not a restatement of a derivability condition.** An
+  earlier draft said conditions (1) and (2) "are both permissions to use a proof
+  again". They are not. (1) internalises a proof once; (2) composes two
+  *different* proofs; **reuse is (3)**, `Der(⌜Φ⌝) ⊃ Der(⌜Der(⌜Φ⌝)⌝)`.
+  Contraction is a rule of the *ambient consequence relation*, lying underneath
+  all three, and Proposition 3.8 consumes it on the **context** `Γ`, not on a
+  proof. It is a distinct prerequisite, which is the whole point of §2.3.
 
 §2 is rewritten around Willard's own frame rather than around whichever paper
 was read most recently.
@@ -106,22 +161,29 @@ them. Nor is it a restatement of any single condition: **reuse, among the three,
 is condition (3)** — `Der(⌜Φ⌝) ⊃ Der(⌜Der(⌜Φ⌝)⌝)`, the one that reflects a proof
 upward. (1) internalises once; (2) composes two *different* proofs.
 
-What survives is weaker and still worth having: **G2 is over-determined.** It
-needs a fixed point, the derivability conditions, and a structural licence to
-use a context twice — and the literature now removes each of the three
-independently. A system escapes by failing any one:
+What survives is weaker and still worth having: **G2's argument is
+over-determined**, and the literature now removes its prerequisites
+independently.
 
-| Route | How the second use is denied |
-| --- | --- |
-| **Willard, tableaux line** | condition (2) is denied: the apparatus is cut-free, so composing two proofs is not internally available at bounded length |
-| **Willard, Hilbert line** | condition (1) is denied: with no totality axiom, a long proof cannot be **named**, so its existence cannot be asserted |
-| **Pakhomov** | the argument is blocked **semantically** — every finite subtheory has a finite model |
-| **Beklemishev–Shamkanov** | the **structural** licence is withdrawn — no `□`-contraction, so a context proving `φ` and `¬φ` is not thereby inconsistent |
+| Route | Which prerequisite is removed | Self-verifying theory obtained? |
+| --- | --- | --- |
+| **Willard, tableaux line** | a **derivability condition** — Willard names **(2)** for `IS(A)` at TR p. 12, as a uniformity failure: the apparatus is cut-free, so the implication holds only for fixed constants | **yes** |
+| **Willard, Hilbert line** | a derivability condition, **not identified in the corpus**. With no totality axiom a long proof cannot be named; whether that lands on (1), (2) or (3) is this Refinement's open question, not Willard's statement | **yes** |
+| **Pakhomov** | the **semantic** step — every finite subtheory has a finite model. Note `H_{<ω}` *also* cannot prove successor totality, so it shares Willard's evasion of Pudlák | **yes** |
+| **Beklemishev–Shamkanov** | the **structural** licence — no `□`-contraction, so a context proving `φ` and `¬φ` is not thereby inconsistent | **no** — `⇒ ¬□⊥` is not provable in `S` (§6, p. 14) |
 
-This is still a materially better position than R1 had, and it is the first
-version not read off Willard alone — but it is a catalogue of independent
-failure points, not a single unifying condition. Finding whether one exists is
-R3's problem, and §4 records that it is now harder than it looked.
+Two things follow, and an earlier draft of this passage stated neither.
+
+**Breaking the argument is necessary, not sufficient.** The fourth row is a case
+where G2's argument fails and self-verification does not follow. A theory must
+additionally *prove* `Con`, which is a positive obligation on its own axioms.
+"Self-verification = failure of G2's argument" is therefore a biconditional this
+document does not assert.
+
+**The catalogue is not a criterion.** These are independent failure points, not
+values of one parameter. Whether a single condition subsumes them is R3's
+problem, and `R3-the-margin.md` §5 answers it in the negative — with the roster
+above, corrected.
 
 ---
 
@@ -160,12 +222,18 @@ not exhibit an arithmetic of independent interest. Willard's and Pakhomov's
 systems do the latter and are correspondingly harder.
 
 **R3 is now the right next piece and is better specified again.** A definition of
-self-verification adequate to all three routes must cover a bounded valuation
-(Willard), a bounded finite model (Pakhomov), **and** a structural absence of
-`□`-contraction (Beklemishev–Shamkanov) — the last of which has no size
-parameter at all. Whether the three are instances of one condition, or whether
-"bounded witness" and "no reuse" are genuinely two ideas that coincide in the
-arithmetic case, is now the open question of this stage.
+self-verification must cover the two witness kinds that actually deliver
+self-verifying theories — a bounded valuation (Willard) and a bounded finite
+model (Pakhomov) — while explaining why the third route, which removes a
+prerequisite with **no size parameter at all**, does not deliver one. Whether
+"bounded witness" and "no reuse" are one idea or two that coincide in the
+arithmetic case is the open question of this stage.
+
+*Answered by R3, 2026-09-02:* they are two. `R3-the-margin.md` §5 gives the
+margin as the invariant for Willard's cell alone, shows Pakhomov shares his
+evasion of Pudlák by a different witness kind, and records that
+Beklemishev–Shamkanov's cell is **empty of a theory** — which their own §6
+names as the open problem.
 
 ---
 

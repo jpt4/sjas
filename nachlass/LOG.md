@@ -1,5 +1,89 @@
 # Nachlass Log
 
+## 2026-09-02 - Refinement review: 22 corrections, and audit.sh extended across the stage boundary
+
+A subagent review of R1-R3 returned about thirty findings. All Tier-1 items were
+verified independently before repair; four held, and each was of a kind the
+Codification's machinery exists to prevent, committed in the one stage that
+machinery did not reach. That is the finding worth keeping.
+
+**The four Tier-1 defects.**
+
+1. The claim that Willard never names which derivability condition his systems
+   breach. He names condition (2) for IS(A) at TR 93-10 printed p. 12, as a
+   *uniformity* failure - the implication holds "only in the degenerate case
+   where x and y are fixed constants". The repository's own extraction record
+   has a section titled "Which derivability condition fails". The claim was made
+   without consulting it.
+2. The claim that Pakhomov's H_<omega proves successor totality and so falsifies
+   R1's criterion. He states twice that neither H nor H_<omega can prove it -
+   H_<omega evades Pudlak by Willard's own door. Retracted in R1-review section
+   2.1, refined-sjas section 1, and ADR-0002.
+3. A Beklemishev-Shamkanov block quote with every box stripped by pdftotext,
+   reproduced in three documents. Theorem 4's conclusion lost its box the same
+   way: it is boxtimes-top =_S box-bottom, not boxtimes-top =_S bottom.
+4. Beklemishev-Shamkanov's S listed as a third route to self-verification. Their
+   section 6 says the opposite: S "does not provide a counterexample to the
+   non-formalized version of G2, since => not-box-bottom is not provable".
+
+**The largest downstream consequence.** Finding 4 refutes the biconditional the
+classification was built on. Breaking G2's argument is *necessary* for
+self-verification, not sufficient - a theory must additionally prove Con. R3
+section 5 is rewritten in three subsections around that distinction.
+
+**A defect found by computing rather than reading.** refined-sjas section 5
+stated the criterion as a growth rate: no proof of length L may denote an
+integer whose encoding exceeds O(L). Summing the Hybrid recurrence gives
+Log_2 C_n = Theta(n (log n)^H). Hybrid(1) is the *positive* case and is not
+O(n); Hybrid(2) is the negative case and is also quasi-linear. The criterion
+misclassifies the positive case and cannot locate the transition in either
+direction - the real boundary is a single logarithmic factor. Willard's own
+"midway between the additive and multiplicative conventions" is loose, and the
+draft had taken it as exact. The rate form is withdrawn; R3's margin, an
+additive comparison of two sizes, replaces it.
+
+Twenty-two corrections in all, tabulated in refinement/VERIFICATION.md. The
+others of substance: EA-stability is Definition 5.5 (both halves, quantified
+over possibly-false R-Views), not Definition 5.1; the Conventional Encoding
+Requirement is a *lower* bound, so it excludes over-compressed encodings, not
+wasteful ones - the hazard the draft claimed it guarded remains unguarded; the
+Hybrid dial's side-assignment is withdrawn, since sharp is model-theoretic and
+naming axioms are true; Level(n)'s mechanism restated as strengthening the base
+rather than changing what counts as a refutation; the R/Z merge removed, as
+codified section 8.1 expressly forbids it (D34, O46, G22); BS Theorem 4 needs
+contraction *and* weakening; the dial-status accounting corrected (only Level(n)
+is full on both settings, not "two of five are sketch").
+
+**The root-cause fix, which is the durable part.**
+
+- refinement/VERIFICATION.md now carries five rules (four inherited from
+  ADR-0001, plus "arithmetic is computed, never read off an informal gloss"), a
+  25-row quotation register with img/txt status per quote, a Computed claims
+  table, and the 22-correction table.
+- codification/audit-r.sh adds four checks, sourced by audit.sh:
+    R-A  every paper key cited in refinement/*.md resolves in corpus.md
+    R-B  the quotation register uses only img|txt, and no txt row carries
+         mathematical notation
+    R-C  every cited secondary-literature witness exists
+    R-D  no Refinement document reasserts a retracted claim without an
+         adjacent withdrawal marker
+- ADR-0002 gains constraint 4 (the verification discipline binds here) and
+  acceptance criterion B6.
+
+All four checks were red-green tested. Two bugs in my own checks were caught
+that way and would not have been caught otherwise: R-D's first version used a
+six-line guard window, which let an unrelated retraction elsewhere in the
+section act as a spurious guard - it passed when it should have failed; and a
+silent no-match in a batch edit left $docs referenced but never assigned. The
+second is process rule P1 recurring, in the tool built to enforce P1.
+
+Image-verified this session: Beklemishev-Shamkanov p. 8 (Definition 3.7,
+Proposition 3.8 with boxes intact, Theorems 3 and 4, Remark 3.9's box-contraction
+and box-weakening) and p. 14; Pakhomov p. 4 (superexponentiation, the
+superexponential cut, the finite-model bound, Con^pred).
+
+Stage status: R1-R3 done and repaired; R4-R5 pending. audit.sh green.
+
 ## 2026-09-02 - R3: the margin, and the refutation of the cross-route unification
 
 R3 delivered in two halves, one positive and one negative.

@@ -59,81 +59,60 @@ Searching for Beklemishev produced something better than the survey: a
 **published, peer-reviewed refinement of the SJAS idea by another author**, held
 now at `lit/pakhomov2019_weak_set_theory_proves_own_consistency_arxiv_1907.00877.pdf`.
 
-It also falsifies R1's headline claim as stated.
+An earlier version of this section claimed it falsified R1's headline claim.
+It does not; §2.1 retracts that.
 
-### 2.1 The finding
+### 2.1 The finding — **retracted 2026-09-02**
 
-R1 §1 asserts:
+This section claimed that Pakhomov falsified R1's headline claim, on the ground
+that `H_{<ω}` "proves the existence of every hereditarily finite set" and so
+"is not growth-restricted in Willard's sense", making it a counterexample to the
+naming criterion.
 
-> "A formal system can consistently assert its own consistency **exactly when**
-> naming an integer is not cheaper than proving something about it."
+**That reading of Pakhomov is wrong.** He states twice that **"both `H` and
+`H_{<ω}` could not prove totality of successor function"** (pp. 3–4, and p. 21:
+"theory `H` that could not even prove totality of successor function"). `H_{<ω}`
+therefore evades Pudlák by **exactly** Willard's route — Pudlák's cut-shortening
+technique requires successor totality, which is why Willard denies it and why
+Pakhomov must too. Pakhomov's own framing is a *naturalness* claim, not a
+mechanism claim:
 
-The "exactly when" is an **overclaim**, and Pakhomov is the counterexample.
+> "Dan Willard has constructed examples of c.e. arithmetical theories that could
+> not prove the totality of successor function but could prove their own
+> Hilbert-style consistency. The theories in his examples are not completely
+> natural in the sense that some of axioms are constructed using Diagonal Lemma.
+> The main result of the present paper is the construction of **a more natural
+> example of this kind**."
 
-`H_{<ω}` proves its own Hilbert-style consistency. It also **proves the
-existence of every hereditarily finite set** — so it is not growth-restricted in
-Willard's sense at all. Willard's systems fail to prove *successor*, *addition*
-or *multiplication* total; Pakhomov's proves all three and much more. On R1's
-criterion as written, `H_{<ω}` should be inconsistent. It is not.
+The earlier claim that his route is "orthogonal to Willard's denial of successor
+totality" is the precise opposite of what the source says.
 
-The mechanisms are genuinely different, and Pakhomov says so of Beklemishev's
-too ("different from the approach used in the present paper"). There are at
-least **three** routes to self-verification on the record, and R1 described one.
+**What survives.** The *generalisation* R1 made in response — from naming rate
+to bounded semantic witness — is still the better statement, but for a different
+and weaker reason: Pakhomov supplies a **second kind of witness** (a finite model
+of the axioms used) alongside Willard's (a bounded valuation on a branch), and a
+criterion phrased in terms of the witness covers both. That is a reason to
+prefer the general form. It is not a falsification of the special one.
 
-### 2.2 What Pakhomov's mechanism actually is
+**And the corpus already held the analogue, uncited.** `Willard2006a` Theorem 6's
+**`ISINF(A)`** is *Infinitely Far-Reaching* — some finite subset proves
+`∃x Pred^N(x) = 1` for every `N` — while not proving successor total. That is
+structurally `H_{<ω}`'s shape. Had this review consulted `registry/systems.md`
+before reaching for a falsification, the comparison would have been to `ISINF`
+rather than to a misreading.
 
-> "in order to prove `Con_pred(H^ω_{<ω})` in `H^ω` it is enough to prove in EA
-> that for any Gödel number `p` of a `H^ω_{<ω}`-proof, if `2⁰_p` is defined then
-> `p` could not be a proof of contradiction. To prove the latter inside EA we
-> **construct a finite model `M` of the size ≤ `2⁰_p` that satisfies all the
-> axioms of `H^ω_{<ω}` that occur in `p`**."
-
-The theory is infinitely axiomatizable, and **all its finite subtheories have
-finite models**. Any proof uses finitely many axioms; those axioms have a finite
-model; so no proof is a refutation. This evades **Pudlák's** strong G2 — which
-needs cut-shortening, hence successor totality — by a route orthogonal to
-Willard's denial of successor totality.
-
-And it is still bounded: the argument is relativised to the **superexponential
-cut**. `H^ω_{<ω}` proves a `Π₁` sentence iff EA proves it holds on that cut. So
-there *is* a growth restriction; it simply sits at superexponentiation rather
-than at successor.
-
-### 2.3 The repair
-
-The two mechanisms are instances of one shape, and that shape — not the naming
-rate — is the essential idea:
-
-> **A system is self-verifying when, for every proof it can write, a bounded
-> semantic witness that the proof is not a refutation can be constructed within
-> the system's own means.**
-
-- **Willard** constructs a *partial valuation on one tableau branch*: the
-  `Positive(a,b)` branch of `Willard2005` Lemmas 1–2, with every parameter
-  bounded by `Val(u) ≤ b·2^{Δ(s)}`, and Lemma 2 showing such a branch cannot
-  close. "Within its own means" is enforced by the naming rate — the bound must
-  be nameable, which is R1's criterion.
-- **Pakhomov** constructs a *full finite model of the axioms actually used*,
-  bounded by `2⁰_p`. "Within its own means" is enforced by the superexponential
-  cut.
-
-Both bound a semantic object by a function of proof length that the system
-cannot outrun. R1's naming criterion is the **arithmetic instance** of this, not
-the general statement — and R1 should say so.
-
-This is a strengthening, not a retraction: it explains *why* the five dials
-agree (§5.1 survives untouched, since all five are Willard-internal), and it
-supplies the first external test the criterion has had.
-
----
+**Consequences carried through.** `refined-sjas.md` §1 is corrected;
+[`R3-the-margin.md`](R3-the-margin.md) §5's classification is corrected; and
+ADR-0002's **B4′** stands, since Pakhomov *is* a published external refinement
+worth comparing against — the comparison simply comes out differently.
 
 ## 3. Other review findings on R1
 
 | # | Finding | Disposition |
 | --- | --- | --- |
-| **1** | §1's "exactly when" is falsified by Pakhomov (§2 above) | **corrected** — claim generalised, Willard's form marked as the arithmetic instance |
+| **1** | §1's "exactly when" is an overclaim | **corrected** — claim generalised, Willard's form marked as the arithmetic instance. Note the *reason* first given (a Pakhomov counterexample) was withdrawn at §2.1; the generalisation stands on the two-witness argument instead |
 | **2** | §8 offers Brown–Palsberg as *the* computational analogue on the strength of structural similarity alone; no formal correspondence is established | **accepted, with reason** — §8 already labels the transfer "a conjecture of this Refinement, not a result". Wording tightened to name it an analogy |
-| **3** | §2 says Willard's systems "lose the derivability conditions". Precisely, they fail **D3** (`□φ → □□φ`); D1 and D2 are not the obstruction | **corrected** |
+| **3** | §2 says Willard's systems "lose the derivability conditions" without saying which | **superseded 2026-09-02.** This row's own repair — "they fail **D3**; D1 and D2 are not the obstruction" — was itself wrong. `Willard1993-TR` p. 12 names **(2)** for `IS(A)`, as a *uniformity* failure. See `refined-sjas.md` §2.3 |
 | **4** | §5's table entry for the incremental convention says "too slow to build ℕ", which overstates `Willard2006a` — the convention *does* reach every integer, it is merely not **Continuously Expanding** (`K_i` growth) | **corrected** |
 | **5** | Pakhomov's characterisation of Willard — the axioms "are not completely natural in the sense that some of axioms are constructed using **Diagonal Lemma**" — is a substantive external critique R1 does not carry | **corrected** — added to §7's costs |
 | **6** | Drift **D81** (`SemPrf^K` strict vs non-strict) was found during R1 and correctly recorded | no action |
@@ -141,9 +120,12 @@ supplies the first external test the criterion has had.
 
 Sections checked and found sound: §3 (the `ω₁^K(p)` verification cost, verified
 against `Willard2007-APAL` §4), §4 (the two sequences and the `Willard2009`
-Lemma 5 quote, both image-verified during Codification), §5.1 (the five-dials
-argument, which is internal to the corpus and unaffected), §6 (the Rosser
-analogue), §9 (the self-limiting statements, all anchored).
+Lemma 5 quote, both image-verified during Codification), §6 (the Rosser
+analogue). **§9 was wrongly cleared here** — its first paragraph still carried
+the stale instruction to acquire G7, which §1 of this very document had closed;
+corrected 2026-09-02. §5.1 was cleared as "internal to the corpus and
+unaffected", which was true of the dials but did not check §5's criterion
+itself; see `R3-the-margin.md` §3.1.
 
 ---
 
