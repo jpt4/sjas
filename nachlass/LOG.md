@@ -1,5 +1,60 @@
 # Nachlass Log
 
+## 2026-09-02 - R3: the margin, and the refutation of the cross-route unification
+
+R3 delivered in two halves, one positive and one negative.
+
+**Positive.** The criterion now has a definition, built on Willard's own measure
+rather than new notation. With Scope_E, Good(N) and sharp(Upsilon) from
+Willard2011 section 4, and q_beta the shortest proof of 0=1:
+
+  M(xi) = inf { Log(q_beta) - sharp(beta) : beta inconsistent, beta above B^xi }
+
+xi is Willard2011's Tight exactly when M(xi) >= 2. The margin measures how much
+further a refutation must reach than the envelope its own length affords.
+
+All five boundary dials move one of the two terms, and they split into two
+families by which side they push. Hybrid(H) is the only one that raises the
+envelope sharp(beta) - more reach per symbol - which is why it always looked
+unlike the other four. The other four lower the refutation cost Log(q_beta):
+R, Herb-k and Z do it by making composition linear-sum on a wider class, which
+is one mechanism (D30) with three parameterisations; Level(n) does it by
+strengthening what Group-3 asserts, so less needs establishing to refute it.
+
+This answers drift D38, which recorded five parameterisations "none of which
+Willard relates to the others" and asked for a single presentation. One
+inequality, two terms, five ways of writing on it.
+
+Honestly labelled: the instances are argued from cited results, not derived from
+the inequality. Two of the five rest on sketch results (G35) and two are
+stated-only on both halves. And the engine's actual hypothesis in Willard2011
+Theorem 5.9 is EA-stability, not Tightness; Stability implies Tightness is the
+natural bridge but Willard does not state it and neither does this.
+
+**Negative.** The cross-route unification R2 had made the target is refuted, and
+for a structural reason rather than a gap in the attempt. The margin is a
+quantitative condition on a fixed logic with fixed semantics. Pakhomov varies
+the semantics - H_{<omega} proves every hereditarily finite set exists, so its
+envelope is unbounded and no margin is positive; self-verification comes from
+every finite subtheory having a finite model. Beklemishev-Shamkanov vary the
+structural rules - their K4 has no size parameter at all.
+
+So self-verification is a classification, not a criterion: G2's argument is
+over-determined, needing a fixed point, the derivability conditions, and a
+structural licence to use a context twice, and the three known routes are in
+bijection with the last two plus the semantic step.
+
+The classification has an empty cell, which is the useful part of a negative
+result. Nobody has evaded G2 by attacking the fixed point itself, because
+Lawvere makes it free in any cartesian closed setting. A system whose internal
+hom is not cartesian closed would be a fourth mechanism and the first to make
+self-reference rather than its cost the thing that fails. Whether it could still
+be an arithmetic is the natural successor question.
+
+B5 partly met. What remains open is smaller and sharper: derive each dial's
+transition from the inequality rather than reading it off Willard, with
+Hybrid(H) the tractable case.
+
 ## 2026-09-02 - Reuse is condition (3); the section 2.4 unification withdrawn
 
 User asked in what way conditions (1) and (2) are "permissions to use a proof

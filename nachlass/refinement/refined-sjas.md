@@ -437,11 +437,20 @@ which is correct and clarifying. It does not give a categorical proof of any
 Willard result, and the claim that resource-bounded internal homs model the
 SJAS situation is a research direction, not a construction.
 
-**The criterion of §5 is stated, not proved.** It is an invariant read off five
-independently-parameterised boundaries plus one explicit inequality
-(`Willard2011` Def. 4.5). Turning "non-compressive naming" into a definition
-general enough to prove the five dials are instances of it is the obvious next
-piece of work, and would be the Refinement's first genuinely new theorem.
+**The criterion of §5 now has a definition — see [`R3-the-margin.md`](R3-the-margin.md).**
+The **margin** `M(ξ) = inf{ Log(q_β) − ♯(β) }` generalises `Willard2011`
+Definition 4.5, and all five dials move one of its two terms: Hybrid(H) raises
+the envelope `♯(β)`; `ℜ`, `Herb−k`, `Z` and Level(n) lower the refutation cost
+`Log(q_β)`. That answers drift **D38**'s request for one presentation of the
+boundary, and explains why Hybrid(H) always looked unlike the other four — it is
+the only one on the envelope side.
+
+The instances are **argued from Willard's results, not derived from the
+inequality**, and two of the five rest on `sketch` results (gap **G35**). And the
+wider unification is **refuted**: the margin is a quantitative condition on a
+fixed logic with fixed semantics, so it cannot reach Pakhomov (who varies the
+semantics) or Beklemishev–Shamkanov (who vary the structural rules). Self-
+verification is a classification of G2's failure modes, not one condition.
 
 **Two corpus results the refinement leans on are `sketch`.**
 `Willard2004` Theorems 2 and 3 (gap **G35**, permanently sketch) supply two of

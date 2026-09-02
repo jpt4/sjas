@@ -1,6 +1,6 @@
 # ADR-0002 — Refinement Charter
 
-**Status.** Opened 2026-09-01. R1 done and reviewed; R2 done; R3–R5 pending.
+**Status.** R1 done and reviewed; R2 done; R3 partly done; R4–R5 pending.
 
 ## Context
 
@@ -49,7 +49,7 @@ Codification.
 | --- | --- | --- |
 | **R1** | The essential idea: identify and explicate | **done 2026-09-01** — [`refined-sjas.md`](refined-sjas.md) |
 | **R2** | Acquire and integrate the external refinements | **done 2026-09-01** — Beklemishev **unacquirable** (G7 closed: unpublished); **Pakhomov 2019 acquired and integrated** ([`R1-review.md`](R1-review.md)); **Beklemishev–Shamkanov 2016 acquired and assessed** ([`R2-beklemishev-shamkanov-assessment.md`](R2-beklemishev-shamkanov-assessment.md), G38 closed) — **R2 done** |
-| **R3** | Make the §5 criterion a definition, and prove the five dials are instances | pending |
+| **R3** | Make the criterion a definition, and prove the five dials are instances | **done 2026-09-02, partly** — [`R3-the-margin.md`](R3-the-margin.md). Definition given (the **margin** `Log(q_β) − ♯(β)`, generalising `Willard2011` Def. 4.5); all five dials shown to move one of its two terms; instances **argued, not proved**. The cross-route unification is **refuted**, with a classification in its place |
 | **R4** | The computational analogue: test the type-theoretic reading against Brown–Palsberg. **Carries obligation RO1**: affineness alone does not evade G2 — `□`-contraction can hold in affine PA (Beklemishev–Shamkanov §3) | pending |
 | **R5** | Secondary-literature pass: Artemov, Pudlák, Visser, Adamowicz, Kolodziejczyk, Salehi | pending |
 
@@ -84,17 +84,19 @@ generalisation ([`R1-review.md`](R1-review.md) §2), and surfaced
   *(R1 §§2, 6 — met: Rosser is discharged as already-present-and-undeclared;
   Lawvere is downgraded to a framing, §9.)*
 - **B4′** The identification compared against *published* external refinements. *(R2 — **met** for Pakhomov 2019, which falsified R1's headline claim and forced its generalisation. The original B4, comparing Beklemishev's claim, is **unmeetable**: the work is unpublished, G7 closed.)*
-- **B5** The criterion made a definition and its instances proved. *(R3 — not
-  met.)*
+- **B5** The criterion made a definition and its instances proved. *(R3 — **partly met**. The definition exists and unifies all five of Willard's dials, answering drift **D38**'s open request. The instances are argued from cited results, not derived from the inequality. And the broader unification R2 had made the target is **refuted**: the three routes fail three different prerequisites of G2's argument, so self-verification is a classification, not a single condition.)*
 
 **The stage is not complete.** R1's deliverable is complete and has been
 reviewed against external literature; B4′ is met for the one published external
-refinement that exists; **B5 is open**, and is where the Refinement would become
-mathematics. R3's target has been sharpened twice by R2, and made harder. The
-three known routes fail **three different prerequisites** of one argument — a
-derivability condition (Willard), the semantic step (Pakhomov), and a structural
-rule of the ambient logic (Beklemishev–Shamkanov). An earlier draft claimed
-these were one condition under three descriptions; they are not. Whether a
-single condition subsumes them, or whether G2 is simply over-determined and
-self-verification is the disjunction of its failure modes, is the stage's open
-question.
+refinement that exists; **B5 is partly met and its open half is now answered in the negative.** R3
+supplies the definition and unifies Willard's five dials under it, which is what
+drift D38 asked for. It also settles the question R2 raised: no single condition
+subsumes the three routes, because they fail three different prerequisites of
+G2's argument. Self-verification is a classification of failure modes, not a
+criterion.
+
+What remains genuinely open is smaller and sharper than before: **derive** each
+dial's transition from the inequality rather than reading it off Willard's
+results (Hybrid(H) is the tractable case), and investigate the classification's
+**empty cell** — no known route attacks the fixed point itself, because Lawvere
+makes it free in any cartesian closed setting.
