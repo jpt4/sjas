@@ -10,14 +10,27 @@
 #   R-B  VERIFICATION.md's quotation register uses only img|txt statuses,
 #        and no `txt` row's quote contains mathematical notation
 #   R-C  every held secondary-literature file in the register exists
-#   R-D  no Refinement document reasserts a claim the register records as
-#        corrected (stale-retraction check)
+#   R-D  no Refinement document reasserts, unmarked, one of the exact
+#        sentences the register records as retracted.
+#
+#        R-D is a REGRESSION GUARD ON FIXED STRINGS, not a semantic check. It
+#        cannot detect a retracted claim that has been reworded, and it does not
+#        verify that a nearby withdrawal marker is about the same claim. Treat a
+#        green R-D as "these exact sentences have not come back unmarked",
+#        nothing stronger.
 
 REF="../refinement"
 
+# The documents whose claims this stage is accountable for. REVIEW-*.md is a
+# record ABOUT those documents: it quotes retracted claims and invents test keys
+# by design, so it is evidence, not a claim.
+r_docs() {
+  ls "$REF"/*.md | grep -v -e '/VERIFICATION\.md$' -e '/REVIEW-[0-9-]*\.md$'
+}
+
 r_paper_keys() {
   # Paper keys look like Willard2011, Willard2007-APAL, Willard1993-TR.
-  grep -ho '\bWillard[0-9]\{4\}[a-z]\?\(-[A-Za-z]\+\)\?' "$REF"/*.md 2>/dev/null | sort -u
+  grep -ho '\bWillard[0-9]\{4\}[a-z]\?\(-[A-Za-z]\+\)\?' $(r_docs) "$REF/VERIFICATION.md" 2>/dev/null | sort -u
 }
 
 run_r_a() {
@@ -50,7 +63,13 @@ run_r_b() {
       img|txt) n=$((n + 1)) ;;
       *) err "R-B: register row '$(printf '%.40s' "$quote")' has status '$st', not img|txt"; bad=1; continue ;;
     esac
-    if [ "$st" = "txt" ] && printf '%s' "$quote" | grep -q '[□⌜⌝♯⊢≥≤∧⊃¬∀∃⊠⊤⊥]'; then
+    # Two families of hazard. Stripping (box, turnstile, corners) leaves a
+    # visible gap; SUBSTITUTION is worse, because the output reads as ordinary
+    # text: pdftotext renders U+2127 as digit 0 and Fraktur I as "=", and
+    # flattens floors, ceilings and towers (drift D71, registry/notation.md).
+    # An earlier version of this check tested only the stripping family.
+    if [ "$st" = "txt" ] && printf '%s' "$quote" |
+         grep -q '[□⌜⌝♯⊢≥≤∧⊃¬∀∃⊠⊤⊥℧ℑ⌊⌋⌈⌉√·×∈∪∩⊂≠≡↔∅∞]'; then
       err "R-B: register row '$(printf '%.40s' "$quote")' is txt-only but carries mathematics"
       bad=1
     fi
@@ -60,38 +79,44 @@ run_r_b() {
 
 run_r_c() {
   local f n=0
-  for f in $(grep -ho '\(\.\./\.\./\)\?lit/[A-Za-z0-9._-]*\.pdf' "$REF"/*.md 2>/dev/null | sort -u); do
+  for f in $(grep -ho '\(\.\./\.\./\)\?lit/[A-Za-z0-9._-]*\.pdf' $(r_docs) "$REF/VERIFICATION.md" 2>/dev/null | sort -u); do
     if [ -f "$REF/$f" ]; then n=$((n + 1)); else err "R-C: refinement cites missing witness '$f'"; fi
   done
   echo "  R-C: $n secondary-literature witnesses cited, all present"
 }
 
 run_r_d() {
-  # Claims retracted on 2026-09-02. Each may still appear, but only inside a
-  # passage that marks it withdrawn. The marker must sit on the matching line
-  # or the line immediately adjacent -- a wider window lets an unrelated
-  # retraction elsewhere in the section act as a spurious guard, which is how
-  # this check first passed when it should not have.
+  # Claims retracted on 2026-09-02. Each may still appear, but only where the
+  # line carrying it also marks it as a quotation of the old claim.
+  #
+  # The guard is LINE-LOCAL, and deliberately so. Two earlier versions used a
+  # context window -- first six lines, then one -- and both were defeated the
+  # same way: a withdrawal word in neighbouring prose, about something else
+  # entirely, silently guarded a bare reassertion. Narrowing the window raised
+  # the bar without closing the hole. A line is guarded iff, on that line,
+  # either (a) the retracted text sits inside double quotes -- the form every
+  # legitimate occurrence in this stage takes -- or (b) the line itself carries
+  # a retraction verb. Nothing on an adjacent line can guard anything.
   # VERIFICATION.md is the retraction registry itself: it names these claims by
   # design, so it is not prose under audit here.
   local pat label n=0 docs
-  docs=$(ls "$REF"/*.md | grep -v '/VERIFICATION\.md$' | tr '\n' ' ')
+  docs=$(r_docs | tr '\n' ' ')
   while IFS='	' read -r pat label; do
     [ -n "$pat" ] || continue
     local unguarded
-    unguarded=$(grep -rn -C1 -- "$pat" $docs 2>/dev/null |
+    unguarded=$(grep -rn -- "$pat" $docs 2>/dev/null |
       awk -v p="$pat" '
-        function flush() {
-          if (block != "") {
-            if (block ~ p && block !~ /withdrawn|retracted|corrected|superseded|earlier|first draft|no longer|claimed|That draft|that draft/) c++
-          }
-          block = ""
+        {
+          line = $0
+          # (a) the retracted text is quoted on this line, or
+          quoted = (line ~ /"/)
+          # (b) this line itself says it is a retraction.
+          marked = (line ~ /withdrawn|retracted|Retracted|corrected|superseded|earlier|first draft|no longer|claimed|draft/)
+          if (!quoted && !marked) c++
         }
-        /^--$/ { flush(); next }
-        { block = block "\n" $0 }
-        END { flush(); print c+0 }')
+        END { print c+0 }')
     if [ "${unguarded:-0}" -gt 0 ]; then
-      err "R-D: retracted claim '$label' appears $unguarded time(s) without an adjacent withdrawal marker"
+      err "R-D: retracted claim '$label' appears $unguarded time(s) on a line that neither quotes it nor marks it retracted"
     else
       n=$((n + 1))
     fi
@@ -102,7 +127,7 @@ permissions to use a proof again	conditions (1) and (2) are reuse
 same condition described twice	contraction = a derivability condition
 falsified R1's headline claim	Pakhomov falsified the headline claim
 PATTERNS
-  echo "  R-D: $n retracted claims checked; each occurrence carries an adjacent withdrawal marker"
+  echo "  R-D: $n retracted claims checked; each occurrence is quoted or marked retracted on its own line"
 }
 
 run_all_r() {

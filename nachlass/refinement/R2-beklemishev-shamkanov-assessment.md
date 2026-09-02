@@ -35,9 +35,11 @@ Two hypotheses, not one, and they do different work:
 
 An earlier draft said uniqueness needs "the restricted **weakening**, not the
 restricted contraction". Weakening is what uniqueness needs *in addition*;
-contraction is required by both theorems. (The abstract's "the uniqueness … is
-based on the similarly restricted form of weakening" is naming the increment,
-and the draft read it as an exclusive.) The same draft gave Theorem 4's
+contraction is required by both theorems. (The **Introduction**, p. 2 — not the abstract, as an
+earlier version of this sentence said; the abstract mentions neither uniqueness
+nor weakening — says "Moreover, the uniqueness of Gödelian fixed point is based
+on the similarly restricted form of weakening". Its "Moreover" names an
+increment; the draft read it as an exclusive.) The same draft gave Theorem 4's
 conclusion as `⊠⊤ =_S ⊥` — the text layer had stripped the `□`; it is
 `⊠⊤ =_S □⊥`.
 
@@ -61,15 +63,23 @@ fails in it — with Gödelian and Henkinian fixed points existing, and existing
 infinite supply rather than uniquely.
 
 **But `S` is not self-verifying, and the paper says so.** §6, p. 14
-(image-verified):
+(image-verified 2026-09-02, re-verified at 200 dpi after a transcription error
+in an earlier version of this passage):
 
-> "the system `S` does not provide a counterexample to the non-formalized version
-> of Gödel's second incompleteness theorem, since `⇒ ¬□⊥` is not provable in it"
+> "We remark that the system `S` does not provide a counterexample to the
+> non-formalized version of G2, since `⇒ ¬□⊥` is not provable."
 
-and, closing:
+and, earlier in the same section:
 
-> "we are still missing convincing examples of mathematical theories based on
-> weak logics for which Gödel's second incompleteness theorem would fail"
+> "Thus, we are still missing convincing examples of mathematical theories based
+> on weak logics for which G2 would fail."
+
+*Transcription note.* An earlier version of this passage expanded the paper's own
+abbreviation "G2" to "Gödel's second incompleteness theorem", appended a clause
+"in it" that is not in the source, and described the second sentence as the
+section's closing words when it is not — while carrying an "(image-verified)"
+tag. The substance was unaffected; the fidelity claim was false. Both are now
+verbatim.
 
 So this route **breaks the argument without obtaining the object**. That is a
 real result — it isolates a prerequisite nobody had isolated — but it is not a

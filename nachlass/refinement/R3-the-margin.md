@@ -84,8 +84,14 @@ methodology" rather than for one scheme.
 Three distinct size measures coexist in the corpus and should not be conflated:
 the **Gödel bit-length** `Log₂(p)` used here; **`χ(p)`**, the count of logical
 symbols (`Willard2004` §6, where `ℑ(H) = Σ χ(p_i)`); and **`U-Height`**, a count
-of U-Grounding function symbols along a branch (`Willard2005` §5.2). The
-encoding requirement is precisely what keeps them within constant factors.
+of U-Grounding function symbols along a branch (`Willard2005` §5.2).
+
+An earlier version of this paragraph closed "the encoding requirement is
+precisely what keeps them within constant factors." **It does not**, and that
+contradicts the correction two paragraphs above: a lower bound alone relates the
+measures in one direction only. It gives `Log₂(q_β) ≥ 5J`, so bit-length cannot
+*understate* symbol count; nothing in the corpus stops it overstating. Keeping
+the three within constant factors of one another would need an upper bound too.
 
 ---
 
@@ -338,15 +344,19 @@ Their contraction-free K4 breaks the **formalized** G2 argument — `⊢ ¬□�
 fails — while Gödelian and Henkinian fixed points persist. The paper is explicit
 that this does not produce a self-verifying system:
 
-> "the system `S` does not provide a counterexample to the non-formalized version
-> of Gödel's second incompleteness theorem, since `⇒ ¬□⊥` is not provable in it"
-> — §6, p. 14 (image-verified)
+> "We remark that the system `S` does not provide a counterexample to the
+> non-formalized version of G2, since `⇒ ¬□⊥` is not provable."
+> — §6, p. 14 (image-verified 2026-09-02)
 
-and closes:
+and, earlier in the same section:
 
-> "we are still missing convincing examples of mathematical theories based on
-> weak logics for which Gödel's second incompleteness theorem would fail"
-> — §6, p. 14 (image-verified)
+> "Thus, we are still missing convincing examples of mathematical theories based
+> on weak logics for which G2 would fail."
+> — §6, p. 14 (image-verified 2026-09-02)
+
+*Transcription note.* An earlier version of this passage expanded "G2", added
+"in it", and called the second sentence the section's close. See
+`R2-beklemishev-shamkanov-assessment.md` §1.
 
 `S` is *consistent and does not assert its own consistency*, which is the
 ordinary condition of a weak theory, not the SJAS condition. Listing it as a

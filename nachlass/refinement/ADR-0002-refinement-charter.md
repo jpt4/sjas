@@ -1,8 +1,11 @@
 # ADR-0002 — Refinement Charter
 
 **Status.** R1 done and reviewed; R2 done; R3 partly done; R4–R5 pending.
-**Reviewed and repaired 2026-09-02** — see [`VERIFICATION.md`](VERIFICATION.md),
-which is now this stage's registry and is checked by
+**Reviewed and repaired 2026-09-02, twice** — a first pass against an external
+review (22 corrections), then an independent adversarial review
+([`REVIEW-2026-09-02.md`](REVIEW-2026-09-02.md)) which found ten more, including
+two defects in the audit checks themselves. See
+[`VERIFICATION.md`](VERIFICATION.md), this stage's registry, checked by
 `../codification/audit.sh` (checks R-A–R-D).
 
 ## Context
@@ -104,7 +107,7 @@ counterexample to the naming form, only a second instance of the general one.
   Lawvere is downgraded to a framing, §9.)*
 - **B4′** The identification compared against *published* external refinements. *(R2 — **met**. Pakhomov 2019 supplied a second witness kind and motivated the generalisation; Beklemishev–Shamkanov 2016 isolated a further prerequisite of G2's argument. The original B4, comparing Beklemishev's claim, is **unmeetable**: the work is unpublished, G7 closed.)*
 - **B5** The criterion made a definition and its instances proved. *(R3 — **partly met**. The definition exists. **Four** of Willard's five dials are shown to move its cost term, answering drift **D38** for those four and sharpening the question for the fifth. The instances are argued from cited results, not derived from the inequality — and most of those results are `sketch` or `stated-only`. The broader unification R2 had made the target is **refuted**: self-verification is a classification, not a single condition, and breaking G2's argument is necessary but not sufficient for it.)*
-- **B6** *(added 2026-09-02)* Every mathematical quotation image-verified and every corpus claim status-carrying, per [`VERIFICATION.md`](VERIFICATION.md), with `audit.sh` green. *(**Met** for R1–R3; binds R4–R5.)*
+- **B6** *(added 2026-09-02, restated after review)* Every mathematical quotation image-verified **and transcribed verbatim**, and every corpus claim status-carrying, per [`VERIFICATION.md`](VERIFICATION.md), with `audit.sh` green. *(**Met** for R1–R3 **as of the second pass**. The first pass asserted this while two quotations tagged "(image-verified)" were not verbatim — corrections #23 and #32. Note what green does **not** mean: `audit.sh` cannot check quotation fidelity. R-B tests only whether a `txt`-tagged register row carries hazard symbols; nothing diffs a quotation against its source. Verbatim transcription is a **human obligation** that the audit supports and does not discharge.)*
 
 **The stage is not complete.** R1's deliverable is complete and has been reviewed
 twice — against external literature, then against its own sources — and repaired.

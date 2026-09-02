@@ -1,5 +1,85 @@
 # Nachlass Log
 
+## 2026-09-02 - Independent review of the repair commit: ten more corrections, two in the checks themselves
+
+An adversarial review of 4eb63c7 (record at refinement/REVIEW-2026-09-02.md,
+which the agent wrote incrementally against a progress checklist so an
+interrupted run could resume - the first attempt died on a rate limit having
+written nothing). Ten findings, all verified independently before repair. Four
+matter.
+
+**The repair commit misquoted its own evidence.** Two Beklemishev-Shamkanov
+sentences, reproduced in R2 and R3 inside blockquotes tagged "(image-verified)",
+were not verbatim: the paper's own abbreviation "G2" was silently expanded to
+"Godel's second incompleteness theorem", a clause "in it" was added that is not
+in the source, and a mid-section sentence was described as the section's close.
+Re-rendered p. 14 at 200 dpi and confirmed. The same passage is quoted correctly
+in VERIFICATION.md and in refined-sjas.md section 2.5a - so three of five
+transcriptions were right and two were wrong, in the two documents doing the
+fixing, in text this commit had just added. The substance (that BS's S is not
+self-verifying) is unaffected; the fidelity claim was false.
+
+That is the whole lesson of the previous entry recurring one commit later: the
+discipline was written down, the register was built, the checks were added, and
+the thing the discipline exists to prevent happened anyway in the act of
+preventing it.
+
+**Two defects in the new checks, both found by construction, not by reading.**
+
+- R-B tested only the *stripping* family of pdftotext corruption (box,
+  turnstiles, corners) and missed the *substitution* family - U+2127 rendered as
+  digit 0, Fraktur I as "=", flattened floors and towers (drift D71). That is
+  the more dangerous family, because the output reads as ordinary text rather
+  than an obvious gap. Constructed txt rows carrying those symbols passed as
+  well-formed. The hazard set now covers both; adding Greek letters as well
+  overshot into ordinary prose and was reverted.
+- R-D's context window was defeated by a withdrawal word in neighbouring,
+  unrelated prose: three lines where line 1 retracts an encoding convention and
+  line 2 bare-reasserts the retracted Pakhomov claim passed green. The window
+  had already been narrowed once, six lines to one, for this exact failure -
+  narrowing raised the bar without closing the hole. R-D is now line-local: a
+  line is guarded iff it quotes the retracted text or itself carries a
+  retraction verb. Both of the review's defeat cases are now caught, and the
+  control still fires.
+
+R-D is also recorded, in the script and in VERIFICATION.md, for what it is: a
+regression guard on fixed strings. It cannot catch a reworded reassertion, and
+it does not verify that a marker is about the same claim as the text near it.
+Green means "these exact sentences have not returned unmarked", nothing more.
+
+**And B6 overclaimed.** "Every mathematical quotation image-verified ...
+audit.sh green" was asserted while the misquotations stood - and audit.sh cannot
+check quotation fidelity at all, since nothing diffs a quotation against its
+source. B6 now says so: verbatim transcription is a human obligation the audit
+supports and does not discharge.
+
+Six smaller corrections: the "abstract's" quote on uniqueness and weakening is
+from the Introduction p. 2, and the abstract mentions neither; R3 section 1.1's
+closing claim that the encoding requirement "keeps [the three size measures]
+within constant factors" contradicted its own correction two paragraphs earlier
+and is withdrawn (found by me, before the review returned); Pakhomov page
+numbers - the "both H and H_<omega" sentence does span pp. 3-4, but the second
+citation is p. 22 not 21 and is about H alone, and footnote 3 with the
+Acknowledgments is on p. 24 not 25; refined-sjas section 2.3b's cross-reference
+to "section 4 below" cites nothing; R1-review finding 7 still called G38 an
+"acquisition target for R5" while two files in the same commit recorded it
+closed; and VERIFICATION correction 3's location list read as one quote in three
+documents when it was two instances in two.
+
+The review also checked and found sound: the Hybrid arithmetic, recomputed
+independently; the condition-(2) identification against the TR page image; all
+of Beklemishev-Shamkanov p. 8; the substance of the Pakhomov correction;
+Willard2011's stability definitions and Theorem 5.9's dependencies; the encoding
+requirement's direction; R-A and R-C by construction; and - going past what was
+asked - R3's new A-Stability-implies-Tightness sketch, which it judged
+essentially complete rather than a sketch. I separately verified the five-dial
+status table against codified section 8.1 and results.md: all five cells match,
+Willard2004 Theorem 3 is the positive half and Theorem 2 the negative, both
+permanently sketch per G35.
+
+audit.sh green: 26 register rows, 13 corpus keys, 3 witnesses, 5 retraction
+patterns.
+
 ## 2026-09-02 - Refinement review: 22 corrections, and audit.sh extended across the stage boundary
 
 A subagent review of R1-R3 returned about thirty findings. All Tier-1 items were

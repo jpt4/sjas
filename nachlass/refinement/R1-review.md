@@ -69,9 +69,13 @@ that `H_{<ω}` "proves the existence of every hereditarily finite set" and so
 "is not growth-restricted in Willard's sense", making it a counterexample to the
 naming criterion.
 
-**That reading of Pakhomov is wrong.** He states twice that **"both `H` and
-`H_{<ω}` could not prove totality of successor function"** (pp. 3–4, and p. 21:
-"theory `H` that could not even prove totality of successor function"). `H_{<ω}`
+**That reading of Pakhomov is wrong.** He states it in the Introduction —
+**"Important restriction here is that both `H` and `H_{<ω}` could not prove
+totality of successor function"** — a sentence that straddles the page break,
+**pp. 3–4**. A second, narrower statement appears at **p. 22**: "the properties
+of SUM in theory `H` that could not even prove totality of successor function",
+which is about `H` alone. (An earlier version of this paragraph cited the second
+as "p. 21" and read it as a restatement of the first.) `H_{<ω}`
 therefore evades Pudlák by **exactly** Willard's route — Pudlák's cut-shortening
 technique requires successor totality, which is why Willard denies it and why
 Pakhomov must too. Pakhomov's own framing is a *naturalness* claim, not a
@@ -116,7 +120,7 @@ worth comparing against — the comparison simply comes out differently.
 | **4** | §5's table entry for the incremental convention says "too slow to build ℕ", which overstates `Willard2006a` — the convention *does* reach every integer, it is merely not **Continuously Expanding** (`K_i` growth) | **corrected** |
 | **5** | Pakhomov's characterisation of Willard — the axioms "are not completely natural in the sense that some of axioms are constructed using **Diagonal Lemma**" — is a substantive external critique R1 does not carry | **corrected** — added to §7's costs |
 | **6** | Drift **D81** (`SemPrf^K` strict vs non-strict) was found during R1 and correctly recorded | no action |
-| **7** | Beklemishev–Shamkanov 2016, *Some abstract versions of Gödel's second incompleteness theorem based on non-classical logics*, gives an abstract G2 that **fails** for a contraction-free logic — directly relevant to §2's claim about what G2 needs | **carried** — new gap **G38**, acquisition target for R5 |
+| **7** | Beklemishev–Shamkanov 2016, *Some abstract versions of Gödel's second incompleteness theorem based on non-classical logics*, gives an abstract G2 that **fails** for a contraction-free logic — directly relevant to §2's claim about what G2 needs | **discharged 2026-09-01, not carried.** G38 was raised and closed the same day: the paper was acquired and assessed at [`R2-beklemishev-shamkanov-assessment.md`](R2-beklemishev-shamkanov-assessment.md), and ADR-0002 records R2 as done. This cell said "acquisition target for R5" until 2026-09-02, contradicting two other files in its own commit |
 
 Sections checked and found sound: §3 (the `ω₁^K(p)` verification cost, verified
 against `Willard2007-APAL` §4), §4 (the two sequences and the `Willard2009`

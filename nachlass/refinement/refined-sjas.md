@@ -212,8 +212,11 @@ assignment.
 **They confirm nothing.** Both have the form *P ⟹ Q; Q; therefore P*. Neither
 rules out any other assignment, and this document uses both elsewhere for
 *different* explanations: `R3-the-margin.md` §3.2 cites the same Thm 4.5 to show
-the `Z` dial lowers refutation cost, and §4 below cites the same Thm 4 as
-evidence for the naming criterion. A fact compatible with three explanations is
+the `Z` dial lowers refutation cost, and **§5's table below** treats the
+multiplicative convention's failure as evidence for the naming criterion.
+(An earlier version of this sentence said "§4 below cites the same Thm 4",
+which cites nothing: §4 does not cite `Willard2006a` at all, and the only other
+"Theorem 4" in this document is `Willard2009`'s, in §6.) A fact compatible with three explanations is
 evidence for none of them.
 
 Two further corrections to that draft. `Willard2020` Theorem 4.5 is **`sketch`**,

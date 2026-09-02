@@ -61,8 +61,9 @@ both the enum and the no-mathematics-in-`txt` rule.
 | "the system `S` does not provide a counterexample to the non-formalized version of G2, since `⇒ ¬□⊥` is not provable" | Beklemishev–Shamkanov | p. 14 | **img (2026-09-02)** |
 | "we are still missing convincing examples of mathematical theories based on weak logics for which G2 would fail" | Beklemishev–Shamkanov | p. 14 | **img (2026-09-02)** |
 | superexponentiation, the cut `S`, the finite model of size at most the tower, and `Con^pred` | Pakhomov | p. 4 | **img (2026-09-02)** |
-| "both `H` and `H_{<ω}` could not prove totality of successor function" | Pakhomov | pp. 3–4, 21 | txt — prose |
-| footnote 3 (Beklemishev's simplification "still unpublished"); Acknowledgments | Pakhomov | p. 25 | txt — prose |
+| "Important restriction here is that both `H` and `H_{<ω}` could not prove totality of successor function" | Pakhomov | **pp. 3–4** — the sentence straddles the page break | txt — prose, confirmed by page-scoped extraction |
+| "the properties of SUM in theory `H` that could not even prove totality of successor function" — about `H` alone | Pakhomov | **p. 22** (not p. 21) | txt — prose, confirmed by page-scoped extraction |
+| footnote 3 (Beklemishev's simplification "still unpublished"); Acknowledgments | Pakhomov | **p. 24** (not p. 25; p. 25 is References) | **img (2026-09-02)** |
 | "The theories in his examples are not completely natural … Diagonal Lemma" | Pakhomov | p. 3 | txt — prose |
 
 ## Computed claims
@@ -82,7 +83,7 @@ Rule 5. Every growth or size claim, with the computation.
 | --- | --- | --- |
 | 1 | Claimed Willard never names the breached condition; he names (2) for `IS(A)`, as a uniformity failure | `refined-sjas.md` §2.3 |
 | 2 | Claimed Pakhomov's `H_{<ω}` proves successor totality and so falsifies R1; it cannot, and does not | `R1-review.md` §2, `refined-sjas.md` §1, `ADR-0002` |
-| 3 | Block quote with every `□` stripped by the text layer | `refined-sjas.md` §2.5, `R2` §1, `R3` §5 |
+| 3 | Text-layer `□`-stripping. Two distinct instances, not one quote in three places: Prop. 3.8's C3 step in `refined-sjas.md` §2.5, and Thm 4's conclusion `⊠⊤ =_S □⊥` in `R2` §1. `R3` §5 was touched by the same pass but its p. 14 material had a different defect — see #23 | `refined-sjas.md` §2.5, `R2` §1 |
 | 4 | Listed Beklemishev–Shamkanov's `S` as a route to self-verification; their §6 says it is not | `R3` §5, `R2` §2.3 |
 | 5 | `Willard2020` Thm 4.5 called "Established"; it is `sketch`, with a dropped hypothesis on `β` | `refined-sjas.md` §2.3, `R3` §§3.2, 4 |
 | 6 | `Willard2001` Thm A.1 said to be "proved"; it is `stated-only` | `R2` §2.1 |
@@ -102,3 +103,29 @@ Rule 5. Every growth or size claim, with the computation.
 | 20 | §1's roadmap off by one from §6 onward | `refined-sjas.md` §1 |
 | 21 | Pakhomov's model bound glossed as small; it is superexponential, on the cut, and the sentence is `Con^pred` | `refined-sjas.md` §1, `R3` §5.1 |
 | 22 | Conditions (1) and (2) called "permissions to use a proof again"; reuse is (3) | `R2` §2.1 |
+
+## Corrections applied 2026-09-02, second pass
+
+From the independent review at [`REVIEW-2026-09-02.md`](REVIEW-2026-09-02.md).
+The first four are the serious ones: three are failures of the very discipline
+this file exists to impose, and two are defects in the checks meant to enforce it.
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 23 | **Two Beklemishev–Shamkanov quotations tagged "(image-verified)" were not verbatim** — the paper's own abbreviation "G2" was expanded, a clause "in it" was added, and a mid-section sentence was called the section's close. The substance held; the fidelity claim did not | `R2` §1, `R3` §5.2 |
+| 24 | "The abstract's" quote about uniqueness and weakening is from the **Introduction, p. 2**; the abstract mentions neither | `R2` §1 |
+| 25 | "The encoding requirement is precisely what keeps them within constant factors" — contradicts this document's own correction #11 two paragraphs earlier: a lower bound relates the measures in one direction only | `R3` §1.1 |
+| 26 | **R-B's hazard regex tested only the *stripping* family** (`□`, turnstiles, corners) and missed the *substitution* family — `℧`→`0`, `ℑ`→`=`, flattened floors and towers (drift **D71**) — which is the more dangerous one, because the output reads as ordinary text. Constructed `txt` rows carrying `℧` and `ℑ` passed as well-formed | `audit-r.sh` |
+| 27 | **R-D's context-window guard was defeated by a withdrawal word in neighbouring, unrelated prose.** The window had already been narrowed once from six lines to one for this exact failure; narrowing raised the bar without closing the hole. Now line-local: a line is guarded iff it quotes the retracted text or itself carries a retraction verb | `audit-r.sh` |
+| 28 | Pakhomov page numbers: the "both `H` and `H_{<ω}`" sentence spans **pp. 3–4** (correct), but the second citation is **p. 22**, not 21, and is about `H` alone; footnote 3 and the Acknowledgments are on **p. 24**, not 25 | `VERIFICATION.md`, `R1-review.md` §2.1 |
+| 29 | `refined-sjas.md` §2.3b's cross-reference "§4 below cites the same Thm 4" cites nothing — §4 does not cite `Willard2006a`, and the document's other "Theorem 4" is `Willard2009`'s | `refined-sjas.md` §2.3b |
+| 30 | `R1-review.md` finding #7 still called G38 "acquisition target for R5" while two files in the same commit recorded it closed | `R1-review.md` §3 |
+| 31 | Correction #3's location list read as one quote in three documents; it was two distinct instances in two | `VERIFICATION.md` |
+| 32 | **B6 overclaimed.** "Every mathematical quotation image-verified … audit.sh green" was asserted while #23 stood, and `audit.sh` cannot check quotation *fidelity* at all — R-B tests only whether a `txt` row carries hazard symbols | `ADR-0002` |
+
+**What R-D is, stated plainly.** A regression guard on *fixed strings*. It
+cannot detect a retracted claim that has been reworded, and it does not verify
+that a marker is about the same claim as the text it guards. A green R-D means
+"these exact sentences have not returned unmarked" and nothing stronger. The
+review demonstrated the rewording gap by construction; it is inherent to the
+mechanism, and is recorded rather than papered over.
