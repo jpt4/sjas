@@ -1,0 +1,158 @@
+id	year	authors	title	n_documents	documents
+WC0001	1997	Z. ADAMOWICZ and P. ZBIERSKI, The logic of mathematics	A modern course in classical logic, John Wiley and Sons, 1997	4	Willard2005; Willard2005-TAB; Willard2006a; Willard2007-APAL
+WC0002	1999	Z. Adamowicz	On Tableaux consistency in weak theories	3	Willard2000-TAB; Willard2001; Willard2002a
+WC0003	2001	Z. Adamowicz and T. Bigorajska	Existentially Closed Structures and Gödel’s Second Incompleteness Theorem	8	Willard2005; Willard2005-TAB; Willard2006-WoLLIC; Willard2007-APAL; Willard2009; Willard2011; Willard2020; Willard2020-LFCS
+WC0004	2001	Z. Adamowicz and P. Zbierski	On Herbrand consistency in weak theories	15	Willard2002a; Willard2004; Willard2005-TAB; Willard2006-WoLLIC; Willard2006a; Willard2007-APAL; Willard2007-KGS6; Willard2009; Willard2011; Willard2013; Willard2014; Willard2016; Willard2018; Willard2020; Willard2020-LFCS
+WC0005	2002	Z. ADAMOWICZ	Herbrand consistency and bounded arithmetic	15	Willard2002a; Willard2002c; Willard2004; Willard2005; Willard2005-TAB; Willard2006-WoLLIC; Willard2006a; Willard2007-APAL; Willard2007-KGS6; Willard2009; Willard2011; Willard2013; Willard2014; Willard2016; Willard2018
+WC0006	1994	M. Ajtai	Complexity of the pigeon hole principle	2	Willard2006a; Willard2016
+WC0007	1990	T. ARAI	Derivability conditions on Rosser’s proof predicates, Notre Dame Journal on Formal Logic	4	Willard2005; Willard2005-TAB; Willard2007-APAL; Willard2011
+WC0008	1902	Artemov, S.	The provability of consistency	2	Willard2020; Willard2020-LFCS
+WC0009	2001	Artemov, S.	Explicit provablity and constructive semantics. Bulletin of Symbolic Logic 7(1): 1-36 (2001)	2	Willard2020; Willard2020-LFCS
+WC0010	2005	Artemov, S., Beklemishev, L. D.	Provability logic. In Handbook on Philosophical Logic, Second Edition, pp. 189-360 (2005)	2	Willard2020; Willard2020-LFCS
+WC0011	1995	L. D. Beklemishev	Iterated local reflection versus iterated consistency	1	Willard2016
+WC0012	1997	L. D. Beklemishev	Induction rules, reflection principles and provably recursive functions	2	Willard2016; Willard2018
+WC0013	2003	L. D. Beklemishev	Proof theoretic analysis by iterated reflection	1	Willard2016
+WC0014	2005	Beklemishev, L. D.	Reflection principles and provability algebras in formal arithmetic. Russian Mathematical Surveys 60(2): 197-268 (2005)	2	Willard2020; Willard2020-LFCS
+WC0015	2014	Beklemishev, L. D.	Positive provability for uniform reflection principles	2	Willard2020; Willard2020-LFCS
+WC0016	1962	J. Benett	Ph. D. Dissertation	4	Willard2000-TAB; Willard2001; Willard2002a; Willard2007-APAL
+WC0017	1962	J. BENETT	Ph.D. thesis	1	Willard2005
+WC0018	1995	L Berkemishev	Iterated Local Reﬂection Versus Iterated Consistency	1	Willard2011
+WC0019	1997	L Berkemishev	Induction Rules, Reﬂection Principles and Provably Recursive Functions	1	Willard2011
+WC0020	2003	L Berkemishev	Proof Theoretic Analysis by Iterated Reﬂection	1	Willard2011
+WC0021	1956	E.W. Beth	Semantical Entailment and Formal Derivability Indag. Math. 19 (1956) pp. 357-388. G. Boolos, The Unprovability of Consistency: An Essay on Modal Logic Cambridge University Press, 1979. A. Bezboruah an	1	Willard1993-TR
+WC0022	1976	A. Bezboruah and J. Shepherdson	Gödel’s Second Incompleteness Theorem for Q	18	Willard1993; Willard2000-TAB; Willard2001; Willard2002a; Willard2004; Willard2005; Willard2005-TAB; Willard2006-WoLLIC; Willard2006a; Willard2007-APAL; Willard2009; Willard2011; Willard2013; Willard2014; Willard2016; Willard2018; Willard2020; Willard2020-LFCS
+WC0023	1979	G. Boolos, The Unprovability of Consistency	An Essay on Modal Logic Cambridge University Press, 1979	1	Willard1993
+WC0024	1993	G. Boolos	The Logic of Provability	2	Willard2001; Willard2016
+WC0025	1994	S. Bringsjord	private communications during 1994 suggesting that I publish my results about selfjustifying logics in two stages, with its ﬁrst phase presenting a series of mathematical results and second stage prov	1	Willard2013
+WC0026	2003	R. Burden and J. Faires	Numerical Methods, Brookes-Cole (2003)	1	Willard2005-TAB
+WC0027	1986	Buss, S. R.	Bounded Arithmetic	16	Willard1993; Willard2000-TAB; Willard2001; Willard2002a; Willard2002c; Willard2005; Willard2006a; Willard2007-APAL; Willard2009; Willard2011; Willard2013; Willard2014; Willard2016; Willard2018; Willard2020; Willard2020-LFCS
+WC0028	1995	S. R. BUSS and A. IGNJATOVIC	Unprovability of consistency statements in fragments of bounded arithmetic	14	Willard2004; Willard2005; Willard2005-TAB; Willard2006-WoLLIC; Willard2006a; Willard2007-APAL; Willard2009; Willard2011; Willard2013; Willard2014; Willard2016; Willard2018; Willard2020; Willard2020-LFCS
+WC0029	1997	S. R. Buss	Informal private conversations during a lunch in Vienna at the 5-th meeting of the Kurt Gödel Colloquium, 1997	2	Willard2016; Willard2018
+WC0030	2001	J. L. Casti and W. DePauli	Gödel A Life of Logic, Persues Publishing 2001	1	Willard2007-KGS6
+WC0031	1986	Compiler Design Theory, A. Aho, R. Sethi and J. Ullman, Compilers	Principles, Techniques and Tools, Addison Weslcy (1986)	1	Willard1993-TR
+WC0032	1961	M. Davis, H. Putnam and J. Robinson	The Decision Problem for Exponential Diophantine Equations	2	Willard2006-WoLLIC; Willard2009
+WC0033	1983	M. Davis	Computability and Unsolvability McGraw Hill 1983	2	Willard2006-WoLLIC; Willard2009
+WC0034	1931	K. Gödel	Über formal unentscheidbare sätze der principia mathematica und verwandte systeme I	16	Willard1993; Willard1993-TR; Willard2005; Willard2005-TAB; Willard2006-WoLLIC; Willard2006a; Willard2007-APAL; Willard2007-KGS6; Willard2009; Willard2011; Willard2013; Willard2014; Willard2016; Willard2018; Willard2020; Willard2020-LFCS
+WC0035	2004	Gödel, K.	The present situation in the foundations of mathematics. In: Feferman, S., Dawson, J.W., Goldfarb, W., Parson, C., Solovay, R. (eds.) Collected Works Volume III: Unpublished Essays and Lectures, pp. 4	5	Willard2014; Willard2016; Willard2018; Willard2020; Willard2020-LFCS
+WC0036	1989	C. DIMITRACOPOULOS	Overspill and fragments of arithmetic	1	Willard2005
+WC0037	1972	H. Enderton	A Mathematical Introduction to Logic	2	Willard1993; Willard2001
+WC0038	2001	Enderton, H. B.	A Mathematical Introduction to Logic	3	Willard2013; Willard2020; Willard2020-LFCS
+WC0039	1960	S. FEFERMAN	Arithmetization of mathematics in a general setting	12	Willard1993; Willard2001; Willard2005; Willard2006-WoLLIC; Willard2007-APAL; Willard2009; Willard2011; Willard2014; Willard2016; Willard2018; Willard2020; Willard2020-LFCS
+WC0040	1962	S. FEFERMAN	G. KRIESEL , and S. OREY, 1-consistency and faithful interpretations	1	Willard2005
+WC0041	1962	S. Feferman	Transfinite Recursive Progressions of Axiomatic Theories	1	Willard2001
+WC0042	1989	S. Feferman	Finitary Inductively Presented Logics, in Proceedings of Logic Colloquium 88	1	Willard1993
+WC0043	1972	Fitting, M.	Tableau methods of proofs for modal logics. Notre Dame J on Formal Logic 13(2): 237-247 (1972)	2	Willard2020; Willard2020-LFCS
+WC0044	1990	M. Fitting	First Order Logic and Automated Theorem Proving	7	Willard1993; Willard2000-TAB; Willard2001; Willard2002a; Willard2002c; Willard2005; Willard2020
+WC0045	1996	Fitting, M.	First Order Logic and Automated Theorem Proving	9	Willard2004; Willard2005-TAB; Willard2007-APAL; Willard2011; Willard2013; Willard2014; Willard2016; Willard2018; Willard2020-LFCS
+WC0046	1979	H. M. FRIEDMAN	On the consistency, completeness and correctness problems	8	Willard2005; Willard2011; Willard2013; Willard2014; Willard2016; Willard2018; Willard2020; Willard2020-LFCS
+WC0047	1979	Friedman, H.M.	Locally 1-Closure	1	Willard2020-LFCS
+WC0048	1985	H. Friedman	Translatability and Relative Consistency	1	Willard2006a
+WC0049	2014	H. M. Friedman	Gödel’s blessing and Gödel’s curse	2	Willard2016; Willard2018
+WC0050	2014	Friedman, H. M.	Lecture 4	2	Willard2020; Willard2020-LFCS
+WC0051	1982	H. Gaifman and C. Dimitracpoulos	Fragments of Peano Arithmetic and the MDRP Theorem, Logic and Algorithms, Monagraphies de l’Ensignment Mathamtique, 30 (1982) pp. 197-206	1	Willard2009
+WC0052	1969	G. Gentzen	Collected Papers, translated by M.E. Szabo	4	Willard1993; Willard1993-TR; Willard2001; Willard2002a
+WC0053		G. Gentzen	Die wiederpruchsfreiheit der zeinen zahlentheorie	3	Willard2016; Willard2020; Willard2020-LFCS
+WC0054	2014	Gerald Sacks	Reflections on Gödel - YouTube	1	Willard2018
+WC0055	2005	R. Goldstein	Incompleteness The Proof and Paradox of Kurt Gödel, Atlas Books of W. Norton and Company, 2005	5	Willard2013; Willard2014; Willard2016; Willard2018; Willard2020-LFCS
+WC0056	1930	J. Herbrand	Recherches sur la theorie de la demonstration, Travaux de la Soceite et des Lettres de Varsvoie III 33 pp. 33-160 (1930)	2	Willard2006-WoLLIC; Willard2009
+WC0057	1925	D. Hilbert	Uber das Unendliche	1	Willard2013
+WC0058	1926	D. Hilbert	Über das unendliche	4	Willard2016; Willard2018; Willard2020; Willard2020-LFCS
+WC0059	1926	D. Hilbert. Über das Unendliche, published in Mathematische Annalen 95 (1926) pp. 161-191. Translation by Stefan Bauer-Mengelberg under the	On the Infinite	1	Willard2014
+WC0060	1934	D. Hilbert and B. Bernays	Grundlager der Mathematik Volume 1 (1934) and Volume 2 (1939)	3	Willard1993; Willard1993-TR; Willard2001
+WC0061	1939	D. Hilbert and P. Bernays	Grundlagen der Mathematik (Vol II)	10	Willard2005; Willard2006-WoLLIC; Willard2006a; Willard2007-APAL; Willard2009; Willard2011; Willard2013; Willard2014; Willard2016; Willard2018
+WC0062	1971	P. Hájek	On Interpretability in Set Theory	5	Willard1993; Willard2005; Willard2005-TAB; Willard2006a; Willard2009
+WC0063	1971	P. Hájek	On Intrepretability in Set Theory	1	Willard2004
+WC0064	1981	P. Hájek	On the Interpretatability of Theories Containing Arithmetic (II)	1	Willard2001
+WC0065	1991	Hájek, P., Pudlák, P.	Metamathematics of First Order Arithmetic	18	Willard2000-TAB; Willard2001; Willard2002a; Willard2002c; Willard2004; Willard2005; Willard2005-TAB; Willard2006-WoLLIC; Willard2006a; Willard2007-APAL; Willard2009; Willard2011; Willard2013; Willard2014; Willard2016; Willard2018; Willard2020; Willard2020-LFCS
+WC0066	2007	P. Hájek	Mathematical fuzzy logic and natural numbers	4	Willard2014; Willard2016; Willard2018; Willard2020-LFCS
+WC0067	2011	Hájek, P.	Towards metamathematics of weak arithmetics over fuzzy. Logic	5	Willard2014; Willard2016; Willard2018; Willard2020; Willard2020-LFCS
+WC0068	2016	Jelani Nelson, YouTube Lecture 2 about	Fusion Trees	1	Willard2018
+WC0069	1971	R. G. JEROSLOW	Consistency statements in formal mathematics	13	Willard1993; Willard2001; Willard2002c; Willard2005; Willard2005-TAB; Willard2006a; Willard2011; Willard2013; Willard2014; Willard2016; Willard2018; Willard2020; Willard2020-LFCS
+WC0070	1997	John W. Dawson Jr. Logical Dilemmas	The Life and Work of Kurt Gödel, A.K. Peter Press, 1997	6	Willard2007-KGS6; Willard2013; Willard2014; Willard2016; Willard2018; Willard2020-LFCS
+WC0071	1991	R. KAYE	Models of peano arithmetic	7	Willard2004; Willard2005; Willard2006-WoLLIC; Willard2006a; Willard2007-APAL; Willard2009; Willard2011
+WC0072	1938	S. Kleene	On the Notation of Ordinal Numbers	14	Willard2001; Willard2002c; Willard2005-TAB; Willard2006-WoLLIC; Willard2006a; Willard2007-KGS6; Willard2009; Willard2011; Willard2013; Willard2014; Willard2016; Willard2018; Willard2020; Willard2020-LFCS
+WC0073	2005	L. A. Kolodziejczyk	Private Email Communications during November of 2005	2	Willard2011; Willard2013
+WC0074	2006	L. A. Kolodziejczyk	On the Herbrand Notion of Consistency for Finitely Axiomatizable Fragments of Bound Arithmetic	4	Willard2006-WoLLIC; Willard2007-APAL; Willard2009; Willard2011
+WC0075	2006	L.A. Kolodziejczyk	Some results on Weak Consistency Statements in Weak Theories	1	Willard2009
+WC0076	1995	J. KRAJ	ÍCEK, Bounded propositional logic and complexity theory	12	Willard2000-TAB; Willard2001; Willard2002a; Willard2002c; Willard2004; Willard2005; Willard2006-WoLLIC; Willard2006a; Willard2007-APAL; Willard2009; Willard2011; Willard2016
+WC0077	1987	J. Krajı́cek	A Note on Proofs of Falsehood	9	Willard2001; Willard2004; Willard2005-TAB; Willard2006-WoLLIC; Willard2006a; Willard2007-APAL; Willard2009; Willard2011; Willard2016
+WC0078	1989	J. Krajı́cek and P. Pudlák	Propositional Proof Systems, The Consistency of First-Order Theories and The Complexity of Computation	1	Willard2001
+WC0079	1991	J. Krajı́cek, P. Pudlák and G. Takeuti	Bounded Arithmetic and the Polynomial Hierarchy	1	Willard2006a
+WC0080	1968	G. Kreisel	A Survey of Proof Theory, Part I	3	Willard2000-TAB; Willard2001; Willard2002a
+WC0081	1974	G. Kreisel & G. Takeuti	Formally Self-Referential Propositions for Cut-Free Classical Analysis and Related Systems	16	Willard1993; Willard2000-TAB; Willard2001; Willard2002a; Willard2002c; Willard2005; Willard2005-TAB; Willard2006a; Willard2009; Willard2011; Willard2013; Willard2014; Willard2016; Willard2018; Willard2020; Willard2020-LFCS
+WC0082	1984	P. LINDSTR	ÖM, On faithful interpretability, Computation and proof theory	1	Willard2005
+WC0083	2006	Kolodziejczyk, L.A.	On the Herbrand notion of consistency for ﬁnitely axiomatizable fragments of bounded arithmetic theories. Jour. Symb. Logic 71(2), 624–638 (2006)	1	Willard2014
+WC0084	1993	Y. Matiyasevich	Hilbert’s Tenth Problem	2	Willard2006-WoLLIC; Willard2009
+WC0085	1987	E. Mendelson	Introduction to Mathematical Logic, Wadsworth-Brooks-Cole Math Series, 1987. See page 157 for Q’s definition	5	Willard1993; Willard1993-TR; Willard2000-TAB; Willard2001; Willard2002a
+WC0086	1997	E. Mendelson	Introduction to Mathematical Logic, Chapman & Hall (1997)	2	Willard2005; Willard2006a
+WC0087	2010	Mendelson, E.	Introduction to Mathematical Logic. CRC Press (2010)	5	Willard2013; Willard2016; Willard2018; Willard2020; Willard2020-LFCS
+WC0088	1988	R. MSOLOVAY	Injecting inconsistencies into models of PA	1	Willard2005
+WC0089	1962	J. MYCIESLSKI	A lattice connected with relative interpretability, Notices of AMS	1	Willard2005
+WC0090	1986	Nelson, E.	Predicative Arithmetic	17	Willard2000-TAB; Willard2001; Willard2002a; Willard2002c; Willard2004; Willard2005; Willard2005-TAB; Willard2006a; Willard2007-APAL; Willard2009; Willard2011; Willard2013; Willard2014; Willard2016; Willard2018; Willard2020; Willard2020-LFCS
+WC0091	1961	S. OREY	Relative interpretations, Zeitscrfit fur Math Logic	1	Willard2005
+WC0092	1971	R. Parikh	Existence and Feasibility in Arithmetic	13	Willard2000-TAB; Willard2001; Willard2002c; Willard2004; Willard2005; Willard2006a; Willard2011; Willard2013; Willard2014; Willard2016; Willard2018; Willard2020; Willard2020-LFCS
+WC0093	1981	J. B. Paris and A. J. Wilkie	∆0 Sets and Induction	11	Willard2000-TAB; Willard2001; Willard2002a; Willard2004; Willard2005; Willard2005-TAB; Willard2006-WoLLIC; Willard2006a; Willard2007-APAL; Willard2009; Willard2011
+WC0094	1982	J. B. Paris and C. Dimitracopoulos	Truth Deﬁnition for ∆0 Formula	3	Willard2006-WoLLIC; Willard2009; Willard2011
+WC0095	1983	J. B. Paris and C. Dimitracopoulos	A Note on the Undefinability of Cuts	12	Willard2001; Willard2002c; Willard2004; Willard2005-TAB; Willard2006a; Willard2007-APAL; Willard2009; Willard2011; Willard2016; Willard2018; Willard2020; Willard2020-LFCS
+WC0096	1972	C. Parsons	On n−quantifier elimination	6	Willard2011; Willard2014; Willard2016; Willard2018; Willard2020; Willard2020-LFCS
+WC0097	2018	S. Pinker	Enlightenment Now the case for Reason, Science, Humanism and Progress, Viking, New York, 2018	1	Willard2018
+WC0098	1983	P. Pudla	́k, Some Prime Elements in the Lattice of Interpretability Types	1	Willard2009
+WC0099	1984	P. Pudlák	On the Lengths of Finistic Consistency Statements in First Order Theories	1	Willard2004
+WC0100	1985	P. Pudlák	Cuts Consistency Statements and Interpretations	18	Willard2000-TAB; Willard2001; Willard2002a; Willard2002c; Willard2004; Willard2005-TAB; Willard2006-WoLLIC; Willard2006a; Willard2007-APAL; Willard2007-KGS6; Willard2009; Willard2011; Willard2013; Willard2014; Willard2016; Willard2018; Willard2020; Willard2020-LFCS
+WC0101	1986	P. Pudlák	On Lengths of Proofs of Finisitic Consistency Statements in First order Theories	4	Willard2006-WoLLIC; Willard2007-APAL; Willard2009; Willard2011
+WC0102	1990	P. Pudlák	A Note on Bounded Arithmetic	1	Willard2006a
+WC0103	1996	P. Pudlák, “On the Lengths of Proofs of Consistency”, in Collegium Logicum	On the Lengths of Proofs of Consistency	16	Willard2000-TAB; Willard2001; Willard2002a; Willard2002c; Willard2004; Willard2005-TAB; Willard2006-WoLLIC; Willard2006a; Willard2007-APAL; Willard2009; Willard2011; Willard2014; Willard2016; Willard2018; Willard2020; Willard2020-LFCS
+WC0104	2001	P. Pudla	́k, Private emailed communications, 2001	2	Willard2016; Willard2018
+WC0105	1993	Z. RATAJCZYK	Subsystems of true arithmetic and hierarchies of functions	2	Willard2004; Willard2005
+WC0106	1950	R. Robinson	An Essentially Undecidable Axiom System	2	Willard2000-TAB; Willard2002a
+WC0107	1967	H. Rogers	Theory of Recursive Functions and Effective Compatibility, McGraw Hill 1967, see especially pp. 186-188. K. Schutte, Ein System des verknupfenden Schliessens, Archiv. Math. Logic Grundlagenf 2 (1956) 	12	Willard1993-TR; Willard2001; Willard2002c; Willard2005; Willard2005-TAB; Willard2006a; Willard2011; Willard2013; Willard2014; Willard2016; Willard2018; Willard2020-LFCS
+WC0108	1936	J. B. Rosser	Extensions of Some Earlier Theorems by Gödel and Church	4	Willard2005-TAB; Willard2006a; Willard2007-APAL; Willard2011
+WC0109	2014	Sacks, G.	did not think	2	Willard2020; Willard2020-LFCS
+WC0110	2001	S. Salehi	Herbrand Consistency in Arithmetics with Bounded Induction, Polish Academy of Sciences Ph D thesis, October 2001	5	Willard2004; Willard2005; Willard2005-TAB; Willard2006a; Willard2009
+WC0111	2011	S. Salehi	Herbrandized Consistency of Some Finite Fragments of Bounded Arithmetic Theories (CoRR 2011) http://arxiv.org/abs/1110.1848	1	Willard2011
+WC0112	2012	Salehi, S.	Herbrand consistency of some arithmetical theories. Jour. Symb. Logic 77(3), 807–827 (2012)	1	Willard2014
+WC0113	1983	H. Schwichteberg, Proof Theory	Some Applications of Cut Elimination, in Handbook on Mathematical Logic,	1	Willard1993
+WC0114	1967	J. Shoenfeld	Mathematical Logic, Addison-Wesley, 1967	1	Willard2001
+WC0115	1977	C. A. SMORY	ŃSKI, The incompleteness theorem	1	Willard2005
+WC0116	1977	C. Smoryński	The Incompleteness Theorem	2	Willard2009; Willard2011
+WC0117	1985	C. Smoryński	Non-standard Models and Related Developments in the Work of Harvey Friedman	6	Willard2005-TAB; Willard2006-WoLLIC; Willard2006a; Willard2007-APAL; Willard2009; Willard2011
+WC0118	1983	C. Smorynski	The Incompleteness Theorem	2	Willard1993; Willard2001
+WC0119	1961	R. Smullyan	The Theory of Formal Systems	2	Willard1993; Willard2002a
+WC0120	1968	R. M. SMULLYAN	First order logic	11	Willard1993; Willard2000-TAB; Willard2001; Willard2002a; Willard2002c; Willard2004; Willard2005; Willard2007-APAL; Willard2011; Willard2016; Willard2018
+WC0121	1995	Smullyan, R.	First Order Logic. Dover Books (1995)	2	Willard2020; Willard2020-LFCS
+WC0122	1976	R. M. Solovay	Interpretability in set theories	1	Willard2011
+WC0123	1976	R. M. Solovay	Provability Interpretations in Modal Logics	1	Willard2011
+WC0124	1988	R. M. Solovay	Injecting Inconsistencies into Models of PA	2	Willard2011; Willard2020
+WC0125	1994	R. M. SOLOVAY, Several private telephone communications during April of 1994 describing Solovay’s generalization of one of Pudlák’s theorem	Definable Cuts	3	Willard2002c; Willard2005; Willard2006a
+WC0126	1994	R. Solovay	Private telephone communications during 1994 describing Solovay’s generalization of one of Pudlák’s theorems [25], using the additional formalisms of Nelson and Wilkie-Paris [21, 37]. Solovay never p	12	Willard1998; Willard2000-TAB; Willard2001; Willard2002a; Willard2005-TAB; Willard2007-APAL; Willard2007-KGS6; Willard2011; Willard2013; Willard2014; Willard2016; Willard2018
+WC0127		Stanford Encyclopedia Entry on	“Kurt G”odel, See the second pargraph of its Section 2.2.4 for a description of Gödel’s reaction to Turing’s paper [31]	1	Willard2013
+WC0128	1983	R. Statman	Herbrand’s theorem and Gentzen’s Notion of a Direct Proof	3	Willard1993; Willard2000-TAB; Willard2001
+WC0129	2017	Stephen Hawking interviewed by Dana Dovey, Newsweek December 26 2017, available at www.newsweek.com. under the title of	Stephen Hawking’s six wildest predictions from 2017 - from a robot apocalypse to the demise of earth	1	Willard2018
+WC0130	1978	V. SVEJDAR	Degrees of interpretability, Com. Math. Univ. Carol	1	Willard2005
+WC0131	2003	S. Swierczkowski	Finite Sets and Gödel’s Dissertationes Mathematicae 422 (2003) pp. 1–58 Incompleteness Theorem	1	Willard2009
+WC0132	2000	G. Taekuti	Gödel Sentences of Bounded Arithmetic	1	Willard2004
+WC0133	1953	G. Takeuti	On a Generalized Logical Calculus	6	Willard1993; Willard2000-TAB; Willard2001; Willard2002a; Willard2009; Willard2011
+WC0134	1987	G. Takeuti	Proof Theory	11	Willard1993; Willard2000-TAB; Willard2001; Willard2002a; Willard2002c; Willard2005; Willard2005-TAB; Willard2006a; Willard2007-APAL; Willard2011; Willard2016
+WC0135	2000	G. Takeuti	Gödel Sentences of Bounded Arithmetic	6	Willard2005-TAB; Willard2006-WoLLIC; Willard2006a; Willard2007-APAL; Willard2009; Willard2011
+WC0136	1936	A. Tarski	Der Wahrheitsbegriﬀ in den formalisisierten Sprachen	1	Willard2011
+WC0137	1953	A. TARSKI	A. MOSTOWSKI , and R. ROBINSON, Undecidable theories	8	Willard2004; Willard2005; Willard2005-TAB; Willard2006-WoLLIC; Willard2006a; Willard2007-APAL; Willard2009; Willard2011
+WC0138	2002	R. L. Trivers	Natural Selection and Social Theory Selected Works of Robert Rivers	1	Willard2018
+WC0139	1936	A. Turing	On the computable numbers with an application to the entscheidungsproblem	2	Willard2016; Willard2018
+WC0140	1937	A. M. Turing	On Computable Numbers with an Application to the Entscheidungsproblem	1	Willard2013
+WC0141	1983	V. Švejdar	Modal Analysis of Generalized Rosser Sentences	5	Willard2004; Willard2005-TAB; Willard2006a; Willard2009; Willard2011
+WC0142	1994	R, Verbrugge and A. Visser	A Small Reﬂection Principle for Bounded Arithmetic	1	Willard2011
+WC0143	1987	A. Visser, “Peano’s Smart Children	Peano’s Smart Children: A Provability Logical Study of Systems with Built-in Consistency	1	Willard2011
+WC0144	1988	A. Visser, Intrepretablity Logic, Mathematical Logic	Proceedings of the 1988 Heyting Summer School, (editor: P. Petkov), Plenum Press, 1990, pp. 175-208. Also available in Utrecht Univ Philosophy Department TR #29, 1988	2	Willard2005; Willard2006a
+WC0145	1992	A. Visser	An Inside View of Exp (or The Closed Fragment of The Provability Logic I∆0 +Ω1 With a Propositional Constant for Exp)	6	Willard2002c; Willard2004; Willard2006a; Willard2007-APAL; Willard2009; Willard2011
+WC0146	1993	A. Visser	The Unprovability of Small Inconsistency	7	Willard2004; Willard2005-TAB; Willard2006-WoLLIC; Willard2006a; Willard2007-APAL; Willard2009; Willard2011
+WC0147	2005	A. Visser	Faith and Falsity	13	Willard2004; Willard2005-TAB; Willard2006-WoLLIC; Willard2006a; Willard2007-APAL; Willard2009; Willard2011; Willard2013; Willard2014; Willard2016; Willard2018; Willard2020; Willard2020-LFCS
+WC0148	1973	P. VOP	ĚNKA and P. H ÁJEK, Existence of a generalized semantic model of Gödel-Bernays set theory	1	Willard2005
+WC0149	1973	P. Vopěnka and P. Hájek	Existence of a Generalized Semantic Model of Gödel-Bernays Set Theory	5	Willard2004; Willard2005-TAB; Willard2006a; Willard2009; Willard2011
+WC0150	1987	A. J. WILKIE and J. B. PARIS	On the scheme of induction for bounded arithmetic	19	Willard2000-TAB; Willard2001; Willard2002a; Willard2002c; Willard2004; Willard2005; Willard2005-TAB; Willard2006-WoLLIC; Willard2006a; Willard2007-APAL; Willard2007-KGS6; Willard2009; Willard2011; Willard2013; Willard2014; Willard2016; Willard2018; Willard2020; Willard2020-LFCS
+WC0151	1978	C. WRATHALL	Rudimentary predicates and relative computation, Siam Journal on Computing	9	Willard2000-TAB; Willard2001; Willard2002a; Willard2005; Willard2005-TAB; Willard2006a; Willard2009; Willard2011; Willard2016
+WC0152	2005	P. Yourgrau, A World Without Time	Breaking Point	1	Willard2016
+WC0153	2005	Yourgrau, P.	A World Without Time: The Forgotten Legacy of Gödel and Einstein. (See page 58 for the passages we have quoted.) Basic Books ( 2005)	5	Willard2007-KGS6; Willard2014; Willard2018; Willard2020; Willard2020-LFCS
+WC0154	1955	M. H. Lo	̈b, A Solution to a Problem by Leon Henkin	10	Willard1993; Willard2001; Willard2005; Willard2006-WoLLIC; Willard2007-APAL; Willard2009; Willard2011; Willard2013; Willard2014; Willard2016
+WC0155	2001	H. B	Enderton, A Mathematical Introduction to Logic	1	Willard2016
+WC0156	2007	V. S	An Interpretation of Robinson Arithmetic in its Grzegorczjk’s Weaker Variant	7	Willard2011; Willard2013; Willard2014; Willard2016; Willard2018; Willard2020; Willard2020-LFCS
+WC0157	2011	H. B	Enderton, Mathematical Introduction Logic	1	Willard2018

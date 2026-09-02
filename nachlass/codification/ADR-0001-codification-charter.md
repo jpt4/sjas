@@ -77,6 +77,17 @@ glyph, and constant. This extends the standing nachlass
 page-images-are-authoritative policy from OCR'd scans to publisher-typeset
 PDFs, where the risk is less obvious and therefore greater.
 
+**Strengthened 2026-09-02 (user direction).** *"Using OCR'd text clearly does
+not work; all reading must be of the original documents themselves."* Extracted
+text — `pdftotext` output, OCR layers, `sources-text/` — may be used to
+**locate** a passage and **never** to quote, transcribe, or settle a question.
+Three consecutive verification passes produced defects traceable to the text
+layer: stripped `□`s, a substituted `℧`, two wrong page numbers on *prose*
+citations, and a non-verbatim quotation carried under an "image-verified" tag.
+The former exemption for prose containing no mathematics is **withdrawn**;
+there is no exemption. Enforced for the Refinement by check **R-B**
+(`codification/audit-r.sh`), which fails any register row not marked `img`.
+
 **Amended 2026-08-27 (user direction).** The rule previously read "every page
 carrying a system definition, a definition or theorem the codified statement
 will quote, or a displayed equation whose constants matter". That let the

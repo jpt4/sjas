@@ -7,8 +7,10 @@
 # machinery across the stage boundary. Contract: refinement/VERIFICATION.md.
 #
 #   R-A  every paper key cited in refinement/*.md resolves in corpus.md
-#   R-B  VERIFICATION.md's quotation register uses only img|txt statuses,
-#        and no `txt` row's quote contains mathematical notation
+#   R-B  every row of VERIFICATION.md's quotation register is `img`.
+#        Standing instruction 2026-09-02: extracted text is not a source. It
+#        may locate a passage; it may never be quoted from. The former `txt`
+#        status is retired and is now a failure.
 #   R-C  every held secondary-literature file in the register exists
 #   R-D  no Refinement document reasserts, unmarked, one of the exact
 #        sentences the register records as retracted.
@@ -60,21 +62,12 @@ run_r_b() {
     # The status cell is "img" or "txt", optionally followed by " — why" or " (C5)".
     st=$(printf '%s' "$status" | tr -d '*`' | sed 's/[[:space:]]*[—(-].*//' | tr -d ' ')
     case "$st" in
-      img|txt) n=$((n + 1)) ;;
-      *) err "R-B: register row '$(printf '%.40s' "$quote")' has status '$st', not img|txt"; bad=1; continue ;;
+      img) n=$((n + 1)) ;;
+      txt) err "R-B: register row '$(printf '%.40s' "$quote")' is 'txt'. Extracted text is not a source: read the page"; bad=1 ;;
+      *) err "R-B: register row '$(printf '%.40s' "$quote")' has status '$st', not img"; bad=1 ;;
     esac
-    # Two families of hazard. Stripping (box, turnstile, corners) leaves a
-    # visible gap; SUBSTITUTION is worse, because the output reads as ordinary
-    # text: pdftotext renders U+2127 as digit 0 and Fraktur I as "=", and
-    # flattens floors, ceilings and towers (drift D71, registry/notation.md).
-    # An earlier version of this check tested only the stripping family.
-    if [ "$st" = "txt" ] && printf '%s' "$quote" |
-         grep -q '[□⌜⌝♯⊢≥≤∧⊃¬∀∃⊠⊤⊥℧ℑ⌊⌋⌈⌉√·×∈∪∩⊂≠≡↔∅∞]'; then
-      err "R-B: register row '$(printf '%.40s' "$quote")' is txt-only but carries mathematics"
-      bad=1
-    fi
   done < <(r_register_rows)
-  [ "$bad" = "0" ] && echo "  R-B: $n register rows well-formed; no txt row carries mathematics"
+  [ "$bad" = "0" ] && echo "  R-B: $n register rows, all image-verified"
 }
 
 run_r_c() {

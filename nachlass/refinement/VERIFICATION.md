@@ -42,12 +42,14 @@ both the enum and the no-mathematics-in-`txt` rule.
 | "every self verifying system must breach … one of the three fundamental Hilbert-Bernays conditions" | `Willard1993-TR` | printed p. 1 | img (C5) |
 | "may arise because of either the axiom system employed or the choice of deduction method, but not necessarily due to both" | `Willard1993-TR` | printed p. 1 | img (C5) |
 | **"only in the *degenerate case* where `x` and `y` are *fixed constants*"** — the condition-(2) failure | `Willard1993-TR` | printed p. 12 | img (C5); recorded at `../codification/extraction/willard1993-tr.md` §3.7c |
-| Theorem A.1's three conditions; status `stated-only`, "no formal proof given" | `Willard2001` | p. 44 | txt — prose and a status read from `results.md` row `Willard2001#ThmA.1` |
-| Lemma 7.1 "replaces the Hilbert-Bernays derivability conditions with a semantic argument" | `Willard2001` | p. 37 | txt — prose, quoted from the `results.md` digest |
-| "Conventional generic configurations `ξ` will satisfy the Hilbert-Bernays derivability conditions" | `Willard2011` | printed p. 21 fn. 11 | txt |
+| Theorem A.1's three conditions, verbatim, and "Suppose **for any two sentences** `Φ` and `Ψ`" — the uniformity the TR's condition-(2) failure denies; status `stated-only` | `Willard2001` | p. 44 | **img (2026-09-02)** |
+| Lemma 7.1 "replaces the Hilbert-Bernays derivability conditions with a semantic argument" | — | `../codification/registry/results.md` row `Willard2001#Lem7.1` | **img — via the registry digest, image-verified at C7.** Not quoted from the paper directly, and cited as the registry's wording |
+| "Conventional generic configurations `ξ` will satisfy the Hilbert-Bernays derivability conditions [16, 15]. Their `G^ξ_k(θ)` will thus be automatically inconsistent because of a Gödel-like diagonalization argument." | `Willard2011` | printed p. 21 fn. 11 | **img (2026-09-02)** |
 | Tight, Def. 4.5 — refutation length at least envelope plus two | `Willard2011` | printed p. 13–14 | img (C6, 2026-08-21) |
 | Defs. 5.1 / 5.3 / 5.5 — A-Stable, E-Stable, EA-stable; Thm 5.9's dependencies are 5.5 and 5.7, not 5.1 | `Willard2011` | printed pp. 16–18 | img (C6); statuses from `results.md` |
-| Lemma 4.6 — Tightness suffices for a consistent self-justifying system; status `sketch`, proof "kept brief and informal" | `Willard2011` | printed p. 14 | txt — status read from `results.md` |
+| Def. 4.5 (Tight) verbatim; Lemma 4.6 with Eq. (19) `Log(q) = ♯(Ψ)+1`, Eq. (20), and "because all of `B^ξ`'s axioms are true under the Standard-M model"; status `sketch`, proof "kept brief and informal" | `Willard2011` | printed pp. 14–15 | **img (2026-09-02)** |
+| Def. 4.1 (`E(n)` denotes the value `2^n`), Defs. 4.2–4.4, footnote 6 (`Good(N)` runs opposite ways on `Π` and `Σ`) | `Willard2011` | printed pp. 12–13 | **img (2026-09-02)** |
+| R-View = "any recursively enumerable (r.e.) set of `Π^ξ₁` sentences … It only needs to be r.e."; RE-Class; Defs. 5.1 and 5.3 verbatim; Remark 5.2's "Theorem 5.11 will show the presence of A-stability, alone, is sufficient" | `Willard2011` | printed pp. 15–16 | **img (2026-09-02)** |
 | Conventional Tableaux Encoding Requirement, `32^J` / `5J` bits — a **lower** bound | `Willard2011` | printed p. 39 fn. 23 | img (C16 Q1) |
 | the two sequences and their encoding lengths | `Willard2020-LFCS` | p. 11 | img (C10) |
 | `U-Height(p)`, `θ` values | `Willard2005` | pp. 19, 26 | img (C10) |
@@ -61,10 +63,10 @@ both the enum and the no-mathematics-in-`txt` rule.
 | "the system `S` does not provide a counterexample to the non-formalized version of G2, since `⇒ ¬□⊥` is not provable" | Beklemishev–Shamkanov | p. 14 | **img (2026-09-02)** |
 | "we are still missing convincing examples of mathematical theories based on weak logics for which G2 would fail" | Beklemishev–Shamkanov | p. 14 | **img (2026-09-02)** |
 | superexponentiation, the cut `S`, the finite model of size at most the tower, and `Con^pred` | Pakhomov | p. 4 | **img (2026-09-02)** |
-| "Important restriction here is that both `H` and `H_{<ω}` could not prove totality of successor function" | Pakhomov | **pp. 3–4** — the sentence straddles the page break | txt — prose, confirmed by page-scoped extraction |
-| "the properties of SUM in theory `H` that could not even prove totality of successor function" — about `H` alone | Pakhomov | **p. 22** (not p. 21) | txt — prose, confirmed by page-scoped extraction |
+| "Important restriction here is that both `H` and `H_{<ω}` could not prove totality of successor function"; and Pudlák's structure — a failure of G2 for `T` "leads to a failure of G2 in a different theory `T′` (interpretable in `T`), where HBL are satisfied" | Pakhomov | **pp. 3–4** — the sentence straddles the page break | **img (2026-09-02)** |
+| "the properties of `SUM` in theory `H` that could not even prove totality of successor function" — about `H` alone, in the proof of Cor. 5.3 | Pakhomov | **p. 22** (not p. 21) | **img (2026-09-02)** |
 | footnote 3 (Beklemishev's simplification "still unpublished"); Acknowledgments | Pakhomov | **p. 24** (not p. 25; p. 25 is References) | **img (2026-09-02)** |
-| "The theories in his examples are not completely natural … Diagonal Lemma" | Pakhomov | p. 3 | txt — prose |
+| "The theories in his examples are not completely natural in the sense that some of axioms are constructed using Diagonal Lemma. The main result of the present paper is the construction of a more natural example of this kind." | Pakhomov | p. 3 | **img (2026-09-02)** |
 
 ## Computed claims
 

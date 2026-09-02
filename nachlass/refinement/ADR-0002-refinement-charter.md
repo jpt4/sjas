@@ -50,10 +50,12 @@ A fourth was added 2026-09-02, after a review found that **every Tier-1 defect
 in this stage was of a kind the Codification's machinery exists to prevent**,
 committed in the one stage that machinery did not reach:
 
-4. **The Codification's verification discipline binds here.** Every quotation
-   containing mathematics is image-verified; every claim about what the corpus
-   says is checked against the extraction records before it is made; arithmetic
-   claims are computed rather than read off a paper's informal gloss.
+4. **The Codification's verification discipline binds here.** Every quotation is
+   image-verified — **extracted text is not a source**, only a way to find a
+   page (standing instruction 2026-09-02; ADR-0001's visual-control rule as
+   strengthened). Every claim about what the corpus says is checked against the
+   extraction records before it is made; arithmetic claims are computed rather
+   than read off a paper's informal gloss.
    [`VERIFICATION.md`](VERIFICATION.md) holds the register and
    `../codification/audit.sh` checks it.
 
@@ -66,7 +68,7 @@ Codification.
 | --- | --- | --- |
 | **R1** | The essential idea: identify and explicate | **done 2026-09-01** — [`refined-sjas.md`](refined-sjas.md) |
 | **R2** | Acquire and integrate the external refinements | **done 2026-09-01** — Beklemishev **unacquirable** (G7 closed: unpublished); **Pakhomov 2019 acquired and integrated** ([`R1-review.md`](R1-review.md)); **Beklemishev–Shamkanov 2016 acquired and assessed** ([`R2-beklemishev-shamkanov-assessment.md`](R2-beklemishev-shamkanov-assessment.md), G38 closed) — **R2 done** |
-| **R3** | Make the criterion a definition, and prove the five dials are instances | **done 2026-09-02, partly** — [`R3-the-margin.md`](R3-the-margin.md). Definition given (the **margin** `Log(q_β) − ♯(β)`, generalising `Willard2011` Def. 4.5). **Four** dials shown to lower `Log(q_β)`; the fifth (Hybrid(H)) moves the margin by a route not settled here. Instances **argued, not proved**. The cross-route unification is **refuted** — and the roster corrected: Beklemishev–Shamkanov's system is **not self-verifying** |
+| **R3** | Make the criterion a definition, and prove the five dials are instances | **done 2026-09-02, partly — verdict at [`R3-the-margin.md`](R3-the-margin.md) §6**, written after re-reading `Willard2011` §§4–5 as page images. The definition holds and **is** `Willard2011` Def. 4.5, not a generalisation of it. **Three** dials (`ℜ`, `Herb−k`, `Z`) are now **proved** to move the margin, via the lemma that `♯` is independent of the deduction method. **Level(n)'s instance is retracted**; **Hybrid(H)'s** term is undetermined. The A-Stability ⟹ Tightness bridge completes but re-derives Willard's Thm 5.11. The cross-route unification is **refuted**, and Beklemishev–Shamkanov's system is **not self-verifying** |
 | **R4** | The computational analogue: test the type-theoretic reading against Brown–Palsberg. **Carries obligation RO1**: affineness alone does not evade G2 — `□`-contraction can hold in affine PA (Beklemishev–Shamkanov §3) | pending |
 | **R5** | Secondary-literature pass: Artemov, Pudlák, Visser, Adamowicz, Kolodziejczyk, Salehi | pending |
 
@@ -106,7 +108,7 @@ counterexample to the naming form, only a second instance of the general one.
   *(R1 §§2, 6 — met: Rosser is discharged as already-present-and-undeclared;
   Lawvere is downgraded to a framing, §9.)*
 - **B4′** The identification compared against *published* external refinements. *(R2 — **met**. Pakhomov 2019 supplied a second witness kind and motivated the generalisation; Beklemishev–Shamkanov 2016 isolated a further prerequisite of G2's argument. The original B4, comparing Beklemishev's claim, is **unmeetable**: the work is unpublished, G7 closed.)*
-- **B5** The criterion made a definition and its instances proved. *(R3 — **partly met**. The definition exists. **Four** of Willard's five dials are shown to move its cost term, answering drift **D38** for those four and sharpening the question for the fifth. The instances are argued from cited results, not derived from the inequality — and most of those results are `sketch` or `stated-only`. The broader unification R2 had made the target is **refuted**: self-verification is a classification, not a single condition, and breaking G2's argument is necessary but not sufficient for it.)*
+- **B5** The criterion made a definition and its instances proved. *(R3 — **partly met, at three of five**. The definition exists and is Willard's own. **Three** dials are **proved** to move the margin — `ℜ`, `Herb−k`, `Z`, all of which vary only the deduction method, which `♯` provably ignores. **Level(n)'s instance is retracted** (it varies a sentence, and at the critical `β` Eq. (20) makes both terms move in lockstep). **Hybrid(H)** remains unplaced. D38 is answered for three, sharpened for one, reopened for one. The broader unification is **refuted**: self-verification is a classification, not a single condition, and breaking G2's argument is necessary but not sufficient for it.)*
 - **B6** *(added 2026-09-02, restated after review)* Every mathematical quotation image-verified **and transcribed verbatim**, and every corpus claim status-carrying, per [`VERIFICATION.md`](VERIFICATION.md), with `audit.sh` green. *(**Met** for R1–R3 **as of the second pass**. The first pass asserted this while two quotations tagged "(image-verified)" were not verbatim — corrections #23 and #32. Note what green does **not** mean: `audit.sh` cannot check quotation fidelity. R-B tests only whether a `txt`-tagged register row carries hazard symbols; nothing diffs a quotation against its source. Verbatim transcription is a **human obligation** that the audit supports and does not discharge.)*
 
 **The stage is not complete.** R1's deliverable is complete and has been reviewed

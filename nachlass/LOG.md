@@ -1,5 +1,92 @@
 # Nachlass Log
 
+## 2026-09-02 - Does R3 hold? Re-read of Willard2011 sections 4-5 from page images
+
+Standing instruction, and it now governs both charters: "Using OCR'd text
+clearly does not work; all reading must be of the original documents
+themselves." Extracted text may LOCATE a passage and may never be quoted from.
+The former exemption for prose containing no mathematics is withdrawn - it
+failed twice, on two page numbers and one non-verbatim prose quotation carried
+under an image-verified tag. VERIFICATION.md's txt status is retired; all 28
+register rows are now img, and check R-B fails anything else (red-green tested).
+
+Then the question itself. I re-read Willard2011 printed pp. 12-16 and 21 as
+rendered images, plus Willard2001 p. 44 and Pakhomov pp. 3, 4, 22, 24.
+
+**R3 partly holds. Three of five, not five of five.**
+
+WHAT HOLDS.
+
+- The definition. M(xi) = inf { Log(q_beta) - sharp(beta) } with threshold 2 IS
+  Willard's Definition 4.5, and Lemma 4.6 is exactly the theorem that it
+  suffices. Verified verbatim from the page.
+- Three dials, now PROVED rather than argued. Defs 4.1-4.4 define sharp without
+  any reference to the deduction method d: E(n) denotes the fixed value 2^n,
+  Scope_E is syntactic, Good(N) is truth in Standard-M. So sharp is
+  d-independent, and any dial varying only d moves Log(q_beta) and cannot move
+  sharp. That covers R, Herb-k and Z. This one-line lemma is what the whole of
+  section 3 needed and no draft had.
+- The A-Stability implies Tightness bridge completes. The r.e.-versus-arbitrary
+  gap closes by passing to the finite subset of beta that the shortest
+  refutation actually uses: that subset is r.e., has the same q, and has
+  sharp >= sharp(beta).
+
+WHAT DOES NOT HOLD.
+
+- The Level(n) instance is RETRACTED. Two errors. Group-3 is not part of B^xi -
+  Def 4.5 has B^xi as the base and Lemma 4.6 adds SelfRef on top. And Level(n)
+  varies a SENTENCE, so both terms move; at the critical beta = B^xi + Psi,
+  Equation (20) makes them move in exact lockstep, so the margin there is
+  identically 1 whatever the level.
+- Hybrid(H) remains unplaced, for the same structural reason.
+- Section 3's whole framing was not well-posed. M is a DIFFERENCE; "dial X
+  lowers Log(q_beta)" says nothing about it unless the other term is checked,
+  and no draft checked it. For the three apparatus dials the omission was
+  harmless - but by luck, not by argument.
+
+WITHDRAWN CLAIMS ABOUT R3 ITSELF.
+
+- "Generalising Def 4.5". It is a restatement: for-all-beta A >= 2 and
+  inf A >= 2 are the same statement.
+- Novelty for the stability bridge. Remark 5.2 announces "Theorem 5.11 will show
+  the presence of A-stability, alone, is sufficient for constructing
+  self-justifying systems", and Theorem 6.3 uses it. R3's route is shorter, not
+  new. A simplification is the stage's remit; a new theorem it is not.
+- Authorship of the sharp-is-model-theoretic argument used to withdraw the
+  Hybrid side-assignment. It is Willard's own justification for Equation (20):
+  sharp(B^xi + Psi) = sharp(Psi) "because all of B^xi's axioms are true under
+  the Standard-M model".
+
+WHAT R3 MISSED, AND IS THE BEST THING HERE.
+
+The threshold 2 is forced, and the corpus says why. When the self-referential
+axiom is false, Eq (19) gives Log(q) = sharp(Psi) + 1 exactly, and Eq (20)
+carries it to sharp(B^xi + Psi) + 1. The fixed point sits at margin EXACTLY
+ONE. Tightness's +2 is precisely the demand that every inconsistent beta have
+strictly more margin than the fixed point achieves - and Lemma 4.6 is that
+one-line contradiction, nothing more. R3 carried the 2 as a given for three
+drafts. It is the content.
+
+R3 section 6 states the verdict; sections 1-4 are rewritten around it. B5 is
+partly met at three of five. audit.sh green.
+
+## 2026-09-02 - Omnibus bibliography of works Willard cites (works-cited-by-dew)
+
+Created `works-cited-by-dew/` as the reverse of `works-citing-dew/`: every
+non-self bibliographic citation in the SJAS Willard witnesses, with the full
+set of citing DEW documents per entry.
+
+- Regenerator: `works-cited-by-dew/build-bibliography.py` (parses reference
+  sections in `codification/sources-text/`, drops Willard self-cites, clusters
+  by author/year/title).
+- Human omnibus: `works-cited-by-dew/BIBLIOGRAPHY.md`; machine indexes:
+  `bibliography.json`, `bibliography.tsv`; notes in `README.md`.
+- Tally after quality filters: **157** external works from **712** rows across
+  **23** DEW documents (**174** self-citation rows excluded).
+- Coverage gaps recorded in the omnibus: `Willard2006b` has no bibliography in
+  its text layer (use `Willard2005-TAB`); `Willard1998` is thin OCR with a
+  manual Solovay 1994 row; local `[n]` keys are paper-local, not global IDs.
+
 ## 2026-09-02 - Independent review of the repair commit: ten more corrections, two in the checks themselves
 
 An adversarial review of 4eb63c7 (record at refinement/REVIEW-2026-09-02.md,

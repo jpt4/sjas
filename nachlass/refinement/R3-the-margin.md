@@ -2,14 +2,22 @@
 
 *Making the criterion a definition, and testing the five dials against it.*
 
-> **What this delivers, stated first.** A single quantitative invariant that all
-> **five** of Willard's boundary dials move, together with the argument that each
-> moves it — that part succeeds, and it is Willard's own inequality generalised.
-> A single condition covering **all three** known routes to self-verification —
-> that part **fails**, and §5 gives the reason. R3's acceptance criterion **B5**
-> is therefore **partly met**: the definition exists and the five instances are
-> argued; they are not formally proved, and the cross-route unification is
-> refuted rather than achieved.
+> **What this delivers, stated first — revised 2026-09-02 after a full
+> page-image re-reading of `Willard2011` §§4–5.**
+>
+> - The **definition** holds. It is not a generalisation of Willard's Tightness,
+>   as earlier drafts claimed; it **is** Tightness, restated as an infimum.
+> - **Three** of the five dials are now *proved* to move it, not merely argued —
+>   §3.0 gives the one-line reason none of the drafts had.
+> - **Level(n)'s** case does **not** hold. §3.3 retracts it.
+> - **Hybrid(H)'s** term remains unidentified, and the withdrawal is now
+>   attributed to Willard, who makes the same move himself at Eq. (20).
+> - The **A-Stability ⟹ Tightness** bridge holds and is completed (§1.2), but it
+>   re-derives a conclusion Willard already has (Thm 5.11).
+> - The cross-route unification **fails**; §5.
+>
+> **B5 is partly met**, and the honest count is three of five, not five of five.
+> §6 states the verdict in full.
 
 ---
 
@@ -29,10 +37,31 @@ is deliberate: the criterion should be recognisable as his.
 `♯(Υ)` is the **envelope**: how far out `Υ` remains true when its quantifiers are
 cut down to `2^N`. `Log(q_β)` is the **cost**.
 
-Willard's Definition 4.5 puts them in one inequality. A configuration `ξ` is
-**Tight** iff every inconsistent `β ⊃ B^ξ` of `Π^ξ₁` sentences satisfies
+Three points from the page images (printed pp. 12–14) that the drafts written
+from extracted text did not carry, and that decide most of what follows:
 
-> **`Log(q_β) ≥ ♯(β) + 2`**
+1. **`E(n)` denotes a fixed value.** Def. 4.1: `E(n)` is "some term in
+   Definition 3.4's language `L^ξ` that represents the value `2^n`", by any
+   reasonable method. The *term* may be long or short depending on what the
+   language can name; the *value* is `2^n` regardless. So `Scope_E`, `Good(N)`
+   and `♯` are fixed once the sentences are fixed.
+2. **`♯` is a function of the sentences alone.** Def. 4.3 makes `Good(N)` a
+   claim about truth in the Standard-M model; Def. 4.4 makes `♯(θ)` the largest
+   `J` at which every sentence of `θ` is `Good(J)`. Neither mentions the
+   deduction method `d`. **`♯` is `d`-independent.** §3.0 turns this into a
+   proof.
+3. **`Good(N)` runs opposite ways on `Π` and `Σ`.** Footnote 6: for `Π^ξ₁`
+   sentences `Good(N)` is *weaker* than `Good(∞)`; for `Σ^ξ₁` it is *stronger*,
+   because `∀x φ` implies `∀x<E(N) φ` but `∃x<E(N) φ` implies `∃x φ`. This is why
+   Defs. 5.1 and 5.3 are not mirror images.
+
+Willard's Definition 4.5 puts the two quantities in one inequality. Verbatim from
+the page image: `B^ξ` is "comprised exclusively of `Π^ξ₁` sentences", `β ⊃ B^ξ`
+is "a second axiom system, comprised also of `Π^ξ₁` sentences, that (unlike
+`B^ξ`) can possibly be inconsistent", `q_β` is "the shortest proof of `0 = 1`
+from `β`", and `ξ` is **Tight** iff *every inconsistent* such `β` satisfies
+
+> **`Log(q_β) ≥ ♯(β) + 2`**  (17)
 
 ### 1.1 What `q_β` and `Log(q_β)` actually measure
 
@@ -113,33 +142,99 @@ than the envelope its own length affords**. Positive margin means refuting the
 system costs more than the system can spend. That is the criterion §1 of
 `refined-sjas.md` states informally, now with the two quantities separated.
 
+**This is a restatement, not a generalisation.** Earlier drafts of this document
+said the margin "generalises" Def. 4.5. It does not: `∀β. A(β) ≥ 2` and
+`inf_β A(β) ≥ 2` are the same statement. The infimum form is more convenient —
+it makes the quantity a *number* attached to `ξ`, which is what lets §3 ask which
+dial moves it — but nothing has been generalised, and the claim is withdrawn.
+
+### 2.1 Why the threshold is 2, which the corpus explains and no draft carried
+
+The `2` looks arbitrary. It is not, and the reason is the best thing in this
+part of the corpus.
+
+Lemma 4.6's proof (printed pp. 14–15, image-verified) computes the margin of the
+one `β` that matters. Let `Ψ = SelfRef(B^ξ,d)`, the self-referential axiom, and
+suppose it is **false** in the Standard-M model — so a proof `q` of `0=1` from
+`B^ξ + Ψ` exists. Then
+
+> `Log(q) = ♯(Ψ) + 1`   (19)
+
+because `Ψ` is `∀p ¬Prf(⌜0=1⌝,p)`, whose `Scope_E(Ψ,J)` asserts that no proof of
+`0=1` lies below `2^J` — true exactly while `J` stays under `Log(q)`. Willard's
+footnote 7 puts it directly: "`♯(Ψ)` will equal `Log(q) − 1` when `q` denotes the
+shortest proof of `0=1` from `B^ξ + SelfRef(B^ξ,d)`." And
+
+> `♯(B^ξ + Ψ) = ♯(Ψ)`   "because all of `B^ξ`'s axioms are true under the
+> Standard-M model"
+
+so (19) becomes `Log(q) = ♯(B^ξ + Ψ) + 1`  (20).
+
+**So the self-referential axiom sits at margin exactly 1.** Tightness demands
+margin `≥ 2` of *every* inconsistent `β`. The axiom that says "I am consistent"
+is therefore excluded from being inconsistent by exactly one bit — and Lemma 4.6
+is that one-line contradiction, nothing more.
+
+Two things follow that change how this document should be read.
+
+1. **The threshold is not a tuning constant.** It is `1 + (the margin the fixed
+   point achieves when false)`. Any invariant of this shape would have the same
+   `+1` gap; the `2` is forced.
+2. **Willard himself argues that true axioms do not lower `♯`.** Equation (20)'s
+   justification is exactly the reasoning §3.1 uses to withdraw the Hybrid
+   side-assignment. That withdrawal is therefore not this Refinement's
+   inference — it is Willard's own move, and §3.1 is corrected to attribute it.
+
 **Relation to the engine.** `Willard2011`'s preservation theorem (Thm 5.9,
-`full`) consumes **EA-stability**, whose definition an earlier draft of this
-paragraph got wrong in three ways. Correctly (Defs. 5.1, 5.3, 5.5):
+`full`) consumes **EA-stability**. From the page images (printed pp. 15–16):
 
-- an **R-View** `θ` is *any* r.e. set of `Π^ξ₁` sentences — Remark 5.2 stresses
-  that it is **not required to be true** — and `RE-Class(ξ)` is the set of all of
-  them;
-- `ξ` is **A-Stable** iff for every `θ ∈ RE-Class(ξ)`: if `Υ` is a `Π^ξ₁` theorem
-  of `θ ∪ B^ξ` via a proof `p` with `Log(p) ≤ ♯(θ)+1`, then `Υ` is `Good{½♯(θ)}`
-  (Def. **5.1**);
-- `ξ` is **E-Stable** iff the same for `Σ^ξ₁` theorems, with `Good{½⌊Log(p)⌋−1}`
-  (Def. **5.3**);
-- `ξ` is **EA-stable** iff it is **both** (Def. **5.5**), and Thm 5.9's
-  dependencies are Defs. 5.5 and 5.7 — not 5.1.
+- an **R-View** `θ` is "any recursively enumerable (r.e.) set of `Π^ξ₁`
+  sentences … An R-View does not need to be valid under the Standard-M model.
+  It only needs to be r.e."; `RE-Class(ξ)` is the set of all of them, "both
+  valid and invalid";
+- `ξ` is **A-Stable** iff for every `θ ∈ RE-Class(ξ)`: if `Υ` is a `Π^ξ₁`
+  theorem of `θ ∪ B^ξ` via a proof `p` with `Log(p) ≤ ♯(θ)+1`, then `Υ`
+  satisfies `Good{½♯(θ)}` (Def. **5.1**);
+- `ξ` is **E-Stable** iff the `Σ^ξ₁` counterpart holds, with
+  `Good{½⌊Log(p)⌋−1}` (Def. **5.3**);
+- `ξ` is **EA-stable** iff both (Def. **5.5**); Thm 5.9's dependencies are
+  Defs. 5.5 and 5.7, not 5.1.
 
-The earlier draft gave only the `Π` half, attributed it to the wrong definition
-number, and dropped the universal quantification over possibly-false R-Views,
-which is the clause doing the work.
+### 2.2 A-Stability implies Tightness — the sketch, completed
 
-Stability bounds what a *short proof can reach*; Tightness says a *refutation
-cannot be short*. The bridge **Stability ⟹ Tightness** is closer than that draft
-allowed: instantiating A-Stability at `Υ = (0{=}1)` and `θ = β`, a refutation
-with `Log(q_β) ≤ ♯(β)+1` would make `0=1` `Good{½♯(β)}`, which it is not. That is
-a sketch, not a proof, and it is offered as such. Note also that `Willard2011`
-**Lemma 4.6** is itself a Tightness-based engine result — if `ξ` is tight then
-`B^ξ + SelfRef(B^ξ,d)` is a consistent self-justifying system — so Tightness is
-not merely descriptive.
+An earlier draft offered this as a sketch. It completes, and the gap it left
+open closes cleanly.
+
+> **Claim.** If `ξ` is A-Stable then `ξ` is Tight.
+
+*Proof.* Let `β ⊃ B^ξ` be any inconsistent set of `Π^ξ₁` sentences.
+
+*Step 1 — reduce to an r.e. set.* A-Stability quantifies over **r.e.** `θ`;
+Tightness quantifies over **every** inconsistent `β`, r.e. or not. Let `q_β` be
+the shortest proof of `0=1` from `β`, and let `β₀` be `B^ξ` together with the
+finitely many axioms of `β` that `q_β` actually uses. Then `β₀` is r.e., `β₀` is
+inconsistent, and `q_{β₀} = q_β` — the same proof witnesses both, and no shorter
+proof exists from the smaller set. Since `β₀ ⊆ β` and `♯` of a set is a minimum
+over its members, `♯(β₀) ≥ ♯(β)`.
+
+*Step 2 — instantiate.* Apply (∗) with `θ = β₀`, `Υ = (0{=}1)`, `p = q_{β₀}`.
+Note `θ ∪ B^ξ = β₀`, and `0=1` is a `Δ^ξ₀` — hence `Π^ξ₁` — theorem of it. Were
+`Log(q_{β₀}) ≤ ♯(β₀)+1`, A-Stability would give `0=1` `Good{½♯(β₀)}`. But by
+the Special Note to Def. 4.2, `Scope_E(0{=}1, N) ≡ (0{=}1)` for every `N`, and
+`0=1` is false in the Standard-M model, so `0=1` is `Good(N)` for **no** `N`.
+Contradiction. Hence `Log(q_{β₀}) ≥ ♯(β₀)+2`, both sides being integers.
+
+*Step 3 — transfer.* `Log(q_β) = Log(q_{β₀}) ≥ ♯(β₀)+2 ≥ ♯(β)+2`. ∎
+
+**Two caveats, and they matter.** The argument needs `♯(β₀)` to be a genuine
+integer; a `β` false at a very small witness can drive `♯` below 0, where
+`Good{½♯}` is degenerate, and the corpus does not fix a convention for that.
+And the conclusion is **not new**: Remark 5.2 announces "Theorem 5.11 will show
+the presence of A-stability, alone, is sufficient for constructing
+self-justifying systems", and Theorem 6.3 uses it. What this argument supplies
+is a *shorter route* to that conclusion, through Tightness and Lemma 4.6 rather
+than through 0-stability and Appendix C. Presenting it as a new result would be
+wrong; presenting it as a simplification is the Refinement's actual remit.
 
 ---
 
@@ -149,9 +244,35 @@ not merely descriptive.
 > `Log(q_β)`, and its transition point is where `M(ξ)` crosses `2`. The dials are
 > not five phenomena; they are five ways of writing on the same inequality.
 
-Four of the five push the **cost** term `Log(q_β)` down. The fifth — the naming
-dial — moves the margin by a route this document does not settle; §3.1 says why,
-and the two-families split an earlier draft asserted is not sustained.
+**A caution the earlier drafts lacked.** `M(ξ)` is a *difference*. Showing that
+a dial lowers `Log(q_β)` is not yet a claim about the margin: if `♯(β)` falls by
+as much, the margin is unchanged. Every argument below must therefore say what
+happens to **both** terms. Three of the five survive that test; one fails it;
+one is undetermined.
+
+### 3.0 The dials that change only the apparatus, and why they are provable
+
+> **Lemma (`♯` is `d`-independent).** Let `ξ = (L^ξ, Δ^ξ₀, B^ξ, d, G)` and
+> `ξ′ = (L^ξ, Δ^ξ₀, B^ξ, d′, G)` differ only in the deduction method. Then for
+> every set `β` of `Π^ξ₁` sentences, `♯_ξ(β) = ♯_{ξ′}(β)`.
+>
+> *Proof.* `E(n)` denotes the value `2^n` (Def. 4.1); `Scope_E(Υ,N)` is a
+> syntactic operation on `Υ` (Def. 4.2); `Good(N)` is truth of `Scope_E(Υ,N)` in
+> the Standard-M model (Def. 4.3); `♯(β)` is the largest `J` at which every
+> member of `β` is `Good(J)` (Def. 4.4). None of the four mentions `d`. ∎
+
+Trivial, and decisive. **Any dial that varies only the deduction method moves
+`Log(q_β)` and cannot move `♯(β)`** — so for such a dial, "lowers the cost
+term" *is* "lowers the margin", with no second check required.
+
+That covers three of the five: **`ℜ`** (`Tab-ℜ-List` deduction), **`Herb−k`**
+(Herbrand deduction with Level-`k` intermediates, `Willard2009` Def. 7), and
+**`Z`** (which `Υ ∨ ¬Υ` instances are *logical axioms* — a property of the
+apparatus, not of `β`). §3.2 gives their settings.
+
+The other two — Hybrid(H) and Level(n) — change the **sentences**, so both terms
+move and the second check is mandatory. §3.1 and §3.3 apply it, and only one of
+them survives.
 
 ### 3.1 The naming dial — side undetermined
 
@@ -178,9 +299,13 @@ coarseness can express. §5 is corrected accordingly.
 
 *Second, the side.* That draft assigned Hybrid(H) to the envelope side and made
 that the headline explanation of why it "looked unlike the other four". **No
-argument was given, and there is a difficulty.** `♯` is purely model-theoretic
-(`Good(N)` = `Scope_E(Υ,N)` true in the standard model), and the naming axioms
-are *true* sentences, so they are `Good(∞)` and cannot themselves lower `♯(β)`.
+argument was given, and there is a difficulty — one Willard states himself.**
+`♯` is purely model-theoretic (`Good(N)` = `Scope_E(Υ,N)` true in the standard
+model), and the naming axioms are *true* sentences, so they are `Good(∞)` and
+cannot lower `♯(β)`. That is precisely the justification Willard gives for
+Equation (20): `♯(B^ξ + Ψ) = ♯(Ψ)` "because all of `B^ξ`'s axioms are true under
+the Standard-M model" (printed p. 15, image-verified). The reasoning is his, not
+this Refinement's, and §2.1 records it.
 Whatever the naming convention does to the margin, it does indirectly — most
 plausibly by changing which `β ⊃ B^ξ` are inconsistent and how cheaply, which is
 the **cost** side. That reading also agrees with `refined-sjas.md` §4's account
@@ -225,48 +350,61 @@ be carried. It is consistent with the direction claimed here. It does not
 *confirm* it: an inconsistency at the extreme setting has several available
 explanations, and §4 records the withdrawal.
 
-### 3.3 The level dial — lowers `Log(q_β)` via the base
+### 3.3 The level dial — the case fails, and is retracted
 
-**Level(n)** (`Willard2004` §§1–2). An earlier draft said this dial "does not
-change what proofs cost; it changes **what counts as a refutation**" — and then
-concluded that `q_β` falls. Those are inconsistent: under the Definition of §2,
-`q_β` is the least Gödel number of a proof of the *fixed* target `0=1`, so a dial
-that changed what counts as a refutation would change something the margin does
-not measure.
+**Level(n)** (`Willard2004` §§1–2) parameterises what the self-referential
+Group-3 axiom asserts. Two successive drafts tried to place it on the cost side;
+both are now withdrawn, the second for a reason the first did not reach.
 
-The coherent mechanism is simpler and does move the cost term. Level(n) fixes
-what the **Group-3 axiom asserts**, and Group-3 is part of `B^ξ`. Raising `n`
-strengthens that axiom, hence strengthens the base, hence makes `0=1` **cheaper
-to derive** from an inconsistent `β ⊃ B^ξ`: a stronger false self-referential
-axiom is a better lever. `Log(q_β)` falls and the margin closes.
+*The first draft* said Level(n) "does not change what proofs cost; it changes
+what counts as a refutation", then concluded `q_β` falls — inconsistent, since
+`q_β` is the least Gödel number of a proof of the *fixed* target `0=1`.
 
-The Willard quote an earlier draft adduced — that all the level definitions "are
-equivalent to each other under strong enough models" — does **not** support
-this. It says the levels are extensionally the same in strong models, which is a
-statement about their equivalence, not about refutation length. It is withdrawn
-as evidence; the mechanism above is offered as this Refinement's reading, and it
-is the least well-supported of the five.
+*The second draft* said Level(n) strengthens the Group-3 axiom, hence the base
+`B^ξ`, hence makes `0=1` cheaper to derive. **Two things are wrong with it.**
+
+1. **Group-3 is not in `B^ξ`.** Definition 4.5 has `B^ξ` as the base and Lemma
+   4.6 adds `SelfRef(B^ξ,d)` *on top* of it — the page image is explicit that
+   `B^ξ` is the base "comprised exclusively of `Π^ξ₁` sentences" and that the
+   system under test is `B^ξ + SelfRef(B^ξ,d)`. Level(n) varies the added
+   axiom, not the base.
+2. **Both terms move together, and at the critical `β` they move in lockstep.**
+   Level(n) changes `Ψ`, a *sentence*, so §3.0's lemma does not apply and `♯`
+   moves too. Worse for the argument: §2.1's Equation (20) says that at
+   `β = B^ξ + Ψ` the two are **equal up to the constant**,
+   `Log(q) = ♯(β) + 1`, *whatever* `Ψ` is. So at the one `β` the drafts were
+   reasoning about, the margin is identically 1 and the level dial cannot move
+   it at all.
+
+**Disposition: the Level(n) instance is retracted.** The dial's positive and
+negative settings are Willard's (`Willard2004`, Level(1) works, Level(2+)
+fails, both `full` modulo G35's deferred `T* ≤ N²` step) and are not in doubt.
+What is retracted is this document's claim to have *located* the dial on the
+margin. Since Level(n) alters `Ψ`, it changes which *other* `β ⊃ B^ξ` are
+inconsistent and by how much — an effect on the infimum over the whole class,
+which none of the drafts examined and this one does not either.
 
 ### 3.4 Summary
 
-| Dial | Term moved | Safe | Fatal |
-| --- | --- | --- | --- |
-| Hybrid(H) | **undetermined** (§3.1) | `H = 1` | `H > 1` |
-| `ℜ` | `Log(q_β)` ↓ | `Π*₁ ∪ Σ*₁` | `Π*₂`, `Σ*₂` |
-| `Herb−k` | `Log(q_β)` ↓ | `k = 1` | `k = 2` |
-| `Z` | `Log(q_β)` ↓ | `Δ*₀` | `Π*₂` and above |
-| Level(n) | `Log(q_β)` ↓ (via assertion strength) | Level(1) | Level(2+) |
+| Dial | What it varies | Term moved | Safe | Fatal |
+| --- | --- | --- | --- | --- |
+| **`ℜ`** | the apparatus `d` | `Log(q_β)` ↓, **proved** (§3.0) | `Π*₁ ∪ Σ*₁` | `Π*₂`, `Σ*₂` |
+| **`Herb−k`** | the apparatus `d` | `Log(q_β)` ↓, **proved** (§3.0) | `k = 1` | `k = 2` |
+| **`Z`** | the apparatus `d` | `Log(q_β)` ↓, **proved** (§3.0) | `Δ*₀` | `Π*₂` and above |
+| Hybrid(H) | the language and base | **undetermined** (§3.1) | `H = 1` | `H > 1` |
+| Level(n) | the axiom `Ψ` | **retracted** (§3.3) | Level(1) | Level(2+) |
 
 **This answers a question the Codification left open.** Drift **D38** records
 five parameterisations "none of which Willard relates to the others" and asks
-for a single presentation. The margin supplies one: **one inequality, two terms,
-five ways of writing on it**.
+for a single presentation. The margin supplies a partial one: **one inequality, two terms, and three dials
+provably writing on the same term.**
 
-It does *not* explain why Hybrid(H) looks different from the other four — an
-earlier draft claimed it did, by putting Hybrid alone on the envelope side, and
-§3.1 withdraws that. Four dials are shown to lower `Log(q_β)`; the naming dial
-is shown to move the margin without the term being identified. D38's request is
-answered for four of five, and reduced to a sharper question for the fifth.
+The split that survives is not the "envelope versus cost" one the drafts kept
+reaching for. It is **apparatus versus sentences**: a dial that varies only `d`
+cannot touch `♯`, so it moves the margin by construction (§3.0); a dial that
+varies the sentences moves both terms and needs an argument nobody has given.
+D38's request is answered for three of five, sharpened for Hybrid(H), and
+reopened for Level(n).
 
 ---
 
@@ -284,8 +422,13 @@ and carries a hypothesis on `β` that the draft dropped.
 crosses 2. Showing a dial moves a term is not the same as computing where the
 inequality flips, and no such computation is offered here.
 
+**Retracted outright.** The Level(n) instance (§3.3). Four remain claimed, three
+of them proved.
+
 **Inherited weakness.** Per `codified-sjas.md` §8.1, exactly **one** of the five
-dials is `full` on both halves:
+dials is `full` on both halves — and it is Level(n), the one whose instance has
+just been retracted, so the margin's best-supported dial is the one it can no
+longer place:
 
 | Dial | Status of its two settings |
 | --- | --- |
@@ -405,3 +548,82 @@ supports.
    open problem. Since `□`-contraction can hold in affine PA (§3 of their paper,
    obligation **RO1**), the target is not merely a contraction-free arithmetic
    but one in which the **restricted** rule fails and `Con` is still provable.
+
+---
+
+## 6. Does R3 hold? — the verdict
+
+*Written 2026-09-02 after re-reading `Willard2011` §§4–5 as page images rather
+than extracted text. Everything below is checked against the printed page.*
+
+### What holds
+
+**The definition holds.** `M(ξ) = inf_β {Log(q_β) − ♯(β)}` with the threshold
+`M(ξ) ≥ 2` is exactly Willard's Definition 4.5, and Lemma 4.6 is exactly the
+theorem that `M(ξ) ≥ 2` suffices for a consistent self-justifying system. The
+margin is a legitimate object and the corpus already proves the thing R3 wanted
+proved about it.
+
+**Three of the five dials hold, and now with a proof rather than an argument.**
+`♯` is defined by Defs. 4.1–4.4 without reference to the deduction method, so
+any dial that varies only `d` moves `Log(q_β)` and cannot move `♯(β)`. That
+covers `ℜ`, `Herb−k` and `Z`. This is the one-line lemma (§3.0) that the whole
+of §3 needed and that none of the drafts had.
+
+**The A-Stability ⟹ Tightness bridge holds and completes** (§2.2), including
+the r.e.-versus-arbitrary gap, which closes by passing to the finite subset of
+`β` the shortest refutation actually uses.
+
+### What does not hold
+
+**The Level(n) instance fails and is retracted** (§3.3). Group-3 is not part of
+`B^ξ`; and because Level(n) varies a *sentence*, both terms move — at the
+critical `β = B^ξ + Ψ`, Equation (20) makes them move in exact lockstep, so the
+margin there is identically 1 regardless of level.
+
+**The Hybrid(H) instance remains unplaced** (§3.1), for the same structural
+reason: it varies the sentences, so both terms are in play.
+
+**§3's original framing was not well-posed.** "Dial X lowers `Log(q_β)`" says
+nothing about a *difference* unless the other term is checked. The drafts never
+checked it. For the three apparatus dials the omission turned out to be
+harmless — §3.0 shows the second term is fixed — but that was luck, not
+argument, and for the two sentence dials it was fatal.
+
+### What R3 claimed that it should not have
+
+**"Generalising" Def. 4.5.** It is a restatement: `∀β. A(β) ≥ 2` and
+`inf_β A(β) ≥ 2` say the same thing. Withdrawn in §2.
+
+**Novelty for the stability bridge.** Willard already has A-stability alone as
+sufficient for self-justification — Remark 5.2 announces it, Theorem 5.11 proves
+it, Theorem 6.3 uses it. R3's route is *shorter*, going through Tightness and
+Lemma 4.6 instead of 0-stability and Appendix C. A simplification is worth
+having and is exactly this stage's remit; a new theorem it is not.
+
+**Authorship of the `♯`-is-model-theoretic argument.** §3.1 presented it as the
+Refinement's inference for withdrawing the Hybrid side-assignment. It is
+Willard's own justification for Equation (20). Attributed in §2.1 and §3.1.
+
+### What R3 missed, and is the best thing here
+
+**The threshold 2 is forced, and the corpus says why.** When the
+self-referential axiom is false, `Log(q) = ♯(B^ξ + Ψ) + 1` *exactly*
+(Eqs. (19)–(20)). The fixed point sits at margin **exactly one**. Tightness's
+`+2` is therefore precisely the demand that every inconsistent `β` have strictly
+more margin than the fixed point achieves — and Lemma 4.6 is that one-line
+contradiction. R3 carried the `2` as a given for three drafts. It is the content.
+
+### Verdict
+
+**R3 partly holds.** Its definition is sound and is Willard's; its bridge to
+A-stability is sound and completable; three of its five dial instances are now
+proved rather than argued. One instance is retracted, one remains open, and two
+of its claims about its own novelty are withdrawn. Acceptance criterion **B5**
+is **partly met at three of five**, not five of five as the previous revision
+recorded.
+
+The honest summary is that R3's *object* is right and its *method* was wrong:
+it reasoned about one term of a difference. Fixing the method proved three cases
+outright and broke one, which is a better outcome than the five hand-waved
+cases it replaced.
