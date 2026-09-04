@@ -303,9 +303,14 @@ by deductive equivalence, set
 `K_S(A,B) = {*} if A |-S B, and empty otherwise`.
 
 Multiset union is represented by their conjunction `tensor`; `top` is the unit;
-and I3 gives the closure adjunction
+and I3 gives the closure adjunction on the representing context object
 
-`K_S(Gamma tensor A, B) ~= K_S(Gamma, A -> B)`.
+`K_S(ctx(Gamma) tensor A, B) ~= K_S(ctx(Gamma), A -> B)`.
+
+Before replacing the context by its representing object, this is simply I3's
+multicategorical sequent law
+
+`Gamma,A |-S B` if and only if `Gamma |-S A -> B`.
 
 Exchange is built in because contexts are multisets. Cut is categorical
 composition: for the concrete system `S`, Theorem 5 proves cut admissible, so

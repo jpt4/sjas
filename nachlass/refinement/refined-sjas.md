@@ -112,7 +112,7 @@ other:
 availability of *selected* diagonals in general; it is not a claim that Willard's
 systems contain the Gödel sentence.
 
-### 2.1 The fixed point is free; the derivability conditions are not
+### 2.1 Selected diagonals are free; the derivability conditions are not
 
 Lawvere's Fixed Point Theorem makes the point structurally. In a cartesian
 closed category, if there is a weakly point-surjective `f : A × A → B`, then
