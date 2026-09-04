@@ -1,5 +1,46 @@
 # Nachlass Log
 
+## 2026-09-04 - Adversarial rounds fourteen and fifteen: R6 read in full; R-F's blind spot
+
+**Round fifteen finished reading R6** - sections 2 and 4.2-4.3, the last
+unread material in the stage - and checked its remaining claims. All correct:
+
+- Theorem 1.1's derivation. The contraction use falls exactly where Four gives
+  Box-G -> Box-Box-G and BoxMP must then consume Box-G a second time; that is
+  the same step Beklemishev-Shamkanov Proposition 3.8 identifies. R6 also marks
+  the theorem a sufficient package, not a biconditional.
+- Section 4.2's quantifier equivalence between the witness form of HBL (2) and
+  the terminal-fibre BoxMP entailment.
+- Section 4.3's rendering of Willard2001 footnote 16's
+  Theta(z) := forall x,y (Subst(z,x) -> not Derive(x,y)) - verbatim against the
+  page image - and its citation of TR printed p. 37 for the SUBST_i
+  fixed-versus-uniform split, which the extraction record confirms word for
+  word ("Point of Clarification").
+
+R6 carries Willard2001 Theorem A.1's stated-only status itself. And every
+"Theorem A.1" reference in the stage is attributed to its paper, which matters
+more than it looks: Willard1993-TR's Theorem A.1 (majorization, full) and
+Willard2001's (generalized Hilbert-Bernays, stated-only) are different theorems
+with different statuses.
+
+**One finding, and it is R-F's blind spot.** Seventeen references were written
+as bare filenames - the audit scripts, the results registry, the codified
+statement, the nachlass log, the repo README and org file - each of which
+resolves to nothing from refinement/. Round ten had fixed exactly this class for
+slashed paths and built R-F to catch it; R-F's pattern required a slash, so it
+never saw a bare filename. Extended and re-tested: it now checks 59 paths where
+it checked 20.
+
+**And a standing interaction, now recorded because it has happened four times.**
+Every check that scans prose eventually flags VERIFICATION.md itself, because
+the corrections table names the defective artifact it records - a stripped box,
+an elided path, a retracted sentence, a bare filename. R-C, R-D and R-F have
+each been caught by it. The two remedies in use are a line-local guard word and
+naming the artifact in plain text rather than backticks. Written down so the
+next check chooses one deliberately instead of discovering it as a failure.
+
+audit.sh green.
+
 ## 2026-09-04 - Adversarial round thirteen: a contradiction that survived eight rounds
 
 Two findings, both in R3 section 5.3, and both instructive.

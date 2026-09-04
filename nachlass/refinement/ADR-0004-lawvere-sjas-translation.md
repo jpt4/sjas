@@ -17,7 +17,7 @@ for Beklemishev–Shamkanov, and the source's actual AU construction.
 
 ## Context
 
-The programme statement (`README.md`, `sjas.org`) names an explicit gap:
+The programme statement (`../../README.md`, `../../sjas.org`) names an explicit gap:
 Lawvere / Yanofsky subsume Cantor, Russell, Tarski, Gödel's *First*, and
 Halting, but **not** Gödel's Second. Filling that gap is what would connect
 Willard's SJAS to LFPT and ask whether SJAS-style evasion generalises to the
@@ -78,7 +78,7 @@ Deliverables, in order:
    formulas and quotations are checked against rendered source pages.
 
 Primary document: [`lawvere-sjas.md`](lawvere-sjas.md).
-Working notes and failed attempts: `LOG.md` + optional `docs/log/` entries.
+Working notes and failed attempts: `../LOG.md` + optional `docs/log/` entries.
 
 ## Alternatives considered
 

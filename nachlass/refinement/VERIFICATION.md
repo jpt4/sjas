@@ -1,7 +1,7 @@
 # Refinement Verification Registry
 
 The Refinement was opened without the Codification's machinery — no coverage
-registry, no `audit.sh` participation, no unconditional imaging rule. The
+registry, no `../codification/audit.sh` participation, no unconditional imaging rule. The
 2026-09-02 review found that **every Tier-1 defect was of a kind that machinery
 exists to prevent**, committed in the one stage not covered by it. This file
 closes that gap, and `../codification/audit.sh` now checks it (checks R-A–R-D,
@@ -44,6 +44,15 @@ Four inherited from ADR-0001, one added by this stage's own failures.
 Every row is `img` — verified against a rendered page image; check **R-B** fails
 any row that is not.
 
+**A standing interaction, noted after it happened four times.** Every check that
+scans prose will eventually flag *this file*, because the corrections table
+names the defective artifact it is recording — a stripped `□`, an elided path, a
+retracted sentence, a bare filename. R-C, R-D and R-F have each been caught by
+it. The two remedies in use are a line-local guard word (R-D, R-C) and simply
+naming the artifact in plain text rather than in backticks (R-F). A future check
+over these documents should expect the same and choose one of them deliberately,
+rather than discovering it as a failure.
+
 **What R-B cannot do, stated so it is not mistaken for coverage.** It validates
 the rows that exist. It cannot detect a quotation *in the documents* that has no
 row here, and it does not diff any quotation against its source. **Register
@@ -73,7 +82,7 @@ been checked against the page in this stage.
 | Lemma 7.1 "replaces the Hilbert-Bernays derivability conditions with a semantic argument" | — | `../codification/registry/results.md` row `Willard2001#Lem7.1` | **img — via the registry digest, image-verified at C7.** Not quoted from the paper directly, and cited as the registry's wording |
 | "Conventional generic configurations `ξ` will satisfy the Hilbert-Bernays derivability conditions [16, 15]. Their `G^ξ_k(θ)` will thus be automatically inconsistent because of a Gödel-like diagonalization argument." | `Willard2011` | printed p. 21 fn. 11 | **img (2026-09-02)** |
 | Tight, Def. 4.5 — refutation length at least envelope plus two | `Willard2011` | printed p. 13–14 | img (C6, 2026-08-21) |
-| Defs. 5.1 / 5.3 / 5.5 — A-Stable, E-Stable, EA-stable; Thm 5.9's dependencies are 5.5 and 5.7, not 5.1 | `Willard2011` | printed pp. 16–18 | img (C6); statuses from `results.md` |
+| Defs. 5.1 / 5.3 / 5.5 — A-Stable, E-Stable, EA-stable; Thm 5.9's dependencies are 5.5 and 5.7, not 5.1 | `Willard2011` | printed pp. 16–18 | img (C6); statuses from `../codification/registry/results.md` |
 | Def. 4.5 (Tight) verbatim; Lemma 4.6 with Eq. (19) `Log(q) = ♯(Ψ)+1`, Eq. (20), and "because all of `B^ξ`'s axioms are true under the Standard-M model"; status `sketch`, proof "kept brief and informal" | `Willard2011` | printed pp. 14–15 | **img (2026-09-02)** |
 | Def. 4.1 (`E(n)` denotes the value `2^n`), Defs. 4.2–4.4, footnote 6 (`Good(N)` runs opposite ways on `Π` and `Σ`) | `Willard2011` | printed pp. 12–13 | **img (2026-09-02)** |
 | R-View = "any recursively enumerable (r.e.) set of `Π^ξ₁` sentences … It only needs to be r.e."; RE-Class; Defs. 5.1 and 5.3 verbatim; Remark 5.2's "Theorem 5.11 will show the presence of A-stability, alone, is sufficient" | `Willard2011` | printed pp. 15–16 | **img (2026-09-02)** |
@@ -162,13 +171,13 @@ this file exists to impose, and two are defects in the checks meant to enforce i
 | 23 | **Two Beklemishev–Shamkanov quotations tagged "(image-verified)" were not verbatim** — the paper's own abbreviation "G2" was expanded, a clause "in it" was added, and a mid-section sentence was called the section's close. The substance held; the fidelity claim did not | `R2` §1, `R3` §5.2 |
 | 24 | "The abstract's" quote about uniqueness and weakening is from the **Introduction, p. 2**; the abstract mentions neither | `R2` §1 |
 | 25 | "The encoding requirement is precisely what keeps them within constant factors" — contradicts this document's own correction #11 two paragraphs earlier: a lower bound relates the measures in one direction only | `R3` §1.1 |
-| 26 | **R-B's hazard regex tested only the *stripping* family** (`□`, turnstiles, corners) and missed the *substitution* family — `℧`→`0`, `ℑ`→`=`, flattened floors and towers (drift **D71**) — which is the more dangerous one, because the output reads as ordinary text. Constructed `txt` rows carrying `℧` and `ℑ` passed as well-formed | `audit-r.sh` |
-| 27 | **R-D's context-window guard was defeated by a withdrawal word in neighbouring, unrelated prose.** The window had already been narrowed once from six lines to one for this exact failure; narrowing raised the bar without closing the hole. Now line-local: a line is guarded iff it quotes the retracted text or itself carries a retraction verb | `audit-r.sh` |
+| 26 | **R-B's hazard regex tested only the *stripping* family** (`□`, turnstiles, corners) and missed the *substitution* family — `℧`→`0`, `ℑ`→`=`, flattened floors and towers (drift **D71**) — which is the more dangerous one, because the output reads as ordinary text. Constructed `txt` rows carrying `℧` and `ℑ` passed as well-formed | `../codification/audit-r.sh` |
+| 27 | **R-D's context-window guard was defeated by a withdrawal word in neighbouring, unrelated prose.** The window had already been narrowed once from six lines to one for this exact failure; narrowing raised the bar without closing the hole. Now line-local: a line is guarded iff it quotes the retracted text or itself carries a retraction verb | `../codification/audit-r.sh` |
 | 28 | Pakhomov page numbers: the "both `H` and `H_{<ω}`" sentence spans **pp. 3–4** (correct), but the second citation is **p. 22**, not 21, and is about `H` alone; footnote 3 and the Acknowledgments are on **p. 24**, not 25 | `VERIFICATION.md`, `R1-review.md` §2.1 |
 | 29 | `refined-sjas.md` §2.3b's cross-reference "§4 below cites the same Thm 4" cites nothing — §4 does not cite `Willard2006a`, and the document's other "Theorem 4" is `Willard2009`'s | `refined-sjas.md` §2.3b |
 | 30 | `R1-review.md` finding #7 still called G38 "acquisition target for R5" while two files in the same commit recorded it closed | `R1-review.md` §3 |
 | 31 | Correction #3's location list read as one quote in three documents; it was two distinct instances in two | `VERIFICATION.md` |
-| 32 | **B6 overclaimed.** "Every mathematical quotation image-verified … audit.sh green" was asserted while #23 stood, and `audit.sh` cannot check quotation *fidelity* at all — R-B tests only whether a `txt` row carries hazard symbols | `ADR-0002` |
+| 32 | **B6 overclaimed.** "Every mathematical quotation image-verified … audit.sh green" was asserted while #23 stood, and `../codification/audit.sh` cannot check quotation *fidelity* at all — R-B tests only whether a `txt` row carries hazard symbols | `ADR-0002` |
 
 **What R-D is, stated plainly.** A regression guard on *fixed strings*. It
 cannot detect a retracted claim that has been reworded, and it does not verify
@@ -198,8 +207,8 @@ page. Eight were accurate; the register debt is closed.
 | 46 | **§6 used two argument orders four paragraphs apart.** The Rosser sentence was written `Prf(y, ⌜R⌝)` (proof first, textbook convention) while `SemPrf^K_α(x, y, z)` below it and `Willard2020` Eq. (5)'s `Prf_{IS_D(β)}(x,p)` are theorem-first — in the one section whose point is that the two predicates are the same move | `refined-sjas.md` §6 |
 | 47 | **§4 claimed ten occurrences of the doubling device; the map listed nine** — and omitted the **origin text**. `Willard1993-TR` printed p. 6 carries the device (`a₀ ≥ 2`, `a_{i+1} = (a_i)²` needing `2^n` bits; then `b_{i+1} = b_i + b_i`), framed as a philosopher's hedge; the map cited only the 12-page published abbreviation. Row added, image-verified; the count is now genuinely ten | `../codification/concordance/replication-map.md` |
 | 48 | §2.3b's hypothesis-count criticism was incomplete: `Willard2006a` **Remark 1** supplies **Theorem 4\***, which drops the Concise Encoding hypothesis. The logical point (affirming the consequent) is unaffected | `refined-sjas.md` §2.3b |
-| 49 | **An elided witness path.** §2.1 cited Yanofsky as `lit/…Working Category Theorist…pdf` — unfollowable, and R-C's path pattern did not match it, so it passed in silence. Real path given; **R-C now rejects elided paths** | `refined-sjas.md` §2.1, `audit-r.sh` |
-| 50 | **A bug in that new R-C clause.** It read its hits from a pipeline, so the `while` ran in a subshell and `err`'s assignment to `FAIL` was lost — the run printed `AUDIT-FAIL` lines and still exited green. Now reads from a process substitution; red-green re-tested | `audit-r.sh` |
+| 49 | **An elided witness path.** §2.1 cited Yanofsky as `lit/…Working Category Theorist…pdf` — unfollowable, and R-C's path pattern did not match it, so it passed in silence. Real path given; **R-C now rejects elided paths** | `refined-sjas.md` §2.1, `../codification/audit-r.sh` |
+| 50 | **A bug in that new R-C clause.** It read its hits from a pipeline, so the `while` ran in a subshell and `err`'s assignment to `FAIL` was lost — the run printed `AUDIT-FAIL` lines and still exited green. Now reads from a process substitution; red-green re-tested | `../codification/audit-r.sh` |
 
 ## Corrections applied 2026-09-02, sixth pass
 
@@ -240,7 +249,7 @@ deliberate sweep found it.
 | 62 | **`Willard2001` Theorem A.1 is `stated-only`, and §2.2 did not say so.** That is the theorem the whole Hilbert–Bernays frame rests on: "Willard's systems prove all of PA's `Π⁻₁` theorems, they therefore *must* breach one of (1)–(3)". Willard writes "we will not give a formal proof of Theorem A.1 in this very short appendix" and offers footnote 16's reduction instead | `refined-sjas.md` §2.2 |
 | 63 | `Willard2002a` Theorem 2.2 is **`sketch`** (headed "Proof Sketch" on the page) and was cited bare in three places | `refined-sjas.md` §§2.3, 5.1; `R3-the-margin.md` §3.2 |
 | 64 | `Willard2006a` Theorem 6 is **`sketch`**, and `R1-review.md` §2.1 leant on it as the corpus analogue of `H_{<ω}` without saying so | `R1-review.md` §2.1 |
-| 65 | **A third check that passed by never matching.** The R-E prototype stripped backticks from the citations it extracted, then grepped the files for the stripped form — which never occurs — so it reported every status as carried. That is the same failure as R-D's first window and R-C's subshell: a check green because its own matching is broken. Caught by red-green testing, which is the only reason any of the three was caught | `audit-r.sh` (prototype) |
+| 65 | **A third check that passed by never matching.** The R-E prototype stripped backticks from the citations it extracted, then grepped the files for the stripped form — which never occurs — so it reported every status as carried. That is the same failure as R-D's first window and R-C's subshell: a check green because its own matching is broken. Caught by red-green testing, which is the only reason any of the three was caught | `../codification/audit-r.sh` (prototype) |
 
 **R-E is informational and never fails on status-carrying**, because no
 positional heuristic captures rule 2: a status may sit in a following paragraph
@@ -248,7 +257,7 @@ or in a table's surrounding prose, and both a ±2-line and a paragraph window
 produced three false positives out of four. R-E instead *lists* every non-`full`
 result the Refinement cites, with its status and citation count, so the
 obligation is visible. It does fail on one thing it can decide: a citation that
-resolves to no row in `results.md`.
+resolves to no row in `../codification/registry/results.md`.
 
 ## Corrections applied 2026-09-02, tenth pass
 
@@ -282,7 +291,7 @@ The charter's own bookkeeping.
 | 73 | **A residual `□`-stripping, in the document that records the `□`-stripping correction.** R2 §2.3 described Proposition 3.8's step as `Γ ⊢ φ`, `Γ ⊢ ¬φ` ⟹ `Γ ⊢ ¬⊤` — unboxed. The page image has `Γ ⊢ □φ`, `Γ ⊢ □¬φ` ⟹ `Γ ⊢ □¬⊤`, and the boxes are the point: `□¬⊤` *is* `⊠⊤`, which is why dropping contraction costs only *formalized* G2. `refined-sjas.md` §2.5 had it right | `R2` §2.3 |
 | 74 | **A citation to a file that does not exist.** R2 §3 pointed at `docs/design/affine-tree-sjas.md` as "the C4 pilot's fidelity target"; it was an untracked working-tree file and is not present. `code/alsjas/` exists but is untracked, so neither is in any committed state a reader can reach | `R2` §3 |
 | 75 | **Nine repository paths a reader could not follow.** The codification registries were cited bare — as "registry/results.md" and its siblings — from `refinement/`, where such a path resolves to nothing; from here they are `../codification/registry/…` | `VERIFICATION.md`, `R1-review.md` |
-| 76 | New check **R-F**: every backticked repository path must resolve, from the citing file or the repo root. Red-green tested. Nineteen paths currently cited, all resolving | `audit-r.sh` |
+| 76 | New check **R-F**: every backticked repository path must resolve, from the citing file or the repo root. Red-green tested. Nineteen paths currently cited, all resolving | `../codification/audit-r.sh` |
 
 ## Corrections applied 2026-09-04, thirteenth pass
 
@@ -304,6 +313,27 @@ them; the reading did not.
 
 | 83 | **A direct self-contradiction in R3 §5.3, surviving eight rounds.** "The margin … is complete for that cell, covering **all five** of Willard's dials" — while §§3.3, 3.4, 4 and 6 of the same document retract Level(n) and leave Hybrid(H) undetermined. Three of five | `R3-the-margin.md` §5.3 |
 | 84 | **A fresh rule-2 violation, introduced in round eleven while writing about care.** The new §5.3 passage cited `Willard2001` Theorem A.1 without its `stated-only` status — the very rule round seven had swept. It recurs under active guard | `R3-the-margin.md` §5.3 |
+
+## Corrections applied 2026-09-04, fourteenth pass
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 85 | **Seventeen unfollowable bare-filename references**, the same class round ten fixed for slashed paths: the audit scripts, the results registry, the codified statement, the nachlass log, and the repo README and org file were all cited by bare filename from `refinement/`, where each resolves to nothing | `ADR-0002`, `ADR-0004`, `R3-the-margin.md`, `VERIFICATION.md` |
+| 86 | **R-F could not see them.** Its pattern required a `/`, so a bare filename was never checked — the same shape of blind spot as the three checks that passed by never matching. Extended and red-green re-tested; it now sees 59 paths where it saw 20 | the refinement audit script |
+
+**Verified and found correct** in this pass — the rest of R6, read in full:
+Theorem 1.1's derivation (the contraction use is exactly where `Four` and
+`BoxMP` must both consume `□G`, matching B–S Proposition 3.8); §2.1's AU
+construction `□ := Γ∘R` with propositions as subobjects of `1`; §4.2's
+quantifier equivalence between the witness form of HBL (2) and the
+terminal-fibre `BoxMP`; §4.3's rendering of `Willard2001` footnote 16's
+`Θ(z) := ∀x∀y (Subst(z,x) → ¬Derive(x,y))`, verbatim; and its citation of
+`Willard1993-TR` printed **p. 37** for the `SUBST_i` fixed/uniform split, which
+the extraction record confirms word for word ("Point of Clarification"). R6
+carries `Willard2001` Theorem A.1's `stated-only` status itself. Every
+"Theorem A.1" reference in the stage is attributed to its paper — necessary,
+since `Willard1993-TR#ThmA1` (majorization, `full`) and `Willard2001#ThmA.1`
+(generalized Hilbert–Bernays, `stated-only`) are different theorems.
 
 **Verified and found correct** in this pass — R6's own claims, spot-checked
 against sources: `Willard2001` Theorem A.1's **footnote 16** does give the

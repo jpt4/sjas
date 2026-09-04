@@ -563,8 +563,12 @@ quotienting by deductive equivalence, set</p>
 <p><code>K_S(A,B) = {*} if A |-S B, and empty otherwise</code>.</p>
 <p>Multiset union is represented by their conjunction
 <code>tensor</code>; <code>top</code> is the unit; and I3 gives the
-closure adjunction</p>
-<p><code>K_S(Gamma tensor A, B) ~= K_S(Gamma, A -&gt; B)</code>.</p>
+closure adjunction on the representing context object</p>
+<p><code>K_S(ctx(Gamma) tensor A, B) ~= K_S(ctx(Gamma), A -&gt; B)</code>.</p>
+<p>Before replacing the context by its representing object, this is
+simply I3’s multicategorical sequent law</p>
+<p><code>Gamma,A |-S B</code> if and only if
+<code>Gamma |-S A -&gt; B</code>.</p>
 <p>Exchange is built in because contexts are multisets. Cut is
 categorical composition: for the concrete system <code>S</code>, Theorem
 5 proves cut admissible, so this presentation really is compositional.

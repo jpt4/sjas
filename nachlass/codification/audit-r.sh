@@ -188,7 +188,11 @@ run_r_f() {
         err "R-F: '$path' cited in $(basename "$f") resolves neither from that file nor from the repo root"
         bad=1
       fi
-    done < <(grep -o '`[A-Za-z0-9_.][A-Za-z0-9_./-]*/[A-Za-z0-9_.-]*`' "$f" 2>/dev/null | tr -d '`' | sort -u)
+      # Bare filenames too: `results.md` written from refinement/ resolves to
+      # nothing, and the slash-requiring pattern above never saw them.
+    done < <( { grep -o '`[A-Za-z0-9_.][A-Za-z0-9_./-]*/[A-Za-z0-9_.-]*`' "$f" 2>/dev/null
+                grep -o '`[A-Za-z0-9_][A-Za-z0-9_.-]*\.\(md\|sh\|txt\|org\|pdf\|html\)`' "$f" 2>/dev/null
+              } | tr -d '`' | sort -u )
   done
   [ "$bad" = "0" ] && echo "  R-F: $n repository paths cited, all resolving"
 }

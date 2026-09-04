@@ -372,7 +372,7 @@ and the dial is *the class on which it is available*.
 draft said the three transitions "sit at the same place in the formula
 hierarchy". They do not — the safe settings are `Π*₁ ∪ Σ*₁`, `k = 1` and `Δ*₀`,
 and `Δ*₀` is strictly below the others. More seriously, treating `ℜ` and `Z` as
-interchangeable is the merge `codified-sjas.md` §8.1 **expressly forbids**:
+interchangeable is the merge `../codification/codified-sjas.md` §8.1 **expressly forbids**:
 `ℜ` parameterises which *intermediate theorems* a TabList proof may use, `Z`
 which *LEM instances* are logical axioms, and the claim that a result transfers
 from one to the other **is the corpus's open problem** (drift **D34**,
@@ -465,7 +465,7 @@ inequality flips, and no such computation is offered here.
 **Retracted outright.** The Level(n) instance (§3.3). Four remain claimed, three
 of them proved.
 
-**Inherited weakness.** Per `codified-sjas.md` §8.1, exactly **one** of the five
+**Inherited weakness.** Per `../codification/codified-sjas.md` §8.1, exactly **one** of the five
 dials is `full` on both halves — and it is Level(n), the one whose instance has
 just been retracted, so the margin's best-supported dial is the one it can no
 longer place:
