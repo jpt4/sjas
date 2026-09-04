@@ -95,7 +95,22 @@ strong enough to talk about itself can build "I am not provable", and that
 sentence destroys any attempt at self-certification.
 
 That reading is wrong, and Willard's systems are the counterexample. **They
-contain the fixed point as an axiom and are consistent.**
+contain a self-referential fixed point as an axiom and are consistent.**
+
+**Which fixed point, precisely** — a distinction this section elided until
+2026-09-04, and which [`lawvere-sjas.md`](lawvere-sjas.md) §1.3 (R6) states
+sharply. Two *selected* diagonals occur in this subject and neither implies the
+other:
+
+| | Sentence | Role |
+| --- | --- | --- |
+| **the G2 diagonal** | `G ↔ ¬□G` | the ingredient the limitative argument consumes |
+| **the self-consistency diagonal** | `H ↔ Con(B + H, D)` — the proof predicate depends on the theory *including `H`* | how a self-referential consistency assertion is formed; adjoining it is what makes a system self-justifying |
+
+**Willard's systems take the second as an axiom, not the first.** Group-3 is
+`H`, not `G`. Everything below about "the fixed point being free" is about the
+availability of *selected* diagonals in general; it is not a claim that Willard's
+systems contain the Gödel sentence.
 
 ### 2.1 The fixed point is free; the derivability conditions are not
 
@@ -378,7 +393,7 @@ removes differs in kind from route to route:
 
 | Ingredient | Status |
 | --- | --- |
-| the **fixed point** | never removed — Lawvere gives it away, and every system here keeps it |
+| the **fixed point** — and note §2.1's distinction: Lawvere/Kleene make *selected* diagonals cheap, and the one Willard adopts as Group-3 is the **self-consistency** diagonal `H ↔ Con(B+H,D)`, not the G2 diagonal `G ↔ ¬□G` | never removed — every system here keeps the diagonals it needs |
 | a **derivability condition** | **Willard** removes one: (2) on the tableaux line, on his own statement (§2.3); (2) or (3) on the Hilbert line, by analogy (§2.3a). **Pakhomov** is silent on which, if any, `H_{<ω}` satisfies — he notes only that "HBL conditions do not necessary hold in the case of some weaker arithmetical c.e. theories" (p. 3). What he *does* block is the step **after** them: Pudlák's argument works by carrying a failure of G2 in `T` into "a different theory `T′` (interpretable in `T`), where HBL are satisfied", and that interpretation needs successor totality, which `H_{<ω}` denies — the same door Willard uses. The finite models are his positive witness (§1) |
 | the **structural licence** to merge two boxed derivations off one context | **Beklemishev–Shamkanov** remove it — but the resulting system is **not self-verifying**; only *formalized* G2 fails (§2.5a) |
 
@@ -761,11 +776,29 @@ this stage applies to Willard's own corpus, and the asymmetry should be visible
 rather than silent. Until Pudlák is acquired, every claim here about what his
 proof requires is a claim about what Willard and Pakhomov say it requires.
 
-**The Lawvere framing is a framing, not a theorem.** §2 uses Lawvere to
-separate *existence of a fixed point* from *derivability of its consequences*,
-which is correct and clarifying. It does not give a categorical proof of any
-Willard result, and the claim that resource-bounded internal homs model the
-SJAS situation is a research direction, not a construction.
+**The Lawvere framing was a framing; R6 has since made it a construction —
+though not a proof of a Willard result.** §2 uses Lawvere to separate *existence
+of a fixed point* from *derivability of its consequences*, which is correct and
+clarifying. An earlier version of this paragraph added that the framing "does
+not give a categorical proof of any Willard result, and the claim that
+resource-bounded internal homs model the SJAS situation is a research direction,
+not a construction" — and **R6 has now done the construction**:
+[`lawvere-sjas.md`](lawvere-sjas.md), charter
+[`ADR-0004-lawvere-sjas-translation.md`](ADR-0004-lawvere-sjas-translation.md).
+
+R6 builds a common coded modal proof doctrine, presents the initial arithmetic
+universe (van Dijk–Oldenziel), Beklemishev–Shamkanov and Willard in it, and
+isolates the *missing morphism* in each case. Its Theorem 1.1 adds a coordinate
+this document does not have: beyond a fixed point and the three HBL conditions,
+formalized G2 also needs a **boxed diagonal** `copy_A : □A → □A ⊗ □A`, and
+B–S's calculus is symmetric monoidal rather than cartesian precisely there.
+
+What remains true is the *disclaimer*: R6 explicitly does **not** claim `IS(A)`
+is an arithmetic universe, does not make `A ↦ □A` an endofunctor in Willard's
+doctrine, and does not show that a blocked derivation is by itself sufficient
+for self-justification. Its own §6 lists those non-claims, and its AU source's
+§6 Löb derivation is sketch-level. So: a construction, honestly bounded — not a
+categorical proof of a Willard theorem.
 
 **The criterion of §5 now has a definition — see [`R3-the-margin.md`](R3-the-margin.md),
 whose §6 carries the verdict.** The **margin**

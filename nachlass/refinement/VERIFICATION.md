@@ -284,6 +284,26 @@ The charter's own bookkeeping.
 | 75 | **Nine repository paths a reader could not follow.** The codification registries were cited bare — as "registry/results.md" and its siblings — from `refinement/`, where such a path resolves to nothing; from here they are `../codification/registry/…` | `VERIFICATION.md`, `R1-review.md` |
 | 76 | New check **R-F**: every backticked repository path must resolve, from the citing file or the repo root. Red-green tested. Nineteen paths currently cited, all resolving | `audit-r.sh` |
 
+## Corrections applied 2026-09-04, thirteenth pass
+
+**The review had not covered the whole stage.** `lawvere-sjas.md` (642 lines)
+and `ADR-0004` (138 lines) are component **R6**, complete as of 2026-09-04, and
+twelve passes of adversarial review had read neither. Checks R-A–R-F do cover
+them; the reading did not.
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 77 | **§2 conflated the two selected diagonals**, and R6 §1.3 names the distinction: the **G2 diagonal** `G ↔ ¬□G` is what the limitative argument consumes; the **self-consistency diagonal** `H ↔ Con(B+H,D)` is how a self-referential consistency assertion is formed. "Neither instance by itself implies the other." Willard's Group-3 is `H`, **not** `G` — so "they contain the fixed point as an axiom" read as though his systems contain the Gödel sentence | `refined-sjas.md` §§2, 2.5b |
+| 78 | **§9's Lawvere paragraph was stale.** It said the framing "does not give a categorical proof of any Willard result … a research direction, not a construction" — which ADR-0004 quotes as the gap R6 was written to fill, and R6 has since built the construction. §9 now records what R6 delivers *and* the non-claims its own §6 lists | `refined-sjas.md` §9 |
+| 79 | ADR-0002's status line said "R1 done…; R4–R5 pending" with no mention of R6, though the charter's own component table has an R6 row marked complete; and the "what remains open" list did not carry R6's non-claims | `ADR-0002` |
+
+**Verified and found correct** in this pass: R6's account of Beklemishev–
+Shamkanov (it satisfies L1–L3 and lacks the *boxed diagonal*) agrees with
+`refined-sjas.md` §2.5 and `R2` §2.3; its identification of Willard's Type-A
+breach as HBL **(2)** agrees with §2.3; its limits section carries the AU
+source's sketch-level §6 Löb derivation; and its declared witness
+`../../lit/2004.10482.pdf` is held.
+
 **Verified and found correct** in this pass: §2.1's statement of **Lawvere's
 Fixed Point Theorem** (the uncurried weakly-point-surjective form, `f : A × A → B`
 forcing a fixed point for every `t : B → B`, with Cantor/Russell/Tarski/Turing/

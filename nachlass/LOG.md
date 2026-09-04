@@ -1,5 +1,56 @@
 # Nachlass Log
 
+## 2026-09-04 - Adversarial round eleven: the review had not covered the whole stage
+
+Chasing a strange-looking expression in the quotation register - `Box = Gamma-R`,
+attributed to "van Dijk-Oldenziel", a paper I had never read - turned up
+something larger than a bad row.
+
+**There is a sixth component, and twelve passes of review had never opened it.**
+lawvere-sjas.md (642 lines) and ADR-0004 (138 lines) are R6, the categorical
+comparison of AU incompleteness, Beklemishev-Shamkanov and Willard SJAS,
+complete as of today. My checks R-A through R-F do cover those files - they glob
+the whole directory - but my *reading* had been scoped to refined-sjas.md and
+its three immediate siblings throughout. The register row was legitimate; my
+picture of the stage was not.
+
+**And R6 corrects the main statement on a point that matters.** Its section 1.3
+separates two selected diagonals that refined-sjas section 2 had merged:
+
+  G2 diagonal:              G <-> not-Box-G          (what the limitative
+                                                      argument consumes)
+  self-consistency diagonal: H <-> Con(B + H, D)     (how a self-referential
+                                                      consistency assertion is
+                                                      formed)
+
+"Neither instance by itself implies the other." Willard's Group-3 axiom is H,
+not G. Section 2 had said "they contain the fixed point as an axiom", singular,
+which reads as though his systems contain the Godel sentence. They do not.
+Sections 2 and 2.5b now carry the distinction.
+
+**Section 9's Lawvere paragraph was stale in an interesting way.** It said the
+framing "does not give a categorical proof of any Willard result ... a research
+direction, not a construction" - and ADR-0004 quotes exactly that sentence as
+the gap R6 was written to fill. R6 has since built the construction: a common
+coded modal proof doctrine, the three systems presented in it, and the missing
+morphism identified in each case. Its Theorem 1.1 adds a coordinate this
+document did not have - formalized G2 needs, beyond a fixed point and the three
+HBL conditions, a boxed diagonal copy_A : Box-A -> Box-A tensor Box-A, and
+B-S's Lindenbaum construction is symmetric monoidal rather than cartesian
+precisely there. Section 9 now records that, together with R6's own list of
+non-claims.
+
+ADR-0002's status line also still read "R1 done...; R4-R5 pending" with no
+mention of R6, though its own component table has an R6 row marked complete.
+
+Checked and found consistent: R6's account of B-S (satisfies L1-L3, lacks the
+boxed diagonal) agrees with refined-sjas section 2.5 and R2 section 2.3; its
+identification of Willard's Type-A breach as HBL (2) agrees with section 2.3;
+its limits section carries the AU source's sketch-level section 6 Lob
+derivation; and its declared witness lit/2004.10482.pdf is held.
+
+audit.sh green.
+
 ## 2026-09-02 - Adversarial round ten: a stripped box inside the document that records box-stripping
 
 Four findings, and the first is almost comic.

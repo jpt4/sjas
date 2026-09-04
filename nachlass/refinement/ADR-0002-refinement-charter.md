@@ -1,6 +1,6 @@
 # ADR-0002 — Refinement Charter
 
-**Status.** R1 done and reviewed; R2 done; R3 partly done; R4–R5 pending.
+**Status.** R1 done and reviewed; R2 done; R3 partly done; **R6 complete and completion-reviewed 2026-09-04**; R4–R5 pending.
 **Reviewed and repaired 2026-09-02 across ten passes** — an external review (22
 corrections), an independent adversarial review
 ([`REVIEW-2026-09-02.md`](REVIEW-2026-09-02.md), ten more including two defects
@@ -134,14 +134,22 @@ What remains open:
    off Willard's results. Hybrid(H) is the tractable case *and* the unresolved
    one — its term is not identified (`R3-the-margin.md` §3.1), and the earlier
    `O(L)` criterion that placed it is refuted by arithmetic.
-3. **R5 has not been started, and one gap in it is load-bearing.** Artemov,
+3. **R6's non-claims are the shape of its open half.** The categorical
+   comparison ([`lawvere-sjas.md`](lawvere-sjas.md) §6) explicitly does not show
+   `IS(A)` is an arithmetic universe, does not make `A ↦ □A` an endofunctor in
+   Willard's doctrine, and does not claim a blocked derivation suffices for
+   self-justification. Its AU source's §6 Löb derivation is sketch-level.
+4. **R5 has not been started, and one gap in it is load-bearing.** Artemov,
    Visser and Salehi are held; Adamowicz and Kołodziejczyk are not; and
    **Pudlák is not held at all** (gap **G39**) although the Refinement invokes
    his theorem fourteen times, entirely through Willard's and Pakhomov's
    descriptions.
-4. **The empty cell.** No known route attacks the fixed point itself, because
-   Lawvere makes it free in any cartesian closed setting.
-5. **Beklemishev–Shamkanov's cell has no theory in it.** Their own §6 names
+5. **The empty cell.** No known route attacks the fixed point itself, because
+   Lawvere makes selected diagonals free in any cartesian closed setting — and
+   R6 sharpens what "the fixed point" means: the G2 diagonal `G ↔ ¬□G` and the
+   self-consistency diagonal `H ↔ Con(B+H,D)` are distinct, and Willard adopts
+   only the second.
+6. **Beklemishev–Shamkanov's cell has no theory in it.** Their own §6 names
    this: "we are still missing convincing examples of mathematical theories
    based on weak logics for which G2 would fail." With obligation **RO1** —
    `□`-contraction can hold in affine PA — the target is an arithmetic in which
