@@ -1,6 +1,10 @@
 # ADR-0004 — Lawvere–Yanofsky Translation of SJAS / G2 Evasion
 
-**Status.** **Complete, corrected 2026-09-04** — the comparison theorem and
+**Status.** **Complete, corrected 2026-09-04; one scope gap recorded
+2026-09-04** — Pakhomov's `H_{<ω}`, one of the two demonstrated routes to a
+self-verifying theory per R1–R3, is absent from the comparison and its absence
+was undeclared. Recorded in [`lawvere-sjas.md`](lawvere-sjas.md) §6.
+**Complete otherwise** — the comparison theorem and
 three categorical presentations are in [`lawvere-sjas.md`](lawvere-sjas.md).
 The 2026-09-02 `Aff` formulation was withdrawn: a class expressly not closed
 under composition is not a category. The replacement uses a genuine syntactic

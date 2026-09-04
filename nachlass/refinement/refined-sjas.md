@@ -397,6 +397,17 @@ removes differs in kind from route to route:
 | a **derivability condition** | **Willard** removes one: (2) on the tableaux line, on his own statement (§2.3); (2) or (3) on the Hilbert line, by analogy (§2.3a). **Pakhomov** is silent on which, if any, `H_{<ω}` satisfies — he notes only that "HBL conditions do not necessary hold in the case of some weaker arithmetical c.e. theories" (p. 3). What he *does* block is the step **after** them: Pudlák's argument works by carrying a failure of G2 in `T` into "a different theory `T′` (interpretable in `T`), where HBL are satisfied", and that interpretation needs successor totality, which `H_{<ω}` denies — the same door Willard uses. The finite models are his positive witness (§1) |
 | the **structural licence** to merge two boxed derivations off one context | **Beklemishev–Shamkanov** remove it — but the resulting system is **not self-verifying**; only *formalized* G2 fails (§2.5a) |
 
+**R6 sharpens this table and should be read with it.**
+[`lawvere-sjas.md`](lawvere-sjas.md) §5 replaces the single "ingredient removed"
+list with **two independent axes** — a structural diagonal on boxed hypotheses,
+and uniform internal HBL evaluation — plus a separate axis for fixed-point
+strength, and warns that they "should not be collapsed into a single *weakness*
+ordering": Beklemishev–Shamkanov weaken structural logic while keeping the modal
+derivability rules, Willard keeps structural logic and weakens what the
+arithmetic can certify uniformly about its own proof predicate. The row below is
+not wrong; it is one projection of that square. (R6's square omits Pakhomov —
+declared, with reasons, at its §6.)
+
 So the honest count is: **two demonstrated routes to a self-verifying theory**
 (Willard's, and Pakhomov's), plus **one demonstrated way to break the argument
 without obtaining such a theory**. The third row is a result about G2's proof,

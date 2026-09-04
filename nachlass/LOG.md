@@ -1,5 +1,42 @@
 # Nachlass Log
 
+## 2026-09-04 - Adversarial round twelve: R6 reviewed against its sources
+
+Read R6's sections 0-6 and checked its claims against the papers rather than
+taking them on trust. **R6 holds up well** - better, on the discipline this
+session has been enforcing, than refined-sjas.md did.
+
+Spot-checks, all correct:
+
+- Willard2001 Theorem A.1's footnote 16 does supply the selected diagonal
+  Theta(N) <-> not-Der(quote Theta(N)) from Pi^-_1 strength, which is what R6
+  section 0 claims and what separates it from a universal fixed-point theorem.
+- Willard1993-TR Proposition 1 is full, and R6 carries that status in its table.
+- Beklemishev-Shamkanov Lemma 5.1 is the weakening rule, as section 3.2 says;
+  Remark 3.9, the affine-PA caution, and the HBL (2) reading all match the
+  image-verified record.
+- R6 carries proof statuses at each point of use, including "the paper calls
+  this easy from cut-freeness and does not display a proof" for Proposition 4.1
+  and the AU source's sketch-level section 6 Lob derivation. That is rule 2
+  observed, in the component that never had to be told.
+
+**One completion gap: Pakhomov is absent from R6, undeclared.** R1-R3 establish
+H_<omega as one of only two demonstrated routes to a self-verifying theory, and
+R6's section 5 square compares AU, B-S and Willard only, closing section 0 with
+a contrast that reads as a claim about the field. I have not tried to supply the
+missing row - it would need a categorical presentation of a set theory whose
+witness is a finite model on the superexponential cut, and no Lawvere-side
+treatment of that is held. Recorded as a declared scope limit instead, in
+lawvere-sjas.md section 6 and ADR-0004's status.
+
+**And R6's square is sharper than refined-sjas section 2.5b's table.** Two
+independent axes - structural diagonal on boxed hypotheses, uniform internal HBL
+evaluation - plus a separate fixed-point-strength axis, with the warning that
+they "should not be collapsed into a single weakness ordering". Section 2.5b now
+points at it.
+
+audit.sh green.
+
 ## 2026-09-04 - Adversarial round eleven: the review had not covered the whole stage
 
 Chasing a strange-looking expression in the quotation register - `Box = Gamma-R`,

@@ -605,6 +605,18 @@ Their proof status and image anchors are recorded in
   basis `A`; no uniqueness-of-breach claim is needed here.
 - The exact HBL breach is not asserted uniformly across every Willard
   deduction method.
+- **Pakhomov's `H_{<ω}` is not in the comparison.** *Scope note added
+  2026-09-04 during the Refinement's adversarial review.* R1–R3 establish it as
+  one of only **two** demonstrated routes to a self-verifying theory — it proves
+  `Con^pred(H_{<ω})`, and like Willard's systems it cannot prove successor
+  totality — so its absence from §5's square is a gap, not a neutral choice.
+  §0's closing contrast ("Willard establishes a consistent inhabitant of the
+  self-consistency proposition") should be read as a statement about the three
+  systems compared here, not about the field. What a fourth row would need is a
+  categorical presentation of a *set* theory whose witness is a finite model on
+  the superexponential cut; no Lawvere-side treatment of it is held, and this
+  comparison does not attempt one. See `refined-sjas.md` §1 and
+  `R3-the-margin.md` §5.1.
 
 ---
 
