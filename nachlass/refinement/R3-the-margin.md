@@ -78,10 +78,16 @@ encoding-relative.
 - **`Log` is base 2, rounded down** (`Willard2000-TAB` Def. 1;
   `Willard2007-APAL` Def. 2). So **`Log(q_β)` is the bit-length of the Gödel
   number** of the cheapest refutation.
-- **"Shortest" means least Gödel number.** Every consistency-preservation proof
-  in the corpus is a minimal-counterexample argument on exactly that quantity —
-  "take `P` minimising `Θ(P)`" — and constructs a smaller `R` with
-  `Θ(R) < Θ(P)` (codified §6.9).
+- **"Shortest" means least Gödel number.** The corpus's **Hilbert-line**
+  preservation proofs are minimal-counterexample arguments on exactly that
+  quantity — "take `P` minimising `Θ(P)`", then construct a smaller `R` with
+  `Θ(R) < Θ(P)` (codified §6.9: `Willard2001` Thms 3.4 and 4.3, `Willard2006a`
+  Thm 3, `Willard2016` Thm 6.7). An earlier version of this bullet said *every*
+  proof in the corpus runs that way; the **tableaux** line instead uses
+  `θ`-compactification (`Willard2005` Thm 1, codified §6.4), which §6.9 names as
+  the contrast. The reading of `q_β` as a least Gödel number is unaffected —
+  Def. 4.5 says "shortest proof" and the Hilbert-line usage fixes the sense —
+  but the support for it is one line's practice, not the whole corpus's.
 
 **The bridge to symbol count is an explicit hypothesis, not an assumption.**
 `Willard2011` Appendix D imposes the **Conventional Tableaux Encoding
@@ -238,11 +244,17 @@ wrong; presenting it as a simplification is the Refinement's actual remit.
 
 ---
 
-## 3. The claim: every dial moves one of the two terms
+## 3. The claim under test, and how much of it survives
 
-> **Claim.** Each of the corpus's five boundary dials varies either `♯(β)` or
-> `Log(q_β)`, and its transition point is where `M(ξ)` crosses `2`. The dials are
-> not five phenomena; they are five ways of writing on the same inequality.
+> **The claim, as this document originally made it.** Each of the corpus's five
+> boundary dials varies either `♯(β)` or `Log(q_β)`, and its transition point is
+> where `M(ξ)` crosses `2`. The dials are not five phenomena; they are five ways
+> of writing on the same inequality.
+>
+> **Verdict (2026-09-02).** Three of the five survive; Level(n) is retracted
+> (§3.3) and Hybrid(H) is undetermined (§3.1). No dial's transition point has
+> been *computed* from the inequality — the second half of the claim is
+> untested throughout, for all five. §6 states this in full.
 
 **A caution the earlier drafts lacked.** `M(ξ)` is a *difference*. Showing that
 a dial lowers `Log(q_β)` is not yet a claim about the margin: if `♯(β)` falls by

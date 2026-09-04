@@ -571,11 +571,29 @@ requires **`y ≤ Log(z, K)`** (drift **D81**). Nothing in either argument turns
 it, but a refinement that unified them silently would be doing the thing this
 project exists to avoid.
 
-**The argument is a least-number principle on size.** Every consistency-
-preservation proof in the corpus runs the same way: assume a proof `P` of `⊥`,
-take the one minimising the Gödel number `Θ(P)`, and construct from it a
-smaller `R` with `Θ(R) < B < Θ(P)`, contradicting minimality (`Willard2009`
-Theorem 4; `Willard2001` Theorem 3.4; `Willard2005` Theorem 1).
+**The argument is a least-number principle on size — on one of the two lines.**
+An earlier version of this paragraph said "*every* consistency-preservation proof
+in the corpus runs the same way" and cited `Willard2005` Theorem 1 as an
+instance. **Both halves were wrong**, and codified §6.9 says so in its first
+sentence: "The Hilbert line does not use `θ`-Compactification. Its preservation
+results are proved directly, **by minimal counterexample**." There are two
+engines.
+
+- **The Hilbert line** does run the least-number argument: assume a proof `P` of
+  `⊥`, take the one minimising the Gödel number `Θ(P)`, construct a smaller `R`,
+  contradict minimality. `Willard2001` Thm 3.4 (`ISREF`) and Thm 4.3 (`IS`),
+  `Willard2006a` Thm 3 (`ISCE`), `Willard2016` Thm 6.7 (`IQFS`, conditional on
+  Conj. 6.6) — codified §6.9.
+- **The tableaux line** does not. Its engine is `Willard2005` **Theorem 1**
+  (codified §6.4): if `D` is `θ`-Compactified for some `θ < 1/3` then `IS_D(·)`
+  is consistency preserving — **apparatus-neutral**, saying nothing about
+  tableaux, and pushing everything apparatus-specific into the one hypothesis.
+
+The size-relativity that makes the Rosser parallel is present on both lines, but
+it lives in different places: in the minimised `Θ(P)` on the Hilbert line, and
+in `U-Height(p) < (1/5)·Log₂(p)` and the `θ` bound on the tableaux line. The
+parallel below is stated for both; the least-number *mechanism* is the Hilbert
+line's alone.
 
 So:
 

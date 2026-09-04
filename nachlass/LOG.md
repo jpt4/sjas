@@ -1,5 +1,41 @@
 # Nachlass Log
 
+## 2026-09-02 - Adversarial round five: the corpus has two engines, and two documents had one
+
+Three findings. The first is a genuine misreading of the Codification.
+
+**Section 6 said "every consistency-preservation proof in the corpus" is a
+minimal-counterexample argument on Theta(P), and cited Willard2005 Theorem 1 as
+an instance.** Codified section 6.9 denies both in its opening sentence: "The
+Hilbert line does not use theta-Compactification. Its preservation results are
+proved directly, by minimal counterexample." Willard2005 Theorem 1 IS the
+theta-compactification engine (codified 6.4) - apparatus-neutral, saying nothing
+about tableaux, and explicitly the *other* method.
+
+So the corpus has two engines, not one:
+
+- Hilbert line, by minimal counterexample: Willard2001 Thms 3.4 and 4.3,
+  Willard2006a Thm 3, Willard2016 Thm 6.7 (conditional on Conjecture 6.6).
+- Tableaux line, by theta-compactification: Willard2005 Thm 1, with Thm 4
+  discharging the hypothesis for Tab-U*_1-List at theta = 1/4.
+
+R3 section 1.1 carried the same error, and there it was load-bearing: it was the
+argument that "shortest proof" in Definition 4.5 means least Godel number. The
+reading survives - Def 4.5 says "shortest" and the Hilbert-line usage fixes the
+sense - but its support is one line's practice, not the whole corpus's. Section
+6's Rosser parallel also survives, in a narrower form: the size-relativity is on
+both lines, but it lives in the minimised Theta(P) on one and in
+U-Height(p) < (1/5)Log_2(p) and the theta bound on the other.
+
+**Two stale claim statements.** R3 section 3's heading still asserted "every dial
+moves one of the two terms" - the claim section 3.3 retracts for Level(n) - so a
+reader skimming headings got the withdrawn version. And R1-review section 4 still
+stated B5 as "prove the five dials are instances of the general form", superseded
+both by three-of-five and by R3 section 5's refutation of the premise that a
+third instance exists at all.
+
+audit.sh green.
+
 ## 2026-09-02 - Adversarial round four: what the document omits about its own stage
 
 Three completion findings and one precision note. The middle one is the
