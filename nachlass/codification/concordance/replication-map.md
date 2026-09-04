@@ -22,7 +22,7 @@ its own derivation.
 
 | Source | Form | Adds |
 | --- | --- | --- |
-| `Willard1993-TR` printed p. 6 | `a₀ ≥ 2`, `a_{i+1} = (a_i)²` — "`a_n` requires at least `2^n` bits"; then `b_{i+1} = b_i + b_i` | **The origin occurrence, in the full-length text.** Framed as a philosopher's hedge: asked to build the squaring sequence, the expected reply is that "multiplication is a function in theory but not always in practice", whereas "the philosopher would not give such a quick answer about addition". Added 2026-09-02, image-verified; the map previously carried only the 12-page published abbreviation |
+| `Willard1993-TR` printed p. 6 | `a₀ ≥ 2`, `a_{i+1} = (a_i)²` — "`a_n` requires at least `2^n` bits"; then `b_{i+1} = b_i + b_i` | **The origin occurrence, in the full-length text.** Framed as a philosopher's hedge: asked to build the squaring sequence, the expected reply is that "multiplication is a function in theory but not always in practice", whereas "the philosopher would not give such a quick answer about addition". Added 2026-09-04, image-verified; the map previously carried only the 12-page published abbreviation |
 | `Willard1993` pp. 328–331 | prose explanation | the earliest statement; `Willard2002c` Rem. 4 points here |
 | `Willard2001` Rem. 4.5 fn. 7 | `u₀ = 2`, `u_{i+1} = u_i²`, `VALUE(u_n) = 2^{2^n}` | localises the failure to **one lemma** (no analogue of Lemma 4.2) |
 | `Willard2000-TAB` Lem. 8 + §5 | `u_{i+1} = (u_i)²`, `z < u_n ≤ z²`, `O{LogLog z}` nodes | **why the negative proof needs it** (O76) |

@@ -146,20 +146,6 @@ Rule 5. Every growth or size claim, with the computation.
 | 21 | Pakhomov's model bound glossed as small; it is superexponential, on the cut, and the sentence is `Con^pred` | `refined-sjas.md` §1, `R3` §5.1 |
 | 22 | Conditions (1) and (2) called "permissions to use a proof again"; reuse is (3) | `R2` §2.1 |
 
-## Corrections applied 2026-09-02, third pass
-
-From a review of `refined-sjas.md` for completion and correctness.
-
-| # | Defect | Where it was |
-| --- | --- | --- |
-| 33 | **§5.1 and §9 contradicted R3's verdict, committed the same day** — both still counted four dials and kept Level(n) on the cost side, which `R3-the-margin.md` §3.3 retracts; §9 still said the margin "generalises" Def. 4.5, withdrawn in R3 §2 | `refined-sjas.md` §§5.1, 9 |
-| 34 | §9 omitted R3's findings entirely — the retraction, the `♯`-is-`d`-independent lemma, the forced threshold, and the withdrawal of the stability bridge's novelty | `refined-sjas.md` §9 |
-| 35 | §2.5b asserted Pakhomov "does not remove" a derivability condition. He is silent on the point; p. 3 says HBL "do not necessary hold" for weaker c.e. theories. What he blocks is Pudlák's *interpretation* step, which needs successor totality — Willard's door | `refined-sjas.md` §2.5b |
-| 36 | "the tableaux line as tabulated above" — no table exists above that line | `refined-sjas.md` §2.3c |
-| 37 | "the distinction §8 is simultaneously trying to draw" — §8 is the computational analogue; the distinction is §5.1's. Second mis-numbered cross-reference in the same subsection, the first fixed in the previous pass without sweeping for others | `refined-sjas.md` §2.3c |
-| 38 | Nine quotations in `refined-sjas.md` have no register row, so under the images-only rule they are unverified in this stage. Recorded in §9 and above; R-B structurally cannot catch this | `refined-sjas.md`, `VERIFICATION.md` |
-| 39 | **Codification gap, not a Refinement error.** `ω₁(x) = x^{Log(x)}` and the `ω₁^K(p)` bound (`Willard2007-APAL` §4), on which §3 rests, were recorded nowhere in the registries — while `R1-review.md` listed §3 as "verified against `Willard2007-APAL` §4". Verified from the page images; §3 is **correct as written**. Now registered, with drift **D82** for the collision with `Willard2020-LFCS`'s different `ω_j` | `../codification/registry/notation.md`, `../codification/concordance/drift-ledger.md` |
-
 ## Corrections applied 2026-09-02, second pass
 
 From the independent review at [`REVIEW-2026-09-02.md`](REVIEW-2026-09-02.md).
@@ -186,7 +172,21 @@ that a marker is about the same claim as the text it guards. A green R-D means
 review demonstrated the rewording gap by construction; it is inherent to the
 mechanism, and is recorded rather than papered over.
 
-## Corrections applied 2026-09-02, fourth pass
+## Corrections applied 2026-09-04, third pass
+
+From a review of `refined-sjas.md` for completion and correctness.
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 33 | **§5.1 and §9 contradicted R3's verdict, committed the same day** — both still counted four dials and kept Level(n) on the cost side, which `R3-the-margin.md` §3.3 retracts; §9 still said the margin "generalises" Def. 4.5, withdrawn in R3 §2 | `refined-sjas.md` §§5.1, 9 |
+| 34 | §9 omitted R3's findings entirely — the retraction, the `♯`-is-`d`-independent lemma, the forced threshold, and the withdrawal of the stability bridge's novelty | `refined-sjas.md` §9 |
+| 35 | §2.5b asserted Pakhomov "does not remove" a derivability condition. He is silent on the point; p. 3 says HBL "do not necessary hold" for weaker c.e. theories. What he blocks is Pudlák's *interpretation* step, which needs successor totality — Willard's door | `refined-sjas.md` §2.5b |
+| 36 | "the tableaux line as tabulated above" — no table exists above that line | `refined-sjas.md` §2.3c |
+| 37 | "the distinction §8 is simultaneously trying to draw" — §8 is the computational analogue; the distinction is §5.1's. Second mis-numbered cross-reference in the same subsection, the first fixed in the previous pass without sweeping for others | `refined-sjas.md` §2.3c |
+| 38 | Nine quotations in `refined-sjas.md` have no register row, so under the images-only rule they are unverified in this stage. Recorded in §9 and above; R-B structurally cannot catch this | `refined-sjas.md`, `VERIFICATION.md` |
+| 39 | **Codification gap, not a Refinement error.** `ω₁(x) = x^{Log(x)}` and the `ω₁^K(p)` bound (`Willard2007-APAL` §4), on which §3 rests, were recorded nowhere in the registries — while `R1-review.md` listed §3 as "verified against `Willard2007-APAL` §4". Verified from the page images; §3 is **correct as written**. Now registered, with drift **D82** for the collision with `Willard2020-LFCS`'s different `ω_j` | `../codification/registry/notation.md`, `../codification/concordance/drift-ledger.md` |
+
+## Corrections applied 2026-09-04, fourth pass
 
 The nine quotations flagged unverified in the third pass were read against the
 page. Eight were accurate; the register debt is closed.
@@ -199,7 +199,7 @@ page. Eight were accurate; the register debt is closed.
 | 43 | §9 still listed nine quotations as unverified after they had been verified | `refined-sjas.md` §9 |
 | 44 | **Drift D82 understated the problem.** It recorded two `ω` families; there are **three**. `Willard2001` p. 45 defines both the Hájek–Pudlák `ω_i` and the Wilkie–Paris `ϖ_i`, and **`ϖ₁` is exactly `Willard2007-APAL`'s `ω₁`** under a different letter — while `Willard2001`'s Hájek–Pudlák `ω₁ ≈ x²` is essentially `Willard2020-LFCS`'s `ω₀`. The hierarchies are offset by an index as well as differing in definition, so a bare "`ω₁`" is ambiguous even once the paper is named | `../codification/concordance/drift-ledger.md`, `../codification/registry/notation.md` |
 
-## Corrections applied 2026-09-02, fifth pass
+## Corrections applied 2026-09-04, fifth pass
 
 | # | Defect | Where it was |
 | --- | --- | --- |
@@ -210,7 +210,7 @@ page. Eight were accurate; the register debt is closed.
 | 49 | **An elided witness path.** §2.1 cited Yanofsky as `lit/…Working Category Theorist…pdf` — unfollowable, and R-C's path pattern did not match it, so it passed in silence. Real path given; **R-C now rejects elided paths** | `refined-sjas.md` §2.1, `../codification/audit-r.sh` |
 | 50 | **A bug in that new R-C clause.** It read its hits from a pipeline, so the `while` ran in a subshell and `err`'s assignment to `FAIL` was lost — the run printed `AUDIT-FAIL` lines and still exited green. Now reads from a process substitution; red-green re-tested | `../codification/audit-r.sh` |
 
-## Corrections applied 2026-09-02, sixth pass
+## Corrections applied 2026-09-04, sixth pass
 
 Completion, not correctness: what the document omits about its own stage.
 
@@ -221,7 +221,7 @@ Completion, not correctness: what the document omits about its own stage.
 | 53 | **The header overclaimed.** "Every claim it makes about the literature is anchored in the codification's registries" is false in two directions: the secondary literature was never in the Codification's scope, and the Pudlák claims are anchored in nothing held. Rewritten to say which claims rest on what | `refined-sjas.md` header |
 | 54 | §2.3 identified the TR's condition-(2) phrasing with Theorem A.1's without saying how they correspond, though §2.3a's whole argument turns on where the quantifiers sit — A.1 is schematic in `Φ`, `Ψ` with the proof quantifier inside `Der`; the TR unpacks the same content over proof codes | `refined-sjas.md` §2.3 |
 
-## Corrections applied 2026-09-02, seventh pass
+## Corrections applied 2026-09-04, seventh pass
 
 | # | Defect | Where it was |
 | --- | --- | --- |
@@ -229,7 +229,7 @@ Completion, not correctness: what the document omits about its own stage.
 | 56 | R3 §3's heading asserted "every dial moves one of the two terms" — the claim §3.3 retracts for Level(n). A reader skimming headings got the withdrawn version; the claim block now carries the verdict beside it | `R3-the-margin.md` §3 |
 | 57 | `R1-review.md` §4 still stated B5 as "prove **the five dials** are instances of the general form", superseded by R3's three-of-five and by §5's refutation of the premise that a third instance exists | `R1-review.md` §4 |
 
-## Corrections applied 2026-09-02, eighth pass
+## Corrections applied 2026-09-04, eighth pass
 
 | # | Defect | Where it was |
 | --- | --- | --- |
@@ -238,7 +238,7 @@ Completion, not correctness: what the document omits about its own stage.
 | 60 | §8 said Brown–Palsberg "do not block the diagonal". Their abstract says static type checking "can **exclude the proof's diagonalization gadget**" — the gadget is precisely what is blocked; what survives is the self-representation | `refined-sjas.md` §8 |
 | 61 | **Codification gap.** `Willard2016` Definition 8.1's registry digest was empty — the bare words "Platonic Stability" — which the Refinement discovered by trying to lean on it. Content supplied from Corollary 8.2, with the definition's own statement flagged for the next visual pass | `../codification/registry/results.md` |
 
-## Corrections applied 2026-09-02, ninth pass
+## Corrections applied 2026-09-04, ninth pass
 
 Rule 2 — "every claim about a Willard result carries that result's `Proof`
 status, at the point of *use*" — was being violated systematically, and only a
@@ -259,7 +259,7 @@ result the Refinement cites, with its status and citation count, so the
 obligation is visible. It does fail on one thing it can decide: a citation that
 resolves to no row in `../codification/registry/results.md`.
 
-## Corrections applied 2026-09-02, tenth pass
+## Corrections applied 2026-09-04, tenth pass
 
 | # | Defect | Where it was |
 | --- | --- | --- |
@@ -274,7 +274,7 @@ checked); every cross-document `§` reference into R1-review, R2 and R3 resolves
 §4's claim that Willard names the dying lemma "three times, in three papers" is
 verbatim-accurate against codified §7.2.
 
-## Corrections applied 2026-09-02, eleventh pass
+## Corrections applied 2026-09-04, eleventh pass
 
 The charter's own bookkeeping.
 
@@ -284,7 +284,7 @@ The charter's own bookkeeping.
 | 71 | The charter's "what remains open" list omitted the two largest open items found this session: that **the margin's sufficiency has no `full` proof** (Lemma 4.6 is `sketch`), and that **R5 is unstarted with Pudlák unheld** (G39) | `ADR-0002` |
 | 72 | "reviewed twice" in the status line, after ten passes | `ADR-0002` |
 
-## Corrections applied 2026-09-02, twelfth pass
+## Corrections applied 2026-09-04, twelfth pass
 
 | # | Defect | Where it was |
 | --- | --- | --- |
@@ -320,6 +320,21 @@ them; the reading did not.
 | --- | --- | --- |
 | 85 | **Seventeen unfollowable bare-filename references**, the same class round ten fixed for slashed paths: the audit scripts, the results registry, the codified statement, the nachlass log, and the repo README and org file were all cited by bare filename from `refinement/`, where each resolves to nothing | `ADR-0002`, `ADR-0004`, `R3-the-margin.md`, `VERIFICATION.md` |
 | 86 | **R-F could not see them.** Its pattern required a `/`, so a bare filename was never checked — the same shape of blind spot as the three checks that passed by never matching. Extended and red-green re-tested; it now sees 59 paths where it saw 20 | the refinement audit script |
+
+## Corrections applied 2026-09-04, fifteenth and sixteenth passes
+
+An end-to-end read of `refined-sjas.md`, hunting the one class the kind-organised
+sweeps miss: a claim inconsistent with its own document.
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 87 | **§2.1 said Willard "uses [Kleene's recursion theorem] directly".** He cannot: `Willard1993-TR` printed p. 37 says `IS(A)` "will clearly be too weak to prove that `∀x∃y SUBST_i(x,y)`", and proves only `∃y SUBST_i(k̄,y)` "for any fixed integer `k̄`" — the general recursion theorem is exactly what is *not* internally available. This is R6 §4.1's two-levels distinction, missed | `refined-sjas.md` §2.1 |
+| 88 | **§2.5b listed three ingredients where `R3-the-margin.md` §5.3 lists four**, folding Pakhomov's semantic step into the derivability row. Now four, matching R3 | `refined-sjas.md` §2.5b |
+| 89 | "The **third row** is a result about G2's proof" — broken by correction 88's own change to a four-row table, in the same round. Now row (iv) | `refined-sjas.md` §2.5b |
+| 90 | "The row **below** is not wrong" pointed past the table it was about | `refined-sjas.md` §2.5b |
+| 91 | **A systematic dating error.** After a mid-session date change, nine entries in the nachlass log, ten pass headings here, and five registry/concordance entries were dated **2026-09-02** for work whose commits are timestamped **2026-09-04**. Corrected against `git log`, which is the only authority available for this | the nachlass log, this file, and the gaps, notation, results, drift-ledger and replication-map registries |
+| 92 | **This file's passes were out of order** — the third preceded the second, because insertions anchored on different strings | `VERIFICATION.md` |
+| 93 | **Round nine had no entry in the nachlass log.** Commit 8199a22 went in without one; the log's own per-round structure is what made the omission visible. Written and inserted in sequence, marked as back-filled | the nachlass log |
 
 **Verified and found correct** in this pass — the rest of R6, read in full:
 Theorem 1.1's derivation (the contraction use is exactly where `Four` and

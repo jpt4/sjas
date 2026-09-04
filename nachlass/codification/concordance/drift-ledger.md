@@ -1352,7 +1352,7 @@ and Wilkie–Paris `Ω_i` equivalent for `i ≥ 1`, and that "the prior literatu
 has found it mostly unnecessary to distinguish between the two slightly
 different notations" — which is how the letters came to drift.
 
-- Found 2026-09-02, reviewing `refined-sjas.md` §3 against the originals. None of
+- Found 2026-09-04, reviewing `refined-sjas.md` §3 against the originals. None of
   these was recorded in any registry before that review, although §3 of the
   Refinement rests on the `Willard2007-APAL` form and `R1-review.md` recorded §3
   as "verified against `Willard2007-APAL` §4".

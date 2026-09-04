@@ -1,5 +1,48 @@
 # Nachlass Log
 
+## 2026-09-04 - Adversarial round sixteen: the provenance records were mis-dated
+
+An end-to-end read of refined-sjas.md, hunting the one class the kind-organised
+sweeps keep missing - a claim inconsistent with its own document - plus an audit
+of this log's own bookkeeping. Seven findings.
+
+**Section 2.1 said Willard "uses Kleene's recursion theorem directly".** He
+cannot. TR 93-10 printed p. 37: IS(A) "will clearly be too weak to prove that
+for-all x exists y SUBST_i(x,y)", and proves only exists-y SUBST_i(k-bar,y)
+"for any fixed integer k-bar" - the recursion theorem in general form is exactly
+what is not internally available, and the fixed-numeral instance is what defines
+Group-3. This is R6 section 4.1's two-levels distinction, which section 2.1 had
+elided even after today's other repairs.
+
+**Section 2.5b listed three ingredients where R3 section 5.3 lists four**,
+folding Pakhomov's semantic step into the derivability row. Fixing that promptly
+broke a cross-reference in the next paragraph ("the third row" became row (iv)),
+which the end-to-end read caught two paragraphs later - the same fix-introduces-
+defect pattern as round eight's anchor.
+
+**And the provenance records were mis-dated.** A system notice early in the
+session said the date was 2026-09-02; it later became 2026-09-04, and I carried
+the stale date through eight commits. Nine entries in this log, ten pass
+headings in VERIFICATION.md, and five registry and concordance entries claimed
+2026-09-02 for work whose commits are timestamped 2026-09-04. Corrected against
+git log, which is the only authority available for it. For a project whose whole
+discipline is provenance, dating its own corrections wrongly is not a small
+thing.
+
+**VERIFICATION.md's passes were out of order** - the third preceded the second,
+because insertions anchored on different strings.
+
+**And round nine had no entry in this log.** Commit 8199a22 went in without one.
+The log's own per-round structure is what made the gap visible; the entry is now
+written and inserted in sequence, marked as back-filled.
+
+Also, R-F caught my own new correction entry for citing bare filenames - the
+fifth time a check has flagged the record of the defect it checks for, and the
+first time I applied the documented remedy (plain-text naming) instead of
+discovering the interaction afresh.
+
+audit.sh green.
+
 ## 2026-09-04 - Adversarial rounds fourteen and fifteen: R6 read in full; R-F's blind spot
 
 **Round fifteen finished reading R6** - sections 2 and 4.2-4.3, the last
@@ -154,7 +197,34 @@ derivation; and its declared witness lit/2004.10482.pdf is held.
 
 audit.sh green.
 
-## 2026-09-02 - Adversarial round ten: a stripped box inside the document that records box-stripping
+## 2026-09-04 - Adversarial round nine: B6 declared met while rounds seven and eight falsified it
+
+*(Entry written 2026-09-04 in round sixteen; the round-nine commit 8199a22 went
+in without one, which the log's own per-round record made visible.)*
+
+The charter's own bookkeeping was the last thing unaudited.
+
+**B6 was asserted met at exactly the moment rounds seven and eight were breaking
+it.** B6 requires every quotation image-verified and transcribed verbatim, and
+every corpus claim status-carrying. Round seven found the status half broken in
+ten places, including Willard2001 Theorem A.1 and Willard2011 Lemma 4.6. That is
+the second time B6 has been declared satisfied and then falsified - the first
+was the non-verbatim quotations of corrections 23 and 32.
+
+Neither half of B6 is machine-checkable: R-B tests register hygiene, not
+fidelity, and R-E is informational because no positional heuristic captures "at
+the point of use". B6 now records both falsifications and says that any future
+assertion that it is met is a claim requiring a fresh sweep, not a standing
+fact.
+
+The charter's "what remains open" list also omitted the two largest open items
+found this session - that the margin's sufficiency rests on a sketch, and that
+R5 is unstarted with Pudlak unheld - and the status line still said "reviewed
+twice" after ten passes.
+
+audit.sh green.
+
+## 2026-09-04 - Adversarial round ten: a stripped box inside the document that records box-stripping
 
 Four findings, and the first is almost comic.
 
@@ -188,7 +258,7 @@ audit.sh green. Six checks now: R-A corpus keys, R-B image-verified register,
 R-C witnesses and elisions, R-D retracted claims, R-E non-full results
 (informational), R-F repository paths.
 
-## 2026-09-02 - Adversarial round eight: the margin's sufficiency has no full proof
+## 2026-09-04 - Adversarial round eight: the margin's sufficiency has no full proof
 
 Four findings. The first is the most consequential status omission in the whole
 Refinement, and it governs R3's central claim.
@@ -234,7 +304,7 @@ against codified section 7.2.
 
 audit.sh green.
 
-## 2026-09-02 - Adversarial round seven: rule 2 was being broken systematically
+## 2026-09-04 - Adversarial round seven: rule 2 was being broken systematically
 
 **Every claim about a Willard result carries that result's Proof status, at the
 point of use.** That is rule 2 of VERIFICATION.md, written after the first
@@ -273,7 +343,7 @@ results.md. Six distinct non-full results are currently cited, all sketch.
 
 audit.sh green.
 
-## 2026-09-02 - Adversarial round six: a conditional result used bare, and section 8 against itself
+## 2026-09-04 - Adversarial round six: a conditional result used bare, and section 8 against itself
 
 Four findings. The first is the one the project's own machinery already forbade.
 
@@ -314,7 +384,7 @@ conditionality.
 
 audit.sh green.
 
-## 2026-09-02 - Adversarial round five: the corpus has two engines, and two documents had one
+## 2026-09-04 - Adversarial round five: the corpus has two engines, and two documents had one
 
 Three findings. The first is a genuine misreading of the Codification.
 
@@ -350,7 +420,7 @@ third instance exists at all.
 
 audit.sh green.
 
-## 2026-09-02 - Adversarial round four: what the document omits about its own stage
+## 2026-09-04 - Adversarial round four: what the document omits about its own stage
 
 Three completion findings and one precision note. The middle one is the
 substantial one.
@@ -391,7 +461,7 @@ over proof codes. Now stated.
 
 audit.sh green; gaps 39 rows.
 
-## 2026-09-02 - Adversarial round three: counts, argument order, and an elided path
+## 2026-09-04 - Adversarial round three: counts, argument order, and an elided path
 
 Six findings, none of them about the mathematics and all of them the kind a
 reader would trip over.
@@ -448,7 +518,7 @@ and every internal cross-reference in the document.
 
 Register 43 rows, all image-verified. audit.sh green.
 
-## 2026-09-02 - Refinement review, deep pass: the nine unverified quotations read
+## 2026-09-04 - Refinement review, deep pass: the nine unverified quotations read
 
 The previous pass flagged nine quotations in refined-sjas.md as having no
 register row, and left them. Under the standing rule that extracted text is not
@@ -560,7 +630,7 @@ positive and semantic data required for self-justification. The exact HBL
 breach remains unassigned for Willard routes other than the Type-A `IS(A)` case
 that the 1993 report names.
 
-## 2026-09-02 - Review of refined-sjas.md for completion and correctness
+## 2026-09-04 - Review of refined-sjas.md for completion and correctness
 
 Seven findings. The first is the one worth keeping.
 

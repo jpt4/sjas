@@ -126,9 +126,20 @@ citation with the filename elided, which no reader could follow and which check
 R-C's path pattern silently skipped; R-C now rejects elided witness paths.)
 
 What Lawvere gives is **existence**, and it costs almost no theory. Kleene's
-recursion theorem is the arithmetic form, and Willard uses it directly: every
-affirmative system in the corpus builds its Group-3 axiom by exactly this
-construction (codified §5.1). Willard2001's own footnote makes the division
+recursion theorem is the arithmetic form, and every affirmative system in the
+corpus builds its Group-3 axiom by a fixed-point construction (codified §5.1).
+
+**But "uses it directly" — as an earlier version of this sentence said — hides
+the distinction R6 §4.1 insists on**, between what a metatheorist may do with
+proof codes and what the weak theory itself proves. `IS(A)` **cannot** prove
+`∀x ∃y SUBST_i(x,y)`; `Willard1993-TR` printed p. 37 says so outright ("Since it
+does not recognize multiplications as a function, `IS(A)` will clearly be too
+weak to prove that…"), adding that it *can* prove `∃y SUBST_i(k̄,y)` "for **any
+fixed integer `k̄`**", and that "the latter will be sufficient … to formally
+define the particular instance of the reflection principle needed to define
+`H`". So the recursion theorem in its general form is precisely what is *not*
+internally available. What is used is a **selected instance at a fixed numeral**
+— which is why §2's table calls both diagonals *selected*. Willard2001's own footnote makes the division
 explicit — the fixed-point identity "is the **only** aspect of the proof of the
 Hilbert-Bernays Theorem that needs Peano Arithmetic for justifying it", and
 "the remainder of the proof rests solely on" the derivability conditions.
@@ -388,14 +399,16 @@ Refinement's own classification, not only to a neighbouring project.
 
 ### 2.5b What the picture actually is
 
-Gödel's argument needs at least three separable things, and what the literature
-removes differs in kind from route to route:
+Gödel's argument needs at least **four** separable things — the same four
+`R3-the-margin.md` §5.3 lists, and an earlier version of this table said three
+by folding the semantic step into the derivability row:
 
 | Ingredient | Status |
 | --- | --- |
-| the **fixed point** — and note §2.1's distinction: Lawvere/Kleene make *selected* diagonals cheap, and the one Willard adopts as Group-3 is the **self-consistency** diagonal `H ↔ Con(B+H,D)`, not the G2 diagonal `G ↔ ¬□G` | never removed — every system here keeps the diagonals it needs |
-| a **derivability condition** | **Willard** removes one: (2) on the tableaux line, on his own statement (§2.3); (2) or (3) on the Hilbert line, by analogy (§2.3a). **Pakhomov** is silent on which, if any, `H_{<ω}` satisfies — he notes only that "HBL conditions do not necessary hold in the case of some weaker arithmetical c.e. theories" (p. 3). What he *does* block is the step **after** them: Pudlák's argument works by carrying a failure of G2 in `T` into "a different theory `T′` (interpretable in `T`), where HBL are satisfied", and that interpretation needs successor totality, which `H_{<ω}` denies — the same door Willard uses. The finite models are his positive witness (§1) |
-| the **structural licence** to merge two boxed derivations off one context | **Beklemishev–Shamkanov** remove it — but the resulting system is **not self-verifying**; only *formalized* G2 fails (§2.5a) |
+| **(i) a fixed point** — and note §2.1's distinction: Lawvere/Kleene make *selected* diagonals cheap, and the one Willard adopts as Group-3 is the **self-consistency** diagonal `H ↔ Con(B+H,D)`, not the G2 diagonal `G ↔ ¬□G` | never removed — every system here keeps the diagonals it needs |
+| **(ii) a derivability condition** | **Willard** removes one: (2) on the tableaux line, on his own statement (§2.3); (2) or (3) on the Hilbert line, by analogy (§2.3a). **Pakhomov** is silent on which, if any, `H_{<ω}` satisfies — he notes only that "HBL conditions do not necessary hold in the case of some weaker arithmetical c.e. theories" (p. 3) |
+| **(iii) the semantic step** from an inconsistency-witness to falsity | **Pakhomov** blocks the step *after* the conditions: Pudlák's argument carries a failure of G2 in `T` into "a different theory `T′` (interpretable in `T`), where HBL are satisfied", and that interpretation needs successor totality, which `H_{<ω}` denies — the same door Willard uses. The finite models are his positive witness (§1) |
+| **(iv) the structural licence** to merge two boxed derivations off one context | **Beklemishev–Shamkanov** remove it — but the resulting system is **not self-verifying**; only *formalized* G2 fails (§2.5a) |
 
 **R6 sharpens this table and should be read with it.**
 [`lawvere-sjas.md`](lawvere-sjas.md) §5 replaces the single "ingredient removed"
@@ -404,13 +417,14 @@ and uniform internal HBL evaluation — plus a separate axis for fixed-point
 strength, and warns that they "should not be collapsed into a single *weakness*
 ordering": Beklemishev–Shamkanov weaken structural logic while keeping the modal
 derivability rules, Willard keeps structural logic and weakens what the
-arithmetic can certify uniformly about its own proof predicate. The row below is
-not wrong; it is one projection of that square. (R6's square omits Pakhomov —
-declared, with reasons, at its §6.)
+arithmetic can certify uniformly about its own proof predicate. The table above
+is not wrong; it is one projection of that square. R6's square omits Pakhomov,
+declared with reasons at its §6. (An earlier version of this sentence said "the
+row below", pointing past the table it was about.)
 
 So the honest count is: **two demonstrated routes to a self-verifying theory**
 (Willard's, and Pakhomov's), plus **one demonstrated way to break the argument
-without obtaining such a theory**. The third row is a result about G2's proof,
+without obtaining such a theory**. Row **(iv)** is a result about G2's proof,
 not an entry in a catalogue of self-verifying systems, and
 [`R3-the-margin.md`](R3-the-margin.md) §5 is corrected accordingly.
 
@@ -775,7 +789,7 @@ Kołodziejczyk, Salehi — is pending, and no earlier version of this section sa
 so. Artemov, Visser and Salehi are held in `../works-citing-dew/`; Adamowicz and
 Kołodziejczyk are not.
 
-**Pudlák is not held at all** (gap **G39**, opened 2026-09-02). That matters
+**Pudlák is not held at all** (gap **G39**, opened 2026-09-04). That matters
 here more than the others, because this document invokes his theorem three
 times, and the claim that *his cut-shortening technique requires successor
 totality* is what §1 and §2.5b use to explain how both Willard's Hilbert line
