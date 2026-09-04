@@ -25,8 +25,9 @@ is this form that the rest of the document develops:
 
 > **naming an integer must not be cheaper than proving something about it.**
 
-Everything else in the corpus — the four axiom groups, the five apparatus
-families, the eleven formula classes, the five boundary dials — is machinery for
+Everything else in the corpus — the four axiom groups, the five deductive
+apparatuses, the **ten** formula-class notations, the five boundary dials — is
+machinery for
 making the arithmetic form precise in one setting or another, or for locating
 the point at which it stops being true.
 
@@ -91,8 +92,12 @@ Lawvere's Fixed Point Theorem makes the point structurally. In a cartesian
 closed category, if there is a weakly point-surjective `f : A × A → B`, then
 **every** endomorphism `t : B → B` has a fixed point. Cantor, Russell, Tarski,
 Turing and Gödel's *First* theorem are the contrapositive: exhibit a
-fixed-point-free `t`, conclude no such `f` exists. (Yanofsky's treatment, held
-at `lit/…Working Category Theorist…pdf`, develops the family.)
+fixed-point-free `t`, conclude no such `f` exists. (Yanofsky develops the family;
+the held witness is `../../lit/(Elements in Applied Category Theory) Noson S.
+Yanofsky - Theoretical Computer Science for the Working Category
+Theorist-Cambridge University Press (2022).pdf`. An earlier version gave this
+citation with the filename elided, which no reader could follow and which check
+R-C's path pattern silently skipped; R-C now rejects elided witness paths.)
 
 What Lawvere gives is **existence**, and it costs almost no theory. Kleene's
 recursion theorem is the arithmetic form, and Willard uses it directly: every
@@ -226,6 +231,16 @@ addition and multiplication satisfy their usual associative, commutative,
 distributive and identity properties**". And `Willard2006a` Theorem 4 requires
 three hypotheses — the multiplicative axioms, all of PA's `Π⁻₁` theorems, **and**
 the Concise Encoding property — of which the draft carried one.
+
+*But the hypothesis-count criticism is itself incomplete.* `Willard2006a`
+Remark 1 announces **Theorem 4\***, "a stronger form of Theorem 4", which "will
+drop Theorem 4's 'Concise Encoding' assumption and *also isolate a `Π⁻₁` theorem
+`W`* of Peano Arithmetic, where no consistent r.e. axiom system `α ⊃ W`, using
+the multiplicative naming convention, can formally verify its own Hilbert
+consistency." So the control is available with **two** hypotheses, not three —
+at the cost of an abbreviated Appendix C proof. What does *not* change is the
+logical point above: the control affirms the consequent either way, and so
+supports no particular assignment.
 
 ### 2.3c A correction that survives
 
@@ -373,7 +388,9 @@ while still strong enough to be interesting.
 ## 4. Naming rates, and why exactly two of them matter
 
 The corpus's single most repeated object (codified §5.3; ten occurrences catalogued
-in [`../codification/concordance/replication-map.md`](../codification/concordance/replication-map.md) §1)
+in [`../codification/concordance/replication-map.md`](../codification/concordance/replication-map.md) §1,
+the tenth added 2026-09-02 — the origin text `Willard1993-TR` printed p. 6, which
+the map had omitted in favour of the 12-page published abbreviation)
 is a pair of sequences from the same start:
 
 | | recurrence | value | **encoding length** |
@@ -512,9 +529,14 @@ earlier heading asserted, and not the "four of five" a later draft settled on.
 
 Rosser's improvement to Gödel replaces "I am not provable" with
 
-> `∀y ( Prf(y, ⌜R⌝) → ∃z < y  Prf(z, ⌜¬R⌝) )`
+> `∀y ( Prf(⌜R⌝, y) → ∃z < y  Prf(⌜¬R⌝, z) )`
 
-— a sentence that does not assert unprovability absolutely, but **relative to an
+— written in the corpus's argument order, **theorem first, proof second**, to
+match `SemPrf` below and `Willard2020` Eq. (5)'s `Prf_{IS_D(β)}(x,p)`. (Textbook
+presentations of Rosser usually write the proof first; an earlier version of this
+line did too, which left §6 using both orders four paragraphs apart, in the one
+section whose point is that the two predicates are the same move.) It is a
+sentence that does not assert unprovability absolutely, but **relative to an
 ordering by proof size**. That single change buys the theorem for merely
 consistent systems.
 

@@ -62,6 +62,8 @@ been checked against the page in this stage.
 | Hájek–Pudlák `ω_i` (`ω₀(x) = 2x`, `ω_{i+1}(x) = 2^{ω_i(⌈Log₂(x+1)⌉−1)}`) and Wilkie–Paris `ϖ_i` (`ϖ₀(x) = x`, `ϖ_{i+1}(x) = x^{ϖ_i(⌈Log₂(x+1)⌉−1)}`) | `Willard2001` | p. 45 | **img (2026-09-02)** — a **third** `ω` family; see drift **D82** |
 | Printed p. 1's Feferman contrast: "[Fe60] illustrates a self-verifying system which employs all the axioms of Peano Arithmetic, but which draws upon a deduction method which captures the numerical but not intensional definition of classic deduction"; `IS(A)` uses "a deduction method as natural as semantic tableaux" and weakens "several of the axioms of Peano Arithmetic, including the axiom that the multiplication function is total". Also: the governing HBL fact is stated on **four** pages — printed pp. 1, 2, 6 and 12 | `Willard1993-TR` | printed pp. 1, 2, 6 | **img (2026-09-02)** |
 | Theorem 2.2 and its proof sketch: composing `Λ`, `Θ`, `Λ∧Θ ⇒ Ξ`, where under a cut-free method the composite's "length can certainly be super-exponentially longer than the combined lengths of `p`, `q` and `r`" | `Willard2002a` | printed p. 7 | **img (2026-09-02)** |
+| **Continuously Expanding**: "there exists a sequence of constants `K₁, K₂, K₃, …` with `K_i < K_{i+1}` such that the set of axioms with Gödel numbers less than `K_i` is sufficient to generate a proof of the existence of an integer larger than `K_{i+1}`"; the incremental convention fails it "because it grows too slowly". **Theorem 4**'s three hypotheses verbatim, and **Remark 1**'s Theorem 4\*, which "will drop Theorem 4's 'Concise Encoding' assumption" | `Willard2006a` | printed p. 7 | **img (2026-09-02)** |
+| Abstract: "we show that **static type checking in F_ω can exclude the proof's diagonalization gadget**, leaving open the possibility for a self-interpreter"; and the normalization barrier "stems from a theorem in computability theory that says that a total universal function for the total computable functions is impossible" | Brown–Palsberg 2016 | p. 1 | **img (2026-09-02)** |
 | "Alternative Naming Conventions": hybridized conventions "lie midway between the additive and multiplicative conventions"; Hybrid(`H`) defines `C_i = ⌈2^{[Log(i)]^H}⌉·C_{i−1}` **for `i ≥ 3`**; "This convention can unify the formalisms of Theorems 3 and 4"; `H = 1` keeps Thm 3's exception, `H > 1` generalises Thms 4 and 4\*. Also §6's `ISINF(A)`, "Infinitely Far-Reaching without sustaining an ability to prove successor is a total function" | `Willard2006a` | printed pp. 8, 30 | **img (2026-09-02)** |
 | Remark 6.16b: the SelfCons axiom "causes axiom systems to produce essentially a 1-line proof of their own consistency … an *instinctive faith* … rather than it supporting a full-length proof-justification"; and that `ξ*`, `ξ**`, `ξ^R` are Type-A systems recognising addition as total | `Willard2011` | printed p. 28 | **img (2026-09-02)** |
 | §8's statement ###: "Is it not *almost cheating* when an axiom system verifies its own consistency by using ⊕'s formalized 'I am consistent' axiom as an intermediate step…"; and §9's "arithmetics that were weaker than traditional arithmetics **in, at least, some respects**. (The Second Incompleteness Theorem's significance in refuting the original objectives of Hilbert's Consistency Program is thus, simply, undeniable.)" | `Willard2016` | printed pp. 27, 29 | **img (2026-09-02)** |
@@ -188,7 +190,26 @@ page. Eight were accurate; the register debt is closed.
 | 43 | §9 still listed nine quotations as unverified after they had been verified | `refined-sjas.md` §9 |
 | 44 | **Drift D82 understated the problem.** It recorded two `ω` families; there are **three**. `Willard2001` p. 45 defines both the Hájek–Pudlák `ω_i` and the Wilkie–Paris `ϖ_i`, and **`ϖ₁` is exactly `Willard2007-APAL`'s `ω₁`** under a different letter — while `Willard2001`'s Hájek–Pudlák `ω₁ ≈ x²` is essentially `Willard2020-LFCS`'s `ω₀`. The hierarchies are offset by an index as well as differing in definition, so a bare "`ω₁`" is ambiguous even once the paper is named | `concordance/drift-ledger.md`, `registry/notation.md` |
 
-**Verified and found correct** in this pass, beyond the eight accurate
+## Corrections applied 2026-09-02, fifth pass
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 45 | **§1 said "eleven formula classes".** Codified §3.3 and drift **D50** both say **ten**; D50 is titled "ten formula-class notations for one idea". Also "five apparatus families" for what codified §4.1 catalogues as five *apparatuses* (four textbook plus one of Willard's own), four of which are Hilbert-style | `refined-sjas.md` §1 |
+| 46 | **§6 used two argument orders four paragraphs apart.** The Rosser sentence was written `Prf(y, ⌜R⌝)` (proof first, textbook convention) while `SemPrf^K_α(x, y, z)` below it and `Willard2020` Eq. (5)'s `Prf_{IS_D(β)}(x,p)` are theorem-first — in the one section whose point is that the two predicates are the same move | `refined-sjas.md` §6 |
+| 47 | **§4 claimed ten occurrences of the doubling device; the map listed nine** — and omitted the **origin text**. `Willard1993-TR` printed p. 6 carries the device (`a₀ ≥ 2`, `a_{i+1} = (a_i)²` needing `2^n` bits; then `b_{i+1} = b_i + b_i`), framed as a philosopher's hedge; the map cited only the 12-page published abbreviation. Row added, image-verified; the count is now genuinely ten | `concordance/replication-map.md` |
+| 48 | §2.3b's hypothesis-count criticism was incomplete: `Willard2006a` **Remark 1** supplies **Theorem 4\***, which drops the Concise Encoding hypothesis. The logical point (affirming the consequent) is unaffected | `refined-sjas.md` §2.3b |
+| 49 | **An elided witness path.** §2.1 cited Yanofsky as `lit/…Working Category Theorist…pdf` — unfollowable, and R-C's path pattern did not match it, so it passed in silence. Real path given; **R-C now rejects elided paths** | `refined-sjas.md` §2.1, `audit-r.sh` |
+| 50 | **A bug in that new R-C clause.** It read its hits from a pipeline, so the `while` ran in a subshell and `err`'s assignment to `FAIL` was lost — the run printed `AUDIT-FAIL` lines and still exited green. Now reads from a process substitution; red-green re-tested | `audit-r.sh` |
+
+**Verified and found correct** in this pass: §2.1's statement of **Lawvere's
+Fixed Point Theorem** (the uncurried weakly-point-surjective form, `f : A × A → B`
+forcing a fixed point for every `t : B → B`, with Cantor/Russell/Tarski/Turing/
+Gödel-I as its contrapositive); §8's account of **Brown–Palsberg**, whose
+abstract states exactly the mechanism §8 attributes to them; §2.3a's paraphrase
+of **Continuous Expansion**; §2.3b's statement of **Theorem 4's three
+hypotheses**; and every internal section cross-reference in the document.
+
+**Verified and found correct** in the fourth pass, beyond the eight accurate
 quotations: §2.2's claim that `Willard1993-TR` states the governing
 Hilbert–Bernays fact **four times** (printed pp. 1, 2, 6, 12 — checked page by
 page); §2.3c's claim that the tableaux line keeps successor and addition total

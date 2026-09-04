@@ -75,6 +75,20 @@ run_r_c() {
   for f in $(grep -ho '\(\.\./\.\./\)\?lit/[A-Za-z0-9._-]*\.pdf' $(r_docs) "$REF/VERIFICATION.md" 2>/dev/null | sort -u); do
     if [ -f "$REF/$f" ]; then n=$((n + 1)); else err "R-C: refinement cites missing witness '$f'"; fi
   done
+  # A citation whose path is elided cannot be followed or checked. The pattern
+  # above simply does not match one, so it used to pass in silence.
+  #
+  # Read the hits from a process substitution, NOT a pipeline: a `while` on the
+  # right of a pipe runs in a subshell, so `err`'s assignment to FAIL is lost and
+  # the run reports AUDIT-FAIL lines while still exiting green. That bug was in
+  # this check's first version.
+  local hit
+  while IFS= read -r hit; do
+    [ -n "$hit" ] || continue
+    err "R-C: elided witness path, unfollowable and unverifiable: $hit"
+  # Scope: the prose documents only. VERIFICATION.md is the corrections registry
+  # and names defective artifacts by design, exactly as it does for R-D.
+  done < <(grep -n 'lit/[^`]*…' $(r_docs) 2>/dev/null)
   echo "  R-C: $n secondary-literature witnesses cited, all present"
 }
 

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>lawvere-sjas</title>
+  <title>A categorical comparison of Gödel II mechanisms</title>
   <style>
     html {
       color: #1a1a1a;
@@ -313,6 +313,8 @@ classifying AU (Definitions 6.1-6.2). No exponential object in the base
 AU is being assumed. The theorem below needs the associated
 introduction, evaluation, composition, and contraposition steps, not
 cartesian closure.</p>
+<p>Write <code>not A := A -o bottom</code> throughout this
+comparison.</p>
 <p>If <code>tensor</code> is a categorical product, every object has a
 diagonal</p>
 <p><code>delta_A : A -&gt; A tensor A</code>.</p>
@@ -546,9 +548,9 @@ closure adjunction</p>
 categorical composition: for the concrete system <code>S</code>, Theorem
 5 proves cut admissible, so this presentation really is compositional.
 Lemma 5.1 also proves weakening admissible, so its monoidal unit is
-terminal: categorically the concrete system is affine monoidal closed.
-What is absent is neither composition nor weakening, but the diagonal
-that would make the tensor cartesian.</p>
+terminal: categorically the concrete system is symmetric affine monoidal
+closed. What is absent is neither composition nor weakening, but the
+diagonal that would make the tensor cartesian.</p>
 <p>Their three Löb conditions are precisely:</p>
 <ul>
 <li>L1: <code>□(A -&gt; B) -&gt; (□A -&gt; □B)</code>
@@ -927,11 +929,11 @@ comparison’s consequence of Definition 2.1, I4, Proposition 4.1 and
 Theorem 5, rather than a quoted source theorem. Local witness: <a
 href="lit/beklemishev-shamkanov2016_abstract_g2_nonclassical_arxiv_1602.05728.pdf"><code>B-S source PDF</code></a>.</li>
 <li>D. E. Willard, <em>Self-Verifying Axiom Systems and the
-Incompleteness Theorem</em>, TR 93-10 (the collated witness postdates
-April 1994): Proposition 1, printed p. 8 and §§4-6 (<code>full</code>);
-printed p. 12 (fixed-witness-only HBL composition); printed pp. 37-38
-(fixed-instance substitution and Equations (A.2)-(A.3) for Group-3).
-Local witness: <a
+Incompleteness Theorem</em>, TR 93-10 (the collated witness cannot
+predate April 1994): Proposition 1, printed p. 8 and §§4-6
+(<code>full</code>); printed p. 12 (fixed-witness-only HBL composition);
+printed pp. 37-38 (fixed-instance substitution and Equations (A.2)-(A.3)
+for Group-3). Local witness: <a
 href="../papers/1993technicalreport/willard1993_self_verifying_axiom_systems_tr93_10_searchable.pdf"><code>1993 technical report PDF</code></a>.</li>
 <li>D. E. Willard, <a
 href="https://doi.org/10.2307/2695030"><em>Self-verifying axiom systems,

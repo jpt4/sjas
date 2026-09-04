@@ -103,6 +103,8 @@ appropriate classifying AU (Definitions 6.1-6.2). No exponential object in the
 base AU is being assumed. The theorem below needs the associated introduction,
 evaluation, composition, and contraposition steps, not cartesian closure.
 
+Write `not A := A -o bottom` throughout this comparison.
+
 If `tensor` is a categorical product, every object has a diagonal
 
 `delta_A : A -> A tensor A`.
@@ -281,8 +283,8 @@ Exchange is built in because contexts are multisets. Cut is categorical
 composition: for the concrete system `S`, Theorem 5 proves cut admissible, so
 this presentation really is compositional. Lemma 5.1 also proves weakening
 admissible, so its monoidal unit is terminal: categorically the concrete system
-is affine monoidal closed. What is absent is neither composition nor weakening,
-but the diagonal that would make the tensor cartesian.
+is symmetric affine monoidal closed. What is absent is neither composition nor
+weakening, but the diagonal that would make the tensor cartesian.
 
 Their three Löb conditions are precisely:
 
@@ -623,7 +625,7 @@ Their proof status and image anchors are recorded in
   and Theorem 5, rather than a quoted source theorem. Local witness:
   [`B-S source PDF`](lit/beklemishev-shamkanov2016_abstract_g2_nonclassical_arxiv_1602.05728.pdf).
 - D. E. Willard, *Self-Verifying Axiom Systems and the Incompleteness Theorem*,
-  TR 93-10 (the collated witness postdates April 1994): Proposition 1, printed
+  TR 93-10 (the collated witness cannot predate April 1994): Proposition 1, printed
   p. 8 and §§4-6 (`full`); printed p. 12 (fixed-witness-only HBL composition);
   printed pp. 37-38 (fixed-instance substitution and Equations (A.2)-(A.3) for
   Group-3). Local witness:

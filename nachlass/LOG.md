@@ -1,5 +1,62 @@
 # Nachlass Log
 
+## 2026-09-02 - Adversarial round three: counts, argument order, and an elided path
+
+Six findings, none of them about the mathematics and all of them the kind a
+reader would trip over.
+
+**Two counts contradicted the Codification.** Section 1 said "eleven formula
+classes"; codified section 3.3 and drift D50 both say **ten** - D50 is titled
+"ten formula-class notations for one idea". Section 1 also said "five apparatus
+families" for what codified section 4.1 catalogues as five *apparatuses*, four
+of the five being Hilbert-style. Both corrected.
+
+**Section 6 used two argument orders four paragraphs apart.** The Rosser
+sentence was written Prf(y, quote-R) - proof first, the textbook convention -
+while SemPrf^K_alpha(x, y, z) below it and Willard2020 Eq. (5)'s
+Prf_{IS_D(beta)}(x,p) are theorem-first. That is in the one section whose whole
+point is that the two predicates are the same move, where a reader cannot see
+the parallel if the arguments swap sides. Rewritten in the corpus's order, with
+the clash noted.
+
+**Section 4's "ten occurrences" was wrong, and fixing it exposed a Codification
+gap.** The replication map listed nine - and omitted the origin text. TR 93-10
+printed p. 6 carries the doubling/squaring device (a_0 >= 2, a_{i+1} = (a_i)^2,
+"a_n requires at least 2^n bits", then b_{i+1} = b_i + b_i), framed as a
+philosopher's hedge: asked to build the squaring sequence the expected reply is
+that "multiplication is a function in theory but not always in practice",
+whereas "the philosopher would not give such a quick answer about addition".
+The map had cited only the 12-page published abbreviation. Row added,
+image-verified; the count is now genuinely ten.
+
+**An elided witness path, and then a bug in the check written to catch it.**
+Section 2.1 cited Yanofsky as `lit/...Working Category Theorist...pdf` -
+unfollowable by a reader, and R-C's path pattern did not match an elision, so it
+passed in silence. Real path given and R-C now rejects elided paths. But that
+new clause read its hits from a **pipeline**, so the `while` ran in a subshell,
+`err`'s assignment to FAIL was lost, and the run printed AUDIT-FAIL lines while
+still exiting green. Caught in the red-green test, fixed with a process
+substitution, re-tested. Then it fired on VERIFICATION.md's own record of the
+defect, so the check is scoped to the prose documents - the same exemption R-D
+already has, for the same reason.
+
+**Section 2.3b's hypothesis-count criticism was incomplete.** Willard2006a
+Remark 1 supplies Theorem 4*, "a stronger form of Theorem 4", which drops the
+Concise Encoding assumption - so the control is available with two hypotheses,
+not three. The logical point stands unaffected: it affirms the consequent either
+way.
+
+**Verified sound this round**, and recorded as verified: section 2.1's statement
+of Lawvere's Fixed Point Theorem (the uncurried weakly-point-surjective form,
+with Cantor/Russell/Tarski/Turing/Godel-I as its contrapositive - correct as
+given); section 8's account of Brown-Palsberg, whose abstract states exactly the
+mechanism section 8 attributes to them, "static type checking in F-omega can
+exclude the proof's diagonalization gadget"; section 2.3a's paraphrase of
+Continuous Expansion; section 2.3b's statement of Theorem 4's three hypotheses;
+and every internal cross-reference in the document.
+
+Register 43 rows, all image-verified. audit.sh green.
+
 ## 2026-09-02 - Refinement review, deep pass: the nine unverified quotations read
 
 The previous pass flagged nine quotations in refined-sjas.md as having no
