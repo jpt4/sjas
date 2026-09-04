@@ -220,6 +220,15 @@ Completion, not correctness: what the document omits about its own stage.
 | 56 | R3 §3's heading asserted "every dial moves one of the two terms" — the claim §3.3 retracts for Level(n). A reader skimming headings got the withdrawn version; the claim block now carries the verdict beside it | `R3-the-margin.md` §3 |
 | 57 | `R1-review.md` §4 still stated B5 as "prove **the five dials** are instances of the general form", superseded by R3's three-of-five and by §5's refutation of the premise that a third instance exists | `R1-review.md` §4 |
 
+## Corrections applied 2026-09-02, eighth pass
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 58 | **§7 used a conditional result without carrying the condition.** Willard's reply to his own "almost cheating" objection is Def. 8.1 + Corollary 8.2, and Cor. 8.2 depends on Theorem 6.7, which is conditional on **Conjecture 6.6** (`stated-only`). Obligation **O66** requires the conditionality be flagged *wherever the result is used*; §7 used it bare, so Willard's answer to his strongest self-objection was presented as unconditional | `refined-sjas.md` §7 |
+| 59 | **§8 contradicted itself two paragraphs apart** — "the mechanism is the same as Willard's", then "that **analogy** … is not yet a correspondence". Willard blocks by cost, Brown–Palsberg by typing: one shape, two mechanisms | `refined-sjas.md` §8 |
+| 60 | §8 said Brown–Palsberg "do not block the diagonal". Their abstract says static type checking "can **exclude the proof's diagonalization gadget**" — the gadget is precisely what is blocked; what survives is the self-representation | `refined-sjas.md` §8 |
+| 61 | **Codification gap.** `Willard2016` Definition 8.1's registry digest was empty — the bare words "Platonic Stability" — which the Refinement discovered by trying to lean on it. Content supplied from Corollary 8.2, with the definition's own statement flagged for the next visual pass | `registry/results.md` |
+
 **Verified and found correct** in this pass: §2.1's statement of **Lawvere's
 Fixed Point Theorem** (the uncurried weakly-point-surjective form, `f : A × A → B`
 forcing a fixed point for every `t : B → B`, with Cantor/Russell/Tarski/Turing/

@@ -1,5 +1,46 @@
 # Nachlass Log
 
+## 2026-09-02 - Adversarial round six: a conditional result used bare, and section 8 against itself
+
+Four findings. The first is the one the project's own machinery already forbade.
+
+**Section 7 used a conditional result without carrying the condition.** Willard's
+reply to his own strongest self-objection - section 8's "Is it not almost
+cheating...?" - is Definition 8.1's Platonic Stability plus Corollary 8.2. And
+Corollary 8.2 depends on Theorem 6.7, which is conditional on Conjecture 6.6,
+which is stated-only. So Willard's answer to the deepest objection against his
+own programme is itself conditional, and section 7 presented it flat.
+
+Obligation **O66** exists for exactly this: "Flag Willard2016's conditionality
+wherever its result is used." Section 9 carried it; section 7, where the result
+is actually used, did not. Now it does.
+
+**Section 8 contradicted itself two paragraphs apart.** It said "the mechanism is
+the same as Willard's" and then, two paragraphs later, that the transfer is an
+"analogy - it is not yet a correspondence, since no formal mapping has been
+established". Willard blocks by cost, Brown-Palsberg by typing. One shape, two
+mechanisms; the section now says so.
+
+**And it overstated what Brown-Palsberg block.** Section 8 said "they do not
+block the diagonal". Their abstract, image-verified, says static type checking
+"can exclude the proof's diagonalization gadget". The gadget is precisely what
+is blocked; what survives is the self-representation. The distinction is the
+whole content of the analogy, so getting it backwards mattered.
+
+**A Codification gap, found by leaning on it.** Willard2016 Definition 8.1's
+registry digest was empty - the bare words "Platonic Stability" and nothing
+else. The Refinement discovered it by reaching for the definition and finding
+nothing to cite. Content supplied from Corollary 8.2, with the definition's own
+statement flagged for the next visual pass.
+
+Also checked this round and found sound: every numbered-item citation in the
+document resolves to a registry row (fourteen checked); Willard2005 Theorem 5 is
+indeed the Tab-U*_1-List preservation result section 2.3c says it is; and the
+remaining uses of Theorem 6.7 elsewhere in the Refinement do carry the
+conditionality.
+
+audit.sh green.
+
 ## 2026-09-02 - Adversarial round five: the corpus has two engines, and two documents had one
 
 Three findings. The first is a genuine misreading of the Codification.

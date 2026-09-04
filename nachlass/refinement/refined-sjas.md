@@ -643,10 +643,21 @@ and then listed five.)
    refuting the original objectives of Hilbert's Consistency Program is thus,
    simply, undeniable.)" The qualifier *in, at least, some respects* is
    Willard's, and was elided.
-4. **The objection stands.** `Willard2016` §8 asks whether this is "**almost
-   cheating**", answering only that a thinker needs no more than *Platonic
-   Stability* — a formalism in which presuming one's own consistency provably
-   will not spin one into inconsistency.
+4. **The objection stands, and the reply to it is conditional.** `Willard2016`
+   §8 states the objection in Willard's own voice — "Is it not *almost cheating*
+   when an axiom system verifies its own consistency by using ⊕'s formalized
+   'I am consistent' axiom as an intermediate step…? After all, such a technique
+   can verify its own consistency only in a *technically purely legalistic
+   sense*" — and answers it with Definition 8.1's **Platonic Stability** and
+   Corollary 8.2: adequate Platonic Stability lets a thinker presume its own
+   consistency and "rest assured the assumption will not drive `IQFS(β)` into
+   inconsistency".
+
+   **But Corollary 8.2 depends on Theorem 6.7, which is conditional on
+   Conjecture 6.6** — `stated-only` — so Willard's answer to his own strongest
+   objection is itself conditional. Obligation **O66** requires that be flagged
+   *wherever the result is used*, not only where it is introduced; an earlier
+   version of this item used it without the flag.
 
 5. **The axioms are not natural.** Pakhomov's assessment, from outside the
    corpus: Willard's theories "are not completely natural in the sense that
@@ -678,10 +689,21 @@ obvious type permits a diagonal argument. Brown and Palsberg
 typed-self-evaluation papers alongside it) nevertheless construct one for
 **F_ω**.
 
-The mechanism is the same as Willard's. They do not block the diagonal — the
-self-representation exists and is total. They arrange that the **type** of the
-representation does not permit the composite the paradox needs. The fixed point
-survives; the derivation does not.
+**The shape is the same as Willard's; the mechanism is not.** An earlier version
+of this paragraph said "the mechanism is the same", which contradicts the
+paragraph below it that calls the transfer an analogy rather than a
+correspondence. Willard blocks by cost, Brown–Palsberg by typing; those are
+different mechanisms with one shape.
+
+The shape is this. The self-interpreter exists and is total — the
+self-representation is not what fails. What fails is the *paradox's* machinery:
+in their own words, "**static type checking in F_ω can exclude the proof's
+diagonalization gadget**, leaving open the possibility for a self-interpreter"
+(abstract, image-verified). So it is not right to say, as an earlier version
+did, that "they do not block the diagonal": the diagonalization **gadget** is
+exactly what static typing excludes. What survives is the self-representation,
+not the gadget built from it. The fixed point survives; the derivation does
+not.
 
 In the vocabulary of §2: Lawvere's existence half is kept, and the
 derivability-condition half is denied — there by typing discipline, in Willard
