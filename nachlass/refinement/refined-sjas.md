@@ -799,10 +799,12 @@ so. Artemov, Visser and Salehi are held in `../works-citing-dew/`; Adamowicz and
 Kołodziejczyk are not.
 
 **Pudlák is not held at all** (gap **G39**, opened 2026-09-04). That matters
-here more than the others, because this document invokes his theorem three
-times, and the claim that *his cut-shortening technique requires successor
-totality* is what §1 and §2.5b use to explain how both Willard's Hilbert line
-and Pakhomov's `H_{<ω}` evade it. Every one of those invocations rests on
+here more than the others, because the claim that *his cut-shortening technique
+requires successor totality* is load-bearing in this document — it is what §1 and
+§2.5b use to explain how both Willard's Hilbert line and Pakhomov's `H_{<ω}`
+evade him. (An earlier version counted the invocations, "three times". The count
+was already stale when written and went staler as the text grew; a claim about
+how often a document says something should not be maintained by hand.) Every one of those invocations rests on
 **Willard's or Pakhomov's description of the paper**, not on the paper. The
 descriptions agree with each other and there is no reason to doubt them; but
 "agrees with the two authors who need it to be true" is a weaker warrant than

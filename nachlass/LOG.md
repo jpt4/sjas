@@ -1,5 +1,32 @@
 # Nachlass Log
 
+## 2026-09-04 - Adversarial round eighteen: a hand-maintained count, stale in four places
+
+One finding, of a kind worth naming.
+
+Section 9 said "this document invokes his theorem three times" of Pudlak. There
+are seven mentions, and the count was already wrong when I wrote it in round
+four; the text then grew around it. The same figure had been written as "14
+times across six files" into the gaps registry, the charter, and the correction
+record. Four places, one stale number.
+
+All four are now characterisations rather than counts. A claim about how often a
+document says something is a claim about the document's current text, and
+maintaining it by hand guarantees it will drift - especially in a document being
+edited eighteen times in a session. The load-bearing point survives unchanged:
+what Pudlak's proof requires is stated here on Willard's and Pakhomov's
+authority, not on the paper's, because the paper is not held (G39).
+
+Also verified this round: the correction record's own integrity - 94 numbered
+entries, 1 through 94, no duplicates and no gaps - and R3 section 2.2's
+A-Stability implies Tightness argument, re-checked step by step. q_{beta_0} =
+q_beta by mutual inequality on the least Godel number; sharp(beta_0) >=
+sharp(beta) because sharp of a set is a minimum over its members; beta_0 is r.e.
+as a finite extension of an r.e. base; and 0=1 is Good(N) for no N by the
+Special Note to Definition 4.2. The proof stands.
+
+audit.sh green.
+
 ## 2026-09-04 - Adversarial round seventeen: the two engines do not split by line
 
 One finding, and it is a repair introducing a fresh error of its own kind - the

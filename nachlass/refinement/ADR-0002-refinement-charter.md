@@ -142,7 +142,7 @@ What remains open:
 4. **R5 has not been started, and one gap in it is load-bearing.** Artemov,
    Visser and Salehi are held; Adamowicz and Kołodziejczyk are not; and
    **Pudlák is not held at all** (gap **G39**) although the Refinement invokes
-   his theorem fourteen times, entirely through Willard's and Pakhomov's
+   his theorem throughout, entirely through Willard's and Pakhomov's
    descriptions.
 5. **The empty cell.** No known route attacks the fixed point itself, because
    Lawvere makes selected diagonals free in any cartesian closed setting — and

@@ -217,7 +217,7 @@ Completion, not correctness: what the document omits about its own stage.
 | # | Defect | Where it was |
 | --- | --- | --- |
 | 51 | **§9 never mentioned R5.** ADR-0002's secondary-literature pass — Artemov, Pudlák, Visser, Adamowicz, Kołodziejczyk, Salehi — is a pending component of this stage, and the document's own account of what is unsettled omitted it entirely | `refined-sjas.md` §9 |
-| 52 | **Pudlák's paper is not held, and the Refinement leans on it 14 times across six files.** That his cut-shortening technique *requires successor totality* is what §§1 and 2.5b use to explain how both Willard's Hilbert line and Pakhomov's `H_{<ω}` evade him — and every invocation rests on Willard's or Pakhomov's description of a paper nobody here has read. Recorded as gap **G39**; §9 now says so, and so does the header | `refined-sjas.md` §§1, 2.5b, 9; `../codification/registry/gaps.md` |
+| 52 | **Pudlák's paper is not held, and the Refinement leans on it throughout.** *(That entry originally gave a count, "14 times across six files"; correction #95 withdraws hand-maintained counts of this kind.)* That his cut-shortening technique *requires successor totality* is what §§1 and 2.5b use to explain how both Willard's Hilbert line and Pakhomov's `H_{<ω}` evade him — and every invocation rests on Willard's or Pakhomov's description of a paper nobody here has read. Recorded as gap **G39**; §9 now says so, and so does the header | `refined-sjas.md` §§1, 2.5b, 9; `../codification/registry/gaps.md` |
 | 53 | **The header overclaimed.** "Every claim it makes about the literature is anchored in the codification's registries" is false in two directions: the secondary literature was never in the Codification's scope, and the Pudlák claims are anchored in nothing held. Rewritten to say which claims rest on what | `refined-sjas.md` header |
 | 54 | §2.3 identified the TR's condition-(2) phrasing with Theorem A.1's without saying how they correspond, though §2.3a's whole argument turns on where the quantifiers sit — A.1 is schematic in `Φ`, `Ψ` with the proof quantifier inside `Der`; the TR unpacks the same content over proof codes | `refined-sjas.md` §2.3 |
 
@@ -341,6 +341,19 @@ sweeps miss: a claim inconsistent with its own document.
 | # | Defect | Where it was |
 | --- | --- | --- |
 | 94 | **The two preservation methods do not partition by line, and round five's repair said they did.** It filed the least-number method under "the Hilbert line", citing `Willard2001` Thm 4.3 — but Thm 4.3 proves consistency preservation for **`IS(A)`**, which is *semantic tableaux* (registry `SJAS-Origin`; codified §3.1's Type-A row). The division is between **proof methods**, not families of system, and codified §6.9's title "The Hilbert line's engine" is looser than its own table. A repair that introduced a fresh error of its own kind — the third such this session | `refined-sjas.md` §6, `R3-the-margin.md` §1.1, and correction #55 above |
+
+## Corrections applied 2026-09-04, eighteenth pass
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 95 | **A hand-maintained count went stale, in three places.** §9 said "this document invokes his theorem three times"; there are seven mentions, and the count was already wrong when written. The same figure appeared as "14 times across six files" in the gaps registry, the charter and correction #52. All four replaced by a characterisation — a claim about how often a document says something should not be maintained by hand | `refined-sjas.md` §9, `ADR-0002`, the gaps registry, and #52 above |
+
+**Verified and found correct** in this pass: the correction record's own
+integrity — 94 numbered entries, 1 through 94, no duplicates and no gaps; and
+R3 §2.2's A-Stability ⟹ Tightness proof re-checked step by step (`q_{β₀} = q_β`
+by mutual inequality on the least Gödel number; `♯(β₀) ≥ ♯(β)` because `♯` of a
+set is a minimum over its members; `β₀` r.e. as a finite extension of an r.e.
+base; `0=1` `Good(N)` for no `N` by Def. 4.2's Special Note).
 
 **Verified and found correct** in this pass — the rest of R6, read in full:
 Theorem 1.1's derivation (the contraction use is exactly where `Four` and
