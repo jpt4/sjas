@@ -41,11 +41,19 @@ cannot in general be copied. Consequently the formalized-G2 arrow
 
 `□(□bottom -o bottom) -> □bottom`
 
-does not exist. But neither does a global proof of consistency
-`I -> (□bottom -o bottom)`. Thus `S` blocks the G2 derivation without proving
-its own consistency. The system is nevertheless externally nondegenerate: if
-it were inconsistent in B-S's Definition 2.1 sense, its consequence rules and
-cut admissibility would make the sequent of Proposition 4.1 provable.
+does not exist. B-S §6 also states that the empty-context sequent
+
+`=> not □bottom`
+
+is not provable. Here `□bottom` is the object-language assertion that
+contradiction is provable, and `not A` abbreviates `A -o bottom`; hence
+`Con := not □bottom` is the Hilbert-style consistency formula for this
+provability modality. Categorically, a closed proof would be a morphism
+`I -> Con`, where `I` is the tensor unit representing the empty context. Thus
+`S` blocks the G2 derivation without proving its own consistency.
+The system is nevertheless externally nondegenerate: if it were inconsistent
+in B-S's Definition 2.1 sense, its consequence rules and cut admissibility
+would make the sequent of Proposition 4.1 provable.
 
 Willard's Type-A `IS(A)` lies on the other axis. Its ordinary classical logic
 has cartesian contraction, but its weak arithmetic cannot internalize the
@@ -66,7 +74,7 @@ internal point**.
 
 In short:
 
-| System | G2 fixed point | HBL maps | Boxed diagonal | Internal self-consistency | Externally consistent |
+| System | G2 fixed point | HBL maps | Boxed diagonal | Proves `Con` | External consistency |
 | --- | --- | --- | --- | --- | --- |
 | Joyal / van Dijk-Oldenziel AU | every `T : P1' -> P1'` | all three | yes, cartesian | no point for the internal copy's consistency proposition if `U_0` is consistent | assumed for `U_0` in G2 |
 | Beklemishev-Shamkanov `S` | every modalized formula, including the needed `G` | **all three** | **no** | **no** | **yes**, as forced by Proposition 4.1 |
@@ -88,12 +96,26 @@ claimed from any of the three sources.
 
 ### 1.1 Structural category
 
-Let `K` be a category, or a representable symmetric multicategory, of formula
-contexts and derivations. Its tensor `tensor` represents context combination,
-its unit `I` represents the empty context, and an internal implication
-`A -o B`, when present, satisfies
+Let `K` be a symmetric monoidal category of formula objects and
+derivations. Its tensor `tensor` represents context combination, and its unit
+`I` represents the empty context. For a context
+`Gamma = (A_1,...,A_n)`, write
 
-`K(Gamma tensor A, B) ~= K(Gamma, A -o B)`.
+`ctx(Gamma) := A_1 tensor ... tensor A_n`, with `ctx(empty) := I`.
+
+An internal implication `A -o B`, when present, is characterized by the
+natural currying bijection
+
+`K(ctx(Gamma) tensor A, B) ~= K(ctx(Gamma), A -o B)`.
+
+Equivalently, in the associated closed symmetric multicategory, the same law
+is written
+
+`K(Gamma, A ; B) ~= K(Gamma ; A -o B)`,
+
+where the entries before the semicolon are inputs and the entry after it is the
+output. Thus the left side consists of derivations of `B` from `Gamma,A`, while
+the right side consists of derivations of `A -o B` from `Gamma`.
 
 The notation `A -o B` below is schematic at exactly one important point. When
 the implication is representable, as in the B-S consequence category, it is an
@@ -160,10 +182,16 @@ into a consistency point. Either selected instance can exist without an
 internally total substitution operation, and neither instance by itself implies
 the other.
 
-A *consistency point* is a global derivation
+For the chosen provability operation `□`, its internal Hilbert-style consistency
+proposition is
 
-`con : I -> Con`, where `Con := □bottom -o bottom`, with `-o` read in the
-proof-doctrine sense just specified.
+`Con := not □bottom`, that is, `Con := □bottom -o bottom`.
+
+Because `I` is the tensor unit representing the empty context, a morphism out
+of `I` is a closed derivation. A *consistency point* is therefore a global
+derivation
+
+`con : I -> Con`.
 
 This is only the internal half of self-justification. The other half is the
 external, metatheoretic assertion that the theory is consistent. An inconsistent
@@ -339,6 +367,12 @@ non-formalized G2, because
 `=> not □bottom`
 
 is not provable. Categorically, `K_S(I, Con)` is empty.
+
+This is the appropriate internal consistency formula for their modality. In
+the implication setting B-S define `⊠A := □not A` and observe that
+`⊠top =_S □bottom` whenever L1 holds. Thus `not □bottom` negates their
+object-language inconsistency assertion; it is not the external claim that
+`S` is consistent.
 
 This does **not** mean that `S` is externally inconsistent. In fact, the result
 of Proposition 4.1 forces consistency in the paper's Definition 2.1 sense. If

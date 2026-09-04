@@ -588,11 +588,16 @@ occur here: the G2 diagonal `G ↔ ¬□G` and the self-consistency diagonal
 `H ↔ Con(B+H,D)`, neither implying the other (R6 §1.3). So the empty cell is
 narrower than stated: what no route attacks is the availability of the
 **selected G2 diagonal**, which is cheap for a quite different reason than
-Lawvere's universal theorem — `Willard2001` Theorem A.1's footnote 16 obtains it
-from `Π⁻₁` strength alone.
+Lawvere's universal theorem — `Willard2001` Theorem A.1's footnote 16
+(**`stated-only`**, like the theorem it serves) obtains it from `Π⁻₁` strength
+alone.
 
-The margin is the right invariant for the first cell, and it is complete for that
-cell, covering all five of Willard's dials at the strength §4 records. That is a
+The margin is the right invariant for the first cell — but **not complete for
+it**. An earlier version of this sentence said it covered "all five of Willard's
+dials at the strength §4 records", which contradicts §§3.3, 3.4, 4 and 6 of this
+same document: Level(n)'s instance is **retracted** and Hybrid(H)'s term is
+**undetermined**. Three of five are proved (§3.0), and that is the honest
+figure here as everywhere else in this document. That is a
 smaller result than R3 was set up to look for, and it is what the evidence
 supports.
 

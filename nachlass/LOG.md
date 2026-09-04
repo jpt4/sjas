@@ -1,5 +1,30 @@
 # Nachlass Log
 
+## 2026-09-04 - Adversarial round thirteen: a contradiction that survived eight rounds
+
+Two findings, both in R3 section 5.3, and both instructive.
+
+**"Covering all five of Willard's dials."** That sentence sat in section 5.3
+while sections 3.3, 3.4, 4 and 6 of the same document said three of five, with
+Level(n) retracted and Hybrid(H) undetermined. It survived rounds five through
+twelve because every sweep I ran was organised by *kind* - counts, then
+cross-references, then quotations, then statuses, then anchors - and a claim
+that is internally inconsistent with its own document falls between those
+categories. It was caught this round only because a status check flagged the
+adjacent sentence and I read the paragraph around it.
+
+**And the adjacent sentence was my own fresh rule-2 violation.** The passage I
+added in round eleven, about the selected G2 diagonal, cites Willard2001 Theorem
+A.1 without its stated-only status - the exact rule round seven had swept the
+whole corpus for. Introduced while writing carefully about care, six rounds
+after the sweep, with the informational check R-E running.
+
+Both are now fixed. The lesson is the one this session keeps repeating in
+different forms: a check that has never been seen to fail should not be
+believed, and a document is not consistent because its parts were each checked.
+
+audit.sh green.
+
 ## 2026-09-04 - Adversarial round twelve: R6 reviewed against its sources
 
 Read R6's sections 0-6 and checked its claims against the papers rather than

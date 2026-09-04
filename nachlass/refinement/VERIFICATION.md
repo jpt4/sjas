@@ -302,6 +302,9 @@ them; the reading did not.
 | 81 | **R6's comparison omits Pakhomov, undeclared.** R1–R3 establish `H_{<ω}` as one of only two demonstrated routes to a self-verifying theory; R6's §5 square compares AU, B–S and Willard, and §0 closes by contrasting B–S's missing internal point with Willard's — which reads as a claim about the field. Recorded as a declared scope limit in `lawvere-sjas.md` §6 and `ADR-0004`, with what a fourth row would require | `lawvere-sjas.md`, `ADR-0004` |
 | 82 | `refined-sjas.md` §2.5b's three-ingredient table is coarser than R6 §5's **two independent axes** (structural diagonal on boxed hypotheses; uniform internal HBL evaluation) plus a separate fixed-point-strength axis. R6's warning that these "should not be collapsed into a single *weakness* ordering" is the sharper statement | *(pointer only; §2.5b's content is not wrong)* |
 
+| 83 | **A direct self-contradiction in R3 §5.3, surviving eight rounds.** "The margin … is complete for that cell, covering **all five** of Willard's dials" — while §§3.3, 3.4, 4 and 6 of the same document retract Level(n) and leave Hybrid(H) undetermined. Three of five | `R3-the-margin.md` §5.3 |
+| 84 | **A fresh rule-2 violation, introduced in round eleven while writing about care.** The new §5.3 passage cited `Willard2001` Theorem A.1 without its `stated-only` status — the very rule round seven had swept. It recurs under active guard | `R3-the-margin.md` §5.3 |
+
 **Verified and found correct** in this pass — R6's own claims, spot-checked
 against sources: `Willard2001` Theorem A.1's **footnote 16** does give the
 selected `Θ(N) ⇔ ¬Der(⌜Θ(N)⌝)` from `Π⁻₁` strength, as R6 §0 says

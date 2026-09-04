@@ -213,9 +213,16 @@ construction is symmetric monoidal rather than cartesian;
 <code>□A</code> cannot in general be copied. Consequently the
 formalized-G2 arrow</p>
 <p><code>□(□bottom -o bottom) -&gt; □bottom</code></p>
-<p>does not exist. But neither does a global proof of consistency
-<code>I -&gt; (□bottom -o bottom)</code>. Thus <code>S</code> blocks the
-G2 derivation without proving its own consistency. The system is
+<p>does not exist. B-S §6 also states that the empty-context sequent</p>
+<p><code>=&gt; not □bottom</code></p>
+<p>is not provable. Here <code>□bottom</code> is the object-language
+assertion that contradiction is provable, and <code>not A</code>
+abbreviates <code>A -o bottom</code>; hence
+<code>Con := not □bottom</code> is the Hilbert-style consistency formula
+for this provability modality. Categorically, a closed proof would be a
+morphism <code>I -&gt; Con</code>, where <code>I</code> is the tensor
+unit representing the empty context. Thus <code>S</code> blocks the G2
+derivation without proving its own consistency. The system is
 nevertheless externally nondegenerate: if it were inconsistent in B-S’s
 Definition 2.1 sense, its consequence rules and cut admissibility would
 make the sequent of Proposition 4.1 provable.</p>
@@ -251,8 +258,8 @@ lacks is the <strong>positive internal point</strong>.</p>
 <th>G2 fixed point</th>
 <th>HBL maps</th>
 <th>Boxed diagonal</th>
-<th>Internal self-consistency</th>
-<th>Externally consistent</th>
+<th>Proves <code>Con</code></th>
+<th>External consistency</th>
 </tr>
 </thead>
 <tbody>
@@ -298,12 +305,22 @@ all the distinctions at issue. We therefore use the following
 deliberately small interface. This is the Refinement’s comparison
 construction, not terminology claimed from any of the three sources.</p>
 <h3 id="structural-category">1.1 Structural category</h3>
-<p>Let <code>K</code> be a category, or a representable symmetric
-multicategory, of formula contexts and derivations. Its tensor
-<code>tensor</code> represents context combination, its unit
-<code>I</code> represents the empty context, and an internal implication
-<code>A -o B</code>, when present, satisfies</p>
-<p><code>K(Gamma tensor A, B) ~= K(Gamma, A -o B)</code>.</p>
+<p>Let <code>K</code> be a symmetric monoidal category of formula
+objects and derivations. Its tensor <code>tensor</code> represents
+context combination, and its unit <code>I</code> represents the empty
+context. For a context <code>Gamma = (A_1,...,A_n)</code>, write</p>
+<p><code>ctx(Gamma) := A_1 tensor ... tensor A_n</code>, with
+<code>ctx(empty) := I</code>.</p>
+<p>An internal implication <code>A -o B</code>, when present, is
+characterized by the natural currying bijection</p>
+<p><code>K(ctx(Gamma) tensor A, B) ~= K(ctx(Gamma), A -o B)</code>.</p>
+<p>Equivalently, in the associated closed symmetric multicategory, the
+same law is written</p>
+<p><code>K(Gamma, A ; B) ~= K(Gamma ; A -o B)</code>,</p>
+<p>where the entries before the semicolon are inputs and the entry after
+it is the output. Thus the left side consists of derivations of
+<code>B</code> from <code>Gamma,A</code>, while the right side consists
+of derivations of <code>A -o B</code> from <code>Gamma</code>.</p>
 <p>The notation <code>A -o B</code> below is schematic at exactly one
 important point. When the implication is representable, as in the B-S
 consequence category, it is an object satisfying this adjunction. In the
@@ -392,10 +409,14 @@ how a self-referential consistency assertion is formed; adjoining
 <code>H</code> then turns it into a consistency point. Either selected
 instance can exist without an internally total substitution operation,
 and neither instance by itself implies the other.</p>
-<p>A <em>consistency point</em> is a global derivation</p>
-<p><code>con : I -&gt; Con</code>, where
-<code>Con := □bottom -o bottom</code>, with <code>-o</code> read in the
-proof-doctrine sense just specified.</p>
+<p>For the chosen provability operation <code>□</code>, its internal
+Hilbert-style consistency proposition is</p>
+<p><code>Con := not □bottom</code>, that is,
+<code>Con := □bottom -o bottom</code>.</p>
+<p>Because <code>I</code> is the tensor unit representing the empty
+context, a morphism out of <code>I</code> is a closed derivation. A
+<em>consistency point</em> is therefore a global derivation</p>
+<p><code>con : I -&gt; Con</code>.</p>
 <p>This is only the internal half of self-justification. The other half
 is the external, metatheoretic assertion that the theory is consistent.
 An inconsistent theory can of course inhabit every proposition,
@@ -597,6 +618,12 @@ counterexample to non-formalized G2, because</p>
 <p><code>=&gt; not □bottom</code></p>
 <p>is not provable. Categorically, <code>K_S(I, Con)</code> is
 empty.</p>
+<p>This is the appropriate internal consistency formula for their
+modality. In the implication setting B-S define
+<code>⊠A := □not A</code> and observe that <code>⊠top =_S □bottom</code>
+whenever L1 holds. Thus <code>not □bottom</code> negates their
+object-language inconsistency assertion; it is not the external claim
+that <code>S</code> is consistent.</p>
 <p>This does <strong>not</strong> mean that <code>S</code> is externally
 inconsistent. In fact, the result of Proposition 4.1 forces consistency
 in the paper’s Definition 2.1 sense. If <code>top &lt;=_S bottom</code>,
@@ -909,6 +936,20 @@ possible choice of the inner basis <code>A</code>; no
 uniqueness-of-breach claim is needed here.</li>
 <li>The exact HBL breach is not asserted uniformly across every Willard
 deduction method.</li>
+<li><strong>Pakhomov’s <code>H_{&lt;ω}</code> is not in the
+comparison.</strong> <em>Scope note added 2026-09-04 during the
+Refinement’s adversarial review.</em> R1–R3 establish it as one of only
+<strong>two</strong> demonstrated routes to a self-verifying theory — it
+proves <code>Con^pred(H_{&lt;ω})</code>, and like Willard’s systems it
+cannot prove successor totality — so its absence from §5’s square is a
+gap, not a neutral choice. §0’s closing contrast (“Willard establishes a
+consistent inhabitant of the self-consistency proposition”) should be
+read as a statement about the three systems compared here, not about the
+field. What a fourth row would need is a categorical presentation of a
+<em>set</em> theory whose witness is a finite model on the
+superexponential cut; no Lawvere-side treatment of it is held, and this
+comparison does not attempt one. See <code>refined-sjas.md</code> §1 and
+<code>R3-the-margin.md</code> §5.1.</li>
 </ul>
 <hr />
 <h2 id="primary-source-anchors">7. Primary-source anchors</h2>
