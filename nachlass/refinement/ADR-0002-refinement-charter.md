@@ -1,10 +1,14 @@
 # ADR-0002 — Refinement Charter
 
 **Status.** R1 done and reviewed; R2 done; R3 partly done; R4–R5 pending.
-**Reviewed and repaired 2026-09-02, twice** — a first pass against an external
-review (22 corrections), then an independent adversarial review
-([`REVIEW-2026-09-02.md`](REVIEW-2026-09-02.md)) which found ten more, including
-two defects in the audit checks themselves. See
+**Reviewed and repaired 2026-09-02 across ten passes** — an external review (22
+corrections), an independent adversarial review
+([`REVIEW-2026-09-02.md`](REVIEW-2026-09-02.md), ten more including two defects
+in the audit checks), then eight further adversarial rounds which found, among
+others, that the margin's sufficiency rests on a `sketch`, that Pudlák is not
+held at all, and three separate checks that reported green because their own
+matching was broken. Corrections #1–#69 are tabulated in
+[`VERIFICATION.md`](VERIFICATION.md). See
 [`VERIFICATION.md`](VERIFICATION.md), this stage's registry, checked by
 `../codification/audit.sh` (checks R-A–R-D).
 
@@ -110,24 +114,34 @@ counterexample to the naming form, only a second instance of the general one.
   Lawvere is downgraded to a framing, §9.)*
 - **B4′** The identification compared against *published* external refinements. *(R2 — **met**. Pakhomov 2019 supplied a second witness kind and motivated the generalisation; Beklemishev–Shamkanov 2016 isolated a further prerequisite of G2's argument. The original B4, comparing Beklemishev's claim, is **unmeetable**: the work is unpublished, G7 closed.)*
 - **B5** The criterion made a definition and its instances proved. *(R3 — **partly met, at three of five**. The definition exists and is Willard's own. **Three** dials are **proved** to move the margin — `ℜ`, `Herb−k`, `Z`, all of which vary only the deduction method, which `♯` provably ignores. **Level(n)'s instance is retracted** (it varies a sentence, and at the critical `β` Eq. (20) makes both terms move in lockstep). **Hybrid(H)** remains unplaced. D38 is answered for three, sharpened for one, reopened for one. The broader unification is **refuted**: self-verification is a classification, not a single condition, and breaking G2's argument is necessary but not sufficient for it.)*
-- **B6** *(added 2026-09-02, restated after review)* Every mathematical quotation image-verified **and transcribed verbatim**, and every corpus claim status-carrying, per [`VERIFICATION.md`](VERIFICATION.md), with `audit.sh` green. *(**Met** for R1–R3 **as of the second pass**. The first pass asserted this while two quotations tagged "(image-verified)" were not verbatim — corrections #23 and #32. Note what green does **not** mean: `audit.sh` cannot check quotation fidelity. R-B tests only whether a `txt`-tagged register row carries hazard symbols; nothing diffs a quotation against its source. Verbatim transcription is a **human obligation** that the audit supports and does not discharge.)*
+- **B6** *(added 2026-09-02; restated twice)* Every mathematical quotation image-verified **and transcribed verbatim**, and every corpus claim status-carrying, per [`VERIFICATION.md`](VERIFICATION.md), with `audit.sh` green. *(**Met as of the tenth pass, and this criterion has now been declared met and then falsified twice** — first when two quotations tagged "image-verified" proved non-verbatim (corrections #23, #32), then when a sweep found the status-carrying half broken in ten places, including `Willard2001` Thm A.1 and `Willard2011` Lemma 4.6 (#62–#66). Neither half is machine-checkable: R-B tests register hygiene, not fidelity, and R-E is informational because no positional heuristic captures "at the point of use". **Treat any future assertion that B6 is met as a claim requiring a fresh sweep, not as a standing fact.** The first pass asserted this while two quotations tagged "(image-verified)" were not verbatim — corrections #23 and #32. Note what green does **not** mean: `audit.sh` cannot check quotation fidelity. R-B tests only whether a `txt`-tagged register row carries hazard symbols; nothing diffs a quotation against its source. Verbatim transcription is a **human obligation** that the audit supports and does not discharge.)*
 
 **The stage is not complete.** R1's deliverable is complete and has been reviewed
-twice — against external literature, then against its own sources — and repaired.
-B4′ and B6 are met; **B5 is partly met and its open half is answered in the
-negative**: no single condition subsumes the routes, because they remove
-different prerequisites of G2's argument, and removing one does not by itself
-yield a self-verifying theory.
+across **ten passes** — against external literature, then repeatedly against its
+own sources — and repaired at each. B4′ is met. **B5 is partly met at three of
+five**, and its open half is answered in the negative: no single condition
+subsumes the routes, because they remove different prerequisites of G2's
+argument, and removing one does not by itself yield a self-verifying theory.
 
-What remains open is smaller and sharper than before:
+What remains open:
 
-1. **Derive** each dial's transition from the inequality rather than reading it
+1. **The margin's sufficiency has no `full` proof in the corpus.** `Willard2011`
+   Lemma 4.6 — Tightness implies self-justification — is `sketch`, and §5's
+   rigorous engine (Thm 5.9) consumes EA-stability instead. Until that gap is
+   closed, the definition R3 supplies is a definition whose *point* rests on a
+   sketch (`R3-the-margin.md` §§2.2, 6).
+2. **Derive** each dial's transition from the inequality rather than reading it
    off Willard's results. Hybrid(H) is the tractable case *and* the unresolved
    one — its term is not identified (`R3-the-margin.md` §3.1), and the earlier
    `O(L)` criterion that placed it is refuted by arithmetic.
-2. **The empty cell.** No known route attacks the fixed point itself, because
+3. **R5 has not been started, and one gap in it is load-bearing.** Artemov,
+   Visser and Salehi are held; Adamowicz and Kołodziejczyk are not; and
+   **Pudlák is not held at all** (gap **G39**) although the Refinement invokes
+   his theorem fourteen times, entirely through Willard's and Pakhomov's
+   descriptions.
+4. **The empty cell.** No known route attacks the fixed point itself, because
    Lawvere makes it free in any cartesian closed setting.
-3. **Beklemishev–Shamkanov's cell has no theory in it.** Their own §6 names
+5. **Beklemishev–Shamkanov's cell has no theory in it.** Their own §6 names
    this: "we are still missing convincing examples of mathematical theories
    based on weak logics for which G2 would fail." With obligation **RO1** —
    `□`-contraction can hold in affine PA — the target is an arithmetic in which

@@ -265,6 +265,16 @@ checked); every cross-document `§` reference into R1-review, R2 and R3 resolves
 §4's claim that Willard names the dying lemma "three times, in three papers" is
 verbatim-accurate against codified §7.2.
 
+## Corrections applied 2026-09-02, eleventh pass
+
+The charter's own bookkeeping.
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 70 | **B6 was asserted met while rounds seven and eight were falsifying it** — the second time this criterion has been declared satisfied and then broken. B6 now records both falsifications and says plainly that neither half is machine-checkable, so any future "B6 met" is a claim requiring a fresh sweep rather than a standing fact | `ADR-0002` |
+| 71 | The charter's "what remains open" list omitted the two largest open items found this session: that **the margin's sufficiency has no `full` proof** (Lemma 4.6 is `sketch`), and that **R5 is unstarted with Pudlák unheld** (G39) | `ADR-0002` |
+| 72 | "reviewed twice" in the status line, after ten passes | `ADR-0002` |
+
 **Verified and found correct** in this pass: §2.1's statement of **Lawvere's
 Fixed Point Theorem** (the uncurried weakly-point-surjective form, `f : A × A → B`
 forcing a fixed point for every `t : B → B`, with Cantor/Russell/Tarski/Turing/
