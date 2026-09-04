@@ -1,5 +1,39 @@
 # Nachlass Log
 
+## 2026-09-02 - Adversarial round ten: a stripped box inside the document that records box-stripping
+
+Four findings, and the first is almost comic.
+
+**R2 still had a box-stripped quotation - in the document whose correction #3
+records box-stripping.** R2 section 2.3 described Proposition 3.8's decisive step
+as "the step from Gamma |- phi and Gamma |- not-phi to Gamma |- not-top". The
+page image has boxes on all three: Gamma |- box-phi, Gamma |- box-not-phi,
+therefore Gamma |- box-not-top. And the boxes are the entire point - under
+boxtimes-phi := box(phi -> bottom), box-not-top IS boxtimes-top, the formalized
+inconsistency assertion, which is exactly why dropping contraction costs only
+*formalized* G2. refined-sjas section 2.5 had it right; R2 did not. I had edited
+that passage twice this session without checking it against the image.
+
+**A citation to a file that does not exist.** R2 section 3 pointed at
+docs/design/affine-tree-sjas.md as "the C4 pilot's fidelity target". It was an
+untracked working-tree file - the Codification plan's own hygiene flag said so -
+and it is not present. code/alsjas/ exists but is untracked. So the caution R2
+carries for the affine-tree line points at a line of work the repository does not
+hold in any committed form. Said plainly now.
+
+**Nine repository paths a reader could not follow.** The codification registries
+were cited bare from refinement/, where such a path resolves to nothing.
+
+**New check R-F**: every backticked repository path must resolve, from the citing
+file or from the repo root. Red-green tested; nineteen paths currently cited, all
+resolving. It caught the dangling design-doc path immediately, and then caught my
+own correction entries twice for quoting bad paths inside the record of their
+being bad - the same self-trip R-C and R-D each had, handled the same way.
+
+audit.sh green. Six checks now: R-A corpus keys, R-B image-verified register,
+R-C witnesses and elisions, R-D retracted claims, R-E non-full results
+(informational), R-F repository paths.
+
 ## 2026-09-02 - Adversarial round eight: the margin's sufficiency has no full proof
 
 Four findings. The first is the most consequential status omission in the whole

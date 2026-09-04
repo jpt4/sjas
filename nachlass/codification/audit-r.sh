@@ -169,7 +169,31 @@ run_r_e() {
   echo "      ($n distinct non-\`full\` results; statuses must be carried at each point of use)"
 }
 
+#   R-F  every repository path cited in backticks resolves, either relative to
+#        the citing file or to the repo root. A line that says the path is
+#        missing is not a citation of it, so lines carrying a "does not exist"
+#        marker are skipped -- the same line-local exemption R-D uses.
+run_r_f() {
+  local f d path root bad=0 n=0
+  root=$(cd ../.. && pwd)
+  for f in $(r_docs) "$REF/VERIFICATION.md"; do
+    d=$(dirname "$f")
+    while IFS= read -r path; do
+      [ -n "$path" ] || continue
+      case "$path" in */) continue ;; esac
+      [ -e "$d/$path" ] && { n=$((n + 1)); continue; }
+      [ -e "$root/$path" ] && { n=$((n + 1)); continue; }
+      # Skip if every line citing it marks it as absent.
+      if grep -F -- "$path" "$f" | grep -qv 'does not exist\|not present\|untracked\|missing\|dangling'; then
+        err "R-F: '$path' cited in $(basename "$f") resolves neither from that file nor from the repo root"
+        bad=1
+      fi
+    done < <(grep -o '`[A-Za-z0-9_.][A-Za-z0-9_./-]*/[A-Za-z0-9_.-]*`' "$f" 2>/dev/null | tr -d '`' | sort -u)
+  done
+  [ "$bad" = "0" ] && echo "  R-F: $n repository paths cited, all resolving"
+}
+
 run_all_r() {
   echo "-- refinement (VERIFICATION.md) --"
-  run_r_a; run_r_b; run_r_c; run_r_d; run_r_e
+  run_r_a; run_r_b; run_r_c; run_r_d; run_r_e; run_r_f
 }

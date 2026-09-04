@@ -104,7 +104,7 @@ turns on) gives **`ISINF(A)`**: *Infinitely Far-Reaching* — some finite subset
 proves `∃x Pred^N(x) = 1` for every `N` — while, in Willard's own words,
 "Infinitely Far-Reaching **without sustaining an ability to prove successor is a
 total function**" (§6, image-verified 2026-09-02). That is
-structurally `H_{<ω}`'s shape. Had this review consulted `registry/systems.md`
+structurally `H_{<ω}`'s shape. Had this review consulted `../codification/registry/systems.md`
 before reaching for a falsification, the comparison would have been to `ISINF`
 rather than to a misreading.
 

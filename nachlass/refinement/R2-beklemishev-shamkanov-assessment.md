@@ -164,8 +164,14 @@ Beklemishev–Shamkanov's is a statement about *structure*: the argument needs
 
 **A first draft here claimed these were "the same condition described twice".
 That was too strong**, and their own proof shows why. Contraction is consumed at
-one identifiable step of Proposition 3.8 — the step from `Γ ⊢ φ` and `Γ ⊢ ¬φ` to
-`Γ ⊢ ¬⊤`, which reuses the **context**, not a proof. It is a rule of the ambient
+one identifiable step of Proposition 3.8 — the step from **`Γ ⊢ □φ` and
+`Γ ⊢ □¬φ`** to **`Γ ⊢ □¬⊤`**, which reuses the **context**, not a proof.
+(An earlier version of this sentence gave the step unboxed, as
+`Γ ⊢ φ`, `Γ ⊢ ¬φ` ⟹ `Γ ⊢ ¬⊤` — a residual instance of the very `□`-stripping
+this document's correction #3 exists to record. The boxes are the point: under
+`⊠φ := □(φ → ⊥)`, `□¬⊤` *is* `⊠⊤`, the **formalized** inconsistency assertion,
+which is why dropping contraction costs only *formalized* G2.
+`refined-sjas.md` §2.5 had it right.) It is a rule of the ambient
 consequence relation, more elementary than Löb's conditions and lying underneath
 them. Nor is it a restatement of any single condition: **reuse, among the three,
 is condition (3)** — `Der(⌜Φ⌝) ⊃ Der(⌜Der(⌜Φ⌝)⌝)`, the one that reflects a proof
@@ -200,9 +206,18 @@ above, corrected.
 ## 3. The caution this paper carries for this repository
 
 The paper contains a warning that applies directly to work already under way
-here. This repository has an affine-tree SJAS line (`docs/design/affine-tree-sjas.md`,
-the C4 pilot's fidelity target; and the affine-typing phases under
-`code/alsjas/`), and affine logic is contraction-free. The obvious inference —
+here. This repository has an affine-tree SJAS line, and affine logic is
+contraction-free.
+
+*Provenance note, 2026-09-02.* An earlier version cited that line as
+`docs/design/affine-tree-sjas.md`, which **does not exist** — the design
+document was an untracked working-tree file, recorded as such in the
+Codification plan's hygiene flag, and is not present now. It also cited
+`code/alsjas/`, which exists but is **untracked**, so it is not part of any
+committed state this document can point a reader at. The caution
+below therefore applies to a line of work the repository does not currently
+hold in tracked form; it is recorded against **RO1** so that whoever revives
+that line meets it. The obvious inference —
 that going affine buys the failure of G2 — **is not valid**:
 
 > "The property of `□`-contraction actually holds for some meaningful
