@@ -106,7 +106,9 @@ the first attempt to repair it:
 - **The condition named was wrong, but so was the correction.** A first repair
   claimed "no derivability condition is the pivot" and pointed at Pudlák's
   cut-shortening instead. That is also wrong. **Willard frames his own work in
-  HBL terms throughout**: `Willard1993-TR` says three times that "every self
+  HBL terms throughout**: `Willard1993-TR` states the point on **four** pages —
+  printed pp. 1, 2, 6 and 12, checked page by page on 2026-09-04; an earlier
+  version of this line said three — most fully at p. 1, that "every self
   verifying system must breach in some way one of the three fundamental
   Hilbert-Bernays conditions"; `Willard2001` Appendix A **states** (does not prove — the row is
   `stated-only`; "no formal proof given", footnote 16 arguing only that the

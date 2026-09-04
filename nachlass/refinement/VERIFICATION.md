@@ -348,6 +348,16 @@ sweeps miss: a claim inconsistent with its own document.
 | --- | --- | --- |
 | 95 | **A hand-maintained count went stale, in three places.** §9 said "this document invokes his theorem three times"; there are seven mentions, and the count was already wrong when written. The same figure appeared as "14 times across six files" in the gaps registry, the charter and correction #52. All four replaced by a characterisation — a claim about how often a document says something should not be maintained by hand | `refined-sjas.md` §9, `ADR-0002`, the gaps registry, and #52 above |
 
+| 96 | **The charter's own review count and date were stale**: "Reviewed and repaired 2026-09-02 across ten passes", twice, after eighteen rounds spanning two days. Replaced with the dates and a pointer to the numbered corrections, which is the record rather than a restated figure | `ADR-0002` |
+| 97 | **R2 said `Willard1993-TR` "says three times" that every self-verifying system must breach an HBL condition.** Round three checked the TR page by page and found **four** — printed pp. 1, 2, 6, 12 — and `refined-sjas.md` §2.2 says four. Two documents of the same stage disagreed on a fact one of them had verified | `R2` §2.1 |
+
+**Verified and found correct** in this pass: every other hand-maintained count
+in the stage. `refined-sjas.md` §2.2's "four times" (the TR's HBL passages),
+§4's "ten occurrences" (the replication map, now genuinely ten), §6's "three
+times, in three papers" (verbatim against codified §7.2), and R3 §3.0's "none of
+the four mentions `d`" (Defs. 4.1–4.4) all hold. The counts inside this file's
+correction table are historical records of past states and are left as written.
+
 **Verified and found correct** in this pass: the correction record's own
 integrity — 94 numbered entries, 1 through 94, no duplicates and no gaps; and
 R3 §2.2's A-Stability ⟹ Tightness proof re-checked step by step (`q_{β₀} = q_β`

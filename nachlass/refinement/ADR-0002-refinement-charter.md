@@ -1,7 +1,7 @@
 # ADR-0002 — Refinement Charter
 
 **Status.** R1 done and reviewed; R2 done; R3 partly done; **R6 complete and completion-reviewed 2026-09-04**; R4–R5 pending.
-**Reviewed and repaired 2026-09-02 across ten passes** — an external review (22
+**Reviewed and repaired on 2026-09-02 and 2026-09-04** — an external review (22
 corrections), an independent adversarial review
 ([`REVIEW-2026-09-02.md`](REVIEW-2026-09-02.md), ten more including two defects
 in the audit checks), then eight further adversarial rounds which found, among
@@ -117,8 +117,10 @@ counterexample to the naming form, only a second instance of the general one.
 - **B6** *(added 2026-09-02; restated twice)* Every mathematical quotation image-verified **and transcribed verbatim**, and every corpus claim status-carrying, per [`VERIFICATION.md`](VERIFICATION.md), with `../codification/audit.sh` green. *(**Met as of the tenth pass, and this criterion has now been declared met and then falsified twice** — first when two quotations tagged "image-verified" proved non-verbatim (corrections #23, #32), then when a sweep found the status-carrying half broken in ten places, including `Willard2001` Thm A.1 and `Willard2011` Lemma 4.6 (#62–#66). Neither half is machine-checkable: R-B tests register hygiene, not fidelity, and R-E is informational because no positional heuristic captures "at the point of use". **Treat any future assertion that B6 is met as a claim requiring a fresh sweep, not as a standing fact.** The first pass asserted this while two quotations tagged "(image-verified)" were not verbatim — corrections #23 and #32. Note what green does **not** mean: `../codification/audit.sh` cannot check quotation fidelity. R-B tests only whether a `txt`-tagged register row carries hazard symbols; nothing diffs a quotation against its source. Verbatim transcription is a **human obligation** that the audit supports and does not discharge.)*
 
 **The stage is not complete.** R1's deliverable is complete and has been reviewed
-across **ten passes** — against external literature, then repeatedly against its
-own sources — and repaired at each. B4′ is met. **B5 is partly met at three of
+repeatedly — against external literature, then against its own sources — and
+repaired at each pass; the corrections are numbered #1–#95 in
+[`VERIFICATION.md`](VERIFICATION.md), which is the record to consult rather than
+a count restated here. B4′ is met. **B5 is partly met at three of
 five**, and its open half is answered in the negative: no single condition
 subsumes the routes, because they remove different prerequisites of G2's
 argument, and removing one does not by itself yield a self-verifying theory.
