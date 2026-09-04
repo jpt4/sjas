@@ -232,15 +232,36 @@ Contradiction. Hence `Log(q_{β₀}) ≥ ♯(β₀)+2`, both sides being integer
 
 *Step 3 — transfer.* `Log(q_β) = Log(q_{β₀}) ≥ ♯(β₀)+2 ≥ ♯(β)+2`. ∎
 
-**Two caveats, and they matter.** The argument needs `♯(β₀)` to be a genuine
-integer; a `β` false at a very small witness can drive `♯` below 0, where
-`Good{½♯}` is degenerate, and the corpus does not fix a convention for that.
-And the conclusion is **not new**: Remark 5.2 announces "Theorem 5.11 will show
-the presence of A-stability, alone, is sufficient for constructing
-self-justifying systems", and Theorem 6.3 uses it. What this argument supplies
-is a *shorter route* to that conclusion, through Tightness and Lemma 4.6 rather
-than through 0-stability and Appendix C. Presenting it as a new result would be
-wrong; presenting it as a simplification is the Refinement's actual remit.
+**Three caveats, and the third is the serious one.**
+
+*First*, the argument needs `♯(β₀)` to be a genuine integer; a `β` false at a
+very small witness can drive `♯` below 0, where `Good{½♯}` is degenerate, and the
+corpus does not fix a convention for that.
+
+*Second*, the conclusion is **not new**: Remark 5.2 announces "Theorem 5.11 will
+show the presence of A-stability, alone, is sufficient for constructing
+self-justifying systems", and Theorem 6.3 uses it.
+
+*Third — and this is what an earlier version of this paragraph missed —* **the
+shorter route is also the less rigorous one.** Compare the two:
+
+| Route | Chain | Statuses |
+| --- | --- | --- |
+| **Willard's** | A-Stable → (Lemma C.1) → 0-Stable → (Thm 5.11) → self-justifying | `full`, `full` |
+| **This document's** | A-Stable → (§2.2 above) → Tight → (**Lemma 4.6**) → self-justifying | this argument, then **`sketch`** |
+
+`Willard2011` **Lemma 4.6 is `sketch`**: its proof is, in his words, "kept brief
+and informal … because the same topic will be visited more rigorously during
+Section 5's discourse". Section 5's rigorous treatment is Theorem 5.9, and it
+consumes **EA-stability, not Tightness** — so the margin's sufficiency has no
+`full` proof in the corpus at all. Willard's longer route is `full` end to end;
+this one terminates in the sketch.
+
+So calling §2.2 a *simplification* needs the qualification that it trades rigour
+for brevity. That is still worth having — a short route through a named
+inequality is easier to check and easier to generalise than one through
+0-stability and Appendix C — but it is not a strictly better proof, and an
+earlier version implied it was.
 
 ---
 
@@ -427,8 +448,10 @@ reopened for Level(n).
 
 ## 4. What is and is not established
 
-**Taken from cited results:** each dial's safe and fatal settings — with the
-statuses of §4's second paragraph, not as established fact. The two "controls"
+**Taken from cited results:** each dial's safe and fatal settings — carrying the
+statuses of **this section's "Inherited weakness" table below**, not as
+established fact. (An earlier version said "§4's second paragraph", which is
+"Argued, not proved" and holds no statuses.) The two "controls"
 an earlier draft offered here (`Xtab` inconsistent; multiplicative naming fatal)
 have been **withdrawn as evidence**: they are compatible with several
 explanations, including two this document gives elsewhere, and
@@ -578,8 +601,16 @@ than extracted text. Everything below is checked against the printed page.*
 **The definition holds.** `M(ξ) = inf_β {Log(q_β) − ♯(β)}` with the threshold
 `M(ξ) ≥ 2` is exactly Willard's Definition 4.5, and Lemma 4.6 is exactly the
 theorem that `M(ξ) ≥ 2` suffices for a consistent self-justifying system. The
-margin is a legitimate object and the corpus already proves the thing R3 wanted
-proved about it.
+margin is a legitimate object, and the corpus does state the thing R3 wanted
+stated about it.
+
+**But it does not *prove* it.** Lemma 4.6 is **`sketch`** — "kept brief and
+informal", deferred to §5, where the rigorous engine (Thm 5.9, `full`) consumes
+**EA-stability instead of Tightness**. So *the margin's sufficiency has no `full`
+proof anywhere in the corpus.* An earlier version of this paragraph said "the
+corpus already proves" it; that overstates by one status level, and it is the
+single most consequential status this document has to carry, since it is what
+makes the margin worth defining at all.
 
 **Three of the five dials hold, and now with a proof rather than an argument.**
 `♯` is defined by Defs. 4.1–4.4 without reference to the deduction method, so

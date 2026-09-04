@@ -273,7 +273,10 @@ gives up multiplication alone. Which totality is surrendered is one of the desig
 parameters, not a fixed feature of the programme.
 
 One qualification on "cut-free". The tableaux line — `IS(A)`, `IS_D(A)` and
-their kin, as the Codification tabulates them at codified §3.2 — includes
+their kin, which codified **§3.1** tabulates as the Type-A row, "successor,
+addition … the whole tableaux line" (an earlier version of this sentence pointed
+at §3.2, which is *The grounding functions* and tabulates nothing of the sort;
+the wrong anchor was introduced while repairing a dangling one) — includes
 `IS_D(A)`, whose `D` ranges over **`Tab-U*₁-List`** — restricted modus ponens on
 `Π*₁`/`Σ*₁` — and that is the case `Willard2005` Theorem 5 actually proves.
 So the line is not uniformly cut-free; what varies across it is *the class on
@@ -769,6 +772,14 @@ whose §6 carries the verdict.** The **margin**
 `M(ξ) = inf{ Log(q_β) − ♯(β) }` **is** `Willard2011` Definition 4.5, restated as
 an infimum — an earlier version of this paragraph said it *generalises* Def. 4.5,
 which is withdrawn: `∀β. A(β) ≥ 2` and `inf_β A(β) ≥ 2` are the same statement.
+
+**And one status governs the whole construction.** `Willard2011` **Lemma 4.6** —
+Tightness implies `B^ξ + SelfRef` is a consistent self-justifying system, which
+is what makes the margin worth defining — is **`sketch`**, its proof "kept brief
+and informal" and deferred to §5, where the rigorous engine (Thm 5.9, `full`)
+consumes **EA-stability instead of Tightness**. The margin's sufficiency has no
+`full` proof anywhere in the corpus. R3 §§2.2 and 6 carry this; it was missing
+from every earlier draft of both documents.
 
 **Three of the five dials — `ℜ`, `Herb−k`, `Z` — are now proved** to lower the
 refutation cost, because each varies only the deduction method and `♯` provably

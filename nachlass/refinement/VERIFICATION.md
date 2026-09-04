@@ -250,6 +250,21 @@ result the Refinement cites, with its status and citation count, so the
 obligation is visible. It does fail on one thing it can decide: a citation that
 resolves to no row in `results.md`.
 
+## Corrections applied 2026-09-02, tenth pass
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 66 | **The status that governs the whole of R3 was never carried, in six places.** `Willard2011` Lemma 4.6 — Tightness implies `B^ξ + SelfRef` is a consistent self-justifying system — is **`sketch`**, "kept brief and informal", deferred to §5. But §5's rigorous engine (Thm 5.9, `full`) consumes **EA-stability, not Tightness**, so **the margin's sufficiency has no `full` proof in the corpus**. R3 §6 had said "the corpus already proves the thing R3 wanted proved about it" | `R3-the-margin.md` §§2.2, 6; `refined-sjas.md` §9 |
+| 67 | **R3's "shorter route" is also the less rigorous one, and §2.2 implied otherwise.** Willard's chain — A-Stable → (Lemma C.1, `full`) → 0-Stable → (Thm 5.11, `full`) → self-justifying — is `full` end to end. R3's runs A-Stable → (its own argument) → Tight → (**Lemma 4.6, `sketch`**) → self-justifying. Calling it a simplification needs the qualification that it trades rigour for brevity | `R3-the-margin.md` §2.2 |
+| 68 | R3 §4 pointed at "§4's second paragraph" for the dial statuses; that paragraph is "Argued, not proved" and holds none. The statuses are in the section's "Inherited weakness" table | `R3-the-margin.md` §4 |
+| 69 | **An anchor introduced while repairing another.** Round three replaced §2.3c's dangling "as tabulated above" with "codified §3.2" — which is *The grounding functions* and tabulates no systems. The Type-A row is codified **§3.1** | `refined-sjas.md` §2.3c |
+
+**Verified and found correct** in this pass: every `codified §N` anchor cited
+anywhere in the Refinement resolves to a section with the expected content (ten
+checked); every cross-document `§` reference into R1-review, R2 and R3 resolves;
+§4's claim that Willard names the dying lemma "three times, in three papers" is
+verbatim-accurate against codified §7.2.
+
 **Verified and found correct** in this pass: §2.1's statement of **Lawvere's
 Fixed Point Theorem** (the uncurried weakly-point-surjective form, `f : A × A → B`
 forcing a fixed point for every `t : B → B`, with Cantor/Russell/Tarski/Turing/

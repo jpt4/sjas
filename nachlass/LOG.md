@@ -1,5 +1,51 @@
 # Nachlass Log
 
+## 2026-09-02 - Adversarial round eight: the margin's sufficiency has no full proof
+
+Four findings. The first is the most consequential status omission in the whole
+Refinement, and it governs R3's central claim.
+
+**Willard2011 Lemma 4.6 is sketch, and R3 never carried it - in six places.**
+Lemma 4.6 is what says Tightness implies B^xi + SelfRef is a consistent
+self-justifying system. It is the reason the margin is worth defining at all.
+Its proof is, in Willard's words, "kept brief and informal ... because the same
+topic will be visited more rigorously during Section 5's discourse" - and
+Section 5's rigorous engine, Theorem 5.9 (full), consumes **EA-stability, not
+Tightness**.
+
+So the margin's sufficiency has **no full proof anywhere in the corpus**. R3
+section 6 had claimed "the corpus already proves the thing R3 wanted proved about
+it". It states it; it does not prove it.
+
+**And R3's "shorter route" is the less rigorous one.** Compare:
+
+  Willard:  A-Stable -> (Lemma C.1, full) -> 0-Stable -> (Thm 5.11, full)
+            -> self-justifying
+  R3:       A-Stable -> (section 2.2's argument) -> Tight -> (Lemma 4.6, SKETCH)
+            -> self-justifying
+
+Willard's chain is full end to end; R3's terminates in the sketch. Section 2.2
+had called its route a simplification without that qualification. It is still
+worth having - a short route through a named inequality is easier to check and
+to generalise - but it is not a strictly better proof, and the earlier wording
+implied it was.
+
+**Two anchor defects, one of them self-inflicted.** R3 section 4 pointed at
+"section 4's second paragraph" for the dial statuses; that paragraph is "Argued,
+not proved" and holds none. And round three, repairing section 2.3c's dangling
+"as tabulated above", replaced it with "codified section 3.2" - which is *The
+grounding functions* and tabulates no systems at all. The Type-A row, "the whole
+tableaux line", is codified section 3.1. A fix that introduced a fresh defect of
+the same class it was fixing.
+
+Verified sound this round: every codified anchor the Refinement cites resolves
+to a section with the expected content (ten checked); every cross-document
+section reference into R1-review, R2 and R3 resolves; and section 4's claim that
+Willard names the dying lemma "three times, in three papers" is verbatim-accurate
+against codified section 7.2.
+
+audit.sh green.
+
 ## 2026-09-02 - Adversarial round seven: rule 2 was being broken systematically
 
 **Every claim about a Willard result carries that result's Proof status, at the
