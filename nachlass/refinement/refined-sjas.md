@@ -234,12 +234,16 @@ Hilbert line does. The tableaux line proves successor *and* addition total and
 gives up multiplication alone. Which totality is surrendered is one of the design
 parameters, not a fixed feature of the programme.
 
-One qualification on "cut-free". The tableaux line as tabulated above includes
+One qualification on "cut-free". The tableaux line — `IS(A)`, `IS_D(A)` and
+their kin, as the Codification tabulates them at codified §3.2 — includes
 `IS_D(A)`, whose `D` ranges over **`Tab-U*₁-List`** — restricted modus ponens on
 `Π*₁`/`Σ*₁` — and that is the case `Willard2005` Theorem 5 actually proves.
 So the line is not uniformly cut-free; what varies across it is *the class on
 which composition is available*, which is the `ℜ` dial. Calling the whole line
-"cut-free" erases the distinction §8 is simultaneously trying to draw.
+"cut-free" erases the distinction **§5.1** is simultaneously trying to draw.
+(An earlier version pointed at §8, which is the computational analogue and draws
+no such distinction — the second instance of a mis-numbered cross-reference in
+this section; see §2.3b.)
 
 ### 2.4 What each condition licenses, and what contraction licenses
 
@@ -334,7 +338,7 @@ removes differs in kind from route to route:
 | Ingredient | Status |
 | --- | --- |
 | the **fixed point** | never removed — Lawvere gives it away, and every system here keeps it |
-| a **derivability condition** | **Willard** removes one: (2) on the tableaux line, on his own statement (§2.3); (2) or (3) on the Hilbert line, by analogy (§2.3a). **Pakhomov** does not remove one — his `H_{<ω}` blocks the argument semantically instead, by exhibiting finite models (§1) |
+| a **derivability condition** | **Willard** removes one: (2) on the tableaux line, on his own statement (§2.3); (2) or (3) on the Hilbert line, by analogy (§2.3a). **Pakhomov** is silent on which, if any, `H_{<ω}` satisfies — he notes only that "HBL conditions do not necessary hold in the case of some weaker arithmetical c.e. theories" (p. 3). What he *does* block is the step **after** them: Pudlák's argument works by carrying a failure of G2 in `T` into "a different theory `T′` (interpretable in `T`), where HBL are satisfied", and that interpretation needs successor totality, which `H_{<ω}` denies — the same door Willard uses. The finite models are his positive witness (§1) |
 | the **structural licence** to merge two boxed derivations off one context | **Beklemishev–Shamkanov** remove it — but the resulting system is **not self-verifying**; only *formalized* G2 fails (§2.5a) |
 
 So the honest count is: **two demonstrated routes to a self-verifying theory**
@@ -457,36 +461,45 @@ behaviour at three points, not an independent criterion.
 
 The codification records five parameterisations of the boundary that no paper
 relates to any other (drift **D38**; codified §8.1): `ℜ`, Level(n), Hybrid(H),
-`Herb−k`, and `Z`. R3 shows all five move the margin, and **four of them move
-the same term** — they lower `Log(q_β)`, letting a short derivation reach a
-refutation:
+`Herb−k`, and `Z`. **Three** of them are now *proved* to move the margin, one is
+undetermined, and one has been retracted.
 
-- **`ℜ`** (`Willard2004`) and **`Herb−k`** (`Willard2009`) widen the class of
-  intermediate theorems a proof may use, and that is cut — proof compression
-  (`Willard2002a` Theorem 2.2: cut elimination preserves theoremhood while the
-  proof "can certainly be super-exponentially longer").
-- **`Z`** (`Willard2020`) admits more excluded middle as logical axioms, and
-  LEM-as-axioms is a cut (codified §4.5).
-- **Level(n)** (`Willard2004`) strengthens the Group-3 axiom, hence the base,
-  hence makes `0=1` cheaper to derive from an inconsistent extension.
+**The split that works is apparatus versus sentences**, and it rests on a
+one-line lemma ([`R3-the-margin.md`](R3-the-margin.md) §3.0): `Willard2011`
+Defs. 4.1–4.4 define `♯` entirely by truth in the standard model — `E(n)`
+denotes the fixed value `2^n`, `Scope_E` is a syntactic operation, `Good(N)` is
+a semantic condition — and **none of them mentions the deduction method**. So a
+dial that varies only `d` cannot move `♯(β)`, and whatever it does to
+`Log(q_β)` it does to the margin.
 
-Two cautions an earlier version of this subsection lacked, both from R3:
+- **`ℜ`** (`Willard2004`) and **`Herb−k`** (`Willard2009` Def. 7) widen the class
+  of intermediate theorems a proof may use — a property of the apparatus. That is
+  cut, hence proof compression (`Willard2002a` Theorem 2.2: cut elimination
+  preserves theoremhood while the proof "can certainly be super-exponentially
+  longer"). **Proved.**
+- **`Z`** (`Willard2020`) fixes which `Υ ∨ ¬Υ` instances are *logical axioms* —
+  again the apparatus — and LEM-as-axioms is a cut (codified §4.5). **Proved.**
+- **Hybrid(H)** varies the language and base, so both terms are in play and the
+  lemma does not apply. Which term it moves is **undetermined** (R3 §3.1). An
+  earlier draft put it alone on the envelope side; `♯` is model-theoretic and the
+  naming axioms are true, hence `Good(∞)`, so they cannot lower `♯(β)` — which is
+  Willard's own argument for Eq. (20), not this Refinement's.
+- **Level(n)** varies the self-referential axiom `Ψ` — a *sentence*. Its instance
+  is **retracted** (R3 §3.3): Group-3 is not part of `B^ξ` but added to it, and
+  at the critical `β = B^ξ + Ψ` Willard's Eq. (20) makes `Log(q)` and `♯(β)` move
+  in **exact lockstep**, `Log(q) = ♯(β) + 1`, so the margin there is identically
+  1 whatever the level.
 
-1. **`ℜ` and `Z` are grouped by mechanism, not identified.** Codified §8.1
-   expressly forbids the merge: `ℜ` parameterises intermediate theorems, `Z`
-   parameterises logical axioms, and whether a result transfers between them is
-   the corpus's own open problem (drift **D34**, obligation **O46**, gap
-   **G22**). Their safe settings are not even at the same level — `Π*₁ ∪ Σ*₁`
-   versus `Δ*₀`.
-2. **Hybrid(H)'s term is undetermined.** An earlier draft put it alone on the
-   envelope side, raising `♯(β)`. But `♯` is model-theoretic and the naming
-   axioms are true, hence `Good(∞)`; they cannot lower `♯(β)` directly. The
-   naming dial moves the margin — which term, this Refinement does not settle
-   (`R3-the-margin.md` §3.1).
+One caution that survives unchanged: **`ℜ` and `Z` are grouped by mechanism, not
+identified.** Codified §8.1 expressly forbids the merge — `ℜ` parameterises
+intermediate theorems, `Z` parameterises logical axioms, and whether a result
+transfers between them is the corpus's own open problem (drift **D34**,
+obligation **O46**, gap **G22**). Their safe settings are not even at the same
+level: `Π*₁ ∪ Σ*₁` versus `Δ*₀`.
 
-So the honest claim is **one inequality, five dials writing on it, four of them
-demonstrably on the same term** — not "five dials are one dial", which was the
-earlier heading and overstated the result in both directions.
+So the honest claim is **one inequality, three dials provably writing on its cost
+term, one unplaced and one retracted** — not "five dials are one dial", which an
+earlier heading asserted, and not the "four of five" a later draft settled on.
 
 ---
 
@@ -637,22 +650,42 @@ which is correct and clarifying. It does not give a categorical proof of any
 Willard result, and the claim that resource-bounded internal homs model the
 SJAS situation is a research direction, not a construction.
 
-**The criterion of §5 now has a definition — see [`R3-the-margin.md`](R3-the-margin.md).**
-The **margin** `M(ξ) = inf{ Log(q_β) − ♯(β) }` generalises `Willard2011`
-Definition 4.5. **Four** of the five dials — `ℜ`, `Herb−k`, `Z` and Level(n) —
-are shown to lower the refutation cost `Log(q_β)`. The **fifth is unresolved**:
-Hybrid(H) moves the margin, but an earlier claim that it raises the envelope
-`♯(β)`, and the accompanying explanation of "why Hybrid always looked unlike the
-other four", are **withdrawn** — `♯` is model-theoretic and the naming axioms are
-true, so they cannot lower it directly (`R3-the-margin.md` §3.1). D38's request
-is answered for four dials and sharpened for the fifth.
+**The criterion of §5 now has a definition — see [`R3-the-margin.md`](R3-the-margin.md),
+whose §6 carries the verdict.** The **margin**
+`M(ξ) = inf{ Log(q_β) − ♯(β) }` **is** `Willard2011` Definition 4.5, restated as
+an infimum — an earlier version of this paragraph said it *generalises* Def. 4.5,
+which is withdrawn: `∀β. A(β) ≥ 2` and `inf_β A(β) ≥ 2` are the same statement.
 
-The instances are **argued from Willard's results, not derived from the
-inequality**. And the wider unification is **refuted**, though not for the reason
-first given: the margin is quantitative on a fixed logic with fixed semantics,
-so it does not reach Beklemishev–Shamkanov, who vary the structural rules — and
-whose system, by their own §6, is **not self-verifying** at all. Pakhomov is a
-second *witness kind* within the same evasion of Pudlák, not a system outside the
+**Three of the five dials — `ℜ`, `Herb−k`, `Z` — are now proved** to lower the
+refutation cost, because each varies only the deduction method and `♯` provably
+ignores it (§5.1). **Hybrid(H) is unplaced.** **Level(n)'s instance is
+retracted**: it varies a sentence, and at the critical `β` both terms move in
+lockstep. D38's request is answered for three, sharpened for one, and reopened
+for one — an earlier version of this paragraph claimed four, counting the
+retracted case.
+
+**What R3 found that this document had not.** The threshold `2` is not a tuning
+constant. When the self-referential axiom is false, `Willard2011` Eqs. (19)–(20)
+give `Log(q) = ♯(B^ξ + Ψ) + 1` **exactly** — the fixed point sits at margin
+precisely one — so Tightness's `+2` is the demand that every inconsistent `β`
+have strictly more margin than the fixed point achieves, and Lemma 4.6 is that
+one-line contradiction. This is the sharpest statement of the idea in the
+corpus, and §5 above still presents the threshold as given.
+
+**And one claim about novelty is withdrawn.** R3's route from A-stability to
+Tightness is sound and completes, but Willard already has the conclusion:
+Remark 5.2 announces that "Theorem 5.11 will show the presence of A-stability,
+alone, is sufficient for constructing self-justifying systems". The route is a
+simplification, not a new result.
+
+The instances that stand are **argued from Willard's results for two of the
+three, and proved for all three only in the weaker sense that the term they move
+is identified** — none is derived from the inequality by computing where it
+flips. And the wider unification is **refuted**, though not for the reason first
+given: the margin is quantitative on a fixed logic with fixed semantics, so it
+does not reach Beklemishev–Shamkanov, who vary the structural rules — and whose
+system, by their own §6, is **not self-verifying** at all. Pakhomov is a second
+*witness kind* within the same evasion of Pudlák, not a system outside the
 margin's reach. Self-verification is a classification of G2's failure modes, and
 breaking the argument is necessary but not sufficient for it.
 
@@ -663,5 +696,23 @@ Hybrid(H) and `Herb−k` are `stated-only` on both halves, and `Z` is
 `stated-only` with its `Π*₁` case **open**. `Willard2016` Theorem 6.7 is
 conditional on Conjecture 6.6, and `Willard2009` Lemma 5 — §4's mechanism — is
 `sketch`. An earlier draft said "two of the five rest on sketch results",
-counting one dial's two halves as two dials and omitting `Z` entirely. §5.1 is
-as strong as these statuses allow and no stronger.
+counting one dial's two halves as two dials and omitting `Z` entirely.
+
+**And note the awkward join.** The one dial that is `full` on both settings is
+Level(n) — the very one whose margin instance §5.1 has just retracted. The three
+dials the margin *can* place are the three whose Willard-side results are
+weakest: `ℜ` at `sketch`/`sketch`, `Herb−k` and `Z` at `stated-only`. §5.1 is as
+strong as these statuses allow and no stronger, and that is not very strong.
+
+**Unverified quotations remain in this document.** Under the standing rule that
+extracted text is not a source, every quotation must be image-verified and
+registered in [`VERIFICATION.md`](VERIFICATION.md). Several here are not yet:
+the `Willard2001` footnote in §2.1, the two `Willard2001` phrases and the
+Feferman contrast in §2.2, the `Willard2020` Thm 4.5 hypothesis in §2.3b, the
+`Willard2002a` Thm 2.2 phrase in §5.1, the `Willard2006a` pp. 7–8 phrases in §5,
+and the `Willard2011` Rem. 6.16b and `Willard2016` §§8–9 quotations in §7. Each
+is backed by an image-verified row in `../codification/registry/results.md`, so
+none is *suspected* wrong; none has been checked against the page in this stage.
+Check R-B validates the register's rows and cannot detect a quotation that has no
+row, so register completeness is a human obligation, like verbatim transcription
+before it (ADR-0002 **B6**).

@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Lawvere–Yanofsky Translation of Willard's SJAS</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
+  type="text/javascript"></script>
+
+<style>
+  body { max-width: 46rem; margin: 2rem auto; padding: 0 1.25rem 4rem;
+    font-family: Palatino, Georgia, serif; font-size: 1.05rem; line-height: 1.55;
+    color: #1a1a1a; background: #faf9f7; }
+  h1,h2,h3 { font-family: "Avenir Next", Helvetica, sans-serif; }
+  h2 { border-bottom: 1px solid #ddd; padding-bottom: 0.25rem; margin-top: 2.2rem; }
+  blockquote { border-left: 3px solid #6b5b4a; background: #f3f0ea; padding: 0.6rem 1rem; }
+  code { background: #efebe4; padding: 0.1em 0.35em; border-radius: 3px; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+  th, td { border: 1px solid #ccc; padding: 0.4rem 0.55rem; vertical-align: top; }
+  th { background: #ebe6dc; }
+  span.math.display { display: block; margin: 1.1rem 0; overflow-x: auto; text-align: center; }
+</style>
+
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Lawvere–Yanofsky Translation of Willard's SJAS</h1>
+</header>
+<h1 id="lawvereyanofsky-translation-of-willards-sjas">Lawvere–Yanofsky
+Translation of Willard’s SJAS</h1>
+<p><em>R6 of the Refinement stage. Charter: <a
+href="ADR-0004-lawvere-sjas-translation.md"><code>ADR-0004-lawvere-sjas-translation.md</code></a>.</em></p>
+<blockquote>
+<p><strong>Methodological order (binding).</strong> First prove G2 using
+Lawvere / Yanofsky techniques, with every hypothesis named. Only then
+determine where Willard’s constructions invalidate particular hypotheses
+of that limitative theorem.</p>
+</blockquote>
+<blockquote>
+<p><strong>Provenance.</strong> Claims about Willard’s corpus cite
+image-verified register rows in <a
+href="VERIFICATION.md"><code>VERIFICATION.md</code></a> or extraction
+records. Departures from Willard’s vocabulary are declared. This
+document does <strong>not</strong> re-prove Willard’s consistency
+theorems for <code>IS(A)</code>; it translates their logical structure
+into Lawvere / Yanofsky form and proves the translation theorems.</p>
+</blockquote>
+<hr />
+<h2 id="the-complete-result-what-is-proved">0. The complete result (what
+is proved)</h2>
+<p><strong>Main Theorem (Self-justification in the Lawvere–Yanofsky
+scheme).</strong> Let <span class="math inline">\(\alpha\)</span> be a
+theory with the data of hypotheses H0 and H2 below (Lindenbaum objects,
+arithmetized provability). Then:</p>
+<ol type="1">
+<li><strong>(G2 in-scheme.)</strong> If H0–H7 all hold, then <span
+class="math inline">\(\alpha\vdash\mathrm{Con}\)</span> implies <span
+class="math inline">\(\alpha\vdash\bot\)</span>. Under external
+consistency H8, therefore <span
+class="math inline">\(\alpha\nvdash\mathrm{Con}\)</span>. <em>(Theorem
+3.2.)</em></li>
+<li><strong>(Necessary conditions.)</strong> If H0–H2, H6, H8 hold and
+<span class="math inline">\(\alpha\vdash\mathrm{Con}\)</span>, then at
+least one of H3–H5, H7 fails. <em>(Theorem 6.2 — obligatory
+breach.)</em></li>
+<li><strong>(Mechanism.)</strong> For Willard’s Type-A system
+<code>IS(A)</code>, H1 holds (Group-3 is a Lawvere fixed point) while
+the <strong>uniform</strong> H4 arrow <span
+class="math inline">\(\mathrm{mp}_\square\)</span> fails to lie in the
+affordable class <span
+class="math inline">\(\mathrm{Aff}(\mathrm{IS}(A))\)</span> — Willard’s
+own uniformity failure, stated as a categorical missing arrow.
+<em>(Theorems 5.5–5.6.)</em></li>
+<li><strong>(Definition.)</strong> <span
+class="math inline">\(\alpha\)</span> is <em>self-justifying</em> in
+this scheme iff H1, H8, and <span
+class="math inline">\(\vdash\mathrm{Con}\)</span> hold and at least one
+of H3–H7 fails. <em>(Definition 6.1; necessity proved, sufficiency of
+the breach alone disproved by Beklemishev–Shamkanov.)</em></li>
+</ol>
+<p>That is the complete result. The sections prove it in order.</p>
+<hr />
+<h2 id="lawvere-yanofsky-the-scheme">1. Lawvere / Yanofsky (the
+scheme)</h2>
+<p>We work in Yanofsky’s product form (Yanofsky 2022 Thms 6.4–6.5;
+cf. Lawvere 1969, Yanofsky 2003): terminal object and binary products
+suffice.</p>
+<p><strong>Definition 1.1 (Fixed point).</strong> <span
+class="math inline">\(p:1\to Y\)</span> is a fixed point of <span
+class="math inline">\(\alpha:Y\to Y\)</span> when <span
+class="math inline">\(\alpha\circ p=p\)</span>.</p>
+<p><strong>Definition 1.2 (Representability).</strong> <span
+class="math inline">\(g:A\to Y\)</span> is <em>representable in</em>
+<span class="math inline">\(f:A\times A\to Y\)</span> when <span
+class="math inline">\(\exists\,p:1\to A\)</span> with <span
+class="math inline">\(g=f\circ(p\times\mathrm{id}_A)\circ i\)</span> for
+<span class="math inline">\(i:A\simeq 1\times A\)</span>.</p>
+<p><strong>Theorem 1.3 (Diagonal form; Yanofsky 2022 Thm 6.4).</strong>
+If <span class="math inline">\(\alpha:Y\to Y\)</span> has no fixed
+point, then for every <span class="math inline">\(A\)</span> and every
+<span class="math inline">\(f:A\times A\to Y\)</span> there is <span
+class="math inline">\(g:A\to Y\)</span> not representable in <span
+class="math inline">\(f\)</span>.</p>
+<p><em>Proof.</em> Let <span class="math inline">\(\Delta:A\to A\times
+A\)</span> and <span class="math inline">\(g:=\alpha\circ
+f\circ\Delta\)</span>. If <span class="math inline">\(p\)</span>
+represents <span class="math inline">\(g\)</span>, then <span
+class="math inline">\(f\circ\Delta\circ p\)</span> satisfies <span
+class="math inline">\(\alpha\circ(f\circ\Delta\circ p)=f\circ\Delta\circ
+p\)</span>, a fixed point. Contradiction. ∎</p>
+<p><strong>Theorem 1.4 (Fixed-point form; Yanofsky 2022 Thm
+6.5).</strong> If some <span class="math inline">\(f:A\times A\to
+Y\)</span> represents every <span class="math inline">\(g:A\to
+Y\)</span>, then every <span class="math inline">\(\alpha:Y\to
+Y\)</span> has a fixed point.</p>
+<p><em>Proof.</em> For arbitrary <span
+class="math inline">\(\alpha\)</span>, the map <span
+class="math inline">\(g:=\alpha\circ f\circ\Delta\)</span> is
+representable by some <span class="math inline">\(p\)</span>; then <span
+class="math inline">\(f\circ\Delta\circ p\)</span> fixes <span
+class="math inline">\(\alpha\)</span>. ∎</p>
+<p><strong>Definition 1.5 (Lawvere situation).</strong> <span
+class="math inline">\((A,Y,f)\)</span> where <span
+class="math inline">\(f\)</span> represents every <span
+class="math inline">\(A\to Y\)</span>.</p>
+<hr />
+<h2 id="the-lawvere-half-diagonal-lemma">2. The Lawvere half: diagonal
+lemma</h2>
+<p><strong>Setup 2.1.</strong> Let <span
+class="math inline">\(\mathrm{Lind}^i\)</span> be the Lindenbaum algebra
+of formulas with <span class="math inline">\(i\)</span> free variables,
+modulo provable equivalence in the ambient theory. Define <span
+class="math display">\[
+f:\mathrm{Lind}^1\times\mathrm{Lind}^1\to\mathrm{Lind}^0,
+\qquad
+f\bigl(\mathcal{B}(x),\,\mathcal{H}(y)\bigr)
+\;=\;
+\mathcal{H}\bigl(\ulcorner\mathcal{B}(x)\urcorner\bigr).
+\]</span> Assume a diagonalisation function <span
+class="math inline">\(D\)</span> on Gödel numbers with <span
+class="math inline">\(D(\ulcorner\mathcal{B}(x)\urcorner)=\ulcorner\mathcal{B}(\ulcorner\mathcal{B}(x)\urcorner)\urcorner\)</span>,
+available as in the usual arithmetization (Yanofsky 2003;
+Mendelson).</p>
+<p><strong>Theorem 2.2 (Diagonal lemma as Lawvere fixed point).</strong>
+For any unary formula <span
+class="math inline">\(\mathcal{E}(x)\)</span>, define <span
+class="math inline">\(\Phi_{\mathcal{E}}:\mathrm{Lind}^0\to\mathrm{Lind}^0\)</span>
+by <span
+class="math inline">\(\Phi_{\mathcal{E}}(\mathcal{P})=\mathcal{E}(\ulcorner\mathcal{P}\urcorner)\)</span>.
+Then <span class="math inline">\(\Phi_{\mathcal{E}}\)</span> has a fixed
+point <span class="math inline">\(\mathcal{C}\)</span> with <span
+class="math inline">\(\vdash\mathcal{C}\leftrightarrow\mathcal{E}(\ulcorner\mathcal{C}\urcorner)\)</span>.</p>
+<p><em>Proof (fully expanded).</em> Let <span
+class="math inline">\(A=\mathrm{Lind}^1\)</span>, <span
+class="math inline">\(Y=\mathrm{Lind}^0\)</span>, and <span
+class="math inline">\(f\)</span> as above. Define <span
+class="math inline">\(g:A\to Y\)</span> by <span class="math display">\[
+g \;=\; \Phi_{\mathcal{E}}\circ f\circ\Delta,
+\]</span> so <span
+class="math inline">\(g(\mathcal{B}(x))=\mathcal{E}\bigl(\ulcorner\mathcal{B}(\ulcorner\mathcal{B}(x)\urcorner)\urcorner\bigr)\)</span>.</p>
+<p>Let <span
+class="math inline">\(\mathcal{G}(x):=\mathcal{E}(D(x))\)</span>. Then
+for any <span class="math inline">\(\mathcal{B}(x)\)</span>, <span
+class="math display">\[
+\begin{aligned}
+g(\mathcal{B}(x))
+&amp;=\mathcal{E}\bigl(\ulcorner\mathcal{B}(\ulcorner\mathcal{B}(x)\urcorner)\urcorner\bigr)
+=\mathcal{E}\bigl(D(\ulcorner\mathcal{B}(x)\urcorner)\bigr)
+=\mathcal{G}\bigl(\ulcorner\mathcal{B}(x)\urcorner\bigr)
+=f\bigl(\mathcal{B}(x),\,\mathcal{G}(y)\bigr).
+\end{aligned}
+\]</span> Thus <span class="math inline">\(g\)</span> is representable
+in <span class="math inline">\(f\)</span> by the point <span
+class="math inline">\(p:1\to A\)</span> selecting <span
+class="math inline">\(\mathcal{G}\)</span>. By Theorem 1.4, <span
+class="math inline">\(\Phi_{\mathcal{E}}\)</span> has a fixed point at
+<span class="math display">\[
+\mathcal{C}
+\;=\;
+\mathcal{G}\bigl(\ulcorner\mathcal{G}(x)\urcorner\bigr)
+\;=\;
+\mathcal{E}\bigl(D(\ulcorner\mathcal{G}(x)\urcorner)\bigr)
+\;=\;
+\mathcal{E}(\ulcorner\mathcal{C}\urcorner),
+\]</span> and the chain of equalities in <span
+class="math inline">\(\mathrm{Lind}^0\)</span> is exactly <span
+class="math inline">\(\vdash\mathcal{C}\leftrightarrow\mathcal{E}(\ulcorner\mathcal{C}\urcorner)\)</span>.
+∎</p>
+<p><strong>Corollary 2.3 (G1).</strong> Taking <span
+class="math inline">\(\mathcal{E}(x)\equiv\neg\mathrm{Der}(x)\)</span>
+yields <span class="math inline">\(G\)</span> with <span
+class="math inline">\(\vdash G\leftrightarrow\neg\square G\)</span>.
+Under external consistency / <span
+class="math inline">\(\omega\)</span>-consistency, <span
+class="math inline">\(G\)</span> is unprovable. ∎</p>
+<p><strong>Corollary 2.4 (Group-3 is Lawvere).</strong> Willard’s
+Group-3 axiom is constructed by a Kleene / Rogers / Jeroslow fixed point
+over a substitution predicate (codified §5.1;
+<code>Willard1993-TR</code> Appendix A; <code>Willard2005</code> Eqs.
+7–8). That construction is Theorem 2.2 applied to a consistency-shaped
+<span class="math inline">\(\mathcal{E}\)</span>. Therefore every
+affirmative Willard system <strong>satisfies H1</strong> below: it is a
+Lawvere situation for the endomorphism building Group-3. ∎</p>
+<hr />
+<h2 id="g2-proved-in-the-lawvere-yanofsky-scheme">3. G2 proved in the
+Lawvere / Yanofsky scheme</h2>
+<h3 id="hypothesis-register">3.1 Hypothesis register</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Id</th>
+<th>Hypothesis</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>H0</strong></td>
+<td>Ambient</td>
+<td>Category with <span class="math inline">\(1\)</span> and products;
+<span class="math inline">\(Y=\mathrm{Lind}^0\)</span>; <span
+class="math inline">\(A=\mathrm{Lind}^1\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>H1</strong></td>
+<td>Lawvere representability</td>
+<td><span class="math inline">\(f\)</span> of Setup 2.1 represents the
+<span class="math inline">\(g\)</span> of Theorem 2.2 (diagonal
+lemma)</td>
+</tr>
+<tr class="odd">
+<td><strong>H2</strong></td>
+<td>Provability morphism</td>
+<td><span class="math inline">\(\square:Y\to Y\)</span> interprets <span
+class="math inline">\(\Phi\mapsto\mathrm{Der}(\ulcorner\Phi\urcorner)\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>H3</strong></td>
+<td>HB (1)</td>
+<td><span
+class="math inline">\(\alpha\vdash\Phi\;\Rightarrow\;\alpha\vdash\square\Phi\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong>H4</strong></td>
+<td>HB (2)</td>
+<td><span
+class="math inline">\(\alpha\vdash\bigl(\square\Phi\land\square(\Phi\supset\Psi)\bigr)\supset\square\Psi\)</span>
+— <strong>uniformly in <span
+class="math inline">\(\Phi,\Psi\)</span></strong></td>
+</tr>
+<tr class="even">
+<td><strong>H5</strong></td>
+<td>HB (3)</td>
+<td><span
+class="math inline">\(\alpha\vdash\square\Phi\supset\square\square\Phi\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong>H6</strong></td>
+<td>Π₁-strength</td>
+<td><span class="math inline">\(\alpha\)</span> proves all <span
+class="math inline">\(\Pi^-_1\)</span> theorems of PA
+(<code>Willard2001</code> Thm A.1)</td>
+</tr>
+<tr class="even">
+<td><strong>H7</strong></td>
+<td>Internal propositional packaging</td>
+<td><span class="math inline">\(\alpha\)</span> proves the propositional
+/ first-order steps listed as lemmas in §3.2</td>
+</tr>
+<tr class="odd">
+<td><strong>H8</strong></td>
+<td>External consistency</td>
+<td><span class="math inline">\(\alpha\nvdash\bot\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Definition 3.1.</strong> A <em>Lawvere–HB G2-situation</em>
+satisfies H0–H7.</p>
+<p>H4 is stated with Willard’s uniformity: <code>Willard2001</code> Thm
+A.1 says “Suppose <strong>for any two sentences</strong> <span
+class="math inline">\(\Phi\)</span> and <span
+class="math inline">\(\Psi\)</span>” (VERIFICATION.md, img at p. 44).
+The TR’s breach is exactly the failure of that uniformity
+(<code>Willard1993-TR</code> printed p. 12, img).</p>
+<h3 id="packaging-lemmas-making-h7-finite-and-checkable">3.2 Packaging
+lemmas (making H7 finite and checkable)</h3>
+<p>Write <span
+class="math inline">\(\mathrm{Con}:=\neg\square\bot\)</span>. Assume
+(FP): <span class="math inline">\(\alpha\vdash
+G\leftrightarrow\neg\square G\)</span>, from Theorem 2.2 with <span
+class="math inline">\(\mathcal{E}(x)=\neg\mathrm{Der}(x)\)</span>.</p>
+<p><strong>Lemma 3.2.1. [H7, FP]</strong> <span
+class="math inline">\(\alpha\vdash G\supset\neg\square G\)</span> and
+<span class="math inline">\(\alpha\vdash\neg\square G\supset G\)</span>.
+∎</p>
+<p><strong>Lemma 3.2.2. [H7, FP]</strong> <span
+class="math inline">\(\alpha\vdash\square G\supset\neg G\)</span>.</p>
+<p><em>Proof.</em> From (FP), <span
+class="math inline">\(\alpha\vdash\square G\supset\neg(\neg\square
+G)\)</span>. But <span class="math inline">\(\alpha\vdash\neg\square
+G\leftrightarrow G\)</span>, so <span
+class="math inline">\(\alpha\vdash\square G\supset\neg G\)</span>. ∎</p>
+<p><strong>Lemma 3.2.3. [H3, H4, H7]</strong> If <span
+class="math inline">\(\alpha\vdash\Phi\supset\Psi\)</span>, then <span
+class="math inline">\(\alpha\vdash\square\Phi\supset\square\Psi\)</span>.</p>
+<p><em>Proof.</em> H3 gives <span
+class="math inline">\(\alpha\vdash\square(\Phi\supset\Psi)\)</span>. H4
+with <span class="math inline">\(\square\Phi\)</span> and <span
+class="math inline">\(\square(\Phi\supset\Psi)\)</span> yields <span
+class="math inline">\(\square\Psi\)</span>. ∎</p>
+<p><strong>Lemma 3.2.4. [H3, H4, H5, H7, Lemmas 3.2.2–3.2.3]</strong>
+<span class="math inline">\(\alpha\vdash\square
+G\supset\square\bot\)</span>.</p>
+<p><em>Proof.</em> From Lemma 3.2.2, <span
+class="math inline">\(\alpha\vdash\square G\supset\neg G\)</span>. By
+Lemma 3.2.3, <span class="math inline">\(\alpha\vdash\square\square
+G\supset\square\neg G\)</span>. By H5, <span
+class="math inline">\(\alpha\vdash\square G\supset\square\square
+G\)</span>. Compose: <span class="math inline">\(\alpha\vdash\square
+G\supset\square\neg G\)</span>. From <span
+class="math inline">\(\alpha\vdash\square G\)</span> and <span
+class="math inline">\(\alpha\vdash\square\neg G\)</span>, H4 applied to
+<span class="math inline">\(\square G\)</span> and <span
+class="math inline">\(\square(G\supset\bot)\)</span> (since <span
+class="math inline">\(\neg G\)</span> is <span
+class="math inline">\(G\supset\bot\)</span>) gives <span
+class="math inline">\(\alpha\vdash\square\bot\)</span>. Discharging the
+assumption <span class="math inline">\(\square G\)</span> yields <span
+class="math inline">\(\alpha\vdash\square G\supset\square\bot\)</span>.
+∎</p>
+<p><strong>Lemma 3.2.5. [H7, FP, Lemma 3.2.4]</strong> <span
+class="math inline">\(\alpha\vdash\mathrm{Con}\supset G\)</span>.</p>
+<p><em>Proof.</em> Lemma 3.2.4 contraposes to <span
+class="math inline">\(\alpha\vdash\mathrm{Con}\supset\neg\square
+G\)</span>. With <span class="math inline">\(\alpha\vdash\neg\square
+G\supset G\)</span>, conclude <span
+class="math inline">\(\alpha\vdash\mathrm{Con}\supset G\)</span>. ∎</p>
+<h3 id="the-theorem">3.3 The theorem</h3>
+<p><strong>Theorem 3.2 (G2, Lawvere–HB form).</strong> Assume H0–H7. If
+<span class="math inline">\(\alpha\vdash\mathrm{Con}\)</span>, then
+<span class="math inline">\(\alpha\vdash\bot\)</span>. Hence under H8,
+<span class="math inline">\(\alpha\nvdash\mathrm{Con}\)</span>.</p>
+<p><em>Proof.</em></p>
+<p><strong>(L) [H0, H1, H2]</strong> By Theorem 2.2, obtain (FP): <span
+class="math inline">\(\alpha\vdash G\leftrightarrow\neg\square
+G\)</span>. <em>(Sole use of Lawvere / Yanofsky.)</em></p>
+<p><strong>(1)–(5)</strong> Lemmas 3.2.1–3.2.5 give <span
+class="math inline">\(\alpha\vdash\mathrm{Con}\supset G\)</span> and
+<span class="math inline">\(\alpha\vdash\square
+G\supset\square\bot\)</span>.</p>
+<p><strong>(6) [H3]</strong> Assume <span
+class="math inline">\(\alpha\vdash\mathrm{Con}\)</span>. Then <span
+class="math inline">\(\alpha\vdash\square\mathrm{Con}\)</span> and, from
+Lemma 3.2.5, <span
+class="math inline">\(\alpha\vdash\square(\mathrm{Con}\supset
+G)\)</span>.</p>
+<p><strong>(7) [H4]</strong> From <span
+class="math inline">\(\square\mathrm{Con}\)</span> and <span
+class="math inline">\(\square(\mathrm{Con}\supset G)\)</span>, H4 yields
+<span class="math inline">\(\alpha\vdash\square G\)</span>.</p>
+<p><strong>(8)</strong> From (7) and Lemma 3.2.4, <span
+class="math inline">\(\alpha\vdash\square\bot\)</span>, i.e. <span
+class="math inline">\(\alpha\vdash\neg\mathrm{Con}\)</span>. With <span
+class="math inline">\(\alpha\vdash\mathrm{Con}\)</span>, <span
+class="math inline">\(\alpha\vdash\bot\)</span>.</p>
+<p><strong>(9) [H8]</strong> Therefore <span
+class="math inline">\(\alpha\vdash\mathrm{Con}\)</span> contradicts H8.
+∎</p>
+<p><strong>Corollary 3.3 (Factorisation).</strong> <span
+class="math display">\[
+(\mathrm{H0{+}H1{+}H2})
+\;+\;
+(\mathrm{H3{+}H4{+}H5{+}H6{+}H7})
+\;\;\Longrightarrow\;\;
+(\vdash\mathrm{Con}\Rightarrow\vdash\bot).
+\]</span> Any single failure among H3–H7 blocks a tagged step. Failure
+of H1 blocks (L). ∎</p>
+<p><strong>Corollary 3.4.</strong> Theorem 1.4 alone does not entail
+<span class="math inline">\(\nvdash\mathrm{Con}\)</span>. G2 in this
+scheme is Theorem 3.2. ∎</p>
+<p><strong>Remark 3.5 (Relation to Willard2001 Thm A.1).</strong>
+Theorem 3.2 is the Lawvere-factored form of Willard’s Theorem A.1
+(status <code>stated-only</code> in the registry; justification by
+reduction to classical HB). H6 is Willard’s Π₁-calibration; H3–H5 are
+his conditions (1)–(3) verbatim; H1 is the diagonal half he isolates as
+needing PA-strength for the fixed-point identity
+(<code>Willard2001</code> footnote on the fixed-point / HB split,
+recorded in <code>refined-sjas.md</code> §2.1).</p>
+<hr />
+<h2 id="alternate-factorisations-declared-not-primary">4. Alternate
+factorisations (declared, not primary)</h2>
+<p><strong>Jeroslow + □-contraction.</strong> Fixed point <span
+class="math inline">\(G\leftrightarrow\square(G\to\bot)\)</span> plus
+<span class="math inline">\(\mathrm{copy}_\square\)</span> yields
+formalized G2 (Beklemishev–Shamkanov; ALSJAS <code>AbstractG2</code>).
+Different post-Lawvere package; Willard comparison uses §3’s register,
+not this one.</p>
+<p><strong>Kreisel model-chain.</strong> Yanofsky 2003 flags it; not
+developed here — Willard’s breach maps cleanly onto H4, not onto
+Kreisel’s truth-path diagonal.</p>
+<hr />
+<h2 id="affordable-arrows-and-willards-h4-failure">5. Affordable arrows
+and Willard’s H4 failure</h2>
+<h3 id="ambient-maps-and-affordability">5.1 Ambient maps and
+affordability</h3>
+<p><strong>Definition 5.1 (Ambient category <span
+class="math inline">\(\overline{\mathcal{A}}\)</span>).</strong>
+Objects: Gödel numbers of formulas / proofs (as <span
+class="math inline">\(\mathbb{N}\)</span> where convenient), and the
+Lindenbaum objects <span class="math inline">\(A,Y\)</span> of H0.
+Morphisms: partial recursive (arithmetically definable) maps on codes.
+Classical HB arguments are written externally in <span
+class="math inline">\(\overline{\mathcal{A}}\)</span>.</p>
+<p><strong>Definition 5.2 (Affordable class <span
+class="math inline">\(\mathrm{Aff}(\alpha)\)</span>).</strong> <span
+class="math inline">\(\mathrm{Aff}(\alpha)\)</span> is a <strong>wide
+class of arrows</strong> of <span
+class="math inline">\(\overline{\mathcal{A}}\)</span> (same objects; a
+designated subclass of morphisms). It is <strong>not</strong> assumed to
+be a subcategory: composition of affordable arrows need not be
+affordable, because that composition is essentially <span
+class="math inline">\(\mathrm{mp}_\square\)</span> (Definition 5.3),
+which Theorem 5.5 removes. Membership:</p>
+<ul>
+<li>An arrow <span class="math inline">\(m\)</span> of <span
+class="math inline">\(\overline{\mathcal{A}}\)</span> lies in <span
+class="math inline">\(\mathrm{Aff}(\alpha)\)</span> when <span
+class="math inline">\(\alpha\)</span> proves the
+<strong>uniform</strong> existence / totality statement defining <span
+class="math inline">\(m\)</span>.</li>
+<li>If <span class="math inline">\(\alpha\)</span> proves only
+<em>instances</em> for fixed closed terms <span
+class="math inline">\(\bar c\)</span>, the instance arrows <span
+class="math inline">\(m_{\bar c}:1\to Z\)</span> may lie in <span
+class="math inline">\(\mathrm{Aff}(\alpha)\)</span> while the uniform
+<span class="math inline">\(m\)</span> does not.</li>
+<li>Identity arrows are affordable (<span
+class="math inline">\(\alpha\vdash\forall x\,x=x\)</span>).</li>
+</ul>
+<p>This is the categorical reading of Willard’s fixed-constants vs
+uniform quantification (<code>Willard1993-TR</code> printed p. 12, img;
+same pattern at <code>SUBST_i(\bar k,y)</code> for fixed <span
+class="math inline">\(\bar k\)</span>).</p>
+<p><strong>Definition 5.3 (Uniform H4 arrow).</strong> <span
+class="math display">\[
+\mathrm{mp}_\square:
+\;
+\square\Phi \times \square(\Phi\supset\Psi)
+\;\longrightarrow\;
+\square\Psi
+\]</span> in <span class="math inline">\(\overline{\mathcal{A}}\)</span>
+sends a pair of proof-codes <span class="math inline">\((x,y)\)</span>
+to a proof-code <span class="math inline">\(z\)</span> of <span
+class="math inline">\(\Psi\)</span> when such a <span
+class="math inline">\(z\)</span> exists. <strong>H4 holds relative to
+<span class="math inline">\(\mathrm{Aff}(\alpha)\)</span></strong> iff
+<span
+class="math inline">\(\mathrm{mp}_\square\in\mathrm{Aff}(\alpha)\)</span>,
+i.e. iff <span class="math inline">\(\alpha\)</span> proves <span
+class="math display">\[
+\forall\Phi\forall\Psi\;
+\bigl(\square\Phi\land\square(\Phi\supset\Psi)\bigr)\supset\square\Psi.
+\]</span></p>
+<p><strong>Definition 5.4 (Degenerate / instance H4 arrows).</strong>
+For fixed closed proof-codes <span class="math inline">\(\bar x,\bar
+y\)</span>, the instance arrow <span
+class="math inline">\(\mathrm{mp}_{\bar x,\bar
+y}:1\to\square\Psi\)</span> may lie in <span
+class="math inline">\(\mathrm{Aff}(\alpha)\)</span> even when <span
+class="math inline">\(\mathrm{mp}_\square\)</span> does not.</p>
+<h3 id="the-missing-arrow-theorem-for-isa">5.2 The missing-arrow theorem
+for <code>IS(A)</code></h3>
+<p><strong>Theorem 5.5 (H4 fails as a missing Aff-arrow).</strong> Let
+<span class="math inline">\(\alpha=\mathrm{IS}(A)\)</span> for nice
+<span class="math inline">\(A\)</span>, in Willard’s Type-A /
+semantic-tableaux configuration. Then:</p>
+<ol type="1">
+<li><span
+class="math inline">\(\mathrm{mp}_\square\notin\mathrm{Aff}(\alpha)\)</span>
+(uniform H4 fails);</li>
+<li>for fixed constants <span class="math inline">\(\bar x,\bar
+y\)</span>, instance arrows of Definition 5.4 may lie in <span
+class="math inline">\(\mathrm{Aff}(\alpha)\)</span> (degenerate H4
+holds);</li>
+<li>H1 holds for <span class="math inline">\(\alpha\)</span> (Group-3 /
+Lawvere fixed point is an axiom).</li>
+</ol>
+<p><em>Proof.</em> (1)–(2) are Willard’s statement, image-verified at
+<code>Willard1993-TR</code> printed p. 12 (VERIFICATION.md; extraction
+<code>willard1993-tr.md</code> §3.7c):</p>
+<blockquote>
+<p>“For the case of <code>IS(A)</code>, the difficulty is that
+<strong>only in the <em>degenerate case</em> where <code>x</code> and
+<code>y</code> are <em>fixed constants</em></strong> can
+<code>IS(A)</code> prove the Hilbert-Bernays condition that if
+<code>x</code> is a proof of <span class="math inline">\(\alpha\)</span>
+and <span class="math inline">\(y\)</span> is a proof of <span
+class="math inline">\(\alpha\supset\beta\)</span> then there exists some
+<span class="math inline">\(z\)</span> that proves <span
+class="math inline">\(\beta\)</span>.”</p>
+</blockquote>
+<p>Under Definitions 5.2–5.4 that sentence is exactly (1)–(2). No
+inference beyond the translation into those definitions is used.</p>
+<ol start="3" type="1">
+<li>is Corollary 2.4. ∎</li>
+</ol>
+<p><strong>Theorem 5.6 (Evasion mechanism).</strong> Relative to <span
+class="math inline">\(\mathrm{Aff}(\mathrm{IS}(A))\)</span>, Theorem 3.2
+fails at H4: Lemmas 3.2.3–3.2.4 and step (7) invoke <span
+class="math inline">\(\mathrm{mp}_\square\notin\mathrm{Aff}(\alpha)\)</span>.
+The Lawvere half (L) remains. Therefore <span
+class="math inline">\(\vdash\mathrm{Con}\Rightarrow\vdash\bot\)</span>
+is not forced by Theorem 3.2 inside <span
+class="math inline">\(\mathrm{Aff}(\mathrm{IS}(A))\)</span>.</p>
+<p><em>Proof.</em> Theorem 5.5(1) + Corollary 3.3. ∎</p>
+<p><strong>Theorem 5.7 (Obligatory breach, Aff-form).</strong> Suppose
+<span class="math inline">\(\alpha\)</span> satisfies H0–H2, H6, H8 and
+<span class="math inline">\(\alpha\vdash\mathrm{Con}\)</span>, with the
+affirmative corpus theorems applying. Then <span
+class="math inline">\(\alpha\)</span> is not a Lawvere–HB G2-situation
+relative to <span class="math inline">\(\mathrm{Aff}(\alpha)\)</span>:
+at least one of H3–H5, H7 fails there. For Type-A <code>IS(A)</code>,
+the failed hypothesis is H4.</p>
+<p><em>Proof.</em> If H0–H7 all held relative to <span
+class="math inline">\(\mathrm{Aff}(\alpha)\)</span>, Theorem 3.2 would
+give <span class="math inline">\(\alpha\vdash\bot\)</span>,
+contradicting H8. For <code>IS(A)</code>, Theorem 5.5 names H4. ∎</p>
+<h3 id="filled-hypothesis-register-for-type-a-isa">5.3 Filled hypothesis
+register for Type-A <code>IS(A)</code></h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Id</th>
+<th>Step(s)</th>
+<th>Status relative to <span
+class="math inline">\(\mathrm{Aff}(\mathrm{IS}(A))\)</span></th>
+<th>Provenance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>H0</td>
+<td>ambient</td>
+<td>holds</td>
+<td>Setup</td>
+</tr>
+<tr class="even">
+<td>H1</td>
+<td>(L)</td>
+<td><strong>holds</strong></td>
+<td>Cor. 2.4; codified §5.1</td>
+</tr>
+<tr class="odd">
+<td>H2</td>
+<td>□</td>
+<td>holds</td>
+<td>arithmetization in corpus</td>
+</tr>
+<tr class="even">
+<td>H3</td>
+<td>Lem. 3.2.3, Thm 3.2(6)</td>
+<td>not the named breach</td>
+<td>TR names condition (2) specifically</td>
+</tr>
+<tr class="odd">
+<td>H4</td>
+<td>Lem. 3.2.3–3.2.4, Thm 3.2(7)</td>
+<td><strong>fails (uniform)</strong></td>
+<td>Thm 5.5; TR p. 12 img</td>
+</tr>
+<tr class="even">
+<td>H5</td>
+<td>Lem. 3.2.4</td>
+<td>not the named breach</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>H6</td>
+<td>Π₁</td>
+<td><strong>holds</strong> by design</td>
+<td>Thm A.1 calibration; TR Remark 7</td>
+</tr>
+<tr class="even">
+<td>H7</td>
+<td>packaging</td>
+<td>fails insofar as it invokes uniform H4</td>
+<td>Def. 5.2</td>
+</tr>
+<tr class="odd">
+<td>H8</td>
+<td>consistency</td>
+<td><strong>holds</strong></td>
+<td>TR Prop. 1 / 2001 Thm 3.4 (<code>full</code>)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="margin-as-quantitative-affordability">5.4 Margin as quantitative
+affordability</h3>
+<p><strong>Definition 5.8 (Margin; Willard2011 Def. 4.5, img).</strong>
+<span
+class="math inline">\(M(\xi)=\inf_\beta\bigl(\mathrm{Log}(q_\beta)-\sharp(\beta)\bigr)\)</span>.</p>
+<p><strong>Theorem 5.9 (Margin witnesses failure of the G2
+composite).</strong> If <span class="math inline">\(M(\xi)\ge
+2\)</span>, then by <code>Willard2011</code> Lemma 4.6 (status
+<code>sketch</code>, proof “kept brief and informal”; img at pp. 14–15)
+the configuration with its self-referential axiom is a consistent
+self-justifying system. In the present vocabulary: <span
+class="math inline">\(M(\xi)\ge 2\)</span> implies that the composite
+arrow of Theorem 3.2 producing <span class="math inline">\(\bot\)</span>
+from <span class="math inline">\(\mathrm{Con}\)</span> is not in <span
+class="math inline">\(\mathrm{Aff}(\xi)\)</span>, while H1 and <span
+class="math inline">\(\vdash\mathrm{Con}\)</span> can hold.</p>
+<p><em>Proof content.</em> Eqs. (19)–(20) place the fixed point at
+margin exactly <span class="math inline">\(1\)</span>; demanding margin
+<span class="math inline">\(\ge 2\)</span> excludes every inconsistent
+<span class="math inline">\(\beta\)</span> from matching that cost
+(<code>R3-the-margin.md</code> §6, page-image verified). That exclusion
+is the absence of the contradiction-producing arrow from <span
+class="math inline">\(\mathrm{Aff}(\xi)\)</span>. ∎</p>
+<p><em>Status note.</em> Lemma 4.6 is <code>sketch</code> in the
+registry; Theorem 5.9 inherits that status for the quantitative half.
+Theorem 5.5 (uniform H4 failure for <code>IS(A)</code>) does
+<strong>not</strong> inherit it — it rests on Willard’s explicit
+statement, not on the margin lemma.</p>
+<hr />
+<h2 id="necessary-conditions-for-self-justification">6. Necessary
+conditions for self-justification</h2>
+<p><strong>Definition 6.1 (Self-justifying situation).</strong> A theory
+<span class="math inline">\(\alpha\)</span> with H0, H2 is
+<em>self-justifying</em> when:</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Condition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>(SJ1)</td>
+<td><strong>H1</strong> — Lawvere / Group-3 available</td>
+</tr>
+<tr class="even">
+<td>(SJ2)</td>
+<td><strong>H8</strong> — consistent</td>
+</tr>
+<tr class="odd">
+<td>(SJ3)</td>
+<td><span class="math inline">\(\alpha\vdash\mathrm{Con}\)</span> —
+self-assertion of consistency</td>
+</tr>
+<tr class="even">
+<td>(SJ4)</td>
+<td>at least one of <strong>H3–H7</strong> fails in <span
+class="math inline">\(\mathrm{Aff}(\alpha)\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Theorem 6.2 (Necessity of (SJ4)).</strong> Assume H0–H2, H6,
+and (SJ1)–(SJ3). Then (SJ4) holds.</p>
+<p><em>Proof.</em> Suppose not: H3–H7 all hold in <span
+class="math inline">\(\mathrm{Aff}(\alpha)\)</span>. Then H0–H7 hold, so
+Theorem 3.2 yields <span
+class="math inline">\(\alpha\vdash\bot\)</span>, contradicting (SJ2).
+∎</p>
+<p><strong>Theorem 6.3 (Insufficiency of (SJ4) alone).</strong> (SJ4)
+does not imply (SJ3). Beklemishev–Shamkanov’s system <span
+class="math inline">\(S\)</span> fails formalized G2 (a post-Lawvere
+structural hypothesis in the §4.1 packaging) but does not prove <span
+class="math inline">\(\neg\square\bot\)</span> (their §6, img in
+VERIFICATION.md). ∎</p>
+<p><strong>Theorem 6.4 (Type-A instance).</strong> For <span
+class="math inline">\(\alpha=\mathrm{IS}(A)\)</span> (nice <span
+class="math inline">\(A\)</span>), (SJ1) holds by Corollary 2.4; (SJ2)
+and (SJ3) hold by Willard’s Proposition 1 / Theorem 3.4
+(<code>full</code>); (SJ4) holds by Theorem 5.5 (H4 fails). Therefore
+<span class="math inline">\(\mathrm{IS}(A)\)</span> is self-justifying
+in the sense of Definition 6.1, and the evasion mechanism is Theorem
+5.6. ∎</p>
+<p><strong>Theorem 6.5 (Conventional configurations are not
+self-justifying).</strong> If <span class="math inline">\(\xi\)</span>
+is a conventional configuration satisfying H0–H7 in <span
+class="math inline">\(\mathrm{Aff}(\xi)\)</span>
+(<code>Willard2011</code> p. 21 fn. 11, img: “will satisfy the
+Hilbert-Bernays derivability conditions… automatically inconsistent”),
+then (SJ3) is incompatible with (SJ2) by Theorem 3.2. ∎</p>
+<hr />
+<h2 id="completion-audit">7. Completion audit</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Requirement</th>
+<th>Evidence</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Prove G2 using Lawvere/Yanofsky techniques</td>
+<td>§3: Thm 2.2 (expanded) + Lemmas 3.2.1–3.2.5 + Thm 3.2</td>
+<td><strong>proved</strong></td>
+</tr>
+<tr class="even">
+<td>Named hypothesis register</td>
+<td>§3.1 H0–H8; filled for Type-A in §5.3</td>
+<td><strong>done</strong></td>
+</tr>
+<tr class="odd">
+<td>Translate Willard into that framework</td>
+<td>§§5–6: Aff, missing Aff-arrow, SJ conditions</td>
+<td><strong>proved</strong></td>
+</tr>
+<tr class="even">
+<td>Necessary conditions for self-justification</td>
+<td>Def 6.1; Thm 6.2 (necessity of breach)</td>
+<td><strong>proved</strong></td>
+</tr>
+<tr class="odd">
+<td>Mechanism of G2 evasion (category-theoretic)</td>
+<td>Defs 5.1–5.4; Thms 5.5–5.7</td>
+<td><strong>proved</strong></td>
+</tr>
+<tr class="even">
+<td>Type-A instance</td>
+<td>Thm 6.4, citing corpus <code>full</code> consistency</td>
+<td><strong>proved</strong> (translation; consistency cited not
+re-derived)</td>
+</tr>
+<tr class="odd">
+<td>Image-verified Willard H4 quote</td>
+<td>VERIFICATION.md row TR p. 12</td>
+<td><strong>verified</strong></td>
+</tr>
+<tr class="even">
+<td>Image-verified Thm A.1 uniformity</td>
+<td>VERIFICATION.md row 2001 p. 44</td>
+<td><strong>verified</strong></td>
+</tr>
+<tr class="odd">
+<td>Re-prove Willard’s consistency of <code>IS(A)</code> from
+scratch</td>
+<td>out of scope (codification owns it)</td>
+<td><strong>cited, not re-proved</strong></td>
+</tr>
+<tr class="even">
+<td>Kreisel secondary register</td>
+<td>§4</td>
+<td><strong>deferred</strong> (not required for the Main Theorem)</td>
+</tr>
+<tr class="odd">
+<td>Mechanised Lean of Thm 3.2</td>
+<td>optional</td>
+<td><strong>not required</strong> for the Main Theorem</td>
+</tr>
+</tbody>
+</table>
+<p><strong>AAR.</strong> The complete result stated in §0 is proved.
+Lawvere supplies only the fixed point; Willard’s Type-A evasion is the
+absence of the uniform H4 arrow <span
+class="math inline">\(\mathrm{mp}_\square\)</span> from <span
+class="math inline">\(\mathrm{Aff}(\mathrm{IS}(A))\)</span>, while H1
+remains. Self-justification is exactly (SJ1)–(SJ4). The quantitative
+margin (Thm 5.9) is an additional sufficient witness at registry status
+<code>sketch</code> and is not required for the Main Theorem’s Type-A
+case, which rests on Willard’s explicit uniformity statement.</p>
+<hr />
+<h2
+id="comparison-with-joyal-van-dijkoldenziel-and-beklemishevshamkanov">8.
+Comparison with Joyal / van Dijk–Oldenziel and
+Beklemishev–Shamkanov</h2>
+<p><em>Purpose.</em> Place Willard’s SJAS in the same categorical
+vocabulary as the arithmetic-universe (AU) development of G2/Löb, so
+that the self-justifying difference is a difference of <strong>which
+arrows exist</strong>, not a difference of dialect.</p>
+<h3 id="what-van-dijkoldenziel-6-actually-supplies">8.1 What van
+Dijk–Oldenziel §6 actually supplies</h3>
+<p>van Dijk–Oldenziel (arXiv:2004.10482), after Joyal, work in an
+arithmetic universe <span class="math inline">\(U\)</span>
+(prototypically the initial AU <span
+class="math inline">\(U_0\)</span>). Propositions are monomorphisms
+<span class="math inline">\(\varphi\hookrightarrow 1\)</span>. Internal
+provability is written <span class="math inline">\(\square(-)\)</span>,
+realized via <span class="math inline">\(\Gamma\circ R\)</span> and
+<span class="math inline">\(\mathrm{Hom}\)</span>-objects. Their §6 does
+not label “HBL (1)–(3)” as such; it proves the AU lemmas that play those
+roles in Löb’s theorem (hence in G2, taking <span
+class="math inline">\(\varphi=\bot\)</span>):</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Classical HBL</th>
+<th>van Dijk–Oldenziel §6</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>(D1)</strong> necessitation</td>
+<td><strong>Prop. 6.5</strong></td>
+<td><span
+class="math inline">\(U\models\varphi\;\Rightarrow\;U\models\square\varphi\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>(D3)</strong> boxed necessitation</td>
+<td><strong>Prop. 6.6</strong></td>
+<td><span
+class="math inline">\(U\models\square\varphi\;`\;\square\square\varphi\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong>(D2)</strong> internal □-MP</td>
+<td><strong>Prop. 6.8</strong></td>
+<td><span class="math inline">\(U\models\;\bigl(pU\models\varphi`\psi
+q\to(\square\varphi`\square\psi)\bigr)\)</span></td>
+</tr>
+<tr class="even">
+<td>external MP</td>
+<td><strong>Prop. 6.7</strong></td>
+<td>ordinary modus ponens on judgements</td>
+</tr>
+<tr class="odd">
+<td>Lawvere / diagonal</td>
+<td><strong>Lemma 6.12</strong></td>
+<td>every <span class="math inline">\(T:P1_0\to P1_0\)</span> has a
+fixed point (AU form of LFPT)</td>
+</tr>
+</tbody>
+</table>
+<p>With these arrows present, Theorem 6.13 (Löb) goes through, and G2
+for PRA follows (their §5 / the Con-instance of Löb). <strong>In <span
+class="math inline">\(U_0\)</span>, the Aff-class of §5 is the full
+class of AU-constructible arrows:</strong> nothing Willard-style is
+withheld.</p>
+<h3 id="categorical-presentation-of-a-willard-sjas">8.2 Categorical
+presentation of a Willard SJAS</h3>
+<p><strong>Definition 8.1 (Willard situation).</strong> A <em>Willard
+situation</em> is a tuple <span class="math display">\[
+\mathcal{W}
+\;=\;
+\bigl(\overline{\mathcal{A}},\;\mathrm{Aff}(\alpha),\;\square,\;f,\;\mathrm{Con}\bigr)
+\]</span> where:</p>
+<ol type="1">
+<li><strong><span
+class="math inline">\(\overline{\mathcal{A}}\)</span></strong> is an
+ambient category of codes / Lindenbaum data (Def. 5.1) — the external
+home of Gödel numbering, comparable to the externalization <span
+class="math inline">\(\mathrm{Ext}(U_0)\)</span> in van
+Dijk–Oldenziel.</li>
+<li><strong><span
+class="math inline">\(\mathrm{Aff}(\alpha)\)</span></strong> is the
+affordable class of arrows of <span
+class="math inline">\(\overline{\mathcal{A}}\)</span> (Def. 5.2) — those
+whose defining <em>uniform</em> existence statement is a theorem of the
+object theory <span class="math inline">\(\alpha\)</span>.</li>
+<li><strong><span class="math inline">\(\square\)</span></strong> is the
+provability endomorphism / operator on sentence-codes (H2), as <span
+class="math inline">\(\square\)</span> is in the AU.</li>
+<li><strong><span class="math inline">\(f\)</span></strong> is a Lawvere
+situation for diagonalisation (Def. 1.5 / H1) — Group-3, or equivalently
+the availability of Lemma 6.12-style fixed points for the relevant
+endomorphisms of sentence-space.</li>
+<li><strong><span class="math inline">\(\mathrm{Con}:1\to
+Y\)</span></strong> is a distinguished consistency point (Group-3’s
+assertion, or <span
+class="math inline">\(\neg\square\bot\)</span>).</li>
+</ol>
+<p><strong>Definition 8.2 (HBL arrows in a Willard situation).</strong>
+Relative to <span class="math inline">\(\mathcal{W}\)</span>, the three
+classical derivability conditions are arrows (or judgements) of <span
+class="math inline">\(\overline{\mathcal{A}}\)</span>:</p>
+<ul>
+<li><span class="math inline">\(\mathrm{nec}\)</span> — Prop. 6.5 /
+H3,</li>
+<li><span class="math inline">\(\mathrm{mp}_\square\)</span> — Prop. 6.8
+/ H4 (Def. 5.3),</li>
+<li><span class="math inline">\(\mathrm{boxit}\)</span> — Prop. 6.6 /
+H5.</li>
+</ul>
+<p>We say <span class="math inline">\(\mathcal{W}\)</span> <em>satisfies
+HBL internally</em> when <span
+class="math inline">\(\{\mathrm{nec},\,\mathrm{mp}_\square,\,\mathrm{boxit}\}\subseteq\mathrm{Aff}(\alpha)\)</span>.</p>
+<p><strong>Theorem 8.3 (Comparison axiom).</strong> If <span
+class="math inline">\(\mathcal{W}\)</span> satisfies HBL internally and
+has Lawvere diagonalisation (<span class="math inline">\(f\)</span>),
+then the Löb/G2 argument of van Dijk–Oldenziel §6 (or Theorem 3.2)
+applies in <span class="math inline">\(\mathrm{Aff}(\alpha)\)</span>:
+<span class="math inline">\(\mathrm{Con}\)</span> inhabited implies
+inconsistency. ∎</p>
+<p><strong>Theorem 8.4 (Type-A Willard as a Willard situation that fails
+HBL).</strong> For <span
+class="math inline">\(\alpha=\mathrm{IS}(A)\)</span>, the associated
+<span class="math inline">\(\mathcal{W}\)</span> has:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Status</th>
+<th>AU analogue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Lawvere / <span class="math inline">\(f\)</span> / Group-3</td>
+<td><strong>present</strong></td>
+<td>Lemma 6.12</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mathrm{nec}\)</span> (D1)</td>
+<td>not the named breach</td>
+<td>Prop. 6.5</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\mathrm{mp}_\square\)</span> (D2)</td>
+<td><strong>absent from <span
+class="math inline">\(\mathrm{Aff}(\alpha)\)</span></strong></td>
+<td>Prop. 6.8 <strong>fails as Aff-arrow</strong></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mathrm{boxit}\)</span> (D3)</td>
+<td>not the named breach</td>
+<td>Prop. 6.6</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\mathrm{Con}\)</span> inhabited</td>
+<td><strong>yes</strong> (Group-3)</td>
+<td>would trigger Löb/G2 in <span
+class="math inline">\(U_0\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(0\neq 1\)</span> (consistency)</td>
+<td><strong>yes</strong> (corpus affirmative)</td>
+<td>Def. 4.12 consistency of <span class="math inline">\(U\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Thus <span class="math inline">\(\mathcal{W}\)</span> is comparable
+to <span class="math inline">\(U_0\)</span> on diagonal and on the
+<em>existence</em> of a Con-point, and differs exactly where Prop. 6.8’s
+arrow is required: that arrow is not affordable. <em>(Theorem 5.5 +
+Definition 8.1.)</em> ∎</p>
+<h3 id="three-cells-in-one-diagram">8.3 Three cells in one diagram</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Lawvere diagonal</th>
+<th>Full HBL arrows in Aff</th>
+<th><span class="math inline">\(\vdash\mathrm{Con}\)</span> +
+consistent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Joyal / van Dijk–Oldenziel <span
+class="math inline">\(U_0\)</span></strong></td>
+<td>yes (Lem. 6.12)</td>
+<td><strong>yes</strong> (Props. 6.5, 6.6, 6.8)</td>
+<td><strong>impossible</strong> (G2 / Löb)</td>
+</tr>
+<tr class="even">
+<td><strong>Beklemishev–Shamkanov <span
+class="math inline">\(S\)</span></strong></td>
+<td>yes (Gödelian FP)</td>
+<td>fails <strong>□-contraction</strong> (structural licence under HBL),
+not Willard’s Aff-cut</td>
+<td><strong>no</strong> — <span
+class="math inline">\(S\nvdash\neg\square\bot\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong>Willard Type-A <span
+class="math inline">\(\mathrm{IS}(A)\)</span></strong></td>
+<td>yes (Group-3)</td>
+<td>fails <strong>uniform <span
+class="math inline">\(\mathrm{mp}_\square\)</span></strong> (D2) in
+Aff</td>
+<td><strong>yes</strong> — self-justifying</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Corollary 8.5 (The self-justifying difference,
+categorically).</strong> Relative to the AU / Löb package, an SJAS is
+self-justifying when it is a Willard situation <span
+class="math inline">\(\mathcal{W}\)</span> in which:</p>
+<ol type="1">
+<li>the Lawvere half matches <span class="math inline">\(U_0\)</span>
+(diagonal available),</li>
+<li><span class="math inline">\(\mathrm{Con}\)</span> is a global point
+of <span class="math inline">\(\mathrm{Aff}(\alpha)\)</span> and <span
+class="math inline">\(0\neq 1\)</span>,</li>
+<li>at least one HBL arrow of §8.2 — for Type-A, specifically <span
+class="math inline">\(\mathrm{mp}_\square\)</span> — lies
+<strong>outside</strong> <span
+class="math inline">\(\mathrm{Aff}(\alpha)\)</span>,</li>
+</ol>
+<p>so that Theorem 8.3’s hypothesis fails and Löb/G2 do not fire.
+Beklemishev– Shamkanov show that dropping a different post-diagonal
+resource (□-contraction) also blocks G2’s <em>argument</em> without
+yielding (2). Willard’s contribution, in this presentation, is to drop a
+<em>derivability</em> arrow while retaining (1) and (2). ∎</p>
+<h3 id="what-this-is-not">8.4 What this is not</h3>
+<ul>
+<li>It is <strong>not</strong> a claim that <span
+class="math inline">\(\mathrm{IS}(A)\)</span> is an arithmetic universe,
+or that <span
+class="math inline">\(\mathrm{Aff}(\mathrm{IS}(A))\)</span> is a sub-AU
+of <span class="math inline">\(U_0\)</span>. Growth restriction /
+tableaux cut-freeness cut the <em>arrow class</em>, not the AU
+axioms.</li>
+<li>It is <strong>not</strong> an identification of Willard’s D2-failure
+with Beklemishev–Shamkanov’s □-contraction failure
+(cf. <code>R2-…assessment.md</code> §2.3).</li>
+<li>It <strong>is</strong> a common interface: both the AU proof and the
+SJAS evasion are statements about whether <span
+class="math inline">\(\{\mathrm{nec},\,\mathrm{mp}_\square,\,\mathrm{boxit}\}\)</span>
+and a Lawvere diagonal coexist with an inhabited Con-point in the same
+Aff class.</li>
+</ul>
+<hr />
+<h2 id="references">References</h2>
+<ul>
+<li>Lawvere, F. W. (1969/2006). TAC Reprints 15.</li>
+<li>Yanofsky, N. S. (2003). BSL 9(3); arXiv:math/0305282.</li>
+<li>Yanofsky, N. S. (2022). <em>Working Category Theorist</em>, Ch.
+6.</li>
+<li>van Dijk, J., and Oldenziel, A. G. (2020). <em>Gödel incompleteness
+through Arithmetic Universes after A. Joyal.</em> arXiv:2004.10482. §6
+Props. 6.5–6.8, Lemma 6.12, Thm 6.13. Held at
+<code>../../lit/2004.10482.pdf</code>.</li>
+<li>Willard1993-TR printed p. 12 (H4 uniformity failure); Willard2001
+Thm A.1 p. 44; Willard2011 Def. 4.5 / Lemma 4.6 — as in
+VERIFICATION.md.</li>
+<li>Beklemishev–Shamkanov (2016): as in
+<code>R2-beklemishev-shamkanov-assessment.md</code>.</li>
+<li><code>refined-sjas.md</code>, <code>R3-the-margin.md</code>,
+ADR-0002, ADR-0004.</li>
+</ul>
+</body>
+</html>

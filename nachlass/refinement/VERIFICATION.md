@@ -11,11 +11,19 @@ in `../codification/audit-r.sh`).
 
 Four inherited from ADR-0001, one added by this stage's own failures.
 
-1. **Every quotation containing mathematics is image-verified.** `pdftotext`
-   silently strips mathematical typography from these PDFs. It stripped every
-   `□` from a Beklemishev–Shamkanov block quote reproduced in three Refinement
-   documents (finding #3), and stripped the `□` from Theorem 4's conclusion
-   `⊠⊤ =_S □⊥`, which a draft then reproduced as `⊠⊤ =_S ⊥`.
+1. **Every quotation is image-verified. Extracted text is not a source.**
+   *Strengthened 2026-09-02 by standing instruction, after the text layer caused
+   defects in three consecutive passes.* The earlier form exempted "prose
+   containing no mathematics", and the exemption failed twice: a prose citation
+   got the wrong page (Pakhomov p. 21 for p. 22, p. 25 for p. 24), and a prose
+   sentence was quoted non-verbatim while tagged image-verified. `pdftotext`
+   also strips typography silently — every `□` from a Beklemishev–Shamkanov
+   block quote, and the `□` from Theorem 4's conclusion `⊠⊤ =_S □⊥`, which a
+   draft reproduced as `⊠⊤ =_S ⊥`.
+
+   **The rule is unconditional: read the page.** Extracted text may *locate* a
+   passage and may never be quoted from. The `txt` status is retired; check
+   **R-B** fails any register row that is not `img`.
 2. **Every claim about a Willard result carries that result's `Proof` status**
    from `../codification/registry/results.md`, at the point of *use*.
 3. **Every claim about what the corpus does or does not say is checked against
@@ -33,9 +41,17 @@ Four inherited from ADR-0001, one added by this stage's own failures.
 
 ## Quotation register
 
-`img` = verified against a rendered page image. `txt` = text layer only —
-permitted **only** for prose containing no mathematics. Check **R-B** enforces
-both the enum and the no-mathematics-in-`txt` rule.
+Every row is `img` — verified against a rendered page image; check **R-B** fails
+any row that is not.
+
+**What R-B cannot do, stated so it is not mistaken for coverage.** It validates
+the rows that exist. It cannot detect a quotation *in the documents* that has no
+row here, and it does not diff any quotation against its source. **Register
+completeness and verbatim transcription are human obligations**, like the one
+ADR-0002 **B6** already records. The 2026-09-02 review of `refined-sjas.md`
+found nine quotations with no row (listed in that document's §9); each is backed
+by an image-verified row in `../codification/registry/results.md`, and none has
+been checked against the page in this stage.
 
 | Quote / claim | Source | Anchor | Verified |
 | --- | --- | --- | --- |
@@ -57,6 +73,7 @@ both the enum and the no-mathematics-in-`txt` rule.
 | `ℑ(H) = Σ χ(p_i)` | `Willard2004` | printed p. 363 | img (C16 Q18) |
 | Hybrid(H) recurrence | `Willard2006a` | p. 30 | img (C16 Q20) |
 | `ISINF(A)` Infinitely Far-Reaching, Theorem 6 | `Willard2006a` | printed p. 8 | img (C11) |
+| §4's `(∗)`: "If `p` is a proof of the theorem `T` from `α`, then a proof from `α` that '`p` proves `T` from `α`' will assuredly have a Gödel number less that `ω₁^K(p)`, for some fixed constant `K`"; `ω₁(x) = x^{Log(x)}`; and `IΣ₀` cannot prove `∀x ∃y ω₁(x) = y` (Eq. 32) | `Willard2007-APAL` | printed pp. 18–19 | **img (2026-09-02)** — previously unrecorded anywhere in the Codification; now in `registry/notation.md` with drift **D82** |
 | Lemma 5 — `O(n)` nodes, "whose binary encoding has a `2^n` length that is much larger than `F`'s length"; status `sketch`, "We obviously have omitted many details here" | `Willard2009` | printed p. 24 | img (C11) |
 | "the true reason … Lemma 8 … collapses entirely" | `Willard2000-TAB` | §5 | img (C10) |
 | Def. 3.7 plain contraction and weakening; Prop. 3.8's C3 step **with `□`**; Thm 3; Thm 4 (contraction **and** weakening; conclusion `⊠⊤ =_S □⊥`); Rem. 3.9's `□`-contraction and `□`-weakening | Beklemishev–Shamkanov | p. 8 | **img (2026-09-02)** |
@@ -105,6 +122,20 @@ Rule 5. Every growth or size claim, with the computation.
 | 20 | §1's roadmap off by one from §6 onward | `refined-sjas.md` §1 |
 | 21 | Pakhomov's model bound glossed as small; it is superexponential, on the cut, and the sentence is `Con^pred` | `refined-sjas.md` §1, `R3` §5.1 |
 | 22 | Conditions (1) and (2) called "permissions to use a proof again"; reuse is (3) | `R2` §2.1 |
+
+## Corrections applied 2026-09-02, third pass
+
+From a review of `refined-sjas.md` for completion and correctness.
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 33 | **§5.1 and §9 contradicted R3's verdict, committed the same day** — both still counted four dials and kept Level(n) on the cost side, which `R3-the-margin.md` §3.3 retracts; §9 still said the margin "generalises" Def. 4.5, withdrawn in R3 §2 | `refined-sjas.md` §§5.1, 9 |
+| 34 | §9 omitted R3's findings entirely — the retraction, the `♯`-is-`d`-independent lemma, the forced threshold, and the withdrawal of the stability bridge's novelty | `refined-sjas.md` §9 |
+| 35 | §2.5b asserted Pakhomov "does not remove" a derivability condition. He is silent on the point; p. 3 says HBL "do not necessary hold" for weaker c.e. theories. What he blocks is Pudlák's *interpretation* step, which needs successor totality — Willard's door | `refined-sjas.md` §2.5b |
+| 36 | "the tableaux line as tabulated above" — no table exists above that line | `refined-sjas.md` §2.3c |
+| 37 | "the distinction §8 is simultaneously trying to draw" — §8 is the computational analogue; the distinction is §5.1's. Second mis-numbered cross-reference in the same subsection, the first fixed in the previous pass without sweeping for others | `refined-sjas.md` §2.3c |
+| 38 | Nine quotations in `refined-sjas.md` have no register row, so under the images-only rule they are unverified in this stage. Recorded in §9 and above; R-B structurally cannot catch this | `refined-sjas.md`, `VERIFICATION.md` |
+| 39 | **Codification gap, not a Refinement error.** `ω₁(x) = x^{Log(x)}` and the `ω₁^K(p)` bound (`Willard2007-APAL` §4), on which §3 rests, were recorded nowhere in the registries — while `R1-review.md` listed §3 as "verified against `Willard2007-APAL` §4". Verified from the page images; §3 is **correct as written**. Now registered, with drift **D82** for the collision with `Willard2020-LFCS`'s different `ω_j` | `registry/notation.md`, `concordance/drift-ledger.md` |
 
 ## Corrections applied 2026-09-02, second pass
 

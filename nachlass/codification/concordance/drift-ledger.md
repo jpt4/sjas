@@ -1325,3 +1325,28 @@ Also see **D57** (JSL page-range typo in the conference form).
   unification the drift ledger exists to prevent. A codified `SemPrf^K` must
   choose, and say which paper it followed.
 - Status: open (Refinement R3).
+
+---
+
+## D82 — two different `ω₁`s, in two papers, under the same name
+
+| Source | Definition |
+| --- | --- |
+| `Willard2007-APAL` §4 (printed p. 18) | "Let `ω₁(x)` denote the usual function operator that maps the integer `x` onto the quantity **`x^{Log(x)}`**"; `ω₁^K` is `K` iterations |
+| `Willard2020-LFCS` (printed p. 16) | `ω₀(x) = x²`; `ω_{j+1}(x) = 2^{ω_j(2·Log₂(x+1))}`, so **`ω₁(x) ≥ x^x`** |
+
+- Found 2026-09-02, reviewing `refined-sjas.md` §3 against the originals. The
+  two are not the same function and not within a constant of one another:
+  `x^{Log x}` is quasi-polynomial, `2^{x²·…}` is exponential.
+- Neither paper cross-references the other's use, and neither registry entry
+  existed before this review — `Willard2007-APAL`'s `ω₁` was carried by the
+  Refinement (§3's `ω₁^K(p)` verification bound) without ever being recorded,
+  and `R1-review.md` recorded §3 as "verified against `Willard2007-APAL` §4"
+  on the strength of a reading that left no registry trace.
+- The `Willard2007-APAL` form is the one the SJAS argument uses: its `(∗)`
+  bounds the Gödel number of a proof that "`p` proves `T` from `α`" by
+  `ω₁^K(p)`, and `IΣ₀` cannot prove `∀x ∃y ω₁(x) = y` (Eq. 32) — the totality
+  failure the programme turns on.
+- Status: open. A codified statement using `ω` must say which paper's `ω` it
+  means, exactly as D81 requires for `SemPrf^K`.
+

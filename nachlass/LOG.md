@@ -1,5 +1,106 @@
 # Nachlass Log
 
+## 2026-09-02 - Review of refined-sjas.md for completion and correctness
+
+Seven findings. The first is the one worth keeping.
+
+**The document contradicted a verdict committed the same day.** R3's re-reading
+retracted the Level(n) instance and cut the count from four dials to three, and
+withdrew the claim that the margin "generalises" Willard's Def 4.5. Sections 5.1
+and 9 of refined-sjas.md still carried the old text: four dials, Level(n) on the
+cost side, "generalises". A stage document and its own supporting analysis
+disagreed, in the same repository, hours apart. Both sections are rewritten;
+section 9 now also carries what R3 found and this document had missed - the
+d-independence lemma, the forced threshold, and the withdrawal of the stability
+bridge's novelty claim.
+
+**Section 2.5b overclaimed about Pakhomov.** It said he "does not remove" a
+derivability condition, contrasting him with Willard. He is silent on the point;
+p. 3 says HBL conditions "do not necessary hold in the case of some weaker
+arithmetical c.e. theories". What he blocks is the step after them: Pudlak works
+by carrying a G2 failure in T into "a different theory T' (interpretable in T),
+where HBL are satisfied", and that interpretation needs successor totality,
+which H_<omega denies. Same door as Willard, not a different one.
+
+**Two more dangling cross-references, both in section 2.3c.** "The tableaux line
+as tabulated above" - there is no table above that line. "The distinction section
+8 is simultaneously trying to draw" - section 8 is the computational analogue and
+draws no such distinction; it is 5.1's. The previous pass fixed one mis-numbered
+reference in 2.3b and did not sweep the rest of the subsection for others.
+
+**Nine quotations in the document have no register row.** Under the standing
+images-only rule they are unverified in this stage. Each is backed by an
+image-verified row in registry/results.md, so none is suspected wrong - but none
+has been checked against the page here. R-B validates the rows that exist and
+structurally cannot detect a quotation that has no row, so register completeness
+joins verbatim transcription as a human obligation the audit supports and does
+not discharge. Recorded in section 9 and in VERIFICATION.md.
+
+**A Codification gap, surfaced by the review and not a Refinement error.**
+Section 3 rests on the classical bound omega_1^K(p) with omega_1(x) = x^Log(x),
+cited to Willard2007-APAL section 4. That function was recorded NOWHERE in the
+registries - while R1-review.md listed section 3 as "verified against
+Willard2007-APAL section 4". I read printed pp. 18-19 as images: the section is
+**correct as written**, verbatim, including the (*) bound and the fact that
+ISigma_0 cannot prove omega_1 total (Eq. 32), which is the totality failure the
+programme turns on. Now registered in notation.md.
+
+And it collides. Willard2020-LFCS defines a different omega_j - omega_0(x) = x^2,
+omega_1(x) >= x^x - under the same name. x^Log(x) is quasi-polynomial; the other
+is exponential. Neither paper cross-references the other. Recorded as **drift
+D82**, the ledger's seventieth entry.
+
+**Two process notes.** The audit caught my own README drift (224 notation rows
+against an actual 225) without my noticing I had introduced it - M5 earning its
+keep. And a batch-edit script aborted mid-way twice in this session, discarding
+edits that had already reported success, because the write happens at the end.
+That is process rule P1 recurring for the third time; the remaining edits were
+redone with a write after every single replacement.
+
+Verified sound and unchanged: sections 1, 2.1-2.4, 2.5-2.5a, 3, 4, 5's
+withdrawal and the Hybrid arithmetic, 6, 7's five costs, 8's declared conjecture.
+
+audit.sh green: 29 register rows, 225 notation rows, 70 drift entries.
+
+## 2026-09-02 - R6 complete: G2 in-scheme, Aff missing-arrow, SJ conditions
+
+Completed `refinement/lawvere-sjas.md` Main Theorem:
+
+1. Thm 3.2 — G2 as Lawvere (step L only) + HB transport H3–H7, with
+   packaging Lemmas 3.2.1–3.2.5.
+2. Defs 5.1–5.4 — Aff(α) as wide *class of arrows* (not a subcategory:
+   composition is mp_□). Thm 5.5 — uniform H4 missing for IS(A), by
+   Willard's TR p. 12 img statement translated into Aff.
+3. Thms 5.6–5.7, 6.2–6.5 — evasion mechanism and necessary SJ conditions
+   (SJ1)–(SJ4); Type-A instance; conventional configs collapse.
+
+Audit table in §7. Consistency of IS(A) cited from corpus `full`, not
+re-derived. Margin Thm 5.9 remains `sketch`-status optional witness.
+
+## 2026-09-02 - R6 Lawvere–SJAS: prove G2 in-scheme first, then break hypotheses
+
+Goal: translate Willard's SJAS into Lawvere / Yanofsky so the evasion of G2
+is a theorem about named hypotheses, not a framing.
+
+Methodological correction (user): do **not** lead with Willard as an
+external witness that "G2 needs more than LFPT". First prove G2 using
+Lawvere/Yanofsky techniques; then locate where Willard invalidates that
+proof.
+
+Delivered:
+
+- `refinement/ADR-0004-lawvere-sjas-translation.md` — R6 charter; binding
+  order; acceptance L0–L6.
+- `refinement/lawvere-sjas.md` — Yanofsky Thms 6.4–6.5; diagonal lemma as
+  Lawvere; **Theorem 3.2** Hilbert–Bernays–Löb G2 with hypothesis register
+  **H0–H8** (Lawvere used only at step (L)); Willard mapped as breaker of
+  post-Lawvere Hi (principally **H4** on the tableaux line); self-justification
+  conditions read off the register.
+
+Open: image-verify §5 quotations; construct an explicit affordable
+subcategory where H4 fails as a missing Hom; optional Kreisel secondary
+register (§4.2).
+
 ## 2026-09-02 - Does R3 hold? Re-read of Willard2011 sections 4-5 from page images
 
 Standing instruction, and it now governs both charters: "Using OCR'd text
