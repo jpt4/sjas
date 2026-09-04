@@ -389,9 +389,11 @@ of Proposition 4.1 forces consistency in the paper's Definition 2.1 sense. If
 
 `fixed points + HBL + no BoxContr + no Con point + external consistency`.
 
-It proves that the HBL triple is insufficient once the ambient structural
-category ceases to be cartesian. It provides a consistent system that does not
-assert its own consistency, not a self-justifying system.
+B-S gives a non-cartesian counterexample showing that the HBL conditions L1-L3
+alone do not entail formalized G2. The additional structural datum used by the
+usual proof is contraction of the relevant boxed hypothesis. It provides a
+consistent system that does not assert its own consistency, not a
+self-justifying system.
 
 ---
 

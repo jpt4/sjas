@@ -78,16 +78,18 @@ encoding-relative.
 - **`Log` is base 2, rounded down** (`Willard2000-TAB` Def. 1;
   `Willard2007-APAL` Def. 2). So **`Log(q_β)` is the bit-length of the Gödel
   number** of the cheapest refutation.
-- **"Shortest" means least Gödel number.** The corpus's **Hilbert-line**
-  preservation proofs are minimal-counterexample arguments on exactly that
-  quantity — "take `P` minimising `Θ(P)`", then construct a smaller `R` with
-  `Θ(R) < Θ(P)` (codified §6.9: `Willard2001` Thms 3.4 and 4.3, `Willard2006a`
-  Thm 3, `Willard2016` Thm 6.7). An earlier version of this bullet said *every*
-  proof in the corpus runs that way; the **tableaux** line instead uses
-  `θ`-compactification (`Willard2005` Thm 1, codified §6.4), which §6.9 names as
-  the contrast. The reading of `q_β` as a least Gödel number is unaffected —
-  Def. 4.5 says "shortest proof" and the Hilbert-line usage fixes the sense —
-  but the support for it is one line's practice, not the whole corpus's.
+- **"Shortest" means least Gödel number.** The corpus's minimal-counterexample
+  preservation proofs argue on exactly that quantity — "take `P` minimising
+  `Θ(P)`", then construct a smaller `R` with `Θ(R) < Θ(P)` (codified §6.9:
+  `Willard2001` Thms 3.4 and 4.3, `Willard2006a` Thm 3, `Willard2016` Thm 6.7).
+  Two corrections to earlier versions of this bullet. It first said *every*
+  proof in the corpus runs that way; it does not — `Willard2005` Thm 1 (codified
+  §6.4) is a separate, apparatus-neutral `θ`-compactification engine. It then
+  attributed the minimal-counterexample method to "the Hilbert line", which is
+  also wrong: Thm 4.3 is about **`IS(A)`**, a *semantic tableaux* system, so the
+  division is between **proof methods**, not between families of system. The
+  reading of `q_β` as a least Gödel number is unaffected — Def. 4.5 says
+  "shortest proof" and this usage fixes the sense.
 
 **The bridge to symbol count is an explicit hypothesis, not an assumption.**
 `Willard2011` Appendix D imposes the **Conventional Tableaux Encoding

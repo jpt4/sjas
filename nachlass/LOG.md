@@ -1,5 +1,36 @@
 # Nachlass Log
 
+## 2026-09-04 - Adversarial round seventeen: the two engines do not split by line
+
+One finding, and it is a repair introducing a fresh error of its own kind - the
+third time this session.
+
+Round five corrected section 6's claim that "every consistency-preservation
+proof in the corpus" is a minimal-counterexample argument, and correctly
+identified Willard2005 Theorem 1 as the separate theta-compactification engine.
+But the replacement filed the least-number method under **"the Hilbert line"**,
+citing Willard2001 Theorems 3.4 and 4.3 - and **Theorem 4.3 proves consistency
+preservation for IS(A)**, which is a *semantic tableaux* system (registry
+SJAS-Origin, codified section 3.1's Type-A row).
+
+So a tableaux system's preservation is proved by minimal counterexample in 2001
+and covered again by the apparatus-neutral engine in 2005. The division is
+between **proof methods**, not between the two families of system. Codified
+section 6.9's title, "The Hilbert line's engine", is looser than its own table,
+which lists IS(A) among the four.
+
+Fixed in section 6, in R3 section 1.1, and in the correction record that had
+asserted it - the entry for the round-five repair now carries its own
+withdrawal.
+
+The pattern is now well attested: round eight's anchor repair introduced a wrong
+codified section number, round sixteen's four-row table broke the row reference
+in the next paragraph, and round five's engine repair mis-assigned the method.
+A repair is an edit like any other and needs the same check the original claim
+got.
+
+audit.sh green.
+
 ## 2026-09-04 - Adversarial round sixteen: the provenance records were mis-dated
 
 An end-to-end read of refined-sjas.md, hunting the one class the kind-organised

@@ -627,21 +627,30 @@ sentence: "The Hilbert line does not use `θ`-Compactification. Its preservation
 results are proved directly, **by minimal counterexample**." There are two
 engines.
 
-- **The Hilbert line** does run the least-number argument: assume a proof `P` of
-  `⊥`, take the one minimising the Gödel number `Θ(P)`, construct a smaller `R`,
-  contradict minimality. `Willard2001` Thm 3.4 (`ISREF`) and Thm 4.3 (`IS`),
-  `Willard2006a` Thm 3 (`ISCE`), `Willard2016` Thm 6.7 (`IQFS`, conditional on
-  Conj. 6.6) — codified §6.9.
-- **The tableaux line** does not. Its engine is `Willard2005` **Theorem 1**
-  (codified §6.4): if `D` is `θ`-Compactified for some `θ < 1/3` then `IS_D(·)`
-  is consistency preserving — **apparatus-neutral**, saying nothing about
-  tableaux, and pushing everything apparatus-specific into the one hypothesis.
+- **The least-number method**: assume a proof `P` of `⊥`, take the one
+  minimising the Gödel number `Θ(P)`, construct a smaller `R`, contradict
+  minimality. `Willard2001` Thm 3.4 (`ISREF`) and Thm 4.3 (`IS`), `Willard2006a`
+  Thm 3 (`ISCE`), `Willard2016` Thm 6.7 (`IQFS`, conditional on Conj. 6.6) —
+  codified §6.9.
+- **The `θ`-compactification method**: `Willard2005` **Theorem 1** (codified
+  §6.4) — if `D` is `θ`-Compactified for some `θ < 1/3` then `IS_D(·)` is
+  consistency preserving. **Apparatus-neutral**, saying nothing about tableaux,
+  and pushing everything apparatus-specific into the one hypothesis.
 
-The size-relativity that makes the Rosser parallel is present on both lines, but
-it lives in different places: in the minimised `Θ(P)` on the Hilbert line, and
-in `U-Height(p) < (1/5)·Log₂(p)` and the `θ` bound on the tableaux line. The
-parallel below is stated for both; the least-number *mechanism* is the Hilbert
-line's alone.
+**The two methods do not partition by line, and an earlier version of this
+passage said they did.** It filed the least-number method under "the Hilbert
+line" and cited `Willard2001` Thm 4.3 for it — but Thm 4.3 is about **`IS(A)`**,
+which is *semantic tableaux* (registry `SJAS-Origin`; codified §3.1's Type-A
+row). So a tableaux system's preservation is proved by minimal counterexample in
+2001, and covered again by the apparatus-neutral engine in 2005. The division is
+between **proof methods**, not between the two families of system. Codified
+§6.9's title, "The Hilbert line's engine", is looser than its own table.
+
+The size-relativity that makes the Rosser parallel is present in both methods,
+but it lives in different places: in the minimised `Θ(P)` in the first, and in
+`U-Height(p) < (1/5)·Log₂(p)` and the `θ` bound in the second. The parallel below
+is stated for both; the least-number *mechanism* belongs to the first method,
+whichever family of system it is applied to.
 
 So:
 

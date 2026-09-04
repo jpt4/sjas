@@ -225,7 +225,7 @@ Completion, not correctness: what the document omits about its own stage.
 
 | # | Defect | Where it was |
 | --- | --- | --- |
-| 55 | **The corpus has two preservation engines, and two documents conflated them.** §6 said "*every* consistency-preservation proof in the corpus" is a minimal-counterexample argument on `Θ(P)`, and cited `Willard2005` Theorem 1 as an instance. Codified §6.9 opens by denying both: "The Hilbert line does not use `θ`-Compactification. Its preservation results are proved directly, by minimal counterexample." `Willard2005` Thm 1 **is** the `θ`-compactification engine (codified §6.4) — apparatus-neutral, the other method. The least-number mechanism belongs to the Hilbert line alone: `Willard2001` Thms 3.4 and 4.3, `Willard2006a` Thm 3, `Willard2016` Thm 6.7 | `refined-sjas.md` §6, `R3-the-margin.md` §1.1 |
+| 55 | **The corpus has two preservation engines, and two documents conflated them.** §6 said "*every* consistency-preservation proof in the corpus" is a minimal-counterexample argument on `Θ(P)`, and cited `Willard2005` Theorem 1 as an instance. Codified §6.9 opens by denying both: "The Hilbert line does not use `θ`-Compactification. Its preservation results are proved directly, by minimal counterexample." `Willard2005` Thm 1 **is** the `θ`-compactification engine (codified §6.4) — apparatus-neutral, the other method. The least-number mechanism is `Willard2001` Thms 3.4 and 4.3, `Willard2006a` Thm 3, `Willard2016` Thm 6.7. **This entry's own closing clause said that mechanism "belongs to the Hilbert line alone", which correction #94 withdraws: Thm 4.3 is about `IS(A)`, a semantic-tableaux system.** | `refined-sjas.md` §6, `R3-the-margin.md` §1.1 |
 | 56 | R3 §3's heading asserted "every dial moves one of the two terms" — the claim §3.3 retracts for Level(n). A reader skimming headings got the withdrawn version; the claim block now carries the verdict beside it | `R3-the-margin.md` §3 |
 | 57 | `R1-review.md` §4 still stated B5 as "prove **the five dials** are instances of the general form", superseded by R3's three-of-five and by §5's refutation of the premise that a third instance exists | `R1-review.md` §4 |
 
@@ -335,6 +335,12 @@ sweeps miss: a claim inconsistent with its own document.
 | 91 | **A systematic dating error.** After a mid-session date change, nine entries in the nachlass log, ten pass headings here, and five registry/concordance entries were dated **2026-09-02** for work whose commits are timestamped **2026-09-04**. Corrected against `git log`, which is the only authority available for this | the nachlass log, this file, and the gaps, notation, results, drift-ledger and replication-map registries |
 | 92 | **This file's passes were out of order** — the third preceded the second, because insertions anchored on different strings | `VERIFICATION.md` |
 | 93 | **Round nine had no entry in the nachlass log.** Commit 8199a22 went in without one; the log's own per-round structure is what made the omission visible. Written and inserted in sequence, marked as back-filled | the nachlass log |
+
+## Corrections applied 2026-09-04, seventeenth pass
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 94 | **The two preservation methods do not partition by line, and round five's repair said they did.** It filed the least-number method under "the Hilbert line", citing `Willard2001` Thm 4.3 — but Thm 4.3 proves consistency preservation for **`IS(A)`**, which is *semantic tableaux* (registry `SJAS-Origin`; codified §3.1's Type-A row). The division is between **proof methods**, not families of system, and codified §6.9's title "The Hilbert line's engine" is looser than its own table. A repair that introduced a fresh error of its own kind — the third such this session | `refined-sjas.md` §6, `R3-the-margin.md` §1.1, and correction #55 above |
 
 **Verified and found correct** in this pass — the rest of R6, read in full:
 Theorem 1.1's derivation (the contraction use is exactly where `Four` and
