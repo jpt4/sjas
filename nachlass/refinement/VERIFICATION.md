@@ -297,6 +297,20 @@ them; the reading did not.
 | 78 | **§9's Lawvere paragraph was stale.** It said the framing "does not give a categorical proof of any Willard result … a research direction, not a construction" — which ADR-0004 quotes as the gap R6 was written to fill, and R6 has since built the construction. §9 now records what R6 delivers *and* the non-claims its own §6 lists | `refined-sjas.md` §9 |
 | 79 | ADR-0002's status line said "R1 done…; R4–R5 pending" with no mention of R6, though the charter's own component table has an R6 row marked complete; and the "what remains open" list did not carry R6's non-claims | `ADR-0002` |
 
+| 80 | R3 §5.3's classification predates R6 and is coarser than it can now be: "a structural licence to use a context twice" is general contraction, where B–S lack only the **boxed** diagonal; and "the fixed point" conflates three strengths (universal / modalized / selected) and two distinct selected diagonals. Pointers added | `R3-the-margin.md` §5.3 |
+
+**Verified and found correct** in this pass — R6's own claims, spot-checked
+against sources: `Willard2001` Theorem A.1's **footnote 16** does give the
+selected `Θ(N) ⇔ ¬Der(⌜Θ(N)⌝)` from `Π⁻₁` strength, as R6 §0 says
+(image-verified); `Willard1993-TR` **Proposition 1** is `full` ("for each nice
+`A`, `IS(A)` is consistent"), and R6 carries that status in its own table;
+Beklemishev–Shamkanov **Lemma 5.1** is indeed the weakening rule, as R6 §3.2
+claims; and R6's readings of Remark 3.9, the affine-PA caution, and Willard's
+Type-A breach as HBL (2) all agree with the image-verified record here. **R6
+observes rule 2 more consistently than `refined-sjas.md` did** — it carries
+`full`, `sketch` and proof-omitted statuses at each point of use, including the
+AU source's sketch-level §6 Löb derivation.
+
 **Verified and found correct** in this pass: R6's account of Beklemishev–
 Shamkanov (it satisfies L1–L3 and lacks the *boxed diagonal*) agrees with
 `refined-sjas.md` §2.5 and `R2` §2.3; its identification of Willard's Type-A

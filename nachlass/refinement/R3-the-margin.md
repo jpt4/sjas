@@ -571,6 +571,26 @@ positive obligation on the theory's own axioms.
 > - (i) is free — Lawvere makes the fixed point available in any cartesian
 >   closed setting — and nobody gives it up.
 
+**Two sharpenings from R6** ([`lawvere-sjas.md`](lawvere-sjas.md)), written after
+this section and more precise than it.
+
+*On (iv).* "A structural licence to use a context twice" is contraction in
+general; what B–S actually lack is the **boxed** diagonal
+`copy_A : □A → □A ⊗ □A` alone. R6 §3.3 makes the categorical test the existence
+of `δ^□`, not the absence of an unrestricted contraction rule — which is also why
+an affine surface syntax buys nothing (obligation **RO1**).
+
+*On (i), and on the "empty cell" below.* "The fixed point" is three different
+strengths — **universal** (every endomorphism in a class has one),
+**modalized** (every modalized formula has a selected one), and **selected**
+(one specified endomorphism has one) — and two *different* selected diagonals
+occur here: the G2 diagonal `G ↔ ¬□G` and the self-consistency diagonal
+`H ↔ Con(B+H,D)`, neither implying the other (R6 §1.3). So the empty cell is
+narrower than stated: what no route attacks is the availability of the
+**selected G2 diagonal**, which is cheap for a quite different reason than
+Lawvere's universal theorem — `Willard2001` Theorem A.1's footnote 16 obtains it
+from `Π⁻₁` strength alone.
+
 The margin is the right invariant for the first cell, and it is complete for that
 cell, covering all five of Willard's dials at the strength §4 records. That is a
 smaller result than R3 was set up to look for, and it is what the evidence
