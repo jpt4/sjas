@@ -1,5 +1,117 @@
 # Nachlass Log
 
+## 2026-09-02 - Refinement review, deep pass: the nine unverified quotations read
+
+The previous pass flagged nine quotations in refined-sjas.md as having no
+register row, and left them. Under the standing rule that extracted text is not
+a source, flagging is not discharging. This pass read all nine against page
+images, plus eleven more pages of corroboration.
+
+**Eight of the nine were accurate. One was not.**
+
+Willard2016 section 9 says the evasions rested on arithmetics "weaker than
+traditional arithmetics **in, at least, some respects**". Section 7 quoted only
+"weaker than traditional arithmetics", dropping the qualifier and making his
+concession absolute. Section 7 now carries the sentence whole.
+
+That is the third elision of this exact class - after Willard2005 Remark 4's
+"in [68] implies that" and Willard2020 Theorem 4.5's hypothesis on beta - and
+the pattern is worth naming: the failures here are not mistranscribed symbols
+but **dropped hedges and dropped attributions**. Extracted text was never the
+cause of those three; compression was. The images-only rule does not reach this
+failure mode, and section 9 and VERIFICATION.md now say so.
+
+**Verified correct, and worth recording as verified:**
+
+- Section 2.2's claim that the TR states the governing Hilbert-Bernays fact
+  **four times**. Checked page by page: printed pp. 1, 2, 6 and 12. It is right.
+- Section 2.3c's claim that the tableaux line keeps successor and addition
+  total. Willard2011 Remark 6.16 has xi*, xi** and xi^R as "Type-A systems that
+  recognize addition as a total function", and TR p. 2 gives Solovay's two
+  conditions - (a) Gentzen with a cut rule, (b) recognizing Addition (or even
+  successor) as total - with the tableaux line relaxing (a), not (b).
+- Willard2020 Theorem 4.5 verbatim, with its sketch status visible on the page.
+- Willard2006a section 6's ISINF(A), "Infinitely Far-Reaching without sustaining
+  an ability to prove successor is a total function" - the uncited corpus
+  analogue of Pakhomov's H_<omega.
+- Willard2001 Theorem A.1's footnote 16 and the "differs from the classic
+  Hilbert-Bernays theorem only by..." passage, both verbatim.
+
+**Two smaller corrections.** Section 5.1 glossed Willard2002a Theorem 2.2 as
+"cut elimination preserves theoremhood while the proof can be longer"; the
+blowup is in **building the composite** of three proofs under a cut-free method,
+not in eliminating cuts from one already built - section 2.3 had it right all
+along. And Hybrid(H)'s domain restriction i >= 3 was missing everywhere, as was
+Willard's own framing that the convention "can unify the formalisms of Theorems
+3 and 4" - which supports R3's project and no draft had cited.
+
+**Drift D82 understated the problem, and is rewritten.** It recorded two omega
+families; there are **three**. Willard2001 p. 45 defines both the Hajek-Pudlak
+omega_i and the Wilkie-Paris varpi_i - and **varpi_1 is exactly
+Willard2007-APAL's omega_1** under a different letter, while Willard2001's
+Hajek-Pudlak omega_1 is about x^2, essentially Willard2020-LFCS's omega_0. The
+hierarchies are offset by an index as well as differing in definition, so a bare
+"omega_1" is ambiguous even once the paper is named. Willard himself notes the
+prior literature "has found it mostly unnecessary to distinguish between the two
+slightly different notations", which is how the letters drifted.
+
+Register: 41 rows, all image-verified. Notation: 227 rows. audit.sh green, and
+M5 again caught the README count before I did.
+
+## 2026-09-04 - R6 completion review: two fixed points, one positive difference
+
+The categorical repair still conflated two selected Willard diagonals. The G2
+proof in Theorem 1.1 consumes `G <-> not Box G`, displayed under the
+`Pi^-_1`-strength hypothesis in `Willard2001` Theorem A.1 footnote 16. The 1993
+Group-3 construction instead produces `H <-> Con(B+H,D)`, whose being adjoined
+as an axiom supplies the internal consistency point. Both use fixed-numeral
+substitution, but they are not the same proposition or the same logical role.
+`refinement/lawvere-sjas.md`, ADR-0004, and the verification row now separate
+them.
+
+The review also closes an understated B-S fact. Their toy `S` is externally
+consistent in Definition 2.1's sense: otherwise I4, the bottom initial sequent,
+and Theorem 5's admissible cut would make Proposition 4.1's expressly
+underivable sequent derivable. Thus external consistency is shared by B-S and
+Willard. The positive difference is exactly the internal consistency point:
+B-S has none (§6), while Willard's Group-3 supplies one and Proposition 1
+(`full`) proves that its theory remains consistent.
+
+Theorem 1.1 now states the exact selected fixed point and `BoxContr_G` instance
+it uses, rather than suggesting a general family is necessary. The AU section
+also carries the source's own qualification that its §6 Löb derivation is a
+sketch.
+
+## 2026-09-04 - R6 categorical repair: two independent missing maps
+
+The 2026-09-02 R6 completion claim did not survive categorical review. Its
+`Aff(alpha)` was expressly allowed to fail closure under composition, so it was
+not a category; it also promoted Willard's selected Group-3 fixed point to an
+unsupported universal Lawvere situation.
+
+Replaced `refinement/lawvere-sjas.md` with a three-way proof-doctrine
+comparison, after reading the relevant source pages as rendered images:
+
+1. van Dijk-Oldenziel: `Box = Gamma R`; HBL maps are Props. 6.5, 6.6 and
+   6.8; Prop. 6.8 is internal-Hom evaluation; finite products supply the
+   normally implicit contraction diagonal; Lem. 6.12 is universal fixed point.
+2. Beklemishev-Shamkanov: the APS is a thin category and the implication
+   calculus a symmetric monoidal proof category (cut is admissible). Their toy
+   `S` satisfies all three Lob conditions and has fixed points; it lacks the
+   boxed diagonal. It blocks formalized G2 but does not prove `not Box bottom`.
+3. Willard Type-A `IS(A)`: the base syntactic category is cartesian, but the
+   uniform HBL-(2) proof-composition entailment is absent; fixed proof-code
+   instances exist. The same pointwise/uniform split gives the selected
+   Group-3 substitution instance without total substitution. Group-3 supplies
+   an internal consistency point and Prop. 1 (`full`) supplies external
+   consistency.
+
+The two evasions are therefore orthogonal: B-S remove structural duplication
+under `Box`; Willard removes internal uniform evaluation while retaining the
+positive and semantic data required for self-justification. The exact HBL
+breach remains unassigned for Willard routes other than the Type-A `IS(A)` case
+that the 1993 report names.
+
 ## 2026-09-02 - Review of refined-sjas.md for completion and correctness
 
 Seven findings. The first is the one worth keeping.
@@ -2434,3 +2546,10 @@ Next per charter: C14-C15, composition of codified-sjas.md.
 - In the parent Proflog repository only, added an ignore rule for `sjas/` and
   pushed it as `0801cb1 Ignore nested sjas repository`, so the nested SJAS clone
   is not uploaded twice by Proflog.
+
+## 2026-09-04 - §8 expanded: B–S and Willard situations vs AU
+
+Categorical presentations of Beklemishev–Shamkanov (Def 8.2) and Willard SJAS
+(Def 8.7) on a common G2-relevant interface with vDO §6 HBL props plus
+`copy_□`. Thms 8.11–8.12 identify: B–S drops copy_□ (mere G2-evasion,
+no ⊢Con); Willard drops mp_□ from Aff (self-justifying).

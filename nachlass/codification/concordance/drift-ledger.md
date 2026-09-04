@@ -1328,25 +1328,38 @@ Also see **D57** (JSL page-range typo in the conference form).
 
 ---
 
-## D82 — two different `ω₁`s, in two papers, under the same name
+## D82 — three `ω` families in the corpus, two of them sharing the name `ω₁`
 
-| Source | Definition |
-| --- | --- |
-| `Willard2007-APAL` §4 (printed p. 18) | "Let `ω₁(x)` denote the usual function operator that maps the integer `x` onto the quantity **`x^{Log(x)}`**"; `ω₁^K` is `K` iterations |
-| `Willard2020-LFCS` (printed p. 16) | `ω₀(x) = x²`; `ω_{j+1}(x) = 2^{ω_j(2·Log₂(x+1))}`, so **`ω₁(x) ≥ x^x`** |
+| Source | Definition | Index-1 member |
+| --- | --- | --- |
+| `Willard2001` p. 45 — **Hájek–Pudlák** convention | `ω₀(x) = 2x`; `ω_{i+1}(0) = 0`, `ω_{i+1}(x) = 2^{ω_i(⌈Log₂(x+1)⌉−1)}` | `ω₁(x) ≈ x²` |
+| `Willard2001` p. 45 — **Wilkie–Paris** convention, written `ϖ` | `ϖ₀(x) = x`; `ϖ_{i+1}(x) = x^{ϖ_i(⌈Log₂(x+1)⌉−1)}` | `ϖ₁(x) = x^{⌈Log₂(x+1)⌉−1} ≈ x^{Log x}` |
+| `Willard2007-APAL` §4 (printed p. 18) | "Let `ω₁(x)` denote the usual function operator that maps the integer `x` onto the quantity **`x^{Log(x)}`**"; `ω₁^K` is `K` iterations | `ω₁(x) = x^{Log x}` |
+| `Willard2020-LFCS` (printed p. 16) | `ω₀(x) = x²`; `ω_{j+1}(x) = 2^{ω_j(2·Log₂(x+1))}` | `ω₁(x) ≥ x^x` |
 
-- Found 2026-09-02, reviewing `refined-sjas.md` §3 against the originals. The
-  two are not the same function and not within a constant of one another:
-  `x^{Log x}` is quasi-polynomial, `2^{x²·…}` is exponential.
-- Neither paper cross-references the other's use, and neither registry entry
-  existed before this review — `Willard2007-APAL`'s `ω₁` was carried by the
-  Refinement (§3's `ω₁^K(p)` verification bound) without ever being recorded,
-  and `R1-review.md` recorded §3 as "verified against `Willard2007-APAL` §4"
-  on the strength of a reading that left no registry trace.
-- The `Willard2007-APAL` form is the one the SJAS argument uses: its `(∗)`
-  bounds the Gödel number of a proof that "`p` proves `T` from `α`" by
-  `ω₁^K(p)`, and `IΣ₀` cannot prove `∀x ∃y ω₁(x) = y` (Eq. 32) — the totality
-  failure the programme turns on.
-- Status: open. A codified statement using `ω` must say which paper's `ω` it
-  means, exactly as D81 requires for `SemPrf^K`.
+**The collision, precisely.** Two papers use the letter `ω₁` for different
+functions: `Willard2007-APAL`'s is `x^{Log x}` (quasi-polynomial),
+`Willard2020-LFCS`'s is at least `x^x` (exponential). They are not within a
+constant of each other, and neither paper cites the other's use.
 
+**The concordance the collision hides.** `Willard2007-APAL`'s `ω₁` is not a new
+function: it is the **Wilkie–Paris `ϖ₁`** that `Willard2001` p. 45 already
+defines, under a different letter and with no cross-reference. And
+`Willard2001`'s *Hájek–Pudlák* `ω₁ ≈ x²` is essentially `Willard2020-LFCS`'s
+`ω₀(x) = x²` — so the two `ω` hierarchies are offset by one index as well as
+differing in definition. `Willard2001` notes that `IΣ₀` proves the Hájek–Pudlák
+and Wilkie–Paris `Ω_i` equivalent for `i ≥ 1`, and that "the prior literature
+has found it mostly unnecessary to distinguish between the two slightly
+different notations" — which is how the letters came to drift.
+
+- Found 2026-09-02, reviewing `refined-sjas.md` §3 against the originals. None of
+  these was recorded in any registry before that review, although §3 of the
+  Refinement rests on the `Willard2007-APAL` form and `R1-review.md` recorded §3
+  as "verified against `Willard2007-APAL` §4".
+- The `Willard2007-APAL` form is the one the SJAS argument uses: its `(∗)` bounds
+  the Gödel number of a proof that "`p` proves `T` from `α`" by `ω₁^K(p)`, and
+  `IΣ₀` cannot prove `∀x ∃y ω₁(x) = y` (Eq. 32) — the totality failure the
+  programme turns on.
+- Status: open. A codified statement using `ω` must name the paper *and* the
+  convention, as D81 requires for `SemPrf^K`. Because of the index offset, a
+  bare "`ω₁`" is ambiguous even once the paper is named.

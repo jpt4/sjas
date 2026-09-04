@@ -58,7 +58,16 @@ been checked against the page in this stage.
 | "every self verifying system must breach … one of the three fundamental Hilbert-Bernays conditions" | `Willard1993-TR` | printed p. 1 | img (C5) |
 | "may arise because of either the axiom system employed or the choice of deduction method, but not necessarily due to both" | `Willard1993-TR` | printed p. 1 | img (C5) |
 | **"only in the *degenerate case* where `x` and `y` are *fixed constants*"** — the condition-(2) failure | `Willard1993-TR` | printed p. 12 | img (C5); recorded at `../codification/extraction/willard1993-tr.md` §3.7c |
+| Theorem A.1 (`stated-only`) and footnote 16: for `Theta(z) := forall x forall y (Subst(z,x) -> not Derive(x,y))` and `N = code(Theta)`, `alpha` proves `Theta(N) <-> not Der(code(Theta(N)))`; the fixed-point identity is the only step said to need PA's `Pi^-_1` theorems, while the rest uses conditions (1)-(3) | `Willard2001` | pp. 44–45 | **img (2026-09-02; formula re-verified 2026-09-04)** |
+| Hájek–Pudlák `ω_i` (`ω₀(x) = 2x`, `ω_{i+1}(x) = 2^{ω_i(⌈Log₂(x+1)⌉−1)}`) and Wilkie–Paris `ϖ_i` (`ϖ₀(x) = x`, `ϖ_{i+1}(x) = x^{ϖ_i(⌈Log₂(x+1)⌉−1)}`) | `Willard2001` | p. 45 | **img (2026-09-02)** — a **third** `ω` family; see drift **D82** |
+| Printed p. 1's Feferman contrast: "[Fe60] illustrates a self-verifying system which employs all the axioms of Peano Arithmetic, but which draws upon a deduction method which captures the numerical but not intensional definition of classic deduction"; `IS(A)` uses "a deduction method as natural as semantic tableaux" and weakens "several of the axioms of Peano Arithmetic, including the axiom that the multiplication function is total". Also: the governing HBL fact is stated on **four** pages — printed pp. 1, 2, 6 and 12 | `Willard1993-TR` | printed pp. 1, 2, 6 | **img (2026-09-02)** |
+| Theorem 2.2 and its proof sketch: composing `Λ`, `Θ`, `Λ∧Θ ⇒ Ξ`, where under a cut-free method the composite's "length can certainly be super-exponentially longer than the combined lengths of `p`, `q` and `r`" | `Willard2002a` | printed p. 7 | **img (2026-09-02)** |
+| "Alternative Naming Conventions": hybridized conventions "lie midway between the additive and multiplicative conventions"; Hybrid(`H`) defines `C_i = ⌈2^{[Log(i)]^H}⌉·C_{i−1}` **for `i ≥ 3`**; "This convention can unify the formalisms of Theorems 3 and 4"; `H = 1` keeps Thm 3's exception, `H > 1` generalises Thms 4 and 4\*. Also §6's `ISINF(A)`, "Infinitely Far-Reaching without sustaining an ability to prove successor is a total function" | `Willard2006a` | printed pp. 8, 30 | **img (2026-09-02)** |
+| Remark 6.16b: the SelfCons axiom "causes axiom systems to produce essentially a 1-line proof of their own consistency … an *instinctive faith* … rather than it supporting a full-length proof-justification"; and that `ξ*`, `ξ**`, `ξ^R` are Type-A systems recognising addition as total | `Willard2011` | printed p. 28 | **img (2026-09-02)** |
+| §8's statement ###: "Is it not *almost cheating* when an axiom system verifies its own consistency by using ⊕'s formalized 'I am consistent' axiom as an intermediate step…"; and §9's "arithmetics that were weaker than traditional arithmetics **in, at least, some respects**. (The Second Incompleteness Theorem's significance in refuting the original objectives of Hilbert's Consistency Program is thus, simply, undeniable.)" | `Willard2016` | printed pp. 27, 29 | **img (2026-09-02)** |
+| Theorem 4.5 verbatim: `IS_Xtab(β)` "is automatically inconsistent whenever `β` proves some conventional `Π*₁` theorems stating that addition and multiplication satisfy their usual associative, commutative, distributive and identity properties"; and the `sketch` status on the page — the proofs "would be quite lengthy, if they were derived from first principles" | `Willard2020` | printed p. 12 | **img (2026-09-02)** |
 | Theorem A.1's three conditions, verbatim, and "Suppose **for any two sentences** `Φ` and `Ψ`" — the uniformity the TR's condition-(2) failure denies; status `stated-only` | `Willard2001` | p. 44 | **img (2026-09-02)** |
+| `IS(A)` cannot prove `∀x∃y SUBST_i(x,y)`, but proves `∃y SUBST_i(k̄,y)` for each fixed integer `k̄`; the fixed instance suffices for Group-3, whose sentence and self-dependent proof predicate are Equations (A.2)-(A.3) | `Willard1993-TR` | printed pp. 37–38, Point of Clarification and Eqs. (A.2)–(A.3) | **img (2026-09-04)**; recorded at `../codification/extraction/willard1993-tr.md` §3.8 |
 | Lemma 7.1 "replaces the Hilbert-Bernays derivability conditions with a semantic argument" | — | `../codification/registry/results.md` row `Willard2001#Lem7.1` | **img — via the registry digest, image-verified at C7.** Not quoted from the paper directly, and cited as the registry's wording |
 | "Conventional generic configurations `ξ` will satisfy the Hilbert-Bernays derivability conditions [16, 15]. Their `G^ξ_k(θ)` will thus be automatically inconsistent because of a Gödel-like diagonalization argument." | `Willard2011` | printed p. 21 fn. 11 | **img (2026-09-02)** |
 | Tight, Def. 4.5 — refutation length at least envelope plus two | `Willard2011` | printed p. 13–14 | img (C6, 2026-08-21) |
@@ -77,6 +86,8 @@ been checked against the page in this stage.
 | Lemma 5 — `O(n)` nodes, "whose binary encoding has a `2^n` length that is much larger than `F`'s length"; status `sketch`, "We obviously have omitted many details here" | `Willard2009` | printed p. 24 | img (C11) |
 | "the true reason … Lemma 8 … collapses entirely" | `Willard2000-TAB` | §5 | img (C10) |
 | Def. 3.7 plain contraction and weakening; Prop. 3.8's C3 step **with `□`**; Thm 3; Thm 4 (contraction **and** weakening; conclusion `⊠⊤ =_S □⊥`); Rem. 3.9's `□`-contraction and `□`-weakening | Beklemishev–Shamkanov | p. 8 | **img (2026-09-02)** |
+| Defs. 2.1 and 2.3 (preorder, external consistency, APS); Defs. 3.1–3.4 (multiset consequence, implication, conjunction, L1–L3); and Rem. 3.6's no-built-in-contraction warning | Beklemishev–Shamkanov | pp. 3–7 | **img (2026-09-04)** |
+| Löb conditions L1–L3 and the no-built-in-contraction warning; concrete `S` has modalized fixed points and its displayed modal rule; Prop. 4.1 states failure of formalized G2 after calling it easy from cut-freeness but gives no proof; Prop. 4.3 gives many fixed points; Lem. 5.1 proves weakening admissible; Thm 5 proves cut admissibility | Beklemishev–Shamkanov | pp. 7, 9–11 | **img (2026-09-04)** |
 | "the system `S` does not provide a counterexample to the non-formalized version of G2, since `⇒ ¬□⊥` is not provable" | Beklemishev–Shamkanov | p. 14 | **img (2026-09-02)** |
 | "we are still missing convincing examples of mathematical theories based on weak logics for which G2 would fail" | Beklemishev–Shamkanov | p. 14 | **img (2026-09-02)** |
 | superexponentiation, the cut `S`, the finite model of size at most the tower, and `Con^pred` | Pakhomov | p. 4 | **img (2026-09-02)** |
@@ -84,6 +95,7 @@ been checked against the page in this stage.
 | "the properties of `SUM` in theory `H` that could not even prove totality of successor function" — about `H` alone, in the proof of Cor. 5.3 | Pakhomov | **p. 22** (not p. 21) | **img (2026-09-02)** |
 | footnote 3 (Beklemishev's simplification "still unpublished"); Acknowledgments | Pakhomov | **p. 24** (not p. 25; p. 25 is References) | **img (2026-09-02)** |
 | "The theories in his examples are not completely natural in the sense that some of axioms are constructed using Diagonal Lemma. The main result of the present paper is the construction of a more natural example of this kind." | Pakhomov | p. 3 | **img (2026-09-02)** |
+| `□ = Γ∘R`; propositions as subobjects of `1`; classifying-AU implication; direct G2 Thm 5.20; Props. 6.5–6.10 including internal-Hom evaluation in Prop. 6.8; Lem. 6.12 fixed points; Thm 6.13 Löb; Rem. 6.14 non-cartesian-closure warning; §6 is explicitly introduced as a sketch | van Dijk–Oldenziel | printed pp. 26, 28–30 | **img (2026-09-04)** |
 
 ## Computed claims
 
@@ -162,3 +174,28 @@ that a marker is about the same claim as the text it guards. A green R-D means
 "these exact sentences have not returned unmarked" and nothing stronger. The
 review demonstrated the rewording gap by construction; it is inherent to the
 mechanism, and is recorded rather than papered over.
+
+## Corrections applied 2026-09-02, fourth pass
+
+The nine quotations flagged unverified in the third pass were read against the
+page. Eight were accurate; the register debt is closed.
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 40 | **A dropped hedge.** `Willard2016` §9 says the evasions rested on arithmetics "weaker than traditional arithmetics **in, at least, some respects**". §7 quoted only "weaker than traditional arithmetics", making Willard's concession absolute. Third elision of this class — after `Willard2005` Rem. 4's "in [68] implies that" and `Willard2020` Thm 4.5's hypothesis on `β`. The pattern is dropped hedges and attributions, not mistranscribed symbols | `refined-sjas.md` §7 |
+| 41 | §5.1 glossed `Willard2002a` Thm 2.2 as "cut elimination preserves theoremhood while the proof can be longer". The blowup is in **building the composite** of three proofs under a cut-free method, not in eliminating cuts from one already built; §2.3 had it right | `refined-sjas.md` §5.1 |
+| 42 | Hybrid(H)'s domain restriction **`i ≥ 3`** was omitted from the recurrence wherever it appears, and Willard's own framing — the convention "can unify the formalisms of Theorems 3 and 4" — was never cited, though it supports R3's project | `refined-sjas.md` §5, `R3` §3.1 |
+| 43 | §9 still listed nine quotations as unverified after they had been verified | `refined-sjas.md` §9 |
+| 44 | **Drift D82 understated the problem.** It recorded two `ω` families; there are **three**. `Willard2001` p. 45 defines both the Hájek–Pudlák `ω_i` and the Wilkie–Paris `ϖ_i`, and **`ϖ₁` is exactly `Willard2007-APAL`'s `ω₁`** under a different letter — while `Willard2001`'s Hájek–Pudlák `ω₁ ≈ x²` is essentially `Willard2020-LFCS`'s `ω₀`. The hierarchies are offset by an index as well as differing in definition, so a bare "`ω₁`" is ambiguous even once the paper is named | `concordance/drift-ledger.md`, `registry/notation.md` |
+
+**Verified and found correct** in this pass, beyond the eight accurate
+quotations: §2.2's claim that `Willard1993-TR` states the governing
+Hilbert–Bernays fact **four times** (printed pp. 1, 2, 6, 12 — checked page by
+page); §2.3c's claim that the tableaux line keeps successor and addition total
+(`Willard2011` Rem. 6.16 has `ξ*`, `ξ**`, `ξ^R` as "Type-A systems that
+recognize addition as a total function", and TR p. 2 records Solovay's condition
+(b) as the one the tableaux line does *not* relax); `Willard2020` Thm 4.5
+verbatim with its `sketch` status visible on the page; and `Willard2006a` §6's
+`ISINF(A)`, "Infinitely Far-Reaching without sustaining an ability to prove
+successor is a total function", which is the uncited corpus analogue of
+Pakhomov's `H_{<ω}` that `R1-review.md` §2.1 identifies.

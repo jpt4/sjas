@@ -426,7 +426,7 @@ naming steps reach:
 | --- | --- | --- | --- |
 | incremental `C_{i−1}+1` | `log n` | yes | works, but **not Continuously Expanding** — it reaches every integer, too slowly for the `K_i` sequence `Willard2006a` p. 7 requires |
 | **additive** `C_{i−1}+C_{i−1}` | `n` | yes | **works** |
-| **Hybrid(1)** `⌈2^{Log i}⌉·C_{i−1}` | `Θ(n log n)` | **no** | **works** |
+| **Hybrid(1)** `⌈2^{[Log i]}⌉·C_{i−1}`, `i ≥ 3` | `Θ(n log n)` | **no** | **works** |
 | Hybrid(H), `H > 1` | `Θ(n (log n)^H)` | no | fails |
 | multiplicative `C_{i−1}·C_{i−1}` | `2^n` | no | fails |
 
@@ -474,9 +474,14 @@ dial that varies only `d` cannot move `♯(β)`, and whatever it does to
 
 - **`ℜ`** (`Willard2004`) and **`Herb−k`** (`Willard2009` Def. 7) widen the class
   of intermediate theorems a proof may use — a property of the apparatus. That is
-  cut, hence proof compression (`Willard2002a` Theorem 2.2: cut elimination
-  preserves theoremhood while the proof "can certainly be super-exponentially
-  longer"). **Proved.**
+  cut, hence proof compression: `Willard2002a` Theorem 2.2 composes proofs of
+  `Λ`, `Θ` and `Λ∧Θ ⇒ Ξ` into one of `Ξ`, and under a cut-free method the
+  composite's "length can certainly be super-exponentially longer than the
+  combined lengths of `p`, `q` and `r`", its existence assured only by Gentzen's
+  Cut Elimination Theorem. (An earlier gloss said "cut elimination preserves
+  theoremhood while the proof can be longer", which misplaces the blowup: it is
+  in building the composite, not in eliminating cuts from one already built.
+  §2.3 states it correctly.) **Proved.**
 - **`Z`** (`Willard2020`) fixes which `Υ ∨ ¬Υ` instances are *logical axioms* —
   again the apparatus — and LEM-as-axioms is a cut (codified §4.5). **Proved.**
 - **Hybrid(H)** varies the language and base, so both terms are in play and the
@@ -571,9 +576,15 @@ and then listed five.)
 2. **The proof is one line.** `Willard2011` Remark 6.16b: self-justification
    from a SelfCons axiom yields "essentially a **1-line proof**" — instinctive
    faith, not proof-justification.
-3. **The programme's own verdict.** `Willard2016` §9: the evasions rest on
-   arithmetics "**weaker than traditional arithmetics**", and G2's refutation of
-   Hilbert's original objectives is "simply, **undeniable**."
+3. **The programme's own verdict.** `Willard2016` §9, quoted in full because an
+   earlier version of this item dropped the hedge and so made the concession
+   sound absolute: "All our published articles about self-justifying arithmetics
+   have emphasized that evasions of the Second Incompleteness Effect rested on
+   using arithmetics that were **weaker than traditional arithmetics in, at
+   least, some respects**. (The Second Incompleteness Theorem's significance in
+   refuting the original objectives of Hilbert's Consistency Program is thus,
+   simply, undeniable.)" The qualifier *in, at least, some respects* is
+   Willard's, and was elided.
 4. **The objection stands.** `Willard2016` §8 asks whether this is "**almost
    cheating**", answering only that a thinker needs no more than *Platonic
    Stability* — a formalism in which presuming one's own consistency provably
@@ -704,15 +715,19 @@ dials the margin *can* place are the three whose Willard-side results are
 weakest: `ℜ` at `sketch`/`sketch`, `Herb−k` and `Z` at `stated-only`. §5.1 is as
 strong as these statuses allow and no stronger, and that is not very strong.
 
-**Unverified quotations remain in this document.** Under the standing rule that
-extracted text is not a source, every quotation must be image-verified and
-registered in [`VERIFICATION.md`](VERIFICATION.md). Several here are not yet:
-the `Willard2001` footnote in §2.1, the two `Willard2001` phrases and the
-Feferman contrast in §2.2, the `Willard2020` Thm 4.5 hypothesis in §2.3b, the
-`Willard2002a` Thm 2.2 phrase in §5.1, the `Willard2006a` pp. 7–8 phrases in §5,
-and the `Willard2011` Rem. 6.16b and `Willard2016` §§8–9 quotations in §7. Each
-is backed by an image-verified row in `../codification/registry/results.md`, so
-none is *suspected* wrong; none has been checked against the page in this stage.
-Check R-B validates the register's rows and cannot detect a quotation that has no
-row, so register completeness is a human obligation, like verbatim transcription
-before it (ADR-0002 **B6**).
+**Every quotation in this document is now image-verified.** A review on
+2026-09-02 found nine that had no row in [`VERIFICATION.md`](VERIFICATION.md);
+all nine were then read against the page and registered. Eight were accurate.
+**One was not**: §7's report of `Willard2016` §9 quoted "weaker than traditional
+arithmetics" and dropped Willard's own qualifier *in, at least, some respects*,
+making his concession sound absolute. §7 now carries the sentence whole.
+
+That is the third elision of this kind the project has caught, and it is worth
+naming the pattern: the failures are not mistranscribed symbols but **dropped
+hedges and dropped attributions** — `Willard2005` Remark 4's "in [68] implies
+that", `Willard2020` Thm 4.5's hypothesis on `β`, and now this. Extracted text
+was never the cause; compression was.
+
+Check R-B validates the register's rows and cannot detect a quotation that has
+no row, so register completeness remains a human obligation, like verbatim
+transcription before it (ADR-0002 **B6**).

@@ -1,9 +1,11 @@
 # ADR-0004 — Lawvere–Yanofsky Translation of SJAS / G2 Evasion
 
-**Status.** **Complete 2026-09-02** — Main Theorem in
-[`lawvere-sjas.md`](lawvere-sjas.md) §0 proved (G2 in-scheme; Aff missing
-arrow for H4; necessary SJ conditions). Elevates the Lawvere hook that
-ADR-0002 B3 recorded as *downgraded to a framing*.
+**Status.** **Complete, corrected 2026-09-04** — the comparison theorem and
+three categorical presentations are in [`lawvere-sjas.md`](lawvere-sjas.md).
+The 2026-09-02 `Aff` formulation was withdrawn: a class expressly not closed
+under composition is not a category. The replacement uses a genuine syntactic
+category/proof doctrine for Willard, a symmetric monoidal Lindenbaum category
+for Beklemishev–Shamkanov, and the source's actual AU construction.
 **Branch discipline.** Logical units of this ADR land on `sjas-codification`
 (or a dedicated ADR-0004 branch if concurrent work requires isolation).
 **Depends on.** ADR-0001 (codified statement and registries); ADR-0002 R1–R3
@@ -51,25 +53,25 @@ hypothesis-breaker.
 
 Deliverables, in order:
 
-1. **Lawvere–Yanofsky proof of G2.** A complete derivation of
-   "consistent α cannot prove Con(α)" in which every appeal to LFPT /
-   Yanofsky representability is marked, every further hypothesis is named
-   (H0, H1, …), and the proof is self-contained enough that invalidating a
-   single Hi blocks a named step. Primary route: Hilbert–Bernays–Löb with
-   Lawvere supplying the diagonal lemma (matches Willard's own frame).
-   Secondary routes to record, not substitute: Jeroslow + □-contraction
-   (ALSJAS / Beklemishev–Shamkanov); Kreisel model-chain diagonal (the
-   instance Yanofsky 2003 flagged as "amenable to our scheme").
-2. **Hypothesis register.** A table mapping each Hi to the proof step it
-   licenses, with a blank column for Willard's status (holds / fails / open).
-3. **Willard invalidation.** For each affirmative Willard route, mark which
-   Hi fails and cite the corpus locus; prove that the remaining hypotheses
-   still give Group-3 / Lawvere representability.
-4. **Self-justification conditions.** Necessary conditions as: all Hi needed
-   for the Lawvere half, plus Con, plus consistency, plus failure of at least
-   one post-Lawvere Hi — matching Willard's obligatory-breach theorem and the
-   margin.
-5. **Provenance discipline.** Same as ADR-0002 constraint 4.
+1. **G2 comparison theorem.** State the selected Gödel/Löb fixed point, HBL,
+   structural, and propositional hypotheses separately, then derive the
+   incompatibility of an internal consistency point with external consistency.
+2. **AU baseline.** Read van Dijk–Oldenziel's actual `R`, `Gamma`, internal-Hom
+   evaluation, classifying-AU implication, and fixed-point constructions into
+   that register. Do not silently assume cartesian closure.
+3. **B–S presentation.** Present their APS as a thin category and their
+   multiset consequence relation as a symmetric monoidal closed proof category.
+   Record that all three Löb conditions hold while boxed contraction fails.
+4. **Willard presentation.** Use the cartesian syntactic category and its
+   predicate hyperdoctrine. For Type-A `IS(A)`, identify the missing *uniform*
+   HBL-(2) entailment. Keep separate (a) the selected Gödel fixed point used by
+   the G2 proof under Theorem A.1's strength hypothesis and (b) the selected,
+   fixed-numeral Group-3 self-consistency diagonal. Do not assign the same
+   breach to every Willard route.
+5. **Self-justification distinction.** Require both an internal consistency
+   point and external consistency. G2-evasion alone is only a negative result.
+6. **Provenance discipline.** Same as ADR-0002 constraint 4; all load-bearing
+   formulas and quotations are checked against rendered source pages.
 
 Primary document: [`lawvere-sjas.md`](lawvere-sjas.md).
 Working notes and failed attempts: `LOG.md` + optional `docs/log/` entries.
@@ -93,24 +95,44 @@ Working notes and failed attempts: `LOG.md` + optional `docs/log/` entries.
 
 - **L0** Methodological order respected: G2 proved in-scheme before Willard
   is used as a hypothesis-breaker (not merely as an external witness).
-- **L1** Yanofsky product-form LFPT stated and proved in the document's own
-  notation (citing Lawvere 1969 / Yanofsky 2003 / Yanofsky 2022 Thms 6.4–6.5).
-- **L2** Full Lawvere–HB–Löb proof of G2 with every hypothesis Hi named and
-  every step tagged by the Hi it consumes.
-- **L3** Hypothesis register complete enough that "Willard evades G2" means
-  "this named Hi fails at this corpus locus."
-- **L4** Willard's routes mapped onto the register; Group-3 retained as
-  Lawvere half intact.
-- **L5** Necessary conditions for self-justification read off the register
-  (which Hi may fail; which must hold), matching Willard's breach theorem and
-  the margin.
-- **L6** Explicit AAR after the first complete G2-in-scheme draft.
+- **L1** The common package explicitly separates fixed points, HBL (1)–(3),
+  boxed contraction, the internal consistency point, and external consistency.
+- **L2** The AU instance cites the exact §6 arrows and explains where cartesian
+  structure supplies contraction.
+- **L3** The B–S instance corrects the premise that an HBL condition fails:
+  L1–L3 hold; the boxed diagonal does not.
+- **L4** The Willard Type-A instance names HBL (2) at its corpus locus and
+  distinguishes fixed proof-code instances from an internal uniform arrow.
+- **L5** The selected Gödel fixed point and selected Group-3 self-consistency
+  fixed point are distinguished from one another and from the universal
+  fixed-point property of the AU; all-route generalisation is explicitly open.
+- **L6** The final table records that B–S's `S` is externally consistent but
+  only blocks formalized G2, whereas Willard additionally supplies the internal
+  consistency point and an external consistency theorem for the theory that
+  contains it.
 
 ## Consequences
 
-- ADR-0002 B3 is **reopened and upgraded**: Lawvere is no longer merely a
-  framing once L1–L5 hold.
+- ADR-0002 B3 is **reopened and upgraded to a comparison theorem**, not to a
+  claim that Willard's systems are AUs.
 - R4 (Brown–Palsberg) and the computational-analogue programme gain a precise
-  transfer target: an affordable subcategory of a Lawvere situation.
+  transfer target: a coded modal proof doctrine with the boxed diagonal and
+  uniform proof-composition map shown separately.
 - The "empty cell" remains open as a separate research question; R6 explains
   why the known routes do not occupy it.
+
+## AAR (2026-09-04) — three-way AU / B–S / Willard cell
+
+The first draft correctly separated HBL from boxed contraction, but represented
+Willard's internal weakness by `Aff`, a “wide class” explicitly allowed to fail
+composition. That made its missing-arrow claim noncategorical and concealed the
+important pointwise/uniform distinction. The corrected document uses the
+cartesian syntactic category of the weak arithmetic and places proof witnesses
+in its predicate hyperdoctrine. HBL (2) is now a missing uniform entailment in a
+genuine proposition category. It also retracts the claim that Group-3 supplies
+universal Lawvere representability: the AU proves fixed points for every
+endomorphism in Lemma 6.12, whereas Willard uses selected fixed-numeral
+instances. The completion review further separates the standard Gödel fixed
+point displayed in Willard 2001, Theorem A.1 footnote 16, from the distinct
+Group-3 self-consistency fixed point, and records that B-S's `S` is externally
+consistent even though it has no internal consistency point.

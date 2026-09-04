@@ -276,7 +276,12 @@ them survives.
 
 ### 3.1 The naming dial — side undetermined
 
-**Hybrid(H)** (`Willard2006a` p. 30). `C_i = ⌈2^{[Log i]^H}⌉·C_{i−1}`, so
+**Hybrid(H)** (`Willard2006a` p. 30, image-verified). Willard introduces
+"hybridized naming conventions that lie midway between the additive and
+multiplicative conventions": for fixed `H` **and any `i ≥ 3`**,
+`C_i = ⌈2^{[Log(i)]^H}⌉·C_{i−1}`. He offers it explicitly as a unifier — "This
+convention can unify the formalisms of Theorems 3 and 4" — which is a point in
+favour of this document's project that earlier drafts did not cite. So
 
 > `Log₂ C_n ≈ Σ_{i≤n} (Log i)^H ≈ n·(log n)^H`
 
