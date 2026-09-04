@@ -351,6 +351,22 @@ sweeps miss: a claim inconsistent with its own document.
 | 96 | **The charter's own review count and date were stale**: "Reviewed and repaired 2026-09-02 across ten passes", twice, after eighteen rounds spanning two days. Replaced with the dates and a pointer to the numbered corrections, which is the record rather than a restated figure | `ADR-0002` |
 | 97 | **R2 said `Willard1993-TR` "says three times" that every self-verifying system must breach an HBL condition.** Round three checked the TR page by page and found **four** — printed pp. 1, 2, 6, 12 — and `refined-sjas.md` §2.2 says four. Two documents of the same stage disagreed on a fact one of them had verified | `R2` §2.1 |
 
+## Corrections applied 2026-09-04, twentieth pass
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 98 | **R3's header block pointed at "§1.2"** for the A-Stability bridge, which the eighth pass renumbered to §2.2 — a stale reference inside the document's own summary, the first thing a reader meets | `R3-the-margin.md` header |
+| 99 | **And that summary omitted the document's most consequential finding**: that the margin's *sufficiency* has no `full` proof, Lemma 4.6 being `sketch`. A "what this delivers, stated first" block that leaves out the caveat governing everything it delivers is misleading by omission. Added, together with the fact that its A-Stability route is *less* rigorous than Willard's | `R3-the-margin.md` header |
+
+**Verified and found correct** in this pass — the cross-document sweep: all five
+documents agree that Willard's Type-A breach is condition **(2)** (seventeen
+sites checked) and that the Hilbert line's condition is *not* identified in the
+corpus; every `§N.M` reference in `refined-sjas.md`, `R3-the-margin.md` and
+`lawvere-sjas.md` resolves, whether internal or cross-file; and `Willard2001`
+Theorem A.1's `stated-only` status is carried at each site that rests on it.
+(§2.3's mention is a comparison of two *statements* of condition (2), not a
+claim resting on A.1's truth, and needs no status.)
+
 **Verified and found correct** in this pass: every other hand-maintained count
 in the stage. `refined-sjas.md` §2.2's "four times" (the TR's HBL passages),
 §4's "ten occurrences" (the replication map, now genuinely ten), §6's "three

@@ -2,18 +2,24 @@
 
 *Making the criterion a definition, and testing the five dials against it.*
 
-> **What this delivers, stated first — revised 2026-09-02 after a full
-> page-image re-reading of `Willard2011` §§4–5.**
+> **What this delivers, stated first — written 2026-09-02 after a full
+> page-image re-reading of `Willard2011` §§4–5, and revised through 2026-09-04.**
 >
 > - The **definition** holds. It is not a generalisation of Willard's Tightness,
 >   as earlier drafts claimed; it **is** Tightness, restated as an infimum.
+> - **But its sufficiency has no `full` proof in the corpus.** `Willard2011`
+>   Lemma 4.6 — Tightness implies self-justification, the reason the margin is
+>   worth defining — is **`sketch`**, and §5's rigorous engine (Thm 5.9, `full`)
+>   consumes **EA-stability instead**. §§2.2 and 6.
 > - **Three** of the five dials are now *proved* to move it, not merely argued —
 >   §3.0 gives the one-line reason none of the drafts had.
 > - **Level(n)'s** case does **not** hold. §3.3 retracts it.
 > - **Hybrid(H)'s** term remains unidentified, and the withdrawal is now
 >   attributed to Willard, who makes the same move himself at Eq. (20).
-> - The **A-Stability ⟹ Tightness** bridge holds and is completed (§1.2), but it
->   re-derives a conclusion Willard already has (Thm 5.11).
+> - The **A-Stability ⟹ Tightness** bridge holds and completes (**§2.2**), but it
+>   re-derives a conclusion Willard already has (Thm 5.11) — and by a *less*
+>   rigorous route, since his runs `full` end to end and this one ends in
+>   Lemma 4.6's sketch.
 > - The cross-route unification **fails**; §5.
 >
 > **B5 is partly met**, and the honest count is three of five, not five of five.

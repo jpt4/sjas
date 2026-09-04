@@ -1,5 +1,28 @@
 # Nachlass Log
 
+## 2026-09-04 - Adversarial round twenty: R3's own summary was stale and incomplete
+
+Two findings, both in the first thing a reader of R3 meets.
+
+Its header block pointed at "section 1.2" for the A-Stability bridge - a section
+the eighth pass had renumbered to 2.2. And, more seriously, the block omitted
+the document's most consequential finding: that the margin's *sufficiency* has
+no full proof in the corpus, Lemma 4.6 being sketch and section 5's rigorous
+engine consuming EA-stability instead. A "what this delivers, stated first" list
+that leaves out the caveat governing everything it delivers is misleading by
+omission. Both fixed, and the header now also records that R3's A-Stability
+route is the *less* rigorous of the two.
+
+The cross-document sweep this round came back clean. All five documents agree
+that Willard's Type-A breach is condition (2) - seventeen sites checked - and
+that the Hilbert line's condition is not identified in the corpus. Every section
+reference in refined-sjas, R3 and lawvere-sjas resolves, internal or cross-file.
+Willard2001 Theorem A.1's stated-only status is carried at each site resting on
+it; the one uncarried mention compares two *statements* of condition (2) rather
+than resting on the theorem, and needs none.
+
+audit.sh green.
+
 ## 2026-09-04 - Adversarial round eighteen: a hand-maintained count, stale in four places
 
 One finding, of a kind worth naming.
