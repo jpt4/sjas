@@ -1,5 +1,44 @@
 # Nachlass Log
 
+## 2026-09-02 - Adversarial round seven: rule 2 was being broken systematically
+
+**Every claim about a Willard result carries that result's Proof status, at the
+point of use.** That is rule 2 of VERIFICATION.md, written after the first
+review. A deliberate sweep this round found it broken in four places, one of
+them structural.
+
+**Willard2001 Theorem A.1 is stated-only, and section 2.2 did not say so.** That
+is the theorem the entire Hilbert-Bernays frame rests on - "Willard's systems
+prove all of PA's Pi^-_1 theorems, they therefore must breach one of (1)-(3)".
+Willard writes "we will not give a formal proof of Theorem A.1 in this very
+short appendix" and offers footnote 16's reduction to Hilbert and Bernays'
+construction instead. The Refinement's central framing device inherits that
+status and never said so.
+
+Also: Willard2002a Theorem 2.2 is sketch (headed "Proof Sketch" on the page) and
+was cited bare three times; Willard2006a Theorem 6 is sketch, and R1-review
+leant on it as the corpus analogue of H_<omega without flagging it.
+
+**A third check that passed by never matching.** I wrote a prototype check for
+this very rule. It stripped backticks from the citations it extracted, then
+grepped the files for the stripped form - which never occurs - so it reported
+every status as carried. Removing a status I had just added produced no failure,
+which is how it was caught. That is the same failure as R-D's first guard window
+and R-C's subshell bug: a check that is green because its own matching is
+broken. Three times in one session. Red-green testing is the only reason any of
+them was caught, and a check that has never been seen to fail should not be
+believed.
+
+**R-E is therefore informational.** No positional heuristic captures rule 2 - a
+status may sit in a following paragraph, or in the prose around a table. Both a
++/-2 line window and a paragraph window were tried and both produced three false
+positives out of four. So R-E lists every non-full result the Refinement cites,
+with its status and citation count, and leaves the judgement to a reader. It
+does fail on the one thing it can decide: a citation resolving to no row in
+results.md. Six distinct non-full results are currently cited, all sketch.
+
+audit.sh green.
+
 ## 2026-09-02 - Adversarial round six: a conditional result used bare, and section 8 against itself
 
 Four findings. The first is the one the project's own machinery already forbade.

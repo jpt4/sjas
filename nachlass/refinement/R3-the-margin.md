@@ -340,7 +340,7 @@ Three dials do the same thing by the other route: they make refutations
 
 | Dial | What widening it permits | Effect |
 | --- | --- | --- |
-| **`ℜ`** (`Willard2004`) | a `Tab-ℜ-List` proof may use intermediate theorems from `ℜ` | on `ℜ`, composition becomes **linear-sum** rather than super-exponential (`Willard2002a` Thm 2.2), so `q_β` collapses |
+| **`ℜ`** (`Willard2004`) | a `Tab-ℜ-List` proof may use intermediate theorems from `ℜ` | on `ℜ`, composition becomes **linear-sum** rather than super-exponential (`Willard2002a` Thm 2.2, **`sketch`**), so `q_β` collapses |
 | **`Herb−k`** (`Willard2009` Def. 7) | the same, with Herbrand proofs and `Level-k` intermediates | same |
 | **`Z`** (`Willard2020` §7) | instances of `Υ ∨ ¬Υ` for `Υ ∈ Z` become **logical axioms** | LEM-as-axioms *is* cut (codified §4.5); composition on `Z` becomes linear-sum, `q_β` collapses |
 

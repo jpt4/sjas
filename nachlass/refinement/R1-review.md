@@ -98,9 +98,12 @@ of the axioms used) alongside Willard's (a bounded valuation on a branch), and a
 criterion phrased in terms of the witness covers both. That is a reason to
 prefer the general form. It is not a falsification of the special one.
 
-**And the corpus already held the analogue, uncited.** `Willard2006a` Theorem 6's
-**`ISINF(A)`** is *Infinitely Far-Reaching* — some finite subset proves
-`∃x Pred^N(x) = 1` for every `N` — while not proving successor total. That is
+**And the corpus already held the analogue, uncited.** `Willard2006a` Theorem 6
+(**`sketch`** — the status belongs here, since this is the comparison the section
+turns on) gives **`ISINF(A)`**: *Infinitely Far-Reaching* — some finite subset
+proves `∃x Pred^N(x) = 1` for every `N` — while, in Willard's own words,
+"Infinitely Far-Reaching **without sustaining an ability to prove successor is a
+total function**" (§6, image-verified 2026-09-02). That is
 structurally `H_{<ω}`'s shape. Had this review consulted `registry/systems.md`
 before reaching for a falsification, the comparison would have been to `ISINF`
 rather than to a misreading.

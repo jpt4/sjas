@@ -137,7 +137,39 @@ PATTERNS
   echo "  R-D: $n retracted claims checked; each occurrence is quoted or marked retracted on its own line"
 }
 
+# R-E is INFORMATIONAL and never fails. Rule 2 of VERIFICATION.md ("every claim
+# about a Willard result carries that result's Proof status, at the point of
+# use") is written per section, not per line or per paragraph: a status may sit
+# in a following paragraph, or in a table's surrounding prose. Both a +/-2 line
+# window and a paragraph window were tried on 2026-09-02 and produced three false
+# positives out of four. So R-E does not judge -- it lists every non-`full`
+# result the Refinement cites, with its status and where it is cited, so a reader
+# can check the obligation by eye. Carrying the status remains a human duty.
+run_r_e() {
+  local docs cite bare paper rest kind num k st n=0
+  docs=$(r_docs | tr '\n' ' ')
+  echo "  R-E (informational): non-\`full\` corpus results cited by the Refinement --"
+  while IFS= read -r cite; do
+    bare=$(printf '%s' "$cite" | tr -d '`')
+    paper=${bare%% *}; rest=${bare#* }
+    kind=${rest%% *}; kind=${kind%.}; num=${rest##* }
+    case "$kind" in Theorem|Thm) k=Thm ;; Lemma|Lem) k=Lem ;; Definition|Def) k=Def ;;
+                    Remark|Rem) k=Rem ;; Corollary|Cor) k=Cor ;; *) continue ;; esac
+    st=$(grep -m1 "^| $paper#$k$num " registry/results.md 2>/dev/null |
+         awk -F"|" '{gsub(/^ +| +$/,"",$8); print $8}')
+    if [ -z "$st" ]; then
+      err "R-E: refinement cites '$bare', which resolves to no row '$paper#$k$num' in results.md"
+      continue
+    fi
+    case "$st" in full|n/a) continue ;; esac
+    printf '      %-28s %-11s cited %s time(s)\n' "$bare" "[$st]" \
+      "$(grep -c -F -- "$cite" $docs 2>/dev/null | awk -F: '{t+=$NF} END{print t+0}')"
+    n=$((n + 1))
+  done < <(grep -ho '`Willard[0-9A-Za-z-]*` \(Theorem\|Thm\|Lemma\|Lem\|Definition\|Def\|Remark\|Rem\|Corollary\|Cor\)\.\? [0-9A-Z][0-9.]*' $docs 2>/dev/null | sort -u)
+  echo "      ($n distinct non-\`full\` results; statuses must be carried at each point of use)"
+}
+
 run_all_r() {
   echo "-- refinement (VERIFICATION.md) --"
-  run_r_a; run_r_b; run_r_c; run_r_d
+  run_r_a; run_r_b; run_r_c; run_r_d; run_r_e
 }

@@ -229,6 +229,27 @@ Completion, not correctness: what the document omits about its own stage.
 | 60 | §8 said Brown–Palsberg "do not block the diagonal". Their abstract says static type checking "can **exclude the proof's diagonalization gadget**" — the gadget is precisely what is blocked; what survives is the self-representation | `refined-sjas.md` §8 |
 | 61 | **Codification gap.** `Willard2016` Definition 8.1's registry digest was empty — the bare words "Platonic Stability" — which the Refinement discovered by trying to lean on it. Content supplied from Corollary 8.2, with the definition's own statement flagged for the next visual pass | `registry/results.md` |
 
+## Corrections applied 2026-09-02, ninth pass
+
+Rule 2 — "every claim about a Willard result carries that result's `Proof`
+status, at the point of *use*" — was being violated systematically, and only a
+deliberate sweep found it.
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 62 | **`Willard2001` Theorem A.1 is `stated-only`, and §2.2 did not say so.** That is the theorem the whole Hilbert–Bernays frame rests on: "Willard's systems prove all of PA's `Π⁻₁` theorems, they therefore *must* breach one of (1)–(3)". Willard writes "we will not give a formal proof of Theorem A.1 in this very short appendix" and offers footnote 16's reduction instead | `refined-sjas.md` §2.2 |
+| 63 | `Willard2002a` Theorem 2.2 is **`sketch`** (headed "Proof Sketch" on the page) and was cited bare in three places | `refined-sjas.md` §§2.3, 5.1; `R3-the-margin.md` §3.2 |
+| 64 | `Willard2006a` Theorem 6 is **`sketch`**, and `R1-review.md` §2.1 leant on it as the corpus analogue of `H_{<ω}` without saying so | `R1-review.md` §2.1 |
+| 65 | **A third check that passed by never matching.** The R-E prototype stripped backticks from the citations it extracted, then grepped the files for the stripped form — which never occurs — so it reported every status as carried. That is the same failure as R-D's first window and R-C's subshell: a check green because its own matching is broken. Caught by red-green testing, which is the only reason any of the three was caught | `audit-r.sh` (prototype) |
+
+**R-E is informational and never fails on status-carrying**, because no
+positional heuristic captures rule 2: a status may sit in a following paragraph
+or in a table's surrounding prose, and both a ±2-line and a paragraph window
+produced three false positives out of four. R-E instead *lists* every non-`full`
+result the Refinement cites, with its status and citation count, so the
+obligation is visible. It does fail on one thing it can decide: a citation that
+resolves to no row in `results.md`.
+
 **Verified and found correct** in this pass: §2.1's statement of **Lawvere's
 Fixed Point Theorem** (the uncurried weakly-point-surjective form, `f : A × A → B`
 forcing a fixed point for every `t : B → B`, with Cantor/Russell/Tarski/Turing/

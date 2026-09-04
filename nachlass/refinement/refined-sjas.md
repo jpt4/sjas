@@ -132,8 +132,13 @@ p. 12, is §2.3's — and it is the frame the whole corpus is built in:
 > necessarily due to both.**"
 
 `Willard2001` Appendix A sharpens the theorem being breached so that it applies
-to systems far below PA — **Theorem A.1**: if `α` proves all of PA's `Π⁻₁`
-theorems and `Der` satisfies
+to systems far below PA — **Theorem A.1**, whose status must be carried here
+because everything in this section rests on it: it is **`stated-only`**. Willard
+writes "we will not give a formal proof of Theorem A.1 in this very short
+appendix", and argues instead, in footnote 16, that its proof "is fully
+identical to Hilbert and Bernays' well-known prior proof construction". That is a
+reduction, not a proof, and the frame this document builds on it inherits the
+status. If `α` proves all of PA's `Π⁻₁` theorems and `Der` satisfies
 
 > **(1)** `α ⊢ Φ ⟹ α ⊢ Der(⌜Φ⌝)` · **(2)** `α ⊢ {Der(⌜Φ⌝) ∧ Der(⌜Φ ⊃ Ψ⌝)} ⊃ Der(⌜Ψ⌝)` · **(3)** `α ⊢ Der(⌜Φ⌝) ⊃ Der(⌜Der(⌜Φ⌝)⌝)`
 
@@ -191,8 +196,8 @@ does not simply collapse. It **holds for fixed constants and fails uniformly** �
 `IS(A)` can prove the composition principle for any particular `x`, `y`, and
 cannot prove it for variables. That is a *uniformity* failure, and it is not the
 same as the cut-elimination length blowup one might reach for instead
-(`Willard2002a` Thm 2.2, which says the combined proof exists but may be
-super-exponentially longer). The two are related — a uniform statement would
+(`Willard2002a` Thm 2.2 — `sketch`, and headed "Proof Sketch" on the page —
+which says the combined proof exists but may be super-exponentially longer). The two are related — a uniform statement would
 have to bound the blowup for all `x`, `y` at once — but Willard's own reason is
 the quantifier, not the length.
 
@@ -509,7 +514,7 @@ dial that varies only `d` cannot move `♯(β)`, and whatever it does to
 
 - **`ℜ`** (`Willard2004`) and **`Herb−k`** (`Willard2009` Def. 7) widen the class
   of intermediate theorems a proof may use — a property of the apparatus. That is
-  cut, hence proof compression: `Willard2002a` Theorem 2.2 composes proofs of
+  cut, hence proof compression: `Willard2002a` Theorem 2.2 (**`sketch`**) composes proofs of
   `Λ`, `Θ` and `Λ∧Θ ⇒ Ξ` into one of `Ξ`, and under a cut-free method the
   composite's "length can certainly be super-exponentially longer than the
   combined lengths of `p`, `q` and `r`", its existence assured only by Gentzen's
