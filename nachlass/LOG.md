@@ -1,5 +1,46 @@
 # Nachlass Log
 
+## 2026-09-02 - Adversarial round four: what the document omits about its own stage
+
+Three completion findings and one precision note. The middle one is the
+substantial one.
+
+**Section 9 never mentioned R5.** ADR-0002's secondary-literature pass -
+Artemov, Pudlak, Visser, Adamowicz, Kolodziejczyk, Salehi - is a pending
+component of this very stage, and the document's own account of what is
+unsettled omitted it. Artemov, Visser and Salehi are held in works-citing-dew/;
+Adamowicz and Kolodziejczyk are not.
+
+**And Pudlak is not held at all.** The Refinement invokes "Pudlak's theorem"
+fourteen times across six files. The claim that his cut-shortening technique
+*requires successor totality* is what sections 1 and 2.5b use to explain how
+both Willard's Hilbert line and Pakhomov's H_<omega evade him - it is the hinge
+of the whole comparison. Every one of those invocations rests on **Willard's or
+Pakhomov's description** of a paper that a find over papers/, lit/ and
+works-citing-dew/ shows nobody here holds.
+
+The descriptions agree with each other and there is no reason to doubt them.
+But "agrees with the two authors who need it to be true" is a weaker warrant
+than this stage applies to Willard's own corpus, and the asymmetry was silent.
+Recorded as gap **G39**, with a standing condition: until Pudlak is acquired, no
+Refinement document may state what his proof requires except as reported by
+Willard or Pakhomov, and each such claim must say so.
+
+**The header overclaimed, and this session is what falsified it.** It said
+"every claim it makes about the literature is anchored in the codification's
+registries". False in two directions: the secondary literature was never in the
+Codification's scope, and the Pudlak claims are anchored in nothing held. It now
+says which claims rest on what - registries plus page images for Willard, page
+images alone for the secondary literature, and second-hand report for Pudlak.
+
+**One precision note.** Section 2.3 identified the TR's condition-(2) phrasing
+with Theorem A.1's without saying how they line up, though section 2.3a's whole
+argument turns on where the quantifiers sit: A.1 is schematic in Phi and Psi
+with the proof quantifier hidden inside Der, and the TR unpacks the same content
+over proof codes. Now stated.
+
+audit.sh green; gaps 39 rows.
+
 ## 2026-09-02 - Adversarial round three: counts, argument order, and an elided path
 
 Six findings, none of them about the mathematics and all of them the kind a

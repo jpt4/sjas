@@ -7,8 +7,19 @@ it.*
 > **Relation to the Codification.** [`../codification/codified-sjas.md`](../codification/codified-sjas.md)
 > states what Willard proved, in his vocabulary, with his provenance. This
 > document asks what he *found*. It may reformulate freely; where it does, it
-> says so, and every claim it makes about the literature is anchored in the
-> codification's registries rather than restated from memory.
+> says so.
+>
+> **On anchoring, stated precisely.** An earlier version of this note claimed
+> that *every* claim here about the literature is anchored in the codification's
+> registries. That is not true, and the exceptions are worth naming. Claims about
+> **Willard's corpus** are anchored in the registries and, since 2026-09-02, in
+> page images recorded at [`VERIFICATION.md`](VERIFICATION.md) — a stronger
+> warrant than the registries alone. Claims about the **secondary literature**
+> (Pakhomov, Beklemishev–Shamkanov, Brown–Palsberg) are anchored in page images
+> of those papers, which the Codification never covered. And claims about
+> **Pudlák** are anchored in neither: his paper is not held, and what this
+> document says his proof requires is what Willard and Pakhomov report it
+> requires — gap **G39**, §9.
 
 ---
 
@@ -162,7 +173,14 @@ three raise:
 > of `α ⊃ β` then there exists some `z` that proves `β`.**"
 
 That is **condition (2)**, named for `IS(A)` — the Type-A, semantic-tableaux
-system. (An earlier draft of this section asserted that Willard nowhere says
+system. **The two formulations line up, and it is worth saying how**, because
+§2.3a's argument turns on where the quantifiers sit. Theorem A.1's (2) is
+schematic in the *sentences* `Φ`, `Ψ` and hides the proof quantifier inside
+`Der(x) = ∃y Derive(x,y)`; the TR's phrasing unpacks that same content over
+*proof codes* — "if `x` is a proof of `α` and `y` is a proof of `α ⊃ β` then
+there exists some `z` that proves `β`". Same condition, quantifiers written out.
+That is why "only for fixed constants `x` and `y`" is a failure of (2) and not
+of some weaker schematic variant. (An earlier draft of this section asserted that Willard nowhere says
 which condition fails. He does, here, and the Codification had already recorded
 it: `../codification/extraction/willard1993-tr.md` §3.7c is titled *"Which
 derivability condition fails"*. The error was a failure to consult the registry,
@@ -676,6 +694,24 @@ acceptance criterion B4 is replaced by **B4′**. An earlier version of this
 paragraph still instructed a continuation to acquire it, which §1 of that review
 had already closed. Everything above is an independent identification, and there
 is nothing in the published record to reconcile it with.
+
+**The secondary-literature pass has not been done, and one gap in it is
+load-bearing.** ADR-0002's **R5** — Artemov, Pudlák, Visser, Adamowicz,
+Kołodziejczyk, Salehi — is pending, and no earlier version of this section said
+so. Artemov, Visser and Salehi are held in `../works-citing-dew/`; Adamowicz and
+Kołodziejczyk are not.
+
+**Pudlák is not held at all** (gap **G39**, opened 2026-09-02). That matters
+here more than the others, because this document invokes his theorem three
+times, and the claim that *his cut-shortening technique requires successor
+totality* is what §1 and §2.5b use to explain how both Willard's Hilbert line
+and Pakhomov's `H_{<ω}` evade it. Every one of those invocations rests on
+**Willard's or Pakhomov's description of the paper**, not on the paper. The
+descriptions agree with each other and there is no reason to doubt them; but
+"agrees with the two authors who need it to be true" is a weaker warrant than
+this stage applies to Willard's own corpus, and the asymmetry should be visible
+rather than silent. Until Pudlák is acquired, every claim here about what his
+proof requires is a claim about what Willard and Pakhomov say it requires.
 
 **The Lawvere framing is a framing, not a theorem.** §2 uses Lawvere to
 separate *existence of a fixed point* from *derivability of its consequences*,
