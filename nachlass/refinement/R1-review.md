@@ -71,13 +71,13 @@ naming criterion.
 **That reading of Pakhomov is wrong.** He states it in the Introduction —
 **"Important restriction here is that both `H` and `H_{<ω}` could not prove
 totality of successor function"** — a sentence that straddles the page break,
-**pp. 3–4**. A second, narrower statement appears at **p. 22**: "the properties
-of SUM in theory `H` that could not even prove totality of successor function",
-which is about `H` alone. `H_{<ω}`
-therefore evades Pudlák by **exactly** Willard's route — Pudlák's cut-shortening
-technique requires successor totality, which is why Willard denies it and why
-Pakhomov must too. Pakhomov's own framing is a *naturalness* claim, not a
-mechanism claim:
+**pp. 3–4**. A second, narrower statement appears at **p. 22**: "the
+properties of SUM in theory `H` that could not even prove totality of
+successor function", which is about `H` alone. `H_{<ω}` therefore evades
+Pudlák by **exactly** Willard's route — Pudlák's cut-shortening technique
+requires successor totality, which is why Willard denies it and why Pakhomov
+must too. Pakhomov's own framing is a *naturalness* claim, not a mechanism
+claim:
 
 > "Dan Willard has constructed examples of c.e. arithmetical theories that could
 > not prove the totality of successor function but could prove their own
@@ -149,12 +149,12 @@ bounded finite model — and prove the five dials are instances of the general
 form, not merely of the arithmetic one. That is a materially better target than
 R1 had.
 
-*Superseded 2026-09-02.* R3 delivered the definition and answered the dial half
-**at three of five**, not five: `ℜ`, `Herb−k` and `Z` are proved to move the
-margin, Level(n)'s instance is **retracted**, and Hybrid(H) is unplaced. The
-"general form" half was not attempted, because R3 §5 refutes the premise it
-rested on — Beklemishev–Shamkanov's system is not self-verifying, so there is no
-third instance for a general form to cover. See
+*Superseded 2026-09-02.* R3 delivered the definition and answered the dial
+half **at three of five**, not five: `ℜ`, `Herb−k` and `Z` are proved to move
+the margin, Level(n)'s instance is **retracted**, and Hybrid(H) is unplaced.
+The "general form" half was not attempted, because R3 §5 refutes the premise
+it rested on — Beklemishev–Shamkanov's system is not self-verifying, so there
+is no third instance for a general form to cover. See
 [`R3-the-margin.md`](R3-the-margin.md) §6 and ADR-0002's revised **B5**.
 
 ---

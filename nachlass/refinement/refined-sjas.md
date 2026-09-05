@@ -75,41 +75,43 @@ axioms *occurring in `p`* — where `2⁰_p` is **superexponentiation**, `2^y_0 
 and `2^y_{x+1} = 2^{2^y_x}`, and the whole argument is relativised to the
 **superexponential cut** `S = { x : 2⁰_x is defined }`.
 
-Two qualifications. The bound is *superexponential*, not small — "bounded" here means bounded by a function EA can handle **on the
-cut**, and the cut is where the restriction lives. And the consistency proved is
-`Con^pred`, a **predicate-only `Π^pred₁`** consistency sentence, with the model
-construction carried out for the higher-order `H^ω_{<ω}` and transferred.
+Two qualifications. The bound is *superexponential*, not small — "bounded"
+here means bounded by a function EA can handle **on the cut**, and the cut is
+where the restriction lives. And the consistency proved is `Con^pred`, a
+**predicate-only `Π^pred₁`** consistency sentence, with the model construction
+carried out for the higher-order `H^ω_{<ω}` and transferred.
 
 Willard bounds a *partial valuation on a tableau branch*; Pakhomov bounds a
 *full finite model of the axioms actually used*. Both bounds are witnesses; only
 their shape differs.
 
 **`H_{<ω}` is not a counterexample to the growth restriction.** It does prove
-every individual hereditarily finite set exists — which is why it can look like
-one — but Pakhomov states in the Introduction — **"Important restriction here is that
-both `H` and `H_{<ω}` could not prove totality of successor function"**, a
-sentence straddling the page break at **pp. 3–4** — and again, for `H` alone, at
-**p. 22**. So it is growth-restricted, by the *same*
-route as Willard's Hilbert line — and it must be, since Pudlák's cut-shortening
+every individual hereditarily finite set exists — which is why it can look
+like one — but Pakhomov states in the Introduction, **"Important restriction
+here is that both `H` and `H_{<ω}` could not prove totality of successor
+function"**, a sentence straddling the page break at **pp. 3–4** — and again,
+for `H` alone, at **p. 22**. So it is growth-restricted, by the *same* route
+as Willard's Hilbert line — and it must be, since Pudlák's cut-shortening
 needs successor totality and that is what both are evading. Pakhomov positions
-his system not as a different mechanism but as **"a more natural example of this
-kind"**, his objection to Willard's being that "some of [the] axioms are
+his system not as a different mechanism but as **"a more natural example of
+this kind"**, his objection to Willard's being that "some of [the] axioms are
 constructed using Diagonal Lemma".
 
-The generalisation above still stands, and the corpus itself shows why it should:
-`Willard2006a` Theorem 6 (**`sketch`**) gives **`ISINF(A)`**: *Infinitely
-Far-Reaching* — a finite subset proves `∃x Pred^N(x) = 1` for every `N` — while,
-in Willard's words, "Infinitely Far-Reaching **without sustaining an ability to
-prove successor is a total function**". That is structurally what `H_{<ω}` is. Two witnesses of the same shape,
-one arithmetic and one set-theoretic, is a reason to state the criterion in terms
-of the witness rather than the naming rate. It is **not** a falsification, and
+The generalisation above still stands, and the corpus itself shows why it
+should: `Willard2006a` Theorem 6 (**`sketch`**) gives **`ISINF(A)`**:
+*Infinitely Far-Reaching* — a finite subset proves `∃x Pred^N(x) = 1` for
+every `N` — while, in Willard's words, "Infinitely Far-Reaching **without
+sustaining an ability to prove successor is a total function**". That is
+structurally what `H_{<ω}` is. Two witnesses of the same shape, one arithmetic
+and one set-theoretic, is a reason to state the criterion in terms of the
+witness rather than the naming rate. It is **not** a falsification, and
 [`R1-review.md`](R1-review.md) §2 is corrected to say so.
 
-The rest of this document argues that this is the right sentence: §§2–4 say why
-the usual reading of Gödel's Second Theorem misidentifies the obstacle, §5 gives
-the criterion its sharp form, §6 discharges
-the Rosser hook, §7 says what the idea costs, §8 shows the same phenomenon
-outside arithmetic, and §9 says what is not settled.
+The rest of this document argues that this is the right sentence: §§2–4 say
+why the usual reading of Gödel's Second Theorem misidentifies the obstacle, §5
+gives the criterion its sharp form, §6 discharges the Rosser hook, §7 says
+what the idea costs, §8 shows the same phenomenon outside arithmetic, and §9
+says what is not settled.
 
 ---
 
@@ -155,17 +157,18 @@ corpus builds its Group-3 axiom by a fixed-point construction (codified §5.1).
 **But the construction is not internally available in general**, and R6 §4.1's
 distinction between what a metatheorist may do with proof codes and what the
 weak theory itself proves is what separates the two. `IS(A)` **cannot** prove
-`∀x ∃y SUBST_i(x,y)`; `Willard1993-TR` printed p. 37 says so outright ("Since it
-does not recognize multiplications as a function, `IS(A)` will clearly be too
-weak to prove that…"), adding that it *can* prove `∃y SUBST_i(k̄,y)` "for **any
-fixed integer `k̄`**", and that "the latter will be sufficient … to formally
-define the particular instance of the reflection principle needed to define
-`H`". So the recursion theorem in its general form is precisely what is *not*
-internally available. What is used is a **selected instance at a fixed numeral**
-— which is why §2's table calls both diagonals *selected*. Willard2001's own footnote makes the division
-explicit — the fixed-point identity "is the **only** aspect of the proof of the
-Hilbert-Bernays Theorem that needs Peano Arithmetic for justifying it", and
-"the remainder of the proof rests solely on" the derivability conditions.
+`∀x ∃y SUBST_i(x,y)`; `Willard1993-TR` printed p. 37 says so outright ("Since
+it does not recognize multiplications as a function, `IS(A)` will clearly be
+too weak to prove that…"), adding that it *can* prove `∃y SUBST_i(k̄,y)` "for
+**any fixed integer `k̄`**", and that "the latter will be sufficient … to
+formally define the particular instance of the reflection principle needed to
+define `H`". So the recursion theorem in its general form is precisely what is
+*not* internally available. What is used is a **selected instance at a fixed
+numeral** — which is why §2's table calls both diagonals *selected*.
+Willard2001's own footnote makes the division explicit — the fixed-point
+identity "is the **only** aspect of the proof of the Hilbert-Bernays Theorem
+that needs Peano Arithmetic for justifying it", and "the remainder of the
+proof rests solely on" the derivability conditions.
 
 So the paradox is not in the diagonal. It is in what must hold *around* it.
 
@@ -237,14 +240,15 @@ That is why "only for fixed constants `x` and `y`" is a failure of (2) and not
 of some weaker schematic variant.
 
 **And the *shape* of the failure is not what one would guess.** Condition (2)
-does not simply collapse. It **holds for fixed constants and fails uniformly** —
-`IS(A)` can prove the composition principle for any particular `x`, `y`, and
-cannot prove it for variables. That is a *uniformity* failure, and it is not the
-same as the cut-elimination length blowup one might reach for instead
+does not simply collapse. It **holds for fixed constants and fails uniformly**
+— `IS(A)` can prove the composition principle for any particular `x`, `y`, and
+cannot prove it for variables. That is a *uniformity* failure, and it is not
+the same as the cut-elimination length blowup one might reach for instead
 (`Willard2002a` Thm 2.2 — `sketch`, and headed "Proof Sketch" on the page —
-which says the combined proof exists but may be super-exponentially longer). The two are related — a uniform statement would
-have to bound the blowup for all `x`, `y` at once — but Willard's own reason is
-the quantifier, not the length.
+which says the combined proof exists but may be super-exponentially longer).
+The two are related — a uniform statement would have to bound the blowup for
+all `x`, `y` at once — but Willard's own reason is the quantifier, not the
+length.
 
 This matters because the shape is the corpus's signature. The extraction record
 flags the same pattern at `SUBST_i(k̄,y)` for fixed `k̄`, at Lemma 5.3's
@@ -308,12 +312,12 @@ parameters, not a fixed feature of the programme.
 
 One qualification on "cut-free". The tableaux line — `IS(A)`, `IS_D(A)` and
 their kin, which codified **§3.1** tabulates as the Type-A row, "successor,
-addition … the whole tableaux line" — includes
-`IS_D(A)`, whose `D` ranges over **`Tab-U*₁-List`** — restricted modus ponens on
-`Π*₁`/`Σ*₁` — and that is the case `Willard2005` Theorem 5 actually proves.
-So the line is not uniformly cut-free; what varies across it is *the class on
-which composition is available*, which is the `ℜ` dial. Calling the whole line
-"cut-free" erases the distinction **§5.1** is simultaneously trying to draw.
+addition … the whole tableaux line" — includes `IS_D(A)`, whose `D` ranges
+over **`Tab-U*₁-List`** — restricted modus ponens on `Π*₁`/`Σ*₁` — and that is
+the case `Willard2005` Theorem 5 actually proves. So the line is not uniformly
+cut-free; what varies across it is *the class on which composition is
+available*, which is the `ℜ` dial. Calling the whole line "cut-free" erases
+the distinction **§5.1** is simultaneously trying to draw.
 
 ### 2.4 What each condition licenses, and what contraction licenses
 
@@ -329,14 +333,13 @@ The three conditions are not three versions of one thing. Taken one at a time:
 proof and makes that statement itself a proved object — the proof is used again,
 reflected upward. (1) internalises once; (2) composes two distinct derivations.
 
-**And failing (1) does not entail failing (3).** One might argue that it should,
-since proving `Der(⌜Der(⌜Φ⌝)⌝)` internalises (1) — but the corpus is exactly
-where that fails. (3) is an *implication*,
-`Der(⌜Φ⌝) ⊃ Der(⌜Der(⌜Φ⌝)⌝)`, and an implication holds vacuously when its
-antecedent is refuted. Any `α` proving `¬Der(⌜Φ⌝)` satisfies that instance of (3)
-while failing (1) — and Willard's systems prove `¬Der(⌜0=1⌝)` **by
-construction**. The vacuous case is not exotic here; it is the point of the
-programme.
+**And failing (1) does not entail failing (3).** One might argue that it
+should, since proving `Der(⌜Der(⌜Φ⌝)⌝)` internalises (1) — but the corpus is
+exactly where that fails. (3) is an *implication*, `Der(⌜Φ⌝) ⊃
+Der(⌜Der(⌜Φ⌝)⌝)`, and an implication holds vacuously when its antecedent is
+refuted. Any `α` proving `¬Der(⌜Φ⌝)` satisfies that instance of (3) while
+failing (1) — and Willard's systems prove `¬Der(⌜0=1⌝)` **by construction**.
+The vacuous case is not exotic here; it is the point of the programme.
 
 ### 2.5 Contraction is a structural rule, not one of the three
 
@@ -344,8 +347,8 @@ It is tempting to say that Beklemishev–Shamkanov's `□`-contraction is one of
 derivability conditions restated. It is not, and their proof says where it is
 used.
 
-Their Definition 3.7 gives **plain** contraction, `Γ, φ, φ ⊢ ψ ⟹ Γ, φ ⊢ ψ` —
-a rule of the ambient consequence relation about reusing a **hypothesis**, not
+Their Definition 3.7 gives **plain** contraction, `Γ, φ, φ ⊢ ψ ⟹ Γ, φ ⊢ ψ` — a
+rule of the ambient consequence relation about reusing a **hypothesis**, not
 about reusing a proof. (The `□`-restricted form, `Γ, □φ, □φ ⊢ ψ ⟹ Γ, □φ ⊢ ψ`,
 is the *weakening* of the requirement offered in their Remark 3.9; Proposition
 3.8 and Theorems 3–4 assume the plain rule. Running the two together is the
@@ -390,9 +393,9 @@ explicit that no such theory is in hand:
 > G2. Thus, **we are still missing convincing examples of mathematical theories
 > based on weak logics for which G2 would fail**."
 
-That second sentence also settles a tempting hope: going contraction-free at the
-object level does not suffice, because `□`-contraction can remain admissible.
-It is the same caution
+That second sentence also settles a tempting hope: going contraction-free at
+the object level does not suffice, because `□`-contraction can remain
+admissible. It is the same caution
 [`R2-beklemishev-shamkanov-assessment.md`](R2-beklemishev-shamkanov-assessment.md)
 §3 records for this repository's affine-tree line, and it applies to this
 classification too, not only to a neighbouring project.
@@ -410,15 +413,15 @@ Gödel's argument needs at least **four** separable things — the same four
 | **(iv) the structural licence** to merge two boxed derivations off one context | **Beklemishev–Shamkanov** remove it — but the resulting system is **not self-verifying**; only *formalized* G2 fails (§2.5a) |
 
 **R6 sharpens this table and should be read with it.**
-[`lawvere-sjas.md`](lawvere-sjas.md) §5 replaces the single "ingredient removed"
-list with **two independent axes** — a structural diagonal on boxed hypotheses,
-and uniform internal HBL evaluation — plus a separate axis for fixed-point
-strength, and warns that they "should not be collapsed into a single *weakness*
-ordering": Beklemishev–Shamkanov weaken structural logic while keeping the modal
-derivability rules, Willard keeps structural logic and weakens what the
-arithmetic can certify uniformly about its own proof predicate. The table above
-is one projection of that square. R6's square omits Pakhomov, declared with
-reasons at its §6.
+[`lawvere-sjas.md`](lawvere-sjas.md) §5 replaces the single "ingredient
+removed" list with **two independent axes** — a structural diagonal on boxed
+hypotheses, and uniform internal HBL evaluation — plus a separate axis for
+fixed-point strength, and warns that they "should not be collapsed into a
+single *weakness* ordering": Beklemishev–Shamkanov weaken structural logic
+while keeping the modal derivability rules, Willard keeps structural logic and
+weakens what the arithmetic can certify uniformly about its own proof
+predicate. The table above is one projection of that square. R6's square omits
+Pakhomov, declared with reasons at its §6.
 
 So the honest count is: **two demonstrated routes to a self-verifying theory**
 (Willard's, and Pakhomov's), plus **one demonstrated way to break the argument
@@ -594,10 +597,10 @@ Rosser's improvement to Gödel replaces "I am not provable" with
 > `∀y ( Prf(⌜R⌝, y) → ∃z < y  Prf(⌜¬R⌝, z) )`
 
 — written in the corpus's argument order, **theorem first, proof second**, to
-match `SemPrf` below and `Willard2020` Eq. (5)'s `Prf_{IS_D(β)}(x,p)`; textbook
-presentations of Rosser usually write the proof first. It is a sentence that does
-not assert unprovability absolutely, but **relative to an ordering by proof
-size**. That single change buys the theorem for merely
+match `SemPrf` below and `Willard2020` Eq. (5)'s `Prf_{IS_D(β)}(x,p)`;
+textbook presentations of Rosser usually write the proof first. It is a
+sentence that does not assert unprovability absolutely, but **relative to an
+ordering by proof size**. That single change buys the theorem for merely
 consistent systems.
 
 Willard's construction makes the same move, in the other direction.
@@ -738,13 +741,13 @@ cost, Brown–Palsberg by typing — two mechanisms with one shape, which is why
 transfer below is an analogy rather than a correspondence.
 
 The shape is this. The self-interpreter exists and is total — the
-self-representation is not what fails. What fails is the *paradox's* machinery:
-in their own words, "**static type checking in F_ω can exclude the proof's
-diagonalization gadget**, leaving open the possibility for a self-interpreter"
-(abstract, image-verified). The diagonalization **gadget** is exactly what static
-typing excludes; what survives is the self-representation, not the gadget built
-from it. The fixed point survives; the derivation does
-not.
+self-representation is not what fails. What fails is the *paradox's*
+machinery: in their own words, "**static type checking in F_ω can exclude the
+proof's diagonalization gadget**, leaving open the possibility for a
+self-interpreter" (abstract, image-verified). The diagonalization **gadget**
+is exactly what static typing excludes; what survives is the
+self-representation, not the gadget built from it. The fixed point survives;
+the derivation does not.
 
 In the vocabulary of §2: Lawvere's existence half is kept, and the
 derivability-condition half is denied — there by typing discipline, in Willard
@@ -761,16 +764,16 @@ this Refinement, not a result.
 
 **R6 gives R4 a sharper target than this conjecture.** Rather than testing a
 type theory against "self-reference" as a whole,
-[`lawvere-sjas.md`](lawvere-sjas.md) exhibits the boxed diagonal
-`copy_A : □A → □A ⊗ □A` and the uniform proof-composition map as **separate**
-data, so each can be checked independently — which is exactly the distinction
-Brown–Palsberg's typing discipline turns on. ADR-0004 records it as a consequence
-for R4.
+[`lawvere-sjas.md`](lawvere-sjas.md) exhibits the boxed diagonal `copy_A : □A
+→ □A ⊗ □A` and the uniform proof-composition map as **separate** data, so each
+can be checked independently — which is exactly the distinction
+Brown–Palsberg's typing discipline turns on. ADR-0004 records it as a
+consequence for R4.
 
-R4 also carries obligation **RO1**:
-`□`-contraction can hold in affine PA (Beklemishev–Shamkanov §3), so
-contraction-freedom at the object level does not by itself buy anything, and the
-affine-tree line must check the *restricted* rule rather than the general one.
+R4 also carries obligation **RO1**: `□`-contraction can hold in affine PA
+(Beklemishev–Shamkanov §3), so contraction-freedom at the object level does
+not by itself buy anything, and the affine-tree line must check the
+*restricted* rule rather than the general one.
 
 ---
 
@@ -782,32 +785,32 @@ presentation of SJAS". **There is no such survey**: Pakhomov 2019 footnote 3
 records the simplification as "still unpublished", and no later publication is
 evident. **G7 is closed `accepted`** ([`R1-review.md`](R1-review.md) §1) and
 acceptance criterion B4 is replaced by **B4′**. Everything above is an
-independent identification, and there
-is nothing in the published record to reconcile it with.
+independent identification, and there is nothing in the published record to
+reconcile it with.
 
 **The secondary-literature pass has not been done, and one gap in it is
 load-bearing.** ADR-0002's **R5** — Artemov, Pudlák, Visser, Adamowicz,
 Kołodziejczyk, Salehi — is pending. Artemov, Visser and Salehi are held in
-`../works-citing-dew/`; Adamowicz and
-Kołodziejczyk are not.
+`../works-citing-dew/`; Adamowicz and Kołodziejczyk are not.
 
 **Pudlák is not held at all** (gap **G39**, opened 2026-09-04). That matters
-here more than the others, because the claim that *his cut-shortening technique
-requires successor totality* is load-bearing in this document — it is what §1 and
-§2.5b use to explain how both Willard's Hilbert line and Pakhomov's `H_{<ω}`
-evade him. Every one of those invocations rests on
+here more than the others, because the claim that *his cut-shortening
+technique requires successor totality* is load-bearing in this document — it
+is what §1 and §2.5b use to explain how both Willard's Hilbert line and
+Pakhomov's `H_{<ω}` evade him. Every one of those invocations rests on
 **Willard's or Pakhomov's description of the paper**, not on the paper. The
 descriptions agree with each other and there is no reason to doubt them; but
 "agrees with the two authors who need it to be true" is a weaker warrant than
-this stage applies to Willard's own corpus, and the asymmetry should be visible
-rather than silent. Until Pudlák is acquired, every claim here about what his
-proof requires is a claim about what Willard and Pakhomov say it requires.
+this stage applies to Willard's own corpus, and the asymmetry should be
+visible rather than silent. Until Pudlák is acquired, every claim here about
+what his proof requires is a claim about what Willard and Pakhomov say it
+requires.
 
 **The Lawvere framing was a framing; R6 has since made it a construction —
-though not a proof of a Willard result.** §2 uses Lawvere to separate *existence
-of a fixed point* from *derivability of its consequences*, which is correct and
-clarifying. It is no longer only a framing: **R6 has done the construction**:
-[`lawvere-sjas.md`](lawvere-sjas.md), charter
+though not a proof of a Willard result.** §2 uses Lawvere to separate
+*existence of a fixed point* from *derivability of its consequences*, which is
+correct and clarifying. It is no longer only a framing: **R6 has done the
+construction**: [`lawvere-sjas.md`](lawvere-sjas.md), charter
 [`ADR-0004-lawvere-sjas-translation.md`](ADR-0004-lawvere-sjas-translation.md).
 
 R6 builds a common coded modal proof doctrine, presents the initial arithmetic
@@ -824,11 +827,11 @@ for self-justification. Its own §6 lists those non-claims, and its AU source's
 §6 Löb derivation is sketch-level. So: a construction, honestly bounded — not a
 categorical proof of a Willard theorem.
 
-**The criterion of §5 now has a definition — see [`R3-the-margin.md`](R3-the-margin.md),
-whose §6 carries the verdict.** The **margin**
-`M(ξ) = inf{ Log(q_β) − ♯(β) }` **is** `Willard2011` Definition 4.5, restated as
-an infimum. It does not *generalise* Def. 4.5: `∀β. A(β) ≥ 2` and
-`inf_β A(β) ≥ 2` are the same statement.
+**The criterion of §5 now has a definition — see
+[`R3-the-margin.md`](R3-the-margin.md), whose §6 carries the verdict.** The
+**margin** `M(ξ) = inf{ Log(q_β) − ♯(β) }` **is** `Willard2011` Definition
+4.5, restated as an infimum. It does not *generalise* Def. 4.5: `∀β. A(β) ≥ 2`
+and `inf_β A(β) ≥ 2` are the same statement.
 
 **And one status governs the whole construction.** `Willard2011` **Lemma 4.6** —
 Tightness implies `B^ξ + SelfRef` is a consistent self-justifying system, which

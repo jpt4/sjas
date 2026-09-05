@@ -3,8 +3,8 @@
 *Gap **G38** acquired 2026-09-01:
 `lit/beklemishev-shamkanov2016_abstract_g2_nonclassical_arxiv_1602.05728.pdf`
 (arXiv:1602.05728v1, 18 Feb 2016; 16 pp.), the Liber Amicorum Alberti
-contribution. Not the unpublished Beklemishev simplification of G7 — that one is
-still unpublished — but the nearest published thing, and more useful.*
+contribution. Not the unpublished Beklemishev simplification of G7 — that one
+is still unpublished — but the nearest published thing, and more useful.*
 
 ---
 
@@ -152,16 +152,16 @@ proof is not a refutation. That is a statement about *cost*.
 Beklemishev–Shamkanov's is a statement about *structure*: the argument needs
 `□`-contraction.
 
-**They are not "the same condition described twice"**, and their own proof shows
-why. Contraction is consumed at
-one identifiable step of Proposition 3.8 — the step from **`Γ ⊢ □φ` and
-`Γ ⊢ □¬φ`** to **`Γ ⊢ □¬⊤`**, which reuses the **context**, not a proof.
-Under `⊠φ := □(φ → ⊥)`, `□¬⊤` *is* `⊠⊤`, the **formalized** inconsistency
-assertion — which is why dropping contraction costs only *formalized* G2. It is a rule of the ambient
-consequence relation, more elementary than Löb's conditions and lying underneath
-them. Nor is it a restatement of any single condition: **reuse, among the three,
-is condition (3)** — `Der(⌜Φ⌝) ⊃ Der(⌜Der(⌜Φ⌝)⌝)`, the one that reflects a proof
-upward. (1) internalises once; (2) composes two *different* proofs.
+**They are not "the same condition described twice"**, and their own proof
+shows why. Contraction is consumed at one identifiable step of Proposition 3.8
+— the step from **`Γ ⊢ □φ` and `Γ ⊢ □¬φ`** to **`Γ ⊢ □¬⊤`**, which reuses the
+**context**, not a proof. Under `⊠φ := □(φ → ⊥)`, `□¬⊤` *is* `⊠⊤`, the
+**formalized** inconsistency assertion — which is why dropping contraction
+costs only *formalized* G2. It is a rule of the ambient consequence relation,
+more elementary than Löb's conditions and lying underneath them. Nor is it a
+restatement of any single condition: **reuse, among the three, is condition
+(3)** — `Der(⌜Φ⌝) ⊃ Der(⌜Der(⌜Φ⌝)⌝)`, the one that reflects a proof upward.
+(1) internalises once; (2) composes two *different* proofs.
 
 What survives is weaker and still worth having: **G2's argument is
 over-determined**, and the literature now removes its prerequisites
@@ -195,15 +195,16 @@ The paper contains a warning that applies directly to work already under way
 here. This repository has an affine-tree SJAS line, and affine logic is
 contraction-free.
 
-*Provenance note.* That line was previously identified with `docs/design/affine-tree-sjas.md`, which **does not exist** — the design
+*Provenance note.* That line was previously identified with
+`docs/design/affine-tree-sjas.md`, which **does not exist** — the design
 document was an untracked working-tree file, recorded as such in the
 Codification plan's hygiene flag, and is not present now. It also cited
 `code/alsjas/`, which exists but is **untracked**, so it is not part of any
-committed state this document can point a reader at. The caution
-below therefore applies to a line of work the repository does not currently
-hold in tracked form; it is recorded against **RO1** so that whoever revives
-that line meets it. The obvious inference —
-that going affine buys the failure of G2 — **is not valid**:
+committed state this document can point a reader at. The caution below
+therefore applies to a line of work the repository does not currently hold in
+tracked form; it is recorded against **RO1** so that whoever revives that line
+meets it. The obvious inference — that going affine buys the failure of G2 —
+**is not valid**:
 
 > "The property of `□`-contraction actually holds for some meaningful
 > arithmetical systems **lacking general contraction rule**, for example, for a

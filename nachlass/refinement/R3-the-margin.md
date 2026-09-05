@@ -112,16 +112,16 @@ well-defined only relative to a Gödel numbering, and the Conventional Encoding
 Requirement is what fixes one.
 
 **But note which way it cuts.** The requirement is `Gödel number ≥ 32^J`, i.e.
-`Log(q_β) ≥ 5J` — a **lower** bound, which excludes *over-compressed* encodings
-that would understate a proof's cost. It does **not** guard the other direction
-— a wasteful encoding inflating `Log(q_β)` and manufacturing margin satisfies it
-trivially. That hazard is real and **remains unguarded** by the cited
-requirement; a full treatment
-would need an upper bound as well, which the corpus does not supply.
-This is the same condition the corpus's coding-density family (drift **D25**,
-obligation **O33**) exists to pin down, and it is why `Willard2005`'s Eq. (20),
-`U-Height(p) < (1/5)·Log₂(p)`, is stated for "any other reasonable encoding
-methodology" rather than for one scheme.
+`Log(q_β) ≥ 5J` — a **lower** bound, which excludes *over-compressed*
+encodings that would understate a proof's cost. It does **not** guard the
+other direction — a wasteful encoding inflating `Log(q_β)` and manufacturing
+margin satisfies it trivially. That hazard is real and **remains unguarded**
+by the cited requirement; a full treatment would need an upper bound as well,
+which the corpus does not supply. This is the same condition the corpus's
+coding-density family (drift **D25**, obligation **O33**) exists to pin down,
+and it is why `Willard2005`'s Eq. (20), `U-Height(p) < (1/5)·Log₂(p)`, is
+stated for "any other reasonable encoding methodology" rather than for one
+scheme.
 
 Three distinct size measures coexist in the corpus and should not be conflated:
 the **Gödel bit-length** `Log₂(p)` used here; **`χ(p)`**, the count of logical
@@ -129,9 +129,10 @@ symbols (`Willard2004` §6, where `ℑ(H) = Σ χ(p_i)`); and **`U-Height`**, a 
 of U-Grounding function symbols along a branch (`Willard2005` §5.2).
 
 **The encoding requirement does not keep the three within constant factors of
-one another.** A lower bound relates them in one direction only. It gives `Log₂(q_β) ≥ 5J`, so bit-length cannot
-*understate* symbol count; nothing in the corpus stops it overstating. Keeping
-the three within constant factors of one another would need an upper bound too.
+one another.** A lower bound relates them in one direction only. It gives
+`Log₂(q_β) ≥ 5J`, so bit-length cannot *understate* symbol count; nothing in
+the corpus stops it overstating. Keeping the three within constant factors of
+one another would need an upper bound too.
 
 ---
 
@@ -337,20 +338,20 @@ locate this transition in either direction.** The real boundary sits between
 `n log n` and `n (log n)²` — a single log factor — which no criterion of that
 coarseness can express. §5 is corrected accordingly.
 
-*Second, the side.* Hybrid(H) does **not** belong on the envelope side, and the
-difficulty is one Willard states himself.
-`♯` is purely model-theoretic (`Good(N)` = `Scope_E(Υ,N)` true in the standard
-model), and the naming axioms are *true* sentences, so they are `Good(∞)` and
-cannot lower `♯(β)`. That is precisely the justification Willard gives for
-Equation (20): `♯(B^ξ + Ψ) = ♯(Ψ)` "because all of `B^ξ`'s axioms are true under
-the Standard-M model" (printed p. 15, image-verified). The reasoning is his, not
-this Refinement's, and §2.1 records it.
-Whatever the naming convention does to the margin, it does indirectly — most
-plausibly by changing which `β ⊃ B^ξ` are inconsistent and how cheaply, which is
-the **cost** side. That reading also agrees with `refined-sjas.md` §4's account
-of the same boundary ("a short proof has named a long object … the system can
-assert — cheaply — the existence of something big enough to encode a refutation
-of itself"), which is a statement about `Log(q_β)`.
+*Second, the side.* Hybrid(H) does **not** belong on the envelope side, and
+the difficulty is one Willard states himself. `♯` is purely model-theoretic
+(`Good(N)` = `Scope_E(Υ,N)` true in the standard model), and the naming axioms
+are *true* sentences, so they are `Good(∞)` and cannot lower `♯(β)`. That is
+precisely the justification Willard gives for Equation (20): `♯(B^ξ + Ψ) =
+♯(Ψ)` "because all of `B^ξ`'s axioms are true under the Standard-M model"
+(printed p. 15, image-verified). The reasoning is his, not this Refinement's,
+and §2.1 records it. Whatever the naming convention does to the margin, it
+does indirectly — most plausibly by changing which `β ⊃ B^ξ` are inconsistent
+and how cheaply, which is the **cost** side. That reading also agrees with
+`refined-sjas.md` §4's account of the same boundary ("a short proof has named
+a long object … the system can assert — cheaply — the existence of something
+big enough to encode a refutation of itself"), which is a statement about
+`Log(q_β)`.
 
 **Disposition: the Hybrid dial's side-assignment is withdrawn.** It moves the
 margin; which term it moves is not established here.
@@ -434,8 +435,8 @@ which none of the drafts examined and this one does not either.
 
 **This answers a question the Codification left open.** Drift **D38** records
 five parameterisations "none of which Willard relates to the others" and asks
-for a single presentation. The margin supplies a partial one: **one inequality, two terms, and three dials
-provably writing on the same term.**
+for a single presentation. The margin supplies a partial one: **one
+inequality, two terms, and three dials provably writing on the same term.**
 
 The split that survives is not the "envelope versus cost" one the drafts kept
 reaching for. It is **apparatus versus sentences**: a dial that varies only `d`
@@ -582,10 +583,9 @@ Lawvere's universal theorem — `Willard2001` Theorem A.1's footnote 16
 alone.
 
 The margin is the right invariant for the first cell — but **not complete for
-it**: Level(n)'s instance is retracted and Hybrid(H)'s term is undetermined, so
-three of five are proved (§3.0). That is a smaller result than R3 was set up to
-look for, and it is what the evidence
-supports.
+it**: Level(n)'s instance is retracted and Hybrid(H)'s term is undetermined,
+so three of five are proved (§3.0). That is a smaller result than R3 was set
+up to look for, and it is what the evidence supports.
 
 **Two successor questions, now better posed.**
 
