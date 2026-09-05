@@ -68,6 +68,29 @@ The corrections table below is the record. **Check R-D now guards ten of the
 retracted strings** and none of them appears in the prose at all, so it is
 protecting against reintroduction rather than tolerating a mention.
 
+## Corrections applied 2026-09-04, twenty-sixth pass
+
+**The consolidation itself, reviewed.** It rewrote about eighty passages, and the
+first check after it was structural only — balanced markup, intact headings and
+tables. That verifies nothing about *meaning*. Reviewing the diff hunk by hunk,
+concentrating on those that removed more than they added, found two places where
+substance left with the narration.
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 111 | **A provenance anchor deleted with the drafting story.** §2.3's retraction paragraph carried the pointer that `../codification/extraction/willard1993-tr.md` §3.7c is titled *"Which derivability condition fails"* — the Codification's own record of the very reading §2.3 argues for. Removing the narration removed the anchor. Restored as a plain citation | `refined-sjas.md` §2.3 |
+| 112 | **`Willard2006a` Theorem 4\*'s stronger half lost.** The consolidated text said only that it "drops the third hypothesis". Theorem 4\* also "isolate[s] a `Π⁻₁` theorem `W` of Peano Arithmetic, where no consistent r.e. axiom system `α ⊃ W`, using the multiplicative naming convention, can formally verify its own Hilbert consistency" — a strictly stronger statement, not merely the same theorem with one fewer hypothesis. Restored verbatim | `refined-sjas.md` §2.3b |
+
+**Verified and found intact** in this pass, hunk by hunk: every other
+consolidation edit preserved its substance. `Willard2020` Thm 4.5's `sketch`
+status and its hypothesis on `β`; Theorem 4's three hypotheses; the §3.1 anchor,
+`Tab-U*₁-List` and `Willard2005` Thm 5 in §2.3c; the two-methods correction in
+§6; Lemma 4.6's `sketch` in R3 §6; the "not complete for it" verdict in R3 §5.3;
+Theorem 4's `⊠⊤ =_S □⊥` and the Introduction-not-abstract correction in R2 §1;
+and R1-review's p. 22 citation and superseded-B5 note. Markup balanced, headings
+and table counts unchanged, and no line over 100 columns except the intentional
+single-line display of the three derivability conditions.
+
 ## Quotation register
 
 Every row is `img` — verified against a rendered page image; check **R-B** fails

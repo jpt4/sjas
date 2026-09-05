@@ -237,7 +237,9 @@ schematic in the *sentences* `Φ`, `Ψ` and hides the proof quantifier inside
 *proof codes* — "if `x` is a proof of `α` and `y` is a proof of `α ⊃ β` then
 there exists some `z` that proves `β`". Same condition, quantifiers written out.
 That is why "only for fixed constants `x` and `y`" is a failure of (2) and not
-of some weaker schematic variant.
+of some weaker schematic variant. The Codification records the same reading:
+`../codification/extraction/willard1993-tr.md` §3.7c is titled *"Which
+derivability condition fails"*.
 
 **And the *shape* of the failure is not what one would guess.** Condition (2)
 does not simply collapse. It **holds for fixed constants and fails uniformly**
@@ -299,9 +301,12 @@ theorems stating that addition and multiplication satisfy their usual
 associative, commutative, distributive and identity properties**".
 `Willard2006a` Theorem 4 requires three: the multiplicative axioms, all of PA's
 `Π⁻₁` theorems, **and** the Concise Encoding property. Its **Theorem 4\***
-(Remark 1) drops the third, at the cost of an abbreviated Appendix C proof —
-so the control is available with two hypotheses, though the logical objection
-above is unaffected either way.
+(Remark 1) is stronger on both counts — it "will drop Theorem 4's 'Concise
+Encoding' assumption and *also isolate a `Π⁻₁` theorem `W`* of Peano Arithmetic,
+where no consistent r.e. axiom system `α ⊃ W`, using the multiplicative naming
+convention, can formally verify its own Hilbert consistency" — at the cost of an
+abbreviated Appendix C proof. So the control is available with two hypotheses,
+though the logical objection above is unaffected either way.
 
 ### 2.3c A correction that survives
 

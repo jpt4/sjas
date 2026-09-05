@@ -1,5 +1,42 @@
 # Nachlass Log
 
+## 2026-09-04 - Round twenty-six: reviewing the consolidation itself
+
+The consolidation rewrote about eighty passages, and the only check I ran on it
+afterwards was structural - balanced markup, intact headings and tables. That
+verifies nothing about meaning. A large edit deserves the same adversarial
+treatment as anything else, so I read the diff hunk by hunk, concentrating on
+those that removed more than they added.
+
+Two places where substance left with the narration:
+
+**A provenance anchor deleted with the drafting story.** Section 2.3's
+retraction paragraph carried the pointer that
+codification/extraction/willard1993-tr.md section 3.7c is titled "Which
+derivability condition fails" - the Codification's own record of the very
+reading section 2.3 argues for. Cutting the narration cut the anchor. Restored
+as a plain citation.
+
+**Willard2006a Theorem 4*'s stronger half lost.** The consolidated text said
+only that it "drops the third hypothesis". Theorem 4* also isolates a Pi^-_1
+theorem W of Peano Arithmetic such that no consistent r.e. system containing W,
+using the multiplicative naming convention, can verify its own Hilbert
+consistency. That is strictly stronger, not the same theorem with one fewer
+hypothesis. Restored verbatim.
+
+Everything else survived: Theorem 4.5's sketch status and its beta hypothesis,
+Theorem 4's three hypotheses, the section 3.1 anchor and Tab-U*_1-List and
+Willard2005 Theorem 5 in 2.3c, the two-methods correction in section 6, Lemma
+4.6's sketch in R3 section 6, the "not complete for it" verdict in R3 5.3,
+Theorem 4's boxed conclusion and the Introduction-not-abstract correction in R2,
+and R1-review's p. 22 citation.
+
+The lesson is the one round seventeen already recorded, applied to a
+consolidation rather than a repair: an edit that removes text is an edit like
+any other, and "I only deleted commentary" is a claim that needs checking.
+
+audit.sh green.
+
 ## 2026-09-04 - Consolidation: the retraction apparatus moved out of the prose
 
 Not another adversarial round. A reviewer's assessment of the last twenty-five,
