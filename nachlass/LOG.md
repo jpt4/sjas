@@ -3654,3 +3654,38 @@ count ("53", "57" before it) replaced by its machine-countable `discharged:`
 column, the remedy ADR-0002 already adopted for correction ranges at #108.
 
 Corrections #124-#126, twenty-eighth pass. Register at 56 rows. audit.sh green.
+
+## 2026-09-04 - Adversarial round thirty-four: the bucket the last three findings came out of
+
+Rounds thirty-one, thirty-two and thirty-three each produced the same shape of
+finding by hand: an obligation the Codification had marked as the Refinement's to
+carry, which the Refinement had not carried, and which was a live mis-statement
+in both stages. O31 (multiplication is fatal to reflection, not to
+consistency-preservation), O35 (the futility verdict), O17 (the boundary is
+variable multiplication). Three in three rounds is a class, and the class had a
+hiding place.
+
+Twenty-six obligations carry the disposition `carried:2026-09-01 (C16 R5;
+Refinement)`. The C16 R5 legend defines `carried` as "deliberately deferred to
+Refinement, with the reason stated" — and then concedes, one paragraph later,
+that "`carried` is used for genuine absence as well as for deliberate deferral,
+because the register offers no fourth status". So a genuine Refinement obligation
+and a plain hole in `codified-sjas.md` are written identically. The walk noticed
+this and treated it as a limitation to note rather than to fix.
+
+Reading all 26: every one says "Absent", "Half-done" or "Blocked and absent".
+They are content the codified statement was obliged to carry and does not. Only
+two are cited anywhere in the Refinement. So the honest ruling is that these are
+a **Codification** completeness gap against acceptance criterion A2, not a
+Refinement defect — the Refinement cannot inherit an obligation whose content was
+never written. Recorded as **G40**, with the explicit instruction not to close it
+by relabelling the rows, and with the fifteen-row Tangibility cluster named as
+one sub-item.
+
+The three that genuinely were this stage's are discharged as of this session.
+The rest are now watched: **R-G** in `audit-r.sh`, informational, prints on every
+run how many of these obligations the Refinement cites and lists the ones it does
+not. Red-green tested with a synthetic row. What was found three times by hand
+will not need finding a fourth time.
+
+Correction #127, twenty-ninth pass. audit.sh green.

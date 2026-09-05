@@ -22,6 +22,7 @@
 #        nothing stronger.
 
 REF="../refinement"
+OBL="concordance/composition-obligations.md"
 
 # The documents whose claims this stage is accountable for. REVIEW-*.md is a
 # record ABOUT those documents: it quotes retracted claims and invents test keys
@@ -202,7 +203,35 @@ run_r_f() {
   [ "$bad" = "0" ] && echo "  R-F: $n repository paths cited, all resolving"
 }
 
+#   R-G  (informational) obligations the Codification dispositioned toward the
+#        Refinement, and whether the Refinement actually cites them. `carried`
+#        means "deferred to Refinement", but the register has no fourth status
+#        and uses it for plain absence from `codified-sjas.md` too, so the two
+#        are indistinguishable in the register itself. Three genuine deferrals
+#        -- O17, O31, O90 -- sat unnoticed in this bucket for three days and
+#        were found by hand. This check makes the bucket visible on every run.
+#        Informational, not a gate: the uncited remainder is gap G40, a
+#        Codification completeness item, not a Refinement defect.
+run_r_g() {
+  local ids id cited=0 uncited=0 list=""
+  ids=$(grep -o '^| O[0-9]\+ |.*carried:[^|]*Refinement[^|]*|' "$OBL" \
+        | sed 's/^| \(O[0-9]*\) |.*/\1/' | sort -u -V)
+  [ -n "$ids" ] || { echo "  R-G (informational): no obligations dispositioned toward the Refinement"; return; }
+  for id in $ids; do
+    if grep -qw -- "$id" $(r_docs) "$REF/VERIFICATION.md" 2>/dev/null; then
+      cited=$((cited + 1))
+    else
+      uncited=$((uncited + 1)); list="$list $id"
+    fi
+  done
+  echo "  R-G (informational): obligations deferred to the Refinement --"
+  echo "      $cited cited by this stage, $uncited not cited"
+  [ "$uncited" = "0" ] || echo "      uncited:$list"
+  echo "      (the uncited are gap G40 -- absent from codified-sjas.md and"
+  echo "       deferred without ever reaching this stage; not a defect here)"
+}
+
 run_all_r() {
   echo "-- refinement (VERIFICATION.md) --"
-  run_r_a; run_r_b; run_r_c; run_r_d; run_r_e; run_r_f
+  run_r_a; run_r_b; run_r_c; run_r_d; run_r_e; run_r_f; run_r_g
 }

@@ -662,6 +662,27 @@ exactly what O55 requires. And O90 had nothing to carry into this stage: the
 Refinement makes no claim about the real-valued line. With #124-#126 the C16 R5
 item list is fully applied, three days after it was written.
 
+## Corrections applied 2026-09-04, twenty-ninth pass
+
+Three rounds running, the same shape of finding surfaced by hand: an obligation
+the Codification had marked as this stage's to carry, which this stage had not
+carried, each one a live mis-statement (#117, #124, and O90's #125). That is a
+class, and it had a hiding place.
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 127 | **The bucket those three came out of was unreadable, and nothing watched it.** 26 obligations are dispositioned `carried:2026-09-01 (C16 R5; Refinement)`. The C16 R5 legend defines `carried` as "deliberately deferred to Refinement" and then concedes in the next paragraph that it "is used for genuine absence as well as for deliberate deferral, because the register offers no fourth status". So a genuine Refinement obligation and a plain hole in `../codification/codified-sjas.md` are written identically, and O17, O31 and O90 sat among 23 holes for three days. Now watched: **R-G** in `../codification/audit-r.sh` prints, on every run, how many of these obligations this stage cites and lists the ones it does not. Red-green tested | `../codification/audit-r.sh`, `../codification/registry/gaps.md` (**G40**) |
+
+**Verified and found correct** in this pass — and this is the reason #127 is a
+correction to the *audit* and not to this document: all 24 uncited rows read
+"Absent", "Half-done" or "Blocked and absent" in the C16 R5 dispositions. They
+are content the **codified statement** was obliged to carry and does not, so
+there was nothing for this stage to inherit. **G40** rules them a Codification
+completeness gap against acceptance criterion A2, to be closed by writing the
+content or by re-dispositioning with an exclusion rationale — explicitly not by
+relabelling the rows. The three that *were* this stage's — O17, O31, O90 — are
+discharged as of this session.
+
 
 
 **Verified and found correct** in this pass: the commit hashes cited in these
