@@ -519,7 +519,7 @@ constant:
 | Route | What it varies | Does it yield a self-verifying theory? |
 | --- | --- | --- |
 | **Willard** | the sizes | **Yes.** The margin *is* this route |
-| **Pakhomov** | the **semantics** | **Yes.** `H_{<ω}` proves `Con^pred(H_{<ω})`, a predicate-only `Π^pred₁` consistency sentence. Like Willard's systems it **cannot prove successor totality** (pp. 3–4, 21) — it evades Pudlák by the same door — but the witness differs: a finite model of size `≤ 2⁰_p` (superexponentiation), built inside EA and relativised to the **superexponential cut**, where Willard's is a bounded valuation on a tableaux branch |
+| **Pakhomov** | the **semantics** | **Yes.** `H_{<ω}` proves `Con^pred(H_{<ω})`, a predicate-only `Π^pred₁` consistency sentence. Like Willard's systems it **cannot prove successor totality** (pp. 3–4; and for `H` alone, p. 22 — not p. 21, as an earlier version of this cell said) — it evades Pudlák by the same door — but the witness differs: a finite model of size `≤ 2⁰_p` (superexponentiation), built inside EA and relativised to the **superexponential cut**, where Willard's is a bounded valuation on a tableaux branch |
 | **Beklemishev–Shamkanov** | the **structural rules** | **No.** See §5.2 |
 
 An earlier draft's Pakhomov cell said `H_{<ω}` "proves every hereditarily finite

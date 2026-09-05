@@ -1,5 +1,32 @@
 # Nachlass Log
 
+## 2026-09-04 - Adversarial round twenty-three: the stage's own central sentence had no status
+
+Three findings, from applying round twenty-two's lesson - read the framing
+blockquotes as claims, not as scene-setting.
+
+**The document's headline claim carried no status.** "A system can consistently
+assert its own consistency when, for every proof it can write, it can construct
+within its own means a bounded semantic witness that the proof is not a
+refutation." Every claim about Willard in this stage carries its proof status,
+by rule 2; the stage's own central sentence carried none. It is this
+Refinement's identification, generalised from two instances rather than derived,
+and its sharp arithmetic form is proved sufficient by the corpus only through a
+sketch (Lemma 4.6). Now stated.
+
+**A correction applied in one file and never swept.** The fourth pass fixed the
+Pakhomov citation "p. 21" to "p. 22" in R1-review.md. Section 1 of
+refined-sjas.md and section 5.1 of R3 both still said "pp. 3-4, 21" - the same
+error, in the two places the fix was not carried. That is the mirror of round
+nineteen's cross-document disagreement: not two documents disagreeing, but one
+correction stopping where it was noticed.
+
+**And section 1 leant on ISINF(A) without carrying that Willard2006a Theorem 6
+is sketch** - the rule-2 lapse the seventh pass swept, at a site the sweep did
+not reach.
+
+audit.sh green.
+
 ## 2026-09-04 - Adversarial round twenty-two: section 1's headline form was the withdrawn slogan
 
 One finding, and it reaches further back than any other this session.

@@ -31,6 +31,16 @@ Thirty years of this literature can be compressed to one sentence.
 > it can write, it can construct within its own means a bounded semantic witness
 > that the proof is not a refutation.**
 
+**What that sentence's status is, since this document asks the same of every
+claim it makes about Willard.** It is *this Refinement's identification*, not a
+theorem of the corpus. It is supported by two instances — Willard's bounded
+valuation on a tableaux branch and Pakhomov's bounded finite model on the
+superexponential cut — and generalised from them, not derived. Its sharp
+arithmetic form below is Willard's own Definition 4.5, and **the corpus proves
+that form sufficient only by a `sketch`** (`Willard2011` Lemma 4.6;
+`R3-the-margin.md` §§2.2, 6). Read the sentence as the best available statement
+of what the literature has found, not as something established.
+
 In Willard's arithmetic setting the condition becomes a comparison of two sizes:
 
 > **a refutation must cost more than the system's own reach affords.**
@@ -78,8 +88,12 @@ their shape differs.
 `H_{<ω}` "proves the existence of every hereditarily finite set — so it is not
 growth-restricted in Willard's sense", and treated it as **falsifying** the
 naming form. It does prove every individual hereditarily finite set exists, but
-Pakhomov states twice that **"both `H` and `H_{<ω}` could not prove totality of
-successor function"** (pp. 3–4, 21). So it is growth-restricted, by the *same*
+Pakhomov states it in the Introduction — **"Important restriction here is that
+both `H` and `H_{<ω}` could not prove totality of successor function"**, a
+sentence straddling the page break at **pp. 3–4** — and again, for `H` alone, at
+**p. 22**. (An earlier version of this citation gave "pp. 3–4, 21"; the second
+site is p. 22, and it is about `H`, not both. The same error was corrected in
+`R1-review.md` on 2026-09-04 and missed here.) So it is growth-restricted, by the *same*
 route as Willard's Hilbert line — and it must be, since Pudlák's cut-shortening
 needs successor totality and that is what both are evading. Pakhomov positions
 his system not as a different mechanism but as **"a more natural example of this
@@ -87,9 +101,10 @@ kind"**, his objection to Willard's being that "some of [the] axioms are
 constructed using Diagonal Lemma".
 
 The generalisation above still stands, and the corpus itself shows why it should:
-`Willard2006a`'s **`ISINF(A)`** is *Infinitely Far-Reaching* — a finite subset
-proves `∃x Pred^N(x) = 1` for every `N` — while still not proving successor
-total. That is structurally what `H_{<ω}` is. Two witnesses of the same shape,
+`Willard2006a` Theorem 6 (**`sketch`**) gives **`ISINF(A)`**: *Infinitely
+Far-Reaching* — a finite subset proves `∃x Pred^N(x) = 1` for every `N` — while,
+in Willard's words, "Infinitely Far-Reaching **without sustaining an ability to
+prove successor is a total function**". That is structurally what `H_{<ω}` is. Two witnesses of the same shape,
 one arithmetic and one set-theoretic, is a reason to state the criterion in terms
 of the witness rather than the naming rate. It is **not** a falsification, and
 [`R1-review.md`](R1-review.md) §2 is corrected to say so.

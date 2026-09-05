@@ -375,6 +375,16 @@ Acceptance and Consequences sections, which no earlier pass had opened.
 | 102 | **§1's "arithmetic form" was the withdrawn naming slogan.** It said the condition takes "one specific form … *naming an integer must not be cheaper than proving something about it*", and that the rest of the document develops it. It does not: of the five boundary dials, the three now **proved** to move the margin — `ℜ`, `Herb−k`, `Z` — are **apparatus** dials with nothing to do with naming, and the one dial that *is* about naming, Hybrid(H), is precisely the one whose term the Refinement could not identify. The arithmetic form is the margin, a comparison of two sizes; naming is one instance of it, and currently the least supported | `refined-sjas.md` §1 |
 | 103 | §2.3b still spoke of "the naming criterion" as though it were *the* criterion | `refined-sjas.md` §2.3b |
 
+## Corrections applied 2026-09-04, twenty-third pass
+
+Round twenty-two's lesson applied: read the framing blockquotes as claims.
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 104 | **The Pakhomov page correction of the fourth pass was applied in one file and missed in two.** `refined-sjas.md` §1 and `R3-the-margin.md` §5.1 both still cited "pp. 3–4, 21"; the second site is **p. 22** and is about `H` alone. A correction applied to the document where it was noticed and not swept across the stage | `refined-sjas.md` §1, `R3-the-margin.md` §5.1 |
+| 105 | §1 leant on `Willard2006a`'s `ISINF(A)` without carrying that **Theorem 6 is `sketch`** — the same rule-2 lapse the seventh pass swept, at a site that sweep did not reach | `refined-sjas.md` §1 |
+| 106 | **The document's headline claim carried no status.** "A system can consistently assert its own consistency when …" is *this Refinement's identification*, generalised from two instances rather than derived, and its sharp arithmetic form is proved sufficient by the corpus only through a `sketch`. Every claim about Willard in this stage carries its status; the stage's own central sentence did not | `refined-sjas.md` §1 |
+
 **Verified and found correct** in this pass: `lawvere-sjas.md` §0's summary
 table agrees with §5's three tables row by row (AU, B–S and Willard on the boxed
 diagonal, uniform HBL evaluation, fixed-point strength, internal consistency
