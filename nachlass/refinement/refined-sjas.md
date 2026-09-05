@@ -773,7 +773,17 @@ been established — is the concrete form of the "computational analogue" the
 synthesis is aiming at, and it suggests the transfer to test first: **the margin should have a
 type-theoretic reading, in which the two terms become the size of the type a
 term can denote and the size of the term denoting it.** That is a conjecture of
-this Refinement, not a result — and R4 carries obligation **RO1** with it:
+this Refinement, not a result.
+
+**R6 gives R4 a sharper target than this conjecture.** Rather than testing a
+type theory against "self-reference" as a whole,
+[`lawvere-sjas.md`](lawvere-sjas.md) exhibits the boxed diagonal
+`copy_A : □A → □A ⊗ □A` and the uniform proof-composition map as **separate**
+data, so each can be checked independently — which is exactly the distinction
+Brown–Palsberg's typing discipline turns on. ADR-0004 records this as a
+consequence for R4; an earlier version of this section did not.
+
+R4 also carries obligation **RO1**:
 `□`-contraction can hold in affine PA (Beklemishev–Shamkanov §3), so
 contraction-freedom at the object level does not by itself buy anything, and the
 affine-tree line must check the *restricted* rule rather than the general one.

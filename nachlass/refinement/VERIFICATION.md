@@ -358,6 +358,24 @@ sweeps miss: a claim inconsistent with its own document.
 | 98 | **R3's header block pointed at "§1.2"** for the A-Stability bridge, which the eighth pass renumbered to §2.2 — a stale reference inside the document's own summary, the first thing a reader meets | `R3-the-margin.md` header |
 | 99 | **And that summary omitted the document's most consequential finding**: that the margin's *sufficiency* has no `full` proof, Lemma 4.6 being `sketch`. A "what this delivers, stated first" block that leaves out the caveat governing everything it delivers is misleading by omission. Added, together with the fact that its A-Stability route is *less* rigorous than Willard's | `R3-the-margin.md` header |
 
+## Corrections applied 2026-09-04, twenty-first pass
+
+The two charters disagreed with each other. Found by reading `ADR-0004`'s
+Acceptance and Consequences sections, which no earlier pass had opened.
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 100 | **`ADR-0004` says B3 is "reopened and upgraded to a comparison theorem"; `ADR-0002`'s B3 still recorded it as *met*, with Lawvere "downgraded to a framing".** The two charters of one stage gave contradictory dispositions for the same acceptance criterion, and had done since R6 was written | `ADR-0002` B3 |
+| 101 | **`ADR-0004` declares a consequence for R4 that `ADR-0002`'s R4 row did not carry**: R6 supplies a *precise transfer target* — the boxed diagonal `copy_A : □A → □A ⊗ □A` and the uniform proof-composition map exhibited **separately**, so a candidate type theory can be tested against each independently. Recorded in the R4 row and in `refined-sjas.md` §8, which had only its own weaker conjecture | `ADR-0002` R4 row, `refined-sjas.md` §8 |
+
+**Verified and found correct** in this pass: `ADR-0004`'s acceptance criteria
+L0–L6 are each discharged by `lawvere-sjas.md` as claimed — L3's "the B–S
+instance corrects the premise that an HBL condition fails" matches §3.2's L1–L3
+list, L4's "names HBL (2) at its corpus locus" matches §4.2's TR p. 12 citation,
+and L5's separation of the two selected fixed points from the AU's universal one
+matches §§1.3 and 4.3. `ADR-0002`'s open-list item 5 already credits R6 for
+sharpening the empty cell.
+
 **Verified and found correct** in this pass — the cross-document sweep: all five
 documents agree that Willard's Type-A breach is condition **(2)** (seventeen
 sites checked) and that the Hilbert line's condition is *not* identified in the

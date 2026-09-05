@@ -1,5 +1,34 @@
 # Nachlass Log
 
+## 2026-09-04 - Adversarial round twenty-one: the two charters disagreed with each other
+
+Two findings, both from reading ADR-0004's Acceptance and Consequences sections
+- material no earlier pass had opened.
+
+**ADR-0004 says acceptance criterion B3 is "reopened and upgraded to a
+comparison theorem". ADR-0002's B3 still recorded it as met, with Lawvere
+"downgraded to a framing".** Two charters of one stage, giving contradictory
+dispositions for the same criterion, and doing so since R6 was written. ADR-0002
+now records the reopening, and that R6 is explicitly *not* a claim that
+Willard's systems are arithmetic universes.
+
+**And ADR-0004 declares a consequence for R4 that ADR-0002's R4 row never
+carried**: R6 supplies a precise transfer target for the computational analogue
+- the boxed diagonal copy_A : Box-A -> Box-A tensor Box-A and the uniform
+proof-composition map exhibited *separately*, so a candidate type theory can be
+tested against each independently rather than against "self-reference" as a
+whole. That is a sharper target than refined-sjas section 8's own conjecture,
+and section 8 now says so. It is also exactly the distinction Brown-Palsberg's
+typing discipline turns on, which makes the R4 hook considerably more concrete
+than it was.
+
+Checked and sound: ADR-0004's acceptance criteria L0-L6 are each discharged by
+lawvere-sjas.md as claimed - L3 against section 3.2's L1-L3 list, L4 against
+section 4.2's TR p. 12 citation, L5 against sections 1.3 and 4.3. ADR-0002's
+open-list item 5 already credits R6 for sharpening the empty cell.
+
+audit.sh green.
+
 ## 2026-09-04 - Adversarial round twenty: R3's own summary was stale and incomplete
 
 Two findings, both in the first thing a reader of R3 meets.

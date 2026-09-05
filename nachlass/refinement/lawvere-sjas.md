@@ -36,7 +36,7 @@ the HBL maps, and Lemma 6.12 supplies fixed points.
 Beklemishev-Shamkanov's example `S` does **not** fail one of the three HBL
 conditions. It satisfies their versions L1-L3 and has every modalized fixed
 point needed here. What it lacks is the boxed diagonal. Categorically, its
-Lindenbaum construction is symmetric monoidal rather than cartesian; `□A`
+Lindenbaum category is symmetric monoidal rather than cartesian; `□A`
 cannot in general be copied. Consequently the formalized-G2 arrow
 
 `□(□bottom -o bottom) -> □bottom`
@@ -301,6 +301,11 @@ Definitions 3.1-3.2 refine the preorder to multiset contexts. After quotienting
 by deductive equivalence, set
 
 `K_S(A,B) = {*} if A |-S B, and empty otherwise`.
+
+The thin syntactic category obtained by quotienting formulas by mutual
+derivability will be called the Lindenbaum category; compare Lawvere
+(1969/2006, §3). For its monoidal and symmetric-monoidal-closed forms, see
+Szabo (1978, Chapters 2-3 and 7-8).
 
 Multiset union is represented by their conjunction `tensor`; `top` is the unit;
 and I3 gives the closure adjunction on the representing context object
@@ -663,6 +668,16 @@ Their proof status and image anchors are recorded in
 
 ## 7. Primary-source anchors
 
+- F. William Lawvere, [*Diagonal Arguments and Cartesian Closed
+  Categories*](https://tac.mta.ca/tac/reprints/articles/15/tr15.pdf), Lecture
+  Notes in Mathematics 92 (1969), pp. 134-145; reprinted in *Reprints in Theory
+  and Applications of Categories* 15 (2006), pp. 1-13: §3, especially reprint
+  p. 10, for the term and construction of a Lindenbaum category.
+- M. E. Szabo, [*Algebra of
+  Proofs*](https://shop.elsevier.com/books/algebra-of-proofs/szabo/978-1-4832-3072-6),
+  Studies in Logic and the Foundations of Mathematics 88, North-Holland,
+  1978: Chapters 2-3 and 7-8 for monoidal, symmetric monoidal, monoidal closed,
+  and symmetric monoidal closed syntactic categories.
 - J. van Dijk and A. Gietelink Oldenziel, [*Gödel incompleteness through
   Arithmetic Universes after A. Joyal*](https://arxiv.org/abs/2004.10482),
   arXiv:2004.10482: Lemma 5.15;
