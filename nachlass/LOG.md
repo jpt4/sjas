@@ -1,5 +1,67 @@
 # Nachlass Log
 
+## 2026-09-04 - Round twenty-eight: Theorem 1.1's proof, section 3.4, and L0-L6
+
+The rest of what I named at the close of round twenty-seven. **No corrections.**
+
+**Theorem 1.1's proof is correct, checked step by step.** Nec and BoxMP on the
+forward fixed-point arrow give Box-G -> Box(Box-G -> bottom); Four gives Box-G ->
+Box-Box-G; and the second BoxMP, at A = Box-G and B = bottom, needs the *same*
+Box-G to feed both arrows - which is exactly and only where BoxContr_G is
+consumed. That is the whole point of the theorem and the proof places it
+correctly.
+
+Two steps I expected to find loose and did not. Con -> not-Box-G follows
+monoidally by currying, with no contraction needed, because Con and Box-G are
+distinct resources. And the closing step uses Con twice - once through Nec to
+get Box-Con, once as Box-bottom -> bottom - but it has Con as a **global point**,
+and a global point duplicates through the unit isomorphism without contraction.
+In a theorem whose subject is exactly which duplications are available, those
+are the two places an error would matter most.
+
+**Section 3.4 checks out.** Its `boxtimes-A := Box-not-A` matches the source's
+`boxtimes-phi := Box(phi -> bottom)` under this document's `not-A := A -o
+bottom`; and `boxtimes-top =_S Box-bottom` is precisely Theorem 4's conclusion
+as image-verified in round twelve. The external-consistency derivation - if
+top <=_S bottom then I4 gives |-_S bottom, then F, bottom |-_S Box-bottom and
+Theorem 5's admissible cut gives F |-_S Box-bottom, contradicting Proposition
+4.1 - is valid, and section 6 already declares it as the comparison's own
+inference rather than a quoted source theorem.
+
+**ADR-0004's L0-L6 all discharge**, re-derived rather than read off. L0's
+methodological order is confirmed structurally: Theorem 1.1 is derived at line
+202, before the AU, B-S and Willard instances at 238, 283 and 405.
+
+Second consecutive pass whose named target yielded no correction. The two
+together cover every load-bearing claim in R6 that had not previously been
+checked against a source or re-derived.
+
+audit.sh green.
+
+## 2026-09-04 - Self-justification and RSI: the motivation and computational test
+
+Recorded the user's account of the broader research programme verbatim, with
+the response, in
+[Self-justification and reflective self-improvement](../docs/log/2026-09-04-self-justification-and-rsi-motivation.md).
+
+The proposed success criterion is an operational benefit: a useful modification
+or delegation that a restricted reflective guarantee helps the agent justify.
+The discussion distinguishes internal derivability, external consistency,
+soundness, and implementation correctness; explains when proof search can
+remain outside the proof predicate; and treats native quotation and program
+extraction as interpretations with explicit preservation obligations.
+
+Willard 2011 Theorem 6.12's translated reflection is identified as a concrete
+lead, with its EA-stability hypotheses and its standard-model-only equivalence
+qualification. Willard 2001 Theorem 7.2 supplies the corresponding warning
+against restoring unrestricted reflection for computational safety claims.
+The note records source-image checks, the Codification's proof statuses, and
+a proposed experiment comparing the contribution of self-justification with
+ordinary certificate checking. No RSI advantage is claimed as established.
+
+This conversation record is separate from the concurrent completeness and
+correctness review of the Codification and Refinement documents.
+
 ## 2026-09-04 - Round twenty-seven: the last unverified citations, and a clean pass
 
 At the close of round twenty-six I named the one target left: lawvere-sjas.md

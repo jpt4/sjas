@@ -126,6 +126,38 @@ the proof relation — all check out.
 
 *This is the first pass whose named target yielded no correction.*
 
+## Pass twenty-eight, 2026-09-04 — no corrections
+
+The remaining targets named at the close of pass twenty-seven:
+`lawvere-sjas.md` §§1.4 and 3.4, and `ADR-0004`'s L0–L6 discharge claims
+re-derived rather than read off.
+
+**Theorem 1.1's proof is correct, step by step.** `Nec` + `BoxMP` on the forward
+fixed-point arrow gives `□G → □(□G → ⊥)`; `Four` gives `□G → □□G`; and the
+second `BoxMP`, at `A = □G`, `B = ⊥`, needs the *same* `□G` to feed both — which
+is exactly and only where `BoxContr_G` is consumed. `Con → ¬□G` follows
+monoidally by currying (no contraction: `Con` and `□G` are distinct resources),
+and the closing step needs `Con` twice but has it as a **global point**, which
+duplicates through the unit isomorphism without contraction. The theorem is
+correctly labelled a *sufficient package*, not a biconditional.
+
+**§3.4 checks out.** `⊠A := □¬A` matches the source's `⊠φ := □(φ → ⊥)` under this
+document's `¬A := A ⊸ ⊥`; and `⊠⊤ =_S □⊥` is precisely Theorem 4's conclusion as
+image-verified above. The external-consistency derivation — `⊤ ≤_S ⊥` would give
+`⊢_S ⊥` by I4, then `F, ⊥ ⊢_S □⊥` and Theorem 5's admissible cut would give
+`F ⊢_S □⊥`, contradicting Proposition 4.1 — is valid, and §6 already declares it
+as this comparison's inference rather than a quoted source theorem.
+
+**L0–L6 all discharge.** L0's methodological order is confirmed structurally:
+Theorem 1.1 is derived at line 202, before the AU (§2), B–S (§3) and Willard (§4)
+instances. L1's package is separated in §§1.2–1.3; L2's arrows and the cartesian
+source of contraction in §§2.1–2.2; L3's L1–L3-hold-but-no-`δ^□` in §§3.2–3.3;
+L4's HBL (2) at TR p. 12 with the pointwise/uniform split in §4.2; L5's two
+selected fixed points against the AU's universal one in §§1.3 and 4.3; L6's final
+table in §5.
+
+*Second consecutive pass whose named target yielded no correction.*
+
 ## Quotation register
 
 Every row is `img` — verified against a rendered page image; check **R-B** fails
