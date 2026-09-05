@@ -214,7 +214,7 @@ run_r_f() {
 #        Codification completeness item, not a Refinement defect.
 run_r_g() {
   local ids id cited=0 uncited=0 list=""
-  ids=$(grep -o '^| O[0-9]\+ |.*carried:[^|]*Refinement[^|]*|' "$OBL" \
+  ids=$(grep -o '^| O[0-9]\+ |.*absent:[^|]*G40[^|]*|' "$OBL" \
         | sed 's/^| \(O[0-9]*\) |.*/\1/' | sort -u -V)
   [ -n "$ids" ] || { echo "  R-G (informational): no obligations dispositioned toward the Refinement"; return; }
   for id in $ids; do
@@ -224,11 +224,12 @@ run_r_g() {
       uncited=$((uncited + 1)); list="$list $id"
     fi
   done
-  echo "  R-G (informational): obligations deferred to the Refinement --"
-  echo "      $cited cited by this stage, $uncited not cited"
+  echo "  R-G (informational): obligations marked absent from codified-sjas.md (G40) --"
+  echo "      $cited cited by the Refinement, $uncited not cited"
   [ "$uncited" = "0" ] || echo "      uncited:$list"
-  echo "      (the uncited are gap G40 -- absent from codified-sjas.md and"
-  echo "       deferred without ever reaching this stage; not a defect here)"
+  echo "      (G40: content the codified statement was obliged to carry and"
+  echo "       does not. A Codification gap, not a Refinement defect. Relabelled"
+  echo "       from carried: on 2026-09-05; relabelling did not close it.)"
 }
 
 run_all_r() {

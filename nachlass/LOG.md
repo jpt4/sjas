@@ -1,5 +1,30 @@
 # Nachlass Log
 
+## 2026-09-05 - Prolog Tab/Xtab inhabitant checker
+
+Implemented Willard's Tab / Xtab inductive families as an explicit
+proof-term checker in
+[`code/tabt/`](../code/tabt/)
+([ADR-0001](../code/tabt/ADR-0001-tab-xtab-prolog.md),
+[`tabt.pl`](../code/tabt/tabt.pl),
+[`tabt_test.pl`](../code/tabt/tabt_test.pl)).
+`tab/3` checks Tab constructors (2020 Appendix Rules 1–6 + bounded
+hybrids); `xtab/3` adds `lem/2`. plunit: 21/21 green via `swipl:stable`
+Docker (no host SWI-Prolog). Paper note left as the type-theoretic
+spec; Proflog arithmeticization untouched.
+
+## 2026-09-05 - Tab/Xtab as inductive families
+
+At the user's request, wrote Willard's Tab and Xtab as dependent-type
+inductive families indexed by branch contexts:
+[docs/log/2026-09-05-tab-xtab-dependent-types.md](../docs/log/2026-09-05-tab-xtab-dependent-types.md)
+([CLI edition](../docs/log/2026-09-05-tab-xtab-dependent-types-cli.txt)).
+Constructors match the 2020 six-rule Appendix (with bounded hybrids) and
+the 2001/2018 eight-rule partition; Xtab is Tab plus a LEM/cut constructor;
+Z-enrichments restrict the cut formula. Separates encoded `Prf`, Tab/Xtab
+inhabitants, and PTS theorem witnesses. Paper construction only — not
+mechanized; Codification registries and Proflog left untouched.
+
 ## 2026-09-05 - CLI-readable PTS notation
 
 At the user's request, rendered the PTS response as a
@@ -3824,3 +3849,53 @@ cited path resolves and that a `§N.M` reference exists, never that the section
 cited is the section meant. That gap is now stated rather than assumed.
 
 Corrections #132-#133, thirty-second pass. audit.sh green.
+
+## 2026-09-05 - The bookkeeping backlog, discharged
+
+Not a review round. The claim had been made that this project's failures were
+bookkeeping rather than comprehension, and the reply was: then fix them. This
+pass discharges what that claim implies — every recorded-but-unapplied finding
+in the two C16 disposition walks, applied or explicitly ruled content-work.
+
+Sixteen drift entries had been dispositioned `resolved` on 2026-09-01 and still
+read `open`, because the ledger had no `resolved` status for the walk's
+conclusions to land in. Each now names the section that discharges it. D57 and
+D72 were the same entry under two ids; D72 is a pointer. D50's heading counted
+"ten" formula-class notations over a six-row table that omitted the very family
+its analysis depends on — both are seven now, matching codified §3.3. The
+ledger's status vocabulary is declared, its non-numeric order documented, and
+ids 52 and 58-69 recorded as never issued rather than left to look like
+misfilings.
+
+Two confirmations assigned long ago and never recorded are done. D2's holds:
+the C9 extraction identifies `Willard2006a` with `Willard2005`'s
+pre-publication citation. **D3's does not.** The check was written as
+"`Willard2011` D.1(iv) ≡ `Willard2005` Eq. (20)" and it is an implication, not
+an equivalence — D.1(iv) bounds all `J` function symbols in a proof, Eq. (20)
+bounds U-Height along one branch, and U-Height ≤ J. They share the constant 5,
+which is exactly the conflation D3 was written to prevent. Image-verified at
+printed p. 39, whose footnote 23 also turns out to state R3 §1.1's
+`Log(q_β) ≥ 5J` in Willard's own words — a computed claim that had been carried
+as a derivation and is now a quotation.
+
+A new check, **M-N**, lists every drift heading stating a count against its own
+table's row count. It found D55 — heading "two inequivalent definitions" over a
+three-row table whose third row, `Willard2005` Definition 1, is the weakest
+hypothesis of the three and had never been analysed. It would have found D50 and
+D38's four stale numbers. Informational, because a heading number need not be a
+tally.
+
+The obligation register declared two statuses while four were in use. `carried:`
+was introduced by the C16 R5 walk without being added to the legend and then
+used for two incompatible meanings — the conflation that hid O17, O31 and O90
+for three days. Four statuses declared; all 26 rows now read `absent:`, which is
+what that walk's own reason column said. **This did not close G40 and says so.**
+
+What is not fixed, because it is not bookkeeping: G40's 24 obligations are
+missing content — tangibility (zero occurrences), the Meta-Logic convention, the
+`IS(A)`/`IS_D(A)` delta, the duplication framing. Relabelling made the register
+honest; it wrote nothing. G39 stands: no Pudlák witness is held. Calling those
+bookkeeping would be the error this pass exists to correct.
+
+Corrections #134-#142, thirty-third pass. New check M-N; R-G retargeted.
+audit.sh green.

@@ -7,9 +7,27 @@ presentation, it cites the entry and states both readings. Populated chiefly
 during extraction (C4+) and the C6 subsumption audit; seeded now with what
 the C1/C2 passes established.
 
-Format per entry: id, topic, the readings with sources/anchors, status
-(`open` | `explained:YYYY-MM-DD` — an explanation is recorded but the variant
-readings remain on record).
+Format per entry: id, topic, the readings with sources/anchors, status. The
+status vocabulary is `open` | `explained:YYYY-MM-DD` (an explanation is
+recorded but the variant readings remain on record) | `resolved YYYY-MM-DD`
+(the codified statement discharges what the entry asks, naming the section) |
+`merged:YYYY-MM-DD into D<n>` (a duplicate id, kept as a pointer so inbound
+links resolve). The last two were added 2026-09-05; sixteen entries had been
+dispositioned `resolved` by the C16 R6 walk on 2026-09-01 and were still
+reading `open` because the ledger had no such status and was never written
+back.
+
+**Reading order.** Entries are in the order they were written, not in numeric
+order: D1, D7–D14, D2–D6, D15–D48, D51, D49, D1-supplement, D50, D53–D57,
+D70–D82. Two consequences a reader should not have to reconstruct (finding
+F-L5, stated 2026-09-05):
+
+- **Ids 52 and 58–69 were never issued.** Their absence is a deliberate gap in
+  the numbering, not a misfiled or deleted entry. Every other id from D1 to D82
+  is present exactly once.
+- **`D1-supplement`** is a distinct entry, not a second D1. It corroborates
+  D1's Solovay dating from `Willard2016` and is filed next to the entries it
+  was written with.
 
 ---
 
@@ -251,7 +269,16 @@ Recorded against prior in-house work, not against Willard.
   words ("new variant of Hilbert styled") are exactly the ones that locate the
   paper on the apparatus axis, so the pre-publication title is the more
   informative one for the concordance.
-- Status: open.
+- **Confirmed 2026-09-05** (finding F-L6; the action had been assigned to the
+  C9 extraction and never recorded as done). `../extraction/willard2006a.md`'s
+  identity block and `../registry/corpus.md` both give the published article as
+  "A Generalization of the Second Incompleteness Theorem and Some Exceptions to
+  It", *Annals of Pure and Applied Logic* 141(3), 2006, pp. 472–496 — Reading 2
+  exactly — and the corpus row independently records the 2003 St. Petersburg
+  announcement that Reading 1 cites. Same article; the identification holds.
+- Status: **resolved 2026-09-05** — same article under a pre-publication title.
+  The pre-publication wording is retained above because, as the entry says, the
+  dropped words locate the paper on the apparatus axis.
 
 ---
 
@@ -269,6 +296,25 @@ conflate (see the C4 fidelity check, F1/F2):
 The admissible window is `1/d ≤ θ < 1/3` for coding density `d`, non-empty
 exactly when `d > 3`. Willard's Eq. (20) gives `d = 5`, and he selects
 θ = 1/4 inside `[1/5, 1/3)`.
+
+**C6 confirmation, done 2026-09-05** (finding F-L6: it had been assigned and
+never recorded). The check was stated as "`Willard2011` D.1(iv) ≡ `Willard2005`
+Eq. (20)". **It is not an equivalence, and the difference is the fourth thing
+easy to conflate here.** `Willard2011` Definition D.1(iv), printed p. 38 with
+its footnote 23 on p. 39 (image-verified), is the **Conventional Tableaux
+Encoding Requirement** — a hypothesis on the Gödel encoding `g`:
+
+> "The Conventional Tableaux Encoding Criteria requires that the Gödel number of
+> a semantic tableaux proof, with `J` function symbols, must be least as large
+> as `32^J`. … any proof that has `J` function symbols will contain at least
+> `2J` logical symbols and thus employ at least `5J` bits."
+
+`Willard2005` Eq. (20) is `U-Height(p) < (1/5)·Log₂(p)` — a bound on **U-Height**,
+the largest number of U-Grounding function symbols along a *single branch*.
+D.1(iv) bounds **all `J` function symbols in the proof**. Since U-Height ≤ `J`,
+D.1(iv) **implies** Eq. (20)'s form; the converse does not hold. They share the
+constant 5, which is why they were recorded as equivalent — precisely the
+conflation this entry exists to prevent.
 
 - Cross-paper link to confirm at C6: Willard 2011 Definition D.1 part (iv)
   promotes the Eq. (20) condition to a definitional clause admitting "any
@@ -345,7 +391,7 @@ C4 fidelity check (`../extraction/willard2005-fidelity-check.md`).
   Gödel number) but it should be discharged explicitly rather than inherited.
 - The affine-tree documents belong to another branch and are **not edited** by
   this workstream.
-- Status: open (carry into C14–C15 composition).
+- Status: **resolved 2026-09-05** — discharged at `../codified-sjas.md` §6.6 (the `1/d ≤ θ < 1/3` window stated, `ADR-0001`'s inverted form named as the error) (C16 R6 walk, dispositioned `resolved` 2026-09-01; the ledger was never written back). Prior status: open (carry into C14–C15 composition).
 
 ---
 
@@ -387,7 +433,7 @@ should name once rather than re-explain per paper.
 - Same device, twelve years apart, on different principles (Π₁ reflection;
   `Υ(k,m)`). The codified statement should present *axiom-versus-theorem under
   a cut-free apparatus* as a named mechanism of the boundary.
-- Status: open.
+- Status: **resolved 2026-09-05** — discharged at §5.4, which names axiom-versus-theorem under a cut-free apparatus once as a mechanism and refers back to it (C16 R6 walk, dispositioned `resolved` 2026-09-01; the ledger was never written back). Prior status: open.
 
 ---
 
@@ -476,7 +522,7 @@ result.
   both covered by ξ\*), but the two lists enumerate different things — papers
   in one case, paradigms in the other. The codified statement must not present
   a four-to-four correspondence.
-- Status: open (full analysis in `../extraction/willard2011-subsumption-audit.md` §2.2).
+- Status: **resolved 2026-09-05** — discharged — the entry states a **prohibition** (no four-to-four correspondence) and `../codified-sjas.md` complies (C16 R6 walk, dispositioned `resolved` 2026-09-01; the ledger was never written back). Prior status: open (full analysis in `../extraction/willard2011-subsumption-audit.md` §2.2).
 
 
 ## D22 — `Willard2001`'s witness has a post-publication bibliography
@@ -494,7 +540,7 @@ result.
 - Consequence: this witness is authoritative for the mathematics and for
   Willard's own later citation practice, **not** for the JSL 2001 text. Cite
   section and item labels; never JSL page numbers from this witness.
-- Status: open (gap G15).
+- Status: **resolved 2026-09-05** — discharged — the operative rule is "cite section and item labels; never JSL page numbers from this witness", and all thirteen citations comply (C16 R6 walk, dispositioned `resolved` 2026-09-01; the ledger was never written back). Prior status: open (gap G15).
 
 ## D23 — Seven grounding functions versus six
 
@@ -733,7 +779,7 @@ result.
   that status as permanent); on 2020's dial the `Π*₁` case is
   **conjectured**. So `Willard2020`'s conjecture is precisely the claim that
   2004's proved positive result **transfers from the `ℜ` dial to the `Z` dial**.
-- Status: open — appended to gap G22 and obligation O46.
+- Status: **resolved 2026-09-05** — discharged at §8.1, which states the prohibition on merging the `ℜ` and `Z` dials and gives the reason (C16 R6 walk, dispositioned `resolved` 2026-09-01; the ledger was never written back). Prior status: open — appended to gap G22 and obligation O46.
 
 ## D35 — the Non-Growth condition itself varies
 
@@ -762,7 +808,7 @@ result.
 
 - 2011 absorbs 2006a's positive *system* and drops its *boundary axis*. This is
   the second element-wise failure of the unification claim, alongside **D21**.
-- Status: open — closes the C6-deferred `Willard2006a` subsumption check.
+- Status: **resolved 2026-09-05** — discharged — the entry guards against a claim that `Willard2011` subsumes `Willard2006a`, and `../codified-sjas.md` makes no such claim (C16 R6 walk, dispositioned `resolved` 2026-09-01; the ledger was never written back). Prior status: open — closes the C6-deferred `Willard2006a` subsumption check.
 
 ## D37 — the LFCS chapter is not superseded by the arXiv expansion
 
@@ -822,7 +868,7 @@ result.
   the prose. Finding **F-L2** of the C16 R6 walk recorded the heading defect
   and it was never written back. `codified-sjas.md` §8.1 has said five
   throughout and is unaffected.
-- Status: open (C13). Supersedes the narrower D34.
+- Status: **resolved 2026-09-05** — discharged at §8.1, which states the boundary once and coordinatises it in the five-row table (C16 R6 walk, dispositioned `resolved` 2026-09-01; the ledger was never written back). Prior status: open (C13). Supersedes the narrower D34.
 
 ## D39 — `Willard2004`'s W₄/W₅ are already Z-enrichment axioms
 
@@ -841,7 +887,7 @@ result.
 - This is the family resemblance behind D38's first and third dials, and it
   makes the Π\*₁ conjecture legible: 2004 already knows that LEM at `Σ*₀` is
   safe and that `Π*₂` intermediate theorems are fatal.
-- Status: open (C13).
+- Status: **resolved 2026-09-05** — discharged at §9.1, which carries `Willard2004`'s `W₄`/`W₅` as Z-enrichment axioms in `Willard2020`'s sense (C16 R6 walk, dispositioned `resolved` 2026-09-01; the ledger was never written back). Prior status: open (C13).
 
 ## D40 — the corpus carries two toolkits, and `Willard2006a` says why
 
@@ -936,7 +982,7 @@ result.
 - So the corpus's entire two-branch structure is a direct reading of Solovay's
   1994 theorem, stated in the founding report. The codified statement should
   introduce the branches this way rather than as two independent programmes.
-- Status: open (C13).
+- Status: **resolved 2026-09-05** — discharged at §2.4, which presents the derivation from `Willard1993-TR` p. 2 (C16 R6 walk, dispositioned `resolved` 2026-09-01; the ledger was never written back). Prior status: open (C13).
 
 ## D45 — the engine's truncation operator bounds different quantifiers in different papers
 
@@ -973,7 +1019,7 @@ result.
 - Consequence for **D38**: the `ℜ` dial is a *projection* of a
   two-dimensional parameter, and the corpus's sharpest located threshold is in
   the paper ruled Tier B. Obligation **O60**.
-- Status: open (C13).
+- Status: **resolved 2026-09-05** — discharged at §8.1, which presents the two-index `R(i,j)` in full and the later dials as its projections (C16 R6 walk, dispositioned `resolved` 2026-09-01; the ledger was never written back). Prior status: open (C13).
 
 ## D47 — `Willard2006-WoLLIC` and `Willard2009` are not a superset pair
 
@@ -994,7 +1040,7 @@ result.
   expansion; this one and `Willard2020-LFCS`/`Willard2020` both drop material.
 - The dropped claim is the sharpest form of the paper's thesis and should be
   carried from the conference witness — obligation **O69**.
-- Status: open (C13).
+- Status: **resolved 2026-09-05** — discharged at §7.4, which carries the conference witness's sharpest claim (C16 R6 walk, dispositioned `resolved` 2026-09-01; the ledger was never written back). Prior status: open (C13).
 
 ## D48 — `Willard2009`'s Appendix B is not self-contained
 
@@ -1043,7 +1089,7 @@ result.
   recognize their semantic tableaux consistency** — closing the remaining cell.
 - The codified statement should present the split once, in one vocabulary, and
   record both namings — obligation **O71**.
-- Status: open (C13).
+- Status: **resolved 2026-09-05** — discharged at §2.4, which records both namings and their non-relation (C16 R6 walk, dispositioned `resolved` 2026-09-01; the ledger was never written back). Prior status: open (C13).
 
 ## D1-supplement — `Willard2016` corroborates the 1994 Solovay communication
 
@@ -1070,7 +1116,7 @@ with "the majority of `++`'s essence, chronologically before Solovay's
 observations", and notes Buss–Ignjatovic, Hájek and Švejdar [11, 23, 45] and
 Appendix A of `Willard2001` as subsequent explorations.
 
-## D50 — ten formula-class notations for one idea
+## D50 — seven formula-class notations for one idea
 
 | Paper | Classes |
 | --- | --- |
@@ -1078,6 +1124,7 @@ Appendix A of `Willard2001` as subsequent explorations.
 | `Willard2002a`, `Willard2004`, `Willard2005`, `Willard2011`, `Willard2020` | `Δ*₀`, `Π*ₙ`, `Σ*ₙ` — starred: **no multiplication function symbol**, multiplication as the 3-way relation `M(x,y,z)` |
 | `Willard2004` | `Q*ₙ` — the Level(n+) classes |
 | `Willard2009`, `Willard2006-WoLLIC` | `Δ^R₀`, `Π^R₁`, `Σ^R_k` — quantifier-bounding terms may use **only `Max`** |
+| `Willard2001`, `Willard2002c`, `Willard2006a` | `Δ⁻₀`, `Π⁻ₙ`, `Σ⁻ₙ` — over the grounding primitives |
 | `Willard2016` §5 | `Δ^ANC₀`, `Π^ANC_n`, `Σ^ANC_n` — over the Additive-Naming-Convention language |
 | `Willard2016` §5 | `Δ^Q₀`, `Π^Q_n`, `Σ^Q_n` — over `L^Q`, with every `C_J` replaced by `E_{J−1}` |
 
@@ -1089,6 +1136,11 @@ Appendix A of `Willard2001` as subsequent explorations.
   formulae is **broader than** `Δ⁻₀`" — so `Willard2001`/`Willard2002c`'s
   minus-superscript class is a proper subclass of `Willard2009`'s. Every other
   pair is unrelated in print.
+- **Count reconciled 2026-09-05.** The heading read "ten" and the table listed
+  six families, omitting the minus-superscript row although the bullet above
+  depends on it. Both are now **seven**, matching `../codified-sjas.md` §3.3's
+  table row for row — the two are the same enumeration and are now checkable
+  against each other (finding F-L3).
 - `Willard2016`'s two are the most constrained: a formula lies in `Δ^Q₀` **iff**
   it is built by the `C_J → E_{J−1}` substitution, which is what guarantees
   every primary term in it is an *observable*.
@@ -1130,9 +1182,9 @@ Appendix A of `Willard2001` as subsequent explorations.
   presentational: it bounds what parameters a candidate tree may mention, which
   is what makes the `(L,M)`-Conservative valuation well defined.
 - The codified statement should fix one presentation and give the numbering map.
-- Status: open (C13).
+- Status: **resolved 2026-09-05** — discharged at §4.4, which presents both readings with anchors (C16 R6 walk, dispositioned `resolved` 2026-09-01; the ledger was never written back). Prior status: open (C13).
 
-## D55 — "Consistency Preserving" has two inequivalent definitions
+## D55 — "Consistency Preserving" has three inequivalent definitions
 
 | Source | Definition |
 | --- | --- |
@@ -1145,6 +1197,14 @@ Appendix A of `Willard2001` as subsequent explorations.
   with the target system's own base groups is consistent). Neither implies the
   other: a β true in ℕ may be inconsistent with Group-1 if the two disagree,
   and a β consistent with Groups 0–1 need not be true in ℕ.
+- **The third, and the count, corrected 2026-09-05.** The heading read "two" and
+  this analysis covered only 2020 and 2016, although the table has carried
+  `Willard2005` Definition 1 throughout. 2005's is the **weakest hypothesis** of
+  the three — only `A`'s `Π*₁` theorems need be true, not the whole theory — and
+  therefore the **strongest** property of the map: 2020-preservation follows
+  from 2005-preservation, not the reverse, while 2016's is incomparable with
+  both. `../codified-sjas.md` §6.1 tabulates all three with that direction
+  stated, and was correct while this entry was not.
 - This matters because `Willard2016` Example 5.3's headline consequence — "**if
   PA is consistent then ISCE(PA+) is self-justifying**" — is read off the 2016
   definition, while `Willard2020` Theorem 4.4's `IS_Tab` result is read off the
@@ -1156,7 +1216,7 @@ Appendix A of `Willard2001` as subsequent explorations.
   "Consistency Preserving" and all three are the hypothesis of a headline
   theorem — `Willard2005` Theorems 3 and 5, `Willard2016` Theorem 6.7,
   `Willard2020` Theorems 4.4 and 4.5.
-- Status: open (C13); the codified statement must name the three hypotheses
+- Status: **resolved 2026-09-05** — discharged at §6.1, which tabulates all three hypotheses with sources and the direction of the only available comparison (C16 R6 walk, dispositioned `resolved` 2026-09-01; the ledger was never written back). Prior status: open (C13); the codified statement must name the three hypotheses
   separately and never write the phrase unqualified.
 
 ## D56 — four names for the branch that is allowed to stay open
@@ -1211,15 +1271,16 @@ Also see **D57** (JSL page-range typo in the conference form).
 - Silent substitution of the exact kind the C4 pilot warned about (Fraktur `ℑ`→`=`, overbars dropped). Any codified statement of simulated-real semantics must be taken from the page image.
 - Status: explained:2026-08-29 (image governs; text layer recorded as unusable for this formula). **Amended 2026-08-29**: same destruction confirmed on the `Willard2005-TAB` text aid.
 
-## D72 — `Willard2005-TAB` prints the JSL page range as 1189–1999
+## D72 — *(merged into D57 on 2026-09-05)*
 
-| Source | Reading |
-| --- | --- |
-| `Willard2005-TAB` p. 1 (image) | "Journal of Symbolic Logic 71 (2006) pp. 1189–**1999**" |
-| `Willard2006b` author-copy header / corpus | JSL 71 (2006) pp. **1189–1199** |
+**This entry duplicated [D57](#d57--willard2005-tab-misprints-the-jsl-page-range-as-11891999).**
+Both recorded the same one-digit slip in `Willard2005-TAB` p. 1's forward
+citation of its journal successor — "pp. 1189–**1999**" for 1189–1199 — both
+image-verified on 2026-08-29, both `explained:2026-08-29`, under two ids. D70
+links to D57; `../registry/` links here. The id is kept as a pointer rather than
+deleted so both inbound links resolve.
 
-- Digit transposition in the conference witness's own citation of its journal successor. Image-verified 2026-08-29.
-- Status: explained:2026-08-29.
+- Status: **merged:2026-09-05 into D57** (finding F-L1). Read D57.
 
 ## D73 — Definition numbering restarts inside `Willard2005-TAB`
 
@@ -1250,7 +1311,7 @@ Also see **D57** (JSL page-range typo in the conference form).
 | `IS-1*(A)` | "the last page of our Tableaux-2002 paper [39]" |
 
 - Same collision family as drift **D5** (`IS(A)` vs `IS_D(A)`), now with a third conference alias. Codified statements should use `IS_D(A)` and treat `ISD` / `IS-1*` as orthographic variants of the Tab-1 system.
-- Status: open (C13); pairs with D5.
+- Status: **resolved 2026-09-05** — discharged — the instruction is to use `IS_D(A)` and treat `ISD`/`IS-1*` as orthographic variants, and `../codified-sjas.md` complies without exception (C16 R6 walk, dispositioned `resolved` 2026-09-01; the ledger was never written back). Prior status: open (C13); pairs with D5.
 
 ## D76 — `Willard2016` Rem 7.3's "`ISD(β)`" is `Willard2014`'s `IS_D^#(β)`
 
@@ -1286,7 +1347,7 @@ Also see **D57** (JSL page-range typo in the conference form).
 
 - The three Dec-2025 scans are scrapbooks, not clean monographs. G1 still
   needs the published JLC text; these are pipeline witnesses only.
-- Status: open (C13 / G1 acquisition).
+- Status: **resolved 2026-09-05** — discharged at §9.4, which presents the 2025 packets as the entry directs (C16 R6 walk, dispositioned `resolved` 2026-09-01; the ledger was never written back). Prior status: open (C13 / G1 acquisition).
 
 ## D79 — `Willard1998` TangPred differs from `Willard2001`
 
@@ -1335,6 +1396,13 @@ Also see **D57** (JSL page-range typo in the conference form).
 ---
 
 ## D82 — three `ω` families in the corpus, two of them sharing the name `ω₁`
+
+*(The table below has four rows. Three are families written with the letter
+`ω` — Hájek–Pudlák, `Willard2007-APAL`, `Willard2020-LFCS` — and those are the
+three the heading counts. The Wilkie–Paris row is written `ϖ` throughout and is
+tabulated for contrast, since `Willard2001` p. 45 defines both on one page.
+Stated 2026-09-05, because the heading count and the row count differ and a
+reader should not have to reconstruct why.)*
 
 | Source | Definition | Index-1 member |
 | --- | --- | --- |

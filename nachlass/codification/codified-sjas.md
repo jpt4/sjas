@@ -349,7 +349,7 @@ The set varies, and the variation is not cosmetic:
 | Source | Count | Members |
 | --- | --- | --- |
 | `Willard2002c`, `Willard2016` | **six** | subtraction, division, maximum, logarithm, root, count |
-| `Willard2006a` | **seven** | the six plus predecessor |
+| `Willard2001`, `Willard2006a` | **seven** | the six plus predecessor |
 | `Willard2005`, `Willard2020-LFCS` | **eight** (`U-Grounding`) | the six plus **addition** and `Double(x) = x+x` |
 
 The U-Grounding set is the tableaux line's language: addition is total there,
@@ -364,8 +364,12 @@ axiomatized by any finite set of `Π⁻₁` axioms", with all theorems preserved
 so the only real constraint is non-growth plus finite `Π⁻₁` axiomatisability.
 The **Non-Growth condition** itself differs (`Willard2006a` writes
 `≤ Maximum(2, a₁,…,a_j)`; drift **D35**). And **`Root(x,y)`** rounds **up** in
-`Willard1998`, `Willard2002c`, `Willard2004` and `Willard2005` but **down** in
-`Willard2001` and `Willard2016` (drifts **D53**, **D80**). The corpus is split,
+`Willard1998`, `Willard2002c`, `Willard2004`, `Willard2005` and `Willard2006a`
+but **down** in `Willard2001` and `Willard2016` (drifts **D53**, **D80**).
+`Willard2006a` was missing from this split until 2026-09-05 (finding F-C2); its
+`Root(x,y) = ⌈x^{1/y}⌉` is image-verified at `../extraction/willard2006a.md`
+p. 6, as is `Willard2004`'s at that record's p. 4 — the latter appears in the
+split without a drift id of its own, and its anchor is the extraction record. The corpus is split,
 not one outlier against a consensus, and a codified grounding language must
 choose.
 
@@ -513,7 +517,7 @@ but destroys length — and no paper presents them together.
 
 | Device | Source | Mechanism |
 | --- | --- | --- |
-| **LEM as axioms** (`Xtab`) | `Willard2020` App. | admit `℧ ∨ ¬℧` for **arbitrary** `℧`; branch; hang the two subproofs |
+| **LEM as axioms** (`Xtab`) | `Willard2020` p. 11 (definition; the Appendix carries the proof-tree formalism it refines — drift **D42**) | admit `℧ ∨ ¬℧` for **arbitrary** `℧`; branch; hang the two subproofs |
 | **LEM at `Δ₀` only** | `Willard2007-APAL` Lem. 1(i) (p. 13) | the same construction, but `Φ ∨ ¬Φ` is required only for every **`Δ₀`** sentence `Φ` — a weaker hypothesis, and a point on the `Z` dial (§8.1) |
 | **Restricted-cut hierarchies** | `Willard2005` §2; `Willard2004` §6; `Willard2009` Def. 7 | `Tab-ℜ-List`, `Tab₁List`, `Tab-1`, `Herb−k`, `R(i,j)`: a sequence of proofs whose **intermediate theorems** are confined to a class |
 | **Passive Induction** | `Willard2007-APAL` §3 | instantiate the induction axiom at a formula with **no free variables**; four branches result, two of which close immediately |
@@ -1061,6 +1065,14 @@ opposite directions**, and both answers are Willard's (obligation **O62**).
 > the Conventional Deciphering Property cannot prove the non-existence of a
 > tableaux proof of `0 = 1` from itself.
 
+**Which "Conventional Deciphering Property".** Both uses above are
+`Willard2002a`'s, its **Definition 5.1** — that every finite subset of `α`'s
+axioms is recognised by `α` itself. `Willard2004`'s **Remark 1** attaches the
+same name to a different condition: a `Σ*₀` sentence `Test(n)` true exactly of
+the Gödel numbers of `α`'s axioms. The two are not the same property and no
+paper relates them, so the name is never to be written here unqualified (drift
+**D31**, finding F2; stated 2026-09-05).
+
 `Willard2007-APAL` extends this from the textbook axiomatization to the
 Wilkie–Paris one:
 
@@ -1299,7 +1311,9 @@ positive and a `Π*₂` negative, and `Willard2020` does not say they are differ
 dials (drift **D34**, obligation **O46**). §9.1 shows that this distinction is
 exactly what makes the corpus's open problem statable.
 
-Three dials name their transition point rather than bracketing it:
+Three dials name their transition point rather than bracketing it — note that
+this three is a different tally from the five above, and one of its members is
+not a row of that table:
 `Hybrid(H)` at `H = 1`, `Herb−k` at `k = 1`, and — most finely — `Willard2002c`'s
 **two-index `R(i,j)`**, where `R(1,1)` works and **`R(2,1)` fails**. The `ℜ` dial
 of `Willard2004` is a *projection* of `R(i,j)` onto one index (drift **D46**),
@@ -1402,7 +1416,12 @@ explains the trade-off between the two halves of the argument.
 
 And one conjecture in the corpus is **refuted by Willard's own later work**:
 `Willard1993` §6 conjectured that the cut-permitting `IS_+(A)` and `IS*_+(A)`
-also satisfy part (ii) of self-verification. They do not — but **no Willard
+also satisfy part (ii) of self-verification. (The star in `IS*_+(A)` is a
+**system-name** star and has nothing to do with §3.3's formula-class stars,
+which mark the multiplication-free classes `Δ*₀`, `Π*ₙ`, `Σ*ₙ`. Drift **D8**
+warns of exactly this collision; the two 1993 witnesses also diverge here,
+the chapter writing `IS*(A)` where the TR writes `IS^{Σ₁}(A)`. Noted
+2026-09-05, finding F20.) They do not — but **no Willard
 paper says so**. The refutation is an inference drawn by this codification
 (obligation **O8**) from four sources: TR 93-10 Proposition 7, Solovay's
 theorem, `Willard2004` and `Willard2005` Theorem 5. It is carried here as a
@@ -1410,9 +1429,13 @@ codifier's synthesis, not as a result Willard published.
 
 ### 9.4 The nachlass, and what remains unwitnessed
 
-C12 extracted nine witness-grade records from Willard's papers, including the
+C12 extracted nine witness-grade records from the nachlass, including the
 2025 Tab/Xtab and boundary drafts, the 2008 ZCF/`WZF` set-theory notes, and the
-Hájek correspondence. They are witness-grade: they record what Willard was
+**Hájek correspondence — which is not Willard's own writing but an exchange with
+a third party, and must not be read as a Willard source** (drift **D77**;
+`../extraction/dew-hajek-correspondence.md` marks the autograph portions). The
+phrase here read "from Willard's papers" until 2026-09-05, which D77 exists to
+prevent (finding F-C5). They are witness-grade: they record what Willard was
 working on, not established results. The 2008 ZCF drafts extend the
 **finite-set reading** of SJAS whose origin is `Willard2001` Remark 3.8, not
 2008 (obligations **O36**, **O94**). The 2025 drafts carry title-page and

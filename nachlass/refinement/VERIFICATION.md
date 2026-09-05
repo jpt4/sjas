@@ -289,6 +289,7 @@ been checked against the page in this stage.
 | "It is infeasible to devise a *hybridized* self-justifying axiom formalism, that simply combines our methods with the prior literature [20, 21, 24, 28, 36, 38] because such a formalism would violate one of the four variants, (A) through (D) of the Incompleteness Theorem" — fixes the subject of the futility verdict | `Willard2001` | printed p. 7 | **img (2026-09-04)** — round 32 |
 | **`Scalar_k`(x): "comprising a family of functions that for *any fixed constant* k represents the scalar product of k·x. {Unlike normal multiplication, scalar multiplication is a function under IS(A) because it is defined by Scalar₀(x) = 0 and Scalar_{k+1}(x) = Scalar_k(x) + x."** | `Willard1993-TR` | printed p. 39 (pdf p. 41 of the collated searchable witness) | **img (2026-09-04)** — OCR-grade witness, read from the page image; establishes that the boundary is *variable* multiplication only (obligation **O17**) |
 | "Point of Clarification. Since it does not recognize multiplications as a function, IS(A) will clearly be too weak to prove that ∀x∃y SUBST_i(x,y). However, IS(A) will be able to prove for *any fixed integer* k̄ that ∃y SUBST_i(k̄,y). It will turn out that the latter will be sufficient for IS(A) to formally define the *particular instance of the reflection principle* needed to define H." | `Willard1993-TR` | printed p. 37 (pdf p. 39) | **img (2026-09-05)** — all three fragments quoted in §2 are verbatim, elisions marked; previously confirmed only against the extraction record |
+| **Footnote 23**: "The Conventional Tableaux Encoding Criteria requires that the Gödel number of a semantic tableaux proof, with `J` function symbols, must be least as large as `32^J`. … any proof that has `J` function symbols will contain at least `2J` logical symbols and thus employ at least `5J` bits." | `Willard2011` | printed p. 39 (pdf p. 40), footnote to Def. D.1(iv) on p. 38 | **img (2026-09-05)** — the source of R3 §1.1's `Log(q_β) ≥ 5J`, which had been recorded as a derivation from `32^J` rather than as a quotation |
 | The `a_i`/`b_i` pair: "`a₀ ≥ 2` and `a_{i+1} = (a_i)²`, a hedge would quickly follow because `a_n` requires at least `2ⁿ` bits" against "the sequence `b₀, b₁, b₂, b₃ …` with `b_{i+1} = b_i + b_i`" | `Willard1993-TR` | printed p. 6 (pdf p. 8) | **img (2026-09-05)** — confirms §4's origin-occurrence claim for the replication map |
 | **"(Also, it should be noted that IS *can represent* floating point multiplication as a *total function*, provided some form of constraints are present on the bit-length of the mantissa.)"** | `Willard1993-TR` | printed p. 6, footnote | **img (2026-09-05)** — unrecorded anywhere in the corpus until now; the 1993 origin of the `Willard2005-TAB`/`Willard2006b` line, qualifier included |
 
@@ -302,7 +303,7 @@ Rule 5. Every growth or size claim, with the computation.
 | multiplicative naming: `Log₂ C_n = 2^{Θ(n)}`, exactly `2^{n−2}` | `refined-sjas.md` §§4–5 | `C_i = C_{i−1}²` from the same base, so `C_n = 2^{2^{n−2}}`. **Corrected 2026-09-05**: this row read `= 2^n`, which needs `C₀ = 2` — so the two rows as written held under no single base case |
 | §4's `x_i`/`y_i` **sequences** are a different object from the `C_i` **naming convention** and do start at 2: `x_n = 2^{n+1}`, `y_n = 2^{2^n}` | `refined-sjas.md` §4 | `x_0 = y_0 = 2` (`Willard1993-TR` p. 6's `a_0 ≥ 2`, image-verified). §4's table is correct as written; the collision is that both are written `Log₂` of a doubling recurrence |
 | **Hybrid(H): `Log₂ C_n = Σ_{i≤n} (Log i)^H = Θ(n (log n)^H)`** | `refined-sjas.md` §5, `R3-the-margin.md` §3.1 | summed numerically for `H ∈ {1,2}`, `n ∈ {10,100,1000}`: `H=1` gives 21.8 / 524.8 / 8529.4 against `n` = 10 / 100 / 1000. Hybrid(1) is **not** `O(n)`, which refutes the withdrawn `O(L)` criterion |
-| encoding requirement gives `Log(q_β) ≥ 5J` | `R3-the-margin.md` §1.1 | `Gödel number ≥ 32^J` and `log₂ 32 = 5`. A **lower** bound: it excludes over-compressed encodings, not wasteful ones |
+| encoding requirement gives `Log(q_β) ≥ 5J` | `R3-the-margin.md` §1.1 | `Gödel number ≥ 32^J` and `log₂ 32 = 5`. A **lower** bound: it excludes over-compressed encodings, not wasteful ones. **Confirmed at source 2026-09-05**: this is `Willard2011` Definition D.1(iv)'s Conventional Tableaux Encoding Requirement, and its footnote 23 (printed p. 39, image-verified) states both the `32^J` bound and the `5J` bits in Willard's own words — the claim is quoted, not merely derived |
 
 ## Corrections applied 2026-09-02
 
@@ -859,3 +860,46 @@ verbatim with its `sketch` status visible on the page; and `Willard2006a` §6's
 `ISINF(A)`, "Infinitely Far-Reaching without sustaining an ability to prove
 successor is a total function", which is the uncited corpus analogue of
 Pakhomov's `H_{<ω}` that `R1-review.md` §2.1 identifies.
+
+## Corrections applied 2026-09-05, thirty-third pass — the bookkeeping backlog
+
+Not a review round. The claim was made that these failures were bookkeeping
+rather than comprehension; this pass discharges the backlog that claim implies.
+Every recorded-but-unapplied finding in the two C16 disposition walks is now
+applied, or explicitly ruled content-work.
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 134 | **Sixteen drift entries dispositioned `resolved` on 2026-09-01 still read `open`** (F-L4). The ledger had no `resolved` status, so the walk's conclusions had nowhere to land. Each now names its discharging section — D6→§6.6, D16→§5.4, D34/D38/D46→§8.1, D44/D49→§2.4, D47→§7.4, D54→§4.4, D55→§6.1, D78→§9.4, and D21/D22/D36/D75 as compliance with a prohibition | `../codification/concordance/drift-ledger.md` |
+| 135 | **D57 and D72 were the same entry twice** (F-L1) — the same one-digit JSL page-range slip, both image-verified 2026-08-29, both `explained`, under two ids, with D70 linking one and the registry the other. D72 is now a pointer, so both inbound links resolve | same |
+| 136 | **D50's heading said "ten formula-class notations" over a six-row table** (F-L3), and the table omitted the minus-superscript family its own analysis depends on. Both are now **seven**, matching `../codification/codified-sjas.md` §3.3 row for row | same |
+| 137 | **D55's heading said "two inequivalent definitions" over a three-row table**, and its analysis covered only two of them. `Willard2005` Definition 1 had been in the table throughout and is the **weakest hypothesis** of the three, hence the strongest property of the map. Found by the new check, not by reading | same |
+| 138 | **The ledger declared two statuses while four were in use**, and its entry order is non-numeric with an unused id band (F-L5), so a reader could not tell a deliberate gap from a misfiled entry. Vocabulary declared; order documented; ids 52 and 58–69 recorded as never issued; `D1-supplement` recorded as a distinct entry rather than a second D1 | same |
+| 139 | **Two assigned confirmations were never recorded** (F-L6). **D2** is confirmed — the C9 extraction and `../codification/registry/corpus.md` both give `Willard2006a` as APAL 141(3) 2006 pp. 472–496 with the 2003 St. Petersburg announcement, so the pre-publication title names the same article. **D3's** check was stated as "`Willard2011` D.1(iv) ≡ `Willard2005` Eq. (20)" and **it is not an equivalence**: D.1(iv) bounds *all* `J` function symbols in a proof, Eq. (20) bounds U-Height along a *single branch*, and since U-Height ≤ `J` the first implies the second and not conversely. They share the constant 5 — the conflation D3 exists to prevent | same |
+| 140 | **Two live notation collisions** (F2, F20). "Conventional Deciphering Property" names `Willard2002a` Def. 5.1's finite-subset recognition and `Willard2004` Rem. 1's `Σ*₀` `Test(n)` definability, unrelated in print; §7.1's two uses are both the former and now say so. §9.3's `IS*_+(A)` star is a **system-name** star, not §3.3's formula-class star (drift D8) | `../codification/codified-sjas.md` §§7.1, 9.3 |
+| 141 | **Five incidental content defects** (F-C1–F-C5). §3.2's grounding table omitted `Willard2001`, whose seven functions are `Willard2006a`'s set exactly; its `Root` split omitted `Willard2006a`'s ceiling rounding and left `Willard2004`'s membership without a named anchor; §4.5 anchored `Xtab` at "`Willard2020` App." where D42 anchors the definition at **p. 11**; §8.1's "five parameterisations" and "three dials name their transition point" read against each other with nothing saying they are different tallies; §9.4 listed the **Hájek correspondence** among records "from Willard's papers" when it is an exchange with a third party, which drift D77 exists to keep straight | `../codification/codified-sjas.md` §§3.2, 4.5, 8.1, 9.4 |
+| 142 | **The obligation register declared two statuses while four were in use.** `carried:` was introduced by the C16 R5 walk without being added to the legend, then used for both "deferred to a later stage" and "absent from the codified statement" — the conflation that hid O17, O31 and O90. Four statuses now declared; all 26 rows read **`absent:`**, which is what the walk's own reason column said. **G40 is not closed by this**, and now says so | `../codification/concordance/composition-obligations.md`, `../codification/registry/gaps.md` |
+
+**New check, red-green tested. M-N** (`../codification/audit-m.sh`,
+informational) lists every drift heading stating a count against its own table's
+row count. It found #137, and would have found #136 and D38's four stale numbers.
+It is informational because a heading number need not be a tally — D25's "6 / 5 /
+6-over-5 / 32" counts constants — and the six pairs it still lists were each
+checked by hand and are legitimate. **R-G** was retargeted to the `absent:` label
+and still tracks all 26 rows.
+
+**Verified and found correct** in this pass, at source: `Willard2011` Definition
+D.1(iv)'s footnote 23, printed p. 39, image-verified — "the Gödel number of a
+semantic tableaux proof, with `J` function symbols, must be least as large as
+`32^J` … any proof that has `J` function symbols will contain at least `2J`
+logical symbols and thus employ at least `5J` bits." That is R3 §1.1's
+`Log(q_β) ≥ 5J` in Willard's own words; the Computed-claims table had it as a
+derivation and now cites the quotation.
+
+**What this pass did not fix, because it is not bookkeeping.** G40's 24
+obligations are missing *content* — the tangibility apparatus (zero occurrences),
+the Meta-Logic convention, the `IS(A)`/`IS_D(A)` delta, the duplication framing.
+Relabelling made the register honest; it wrote nothing. R6's findings F5–F19 are
+the same absences seen from the ledger's side. **G39** still stands: no Pudlák
+witness is held. Those are writing and acquisition tasks, and calling them
+bookkeeping would be the error this pass exists to correct.

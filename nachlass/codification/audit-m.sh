@@ -620,6 +620,42 @@ run_m8() {
   done
 }
 
+#   M-N  (informational) drift headings that state a count, against the row
+#        count of their own table. Hand-maintained counts in headings went
+#        stale twice: D38 read "three dials" over a five-row table (four stale
+#        numbers in one entry, F-L2), and D50 read "ten formula-class
+#        notations" over six rows (F-L3). Neither is machine-decidable -- a
+#        heading number need not be a row count (D25's "6 / 5 / 6-over-5 / 32"
+#        is a constant, not a tally) -- so this lists rather than fails, and a
+#        reader checks the pairs.
+run_m_n() {
+  local led="concordance/drift-ledger.md"
+  echo "  M-N (informational): drift headings stating a count, vs their own table rows --"
+  awk '
+    BEGIN { n = split("one two three four five six seven eight nine ten eleven twelve", w, " ") }
+    /^## D[0-9]+ / {
+      cur = $2; heads[cur] = $0; rows[cur] = 0; wantn[cur] = 0
+      low = tolower($0)
+      for (i = 1; i <= n; i++)
+        if (low ~ ("(^|[^a-z])" w[i] "([^a-z]|$)")) { want[cur] = w[i]; wantn[cur] = i }
+      next
+    }
+    /^\|/ { if (cur != "") rows[cur]++ }
+    END {
+      for (id in wantn) {
+        if (wantn[id] == 0) continue
+        r = (rows[id] >= 2) ? rows[id] - 2 : 0
+        if (r == 0) continue
+        if (wantn[id] != r)
+          printf("      %-5s heading says %-6s table has %d row(s)  -- %s\n",
+                 id, want[id], r, substr(heads[id], 1, 62))
+      }
+    }
+  ' "$led" | sort
+  echo "      (a heading number need not be a row count -- D25 tallies constants,"
+  echo "       not entries. Check the pairs listed; each is a claim to verify.)"
+}
+
 run_all_m() {
   run_m1
   run_m2
@@ -629,6 +665,7 @@ run_all_m() {
   run_m6
   run_m7
   run_m8
+  run_m_n
 }
 
 # If executed directly (not sourced), run and exit.
