@@ -1,5 +1,13 @@
 # Nachlass Log
 
+## 2026-09-05 - CLI-readable PTS notation
+
+At the user's request, rendered the PTS response as a
+[plain ASCII text edition](../docs/log/2026-09-05-sjas-pure-type-systems-cli.txt),
+using named sorts, `Pi`, `lambda`, and `->`. Linked it from the mathematical
+note. This is a notation conversion, not a change to the construction or its
+validation status.
+
 ## 2026-09-05 - Certificate-gate log and SJAS in a pure type system
 
 At the user's request, retained and explicitly indexed the
@@ -3575,7 +3583,7 @@ still live in two further places, `extraction/willard2006a.md` and the
 `Willard2006a#Hybrid` row of `registry/results.md`.
 
 **The finding that reaches furthest is O31.** Codified §7.2 presented
-multiplication-totality as simply fatal, and `refined-sjas.md` §9 turned that
+multiplication-totality as simply fatal, and `refined-sjas.md` §7 turned that
 into a universal — "every affirmative system is Type-A or Type-NS". It is false.
 `Willard2001` §6, image-verified at printed p. 36: the question whether an
 analogue of `IS^λ(A)` can recognize multiplication as total has an answer that is
@@ -3628,7 +3636,7 @@ the same way: the truncation made the claim stronger than Willard made it.
 O35 also required the Refinement to "engage this claim rather than inherit it
 silently", and stood `discharged` since 2026-09-01. The words "futile",
 "idealized" and the seven criteria had **zero** occurrences across all five
-Refinement documents. §9 now engages it on the completed quotation, and answers
+Refinement documents. §7 now engages it on the completed quotation, and answers
 it: what the verdict forbids is nominating a best system, and this stage does the
 opposite — §5.1 coordinatises the boundary into five dials instead of collapsing
 them, §6 keeps the two preservation methods apart, §2.5b keeps the two selected
@@ -3780,3 +3788,39 @@ a doubling recurrence measured by `Log₂`, and only one of them starts where th
 Computed-claims table assumed.
 
 Corrections #130-#131, thirty-first pass. audit.sh green.
+
+## 2026-09-05 - Adversarial round thirty-seven: the charter's own claims, and one the review itself broke
+
+Layer: `ADR-0002`'s acceptance criteria — what this stage asserts it has
+achieved. Never checked at source. B1, B2, B3, B4' and B5 all hold; B5's "partly
+met, at three of five" matches R3 §3.4 row for row.
+
+**B6 did not.** Its text reads "Treat any future assertion that B6 is met as a
+claim requiring a fresh sweep, not as a standing fact" — and it carried a
+standing count of its own falsifications, at "twice", which had gone stale. It is
+four. Beyond #23/#32 and #62-#66: correction #120, where `Willard2001` §1's
+futility verdict proved to have been cut mid-sentence in a way that inverted it;
+and the thirtieth pass, where two `Willard1993-TR` anchors turned out never to
+have been read from the page, one of them confirmed only against an extraction
+record. That last is a kind B6 had not caught before and its wording did not
+cover: **a quotation can be perfectly faithful to a record that is itself
+derived**. The criterion written to resist standing assertions went stale on its
+own record of them.
+
+**Then the charter audit caught something the review had done itself.** Every
+section label written in rounds thirty-one through thirty-three points at §9 when
+the content is in **§7, "What the idea costs"**. "Five things are given up", the
+`ISM(A)` universal, the O35 engagement, the multiplication qualifier — all §7.
+Eight sites, across `refinement/VERIFICATION.md`, `composition-obligations.md`
+and this file. Checked against `git show 0837d52^`: the content was in §7 before
+this session, so the error is entirely the review's own. Corrections #113 and
+#115 do correctly cite §9 and are unchanged.
+
+It is a mis-citation of precisely the class these rounds have been cataloguing —
+the wrong registry key at #116, the two `IS(A)` systems, the corpus's three `Z`s,
+the two doubling recurrences at #130. The review introduced one while writing
+them up. No check would have caught it: `codification/audit.sh` verifies that a
+cited path resolves and that a `§N.M` reference exists, never that the section
+cited is the section meant. That gap is now stated rather than assumed.
+
+Corrections #132-#133, thirty-second pass. audit.sh green.

@@ -603,7 +603,7 @@ still needs doing.
 | 114 | **Codified §6.9 filed a semantic-tableaux system under "The Hilbert line's engine".** `Willard2001` Thm 4.3 is about `IS(A)`, registry `SJAS-Tableaux-Level0`, apparatus *Semantic Tableaux*. C16 R5 item 6 recorded the mismatch and it was never applied. Retitled **"The minimal-counterexample method"**, which is what its table actually collects | `../codification/codified-sjas.md` §6.9 |
 | 115 | **This stage quoted that defective sentence instead of getting it fixed.** §6 reproduced §6.9's "The Hilbert line does not use `θ`-Compactification…" and then observed that the title "is looser than its own table" — correct, and the wrong remedy: the Codification is this project's to repair. The quotation and the criticism are both gone; §6 now states the method/line split directly | `refined-sjas.md` §6 |
 | 116 | **The wrong registry key for `IS(A)`.** §6 cited `SJAS-Origin`, which is `Willard1993`'s system; `Willard2001`'s is `SJAS-Tableaux-Level0`. Two distinct systems in the corpus carry the name `IS(A)`, so the key is the thing that disambiguates them | `refined-sjas.md` §6 |
-| 117 | **§9(1) stated a false universal.** "Every affirmative system is Type-A (no multiplication as a total function) or Type-NS (nothing total)." `Willard2001` §6's **`ISM(A)`** recognizes multiplication as a total function **and** is consistency-preserving — "if `A` is regularly consistent then so will `ISM(A)` be consistent, by a routine generalization of Section 5's proof of Theorem 5.1" (printed p. 36, image-verified). What (61)'s wider gap costs it is the *flat* statement `∀y ¬SemPrf_{ISM(A)}(⌈0=1⌉, y)`. Multiplication-totality is fatal to the **reflection**, not to consistency-preservation. Codification obligation **O31** says exactly this and was marked `carried … (C16 R5; **Refinement**)` — neither document had carried it | `refined-sjas.md` §9 |
+| 117 | **§7(1) stated a false universal.** "Every affirmative system is Type-A (no multiplication as a total function) or Type-NS (nothing total)." `Willard2001` §6's **`ISM(A)`** recognizes multiplication as a total function **and** is consistency-preserving — "if `A` is regularly consistent then so will `ISM(A)` be consistent, by a routine generalization of Section 5's proof of Theorem 5.1" (printed p. 36, image-verified). What (61)'s wider gap costs it is the *flat* statement `∀y ¬SemPrf_{ISM(A)}(⌈0=1⌉, y)`. Multiplication-totality is fatal to the **reflection**, not to consistency-preservation. Codification obligation **O31** says exactly this and was marked `carried … (C16 R5; **Refinement**)` — neither document had carried it | `refined-sjas.md` §7 |
 | 118 | **Codified §7.2 presented multiplication-totality as simply fatal**, the over-statement O31 exists to forbid, and C16 R5 item 1 had recorded it as "a live over-statement". Same page, same paragraph as #117 | `../codification/codified-sjas.md` §7.2 |
 | 119 | **Codified §6.9 mis-described what D24 contains.** "Drift **D24** holds the three names side by side" — D24's three (`Willard2001`, `Willard2005`, `Willard2011`) are not §6.1's three (`Willard2005`, `Willard2016`, `Willard2020`). The union is **five** distinct admission conditions, no one place lists all five, and D24 is open on precisely that | `../codification/codified-sjas.md` §6.9 |
 
@@ -637,11 +637,11 @@ truncation, and the truncation had been doing real work.
 | --- | --- | --- |
 | 120 | **A quotation cut where the cut inverts it.** `Willard2001` §1's verdict was carried as "…Thus, **it is futile to seek an idealized form of self-verifying system**" and stopped there. The sentence continues: "**, that combines the advantages of the many different approaches *simultaneously*. Each should be viewed as providing differently desirable insights.**" And the sentence before it fixes the subject — "It is infeasible to devise a *hybridized* self-justifying axiom formalism, **that simply combines our methods with the prior literature**". Read whole (printed p. 7, image-verified), Willard is denying that any one **system** dominates on all seven criteria and keeping the plurality of approaches; he is not declaring an idealized form unattainable. Same class as `Willard2016` §9's elided "in, at least, some respects" (#40) | `../codification/extraction/willard2001.md` §3.9, obligation **O35** |
 | 121 | **Codified §1.4 paraphrased inside a section headed "The limits, in Willard's words."** "Willard lists criteria a fully satisfying self-justifying arithmetic would meet and states that no system meets them all" — the one limit of the four given no quotation, and the only appearance of the verdict anywhere in either stage. C16 R5 item 4 recorded the paraphrase and it was never applied | `../codification/codified-sjas.md` §1.4 |
-| 122 | **§9 mis-attributed its own list.** "**Five things are given up.** Willard states the first four himself (codified §1.4)" — three of the four are §1.4's (items 2, 3, 4). Item 1 is the corpus's boundary result, not a statement of Willard's about the programme, and §1.4's remaining limit was not carried at all | `refined-sjas.md` §9 |
-| 123 | **The stage never engaged the one limit aimed at it.** O35's text is explicit — "Refinement must engage this claim rather than inherit it silently" — and O35 stood `discharged:2026-09-01`. "futile", "idealized" and the seven criteria had **zero** occurrences across all five Refinement documents. §9 now engages it on the completed quotation, and answers it: what the verdict forbids is nominating a best system, which this stage does not do | `refined-sjas.md` §9 |
+| 122 | **§7 mis-attributed its own list.** "**Five things are given up.** Willard states the first four himself (codified §1.4)" — three of the four are §1.4's (items 2, 3, 4). Item 1 is the corpus's boundary result, not a statement of Willard's about the programme, and §1.4's remaining limit was not carried at all | `refined-sjas.md` §7 |
+| 123 | **The stage never engaged the one limit aimed at it.** O35's text is explicit — "Refinement must engage this claim rather than inherit it silently" — and O35 stood `discharged:2026-09-01`. "futile", "idealized" and the seven criteria had **zero** occurrences across all five Refinement documents. §7 now engages it on the completed quotation, and answers it: what the verdict forbids is nominating a best system, which this stage does not do | `refined-sjas.md` §7 |
 
 **Verified and found correct** in this pass: the other three limits of codified
-§1.4 are quoted, not paraphrased, and each is carried in `refined-sjas.md` §9
+§1.4 are quoted, not paraphrased, and each is carried in `refined-sjas.md` §7
 with its source — `Willard2011` Remark 6.16b's "1-line proof", `Willard2016` §9's
 scope statement with the "in, at least, some respects" qualifier restored at
 #40, and `Willard2016` §8's "almost cheating" objection with its conditional
@@ -655,7 +655,7 @@ for the second time.
 
 | # | Defect | Where it was |
 | --- | --- | --- |
-| 124 | **The boundary was stated as stronger than the corpus proves.** Codified §3.1's Type-A row and this stage's §2.3c and §9 said "multiplication" without saying *which* multiplication. `Willard1993-TR` printed p. 39, image-verified from the page: `Scalar_k(x)` is "a family of functions that for *any fixed constant* `k` represents the scalar product of `k·x`", and "**Unlike normal multiplication, scalar multiplication is a function under `IS(A)`**". `Willard2005`'s and `Willard2020`'s **`Double`**, which sits in the Type-A language, is exactly that `Scalar₂`. So what the affirmative systems give up is *variable* multiplication, and the boundary is one more instance of the fixed-parameter-versus-uniform split §2.3 already identifies as the programme's signature. Obligation **O17** said this and was marked `carried … (C16 R5; **Refinement**)` on 2026-09-01; neither stage had carried it | `../codification/codified-sjas.md` §3.1, `refined-sjas.md` §2.3c and §9 |
+| 124 | **The boundary was stated as stronger than the corpus proves.** Codified §3.1's Type-A row and this stage's §2.3c and §9 said "multiplication" without saying *which* multiplication. `Willard1993-TR` printed p. 39, image-verified from the page: `Scalar_k(x)` is "a family of functions that for *any fixed constant* `k` represents the scalar product of `k·x`", and "**Unlike normal multiplication, scalar multiplication is a function under `IS(A)`**". `Willard2005`'s and `Willard2020`'s **`Double`**, which sits in the Type-A language, is exactly that `Scalar₂`. So what the affirmative systems give up is *variable* multiplication, and the boundary is one more instance of the fixed-parameter-versus-uniform split §2.3 already identifies as the programme's signature. Obligation **O17** said this and was marked `carried … (C16 R5; **Refinement**)` on 2026-09-01; neither stage had carried it | `../codification/codified-sjas.md` §3.1, `refined-sjas.md` §2.3c and §7 |
 | 125 | **O90's qualifier was missing where the claim is made.** Codified §8.2: "`IS_D(A′)` recognises multiplication as total **over simulated reals**" — which is equally true of `Willard2006b` Definition 6's `LongMult`, the thing Theorem 6 **forbids**. The affirmative result is Theorem 2's, for Definition 4's **truncated** floating-point `×`, and Remark 3 gives the reason: `2^{2^n}` costs `k + n` bits truncated and `O(k·2^n)` untruncated. This is the corpus's only affirmative multiplication-totality result, so the qualifier is the whole content | `../codification/codified-sjas.md` §8.2 |
 | 126 | **A hand-maintained count, stale for the second time.** "The full draft cites **53** of the 87 obligations at their point of discharge" — and "**57**" before that, which was wrong when written (four of its grep hits were range boundaries in §10.4's own numbering sentence). Replaced with the machine-countable source, the register's `discharged:` column, and a note saying not to restate it a third time — the same remedy `ADR-0002` adopted for the correction range at #108 | `../codification/concordance/composition-obligations.md` |
 
@@ -730,6 +730,35 @@ withdrawal of the `O(L)` criterion stands on arithmetic, not on judgement**. The
 not the `C_i` naming convention, and they genuinely start at 2, giving `2^{n+1}`
 and `2^{2^n}`. The collision is that both objects are a doubling recurrence
 measured by `Log₂`, and only one of them starts where the table assumed.
+
+## Corrections applied 2026-09-05, thirty-second pass
+
+Layer: **`ADR-0002`'s acceptance criteria** — the charter's own claims about what
+this stage has achieved, never checked at source. B1, B2, B3, B4′ and B5 all
+hold. B6 did not, and checking B6 turned up a defect this review had introduced
+itself.
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 132 | **B6's own falsification record was stale — at "twice", when it is four.** The criterion whose text reads "**Treat any future assertion that B6 is met as a claim requiring a fresh sweep, not as a standing fact**" carried a standing count of its own falsifications, and that count went stale. Beyond #23/#32 and #62–#66 it has since been falsified by **#120** (`Willard2001` §1's futility verdict cut mid-sentence in a way that inverted it) and by the **thirtieth pass** (two `Willard1993-TR` anchors never read from the page — one confirmed only against an extraction record, which rule 1 says is not a source). That last is a new kind for this criterion: **a quotation can be perfectly faithful to a record that is itself derived**, and neither half of B6 as previously worded catches it | `ADR-0002` |
+| 133 | **Every section label this review wrote in rounds 31–33 pointed at §9 when the content is in §7.** "Five things are given up", the `ISM(A)` universal, the O35 engagement and the multiplication qualifier are all in **§7, "What the idea costs"** — not §9, "What is not settled". Eight sites: corrections #117, #122, #123, #124 and their "Where" cells, the O31 and O35 discharge notes in `../codification/concordance/composition-obligations.md`, and two `../LOG.md` entries. Verified against `git show 0837d52^` that the content was in §7 before this session too, so the error is entirely this review's. **#113 and #115 do correctly cite §9** and are unchanged | this file, `../codification/concordance/composition-obligations.md`, `../LOG.md` |
+
+**Verified and found correct** in this pass: **B1** — every claim added in rounds
+31–33 is checkable against the codified statement, because each round wrote the
+Codification side first (§1.4, §3.1, §7.2, §8.2) and cited it. **B2** — §7 "What
+the idea costs" exists and is the departures-and-costs section the criterion
+names. **B3** — Lawvere reopened and delivered as R6, Rosser discharged at R1 §6.
+**B4′** — R2's two external witnesses are as described. **B5** — "partly met, at
+three of five" matches R3 §3.4's table row for row: `ℜ`, `Herb−k` and `Z` proved,
+Hybrid(H) undetermined, Level(n) retracted.
+
+**What #133 says about this review.** It is a mis-citation of exactly the class
+this session has been hunting — the wrong-registry-key error at #116, the two
+`IS(A)`s, the three `Z`s, the two doubling recurrences at #130. The review
+introduced one while cataloguing them, and did not catch it until it audited its
+own charter. No mechanical check would have: `../codification/audit.sh` verifies that a cited
+path resolves and that a `§N.M` reference exists, never that the section cited is
+the section meant.
 
 
 
