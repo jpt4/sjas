@@ -1,5 +1,33 @@
 # Nachlass Log
 
+## 2026-09-05 - Lowering obligations logged; a concrete obstruction
+
+At the user's request, preserved the
+[conversation about establishing lower](../docs/log/2026-09-05-lower-obligations-conversation.md),
+including the uniform internal conservativity statement, checker and compiler
+obligations, conditional proof-composition obstruction, and bounded-lowering
+alternative. The user then requested completion of the missing work. The
+continuation fixes a Type-A tableaux source and a PTS certificate checker
+accepting explicit typing derivations plus Hilbert macros, in the
+[lowering resolution](../docs/log/2026-09-05-lower-resolution.md).
+
+For this checker, a direct internal injection of Hilbert proofs needs only
+the source's existing doubling function. Lowering at the single formula
+`0 = 1` would then recover Hilbert consistency, excluded by Willard 2001
+Theorem A.2 under its Successor-Regular hypotheses. The direct pairwise gate
+invariant is excluded by the same reduction. Macro expansion, an external
+search translator, partial
+correctness, and the failure of internal uniform completion are recorded
+explicitly. The result is specific to the certificate representation; no
+such conclusion is asserted for a checker accepting only expanded typing
+trees or for all EA-stable sources.
+
+Source hypotheses were checked on rendered PDF pages. This is a paper
+reduction using a boundary whose published proof has status `sketch`
+(2001), with the stronger 2011 statement retained as `cited`; it is not an
+independently mechanized proof. The concurrent corpus review and separate
+implementation lines are unchanged.
+
 ## 2026-09-05 - Prolog Tab/Xtab inhabitant checker
 
 Implemented Willard's Tab / Xtab inductive families as an explicit
