@@ -1,5 +1,54 @@
 # Nachlass Log
 
+## 2026-09-04 - Round twenty-nine: the two routes do not end in the same place
+
+I said at the close of round twenty-eight that continuing needed a target chosen
+by someone other than me, because my sense of where to look was exhausted. That
+was half right. What was exhausted was *intuition*; targets can still be
+enumerated mechanically. So instead of picking a section I picked a **layer** I
+had never touched: the Proof statuses in registry/results.md that the Refinement
+leans on and had taken entirely on trust.
+
+Four of them carry R3 section 2.2's route comparison. One - Theorem 5.11, marked
+full but with its proof "deferred to Appendix C" - was worth checking at source.
+
+**The statuses are right.** Appendix C is headed "The Proof of Theorem 5.11" and
+delivers it as Lemmas C.1 and C.2, both with complete proofs; C.1's statement is
+exactly the A-Stable to 0-Stable step R3's table attributes to it.
+
+**But the check found something else, and it is substantial.** The two routes R3
+compares do not end in the same place.
+
+  Willard's:  A-Stable -> 0-Stable -> B^xi + SelfCons^0 consistent
+  R3's:       A-Stable -> Tight    -> B^xi + SelfRef   consistent
+
+And Remark 5.8, printed p. 17, image-verified: "even when k = 1, Definition
+5.7's SelfCons^k(beta,d) statement will be **significantly stronger** than the
+axiomatic declaration used by Section 1's SelfRef(beta,d) axiom. This is because
+SelfCons^1 asserts non-existence of simultaneous proofs for a Pi^xi_1 sentence
+and its negation, while SelfRef(beta,d) establishes merely the non-existence of
+a proof of 0 = 1."
+
+So R3's bridge does **not** "re-derive a conclusion Willard already has", as it
+claimed in three places. It is a shorter route to a **weaker** destination. The
+comparison table read as two proofs of one result and now carries a Destination
+column.
+
+**And there is a consequence for the margin that no pass had stated.** The
+self-justification the margin certifies is the SelfRef form - merely that no
+proof of 0=1 exists - not the SelfCons^k form Willard's own stability engines
+deliver. The margin certifies *less* than they do, and even that only by a
+sketch. That is a real qualification on the whole of R3, reachable only by
+asking what its chain actually concludes rather than whether each link holds.
+
+Two register rows added; 49 rows, all image-verified.
+
+The lesson for the review method: when intuition about *where* to look runs out,
+enumerate a layer that has been trusted rather than checked. The statuses had
+been load-bearing since round seven and unexamined until now.
+
+audit.sh green.
+
 ## 2026-09-04 - Round twenty-eight: Theorem 1.1's proof, section 3.4, and L0-L6
 
 The rest of what I named at the close of round twenty-seven. **No corrections.**

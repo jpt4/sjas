@@ -158,6 +158,29 @@ table in §5.
 
 *Second consecutive pass whose named target yielded no correction.*
 
+## Corrections applied 2026-09-04, twenty-ninth pass
+
+**Target chosen mechanically, not by intuition.** My own sense of where to look
+was exhausted, so instead of picking a section I enumerated a *layer* I had never
+touched: the `Proof` statuses in `../codification/registry/results.md` that the
+Refinement leans on and had taken on trust. Four of them carry R3 §2.2's route
+comparison, and one — Thm 5.11, `full` but with its proof "deferred to Appendix
+C" — was worth checking at the source.
+
+The statuses are right. What the check found instead is that **the two routes do
+not end in the same place.**
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 113 | **R3 claimed its A-Stability bridge "re-derives a conclusion Willard already has (Thm 5.11)". It does not.** Chained with Lemma 4.6 it reaches `B^ξ + SelfRef(B^ξ,d)`; Thm 5.11 reaches `B^ξ + SelfCons⁰(B^ξ,d)`. **Remark 5.8** (printed p. 17, now image-verified) says `SelfCons^k` is "significantly stronger" than `SelfRef` — the first denies simultaneous proofs of a `Π^ξ_k` sentence and its negation, the second "merely the non-existence of a proof of `0 = 1`". A shorter route to a **weaker** destination | `R3-the-margin.md` header, §§2.2, 6; `refined-sjas.md` §9 |
+| 114 | The route-comparison table therefore compared unlike things: "Willard's longer route is `full` end to end; this one terminates in the sketch" reads as two proofs of one result. The table now carries a **Destination** column | `R3-the-margin.md` §2.2 |
+| 115 | **A consequence for the margin itself, not previously stated anywhere.** The self-justification the margin certifies is the `SelfRef` form — no proof of `0=1` — not the `SelfCons^k` form Willard's stability engines deliver. The margin certifies *less*, and by a sketch | `R3-the-margin.md` §6, `refined-sjas.md` §9 |
+
+**Verified and found correct** in this pass: `Willard2011` Thm 5.11's `full`
+status — Appendix C is headed "The Proof of Theorem 5.11" and delivers it as
+Lemmas C.1 and C.2, both with complete proofs — and Lemma C.1's statement, which
+is exactly the A-Stable → 0-Stable step R3's table attributes to it.
+
 ## Quotation register
 
 Every row is `img` — verified against a rendered page image; check **R-B** fails
@@ -225,6 +248,8 @@ been checked against the page in this stage.
 | "the properties of `SUM` in theory `H` that could not even prove totality of successor function" — about `H` alone, in the proof of Cor. 5.3 | Pakhomov | **p. 22** (not p. 21) | **img (2026-09-02)** |
 | footnote 3 (Beklemishev's simplification "still unpublished"); Acknowledgments | Pakhomov | **p. 24** (not p. 25; p. 25 is References) | **img (2026-09-02)** |
 | "The theories in his examples are not completely natural in the sense that some of axioms are constructed using Diagonal Lemma. The main result of the present paper is the construction of a more natural example of this kind." | Pakhomov | p. 3 | **img (2026-09-02)** |
+| **Def. 5.6** (Level(`k^ξ`) Consistent: no proofs from `α` of both a `Π^ξ_k` sentence and the `Σ^ξ_k` sentence that is its negation); **Def. 5.7** (`SelfCons^k(β,d)`); **Remark 5.8**: "even when `k = 1`, Definition 5.7's `SelfCons^k(β,d)` statement will be **significantly stronger** than the axiomatic declaration ⊕ used by Section 1's `SelfRef(β,d)` axiom … while `SelfRef(β,d)` establishes merely the non-existence of a proof of `0 = 1`" | `Willard2011` | printed p. 17 | **img (2026-09-04)** |
+| **Appendix C: The Proof of Theorem 5.11** — "a straightforward modification of Theorem 5.9's proof … divided into two lemmas"; **Lemma C.1** (E-stable or A-stable ⟹ Def. 5.10's 0-stability), proof complete; **Lemma C.2** (0-Stable ⟹ `B^ξ + SelfCons⁰(B^ξ,d)` consistent, "and hence self-justifying") | `Willard2011` | printed p. 35 | **img (2026-09-04)** |
 | §6's opening — "**This is a sketch of a proof of Löb's theorem in Arithmetic Universes**"; Def. 6.1 (`U ⊨ φ ⊢ ψ` as an inclusion of subobjects); Def. 6.2 (implication of judgements via `i*(σ) ↪ i*(τ)` in `U[φ ≤ ψ]`); "An arithmetic universe is typically **not cartesian closed**" | van Dijk–Oldenziel | printed p. 28 | **img (2026-09-04)** |
 | **Prop. 6.5** "If `U ⊨ φ` then `U ⊨ □φ`", proof "Immediate from lemma 5.15"; **Prop. 6.6** `U ⊨ □φ ⊢ □(□φ)`, proof "Apply the functor `□ = Γ ∘ R`"; **Prop. 6.7 (Modus Ponens)**; **Prop. 6.8 (Internal Modus Ponens)** with its evaluation map `ev : Hom(φ',ψ') × Hom(1',φ') → Hom(1',ψ')` | van Dijk–Oldenziel | printed p. 28 | **img (2026-09-04)** |
 | **Thm 6.13**, the derivation of Löb ("Recall our formulation of Löb's theorem") with its ten-step proof citing Props. 6.5–6.10 and Lemma 6.12; **Lemma 6.12** supplying the Löb sentence via `T_φ : P1' → P1'`; **Rem. 6.14**, "As arithmetic universes are not in general cartesian closed there is no one notion of implication" | van Dijk–Oldenziel | printed p. 30 | **img (2026-09-04)** |

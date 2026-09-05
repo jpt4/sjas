@@ -843,7 +843,15 @@ Tightness implies `B^ξ + SelfRef` is a consistent self-justifying system, which
 is what makes the margin worth defining — is **`sketch`**, its proof "kept brief
 and informal" and deferred to §5, where the rigorous engine (Thm 5.9, `full`)
 consumes **EA-stability instead of Tightness**. The margin's sufficiency has no
-`full` proof anywhere in the corpus. R3 §§2.2 and 6 carry this.
+`full` proof anywhere in the corpus.
+
+**And what it certifies is the weaker form of self-justification.** Lemma 4.6
+delivers `B^ξ + SelfRef`, which asserts only that no proof of `0=1` exists.
+Willard's own engines deliver `B^ξ + SelfCons^k`, which denies *simultaneous*
+proofs of a `Π^ξ_k` sentence and its negation — and Remark 5.8 (printed p. 17)
+says the latter is "**significantly stronger**" than the former, "even when
+`k = 1`". So the margin, as the corpus supports it, certifies less than
+Willard's stability engines do. R3 §§2.2 and 6 carry both points.
 
 **Three of the five dials — `ℜ`, `Herb−k`, `Z` — are now proved** to lower the
 refutation cost, because each varies only the deduction method and `♯` provably
@@ -860,11 +868,14 @@ have strictly more margin than the fixed point achieves, and Lemma 4.6 is that
 one-line contradiction. This is the sharpest statement of the idea in the
 corpus, and §5 above still presents the threshold as given.
 
-**And one claim about novelty is withdrawn.** R3's route from A-stability to
-Tightness is sound and completes, but Willard already has the conclusion:
-Remark 5.2 announces that "Theorem 5.11 will show the presence of A-stability,
-alone, is sufficient for constructing self-justifying systems". The route is a
-simplification, not a new result.
+**And one claim about novelty is withdrawn — then narrowed again.** R3's route
+from A-stability to Tightness is sound and completes, and a conclusion of its
+shape is not new: Remark 5.2 announces that "Theorem 5.11 will show the presence
+of A-stability, alone, is sufficient for constructing self-justifying systems".
+But it does not *re-derive* Theorem 5.11 either, because 5.11 reaches
+`B^ξ + SelfCons⁰` and R3's chain reaches only `B^ξ + SelfRef`. It is a shorter
+route to a weaker destination — a simplification in reach as well as in length,
+which is a smaller thing than a simplification of the same result.
 
 The instances that stand are **argued from Willard's results for two of the
 three, and proved for all three only in the weaker sense that the term they move

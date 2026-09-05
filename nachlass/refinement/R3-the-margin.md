@@ -17,9 +17,10 @@
 > - **Hybrid(H)'s** term remains unidentified, and the withdrawal is now
 >   attributed to Willard, who makes the same move himself at Eq. (20).
 > - The **A-Stability ⟹ Tightness** bridge holds and completes (**§2.2**), but it
->   re-derives a conclusion Willard already has (Thm 5.11) — and by a *less*
->   rigorous route, since his runs `full` end to end and this one ends in
->   Lemma 4.6's sketch.
+>   does not re-derive Thm 5.11: chained with Lemma 4.6 it reaches
+>   `B^ξ + SelfRef`, where 5.11 reaches `B^ξ + SelfCons⁰`, and Remark 5.8 calls
+>   `SelfCons` "significantly stronger". A shorter route to a **weaker**
+>   destination, by a sketch rather than two `full` lemmas.
 > - The cross-route unification **fails**; §5.
 >
 > **B5 is partly met**, and the honest count is three of five, not five of five.
@@ -243,26 +244,41 @@ Contradiction. Hence `Log(q_{β₀}) ≥ ♯(β₀)+2`, both sides being integer
 very small witness can drive `♯` below 0, where `Good{½♯}` is degenerate, and the
 corpus does not fix a convention for that.
 
-*Second*, the conclusion is **not new**: Remark 5.2 announces "Theorem 5.11 will
-show the presence of A-stability, alone, is sufficient for constructing
-self-justifying systems", and Theorem 6.3 uses it.
+*Second*, a conclusion of this shape is **not new**: Remark 5.2 announces
+"Theorem 5.11 will show the presence of A-stability, alone, is sufficient for
+constructing self-justifying systems", and Theorem 6.3 uses it.
 
-*Third,* **the shorter route is also the less rigorous one.** Compare the two:
+*Third — and this is the one that matters —* **the two routes do not end in the
+same place, and this one ends lower.** Compare them:
 
-| Route | Chain | Statuses |
-| --- | --- | --- |
-| **Willard's** | A-Stable → (Lemma C.1) → 0-Stable → (Thm 5.11) → self-justifying | `full`, `full` |
-| **This document's** | A-Stable → (§2.2 above) → Tight → (**Lemma 4.6**) → self-justifying | this argument, then **`sketch`** |
+| Route | Chain | Destination | Statuses |
+| --- | --- | --- | --- |
+| **Willard's** | A-Stable → (Lemma C.1) → 0-Stable → (Thm 5.11, proved by Lemma C.2) | `B^ξ + SelfCons⁰(B^ξ,d)` consistent | `full`, `full` |
+| **This document's** | A-Stable → (§2.2 above) → Tight → (**Lemma 4.6**) | `B^ξ + SelfRef(B^ξ,d)` consistent | this argument, then **`sketch`** |
+
+**`SelfCons` is strictly the stronger axiom, and Willard says so.** Remark 5.8
+(printed p. 17, image-verified): "even when `k = 1`, Definition 5.7's
+`SelfCons^k(β,d)` statement will be **significantly stronger** than the axiomatic
+declaration ⊕ used by Section 1's `SelfRef(β,d)` axiom. This is because
+`SelfCons¹(β,d)` asserts non-existence of simultaneous proofs for a `Π^ξ₁`
+sentence and its negation, while `SelfRef(β,d)` establishes merely the
+non-existence of a proof of `0 = 1`." Definition 5.6 makes the same point for
+`SelfCons⁰`, which quantifies over all `Δ^ξ₀` sentences rather than the single
+sentence `0 = 1`.
+
+So the comparison is not like for like. Willard's route certifies a *stronger*
+self-justification by `full` proofs; this one certifies a *weaker* one by a
+sketch.
 
 `Willard2011` **Lemma 4.6 is `sketch`**: its proof is, in his words, "kept brief
 and informal … because the same topic will be visited more rigorously during
 Section 5's discourse". Section 5's rigorous treatment is Theorem 5.9, and it
-consumes **EA-stability, not Tightness** — so the margin's sufficiency has no
-`full` proof in the corpus at all. Willard's longer route is `full` end to end;
-this one terminates in the sketch.
+consumes **EA-stability, not Tightness** — and delivers `SelfCons₁`, stronger
+again. So the margin's sufficiency, for the `SelfRef` form it actually
+certifies, has no `full` proof in the corpus at all.
 
-So calling §2.2 a *simplification* needs the qualification that it trades rigour
-for brevity. That is still worth having — a short route through a named
+So calling §2.2 a *simplification* needs two qualifications: it trades rigour
+for brevity, **and it certifies less**. That is still worth having — a short route through a named
 inequality is easier to check and easier to generalise than one through
 0-stability and Appendix C — but it is not a strictly better proof.
 
@@ -615,10 +631,14 @@ theorem that `M(ξ) ≥ 2` suffices for a consistent self-justifying system. The
 margin is a legitimate object, and the corpus does state the thing R3 wanted
 stated about it.
 
-**But it does not *prove* it.** Lemma 4.6 is **`sketch`** — "kept brief and
-informal", deferred to §5, where the rigorous engine (Thm 5.9, `full`) consumes
-**EA-stability instead of Tightness**. So *the margin's sufficiency has no `full`
-proof anywhere in the corpus.* It is the single most consequential status this
+**But it does not *prove* it, and what it would prove is weaker than it looks.**
+Lemma 4.6 is **`sketch`** — "kept brief and informal", deferred to §5, where the
+rigorous engine (Thm 5.9, `full`) consumes **EA-stability instead of Tightness**.
+So *the margin's sufficiency has no `full` proof anywhere in the corpus.* And
+the self-justification it certifies is the **`SelfRef`** form — merely that no
+proof of `0=1` exists — not the `SelfCons^k` form Willard's own engines deliver,
+which denies simultaneous proofs of a `Π^ξ_k` sentence and its negation
+(Defs. 5.6–5.7, Remark 5.8). It is the single most consequential status this
 document has to carry, since it is what makes the margin worth defining at all.
 
 **Three of the five dials hold, and now with a proof rather than an argument.**
@@ -629,7 +649,12 @@ of §3 needed and that none of the drafts had.
 
 **The A-Stability ⟹ Tightness bridge holds and completes** (§2.2), including
 the r.e.-versus-arbitrary gap, which closes by passing to the finite subset of
-`β` the shortest refutation actually uses.
+`β` the shortest refutation actually uses. But it does **not** re-derive
+Willard's Theorem 5.11: chained with Lemma 4.6 it reaches
+`B^ξ + SelfRef(B^ξ,d)`, whereas 5.11 reaches `B^ξ + SelfCons⁰(B^ξ,d)`, and
+Remark 5.8 records `SelfCons` as "significantly stronger" than `SelfRef`. The
+bridge is a shorter route to a **weaker** destination, by a sketch rather than
+two `full` lemmas.
 
 ### What does not hold
 
