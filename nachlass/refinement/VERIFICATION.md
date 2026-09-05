@@ -385,6 +385,12 @@ Round twenty-two's lesson applied: read the framing blockquotes as claims.
 | 105 | §1 leant on `Willard2006a`'s `ISINF(A)` without carrying that **Theorem 6 is `sketch`** — the same rule-2 lapse the seventh pass swept, at a site that sweep did not reach | `refined-sjas.md` §1 |
 | 106 | **The document's headline claim carried no status.** "A system can consistently assert its own consistency when …" is *this Refinement's identification*, generalised from two instances rather than derived, and its sharp arithmetic form is proved sufficient by the corpus only through a `sketch`. Every claim about Willard in this stage carries its status; the stage's own central sentence did not | `refined-sjas.md` §1 |
 
+## Corrections applied 2026-09-04, twenty-fourth pass
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 107 | **The class round twenty-three exposed — a correction stopping where it was noticed — is mechanically checkable, and R-D was only guarding five strings.** Extended to ten: the Pakhomov page citation, "covering all five of Willard's dials", "every consistency-preservation proof in the corpus", the naming slogan as *the* arithmetic form, and "the cleanest available form". Red-green tested. Any future recurrence of a correction this session made now fails the audit rather than waiting to be re-noticed | the refinement audit script |
+
 **Verified and found correct** in this pass: `lawvere-sjas.md` §0's summary
 table agrees with §5's three tables row by row (AU, B–S and Willard on the boxed
 diagonal, uniform HBL evaluation, fixed-point strength, internal consistency

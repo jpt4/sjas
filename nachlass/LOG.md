@@ -1,5 +1,30 @@
 # Nachlass Log
 
+## 2026-09-04 - Adversarial round twenty-four: the "unswept correction" class made checkable
+
+Round twenty-three found a correction that had been applied in one file and
+missed in two - the Pakhomov page citation. That is not a class to keep catching
+by eye; it is exactly what R-D was built for, and R-D was guarding only five
+strings, all from the first review.
+
+Extended to ten, adding the strings later corrections named:
+
+  pp. 3-4, 21                                     (round four's page fix)
+  covering all five of Willard's dials            (round thirteen)
+  every consistency-preservation proof in the corpus  (round five)
+  naming an integer must not be cheaper           (round twenty-two)
+  the cleanest available form                     (fourth pass)
+
+Red-green tested against a deliberate reassertion. Any recurrence of a
+correction this session made now fails the audit instead of waiting to be
+re-noticed by a reader.
+
+The general point is worth keeping: this session made a hundred-odd corrections,
+and the machinery guarded five of them. A correction is not finished when the
+text is fixed - it is finished when something prevents it coming back.
+
+audit.sh green; R-D now checks ten patterns.
+
 ## 2026-09-04 - Adversarial round twenty-three: the stage's own central sentence had no status
 
 Three findings, from applying round twenty-two's lesson - read the framing
