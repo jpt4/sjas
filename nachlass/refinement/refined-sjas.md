@@ -31,16 +31,30 @@ Thirty years of this literature can be compressed to one sentence.
 > it can write, it can construct within its own means a bounded semantic witness
 > that the proof is not a refutation.**
 
-In Willard's arithmetic setting that condition takes one specific form, and it
-is this form that the rest of the document develops:
+In Willard's arithmetic setting the condition becomes a comparison of two sizes:
 
-> **naming an integer must not be cheaper than proving something about it.**
+> **a refutation must cost more than the system's own reach affords.**
+>
+> Sharply (§5, and `R3-the-margin.md`): `Log(q_β) ≥ ♯(β) + 2` for every
+> inconsistent `β` above the base — the least Gödel number of a proof of `0=1`
+> exceeds, by at least two bits, the envelope within which `β`'s sentences stay
+> true.
+
+**A correction to how this section used to put it.** Earlier versions gave the
+arithmetic form as *"naming an integer must not be cheaper than proving
+something about it"* and said the rest of the document develops that. It does
+not, and §§5–5.1 are why. The naming slogan is the intuition the programme
+started from, but of the corpus's five boundary dials the three now *proved* to
+move the margin — `ℜ`, `Herb−k`, `Z` — are **apparatus** dials that have nothing
+to do with naming: they change which intermediate theorems a proof may cite. The
+one genuinely about naming, Hybrid(H), is precisely the dial whose term this
+Refinement could **not** identify. So naming is one instance of the form, and
+currently the least supported one.
 
 Everything else in the corpus — the four axiom groups, the five deductive
 apparatuses, the **ten** formula-class notations, the five boundary dials — is
-machinery for
-making the arithmetic form precise in one setting or another, or for locating
-the point at which it stops being true.
+machinery for making that comparison precise in one setting or another, or for
+locating the point at which it stops holding.
 
 **The arithmetic form is not the whole idea.** Pakhomov's `H_{<ω}` (2019)
 satisfies the general condition with a different witness. The precise statement
@@ -267,7 +281,7 @@ assignment.
 rules out any other assignment, and this document uses both elsewhere for
 *different* explanations: `R3-the-margin.md` §3.2 cites the same Thm 4.5 to show
 the `Z` dial lowers refutation cost, and **§5's table below** treats the
-multiplicative convention's failure as evidence for the naming criterion.
+multiplicative convention's failure as evidence about the **naming instance** of the criterion — no longer, since §1, as evidence for a naming criterion *simpliciter*.
 (An earlier version of this sentence said "§4 below cites the same Thm 4",
 which cites nothing: §4 does not cite `Willard2006a` at all, and the only other
 "Theorem 4" in this document is `Willard2009`'s, in §6.) A fact compatible with three explanations is

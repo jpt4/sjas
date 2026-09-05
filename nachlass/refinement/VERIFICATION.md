@@ -368,6 +368,22 @@ Acceptance and Consequences sections, which no earlier pass had opened.
 | 100 | **`ADR-0004` says B3 is "reopened and upgraded to a comparison theorem"; `ADR-0002`'s B3 still recorded it as *met*, with Lawvere "downgraded to a framing".** The two charters of one stage gave contradictory dispositions for the same acceptance criterion, and had done since R6 was written | `ADR-0002` B3 |
 | 101 | **`ADR-0004` declares a consequence for R4 that `ADR-0002`'s R4 row did not carry**: R6 supplies a *precise transfer target* — the boxed diagonal `copy_A : □A → □A ⊗ □A` and the uniform proof-composition map exhibited **separately**, so a candidate type theory can be tested against each independently. Recorded in the R4 row and in `refined-sjas.md` §8, which had only its own weaker conjecture | `ADR-0002` R4 row, `refined-sjas.md` §8 |
 
+## Corrections applied 2026-09-04, twenty-second pass
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 102 | **§1's "arithmetic form" was the withdrawn naming slogan.** It said the condition takes "one specific form … *naming an integer must not be cheaper than proving something about it*", and that the rest of the document develops it. It does not: of the five boundary dials, the three now **proved** to move the margin — `ℜ`, `Herb−k`, `Z` — are **apparatus** dials with nothing to do with naming, and the one dial that *is* about naming, Hybrid(H), is precisely the one whose term the Refinement could not identify. The arithmetic form is the margin, a comparison of two sizes; naming is one instance of it, and currently the least supported | `refined-sjas.md` §1 |
+| 103 | §2.3b still spoke of "the naming criterion" as though it were *the* criterion | `refined-sjas.md` §2.3b |
+
+**Verified and found correct** in this pass: `lawvere-sjas.md` §0's summary
+table agrees with §5's three tables row by row (AU, B–S and Willard on the boxed
+diagonal, uniform HBL evaluation, fixed-point strength, internal consistency
+point and external consistency); R6's only count, "these three maps", matches
+its own table of Nec/BoxMP/Four; the Computed-claims table's "where used"
+pointers all still resolve to sections containing those claims; and R6 renders
+Theorem 4's conclusion `⊠⊤ =_S □⊥` **with** the box, where R2 had it stripped
+until the twelfth pass.
+
 **Verified and found correct** in this pass: `ADR-0004`'s acceptance criteria
 L0–L6 are each discharged by `lawvere-sjas.md` as claimed — L3's "the B–S
 instance corrects the premise that an HBL condition fails" matches §3.2's L1–L3

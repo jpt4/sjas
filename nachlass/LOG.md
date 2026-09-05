@@ -1,5 +1,37 @@
 # Nachlass Log
 
+## 2026-09-04 - Adversarial round twenty-two: section 1's headline form was the withdrawn slogan
+
+One finding, and it reaches further back than any other this session.
+
+**Section 1 gave the arithmetic form of the central claim as "naming an integer
+must not be cheaper than proving something about it", and said the rest of the
+document develops that form.** It does not, and sections 5 and 5.1 are why. Of
+the corpus's five boundary dials, the three now *proved* to move the margin -
+R, Herb-k and Z - are **apparatus** dials: they change which intermediate
+theorems a proof may cite, and have nothing to do with naming. The one dial that
+genuinely is about naming, Hybrid(H), is precisely the dial whose term this
+Refinement could **not** identify.
+
+So the naming slogan is the intuition the programme started from, not the form
+the document develops. Section 1 now gives the arithmetic form as the margin - a
+refutation must cost more than the system's own reach affords, sharply
+Log(q_beta) >= sharp(beta) + 2 - and records naming as one instance of it, and
+currently the least supported one. Section 2.3b's "the naming criterion" is
+aligned to match.
+
+This was reachable from round five onward, once the O(L) rate condition had been
+withdrawn and the dials re-sorted; it survived seventeen further rounds because
+the opening section reads as scene-setting rather than as a claim, and every
+sweep I ran treated it that way.
+
+Checked and sound this round: lawvere-sjas section 0's summary table agrees with
+section 5's three tables row by row; R6's only count matches its own table; the
+Computed-claims "where used" pointers all still resolve; and R6 renders Theorem
+4's conclusion with the box, where R2 had it stripped until the twelfth pass.
+
+audit.sh green.
+
 ## 2026-09-04 - Adversarial round twenty-one: the two charters disagreed with each other
 
 Two findings, both from reading ADR-0004's Acceptance and Consequences sections
