@@ -7,10 +7,9 @@ corrections), an independent adversarial review
 in the audit checks), then eight further adversarial rounds which found, among
 others, that the margin's sufficiency rests on a `sketch`, that Pudlák is not
 held at all, and three separate checks that reported green because their own
-matching was broken. Corrections #1–#69 are tabulated in
-[`VERIFICATION.md`](VERIFICATION.md). See
-[`VERIFICATION.md`](VERIFICATION.md), this stage's registry, checked by
-`../codification/audit.sh` (checks R-A–R-D).
+matching was broken. The corrections are tabulated, numbered, in
+[`VERIFICATION.md`](VERIFICATION.md) — this stage's registry, checked by
+`../codification/audit.sh` (checks **R-A–R-F**).
 
 ## Context
 
@@ -124,9 +123,13 @@ counterexample to the naming form, only a second instance of the general one.
 
 **The stage is not complete.** R1's deliverable is complete and has been reviewed
 repeatedly — against external literature, then against its own sources — and
-repaired at each pass; the corrections are numbered #1–#95 in
-[`VERIFICATION.md`](VERIFICATION.md), which is the record to consult rather than
-a count restated here. B4′ is met. **B5 is partly met at three of
+repaired at each pass. [`VERIFICATION.md`](VERIFICATION.md)'s numbered
+corrections table is the record; **consult it rather than any figure restated
+here.** (An earlier version of this sentence gave the range as "#1–#95" — a
+count, written in the same round that removed three other hand-maintained counts
+for going stale, and stale itself within five passes. The lesson did not take on
+its first statement, so it is stated here plainly: do not copy a count out of
+that table.) B4′ is met. **B5 is partly met at three of
 five**, and its open half is answered in the negative: no single condition
 subsumes the routes, because they remove different prerequisites of G2's
 argument, and removing one does not by itself yield a self-verifying theory.

@@ -59,8 +59,7 @@ Searching for Beklemishev produced something better than the survey: a
 **published, peer-reviewed refinement of the SJAS idea by another author**, held
 now at `lit/pakhomov2019_weak_set_theory_proves_own_consistency_arxiv_1907.00877.pdf`.
 
-An earlier version of this section claimed it falsified R1's headline claim.
-It does not; §2.1 retracts that.
+It does not falsify R1's headline claim; §2.1 says why.
 
 ### 2.1 The finding — **retracted 2026-09-02**
 
@@ -74,8 +73,7 @@ naming criterion.
 totality of successor function"** — a sentence that straddles the page break,
 **pp. 3–4**. A second, narrower statement appears at **p. 22**: "the properties
 of SUM in theory `H` that could not even prove totality of successor function",
-which is about `H` alone. (An earlier version of this paragraph cited the second
-as "p. 21" and read it as a restatement of the first.) `H_{<ω}`
+which is about `H` alone. `H_{<ω}`
 therefore evades Pudlák by **exactly** Willard's route — Pudlák's cut-shortening
 technique requires successor totality, which is why Willard denies it and why
 Pakhomov must too. Pakhomov's own framing is a *naturalness* claim, not a

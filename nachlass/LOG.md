@@ -1,5 +1,43 @@
 # Nachlass Log
 
+## 2026-09-04 - Consolidation: the retraction apparatus moved out of the prose
+
+Not another adversarial round. A reviewer's assessment of the last twenty-five,
+which I think is right:
+
+  "The prose is accreting. Nearly every fix adds a paragraph explaining what the
+  earlier version said and why it was wrong ... a large fraction of that growth
+  is retraction apparatus rather than content. That is a real cost to the
+  deliverable - a reader wanting the refined statement of SJAS has to wade
+  through the audit trail of its drafting. I have been treating 'record the
+  withdrawal in place' as free, and it isn't."
+
+Eighty-one such passages had accumulated across the four prose documents.
+refined-sjas.md had gone from about 670 lines to 955, section 2.3b contained a
+correction of a correction, and the opening note of the document was three
+sentences of what an earlier version had claimed.
+
+All of it is now removed. Each narrated withdrawal became either a plain
+statement of what holds, or - where the withdrawal is itself the finding, as
+with the O(L) criterion's refutation or the two preservation methods - a
+statement of the finding without the drafting story.
+
+  refined-sjas.md        955 -> 901
+  R3-the-margin.md       711 -> 686
+  R2-...-assessment.md   273 -> 256
+  R1-review.md           173 -> 171
+
+Nothing verified was lost. Every substantive caveat survives as a present-tense
+claim: the proof statuses, the sketch on Lemma 4.6, Hybrid's undetermined term,
+the retracted Level(n) instance, the unguarded encoding hazard, Pudlak's absence.
+VERIFICATION.md's numbered table is where the history lives, and it is complete.
+
+One thing improved rather than merely tidied: R-D guards ten retracted strings,
+and none of them now appears in the prose at all - so the check protects against
+reintroduction instead of tolerating a mention of the old claim.
+
+audit.sh green.
+
 ## 2026-09-04 - Adversarial round twenty-four: the "unswept correction" class made checkable
 
 Round twenty-three found a correction that had been applied in one file and

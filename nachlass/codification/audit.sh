@@ -11,7 +11,7 @@
 #   gaps.md      - id uniqueness; status enum.
 #   coverage.md  - extracted items covered; complete => fully imaged.
 #   M1–M8        - C16 mechanical checks (see audit-m.sh / C16-verification-goal.md).
-#   R-A–R-D      - Refinement checks (see audit-r.sh / ../refinement/VERIFICATION.md).
+#   R-A–R-F      - Refinement checks (see audit-r.sh / ../refinement/VERIFICATION.md).
 # Exit 0 with "AUDIT PASS" iff no check fails.
 
 set -u
@@ -240,7 +240,7 @@ echo "gaps rows: $n_gaps"
 . ./audit-m.sh
 run_all_m
 
-# ---------- Refinement R-A–R-D ----------
+# ---------- Refinement R-A–R-F ----------
 # shellcheck source=audit-r.sh
 . ./audit-r.sh
 run_all_r

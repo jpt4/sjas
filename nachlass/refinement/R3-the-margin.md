@@ -6,7 +6,7 @@
 > page-image re-reading of `Willard2011` §§4–5, and revised through 2026-09-04.**
 >
 > - The **definition** holds. It is not a generalisation of Willard's Tightness,
->   as earlier drafts claimed; it **is** Tightness, restated as an infimum.
+>   it **is** Tightness, restated as an infimum.
 > - **But its sufficiency has no `full` proof in the corpus.** `Willard2011`
 >   Lemma 4.6 — Tightness implies self-justification, the reason the margin is
 >   worth defining — is **`sketch`**, and §5's rigorous engine (Thm 5.9, `full`)
@@ -88,12 +88,11 @@ encoding-relative.
   preservation proofs argue on exactly that quantity — "take `P` minimising
   `Θ(P)`", then construct a smaller `R` with `Θ(R) < Θ(P)` (codified §6.9:
   `Willard2001` Thms 3.4 and 4.3, `Willard2006a` Thm 3, `Willard2016` Thm 6.7).
-  Two corrections to earlier versions of this bullet. It first said *every*
-  proof in the corpus runs that way; it does not — `Willard2005` Thm 1 (codified
-  §6.4) is a separate, apparatus-neutral `θ`-compactification engine. It then
-  attributed the minimal-counterexample method to "the Hilbert line", which is
-  also wrong: Thm 4.3 is about **`IS(A)`**, a *semantic tableaux* system, so the
-  division is between **proof methods**, not between families of system. The
+  Two things this does **not** say. Not *every* proof in the corpus runs that
+  way — `Willard2005` Thm 1 (codified §6.4) is a separate, apparatus-neutral
+  `θ`-compactification engine. And the method is not the Hilbert line's alone:
+  Thm 4.3 is about **`IS(A)`**, a *semantic tableaux* system, so the division is
+  between **proof methods**, not between families of system. The
   reading of `q_β` as a least Gödel number is unaffected — Def. 4.5 says
   "shortest proof" and this usage fixes the sense.
 
@@ -114,10 +113,10 @@ Requirement is what fixes one.
 
 **But note which way it cuts.** The requirement is `Gödel number ≥ 32^J`, i.e.
 `Log(q_β) ≥ 5J` — a **lower** bound, which excludes *over-compressed* encodings
-that would understate a proof's cost. An earlier draft claimed the opposite:
-that it guards against a wasteful encoding inflating `Log(q_β)` and manufacturing
-margin. It does not, and a wasteful encoding satisfies it trivially. That hazard
-is real and **remains unguarded** by the cited requirement; a full treatment
+that would understate a proof's cost. It does **not** guard the other direction
+— a wasteful encoding inflating `Log(q_β)` and manufacturing margin satisfies it
+trivially. That hazard is real and **remains unguarded** by the cited
+requirement; a full treatment
 would need an upper bound as well, which the corpus does not supply.
 This is the same condition the corpus's coding-density family (drift **D25**,
 obligation **O33**) exists to pin down, and it is why `Willard2005`'s Eq. (20),
@@ -129,10 +128,8 @@ the **Gödel bit-length** `Log₂(p)` used here; **`χ(p)`**, the count of logic
 symbols (`Willard2004` §6, where `ℑ(H) = Σ χ(p_i)`); and **`U-Height`**, a count
 of U-Grounding function symbols along a branch (`Willard2005` §5.2).
 
-An earlier version of this paragraph closed "the encoding requirement is
-precisely what keeps them within constant factors." **It does not**, and that
-contradicts the correction two paragraphs above: a lower bound alone relates the
-measures in one direction only. It gives `Log₂(q_β) ≥ 5J`, so bit-length cannot
+**The encoding requirement does not keep the three within constant factors of
+one another.** A lower bound relates them in one direction only. It gives `Log₂(q_β) ≥ 5J`, so bit-length cannot
 *understate* symbol count; nothing in the corpus stops it overstating. Keeping
 the three within constant factors of one another would need an upper bound too.
 
@@ -216,8 +213,7 @@ Two things follow that change how this document should be read.
 
 ### 2.2 A-Stability implies Tightness — the sketch, completed
 
-An earlier draft offered this as a sketch. It completes, and the gap it left
-open closes cleanly.
+The argument completes, and the r.e.-versus-arbitrary gap closes cleanly.
 
 > **Claim.** If `ξ` is A-Stable then `ξ` is Tight.
 
@@ -250,8 +246,7 @@ corpus does not fix a convention for that.
 show the presence of A-stability, alone, is sufficient for constructing
 self-justifying systems", and Theorem 6.3 uses it.
 
-*Third — and this is what an earlier version of this paragraph missed —* **the
-shorter route is also the less rigorous one.** Compare the two:
+*Third,* **the shorter route is also the less rigorous one.** Compare the two:
 
 | Route | Chain | Statuses |
 | --- | --- | --- |
@@ -268,8 +263,7 @@ this one terminates in the sketch.
 So calling §2.2 a *simplification* needs the qualification that it trades rigour
 for brevity. That is still worth having — a short route through a named
 inequality is easier to check and easier to generalise than one through
-0-stability and Appendix C — but it is not a strictly better proof, and an
-earlier version implied it was.
+0-stability and Appendix C — but it is not a strictly better proof.
 
 ---
 
@@ -285,7 +279,7 @@ earlier version implied it was.
 > been *computed* from the inequality — the second half of the claim is
 > untested throughout, for all five. §6 states this in full.
 
-**A caution the earlier drafts lacked.** `M(ξ)` is a *difference*. Showing that
+**A caution the claim needs.** `M(ξ)` is a *difference*. Showing that
 a dial lowers `Log(q_β)` is not yet a claim about the margin: if `♯(β)` falls by
 as much, the margin is unchanged. Every argument below must therefore say what
 happens to **both** terms. Three of the five survive that test; one fails it;
@@ -322,18 +316,18 @@ them survives.
 multiplicative conventions": for fixed `H` **and any `i ≥ 3`**,
 `C_i = ⌈2^{[Log(i)]^H}⌉·C_{i−1}`. He offers it explicitly as a unifier — "This
 convention can unify the formalisms of Theorems 3 and 4" — which is a point in
-favour of this document's project that earlier drafts did not cite. So
+favour of this document's project. So
 
 > `Log₂ C_n ≈ Σ_{i≤n} (Log i)^H ≈ n·(log n)^H`
 
-**Two things an earlier draft of this subsection got wrong, both material.**
+**Two things about this convention are easy to get wrong, and both are
+material.**
 
-*First, the arithmetic.* That draft said "at `H = 1` the constants grow
-additively-fast". They do not. Additive naming gives `Log₂ C_n = n`; Hybrid(1)
-gives `Θ(n log n)` — a full logarithmic factor above it — and no *fixed* `H`
-reaches the multiplicative `2^n`. Willard's own "midway between the additive and
-multiplicative conventions" is loose, and this document adopted it as though
-exact.
+*First, the arithmetic.* At `H = 1` the constants do **not** grow
+additively-fast. Additive naming gives `Log₂ C_n = n`; Hybrid(1) gives
+`Θ(n log n)` — a full logarithmic factor above it — and no *fixed* `H` reaches
+the multiplicative `2^n`. Willard's "midway between the additive and
+multiplicative conventions" is loose, and must not be read as exact.
 
 The consequence is severe for `refined-sjas.md` §5's criterion, which asks that
 a length-`L` proof denote nothing whose encoding exceeds `O(L)`. Hybrid(1) is the
@@ -343,9 +337,8 @@ locate this transition in either direction.** The real boundary sits between
 `n log n` and `n (log n)²` — a single log factor — which no criterion of that
 coarseness can express. §5 is corrected accordingly.
 
-*Second, the side.* That draft assigned Hybrid(H) to the envelope side and made
-that the headline explanation of why it "looked unlike the other four". **No
-argument was given, and there is a difficulty — one Willard states himself.**
+*Second, the side.* Hybrid(H) does **not** belong on the envelope side, and the
+difficulty is one Willard states himself.
 `♯` is purely model-theoretic (`Good(N)` = `Scope_E(Υ,N)` true in the standard
 model), and the naming axioms are *true* sentences, so they are `Good(∞)` and
 cannot lower `♯(β)`. That is precisely the justification Willard gives for
@@ -376,10 +369,9 @@ Three dials do the same thing by the other route: they make refutations
 The mechanism is the **Linear-Sum Effect** (drift **D30**) in all three cases,
 and the dial is *the class on which it is available*.
 
-**This is as far as the claim may go, and an earlier draft went further.** That
-draft said the three transitions "sit at the same place in the formula
-hierarchy". They do not — the safe settings are `Π*₁ ∪ Σ*₁`, `k = 1` and `Δ*₀`,
-and `Δ*₀` is strictly below the others. More seriously, treating `ℜ` and `Z` as
+**This is as far as the claim may go.** The three transitions do *not* sit at the
+same place in the formula hierarchy — the safe settings are `Π*₁ ∪ Σ*₁`, `k = 1`
+and `Δ*₀`, and `Δ*₀` is strictly below the others. And treating `ℜ` and `Z` as
 interchangeable is the merge `../codification/codified-sjas.md` §8.1 **expressly forbids**:
 `ℜ` parameterises which *intermediate theorems* a TabList proof may use, `Z`
 which *LEM instances* are logical axioms, and the claim that a result transfers
@@ -402,12 +394,12 @@ explanations, and §4 records the withdrawal.
 Group-3 axiom asserts. Two successive drafts tried to place it on the cost side;
 both are now withdrawn, the second for a reason the first did not reach.
 
-*The first draft* said Level(n) "does not change what proofs cost; it changes
-what counts as a refutation", then concluded `q_β` falls — inconsistent, since
-`q_β` is the least Gödel number of a proof of the *fixed* target `0=1`.
+*One tempting account* is that Level(n) "does not change what proofs cost; it
+changes what counts as a refutation". That is inconsistent: `q_β` is the least
+Gödel number of a proof of the *fixed* target `0=1`.
 
-*The second draft* said Level(n) strengthens the Group-3 axiom, hence the base
-`B^ξ`, hence makes `0=1` cheaper to derive. **Two things are wrong with it.**
+*A second* is that Level(n) strengthens the Group-3 axiom, hence the base `B^ξ`,
+hence makes `0=1` cheaper to derive. **Two things are wrong with it.**
 
 1. **Group-3 is not in `B^ξ`.** Definition 4.5 has `B^ξ` as the base and Lemma
    4.6 adds `SelfRef(B^ξ,d)` *on top* of it — the page image is explicit that
@@ -458,13 +450,11 @@ reopened for Level(n).
 
 **Taken from cited results:** each dial's safe and fatal settings — carrying the
 statuses of **this section's "Inherited weakness" table below**, not as
-established fact. (An earlier version said "§4's second paragraph", which is
-"Argued, not proved" and holds no statuses.) The two "controls"
-an earlier draft offered here (`Xtab` inconsistent; multiplicative naming fatal)
-have been **withdrawn as evidence**: they are compatible with several
-explanations, including two this document gives elsewhere, and
+established fact. The two apparent "controls" — `Xtab` inconsistent,
+multiplicative naming fatal — are **not evidence**: they are compatible with
+several explanations, including two this document gives elsewhere, and
 `refined-sjas.md` §2.3b sets out why. `Willard2020` Thm 4.5 is moreover `sketch`
-and carries a hypothesis on `β` that the draft dropped.
+and carries a hypothesis on `β`.
 
 **Argued, not proved:** that each dial's transition is *exactly* where `M(ξ)`
 crosses 2. Showing a dial moves a term is not the same as computing where the
@@ -486,10 +476,9 @@ longer place:
 | `Z` | `stated-only`; **`Π*₁` open** — and its one supporting control, Thm 4.5, is itself `sketch` |
 | Level(n) | `full` / `full` (modulo G35's deferred `T* ≤ N²` step) |
 
-An earlier draft said "two of the five rest on sketch results", counting
-`Willard2004` Thms 2 and 3 as two dials when they are the two halves of one, and
-omitted the `Z` dial from the accounting entirely. The margin cannot be firmer
-than the dials it organises, and four of the five are not firm.
+Note that `Willard2004` Thms 2 and 3 are the two halves of **one** dial, not two,
+and that `Z` belongs in this accounting. The margin cannot be firmer than the
+dials it organises, and four of the five are not firm.
 
 **Encoding-relativity is a live caveat, not a formality.** Because `Log(q_β)`
 is measured on Gödel numbers, any derivation of a transition point must carry the
@@ -507,8 +496,7 @@ the naming convention.
 ## 5. The cross-route unification fails, and here is why
 
 R3 was also asked whether one condition subsumes the known routes. **It does
-not** — but an earlier version of this section got the reason and the roster
-wrong, and both corrections narrow the result.
+not**, and both the reason and the roster are narrower than they first appear.
 
 ### 5.1 Three routes, and only two of them reach a self-verifying theory
 
@@ -519,14 +507,12 @@ constant:
 | Route | What it varies | Does it yield a self-verifying theory? |
 | --- | --- | --- |
 | **Willard** | the sizes | **Yes.** The margin *is* this route |
-| **Pakhomov** | the **semantics** | **Yes.** `H_{<ω}` proves `Con^pred(H_{<ω})`, a predicate-only `Π^pred₁` consistency sentence. Like Willard's systems it **cannot prove successor totality** (pp. 3–4; and for `H` alone, p. 22 — not p. 21, as an earlier version of this cell said) — it evades Pudlák by the same door — but the witness differs: a finite model of size `≤ 2⁰_p` (superexponentiation), built inside EA and relativised to the **superexponential cut**, where Willard's is a bounded valuation on a tableaux branch |
+| **Pakhomov** | the **semantics** | **Yes.** `H_{<ω}` proves `Con^pred(H_{<ω})`, a predicate-only `Π^pred₁` consistency sentence. Like Willard's systems it **cannot prove successor totality** (pp. 3–4; and for `H` alone, p. 22) — it evades Pudlák by the same door — but the witness differs: a finite model of size `≤ 2⁰_p` (superexponentiation), built inside EA and relativised to the **superexponential cut**, where Willard's is a bounded valuation on a tableaux branch |
 | **Beklemishev–Shamkanov** | the **structural rules** | **No.** See §5.2 |
 
-An earlier draft's Pakhomov cell said `H_{<ω}` "proves every hereditarily finite
-set exists; its `♯` is unbounded", making it a system that self-verifies
-*without* growth restriction. That is a misreading of the source and is
-withdrawn (`R1-review.md` §2.1). Correctly read, Pakhomov is not a
-counterexample to the margin's necessity; he is a second *witness kind*, which is
+`H_{<ω}` does prove every hereditarily finite set exists, which can make it look
+like a system that self-verifies *without* growth restriction. It is not:
+Pakhomov is not a counterexample to the margin's necessity; he is a second *witness kind*, which is
 why R1's criterion was generalised from naming rate to bounded semantic witness.
 
 ### 5.2 Beklemishev–Shamkanov's `S` is not self-verifying
@@ -545,15 +531,10 @@ and, earlier in the same section:
 > on weak logics for which G2 would fail."
 > — §6, p. 14 (image-verified 2026-09-02)
 
-*Transcription note.* An earlier version of this passage expanded "G2", added
-"in it", and called the second sentence the section's close. See
-`R2-beklemishev-shamkanov-assessment.md` §1.
-
 `S` is *consistent and does not assert its own consistency*, which is the
 ordinary condition of a weak theory, not the SJAS condition. Listing it as a
-third route to self-verification — as an earlier draft of this section did — was
-an error of the same shape as the Pakhomov one: reading a paper's abstract result
-as an instance of this stage's subject.
+third route to self-verification would be reading a paper's abstract result as an
+instance of this stage's subject.
 
 ### 5.3 The corrected statement
 
@@ -601,12 +582,9 @@ Lawvere's universal theorem — `Willard2001` Theorem A.1's footnote 16
 alone.
 
 The margin is the right invariant for the first cell — but **not complete for
-it**. An earlier version of this sentence said it covered "all five of Willard's
-dials at the strength §4 records", which contradicts §§3.3, 3.4, 4 and 6 of this
-same document: Level(n)'s instance is **retracted** and Hybrid(H)'s term is
-**undetermined**. Three of five are proved (§3.0), and that is the honest
-figure here as everywhere else in this document. That is a
-smaller result than R3 was set up to look for, and it is what the evidence
+it**: Level(n)'s instance is retracted and Hybrid(H)'s term is undetermined, so
+three of five are proved (§3.0). That is a smaller result than R3 was set up to
+look for, and it is what the evidence
 supports.
 
 **Two successor questions, now better posed.**
@@ -640,10 +618,8 @@ stated about it.
 **But it does not *prove* it.** Lemma 4.6 is **`sketch`** — "kept brief and
 informal", deferred to §5, where the rigorous engine (Thm 5.9, `full`) consumes
 **EA-stability instead of Tightness**. So *the margin's sufficiency has no `full`
-proof anywhere in the corpus.* An earlier version of this paragraph said "the
-corpus already proves" it; that overstates by one status level, and it is the
-single most consequential status this document has to carry, since it is what
-makes the margin worth defining at all.
+proof anywhere in the corpus.* It is the single most consequential status this
+document has to carry, since it is what makes the margin worth defining at all.
 
 **Three of the five dials hold, and now with a proof rather than an argument.**
 `♯` is defined by Defs. 4.1–4.4 without reference to the deduction method, so

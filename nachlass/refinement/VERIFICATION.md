@@ -4,7 +4,7 @@ The Refinement was opened without the Codification's machinery — no coverage
 registry, no `../codification/audit.sh` participation, no unconditional imaging rule. The
 2026-09-02 review found that **every Tier-1 defect was of a kind that machinery
 exists to prevent**, committed in the one stage not covered by it. This file
-closes that gap, and `../codification/audit.sh` now checks it (checks R-A–R-D,
+closes that gap, and `../codification/audit.sh` now checks it (checks R-A–R-F,
 in `../codification/audit-r.sh`).
 
 ## The rules
@@ -38,6 +38,35 @@ Four inherited from ADR-0001, one added by this stage's own failures.
    actual growth is `Θ(n (log n)^H)`, which refutes the criterion. Every growth
    or size claim in this stage is now recorded in **Computed claims** below with
    the computation that produced it.
+
+## Consolidation, 2026-09-04
+
+**Drafting history lives here, not in the documents.** Through twenty-five
+review passes, each correction was recorded *in place* in the prose — "an earlier
+version said X, which was wrong". Eighty-one such passages accumulated, and the
+cost was real: `refined-sjas.md` grew from about 670 lines to 955, a large part
+of it audit trail rather than content, and §2.3b came to contain a correction of
+a correction. A reader wanting the refined statement of SJAS had to wade through
+the record of its drafting.
+
+The apparatus has been removed from all four prose documents. What was a
+narrated withdrawal is now either a plain statement of what holds, or — where
+the withdrawal is itself a finding — a statement of the finding without the
+drafting story. Nothing verified was lost: every substantive caveat (proof
+statuses, the `sketch` on Lemma 4.6, the undetermined Hybrid term, the retracted
+Level(n) instance, the unguarded encoding hazard) survives as a present-tense
+claim.
+
+| Document | Before | After |
+| --- | --- | --- |
+| `refined-sjas.md` | 955 | 901 |
+| `R3-the-margin.md` | 711 | 686 |
+| `R2-…-assessment.md` | 273 | 256 |
+| `R1-review.md` | 173 | 171 |
+
+The corrections table below is the record. **Check R-D now guards ten of the
+retracted strings** and none of them appears in the prose at all, so it is
+protecting against reintroduction rather than tolerating a mention.
 
 ## Quotation register
 
@@ -390,6 +419,21 @@ Round twenty-two's lesson applied: read the framing blockquotes as claims.
 | # | Defect | Where it was |
 | --- | --- | --- |
 | 107 | **The class round twenty-three exposed — a correction stopping where it was noticed — is mechanically checkable, and R-D was only guarding five strings.** Extended to ten: the Pakhomov page citation, "covering all five of Willard's dials", "every consistency-preservation proof in the corpus", the naming slogan as *the* arithmetic form, and "the cleanest available form". Red-green tested. Any future recurrence of a correction this session made now fails the audit rather than waiting to be re-noticed | the refinement audit script |
+
+## Corrections applied 2026-09-04, twenty-fifth pass
+
+The class round nineteen fixed, recurring in the very edit that fixed it.
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 108 | **Two stale correction-range figures in the charter** — "#1–#69" from the eleventh pass and "#1–#95" from the nineteenth. The second was written *in the round that removed three other hand-maintained counts for going stale*, and was itself stale within five passes. Both replaced by a pointer to the table, with the instruction not to copy a count out of it | `ADR-0002` |
+| 109 | "checks R-A–R-D" in three places after R-E and R-F were added — the charter, this file's opening, and the audit script's own header comment and section banner | `ADR-0002`, `VERIFICATION.md`, the main audit script |
+| 110 | A duplicated link to this file, introduced by correction #108's own edit | `ADR-0002` |
+
+**Verified and found correct** in this pass: the commit hashes cited in these
+records (`4eb63c7`, `8199a22`) resolve and match the work they are cited for;
+the numbered corrections run without duplicate or gap; and R-D's ten patterns
+each fire on a deliberate reassertion.
 
 **Verified and found correct** in this pass: `lawvere-sjas.md` §0's summary
 table agrees with §5's three tables row by row (AU, B–S and Willard on the boxed

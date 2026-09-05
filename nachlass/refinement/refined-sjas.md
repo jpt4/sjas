@@ -9,17 +9,18 @@ it.*
 > document asks what he *found*. It may reformulate freely; where it does, it
 > says so.
 >
-> **On anchoring, stated precisely.** An earlier version of this note claimed
-> that *every* claim here about the literature is anchored in the codification's
-> registries. That is not true, and the exceptions are worth naming. Claims about
-> **Willard's corpus** are anchored in the registries and, since 2026-09-02, in
-> page images recorded at [`VERIFICATION.md`](VERIFICATION.md) — a stronger
-> warrant than the registries alone. Claims about the **secondary literature**
-> (Pakhomov, Beklemishev–Shamkanov, Brown–Palsberg) are anchored in page images
-> of those papers, which the Codification never covered. And claims about
-> **Pudlák** are anchored in neither: his paper is not held, and what this
-> document says his proof requires is what Willard and Pakhomov report it
-> requires — gap **G39**, §9.
+> **What each kind of claim rests on.** Claims about **Willard's corpus** rest on
+> the codification's registries and on page images recorded in
+> [`VERIFICATION.md`](VERIFICATION.md). Claims about the **secondary literature**
+> (Pakhomov, Beklemishev–Shamkanov, van Dijk–Oldenziel, Brown–Palsberg) rest on
+> page images of those papers, which the Codification never covered. Claims about
+> **Pudlák** rest on neither: his paper is not held, and what this document says
+> his proof requires is what Willard and Pakhomov report it requires — gap
+> **G39**, §9.
+>
+> *Drafting history is not kept in these documents.* Every correction made to
+> this stage is tabulated in [`VERIFICATION.md`](VERIFICATION.md); the text below
+> states what the Refinement now holds.
 
 ---
 
@@ -74,8 +75,7 @@ axioms *occurring in `p`* — where `2⁰_p` is **superexponentiation**, `2^y_0 
 and `2^y_{x+1} = 2^{2^y_x}`, and the whole argument is relativised to the
 **superexponential cut** `S = { x : 2⁰_x is defined }`.
 
-Two qualifications an earlier draft omitted. The bound is *superexponential*,
-not small — "bounded" here means bounded by a function EA can handle **on the
+Two qualifications. The bound is *superexponential*, not small — "bounded" here means bounded by a function EA can handle **on the
 cut**, and the cut is where the restriction lives. And the consistency proved is
 `Con^pred`, a **predicate-only `Π^pred₁`** consistency sentence, with the model
 construction carried out for the higher-order `H^ω_{<ω}` and transferred.
@@ -84,16 +84,12 @@ Willard bounds a *partial valuation on a tableau branch*; Pakhomov bounds a
 *full finite model of the axioms actually used*. Both bounds are witnesses; only
 their shape differs.
 
-**A correction, since an earlier draft got this badly wrong.** That draft claimed
-`H_{<ω}` "proves the existence of every hereditarily finite set — so it is not
-growth-restricted in Willard's sense", and treated it as **falsifying** the
-naming form. It does prove every individual hereditarily finite set exists, but
-Pakhomov states it in the Introduction — **"Important restriction here is that
+**`H_{<ω}` is not a counterexample to the growth restriction.** It does prove
+every individual hereditarily finite set exists — which is why it can look like
+one — but Pakhomov states in the Introduction — **"Important restriction here is that
 both `H` and `H_{<ω}` could not prove totality of successor function"**, a
 sentence straddling the page break at **pp. 3–4** — and again, for `H` alone, at
-**p. 22**. (An earlier version of this citation gave "pp. 3–4, 21"; the second
-site is p. 22, and it is about `H`, not both. The same error was corrected in
-`R1-review.md` on 2026-09-04 and missed here.) So it is growth-restricted, by the *same*
+**p. 22**. So it is growth-restricted, by the *same*
 route as Willard's Hilbert line — and it must be, since Pudlák's cut-shortening
 needs successor totality and that is what both are evading. Pakhomov positions
 his system not as a different mechanism but as **"a more natural example of this
@@ -111,7 +107,7 @@ of the witness rather than the naming rate. It is **not** a falsification, and
 
 The rest of this document argues that this is the right sentence: §§2–4 say why
 the usual reading of Gödel's Second Theorem misidentifies the obstacle, §5 gives
-the criterion its sharp form (and withdraws an earlier, wrong one), §6 discharges
+the criterion its sharp form, §6 discharges
 the Rosser hook, §7 says what the idea costs, §8 shows the same phenomenon
 outside arithmetic, and §9 says what is not settled.
 
@@ -150,17 +146,15 @@ Turing and Gödel's *First* theorem are the contrapositive: exhibit a
 fixed-point-free `t`, conclude no such `f` exists. (Yanofsky develops the family;
 the held witness is `../../lit/(Elements in Applied Category Theory) Noson S.
 Yanofsky - Theoretical Computer Science for the Working Category
-Theorist-Cambridge University Press (2022).pdf`. An earlier version gave this
-citation with the filename elided, which no reader could follow and which check
-R-C's path pattern silently skipped; R-C now rejects elided witness paths.)
+Theorist-Cambridge University Press (2022).pdf`.)
 
 What Lawvere gives is **existence**, and it costs almost no theory. Kleene's
 recursion theorem is the arithmetic form, and every affirmative system in the
 corpus builds its Group-3 axiom by a fixed-point construction (codified §5.1).
 
-**But "uses it directly" — as an earlier version of this sentence said — hides
-the distinction R6 §4.1 insists on**, between what a metatheorist may do with
-proof codes and what the weak theory itself proves. `IS(A)` **cannot** prove
+**But the construction is not internally available in general**, and R6 §4.1's
+distinction between what a metatheorist may do with proof codes and what the
+weak theory itself proves is what separates the two. `IS(A)` **cannot** prove
 `∀x ∃y SUBST_i(x,y)`; `Willard1993-TR` printed p. 37 says so outright ("Since it
 does not recognize multiplications as a function, `IS(A)` will clearly be too
 weak to prove that…"), adding that it *can* prove `∃y SUBST_i(k̄,y)` "for **any
@@ -240,11 +234,7 @@ schematic in the *sentences* `Φ`, `Ψ` and hides the proof quantifier inside
 *proof codes* — "if `x` is a proof of `α` and `y` is a proof of `α ⊃ β` then
 there exists some `z` that proves `β`". Same condition, quantifiers written out.
 That is why "only for fixed constants `x` and `y`" is a failure of (2) and not
-of some weaker schematic variant. (An earlier draft of this section asserted that Willard nowhere says
-which condition fails. He does, here, and the Codification had already recorded
-it: `../codification/extraction/willard1993-tr.md` §3.7c is titled *"Which
-derivability condition fails"*. The error was a failure to consult the registry,
-not a gap in the corpus.)
+of some weaker schematic variant.
 
 **And the *shape* of the failure is not what one would guess.** Condition (2)
 does not simply collapse. It **holds for fixed constants and fails uniformly** —
@@ -287,38 +277,27 @@ uniformity pattern, and the earlier assignment to (1) is withdrawn.
 
 ### 2.3b Why the "controls" are not evidence
 
-An earlier draft offered two controls: restoring cut via `Xtab` makes
-`IS_Xtab(β)` inconsistent (`Willard2020` Thm 4.5), and the multiplicative naming
-convention is fatal (`Willard2006a` Thm 4) — presented as confirming the
-assignment.
+Two results look as though they confirm the condition-(2) assignment: restoring
+cut via `Xtab` makes `IS_Xtab(β)` inconsistent (`Willard2020` Thm 4.5), and the
+multiplicative naming convention is fatal (`Willard2006a` Thm 4).
 
 **They confirm nothing.** Both have the form *P ⟹ Q; Q; therefore P*. Neither
 rules out any other assignment, and this document uses both elsewhere for
 *different* explanations: `R3-the-margin.md` §3.2 cites the same Thm 4.5 to show
 the `Z` dial lowers refutation cost, and **§5's table below** treats the
-multiplicative convention's failure as evidence about the **naming instance** of the criterion — no longer, since §1, as evidence for a naming criterion *simpliciter*.
-(An earlier version of this sentence said "§4 below cites the same Thm 4",
-which cites nothing: §4 does not cite `Willard2006a` at all, and the only other
-"Theorem 4" in this document is `Willard2009`'s, in §6.) A fact compatible with three explanations is
-evidence for none of them.
+multiplicative convention's failure as evidence about the **naming instance** of
+the criterion. A fact compatible with three explanations is evidence for none of
+them.
 
-Two further corrections to that draft. `Willard2020` Theorem 4.5 is **`sketch`**,
-not established, and it carries a hypothesis that was dropped: `IS_Xtab(β)` is
-inconsistent "**whenever `β` proves some conventional `Π*₁` theorems stating that
-addition and multiplication satisfy their usual associative, commutative,
-distributive and identity properties**". And `Willard2006a` Theorem 4 requires
-three hypotheses — the multiplicative axioms, all of PA's `Π⁻₁` theorems, **and**
-the Concise Encoding property — of which the draft carried one.
-
-*But the hypothesis-count criticism is itself incomplete.* `Willard2006a`
-Remark 1 announces **Theorem 4\***, "a stronger form of Theorem 4", which "will
-drop Theorem 4's 'Concise Encoding' assumption and *also isolate a `Π⁻₁` theorem
-`W`* of Peano Arithmetic, where no consistent r.e. axiom system `α ⊃ W`, using
-the multiplicative naming convention, can formally verify its own Hilbert
-consistency." So the control is available with **two** hypotheses, not three —
-at the cost of an abbreviated Appendix C proof. What does *not* change is the
-logical point above: the control affirms the consequent either way, and so
-supports no particular assignment.
+Both also carry hypotheses that must travel with them. `Willard2020` Theorem 4.5
+is **`sketch`**, and holds only "**whenever `β` proves some conventional `Π*₁`
+theorems stating that addition and multiplication satisfy their usual
+associative, commutative, distributive and identity properties**".
+`Willard2006a` Theorem 4 requires three: the multiplicative axioms, all of PA's
+`Π⁻₁` theorems, **and** the Concise Encoding property. Its **Theorem 4\***
+(Remark 1) drops the third, at the cost of an abbreviated Appendix C proof —
+so the control is available with two hypotheses, though the logical objection
+above is unaffected either way.
 
 ### 2.3c A correction that survives
 
@@ -329,23 +308,16 @@ parameters, not a fixed feature of the programme.
 
 One qualification on "cut-free". The tableaux line — `IS(A)`, `IS_D(A)` and
 their kin, which codified **§3.1** tabulates as the Type-A row, "successor,
-addition … the whole tableaux line" (an earlier version of this sentence pointed
-at §3.2, which is *The grounding functions* and tabulates nothing of the sort;
-the wrong anchor was introduced while repairing a dangling one) — includes
+addition … the whole tableaux line" — includes
 `IS_D(A)`, whose `D` ranges over **`Tab-U*₁-List`** — restricted modus ponens on
 `Π*₁`/`Σ*₁` — and that is the case `Willard2005` Theorem 5 actually proves.
 So the line is not uniformly cut-free; what varies across it is *the class on
 which composition is available*, which is the `ℜ` dial. Calling the whole line
 "cut-free" erases the distinction **§5.1** is simultaneously trying to draw.
-(An earlier version pointed at §8, which is the computational analogue and draws
-no such distinction — the second instance of a mis-numbered cross-reference in
-this section; see §2.3b.)
 
 ### 2.4 What each condition licenses, and what contraction licenses
 
-The three conditions are not three versions of one thing, and an earlier draft
-of this section flattened them by calling (1) and (2) "permissions to use a proof
-again". They are not. Taken one at a time:
+The three conditions are not three versions of one thing. Taken one at a time:
 
 | | Licenses | |
 | --- | --- | --- |
@@ -357,33 +329,33 @@ again". They are not. Taken one at a time:
 proof and makes that statement itself a proved object — the proof is used again,
 reflected upward. (1) internalises once; (2) composes two distinct derivations.
 
-An earlier draft added that "a system that fails (1) fails (3) a fortiori",
-on the ground that proving `Der(⌜Der(⌜Φ⌝)⌝)` internalises (1). **That is
-invalid**, and the corpus is exactly where it fails. (3) is an *implication*,
+**And failing (1) does not entail failing (3).** One might argue that it should,
+since proving `Der(⌜Der(⌜Φ⌝)⌝)` internalises (1) — but the corpus is exactly
+where that fails. (3) is an *implication*,
 `Der(⌜Φ⌝) ⊃ Der(⌜Der(⌜Φ⌝)⌝)`, and an implication holds vacuously when its
 antecedent is refuted. Any `α` proving `¬Der(⌜Φ⌝)` satisfies that instance of (3)
 while failing (1) — and Willard's systems prove `¬Der(⌜0=1⌝)` **by
 construction**. The vacuous case is not exotic here; it is the point of the
-programme. The claim is withdrawn.
+programme.
 
 ### 2.5 Contraction is a structural rule, not one of the three
 
-It is tempting, and this Refinement earlier yielded to the temptation, to say
-that Beklemishev–Shamkanov's `□`-contraction is one of the derivability
-conditions restated. It is not, and their proof says where it is used.
+It is tempting to say that Beklemishev–Shamkanov's `□`-contraction is one of the
+derivability conditions restated. It is not, and their proof says where it is
+used.
 
 Their Definition 3.7 gives **plain** contraction, `Γ, φ, φ ⊢ ψ ⟹ Γ, φ ⊢ ψ` —
 a rule of the ambient consequence relation about reusing a **hypothesis**, not
 about reusing a proof. (The `□`-restricted form, `Γ, □φ, □φ ⊢ ψ ⟹ Γ, □φ ⊢ ψ`,
 is the *weakening* of the requirement offered in their Remark 3.9; Proposition
-3.8 and Theorems 3–4 assume the plain rule. An earlier draft of this section ran
-the two together, which is precisely the conflation §3 of
+3.8 and Theorems 3–4 assume the plain rule. Running the two together is the
+conflation §3 of
 [`R2-beklemishev-shamkanov-assessment.md`](R2-beklemishev-shamkanov-assessment.md)
 warns this repository's affine-tree line against.)
 
 In Proposition 3.8 it is consumed at one specific step, establishing their
-condition **C3** — quoted here from the **page image**, because the text layer
-strips every `□` and an earlier draft reproduced the stripped version verbatim:
+condition **C3** — quoted from the **page image**, because the text layer strips
+every `□`:
 
 > "By Lemma 3.3(i) we have: `φ, ¬φ, ⊤ ⊢ ⊥`. Hence, `φ, ¬φ ⊢ ⊤ → ⊥`, therefore
 > **`□φ, □¬φ ⊢ □¬⊤`** by Condition 1. **The rules of transitivity and contraction
@@ -401,9 +373,8 @@ absurdity itself, and §2.5a records what follows from that.
 
 ### 2.5a Their system is not self-verifying, and they say so
 
-An earlier draft listed Beklemishev–Shamkanov's contraction-free `K4` as one of
-"three known routes to **self-verification**". **It is not a route to
-self-verification at all**, and the paper says so on its last page
+Beklemishev–Shamkanov's contraction-free `K4` is **not a route to
+self-verification**, and the paper says so in its concluding section
 (§6, image-verified):
 
 > "We remark that the system `S` does **not** provide a counterexample to the
@@ -419,18 +390,17 @@ explicit that no such theory is in hand:
 > G2. Thus, **we are still missing convincing examples of mathematical theories
 > based on weak logics for which G2 would fail**."
 
-That second sentence also disposes of a hope the Refinement had entertained:
-going contraction-free at the object level does not suffice, because
-`□`-contraction can remain admissible. This is the same caution
+That second sentence also settles a tempting hope: going contraction-free at the
+object level does not suffice, because `□`-contraction can remain admissible.
+It is the same caution
 [`R2-beklemishev-shamkanov-assessment.md`](R2-beklemishev-shamkanov-assessment.md)
-§3 records for this repository's affine-tree line — and it now applies to the
-Refinement's own classification, not only to a neighbouring project.
+§3 records for this repository's affine-tree line, and it applies to this
+classification too, not only to a neighbouring project.
 
 ### 2.5b What the picture actually is
 
 Gödel's argument needs at least **four** separable things — the same four
-`R3-the-margin.md` §5.3 lists, and an earlier version of this table said three
-by folding the semantic step into the derivability row:
+`R3-the-margin.md` §5.3 lists:
 
 | Ingredient | Status |
 | --- | --- |
@@ -447,9 +417,8 @@ strength, and warns that they "should not be collapsed into a single *weakness*
 ordering": Beklemishev–Shamkanov weaken structural logic while keeping the modal
 derivability rules, Willard keeps structural logic and weakens what the
 arithmetic can certify uniformly about its own proof predicate. The table above
-is not wrong; it is one projection of that square. R6's square omits Pakhomov,
-declared with reasons at its §6. (An earlier version of this sentence said "the
-row below", pointing past the table it was about.)
+is one projection of that square. R6's square omits Pakhomov, declared with
+reasons at its §6.
 
 So the honest count is: **two demonstrated routes to a self-verifying theory**
 (Willard's, and Pakhomov's), plus **one demonstrated way to break the argument
@@ -506,9 +475,8 @@ of a fragment `F` with only **`O(n)` nodes**, establishing `U_n = 2^{2^n}`,
 length."
 
 **Status: `sketch`.** Willard writes "We obviously have omitted many details
-here". An earlier draft called this "the cleanest available form" without
-carrying that; it is the most *legible* statement of the mechanism in the
-corpus, and it is not a completed proof.
+here". It is the most *legible* statement of the mechanism in the corpus, and it
+is not a completed proof.
 
 A short proof has named a long object. Once that is possible, the system can
 assert — cheaply — the existence of something big enough to encode a refutation
@@ -525,9 +493,9 @@ system *be* self-justifying is what the incompleteness proofs *consume*.
 
 ## 5. The criterion
 
-An earlier version of this section stated the criterion as a **growth rate**:
+**The criterion is not a growth rate.** It is natural to try to state it as one —
 
-> *(withdrawn)* A system is self-justifying precisely when its naming is
+> *(this form is refuted; see below)* A system is self-justifying precisely when its naming is
 > **non-compressive**: no proof of length `L` may denote an integer whose binary
 > encoding exceeds `O(L)`.
 
@@ -546,8 +514,8 @@ The third row is fatal: Hybrid(1) is a **positive** case and is not `O(L)`. And
 the boundary Willard actually draws sits between `n log n` and `n (log n)²` — a
 **single logarithmic factor** — which no asymptotic condition of that coarseness
 can express. `Willard2006a`'s own gloss that Hybrid is "midway between the
-additive and multiplicative conventions" is loose; an earlier draft took it as
-exact and built the `O(L)` form on it. Details at `R3-the-margin.md` §3.1.
+additive and multiplicative conventions" is loose, and the `O(L)` form was built
+on taking it as exact. Details at `R3-the-margin.md` §3.1.
 
 **What survives is the shape, not the threshold.** The right statement is not a
 rate at all but an **additive margin**, and Willard states it once —
@@ -597,10 +565,10 @@ dial that varies only `d` cannot move `♯(β)`, and whatever it does to
 - **`Z`** (`Willard2020`) fixes which `Υ ∨ ¬Υ` instances are *logical axioms* —
   again the apparatus — and LEM-as-axioms is a cut (codified §4.5). **Proved.**
 - **Hybrid(H)** varies the language and base, so both terms are in play and the
-  lemma does not apply. Which term it moves is **undetermined** (R3 §3.1). An
-  earlier draft put it alone on the envelope side; `♯` is model-theoretic and the
-  naming axioms are true, hence `Good(∞)`, so they cannot lower `♯(β)` — which is
-  Willard's own argument for Eq. (20), not this Refinement's.
+  lemma does not apply. Which term it moves is **undetermined** (R3 §3.1). It is
+  not the envelope: `♯` is model-theoretic and the naming axioms are true, hence
+  `Good(∞)`, so they cannot lower `♯(β)` — which is Willard's own argument for
+  Eq. (20), not this Refinement's.
 - **Level(n)** varies the self-referential axiom `Ψ` — a *sentence*. Its instance
   is **retracted** (R3 §3.3): Group-3 is not part of `B^ξ` but added to it, and
   at the critical `β = B^ξ + Ψ` Willard's Eq. (20) makes `Log(q)` and `♯(β)` move
@@ -614,9 +582,8 @@ transfers between them is the corpus's own open problem (drift **D34**,
 obligation **O46**, gap **G22**). Their safe settings are not even at the same
 level: `Π*₁ ∪ Σ*₁` versus `Δ*₀`.
 
-So the honest claim is **one inequality, three dials provably writing on its cost
-term, one unplaced and one retracted** — not "five dials are one dial", which an
-earlier heading asserted, and not the "four of five" a later draft settled on.
+So the claim is **one inequality, three dials provably writing on its cost term,
+one unplaced and one retracted** — not that the five dials are one dial.
 
 ---
 
@@ -627,12 +594,10 @@ Rosser's improvement to Gödel replaces "I am not provable" with
 > `∀y ( Prf(⌜R⌝, y) → ∃z < y  Prf(⌜¬R⌝, z) )`
 
 — written in the corpus's argument order, **theorem first, proof second**, to
-match `SemPrf` below and `Willard2020` Eq. (5)'s `Prf_{IS_D(β)}(x,p)`. (Textbook
-presentations of Rosser usually write the proof first; an earlier version of this
-line did too, which left §6 using both orders four paragraphs apart, in the one
-section whose point is that the two predicates are the same move.) It is a
-sentence that does not assert unprovability absolutely, but **relative to an
-ordering by proof size**. That single change buys the theorem for merely
+match `SemPrf` below and `Willard2020` Eq. (5)'s `Prf_{IS_D(β)}(x,p)`; textbook
+presentations of Rosser usually write the proof first. It is a sentence that does
+not assert unprovability absolutely, but **relative to an ordering by proof
+size**. That single change buys the theorem for merely
 consistent systems.
 
 Willard's construction makes the same move, in the other direction.
@@ -648,11 +613,9 @@ requires **`y ≤ Log(z, K)`** (drift **D81**). Nothing in either argument turns
 it, but a refinement that unified them silently would be doing the thing this
 project exists to avoid.
 
-**The argument is a least-number principle on size — on one of the two lines.**
-An earlier version of this paragraph said "*every* consistency-preservation proof
-in the corpus runs the same way" and cited `Willard2005` Theorem 1 as an
-instance. **Both halves were wrong**, and codified §6.9 says so in its first
-sentence: "The Hilbert line does not use `θ`-Compactification. Its preservation
+**The argument is a least-number principle on size — in one of the two methods.**
+It is not *every* consistency-preservation proof in the corpus, and codified §6.9
+says so in its first sentence: "The Hilbert line does not use `θ`-Compactification. Its preservation
 results are proved directly, **by minimal counterexample**." There are two
 engines.
 
@@ -666,14 +629,13 @@ engines.
   consistency preserving. **Apparatus-neutral**, saying nothing about tableaux,
   and pushing everything apparatus-specific into the one hypothesis.
 
-**The two methods do not partition by line, and an earlier version of this
-passage said they did.** It filed the least-number method under "the Hilbert
-line" and cited `Willard2001` Thm 4.3 for it — but Thm 4.3 is about **`IS(A)`**,
-which is *semantic tableaux* (registry `SJAS-Origin`; codified §3.1's Type-A
-row). So a tableaux system's preservation is proved by minimal counterexample in
-2001, and covered again by the apparatus-neutral engine in 2005. The division is
-between **proof methods**, not between the two families of system. Codified
-§6.9's title, "The Hilbert line's engine", is looser than its own table.
+**The two methods do not partition by line.** `Willard2001` Thm 4.3 is about
+**`IS(A)`**, which is *semantic tableaux* (registry `SJAS-Origin`; codified
+§3.1's Type-A row) — so a tableaux system's preservation is proved by minimal
+counterexample in 2001 and covered again by the apparatus-neutral engine in 2005.
+The division is between **proof methods**, not between the two families of
+system; codified §6.9's title, "The Hilbert line's engine", is looser than its
+own table.
 
 The size-relativity that makes the Rosser parallel is present in both methods,
 but it lives in different places: in the minimised `Θ(P)` in the first, and in
@@ -700,15 +662,13 @@ is the observation that this is what they are.
 
 A refinement that stated only the mechanism would be a misrepresentation. **Five
 things are given up.** Willard states the first four himself (codified §1.4);
-the fifth is Pakhomov's, from outside the corpus. (An earlier draft said "four"
-and then listed five.)
+the fifth is Pakhomov's, from outside the corpus.
 
 1. **Ordinary arithmetic is gone.** Every affirmative system is Type-A (no
    multiplication as a total function) or Type-NS (nothing total). `Willard2005`
    **Remark 4** — a remark, not a theorem; the row carries no proof status —
    states the engine is impossible once multiplication is admitted. Its wording
-   matters and an earlier draft elided it: the strong half is *attributed*, not
-   proved there —
+   matters: the strong half is *attributed*, not proved there —
 
    > "a Level(0-) tableaux generalization **in [68] implies that** … no useful
    > analog of Definition 5 can be found for axiom systems recognizing
@@ -720,9 +680,8 @@ and then listed five.)
 2. **The proof is one line.** `Willard2011` Remark 6.16b: self-justification
    from a SelfCons axiom yields "essentially a **1-line proof**" — instinctive
    faith, not proof-justification.
-3. **The programme's own verdict.** `Willard2016` §9, quoted in full because an
-   earlier version of this item dropped the hedge and so made the concession
-   sound absolute: "All our published articles about self-justifying arithmetics
+3. **The programme's own verdict.** `Willard2016` §9, quoted whole because the
+   qualifier does real work: "All our published articles about self-justifying arithmetics
    have emphasized that evasions of the Second Incompleteness Effect rested on
    using arithmetics that were **weaker than traditional arithmetics in, at
    least, some respects**. (The Second Incompleteness Theorem's significance in
@@ -742,8 +701,7 @@ and then listed five.)
    **But Corollary 8.2 depends on Theorem 6.7, which is conditional on
    Conjecture 6.6** — `stated-only` — so Willard's answer to his own strongest
    objection is itself conditional. Obligation **O66** requires that be flagged
-   *wherever the result is used*, not only where it is introduced; an earlier
-   version of this item used it without the flag.
+   *wherever the result is used*, not only where it is introduced.
 
 5. **The axioms are not natural.** Pakhomov's assessment, from outside the
    corpus: Willard's theories "are not completely natural in the sense that
@@ -775,20 +733,17 @@ obvious type permits a diagonal argument. Brown and Palsberg
 typed-self-evaluation papers alongside it) nevertheless construct one for
 **F_ω**.
 
-**The shape is the same as Willard's; the mechanism is not.** An earlier version
-of this paragraph said "the mechanism is the same", which contradicts the
-paragraph below it that calls the transfer an analogy rather than a
-correspondence. Willard blocks by cost, Brown–Palsberg by typing; those are
-different mechanisms with one shape.
+**The shape is the same as Willard's; the mechanism is not.** Willard blocks by
+cost, Brown–Palsberg by typing — two mechanisms with one shape, which is why the
+transfer below is an analogy rather than a correspondence.
 
 The shape is this. The self-interpreter exists and is total — the
 self-representation is not what fails. What fails is the *paradox's* machinery:
 in their own words, "**static type checking in F_ω can exclude the proof's
 diagonalization gadget**, leaving open the possibility for a self-interpreter"
-(abstract, image-verified). So it is not right to say, as an earlier version
-did, that "they do not block the diagonal": the diagonalization **gadget** is
-exactly what static typing excludes. What survives is the self-representation,
-not the gadget built from it. The fixed point survives; the derivation does
+(abstract, image-verified). The diagonalization **gadget** is exactly what static
+typing excludes; what survives is the self-representation, not the gadget built
+from it. The fixed point survives; the derivation does
 not.
 
 In the vocabulary of §2: Lawvere's existence half is kept, and the
@@ -809,8 +764,8 @@ type theory against "self-reference" as a whole,
 [`lawvere-sjas.md`](lawvere-sjas.md) exhibits the boxed diagonal
 `copy_A : □A → □A ⊗ □A` and the uniform proof-composition map as **separate**
 data, so each can be checked independently — which is exactly the distinction
-Brown–Palsberg's typing discipline turns on. ADR-0004 records this as a
-consequence for R4; an earlier version of this section did not.
+Brown–Palsberg's typing discipline turns on. ADR-0004 records it as a consequence
+for R4.
 
 R4 also carries obligation **RO1**:
 `□`-contraction can hold in affine PA (Beklemishev–Shamkanov §3), so
@@ -826,24 +781,21 @@ synthesis takes its inspiration from "Lev Beklemishev's claim of a simplified
 presentation of SJAS". **There is no such survey**: Pakhomov 2019 footnote 3
 records the simplification as "still unpublished", and no later publication is
 evident. **G7 is closed `accepted`** ([`R1-review.md`](R1-review.md) §1) and
-acceptance criterion B4 is replaced by **B4′**. An earlier version of this
-paragraph still instructed a continuation to acquire it, which §1 of that review
-had already closed. Everything above is an independent identification, and there
+acceptance criterion B4 is replaced by **B4′**. Everything above is an
+independent identification, and there
 is nothing in the published record to reconcile it with.
 
 **The secondary-literature pass has not been done, and one gap in it is
 load-bearing.** ADR-0002's **R5** — Artemov, Pudlák, Visser, Adamowicz,
-Kołodziejczyk, Salehi — is pending, and no earlier version of this section said
-so. Artemov, Visser and Salehi are held in `../works-citing-dew/`; Adamowicz and
+Kołodziejczyk, Salehi — is pending. Artemov, Visser and Salehi are held in
+`../works-citing-dew/`; Adamowicz and
 Kołodziejczyk are not.
 
 **Pudlák is not held at all** (gap **G39**, opened 2026-09-04). That matters
 here more than the others, because the claim that *his cut-shortening technique
 requires successor totality* is load-bearing in this document — it is what §1 and
 §2.5b use to explain how both Willard's Hilbert line and Pakhomov's `H_{<ω}`
-evade him. (An earlier version counted the invocations, "three times". The count
-was already stale when written and went staler as the text grew; a claim about
-how often a document says something should not be maintained by hand.) Every one of those invocations rests on
+evade him. Every one of those invocations rests on
 **Willard's or Pakhomov's description of the paper**, not on the paper. The
 descriptions agree with each other and there is no reason to doubt them; but
 "agrees with the two authors who need it to be true" is a weaker warrant than
@@ -854,10 +806,7 @@ proof requires is a claim about what Willard and Pakhomov say it requires.
 **The Lawvere framing was a framing; R6 has since made it a construction —
 though not a proof of a Willard result.** §2 uses Lawvere to separate *existence
 of a fixed point* from *derivability of its consequences*, which is correct and
-clarifying. An earlier version of this paragraph added that the framing "does
-not give a categorical proof of any Willard result, and the claim that
-resource-bounded internal homs model the SJAS situation is a research direction,
-not a construction" — and **R6 has now done the construction**:
+clarifying. It is no longer only a framing: **R6 has done the construction**:
 [`lawvere-sjas.md`](lawvere-sjas.md), charter
 [`ADR-0004-lawvere-sjas-translation.md`](ADR-0004-lawvere-sjas-translation.md).
 
@@ -878,24 +827,22 @@ categorical proof of a Willard theorem.
 **The criterion of §5 now has a definition — see [`R3-the-margin.md`](R3-the-margin.md),
 whose §6 carries the verdict.** The **margin**
 `M(ξ) = inf{ Log(q_β) − ♯(β) }` **is** `Willard2011` Definition 4.5, restated as
-an infimum — an earlier version of this paragraph said it *generalises* Def. 4.5,
-which is withdrawn: `∀β. A(β) ≥ 2` and `inf_β A(β) ≥ 2` are the same statement.
+an infimum. It does not *generalise* Def. 4.5: `∀β. A(β) ≥ 2` and
+`inf_β A(β) ≥ 2` are the same statement.
 
 **And one status governs the whole construction.** `Willard2011` **Lemma 4.6** —
 Tightness implies `B^ξ + SelfRef` is a consistent self-justifying system, which
 is what makes the margin worth defining — is **`sketch`**, its proof "kept brief
 and informal" and deferred to §5, where the rigorous engine (Thm 5.9, `full`)
 consumes **EA-stability instead of Tightness**. The margin's sufficiency has no
-`full` proof anywhere in the corpus. R3 §§2.2 and 6 carry this; it was missing
-from every earlier draft of both documents.
+`full` proof anywhere in the corpus. R3 §§2.2 and 6 carry this.
 
 **Three of the five dials — `ℜ`, `Herb−k`, `Z` — are now proved** to lower the
 refutation cost, because each varies only the deduction method and `♯` provably
 ignores it (§5.1). **Hybrid(H) is unplaced.** **Level(n)'s instance is
 retracted**: it varies a sentence, and at the critical `β` both terms move in
 lockstep. D38's request is answered for three, sharpened for one, and reopened
-for one — an earlier version of this paragraph claimed four, counting the
-retracted case.
+for one.
 
 **What R3 found that this document had not.** The threshold `2` is not a tuning
 constant. When the self-referential axiom is false, `Willard2011` Eqs. (19)–(20)
@@ -928,8 +875,7 @@ breaking the argument is necessary but not sufficient for it.
 Hybrid(H) and `Herb−k` are `stated-only` on both halves, and `Z` is
 `stated-only` with its `Π*₁` case **open**. `Willard2016` Theorem 6.7 is
 conditional on Conjecture 6.6, and `Willard2009` Lemma 5 — §4's mechanism — is
-`sketch`. An earlier draft said "two of the five rest on sketch results",
-counting one dial's two halves as two dials and omitting `Z` entirely.
+`sketch`.
 
 **And note the awkward join.** The one dial that is `full` on both settings is
 Level(n) — the very one whose margin instance §5.1 has just retracted. The three

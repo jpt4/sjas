@@ -33,15 +33,12 @@ Two hypotheses, not one, and they do different work:
   **contraction *and* weakening** and `□` satisfies Löb's conditions; then all
   Gödelian fixed points are equivalent to `⊠⊤ =_S □⊥`.
 
-An earlier draft said uniqueness needs "the restricted **weakening**, not the
-restricted contraction". Weakening is what uniqueness needs *in addition*;
-contraction is required by both theorems. (The **Introduction**, p. 2 — not the abstract, as an
-earlier version of this sentence said; the abstract mentions neither uniqueness
-nor weakening — says "Moreover, the uniqueness of Gödelian fixed point is based
-on the similarly restricted form of weakening". Its "Moreover" names an
-increment; the draft read it as an exclusive.) The same draft gave Theorem 4's
-conclusion as `⊠⊤ =_S ⊥` — the text layer had stripped the `□`; it is
-`⊠⊤ =_S □⊥`.
+Weakening is what uniqueness needs *in addition*; contraction is required by
+both theorems. The **Introduction**, p. 2 — not the abstract, which mentions
+neither uniqueness nor weakening — says "Moreover, the uniqueness of Gödelian
+fixed point is based on the similarly restricted form of weakening": its
+"Moreover" names an increment, not an exclusive. Note also that Theorem 4's
+conclusion is `⊠⊤ =_S □⊥`; the text layer strips the `□`.
 
 **Plain versus `□`-restricted.** Theorems 3 and 4 are stated with the *plain*
 rules. **Remark 3.9** then weakens them: plain contraction and weakening "are
@@ -63,8 +60,7 @@ fails in it — with Gödelian and Henkinian fixed points existing, and existing
 infinite supply rather than uniquely.
 
 **But `S` is not self-verifying, and the paper says so.** §6, p. 14
-(image-verified 2026-09-02, re-verified at 200 dpi after a transcription error
-in an earlier version of this passage):
+(image-verified at 200 dpi):
 
 > "We remark that the system `S` does not provide a counterexample to the
 > non-formalized version of G2, since `⇒ ¬□⊥` is not provable."
@@ -73,13 +69,6 @@ and, earlier in the same section:
 
 > "Thus, we are still missing convincing examples of mathematical theories based
 > on weak logics for which G2 would fail."
-
-*Transcription note.* An earlier version of this passage expanded the paper's own
-abbreviation "G2" to "Gödel's second incompleteness theorem", appended a clause
-"in it" that is not in the source, and described the second sentence as the
-section's closing words when it is not — while carrying an "(image-verified)"
-tag. The substance was unaffected; the fidelity claim was false. Both are now
-verbatim.
 
 So this route **breaks the argument without obtaining the object**. That is a
 real result — it isolates a prerequisite nobody had isolated — but it is not a
@@ -107,8 +96,8 @@ the first attempt to repair it:
   claimed "no derivability condition is the pivot" and pointed at Pudlák's
   cut-shortening instead. That is also wrong. **Willard frames his own work in
   HBL terms throughout**: `Willard1993-TR` states the point on **four** pages —
-  printed pp. 1, 2, 6 and 12, checked page by page on 2026-09-04; an earlier
-  version of this line said three — most fully at p. 1, that "every self
+  printed pp. 1, 2, 6 and 12, checked page by page — most fully at p. 1, that
+  "every self
   verifying system must breach in some way one of the three fundamental
   Hilbert-Bernays conditions"; `Willard2001` Appendix A **states** (does not prove — the row is
   `stated-only`; "no formal proof given", footnote 16 arguing only that the
@@ -125,17 +114,16 @@ the first attempt to repair it:
   printed p. 12 (image-verified) identifies **condition (2)** as what `IS(A)`
   breaches, and does so as a *uniformity* failure — the implication holds "only
   in the *degenerate case* where `x` and `y` are *fixed constants*". This is
-  recorded at `../codification/extraction/willard1993-tr.md` §3.7c, which an
-  earlier draft of this row failed to consult before asserting he never says.
-  The Hilbert line's condition is **not** stated in the corpus; an earlier
-  assignment of it to (1) is **withdrawn**. See `refined-sjas.md` §§2.3–2.3a.
+  recorded at `../codification/extraction/willard1993-tr.md` §3.7c. The Hilbert
+  line's condition is **not** stated in the corpus, and is not (1). See
+  `refined-sjas.md` §§2.3–2.3a.
 - **Willard also has a route that bypasses HBL entirely**, which bears on how
   much weight this frame can carry: `Willard2001` Lemma 7.1 "replaces the
   Hilbert-Bernays derivability conditions with a semantic argument", which is
   why that paper's §7 theorems need no arithmetic inside `α`.
-- **`□`-contraction is not a restatement of a derivability condition.** An
-  earlier draft said conditions (1) and (2) "are both permissions to use a proof
-  again". They are not. (1) internalises a proof once; (2) composes two
+- **`□`-contraction is not a restatement of a derivability condition**, and
+  conditions (1) and (2) are not both "permissions to use a proof again".
+  (1) internalises a proof once; (2) composes two
   *different* proofs; **reuse is (3)**, `Der(⌜Φ⌝) ⊃ Der(⌜Der(⌜Φ⌝)⌝)`.
   Contraction is a rule of the *ambient consequence relation*, lying underneath
   all three, and Proposition 3.8 consumes it on the **context** `Γ`, not on a
@@ -164,16 +152,12 @@ proof is not a refutation. That is a statement about *cost*.
 Beklemishev–Shamkanov's is a statement about *structure*: the argument needs
 `□`-contraction.
 
-**A first draft here claimed these were "the same condition described twice".
-That was too strong**, and their own proof shows why. Contraction is consumed at
+**They are not "the same condition described twice"**, and their own proof shows
+why. Contraction is consumed at
 one identifiable step of Proposition 3.8 — the step from **`Γ ⊢ □φ` and
 `Γ ⊢ □¬φ`** to **`Γ ⊢ □¬⊤`**, which reuses the **context**, not a proof.
-(An earlier version of this sentence gave the step unboxed, as
-`Γ ⊢ φ`, `Γ ⊢ ¬φ` ⟹ `Γ ⊢ ¬⊤` — a residual instance of the very `□`-stripping
-this document's correction #3 exists to record. The boxes are the point: under
-`⊠φ := □(φ → ⊥)`, `□¬⊤` *is* `⊠⊤`, the **formalized** inconsistency assertion,
-which is why dropping contraction costs only *formalized* G2.
-`refined-sjas.md` §2.5 had it right.) It is a rule of the ambient
+Under `⊠φ := □(φ → ⊥)`, `□¬⊤` *is* `⊠⊤`, the **formalized** inconsistency
+assertion — which is why dropping contraction costs only *formalized* G2. It is a rule of the ambient
 consequence relation, more elementary than Löb's conditions and lying underneath
 them. Nor is it a restatement of any single condition: **reuse, among the three,
 is condition (3)** — `Der(⌜Φ⌝) ⊃ Der(⌜Der(⌜Φ⌝)⌝)`, the one that reflects a proof
@@ -190,7 +174,7 @@ independently.
 | **Pakhomov** | the **semantic** step — every finite subtheory has a finite model. Note `H_{<ω}` *also* cannot prove successor totality, so it shares Willard's evasion of Pudlák | **yes** |
 | **Beklemishev–Shamkanov** | the **structural** licence — no `□`-contraction, so a context proving `φ` and `¬φ` is not thereby inconsistent | **no** — `⇒ ¬□⊥` is not provable in `S` (§6, p. 14) |
 
-Two things follow, and an earlier draft of this passage stated neither.
+Two things follow.
 
 **Breaking the argument is necessary, not sufficient.** The fourth row is a case
 where G2's argument fails and self-verification does not follow. A theory must
@@ -211,8 +195,7 @@ The paper contains a warning that applies directly to work already under way
 here. This repository has an affine-tree SJAS line, and affine logic is
 contraction-free.
 
-*Provenance note, 2026-09-02.* An earlier version cited that line as
-`docs/design/affine-tree-sjas.md`, which **does not exist** — the design
+*Provenance note.* That line was previously identified with `docs/design/affine-tree-sjas.md`, which **does not exist** — the design
 document was an untracked working-tree file, recorded as such in the
 Codification plan's hygiene flag, and is not present now. It also cited
 `code/alsjas/`, which exists but is **untracked**, so it is not part of any
