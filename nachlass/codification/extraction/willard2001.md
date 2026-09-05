@@ -423,12 +423,24 @@ Advantages of 2001's systems:
 - **VI** Reflection (2) is inherently broader than (3)'s non-existence claim.
 - **VII** Result (i) permits `Prf` to be Hilbert **or** Gentzen-with-cuts.
 
-> "there are inherent tradeoffs that prevent a self-justifying axiom system from
-> possessing all of features (I) through (VII), simultaneously! Thus, it is
-> futile to seek an idealized form of self-verifying system"
+> "It is infeasible to devise a *hybridized* self-justifying axiom formalism,
+> that simply combines our methods with the prior literature [20, 21, 24, 28,
+> 36, 38] because such a formalism would violate one of the four variants, (A)
+> through (D) of the Incompleteness Theorem, mentioned earlier. Hence, there
+> are inherent tradeoffs that prevent a self-justifying axiom system from
+> possessing all of features (I) through (VII), *simultaneously!* Thus, it is
+> futile to seek an idealized form of self-verifying system, that combines the
+> advantages of the many different approaches *simultaneously*. Each should be
+> viewed as providing differently desirable insights."
 
-Obligation **O35** — this is a direct constraint on the Refinement stage's
-ambition, stated by Willard about his own program.
+**Completed 2026-09-04** (printed p. 7, image-verified). The quotation had been
+cut at "self-verifying system", which inverts its force: what Willard calls
+futile is seeking a system that combines the advantages of the seven criteria
+*simultaneously*, and his next sentence keeps the plurality — "Each should be
+viewed as providing differently desirable insights." The preceding sentence
+fixes the subject as a *hybridized formalism*, not a theoretical synthesis.
+Obligation **O35** — a constraint on any refinement that would nominate a best
+system, not on refinement as such.
 
 The four negative results framing the space (pp. 3–4): **(A)** Pudlák — no
 extension of Q verifies its own Hilbert consistency; **(B)** Solovay (private,

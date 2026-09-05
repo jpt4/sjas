@@ -3580,3 +3580,43 @@ the corpus share that name, so the key is what tells them apart.
 
 Corrections #111-#119 in `refinement/VERIFICATION.md`, twenty-sixth pass. Four
 quotations added to the image-verified register (53 rows). `audit.sh` green.
+
+## 2026-09-04 - Adversarial round thirty-two: a cut quotation that inverted its own verdict
+
+Continuing round thirty-one's layer through the remaining C16 R5 items. Item 4
+pointed at codified §1.4 — the `Willard2001` no-ideal-system verdict is
+paraphrased there, in a section headed "The limits, in Willard's words".
+Following it to the page found something larger than a paraphrase.
+
+The corpus carried the verdict as: "there are inherent tradeoffs that prevent a
+self-justifying axiom system from possessing all of features (I) through (VII),
+simultaneously! Thus, it is futile to seek an idealized form of self-verifying
+system". Printed p. 7, image-verified, does not stop there. It continues: ", that
+combines the advantages of the many different approaches *simultaneously*. Each
+should be viewed as providing differently desirable insights." And the sentence
+before it fixes the subject: "It is infeasible to devise a *hybridized*
+self-justifying axiom formalism, that simply combines our methods with the prior
+literature … because such a formalism would violate one of the four variants, (A)
+through (D) of the Incompleteness Theorem."
+
+Read whole, Willard is saying no single **system** dominates on all seven
+criteria, and that the plurality of approaches should be kept. Cut at
+"self-verifying system", it reads as a verdict against seeking an idealized form
+at all — which is how obligation O35 recorded it, calling it "a direct constraint
+on the Refinement stage's stated ambition". Same class as the `Willard2016` §9
+elision of "in, at least, some respects" caught at correction #40, and cutting
+the same way: the truncation made the claim stronger than Willard made it.
+
+O35 also required the Refinement to "engage this claim rather than inherit it
+silently", and stood `discharged` since 2026-09-01. The words "futile",
+"idealized" and the seven criteria had **zero** occurrences across all five
+Refinement documents. §9 now engages it on the completed quotation, and answers
+it: what the verdict forbids is nominating a best system, and this stage does the
+opposite — §5.1 coordinatises the boundary into five dials instead of collapsing
+them, §6 keeps the two preservation methods apart, §2.5b keeps the two selected
+diagonals distinct.
+
+Also corrected: §9 claimed "Willard states the first four himself (codified
+§1.4)" when only three of its five items come from §1.4.
+
+Corrections #120-#123, twenty-seventh pass. Register at 55 rows. audit.sh green.

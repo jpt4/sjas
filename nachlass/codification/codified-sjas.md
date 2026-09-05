@@ -136,9 +136,22 @@ proving its consistency from its own SelfCons axiom has "essentially a
 **1-line proof**", which is instinctive faith rather than proof-justification.
 Obligation **O24**.
 
-**On the absence of an ideal system** (`Willard2001` §1) — Willard lists
-criteria a fully satisfying self-justifying arithmetic would meet and states
-that no system meets them all. Obligation **O35**.
+**On the absence of an ideal system** (`Willard2001` §1, printed p. 7) — Willard
+lists seven criteria (I)–(VII) on which self-verifying systems can be compared,
+credits the definable-cut literature with I–IV and his own systems with V–VII,
+and concludes:
+
+> "Hence, there are inherent tradeoffs that prevent a self-justifying axiom
+> system from possessing all of features (I) through (VII), *simultaneously!*
+> Thus, it is futile to seek an idealized form of self-verifying system, that
+> combines the advantages of the many different approaches *simultaneously*.
+> Each should be viewed as providing differently desirable insights."
+
+The tail matters, and this section paraphrased rather than quoted until
+2026-09-04. What is futile is a system combining all seven advantages at once —
+the sentence before fixes the subject as a *hybridized formalism* "that simply
+combines our methods with the prior literature" — and the plurality of
+approaches is to be kept, not resolved. Obligation **O35**.
 
 **On the programme's scope** (`Willard2016` §9):
 

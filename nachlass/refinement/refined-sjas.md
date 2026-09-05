@@ -666,8 +666,10 @@ is the observation that this is what they are.
 ## 7. What the idea costs
 
 A refinement that stated only the mechanism would be a misrepresentation. **Five
-things are given up.** Willard states the first four himself (codified §1.4);
-the fifth is Pakhomov's, from outside the corpus.
+things are given up.** Items 2, 3 and 4 are Willard's own, and are three of the
+four limits codified §1.4 collects; item 1 is the corpus's boundary result rather
+than a statement of Willard's about the programme; item 5 is Pakhomov's, from
+outside the corpus. §1.4's fourth limit is taken up after the list.
 
 1. **Ordinary arithmetic is gone** — for the systems that reach the *flat*
    self-consistency statement. Those are Type-A (no multiplication as a total
@@ -729,6 +731,35 @@ the fifth is Pakhomov's, from outside the corpus.
    offered explicitly as "a more natural example of this kind". That is a fair
    charge — the Group-3 axiom *is* a fixed point, by construction (§2) — and it
    is the sharpest external criticism of the programme on record.
+
+**§1.4's fourth limit: the trade-off verdict, and what it actually forbids.**
+The limit not in that list is `Willard2001` §1's verdict on its seven comparison
+criteria (I)–(VII) — I–IV credited to the definable-cut literature, V–VII to
+Willard's own systems. The Codification recorded it as "a direct constraint on
+the Refinement stage's stated ambition", on a quotation cut at "self-verifying
+system". The sentence does not stop there (printed p. 7, image-verified):
+
+> "Hence, there are inherent tradeoffs that prevent a self-justifying axiom
+> system from possessing all of features (I) through (VII), *simultaneously!*
+> Thus, it is futile to seek an idealized form of self-verifying system, that
+> combines the advantages of the many different approaches *simultaneously*.
+> Each should be viewed as providing differently desirable insights."
+
+With the tail restored the verdict is narrower and its subject is different. The
+sentence before it fixes that subject: "It is infeasible to devise a *hybridized*
+self-justifying axiom formalism, **that simply combines our methods with the
+prior literature** … because such a formalism would violate one of the four
+variants, (A) through (D) of the Incompleteness Theorem." Willard is ruling out a
+*system* that dominates on all seven criteria at once, and keeping the plurality
+of approaches — not ruling out a unified statement of the theory.
+
+**So it binds this stage in one specific way, and the stage complies.** What it
+forbids is nominating a best system. This document does not: §5.1 coordinatises
+the boundary into five dials rather than collapsing them, §6 keeps the two
+preservation methods apart rather than merging them, and §2.5b keeps the two
+selected diagonals distinct. Where the corpus offers two readings this stage
+records both — which is what "each should be viewed as providing differently
+desirable insights" asks for. Codification obligation **O35**.
 
 The refined claim is therefore **not** that Hilbert's programme survives. It is
 that the reason it fails is narrower and more interesting than "self-reference

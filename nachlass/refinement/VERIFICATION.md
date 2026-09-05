@@ -285,6 +285,8 @@ been checked against the page in this stage.
 | "if `A` is regularly consistent then so will `ISM(A)` be consistent, by a routine generalization of Section 5's proof of Theorem 5.1" — `ISM(A)` recognizes multiplication as total **and** is consistency-preserving | `Willard2001` | printed p. 36 | **img (2026-09-04)** — falsified `refined-sjas.md` §9(1)'s universal; obligation **O31** |
 | "have quite different philosophical and epistemological implications, although the strictly formalistic mathematical proofs of their consistency are virtually identical" — `ISM(A)` vs `IS^λ(A)` | `Willard2001` | printed p. 36 | **img (2026-09-04)** — round 31 |
 | **Definition 7.1**: a **Z-Enriched** tableau is "the particular refinement of the Appendix's proof-tree formalism that allows Line (9) as an added permissible logical axiom, for any `Υ ∈ Z`", contrasted with "`α`'s set of proper axioms" | `Willard2020` | printed p. 17 (pdf p. 18) | **img (2026-09-04)** — confirms the `Z` dial varies the apparatus `d`, which R3 §3.0 needs |
+| **"Hence, there are inherent tradeoffs that prevent a self-justifying axiom system from possessing all of features (I) through (VII), *simultaneously!* Thus, it is futile to seek an idealized form of self-verifying system, that combines the advantages of the many different approaches *simultaneously*. Each should be viewed as providing differently desirable insights."** | `Willard2001` | printed p. 7 (pdf p. 7) | **img (2026-09-04)** — the corpus carried it cut at "self-verifying system"; the tail inverts its force |
+| "It is infeasible to devise a *hybridized* self-justifying axiom formalism, that simply combines our methods with the prior literature [20, 21, 24, 28, 36, 38] because such a formalism would violate one of the four variants, (A) through (D) of the Incompleteness Theorem" — fixes the subject of the futility verdict | `Willard2001` | printed p. 7 | **img (2026-09-04)** — round 32 |
 
 ## Computed claims
 
@@ -619,6 +621,27 @@ row against `../codification/registry/results.md` and `../codification/registry/
 deferrals within it (Theorems 2 and 3 permanently sketch; Theorem 1's `T* ≤ N²`
 footnote). D34 is correctly cited by both `../codification/registry/results.md` and §8.1, for the two
 different things each says about it. `../codification/concordance/result-matrix.md` §5 already said five.
+
+## Corrections applied 2026-09-04, twenty-seventh pass
+
+Same layer, continued: the remaining C16 R5 items that land on sections this
+stage cites. Item 4 pointed at codified §1.4. Following it to the page found a
+truncation, and the truncation had been doing real work.
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 120 | **A quotation cut where the cut inverts it.** `Willard2001` §1's verdict was carried as "…Thus, **it is futile to seek an idealized form of self-verifying system**" and stopped there. The sentence continues: "**, that combines the advantages of the many different approaches *simultaneously*. Each should be viewed as providing differently desirable insights.**" And the sentence before it fixes the subject — "It is infeasible to devise a *hybridized* self-justifying axiom formalism, **that simply combines our methods with the prior literature**". Read whole (printed p. 7, image-verified), Willard is denying that any one **system** dominates on all seven criteria and keeping the plurality of approaches; he is not declaring an idealized form unattainable. Same class as `Willard2016` §9's elided "in, at least, some respects" (#40) | `../codification/extraction/willard2001.md` §3.9, obligation **O35** |
+| 121 | **Codified §1.4 paraphrased inside a section headed "The limits, in Willard's words."** "Willard lists criteria a fully satisfying self-justifying arithmetic would meet and states that no system meets them all" — the one limit of the four given no quotation, and the only appearance of the verdict anywhere in either stage. C16 R5 item 4 recorded the paraphrase and it was never applied | `../codification/codified-sjas.md` §1.4 |
+| 122 | **§9 mis-attributed its own list.** "**Five things are given up.** Willard states the first four himself (codified §1.4)" — three of the four are §1.4's (items 2, 3, 4). Item 1 is the corpus's boundary result, not a statement of Willard's about the programme, and §1.4's remaining limit was not carried at all | `refined-sjas.md` §9 |
+| 123 | **The stage never engaged the one limit aimed at it.** O35's text is explicit — "Refinement must engage this claim rather than inherit it silently" — and O35 stood `discharged:2026-09-01`. "futile", "idealized" and the seven criteria had **zero** occurrences across all five Refinement documents. §9 now engages it on the completed quotation, and answers it: what the verdict forbids is nominating a best system, which this stage does not do | `refined-sjas.md` §9 |
+
+**Verified and found correct** in this pass: the other three limits of codified
+§1.4 are quoted, not paraphrased, and each is carried in `refined-sjas.md` §9
+with its source — `Willard2011` Remark 6.16b's "1-line proof", `Willard2016` §9's
+scope statement with the "in, at least, some respects" qualifier restored at
+#40, and `Willard2016` §8's "almost cheating" objection with its conditional
+answer flagged under O66.
+
 
 
 **Verified and found correct** in this pass: the commit hashes cited in these
