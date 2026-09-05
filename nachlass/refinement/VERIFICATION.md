@@ -91,6 +91,41 @@ and R1-review's p. 22 citation and superseded-B5 note. Markup balanced, headings
 and table counts unchanged, and no line over 100 columns except the intentional
 single-line display of the three derivability conditions.
 
+## Pass twenty-seven, 2026-09-04 — no corrections
+
+The target named at the close of the twenty-sixth pass: `lawvere-sjas.md` §§2.2
+and 4.4, whose van Dijk–Oldenziel citations were the last load-bearing claims in
+the stage with no image verification behind them. Checked against printed
+pp. 26, 28 and 30, now registered above.
+
+**Every citation in §2.2's table is correct.** Prop. 6.5 is `Nec` and its proof
+is "Immediate from lemma 5.15", as the table says; Prop. 6.6 is `Four` and its
+proof is "Apply the functor `□ = Γ ∘ R`", verbatim; Prop. 6.8 is *Internal Modus
+Ponens* and does carry the evaluation map
+`ev : Hom(φ',ψ') × Hom(1',φ') → Hom(1',ψ')`; Props. 6.7, 6.9 and 6.10 are the
+modus-ponens and composition steps, used at steps 4, 6, 7, 9 and 10 of Thm 6.13's
+proof; Lemma 6.12 supplies the Löb sentence through `T_φ : P1' → P1'`. §6 does
+open "This is a sketch of a proof of Löb's theorem", and Rem. 6.14 is the
+non-cartesian-closure warning.
+
+**"Theorem 6.13 derives Löb" is right, and worth stating precisely.** The paper
+*states* Löb as Theorem 6.4 on p. 28 and *derives* it as Theorem 6.13 on p. 30
+("Recall our formulation of Löb's theorem"). R6's verb is the correct one.
+
+**Thm 5.20 is the direct G2 result**, verbatim: "Assume that `U_0` is
+consistent. Then the subobject `⟦True' = False'⟧ ↪ 1` does not equal the minimal
+subobject `0 ↪ 1` in `U_0`" — which, with the sentence before it, is exactly
+R6's "rules out an internal proof of the consistency of `U'_0` when `U_0` is
+consistent".
+
+**§4.4 is sound.** Its `H := SelfRef(B,D)`, `α* := B + H`, the observation that a
+consistency point alone is cheap because an inconsistent theory has one too, the
+appeal to `Willard1993-TR` Proposition 1 with its `full` status carried, and the
+caution against moving between `SelfCons_0` and `SelfCons_1` without rechecking
+the proof relation — all check out.
+
+*This is the first pass whose named target yielded no correction.*
+
 ## Quotation register
 
 Every row is `img` — verified against a rendered page image; check **R-B** fails
@@ -158,6 +193,10 @@ been checked against the page in this stage.
 | "the properties of `SUM` in theory `H` that could not even prove totality of successor function" — about `H` alone, in the proof of Cor. 5.3 | Pakhomov | **p. 22** (not p. 21) | **img (2026-09-02)** |
 | footnote 3 (Beklemishev's simplification "still unpublished"); Acknowledgments | Pakhomov | **p. 24** (not p. 25; p. 25 is References) | **img (2026-09-02)** |
 | "The theories in his examples are not completely natural in the sense that some of axioms are constructed using Diagonal Lemma. The main result of the present paper is the construction of a more natural example of this kind." | Pakhomov | p. 3 | **img (2026-09-02)** |
+| §6's opening — "**This is a sketch of a proof of Löb's theorem in Arithmetic Universes**"; Def. 6.1 (`U ⊨ φ ⊢ ψ` as an inclusion of subobjects); Def. 6.2 (implication of judgements via `i*(σ) ↪ i*(τ)` in `U[φ ≤ ψ]`); "An arithmetic universe is typically **not cartesian closed**" | van Dijk–Oldenziel | printed p. 28 | **img (2026-09-04)** |
+| **Prop. 6.5** "If `U ⊨ φ` then `U ⊨ □φ`", proof "Immediate from lemma 5.15"; **Prop. 6.6** `U ⊨ □φ ⊢ □(□φ)`, proof "Apply the functor `□ = Γ ∘ R`"; **Prop. 6.7 (Modus Ponens)**; **Prop. 6.8 (Internal Modus Ponens)** with its evaluation map `ev : Hom(φ',ψ') × Hom(1',φ') → Hom(1',ψ')` | van Dijk–Oldenziel | printed p. 28 | **img (2026-09-04)** |
+| **Thm 6.13**, the derivation of Löb ("Recall our formulation of Löb's theorem") with its ten-step proof citing Props. 6.5–6.10 and Lemma 6.12; **Lemma 6.12** supplying the Löb sentence via `T_φ : P1' → P1'`; **Rem. 6.14**, "As arithmetic universes are not in general cartesian closed there is no one notion of implication" | van Dijk–Oldenziel | printed p. 30 | **img (2026-09-04)** |
+| **Thm 5.20 (Gödel's Second Incompleteness Theorem)**: "Assume that `U_0` is consistent. Then the subobject `⟦True' = False'⟧ ↪ 1` does not equal the minimal subobject `0 ↪ 1` in `U_0`" — with the preceding sentence defining what it is for `U_0` to prove the consistency of `U'_0` | van Dijk–Oldenziel | printed p. 26 | **img (2026-09-04)** |
 | `□ = Γ∘R`; propositions as subobjects of `1`; classifying-AU implication; direct G2 Thm 5.20; Props. 6.5–6.10 including internal-Hom evaluation in Prop. 6.8; Lem. 6.12 fixed points; Thm 6.13 Löb; Rem. 6.14 non-cartesian-closure warning; §6 is explicitly introduced as a sketch | van Dijk–Oldenziel | printed pp. 26, 28–30 | **img (2026-09-04)** |
 
 ## Computed claims

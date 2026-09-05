@@ -1,5 +1,44 @@
 # Nachlass Log
 
+## 2026-09-04 - Round twenty-seven: the last unverified citations, and a clean pass
+
+At the close of round twenty-six I named the one target left: lawvere-sjas.md
+sections 2.2 and 4.4, whose van Dijk-Oldenziel citations were the last
+load-bearing claims in the stage with no image verification behind them.
+Checked against printed pp. 26, 28 and 30. **No corrections.**
+
+Every citation in section 2.2's table is right. Proposition 6.5 is Nec and its
+proof reads "Immediate from lemma 5.15", exactly as the table attributes it;
+Proposition 6.6 is Four with proof "Apply the functor Box = Gamma o R",
+verbatim; Proposition 6.8 is Internal Modus Ponens and does carry the evaluation
+map ev : Hom(phi',psi') x Hom(1',phi') -> Hom(1',psi'); Propositions 6.7, 6.9
+and 6.10 are the modus-ponens and composition steps, used at steps 4, 6, 7, 9
+and 10 of Theorem 6.13's proof; Lemma 6.12 supplies the Lob sentence through
+T_phi : P1' -> P1'. Section 6 does open "This is a sketch of a proof of Lob's
+theorem", and Remark 6.14 is the non-cartesian-closure warning.
+
+One nicety confirmed rather than corrected: R6 says "Theorem 6.13 derives Lob".
+The paper *states* Lob as Theorem 6.4 on p. 28 and *derives* it as Theorem 6.13
+on p. 30 - "Recall our formulation of Lob's theorem". The verb is the right one.
+
+Theorem 5.20 is the direct G2 result, verbatim: assume U_0 consistent, then the
+subobject [[True' = False']] does not equal the minimal subobject in U_0 - which,
+with the sentence preceding it, is exactly R6's "rules out an internal proof of
+the consistency of U'_0 when U_0 is consistent".
+
+Section 4.4 is sound throughout, including its appeal to TR Proposition 1 with
+the full status carried and its caution against moving between SelfCons_0 and
+SelfCons_1 without rechecking the proof relation.
+
+Four register rows added; 47 rows, all image-verified.
+
+**This is the first pass whose named target yielded no correction.** That is not
+a proof that none remain - twenty-six prior passes each found something, several
+in places a previous pass had called clean - but it is the first time the thing
+I set out to check turned out to be right.
+
+audit.sh green.
+
 ## 2026-09-04 - Round twenty-six: reviewing the consolidation itself
 
 The consolidation rewrote about eighty passages, and the only check I ran on it
