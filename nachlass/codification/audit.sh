@@ -163,6 +163,46 @@ done
 for e in pending extracted saturated n/a blocked accepted; do
   [ -n "${extr_count[$e]:-}" ] && echo "  extraction $e: ${extr_count[$e]}"
 done
+# Depends column: every id resolves, and the graph is acyclic. The column was
+# read but never validated until 2026-09-04, which is how an inverted Appendix C
+# cluster (Lemma C.1 "depending on" the theorem it helps prove) went unnoticed.
+# Neither check would have caught that inversion -- it was acyclic and every id
+# resolved -- but both establish that the other 500-odd rows are sound.
+dep_report=$(rows registry/results.md | awk -F'\t' '
+  { id=$1; gsub(/^ +| +$/,"",id); if (id=="" || id=="Id") next
+    have[id]=1; dep[id]=$8
+    n=split($8, a, ","); for (i=1;i<=n;i++) { gsub(/^ +| +$/,"",a[i])
+      if (a[i]!="" && a[i]!="—" && a[i] ~ /#/) { edge[id,++outn[id]]=a[i] } } }
+  END {
+    bad=0
+    for (u in have) for (i=1;i<=outn[u];i++) { v=edge[u,i]
+      if (v ~ /^Willard/ && !(v in have)) { print "DANGLING\t" u "\t" v; bad=1 } }
+    # Kahn: repeatedly drop nodes all of whose in-corpus deps are already dropped
+    for (u in have) left[u]=1
+    changed=1
+    while (changed) { changed=0
+      for (u in left) { ok=1
+        for (i=1;i<=outn[u];i++) { v=edge[u,i]
+          if (v ~ /^Willard/ && (v in left)) { ok=0; break } }
+        if (ok) { delete left[u]; changed=1 } } }
+    c=0; for (u in left) c++
+    if (c>0) print "CYCLE\t" c
+  }')
+if [ -n "$dep_report" ]; then
+  # Read from a process substitution, not a pipe: a `while` on the right of a
+  # pipe runs in a subshell and `err`'s assignment to FAIL is lost, so the run
+  # prints AUDIT-FAIL lines and still exits green. That bug has now appeared
+  # four times in this audit's history; see ../refinement/VERIFICATION.md.
+  while IFS=$'\t' read -r kind a b; do
+    case "$kind" in
+      DANGLING) err "results[$a]: Depends names '$b', which is not a row id" ;;
+      CYCLE)    err "results: Depends graph has a cycle involving $a row(s)" ;;
+    esac
+  done < <(printf '%s\n' "$dep_report")
+else
+  echo "  Depends: all ids resolve; graph acyclic"
+fi
+
 echo "results rows: $n_results"
 for p in full sketch cited stated-only unverified n/a; do
   [ -n "${proof_count[$p]:-}" ] && echo "  proof $p: ${proof_count[$p]}"

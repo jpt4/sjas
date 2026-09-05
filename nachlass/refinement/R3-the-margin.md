@@ -256,7 +256,13 @@ same place, and this one ends lower.** Compare them:
 | **Willard's** | A-Stable → (Lemma C.1) → 0-Stable → (Thm 5.11, proved by Lemma C.2) | `B^ξ + SelfCons⁰(B^ξ,d)` consistent | `full`, `full` |
 | **This document's** | A-Stable → (§2.2 above) → Tight → (**Lemma 4.6**) | `B^ξ + SelfRef(B^ξ,d)` consistent | this argument, then **`sketch`** |
 
-**`SelfCons` is strictly the stronger axiom, and Willard says so.** Remark 5.8
+**`SelfCons` is strictly the stronger axiom, and Willard says so twice.**
+Theorem 5.9's proof opens by describing itself as "a more elaborate version of
+Lemma 4.6's mini-proof", which "will replace Definition 4.5's Tightness
+constraint with an EA-stability requirement" and "**will also replace
+`SelfRef(β,d)`'s 'I am consistent' axiom with a *stronger* `SelfCons¹(β,d)`
+statement**" (printed p. 18, image-verified) — so the difference between 4.6 and
+the §5 engines is in the conclusion as well as the hypothesis. And Remark 5.8
 (printed p. 17, image-verified): "even when `k = 1`, Definition 5.7's
 `SelfCons^k(β,d)` statement will be **significantly stronger** than the axiomatic
 declaration ⊕ used by Section 1's `SelfRef(β,d)` axiom. This is because

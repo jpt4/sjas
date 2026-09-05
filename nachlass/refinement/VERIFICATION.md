@@ -181,6 +181,32 @@ status — Appendix C is headed "The Proof of Theorem 5.11" and delivers it as
 Lemmas C.1 and C.2, both with complete proofs — and Lemma C.1's statement, which
 is exactly the A-Stable → 0-Stable step R3's table attributes to it.
 
+## Corrections applied 2026-09-04, thirtieth pass
+
+Second mechanically-enumerated layer: the **`Depends` column** of
+`../codification/registry/results.md`, which R3 §1 leans on for "Thm 5.9's
+dependencies are Defs. 5.5 and 5.7, not 5.1".
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 116 | **The Appendix C dependency cluster was inverted.** The registry had `LemC.1` depending on `Thm5.11` and `LemC.2` on `LemC.1`. The page shows the opposite and simpler structure: Appendix C **is** 5.11's proof, C.1 and C.2 are its two halves, and they are independent of each other — "The remainder of this appendix will focus on Definition 5.10's 0-stability condition. (This is sufficient to justify Theorem 5.11 because Lemma C.1 showed all E-stable and A-stable configurations are 0-stable.)" Rows corrected: 5.11 now depends on Def. 5.10 and both lemmas; C.1 on Defs. 5.1, 5.3, 5.10; C.2 on Def. 5.10 and Thm 5.9, whose proof its own "is similar to" | `../codification/registry/results.md` |
+| 117 | **The main audit script read the `Depends` column and never validated it** — no resolution check, no cycle check — which is how an inverted cluster sat there unnoticed. Both checks added and red-green tested. Over 522 rows: every id resolves, and the graph is acyclic | the main audit script |
+| 118 | **The pipeline-subshell bug, a fourth time.** The new check's reporting loop read from a pipe, so `err`'s assignment to `FAIL` was lost and the run printed `AUDIT-FAIL` lines while exiting green. Caught by the red-green test, fixed with a process substitution, and the reason is now a comment in the script | the main audit script |
+
+**Neither new check would have caught defect #116** — the inverted cluster was
+acyclic and every id resolved. It needed the page. That is worth recording as a
+limit: the `Depends` column is now machine-checked for *coherence* and remains
+unchecked for *direction*.
+
+**Verified and found correct** in this pass: `Willard2011` Thm 5.9's dependencies
+really are Defs. 5.5 and 5.7 — its statement is "Let `ξ` … be EA-stable. Then
+`B^ξ + SelfCons¹(B^ξ,d)` must satisfy Section 1's definition of
+self-justification." And its proof's opening corroborates the twenty-ninth
+pass's finding in Willard's own words: it "will be a more elaborate version of
+Lemma 4.6's mini-proof … will replace Definition 4.5's Tightness constraint with
+an EA-stability requirement. It will also replace `SelfRef(β,d)`'s 'I am
+consistent' axiom with a ***stronger*** `SelfCons¹(β,d)` statement."
+
 ## Quotation register
 
 Every row is `img` — verified against a rendered page image; check **R-B** fails

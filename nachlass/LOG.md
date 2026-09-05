@@ -1,5 +1,46 @@
 # Nachlass Log
 
+## 2026-09-04 - Round thirty: the Depends column, read but never checked
+
+Second layer enumerated rather than intuited: the Depends column of
+registry/results.md. R3 section 1 leans on it directly - "Theorem 5.9's
+dependencies are Definitions 5.5 and 5.7, not 5.1" - and it had never been
+verified against a paper, nor validated by any check.
+
+**The Appendix C cluster was inverted.** The registry had Lemma C.1 depending on
+Theorem 5.11, and Lemma C.2 on C.1. The page shows the opposite and simpler
+structure: Appendix C *is* 5.11's proof, C.1 and C.2 are its two halves, and
+they are independent of each other. Willard is explicit - "The remainder of this
+appendix will focus on Definition 5.10's 0-stability condition. (This is
+sufficient to justify Theorem 5.11 because Lemma C.1 showed all E-stable and
+A-stable configurations are 0-stable.)" Three rows corrected.
+
+**And audit.sh read that column without ever validating it** - no resolution
+check, no cycle check. Both added and red-green tested. Across 522 rows every
+dependency id resolves and the graph is acyclic.
+
+**Neither new check would have caught the inversion.** It was acyclic and every
+id resolved; it needed the page. So the column is now machine-checked for
+coherence and remains unchecked for direction, and that limit is recorded rather
+than glossed.
+
+**The pipeline-subshell bug, a fourth time.** The new check's reporting loop read
+from a pipe, the `while` ran in a subshell, `err`'s FAIL assignment was lost, and
+the run printed AUDIT-FAIL lines while exiting green. The red-green test caught
+it - as it caught the same bug in R-C, R-D and the R-E prototype. Fixed with a
+process substitution, with the reason now a comment in the script so the fifth
+occurrence has something to read.
+
+One improvement rather than a correction: Theorem 5.9's proof opens by saying it
+"will be a more elaborate version of Lemma 4.6's mini-proof", replacing
+Tightness with EA-stability and "**also** replac[ing] SelfRef's 'I am
+consistent' axiom with a *stronger* SelfCons^1 statement". That is round
+twenty-nine's finding in Willard's own words, at the exact point where 4.6 and
+the section 5 engines are compared. R3 section 2.2 now cites it alongside
+Remark 5.8.
+
+audit.sh green.
+
 ## 2026-09-04 - Round twenty-nine: the two routes do not end in the same place
 
 I said at the close of round twenty-eight that continuing needed a target chosen
