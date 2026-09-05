@@ -782,7 +782,7 @@ result.
   on **G1** (`Willard2021`), previously inferred only from its title and date.
 - Status: open — extracted as a first-class record, `willard2020-lfcs.md`.
 
-## D38 — the boundary has three dials, and only one has its threshold located
+## D38 — the boundary has five dials, and no paper relates any two of them
 
 | Source | Dial | Positive side | Negative side |
 | --- | --- | --- | --- |
@@ -792,7 +792,7 @@ result.
 | `Willard2009` | **Herb−k** — which intermediate theorems a `Herb−k` proof may use (Definition 7) | **k = 1** — stated-only (Item II) | **k = 2** — stated-only (Item I) |
 | `Willard2004` §1 | **Level(n)** — which class the consistency *statement* quantifies over | **Level(1)** — proved in `Willard2002c` | **Level(2+)** — **proved** (Theorem 1, finite cardinality) |
 
-- Four different parameterisations of one boundary, none of which Willard
+- Five different parameterisations of one boundary, none of which Willard
   relates to the others. **Amended 2026-08-27** on reading `Willard2009`'s
   Section 6: the claim that Hybrid(H) is the only dial with an exactly stated
   threshold no longer holds. `Herb−k` has one too (positive at `k = 1`,
@@ -814,8 +814,14 @@ result.
   only dial that runs on Herbrand deduction, so it is the only evidence that
   the boundary phenomenon is apparatus-independent.
 - The codified statement should present the boundary as a single phenomenon
-  with three known coordinatisations, and say for each whether the transition
+  with five known coordinatisations, and say for each whether the transition
   point is proved, sketched or conjectured.
+- **Counts corrected 2026-09-04.** The heading and two bullets still read
+  "three", "Four" and "three" against this entry's own five-row table — the
+  residue of the two amendments above, which added dials without renumbering
+  the prose. Finding **F-L2** of the C16 R6 walk recorded the heading defect
+  and it was never written back. `codified-sjas.md` §8.1 has said five
+  throughout and is unaffected.
 - Status: open (C13). Supersedes the narrower D34.
 
 ## D39 — `Willard2004`'s W₄/W₅ are already Z-enrichment axioms

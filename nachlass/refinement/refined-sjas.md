@@ -622,9 +622,7 @@ it, but a refinement that unified them silently would be doing the thing this
 project exists to avoid.
 
 **The argument is a least-number principle on size — in one of the two methods.**
-It is not *every* consistency-preservation proof in the corpus, and codified §6.9
-says so in its first sentence: "The Hilbert line does not use `θ`-Compactification. Its preservation
-results are proved directly, **by minimal counterexample**." There are two
+It is not *every* consistency-preservation proof in the corpus. There are two
 engines.
 
 - **The least-number method**: assume a proof `P` of `⊥`, take the one
@@ -638,12 +636,11 @@ engines.
   and pushing everything apparatus-specific into the one hypothesis.
 
 **The two methods do not partition by line.** `Willard2001` Thm 4.3 is about
-**`IS(A)`**, which is *semantic tableaux* (registry `SJAS-Origin`; codified
-§3.1's Type-A row) — so a tableaux system's preservation is proved by minimal
-counterexample in 2001 and covered again by the apparatus-neutral engine in 2005.
-The division is between **proof methods**, not between the two families of
-system; codified §6.9's title, "The Hilbert line's engine", is looser than its
-own table.
+**`IS(A)`**, which is *semantic tableaux* (registry `SJAS-Tableaux-Level0`;
+codified §3.1's Type-A row) — so a tableaux system's preservation is proved by
+minimal counterexample in 2001 and covered again by the apparatus-neutral engine
+in 2005. The division is between **proof methods**, not between the two families
+of system — which is what codified §6.9 now says.
 
 The size-relativity that makes the Rosser parallel is present in both methods,
 but it lives in different places: in the minimised `Θ(P)` in the first, and in
@@ -672,8 +669,23 @@ A refinement that stated only the mechanism would be a misrepresentation. **Five
 things are given up.** Willard states the first four himself (codified §1.4);
 the fifth is Pakhomov's, from outside the corpus.
 
-1. **Ordinary arithmetic is gone.** Every affirmative system is Type-A (no
-   multiplication as a total function) or Type-NS (nothing total). `Willard2005`
+1. **Ordinary arithmetic is gone** — for the systems that reach the *flat*
+   self-consistency statement. Those are Type-A (no multiplication as a total
+   function) or Type-NS (nothing total). The qualifier is needed, and the
+   Codification's obligation **O31** exists to enforce it: `Willard2001` §6 asks
+   whether an analogue of `IS^λ(A)` could recognize multiplication as total and
+   answers "quite surprisingly both affirmative and negative". Its `ISM(A)`,
+   whose Group-3 uses the wider gap `y·Log₂(x+2) < Log₂(z)` of Eq. (61), **does**
+   recognize multiplication as total and **is** consistency-preserving — "if `A`
+   is regularly consistent then so will `ISM(A)` be consistent, by a routine
+   generalization of Section 5's proof of Theorem 5.1" — but (61) is too weak for
+   it to prove `∀y ¬SemPrf_{ISM(A)}(⌈0=1⌉, y)`. So multiplication-totality is
+   fatal to the **reflection**, not to consistency-preservation; the two systems
+   "have quite different philosophical and epistemological implications, although
+   the strictly formalistic mathematical proofs of their consistency are
+   virtually identical" (printed p. 36, image-verified). What multiplication does
+   kill outright is Thm 7.3's canonical reflection — `XIS^λ(PAX)` is inconsistent
+   for every `λ`. `Willard2005`
    **Remark 4** — a remark, not a theorem; the row carries no proof status —
    states the engine is impossible once multiplication is admitted. Its wording
    matters: the strong half is *attributed*, not proved there —

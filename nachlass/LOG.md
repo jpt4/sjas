@@ -3531,3 +3531,52 @@ Categorical presentations of Beklemishev–Shamkanov (Def 8.2) and Willard SJAS
 (Def 8.7) on a common G2-relevant interface with vDO §6 HBL props plus
 `copy_□`. Thms 8.11–8.12 identify: B–S drops copy_□ (mere G2-evasion,
 no ⊢Con); Willard drops mp_□ from Aff (self-justifying).
+
+## 2026-09-04 - Adversarial round thirty-one: the C16 walks found it and nobody wrote it back
+
+Layer: `codification/codified-sjas.md`'s own claims at the ten sections the
+Refinement cites. Entered on the `Z` dial, because R3's "three proved dials"
+needs `Z` to vary the apparatus. `Willard2020` Def. 7.1, image-verified at
+printed p. 17, confirms it does — Z-Enrichment adds Line (9) as "an added
+permissible logical axiom", against "α's set of proper axioms". So that held,
+and the pass went on to the neighbouring claims, where it found a class rather
+than a scatter.
+
+**Three of the nine defects were already recorded.** `C16-R5-dispositions.md`
+item 6 said §6.9 files a tableaux system under "The Hilbert line's engine". Item
+7 said O49's text was stale on `ℜ`. `C16-R6-dispositions.md` finding F-L2 said
+D38's heading contradicts its body. All three were written down, in documents
+whose whole purpose is to say what still needs doing, and none was applied.
+The disposition walks were treated as the work rather than as its plan.
+
+What the walk added to them: D38 is stale in **four** places, not one — heading
+"three", first bullet "Four", last bullet "three", against a five-row table; O49
+carries **three** retracted claims, not one, including the `Hybrid(H)`-uniqueness
+claim D38's own 2026-08-27 amendment withdrew; and that withdrawn claim was
+still live in two further places, `extraction/willard2006a.md` and the
+`Willard2006a#Hybrid` row of `registry/results.md`.
+
+**The finding that reaches furthest is O31.** Codified §7.2 presented
+multiplication-totality as simply fatal, and `refined-sjas.md` §9 turned that
+into a universal — "every affirmative system is Type-A or Type-NS". It is false.
+`Willard2001` §6, image-verified at printed p. 36: the question whether an
+analogue of `IS^λ(A)` can recognize multiplication as total has an answer that is
+"quite surprisingly both affirmative and negative". `ISM(A)` recognizes it as
+total **and** is consistency-preserving — "if A is regularly consistent then so
+will ISM(A) be consistent, by a routine generalization of Section 5's proof of
+Theorem 5.1" — and what Eq. (61)'s wider gap costs it is only the flat
+`∀y ¬SemPrf_{ISM(A)}(⌈0=1⌉, y)`. Multiplication is fatal to the *reflection*
+(Thm 7.3: `XIS^λ(PAX)` inconsistent for every λ), not to consistency-preservation.
+Obligation O31 says precisely this and had been marked `carried … (C16 R5;
+Refinement)` since 2026-09-01. Neither stage had carried it. Both do now.
+
+Also: the Refinement had been quoting codified §6.9's defective first sentence
+and observing that its title "is looser than its own table" — a correct
+observation and the wrong remedy, since the Codification is this project's to
+repair. §6.9 is now "The minimal-counterexample method"; the Refinement states
+the method/line split directly instead of quoting the error. And §6's registry
+key for `IS(A)` was `SJAS-Origin`, which is the *1993* system — two systems in
+the corpus share that name, so the key is what tells them apart.
+
+Corrections #111-#119 in `refinement/VERIFICATION.md`, twenty-sixth pass. Four
+quotations added to the image-verified register (53 rows). `audit.sh` green.

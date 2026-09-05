@@ -159,7 +159,11 @@ Recorded as drift **D36**; extends the C6 audit.
   the growth restriction in the corpus — see obligation **O50**.
 - **Hybrid(H) naming** (p. 30): `C_i = ⌈2^{[Log i]^H}⌉·C_{i−1}`, with the
   positive result surviving at **H = 1** and the negative results generalising
-  for **H > 1**. The corpus's only exactly-located boundary threshold (D38).
+  for **H > 1**. The corpus's only exactly-located threshold on the **Hilbert**
+  side (D38). *Corrected 2026-09-04:* it is not the only exactly-located
+  threshold outright — `Herb−k` (`k = 1`/`k = 2`) and `Willard2002c`'s `R(i,j)`
+  (`R(1,1)`/`R(2,1)`, D46) state theirs exactly too, as D38's 2026-08-27
+  amendment records.
 - **`ISINF(A)`'s Group-3 has two axioms** (41) and (42), the latter an
   **Expansion Axiom**, defined simultaneously by the Fixed Point Theorem; the
   trick is `JumpPrf_α(x,y)`, which is Δ⁻₀ **even though α recognises neither

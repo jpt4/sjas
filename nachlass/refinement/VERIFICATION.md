@@ -281,6 +281,10 @@ been checked against the page in this stage.
 | **Thm 6.13**, the derivation of Löb ("Recall our formulation of Löb's theorem") with its ten-step proof citing Props. 6.5–6.10 and Lemma 6.12; **Lemma 6.12** supplying the Löb sentence via `T_φ : P1' → P1'`; **Rem. 6.14**, "As arithmetic universes are not in general cartesian closed there is no one notion of implication" | van Dijk–Oldenziel | printed p. 30 | **img (2026-09-04)** |
 | **Thm 5.20 (Gödel's Second Incompleteness Theorem)**: "Assume that `U_0` is consistent. Then the subobject `⟦True' = False'⟧ ↪ 1` does not equal the minimal subobject `0 ↪ 1` in `U_0`" — with the preceding sentence defining what it is for `U_0` to prove the consistency of `U'_0` | van Dijk–Oldenziel | printed p. 26 | **img (2026-09-04)** |
 | `□ = Γ∘R`; propositions as subobjects of `1`; classifying-AU implication; direct G2 Thm 5.20; Props. 6.5–6.10 including internal-Hom evaluation in Prop. 6.8; Lem. 6.12 fixed points; Thm 6.13 Löb; Rem. 6.14 non-cartesian-closure warning; §6 is explicitly introduced as a sketch | van Dijk–Oldenziel | printed pp. 26, 28–30 | **img (2026-09-04)** |
+| "The answer to the preceding question is quite surprisingly both affirmative and negative !" — on whether an analogue of `IS^λ(A)` can recognize multiplication as total | `Willard2001` | printed p. 36 (pdf p. 36) | **img (2026-09-04)** — round 31 |
+| "if `A` is regularly consistent then so will `ISM(A)` be consistent, by a routine generalization of Section 5's proof of Theorem 5.1" — `ISM(A)` recognizes multiplication as total **and** is consistency-preserving | `Willard2001` | printed p. 36 | **img (2026-09-04)** — falsified `refined-sjas.md` §9(1)'s universal; obligation **O31** |
+| "have quite different philosophical and epistemological implications, although the strictly formalistic mathematical proofs of their consistency are virtually identical" — `ISM(A)` vs `IS^λ(A)` | `Willard2001` | printed p. 36 | **img (2026-09-04)** — round 31 |
+| **Definition 7.1**: a **Z-Enriched** tableau is "the particular refinement of the Appendix's proof-tree formalism that allows Line (9) as an added permissible logical axiom, for any `Υ ∈ Z`", contrasted with "`α`'s set of proper axioms" | `Willard2020` | printed p. 17 (pdf p. 18) | **img (2026-09-04)** — confirms the `Z` dial varies the apparatus `d`, which R3 §3.0 needs |
 
 ## Computed claims
 
@@ -574,6 +578,48 @@ The class round nineteen fixed, recurring in the very edit that fixed it.
 | 108 | **Two stale correction-range figures in the charter** — "#1–#69" from the eleventh pass and "#1–#95" from the nineteenth. The second was written *in the round that removed three other hand-maintained counts for going stale*, and was itself stale within five passes. Both replaced by a pointer to the table, with the instruction not to copy a count out of it | `ADR-0002` |
 | 109 | "checks R-A–R-D" in three places after R-E and R-F were added — the charter, this file's opening, and the audit script's own header comment and section banner | `ADR-0002`, `VERIFICATION.md`, the main audit script |
 | 110 | A duplicated link to this file, introduced by correction #108's own edit | `ADR-0002` |
+
+## Corrections applied 2026-09-04, twenty-sixth pass
+
+Layer checked: **`../codification/codified-sjas.md`'s own claims at the ten sections the
+Refinement cites.** The pass found a class rather than a scatter — *findings
+recorded in the C16 R5 and R6 disposition documents were never written back to
+the documents they were about*. Three of the eight below were already on file,
+one of them for three days, each in a document whose purpose is to say what
+still needs doing.
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 111 | **D38's own counts contradict its own table in four places** — heading "the boundary has **three** dials, and **only one** has its threshold located"; first bullet "**Four** different parameterisations"; last bullet "**three** known coordinatisations" — against a five-row table. The two amendments that added dials never renumbered the prose. Recorded as **F-L2** by the C16 R6 walk and never applied | `../codification/concordance/drift-ledger.md` |
+| 112 | **Obligation O49 was discharged carrying three claims already retracted elsewhere**: "three coordinatisations" (D38 tabulates five); "`Hybrid(H)` alone has its threshold stated exactly" (retracted by D38's 2026-08-27 amendment — `Herb−k` and `R(i,j)` locate theirs too); and "`ℜ`'s positive side is **proved**" (G35 settled Theorems 2 **and** 3 as permanently `sketch` on 2026-08-27). C16 R5 item 7 recorded the third and it was never applied | `../codification/concordance/composition-obligations.md` |
+| 113 | **The retracted `Hybrid(H)`-uniqueness claim was live in two further places**, both asserting it flatly as "the corpus's only exactly-located boundary". What survives is that it is the only one on the **Hilbert** side | `../codification/extraction/willard2006a.md`, `../codification/registry/results.md` |
+| 114 | **Codified §6.9 filed a semantic-tableaux system under "The Hilbert line's engine".** `Willard2001` Thm 4.3 is about `IS(A)`, registry `SJAS-Tableaux-Level0`, apparatus *Semantic Tableaux*. C16 R5 item 6 recorded the mismatch and it was never applied. Retitled **"The minimal-counterexample method"**, which is what its table actually collects | `../codification/codified-sjas.md` §6.9 |
+| 115 | **This stage quoted that defective sentence instead of getting it fixed.** §6 reproduced §6.9's "The Hilbert line does not use `θ`-Compactification…" and then observed that the title "is looser than its own table" — correct, and the wrong remedy: the Codification is this project's to repair. The quotation and the criticism are both gone; §6 now states the method/line split directly | `refined-sjas.md` §6 |
+| 116 | **The wrong registry key for `IS(A)`.** §6 cited `SJAS-Origin`, which is `Willard1993`'s system; `Willard2001`'s is `SJAS-Tableaux-Level0`. Two distinct systems in the corpus carry the name `IS(A)`, so the key is the thing that disambiguates them | `refined-sjas.md` §6 |
+| 117 | **§9(1) stated a false universal.** "Every affirmative system is Type-A (no multiplication as a total function) or Type-NS (nothing total)." `Willard2001` §6's **`ISM(A)`** recognizes multiplication as a total function **and** is consistency-preserving — "if `A` is regularly consistent then so will `ISM(A)` be consistent, by a routine generalization of Section 5's proof of Theorem 5.1" (printed p. 36, image-verified). What (61)'s wider gap costs it is the *flat* statement `∀y ¬SemPrf_{ISM(A)}(⌈0=1⌉, y)`. Multiplication-totality is fatal to the **reflection**, not to consistency-preservation. Codification obligation **O31** says exactly this and was marked `carried … (C16 R5; **Refinement**)` — neither document had carried it | `refined-sjas.md` §9 |
+| 118 | **Codified §7.2 presented multiplication-totality as simply fatal**, the over-statement O31 exists to forbid, and C16 R5 item 1 had recorded it as "a live over-statement". Same page, same paragraph as #117 | `../codification/codified-sjas.md` §7.2 |
+| 119 | **Codified §6.9 mis-described what D24 contains.** "Drift **D24** holds the three names side by side" — D24's three (`Willard2001`, `Willard2005`, `Willard2011`) are not §6.1's three (`Willard2005`, `Willard2016`, `Willard2020`). The union is **five** distinct admission conditions, no one place lists all five, and D24 is open on precisely that | `../codification/codified-sjas.md` §6.9 |
+
+**Verified and found correct** in this pass: the `Z` dial, which is what sent
+the pass into this layer, because R3's "three proved dials" needs `Z` to vary the
+*apparatus*. `Willard2020` **Definition 7.1** (printed p. 17, image-verified)
+defines a Z-Enriched tableau as "the particular refinement of the Appendix's
+**proof-tree formalism** that allows Line (9) as an **added permissible logical
+axiom**, for any `Υ ∈ Z`", explicitly against "`α`'s set of proper axioms" — so
+`Z` moves `d`, and codified §8.1's gloss is right. Its sibling **Definition 7.2**
+(Z-Base-Variable-Enriched) is separately registered, in `../codification/registry/results.md`,
+`../codification/registry/notation.md` and D39. Every one of the Refinement's ten `Z` sites attributes the
+dial to `Willard2020`; the corpus's *other* `Z` — `Willard2005`'s Z-Based
+Deduction Tree, where `Z` is a `Normed(a,b)` **axiom system** — is never confused
+with it.
+
+**Verified and found correct** in this pass: codified §8.1's dial table row by
+row against `../codification/registry/results.md` and `../codification/registry/gaps.md`. `ℜ`'s `sketch`/`sketch` and Level(n)'s
+`full`/`full` both cite **G35** and are both right — they cite *different*
+deferrals within it (Theorems 2 and 3 permanently sketch; Theorem 1's `T* ≤ N²`
+footnote). D34 is correctly cited by both `../codification/registry/results.md` and §8.1, for the two
+different things each says about it. `../codification/concordance/result-matrix.md` §5 already said five.
+
 
 **Verified and found correct** in this pass: the commit hashes cited in these
 records (`4eb63c7`, `8199a22`) resolve and match the work they are cited for;

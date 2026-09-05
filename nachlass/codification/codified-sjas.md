@@ -966,10 +966,15 @@ have the page space to do so". That is four apparatus claims, all `stated-only`,
 is the only place in the corpus where a Hilbert-style method is claimed for the
 tableaux-line engine. Obligations **O4**, **O67**, **O80**.
 
-### 6.9 The Hilbert line's engine
+### 6.9 The minimal-counterexample method
 
-The Hilbert line does not use `θ`-Compactification. Its preservation results
-are proved directly, by minimal counterexample:
+Four preservation results are proved directly, by **minimal counterexample**,
+rather than by `θ`-Compactification (§6.4). Three of the four systems are on the
+Hilbert line; the fourth — `Willard2001`'s `IS(A)`, registry
+**`SJAS-Tableaux-Level0`** — is **semantic tableaux**. So the corpus's two
+preservation engines divide by *method*, not by line. (This section was headed
+"The Hilbert line's engine" until 2026-09-04; obligation **O7** and the C16 R5
+walk both flagged the mismatch against its own table.)
 
 | System | Theorem | Status | Hypothesis on the base theory | Mechanism |
 | --- | --- | --- | --- | --- |
@@ -982,7 +987,10 @@ Note that `Willard2001`'s admission condition is a **fourth** reading of the
 antecedent beside §6.1's three: unlike `Willard2005`'s and `Willard2011`'s,
 which are purely semantic, it conjoins an **encoding** requirement to the
 semantic one, and despite its name it is a soundness rather than a consistency
-condition. Drift **D24** holds the three names side by side.
+condition. Drift **D24** tabulates three admission conditions, but a *different*
+three — `Willard2001`'s, `Willard2005`'s and `Willard2011`'s. Between §6.1's
+table and D24's the corpus carries **five** distinct conditions, and no single
+place lists all five; D24 is open on exactly that.
 
 `Willard2016`'s conditionality must be carried **wherever the result is used**,
 not only where it is introduced (obligation **O66**). Theorem 6.7 is a full
@@ -1062,6 +1070,22 @@ built: **it is what the negative proofs consume.** The two halves of the corpus
 are two readings of one observation, and `Willard2005` Remark 4 (p. 21, §6.7) closes
 the circle by showing the affirmative engine is impossible on the other side of
 the same line. Obligation **O76**.
+
+**But it is fatal to *reflection*, not to consistency-preservation.**
+`Willard2001` §6 asks whether an analogue of `IS^λ(A)` could recognize
+multiplication as a total function, and answers "quite surprisingly both
+affirmative and negative" (printed p. 36). `ISM(A)` — Group-3 built on Eq.
+(61)'s wider gap `y·Log₂(x+2) < Log₂(z)` — recognizes multiplication as total
+and *is* consistency-preserving: "if `A` is regularly consistent then so will
+`ISM(A)` be consistent, by a routine generalization of Section 5's proof of
+Theorem 5.1". What it cannot do is prove the flat
+`∀y ¬SemPrf_{ISM(A)}(⌈0 = 1⌉, y)`, because (61)'s gap is too wide. The two
+systems "have quite different philosophical and epistemological implications,
+although the strictly formalistic mathematical proofs of their consistency are
+virtually identical". So the collapse Remark 4.5 describes is `ISMULT(A)`'s
+(§8's negative control), and what multiplication kills outright is Thm 7.3's
+canonical reflection — `XIS^λ(PAX)` is inconsistent for every `λ`. Obligation
+**O31**.
 
 Earlier statements of the same point are in `Willard1993` pp. 328–331 and
 `Willard2001` Remark 4.5 (p. 21), the latter localising the failure precisely:
