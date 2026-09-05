@@ -295,6 +295,19 @@ prove **total**? Following `Willard2016` Example 3.3, with `A(x,y,z)` and
 | **Type-S** | successor only | **empty** |
 | **Type-NS** | none | the whole Hilbert line |
 
+**What "multiplication" means in this table.** The *variable* operation `x·y`.
+Multiplication by any **fixed** constant was total from the beginning:
+`Willard1993-TR` printed p. 39 defines `Scalar_k(x)` as "a family of functions
+that for *any fixed constant* `k` represents the scalar product of `k·x`", and
+says outright that "**Unlike normal multiplication, scalar multiplication is a
+function under `IS(A)`** because it is defined by `Scalar₀(x) = 0` and
+`Scalar_{k+1}(x) = Scalar_k(x) + x`". `Willard2005`'s and `Willard2020`'s
+**`Double`** is exactly that `Scalar₂`, and it sits inside the Type-A language.
+So the boundary is about *uniform* multiplication, and is one more instance of
+the fixed-parameter-versus-uniform split that runs through the whole programme
+(obligation **O22**). Stated here because without it the whole boundary reads as
+stronger than the corpus proves. Obligation **O17**.
+
 **A fifth class sits off this lattice.** `Willard2011` defines **Type-Almost-M**:
 `α` proves `∀x∀y∃z x+y=z` and `∀x∀y∃z x·y=z` **as theorems while treating none
 of the totality sentences as axioms**, and writes them with genuine `+` and `·`
@@ -1306,9 +1319,17 @@ Hilbert is closed by Solovay; Type-NS is studied only under Hilbert and Type-A
 only under cut-free apparatuses, because those are the two retreats §2.4 allows;
 cut-free sequent calculus and resolution are claimed but never proved; and the
 real-valued line (`Willard2005-TAB`, `Willard2006b`) sits outside the integer
-grid entirely, since `IS_D(A′)` recognises multiplication as total **over
-simulated reals** — its primary witness, the ASL-2005 technical report, is
-unlocated (**G36**).
+grid entirely, since `IS_D(A′)` recognises multiplication as total over
+simulated reals — and the qualifier that must travel with that sentence is
+**truncated-mantissa**: `Willard2006b` Theorem 2 admits Definition 4's
+*truncated* floating-point `×`, while Theorem 6 **forbids** Definition 6's
+untruncated `LongMult`, which also "recognises multiplication as total over
+simulated reals" and is fatal. Remark 3 gives the reason in one example
+(`R₀ = 2.0`, `R_{i+1} = R_i · R_i`): Def. 4 stores `2^{2^n}` in `k + n` bits,
+Def. 6 needs `O(k·2^n)`. This is the corpus's only affirmative
+multiplication-totality result for a self-justifying system, so it is never to
+be stated without the qualifier (obligation **O90**). Its primary witness, the
+ASL-2005 technical report, is unlocated (**G36**).
 
 ---
 

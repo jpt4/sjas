@@ -312,7 +312,13 @@ though the logical objection above is unaffected either way.
 
 **It is not true that Willard's systems deny successor totality.** Only the
 Hilbert line does. The tableaux line proves successor *and* addition total and
-gives up multiplication alone. Which totality is surrendered is one of the design
+gives up **variable** multiplication alone. The qualifier is not decoration:
+multiplication by any fixed constant was total from the start — `Willard1993-TR`
+printed p. 39, "Unlike normal multiplication, scalar multiplication is a function
+under `IS(A)`" — and the `Double` in `Willard2005`'s and `Willard2020`'s Type-A
+language is exactly that paper's `Scalar₂`. So this is the same
+fixed-parameter-versus-uniform split as §2.3's, one level down (codified §3.1,
+obligation **O17**). Which totality is surrendered is one of the design
 parameters, not a fixed feature of the programme.
 
 One qualification on "cut-free". The tableaux line — `IS(A)`, `IS_D(A)` and
@@ -672,8 +678,8 @@ than a statement of Willard's about the programme; item 5 is Pakhomov's, from
 outside the corpus. §1.4's fourth limit is taken up after the list.
 
 1. **Ordinary arithmetic is gone** — for the systems that reach the *flat*
-   self-consistency statement. Those are Type-A (no multiplication as a total
-   function) or Type-NS (nothing total). The qualifier is needed, and the
+   self-consistency statement. Those are Type-A (no *variable* multiplication as a
+   total function — §2.3c) or Type-NS (nothing total). The qualifier is needed, and the
    Codification's obligation **O31** exists to enforce it: `Willard2001` §6 asks
    whether an analogue of `IS^λ(A)` could recognize multiplication as total and
    answers "quite surprisingly both affirmative and negative". Its `ISM(A)`,

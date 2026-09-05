@@ -287,6 +287,7 @@ been checked against the page in this stage.
 | **Definition 7.1**: a **Z-Enriched** tableau is "the particular refinement of the Appendix's proof-tree formalism that allows Line (9) as an added permissible logical axiom, for any `Υ ∈ Z`", contrasted with "`α`'s set of proper axioms" | `Willard2020` | printed p. 17 (pdf p. 18) | **img (2026-09-04)** — confirms the `Z` dial varies the apparatus `d`, which R3 §3.0 needs |
 | **"Hence, there are inherent tradeoffs that prevent a self-justifying axiom system from possessing all of features (I) through (VII), *simultaneously!* Thus, it is futile to seek an idealized form of self-verifying system, that combines the advantages of the many different approaches *simultaneously*. Each should be viewed as providing differently desirable insights."** | `Willard2001` | printed p. 7 (pdf p. 7) | **img (2026-09-04)** — the corpus carried it cut at "self-verifying system"; the tail inverts its force |
 | "It is infeasible to devise a *hybridized* self-justifying axiom formalism, that simply combines our methods with the prior literature [20, 21, 24, 28, 36, 38] because such a formalism would violate one of the four variants, (A) through (D) of the Incompleteness Theorem" — fixes the subject of the futility verdict | `Willard2001` | printed p. 7 | **img (2026-09-04)** — round 32 |
+| **`Scalar_k`(x): "comprising a family of functions that for *any fixed constant* k represents the scalar product of k·x. {Unlike normal multiplication, scalar multiplication is a function under IS(A) because it is defined by Scalar₀(x) = 0 and Scalar_{k+1}(x) = Scalar_k(x) + x."** | `Willard1993-TR` | printed p. 39 (pdf p. 41 of the collated searchable witness) | **img (2026-09-04)** — OCR-grade witness, read from the page image; establishes that the boundary is *variable* multiplication only (obligation **O17**) |
 
 ## Computed claims
 
@@ -641,6 +642,25 @@ with its source — `Willard2011` Remark 6.16b's "1-line proof", `Willard2016` �
 scope statement with the "in, at least, some respects" qualifier restored at
 #40, and `Willard2016` §8's "almost cheating" objection with its conditional
 answer flagged under O66.
+
+## Corrections applied 2026-09-04, twenty-eighth pass
+
+The rest of the C16 R5 items, and the end of that list. Two of the four were
+still live; one had already been applied; one was a count that had gone stale
+for the second time.
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 124 | **The boundary was stated as stronger than the corpus proves.** Codified §3.1's Type-A row and this stage's §2.3c and §9 said "multiplication" without saying *which* multiplication. `Willard1993-TR` printed p. 39, image-verified from the page: `Scalar_k(x)` is "a family of functions that for *any fixed constant* `k` represents the scalar product of `k·x`", and "**Unlike normal multiplication, scalar multiplication is a function under `IS(A)`**". `Willard2005`'s and `Willard2020`'s **`Double`**, which sits in the Type-A language, is exactly that `Scalar₂`. So what the affirmative systems give up is *variable* multiplication, and the boundary is one more instance of the fixed-parameter-versus-uniform split §2.3 already identifies as the programme's signature. Obligation **O17** said this and was marked `carried … (C16 R5; **Refinement**)` on 2026-09-01; neither stage had carried it | `../codification/codified-sjas.md` §3.1, `refined-sjas.md` §2.3c and §9 |
+| 125 | **O90's qualifier was missing where the claim is made.** Codified §8.2: "`IS_D(A′)` recognises multiplication as total **over simulated reals**" — which is equally true of `Willard2006b` Definition 6's `LongMult`, the thing Theorem 6 **forbids**. The affirmative result is Theorem 2's, for Definition 4's **truncated** floating-point `×`, and Remark 3 gives the reason: `2^{2^n}` costs `k + n` bits truncated and `O(k·2^n)` untruncated. This is the corpus's only affirmative multiplication-totality result, so the qualifier is the whole content | `../codification/codified-sjas.md` §8.2 |
+| 126 | **A hand-maintained count, stale for the second time.** "The full draft cites **53** of the 87 obligations at their point of discharge" — and "**57**" before that, which was wrong when written (four of its grep hits were range boundaries in §10.4's own numbering sentence). Replaced with the machine-countable source, the register's `discharged:` column, and a note saying not to restate it a third time — the same remedy `ADR-0002` adopted for the correction range at #108 | `../codification/concordance/composition-obligations.md` |
+
+**Verified and found correct** in this pass: C16 R5's item 5 **had** been applied
+— codified §7.3 presents the TR p. 36 ZF parenthetical as "a hedge about one
+system, not a general identification of LEM-as-axioms with cuts", which is
+exactly what O55 requires. And O90 had nothing to carry into this stage: the
+Refinement makes no claim about the real-valued line. With #124-#126 the C16 R5
+item list is fully applied, three days after it was written.
 
 
 

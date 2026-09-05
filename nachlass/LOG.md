@@ -3620,3 +3620,37 @@ Also corrected: §9 claimed "Willard states the first four himself (codified
 §1.4)" when only three of its five items come from §1.4.
 
 Corrections #120-#123, twenty-seventh pass. Register at 55 rows. audit.sh green.
+
+## 2026-09-04 - Adversarial round thirty-three: the C16 R5 list, finished
+
+Round thirty-one found that the C16 disposition walks recorded findings nobody
+applied. This round finished that list. Of the eight R5 items: two were fixed in
+round thirty-one (§6.9's heading, O49's stale text), one in round thirty-two
+(§1.4's paraphrase), three here, one had already been applied, and one was a
+count.
+
+**O17 is the one that mattered.** "Multiplication is not total" was stated flatly
+by codified §3.1 and by this stage's §2.3c and §9. TR 93-10 printed p. 39, read
+from the page image because the witness is OCR-grade: `Scalar_k(x)` is "a family
+of functions that for *any fixed constant* k represents the scalar product of
+k·x", and "Unlike normal multiplication, scalar multiplication is a function
+under IS(A) because it is defined by Scalar_0(x) = 0 and Scalar_{k+1}(x) =
+Scalar_k(x) + x." Multiplication by any fixed constant was total from the
+beginning, and `Double` — in the Type-A language of both `Willard2005` and
+`Willard2020` — is exactly that `Scalar_2`. What the affirmative systems give up
+is *variable* multiplication. Unqualified, the boundary reads stronger than the
+corpus proves, which is what O17 says in as many words. It had been marked
+`carried … (C16 R5; Refinement)` since 2026-09-01 and neither stage carried it.
+
+This is also the third finding in three rounds where the thing recorded was
+weaker or narrower than the thing asserted: `ISM(A)` (round thirty-one),
+the futility verdict (round thirty-two), and now the multiplication boundary.
+Each time the corpus had the qualifier and the prose had dropped it.
+
+Also: O90's truncated-mantissa qualifier restored at codified §8.2 — "recognises
+multiplication as total over simulated reals" is equally true of the `LongMult`
+that `Willard2006b` Theorem 6 forbids; and the obligation register's standing
+count ("53", "57" before it) replaced by its machine-countable `discharged:`
+column, the remedy ADR-0002 already adopted for correction ranges at #108.
+
+Corrections #124-#126, twenty-eighth pass. Register at 56 rows. audit.sh green.
