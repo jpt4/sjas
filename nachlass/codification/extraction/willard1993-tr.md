@@ -192,6 +192,39 @@ multiplication is fatal because its growth "overwhelms Definition 5's
 constraints". Both are Willard's; the codified statement should present them as
 two routes to one boundary rather than paraphrasing either as *the* reason.
 
+### 3.7a The 1993 floating-point escape hatch — the origin of the real-valued line
+
+Printed p. 6, the footnote to the "pragmatic computation" paragraph, read from
+the page image 2026-09-05:
+
+> "The point is that concrete applications (or at least *very concrete
+> applications*) can usually be encoded so that some type of approximate analog
+> of `w` bounds all the pertaining multiplicative products `z` when one encodes
+> the problem in a suitably reasonable form. It is extremely rare for a
+> pragmatic application to involve numbers so large that some type of analog of
+> `w` is *unavailable for all possible natural encodings of the problem*!
+> (Also, it should be noted that **IS *can represent* floating point
+> multiplication as a *total function*, provided some form of constraints are
+> present on the bit-length of the mantissa**.)"
+
+**This is the origin of the corpus's only affirmative multiplication-totality
+result, and it carries the qualifier already.** `Willard2005-TAB` Definition 4
+and `Willard2006b` Definition 4 build truncated floating-point `×` under
+max-mantissa-length rounding; `Willard2006b` Theorem 2 makes it total under
+Tab-1 self-justification and Theorem 6 forbids Definition 6's untruncated
+`LongMult`. The dividing line those papers draw — total *if* the mantissa is
+length-constrained — is the parenthetical above, twelve years earlier, in the
+same words ("constraints ... on the bit-length of the mantissa"). Obligation
+**O90**; gap **G36** amended, since its claim that `Willard2005` Remark 7's
+unlocated TR is "the only place in the corpus where a self-justifying system
+recognizes multiplication as total" was wrong twice over — `Willard2006b`
+Theorem 2 is held and proves it, and this footnote states it in 1993.
+
+The same page carries the `a_i`/`b_i` pair — `a₀ ≥ 2`, `a_{i+1} = (a_i)²`,
+"`a_n` requires at least `2ⁿ` bits", against `b_{i+1} = b_i + b_i` — which
+`replication-map.md` §1 records as the origin occurrence of the corpus's most
+repeated object. Both confirmed against the page image in the same read.
+
 ### 3.7b Two methodological caveats Willard states about his own proofs
 
 **Meta-Logic (Remark 2, printed p. 24).** Many proofs in the TR do *not*

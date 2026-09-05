@@ -3689,3 +3689,42 @@ not. Red-green tested with a synthetic row. What was found three times by hand
 will not need finding a fourth time.
 
 Correction #127, twenty-ninth pass. audit.sh green.
+
+## 2026-09-05 - Adversarial round thirty-five: the last layer, and a 1993 footnote nobody had read
+
+The final enumerated layer was the page anchors the Refinement asserts. R3's are
+all already image-verified. Two of `refined-sjas.md`'s were not, both on
+`Willard1993-TR` — the OCR-grade witness, where the page image is authoritative
+and an extraction record is explicitly not a substitute. §2's `SUBST_i` quotation
+(printed p. 37) had been confirmed only against the extraction record; §4's
+origin-occurrence claim for the replication map (printed p. 6) had not been
+checked at all.
+
+Both were read from the page. Both are exactly right: p. 37's "Point of
+Clarification" carries all three quoted fragments verbatim with both elisions
+marked, and p. 6 carries the `a_i`/`b_i` pair as §4 describes it. Every page
+anchor asserted anywhere in the Refinement is now image-verified.
+
+The finding was on the same page. TR printed p. 6's footnote reads: "(Also, it
+should be noted that IS *can represent* floating point multiplication as a *total
+function*, provided some form of constraints are present on the bit-length of the
+mantissa.)"
+
+That is the corpus's only affirmative multiplication-totality result — the
+`Willard2005-TAB` / `Willard2006b` truncated floating-point line — stated in
+1993, with the qualifier. Yesterday's round thirty-three restored exactly that
+qualifier to codified §8.2 from `Willard2006b`, not knowing Willard had written
+it twelve years earlier. `grep -i mantissa` over the entire corpus returns only
+the two 2005/2006 papers and `Willard2005` Remark 7. Nothing held the origin.
+
+It also corrects **G36**, which called the unlocated ASL-2005 technical report
+"the only place in the corpus where a self-justifying system recognizes
+multiplication as total". Wrong twice: `Willard2006b` Theorem 2 is held and
+proves it — G36's own 2026-08-29 amendment recorded that extraction without
+revisiting the sentence — and the 1993 footnote states it. The unlocated TR is a
+fuller write-up, not the only or the primary witness.
+
+Recorded at `codification/extraction/willard1993-tr.md` §3.7a. Corrections
+#128-#129, thirtieth pass. Register at 59 rows. audit.sh green.
+
+This is the last round of this review.

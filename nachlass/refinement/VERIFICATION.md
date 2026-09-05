@@ -288,6 +288,9 @@ been checked against the page in this stage.
 | **"Hence, there are inherent tradeoffs that prevent a self-justifying axiom system from possessing all of features (I) through (VII), *simultaneously!* Thus, it is futile to seek an idealized form of self-verifying system, that combines the advantages of the many different approaches *simultaneously*. Each should be viewed as providing differently desirable insights."** | `Willard2001` | printed p. 7 (pdf p. 7) | **img (2026-09-04)** — the corpus carried it cut at "self-verifying system"; the tail inverts its force |
 | "It is infeasible to devise a *hybridized* self-justifying axiom formalism, that simply combines our methods with the prior literature [20, 21, 24, 28, 36, 38] because such a formalism would violate one of the four variants, (A) through (D) of the Incompleteness Theorem" — fixes the subject of the futility verdict | `Willard2001` | printed p. 7 | **img (2026-09-04)** — round 32 |
 | **`Scalar_k`(x): "comprising a family of functions that for *any fixed constant* k represents the scalar product of k·x. {Unlike normal multiplication, scalar multiplication is a function under IS(A) because it is defined by Scalar₀(x) = 0 and Scalar_{k+1}(x) = Scalar_k(x) + x."** | `Willard1993-TR` | printed p. 39 (pdf p. 41 of the collated searchable witness) | **img (2026-09-04)** — OCR-grade witness, read from the page image; establishes that the boundary is *variable* multiplication only (obligation **O17**) |
+| "Point of Clarification. Since it does not recognize multiplications as a function, IS(A) will clearly be too weak to prove that ∀x∃y SUBST_i(x,y). However, IS(A) will be able to prove for *any fixed integer* k̄ that ∃y SUBST_i(k̄,y). It will turn out that the latter will be sufficient for IS(A) to formally define the *particular instance of the reflection principle* needed to define H." | `Willard1993-TR` | printed p. 37 (pdf p. 39) | **img (2026-09-05)** — all three fragments quoted in §2 are verbatim, elisions marked; previously confirmed only against the extraction record |
+| The `a_i`/`b_i` pair: "`a₀ ≥ 2` and `a_{i+1} = (a_i)²`, a hedge would quickly follow because `a_n` requires at least `2ⁿ` bits" against "the sequence `b₀, b₁, b₂, b₃ …` with `b_{i+1} = b_i + b_i`" | `Willard1993-TR` | printed p. 6 (pdf p. 8) | **img (2026-09-05)** — confirms §4's origin-occurrence claim for the replication map |
+| **"(Also, it should be noted that IS *can represent* floating point multiplication as a *total function*, provided some form of constraints are present on the bit-length of the mantissa.)"** | `Willard1993-TR` | printed p. 6, footnote | **img (2026-09-05)** — unrecorded anywhere in the corpus until now; the 1993 origin of the `Willard2005-TAB`/`Willard2006b` line, qualifier included |
 
 ## Computed claims
 
@@ -682,6 +685,28 @@ completeness gap against acceptance criterion A2, to be closed by writing the
 content or by re-dispositioning with an exclusion rationale — explicitly not by
 relabelling the rows. The three that *were* this stage's — O17, O31, O90 — are
 discharged as of this session.
+
+## Corrections applied 2026-09-05, thirtieth pass
+
+The last enumerated layer: **the page anchors this stage asserts.** All of R3's
+are already marked image-verified. Two of `refined-sjas.md`'s were not, both on
+`Willard1993-TR` — an OCR-grade witness, where the standing rule is that the page
+image is authoritative and the extraction record is not a substitute. Both were
+read from the page. Both came back clean. The finding was on the same page.
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 128 | **The corpus's only affirmative multiplication-totality result has a 1993 origin that nothing recorded.** `Willard1993-TR` printed p. 6, footnote (image-verified): "**IS *can represent* floating point multiplication as a *total function*, provided some form of constraints are present on the bit-length of the mantissa.**" That is `Willard2005-TAB` Def. 4 and `Willard2006b` Def. 4 — truncated `×` under max-mantissa-length rounding — stated twelve years earlier, with the qualifier restored at #125 already in it. `grep -i mantissa` across the whole corpus returned `Willard2005-TAB`, `Willard2006b`, `Willard2005` Remark 7 and nothing else. Now recorded at `../codification/extraction/willard1993-tr.md` §3.7a | `../codification/extraction/willard1993-tr.md`, `../codification/registry/gaps.md` (**G36**) |
+| 129 | **G36 said the unlocated ASL-2005 technical report is "the only place in the corpus where a self-justifying system recognizes multiplication as total."** Wrong twice: `Willard2006b` Theorem 2 is held and proves it — G36's own 2026-08-29 amendment records the extraction without revisiting the sentence — and the 1993 footnote above states it. The unlocated TR is a fuller write-up, not the only or the primary witness | `../codification/registry/gaps.md` |
+
+**Verified and found correct** in this pass — the two anchors themselves, which
+is what the pass set out to check. `Willard1993-TR` printed p. 37's "Point of
+Clarification" carries all three fragments §2 quotes, verbatim, with both
+elisions marked and nothing dropped; it had been confirmed only against the
+extraction record, which under this stage's first rule is not a source. And
+printed p. 6 carries the `a_i`/`b_i` pair exactly as §4's origin-occurrence claim
+for the replication map requires. Every page anchor asserted anywhere in this
+stage is now image-verified against its witness.
 
 
 
