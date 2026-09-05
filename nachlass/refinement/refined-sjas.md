@@ -514,7 +514,11 @@ system *be* self-justifying is what the incompleteness proofs *consume*.
 > encoding exceeds `O(L)`.
 
 **The arithmetic refutes it.** Writing `Log₂ C_n` for the bit-length of what `n`
-naming steps reach:
+naming steps reach — **asymptotically**, and from the corpus's own base case:
+Group-0 fixes `C₀ = 0`, `C₁ = 1`, `C₂ = 2` (codified §5.1) and the recurrences
+run from `i ≥ 3`, which is why the Hybrid row carries that condition explicitly.
+Exactly, additive gives `n − 1` and multiplicative `2^{n−2}`; the entries below
+are the orders, and no verdict in the table turns on the index shift.
 
 | Naming convention | `Log₂ C_n` | `O(L)`? | Willard's verdict |
 | --- | --- | --- | --- |

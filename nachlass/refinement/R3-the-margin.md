@@ -347,7 +347,8 @@ favour of this document's project. So
 material.**
 
 *First, the arithmetic.* At `H = 1` the constants do **not** grow
-additively-fast. Additive naming gives `Log₂ C_n = n`; Hybrid(1) gives
+additively-fast. Additive naming gives `Log₂ C_n = Θ(n)` — exactly `n − 1` from
+Group-0's `C₂ = 2` with the recurrence running from `i ≥ 3`; Hybrid(1) gives
 `Θ(n log n)` — a full logarithmic factor above it — and no *fixed* `H` reaches
 the multiplicative `2^n`. Willard's "midway between the additive and
 multiplicative conventions" is loose, and must not be read as exact.

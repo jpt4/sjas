@@ -298,8 +298,9 @@ Rule 5. Every growth or size claim, with the computation.
 
 | Claim | Where used | Computation |
 | --- | --- | --- |
-| additive naming: `Log₂ C_n = n` | `refined-sjas.md` §§4–5 | `C_i = 2C_{i−1}` |
-| multiplicative naming: `Log₂ C_n = 2^n` | `refined-sjas.md` §§4–5 | `C_i = C_{i−1}²` |
+| additive naming: `Log₂ C_n = Θ(n)`, exactly `n − 1` | `refined-sjas.md` §§4–5 | `C_i = 2C_{i−1}` from Group-0's `C₂ = 2`, `i ≥ 3` (codified §5.1), so `C_n = 2^{n−1}`. **Corrected 2026-09-05**: this row read `= n`, which needs `C₀ = 1` |
+| multiplicative naming: `Log₂ C_n = 2^{Θ(n)}`, exactly `2^{n−2}` | `refined-sjas.md` §§4–5 | `C_i = C_{i−1}²` from the same base, so `C_n = 2^{2^{n−2}}`. **Corrected 2026-09-05**: this row read `= 2^n`, which needs `C₀ = 2` — so the two rows as written held under no single base case |
+| §4's `x_i`/`y_i` **sequences** are a different object from the `C_i` **naming convention** and do start at 2: `x_n = 2^{n+1}`, `y_n = 2^{2^n}` | `refined-sjas.md` §4 | `x_0 = y_0 = 2` (`Willard1993-TR` p. 6's `a_0 ≥ 2`, image-verified). §4's table is correct as written; the collision is that both are written `Log₂` of a doubling recurrence |
 | **Hybrid(H): `Log₂ C_n = Σ_{i≤n} (Log i)^H = Θ(n (log n)^H)`** | `refined-sjas.md` §5, `R3-the-margin.md` §3.1 | summed numerically for `H ∈ {1,2}`, `n ∈ {10,100,1000}`: `H=1` gives 21.8 / 524.8 / 8529.4 against `n` = 10 / 100 / 1000. Hybrid(1) is **not** `O(n)`, which refutes the withdrawn `O(L)` criterion |
 | encoding requirement gives `Log(q_β) ≥ 5J` | `R3-the-margin.md` §1.1 | `Gödel number ≥ 32^J` and `log₂ 32 = 5`. A **lower** bound: it excludes over-compressed encodings, not wasteful ones |
 
@@ -707,6 +708,28 @@ extraction record, which under this stage's first rule is not a source. And
 printed p. 6 carries the `a_i`/`b_i` pair exactly as §4's origin-occurrence claim
 for the replication map requires. Every page anchor asserted anywhere in this
 stage is now image-verified against its witness.
+
+## Corrections applied 2026-09-05, thirty-first pass
+
+Layer: the **Computed claims** — this stage's own arithmetic, re-derived from
+scratch rather than re-read. Four claims. Two hold, two did not.
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 130 | **The two naming-growth rows held under no single base case.** "additive naming: `Log₂ C_n = n`" is exact only if `C₀ = 1`; "multiplicative naming: `Log₂ C_n = 2^n`" is exact only if `C₀ = 2` — and under `C₀ = 1` the multiplicative recurrence is constant at 1. The corpus's base case is neither: Group-0 fixes `C₀ = 0`, `C₁ = 1`, `C₂ = 2` and the recurrences run from **`i ≥ 3`** (codified §5.1) — the condition §5's table carries on its Hybrid row and drops on the other four. Exactly: additive `n − 1`, multiplicative `2^{n−2}`. The column is asymptotic and now says so, with the base case stated once. **No verdict in either table changes** | `VERIFICATION.md` Computed claims, `refined-sjas.md` §5 |
+| 131 | **The same value asserted as exact in the comparison that carries the `O(L)` refutation.** R3 §3.1: "Additive naming gives `Log₂ C_n = n`; Hybrid(1) gives `Θ(n log n)` — a full logarithmic factor above it". The gap is real and the refutation is unaffected, but one side was exact-looking and wrong while the other was an order | `R3-the-margin.md` §3.1 |
+
+**Verified and found correct** in this pass — the two claims that carry weight.
+The Hybrid row was re-derived independently rather than re-read: `Σ_{i≤n} (Log₂ i)^1
+= Log₂(n!)`, which is **21.8 / 524.8 / 8529.4** at `n = 10 / 100 / 1000`,
+reproducing the recorded figures to the digit. Against `n` itself those are
+2.2× / 5.2× / 8.5×, growing without bound, so **Hybrid(1) is not `O(n)` and the
+withdrawal of the `O(L)` criterion stands on arithmetic, not on judgement**. The
+`Log(q_β) ≥ 5J` bound also checks: a Gödel number `≥ 32^J` has `Log₂ ≥ 5J`. And
+§4's `x_i`/`y_i` table is correct as written — those are the TR p. 6 *sequences*,
+not the `C_i` naming convention, and they genuinely start at 2, giving `2^{n+1}`
+and `2^{2^n}`. The collision is that both objects are a doubling recurrence
+measured by `Log₂`, and only one of them starts where the table assumed.
 
 
 

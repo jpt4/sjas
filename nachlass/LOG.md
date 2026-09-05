@@ -1,5 +1,23 @@
 # Nachlass Log
 
+## 2026-09-05 - Certificate-gate log and SJAS in a pure type system
+
+At the user's request, retained and explicitly indexed the
+[stateless certificate-gate construction](../docs/log/2026-09-04-self-justification-and-rsi-motivation.md#follow-up-a-stateless-certificate-gate-and-its-exact-consistency-requirement)
+and developed
+[a conservative negative translation of SJAS into lambda P](../docs/log/2026-09-05-sjas-pure-type-systems.md).
+The note specifies the PTS and arithmetic signature, translates the original
+fixed-point/checker formulas, gives a paper-level inhabitation-equivalence
+argument, and constructs typed rejection and certificate-separation terms.
+It distinguishes this result from self-verification of the entire PTS kernel
+and gives the missing internal checker-lowering type explicitly, including a
+certificate-carrying case where lowering needs only the supplied certificate.
+
+Source formulas and PTS rules were checked on rendered PDF pages. The new
+translation is not mechanized and no language implementation was added.
+The concurrent Codification/Refinement review and separate ALSJAS work were
+left untouched.
+
 ## 2026-09-04 - Round thirty: the Depends column, read but never checked
 
 Second layer enumerated rather than intuited: the Depends column of
@@ -3728,3 +3746,37 @@ Recorded at `codification/extraction/willard1993-tr.md` §3.7a. Corrections
 #128-#129, thirtieth pass. Register at 59 rows. audit.sh green.
 
 This is the last round of this review.
+
+## 2026-09-05 - Adversarial round thirty-six: the arithmetic, re-derived rather than re-read
+
+Layer: the Computed claims table — this stage's own growth and size arithmetic.
+Four claims. The method was to re-derive each from scratch rather than re-read
+it, which is what separated the two that hold from the two that did not.
+
+**The two naming-growth rows held under no single base case.** "additive naming:
+`Log₂ C_n = n`" is exact only if `C₀ = 1`. "multiplicative naming: `Log₂ C_n =
+2^n`" is exact only if `C₀ = 2` — and under `C₀ = 1` the multiplicative
+recurrence never leaves 1. So the two rows, sitting one above the other in a
+table whose governing rule reads "Every growth or size claim, with the
+computation", could not both be right.
+
+The corpus's base case is neither. Group-0 fixes `C₀ = 0`, `C₁ = 1`, `C₂ = 2`,
+and the recurrences run from `i ≥ 3` — a condition `refined-sjas.md` §5's own
+table carries on its Hybrid row and drops on the other four. Exactly: additive
+gives `n − 1`, multiplicative `2^{n−2}`. Both tables now state the base case and
+read as asymptotic. No verdict in either changes.
+
+**The two that carry weight both hold, and were confirmed by computation.** The
+Hybrid sums are `Σ_{i≤n} Log₂ i = Log₂(n!)` = 21.8 / 524.8 / 8529.4 at n =
+10 / 100 / 1000, reproducing the recorded figures to the digit; against n those
+are 2.2x / 5.2x / 8.5x and unbounded, so Hybrid(1) is not O(n) and the
+withdrawal of the O(L) criterion rests on arithmetic rather than judgement. The
+`Log(q_β) >= 5J` bound follows from a Gödel number `>= 32^J`.
+
+Worth recording as method: §4's `x_i`/`y_i` table is correct as written and was
+nearly "corrected" into error. Those are `Willard1993-TR` p. 6's sequences, not
+the `C_i` naming convention, and they do start at 2. Two different objects, both
+a doubling recurrence measured by `Log₂`, and only one of them starts where the
+Computed-claims table assumed.
+
+Corrections #130-#131, thirty-first pass. audit.sh green.
