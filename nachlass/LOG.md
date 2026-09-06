@@ -1,5 +1,33 @@
 # Nachlass Log
 
+## 2026-09-05 - Lowering obligations logged; a concrete obstruction
+
+At the user's request, preserved the
+[conversation about establishing lower](../docs/log/2026-09-05-lower-obligations-conversation.md),
+including the uniform internal conservativity statement, checker and compiler
+obligations, conditional proof-composition obstruction, and bounded-lowering
+alternative. The user then requested completion of the missing work. The
+continuation fixes a Type-A tableaux source and a PTS certificate checker
+accepting explicit typing derivations plus Hilbert macros, in the
+[lowering resolution](../docs/log/2026-09-05-lower-resolution.md).
+
+For this checker, a direct internal injection of Hilbert proofs needs only
+the source's existing doubling function. Lowering at the single formula
+`0 = 1` would then recover Hilbert consistency, excluded by Willard 2001
+Theorem A.2 under its Successor-Regular hypotheses. The direct pairwise gate
+invariant is excluded by the same reduction. Macro expansion, an external
+search translator, partial
+correctness, and the failure of internal uniform completion are recorded
+explicitly. The result is specific to the certificate representation; no
+such conclusion is asserted for a checker accepting only expanded typing
+trees or for all EA-stable sources.
+
+Source hypotheses were checked on rendered PDF pages. This is a paper
+reduction using a boundary whose published proof has status `sketch`
+(2001), with the stronger 2011 statement retained as `cited`; it is not an
+independently mechanized proof. The concurrent corpus review and separate
+implementation lines are unchanged.
+
 ## 2026-09-05 - Prolog Tab/Xtab inhabitant checker
 
 Implemented Willard's Tab / Xtab inductive families as an explicit
@@ -3899,3 +3927,63 @@ bookkeeping would be the error this pass exists to correct.
 
 Corrections #134-#142, thirty-third pass. New check M-N; R-G retargeted.
 audit.sh green.
+
+## 2026-09-06 — G2 inside the Lawvere–Yanofsky scheme
+
+ADR-0004's binding order says: prove G2 with Lawvere/Yanofsky techniques first,
+with a numbered hypothesis list, and only then read Willard as a
+hypothesis-breaker. `lawvere-sjas.md` did not do that. Its Theorem 1.1 *assumes*
+the Gödel fixed point — "Suppose the doctrine has a selected fixed point
+`G <-> not □G`" — so the one thing Lawvere's theorem is for, producing the fixed
+point, never entered. `R6-g2-via-lawvere.md` supplies it.
+
+The result is that G2 is an instance of **Yanofsky's Theorem 1** — the negative,
+"no fixed point implies no representation" form that Cantor, Russell, Tarski and
+Turing are instances of in his paper — applied to `α(P) = ¬□P` on `Lind⁰`, which
+is verbatim the endofunction his paper already uses for Gödel's *First*. G1 and
+G2 are the two readings of one square. What flips the reading is the assumption
+to be refuted: **Lemma 4.1**, Löb's theorem in algebraic form, says that if `□`
+satisfies the three derivability conditions and `□c ≤ c` for some `c ≠ ⊤`, then
+`y ↦ □y ⇒ c` has no fixed point. At `c = ⊥` those two hypotheses are exactly
+`⊢ Con` and consistency. The scheme then declares the constructed `g`
+unrepresentable, and the diagonalization lemma exhibits its representative
+anyway. That collision is G2.
+
+Nothing about Löb's theorem is new and the document says so first. What the
+route buys is a nine-item hypothesis list with the point of consumption of each
+item marked in the proof — including the single step where Beklemishev–Shamkanov's
+boxed contraction is used, and the single instance of Four the argument needs.
+
+**The finding is Proposition 7.1.** The derivation consumes the diagonal
+hypothesis **only through its conclusion**: what is used is that `α_⊥` has *a*
+fixed point, never that substitution is internally total. `IS(A)` fails the
+hypothesis — `Willard1993-TR` p. 37 says so outright — and supplies the
+conclusion anyway, at a fixed numeral, which is what `Willard2001` Theorem A.1's
+footnote 16 exhibits. So **losing point-surjectivity does not evade G2**. R3's
+"attack the fixed point" cell is empty not because the diagonal is hard to
+remove but because removing it is not sufficient. That was previously an
+observation; it is now a proposition with the proof inspected.
+
+**A defect in the source, found while instantiating it.** Yanofsky's
+`Φ_E : Lind⁰ ⟶ Lind⁰`, `P ↦ E(⌜P⌝)`, and his `f : Lind¹ × Lind¹ ⟶ Lind⁰`,
+`f(B(x),H(y)) = H(⌜B(x)⌝)`, are **not well defined**: both apply `⌜·⌝` to a
+Lindenbaum class, and `0=0` and `(0=0) ∧ (0=0)` are one class with two Gödel
+numbers. The repair is his own **Theorem 2** — the `⟨Id,β⟩` generalization he
+presents as a curiosity about not needing the strict diagonal is what makes his
+§5 well typed, with `β` the quotient `Form¹ → Lind¹`. And the modal instance is
+well defined for a reason worth stating: what repairs it is M1 and M2, the same
+derivability conditions that let the diagonal square be run a second time inside
+`□`. Departure Y1.
+
+The Kreisel route Yanofsky actually points at (§6) is reconstructed and marked
+**`unverified`** — no witness held for it, for Smoryński's Handbook article, or
+for the arithmetized completeness theorem. It works, in Theorem 1's form, with
+reflection replacing Four; it costs `IΣ₁`-or-more, which is the price
+`Willard2001` Theorem A.1 exists not to pay. It is the wrong route for this
+corpus and the document says why.
+
+Yanofsky witness acquired (arXiv:math/0305282, 24 pp., hash in
+`refinement/lit/SHA256SUMS`); pp. 5, 6, 14, 15, 16, 17, 22 read as page images,
+1–24 as text, and the coverage is recorded as ranges in §9 rather than as an
+adjective. Eight quotation-register rows added. `audit.sh` and `audit-r.sh`
+green: R-B 68 rows, all `img`.
