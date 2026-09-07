@@ -4606,3 +4606,137 @@ builds a tableau directly and is blocked only by code arithmetic, while general
 modus ponens needs cut elimination, which Remark 2 takes from the metatheory.
 
 `audit.sh` green; R-F 84 paths.
+
+## 2026-09-07 — The goal pass: B–S verified, two corrections, and the target found stated in the source
+
+A twelve-part directive. What follows records it, including the exchanges that
+had not reached the log and the two places where this stage was wrong.
+
+### The B–S image verification, and RO1 discharged
+
+Printed pp. 5, 7, 8, 9, 11 and 14 read as page images. **Every reconstruction in
+[`refinement/RO1-affine-separation.md`](refinement/RO1-affine-separation.md)
+checks out** — Definition 3.4's L1–L3 verbatim (L1 curried, as a sequent),
+Lemma 3.5(ii)–(iii), Remark 3.6's "The latter has a form of built-in contraction
+that we are not assuming here", Proposition 3.8 with contraction consumed at the
+C3 step on the context `Γ`, and Remark 3.9's C3′/C5′. RO1's status caveat is
+discharged to `img` and the document is folded into the tree.
+
+**A suspected mis-citation that was not one.** `refined-sjas.md` and RO1 cite
+**§3** for "`□`-contraction can hold in affine PA". A check begun on the
+assumption that the affine remark lives in §6 found that **both** exist: the §3
+sentence is at the end of that section, printed p. 9 — "for a version of Peano
+arithmetic based on affine predicate logic considered by the second author of
+this paper (as yet, unpublished)" — and §6 adds that for that system
+`□`-contraction "is admissible, which according to our results still yields G2".
+The citations stand. Recorded because the directive asked for citations to be
+confirmed rather than deferred to, and confirming one meant not inventing a
+defect in it.
+
+### Correction 1 — the Linear-Sum Effect. `R6-g2-via-lawvere.md` §7.4 had the danger inverted
+
+The reading offered here was that modus ponens is blocked because the composed
+proof's *code* is a product the arithmetic cannot build. **The corpus names the
+opposite mechanism, and has a term for it.** `Willard2020` printed p. 279,
+imaged: modus ponens "assures that a proof of a theorem `ψ` … has a length **no
+greater than the sum** of the proof-lengths needed to derive `φ` and `φ → ψ`.
+This **'Linear-Sum Effect'** does not apply, actually, also to *Tab*-deduction
+because it owns no analog of a modus ponens rule". `Xtab` recovers it through
+the `φ ∨ ¬φ` node, "similar to the **proof compressions** resulting from a modus
+ponens operation", and statement ⊙ then makes such a system automatically
+inconsistent given successor totality, the ring properties and a self-consistency
+theorem.
+
+So the danger is composed proofs being too **short**, and **proof compression is
+the active ingredient** (Codification obligation **O40**). Modus ponens is
+excluded from `Tab` for a growth reason — which is an arithmetic reason, not an
+alternative to one, since a calculus whose lengths compose additively lets a
+short proof settle claims about objects far larger than itself, the capability
+printed p. 13's consistency argument exists to deny. §7.4 now separates two facts
+it had run together: **`Tab` has no modus ponens because linear-sum composition
+is dangerous; `IS(PA+)` cannot internalise the compositions it does have because
+the code bound is a product.**
+
+### Correction 2 — RO2's opening premise was false
+
+RO2 was opened yesterday asserting that B–S "give the structural fact" and
+"carry no size claim". **Their Theorem 5 is a size claim**, printed p. 11,
+imaged: cut is admissible for `S`, and "the conclusion of (cut) has a proof with
+the size being **less than `‖π₁‖ + ‖π₂‖`**", `‖π‖` being the number of nodes.
+A strict linear-sum bound — the same currency as Willard's Linear-Sum Effect,
+pointing the other way, and the difference is arithmetic: ⊙ needs successor
+totality and the ring properties, and `S` has no arithmetic at all. RO2 is
+rewritten around this.
+
+### The target, stated by the authors
+
+`B–S` §6, printed p. 14, imaged:
+
+> "We believe that such a counterexample can be constructed by **extending the
+> language of `S` by an operator similar to `!` from linear logic and adding to
+> `S` a fixed point of the form `a = ◇!a`**. However, a confirmation of this
+> hypothesis is left for future work."
+
+This is the directive's primary objective, posed by Beklemishev and Shamkanov
+themselves, together with the reason it matters: "we are still missing convincing
+examples of mathematical theories based on weak logics for which G2 would fail."
+
+Two consequences for how it is pursued. **The formulation "adjoin `Con_S` and ask
+whether cut elimination survives" is the wrong move** — Theorem 1(i) (p. 5,
+imaged) shows that for an **APS** with a Gödelian fixed point, adjoining
+consistency *is* collapse, and `S` escapes only by not being an APS, Proposition
+3.8 needing contraction to establish C3. B–S instead change the *language*.
+And the `Π₁` target is open on the Willard side too: `Willard2020` §7's `Z` dial
+has `Δ*₀` evasions surviving and `Π*₂` failing, with **`Π*₁` conjectured** —
+"this fact has not yet been formally proven".
+
+### Acquisitions
+
+Two held, both OA and identified from their own first pages: **Asperti and
+Roversi**, *Light Affine Logic*, arXiv:cs/0006010 — affine, so weakening kept and
+contraction dropped, which is B–S's structural setting, with "a polynomially
+costing cut elimination"; and **Dal Lago and Hofmann**, *Bounded Linear Logic,
+Revisited*, LMCS 6(4:7) 2010, arXiv:0904.2675 — the accessible route to BLL's
+indexed bang. Girard–Scedrov–Scott 1992, Girard 1998 and Lafont 2004 are
+**not held** and nothing rests on them; venues and DOIs are recorded in
+[`refinement/R4-notes-native-model.md`](refinement/R4-notes-native-model.md) §6.
+
+**Two guessed URLs produced a statistics paper and an unidentifiable file.** Both
+were discarded unread rather than recorded. Noted because the directive's ninth
+item is about exactly that failure mode.
+
+### The other answers, in `R4-notes-native-model.md`
+
+**§1** grounds the term/bound question: yes, both `t`s are terms, and Willard
+uses the same letter, defining it in the sentence before — `Willard2005` p. 5,
+with `Willard2011` Definition D.1(i) confirming independently. **§2**: the
+admission rule for a new function symbol is a static side condition and
+**Remark 6 states it** (TR p. 34, **`stated-only`**) — *slowly growing*,
+`f̂[i,j](x̄) ≤ i·2^j·Max(x̄)`, licensing Propositions 1–4, 8, 9 only. That bound
+coincides with the term-growth induction recorded in **Computed claims** on
+2026-09-07, derived independently. **§3** withdraws the decidable-index-language
+framing: `Δ₀` formulas encode Turing machines (TR p. 18 item I; Lemma 5.4,
+`sketch`), so SJAS is not a decidable constraint domain and the two restrictions
+do not compose into a design point. **§4** opens **RO3** on self-referential
+refinement-type systems. **§5** answers the operational question, and finds the
+`Z` dial is exactly "the subset that gets modus ponens back". **§6** lists the
+light/soft/bounded/affine logics, separating the two held from the five not.
+
+### Implementation
+
+`code/tabt/tabt.pl` gains `ugrounding_term/1`, `admissible_term/1` and a
+`term_policy/1` flag defaulting to `open`, wired into the `all`, `ball` and `bex`
+rules on both the instantiating witness and the bound. **The default preserves
+existing behaviour exactly**; under `ugrounding` the U-Grounding grammar is
+enforced, so a bound of the form `mult(X,Y)` is not writable while `add(X,Y)` is.
+Seven tests added. **No Prolog is installed on this machine, so the suite has not
+been run** — the code is reviewed statically and unexecuted, and says so.
+
+### Registry repair
+
+R-E failed on four `Willard2011` Appendix-D ids carrying an internal space
+(`Willard2011#Def D.1` and three siblings), which the check's own key
+construction cannot match. Nothing referenced them; normalised to the registry's
+own convention.
+
+Seven register rows added (91 total, all `img`). `audit.sh` green.

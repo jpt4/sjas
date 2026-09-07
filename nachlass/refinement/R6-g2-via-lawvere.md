@@ -844,23 +844,48 @@ operation actually missing is therefore **left shift by a variable amount**,
 `x · 32^y`. It is worth noting that `G₀` contains the *other* shift:
 `Shift(x,y) = x/2^y` (TR printed p. 3), which shrinks, and is total.
 
-**Which level the multiplication lives at, since it is easy to misplace.**
+**Which level the growth lives at, and why the danger runs the other way.**
 `Glue(t,p)`'s *size* is `|t| + |p| + O(1)` — **additive**. Its *code* is
-`Θ(N_t·N_p)` — multiplicative — only because codes are exponential in size. So
-Willard's product comes from an exponential encoding applied to an additive size
-increase. This is **not** the multiplication contraction introduces into cut
-elimination, where the *derivation size itself* grows, towering in the cut depth.
-The two share an axis — what a composite costs relative to its parts — and not a
-mechanism, and conflating them would put Beklemishev–Shamkanov's structural
-result and Willard's arithmetic one in one currency when they are in two.
-Recorded as obligation **RO2**,
-[`RO2-contraction-growth-rate.md`](RO2-contraction-growth-rate.md).
+`Θ(N_t·N_p)` — multiplicative — only because codes are exponential in size.
 
-Note also that Willard has **both** obstructions, not one. `Glue` builds a
-legitimate tableau directly, with no normalization, so its only barrier is the
-code arithmetic. *General* modus ponens is different: it needs cut elimination,
-and Remark 2 below is Willard taking that from the metatheory rather than
-internalising it.
+An earlier draft of this section read that additive size increase as harmless
+and located the whole obstruction in the code arithmetic — "the system cannot
+build a number that large". **That is backwards, and `Willard2020` names the
+real mechanism.** Printed p. 279 (imaged):
+
+> "modus ponens assures that a proof of a theorem `ψ` from an axiom system `α`
+> has a length **no greater than the sum** of the proof-lengths needed to derive
+> `φ` and `φ → ψ` from `α`. This **"Linear-Sum Effect"** does not apply,
+> actually, also to *Tab*-deduction because it owns no analog of a modus ponens
+> rule"
+
+and *Xtab* recovers it, since storing `φ ∨ ¬φ` at a node "will allow an *Xtab*
+proof for `ψ` to have a length proportional to the sum of the proof lengths for
+`φ` and `φ → ψ` (i.e. it can roughly simulate the actions of modus ponens)" —
+the four-step construction of that page, "similar to **the proof compressions**
+resulting from a modus ponens operation".
+
+So the danger is that composed proofs are too **short**, not that their codes
+are too big. **Proof compression is the active ingredient** (Codification
+obligation **O40**), and modus ponens is excluded from `Tab` for that growth
+reason. It is an arithmetic reason too, not an alternative to one: a system in
+which lengths compose additively is a system in which a proof of bounded length
+settles claims about objects far larger than itself, which is precisely the
+capability printed p. 13's consistency argument must deny — "it is impossible in
+`log₂p − 1` bits to encode a number as large as `p`".
+
+The code product `64·⌜¬⊥⌝·t·p` is therefore not the obstruction *to composing*;
+it is what `IS(PA+)` would have to prove exists in order to **internalise** a
+composition it can already perform externally, and it can do so only with one
+factor fixed. Two distinct facts, previously run together here: **`Tab` has no
+modus ponens because linear-sum composition is dangerous; `IS(PA+)` cannot
+internalise even the compositions it does have because the code bound is a
+product.**
+
+The contraction multiplication of cut elimination is a third thing again — there
+the *derivation size itself* grows, towering in the cut depth. Whether these
+currencies can be exchanged is obligation **RO2**,
+[`RO2-contraction-growth-rate.md`](RO2-contraction-growth-rate.md).
 
 And an encoding compact enough to defeat the criterion would defeat the
 consistency proof with it: printed p. 13's argument is that an inconsistency
