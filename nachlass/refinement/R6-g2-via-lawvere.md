@@ -844,6 +844,24 @@ operation actually missing is therefore **left shift by a variable amount**,
 `x · 32^y`. It is worth noting that `G₀` contains the *other* shift:
 `Shift(x,y) = x/2^y` (TR printed p. 3), which shrinks, and is total.
 
+**Which level the multiplication lives at, since it is easy to misplace.**
+`Glue(t,p)`'s *size* is `|t| + |p| + O(1)` — **additive**. Its *code* is
+`Θ(N_t·N_p)` — multiplicative — only because codes are exponential in size. So
+Willard's product comes from an exponential encoding applied to an additive size
+increase. This is **not** the multiplication contraction introduces into cut
+elimination, where the *derivation size itself* grows, towering in the cut depth.
+The two share an axis — what a composite costs relative to its parts — and not a
+mechanism, and conflating them would put Beklemishev–Shamkanov's structural
+result and Willard's arithmetic one in one currency when they are in two.
+Recorded as obligation **RO2**,
+[`RO2-contraction-growth-rate.md`](RO2-contraction-growth-rate.md).
+
+Note also that Willard has **both** obstructions, not one. `Glue` builds a
+legitimate tableau directly, with no normalization, so its only barrier is the
+code arithmetic. *General* modus ponens is different: it needs cut elimination,
+and Remark 2 below is Willard taking that from the metatheory rather than
+internalising it.
+
 And an encoding compact enough to defeat the criterion would defeat the
 consistency proof with it: printed p. 13's argument is that an inconsistency
 proof `p` cannot embed a witness `p* ≥ p` because "Addition grows so slowly that

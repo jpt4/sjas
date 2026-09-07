@@ -4563,3 +4563,46 @@ what buys the consistency argument as well.
 
 Two register rows added (84 total, all `img`); `Willard1993-TR` printed p. 20
 imaged. `audit.sh` green.
+
+## 2026-09-07 — RO2 opened: a quantitative counterpart to B–S's contraction result
+
+Recorded at the user's direction, with the framing they gave: **worth pursuing as
+a contribution to Beklemishev–Shamkanov's own line, independent of whether it
+bears on SJAS.** The remark being recorded is that "B–S give the structural fact;
+the growth-rate theorems are there. Connecting them is a research step, not a
+citation, and no witness for the light-logic side is held here."
+
+**The context.** R6 §7.4 established from page images that Willard's obstruction
+to uniform proof composition is *quantitative* — the glued proof's code is
+bounded by the product `64·⌜¬⊥⌝·t·p`, dischargeable only when a factor is
+constant. B–S block the same arrow *structurally*: `S` satisfies L1–L3, lacks
+`□`-contraction, and their Proposition 3.8 consumes contraction at one step. Two
+results about one arrow, in incommensurable currencies — bits of Gödel number
+against structural rules.
+
+**The query, as [`refinement/RO2-contraction-growth-rate.md`](refinement/RO2-contraction-growth-rate.md)
+states it.** Contraction is the only cut-elimination case that duplicates a
+subderivation, which is why its absence makes normalization polynomial; so a
+structural prerequisite ought to have a size statement behind it. **Q1**: can
+Proposition 3.8 / Theorem 3 be refined into a claim about derivation size? **Q2**:
+does a resource-indexed `□` — BLL's `!_{x<p}A` — satisfy the derivability
+conditions *up to its index* and fail them uniformly, which would be the
+fixed-parameter-versus-uniform split at the modality and the exact analogue of
+`Scalar_k` against multiplication?
+
+**Attached to R5** rather than R4, because what it needs first is acquisitions:
+Girard–Scedrov–Scott 1992, Girard 1998, Lafont 2004, and a witness for the
+non-elementary cut-elimination bound. None held. The document's status line says
+so and §5 lists four things it must not be taken to claim.
+
+**One correction it forced, now in R6 §7.4.** The earlier characterisation — that
+Willard's product and contraction's are "the same additive-versus-multiplicative
+line, one level up" — was wrong, and the document now says where each
+multiplication lives. `Glue(t,p)`'s *size* is additive, `|t|+|p|+O(1)`; its
+*code* is `Θ(N_t·N_p)` only because codes are exponential in size. Contraction's
+multiplication is in the derivation size itself. Shared axis, different
+mechanism. §7.4 also now records that Willard has **both** obstructions: `Glue`
+builds a tableau directly and is blocked only by code arithmetic, while general
+modus ponens needs cut elimination, which Remark 2 takes from the metatheory.
+
+`audit.sh` green; R-F 84 paths.
