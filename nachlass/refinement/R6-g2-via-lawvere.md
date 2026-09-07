@@ -57,20 +57,24 @@ Three things this buys that `lawvere-sjas.md` Theorem 1.1 did not:
 
 1. **The fixed point is no longer a hypothesis.** It enters and leaves through
    the scheme's own Theorem 3, so the arithmetic strength it costs is visible
-   and separately numbered (H-C below) rather than folded into "suppose
-   `G ↔ ¬□G`".
+   and separately numbered (H-C-fn and H-C-pt below) rather than folded into
+   "suppose `G ↔ ¬□G`".
 2. **A numbered hypothesis list** (§5), with the point of consumption of each
    hypothesis marked in the proof — including the single step at which
    Beklemishev–Shamkanov's boxed contraction is used, and the single step at
    which Willard's Type-A condition (2) is used twice.
-3. **Proposition 7.1**, the payoff for the SJAS question: the derivation
-   consumes hypothesis H-C **only through its conclusion**. A system that has no
-   internally total substitution — `IS(A)` — therefore does **not** thereby
-   evade G2, provided it can name one fixed point, which `Willard2001` Theorem
-   A.1's footnote 16 does. On the Lawvere side, *weak point-surjectivity is not
-   the load-bearing hypothesis.* That is why the "attack the fixed point" cell
-   of `R3-the-margin.md` is empty, and it is now a proposition rather than an
-   observation.
+3. **Proposition 7.1**, the payoff for the SJAS question. The diagonal enters
+   the list **twice**, and the two entries are different statements. **H-C-fn**
+   — substitution is a definable *total function*, so that Yanofsky's own
+   representative `G(x) = E(D(x))` can be written — is what `IS(A)` destroys.
+   **H-C-pt** — for each formula separately, a provable biconditional at a fixed
+   numeral — is what the scheme actually consumes, and Proposition 7.1 reduces
+   even that to a *single* index. `IS(A)` retains the fixed-numeral regime by
+   design, and `Willard2001` Theorem A.1's footnote 16 exhibits the one instance
+   required. So the Lawvere hypothesis and the Willard failure **are not the
+   same statement**, which is why breaking the latter does not touch the former.
+   That is why the "attack the fixed point" cell of `R3-the-margin.md` is empty,
+   and it is now a proposition rather than an observation.
 
 Departure from the source, declared: Yanofsky's `Φ_E : Lind⁰ ⟶ Lind⁰` and his
 `f : Lind¹ × Lind¹ ⟶ Lind⁰` are **not well defined as stated** (§2.3). The
@@ -361,7 +365,8 @@ relation, underneath all three derivability conditions rather than one of them.
 | --- | --- | --- |
 | **H-A** | `Y = Lind⁰` is a Heyting algebra: `∧`, `⇒`, `⊤`, `⊥` with residuation | §3.1 |
 | **H-B** | a set `Form¹` of one-variable formulas, a coding `⌜·⌝`, the quotient `β : Form¹ ⟶ Lind¹` with right inverse `β̄`, and the evaluation `f(B,[H]) = [H(⌜B⌝)]` | §2.3 |
-| **H-C** | the diagonal function `D` with `D(⌜B(x)⌝) = ⌜B(⌜B(x)⌝)⌝` is representable in the theory, so that `g_β` as constructed below is representable by `f` | §2.1 Remark 5, §5.2 |
+| **H-C-fn** | *(one route to H-C-pt, and not itself consumed)* the diagonal `d(B) = ⌜B(⌜B⌝)⌝` is a definable **total function** `D` of the theory, so that Yanofsky's representative `G(x) = E(D(x))` can be written as a term | §2.1, §5.2 |
+| **H-C-pt** | for every `B ∈ Form¹`, `⊢ G(⌜B⌝) ↔ ¬Prov(d̄(B))` — a *family of provable biconditionals, each at a fixed numeral*, which is what "`g_β` is representable by `f`" means in `Lind⁰` | §2.1 Remark 5, §5.2 |
 | **H-D** | `□[P] = [Prov(⌜P⌝)]` is a well-defined endofunction of `Lind⁰` | Lemma 3.2 — *derived from M1, M2* |
 | **H-M1** | `⊤ ≤ a ⟹ ⊤ ≤ □a` | §3.2 |
 | **H-M2** | `□(a ⇒ b) ∧ □a ≤ □b` | §3.2 |
@@ -374,13 +379,24 @@ completeness or reflection principle. Yanofsky's G1 application is stated "in a
 consistent and ω-consistent theory" (printed p. 16); the G2 instance needs only
 H-N. The negative reading is the cheaper of the two.
 
+**Why H-C is split, and why the split is the whole of §7.** Representability in
+Yanofsky's sense is the equation `g_β(−) = f(−,s₀)` — a *family of equalities in
+`Lind⁰`*, one per formula, each of them a provable biconditional at a fixed
+numeral. It is a metatheoretic condition on a family. It is **not** the
+internally quantified sentence `∀x ∃z Subst(x,z)`, and a theory may satisfy the
+first while refuting the second. H-C-fn is one convenient way to secure H-C-pt —
+Yanofsky's way, and the only way his §5 offers — but it is strictly stronger
+than what the square consumes. Conflating the two is the error §7.1 exists to
+prevent, and an earlier draft of this document committed it.
+
 ### 5.2 The theorem
 
-> **Theorem 5.1 (G2 in the scheme, positive form).** Assume H-A, H-B, H-C,
+> **Theorem 5.1 (G2 in the scheme, positive form).** Assume H-A, H-B, **H-C-pt**,
 > H-M1, H-M2, H-M3, H-K. If `□⊥ ≤ ⊥` then `⊥ = ⊤`.
 >
 > Equivalently, with H-N: **a consistent theory satisfying the derivability
-> conditions and carrying the diagonal function does not prove `Con`.**
+> conditions, and able to name its diagonal instances one at a time, does not
+> prove `Con`.** H-C-fn is not assumed.
 
 *Proof.* Take `α := α_⊥`, i.e. `α(y) = □y ⇒ ⊥ = ¬□y`. By Lemma 3.2 this is an
 endofunction of `Lind⁰`. It is `Φ_E` for
@@ -390,17 +406,30 @@ endofunction of `Lind⁰`. It is `Φ_E` for
 **which is verbatim the `E(x)` Yanofsky uses for Gödel's First Incompleteness
 Theorem** (printed p. 16).
 
-Build Yanofsky's square in the repaired form of §2.3:
+Build Yanofsky's square in the repaired form of §2.3, writing `d(B) := ⌜B(⌜B⌝)⌝`
+for the diagonal number of `B` and `d̄(B)` for its numeral:
 
-`g_β : Form¹ ⟶ Lind⁰`,  `g_β(B) := α(f(B, β(B))) = α([B(⌜B⌝)]) = [¬Prov(⌜B(⌜B⌝)⌝)]`.
+`g_β : Form¹ ⟶ Lind⁰`,  `g_β(B) := α(f(B, β(B))) = α([B(⌜B⌝)]) = [¬Prov(d̄(B))]`.
 
-By H-C, `⌜B(⌜B⌝)⌝ = D(⌜B⌝)` with `D` representable, so setting
+What is needed now is a single `G ∈ Form¹` with `g_β(B) = f(B,[G]) = [G(⌜B⌝)]`
+for every `B`. There are two ways to get one, and they are the two halves of the
+split hypothesis.
 
-`G(x) :≡ ¬Prov(D(x)) ∈ Form¹`
+- **Term form (H-C-fn), Yanofsky's own.** If the theory has a definable total
+  function `D` with `⊢ D(⌜B⌝) = d̄(B)`, put `G(x) :≡ ¬Prov(D(x))`.
+- **Relational form (H-C-pt).** If substitution is available only as a
+  predicate `Subst(x,z)` — not as a function symbol — put
 
-gives `g_β(B) = [G(⌜B⌝)] = f(B, [G])` for every `B`; that is, `g_β` is
-representable by `f` at `s₀ := [G] ∈ Lind¹`. Theorem 3′ then yields a fixed
-point of `α` at
+  `G(x) :≡ ∀z (Subst(x,z) ⊃ ¬Prov(z)) ∈ Form¹`.
+
+  Then `[G(⌜B⌝)] = [¬Prov(d̄(B))]` follows for a *given* `B` from two
+  fixed-numeral facts, `Subst(⌜B⌝, d̄(B))` and
+  `∀z (Subst(⌜B⌝,z) ⊃ z = d̄(B))`. No totality statement is needed, because the
+  square asks for one equation per `B`, never for a sentence quantifying over
+  `B`.
+
+Either way `g_β` is representable by `f` at `s₀ := [G] ∈ Lind¹`, which is
+H-C-pt. Theorem 3′ then yields a fixed point of `α` at
 
 `γ := f(β̄(s₀), s₀) = [G(⌜G⌝)]`,  i.e.  `⊢ G(⌜G⌝) ↔ ¬Prov(⌜G(⌜G⌝)⌝)`.
 
@@ -419,9 +448,9 @@ not representable.
 > Theorem 2, for every `f : Form¹ × Lind¹ ⟶ Lind⁰` the function
 > `g_β(B) = α(f(B,β(B)))` is **not representable by `f`**.
 >
-> But for the evaluation `f` of H-B, `g_β` *is* representable, at
-> `[¬Prov(D(x))]`, whenever H-C holds. Hence H-C, H-N and `⊢ Con` are
-> jointly contradictory: **`⊬ Con`.**
+> But for the evaluation `f` of H-B, `g_β` *is* representable, at `[G]`,
+> whenever H-C-pt holds — by either route of §5.2. Hence H-C-pt, H-N and
+> `⊢ Con` are jointly contradictory: **`⊬ Con`.**
 
 The two corollaries are contrapositives of one another, exactly as Theorems 1
 and 3 are contrapositives in the source. Corollary 5.2 is the one that places
@@ -489,59 +518,143 @@ Willard; it is the existing claims of `lawvere-sjas.md` and `refined-sjas.md`
 relocated onto a hypothesis list that now includes the fixed point's own
 provenance.
 
-### 7.1 Point-surjectivity is not the load-bearing hypothesis
+### 7.1 The substitution *function* is not a hypothesis of the theorem
 
-> **Proposition 7.1 (fixed-point economy).** In the proof of Theorem 5.1,
-> hypothesis **H-C** is consumed exactly once and **only through its
-> conclusion**: what the argument uses is that `α_⊥` has *a* fixed point.
-> Consequently, a system in which `D` is *not* representable — so that H-C
-> fails, `g_β` is not representable, and Theorem 3′ is unavailable — still
-> satisfies every hypothesis Theorem 5.1 consumes, provided it can name one
-> sentence `γ` with `⊢ γ ↔ ¬□γ`.
+> **Proposition 7.1 (fixed-point economy).** In the proof of Theorem 5.1:
 >
-> *Proof.* Inspect §5.2: H-C is used only to produce `γ`, and §4 takes `γ` as
-> given. Substituting "there exists `γ` with `γ = α_⊥(γ)`" for H-C leaves the
-> proof unchanged. ∎
+> (i) **H-C-fn is not consumed at all.** It appears only as one of two routes to
+> H-C-pt, and §5.2's relational route reaches H-C-pt without it.
+>
+> (ii) **H-C-pt is consumed at a single index.** Theorem 3′'s proof evaluates
+> the representability equation only at `t = β̄(s₀)`; every other member of the
+> family is inert. H-C-pt may therefore be replaced by the single hypothesis
+>
+> **H-C-1**: some `γ ∈ Lind⁰` satisfies `γ = ¬□γ`, i.e. `⊢ γ ↔ ¬Prov(⌜γ⌝)`,
+>
+> and the proof is unchanged.
+>
+> *Proof.* (i) Inspect §5.2: the two routes are alternatives and the relational
+> one assumes no function symbol. (ii) Inspect Theorem 3′: its chain is
+> `f(β̄(s₀),s₀) = g_β(β̄(s₀)) = α(f(β̄(s₀), s₀))`, which uses the
+> representability equation at `β̄(s₀)` and nowhere else; §4 then takes `γ` as
+> given. ∎
 
-This is Remark 5 weakened one step further than Yanofsky weakens it: from *every
-constructed `g` is representable* to *this one `g` is*, and then to *its
-conclusion holds by other means*.
+This is Yanofsky's Remark 5 taken two steps further than he takes it: from
+*every* `g : T ⟶ Y` is representable, to *every constructed* `g` is (his step),
+to *this one* `g` is, to *this one `g` at this one argument* is.
 
-**The consequence for SJAS.** `Willard1993-TR` printed p. 37 states outright
-that `IS(A)` cannot prove `∀x ∃y SUBST_i(x,y)` — "Since it does not recognize
-multiplications as a function, `IS(A)` will clearly be too weak to prove that…"
-— while it *can* prove `∃y SUBST_i(k̄,y)` "for **any fixed integer `k̄`**"
-(quotation recorded at `refined-sjas.md` §2.1; the underlying result carries its
-`../codification/registry/results.md` status there). In §5.1's terms: **`IS(A)`
-fails H-C and supplies its conclusion anyway.** `Willard2001` Theorem A.1's
-footnote 16 exhibits the required instance — for
-`Theta(z) := ∀x ∀y (Subst(z,x) ⊃ ¬Derive(x,y))` and `N = code(Theta)`, `α`
-proves `Theta(N) ↔ ¬Der(code(Theta(N)))` (image-verified, `VERIFICATION.md`;
-Theorem A.1 itself is **`stated-only`**, and that status governs every use of it
-here). The same footnote records that this fixed-point identity is the *only*
-step of the argument said to need PA's `Π⁻₁` theorems.
+**A correction to this document's own earlier draft, recorded rather than
+quietly amended.** The first version of this section said "`IS(A)` fails H-C and
+supplies its conclusion anyway", with H-C stated as "the diagonal function `D`
+… is representable in the theory". That sentence conflated two different
+statements — the theory's internal `∀x ∃z Subst(x,z)` and the metatheorist's
+family of fixed-numeral biconditionals — and so made the argument look like a
+lucky escape from a hypothesis that had failed. It is not an escape. **The
+hypothesis that fails in `IS(A)` was never on the list.**
 
-> **Corollary 7.2.** Losing weak point-surjectivity does not evade G2. On the
-> Lawvere side, the "attack the fixed point" cell of `R3-the-margin.md` is empty
-> not because the diagonal is hard to remove, but because **removing it is not
-> sufficient**: the limitative argument needs one instance, and one instance is
-> what the weak theories can still name.
+**What `IS(A)` removes, from the page.** `Willard1993-TR` Appendix A introduces
+substitution as a **relation** and never as a function — item (iii) of printed
+p. 37 reads "`SUBST_i(x,y)` denotes Godel's classic substitution *relation*
+which yields TRUE when …". The Point of Clarification on the same page then
+states the failure and its scope in one breath:
+
+> "Since it does not recognize multiplications as a function, `IS(A)` will
+> clearly be too weak to prove that `∀x∃y SUBST_i(x,y)`. However, `IS(A)` will
+> be able to prove for *any fixed integer* `k̄` that `∃y SUBST_i(k̄,y)`. It will
+> turn out that the latter will be sufficient for `IS(A)` to formally define the
+> *particular instance of the reflection principle* needed to define H."
+
+That is **exactly** H-C-fn failing and H-C-pt surviving, in Willard's own words,
+and the last sentence says he intends to use the survivor.
+
+**And the diagonal number itself is constructed, named, and load-bearing.**
+Printed p. 38 does the diagonalization in the ordinary way: `J` is the Gödel
+number of Equation (A.1) — the formula carrying the free variable — and the
+self-substitution instance is (A.2), the Group-3 axiom. Willard states its
+defining property twice: the parenthesis at (A.3), "the only integer `z`
+satisfying `SUBST_i(J,z)` in equations (A.2) & (A.3) is (A.2)'s Godel number",
+and Clarifying Comment 1, "`K` denotes the *unique* Godel number satisfying
+`SUBST_i(J,K)`". `K` is then the threshold separating proofs that use Group-3
+from proofs that do not, which is what makes (A.3) a correct `Δ₀` definition of
+`Prf_{IS(A)}`. Substitution appears throughout only under a **bounded**
+quantifier with a fixed first argument — `∃z<y SUBST_i(J,z)` — which is the
+relational form of §5.2 with the bound supplied by the encoding.
+
+So the situation is not that Willard removes the diagonal number. He constructs
+it, he needs it, and his system is built on its uniqueness. What he removes is
+the *function*.
+
+`Willard2001` Theorem A.1's footnote 16 then exhibits the H-C-1 instance in the
+same relational shape: for `Theta(z) := ∀x ∀y (Subst(z,x) ⊃ ¬Derive(x,y))` and
+`N = code(Theta)`, `α` proves `Theta(N) ↔ ¬Der(code(Theta(N)))` (image-verified,
+`VERIFICATION.md`; Theorem A.1 itself is **`stated-only`**, and that status
+governs every use of it here). Note the `∀`-relational `Theta`, not a
+substitution term — the same device. The same footnote records that this
+fixed-point identity is the *only* step of the argument said to need PA's `Π⁻₁`
+theorems.
+
+> **Corollary 7.2.** Losing the substitution **function** does not evade G2,
+> because the scheme never asked for one. On the Lawvere side, the "attack the
+> fixed point" cell of `R3-the-margin.md` is empty for a sharper reason than
+> "removing the diagonal is hard": the only diagonal hypothesis the argument
+> consumes is H-C-1, a single fixed-numeral biconditional, and the fixed-numeral
+> regime is precisely what the weak theories keep — deliberately, because they
+> need it to build their own Group-3 axiom.
+
+**H-C-pt is not free, and the corpus's size analysis is the price.** It would be
+easy to read "substitution is only a relation" as a cheap disclaimer. It is the
+opposite. Once multiplication is not a total function, *existence of a number is
+no longer free*, so every object the theory must be able to name — a proof code,
+a tableau, the diagonal number `K` — has to be shown to lie inside the range the
+theory can prove inhabited. **The bit-accounting is the existence argument**,
+carried out object by object; there is no other way to secure a fixed-numeral
+instance. `Willard1993-TR` printed p. 15 says so at the point where the encoding
+is designed:
+
+> "The symbol `ĉ[j]` will also have a quite standard meaning, it will designate
+> a constant that represents the integer `j`. **If `j` is a very large number,
+> then its repeated appearance in a proof could cause the proof to grow to an
+> unacceptably large size.** Therefore, our notation will employ two special
+> symbols to reduce the bit length of a proof."
+
+and **Lemma 5.2** (status **`full`**) states the reason outright, in a
+parenthesis with an exclamation mark:
+
+> "(The reason for the new "`v#`" notation is that the two analogous mappings
+> *onto* `⌜Φ(ĉ[j])⌝` *are unknown by* `IS(PA+)` *to be total functions* !)"
+
+Expanding a long constant in place is precisely the operation whose totality is
+unavailable, so the encoding never performs it: `u#`/`v#` are **pointers**, the
+same page fixes integers at `⌊log₃₂ i⌋ + 3` bytes, and the whole scheme is built
+"so as to achieve the ideal 'linear' bit compression". Linear is what a theory
+without multiplication can certify. The exactitude about growth throughout the
+corpus — the `θ` constants, `Log(q_β) ≥ 5J`, the `ω_i`/`ϖ_i` hierarchies — is
+this same obligation discharged in later settings, and `Willard2001` Remark 3.6
+records how little room there is: "the margin between the attainable and the
+impossible is exactly one" (`Willard2001#Rem3.6`, status `cited`). A margin of
+one cannot be measured loosely.
+
+So the relation between §7.1 and the corpus's arithmetic is not that Willard
+waived a hypothesis. **He paid for its surviving half by hand, instance by
+instance**, and the payment schedule is the size analysis.
 
 ### 7.2 The list, against the three systems
 
 | hypothesis | who breaks it | evidence and status |
 | --- | --- | --- |
 | **H-A** (cartesian/Heyting value object) | nobody in the comparison | — |
-| **H-C** (representable diagonal / point-surjectivity) | Willard `IS(A)` | `Willard1993-TR` p. 37, image-verified; **and by Prop. 7.1 this does not block the argument** |
+| **H-C-fn** (substitution as a total function) | **Willard `IS(A)`** | `Willard1993-TR` printed p. 37, image-verified: `∀x∃y SUBST_i(x,y)` unprovable, substitution used only as a relation. **But H-C-fn is not consumed by Theorem 5.1** (Prop. 7.1(i)) |
+| **H-C-pt** (fixed-numeral biconditionals) | nobody in the comparison | `IS(A)` keeps it by design — `∃y SUBST_i(k̄,y)` "for any fixed integer `k̄`", printed p. 37 — and needs it to define its own Group-3 axiom |
 | **H-M1** (necessitation) | nobody | — |
 | **H-M2** (uniform composition) | **Willard Type-A `IS(A)`** | `Willard1993-TR` printed p. 12, image-verified: composition holds "only in the *degenerate case* where `x` and `y` are *fixed constants*". This is the breach. |
 | **H-M3** (four) | nobody in the comparison; §6's route dispenses with it | — |
 | **H-K** (contraction on `□γ`) | **Beklemishev–Shamkanov `S`** | `lawvere-sjas.md` §§0, 3.3 and `R2-beklemishev-shamkanov-assessment.md` §§1, 2.3: `S` satisfies L1–L3 and lacks the boxed diagonal |
 | **H-N** (`⊥ ≠ ⊤`) | nobody — it is the theorem's point | Willard proves external consistency separately |
 
-The table reproduces `lawvere-sjas.md` §0's verdict with one row added — H-C —
-and that row's entry is the finding: **it is checked, and it is not the
-breach.** Willard's own frame requires the breach to be in the derivability
+The table reproduces `lawvere-sjas.md` §0's verdict with two rows added — the
+split halves of the diagonal — and those rows carry the finding: **the half
+`IS(A)` breaks is not a hypothesis of the theorem, and the half that is one it
+keeps.** Willard's own frame requires the breach to be in the derivability
 conditions ("every self verifying system must breach in some way one of the
 three fundamental Hilbert-Bernays conditions", `Willard1993-TR` printed p. 1,
 image-verified), and this document's hypothesis list is the first one in the
@@ -562,7 +675,7 @@ closure property available to any `α`-sound and `α`-complete deduction method.
 
 Read against §5.1: Theorem 7.2 has the shape of Lemma 4.1's conclusion —
 `□c ≤ c ⟹ c = ⊤` — restricted to `Π⁻₁` `c`, with **H-M1–H-M3 replaced by a
-semantic hypothesis** and **H-C again supplied at a fixed numeral `n̄`**. If that
+semantic hypothesis** and **H-C-1 again supplied at a fixed numeral `n̄`**. If that
 reading survives checking, Willard's §7 is a *fourth* row of §7.2's table:
 neither the Kreisel substitution (§6) nor the Willard Type-A breach, but a third
 way of paying for the fixed-point-free `α`.
@@ -576,12 +689,12 @@ theorem. It is recorded as the obvious next question the hypothesis list raises.
 
 ## 8. What has and has not been proved
 
-**Proved here.** Theorem 5.1 and Corollary 5.2, from H-A, H-B, H-C, H-M1–H-M3,
-H-K, H-N. Lemma 4.1 (= Löb, algebraic form) with the consumption of each
-hypothesis marked. Lemma 3.1, Lemma 3.2, Theorem 3′. Proposition 7.1 and
-Corollary 7.2. Departure Y1: the source's `Φ_E` and `f` are ill defined on
-Lindenbaum classes, with a counterexample, and are repaired by the source's own
-Theorem 2.
+**Proved here.** Theorem 5.1 and Corollary 5.2, from H-A, H-B, H-C-pt,
+H-M1–H-M3, H-K, H-N — **H-C-fn is not among them**. Lemma 4.1 (= Löb, algebraic
+form) with the consumption of each hypothesis marked. Lemma 3.1, Lemma 3.2,
+Theorem 3′. Proposition 7.1 and Corollary 7.2. Departure Y1: the source's `Φ_E`
+and `f` are ill defined on Lindenbaum classes, with a counterexample, and are
+repaired by the source's own Theorem 2.
 
 **Not new.** Lemma 4.1 is Löb's theorem. Theorem 5.1 is Gödel's second
 incompleteness theorem in the Hilbert–Bernays–Löb form. The *route* — through
@@ -592,23 +705,42 @@ contributes, together with Proposition 7.1.
 **Not claimed.**
 
 - No claim that G2 follows from Lawvere's fixed point theorem *alone*. It does
-  not: LFPT supplies H-C's conclusion and nothing else. The modal hypotheses
-  H-M1–H-M3 are irreducibly extra, and §4(a) says exactly what they add — the
-  ability to run the same square a second time inside `□`.
+  not: LFPT supplies H-C-1 and nothing else. The modal hypotheses H-M1–H-M3 are
+  irreducibly extra, and §4(a) says exactly what they add — the ability to run
+  the same square a second time inside `□`.
+- No claim that `IS(A)` satisfies H-C-pt as a *schema*. What is established from
+  the page is that `IS(A)` proves `∃y SUBST_i(k̄,y)` for any fixed `k̄`, that
+  Willard says this suffices for the instance he needs, and that `Willard2001`
+  footnote 16 exhibits an H-C-1 instance under Theorem A.1's `Π⁻₁` hypothesis
+  (**`stated-only`**). The uniqueness half of §5.2's relational route,
+  `∀z (Subst(k̄,z) ⊃ z = d̄)`, is asserted by Willard metatheoretically at
+  `Willard1993-TR` printed p. 38 ("the *unique* Godel number satisfying
+  `SUBST_i(J,K)`"); **whether `IS(A)` itself proves that uniqueness at a fixed
+  numeral has not been checked here**, and Theorem 5.1's application to `IS(A)`
+  is conditional on it.
 - No claim that Yanofsky's own suggestion (§6) has been carried out to this
   stage's evidentiary standard. §6 is `unverified` and marked so.
 - No claim that Willard's Theorem 7.2 is an instance of Lemma 4.1 (§7.3).
 - No claim about Pakhomov's `H_{<ω}`, which remains outside this comparison for
   the reason `lawvere-sjas.md` §6 records.
-- Proposition 7.1 says that failing H-C does not *evade* G2. It says nothing
-  about whether failing H-C is *necessary* for anything, and nothing about
+- Proposition 7.1 says that failing H-C-fn does not *evade* G2. It says nothing
+  about whether failing H-C-fn is *necessary* for anything, and nothing about
   self-justification, which needs an internal consistency point *and* external
   consistency (`lawvere-sjas.md` §1.3).
 
 **Open, and sharpened by this document.** ADR-0004's "empty cell" question
 becomes: is there a system in which `α_⊥` has *no* fixed point at all — not
-merely one where `D` is not internally total? Corollary 7.2 says the second is
-not enough. The first is not known to be occupied by any system in the corpus.
+merely one where substitution is not internally total? Corollary 7.2 says the
+second is not enough, and §7.1's correction says the second was never a
+hypothesis of the theorem. The first is not known to be occupied by any system
+in the corpus.
+
+**Also open, and raised by the correction.** H-C-1 is the weakest form of the
+diagonal hypothesis this document could find. Is it the weakest there is? The
+argument needs one sentence `γ` with `⊢ γ ↔ ¬□γ`; a system that could not name
+even one would be the occupant of the empty cell, and no mechanism for denying a
+single fixed-numeral instance while retaining a usable proof predicate is known
+here.
 
 ---
 

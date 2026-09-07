@@ -139,6 +139,7 @@ covering all five of Willard's dials	the margin covers all five dials
 every consistency-preservation proof in the corpus	one preservation engine, not two
 naming an integer must not be cheaper	the naming slogan as THE arithmetic form
 the cleanest available form	Willard2009 Lemma 5 as a completed statement
+fails H-C and supplies its conclusion	H-C conflated internal totality with the scheme's representability
 PATTERNS
   echo "  R-D: $n retracted claims checked; each occurrence is quoted or marked retracted on its own line"
 }

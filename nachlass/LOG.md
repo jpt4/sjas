@@ -3987,3 +3987,61 @@ Yanofsky witness acquired (arXiv:math/0305282, 24 pp., hash in
 1–24 as text, and the coverage is recorded as ranges in §9 rather than as an
 adjective. Eight quotation-register rows added. `audit.sh` and `audit-r.sh`
 green: R-B 68 rows, all `img`.
+
+## 2026-09-06 — The diagonal hypothesis, split
+
+A question put to the R6 G2 document: does Willard invalidate the construction
+of the number representing the Gödel sentence? Checking it against the page
+showed the answer is no, and that the document's own wording had made the
+question sound answerable either way.
+
+`Willard1993-TR` printed p. 37, item (iii), read as a page image: `SUBST_i(x,y)`
+is "Godel's classic substitution **relation**" — a relation at its first
+definition, never a function symbol. Printed p. 38 then does the diagonalization
+in the ordinary way and names the number: `J` is the Gödel number of Equation
+(A.1), and "the only integer `z` satisfying `SUBST_i(J,z)` … is (A.2)'s Godel
+number", restated in Clarifying Comment 1 as "`K` … the **unique** Godel number
+satisfying `SUBST_i(J,K)`". `K` is the threshold that makes (A.3) a correct `Δ₀`
+definition of `Prf_{IS(A)}`. **`IS(A)` constructs its diagonal number and is
+built on its uniqueness.** What it gives up is the *function*.
+
+The document had written the Lawvere-side hypothesis as "the diagonal function
+`D` … is representable in the theory", and then said "`IS(A)` fails H-C and
+supplies its conclusion anyway". That conflates two different statements: the
+theory's internal `∀x∃y SUBST_i(x,y)`, and the metatheorist's family of
+fixed-numeral biconditionals `⊢ G(⌜B⌝) ↔ ¬Prov(d̄(B))` that "representable by
+`f`" actually means in `Lind⁰`. Yanofsky's condition is the second. A theory can
+satisfy it while refuting the first.
+
+H-C is now two hypotheses. **H-C-fn** — substitution as a definable total
+function, which is what lets Yanofsky write `G(x) = E(D(x))` — is what `IS(A)`
+destroys, and Proposition 7.1(i) shows it is **not consumed by the theorem at
+all**: §5.2 now gives a second, relational route to the representative,
+`G(x) = ∀z (Subst(x,z) ⊃ ¬Prov(z))`, which is the shape `Willard2001` footnote
+16's `Theta(z)` already has. **H-C-pt** is the family of fixed-numeral
+biconditionals, and Proposition 7.1(ii) reduces it to a single index, since
+Theorem 3′ evaluates the representability equation only at `β̄(s₀)`. So the
+correction strengthens the result: it is not that `IS(A)` fails a hypothesis and
+escapes anyway — **the hypothesis it fails was never on the list.**
+
+A second question — if totality is dropped, why the exacting growth analysis? —
+has its answer on printed p. 15, now imaged. Dropping multiplication does not
+make size irrelevant; it makes size the criterion of existence, so every object
+the theory must name has to be shown to fit. Willard designs the encoding around
+exactly that: constants are stored as `u#`/`v#` **pointers** because "if `j` is a
+very large number, then its repeated appearance in a proof could cause the proof
+to grow to an unacceptably large size", and Lemma 5.2 (`full`) says why in a
+parenthesis — "the two analogous mappings *onto* `⌜Φ(ĉ[j])⌝` *are unknown by*
+`IS(PA+)` *to be total functions* !". Integers cost `⌊log₃₂ i⌋ + 3` bytes, "so as
+to achieve the ideal 'linear' bit compression". The bit-accounting **is** the
+totality argument. New §7.1 paragraph records this, with `Willard2001` Remark 3.6
+on how little room there is: "the margin between the attainable and the
+impossible is exactly one".
+
+One new limitation declared in §8: the uniqueness half of the relational route,
+`∀z (Subst(k̄,z) ⊃ z = d̄)`, is asserted by Willard metatheoretically at printed
+p. 38; whether `IS(A)` proves it at a fixed numeral has **not** been checked, and
+Theorem 5.1's application to `IS(A)` is conditional on it. Recorded as a
+limitation rather than assumed, per rule 8.
+
+Three register rows added, all `img`. `audit.sh` and `audit-r.sh` green.
