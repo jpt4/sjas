@@ -4105,3 +4105,120 @@ Two register rows added, both `img`; the page was read as an image because
 `pdftotext` renders `≠` as `6=` and drops Eq. (4)'s division bars — hazard H2,
 behaving exactly as the charter predicts. §5.2 carries the parallel.
 `audit.sh` green.
+
+## 2026-09-06 — The multiplication-totality thread
+
+A working session, logged because it is the reasoning behind R6 §5.1's split and
+§5.2's relational route, and because four of its five conclusions are readings
+of the corpus rather than quotations and should be visible as such. Four
+questions were put in sequence.
+
+**1. Does the size discipline force a constructive proof predicate?** No, and
+the question separates into three. Willard's logic is classical throughout —
+semantic tableaux, classical connectives; nothing intuitionistic is in play.
+*Conventional* G2 already requires an effective proof predicate: `Prf` must be
+`Δ₀`/`Δ₁` and `Prov` `Σ₁`, because HBL (1) fails for a predicate the theory
+cannot decide and HBL (3) **is** provable `Σ₁`-completeness. So non-constructive
+proof predicates are not used in conventional G2 proofs; they would break two of
+the three conditions. Where non-standard predicates *do* appear is as the
+classical evasion — Feferman 1960, extensionally correct and intensionally
+wrong — and `Willard1993-TR` printed p. 1 cites exactly that as the thing he is
+not doing: "[Fe60] illustrates a self-verifying system which employs all the
+axioms of Peano Arithmetic, but which draws upon a deduction method which
+captures the numerical but not intensional definition of classic deduction"
+(image-verified). What is actually at stake in `IS(A)` is neither: it is
+**`Σ₁`-parsimony** — a classical theory that does not prove every true `Σ₁`
+existence claim about codes, so existence claims must be witnessed by numerals of
+certifiable size. The feasibility tradition, not the constructive one.
+
+Structural consequence worth keeping: **R6 Lemma 4.1 mentions effectivity
+nowhere.** It is purely algebraic. Effectivity enters the G2 argument only
+through H-M3 and through H-C-pt's numerals. The one place a conventional G2
+proof reaches for something non-effective is R6 §6's Kreisel route, whose model
+is `Δ₂`-definable — the model, not the proof predicate.
+
+**2. How does multiplication's non-totality imply that *expansion* is not
+total?** Through length, and the answer corrects a loose phrase in the first
+draft of R6 §7.1 ("expansion is exactly the operation whose totality is
+missing"). With `m` the number of occurrences of the variable in `Φ` and
+`ℓ = ⌊log₃₂ j⌋ + 3` the byte cost of `ĉ[j]` (printed p. 15), the pointer form has
+length `≈ |Φ| + ℓ` — a **sum** — and the expanded form `≈ |Φ| + m·ℓ` — a
+**product of two independently varying parameters**. Proving the expanded object
+exists requires at least that `m·ℓ` exist, an instance of the omitted axiom.
+Multiplication-totality is therefore *necessary* for expansion-totality, which is
+why its absence suffices to block it. **The `m·ℓ` accounting is a reading of the
+p. 15 encoding, not a formula Willard displays**; what he does display confirms
+its shape — Lemma 5.2's two provable clauses each pin one factor ("for fixed `j`
+and variable `Φ`", "when `j` is a variable and `Φ` is fixed"), and the two
+analogous maps onto the expanded form leave both free.
+
+**3. What separates a functional from a relational definition?** Three things,
+all stated by `Willard2005` printed p. 5 (imaged; register rows added). (i) A
+function symbol asserts totality *by syntax* — `f(x)` is a term and
+`∀x∃y (y = f(x))` is logically valid — so the symbol cannot be had while the
+axiom is declined: "our U-Grounding based axiom systems `α` do not implicitly
+assume that multiplication is a total function". (ii) Terms are the **bounds** of
+bounded quantifiers, so the signature fixes the `Δ*₀` class; without `·` there is
+no `∃v ≤ x·y`, which is why the corpus needs `Π*_n`/`Σ*_n` rather than
+`Π_n`/`Σ_m`. (iii) Promotion of a relation to a function symbol is a conservative
+definitional extension **iff** totality and uniqueness are provable — which is
+why the distinction is invisible in PA and total below it. Equation (4) is the
+resulting device, recorded in R6 §5.2.
+
+**4. Why not specify a *procedure* for `m·ℓ` instead of an axiom?** Two doors,
+closed for different reasons, and a third fact that makes the question moot.
+
+- **No term names it.** Every Grounding function is non-growth — `Shift(x,y) =
+  x/2^y` *divides*, and the chapter's `Andmultiply(x,y,z)` multiplies **then
+  masks** (drift D10 already notes this "shows a *bounded* multiplication was
+  admissible from the start"). With only Addition and Double growing, any term
+  `t(m,ℓ)` is bounded by `c·(m+ℓ)` with `c ≈ 2^{depth(t)}` fixed *by the term*,
+  and `m·ℓ` outgrows every fixed multiple of `m+ℓ`. **This is a reading, not a
+  quotation**, though it is what the growth/non-growth classification is for.
+- **No induction to run it on.** A procedure of `m` steps yields an existence
+  theorem only by induction on the step count, over `∃z M(k,ℓ,z)` — existential,
+  not `Δ*₀`. `IS(A)` has no such scheme: Group-1 is the `Π₂` totality axiom for
+  *Addition*, Group-2 the reflection schema, Group-3 the self-consistency
+  sentence. Totality here is an **itemised commitment, one axiom per function**;
+  "specify a procedure" and "assume the totality axiom" are the same act, which
+  is why the same question recurs one level up in `IΔ₀` for `2^x`.
+- **Adding the conclusion is fatal, not merely unavailable.** `Willard2001`
+  Theorem 7.3 (**`full`**): `IS^λ(PAX)` + multiplication total + self-referential
+  Group-3 is **inconsistent for every `λ`**. The route is closed at any price.
+
+Underneath all three: the consistency argument runs through **finite** models.
+`Willard2001` Lemma 3.2 (**`sketch`**, and the status governs the point) — a
+`Π⁻₁` sentence with constants `≤ i` valid in the Standard Model is valid in
+`M_i`, in which only `0..i` exist, "because grounding functions are non-growth,
+so `M_i` is closed under" them. A procedure cannot construct what is not in the
+model, and it fails earlier than the last step: every intermediate partial sum of
+length `k·ℓ` must exist too.
+
+**Majorization, which is the corpus's own name for all of this.**
+`Willard1993-TR` Lemma 5.1, printed p. 14, imaged this session and now in the
+register. `Φ(x₁…x_L)` is *majorized with exponent `λ`* iff every quantified
+variable is required to be less than `x_i^λ` for some `i`; every majorized
+formula then has an essentially equivalent `Δ₀` form. The mechanism is the
+Informal Proof Sketch's: replace `∃v < x^λ` by `∃v₁<x ⋯ ∃v_{2λ}<x` and divide
+the string `v` into `2λ` substrings. So majorization is exactly the discipline
+that **a big object is simulated by a fixed-length tuple of in-domain objects**,
+and `2λ` is fixed by the formula. That is why a product of two *variables* is not
+majorized: the tuple length would have to vary with an argument, which is the
+induction that is absent. Willard's own framing of the whole device, on the same
+page: multiplication and `x^λ` "are not functions under IS. Lemma 5.1 illustrates
+how we can overcome this difficulty by treating `x^λ` *almost* as if it was a
+function!!!" — which is H-C-fn versus H-C-pt in his words, nine years before the
+paper R6 reads it out of.
+
+**One conjecture, recorded as a conjecture.** The HBL (2) breach at printed p. 12
+— composition provable "only in the *degenerate case* where `x` and `y` are
+*fixed constants*" — may be the *same* product. Concatenating two proof codes
+`s`, `t` yields `N_s · 32^{|t|} + N_t`, so "there exists `z` proving `β`" asserts
+the existence of a product, available at fixed numerals and not uniformly. If it
+holds, R6 §7.2's H-C-fn row and H-M2 row have one mechanism between them rather
+than two. **Not checked against the source**; Willard gives no mechanism at
+p. 12. It is the obvious next thing to verify, and it would matter, because a
+single mechanism is what a transfer to non-arithmetized systems would need.
+
+Four register rows added across this thread and the previous one (73 total, all
+`img`). `audit.sh` green.
