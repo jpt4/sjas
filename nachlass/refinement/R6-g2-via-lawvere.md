@@ -682,10 +682,10 @@ instance**, and the payment schedule is the size analysis.
 | hypothesis | who breaks it | evidence and status |
 | --- | --- | --- |
 | **H-A** (cartesian/Heyting value object) | nobody in the comparison | — |
-| **H-C-fn** (substitution as a total function) | **Willard `IS(A)`** | `Willard1993-TR` printed p. 37, image-verified: `∀x∃y SUBST_i(x,y)` unprovable, substitution used only as a relation. **But H-C-fn is not consumed by Theorem 5.1** (Prop. 7.1(i)) |
+| **H-C-fn** (substitution as a total function) | **Willard `IS(A)`** | `Willard1993-TR` printed p. 37, image-verified: `∀x∃y SUBST_i(x,y)` unprovable, substitution used only as a relation. **But H-C-fn is not consumed by Theorem 5.1** (Prop. 7.1(i)), and it shares its mechanism with the H-M2 row — see §7.4 |
 | **H-C-pt** (fixed-numeral biconditionals) | nobody in the comparison | `IS(A)` keeps it by design — `∃y SUBST_i(k̄,y)` "for any fixed integer `k̄`", printed p. 37 — and needs it to define its own Group-3 axiom |
 | **H-M1** (necessitation) | nobody | — |
-| **H-M2** (uniform composition) | **Willard Type-A `IS(A)`** | `Willard1993-TR` printed p. 12, image-verified: composition holds "only in the *degenerate case* where `x` and `y` are *fixed constants*". This is the breach. |
+| **H-M2** (uniform composition) | **Willard Type-A `IS(A)`** | `Willard1993-TR` printed p. 12, image-verified: composition holds "only in the *degenerate case* where `x` and `y` are *fixed constants*". This is the breach, and §7.4 exhibits its mechanism — the composed proof's code is bounded by the **product** of the two input codes. |
 | **H-M3** (four) | nobody in the comparison; §6's route dispenses with it | — |
 | **H-K** (contraction on `□γ`) | **Beklemishev–Shamkanov `S`** | `lawvere-sjas.md` §§0, 3.3 and `R2-beklemishev-shamkanov-assessment.md` §§1, 2.3: `S` satisfies L1–L3 and lacks the boxed diagonal |
 | **H-N** (`⊥ ≠ ⊤`) | nobody — it is the theorem's point | Willard proves external consistency separately |
@@ -724,6 +724,87 @@ checked against the page images, the quantifier structure of (62) has not been
 compared with `α_c`, and no claim is made that the two theorems are the same
 theorem. It is recorded as the obvious next question the hypothesis list raises.
 
+### 7.4 One product, four sites — the mechanism, checked
+
+*Directed check, 2026-09-07, against `Willard1993-TR` §§4, 5, 7 and Appendix A.
+The question: does the HBL (2) breach asserted at printed p. 12 have a stated
+mechanism, and is it the **same** mechanism as the substitution and expansion
+failures? It does, and it is.*
+
+**Lemma 7.1's proof (printed p. 24, imaged) internalises one instance of
+proof-composition, and shows what the uniform version would cost.** The `Π₁`
+theorem of `PA+` that Group-2 transfers into `IS(PA+)` reads:
+
+> "`∀t ∀p ∀y` if `t` is a terse proof of `¬Φ` and `p` is a semantic tableaux
+> proof of `Φ` and **`y = 64 · ⌜¬⊥⌝ · t · p`** then `∃q<y` satisfying
+> `Prf_{IS(A)}(⊥,q)`"
+
+— the bound on the glued proof is the **product of the two proof codes**.
+`IS(PA+)` can use it only after `t` is instantiated to a constant `g`:
+
+> "While `IS(PA+)` can not recognize multiplication as a function, it certainly
+> can verify **the scalar product `kp = p+p+p+…+p`** is a function"
+
+which is Eq. (7.1), `∀p ∃y { y = kp = 64·⌜¬⊥⌝·g·p }`. Lemma 5.3's proof (printed
+p. 18, imaged) is the identical step at a different site: `T(p,k) ≤ L_k·p`, and
+"`IS(PA+)` will recognize multiplication by any *scalar constant* as a total
+function because `L_k p = p+p+p+…+p`".
+
+**So the four failures are one product, rescued by one device:**
+
+| site | the product | how the corpus rescues it |
+| --- | --- | --- |
+| Lemma 5.2 — expansion vs pointers | `m·ℓ` (occurrences × constant length) | fix `j`, or fix `Φ` |
+| Lemma 5.3 — the transformation `T(p,k)` | `L_k · p` | fix `k` |
+| **Lemma 7.1 — proof composition, i.e. H-M2** | `64·⌜¬⊥⌝·t·p` | fix `t` at the constant `g` |
+| Appendix A — substitution, i.e. H-C-fn | `∀x ∃y SUBST_i(x,y)` | fix `k̄` |
+
+The device is always the same: **fixing one factor turns a product into a scalar
+multiple, and a scalar multiple unfolds into a fixed-length sum** — the same
+fixed-length unfolding as Lemma 5.1's `2λ` tupling. That is what "only in the
+*degenerate case* where `x` and `y` are *fixed constants*" means mechanically,
+and it is why §7.2's H-C-fn and H-M2 rows have **one** mechanism between them
+rather than two.
+
+*Correction to the form in which this was first conjectured* (`../LOG.md`,
+2026-09-06): the product was guessed to arise from concatenation, as
+`N_s · 32^{|t|} + N_t`. Willard's own bound is the straight product of the two
+codes times a constant. The kinds agree, and concatenation is why a product is
+intrinsic — `Glue(t,p)` has `|t| + |p| + O(1)` symbols, so its code is about
+`32^{|t|+|p|}` — but the corpus's bound is the one to cite.
+
+**The licensing passage for `lawvere-sjas.md` §4.2 is Remark 2**, printed p. 24,
+immediately after Lemma 7.1:
+
+> "our proofs shall *apply a cut rule at the meta-theoretical level*. … suppose
+> it is known that a *cut-free* `IS(PA+)` system can prove the two statements
+> `α` and `α ⊃ β`. Then by the Cut Elimination Theorem …, `IS(PA+)` will also
+> support a cut-free proof of `β`. … we will *often omit constructing formally
+> the cut-free proofs* of such theorems `β`: Instead, *their theoretical
+> existence* will be established implicitly via the Cut Elimination Theorem"
+
+Willard names this **Meta-Logic** and says it "will be used frequently in the
+remainder of this paper". This is HBL (2) in the open: **modus ponens over
+`IS(PA+)`'s theorems is available to the metatheorist by cut elimination, and is
+exactly what the system does not have internally and uniformly.**
+`lawvere-sjas.md` §4.2 asserted that division of labour without citing a
+passage; Remark 2 is the passage. It is also Codification obligation **O19**
+("Flag the Meta-Logic convention"), one of the twenty-four still open under gap
+**G40** — so this check discharges the Refinement's use of O19 and leaves the
+Codification's half of it open.
+
+**What this does not establish, stated because the temptation is real.** It does
+**not** prove H-M2 underivable. It exhibits the mechanism that was previously
+only asserted; it shows every positive internalisation in the paper dodging that
+mechanism the same way; and it shows Willard supplying composition from outside
+by declared convention. A proof of underivability still needs a model of `IS(A)`
+in which the uniform composition sentence is false. `Willard2001` Lemma 3.2's
+finite models `M_i = {0,…,i}` (**`sketch`**) are the obvious candidate, but the
+transfer that lemma carries is for `Π⁻₁` sentences while the uniform composition
+sentence is `Π₂`, so the route needs more than a citation. It remains unwalked.
+
+---
+
 ---
 
 ## 8. What has and has not been proved
@@ -760,6 +841,15 @@ contributes, together with Proposition 7.1.
 - No claim that Yanofsky's own suggestion (§6) has been carried out to this
   stage's evidentiary standard. §6 is `unverified` and marked so.
 - No claim that Willard's Theorem 7.2 is an instance of Lemma 4.1 (§7.3).
+- **No claim that H-M2 is underivable in `IS(A)`.** §7.4 establishes its
+  *mechanism* — the composed proof's code is bounded by the product of the two
+  input codes — and that the same product governs three other sites. What is
+  proved in the corpus is weaker and differently shaped: `IS(A)` is consistent
+  and proves its own consistency, so by Theorem A.1 (**`stated-only`**) *some*
+  one of the three conditions must fail. That is a disjunction. The
+  identification of the failing condition as (2) is Willard's, asserted at
+  printed pp. 1, 2, 6 and 12 and now mechanically explained, not derived. §7.4
+  names what a proof of underivability would still need.
 - No claim about Pakhomov's `H_{<ω}`, which remains outside this comparison for
   the reason `lawvere-sjas.md` §6 records.
 - Proposition 7.1 says that failing H-C-fn does not *evade* G2. It says nothing

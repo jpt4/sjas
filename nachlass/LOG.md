@@ -4222,3 +4222,61 @@ single mechanism is what a transfer to non-arithmetized systems would need.
 
 Four register rows added across this thread and the previous one (73 total, all
 `img`). `audit.sh` green.
+
+## 2026-09-07 — The concatenation conjecture, checked: one product, four sites
+
+The conjecture logged on 2026-09-06 — that the HBL (2) breach at
+`Willard1993-TR` printed p. 12 is the *same* product as the substitution and
+expansion failures — was checked against §§4, 5, 7 and Appendix A. **It holds**,
+the corpus supplies the bound itself, and the check turned up the passage the
+Refinement had been asserting without a citation.
+
+**The mechanism, from Lemma 7.1's proof (printed p. 24, imaged).** The `Π₁`
+theorem of `PA+` that Group-2 transfers into `IS(PA+)` bounds the glued proof by
+`y = 64 · ⌜¬⊥⌝ · t · p` — **the product of the two proof codes**. `IS(PA+)` can
+use it only after `t` is instantiated to the constant `g`, because "While
+`IS(PA+)` can not recognize multiplication as a function, it certainly can verify
+the scalar product `kp = p+p+p+…+p` is a function" (Eq. 7.1). Lemma 5.3's proof
+(printed p. 18, imaged) is the identical step: `T(p,k) ≤ L_k·p`, total "because
+`L_k p = p+p+p+…+p`".
+
+So four failures are one product, and one device rescues each — **fix one factor,
+and the product unfolds into a fixed-length sum**: `m·ℓ` at Lemma 5.2, `L_k·p` at
+Lemma 5.3, `64·⌜¬⊥⌝·t·p` at Lemma 7.1, `∀x∃y SUBST_i(x,y)` in Appendix A. It is
+the same fixed-length unfolding as Lemma 5.1's `2λ` tupling, and it is what "only
+in the *degenerate case* where `x` and `y` are *fixed constants*" means
+mechanically. **R6 §7.2's H-C-fn and H-M2 rows therefore have one mechanism
+between them, not two**; recorded as new R6 §7.4.
+
+**The conjecture's form was wrong and its kind was right.** It guessed the
+product as arising from concatenation, `N_s · 32^{|t|} + N_t`. Willard's bound is
+the straight product of the two codes times a constant. Concatenation is *why* a
+product is intrinsic — `Glue(t,p)` has `|t| + |p| + O(1)` symbols — but the
+corpus's own bound is the one to cite, and R6 §7.4 cites it.
+
+**The unexpected find: Remark 2, printed p. 24, immediately after Lemma 7.1.**
+Willard declares that his proofs "*apply a cut rule at the meta-theoretical
+level*": if a cut-free `IS(PA+)` proves `α` and `α ⊃ β`, cut elimination gives a
+cut-free proof of `β`, and "we will *often omit constructing formally the
+cut-free proofs* of such theorems `β`". He names this **Meta-Logic** and says it
+"will be used frequently in the remainder of this paper". That is HBL (2) in the
+open — **modus ponens over `IS(PA+)`'s theorems is available to the metatheorist
+by cut elimination and is exactly what the system lacks internally and
+uniformly.** `lawvere-sjas.md` §4.2 asserted this division of labour without
+citing a passage; this is the passage. It is Codification obligation **O19**,
+open under **G40**; the Refinement's use of it is now discharged and the
+Codification's half is not.
+
+**What was not established, and is now stated in R6 §8.** None of this proves
+H-M2 underivable. What the corpus proves is a *disjunction*: `IS(A)` is
+consistent (Proposition 1, `full`) and proves its own consistency (Group-3), so
+by Theorem A.1 (**`stated-only`**) some one of the three conditions must fail.
+The identification of (2) is Willard's assertion — made at printed pp. 1, 2, 6
+and 12 — and is now mechanically explained rather than derived. A proof of
+underivability still needs a model of `IS(A)` falsifying the uniform composition
+sentence; `Willard2001` Lemma 3.2's finite models `M_i = {0,…,i}` (**`sketch`**)
+are the candidate, but that lemma transfers `Π⁻₁` sentences while the uniform
+sentence is `Π₂`. Unwalked, and said so.
+
+Four register rows added (79 total, all `img`). Pages imaged this round:
+`Willard1993-TR` printed pp. 13, 17, 18, 24. `audit.sh` green.
