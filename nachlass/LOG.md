@@ -4280,3 +4280,70 @@ sentence is `Π₂`. Unwalked, and said so.
 
 Four register rows added (79 total, all `img`). Pages imaged this round:
 `Willard1993-TR` printed pp. 13, 17, 18, 24. `audit.sh` green.
+
+## 2026-09-07 — Coding invariance, and a wrong candidate withdrawn
+
+Two questions against §7.4: is the composition product an artifact of the Gödel
+coding, and why is the uniform composition sentence `Π₂`. Both answered from
+`Willard2011` printed pp. 38 and 45, imaged; the second answer **retracts a claim
+made in §7.4 yesterday**.
+
+**Coding.** `Willard2011` Definition D.1(iv) promotes the encoding from a
+construction to a condition: the method "can be **essentially any natural
+method** that satisfies the minor stipulation that at least `5J` bits are
+required to encode a semantic tableaux proof that has `J` function symbols", and
+footnote 23 *derives* that stipulation by counting — `J` function symbols force
+`2J` logical symbols force `5J` bits. So the density is a **lower bound obtained
+by counting, not a convention**. Gluing proofs with `J₁` and `J₂` function
+symbols gives one with `J₁+J₂`, hence a code at least `32^{J₁}·32^{J₂}` — the
+product survives every admissible re-encoding. The 1993 ancestor is Lemma 5.1's
+corollary on *linearly equivalent* encodings. Willard does specify the coding
+concretely — a "formal 16-page description" in TR Appendix A, and 2005's
+Appendix A — and 2011 says any other natural mechanism "is equally suitable".
+
+Added inference, marked in §7.4 as this document's and not Willard's: a coding
+compact enough to make composition additive on codes is a coding in which a short
+string names a long proof, which is exactly the capability printed p. 13's
+consistency argument depends on being absent.
+
+**Why `Π₂` — and the correction.** Footnote 22 to Eq. (46) is the general fact:
+`∀x ∀y ∃z ≤ x+y : {z = x+y}` is `Π*₁` "unlike (4)'s `Π*₂` styled format", and the
+bound is writable only because "the U-grounding language possesses an addition
+function symbol". The complexity of a totality claim is set by whether a **term**
+can bound its existential — the same functional/relational point as H-C-fn versus
+H-C-pt, now visible as a complexity classification. Multiplication has no function
+symbol, so `∀x∀y∃z M(x,y,z)` is `Π*₂`; uniform proof-composition, whose witness
+would be bounded by `64·⌜¬⊥⌝·x·y`, is `Π*₂` for the same reason.
+
+**What that retracts.** §7.4 named `Willard2001` Lemma 3.2's finite models
+`M_i = {0,…,i}` as the candidate for a semantic underivability proof and called
+the obstacle a complexity mismatch. The obstacle is worse and simpler: **no
+finite structure models `IS(A)` at all**, because Group-1's Addition-totality
+axiom fails in `M_i` at `x = y = i` — in the `Π₂`/`Π⁻₂` form of 1993 and 2001, and
+equally in 2011's sharpened `Π*₁` form. The `M_i` are a device for checking
+validity of `Π⁻₁` sentences, not models of the system. The right candidate is a
+**cut** in a nonstandard model, closed under Addition and not under the product —
+the semantic content of what Proposition 1 establishes syntactically. §7.4 now
+says so and marks the earlier sentence as withdrawn.
+
+**One further thing the check turned up, not yet acted on.** `ξ**` (printed
+p. 45) replaces semantic tableaux with **Tab−U*₁**, "a revised version of semantic
+tableaux that permits a **modus ponens rule** to perform deductive cut operations
+on `Π*₁` and `Σ*₁` sentences", and `ξ**` "contains a Level-1 modus ponens rule
+(unlike `ξ*`)". So a restricted internal modus ponens **is** available in one of
+Willard's configurations. That is Willard's own frame operating — the breach "may
+arise because of either the axiom system employed or the choice of deduction
+method" — and it sharpens `lawvere-sjas.md` §6's disclaimer that the exact HBL
+breach is not asserted uniformly across every Willard deduction method. Whether
+`ξ**`'s Level-1 modus ponens repairs H-M2 at `Π*₁`/`Σ*₁` and where it stops is
+**not checked here**.
+
+Also image-verified this round: Remark D.5's "the declaration that multiplication
+is a total function is *the trigger-point* causing the semantic tableaux version
+of the Second Incompleteness Theorem to become active", with footnote 31's "**We
+formally proved** in [60, 62, 67, 68]" — so the *adding-it-is-fatal* direction is
+claimed as formally proved, while the *not-derivable* direction remains an
+assertion. The asymmetry is now recorded where §8 needs it.
+
+Three register rows added (82 total, all `img`). `Willard2011` printed pp. 38 and
+45 imaged. `audit.sh` green.

@@ -793,15 +793,54 @@ passage; Remark 2 is the passage. It is also Codification obligation **O19**
 **G40** — so this check discharges the Refinement's use of O19 and leaves the
 Codification's half of it open.
 
+**Is the product an artifact of the coding?** No, and `Willard2011` settles it by
+promoting the encoding from a construction to a **condition**. Definition D.1(iv)
+(printed p. 38, imaged) allows
+
+> "`ξ*`'s Gödelized method `g` for encoding a semantic tableaux proof can be
+> **essentially any natural method** that satisfies the minor stipulation that at
+> least `5J` bits are required to encode a semantic tableaux proof that has `J`
+> function symbols"
+
+and footnote 23 derives the stipulation by counting rather than stipulating it —
+`J` function symbols force at least `2J` logical symbols, hence at least `5J`
+bits, so "all the usual methods for generating the Gödel codes satisfy this
+criteria". The criterion is a **lower bound on size**. Gluing proofs with `J₁`
+and `J₂` function symbols yields one with `J₁+J₂`, hence a code at least
+`32^{J₁+J₂} = 32^{J₁}·32^{J₂}` — *a product of quantities each of which lower-bounds
+an input code.* **The product survives every admissible re-encoding, because what
+forbids a compacter encoding is an information-theoretic count, not a
+convention.** The 1993 ancestor of the same point is Lemma 5.1's corollary on
+*linearly equivalent* encodings: their `Δ₀` classes "must be essentially
+isomorphic", so "the absence of a formal multiplication function in `IS(A)` does
+not raise any new complications, with regards to linearly equivalent encodings".
+
+And an encoding compact enough to defeat the criterion would defeat the
+consistency proof with it: printed p. 13's argument is that an inconsistency
+proof `p` cannot embed a witness `p* ≥ p` because "Addition grows so slowly that
+`log(x + y) ≤ MAX(log x, log y) + 1`", so "it is impossible in `log₂p − 1` bits to
+encode a number as large as `p`". A coding under which composition were additive
+on codes would be exactly a coding in which a short string names a long proof.
+*That last inference is this document's, not Willard's.*
+
 **What this does not establish, stated because the temptation is real.** It does
 **not** prove H-M2 underivable. It exhibits the mechanism that was previously
 only asserted; it shows every positive internalisation in the paper dodging that
 mechanism the same way; and it shows Willard supplying composition from outside
-by declared convention. A proof of underivability still needs a model of `IS(A)`
-in which the uniform composition sentence is false. `Willard2001` Lemma 3.2's
-finite models `M_i = {0,…,i}` (**`sketch`**) are the obvious candidate, but the
-transfer that lemma carries is for `Π⁻₁` sentences while the uniform composition
-sentence is `Π₂`, so the route needs more than a citation. It remains unwalked.
+by declared convention.
+
+A proof of underivability needs a model of `IS(A)` in which the uniform
+composition sentence is false. **An earlier draft of this section named
+`Willard2001` Lemma 3.2's finite models `M_i = {0,…,i}` as the candidate and was
+wrong to.** No finite structure models `IS(A)` at all: Group-1 contains the
+totality axiom for Addition, and it fails in `M_i` at `x = y = i` — in the 1993
+and 2001 presentations, where that axiom is `Π₂`/`Π⁻₂`, and equally in
+`Willard2011`'s sharpened `Π*₁` form `∀x ∀y ∃z ≤ x+y : {z = x+y}` (Eq. 46). The
+`M_i` are a device for checking the *validity of `Π⁻₁` sentences*, not models of
+the system. The right candidate is a **cut** in a nonstandard model — closed
+under Addition, not under the product — which is the semantic content of what
+Proposition 1 establishes syntactically. That route is still unwalked, and this
+document does not walk it.
 
 ---
 
