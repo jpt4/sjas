@@ -802,18 +802,47 @@ promoting the encoding from a construction to a **condition**. Definition D.1(iv
 > least `5J` bits are required to encode a semantic tableaux proof that has `J`
 > function symbols"
 
-and footnote 23 derives the stipulation by counting rather than stipulating it —
-`J` function symbols force at least `2J` logical symbols, hence at least `5J`
-bits, so "all the usual methods for generating the Gödel codes satisfy this
-criteria". The criterion is a **lower bound on size**. Gluing proofs with `J₁`
-and `J₂` function symbols yields one with `J₁+J₂`, hence a code at least
-`32^{J₁+J₂} = 32^{J₁}·32^{J₂}` — *a product of quantities each of which lower-bounds
-an input code.* **The product survives every admissible re-encoding, because what
-forbids a compacter encoding is an information-theoretic count, not a
-convention.** The 1993 ancestor of the same point is Lemma 5.1's corollary on
-*linearly equivalent* encodings: their `Δ₀` classes "must be essentially
-isomorphic", so "the absence of a formal multiplication function in `IS(A)` does
-not raise any new complications, with regards to linearly equivalent encodings".
+and footnote 23 gives the reason it is a *minor* one: `J` function symbols force
+at least `2J` logical symbols, "and thus employ at least `5J` bits", so "all the
+usual methods for generating the Gödel codes satisfy this criteria".
+
+**The arithmetic of that "thus", supplied because the source does not show it.**
+The step counts a *sequence*, not a *count*: a string of `2J` symbols drawn from
+an alphabet of size `k` has `k^{2J}` possibilities and so needs `2J·log₂k` bits.
+TR printed p. 15 fixes the alphabet at "the standard six logical connectives:
+`∧, ∨, ¬, ⊃, ∀`, and `∃`", and `2J · log₂ 6 ≈ 5.17J ≥ 5J`. The constant 5 is
+then `log₂ 32`, which is why the criterion reads `32^J`. *This reconstruction is
+this document's; Willard states the conclusion without the computation.* It is
+recorded in [`VERIFICATION.md`](VERIFICATION.md)'s **Computed claims**.
+
+**How far the criterion reaches, stated more carefully than an earlier draft of
+this section did.** Gluing proofs with `J₁` and `J₂` function symbols yields one
+with `J₁+J₂`, hence — *for any encoding D.1(iv) admits* — a code at least
+`32^{J₁+J₂} = 32^{J₁}·32^{J₂}`, a product of quantities each of which lower-bounds
+an input code. So the product is invariant across the admitted class, and the
+counting above explains why that class is the natural one. **It does not show
+that no encoding whatever could do better**, and the earlier draft's claim that
+"what forbids a compacter encoding is an information-theoretic count, not a
+convention" is withdrawn: counting bounds the *aggregate* — most proofs with `J`
+function symbols cannot be compressed below `2^{5J}`, by pigeonhole — while
+D.1(iv) demands it of *every* one. Willard's own word for it is the right one:
+a **stipulation**, satisfied by the usual methods, motivated by the count, not
+forced by it. The 1993 ancestor is Lemma 5.1's corollary on *linearly
+equivalent* encodings: their `Δ₀` classes "must be essentially isomorphic", so
+"the absence of a formal multiplication function in `IS(A)` does not raise any
+new complications, with regards to linearly equivalent encodings" — again an
+invariance across a class, not across all codings.
+
+**What "the product" concretely is.** Concatenating byte-strings multiplies:
+if `p` occupies `|p|` bytes then the string `t` followed by `p` has value
+`N_t · 32^{|p|} + N_p`. `Glue(t,p)` is not literal concatenation — it is tree
+surgery, a new root `{¬⊥}` with `t` below it and `p` spliced onto `t`'s pivotal
+branch — but its encoding is the two codes plus `O(1)` symbols, so its value is
+`Θ(N_t·N_p)`, and Willard's bound `64·⌜¬⊥⌝·t·p` is exactly a
+constant-times-product cover for it (computation in **Computed claims**). The
+operation actually missing is therefore **left shift by a variable amount**,
+`x · 32^y`. It is worth noting that `G₀` contains the *other* shift:
+`Shift(x,y) = x/2^y` (TR printed p. 3), which shrinks, and is total.
 
 And an encoding compact enough to defeat the criterion would defeat the
 consistency proof with it: printed p. 13's argument is that an inconsistency

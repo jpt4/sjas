@@ -4347,3 +4347,52 @@ assertion. The asymmetry is now recorded where §8 needs it.
 
 Three register rows added (82 total, all `img`). `Willard2011` printed pp. 38 and
 45 imaged. `audit.sh` green.
+
+## 2026-09-07 — The "thus" in footnote 23, and an over-claim withdrawn
+
+Two objections to §7.4, both landing, one of them against a sentence committed
+an hour earlier.
+
+**The "thus".** Footnote 23's chain reads "`J` function symbols … at least `2J`
+logical symbols and thus employ at least `5J` bits", and the challenge was that
+`2J` symbols need only `log₂(2J)` bits. The challenge measures the wrong object:
+`log₂(2J)` is the cost of writing the *number* `2J`; the footnote is bounding a
+**sequence** of `2J` symbols, which over an alphabet of size `k` admits `k^{2J}`
+strings and costs `2J·log₂k` bits. `Willard1993-TR` printed p. 15 fixes the
+alphabet — "the standard six logical connectives: `∧, ∨, ¬, ⊃, ∀`, and `∃`" — and
+`2J·log₂6 ≈ 5.17J ≥ 5J`. The constant is `log₂32 = 5`, which is why the criterion
+is written `32^J`. **Willard states the conclusion and not the computation**, so
+the derivation is now a Computed-claims row rather than a repeated gloss —
+rule 5, and the first time this stage has had to apply it to an encoding
+constant rather than a growth rate.
+
+**The over-claim.** §7.4 said the composition product "survives every admissible
+re-encoding, because what forbids a compacter encoding is an
+information-theoretic count, not a convention." **Withdrawn.** Counting bounds
+the *aggregate* — by pigeonhole, most proofs with `J` function symbols cannot be
+compressed below `2^{5J}` — while D.1(iv) demands the bound of *every* individual
+proof. Willard's own word is the accurate one: a "**minor stipulation**",
+satisfied by the usual methods and motivated by the count, not forced by it. What
+survives is the weaker and still sufficient claim: the product is invariant
+across the class D.1(iv) admits, and the count explains why that class is the
+natural one. Same shape as Lemma 5.1's linear-equivalence corollary — invariance
+across a class, not across all codings. The gap between "natural encodings" and
+"all encodings" is now visible rather than papered over.
+
+**What the product concretely is**, since the second question asked directly
+whether `#Glue(p₁,p₂)` is the digit-concatenation of `#p₁` and `#p₂`. Nearly:
+concatenating byte-strings multiplies, `t` followed by `p` having value
+`N_t·32^{|p|} + N_p`, which for one-digit codes is exactly the `5,6 ↦ 56` case.
+`Glue` is not literal concatenation — it is tree surgery, a new root `{¬⊥}` with
+`t` beneath it and `p` spliced onto `t`'s pivotal branch — but the encoding is the
+two codes plus `O(1)` symbols, so the value is `Θ(N_t·N_p)`. Willard's
+`64·⌜¬⊥⌝·t·p` covers it: with no leading zero byte `N_p ≥ 32^{|p|−1}`, so the
+concatenation is `≤ 33·N_t·N_p`. Computed-claims row added.
+
+**And a sharper name for the missing operation.** What concatenation needs is
+`x·32^y` — **left shift by a variable amount**. `G₀` contains the other
+direction: `Shift(x,y) = x/2^y` (printed p. 3), which shrinks, and is total.
+The signature holds the shrinking shift and omits the growing one, which is the
+same growth/non-growth line as everywhere else in this thread.
+
+Two Computed-claims rows added; register unchanged at 82. `audit.sh` green.
