@@ -4520,3 +4520,46 @@ expensive-in-level — `⌜Type_i⌝ : Type_{i+1}` — and a system that made it
 Refinement, unproved, and the natural first target for R4.**
 
 One Computed-claims row added; register unchanged at 82. `audit.sh` green.
+
+## 2026-09-07 — The second marked slot, correctly completed: Lemmas 6.1 and 6.2
+
+The completion offered earlier today was rejected and rightly. It answered with
+the **arithmetic's** half — the inability to compose codes — when the sentence
+was building toward a property of the **selfcons sentence itself** that
+guarantees attempts to derive a contradiction from it fail. The suggested
+candidate, "its witness satisfies `p* ≥ p` … invoking some kind of self-reference
+constructed by diagonalization", is correct, and §6 of the TR states it as two
+lemmas that had not been read in this stage.
+
+**Printed p. 20, imaged.** The deduction method's property is defined
+structurally: "Every semantic tableaux or resolution proof of `⊥` from an axiom
+system `A` must have every sentence of the proof tree (except possibly its root)
+constitute a **subcomponent** of some axiom of `A`. This characteristic … will be
+called their "**cut-free**" property", generalizing to "any formal 'cut-free'
+deduction method". **Lemma 6.1** (**`sketch`**): the inconsistency sentence
+`¬∀y ¬Prf_{IS(A)}(⊥,y)` is not a subcomponent of any Group-1 or Group-2 axiom.
+**Lemma 6.2** (**`full`**): "a semantic tableaux proof `p` of `⊥` from `IS(A)` is
+impossible without `p` **formally constructing a parameter or constant element
+`p*`**, such that one node of `p`'s proof tree is the sentence
+`¬Prf_{IS(A)}(⊥, p*)`."
+
+So the guarantee has **three legs**, not one: (a) Group-3 is universally
+quantified over proof codes; (b) the subformula property means it can be
+contradicted only through an *instantiated* subcomponent, so the witness must be
+**named in the tree** — Lemma 6.2's "formally constructing"; (c) self-reference
+makes the named witness another inconsistency proof of the same system, hence
+subject to the same minimality and the same growth bound. Only leg (c) is the
+arithmetic. Legs (a) and (b) are the sentence's form and the deduction method —
+which is Willard's own frame ("either the axiom system employed or the choice of
+deduction method") visible in its mechanism.
+
+**The structural consequence, now in R6 §7.4: cut-freeness does both jobs.** It
+blocks internal proof composition, so H-M2 fails and G2 is evaded; and it forces
+every use of Group-3 to name its witness, so the growth bound bites and
+Proposition 1 goes through. For the computational analogue this matters more than
+the arithmetic does: in the `Tab`/`Xtab` reading of `docs/log/2026-09-05-tab-xtab-dependent-types.md`,
+working in `Tab` rather than `Xtab` is not merely where the breach lives — it is
+what buys the consistency argument as well.
+
+Two register rows added (84 total, all `img`); `Willard1993-TR` printed p. 20
+imaged. `audit.sh` green.

@@ -852,6 +852,39 @@ encode a number as large as `p`". A coding under which composition were additive
 on codes would be exactly a coding in which a short string names a long proof.
 *That last inference is this document's, not Willard's.*
 
+**Cut-freeness does both jobs, and this is the structural point of §7.** The
+same property that blocks H-M2 is what makes Group-3 safe. `Willard1993-TR`
+printed p. 20 (imaged) defines it: "Every semantic tableaux or resolution proof
+of `⊥` from an axiom system `A` must have every sentence of the proof tree
+(except possibly its root) constitute a **subcomponent** of some axiom of `A`.
+This characteristic … will be called their "**cut-free**" property", and it
+"trivially generalizes to resolution, as well as **any formal 'cut-free'
+deduction method**". Then **Lemma 6.1** (**`sketch`**) shows the inconsistency
+sentence `¬∀y ¬Prf_{IS(A)}(⊥,y)` is not a subcomponent of any Group-1 or Group-2
+axiom, and **Lemma 6.2** (**`full`**) draws the consequence:
+
+> "If the axiom system `A` is nice then a semantic tableaux proof `p` of `⊥` from
+> `IS(A)` is impossible without `p` **formally constructing a parameter or
+> constant element `p*`**, such that one node of `p`'s proof tree is the sentence
+> `¬Prf_{IS(A)}(⊥, p*)`."
+
+So Group-3's safety is not a size fact alone. It is the conjunction of three
+things: the axiom is **universally quantified over proof codes**; the deduction
+method's subformula property means it can only be contradicted through an
+**instantiated** subcomponent, so the witness must be *named in the tree*; and
+self-reference makes the named witness another inconsistency proof of the same
+system, hence subject to the same minimality and the same growth bound. The
+sentence is arranged so that refuting it demands naming an object at least as
+large as the refutation — and printed p. 13's `log(x + y) ≤ MAX(log x, log y) + 1`
+is what makes that impossible.
+
+**One property, two roles.** Cut-freeness blocks internal proof composition, so
+H-M2 fails and G2 is evaded; and cut-freeness forces every use of Group-3 to name
+its witness, so the growth bound bites and Proposition 1 goes through. For the
+computational-analogue programme this matters more than the arithmetic: in the
+`Tab`/`Xtab` reading, working in `Tab` rather than `Xtab` is not merely where the
+breach lives — it is also what buys the consistency argument.
+
 **What this does not establish, stated because the temptation is real.** It does
 **not** prove H-M2 underivable. It exhibits the mechanism that was previously
 only asserted; it shows every positive internalisation in the paper dodging that
