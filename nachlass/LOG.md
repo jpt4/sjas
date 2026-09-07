@@ -1,5 +1,25 @@
 # Nachlass Log
 
+## 2026-09-06 - Constructive SJAS and the tableaux variants
+
+At the user's request, preserved the question about a constructive Willard-style
+SJAS and the full response in the
+[constructive SJAS conversation record](../docs/log/2026-09-06-constructive-sjas-and-tableaux.md).
+The response proposes an intuitionistic restriction of a Hilbert-self-justifying
+source, with an explicit inclusion of proof predicates, a derived own-consistency
+statement, and a realizability interpretation of the retained true bounded
+arithmetic axioms. It distinguishes this paper construction from a completed
+checker and from a new axiom directly naming the constructive checker.
+
+The follow-up gives a transfer construction for the richer Type-A tableaux
+language: each accepted certificate contains both a complete source tableau and
+an intuitionistic derivation from the same nonlogical axioms. It proves external
+consistency by projection and supplies both a constructive derivation and an
+analytic source tableau of the combined checker's own Level(1) consistency
+statement. The note gives a realizability interpretation and distinguishes this
+paper result from an implemented arithmetic checker, consistency of bare proof
+terms, and an internally certified proof-expansion procedure.
+
 ## 2026-09-05 - Lowering obligations logged; a concrete obstruction
 
 At the user's request, preserved the
@@ -4045,3 +4065,43 @@ Theorem 5.1's application to `IS(A)` is conditional on it. Recorded as a
 limitation rather than assumed, per rule 8.
 
 Three register rows added, all `img`. `audit.sh` and `audit-r.sh` green.
+
+## 2026-09-06 — Equation (4), and the parallel it makes exact
+
+Follow-up to the H-C split. Three questions were put to it: does the size
+discipline force a constructive proof predicate; how does multiplication's
+non-totality imply that *expansion* is not total; and what, proof-theoretically,
+separates a functional from a relational definition. The third sent the reading
+to `Willard2005` printed p. 5, now imaged, and it turns out to state R6 §5.1's
+distinction in the object language, in Willard's own words.
+
+The U-Grounding signature has **no multiplication function symbol**, and the
+reason given is exactly the one §5.1 gives for H-C-fn: "since our U-Grounding
+language has no function symbol for multiplication, our U-Grounding based axiom
+systems `α` **do not implicitly assume** that multiplication is a total
+function." A function symbol cannot be had without its totality — `f(x)` is a
+term and `∀x∃y (y = f(x))` is logically valid — so declining the *symbol*, not
+merely declining an axiom, is the move. What replaces it is **Equation (4)**,
+multiplication's graph as a `Δ*₀` formula over the total, non-growth Division
+function: `z` is the least number whose quotient by `x` is `y`. Every operation
+in it inspects a candidate `z`; none produces one. Willard's closing gloss names
+the single thing surrendered — "the *deliberately omitted* totality condition of
+`∀x∀y∃z M(x,y,z)`".
+
+So §5.2's relational route is not a reading imposed on the corpus. **Replace a
+function by its graph, retain every instance, decline the totality** is Eq. (4)
+in the object language and `G(x) = ∀z (Subst(x,z) ⊃ ¬Prov(z))` in the
+metalanguage, and the correspondence is exact: H-C-fn is the totality condition,
+H-C-pt is the graph. The same page also explains why the corpus needs `Π*_n` and
+`Σ*_n` at all — the bound `t` of a bounded quantifier must be a **term**, so a
+signature without `·` has a strictly smaller bounded-formula class, and
+conventional `Π_n`/`Σ_m` notation "is suitable only for axiom systems which
+recognize multiplication as a total function". That is the second
+proof-theoretic difference between a function and a relation, and it is the
+reason the distinction is invisible in PA (where the promotion is a conservative
+definitional extension) and total below it.
+
+Two register rows added, both `img`; the page was read as an image because
+`pdftotext` renders `≠` as `6=` and drops Eq. (4)'s division bars — hazard H2,
+behaving exactly as the charter predicts. §5.2 carries the parallel.
+`audit.sh` green.

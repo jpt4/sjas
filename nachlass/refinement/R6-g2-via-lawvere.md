@@ -428,6 +428,45 @@ split hypothesis.
   square asks for one equation per `B`, never for a sentence quantifying over
   `B`.
 
+**The relational route is Willard's own device, one level down.** It is not an
+artifact of this document's reading of the corpus: the same move is what the
+object language of the SJAS systems is built on, and `Willard2005` printed p. 5
+performs it explicitly for *multiplication*. The U-Grounding signature has no
+multiplication function symbol, and Willard says why in the vocabulary of §5.1's
+split:
+
+> "since our U-Grounding language has no function symbol for multiplication, our
+> U-Grounding based axiom systems `α` **do not implicitly assume** that
+> multiplication is a total function. However, they do certainly retain an
+> ability to encode the graph `M(x,y,z)` of multiplication as a `Δ*₀` formula"
+
+His Equation (4) is that graph,
+
+`[ (x = 0 ∨ y = 0) ⇒ z = 0 ] ∧ [ (x ≠ 0 ∧ y ≠ 0) ⇒ ( z/x = y ∧ (z−1)/x < y ) ]`,
+
+with `/` the total, **non-growth** Division grounding function: it says that `z`
+is the least number whose quotient by `x` is `y`. Every operation in it
+*inspects* a candidate `z`; none *produces* one. And the closing gloss names the
+one thing given up:
+
+> "Equation (4)'s formal encoding of `M(x,y,z)`'s graph as a `Δ*₀` formula will
+> add a substantial level of semantic depth to our U-Grounding axiom systems `α`
+> because it will imply that that these logics will have an understanding of
+> multiplication's main generic properties (except of course for the
+> *deliberately omitted* totality condition of "`∀x ∀y ∃z M(x,y,z)`".)"
+
+**Replace a function by its graph, retain every instance, decline the totality.**
+Equation (4) is that move in the object language; `G(x) :≡ ∀z (Subst(x,z) ⊃
+¬Prov(z))` is the same move in the metalanguage. The correspondence is exact:
+**H-C-fn is the totality condition, H-C-pt is the graph.** A function symbol
+cannot be had without its totality — `f(x)` is a term and `∀x ∃y (y = f(x))` is
+logically valid — which is why declining the symbol, and not merely declining an
+axiom, is what these systems do. Willard's `Π*_n`/`Σ*_n` classes exist for the
+same reason: on the same page he notes that conventional `Π_n`/`Σ_m` notation
+"(with its multiplication function symbol) is suitable only for axiom systems
+which recognize multiplication as a total function", because the bound `t` of a
+bounded quantifier must be a **term**.
+
 Either way `g_β` is representable by `f` at `s₀ := [G] ∈ Lind¹`, which is
 H-C-pt. Theorem 3′ then yields a fixed point of `α` at
 
