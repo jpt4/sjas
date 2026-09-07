@@ -4396,3 +4396,127 @@ The signature holds the shrinking shift and omits the growing one, which is the
 same growth/non-growth line as everywhere else in this thread.
 
 Two Computed-claims rows added; register unchanged at 82. `audit.sh` green.
+
+## 2026-09-07 — Unrecorded exchanges: the R4 comparison, the transfer schema, and the shift-and-add question
+
+Three items from this session had not reached the log. Recorded here with the
+prompt that asked for them, verbatim, at the end.
+
+### A. Whether Willard shows D2 *underivable*, and the Brown–Palsberg comparison
+
+**Underivability.** He does not, and `lawvere-sjas.md` §4.2 had already drawn the
+line. What is proved is a **disjunction**: `IS(A)` is consistent (Proposition 1,
+`full`) and proves its own consistency (Group-3), so by Theorem A.1
+(**`stated-only`**) *some* one of conditions (1)–(3) fails. The identification of
+(2) is Willard's, asserted at printed pp. 1, 2, 6 and 12 — and, since §7.4, also
+mechanically explained. `refined-sjas.md` §2.2 is titled for exactly this
+distinction: the breach is obligatory, its location is not. Recorded in R6 §8.
+
+**Brown–Palsberg.** The proposal was that "the provable universe is not closed
+under the coding operation" is the same phenomenon. **It is not**, and
+`refined-sjas.md` §8 already carries the reason: "Willard blocks by cost,
+Brown–Palsberg by typing — two mechanisms with one shape". The decisive
+difference is that **their self-interpreter is total and their coding never
+fails**; what typing excludes is, in their abstract's words, "the proof's
+diagonalization gadget". So in R6's vocabulary they are in a *different cell*
+from Willard: he keeps H-C-pt and breaks H-M2; they keep the representation and
+exclude the diagonal construction. If that survives checking, `F_ω` occupies the
+cell `R3-the-margin.md` calls empty and R6 Corollary 7.2 proves no *arithmetic*
+SJAS occupies — which would be the first evidence that the cell is empty for
+arithmetic-specific rather than structural reasons. **Unchecked**, and the
+identification of "the paradox's diagonalization gadget" with the Lawvere fixed
+point is exactly what R4 would have to establish.
+
+Where the proposed phrasing *does* land exactly is one level up: the universe
+hierarchy. `⌜Type_i⌝ : Type_{i+1}`, no universe closed under its own coding, and
+`Type : Type` — the assertion of closure — gives Girard's paradox. The
+Brown–Palsberg trilogy straddles that line: **System U (2015)** has
+self-representation *with* the closure and is Girard-inconsistent; **`F_ω`
+(2016)** has it *with* the hierarchy intact and is strongly normalizing. The pair
+is Theorem 7.3 and Proposition 1 in type-theoretic clothing. *The System U
+inconsistency and `F_ω` normalization are standard facts, not verified against
+the held PDFs; only the abstract quotation is image-verified.*
+
+### B. The transfer schema (arithmetic-free), and its two obligations
+
+Proposed as the way to state a derivability-condition failure without
+arithmetization. Data: a **grading** `|·|` into a linear order (bit-length, term
+size, universe level, normalization budget); an **admissible signature** `F` of
+operations the system certifies total, generating a term algebra; a
+**representation** `⌜·⌝`.
+
+> `op` is **majorized relative to `F`** iff there is a term `t` of `F` with
+> `|op(a₁,…,a_n)| ≤ t(|a₁|,…,|a_n|)`.
+
+Then each derivability condition is the majorizedness of one operation on
+representations: **D1** of `derivation ↦ code of it`; **D2** of
+`(code of a proof of A, code of a proof of A→B) ↦ code of a proof of B`;
+**D3** of `code of a proof ↦ code of a proof that it is one`. A system violates a
+derivability condition exactly when the corresponding operation is not majorized
+relative to its own admissible signature.
+
+Two obligations were named and one is now discharged. **(i) The hard direction**
+— *not majorized ⟹ the internal entailment is underivable* — remains open, and
+§A above shows it is the same open question as Willard's own D2 underivability,
+not a second one. **(ii) One mechanism or two** — discharged by §7.4: the
+arithmetic instance has a single mechanism, so the schema has a worked example.
+
+### C. The prompt of 2026-09-07 that asked for this entry, verbatim
+
+> 1) Could multiplication other than that of left shift be admitted as total? 2) The difference in the ability of concatenation (here metonymously including tree surgery) versus arithmetic-without-multiplication (left shift) to construct new codes seems key: the proof predicate operates on numeric representations of proofs. In the unencoded proof, subproofs can be syntactically manipulated so as to combine them in ways whose permissibility is locally guaranteed by the rules of the deductive apparatus. However, the difference in the size of the encodings of the subproofs and the combined proof is enormous, and a proof predicate operating on the encoded proof cannot perform the same syntactic concatenation/surgery to generate the encoding (it must instead simulate it arithmetically). Further, the syntactic operation corresponds to the performance of a shift-and-add of the codes of subproofs: for the proof predicate to simulate this, it must be able to perform either a shift-and-add directly, or simulate it with other operations. However, none of the U-Grounding primitives available to it can simulate shift-and-add <without already building a larger number than the one needed? <- This is the part that must be answered.> The rules of different deductive apparatuses provide different rules for syntactically manipulating proofs, and so the structure of the proof objects they induce, and thus "concatenative" structure of the encodings built, can be traded off against the ability of the arithmetic to arithmetically construct the encodings of proofs. The proof object of the inconsistency of a selfcons sentence has a certain syntactic structure, and its encoding numeral thus a corresponding "concatenative" structure; if this syntactic structure is minimal, and encodings are unique, and ordered in correspondence to syntax, then to disallow the proof predicate to prove the inconsistency of selfcons <then what? also needs explication> 3) If (2) is correct, then the challenge for a non-arithmeticized self-justifying system, e.g. a lambda calculus, is to establish two similar tiers of "object" vs "representation", and show the same "preservation of sanity" in the domain of representations. Representation is cheap in actual programming languages though, viz. quoting, so this poses a challenge to feasibility, and a tension with metaprogramming. - Please log the unrecorded exchanges in this session thus far, as well as this prompt exactly.
+
+### D. The session's answers to C, marked as the Refinement's reasoning
+
+**C1 — other multiplications.** Yes, and the corpus already admits two. `Scalar_k`
+is total in `IS(A)` "because it is defined by `Scalar₀(x) = 0` and
+`Scalar_{k+1}(x) = Scalar_k(x) + x`" (image-verified, printed p. 39, obligation
+**O17**), and drift **D10** records that the 1993 *chapter*'s function list
+contains `Andmultiply(x,y,z)` — multiply then mask with `z`, hence non-growth —
+which "shows a *bounded* multiplication was admissible from the start" (from the
+extraction record, not image-verified here). The criterion is not "is it
+multiplication" but **is its output bounded by a term already in the
+signature**: `k·x` is literally the term `x+x+…+x` for each fixed `k`, and
+`Andmultiply`'s output is bounded by its mask. Unrestricted `x·y` is bounded by
+no term, which is why Remark D.5 calls its totality "*the trigger-point*". So the
+admissibility line is majorization applied to function symbols rather than to
+formulas — the same line, a fourth time.
+
+**C2, first marked slot — "without already building a larger number than the one
+needed?"** The answer is stronger than the worry. It is not that simulating
+shift-and-add requires an oversized intermediate; **the target is not in the
+range of the term algebra at all.** By induction over Willard's own
+growth/non-growth classification, every U-Grounding term satisfies
+`t(x⃗) ≤ 2^{a_t}·max(x⃗)` where `a_t` is the number of Addition/Double occurrences
+**in the term** — a constant fixed by the term, not by the arguments. The composed
+code is `≈ N_t·N_p`, which exceeds every constant multiple of `max(N_t,N_p)`. No
+term reaches it, with or without intermediate blowup. Computation recorded in
+**Computed claims**.
+
+**C2, second marked slot — "then to disallow the proof predicate to prove the
+inconsistency of selfcons ⟨then what?⟩"** The completion the argument wants:
+*…then the only remaining lever is the arithmetic's inability to compose codes,
+and Proposition 1 is precisely the theorem that pulls it.* Minimality is what
+makes the lever work: because `p` is the **minimal** inconsistency proof, the
+witness satisfies `p* ≥ p`, so containment fails on size alone — "Addition grows
+so slowly that `log(x + y) ≤ MAX(log x, log y) + 1`" (printed p. 13,
+image-verified). Uniqueness and syntax-monotonicity of the encoding are what let
+size stand proxy for syntactic containment. So the two capabilities the prompt
+separates — composing subproof codes, and naming a number larger than the proof
+naming it — **are the same capability**, and that is why no multiplication strong
+enough for composition can be admitted without activating G2.
+
+**C3 — the tension with cheap quotation.** The observation is correct and sharp
+enough to be worth carrying as a conjecture. Willard's safety comes from coding
+being *expensive*: composition multiplies, and the arithmetic cannot afford it.
+In a λ-calculus, `⌜·⌝` is cheap and its composition law is a constant-size
+constructor, so **cheap quotation is precisely what removes the Willard lever**.
+A λ-calculus SJAS therefore cannot use his mechanism and must use another —
+Brown–Palsberg's is typing, which §A places in a different cell. The
+reconciliation the transfer schema suggests: in any consistent total system with
+self-representation, the representation map must be non-trivial in **the grading
+the consistency proof actually uses**. Cheap-in-size is survivable if it is
+expensive-in-level — `⌜Type_i⌝ : Type_{i+1}` — and a system that made it cheap in
+*every* grading would be asserting `Type : Type`. **Conjecture of this
+Refinement, unproved, and the natural first target for R4.**
+
+One Computed-claims row added; register unchanged at 82. `audit.sh` green.
