@@ -4740,3 +4740,39 @@ construction cannot match. Nothing referenced them; normalised to the registry's
 own convention.
 
 Seven register rows added (91 total, all `img`). `audit.sh` green.
+
+## 2026-09-07 — D83 and D84: the relation symbols, and one page disagreeing with itself
+
+Two signature differences found while answering a clarifying question about the
+formula grammar — whether formula bodies are built from terms as well as
+connectives. They are, and stating the three layers once for both papers surfaced
+the following.
+
+**D83** — `Willard2005` p. 5 lists the `Δ*₀` relation symbols as `=` and `<`;
+`Willard2011` Definition D.1 lists `=` and `≤`. Both image-verified. Sibling of
+D10, D11, D35, D53 and D80, which track the same class of difference on the
+*function* side; **this is the first on the relation side**. Interdefinable, so
+no argument is known to turn on it, and the entry claims none does — recorded for
+D81's reason, that a Refinement reformulation which quietly picked one primitive
+set would be the silent unification the ledger exists to prevent.
+
+**D84** — the 2005 page disagrees with itself two sentences apart: bounded
+quantifiers written `∀ v ≤ t`, `Δ*₀`'s relation symbols listed as `=` and `<`.
+Reading (A), `≤` is unremarked sugar for `< ∨ =`; reading (B), the list is loose
+and `≤` is primitive, which is what 2011 later says. (A) is the more likely and
+costs nothing mathematically, but **an implementation must decide**: the two
+readings accept the same formulas and assign them different `Δ*₀` derivations,
+and the second adds a connective to every bound. `code/tabt` currently takes
+reading (B).
+
+**The answer that produced them**, now in `R4-notes-native-model.md` §1: terms
+occupy **two** positions, not one — inside atomic formulas and as quantifier
+bounds — and the signature is upstream of both. So a language without a
+multiplication function symbol cannot write `x·y` anywhere, and `x·y = z` is not
+formable either. That is why Eq. (4) must build multiplication's graph out of
+Division: with no `·` there is no alternative. The earlier phrasing here,
+"relations cannot be bounds", was true and too narrow.
+
+`audit.sh` green. R-F flagged the Prolog predicate indicator for `leq` as a
+repository path — the standing interaction the register's own note predicts —
+and it was reworded rather than suppressed.

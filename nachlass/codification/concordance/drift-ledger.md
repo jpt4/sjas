@@ -1437,3 +1437,47 @@ different notations" — which is how the letters came to drift.
 - Status: open. A codified statement using `ω` must name the paper *and* the
   convention, as D81 requires for `SemPrf^K`. Because of the index offset, a
   bare "`ω₁`" is ambiguous even once the paper is named.
+
+---
+
+## D83 — the atomic relation symbols: `Willard2005` lists `<`, `Willard2011` lists `≤`
+
+| Source | The stated primitives |
+| --- | --- |
+| `Willard2005` p. 5 (image-verified) | "a formula `Φ` belongs to the `Δ*₀` class if it uses the U-Grounding primitives as its function symbols, **the two relation symbols of "=" and "<"**, and all its quantifiers are bounded" |
+| `Willard2011` Definition D.1, p. 38 (image-verified) | "`L*` … will be built in a natural manner out of the eight U-grounding function operations, **the usual atomic predicate symbols of "=" and "≤"**, and the three constant symbols `K₀, K₁` and `K₂`" |
+
+- Found 2026-09-07 during the Refinement's R4 notes, while stating the
+  three-layer grammar (terms → atomic formulas → formulas) once for both papers.
+- The two are interdefinable in either direction given `=` and the connectives,
+  so **no argument in either paper is known to turn on it**, and this entry
+  claims none does. It is recorded for the same reason as **D81**: the
+  Refinement is licensed to reformulate, and a reformulation that quietly picked
+  one primitive set would be the silent unification this ledger exists to
+  prevent. A codified `Δ*₀` must choose and say which paper it followed.
+- Sibling of **D10**, **D11**, **D35**, **D53** and **D80**, which track the same
+  class of signature difference on the *function* side; this is the first on the
+  *relation* side.
+- Status: open (Refinement R4).
+
+---
+
+## D84 — `Willard2005` p. 5 writes its bounded quantifiers with `≤` and lists `<` as primitive
+
+- **The two sentences are two apart on one page** (`Willard2005` p. 5,
+  image-verified): the quantifiers "in the wffs `∀ v ≤ t Ψ(v)` and
+  `∃ v ≤ t Ψ(v)` are called *bounded quantifiers*", while `Δ*₀` is then said to
+  use "the two relation symbols of "=" and "<"".
+- Two readings, and the paper does not say which: **(A)** `≤` is an unremarked
+  abbreviation for `< ∨ =`, so the primitive list is exact and the quantifier
+  notation is sugar; **(B)** the primitive list is loose and `≤` is intended as
+  primitive, which is what `Willard2011` Definition D.1 later states (**D83**).
+- Reading (A) is the more likely and costs nothing mathematically. It is
+  recorded because a bounded-quantifier *implementation* must decide: a checker
+  that treats `≤` as primitive and one that expands it to `< ∨ =` accept the
+  same formulas but assign them different `Δ*₀` derivations, and the second adds
+  a connective to every bound. `code/tabt` currently carries `leq/2` as a
+  primitive formula constructor, i.e. reading (B).
+- Distinct from **D83**, which is a difference *between* papers; this is a
+  difference *within* one page.
+- Status: open (Refinement R4; bears on `code/tabt`).

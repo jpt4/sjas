@@ -40,9 +40,36 @@ And the reason it matters is stated on the same 2005 page:
 So `Δ*₀` is **not a fixed class**. It is indexed by the term signature, and
 changing the signature changes it — which is why `Π*_n`/`Σ*_n` exist at all.
 
-**Consequence for an implementation.** A relation may be defined freely and can
-never occupy a bound position, because bounds are terms. `code/tabt` now carries
-a recogniser for this (§5).
+**Terms occupy two positions, not one**, and the signature is upstream of both.
+The grammar is three-layered, and both papers state the middle layer:
+`Willard2005` p. 5 — a `Δ*₀` formula "uses the U-Grounding primitives as its
+**function symbols**, the two **relation symbols** of "=" and "<", and all its
+quantifiers are bounded"; `Willard2011` Definition D.1 — `L*` is built from "the
+eight U-grounding function operations, the usual atomic predicate symbols of "="
+and "≤", and the three constant symbols `K₀, K₁` and `K₂`".
+
+| layer | built from |
+| --- | --- |
+| terms | constants, variables, U-Grounding function symbols applied to terms |
+| atomic formulas | `=` and `<`/`≤` applied to **terms** |
+| formulas | atomic formulas, connectives, and quantifiers whose bounds are **terms** |
+
+**Consequence, stated more strongly than an earlier draft of this section did.**
+It is not only that a relation cannot be a bound. A language with no
+multiplication function symbol cannot write `x·y` **anywhere** — not as a bound
+and not inside an atomic formula, so `x·y = z` is not formable either. That is
+why `Willard2005` Eq. (4) has the shape it has: with no `·` available, the graph
+of multiplication must be written from function symbols that do exist, which is
+what `z/x = y ∧ (z−1)/x < y` does. `M(x,y,z)` is then a *formula*, and formulas
+cannot occupy a bound position, so `∃w ≤ M(x,y,z)` is no more formable than
+`∃w ≤ x·y`. `code/tabt` now carries a recogniser for the term layer — `ugrounding_term`, with a policy flag defaulting to the file's previous open behaviour.
+
+*Two signature differences found while stating this, both recorded in the
+Codification drift ledger and neither load-bearing:* **D83**, `Willard2005` lists
+`<` as primitive where `Willard2011` Definition D.1 lists `≤`; **D84**, the 2005
+page writes its bounded quantifiers with `≤` two sentences before listing `<` as
+primitive, which a checker must decide between — `code/tabt` currently reads `≤`
+as primitive, carrying it as a binary `leq` formula constructor.
 
 ## 2. Admitting a new function symbol: a static side condition, and Willard states it
 
