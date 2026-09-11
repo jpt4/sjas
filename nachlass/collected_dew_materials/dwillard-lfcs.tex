@@ -1,0 +1,3520 @@
+%% 9sept 2.1 pm       Final Copy Ready Submit AFTER SPELL DONE
+%%% AND dwillard-lfcs will NOW be READY
+%%   Artemov "recently" added to page 1
+
+\documentclass[12pt]{article}
+%\documentclass[10pt]{article}
+% \documentclass[11pt]{article}
+%\documentclass[12pt]{article}
+
+
+%%%%%%%%%% \documentstyle[11pt]{article}
+
+
+\usepackage{amssymb}
+
+
+\addtolength{\oddsidemargin}{-0.8in}
+\setlength{\textheight}{9.2 in}
+%\setlength{\textwidth}{6.0 in}
+ \setlength{\textwidth}{6.7 in}
+%%%% above paper
+
+%\setlength{\textwidth}{6,0 in}
+%\setlength{\textwidth}{5,5 in}
+
+\addtolength{\topmargin}{-0.75in}
+
+
+%% 
+%% \addtolength{\oddsidemargin}{-0.5 in}
+%% \setlength{\textheight}{10.1 in}
+%% \setlength{\textwidth}{7.5 in}
+%% \addtolength{\topmargin}{-0.5in}
+
+
+
+
+
+
+          \newcommand{\newthmwithin}[3]{\newtheorem{#1q}{#2}[#3]
+              \newenvironment{#1}{\begin{#1q}\sf}{\end{#1q}}}
+
+\newcommand{\newthm}[3]{\newtheorem{#1q}[#2q]{#3}
+                        \newenvironment{#1}{\begin{#1q}\sf}{\end{#1q}}}
+\newcommand{\newthmm}[3]{\newtheorem{#1q}[#2q]{#3}
+                        \newenvironment{#1}{\begin{#1q}\rm}}
+
+\newtheorem{theorem}{$~~~~$ Theorem}
+%%% \newtheorem{theorem}{$~~~~$ Theorem}[section]
+% \newtheorem{corollary}{Corollary}[section]
+%\newtheorem{fact}{Fact}[section]
+\newcommand{\makenewheading}[1]{\begin{tabbing} {\bf #1:}
+\end{tabbing}}
+
+\newtheorem{example}[theorem]{$~~~~$ Example}
+\newtheorem{themx}[theorem]{$~~~~$ Theorem}
+\newtheorem{corollary}[theorem]{$~~~~$ Corollary}
+\newtheorem{lemma}[theorem]{$~~~~$ Lemma}
+\newtheorem{remark}[theorem]{$~~~~$Remark}
+\newtheorem{definition}[theorem]{$~~~~$Definition}
+\newtheorem{fact}[theorem]{$~~~~$Fact}
+
+
+\newtheorem{exx}[theorem]{$~~~~$ Example}
+\newtheorem{lemm}[theorem]{$~~~~$ Lemma}
+\newtheorem{propp}[theorem]{$~~~~$ Proposition}
+\newtheorem{remm}[theorem]{$~~~~$Remark}
+\newtheorem{ccr}[theorem]{$~~~~$Corrolary}
+\newtheorem{coj}[theorem]{$~~~~$Conjecture}
+\newtheorem{comm}[theorem]{$~~~~$Comment}
+
+
+\newtheorem{deff}[theorem]{$~~~~$Definition}
+
+
+
+
+
+% \def\Box{ QED}
+\def\aaa{\beta}
+\def\ccc{Class}
+
+
+\def\ulxyz{\lceil}
+\def\urxyz{\rceil}
+
+\def\ulxyz{\ulcorner}
+\def\urxyz{\urcorner}
+
+
+\def\nop{ }
+\def\nyp{\newpage }
+% \def\nxp{ }
+\def\nxp{ Here $~$NXP }
+
+
+%  \def\nyp{ }
+% \def\nyp{ }
+
+\def\bigc{$\,$of the unabridged version of this paper \cite{ww12}}
+
+\def\nor1{Normed$\{~2^{ \zzz \theta  \, )} ~$,$~\sqrt{~2^{ \zzz \theta  \, )}}~\}$}
+
+\def\pagxx{Page ?xx?}
+\def\xor2{Normed$\{ ~\sqrt{~2^{ \zzz \theta  \, )}}~,~2~ \} $}
+%\def\fffx{Fact \#}
+\def\fffx{{\bf Fact *}}
+\def\zhz{H }
+%\def\fffx{SFact \#}
+\def\appD{Appendix D }
+\def\appxD{Appendix D}
+\def\fffour{three }
+\def\zazsta{ and EA-stability}
+
+% \def\glamb{\xi}
+\def\glamb{\lambda}
+\def\glamb{P}
+\def\glamb{\theta}
+\def\pag2{Page 2}
+%% \def\zzthe{\zeta}
+
+
+\def\glamb{\zeta}
+\def\zzthe{\theta}
+
+
+
+
+
+\def\gggen{$( L^\xi  ,  \Delta_0^\xi   ,  B^\xi  ,  d  ,  G  )~$}
+\def\gggcp{$( L^\xi  ,  \Delta_0^\xi   ,  B^\xi  ,  d  ,  G  )$}
+\def\peta{\sigma}
+\def\zzxz{~ \sharp ( \, }
+\def\zzz{~ \sharp ( ~ }
+\def\zip{\sharp }
+\def\mheta{\theta^\bullet}
+\def\mxi{\xi^\bullet}
+%\def\mbi{\bullet}
+\def\mbi{\bigdot}
+\def\mbi{\bigoplus}
+\def\xxi{$\, \xi^* \,$}
+
+
+
+
+\def\tftt{~ \frac{1}{2}~ }
+\def\sss{ }
+
+\def\goodshit{\triangleright}
+\def\bullshit{\triangleleft}
+\def\foo{footnote \footnote}
+\def\Uxp{\Upsilon}
+
+
+
+
+\def\f55{  \baselineskip = 1.1 \normalbaselineskip } 
+\def\g55{  \baselineskip = 1.0 \normalbaselineskip } 
+\def\s55{ \baselineskip = 1.0 \normalbaselineskip } 
+
+\def\f55{  \baselineskip = 0.7 \normalbaselineskip } 
+
+
+
+\def\bbskip{\bigskip}
+
+
+
+\def\axst{\odot}
+\def\rp{ p^\theta } 
+\def\thsp{Theorem $ \, * \,$ }
+\def\thss{Theorem $ \, *\,$'s }
+\def\dexxt{\Delta}
+\newcommand{\co}[1]{Corollary \ref{#1}}
+\newcommand{\thx}[1]{Theorem \ref{#1}}
+\newcommand{\cjx}[1]{Conjecture \ref{#1}}
+\newcommand{\phx}[1]{Proposition \ref{#1}}
+ \newcommand{\dfx}[1]{Definition \ref{#1}}
+\newcommand{\lem}[1]{Lemma \ref{#1}}
+
+
+
+%% \newcommand{\co}[1]{Corollary \ref{#1}}
+%%  \newcommand{\thx}[1]{Theorem \ref{#1}}
+\newcommand{\lxem}[1]{Lemma \ref{#1}}
+\newcommand{\overx}[1]{\, \overline{ {#1} } \,} 
+
+
+\newcommand{\el}[1]{Line (\ref{#1})}
+\newcommand{\ex}[1]{Expression (\ref{#1})}
+\newcommand{\ei}[1]{item (\ref{#1})}
+
+\newcommand{\eq}[1]{(\ref{#1})}
+\newcommand{\ep}[1]{Equation (\ref{#1})}
+\newcommand{\thetlam}{ \theta }
+\newcommand{\underx}[1]{\overline{~ {#1} ~}}
+\newcommand{\appaa}{$App \forall$}
+\newcommand{\appee}{$App \exists$}
+\newcommand{\tll}[1]{Tab$- {#1} -$List}
+\newcommand{\txl}[1]{Tab$- {#1}$}
+\newcommand{\tlxl}[1]{Tab$- {#1}$ }
+\newcommand{\sll}[1]{Short$- {#1} -$List}
+\newcommand{\axx}[1]{NS$_D^{\,k,m}( ${#1}$)$}
+
+
+\newenvironment{proof}{{\bf Proof:}}{$\Box$}
+\newenvironment{sketchproof}{{\bf Sketch of Proof:}}{$\Box$}
+
+
+\begin{document}
+
+
+\title{On a 3-Part ``Tripod'' Styled Reply
+  to Hilbert's Mysterious Second Problem}
+
+
+
+
+\def\beq{\begin{equation}}
+\def\enq{\end{equation}}
+
+\def\bel{\begin{lemma}}
+\def\enl{\end{lemma}}
+
+
+\def\bec{\begin{corollary}}
+\def\enc{\end{corollary}}
+
+\def\bed{\begin{description}}
+\def\ennd{\end{description}}
+\def\bee{\begin{enumerate}}
+\def\ene{\end{enumerate}}
+
+
+\def\bxbxd{\begin{definition}}
+\def\bxbxdd{\begin{definition}}
+\def\eedd{\end{definition}}
+\def\bxbxdr{\begin{definition} \rm}
+\def\bel{\begin{lemma}}
+\def\enl{\end{lemma}}
+\def\ent{\end{theorem}}
+
+
+
+\author{  Dan E.Willard }
+%\thanks{This research 
+%was partially supported
+%by the NSF Grant CCR  0956495.}}
+
+%Email = dew@cs.albany.edu.}}
+%\newline
+%Email = dan.willard.albany@gmail.com}}
+
+
+
+
+
+
+
+
+
+
+
+%%%\date{Copyright 2012 by Dan E. Willard}
+
+\date{State University of New York at Albany}
+
+\maketitle
+
+\setcounter{page}{0}
+\thispagestyle{empty}
+
+\normalsize
+
+
+
+
+\baselineskip = 1.3\normalbaselineskip
+
+
+
+\normalsize
+
+
+\baselineskip = 1.0 \normalbaselineskip 
+\def\bbint{\large \baselineskip = 1.6 \normalbaselineskip } 
+\def\bbint{\large \baselineskip = 1.6 \normalbaselineskip }
+\def\bbint{\normalsize \baselineskip = 1.3 \normalbaselineskip }
+
+
+
+%%\baselineskip = 1.0 \normalbaselineskip 
+%%\def\bbint{\large \baselineskip = 1.6 \normalbaselineskip } 
+%%\def\bbint{\large \baselineskip = 1.6 \normalbaselineskip }
+%%\def\bbint{\normalsize \baselineskip = 1.3 \normalbaselineskip }
+
+
+\def\bbint{\normalsize \baselineskip = 1.27 \normalbaselineskip }
+
+
+
+\def\bbint{\large \baselineskip = 2.0 \normalbaselineskip }
+
+
+\def\bbint{\normalsize \baselineskip = 1.25 \normalbaselineskip }
+\def\bbina{\normalsize \baselineskip = 1.24 \normalbaselineskip }
+
+
+
+\def\bbint{\large \baselineskip = 2.0 \normalbaselineskip } 
+
+
+
+\def\bbing{ }
+\def\bbins{ }
+\def\bbinm{ }
+
+\def\bbint{\normalsize \baselineskip = 1.95 \normalbaselineskip } 
+
+
+
+\def\bbing{ }
+\def\bbins{ }
+\def\bbinm{ }
+
+
+\def\bbint{\large \baselineskip = 2.3 \normalbaselineskip } 
+\def\bbing{ }
+\def\bbins{ }
+\def\bbinm{ }
+
+\def\bbint{\normalsize \baselineskip = 1.7 \normalbaselineskip } 
+
+\def\bbint{\large \baselineskip = 2.3 \normalbaselineskip } 
+\def\bbinm{ \baselineskip = 1.18 \normalbaselineskip }
+
+
+\def\bbint{\large \baselineskip = 2.0 \normalbaselineskip } 
+\def\bbing{ }
+\def\bbins{ }
+\def\bbinm{ }
+\def\bbinr{ }
+
+
+\def\bbint{\normalsize \baselineskip = 1.25 \normalbaselineskip }
+\def\bbina{\normalsize \baselineskip = 1.24 \normalbaselineskip }
+\def\bbinr{ \baselineskip = 1.3 \normalbaselineskip }
+\def\bbing{ \baselineskip = 1.28 \normalbaselineskip }
+\def\bbins{ \baselineskip = 1.21 \normalbaselineskip }
+\def\bbinm{  }
+
+\def\ftl{ \baselineskip = 1.5 \normalbaselineskip }
+
+
+\bbint
+
+\parskip 5 pt
+
+
+
+
+\noindent
+
+
+
+
+
+\small
+
+
+\baselineskip = 1.14 \normalbaselineskip 
+
+
+ 
+\parskip 5pt
+
+\baselineskip = 1.2 \normalbaselineskip 
+
+%\setcounter{page}{0}
+
+
+
+%%%%%%{\small
+
+
+
+
+
+
+
+
+\large
+\normalsize
+
+ \baselineskip = 1.2 \normalbaselineskip 
+
+%mmmmmmmmmmmmm
+
+
+ 
+
+
+
+
+\begin{abstract}
+\baselineskip = 4.2 \normalbaselineskip  
+\Large
+Hilbert's mysterious year-1900 Second Problem asked
+mathematicians to devise a methodology whereby
+Peano Arithmetic  can confirm its own consistency.
+G\"{o}del's famous 1931 paper showed that a fully
+positive reply can never be made to Hilbert's question.
+This article will explain how Hilbert's question is
+such a complicated issue that it can be better receive
+a 3-way styled  ``Tripod'' reply.
+
+\bigskip
+
+We  also provide substantial evidence  that G\"{o}del would likely
+agree with  the main opinions   expressed in this article.
+
+\end{abstract}
+
+\bigskip
+
+\bigskip
+
+\bigskip
+
+\bigskip
+
+ 
+ \normalsize
+ {\bf Keywords and Phrases:}
+ G\"{o}del's Second Incompleteness Theorem,  Hilbert's Second
+ Problem, Consistency, Smullyan-Fitting Semantic Tableau Deduction,
+ Hilbert-Frege Deduction.
+
+
+\bigskip
+
+\bigskip
+
+%% 
+%% {\bf Mathematics Subject Classification:}
+%% 03B52; 03F25; 03F45; 03H13 
+%% 
+%% \bigskip
+
+
+\def\ww22{\normalsize \baselineskip = 1.21\normalbaselineskip \parskip 4 pt}
+\def\bb22{\normalsize \baselineskip = 1.19\normalbaselineskip \parskip 4 pt}
+\def\zz22z{\normalsize \baselineskip = 1.19 \normalbaselineskip \parskip 3 pt}
+\def\xx22{\normalsize \baselineskip = 1.17\normalbaselineskip \parskip 4 pt}
+\def\vx22s{\normalsize \baselineskip = 1.16 \normalbaselineskip \parskip 3 pt} 
+\def\vv22{\normalsize \baselineskip = 1.17 \normalbaselineskip \parskip 3 pt} 
+\def\aa22{\normalsize \baselineskip = 1.15 \normalbaselineskip \parskip 3 pt} 
+\def\g55{  \baselineskip = 1.0 \normalbaselineskip } 
+\def\s55{ \baselineskip = 1.0 \normalbaselineskip } 
+\def\sm55{ \baselineskip = 0.9 \normalbaselineskip } 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\vspace*{- 1.0 em}
+
+
+\def\waw11{\normalsize \baselineskip = 1.72\normalbaselineskip}
+\def\waw11{\normalsize \baselineskip = 1.12\normalbaselineskip}
+\def\waw11{\normalsize \baselineskip = 1.85\normalbaselineskip}
+
+
+
+\def\waw11{\normalsize \baselineskip = 1.45\normalbaselineskip}
+
+
+\def\waw11{\normalsize \baselineskip = 1.7\normalbaselineskip}
+
+\def\waw11{\normalsize \baselineskip = 1.12\normalbaselineskip}
+
+
+\def\g55{  \baselineskip = 1.50 \normalbaselineskip } 
+\def\s55{ \baselineskip = 1.50 \normalbaselineskip } 
+\def\sm55{ \baselineskip = 1.5 \normalbaselineskip } 
+
+
+\def\g55{  \baselineskip = 1.50 \normalbaselineskip } 
+\def\s55{ \baselineskip = 1.50 \normalbaselineskip } 
+\def\sm55{ \baselineskip = 0.9 \normalbaselineskip } 
+
+
+
+
+
+
+\def\aa22{\normalsize  \waw11 \parskip 6 pt} 
+\def\bb22{\normalsize  \waw11 \parskip 5 pt}
+\def\ww22{\normalsize \waw11 \parskip 4 pt}
+\def\vv22{\normalsize  \waw11 \parskip 3 pt} 
+\def\tt22{\normalsize  \waw11 \parskip 2 pt} 
+
+\def\g55{  \baselineskip = 1.0 \normalbaselineskip } 
+\def\b55{  \baselineskip = 1.0 \normalbaselineskip } 
+\def\s55{ \baselineskip = 1.0 \normalbaselineskip } 
+\def\sm55{ \baselineskip = 0.9 \normalbaselineskip } 
+
+
+
+
+
+
+\def\mal{ \bf  }
+\def\nal{\mathcal}
+
+\def\cvrew{ \baselineskip = 1.6 \normalbaselineskip \parskip 3pt }
+
+\def\ttt2c{ }
+\def\tttc{ }
+
+\def\tttc{\tiny \baselineskip = 0.8 \normalbaselineskip  \parskip 0pt }
+\def\ttt2c{\tiny \baselineskip = 0.7 \normalbaselineskip  \parskip 0pt }
+\def\tttc{ \baselineskip = 2.1 \normalbaselineskip  \parskip 5pt }
+\def\ttt2c{ \baselineskip = 2.1 \normalbaselineskip  \parskip 5pt }
+
+\def\tttc{ \baselineskip = 1.15 \normalbaselineskip  \parskip 5pt }
+\def\ttt2c{ \baselineskip = 1.15 \normalbaselineskip  \parskip 5pt }
+
+
+\def\tttc{ \baselineskip = 1.12 \normalbaselineskip  \parskip 4pt }
+\def\ttt2c{ \baselineskip = 1.12 \normalbaselineskip  \parskip 4pt }
+
+
+\def\tttc{ \baselineskip = 1.14 \normalbaselineskip  \parskip 3pt }
+\def\ttt2c{ \baselineskip = 1.10 \normalbaselineskip  \parskip 2pt }
+\def\ttt2c{ \baselineskip = 0.98 \normalbaselineskip  \parskip 0pt }
+
+\def\cvt{ \baselineskip = 0.98 \normalbaselineskip }
+\def\cv9{ \baselineskip = 0.99 \normalbaselineskip }
+\def\cvs{ \baselineskip = 1.0 \normalbaselineskip }
+\def\cvl{ \baselineskip = 1.0 \normalbaselineskip }
+\def\cvh{ \baselineskip = 1.03 \normalbaselineskip }
+\def\cvg{ \baselineskip = 1.00 \normalbaselineskip }
+
+
+\def\cvt{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cv9{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cvs{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cvl{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cvh{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cvg{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cvb{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cvnew{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cvmew{ \baselineskip = 1.6 \normalbaselineskip }
+\def\cvwew{ \baselineskip = 1.6 \normalbaselineskip \parskip 5pt }
+\def\cvrew{ \baselineskip = 1.6 \normalbaselineskip \parskip 3pt }
+
+
+
+
+\def\cvt{ \baselineskip = 1.22 \normalbaselineskip }
+\def\cv9{ \baselineskip = 1.22 \normalbaselineskip }
+\def\cvs{ \baselineskip = 1.22 \normalbaselineskip }
+\def\cvl{ \baselineskip = 1.22 \normalbaselineskip }
+\def\cvh{ \baselineskip = 1.22 \normalbaselineskip }
+\def\cvg{ \baselineskip = 1.22 \normalbaselineskip }
+\def\cvb{ \baselineskip = 1.22 \normalbaselineskip }
+\def\cvnew{ \baselineskip = 1.4 \normalbaselineskip }
+\def\cvmew{ \baselineskip = 1.35 \normalbaselineskip }
+\def\cvwew{ \baselineskip = 1.4 \normalbaselineskip \parskip 5pt }
+\def\cvrew{ \baselineskip = 1.22 \normalbaselineskip \parskip 3pt }
+
+
+\def\cvt{ }
+\def\cv9{ }
+\def\cvs{ }
+\def\cvl{ }
+\def\cvh{ }
+\def\cvg{ }
+\def\cvb{ }
+\def\cvnew{ } 
+\def\cvmew{ }
+\def\cvwew{ }
+\def\cvrew{ }
+
+
+
+\def\fend{ 
+
+\medskip -------------------------------------------------------}
+
+
+\def\g55{  \baselineskip = 1.0 \normalbaselineskip } 
+\def\s55{ \baselineskip = 1.0 \normalbaselineskip } 
+\def\sm55{ \baselineskip = 1.0 \normalbaselineskip } 
+\def\h55{  \baselineskip = 1.08 \normalbaselineskip } 
+\def\b55{  \baselineskip = 1.1 \normalbaselineskip } 
+
+\normalsize
+
+\baselineskip = 1.85 \normalbaselineskip 
+
+
+
+%% Sleepy  
+
+%\cvlpm %% Sleepy  
+%\cvnew
+
+
+%\small
+
+%\parskip 0p
+
+\parskip 2pt
+
+\vspace*{- 1.0 em}
+
+% \newpage
+
+%\large
+
+%\setcounter{page}{0}
+\baselineskip = 1.04 \normalbaselineskip 
+\parskip 2pt
+
+\baselineskip = 0.96 \normalbaselineskip 
+%\baselineskip = 0.90 \normalbaselineskip 
+
+%\parskip 1pt
+% 
+\baselineskip = 2.16 \normalbaselineskip 
+\baselineskip = 2.3 \normalbaselineskip 
+
+\baselineskip = 0.95 \normalbaselineskip 
+%\baselineskip = 0.95 \normalbaselineskip 
+\baselineskip = 0.88 \normalbaselineskip 
+\parskip 0pt
+ 
+
+
+\noindent
+
+% 
+% 
+% NNEW COMMENT
+% 
+% 
+% The pdf version of this draft is verbatim identical to August's Version 3.
+% The prior draft's abstract was incorrectly broadcast by Arxiv on the 
+% Internet, after I pressed a wrong computer button. Thus, 
+% Version 4 was issued.
+
+
+\newpage
+
+\def\gvs{ \normalsize \baselineskip = 1.4 \normalbaselineskip  \parskip    5pt}
+\def\gvs{ \normalsize \baselineskip = 1.44 \normalbaselineskip  \parskip    5pt}
+\def\gvs{ \large \baselineskip = 1.44 \normalbaselineskip  \parskip    5pt}
+\def\gvs{ \normalsize \baselineskip = 1.44 \normalbaselineskip  \parskip    5pt}\def\gvs{ \normalsize \baselineskip = 1.74 \normalbaselineskip  \parskip    5pt}
+\def\gvs{ \normalsize \baselineskip = 1.44 \normalbaselineskip  \parskip 5pt}
+
+\def\gvs{   \baselineskip = 1.74 \normalbaselineskip  \parskip    5pt}
+
+\def\gvs{ \normalsize \baselineskip = 1.44 \normalbaselineskip  \parskip 5pt}
+\def\gvs{ \large \baselineskip = 2.0 \normalbaselineskip  \parskip 5pt}
+\def\gvs{ \Large \baselineskip = 2.0 \normalbaselineskip  \parskip 5pt}
+% \def\gvs{ \baselineskip = 2.0 \normalbaselineskip  \parskip 5pt}
+\def\gvs{ \normalsize \baselineskip = 2.44 \normalbaselineskip  \parskip 5pt}
+\def\gvs{ \normalsize \baselineskip = 2.04 \normalbaselineskip  \parskip 5pt}
+\def\gvs{ \normalsize \baselineskip = 2.64 \normalbaselineskip  \parskip 5pt}
+\def\gvs{ \Large \baselineskip = 1.6 \normalbaselineskip  \parskip 5pt}
+
+%\def\gvs{ }
+
+
+\gvs
+
+\footnotesize
+
+
+\def\gvs{ }
+  
+
+\normalsize \baselineskip = 0.98 \normalbaselineskip
+\normalsize \baselineskip = 1.0 \normalbaselineskip
+\normalsize \baselineskip = 1.01 \normalbaselineskip
+
+
+\def\gvs{ \normalsize \baselineskip = 1.25 \normalbaselineskip  \parskip 4pt}
+
+% \def\gvs{ \normalsize \baselineskip = 1.23 \normalbaselineskip  \parskip 5pt}
+
+%\def\gvs{ \normalsize \baselineskip = 1.4  \normalbaselineskip  \parskip 6pt}
+
+%\def\gvs{ \large \baselineskip = 1.5  \normalbaselineskip  \parskip 6pt}
+
+\def\gvs{ \Large \baselineskip = 1.6  \normalbaselineskip  \parskip 6pt}
+\def\gvs{ \normalsize \baselineskip = 1.6  \normalbaselineskip  \parskip 6pt}
+\def\gvs{ \large \baselineskip = 1.6  \normalbaselineskip  \parskip 6pt}
+
+\def\gvs{ \normalsize \baselineskip = 1.227 \normalbaselineskip  \parskip 3pt}
+\def\gvs{ \large \baselineskip = 1.8  \normalbaselineskip  \parskip 6pt}
+
+\def\gvs{ \normalsize \baselineskip = 1.5 \normalbaselineskip  \parskip 3pt}
+
+% \def\gvs{ \large \baselineskip = 1.8  \normalbaselineskip  \parskip 6pt}
+
+% \def\gvs{ \normalsize \baselineskip = 1.65 \normalbaselineskip  \parskip 3pt}
+
+\def\gvs{ \large \baselineskip = 2.1  \normalbaselineskip  \parskip 6pt}
+
+\def\gvs{ \normalsize \baselineskip = 2.1  \normalbaselineskip  \parskip 6pt}
+
+%%%old 
+
+ \def\gvs{ \normalsize \baselineskip = 1.227 \normalbaselineskip  \parskip 3pt}
+
+ \def\gvs{ \large  \baselineskip = 1.6 \normalbaselineskip  \parskip 5pt}
+%% march 31
+
+\def\gvs{ \Large  \baselineskip = 1.8 \normalbaselineskip  \parskip 5pt}
+\def\gvs{ \LARGE  \baselineskip = 1.8 \normalbaselineskip  \parskip 5pt}
+\def\gvs{ \normalsize  \baselineskip = 2.0 \normalbaselineskip  \parskip 5pt}
+
+\def\gvs{ \Large  \baselineskip = 2.0 \normalbaselineskip  \parskip 5pt}
+
+\def\gvs{ \large  \baselineskip = 2.2 \normalbaselineskip  \parskip 5pt}
+
+\def\gvs{ \normalsize \baselineskip = 2.4  \normalbaselineskip  \parskip 6pt}
+
+\def\gvs{ \normalsize \baselineskip = 2.6  \normalbaselineskip  \parskip 6pt}
+\def\gvs{ \normalsize \baselineskip = 2.2  \normalbaselineskip  \parskip 6pt}
+\def\gvs{ \normalsize \baselineskip = 1.8  \normalbaselineskip  \parskip 5pt}
+% \def\gvs{ \normalsize \baselineskip = 1.5  \normalbaselineskip  \parskip 5pt}
+
+% \def\sgvs{ \small \baselineskip = 1.33  \normalbaselineskip  \parskip 1pt}
+\def\tttc{ }
+%\baselineskip = 1.14 \normalbaselineskip  \parskip 4pt }
+%\baselineskip = 1.14 \normalbaselineskip  \parskip 4pt }
+
+\def\gv2{ \normalsize \baselineskip = 1.30  \normalbaselineskip  \parskip 3pt}
+
+
+
+\def\gvs{ }
+
+
+\def\gvs{ \normalsize \baselineskip = 2.1 \normalbaselineskip  \parskip 7pt}
+\def\gvs{ \normalsize \baselineskip = 1.8 \normalbaselineskip  \parskip    7pt}
+
+%\def\gvs{ \normalsize \baselineskip = 1.4 \normalbaselineskip  \parskip    5pt}
+
+ \def\gvs{ \large \baselineskip = 1.7  \normalbaselineskip  \parskip 9pt}
+\def\gvs{ \normalsize \baselineskip = 2.0  \normalbaselineskip  \parskip 9pt}
+
+\def\gv2{ \normalsize \baselineskip = 1.30  \normalbaselineskip  \parskip 3pt}
+
+
+\def\gvs{ \large \baselineskip = 1.7  \normalbaselineskip  \parskip 5pt}
+
+
+\def\gvs{ \normalsize \baselineskip = 2.0  \normalbaselineskip  \parskip 8pt}
+\def\gvs{ \large \baselineskip = 2.0  \normalbaselineskip  \parskip 8pt}
+
+
+%fffff
+
+
+\def\gvx{ \large \baselineskip = 1.6 \normalbaselineskip  \parskip    3pt}
+
+%fffff
+\def\gvs{ \Large \baselineskip = 1.8 \normalbaselineskip  \parskip   5pt}
+
+\def\gvs{ \LARGE \baselineskip = 2.0 \normalbaselineskip  \parskip   5pt}
+
+\def\gvs{ \normalsize \baselineskip = 2.0 \normalbaselineskip  \parskip   5pt}
+\def\gvs{ \normalsize \baselineskip = 1.4 \normalbaselineskip  \parskip   5pt}
+
+ \def\gvs{ \large \baselineskip = 2.0 \normalbaselineskip  \parskip   5pt}
+ \def\gvs{ \Large \baselineskip = 2.0 \normalbaselineskip  \parskip   5pt}
+\def\gvs{ \normalsize \baselineskip = 2.0 \normalbaselineskip  \parskip   5pt}
+\def\gvs{ \normalsize \baselineskip = 2.5 \normalbaselineskip  \parskip   5pt}
+
+\def\gvs{ \normalsize \baselineskip = 1.4 \normalbaselineskip  \parskip   5pt}
+\def\gvs{ \large      \baselineskip = 1.7 \normalbaselineskip  \parskip   5pt}
+\def\gvs{ \normalsize \baselineskip = 1.7 \normalbaselineskip  \parskip   5pt}
+
+
+% \def\gvs{ \normalsize \baselineskip = 1.07 \normalbaselineskip  \parskip =  5pt}
+
+%\def\gvs{ \large \baselineskip = 2.4 \normalbaselineskip}
+%\def\gvs{ \normalsize \baselineskip = 3.1 \normalbaselineskip}
+
+%\def\gvs{ \normalsize \baselineskip = 3.4 \normalbaselineskip}
+
+%\def\gvs{ \normalsize \baselineskip = 1.07 \normalbaselineskip  \parskip  5pt}
+
+
+%\def\gvs{ \normalsize \baselineskip = 2.07 \normalbaselineskip}
+
+\def\gvs{ \large \baselineskip = 1.6 \normalbaselineskip}
+
+\def\gvs{ \normalsize \baselineskip = 1.8 \normalbaselineskip}
+
+\def\gvs{ \Large \baselineskip = 1.8 \normalbaselineskip}
+
+\def\gvs{ \normalsize \baselineskip = 2.2 \normalbaselineskip}
+\def\gvs{ \normalsize \baselineskip = 2.7 \normalbaselineskip}
+%\def\gvs{ \normalsize \baselineskip = 2.0 \normalbaselineskip}
+
+\def\gvs{ \normalsize \baselineskip = 2.9 \normalbaselineskip}
+\def\gvs{ \normalsize \baselineskip = 3.0 \normalbaselineskip}
+
+\def\gvs{ \normalsize \baselineskip = 2.0 \normalbaselineskip}
+\def\gvs{ \normalsize \baselineskip = 1.7 \normalbaselineskip}
+
+\def\gvs{ \normalsize \baselineskip = 1.07 \normalbaselineskip}
+\def\gvs{ \normalsize \baselineskip = 1.02 \normalbaselineskip}
+\def\gvs{ \normalsize \baselineskip = 1.0 \normalbaselineskip}
+\def\gvs{ \normalsize \baselineskip = 1.01 \normalbaselineskip}
+
+\def\nvs{ \Large \baselineskip = 2.5 \normalbaselineskip}
+
+\def\nvs{ \normalsize \baselineskip = 1.5   \normalbaselineskip}
+
+%
+
+% \def\nvs{ \large \baselineskip = 1.8   \normalbaselineskip}
+
+%%%\def\nvs{ \normalsize \baselineskip = 1.10   \normalbaselineskip}
+
+\def\nvs{ \normalsize \baselineskip = 1.08   \normalbaselineskip}
+
+% \def\nvs{ \normalsize \baselineskip = 2.2   \normalbaselineskip}
+\def\nvs{ \normalsize \baselineskip = 0.96   \normalbaselineskip}
+
+ % fffffffff
+
+
+
+\label{ss11}
+\gvs
+\parskip 3pt
+\tttc
+
+\def\dvs{ \normalsize \baselineskip = 2.5   \normalbaselineskip}
+\def\dvs{ \normalsize \baselineskip = 3.0   \normalbaselineskip}
+ \def\dvs{ }
+\newpage
+
+\section{Introduction}
+%  11111111111111111 }
+
+\label{aaa1}
+\nvs
+\baselineskip = 1.02   \normalbaselineskip
+\parskip 4pt
+\tttc
+\dvs
+
+This article is a continuation of a series of papers
+that began
+with the 1993 article \cite{ww93} 
+and continued until and through the year-2021 article \cite{ww21}.
+This series,
+which included six papers appearing in the JSL and APAL,
+had focused on discussing
+generalizations and boundary case exceptions for the
+Second Incompleteness Theorem.
+The two goals of this paper will be to explore the underlying
+philosophy that motivated this series and to explain how
+it is related to several generalizations and
+boundary-case exceptions to the
+Second Incompleteness Theorem , including some important new
+results formalized by Artemov  \cite{Ar19,Ar21}.
+
+
+Our general theme will be that Hilbert's year-1900 Second Problem
+ is too complex an issue to receive a 1-directional or
+ even 2-directional
+ answer. Instead, it will require a
+ 3-directional answer, called the ``Tripod Reply'' to
+ Hilbert's question. 
+
+
+ 
+ The  first leg of this 3-part response to
+ Hilbert's Second Problem
+will rest on the combination
+ of G\"{o}del's initial version of his Second Incompleteness
+ Theorem and its numerous generalizations.
+ % cite????.
+ They
+collectively
+establish that 
+many logical formalisms, besides Peano Arithmetic (PA),
+are unable to corroborate their own consistency
+in a fully extensive respect.
+While these generalizations of G\"{o}del's Second 
+Incompleteness paradigm are indisputably important,
+the second section of this article will explain
+%% how
+Hilbert and G\"{o}del
+strongly doubted they constituted a full answer to  
+  Hilbert's year-1900 problem.
+
+%%% citations in above paragraph MAYBE NOT? PROBABLY NOT NOT NOT NOT
+  
+ A second leg of a 3-part reply to Hilbert's Second
+Problem
+ was formalized by  
+ Artemov
+            recently
+ in \cite{Ar19,Ar21}.
+ He noted Peano Arithmetic (PA) can prove
+ an infinite
+%  -sized
+ schema of
+ theorems, whose collective
+ union
+ confirms PA's own consistency.
+Let us call Artemov's method a
+Step-By-Step Infinite-Schema  approach  
+ {\bf ($~$SBSIS$~$)}.
+This technique is an extension of the 
+ Justification Logics explored by Artemov and Beklemishev 
+ \cite{Ar1,AB5,Be5}. It was  motivated by
+Artemov's
+ observation
+ that
+the year-1900 logic community (including Hilbert)
+were not aware  that PA would require an
+ infinite number of proper axioms.
+$~$Thus, an  SBSIS schema-driven logic approach
+is a valid reply to Hilbert's year-1900 second problem,
+although its potential significance
+was not
+well appreciated during the
+era when Hilbert  posed his Second  Problem.
+
+Artemov's analysis
+\cite{Ar19,Ar21} 
+uses Tarski's partial definitions
+of truth for sentences with a bounded number of quantifiers
+as an intermediate step. It essentially
+constructs a sequence of finite subsets of
+Peano Arithmetic $~S_1~\subset ~S_2~\subset ~S_3~\subset~ ...~$
+where
+\bee
+\item
+$~~~$PA$~=~~S_1~\cup ~S_2~\cup ~S_3~\cup~ ...~$
+\item
+\label{step2}
+  Each $~S_{j+1}~$ can prove
+a $\Pi_1$ theorem asserting
+  there exists no proof from
+  $~S_j~$
+  of 0=1, in a context where all  logical axioms
+  in the concerned proof from $~S_j~$
+are no
+  more complex than $\Pi_j$
+  or $\Sigma_j$ statements. (We will henceforth
+  call this theorem $T_{j+1}$. )
+  \ene
+While  
+Artemov's SBSIS-style response to Hilbert's
+year-1900 second question
+is intriguing,
+one would ideally still like access to 
+a system that does not rely upon his infinite series
+$S_1 \, S_2 \, S_3  ...~$.
+
+\nvs
+
+\dvs
+
+
+\parskip 9 pt
+
+A third possible leg  of a proposed Tripod
+reply to Hilbert's second problem  
+involves formal systems using Fixed Point axiomatic
+sentences that confirm their own consistency.
+For example,
+% the articles
+\cite{ww93,ww1,ww5,wwapal,ww21}
+examined systems
+strictly weaker than PA,
+that 
+ verified their own self-consistency,
+under mostly semantic tableau deduction
+\cite{Fi96,Sm95}.
+
+
+
+This third leg,
+called the {\bf Declarative Approach},
+rests on using a self-referencing 
+{\it ``I am consistent''} axiomatic declaration,
+so that a formalism can confirm its own consistency.
+This approach, studied in
+\cite{ww93,ww1,ww5,wwapal,ww21},
+will  essentially be defined by
+the current paper's statement $~\oplus~$.
+Its advantage is
+that its declaration of self-consistency is compressed into
+one single sentence,
+while its {\bf non-trivial drawback} is that its particular  statement $~\oplus~$
+(defined in \textsection\ref{aaa3})
+can be successfully used  only when the 
+surrounding formalism is sufficiently weak.
+
+In other words, each of the three legs of a unified ``Tripod''
+response to Hilbert's Second Problem
+% do
+own drawbacks, as well as significant
+virtues. A 
+multi-facet
+Tripod reply is attractive
+because it 
+straddles nicely between
+%these
+all  three
+legs, simultaneously.
+
+
+\section{The Main Weakness of the First Leg}
+
+%%%% 2222222222222 
+
+\label{aaa2}
+
+It is  known  Hilbert always suspected  the
+Second Incompleteness Theorem, while correct, would
+ultimately  display established exceptions.
+For instance, Hilbert \cite{Hil26} wrote:
+\begin{quote}
+\small
+\baselineskip = 1.0 \normalbaselineskip
+\ttt2c 
+$*~$
+{\it ``
+Let us admit that the situation in which we presently
+find ourselves with respect to paradoxes is in the long
+run intolerable. Just think: in mathematics, this paragon of
+reliability and truth, the very notions and inferences,
+as everyone learns, teaches, and uses them, lead to absurdities.
+And 
+where 
+else 
+would 
+reliability and truth be found 
+if  even mathematical thinking fails?''}
+\end{quote}
+Also, it is known 
+G\"{o}del's seminal 1931 paper appeared to
+agree with
+the goals of Hilbert's
+Consistency Program
+in one of its closing paragraphs:
+\begin{quote}
+\small
+\ttt2c 
+$~**~~$ 
+{\it ``It must be expressly noted that
+Theorem XI''}
+(i.e. the Second Incompleteness Theorem) 
+{\it ``represents no contradiction of the formalistic
+standpoint of Hilbert. For this standpoint
+presupposes only the existence of a consistency
+proof by finite means, and {\it there might
+conceivably be finite proofs} which cannot
+be stated in P or in ... ''}
+\end{quote}
+Several 
+biographies
+of 
+ G\"{o}del
+\cite{Da97,Go5,Yo5}
+have observed 
+ G\"{o}del's 
+ intention (prior to 1930)
+was to
+establish
+Hilbert's proposed objectives, before
+he developed
+his famous
+nearly
+opposing theorem. 
+Indeed,
+ Yourgrau's
+biography
+ \cite{Yo5}
+ of G\"{o}del 
+had traversed beyond this point.
+It
+recorded
+ how
+von Neumann 
+found it necessary during the early 1930's to
+{\it ``argue 
+against G\"{o}del 
+himself''}
+ about the definitive 
+ termination of Hilbert's
+consistency program,  
+which
+{\it ``for several years''} after \cite{Go31}'s publication,
+G\"{o}del 
+{\it ``was cautious not to prejudge''}.
+
+In a context where
+G\"{o}del
+published fewer than 85 pages during his
+career,
+historians 
+will
+probably
+never
+% be able to
+fully characterize
+the nature of
+G\"{o}del's
+finished  philosophical position about his Second Incompleteness
+Theorem. From informal notes taken during a 1933 
+ Vienna
+ lecture  \cite{Go33}, it is known
+ % that 
+ G\"{o}del was more positive about its
+% long-range
+ implications
+in 1933 than he was in 1931.
+
+On the other hand, Gerald Sacks   recorded
+a
+% quite
+stunning
+80-minute YouTube recollection 
+about his interactions with
+G\"{o}del in the year 2007.
+These recordings
+explicitly  
+state that
+G\"{o}del
+held  {\it ``contrarious''} opinions about some of
+his 
+most
+famous results.
+Also Sacks explicitly recalled (see footnote
+\footnote{These two quotations
+can be found in
+  the 7-th and and 9-th minutes of the YouTube recording
+  \cite{YouSa14}
+  that Gerald Sacks had made about Kurt
+  G\"{o}del.
+  } )
+G\"{o}del  
+  communicating
+private
+opinions
+% to Sacks
+that were
+{\it ``almost the opposite of what every one
+else would have expected''.}
+
+These remarks by Sacks deserve to be taken
+seriously,
+given that Sacks 
+interacted  twice
+with  G\"{o}del
+at the Institute of Advanced Studies
+(once in 1959-1960 and a second time
+during the 1970s). Moreover, Sacks went beyond the preceding quoted
+remarks.
+Other
+memorable comments  from
+ \cite{YouSa14}'s
+  YouTube lecture
+are that:
+\bed
+\item{   a)  } 
+ G\"{o}del
+ {\it ``did not  think''}
+the objectives of Hilbert's Consistency Program 
+{\it ``were erased''} 
+by
+the Incompleteness Theorem,
+\item{   b)  } 
+G\"{o}del believed (according to Sacks) 
+ it left
+  Hilbert's program 
+{\it ``very much alive and
+even more interesting than it initially was''}. 
+\ennd
+Also,  Nerode \cite{Ne20}    
+indicated in private communications that
+Stanley Tennenbaum
+shared similar conversations 
+with G\"{o}del, as those remembered by
+Sacks.
+These
+conversations
+%%%  with  Tennenbaum also, apparently, 
+%% expressed
+likewise noted
+the
+need for some type of revival of
+Hilbert's
+Consistency Program.
+
+Thus,
+ the last two paragraphs,
+have
+summarized the quandary
+that Symbolic
+Logic has faced since 1931.
+They suggest some type of
+ Tripod-like response
+to Hilbert's  Second  Problem
+may become necessary to formulate
+a more comprehensive
+response to Hilbert's question.
+
+\section{Starting Notation with the WCB \& USEGR Paradigms}
+
+%%  3333333
+  \label{aaa3}
+
+  We will summarize the contents of the prior articles
+  \cite{wwapal,ww21} so it will be
+ unnecessary to read these papers.
+The particular annotated paragraphs in
+\cite{ww21} had used
+decimal reference  numbers
+  such as ``Example 3.1'' or ``Definition 3.2''. A non-decimal paragraph
+  notation will be used in the current paper,
+thus having its
+  first  annotated paragraph instead
+called ``Definition 1''. This type of
+adjusted notation
+should
+ cross-reference the prior paper \cite{ww21}
+in a manner that avoids
+any ambiguity and/or
+  confusion.
+
+  
+\begin{deff}
+  \label{defx1}
+\rm  
+An
+ordered pair $(\alpha,D)$ is called a
+{\it Generalized Arithmetic Configuration}
+(abbreviated as a {\bf ``GenAC'' })
+when  its 
+first and second 
+components 
+are 
+defined 
+as 
+follows:
+\bee
+\item
+The {\bf Axiom Basis} ``$~\alpha~$'' 
+for a 
+ GenAC
+is defined as
+its set of
+ proper axioms. 
+\item
+The second component 
+ ``$\, D \,$''
+  of a 
+ GenAC,  called its 
+ {\bf Deductive Apparatus},
+is
+defined as
+the union of its
+ logical axioms ``$\,L_D$'' with its
+        rules for obtaining inferences.
+\ene
+\end{deff}    
+
+The Example 3.1 from \cite{ww21} provided several examples of
+GenAC formalisms. Its Definition 3.2 defined a GenAC $(\alpha,D)$
+to be {\bf ``Self-Justifying''} when:
+\begin{description}
+  \item[  i.   ] one of  $~(  \alpha  , D  )$'s  theorems
+(or possibly one of $\alpha$'s axioms)
+states that the deduction method $ \, D, \, $ applied to the
+basis
+system $ \, \alpha, \, $ 
+produces a consistent set of theorems, and
+\item[  ii.   ]
+     the GenAC formalism $ \,( \alpha,D)  \, $ is
+actually, in fact,
+ consistent.
+\end{description}
+
+\begin{exx}
+  \label{ex3}
+\rm  
+For any  $\,(\alpha,D) \,$, 
+it is
+easy
+to construct a 
+system $ \, \alpha^D \, \supseteq  \,  \alpha  \, $
+ that  satisfies
+the
+Part-i 
+condition
+in an isolated context  where the Part-ii condition is
+ not also
+satisfied.
+Thus,
+  $ \, \alpha^D \, $  can
+consist of all of $~\alpha \,$'s axioms plus 
+the added {\bf $\,$``SelfRef$(\alpha,D)$''$\,$} sentence,
+defined below: 
+\begin{quote} 
+$\oplus~~~$ 
+There is no proof 
+(using 
+$D$'s deduction method)
+of  $0=1$
+from the  {\it union}
+ of
+the
+ axiom system $\, \alpha \, $
+with {\it this}
+sentence  ``SelfRef$(\alpha,D) \,$'' (looking at itself).
+\end{quote}
+Each of
+Kleene and Rogers
+\cite{Kl38,Ro67}
+noticed
+how
+to
+encode
+ analogs of 
+SelfRef$(\alpha,D) \,$'s  above statement,
+which we will often 
+ call an 
+ {\bf $\,$``I AM CONSISTENT'' 
+ axiom.}
+ The catch is
+%%%  that
+$\alpha ^D$ 
+may
+be inconsistent
+(e.g. 
+violate
+ Part-ii of   self-justification's
+definition
+ despite
+the assertion in
+ SelfRef$(\alpha,D)$'s 
+particular
+statement).
+This is because if the 
+ pair $(\alpha,D)$ is too strong
+then a
+quite conventional
+G\"{o}del-style diagonalization argument can
+be applied to the axiom basis of
+$~\alpha^D~=~ \alpha \, + \, $ SelfRef$(\alpha,D), ~$
+where the added presence of the statement 
+SelfRef$(\alpha,D)$ 
+will cause this extended version of 
+$\, \alpha\,$, ironically,
+ to
+ become automatically inconsistent.
+ Thus, while an
+ encoding for statement $~\oplus \,$'s {\it ``I am consistent''} declaration 
+ is a  routine consequence of the Fixed Point Theorem,
+its computational implementation is
+ potentially
+devastating.
+
+% consequences.
+ 
+\end{exx}
+
+\begin{definition}
+\label{defy3}
+\rm
+Let
+ $Add(x,y,z)$ and    $Mult(x,y,z)$ 
+denote two 3-way predicates  specifying 
+ $x+y=z$ and $x*y=z$.
+Let us say
+ a formalized
+system of
+$~\alpha~$
+recognizes successor,  addition  and multiplication
+as {\bf Total Functions} iff 
+it can  prove all of
+\eq{totdefxs} - \eq{totdefxm}
+as theorems:
+\end{definition}
+{ \small
+\baselineskip =  .9 \normalbaselineskip 
+\beq 
+\label{totdefxs}
+\forall x ~ \exists z ~~~Add(x,1,z)~~
+\enq
+\beq 
+\label{totdefxa}
+\forall x ~\forall y~ \exists z ~~~Add(x,y,z)~~
+\enq
+\beq 
+\label{totdefxm}
+\forall x ~\forall y ~\exists z ~~~Mult(x,y,z)~
+\enq }
+\noindent
+Also a GenAC system $(\alpha,D)$ will be called
+{\bf Type-M} 
+formalism
+iff it proves
+\eq{totdefxs} - \eq{totdefxm}
+as theorems, {\bf Type-A} if it proves
+only \eq{totdefxs} and \eq{totdefxa},
+and
+it will be called
+ {\bf Type-S} if it proves
+only \eq{totdefxs} as a
+ theorem. 
+Furthermore,
+ $(\alpha,D)$ 
+ will be 
+called 
+{\bf Type-NS} iff it proves
+none of \eq{totdefxs} - \eq{totdefxm}. 
+
+
+
+
+%% bbbbbbbbbbbbbbb  DONE AND DELETE
+
+\bigskip
+{\bf BROADER OUTLOOK:$~$}
+The remainder of this chapter will step backwards 
+roughly 1,500 years in time, and explore the relationship
+between Definitions 1 and \ref{defy3}  with
+India's famous 
+``Wheat-and-Chess-Board''  paradigm (often denoted 
+as the
+{\bf ``WCB''} phenomenon.)
+
+This paradigm will
+ help clarify the persistent confusion that has
+ surrounded G\"{o}del's
+   Second  Incompleteness
+   Theorem. It will also help us 
+formulate a new interpretation for the
+   Remarks $*$ and $**$ that
+Hilbert and  G\"{o}del had made.
+
+
+ According to Wikipedia,
+ scholars are
+ %actually
+ uncertain about exactly when the WCB fable had
+ emerged in ancient India. (It may possibly
+ have originated as early as 400-600 AD.)
+
+ % but  scholars have debated the accuracy of such a date.)
+
+
+
+ Under one variant of the WCB fable, a Brahmin named
+ Sissa ibn Dahir invented
+a type of
+ Indian predecessor
+to the game of Chess. At some
+subsequent
+ juncture, the king
+ of Sissa's province
+ offered to award him
+a prize 
+for the  game
+that
+ Sissa had invented. Sissa
+ replied that it would be sufficient to place one
+ grain of wheat on the first square of a Chess Board,
+ two grains
+ on its second square, four grains on its third square, etc.
+
+ There are several versions of the Sissa fable, and no one knows
+ which (if any ?) is accurate. One variant  involves
+ the king executing Sissa after  discovering the last
+chess-board
+ square would
+ require  $~2^{63}~$ grains of wheat. Another
+ variant concludes with
+the
+ king smiling upon realizing the nature
+of Sissa's 
+ puzzle and declaring that this
+puzzle
+is  more fascinating
+and stimulating
+than the game of chess (itself).
+
+ While many  precise details have been lost over time,
+ the underlying 
+message of the WCB  
+ fable has survived for  roughly
+ 1,500 years.
+This is because it is thought
+to
+ convey an instructive lesson about
+the unsustainable
+nature of an
+ exponential growth.
+
+ For instance,
+ the 64 squares
+of a Chess Board
+has been found to 
+require  an amount of wheat that is
+ a factor of 1,000 greater than the world's full
+ %  annual
+ year-2019 production.
+ Moreover, a direct analog of the WCB paradigm, involving
+a few hundred doubling operations,  will require more  wheat
+than there are  atoms in the  Universe.
+ 
+Our point is that this fable would not have survived the
+millennial test of time if there were not many examples in human
+history where individuals
+have
+accidentally got involved in
+exponential growth processes that started at a gradual rate
+but then ran wild.  One of these examples seems to concern 
+Hilbert's statement $~*~$ (i.e. see Section \ref{aaa2} ).
+It appears to  ask   mathematicians to  perform
+an
+analog of Sissa's
+unsustainable  WCB task.
+
+This is
+because if one seeks to perform
+several hundred squarings of the number 2 than its
+binary encoding will own more zero-digits than there are
+atoms in the universe. This can be appreciated by comparing
+the sequences 
+$   x_0,~   x_1,~   x_2,~     ...    $ 
+and  $   y_0, ~  y_1, ~  y_2,     ...  $
+     defined below:
+\vspace*{- 0.7 em}
+\beq
+\label{zs}
+x_0~~~=~~~2~~~=~~~y_0
+\enq
+\beq
+x_{i}~~~=~~~x_{i-1}~+~x_{i-1}
+\label{as}
+\enq
+\beq
+y_{i}~~~=~~~y_{i-1}~*~y_{i-1}
+\label{bs}
+\enq
+For $\, i \, > \,0 \,$, 
+$\,$let $ \, \phi_{i} \, $ 
+and $ \, \psi_{i} \, $ 
+denote the  
+sentences in 
+\eq{as} and \eq{bs}
+respectively.
+Then if
+  $ \, \phi_{0} \, $ and
+$ \, \psi_{0} \, $ 
+denote \eq{zs}'s
+sentence, it is apparent that
+ $ \, \phi_0, \, \phi_1, \, ... \, \phi_n \, $
+imply
+ $ \, x_n \, = \, 2^{ n+1} \, , \, $ while 
+ $ \, \psi_0, \, \psi_1, \, ... \, \psi_n \, $
+ imply $ \, y_n \, = \, 2^{2^n} \, $.
+Thus, the  latter sequence
+will grow
+at an
+exponentially 
+faster
+rate than 
+the former.
+(E.g. the respective  quantities of
+Log$_{ \, 2 \,}(\, y_n \,) \, = \, 2^{n} \, $ 
+and
+Log$_{ \, 2  \,}(\, x_n \,) \, = \, {n+1} \, $ 
+ represent
+the  lengths for the binary codings 
+for
+$ \, y_n \, $
+ and 
+$ \, x_n \, $.)
+
+In other words,
+ $ \, y_n\,$'s 
+     binary     
+encoding 
+will have a length
+$\,  2^{n} \,  $,
+roughly analogous to the n-th square belonging to
+the WCB's chess board paradigm.
+Leaving aside technical details that were largely
+explored in \cite{ww21} and shall be briefly
+reviewed later, we are suggesting that
+Hilbert's statement $*$ is partially analogous to
+ Sissa's WCB paradigm.
+
+The latter is not meant to deny that there are some intriguing
+interpretations of the Hilbert and G\"{o}del statements $*$ and $**$
+deserving, certainly, partial sympathy.
+This is because there are other types of 
+amended axiomatizations of arithmetic that avoid 
+\el{bs}'s malignant assumption that multiplication is
+a total function.
+
+The theme  of this article is, thus,  largely that one needs to be
+more flexible when approaching the 
+ Hilbert and G\"{o}del statements $*$ and $**$.
+Our proposed ``Tripod Reply'' to
+ Hilbert's Second Problem 
+ will thus be
+ a gentle      hybrid-styled reply, that
+accepts   $*$ and $**$ half-way and
+ views Hilbert's Second Problem
+from all three Tripod  perspectives
+summarized in Section \ref{aaa1}.
+
+
+  
+\begin{deff}
+  \label{defx4}
+ \rm 
+During the remainder of this article, the acronym
+{\bf ``USEGR''} will refer to an {\it Unsustainable Exponential Growth Rate},
+similar
+to the dizzying number of zero digits
+that was produced by \el{bs}'s sequence of
+  $   y_0, ~  y_1, ~  y_2,   ~  ... ~ $.
+We will argue that such sequences resemble 
+Sissa's WCB paradigm,
+and a mathematical realist should avoid them as much as
+feasible.
+\end{deff}
+
+
+
+
+Our theme will be that a
+1-way response to Hilbert's Second Open Problem
+was observed  by  Sacks to be 
+questionable
+when his remarks 
+(a) and (b)  
+(from Section \ref{aaa2})
+noted G\"{o}del viewed  the
+ Second Incompleteness Theorem
+as essentially 
+a too
+pessimistic reply
+ to Hilbert's second problem.
+Also,
+ a broader
+ 2-way response is inadequate  because the various
+self-justifying formalisms that Willard developed
+between the times of \cite{ww93}'s  initial 1993
+%%%  announcement
+presentation
+and that of  \cite{ww21}'s
+recent  LFCS-2020 paper
+are weaker 
+than would be  preferred.
+
+Artemov's third type of response
+uses
+his elegant 
+infinite ranged SBSIS-styled
+exceptions \cite{Ar19,Ar21}
+to the Second Incompleteness Theorem. It is 
+almost
+%% very close to
+ideal.
+Yet, it also  has drawbacks
+(see footnote\footnote{Section 
+   \ref{aaa1}    explained how
+   \cite{Ar19,Ar21} also had
+some
+   hidden difficulties. They are
+  that Peano Arithmetic (PA)
+  can  verify only the consistency of finite subsets
+  of itself. Thus,
+\cite{Ar19,Ar21}'s 
+  perspective 
+  is
+  useful, but it does not
+fully
+  explain how PA
+  can formalize the consistency of its
+  infinitely drawn
+  expanse.
+  In this context, we shall argue 
+  a hybridized
+  Tripod-style response is a
+more
+ comprehensive
+reply to
+  Hilbert's Second  Problem.} )
+because its  SBSIS approach
+is a mixture of tempting positive results and compromises.
+This
+is the  reason the current article advocates using
+several perspectives simultaneously,
+under
+our  hybrid-styled 3-part
+``Tripod''
+reply to Hilbert's
+120 year-old problem. 
+
+\section{Characterizations of Several Base Languages}
+
+    %%% 4444444444444444
+
+  \label{aaa4}
+% \label{sect4}
+
+  Sissa's 1,500-year old ``WCB'' paradigm,
+as well as
+  Definition \ref{defx4}'s   
+  ``USEGR'' effect
+have  similar themes.
+This is because both involve
+unsustainable exponential growth processes,
+having   often
+unwelcome and
+unanticipated effects.
+In particular, their circumstances can be made applicable
+to essentially all the
+known variants of the Second Incompleteness Theorem
+\cite{AZ1,Ar1,Be14,BS76,Bu86,BI95,Fe60,Fr79a,Ha11,HP91,KT74,Pa71,PD83,Pa72,Pu85,Pu96,So88,So94,Sv7,Vi5,WP87,ww1,ww2,ww7,wwapal,ww16}.  
+% cite?????????.
+One  
+of its
+most
+interesting variants
+arose during a  1994
+private telephone conversation
+with Robert Solovay
+\cite{So94}.
+% that he chose never to publish.
+Its formalism  (due to Solovay)
+can be thought of as a generalization
+  of a methodology that was initially developed by Pudl\'{a}k in
+  \cite{Pu85} and which was further explored
+by  Nelson and Wilkie-Paris in \cite{Ne86,WP87}.
+%%% Essentially,  it is
+It essentially amounts to
+the following observation:
+\begin{description}
+\item{\bf Theorem ++ $~$ : }
+{\it 
+$~~~$
+(Solovay's  
+modification
+\cite{So94}
+of Pudl\'{a}k \cite{Pu85}'s formalism 
+using some of 
+Nelson and Wilkie-Paris \cite{Ne86,WP87}'s
+methods)} :
+Let 
+$ \, (\alpha,D) \, $ 
+denote 
+a 
+Type-S
+GenAC system
+which assures
+the successor operation
+will
+% provably
+satisfy
+both 
+ $  \,   x'     \neq 0     $ and
+$     x'     =     y' \Leftrightarrow x=y $.
+$~$Then
+$ \, (\alpha,D  ) \, $  
+cannot verify its own
+consistency
+whenever
+simultaneously
+ $D$ is some type of
+a Hilbert-Frege
+deductive
+apparatus and
+$~\alpha~$
+ treats addition and multiplication
+as 3-way relations, 
+satisfying 
+their usual % identity,
+associative, commutative, 
+ distributive 
+and identity 
+axioms.
+\end{description}
+%\end{quote}
+\medskip
+Essentially, Solovay \cite{So94}
+had
+privately communicated to Willard  
+an approximate analog of Theorem $++$.
+(This communication was similar to
+several
+other often-privately-communicated comments 
+that the
+% \newpage
+% \noindent
+literature  \cite{BI95,HP91,Ne86,PD83,Pu85,WP87} 
+has often attributed to 
+Robert Solovay's unpublished observations.)
+It also should be mentioned that
+partial
+analogs of 
+ $++$'s statement
+ were  explored 
+subsequently
+ by  Buss-Ignjatovi\'{c},
+H\'{a}jek 
+and
+\v{S}vejdar in \cite{BI95,Ha11,Sv7},
+as well as in Appendix A of 
+the paper
+\cite{ww1} 
+and in \cite{wwapal}.
+
+Furthermore, we stress that
+Pudl\'{a}k's initial 1985 article  \cite{Pu85} 
+had captured
+the majority 
+of $++$'s 
+implications, chronologically before Solovay's observations.
+Also,
+Friedman did nicely
+ related
+work as early as 1979
+ in
+\cite{Fr79a}.
+
+\bigskip
+
+In order to explain how
+Sissa's 1,500-year old ``WCB'' paradigm
+and Definition \ref{defx4}'s similar  ``USEGR'' effect
+are related to  this material, it will be useful to
+employ
+Definition \ref{defx5}'s notation. (Its predecessor
+can be found 
+in \cite{wwapal}, but the latter did not discuss the
+ ``USEGR'' effect.)
+
+\begin{deff}
+\label{defx5}
+\rm
+A  function $ F(a_1, \ldots , \, a_j)$
+is called
+a {\bf Non-Growth} operation
+when 
+$ F(a_1, \ldots , \, a_j) 
+\leq  Maximum(a_1 , \ldots ,  \, a_j)$
+holds.
+Seven  examples of  
+non-growth functions are:
+\bee
+ \parskip 0pt
+\small 
+ \baselineskip = 0.70 \normalbaselineskip
+\item
+{\it Integer Subtraction} 
+(where $~x-y~$ is defined to equal zero when
+ $~x \leq y~),~~$
+\item
+{\it Integer 
+Division}
+(where $x \div y$ 
+equals
+$~x~$ when $y=0$, and
+it equals $~\lfloor ~x/y ~\rfloor~$ otherwise),
+\item
+$~Maximum(x,y),$
+\item
+$~ Log_{ \, \spadesuit \, }(x)~$ 
+ which
+is an abbreviation for
+$~\lceil~$Log$_2(~x+1~)~\rceil~~$ under 
+the conventional
+notation.
+%%% 
+%%% 
+%%% (The  footnote 
+%%% \footnote{
+%%% The H\'{a}jek-Pudl\'{a}k textbook \cite{HP91} uses the 
+%%% notation ``$~\mid  x  \mid~$'' 
+%%%  to 
+%%% designate
+%%%  what we shall call ``$~ Log_{ \, \spadesuit \, }(x)~$''
+%%% Thus for $~x \geq 1 \,$, 
+%%%  $~ Log_{ \, \spadesuit \, }(x)~$
+%%% denotes
+%%% the number of symbols that will 
+%%% encode the number $~x\,$, when it is written 
+%%% in  a binary format. }
+%%% explains the 
+%%% significance
+%%% of this
+%%% concept.)
+%%% 
+%%%
+\item
+$\,~Root(x,y) \, =  \, \lceil  \, x^{1/y} \,  \rceil$ 
+\item $~Count(x,j)$   designating the number of
+physical
+ ``1'' bits
+stored among $    \,  x$'s rightmost $    \, j    \,  $ bits.
+\item 
+  $~Bit(x,i)~$
+  designating  the $i-$th rightmost bit
+  of the string $x$ (as explained by footnote \footnote{ The 
+$~Bit(x,i)~$ operator is technically unnecessary
+because it can be encoded as:
+$\mbox{Bit}(x,i)~~=~~   \mbox{Count}(x,i) ~-~  \mbox{Count}(x,i-1)$.}
+ $~$.)
+\ene  
+These function were called 
+{\bf Grounding Functions} in \cite{wwapal}.
+Also, $L^0  \,$ will denote a quite weak
+language 
+built from the Grounding functions, together with
+three constant symbols $c_0$,  $c_1$ and   $c_2$
+(representing  0, 1 and 2) and 
+the   ``$ \, = \, $''
+and ``$ \, \leq \, $'' primitives.
+\end{deff}
+
+Since  $L^0$ contains absolutely no growth
+functions, it is so weak that it cannot even
+formalize the integer 3 as an isolated term.
+Thus,
+\cite{wwapal} found it necessary
+to strengthen  $L^0$'s language
+with the two additional Type-NS 3-way predicates
+$Add(x,y,z)$ and $Mult(x,y,z)$ (that formalize the concepts
+of   ``$~x+y=z~$'' and ``$~x*y=z~$''). Their two formal
+definitions are given below:
+\beq
+\small
+  \label{newadd}
+z ~ - ~ x ~~ =~~y ~~~~\wedge~~~~ z~~ \geq~~ x
+\enq 
+\begin{equation}
+\small
+  \label{newmult}
+ \{ ~(x=0    \vee    y=0 ) \Rightarrow z=0~ \} ~ ~\wedge ~~ 
+  \{ ~(x \neq 0 \wedge y \neq 0~) ~ \Rightarrow ~
+(~ \frac{z}{x}=y  ~\wedge \, ~  \frac{z-1}{x}<y~~)~ \}
+\end{equation}
+More precisely to help Type-NS self-justifying axiom systems encode
+integers distinctly larger than 2,
+%%% the year-2006 paper
+\cite{wwapal}
+introduced some additional constant
+symbols,
+of $~a_2,~a_3,~a_4~....~$
+and $~b_2,~b_3,~b_4~....~$  
+into  $L^0~$'s language,  satisfying  the following
+three constraints:
+\newpage
+\beq
+\label{new1}
+a_2~~=~~b_2~~=~~c_2~~=~~2
+\enq
+\beq
+\label{new2}
+a_{j+1}~~=~~a_{j}~+~a_{j} ~~~~\mbox{ for } j \geq 2
+\enq
+\beq
+\label{new3}
+b_{j+1}~~=~~b_{j}~*~b_{j} ~~~~\mbox{ for } j \geq 2
+\enq
+In particular, 
+\el{new2} was called
+ an
+ {\bf ``Additive Naming Convention''  (ANC)}
+ in \cite{wwapal}, 
+ and
+\el{new3} was called an {\bf ``Multiplicative Naming Convention'' (MNC)}.
+
+The precise encoding for Lines
+\eq{new2} and \eq{new3}  in \cite{wwapal}
+is delicate 
+because the earlier Theorem  ++
+(of Pudl\'{a}k and Solovay)  implied
+a Self-Justifying axiom system cannot treat either addition
+or multiplications as total functions. 
+This difficulty was resolved by applying
+the  $Add(x,y,z)$ and  $Mult(x,y,z)$ 3-way predicates
+(from Lines \eq{newadd} and \eq{newmult}$~).$
+Thus,   reworded forms of Lines \eq{new2}
+and
+\eq{new3}, evading  $++$'s
+generalization of the Second Incompleteness Theorem, 
+appear below:
+\beq
+\label{new4}
+\label{addcov}
+ADD(a_j,a_j,a_{j+1}) ~~~~\mbox{ for any } j \geq 2
+\enq
+  \beq
+  \label{new5}
+  \label{multcov}
+Mult(b_j,b_j,b_{j+1}) ~~~~\mbox{ for any } j \geq 2
+\enq
+
+\begin{deff}
+\label{defx6}
+\rm
+The term {\bf Additive Naming Language} refers to the
+extension of the  
+$L^0~$ language
+that defines the constant symbols
+$~a_2,~a_3,~a_4~....~$
+with the formalisms from
+Lines \eq{new1}
+and \eq{new4}. This revised version
+of $L^0~$'s language will be denoted as $L^{\rm ANC}.$
+Likewise
+the phrase {\bf Multiply-Additive Naming Language}  refers to the
+revision of the  
+$L^0~$'s language
+that defines all the constant symbols of
+$~b_2,~b_3,~b_4~....~$
+and $~a_2,~a_3,~a_4~....~,~$  
+using the formalisms of
+%via
+Lines \eq{new1}, \eq{new4} and \eq{new5}. 
+Its language
+% will be
+is
+called  $L^{\rm MNC}.$
+\end{deff}
+
+An examination of these two naming conventions was
+%% essentially
+the core topic in \cite{wwapal}.
+Roughly summarized, the Theorem 3 from \cite{wwapal} 
+showed that  the language $L^{\rm ANC}$
+can house
+robust forms of self-justifying systems, and its Theorem 4
+showed that the similar evasions of the Second Incompleteness
+Theorem are impossible under  $L^{\rm MNC}$. 
+
+
+What was missing from \cite{wwapal}
+was an intuitive explanation about why  $L^{\rm MNC}~$'s failure
+did not out-shine the partial (but limited)
+success that $L^{\rm ANC}$
+achieved. In other  words, one needs to ask:
+{\it Which of these two languages 
+provide a better standpoint
+for
+  approximating conventional
+ theorem-proving?}
+
+Our reply to the preceding question is that the language 
+$L^{\rm ANC}$ is preferable because
+Definition \ref{defx4}'s
+ awkwardly
+exponential
+``USEGR''
+growth suggests one must 
+look merely at 
+the  600-th item in the sequence 
+$~b_2,~b_3,~b_4~....~$  to find an
+element
+whose
+binary encoding-length exceeds the number of atoms lying inside
+the universe.
+
+\begin{remm}
+  \label{remx}
+  \rm
+  \dvs
+More specifically, we are suggesting the reader keep in mind
+this dichotomy
+when the next section
+compares the Parts (a) and (b) of its Propositions
+\ref{prop11} and  \ref{prop12}.
+This is because the negativistic  Propositions
+\ref{prop11}.b and  \ref{prop12}.b will
+% shall
+appear to be
+% even more
+divorced from reality, when their 
+excessive
+USEGR  growth rates
+are noticed to
+resemble
+Sissa's  quite
+outlandish exponential
+ rates of growth. 
+%% $\, 2^{64}  \,- \, 1 \,$ grains of
+%% wheat.
+\end{remm}
+
+\section{More Details}
+
+    %%% 555555555555555555555555
+
+  \label{aaa5}
+
+  
+The primary goal 
+in \cite{wwapal} 
+was to determine when
+%it was possible to formulate 
+self-justification
+was possible
+under 
+either
+\eq{addcov}'s
+ ``Additive'' 
+or  \eq{multcov}'s 
+ ``Multiplicative'' 
+ naming
+schema.
+Some added notation is needed to briefly review
+\cite{wwapal}'s
+main
+results.
+In a context where
+ $\, t \,$ denotes   any term in $\, L^{ANC} \,$'s   
+language that does not contain the variable symbol of ``$~v~$'',
+the quantifiers in
+%%% the  wffs of
+$~ \forall ~ v \leq t~~ \Psi (v)~$ and
+$\exists ~ v \leq t~~ \Psi (v)$
+will be  called $\, L^{ANC} \,$'s   
+{\bf ``$~$v-Restricting 
+  Quantifiers$~$''}. Then Definition \ref{def-3.8}
+formalizes the 
+analogs of
+%% a
+conventional arithmetic's
+$\Delta_0$, $\Pi_n$ and $\Sigma_n$ 
+formulae
+in  $L^{ANC}\,$'s 
+language:
+
+\begin{deff}
+\label{def-3.8}
+\rm
+Any formula in
+$L^{ANC}\,$'s 
+language will be called  $\Delta^{ANC}_0$
+iff all its quantifiers variables $v$ meet the preceding
+v-Restricting  constraint.  The  $\Pi^{ANC}_n$
+ and $\Sigma^{ANC}_n$.
+sentences of  $L^{ANC}$
+are
+then
+defined by
+%%% Items
+1-3.
+(They are analogous to
+conventional arithmetic's
+%%% $\Delta_0$, $\Pi_n$ and $\Sigma_n$ 
+counterparts):
+\bee
+%\small
+%\parskip -2 pt
+%\baselineskip = 0.8 \normalbaselineskip 
+\item
+Every  
+$\Delta_0^{ANC}$ formula is
+%considered to be 
+also 
+a
+$\Pi_0^{ANC}$  and 
+an
+$\Sigma_0^{ANC}  $ expression.
+%% 
+%% ``$~\Pi_0^{ANC}~ \,$''  and 
+%% %  also 
+%%  ``$~\Sigma_0^{ANC}~ \, $''. 
+%% 
+\item
+A
+formula
+is
+called
+% defined to be
+ $ \,\Pi_n^{ANC} \,$
+when it
+% is 
+can be
+encoded as 
+$\forall v_1 ~ ...~ \forall v_k ~ \Phi$  
+where
+%with
+$\Phi$ is  $\Sigma_{n-1}^{ANC}$.
+\item
+A formula
+is
+called
+% defined to be
+ $\Sigma_n^{ANC}$
+when it can be encoded as 
+$\exists v_1~ ...~ \exists v_k ~ \Phi,$  where
+$\Phi$ is  $\Pi_{n-1}^{ANC}$.
+\ene
+\end{deff}
+
+
+
+%%\begin{deff}
+%%\label{def3.9}
+%%\rm
+
+\bigskip
+ 
+
+
+Given an initial axiom system $\beta,$
+the Theorem 3 of \cite{wwapal}
+% defined 
+%formalized
+did formalize
+a 
+self-justifying logic, called
+{\bf ISCE$(\beta)$}, 
+that could prove all 
+$~\beta\,$'s $\Pi_1^{ANC}$ theorems and 
+which could also
+verify its own consistency under any Hilbert-Frege
+style deductive
+apparatus.
+The axiom basis for ISCE$(\beta)$ 
+was comprised, formally,  of the following four
+distinct
+groups of axioms:
+%
+%  \newpage
+\begin{description}
+ \parskip 0pt
+\item
+{\bf GROUP-ZERO:} 
+This 
+schema
+%  axiom group 
+will formally represent the integers of 0,1 and 2
+with the defined constant-symbols of
+$\,c_0\,$, $\,c_1\,$ and $\,c_2\,$. 
+It will also apply
+\el{addcov}'s Additive Naming 
+schema
+to formally define 
+ the further constants of
+ $    a_2,~  a_3,~ a_4,~  ...   $  
+\item
+{\bf GROUP-1:} 
+This axiom group  will consist of a
+finite set of  
+ $\Pi_1^{ANC} $ sentences, whose union with Group-zero
+axioms is consistent and
+can prove every $\Delta_0^{ANC}$ sentence that
+holds true in the standard model.
+(It was explained in \cite{wwapal} that any
+set $~H~$, meeting these conditions,
+may formalize the  
+Group-1 axioms.)
+\item
+{\bf GROUP-2:}
+Let
+$\ulcorner \, \Phi \, \urcorner$ denote $\Phi$'s G\"{o}del number, and
+$\mbox{HilbPrf}_{ \beta  }(x,y)$
+denote a 
+$\Delta _0^{ANC}$ 
+formula indicating  $y$ is a
+Hilbert-styled
+proof
+from axiom system $\beta  $ of the theorem 
+$x$.
+For each 
+$\Pi_1^{ANC} $
+ sentence  $\Phi$,
+the Group-2 schema
+will 
+contain
+an 
+% approximate
+encoding for 
+\eq{group2old}'s
+$\Pi_1^{ANC} $
+axiom:
+\begin{equation}
+\label{group2old}
+\forall ~y~~~\{~ \mbox{HilbPrf}~_\beta
+~(~ \ulcorner \Phi \urcorner ~,~y~)~~
+\Rightarrow ~~ \Phi~~\}
+\end{equation}
+\item
+{\bf GROUP-3:}
+This last part of
+%%%%%%%%%%%%%%%  
+\cite{wwapal}'s
+ISCE$(\beta)$
+formalism
+is
+% was
+ a single 
+self-referencing
+$\Pi_1^{ANC}$
+sentence  
+stating:
+ %% essentially declaring:
+\begin{quote}
+% \small
+%%%%%%%%%%%%% $ \oplus ~ \oplus ~~~$
+$ \oplus  \oplus ~~~$
+ ``There 
+%is 
+exists
+no
+Hilbert-style proof of 0=1 from the union of the Group-0, 1 and 2
+axioms  with {\it THIS  SENTENCE} (referring to itself)''.
+\end{quote}
+\end{description}
+More details about  $ \oplus  \oplus$'s exact formal 
+encoding ``fixed point'' encoding will not be mentioned here
+because our earlier articles
+\cite{ww1,ww5,wwapal} discussed this topic quite thoroughly.
+
+  
+\begin{deff}
+  \label{defx8}
+  \rm
+  The symbols
+  $\Pi^{MNC}_n$,
+ $\Sigma^{MNC}_n$
+  and $\Delta_0^{MNC}$
+will denote the obvious analogs of  
+Definition \ref{def-3.8}'s
+  $\Pi^{ANC}_n$,
+ $\Sigma^{ANC}_n$
+and $\Delta_0^{ANC}$ sentences,
+when the broader language $L^{MNC}$
+of the Multiplicative Naming Convention
+replaces the initial language of   $L^{ANC}$.
+%
+% utilized by the Additive Naming Convention.
+%
+Also, the symbol
+ISCE$^{\rm MNC}(\beta)$
+will denote the  intended
+generalization of the preceding  
+ISCE$(\beta)$
+system where 
+all references to the language   $L^{ANC}$
+and its Additive Naming Convention
+are
+%% changed into
+replaced by
+statements about
+the language   $L^{MNC}$,
+along with
+its Multiplicative Naming Convention,
+ its
+associated
+ $\Pi^{MNC}_n$ 
+and $\Delta_0^{MNC}$ sentences
+and a natural $\Pi^{MNC}_1$ counterpart of
+ISCE$(\beta)$'s particular
+Group-3 {\it ``I am consistent''}
+axiom.
+(It  turns out that Proposition
+\ref{prop11} will formalize that 
+ISCE$^{\rm MNC}(\beta)$
+typically
+differs from 
+ISCE$(\beta)$ by being
+inconsistent.)
+\end{deff}
+
+\begin{deff}
+  \label{defx9}
+  \rm
+Let $~I(~\bullet~)~$ denote
+an operation that maps
+an initial axiom basis $\, \beta \,$ onto an alternate
+system  $\,I(\beta)\, $.
+(One example of
+such an operation is the
+  ISCE$( \, \bullet \, )$ 
+framework,
+that maps 
+an initial axiom basis of 
+  $~\beta~$ onto 
+the alternate formalism of
+ ISCE$(\beta).~)~$ 
+Such an operation  $~I(~\bullet~)~$
+is  called {\bf Consistency Preserving}
+iff  $\,I(\beta)\, $ is consistent whenever 
+the union of
+ $\beta$ with the Groups 0 and 1 axiom schemas is
+consistent.
+\end{deff}
+
+\begin{propp}
+  \label{prop11}
+\rm
+The   ISCE$(~\bullet~)~$
+and  ISCE$^{\rm MNC} (~\bullet~)~$ transformations
+have different properties, insofar as only the former is
+Consistency Preserving. In particular, if PA$^{Ground}$
+denotes the
+extension of Peano Arithmetic that includes
+both the conventional arithmetic operators and the
+seven Grounding functions, then the following two invariants
+do hold:
+\bed
+\item[  a.  ]
+  ISCE(PA$^{Ground~}$)
+  is a consistent system.
+\item[  b.  ]
+ISCE$^{\rm MNC}$(PA$^{Ground~}$) fails to be  consistent.
+\ennd  
+\end{propp}
+
+It is unnecessary to prove  Propositions \ref{prop11}.a
+and \ref{prop11}.b
+ because  they both are easy consequences
+of the Theorems 3 and 4 from \cite{wwapal}.
+Instead, we will discuss in this paper how 
+Proposition \ref{prop11} and some
+ of its
+generalizations
+are related
+to a needed Tripod-style response to Hilbert's
+% famous
+second problem.
+
+It firstly should be noted that
+Definition \ref{defx4}'s  very fast ``USEGR'' growth is
+essential for appreciating   the sharp contrast  between 
+Proposition \ref{prop11}.a
+and 
+Proposition \ref{prop11}.b.
+This is because
+the generalization of the Second Incompleteness Theorem, in 
+Proposition \ref{prop11}.b,
+arises because the MNC supports 
+an unfortunately fatal
+USEGR rate of
+exponential  growth among numbers.
+
+It next should be remarked that some half-analogs of 
+Proposition \ref{prop11}'s twin 2-part statement for semantic
+tableau deduction were established by \cite{ww1,ww2,ww5,ww9}.
+Moreover, the recent year-2021 article \cite{ww21}
+summarized and extended
+these  articles.
+Thus, let 
+ IS$_{\rm Tab}(~\beta~)$
+ be
+\cite{ww21}'s
+ 4-part axiom system,
+whose relationship to the ISCE$(\beta)$
+system
+is as follows:
+\bed
+\item[    i. ]
+  The Group-1 and Group-2
+  schemes
+  for   IS$_{\rm Tab}(~\beta~)$
+and  ISCE$(\beta)$
+are
+  essentially identical.
+\item[   ii. ]
+  The Group-Zero
+  scheme
+  for   IS$_{\rm Tab}(~\beta~)$
+is stronger than that of
+  ISCE$(\beta)$ because it replaces the 
+  Additive Naming Convention with
+a stronger 
+more compact ``Type-A''
+statement  declaring that the operations of
+  Addition and Double$(x)~=~x+x~$ are total functions.
+\item[   iii. ]
+  The Group-3
+  scheme
+  for   IS$_{\rm Tab}(~\beta~)$
+is, however, weaker that its analog under
+ISCE$(\beta)$ because  it only recognizes its
+self-consistency under a semantic tableau form of deduction.
+\ennd
+
+%%%% ggggggggggggggggggggggg
+
+ \baselineskip = 1.12 \normalbaselineskip 
+
+ \dvs
+
+
+
+ \parskip 8pt
+
+
+ 
+ \noindent
+ In essence,
+  IS$_{\rm Tab}(~\beta~)$
+  is a self-justifying formalism that avoids being inconsistent
+  by using a different type of trade-off
+  than 
+  ISCE$(\beta)$, where its Group-Zero schema  is stronger while
+its Group-3 statement uses a weaker deductive methodology.
+
+%%%%% \newpage
+%nnnnnnn
+
+\bigskip
+
+% \parskip 11pt
+
+Also, we will employ the Example 5.1 from \cite{ww21}, where
+IS$^M_{\rm Tab}(~\beta~)$ denotes the natural modification
+of  IS$_{\rm Tab}(~\beta~)$ wherein:
+\bee
+\item
+  The  Group-Zero axiom further recognizes integer-multiplication
+  as a total function.
+\item
+  The Group-3 axiom is the same as that described in (iii)
+  except  that its Group-3
+  {\it ``I am consistent''} statement has been  adjusted 
+  to recognize
+  that the Group-Zero formalism now treats
+  integer-multiplication as a total function.
+  \ene
+  Then  Proposition \ref{prop12}
+  is
+%  represents
+  \cite{ww21}'s  counterpart
+to
+%   for
+Proposition \ref{prop11}.
+(We again remind the reader about  Remark$~$\ref{remx}'s
+warnings about excessively
+demanding
+USEGR  growth rates.
+It is the
+ intuitive
+reason behind the two inconsistency
+results 
+appearing in both
+the Parts (b) of the
+Propositions \ref{prop11}
+and \ref{prop12}.)
+
+
+\begin{propp}
+  \label{prop12}
+  \rm
+  The
+ IS$_{\rm Tab}(~$PA$^{\rm Ground}~)$
+ and  IS$^M_{\rm Tab}(~$PA$^{\rm Ground}~)$
+ systems
+ differ
+  insofar as:
+\bed
+\item[  a.  ]
+   IS$_{\rm Tab}(~$PA$^{\rm Ground}~)$
+  is  consistent.
+\item[  b.  ]
+   IS$^M_{\rm Tab}(~$PA$^{\rm Ground}~)$
+  fails to be  consistent.
+  \ennd
+\end{propp}
+
+
+ Formal   analogs of Propositions \ref{prop12}.a and   \ref{prop12}.b
+ were established in \cite{ww21}, and we shall not repeat that
+ discussion here. Instead, our discussion will focus on the two consistency
+ results established by
+ Propositions \ref{prop11}.a and   \ref{prop12}.a.
+ The Remark \ref{rm13} will explain how there exists a quite natural
+ interface between these
+ two results
+with
+ the 
+SBSIS-styled approach that  Artemov had
+advocated in   \cite{Ar19,Ar21}.
+ 
+
+
+
+%% \def\fggg{ \normalsize  \baselineskip = 2.4 \normalbaselineskip } 
+
+%%% \fggg
+
+\begin{remm}
+  \label{rm13}
+ \baselineskip = 1.17 \normalbaselineskip 
+ \rm
+ \dvs
+     {\bf (about how the Second and Third Legs of a ``Tripod''
+      Reply to Hilbert's Second  Problem will interact
+Quite Nicely
+       with Each Other) :}
+%%% in a Beautiful Manner) :}        
+Let us recall that Step \ref{step2}
+of  Artemov's
+SBSIS-styled   \cite{Ar19,Ar21}
+constructions
+(summarized earlier
+in \textsection\ref{aaa1})
+%%% proved
+constructed
+a class of $\Pi_1-$like theorems, 
+$~T_1,~T_2,~T_3,~...~$,
+which confirmed 
+the consistency of  the respective
+ $S_0,~S_1,~S_2,~...~~$ subsets of PA.
+It turns out that the  validity of these
+ $~T_j~$ theorems
+is  known
+ to both
+ the preceding
+ISCE$(~$PA$^{\rm Ground}~)$
+and
+IS$_{\rm Tab}(~$PA$^{\rm Ground}~)$ formalisms from
+Propositions \ref{prop11}.a
+and \ref{prop12}.a
+(see Footnote
+  \footnote{This is because the Group-2 schemes of
+ISCE$(~$PA$^{\rm Ground}~)$
+and
+IS$_{\rm Tab}(~$PA$^{\rm Ground}~)$
+% do
+both
+formally
+recognize the validity of all of PA's $\Pi_1$ theorems.
+Thus using a direct analog of Artemov's
+proposed
+methodology in \cite{Ar19,Ar21},
+they can
+prove each of
+\cite{Ar19,Ar21}'s
+theorems of
+$~T_1,~T_2,~T_3,~...~$.  }
+$~$).
+  The remainder of this section will explain
+  how this subtle interconnection causes the Second and Third legs of
+a proposed Tripod Reply to Hilbert's Second Open Question   
+to interact
+quite eloquently
+%%% nicely
+with each other.
+\bigskip
+\end{remm}
+
+
+The central point is that both Artemov's formalisms in 
+\cite{Ar19,Ar21} and Willard's approach
+in \cite{ww93}-\cite{ww21}
+own distinct partial drawbacks. It turns out that one can
+essentially 
+overcome
+these deficiencies by using Remark \ref{rm13}'s
+theoretical hybrid methodology.
+In particular, the partial drawbacks which 
+ need to be addressed
+are listed below:
+\bed
+\item[   a.  ]
+  The partial drawback to Artemov's 
+SBSIS-styled method \cite{Ar19,Ar21}
+is that it does not produce one single theorem, asserting
+a formalism's overall consistency. (Instead, it produces a sequence of
+theorems  $~T_1,~T_2,~T_3,~...~$,
+whose approximate union
+comprises the desired {\it ``I am consistent''} statement.)
+\item[   b.  ]
+  The comparable drawback in Willard's
+self-justifying
+  formalisms in
+\cite{ww93}-\cite{ww21}'s
+  28-year long
+  series of 
+  articles 
+  is that none of these
+papers involve a system as powerful as Peano Arithmetic
+  declaring its own self-consistency.
+  \ennd
+  The nice aspect of
+Remark \ref{rm13}'s
+  hybridization of these two methods is   
+  that its
+  methodology
+  views the two formalisms from
+%%  in  
+Propositions \ref{prop11}.a
+and \ref{prop12}.a as declaring their self-consistencies under certain
+%%% particular
+unifying perspectives,
+while owning a formalized awareness about
+Artemov's
+broader expanding  series of
+theorems   $~T_1,~T_2,~T_3,~...~$.
+This paradigm overcomes the main challenges
+that were
+posed by Items (a) and (b).
+
+{\it For the sake of clarity, 
+Remark \ref{rm13}'s observations
+certainly should not be viewed
+as being a full panacea}. Thus,
+the 
+Second Incompleteness Theorem certainly imposes
+%%% some very
+severe
+restrictions
+upon any attempts to
+%%% fully
+evade it.
+Thus
+while not fully embracing the  philosophical positions
+of Hilbert's and G\"{o}del's
+statements of
+$*$ and $**$, our perspective in Remark \ref{rm13}
+certainly conveys definite strong partial support for 
+Hilbert's and G\"{o}del's general approach.
+
+In other words, a 3-way ``Tripod'' reply for Hilbert's Second
+Open Problem appears to be attractive
+because a
+more
+compressed
+% abbreviated
+one-or-two leg reply to Hilbert's
+foundational
+Second Problem
+appears to be essentially
+%%%much
+over-simplistic.
+
+\section{Additional Curious Aspects about Self-Justification}
+
+    %%% 66666666666666666666666 
+
+  \label{aaa6}
+
+
+Contrary to the impression that may have been conveyed by
+the 28-year-long literature
+about self-justification
+\cite{ww93}-\cite{ww21},
+these papers {\it were
+ not actually}
+ intended to completely 
+ reject the assumption
+that integer-multiplication is a total function.
+This is because several {\it near-cousins} of  integer-multiplication
+% were
+are
+allowed
+within the languages of  \cite{ww93}-\cite{ww21}. 
+
+This point was first made in \cite{ww93}'s  initial 1993 paper. 
+Its Item (viii) on page 326
+suggested using a function called ``AndMultiply$(x,y,z)$''
+The latter function first
+computes an integer $~v~$, derived by
+taking the
+multiplicative product of $~x~$ and  $~y~$, and it then
+computes the Bit-Wise-AND of
+$~v~$ and  $~z~$ so that its final
+output
+is produced.
+
+% of  ``$~w~$'' can be produced.
+
+This ``AndMultiply$(x,y,z)$'' operation can be viewed as
+a non-growth operator
+because AndMultiply$(x,y,z)~\leq~$Max$(x,y,z)$. Thus, it can
+be easily incorporated into the Type-A
+%%% ``U-Grounding''
+Self-Justifying
+% logical
+formalisms of \cite{ww1,ww5,ww21}. This raises the following
+tantalizing issue:
+
+%question:
+
+\begin{description}
+\item{ +++ }  
+\it  Could  the main mysteries about a formalism's inability to
+  simultaneously recognize its semantic tableau consistency and
+  multiplication as a total function be
+ philosophically
+  resolved by
+letting
+``AndMultiply'' replace
+% the
+% traditional
+% role of
+the classic Integer-Multiply operation?
+\end{description}
+
+\noindent
+Furthermore, if ``AndAddition$(x,y,z)$''
+% is
+designates
+the straightforward analog of the
+primitive
+``AndMultiply$(x,y,z)$''
+for Integer-Addition,
+then the AndAddition$(x,y,z)$ operator can be
+easily
+incorporated into the Type-NS Grounding-language
+``ISCE'' system (which did
+appear in both this article and in its year-2006
+predecessor \cite{wwapal} ).
+
+These two  AndAddition$(x,y,z)$
+and AndMultiply$(x,y,z)$ operations are not as powerful as
+the more conventional 
+classic Integer-Addition and Integer-Multiplication
+operations.
+However, their potential in
+several
+pragmatic engineering environments
+should not be under-estimated.
+% overlooked.
+
+Also, it should be mentioned that the results in
+\cite{ww93}-\cite{ww21} can be further
+%extended
+amplified
+by using
+\cite{ww6}'s Floating-Point-With-Rounding Multiplication
+operation (FPWRM). This FPWRM primitive suggests
+\cite{ww6}
+that
+floating point arithmetics, unlike classic  integer arithmetics,
+are  compatible with  self-justifying logics
+using semantic tableau deduction.
+
+\section{Overall Perspective}
+
+%%% 7777777777777777
+
+\label{aaa7}
+
+The  preceding discussion has focused mainly
+on only one of the three legs of a more elaborate
+Tripod Response to Hilbert's Second Problem.
+The other two legs, involving  generalizations
+of G\'{o}del's
+ Second Incompleteness Theorem
+%%% cite?????? 
+and Artemov's
+step-by-step
+SBSIS-like approach \cite{Ar19,Ar21},
+have been surveyed only very much more briefly.
+Together, these three legs
+formulate a triple
+ reply to Hilbert's Second Problem,
+which is
+significantly
+more far-reaching than a more isolated
+type of
+one-or-two leg
+response.
+
+Collectively,
+these three legs
+clarify the nature of the statements  
+$*$ and $**$, which 
+Hilbert and G\"{o}del had  articulated.
+Moreover, the Question +++ (in
+\textsection\ref{aaa6}) is quite tantalizing.
+
+In essence, Hilbert's Second Problem 
+is so complex that
+an isolated one-or-two legged
+reply  is insufficient to
+answer Hilbert's fascinating question.
+Moreover,
+Gerald Sacks
+has
+recalled 
+G\"{o}del 
+expressing
+opinions that were
+{\it ``almost the opposite of what every one
+  else would have expected''} him to make
+(see again \textsection\ref{aaa2} ).
+% for details).
+Thus, he would presumably quite
+directly
+approve the philosophical
+positions that Remark \ref{rm13} and Section \ref{aaa6}
+%% (in the current article)
+have formulated,
+since G\"{o}del
+repeated
+several
+analogs of his
+often-quoted controversial
+1931
+remark $\, **\,$
+during numerous private
+conversations
+ G\"{o}del shared
+with Gerald
+Sacks  \cite{YouSa14}.
+
+
+%\baselineskip = 1.0  \normalbaselineskip
+%\noindent
+%  \medskip
+
+{\bf Acknowledgment:}
+I thank Seth Chaiken for
+helping   improve the
+presentation.  
+
+
+%I thank Robert  Willard for
+%help   improving th
+% presentation.  
+
+
+% \newpage
+
+\footnotesize
+\baselineskip = 0.80 \normalbaselineskip 
+
+
+
+
+ \begin{thebibliography}{99}
+
+  %rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+   
+\baselineskip =  1.01 \normalbaselineskip
+
+\parskip 1 pt
+
+
+
+\bibitem{AZ1}
+Adamowicz, Z., 
+Zbierski,  P.:
+  On Herbrand consistency in weak theories. 
+{\it Archive for Mathematical Logic}
+40(6):  399-413 (2001).    
+
+
+\bibitem{Ar1}
+Artemov,  S.:
+Explicit provablity and constructive semantics.
+{\it 
+Bulletin of Symbolic Logic}
+7(1): 1-36 (2001).
+
+\bibitem{Ar19}
+Artemov,  S.:
+    The provability of consistency. {\it
+Cornell Archives arXiv Report}      
+1902.07404v5
+         (2020).
+
+\bibitem{Ar21}
+Artemov,  S.:
+Missing Proofs and the Provability of Consistency. 
+Video presentation at the {\it 2021 T\"{u}bingen conference
+``Celebrating 90 Years of G\"{o}del's Incomppleteness
+Theorem''.} For the video recording see:
+\newline
+https://www.youtube.com/watch?v=Nw4nERAqi2U
+
+
+
+\bibitem{AB5}
+Artemov,  S.,
+Beklemishev,  L. D.:
+Provability logic. In
+{\it
+  Handbook of Philosophical Logic, Second Edition},    
+       pp.     189-360
+  (2005).
+
+\bibitem{Be5}
+Beklemishev,  L. D.:
+Reflection principles and provability algebras in formal arithmetic.
+{\it Russian Mathematical Surveys} 
+60(2):  197-268  (2005).   
+
+
+
+\bibitem{Be14}
+Beklemishev,  L. D.:
+Positive provability for uniform reflection principles.
+{\it   Annals Pure \& Applied Logic} 
+   165(1): 82-105  (2014).
+
+
+   
+\bibitem{BS76}
+Bezboruah, A., 
+ Shepherdson, J. C.:
+G\"{o}del's second incompleteness theorem for Q.
+{\it Journal of Symbolic Logic} 
+ 41(2):  503-512 (1976). 
+
+
+\bibitem{Bu86}
+Buss, S. R.:
+ {\it Bounded Arithmetic.} 
+Studies in Proof Theory, Lecture Notes 3, disseminated
+by  Bibliopolis
+as revised version of Ph. D. Thesis
+    (1986).
+
+
+
+\bibitem{BI95}
+Buss, S. R., 
+Ignjatovi\'{c},  A.:
+Unprovability of consistency statements in fragments of
+bounded arithmetic.
+{\it  Annals Pure \& Applied Logic } 
+ 74(3): 221-244 (1995).
+
+\bibitem{Da97}
+Dawson,   J.  W.:
+         {\it Logical Dilemmas: The Life and Work of
+Kurt G\"{o}del},
+   AKPeters Press
+          (1997).
+
+
+\bibitem{Fe60}
+Feferman, S.:
+ Arithmetization of mathematics in a general setting.
+   {\it Fundmenta Mathematicae}
+49: 35-92 (1960).
+
+
+\bibitem{Fi96}
+Fitting, M.: 
+{\it First Order Logic and Automated Theorem Proving.}
+Springer-Verlag (1996).
+
+
+\bibitem{Fr79a}
+Friedman, H. M.: 
+ On the consistency, completeness and correctness
+problems.
+ Ohio State  Tech Report (1979).
+ See also  Pudl\'{a}k \cite{Pu96}'s summary of this result.
+
+
+
+\bibitem{Go31}
+G\"{o}del, K.:
+ \"{U}ber 
+formal unentscheidbare S\"{a}tze der Principia
+Mathematica und verwandte Systeme I.
+{\it Monatshefte f\"{u}r Mathematik und Physik} 38:  349-360 (1931).
+
+
+
+
+\bibitem{Go33}
+G\"{o}del, K.:
+     The present situation in the foundations of
+mathematics.
+ In  {\it Collected Works Volume III: Unpublished Essays and Lectures}
+(eds. Feferman, S.,
+Dawson, J. W.,
+Goldfarb, W.,
+Parsons, C.,
+Solovay, R. M.),
+        pp.       {45--53},
+     Oxford    University Press (2004).
+
+
+\bibitem{Go5}
+Goldstein,        R.:
+   {\it Incompleteness: The Proof and Paradox of Kurt G\"{o}del}.
+        {Norton} Press
+         (2005).
+
+
+
+\bibitem{Ha11}
+H\'{a}jek, P.:
+              Towards metamathematics of weak arithmetics over
+fuzzy logics.
+{\it Logic Journal of the IPL}
+      19: 467-475
+          (2011).
+
+\bibitem{HP91}
+H\'{a}jek, P.,
+Pudl\'{a}k, P.:
+{\it Metamathematics of First Order Arithmetic.}
+Springer (1991). 
+
+\bibitem{Hil26}
+Hilbert, D.:
+                 \"{U}ber das unendliche.
+{\it
+   Mathematische Annalen}    
+      95: 161-191
+ (1926).
+
+
+ 
+
+\bibitem{Kl38}
+Kleene,  S. C.:
+On  notation for ordinal numbers.
+{\it Journal of Symbolic Logic} 
+3(1): 150-15 (1938).
+
+
+
+\bibitem{KT74}
+Kreisel, G., 
+Takeuti,  G.:
+Formally self-referential propositions  for cut-free classical
+analysis.
+{\it Dissertationes Mathematicae}
+118: 1-50
+(1974).
+
+
+\bibitem{Ne86}
+Nelson, E.:
+ {\it  Predicative Arithmetic.}
+Mathematics Notes,
+ Princeton University Press
+  (1986)
+
+\bibitem{Ne20}
+Nerode, A:
+ Some useful comments by A. Nerode  on Janaury 7, 2020
+when he heard Willard's conference  talk
+at the LFCS 2020  conference. Nerode said
+  he could reinforce
+Gerald Sacks's YouTube
+presentation \cite{YouSa14} (because
+Nerode heard Stanley  Tennenbaum
+make similar comments
+about
+G\"{o}del).
+
+
+\bibitem{Pa71}
+Parikh, R.:
+ Existence and feasibility in arithmetic.
+  {\it Journal of Symbolic Logic} 
+   36(3): 494-508
+(1971).
+
+\bibitem{PD83}
+Paris, J. B.,  
+Dimitracopoulos,  C.:
+A note on the 
+undefinability of cuts. 
+{\it Journal of Symbolic Logic} 
+48(3):
+  564-569
+(1983).
+
+
+\bibitem{Pa72}
+Parsons, C.:
+On $n-$quantifier elimination.
+{\it Journal of Symbolic Logic} 
+37(3):  466-482
+ (1972).
+
+
+\bibitem{Pu85}
+Pudl\'{a}k, P.:
+Cuts, consistency statements and interpretations.
+{\it Journal of Symbolic Logic} 
+50(2):   423-441
+(1985).
+
+\bibitem{Pu96}
+Pudl\'{a}k, P.:
+On the lengths of proofs of consistency.
+ {\it Collegium Logicum: 1996 Annals of the Kurt G\"{o}del
+Society} (Volume 2, pp 65-86).  Springer-Wien-NewYork
+(1996).
+
+
+\bibitem{Ro67}
+Rogers, H. A.:
+ {\it 
+Theory of Recursive Functions and Effective 
+Computibility.} McGrawHill (1967).
+
+
+\bibitem{YouSa14}
+  Sacks, G.:
+  Reflections on G\"{o}del. A YouTube recorded talk
+  delivered 
+  on 11$~$April$~$2007 as Lecture 3 in
+  {\it The Thomas and Yvonne Williams Symposia for
+    the Advancement of Logic}. 
+The easiest way to find a video recording of the
+Upenn-Sacks lecture is to do a google-search on the
+keywords of
+ {\it ``Gerald Sacks,
+   Reflections on Goedel, YouTube''}. This video is also
+ among several recordings stored at the deposit  site of:
+ 
+{\small
+  
+https://itunes.apple.com/us/itunes-u/lectures-events-williams-lecture/id431294044
+
+}
+
+\bibitem{Sm95}
+Smullyan, R.: 
+{\it First Order Logic}. Dover Books (1995).
+
+
+
+
+\bibitem{So88}
+Solovay, R. M.:
+Injecting Inconsistencies into models of PA.
+{\it   Annals Pure \& Applied Logic } 
+  44(1-2): 102-132 (1989).
+
+
+\bibitem{So94}
+Solovay, R. M.:
+Private
+Telephone  
+conversations
+during April of  1994
+between Dan Willard and
+ Robert M. Solovay.
+During those conversations
+Solovay described 
+an unpublished
+ generalization of one of  Pudl\'{a}k's  theorems 
+\cite{Pu85},
+using 
+some 
+methods
+of Nelson and Wilkie-Paris \cite{Ne86,WP87}.
+(The Appendix A of 
+\cite{ww1} offers a 
+4-page summary of
+our interpretation of Solovay's remarks.
+Several other articles 
+\cite{BI95,HP91,Ne86,PD83,Pu85,WP87}
+have also noted
+that Solovay  often
+has  chosen to privately communicate noteworthy
+ insights that he has elected not
+to formally publish.)
+
+
+\bibitem{Sv7}
+\v{S}vejdar, V.:
+ An interpretation of Robinson arithmetic in its
+Grzegorczjk's weaker variant.
+{\it Fundamenta Informaticae} 81:  347-354
+(2007).
+
+\bibitem{Vi5}
+Visser, A.:
+Faith and falsity.
+{\it        Annals Pure \& Applied Logic } 
+131(1-3): 103--131
+     (2005).
+
+
+\bibitem{WP87}  
+Wilkie, A. J.,
+Paris, J. B.:  
+On the scheme of induction for bounded
+ arithmetic. {\it  Annals Pure \& Applied Logic } 
+ 35: 261-302 (1987).
+
+\baselineskip =  1.0 \normalbaselineskip
+
+\parskip 0 pt
+
+
+ 
+\bibitem{ww93}
+Willard, D. E.:
+Self-verifying axiom systems.
+ In Proceedings of
+the   Third Kurt G\"{o}del
+Colloquium
+(with eds.
+Gottlob, G.,
+Leitsch, A.,
+Munduci, D.),
+{\it   LNCS } vol.
+713.
+pp.  325-336,
+Springer, Heidelberg
+(1993).
+https://doi.org/10.1007/BFb0022580.
+
+
+
+  
+
+\bibitem{ww1}
+Willard, D. E.:
+Self-verifying  systems, the incompleteness
+theorem and the tangibility reflection
+principle.
+{\it Journal of Symbolic Logic} 
+66(2):  536-596
+(2001).
+
+
+
+\bibitem{ww2}
+Willard, D. E.:
+How to extend the semantic tableaux and
+cut-free versions of the second
+incompleteness theorem 
+almost 
+to 
+Robinson's arithmetic Q.
+{\it Journal of Symbolic Logic} 
+67(1): 465--496
+(2002). 
+
+
+%% 
+%% \bibitem{wwlogos}
+%% Willard, D. E.:
+%% A version of the
+%% second incompleteness theorem for axiom
+%% systems that recognize addition 
+%% but not multiplication as a total function.
+%% In {\it First Order Logic Revisited}
+%% (eds.
+%%  Hendricks, V.,
+%% Neuhaus, F.,
+%% Pedersen, S. A.,
+%% Sheffler, U.,
+%% Wansing, H.),
+%% pp. 337--368,
+%% Logos Verlag,
+%%    Berlin
+%%  (2004). 
+
+
+\bibitem{ww5}
+Willard, D. E.:
+An exploration of the partial respects in which an axiom
+system recognizing solely addition as a total function can
+verify its own consistency.
+{\it Journal of Symbolic Logic} 
+70(4):  1171-1209  (2005).
+
+\bibitem{wwapal}
+Willard, D. E.:
+A generalization of the second incompleteness 
+theorem and some exceptions to it.
+{\it  Annals Pure \& Applied Logic } 
+141(3):  472-496
+(2006).
+
+
+
+\bibitem{ww6}
+Willard, D. E.:
+On the available partial respects in which
+ an axiomatization
+for real valued  arithmetic can  recognize its 
+consistency.
+{\it Journal of Symbolic Logic} 
+ 71(4):  1189-1199 
+(2006).
+
+
+\bibitem{ww7}
+Willard, D. E.:
+Passive induction and a solution to a Paris-Wilkie 
+open question.
+{\it  Annals Pure \& Applied Logic } 
+146(2):  124-149
+(2007). 
+
+
+\bibitem{ww9}
+Willard, D. E.:
+Some specially formulated axiomizations for
+I$\Sigma_0$ 
+manage to
+evade
+the Herbrandized version of the second incompleteness theorem,
+{\it Information and Computation}
+207(10): 1078-1093
+(2009).
+
+
+
+\bibitem{ww16}
+Willard, D. E.:
+On  how the introducing of a 
+ new $~\theta~$ function symbol
+into arithmetic's formalism is 
+germane
+to devising axiom systems that can 
+appreciate fragments of their own
+Hilbert consistency.
+{\it
+Cornell Archives arXiv Report}      
+1612.08071
+         (2016).
+
+
+%%% 
+%%% \bibitem{ww18}
+%%% Willard, D. E.:
+%%% About   the 
+%%% chasm separating the goals of
+%%% Hilbert's consistency program from the
+%%% second incompleteness theorem.
+%%% {\it
+%%% Cornell Archives arXiv Report} 
+%%% 1807.04717
+%%%          (2018). (This quite preliminary annnouncement of
+%%% \cite{ww20}'s results
+%%% appears  in an
+%%%  {\it  essentially roughly written} summary-abstract
+%%% form.)
+
+
+\bibitem{ww21}
+Willard, D. E.:
+About the Characterization of a
+     Fine Line That Separates
+      Generalizations and Boundary-Case Exceptions for the
+ Second Incompleteness Theorem under Semantic Tableau
+ Deduction'',
+ {\it Journal of Logic and Computation}
+ 31(1):375-392 (2021).
+
+%%  
+%% OLD DELETED
+%% ``On the tender line
+%% separating generalizations and boundary-case exceptions for the
+%% second incompleteness theorem under semantic tableaux
+%% deduction'',
+%% a talk given 
+%% on January 7 at the LFCS 2020 conference.
+%% It preceded the current article, and
+%% its shorter manuscript can be found on
+%% pp.  268-286 of 
+%% Volume 11972 of
+%%  Springer's LNCS series.
+
+\bibitem{Yo5}
+Yourgrau, P.:
+              {\it A World Without Time: The Forgotten Legacy of
+G\"{o}del and Einstein}.
+(See page 58 for the passages we have quoted.)
+        {Basic Books}
+          ( 2005).
+
+
+
+\end{thebibliography}
+
+\end{document}
+
+
+
+
+\bibliographystyle{abbrv}
+
+\bibliography{bb}
+
+\end{document}
+

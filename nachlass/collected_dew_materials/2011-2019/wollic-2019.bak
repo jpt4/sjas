@@ -1,0 +1,2622 @@
+% 2019 feb24 8am while listeing to jazz
+% 1019 feb22  1am 1-word change
+%  2018 feb-17 11.30 pm while listenning to Bobby Dee
+
+%% seth and I agrred to meet on thursday 3pm
+
+
+\documentclass{llncs}
+\usepackage{amssymb}
+
+
+\newcommand{\newthmwithin}[3]{\newtheorem{#1q}{#2}[#3]
+                        \newenvironment{#1}{\begin{#1q}\sf}{\end{#1q}}}
+
+\newcommand{\newthm}[3]{\newtheorem{#1q}[#2q]{#3}
+                        \newenvironment{#1}{\begin{#1q}\sf}{\end{#1q}}}
+\newcommand{\newthmm}[3]{\newtheorem{#1q}[#2q]{#3}
+
+                        \newenvironment{#1}{\begin{#1q}\rm}}
+
+
+
+
+
+
+
+\def\nor1{Normed$\{~2^{ \zzz \theta  \, )} ~$,$~\sqrt{~2^{ \zzz \theta  \, )}}~\}$}
+
+\def\pagxx{Page ?xx?}
+\def\xor2{Normed$\{ ~\sqrt{~2^{ \zzz \theta  \, )}}~,~2~ \} $}
+\def\fffx{Fact \#}
+\def\zhz{H }
+\def\appD{Appendix D }
+\def\appxD{Appendix D}
+\def\fffour{three }
+\def\zazsta{ and EA-stability}
+
+
+
+
+\def\iii{IS$_D(\aaa)$}
+\def\I2{IS$^{\#}_D(\beta)$}
+\def\ik3{IS$^{\#}_D(\beta_{A,i})$}
+
+
+
+
+\def\gggen{$( L^\xi  ,  \Delta_0^\xi   ,  B^\xi  ,  d  ,  G  )~$}
+\def\gggcp{$( L^\xi  ,  \Delta_0^\xi   ,  B^\xi  ,  d  ,  G  )$}
+\def\peta{\sigma}
+\def\zzxz{~ \sharp ( \, }
+\def\zzz{~ \sharp ( ~ }
+\def\zip{\sharp }
+\def\mheta{\theta^\bullet}
+\def\mxi{\xi^\bullet}
+\def\xxi{$\, \xi^* \,$}
+
+
+
+
+\def\tftt{~ \frac{1}{2}~ }
+\def\sss{ }
+
+\def\goodshit{\triangleright}
+\def\bullshit{\triangleleft}
+\def\foo{footnote \footnote}
+\def\Uxp{\Upsilon}
+
+
+
+\def\bbskip{\bigskip}
+
+
+
+\def\axst{\odot}
+\def\rp{ p^\theta } 
+\def\thsp{Theorem $ \, * \,$ }
+\def\thss{Theorem $ \, *\,$'s }
+\def\dexxt{\Delta}
+\newcommand{\co}[1]{Corollary \ref{#1}}
+\newcommand{\thx}[1]{Theorem \ref{#1}}
+\newcommand{\phx}[1]{Theorem \ref{#1}}
+\newcommand{\lem}[1]{Lemma \ref{#1}}
+\newcommand{\eq}[1]{(\ref{#1})}
+\newcommand{\ep}[1]{Equation (\ref{#1})}
+\newcommand{\el}[1]{Line (\ref{#1})}
+\newcommand{\thetlam}{ \theta }
+\newcommand{\underx}[1]{\overline{~ {#1} ~}}
+\newcommand{\appaa}{$App \forall$}
+\newcommand{\appee}{$App \exists$}
+\newcommand{\tll}[1]{Tab$- {#1} -$List}
+\newcommand{\txl}[1]{Tab$- {#1}$}
+\newcommand{\tlxl}[1]{Tab$- {#1}$ }
+\newcommand{\sll}[1]{Short$- {#1} -$List}
+\newcommand{\axx}[1]{NS$_D^{\,k,m}( ${#1}$)$}
+
+
+\begin{document}
+
+
+ \title{On the Breadth and
+Also
+ Limitations of the
+ Second Incompletenss
+Theorem}
+
+
+\def\aaa{\beta}
+\def\ccc{Class}
+
+\def\ulxyz{\lceil}
+\def\urxyz{\rceil}
+
+\def\ulxyz{\ulcorner}
+\def\urxyz{\urcorner}
+
+\def\beq{\begin{equation}}
+\def\enq{\end{equation}}
+
+\def\bel{\begin{lemma}}
+\def\enl{\end{lemma}}
+
+
+\def\bec{\begin{corollary}}
+\def\enc{\end{corollary}}
+
+\def\bed{\begin{description}}
+\def\ennd{\end{description}}
+\def\bee{\begin{enumerate}}
+\def\ene{\end{enumerate}}
+
+
+\def\bxbxd{\begin{definition}}
+\def\bxbxdd{\begin{definition}}
+\def\eedd{\end{definition}}
+\def\bxbxdr{\begin{definition} \rm}
+\def\bel{\begin{lemma}}
+\def\enl{\end{lemma}}
+\def\ent{\end{theorem}}
+
+\author{  Dan E.Willard}
+
+
+\institute{University  at Albany Computer Science and Mathematics Departments}
+
+
+\maketitle
+\pagestyle{plain}
+
+%\bigskip
+
+
+\normalsize  
+
+\begin{abstract}
+%%% large \baselineskip =  2.4 \normalbaselineskip 
+This article will investigate several quite similar-looking
+ axiom systems that seek to confirm
+their own consistency via the use of
+self-referencing axiomatic
+statements, roughly declaring that
+{\it ``I am consistent''}.
+Surprisingly although our
+two main
+ investigated formalisms will differ only
+slightly in the fine print of their particular
+ definitions,
+one among these  systems will be consistent, while
+the other
+is inconsistent.
+This result will  clarify 
+both
+the breadth and 
+limitations
+ of the Second Incompleteness Theorem.  
+It will also have practical consequences.
+
+\end{abstract}
+
+
+
+\def\fend{ 
+
+\medskip -------------------------------------------------------}
+
+
+\def\hgskip{ \medskip }
+
+\def\njp{\newpage}
+\def\njp{ }
+
+\def\nskip{\bigskip}
+
+
+%\Large
+%\baselineskip =  2.07 \normalbaselineskip 
+
+ \large \baselineskip =  1.5 \normalbaselineskip 
+% \large \baselineskip =  2.3 \normalbaselineskip 
+%\Large \baselineskip =  1.9 \normalbaselineskip 
+%% \LARGE
+\normalsize  \baselineskip =  2.6 \normalbaselineskip 
+\Large \baselineskip =  2.6 \normalbaselineskip 
+
+\large \baselineskip =  2.6 \normalbaselineskip 
+
+
+ \normalsize \baselineskip =  1.0 \normalbaselineskip 
+\parskip 1pt
+
+% \normalsize \baselineskip =  3.0 \normalbaselineskip 
+%%% \normalsize \baselineskip =  3.4 \normalbaselineskip 
+
+% \large \baselineskip =  3.0 \normalbaselineskip 
+  \normalsize \baselineskip =  2.22 \normalbaselineskip 
+% \large \baselineskip =  2.22 \normalbaselineskip 
+\normalsize \baselineskip =  1.77 \normalbaselineskip 
+\normalsize \baselineskip =  1.0 \normalbaselineskip 
+
+
+\section{Introduction}
+%11111
+\setcounter{section}{1}
+
+
+
+We have published a series of papers about generalizations and
+boundary-case exceptions to the Second Incompleteness
+during the last 25 years
+% cite {????},
+\cite{ww93,ww1,ww2,ww5,wwapal,ww6,ww7,ww9}
+including six papers that have appeared in the JSL and APAL.
+Our goal in the current article will be to focus on
+\cite{ww5}'s
+ IS$_D(\beta)$
+ formalism.
+It was  shown in
+ \cite{ww5} 
+that if $\beta$ denotes any consistent extension of 
+Peano Arithmetic and  if $D$ denotes semantic tableaux deduction,
+then  IS$_D(\beta)$ 
+will be a consistent axiom system that
+can simultaneously prove isomorphic analogs of all of
+Peano Arithmetic's $\Pi_1$ theorems while also corroborating
+its own consistency under semantic tableaux deduction.
+The current article will show, surprisingly, that if one changes the
+definition of $D$ in a relatively minor manner, corresponding
+to what we shall call {\it ``Extended Semantic Tableaux'',} then 
+the resulting modification of 
+ IS$_D(\beta)$ will 
+become inconsistent (and thus
+ useless).
+
+This result
+% does
+will
+ not lessen 
+the significance of 
+ \cite{ww5}'s prior result.
+It 
+%does,
+will,
+ however,
+% will 
+clarify 
+its
+basic
+ theoretical meaning.
+% of  \cite{ww5}. 
+Most of 
+our current discussion
+will
+% shall
+ be addressed to an audience
+of theoretical logicians, but
+% an important short
+a brief
+3-page passage 
+ (in Section \ref{sect5}) 
+will explain
+how some related
+future
+ AI software could
+plausibly relieve
+% section
+% two  pages
+ global warming.
+It
+%This latter discussion
+ will suggest the contrast
+between our positive and negative results,
+together with
+future
+results
+developed
+by other
+ logicians,
+ should help
+significantly
+% fine-tune
+refine
+ future artificially intelligent software
+systems
+that seek to ameliorate the
+harmful
+ effects from global warming.
+
+
+The author of this article has now reached the retirement age of 70.
+We 
+hope
+ this article 
+will be  written
+in a style that  encourages
+other
+logicians to investigate 
+its  subject further.
+%With such a goal in mind,
+We will strive to make this paper
+comprehensible to a 
+broad audience, and we
+shall
+ briefly discuss its
+pragmatic significance.
+
+\section{General Perspective}
+\label{sect2}
+
+%%22222
+
+It is well known that
+G\"{o}del's Incompleteness Theorem 
+is a 2-part result.
+Its
+first half  specifies no decision
+procedure can identify all
+arithmetic's
+ true statements.
+On the other hand, the 
+ ``Second Incompleteness Theorem'' 
+ assures that
+sufficiently strong 
+logics
+{\it cannot} verify their own consistency.
+G\"{o}del 
+was  careful to insert 
+a
+ caveat
+into
+his
+%%!! historic 
+paper 
+\cite{Go31}, 
+indicating  
+a
+{\it
+diluted} 
+form
+of Hilbert's Consistency Program 
+might 
+meet some success:
+\begin{quote} 
+$*~$ {\it ``It must be 
+expressly 
+noted 
+Proposition XI''
+{\rm (e.g. the Second Incompleteness Theorem)} 
+``represents no contradiction of the formalistic
+standpoint of Hilbert. For this standpoint
+presupposes only the existence of a consistency
+proof by finite means, and { there might
+conceivably be finite proofs} which cannot
+be stated in P or in ...''} 
+\end{quote}
+Some 
+scholars
+have interpreted
+$\,*\,$
+as, possibly,
+anticipating attempts
+to confirm Peano Arithmetic's consistency,
+via 
+either
+Gentzen's formalism or 
+ G\"{o}del's Dialectica interpretation.
+On the other hand,
+%%d the Stanford Encyclopedia's
+%%d entry about  G\"{o}del
+%%d quotes him,
+%%d in its
+%%d  Section 2.2.4,
+%%d stating
+%%d he was hesitant to
+%%d view     the
+%%d Second Incompleteness Theorem
+%%d  as    
+%%d fully
+%%d ubiquitous, until 
+%%d learning 
+%%d of Turing's
+%%d work.
+%%d Moreover,
+%
+Yourgrau's biography of
+G\"{o}del \cite{Yo5}
+indicates
+von Neumann 
+{\it ``argued 
+against G\"{o}del 
+himself''}
+in the early 1930's,
+ about the definitive termination of Hilbert's
+consistency program,  
+which
+{\it ``for several years''} after \cite{Go31}'s publication,
+G\"{o}del 
+{\it ``was cautious not to prejudge''}.
+Also, it is known
+ \cite{Da97,Go5,Yo5} 
+that  
+G\"{o}del
+had initially
+presumed his
+second theorem
+was false, before
+he had
+ proved his stunning 
+result.
+
+It is, of course, obvious that 
+the Second Incompleteness Theorem has forced 
+the objectives of Hilbert's Consistency Program
+to be radically reorganized. For instance,
+G\"{o}del gave a
+1933
+ lecture \cite{Go33},
+where he 
+told his audience
+that
+Hilbert's
+initial
+1926 objectives
+had
+ {\it ``unfortunately''}
+no
+{\it 
+ ``hope of succeeding along''}
+its originally intended plans.
+Yet
+despite this fact,
+ Gerald Sacks (who 
+interacted
+% extensively 
+with
+G\"{o}del,
+ during the early 1960's
+ at the Institute for Advanced Studies) 
+recalls \cite{YouSa14}
+G\"{o}del declaring,
+{\it thirty years after  \cite{Go31}'s  publication,}
+that a type of 
+partial
+revival of Hilbert's Consistency
+Program, using at least Gentzen's approach,
+should be considered (see the below footnote 
+\footnote{\label{f2}
+Some quotes from Sacks's
+YouTube talk
+\cite{YouSa14}
+ are that G\"{o}del
+ {\it ``did not  think''}
+the objectives of Hilbert's Consistency Program 
+{\it ``were erased''} 
+by
+the Incompleteness Theorem, and
+G\"{o}del believed (according to Sacks) 
+that  it left
+  Hilbert's program 
+{\it ``very much alive and
+even more interesting than it initially was''}. 
+} 
+for a summary of 
+ Sacks's  observations). 
+
+The research that has followed
+ G\"{o}del's  seminal  1931 discovery has 
+ focused mostly
+% mainly
+on studying generalizations of the Second Incompleteness
+Theorem
+(instead of also viewing its
+ boundary-case
+exceptions). Several generalizations 
+of the Second Incompleteness Theorem 
+\cite{AB1,AZ1,Be17,Be14,BS76,Bu86,BI95,Fe60,Fr79a,Ha11,HP91,KT74,Pa71,PD83,Pa72,Pu85,Pu96,So94,Sv7,Vi5,WP87,ww1,ww2,wwapal}  
+are quite beautiful. The author of this paper has been
+            especially impressed by a generalization of the
+Second Incompleteness Effect, arrived at by the 
+combined work of Pudl\'{a}k and  Solovay,
+abetted by
+the research of
+ Nelson and Wilkie-Paris\cite{Ne86,Pu85,So94,WP87}.
+These results, which 
+  also have been more recently
+discussed 
+ in \cite{BI95,Ha7,Sv7,ww1},
+have noted the Second Incompleteness Theorem
+does not require the presence of the Principle of Induction
+to apply to most formalisms that use a Hilbert-style form of 
+deduction. (The 
+next chapter will offer a detailed summary of this 
+important generalization
+ of
+the Second Incompleteness Theorem in
+its
+% the paragraph called
+ Remark \ref{nremm-2.5}.) 
+
+
+Our research, during the last 25 years has 
+had a different focus,
+exploring 
+Boundary-Case exceptions to the Second Incompleteness Theorem
+with equal intensity as
+its generalizations.
+It would be natural for many readers to ask why such
+exceptions should also be studied
+with 
+%such
+fully
+equal intensity?
+
+One reason is that while generalizations of the Second Incompleteness
+Theorem are pure
+%%seth  form 
+from
+a mathematical standpoint, it must
+not be forgotten that
+our civilization
+must confront
+ecological issues
+ in the future, more important 
+ than how to devise short proofs for the existence
+of a
+large number
+that  cannot be easily encoded in a binary format,
+ such as
+a  googolplex $= \,2^{2^{100}}$.
+
+
+The current paper will explore
+G\"{o}del's 
+% underlying
+motivation for making his
+ statement $*$ and
+Hilbert's
+% similar
+closely
+related famous
+  declaration
+    $**$ from
+ \cite{Hil26}: 
+
+\begin{quote}
+$**~$
+{\it ``
+Let us admit that the situation in which we presently
+find ourselves with respect to paradoxes is in the long
+run intolerable. Just think: in mathematics, this paragon of
+reliability and truth, the very notions and inferences,
+as everyone learns, teaches, and uses them, lead to absurdities.
+And 
+where 
+else 
+would 
+reliability and truth be found 
+if  even mathematical thinking fails?''}
+\end{quote}
+A surprising facet of both $*$ and $**$ is that our short 3-page
+discussion 
+ (in  \textsection \ref{sect5}), 
+about how to ameliorate the effects of global warming,
+will be related
+to Hilbert's and G\"{o}del's
+ predictions, about the
+underlying
+ importance of  
+boundary-case exceptions to the Second Incompleteness
+Theorem.                   
+
+
+\section{ Notation for Introducing  Main Formalism}
+%%  333333   }
+
+\label{nnn2}
+
+Let us 
+call an
+ordered pair $(\alpha,D)$ a
+    {\bf Generalized Arithmetic Configuration}
+(abbreviated as a {\bf ``GenAC'' })
+when  its 
+first and second 
+components 
+are 
+defined 
+as 
+follows:
+\bee
+\item
+The {\bf Axiom Basis} ``$~\alpha~$'' 
+for a 
+ GenAC
+%ssss  Generalized Arithmetic
+will be defined as
+the set of 
+ proper axioms 
+it employs.
+\item
+The second component ``$~D~$'' of a 
+ GenAC
+%ssss  Generalized Arithmetic
+will represent
+the 
+{\it combination} of its formal rules of inference
+with 
+%its
+the
+ logical axioms ``$~L_D~$'' it employs.
+The
+term  {\bf ``Deductive Apparatus''} will be often
+used to refer to $D$. 
+\ene
+
+% \cite{End,Fit,HP91,Mend}
+
+
+\begin{example}
+\label{nex-2.1}
+\rm
+This notation 
+allows us to
+ conveniently separate  the logical axioms
+$~L_D~,~$ associated with  $(  \alpha  , D  )~$, from 
+its
+``basis axioms'' $\, \alpha \,$.
+It also allows one to  compare
+the various
+deductive apparatus techniques
+that  
+have
+appeared in the literature.
+For instance,
+the
+  $~D_E~$ apparatus,
+introduced
+ in 
+\textsection
+ 2.4 of  Enderton's textbook \cite{End}, 
+has
+ used only  modus ponens
+as a rule of inference,
+combined with a 
+complicated
+4-part  schema of logical axioms.
+This differs from
+the  $~D_M~$ ,  $~D_H~$ and  $~D_F~$ approaches of
+Mendelson \cite{Mend}, 
+H\'{a}jek-Pudl\'{a}k \cite{HP91}
+and Fitting \cite{Fi96}.
+The former two textbooks
+employ a simpler set of logical axioms
+than $\, D_E \,$,
+but they require
+two rules of inference
+(modus ponens and generalization).
+The  $~D_F~$ apparatus, appearing in Fitting's textbook \cite{Fi96},
+as well as its predecessor due to Smullyan \cite{Sm95},
+actually  employ {\it no logical axioms.}
+Instead,
+\cite{Fi96,Sm95}
+ rely upon a
+``tableaux style'' method for generating a 
+%consequently
+%complicated
+larger number of
+rules of
+inference.
+\end{example}
+
+
+\begin{definition}
+\label{ndef-2.2}
+\rm
+Let
+$ \, \alpha \, $ again 
+denote an axiom basis, 
+and $ \, D \, $ 
+designate
+ a
+deduction apparatus.
+Then 
+the  GenAC of
+ $(  \alpha  , D  )$
+will
+% shall
+be called  {\bf Self Justifying}
+ when
+\begin{description}
+% \xxitch
+% \small
+  \item[  i.   ] one of  $~(  \alpha  , D  )$'s  theorems
+(or possibly one of $\alpha$'s axioms)
+does
+%will
+state that the deduction method $ \, d, \, $ applied to the
+basis
+system $ \, \alpha, \, $ 
+%will 
+produces a consistent set of theorems, and
+\item[  ii.   ]
+     the GenAC formalism $ \,( \alpha,D)  \, $ is, in fact,
+actually consistent.
+\end{description}
+\end{definition}
+
+
+\begin{example}
+\label{nex-2.3}
+\label{ex2}
+%%%%%%%%%%%%%%%%%%%  OLD \label{ex-2.5}
+\rm
+Using 
+Definition \ref{ndef-2.2}'s 
+ notation, our
+prior
+ research  
+% in
+\cite{ww93,ww1,ww5,wwapal,ww9}
+% has
+constructed
+%developed
+GenAC pairs  
+% arithmetics
+$~(  \alpha  , D  )$
+that 
+ were
+``Self Justifying''.
+We
+also 
+proved
+the Incompleteness Theorem 
+implies specific
+limits beyond which 
+self-justifying
+formalisms
+simply
+ cannot transgress.
+For any  $\,(\alpha,D) \,$, 
+it is 
+thus
+easy
+%almost trivial 
+to construct a 
+system $ \, \alpha^D \, \supseteq  \,  \alpha  \, $
+ that  satisfies
+the
+Part-i 
+condition
+(in an isolated context {\it where the Part-ii condition is
+ not also
+satisfied}).
+For instance,  $ \, \alpha^D \, $  could
+consist of all of $~\alpha \,$'s axioms plus 
+the added {\bf $\,$``SelfRef$(\alpha,D)$''$\,$} sentence,
+defined below: 
+%% as stating:
+\begin{quote} 
+% \small
+$\oplus~~~$ 
+There is no proof 
+(using 
+$D$'s deduction method)
+of  $0=1$
+from the  {\it union}
+ of
+the
+ axiom system $\, \alpha \, $
+with {\it this}
+sentence  ``SelfRef$(\alpha,D) \,$'' (looking at itself).
+\end{quote}
+Kleene 
+showed \cite{Kl38} 
+how
+to
+encode
+%  rough
+ analogs of 
+the above  ``SelfRef$(\alpha,D) \,$'' statement,
+which we often call an 
+ {\bf $\,$``I AM CONSISTENT'' 
+%axiomatic
+ declarative axiom.}
+Each of
+Kleene, 
+Rogers and Jeroslow 
+ \cite{Kl38,Ro67,Je71},
+however,
+ emphasized
+% that
+$\alpha ^D$ 
+may
+be inconsistent
+(e.g.  violating Part-ii of   self-justification's
+definition),
+{\it despite SelfRef$(\alpha,D)$'s 
+formal
+assertion.}
+This is because if the 
+ pair $(\alpha,D)$ is too strong
+then a
+quite conventional
+G\"{o}del-style diagonalization argument can
+be applied to the axiom basis of
+$\alpha^D~~=~~ \alpha \, + \, $ SelfRef$(\alpha,D), ~$
+where the added presence of the statement 
+SelfRef$(\alpha,D)$ 
+will cause this extended version of 
+$\, \alpha\,$, ironically,
+ to
+ become automatically inconsistent.
+Thus, an
+encoding for
+``SelfRef$(\alpha,D)$'' is relatively easy,
+via an application of the Fixed Point Theorem,
+but this sentence
+ is, typically
+{\it
+utterly
+useless!} 
+\end{example}
+
+% \bigskip
+
+\parskip 0pt
+
+
+\begin{definition}
+\label{ndef-2.4}
+\rm
+Let
+ $Add(x,y,z)$ and    $Mult(x,y,z)$ 
+denote two 3-way predicates,  specifying 
+ $x+y=z$ and $x*y=z$,
+for which the
+associative, commutative, identity and distributive 
+properties have $\Pi_1$ style encodings under an
+axiom system of $\alpha$.
+Then we will say
+that $~\alpha~$
+{\bf recognizes} successor,  addition  and multiplication
+as {\bf Total Functions} iff 
+it can  prove all of
+\eq{totdefxs} - \eq{totdefxm}
+as theorems:
+\end{definition}
+% \newpage
+{ \small
+\baselineskip =  .9 \normalbaselineskip 
+\beq 
+\label{totdefxs}
+\forall x ~ \exists z ~~~Add(x,1,z)~~
+\enq
+%%% \vspace*{- 1.7 em}
+\beq 
+\label{totdefxa}
+\forall x ~\forall y~ \exists z ~~~Add(x,y,z)~~
+\enq
+\beq 
+\label{totdefxm}
+\forall x ~\forall y ~\exists z ~~~Mult(x,y,z)~
+\enq }
+
+
+\noindent
+Furthermore, we will call the GenAC system $(\alpha,D)$ a
+% $\alpha$ will be  called 
+{\bf Type-M} 
+formalism
+iff it includes
+\eq{totdefxs} - \eq{totdefxm}
+as theorems, {\bf Type-A} if it includes 
+only \eq{totdefxs} and \eq{totdefxa} as theorems,
+and {\bf Type-S} if it contains
+only \eq{totdefxs} as a
+ theorem. 
+%Moreover, 
+Also,
+ $(\alpha,D)$ 
+ will be 
+% is
+called 
+{\bf Type-NS} iff it  can prove
+none of these theorems.
+
+\parskip 2pt
+
+%\bigskip
+
+\begin{remark}
+\label{nremm-2.5}
+%% 
+\rm
+The separation of GenAC systems into the four 
+categories of Type$-$NS, Type-S, Type-A and Type-M systems
+will enable us to nicely summarize the prior literature
+about generalizations and boundary-case exceptions
+for the Second Incompleteness Theorem. This is because:
+\bed
+\item[   $~~~~$i.$~~$  ]
+The combined research of Pudl\'{a}k, Solovay, Nelson and Wilkie-Paris
+\cite{Ne86,Pu85,So94,WP87},
+as is formalized by Theorem $\, ++ \,$,
+implies no
+natural Type$-$S  GenAC system $(\alpha,D)$
+can recognize  its own  consistency
+when $D$ is one of 
+Example \ref{nex-2.1}'s three
+examples of
+  Hilbert-style 
+deduction operators of 
+$\, D_E \,$, $\, D_H \,$  
+or
+$\, D_M ~~$. In particular,
+it establishes the following result:
+\medskip
+\begin{quote}
+\normalsize \baselineskip = 1.0 \normalbaselineskip 
+{\bf ++ }
+{\it 
+(Solovay's  
+modification
+\cite{So94}
+of Pudl\'{a}k \cite{Pu85}'s formalism 
+using some of 
+Nelson and Wilkie-Paris \cite{Ne86,WP87}'s
+methods)} :
+Let 
+$ \, (\alpha,D) \, $ 
+denote 
+a GenAC system
+supporting
+% which contains 
+the
+\el{totdefxs}'s
+Type-S statement
+and 
+assuring
+the successor operation
+will
+satisfy
+both 
+% the axioms of 
+ $  \,   x'     \neq 0     $ and
+$     x'     =     y' \Leftrightarrow x=y $.
+$~$Then
+$ \, (\alpha,D  ) \, $  
+%%%%$~\alpha~$
+cannot verify its own
+%will be unable to recognize its
+%own  
+consistency
+whenever
+simultaneously
+ $D$ is some type of
+a Frege-Hilbert
+deductive
+apparatus and
+%whenever
+$~\alpha~$
+ treats addition and multiplication
+as 3-way relations, 
+satisfying 
+their usual % identity,
+associative, commutative 
+ distributive 
+and identity 
+%  axiomatic properties.
+axioms.
+%   -axiom
+% properties.
+\end{quote}
+\medskip
+Essentially, Solovay \cite{So94} 
+privately communicated 
+to us 
+in 1994
+%to us
+an analog of theorem $++$.
+%but 
+Many authors
+have noted Solovay
+ has 
+been
+%often
+reluctant to publish
+% several of 
+his 
+nice 
+privately communicated
+results 
+on many occasions
+%in several contexts
+\cite{BI95,HP91,Ne86,PD83,Pu85,WP87}. 
+Thus,
+%polished
+approximate  analogs of 
+%statement
+ $++$
+ were  explored 
+subsequently
+ by  Buss- Ignjatovi\'{c},
+H\'{a}jek 
+and
+\v{S}vejdar in \cite{BI95,Ha7,Sv7},
+as well as in Appendix A of 
+our paper
+\cite{ww1}.
+Also, 
+Pudl\'{a}k's initial 1985 article  \cite{Pu85} 
+% implicitly
+captured
+% , notably, 
+the majority 
+%most
+%%%  much 
+of $++$'s 
+essence, chronologically before Solovay's observations,
+%Also,
+ and
+Friedman did
+% some
+related work
+ in
+\cite{Fr79a}.
+
+\medskip
+
+\item[   $~~$ii.$~~$  ]
+Part of what makes  $++$ interesting is that 
+\cite{ww1,ww5,wwapal}
+explored two methods for 
+GenAC systems
+to confirm their own consistency, whose
+natural hybridizations  are precluded by $++$.
+Specifically,  these results involve using
+Example \ref{nex-2.3}'s 
+self-referencing  {\it ``I am consistent''}
+ axiom (from its
+statement  $\oplus$ ). 
+They will enable
+some (not all)
+  Type-NS  
+systems \cite{ww1,wwapal}
+to verify their   own consistency under 
+a Hilbert-style deductive apparatus
+\footnote{ The Example \ref{nex-2.1} had
+provided
+three examples of
+  Hilbert-style 
+deduction operators, called 
+$\, D_E \,$, $\, D_H \,$ , 
+and
+ $\, D_M ~~$. It explained how these 
+ deductive operators differ from a tableaux-style
+deductive apparatus by containing a modus ponens rule.},
+or alternatively allow 
+some (not all)
+ Type-A 
+ systems \cite{ww93,ww1,ww5,ww6} to 
+corroborate
+their 
+self-consistency
+under a more restricted semantic
+tableaux style deductive apparatus.
+Also, we observed in  \cite{ww2,ww7} how one could
+refine $++$ with Adamowicz-Zbierski's
+methodology \cite{AZ1} to show 
+ most Type-M  systems
+cannot recognize their own semantic tableaux style consistencies.
+\ennd
+\end{remark}
+
+\begin{remark}
+\label{rem2}
+Several of our articles have
+used
+Example \ref{ex2}'s
+ {\it ``I am consistent''} 
+axiomatic statement
+$~\oplus~$
+% as a vehicle 
+ to evade the Second Incompleteness Theorem.
+This methodology is 
+unrelated to alternate 
+techniques for evading G\"{o}del's Theorem
+that have been explored by 
+Gentzen in \cite{Ge36},
+Kreisel-Takeuti 
+in
+% the analysis of
+ their    ``CFA''
+formalism \cite{KT74}
+and to
+the {\it interpretational framework} of
+Friedman,
+Nelson, Pudl\'{a}k and Visser
+\cite{Fr79b,Ne86,Pu85,Vi5}.
+It turns out these latter
+systems will not make as broad statements
+about their consistency because they do not
+make use of
+Kleene-like {\it ``I am consistent''} axiom-sentences.
+On the other hand,
+they will possess a
+% much
+ different
+style
+% kind 
+of advantage
+because they will provide a more detailed proof
+of their consistency than would follow from 
+statement $~\oplus\,$'s
+single-sentence  {\it ``I am consistent''} declaration.
+\end{remark}
+
+
+\section{More  Notation and Main Formalism}
+%%mmm  
+
+%%% 444444
+
+\label{sect4}
+
+
+A function $F $
+will be called {\bf Non-Growth}
+iff 
+$ F(a_1 \ldots a_j) 
+\leq   Maximum(a_1 \ldots a_j)$
+holds.
+Six  examples of  
+non-growth functions are
+{\it Integer Subtraction} 
+(where $~x-y~$ is defined to equal zero when
+ $~x \leq y~),~~$
+{\it Integer 
+Division}
+(where $x \div y$ 
+equals
+$~x~$ when $y=0$, and
+it equals $~\lfloor ~x/y ~\rfloor~$ otherwise),
+$Maximum(x,y),$
+$ Logarithm(x)$
+$\,Root(x,y) \, =  \, \lceil  \, x^{1/y} \,  \rceil$ and
+$Count(x,j)$  designating the number of ``1'' bits
+among $  x$'s rightmost $  j  $ bits.
+The term
+{\bf U-Grounding Function} 
+referred in \cite{ww5} to
+a set of 
+primitives,
+that included the
+preceding
+functions plus the {\it growth operations} of addition and
+{\it Double$(x)=x+x$}. 
+Our language $L^*$  was 
+built
+out of these 
+symbols, 
+plus the primitives of 
+``0'', ``1'',
+   ``$ \, = \, $''
+and ``$ \, \leq \, $''.
+
+
+
+
+In a context where  $~\, t \, ~$ is  any term in \cite{ww5}'s
+language $L^*$, 
+$\,$the quantifiers in the wffs
+$~ \forall ~ v \leq t~~ \Psi (v)~$ and $~ \exists ~ v \leq t~~ \Psi (v)$
+were called {\it bounded 
+quantifiers}.
+Any formula in 
+ $L^*$, 
+all of whose
+quantifiers are bounded, was called
+a $\Delta_0^*$ formula.
+The  $~\Pi_n^{* }~$ and  $~\Sigma_n^{* }~$ formulae 
+were
+then defined by the 
+usual
+rules that:
+\bee
+\item
+Every  
+$\Delta_0^*$ formula is considered to
+be 
+``$~\Pi_0^{* }~$''  and 
+also 
+ ``$~\Sigma_0^{* }~$''. 
+\item
+A
+wff
+is  called
+ $ \,\Pi_n^{* } \,$
+when it is encoded as 
+$\forall v_1 ~ ...~ \forall v_k ~ \Phi$  with
+$\Phi$ being  $\Sigma_{n-1}^{* }$
+\item
+A wff
+is  called
+ $\Sigma_n^*$
+when it is encoded as 
+$\exists v_1 ..\exists v_k ~ \Phi,$  where
+$\Phi$ is  $\Pi_{n-1}^{* }$.
+\ene
+%{\it Also throughout this article,}
+ Also,$~$
+ the sentence $\Psi$ will be called a$~$ {\bf  Rank-1* } $~$statement iff it
+can be encoded in either a  $\Pi_1^*$
+or  $\Sigma_1^*$ format.
+
+Our article \cite{ww5} used the symbol $~D~$ to denote
+a deduction method. 
+There will be three variants of deduction methods
+% that we will compare 
+compared
+in this article. The first will be
+{\it semantic tableaux},
+ which will receive the abbreviated name of
+ {\bf Tab}. It will be similar to 
+%%% its analog
+% appearing 
+the tableaux formalism
+in Fitting's textbook  \cite{Fi96}.
+Thus a Tableaux proof of a theorem $~\Psi$
+ from an axiom basis
+% a set of  proper axioms 
+$~\alpha~$ will be  tree-like
+structure that begins with the sentence
+ $~\neg ~ \Psi$ 
+ stored in the tree's root and whose every root$-$to$-$leaf
+path establishes a contradiction by containing some pair of contradictory
+nodes  that ``closes'' its path. The rules for generating internal
+nodes along each
+ root$-$to$-$leaf
+path will be that each node
+must be either a
+% formal 
+proper axiom of $\alpha$ or a deduction
+from an ancestor node via one of the 
+``elimination''
+rules associated with
+our logic symbols of $\wedge$, $\vee$, $\rightarrow$, $\neg$,
+$\forall$, or $\exists$. (A precise definition of these six rules
+and other details
+appears in the attached appendix.) 
+
+\smallskip
+
+Our second 
+explored
+ deductive apparatus
+% in this article, 
+will be called {\it Extended Tableaux}, abbreviated as
+{\bf Xtab}. Its definition 
+will be
+ identical to the prior
+paragraph's {\it Tab-}deduction, {\it  except that} for any sentence
+$\phi$
+in our  language $L^*$, the sentence $\phi \, \vee \, \neg \phi$
+can be permissibly 
+  stored 
+% inserted 
+as an axiom
+inside
+ any internal node of our proof tree.
+(In other words,    {\it Xtab-}deduction
+will differ from  {\it Tab-}deduction by allowing all instances
+of the Law of Excluded Middle to appear as a logical schema of axioms.
+In contrast,  {\it Tab-}deduction will treat the infinite schema of
+instances of the Law of Excluded Middle as
+%  permissibly
+{\it  derived theorems,}
+{\bf BUT NOT ALSO} as
+instances of
+  logical axioms.
+
+% \medskip
+
+Our third
+% studied
+ deductive apparatus
+will be called {\bf Tab-1}.
+It will be a
+% type of
+  compromise between Tab and Xtab,
+% deduction,
+where  a ``Tab-1'' proof of $\Psi$ from
+an axiom basis
+$\alpha$  is defined as a set of
+ordered pairs $ \, (p_1,\phi_1), \, (p_2,\phi_2), \, .. (p_k,\phi_k) \, $
+where
+\bee
+\item $ ~ \phi_k ~  = ~  \Psi \,$ 
+\item
+Each  $~p_j~$ is a Tab-proof of
+what we have called
+ a Rank-1* sentence
+$~\phi_j~$ from the union of $~\alpha~$ with some further Rank-1* axioms
+of   $~\phi_1,~\phi_2,~..~\phi_{j-1}~$.
+\ene 
+{\bf We emphasize} that  Tab-1 is 
+{\it  less efficient}
+ than Xtab 
+deduction
+because {\it the$ \,$former
+requires} $\phi_j$ be a Rank-1* sentence, while Xtab
+{\it  does not impose}
+ a similar Rank-1* constraint upon
+$\, \phi \,$, when
+ it
+% uses
+invokes
+  an  $~\phi \, \vee \, \neg \phi~$ axiom.
+
+
+Let us say that an axiom system $\alpha$ owns a
+{\bf Level-1} appreciation of its own self-consistency
+(under a deductive apparatus $D$)
+iff it can verify 
+$D$ produces
+ no two simultaneous
+proofs of a 
+ $\Pi_1^*$ 
+sentence and 
+its negation.
+Within this
+ context, where $~\aaa~$ denotes any axiom
+system using
+ $L^*\,$'s 
+U-Grounding language, IS$_D(\aaa)$ 
+was defined 
+in \cite{ww5}
+to be an axiomatic
+formalism  capable of recognizing all of 
+$\aaa$'s $\Pi_1^*$ theorems and 
+corroborating 
+its own Level-1 consistency under $D$'s deductive method.
+It 
+consisted of the 
+following four
+groups of axioms:
+\begin{description}
+\item[Group-Zero:]
+Two of the Group-zero axioms will define
+the
+constant-symbols,
+$\bar{c}_0$
+and $\bar{c}_1$,
+designating the integers of 0 and 1.
+The
+Group-zero axioms
+will
+also define the
+growth functions of addition and 
+$~Double(x) \, = \, x+x.~$
+(They will  enable our formalism to
+define
+any 
+integer
+$~n \geq 2~$ 
+using fewer than
+$3 \cdot \lceil \, $Log$~n~ \rceil \,$ 
+logic symbols.)
+
+\item[Group-1:] 
+This axiom group  will consist of a
+finite set of $\Pi_1^{*} $ sentences, denoted as $~F~$, which
+can prove any $\Delta_0^*$ sentence that
+holds true under the standard model of the natural numbers.
+(Any finite set of 
+$\Pi_1^{*} $ sentences $~F~$ 
+with this property
+may be used to define Group-1,
+as    \cite{ww5} had  noted.)
+
+
+
+\item[Group-2:]
+Let $\ulxyz \Phi \urxyz$ denote
+$\Phi$'s G\"{o}del Number, and
+HilbPrf$_\aaa(\ulxyz \Phi \urxyz,p)$ denote a
+$\Delta_0^{*} $ formula indicating 
+$~p~$ is a
+Hilbert-styled proof of 
+theorem $~\Phi~$ from
+axiom system $\aaa$.
+For each $\Pi_1^{*}  $ sentence  $\Phi$, the 
+Group-2 schema will contain an axiom of 
+form \eq{group2}.
+(Thus IS$_D(\aaa)$ can trivially prove
+ all $\aaa$'s 
+$\Pi_1^{*}  $ theorems.) 
+\begin{equation}
+\forall ~p~~~\{~ \mbox{HilbPrf$_\aaa(\ulxyz \Phi \urxyz,p)$}
+ ~~
+\Rightarrow ~~ \Phi~~\}
+\label{group2}
+\end{equation}
+\item[Group-3:]
+The final part of  IS$_D(\aaa)$ 
+% shall
+will 
+be a
+self-referencing
+$\Pi_1^*$
+axiom,
+that indicates
+IS$_D(\aaa)$
+is
+``Level-1 consistent'' 
+under
+ $D$'s deductive method.
+It 
+is, 
+thus,  the following  declaration:
+\begin{quote} 
+\# $~${\it No two
+proofs exist
+for 
+a $\Pi_1^{*} $ sentence
+and its negation, when
+$D$'s deductive method is applied to an axiom system,
+consisting of  
+the {\it union}
+of 
+Groups 0, 1 and 2 with {\bf $\,$this sentence$\,$}
+(looking at itself).}
+\end{quote}
+
+\smallskip
+One encoding of \#,
+$\,$as a self-referencing
+$\Pi_1^{*} $
+axiom,
+had appeared
+ in 
+\cite{ww5}.
+Thus, 
+\eq{group3} 
+is a
+$\Pi_1^{*}\, $ styled
+encoding for$~$
+  \#
+$~$when:  
+$~~1)~~ \, \mbox{Prf} \, _{\mbox{IS}_D(\aaa)}(a,b) \, $ is
+a 
+ $\Delta_0^{*} $ formula 
+indicating 
+that 
+$ \, b \, $ is a proof
+ of a theorem $\, a\,$
+under
+  $\mbox{IS}_D(\aaa)$'s axiom system
+and $D$'s deduction method, 
+$\,~$and $~~2)~~$Pair$(x,y)$ is a $\Delta_0^{*} $ formula
+indicating 
+that $ \, x \, $ is  a
+ $\Pi_1^{*} $ sentence 
+and that
+ $ \, y \, $ 
+represents 
+$ \, x \,$'s negation.
+\end{description}
+\begin{equation}
+\forall  ~x~\forall  ~y~\forall  ~p~\forall  ~q~~~~ \neg ~~
+[~~ \mbox{Pair}(x,y)~ \wedge ~ 
+~\mbox{Prf}~_{\mbox{IS}_D(\aaa)}(x,p)~
+\wedge ~ ~\mbox{Prf}~_{\mbox{IS}_D(\aaa)}(y,q)~ ]
+\label{group3}
+\end{equation}
+ 
+%%%%% \parskip 2pt
+%\smallskip
+
+\begin{definition}
+\label{def3} \rm
+Let $~D~$ denote 
+any one of 
+ the {\it Tab,  Xtab} or
+{\it Tab-1}
+ deductive methodologies.
+We will  say that 
+the mapping  $\mbox{IS}_D(~\bullet~)$ 
+ is
+{\bf Consistency Preserving}
+ iff
+ $\mbox{IS}_D(\aaa)$ 
+is guaranteed to be consistent 
+under $D$'s deductive apparatus
+whenever all the axioms of $\aaa$ hold
+true under the standard model of the natural numbers. 
+\end{definition}
+
+%\smallskip
+
+
+
+%%%%% 66666 NEW PASSAGE
+
+\begin{theorem}
+\label{th1} \rm
+The     $\mbox{IS}_{\it Tab}(~\bullet~)$ 
+and   $\mbox{IS}_{\it Tab-1}(~\bullet~)$ 
+mappings 
+are
+consistency preserving, but the similar-looking  
+   $\mbox{IS}_{\it Xtab}(~\bullet~)$ mapping 
+is actually not{\it $~~$. This 
+statement
+ is 
+ formalized  by the
+%   formalized, more  precisely,  by the
+Items (a) and (b) below:}
+\bed
+\item[  a.  ]
+ $\mbox{IS}_{Tab}(\aaa)$ 
+and
+$\mbox{IS}_{Tab-1}(\aaa)$ 
+are always consistent 
+whenever all the axioms of $\aaa$ hold
+true under the standard model
+ of the natural numbers. 
+
+\smallskip
+
+\item[  b.  ]
+In contrast,
+ $\mbox{IS}_{Xtab}(\aaa)$ 
+is {\it automatically inconsistent}
+whenever
+$~\beta~$
+proves 
+the
+%some
+ conventional $\Pi_1^*$ theorems
+showing 
+%that
+ addition and multiplication
+satisfy 
+their
+associative, commutative, 
+ distributive 
+and identity 
+properties.
+% principles.
+\ennd
+\end{theorem}
+
+{\it Proof Summary:}
+The two halves of Theorem \ref{th1}'s
+proof would be quite lengthy, if
+% we used
+%%% had to rely on 
+first principles
+were used
+ to justify
+them.
+Fortunately, there is an easier method to 
+justify
+(a) and (b), 
+% Theorem \ref{th1}'s two them
+by relying upon the earlier literature.
+
+% \parskip 2pt
+
+Thus, Part (a)  follows
+from  our
+ main 
+result
+in  \cite{ww5}.
+ It 
+indicated   $\mbox{IS}_{\it Tab-1}(~\bullet~)$ 
+was a consistency preserving
+%%%%  mapping, and this implies
+ mapping. This implies
+that  $\mbox{IS}_{\it Tab}(~\bullet~)$
+is also  consistency preserving
+because Tab-deduction is weaker than Tab-1.
+
+
+Let us now turn our attention to 
+Theorem  \ref{th1}'s second
+claim (b). 
+Its proof is more complex but analogous to the
+justification for the Invariant
+ ++ , which
+Remark \ref{nremm-2.5} 
+%   had
+attributed
+mostly  to
+ the work 
+of Pudl\'{a}k. Solovay, Nelson
+and Wilkie-Paris. The
+crucial aspect of the Frege-Hilbert methodologies
+employed by ++ is that modus ponens assures that
+a proof of a theorem 
+$\psi$ 
+from an axiom system $\alpha$ has a length no
+greater than the sum of the proof-lengths needed to derive
+ $\phi$ and $~\phi \rightarrow \psi~$ from
+$\alpha$. This 
+{\bf ``Linear-Sum Effect''
+}
+ does not apply,
+%%  technically, 
+actually,
+also to
+{\it Tab-}deduction because it owns no analog of
+a modus ponens rule (for assuring  that  
+$\psi$'s proof-length is bounded by the sum of the 
+lengths for the proofs of 
+ $\phi$ and $~\phi \rightarrow \psi~$) .
+
+The {\it Xtab}
+%%deductive 
+methodology, however, 
+ differs
+from
+{\it Tab-}deduction 
+by allowing any node of its proof-tree
+to store a sentence of the form $~ \phi \, \vee \, \neg ~\phi~$,
+as an application of its allowed use of the Law of Excluded
+Middle.
+This added feature allows an
+ {\it Xtab} proof for
+$\psi$ to have a length
+%% be bounded approximately  
+proportional to
+ the sum of
+the proof lengths for 
+ $\phi$ and $~\phi \rightarrow \psi~$. In particular,
+the relevant 
+ {\it Xtab} proof for 
+$\psi$ 
+can be summarized as having the following 4-part structure:
+\bee
+\item
+The root of the proof of $\psi$ 
+will be the usual temporary negated hypothesis of
+ $~\neg \psi~$ (which the remainder of the proof tree will
+show is impossible to hold). 
+\item
+The child of this 
+root
+node will be an allowed invocation of the
+Law of the Excluded Middle of the 
+ form $~ \phi \, \vee \, \neg ~\phi~$.
+\item Our tableaux proof tree will next employ
+the Appendix's branching rule for allowing the two
+sibling nodes of
+ $~ \phi ~$
+ and $~ \neg ~\phi~$ to descend from
+Item 2's node.
+\item 
+Finally, our tableaux proof will insert below
+(3)'s  left sibling  node
+of  $~ \phi ~$ a subtree structure that is no longer than
+the proof of   $~\phi \rightarrow \psi~$,
+and likewise
+insert
+ a   proof for $~\phi~$ 
+below (3)'s right sibling
+%%%%%%%  node  
+of  $~ \neg ~\phi~$.
+\ene
+The point is that the last step of our 4-part proof
+has a length no greater than the sum of the two
+ proof lengths for 
+ $\phi$ and $~\phi \rightarrow \psi~$,
+and its first three steps have inconsequential lengths
+that will increase 
+its
+ overall proof length by no
+more than an unimportant
+amount proportional to the length of the 
+sentence ``$~\phi ~ \rightarrow ~\psi~$''.
+
+%%%8888888888888
+
+%%{sect2}
+
+We can apply
+the preceeding 
+ ``Linear-Sum Effect''
+to construct  an analog 
+of Remark \ref{nremm-2.5} 's
+earlier  Theorem $\, ++ \,$ 
+germane to
+ Extended Tableaux  deduction (which is also called ``Xtab''). 
+Saving 
+several
+%the 
+details
+for a longer paper,
+the   intuition
+behind this analog is that modus ponens
+ {\it is the only
+ rule of inference} used
+ by 
+the classic
+ \cite{End}'s  textbook-style
+% classic
+first-order logic  system,
+ and
+Xtab can
+%  that Xtab
+% can
+% thus
+ use its 
+ Linear-Sum Effect
+  to simulate modus ponens.
+This natural analog of  
+ $++$  will
+%%%% then
+%% thus
+assure 
+%% that 
+any axiom system $~\cal{A}~$ is
+% then
+ {\it  automatically inconsistent} whenever:
+\begin{enumerate}
+\item
+$\cal{A}$
+ can verify Successor is a total function (as formalized
+by \el{totdefxs} ),   
+\item 
+$\cal{A}$
+can prove
+%%% 
+%%%  proves 
+%%%  $\Pi_1^*$ theorems
+%%% %%% showing 
+%%% that show
+%%% 
+ addition and multiplication
+satisfy 
+their usual 
+associative, commutative, 
+ distributive 
+and identity axioms. 
+\item  
+$\cal{A} \,$
+proves 
+an added
+ theorem (which turns out to be false) affirming its own
+consistency when the
+Xtab
+ deductive apparatus is used.
+\end{enumerate}
+The preceding observation completes 
+Theorem
+%%%  \ref{th1}'s
+1-b's
+ proof because 
+ $\mbox{IS}_{Xtab}(\aaa)$ 
+meets
+% satisfies
+all three of these
+requirements.
+%% ?????? (see footnote).
+$~~~\Box$
+ 
+
+
+\begin{remark}
+\label{rem3} \rm
+We 
+have
+deliberately resisted the temptation of providing a more
+elaborate proof of Theorem \ref{th1},
+beyond the above 
+summary
+in this
+% current
+ extended abstract.
+This is because 
+it is desirable
+ to reserve
+%%% three pages of space
+page space
+ for explaining
+how Theorem \ref{th1} (and other aspects of symbolic logic)
+can help
+ biologists, chemists, physicists and mathematicians
+develop formal  Artificial Intelligence mechanisms
+for
+%  alleviating 
+relieving$~$the harmful effects
+from global warming.
+\end{remark}
+
+
+\parskip 1 pt
+
+
+The contrast between the positive and negative results
+of Theorem \ref{th1}'s two claims will 
+be central to the next section's  discussion.
+Although the topic of global warming was
+essentially
+ unknown
+to the world of the  1920's and 1930's,
+the next section will show
+that
+ the often quoted statements
+$*$ and $**$, of G\"{o}del and
+Hilbert,
+%%%%%%%%% Hilbert
+do gain
+some
+new
+interpretations.
+
+%END OF NEW PASSAGE
+
+
+
+ 
+
+\section{An Application of Theorem  \ref{th1}
+Germane to Diminishing the Damage
+Caused by Global Warming} 
+
+% \large \baselineskip =  1.5 \normalbaselineskip 
+%%%555555555555555
+\label{sect5}
+
+We 
+%did become
+became
+ aware about 
+how the hard-core sciences of
+ biology, chemistry, and  physics could use concepts
+from Symbolic Logic (such as Self-Justification) 
+to alleviate the effects of global warming
+after  
+reading several
+% quite
+alarming
+ Year-2017 interviews of 
+the late physicist Stephen Hawking
+\cite{Ha17a,Ha17b}. 
+In those interviews, Hawking
+% has
+%joined 
+ did join
+a growing team of scientists
+concerned that if current trends continue, then
+global warming could cause the planet Earth to become too hot
+for mammals to survive, within one or two centuries.
+(Hawking actually states 
+%that 
+the extinction of all mammal species could
+ occur
+as early as
+% even
+ within ``100 years'',
+but we would prefer to
+optimistically
+ hope that there is, at least,
+an available  200-year window in  time before the most tragic results
+%will 
+occur, if indeed they cannot (?) be 
+prevented.)
+%avoided.) 
+
+Hawking has 
+%also 
+hinted that computers, employing various forms
+of Artificial Intelligence (AI), could be
+one part of
+% the 
+a 
+reply
+ to global warming's 
+emerging challenge
+(if AI can {\it somehow}   be handled  (?)  adeptly).
+The
+ two advantages of computers
+over humans are that computers
+can produce
+deductions more quickly, and they can 
+be engineered to
+ survive
+in environments that are inhospitable for humans.
+For example, computers do not need Oxygen as a vital energy
+supply. They could, thus, rely upon  solar power when residing
+on the Moon or Mars, and they could
+possibly survive
+ underneath the Earth's oceans
+(assuming the latter do not evaporate under intense heat). 
+
+% \parskip 0pt
+
+We want to keep this chapter brief and avoid 
+too much speculation.
+The main point is
+% to suggest
+ that
+AI-oriented
+ computers could possibly offer a
+partially positive outcome to a global warming
+crisis by employing a 2-part strategy where:
+\bee
+\item
+AI-based computers 
+will
+first take complete control over 
+the planet's
+destiny,
+if 
+(?) 
+humans are rendered 
+temporarily
+extinct by global over-heating.
+\item
+AI-based computers
+could then
+ subsequently restore human and 
+perhaps
+other 
+higher
+life forms on Earth after the planet returns 
+\footnote{This
+footnote is a 
+tentative  remark, but bacteria are known to be a  much
+more durable species  than mammals, which are capable of 
+surviving under very high temperatures and also able to
+undergo
+astonishingly
+speedy evolutionary changes and adaptations.  
+A new species of bacteria can  hopefully 
+(?) be
+engineered, 
+{\it perhaps with the assistance of computers,} that
+can hopefully pull greenhouse gasses out of the atmosphere
+and lower the temperature on Earth over 
+a spam of  perhaps
+%1,000 years. 
+several decades 
+Frozen samples of primate embryos and accompanying stored
+DNA molecules, could then be used to restore human life
+on Earth.}
+to a cooler state and stored frozen embryos and DNA samples
+%were
+have been
+ previously  (?) saved.
+\ene
+This methodology will be called a {\bf 2-Prong Strategy.}
+%We have no doubts its 
+%The author of this article has no doubt that
+Its two parts
+will, clearly, make
+some readers cringe with 
+discomfort. One should, however,
+%  take some measures to
+prepare for
+% plausible
+ worst-case
+scenarios, {\it  
+ in case
+such
+paradigms
+% circumstances
+ arise? }
+The next two pages
+% , thus,
+will 
+% explain particular
+focus on 
+ its 
+% very
+special
+% details germane to 
+implications for
+symbolic logic.
+
+
+
+\begin{example}
+\label{main-ex} 
+\rm
+%%%% eeeee
+%During our current discussion,
+%let us have
+Let
+ $\, \beta \,$ denote
+some
+% particular 
+consistent formal  axiom 
+basis
+% formalism
+% that has been selected to 
+that can
+prove a substantially
+broader
+ set of $\Pi_1^*$ theorems than some 
+% fixed
+conventional axiom system
+(such as
+% perhaps 
+Peano Arithmetic or ZF Set Theory).
+Let us consider 
+using Artificially Intelligent (AI)
+% systems 
+computers
+to combine the formalisms
+of the  preceding  2-Prong 
+methodologies
+ with
+% that of 
+Theorem \ref{th1}. 
+Then
+% the
+a
+% preceding paragraph's  
+2-Prong Strategy may
+potentially use any one of 
+ $\mbox{IS}_{Xtab}(\aaa)$,
+ $\mbox{IS}_{Tab}(\aaa)$,
+ $\mbox{IS}_{Tab-1}(\aaa)$ or say Peano Arithmetic (PA)
+as  its core invoked AI decision mechanism.
+A 
+comparison between these four
+% quite  different AI
+ variations of 
+ 2-Prong methods
+% does
+will
+  reveal that:
+\bed
+\item[   a. ]
+Although the  $\mbox{IS}_{Xtab}(\aaa)$ formalism may look
+superficially similar to 
+ $\mbox{IS}_{Tab}(\aaa)$ and
+ $\mbox{IS}_{Tab-1}(\aaa)$, 
+it is
+actually
+% entirely 
+unacceptable as a
+%formal
+ core invoked AI 
+% mechanism, 
+formalism
+used by a  2-Prong strategy. This is 
+because Theorem 1-b
+indicates
+%  that
+  $\mbox{IS}_{Xtab}(\aaa)$ 
+is inconsistent.
+It will thus cause a 2-Prong strategy to make
+unacceptably false decisions 
+\footnote{ A surprising aspect of 
+ $\mbox{IS}_{Xtab}(\aaa)$'s faulty behavior is that its Group 0, 1 and 2 axioms
+are identical to those of 
+ $\mbox{IS}_{Tab}(\aaa)$ and
+ $\mbox{IS}_{Tab-1}(\aaa)$.
+Thus,
+ $\mbox{IS}_{Xtab}(\aaa)$'s unacceptable behavior
+is solely because of its Group-3 {\it ``I am consistent''}
+axiom. \smallskip} 
+when it uses
+$\mbox{IS}_{Xtab}(\aaa)$ as its core AI mechanism.
+
+\smallskip
+
+\item[   b. ]
+In a context where $\beta$ has been chosen to be an axiom basis that
+proves a richer set of $\Pi_1^*$ 
+theorems than Peano Arithmetic,  PA
+is 
+substantially
+ less desirable 
+as a 2-Prong Strategy's
+%core
+main
+ AI 
+decision
+system than either  
+ $\mbox{IS}_{Tab}(\aaa)$ or
+ $\mbox{IS}_{Tab-1}(\aaa)$
+would be.
+This is
+partly
+  because PA produces a weaker set of
+ $\Pi_1^*$ theorems than the latter 
+ two 
+systems.
+From our perspective,
+a more important drawback of PA
+is that it is 
+substantially
+less adept when it is
+{\it formally  unable} to confirm its own consistency.
+
+\smallskip
+
+\item[   c. ]
+Although  both the
+ $\mbox{IS}_{Tab}(\aaa)$ and
+ $\mbox{IS}_{Tab-1}(\aaa)$ formalisms 
+may be used as the core AI mechanism for
+our  2-Prong Strategy, 
+there are important distinctions
+between these two mechanisms. This is because
+ $\mbox{IS}_{Tab-1}(\aaa)$ 
+uses a more sophisticated form
+of a Self-Justifying 
+ Group-3 {\it ``I am consistent''}
+axiom than 
+ $\mbox{IS}_{Tab}(\aaa)$.
+(More generally,
+there is probably no
+% maximally
+ best form of Group-3 axiom
+that a 2-Prong Strategy can
+gainfully
+employ. 
+For instance,
+ it is 
+evident
+ (see footnote 
+\footnote{For instance,  
+ $\mbox{IS}_{Tab-1}$ can be beneficially hybridized with
+\cite{ww1}'s
+Tangibility
+  reflection principle, but we won't go into the
+%  germane
+details here. 
+} )
+that
+there do exist partially
+stronger forms of
+ Group-3 {\it ``I am consistent''}
+axioms 
+than those
+used 
+% applied besides those invoked
+ by
+ $\mbox{IS}_{Tab-1}(\aaa).~~)$
+\ennd
+\end{example}
+
+\parskip  0pt
+
+\begin{remark}
+\label{rem4}
+\rm
+The central issue raised by this chapter's
+2-Prong Strategy and the preceeding Example \ref{main-ex} 
+is 
+that
+ the dangers
+posed by global warming
+{\it  would be  tragic
+but NICELY only temporary,}
+%{\it temporary inconvenience}, 
+if robots and computers can reverse
+global warming after a period of 
+several
+ thousand years.  In contrast,
+the implications of global warming would be
+% much
+far
+ more
+severe,
+% tragic,
+if either it cannot be reversed or no frozen embryos
+%% of mammals (and primates)
+are saved so that the 4-billion-year cycle of life
+on Earth can 
+resume
+% restored
+after global  warming subsides.
+(We do not dismiss 
+the hopeful 
+prospect
+%point
+ that a theoretical temporary
+over-heating of the planet can possibly be avoided,
+but one
+ {\it  should  also not overlook} the 
+possibility
+ that some variant of a
+2-Prong Strategy may become necessary, if Mankind does not
+act  quickly enough ? )
+This article has, thus, been written to encourage a 
+more direct
+dialog
+% to take place
+between various subfields of Logic 
+with the hard-core
+sciences of 
+ biology, chemistry,   physics and mathematics.
+Its goal
+will be
+to discover what kinds of AI mechanisms can best reply to the
+challenges posed by global warming.
+% {\it if (?) they are needed !}
+\end{remark}
+
+\begin{remark}
+\label{rem5}
+Lastly, let us
+% should  
+%address 
+consider
+how G\"{o}del's Second Incompleteness
+Theorem
+should be 
+% likely
+viewed
+ by a broad 
+community
+         of scientists.
+% working in a 
+% diversity of different fields. 
+This topic is 
+% quite
+ subtle because the Second
+Incompleteness
+Theorem is 
+undoubtedly
+ a seminal result that was further strengthened
+by many of  G\"{o}del's 
+% subsequent 
+successors.
+But yet like many
+other
+ mathematical
+results, the Second Incompleteness Theorem also owns 
+{\it some types of 
+partial
+limitations?}
+%disadvantages? }
+% limitations?} 
+....Thus, we should
+  remind ourselves that
+ G\"{o}del
+% had
+% firmly
+held out the possibility 
+in
+% his  historic paper
+ \cite{Go31} 
+that some
+type of partial fulfillment of Hilbert's goals
+ would 
+%   ultimately 
+be achieved
+(see again G\"{o}del's quoted
+statement of$~*~ ).$
+Moreover,
+ Gerald Sacks in his 
+ Year-2014
+YouTube lecture
+(see
+\cite{YouSa14}
+and  our
+earlier
+%inserted
+% particular
+ footnote \ref{f2} ) 
+has recalled hearing
+G\"{o}del {\it repeating}
+% related
+similar
+ comments
+about the 
+importance 
+ of
+ continuing 
+ Hilbert's program
+ during the
+%  early
+1960's.
+%%% (This was {\it thirty years} after  \cite{Go31}'s seminal publication,)  
+ The main point is 
+that
+ a 2-Prong methodology, 
+permitting
+ an AI-based
+computer 
+%system 
+% has taken,
+% takes 
+to take temporary
+%temporarily, complete 
+control over 
+%the planet's
+planet Earth's
+destiny, {\it should
+%inherently 
+%substantially
+ultimately  be
+more efficient when
+it
+%  such
+%  a formalism 
+is allowed
+to presume its own consistency}.
+%
+%(similar to what humans commonly do).
+%
+%%  (as humans 
+%% seem to
+%% have
+%% % currently
+%%  informally
+%% done during their intuitive  thought processes).
+%% 
+These observations
+will
+ lead to
+significantly
+ new interpretations of
+G\"{o}del and Hilbert's statements $*$ and $**$.  
+\end{remark}
+
+%%% \parskip 4pt
+
+% \LARGE \baselineskip =  2.0 \normalbaselineskip 
+
+%6666666
+
+%999999
+
+In essence,
+several  research projects in 
+ symbolic logic should
+be undertaken that interact with
+the  core sciences
+of  biology, chemistry and  physics 
+%and Mathematics
+to collectively  address the
+% fundamental 
+challenges
+ posed by global warming.
+As a 
+logician (who was never
+% formally
+ trained in the experimental sciences), this author is
+%of this
+%article is
+% simply 
+ unable to assess how likely it is
+% that
+ that
+global warming will  need
+a 2-Prong response
+% necessary
+(where
+humans
+% will 
+do concede
+temporary control over the planet's destiny to AI-based computers).
+However, it is safe to presume
+that  such a loss of control would be
+only temporary 
+if  trustworthy self-justifying axiom systems
+are deployed that can simultaneously be:
+{\it 
+$\, 1)~$consistent,
+$\, 2)~$aware of their own consistency and
+$\, 3)~$capable of proving a rich set of $\Pi_1^*$ theorems.}
+
+
+
+
+% \parskip 1pt
+
+This article is  written in a context where its author
+has  reached the age of 70 and is retiring from teaching.
+Our hope is that the preceeding
+% above
+%Example \ref{main-ex} and Remarks \ref{rem4} and \ref{rem5} 
+discussion
+will encourage several logicians to  join  projects
+that   enhance  interactions 
+between the 
+logic community with the 
+allied research in
+ biology, chemistry,   physics and mathematics.
+A 
+tempting
+% nice 
+and 
+ new form of artificial intelligence
+ would
+% should 
+then
+%%%%% be likely 
+likely be
+born and 
+% nicely
+ nicely
+  prosper.
+
+
+\smallskip
+
+%ggggggg
+
+This article is dedicated to the
+memory of both
+my parents, 
+%%%Alfred and Ruth, 
+who
+% had  
+narrowly
+escaped
+the Holocaust.
+{\it $~$Let us pray that$\,$} 
+ global warming 
+% does
+ will
+%shall
+ not
+% cause
+% engulf
+impose
+% a much wider and extreme
+a
+% much
+ more wide-spread
+% wide-spreading
+calamity
+upon
+% all
+the 
+rest
+%remainder
+%
+% on the rest of
+ of humanity.
+We also hope
+%% Our hope is that  
+the
+% technical
+ mathematical 
+issues,
+raised in Sections 1-4, shall
+help future generations of researchers resolve the
+global warming crisis.... {\it  before it has become
+%sadly
+ too late ...  } 
+
+
+%% We felt  Section 5 of the current article
+%% should have a less mathematical tone than its Sections 1-4
+%% because the subject of global warming, together with its potentially
+%% required   (?) 
+%% % computerized 
+%% 2-Prong resolution, 
+%% %was sufficiently urgent to mention.
+%% should receive at least some attention
+
+
+%%  response to it,
+%% cannot
+%% %simply should not
+%% be ignored.
+
+%% 
+%% We suspect that logicians 
+%% can significantly
+%%  help
+%% biologists, chemists and physicists 
+%% resolve the global warming  crisis
+%% in the future.
+
+%hhhh 
+
+
+\parskip 0pt
+\normalsize \baselineskip =  0.96 \normalbaselineskip 
+
+\section*{APPENDIX  Reviewing
+the
+ Definition of a Tableaux Proof}
+
+Our definition of a semantic tableaux proof 
+is similar to its analog appearing in the textbooks by
+Fitting and Smullyan 
+ \cite{Fi96,Sm95}.
+A tableaux proof  of a theorem $\Psi$ from a set of proper
+axioms, denoted as $~\alpha~$, will  be a tree structure whose 
+root contains the temporary contradictory assumption of $~\neg \, \Psi~$
+and whose every descending root-to-leaf branch affirms a contradiction
+by containing both some sentence $\phi$ and its negation of $\neg \, \phi$.
+Each internal node in this tree will be either a proper axiom of
+$~\alpha~$ or a deduction
+from
+a higher 
+ancestor
+node in this tree using one of
+the
+ following
+six % deduction 
+elimination
+rules for the logical connective symbols of
+$~\wedge~$,  $~\vee~$,   
+$~ \rightarrow ~$, $~\neg~$, $~\forall~$ and $~\exists~$.
+These six rules are described below in a context where
+the 
+expression
+``{\bf $ \,  $A$  ~  \Longrightarrow  ~  $B$  \, $}''
+is an abbreviation for the sentence
+ {\bf $ \,   $B$  \, $} 
+being
+ an allowed deduction
+from its ancestor of {\bf $ \,  $A$  \, $}.
+\begin{enumerate}
+%\itemsep 5pt
+%note \small
+%%corebl \baselineskip = 1.05 \normalbaselineskip
+\item $~ \Upsilon \wedge \Gamma \, ~ \Longrightarrow ~ \, \Upsilon
+~$ 
+and 
+$~ \Upsilon \wedge \Gamma \, ~ \Longrightarrow ~ \, \Gamma ~$ .
+$~~~$
+\item $ \,  \neg  \,\neg \, \Upsilon  \,  \Longrightarrow  \,  \Upsilon. \, $  
+Other rules for
+the ``$ \, \neg \,$'' symbol  are:
+$ \, \neg ( \Upsilon \vee \Gamma )  \,  \Longrightarrow  \,  \neg \Upsilon
+\wedge \neg \Gamma$,
+%\newline
+$ \, \neg ( \Upsilon \rightarrow \Gamma )  \,  \Longrightarrow  \,   \Upsilon
+\wedge \neg \Gamma \, $,
+$ ~~~~\, \neg ( \Upsilon \wedge \Gamma )  \,  \Longrightarrow  \,  \neg
+\Upsilon \vee \neg \Gamma \, $,
+ $~ \,   \neg \, \exists v \, \Upsilon  (v)  \,  \Longrightarrow  \,  
+\forall v   \neg \, \Upsilon  (v)  \, $
+ and $ ~~\,   \neg \, \forall v \, \Upsilon  (v)  \,  \Longrightarrow  \,  
+\exists v \,  \neg  \Upsilon  (v)$
+\item A pair of sibling nodes $~ \Upsilon ~$ and $~ \Gamma ~$ is
+allowed
+when their ancestor is
+$~\Upsilon \, \vee \, \Gamma.~$
+\item A pair of sibling nodes $ \,  \neg \Upsilon  \, $ and $ \,  \Gamma  \, $ is
+allowed
+when their ancestor is
+$ \, \Upsilon \, \rightarrow \, \Gamma$.
+\item $\forall v \, \Upsilon  (v)  \,  \Longrightarrow    \, \Upsilon(t)  \, $
+where $t$  may denote any 
+term.
+%%  (These terms may be any one of
+%% a constant symbol,
+%% a  parameter symbol 
+%% or a more complex object in our language $L^*$ that combines
+%% its function symbols, constant symbols and parameter symbols
+%% in a routine manner)
+\item $~ \exists v \, \Upsilon  (v) ~ \Longrightarrow ~ \, \Upsilon(p) ~$
+where $\,p \,$ is a newly introduced parameter symbol. 
+\end{enumerate}
+A minor additional comment about our notation is that we treat 
+ ``$~ \forall~ v \leq s~~~ \Phi(v)~$''
+as an abbreviation for
+ $~ \forall  v  ~~ \{ ~ v \leq s~~ \rightarrow ~~\Phi(v)~ \}~$
+and likewise
+ ``$~ \exists~ v \leq s~~~ \Phi(v)~$''
+as an abbreviation for
+ $~ \exists  v  ~~ \{ ~ v \leq s~~ \wedge ~~\Phi(v)~ \}~$.
+In our year-2005 article \cite{ww5}, we thus applied
+Rules  5 and 6 
+to derive the following further hybrid rules
+for processing bounded universal and
+ bounded
+ existential quantifiers:
+\begin{description}
+\item[  a. ]  
+ $\forall v \leq s  \, \Upsilon  (v) ~~ \Longrightarrow ~~
+t \leq s \, \rightarrow \, \Upsilon(t) $ 
+where $\,t \,$ may be any arithmetic term.
+\item[  b. ] 
+ $~ \exists v \leq s ~ \, \Upsilon  (v) ~~ \Longrightarrow ~ ~
+u \leq s ~ \wedge~ \Upsilon(p) ~$
+where $\,p \,$ is a new parameter symbol. 
+\end{description}
+
+
+% \smallskip
+
+{\bf ACKNOWLEDGMENT:} I thank Seth Chaiken for several helpful comments about
+how to
+improve the presentation.
+
+
+\bibliographystyle{abbrv}
+
+\bibliography{bb}
+
+
+\end{document}
+	
+
+
+

@@ -1,0 +1,49 @@
+
+Wheat and Chessboard Probelm
+
+started 400-600 Ad not known when
+
+Sissa Ibn Dahir supposedly invented chess board.
+
+Asked by King how he should be rewarded for such an invention
+Reply was to put one grain of wheat on first square, 2 grains
+on second square 4 on third square etc. King laughed at his small request and
+replied he would be glad to do this as a reward to the inventor
+of the chess board.  But King  could not satisfy this request.
+
+This exemplifies difference between an arithmetic and exponial
+growth.
+
+I CHANGED MY MIND and term COMPACT REDUCER is better to use
+below than COMPACT INVERTER.
+
+In particular, my next paper will use the term  COMPACT REDUCER
+  `` COMPACT REDUCER for a base axiom system of \gamma 
+to describe and integer X that has the property that 
+ \gamma can prove:
+
+\forall Y  \exists Z such that X*Y= Z
+
+The basic point if that it is easy to construct
+systems \gamma that  can prove the identity that
+
+\forall X if X is a compact reducer (for \gamma) then
+so is X*X a compact reducer (for \gamma).
+
+I developped this theorem while teaching Robert. The point
+is that it leads to a simpler proof of a trivially
+modified version circle-dot (where Item I is changed to require
+that base axiom system A recognizes either addtion or
+doubling as total functions). Either of these two changes
+is good enough.  when formalism A can prove a fixed finite
+subset of PA's Pi_1* theorems.
+
+Possibly ``compact reducer'' to ``ironic reducer'' or
+''ironic compactifier'' or ``compact multiplier'' 
+but I like ``compact reducer''
+best.
+
+It also has advatage of introducing generalizations called
+Compact ``(J,K)'' Reducers.
+and similarily ``Compact (J,K) Reduction Theorems''.
+

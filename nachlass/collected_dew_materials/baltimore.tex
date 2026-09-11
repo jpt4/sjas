@@ -1,0 +1,139 @@
+%%%%  septem10 correction  10.2am  MISSING WORD FIX UP 
+
+
+
+\documentclass[bsl,meeting]{asl}
+
+\pagestyle{plain}
+
+\def\urladdr#1{\endgraf\noindent{\it URL Address}: {\tt #1}.}
+
+\newcommand{\ep}[1]{Equation (\ref{#1})}
+\newcommand{\NP}{}
+
+\begin{document}
+\thispagestyle{empty}
+
+
+\NP  
+\absauth{Dan E. Willard}
+\meettitle{On 
+the Utility of 
+Partial Evasions
+of the Second Incompleteness Theorem in the Modern
+Digital Era}
+\affil{Computer Science \& Mathematics Departments, 
+University at Albany, NY 12222}
+\meetemail{dwillard@albany.edu}
+
+ \normalsize
+ % \Large
+% \baselineskip = 2.0 \normalbaselineskip 
+ \baselineskip = 1.0 \normalbaselineskip 
+
+We have published several articles
+about 
+generalizations of the Second Incompleteness  
+ Theorem
+and partial
+evasions of it under
+formalisms that own a partial
+knowledge about their own self-consistency.  
+This research has included six articles
+in the JSL and APAL plus several additional papers,
+all of which are 
+cited by us in
+paper \cite{ww18}.
+In a context where $\alpha$ is a set of proper axioms and
+$d$ is one of several possible deduction methods, the ordered pair
+$(\alpha,d)$ will be called {\bf Self Justifying} iff:
+\begin{description}
+  \item[  i   ] one of  $~(  \alpha  , d  )$'s  theorems
+(or possibly one of $\alpha$'s axioms)
+will
+state that the deduction method $ \, d, \, $ applied to the
+axiom
+system $ \, \alpha, \, $ 
+is formally consistent.
+\item[  ii   ]
+   and also  the axiom system $ \, \alpha  \, $ is actually consistent.
+\end{description}
+We noted  the 
+Fixed Point Theorem enables one to map 
+any ordered pair $(\alpha,d)$ onto an axiom system $\alpha^d$
+that includes all $\alpha$'s axioms plus an added axiom
+statement  declaring:
+\begin{quote} 
+$\oplus~~~$ {\it
+``There is no proof 
+(using 
+$d$'s deduction method)
+of  $0=1$
+from the  {\it union}
+ of
+the
+ axiom system $\, \alpha \, $
+with {\it this}
+statement $~\oplus ~$ (looking at itself)''.}
+\end{quote}
+The difficulty with statement 
+$\oplus$ is that it is typically false, {\bf  although it can be quite easily
+encoded.} This is because if the ordered pair $(\alpha,d)$ is too
+strong then the system   $\alpha^d$ will be rendered
+inconsistent via a classic
+G\"{o}del
+ Diagonalization construction (e.g.
+causing $(\alpha^d,d)$ to violate Part-ii of
+Self-Justification's
+ definition).
+
+These issues  raise  {\bf legitimate concerns}
+about whether  boundary-case
+exceptions to the Second Incompleteness Theorem are 
+an awkward  wrinkle
+from a theoretical  standpoint.
+ Aside from generalizing our earlier
+results, our new paper suggests its proposals can be
+ significant  from a {\it pragmatic perspective.}
+For instance,
+ the late physicist
+Stephen Hawking
+has predicted that global warming
+and other dangers will likely be so severe
+that civilization in our Solar System
+will find it difficult to persist without
+employing
+ artificially
+intelligent
+computers, 
+{\it in at least some respect.}
+
+One would
+ideally
+ prefer computers to imitate a human's approximate
+instinctive appreciation 
+of  his own consistency.  
+Our paper \cite{ww18} observes  self-justifying
+computers can do this in  a pragmatic manner,
+when $(\alpha,d)$ is sufficiently weak.
+Moreover
+{\it with quite comparable efficiency}, our formalisms can
+nicely
+ reconstruct  isomorphic 
+analogs of
+all  the  $\Pi_1$ theorems of Peano Arithmetic  under a 
+slightly revised language.
+\begin{thebibliography}{99}
+\bibitem{ww18}
+Dan E. Willard,
+``About   the 
+Chasm Separating the Goals of
+Hilbert's Consistency Program From the
+Second Incompleteness Theorem''
+http://arXiv.org/abs/1807.04717
+
+% (in the Cornell Archives).
+
+\end{thebibliography}
+\end{document}
+

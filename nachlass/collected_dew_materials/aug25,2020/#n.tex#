@@ -1,0 +1,136 @@
+% 2020 Aug 25 3.01     pm  after spell
+
+% From 2020 Aug 20 415  pm
+
+
+ % 2018 pesquera
+
+ \documentstyle[12 pt]{article}
+ \addtolength{\oddsidemargin}{-1.1in}
+ %\addtolength{\textwidth}{1.0in}
+ \addtolength{\textwidth}{1.9in}
+ \addtolength{\topmargin}{-1.2 in}
+ \addtolength{\textheight}{2.5in}
+ %\parskip 1 pt
+
+ \newcommand{\newthmwithin}[3]{\newtheorem{#1q}{#2}[#3]
+                         \newenvironment{#1}{\begin{#1q}\sf}{\end{#1q}}}
+
+ \newcommand{\newthm}[3]{\newtheorem{#1q}[#2q]{#3}
+                         \newenvironment{#1}{\begin{#1q}\sf}{\end{#1q}}}
+ \newcommand{\newthmm}[3]{\newtheorem{#1q}[#2q]{#3}
+                         \newenvironment{#1}{\begin{#1q}\rm}}
+
+ \newtheorem{theorem}{Theorem}
+ %\newtheorem{theorem}{Theorem}[section]
+ \newtheorem{lemma}{Lemma}
+ \newtheorem{corollary}{Corollary}
+ \newtheorem{fact}{Fact}[section]
+ \newcommand{\makenewheading}[1]{\begin{tabbing} {\bf #1:} \end{tabbing}}
+ \newcommand{\set}[1]{\{ #1 \}}
+
+ \newcommand{\cp}[1]{\mbox{\sc cap}(#1)}
+ \newcommand{\dem}[1]{\mbox{\sc dem}(#1)}
+
+ %\newenvironment{proof}{{\it Proof:}}
+ \newenvironment{proof}{{\it Proof:}}{$\Box$}
+ \newenvironment{sketchproof}{{\it Sketch of Proof:}}{$\Box$}
+
+ \newcommand{\order}[1]{$\mbox{O}\left(#1\right)$}                   
+
+ \newcommand{\rootm}{\sqrt{m}}
+
+ \newcommand{\floorz}{$ (\lfloor|Z|/2  \rfloor -1) $}
+ \newcommand{\mfloorz}{ (\lfloor|Z|/2  \rfloor -1)}
+ \newcommand{\mceilz}{ (\lceil|Z|/2 \rceil + 1)}
+ \newcommand{\ceilz}{$ (\lceil|Z|/2 \rceil ) $}
+
+ \newcommand{\floor}[1]{\lfloor #1 \rfloor}
+ \newcommand{\lbound}[1]{$\Omega\left(#1\right)$}
+
+ \newcommand{\mod}[1]{\left| #1 \right|}
+ \newcommand{\belongs}{$\in$}
+
+ \def\bed{\begin{description}}
+ \def\ennd{\end{description}}
+ \def\bee{\begin{enumerate}}
+ \def\ene{\end{enumerate}}
+
+
+ \newcommand{\co}[1]{Corollary \ref{#1}}
+ \newcommand{\th}[1]{Theorem \ref{#1}}
+ \newcommand{\lem}[1]{Lemma \ref{#1}}
+ \newcommand{\eq}[1]{(\ref{#1})}
+ \newcommand{\ep}[1]{Equation (\ref{#1})}
+ \newcommand{\underx}[1]{\underbrace{~ {#1} ~}}
+
+
+
+
+
+
+
+
+
+
+
+ \begin{document}
+ \thispagestyle{empty}
+ \large
+ \normalsize
+ % \small
+ \baselineskip = 1.6 \normalbaselineskip
+
+ \parskip 5 pt
+ %\begin{center}
+ $.$
+ \small
+ \bigskip
+ \noindent
+ {\bf  NNN Notarized Scientific Notes of Dan E. Willard on August  25,2020}, $~~~$  
+
+
+  % 266
+
+ \Large
+\normalsize
+\footnotesize
+\baselineskip =1.0 \normalbaselineskip
+
+\Large
+\baselineskip =1.6 \normalbaselineskip
+\parskip 4 pt
+
+On Aug 20, I reported that after I gave
+Robert a class about logic (over internet),
+ I developped a much refined understanding about the Propositional
+ Calculus version of the compactness theorem (appearing in Enderton's
+ textbook). Now after an Aug 24 class, I developped a second improved
+ proof of preceding, where the
+  ``unknown'' symbol (for when a Boolean value is unknown) is
+ called
+``Zip'' or
+ ``Zippy'', and a fourth symbol is a never-employed
+ symbol,   called ``Opps''
+ Here False, True, Zippy and Opps carry
+ the numeral values of 0, 1, 2, and 3 in a
+ ``quadruple'' analog of a decimal encoding.
+
+ 
+ I also
+ want to record that I plan to telephone Peter Bloniarz tommorow
+ about a glitch in New York State security that he may not know about.
+ It is that workers in the NYS bureaucracy are using their insecure home
+ computers when servicing customers via transferred telephone calls.
+ Since these workers have access to social security numbers, an
+ obvious security breach is possible.
+
+ 
+ I also developped after talking to Robert an improved
+ proof of  Enderton's
+ A-version of the Compleness Theorem.
+ I don't have time to go into more  details here
+ about any of these topics   because I need to do my taxes today.
+ This records a continuation of my on-going research,
+
+ \end{document}
