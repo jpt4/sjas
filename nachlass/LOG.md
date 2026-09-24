@@ -4776,3 +4776,258 @@ Division: with no `·` there is no alternative. The earlier phrasing here,
 `audit.sh` green. R-F flagged the Prolog predicate indicator for `leq` as a
 repository path — the standing interaction the register's own note predicts —
 and it was reworded rather than suppressed.
+
+## 2026-09-24 — Ramesh's introspective theories: where SJAS breaks them
+
+An exchange of 2026-09-23/24, logged at the user's request, with one claim
+recorded together with its justification as asked. The four prompts, verbatim:
+
+> The following thesis establishes very general conditions for the
+> applicability of Loeb's Theorem. Determine how it relates to SJAS; does it
+> identify general conditions which SJAS violates?
+> https://escholarship.org/content/qt3mn0c475/qt3mn0c475_noSplash_0e82b06c6f06efde9e63e5f8825b619b.pdf?t=s1a3t7
+
+> Read the entire thesis and corroborate or refute your current assessment.
+
+> Q, Type-S Hilbert systems (Solovay) and IΣ₀ under tableaux (Willard2007-APAL
+> Thm 6) also lack the canonical equipment <- please elaborate.
+
+> 1) Please log this exchange. Record especially the following, and its
+> justification: "So SJAS's canonical equipment fails at local
+> representability. The hom-objects, the Σ₁ sets of proofs, do exist; what
+> fails is that composition between them is a morphism of T." 2) What is
+> Parikh's theorem?
+
+### The source
+
+Sridhar Ramesh, *Introspective Theories and Geminal Categories*, PhD
+dissertation (Logic and the Methodology of Science), UC Berkeley, Summer 2023;
+committee Scanlon (chair), Goldberg, Holliday, Montalbán, Shulman; eScholarship
+item `3mn0c475`. 140 PDF pages; printed page = PDF page − 9 from PDF 10 on.
+SHA-256 `32f593ba4c821323f8be910bfb347b906c2e1e6e7d760ca6f4251d3692c484a9`.
+**Not added to `refinement/lit/`**: the file is held only in the session
+scratchpad, so a Refinement document citing it would fail R-C until the witness
+is acquired. Coverage, as ranges: text layer PDF pp. 1–140; rendered page
+images PDF pp. 1–140. The first image reads of PDF pp. 1–45, 54, 72, 87 and 91
+were stripped by the tool's media limit and were re-read. `pdftotext` drops
+every `□` (hazard H2); all were restored from the images. The text layer
+mentions neither Willard, nor Robinson's Q, nor `IΔ₀`, nor bounded arithmetic.
+
+### What the thesis proves
+
+An **introspective theory** `⟨T, C, S, N⟩` (Defs. 2.6–2.7, PDF 56–57): `T` a
+lexcategory; `C` a `T`-indexed lexcategory; `S : T → Glob(C)` a lexfunctor;
+`N : id ⇒ Hom_C(1, S(−))` natural. **Locally introspective** (Def. 2.8): `C`
+locally representable. **Introspective**: `C` representable. Three results
+carry this entry:
+
+- **Thm 4.15** (PDF 87, image-verified), pre-introspective diagonalization. Its
+  `App : X × X → Ω` is a morphism of `T`: "By the surjectivity presumption on
+  Q, we find a preimage of this under the action of Q : Ω → P(⋆_C). We take
+  this preimage to be our App : X × X → Ω."
+- **Thm 4.17** (PDF 88): a *locally* introspective theory plus **one**
+  isomorphism `X ≅ P(S(X))` gives the Löb property for that `P`.
+- **Thm 4.18 → 4.19** (PDF 91): representability supplies that isomorphism for
+  every `G`, hence Löb, with uniqueness, for every `P`.
+
+The canonical logical instance (Constr. 2.9–2.10, PDF 58–62): `T` is the
+`Σ₁`-definable sets modulo ZF-Finite-provable equality; `C` is `Z′`, the
+internal copy of *all* definable sets; `N` is the numeral map, "witnessing the
+provable entailment from truth to provability for Σ1 formulae". Warning 2.11:
+`⟨Z, Z′⟩` is not introspective, because `N` forces `T` to be `Σ₁`. Obs. 6.12:
+`N` is van Dijk–Oldenziel's Lemma 5.15, so the thesis generalizes the AU row of
+`lawvere-sjas.md` §0. Obs. 6.15 calls PA "much stronger than necessary" and
+names no lower bound. No cartesian closure, coproducts or regularity is used.
+
+### The claim, recorded as asked
+
+> So SJAS's canonical equipment fails at local representability. The
+> hom-objects, the Σ₁ sets of proofs, do exist; what fails is that composition
+> between them is a morphism of T.
+
+*Canonical equipment* means `⟨T_α, C_α, S, N⟩` built from a system `α` the way
+Constr. 2.10 builds it from ZF-Finite: `T_α` the `Σ₁`-definable sets and
+`α`-provably total `Σ₁` functions; `C_α` the coded category of `α`'s formulas
+under `α`'s provability and apparatus; `S` quotation; `N` numerals plus
+formalized `Σ₁`-completeness.
+
+**Justification.**
+
+1. **Local representability makes composition a morphism of `T`.** Def. 1.19
+   (PDF 23) calls `C` locally representable when each hom `T`-indexed set
+   `r ↦ {(m, n) | m : r → t, n ∈ Hom_{C(r)}(m*a, m*b)}` is representable.
+   Composition in each aspect `C(r)` commutes with reindexing, since reindexing
+   is a functor; it is therefore a natural transformation between representable
+   `T`-indexed sets, and by Yoneda a morphism of `T`. **This step is ours; the
+   thesis does not state it as a lemma.**
+2. **Thm 4.17 consumes that morphism.** Its proof runs Thm 4.15 through
+   Cor. 4.16 with `App(x₁, x₂) = N_X(x₂)^*(α(x₁))`. For representable
+   `P = Hom_C(−, c)` this is `α(x₁) ∘ N_X(x₂)`: composition at the fixed objects
+   `S(X)` and `c`, with both morphisms ranging over the generic pair. That is
+   R6's **H-M2**, uniform in the witnesses. The surjectivity step uses
+   Lemma 2.24, `S(F) ∘ N_X(x) = N_Ω(F(x))`, uniform in `x`: R6's **H-M3**, in
+   Ramesh's stronger form `t ≤ □t`.
+3. **SJAS systems lack that uniformity.** `Willard1993-TR` printed p. 12
+   (image-verified, R6 §7.2): composition holds "only in the *degenerate case*
+   where `x` and `y` are *fixed constants*". Observation A.10, printed p. 46
+   (image-verified for this entry): "While IS(A) is too weak to prove that
+   concatenation is a total function over the domain arguments x1, x2, ..., xm,
+   it certainly can represent ConcatenateCheck_m (z, x1, x2, ..., xm) as a Δ0
+   formula." The mechanism is R6 §7.4's: Lemma 7.1 (`full`) bounds the glued
+   proof by `64·⌜¬⊥⌝·t·p`, which `IS(PA+)` can use only with `t` fixed.
+4. **The hom-objects exist.** `Prf` has a `Δ₀` encoding (`Willard1993-TR`
+   Theorem A.1(c), `full`), so each set `{p : Prf(p, ⌜φ⌝)}` is definable,
+   indeed `Δ₀`, and is an object of `T`.
+5. **The contrapositive fixes a disjunction; Willard fixes the disjunct.**
+   `IS(A)` is consistent (`Willard1993-TR` Prop. 1, `full`) and proves its own
+   consistency. By Thm 4.17, then, at least one of these fails: `T` lex; `S`;
+   `N` natural; local representability; the isomorphism `X ≅ Hom_C(S(X), ⊥)`.
+   `T` is lex (products by contexts, equalizers by conjunction); `S` exists
+   instance by instance; the fixed point survives at a fixed numeral (R6 §7.1;
+   `Willard2001` Theorem A.1 fn. 16, `stated-only`). That leaves local
+   representability and the naturality of `N`. Willard's own localization of
+   the breach at HBL (2) puts it at local representability.
+
+**What the justification does not establish** (rule 8):
+
+- **The localization is not proved.** Step 5's disjunct is Willard's assertion,
+  carried across with its mechanism explained (R6 §7.4). H-M2's underivability
+  is not proved (R6 §8), so only the disjunction is established.
+- **In the canonical construction the hom-objects are quotients** — found while
+  writing this entry. Constr. 2.9 identifies morphisms up to provable
+  equivalence and requires the defining relations to be *provably* partial
+  equivalence relations (PDF 59). Proving transitivity of provable equivalence
+  is itself uniform proof composition. So the claim is exact for the *raw*
+  `Σ₁` sets of proofs, while the quotient hom-objects the canonical
+  construction uses need the same missing uniformity. Sharper form: **the raw
+  hom-objects exist; every operation that assembles them into a locally
+  representable category — composition, and the transitivity that forms the
+  hom-objects as quotients — is uniform proof composition.**
+- **The `N` disjunct is not idle either.** The same TR page records that
+  `IS(A)` "will be incapable of recognizing that the mapping of i onto i*
+  constitutes a total function", since `i* > i^{6/5}`. Lemma 5.2's `v#` pointer
+  form (`full`) exists to supply a total substitute. Noted, not pursued.
+- **The G2 instance is vacuous in the standard model.** In Thm 4.17's G2
+  application, `X ≅ Hom_C(S(X), ⊥)` has no standard elements when `α` is
+  consistent: a point would compose with `N` into a proof of `⊥`. So the `App`
+  the G2 argument consumes is a map out of an object empty in `ℕ`, and counting
+  growth in `ℕ` cannot show it unprovable. That needs a nonstandard model —
+  R6 §7.4's unwalked route, a cut "closed under Addition, not under the
+  product".
+- **The fixed point has a different form.** Thm 4.17 needs `X ≅ P(S(X))`; for
+  G2 that is the `Σ₁` fixed point `X ↔ □¬X` (the negated Gödel sentence), not
+  R6's `Π₁` `γ ↔ ¬□γ`. Converting one into the other uses `□`'s invariance
+  under provable equivalence (R6 Lemma 3.2, from M1 and M2). Whether SJAS
+  systems obtain the `Σ₁` form directly, by the relational fixed-numeral device
+  of R6 §5.2, is **unchecked**.
+
+### Corrections the full read made to the first assessment
+
+The first answer read the text layer of the front matter, Ch. 0, the start of
+Ch. 1, Chs. 2–4 and §§6.1–6.4. The full read corrects four things it said:
+
+- "Ramesh's proof uses both, so his list can't tell the essential breach from
+  the inert one" — **refuted.** Thm 4.17 against Thm 4.18 is R6 Prop. 7.1's
+  split, found independently: the uniform diagonal (H-C-fn) is Thm 4.18's route
+  *to* the fixed point, not a hypothesis of the Löb step.
+- "`App` … i.e. uniform substitution, which is H-C-fn" — **corrected.** In
+  Thm 4.17's use `App` is composition at fixed objects, uniform in the
+  morphisms: H-M2. Read syntactically the same arrow also substitutes into
+  formulas, which is R6 §7.4's one product seen from the other side.
+- "forced into representability of `C`" — **moved** to local representability.
+- The first answer said page images of printed pp. 45, 63, 78 and 82 had been
+  checked. **They had not been**: those four image reads had been stripped by
+  the tool's media limit and returned nothing. The pages were read as images in
+  the second turn (PDF 54, 72, 87, 91), and nothing drawn from them changed.
+
+These were said in conversation, not written into any document; they are
+recorded here so they do not return.
+
+What survived: Löb holds for every introspective theory, types included; no
+implication is needed, so R6's H-A is inessential; contraction is built in,
+since even the "substructural" Thm 4.25 needs a natural diagonal `δ`; the
+conditions are sufficient only, and Obs. 4.24 notes that local introspection
+alone does not give Löb; and `T` is presentation-free (§1.10), so the
+apparatus enters only as *whether* `C`'s composition is a morphism of `T`,
+never as a length. Also recorded, a name collision: Willard's "IS" is
+"Introspective Semantics" (`Willard1993-TR` p. 2; `Willard2001` p. 9), and those
+systems are exactly the ones that are *not* introspective in Ramesh's sense.
+Ramesh's fn. 1 (PDF 54) records Kruckman's alternative name, "SR-category", SR
+for self-reference.
+
+### The elaboration given: canonical equipment absent, G2 intact
+
+In each case below, G2 is proved through a **restricted box** `□′` with `□′⊥`
+implying `□⊥`, so that `⊢ Con` yields `⊢ Con′`, and the uniformity is paid for
+on the restriction.
+
+- **Q.** Type-M, so growth is not the obstacle; the absence of induction is.
+  Pudlák: no consistent extension of Q proves its own Hilbert consistency
+  (`Willard2006a` Theorem 1, `cited`). `Willard2001` p. 7, image-verified for
+  this entry: "The proofs of the (A) and (B) versions of the Incompleteness
+  Theorem, by Pudlák and Solovay [28, 34], employs such models of IΣ0 + Ωn ,
+  together with the thinning of cut formulae."
+- **Type-S Hilbert.** Growth is the obstacle, as for SJAS. Solovay
+  (`Willard2001` Theorem A.2, `sketch`): cuts `J₀`–`J₃` (Eqs. 79–82);
+  `Der₂(x) = ∃y (J₂(y) ∧ HilbPrf_α(x, y))`; Wilkie–Paris gives `Der₂` the
+  derivability conditions (fn. 20); Theorem A.1 (`stated-only`) finishes.
+- **`IΣ₀` under tableaux.** Composition is cut elimination, which can be
+  super-exponentially longer (`Willard2002a` Theorem 2.2, `sketch`).
+  `Willard2007-APAL` Theorem 6 (`full`, via Theorem 5 `full` and Lemma 8
+  `sketch`) runs on Willard's hypotheses A, B and C\*, not on HBL. Its box is
+  `SemPrf^K`, the `K`-small proofs (Def. 2); C\* comes from formalizing
+  Theorem 4 (`full`) in `IΣ₀`; and it needs `Υ_n`, repeated squaring (Def. 6,
+  Lemma 2 `full`) — the lemma Willard says dies without multiplication.
+
+Synthesis, this Refinement's, not Willard's: what decides G2 is whether *some*
+weaker box admits the structure, and SJAS systems sit where none does. On the
+Hilbert line the thinning has no successor-closed cut to start from:
+`ISREF(A)`, which does not recognize Successor as total, cannot view its
+tangibility predicate as a definable cut (`Willard2001` pp. 5–6, criterion
+III). On the tableaux line cuts exist — `IS^λ(A)` *can* view `TangRoot` as one —
+and what is missing is the squaring `Υ_n` needs. This also sharpens the earlier
+conjecture: Ramesh's sub-introspection (Constr. 2.22) would have to rebuild
+`Der₂` on the `J₂`-bounded full subcategory. Not attempted.
+
+### Parikh's theorem, and a narrowing of how the exchange used it
+
+R. Parikh, "Existence and Feasibility in Arithmetic", JSL 36 (1971) 494–508.
+Willard cites it: `Willard2001` ref. [25], in the p. 7 survey of definable cuts
+and fast-growing functions; also `Willard2002c` [10], `Willard2005` [36],
+`Willard2006a` [22], `Willard2020` [33], located via the text layer. The
+theorem: if `T` is axiomatized by bounded formulas and proves `∀x ∃y φ(x, y)`
+with `φ` bounded, then for some term `t`, `T ⊢ ∀x ∃y ≤ t(x) φ(x, y)`. Standard
+consequence: `IΔ₀` does not prove exponentiation total. The proof builds, in a
+nonstandard model, the initial segment of elements below `t(a)` for some term
+`t`, and shows it still models `T`. **Not verified against a held witness**:
+stated from standard knowledge.
+
+The first answer said: "SJAS axioms are Π₁, so Parikh's theorem bounds every
+provably total function by a term … That excludes the product-growth operations
+of R6 §7.4 under any equipment". Narrowed:
+
+- It needs bounded axiomatization. Where Addition-totality is a `Π₂` axiom (the
+  1993 and 2001 presentations, R6 §7.4), Skolemize first; the terms then
+  include `+`.
+- Turning a term bound into a contradiction needs soundness and one input on
+  which every witness is large. That disposes of non-vacuous uniform statements
+  and says nothing about the vacuous G2 instance above.
+- "Under any equipment" repeats, in new form, the aggregate-versus-every
+  overclaim R6 §7.4 withdrew. A count supplies the bad input only if the
+  operation has superlinearly many distinct required outputs, and that is not
+  shown for composition modulo provable equivalence. **Withdrawn.**
+- A non-vacuous candidate does look provable this way: transitivity of provable
+  equivalence with `G` fixed and `F`, `H` growing forces a conclusion whose code
+  is about `F·H`. It would prove the quotient failure above for sound Type-A
+  systems — and, since it never mentions the apparatus, for the G2-bound Type-A
+  Hilbert systems too: one more reason canonical-equipment failure cannot be the
+  SJAS boundary. Not carried out; it depends on a lower bound for proofs of
+  `F ↔ H` in terms of `|F| + |H|`.
+- Parikh's **proof**, not its statement, is what connects to R6 §7.4: it builds
+  exactly the term-closed initial segment of a nonstandard model that R6 names
+  as the candidate countermodel.
+
+No Refinement document was changed, so no quotation-register rows were added.
+If this entry is promoted into R6, the Ramesh, `Willard1993-TR` p. 46 and
+`Willard2001` p. 7 quotations need rows, and the thesis needs a `lit/` witness.
+`audit.sh` green.
