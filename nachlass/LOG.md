@@ -5486,3 +5486,85 @@ a huge number. If this survives, Willard's breach location is a property of
 compressible representations, not of self-justification as such.
 
 `audit.sh` green: R-B at 98 rows, R-C at 7 witnesses, all resolving.
+
+## 2026-09-25 — Code versus representation; `Code` renamed `Syn`; a worked certificate
+
+Two exchanges, logged at the user's request.
+
+### A. The question, verbatim
+
+> > (Gödel's second theorem applies to codes) <- What is the difference between
+> > a code and a representation?
+
+**The answer given.** Both are representations of proofs, and "representation"
+is the genus: a sort of objects together with a checker recognizing which
+objects stand for which proofs.
+- **A code** is a representation in a *free* sort: data the theory can build
+  from nothing, copy and compute over.
+- **A certificate** is a representation in a *resourced* sort. In λᶜᵉʳᵗ that is
+  `R`, where each node costs a token used at most once.
+
+In λᶜᵉʳᵗ the two represent the same derivations with the same shapes, related
+by `print`. They differ in the operations available:
+- codes can be built, copied, quoted and composed freely, and cannot be parsed
+  into certificates;
+- certificates cost a token per node, cannot be copied, are quoted only at
+  twice their size, and are composed at a constant token cost.
+
+**Why the second theorem "applies to codes".** Löb's derivation needs uniform
+composition, uniform quotation and uniform copying. On codes the ordinary layer
+defines all three by recursion and can prove them correct, so consistency
+quantified over codes is unprovable (standard; not verified here). On
+certificates, quotation and copying fail for any fixed budget, so Löb's
+derivation cannot be run on `H°`.
+
+**The distinction is relative to the theory.** The same Gödel numbers are codes
+to PA. To Willard's `IS(A)` they behave as certificates do here, because the
+uniform operation Löb needs — composition, in his case — is unavailable. So
+Willard has to weaken his only sort, while λᶜᵉʳᵗ confines the restriction to
+one of two sorts.
+
+**The answer also exposed a sloppiness in the answers to Q4 and Q6 of the
+previous entry.** "Code" had been used in two opposite senses: Willard's Gödel
+numbers, which play the *certificate* role relative to `IS(A)`, and λᶜᵉʳᵗ's
+free sort.
+
+### B. The follow-up, verbatim
+
+> Yes; give an example program in the "ordinary layer" of the lambda-cert
+> calculus, and its certificate.
+
+("Yes" accepts the offer to rename the free sort, add a terminology paragraph
+to the R4 draft, and log the exchange.)
+
+**Changes to `refinement/R4-certificate-calculus.md`:**
+- **`Code` is renamed `Syn`,** with constructors `sleaf` and `snode`
+  throughout. In prose "code" now means only a representation in a free sort.
+  The earlier log entries keep the old name, as history.
+- **New §2.0, Terminology:** representation, code and certificate; the table
+  of operations; the theory-relativity of the distinction; and the naming note.
+- **New §2.7, a worked example.** The program is
+  `not := λx:Bool. if x then ff else tt : Bool → Bool`. The section gives:
+  - the five rules of the fragment it needs (BoolF, TT/FF, Var, Lam and a
+    primitive If);
+  - its six-instance derivation;
+  - one admissible encoding, over a finite label set with unary de Bruijn
+    indices, writing contexts entry by entry as §3's stipulation requires;
+  - the code `c_not : Syn`, which is free;
+  - the certificate `r_not : R` with its 35 internal nodes written out, each
+    consuming a token `x₁…x₃₅` in preorder.
+
+  Consequences shown: `⊢ (c_not, ⋆) : Σ(c : Syn). T(chk′(c, ⌜Bool → Bool⌝))`
+  holds with no tokens, while `Θ₃₅ ⊢ (r_not, ⋆) : □(Bool → Bool)` needs 35 —
+  D1 for codes and for certificates respectively. The term `not` is 4 nodes;
+  the rest is judgments, chiefly the context repeated at every node.
+- **The node counts were computed mechanically** by a scratch script, not
+  committed, and agree with a hand count: 2, 5, 4, 4, 23 and 35 for D1, D3,
+  D4, D5, D2 and D0.
+- **Hofmann's reading of `◇` as memory** — "under the reading of ◇ as a
+  certain amount of memory space proposed in [9]", printed p. 82 — is quoted,
+  and the p. 82 register row is extended to carry it. On that reading, a
+  certificate occupies one cell per node, and the calculus allocates no cell it
+  was not given.
+
+`audit.sh` green.

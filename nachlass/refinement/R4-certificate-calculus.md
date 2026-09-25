@@ -52,6 +52,42 @@ It tests three things.
 
 ## 2. The calculus
 
+### 2.0 Terminology: representation, code, certificate
+
+- **A representation** of proofs is a sort of objects together with a checker
+  that recognizes which objects stand for which proofs. It is the genus; the
+  next two are species.
+- **A code** is a representation in a *free* sort: ordinary data that the
+  theory can build from nothing, copy, and compute over without restriction.
+  Gödel numbers are the classical instance. Here, the values of the type `Syn`
+  are codes.
+- **A certificate** is a representation in a *resourced* sort. Here, the values
+  of `R`: every internal node costs one token, and tokens are used at most once.
+
+The two sorts represent the same derivations with the same tree shapes, and
+`print : R ⊸ Syn` maps a certificate to the code of the same tree (§2.3). What
+separates them is the operations the theory has on them:
+
+| Operation | Codes (`Syn`) | Certificates (`R`) |
+| --- | --- | --- |
+| build from nothing | free | one token per node |
+| copy | free | impossible — it would double the tokens |
+| quote one inside another | free: a literal term | costs the certificate's size again, twice over (§4) |
+| compose two into a third | free | a constant number of tokens (§4) |
+| convert to the other sort | no parse into `R` | `print` |
+
+**The distinction is relative to the theory, not intrinsic to the data.** The
+same Gödel numbers are codes to PA. To Willard's `IS(A)` they play the role
+certificates play here: the uniform operations Löb's derivation needs are not
+available on them — composition, in his case (R6 §7.4). Willard has one sort,
+so he weakens the whole arithmetic. λᶜᵉʳᵗ has both sorts, keeps the ordinary
+layer at full strength, and confines the restriction to `R`.
+
+*Naming note.* An earlier state of this draft called the free sort `Code`. It
+is renamed `Syn` so that "code" is not used in two opposite senses: Willard's
+Gödel numbers, which play the certificate role relative to `IS(A)`, and this
+calculus's free syntax data.
+
 ### 2.1 Usages
 
 Judgments carry usages in the style of quantitative type theory, drawn from
@@ -69,9 +105,9 @@ at `ω`, and erased variables can never be used at runtime.
 
 ### 2.2 Types and terms
 
-- **Base types.** `1`, `0`, `Bool`, `Nat`, and `Code` (finite trees over a finite
-  label set `L`, with constructors `cleaf : L → Code` and
-  `cnode : L → Code → Code → Code`, which take no `◇`).
+- **Base types.** `1`, `0`, `Bool`, `Nat`, and `Syn` (finite trees over a finite
+  label set `L`, with constructors `sleaf : L → Syn` and
+  `snode : L → Syn → Syn → Syn`, which take no `◇`).
 - **Type formers.** Dependent `Π` and `Σ` with usage annotations; `⊗`; `&`.
 - **Propositions.** The family `T : Bool → Type`, with `T(tt) ≡ 1` and
   `T(ff) ≡ 0`.
@@ -107,8 +143,8 @@ operators take closed arguments ("an operator is applicable to closed terms
 only", p. 61). Here usage scaling does the same job for tokens, and leaves
 ordinary variables free.
 
-**`print : R ⊸ Code`** is defined by elimination: `node ↦ cnode`, `leaf ↦
-cleaf`, and each `◇` is dropped (affine weakening). It preserves shape, so the
+**`print : R ⊸ Syn`** is defined by elimination: `node ↦ snode`, `leaf ↦
+sleaf`, and each `◇` is dropped (affine weakening). It preserves shape, so the
 number of internal nodes of `print v` is `‖v‖`. **There is no map in the other
 direction.** A code carries no tokens, and a node needs one.
 
@@ -121,7 +157,7 @@ work", p. 82). Hofmann's restricted duplication with a passive result,
 
 ### 2.4 The checker, and self-reference by name
 
-**`chk′ : Code → Code → Bool`** is a primitive. For closed canonical codes `c`
+**`chk′ : Syn → Syn → Bool`** is a primitive. For closed canonical codes `c`
 and `d`, `chk′(c, d)` reduces to `Check(c, d)`, where `Check` is an external
 algorithm.
 
@@ -174,6 +210,171 @@ row; R6 §7.1).
 Write `Θₙ = x₁ :₁ ◇, …, xₙ :₁ ◇`. A **refutation with budget `n`** is a term `t`
 with `Θₙ ⊢ t : 0`. A closed refutation has budget 0.
 
+### 2.7 A worked example: `not`, its code, and its certificate
+
+**The program.** In the ordinary layer:
+
+> `not := λx:Bool. if x then ff else tt`, of type `Bool → Bool`.
+
+`→` is `Π` at usage `ω`.
+
+**The rules it uses.** The full rule table is not yet fixed (§7). This is the
+fragment the example needs:
+
+| Rule | Premises | Conclusion |
+| --- | --- | --- |
+| BoolF | — | `Γ ⊢ Bool type` |
+| TT, FF | — | `Γ ⊢ tt : Bool`, `Γ ⊢ ff : Bool` |
+| Var | — (the entry was checked when the context was extended) | `Γ, x :ω A, Γ′ ⊢ x : A` |
+| Lam | `Γ ⊢ A type`, `Γ, x :ω A ⊢ b : B` | `Γ ⊢ λx:A. b : A → B` |
+| If | `Γ ⊢ b : Bool`, `Γ ⊢ t : C`, `Γ ⊢ e : C` | `Γ ⊢ if b then t else e : C` |
+
+`If` is taken as primitive here. It is the constant-motive case of `Bool`'s
+dependent eliminator, and with only the eliminator, the certificate would also
+contain the motive's formation derivation.
+
+**The derivation.** Six rule instances:
+
+```
+D1  BoolF   ⊢ Bool type
+D3  Var     x:ωBool ⊢ x : Bool
+D4  FF      x:ωBool ⊢ ff : Bool
+D5  TT      x:ωBool ⊢ tt : Bool
+D2  If      x:ωBool ⊢ if x then ff else tt : Bool       from D3, D4, D5
+D0  Lam     ⊢ λx:Bool. if x then ff else tt : Bool → Bool   from D1, D2
+```
+
+**One admissible encoding**, fixed for the example. It satisfies the
+stipulation under A in §3: contexts are written entry by entry. Labels are
+drawn from a finite set `L`, and variables are unary de Bruijn indices.
+
+| Object | Encoding |
+| --- | --- |
+| rule instance `ρ` with judgment `J`, premises `D₁…D_k` | `node(ρ, J, list(D₁…D_k))`; `list` is a spine of `cons` nodes ending in `leaf nil` |
+| `Γ ⊢ t : A` | `node(has, Γ, node(pair, t, A))` |
+| `Γ ⊢ A type` | `node(isType, Γ, A)` |
+| empty context; `Γ, x :ω A` | `leaf empty`; `node(ext_ω, Γ, A)` — one node per entry |
+| `Bool`; `A → B` | `leaf bool`; `node(arrow, A, B)` |
+| variable `i` | `node(var, i, leaf nil)`, with `0 = leaf zero`, `i+1 = node(succ, i, leaf nil)` |
+| `tt`, `ff` | `leaf tt`, `leaf ff` |
+| `λx:A. b` | `node(lam, A, b)` |
+| `if b then t else e` | `node(if, b, node(branches, t, e))` |
+
+Internal nodes per derivation node, computed mechanically: D1 = 2, D3 = 5,
+D4 = 4, D5 = 4, D2 = 23, **D0 = 35**. The term `not` alone is 4 nodes; the rest
+is the judgments, in particular the context repeated at every node.
+
+**The code.** `c_not : Syn` is this tree built from `snode` and `sleaf`. It is
+a closed ordinary term, costs nothing, and can be copied freely. Since
+`chk′(c_not, ⌜Bool → Bool⌝)` reduces to `tt`, where
+`⌜Bool → Bool⌝ = snode(arrow, sleaf bool, sleaf bool)`, the ordinary layer
+proves
+
+> `⊢ (c_not, ⋆) : Σ(c : Syn). T(chk′(c, ⌜Bool → Bool⌝))`
+
+with no tokens: the instance of D1 for codes.
+
+**The certificate.** `r_not : R` is the same tree built from `node` and `leaf`.
+Its 35 internal nodes each consume a token, taken in preorder from `Θ₃₅`:
+
+```
+node x1 Lam
+  node x2 has
+    leaf empty
+    node x3 pair
+      node x4 lam
+        leaf bool
+        node x5 if
+          node x6 var
+            leaf zero
+            leaf nil
+          node x7 branches
+            leaf ff
+            leaf tt
+      node x8 arrow
+        leaf bool
+        leaf bool
+  node x9 cons
+    node x10 BoolF
+      node x11 isType
+        leaf empty
+        leaf bool
+      leaf nil
+    node x12 cons
+      node x13 If
+        node x14 has
+          node x15 ext_ω
+            leaf empty
+            leaf bool
+          node x16 pair
+            node x17 if
+              node x18 var
+                leaf zero
+                leaf nil
+              node x19 branches
+                leaf ff
+                leaf tt
+            leaf bool
+        node x20 cons
+          node x21 Var
+            node x22 has
+              node x23 ext_ω
+                leaf empty
+                leaf bool
+              node x24 pair
+                node x25 var
+                  leaf zero
+                  leaf nil
+                leaf bool
+            leaf nil
+          node x26 cons
+            node x27 FF
+              node x28 has
+                node x29 ext_ω
+                  leaf empty
+                  leaf bool
+                node x30 pair
+                  leaf ff
+                  leaf bool
+              leaf nil
+            node x31 cons
+              node x32 TT
+                node x33 has
+                  node x34 ext_ω
+                    leaf empty
+                    leaf bool
+                  node x35 pair
+                    leaf tt
+                    leaf bool
+                leaf nil
+              leaf nil
+      leaf nil
+```
+
+`node xk ℓ` abbreviates `node(xk, ℓ, …)`, whose two children follow indented.
+So `‖r_not‖ = 35`, and
+
+> `Θ₃₅ ⊢ (r_not, ⋆) : □(Bool → Bool)`
+
+where `□A := Σ(r :₁ R). T(chk′(print r, ⌜A⌝))`. This is D1 for certificates,
+with a budget of 35. `print r_not` reduces to `c_not`, so the evidence `⋆`
+type-checks by the same computation as before.
+
+**What the example shows.**
+- *The program never sees the certificate.* `not` is ordinary; its certificate
+  is a separate resource-layer value describing `not`'s typing derivation.
+- *The code is free; the certificate is paid for.* 35 tokens, one per node.
+  Hofmann reads `◇` as memory: "under the reading of ◇ as a certain amount of
+  memory space proposed in [9]" (p. 82, register row). Under that reading,
+  `r_not` occupies 35 cells, and the calculus never allocates a cell it was not
+  given.
+- *No parse.* A program holding `c_not` cannot turn it into `r_not` without
+  being given 35 tokens. That is the missing direction of §5.
+- *Size.* Explicit derivations record the whole context at every node, so a
+  certificate grows with the number of rule instances times the context
+  length. That is a cost, not a soundness issue. Only the budget enters the
+  theorem of §3.
+
 ## 3. The lemmas, and the theorem they would give
 
 **L1 — Normalization.** Every term well-typed in a token context is strongly
@@ -188,7 +389,7 @@ system fixes a bug in McBride's original, "that caused substitution to be
 inadmissible", so this lemma is where care is needed.
 
 **L3 — Canonicity in token contexts.** Let `Θₙ ⊢ v : A` be normal.
-- If `A` is `Bool`, `Nat`, `Code`, `1` or `R`, then `v` is in constructor form,
+- If `A` is `Bool`, `Nat`, `Syn`, `1` or `R`, then `v` is in constructor form,
   or it contains an `H`-application at usage 1.
 - The only normal terms of type `◇` are the token variables, and
   `abort_◇(u)` with `u` of type `0`.
@@ -281,7 +482,7 @@ quantitative reason — node count — not a structural one.
 ## 5. Two consistency statements, and the gap between them
 
 - `H° = Π(r :₁ R). T(chk′(print r, c⊥)) → 0` — certificate consistency.
-- `Con′ = Π(c :₁ Code). T(chk′(c, c⊥)) → 0` — code consistency. The usage-1
+- `Con′ = Π(c :₁ Syn). T(chk′(c, c⊥)) → 0` — code consistency. The usage-1
   quantifier makes it the stronger form, since it implies the usage-`ω` version.
 
 Four facts.
@@ -292,7 +493,7 @@ Four facts.
 2. **The calculus proves `Con′ → H°`:** `λf r e. f (print r) e`.
 3. **The calculus proves `H°`,** as the axiom `H`.
 4. **It does not prove `Con′`, nor `H° → Con′`** — by G2 for codes (§4, last
-   row), given 3. The missing direction would need a map from `Code` into `R`
+   row), given 3. The missing direction would need a map from `Syn` into `R`
    whose output prints back to its input, and building an output of `N` nodes
    needs `N` tokens. With `k` tokens the restricted form is provable: for codes
    of at most `k` nodes, parse and then apply `H`.
@@ -332,6 +533,8 @@ statement that a certificate cannot declare more tokens than it cost.
 
 ## 7. Open decisions, and where an attack would come from
 
+- **The full rule table is not yet fixed.** §2.7 fixes only the fragment its
+  example needs. Fixing the rest comes before any of L1–L4 can be proved.
 - **The likeliest attack** is the interaction of usage `0` with dependency.
   Erased terms may use tokens without limit, and types compute. The theorem
   needs every certificate and every piece of evidence that `H` consumes to be
@@ -339,7 +542,7 @@ statement that a certificate cannot declare more tokens than it cost.
   into a runtime position.
 - **Second:** eliminator methods and `ω`-scaling. A rule that let a method
   capture a usage-1 variable would let iteration copy tokens.
-- **Third:** any definable map from `Code` into `R`, or any closed inhabitant of
+- **Third:** any definable map from `Syn` into `R`, or any closed inhabitant of
   `◇` other than `abort_◇`.
 - **Identity types** are deliberately absent. Transport is harmless, but
   equality reflection would not be.
@@ -351,7 +554,7 @@ statement that a certificate cannot declare more tokens than it cost.
   to the "certified constant-result optimization" of the 2026-09-22 note. Not
   adopted, since it complicates L1.
 - **The Level(1) pair form**
-  `Π(r s :₁ R)(c :₁ Code). T(chk′(print r, c)) → T(chk′(print s, neg c)) → 0`
+  `Π(r s :₁ R)(c :₁ Syn). T(chk′(print r, c)) → T(chk′(print s, neg c)) → 0`
   is left for later.
 - **Relation to Beklemishev–Shamkanov.** Their Theorem 5 gives cut
   admissibility with a linear size bound (register row, printed p. 11). Their §6
