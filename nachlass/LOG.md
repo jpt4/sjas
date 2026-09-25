@@ -5031,3 +5031,198 @@ No Refinement document was changed, so no quotation-register rows were added.
 If this entry is promoted into R6, the Ramesh, `Willard1993-TR` p. 46 and
 `Willard2001` p. 7 quotations need rows, and the thesis needs a `lit/` witness.
 `audit.sh` green.
+
+## 2026-09-24 — Toward a representation-independent criterion: the resource form
+
+Two further exchanges on the entry above: a user formulation of when
+self-justification is possible, answered by a four-point revision, and the
+user's objection that the revision is still tied to one realization. Logged as
+asked. **Everything in §C is this Refinement's reasoning — a proposal with a
+proof sketch, not a result, and nothing in it is verified against a held
+witness.**
+
+### A. The formulation and the revision
+
+The user's formulation, verbatim:
+
+> Self-justification is possible when a system can: using its object level
+> language, produce a representation of object level sentences and use object
+> level operations to manipulate those representations, simulating manipulation
+> of the object sentences; but, to simulate certain manipulations of the
+> objects, the resulting representations require construction of new objects
+> that the existing representations do not recognize; by arranging (through the
+> combination of various features of the system) for such invisible
+> representations to correspond to violations of the provability of
+> consistency, such provability is never internally violated, and so can be
+> safely assumed as an axiom.
+
+The answer given: the mechanism is Willard's own — `Willard1993-TR` Lemma 6.2
+(`full`), an inconsistency proof must construct the witness `p*`, plus the
+addition-only growth bound of printed p. 13 — with four corrections. (1) The
+objects are not unrecognized: concatenation, substitution and multiplication all
+have `Δ₀` graphs (Obs. A.10; p. 37; `Willard2005` Eq. 4); what is missing is
+provable *existence*. (2) What is missing is the *uniform* manipulation;
+every instance, including the one fixed point Group-3 needs, is available.
+(3) Two roles are merged: blocking G2 (internal) and the axiom's safety (an
+external minimal-counterexample argument, which needs the sentence as an
+*axiom*: `NS^{k,m}` proves the same theorems as `IS_D` and is inconsistent,
+§5.4). (4) As a characterization it needs a further clause, since Q and Type-S
+systems also lack the uniformity and obey G2 through a restricted box. The
+revised statement, as given:
+
+> Self-justification is possible when the system:
+> 1. represents its own syntax, and performs every *instance* of the syntactic
+>    manipulations its proof theory needs;
+> 2. cannot prove that the *uniform* manipulations produce their outputs,
+>    because the outputs outgrow its provably total functions;
+> 3. cannot recover those manipulations on any restricted domain, such as a cut
+>    or a set of small proofs;
+> 4. has a self-consistency axiom arranged so that any refutation would have to
+>    construct one of those outputs, naming an object at least as large as the
+>    refutation itself.
+
+### B. The objection, verbatim
+
+> This still does not quite capture the generalization of the self-justification
+> criteria, however, because of the reliance on the particular setting of "the
+> outputs of uniform manipulations outgrow the theory's provably total
+> functions"; this outrunning growth is operationalized by particular
+> combinations of codings, arithmetic primitives, and deduction methods. If we
+> consider a programming language analogue of an SJAS (e.g., an constructive
+> SJAS implemented as a Pure Type Theory, collapsing the term-type distinction
+> and allowing programs to be written in the proof langauge), then the numerical
+> realization of the loss of derivability appears to consign any program working
+> with proof objects to manipulate extraordinary large numbers. Preferably, this
+> would be a symbolic execution.
+> That is, what is needed is an abstract form of the self-justification criteria
+> that can be translated into various domains, capturing the ability to rely on
+> (an analogue of) a statement of a system's consistency, without also importing
+> the commitment to compute over infeasible large numbers.
+
+### C. The answer: the criterion as a resource condition on a representation sort
+
+**C1. Where the large numbers come from.** Three sources, all belonging to the
+arithmetic realization rather than to the idea. (i) Representations are
+*values*: a proof of size `L` is a number near `2^L`, and a calculus with unary
+numerals makes that an object of exponential size. (ii) First-order arithmetic
+has unrestricted contraction on terms: a parameter introduced once may be
+reused in any number of formulas. Duplication of values therefore cannot be
+prevented by discipline, only by removing the operations that make duplication
+costly — every operation whose output *size* is the sum of its inputs' sizes
+(multiplication, concatenation, pairing). Addition survives because its output
+size is `max + 1`, not a sum. (iii) The safety argument then compares codes with
+codes, so the "invisible" objects are defined by value growth, and every
+analysis of them is carried out in numbers such as `2^{2^n}`.
+
+**C2. The resource form.** Data:
+
+- a **representation sort** `R` of certificates, with a **rank** `‖·‖`;
+- a **canonical checker** `Chk(r, φ)` that works by inspection only, and decides
+  whether `r` represents an `S`-proof of `φ`;
+- **adequacy with strict overhead**: every actual `S`-proof `p` has a
+  representation `r_p`, `S` derives `Chk(r_p, ⌜φ⌝)` by computation, and
+  `|p| < ‖r_p‖` — a representation is strictly larger than what it represents;
+- the self-consistency axiom `H_S : ∀r:R. ¬Chk(r, ⌜⊥⌝)`, or the Level(1) pair
+  form, in which `Chk` refers to `S` *including* `H_S` **by name** — a named
+  constant or pointer, not a diagonal gadget (Willard's `v#` pointers are the
+  numeric form of this).
+
+Conditions:
+
+- **(W) Witness.** A refutation that uses `H_S` must *exhibit* the certificate
+  it applies `H_S` to. Numerically: cut-free tableaux, Lemma 6.2. Constructively:
+  canonicity — a closed proof of an existential yields its witness.
+- **(M) Mass.** The rank of any certificate a proof `t` can exhibit is at most
+  `|t|`: whatever produces exhibited certificates never increases certificate
+  mass.
+
+**Schema (sketch).** If the base without `H_S` is consistent, then `S + H_S` is
+consistent. Take a refutation `t` of least size. By (W) it exhibits a
+certificate `r` that checks as a proof `t′` of `⊥`. By (M), `‖r‖ ≤ |t|`; by
+strict overhead, `|t′| < ‖r‖`. So `t′` is a smaller refutation, contradicting
+minimality. **Corollary.** Because `S` then proves its own consistency and is
+consistent, Löb's argument must fail inside `S`, and (M) says where: exactly at
+the operations that increase certificate mass.
+
+**C3. The arithmetic instance.** `R` is Gödel codes, rank is bit length, (W) is
+Lemma 6.2, and (M) is the growth restriction together with Willard's `+2`
+margin (`Willard2011` Def. 4.5; R3). Since terms cannot be kept affine (C1(ii)),
+(M) must remove every size-summing operation. That removes uniform composition,
+which is why the breach falls at HBL (2).
+
+**C4. A symbolic instance (proposal).** A normalizing constructive calculus —
+the PTS setting of `docs/log/2026-09-05-sjas-pure-type-systems.md` — with:
+
+1. `R` a closed inductive sort of finite trees over a finite signature. Runtime
+   `R`-values come only from `R`-constructors and literals, and **no function
+   takes non-`R` data into `R`**.
+2. `R`-carrying runtime terms used **affinely**: never duplicated by reduction.
+   Type-level occurrences are erased, in the style of quantitative type theory.
+   `R`-constructors consume budget in the manner of Hofmann's non-size-
+   increasing typing. Together these give (M): certificate mass is
+   non-increasing under reduction.
+3. `Chk` defined by structural recursion on the tree — symbolic execution,
+   linear-ish in certificate size, with no numerals anywhere.
+4. `H_S : (r :₁ R) → Chk(r, ⌜⊥⌝) = true → ⊥` — the certificate argument is at
+   **runtime** multiplicity, so the axiom *consumes* its certificate. An erased
+   certificate could be computed at type level from ordinary data and break (M).
+5. Base axioms realizable, so a closed normal refutation is a chain of `H_S`
+   applications whose innermost has a canonical certificate and `refl` evidence.
+   That is (W).
+
+Under these hypotheses the schema's descent goes through for the minimal-size
+refutation: its normal form contains an innermost `H_S r refl`, and
+`‖r‖ ≤ mass(normal form) ≤ mass(t) ≤ |t|`. What survives of the derivability
+conditions: every D1 instance (a literal plus computation); **D2 in linear
+form**, `comp : R ⊸ R ⊸ ◇ᵏ ⊸ R`, paying for its new node. What is excluded:
+**D3** (a certificate that `r` checks contains a representation of `r`, so its
+mass is at least `c·‖r‖` with `c > 1`), **boxed contraction**
+(`copy : R → R ⊗ R` doubles mass), iteration that re-uses a certificate, and any
+route from ordinary data into `R`. The diagonal gadget needs duplication and
+quotation, so it is untypable; self-reference is by name. The "invisible"
+certificates are those reachable only by duplicating or quoting certificates,
+and they are excluded **statically, by typing** — nothing large is ever
+computed.
+
+**C5. Consequence for the realization question.** If C4 survives, Willard's
+growth restriction is the Gödel-numbered shadow of an affine discipline on the
+representation sort. First-order arithmetic cannot type values affinely
+(C1(ii)), so it must forbid every size-summing operation. A typed symbolic
+calculus can, so it can admit linear composition and needs to forbid only
+duplication and quotation. That would also refine the earlier line "Willard
+blocks by cost, Brown–Palsberg by typing" (entry of 2026-09-07, §A): cost
+becomes typing once representations are symbolic. It sharpens the 2026-09-07 §D
+conjecture C3 as well: "non-trivial in the grading the consistency proof uses"
+becomes strict representation overhead together with non-increasing mass.
+**Conjecture.**
+
+**C6. Status and risks.**
+
+- *Sketch only.* Three lemmas must be proved for a concrete calculus:
+  normalization of the base with `H_S` as a reduction-free constant;
+  non-increase of mass under reduction; and canonicity of closed refutations.
+  None is done.
+- *The boldest part is localization.* C4 lets the ordinary, non-`R` fragment be
+  strong, because the restriction is confined to `R`. That is the claim most
+  likely to hide an error. The obvious attack — re-encode proofs as ordinary
+  data and build certificates there — is blocked by hypothesis 1, but this has
+  not been tested adversarially.
+- *Legitimacy.* `H_S` has the same intensional status as Willard's systems: `S`
+  proves `Con′ → H_S` for an ordinary-sort re-encoding `Con′` (printing
+  certificates is non-increasing), but not the converse, since parsing into `R`
+  is excluded. That is the "technically purely legalistic" objection of
+  `Willard2016` §8 (refined-sjas §7, item 4), and it transfers unchanged.
+- *Two consistency routes.* Refined-sjas §1's criterion is the valuation route
+  (bounded semantic witnesses); this is the witness route of `Willard1993-TR`
+  Proposition 1 (`full`). They are not merged here.
+- *Corroboration.* It continues the open case of
+  `docs/log/2026-09-05-lower-resolution.md` §1. There, accepting Hilbert
+  *macros* — compressed, shared certificates — re-imports the Hilbert boundary,
+  and a checker accepting only fully expanded trees was left open. C4 is a
+  proposal for that checker, plus affinity.
+- *Unverified external sources.* Hofmann's non-size-increasing typing, and
+  quantitative type theory, are cited from standard knowledge: **not held, not
+  verified.**
+
+No Refinement document was changed. The natural home, if pursued, is R4
+(`refinement/R4-notes-native-model.md`).
