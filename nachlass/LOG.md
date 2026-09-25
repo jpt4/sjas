@@ -5226,3 +5226,263 @@ becomes strict representation overhead together with non-increasing mass.
 
 No Refinement document was changed. The natural home, if pursued, is R4
 (`refinement/R4-notes-native-model.md`).
+
+## 2026-09-25 — Six questions on the resource form, two corrections, and a draft calculus
+
+The user's prompt, verbatim:
+
+> 1) > Willard's pointer constants are the numeric form of this; no diagonal
+> construction is needed. <- Please elaborate. 2) >  In a constructive
+> calculus, it is canonicity: a closed proof of an existential yields its
+> witness. <- Please explain canonicity. 3) What does "t exhibits a
+> certificate" mean? That is, what is the exact process of "exhibition"? 4)
+> What is the difference between single and double pipes, ||r|| vs |t|? 5)
+> Verify the Hofmann sources. 6) Elaborate on the "technically legalistic"
+> characterization of H and the implication between consistency and H. 7) Log
+> the above, and this Q/A, then return to the topic of building a calculus.
+
+The first question exposed an error in the previous entry, and the fifth a
+claim that can now be upgraded. Both are corrected first. The answers follow.
+The calculus is `refinement/R4-certificate-calculus.md`, draft of this date.
+
+### Corrections to the entry of 2026-09-24 (resource form)
+
+- **§C2's parenthetical is wrong.** It said self-reference by name, "not a
+  diagonal gadget (Willard's `v#` pointers are the numeric form of this)". They
+  are not. Willard's Group-3 axiom **is** a diagonal instance. `Willard1993-TR`
+  printed p. 38, image-checked 2026-09-25, takes `J` as the Gödel number of the
+  template (A.1) and forms the axiom (A.2) through `SUBST_i(J, z)`. "The only
+  integer z satisfying SUBST_i(J,z)" is (A.2)'s own Gödel number (register row).
+  The pointers do something else (Q1 below).
+- **§C6's "not held, not verified" is superseded.** Hofmann 2003 and Atkey 2018
+  are now held, hashed and page-verified (Q5). The two characterizations §C4
+  gave — constructors consuming a budget "in the manner of Hofmann's
+  non-size-increasing typing", and type-level occurrences erased "in the style
+  of quantitative type theory" — are accurate.
+
+### Q1. Pointer constants, and what "by name" means
+
+The claim conflated two different things.
+
+- **Willard's self-reference is a fixed diagonal instance** (above). Arithmetic
+  has no symbol meaning "provable in `IS(A)`", so the only way for a sentence to
+  speak about the system containing it is to substitute a code into a template.
+  What Willard avoids is the diagonal *operator*: `IS(A)` proves `∃y SUBST_i(k̄, y)`
+  for each fixed `k̄`, but not `∀x ∃y SUBST_i(x, y)` (printed p. 37, register
+  row; R6 §7.1).
+- **The `u#`/`v#` pointers are sharing.** Printed p. 15, image-checked: "`u#[i,j]`
+  may appear in any position normally occupied by the constant symbol `ĉ[j]`",
+  and "`v#[i,j] Φ(v̂[i])`" is "a bit compressed representation for `Φ(ĉ[j])`".
+  The purpose: "If j is a very large number, then its repeated appearance in a
+  proof could cause the proof to grow to an unacceptably large size". Lemma 5.2
+  (`full`) gives the deeper reason: the maps onto the expanded form "are unknown
+  by IS(PA+) to be total functions". So a pointer keeps a *mention* of a large
+  constant, such as the diagonal number, cheap, and keeps substitution within
+  the provable-totality budget. It does not form the fixed point.
+- **"By name" is available only when the checker is a primitive.** In a
+  calculus with a primitive checker, the rule for the self-consistency constant
+  can mention the checker as a symbol. The mutual reference is resolved in the
+  metatheory's definition of the calculus, and no term contains its own code.
+- **What survives of the original claim:** both routes avoid a uniform
+  diagonal. And the pointers have a real counterpart in the calculus — a
+  negative one. Sharing in a certificate's declaration of its budget is exactly
+  what must be forbidden (R4 draft §3, stipulation under A).
+
+### Q2. Canonicity
+
+A type theory has **canonicity** when every closed term of a data type reduces
+to constructor form:
+- a closed `Bool` reduces to `tt` or `ff`;
+- a closed `Nat` reduces to a numeral;
+- a closed proof of `Σ(x : A). B(x)` reduces to a pair `(a, b)`.
+
+The last clause is the one that matters here. From a closed proof of an
+existential, one can read off a witness `a` and evidence `b` that it works —
+the "existence property".
+
+Axioms break canonicity. A constant with no reduction rule — such as `H` — can
+leave a closed term stuck. For instance `abort_Nat(H r e)` is a closed, normal
+`Nat` that is no numeral. So what is needed is **canonicity up to `H`**: every
+closed normal term is either in constructor form, or has an application of `H`
+somewhere in its head position.
+
+Willard's counterpart is the **subformula property** of cut-free tableaux.
+`Willard1993-TR` printed p. 20 (R6 §7.4) says every sentence of a tableau proof
+of `⊥` must be a subcomponent of some axiom, so the Group-3 axiom can be
+contradicted only through an explicit instance. Lemma 6.2 (`full`) then says
+the instance names a witness `p*`.
+
+### Q3. Exhibition, exactly
+
+"`t` exhibits a certificate" is not an action inside `t`. It is a function on
+normal refutations, defined by descent. In the draft's setting:
+
+1. Normalize the refutation.
+2. By canonicity up to `H`, it contains an application `H r e`.
+3. If `r` contains an `H`-application, descend into it.
+4. Otherwise `r` is a canonical tree, and `chk′(print r, c⊥)` computes a closed
+   Boolean.
+   - If it is `tt`, then `r` is **the exhibited certificate**.
+   - If it is `ff`, then `e`, of type `T(ff) ≡ 0`, is itself a refutation.
+     Descend into `e`.
+5. The descent is well-founded on subterms.
+
+Step 3 ("innermost") was added while drafting: `abort_◇(u)` makes a token out
+of a refutation, so a certificate containing an `H` could have nodes paid for
+by `abort` rather than by genuine tokens.
+
+In Willard the counterpart is Lemma 6.2: a tableau refuting `IS(A)` contains a
+node `¬Prf(⊥, p*)` for a constructed parameter or constant `p*`, and closing
+that branch requires `p*` to be a proof of `⊥`. The difference: in tableaux the
+witness may be a *parameter*, which is why Willard needs valuation arguments,
+whereas canonicity makes it a *value*.
+
+### Q4. `|·|` and `‖·‖`
+
+Two measures, in two currencies:
+- **`|·|` measures what is represented** — a proof, or a term.
+- **`‖·‖` measures a representation** — a certificate, counted in its own
+  currency: nodes of a tree here, bits of a code in Willard.
+
+The criterion connects them twice:
+- *strict overhead*: `μ(p) < ‖r_p‖`, where `μ` is the refutation measure — a
+  representation is larger than what it represents;
+- *(M)*: `‖r‖ ≤ μ(t)` — nothing a refutation exhibits is larger than the
+  refutation.
+
+The 2026-09-24 entry took `μ = |·|`, term size, and needed "mass" accounting to
+bound literals. **The draft takes `μ` to be the token budget**, the number of
+`◇` tokens in the refutation's context. Then (M) is simply affinity: each node
+spends a distinct token. So `|t|` drops out of the argument entirely.
+
+In Willard's arithmetic both measures are bit lengths, and the sharp form is
+`Willard2011` Definition 4.5's margin, `Log(q_β) ≥ ♯(β) + 2` (refined-sjas §5).
+
+### Q5. The Hofmann and Atkey sources — verified
+
+- **Hofmann**, "Linear types and non-size-increasing polynomial time
+  computation", Information and Computation 183(1) (2003) 57–85, DOI
+  10.1016/S0890-5401(03)00009-9. Obtained from the Internet Archive capture of
+  Hofmann's LMU publication page, via scholar.archive.org. 29 pages, SHA-256
+  `eda7b8c0…`, held as `refinement/lit/hofmann2003_linear_types_non_size_increasing_ic183.pdf`.
+  - Text layer PDF pp. 1–29.
+  - Page images of printed pp. 57, 59, 60, 61, 62, 63, 65, 66, 78, 79 and 82.
+- **Atkey**, "Syntax and Semantics of Quantitative Type Theory", LICS 2018,
+  DOI 10.1145/3209108.3209189. From the author's site, 10 pages, SHA-256
+  `1af7f05a…`, held as `refinement/lit/atkey2018_syntax_semantics_quantitative_type_theory_lics.pdf`.
+  - Page image of p. 1 only. The body is unread.
+
+Seven register rows were added, all `img`. What checked out:
+- `◇`, "a special resource type ◇ which has no constructors and hence no closed
+  terms" (p. 59);
+- the size bound of Proposition 2.1 (p. 62);
+- tree size, "the number of its nodes plus the sizes … of all its labels"
+  (p. 66);
+- restricted duplication only at a passive result (§6, pp. 78–79);
+- "Borrowing does not work" (§9, p. 82);
+- McBride's "0 of the semiring" erasure (Atkey p. 1).
+
+**Two nuances.**
+- Hofmann's operators take *closed* step functions ("an operator is applicable
+  to closed terms only", p. 61). That is stronger than the draft's usage
+  scaling, which forbids capturing tokens only. The draft argues that tokens
+  are all that matter for node count.
+- Hofmann's polynomial-time theorem (Corollary 5.5.1) is not used. Only the
+  size discipline is.
+
+Whether Atkey's framework covers the *affine* reading of usage `1` is **not
+checked**.
+
+### Q6. "Technically legalistic", and how consistency and `H` are related
+
+**The phrase is Willard's.** `Willard2016` §8, statement ###, raises against
+his own programme the objection that self-verification through a formalized "I
+am consistent" axiom succeeds "only in a technically purely legalistic sense"
+(codified §1.4; register row). His companion
+remark (`Willard2011` Remark 6.16b) calls the resulting proof "essentially a
+1-line proof", an "instinctive faith" (register row).
+
+**Its content has two parts.**
+1. The consistency statement is assumed, not derived.
+2. It is consistency relative to one representation — cut-free tableau proofs,
+   under a fixed encoding. The system cannot internally relate that statement
+   to other formalizations of its own consistency.
+
+`Willard1993-TR` printed p. 1 frames the programme against Feferman, whose
+self-verifying system "captures the numerical but not intensional definition
+of classic deduction" (register row). Willard's claim is that his tableaux
+statement is intensionally standard. The gap moves to *which apparatus* the
+statement is about.
+
+**How consistency and `H` are related, in Willard.**
+- **Externally,** the Group-3 sentence is true iff the system is consistent: it
+  is the `Π₁` statement of the system's own tableaux consistency, including
+  itself.
+- **Internally,** the system proves it (as an axiom), but not its Hilbert
+  consistency. Revising Group-3 to Hilbert proofs makes `IS-1(A)` inconsistent
+  (`Willard2002c` Remark 3, `cited`).
+- The two consistency notions are equivalent externally, by the
+  apparatus-identity thesis (codified §4.2). Internally, getting from tableaux
+  consistency to Hilbert consistency needs cut elimination, which the system
+  lacks. Whether the other direction is provable internally is **unchecked**.
+
+**How they are related in the draft calculus** — exactly, and conditionally on
+its lemmas. Take `H°`, certificate consistency, and `Con′`, code consistency.
+- The two are equivalent externally.
+- The calculus proves `Con′ → H°` (by `print`), and `H°` (the axiom).
+- It proves neither `Con′` (by G2 for codes) nor `H° → Con′`: that would need a
+  parse from codes into certificates, and a certificate of `N` nodes costs `N`
+  tokens.
+- With `k` tokens it proves `Con′` restricted to codes of at most `k` nodes.
+
+That is Willard's fixed-instance-versus-uniform split, reappearing as
+bounded-budget versus unbounded. Certificates stand to codes as cut-free
+tableaux stand to Hilbert proofs: the incompressible representation against the
+compressible one.
+
+**Willard's own reply** is Platonic Stability. It rests on `Willard2016`
+Corollary 8.2 (`full`), which depends on Theorem 6.7, conditional on
+Conjecture 6.6 (`stated-only`).
+
+### Q7. The calculus: draft, and what changed while writing it
+
+`refinement/R4-certificate-calculus.md` presents **λᶜᵉʳᵗ**:
+- certificates are trees whose nodes each consume a Hofmann `◇` token;
+- usages `0/1/ω` in the style of quantitative type theory;
+- a primitive, structurally recursive checker `chk′` on codes, with `print`
+  from certificates to codes;
+- the constant `H : Π(r :₁ R). Π(e :₁ T(chk′(print r, c⊥))). 0`;
+- a consistency theorem by least token budget, conditional on four open lemmas
+  (normalization, subject reduction with usages, canonicity in token contexts,
+  affine mass) and on adequacy with strict overhead.
+
+It is registered in the ADR-0002 R4 row.
+
+**A first draft, written earlier the same day and never committed, had five
+defects:**
+1. **The usage of `H`'s evidence argument was unspecified.** An erased
+   argument could hide a refutation from the descent. Now both arguments are
+   runtime.
+2. **Literals were positive-size constants.** Under an `ω` binder, or in a
+   recursion's step function, a literal is duplicated. Replaced by token
+   contexts: `◇` has no closed terms, as in Hofmann, and certificates are built
+   only from context tokens.
+3. **The logic had no induction.** Without it, the claims "proves `Con′ → H°`"
+   and "G2 applies to codes" had nothing to stand on. Added dependent
+   eliminators whose methods are typed in `ω`-scaled contexts.
+4. **`abort_◇` forges tokens.** Fixed by taking the innermost `H`-application.
+5. **`Con′` quantified at usage `ω`.** Then `Con′ → H°` needs a promotion rule.
+   Quantified at usage 1 instead, which is the stronger form.
+
+**One stipulation added:** the encoding must not compress contexts (Q1).
+
+**One finding worth flagging.** In λᶜᵉʳᵗ the breach is at the **fourth
+derivability condition and boxed contraction**, not at composition. Linear
+composition survives at a constant token cost, because a certificate of `N`
+nodes costs `N` tokens and so no short term names a large certificate. In
+arithmetic the Linear-Sum Effect is fatal: `IS_Xtab(β)` is inconsistent
+(`Willard2020` Theorem 4.5, `sketch`), because there a short proof *can* name
+a huge number. If this survives, Willard's breach location is a property of
+compressible representations, not of self-justification as such.
+
+`audit.sh` green: R-B at 98 rows, R-C at 7 witnesses, all resolving.

@@ -1,0 +1,384 @@
+# R4 draft — λᶜᵉʳᵗ, an affine certificate calculus
+
+*Notes toward component R4, 2026-09-25. A proposal for a native, non-arithmetic
+self-justifying calculus, built to test the **resource form** of the
+self-justification criterion (`../LOG.md`, entries of 2026-09-24 and
+2026-09-25).*
+
+> **Status.** Nothing here is proved. §3 states four lemmas and derives the
+> consistency theorem **from** them; the lemmas are open. It is a design, not
+> an implementation, and no code exists. Claims about Hofmann and Atkey rest on
+> page images of the held witnesses, recorded in
+> [`VERIFICATION.md`](VERIFICATION.md). Claims about Willard carry the
+> registry's proof status at the point of use.
+>
+> **Notation hazard.** `◇` below is **Hofmann's resource type**, not the modal
+> "possibly" of provability logic. Beklemishev–Shamkanov's `a = ◇!a` (§7) uses
+> the modal `◇`. The two are unrelated.
+
+---
+
+## 0. The construction in one paragraph
+
+Certificates are trees in a sort `R` whose every internal node costs one token
+of Hofmann's resource type `◇`. `◇` has no closed terms and tokens are affine,
+so a term can build at most as many certificate nodes as it holds tokens. The
+calculus checks certificates symbolically, by a structurally recursive checker,
+and has a constant `H` asserting that **no certificate checks as a refutation of
+the calculus itself** — any refutation, with any number of tokens. Suppose some
+term refutes the calculus using `n` tokens. It must hand `H` a certificate of a
+refutation. That certificate has at most `n` nodes, yet it must declare every
+token of the refutation it describes. So it describes a refutation using fewer
+than `n` tokens, and a least counterexample cannot exist. No number is ever
+computed, and nothing is larger than the tokens a program was given.
+
+## 1. What the calculus is for
+
+It tests three things.
+
+1. **Whether the restriction can be confined to the certificate sort.** The
+   ordinary layer has the strength of Heyting arithmetic in all finite types,
+   with full induction. That is deliberate: if confining the discipline to `R`
+   is unsound, this is where it should break.
+2. **Whether R4's two transfer targets come apart.** The charter (ADR-0002, R4
+   row, from ADR-0004) asks for a type theory in which the boxed diagonal
+   `copy : □A → □A ⊗ □A` and uniform proof composition are exhibited
+   *separately*. Here linear composition survives at a constant cost, while the
+   boxed diagonal and the fourth derivability condition fail (§4).
+3. **Whether a symbolic self-justifying calculus avoids infeasible numbers.**
+   Willard's arithmetic must name proofs by numbers and cripple multiplication
+   to keep short terms from naming huge ones. Here a certificate of size `N`
+   costs exactly `N` tokens, so there is nothing to cripple (§6).
+
+## 2. The calculus
+
+### 2.1 Usages
+
+Judgments carry usages in the style of quantitative type theory, drawn from
+`{0, 1, ω}`:
+- `0` — erased, usable only in types;
+- `1` — at most once at runtime (the affine reading, as in Hofmann's calculus);
+- `ω` — unrestricted.
+
+Atkey (LICS 2018, p. 1) credits McBride's insight "to use the 0 of the semiring
+to represent information that is erased at runtime, but is still available for
+use in types". Whether Atkey's framework covers the affine reading of `1` as it
+stands is **not checked here**. A term used at usage `ρ` needs its context
+scaled by `ρ`. Passing an argument at `ω` therefore needs every variable it uses
+at `ω`, and erased variables can never be used at runtime.
+
+### 2.2 Types and terms
+
+- **Base types.** `1`, `0`, `Bool`, `Nat`, and `Code` (finite trees over a finite
+  label set `L`, with constructors `cleaf : L → Code` and
+  `cnode : L → Code → Code → Code`, which take no `◇`).
+- **Type formers.** Dependent `Π` and `Σ` with usage annotations; `⊗`; `&`.
+- **Propositions.** The family `T : Bool → Type`, with `T(tt) ≡ 1` and
+  `T(ff) ≡ 0`.
+- **`abort_A : 0 → A`.**
+- **Eliminators.** Dependent eliminators for every inductive type. Motives are
+  at usage `0`. Methods are typed in `ω`-scaled contexts, because a method runs
+  once per constructor. So **a method can capture no usage-1 variable**.
+
+The layer without `◇` and `R` interprets Heyting arithmetic through `Π`, `Σ`,
+`Nat`-induction and `T`.
+
+### 2.3 Tokens and certificates
+
+**`◇`** is Hofmann's resource type: "a special resource type ◇ which has no
+constructors and hence no closed terms" (Hofmann 2003, p. 59). It has no
+eliminator.
+
+**`R`** is Hofmann's tree type (§4.3, pp. 65–66) over the passive label set `L`:
+- `leaf : L ⊸ R`
+- `node : ◇ ⊸ L ⊸ R ⊸ R ⊸ R`
+
+Every internal node consumes one token. **`‖v‖` is the number of `node`s in a
+canonical tree `v`.** Hofmann counts "the number of its nodes plus the sizes …
+of all its labels", and the labels here are passive, of size 0.
+
+**`R`'s eliminator** hands each destructed node's `◇` to the node method at
+usage `1`. Since methods cannot capture tokens (§2.2), a method can rebuild at
+most one node per node destroyed. This is the invariant Hofmann's operator
+typing protects: "If h₀ or h₁ increase the size by a constant (as would be the
+case if they were allowed to contain variables) then itᴺ(g,h₀,h₁) would multiply
+the size by that constant, thus violating the intended invariant" (p. 63). His
+operators take closed arguments ("an operator is applicable to closed terms
+only", p. 61). Here usage scaling does the same job for tokens, and leaves
+ordinary variables free.
+
+**`print : R ⊸ Code`** is defined by elimination: `node ↦ cnode`, `leaf ↦
+cleaf`, and each `◇` is dropped (affine weakening). It preserves shape, so the
+number of internal nodes of `print v` is `‖v‖`. **There is no map in the other
+direction.** A code carries no tokens, and a node needs one.
+
+**Excluded, both for Hofmann's reasons.** Duplication at a non-passive type —
+"If we would not require that P be passive then we could define a diagonal map
+δ : D ⊸ D ⊗ D … We have already seen in the Introduction that this leads to
+exponential growth" (p. 79) — and borrowing of `◇` (§9, "Borrowing does not
+work", p. 82). Hofmann's restricted duplication with a passive result,
+`dup_{D,P}` (§6, p. 78), may be added. It is not needed below.
+
+### 2.4 The checker, and self-reference by name
+
+**`chk′ : Code → Code → Bool`** is a primitive. For closed canonical codes `c`
+and `d`, `chk′(c, d)` reduces to `Check(c, d)`, where `Check` is an external
+algorithm.
+
+**Explicit derivations.** An explicit derivation is a tree of rule instances.
+Every node records its rule and its whole conclusion judgment: context, term,
+type and usages. Every conversion is recorded as a chain of single reduction
+steps. Derivations are encoded as codes over the finite label set `L`.
+
+**`c⊥`** is a fixed closed code. `Check(c, c⊥) = tt` iff `c` encodes an
+explicit derivation, **in λᶜᵉʳᵗ itself**, of a judgment
+`x₁ :₁ ◇, …, x_m :₁ ◇ ⊢ t : 0` for some `m`.
+
+**`Check` terminates.** It verifies each node locally, by structural recursion.
+When a node records a step `chk′(c′, d′) ⇝ b`, `Check` calls itself on `c′`,
+which is written out inside the derivation being checked and so is a proper
+subtree.
+
+**Self-reference is by name.** `Check` checks against the calculus's finite
+rule table. That table includes the rule for `H` below, whose type mentions the
+constant `chk′`. The mutual reference is resolved in the metatheory's
+definition of the calculus. No term of the calculus performs a diagonal
+construction, and no term contains its own code.
+
+**This differs from Willard.** His Group-3 axiom *is* a diagonal instance:
+`Willard1993-TR` printed p. 38 takes `J` to be the Gödel number of the template
+(A.1) and forms (A.2) through `SUBST_i(J, z)`. "The only integer z satisfying
+SUBST_i(J,z)" is (A.2)'s own Gödel number (register row). Arithmetic has no
+symbol meaning "provable in `IS(A)`", so the fixed point cannot be avoided
+there. It is avoided here because `chk′` is a primitive. What the two share is
+that neither uses a *uniform* diagonal operator. Willard proves only the fixed
+instance `∃y SUBST_i(k̄, y)`, not `∀x ∃y SUBST_i(x, y)` (printed p. 37, register
+row; R6 §7.1).
+
+### 2.5 The self-consistency constant
+
+> `H : Π(r :₁ R). Π(e :₁ T(chk′(print r, c⊥))). 0`
+
+- The occurrence of `print r` in the type is at usage `0`, as all type-level
+  occurrences are. At runtime, `H` consumes `r`.
+- `H` has no reduction rule.
+- **Both arguments are runtime.** An erased certificate could be built at type
+  level from a single token, because erased variables may be used any number of
+  times. An erased piece of evidence could hide a refutation from the argument
+  of §3.
+
+`H°` names the proposition `H`'s type asserts.
+
+### 2.6 Budgets
+
+Write `Θₙ = x₁ :₁ ◇, …, xₙ :₁ ◇`. A **refutation with budget `n`** is a term `t`
+with `Θₙ ⊢ t : 0`. A closed refutation has budget 0.
+
+## 3. The lemmas, and the theorem they would give
+
+**L1 — Normalization.** Every term well-typed in a token context is strongly
+normalizing. `H` is inert, and `chk′` reduces only on closed canonical codes.
+*Plan:* reducibility candidates. The `◇`-free layer is a standard dependent type
+theory with one large elimination (`T`). `R`'s eliminator is structural, and
+`Check` is total.
+
+**L2 — Subject reduction with usages.** Reduction preserves typing and usage
+annotations. *Plan:* the standard argument. Atkey (p. 1) records that his
+system fixes a bug in McBride's original, "that caused substitution to be
+inadmissible", so this lemma is where care is needed.
+
+**L3 — Canonicity in token contexts.** Let `Θₙ ⊢ v : A` be normal.
+- If `A` is `Bool`, `Nat`, `Code`, `1` or `R`, then `v` is in constructor form,
+  or it contains an `H`-application at usage 1.
+- The only normal terms of type `◇` are the token variables, and
+  `abort_◇(u)` with `u` of type `0`.
+- If `A = 0`, then `v` contains an `H`-application at usage 1.
+
+**L4 — Affine mass (from L2 and L3).** Let `Θₙ ⊢ t : A` be normal. Let `r` be a
+subterm of `t` at usage 1 that is a canonical tree containing no
+`H`-application. Then `‖r‖ ≤ n`. *Argument:* each node of `r` takes its `◇`
+argument at usage 1. By L3, and because `r` contains no `H`, that argument is a
+token variable, not an `abort`. By affinity, distinct nodes use distinct tokens.
+
+**A — Adequacy with strict overhead.** If `Check(print r, c⊥) = tt`, then
+`print r` encodes an explicit derivation of `Θ_m ⊢ t′ : 0`, with `m < ‖r‖`. The
+root judgment's context alone needs at least `m` internal nodes, because the
+label set is finite, and the root needs one more. This is an external property
+of `Check` and of the encoding.
+
+**A depends on a stipulation about the encoding.** Contexts must be written out
+entry by entry, with no sharing and no repetition counts. A "repeat this entry
+`m` times" node, with `m` written in binary, would let `O(log m)` nodes declare
+`m` tokens, and the descent in the theorem would fail. Sharing elsewhere — in
+the represented term, say — is harmless, because only the token budget enters
+the argument. The stipulation plays the role of `Willard2011` Definition
+D.1(iv)'s requirement of at least `5J` bits for a tableau proof with `J`
+function symbols (register row). Willard's own `u#`/`v#` constant pointers
+(`Willard1993-TR` printed p. 15) are sharing of exactly the kind this
+calculus may allow in the term and must forbid in the budget.
+
+**Exhibition.** Let `t` be a normal refutation with budget `n`. **The
+certificate `t` exhibits** is an `H`-application `H r e` inside `t` with two
+properties: `r` contains no `H`-application, and `chk′(print r, c⊥)` reduces to
+`tt`. It exists, and is found by descending through `t`:
+1. By L3, `t` contains an `H`-application `H r e`.
+2. If `r` contains an `H`-application, descend into it.
+3. Otherwise `r` is a canonical tree, and `chk′(print r, c⊥)` computes a closed
+   Boolean.
+   - If it is `tt`, stop: `r` is the exhibited certificate.
+   - If it is `ff`, then `e : T(ff) ≡ 0` is itself a normal refutation at usage
+     1. Descend into `e`.
+4. The descent is well-founded on subterms.
+
+So exhibition is not an operation performed *by* `t`. It is a function on
+normal refutations, defined by this descent. It is the counterpart of
+`Willard1993-TR` Lemma 6.2 (`full`): an inconsistency proof must "formally
+construct" a witness `p*` with `¬Prf(⊥, p*)` as one of its nodes. There, the
+witness may be a tableau parameter. Here, canonicity makes it a value.
+
+> **Theorem (conditional on L1–L4 and A).** For no `n` is there a refutation
+> with budget `n`.
+>
+> *Proof.* Suppose otherwise, and let `n` be least. Take a refutation with
+> budget `n` and normalize it (L1, L2). Let `r` be the certificate it exhibits.
+> By L4, `‖r‖ ≤ n`. By A, `print r` encodes a derivation of `Θ_m ⊢ t′ : 0` with
+> `m < ‖r‖ ≤ n`. So `t′` is a refutation of λᶜᵉʳᵗ with budget `m < n`,
+> contradicting the choice of `n`. ∎
+
+The case `n = 0` shows how the argument works. A closed refutation could only
+exhibit a certificate with no nodes, a single leaf, and no derivation is a
+leaf.
+
+**Corollary (conditional).** λᶜᵉʳᵗ is consistent, and contains a closed
+inhabitant, `H`, of a proposition asserting its own consistency. That is the two
+clauses of `Willard2016` Definition 3.4, read for this calculus's apparatus and
+certificate representation.
+
+## 4. What survives of the derivability conditions
+
+Write `□A := Σ(r :₁ R). T(chk′(print r, ⌜A⌝))`, where `⌜A⌝` is `A`'s code.
+
+| | In λᶜᵉʳᵗ | Why |
+| --- | --- | --- |
+| D1 | **with a budget** | for a derivation `d` of `⊢ u : A`, `Θ_{‖d‖} ⊢ (lit_d, ⋆) : □A`, where `lit_d` builds `d`'s tree from the tokens |
+| D2 | **linear, with a constant budget** | `Θ_k ⊢ comp : □(A → B) ⊗ □A ⊸ □B`, with `k` covering the new rule node and its judgment |
+| D3 | **no, for any fixed budget** | a certificate for `□A` built from `r` must record the literal term that rebuilds `r`, together with its `‖r‖` tokens, so it has more than `2‖r‖` nodes. From `r` and a fixed `k` tokens, at most `‖r‖ + k` nodes can be built |
+| boxed contraction `□A ⊸ □A ⊗ □A` | **no, for any fixed budget** | it doubles the nodes: Hofmann's diagonal map (p. 79) |
+| self-reference | **by name** | §2.4 |
+| G2 for codes | **applies** | the `◇`-free layer interprets Heyting arithmetic, and `chk′` is a primitive recursive checker, so the calculus cannot prove its code consistency (§5). *Standard; not verified here* |
+
+The split between "with a budget" and "for any fixed budget" is Willard's
+instance-versus-uniform split, recast. Every instance is available once enough
+tokens are supplied. The uniform versions of D3 and contraction need a budget
+proportional to the certificate, and no term has one. The first two rows against
+the next two are the separation R4's charter asks for.
+
+It also answers obligation **RO1** (affineness at the object level does not evade
+G2: B–S's `□`-contraction can hold in affine PA). The affinity here is on the
+*certificate sort*, not the object logic. `□`-contraction fails for a
+quantitative reason — node count — not a structural one.
+
+## 5. Two consistency statements, and the gap between them
+
+- `H° = Π(r :₁ R). T(chk′(print r, c⊥)) → 0` — certificate consistency.
+- `Con′ = Π(c :₁ Code). T(chk′(c, c⊥)) → 0` — code consistency. The usage-1
+  quantifier makes it the stronger form, since it implies the usage-`ω` version.
+
+Four facts.
+
+1. **Externally, the two are equivalent,** and both are equivalent to the
+   consistency of λᶜᵉʳᵗ: `print` is shape-preserving, and every code of a
+   refutation is `print` of some tree.
+2. **The calculus proves `Con′ → H°`:** `λf r e. f (print r) e`.
+3. **The calculus proves `H°`,** as the axiom `H`.
+4. **It does not prove `Con′`, nor `H° → Con′`** — by G2 for codes (§4, last
+   row), given 3. The missing direction would need a map from `Code` into `R`
+   whose output prints back to its input, and building an output of `N` nodes
+   needs `N` tokens. With `k` tokens the restricted form is provable: for codes
+   of at most `k` nodes, parse and then apply `H`.
+
+So `H°` is **equivalent to consistency but internally weaker than its ordinary
+formalization**, and every bounded instance of the stronger statement is
+available. This is the status Willard's systems have: they prove their
+tableaux-consistency axiom but cannot verify their Hilbert consistency, and
+revising Group-3 to Hilbert proofs makes `IS-1(A)` inconsistent
+(`Willard2002c` Remark 3, `cited`). The analogy is structural: certificates are
+to codes as cut-free tableaux are to Hilbert proofs — the representation that
+cannot be compressed, against the one that can. It is the substance of Willard's
+own objection to himself (`Willard2016` §8, statement ###; register row). His
+reply rests on `Willard2016` Corollary 8.2 (`full`), which depends on Theorem 6.7
+and so on Conjecture 6.6 (`stated-only`).
+
+## 6. Why no large numbers appear
+
+In Willard's arithmetic a proof is a number, and a short term can denote a huge
+number. Repeated squaring fixes `v_n = 2^{2^n}` in a sentence of `O(n)` symbols
+(`Willard2007-APAL` Definition 6), and the systems with total multiplication
+prove it in `O(n^d)` steps (`Willard2007-APAL` Lemma 2, `full`; refined-sjas
+§4). Self-justification therefore needs a language
+too weak to write the compressing operations. That is the growth restriction,
+and every analysis of it runs through numbers like `2^{2^n}`.
+
+In λᶜᵉʳᵗ a certificate is a tree, and **the only way to hold a certificate of
+`N` nodes at runtime is to have spent `N` tokens.** There is no compressed
+naming to forbid, so nothing else needs to be forbidden:
+- ordinary arithmetic stays strong;
+- certificates compose linearly;
+- the checker is symbolic.
+
+Willard's margin — "it is impossible in log₂p − 1 bits to encode a number as
+large as p" (`Willard1993-TR` printed p. 13, register row) — becomes the
+statement that a certificate cannot declare more tokens than it cost.
+
+## 7. Open decisions, and where an attack would come from
+
+- **The likeliest attack** is the interaction of usage `0` with dependency.
+  Erased terms may use tokens without limit, and types compute. The theorem
+  needs every certificate and every piece of evidence that `H` consumes to be
+  at usage 1 (§2.5); L2 must guarantee that no reduction moves an erased term
+  into a runtime position.
+- **Second:** eliminator methods and `ω`-scaling. A rule that let a method
+  capture a usage-1 variable would let iteration copy tokens.
+- **Third:** any definable map from `Code` into `R`, or any closed inhabitant of
+  `◇` other than `abort_◇`.
+- **Identity types** are deliberately absent. Transport is harmless, but
+  equality reflection would not be.
+- **`chk′` as a primitive, or defined inside the calculus.** A primitive keeps
+  self-reference by name. A definition would need the checker's own code inside
+  it, reintroducing a diagonal.
+- **A reduction-rule form of `H`.** Instead of the constant, add
+  `chk′(print r, c⊥) ⇝ ff`. Given `T`, this is equivalent to `H`, and connects
+  to the "certified constant-result optimization" of the 2026-09-22 note. Not
+  adopted, since it complicates L1.
+- **The Level(1) pair form**
+  `Π(r s :₁ R)(c :₁ Code). T(chk′(print r, c)) → T(chk′(print s, neg c)) → 0`
+  is left for later.
+- **Relation to Beklemishev–Shamkanov.** Their Theorem 5 gives cut
+  admissibility with a linear size bound (register row, printed p. 11). Their §6
+  conjectures a counterexample to non-formalized G2 from an operator like `!`
+  and a fixed point `a = ◇!a`, with the modal `◇` (register row, printed p. 14).
+  λᶜᵉʳᵗ is a different route to the same target: a constant over a
+  resource-sorted certificate type, rather than a fixed point in an extended
+  logic.
+
+## 8. Sources and verification
+
+- **Hofmann**, "Linear types and non-size-increasing polynomial time
+  computation", Information and Computation 183(1) (2003) 57–85, DOI
+  10.1016/S0890-5401(03)00009-9. Witness held:
+  [`lit/hofmann2003_linear_types_non_size_increasing_ic183.pdf`](lit/hofmann2003_linear_types_non_size_increasing_ic183.pdf),
+  hash in `lit/SHA256SUMS`. Text layer PDF pp. 1–29; page images of printed
+  pp. 57, 59, 60, 61, 62, 63, 65, 66, 78, 79 and 82. Only the size discipline
+  is used here, not Hofmann's polynomial-time theorem (Corollary 5.5.1).
+- **Atkey**, "Syntax and Semantics of Quantitative Type Theory", LICS 2018, DOI
+  10.1145/3209108.3209189. Witness held:
+  [`lit/atkey2018_syntax_semantics_quantitative_type_theory_lics.pdf`](lit/atkey2018_syntax_semantics_quantitative_type_theory_lics.pdf).
+  Text layer read at the introduction; page image of p. 1 only. The body of
+  the paper has not been read, and nothing here rests on it.
+- **Not held.** Hofmann's LICS 1999 preliminary version; his POPL 2002 "The
+  strength of non size-increasing computation"; McBride's 2016 system that QTT
+  reformulates. Nothing rests on them.
+- **Willard.** `Willard1993-TR` printed pp. 13, 37 and 38 and Lemma 6.2
+  (`full`); `Willard2002c` Remark 3 (`cited`); `Willard2007-APAL` Lemma 2
+  (`full`); `Willard2016` Definition 3.4, §8, and Corollary 8.2 (`full`,
+  conditional as stated in §5).
