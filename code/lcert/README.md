@@ -29,7 +29,7 @@ This needs the Clojure CLI. The fast suite needs nothing else. The extended
 suite downloads Ansatz from Clojars on first use, and never a Mathlib store.
 
 ```
-bin/test-fast        # the language: 41 tests
+bin/test-fast        # the language: 44 tests
 bin/test-extended    # adds the Ansatz-verified kernel, and re-runs everything on it
 ```
 
@@ -120,11 +120,11 @@ Three design points:
   destructor.
 
 **Not covered:**
-- `H₁` at runtime — it is unreachable in typed programs, so nothing reaches
-  it;
-- the `abort` default — likewise unreachable;
-- the recovery of Check from an internal exception — a malformed code is
-  simply rejected.
+- `H₁` and `abort` at runtime, in typed programs — they are expected to be
+  unreachable (metatheory Corollary 5.1). Untyped probes test only that they
+  evaluate their arguments.
+- tokens captured inside closures — the runtime duplicate-token check sees
+  certificate trees and pairs, not function values.
 
 **The extended suite** adds:
 - the Ansatz kernel's theorems;

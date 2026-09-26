@@ -1185,6 +1185,24 @@ interpretation of `reflect` in P5.
 | RR2-12 | minor | The draft's §6 said certificates "compose linearly" | fixed in the draft |
 | RR2-13 | minor | Conjecture 4.6's "in particular" does not follow from it | fixed: recast as motivation |
 
+**Implementation review, 2026-09-26.** Grok 4.7, through Cursor, reviewed
+the implementation (ADR-0005) against §§1.4–1.6 and §5. Two earlier attempts
+did not complete:
+- one on gpt-5.6-sol was stopped by the provider's safety filter, over the
+  prompt's wording;
+- a reworded one hit that model's monthly usage limit.
+
+**What it found:**
+- *Nothing critical.* `Check` accepts no code the rule table rejects. The type
+  checker, the evaluator and the kernel measures follow the specification.
+- *Three minor mismatches*, all fixed with tests first:
+  - `abort`, `H₁` and `reflect`'s evidence now evaluate their arguments, as
+    call-by-value requires;
+  - default tokens are now distinct objects, and the runtime check's blind
+    spot — closures — is documented;
+  - a pathologically deep code is now rejected instead of overflowing the
+    stack.
+
 ## 9. Corrections this document makes to the draft
 
 | Draft location | Correction | Where |

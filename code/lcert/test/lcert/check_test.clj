@@ -135,3 +135,8 @@
       (is (= box (:type d)))
       (is (true? (c/check code (e/enc-exp box))))
       (is (= 35 (k/budget code))))))
+
+(deftest deep-codes-are-rejected-not-crashed
+  (testing "E3: a pathologically deep code is rejected, not a stack overflow"
+    (let [deep (loop [c [:sl :nil] i 0] (if (< i 200000) (recur [:sn :Lam c [:sl :nil]] (inc i)) c))]
+      (is (false? (c/check deep bool->bool))))))

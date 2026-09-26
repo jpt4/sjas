@@ -383,7 +383,10 @@
                     (s/closed? (:type D))
                     (= d (e/enc-exp (:type D)))
                     (valid? D)))))
-          (catch Exception _ false))]
+          (catch Exception _ false)
+          ;; a pathologically deep code exhausts the stack: reject it too
+          ;; (review E3); Check's recursion is otherwise well founded
+          (catch StackOverflowError _ false))]
     (when (and accepted (not (< (k/budget c) (k/nodes c))))
       (throw (ex-info "strict overhead violated: a defect of the encoding"
                       {:type :lcert/defect :budget (k/budget c) :nodes (k/nodes c)})))

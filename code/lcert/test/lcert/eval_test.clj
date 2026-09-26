@@ -105,3 +105,15 @@
     (let [tok (ev/token 1)]
       (is (thrown? clojure.lang.ExceptionInfo
                    (ev/assert-linear! [:rn tok :a [:rn tok :a [:rl :a] [:rl :a]] [:rl :a]]))))))
+
+(deftest implementation-review-fixes
+  (testing "E1: abort, H1 and reflect's evidence evaluate their arguments first (call-by-value, §5)"
+    ;; untyped probes: applying tt as a function fails, so a thrown exception
+    ;; shows that the argument was evaluated rather than skipped
+    (let [bad [:app [:tt] [:tt]]]
+      (is (thrown? Exception (#'ev/ev [:abort [:Bool] bad] [] 0 {:erase? true})))
+      (is (thrown? Exception (#'ev/ev [:h1 [:leaf [:lbl :a]] [:leaf [:lbl :a]] [:sleaf [:lbl :a]] bad [:star]]
+                                    [] 0 {:erase? true})))
+      (is (thrown? Exception (#'ev/ev [:reflect [:Nat] [:leaf [:lbl :a]] bad] [] 0 {:erase? true})))))
+  (testing "E2: default tokens are distinct objects"
+    (is (not= (ev/default-value [:Dia]) (ev/default-value [:Dia])))))

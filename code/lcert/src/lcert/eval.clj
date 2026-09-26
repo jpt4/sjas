@@ -54,7 +54,9 @@
 
 (defn assert-linear!
   "Throw if some token object occurs twice in value v: a well-typed program
-  run by the erasing evaluator never duplicates a token."
+  run by the erasing evaluator never duplicates a token.  The walk sees
+  certificate trees and pairs; tokens captured inside a closure are not
+  visible to it (review E2), so a value of function type is not checked."
   [v]
   (let [ts (tokens v)]
     (when (not= (count ts) (count (distinct ts)))
@@ -72,7 +74,9 @@
 (defn default-value [sk]
   (case (first sk)
     :Unit :star, :Bool false, :Nat 0, :Lbl (first s/labels)
-    :Syn [:sl (first s/labels)], :Dia (token :phantom), :R [:rl (first s/labels)]
+    :Syn [:sl (first s/labels)], :R [:rl (first s/labels)]
+    ;; a fresh phantom token each time, so two defaults never share one
+    :Dia (token (keyword (gensym "phantom")))
     :Fn (let [v (default-value (nth sk 2))] (fn [_] v))
     :Prod [:pv (default-value (second sk)) (default-value (nth sk 2))]))
 
@@ -133,7 +137,9 @@
       :zero 0
       :succ (inc (go (second t)))
       :lbl (second t)
-      :abort (default-value (c/skel (second t)))
+      ;; call-by-value: the argument runs first (review E1); in a typed
+      ;; program it cannot produce a value, so the default is never observed
+      :abort (do (go (nth t 2)) (default-value (c/skel (second t))))
       :if (let [[_ b x y] t] (if (go b) (go x) (go y)))
       :elimBool (let [[_ _P b x y] t] (if (go b) (go x) (go y)))
       :recN (let [[_ _P z st nn] t
@@ -173,9 +179,10 @@
                  [_ x y] (go p)]
              (under [x y] body))
       :chk (let [[_ cc dd] t] (c/check (go cc) (go dd)))
-      :h1 :star
-      :reflect (let [[_ D rr _] t
-                     v (go rr)]
+      :h1 (do (doseq [x (rest t)] (go x)) :star)
+      :reflect (let [[_ D rr ev0] t
+                     v (go rr)
+                     _ (go ev0)]
                  (if (and (<= (nodes v) n) (c/check (print-value v) (e/enc-exp D)))
                    ;; run the certified program on m of v's own tokens
                    (let [dd (e/dec-deriv (print-value v))
