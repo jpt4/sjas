@@ -43,8 +43,10 @@ It tests three things.
 2. **Whether R4's two transfer targets come apart.** The charter (ADR-0002, R4
    row, from ADR-0004) asks for a type theory in which the boxed diagonal
    `copy : □A → □A ⊗ □A` and uniform proof composition are exhibited
-   *separately*. Here linear composition survives at a constant cost, while the
-   boxed diagonal and the fourth derivability condition fail (§4).
+   *separately*. Here the boxed diagonal and the fourth derivability condition
+   fail under every encoding of derivations. Composition's cost depends on the
+   encoding: constant under a relative encoding, growing with the premises
+   under the full-judgment encoding the draft currently uses (§4).
 3. **Whether a symbolic self-justifying calculus avoids infeasible numbers.**
    Willard's arithmetic must name proofs by numbers and cripple multiplication
    to keep short terms from naming huge ones. Here a certificate of size `N`
@@ -73,7 +75,7 @@ separates them is the operations the theory has on them:
 | build from nothing | free | one token per node |
 | copy | free | impossible — it would double the tokens |
 | quote one inside another | free: a literal term | costs the certificate's size again, twice over (§4) |
-| compose two into a third | free | a constant number of tokens (§4) |
+| compose two into a third | free | tokens for the new root: constant under a relative encoding, growing with the premises under the full-judgment encoding (§4) |
 | convert to the other sort | no parse into `R` | `print` |
 
 **The distinction is relative to the theory, not intrinsic to the data.** The
@@ -543,7 +545,7 @@ Write `□A := Σ(r :₁ R). T(chk′(print r, ⌜A⌝))`, where `⌜A⌝` is `A
 | | In λᶜᵉʳᵗ | Why |
 | --- | --- | --- |
 | D1 | **with a budget** | for a derivation `d` of `⊢ u : A`, `Θ_{‖d‖} ⊢ (lit_d, ⋆) : □A`, where `lit_d` builds `d`'s tree from the tokens |
-| D2 | **linear, with a constant budget** | `Θ_k ⊢ comp : □(A → B) ⊗ □A ⊸ □B`, with `k` covering the new rule node and its judgment |
+| D2 | **encoding-dependent** | `comp : □(A → B) ⊗ □A ⊸ □B` adds a root node for the application. Under §2.4's encoding every node records its whole conclusion, so the new root repeats both premises' conclusion terms and types, and the budget grows with them. Under a *relative* encoding — conclusions reconstructed by `Check` from the premises, contexts split between premises, variables scoped to their own subderivation — one new node suffices, a constant budget |
 | D3 | **no, for any fixed budget** | a certificate for `□A` built from `r` must record the literal term that rebuilds `r`, together with its `‖r‖` tokens, so it has more than `2‖r‖` nodes. From `r` and a fixed `k` tokens, at most `‖r‖ + k` nodes can be built |
 | boxed contraction `□A ⊸ □A ⊗ □A` | **no, for any fixed budget** | it doubles the nodes: Hofmann's diagonal map (p. 79) |
 | self-reference | **by name** | §2.4 |
@@ -552,8 +554,19 @@ Write `□A := Σ(r :₁ R). T(chk′(print r, ⌜A⌝))`, where `⌜A⌝` is `A
 The split between "with a budget" and "for any fixed budget" is Willard's
 instance-versus-uniform split, recast. Every instance is available once enough
 tokens are supplied. The uniform versions of D3 and contraction need a budget
-proportional to the certificate, and no term has one. The first two rows against
-the next two are the separation R4's charter asks for.
+proportional to the certificate, and no term has one.
+
+**These two failures hold under every encoding.** A certificate for `□A` built
+from `r` must contain the literal rebuilding `r`: one constructor application,
+hence at least one derivation node, per node of `r`. It must also declare the
+literal's `‖r‖` tokens, one node each (the stipulation under A). Copying `r`
+yields `2‖r‖` nodes outright.
+
+**D2 is different:** its uniform version holds at constant cost only under a
+relative encoding. So the separation R4's charter asks for — composition kept,
+boxed diagonal lost — is exhibited only once a relative encoding is chosen
+(§7). Under the current full-judgment encoding, composition too needs a budget
+that grows with its inputs, and λᶜᵉʳᵗ breaks all three uniform conditions.
 
 It also answers obligation **RO1** (affineness at the object level does not evade
 G2: B–S's `□`-contraction can hold in affine PA). The affinity here is on the
@@ -618,6 +631,11 @@ statement that a certificate cannot declare more tokens than it cost.
   example needs. Fixing the rest comes before any of L1–L4 can be proved.
 - **The apparatus.** Natural deduction with detours, as now, or normal
   derivations only, the tableau-faithful variant (§2.8).
+- **The encoding of derivations.** Full judgments at every node (§2.4, §2.7),
+  or a relative encoding in which `Check` reconstructs conclusions. The choice
+  decides whether composition is constant-cost, and so whether R4's separation
+  is exhibited (§4). A relative encoding must still declare the budget entry by
+  entry.
 - **The likeliest attack** is the interaction of usage `0` with dependency.
   Erased terms may use tokens without limit, and types compute. The theorem
   needs every certificate and every piece of evidence that `H` consumes to be

@@ -5684,3 +5684,41 @@ and an explicit decision on how conversions are recorded.
 The user asked only for the log; the draft is unchanged by this entry.
 
 `audit.sh` green.
+
+## 2026-09-25 — Correction: composing certificates is not constant-cost in the draft's own encoding
+
+Found while listing the language's features for the user. It was reported to
+the user in the same reply, before the feature list.
+
+**The error.** The R4 draft's §4 gave D2 as "linear, with a constant budget".
+§1 and §2.0 repeated this, and so did the chat answers and three entries of
+this log:
+- 2026-09-25, "Six questions", Q7's flagged finding: "Linear composition
+  survives at a constant token cost";
+- 2026-09-25, "Code versus representation": "composed at a constant token
+  cost";
+- 2026-09-25, "λᶜᵉʳᵗ's deductive apparatus": composition is "harmless", which
+  is still true in the sense meant there.
+
+But §2.4 defines an explicit derivation as recording, at every node, the whole
+conclusion judgment, and the §2.7 example is built that way. A composed
+certificate's new root must then repeat both premises' conclusion terms and
+types, so its token cost grows with them. It is not constant.
+
+**The correction, now in the draft (§1, §2.0, §4, §7):**
+- **D3 and boxed contraction fail uniformly under every encoding.** Quoting `r`
+  needs one derivation node per node of `r` for the literal, plus one node per
+  declared token. Copying `r` yields `2‖r‖` nodes.
+- **D2 is encoding-dependent.** Under the full-judgment encoding it needs a
+  growing budget. Under a *relative* encoding — conclusions reconstructed by
+  `Check`, contexts split between premises, variables scoped to their own
+  subderivation — one new node suffices. The budget must still be declared
+  entry by entry.
+
+**What changes in the conclusions.** The separation R4's charter asks for —
+composition kept, boxed diagonal lost — is exhibited only under a relative
+encoding. The finding "the breach is at D3 and contraction, not composition"
+holds only there. Under the current encoding λᶜᵉʳᵗ breaks all three uniform
+conditions. The choice of encoding is added to §7 as an open decision.
+
+`audit.sh` green.
