@@ -5778,3 +5778,76 @@ the same, or L4 fails. This is now in §8.2 and §8.3, with a register row
 the previous entry.
 
 `audit.sh` green.
+
+## 2026-09-25 — Goal set: pair-form consistency, proofs, and an implementation on Ansatz
+
+**The goal, verbatim:**
+
+> Revise the draft to include Willard's stronger consistency notion (no
+> certificates of both a sentence and its negation); then, prove all unknowns
+> required to ensure the correctness of this draft. Finally, implement the
+> calculus as a minimal programming language using the Clojure Ansatz library.
+
+**Followed by:**
+
+> Recall that you have the Codex (codex) and Cursor (agent) clis both available
+> on this machine, to which to delegate tasks as needed. Do not deadlock the
+> machine, but feel free to use all resources at your disposal. Devise a plan
+> using your best reasoning, then execute it.
+
+**Ansatz** is `org.replikativ/ansatz` (Clojars, 0.2.115): a dependently typed
+Clojure DSL on a Lean 4-compatible kernel (CIC), whose verified definitions
+compile to ordinary Clojure functions. Its zero-config mode, `(a/load-init!)`,
+uses the Lean Init environment bundled in the jar. With `ANSATZ_OFFLINE=1` it
+never downloads the ~1.3 GiB Mathlib store, which unpacks to about 5 GB.
+
+**Machine constraints** at the time of planning:
+- 4 cores;
+- 15 GB RAM, about 2.5 GB available, swap about 85% used;
+- the root filesystem 100% used, 1.9 GB free;
+- the sjas working tree is 2.9 GB.
+
+**Hence:** no git worktrees; at most one JVM at a time, heap capped; at most two
+agent CLIs at once; never initialize a Mathlib store; delegated agents work in
+scratch directories and their output is integrated here.
+
+**The key technical decision — a semantic consistency proof by induction on
+budgets.**
+- *What it replaces:* the draft's theorem is conditional on normalization,
+  subject reduction, canonicity and affine mass (L1–L4).
+- *The model:* for each budget `n`, a set-theoretic model with sizes —
+  Hofmann's non-size-increasing semantics, footprints capped at `n` — proved
+  sound by strong induction on `n`.
+- *Why only `H` needs the induction:* at budget `n`, any certificate a term can
+  hold has at most `n` nodes, so by strict overhead it encodes a refutation of
+  budget below `n`, which the induction hypothesis rules out.
+- *What else it covers:*
+  - the pair form: the two represented derivations compose into a refutation
+    of budget `m₁ + m₂ < n`;
+  - certified self-evaluation for data types, since a decoded term of budget
+    `m < ‖r‖` is interpreted at the smaller budget.
+- *What still needs normalization:* only the language's termination claim,
+  proved separately.
+
+**The plan:**
+1. Setup and a feasibility check of Ansatz, offline, on this machine.
+2. Revise the draft: pair-form consistency `H₁`; correct §7's claim that the
+   reduction-rule form of `H` is equivalent — it also covers erased
+   certificates, which the budget argument does not.
+3. Proofs: a new document, `refinement/R4-metatheory.md`, with the full rule
+   table of a core calculus, the syntactic lemmas, the budget-indexed model and
+   consistency theorem, termination, and a reduction of "Gödel's second theorem
+   applies to codes" to the standard theorem for r.e. extensions of PRA.
+   Independent adversarial reviews by codex and Cursor, read-only, with fixes
+   and repeated review until no confirmed defect remains.
+4. Implementation, under ADR-0005 on branch `adr-0005-lcert`, in `code/lcert/`,
+   test-first:
+   - parser, usage-checking type checker recording explicit derivations,
+     encoding, structural `Check`, evaluator with runtime tokens, and the
+     primitives;
+   - the encoding, `print`, node counts and the strict-overhead inequality
+     defined and machine-checked in Ansatz;
+   - differential tests against the plain-Clojure implementation;
+   - a fast suite without Ansatz, and an extended suite with it.
+5. Integration: point the draft to the proofs, write the ADR's after-action
+   report, and report back.
