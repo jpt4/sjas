@@ -5616,3 +5616,71 @@ and log please").
   inherited consistency from Willard's theorem. λᶜᵉʳᵗ drops the tableau.
 
 `audit.sh` green.
+
+## 2026-09-25 — Unifying terms and types, PTS-style: what survives, what it costs
+
+The question, verbatim:
+
+> > Here, compressing a term never compresses a certificate: a certificate of N
+> > nodes costs N tokens, however it was computed. <- In this draft we are using
+> > two explicitly different term and type languages, correct? What if they
+> > were unified, in the manner of a pure type system?
+
+**Yes, the draft is stratified.** It has two syntactic categories and two
+judgments, `Γ ⊢ A type` and `Γ ⊢ t : A` (BoolF against the other rules in §2.7;
+`isType` against `has` in the encoding). Types depend on terms, but are not
+terms. The only program producing a type is the large elimination
+`T : Bool → Type`. The ordinary/resource layers are a separate, usage-based
+distinction.
+
+**What unification would leave intact:**
+- *Holding a certificate still costs its size*, given three conditions: `R`
+  stays a primitive inductive type whose `node` takes `◇` at usage 1; `◇` has
+  no closed inhabitant; erased terms never reach runtime. A pure PTS, having no
+  inductive types, would force Church-encoding `R`, and whether affine Church
+  encodings keep the token discipline is **unchecked**.
+- *Adequacy* is unaffected: the budget is still declared entry by entry.
+
+**What it would change:**
+1. **The erasure boundary carries all the weight.** Every term can occur as
+   both type and data, so subject reduction with usages (L2) becomes the
+   central lemma.
+2. **Certificates of short programs can become enormous.** The draft's
+   sentence refines here: it is about *holding* a certificate (soundness), not
+   about how many nodes a given program's certificate *needs* (feasibility).
+   Explicit derivations record every conversion. With type operators, a short
+   program can need type-level normalization of non-elementary length — Fω's
+   type level is the simply typed λ-calculus, whose normalization is not
+   elementary (Statman 1979; standard, not verified). The stratified draft
+   already has the mild form: a derivation of `⋆ : T(b)` records `b`'s whole
+   evaluation. So infeasibility returns as certificates the system cannot
+   afford, not as numbers it computes over. A program pays only for what it
+   certifies.
+3. **Implicit conversions would reintroduce circularity.** `Check` would have
+   to normalize the calculus, which includes `chk′`, whose rule calls `Check`.
+   The self-reference would lose its well-founded definition, `chk′` could
+   stick, and canonicity and exhibition would fail. A hybrid is possible —
+   record `chk′` steps explicitly and normalize an independently terminating
+   type level — trading certificate size for checking time.
+4. **The sort structure must be chosen consistently.** `Type : Type` gives
+   Girard's paradox (standard). `T` is a large elimination, so the target is a
+   PTS extended with inductive types, CIC-style, not a pure PTS. The metatheory
+   for L1 grows: normalization of System F alone implies the consistency of
+   second-order arithmetic (Girard; standard).
+
+**What it would make possible: an internal `□`.** In the stratified draft `□A`
+is a schema, one definition per closed `A`. A unified system invites
+`□ : * → *`. That needs quotation of types inside the calculus, and since
+quotation must respect conversion (2026-09-05 note, §9), it must quote normal
+forms. That is typed self-representation — Brown–Palsberg's territory and R4's
+original target. Even so, an internal `□` would not restore the fourth
+derivability condition for certificates: quoting a certificate still costs its
+size again.
+
+**Recommendation given:** prove L1–L4 in the stratified draft first. Treat
+unification as a separate draft with a CIC-style sort structure, primitive `R`,
+and an explicit decision on how conversions are recorded.
+
+The user asked only for the log; the draft is unchanged by this entry.
+
+`audit.sh` green.
