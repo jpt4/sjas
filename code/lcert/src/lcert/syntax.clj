@@ -244,6 +244,8 @@
 ;;          (tensor A B) = Σ at 1,  (prod A B) = Σ at ω    (non-dependent)
 ;;   Terms: x  star tt ff zero  n (a numeral)  :label  c-bot
 ;;          (fn [x u A ...] body)   (f a b ...)   (if b t e)
+;;          (let [x u A e ...] body)   sugar for ((fn [x u A] body) e)
+;;          (the A t)   ascription: sugar for ((fn [z 1 A] z) t)
 ;;          (elim-bool [x P] b t1 t2)   (succ n)   (rec-nat [x P] z [x y] s n)
 ;;          (case-lbl [x P] a {:l t ... :else t})
 ;;          (sleaf a) (snode a c1 c2) (rec-syn [x P] [a] tl [a c1 c2 y1 y2] tn c)
@@ -325,6 +327,18 @@
               (parse-term scope f)))
           labels)))
 
+(defn- parse-let
+  "(let [x u A e ...] body): sugar for ((fn [x u A] body) e), binding each
+  name in the scope of the next.  It adds no rule: the core sees a β-redex."
+  [scope [bs & body]]
+  (when (not= 1 (count body)) (fail "let takes one body" {:bindings bs}))
+  (when-not (and (vector? bs) (pos? (count bs)) (zero? (mod (count bs) 4)))
+    (fail "let bindings are [x u A e ...]" {:bindings bs}))
+  (let [[x u a e & more] bs
+        inner (if (seq more) (list* 'let (vec more) body) (first body))]
+    [:app [:lam (parse-usage u) (parse-type scope a) (parse-term (conj scope x) inner)]
+     (parse-term scope e)]))
+
 (defn- parse-fn [scope [bs & body]]
   (when (not= 1 (count body)) (fail "fn takes one body" {:binders bs}))
   (when-not (and (vector? bs) (pos? (count bs)) (zero? (mod (count bs) 3)))
@@ -356,6 +370,10 @@
           motive (fn [[x P]] (parse-type (conj scope x) P))]
       (case head
         fn (parse-fn scope args)
+        let (parse-let scope args)
+        ;; (the A t): ascription, as ((fn [z 1 A] z) t); its type is A
+        the (let [[A x] args]
+              [:app [:lam 1 (ty A) [:var 0]] (p x)])
         if (let [[b t e] args] [:if (p b) (p t) (p e)])
         elim-bool (let [[bm b t1 t2] args] [:elimBool (motive bm) (p b) (p t1) (p t2)])
         succ [:succ (p (first args))]

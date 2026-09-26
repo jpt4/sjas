@@ -22,8 +22,9 @@
     lcert.core-test])
 
 (def extended-namespaces
-  "Tests of the Ansatz kernel itself, run before the fast suite is repeated."
-  '[lcert.verified-test])
+  "Tests of the Ansatz kernel itself, run before the fast suite is repeated,
+  and the slower probes: the embedding of PA (step 1 of Proposition 5)."
+  '[lcert.verified-test lcert.pa-test])
 
 (defn -main [suite & only]
   (let [nss (cond

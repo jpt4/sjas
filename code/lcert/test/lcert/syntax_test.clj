@@ -109,3 +109,16 @@
       (is (not (s/canonical-code-term? [:snode [:var 0] [:sleaf [:lbl :a]]
                                         [:sleaf [:lbl :a]]])))
       (is (not (s/canonical-code-term? [:print [:leaf [:lbl :a]]]))))))
+
+(deftest let-is-a-beta-redex
+  (testing "(let [x u A e] body) is sugar for ((fn [x u A] body) e)"
+    (is (= [:app [:lam :w [:Nat] [:succ [:var 0]]] [:succ [:succ [:succ [:zero]]]]]
+           (s/parse-term [] '(let [x w Nat 3] (succ x))))))
+  (testing "several bindings nest, each in scope of the next"
+    (is (= [:app [:lam :w [:Nat] [:app [:lam :w [:Nat] [:var 1]] [:succ [:var 0]]]] [:zero]]
+           (s/parse-term [] '(let [x w Nat zero y w Nat (succ x)] x))))))
+
+(deftest the-is-an-ascription
+  (testing "(the A t) is sugar for ((fn [z 1 A] z) t): its type is A, up to conversion"
+    (is (= [:app [:lam 1 [:Unit] [:var 0]] [:star]]
+           (s/parse-term [] '(the Unit star))))))
