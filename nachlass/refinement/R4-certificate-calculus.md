@@ -5,12 +5,22 @@ self-justifying calculus, built to test the **resource form** of the
 self-justification criterion (`../LOG.md`, entries of 2026-09-24 and
 2026-09-25).*
 
-> **Status.** Nothing here is proved. §3 states four lemmas and derives the
-> consistency theorem **from** them; the lemmas are open. It is a design, not
-> an implementation, and no code exists. Claims about Hofmann and Atkey rest on
-> page images of the held witnesses, recorded in
-> [`VERIFICATION.md`](VERIFICATION.md). Claims about Willard carry the
-> registry's proof status at the point of use.
+> **Status.** The proofs are in [`R4-metatheory.md`](R4-metatheory.md), for a
+> core calculus λᶜᵉʳᵗ₀ with a complete rule table. They cover:
+> - consistency, including the pair form `H₁`;
+> - size soundness and termination;
+> - the claims of §§4–5.
+>
+> Gödel's second theorem for codes is reduced there to the theorem for PA; two
+> standard formalizations in that reduction are not carried out.
+>
+> Consistency is proved by a model, not by the four lemmas of §3. §3 is kept as
+> the original plan. Where the proofs showed this draft to be wrong, it has been
+> corrected, and each correction points to its proof.
+>
+> Claims about Hofmann and Atkey rest on page images of the held witnesses,
+> recorded in [`VERIFICATION.md`](VERIFICATION.md). Claims about Willard carry
+> the registry's proof status at the point of use.
 >
 > **Notation hazard.** `◇` below is **Hofmann's resource type**, not the modal
 > "possibly" of provability logic. Beklemishev–Shamkanov's `a = ◇!a` (§7) uses
@@ -43,10 +53,17 @@ It tests three things.
 2. **Whether R4's two transfer targets come apart.** The charter (ADR-0002, R4
    row, from ADR-0004) asks for a type theory in which the boxed diagonal
    `copy : □A → □A ⊗ □A` and uniform proof composition are exhibited
-   *separately*. Here the boxed diagonal and the fourth derivability condition
-   fail under every encoding of derivations. Composition's cost depends on the
-   encoding: constant under a relative encoding, growing with the premises
-   under the full-judgment encoding the draft currently uses (§4).
+   *separately*. Here the boxed diagonal and D3 (`□A ⊸ □□A`) fail uniformly —
+   no single budget serves every type — under every encoding that writes
+   contexts out entry by entry. Each instance holds once enough tokens are
+   supplied. Composition's cost, as a tree construction, depends on the
+   encoding: growing with the premises under the full-judgment encoding the
+   draft uses, and expected to be constant under a relative one. Inside the
+   calculus, a uniform composition is conjectured not to exist under any
+   encoding, because its evidence would need the checker to compute on open
+   codes (§4).
+   *An earlier state of this item said "the fourth derivability condition"; the
+   condition meant is D3 in §4's table.*
 3. **Whether a symbolic self-justifying calculus avoids infeasible numbers.**
    Willard's arithmetic must name proofs by numbers and cripple multiplication
    to keep short terms from naming huge ones. Here a certificate of size `N`
@@ -173,9 +190,11 @@ explicit derivation, **in λᶜᵉʳᵗ itself**, of a judgment
 `x₁ :₁ ◇, …, x_m :₁ ◇ ⊢ t : 0` for some `m`.
 
 **`Check` terminates.** It verifies each node locally, by structural recursion.
-When a node records a step `chk′(c′, d′) ⇝ b`, `Check` calls itself on `c′`,
-which is written out inside the derivation being checked and so is a proper
-subtree.
+When a node records a step `chk′(c′, d′) ⇝ b`, `Check` calls itself on `c′`.
+`c′` is written out, as a literal, inside the derivation being checked, so it
+has fewer nodes than that derivation. (An earlier state said "a proper
+subtree": the literal *encodes* `c′` and is at least as large; see
+`R4-metatheory.md` §1.6.)
 
 **Self-reference is by name.** `Check` checks against the calculus's finite
 rule table. That table includes the rule for `H` below, whose type mentions the
@@ -207,6 +226,46 @@ row; R6 §7.1).
 
 `H°` names the proposition `H`'s type asserts.
 
+**The pair form: Willard's stronger consistency notion.** Willard's Level(1)
+self-consistency axiom says that for no `Π*₁` sentence are there proofs of both
+it and its negation (`Willard2002c` Theorem 2, `full`, for `IS-1(A)`;
+`Willard2005`'s `IS_D(A)`, Eq. 6). Its counterpart here is a second constant:
+
+> `H₁ : Π(r :₁ R). Π(s :₁ R). Π(c :ω Syn). T(chk′(print r, c)) ⊸ T(chk′(print s, neg c)) ⊸ 0`
+
+(An earlier state wrote the evidence arrows as `→`. They are `⊸`, as in `H`:
+evidence obtained by inspecting a certificate is at usage 1, and could not be
+passed to an `ω`-argument; `R4-metatheory.md` §1.7.)
+
+- `neg c := snode(arrow₁, c, ⌜0⌝)` is the code of the type `A ⊸ 0`, where `c`
+  is the code of `A`.
+- `H₁` says that no certificate proves a type while another proves its
+  negation.
+- Both certificates and both pieces of evidence are runtime arguments, for the
+  reason given for `H`. `c` is ordinary data.
+- `H₁` has no reduction rule.
+
+**Negation must be the usage-1 arrow `A ⊸ 0`, not `A → 0`.** The consistency
+argument (§3) applies the represented proof of `A ⊸ 0` to the represented proof
+of `A`. That application consumes the latter's tokens, which an `ω`-arrow could
+not accept.
+
+**Scope, compared with Willard.** `H₁` ranges over *every* closed type. Willard
+reaches only Level(1), sentences of class `Π*₁`. Level(2+) is closed for finite
+systems with addition total: `Willard2004` Theorem 1 (`full`) — no such system
+recognizes its own Level(2+) tableaux consistency. Here the argument of §3 does
+not depend on the syntactic class of the sentence, only on the token budget.
+Why Willard's higher levels fail and these do not is noted, not analyzed.
+
+`H` does not follow from `H₁` inside the calculus. Outside it, a certificate of
+a refutation `t` can be rebuilt as one of `λx. t : 1 ⊸ 0` and paired with a
+certificate of `⊢ ⋆ : 1`, at a token cost that grows with the certificate. But
+the evidence that the rebuilt tree checks would need `chk′` to compute on an
+open code, which it does not (`R4-metatheory.md` §§4.5, 4.9). An earlier state
+said `H` follows "only at extra token cost"; that holds only outside the
+calculus. Both constants are therefore kept. In the core calculus, `H` is the
+case `D = 0` of `reflect_D` (§8.2).
+
 ### 2.6 Budgets
 
 Write `Θₙ = x₁ :₁ ◇, …, xₙ :₁ ◇`. A **refutation with budget `n`** is a term `t`
@@ -220,8 +279,9 @@ with `Θₙ ⊢ t : 0`. A closed refutation has budget 0.
 
 `→` is `Π` at usage `ω`.
 
-**The rules it uses.** The full rule table is not yet fixed (§7). This is the
-fragment the example needs:
+**The rules it uses.** The full rule table is fixed in `R4-metatheory.md` §1.4,
+and this example uses only instances of its rules. When this example was
+written, the table was not yet fixed. This is the fragment the example needs:
 
 | Rule | Premises | Conclusion |
 | --- | --- | --- |
@@ -424,13 +484,14 @@ does two jobs. λᶜᵉʳᵗ assigns them differently:
 | Job | Willard (tableaux) | λᶜᵉʳᵗ (natural deduction) |
 | --- | --- | --- |
 | block the operations Löb's derivation needs | no internal composition: the second derivability condition fails | composition is harmless, since combining terms makes no certificate without tokens. What is blocked is quoting and copying certificates, by the token discipline (§4) |
-| force a refutation to name its witness | the subformula property: the refutation must build `p*` as a node (`Willard1993-TR` Lemma 6.2, `full`) | the metatheory normalizes the refutation, and canonicity of normal forms plays the subformula property's role (exhibition, §3) |
+| force a refutation to name its witness | the subformula property: the refutation must build `p*` as a node (`Willard1993-TR` Lemma 6.2, `full`) | no witness needs naming. The metatheory's model gives every certificate reaching `H` a footprint bounded by the tokens supplied (`R4-metatheory.md` §3). The plan of §3, normalization plus canonicity, was not needed |
 
-The second row is Willard's own Meta-Logic convention, applied systematically:
-"our proofs shall *apply a cut rule at the meta-theoretical level*"
-(`Willard1993-TR` Remark 2, printed p. 24; register row). Here, too,
-normalization — the natural-deduction form of cut elimination — is carried out
-in the consistency proof, never by the calculus.
+The second row follows Willard's own Meta-Logic convention: "our proofs shall
+*apply a cut rule at the meta-theoretical level*" (`Willard1993-TR` Remark 2,
+printed p. 24; register row). Here, too, the work is done in the consistency
+proof, never by the calculus. It is done by a model, not by normalization, the
+natural-deduction form of cut elimination. *An earlier state of this row and
+paragraph named normalization and exhibition, the plan of §3.*
 
 Composition can stay because the danger Willard avoids by dropping cut is
 absent. In arithmetic, linear-sum composition lets a short proof name a huge
@@ -455,10 +516,23 @@ the comparison case for showing where λᶜᵉʳᵗ departs from Willard.
 **Relation to the constructive design of 2026-09-06.** That note, in the working
 tree's docs log, paired a constructive derivation with a Willard source tableau
 inside each certificate, so its consistency was inherited from Willard's
-theorem. λᶜᵉʳᵗ drops the tableau. Its consistency is meant to come from §3's
-argument alone.
+theorem. λᶜᵉʳᵗ drops the tableau. Its consistency comes from its own argument
+alone (`R4-metatheory.md` §3).
 
 ## 3. The lemmas, and the theorem they would give
+
+> **Superseded as a proof route.** `R4-metatheory.md` proves the theorem of
+> this section for a core calculus without L1–L4. It uses a set-theoretic model
+> in which values carry token footprints, capped at a budget `n`, and proves the
+> model sound by strong induction on `n` (its §3). Of the lemmas:
+> - L4 survives as size soundness (its T3);
+> - L1 survives as termination of the evaluator (its T4), which the language
+>   needs but the consistency proof does not;
+> - L2 and L3 have no role.
+>
+> The step this section's descent uses — a certificate of `n` nodes declares
+> fewer than `n` tokens — is the model's key step too. This section is kept as
+> the original plan.
 
 **L1 — Normalization.** Every term well-typed in a token context is strongly
 normalizing. `H` is inert, and `chk′` reduces only on closed canonical codes.
@@ -533,10 +607,30 @@ The case `n = 0` shows how the argument works. A closed refutation could only
 exhibit a certificate with no nodes, a single leaf, and no derivation is a
 leaf.
 
-**Corollary (conditional).** λᶜᵉʳᵗ is consistent, and contains a closed
-inhabitant, `H`, of a proposition asserting its own consistency. That is the two
-clauses of `Willard2016` Definition 3.4, read for this calculus's apparatus and
-certificate representation.
+**The pair form `H₁`.** Exhibition extends to `H₁`: descend to an innermost
+application `H₁ r s c e₁ e₂` whose certificates contain no `H` or
+`H₁`-application and whose two checks both compute to `tt`. (If either check
+computes to `ff`, the corresponding evidence has type `T(ff) ≡ 0` and the descent
+continues into it.) Then:
+- `print r` encodes a derivation of `Θ_{m₁} ⊢ t₁ : A`, with `m₁ < ‖r‖`. `A` is
+  closed, because `Check` requires the certified type to be closed;
+- `print s` encodes one of `Θ_{m₂} ⊢ t₂ : A ⊸ 0`, with `m₂ < ‖s‖`;
+- renaming the tokens of `t₂` apart from those of `t₁`, the application
+  `t₂ t₁` is a refutation with budget `m₁ + m₂`;
+- `r` and `s` are both runtime arguments of one term, so they use disjoint
+  tokens, and `‖r‖ + ‖s‖ ≤ n`;
+- hence `m₁ + m₂ < n`, contradicting minimality again.
+
+The renaming and context-addition steps are the usual weakening lemmas for
+usage-annotated contexts. They are proved in
+[`R4-metatheory.md`](R4-metatheory.md), which also replaces L1–L4 by a proof
+that needs none of them (§3 there).
+
+**Corollary.** λᶜᵉʳᵗ is consistent, and contains closed inhabitants, `H` and
+`H₁`, of propositions asserting its own consistency. That is the two clauses of
+`Willard2016` Definition 3.4, read for this calculus's apparatus and
+certificate representation. The corollary is conditional here, and proved for
+the core calculus in `R4-metatheory.md` (T1, T2).
 
 ## 4. What survives of the derivability conditions
 
@@ -544,29 +638,48 @@ Write `□A := Σ(r :₁ R). T(chk′(print r, ⌜A⌝))`, where `⌜A⌝` is `A
 
 | | In λᶜᵉʳᵗ | Why |
 | --- | --- | --- |
-| D1 | **with a budget** | for a derivation `d` of `⊢ u : A`, `Θ_{‖d‖} ⊢ (lit_d, ⋆) : □A`, where `lit_d` builds `d`'s tree from the tokens |
-| D2 | **encoding-dependent** | `comp : □(A → B) ⊗ □A ⊸ □B` adds a root node for the application. Under §2.4's encoding every node records its whole conclusion, so the new root repeats both premises' conclusion terms and types, and the budget grows with them. Under a *relative* encoding — conclusions reconstructed by `Check` from the premises, contexts split between premises, variables scoped to their own subderivation — one new node suffices, a constant budget |
-| D3 | **no, for any fixed budget** | a certificate for `□A` built from `r` must record the literal term that rebuilds `r`, together with its `‖r‖` tokens, so it has more than `2‖r‖` nodes. From `r` and a fixed `k` tokens, at most `‖r‖ + k` nodes can be built |
-| boxed contraction `□A ⊸ □A ⊗ □A` | **no, for any fixed budget** | it doubles the nodes: Hofmann's diagonal map (p. 79) |
-| self-reference | **by name** | §2.4 |
-| G2 for codes | **applies** | the `◇`-free layer interprets Heyting arithmetic, and `chk′` is a primitive recursive checker, so the calculus cannot prove its code consistency (§5). *Standard; not verified here* |
+`μ(A)` below is the size of the smallest certificate of `A`. The proofs are in
+`R4-metatheory.md` §4.
 
-The split between "with a budget" and "for any fixed budget" is Willard's
+| | In λᶜᵉʳᵗ | Why |
+| --- | --- | --- |
+| D1 | **with a budget** | for a certificate `v` of `A`, `Θ_{‖v‖} ⊢ (lit_v, ⋆) : □A`, where `lit_v` builds `v`'s tree from the tokens (Prop. 4.2) |
+| D2 | **conjectured not derivable inside the calculus; as a tree construction, encoding-dependent** | a uniform `comp : □(A ⊸ B) ⊗ □A ⊸ □B` needs evidence that the composed tree checks. `chk′` computes only on closed codes, so no hypothesis about the premises yields that evidence (Conj. 4.6: an analysis, not a proof). As a tree construction, verified outside the calculus, `comp` adds a root node for the application. Under §2.4's encoding every node records its whole conclusion. So the new root repeats the combined context and both premises' conclusion terms and types, every premise node is re-recorded with the combined context, and the budget grows with the premises. Under a *relative* encoding — conclusions reconstructed by `Check` from the premises, contexts split between premises, variables scoped to their own subderivation — one new node is expected to suffice. No relative encoding is specified, so that is a conjecture |
+| D3 `□A ⊸ □□A` | **per instance yes; uniformly no** | every certificate of `□A` has more than `2μ(A)` nodes. Its root must declare at least `μ(A)` tokens, and its term must mention each of them (Prop. 4.3). From a minimal certificate and `k` tokens, at most `μ(A) + k` nodes can be built, so no `k` serves every `A` (Prop. 4.4). For each `A`, an instance exists with budget `μ(□A)` (Prop. 4.5) |
+| boxed contraction `□A ⊸ □A ⊗ □A` | **per instance yes; uniformly no** | two certificates of `A` need `2μ(A)` nodes, and only `μ(A) + k` can be built: Hofmann's diagonal map (p. 79) recast (Prop. 4.4). For each `A`, an instance exists with budget `2μ(A)`: discard the input and build two certificates (Prop. 4.5) |
+| self-reference | **by name** | §2.4 |
+| G2 for codes | **applies** | no budget derives any form of `Con′` (§5). Proved by reducing it to Gödel's second theorem for PA, with two standard formalizations not carried out (`R4-metatheory.md` §6) |
+
+*Corrections.* An earlier state of this table wrote `□(A → B)` in the D2 row.
+With `→` the argument's certificate may use no tokens, so the row now reads
+`⊸`. The same state presented `comp` as a term of the calculus. It argued D3
+and contraction from the claim that a certificate of `□A` "must record the
+literal term that rebuilds `r`". It need not: it may build any certificate of
+`A`. The conclusions survive in the uniform reading, by the argument now in the
+D3 row.
+
+The split between "with a budget" and "uniformly" is Willard's
 instance-versus-uniform split, recast. Every instance is available once enough
 tokens are supplied. The uniform versions of D3 and contraction need a budget
 proportional to the certificate, and no term has one.
 
-**These two failures hold under every encoding.** A certificate for `□A` built
-from `r` must contain the literal rebuilding `r`: one constructor application,
-hence at least one derivation node, per node of `r`. It must also declare the
-literal's `‖r‖` tokens, one node each (the stipulation under A). Copying `r`
-yields `2‖r‖` nodes outright.
+**These two failures hold under every encoding** that writes contexts out entry
+by entry and spends at least one node per variable occurrence
+(`R4-metatheory.md` E3, E4). A certificate of `□A` must declare the tokens that
+build its certificate of `A`, one node each, and its term must mention each of
+them.
 
-**D2 is different:** its uniform version holds at constant cost only under a
-relative encoding. So the separation R4's charter asks for — composition kept,
-boxed diagonal lost — is exhibited only once a relative encoding is chosen
-(§7). Under the current full-judgment encoding, composition too needs a budget
-that grows with its inputs, and λᶜᵉʳᵗ breaks all three uniform conditions.
+**D2 is different, in two ways.**
+- *As a tree construction,* it has constant cost only under a relative
+  encoding, and none is specified yet.
+- *Inside the calculus,* no uniform `comp` is expected under any encoding, for
+  the evidence reason in its row.
+
+So the separation R4's charter asks for — composition kept, boxed diagonal lost
+— can be exhibited at most at the level of certificate trees, with correctness
+proved outside the calculus, and only once a relative encoding is chosen (§7).
+Under the current full-judgment encoding, composition too needs a budget that
+grows with its inputs, and λᶜᵉʳᵗ breaks all three uniform conditions.
 
 It also answers obligation **RO1** (affineness at the object level does not evade
 G2: B–S's `□`-contraction can hold in affine PA). The affinity here is on the
@@ -575,22 +688,33 @@ quantitative reason — node count — not a structural one.
 
 ## 5. Two consistency statements, and the gap between them
 
-- `H° = Π(r :₁ R). T(chk′(print r, c⊥)) → 0` — certificate consistency.
-- `Con′ = Π(c :₁ Syn). T(chk′(c, c⊥)) → 0` — code consistency. The usage-1
+- `H° = Π(r :₁ R). T(chk′(print r, c⊥)) ⊸ 0` — certificate consistency.
+- `Con′ = Π(c :₁ Syn). T(chk′(c, c⊥)) ⊸ 0` — code consistency. The usage-1
   quantifier makes it the stronger form, since it implies the usage-`ω` version.
+
+(An earlier state wrote both evidence arrows as `→`. They are `⊸`, matching
+`H` in §2.5. The underivability in fact 4 holds for every variant, the weakest
+included, which has `ω` throughout: `R4-metatheory.md` §6.)
 
 Four facts.
 
 1. **Externally, the two are equivalent,** and both are equivalent to the
    consistency of λᶜᵉʳᵗ: `print` is shape-preserving, and every code of a
    refutation is `print` of some tree.
-2. **The calculus proves `Con′ → H°`:** `λf r e. f (print r) e`.
+2. **The calculus proves `Con′ ⊸ H°`:** `λf r e. f (print r) e`.
 3. **The calculus proves `H°`,** as the axiom `H`.
-4. **It does not prove `Con′`, nor `H° → Con′`** — by G2 for codes (§4, last
-   row), given 3. The missing direction would need a map from `Syn` into `R`
-   whose output prints back to its input, and building an output of `N` nodes
-   needs `N` tokens. With `k` tokens the restricted form is provable: for codes
-   of at most `k` nodes, parse and then apply `H`.
+4. **It does not prove `Con′`, nor `H° → Con′`, with any budget** — by G2 for
+   codes (§4, last row), given 3. The missing direction would need a map from
+   `Syn` into `R` whose output prints back to its input. Building an output of
+   `N` nodes needs `N` tokens, and no closed map yields more than a leaf
+   (`R4-metatheory.md` Prop. 4.1).
+   - The restricted form is provable, for codes of depth at most `k`, and needs
+     no tokens at all. It is a case analysis whose every case is a closed code
+     that `chk′` computes to be no refutation (Prop. 4.9). Its size grows
+     doubly exponentially in `k`.
+   - *An earlier state proposed "parse and then apply `H`", using `k` tokens.*
+     That route needs a destructor for `R`, which the core lacks, and a lemma
+     that the parse prints back to its input.
 
 So `H°` is **equivalent to consistency but internally weaker than its ordinary
 formalization**, and every bounded instance of the stronger statement is
@@ -627,36 +751,46 @@ statement that a certificate cannot declare more tokens than it cost.
 
 ## 7. Open decisions, and where an attack would come from
 
-- **The full rule table is not yet fixed.** §2.7 fixes only the fragment its
-  example needs. Fixing the rest comes before any of L1–L4 can be proved.
+- **The full rule table.** Fixed for the core calculus λᶜᵉʳᵗ₀ in
+  `R4-metatheory.md` §1. It contains §2.7's fragment. It omits `&`, which no
+  claim uses. *An earlier state said the table was not yet fixed.*
 - **The apparatus.** Natural deduction with detours, as now, or normal
   derivations only, the tableau-faithful variant (§2.8).
 - **The encoding of derivations.** Full judgments at every node (§2.4, §2.7),
-  or a relative encoding in which `Check` reconstructs conclusions. The choice
-  decides whether composition is constant-cost, and so whether R4's separation
-  is exhibited (§4). A relative encoding must still declare the budget entry by
-  entry.
-- **The likeliest attack** is the interaction of usage `0` with dependency.
+  or a relative encoding in which `Check` reconstructs conclusions.
+  - The choice decides the tree cost of composition (§4).
+  - A relative encoding must still declare the budget entry by entry, and must
+    keep the properties the consistency proof uses (`R4-metatheory.md` E1–E5
+    and Lemma 2.7).
+  - Even then, composition inside the calculus is conjectured to fail for want
+    of evidence (§4, D2 row).
+- **The likeliest attack** was the interaction of usage `0` with dependency.
   Erased terms may use tokens without limit, and types compute. The theorem
   needs every certificate and every piece of evidence that `H` consumes to be
-  at usage 1 (§2.5); L2 must guarantee that no reduction moves an erased term
-  into a runtime position.
+  at usage 1 (§2.5).
+  - *Now answered:* the metatheory's model lets erased values be unbounded and
+    never needs a bound on them (`R4-metatheory.md` §3.4).
+  - This is also why `reflect` has no conversion rule.
 - **Second:** eliminator methods and `ω`-scaling. A rule that let a method
-  capture a usage-1 variable would let iteration copy tokens.
+  capture a usage-1 variable would let iteration copy tokens. *Now answered:*
+  the model's `ItR` and `RecSyn` cases (`R4-metatheory.md` §3.5).
 - **Third:** any definable map from `Syn` into `R`, or any closed inhabitant of
-  `◇` other than `abort_◇`.
+  `◇` other than `abort_◇`. *Now answered:* size soundness excludes both
+  (`R4-metatheory.md` T3, Prop. 4.1).
 - **Identity types** are deliberately absent. Transport is harmless, but
   equality reflection would not be.
 - **`chk′` as a primitive, or defined inside the calculus.** A primitive keeps
   self-reference by name. A definition would need the checker's own code inside
   it, reintroducing a diagonal.
-- **A reduction-rule form of `H`.** Instead of the constant, add
-  `chk′(print r, c⊥) ⇝ ff`. Given `T`, this is equivalent to `H`, and connects
-  to the "certified constant-result optimization" of the 2026-09-22 note. Not
-  adopted, since it complicates L1.
-- **The Level(1) pair form**
-  `Π(r s :₁ R)(c :₁ Syn). T(chk′(print r, c)) → T(chk′(print s, neg c)) → 0`
-  is left for later.
+- **A reduction-rule form of `H` — not equivalent, and not adopted.** Instead
+  of the constant, one could add `chk′(print r, c⊥) ⇝ ff`. An earlier state of
+  this item called that "equivalent to `H`" given `T`; the claim is withdrawn.
+  A conversion rule also fires on *erased* occurrences of `r`, and erased
+  certificates may be built at type level from a single token, so they have
+  no size bound. The budget argument therefore does not cover the rule, which
+  is strictly stronger than `H`. The "certified constant-result optimization"
+  of the 2026-09-22 note is available instead as a *runtime* use of `H`.
+- **The pair form** is now `H₁` (§2.5, §3).
 - **Relation to Beklemishev–Shamkanov.** Their Theorem 5 gives cut
   admissibility with a linear size bound (register row, printed p. 11). Their §6
   conjectures a counterexample to non-formalized G2 from an operator like `!`
@@ -682,7 +816,7 @@ consumes it.
 
 - **A total functional core.** Dependent functions and pairs; `Bool`, `Nat` and
   `Syn`; recursion at all finite types through eliminators, at System T
-  strength. Every program terminates (L1, open).
+  strength. Every program terminates (`R4-metatheory.md` T4).
 - **Proofs as programs.** Each Boolean program `b` gives a proposition `T(b)`.
   Quantifiers are `Π` and `Σ`, and induction is available: the strength of
   Heyting arithmetic in all finite types. Types are erased at runtime, and
@@ -695,20 +829,35 @@ consumes it.
   come only from the program's context — a budget supplied from outside —
   certificates cannot be copied, and `print` turns them into codes.
   Certificate transformations that never enlarge their input are definable.
-- **Budgeted certification.** A program holding tokens can turn a code into a
-  certificate at one token per node (35 for `not`, §2.7), and can compose
-  certificates by modus ponens at the encoding-dependent cost of §4.
+- **Budgeted certification.**
+  - A program holding tokens can turn a code it knows into a certificate, at
+    one token per node (35 for `not`, §2.7).
+  - It can compose certificate trees by modus ponens, at the encoding-dependent
+    cost of §4. The composite's correctness is checked at runtime by `inspect`,
+    since the calculus is not expected to prove it (§4, D2 row).
+  - Parsing a code received at runtime into a certificate needs a destructor
+    for `R`, which the core lacks (8.2).
+
+  *An earlier state said "turn a code into a certificate" and "compose
+  certificates" without these qualifications.*
 - **Built-in self-consistency.** `H`: a certificate that checks as a refutation
   yields anything, so the branch in which a certificate checks as a refutation
-  is dead code. Exploiting this needs either inspection without consumption,
-  so that the certificate survives its own check, or the reduction-rule form
-  of `H` (§7). Both are in 8.2.
+  is dead code. `H₁`: no certificate proves a type while another proves its
+  negation. Exploiting either needs inspection without consumption, so that a
+  certificate survives its own check. The core provides this as `inspect`
+  (`R4-metatheory.md` §1.4). The reduction-rule form of `H` is not a
+  substitute: it is stronger than `H` and not covered by the budget argument
+  (§7).
 
 ### 8.2 Features it can have
 
 - **Ordinary conveniences.** More data types, records, and pattern matching
-  compiled to eliminators, provided L1 survives. Identity types, without
-  equality reflection.
+  compiled to eliminators, provided termination (T4) survives. Identity types,
+  without equality reflection.
+- **A destructor for `R`**, splitting a node into its token, label and
+  children at usage 1. The model's case for it is immediate, since the parts'
+  footprints sum to the whole's. With it, a program holding tokens can parse
+  codes received at runtime into certificates (`R4-metatheory.md` §4.7).
 - **Universes — unification in the manner of a pure type system.** This needs a
   consistent sort structure, primitive `R`, and explicit conversions. The cost
   is certificate size: explicit derivations record type-level computation,
@@ -725,37 +874,50 @@ consumes it.
     in-place update.
   - Inspection without consumption: his `dup_{D,P}` into a passive result (§6,
     p. 78), and the conditional rule it justifies, which lets the guard and the
-    branches share variables of datatype (p. 79).
+    branches share variables of datatype (p. 79). The core has one instance of
+    it as a primitive, `inspect`.
   - A polynomial-time certificate fragment: if certificate transformers are
     restricted to Hofmann's own rules, his polynomial-time theorem
     (Corollary 5.5.1, p. 78) should transfer to them. **Unverified.**
-- **Willard's stronger consistency notion** — no certificates of both a
-  sentence and its negation, the Level(1) pair form (§7) — and the
-  tableau-faithful variant accepting only normal derivations (§2.8).
+- **The tableau-faithful variant**, accepting only normal derivations (§2.8).
+  Willard's stronger consistency notion, formerly listed here, is now in the
+  calculus as `H₁` (§2.5).
 - **Runtime-supplied budgets.** `main` runs in `Θₙ`, with `n` tokens from the
   environment: a certification allowance, like a memory limit.
-- **Certified self-evaluation — conjectural.**
+- **Certified self-evaluation — proved for base data types, as an evaluation
+  rule; open for higher types and as a conversion rule.**
   - *The feature:* for each closed type `A`, a constant
     `reflect_A : Π(r :₁ R). T(chk′(print r, ⌜A⌝)) ⊸ A` with a reduction rule
     that *runs* the term the certificate encodes. The term's `m` token
     variables are instantiated with `m` of the certificate's own tokens, and
     the rest are discarded. `H` is the case `A = 0`.
-  - *Why it may stay consistent:* in a least-budget refutation, replacing an
-    innermost `reflect` by the term its certificate encodes gives a refutation
-    of budget at most `n − ‖r‖ + m < n`, since `m < ‖r‖` by adequacy.
-  - *Why it may terminate:* each `reflect` step strictly lowers the number of
-    tokens a program holds, and nothing creates tokens, so a reduction contains
-    at most `n` such steps.
+  - *What is proved* (`R4-metatheory.md` §§3.5, 4.8, 5):
+    - The core has `reflect_D` for the base data types `0, 1, Bool, Nat, Lbl,
+      Syn, R`.
+    - It computes in the evaluator only, not as a conversion. A conversion
+      would also fire on erased certificates, which have no size bound.
+    - It is sound, by the model's Reflect case.
+    - It terminates, by the evaluator's induction on the budget.
+  - *Why it may stay consistent* (the original argument, now superseded by
+    the model's): in a least-budget refutation, replacing an innermost
+    `reflect` by the term its certificate encodes gives a refutation of budget
+    at most `n − ‖r‖ + m < n`, since `m < ‖r‖` by adequacy.
+  - *Why it may terminate* (likewise superseded): each `reflect` step strictly
+    lowers the number of tokens a program holds, and nothing creates tokens,
+    so a reduction contains at most `n` such steps.
   - *What it would give:* a total self-interpreter for *certified* code. Code
     received at runtime as data can be converted to a certificate (paying
     tokens), checked, and run. The diagonal argument against total
     self-interpreters does not apply, because a program evaluating itself would
     need a certificate larger than its own budget: self-application priced out
     rather than forbidden.
-  - *The caveat to settle first:* in Willard's arithmetic some local reflection
-    is provable (`Willard1993-TR` Proposition 2, `full`), but local `Π₁`
-    reflection makes the system inconsistent for some nice `A` (Proposition 5,
-    `full`). Why, and whether the reason transfers here, is **unchecked**.
+  - *The caveat:* in Willard's arithmetic some local reflection is provable
+    (`Willard1993-TR` Proposition 2, `full`), but local `Π₁` reflection makes
+    the system inconsistent for some nice `A` (Proposition 5, `full`). The
+    proved case does not contradict this: Willard's proofs are numbers, named
+    compactly, while certificates here declare their budget uncompressed.
+    Whether his counterexample transcribes into this calculus is still
+    **unchecked** (`R4-metatheory.md` §4.8).
 
 ### 8.3 Features it cannot have
 
@@ -777,24 +939,31 @@ consumes it.
   checked in detail.
 - **An axiom asserting its own consistency over codes** — Löb again.
 
-**These would break §3's argument** (not known to be inconsistent, but no
-longer covered):
-- excluded middle as an axiom that does not compute, which breaks canonicity
-  and with it exhibition;
+**These would break the consistency proof** (not known to be inconsistent, but
+no longer covered):
+- excluded middle at `◇`. The model gives neither disjunct footprint 0.
 - equality reflection, or anything else letting erased terms reach runtime;
 - certificates that declare their budget in compressed form, which breaks
-  adequacy;
+  adequacy (strict overhead, `R4-metatheory.md` Lemma 2.7);
 - a certificate type whose `node` takes its two children as a shared
   (cartesian) pair. Hofmann's variant `T′(A)` does this, and there "l_e is an
   upper bound on the depth of t rather than its number of nodes"; a full binary
-  tree of depth `|n|` costs only `|n|` tokens (p. 84, register row). L4 would
-  fail;
+  tree of depth `|n|` costs only `|n|` tokens (p. 84, register row). Size
+  soundness, the former L4, would fail;
 - implicit conversions for `chk′` steps, which make the checker's definition
   circular.
 
+**Excluded middle at `◇`- and `R`-free types** would *not* break the
+consistency proof, once sums are added: the model is classical and validates
+it. It would break termination (T4), since the evaluator cannot decide it. *An
+earlier state listed excluded middle, unqualified, as breaking "canonicity and
+with it exhibition" — true of the plan of §3, not of the proof that replaced
+it.*
+
 **These are impossible whatever the design** (standard results):
 - a total interpreter for all of its own *uncertified* code, by the diagonal
-  argument — certified, budgeted evaluation is the conjectural item of 8.2;
+  argument — certified, budgeted evaluation is the item of 8.2, proved for base
+  data types;
 - a proof of its own consistency over codes, by the second incompleteness
   theorem.
 
