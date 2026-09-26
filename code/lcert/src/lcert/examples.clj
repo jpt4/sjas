@@ -6,6 +6,8 @@
                           at the constant budget of one fixed certificate
     roll-form, out-form   the destructor of §4.7 (from review R4-03), definable
                           from itR and dependent pairs
+    parse-form            a typed parser threading a supply of tokens through a
+                          code received at runtime (review RR2-10)
     bounded-con           Proposition 4.9: bounded code consistency, by case
                           analysis, with no tokens
 
@@ -108,6 +110,47 @@
 
 (defn left-child "The program that takes a node apart and returns its left child." [r]
   (view-case (list out-form r) 'u))
+
+;; ---------------------------------------------------------------------------
+;; Parsing a code into a certificate (review RR2-10).
+;;
+;; parse : Π(c :ω Syn). R ⊸ R ⊗ R, by recursion on the code.  Its argument is
+;; a *supply*: a certificate used only for its tokens, read along its right
+;; spine.  A leaf of the code costs nothing.  A node takes the supply apart
+;; with `out`, spends the top token on the node, discards the supply's left
+;; child, and threads the right spine through the two subcodes, left first.
+;; The result is the certificate and the unused supply.
+;;
+;; Adequacy, proved outside the calculus by induction on c: if the supply's
+;; right spine has at least nodes(c) nodes, the certificate prints back to c
+;; and exactly nodes(c) spine nodes are used.  With too short a supply, an
+;; exhausted node becomes a leaf, so print reveals the failure.
+
+(def parse-form
+  (splice
+   (list 'fn '[c w Syn]
+         (list 'rec-syn '[z (-o R (tensor R R))]
+               '[a] '(fn [s0 1 R] (pair (tensor R R) (leaf a) s0))
+               '[a c1 c2 y1 y2]
+               (list 'fn '[s0 1 R]
+                     (list 'let-pair '(tensor R R) '[b q] (list out-form 's0)
+                           (list 'let-pair '(tensor R R) '[a2 f] 'q
+                                 (list (list 'elim-bool '[x (-o (-o (T x) K) (tensor R R))] 'b
+                                             '(fn [g 1 (-o (T tt) K)]
+                                                (let-pair (tensor R R) [d uv] (g star)
+                                                  (let-pair (tensor R R) [u rest] uv
+                                                    (let-pair (tensor R R) [t1 s1] (y1 rest)
+                                                      (let-pair (tensor R R) [t2 s2] (y2 s1)
+                                                        (pair (tensor R R) (node d a t1 t2) s2))))))
+                                             '(fn [g 1 (-o (T ff) K)] (pair (tensor R R) (leaf a) (leaf a2))))
+                                       'f))))
+               'c))))
+
+(defn parse-then
+  "The program: parse `code-form` with `supply-form`, bind the certificate to
+  t and the unused supply to rest, and return `body`, of type C."
+  [code-form supply-form C body]
+  (list 'let-pair C '[t rest] (list parse-form code-form supply-form) body))
 
 ;; ---------------------------------------------------------------------------
 ;; Proposition 4.9 at depth k: Π(c :ω Syn). T(depthLeq_k c) ⊸ T(chk′ c c⊥) ⊸ 0.

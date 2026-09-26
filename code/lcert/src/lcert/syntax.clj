@@ -252,6 +252,7 @@
 ;;          (chk c d) (H1 r s c e1 e2) (reflect D r e) (H r e)
 ;;          (inspect X r c [x e] t1 [x e] t2)
 ;;          (code A) = the literal code of the closed type A
+;;          (code-literal c) = the literal term of a code value c, e.g. [:sl :a]
 ;;          (neg c) (not b) (and a b)
 ;;   A program's tokens are named $1 .. $n (see token-scope).
 
@@ -379,6 +380,9 @@
         H (let [[r e] args] [:reflect [:Empty] (p r) (p e)])
         inspect (let [[X r c [x1 e1] t1 [x2 e2] t2] args]
                   [:inspect (ty X) (p r) (p c) (under [x1 e1] t1) (under [x2 e2] t2)])
+        code-literal (let [c (first args)]
+                       (when-not (code? c) (fail "code-literal needs a code value" {:form form}))
+                       (code->term c))
         code (let [A (ty (first args))]
                (when-not (closed? A) (fail "code needs a closed type" {:form form}))
                (code->term ((requiring-resolve 'lcert.encode/enc-exp) A)))

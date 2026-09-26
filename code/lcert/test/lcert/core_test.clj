@@ -48,3 +48,19 @@
     (let [{:keys [type budget]} (lc/certify 0 (ex/bounded-con 0))]
       (is (= 0 budget))
       (is (= (ex/bounded-con-type 0) type)))))
+
+(deftest parsing-a-runtime-code-into-a-certificate
+  (testing "review RR2-10: a typed parser threads a supply of tokens through a code"
+    (let [supply '(node $1 :a (leaf :a) (node $2 :a (leaf :a) (node $3 :a (leaf :a) (leaf :a))))
+          code [:sn :b [:sn :c [:sl :a] [:sl :a]] [:sl :a]]
+          prog (fn [C body] (ex/parse-then (list 'code-literal code) supply C body))]
+      (testing "the parser is closed: it costs no tokens of its own"
+        (is (= 0 (:budget (lc/certify 0 ex/parse-form)))))
+      (testing "with enough supply, the certificate prints back to the code"
+        (is (= code (lc/run 3 (prog 'Syn '(print t))))))
+      (testing "one supply node per certificate node; the rest is returned"
+        (is (= 1 (count (filter #(= :rn %) (flatten (lc/run 3 (prog 'R 'rest))))))))
+      (testing "with too little supply, the result is truncated, which print reveals"
+        (let [short '(node $1 :a (leaf :a) (leaf :a))]
+          (is (not= code (lc/run 1 (ex/parse-then (list 'code-literal code) short 'Syn '(print t))))))))))
+
