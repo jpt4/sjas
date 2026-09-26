@@ -662,7 +662,7 @@ Write `□A := Σ(r :₁ R). T(chk′(print r, ⌜A⌝))`, where `⌜A⌝` is `A
 | D3 `□A ⊸ □□A` | **per instance yes; uniformly no** | every certificate of `□A` has more than `2μ(A)` nodes. Its root must declare at least `μ(A)` tokens, and its term must mention each of them (Prop. 4.3). From a minimal certificate and `k` tokens, at most `μ(A) + k` nodes can be built, so no `k` serves every `A` (Prop. 4.4). For each `A`, an instance exists with budget `μ(□A)` (Prop. 4.5) |
 | boxed contraction `□A ⊸ □A ⊗ □A` | **per instance yes; uniformly no** | two certificates of `A` need `2μ(A)` nodes, and only `μ(A) + k` can be built: Hofmann's diagonal map (p. 79) recast (Prop. 4.4). For each `A`, an instance exists with budget `2μ(A)`: discard the input and build two certificates (Prop. 4.5) |
 | self-reference | **by name** | §2.4 |
-| G2 for codes | **applies** | no budget derives any form of `Con′` (§5). Proved by reducing it to Gödel's second theorem for PA, with two standard formalizations not carried out (`R4-metatheory.md` §6) |
+| G2 for codes | **applies, by an outlined reduction** | no budget derives any form of `Con′` (§5). The metatheory reduces this to Gödel's second theorem for PA. The reduction's new step is proved; its two formalization steps are standard in kind, listed with their obligations, and not carried out (`R4-metatheory.md` §6) |
 
 *Corrections.* An earlier state of this table wrote `□(A → B)` in the D2 row.
 With `→` the argument's certificate may use no tokens, so the row now reads
@@ -766,7 +766,10 @@ erased positions, which an erasing evaluator never builds.
 There is no compressed naming to forbid, so nothing else needs to be
 forbidden:
 - ordinary arithmetic stays strong;
-- certificates compose linearly;
+- certificates compose, at a cost that depends on the encoding. Under the
+  current full-judgment encoding it is superlinear, since every premise node
+  is re-recorded with the combined context. *An earlier state said
+  "linearly" (review RR2-12).*
 - the checker is symbolic.
 
 Willard's margin — "it is impossible in log₂p − 1 bits to encode a number as
@@ -783,9 +786,12 @@ statement that a certificate cannot declare more tokens than it cost.
 - **The encoding of derivations.** Full judgments at every node (§2.4, §2.7),
   or a relative encoding in which `Check` reconstructs conclusions.
   - The choice decides the tree cost of composition (§4).
-  - A relative encoding must still declare the budget entry by entry, and must
-    keep the properties the consistency proof uses (`R4-metatheory.md` E1–E5
-    and Lemma 2.7).
+  - A relative encoding must still declare the budget entry by entry. It keeps
+    E1, E4 and E5 (`R4-metatheory.md` §1.6), but must *replace* E2 and E3,
+    which force the whole conclusion and context to be written at every node.
+    With the replacements, it must re-prove strict overhead (Lemma 2.7) and
+    the quotation-cost bound. *An earlier state said it must keep E1–E5
+    (review RR2-09).*
   - Even then, composition inside the calculus is conjectured to fail for want
     of evidence (§4, D2 row).
 - **The likeliest attack** was the interaction of usage `0` with dependency.
@@ -859,16 +865,19 @@ consumes it.
   - It can compose certificate trees by modus ponens, at the encoding-dependent
     cost of §4. The composite's correctness is checked at runtime by `inspect`,
     since the calculus is not expected to prove it (§4, D2 row).
-  - It can parse a code received at runtime into a certificate, taking tokens
-    one at a time from a supply tree through a destructor definable in the core
-    (`R4-metatheory.md` §4.7). That the result prints back to the code is
-    verified outside the calculus, not inside it.
+  - It can parse a code received at runtime into a certificate. A typed
+    parser threads a supply of tokens through the code, one token per node,
+    through a destructor definable in the core. It is implemented and tested.
+    That the result prints back to the code is proved outside the calculus,
+    not inside it (`R4-metatheory.md` §4.7).
 
   *An earlier state said "turn a code into a certificate" and "compose
   certificates" without these qualifications.*
 - **Built-in self-consistency.** `H`: a certificate that checks as a refutation
-  yields anything, so the branch in which a certificate checks as a refutation
-  is dead code. `H₁`: no certificate proves a type while another proves its
+  yields anything. So the branch in which a certificate checks as a refutation
+  is semantically impossible: the model gives it no environment. That
+  evaluation never reaches it is expected, not proved (`R4-metatheory.md`
+  Corollary 5.1). *An earlier state called it "dead code" (review RR2-11).* `H₁`: no certificate proves a type while another proves its
   negation. Exploiting either needs inspection without consumption, so that a
   certificate survives its own check. The core provides this as `inspect`
   (`R4-metatheory.md` §1.4). The reduction-rule form of `H` is not a

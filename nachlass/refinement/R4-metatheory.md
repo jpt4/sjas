@@ -13,13 +13,16 @@ correction and the section that proves it.*
 > Ansatz as well (§7).
 > - Results taken from the literature are marked *standard*, and are not
 >   verified here.
-> - P5 contains two steps marked *not carried out*; they are standard in kind.
+> - P5 is a reduction *outline*: its two formalization steps, standard in kind,
+>   are not carried out.
 > - One claim is a conjecture (§4.5), and one an expectation (Corollary 5.1).
 > - Everything else is proved here.
 >
 > Independent adversarial review is recorded in §8. Round 1 found no refutation
 > of T1–T3. It raised twelve findings, all accepted. Two of them withdraw
-> corrections this document had itself introduced into the draft.
+> corrections this document had itself introduced into the draft. Round 2
+> again found no refutation of T1–T3. Its thirteen findings led to P5 being
+> relabelled an outline, and to a typed parser.
 
 ---
 
@@ -31,7 +34,7 @@ correction and the section that proves it.*
 | **T2** | **Self-justification.** λᶜᵉʳᵗ₀ has closed inhabitants of its own consistency propositions `H°` and `H₁°`. With T1, both clauses of `Willard2016` Definition 3.4 hold, for this calculus's apparatus and certificate representation | §3.9 |
 | **T3** | **Size soundness.** A runtime term's value has footprint at most the tokens its context supplies, and at most the number of distinct tokens it mentions | §3.7 |
 | **T4** | **Termination and adequacy.** The budgeted evaluator terminates on every term and computes the model's value. An erasing evaluator, which the resource reading needs, agrees with it on data | §5 |
-| **P5** | **The second incompleteness theorem applies to codes.** λᶜᵉʳᵗ₀ derives no form of `Con′`, with any budget | §6; reduction to Gödel's theorem for PA, with two standard steps not carried out |
+| **P5** | **The second incompleteness theorem applies to codes.** λᶜᵉʳᵗ₀ derives no form of `Con′`, with any budget | §6; a reduction to Gödel's theorem for PA, *outlined*: its two formalization steps are listed with their obligations and not carried out |
 | **§4** | The draft's derivability-condition table, settled: D1 per instance; D3 and boxed contraction per instance only; a uniform D2 conjectured not derivable; `Con′ → H°`; `H°` from `H₁` at constant budget; bounded `Con′`; certified evaluation for base data types | §4 |
 
 The draft's lemmas L1–L4 are **not needed for T1**:
@@ -359,8 +362,9 @@ computably:
 - the pair of defaults at `σ × τ`;
 - the constant function with value `dflt_τ` at `σ → τ`.
 
-Each default is the value of a closed program, so the evaluator of §5 can
-return a value related to it. *An earlier state let `dflt_σ` be any element,
+Each default is a computable value of the evaluator of §5. It is not always
+the value of a closed program, since `◇` has none, and that is not needed:
+the evaluator only has to return a value related to it (review RR2-08). *An earlier state let `dflt_σ` be any element,
 which may be uncomputable at function type (review R4-05).*
 
 For `v ∈ C(R)`, `‖v‖` is its number of internal nodes. `print` erases tokens,
@@ -683,8 +687,10 @@ results need E3 and E4, and nothing else about the encoding.
 
 **Conjecture 4.6.** There is no budget `k` such that for all closed
 certifiable `A` and `B` some term `Θₖ ⊢ comp_{A,B} :¹ □(A ⊸ B) ⊗ □A ⊸ □B`
-exists. In particular, the application node over the two input certificates
-cannot be given its evidence.
+exists. *Its motivation* is that the application node over the two input
+certificates seems unable to receive its evidence. That is the heuristic
+below, and the conjecture does not imply it at type-dependent budgets (review
+RR2-13).
 
 *An earlier state* said that no term of that type "computes its output
 certificate from its inputs". That is false as stated. At `A = B = 1`,
@@ -780,10 +786,23 @@ The term is finite, and free of tokens. Its size grows doubly exponentially in
 
   Then `out r := itR_V(L, λd a u v. N(d, a, roll u, roll v), r)` satisfies
   `roll (out r) = r` and `out (node d a r₁ r₂) = N(d, a, r₁, r₂)`, as evaluated
-  values, by induction on the tree. So a program can take tokens one at a time
-  from a supply tree, and parse a code received at runtime into a
-  certificate.
-- **What remains is correctness.** An internal proof that the parse prints
+  values, by induction on the tree.
+- **A typed parser is definable** (review RR2-10: the destructor alone does not
+  show this).
+  - *Its type:* `parse : Π(c :ω Syn). R ⊸ R ⊗ R`, by `recSyn` on the code.
+    The second argument is a *supply*, a certificate read along its right
+    spine for its tokens.
+  - *A leaf* of the code costs nothing, and returns the supply unchanged.
+  - *A node* applies `out` to the supply and spends the top token on the
+    node. It discards the supply's left child, and threads the right spine
+    through the two subcodes, left first. Each recursive result is used once.
+  - *An exhausted supply* makes the node a leaf.
+  - *Adequacy,* by induction on `c`, outside the calculus: with a supply
+    whose right spine has at least `nodes(c)` nodes, `print` of the result is
+    `c`, and exactly `nodes(c)` spine nodes are used.
+  - *Implemented and tested* (ADR-0005, `lcert.examples`). It is closed, and
+    it prints back with enough supply, and visibly not otherwise.
+- **What remains is correctness inside the calculus.** An internal proof that the parse prints
   back to its input is not given: `out`'s equations hold of values, not
   judgmentally of open trees. So the parse route does not yet prove the
   restricted form inside the calculus; the case analysis above does.
@@ -850,8 +869,9 @@ simple types.
 
 > **Theorem 4.** For every simply typed term `t : σ` and every environment of
 > values related to `η`, `evalₙ(t)` terminates with a value related to
-> `⟦t⟧ⁿη`. Values are related at base skeletons by equality, and at `σ → τ`
-> by sending related arguments to terminating, related results.
+> `⟦t⟧ⁿη`. Values are related at base skeletons by equality, at `σ × τ`
+> componentwise, and at `σ → τ` by sending related arguments to terminating,
+> related results.
 
 *Proof.* By strong induction on `n`, and within `n` by induction on `t`.
 - **Standard cases.** For `λ`, application, pairs, the eliminators, and `recN`
@@ -887,9 +907,12 @@ given tokens — fails for `evalₙ`.
 
 *The definition.* `evalᴱₙ` first erases the program, using the typing
 derivation. It replaces every argument of an application at `Π₀`, and every
-first component of a pair at `Σ₀`, by `⋆`. It then evaluates the result as
-`evalₙ` does, and treats a program decoded by `reflect` the same way. Type
-annotations are never evaluated by either evaluator.
+first component of a pair at `Σ₀`, by `⋆`. It then evaluates the result with
+`evalₙ`'s rules, which never consult types, and treats a program decoded by
+`reflect` the same way. Type annotations are never evaluated by either
+evaluator. The erased program is not simply typed: a `Π₀` argument has become
+`⋆`. So Theorem 4 does not apply to it, and Theorem 4′ uses a relation of its
+own (review RR2-01).
 
 > **Theorem 4′.** For derivable `Θₙ ⊢ t :¹ D` with `D` a base data type,
 > `evalᴱₙ(t)` terminates with the same result as `evalₙ(t)`. In particular, an
@@ -960,22 +983,33 @@ it.
 
 ## 6. The second incompleteness theorem applies to codes (P5)
 
-> **Proposition 5.** For no `n` and `t` is `Θₙ ⊢ t :¹ Con′_ω` derivable, where
+> **Proposition 5 (a reduction, outlined).** For no `n` and `t` is `Θₙ ⊢ t :¹ Con′_ω` derivable, where
 > `Con′_ω = Π(c :ω Syn). T(chk′ c c⊥) → 0`. So no stronger form is derivable
 > either: not `Con′` with its usage-1 quantifier, and not the `⊸` variants.
 
-*Proof.* Suppose `Δ` derives `Θₙ ⊢ t :¹ Con′_ω`. We show that PA proves its own
-consistency, which Gödel's second theorem forbids (*standard*), PA being
-consistent.
+*Proof outline.* Suppose `Δ` derives `Θₙ ⊢ t :¹ Con′_ω`. We show that PA
+proves its own consistency, which Gödel's second theorem forbids (*standard*),
+PA being consistent.
+
+**Status of this outline** (review round 2). The reduction's shape and its new
+step are proved: the self-reference constants, at a fixed budget, reduce to
+finitely many true bounded facts. Steps 1 and 2 are formalizations, and are
+*outlined, not carried out*. Each has the obligations listed with it.
 
 **Step 1: PA embeds into λᶜᵉʳᵗ₀ at budget 0.**
 - Take PA's Gödel–Gentzen negative translation, into the `∀ → ∧ ⊥`-fragment
   with decidable atoms (*standard*).
-- Map `∀` to `Π(x :ω Nat)`, `→` to `→`, `∧` to `Σ` at `ω`, `⊥` to `0`, and
-  `s = t` to `T(eqNat s t)`.
+- Map `∀` to `Π(x :ω Nat)`, `→` to `→`, `⊥` to `0`, and `s = t` to
+  `T(eqNat s t)`. Every translated assumption is at usage `ω`.
+- Map `∧` to `Σ` at `ω`, eliminated only through closed projections `fst` and
+  `snd`. These re-eliminate the pair each time a component is needed. `Let`
+  gives a `Σ`'s second component at usage 1 even when the first is at `ω`, so
+  a single elimination cannot supply a component twice (review RR2-03).
 - `+`, `×` and `eqNat` are defined by `recN` at higher type.
-- **Stability of atoms,** `((T(b) → 0) → 0) → T(b)`, is proved by `elimBool`
-  on `b`.
+- **Stability,** `((A → 0) → 0) → A`, for every translated formula `A`:
+  - for atoms, by `elimBool` on `b`;
+  - then lifted through `∧`, `→`, `∀` and `⊥`, as in the usual Gödel–Gentzen
+    argument (review RR2-03).
 - **Induction** needs care with usages (reviews R4-08, F-01).
   - *The direct route is ill-typed.* A direct `recN` at the motive `P` fails:
     its step receives the hypothesis `y` at usage 1, while the translated PA
@@ -985,9 +1019,13 @@ consistent.
     - the step is `let (p, u) = y in (s x p, ⋆)`, which uses `y` once. It
       recovers `p` at `ω`, as often as the PA step needs it.
     - A final `let` unpacks the result.
-- **Transport along `eqNat`**, for formulas, reduces to transport for
-  `T(f x)` with `f :ω Nat → Bool`. That is proved by double induction,
-  generalized over `f`.
+- **Transport along `eqNat`**, for formulas (review RR2-04):
+  - first for atoms `T(f x)` with `f :ω Nat → Bool`, by double induction
+    generalized over `f`. Both inductions use the `!P` packaging, since a
+    direct nested `recN` would use the outer hypothesis inside the inner
+    method's `ω`-scaled context;
+  - then symmetry of `eqNat`;
+  - then lifting through the connectives, contravariantly in antecedents.
 
 This gives a primitive recursive translation `tr` of PA-proofs into budget-0
 derivations. For proofs of `0 = 1`, it yields refutations, since
@@ -995,13 +1033,25 @@ derivations. For proofs of `0 = 1`, it yields refutations, since
 
     ∀p. Prf_PA(p, ⌜0=1⌝) → Check(tr p, c⊥) = tt
 
-*Standard in kind; the formalization is not carried out here.*
+*Not carried out* (review RR2-05). It needs:
+- a fixed PA proof calculus and coding;
+- a constructor-by-constructor definition of `tr`;
+- a proof in PA, by induction on proof codes, that every translated inference
+  is a valid instance of §§1.4–1.5.
+
+It is standard in kind, but it is not supplied.
 
 **Step 2: PA proves `∀c. Check(c, c⊥) ≠ tt` from `Δ`.**
-1. Formalize §3's model at the single budget `n`, for the finitely many types
-   occurring in `Δ`. Use realizers — indices of recursive functions,
-   hereditarily extensional at higher type — in place of set-theoretic
-   functions.
+1. Build, inside PA, a realizability model of `Δ` at the single budget `n`.
+   It is **a new model**, not an arithmetization of §3 (review RR2-06). It
+   needs:
+   - hereditarily extensional realizers (a PER hierarchy) for the finitely
+     many type templates in `Δ`;
+   - extensional application;
+   - substitution and conversion lemmas, and the treatment of dependency;
+   - an internal fundamental lemma;
+   - `inspect` and every `T(b)` consulting the same modified denotation
+     below.
 2. Interpret `reflect_D` for `D ≠ 0` by the default `dflt_D` (review F-02).
    - *Why this is allowed:* `reflect` has no conversion rule, so no equation
      constrains its interpretation.
@@ -1014,13 +1064,15 @@ derivations. For proofs of `0 = 1`, it yields refutations, since
    bounded statements. Each is a finite conjunction of closed primitive
    recursive equations:
    - no tree `v` with `‖v‖ ≤ n` is a refutation certificate;
-   - no pair `v, w` with `‖v‖ + ‖w‖ ≤ n` is a contradictory pair. Their type
-     code is a subtree of `print v`, so it is bounded too.
+   - no pair `v, w` with `‖v‖ + ‖w‖ ≤ n` is a contradictory pair. The code
+     `c` ranges over all codes, but `Check(print v, c) = tt` forces `c` to be
+     the root type code written inside `print v`. That fact must itself be
+     proved in PA before the statement is finite (review RR2-07).
 
    Both are **true**, by Corollary 3.7, and PA proves true closed p.r.
    equations by computation.
-4. The rest of the fundamental lemma, for `Δ`'s finitely many rule instances,
-   is a routine induction inside PA. *Standard in kind; not carried out here.*
+4. The rest of that model's fundamental lemma, for `Δ`'s finitely many rule
+   instances, is proved inside PA. *Standard in kind; not carried out.*
 5. The conclusion at the type `Con′_ω` is
    `∀c. Check(c, c⊥) = tt → ⊥`, since `Syn` codes carry no footprint.
 
@@ -1029,10 +1081,12 @@ derivations. For proofs of `0 = 1`, it yields refutations, since
 *Why PA and not PRA, as the plan of 2026-09-25 had it:* λᶜᵉʳᵗ₀ defines every
 function of Gödel's System T, and PRA cannot interpret it.
 
-**What P5 rests on.** Two standard-in-kind formalizations, in Steps 1 and 2.
-The new ingredient is proved here: self-reference constants at a fixed budget
-reduce to finitely many true bounded facts. That is what keeps G2 from
-colliding with T2.
+**What P5 rests on.** Two formalizations, in Steps 1 and 2. Both are
+standard in kind, both are outlined here with their obligations, and neither
+is carried out. The new ingredient is proved here: self-reference constants at
+a fixed budget reduce to finitely many true bounded facts. That is what keeps
+G2 from colliding with T2. Until Steps 1 and 2 are supplied, P5 — and
+Proposition 4.8, which depends on it — is an outline, not a theorem.
 
 ## 7. What is mechanized
 
@@ -1106,7 +1160,30 @@ document: R4-02 and R4-03. Round 0 had "corrected" the draft on the relation
 between `H` and `H₁`, and on the need for a destructor. Both corrections are
 withdrawn.
 
-A second round of review is due on the revised text.
+**Round 2, 2026-09-26.** Cursor's agent (gpt-5.6-sol-xhigh), on the text as
+of commit `0a51bf1`. A codex run stopped early: its workspace ran out of
+credits.
+
+**What it did not find:** a refutation of T1–T3. It confirmed that round 1's
+fixes close their findings, among them the skeleton-typed chains,
+Proposition 4.10, the destructor, the `!P` packaging and the default
+interpretation of `reflect` in P5.
+
+| ID | Severity | Finding | Disposition |
+| --- | --- | --- | --- |
+| RR2-01 | major | The erasing evaluator's result is not simply typed, so Theorem 4's relation cannot cover it | already addressed: commit `31d9fd0`, made before this review arrived, proved Theorem 4′ with a type-indexed relation of its own; the definition now says so |
+| RR2-02 | minor | Theorem 4's relation omitted products | fixed |
+| RR2-03 | major | P5's conjunction and stability steps ignored that `Let` gives a `Σ`'s second component at usage 1 | fixed in the outline: re-eliminating projections, and stability lifted structurally |
+| RR2-04 | major | P5's transport by nested `recN` was not usage-correct | fixed in the outline: `!P` for both inductions, symmetry, structural lifting |
+| RR2-05 | major | P5's claim that PA proves `tr` correct was unsupported | accepted: P5 is now labelled an outline, with the obligations listed |
+| RR2-06 | major | P5's PA model is a new realizability model, not "routine" | accepted: restated, with its obligations |
+| RR2-07 | minor | The bounded `H₁` fact needs target uniqueness proved in PA | accepted: stated as an obligation |
+| RR2-08 | minor | `◇` has no closed program, so a default need not be one | fixed (§3.1) |
+| RR2-09 | minor | The draft's §7 still said a relative encoding keeps E1–E5 | fixed in the draft |
+| RR2-10 | major | The destructor alone does not show that runtime codes can be parsed | resolved constructively: a typed parser is given (§4.7), implemented and tested |
+| RR2-11 | major | The draft's §8.1 called the `H` branch "dead code" | fixed in the draft: semantically impossible; operationally unproved |
+| RR2-12 | minor | The draft's §6 said certificates "compose linearly" | fixed in the draft |
+| RR2-13 | minor | Conjecture 4.6's "in particular" does not follow from it | fixed: recast as motivation |
 
 ## 9. Corrections this document makes to the draft
 
@@ -1116,7 +1193,7 @@ A second round of review is due on the revised text.
 | §2.5 "`H` follows from `H₁` only at extra token cost" | right in substance; the cost is constant, through a fixed certificate of `0 ⊸ 0`. *Round 0 wrongly corrected this to "only outside the calculus"; review R4-02* | §4.9 |
 | §4 D2 row, `comp : □(A → B) ⊗ □A ⊸ □B` | `→` should be `⊸`. A budget uniform in `A` and `B` is conjectured not to exist. One-node composition is impossible under E2–E3; a relative encoding must replace them | §4.5 |
 | §4 D3 and contraction rows, "must record the literal term that rebuilds `r`" | the argument is replaced: any certificate of `□A` has more than `2μ(A)` nodes. The conclusion holds uniformly; per instance, both are derivable | §§4.3–4.4 |
-| §4 G2 row, "Standard; not verified here" | proved by reduction to G2 for PA, with two standard formalizations not carried out | §6 |
+| §4 G2 row, "Standard; not verified here" | reduced to G2 for PA. The reduction is outlined, and its two formalization steps are listed with their obligations, not carried out | §6 |
 | §5 fact 4, "parse and then apply `H`" | the restricted form holds with no tokens, by case analysis. The parse is definable, through a computational destructor. What is missing is an internal proof that it prints back to its input. *Round 0 wrongly said a destructor was lacking; review R4-03* | §4.7 |
 | §3 L1–L4, conditional theorem | the theorem is proved without them | §3 |
 | §6 "the only way to hold a certificate of `N` nodes at runtime is to have spent `N` tokens" | true of runtime positions under the erasing evaluator (Theorem 4′). Under the non-erasing one, an erased position can hold an `N`-node tree built from one token | §5 |

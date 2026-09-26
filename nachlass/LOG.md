@@ -6085,3 +6085,59 @@ erasing evaluator builds nothing.
 
 **Still running:** a second review round of the revised metatheory, codex only
 so far.
+
+## 2026-09-26 — Review round 2; Theorem 4′ proved; P5 relabelled an outline; a typed parser
+
+**Theorem 4′ proved.** Before round 2 reported, Theorem 4′ went from sketch to
+proof (`31d9fd0`). The erasing evaluator agrees with the model on data, so a
+program's certificates have at most as many nodes as it was given tokens. The
+relation that proves it depends only on a type's skeleton and usage
+annotations, never on its terms, which is what makes the proof short.
+
+**Round 2.** Cursor's agent reviewed the text as of `0a51bf1`. The codex run
+stopped at about 49,000 tokens: its workspace was out of credits. The process
+was stopped and nothing of it was used.
+
+**What round 2 did not find:** a refutation of T1–T3, for the second time. It
+confirmed that round 1's fixes hold.
+
+**Its thirteen findings, all dispositioned** (`refinement/R4-metatheory.md`
+§8):
+- **P5 is relabelled a reduction *outline*.** Its new step is proved: at a
+  fixed budget, the self-reference constants reduce to finitely many true
+  bounded facts. Its two formalization steps had more obligations than the
+  text admitted:
+  - conjunction needs projections that re-eliminate the pair, because `Let`
+    gives a `Σ`'s second component at usage 1;
+  - stability and transport must be lifted through the connectives, with the
+    `!P` packaging for every induction;
+  - the PA model is a new realizability model, not a "routine"
+    arithmetization.
+
+  The obligations are now listed, and neither step is claimed to be carried
+  out. Proposition 4.8 depends on P5, and so is conditional on it.
+- **A typed parser, resolving a gap constructively.** The review pointed out
+  that a destructor alone does not show that a runtime code can be parsed into
+  a certificate. So the parser was written and tested (`bd09eab`):
+  - its type is `Π(c :ω Syn). R ⊸ R ⊗ R`, threading a supply of tokens
+    through the code;
+  - it is closed;
+  - with enough supply its output prints back to the code;
+  - with too little, the output is visibly truncated.
+- **Overstatements withdrawn from the draft:**
+  - "dead code" is now "semantically impossible, operationally unproved";
+  - "compose linearly" is now "encoding-dependent, superlinear under the
+    current encoding";
+  - a relative encoding must *replace* E2–E3.
+- **Smaller fixes:** products in Theorem 4's relation; the defaults' wording;
+  Conjecture 4.6's "in particular" recast as motivation.
+
+**Standing, after two rounds.**
+- **Proved:** T1 (consistency, with the pair form), T2 (self-justification),
+  T3 (size soundness), T4 and T4′ (termination, adequacy, erasure), and the
+  propositions of §4 other than 4.8.
+- **Conjectured:** 4.6, that no budget uniform in the types gives composition
+  inside the calculus.
+- **An expectation:** Corollary 5.1's note that `H₁` and `abort` are never
+  reached by evaluation.
+- **An outline:** P5, and with it Proposition 4.8.
