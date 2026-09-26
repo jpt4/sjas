@@ -57,11 +57,11 @@ It tests three things.
    no single budget serves every type — under every encoding that writes
    contexts out entry by entry. Each instance holds once enough tokens are
    supplied. Composition's cost, as a tree construction, depends on the
-   encoding: growing with the premises under the full-judgment encoding the
-   draft uses, and expected to be constant under a relative one. Inside the
-   calculus, a uniform composition is conjectured not to exist under any
-   encoding, because its evidence would need the checker to compute on open
-   codes (§4).
+   encoding. It grows with the premises under the full-judgment encoding the
+   draft uses, and could be constant only under a relative encoding that
+   replaces the properties this one has. Inside the calculus, a composition
+   with a budget uniform in the types is conjectured not to exist, because its
+   evidence would need the checker to compute on open codes (§4).
    *An earlier state of this item said "the fourth derivability condition"; the
    condition meant is D3 in §4's table.*
 3. **Whether a symbolic self-justifying calculus avoids infeasible numbers.**
@@ -257,14 +257,23 @@ recognizes its own Level(2+) tableaux consistency. Here the argument of §3 does
 not depend on the syntactic class of the sentence, only on the token budget.
 Why Willard's higher levels fail and these do not is noted, not analyzed.
 
-`H` does not follow from `H₁` inside the calculus. Outside it, a certificate of
-a refutation `t` can be rebuilt as one of `λx. t : 1 ⊸ 0` and paired with a
-certificate of `⊢ ⋆ : 1`, at a token cost that grows with the certificate. But
-the evidence that the rebuilt tree checks would need `chk′` to compute on an
-open code, which it does not (`R4-metatheory.md` §§4.5, 4.9). An earlier state
-said `H` follows "only at extra token cost"; that holds only outside the
-calculus. Both constants are therefore kept. In the core calculus, `H` is the
-case `D = 0` of `reflect_D` (§8.2).
+`H` follows from `H₁` inside the calculus, at a constant extra budget
+(`R4-metatheory.md` Prop. 4.10):
+- pass the refutation certificate to `H₁` as the certificate of the type `0`;
+- pass a fixed certificate of `⊢ λ(x :₁ 0). x : 0 ⊸ 0` as the certificate of
+  its negation, `neg ⌜0⌝ = ⌜0 ⊸ 0⌝`, whose evidence is `⋆`.
+
+`H` is kept as a constant because it is available with no tokens. In the core
+calculus it is the case `D = 0` of `reflect_D` (§8.2).
+
+*Two earlier states:*
+- The first said `H` follows "only at extra token cost". That was right in
+  substance, but its method — rebuilding the refutation as a certificate of
+  `1 ⊸ 0` — was the costly one.
+- The second, written with the metatheory's first version, said `H` does not
+  follow inside the calculus at all. That was wrong: no refutation certificate
+  has to be transformed. Independent review found the construction (review
+  R4-02, recorded in `R4-metatheory.md` §8).
 
 ### 2.6 Budgets
 
@@ -644,7 +653,7 @@ Write `□A := Σ(r :₁ R). T(chk′(print r, ⌜A⌝))`, where `⌜A⌝` is `A
 | | In λᶜᵉʳᵗ | Why |
 | --- | --- | --- |
 | D1 | **with a budget** | for a certificate `v` of `A`, `Θ_{‖v‖} ⊢ (lit_v, ⋆) : □A`, where `lit_v` builds `v`'s tree from the tokens (Prop. 4.2) |
-| D2 | **conjectured not derivable inside the calculus; as a tree construction, encoding-dependent** | a uniform `comp : □(A ⊸ B) ⊗ □A ⊸ □B` needs evidence that the composed tree checks. `chk′` computes only on closed codes, so no hypothesis about the premises yields that evidence (Conj. 4.6: an analysis, not a proof). As a tree construction, verified outside the calculus, `comp` adds a root node for the application. Under §2.4's encoding every node records its whole conclusion. So the new root repeats the combined context and both premises' conclusion terms and types, every premise node is re-recorded with the combined context, and the budget grows with the premises. Under a *relative* encoding — conclusions reconstructed by `Check` from the premises, contexts split between premises, variables scoped to their own subderivation — one new node is expected to suffice. No relative encoding is specified, so that is a conjecture |
+| D2 | **conjectured not derivable inside the calculus; as a tree construction, encoding-dependent** | a uniform `comp : □(A ⊸ B) ⊗ □A ⊸ □B` needs evidence that the composed tree checks. `chk′` computes only on closed codes, so no hypothesis about the premises yields that evidence (Conj. 4.6: an analysis, not a proof). As a tree construction, verified outside the calculus, `comp` adds a root node for the application. Under §2.4's encoding every node records its whole conclusion. So the new root repeats the combined context and both premises' conclusion terms and types, every premise node is re-recorded with the combined context, and the budget grows with the premises. Under no encoding with the metatheory's properties E2 and E3 does one new node suffice: the new root must record its whole conclusion, including an explicit context of `m₁ + m₂` entries. A *relative* encoding — conclusions reconstructed by `Check` from the premises, contexts split between premises, each token declared once where it is used — would have to replace E2 and E3, and re-prove strict overhead and the quotation-cost bound. None is specified. The conjecture concerns a budget uniform in `A` and `B`; per instance, a certificate of `B` can be built from scratch. *An earlier state said one node suffices under a relative encoding, as if such an encoding could keep E2–E3; review R4-06* |
 | D3 `□A ⊸ □□A` | **per instance yes; uniformly no** | every certificate of `□A` has more than `2μ(A)` nodes. Its root must declare at least `μ(A)` tokens, and its term must mention each of them (Prop. 4.3). From a minimal certificate and `k` tokens, at most `μ(A) + k` nodes can be built, so no `k` serves every `A` (Prop. 4.4). For each `A`, an instance exists with budget `μ(□A)` (Prop. 4.5) |
 | boxed contraction `□A ⊸ □A ⊗ □A` | **per instance yes; uniformly no** | two certificates of `A` need `2μ(A)` nodes, and only `μ(A) + k` can be built: Hofmann's diagonal map (p. 79) recast (Prop. 4.4). For each `A`, an instance exists with budget `2μ(A)`: discard the input and build two certificates (Prop. 4.5) |
 | self-reference | **by name** | §2.4 |
@@ -670,8 +679,8 @@ build its certificate of `A`, one node each, and its term must mention each of
 them.
 
 **D2 is different, in two ways.**
-- *As a tree construction,* it has constant cost only under a relative
-  encoding, and none is specified yet.
+- *As a tree construction,* it could have constant cost only under a relative
+  encoding that replaces E2 and E3, and none is specified.
 - *Inside the calculus,* no uniform `comp` is expected under any encoding, for
   the evidence reason in its row.
 
@@ -713,8 +722,11 @@ Four facts.
      that `chk′` computes to be no refutation (Prop. 4.9). Its size grows
      doubly exponentially in `k`.
    - *An earlier state proposed "parse and then apply `H`", using `k` tokens.*
-     That route needs a destructor for `R`, which the core lacks, and a lemma
-     that the parse prints back to its input.
+     The parse itself is definable: the core has a computational destructor
+     for `R`, built from `itR` and dependent pairs (`R4-metatheory.md` §4.7).
+     What the route lacks is an internal proof that the parse prints back to
+     its input. *A correction made on 2026-09-25 said the destructor was
+     lacking; review R4-03 showed otherwise.*
 
 So `H°` is **equivalent to consistency but internally weaker than its ordinary
 formalization**, and every bounded instance of the stronger statement is
@@ -739,8 +751,16 @@ too weak to write the compressing operations. That is the growth restriction,
 and every analysis of it runs through numbers like `2^{2^n}`.
 
 In λᶜᵉʳᵗ a certificate is a tree, and **the only way to hold a certificate of
-`N` nodes at runtime is to have spent `N` tokens.** There is no compressed
-naming to forbid, so nothing else needs to be forbidden:
+`N` nodes at runtime is to have spent `N` tokens.** "At runtime" means outside
+erased positions, which an erasing evaluator never builds.
+- Under the erasing evaluator, this is `R4-metatheory.md` Theorem 4′, a sketch
+  of a standard argument.
+- A non-erasing evaluator would build, in an erased position, an `N`-node tree
+  from one token. The model allows that, since erased values are unbounded
+  (review R4-04).
+
+There is no compressed naming to forbid, so nothing else needs to be
+forbidden:
 - ordinary arithmetic stays strong;
 - certificates compose linearly;
 - the checker is symbolic.
@@ -835,8 +855,10 @@ consumes it.
   - It can compose certificate trees by modus ponens, at the encoding-dependent
     cost of §4. The composite's correctness is checked at runtime by `inspect`,
     since the calculus is not expected to prove it (§4, D2 row).
-  - Parsing a code received at runtime into a certificate needs a destructor
-    for `R`, which the core lacks (8.2).
+  - It can parse a code received at runtime into a certificate, taking tokens
+    one at a time from a supply tree through a destructor definable in the core
+    (`R4-metatheory.md` §4.7). That the result prints back to the code is
+    verified outside the calculus, not inside it.
 
   *An earlier state said "turn a code into a certificate" and "compose
   certificates" without these qualifications.*
@@ -854,10 +876,14 @@ consumes it.
 - **Ordinary conveniences.** More data types, records, and pattern matching
   compiled to eliminators, provided termination (T4) survives. Identity types,
   without equality reflection.
-- **A destructor for `R`**, splitting a node into its token, label and
-  children at usage 1. The model's case for it is immediate, since the parts'
-  footprints sum to the whole's. With it, a program holding tokens can parse
-  codes received at runtime into certificates (`R4-metatheory.md` §4.7).
+- **A primitive destructor for `R`, with conversion rules**, splitting a node
+  into its token, label and children at usage 1.
+  - A *computational* destructor is already definable (`R4-metatheory.md`
+    §4.7).
+  - A primitive one would add judgmental equations. Those are what an internal
+    proof of parsing correctness would need.
+  - The model's case for it is immediate, since the parts' footprints sum to
+    the whole's.
 - **Universes — unification in the manner of a pure type system.** This needs a
   consistent sort structure, primitive `R`, and explicit conversions. The cost
   is certificate size: explicit derivations record type-level computation,
@@ -941,7 +967,10 @@ consumes it.
 
 **These would break the consistency proof** (not known to be inconsistent, but
 no longer covered):
-- excluded middle at `◇`. The model gives neither disjunct footprint 0.
+- excluded middle at `◇` with affine negation, `◇ + (◇ ⊸ 0)`. Once `n ≥ 1`,
+  the model gives neither disjunct footprint 0. With `◇ → 0` as the negation,
+  the model validates it vacuously, since no footprint-0 value has type `◇`
+  (review F-05);
 - equality reflection, or anything else letting erased terms reach runtime;
 - certificates that declare their budget in compressed form, which breaks
   adequacy (strict overhead, `R4-metatheory.md` Lemma 2.7);
