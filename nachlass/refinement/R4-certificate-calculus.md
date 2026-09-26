@@ -375,6 +375,87 @@ type-checks by the same computation as before.
   length. That is a cost, not a soundness issue. Only the budget enters the
   theorem of §3.
 
+### 2.8 The deductive apparatus
+
+λᶜᵉʳᵗ's apparatus is **natural deduction**, in the form of a type theory's
+typing derivations. It is not analytic tableaux.
+
+**The rules, read through Curry–Howard:**
+
+| λᶜᵉʳᵗ rule | Natural deduction |
+| --- | --- |
+| Var | assumption |
+| Lam | →-introduction, discharging an assumption |
+| If | `Bool`-elimination: proof by cases |
+| application | →-elimination: modus ponens |
+
+**Three features of the presentation:**
+- **Contexts are written out.** Every judgment carries its full context, so
+  each derivation node can be checked locally.
+- **Deduction is modulo computation.** A step may rely on a definitional
+  equality, such as `T(tt) ≡ 1`, or `chk′(c, d) ⇝ b` computed by `Check`. The
+  explicit derivation records each such step as a chain of single reductions.
+- **Certificates encode derivations, not bare terms.** Checking a bare term
+  would need type inference plus conversion checking by normalization, which is
+  not structural recursion. Recording every judgment and conversion step keeps
+  `Check` structural (§2.4).
+
+**It is not cut-free.** `Check` accepts derivations with detours: a λ applied to
+an argument, i.e. an introduction immediately followed by an elimination, which
+Curry–Howard identifies with a cut. Composition by substitution is also
+available.
+
+`Willard2016` Definition 3.2 calls an apparatus Hilbert-style if it has a modus
+ponens rule and satisfies Gödel's completeness theorem. The completeness clause
+does not transfer to an intuitionistic type theory; by the modus ponens clause,
+λᶜᵉʳᵗ sits on the **Hilbert side** of Willard's apparatus axis.
+
+On Willard's Hilbert line, self-justification was reached only at Type-NS, with
+not even successor total (codified §5.5). λᶜᵉʳᵗ keeps strong arithmetic in its
+ordinary layer: a cell Willard's matrix does not contain. This does not
+contradict Pudlák–Solovay. Their theorem concerns consistency stated over
+numbers, and λᶜᵉʳᵗ's code consistency `Con′` is unprovable (§5).
+
+**Who does the tableaux' two jobs.** R6 §7.4 found that in Willard, cut-freeness
+does two jobs. λᶜᵉʳᵗ assigns them differently:
+
+| Job | Willard (tableaux) | λᶜᵉʳᵗ (natural deduction) |
+| --- | --- | --- |
+| block the operations Löb's derivation needs | no internal composition: the second derivability condition fails | composition is harmless, since combining terms makes no certificate without tokens. What is blocked is quoting and copying certificates, by the token discipline (§4) |
+| force a refutation to name its witness | the subformula property: the refutation must build `p*` as a node (`Willard1993-TR` Lemma 6.2, `full`) | the metatheory normalizes the refutation, and canonicity of normal forms plays the subformula property's role (exhibition, §3) |
+
+The second row is Willard's own Meta-Logic convention, applied systematically:
+"our proofs shall *apply a cut rule at the meta-theoretical level*"
+(`Willard1993-TR` Remark 2, printed p. 24; register row). Here, too,
+normalization — the natural-deduction form of cut elimination — is carried out
+in the consistency proof, never by the calculus.
+
+Composition can stay because the danger Willard avoids by dropping cut is
+absent. In arithmetic, linear-sum composition lets a short proof name a huge
+number: the danger is composed proofs being too *short* (R6 §7.4, on
+`Willard2020` printed p. 279; register row). Here, compressing a term never
+compresses a certificate: a certificate of `N` nodes costs `N` tokens, however
+it was computed.
+
+**A tableau-faithful variant — an open alternative.** Restrict `Check` to
+*normal* derivations, i.e. β-normal terms. Normal natural-deduction proofs have
+the subformula property (Prawitz; standard, not verified here), so they are the
+natural-deduction counterpart of cut-free tableaux. Three consequences:
+- the consistency argument of §3 is unchanged, since it never needs the
+  represented refutation to be normal;
+- `H°` becomes weaker;
+- composition fails uniformly, since composing normal derivations creates
+  redexes, and eliminating them can blow up non-elementarily.
+
+The variant would reproduce Willard's tableaux line inside a type theory. It is
+the comparison case for showing where λᶜᵉʳᵗ departs from Willard.
+
+**Relation to the constructive design of 2026-09-06.** That note, in the working
+tree's docs log, paired a constructive derivation with a Willard source tableau
+inside each certificate, so its consistency was inherited from Willard's
+theorem. λᶜᵉʳᵗ drops the tableau. Its consistency is meant to come from §3's
+argument alone.
+
 ## 3. The lemmas, and the theorem they would give
 
 **L1 — Normalization.** Every term well-typed in a token context is strongly
@@ -535,6 +616,8 @@ statement that a certificate cannot declare more tokens than it cost.
 
 - **The full rule table is not yet fixed.** §2.7 fixes only the fragment its
   example needs. Fixing the rest comes before any of L1–L4 can be proved.
+- **The apparatus.** Natural deduction with detours, as now, or normal
+  derivations only, the tableau-faithful variant (§2.8).
 - **The likeliest attack** is the interaction of usage `0` with dependency.
   Erased terms may use tokens without limit, and types compute. The theorem
   needs every certificate and every piece of evidence that `H` consumes to be

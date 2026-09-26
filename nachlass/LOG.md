@@ -5568,3 +5568,51 @@ to the R4 draft, and log the exchange.)
   was not given.
 
 `audit.sh` green.
+
+## 2026-09-25 — λᶜᵉʳᵗ's deductive apparatus is natural deduction, not tableaux
+
+The question, verbatim:
+
+> What deductive apparatus is being used here? It does not look like analytic
+> tableau.
+
+**Correct: the apparatus is natural deduction.** It takes the form of a type
+theory's typing derivations: Var is assumption, Lam is →-introduction, If is
+`Bool`-elimination, and application is →-elimination, i.e. modus ponens. Every
+judgment carries its full context. Deduction is modulo computation, with each
+definitional-equality step recorded. Certificates encode whole derivations
+rather than bare terms, so that `Check` stays structural. **The draft had never
+stated its apparatus.** That omission is repaired as the new §2.8 of
+`refinement/R4-certificate-calculus.md`, added at the user's request ("Yes, add
+and log please").
+
+**What §2.8 records:**
+
+- **It is not cut-free.** Detours — an introduction immediately followed by an
+  elimination, a cut under Curry–Howard — are accepted, and composition is
+  free. By the modus ponens clause of `Willard2016` Definition 3.2, λᶜᵉʳᵗ is on
+  the Hilbert side of Willard's apparatus axis. The completeness clause does
+  not transfer to an intuitionistic type theory.
+- **It occupies a cell Willard's matrix lacks:** a cut-permitting apparatus
+  with strong arithmetic. Willard's Hilbert line reached self-justification only
+  at Type-NS. There is no conflict with Pudlák–Solovay, since `Con′`, over
+  codes, is unprovable.
+- **The two jobs cut-freeness does in Willard (R6 §7.4) are reassigned.**
+  Blocking Löb's operations falls to the token discipline, which blocks quoting
+  and copying certificates while composition stays harmless. Forcing the
+  witness falls to normalization in the metatheory together with canonicity.
+  The latter is Willard's Meta-Logic convention made systematic
+  (`Willard1993-TR` Remark 2, printed p. 24, register row).
+- **Composition survives because its danger is absent.** In arithmetic,
+  composed proofs are dangerously short: they can name huge numbers. Here a
+  certificate of `N` nodes costs `N` tokens however it was computed.
+- **A tableau-faithful variant is recorded as an open alternative** (also added
+  to §7): restrict `Check` to normal derivations, which have the subformula
+  property (Prawitz; standard, not verified). The consistency argument is
+  unchanged, `H°` becomes weaker, and composition fails uniformly — Willard's
+  tableaux line reproduced inside a type theory.
+- **The departure from the 2026-09-06 constructive design is stated.** That
+  design paired each constructive derivation with a Willard source tableau and
+  inherited consistency from Willard's theorem. λᶜᵉʳᵗ drops the tableau.
+
+`audit.sh` green.
