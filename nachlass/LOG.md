@@ -5851,3 +5851,110 @@ budgets.**
    - a fast suite without Ansatz, and an extended suite with it.
 5. Integration: point the draft to the proofs, write the ADR's after-action
    report, and report back.
+
+## 2026-09-25 — Steps 1–3: Ansatz spike, `H₁` in the draft, and the metatheory
+
+Commit `9931914`: the draft revision and a new document,
+[`refinement/R4-metatheory.md`](refinement/R4-metatheory.md).
+
+**Step 1 — the Ansatz spike**, in the session scratchpad, offline
+(`ANSATZ_OFFLINE=1`, `(a/load-init!)`, one JVM with `-Xmx1200m`: about 20 s
+and 423 MB maximum resident).
+- **Works:**
+  - an inductive tree type with a nullary terminator and a four-field cell;
+  - `Nat`-valued functions defined by `match` over it;
+  - a theorem about them proved by `omega`;
+  - the compiled functions called from plain Clojure, on `nil`/vector values.
+- **Fails:**
+  - an inductive whose leaf constructor has fields ("unsupported rec
+    pattern");
+  - equation lemmas for functions that *return* the tree type, which are
+    skipped, so theorems about tree-returning functions do not go through;
+  - constructing values through generated constructor classes from plain
+    Clojure (`ClassNotFoundException`).
+- **Consequence:** the mechanized statements are restricted to `Nat`- and
+  `Bool`-valued functions of trees.
+
+**Step 2 — the draft.** `H₁`, Willard's pair form, is in §2.5:
+
+> `H₁ : Π(r :₁ R). Π(s :₁ R). Π(c :ω Syn). T(chk′(print r, c)) ⊸ T(chk′(print s, neg c)) ⊸ 0`
+
+§7's claim that the reduction-rule form of `H` is equivalent to `H` is
+withdrawn: that rule would also fire on erased certificates, which the budget
+argument does not cover.
+
+**Step 3 — the metatheory.**
+- **The core calculus.** λᶜᵉʳᵗ₀ has a complete rule table:
+  - Church-style terms, usages `0/1/ω` on `Π` and `Σ`;
+  - dependent eliminators, plus `§2.7`'s non-dependent `if`;
+  - `chk′`, `H₁`, `reflect_D` for the base data types (`H = reflect₀`), and
+    `inspect`;
+  - an encoding specified by five properties E1–E5, of which the draft's
+    table is one instance.
+- **Consistency** is proved by the planned model. For each budget `n`, it is a
+  set-theoretic model whose values carry token footprints, proved sound by
+  strong induction on `n`. The `H₁` case composes the two represented
+  derivations into a refutation of budget `m₁ + m₂ < n`.
+- **Also proved:**
+  - size soundness;
+  - termination and adequacy of a budgeted, non-erasing evaluator (Tait,
+    over the simple-type skeleton);
+  - the §4 derivability rows;
+  - `Con′ → H°`;
+  - bounded code consistency;
+  - certified evaluation for base data types.
+- **G2 for codes** reduces to Gödel's second theorem for **PA**, not PRA as
+  the plan said: λᶜᵉʳᵗ₀ defines every System T function, which PRA cannot
+  interpret. The new step is that the self-reference constants, at a fixed
+  budget, reduce to finitely many *true bounded* facts. Two formalizations in
+  the reduction are standard in kind and not carried out.
+
+**Defects in my own first version of the metatheory**, written in this step,
+found on re-reading, and never committed:
+- **A set-theoretic paradox.** Its value domain `𝔻` contained all partial
+  functions `𝔻 ⇀ 𝔻`, which by Cantor no set does. It was replaced by carriers
+  indexed by simple-type skeletons. That is why terms became Church-style.
+- **The wrong budget cap.** `reflect` was capped on the budget `m` a
+  certificate *declares*. Type-level certificates of small declared budget can
+  be arbitrarily large, which left infinitely many cases for the PA reduction.
+  The cap is now on the tree's footprint `‖v‖ ≤ n`.
+- **A missing closedness condition.** `Check` did not require the certified
+  type to be closed, and without that, the composition in the `H₁` case fails.
+- **Overreach in `reflect`.** It admitted `T(b)` as a data type. Its semantic
+  set is budget-dependent when `b` contains `reflect`, so the key inclusion
+  across budgets fails. It is now restricted to base data types.
+
+**Corrections to the draft**, found while proving it and marked where they
+stood (metatheory §9):
+1. **Evidence arrows** are `⊸`, not `→`: in `H₁`, and in `H°` and `Con′`.
+   Evidence obtained from `inspect` is at usage 1.
+2. **The D2 row.** Its `comp : □(A → B) ⊗ □A ⊸ □B` is not a term of the
+   calculus. The evidence that the composed tree checks would need `chk′` to
+   compute on an open code. That it is underivable is recorded as a
+   **conjecture**, not a result: the missing evidence type is true in the
+   standard model, so refuting it needs a non-standard one. `→` also becomes
+   `⊸`. As a tree construction, constant cost under a relative encoding stays
+   conjectural until one is specified.
+3. **D3 and boxed contraction.** The argument that a certificate of `□A`
+   "must record the literal term that rebuilds `r`" was wrong: it may build
+   *any* certificate of `A`. It is replaced by a quotation-cost bound. Every
+   certificate of `□A` has more than `2μ(A)` nodes, where `μ(A)` is the least
+   size of a certificate of `A`. The conclusion survives uniformly: no single
+   budget serves every type. But **per instance both hold**, with enough
+   tokens.
+4. **Bounded `Con′`** holds with no tokens at all, by case analysis. The
+   draft's "parse, then apply `H`" needs a destructor for `R` that the core
+   lacks.
+5. **"`H` follows from `H₁` only at extra token cost"** holds only outside the
+   calculus.
+6. **Excluded middle** at `◇`- and `R`-free types would not break the new
+   consistency proof, since the model is classical. It would break
+   termination. At `◇` it is not covered.
+7. **The "fourth derivability condition"** in §1 meant D3.
+
+**Unchanged:** the draft's central idea. A certificate of `n` nodes declares
+fewer than `n` tokens. That is now the key step of a model-theoretic proof,
+not of a normalization argument.
+
+**Next:** independent read-only reviews of both documents by codex and Cursor;
+then ADR-0005 and the implementation.
