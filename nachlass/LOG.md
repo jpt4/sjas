@@ -6174,3 +6174,74 @@ round 2.
 **The suites now.**
 - Fast: 44 tests, 380 assertions.
 - Extended: 48 tests, 1361 assertions, 19 s, 575 MB.
+
+## 2026-09-26 — P5 completed; a tutorial; the dead-code expectation proved
+
+**What prompted this.** Four questions from the user: where a program's
+tokens come from; completing P5; what Conjecture 4.6 and Corollary 5.1's
+expectation mean; and a short tutorial with concrete programs. The two
+explanations are answered in conversation, not recorded here.
+
+**P5 completed** (`00fa2b4`, `339a760`).
+- *Step 1 re-founded.* PA is now a Hilbert system in `→`, `⊥`, `∀` and `=`.
+  Every formula is negative, so the Gödel–Gentzen double negations, and the
+  pairing and projection obligations that `∧` and `∨` brought (RR2-03),
+  disappear. Every scheme's template is written out.
+- *Step 1 implemented* (`lcert.pa`). On random instances, every template type
+  checks at budget 0, at exactly the translated closure type, and `Check`
+  accepts the derivation. Whole proofs translate, one of them by induction.
+- *Two template defects, found by those tests:*
+  - `PLUS` must take its first argument at usage 1, because `TIMES`'s step
+    passes it the usage-1 recursive result;
+  - A4 must instantiate the variables of an irrelevant term at `zero`.
+- *Step 2 moved* from a hand-built realizability model inside PA to E-PA^ω.
+  It interprets `reflect`, `H₁` and `abort` by defaults, so no induction on
+  budgets is needed. The bounded facts BF₀ and BF₁ come from Corollary 3.7's
+  finitely many true equations. The price is a third citation: E-PA^ω is
+  conservative over PA.
+
+**Review round 3 of P5** (Grok 4.7; `7260be6`). Its verdict: "Proposition 5
+is proved." Its eleven findings are minor, and all are accepted. One corrects
+the review itself: it called the enumeration of small codes Δ₀, but that
+sentence is Π₁, so it is proved by an induction on `n` outside PA. A
+re-reading of my own found MP and Gen lines called closed, though they refer
+to earlier lines.
+
+**A tutorial** (`f5a8490`). `code/lcert/TUTORIAL.md` teaches the language
+through programs, and the fast suite checks all 36 of its stated results.
+- `certificate-form` joined the API: it writes the program that builds a
+  code's certificate.
+- The doc-test first failed because the tutorial's `let` bindings lacked their
+  usages.
+
+**The expectation proved: Theorem 5.2** (`fc4c358`). Neither evaluator ever
+evaluates `abort`, `H₁` or `H` in a typed program.
+- *Why it had been stuck.* It had been approached by pairing Theorem 4's
+  relation with Lemma 3.6's. But `evalₙ` evaluates type-level subterms, where
+  certificates are unbounded and Lemma 3.6 says nothing.
+- *What unlocked it.* Corollary 3.7 already gives consistency for codes of
+  every size. So a relation that records truth but no footprints suffices,
+  and it follows evaluation into erased positions.
+- *In the implementation:* a probe, `lcert.eval/*unreachable*`, reports every
+  such node entered. Typed programs that carry these nodes where a faulty
+  evaluator would reach them are run under both evaluators. Red first;
+  swapping the branches of `inspect` or of `elimBool` fails the tests. The
+  first corpus had a weak clause: the false branch of stability contains no
+  `abort`. It was replaced by a dependent elimination whose false branch
+  does contain one.
+- *Review round 4* (Grok 4.7) of the theorem is running.
+
+**Conjecture 4.6 stays open.** Two routes to refuting a uniform `comp` were
+weighed, and neither was attempted in full:
+- a size argument through T3 would need a superlinear lower bound on the
+  certificates of `□X`, over all derivations;
+- a model argument would need `chk′` to behave nonstandardly on open codes.
+
+**Tools.** The codex CLI is still out of credits, and gpt-5.6-sol is at its
+monthly limit, so Grok 4.7 reviewed.
+
+**Standing.**
+- **Proved:** T1–T4, T4′, P5, Theorem 5.2, and all of §4 but 4.6.
+- **Conjectured:** 4.6.
+- **The suites:** fast, 50 tests and 444 assertions; extended, 58 tests and
+  1493 assertions, in 40 s.
