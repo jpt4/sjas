@@ -6141,3 +6141,36 @@ confirmed that round 1's fixes hold.
 - **An expectation:** Corollary 5.1's note that `H₁` and `abort` are never
   reached by evaluation.
 - **An outline:** P5, and with it Proposition 4.8.
+
+## 2026-09-26 — The implementation reviewed: no critical findings
+
+**How the review ran.** An independent review compared the implementation of
+λᶜᵉʳᵗ₀ with the metatheory's rule table, conversion, `Check` and evaluator. It
+took three attempts:
+1. gpt-5.6-sol, through Cursor, stopped by the provider's safety filter as
+   "potential high-risk cybersecurity activity". The prompt had asked it to
+   find codes the checker wrongly accepts.
+2. The same model, reworded as a correctness review, stopped by that model's
+   monthly usage limit.
+3. Grok 4.7, which completed.
+
+The codex CLI was unavailable: its workspace ran out of credits during review
+round 2.
+
+**What it found.**
+- **Nothing critical.** `Check` accepts no code the rule table rejects. It
+  checked every usage equation, every ω-scaled premise, the binder entries, the
+  motive shifts, the conversion-chain conditions, the root `Θₘ`, and
+  closedness. It also found the type checker, the erasing evaluator and the
+  kernel measures in agreement with the specification.
+- **Three minor mismatches,** fixed test-first in `30bd0a5`, each test failing
+  before its fix:
+  - `abort`, `H₁` and `reflect`'s evidence skipped their arguments;
+    call-by-value evaluates them;
+  - the default tokens were one shared object, and the runtime token check
+    cannot see inside closures, which is now documented;
+  - a 200,000-deep code overflowed the stack instead of being rejected.
+
+**The suites now.**
+- Fast: 44 tests, 380 assertions.
+- Extended: 48 tests, 1361 assertions, 19 s, 575 MB.

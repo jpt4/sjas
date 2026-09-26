@@ -223,4 +223,29 @@ measures never disagreed.
 - `Check` itself as Ansatz definitions, once theorems about tree-returning
   functions go through;
 - a proof of erasure correctness (Theorem 4′ is a sketch);
-- an independent review of the implementation against the rule table.
+- ~~an independent review of the implementation against the rule table~~ —
+  done the same day; see the addendum.
+
+**Addendum (2026-09-26): the implementation, reviewed.**
+- *The review:* Grok 4.7, through Cursor, compared the code with the
+  metatheory's rule table and evaluator. Two earlier attempts did not
+  complete: the provider's safety filter stopped one over the prompt's
+  wording, and a model's usage limit stopped the other.
+- *What it found:* nothing critical. `Check` accepts no code the rule table
+  rejects. The type checker, the evaluator and the kernel measures match the
+  specification.
+- *Three minor mismatches, fixed test-first:*
+  - call-by-value evaluation of `abort`, `H₁` and `reflect`'s evidence;
+  - distinct default tokens, with the closure blind spot documented;
+  - deep codes rejected rather than overflowing the stack.
+- *Where the fixes landed:* on `sjas-codification`, after this branch was
+  merged into it.
+- *The suites now:*
+
+  | Suite | Tests | Assertions | Time |
+  | --- | --- | --- | --- |
+  | fast | 44 | 380 | 7 s |
+  | extended | 48 | 1361 | 19 s |
+
+- *Also added after the merge,* in response to metatheory review RR2-10: a
+  typed parser from runtime codes to certificates.
