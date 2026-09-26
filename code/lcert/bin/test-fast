@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Fast suite: the language, without Ansatz.  One JVM, heap capped.
+cd "$(dirname "$0")/.." || exit 2
+exec clojure -J-Xmx768m -M:test -m lcert.test-runner fast "$@"
