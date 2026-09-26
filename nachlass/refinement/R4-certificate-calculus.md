@@ -758,8 +758,7 @@ and every analysis of it runs through numbers like `2^{2^n}`.
 In λᶜᵉʳᵗ a certificate is a tree, and **the only way to hold a certificate of
 `N` nodes at runtime is to have spent `N` tokens.** "At runtime" means outside
 erased positions, which an erasing evaluator never builds.
-- Under the erasing evaluator, this is `R4-metatheory.md` Theorem 4′, a sketch
-  of a standard argument.
+- Under the erasing evaluator, this is `R4-metatheory.md` Theorem 4′.
 - A non-erasing evaluator would build, in an erased position, an `N`-node tree
   from one token. The model allows that, since erased values are unbounded
   (review R4-04).

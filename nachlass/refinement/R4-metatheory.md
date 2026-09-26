@@ -14,7 +14,6 @@ correction and the section that proves it.*
 > - Results taken from the literature are marked *standard*, and are not
 >   verified here.
 > - P5 contains two steps marked *not carried out*; they are standard in kind.
-> - Theorem 4′ (the erasing evaluator) is a sketch of a standard argument.
 > - One claim is a conjecture (§4.5), and one an expectation (Corollary 5.1).
 > - Everything else is proved here.
 >
@@ -31,7 +30,7 @@ correction and the section that proves it.*
 | **T1** | **Consistency.** For no `n` is there a derivable `Θₙ ⊢ t :¹ 0` | §3.8 |
 | **T2** | **Self-justification.** λᶜᵉʳᵗ₀ has closed inhabitants of its own consistency propositions `H°` and `H₁°`. With T1, both clauses of `Willard2016` Definition 3.4 hold, for this calculus's apparatus and certificate representation | §3.9 |
 | **T3** | **Size soundness.** A runtime term's value has footprint at most the tokens its context supplies, and at most the number of distinct tokens it mentions | §3.7 |
-| **T4** | **Termination and adequacy.** The budgeted evaluator terminates on every term and computes the model's value. An erasing evaluator, which the resource reading needs, agrees with it on data (sketch) | §5 |
+| **T4** | **Termination and adequacy.** The budgeted evaluator terminates on every term and computes the model's value. An erasing evaluator, which the resource reading needs, agrees with it on data | §5 |
 | **P5** | **The second incompleteness theorem applies to codes.** λᶜᵉʳᵗ₀ derives no form of `Con′`, with any budget | §6; reduction to Gödel's theorem for PA, with two standard steps not carried out |
 | **§4** | The draft's derivability-condition table, settled: D1 per instance; D3 and boxed contraction per instance only; a uniform D2 conjectured not derivable; `Con′ → H°`; `H°` from `H₁` at constant budget; bounded `Con′`; certified evaluation for base data types | §4 |
 
@@ -892,16 +891,67 @@ first component of a pair at `Σ₀`, by `⋆`. It then evaluates the result as
 `evalₙ` does, and treats a program decoded by `reflect` the same way. Type
 annotations are never evaluated by either evaluator.
 
-> **Theorem 4′ (sketch).** For derivable `Θₙ ⊢ t :¹ D` with `D` a base data
-> type, `evalᴱₙ(t)` terminates with the same result as `evalₙ(t)`. In
-> particular, an `R` result has at most `n` internal nodes.
+> **Theorem 4′.** For derivable `Θₙ ⊢ t :¹ D` with `D` a base data type,
+> `evalᴱₙ(t)` terminates with the same result as `evalₙ(t)`. In particular, an
+> `R` result has at most `n` internal nodes.
 
-*Proof sketch.* Theorem 4's relation, extended by erasure: at a usage-0
-position, the runtime `⋆` is related to every carrier value. The proof is by
-induction on typing derivations, not on simply typed terms. The Var rule gives
-it its key fact: an erased variable occurs in a runtime term only at erased
-positions, which erasure removes. This is the standard erasure argument for
-quantitative type theory. *Standard in kind; not written out here.*
+*Proof.* A relation `E(A)` between runtime values and carrier values, defined
+by induction on the type `A`.
+
+**The definition.**
+- *Base data types:* `E` is equality, a runtime tree with tokens being matched
+  with the carrier tree of the same shape.
+- *`◇`:* every runtime token is related to `◇`.
+- *`0`, `1` and every `T(b)`:* `E` relates `⋆` to `⋆`.
+- *`Π(x :₀ A). B`:* `(f, φ) ∈ E` iff for every `α ∈ C(skel A)`, `f ⋆`
+  terminates and `(f ⋆, φ(α)) ∈ E(B)`.
+- *`Π(x :ρ A). B` with `ρ ∈ {1, ω}`:* `(f, φ) ∈ E` iff for every
+  `(a, α) ∈ E(A)`, `f a` terminates and `(f a, φ(α)) ∈ E(B)`.
+- *`Σ(x :₀ A). B`:* `E` relates `(⋆, b)` to `(α, β)` when `(b, β) ∈ E(B)`.
+- *`Σ` at `1` or `ω`:* componentwise.
+
+**What `E` does not depend on.** The terms inside a type: `T(b)` has the same
+clause for every `b`. So `E(A)` is determined by `A`'s skeleton and usage
+annotations. It is invariant under `≡`, whose steps change only terms inside
+`T(·)` and `T(tt) ≡ 1`, `T(ff) ≡ 0`. It is invariant under substitution into
+types.
+
+**Defaults.** The runtime default of each skeleton (`lcert.eval`) is related
+by `E` to the carrier default (§3.1). This holds by the choice made there.
+
+**The fundamental property.** Take a runtime derivation `Γ ⊢ t :¹ A` and a
+runtime environment related by `E` to a carrier environment `η`, entry by
+entry: usage-0 entries are `⋆` at runtime, arbitrary in `η`. Then evaluating
+the erasure of `t` terminates, and its value is `E`-related to `⟦t⟧ⁿη`.
+
+The proof is by strong induction on `n`, and within `n` on the derivation:
+- **Var.** The variable has usage `1` or `ω`, so its runtime value is related.
+  An erased variable is never a runtime subterm: Var excludes usage 0, and
+  erasure removes the type-level positions where it can occur.
+- **App.**
+  - At `Π₀`, the erased argument `⋆` meets the `Π₀` clause, whatever `⟦u⟧η`
+    is.
+  - At `1` and `ω`, the inner hypothesis relates the argument.
+  - `B[u/x]` has the same `E` as `B`, by invariance.
+- **Pair, Let.** The same, at `Σ`.
+- **Conv.** By invariance under `≡`.
+- **The eliminators, `print`, `chk′`, `inspect`.** As in Theorem 4. The
+  scrutinee's runtime value equals its carrier value, so both sides take the
+  same branch and iterate the same number of times.
+- **Reflect.** The runtime tree equals the carrier tree. So the cap test and
+  `Check` agree, and both sides decode the same derivation of budget `m < n`.
+  The runtime erases it and runs it on `m` of the tree's tokens. The outer
+  hypothesis at `m`, applied to that derivation, relates the result to
+  `⟦t′⟧ᵐ`. At a base data type, "related" means equal.
+- **H₁ and abort.** Both sides return their defaults, which are related.
+
+**The conclusion.** At a base data type `D`, `E(D)` is equality, so
+`evalᴱₙ(t) = ⟦t⟧ⁿ`. By Theorem 4, `evalₙ(t) = ⟦t⟧ⁿ` too. An `R` result is
+therefore the carrier tree `⟦t⟧ⁿ`, which has at most `n` internal nodes by
+Lemma 3.6. ∎
+
+*An earlier state called this a sketch.* Written out, the relation needs no
+dependency on terms, and the argument is short.
 
 **Not proved at all:** that `evalᴱₙ` never duplicates a token object, so that
 the tokens in a value are distinct. The model counts nodes and does not tell
@@ -1069,6 +1119,6 @@ A second round of review is due on the revised text.
 | §4 G2 row, "Standard; not verified here" | proved by reduction to G2 for PA, with two standard formalizations not carried out | §6 |
 | §5 fact 4, "parse and then apply `H`" | the restricted form holds with no tokens, by case analysis. The parse is definable, through a computational destructor. What is missing is an internal proof that it prints back to its input. *Round 0 wrongly said a destructor was lacking; review R4-03* | §4.7 |
 | §3 L1–L4, conditional theorem | the theorem is proved without them | §3 |
-| §6 "the only way to hold a certificate of `N` nodes at runtime is to have spent `N` tokens" | true of runtime positions under the erasing evaluator (Theorem 4′, a sketch). Under the non-erasing one, an erased position can hold an `N`-node tree built from one token | §5 |
+| §6 "the only way to hold a certificate of `N` nodes at runtime is to have spent `N` tokens" | true of runtime positions under the erasing evaluator (Theorem 4′). Under the non-erasing one, an erased position can hold an `N`-node tree built from one token | §5 |
 | §8.2 certified self-evaluation, "conjectural" | proved for base data types, as an evaluation rule | §4.8, §5 |
 | §8.3 "excluded middle … breaks canonicity and with it exhibition" | at `◇`- and `R`-free types, the model validates it once sums are added, so T1's proof survives; T4 does not, since the evaluator cannot decide it. At `◇`, the answer depends on the negation. With `¬A = A ⊸ 0`, neither disjunct of `◇ + ¬◇` has footprint 0 once `n ≥ 1`, so T1's proof does not cover it. With `¬A = A → 0`, the model validates it, vacuously (review F-05) | §3, §5 |
