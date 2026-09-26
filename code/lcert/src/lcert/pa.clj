@@ -389,8 +389,10 @@
 
 (defn proof-term
   "The closed term (surface syntax, expanded) of a checked PA proof: the
-  lines let-bound in order, each a closed term of its translated universal
-  closure, ending with the last line."
+  lines bound in order by let, at usage ω since a line may be cited more
+  than once, ending with the last line.  Each line is a term of its
+  translated universal closure in the context of the earlier lines; an
+  axiom's is closed."
   [lines]
   (check-proof lines)
   (let [bindings (vec (mapcat (fn [k] [(line-sym k) 'w (closure-type-abbrev (:formula (nth lines k)))
