@@ -5958,3 +5958,52 @@ not of a normalization argument.
 
 **Next:** independent read-only reviews of both documents by codex and Cursor;
 then ADR-0005 and the implementation.
+
+## 2026-09-26 — Review round 1 of the metatheory: no refutation of consistency, twelve findings
+
+**How the reviews ran.** Two independent reviews ran in the session
+scratchpad, read-only, on copies of the metatheory and the draft as of
+`9931914`:
+- codex, gpt-6-astra, maximum reasoning effort;
+- Cursor's agent, gpt-5.6-sol-xhigh.
+
+Cursor's first run, in plan mode, printed nothing. Its chat was resumed in ask
+mode, and the report recovered. The reports are not committed. Their findings
+are in `refinement/R4-metatheory.md` §8, which is committed as `700f19f`.
+
+**What neither found:** a refutation of consistency, self-justification or
+size soundness (T1–T3). Both independently checked the model's footprint
+clauses, every case of the fundamental lemma including `H₁` and `reflect`, the
+outer induction on budgets, and `Check`'s well-foundedness.
+
+**What they found — twelve points, all accepted:**
+- **Two withdraw corrections I made on 2026-09-25**, while writing the
+  metatheory:
+  - `H°` *does* follow from `H₁` inside the calculus, at a constant budget.
+    Pass the refutation certificate as the certificate of `0`, with a fixed
+    certificate of `0 ⊸ 0` (codex). The draft's original sentence was right in
+    substance.
+  - `R` *has* a computational destructor, definable from `itR` and dependent
+    pairs (codex). So a runtime code can be parsed into a certificate. What
+    remains open is the internal correctness proof.
+- **One changes the implementation.** The non-erasing evaluator builds, in an
+  erased position, an `N`-node tree from a single token (codex). The resource
+  reading therefore holds only for an **erasing** evaluator, now Theorem 4′,
+  a sketch. The implementation will erase usage-0 positions.
+- **Gaps fixed:**
+  - conversion chains must pass only through typed expressions;
+  - the model's defaults must be computable;
+  - the second incompleteness theorem's PA embedding needed an
+    `!P = Σ(p :ω P). 1` packaging for induction (both reviewers);
+  - its PA model now interprets `reflect_D`, for `D ≠ 0`, by defaults, which
+    removes an unlisted obligation (both reviewers; Cursor's simplification).
+- **Overstatements corrected:**
+  - one-node composition is impossible under the encoding's own properties
+    E2–E3;
+  - Conjecture 4.6 as literally stated had a trivial counterexample, and is
+    restated with a budget uniform in the types;
+  - "dead code" for `H₁` and `abort` is now an expectation, not a result;
+  - excluded middle at `◇` depends on which negation is meant.
+
+**The lesson for this workstream.** My own corrections to the draft needed the
+same adversarial review as the draft. Two of seven were wrong.
