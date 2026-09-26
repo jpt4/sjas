@@ -222,7 +222,8 @@ measures never disagreed.
   that parsing prints back;
 - `Check` itself as Ansatz definitions, once theorems about tree-returning
   functions go through;
-- a proof of erasure correctness (Theorem 4′ is a sketch);
+- ~~a proof of erasure correctness (Theorem 4′ is a sketch)~~ — done: the
+  metatheory proves Theorem 4′ (`31d9fd0`);
 - ~~an independent review of the implementation against the rule table~~ —
   done the same day; see the addendum.
 
@@ -249,3 +250,23 @@ measures never disagreed.
 
 - *Also added after the merge,* in response to metatheory review RR2-10: a
   typed parser from runtime codes to certificates.
+
+**Addendum 2 (2026-09-26): three additions, and the suites now.**
+- *`lcert.pa`* makes step 1 of the metatheory's Proposition 5 executable. It
+  holds PA as a Hilbert system, a proof checker, and the translation of every
+  scheme and rule into the language. Its tests found two defects in the
+  metatheory's first templates: `PLUS`'s first argument had to be usage 1,
+  and A4 had to instantiate an irrelevant term's variables.
+- *A tutorial,* `code/lcert/TUTORIAL.md`, whose every stated result the fast
+  suite checks. With it, `certificate-form`, which writes the program that
+  builds a code's certificate, joined the API.
+- *A probe for Theorem 5.2*, `lcert.eval/*unreachable*`. The metatheory now
+  proves that typed programs never evaluate `abort`, `H₁` or `H`. The tests
+  run programs that carry these nodes under both evaluators, and require that
+  the probe never fires.
+- *The suites now:*
+
+  | Suite | Tests | Assertions | Time |
+  | --- | --- | --- | --- |
+  | fast | 50 | 444 | 9 s |
+  | extended | 58 | 1493 | 40 s |
