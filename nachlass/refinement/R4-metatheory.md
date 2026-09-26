@@ -13,8 +13,10 @@ correction and the section that proves it.*
 > Ansatz as well (§7).
 > - Results taken from the literature are marked *standard*, and are not
 >   verified here.
-> - P5 is a reduction *outline*: its two formalization steps, standard in kind,
->   are not carried out.
+> - P5 (§6) cites three standard results: Gödel's second theorem for PA, PA's
+>   Σ₁-completeness, and the conservativity of E-PA^ω over PA. Its two
+>   formalizations inside arithmetic are given at the level of their
+>   obligations.
 > - One claim is a conjecture (§4.5), and one an expectation (Corollary 5.1).
 > - Everything else is proved here.
 >
@@ -22,7 +24,8 @@ correction and the section that proves it.*
 > of T1–T3. It raised twelve findings, all accepted. Two of them withdraw
 > corrections this document had itself introduced into the draft. Round 2
 > again found no refutation of T1–T3. Its thirteen findings led to P5 being
-> relabelled an outline, and to a typed parser.
+> relabelled an outline, and to a typed parser. P5 was then completed (§6),
+> and the completion reviewed in round 3.
 
 ---
 
@@ -34,7 +37,7 @@ correction and the section that proves it.*
 | **T2** | **Self-justification.** λᶜᵉʳᵗ₀ has closed inhabitants of its own consistency propositions `H°` and `H₁°`. With T1, both clauses of `Willard2016` Definition 3.4 hold, for this calculus's apparatus and certificate representation | §3.9 |
 | **T3** | **Size soundness.** A runtime term's value has footprint at most the tokens its context supplies, and at most the number of distinct tokens it mentions | §3.7 |
 | **T4** | **Termination and adequacy.** The budgeted evaluator terminates on every term and computes the model's value. An erasing evaluator, which the resource reading needs, agrees with it on data | §5 |
-| **P5** | **The second incompleteness theorem applies to codes.** λᶜᵉʳᵗ₀ derives no form of `Con′`, with any budget | §6; a reduction to Gödel's theorem for PA, *outlined*: its two formalization steps are listed with their obligations and not carried out |
+| **P5** | **The second incompleteness theorem applies to codes.** λᶜᵉʳᵗ₀ derives no form of `Con′`, with any budget | §6; by reduction to Gödel's theorem for PA. It cites three standard results (§6.1); its step 1 is also mechanically checked |
 | **§4** | The draft's derivability-condition table, settled: D1 per instance; D3 and boxed contraction per instance only; a uniform D2 conjectured not derivable; `Con′ → H°`; `H°` from `H₁` at constant budget; bounded `Con′`; certified evaluation for base data types | §4 |
 
 The draft's lemmas L1–L4 are **not needed for T1**:
@@ -983,110 +986,383 @@ it.
 
 ## 6. The second incompleteness theorem applies to codes (P5)
 
-> **Proposition 5 (a reduction, outlined).** For no `n` and `t` is `Θₙ ⊢ t :¹ Con′_ω` derivable, where
+> **Proposition 5.** For no `n` and `t` is `Θₙ ⊢ t :¹ Con′_ω` derivable, where
 > `Con′_ω = Π(c :ω Syn). T(chk′ c c⊥) → 0`. So no stronger form is derivable
 > either: not `Con′` with its usage-1 quantifier, and not the `⊸` variants.
 
-*Proof outline.* Suppose `Δ` derives `Θₙ ⊢ t :¹ Con′_ω`. We show that PA
-proves its own consistency, which Gödel's second theorem forbids (*standard*),
-PA being consistent.
+**The idea.** Suppose `Δ` derives `Θₙ ⊢ t :¹ Con′_ω`. Two translations, each
+checkable inside Peano arithmetic, then make PA prove its own consistency:
+- **Step 1 (§6.2):** λᶜᵉʳᵗ₀ interprets PA, verifiably. A PA-proof of `0 = 1`
+  becomes a λᶜᵉʳᵗ₀-refutation, by a primitive recursive translation that PA
+  proves correct. So PA proves `Con_λ → Con_PA`.
+- **Step 2 (§6.3):** arithmetic in all finite types interprets `Δ`, including
+  its self-reference constants at the fixed budget `n`. So it proves `Con_λ`,
+  and so, being conservative, does PA.
 
-**Status of this outline** (review round 2). The reduction's shape and its new
-step are proved: the self-reference constants, at a fixed budget, reduce to
-finitely many true bounded facts. Steps 1 and 2 are formalizations, and are
-*outlined, not carried out*. Each has the obligations listed with it.
+Gödel's second theorem forbids the result (§6.4).
 
-**Step 1: PA embeds into λᶜᵉʳᵗ₀ at budget 0.**
-- Take PA's Gödel–Gentzen negative translation, into the `∀ → ∧ ⊥`-fragment
-  with decidable atoms (*standard*).
-- Map `∀` to `Π(x :ω Nat)`, `→` to `→`, `⊥` to `0`, and `s = t` to
-  `T(eqNat s t)`. Every translated assumption is at usage `ω`.
-- Map `∧` to `Σ` at `ω`, eliminated only through closed projections `fst` and
-  `snd`. These re-eliminate the pair each time a component is needed. `Let`
-  gives a `Σ`'s second component at usage 1 even when the first is at `ω`, so
-  a single elimination cannot supply a component twice (review RR2-03).
-- `+`, `×` and `eqNat` are defined by `recN` at higher type.
-- **Stability,** `((A → 0) → 0) → A`, for every translated formula `A`:
-  - for atoms, by `elimBool` on `b`;
-  - then lifted through `∧`, `→`, `∀` and `⊥`, as in the usual Gödel–Gentzen
-    argument (review RR2-03).
-- **Induction** needs care with usages (reviews R4-08, F-01).
-  - *The direct route is ill-typed.* A direct `recN` at the motive `P` fails:
-    its step receives the hypothesis `y` at usage 1, while the translated PA
-    step `s : Π(x :ω Nat). P(x) → P(succ x)` takes its argument at `ω`.
-  - *The repair* is to recurse at `!P(x) := Σ(p :ω P(x)). 1`:
-    - the base is `(z, ⋆)`;
-    - the step is `let (p, u) = y in (s x p, ⋆)`, which uses `y` once. It
-      recovers `p` at `ω`, as often as the PA step needs it.
-    - A final `let` unpacks the result.
-- **Transport along `eqNat`**, for formulas (review RR2-04):
-  - first for atoms `T(f x)` with `f :ω Nat → Bool`, by double induction
-    generalized over `f`. Both inductions use the `!P` packaging, since a
-    direct nested `recN` would use the outer hypothesis inside the inner
-    method's `ω`-scaled context;
-  - then symmetry of `eqNat`;
-  - then lifting through the connectives, contravariantly in antecedents.
+### 6.1 What is cited
 
-This gives a primitive recursive translation `tr` of PA-proofs into budget-0
-derivations. For proofs of `0 = 1`, it yields refutations, since
-`T(eqNat 0 1) ≡ T(ff) ≡ 0`. PA proves:
+Three standard results, not verified here; no source for them is held.
 
-    ∀p. Prf_PA(p, ⌜0=1⌝) → Check(tr p, c⊥) = tt
+| | Result |
+| --- | --- |
+| **S1** | Gödel's second incompleteness theorem for PA, with the standard provability predicate of the Hilbert system `H_PA` below: if PA is consistent, PA does not prove `Con_PA` |
+| **S2** | PA proves every true closed equation between primitive recursive terms (a case of its Σ₁-completeness) |
+| **S3** | E-PA^ω, extensional Peano arithmetic in all finite types, is conservative over PA for arithmetic sentences |
 
-*Not carried out* (review RR2-05). It needs:
-- a fixed PA proof calculus and coding;
-- a constructor-by-constructor definition of `tr`;
-- a proof in PA, by induction on proof codes, that every translated inference
-  is a valid instance of §§1.4–1.5.
+S3 is usually obtained from the conservativity of E-HA^ω over HA, through the
+model of hereditarily extensional operations, and the negative translation.
 
-It is standard in kind, but it is not supplied.
+`Con_λ` is the arithmetic sentence `∀c (IsSyn(c) → CHECK(c, c⊥) ≠ 1)`. Here
+`CHECK` is the primitive recursive function `Check` of §1.6, and `IsSyn`
+recognizes the numeric codes of codes (§6.3).
 
-**Step 2: PA proves `∀c. Check(c, c⊥) ≠ tt` from `Δ`.**
-1. Build, inside PA, a realizability model of `Δ` at the single budget `n`.
-   It is **a new model**, not an arithmetization of §3 (review RR2-06). It
-   needs:
-   - hereditarily extensional realizers (a PER hierarchy) for the finitely
-     many type templates in `Δ`;
-   - extensional application;
-   - substitution and conversion lemmas, and the treatment of dependency;
-   - an internal fundamental lemma;
-   - `inspect` and every `T(b)` consulting the same modified denotation
-     below.
-2. Interpret `reflect_D` for `D ≠ 0` by the default `dflt_D` (review F-02).
-   - *Why this is allowed:* `reflect` has no conversion rule, so no equation
-     constrains its interpretation.
-   - *Why it is sound:* the default has footprint 0 and lies in `V(D)` for
-     every base data type other than `0`, so the Reflect case holds at once.
-   - *What it replaces:* an earlier state interpreted every `reflect` by a
-     finite table of evaluations. That also needed bounds on the table's `R`
-     outputs, which it did not list (review R4-09).
-3. PA verifies the remaining cases, `H = reflect₀` and `H₁`, through two
-   bounded statements. Each is a finite conjunction of closed primitive
-   recursive equations:
-   - no tree `v` with `‖v‖ ≤ n` is a refutation certificate;
-   - no pair `v, w` with `‖v‖ + ‖w‖ ≤ n` is a contradictory pair. The code
-     `c` ranges over all codes, but `Check(print v, c) = tt` forces `c` to be
-     the root type code written inside `print v`. That fact must itself be
-     proved in PA before the statement is finite (review RR2-07).
+### 6.2 Step 1: λᶜᵉʳᵗ₀ interprets PA, provably in PA
 
-   Both are **true**, by Corollary 3.7, and PA proves true closed p.r.
-   equations by computation.
-4. The rest of that model's fundamental lemma, for `Δ`'s finitely many rule
-   instances, is proved inside PA. *Standard in kind; not carried out.*
-5. The conclusion at the type `Con′_ω` is
-   `∀c. Check(c, c⊥) = tt → ⊥`, since `Syn` codes carry no footprint.
+**The system `H_PA`.**
+- *Language:* `0`, `S`, `+`, `·`, `=`, variables `x, y, z, …`, and the
+  connectives `→`, `⊥`, `∀`.
+- *Abbreviations:* `¬φ := φ → ⊥`, and `∧`, `∨`, `∃` classically.
 
-**Step 3.** Steps 1 and 2 give PA ⊢ `Con_PA`. Contradiction. ∎
+Its axiom schemes, for formulas `φ, ψ, χ`, variables `x, y, z`, a term `t`
+and an atom `α`:
 
-*Why PA and not PRA, as the plan of 2026-09-25 had it:* λᶜᵉʳᵗ₀ defines every
-function of Gödel's System T, and PRA cannot interpret it.
+| | Scheme |
+| --- | --- |
+| A1 | `φ → (ψ → φ)` |
+| A2 | `(φ → (ψ → χ)) → ((φ → ψ) → (φ → χ))` |
+| DN | `((φ → ⊥) → ⊥) → φ` |
+| A4 | `∀x φ → φ[t/x]`, where `t` is free for `x` in `φ` |
+| A5 | `∀x (φ → ψ) → (φ → ∀x ψ)`, where `x` is not free in `φ` |
+| E1 | `x = x` |
+| E2 | `x = y → (α[x/z] → α[y/z])` |
+| Q1–Q6 | `S x = 0 → ⊥`; `S x = S y → x = y`; `x + 0 = x`; `x + S y = S(x + y)`; `x · 0 = 0`; `x · S y = x · y + x` |
+| IND | `φ[0/x] → (∀x (φ → φ[S x/x]) → ∀x φ)` |
 
-**What P5 rests on.** Two formalizations, in Steps 1 and 2. Both are
-standard in kind, both are outlined here with their obligations, and neither
-is carried out. The new ingredient is proved here: self-reference constants at
-a fixed budget reduce to finitely many true bounded facts. That is what keeps
-G2 from colliding with T2. Until Steps 1 and 2 are supplied, P5 — and
-Proposition 4.8, which depends on it — is an outline, not a theorem.
+Its rules are modus ponens (MP) and generalization (Gen).
+- A1, A2, DN and MP give classical propositional logic in `→` and `⊥`.
+- A4, A5 and Gen give the quantifier rules; E1 and E2, equality; Q1–Q6 and
+  IND, arithmetic.
+- So `H_PA` is an axiomatization of PA (*standard*).
+- `0 = 1` means `0 = S 0`.
+
+**Every formula is negative.** In `→`, `⊥`, `∀`, with decidable atoms, no
+formula needs the double negations of the Gödel–Gentzen translation. So the
+translation below is direct. *Earlier states of this proof* translated `∧`
+and `∨`, which brought in pairing and projection obligations (review RR2-03).
+Choosing the connectives removes them.
+
+**The translation.** A variable `x` becomes the λᶜᵉʳᵗ₀ variable `v_x`, and:
+
+| PA | λᶜᵉʳᵗ₀ |
+| --- | --- |
+| `0`, `S t`, `t + u`, `t · u` | `zero`, `succ ⟦t⟧`, `PLUS ⟦t⟧ ⟦u⟧`, `TIMES ⟦t⟧ ⟦u⟧` |
+| `t = u` | `T(EQ ⟦t⟧ ⟦u⟧)` |
+| `⊥` | `0` |
+| `φ → ψ` | `⟦φ⟧ → ⟦ψ⟧`, a `Π` at `ω` |
+| `∀x φ` | `Π(v_x :ω Nat). ⟦φ⟧` |
+| a line `φ`, free variables `x₁ < … < x_k` in a fixed order | `⟦∀ᶜˡ φ⟧ := Π(v_{x₁} :ω Nat) ⋯ Π(v_{x_k} :ω Nat). ⟦φ⟧` |
+
+`EQ`, `PLUS` and `TIMES` are closed terms, defined with two helpers:
+
+```
+ISZERO := λ(b :ω Nat). recN(tt, k y. ff, b)
+PRED   := λ(b :ω Nat). recN(zero, k y. k, b)
+EQ     := λ(a :ω Nat). recN(ISZERO, k h. λ(b :ω Nat). if ISZERO b then ff else h (PRED b), a)
+PLUS   := λ(a :₁ Nat). λ(b :ω Nat). recN(a, k y. succ y, b)
+TIMES  := λ(a :ω Nat). λ(b :ω Nat). recN(zero, k y. PLUS y a, b)
+```
+
+Two points about usages:
+- *In `EQ`,* the recursive result `h` is used once, inside an ordinary `λ`,
+  never inside a method.
+- *`PLUS` takes its first argument at usage 1.* That argument is the
+  recursion's base, which runs once. `TIMES`'s step passes it the recursive
+  result `y`, which `recN` supplies at usage 1, and an `ω`-argument would
+  scale `y` to `ω`. The implementation found this (§6.2, the mechanical
+  check).
+
+**They compute as the axioms need.** Each of the following holds between open
+terms, by β and ι, through a common reduct:
+
+```
+EQ zero zero ≡ tt              EQ zero (succ b) ≡ ff            EQ (succ a) zero ≡ ff
+EQ (succ a) (succ b) ≡ EQ a b  PLUS a zero ≡ a                  PLUS a (succ b) ≡ succ (PLUS a b)
+TIMES a zero ≡ zero            TIMES a (succ b) ≡ PLUS (TIMES a b) a
+```
+
+**Substitution.** If `t` is free for `x` in `φ`, then `⟦φ[t/x]⟧` is
+`⟦φ⟧[⟦t⟧/v_x]`, as syntax. *By induction on `φ`:* "free for" is exactly what
+keeps `⟦φ⟧`'s binders from capturing `⟦t⟧`.
+
+**Four closed lemmas**, all at budget 0:
+
+1. **Reflexivity.** `REFL : Π(x :ω Nat). T(EQ x x)`:
+
+       REFL := λ(x :ω Nat). recN_{x. T(EQ x x)}(⋆, k y. y, x)
+
+   - The base: `T(EQ zero zero) ≡ 1`.
+   - The step: `y : T(EQ k k) ≡ T(EQ (succ k) (succ k))`.
+2. **Transport.** `TRANSPORT : Π(x :ω Nat). Q(x)`, where
+   `Q(x) := Π(y :ω Nat). Π(f :ω Nat → Bool). T(EQ x y) → T(f x) → T(f y)`.
+   It recurses on `x` at the *packaged* motive `!Q(x) := Σ(q :ω Q(x)). 1`:
+
+       TRANSPORT := λ(x :ω Nat). let (q, u) = recN_{x. !Q(x)}((BASE, ⋆), x₁ h. let (q, u) = h in (STEP, ⋆), x) in q
+       BASE := λy. recN_y(λf e a. a,        y₁ r. λf e a. abort e,                          y)
+       STEP := λy. recN_y(λf e a. abort e,  y₁ r. λf e a. q y₁ (λz. f (succ z)) e a,       y)
+
+   - *The zero cases:* the evidence has type `T(EQ zero (succ y₁))` or
+     `T(EQ (succ x₁) zero)`, both `≡ 0`.
+   - *STEP's successor case:*
+     - `e : T(EQ (succ x₁) (succ y₁)) ≡ T(EQ x₁ y₁)`;
+     - `a : T(f (succ x₁)) ≡ T((λz. f (succ z)) x₁)`;
+     - the result, `T((λz. f (succ z)) y₁)`, `≡ T(f (succ y₁))`.
+   - *Why the packaging:* the inner case analyses are `recN`s, and their
+     methods are `ω`-scaled. They may use `q`, which the packaging returns at
+     `ω`, but not `h`, which `recN` supplies at usage 1. That is the defect of
+     the earlier outline (review RR2-04).
+3. **Stability.** `STAB(φ) : ((⟦φ⟧ → 0) → 0) → ⟦φ⟧`, by recursion on `φ`,
+   every binder at `ω`:
+
+       STAB(s = t)  := elimBool_{z. ((T z → 0) → 0) → T z}(EQ ⟦s⟧ ⟦t⟧, λk. ⋆, λk. k (λw. w))
+       STAB(⊥)      := λk. k (λw. w)
+       STAB(φ → ψ)  := λk. λa. STAB(ψ) (λnb. k (λf. nb (f a)))
+       STAB(∀x φ)   := λk. λv_x. STAB(φ) (λnb. k (λf. nb (f v_x)))
+
+   For an atom, the branches use `T(tt) ≡ 1` and `T(ff) ≡ 0`.
+4. **Induction.** It uses the packaged motive `Σ(p :ω ⟦φ⟧). 1`:
+
+       λb. λst. λv_x. let (p, u) = recN_{x. Σ(p :ω ⟦φ⟧). 1}((b, ⋆), v_x h. let (p, u) = h in (st v_x p, ⋆), v_x) in p
+
+   - The step uses `h` once.
+   - It recovers `p` at `ω`, as often as `st` needs.
+   - By the substitution fact, the base and the step have the motive's
+     instances *as syntax*.
+
+**The templates.** Each proof line becomes a closed term of its translated
+closure. Below, the leading `λ` over the closure's variables is omitted, and
+every template is ascribed its closure type: conversion does the rest.
+
+| Line | Term |
+| --- | --- |
+| A1 | `λa b. a` |
+| A2 | `λp q a. p a (q a)` |
+| DN | `STAB(φ)` |
+| A4 | `λp. p ⟦t′⟧`, where `t′` is `t` with every variable not free in the instance replaced by `0`; if `x` is not free in `φ`, the result type does not mention the argument |
+| A5 | `λp a v_x. p v_x a` |
+| E1 | `REFL v_x` |
+| E2, with `α = (s = t)` | `λe p. TRANSPORT v_x v_y (λv_z. EQ ⟦s⟧ ⟦t⟧) e p` |
+| Q1, Q2 | `λe. e` — the conversions give `T(EQ (succ x) zero) ≡ 0` and `T(EQ (succ x) (succ y)) ≡ T(EQ x y)` |
+| Q3–Q6 | `REFL v_x`, `REFL (succ (PLUS v_x v_y))`, `REFL zero`, `REFL (PLUS (TIMES v_x v_y) v_x)`, by the conversions |
+| IND | lemma 4 |
+| MP, from lines `i : φ` and `j : φ → ψ` | `(L_j ā) (L_i ā′)`. Premise variables absent from `ψ` are instantiated at `zero`, since the premises are universally closed |
+| Gen, from line `i : φ`, giving `∀x φ` | `λv_x. L_i v⃗` |
+| a proof `φ₁ … φ_m` | `let L₁ = τ₁ in ⋯ let L_m = τ_m in L_m`, each `τ_i` closed of type `⟦∀ᶜˡ φ_i⟧` |
+| a proof of `0 = 1` | its term, ascribed `0`: `T(EQ zero (succ zero)) ≡ T(ff) ≡ 0` |
+
+**The mechanical check.** The translation is implemented (`lcert.pa`, ADR-0005;
+its tests run in the extended suite).
+- *Every scheme:* on randomly generated instances, it type-checks at budget
+  0, at exactly the translated closure type, and Check accepts the
+  derivation.
+- *Whole proofs* translate too, including a proof of `∀x (x = x)` by the
+  induction axiom.
+- *Two defects found and fixed,* in this document's first version of the
+  templates:
+  - `PLUS`'s first argument had to be at usage 1;
+  - A4 had to instantiate the variables of an irrelevant term.
+
+> **Proposition 6.1.** The translation `tr`, from `H_PA`-proofs to codes, is
+> primitive recursive, and
+>
+>     PA ⊢ ∀p (Prf_{H_PA}(p, ⌜0 = S 0⌝) → IsSyn(tr p) ∧ CHECK(tr p, c⊥) = 1).
+
+*Proof.*
+- **`tr` builds each derivation from fixed templates.** The judgments at the
+  nodes are computed from the parameters — the formulas and terms — by the
+  translation. At each Conv node, `tr` records the fixed chain its template
+  prescribes: the steps of the conversions displayed above, or one β-step,
+  as in E2.
+  - The recursive parts — `STAB`, the formation subderivations of translated
+    types, the closures — are defined by recursion on formulas.
+  - So `tr` is primitive recursive.
+  - The implementation computes chains by normalization instead. That yields
+    different chains, equally valid.
+- **PA proves correctness by induction on the length of `p`.** The statement:
+  for every line `i`, the derivation `tr_i(p)` is valid, and concludes
+  `⊢ τ_i : ⟦∀ᶜˡ φ_i⟧` in the empty context. It is a Π₁ property of `p`. The
+  cases:
+  - **An axiom instance.** Validity is a conjunction, over the template's
+    nodes, of Check's local conditions (§1.6). Each is an equation between
+    primitive recursive functions of the parameters.
+    - At a template's fixed nodes, the equations hold by the definitions of
+      the translation and the encoding; PA verifies them by unfolding those
+      definitions.
+    - At the recursive parts, PA proves validity by induction on the formula.
+    - The substitution fact, which A4, E2 and IND use, PA proves by induction
+      on `φ`.
+  - **MP and Gen.** The new node's local conditions are equations between
+    primitive recursive functions of the premises' conclusions, and PA
+    verifies them.
+  - **The last line of a proof of `0 = S 0`.** One more Conv node, with the
+    fixed chain `T(EQ zero (succ zero)) ⇝ ⋯ ⇝ T(ff) ⇝ 0`.
+- **Every derivation built is closed, at budget 0,** so its root context is
+  `Θ₀`. ∎
+
+The formalization is given at the level of its obligations. Each is an
+unfolding of primitive recursive definitions, or an induction on codes, in PA.
+The implementation exhibits every template node that the obligations are
+about.
+
+### 6.3 Step 2: arithmetic in finite types interprets `Δ`
+
+**E-PA^ω.** Its types are built from `0` (the naturals) by `→` and `×`. Its
+terms are Gödel's System T. It has equality at type 0, extensional equality
+above it, full induction, and classical logic.
+
+**Coding.**
+- A finite tree over `L` is coded by a natural number, by a primitive
+  recursive pairing in which subtrees have smaller codes.
+- A certificate and its print have the same code: in the model the token
+  carries no information, since `C(◇) = {◇}`. So `PRINT` is the identity on
+  codes.
+- The primitive recursive functions `NODES`, `IsSyn` (a tree code), `CHECK`,
+  `NEG` (for `neg`) and `ROOTTYPE` are fixed. `ROOTTYPE(p)` is the type code
+  at the root judgment of the derivation `p` encodes, or `0` if there is none.
+
+**The interpretation.**
+- *Skeletons:* `Unit`, `Bool`, `Nat`, `Lbl`, `Syn`, `◇` and `R` become type
+  `0`, each with a range predicate (`{0}`, `{0, 1}`, all, `{0, …, |L|−1}`,
+  `IsSyn`, `{0}`, `IsSyn`). Then `σ → τ` becomes `σ̂ → τ̂`, and `σ × τ` becomes
+  `σ̂ × τ̂`.
+- *Terms:* a simply typed term `t` becomes a System T term `⟦t⟧`,
+  compositionally. The clauses that are not the obvious ones:
+  - `recN` is Gödel's recursor.
+  - `recSyn` and `itR` are structural recursion on tree codes, definable in
+    System T by course-of-values recursion. Their recursion equations are
+    provable.
+  - `caseLbl` is definition by cases on the label's number.
+  - `node d a r₁ r₂` drops the token.
+  - `print` is the identity, and `chk′` is `CHECK`.
+  - `inspect_X r c (x e. t₁) (x e. t₂)` becomes: if `CHECK(⟦r⟧, ⟦c⟧) = 1`,
+    then `⟦t₁⟧` at `x ↦ ⟦r⟧, e ↦ 0`, else `⟦t₂⟧` likewise.
+  - **`reflect_D r e` becomes the default `dflt_D` for every `D`**,
+    including `D = 0`. `H₁ …` becomes `0`, and `abort_A t` becomes
+    `dflt_{skel A}`.
+- *Why the defaults are allowed:* `reflect`, `H₁` and `abort` have no
+  conversion rule (§1.5), so no equation constrains them (review F-02).
+
+**Semantic types.** For the fixed `n`, and each type `A` occurring in `Δ`, the
+E-PA^ω formula `V_k(A)[η](x)` transcribes §3.3:
+
+| Type | Formula |
+| --- | --- |
+| `0`, `1`, `Bool`, `Nat`, `Lbl`, `Syn` | `⊥`; `x = 0`; `x ≤ 1`; `⊤`; `x < |L|`; `IsSyn(x)` |
+| `◇` | `x = 0 ∧ k ≥ 1` |
+| `R` | `IsSyn(x) ∧ NODES(x) ≤ k` |
+| `T(b)` | `x = 0 ∧ ⟦b⟧[η] = 1` |
+| `Π` at `0`, `1` and `ω`; `Σ` at `0`, `1` and `ω` | the clauses of §3.3, with `∀a ∈ C(σ)` read as a quantifier over `σ̂` restricted by the range predicate, and `∃j ≤ k` bounded |
+
+The environment formula `Env_k(Γ)[η]` transcribes §3.4. Everything is a
+formula of E-PA^ω: the bounds are numerals, and the rest is quantifiers over
+finite types.
+
+**Lemma 6.2 (for the types and conversions of `Δ`, in E-PA^ω).**
+1. **Monotonicity:** `V_k(A) → V_{k′}(A)` for `k ≤ k′ ≤ n`, by induction on
+   `A`.
+2. **Substitution:** `⟦s[u/x]⟧` is the System T term `⟦s⟧[⟦u⟧/x]`, by
+   induction on `s`. So `V(B[u/x])[η] ↔ V(B)[η, ⟦u⟧[η]]`.
+3. **Conversion:** for every step `t ⇝ t′` between skeleton-typed terms,
+   E-PA^ω proves `⟦t⟧ = ⟦t′⟧` at their type.
+   - β, by System T's equations.
+   - ι, by the equations of the recursors, of course-of-values recursion, and
+     of definition by cases.
+   - δ: `⟦chk′ c d⟧` is `CHECK(c̄, d̄)`, which equals the numeral of
+     `Check(c, d)` by S2.
+   - T, by `V(T(b))`'s clause.
+   - Under binders, by extensionality.
+
+   So `V(A) ↔ V(B)` along every chain of `Δ`. The chains' skeleton typing
+   (§1.5) is what gives every element a translation (review R4-01). ∎
+
+**Lemma 6.3 (the bounded facts).** PA proves:
+
+    BF₀  ∀v (IsSyn(v) ∧ NODES(v) ≤ n → CHECK(v, c⊥) ≠ 1)
+    BF₁  ∀v ∀w ∀c (IsSyn(v) ∧ IsSyn(w) ∧ NODES(v) + NODES(w) ≤ n →
+                    ¬(CHECK(v, c) = 1 ∧ CHECK(w, NEG(c)) = 1))
+
+*Proof.*
+1. From Check's condition 4 (§1.6), PA proves that `CHECK(p, d) = 1` implies
+   `d = ROOTTYPE(p)`. So in BF₁, `c` may be replaced by `ROOTTYPE(v)` (review
+   RR2-07).
+2. PA proves that the trees with at most `n` internal nodes over `L` are the
+   finitely many listed ones. So BF₀ and BF₁ are equivalent in PA to finite
+   conjunctions of closed primitive recursive equations.
+3. Those equations are true, by Corollary 3.7: no code checks as a
+   refutation, and no two codes check as a type and its negation.
+4. PA proves them by S2. ∎
+
+**Lemma 6.4 (the fundamental lemma for `Δ`, in E-PA^ω).** For every node
+`Γ ⊢ s :¹ A` of `Δ`:
+
+    E-PA^ω ⊢ ∀η ∀k⃗ (Env_k⃗(Γ)[η] → V_{Σk⃗}(A)[η](⟦s⟧[η])).
+
+*Proof.* By induction on `Δ`, at the meta level. Each case is the
+corresponding case of Lemma 3.6, carried out in E-PA^ω with Lemma 6.2, except
+for these:
+- **Reflect at `D ≠ 0`.** `dflt_D` satisfies `V(D)`: a leaf, `false`, `0`,
+  the first label, or `0`.
+- **Reflect at `D = 0`, which is `H`.** The premises give
+  `NODES(⟦r⟧) ≤ k₁ ≤ n` and `CHECK(⟦r⟧, c⊥) = 1`, contradicting BF₀. The case
+  is vacuous.
+- **H₁.** The same, with BF₁.
+- **No outer induction on budgets** is needed, since no case descends to a
+  smaller budget. `RecN`, `RecSyn` and `ItR` use induction in E-PA^ω on the
+  scrutinee: on numbers, or by course-of-values induction on tree codes.
+- **Inspect** splits on whether `CHECK(⟦r⟧, ⟦c⟧) = 1`. The evidence `0`
+  satisfies `V(T(chk′ (print x) c))` in the first branch, and
+  `V(T(not …))` in the second.
+
+The environment and footprint bookkeeping are those of §3.4–3.5, with
+numerals for the bounds. ∎
+
+**Corollary 6.5.** From `Δ`, E-PA^ω proves `Con_λ`.
+
+*Proof.* Apply Lemma 6.4 at `Δ`'s root, with every token mapped to `0` and
+footprint `n`. The conclusion `V(Con′_ω)(⟦t⟧)` unfolds to
+`∀c (IsSyn(c) → ∀e (e = 0 ∧ CHECK(c, c⊥) = 1 → ⊥))`, which gives `Con_λ`. ∎
+
+### 6.4 The conclusion
+
+1. By S3, Corollary 6.5 gives PA ⊢ `Con_λ`.
+2. By Proposition 6.1, PA ⊢ `Con_λ → Con_PA`: a proof `p` of `0 = S 0` would
+   give `IsSyn(tr p) ∧ CHECK(tr p, c⊥) = 1`.
+3. So PA ⊢ `Con_PA`.
+4. PA is consistent, being true in ℕ, so this contradicts S1.
+
+Hence no `Δ` exists. ∎
+
+**Consequences.** Proposition 4.8, that no budget derives `H° → Con′_ω`, is
+now proved as well.
+
+**What changed, and why the proof is now complete.**
+- **An outline until 2026-09-26.** Two review rounds found its obligations
+  incompletely stated (RR2-03 to RR2-07).
+- **The completion:**
+  - it chooses PA's connectives so that no negative-translation machinery is
+    needed;
+  - it gives every template of Step 1 explicitly, and checks them
+    mechanically;
+  - it moves Step 2 from a hand-built realizability model inside PA to E-PA^ω,
+    which interprets the calculus directly. The price is citing S3;
+  - it interprets `reflect` by defaults throughout, so that Step 2 needs no
+    induction on budgets.
+- **Its level of detail.** It is complete as a paper proof: every obligation
+  is stated, and proved or reduced to S1–S3. Two formalizations inside
+  arithmetic are given at the level of their obligations, not symbol by
+  symbol: Proposition 6.1, and Lemma 6.4. Nothing is formalized in a proof
+  assistant.
 
 ## 7. What is mechanized
 
@@ -1211,7 +1487,7 @@ did not complete:
 | §2.5 "`H` follows from `H₁` only at extra token cost" | right in substance; the cost is constant, through a fixed certificate of `0 ⊸ 0`. *Round 0 wrongly corrected this to "only outside the calculus"; review R4-02* | §4.9 |
 | §4 D2 row, `comp : □(A → B) ⊗ □A ⊸ □B` | `→` should be `⊸`. A budget uniform in `A` and `B` is conjectured not to exist. One-node composition is impossible under E2–E3; a relative encoding must replace them | §4.5 |
 | §4 D3 and contraction rows, "must record the literal term that rebuilds `r`" | the argument is replaced: any certificate of `□A` has more than `2μ(A)` nodes. The conclusion holds uniformly; per instance, both are derivable | §§4.3–4.4 |
-| §4 G2 row, "Standard; not verified here" | reduced to G2 for PA. The reduction is outlined, and its two formalization steps are listed with their obligations, not carried out | §6 |
+| §4 G2 row, "Standard; not verified here" | proved by reduction to G2 for PA, citing three standard results. The reduction was an outline until 2026-09-26 | §6 |
 | §5 fact 4, "parse and then apply `H`" | the restricted form holds with no tokens, by case analysis. The parse is definable, through a computational destructor. What is missing is an internal proof that it prints back to its input. *Round 0 wrongly said a destructor was lacking; review R4-03* | §4.7 |
 | §3 L1–L4, conditional theorem | the theorem is proved without them | §3 |
 | §6 "the only way to hold a certificate of `N` nodes at runtime is to have spent `N` tokens" | true of runtime positions under the erasing evaluator (Theorem 4′). Under the non-erasing one, an erased position can hold an `N`-node tree built from one token | §5 |

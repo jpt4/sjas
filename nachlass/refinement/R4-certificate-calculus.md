@@ -662,7 +662,7 @@ Write `□A := Σ(r :₁ R). T(chk′(print r, ⌜A⌝))`, where `⌜A⌝` is `A
 | D3 `□A ⊸ □□A` | **per instance yes; uniformly no** | every certificate of `□A` has more than `2μ(A)` nodes. Its root must declare at least `μ(A)` tokens, and its term must mention each of them (Prop. 4.3). From a minimal certificate and `k` tokens, at most `μ(A) + k` nodes can be built, so no `k` serves every `A` (Prop. 4.4). For each `A`, an instance exists with budget `μ(□A)` (Prop. 4.5) |
 | boxed contraction `□A ⊸ □A ⊗ □A` | **per instance yes; uniformly no** | two certificates of `A` need `2μ(A)` nodes, and only `μ(A) + k` can be built: Hofmann's diagonal map (p. 79) recast (Prop. 4.4). For each `A`, an instance exists with budget `2μ(A)`: discard the input and build two certificates (Prop. 4.5) |
 | self-reference | **by name** | §2.4 |
-| G2 for codes | **applies, by an outlined reduction** | no budget derives any form of `Con′` (§5). The metatheory reduces this to Gödel's second theorem for PA. The reduction's new step is proved; its two formalization steps are standard in kind, listed with their obligations, and not carried out (`R4-metatheory.md` §6) |
+| G2 for codes | **applies** | no budget derives any form of `Con′` (§5). The metatheory proves this by reduction to Gödel's second theorem for PA. It cites three standard results (`R4-metatheory.md` §6). *Until 2026-09-26 the reduction was an outline* |
 
 *Corrections.* An earlier state of this table wrote `□(A → B)` in the D2 row.
 With `→` the argument's certificate may use no tokens, so the row now reads
