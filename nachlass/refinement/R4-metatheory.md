@@ -26,7 +26,9 @@ correction and the section that proves it.*
 > again found no refutation of T1–T3. Its thirteen findings led to P5 being
 > relabelled an outline, and to a typed parser. P5 was then completed (§6).
 > Round 3 reviewed the completion and found it a proof. Its eleven findings
-> are minor, and all were accepted.
+> are minor, and all were accepted. Round 4 reviewed Theorem 5.2, which
+> proves what had been an expectation. It found the argument sound and the
+> write-up incomplete; its findings, two major and three minor, are fixed.
 
 ---
 
@@ -948,8 +950,15 @@ by `E` to the carrier default (§3.1). This holds by the choice made there.
 
 **The fundamental property.** Take a runtime derivation `Γ ⊢ t :¹ A` and a
 runtime environment related by `E` to a carrier environment `η`, entry by
-entry: usage-0 entries are `⋆` at runtime, arbitrary in `η`. Then evaluating
-the erasure of `t` terminates, and its value is `E`-related to `⟦t⟧ⁿη`.
+entry. An entry of usage `1` or `ω` is related. An entry of usage `0` may hold
+any runtime value, since the erased program never reads it, and is arbitrary
+in `η`. Then evaluating the erasure of `t` terminates, and its value is
+`E`-related to `⟦t⟧ⁿη`.
+- *Restriction:* an entry with nonzero usage in a premise has nonzero usage in
+  the conclusion, because usages add and scale without cancelling. So an
+  environment related for the conclusion is related for each runtime premise.
+  *An earlier state required usage-0 entries to be `⋆`, which a premise's
+  environment need not satisfy (review T52-04).*
 
 The proof is by strong induction on `n`, and within `n` on the derivation:
 - **Var.** The variable has usage `1` or `ω`, so its runtime value is related.
@@ -997,7 +1006,8 @@ vacuity of these cases without footprints. Corollary 3.7 supplies it, because
 it holds for codes of every size.
 
 *The relation.* Fix `n`. For a carrier environment `η`, define a set `S(A)η`
-of pairs — a runtime value and a carrier value — by induction on `A`:
+of pairs — a runtime value and a carrier value — by induction on the syntax of
+`A`:
 - `S(0) = ∅`, and `S(1)` relates `⋆` to `⋆`;
 - at `Bool`, `Nat`, `Lbl` and `Syn`, equality; at `◇`, every runtime token to
   `◇`; at `R`, a runtime tree to the carrier tree of the same shape and
@@ -1009,60 +1019,129 @@ of pairs — a runtime value and a carrier value — by induction on `A`:
 - at `Σ(x :ρ A). B`, for every `ρ`: componentwise, the second component at
   `(η, x ↦ α₁)`.
 
-An evaluation is **safe** if it terminates and evaluates no `abort`, `H₁` or
-`H` node. `S` records truth, as `V` does, but no footprints.
-- *Conversion:* `S` is invariant under `≡`, by Lemma 3.2, and because
-  `S(T(tt)) = S(1)` and `S(T(ff)) = S(0)`.
-- *Substitution:* `S(B[u/x])η = S(B)(η, x ↦ ⟦u⟧ⁿη)`, by Lemma 3.1.
+An evaluation is **safe** if it terminates and its whole trace enters no
+`abort`, `H₁` or `H` node. The trace includes the evaluation of every
+subterm, of every closure applied, and of every program that `reflect` runs.
+Safety is a property of traces, and does not refer to `S`. `S` records truth,
+as `V` does, but no footprints. Two facts, each by induction on the type:
+- *Conversion:* if `A ≡ B`, then `S(A)η = S(B)η`. At `T(b)` this is Lemma 3.2,
+  with `S(T(tt)) = S(1)` and `S(T(ff)) = S(0)`. At `Π` and `Σ` it is
+  congruence, since safety does not read the type.
+- *Substitution:* `S(B[u/x])η = S(B)(η, x ↦ ⟦u⟧ⁿη)`. At `T(b)` this is
+  Lemma 3.1. At `Π` and `Σ` it is congruence, with bound variables renamed
+  apart.
 
 *The fundamental property.* Let `Γ ⊢ t :σ A` be derivable, **in either
 mode**. Let `ρ` be a runtime environment with `(ρ(x), η(x)) ∈ S(A_x)η` for
 every entry, whatever its usage. Then `evalₙ` evaluates `t` in `ρ` safely, to
 some `v` with `(v, ⟦t⟧ⁿη) ∈ S(A)η`.
 
-*Proof.* By strong induction on `n`, and within `n` on the derivation. The two
-modes are handled alike, because neither `evalₙ` nor `S` looks at usages.
-- **The standard cases** — `Var`, `Lam`, `App`, pairs, `Let`, `Conv`, the data
-  rules, `recN`, `recSyn`, `itR`, `node`, `print` and `chk′` — as in
-  Theorem 4.
-  - `App` and `Pair` use the substitution fact.
-  - Each eliminator's scrutinee has equal runtime and carrier values. So both
-    sides take the same branches, and iterate equally often.
-- **`inspect`.** Both sides branch on the same `Check` result. In the branch
+*Proof.* By strong induction on `n`, and within `n` on the derivation.
+- *Both modes alike.* Neither `evalₙ` nor `S` reads usages, so a type-level
+  premise is handled like a runtime one. Type annotations are not evaluated.
+- *How traces compose.* In every case but the vacuous ones, a node's trace
+  consists of the evaluations of its premises, in related environments; of
+  applications of related closures; and, at `reflect`, of one nested run. The
+  hypotheses make each of these safe. The node itself is not `abort`, `H₁` or
+  `H`, so the whole trace is safe.
+
+The cases:
+- **Var and the constants.** The value is `ρ(x)`, related by assumption, or a
+  constant.
+- **Lam.** The value is a closure over `ρ`. For `(a, α) ∈ S(A)η`, the
+  environment `(ρ, x ↦ a)` is related to `(η, x ↦ α)`. So the hypothesis for
+  the body gives the `Π` clause.
+- **App.** The hypotheses relate the function to `⟦f⟧ⁿη` at the `Π` type, and
+  the argument, in either mode, to `⟦u⟧ⁿη` at `S(A)η`. The `Π` clause makes
+  the application safe, with a result related at
+  `S(B)(η, x ↦ ⟦u⟧ⁿη) = S(B[u/x])η`.
+- **Pair.** Componentwise. The second component's type is `B[a/x]`, and
+  substitution applies.
+- **Let.** The components of the pair are related at `S(A)η` and at
+  `S(B)(η, x ↦ α₁)`. So the body's environment is related. The body's
+  hypothesis gives a result in `S(C)`, and `C` mentions neither `x` nor `y`.
+- **Conv.** By the conversion fact.
+- **If, ElimBool, CaseLbl.** The scrutinee has equal runtime and carrier
+  values, so both sides take the same branch, in a related environment. At
+  `ElimBool` and `CaseLbl`, substitution turns the branch's type, for example
+  `S(P[tt/x])η`, into `S(P[b/x])η`, since `⟦b⟧ⁿη = tt`.
+- **Succ, SLeaf, SNode, Leaf, Node, Print, Chk.** The premises are related.
+  The constructors preserve the relation, `print` forgets tokens on both
+  sides, and `Check` is total and gets the same arguments on both sides.
+- **RecN.** The scrutinee has the same value `i` on both sides. By an inner
+  induction on `j ≤ i`, the `j`-th accumulator is related at
+  `S(P)(η, x ↦ j)`:
+  - at `0`, by the base's hypothesis and substitution;
+  - from `j` to `j + 1`, by the step's hypothesis, in the environment extended
+    by `x ↦ j` and the accumulator, both related.
+- **RecSyn.** Likewise, by induction on the code, which is the same on both
+  sides.
+- **ItR.** By induction on the tree, which has the same shape on both sides.
+  At a leaf `g` is applied, and at a node `h` is applied to the token, the
+  label and the two related recursive results. Each application is safe by
+  the `Π` clause of `g`'s or `h`'s relation.
+- **Inspect.** Both sides branch on the same `Check` result. In the branch
   taken, the Boolean under `T` is `tt`. So `(⋆, ⋆)` lies in
-  `S(T(chk′ (print x) c))`, or in `S(T(not …))`, at `x ↦ ⟦r⟧ⁿη`.
-- **`abort`.** The hypothesis for its premise yields an element of
+  `S(T(chk′ (print x) c))`, or in `S(T(not …))`, at `x ↦ ⟦r⟧ⁿη`, and the
+  branch's hypothesis applies.
+- **Abort.** The hypothesis for its premise yields an element of
   `S(0) = ∅`. So no environment of the stated kind exists, and the case holds
   vacuously.
-- **`H₁`.** The hypotheses for `e₁` and `e₂` give
+- **H₁.** The hypotheses for `e₁` and `e₂` give
   `Check(print ⟦r⟧ⁿη, ⟦c⟧ⁿη) = tt` and `Check(print ⟦s⟧ⁿη, neg ⟦c⟧ⁿη) = tt`.
   Corollary 3.7 excludes this, at every size. Vacuous.
-- **`H`, that is `reflect₀`.** Likewise `Check(print ⟦r⟧ⁿη, c⊥) = tt`, which
+- **H, that is `reflect₀`.** Likewise `Check(print ⟦r⟧ⁿη, c⊥) = tt`, which
   Corollary 3.7 excludes. Vacuous.
-- **`reflect_D` with `D ≠ 0`.** The runtime and carrier trees are equal, so
-  both sides make the same cap test and the same `Check`.
-  - If both pass, both decode `Θₘ ⊢ t′ :¹ D`, with `m < ‖v‖ ≤ n`. The
-    **outer** hypothesis at `m` makes `evalₘ(t′)` safe, with a value related
-    to `⟦t′⟧ᵐ`: at a base data type, equal to it.
-  - Otherwise both return defaults, which are related. ∎
+- **`reflect_D` with `D ≠ 0`.** `r` and `e` are evaluated first, safely, by
+  their hypotheses. The runtime tree and the carrier tree have the same shape
+  and labels, so the same node count and the same `print`. So both sides make
+  the same cap test, and the same `Check`.
+  - If both pass, Lemmas 2.6–2.8 give a derivable `Θₘ ⊢ t′ :¹ D` with
+    `m < ‖v‖ ≤ n`. The **outer** hypothesis at `m`, with the tokens related
+    to `◇`, makes `evalₘ(t′)` safe, with a result related to `⟦t′⟧ᵐ` at
+    `S(D)`. At a base data type `S(D)` does not depend on the budget, just as
+    `V(D)` does not (Lemma 3.4).
+  - Otherwise both return defaults, which are related (§5's defaults
+    paragraph). ∎
 
 At the root, the runtime tokens are related to `◇, …, ◇`, so `evalₙ(t)` is
 safe.
 
-*The erasing evaluator.* Change `S` at usage 0, as Theorem 4′'s `E` does:
+*The erasing evaluator.* `evalᴱₙ` evaluates the erasure of a runtime
+derivation. Change `S` at usage 0, as Theorem 4′'s `E` does, and relax the
+environments:
 - at `Π(x :₀ A). B`: `(f, φ)` is related when for every `α ∈ C(skel A)`,
   `f ⋆` evaluates safely to some `v` with `(v, φ(α)) ∈ S(B)(η, x ↦ α)`;
 - at `Σ(x :₀ A). B`: `(⋆, b)` is related to `(α, β)` when
   `(b, β) ∈ S(B)(η, x ↦ α)`;
-- usage-0 entries of the environment are `⋆` at runtime, and arbitrary in
-  `η`, as in Lemma 3.6.
+- an environment is related to `η` when every entry of usage `1` or `ω` is
+  related. An entry of usage `0` may hold any runtime value, since the erased
+  program never reads it, and any carrier value in `C(skel A)`.
 
-The property is then stated for runtime derivations only, since `evalᴱₙ`
-evaluates no type-level subterm.
-- `App` and `Pair` at usage 0 need only `⟦u⟧ⁿη ∈ C(skel A)`, which is
-  Lemma 2.5.
-- The vacuous cases use only runtime premises, which `evalᴱₙ` does evaluate.
-- The other cases are unchanged. ∎
+The property is then stated for runtime derivations only. The cases that
+change:
+- **Restriction.** An entry with nonzero usage in a premise has nonzero usage
+  in the conclusion, because usages add and scale without cancelling. So an
+  environment related for the conclusion is related for each runtime premise.
+- **Lam at usage 0.** For every `α ∈ C(skel A)`, the body runs with `x ↦ ⋆`
+  at runtime and `x ↦ α` in the model. That entry has usage 0, so the
+  environment is related, and the body's hypothesis applies. The `Π₀` clause
+  quantifies over the whole carrier, not over `S(A)`, so this case differs
+  from the non-erasing one even when `S(A)` is empty.
+- **App and Pair at usage 0.** The argument is not evaluated. Its denotation
+  `⟦u⟧ⁿη` lies in `C(skel A)`, by the type-level clause of Lemma 3.6. So the
+  `Π₀` clause, or the `Σ₀` clause, applies at `α = ⟦u⟧ⁿη`.
+- **Let at usage 0.** The pair is `(⋆, b)`, related to `(α₁, β)` with `α₁`
+  arbitrary in the carrier. The body runs with `x ↦ ⋆` and `x ↦ α₁`, an entry
+  of usage 0, and with `y` related.
+- **Reflect.** The decoded derivation is erased, and run by `evalᴱₘ`. The
+  outer hypothesis is the erasing property at `m`, for that derivation.
+- **The vacuous cases** use only runtime premises: `abort`'s argument, and the
+  evidence of `H₁` and `H`. Erasure keeps these. `S(0) = ∅` does not depend
+  on `η`, and Corollary 3.7 holds for every code, so arbitrary carrier values
+  at usage-0 entries change nothing.
+- **Every other case** is as before, with the restriction fact supplying the
+  premises' environments. ∎
 
 *What made it provable.* The earlier state paired Theorem 4's relation with
 Lemma 3.6's, and Lemma 3.6 cannot follow evaluation into erased positions.
@@ -1070,12 +1149,22 @@ Consistency at every size, which Corollary 3.7 gives once T1 is proved,
 removes the need for footprints.
 
 *Checked in the implementation.*
-- `lcert.eval` reports to a probe every `abort`, `H₁` or `H` node it enters.
-- The tests run typed programs that carry such nodes where a faulty evaluator
-  would reach them: the tutorial's guard, the destructor, the parser, bounded
-  consistency, PA's transport axiom, and a dependent elimination. They run
-  them under both evaluators, and require that no such node is entered.
-- Swapping the branches of `inspect`, or of `elimBool`, makes them fail.
+- `lcert.eval` reports to a probe every `abort`, `H₁` or `H` node it enters,
+  before evaluating the node's arguments.
+- The tests run typed programs in which such a node lies on a branch the run
+  does not take, so that an evaluator taking a wrong branch would enter it.
+  The programs are:
+  - the tutorial's guard;
+  - a check of a type and then of its negation, holding `H₁`;
+  - the destructor, and the parser that uses it;
+  - PA's transport axiom;
+  - a dependent elimination;
+  - that elimination certified, and run through `reflect`.
+- They run each program under both evaluators, and require that no such node
+  is entered.
+- *By hand, not in the suite:* swapping the branches of `inspect`, or of
+  `elimBool`, in the evaluator makes these tests fail. With `inspect` swapped,
+  the probe records `H₁`.
 
 **Not proved at all:** that `evalᴱₙ` never duplicates a token object, so that
 the tokens in a value are distinct. The model counts nodes and does not tell
@@ -1657,6 +1746,23 @@ are applied.
 | P5-S2-WORD | minor | Lemma 6.2's δ clause credited S2 with the truth of a computation | fixed |
 | P5-DFLT | minor | The defaults listed for `reflect` did not name `sleaf ℓ₀` | fixed |
 | P5-MECH | minor | "Step 1 is mechanically checked" overstates what the tests check | fixed: §0 and §6.2 say what the tests check, and what they do not |
+
+**Round 4, 2026-09-26.** Grok 4.7, through Cursor, reviewed Theorem 5.2,
+read-only, with the evaluator and its tests.
+
+**What it did not find:** a counterexample. Its verdict: "Theorem 5.2 is not
+shown false." It found the new vacuity argument sound — `abort` by
+`S(0) = ∅`, `H₁` and `H` by Corollary 3.7 at every size — and confirmed that
+erasure keeps every premise the vacuous cases use. It also confirmed that the
+probe is placed and tested as described.
+
+| ID | Severity | Finding | Disposition |
+| --- | --- | --- | --- |
+| T52-01 | minor | Invariance of `S` under conversion and substitution needs an induction on the type, not only Lemmas 3.1–3.2 | fixed |
+| T52-02 | major | The "standard cases" were delegated to Theorem 4, whose relation has no safety conjunct, and how safety composes through a node's trace was not said | fixed: every case written out, with traces |
+| T52-03 | minor | In `reflect`, the trees are related, not equal; Lemmas 2.6–2.8 were not cited; `r` and `e` are evaluated first | fixed |
+| T52-04 | major | For the erasing evaluator, "the other cases are unchanged" is false: `Lam` and `Let` at usage 0, the split of contexts, and `reflect`'s erased run all differ; one citation overshot | fixed: those cases written out, with a restriction fact. Theorem 4′ had the same gap in its environments, and has the same repair |
+| T52-05 | minor | Two test programs did not put their node where a faulty evaluator would reach it; no test ran a dead `abort` through `reflect`; the mutation claim was not a test | fixed: replaced by a check of a type and its negation holding `H₁`, and by a certified program with a dead `abort` run through `reflect`. The mutation checks are stated as done by hand |
 
 ## 9. Corrections this document makes to the draft
 

@@ -78,18 +78,31 @@
 
 ;; ---------------------------------------------------------------------------
 ;; Theorem 5.2: a typed program never evaluates an abort, H₁ or H node, under
-;; either evaluator.  Each program below carries such nodes where a faulty
-;; evaluator could reach them; the probe ev/*unreachable* records any entered.
+;; either evaluator.  In each program below such a node lies on a branch the
+;; run does not take, so an evaluator taking a wrong branch would enter it;
+;; the probe ev/*unreachable* records any node entered.
 
 (def ^:private guard
   "The tutorial's guard: the branch taken if a certificate checks as a
   refutation holds abort and H."
   '(fn [r 1 R] (inspect Nat r c-bot [x e] (abort Nat (H x e)) [x e] 7)))
 
-(def ^:private h1-form
-  "H₁'s closed program (T2)."
-  '(fn [r 1 R s 1 R c w Syn e1 1 (T (chk (print r) c)) e2 1 (T (chk (print s) (neg c)))]
-     (H1 r s c e1 e2)))
+(def ^:private h1-guard
+  "Checks r at Bool → Bool, then s at its negation.  The branch where both
+  checks pass holds H₁."
+  '(fn [r 1 R s 1 R]
+     (inspect Nat r (code (-> Bool Bool))
+              [x e] (inspect Nat s (neg (code (-> Bool Bool)))
+                             [y e2] (abort Nat (H1 x y (code (-> Bool Bool)) e e2))
+                             [y e2] 1)
+              [x e] 2)))
+
+(def ^:private by-cases
+  "Dependent elimination whose false branch needs evidence of T(ff), so
+  holds abort."
+  '(fn [b w Bool] (elim-bool [x (-o (T x) Nat)] b
+                             (fn [e 1 (T tt)] 5)
+                             (fn [e 1 (T ff)] (abort Nat e)))))
 
 (defn- random-codes
   "n random codes over the labels :a :b :c with at most 6 internal nodes,
@@ -132,18 +145,18 @@
              (run-probed seen 3 (ex/parse-then '(code-literal [:sn :b [:sn :c [:sl :a] [:sl :a]] [:sl :a]])
                                                '(node $1 :a (leaf :a) (node $2 :a (leaf :a) (node $3 :a (leaf :a) (leaf :a))))
                                                'Syn '(print t))))))
-    (testing "bounded consistency at depth 0, applied as far as a typed program can"
-      (is (fn? (run-probed seen 0 (list (ex/bounded-con 0) '(snode :a (sleaf :a) (sleaf :a))))))
-      (is (fn? (run-probed seen 0 (list (list (ex/bounded-con 0) '(sleaf :b)) 'star)))))
+    (testing "H₁ behind a check of a type and then of its negation"
+      (is (= 1 (run-probed seen 36 (list h1-guard (lc/certificate-form not-code)
+                                         '(node $36 :a (leaf :a) (leaf :a))))))
+      (is (= 2 (run-probed seen 2 (list h1-guard '(node $1 :a (leaf :a) (leaf :a))
+                                        '(node $2 :b (leaf :b) (leaf :b)))))))
     (testing "PA's transport (axiom E2): its recursion carries abort in the mismatched cases"
       (let [e2 (pa/axiom-term [:E2 'x 'y 'z [:= 'z [:s [:s [:s [:z]]]]]])]
         (is (= :star (run-probed seen 0 (list e2 3 3 'star 'star))))))
     (testing "dependent elimination: the false branch needs evidence of T(ff), so holds abort"
-      (let [by-cases '(fn [b w Bool] (elim-bool [x (-o (T x) Nat)] b
-                                                (fn [e 1 (T tt)] 5)
-                                                (fn [e 1 (T ff)] (abort Nat e))))]
-        (is (= 5 (run-probed seen 0 (list by-cases 'tt 'star))))))
-    (testing "H₁'s program, applied to two certificates and a code"
-      (is (fn? (run-probed seen 1 (list h1-form '(node $1 :a (leaf :a) (leaf :a)) '(leaf :b) 'c-bot)))))
+      (is (= 5 (run-probed seen 0 (list by-cases 'tt 'star)))))
+    (testing "a certified program with a dead abort, run by reflect"
+      (let [{:keys [code nodes]} (lc/certify 0 (list by-cases 'tt 'star))]
+        (is (= 5 (run-probed seen nodes (list 'reflect 'Nat (lc/certificate-form code) 'star))))))
     (testing "no abort, H₁ or H node was entered, by either evaluator"
       (is (= [] @seen)))))

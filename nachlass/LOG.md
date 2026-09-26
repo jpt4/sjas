@@ -6245,3 +6245,32 @@ monthly limit, so Grok 4.7 reviewed.
 - **Conjectured:** 4.6.
 - **The suites:** fast, 50 tests and 444 assertions; extended, 58 tests and
   1493 assertions, in 40 s.
+
+## 2026-09-26 — Review round 4 of Theorem 5.2: sound, write-up incomplete
+
+**The verdict.** Grok 4.7 found Theorem 5.2 "not shown false", and the new
+vacuity argument sound. `abort` is vacuous by `S(0) = ∅`, and `H₁` and `H`
+by Corollary 3.7 at every size. Erasure keeps every premise that argument
+uses.
+
+**Its findings, all fixed** (`R4-metatheory.md` §8, round 4):
+- *Two major, both about the write-up.*
+  - The ordinary cases had been delegated to Theorem 4, whose relation says
+    nothing about safety. They are now written out, with how safety composes
+    through a node's trace.
+  - The erasing variant's "other cases unchanged" was false. `Lam` and `Let`
+    at usage 0, the split of contexts, and `reflect`'s erased run now have
+    their own cases. Theorem 4′ had the same gap in its environments —
+    usage-0 entries need not be `⋆` in a premise — and has the same repair.
+- *Three minor.* Invariance of `S` by induction on the type; in `reflect`,
+  trees are related rather than equal, and Lemmas 2.6–2.8 are cited; and two
+  weak test programs.
+
+**The weak tests.** Two programs put `H₁` or `abort` only under an unapplied
+`λ`, where no wrong branch reaches it. They were replaced:
+- by a check of a type and then of its negation, holding `H₁`. With
+  `inspect`'s branches swapped, the probe records `H₁`;
+- by a certified program with a dead `abort`, run through `reflect`. With
+  `elimBool`'s branches swapped, the decoded program enters it.
+
+The mutation checks are done by hand, and the metatheory now says so.
