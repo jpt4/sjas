@@ -665,15 +665,160 @@ statement that a certificate cannot declare more tokens than it cost.
   resource-sorted certificate type, rather than a fixed point in an extended
   logic.
 
-## 8. Sources and verification
+## 8. The language this is a draft for
+
+*A feature inventory, not a specification. "Has" means present in this draft.
+"Can have" means no conflict with §3's argument is visible, under the stated
+condition. "Cannot have" gives the reason.*
+
+**In one paragraph.** A small, total, dependently typed functional language
+without universes, in which programs are proofs. Its own proof checker is a
+built-in, certificates of proofs are linear resources paid for with tokens, and
+programs can rely on the language's own consistency. Holding a certificate is
+like holding money: it has a price, it cannot be copied, and spending it
+consumes it.
+
+### 8.1 Features it has
+
+- **A total functional core.** Dependent functions and pairs; `Bool`, `Nat` and
+  `Syn`; recursion at all finite types through eliminators, at System T
+  strength. Every program terminates (L1, open).
+- **Proofs as programs.** Each Boolean program `b` gives a proposition `T(b)`.
+  Quantifiers are `Π` and `Σ`, and induction is available: the strength of
+  Heyting arithmetic in all finite types. Types are erased at runtime, and
+  evidence for `T(b)` is trivial.
+- **Syntax as free data, with its own checker.** Programs build, copy, inspect
+  and boundedly search `Syn` codes. The primitive `chk′` decides whether a code
+  is a derivation of the language itself. A proof represented as a code costs
+  nothing.
+- **Certificates as resources.** Values of `R` cost one token per node. Tokens
+  come only from the program's context — a budget supplied from outside —
+  certificates cannot be copied, and `print` turns them into codes.
+  Certificate transformations that never enlarge their input are definable.
+- **Budgeted certification.** A program holding tokens can turn a code into a
+  certificate at one token per node (35 for `not`, §2.7), and can compose
+  certificates by modus ponens at the encoding-dependent cost of §4.
+- **Built-in self-consistency.** `H`: a certificate that checks as a refutation
+  yields anything, so the branch in which a certificate checks as a refutation
+  is dead code. Exploiting this needs either inspection without consumption,
+  so that the certificate survives its own check, or the reduction-rule form
+  of `H` (§7). Both are in 8.2.
+
+### 8.2 Features it can have
+
+- **Ordinary conveniences.** More data types, records, and pattern matching
+  compiled to eliminators, provided L1 survives. Identity types, without
+  equality reflection.
+- **Universes — unification in the manner of a pure type system.** This needs a
+  consistent sort structure, primitive `R`, and explicit conversions. The cost
+  is certificate size: explicit derivations record type-level computation,
+  which can be non-elementary in length (`../LOG.md`, 2026-09-25).
+- **Classical reasoning, through a negative translation**, as the 2026-09-05
+  note did for Willard's classical theory. Not as an axiom that fails to
+  compute (8.3).
+- **Hofmann's resource programming in general.**
+  - Token-costed lists and trees, provided a node takes its children
+    separately (multiplicatively), as `R` and Hofmann's `T(A)` do — not as a
+    shared pair (8.3).
+  - In-place update, under his reading of `◇` as memory: p. 82 cites his
+    reference [9] for that reading, a paper on bounded space and functional
+    in-place update.
+  - Inspection without consumption: his `dup_{D,P}` into a passive result (§6,
+    p. 78), and the conditional rule it justifies, which lets the guard and the
+    branches share variables of datatype (p. 79).
+  - A polynomial-time certificate fragment: if certificate transformers are
+    restricted to Hofmann's own rules, his polynomial-time theorem
+    (Corollary 5.5.1, p. 78) should transfer to them. **Unverified.**
+- **Willard's stronger consistency notion** — no certificates of both a
+  sentence and its negation, the Level(1) pair form (§7) — and the
+  tableau-faithful variant accepting only normal derivations (§2.8).
+- **Runtime-supplied budgets.** `main` runs in `Θₙ`, with `n` tokens from the
+  environment: a certification allowance, like a memory limit.
+- **Certified self-evaluation — conjectural.**
+  - *The feature:* for each closed type `A`, a constant
+    `reflect_A : Π(r :₁ R). T(chk′(print r, ⌜A⌝)) ⊸ A` with a reduction rule
+    that *runs* the term the certificate encodes. The term's `m` token
+    variables are instantiated with `m` of the certificate's own tokens, and
+    the rest are discarded. `H` is the case `A = 0`.
+  - *Why it may stay consistent:* in a least-budget refutation, replacing an
+    innermost `reflect` by the term its certificate encodes gives a refutation
+    of budget at most `n − ‖r‖ + m < n`, since `m < ‖r‖` by adequacy.
+  - *Why it may terminate:* each `reflect` step strictly lowers the number of
+    tokens a program holds, and nothing creates tokens, so a reduction contains
+    at most `n` such steps.
+  - *What it would give:* a total self-interpreter for *certified* code. Code
+    received at runtime as data can be converted to a certificate (paying
+    tokens), checked, and run. The diagonal argument against total
+    self-interpreters does not apply, because a program evaluating itself would
+    need a certificate larger than its own budget: self-application priced out
+    rather than forbidden.
+  - *The caveat to settle first:* in Willard's arithmetic some local reflection
+    is provable (`Willard1993-TR` Proposition 2, `full`), but local `Π₁`
+    reflection makes the system inconsistent for some nice `A` (Proposition 5,
+    `full`). Why, and whether the reason transfers here, is **unchecked**.
+
+### 8.3 Features it cannot have
+
+**These would make it inconsistent:**
+- **General recursion**, or any non-termination inside the logic: `fix x. x : 0`
+  would prove falsity. A partiality monad kept as a separate type is a
+  different matter — plausible, unverified.
+- **`Type : Type`**, by Girard's paradox (standard).
+- **Any source of tokens besides the budget:** a closed token, duplicating
+  tokens, or Hofmann's borrowing (§9 of his paper). Certificates could then
+  outgrow their budget. With duplication, one token becomes unboundedly many,
+  and by the route of the next item, a refutation of budget 1 follows.
+- **Converting codes into certificates for free.** Then `Con′` is provable as
+  `λc e. H (parse c) e`, and the second incompleteness theorem for codes (§4)
+  makes the language inconsistent.
+- **Copying or quoting certificates for free.** These are the operations Löb's
+  derivation needs, and the ordinary layer supplies the fixed point by
+  substitution on codes, so `H` would yield falsity. Standard reasoning, not
+  checked in detail.
+- **An axiom asserting its own consistency over codes** — Löb again.
+
+**These would break §3's argument** (not known to be inconsistent, but no
+longer covered):
+- excluded middle as an axiom that does not compute, which breaks canonicity
+  and with it exhibition;
+- equality reflection, or anything else letting erased terms reach runtime;
+- certificates that declare their budget in compressed form, which breaks
+  adequacy;
+- a certificate type whose `node` takes its two children as a shared
+  (cartesian) pair. Hofmann's variant `T′(A)` does this, and there "l_e is an
+  upper bound on the depth of t rather than its number of nodes"; a full binary
+  tree of depth `|n|` costs only `|n|` tokens (p. 84, register row). L4 would
+  fail;
+- implicit conversions for `chk′` steps, which make the checker's definition
+  circular.
+
+**These are impossible whatever the design** (standard results):
+- a total interpreter for all of its own *uncertified* code, by the diagonal
+  argument — certified, budgeted evaluation is the conjectural item of 8.2;
+- a proof of its own consistency over codes, by the second incompleteness
+  theorem.
+
+### 8.4 What programming in it would be like
+
+- **Certificates behave like money.** Using a lemma certificate twice means
+  holding, and paying for, two copies. Certifying code costs tokens in
+  proportion to its derivation, which can be large, since derivations repeat
+  contexts and record computations.
+- **Certification is opt-in.** Programs that never handle certificates pay
+  nothing, and run as ordinary total programs.
+- **There is no global polynomial-time guarantee, by design.** The ordinary
+  layer computes everything System T does.
+
+## 9. Sources and verification
 
 - **Hofmann**, "Linear types and non-size-increasing polynomial time
   computation", Information and Computation 183(1) (2003) 57–85, DOI
   10.1016/S0890-5401(03)00009-9. Witness held:
   [`lit/hofmann2003_linear_types_non_size_increasing_ic183.pdf`](lit/hofmann2003_linear_types_non_size_increasing_ic183.pdf),
   hash in `lit/SHA256SUMS`. Text layer PDF pp. 1–29; page images of printed
-  pp. 57, 59, 60, 61, 62, 63, 65, 66, 78, 79 and 82. Only the size discipline
-  is used here, not Hofmann's polynomial-time theorem (Corollary 5.5.1).
+  pp. 57, 59, 60, 61, 62, 63, 65, 66, 78, 79, 82 and 84. The calculus uses only
+  the size discipline. Hofmann's polynomial-time theorem (Corollary 5.5.1)
+  enters only as the unverified transfer conjectured in §8.2.
 - **Atkey**, "Syntax and Semantics of Quantitative Type Theory", LICS 2018, DOI
   10.1145/3209108.3209189. Witness held:
   [`lit/atkey2018_syntax_semantics_quantitative_type_theory_lics.pdf`](lit/atkey2018_syntax_semantics_quantitative_type_theory_lics.pdf).

@@ -5722,3 +5722,59 @@ holds only there. Under the current encoding λᶜᵉʳᵗ breaks all three unif
 conditions. The choice of encoding is added to §7 as an open decision.
 
 `audit.sh` green.
+
+## 2026-09-25 — The language λᶜᵉʳᵗ is a draft for: what it has, can have, cannot have
+
+The question, verbatim:
+
+> Log it, then describe the programming language for which this is a draft:
+> what features does it have? What features _can_ it have? What features can
+> it not?
+
+and the instruction that followed the answer: "Log and add to the draft please."
+
+**The answer is now §8 of `refinement/R4-certificate-calculus.md`.** Sources
+become §9; no other section referred to the old §8 by number. §8 is a feature
+inventory, not a specification.
+
+- **Has.** A total, dependently typed core at System T strength; proofs as
+  programs, at the strength of Heyting arithmetic in all finite types; syntax as
+  free data with its own checker; certificates as token-paid linear resources;
+  budgeted certification and composition; and the self-consistency constant `H`.
+- **Can have.**
+  - ordinary conveniences, and identity types without reflection;
+  - universes, at a certificate-size cost;
+  - classical reasoning through a negative translation;
+  - Hofmann's resource programming;
+  - Willard's pair-form consistency, and the tableau-faithful variant;
+  - runtime-supplied budgets;
+  - **conjecturally, certified self-evaluation.** `reflect_A` runs the term a
+    certificate encodes, fuelled by the certificate's own tokens, with `H` as
+    the case `A = 0`. The consistency argument appears to extend, since
+    replacing an innermost `reflect` lowers the budget to at most
+    `n − ‖r‖ + m < n`. Its caveat: `Willard1993-TR` Proposition 5 (`full`)
+    makes local `Π₁` reflection inconsistent for some nice `A`, and whether the
+    reason transfers is unchecked.
+- **Cannot have,** in three groups:
+  - *inconsistent:* general recursion; `Type : Type`; any token source besides
+    the budget; a free parse from codes into certificates; free copying or
+    quotation of certificates; a self-referential consistency axiom over codes;
+  - *breaks the argument:* excluded middle that does not compute; equality
+    reflection; compressed budget declarations; implicit conversions for
+    `chk′`; shared-children trees;
+  - *impossible whatever the design:* a total interpreter for all uncertified
+    code; a proof of code consistency.
+
+**One addition found while verifying a citation.** Hofmann's reference [9] was
+checked on the page image of printed p. 84, and the same page records the tree
+variant `T′(A)`, whose `node` takes its children as a shared (cartesian) pair:
+"l_e is an upper bound on the depth of t rather than its number of nodes", so a
+full binary tree of depth `|n|` costs `|n|` tokens. λᶜᵉʳᵗ's `R` takes its
+children separately and is unaffected. But any token-costed tree type must do
+the same, or L4 fails. This is now in §8.2 and §8.3, with a register row
+(printed p. 84, `img`).
+
+**The chat answer also contained the composition-cost correction** logged in
+the previous entry.
+
+`audit.sh` green.
