@@ -875,9 +875,10 @@ consumes it.
   certificates" without these qualifications.*
 - **Built-in self-consistency.** `H`: a certificate that checks as a refutation
   yields anything. So the branch in which a certificate checks as a refutation
-  is semantically impossible: the model gives it no environment. That
-  evaluation never reaches it is expected, not proved (`R4-metatheory.md`
-  Corollary 5.1). *An earlier state called it "dead code" (review RR2-11).* `H₁`: no certificate proves a type while another proves its
+  is semantically impossible: the model gives it no environment. Evaluation
+  never reaches it either (`R4-metatheory.md` Theorem 5.2). *An earlier state
+  called it "dead code" before either was proved (review RR2-11).* `H₁`: no
+  certificate proves a type while another proves its
   negation. Exploiting either needs inspection without consumption, so that a
   certificate survives its own check. The core provides this as `inspect`
   (`R4-metatheory.md` §1.4). The reduction-rule form of `H` is not a

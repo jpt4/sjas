@@ -117,3 +117,14 @@
       (is (thrown? Exception (#'ev/ev [:reflect [:Nat] [:leaf [:lbl :a]] bad] [] 0 {:erase? true})))))
   (testing "E2: default tokens are distinct objects"
     (is (not= (ev/default-value [:Dia]) (ev/default-value [:Dia])))))
+
+(deftest the-unreachable-probe
+  (testing "ev/*unreachable* is told of every abort, H₁ or H node entered (untyped probes)"
+    (let [seen (atom [])]
+      (binding [ev/*unreachable* (fn [kind] (swap! seen conj kind))]
+        (#'ev/ev [:abort [:Bool] [:star]] [] 0 {:erase? true})
+        (#'ev/ev [:h1 [:leaf [:lbl :a]] [:leaf [:lbl :a]] [:sleaf [:lbl :a]] [:star] [:star]] [] 0 {:erase? true})
+        (#'ev/ev [:reflect [:Empty] [:leaf [:lbl :a]] [:star]] [] 0 {:erase? true})
+        (#'ev/ev [:reflect [:Nat] [:leaf [:lbl :a]] [:star]] [] 0 {:erase? false}))
+      (testing "reflect at a data type other than 0 is not H, and is not reported"
+        (is (= [:abort :h1 :H] @seen))))))

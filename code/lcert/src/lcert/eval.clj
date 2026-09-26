@@ -12,13 +12,14 @@
       ⌜D⌝.  It erases the decoded derivation, and gives the program m of v's
       own tokens (m < ‖v‖ by strict overhead), taken in preorder;
     - inspect branches on Check and hands the certificate to the branch;
-    - H₁ and abort return defaults: they are expected to be unreachable.
+    - H₁, H and abort return defaults.  A typed program never reaches them
+      (Theorem 5.2), and *unreachable* lets the tests confirm it.
 
   Erasure matters.  An erased position may build a certificate from one token
   used any number of times (review R4-04); the non-erasing evaluator of the
   metatheory's Theorem 4 would then physically build it.  That evaluator is
   kept here, as the {:erase? false} option, only to test that the two agree on
-  data results (Theorem 4′, a sketch in the metatheory).
+  data results (Theorem 4′).
 
   Runtime values:
     Unit ⋆ → :star     Bool → true/false     Nat → a long     Lbl → a keyword
@@ -122,6 +123,20 @@
 
 (declare eval-deriv)
 
+(def ^:dynamic *unreachable*
+  "When bound to a function, evaluation calls it with :abort, :h1 or :H on
+  entering an abort, H₁ or H (reflect at 0) node, before evaluating the
+  node's arguments.  Theorem 5.2 of the metatheory says a typed program
+  never enters one, under either evaluator; the tests bind this to catch
+  any that does.  Unbound (nil), nothing is called, and such a node returns
+  the default of its type's skeleton, as in the metatheory's evaluators."
+  nil)
+
+(defn- entered-unreachable
+  "Report entry into an abort, H₁ or H node to *unreachable*, if bound."
+  [kind]
+  (when-let [f *unreachable*] (f kind)))
+
 (defn- ev
   "Evaluate term t in environment env (a vector, innermost last) under the
   budget cap n.  opts: {:erase? bool}.  With :erase? true, t is an erased
@@ -139,7 +154,9 @@
       :lbl (second t)
       ;; call-by-value: the argument runs first (review E1); in a typed
       ;; program it cannot produce a value, so the default is never observed
-      :abort (do (go (nth t 2)) (default-value (c/skel (second t))))
+      :abort (do (entered-unreachable :abort)
+                 (go (nth t 2))
+                 (default-value (c/skel (second t))))
       :if (let [[_ b x y] t] (if (go b) (go x) (go y)))
       :elimBool (let [[_ _P b x y] t] (if (go b) (go x) (go y)))
       :recN (let [[_ _P z st nn] t
@@ -179,8 +196,9 @@
                  [_ x y] (go p)]
              (under [x y] body))
       :chk (let [[_ cc dd] t] (c/check (go cc) (go dd)))
-      :h1 (do (doseq [x (rest t)] (go x)) :star)
+      :h1 (do (entered-unreachable :h1) (doseq [x (rest t)] (go x)) :star)
       :reflect (let [[_ D rr ev0] t
+                     _ (when (= [:Empty] D) (entered-unreachable :H))
                      v (go rr)
                      _ (go ev0)]
                  (if (and (<= (nodes v) n) (c/check (print-value v) (e/enc-exp D)))

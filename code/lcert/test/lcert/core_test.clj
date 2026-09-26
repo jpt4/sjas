@@ -1,13 +1,17 @@
 (ns lcert.core-test
   "End-to-end tests of the public API, and executable versions of results in
   R4-metatheory.md: Proposition 4.10 (H° from H₁ at a constant budget, from
-  review R4-02), the definable destructor of §4.7 (review R4-03), and
-  Proposition 4.9 at depth 0 (bounded code consistency with no tokens)."
+  review R4-02), the definable destructor of §4.7 (review R4-03),
+  Proposition 4.9 at depth 0 (bounded code consistency with no tokens), and
+  Theorem 5.2 (typed programs never evaluate abort, H₁ or H)."
   (:require [clojure.test :refer [deftest is testing]]
             [lcert.core :as lc]
             [lcert.examples :as ex]
             [lcert.eval :as ev]
-            [lcert.kernel :as k]))
+            [lcert.kernel :as k]
+            [lcert.pa :as pa]
+            [lcert.syntax :as s]
+            [lcert.typing :as t]))
 
 (deftest the-api
   (testing "certify a closed program, then check its certificate"
@@ -72,3 +76,74 @@
       (is (= 35 (count (filter #(= :rn %) (flatten v)))))
       (is (= code (ev/print-value v))))))
 
+;; ---------------------------------------------------------------------------
+;; Theorem 5.2: a typed program never evaluates an abort, H₁ or H node, under
+;; either evaluator.  Each program below carries such nodes where a faulty
+;; evaluator could reach them; the probe ev/*unreachable* records any entered.
+
+(def ^:private guard
+  "The tutorial's guard: the branch taken if a certificate checks as a
+  refutation holds abort and H."
+  '(fn [r 1 R] (inspect Nat r c-bot [x e] (abort Nat (H x e)) [x e] 7)))
+
+(def ^:private h1-form
+  "H₁'s closed program (T2)."
+  '(fn [r 1 R s 1 R c w Syn e1 1 (T (chk (print r) c)) e2 1 (T (chk (print s) (neg c)))]
+     (H1 r s c e1 e2)))
+
+(defn- random-codes
+  "n random codes over the labels :a :b :c with at most 6 internal nodes,
+  from a fixed seed."
+  [n]
+  (let [rng (java.util.Random. 20260926)
+        lbl (fn [] (nth [:a :b :c] (.nextInt rng 3)))]
+    (letfn [(tree [k]
+              (if (zero? k)
+                [:sl (lbl)]
+                (let [i (.nextInt rng k)]
+                  [:sn (lbl) (tree i) (tree (- k 1 i))])))]
+      (vec (repeatedly n #(tree (.nextInt rng 7)))))))
+
+(defn- run-probed
+  "Evaluate the closed surface program at budget n under both evaluators:
+  the non-erasing one of Theorem 4, then the erasing one the language runs
+  on.  Every abort, H₁ or H node entered is recorded in the atom seen.
+  Returns the erasing evaluator's result."
+  [seen n form]
+  (let [d (t/check-top n (s/parse-term (s/token-scope n) form))]
+    (binding [ev/*unreachable* (fn [kind] (swap! seen conj kind))]
+      (ev/eval-deriv d n {:erase? false})
+      (ev/eval-deriv d n {:erase? true}))))
+
+(deftest typed-programs-never-evaluate-abort-h1-or-h
+  (let [seen (atom [])
+        not-code (:code (lc/certify 0 ex/not-form))]
+    (testing "the guard, on random certificates and on not's certificate"
+      (doseq [code (conj (random-codes 12) not-code)]
+        (is (= 7 (run-probed seen (k/nodes code) (list guard (lc/certificate-form code))))
+            (pr-str code))))
+    (testing "the destructor: a leaf's view carries a T(ff) ⊸ K function made with abort"
+      (let [r '(node $1 :a (leaf :b) (node $2 :c (leaf :b) (leaf :b)))]
+        (is (= [:sn :a [:sl :b] [:sn :c [:sl :b] [:sl :b]]]
+               (ev/print-value (run-probed seen 2 (ex/roll-out r)))))
+        (is (= [:sl :b] (ev/print-value (run-probed seen 2 (ex/left-child r)))))))
+    (testing "the parser, which takes its supply apart with the destructor"
+      (is (= [:sn :b [:sn :c [:sl :a] [:sl :a]] [:sl :a]]
+             (run-probed seen 3 (ex/parse-then '(code-literal [:sn :b [:sn :c [:sl :a] [:sl :a]] [:sl :a]])
+                                               '(node $1 :a (leaf :a) (node $2 :a (leaf :a) (node $3 :a (leaf :a) (leaf :a))))
+                                               'Syn '(print t))))))
+    (testing "bounded consistency at depth 0, applied as far as a typed program can"
+      (is (fn? (run-probed seen 0 (list (ex/bounded-con 0) '(snode :a (sleaf :a) (sleaf :a))))))
+      (is (fn? (run-probed seen 0 (list (list (ex/bounded-con 0) '(sleaf :b)) 'star)))))
+    (testing "PA's transport (axiom E2): its recursion carries abort in the mismatched cases"
+      (let [e2 (pa/axiom-term [:E2 'x 'y 'z [:= 'z [:s [:s [:s [:z]]]]]])]
+        (is (= :star (run-probed seen 0 (list e2 3 3 'star 'star))))))
+    (testing "dependent elimination: the false branch needs evidence of T(ff), so holds abort"
+      (let [by-cases '(fn [b w Bool] (elim-bool [x (-o (T x) Nat)] b
+                                                (fn [e 1 (T tt)] 5)
+                                                (fn [e 1 (T ff)] (abort Nat e))))]
+        (is (= 5 (run-probed seen 0 (list by-cases 'tt 'star))))))
+    (testing "H₁'s program, applied to two certificates and a code"
+      (is (fn? (run-probed seen 1 (list h1-form '(node $1 :a (leaf :a) (leaf :a)) '(leaf :b) 'c-bot)))))
+    (testing "no abort, H₁ or H node was entered, by either evaluator"
+      (is (= [] @seen)))))

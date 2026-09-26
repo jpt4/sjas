@@ -17,7 +17,7 @@ correction and the section that proves it.*
 >   Σ₁-completeness, and the conservativity of E-PA^ω over PA. Its two
 >   formalizations inside arithmetic are given at the level of their
 >   obligations.
-> - One claim is a conjecture (§4.5), and one an expectation (Corollary 5.1).
+> - One claim is a conjecture (§4.5).
 > - Everything else is proved here.
 >
 > Independent adversarial review is recorded in §8. Round 1 found no refutation
@@ -37,7 +37,7 @@ correction and the section that proves it.*
 | **T1** | **Consistency.** For no `n` is there a derivable `Θₙ ⊢ t :¹ 0` | §3.8 |
 | **T2** | **Self-justification.** λᶜᵉʳᵗ₀ has closed inhabitants of its own consistency propositions `H°` and `H₁°`. With T1, both clauses of `Willard2016` Definition 3.4 hold, for this calculus's apparatus and certificate representation | §3.9 |
 | **T3** | **Size soundness.** A runtime term's value has footprint at most the tokens its context supplies, and at most the number of distinct tokens it mentions | §3.7 |
-| **T4** | **Termination and adequacy.** The budgeted evaluator terminates on every term and computes the model's value. An erasing evaluator, which the resource reading needs, agrees with it on data | §5 |
+| **T4** | **Termination and adequacy.** The budgeted evaluator terminates on every term and computes the model's value. An erasing evaluator, which the resource reading needs, agrees with it on data. Neither evaluates `abort`, `H₁` or `H` in a typed program (Theorem 5.2) | §5 |
 | **P5** | **The second incompleteness theorem applies to codes.** λᶜᵉʳᵗ₀ derives no form of `Con′`, with any budget | §6; by reduction to Gödel's theorem for PA. It cites three standard results (§6.1). The templates of its step 1 are also tested mechanically, on random instances |
 | **§4** | The draft's derivability-condition table, settled: D1 per instance; D3 and boxed contraction per instance only; a uniform D2 conjectured not derivable; `Con′ → H°`; `H°` from `H₁` at constant budget; bounded `Con′`; certified evaluation for base data types | §4 |
 
@@ -895,12 +895,9 @@ terminates. Its result is the canonical form of an element of `Vⁿₙ(D)`. So
 closed terms of data type evaluate to canonical values, which is the draft's
 L3 for data.
 
-*Not proved:* that `H₁` and `abort` are dead code in typed programs, that is,
-that evaluation never reaches them. It is expected: wherever evaluation
-reached one, the model would give its context a satisfying environment, which
-the vacuous cases of Lemma 3.6 exclude. Proving it needs an operational
-relation that pairs Theorem 4's with Lemma 3.6's at every step, which is not
-written out. *An earlier state asserted it (review F-03).*
+That typed programs never evaluate `abort`, `H₁` or `H` — the draft's "dead
+code" — is Theorem 5.2 below. *An earlier state asserted it without proof
+(review F-03). The next state recorded it as an expectation.*
 
 **The erasing evaluator `evalᴱₙ`** (review R4-04).
 
@@ -982,6 +979,103 @@ Lemma 3.6. ∎
 
 *An earlier state called this a sketch.* Written out, the relation needs no
 dependency on terms, and the argument is short.
+
+**`abort`, `H₁` and `H` are never evaluated.** Both evaluators give these
+nodes a default, as the model does. In a typed program the default is never
+used:
+
+> **Theorem 5.2.** Let `Θₙ ⊢ t :¹ D` be derivable, with `D` a base data type.
+> Then neither `evalₙ(t)` nor `evalᴱₙ(t)` evaluates an `abort`, `H₁` or `H`
+> node: not in `t`, and not in any program that `reflect` decodes and runs.
+
+*Why Lemma 3.6 is not enough.* An evaluator reaches a node in some
+environment. At a runtime node, Lemma 3.6 makes the context of these nodes
+unsatisfiable: their cases are vacuous. But `evalₙ` also evaluates type-level
+subterms, about which Lemma 3.6 says nothing, since an erased certificate can
+exceed every footprint (the example of `r_N(d)` above). What is needed is the
+vacuity of these cases without footprints. Corollary 3.7 supplies it, because
+it holds for codes of every size.
+
+*The relation.* Fix `n`. For a carrier environment `η`, define a set `S(A)η`
+of pairs — a runtime value and a carrier value — by induction on `A`:
+- `S(0) = ∅`, and `S(1)` relates `⋆` to `⋆`;
+- at `Bool`, `Nat`, `Lbl` and `Syn`, equality; at `◇`, every runtime token to
+  `◇`; at `R`, a runtime tree to the carrier tree of the same shape and
+  labels;
+- `S(T(b))η` relates `⋆` to `⋆` if `⟦b⟧ⁿη = tt`, and is empty otherwise;
+- at `Π(x :ρ A). B`, for every `ρ`: the `(f, φ)` such that for every
+  `(a, α) ∈ S(A)η`, `f a` evaluates *safely* to some `v` with
+  `(v, φ(α)) ∈ S(B)(η, x ↦ α)`;
+- at `Σ(x :ρ A). B`, for every `ρ`: componentwise, the second component at
+  `(η, x ↦ α₁)`.
+
+An evaluation is **safe** if it terminates and evaluates no `abort`, `H₁` or
+`H` node. `S` records truth, as `V` does, but no footprints.
+- *Conversion:* `S` is invariant under `≡`, by Lemma 3.2, and because
+  `S(T(tt)) = S(1)` and `S(T(ff)) = S(0)`.
+- *Substitution:* `S(B[u/x])η = S(B)(η, x ↦ ⟦u⟧ⁿη)`, by Lemma 3.1.
+
+*The fundamental property.* Let `Γ ⊢ t :σ A` be derivable, **in either
+mode**. Let `ρ` be a runtime environment with `(ρ(x), η(x)) ∈ S(A_x)η` for
+every entry, whatever its usage. Then `evalₙ` evaluates `t` in `ρ` safely, to
+some `v` with `(v, ⟦t⟧ⁿη) ∈ S(A)η`.
+
+*Proof.* By strong induction on `n`, and within `n` on the derivation. The two
+modes are handled alike, because neither `evalₙ` nor `S` looks at usages.
+- **The standard cases** — `Var`, `Lam`, `App`, pairs, `Let`, `Conv`, the data
+  rules, `recN`, `recSyn`, `itR`, `node`, `print` and `chk′` — as in
+  Theorem 4.
+  - `App` and `Pair` use the substitution fact.
+  - Each eliminator's scrutinee has equal runtime and carrier values. So both
+    sides take the same branches, and iterate equally often.
+- **`inspect`.** Both sides branch on the same `Check` result. In the branch
+  taken, the Boolean under `T` is `tt`. So `(⋆, ⋆)` lies in
+  `S(T(chk′ (print x) c))`, or in `S(T(not …))`, at `x ↦ ⟦r⟧ⁿη`.
+- **`abort`.** The hypothesis for its premise yields an element of
+  `S(0) = ∅`. So no environment of the stated kind exists, and the case holds
+  vacuously.
+- **`H₁`.** The hypotheses for `e₁` and `e₂` give
+  `Check(print ⟦r⟧ⁿη, ⟦c⟧ⁿη) = tt` and `Check(print ⟦s⟧ⁿη, neg ⟦c⟧ⁿη) = tt`.
+  Corollary 3.7 excludes this, at every size. Vacuous.
+- **`H`, that is `reflect₀`.** Likewise `Check(print ⟦r⟧ⁿη, c⊥) = tt`, which
+  Corollary 3.7 excludes. Vacuous.
+- **`reflect_D` with `D ≠ 0`.** The runtime and carrier trees are equal, so
+  both sides make the same cap test and the same `Check`.
+  - If both pass, both decode `Θₘ ⊢ t′ :¹ D`, with `m < ‖v‖ ≤ n`. The
+    **outer** hypothesis at `m` makes `evalₘ(t′)` safe, with a value related
+    to `⟦t′⟧ᵐ`: at a base data type, equal to it.
+  - Otherwise both return defaults, which are related. ∎
+
+At the root, the runtime tokens are related to `◇, …, ◇`, so `evalₙ(t)` is
+safe.
+
+*The erasing evaluator.* Change `S` at usage 0, as Theorem 4′'s `E` does:
+- at `Π(x :₀ A). B`: `(f, φ)` is related when for every `α ∈ C(skel A)`,
+  `f ⋆` evaluates safely to some `v` with `(v, φ(α)) ∈ S(B)(η, x ↦ α)`;
+- at `Σ(x :₀ A). B`: `(⋆, b)` is related to `(α, β)` when
+  `(b, β) ∈ S(B)(η, x ↦ α)`;
+- usage-0 entries of the environment are `⋆` at runtime, and arbitrary in
+  `η`, as in Lemma 3.6.
+
+The property is then stated for runtime derivations only, since `evalᴱₙ`
+evaluates no type-level subterm.
+- `App` and `Pair` at usage 0 need only `⟦u⟧ⁿη ∈ C(skel A)`, which is
+  Lemma 2.5.
+- The vacuous cases use only runtime premises, which `evalᴱₙ` does evaluate.
+- The other cases are unchanged. ∎
+
+*What made it provable.* The earlier state paired Theorem 4's relation with
+Lemma 3.6's, and Lemma 3.6 cannot follow evaluation into erased positions.
+Consistency at every size, which Corollary 3.7 gives once T1 is proved,
+removes the need for footprints.
+
+*Checked in the implementation.*
+- `lcert.eval` reports to a probe every `abort`, `H₁` or `H` node it enters.
+- The tests run typed programs that carry such nodes where a faulty evaluator
+  would reach them: the tutorial's guard, the destructor, the parser, bounded
+  consistency, PA's transport axiom, and a dependent elimination. They run
+  them under both evaluators, and require that no such node is entered.
+- Swapping the branches of `inspect`, or of `elimBool`, makes them fail.
 
 **Not proved at all:** that `evalᴱₙ` never duplicates a token object, so that
 the tokens in a value are distinct. The model counts nodes and does not tell
@@ -1450,7 +1544,8 @@ assistant. It is implemented and tested:
 - every rule of §1.4, in a type checker that builds explicit derivations, and
   again, independently, in `Check`;
 - the encoding, whose properties E3–E5 are tested;
-- the erasing evaluator of §5;
+- the erasing evaluator of §5, with Theorem 5.2 checked by a probe on
+  programs that carry `abort`, `H₁` and `H`;
 - Propositions 4.2, 4.9 at depth 0 and 4.10, and the destructor of §4.7, as
   programs that type check and run.
 
@@ -1487,7 +1582,7 @@ reported sound:
 | R4-07 | minor | Conjecture 4.6 as stated has a counterexample (`A = B = 1`) | fixed: restated with a budget uniform in `A` and `B` |
 | R4-08, F-01 | major | PA induction by direct `recN` violates the usage-1 hypothesis | fixed: the `!P` packaging (§6, Step 1) |
 | R4-09, F-02 | major | The two bounded facts do not verify `reflect_R` in the PA model | fixed: `reflect_D` for `D ≠ 0` is interpreted by defaults in that model (§6, Step 2) |
-| F-03 | major | "`H₁` and `abort` are dead code" was asserted without proof | downgraded to an expectation (Corollary 5.1) |
+| F-03 | major | "`H₁` and `abort` are dead code" was asserted without proof | downgraded to an expectation (Corollary 5.1); proved on 2026-09-26 (Theorem 5.2) |
 | F-04 | minor | Formation premises' contexts were unrelated to the conclusion's | fixed: the context convention (§1.4) |
 | F-05 | minor | Excluded middle at `◇` depends on which negation is meant | fixed in the correction table (§9) and the draft's §8.3 |
 
@@ -1517,7 +1612,7 @@ interpretation of `reflect` in P5.
 | RR2-08 | minor | `◇` has no closed program, so a default need not be one | fixed (§3.1) |
 | RR2-09 | minor | The draft's §7 still said a relative encoding keeps E1–E5 | fixed in the draft |
 | RR2-10 | major | The destructor alone does not show that runtime codes can be parsed | resolved constructively: a typed parser is given (§4.7), implemented and tested |
-| RR2-11 | major | The draft's §8.1 called the `H` branch "dead code" | fixed in the draft: semantically impossible; operationally unproved |
+| RR2-11 | major | The draft's §8.1 called the `H` branch "dead code" | fixed in the draft: semantically impossible; operationally unproved. Since proved (Theorem 5.2) |
 | RR2-12 | minor | The draft's §6 said certificates "compose linearly" | fixed in the draft |
 | RR2-13 | minor | Conjecture 4.6's "in particular" does not follow from it | fixed: recast as motivation |
 

@@ -32,7 +32,7 @@ This needs the Clojure CLI. The fast suite needs nothing else. The extended
 suite downloads Ansatz from Clojars on first use, and never a Mathlib store.
 
 ```
-bin/test-fast        # the language and the tutorial: 48 tests
+bin/test-fast        # the language and the tutorial: 50 tests
 bin/test-extended    # adds the Ansatz-verified kernel, and re-runs everything on it
 ```
 
@@ -122,16 +122,21 @@ Three design points:
 - mutation of certificates;
 - `reflect`, `inspect`, erasure;
 - the metatheory's Propositions 4.9 (at depth 0) and 4.10, and its definable
-  destructor.
+  destructor;
+- its Theorem 5.2: typed programs that carry `abort`, `H₁` and `H` never
+  evaluate them, under either evaluator. A probe, `lcert.eval/*unreachable*`,
+  records every such node entered;
+- every example of [`TUTORIAL.md`](TUTORIAL.md).
 
 **Not covered:**
-- `H₁` and `abort` at runtime, in typed programs — they are expected to be
-  unreachable (metatheory Corollary 5.1). Untyped probes test only that they
-  evaluate their arguments.
+- the defaults that `abort`, `H₁` and `H` return. By Theorem 5.2 no typed
+  program reaches them, so only untyped probes exercise them.
 - tokens captured inside closures — the runtime duplicate-token check sees
   certificate trees and pairs, not function values.
 
 **The extended suite** adds:
 - the Ansatz kernel's theorems;
 - agreement between the verified and plain measures, on every certificate in
-  the corpus and on random codes.
+  the corpus and on random codes;
+- the embedding of Peano arithmetic (step 1 of the metatheory's
+  Proposition 5): every axiom scheme on random instances, and whole proofs.
