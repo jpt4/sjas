@@ -23,13 +23,16 @@ declare fewer tokens than it has nodes, that axiom is consistent: the metatheory
 proves it by induction on budgets. So programs may use it. No large numbers
 are computed anywhere.
 
+**To learn the language,** read [`TUTORIAL.md`](TUTORIAL.md). Every example in
+it is run by the test suite.
+
 ## Running
 
 This needs the Clojure CLI. The fast suite needs nothing else. The extended
 suite downloads Ansatz from Clojars on first use, and never a Mathlib store.
 
 ```
-bin/test-fast        # the language: 44 tests
+bin/test-fast        # the language and the tutorial: 48 tests
 bin/test-extended    # adds the Ansatz-verified kernel, and re-runs everything on it
 ```
 
@@ -78,7 +81,8 @@ The surface syntax is EDN. A binder `[x u A]` gives a variable, its *usage* —
 | `(H1 r s c e1 e2)` | no certificate `r` of a type and certificate `s` of its negation |
 | `(reflect D r e)`, `(H r e)` | run a certified program of base data type `D` (`H` is `D = Void`) |
 | `(inspect X r c [x e] t1 [x e] t2)` | check certificate `r` against `c`, and get it back |
-| `(code A)`, `c-bot`, `(neg c)` | the code of a closed type; `⌜Void⌝`; the code of `A ⊸ Void` |
+| `(code A)`, `c-bot`, `(neg c)`, `(code-literal c)` | the code of a closed type; `⌜Void⌝`; the code of `A ⊸ Void`; a code value as a term |
+| `(let [x u A e ...] body)`, `(the A t)` | local definitions, and type ascription: both sugar for a β-redex |
 
 ## How it is built
 
@@ -93,6 +97,7 @@ The surface syntax is EDN. A binder `[x u A]` gives a variable, its *usage* —
 | `lcert.kernel` | node counts and budgets; switchable to the Ansatz-verified versions |
 | `lcert.core` | the API |
 | `lcert.examples` | executable versions of results in the metatheory |
+| `lcert.pa` | Peano arithmetic, and its translation into the language (step 1 of the metatheory's Proposition 5) |
 | `ansatz/lcert/verified.clj` | the kernel in Ansatz: definitions and kernel-checked theorems |
 
 Three design points:

@@ -6,6 +6,7 @@
   (:require [clojure.test :refer [deftest is testing]]
             [lcert.core :as lc]
             [lcert.examples :as ex]
+            [lcert.eval :as ev]
             [lcert.kernel :as k]))
 
 (deftest the-api
@@ -63,4 +64,11 @@
       (testing "with too little supply, the result is truncated, which print reveals"
         (let [short '(node $1 :a (leaf :a) (leaf :a))]
           (is (not= code (lc/run 1 (ex/parse-then (list 'code-literal code) short 'Syn '(print t))))))))))
+
+(deftest certificate-forms
+  (testing "certificate-form: the surface program building a code's certificate from $1..$k"
+    (let [{:keys [code nodes]} (lc/certify 0 ex/not-form)
+          v (lc/run nodes (lc/certificate-form code))]
+      (is (= 35 (count (filter #(= :rn %) (flatten v)))))
+      (is (= code (ev/print-value v))))))
 

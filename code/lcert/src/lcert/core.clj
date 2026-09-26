@@ -10,6 +10,7 @@
     (check code type-form)   Check: does code certify the closed type?
     (run n form)             type check, then evaluate with n fresh tokens
     (certificate-literal code)  the term building code's tree from tokens
+    (certificate-form code)     the same, as a surface form using $1 .. $k
 
   Terms already in abstract syntax go through check-term, encode, type-code
   and check-code."
@@ -55,3 +56,16 @@
 
 (defn certificate-literal "The term building code's tree from $1 .. $k." [code]
   (c/certificate-literal code))
+
+(defn certificate-form
+  "The surface program that builds code's tree as a certificate, spending
+  tokens $1 .. $k in preorder, where k is the code's number of internal
+  nodes.  Run it with budget k."
+  [code]
+  (let [counter (volatile! 0)]
+    (letfn [(build [c]
+              (case (first c)
+                :sl (list 'leaf (second c))
+                :sn (let [i (vswap! counter inc)]
+                      (list 'node (symbol (str "$" i)) (second c) (build (nth c 2)) (build (nth c 3))))))]
+      (build code))))
