@@ -986,19 +986,37 @@ colliding with T2.
 
 ## 7. What is mechanized
 
-*To be filled when the Ansatz development lands.* The target is what Ansatz
-supports today:
-- proofs about Nat- and Bool-valued functions of user-defined trees go
-  through;
-- equation lemmas for tree-returning functions are not generated.
+The implementation (ADR-0005, directory `code/lcert` at the repository root)
+mechanizes two layers.
 
-So the plan is:
-- the code tree type;
-- `nodes`, and the context length at the root, as Nat-valued functions;
-- **Lemma 2.7** as a kernel-checked theorem;
-- the `not` certificate's count of 35, by kernel computation.
+**The Ansatz kernel.** Ansatz is a Lean-4-compatible kernel for Clojure. It
+checked the following, with its bundled Init environment only, offline:
 
-The implementation's runtime uses the compiled, verified functions.
+| Theorem | Statement |
+| --- | --- |
+| `ctxlen_le_nodes` | for every code tree `t`, the length of its first-child spine is at most its number of internal nodes (E3's counting fact) |
+| `fstlen_le_nodes` | the same for the first child's spine |
+| `strict_overhead` | **Lemma 2.7**: every derivation-shaped code `cell l true j p` has `budget < nodes` |
+| `h1_budget` | `m₁ < k₁`, `m₂ < k₂` and `k₁ + k₂ ≤ n` give `m₁ + m₂ < n`: the descent of the H₁ case of Lemma 3.6 |
+| `not_cert_nodes`, `not_cert_budget` | by kernel computation: the draft's §2.7 certificate of `not` has 35 nodes and budget 0 |
+
+Codes are an inductive type over a field-less terminator, because Ansatz does
+not accept leaf constructors with fields. So the theorems are about codes
+rendered as `CT` trees. `lcert.kernel` makes the rendering, and a test checks
+it against the plain measures on every code the implementation produces.
+
+**The language.** The rest of the metatheory is not mechanized in a proof
+assistant. It is implemented and tested:
+- every rule of §1.4, in a type checker that builds explicit derivations, and
+  again, independently, in `Check`;
+- the encoding, whose properties E3–E5 are tested;
+- the erasing evaluator of §5;
+- Propositions 4.2, 4.9 at depth 0 and 4.10, and the destructor of §4.7, as
+  programs that type check and run.
+
+What the tests establish is agreement between two independent checkers, and
+with the draft's worked example. That is evidence for the rule table, not a
+proof of the theorems of §3.
 
 ## 8. Review record
 

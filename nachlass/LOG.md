@@ -6007,3 +6007,81 @@ outer induction on budgets, and `Check`'s well-foundedness.
 
 **The lesson for this workstream.** My own corrections to the draft needed the
 same adversarial review as the draft. Two of seven were wrong.
+
+## 2026-09-26 — Step 4: λᶜᵉʳᵗ₀ implemented as a language, with an Ansatz-verified kernel
+
+This entry covers ADR-0005 on branch `adr-0005-lcert`, commits `24faf21` to
+`f474e92`.
+
+**The language.** It is in `code/lcert`, built test-first in eight
+namespaces:
+- syntax and parser;
+- the encoding;
+- conversion;
+- a type checker that builds explicit derivations;
+- `Check`, an independent structural validator that shares no code with the
+  type checker;
+- an erasing, budgeted evaluator with distinct runtime tokens;
+- an API;
+- examples.
+
+**What the tests show.**
+- The type checker reproduces the draft's §2.7 derivation of `not` exactly;
+  its code has 35 nodes.
+- `Check` accepts every derivation the type checker builds, and the corpus
+  covers all 39 rules.
+- `Check` rejects every single-label mutation of the `not` certificate.
+- Every resource violation is a type error.
+- `reflect` runs certified programs on the certificate's own tokens.
+- Three results found or corrected in review now run as programs:
+  - `H°` from `H₁` at a constant budget;
+  - the definable destructor for `R`;
+  - bounded code consistency at depth 0.
+
+**A cost, measured.** Certifying `(lit_not, ⋆) : □(Bool → Bool)` at budget
+35 takes a certificate of 58,180 nodes. The full-judgment encoding records
+every conversion step, here a 74-step chain.
+
+**The Ansatz kernel.** Offline, with the bundled Init environment only, the
+Ansatz kernel checked six theorems:
+- a context's length is at most its node count;
+- **strict overhead**, metatheory Lemma 2.7, for every derivation-shaped code;
+- the budget descent of the `H₁` case;
+- by kernel computation, the draft's two numbers: 35 nodes, budget 0.
+
+In the extended suite, the compiled functions replace the plain measures, and
+every language test re-runs on them.
+
+**The spikes: six rounds to get the proofs through.**
+- `grind` gave up on the inductive step, and in the second spike ran until the
+  15-minute cap.
+- For `nodes`, whose two recursive results are added, Ansatz's equation lemmas
+  are stated through the raw recursion encoding, so they cannot be used.
+- `cases` after `change` produced a proof term the kernel rejected — the kernel
+  doing its job.
+
+The pattern that works:
+- `change` to the definitional unfolding, then `omega`;
+- Boolean splits in lemmas where the Boolean is a parameter;
+- base cases closed first.
+
+It is recorded in the kernel's docstring and in `LESSONS.md`.
+
+**Deviation from ADR-0005.** The language runs on the *erasing* evaluator, not
+the non-erasing one the ADR named, because review R4-04 arrived during the
+work. The non-erasing evaluator is kept to test Theorem 4′'s agreement claim.
+The test also shows it building a three-node tree from one token, where the
+erasing evaluator builds nothing.
+
+**Numbers.**
+- Fast suite: 41 tests, 371 assertions, 7 s, 308 MB.
+- Extended suite: 45 tests, 1352 assertions, 20 s, 584 MB.
+
+**Also in this step:**
+- ADR-0005 is complete, with its after-action report.
+- The metatheory's §7 records the mechanized part.
+- The charter's R4 row points to the proofs and the implementation.
+- `LESSONS.md` is started, with four lessons from these two days.
+
+**Still running:** a second review round of the revised metatheory, codex only
+so far.

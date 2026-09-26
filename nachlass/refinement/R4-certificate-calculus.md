@@ -18,6 +18,11 @@ self-justification criterion (`../LOG.md`, entries of 2026-09-24 and
 > the original plan. Where the proofs showed this draft to be wrong, it has been
 > corrected, and each correction points to its proof.
 >
+> The core calculus is implemented as a small programming language, with an
+> Ansatz-verified kernel, under
+> [`ADR-0005-lcert-implementation.md`](ADR-0005-lcert-implementation.md), in
+> `code/lcert` at the repository root. §2.7's example is its test oracle.
+>
 > Claims about Hofmann and Atkey rest on page images of the held witnesses,
 > recorded in [`VERIFICATION.md`](VERIFICATION.md). Claims about Willard carry
 > the registry's proof status at the point of use.

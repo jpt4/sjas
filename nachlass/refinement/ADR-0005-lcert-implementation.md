@@ -1,6 +1,6 @@
 # ADR-0005 — λᶜᵉʳᵗ as a minimal programming language, on Clojure and Ansatz
 
-**Status.** Accepted 2026-09-25. Implementation in progress.
+**Status.** Accepted 2026-09-25. **Complete 2026-09-26**; after-action report below.
 
 **Branch.** `adr-0005-lcert`, branched from `sjas-codification`, and merged
 back into it when complete. The R4 work has not yet reached `master`, so this
@@ -134,3 +134,93 @@ possible defects of the proofs, not only of the code.
 - The draft's §2.7 numbers become test oracles.
 - The language is a vehicle for experiments the draft proposes, for example a
   relative encoding (draft §7).
+
+## AAR (2026-09-26)
+
+**What was built.**
+- The language: the directory `code/lcert`, in eight namespaces, documented in
+  its README.
+- The kernel: six theorems checked by Ansatz.
+- The tests:
+
+  | Suite | Tests | Assertions | Time | Peak memory |
+  | --- | --- | --- | --- | --- |
+  | fast | 41 | 371 | 7 s | 308 MB |
+  | extended | 45 | 1352 | 20 s | 584 MB |
+
+  The extended suite re-runs every language test on the kernel-compiled
+  measures.
+
+**Success criteria.** Met, with the deviations listed after them.
+1. **Faithfulness: met.**
+   - All 39 rules of the metatheory's table occur in the round-trip corpus.
+   - The type checker builds the draft's derivation of `not` record for
+     record.
+   - Its code has 35 nodes, and Check accepts it only at `Bool → Bool`.
+2. **Round trip and mutation: met.**
+   - Check accepts every derivation the type checker builds.
+   - Check rejects every single-label mutation of the `not` certificate, more
+     than a hundred of them.
+3. **Resource discipline: met.**
+   - Each listed violation is a type error.
+   - Every evaluation result is checked at runtime to hold no token twice.
+4. **Self-reference: met.**
+   - `H` and `H₁` type as closed inhabitants.
+   - `inspect` returns the certificate it checks.
+   - `reflect` at `Nat` runs a certified program on its certificate's tokens.
+   - D1 at budget 35 is certified. Its certificate has 58,180 nodes, since the
+     full-judgment encoding records every conversion step.
+   - The implementation also runs, as programs:
+     - Proposition 4.10, `H°` from `H₁`, which review R4-02 found;
+     - the destructor of the metatheory's §4.7, which review R4-03 found;
+     - Proposition 4.9 at depth 0.
+5. **Ansatz: met.**
+   - All definitions and theorems are accepted, offline.
+   - The theorems include strict overhead, Lemma 2.7.
+   - The compiled measures agree with the plain ones on the corpus and on 300
+     random codes.
+6. **Hygiene: met.**
+   - Each module's tests were written before the module, and failed without
+     it.
+   - The code is commented, and has a README.
+
+**Failure criteria: none triggered.** No program typed at `0`; Check accepted
+no non-derivation; no token was duplicated; the kernel refused no theorem; the
+measures never disagreed.
+
+**Deviations from the decision.**
+- **The evaluator.** The decision named the non-erasing evaluator `evalₙ` of
+  the metatheory's §5. Review R4-04, received during implementation, showed
+  that it builds certificates of any size from one token in erased positions.
+  - The language runs on an erasing evaluator instead.
+  - The non-erasing one is kept only to test that the two agree on data
+    (Theorem 4′).
+- **The Ansatz proofs** took six spikes. The spike findings, recorded in the
+  kernel's docstring:
+  - `grind` loops or gives up;
+  - equation lemmas for a function combining two recursive results with
+    `Nat.add` are stated through the raw recursion encoding;
+  - `cases` after `change` yields a proof term the kernel rejects.
+
+  The working pattern:
+  - `change` to the definitional unfolding, then `omega`;
+  - Boolean splits in separate lemmas;
+  - base cases closed first.
+- **Not done, as planned:** `print` in Ansatz, which is the identity on `CT`
+  shapes, and the per-node counts of the draft's example; only the totals are
+  kernel-computed.
+
+**What it changed.**
+- The metatheory's §7 now records a mechanized component.
+- The draft's §2.7 numbers are test oracles.
+- Two corrections of 2026-09-25, withdrawn after review, are now executable
+  facts rather than prose.
+
+**Follow-ups, not started:**
+- a relative encoding, which must replace E2–E3 (metatheory §4.5);
+- a primitive destructor for `R` with conversion rules, and an internal proof
+  that parsing prints back;
+- `Check` itself as Ansatz definitions, once theorems about tree-returning
+  functions go through;
+- a proof of erasure correctness (Theorem 4′ is a sketch);
+- an independent review of the implementation against the rule table.
