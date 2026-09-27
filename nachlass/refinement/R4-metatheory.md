@@ -972,6 +972,20 @@ it is, and the second is fixed. The draft's own sentence — "`H` follows from
 the refutation as a certificate of `1 ⊸ 0`, was the costly one. `H` is kept as
 a constant because it is available at budget 0. In the core it is `reflect₀`.
 
+**Open: `H₁°` from `H°`.** The converse of Proposition 4.10 is not known.
+- *The natural route* turns a certificate `r` of `A` and a certificate `s` of
+  `A ⊸ 0` into one certificate of `0`, and applies `H`. That needs a term
+  `□(A ⊸ 0) ⊗ □A ⊸ □0`, uniform in `A`: composition, D2, at `B = 0`.
+- *Building the composed tree at run time and inspecting it* does not help.
+  The failure branch must still produce `0`, and the calculus cannot show that
+  composition preserves checking, since `chk′` does not compute on open codes.
+- *Theorem 4.6 does not apply.* Its inputs must be certifiable, and `A ⊸ 0` is
+  not when `A` is (T1). Nor does its proof: a phantom for `A ⊸ 0` would have to
+  print as a genuine certificate of an uncertifiable type.
+
+Proving underivability would need a model in which `H` holds and some `A` and
+`A ⊸ 0` both have (nonstandard) certificates. None is given.
+
 ### 4.10 Codes, certificates and cut
 
 The draft calls certificates to codes "as cut-free tableaux are to Hilbert
