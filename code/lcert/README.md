@@ -32,7 +32,7 @@ This needs the Clojure CLI. The fast suite needs nothing else. The extended
 suite downloads Ansatz from Clojars on first use, and never a Mathlib store.
 
 ```
-bin/test-fast        # the language and the tutorial: 50 tests
+bin/test-fast        # the language and the tutorial: 51 tests
 bin/test-extended    # adds the Ansatz-verified kernel, and re-runs everything on it
 ```
 

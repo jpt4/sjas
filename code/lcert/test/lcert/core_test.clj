@@ -76,6 +76,29 @@
       (is (= 35 (count (filter #(= :rn %) (flatten v)))))
       (is (= code (ev/print-value v))))))
 
+(defn- right-spine-length
+  "Nodes along a runtime certificate's right-hand edge."
+  [v]
+  (if (= :rn (first v)) (inc (right-spine-length (nth v 4))) 0))
+
+(deftest flattening-a-supply
+  (let [left-heavy '(node $1 :a (node $2 :b (node $3 :c (leaf :a) (leaf :a)) (leaf :a)) (leaf :a))
+        small [:sn :b [:sl :a] [:sn :c [:sl :a] [:sl :a]]]]
+    (testing "flatten rebuilds a certificate as a right-leaning chain of the same tokens"
+      (let [v (lc/run 3 (list ex/flatten-form left-heavy))]
+        (is (= 3 (right-spine-length v)))
+        (is (= 3 (count (ev/tokens v))))
+        (is (= [:sn :a [:sl :a] [:sn :b [:sl :b] [:sn :c [:sl :c] [:sl :a]]]]
+               (ev/print-value v)))))
+    (testing "any shape of supply then serves the parser, if it has enough tokens"
+      (is (= [:sn :b [:sl :a] [:sl :c]]
+             (lc/run 3 (ex/parse-then (list 'code-literal small) left-heavy 'Syn '(print t)))))
+      (is (= small
+             (lc/run 3 (ex/parse-then (list 'code-literal small) (list ex/flatten-form left-heavy)
+                                      'Syn '(print t))))))
+    (testing "it type checks at R ⊸ R, closed, at budget 0"
+      (is (some? (lc/check-program 0 ex/flatten-form))))))
+
 ;; ---------------------------------------------------------------------------
 ;; Theorem 5.2: a typed program never evaluates an abort, H₁ or H node, under
 ;; either evaluator.  In each program below such a node lies on a branch the

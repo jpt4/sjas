@@ -146,6 +146,30 @@
                                        'f))))
                'c))))
 
+;; The parser takes its tokens along the supply's right-hand edge, and
+;; discards each left subtree, tokens and all.  flatten removes that
+;; requirement on the supply's shape: it rebuilds any certificate as a
+;; right-leaning chain holding the same tokens, in preorder, with each
+;; node's label repeated on its left leaf.
+;;
+;;   flatten : R ⊸ R, by iteration at the type R ⊸ R.  Each subtree becomes
+;;   a function that puts its own nodes in front of a given chain; a node
+;;   puts its token first, then its left subtree's nodes, then its right
+;;   subtree's.  The token d is captured by the returned λ(s :₁ R), which is
+;;   itself used once, so d is still spent exactly once.  Applied at the end
+;;   to (leaf :a), the empty chain.
+
+(def flatten-form
+  "flatten : R ⊸ R, which rebuilds a certificate as a right-leaning chain of
+  the same tokens, so that any certificate can serve as the parser's supply."
+  '(fn [r 1 R]
+     ((itr (-o R R)
+           (fn [l w Lbl] (fn [s 1 R] s))
+           (fn [d 1 Dia] (fn [l w Lbl] (fn [u 1 (-o R R)] (fn [v 1 (-o R R)]
+             (fn [s 1 R] (node d l (leaf l) (u (v s))))))))
+           r)
+      (leaf :a))))
+
 (defn parse-then
   "The program: parse `code-form` with `supply-form`, bind the certificate to
   t and the unused supply to rest, and return `body`, of type C."

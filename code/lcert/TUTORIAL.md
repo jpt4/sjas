@@ -368,6 +368,34 @@ out, and the tree comes out truncated:
 ;; => [:sn :b [:sl :a] [:sl :c]]
 ```
 
+**Only the right-hand edge counts.** For each internal node of the code, the
+parser takes the supply's root apart. It keeps that node's token, discards the
+left subtree, tokens and all, and continues on the right. So the supply needs
+at least as many nodes *along its right-hand edge* as the code has internal
+nodes. The code's own shape does not matter. A left-leaning supply of three
+tokens has one node on that edge:
+
+```clojure
+(def left-heavy '(node $1 :a (node $2 :b (node $3 :c (leaf :a) (leaf :a)) (leaf :a)) (leaf :a)))
+
+(lc/run 3 (ex/parse-then (list 'code-literal small) left-heavy 'Syn '(print t)))
+;; => [:sn :b [:sl :a] [:sl :c]]
+```
+
+`ex/flatten-form`, of type `R ⊸ R`, removes the requirement. It rebuilds any
+certificate as a right-leaning chain of the same tokens:
+
+```clojure
+(lc/run 3 (list 'print (list ex/flatten-form left-heavy)))
+;; => [:sn :a [:sl :a] [:sn :b [:sl :b] [:sn :c [:sl :c] [:sl :a]]]]
+(lc/run 3 (ex/parse-then (list 'code-literal small) (list ex/flatten-form left-heavy) 'Syn '(print t)))
+;; => [:sn :b [:sl :a] [:sn :c [:sl :a] [:sl :a]]]
+```
+
+It iterates at the type `R ⊸ R`: each subtree becomes a function that puts its
+nodes in front of a given chain. The token each node holds is captured by that
+function, which is itself used once, so every token is still spent once.
+
 **The whole pipeline.** A program receives the code of another program's
 derivation. It pays for a certificate from its supply, checks that the
 certificate proves a `Nat`, and runs it with `reflect`:
