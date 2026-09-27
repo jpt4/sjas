@@ -52,3 +52,20 @@
     (is (b/rejects? '[chkf :- (=> Code Code Bool)]
                     '(Rt chkf (List.cons Exp Exp.tBool (List.nil Exp)) (List.cons U U.u0 (List.nil U)) (Exp.var 0) Exp.tBool)
                     '[(exact (Rt.rVar chkf (List.cons Exp Exp.tBool (List.nil Exp)) (List.cons U U.u0 (List.nil U)) 0 Exp.tBool U.u0 rfl rfl rfl rfl))]))))
+
+(require 'lcert.formal.carrier)
+(deftest f3a-carriers
+  (is (b/has? 'car_arr)) (is (b/has? 'henv_cons)) (is (b/has? 'dflt_arr))
+  (is (b/rejects? '[] '(= (Car Sk.nat) Bool) '[(rfl)])))
+
+(require 'lcert.formal.den)
+(deftest f3c-denotation
+  (is (b/has? 'denAt)))
+
+(deftest f3c-denotation-computes
+  (is (b/has? 'den_not_tt))
+  (is (b/has? 'den_recN_double))
+  (is (b/rejects? '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code)]
+                  '(= (den chkf dec encTy 0 (Exp.app (Exp.lam U.uw Exp.tBool (Exp.ite (Exp.var 0) Exp.ff Exp.tt)) Exp.tt)
+                          (List.nil Sk) Sk.bool Unit.unit) Bool.true)
+                  '[(rfl)])))
