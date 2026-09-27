@@ -63,6 +63,8 @@
     [tBool Sk.bool] [tNat Sk.nat] [tLbl Sk.lbl] [tSyn Sk.syn] [tDia Sk.dia] [tR Sk.cert]
     [(tPi r X Y) (Sk.arr (skel X) (skel Y))]
     [(tSig r X Y) (Sk.prod (skel X) (skel Y))]
+    ;; a caseL branch list denotes a function from labels to branch values
+    [(tBrs P k) (Sk.arr Sk.lbl (skel P))]
     [_ Sk.unit]))
 
 (thm skel_T [b :- Exp] (= (skel (Exp.tT b)) Sk.unit) (rfl))

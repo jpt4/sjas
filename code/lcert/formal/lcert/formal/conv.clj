@@ -232,10 +232,10 @@
          [hn (SkJ Bool.false G n Sk.nat)] :where [Bool.false G (Exp.recN P z st n) (skel P)])
   (sLbl [G (List Sk)] [l Nat] :where [Bool.false G (Exp.lbl l) Sk.lbl])
   (sCaseL [G (List Sk)] [P Exp] [x Exp] [bs Exp] [hP (SkJ Bool.true (List.cons Sk Sk.lbl G) P Sk.unit)]
-          [hx (SkJ Bool.false G x Sk.lbl)] [hb (SkJ Bool.false G bs (skel P))] :where [Bool.false G (Exp.caseL P x bs) (skel P)])
-  (sBnil [G (List Sk)] [s Sk] :where [Bool.false G Exp.bnil s])
-  (sBcons [G (List Sk)] [h Exp] [t Exp] [s Sk] [hh (SkJ Bool.false G h s)] [ht (SkJ Bool.false G t s)]
-          :where [Bool.false G (Exp.bcons h t) s])
+          [hx (SkJ Bool.false G x Sk.lbl)] [hb (SkJ Bool.false G bs (Sk.arr Sk.lbl (skel P)))] :where [Bool.false G (Exp.caseL P x bs) (skel P)])
+  (sBnil [G (List Sk)] [s Sk] :where [Bool.false G Exp.bnil (Sk.arr Sk.lbl s)])
+  (sBcons [G (List Sk)] [h Exp] [t Exp] [s Sk] [hh (SkJ Bool.false G h s)] [ht (SkJ Bool.false G t (Sk.arr Sk.lbl s))]
+          :where [Bool.false G (Exp.bcons h t) (Sk.arr Sk.lbl s)])
   (sSleaf [G (List Sk)] [x Exp] [h (SkJ Bool.false G x Sk.lbl)] :where [Bool.false G (Exp.sleaf x) Sk.syn])
   (sSnode [G (List Sk)] [x Exp] [c1 Exp] [c2 Exp] [hx (SkJ Bool.false G x Sk.lbl)] [h1 (SkJ Bool.false G c1 Sk.syn)]
           [h2 (SkJ Bool.false G c2 Sk.syn)] :where [Bool.false G (Exp.snode x c1 c2) Sk.syn])
