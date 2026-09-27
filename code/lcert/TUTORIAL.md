@@ -146,27 +146,70 @@ type checker computes:
 
 ## 4. Programs that inspect programs
 
-A *code*, type `Syn`, is a syntax tree: free to build, copy and recurse over.
-Labels are keywords, from a fixed set that includes `:a`, `:b` and `:c`.
+**Codes are trees.** A value of type `Syn`, a *code*, is a finite binary tree
+whose nodes carry labels. There are two constructors:
+- `(sleaf l)`, a leaf with label `l`, printed `[:sl l]`;
+- `(snode l left right)`, an internal node, printed `[:sn l left right]`.
+
+Labels are keywords from a fixed set, which includes `:a`, `:b` and `:c`.
+Codes cost nothing: build them, copy them, pass them around freely.
 
 ```clojure
 (lc/run 0 '(snode :a (sleaf :b) (sleaf :c)))
 ;; => [:sn :a [:sl :b] [:sl :c]]
+```
+
+**Recursion over a code** is `(rec-syn [x P] [a] leaf-case [a c1 c2 y1 y2] node-case c)`:
+- `P` is the result type;
+- in `leaf-case`, `a` is the leaf's label;
+- in `node-case`, `a` is the node's label, `c1` and `c2` its children, and
+  `y1` and `y2` the results already computed for them.
+
+This counts the internal nodes of a code. As in §2, the recursive results `y1`
+and `y2` may each be used once, so `add` takes both arguments at usage `1`:
+
+```clojure
 (lc/run 0 '(let [add w (-o Nat (-o Nat Nat)) (fn [a 1 Nat b 1 Nat] (rec-nat [q Nat] a [k y] (succ y) b))]
              (rec-syn [x Nat] [a] zero [a c1 c2 y1 y2] (succ (add y1 y2))
                       (snode :a (snode :b (sleaf :c) (sleaf :c)) (sleaf :c)))))
 ;; => 2
 ```
 
-**Every typing derivation has a code, and `chk` checks codes.** `lc/certify`
-gives the code of a program's derivation. A program can then ask whether a
-code proves a type:
-- `(code A)` is the code of the type `A`;
-- `code-literal` embeds a code in a program.
+**Programs have codes too.** When the type checker accepts a program, it
+builds a *derivation*: a tree recording each typing rule it used. That tree,
+written as a code, is what `lc/certify` returns. The root is labelled with the
+last rule used, and its first child records what was proved: the program and
+its type.
 
 ```clojure
 (def not-cert (:code (lc/certify 0 '(fn [x w Bool] (if x ff tt)))))
 
+(take 2 not-cert)
+;; => (:sn :Lam)
+(nth not-cert 2)
+;; => [:sn :has [:sl :empty] [:sn :pair [:sn :lam [:sl :bool] [:sn :if [:sn :var [:sl :zero] [:sl :nil]] [:sn :branches [:sl :ff] [:sl :tt]]]] [:sn :arrow [:sl :bool] [:sl :bool]]]]
+```
+
+Read the second result as "in the empty context, `λx. if x then ff else tt`
+has type `Bool → Bool`". Variables are numbered, so `x` is `[:sn :var [:sl :zero] …]`.
+
+Types have codes as well. `(code A)` is the code of the type `A` written in
+the program:
+
+```clojure
+(lc/run 0 '(code (-> Bool Bool)))
+;; => [:sn :arrow [:sl :bool] [:sl :bool]]
+```
+
+**`chk` checks a code.** `(chk c d)` is `tt` exactly when `c` is a valid
+derivation, and the type it concludes with has code `d`. It is an ordinary
+function from two codes to `Bool`, and costs nothing.
+
+To pass a code computed in Clojure into a program, use `code-literal`. It
+turns a code value, such as `not-cert`, into program text. `(code A)` differs:
+it takes a *type* written in the program.
+
+```clojure
 (lc/run 0 (list 'chk (list 'code-literal not-cert) '(code (-> Bool Bool))))
 ;; => true
 (lc/run 0 (list 'chk (list 'code-literal not-cert) '(code (-> Nat Nat))))
@@ -288,19 +331,63 @@ its negation.** Its type is itself a closed program:
 the metatheory proves for this calculus (its §6). Consistency is available
 only for certificates, which are paid for.
 
-## 8. Parsing code received at run time
+## 8. Turning a code into a certificate, inside a program
 
-A program holding a *supply* of tokens can turn a code into a certificate. The
-supply is a certificate read along its right spine. `ex/parse-then` wraps the
-parser of `lcert.examples`: it binds the certificate to `t` and the unused
-supply to `rest`.
+A code and a certificate can describe the same tree. The certificate also
+holds a token at each internal node. Take this code, with two internal nodes:
 
 ```clojure
-(lc/run 3 (ex/parse-then '(code-literal [:sn :b [:sn :c [:sl :a] [:sl :a]] [:sl :a]])
-                         '(node $1 :a (leaf :a) (node $2 :a (leaf :a) (node $3 :a (leaf :a) (leaf :a))))
-                         'Syn '(print t)))
-;; => [:sn :b [:sn :c [:sl :a] [:sl :a]] [:sl :a]]
+(def small '[:sn :b [:sl :a] [:sn :c [:sl :a] [:sl :a]]])
+
+(lc/certificate-form small)
+;; => (node $1 :b (leaf :a) (node $2 :c (leaf :a) (leaf :a)))
 ```
+
+That is the certificate written out by hand, which is how §6 built one. A
+program can instead do the conversion itself, on a code it only receives at
+run time. It cannot make tokens (§5), so it must be handed a *supply*. The
+supply is a certificate whose tokens the parser takes one at a time, down its
+right-hand side, one per internal node of the code.
+
+`ex/parse-then` wraps the parser of `lcert.examples`. It parses a code with a
+supply, binds the certificate to `t` and the unused supply to `rest`, and
+evaluates a body. Here the supply has three tokens; the code needs two:
+
+```clojure
+(def supply '(node $1 :a (leaf :a) (node $2 :a (leaf :a) (node $3 :a (leaf :a) (leaf :a)))))
+
+(lc/run 3 (ex/parse-then (list 'code-literal small) supply 'Syn '(print t)))
+;; => [:sn :b [:sl :a] [:sn :c [:sl :a] [:sl :a]]]
+```
+
+Printing the certificate gives the code back. With one token, the parser runs
+out, and the tree comes out truncated:
+
+```clojure
+(lc/run 1 (ex/parse-then (list 'code-literal small) '(node $1 :a (leaf :a) (leaf :a)) 'Syn '(print t)))
+;; => [:sn :b [:sl :a] [:sl :c]]
+```
+
+**The whole pipeline.** A program receives the code of another program's
+derivation. It pays for a certificate from its supply, checks that the
+certificate proves a `Nat`, and runs it with `reflect`:
+
+```clojure
+(def two (lc/certify 0 '(succ (succ zero))))
+(:nodes two)
+;; => 14
+
+(def supply14
+  (reduce (fn [acc i] (list 'node (symbol (str "$" i)) :a '(leaf :a) acc))
+          '(leaf :a) (range 14 0 -1)))
+
+(lc/run 14 (ex/parse-then (list 'code-literal (:code two)) supply14 'Nat
+                          '(inspect Nat t (code Nat) [x e] (reflect Nat x e) [x e] zero)))
+;; => 2
+```
+
+The derivation code arrives as plain data. It becomes runnable only after 14
+tokens are spent on it, and only after `inspect` confirms that it checks.
 
 ## 9. Reading errors
 
