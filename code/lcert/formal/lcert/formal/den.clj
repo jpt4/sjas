@@ -88,6 +88,28 @@
              (denAt chkf dec encTy (denT chkf dec encTy k) (Nat.succ k) t)))
   (rw [hb]))
 
+;; Stability: level n of the table agrees with level m at every cap m ≤ n.
+;; So the denotation at cap c runs a decoded program of budget m < c at
+;; exactly its own level: denT (c−1) m = denT m m, the paper's ⟦t′⟧ᵐ.
+;; (A proof of Not P is used through absurd; Ansatz's elaborator does not
+;; apply it to an argument directly.)
+(thm denT_stable [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+                  n :- Nat, t :- Exp]
+  (forall [m Nat] (=> (LE.le m n) (= (denT chkf dec encTy n m t) (denT chkf dec encTy m m t))))
+  (induction n)
+  (intro m hmn)
+  (have hz (= m 0) (Nat.le_antisymm hmn (Nat.zero_le m)))
+  (subst hz)
+  (rfl)
+  (intro m hmn)
+  (by_cases (Nat.ble m n))
+  (have hnle (Not (LE.le m n)) (fn [hh :- (LE.le m n)] (absurd (Nat.ble_eq_true_of_le hh) (ne_true_of_eq_false hc))))
+  (have heq (= m (Nat.succ n)) (Nat.le_antisymm hmn (Nat.succ_le_of_lt (Nat.lt_of_not_le hnle))))
+  (subst heq)
+  (rfl)
+  (rw [(denT_step chkf dec encTy n m (Nat.le_of_ble_eq_true hc) t)])
+  (exact (ih_n m (Nat.le_of_ble_eq_true hc))))
+
 ;; ⟦t⟧ⁿ: the table at level n, cap n.
 (kdef den
   (forall [chkf (=> Code Code Bool)] (forall [dec (=> Code (Option (Prod Nat (Prod Exp Exp))))] (forall [encTy (=> Exp Code)]
