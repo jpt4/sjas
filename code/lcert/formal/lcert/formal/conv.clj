@@ -114,7 +114,8 @@
     [(chk c d) (if (= i 0) (Option.some Exp c) (if (= i 1) (Option.some Exp d) (Option.none Exp)))]
     [(h1 r s c e1 e2) (if (= i 0) (Option.some Exp r) (if (= i 1) (Option.some Exp s) (if (= i 2) (Option.some Exp c) (if (= i 3) (Option.some Exp e1) (if (= i 4) (Option.some Exp e2) (Option.none Exp))))))]
     [(refl D r e) (if (= i 0) (Option.some Exp D) (if (= i 1) (Option.some Exp r) (if (= i 2) (Option.some Exp e) (Option.none Exp))))]
-    [(insp X r c t1 t2) (if (= i 0) (Option.some Exp X) (if (= i 1) (Option.some Exp r) (if (= i 2) (Option.some Exp c) (if (= i 3) (Option.some Exp t1) (if (= i 4) (Option.some Exp t2) (Option.none Exp))))))]))
+    [(insp X r c t1 t2) (if (= i 0) (Option.some Exp X) (if (= i 1) (Option.some Exp r) (if (= i 2) (Option.some Exp c) (if (= i 3) (Option.some Exp t1) (if (= i 4) (Option.some Exp t2) (Option.none Exp))))))]
+    [(tBrs P k) (if (= i 0) (Option.some Exp P) (Option.none Exp))]))
 
 (a/defn setKid [e :- Exp, i :- Nat, x :- Exp] Exp
   (match e
@@ -157,7 +158,8 @@
     [(chk c d) (Exp.chk (if (= i 0) x c) (if (= i 1) x d))]
     [(h1 r s c e1 e2) (Exp.h1 (if (= i 0) x r) (if (= i 1) x s) (if (= i 2) x c) (if (= i 3) x e1) (if (= i 4) x e2))]
     [(refl D r e) (Exp.refl (if (= i 0) x D) (if (= i 1) x r) (if (= i 2) x e))]
-    [(insp X r c t1 t2) (Exp.insp (if (= i 0) x X) (if (= i 1) x r) (if (= i 2) x c) (if (= i 3) x t1) (if (= i 4) x t2))]))
+    [(insp X r c t1 t2) (Exp.insp (if (= i 0) x X) (if (= i 1) x r) (if (= i 2) x c) (if (= i 3) x t1) (if (= i 4) x t2))]
+    [(tBrs P k) (Exp.tBrs (if (= i 0) x P) k)]))
 
 ;; Paths: getP p e reads the subterm at path p; setP p e x replaces it by x.
 ;; Both recurse on the path, returning functions of the term.

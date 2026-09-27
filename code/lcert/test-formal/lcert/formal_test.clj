@@ -43,3 +43,12 @@
 (deftest f2b-skeleton-typing-and-conversion
   (is (b/has? 'SkJ))
   (is (b/has? 'Cv)))
+
+(require 'lcert.formal.judgment 'lcert.formal.examples)
+(deftest f2c-rule-table
+  (testing "the draft's derivation of not is a derivation"
+    (is (b/has? 'not_typed)))
+  (testing "a usage-0 variable cannot be used at runtime"
+    (is (b/rejects? '[chkf :- (=> Code Code Bool)]
+                    '(Rt chkf (List.cons Exp Exp.tBool (List.nil Exp)) (List.cons U U.u0 (List.nil U)) (Exp.var 0) Exp.tBool)
+                    '[(exact (Rt.rVar chkf (List.cons Exp Exp.tBool (List.nil Exp)) (List.cons U U.u0 (List.nil U)) 0 Exp.tBool U.u0 rfl rfl rfl rfl))]))))

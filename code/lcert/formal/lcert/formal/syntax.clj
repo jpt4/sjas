@@ -11,6 +11,7 @@
     recS P tl tn c                    — P under 1; tl under 1 (a); tn under 5
     letp C p t                        — t under 2 (x, y)
     insp X r c t1 t2                  — t1, t2 under 2 (x, e)
+    tBrs P k                          — P under 1
   Branch lists of caseL are encoded in Exp itself (bnil / bcons), so that
   recursion over Exp stays structural."
   (:require [ansatz.core :as a]
@@ -32,7 +33,10 @@
   (lam [r U] [A Exp] [t Exp]) (app [f Exp] [u Exp]) (pair [S Exp] [a Exp] [b Exp])
   (letp [C Exp] [p Exp] [t Exp])
   (chk [c Exp] [d Exp]) (h1 [r Exp] [s Exp] [c Exp] [e1 Exp] [e2 Exp])
-  (refl [D Exp] [r Exp] [e Exp]) (insp [X Exp] [r Exp] [c Exp] [t1 Exp] [t2 Exp]))
+  (refl [D Exp] [r Exp] [e Exp]) (insp [X Exp] [r Exp] [c Exp] [t1 Exp] [t2 Exp])
+  ;; internal: the pseudo-type of a caseL branch list for labels k, k+1, …
+  ;; (Ansatz cannot generate recursors for premises quantified over labels)
+  (tBrs [P Exp] [k Nat]))
 
 ;; lift k c e: add k to every variable index ≥ c.  Defined as liftF k e c,
 ;; recursing on e alone (Ansatz recognizes a recursion as structural only when
@@ -78,7 +82,8 @@
     [(chk x d) (fn [c :- Nat] (Exp.chk ((liftF k x) c) ((liftF k d) c)))]
     [(h1 r s x e1 e2) (fn [c :- Nat] (Exp.h1 ((liftF k r) c) ((liftF k s) c) ((liftF k x) c) ((liftF k e1) c) ((liftF k e2) c)))]
     [(refl D r e) (fn [c :- Nat] (Exp.refl ((liftF k D) c) ((liftF k r) c) ((liftF k e) c)))]
-    [(insp X r x t1 t2) (fn [c :- Nat] (Exp.insp ((liftF k X) c) ((liftF k r) c) ((liftF k x) c) ((liftF k t1) (+ c 2)) ((liftF k t2) (+ c 2))))]))
+    [(insp X r x t1 t2) (fn [c :- Nat] (Exp.insp ((liftF k X) c) ((liftF k r) c) ((liftF k x) c) ((liftF k t1) (+ c 2)) ((liftF k t2) (+ c 2))))]
+    [(tBrs P j) (fn [c :- Nat] (Exp.tBrs ((liftF k P) (+ c 1)) j))]))
 
 (a/defn lift [k :- Nat, c :- Nat, e :- Exp] Exp ((liftF k e) c))
 
@@ -138,7 +143,8 @@
     [(chk x d) (fn [sg :- (=> Nat Exp)] (Exp.chk ((substF x) sg) ((substF d) sg)))]
     [(h1 r s x e1 e2) (fn [sg :- (=> Nat Exp)] (Exp.h1 ((substF r) sg) ((substF s) sg) ((substF x) sg) ((substF e1) sg) ((substF e2) sg)))]
     [(refl D r e) (fn [sg :- (=> Nat Exp)] (Exp.refl ((substF D) sg) ((substF r) sg) ((substF e) sg)))]
-    [(insp X r x t1 t2) (fn [sg :- (=> Nat Exp)] (Exp.insp ((substF X) sg) ((substF r) sg) ((substF x) sg) ((substF t1) (upn 2 sg)) ((substF t2) (upn 2 sg))))]))
+    [(insp X r x t1 t2) (fn [sg :- (=> Nat Exp)] (Exp.insp ((substF X) sg) ((substF r) sg) ((substF x) sg) ((substF t1) (upn 2 sg)) ((substF t2) (upn 2 sg))))]
+    [(tBrs P j) (fn [sg :- (=> Nat Exp)] (Exp.tBrs ((substF P) (upn 1 sg)) j))]))
 
 
 (a/defn subst [s :- (=> Nat Exp), e :- Exp] Exp ((substF e) s))
