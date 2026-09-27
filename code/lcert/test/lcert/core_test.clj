@@ -100,6 +100,57 @@
       (is (some? (lc/check-program 0 ex/flatten-form))))))
 
 ;; ---------------------------------------------------------------------------
+;; R4-metatheory.md §4.10 and Theorem 4.6: certificates admit cut, codes
+;; compress by computation, and composition costs a fresh proof.
+
+(defn- let-chain
+  "c_n: let x0 = sleaf a, and x_i = snode a x_{i-1} x_{i-1} for i ≤ n, each
+  let a β-redex (a cut) at usage ω; its value has 2^n - 1 internal nodes."
+  [n]
+  (list 'let ['x0 'w 'Syn '(sleaf :a)]
+        (reduce (fn [body i]
+                  (list 'let [(symbol (str "x" i)) 'w 'Syn
+                              (list 'snode :a (symbol (str "x" (dec i))) (symbol (str "x" (dec i))))]
+                        body))
+                (symbol (str "x" n)) (range n 0 -1))))
+
+(def ^:private doubling
+  "Π(n :ω Nat). Syn, doubling a tree n times through the packaged motive
+  Σ(p :ω Syn). 1, so the recursive result can be used twice."
+  '(fn [n w Nat]
+     (let-pair Syn [p u]
+       (rec-nat [q (Sigma [p w Syn] Unit)] (pair (Sigma [p w Syn] Unit) (sleaf :a) star)
+                [k y] (let-pair (Sigma [p w Syn] Unit) [p u] y
+                        (pair (Sigma [p w Syn] Unit) (snode :a p p) star))
+                n)
+       p)))
+
+(deftest certificates-admit-cut
+  (testing "Proposition 4.11: a certificate with cuts is far smaller than its normal form's"
+    (let [c8 (let-chain 8)
+          v (lc/run 0 c8)
+          with-cuts (:nodes (lc/certify 0 c8))
+          normal (:nodes (lc/certify 0 (list 'code-literal v)))]
+      (is (= 255 (k/nodes v)))
+      (is (<= 255 normal))
+      (is (< (* 10 with-cuts) normal) [with-cuts normal])))
+  (testing "Proposition 4.12(1): a short budget-0 term computes a huge code"
+    (let [v (lc/run 0 (list doubling 12))]
+      (is (= 4095 (k/nodes v)))
+      (is (< (:nodes (lc/certify 0 (list doubling 12))) 1000)))))
+
+(deftest composition-per-instance
+  (testing "Theorem 4.6's upper bound: ignore the inputs and build B's certificate"
+    (let [{:keys [code nodes]} (lc/certify 0 ex/not-form)
+          box (fn [A] (list 'Sigma '[r 1 R] (list 'T (list 'chk '(print r) (list 'code A)))))
+          B '(-> Bool Bool)
+          comp (list 'the (list '-o (list 'tensor (box (list '-o 'Unit B)) (box 'Unit)) (box B))
+                     (list 'fn ['z 1 (list 'tensor (box (list '-o 'Unit B)) (box 'Unit))]
+                           (list 'pair (box B) (lc/certificate-form code) 'star)))]
+      (is (= 35 nodes))
+      (is (some? (lc/check-program nodes comp))))))
+
+;; ---------------------------------------------------------------------------
 ;; Theorem 5.2: a typed program never evaluates an abort, H₁ or H node, under
 ;; either evaluator.  In each program below such a node lies on a branch the
 ;; run does not take, so an evaluator taking a wrong branch would enter it;

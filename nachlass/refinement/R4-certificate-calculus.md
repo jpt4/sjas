@@ -64,9 +64,9 @@ It tests three things.
    supplied. Composition's cost, as a tree construction, depends on the
    encoding. It grows with the premises under the full-judgment encoding the
    draft uses, and could be constant only under a relative encoding that
-   replaces the properties this one has. Inside the calculus, a composition
-   with a budget uniform in the types is conjectured not to exist, because its
-   evidence would need the checker to compute on open codes (§4).
+   replaces the properties this one has. Inside the calculus, no composition
+   with a budget uniform in the types exists. Each instance costs exactly the
+   price of proving its conclusion afresh (`R4-metatheory.md` Theorem 4.6).
    *An earlier state of this item said "the fourth derivability condition"; the
    condition meant is D3 in §4's table.*
 3. **Whether a symbolic self-justifying calculus avoids infeasible numbers.**
@@ -658,7 +658,7 @@ Write `□A := Σ(r :₁ R). T(chk′(print r, ⌜A⌝))`, where `⌜A⌝` is `A
 | | In λᶜᵉʳᵗ | Why |
 | --- | --- | --- |
 | D1 | **with a budget** | for a certificate `v` of `A`, `Θ_{‖v‖} ⊢ (lit_v, ⋆) : □A`, where `lit_v` builds `v`'s tree from the tokens (Prop. 4.2) |
-| D2 | **conjectured not derivable inside the calculus; as a tree construction, encoding-dependent** | a uniform `comp : □(A ⊸ B) ⊗ □A ⊸ □B` needs evidence that the composed tree checks. `chk′` computes only on closed codes, so no hypothesis about the premises yields that evidence (Conj. 4.6: an analysis, not a proof). As a tree construction, verified outside the calculus, `comp` adds a root node for the application. Under §2.4's encoding every node records its whole conclusion. So the new root repeats the combined context and both premises' conclusion terms and types, every premise node is re-recorded with the combined context, and the budget grows with the premises. Under no encoding with the metatheory's properties E2 and E3 does one new node suffice: the new root must record its whole conclusion, including an explicit context of `m₁ + m₂` entries. A *relative* encoding — conclusions reconstructed by `Check` from the premises, contexts split between premises, each token declared once where it is used — would have to replace E2 and E3, and re-prove strict overhead and the quotation-cost bound. None is specified. The conjecture concerns a budget uniform in `A` and `B`; per instance, a certificate of `B` can be built from scratch. *An earlier state said one node suffices under a relative encoding, as if such an encoding could keep E2–E3; review R4-06* |
+| D2 | **inside the calculus, per instance only, at exactly `μ(B)`; as a tree construction, encoding-dependent** | a uniform `comp : □(A ⊸ B) ⊗ □A ⊸ □B` does not exist, and each instance needs budget exactly `μ(B)`, even with the certificate of `A ⊸ B` fixed (`R4-metatheory.md` Theorem 4.6, by a model with phantom certificates). *An earlier state called this a conjecture, argued from `chk′` computing only on closed codes.* As a tree construction, verified outside the calculus, `comp` adds a root node for the application. Under §2.4's encoding every node records its whole conclusion. So the new root repeats the combined context and both premises' conclusion terms and types, every premise node is re-recorded with the combined context, and the budget grows with the premises. Under no encoding with the metatheory's properties E2 and E3 does one new node suffice: the new root must record its whole conclusion, including an explicit context of `m₁ + m₂` entries. A *relative* encoding — conclusions reconstructed by `Check` from the premises, contexts split between premises, each token declared once where it is used — would have to replace E2 and E3, and re-prove strict overhead and the quotation-cost bound. None is specified. Per instance, a certificate of `B` built from scratch is also the cheapest composition. *An earlier state said one node suffices under a relative encoding, as if such an encoding could keep E2–E3; review R4-06* |
 | D3 `□A ⊸ □□A` | **per instance yes; uniformly no** | every certificate of `□A` has more than `2μ(A)` nodes. Its root must declare at least `μ(A)` tokens, and its term must mention each of them (Prop. 4.3). From a minimal certificate and `k` tokens, at most `μ(A) + k` nodes can be built, so no `k` serves every `A` (Prop. 4.4). For each `A`, an instance exists with budget `μ(□A)` (Prop. 4.5) |
 | boxed contraction `□A ⊸ □A ⊗ □A` | **per instance yes; uniformly no** | two certificates of `A` need `2μ(A)` nodes, and only `μ(A) + k` can be built: Hofmann's diagonal map (p. 79) recast (Prop. 4.4). For each `A`, an instance exists with budget `2μ(A)`: discard the input and build two certificates (Prop. 4.5) |
 | self-reference | **by name** | §2.4 |
@@ -738,9 +738,15 @@ formalization**, and every bounded instance of the stronger statement is
 available. This is the status Willard's systems have: they prove their
 tableaux-consistency axiom but cannot verify their Hilbert consistency, and
 revising Group-3 to Hilbert proofs makes `IS-1(A)` inconsistent
-(`Willard2002c` Remark 3, `cited`). The analogy is structural: certificates are
-to codes as cut-free tableaux are to Hilbert proofs — the representation that
-cannot be compressed, against the one that can. It is the substance of Willard's
+(`Willard2002c` Remark 3, `cited`). The analogy is structural, but not about
+cut: certificates, like codes, may contain cuts, and a code and a certificate of
+one derivation are the same tree. What corresponds is the role. Certificates,
+like tableaux, are what the self-consistency axiom covers. Codes, like Hilbert
+proofs, can be compressed: a short term can compute a huge code, while a
+certificate costs one token per node. And the translation from the compressed
+form into the covered one is what neither system has uniformly
+(`R4-metatheory.md` §4.10). *An earlier state said "as cut-free tableaux are to
+Hilbert proofs"; §4.10 there shows that reading false.* It is the substance of Willard's
 own objection to himself (`Willard2016` §8, statement ###; register row). His
 reply rests on `Willard2016` Corollary 8.2 (`full`), which depends on Theorem 6.7
 and so on Conjecture 6.6 (`stated-only`).
@@ -792,8 +798,9 @@ statement that a certificate cannot declare more tokens than it cost.
     With the replacements, it must re-prove strict overhead (Lemma 2.7) and
     the quotation-cost bound. *An earlier state said it must keep E1–E5
     (review RR2-09).*
-  - Even then, composition inside the calculus is conjectured to fail for want
-    of evidence (§4, D2 row).
+  - Even then, composition inside the calculus still costs `μ(B)`: the proof
+    of Theorem 4.6 applies to any encoding with the properties it lists (§4,
+    D2 row).
 - **The likeliest attack** was the interaction of usage `0` with dependency.
   Erased terms may use tokens without limit, and types compute. The theorem
   needs every certificate and every piece of evidence that `H` consumes to be

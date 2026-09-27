@@ -17,7 +17,7 @@ correction and the section that proves it.*
 >   Σ₁-completeness, and the conservativity of E-PA^ω over PA. Its two
 >   formalizations inside arithmetic are given at the level of their
 >   obligations.
-> - One claim is a conjecture (§4.5).
+> - Nothing is left conjectured. Conjecture 4.6 is now Theorem 4.6 (§4.5).
 > - Everything else is proved here.
 >
 > Independent adversarial review is recorded in §8. Round 1 found no refutation
@@ -29,6 +29,9 @@ correction and the section that proves it.*
 > are minor, and all were accepted. Round 4 reviewed Theorem 5.2, which
 > proves what had been an expectation. It found the argument sound and the
 > write-up incomplete; its findings, two major and three minor, are fixed.
+> Round 5 reviewed Theorem 4.6 and the written-out cases of Theorem 4. It
+> found the first proof of Theorem 4.6 unsound; the repaired proof was
+> re-reviewed.
 
 ---
 
@@ -41,7 +44,7 @@ correction and the section that proves it.*
 | **T3** | **Size soundness.** A runtime term's value has footprint at most the tokens its context supplies, and at most the number of distinct tokens it mentions | §3.7 |
 | **T4** | **Termination and adequacy.** The budgeted evaluator terminates on every term and computes the model's value. An erasing evaluator, which the resource reading needs, agrees with it on data. Neither evaluates `abort`, `H₁` or `H` in a typed program (Theorem 5.2) | §5 |
 | **P5** | **The second incompleteness theorem applies to codes.** λᶜᵉʳᵗ₀ derives no form of `Con′`, with any budget | §6; by reduction to Gödel's theorem for PA. It cites three standard results (§6.1). The templates of its step 1 are also tested mechanically, on random instances |
-| **§4** | The draft's derivability-condition table, settled: D1 per instance; D3 and boxed contraction per instance only; a uniform D2 conjectured not derivable; `Con′ → H°`; `H°` from `H₁` at constant budget; bounded `Con′`; certified evaluation for base data types | §4 |
+| **§4** | The draft's derivability-condition table, settled: D1 per instance; D3 and boxed contraction per instance only; D2 per instance only, at exactly the cost of proving its conclusion afresh, and D3 exactly at `μ(□A)` (Theorem 4.6 and its corollaries); certificates are not restricted to normal derivations, and codes compress by computation (§4.10); `Con′ → H°`; `H°` from `H₁` at constant budget; bounded `Con′`; certified evaluation for base data types | §4 |
 
 The draft's lemmas L1–L4 are **not needed for T1**:
 - L1 (normalization) survives only as T4, which the programming language
@@ -261,6 +264,7 @@ The encoding has these properties:
 | **E3** | A judgment's encoding contains the encodings of its context and of its term as disjoint subtrees. A context of `m` entries has at least `m` internal nodes: no repetition counts, no sharing |
 | **E4** | A term's encoding has at least one internal node per occurrence of a variable, and per constructor application of arity at least 1. So a closed canonical code `c′`, written as a term, encodes to at least `nodes(c′)` internal nodes |
 | **E5** | `⌜Π(x :₁ A). 0⌝ = snode arrow₁ ⌜A⌝ ⌜0⌝` for closed `A`, so `neg ⌜A⌝ = ⌜A ⊸ 0⌝` |
+| **E6** | Rule labels are disjoint from all other labels, and label internal nodes only at derivation nodes. Inside the encoding of a judgment, context, term or type, and in the spines of premise lists and conversion chains, every internal node carries a non-rule label; a label constant is a leaf, under a `lblc` node |
 
 **`Check(c, d)` is `tt` iff:**
 1. `c` decodes to an explicit derivation all of whose nodes are valid
@@ -692,37 +696,146 @@ The draft's "no, for any fixed budget" is therefore right only in the uniform
 reading: no single budget serves every type. Per instance, both hold. Both
 results need E3 and E4, and nothing else about the encoding.
 
-### 4.5 D2: conjectured not derivable internally
+### 4.5 D2: transforming certificates costs a fresh proof
 
-**Conjecture 4.6.** There is no budget `k` such that for all closed
-certifiable `A` and `B` some term `Θₖ ⊢ comp_{A,B} :¹ □(A ⊸ B) ⊗ □A ⊸ □B`
-exists. *Its motivation* is that the application node over the two input
-certificates seems unable to receive its evidence. That is the heuristic
-below, and the conjecture does not imply it at type-dependent budgets (review
-RR2-13).
+> **Theorem 4.6.** Let `A₁, …, A_j` (`j ≥ 1`) be closed certifiable types,
+> and `B` a closed type different from each of them. If
+> `Θₖ ⊢ t :¹ □A₁ ⊗ ⋯ ⊗ □A_j ⊸ □B`, then `k ≥ μ(B)`.
 
-*An earlier state* said that no term of that type "computes its output
-certificate from its inputs". That is false as stated. At `A = B = 1`,
-`λz. let (p, q) = z in q` returns an input certificate (review R4-07). The
-conjecture is about a budget uniform in `A` and `B`, which per-instance terms
-— with budget `μ(B)` — do not supply.
+A program that turns certificates into a certificate of a different type is
+never cheaper than proving that type from scratch, however it uses its inputs.
 
-*Why it is expected.* The evidence would inhabit `T(chk′ (print r″) ⌜B⌝)`,
-where `r″` is built from the input certificates, which are variables. Evidence
-for `T(b)` comes from one of four places, and none reaches this `b`:
-- *conversion of `b` to `tt`:* `chk′` reduces only on closed canonical codes,
-  and this one is open;
-- *hypotheses:* they mention `chk′` on *other* codes;
-- *`inspect`:* its failure branch must still produce `□B`;
-- *case analysis on a Boolean inside `b`:* it cannot reach inside `chk′`.
+**Corollary 4.6′ (D2).** Let `A ≠ B`, with `A` and `A ⊸ B` certifiable.
+- A term `Θₖ ⊢ t :¹ □(A ⊸ B) ⊗ □A ⊸ □B` exists exactly when `k ≥ μ(B)`.
+- No budget serves every such `A` and `B`: take `A = 1` and `B = A_j` of §4.4,
+  with `j > k`, so that `μ(A_j) ≥ j > k`, and `1 ⊸ A_j` is certifiable.
+- Fixing the certificate of `A ⊸ B` does not help: a term `□A ⊸ □B` costs
+  `μ(B)` too.
 
-**Why this is not a proof.** In the standard model the type of the missing
-evidence is *true*. So refuting its derivability needs a model in which `chk′`
-can behave differently on open codes. None is given.
+*Proof.* The lower bounds are Theorem 4.6, with `j = 2` and with `j = 1`. For
+the upper bound, `B` is certifiable: weaken certificates of `A ⊸ B` and of `A`
+to disjoint tokens and apply App at `ρ = 1`; `B[t₁/x] = B`, since the arrow is
+not dependent. Take a minimal certificate `v` of `B`. Then
+`λz. (lit_v, ⋆)` has the type at budget `‖v‖ = μ(B)`, by Proposition 4.2,
+discarding `z`. ∎
+
+**Corollary 4.6″ (D3, exactly).** For certifiable closed `A`, a term
+`□A ⊸ □□A` exists exactly at budgets `k ≥ μ(□A)`, and `μ(□A) > 2μ(A)`
+(Propositions 4.3 and 4.5). This sharpens Proposition 4.4(2).
+
+This was Conjecture 4.6 until 2026-09-27. *The first version of the proof put
+phantoms into `Syn`, which is unsound: `recSyn` has a dependent motive, and it
+could not treat a phantom code consistently with `chk′` (review of 2026-09-27,
+§8). The phantoms below live only in `R`.*
+
+*Why `B` must differ from each `Aᵢ`.* At `B = A₁`, the term that returns its
+input costs nothing (review R4-07). *Why the `Aᵢ` must be certifiable.* At
+`A₁ = 0`, `λz. abort (H …)` has every type `□0 ⊸ □B`, at budget 0.
+
+**The model: phantom certificates.** Fix a numeral `N > k`. For each `i`, fix a
+derivation `Dᵢ` of `Θ_{mᵢ} ⊢ fᵢ :¹ Aᵢ` whose term is large: take any
+certificate term `gᵢ` of `Aᵢ`, and `fᵢ := (λ(y :₀ Nat). gᵢ) N̄`. It types by
+weakening and App at `ρ = 0`, since `Aᵢ[N̄/y] = Aᵢ`. By E4, `⌜fᵢ⌝` has at least
+`N` internal nodes. Let `cᵢ := ⌜Dᵢ⌝`, so `Check(cᵢ, ⌜Aᵢ⌝) = tt`.
+- **Carriers.** `C*(Syn) = C(Syn)`: codes stay standard. `C*(R)` holds the
+  trees of §3.1 whose leaves may also be phantoms `★ᵢ`. `‖v‖` counts internal
+  nodes, so `‖★ᵢ‖ = 0`.
+- **Denotation** `⟦·⟧*`, as in §3.2, except:
+  - `print` recurses structurally and sends `★ᵢ` to `cᵢ`;
+  - `itR` recurses structurally and treats `★ᵢ` as a leaf labelled `ℓ₀`;
+  - `reflect_D r e` decodes only when `⟦r⟧*` has no phantom, the cap is met,
+    and `Check` accepts. Otherwise it returns `dflt_{skel D}`.
+- **Semantic types** `V*`, as in §3.3, over these carriers. `Check` is
+  unchanged.
+
+A phantom looks like a leaf to `itR`, and like the certificate `cᵢ` to `print`.
+No rule relates the two views: `R` has no dependent eliminator, and `itR`'s
+result type `X` does not depend on the tree. Codes, `recSyn` and `chk′` are as
+before.
+
+**Lemma 4.6a.** Lemma 3.6 holds for `⟦·⟧*` and `V*`.
+
+*Proof.* Lemmas 3.1–3.5 carry over:
+- β and ι steps hold of the structural definitions, including `print`'s and
+  `itR`'s on constructor forms whose subterms denote phantoms;
+- δ steps involve standard codes only.
+
+The cases of §3.5 that change:
+- **Leaf, Node.** A phantom adds no footprint.
+- **ItR.** By induction on the tree, a phantom being a leaf with footprint 0.
+  `X` does not depend on the tree, so nothing else is affected.
+- **Print.** Its value is a standard code, in `V(Syn)`.
+- **Inspect.** `Check` gets standard codes. The evidence in each branch is as
+  before.
+- **H₁.** The hypotheses give `Check(print v, c) = tt` and
+  `Check(print w, neg c) = tt`, on standard codes. Corollary 3.7, which holds
+  at every size, excludes this. Vacuous; no budget descent is used.
+- **Reflect.** Without a phantom, as in §3.5, where Lemma 2.8 applies. With
+  one, the value is `dflt ∈ V(D)` for `D ≠ 0`. For `D = 0`, the evidence
+  gives `Check(print v, c⊥) = tt`, which Corollary 3.7 excludes.
+
+Every other case uses neither the phantoms nor the new clauses, and is
+unchanged. ∎
+
+*Proof of Theorem 4.6.* Apply Lemma 4.6a at `n = k` to the derivation of `t`, in
+the all-token environment. Take `z := ((★₁, ⋆), …, (★_j, ⋆))`. It lies in
+`V₀(□A₁ ⊗ ⋯ ⊗ □A_j)`: phantoms have no nodes, and
+`Check(print ★ᵢ, ⌜Aᵢ⌝) = Check(cᵢ, ⌜Aᵢ⌝) = tt`. So `⟦t⟧*(z) = (r″, ⋆)`, with
+`‖r″‖ ≤ k` and `Check(print r″, ⌜B⌝) = tt`. Three cases:
+1. **`r″` has no phantom.** It is a certificate of `B` with at most `k` nodes
+   (Lemma 2.8), so `k ≥ μ(B)`.
+2. **`r″ = ★ᵢ`.** Then `print r″ = cᵢ` concludes `Aᵢ`, and `Check` requires
+   `⌜Aᵢ⌝ = ⌜B⌝`, which E1 excludes.
+3. **`r″` has a phantom strictly inside.**
+   - `print r″` is a valid derivation with `cᵢ` as a proper subtree. The root of
+     `cᵢ` is an internal node with a rule label. By E6 it is a derivation node
+     of `print r″`: not part of any judgment, nor of the spine of a premise
+     list or a conversion chain, where a rule label would fail to decode. So it
+     is a premise, directly or not, of the root.
+   - `cᵢ` concludes a runtime judgment. By the rule table, runtime judgments
+     are premises only of runtime rules: the type-level twins have only
+     type-level term premises, and formation premises are formation or
+     type-level judgments. (Their distinct labels make this visible to
+     `Check`.)
+   - Every runtime rule's conclusion term contains each runtime premise's term
+     as a literal subterm: de Bruijn indices are not shifted when a term is
+     placed under a binder. So `fᵢ` is a subterm of the root's term.
+   - The root's judgment, its first child (E2), contains no phantom. Otherwise
+     a rule-labelled tree would sit inside the judgment, or in its place,
+     against E6 and E2.
+   - So the root judgment's internal nodes, at least the `N` of `⌜fᵢ⌝`, are
+     internal nodes of `r″`. Then `‖r″‖ ≥ N > k`, a contradiction. ∎
+
+*What the proof uses:*
+- Corollary 3.7, E1, E2, E4, E6, Lemmas 2.1 and 2.8, App at `ρ = 0`, and
+  footprints;
+- two facts about the rules of §1.4, not the encoding: a runtime premise occurs
+  only under a runtime rule, and each runtime premise's term is a literal
+  subterm of the conclusion's term;
+- descent on budgets only in the Reflect case of Lemma 4.6a, as in §3.5. The
+  `H₁` case needs none.
+
+So it applies to any encoding with these properties, for rules with these two
+facts, under which §3's consistency proof goes through.
+
+*How it relates to Willard.* `Willard1993-TR` Lemma 7.1 glues a proof of `¬Φ`
+and a proof of `Φ` into a proof of `⊥`, uniformly in one of them once the
+other is fixed: a product becomes a scalar multiple (R6 §7.4).
+- *The same pattern, at constant cost:* Proposition 4.10. With one certificate
+  fixed, `H₁` gives `H°` at a constant budget, uniformly in the other. `⊥`
+  needs no certificate, so none has to be built.
+- *Where λᶜᵉʳᵗ₀ differs:* composition that must produce a *certificate*.
+  Fixing one input does not make it cheaper (Corollary 4.6′), since the output
+  certificate has to be paid for in full.
+
+*The heuristic that motivated the conjecture* was that the output's evidence
+needs `chk′` to compute on open codes. The phantom model makes it precise.
+Inputs that `Check` accepts but that carry no tokens give the program nothing
+from which to build `B`'s certificate. Any certificate that merely embeds them
+is at least as large as its own recorded term.
 
 What does hold:
-- **Per instance.** For certifiable `B`, build a certificate of `B` from
-  scratch, with budget `μ(B)`.
+- **Per instance,** at budget `μ(B)`, and no less (Theorem 4.6).
 - **Checked at runtime.** Build the tree and `inspect` it. The result type must
   allow failure.
 - **As a tree transformation, verified outside the calculus.**
@@ -859,6 +972,77 @@ it is, and the second is fixed. The draft's own sentence — "`H` follows from
 the refutation as a certificate of `1 ⊸ 0`, was the costly one. `H` is kept as
 a constant because it is available at budget 0. In the core it is `reflect₀`.
 
+### 4.10 Codes, certificates and cut
+
+The draft calls certificates to codes "as cut-free tableaux are to Hilbert
+proofs — the representation that cannot be compressed, against the one that
+can". Read as a claim about cut, that is false. Read as a claim about which
+representation self-consistency covers, and what the missing translations
+cost, it holds, and the λᶜᵉʳᵗ₀ half is proved below.
+
+**Proposition 4.11 (certificates are not normal).** `Check` accepts
+derivations whose terms contain β-redexes, the natural-deduction form of cuts
+(§1.4 has no normality condition). A code and a certificate of one derivation
+are the same tree, up to tokens (`print` is a bijection, §3.1). So the
+code/certificate distinction is not a distinction between proofs with cuts and
+proofs without.
+
+A term's certificate can be exponentially smaller than the certificate of its
+normal form. Let
+`c_n := let x₀ = sleaf a in let x₁ = snode a x₀ x₀ in ⋯ let x_n = snode a x_{n−1} x_{n−1} in x_n`,
+each `let` a β-redex at `ω`. Then `⊢ c_n :¹ Syn` at budget 0.
+- Its normal form is a literal term for a code with `2ⁿ − 1` internal nodes.
+  By E2–E4, that literal's certificate has at least `2ⁿ − 1` nodes.
+- `c_n`'s certificate grows quadratically: each of its `O(n)` nodes records a
+  context and a term of size `O(n)`.
+
+Measured by `lcert`:
+
+| `n` | 2 | 4 | 6 | 8 |
+| --- | --- | --- | --- | --- |
+| certificate of `c_n` | 192 | 433 | 758 | 1,167 |
+| certificate of its normal form | 101 | 585 | 3,001 | 14,585 |
+
+*What this does not show.* Statman's and Orevkov's lower bounds compare proofs
+of *one* formula. Here the two derivations conclude different judgments, about
+a type, `Syn`, that has tiny proofs anyway. No type is exhibited whose normal
+certificates are all large. The claim is only the first paragraph: nothing
+restricts certificates to normal derivations.
+
+**Proposition 4.12 (codes compress by computation; certificates do not).**
+1. A short term can denote a large code. Besides `c_n`, a term with a `recN`
+   doubling a tree, through the packaged motive `Σ(p :ω Syn). 1`, denotes at
+   `n` a code of `2ⁿ − 1` internal nodes. Its certificate grows polynomially in
+   `n`, because the numeral is unary: 414, 460 and 522 nodes at `n = 4, 8, 12`,
+   against values of 15, 255 and 4,095.
+2. Every term typed in `Θₖ`, whatever its size, denotes certificates of at most
+   `k` internal nodes (T3, Theorem 4′). A closed one denotes leaves
+   (Proposition 4.1).
+
+*Proof.* (1) is the construction, typed at budget 0. (2) is cited. ∎
+
+So the compression that matters is not a proof rule. It is the gap between
+describing a tree by a term, by sharing or by recursion, and holding the tree.
+A code can be held for free once computed. A certificate costs one token per
+node, however it was computed.
+
+**The analogy, corrected.** What the two sides share is the structure of the
+second incompleteness theorem's failure: which representation the
+self-consistency axiom covers, and what the translations into it cost.
+
+| | Willard | λᶜᵉʳᵗ₀ |
+| --- | --- | --- |
+| covered by the self-consistency axiom | tableau proofs | certificates (`H°`, `H₁°`) |
+| the representation that compresses | Hilbert proofs. The growth the corpus treats as operative is the linear-sum effect of modus ponens, which makes composed proofs too *short* (`Willard2020` printed p. 279; R6 §7.4). Separately, cut-free proofs can be non-elementarily longer (Statman 1979, Orevkov 1979; *standard, not verified here*); R6 leaves open how the two relate | codes, by computation over free data (Proposition 4.12) |
+| where the compression happens | in the proof system: cut | in a term describing a tree, by sharing or recursion. Certificates may contain cuts too (Proposition 4.11); what they cannot do is be held without paying per node |
+| translating the compressed form into the covered one | cut elimination, which the systems cannot verify; covering Hilbert proofs instead makes them inconsistent (`Willard2002c` Remark 3, *cited*) | code to certificate, one token per node (Proposition 4.12(2)); `H° → Con′_ω` is not derivable at any budget (Proposition 4.8) |
+| internal composition (D2) | uniform in one proof once the other is fixed: a product turned into a scalar multiple (`Willard1993-TR` Lemma 7.1, R6 §7.4). That only this form is available is Willard's assertion, not shown underivable (R6 §8) | into `⊥`, the same pattern at constant cost (Proposition 4.10). Into a certificate, never cheaper than `μ(B)`, even with one input fixed (Corollary 4.6′); the cheapest witness ignores its inputs. Here the two sides differ |
+
+The λᶜᵉʳᵗ₀ column is proved here. The Willard column is cited, and its first
+row's source of growth differs: proof-theoretic there, a resource here. In
+λᶜᵉʳᵗ₀ the translation's cost is linear in the tree, and all the compression
+lies in how a code may be described.
+
 ## 5. Termination and adequacy of evaluation (T4)
 
 **The budgeted evaluator `evalₙ`.** It runs a program in `Θₙ`, with `n` known.
@@ -882,15 +1066,65 @@ simple types.
 > componentwise, and at `σ → τ` by sending related arguments to terminating,
 > related results.
 
-*Proof.* By strong induction on `n`, and within `n` by induction on `t`.
-- **Standard cases.** For `λ`, application, pairs, the eliminators, and `recN`
-  and `recSyn` over their scrutinee's value, this is Tait's argument for
-  System T. *Standard, not verified here.*
-- **`chk′`, `print` and `inspect`** terminate because `Check` is total.
-- **`itR`** is structural in the tree.
-- **`reflect`** calls `evalₘ` with `m < ‖v‖ ≤ n`. This is covered by the outer
-  induction, and matches the model's clause.
-- **`H₁` and `abort`** return the default, as the model does. ∎
+*Proof.* By strong induction on `n`, and within `n` by induction on `t`. Write
+`v ~ α` for "related". Each case shows that evaluation terminates and that its
+value is related to the denotation.
+- **Variables.** Related by assumption.
+- **Constants** `⋆`, `tt`, `ff`, `zero`, `ℓ`. Values equal to their
+  denotations.
+- **`λ(x :ρ A). b`.** Evaluation stops at once, at the closure `⟨b, ρ⟩`. For
+  `a ~ α`, the environment `(ρ, x ↦ a)` is related to `(η, x ↦ α)`, so by the
+  hypothesis for `b` the application terminates at a value related to
+  `⟦b⟧(η, x ↦ α)`. That is the clause at `σ → τ`.
+- **`f u`.** By the hypotheses, `f` evaluates to some `g ~ ⟦f⟧η` and `u` to
+  some `a ~ ⟦u⟧η`. The clause at `σ → τ` makes `g a` terminate at a value
+  related to `⟦f⟧η(⟦u⟧η) = ⟦f u⟧η`.
+- **Pairs.** Componentwise. **`let (x, y) = p in b`:** by the hypothesis for
+  `p`, its components are related to those of `⟦p⟧η`, so `b` runs in a related
+  environment.
+- **`if`, `elimBool`, `caseLbl`.** At a base skeleton, related means equal. So
+  the scrutinee's value is its denotation, both sides select the same branch,
+  and the hypothesis for that branch applies.
+- **`succ`, `sleaf`, `snode`, `leaf`, `node`.** Constructors applied to
+  related values give related values. A token is related to `◇`.
+- **`print`.** It forgets tokens on both sides.
+- **`recN_{x.P}(z, x y. s, n)`.** The scrutinee's value is `i = ⟦n⟧η`. The
+  evaluator computes `y₀` from `z`, and `y_{j+1}` from `s` in
+  `(ρ, x ↦ j, y ↦ y_j)`, for `j < i`. By induction on `j`, each of these
+  terminates, and `y_j` is related to the model's `j`-th iterate, by the
+  hypotheses for `z` and `s`. After `i` steps it stops.
+- **`recSyn`.** By induction on the scrutinee's code, which is the same on
+  both sides. At a leaf, the leaf method runs with its label bound. At a node,
+  the node method runs with the label, both subcodes, and both recursive
+  results bound, the results related by the inner hypothesis. The hypotheses
+  for the two methods apply in these related environments.
+- **`itR_X(g, h, r)`.** By induction on the tree of `r`, whose shape is the same
+  on both sides. At a leaf, `g` is applied to its label. At a node, `h` is
+  applied to the token, the label and the two recursive results, all related.
+  The clauses at `→` for `g ~ ⟦g⟧η` and `h ~ ⟦h⟧η` make each application
+  terminate at a related value.
+- **`chk′`.** Both arguments are codes, related, so equal. `Check` is total,
+  so both sides compute the same Boolean.
+- **`inspect`.** `Check` is total, and both sides get the same arguments. So
+  they take the same branch, in an environment extended by related values: the
+  certificate, and `⋆` for the evidence.
+- **`reflect_D r e`.** Its arguments are evaluated first, and the trees agree
+  up to tokens. So the cap test and `Check` agree. If they pass, both sides
+  decode `Θₘ ⊢ t′ :¹ D` with `m < ‖v‖ ≤ n`, by Lemmas 2.7 and 2.8. The runtime
+  side binds `m` runtime tokens, related to `◇, …, ◇`. The outer hypothesis at
+  `m` makes `evalₘ(t′)` terminate at a value related to `⟦t′⟧ᵐ`. Otherwise
+  both return defaults.
+- **`H₁` and `abort`.** Their arguments are evaluated, by the hypotheses, and
+  then both sides return the default of the skeleton. These are related, by
+  induction on the skeleton: equal at the base skeletons; at `◇`, a runtime
+  token, related to `◇`; componentwise at `σ × τ`; at `σ → τ`, a
+  closure that terminates at once at the default of `τ`. ∎
+
+Besides the hypotheses and the clause at `→`, the cases use inner inductions
+on numerals and trees, and `reflect` uses the outer induction on the budget.
+This is Tait's method as for System T, with the self-reference cases added. *Until 2026-09-27
+the ordinary cases were cited as standard, not written out.* For derivable
+terms, Theorem 5.2's relation strengthens the argument with safety.
 
 **Corollary 5.1.** For `Θₙ ⊢ t :¹ D` with `D` a base data type, `evalₙ(t)`
 terminates. Its result is the canonical form of an element of `Vⁿₙ(D)`. So
@@ -1764,13 +1998,45 @@ probe is placed and tested as described.
 | T52-04 | major | For the erasing evaluator, "the other cases are unchanged" is false: `Lam` and `Let` at usage 0, the split of contexts, and `reflect`'s erased run all differ; one citation overshot | fixed: those cases written out, with a restriction fact. Theorem 4′ had the same gap in its environments, and has the same repair |
 | T52-05 | minor | Two test programs did not put their node where a faulty evaluator would reach it; no test ran a dead `abort` through `reflect`; the mutation claim was not a test | fixed: replaced by a check of a type and its negation holding `H₁`, and by a certified program with a dead `abort` run through `reflect`. The mutation checks are stated as done by hand |
 
+**Round 5, 2026-09-27.** Two reviews, run in parallel, of three new pieces:
+Theorem 4's written-out cases, Theorem 4.6 (formerly Conjecture 4.6), and
+§4.10. One reviewer was a Claude subagent, which reviewed the first version
+and then the repaired one. The other was Grok 4.7, through Cursor, which saw
+only the first version.
+
+**What was found.**
+- *A critical error, found by the Claude reviewer.* The first proof of
+  Theorem 4.6 put phantoms into `Syn`, and treated a phantom code as a leaf in
+  `recSyn`. `recSyn` has a dependent motive, and `chk′` tells a phantom from a
+  leaf. So a closed term the calculus accepts denoted an element of the empty
+  set; the reviewer certified that term in `lcert`. Lemma 4.6a was false.
+- *The repair,* proposed by the same reviewer and generalized here: phantoms
+  only in `R`, printing as padded genuine certificate codes, with the
+  encoding property E6. The reviewer re-checked the repair and found no
+  critical or major issue.
+- *Grok did not detect the error.* It reported that it "could not break
+  Lemma 4.6a".
+
+| ID | Severity | Finding | Disposition |
+| --- | --- | --- | --- |
+| A1 | critical | Phantoms in `Syn` are unsound through `recSyn`'s dependent motive | fixed: phantoms only in `R`; the theorem generalized to any `□A₁ ⊗ ⋯ ⊗ □A_j ⊸ □B` |
+| T4-1 / B1 | major | Theorem 4's defaults cited a paragraph about Theorem 4′'s relation, not Theorem 4's | fixed: an induction on the skeleton |
+| C1 | major | Proposition 4.11 compared derivations of different judgments, not proofs of one proposition | fixed: restated as "certificates are not normal", with the limitation stated |
+| A2 / D2-2 | minor | Lemma 2.4 covers only the codomain `0` | fixed |
+| A3, A-1 | minor | The Willard comparison misdescribed Lemma 7.1 as per instance, and stated Willard's "only" as proved | fixed: Lemma 7.1 matched to Proposition 4.10; the difference stated; "only" attributed |
+| T4-2, T4-3, B2 | minor | The `recSyn` and `reflect` cases were compressed; a closing sentence overstated | fixed |
+| C2–C4 | minor | Cut and computation were split artificially; E2–E3 not cited; the recursion's certificate growth unstated | fixed |
+| N1–N6 | minor | On the repair: the uses list, E6's wording, the premise-list spines, the reason runtime premises sit only under runtime rules, "fresh" tokens, §0's wording | fixed |
+| D2-1 | minor | The phantom clause for `print` was ambiguous | moot: the clause was replaced |
+
 ## 9. Corrections this document makes to the draft
 
 | Draft location | Correction | Where |
 | --- | --- | --- |
 | §2.5 `H₁`; §5 `H°` and `Con′` | evidence arrows `⊸`, not `→` | §1.7 |
 | §2.5 "`H` follows from `H₁` only at extra token cost" | right in substance; the cost is constant, through a fixed certificate of `0 ⊸ 0`. *Round 0 wrongly corrected this to "only outside the calculus"; review R4-02* | §4.9 |
-| §4 D2 row, `comp : □(A → B) ⊗ □A ⊸ □B` | `→` should be `⊸`. A budget uniform in `A` and `B` is conjectured not to exist. One-node composition is impossible under E2–E3; a relative encoding must replace them | §4.5 |
+| §4 D2 row, `comp : □(A → B) ⊗ □A ⊸ □B` | `→` should be `⊸`. No budget uniform in `A` and `B` exists, and each instance costs exactly `μ(B)` (Theorem 4.6). One-node composition is impossible under E2–E3; a relative encoding must replace them | §4.5 |
+| §5, "certificates are to codes as cut-free tableaux are to Hilbert proofs" | false as a claim about cut: certificates admit cut. It holds as a claim about what self-consistency covers and what translating into it costs | §4.10 |
 | §4 D3 and contraction rows, "must record the literal term that rebuilds `r`" | the argument is replaced: any certificate of `□A` has more than `2μ(A)` nodes. The conclusion holds uniformly; per instance, both are derivable | §§4.3–4.4 |
 | §4 G2 row, "Standard; not verified here" | proved by reduction to G2 for PA, citing three standard results. The reduction was an outline until 2026-09-26 | §6 |
 | §5 fact 4, "parse and then apply `H`" | the restricted form holds with no tokens, by case analysis. The parse is definable, through a computational destructor. What is missing is an internal proof that it prints back to its input. *Round 0 wrongly said a destructor was lacking; review R4-03* | §4.7 |

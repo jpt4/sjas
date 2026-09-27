@@ -6274,3 +6274,43 @@ uses.
   `elimBool`'s branches swapped, the decoded program enters it.
 
 The mutation checks are done by hand, and the metatheory now says so.
+
+## 2026-09-27 — Tait cases written out; Conjecture 4.6 proved; the cut analogy corrected
+
+**The request.** Check the Tait cases, settle Conjecture 4.6, and refute or
+prove the analogy "certificate : code :: tableau : Hilbert proof". Subagents
+were authorized.
+
+**Tait cases** (`R4-metatheory.md` §5). Every term former now has its case in
+Theorem 4's proof. The defaults needed their own induction on the skeleton,
+since the paragraph cited before concerns Theorem 4′'s relation.
+
+**Conjecture 4.6 is Theorem 4.6.** Any term `□A₁ ⊗ ⋯ ⊗ □A_j ⊸ □B`, with the
+`Aᵢ` certifiable and `B` different from each, needs budget at least `μ(B)`.
+- *Consequences:* D2 is exact at `μ(B)`, is uniformly impossible, and costs
+  `μ(B)` even with one input fixed. D3 is exact at `μ(□A)`.
+- *The proof* is a model with phantom certificates: accepted by the checker,
+  zero tokens.
+- *A dead end, recorded.* My first version put phantoms into `Syn`. The Claude
+  reviewer broke it: `recSyn`'s dependent motive and `chk′` can tell a phantom
+  code from the leaf `recSyn` takes it for. It certified a counterexample term
+  in `lcert`. The reviewer's repair — phantoms only in `R`, printing as padded
+  real certificates — needed a new encoding property, E6, which the
+  implementation satisfies. Its re-review found no critical or major issue.
+  Grok, reviewing the first version, had not found the error.
+
+**The analogy.** Read as a claim about cut, it is false: `Check` accepts
+β-redexes, and a code and a certificate of one derivation are the same tree.
+Measured, a term's certificate can be exponentially smaller than its normal
+form's (1,167 against 14,585 nodes at `n = 8`). What holds is the role:
+- certificates, like tableaux, are what self-consistency covers;
+- codes, like Hilbert proofs, compress — by computation, not by a proof rule;
+- the translation into the covered form is what neither system has uniformly.
+
+One row differs from Willard: fixing one proof makes composition cheap in
+Willard's Lemma 7.1, but not here when the output must be a certificate.
+`lcert` tests the measurements and D2's upper bound.
+
+**Standing.** Nothing in the metatheory is conjectured any longer. The
+Statman–Orevkov and Willard entries in the analogy table are cited, not
+verified.
