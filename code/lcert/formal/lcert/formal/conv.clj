@@ -188,6 +188,13 @@
 
 ;; --- simple typing at skeletons ----------------------------------------------
 
+;; The base data types of §1.2 (0, 1, Bool, Nat, Lbl, Syn, R): the only types
+;; reflect may target.  They are closed, so substitution never changes the
+;; code reflect checks against (review F3s, 2026-09-27: without this premise
+;; skeleton typing admitted reflect at an open type, and Lemma 3.1 failed).
+(a/defn isBaseTy [D :- Exp] Bool
+  (match D [tEmpty true] [tUnit true] [tBool true] [tNat true] [tLbl true] [tSyn true] [tR true] [_ false]))
+
 (a/defn nthS [G :- (List Sk), i :- Nat] (Option Sk)
   (match G
     [nil (Option.none Sk)]
@@ -266,7 +273,8 @@
   (sH1 [G (List Sk)] [r Exp] [s Exp] [c Exp] [e1 Exp] [e2 Exp] [hr (SkJ Bool.false G r Sk.cert)]
        [hs (SkJ Bool.false G s Sk.cert)] [hc (SkJ Bool.false G c Sk.syn)] [h1 (SkJ Bool.false G e1 Sk.unit)]
        [h2 (SkJ Bool.false G e2 Sk.unit)] :where [Bool.false G (Exp.h1 r s c e1 e2) Sk.unit])
-  (sRefl [G (List Sk)] [D Exp] [r Exp] [e Exp] [hD (SkJ Bool.true G D Sk.unit)] [hr (SkJ Bool.false G r Sk.cert)]
+  (sRefl [G (List Sk)] [D Exp] [r Exp] [e Exp] [hD (SkJ Bool.true G D Sk.unit)]
+         [hb (Eq Bool (isBaseTy D) Bool.true)] [hr (SkJ Bool.false G r Sk.cert)]
          [he (SkJ Bool.false G e Sk.unit)] :where [Bool.false G (Exp.refl D r e) (skel D)])
   (sInsp [G (List Sk)] [X Exp] [r Exp] [c Exp] [t1 Exp] [t2 Exp] [hX (SkJ Bool.true G X Sk.unit)]
          [hr (SkJ Bool.false G r Sk.cert)] [hc (SkJ Bool.false G c Sk.syn)]

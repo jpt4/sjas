@@ -89,3 +89,24 @@
                                (Rt.rVar chkf (consE Exp.tR (List.nil Exp)) (consU U.u1 (List.nil U)) 0 Exp.tR U.u1 rfl rfl rfl rfl)
                                (Rt.rLeaf chkf (consE Exp.tR (List.nil Exp)) (consU U.u0 (List.nil U)) (Exp.lbl 0)
                                   (Rt.rConst chkf (consE Exp.tR (List.nil Exp)) (consU U.u0 (List.nil U)) (Exp.lbl 0) Exp.tLbl rfl rfl))))]))))
+
+(require 'lcert.formal.syntactic)
+(deftest f2d-lift-algebra
+  (testing "structural lift laws needed by Lemmas 2.1 and 2.5 (by Codex)"
+    (doseq [c '[lift_zero lift_comp skel_lift]]
+      (is (b/has? c) (str c))))
+  (testing "lifting is not the identity at a free variable"
+    (is (b/rejects? '[] '(= (lift 1 0 (Exp.var 0)) (Exp.var 0)) '[(rfl)])))
+  (testing "composition adds both displacements"
+    (is (b/rejects? '[] '(= (lift 2 0 (lift 1 0 (Exp.var 0))) (lift 2 0 (Exp.var 0))) '[(rfl)]))))
+
+(require 'lcert.formal.subst)
+(deftest f3f-coercion-and-environment
+  (doseq [c '[coe_both coe_self coe_rev envOf envOf_nil]]
+    (is (b/has? c) (str c)))
+  (is (b/rejects? '[v :- Bool] '(= (coe Sk.bool Sk.bool v) Bool.false) '[(rfl)]))
+  (testing "substitution without a typing hypothesis is not an identity"
+    (is (b/rejects? '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code)]
+                    '(= (den chkf dec encTy 0 (subst1 Exp.tt (Exp.var 0)) (List.nil Sk) Sk.bool Unit.unit)
+                        (den chkf dec encTy 0 (Exp.var 0) (List.nil Sk) Sk.bool Unit.unit))
+                    '[(rfl)]))))
