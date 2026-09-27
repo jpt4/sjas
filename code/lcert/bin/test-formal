@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Formal suite (ADR-0006): kernel-checks the formalization of the metatheory.
+cd "$(dirname "$0")/.." || exit 2
+export ANSATZ_OFFLINE=1
+exec clojure -J-Xmx2g -M:formal -e "
+(require 'clojure.test)
+(def nss (or (seq (map symbol *command-line-args*)) '[lcert.formal-test]))
+(apply require nss)
+(let [{:keys [fail error]} (apply clojure.test/run-tests nss)]
+  (shutdown-agents)
+  (System/exit (if (zero? (+ fail error)) 0 1)))" "$@"
