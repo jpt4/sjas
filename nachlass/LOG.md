@@ -6314,3 +6314,19 @@ Willard's Lemma 7.1, but not here when the output must be a certificate.
 **Standing.** Nothing in the metatheory is conjectured any longer. The
 Statman–Orevkov and Willard entries in the analogy table are cited, not
 verified.
+
+## 2026-09-27 — `H` does not give `H₁` (Proposition 4.10′)
+
+Recorded as open earlier today; now settled. A derivation records its
+conversions, so it contains only finitely many δ-steps. Its model therefore
+needs `chk′` to agree with `Check` only there. `H₁°` quantifies over every
+code, so a code `D` too large to occur in the derivation can be chosen, and the
+checker modified to accept two leaf certificates at `D` and `neg D`.
+- `H` stays sound, since nothing changes at `c⊥`.
+- Codes stay standard, which avoids the `recSyn` failure of the first phantom
+  model.
+- `H₁°` fails in the model, so the calculus with `H` but without `H₁` cannot
+  derive it.
+
+The pair form is thus strictly stronger as a postulate. Reviewed by the Claude
+subagent: no breaking finding, five minor wording fixes.

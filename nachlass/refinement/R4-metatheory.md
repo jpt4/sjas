@@ -44,7 +44,7 @@ correction and the section that proves it.*
 | **T3** | **Size soundness.** A runtime term's value has footprint at most the tokens its context supplies, and at most the number of distinct tokens it mentions | §3.7 |
 | **T4** | **Termination and adequacy.** The budgeted evaluator terminates on every term and computes the model's value. An erasing evaluator, which the resource reading needs, agrees with it on data. Neither evaluates `abort`, `H₁` or `H` in a typed program (Theorem 5.2) | §5 |
 | **P5** | **The second incompleteness theorem applies to codes.** λᶜᵉʳᵗ₀ derives no form of `Con′`, with any budget | §6; by reduction to Gödel's theorem for PA. It cites three standard results (§6.1). The templates of its step 1 are also tested mechanically, on random instances |
-| **§4** | The draft's derivability-condition table, settled: D1 per instance; D3 and boxed contraction per instance only; D2 per instance only, at exactly the cost of proving its conclusion afresh, and D3 exactly at `μ(□A)` (Theorem 4.6 and its corollaries); certificates are not restricted to normal derivations, and codes compress by computation (§4.10); `Con′ → H°`; `H°` from `H₁` at constant budget; bounded `Con′`; certified evaluation for base data types | §4 |
+| **§4** | The draft's derivability-condition table, settled: D1 per instance; D3 and boxed contraction per instance only; D2 per instance only, at exactly the cost of proving its conclusion afresh, and D3 exactly at `μ(□A)` (Theorem 4.6 and its corollaries); certificates are not restricted to normal derivations, and codes compress by computation (§4.10); `H₁°` gives `H°`, but `H` never gives `H₁°` (Propositions 4.10, 4.10′); `Con′ → H°`; `H°` from `H₁` at constant budget; bounded `Con′`; certified evaluation for base data types | §4 |
 
 The draft's lemmas L1–L4 are **not needed for T1**:
 - L1 (normalization) survives only as T4, which the programming language
@@ -972,19 +972,71 @@ it is, and the second is fixed. The draft's own sentence — "`H` follows from
 the refutation as a certificate of `1 ⊸ 0`, was the costly one. `H` is kept as
 a constant because it is available at budget 0. In the core it is `reflect₀`.
 
-**Open: `H₁°` from `H°`.** The converse of Proposition 4.10 is not known.
-- *The natural route* turns a certificate `r` of `A` and a certificate `s` of
-  `A ⊸ 0` into one certificate of `0`, and applies `H`. That needs a term
-  `□(A ⊸ 0) ⊗ □A ⊸ □0`, uniform in `A`: composition, D2, at `B = 0`.
-- *Building the composed tree at run time and inspecting it* does not help.
-  The failure branch must still produce `0`, and the calculus cannot show that
-  composition preserves checking, since `chk′` does not compute on open codes.
-- *Theorem 4.6 does not apply.* Its inputs must be certifiable, and `A ⊸ 0` is
-  not when `A` is (T1). Nor does its proof: a phantom for `A ⊸ 0` would have to
-  print as a genuine certificate of an uncertifiable type.
+**Proposition 4.10′ (`H` does not give `H₁`).** In λᶜᵉʳᵗ₀ without the
+constant `H₁`, `H` included, and with `chk′` denoting the same `Check`, no
+budget derives a closed inhabitant of `H₁°`.
 
-Proving underivability would need a model in which `H` holds and some `A` and
-`A ⊸ 0` both have (nonstandard) certificates. None is given.
+So, taken as postulates, the pair form is strictly stronger. `H₁°` gives `H°`
+at a constant budget (Proposition 4.10). `H°` gives `H₁°` at no budget: a term
+`H° → H₁°`, applied to the closed inhabitant of `H°`, would inhabit `H₁°`. In
+the full calculus both types are inhabited (T2).
+
+*The idea.* A derivation records its conversions, so it contains only finitely
+many δ-steps. A model of one given derivation therefore needs `chk′` to agree
+with `Check` only at those steps. `H₁°` quantifies over every code `c`, so a
+code can be chosen that the derivation never mentions, and the checker
+modified there.
+
+*Proof.* Suppose `Δ` derives `Θₖ ⊢ t :¹ H₁°` without `H₁`.
+- **The modified checker.** Choose a code `D` with more internal nodes than
+  `Δ`'s encoding. It is not a leaf, so `D ≠ c⊥`. Then neither `D` nor `neg D` is an argument of
+  any δ-step of `Δ`: by E4, a code literal occurring in `Δ` is smaller than
+  `Δ`. Let `χ` agree with `Check`, except that
+  `χ(sleaf a, D) = χ(sleaf b, neg D) = tt`. Neither change touches `c⊥`,
+  since `D ≠ c⊥` and `neg D` is an arrow code.
+- **The model.** Interpret `Δ` as in §3.2, with `χ` for `chk′` and for
+  `inspect`'s test, and with `reflect` sent to defaults, as in §6.3. Codes and
+  certificates are the standard trees. Take the truth predicate `𝒯_χ`, which
+  has no footprints:
+  - `𝒯(0) = ∅`, `𝒯(1) = {⋆}`, `𝒯(◇) = {◇}`, and each other base type is its
+    whole carrier;
+  - `𝒯(T(b))η = {⋆}` if `⟦b⟧η = tt`, and `∅` otherwise;
+  - `Π` and `Σ` at every usage quantify over `𝒯` of the domain.
+- **Soundness for `Δ`.** For every judgment of `Δ`, in either mode, an
+  environment in `𝒯(Γ)` sends the term into `𝒯(A)`, by induction on `Δ`.
+  - The conversions of `Δ` are sound. Its δ-steps are, since `χ` agrees with
+    `Check` there. β and ι steps may move or copy `chk′` subterms, and preserve
+    denotations for any total `χ`, by the substitution lemma.
+  - `recSyn`, `itR` and the rest are standard: the carriers are unchanged.
+  - `inspect` branches on `χ`, and its evidence is right in each branch.
+  - `reflect_D` at `D ≠ 0` returns `dflt`, which lies in `𝒯(D)`. `reflect` has
+    no conversion rule, so no equation constrains it.
+  - `abort` is vacuous, since `𝒯(0) = ∅`.
+  - `H`, that is `reflect₀`, is vacuous. Its evidence would need
+    `χ(print v, c⊥) = tt`, and at `c⊥`, `χ` is `Check`, which Corollary 3.7
+    excludes for every `v`.
+- **The contradiction.** Apply `⟦t⟧` to `r := leaf a`, `s := leaf b` and
+  `c := D`, and to `⋆` as both pieces of evidence. The evidence is in `𝒯`,
+  because `χ(print r, D) = χ(sleaf a, D) = tt` and
+  `χ(print s, neg D) = tt`. So `𝒯(0)` would be non-empty. ∎
+
+*Why this does not prove too much.*
+- *With `H₁` in the calculus,* the model is unsound: `H₁` would have to map
+  those arguments into `∅`. That is exactly the separation.
+- *For `H°`,* the same trick needs `χ` to accept something at `c⊥`, and then
+  `H` is unsound. So `H°` is derivable only because `H` is postulated, which is
+  right.
+- *Theorem 4.6* could not use this simpler argument. The types `A` and
+  `A ⊸ B` are fixed by the statement, so a derivation may mention their codes,
+  and `χ` cannot be changed there. Hence the phantom certificates and the
+  padding.
+
+*What it shows.* What a proof knows about `chk′` is fixed by the δ-steps it
+records and by the postulates: `H` fixes `chk′` at `c⊥`, for every first
+argument. Any further connection between facts about `chk′` on open codes must
+be postulated. `H₁` is such a postulate, and `H` does not supply it.
+
+*This settles a question recorded as open earlier on 2026-09-27.*
 
 ### 4.10 Codes, certificates and cut
 
@@ -2042,6 +2094,14 @@ only the first version.
 | C2–C4 | minor | Cut and computation were split artificially; E2–E3 not cited; the recursion's certificate growth unstated | fixed |
 | N1–N6 | minor | On the repair: the uses list, E6's wording, the premise-list spines, the reason runtime premises sit only under runtime rules, "fresh" tokens, §0's wording | fixed |
 | D2-1 | minor | The phantom clause for `print` was ambiguous | moot: the clause was replaced |
+
+**Round 6, 2026-09-27.** The Claude reviewer of round 5 reviewed Proposition
+4.10′. It found nothing that breaks it. It confirmed that every δ-step's
+arguments lie literally in the derivation, in the paper and in the
+implementation, and that the truth model is sound in both modes. Five minor
+findings, all fixed: `𝒯(◇)` stated; which `Check` is meant; the reason β and ι
+steps are sound; "what it shows" narrowed; the title and the direction of the
+claim.
 
 ## 9. Corrections this document makes to the draft
 

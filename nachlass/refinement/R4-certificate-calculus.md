@@ -249,6 +249,10 @@ passed to an `ω`-argument; `R4-metatheory.md` §1.7.)
 - Both certificates and both pieces of evidence are runtime arguments, for the
   reason given for `H`. `c` is ordinary data.
 - `H₁` has no reduction rule.
+- `H₁` is not redundant. `H°` follows from `H₁` at a constant budget, but
+  `H₁°` follows from `H` at no budget (`R4-metatheory.md` Propositions 4.10
+  and 4.10′). The pair form is strictly stronger inside the calculus. Whether
+  the same holds in Willard's systems is not checked here.
 
 **Negation must be the usage-1 arrow `A ⊸ 0`, not `A → 0`.** The consistency
 argument (§3) applies the represented proof of `A ⊸ 0` to the represented proof
