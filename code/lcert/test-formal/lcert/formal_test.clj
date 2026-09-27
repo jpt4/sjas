@@ -24,3 +24,22 @@
   (is (b/has? 'subst1_under_binder))
   (testing "substitution does not reach a bound variable"
     (is (b/rejects? '[u :- Exp, A :- Exp] '(= (subst1 u (Exp.lam U.u1 A (Exp.var 0))) (Exp.lam U.u1 (subst1 u A) u)) '[(rfl)]))))
+
+(require 'lcert.formal.skel)
+(deftest f2a-skeletons
+  (is (b/has? 'skel_pi))
+  (testing "codeOf reads closed canonical codes only"
+    (is (b/has? 'codeOf))
+    (is (b/rejects? '[] '(= (skel Exp.tNat) Sk.unit) '[(rfl)]))))
+
+(require 'lcert.formal.conv)
+(deftest f2b-steps
+  (is (b/has? 'Hd)))
+
+(deftest f2b-positions
+  (is (b/has? 'Step))
+  (is (b/has? 'setP)))
+
+(deftest f2b-skeleton-typing-and-conversion
+  (is (b/has? 'SkJ))
+  (is (b/has? 'Cv)))

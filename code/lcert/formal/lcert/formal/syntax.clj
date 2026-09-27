@@ -15,7 +15,7 @@
   recursion over Exp stays structural."
   (:require [ansatz.core :as a]
             [lcert.formal.base :refer [thm]]
-            [lcert.formal.usage]))
+            [lcert.formal.usage :refer :all]))
 
 (a/inductive Exp []
   ;; types (§1.2)
