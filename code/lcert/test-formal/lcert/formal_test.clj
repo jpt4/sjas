@@ -110,3 +110,11 @@
                     '(= (den chkf dec encTy 0 (subst1 Exp.tt (Exp.var 0)) (List.nil Sk) Sk.bool Unit.unit)
                         (den chkf dec encTy 0 (Exp.var 0) (List.nil Sk) Sk.bool Unit.unit))
                     '[(rfl)]))))
+
+(require 'lcert.formal.mono)
+(deftest f3g-monotonicity
+  (is (b/has? 'V_mono))
+  (testing "footprints cannot be lowered: Vₖ(R) is not contained in V₀(R)"
+    (is (b/rejects? '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code)]
+                    '(V chkf dec encTy 1 Exp.tR (List.nil Sk) Unit.unit 0 Sk.cert (Code.sn 0 (Code.sl 0) (Code.sl 0)))
+                    '[(decide)]))))

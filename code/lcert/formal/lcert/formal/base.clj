@@ -24,14 +24,20 @@
 (defonce ^:private init (do (a/load-init!) true))
 
 (defn lv
-  "Rewrite symbols `Foo$2` / `Foo$1$2` into `Foo.{2}` / `Foo.{1,2}`."
+  "Rewrite symbols the Clojure reader cannot express:
+  `Foo$2` / `Foo$1$2` become `Foo.{2}` / `Foo.{1,2}` (explicit universe
+  levels), and `AT_Foo` becomes `@Foo` (explicit application: every
+  argument, implicit ones included, is given positionally)."
   [form]
   (w/postwalk
    (fn [x]
-     (if (and (symbol? x) (re-find #"\$\d" (name x)))
+     (cond
+       (and (symbol? x) (str/starts-with? (name x) "AT_"))
+       (symbol (str "@" (subs (name x) 3)))
+       (and (symbol? x) (re-find #"\$\d" (name x)))
        (let [[base & levels] (str/split (name x) #"\$")]
          (symbol (str base ".{" (str/join "," levels) "}")))
-       x))
+       :else x))
    form))
 
 (defn kdef!
@@ -63,3 +69,8 @@
   (let [nm (gensym "neg_")]
     (try (a/prove-theorem nm (lv params) (lv prop) (lv (vec tactics))) false
          (catch Throwable _ true))))
+
+;; A debugging tactic: (peek) prints the open goals and changes nothing.
+;; Ansatz's errors do not say which step failed; peek shows the state there.
+(swap! a/tactic-registry assoc 'peek
+       (fn [ps _] (println ((requiring-resolve 'ansatz.tactic.proof/format-goals) ps)) ps))
