@@ -87,7 +87,7 @@
 
 ;; clean A: A contains no branch-list pseudo-type tBrs anywhere.  The paper
 ;; has no such type; the formalization types caseLbl's branch lists through
-;; it (the module notes, above).  App's argument type must be clean: otherwise
+;; it (the module notes, above).  App's function type must be clean: otherwise
 ;; a context entry of type Π(y : tBrs P k). B lets a branch list be passed as
 ;; an argument, where skOf (hence the application clause of ⟦·⟧) has no
 ;; skeleton for it, and the fundamental lemma fails.  Paper derivations meet
@@ -223,10 +223,10 @@
   (rLam [D (List Exp)] [us (List U)] [r U] [A Exp] [t Exp] [B Exp] [hA (Tl chkf Bool.true D A Exp.tUnit)]
         [ht (Rt chkf (consE A D) (consU r us) t B)] :where [D us (Exp.lam r A t) (Exp.tPi r A B)])
   (rApp0 [D (List Exp)] [us (List U)] [f Exp] [u Exp] [A Exp] [B Exp] [hf (Rt chkf D us f (Exp.tPi U.u0 A B))]
-         [hu (Tl chkf Bool.false D u A)] [hcl (Eq Bool (clean A) Bool.true)] :where [D us (Exp.app f u) (subst1 u B)])
+         [hu (Tl chkf Bool.false D u A)] [hcl (Eq Bool (clean (Exp.tPi U.u0 A B)) Bool.true)] :where [D us (Exp.app f u) (subst1 u B)])
   (rApp [D (List Exp)] [us1 (List U)] [us2 (List U)] [r U] [f Exp] [u Exp] [A Exp] [B Exp]
         [hr (Eq Bool (nonzero r) Bool.true)] [hf (Rt chkf D us1 f (Exp.tPi r A B))] [hu (Rt chkf D us2 u A)]
-        [hcl (Eq Bool (clean A) Bool.true)] :where [D (vadd us1 (vscale r us2)) (Exp.app f u) (subst1 u B)])
+        [hcl (Eq Bool (clean (Exp.tPi r A B)) Bool.true)] :where [D (vadd us1 (vscale r us2)) (Exp.app f u) (subst1 u B)])
   (rPair0 [D (List Exp)] [us (List U)] [A Exp] [B Exp] [x Exp] [y Exp] [hS (Tl chkf Bool.true D (Exp.tSig U.u0 A B) Exp.tUnit)]
           [hx (Tl chkf Bool.false D x A)] [hy (Rt chkf D us y (subst1 x B))]
           :where [D us (Exp.pair (Exp.tSig U.u0 A B) x y) (Exp.tSig U.u0 A B)])

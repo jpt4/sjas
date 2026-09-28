@@ -255,3 +255,11 @@
   (testing "a branch list is not skOf-faithful, so SubOK excludes the counterexample's substitution"
     (is (b/rejects? '[] '(= (skOf (List.nil Sk) (Exp.bcons (Exp.succ Exp.zero) Exp.bnil)) (Option.some Sk (Sk.arr Sk.lbl Sk.nat)))
                     '[(rfl)]))))
+
+(require 'lcert.formal.skof)
+(deftest f3k-skof-completeness
+  (testing "skOf is complete on runtime terms at clean types; skeleton-typed expressions are clean"
+    (doseq [c '[clean_tPi clean_app skj_clean cv_wf_left skOf_const skOf_rt]]
+      (is (b/has? c) (str c))))
+  (testing "a branch list has no inferred skeleton, which is why the clean premise is needed"
+    (is (not (b/rejects? '[G :- (List Sk)] '(Eq (Option Sk) (skOf G Exp.bnil) (Option.none Sk)) '[(rfl)])))))
