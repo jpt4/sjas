@@ -158,3 +158,30 @@
   (testing "a usage-1 entry is not usable at footprint 0: only ω entries are"
     (is (b/rejects? '[j :- Nat, P :- (=> Nat Prop)] '(=> (EntryOK U.u1 j P) (EntryOK U.u1 0 P))
                     '[(intro h) (exact h)]))))
+
+(require 'lcert.formal.unfold)
+(deftest f3i-unfolding
+  (testing "one step of ⟦·⟧ⁿ at symbolic n, for every constructor"
+    (doseq [c '[den_eq_denAt den_succ_eq den_lam_at den_h1_at den_tBrs_at den_refl_at]]
+      (is (b/has? c) (str c))))
+  (testing "den at a symbolic cap does not compute by itself"
+    (is (b/rejects? '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat]
+                    '(= (den chkf dec encTy n Exp.tt (List.nil Sk) Sk.bool Unit.unit) Bool.true) '[(rfl)])))
+  (testing "but it does after unfolding"
+    (is (not (b/rejects? '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat]
+                         '(= (den chkf dec encTy n Exp.tt (List.nil Sk) Sk.bool Unit.unit) Bool.true)
+                         '[(rw [(den_tt_at chkf dec encTy n (List.nil Sk) Sk.bool Unit.unit)])])))))
+
+(require 'lcert.formal.fundamental)
+(deftest f3j-fundamental-lemma-cases
+  (testing "Lemma 3.6, the cases proved so far"
+    (doseq [c '[Sound F_const F_succ F_sleaf F_snode F_prn F_chk F_lam0 F_lam1 F_lamw F_lam F_abort F_ite F_leaf F_node F_bnil]]
+      (is (b/has? c) (str c))))
+  (testing "a label constant must be below NL: lbl 100 is not in V(Lbl)"
+    (is (not (b/rejects? '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat]
+                         '(Not (V chkf dec encTy n Exp.tLbl (List.nil Sk) Unit.unit 0 Sk.lbl 100))
+                         '[(intro h) (have h2 (LT.lt 100 100) h) (omega)]))))
+  (testing "a node costs a token: node ⋆ … at footprint 0 is not in V₀(R)"
+    (is (not (b/rejects? '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat]
+                         '(Not (V chkf dec encTy n Exp.tR (List.nil Sk) Unit.unit 0 Sk.cert (Code.sn 0 (Code.sl 0) (Code.sl 0))))
+                         '[(intro h) (have h2 (LE.le 1 0) h) (omega)])))))
