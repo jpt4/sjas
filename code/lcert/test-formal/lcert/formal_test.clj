@@ -164,3 +164,17 @@
                              (List.nil Sk) (Sk.arr Sk.lbl Sk.nat) Unit.unit 0)
                         1)
                     '[(rfl)]))))
+
+(deftest f3h-lemma-3-1
+  (testing "item 2: Lemma 3.1 for substitutions satisfying SubOK, with skeleton-typing weakening"
+    (doseq [c '[skj_weaken envAt envOf_envAt SubTy SubOK subOK_up envAt_lookup envAt_lift envAt_up
+                skOf_subst subst_base denAt_subst den_fun_eq lemma31]]
+      (is (b/has? c) (str c))))
+  (testing "the source term is read in the substitution's environment, not an arbitrary one"
+    (is (b/rejects? den-params
+                    '(= (den chkf dec encTy 0 (subst (fn [i :- Nat] (inst1 Exp.zero i)) (Exp.var 0)) (List.nil Sk) Sk.nat Unit.unit)
+                        (den chkf dec encTy 0 (Exp.var 0) (List.cons Sk Sk.nat (List.nil Sk)) Sk.nat (Prod.mk 1 Unit.unit)))
+                    '[(rfl)])))
+  (testing "a branch list is not skOf-faithful, so SubOK excludes the counterexample's substitution"
+    (is (b/rejects? '[] '(= (skOf (List.nil Sk) (Exp.bcons (Exp.succ Exp.zero) Exp.bnil)) (Option.some Sk (Sk.arr Sk.lbl Sk.nat)))
+                    '[(rfl)]))))

@@ -42,7 +42,15 @@
       The real typing judgment never places a branch list in argument
       position (its type is the pseudo-type tBrs, which no binder has), so
       the substitution lemma holds with the additional hypothesis that
-      skOf of every substituted term is its skeleton (SubOK, §6).
+      skOf of every substituted term is its skeleton (SubOK, §7).
+  §6  Skeleton typing is closed under weakening (skj_weaken), so the
+      substitution shifted under a binder is again typed.
+  §7  The environment of a substitution (envAt, = envOf at den n), the
+      hypotheses SubOK on a substitution, and their behaviour under a
+      binder (subOK_up, envAt_up), skOf under substitution (skOf_subst).
+  §8  Item 2, Lemma 3.1: for Gp ⊢ t : s and SubOK Gp σ G,
+        ⟦subst σ t⟧ G s η = ⟦t⟧ Gp s (envOf n Gp σ G η)
+      (denAt_subst at one level, lemma31 at every budget n).
 
   Proof technique.  Each case lemma is one explicit proof term: a chain of
   Eq.trans/congrArg steps (`cong`), one step per recursive call of the
@@ -767,3 +775,627 @@
       (Eq.trans (congrArg (fn [fv :- (Car (Sk.arr Sk.lbl Sk.nat))] (fv 0)) heq)
         (cex31_rhs (fn [a :- Code, b :- Code] Bool.true) (fn [c :- Code] (Option.none (Prod Nat (Prod Exp Exp)))) (fn [e :- Exp] (Code.sl 0))))))
   (exact (absurd (Eq.symm h01) (Nat.succ_ne_zero 0))))
+
+;; ===========================================================================
+;; §6  Skeleton typing is closed under weakening (syntactic, for item 2)
+;; ===========================================================================
+;; SkJ w G e s → SkJ w (insS c x G) (lift 1 c e) s.  Needed so that the
+;; substitution shifted under a binder (up σ: variable 0, then σ lifted) is
+;; again skeleton-typed.  One explicit term per rule; the casts along
+;; skel (lift F) = skel F (skel_lift) are the only non-structural steps.
+
+;; A cast of the innermost context entry along a skeleton equation.
+
+(thm skj_ctx1 [w :- Bool, a0 :- Sk, b0 :- Sk, G :- (List Sk), e :- Exp, s :- Sk,
+               h :- (SkJ w (List.cons Sk a0 G) e s), eq :- (= a0 b0)]
+  (SkJ w (List.cons Sk b0 G) e s)
+  (subst eq)
+  (exact h))
+
+(thm skj_weaken_var [G :- (List Sk), i :- Nat, s :- Sk, hn :- (= (nthS G i) (Option.some Sk s))]
+  (forall [cc Nat] (forall [xx Sk] (SkJ Bool.false (insS cc xx G) (lift 1 cc (Exp.var i)) s)))
+  (intro cc xx)
+  (have hc (Decidable (Nat.lt i cc)) (Nat.decLt i cc))
+  (cases hc)
+  (rw [(lift_var_above 1 cc i (Nat.le_of_not_lt h))])
+  (rw [(lift_var_below 1 cc i h)])
+  (exact (SkJ.sVar (insS cc xx G) (+ i 1) s (Eq.trans (nthS_ins_above xx cc i G (Nat.le_of_not_lt h)) hn)))
+  (exact (SkJ.sVar (insS cc xx G) i s (Eq.trans (nthS_ins_below xx cc i G h) hn))))
+
+(defn- sw-expand [form]
+  (let [ct (fn [k] (if (zero? k) 'cc (list '+ 'cc k)))]
+    (walk/postwalk
+     (fn [x]
+       (cond
+         (= x 'GI) '(insS cc xx G)
+         (and (seq? x) (= (first x) 'L)) (let [[_ k F] x] (list 'lift 1 (ct k) F))
+         (and (seq? x) (= (first x) 'SL)) (let [[_ k F] x] (list 'skel_lift F 1 (ct k)))
+         (and (seq? x) (= (first x) 'SLs)) (let [[_ k F] x] (list 'Eq.symm (list 'skel_lift F 1 (ct k))))
+         (and (seq? x) (= (first x) 'IH)) (let [[_ ih k] x] (list ih (ct k) 'xx))
+         (and (seq? x) (= (first x) 'CS)) (let [[_ ctx t s1 s2 h e] x] (list 'skj_cast 'Bool.false ctx t s1 s2 h e))
+         :else x))
+     form)))
+
+(defn- HT [q] (list 'Sk.arr 'Sk.dia (list 'Sk.arr 'Sk.lbl (list 'Sk.arr q (list 'Sk.arr q q)))))
+
+(def ^:private sw-cases
+  {'wEmpty '(SkJ.wEmpty GI) 'wUnit '(SkJ.wUnit GI) 'wBool '(SkJ.wBool GI) 'wNat '(SkJ.wNat GI)
+   'wLbl '(SkJ.wLbl GI) 'wSyn '(SkJ.wSyn GI) 'wDia '(SkJ.wDia GI) 'wR '(SkJ.wR GI)
+   'wT '(SkJ.wT GI (L 0 b) (IH ih_hb 0))
+   'wPi '(SkJ.wPi GI r (L 0 A) (L 1 B) (IH ih_hA 0)
+           (skj_ctx1 Bool.true (skel A) (skel (L 0 A)) GI (L 1 B) Sk.unit (IH ih_hB 1) (SLs 0 A)))
+   'wSig '(SkJ.wSig GI r (L 0 A) (L 1 B) (IH ih_hA 0)
+            (skj_ctx1 Bool.true (skel A) (skel (L 0 A)) GI (L 1 B) Sk.unit (IH ih_hB 1) (SLs 0 A)))
+   'sVar '(skj_weaken_var G i s h cc xx)
+   'sStar '(SkJ.sStar GI) 'sTT '(SkJ.sTT GI) 'sFF '(SkJ.sFF GI) 'sZero '(SkJ.sZero GI)
+   'sLbl '(SkJ.sLbl GI l) 'sBnil '(SkJ.sBnil GI s)
+   'sAbort '(CS GI (Exp.abort (L 0 A) (L 0 t)) (skel (L 0 A)) (skel A)
+              (SkJ.sAbort GI (L 0 A) (L 0 t) (IH ih_hA 0) (IH ih_ht 0)) (SL 0 A))
+   'sIte '(SkJ.sIte GI (L 0 b) (L 0 t) (L 0 e) s (IH ih_hb 0) (IH ih_ht 0) (IH ih_he 0))
+   'sElimB '(CS GI (Exp.elimB (L 1 P) (L 0 b) (L 0 t) (L 0 e)) (skel (L 1 P)) (skel P)
+              (SkJ.sElimB GI (L 1 P) (L 0 b) (L 0 t) (L 0 e) (IH ih_hP 1) (IH ih_hb 0)
+                (CS GI (L 0 t) (skel P) (skel (L 1 P)) (IH ih_ht 0) (SLs 1 P))
+                (CS GI (L 0 e) (skel P) (skel (L 1 P)) (IH ih_he 0) (SLs 1 P)))
+              (SL 1 P))
+   'sSucc '(SkJ.sSucc GI (L 0 n) (IH ih_h 0))
+   'sRecN '(CS GI (Exp.recN (L 1 P) (L 0 z) (L 2 st) (L 0 n)) (skel (L 1 P)) (skel P)
+             (SkJ.sRecN GI (L 1 P) (L 0 z) (L 2 st) (L 0 n) (IH ih_hP 1)
+               (CS GI (L 0 z) (skel P) (skel (L 1 P)) (IH ih_hz 0) (SLs 1 P))
+               (CS (sk2 (skel (L 1 P)) Sk.nat GI) (L 2 st) (skel P) (skel (L 1 P))
+                 (skj_cast2 Bool.false (skel P) Sk.nat (skel (L 1 P)) Sk.nat GI (L 2 st) (skel P) (IH ih_hs 2) (SLs 1 P) (Eq.refl$1 Sk.nat))
+                 (SLs 1 P))
+               (IH ih_hn 0))
+             (SL 1 P))
+   'sCaseL '(CS GI (Exp.caseL (L 1 P) (L 0 x) (L 0 bs)) (skel (L 1 P)) (skel P)
+              (SkJ.sCaseL GI (L 1 P) (L 0 x) (L 0 bs) (IH ih_hP 1) (IH ih_hx 0)
+                (CS GI (L 0 bs) (Sk.arr Sk.lbl (skel P)) (Sk.arr Sk.lbl (skel (L 1 P))) (IH ih_hb 0)
+                  (congrArg (fn [q :- Sk] (Sk.arr Sk.lbl q)) (SLs 1 P))))
+              (SL 1 P))
+   'sBcons '(SkJ.sBcons GI (L 0 h) (L 0 t) s (IH ih_hh 0) (IH ih_ht 0))
+   'sSleaf '(SkJ.sSleaf GI (L 0 x) (IH ih_h 0))
+   'sSnode '(SkJ.sSnode GI (L 0 x) (L 0 c1) (L 0 c2) (IH ih_hx 0) (IH ih_h1 0) (IH ih_h2 0))
+   'sRecS '(CS GI (Exp.recS (L 1 P) (L 1 tl) (L 5 tn) (L 0 c)) (skel (L 1 P)) (skel P)
+             (SkJ.sRecS GI (L 1 P) (L 1 tl) (L 5 tn) (L 0 c) (IH ih_hP 1)
+               (CS (List.cons Sk Sk.lbl GI) (L 1 tl) (skel P) (skel (L 1 P)) (IH ih_hl 1) (SLs 1 P))
+               (CS (sk2 (skel (L 1 P)) (skel (L 1 P)) (sk2 Sk.syn Sk.syn (List.cons Sk Sk.lbl GI))) (L 5 tn) (skel P) (skel (L 1 P))
+                 (skj_cast2 Bool.false (skel P) (skel P) (skel (L 1 P)) (skel (L 1 P)) (sk2 Sk.syn Sk.syn (List.cons Sk Sk.lbl GI))
+                   (L 5 tn) (skel P) (IH ih_hn 5) (SLs 1 P) (SLs 1 P))
+                 (SLs 1 P))
+               (IH ih_hc 0))
+             (SL 1 P))
+   'sLeaf '(SkJ.sLeaf GI (L 0 x) (IH ih_h 0))
+   'sNode '(SkJ.sNode GI (L 0 d) (L 0 x) (L 0 r1) (L 0 r2) (IH ih_hd 0) (IH ih_hx 0) (IH ih_h1 0) (IH ih_h2 0))
+   'sItR (list 'CS 'GI '(Exp.itR (L 0 X) (L 0 g) (L 0 h) (L 0 r)) '(skel (L 0 X)) '(skel X)
+               (list 'SkJ.sItR 'GI '(L 0 X) '(L 0 g) '(L 0 h) '(L 0 r) '(IH ih_hX 0)
+                     '(CS GI (L 0 g) (Sk.arr Sk.lbl (skel X)) (Sk.arr Sk.lbl (skel (L 0 X))) (IH ih_hg 0)
+                        (congrArg (fn [q :- Sk] (Sk.arr Sk.lbl q)) (SLs 0 X)))
+                     (list 'CS 'GI '(L 0 h) (HT '(skel X)) (HT '(skel (L 0 X))) '(IH ih_hh 0)
+                           (list 'congrArg (list 'fn '[q :- Sk] (HT 'q)) '(SLs 0 X)))
+                     '(IH ih_hr 0))
+               '(SL 0 X))
+   'sPrn '(SkJ.sPrn GI (L 0 r) (IH ih_h 0))
+   'sLam '(CS GI (Exp.lam r (L 0 A) (L 1 t)) (Sk.arr (skel (L 0 A)) s) (Sk.arr (skel A) s)
+            (SkJ.sLam GI r (L 0 A) (L 1 t) s (IH ih_hA 0)
+              (skj_ctx1 Bool.false (skel A) (skel (L 0 A)) GI (L 1 t) s (IH ih_ht 1) (SLs 0 A)))
+            (congrArg (fn [q :- Sk] (Sk.arr q s)) (SL 0 A)))
+   'sApp '(SkJ.sApp GI (L 0 f) (L 0 u) s t (IH ih_hf 0) (IH ih_hu 0))
+   'sPair '(CS GI (Exp.pair (Exp.tSig r (L 0 A) (L 1 B)) (L 0 x) (L 0 y)) (Sk.prod (skel (L 0 A)) (skel (L 1 B))) (Sk.prod (skel A) (skel B))
+             (SkJ.sPair GI r (L 0 A) (L 1 B) (L 0 x) (L 0 y) (IH ih_hS 0)
+               (CS GI (L 0 x) (skel A) (skel (L 0 A)) (IH ih_hx 0) (SLs 0 A))
+               (CS GI (L 0 y) (skel B) (skel (L 1 B)) (IH ih_hy 0) (SLs 1 B)))
+             (Eq.trans (congrArg (fn [q :- Sk] (Sk.prod q (skel (L 1 B)))) (SL 0 A))
+                       (congrArg (fn [q :- Sk] (Sk.prod (skel A) q)) (SL 1 B))))
+   'sLetp '(CS GI (Exp.letp (L 0 C) (L 0 p) (L 2 t)) (skel (L 0 C)) (skel C)
+             (SkJ.sLetp GI (L 0 C) (L 0 p) (L 2 t) s1 s2 (IH ih_hC 0) (IH ih_hp 0)
+               (CS (sk2 s2 s1 GI) (L 2 t) (skel C) (skel (L 0 C)) (IH ih_ht 2) (SLs 0 C)))
+             (SL 0 C))
+   'sChk '(SkJ.sChk GI (L 0 c) (L 0 d) (IH ih_hc 0) (IH ih_hd 0))
+   'sH1 '(SkJ.sH1 GI (L 0 r) (L 0 s) (L 0 c) (L 0 e1) (L 0 e2) (IH ih_hr 0) (IH ih_hs 0) (IH ih_hc 0) (IH ih_h1 0) (IH ih_h2 0))
+   'sRefl '(CS GI (Exp.refl (L 0 D) (L 0 r) (L 0 e)) (skel (L 0 D)) (skel D)
+             (SkJ.sRefl GI (L 0 D) (L 0 r) (L 0 e) (IH ih_hD 0) (Eq.trans (congrArg isBaseTy (lift_base D hb 1 cc)) hb)
+               (IH ih_hr 0) (IH ih_he 0))
+             (SL 0 D))
+   'sInsp '(CS GI (Exp.insp (L 0 X) (L 0 r) (L 0 c) (L 2 t1) (L 2 t2)) (skel (L 0 X)) (skel X)
+             (SkJ.sInsp GI (L 0 X) (L 0 r) (L 0 c) (L 2 t1) (L 2 t2) (IH ih_hX 0) (IH ih_hr 0) (IH ih_hc 0)
+               (CS (sk2 Sk.unit Sk.cert GI) (L 2 t1) (skel X) (skel (L 0 X)) (IH ih_h1 2) (SLs 0 X))
+               (CS (sk2 Sk.unit Sk.cert GI) (L 2 t2) (skel X) (skel (L 0 X)) (IH ih_h2 2) (SLs 0 X)))
+             (SL 0 X))})
+
+;; Weakening for skeleton typing (the abbreviations: GI the extended context,
+;; (L k F) F lifted under k binders, (SL k F) / (SLs k F) skel_lift and its
+;; symmetric, (IH ih k) the hypothesis at cut cc+k, (CS …) skj_cast).
+(a/prove-theorem 'skj_weaken '[w0 :- Bool, G0 :- (List Sk), e0 :- Exp, s0 :- Sk, der :- (SkJ w0 G0 e0 s0)]
+  '(forall [cc Nat] (forall [xx Sk] (SkJ w0 (insS cc xx G0) (lift 1 cc e0) s0)))
+  (lv (into ['(induction der)]
+            (mapcat (fn [rule] ['(intro cc xx) (list 'exact (sw-expand (sw-cases rule)))]) skj-rules))))
+
+;; ===========================================================================
+;; §7  Environments of a substitution
+;; ===========================================================================
+
+;; envAt dn Gp σ G η : HEnv Gp — the environment in which Lemma 3.1 reads
+;; the source term: variable i has the value dn (σ i) G sᵢ η.  It is envOf
+;; (lcert.formal.subst) with the denotation dn as a parameter, so that the
+;; lemma can be proved for one level of the table (dn = denAt … pv cp) and
+;; transferred to den n (envOf_envAt: envOf n = envAt (den n), by rfl).
+
+(kdef envAt (forall [dn (=> Exp DenBody)] (forall [Gp (List Sk)] (=> (=> Nat Exp) (forall [G (List Sk)] (=> (HEnv G) (HEnv Gp))))))
+  (fn [dn :- (=> Exp DenBody), Gp :- (List Sk)]
+    (List.rec$1$0 Sk
+      (fn [Gp :- (List Sk)] (=> (=> Nat Exp) (forall [G (List Sk)] (=> (HEnv G) (HEnv Gp)))))
+      (fn [sg :- (=> Nat Exp), G :- (List Sk), eta :- (HEnv G)] Unit.unit)
+      (fn [s :- Sk, rest :- (List Sk), ih :- (=> (=> Nat Exp) (forall [G (List Sk)] (=> (HEnv G) (HEnv rest))))]
+        (fn [sg :- (=> Nat Exp), G :- (List Sk), eta :- (HEnv G)]
+          (Prod.mk (dn (sg 0) G s eta) (ih (fn [i :- Nat] (sg (+ i 1))) G eta))))
+      Gp)))
+
+(thm envOf_envAt [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+                  n :- Nat, Gp :- (List Sk), sg :- (=> Nat Exp), G :- (List Sk), eta :- (HEnv G)]
+  (= (envOf chkf dec encTy n Gp sg G eta) (envAt (den chkf dec encTy n) Gp sg G eta))
+  (rfl))
+
+;; The hypotheses on a substitution σ from source context Gp to target
+;; context G (SubOK), in three parts:
+;;   SubTy  every variable of Gp is sent to a term simply typed at its
+;;          skeleton in G (the paper's hypothesis);
+;;   skOf-faithful  skOf G (σ i) = nthS Gp i for every i: σ i is not a
+;;          branch list or a term ending in one (§5 shows this cannot be
+;;          dropped); past the end of Gp, σ i must also have no skeleton;
+;;   skeleton Unit  skel (σ i) = Unit for every i: σ substitutes terms, not
+;;          types (as in skel_subst, lcert.formal.skeletons).
+;; Every substitution the typing rules perform satisfies all three when the
+;; substituted terms are typed and are not branch lists (§9 for inst1).
+(kdef SubTy (=> (List Sk) (=> Nat Exp) (List Sk) Prop)
+  (fn [Gp :- (List Sk), sg :- (=> Nat Exp), G :- (List Sk)]
+    (forall [i Nat] (forall [s Sk] (=> (Eq (Option Sk) (nthS Gp i) (Option.some Sk s)) (SkJ Bool.false G (sg i) s))))))
+
+(kdef SubOK (=> (List Sk) (=> Nat Exp) (List Sk) Prop)
+  (fn [Gp :- (List Sk), sg :- (=> Nat Exp), G :- (List Sk)]
+    (And (SubTy Gp sg G)
+         (And (forall [i Nat] (Eq (Option Sk) (skOf G (sg i)) (nthS Gp i)))
+              (forall [i Nat] (Eq Sk (skel (sg i)) Sk.unit))))))
+
+(thm subOK_ty [Gp :- (List Sk), sg :- (=> Nat Exp), G :- (List Sk), h :- (SubOK Gp sg G)]
+  (forall [i Nat] (forall [s Sk] (=> (= (nthS Gp i) (Option.some Sk s)) (SkJ Bool.false G (sg i) s))))
+  (have h2 (And (SubTy Gp sg G) (And (forall [i Nat] (= (skOf G (sg i)) (nthS Gp i))) (forall [i Nat] (= (skel (sg i)) Sk.unit)))) h)
+  (exact (And.left h2)))
+(thm subOK_sko [Gp :- (List Sk), sg :- (=> Nat Exp), G :- (List Sk), h :- (SubOK Gp sg G)]
+  (forall [i Nat] (= (skOf G (sg i)) (nthS Gp i)))
+  (have h2 (And (SubTy Gp sg G) (And (forall [i Nat] (= (skOf G (sg i)) (nthS Gp i))) (forall [i Nat] (= (skel (sg i)) Sk.unit)))) h)
+  (exact (And.left (And.right h2))))
+(thm subOK_skel [Gp :- (List Sk), sg :- (=> Nat Exp), G :- (List Sk), h :- (SubOK Gp sg G)]
+  (forall [i Nat] (= (skel (sg i)) Sk.unit))
+  (have h2 (And (SubTy Gp sg G) (And (forall [i Nat] (= (skOf G (sg i)) (nthS Gp i))) (forall [i Nat] (= (skel (sg i)) Sk.unit)))) h)
+  (exact (And.right (And.right h2))))
+(thm subOK_mk [Gp :- (List Sk), sg :- (=> Nat Exp), G :- (List Sk),
+               h1 :- (forall [i Nat] (forall [s Sk] (=> (= (nthS Gp i) (Option.some Sk s)) (SkJ Bool.false G (sg i) s)))),
+               h2 :- (forall [i Nat] (= (skOf G (sg i)) (nthS Gp i))),
+               h3 :- (forall [i Nat] (= (skel (sg i)) Sk.unit))]
+  (SubOK Gp sg G)
+  (exact (And.intro h1 (And.intro h2 h3))))
+
+(thm someS_inj [x :- Sk, y :- Sk, h :- (= (Option.some Sk x) (Option.some Sk y))] (= x y)
+  (cases h) (rfl))
+
+(thm subTy_up [a :- Sk, Gp :- (List Sk), sg :- (=> Nat Exp), G :- (List Sk),
+               h :- (forall [i Nat] (forall [s Sk] (=> (= (nthS Gp i) (Option.some Sk s)) (SkJ Bool.false G (sg i) s))))]
+  (forall [i Nat] (forall [s Sk] (=> (= (nthS (List.cons Sk a Gp) i) (Option.some Sk s))
+                                     (SkJ Bool.false (List.cons Sk a G) (up sg i) s))))
+  (intro i)
+  (exact (Nat.rec$0
+    (fn [j :- Nat] (forall [s Sk] (=> (Eq (Option Sk) (nthS (List.cons Sk a Gp) j) (Option.some Sk s))
+                                      (SkJ Bool.false (List.cons Sk a G) (up sg j) s))))
+    (fn [s :- Sk, h0 :- (Eq (Option Sk) (nthS (List.cons Sk a Gp) Nat.zero) (Option.some Sk s))]
+      (SkJ.sVar (List.cons Sk a G) 0 s
+        (Eq.trans (nthS.eq_2 a G) (congrArg (fn [q :- Sk] (Option.some Sk q))
+                                    (someS_inj a s (Eq.trans (Eq.symm (nthS.eq_2 a Gp)) h0))))))
+    (fn [j :- Nat,
+         _ :- (forall [s Sk] (=> (Eq (Option Sk) (nthS (List.cons Sk a Gp) j) (Option.some Sk s))
+                                 (SkJ Bool.false (List.cons Sk a G) (up sg j) s))),
+         s :- Sk,
+         hj :- (Eq (Option Sk) (nthS (List.cons Sk a Gp) (Nat.succ j)) (Option.some Sk s))]
+      (skj_weaken Bool.false G (sg j) s (h j s (Eq.trans (Eq.symm (nthS.eq_3 a Gp j)) hj)) 0 a))
+    i)))
+
+(thm sko_up [a :- Sk, Gp :- (List Sk), sg :- (=> Nat Exp), G :- (List Sk),
+             h :- (forall [i Nat] (= (skOf G (sg i)) (nthS Gp i)))]
+  (forall [i Nat] (= (skOf (List.cons Sk a G) (up sg i)) (nthS (List.cons Sk a Gp) i)))
+  (intro i)
+  (exact (Nat.rec$0
+    (fn [j :- Nat] (Eq (Option Sk) (skOf (List.cons Sk a G) (up sg j)) (nthS (List.cons Sk a Gp) j)))
+    (Eq.trans (nthS.eq_2 a G) (Eq.symm (nthS.eq_2 a Gp)))
+    (fn [j :- Nat, _ :- (Eq (Option Sk) (skOf (List.cons Sk a G) (up sg j)) (nthS (List.cons Sk a Gp) j))]
+      (Eq.trans (skOf_lift (sg j) 0 a G) (Eq.trans (h j) (Eq.symm (nthS.eq_3 a Gp j)))))
+    i)))
+
+(thm subOK_up [a :- Sk, Gp :- (List Sk), sg :- (=> Nat Exp), G :- (List Sk), h :- (SubOK Gp sg G)]
+  (SubOK (List.cons Sk a Gp) (fn [i :- Nat] (up sg i)) (List.cons Sk a G))
+  (exact (subOK_mk (List.cons Sk a Gp) (fn [i :- Nat] (up sg i)) (List.cons Sk a G)
+           (subTy_up a Gp sg G (subOK_ty Gp sg G h))
+           (sko_up a Gp sg G (subOK_sko Gp sg G h))
+           (up_unit sg (subOK_skel Gp sg G h)))))
+
+;; --- lookup in, and shifting of, the substitution's environment -------------
+;; envAt_lookup: the variable clause (lookup, then coe s s = id).
+;; envAt_lift / envAt_up: under a binder the substitution is up σ; its
+;; environment at the extended context is the extended environment (item 1
+;; for the lifted values, coe_self for variable 0).
+
+(thm envAt_lookup [dn :- (=> Exp DenBody), G :- (List Sk), eta :- (HEnv G), Gp :- (List Sk)]
+  (forall [sg (=> Nat Exp)] (forall [i Nat] (forall [s Sk]
+    (=> (= (nthS Gp i) (Option.some Sk s)) (= (lookup Gp i s (envAt dn Gp sg G eta)) (dn (sg i) G s eta))))))
+  (induction Gp)
+  (intro sg i s h)
+  (exact (False.rec$0 (fn [_ :- False] (= (lookup (List.nil Sk) i s (envAt dn (List.nil Sk) sg G eta)) (dn (sg i) G s eta)))
+           (none_ne_someS s (Eq.trans (Eq.symm (nthS.eq_1 i)) h))))
+  (intro sg i)
+  (cases i)
+  (intro s h0)
+  (have e (= head s) (someS_inj head s (Eq.trans (Eq.symm (nthS.eq_2 head tail)) h0)))
+  (subst e)
+  (exact (coe_self s (dn (sg 0) G s eta)))
+  (intro s hj)
+  (exact (ih_tail (fn [k :- Nat] (sg (+ k 1))) n s (Eq.trans (Eq.symm (nthS.eq_3 head tail n)) hj))))
+
+(thm subTy_tail [s0 :- Sk, Gp :- (List Sk), sg :- (=> Nat Exp), G :- (List Sk), h :- (SubTy (List.cons Sk s0 Gp) sg G)]
+  (SubTy Gp (fn [i :- Nat] (sg (+ i 1))) G)
+  (have h2 (forall [i Nat] (forall [s Sk] (=> (= (nthS (List.cons Sk s0 Gp) i) (Option.some Sk s)) (SkJ Bool.false G (sg i) s)))) h)
+  (unfold SubTy)
+  (intro i s hi)
+  (exact (h2 (+ i 1) s (Eq.trans (nthS.eq_3 s0 Gp i) hi))))
+
+(thm envAt_lift [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), pv :- DenFn, cp :- Nat,
+                 a :- Sk, G :- (List Sk), eta :- (HEnv G), v :- (Car a), Gp :- (List Sk)]
+  (forall [sg (=> Nat Exp)]
+    (=> (SubTy Gp sg G)
+        (= (envAt (denAt chkf dec encTy pv cp) Gp (fn [i :- Nat] (lift 1 0 (sg i))) (List.cons Sk a G) (Prod.mk v eta))
+           (envAt (denAt chkf dec encTy pv cp) Gp sg G eta))))
+  (induction Gp)
+  (intro sg h)
+  (rfl)
+  (intro sg h)
+  (have h2 (forall [i Nat] (forall [s Sk] (=> (= (nthS (List.cons Sk head tail) i) (Option.some Sk s)) (SkJ Bool.false G (sg i) s)))) h)
+  (have e1 (= (denAt chkf dec encTy pv cp (lift 1 0 (sg 0)) (List.cons Sk a G) head (Prod.mk v eta))
+              (denAt chkf dec encTy pv cp (sg 0) G head eta))
+    (denAt_weaken chkf dec encTy pv cp Bool.false G (sg 0) head (h2 0 head (nthS.eq_2 head tail)) 0 a eta v))
+  (have e2 (= (envAt (denAt chkf dec encTy pv cp) tail (fn [i :- Nat] (lift 1 0 (sg (+ i 1)))) (List.cons Sk a G) (Prod.mk v eta))
+              (envAt (denAt chkf dec encTy pv cp) tail (fn [i :- Nat] (sg (+ i 1))) G eta))
+    (ih_tail (fn [i :- Nat] (sg (+ i 1))) (subTy_tail head tail sg G h)))
+  (exact (Eq.trans
+    (congrArg (fn [q :- (Car head)] (Prod.mk q (envAt (denAt chkf dec encTy pv cp) tail (fn [i :- Nat] (lift 1 0 (sg (+ i 1)))) (List.cons Sk a G) (Prod.mk v eta)))) e1)
+    (congrArg (fn [q :- (HEnv tail)] (Prod.mk (denAt chkf dec encTy pv cp (sg 0) G head eta) q)) e2))))
+
+(thm envAt_up [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), pv :- DenFn, cp :- Nat,
+               a :- Sk, Gp :- (List Sk), sg :- (=> Nat Exp), G :- (List Sk), eta :- (HEnv G), v :- (Car a), h :- (SubOK Gp sg G)]
+  (= (envAt (denAt chkf dec encTy pv cp) (List.cons Sk a Gp) (fn [i :- Nat] (up sg i)) (List.cons Sk a G) (Prod.mk v eta))
+     (Prod.mk v (envAt (denAt chkf dec encTy pv cp) Gp sg G eta)))
+  (exact (Eq.trans
+    (congrArg (fn [q :- (Car a)] (Prod.mk q (envAt (denAt chkf dec encTy pv cp) Gp (fn [i :- Nat] (lift 1 0 (sg i))) (List.cons Sk a G) (Prod.mk v eta))))
+              (coe_self a v))
+    (congrArg (fn [q :- (HEnv Gp)] (Prod.mk v q))
+              (envAt_lift chkf dec encTy pv cp a G eta v Gp sg (subOK_ty Gp sg G h))))))
+
+;; --- skOf and base types under substitution ---------------------------------
+;; skOf_subst: skOf commutes with a substitution that is skOf-faithful
+;; (skOf G (σ i) = nthS Gp i) and sends variables to terms (skeleton Unit,
+;; so that skel of a substituted type is unchanged: skel_subst).
+
+(defn- skof-subst-case [ctor]
+  (cond
+    (= ctor 'var) '[(exact (hk i))]
+    (= ctor 'ite) '[(exact (ih_t Gp sg G hk hu))]
+    (= ctor 'lam)
+    '[(exact (Eq.trans (skOf_lam_eq G r (subst sg A) (subst (upn 1 sg) t))
+               (Eq.trans (congrArg (fn [q :- Sk] (lamSk q (skOf (List.cons Sk q G) (subst (upn 1 sg) t)))) (skel_subst A sg hu))
+                 (Eq.trans (congrArg (fn [o :- (Option Sk)] (lamSk (skel A) o))
+                             (ih_t (List.cons Sk (skel A) Gp) (upn 1 sg) (List.cons Sk (skel A) G)
+                                   (sko_up (skel A) Gp sg G hk) (upn_unit 1 sg hu)))
+                   (Eq.symm (skOf_lam_eq Gp r A t))))))]
+    (= ctor 'app)
+    '[(exact (Eq.trans (skOf_app_eq G (subst sg f) (subst sg u))
+               (Eq.trans (congrArg appSk (ih_f Gp sg G hk hu)) (Eq.symm (skOf_app_eq Gp f u)))))]
+    (skel-field ctor)
+    (let [[F k] (skel-field ctor)]
+      [(list 'exact (list 'congrArg '(fn [q :- Sk] (Option.some Sk q))
+                          (if (zero? k)
+                            (list 'skel_subst F 'sg 'hu)
+                            (list 'skel_subst F (list 'upn k 'sg) (list 'upn_unit k 'sg 'hu)))))])
+    :else '[(rfl)]))
+
+(a/prove-theorem 'skOf_subst '[e :- Exp]
+  '(forall [Gp (List Sk)] (forall [sg (=> Nat Exp)] (forall [G (List Sk)]
+     (=> (forall [i Nat] (= (skOf G (sg i)) (nthS Gp i)))
+         (forall [i Nat] (= (skel (sg i)) Sk.unit))
+         (= (skOf G (subst sg e)) (skOf Gp e))))))
+  (into ['(induction e)]
+        (mapcat (fn [[ctor _]] (cons '(intro Gp sg G hk hu) (skof-subst-case ctor))) exp-fields)))
+
+(a/prove-theorem 'subst_base '[D :- Exp]
+  '(=> (= (isBaseTy D) true) (forall [sg (=> Nat Exp)] (= (subst sg D) D)))
+  (into ['(cases D)]
+        (mapcat (fn [[ctor _]] (if (base-ctors ctor) '[(intro hb sg) (rfl)] '[(intro hb) (cases hb)])) exp-fields)))
+
+;; ===========================================================================
+;; §8  Lemma 3.1 (substitution), for substitutions satisfying SubOK
+;; ===========================================================================
+;; Motive, for a derivation Gp ⊢ t : s:  for every target context G,
+;; substitution σ with SubOK Gp σ G, and environment η : HEnv G,
+;;   ⟦subst σ t⟧ G s η = ⟦t⟧ Gp s (envAt ⟦·⟧ Gp σ G η).
+;; The case terms use the abbreviations of §4 with these holes:
+;;   (%H2 f s ih)                  subterm f, same contexts;
+;;   (%HB2 [binders] vals f bs s ih)  subterm f under the clause's binders
+;;       of skeletons bs (innermost first), holding the values vals: the
+;;       hypothesis at upn k σ (SubOK by subOK_up k times), then the
+;;       environment rewritten by envAt_up k times (binder-eq);
+;;   (%EQB vals f bs s ih)         the same equation without funext.
+
+(def ^:private DD '(denAt chkf dec encTy pv cp))
+(def ^:private ER '(envAt (denAt chkf dec encTy pv cp) Gp sg G en))
+
+(defn- SB [Gp t s]
+  (list 'forall '[G (List Sk)] (list 'forall '[sg (=> Nat Exp)] (list 'forall '[en (HEnv G)]
+    (list '=> (list 'SubOK Gp 'sg 'G)
+          (list '= (D (list 'subst 'sg t) 'G s 'en) (D t Gp s (list 'envAt DD Gp 'sg 'G 'en))))))))
+
+(defn- upn-sg [k] (if (zero? k) 'sg (list 'upn k 'sg)))
+(defn- cons-all [bs base] (reduce (fn [acc b] (list 'List.cons 'Sk b acc)) base (reverse bs)))
+(defn- pair-all [vs base] (reduce (fn [acc v] (list 'Prod.mk v acc)) base (reverse vs)))
+
+(defn- binder-eq
+  "Proof of D (subst (upn k sg) f) ctxL s envL = D f ctxR s envR, for binder
+  skeletons bs = [b1 … bk] (innermost first) and values vs = [v1 … vk]."
+  [vs f bs s ih]
+  (let [k (count bs)
+        ;; level j (1..k): binders b_{k-j+1} … b_k
+        suffix (fn [j] (drop (- k j) bs))
+        vsuffix (fn [j] (drop (- k j) vs))
+        GpJ (fn [j] (cons-all (suffix j) 'Gp))
+        GJ (fn [j] (cons-all (suffix j) 'G))
+        ELJ (fn [j] (pair-all (vsuffix j) 'en))
+        ERJ (fn [j] (pair-all (vsuffix j) ER))
+        S (reduce (fn [acc j] (list 'subOK_up (nth bs (- k j)) (GpJ (dec j)) (upn-sg (dec j)) (GJ (dec j)) acc))
+                  'hs (range 1 (inc k)))
+        E (reduce (fn [acc j]
+                    (let [b (nth bs (- k j)) v (nth vs (- k j))
+                          step (list 'envAt_up 'chkf 'dec 'encTy 'pv 'cp b (GpJ (dec j)) (upn-sg (dec j)) (GJ (dec j)) (ELJ (dec j)) v
+                                     (reduce (fn [acc2 jj] (list 'subOK_up (nth bs (- k jj)) (GpJ (dec jj)) (upn-sg (dec jj)) (GJ (dec jj)) acc2))
+                                             'hs (range 1 j)))]
+                      (if (= j 1)
+                        step
+                        (list 'Eq.trans step (list 'congrArg (list 'fn ['qe ':- (list 'HEnv (GpJ (dec j)))] (list 'Prod.mk v 'qe)) acc)))))
+                  nil (range 1 (inc k)))]
+    (list 'Eq.trans (list ih (GJ k) (upn-sg k) (ELJ k) S)
+          (list 'congrArg (list 'fn ['qe ':- (list 'HEnv (GpJ k))] (D f (GpJ k) s 'qe)) E))))
+
+(defn- expand2 [form]
+  (walk/postwalk
+   (fn [x]
+     (if (seq? x)
+       (case (first x)
+         %SB (apply SB (rest x))
+         %D (apply D (rest x))
+         %H2 (let [[_ f s ih] x]
+               [(list 'Car s) (D (list 'subst 'sg f) 'G s 'en) (D f 'Gp s ER) (list ih 'G 'sg 'en 'hs)])
+         %EQB (let [[_ vs f bs s ih] x] (binder-eq vs f bs s ih))
+         %HB2 (let [[_ binders vs f bs s ih] x
+                    k (count bs)
+                    vars (take-nth 3 binders)
+                    types (take-nth 3 (drop 2 binders))
+                    body-l (D (list 'subst (upn-sg k) f) (cons-all bs 'G) s (pair-all vs 'en))
+                    body-r (D f (cons-all bs 'Gp) s (pair-all vs ER))
+                    eqn (binder-eq vs f bs s ih)
+                    pf (reduce (fn [acc [v t]] (list 'funext (list 'fn [v ':- t] acc))) eqn (reverse (map vector vars types)))]
+                (if (empty? binders)
+                  [(list 'Car s) body-l body-r pf]
+                  [(concat ['=>] types [(list 'Car s)]) (list 'fn binders body-l) (list 'fn binders body-r) pf]))
+         %CONG (cong (second x) (drop 2 x))
+         x)
+       x))
+   form))
+
+(defn- sb-thm! [nm params prop tactics]
+  (a/prove-theorem nm (lv (expand2 (into dparams params))) (lv (expand2 prop)) (lv (expand2 tactics))))
+(defn- sb-simple! [nm params concl-e concl-s tmpl holes]
+  (sb-thm! nm params (list '%SB 'Gp concl-e concl-s)
+           ['(intro G sg en hs) (list 'exact (list* '%CONG tmpl holes))]))
+
+(sb-thm! 'sb_var '[Gp :- (List Sk), i :- Nat, s :- Sk, h :- (= (nthS Gp i) (Option.some Sk s))]
+  '(%SB Gp (Exp.var i) s)
+  '[(intro G sg en hs)
+    (exact (Eq.symm (envAt_lookup (denAt chkf dec encTy pv cp) G en Gp sg i s h)))])
+
+(sb-simple! 'sb_ite '[Gp :- (List Sk), b :- Exp, t :- Exp, e :- Exp, s :- Sk,
+                      ih_hb :- (%SB Gp b Sk.bool), ih_ht :- (%SB Gp t s), ih_he :- (%SB Gp e s)]
+  '(Exp.ite b t e) 's
+  '(Bool.rec$1 (fn [_ :- Bool] (Car s)) q1 q2 q3)
+  '[(%H2 e s ih_he) (%H2 t s ih_ht) (%H2 b Sk.bool ih_hb)])
+
+(sb-simple! 'sb_lam '[Gp :- (List Sk), r :- U, A :- Exp, t :- Exp, s :- Sk,
+                      ih_ht :- (%SB (List.cons Sk (skel A) Gp) t s)]
+  '(Exp.lam r A t) '(Sk.arr (skel A) s)
+  'q1 '[(%HB2 [a0 :- (Car (skel A))] [a0] t [(skel A)] s ih_ht)])
+
+(sb-simple! 'sb_recN '[Gp :- (List Sk), P :- Exp, z :- Exp, st :- Exp, n :- Exp,
+                       ih_hz :- (%SB Gp z (skel P)), ih_hs :- (%SB (sk2 (skel P) Sk.nat Gp) st (skel P)), ih_hn :- (%SB Gp n Sk.nat)]
+  '(Exp.recN P z st n) '(skel P)
+  '(Nat.rec$1 (fn [_ :- Nat] (Car (skel P))) q1 q2 q3)
+  '[(%H2 z (skel P) ih_hz)
+    (%HB2 [k :- Nat, acc :- (Car (skel P))] [acc k] st [(skel P) Sk.nat] (skel P) ih_hs)
+    (%H2 n Sk.nat ih_hn)])
+
+;; --- the remaining cases -----------------------------------------------------------
+
+(sb-simple! 'sb_elimB '[Gp :- (List Sk), P :- Exp, b :- Exp, t :- Exp, e :- Exp,
+                        ih_hb :- (%SB Gp b Sk.bool), ih_ht :- (%SB Gp t (skel P)), ih_he :- (%SB Gp e (skel P))]
+  '(Exp.elimB P b t e) '(skel P)
+  '(Bool.rec$1 (fn [_ :- Bool] (Car (skel P))) q1 q2 q3)
+  '[(%H2 e (skel P) ih_he) (%H2 t (skel P) ih_ht) (%H2 b Sk.bool ih_hb)])
+(sb-simple! 'sb_succ '[Gp :- (List Sk), n :- Exp, ih_h :- (%SB Gp n Sk.nat)]
+  '(Exp.succ n) 'Sk.nat
+  '(coe Sk.nat Sk.nat (Nat.succ q1)) '[(%H2 n Sk.nat ih_h)])
+(sb-simple! 'sb_caseL '[Gp :- (List Sk), P :- Exp, x :- Exp, bs :- Exp,
+                        ih_hx :- (%SB Gp x Sk.lbl), ih_hb :- (%SB Gp bs (Sk.arr Sk.lbl (skel P)))]
+  '(Exp.caseL P x bs) '(skel P)
+  '(q1 q2) '[(%H2 bs (Sk.arr Sk.lbl (skel P)) ih_hb) (%H2 x Sk.lbl ih_hx)])
+(sb-simple! 'sb_bcons '[Gp :- (List Sk), h :- Exp, t :- Exp, s :- Sk,
+                        ih_hh :- (%SB Gp h s), ih_ht :- (%SB Gp t (Sk.arr Sk.lbl s))]
+  '(Exp.bcons h t) '(Sk.arr Sk.lbl s)
+  '(fn [v :- Nat] (Nat.rec$1 (fn [_ :- Nat] (Car s)) q1 (fn [k :- Nat, w :- (Car s)] (q2 (coe Sk.lbl Sk.lbl k))) (coe Sk.lbl Sk.lbl v)))
+  '[(%H2 h s ih_hh) (%H2 t (Sk.arr Sk.lbl s) ih_ht)])
+(sb-simple! 'sb_sleaf '[Gp :- (List Sk), x :- Exp, ih_h :- (%SB Gp x Sk.lbl)]
+  '(Exp.sleaf x) 'Sk.syn
+  '(coe Sk.syn Sk.syn (Code.sl q1)) '[(%H2 x Sk.lbl ih_h)])
+(sb-simple! 'sb_snode '[Gp :- (List Sk), x :- Exp, c1 :- Exp, c2 :- Exp,
+                        ih_hx :- (%SB Gp x Sk.lbl), ih_h1 :- (%SB Gp c1 Sk.syn), ih_h2 :- (%SB Gp c2 Sk.syn)]
+  '(Exp.snode x c1 c2) 'Sk.syn
+  '(coe Sk.syn Sk.syn (Code.sn q1 q2 q3)) '[(%H2 x Sk.lbl ih_hx) (%H2 c1 Sk.syn ih_h1) (%H2 c2 Sk.syn ih_h2)])
+(sb-simple! 'sb_recS '[Gp :- (List Sk), P :- Exp, tl :- Exp, tn :- Exp, c :- Exp,
+                       ih_hl :- (%SB (List.cons Sk Sk.lbl Gp) tl (skel P)),
+                       ih_hn :- (%SB (sk2 (skel P) (skel P) (sk2 Sk.syn Sk.syn (List.cons Sk Sk.lbl Gp))) tn (skel P)),
+                       ih_hc :- (%SB Gp c Sk.syn)]
+  '(Exp.recS P tl tn c) '(skel P)
+  '(Code.rec$1 (fn [_ :- Code] (Car (skel P))) q1 q2 q3)
+  '[(%HB2 [l :- Nat] [l] tl [Sk.lbl] (skel P) ih_hl)
+    (%HB2 [l :- Nat, a0 :- Code, b0 :- Code, ya :- (Car (skel P)), yb :- (Car (skel P))] [yb ya b0 a0 l] tn
+          [(skel P) (skel P) Sk.syn Sk.syn Sk.lbl] (skel P) ih_hn)
+    (%H2 c Sk.syn ih_hc)])
+(sb-simple! 'sb_leaf '[Gp :- (List Sk), x :- Exp, ih_h :- (%SB Gp x Sk.lbl)]
+  '(Exp.leaf x) 'Sk.cert
+  '(coe Sk.cert Sk.cert (Code.sl q1)) '[(%H2 x Sk.lbl ih_h)])
+(sb-simple! 'sb_node '[Gp :- (List Sk), d :- Exp, x :- Exp, r1 :- Exp, r2 :- Exp,
+                       ih_hx :- (%SB Gp x Sk.lbl), ih_h1 :- (%SB Gp r1 Sk.cert), ih_h2 :- (%SB Gp r2 Sk.cert)]
+  '(Exp.node d x r1 r2) 'Sk.cert
+  '(coe Sk.cert Sk.cert (Code.sn q1 q2 q3)) '[(%H2 x Sk.lbl ih_hx) (%H2 r1 Sk.cert ih_h1) (%H2 r2 Sk.cert ih_h2)])
+(sb-simple! 'sb_itR '[Gp :- (List Sk), X :- Exp, g :- Exp, h :- Exp, r :- Exp,
+                      ih_hg :- (%SB Gp g (Sk.arr Sk.lbl (skel X))),
+                      ih_hh :- (%SB Gp h (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr (skel X) (Sk.arr (skel X) (skel X)))))),
+                      ih_hr :- (%SB Gp r Sk.cert)]
+  '(Exp.itR X g h r) '(skel X)
+  '(Code.rec$1 (fn [_ :- Code] (Car (skel X))) (fn [l :- Nat] (q1 l))
+      (fn [l :- Nat, a0 :- Code, b0 :- Code, ya :- (Car (skel X)), yb :- (Car (skel X))] (q2 Unit.unit l ya yb)) q3)
+  '[(%H2 g (Sk.arr Sk.lbl (skel X)) ih_hg)
+    (%H2 h (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr (skel X) (Sk.arr (skel X) (skel X))))) ih_hh)
+    (%H2 r Sk.cert ih_hr)])
+(sb-simple! 'sb_prn '[Gp :- (List Sk), r :- Exp, ih_h :- (%SB Gp r Sk.cert)]
+  '(Exp.prn r) 'Sk.syn
+  '(coe Sk.syn Sk.syn q1) '[(%H2 r Sk.cert ih_h)])
+(sb-simple! 'sb_pair '[Gp :- (List Sk), r :- U, A :- Exp, B :- Exp, x :- Exp, y :- Exp,
+                       ih_hx :- (%SB Gp x (skel A)), ih_hy :- (%SB Gp y (skel B))]
+  '(Exp.pair (Exp.tSig r A B) x y) '(Sk.prod (skel A) (skel B))
+  '(Prod.mk q1 q2) '[(%H2 x (skel A) ih_hx) (%H2 y (skel B) ih_hy)])
+(sb-simple! 'sb_chk '[Gp :- (List Sk), c :- Exp, d :- Exp, ih_hc :- (%SB Gp c Sk.syn), ih_hd :- (%SB Gp d Sk.syn)]
+  '(Exp.chk c d) 'Sk.bool
+  '(coe Sk.bool Sk.bool (chkf q1 q2)) '[(%H2 c Sk.syn ih_hc) (%H2 d Sk.syn ih_hd)])
+
+(sb-thm! 'sb_app '[Gp :- (List Sk), f :- Exp, u :- Exp, s :- Sk, t :- Sk,
+                   ih_hf :- (%SB Gp f (Sk.arr s t)), ih_hu :- (%SB Gp u s), hu :- (SkJ Bool.false Gp u s)]
+  '(%SB Gp (Exp.app f u) t)
+  '[(intro G sg en hs)
+    (exact (optrec_congr (Car t) (dflt t)
+             (fn [su :- Sk] ((%D (subst sg f) G (Sk.arr su t) en) (%D (subst sg u) G su en)))
+             (fn [su :- Sk] ((%D f Gp (Sk.arr su t) (envAt (denAt chkf dec encTy pv cp) Gp sg G en))
+                             (%D u Gp su (envAt (denAt chkf dec encTy pv cp) Gp sg G en))))
+             (skOf G (subst sg u)) (skOf Gp u) s
+             (skOf_subst u Gp sg G (subOK_sko Gp sg G hs) (subOK_skel Gp sg G hs)) (skOf_typed Bool.false Gp u s hu)
+             (%CONG (q1 q2) (%H2 f (Sk.arr s t) ih_hf) (%H2 u s ih_hu))))])
+
+(sb-thm! 'sb_letp '[Gp :- (List Sk), C :- Exp, p :- Exp, t :- Exp, s1 :- Sk, s2 :- Sk,
+                    ih_hp :- (%SB Gp p (Sk.prod s1 s2)), ih_ht :- (%SB (sk2 s2 s1 Gp) t (skel C)),
+                    hp :- (SkJ Bool.false Gp p (Sk.prod s1 s2))]
+  '(%SB Gp (Exp.letp C p t) (skel C))
+  '[(intro G sg en hs)
+    (exact (optrec_congr (Car (skel C)) (dflt (skel C))
+             (fn [sp :- Sk] (splitProd (skel C) sp (%D (subst sg p) G sp en)
+                              (fn [a0 :- Sk, b0 :- Sk, va :- (Car a0), vb :- (Car b0)]
+                                (%D (subst (upn 2 sg) t) (sk2 b0 a0 G) (skel C) (Prod.mk vb (Prod.mk va en))))))
+             (fn [sp :- Sk] (splitProd (skel C) sp (%D p Gp sp (envAt (denAt chkf dec encTy pv cp) Gp sg G en))
+                              (fn [a0 :- Sk, b0 :- Sk, va :- (Car a0), vb :- (Car b0)]
+                                (%D t (sk2 b0 a0 Gp) (skel C) (Prod.mk vb (Prod.mk va (envAt (denAt chkf dec encTy pv cp) Gp sg G en)))))))
+             (skOf G (subst sg p)) (skOf Gp p) (Sk.prod s1 s2)
+             (skOf_subst p Gp sg G (subOK_sko Gp sg G hs) (subOK_skel Gp sg G hs)) (skOf_typed Bool.false Gp p (Sk.prod s1 s2) hp)
+             (Eq.trans
+               (%CONG (%D (subst (upn 2 sg) t) (sk2 s2 s1 G) (skel C) (Prod.mk (Prod.snd q1) (Prod.mk (Prod.fst q1) en)))
+                      (%H2 p (Sk.prod s1 s2) ih_hp))
+               (%EQB [(Prod.snd (%D p Gp (Sk.prod s1 s2) (envAt (denAt chkf dec encTy pv cp) Gp sg G en)))
+                      (Prod.fst (%D p Gp (Sk.prod s1 s2) (envAt (denAt chkf dec encTy pv cp) Gp sg G en)))]
+                     t [s2 s1] (skel C) ih_ht))))])
+
+(sb-thm! 'sb_refl '[Gp :- (List Sk), D :- Exp, r :- Exp, e :- Exp, hb :- (= (isBaseTy D) true), ih_hr :- (%SB Gp r Sk.cert)]
+  '(%SB Gp (Exp.refl D r e) (skel D))
+  ['(intro G sg en hs)
+   '(have hD (= (subst sg D) D) (subst_base D hb sg))
+   '(change (= (%D (Exp.refl (subst sg D) (subst sg r) (subst sg e)) G (skel D) en)
+               (%D (Exp.refl D r e) Gp (skel D) (envAt (denAt chkf dec encTy pv cp) Gp sg G en))))
+   '(rw [hD])
+   (list 'exact (list '%CONG refl-tmpl '(%H2 r Sk.cert ih_hr)))])
+
+(sb-thm! 'sb_insp '[Gp :- (List Sk), X :- Exp, r :- Exp, c :- Exp, t1 :- Exp, t2 :- Exp,
+                    ih_hr :- (%SB Gp r Sk.cert), ih_hc :- (%SB Gp c Sk.syn),
+                    ih_h1 :- (%SB (sk2 Sk.unit Sk.cert Gp) t1 (skel X)), ih_h2 :- (%SB (sk2 Sk.unit Sk.cert Gp) t2 (skel X))]
+  '(%SB Gp (Exp.insp X r c t1 t2) (skel X))
+  '[(intro G sg en hs)
+    (exact (Eq.trans
+      (%CONG (Bool.rec$1 (fn [_ :- Bool] (Car (skel X))) q1 q2
+               (chkf (%D (subst sg r) G Sk.cert en) (%D (subst sg c) G Sk.syn en)))
+        (%HB2 [] [Unit.unit (%D (subst sg r) G Sk.cert en)] t2 [Sk.unit Sk.cert] (skel X) ih_h2)
+        (%HB2 [] [Unit.unit (%D (subst sg r) G Sk.cert en)] t1 [Sk.unit Sk.cert] (skel X) ih_h1))
+      (%CONG (Bool.rec$1 (fn [_ :- Bool] (Car (skel X)))
+               (%D t2 (sk2 Sk.unit Sk.cert Gp) (skel X) (Prod.mk Unit.unit (Prod.mk q1 (envAt (denAt chkf dec encTy pv cp) Gp sg G en))))
+               (%D t1 (sk2 Sk.unit Sk.cert Gp) (skel X) (Prod.mk Unit.unit (Prod.mk q1 (envAt (denAt chkf dec encTy pv cp) Gp sg G en))))
+               (chkf q1 q2))
+        (%H2 r Sk.cert ih_hr) (%H2 c Sk.syn ih_hc))))])
+
+;; --- the induction, and Lemma 3.1 at every budget ------------------------------------
+
+(def ^:private sb-args
+  '{sVar [sb_var G i s h]
+    sIte [sb_ite G b t e s ih_hb ih_ht ih_he]
+    sElimB [sb_elimB G P b t e ih_hb ih_ht ih_he]
+    sSucc [sb_succ G n ih_h]
+    sRecN [sb_recN G P z st n ih_hz ih_hs ih_hn]
+    sCaseL [sb_caseL G P x bs ih_hx ih_hb]
+    sBcons [sb_bcons G h t s ih_hh ih_ht]
+    sSleaf [sb_sleaf G x ih_h]
+    sSnode [sb_snode G x c1 c2 ih_hx ih_h1 ih_h2]
+    sRecS [sb_recS G P tl tn c ih_hl ih_hn ih_hc]
+    sLeaf [sb_leaf G x ih_h]
+    sNode [sb_node G d x r1 r2 ih_hx ih_h1 ih_h2]
+    sItR [sb_itR G X g h r ih_hg ih_hh ih_hr]
+    sPrn [sb_prn G r ih_h]
+    sLam [sb_lam G r A t s ih_ht]
+    sApp [sb_app G f u s t ih_hf ih_hu hu]
+    sPair [sb_pair G r A B x y ih_hx ih_hy]
+    sLetp [sb_letp G C p t s1 s2 ih_hp ih_ht hp]
+    sChk [sb_chk G c d ih_hc ih_hd]
+    sRefl [sb_refl G D r e hb ih_hr]
+    sInsp [sb_insp G X r c t1 t2 ih_hr ih_hc ih_h1 ih_h2]})
+
+(defn- sb-case [rule]
+  (if-let [[lem & args] (sb-args rule)]
+    [(list 'exact (list* lem 'chkf 'dec 'encTy 'pv 'cp args))]
+    '[(intro G2 sg en hs) (rfl)]))
+
+(a/prove-theorem 'denAt_subst
+  (lv (into dparams '[w0 :- Bool, G0 :- (List Sk), e0 :- Exp, s0 :- Sk, der :- (SkJ w0 G0 e0 s0)]))
+  (lv (SB 'G0 'e0 's0))
+  (into ['(induction der)] (mapcat sb-case skj-rules)))
+
+;; den n and denAt at its lower table are the same function of terms.
+(thm den_fun_eq [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat]
+  (= (den chkf dec encTy n) (denAt chkf dec encTy (prevOf chkf dec encTy n) n))
+  (funext t)
+  (exact (den_eq_denAt chkf dec encTy n t)))
+
+;; Lemma 3.1 (R4-metatheory.md §3.2), at every budget n: for a derivation
+;; Gp ⊢ t : s (a type or a term) and a substitution σ with SubOK Gp σ G,
+;;   ⟦t[σ]⟧ⁿ_G η = ⟦t⟧ⁿ_Gp (x ↦ ⟦σ x⟧ⁿ_G η)      (envOf, lcert.formal.subst).
+;; The skOf-faithfulness part of SubOK is an addition to the paper's
+;; hypotheses, necessary by lemma31_skj_counterexample (§5).
+(thm lemma31 [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+              w0 :- Bool, Gp :- (List Sk), t :- Exp, s :- Sk, der :- (SkJ w0 Gp t s),
+              G :- (List Sk), sg :- (=> Nat Exp), en :- (HEnv G), hs :- (SubOK Gp sg G)]
+  (= (den chkf dec encTy n (subst sg t) G s en) (den chkf dec encTy n t Gp s (envOf chkf dec encTy n Gp sg G en)))
+  (rw [(envOf_envAt chkf dec encTy n Gp sg G en)])
+  (rw [(den_fun_eq chkf dec encTy n)])
+  (exact (denAt_subst chkf dec encTy (prevOf chkf dec encTy n) n w0 Gp t s der G sg en hs)))
+
