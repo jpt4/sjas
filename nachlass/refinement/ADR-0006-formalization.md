@@ -117,6 +117,47 @@ now checks.
   implicitly, since `chk′`'s type is closed. The formal rule states it.
 - **`V` takes the skeleton explicitly,** since carriers depend on it.
 
+## Statement index
+
+Each paper result, the kernel constant that states it, and where the formal
+statement differs. "Proved" means kernel-checked with no axioms; every
+theorem quantifies over `chkf dec encTy`, and those using the checker take
+`CheckSpec` as a hypothesis.
+
+| Paper | Constant (namespace) | Status | Differences |
+| --- | --- | --- | --- |
+| §1.1 usage algebra | `uadd_*`, `umul_*` (usage) | proved | — |
+| §1.4 typing rules | `Tl`, `Rt` (judgment); `SkJ` (conv) | defined | `tBrs` pseudo-type for branch lists; App₀/App require `clean A` |
+| §1.5 conversion | `Hd`, `Step`, `Cv` (conv) | defined | steps are recorded with a position |
+| §1.6 Check, via Lemmas 2.6–2.8, E1, E5 | `CheckSpec` (model) | hypothesis | the trust base; F7 is to discharge it |
+| Lemma 2.5 | `lemma25_tl`, `lemma25_rt`, `skel_subst`, `cv_skel` (skeletons) | proved | — |
+| §3.1–3.2 carriers, ⟦·⟧ⁿ | `Car`, `den` = `denT n n` (carrier, den) | defined | a table of levels (reflect runs at ⟦t′⟧ᵐ: `denT_stable`) |
+| Lemma 3.1 | `lemma31`, `den_subst1`, `den_substL` (substitution) | proved | hypothesis `SubOK` (substituted terms have `skOf`) — see the counterexample `lemma31_skj_counterexample` |
+| §3.3 V | `V` (sem) | defined | explicit skeleton argument |
+| Lemma 3.3 monotonicity | `V_mono` (mono) | proved | — |
+| Lemma 3.3 substitution | `lemma33_subst`, `V_subst1`, `V_substL` (substitution) | proved | `SubOK`; stated at skeleton `skel A` |
+| Lemma 3.3 conversion, Lemma 3.2 | — | open | |
+| Lemma 3.4 | `Lemma_3_4` (mono) | proved | — |
+| Lemma 3.5 | `EnvSat_split`, `EnvSat_omega` (splitting) | proved | plus `EnvSat_one`, `EnvSat_mono` |
+| Lemma 3.6 | `Lemma_3_6` (model); cases `F_*` (fundamental) | stated; 12 of 32 cases proved | |
+| Theorem 1, Corollary 3.7 | `Theorem_1`, `Corollary_3_7` (model) | stated | |
+| Theorem 2 (H) | `Theorem_2_H` (model) | proved | |
+| Theorem 2 (H₁), Theorem 3, §4–§6 | — | open | |
+
+## Review guide
+
+The kernel checks every proof, so a review adds most by checking what the
+kernel cannot: that each formal statement says what the paper says.
+- **Definitions against the paper:** `Rt`/`Tl` against §1.4, `Cv` against
+  §1.5, `den` against §3.2, `V` against §3.3, `EnvSat` against §3.4.
+- **Hypotheses that could make a theorem vacuous:** `CheckSpec` (is it
+  satisfiable by the real `Check`? is it all the metatheory uses?), `SubOK`,
+  the `clean` premise.
+- **Generators** (`tools/*.py`, and the Clojure generators in `unfold`,
+  `mono`, `syntactic`, `fundamental`): do they emit the intended statements?
+- **Deviations** above: do any change what the theorems mean?
+Proofs need not be read. `bin/test-formal` rebuilds and re-checks everything.
+
 ## Consequences
 
 - The metatheory's status line will change from "paper proofs" to naming what
