@@ -118,3 +118,14 @@
     (is (b/rejects? '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code)]
                     '(V chkf dec encTy 1 Exp.tR (List.nil Sk) Unit.unit 0 Sk.cert (Code.sn 0 (Code.sl 0) (Code.sl 0)))
                     '[(decide)]))))
+
+(require 'lcert.formal.skeletons)
+(deftest f2e-lemma-2-5
+  (testing "Lemma 2.5: conversion preserves skeletons; derivations are skeleton-typed"
+    (doseq [c '[skel_subst step_skel cv_skel lemma25_tl lemma25_tl_term lemma25_tl_type lemma25_rt]]
+      (is (b/has? c) (str c))))
+  (testing "the hypotheses are necessary (kernel-checked counterexamples)"
+    (is (b/has? 'skel_subst_needs_unit))
+    (is (b/has? 'step_skel_needs_wf)))
+  (testing "a derivation's skeleton is not arbitrary"
+    (is (b/rejects? '[] '(SkJ Bool.false (List.nil Sk) Exp.tt Sk.nat) '[(constructor)]))))
