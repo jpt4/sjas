@@ -54,6 +54,17 @@
   §9  Item 3, Lemma 3.3's substitution clause: for Gp ⊢ A type and
       SubOK Gp σ G, V n (subst σ A) G η k (skel A) v ↔
       V n A Gp (envOf n Gp σ G η) k (skel A) v (V_subst, lemma33_subst).
+  §10 Item 4, corollaries at the natural environments, for den and V:
+      subst1 u (β, B[u/x]):  den_subst1, V_subst1 — the environment is
+      (⟦u⟧ⁿη, η);  substL us (let, recN, recSyn):  den_substL, V_substL —
+      the environment is the values of us in front of η (envL), with the
+      let instance den_substL2.  Each substituted term u : s must satisfy
+      skOf G u = some s (not a branch list), as §5 requires.
+
+  Deviations from the paper, all forced (see §5):
+  - Lemma 3.1's substitutions carry skOf-faithfulness (SubOK).
+  - Lemma 3.3's substitution clause is stated at the skeleton skel A (the
+    skeleton the model uses V at), not at every skeleton.
 
   Proof technique.  Each case lemma is one explicit proof term: a chain of
   Eq.trans/congrArg steps (`cong`), one step per recursive call of the
@@ -1556,4 +1567,277 @@
   (Iff (V chkf dec encTy n (subst sg A) G en k (skel A) v)
        (V chkf dec encTy n A Gp (envOf chkf dec encTy n Gp sg G en) k (skel A) v))
   (exact (Iff.of_eq (V_subst chkf dec encTy n Gp A der G sg en hs k v))))
+
+;; ===========================================================================
+;; §10  Item 4: corollaries for subst1 and substL, at their natural environments
+;; ===========================================================================
+;; The substitutions of the typing rules (App, ElimB, RecN, CaseL, RecS: B[u/x]
+;; by subst1; Let and the ι-steps of recN / recSyn by substL) are built from
+;; consSub u σ (variable 0 ↦ u, i+1 ↦ σ i) and the identity:
+;;   subst1 u  = subst (consSub u var)            (subst1_consSub)
+;;   substL us = subst (instLS us)                (substL_instLS; instLS is
+;;               instL by structural recursion, so it reduces on cons)
+;; SubOK is closed under consSub (subOK_cons) and holds for the identity
+;; (subOK_id), and the environments compute: envOf of consSub is (⟦u⟧, …)
+;; by definition, and envOf of the identity is η (envOf_id).  The
+;; hypotheses on each substituted term u : s are its typing and
+;; skOf G u = some s (u is not a branch list; §5).
+;;
+;; For lists: appS ss G is ss ++ G (by List.rec, so definitional on cons),
+;; TyL G us ss says the terms us are typed at the skeletons ss (equal
+;; lengths), and envL … en ss us is the environment (⟦u₀⟧, (⟦u₁⟧, …, η)).
+
+;; consSub u σ: variable 0 ↦ u, variable i+1 ↦ σ i.
+(kdef consSub (=> Exp (=> Nat Exp) Nat Exp)
+  (fn [u :- Exp, sg :- (=> Nat Exp), i :- Nat]
+    (Nat.rec$1 (fn [_ :- Nat] Exp) u (fn [j :- Nat, _ :- Exp] (sg j)) i)))
+
+(thm subOK_id [G :- (List Sk)] (SubOK G (fn [i :- Nat] (Exp.var i)) G)
+  (exact (subOK_mk G (fn [i :- Nat] (Exp.var i)) G
+           (fn [i :- Nat, s :- Sk, h :- (Eq (Option Sk) (nthS G i) (Option.some Sk s))] (SkJ.sVar G i s h))
+           (fn [i :- Nat] (Eq.refl$1 (nthS G i)))
+           (fn [i :- Nat] (Eq.refl$1 Sk.unit)))))
+
+(thm subOK_cons [u :- Exp, s :- Sk, Gp :- (List Sk), sg :- (=> Nat Exp), G :- (List Sk),
+                 hu :- (SkJ Bool.false G u s), hk :- (= (skOf G u) (Option.some Sk s)), h :- (SubOK Gp sg G)]
+  (SubOK (List.cons Sk s Gp) (consSub u sg) G)
+  (exact (subOK_mk (List.cons Sk s Gp) (consSub u sg) G
+    (fn [i :- Nat]
+      (Nat.rec$0
+        (fn [j :- Nat] (forall [s2 Sk] (=> (Eq (Option Sk) (nthS (List.cons Sk s Gp) j) (Option.some Sk s2)) (SkJ Bool.false G (consSub u sg j) s2))))
+        (fn [s2 :- Sk, h0 :- (Eq (Option Sk) (nthS (List.cons Sk s Gp) Nat.zero) (Option.some Sk s2))]
+          (skj_cast Bool.false G u s s2 hu (someS_inj s s2 (Eq.trans (Eq.symm (nthS.eq_2 s Gp)) h0))))
+        (fn [j :- Nat,
+             _ :- (forall [s2 Sk] (=> (Eq (Option Sk) (nthS (List.cons Sk s Gp) j) (Option.some Sk s2)) (SkJ Bool.false G (consSub u sg j) s2))),
+             s2 :- Sk, hj :- (Eq (Option Sk) (nthS (List.cons Sk s Gp) (Nat.succ j)) (Option.some Sk s2))]
+          (subOK_ty Gp sg G h j s2 (Eq.trans (Eq.symm (nthS.eq_3 s Gp j)) hj)))
+        i))
+    (fn [i :- Nat]
+      (Nat.rec$0
+        (fn [j :- Nat] (Eq (Option Sk) (skOf G (consSub u sg j)) (nthS (List.cons Sk s Gp) j)))
+        (Eq.trans hk (Eq.symm (nthS.eq_2 s Gp)))
+        (fn [j :- Nat, _ :- (Eq (Option Sk) (skOf G (consSub u sg j)) (nthS (List.cons Sk s Gp) j))]
+          (Eq.trans (subOK_sko Gp sg G h j) (Eq.symm (nthS.eq_3 s Gp j))))
+        i))
+    (fn [i :- Nat]
+      (Nat.rec$0
+        (fn [j :- Nat] (Eq Sk (skel (consSub u sg j)) Sk.unit))
+        (skj_term_unit Bool.false G u s hu (Eq.refl$1 Bool.false))
+        (fn [j :- Nat, _ :- (Eq Sk (skel (consSub u sg j)) Sk.unit)] (subOK_skel Gp sg G h j))
+        i)))))
+
+(thm envAt_var [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), pv :- DenFn, cp :- Nat,
+                G :- (List Sk)]
+  (forall [en (HEnv G)] (= (envAt (denAt chkf dec encTy pv cp) G (fn [i :- Nat] (Exp.var i)) G en) en))
+  (induction G)
+  (intro en)
+  (cases en)
+  (rfl)
+  (intro en)
+  (cases en)
+  (exact (Eq.trans
+    (congrArg (fn [q :- (Car head)] (Prod.mk q (envAt (denAt chkf dec encTy pv cp) tail (fn [i :- Nat] (lift 1 0 (Exp.var i))) (List.cons Sk head tail) (Prod.mk fst snd))))
+              (coe_self head fst))
+    (congrArg (fn [q :- (HEnv tail)] (Prod.mk fst q))
+      (Eq.trans (envAt_lift chkf dec encTy pv cp head tail snd fst tail (fn [i :- Nat] (Exp.var i))
+                  (subOK_ty tail (fn [i :- Nat] (Exp.var i)) tail (subOK_id tail)))
+                (ih_tail snd))))))
+
+(thm envOf_id [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+               G :- (List Sk), en :- (HEnv G)]
+  (= (envOf chkf dec encTy n G (fn [i :- Nat] (Exp.var i)) G en) en)
+  (rw [(envOf_envAt chkf dec encTy n G (fn [i :- Nat] (Exp.var i)) G en)])
+  (rw [(den_fun_eq chkf dec encTy n)])
+  (exact (envAt_var chkf dec encTy (prevOf chkf dec encTy n) n G en)))
+
+(thm inst1_consSub [u :- Exp, i :- Nat] (= (inst1 u i) (consSub u (fn [j :- Nat] (Exp.var j)) i))
+  (cases i)
+  (rfl)
+  (rfl))
+
+(thm subst1_consSub [u :- Exp, t :- Exp]
+  (= (subst1 u t) (subst (consSub u (fn [j :- Nat] (Exp.var j))) t))
+  (exact (congrArg (fn [sg :- (=> Nat Exp)] (subst sg t))
+                   (funext (fn [i :- Nat] (inst1_consSub u i))))))
+
+;; β / B[u/x]: the natural environment of subst1 u is (⟦u⟧, η).
+(thm den_subst1 [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+                 w0 :- Bool, G :- (List Sk), s :- Sk, t :- Exp, s2 :- Sk, der :- (SkJ w0 (List.cons Sk s G) t s2),
+                 u :- Exp, hu :- (SkJ Bool.false G u s), hk :- (= (skOf G u) (Option.some Sk s)), en :- (HEnv G)]
+  (= (den chkf dec encTy n (subst1 u t) G s2 en)
+     (den chkf dec encTy n t (List.cons Sk s G) s2 (Prod.mk (den chkf dec encTy n u G s en) en)))
+  (rw [(subst1_consSub u t)])
+  (exact (Eq.trans
+    (lemma31 chkf dec encTy n w0 (List.cons Sk s G) t s2 der G (consSub u (fn [j :- Nat] (Exp.var j))) en
+             (subOK_cons u s G (fn [j :- Nat] (Exp.var j)) G hu hk (subOK_id G)))
+    (congrArg (fn [q :- (HEnv G)] (den chkf dec encTy n t (List.cons Sk s G) s2 (Prod.mk (den chkf dec encTy n u G s en) q)))
+              (envOf_id chkf dec encTy n G en)))))
+
+(thm V_subst1 [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+               G :- (List Sk), s :- Sk, A :- Exp, der :- (SkJ Bool.true (List.cons Sk s G) A Sk.unit),
+               u :- Exp, hu :- (SkJ Bool.false G u s), hk :- (= (skOf G u) (Option.some Sk s)), en :- (HEnv G),
+               k :- Nat, v :- (Car (skel A))]
+  (Iff (V chkf dec encTy n (subst1 u A) G en k (skel A) v)
+       (V chkf dec encTy n A (List.cons Sk s G) (Prod.mk (den chkf dec encTy n u G s en) en) k (skel A) v))
+  (rw [(subst1_consSub u A)])
+  (exact (Iff.of_eq (Eq.trans
+    (V_subst chkf dec encTy n (List.cons Sk s G) A der G (consSub u (fn [j :- Nat] (Exp.var j))) en
+             (subOK_cons u s G (fn [j :- Nat] (Exp.var j)) G hu hk (subOK_id G)) k v)
+    (congrArg (fn [q :- (HEnv G)] (V chkf dec encTy n A (List.cons Sk s G) (Prod.mk (den chkf dec encTy n u G s en) q) k (skel A) v))
+              (envOf_id chkf dec encTy n G en))))))
+
+(kdef instLS (=> (List Exp) Nat Exp)
+  (fn [us :- (List Exp)]
+    (List.rec$1$0 Exp (fn [_ :- (List Exp)] (=> Nat Exp))
+      (fn [i :- Nat] (Exp.var i))
+      (fn [u :- Exp, rest :- (List Exp), ih :- (=> Nat Exp)] (consSub u ih))
+      us)))
+
+(thm instL_instLS [us :- (List Exp)] (forall [i Nat] (= (instL us i) (instLS us i)))
+  (induction us)
+  (intro i)
+  (exact (instL.eq_1 i))
+  (intro i)
+  (cases i)
+  (exact (instL.eq_2 head tail))
+  (exact (Eq.trans (instL.eq_3 head tail n) (ih_tail n))))
+
+(thm substL_instLS [us :- (List Exp), t :- Exp] (= (substL us t) (subst (instLS us) t))
+  (exact (congrArg (fn [sg :- (=> Nat Exp)] (subst sg t)) (funext (fn [i :- Nat] (instL_instLS us i))))))
+
+;; ss ++ G, by List.rec (definitional on cons).
+(kdef appS (=> (List Sk) (List Sk) (List Sk))
+  (fn [ss :- (List Sk), G :- (List Sk)]
+    (List.rec$1$0 Sk (fn [_ :- (List Sk)] (List Sk)) G (fn [s :- Sk, rest :- (List Sk), ih :- (List Sk)] (List.cons Sk s ih)) ss)))
+
+;; TyL G us ss: the list us of terms is typed at the skeletons ss in G, each
+;; skOf-faithful; the lists have equal length.
+(kdef TyL (=> (List Sk) (List Exp) (List Sk) Prop)
+  (fn [G :- (List Sk), us :- (List Exp)]
+    (List.rec$1$0 Exp (fn [_ :- (List Exp)] (=> (List Sk) Prop))
+      (fn [ss :- (List Sk)] (Eq (List Sk) ss (List.nil Sk)))
+      (fn [u :- Exp, rest :- (List Exp), ih :- (=> (List Sk) Prop)]
+        (fn [ss :- (List Sk)]
+          (List.rec$1$0 Sk (fn [_ :- (List Sk)] Prop) False
+            (fn [s :- Sk, ss2 :- (List Sk), _ :- Prop]
+              (And (SkJ Bool.false G u s) (And (Eq (Option Sk) (skOf G u) (Option.some Sk s)) (ih ss2))))
+            ss)))
+      us)))
+
+(kdef headE (=> (List Exp) Exp)
+  (fn [us :- (List Exp)] (List.rec$1$0 Exp (fn [_ :- (List Exp)] Exp) (Exp.var 0) (fn [u :- Exp, rest :- (List Exp), _ :- Exp] u) us)))
+(kdef tailE (=> (List Exp) (List Exp))
+  (fn [us :- (List Exp)] (List.rec$1$0 Exp (fn [_ :- (List Exp)] (List Exp)) (List.nil Exp) (fn [u :- Exp, rest :- (List Exp), _ :- (List Exp)] rest) us)))
+
+;; The natural environment of substL us: the values ⟦u⟧ in front of η.
+(kdef envL
+  (forall [chkf (=> Code Code Bool)] (forall [dec (=> Code (Option (Prod Nat (Prod Exp Exp))))] (forall [encTy (=> Exp Code)]
+    (forall [n Nat] (forall [G (List Sk)] (=> (HEnv G) (forall [ss (List Sk)] (=> (List Exp) (HEnv (appS ss G))))))))))
+  (fn [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+       n :- Nat, G :- (List Sk), en :- (HEnv G), ss :- (List Sk)]
+    (List.rec$1$0 Sk (fn [ss2 :- (List Sk)] (=> (List Exp) (HEnv (appS ss2 G))))
+      (fn [us :- (List Exp)] en)
+      (fn [s :- Sk, rest :- (List Sk), ih :- (=> (List Exp) (HEnv (appS rest G)))]
+        (fn [us :- (List Exp)] (Prod.mk (den chkf dec encTy n (headE us) G s en) (ih (tailE us)))))
+      ss)))
+
+(thm subOK_list_cons [G :- (List Sk), u :- Exp, rest :- (List Exp), s :- Sk, ss2 :- (List Sk),
+                      ih :- (forall [ss (List Sk)] (=> (TyL G rest ss) (SubOK (appS ss G) (instLS rest) G))),
+                      h :- (TyL G (List.cons Exp u rest) (List.cons Sk s ss2))]
+  (SubOK (appS (List.cons Sk s ss2) G) (instLS (List.cons Exp u rest)) G)
+  (have h2 (And (SkJ Bool.false G u s) (And (Eq (Option Sk) (skOf G u) (Option.some Sk s)) (TyL G rest ss2))) h)
+  (exact (subOK_cons u s (appS ss2 G) (instLS rest) G (And.left h2) (And.left (And.right h2))
+           (ih ss2 (And.right (And.right h2))))))
+
+(thm subOK_list [G :- (List Sk), us :- (List Exp)]
+  (forall [ss (List Sk)] (=> (TyL G us ss) (SubOK (appS ss G) (instLS us) G)))
+  (induction us)
+  (intro ss h)
+  (have h2 (= ss (List.nil Sk)) h)
+  (subst h2)
+  (exact (subOK_id G))
+  (intro ss)
+  (exact (List.rec$0$0 Sk
+    (fn [ss3 :- (List Sk)] (=> (TyL G (List.cons Exp head tail) ss3) (SubOK (appS ss3 G) (instLS (List.cons Exp head tail)) G)))
+    (fn [h :- (TyL G (List.cons Exp head tail) (List.nil Sk))]
+      (False.rec$0 (fn [_ :- False] (SubOK (appS (List.nil Sk) G) (instLS (List.cons Exp head tail)) G)) h))
+    (fn [s :- Sk, ss2 :- (List Sk),
+         _ :- (=> (TyL G (List.cons Exp head tail) ss2) (SubOK (appS ss2 G) (instLS (List.cons Exp head tail)) G)),
+         h :- (TyL G (List.cons Exp head tail) (List.cons Sk s ss2))]
+      (subOK_list_cons G head tail s ss2 ih_tail h))
+    ss)))
+
+(thm envOf_list_cons [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+                      G :- (List Sk), en :- (HEnv G), u :- Exp, rest :- (List Exp), s :- Sk, ss2 :- (List Sk),
+                      ih :- (forall [ss (List Sk)] (=> (TyL G rest ss)
+                              (= (envOf chkf dec encTy n (appS ss G) (instLS rest) G en) (envL chkf dec encTy n G en ss rest)))),
+                      h :- (TyL G (List.cons Exp u rest) (List.cons Sk s ss2))]
+  (= (envOf chkf dec encTy n (appS (List.cons Sk s ss2) G) (instLS (List.cons Exp u rest)) G en)
+     (envL chkf dec encTy n G en (List.cons Sk s ss2) (List.cons Exp u rest)))
+  (have h2 (And (SkJ Bool.false G u s) (And (Eq (Option Sk) (skOf G u) (Option.some Sk s)) (TyL G rest ss2))) h)
+  (exact (congrArg (fn [q :- (HEnv (appS ss2 G))] (Prod.mk (den chkf dec encTy n u G s en) q))
+                   (ih ss2 (And.right (And.right h2))))))
+
+(thm envOf_list [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+                 G :- (List Sk), en :- (HEnv G), us :- (List Exp)]
+  (forall [ss (List Sk)] (=> (TyL G us ss)
+    (= (envOf chkf dec encTy n (appS ss G) (instLS us) G en) (envL chkf dec encTy n G en ss us))))
+  (induction us)
+  (intro ss h)
+  (have h2 (= ss (List.nil Sk)) h)
+  (subst h2)
+  (exact (envOf_id chkf dec encTy n G en))
+  (intro ss)
+  (exact (List.rec$0$0 Sk
+    (fn [ss3 :- (List Sk)] (=> (TyL G (List.cons Exp head tail) ss3)
+      (Eq (HEnv (appS ss3 G)) (envOf chkf dec encTy n (appS ss3 G) (instLS (List.cons Exp head tail)) G en)
+                              (envL chkf dec encTy n G en ss3 (List.cons Exp head tail)))))
+    (fn [h :- (TyL G (List.cons Exp head tail) (List.nil Sk))]
+      (False.rec$0 (fn [_ :- False] (Eq (HEnv (appS (List.nil Sk) G)) (envOf chkf dec encTy n (appS (List.nil Sk) G) (instLS (List.cons Exp head tail)) G en)
+                                        (envL chkf dec encTy n G en (List.nil Sk) (List.cons Exp head tail)))) h))
+    (fn [s :- Sk, ss2 :- (List Sk),
+         _ :- (=> (TyL G (List.cons Exp head tail) ss2)
+                  (Eq (HEnv (appS ss2 G)) (envOf chkf dec encTy n (appS ss2 G) (instLS (List.cons Exp head tail)) G en)
+                                          (envL chkf dec encTy n G en ss2 (List.cons Exp head tail)))),
+         h :- (TyL G (List.cons Exp head tail) (List.cons Sk s ss2))]
+      (envOf_list_cons chkf dec encTy n G en head tail s ss2 ih_tail h))
+    ss)))
+
+;; β for let and the ι-steps of recN / recSyn: the natural environment of
+;; substL us is the values of us in front of η (envL).
+(thm den_substL [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+                 G :- (List Sk), us :- (List Exp), ss :- (List Sk), hty :- (TyL G us ss),
+                 w0 :- Bool, t :- Exp, s2 :- Sk, der :- (SkJ w0 (appS ss G) t s2), en :- (HEnv G)]
+  (= (den chkf dec encTy n (substL us t) G s2 en)
+     (den chkf dec encTy n t (appS ss G) s2 (envL chkf dec encTy n G en ss us)))
+  (rw [(substL_instLS us t)])
+  (exact (Eq.trans
+    (lemma31 chkf dec encTy n w0 (appS ss G) t s2 der G (instLS us) en (subOK_list G us ss hty))
+    (congrArg (fn [q :- (HEnv (appS ss G))] (den chkf dec encTy n t (appS ss G) s2 q))
+              (envOf_list chkf dec encTy n G en us ss hty)))))
+
+(thm V_substL [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+               G :- (List Sk), us :- (List Exp), ss :- (List Sk), hty :- (TyL G us ss),
+               A :- Exp, der :- (SkJ Bool.true (appS ss G) A Sk.unit), en :- (HEnv G), k :- Nat, v :- (Car (skel A))]
+  (Iff (V chkf dec encTy n (substL us A) G en k (skel A) v)
+       (V chkf dec encTy n A (appS ss G) (envL chkf dec encTy n G en ss us) k (skel A) v))
+  (rw [(substL_instLS us A)])
+  (exact (Iff.of_eq (Eq.trans
+    (V_subst chkf dec encTy n (appS ss G) A der G (instLS us) en (subOK_list G us ss hty) k v)
+    (congrArg (fn [q :- (HEnv (appS ss G))] (V chkf dec encTy n A (appS ss G) q k (skel A) v))
+              (envOf_list chkf dec encTy n G en us ss hty))))))
+
+;; The instance of the let rule (β for let: t[a/x, b/y], substL [b, a]):
+;; t is read in the context y : s2, x : s1 at the environment (⟦b⟧, ⟦a⟧, η).
+(thm den_substL2 [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+                  G :- (List Sk), a0 :- Exp, s1 :- Sk, b0 :- Exp, s2 :- Sk,
+                  ha :- (SkJ Bool.false G a0 s1), hka :- (= (skOf G a0) (Option.some Sk s1)),
+                  hb :- (SkJ Bool.false G b0 s2), hkb :- (= (skOf G b0) (Option.some Sk s2)),
+                  w0 :- Bool, t :- Exp, s3 :- Sk, der :- (SkJ w0 (sk2 s2 s1 G) t s3), en :- (HEnv G)]
+  (= (den chkf dec encTy n (substL (List.cons Exp b0 (List.cons Exp a0 (List.nil Exp))) t) G s3 en)
+     (den chkf dec encTy n t (sk2 s2 s1 G) s3
+          (Prod.mk (den chkf dec encTy n b0 G s2 en) (Prod.mk (den chkf dec encTy n a0 G s1 en) en))))
+  (exact (den_substL chkf dec encTy n G (List.cons Exp b0 (List.cons Exp a0 (List.nil Exp))) (List.cons Sk s2 (List.cons Sk s1 (List.nil Sk)))
+           (And.intro hb (And.intro hkb (And.intro ha (And.intro hka (Eq.refl$1 (List.nil Sk))))))
+           w0 t s3 der en)))
 
