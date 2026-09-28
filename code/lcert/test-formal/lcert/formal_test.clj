@@ -129,3 +129,38 @@
     (is (b/has? 'step_skel_needs_wf)))
   (testing "a derivation's skeleton is not arbitrary"
     (is (b/rejects? '[] '(SkJ Bool.false (List.nil Sk) Exp.tt Sk.nat) '[(constructor)]))))
+
+(require 'lcert.formal.substitution)
+(def ^:private den-params
+  '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code)])
+
+(deftest f3h-weakening
+  (testing "item 1: weakening (renaming by one insertion), with its lookup and skOf lemmas"
+    (doseq [c '[insS insE lookup_ins_above lookup_ins_below nthS_ins_above nthS_ins_below
+                skOf_lift skOf_typed denAt_weaken den_eq_denAt den_weaken]]
+      (is (b/has? c) (str c))))
+  (testing "the inserted value lands at the cut: variable 0 of the extended environment is the new value"
+    (is (b/rejects? '[] '(= (lookup (insS 0 Sk.nat (List.cons Sk Sk.nat (List.nil Sk))) 0 Sk.nat
+                                    (insE 0 Sk.nat (List.cons Sk Sk.nat (List.nil Sk)) (Prod.mk 5 Unit.unit) 7))
+                            5)
+                    '[(rfl)])))
+  (testing "without lifting the term, inserting a variable changes the denotation"
+    (is (b/rejects? den-params
+                    '(= (den chkf dec encTy 0 (Exp.var 0) (insS 0 Sk.nat (List.cons Sk Sk.nat (List.nil Sk))) Sk.nat
+                             (insE 0 Sk.nat (List.cons Sk Sk.nat (List.nil Sk)) (Prod.mk 5 Unit.unit) 7))
+                        (den chkf dec encTy 0 (Exp.var 0) (List.cons Sk Sk.nat (List.nil Sk)) Sk.nat (Prod.mk 5 Unit.unit)))
+                    '[(rfl)]))))
+
+(deftest f3h-lemma-3-1-counterexample
+  (testing "Lemma 3.1 over skeleton typing alone fails: a branch list substituted in argument position"
+    (is (b/has? 'lemma31_skj_counterexample))
+    (is (b/has? 'cex31_lhs))
+    (is (b/has? 'cex31_rhs)))
+  (testing "the two sides of the counterexample really differ"
+    (is (b/rejects? den-params
+                    '(= (den chkf dec encTy 0
+                             (subst (fn [i :- Nat] (inst1 (Exp.bcons (Exp.succ Exp.zero) Exp.bnil) i))
+                                    (Exp.app (Exp.lam U.uw (Exp.tPi U.uw Exp.tLbl Exp.tNat) (Exp.var 0)) (Exp.var 0)))
+                             (List.nil Sk) (Sk.arr Sk.lbl Sk.nat) Unit.unit 0)
+                        1)
+                    '[(rfl)]))))
