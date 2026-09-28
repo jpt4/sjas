@@ -33,8 +33,11 @@
   - ElimBool: the motive at ⟦b⟧; each branch's IH at P[tt], P[ff] becomes
     V(P) at (tt, η), (ff, η) by V_subst1, and the scrutinee picks one.
 
+  - Var: in a well-formed context, the entry's value, read through the lift
+    of its type by V_lift (vweaken.clj).
+
   Pending (they need Lemma 3.1/3.3's substitution or weakening clauses, 3.2,
-  or the outer induction on n): Var, App₀, Pair₀, Pair, Let, Conv,
+  or the outer induction on n): App₀, Pair₀, Pair, Let, Conv,
   RecN, CaseL, Bcons, RecS, ItR, H₁, Refl, Inspect."
   (:require [ansatz.core :as a]
             [lcert.formal.base :refer [thm kdef]]
@@ -53,7 +56,8 @@
             [lcert.formal.mono]
             [lcert.formal.substitution]
             [lcert.formal.skeletons]
-            [lcert.formal.skof]))
+            [lcert.formal.skof]
+            [lcert.formal.vweaken]))
 
 ;; --- the motive ----------------------------------------------------------------
 
@@ -425,3 +429,129 @@
      (list 'exact (list 'bool_rec_dep '(Car (skel P)) (list 'fn '[bv :- Bool, v :- (Car (skel P))] (VPb 'bv 'v))
                         '(den chkf dec encTy n e (skels D) (skel P) en) '(den chkf dec encTy n t (skels D) (skel P) en)
                         '(den chkf dec encTy n b (skels D) Sk.bool en) 've3 'vt3))]))
+
+;; --- variables -------------------------------------------------------------------
+
+;; Var.  ⟦var i⟧η = lookup i η, and its type is the i-th entry's, lifted past
+;; the entries before it: lift (i+1) 0 A.  By induction on the context: at
+;; the head, V_lift reads V(lift 1 0 A) at (a, η′) as V(A) at η′, where the
+;; entry's footprint condition puts a (usage nonzero); deeper, the IH at the
+;; tail, lift (i+2) 0 A = lift 1 0 (lift (i+1) 0 A) (lift_comp), and V_lift
+;; again.  V_lift needs the lifted type well-formed (var_wf), which is why
+;; the lemma assumes a well-formed context (WFCtx).  Footprints are raised to
+;; k by V_mono.  The cap is named cap here (Nat.succ's field is n).
+;; The i-th entry's type, lifted past the entries before it, is well-formed.
+(thm var_wf [chkf :- (=> Code Code Bool), D :- (List Exp)]
+  (=> (WFCtx chkf D) (forall [i Nat] (forall [A Exp] (=> (Eq (Option Exp) (nthE D i) (Option.some Exp A))
+    (SkJ Bool.true (skels D) (lift (+ i 1) 0 A) Sk.unit)))))
+  (induction D)
+  (intro hw i A h) (exact (False.elim$0 (none_ne_someE A (Eq.trans (Eq.symm (nthE.eq_1 i)) h))))
+  (intro hw i) (cases i) (all_goals (intro A h))
+  (have hX (SkJ Bool.true (skels tail) (lift (+ n 1) 0 A) Sk.unit) (ih_tail (And.right hw) n A (Eq.trans (Eq.symm (nthE.eq_3 head tail n)) h)))
+  (have hW (SkJ Bool.true (List.cons Sk (skel head) (skels tail)) (lift 1 0 (lift (+ n 1) 0 A)) Sk.unit)
+    (skj_weaken Bool.true (skels tail) (lift (+ n 1) 0 A) Sk.unit hX 0 (skel head)))
+  (exact (Eq.mp (congrArg (fn [e :- Exp] (SkJ Bool.true (List.cons Sk (skel head) (skels tail)) e Sk.unit)) (lift_comp A 1 (+ n 1) 0)) hW))
+  (have e (Eq Exp head A) (some_inj head A (Eq.trans (Eq.symm (nthE.eq_2 head tail)) h)))
+  (exact (Eq.mp (congrArg (fn [X :- Exp] (SkJ Bool.true (List.cons Sk (skel head) (skels tail)) (lift 1 0 X) Sk.unit)) e)
+                (skj_weaken Bool.true (skels tail) head Sk.unit (lemma25_tl_type chkf tail head (And.left hw)) 0 (skel head)))))
+
+(thm entry_nz [r :- U, j :- Nat, P :- (=> Nat Prop)]
+  (=> (Eq Bool (nonzero r) Bool.true) (EntryOK r j P) (Exists (fn [j2 :- Nat] (And (Nat.le j2 j) (P j2)))))
+  (cases r) (all_goals (intro hr he))
+  ;; ω: footprint 0, value in V₀
+  (have hw2 (And (Eq Nat j 0) (P 0)) he) (constructor) (exact 0) (constructor) (exact (Nat.zero_le j)) (exact (And.right hw2))
+  ;; 1: footprint j
+  (have h12 (P j) he) (constructor) (exact j) (constructor) (exact (Nat.le_refl j)) (exact h12)
+  ;; 0: excluded
+  (exact (Bool.noConfusion hr)))
+
+(thm some_injU [x :- U, y :- U, h :- (Eq (Option U) (Option.some U x) (Option.some U y))] (Eq U x y) (cases h) (rfl))
+(def ^:private CP '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), cap :- Nat])
+(defn- VAR-GOAL [D i A en k]
+  (list 'V 'chkf 'dec 'encTy 'cap (list 'lift (list '+ i 1) 0 A) (list 'skels D) en k (list 'skel (list 'lift (list '+ i 1) 0 A))
+        (list 'lookup (list 'skels D) i (list 'skel (list 'lift (list '+ i 1) 0 A)) en)))
+(defn- VAR-MOTIVE [D]
+  (list '=> (list 'WFCtx 'chkf D) (list 'forall '[i Nat] (list 'forall '[A Exp] (list '=> (list 'Eq '(Option Exp) (list 'nthE D 'i) '(Option.some Exp A))
+    (list 'forall '[us (List U)] (list 'forall '[r U] (list 'forall ['en (list 'HEnv (list 'skels D))] (list 'forall '[k Nat]
+      (list '=> '(Eq (Option U) (nthU us i) (Option.some U r)) '(Eq Bool (nonzero r) Bool.true) '(Nat.le k cap)
+            (list 'EnvSat 'chkf 'dec 'encTy 'cap D 'us 'en 'k)
+            (VAR-GOAL D 'i 'A 'en 'k)))))))))))
+(def ^:private CT '(List.cons Exp head tail))
+(def ^:private GT '(List.cons Sk (skel head) (skels tail)))
+(def ^:private X '(lift (+ m 1) 0 A))
+(defn- EOK [r0 jj] (list 'EntryOK r0 jj (list 'fn '[jx :- Nat] '(V chkf dec encTy cap head (skels tail) (Prod.snd en) jx (skel head) (Prod.fst en)))))
+(defn- cons-open [r0 us2]
+  [(list 'have 'hs2 (list 'Exists (list 'fn '[j :- Nat] (list 'Exists (list 'fn '[kk :- Nat]
+      (list 'And '(Nat.le (+ j kk) k) (list 'And (list 'EnvSat 'chkf 'dec 'encTy 'cap 'tail us2 '(Prod.snd en) 'kk) (EOK r0 'j))))))) 'hs)
+   '(refine' (exN _ _ hs2 _)) '(intro j hj) '(refine' (exN _ _ hj _)) '(intro kk hkk)
+   (list 'have 'p (list 'And '(Nat.le (+ j kk) k) (list 'And (list 'EnvSat 'chkf 'dec 'encTy 'cap 'tail us2 '(Prod.snd en) 'kk) (EOK r0 'j))) 'hkk)])
+(eval (list* 'lcert.formal.base/thm 'var_succ
+  (into CP ['head :- 'Exp 'tail :- '(List Exp) 'm :- 'Nat 'A :- 'Exp 'r0 :- 'U 'us2 :- '(List U) 'r :- 'U
+            'en :- (list 'HEnv (list 'skels CT)) 'k :- 'Nat
+            'hw :- (list 'WFCtx 'chkf CT) 'ih :- (VAR-MOTIVE 'tail)
+            'h :- (list 'Eq '(Option Exp) (list 'nthE CT '(Nat.succ m)) '(Option.some Exp A))
+            'hu :- '(Eq (Option U) (nthU (List.cons U r0 us2) (Nat.succ m)) (Option.some U r)) 'hr :- '(Eq Bool (nonzero r) Bool.true)
+            'hk :- '(Nat.le k cap) 'hs :- (list 'EnvSat 'chkf 'dec 'encTy 'cap CT '(List.cons U r0 us2) 'en 'k)])
+  (VAR-GOAL CT '(Nat.succ m) 'A 'en 'k)
+  (concat
+    ['(have hA2 (Eq (Option Exp) (nthE tail m) (Option.some Exp A)) (Eq.trans (Eq.symm (nthE.eq_3 head tail m)) h))
+     '(have hu2 (Eq (Option U) (nthU us2 m) (Option.some U r)) (Eq.trans (Eq.symm (nthU.eq_3 r0 us2 m)) hu))
+     (list 'have 'hX (list 'SkJ 'Bool.true '(skels tail) X 'Sk.unit) '(var_wf chkf tail (And.right hw) m A hA2))]
+    (cons-open 'r0 'us2)
+    ['(have hkk2 (Nat.le kk k) (Nat.le_trans (Nat.le_add_left kk j) (And.left p)))
+     '(have hkkc (Nat.le kk cap) (Nat.le_trans hkk2 hk))
+     (list 'have 'hv (VAR-GOAL 'tail 'm 'A '(Prod.snd en) 'kk) '(ih (And.right hw) m A hA2 us2 r (Prod.snd en) kk hu2 hr hkkc (And.left (And.right p))))
+     (list 'change (list 'V 'chkf 'dec 'encTy 'cap '(lift (+ (+ m 1) 1) 0 A) GT 'en 'k '(skel (lift (+ (+ m 1) 1) 0 A))
+                         (list 'lookup GT '(+ m 1) '(skel (lift (+ (+ m 1) 1) 0 A)) 'en)))
+     '(rw [(Eq.symm (lift_comp A 1 (+ m 1) 0))])
+     (list 'rw [(list 'skel_lift X 1 0)])
+     (list 'have 'hvk (list 'V 'chkf 'dec 'encTy 'cap X '(skels tail) '(Prod.snd en) 'k (list 'skel X) (list 'lookup '(skels tail) 'm (list 'skel X) '(Prod.snd en)))
+       (list 'V_mono 'chkf 'dec 'encTy 'cap X '(skels tail) '(Prod.snd en) 'kk 'k (list 'skel X) (list 'lookup '(skels tail) 'm (list 'skel X) '(Prod.snd en)) 'hkk2 'hk 'hv))
+     (list 'exact (list 'Eq.mpr (list 'V_lift 'chkf 'dec 'encTy 'cap '(skels tail) X 'hX 0 '(skel head) '(Prod.snd en) '(Prod.fst en) 'k
+                                      (list 'lookup '(skels tail) 'm (list 'skel X) '(Prod.snd en))) 'hvk))])))
+
+(eval (list* 'lcert.formal.base/thm 'var_zero
+  (into CP ['head :- 'Exp 'tail :- '(List Exp) 'A :- 'Exp 'r0 :- 'U 'us2 :- '(List U) 'r :- 'U
+            'en :- (list 'HEnv (list 'skels CT)) 'k :- 'Nat
+            'hw :- (list 'WFCtx 'chkf CT)
+            'h :- (list 'Eq '(Option Exp) (list 'nthE CT 'Nat.zero) '(Option.some Exp A))
+            'hu :- '(Eq (Option U) (nthU (List.cons U r0 us2) Nat.zero) (Option.some U r)) 'hr :- '(Eq Bool (nonzero r) Bool.true)
+            'hk :- '(Nat.le k cap) 'hs :- (list 'EnvSat 'chkf 'dec 'encTy 'cap CT '(List.cons U r0 us2) 'en 'k)])
+  (VAR-GOAL CT 'Nat.zero 'A 'en 'k)
+  (concat
+    ['(have e (Eq Exp head A) (some_inj head A (Eq.trans (Eq.symm (nthE.eq_2 head tail)) h)))
+     '(have er (Eq U r0 r) (some_injU r0 r (Eq.trans (Eq.symm (nthU.eq_2 r0 us2)) hu)))
+     '(have hr0 (Eq Bool (nonzero r0) Bool.true) (Eq.mp (congrArg (fn [q :- U] (Eq Bool (nonzero q) Bool.true)) (Eq.symm er)) hr))
+     '(rw [(Eq.symm e)])
+     (list 'change (list 'V 'chkf 'dec 'encTy 'cap '(lift 1 0 head) GT 'en 'k '(skel (lift 1 0 head)) (list 'lookup GT 0 '(skel (lift 1 0 head)) 'en)))
+     '(rw [(skel_lift head 1 0)])
+     (list 'change (list 'V 'chkf 'dec 'encTy 'cap '(lift 1 0 head) GT 'en 'k '(skel head) '(coe (skel head) (skel head) (Prod.fst en))))
+     '(rw [(coe_self (skel head) (Prod.fst en))])]
+    (cons-open 'r0 'us2)
+    ['(have he (Exists (fn [j2 :- Nat] (And (Nat.le j2 j) (V chkf dec encTy cap head (skels tail) (Prod.snd en) j2 (skel head) (Prod.fst en)))))
+        (entry_nz r0 j (fn [jx :- Nat] (V chkf dec encTy cap head (skels tail) (Prod.snd en) jx (skel head) (Prod.fst en))) hr0 (And.right (And.right p))))
+     '(refine' (exN _ _ he _)) '(intro j2 hj2)
+     '(have q (And (Nat.le j2 j) (V chkf dec encTy cap head (skels tail) (Prod.snd en) j2 (skel head) (Prod.fst en))) hj2)
+     '(have hjk (LE.le j2 k) (Nat.le_trans (And.left q) (Nat.le_trans (Nat.le_add_right j kk) (And.left p))))
+     '(have hvk (V chkf dec encTy cap head (skels tail) (Prod.snd en) k (skel head) (Prod.fst en))
+        (V_mono chkf dec encTy cap head (skels tail) (Prod.snd en) j2 k (skel head) (Prod.fst en) hjk hk (And.right q)))
+     '(exact (Eq.mpr (V_lift chkf dec encTy cap (skels tail) head (lemma25_tl_type chkf tail head (And.left hw)) 0 (skel head)
+                             (Prod.snd en) (Prod.fst en) k (Prod.fst en)) hvk))])))
+
+(eval (list 'lcert.formal.base/thm 'var_sem (conj CP 'D :- '(List Exp))
+  (VAR-MOTIVE 'D)
+  '(induction D)
+  '(intro hw i A h) '(exact (False.elim$0 (none_ne_someE A (Eq.trans (Eq.symm (nthE.eq_1 i)) h))))
+  '(intro hw i) '(cases i) '(all_goals (intro A h us)) '(all_goals (cases us)) '(all_goals (intro r en k hu hr hk hs))
+  '(exact (var_succ chkf dec encTy cap head tail _ A _ _ r en k hw ih_tail h hu hr hk hs))
+  '(exact (False.elim hs))
+  '(exact (var_zero chkf dec encTy cap head tail A _ _ r en k hw h hu hr hk hs))
+  '(exact (False.elim hs))))
+
+(case! 'F_var
+  (into '[i :- Nat, A :- Exp, r :- U, hwf :- (WFCtx chkf D), hA :- (Eq (Option Exp) (nthE D i) (Option.some Exp A)),
+          hu :- (Eq (Option U) (nthU us i) (Option.some U r)), hr :- (Eq Bool (nonzero r) Bool.true)]
+        (conj ENV 'hs :- (ES 'us 'k)))
+  (concl '(lift (+ i 1) 0 A) '(Exp.var i))
+  '[(rw [(den_var_at chkf dec encTy n i (skels D) (skel (lift (+ i 1) 0 A)) en)])
+    (exact (var_sem chkf dec encTy n D hwf i A hA us r en k hu hr hk hs))])

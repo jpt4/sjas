@@ -299,6 +299,15 @@
                   (consU U.u1 (consU U.u1 us2)) t2 (lift 2 0 X))]
          :where [D (vadd us1 (vadd (vscale U.uw us0) us2)) (Exp.insp X r c t1 t2) X]))
 
+;; WFCtx D: the context is well-formed, each entry a formed type over the
+;; entries after it (D lists the innermost entry first).  The paper presupposes
+;; well-formed contexts; Rt does not enforce it, so Lemma 3.6 states it (its
+;; Var case needs the entry's type formed to read V through the lift).
+(kdef WFCtx (forall [chkf (=> Code Code Bool)] (=> (List Exp) Prop))
+  (fn [chkf :- (=> Code Code Bool), D :- (List Exp)]
+    (List.rec$1$0 Exp (fn [_ :- (List Exp)] Prop) True
+      (fn [A :- Exp, rest :- (List Exp), ih :- Prop] (And (Tl chkf Bool.true rest A Exp.tUnit) ih)) D)))
+
 ;; Θₘ: m tokens, each at usage 1.
 (a/defn thetaD [m :- Nat] (List Exp) (match m [zero (List.nil Exp)] [(succ k) (List.cons Exp Exp.tDia (thetaD k))]))
 (a/defn thetaU [m :- Nat] (List U) (match m [zero (List.nil U)] [(succ k) (List.cons U U.u1 (thetaU k))]))

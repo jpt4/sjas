@@ -180,7 +180,8 @@
 (deftest f3j-fundamental-lemma-cases
   (testing "Lemma 3.6, the cases proved so far"
     (doseq [c '[Sound F_const F_succ F_sleaf F_snode F_prn F_chk F_lam0 F_lam1 F_lamw F_lam F_abort F_ite F_leaf F_node F_bnil
-                den_app_some F_app1 F_appw F_app sk_transport bool_rec_dep F_elimB]]
+                den_app_some F_app1 F_appw F_app sk_transport bool_rec_dep F_elimB
+                WFCtx var_wf entry_nz var_succ var_zero var_sem F_var]]
       (is (b/has? c) (str c))))
   (testing "a label constant must be below NL: lbl 100 is not in V(Lbl)"
     (is (not (b/rejects? '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat]

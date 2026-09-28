@@ -130,12 +130,13 @@
 
 ;; --- statements (§3) ---------------------------------------------------------------
 
-;; Lemma 3.6 (soundness at budget n).
+;; Lemma 3.6 (soundness at budget n), for well-formed contexts (the paper's
+;; presupposition; WFCtx, judgment.clj).
 (kdef Lemma_3_6 Prop
   (forall [chkf (=> Code Code Bool)] (forall [dec (=> Code (Option (Prod Nat (Prod Exp Exp))))] (forall [encTy (=> Exp Code)]
     (=> (CheckSpec chkf dec encTy)
       (forall [n Nat] (forall [D (List Exp)] (forall [us (List U)] (forall [t Exp] (forall [A Exp]
-        (=> (Rt chkf D us t A)
+        (=> (WFCtx chkf D) (Rt chkf D us t A)
           (forall [en (HEnv (skels D))] (forall [k Nat]
             (=> (Nat.le k n) (EnvSat chkf dec encTy n D us en k)
               (V chkf dec encTy n A (skels D) en k (skel A) (den chkf dec encTy n t (skels D) (skel A) en))))))))))))))))
