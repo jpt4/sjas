@@ -1,0 +1,1306 @@
+arXiv:1807.04717v2 [math.LO] 15 Nov 2018
+
+About the Chasm Separating the Goals of Hilbert’s
+Consistency Program From the Second Incompleteness
+Theorem
+Dan E.Willard∗
+State University of New York at Albany
+
+Abstract
+
+We have published several articles about generalizations and boundary-case
+exceptions to the Second Incompleteness Theorem during the last 25 years.
+The current paper will review some of our prior results and also introduce
+an “enriched” refinement of semantic tableaux deduction. While the Second
+Incompleteness Theorem is a strong result, we will emphasize its boundarycase exceptions are germane to Global Warming’s threat because our systems
+can own a simultaneous knowledge about their own consistency, together with
+an understanding of the Π1 implications of Peano Arithmetic.
+
+Keywords and Phrases: Gödel’s Second Incompleteness Theorem, Consistency,
+Hilbert’s Second Open Question, Hilbert-styled Deduction.
+Mathematics Subject Classification: 03B52; 03F25; 03F45; 03H13
+Comment: The bibliography section of this article contains citations to all Willard’s major
+prior papers about logic during 1993-2017.
+
+∗
+
+This research was partially supported by the NSF Grant CCR 0956495.
+
+1
+
+Introduction
+
+The existence of a deep chasm between the goals of Hilbert’s consistency program and
+the implications of Gödel’s Second Incompleteness Theorem was immediately apparent
+when Gödel announced his famous millennial discovery [19].
+Interestingly, neither Gödel (in 1931) nor Hilbert (during the remainder of his life)
+dismissed the existence of possible compromise solutions, whereby a fragment of the goals
+of the Consistency Program could remain intact. For instance, Hilbert never withdrew
+his statement ∗ for justifying his Consistency Program in [27]:
+∗ “ Let us admit that the situation in which we presently find ourselves with respect
+to paradoxes is in the long run intolerable. Just think: in mathematics, this paragon
+of reliability and truth, the very notions and inferences, as everyone learns, teaches,
+and uses them, lead to absurdities. And where else would reliability and truth be
+found if even mathematical thinking fails?”
+
+Indeed, the motto of Hilbert’s Consistency Program (“Wir müssen wissen—Wir werden
+wissen” ) was engraved onto Hilbert’s tombstone 1 .
+Also, Gödel was quite cautious (especially during the early 1930’s) not to speculate
+whether all facets of Hilbert’s Consistency program would come to a termination. He
+thus inserted the following cautious caveat into his famous 1931 millennial paper [19]:
+∗ ∗ “It must be expressly noted that Theorem XI” (e.g. the Second Incompleteness
+Theorem) “represents no contradiction of the formalistic standpoint of Hilbert. For
+this standpoint presupposes only the existence of a consistency proof by finite means,
+and there might conceivably be finite proofs which cannot be stated in P or in ... ”
+
+Several biographies of Gödel [8, 21, 74] have noted that Gödel’s intention (prior to 1930)
+was to establish Hilbert’s proposed objectives, before he formalized his famous result that
+led in the opposite direction. For instance, Yourgrau’s biography [74] of Gödel does record
+how von Neumann, found it necessary during the early 1930’s to “argue against Gödel
+himself ” about the definitive termination of Hilbert’s consistency program, which “for
+several years” after [19]’s publication, Gödel “was cautious not to prejudge”. It is known
+that Gödel had hinted that the Second Incompleteness Theorem was more significant
+during a 1933 Vienna lecture [20]. (Gödel has been recorded as having embraced the
+1
+
+English translation: “We must know: We will know.”
+
+1
+
+Second Incompleteness Theorem quite broadly during the mid-1930’s after he learned
+about Turing’s work [49].) Yet despite this endorsement, Gerald Sacks [43] has recalled
+Gödel telling him that some type of revival of Hilbert’s Consistency Program would be
+feasible (see footnote 2 for the exact details that Sacks has provided.)
+The research that has followed Gödel’s seminal 1931 discovery has mainly focused on
+studying generalizations of the Second Incompleteness Theorem (instead of also examining
+its boundary-case exceptions). Many of these generalizations of the Second Incompleteness Theorem [2, 4, 7, 11, 16, 23, 24, 31, 35, 36, 37, 39, 40, 45, 46, 50, 51, 60, 61, 64, 66]
+are quite beautiful. The author of this paper is especially impressed by a generalization of
+the Second Incompleteness Effect, arrived at by the combined work of Pudlák and Solovay
+(abetted by the research of Nelson and Wilkie-Paris) [33, 39, 45, 51]. These results, which
+also have been more recently discussed in [7, 22, 46, 60], have noted the Second Incompleteness Theorem does not require the presence of the Principle of Induction to apply
+to most formalisms that use a Hilbert-style form of deduction. (The next chapter will
+offer a detailed summary of this important generalization of the Second Incompleteness
+Theorem in its Remark 2.5.)
+Our research, during the last 25 years has had a different focus, exploring BoundaryCase exceptions to the Second Incompleteness Theorem more intensively than its generalizations. It would be natural for many readers to ask why such exceptions should also
+be studied, so intensively?
+The reason is that while generalizations of the Second Incompleteness Theorem are
+very pure form a mathematical standpoint, it must not be forgotten that Mankind’s
+survival in the future will require developing formalisms that own enough ingenuity to
+solve a variety of pressing ecological problems, such as Global Warming, in a satisfactory
+manner.
+More specifically, the solution of mundane problems, threatening human survival, do
+not require use of a formalism producing short proofs of the existence of large integers,
+whose binary encodings employ more digits than the number of atoms in the universe.
+It is, however, vital for mature logical formalisms to appreciate their own consistency,
+2
+
+Some quotes from Sacks’s YouTube talk [43] are that Gödel “ did not think” the objectives of Hilbert’s
+Consistency Program “were erased” by the Incompleteness Theorem, and Gödel believed (according to
+Sacks) it left Hilbert’s program “ very much alive and even more interesting than it initially was”.
+
+2
+
+in at least a fragmentary sense, when they reason about the implications of their own
+reasoning. (Otherwise, a Thinking Being, whether computerized or human, would not
+be able to explain to itself fully why it is of foundational importance to study its own
+thinking process, as a fundamental problem-solving facility.)
+In particular, there is no doubt that a branch of mathematics, that makes it difficult to
+manufacture abbreviated proofs of the existence of numbers as large as a google-plex (e.g.
+100
+
+22
+
+), does fall short of the Utopian ideals that the intellectual community wishes for
+
+Mathematics. We will argue, however, that the striking engineering needs that confront
+modern Mankind requires the evolution of alternate formalisms, however theoretically
+weak, for an adequate result to be obtained for many pressing issues.
+In other words, we will contend that Hilbert and Gödel were essentially correct when
+their statements ∗ and ∗∗ suggested that a nihilistic approach, which ignores the engineeringstyle capacities of weaker formalisms, that own a fragmented conception of their own consistency, has serious short-comings. This is because the dangers of Global Warming and
+other imminent threats that endanger 21-st century Mankind are too serious for logicians
+to entertain using anything less than a formalism, which possesses at least a fragmentary
+conception of its own consistency.
+Also, we will discuss an addition to our prior research about self-justifying logics, called
+Deductive Enrichment, which should convince skeptical readers that our formalisms
+do indeed have practical value. Especially within a special context where modern computers can perform arithmetic operations with more than a billion times the speed of a
+human brain, we will argue our boundary-case exceptions to the prior century’s Second
+Incompleteness Theorem have noteworthy pragmatic significance.
+As the reader examines this paper, it should be kept in mind that all our self-justifying
+axiom systems (since 1993) contain an ability to prove analogs of all the Π1 theorems of
+Peano Arithmetic under a slightly revised language (such as §3’s L∗ formalism). This fact
+is non-trivial because an axiom system that recognizes its own consistency will contain
+little pragmatic significance, if it does not maintain an ability to prove all the quite central
+Π1 theorems of Peano Arithmetic.
+What will make our formalisms tempting in the current article is the new notion of
+“Deductive Enrichment”. It will allow a formalism to maintain a simultaneous knowledge
+
+3
+
+about its own consistency together with a recognition about the truth behind the Π1
+theorems of Peano Arithmetic.
+In particular, we do not dispute that our formalism will fall short of the Utopian
+ideals for mathematics when it is unable to produce a brief proof for the existence of large
+100
+
+numbers, such as a google-plex (e.g. 22
+
+). We do, however, claim our formalism contains
+
+some pragmatic value when it owns a simultaneous knowledge about its own consistency
+and the truth behind the Π1 theorems of Peano Arithmetic. (Moreover, we do encourage
+the reader to examine, again, Gödel’s caution about the Second Incompleteness Theorem,
+which was observed by Sacks in [43] and has also been summarized by us in Footnote 2.)
+
+2
+
+General Notation and Literature Survey
+
+Let us call an ordered pair (α, d) a “Generalized Arithmetic” when its first and second
+components are defined as follows:
+1. The Axiom Basis “ α ” of a Generalized Arithmetic will be defined as the set of
+proper axioms it employs.
+2. The second component “ d ” of a Generalized Arithmetic will be defined as the
+combination of its formal rules of inference and the logical axioms “ Ld ” it employs. This second component, “ d ” of a Generalized Arithmetic will be called its
+Deductive Apparatus.
+Example 2.1 This notation allows us to conveniently separate the logical axioms
+Ld , associated with (α, d) , from its “basis axioms” α . It also allows one to compare
+the various deductive apparatus techniques that have appeared in the literature. For
+instance, the dE apparatus, introduced in §2.4 of Enderton’s textbook [10], has used
+only modus ponens as a rule of inference, combined with a complicated 4-part schema
+of logical axioms. This differs from the dM , dH and dF approaches of Mendelson
+[32], Hájek-Pudlák [24] and Fitting [13]. The former two textbooks employ a simpler set
+of logical axioms than dE , but they require two rules of inference (modus ponens and
+generalization). The dF apparatus, appearing in Fitting’s textbook [13], as well as its
+predecessor due to Smullyan [44], actually employ no logical axioms. Instead, Fitting
+
+4
+
+and Smullyan rely upon a “tableaux style” method for generating a consequently larger
+number of rules of inference.
+Definition 2.2 Let α once again denote an axiom basis, and d designate a deduction apparatus. Then the ordered pair (α, d) will be called a Self Justifying configuration when:
+i one of (α, d)’s theorems (or possibly one of α’s axioms) do state that the deduction
+method d, applied to the basis system α, produces a consistent set of theorems,
+and
+ii the axiom system α is in fact consistent.
+Example 2.3 Using Definition 2.2’s notation, our prior research in [57, 60, 65, 66,
+69, 71] has developed arithmetics (α, d) that were “Self Justifying”. It also proved
+the Second Incompleteness Theorem implies specific limits beyond which self-justifying
+formalisms cannot transgress. For any (α, d) , it is almost trivial to construct a system
+αd ⊇ α that satisfies the Part-i condition (in an isolated context where the Part-ii
+condition is not also satisfied). For instance, αd could consist of all of α ’s axioms plus
+an added “SelfRef(α, d)” sentence, defined as stating:
+⊕
+
+There is no proof (using d’s deduction method) of 0 = 1 from the union
+
+of the axiom system α with this sentence “SelfRef(α, d) ” (looking at itself).
+Kleene discussed in [30] how to encode rough analogs of the above “I Am Consistent”
+axiom statement. Each of Kleene, Rogers and Jeroslow [30, 42, 29], however, emphasized
+that αd may be inconsistent (e.g. violating Part-ii of self-justification’s definition), despite
+SelfRef(α, d)’s formalized assertion. This is because if the pair (α, d) is too strong then a
+quite conventional Gödel-style diagonalization argument can be applied to the axiom basis
+of αd
+
+=
+
+α + SelfRef(α, d), where the added presence of the statement SelfRef(α, d)
+
+will cause this extended version of α , ironically, to become automatically inconsistent.
+Thus, the encoding of “SelfRef(α, d)” is relatively easy, via an application of the Fixed
+Point Theorem, but this sentence is often, ironically, entirely useless!
+
+5
+
+Definition 2.4 Let Add(x, y, z) and Mult(x, y, z) denote two 3-way predicate symbols specifying that x+y = z and x∗y = z (under Π1 styled-encodings for the associative,
+commutative, identity and distributive principles using these two 3-way predicate symbols). Let α denote what the first paragraph of this section had called an “axiom basis”.
+We will then say that α recognizes successor, addition and multiplication as Total
+Functions iff it can prove (1) - (3) as theorems.
+∀x ∃z
+
+Add(x, 1, z)
+
+(1)
+
+∀x ∀y ∃z
+
+Add(x, y, z)
+
+(2)
+
+∀x ∀y ∃z
+
+Mult(x, y, z)
+
+(3)
+
+Also, an axiom basis α will be called Type-M iff it includes (1) - (3) as theorems,
+Type-A if it includes only (1) and (2) as theorems, and Type-S if it contains only (1)
+as a theorem. Also, α is called Type-NS iff it can prove none of these theorems.
+
+Remark 2.5 The separation of basis axiom systems into the four categories of TypeNS, Type-S, Type-A and Type-M systems enables us to nicely summarize the prior literature about generalizations and boundary-case exceptions for the Second Incompleteness
+Theorem. This is because:
+a.
+
+The combined research of Pudlák, Solovay, Nelson and Wilkie-Paris [33, 39, 45,
+
+51], as is formalized by Theorem ++ , implies no natural Type-S generalized arithmetic (α, d) can recognize its own consistency when d is one of Example 2.1’s three
+examples of Hilbert-style deduction operators of dE , dH or dM . In particular, it
+establishes the following result:
+++ (Solovay’s modification [45] of Pudlák [39]’s formalism using some of
+Nelson and Wilkie-Paris [33, 51]’s methods) : Let (α, d) denote a generalized arithmetic supporting the Line (1)’s Type-S statement and assuring
+the successor operation will satisfy both x′ 6= 0 and x′ = y ′ ⇔ x = y.
+Then (α, d) cannot verify its own consistency whenever simultaneously d
+is a Hilbert-style deductive apparatus and α treats addition and multiplication as 3-way relations, satisfying their usual associative, commutative
+distributive and identity axioms.
+6
+
+Essentially, Solovay [45] privately communicated to us in 1994 an analog of theorem ++. Many authors have noted Solovay has been reluctant to publish his nice
+privately communicated results on many occasions [7, 24, 33, 36, 39, 51]. Thus,
+approximate analogs of ++ were explored subsequently by Buss-Ignjatovic, Hájek
+and Švejdar in [7, 22, 46], as well as in Appendix A of our paper [60]. Also, Pudlák’s
+initial 1985 article [39] captured the majority of ++’s essence, chronologically before
+Solovay’s observations. Also, Friedman did related work in [16].
+b.
+
+Part of what makes ++ interesting is that [60, 65, 66, 72] explored two methods for generalized arithmetics to confirm their own consistency, whose natural
+hybridizations are precluded by ++. Specifically, these results involve using Example 2.3’s self-referencing “I am consistent” axiom (from its statement ⊕ ). They will
+enable several Type-NS basis systems [60, 66, 72] to verify their own consistency
+under a Hilbert-style deductive apparatus 3 , or alternatively allow a Type-A system
+[57, 60, 65, 67, 71] to corroborate its own self-consistency under a more restricted
+semantic tableaux style deductive apparatus. Also, Willard [61, 68] observed how
+one could refine ++ with Adamowicz-Zbierski’s methodology [1, 2] to show Type-M
+systems cannot recognize their own tableaux-style consistency.
+
+3
+
+General Perspective
+
+This section will explain how some seemingly minor hair-thin Boundary-Case exceptions
+to the Second Incompleteness Theorem can be transformed into major chasms when one
+contemplates the facts that 21-st century computers can perform arithmetic computations
+with more than a billion times the speed of the human mind (with a similar accompanying
+increase in the lengths of the logical sentences being manipulated). This distinction will
+raise questions about whether 21-st century engineering projects will ultimately be forced
+to encounter questions about the Second Incompleteness Theorem, which were ignored
+when the scientific world had first learned about Gödel’s work during the early 1930’s.
+3
+
+The Example 2.1’s provided three examples of Hilbert-style deduction operators, called dE , dH ,
+and dM . It explained how these deductive operators differ from a tableaux-style deductive apparatus
+by containing a modus ponens rule.
+
+7
+
+3.1
+
+Linguistic Notation
+
+Our language for formalizing exceptions to the Second Incompleteness theorem will be
+called L∗ . It will include the symbols C0 , C1 and C2 for representing the integers
+of 0, 1 and 2. The language L∗ will formalize other non-negative integers using growth
+function primitives and these three starting integers.
+The only predicate symbols used by our language L∗ will be the equality and lessthan-or-equal predicates, denoted as “ = ” and “ ≤ ” . Sometimes, we will informally
+also use the symbols ≥ , < and > .
+Define F (a1 , a2 , ...aj ) to be a NON-GROWTH FUNCTION iff for all values of
+a1 , a2 , ...aj , the function F satisfies F (a1 , a2 , ...aj ) ≤ Maximum(a1 , a2 , ...aj ) . Our
+axiom systems will employ a set of eight non-growth functions, called the GROUNDING
+FUNCTIONS. They will include:
+1. Integer Subtraction where x − y is defined to equal zero when x < y,
+2. Integer Division where
+
+x
+y
+
+= x when y = 0 , and it otherwise equals ⌊ xy ⌋ .
+
+3. P redecessor(x) = Max( x − 1 , 0 ),
+4. Maximum(x, y),
+5. Logarithm(x) = ⌈Log2 (x + 1)⌉,
+6. Root(x, y) = ⌊ x1/y ⌋ when y ≥ 1 , and Root(x, 0) = x.
+7. Count(x, j) designating the number of “1” bits among x’s rightmost j bits.
+8. Bit(x, i) designating the value of the integer x’s i−th rightmost bit. (Note that
+Bit(x, i) = Count(x, i) − Count(x, i − 1).)
+In addition to the above non-growth functions, our language L∗ will employ two
+growth functions. They will correspond to Integer-Addition and Double(x) = x + x. We
+will use the term U-Grounding Function to refer to a function that is one of the eight
+Grounding Functions or one of the operations of Addition and Doubling.
+
+Comment 3.1 We do not technically need both the operations of Addition and Doubling in our U-Grounding language L∗ . However, it much is easier to encode large integers
+8
+
+when we have access to both these function symbols. For example, any integer N > 1
+can be encoded by a term of length O( Log(N) ) , using only the constant symbol for “1”,
+when both the addition and doubling function symbols are present. For instance, below
+is our binary-like encoding for the number eleven.
+1 + Double( 1 + Double( Double( 1)))
+
+(4)
+
+Henceforth, the symbol N will denote such a binary-like encoding for the integer N .
+(In the degenerate case where N = 0 , 0 will simply be defined as being the constant
+symbol “ C0 ”, that represents zero’s value.)
+
+Definition 3.2 We will follow mostly conventional logic notation when discussing
+the U-Grounding functions. Thus, a term is defined to be a constant symbol, a variable
+symbol or a function symbol (followed by some input arguments, which are similarly
+defined terms). If t is a term then the quantifiers in ∀ v ≤ t Ψ(v) and ∃ v ≤ t Ψ(v)
+will be called bounded quantifiers. These two wffs will be semantically equivalent to the
+respective formulae of ∀v ( v ≤ t ⇒ Ψ(v)) and ∃v ( v ≤ t ∧ Ψ(v)). A formula Φ will
+be called ∆∗0 iff all its quantifiers are bounded. Thus a ∆∗0 formula is defined to be a wff
+that is any combination of atomic formulae (using our ten U-Grounding functions and
+the equals and ≤ predicates) combined with bounded quantifiers and with the boolean
+operations of AND,OR, NOT and IMPLIES in an arbitrary manner.
+Definition 3.3 For any integer i ≥ 0 , this paragraph will define the notions of a
+Π∗i and Σ∗i formula. Their definition has three parts, and it is given below.
+1. Every ∆∗0 formula is defined to be also both a Π∗0 and Σ∗0 formula.
+2. A formula is called Π∗i+1 iff for some Σ∗i formula Φ(v1 , v2 , ...vn ), it can be written
+in the form ∀v1 ∀v2 ... ∀vn Φ(v1 , v2 , ...vn ) .
+
+(Since this rule also applies when the
+
+number of quantifiers n equals zero, it follows that every Σ∗i formula is automatically
+by default also Π∗i+1 .)
+3. Similarly, a formula is called Σ∗i+1 iff for some Π∗i formula Φ(v1 , v2 , ...vn ), it can be
+written in the form ∃v1 ∃v2 ... ∃vn Φ(v1 , v2 , ...vn ) .
+
+(Since this rule applies when
+
+the number of quantifiers n equals zero, it follows that every Π∗i formula is also
+Σ∗i+1 .)
+9
+
+Example 3.4
+
+Lines (5) are (6) are examples of Π∗2 sentences, and Lines (7) are (8)
+
+are examples of Π∗1 sentences. Note that some Π∗2 sentences can be proven to be logically
+equivalent to Π∗1 sentences. Thus for example, the sentences in Lines (5) and (8) are
+equivalent to each other.
+∀x ∀y
+∀x ∀y
+
+∃z
+
+∃z
+
+x>0 ⇒
+
+∀x ∀y
+∀x ∀y
+
+z−x = y
+z
+= y
+x
+
+x+y = y+x
+
+∃ z ≤x+y
+
+z−x = y
+
+(5)
+(6)
+(7)
+(8)
+
+Note that while Line (5)’s Π∗2 sentence can be transformed into an equivalent Π∗1 formula
+(encoded by Line (8) ), there is no analogous Π∗1 sentence which is equivalent to Line (6).
+(This is because Addition but not Multiplication belongs to our particular specified set of
+U-Grounding functions.)
+
+Remark 3.5 Throughout all our papers, the symbols Add(x, y, z) and Mult(x, y, z)
+will denote two ∆∗0 formulae that are satisfied precisely when the respective conditions of
+x + y = z and x ∗ y = z are true. It turns out that we can define both these formulae
+using only the non-growth functions of integer subtraction and division. Such definitions
+of Add(x, y, z) and Mult(x, y, z) are provided by Lines (9) and (10) below
+z−x =y ∧ z ≥ y
+[ (x = 0 ∨ y = 0) ⇒ z = 0 ] ∧ [ (x 6= 0 ∧ y 6= 0 ) ⇒ (
+
+(9)
+z−1
+z
+=y ∧
+< y ) ] (10)
+x
+x
+
+In this context, an axiom system α will be said to recognize Addition “as a total
+function” iff it can prove
+∀x ∀y ∃z
+
+Add(x, y, z)
+
+(11)
+
+Likewise, we will say an axiom system α can recognize Multiplication “as a total
+function” iff it can prove
+∀x ∀y ∃z
+
+Mult(x, y, z)
+
+10
+
+(12)
+
+Also, we will say an axiom system α can recognize “Successor” as a total function iff it
+can prove:
+∀x ∃z
+
+Add(x, 1, z)
+
+(13)
+
+Some axiom systems α are unable to prove Multiplication is a total function, but
+they can prove every true ∆∗0 sentence. Other axiom systems are unable to recognize
+any of Addition, Multiplication or Successor as total functions, but they can still prove
+every true ∆∗0 sentence. It will turn out these facts will be central to understanding the
+generality and limitations of Gödel’s Second Incompleteness Theorem.
+
+Definition 3.6 A sentence Φ will be said to be written in Prenex* Normal Form
+iff for some i ≥ 0 , it can be written as a Π∗i or a Σ∗i sentence. (It can be easily
+established that a predicate logic, using the language L∗ , can show every sentence Φ
+can be mapped onto a Prenex* sentence Φ∗ such that
+
+Φ ⇔ Φ∗ . Thus without any
+
+loss in generality, we may assume that all the proper axioms within a basis system α can
+be encoded in a Prenex* normalized form.)
+
+3.2
+
+Enriched Forms of Tableaux Deduction
+
+We will first employ our preceding language L∗ to review the definition of “Semantic
+Tableaux” deduction in this section. We will then define two minor variations of this
+construct, called the “Rank-Zero” and “Rank-Zero-Plus” enriched versions of Tableaux
+deduction.
+Our definition of a semantic tableaux proof will be similar to its counterparts in
+Fitting’s and Smullyan’s textbooks [13, 44]. Define a Φ-Focused Candidate Tree for
+the axiom system α to be a tree structure whose root corresponds to the sentence ¬ Φ
+and whose all other nodes are either formal axioms of α or deductions from higher nodes
+of the tree. Let the notation “ A =⇒ B ” indicate B is a valid deduction when A is
+an ancestor of B . In this notation, the deduction rules allowed in a candidate tree are:
+1. Υ ∧ Γ =⇒ Υ and Υ ∧ Γ =⇒ Γ .
+2. ¬ ¬ Υ =⇒ Υ . Other Tableaux rules for the “ ¬ ” symbol are: ¬(Υ ∨ Γ) =⇒ ¬Υ ∧ ¬Γ,
+¬(Υ → Γ) =⇒ Υ ∧ ¬Γ ,
+¬(Υ ∧ Γ) =⇒ ¬Υ ∨ ¬Γ , ¬ ∃v Υ(v) =⇒ ∀v¬ Υ(v) and
+¬ ∀v Υ(v) =⇒ ∃v ¬Υ(v)
+
+11
+
+3. A pair of sibling nodes Υ and Γ is allowed when their ancestor is Υ ∨ Γ .
+4. A pair of sibling nodes ¬Υ and Γ is allowed when their ancestor is Υ → Γ.
+5. ∃v Υ(v) =⇒ Υ(u) where u is a newly introduced “Parameter Symbol”.
+6. Our variation of Rule 5 for bounded existential quantifiers of the form “ ∃v ≤ s ” is the
+identity: ∃v ≤ s Υ(v) =⇒ u ≤ s ∧ Υ(u)
+7. ∀v Υ(v) =⇒ Υ(t) where t denotes any U-Grounded term. These terms are defined to be
+parameter symbols, constant symbols, or U-Grounding functions with recursively defined
+inputs.
+8. Our variation of Rule 7 for bounded universal quantifiers of the form “ ∀v ≤ s ” is the
+identity: ∀v ≤ s Υ(v)
+=⇒
+t ≤ s → Υ(t).
+
+Define a particular leaf-to-root branch in a candidate tree T to be Closed iff it contains
+both some sentence Υ and its negation ¬ Υ . A Semantic Tableaux proof of Φ
+will then be defined to be a candidate tree, all of whose root-to-leaf branches are closed,
+such that the tree’s root stores the sentence ¬Φ and where all its other nodes are either
+axioms of α or deductions from higher nodes.
+Definition 3.7 Let Z denote an arbitrary set of sentences in our language L∗ .
+Recall that a node in a semantic tableaux deductive proof from an axiom system α is
+allowed to include any axiom of α as one of its stored sentences. Such a proof will be
+called a Z-Enriched proof if it may also include any version of (14)’s formalization of
+the “Law of the Excluded Middle” as a permissible logical axiom for every Ψ ∈ Z .
+Ψ ∨ ¬Ψ
+
+(14)
+
+It is well known that semantic tableaux proofs satisfy Gödel’s Completeness Theorem
+[13, 44]. This implies that the set of theorems that are proven from an axiom system α
+via a conventional (unenriched) version of semantic tableaux deduction is the same as the
+set of theorems proven from a Z-enriched version of this deductive mechanism. Our main
+result in this section will show, however, that such proofs can have their efficiency often
+exponentially shortened under such enrichments, where Line (14)’s schema is treated as
+a set of logical axioms (rather than as a collection of derived theorems).
+Definition 3.8 Let α be an arbitrary set of proper axioms and D
+
+denote a
+
+deduction method. In this case, an arbitrary theorem Φ of α shall be said to satisfy
+12
+
+a Ψ-Based Linear Constrained Cut Rule iff Φ ’s shortest proof from α (via D’s
+apparatus) is guaranteed to be no longer than proportional to the sum of the lengths of
+the proofs of Ψ and Ψ ⇒ Φ from α .
+Example 3.9 All Hilbert-style deduction methods (including Example 2.1’s dE , dH ,
+and dM Hilbert-style methodologies) employ Linear Constrained Cut Rules for any arbitrary input sentence Ψ (on account of the presence of their modus ponens rules). This
+is the intuitive reason that Theorem ++ ’s generalization of the Second Incompleteness
+Theorem (from Remark 2.5 ) applies to them. We will soon see that a similar generalization of the Second Incompleteness Theorem applies to modifications of semantic tableaux
+deduction (when Line (14)’s invocation of the Law of the Excluded Middle is available as
+a logical axiom for every input sentence Ψ).
+Lemma 3.10 Let DΨ denote an “enriched” deduction method, identical to semantic
+tableaux deduction, except that Line (14)’s version of the Law of the Excluded Middle
+is available as a logical axiom under DΨ . Then for an arbitrary theorem Φ, a Ψ-Based
+Linear Constrained Cut Rule will be satisfied by the deduction method DΨ .
+A Brief Sketched Justification: The germane proof p of Φ will follow the usual
+semantic tableaux format by having its root store the sentence ¬ Φ . The child of this
+root will then consist of Line (14)’s version of the Law of the Excluded Middle. Also,
+the two children of this node will consist of the sentences of ¬Ψ and Ψ . We omit the
+details, but it is easy to then verify that:
+a. one may insert a proof-subtree below ¬Ψ that is no longer than linearly proportional
+to the length of Ψ ’s proof.
+b. one may insert a proof-subtree below Ψ that is no longer than linearly proportional
+to the length of the proof of Ψ ⇒ Φ .
+These constraints imply that the Ψ-Based Linear Constrained Cut Rule will be satisfied.
+.
+Definition 3.11 There will be several types of “Enrichments” of the semantic tableaux
+deduction method that we will examine in the context of Definitions 3.7 and 3.8. These
+will include:
+13
+
+1. Infinitely Enriched formalisms that allow Line (14)’s variation of the “Law of
+the Excluded Middle” to become a logical axiom, for any sentence Ψ from L∗ ’s
+language.
+2. Rank-k Enriched formalisms that allow Line (14)’s variation of the “Law of the
+Excluded Middle” to be a logical axiom when Ψ is any Π∗k or Σ∗k sentence.
+3. Rank-Zero Enriched formalisms that allow Line (14)’s variation of the “Law of
+the Excluded Middle” to be a logical axiom when Ψ is any ∆∗0 sentence.
+4. Rank-Zero-Plus Enriched formalisms that are a slightly stronger version of the
+Rank-Zero formalism that take (15) as a logical axiom for any ∆∗0 formula ψ(x).
+∀ x ψ(x) ∨ ¬ ψ(x)
+
+(15)
+
+Remark 3.12 Let α denote any axiom basis that includes the ten U-Grounding
+symbols. Then if D denotes the semantic tableaux deductive methodology and if all of
+α’s axioms hold true in the standard model, it will follow that [65]’s ISD (α) formalism will
+be a self-justifying system which proves all α’s Π∗1 theorems and additionally recognizes
+its own semantic tableaux consistency. It turns out this result will also generalize when D
+corresponds to either Item 3’s Rank-Zero enriched form of semantic tableaux deduction
+or Item 4’s Rank-Zero-Plus enriched form. (E.g. these two systems will be also capable
+of recognizing their own consistency under their enriched deduction methods.)
+In contrast, one may easily apply Lemma 3.10 to show that the invariant ++ (appearing in Remark 2.5) will generalize to establish that Type-S axiom systems cannot verify
+their own consistency under infinite enrichments of the semantic tableaux 4 . Indeed, the
+methods from [64] imply the Second Incompleteness Theorem also generalizes for the case
+of Rank-2 or higher enriched formalisms under Type-A arithmetics. Thus, there is only
+a meaningful open question about the application of Remark 3.12’s paradigm to Rank-1
+Enriched systems.
+An attached appendix will review [65]’s definition of the ISD (α) axiom system, for
+the benefit of those readers who have not read [65]. (It will amplify upon the claims
+4
+
+This is because infinite enrichments of tableaux make its deductive procedure resemble Hilbert deduction because such enrichments uniformly obey Definition 3.8’s Linear Constrained Cut Rule. In
+particular, these enrichments become inconsistent if they employ an analog of [65]’s Group-3 “I am
+consistent” axioms
+
+14
+
+made in the previous two paragraphs.) Our recommendation is that the reader postpone
+examining this appendix until after the main sections of the current paper are finished.
+This is because Definition 3.11’s notion of “Deductive Enrichment” is quite subtle, and
+the next two sections shall need to first consider it in more detail.
+
+4
+
+The Significance of Deductive Enrichment
+
+A general rule of thumb in Proof Theory is that an axiom system is typically extended
+in order to expand the class of theorems it can prove. Since semantic tableaux deduction
+satisfies Gödel’s Completeness Theorem, the Definition 3.11’s four variations of deductive
+enrichment will, however, not technically change the theorems that can be derived from
+an initial base axiom system. Instead, the function of deductive enrichment will be to
+improve the overall proof efficiency. (This is because an invoked version of the Law of
+the Excluded Middle will shorten proof lengths when it is treated as a system of logical
+axioms, rather than as a set of derived theorems.)
+This issue was perhaps not so central in the early 20-th century when Gödel announced
+his initial 2-part Incompleteness paradigm. At that time, the only available medium of
+thought was the Human Brain, which performed arithmetic computations at approximately a billion times a slower speed than that of the typical 21st century household
+computer. Also, the potential lengths of logical sentences during the 1930’s was much
+shorter than many potentially lengthy present-day computer-generated sentences.
+Within the context of the longer expressions that computers can physically produce,
+the task of separating true from false ∆∗0 sentences will likely become increasingly daunting
+(assuming P 6= NP ), even when this task is technically decidable. Hence a Rank-Zero
+Enrichment of a tableaux deductive formalism is a useful instrument, with the improved
+efficiency of its Rank-Zero Linear Constrained Cut Rule. Moreover, the results from our
+earlier paper [65] do trivially imply that our Rank-Zero and Rank-Zero-Plus extensions of
+Self-Justifying formalisms are guaranteed to be consistent. (This is because an application
+of either the Rank-Zero or Rank-Zero-Plus versions of the Law of the Excluded Middle
+can be formally encoded within a Π∗1 format, and the attached Appendix explains our
+results from [65] imply that the addition of any set of logically valid Π∗1 sentences are
+compatible with ISD (α) retaining its internal consistency.) In contrast, [64] implies the
+15
+
+same is not true for Rank-2 and higher enrichments of tableaux deduction; e.g. these
+formalisms lose their self-justification property when their enrichments are incorporated.
+Remark 4.1 Many readers will be initially disappointed that Rank-2 and other higher
+enrichments levels will be infeasible under self-justifying semantic tableaux deductive systems. This will mean that if Ψ denotes (16)’s declaration that multiplication is a total
+function then neither can it be assumed to be true by our self-justifying formalisms, nor
+can the theorem Ψ ∨ ¬Ψ be promoted into becoming a logical axiom (under the
+self-justifying methods of ISD (α) without producing an inconsistency).
+∀x ∀y ∃z
+
+(16)
+
+Mult(x, y, z)
+
+Nevertheless, there is a method whereby our Rank-Zero Enriched formalisms can partially
+formalize Line (16)’s meaning. Thus, let Ψk denote the ∆∗0 formula (shown below)
+indicating that its localized version of multiplication is a total function among input
+integers less than 2k .
+∀x ≤ Doublek (2)
+
+∀y ≤ Doublek (2) ∃z ≤ Double2k (2)
+
+Mult(x, y, z)
+
+(17)
+
+Then it turns out that our Rank-Zero enriched versions of tableaux deduction can prove
+Ψk as a theorem, as well as treat Ψk ∨ ¬Ψk as a logical axiom. We will call Ψk and
+the logical axiom Ψk ∨ ¬Ψk the K-Localizations of the sentences Ψ and Ψ ∨ ¬Ψ .
+In many pragmatic applications, one does not technically need Π∗j and Σ∗j theorems
+Φ (with j ≥ 1): Instead, it suffices to prove a K-Localized theorem Φk , that employs
+analogs of Line (17)’s three specified bounded quantifiers, for some sufficiently large fixed
+constant k . In particular, a transition of higher sentences into ∆∗0 formulae is especially
+pragmatic for 21st century computers, whose speed and allowed byte-lengths can exceed
+by factors of many millions their counterparts produced by human mind.
+Within such a context, the self-justifying capacities of even Rank-Zero Enriched forms
+of Semantic tableaux deduction will be much more tempting during the 21st century than
+they were at the time of Gödel’s 1931 discovery (when computers were unavailable). It
+is mainly for this reason that we suspect the modern world should not fully dismiss the
+capacities of self-justifying logic formalisms.
+
+16
+
+Moreover, we suspect that the futuristic civilization within our solar system, including
+that on the planet Earth, may have no choice but to rely upon Self-Justifying computerized logic systems. This is because many scientists (including the late physicist Stephen
+Hawking) have speculated that if current trends continue, then Global Warming will cause
+the planet Earth to become too hot for mammals to survive on it, within one or two centuries. In such a context, where computers will not need the Earth’s cooler temperatures
+and/or Oxygen to survive (e.g. see footnote 5 ), Stephen Hawking [25, 26] has predicted
+that computers may become the main form of thinking agent during what will hopefully
+be only a temporary period of Global Warming.
+Such computers will need, presumably, to rely upon some form of Self-Justifying cognitive process to organize the motivations of their thought processes. In particular, humans
+seem to have relied upon some type of instinctive appreciation of the coherence of their
+thought processes, as a prerequisite for motivating their cognitive process. Our suspicion
+is that computers will need to imitate this self-reinforcing process.
+Our conjecture is, thus, that the continuation of human civilization, within our Solar
+System, may require computers taking temporary control of the larger part of its destiny. More specifically, we suspect that a computer-and-robot technology shall be needed
+to reverse Global Warming and enable a saved sample of frozen mammal embryos to
+subsequently populate the planet Earth, again.
+Some readers may shutter at the thought that planet Earth could become temporarily
+uninhabitable during a perhaps thousand-year era of Global Over-Heating. This difficulty,
+however, may actually amount to only be a temporary phenomena, if computers and
+robots can restore Earth into a more hospitable environment after a period of several
+thousand years (and also frozen human embryos are saved).
+More precisely in a context where life has existed on Earth for approximately 4 billion
+years, our perspective is that the danger posed by Global Warming would be tragic but
+temporary, if robots and computers can reverse Global Warming after a period of a few
+thousand years. In contrast, the implications of Global Warming would be much more severe, if either it cannot be reversed or no frozen embryos are saved before Global Warming
+5
+
+In particular, solar powered computers, physically residing outside the planet Earth, will need neither
+Oxygen as an energy supply, nor have their operative functions being governed by the Earth’s temperature
+(when they lie physically outside the planet’s domain).
+
+17
+
+occurs. It is for this reason that we suggest it is imperative that a fleet of self-justifying
+computers, along with accompanying robots and saved frozen embryos, be assembled as at
+least a partial response to a potentially very serious Global Warming crisis. (See footnote
+6
+
+for some clarifications about the nature and limits of this proposal.)
+
+5
+
+On the Motivation for Writing this Paper
+
+The author of this article has published several articles about generalizations and boundarycase exceptions for Gódel’s Second Incompleteness Theorem [57]–[72], including six papers
+that have appeared in the JSL and APAL. Unfortunately, the author has experienced both
+a mild stroke and a mild heart attack during the summer of 2016.
+These events did not prevent the author from continuing his teaching during 2017 and
+2018. They did, however, cause a change in the specific goals of our research program. The
+current article was intended, mostly, to encourage others to join this futuristic research
+project. It has, thus, focused on explaining why this topic warrants further investigation.
+This is subtle because our ISD (α) axiom system (formally defined in the Appendix)
+has three disadvantages when D denotes semantic tableaux deduction. These drawbacks
+are that:
+1. ISD (α) is an unorthodox “Type-A” axiom system, which recognizes addition but not
+also multiplication as a total function.
+2. ISD (α) has employed a semantic tableaux deductive apparatus, that is substantially
+less efficient than a more conventional Hilbert-styled deductive apparatus.
+3. ISD (α) is able to recognize its consistency only by employing a version of Example
+2.3’s self-referencing “I am consistent” axiom.
+Our reply to Item 1 is that while ISD (α) is unconventional, it is not quite as weak as it
+may first appear. This is partly because ISD (α) treats multiplication as a 3-way predicate
+6
+
+It is possible that if computer and robotics technologies do advance quickly enough than a tragic
+Global Over-Heating can be completely avoided. Moreover, Steven Pinker discusses in [38] some technologies that could possibly eschew global warming. Our point is, however, that it would be wise to
+also investigate the potential application of self-justifying formalisms because their use may be necessary
+in the future for Earth’s mammals to survive and prosper. The Corollary A.3, in Appendix A, thus
+illustrates a potential use of self-justifying computerized systems that possibly could be urgent.
+
+18
+
+Mult(x, y, z), formalized by Line (10), rather than as a total function. Moreover, ISD (α)
+can be easily arranged to prove all the Π1 theorems of Peano Arithmetic (except for
+minor changes in notation) when its input axiom system α is made to correspond to
+the trivial extension of Peano Arithmetic that includes our ten U-Grounding functions
+symbols. While these adjustments may not be ideally Utopian, they are sufficient to reply
+to the main difficulties raised by Item 1.
+Our reply to Item 3 is also easy because the goal of ISD (α) IS NOT TO prove its own
+consistency under the most challenging definition of a proof. Instead, it is to find an axiom
+system that is comfortable with a built-in internal assumption about its own consistency
+(via its physically built-in “I am consistent” axiom). Most conventional axiom systems do
+not own extensions of themselves that can support even this task (due to various extensions
+of the Second Incompleteness Theorem that preclude the consistency of such extensions).
+Fortunately, ISD (α) is able to support this precious self-justification property when D
+corresponds to either semantic tableaux deduction, or one of its refined Rank-Zero or
+Rank-Zero-Plus enrichments.
+Many readers will probably be especially leery of Item 2 because conventional Hilbertstyle deductive proofs satisfy Definition 3.8’s Linear Constrained Cut Rule, while Semantic
+Tableaux Deduction does not obey this property. In particular, our ISD (α) formalisms
+are required to treat the Law of the Excluded Middle as a set of derived theorems (rather
+than as a formally stronger built-in schema of logical axioms). Such a constraint will
+make our proofs substantially less efficient than a more ideal paradigm centered around
+Definition 3.8’s Linear Constrained Cut Rule.
+We can, fortunately, partially reply to this daunting challenge because Definition 3.11
+indicated that there were four methods for enriching semantic tableaux deductive machineries. Two of these four methods (i.e. the Rank-Zero and Rank-Zero-Plus enrichments) are formally compatible with the existence of self-justifying extensions of their
+semantic tableaux deductive machineries. Thus at least the Rank-Zero and Rank-ZeroPlus versions of the Law of the Excluded Middle may be incorporated into self-justifying
+semantic tableaux formalisms.
+Naturally, it would be better if Remark 3.12 indicated enrichment methodologies of
+Rank-2 and higher were also compatible with self justification. Unfortunately, however,
+excessive enrichments of the semantic tableaux deductive systems preclude self-justifying
+19
+
+systems from existing (in a manner roughly analogous to how excessive enrichments of
+Uranium Ore can cause nuclear reactors to become dangerously unstable). Thus, we are
+currently confined to study of Rank-Zero and Rank-Zero-Plus enrichments of semantic
+tableaux, in a context where Rank-2 enrichments are infeasible, and Rank-1 enrichments
+are a remaining open question. (See [64] for a discussion of Rank-2 enrichments.)
+While one should not ignore the fact that only Rank-Zero and Rank-Zero-Plus enrichments of semantic tableaux deduction are known to be compatible with self justification,
+it should be noted even such Rank-Zero enrichments are interesting. This is because one
+can philosophically argue that a logical sentence loses its purely sensuous quality when
+it employs unbounded quantifiers. Thus even Π∗1 and Σ∗1 sentences lie slightly above the
+“touch-and-feel level” on account of their use of unbounded quantifiers. In other words,
+our available ability to muster self-justifying Rank-Zero and Rank-Zero-Plus enrichments
+of semantic tableaux deduction is significant because this level of enrichment is broad
+enough to include the crucial “touch-and-feel” sentences of the language L∗ .
+The preceding point is important because it allows us to summarize both the strengths
+and weaknesses of Gödel’s 1931 Second Incompleteness Theorem. Thus, the traditional
+literature has been certainly correct in viewing Gödel’s discovery as a seminal result,
+when our boundary-case exceptions to it have persisted at only the Rank-Zero and RankZero-Plus enrichment levels. On the other hand, the existence of such enrichments show
+that Gödel and Hilbert were partially correct when their statements ∗ and ∗∗ foresaw
+that some types of exceptions to the Second Incompleteness Effect would persist (e.g. see
+§1 ). Moreover, the study of how to efficiently process ∆∗0 sentences is important both
+because of their “touch-and-feel” property and because it will be challenging to process
+these sentences efficiently, assuming that P 6= NP .
+Moreover, we remind the reader that Stephen Hawking and other scientists have
+expressed concern that Global Warming could possibly lead to, at least, a temporary
+era where digital computers replace human brains as the primary economically efficient
+mechanism for generating thoughts [25, 26]. In a context where computers can generate
+thoughts more than a billion times faster than the human mind, the preceding chapter suggested that a self-justifying formalism, using only Rank-Zero and Rank-Zero-Plus
+enrichments of semantic tableaux, could help computers function more efficiently.
+In particular, our fervent hope is that humans will continue to be important and central
+20
+
+in the future. It is likely that computerized simulations of the human thought process
+will be also important, even if Global Warming occurs as, hopefully, a very temporary
+phenomena.
+The writing of this section has been certainly a painful task because it conveys a
+message that is an awkward mixture of insight, hope and humbling realization. Thus,
+the fundamental insight, appearing herein, is that some types of borderline exceptions to
+the Second Incompleteness Theorem are noteworthy because their logical formalisms can
+retain at least some type of partial internalized appreciation of their own consistency. The
+then-accompanying hope is that computers can use this knowledge to help life on Earth
+survive Global Warming and other futuristic challenges. And finally our humbling, albeit
+partially optimistic, conclusion is that a prosperous life can continue on planet Earth if
+(?) and when humans share with computers a joint control over our future destiny. (We
+wish we could offer here a more positive conclusion, but this section has offered at least
+a partially optimistic message).
+
+6
+
+Extending Our Main Thesis
+
+Each of §1-5 had appeared in an earlier July 2018 version of our Cornell Archives technical
+report. They had subsequently undergone only very minor revisions editorial revisions.
+In contrast, this additional chapter is new. Its goal will be to show that self-justifying
+arithmetics will have quite significant implications, even if Global Warming does not occur.
+
+6.1
+
+Background Setting
+
+Our prior research during the last 25 years had received a positive reception. It thus
+generated six sole-authored papers in the JSL and APAL.
+At the same time, the logic community had also treated our work with certainly some
+guarded caution. This is because we documented only the existence of boundary case
+exceptions to the Second Incompleteness Theorem. More specifically, there can be no
+disputing that the Second Incompleteness Theorem has shown that at least roughly 97 %
+of the initial goals of Hilbert’s Consistency Program were simply infeasible.
+The significance of the prior sections of this report is that they have shown how a
+
+21
+
+nontrivial final 3 % of the implications of the Second Incompleteness Theorem should be
+further investigated. This is because one cannot doubt that Global Warming is a certainly
+potentially major threat. We thus observed how self-justifying arithmetics can represent,
+at least, a fractional 7 part of a solution to the Global Warming dilemma.
+Most scientists suspect that Global Warming is a real threat, but we shall not include
+such an assumption within this chapter. Instead, we will focus on the famous interstellar paradox that was posed by Enrico Fermi during a 1950 luncheon at the Los Alamos
+National Laboratories [12]. We will show that self-justifying arithmetics are equally important within the context of the perplexing Fermi Paradox.
+
+6.2
+
+The Fermi Paradox
+
+The Fermi Paradox [12] has been nicely summarized in Wikipedia as highlighting the
+essential contrast between arguments showing the scale and probability of the existence
+of intelligent life being common in the universe versus the total lack of evidence of life as
+arising anywhere outside Earth.
+Many logicians would probably prefer Fermi’s open question to be called a “Mystery”
+or an “Unsettled Question” because it does not quite amount to being a “Paradox”, as
+logicians commonly use this term.
+In particular, Wikipedia estimates it would take a civilization no more than roughly
+“5-50”’ million years to colonize a quite substantial number of Earth-like planets in the
+Milky Way (once and if (?) life reaches planet Earth’s 21-st century stage of civilization
+and continues to survive). This is because even if life takes approximately R years to
+spread from one star system X to another system, called say “Y”, then it should be able
+to multiply throughout the Milky Way’s no more than its approximately 4 · 1011 possible
+life supporting star systems in roughly R · Log2 1012 years. (E.g. there should be needed
+no more than 40 cycles of doublings of the population of civilized stars until the majority
+of such stars become life supporting.)
+In other words, if R was even the relatively large number of 105 years, then only 4 · 106
+7
+
+Obviously, many other technologies will be needed, along with Symbolic Logic, to alleviate Global
+Warming. They will include a more sophisticated understanding of robotics, artificial intelligence, the
+cognitive sciences, the ability to engage in space travel and to better engineer biological systems. Our
+point, here, is only that a more sophisticated understanding of Self-Justifying logics will be one part of
+a much broader solution to the threat of Global Warming.
+
+22
+
+years would be sufficient for civilization to spread to a great number Earth-like planets
+in the Milky Way (when only 40 doublings are sufficient to colonize the entire galaxy’s
+collection of life-supporting stars under a reasonable approximation of the exponential
+growth associated with what should perhaps be called the “Fermi Exponential Fertilization
+Paradigm”). On the other hand, a slightly larger 4 ·107 years will be needed if, say, R = 106
+years.
+Fermi asked the question about why such a colonization has not already occurred
+in the Milky Way when many stars much older than the Sun are known to exist, and
+5 or 50 million years is a relatively small amount of time (compared to the age of the
+Milky Way). We will not delve into this question here because it is complicated. (It
+includes the possibility that all the predecessors to Earth’s civilization have been unable to
+preclude their own self-destruction. It also allows for the possibility that some enlightened
+civilization will ultimately find a more amicable outcome.)
+Our point is that this topic will intersect, eventually, with one’s interest about the
+long-range implications of the Second Incompleteness Theorem. This is because the time
+delay between communications among distant stars will, presumably, tempt an evolving
+civilization to ultimately use a common computerized algorithm (rather than to deploy
+time-delayed radio signals as a medium to communicate a common logical formalism
+among distant star systems).
+Thus while the Second Incompleteness Theorem’s prohibition against a formalism
+owning an ideally robust appreciation of its own consistency is a very serious obstacle,
+some type of possibly fragmented understanding of one’s self consistency will probably be
+necessary, if a civilization within our galaxy can survive the challenges that time thrusts
+upon it (irregardless of whether or not Global Warming shall occur).
+In other words, this chapter has reinforced the theme of the prior section, without
+assuming the existence of a Global Warming threat. Thus while the Second Incompleteness
+Theorem and its various generalizations do show that at least 97 % of the initial goals of
+Hilbert’s Consistency Program were infeasible, some diluted version of Hilbert’s program
+will likely be necessary for the long-range futuristic survival of an on-going civilization.
+
+23
+
+7
+
+Overall Perspective
+
+It should be noted that we have described an alternate version of self-justifying arithmetics
+in [72] that are Type-NS systems that use a Hilbert-style deductive apparatus, instead of
+a semantic tableaux deductive apparatus. These systems will be required to replace the
+assumption that addition is a total function with [72]’s alternate weaker growth primitive,
+called the θ operator, so that its systems may remain consistent. We have not discussed
+[72]’s results here because these logics have relied upon a conjecture we consider likely,
+although it currently is an unproven hypothesis,
+We are uncertain which of our main results in this article or in [72] are preferable.
+Our overall perspective is that the threat of global warming, combined with the additional
+long-term issues associated with the Fermi Paradox, will make it inevitable for an evolving
+cognitive community to contemplate with increased seriousness the implications of some
+type of partial evasions of the Second Incompleteness Theorem.
+Especially in the context where I have experienced a mild stroke and a mild heart
+attack during 2016, I am eager to encourage other researchers join us in this on-going
+futuristic research project.
+As has been already noted, the writing of this article has been a quite painful experience because it is disconcerting to consider a future where humans may be required to
+share with computers a joint control over our collective destiny. Yet, there appears to
+be no viable long-term alternative for the human race’s survival. The good news is that
+a wisely controlled human-computer interaction can preserve at least the main spirit of
+what humans are trying to accomplish
+Additional Remark: This paper has been written as an “extended abstract”, rather
+than as a fully detailed exposition, primarily because many of our other papers have
+discussed related topics in much greater detail. The writing style of an informal extended
+abstract also seemed preferable because our chief goal has been to stimulate a larger
+community of researchers to join us in an ambitious project, centered around futuristic
+self-justifying logic systems.
+
+24
+
+8
+
+About the Author and the Broader Impact of this
+Research
+
+In addition to publishing several papers about symbolic logic, Dan Willard has been also
+active in several other areas of research. This other activity has included:
+A. Co-Authoring with Robert Trivers [48, 73] a hypothesis that Darwinian evolution
+exercises partial control over the sex determination of offspring. Google Scholar
+has recorded 3,648 citations to the TW article [48], as of November 6, 2018. The
+significance of the TW Hypothesis was also mentioned twice in the New York Times
+on February 17, 1981 and on January 21, 2017 in articles entitled “Species Survival
+Linked to Lopsided Sex Ratios” and “Does Breast Milk Have A Sex Bias”. (Moreover, Trivers has cleared up a possibly awkward statement, he has made, when page
+113 in his recent book [47] does state the seminal idea behind the Trivers-Willard
+Hypothesis was fundamentally due 8 to Dan Willard’s initial observations.)
+B. Co-Authoring with Michael Fredman the articles [14, 15] about Sorting and Searching. These papers were the chronologically first among six items mentioned in the
+“Mathematics and Computer Science Section” of the 1991 Annual Report of the National Science Foundation. (The prominence of Fusion Trees was also signaled by
+the facts that they are the topic of Lecture 12 in MIT’s Advanced Data Structures
+course, taught by its famous MacArthur-award winning professor Eric Demaine (disseminated over YouTube [9]), and also the topic of the Lecture 2 in Harvard’s course
+Compsci 224 (recorded on YouTube by Harvard’s Prof. Jelani Nelson [34].)
+C. Developing the Y-Fast Trie data structure [53], the Down Pointer Method [54] and
+many other results germane to Computational Geometry, Advanced Data Structures
+and Relational Database Optimization Theory [52, 55, 56, 58, 62].
+The reason we have mentioned Items A-C here is that we are aware that Willard’s prediction that Self-Justifying axiom systems could possibly alleviate the Global Warming
+crisis will likely be seen as controversial. This is because the human personality, which is
+8
+
+The exact quote appearing on Page 113 in Bob Trivers’s book [47] is the frank statement that if
+he “wanted to divide up credit” exactly between Trivers and Willard, the closing sentence of [48] should
+have declared that “The idea was Dan’s; the exposition Bob’s”, rather than the passage that was written.
+
+25
+
+partially a product of Darwinian Evolution, is biased and uncomfortable with the idea of
+computers sharing with humans a knowledge of one’s own self-consistency. (Such knowledge implies an uncomfortably awkward shared control over our joint future destinies,
+between computers and mankind.)
+Our hope is that the momentum established from our previous research will add credibility to this paper’s awkward but quite realistic predictions. We hope this will make
+a larger audience recognize the provocative need for artificially intelligent computers to
+share with humans a temporary control over the planet Earth’s destiny until it recovers
+from a global warming crisis. We suspect this will be necessary for planet Earth to become
+more hospitable for human civilization’s vibrant and continuing survival.
+Thus, the purpose of Items A-C was not to boast or brag. Instead, it was to tempt our
+readers to realize that a new step may be needed for civilization and humans to continue
+to peacefully thrive on Earth, under the shadow of a Global Warming’s pending threat 9 .
+Thus in a context where the majority of readers are likely to be understandably concerned
+about a World where computers might share equal power with humans over our collective
+destiny, we hope the prior success of our projects, A and B, together with the alarming
+shadow of a likely upcoming Global Warming threat and the prospects of a troubling
+Fermi Paradox, will help our readers to gain a renewed optimism and hope about what
+shall be, possibly, the final necessary step for the sake of the human spirit’s continuing
+and thriving survival.
+In essence the classic interpretation, where the Second Incompleteness Theorem has
+been seen as refuting roughly 95-98 % of the initial objectives of Hilbert’s Consistency
+Program, is basicly correct — except for the fact that it has ignored a quite crucial point
+about how 21st and 22nd century logics shall have very different goals than those that
+were envisioned, initially, during the first half of the 20th century.
+Acknowledgment: I thank Seth Chaiken for several comments about how to improve
+the style of presentation.
+
+9
+
+This step will require, of course, much more than the evolution of self-justifying arithmetics. It
+will also require advances in robotics, space travel, biology, the cognitive sciences, and AI-like heuristic
+optimizing methods. We suspect a conjecture we made about [72]’s special θ function will turn out to be
+also useful in this endevour.
+
+26
+
+Appendix
+Our article [65] had introduced both the definitions of the ISD (α) axiom system and of a
+formalism owning a “Level(J) Appreciation” of its own consistency. This appendix will
+review the definitions of these two concepts, as well as explain how they are related to
+enriched versions of semantic tableaux deduction. This appendix should be read only
+after Sections 1-5 are completed
+During our discussion, L∗ will denote the language defined in §3.1, and β will denote
+a basis axiom system whose deductive apparatus is denoted as D. In this context, the
+basis system β will be said to own:
+1. a Level(n) Appreciation of its own consistency under D’s deductive apparatus
+iff β can prove that there exists no Π∗n sentence Υ such that (β, D) supports
+simultaneous proofs of both Υ and ¬ Υ.
+2. a Level(0-) Appreciation of its own consistency under D’s deductive apparatus
+iff it can prove there exists no proof of 0=1 from the (β, D) formalism
+All these definitions of consistency, from Level(0-) up to Level(n), are equivalent to each
+other under strong enough models of Arithmetic. However, many weak axiom systems do
+not possess the mathematical strength to recognize their equivalence.
+In particular, an axiom system β owning a Level(1) appreciation of its own consistency is much stronger than such a system possessing a Level(0-) appreciation of its own
+consistency. This is because Level(1) systems can use a proof of a Π∗1 theorem Υ to gain
+the practical knowledge that no proof of ¬ Υ exists.
+In a context where α is essentially any axiom system that employs L∗ ’s language
+and where D denotes any deductive apparatus, our axiom system ISD (α) in [65] was
+designed to achieve two specific goals. These were:
+1. To prove all true ∆∗0 sentences, as well as to prove all the Π∗1 theorems that are
+implied by the axiom basis α . In particular, the formal definition of ISD (α)
+system, in §3 of [65], accomplished the first task trivially via its “Group-Zero” and
+“Group-1 schema”. It performed the second task because its “Group-2 scheme”
+27
+
+employed Line (18)’s particular generic structure for each Π∗1 sentence Φ (e.g. see
+Footnote 10 ).
+∀ p { Prf β ( ⌈ Φ ⌉ , p )
+
+→
+
+Φ }
+
+(18)
+
+2. To “formally recognize” its own Level-1 consistency under D’s deductive apparatus.
+This was accomplished by having ISD (α)’s “Group-3” axiom formalize a Π∗1 sentence
+that amounts to (19)’s statement. (The symbol “Pair(x, y)” in Line (19) is a ∆∗0
+formula indicating that x is the Gödel number of a Π∗1 sentence and that y
+represents x ’s “mechanically 11 formalized negation”. Also, Prf ISD (α) (a, b) in
+(19) denotes a ∆∗0 formula indicating that b is a proof, using the deduction method
+D , of the theorem a from the axiom system ISD (α).) The nice aspect of (19)
+is that ISD (α) can unambiguously interpret the meaning of its three ∆∗0 formulae
+because its Group-Zero and Group-1 schema allow it to correctly decipher Line
+(19)’s statement.
+∀x∀y∀p∀q
+
+¬ [ Pair(x, y) ∧ Prf ISD (α) (x, p) ∧
+
+Prf ISD (α) (y, q) ] (19)
+
+Remark A.1 It is unnecessary to provide a formal description of the axiom system
+ISD (α) here because §3 of [65] already explained how it (and especially Line (19) ) can be
+exactly encoded. There are two clarifications relevant to ISD (α)’s definition that should,
+however, be mentioned.
+a. Our ISD (α) axiom system is a well defined entity for any deductive apparatus D
+and for any axiom basis system α (that have recursively enumerable formal structures). Since Line (19) is a self-referencing sentence, one needs some meticulous care,
+however, to assure that the Fixed Point Theorem can encode a Π∗1 sentence that is
+equivalent to Line (19)’s statement. (We do not discuss this topic here because it
+was discussed in adequate detail in [65]. )
+b. Although the ISD (α) axiom system is well-defined entity for all inputs D and α ,
+this fact does not also guarantee that ISD (α) is consistent. Indeed, the Second
+Incompleteness Theorem implies ISD (α) is inconsistent for most inputs D and α .
+10
+
+The symbol ⌈ Φ ⌉ in (18) denotes Φ ’s Gödel number, and the symbol Prf β ( ⌈ Φ ⌉ , p ) will
+designate a ∆∗0 formula stating that p is a proof of Φ.
+11
+In particular, if x is the Gödel number of a Π1 sentence Φ then its “mechanically formalized
+negation” y is the Gödel number for “ ¬ Φ ”.
+
+28
+
+This issue was previously visited by us in Example 2.3. It had emphasized that
+“I am consistent” axioms, similar to Line (19), can be easily encoded (via the Fixed
+Point theorem). However, these axiom sentences are typically useless, on account of
+the inconsistencies that they usually produce.
+Our main result in [65] is related to Item (b)’s ironical paradigm. In particular, [65]
+established that Remark A.1.b’s paradigm can be evaded when D corresponds to semantic
+tableaux deduction. Thus, [63, 65] established that the following partial boundary case
+exception to the Second Incompleteness Theorem does arise:
+Theorem A.2. [63, 65] Let DS denote the semantic tableaux deductive apparatus,
+and α denote any axiom system all of whose Π∗1 theorems are true sentences under the
+standard model using the language L∗ . Then ISDS (α) will prove all α’s Π∗1 theorems,
+and it will also be consistent.
+We remind the reader that Theorem A.2 is significant because the Second Incompleteness Theorems implies that most systems, formally verifying their own consistency,
+actually fail to be consistent. Theorem A.2 is germane to the current article because it
+implies the following corollary:
+Corollary A.3 Let
+
+DE denote the Rank-Zero-Plus enrichment of the semantic
+
+tableaux apparatus. Also, let α again denote an axiom system all of whose Π∗1 theorems are true sentences under the standard model. Then ISDE (α) will also be consistent.
+Corollary A.3 is an easy consequence of Theorem A.2. We will now present a brief
+sketch of its proof.
+Proof Outline: Let α∗ denote the extension of the basis system α that includes one
+instance of axiom (20) for every ∆∗0 formula Ψ(x) .
+∀x
+
+Ψ(x) ∨ ¬ Ψ(x)
+
+(20)
+
+Theorem A.2 implies that all the theorems of α∗ hold true under the standard model
+simply because (20) holds true under the Standard Model, as do also all the particular
+Π∗1 theorems of α. Hence, Theorem A.2 implies that ISDS (α∗ ) is consistent. This implies
+that ISDE (α) must also be consistent (since the ISDS (α∗ ) and ISDE (α) formalisms are
+essentially identical to each other, except for minor changes in notation).
+29
+
+
+
+Remark A.4. The simplicity of Corollary A.3’s proof may tempt one to partially
+overlook its significance. This corollary is significant because one of the main themes
+of our article has been that a deductive apparatus does not capture the core intentions
+of most logics, unless it contains some form of Definition 3.8’s Linear Constrained Cut
+Rule. The significance of Corollary A.3 is that it shows that the Rank-Zero-Plus variant of
+Definition 3.8’s linear cut rule is actually formally supported by the self-justifying ISDE (α)
+axiom system.
+Remark A.5. We again remind the reader that the formalism ISDS (α) and ISDE (α)
+in Propositions A.2 and A.3 are capable of proving all Peano Arithmetic’s Π∗1 theorems
+when α designates the trivial extension of Peano Arithmetic which includes the ten
+U-Grounding functions symbols. (These self-justifying formalisms can thus appreciate a
+non-trivial part of Engineering’s Π1 significance for traditional arithmetics.)
+
+References
+[1] Z. Adamowicz, “Herbrand consistency and bounded arithmetic”, Fundamenta Mathematicae 171 (2002) pp. 279-292.
+[2] Z. Adamowicz and P. Zbierski, “On Herbrand consistency in weak theories”, Archives
+for Mathematical Logic 40(2001) 399-413
+[3] L. D. Beklemishev, “Induction rules, reflection principles and provably recursive functions”, Annals of Pure and Applied Logic 85 (1997) pp. 193-242.
+[4] A. Bezboruah and J. C. Shepherdson, “Gödel’s second incompleteness theorem for
+Q”, Journal of Symbolic Logic 41 (1976) pp. 503-512
+[5] S. R. Buss, Bounded Arithmetic, (Ph D Thesis) Proof Theory Notes #3, Bibliopolis
+1986.
+[6] S. R. Buss, Informal private conversations during a lunch in Vienna at the 5-th
+meeting of the Kurt Gödel Colloquium, 1997.
+[7] S. R. Buss and A. Ignjatovic, “Unprovability of consistency statements in fragments
+of bounded arithmetic”, Annals of Pure and Applied Logic 74 (1995) pp. 221-244.
+[8] J. W. Dawson, Logical Dilemmas: The life and work of Kurt Gödel, AKPeters, 1997
+[9] Eric Demaine, YouTube Lecture 12 about “Fusion Trees”, available in MIT’s Open
+Course Software, “CosmoLearning” 4 April 2016
+[10] H. B Enderton, Mathematical Introduction Logic, Academic Press, 2011
+[11] S. Feferman, “Arithmetization of mathematics in a general setting”, Fundamenta
+Mathematicae 49 (1960) pp. 35-92.
+30
+
+[12] Wikipeia article about the “Fermi Paradox”
+[13] M. Fitting, First Order Logic and Automated Theorem Proving, Springer-Verlag,
+1996.
+[14] M. L. Fredman and D. E. Willard, “Surpassing the information theoretic barrier with
+fusion trees”, The Journal of Computer and Systems Sciences 47 (1993), pp. 424-433.
+[15] M. L. Fredman and D. E. Willard, “Transdichotomous algorithms for minimum spanning trees and shortest paths”, The Journal of Computer and Systems Sciences 48
+(1994), pp. 533-551.
+[16] H. M. Friedman, “On the consistency, completeness and correctness problems”, Ohio
+State Tech Report, 1979.
+[17] H. M. Friedman, “Translatability and relative consistency”, Ohio State Tech Report,
+1979.
+[18] H. M. Friedman, “ Gödel’s blessing and Gödel’s curse”. (This is “Lecture 4” within
+a 5-part Ohio State YouTube lecture, dated March 14, 2014, whose last few minutes
+is devoted to summarizing the mysteries left unsolved by the Second Incompleteness
+Theorem,)
+[19] K. Gödel, “ Über formal unentscheidbare sätze der principia mathematica und verwandte systeme I”, Monatshefte für Mathematik und Physik 37 (1931) pp. 349-360.
+[20] K. Gödel, “The present situation in the foundations of mathematics”’, in Collected
+Works Volume III: Unpublished Essays and Lectures, 2004, pp. 45–53, edited by S.
+Feferman, Oxford University Press.
+[21] R. Goldstein, Incompleteness: The Proof and Paradox of Kurt Gödel, Norton Press,
+2005.
+[22] P. Hájek, “Mathematical fuzzy logic and natural numbers”, Fundamenta Mathematicae 81 (2007), pp. 155-163.
+[23] P. Hájek, “Towards metamathematics of weak arithmetics over fuzzy logic”, Logic
+Journal of the IPL 19 (2011), pp. 467-475.
+[24] P. Hájek and P. Pudlák, Metamathematics of First Order Arithmetic, Springer Verlag
+1991.
+[25] Stephen Hawking interviewed by Dana Dovey, Newsweek December 26 2017, available
+at www.newsweek.com. under the title of “Stephen Hawking’s six wildest predictions
+from 2017 - from a robot apocalypse to the demise of earth”
+[26] Stephen Hawking interviewed by Racheal McNemy on November 1, 2017, available at
+https//www.cambridg-news.co.uk under the title of “Stephen Hawking says he fears
+artificial intelligence will replace humans”
+[27] D. Hilbert, “ Über das unendliche”, Mathematische Annalen 95 (1926) pp. 161-191.
+[28] D. Hilbert and P. Bernays, Grundlagen der Mathematic, Springer 1939.
+
+31
+
+[29] R. Jeroslow, “Consistency statements in mathematics ”, Fundamenta Math 72 (1971)
+pp.17-40.
+[30] S. C. Kleene, “On the notation of ordinal numbers”, Journal of Symbolic Logic 3
+(1938), 150-156.
+[31] G. Kreisel and G. Takeuti, “Formally self-referential propositions for cut-free classical
+analysis”, Dissertationes Mathematicae 118 (1974).
+[32] E. Mendelson, Introduction to Mathematical Logic, CRC Press, 2010.
+[33] E. Nelson, Predicative Arithmetic, Mathematics Notes, Princeton University Press,
+1986.
+[34] Jelani Nelson, YouTube Lecture 2 about “Fusion Trees” for Harvard’s Compsci 224
+Course (Advanced Data Structures (July 11, 2016).
+[35] R. Parikh, “Existence and feasibility in arithmetic”, Journal of Symbolic Logic 36
+(1971), pp. 494-508
+[36] J. B. Paris and C. Dimitracopoulos, “A note on undefinability of cuts”, Journal
+Symbolic Logic 48 (1983) 564-569
+[37] C. Parsons, “On n−quantifier elimination”, Journal of Symbolic Logic 37 (1972), pp.
+466-482.
+[38] S. Pinker, Enlightenment Now the case for Reason, Science, Humanism and Progress,
+Viking, New York, 2018.
+[39] P. Pudlák, “Cuts, consistency statements and interpretations”, Journal of Symbolic
+Logic 50 (1985), pp. 423-442
+[40] P. Pudlák, “On the lengths of proofs of consistency”, in Collegium Logicum: 1996
+Annals of the Kurt Gödel Society ( Volume 2), Springer-Wien-NewYork, pp 65-86.
+[41] P. Pudlák, Private emailed communications, 2001.
+[42] H. A. Rogers, Theory of Recursive Functions and Effective Compatibility, McGrawHill 1967.
+[43] Gerald Sacks, “Reflections on Gödel - YouTube”, June 2, 2014, Lecture given by
+Gerald Sacks “recording the life and experiences of Kurt Gödel”, whom Sacks initmately knew at the Institute of Advanced Studies. Some quotes from Sacks are that
+Gödel “ did not think” the goals of Hilbert’s Consistency Program “were erased” by
+the Incompleteness Theorem, and that Gödel believed (according to Sacks) that it
+left Hilbert’s program “very much alive and even more interesting than it initially
+was”.
+[44] R. Smullyan, First Order Logic, Springer-Verlag, 1968.
+[45] R. M. Solovay, Private telephone conversation in 1994 describing Solovay’s generalization of one of Pudlák’s theorems [39], using some methods of Nelson and Wilkie-Paris
+[33, 51]. (The Appendix A of [60] offers a 4-page summary of this conversation.)
+
+32
+
+[46] V. Švejdar, ”An interpretation of Robinson arithmetic in its Grzegorczjk’s weaker
+variant” Fundamenta Informaticae 81 (2007) pp. 347-354.
+[47] R. L. Trivers, Natural Selection and Social Theory Selected Works of Robert Rivers,
+Oxford University Press, 2002. (See page 113 for the passage that we have quoted.)
+[48] R. L. Trivers and D. E. Willard, “Natural selection of parental ability to vary sex
+ratio of offspring”, Science (New Series, Volume 179), January 5, 1973, pp. 90-92,
+[49] A. Turing, “On the computable numbers with an application to the entscheidungsproblem”, Proceedings of London Mathematics Soceity, 1936, pp. 230-265.
+[50] A. Visser, “Faith and falsity”, Annals of Pure and Applied Logic 131 (2005) pp.
+103-131.
+[51] A. J. Wilkie and J. B. Paris, “On the scheme of induction for bounded arithmetic”,
+Annals of Pure and Applied Logic (35) 1987, 261-302.
+[52] D. Willard, “Polygon Retrieval,” SIAM Journal on Computing, 11 (1982), pp. 149166.
+[53] D. Willard, “Log-Logarithmic Worst-Case Range Queries are Possible in Space
+O(N),” Information Processing Letters 17 (1983), pp. 81-84.
+[54] D. Willard, “New Data Structures for Orthogonal Range Queries,” SIAM Journal
+on Computing, 14(1985), pp. 232-253.
+[55] D. Willard, “Multi-Dimensional Search Trees that Provide New Types of Memory
+Reduction,” Journal of ACM 34 (1987), pp. 846-858.
+[56] D. Willard, “Optimal Sampling Residues for Differentiable Data Base Query Problems”, Journal of ACM, 38 (1991), pp 104-119.
+[57] D. Willard, “Self-verifying axiom systems”, Computational Logic and Proof Theory:
+The Third Kurt Gödel Colloquium (1993), Springer-Verlag LNCS#713, 325-336.
+[58] D. Willard “Applications of Range Query Theory to Relational Database Selection
+and Join Operations”, Journal of Computer and Systems Sciences 52 (1996) pp 157169.
+[59] D. Willard, “The Tangibility Reflection Principle”, Fifth Kurt Gödel Colloquium
+(1997), Springer-Verlag LNCS#1289, pp. 319–334.
+[60] D. Willard, “Self-verifying systems, the incompleteness theorem and the tangibility
+reflection principle”, in Journal of Symbolic Logic 66 (2001) pp. 536-596.
+[61] D. Willard, “How to extend the semantic tableaux and cut-free versions of the second
+incompleteness theorem almost to robinson’s arithmetic Q”, Journal of Symbolic
+Logic 67 (2002) pp. 465–496.
+[62] D. Willard, “An Algorithm for Handling Many Relational Calculus Queries Efficiently”, Journal of Computer and System Sciences 65 (2002) pp. 295-331.
+
+33
+
+[63] D. Willard, “Some New Exceptions for the Semantic Tableaux Version of the Second
+Incompleteness Theorem”, Proceedings of the Tableaux 2002 Conference SpringerVerlag LNAI#2381, pp. 281–297.
+[64] D. Willard, “A version of the second incompleteness theorem for axiom systems that
+recognize addition but not multiplication as a total function”, First Order Logic
+Revisited, Logos Verlag, pp. 337–368.
+[65] D. Willard, “An exploration of the partial respects in which an axiom system recognizing solely addition as a total function can verify its own consistency”, Journal of
+Symbolic Logic 70 (2005) pp. 1171-1209.
+[66] D. Willard, “A generalization of the second incompleteness theorem and some exceptions to it”. Annals of Pure and Applied Logic 141 (2006) pp. 472-496.
+[67] D. Willard, “On the available partial respects in which an axiomatization for real
+valued arithmetic can recognize its consistency”, Journal of Symbolic Logic 71 (2006)
+pp. 1189-1199.
+[68] D. Willard, “Passive induction and a solution to a Paris-Wilkie question”, Annals of
+Pure and Applied Logic 146(2007) pp. 124-149.
+[69] D. Willard, “Some specially formulated axiomizations for IΣ0 manage to evade the
+herbrandized version of the second incompleteness theorem”, Information and Computation 207 (2009), pp. 1078-1093.
+[70] D. Willard, “A detailed examination of methods for unifying, simplifying and extending several results about self-justifying logics”, Cornell Library Archives 2011 (a
+helpful summary of Willard’s research), http://arxiv.org/abs/1108.6330
+[71] D. Willard, “On the broader epistemological significance of self-justifying axiom systems”, Proceedings of 21st Wollic Conference, Springer Verlag LNCS 8652 (2014),
+pp. 221-236.
+[72] D. Willard, “On how the introducing of a new θ function symbol into arithmetic’s formalism is germane to devising axiom systems that can appreciate fragments of their own Hilbert consistency”, http://arxiv.org/abs/1612.08071 Cornell
+Library Archives 2016.
+[73] D. Willard, “Implications of the Trivers-Willard Sex Ratio Hypothesis for Avian
+Species and Poultry Production, And a Summary of the Historic Context of this
+Research” http://arxiv.org/abs/1707.00039v2, Cornell Library Archives 2017.
+[74] P. Yourgrau, A World Without Time: The Forgotten Legacy of Gödel and Einstein,
+Basic Books, 2005. (See page 58 for the passages we have quoted.)
+
+34
+
+

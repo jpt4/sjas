@@ -1,0 +1,4012 @@
+Self-Verifying Axiom Systems, the Incompleteness Theorem and Related
+Reflection Principles
+Dan E. Willard ∗
+
+Abstract
+
+We will study several weak axiom systems that use the Subtraction and Division primitives (rather than Addition and Multiplication) to formally encode the theorems of Arithmetic. Provided such axiom systems do not recognize Multiplication as a total function,
+we will show that it is feasible for them to verify their Semantic Tableaux, Herbrand, and
+Cut-Free consistencies. If our axiom systems additionally do not recognize Addition as a
+total function, they will be capable of recognizing the consistency of their Hilbert-style deductive proofs. Our axiom systems will not be strong enough to recognize their Canonical
+Reflection principle, but they will be capable of recognizing an approximation of it, called
+the “Tangibility Reflection Principle”. We will also prove some new versions of the Second
+Incompleteness Theorem stating essentially that it is not possible to extend our exceptions
+to the Incompleteness Theorem much further.
+
+NOTE TO THE READER: This article was published in the June 2001 of the Journal of Symbolic
+Logic, pp. 536-596. Subsequent to this paper, I published extensions of this article in the year 2002, 2005
+and 2006 issues of the JSL, as well as in the year 2006 and 2007 issues of APAL and in an year-2009 article
+in Information and Computation. The text in this pdf file is identical to my JSL 2001 article, except that I
+have used a larger type faunt for the reader’s convenience.
+
+∗
+
+Address: Dep of CS, SUNYA, Albany, NY 12222 or dew@cs.albany.edu. Tel. 518-452-0148. Supported by NSF Grant CCR
+99-02726
+
+1
+
+1. INTRODUCTION:
+
+Define an axiom system α to be Self-Justifying iff
+
+i) α can formally verify its own consistency (by some reasonable definition of self-consistency), and
+ii) the axiom system α is in fact consistent.
+Rogers [30] has noted that Kleene’s Fixed Point Theorem implies that every r.e. axiom system α can be
+easily extended into a broader system α∗ which satisfies condition (i). Kleene’s proposal was essentially for
+the system α∗ to contain all α’s axioms plus the one additional axiom sentence:
+There is no proof of 0=1 from the union of α with “THIS SENTENCE”.
+It is known [16, 30, 15]) that the Fixed Point Theorem makes it possible to encode the indented sentence
+above for any r.e. axiom system α. However, the catch is that α∗ can be inconsistent even while its added
+axiom justifies α∗ ’s consistency. Thus α∗ will typically violate Part-ii of the definition of Self-Justification.
+This problem arises not only in Gödel’s paradigm, where α has at least the power of Peano Arithmetic
+(PA), but also for many systems much weaker than PA. For instance, no system satisfying the HilbertBernays properties can be self-verifying [13, 14, 23]. Many other types of generalizations of Gödel’s Second
+Incompleteness Theorem are also known [6, 8, 13, 28, 33, 34].
+Let us define x − y to equal zero when x < y . Similarly, say b xy c equals x when y = 0. Subtraction
+and Division, thus defined, are total functions. Let Φ denote some Π1 sentence in the conventional language
+of Arithmetic which employs the usual function symbols for Addition and Multiplication. It is clearly possible
+to map each such Π1 sentence Φ onto a sentence Ψ that replaces the Addition and Multiplication symbols
+with the Subtraction and Division function symbols and has the property that Φ ≡ Ψ in languages that are
+adequately strong. (This equivalence certainly does not hold in sufficiently weak languages.) The advantage
+of this approach is that it allows an axiom system to avoid the assumption that Addition and Multiplication
+are total functions. In the absence of such assumptions about the totality of Addition and Multiplication
+functions, our axioms systems will be certainly too weak to formally prove Φ ≡ Ψ , but they will be able
+to work with a sentence Ψ that is in some sense a partial counterpart of the sentence Φ . Our theorems in
+Sections 3-5 will explain how this change in perspective allows an axiom system to avoid at least some of the
+limitations imposed by the Second Incompleteness Theorem.
+The language that we will formally study is defined in section 2, and it will use seven function symbols
+for representing the operations of subtraction, division, predecessor, maximum, logarithm, root-finding, and
+−
+−
+counting the number of “1” bits in an integer’s binary encoding. We will define ∆−
+0 , Σ1 and Π1 sentences
+
+to be the exact analogs of conventional Arithmetic’s ∆0 , Σ1 and Π1 sentences except that our language will
+replace the Addition and Multiplication function symbols with these seven new alternate symbols. In this
+2
+
+context, Prf α ( x , y ) will denote a ∆−
+0 formula indicating y is the Gödel number of a proof from axiom system
+α of the sentence with Gödel number x. (Some theorems describing how to encode Prf α ( x , y ) as a ∆−
+0
+formula will appear later in Appendices B through D, and the reader should temporarily just assume such an
+encoding is feasible.) If d Φ e denotes Φ’s Gödel number, then an axiom system α’s Canonical Reflection
+Principle for the sentence Ψ is the sentence:
+{
+
+∃ y
+
+Prf α ( d Ψ e , y ) }
+
+⊃
+
+Ψ
+
+(1)
+
+Löb’s Theorem [22] asserts every consistent extension α of Peano Arithmetic is capable of proving the
+validity of (1) in only the uninteresting degenerate case where α can prove Ψ by itself! Our research was
+motivated largely by the observation that it is possible for axiom systems α , not recognizing Addition and
+Multiplication as total functions, to justify close approximations to the impermissible reflection principle (1).
+They can thus evade much of what had appeared to be the implications of Löb’s Theorem.
+Our objectives are best summarized when it is noted that the following four generalizations of Gödel’s
+Incompleteness Theorem severely limit the capacity of any self-justifying system:
+A) Pudlák [28] has shown that no extension of Robinson’s System Q can verify its own Hilbert consistency.
+That is, there can exist no consistent axiom system α which recognizes Addition and Multiplication as
+total functions and which can prove the non-existence of a Hilbert-style proof of 0=1 from itself. (See
+[7, 10, 13, 14, 23, 31] for the definition of a Hilbert proof.)
+B) Robert Solovay (private communications [34]) has generalized Pudlák’s theorem to systems α which
+merely recognize Successor as a total function and use Subtraction and Division to implicitly represent
+Addition and Multiplication. If such an α is consistent and can prove all Peano Arithmetic’s Π−
+1
+theorems about Subtraction and Division, then Solovay’s theorem asserts α cannot prove the nonexistence of a Hilbert-proof of 0=1 from itself. (A detailed description of Solovay’s theorem appears in
+Appendix A. In addition to Pudlák, Solovay credited research by Nelson and Wilkie-Paris [24, 38] for
+having influenced his generalization of Pudlák’s theorem.)
+C) A variation of Löb’s Theorem is also valid for systems α which recognize none of Addition, Multiplication
+or even Successor as total functions. Our Theorem 7.2 will show that if such an α is consistent and
+can prove all Peano Arithmetic’s Π−
+1 theorems about Subtraction and Division then it cannot verify
+Equation (1)’s canonical reflection principle for every Π−
+1 sentence Ψ.
+D) Zofia Adamowicz has recently started circulating an unpublished manuscript [1] showing that for each
+m ≥ 2 , the Second Incompleteness Theorem can be generalized to show that I Σ1 + Ωm is unable to
+prove a theorem verifying its own Semantic Tableaux consistency.
+3
+
+The perhaps most surprising aspect of our research is that it will provide several examples of interesting
+self-justifying systems, despite the limitations above. These systems will contain sufficient robustness to offer
+at least a reasonable approximation of the reflection principle (1), while also recognizing the validity of Peano
+Arithmetic’s Π−
+1 theorems about the properties of Subtraction and Division. We need two new definitions
+before we can explain how we will evade Löb’s Theorem.
+Definition 1.1. The literature has defined a sentence to be Prenex Normal iff it contains a block of
+quantifiers on its left side followed by an open formula. It is usually assumed that these quantifiers are
+unbounded, i.e. they are not quantifiers of the form ∀x ≤ t or ∃x ≤ t where t denotes an arbitrary term.
+We will say a sentence is written in PRENEX* form iff its quantifiers are permitted to be either bounded
+or unbounded quantifiers. Also if Φ denotes a Prenex* sentence, Φij will denote a sentence identical to Φ
+except that each unbounded universally quantified variable from Φ is bounded by i and each unbounded
+existentially quantified variable from Φ is bounded by j. (Bounded quantifiers do not have their range
+change.) The symbol Φi will be an abbreviation for Φi∞ .
+Definition 1.2. Let Tangible(x) be a formula which asserts that the number x is not of unusually
+large size, i.e. its size is very “tangible”. Since our axiom systems α will not necessarily assume that any
+of Multiplication, Addition or even Successor are total functions, three possible definitions of tangibility are
+given below. (In these definitions, it is assumed that the constant k ≥ 2. )
+a. TangPred (x)
+
+=
+
+{ ∃v x < v − 1 }
+
+b. TangDivk (x)
+
+=
+
+{ ∃v x < kv }
+
+c. TangRootk (x)
+
+=
+
+{ ∃v x < v 1/k }
+
+In a notation where Tangible(x) denotes any one of TangPred(x), TangDivk (x) or TangRootk (x), an axiom
+system α’s Tangibility Reflection Principle for the sentence Ψ is defined to be the assertion:
+∀x {
+
+[ ∃ y
+
+Prf α ( d Ψ e , y ) ∧ Tangible(x)
+
+]
+
+⊃ Ψx
+
+}
+
+(2)
+
+Our main theorems will define axiom systems α which can verify their tangibility reflection principles,
+for all prenex* sentences Ψ simultaneously. They will thus establish the following results:
+i. Assume that “Prf” in Equation (2) denotes either a Hilbert proof method or Gentzen’s Sequent Calculus
+(with deductive cuts permitted). For each consistent arithmetic axiom system A , there will exist an
+axiom system α which supports the TangPred version of the tangibility reflection principle and can
+also verify all A ’s Π−
+1 theorems (when these theorems are rewritten in a form where the Subtraction
+and Division primitives replace Addition and Multiplication). These systems α will not recognize
+4
+
+either Addition or Multiplication as total functions. However, they can recognize Bitwise-Or as a total
+function when the predicate TangDiv2 replaces TangPred in Equation (2).
+ii.
+
+The systems α (above) can be modified to recognize Addition as a total function when “Prf” in
+Equation (2) is changed to designate some cut-free formalism (such as Herbrand or Semantic Tableaux
+proofs) and when the TangRoot version of the tangibility reflection principle is employed.
+
+One of the curious aspects of Items (i) and (ii) above is the extremely tight fit between their positive results
+and the four negative results (A) through (D), mentioned earlier. For example, Solovay’s version of the
+Incompleteness Theorem (stated in B) explains why α in (i) or (ii) could not possibly simultaneously verify
+some version of its Hilbert consistency and also recognize successor as a total function. Similarly, Item C
+explains why it is necessary for Equation (2) to employ some version of a tangibility predicate (since the
+unmodified canonical reflection principle (1) is always infeasible).
+In order to compare our results more closely to the prior literature, it is helpful to introduce one further
+definition. Say a formula Υ(v) is a Definable Cut for an an axiom system α if α can prove
+a.
+
+Υ(k) for each fixed natural number k,
+
+b.
+
+∀u ∀v Υ(v) ∧ u < v ⊃ Υ(u) , and
+
+c. ∀u Υ(u) ⊃ Υ(u + 1) .
+Also, if α can prove only the first two of the above three conditions about Υ(v),
+
+then Υ(v) will be
+
+said to satisfy α’s weaker “Tangibility Criteria”. The prior literature [20, 21, 24, 28, 36] has illustrated
+several examples of different formulae Tang(v), which are Definable Cuts for α, such that α can prove its
+consistency local to these Cuts. Thus, it has shown how several quite different axiom systems α can prove:
+∀y
+
+{ Tang(y)
+
+⊃
+
+¬ Prf α ( d 0 = 1 e , y ) }
+
+(3)
+
+One example of such a system was due to Kreisel and Takeuti [20, 21, 36]. They studied a type of self-justifying
+axiom system, based on a Second-Order Logic formalism that is a generalization of Gentzen’s Cut-Free Sequent
+Calculus [11]. Their systems could prove the statement (3) about themselves when Tang(y) was taken to
+be a second-order logic definition of the Natural Numbers and “Prf” denoted a second-order generalization
+of Gentzen’s Cut-Free Sequent Calculus. Nelson [24] proved that Robinson’s System Q (with linear ordering)
+could prove a version of (3) about itself when Tang(y) was taken to be a delicately specified “Definable
+Cut” of the Natural Numbers and “Prf” denoted Herbrand deduction. Pudlák [13, 28] proved a more general
+theorem for any finitely axiomatized sequential theory (and also allowing for the Wilkie-Paris notion [38] of
+a Herbrand-restricted-consistency proof). Examples of axiom systems that can prove their consistency on
+Definable Cuts thus include IΣ0 , IΣ0 +Exp, ACA0 , and GB, among many others.
+5
+
+A slightly different perspective on an axiom’s ability to partially verify its own consistency is seen in
+Wilkie-Paris [27, 38]’s examination of IΣ0
+
+and its generalizations. Six theorems are discussed in [38].
+
+Among these are that IΣ0 + Ω1 can prove that its consistency is equivalent to the consistency of both IΣ0
+and IΣ0 + Ωn (for any n > 0), and that IΣ0 +Exp is incapable of proving the consistency of IΣ0 (Indeed,
+it cannot prove the consistency of even Robinson’s System Q.) Yet at the same time, it is known that added
+growth power of SuperExp would enable IΣ0 +SuperExp to prove IΣ0 ’s consistency. In combination, these
+facts indicate IΣ0 has a partial ability to appreciate its own self-consistency (since it can appreciate that
+the hypothesis that SuperExp is a total function implies its consistency). On the other hand, Wilkie-Paris
+showed that there is a well-defined limit to IΣ0 ’s understanding of its own self-consistency (because IΣ0 +Exp
+cannot prove the consistency of IΣ0 ).
+Our research is partially related to the prior research of Kreisel, Nelson, Paris Pudlák, Takeuti and Wilkie
+because both the Equations (2) and (3) employ some versions of tangibility formula. However, it is difficult
+to make more detailed comparisons because each approach offers differently advantageous insights. Roughly
+speaking, the advantages of the perspectives of [20, 21, 24, 28, 36, 38] are that:
+I. Many of the axiom systems of [20, 21, 24, 28, 36, 38] were widely studied axiom systems, such as Robinson’s
+Q, ACA0 , IΣ0 , GB, and Gentzen Systems, unlike our systems which were especially manufactured with
+the assistance of Kleene’s Fixed Point Principle.
+II. Each of the systems in [20, 21, 24, 28, 36, 38] recognized Multiplication as a total function, unlike our
+systems, which in one case (the system ISREF(A) ) will fail to view Successor as a total function.
+III. As a consequence of Item ( II ),
+
+ISREF(A) will employ Equation (2)’s reflection principle in a context
+
+where it fails to view TangPred(x) as a Definable Cut. In contrast, each of [20, 21, 24, 28, 36, 38] will
+recognize their Tang(y) formulae in Equation (3) as Definable Cuts. (Also unlike ISREF(A), Section
+6’s ISλ (A) system will recognize its comparable TangRoot(x) formula as a Definable Cut.)
+IV. IΣ0 can prove that if SuperExp is a total function then it is consistent [13, 38]
+On the other hand, the new results proven in Sections 3-6 are that:
+V. The variable y in Equation (2) will not need to be required to satisfy any form of restricting predicate
+Tang(y). (Only x is so restricted. ) In particular, Sections 3-6 will formalize axiom systems α, which
+differ from Equation (3)’s α by being capable of proving:
+
+∀y ¬ Prfα ( d0 = 1e , y ).
+
+VI. The reflection principle (2) is an inherently broader statement than Equation (3)’s mere assertion of
+the non-existence of a proof of 0=1, and
+6
+
+VII. The version (i) of our result, unlike previous efforts at self-verification, permits “Prf” to designate
+either an Hilbert-proof system or a Gentzen-system allowing deductive cuts.
+It is infeasible to devise a hybridized self-justifying axiom formalism, that simply combines our methods
+with the prior literature [20, 21, 24, 28, 36, 38] because such a formalism would violate one of the four variants,
+(A) through (D) of the Incompleteness Theorem, mentioned earlier. Hence, there are inherent tradeoffs that
+prevent a self-justifying axiom system from possessing all of features (I) through (VII), simultaneously! Thus,
+it is futile to seek an idealized form of self-verifying system, that combines the advantages of the many different
+approaches simultaneously. Each should be viewed as providing differently desirable insights.
+It should be kept in mind that Feferman’s discussion of axiom systems that evade Gödel’s Incompleteness
+Theorem by capturing the “numerical” but “not intensional” definitions of provability is certainly relevant to
+both our work and to the prior literature [20, 21, 24, 28, 36, 38] because it recognizes that certain types of
+exceptions to the Incompleteness Theorem are feasible when one sufficiently stretches and modifies the notion
+of provability. However, it does not anticipate the precise results that we or others derived because it does
+not discuss which precise directions the notion of provability can be maximally stretched.
+
+FURTHER COMMENTS ABOUT THE PRIOR LITERATURE: Numerous articles [13, 24, 26,
+28, 29, 38] have credited an unpublished observation by Solovay for introducing the method of “thinning” a
+Definable Cut. The development of cut formulae for Robinson’s System Q (that can model IΣ0 + Ωn ) were
+due to both Nelson [24] and Wilkie-Paris[38, 39]. The proofs of the (A) and (B) versions of the Incompleteness
+Theorem, by Pudlák and Solovay [28, 34], employs such models of IΣ0 + Ωn , together with the thinning of cut
+formulae. The thinning method was also employed by Nelson and Pudlák [24, 28] to establish that Robinson’s
+Q and many of its extensions can prove Equation (3)’s self-consistency statement for Herbrand Deduction. It
+was also used by Paris and Wilkie in their study of IΣ0 and its generalizations.
+Buss, Dimitracopoulos, Hájek, Krajı́cek, Parikh, Paris, Pudlák and Wilkie in [6, 12, 13, 17, 18, 25, 26, 29,
+38] have discussed many other respects how Definable Cuts and/or fastly growing functions affect a system’s
+ability to recognize its self-consistency. It is known that no axiom system stronger than IΣ0 + Exp can
+prove its Herbrand consistency. In this connection surveying both his work and that of Paris-Wilkie [27],
+Pudlák explicitly states on page 435 of [28] that it is unknown what systems weaker than IΣ0 + Exp will
+have a similar property. Our IS(A) and ISλ (A) axiom system, in Section 4-6, provide a partial answer to
+this question because they verify their Semantic Tableaux (and also Herbrand) consistency while recognizing
+Addition as a total function and also proving Peano Arithmetic’s Π−
+1 theorems.
+
+7
+
+OTHER INTRODUCTORY COMMENTS: Since none of our axiom systems will recognize Multiplication as a total function and since some will also not recognize Addition, these axiom systems are clearly
+awkward in some serious respects. The reason for our interest in such awkwardly defined axiom systems is
+that they offer a partial answer to a version of the Liar’s Paradox raised by Gödel’s Incompleteness Theorem.
+In particular, they will provide a possible partial answer to the paradoxical question below:
+* How do Human Beings manage to muster the physical energy and psychological desire to think (and prove
+theorems) when the many generalizations of Gödel’s Incompleteness Theorem assert that no reasonable
+conventional axiom system can confidently assume its own consistency?
+We can provide no perfect answer to the preceding question because there can obviously never exist any
+completely satisfactory answer to a logical paradox. However, our partial answer to the logical paradox ∗ ,
+raised by Gödel’s Incompleteness Theorem, will be that a Thinking Being can indeed assume that if he proves
+Ψ, then Ψ will be valid when it is restricted to all numbers of at least reasonable size (i.e. the “tangible”
+numbers specified in Equation (2)).
+Part of what will make the Reflection Principle (2) interesting is that the Variation-C of the Incompleteness
+Theorem shall demonstrate that Equation (1)’s slightly more general canonical reflection principle always
+leads to a hopelessly inconsistent axiom system. Thus since (1) is always infeasible, it is curious that the
+compromise reflection principle (2) is often permissible.
+The Tangibility Reflection Principle is especially curious when Ψ in Equation (2) represents what the next
+−
+section shall call “a Σ−
+1 sentence”. (Section 2 defines Σ1 sentence to be roughly the analog of conventional
+
+arithmetic’s Σ1 sentences where the Addition and Multiplication function symbols are now replaced with
+Section 2’s seven function symbols of Subtraction, Division, Logarithm ...) The crucial aspect of any Σ−
+1
+sentence
+
+Ψ
+
+is that Ψ ≡ Ψ0 , and that essentially any axiom system α can verify this equivalence.
+
+Therefore for any Σ−
+1 sentence Ψ , our self-verifying systems α will be able to further deduce from Ψ ’s
+Tangibility axiom (2) the following inference about its own self-consistency:
+{
+
+∃ y
+
+Prf α ( d Ψ e , y ) }
+
+⊃
+
+Ψ
+
+(4)
+
+Moreover, if Ψ ≡ “ 0=1 ” then α can further deduce Equation (5) from (4).
+∀y
+
+¬ Prf α ( d 0 = 1 e , y )
+
+(5)
+
+The above two inferences from (2)’s Tangibility Reflection Principle illustrate how α can deduce some very
+conventionally stated formulations of its self-consistency from the tangibility principle.
+We wish to close this section by again acknowledging that there are disadvantages to our self-justifying
+axiom systems, since the presence of the Tangibility Reflection Principles (2) will force all our axiom systems
+8
+
+to drop the assumption that Multiplication is a total function. Also, it is less than ideal to remove the axiom
+that Addition is a total function (as one of our three axiom systems will do). However, paradoxes never have
+perfect solutions. The partial virtues of the ISλ (A) and ISREF(A) axiom systems is that their Tangibility
+Reflection Principles will offer at least a partial answer to the Paradoxical Question ∗ .
+
+2
+
+The Definitions of IS(A), ISREF(A) and ISλ (A)
+
+The acronym “IS” stands for “Introspective Semantics”. Let us assume that the “base axiom system” A is
+an extension of Peano Arithmetic. Our “IS(A)” axiom system will be designed to prove all the Π−
+1 arithmetic
+theorems of A plus additionally contain an ability to verify that IS(A), itself, does not contain a proof of 0=1.
+This section will define the axiom system IS(A) and some of its generalizations.
+Define F (a1 , a2 , ...aj ) to be a NON-GROWTH FUNCTION iff for all values of a1 , a2 , ...aj , the function
+F satisfies F (a1 , a2 , ...aj ) ≤ M aximum(a1 , a2 , ...aj ) . Our axiom systems will employ a set of seven nongrowth functions, called the GROUNDING FUNCTIONS. They will include:
+1. Integer Subtraction where x − y is defined to equal zero when x < y,
+2. Integer Division where
+
+x
+y
+
+= x when y = 0 , and it otherwise equals b xy c .
+
+3. P redecessor(x) = Max( x − 1 , 0 ),
+4. M aximum(x, y),
+5. Logarithm(x) = dLog2 (x + 1)e,
+6. Root(x, y) = b x1/y c when y ≥ 1 , and Root(x, 0) = x.
+7. Count(x, j) designating the number of “1” bits among x’s rightmost j bits.
+
+We will follow mostly conventional logic notation when discussing the functions above. Thus a term is
+defined to be a constant symbol, a variable symbol or a function symbol (followed by some input arguments,
+which are similarly defined terms). If t is a term then the quantifiers in ∀ v ≤ t Ψ(v) and ∃ v ≤ t Ψ(v) will be
+called bounded quantifiers. These two wffs will be semantically equivalent to the formulae ∀v ( v ≤ t ⊃ Ψ(v))
+and ∃v ( v ≤ t ∧ Ψ(v)). A formula Φ will be called ∆−
+0 iff all its quantifiers are bounded. A sentence
+−
+will be called Π−
+) iff for some ∆−
+1 (respectively Σ1
+0 formula Φ(v1 , v2 , ...vn ),
+
+∀v1 ∀v2 ... ∀vn Φ(v1 , v2 , ...vn ) ,
+
+it is written in the form
+
+(respectively ∃v1 ∃v2 ... ∃vn Φ(v1 , v2 , ...vn ) ).
+
+We will now define the “IS( • ) MAPPING” . It will map an initial axiom system A onto an axiom
+system IS(A), such that the latter can simultaneously recognize that there exists no proof of 0=1 from IS(A)
+and prove all of A’s Π−
+1 theorems. In particular, IS(A) will consist of the following four groups of axioms:
+
+9
+
+Group-Zero: The axiom system IS(A) will contain one constant symbol n̄ for each natural number n ≥ 0.
+The Group-Zero axioms will define these constants formally. They will include 1̄ 6= 0̄, and for each
+n > 0, the axioms: Predecessor( n ) = n − 1,
+
+2n − n = n and 2n + 1 − n − 1 = n.
+
+Group-1: The Π−
+2 axiom (below) indicates that Addition is a total function:
+∀x ∀y ∃z
+
+z−x = y
+
+(6)
+
+The other axioms in Group-1 will be a set of Π−
+1 sentences assigning the “=” and “<” predicates their
+usual logical properties and assuring that for each Grounding Function F and for each set of constants
+k̄, c¯1 , c¯2 , ...c¯m , the Group-Zero and Group-1 axioms will together imply F (c¯1 , c¯2 , ...c¯m ) = k̄ whenever
+this sentence is true. Table I (at the end of this article) illustrates one such finite set of Π−
+1 axiom
+sentences, but any other finite set of Π−
+1 axioms with these properties is equally suitable. Our theorems
+will also be valid if Group-1 is expanded to include any larger set F of additional non-growth functions
+that is axiomatized by any finite set of Π−
+1 axioms (and the Group-2 scheme is accordingly adjusted).
+Group-2: The Group-2 axiom scheme will provide IS(A) with the ability to prove all A ’s Π−
+1 theorems.
+More formally, let T denote a transformation which maps each Π−
+1 sentence Φ (in IS(A)’s language)
+onto its counterpart in A ’s language (which is denoted as ΦT ). Let TransProof A ( x , y ) be a ∆0
+formula indicating x is the Gödel number of some sentence in IS(A)’s language and y is a proof from
+axiom system A of a theorem ΦT (where Φ denotes the sentence specified by x ). Then for each
+Π−
+1 sentence Φ , the Group-2 schema will contain a corresponding axiom:
+∀y
+
+{ TransProof A ( d Φ e , y ) ⊃ Φ }
+
+(7)
+
+1 explains why we use Equation (7) to
+The axiom (7) will be encoded as a Π−
+1 sentence. The footnote
+2
+formulate the Group-2 axioms (rather than simply list A ’s Π−
+1 theorems as axioms). The footnote
+
+explains how the Group-2 translation function T has connections to the literature on Definable Cuts.
+We will desire the Group-2 axiom schema to be defined by a ∆−
+0 formula, called Ax(s), which checks to see if a sentence
+s is an axiom. Most axiom systems A would not allow Ax(s) to be a ∆−
+0 formula, if one automatically converted all A’s
+−
+theorems into proper axioms. On the other hand, a ∆0 formula can recognize every sentence s whose generic form is described
+by Equation (7). Thus, the generic form, described by Equation (7), is desirable because IS(A) will then have access to a ∆−
+0
+formula for recognizing its Group-2 axioms.
+2
+This footnote is not essential to an understanding of our paper, but readers familiar with the literature on on Definable Cuts
+[12, 13, 17, 18, 24, 26, 28, 29, 38] may appreciate it. Let ΦJ be the modification of the sentence Φ that is relativized with
+respect to the definable cut formula J . Then for each different Definable Cut formula J , one can define a distinctly different
+mapping TJ which maps Φ onto ΦJ . For some axiom systems, such as Peano Arithmetic or ZF-Set Theory, there is only one
+available definable cut. For other axiom systems, such as for example GB-Set Theory or IΣ0 , there exists an infinite number of
+different eligible definable cuts and corresponding formulations of Equation (7)’s mapping function TJ . For simplicity, we will
+assume that one such mapping function T is specified in advance, and it will be the only mapping function employed by IS(A).
+The theory of Definable Cuts would allow us to consider some more complex situations, but the presentation in this paper will
+be far simpler if we just put aside such added considerations and simply assume that one straightforward mapping function T
+is specified in advance.
+1
+
+10
+
+Group-3: Let SemPrf α ( x , y ) be a ∆0 formula indicating y is the Gödel number of a Semantic Tableaux
+proof from axiom system α of the sentence with Gödel number x. (The definition of Semantic Tableaux
+proofs can be found in [10, 23, 32], and it is also reviewed by us in Section 4). The Group-3 axiom of
+IS(A) will consist of a single sentence stating that there exists no Semantic Tableaux proof of 0=1 from
+IS(A). This Group-3 axiom will be equivalent to Equation (8), encoded as a Π−
+1 sentence:
+∀y
+
+¬ SemPrf IS(A) ( d 0 = 1 e , y )
+
+(8)
+
+Because the axiom (8) refers to an axiom system which includes itself, its formal encoding (in Appendix
+B) involves a diagonalization construction, employing the Fixed Point Theorem. Our article has been
+written so that the reader accepting the claim that the Fixed Point Theorem makes it possible to
+formally encode the Axiom (8), can understand all the main theorems without viewing Appendix B’s
+detailed encoding of it. (Two other axiom systems, besides IS(A) are also discussed in Appendix B.
+Therefore, the reader should postpone examining Appendix B until after he completes this section.)
+Some readers may be initially surprised that IS(A) is able to recognize its self-consistency simply by
+incorporating the Group-3 statement, asserting its consistency, as a formal axiom. It would be natural for
+many readers to thereby wonder: “How is IS(A) nontrivial?” The answer was provided in the first paragraph
+of Section 1. It noted that every r.e. axiom system can be easily extended to satisfy Part (i) of the definition
+of self-justification (by applying Kleene’s Fixed Point Theorem). However, the catch was that most such
+extended axiom systems fail “Part (ii)” of this definition. That is, most axiom systems become inconsistent
+when they are augmented to include an axiom simply declaring that “I am consistent”. However, IS(A) will
+be different. Theorem 4.3 will prove that if A is consistent then IS(A) is automatically consistent. Thus, if
+A = Peano Arithmetic, IS(A) can prove all the Π−
+1 theorems of Peano Arithmetic, and its consistency will
+be as certain as that of Peano Arithmetic !
+Below are defined two generalizations of IS(A), called ISλ (A) and ISREF(A), which we will discuss:
+ISλ (A) will assume λ denotes a fixed constant satisfying 0.01 < λ < 1 . Its Group-zero, Group-1 and
+Group-2 axioms are identical to those of IS(A). However, its Group-3 schema will be strictly more
+powerful than IS(A)’s counterpart. Let Ψ denote a Prenex* sentence. Let Definition 1.1’s notation
+define Ψxz . For each Prenex* sentence Ψ, the Group-3 schema of ISλ (A) will contain a corresponding
+“ λ−reflection axiom” which is equivalent to Equation (9) encoded as a Π−
+1 sentence:
+∀x ∀y ∀z
+
+z
+{ SemPrf ISλ (A) ( d Ψ e , y ) ∧ y λ <
+x
+
+⊃
+
+Ψxz }
+
+(9)
+
+The formal encoding of ISλ (A)’s Group-3 axiom appears in Appendix B. It uses a Fixed Point construction analogous to the encoding of IS(A)’s Group-3 axiom.
+11
+
+ISREF(A) will employ the same Group-zero and Group-2 schemas as IS(A) and ISλ (A). Its Group-1
+schema, however, will be weaker by omitting the axiom that Addition is a total function (i.e. Equation (6) is omitted). The advantage of this omission is that it will allow ISREF(A) to use a much
+stronger Group-3 schema, employing Hilbert rather than Semantic Tableaux deduction. In particular,
+let HilbPrf α (x, y) denote a formula indicating y is the Gödel number of a Hilbert-proof from α of
+the theorem x . Define SIZE(y) to be a function where Size(y) = c when y is the Gödel number
+of a proof whose largest stored constant is c . Then for each Prenex* sentence Ψ, ISREF(A) will
+contain a corresponding Π−
+1 axiom (encoded in Appendix B) which is equivalent to the sentence:
+∀x ∀y {HilbPrf ISREF(A) ( d Ψ e , y ) ∧ Size(y) ≤ x − 1
+
+⊃
+
+Ψx−1
+x−1 }
+
+(10)
+
+One reason the axioms (9) and (10) are interesting is that they will enable ISλ (A) and ISREF(A) to verify
+their respective TangRoot and TangPred reflection principles (i.e. see Theorems 3.5 and 6.2). Moreover,
+Equations (4) and (5) had shown how these Tangibility Principles permit an axiom system α to verify
+“ ∀y ¬ Prfα (d0 6= 1e, y) ” and also to recognize its Σ−
+1 Reflection Principle.
+Say an axiom system A is Regularly Consistent iff Prf A (x, y) has a ∆−
+0 encoding and the generic
+Group-2 axioms (of Equation (7)) are valid for every Π−
+1 sentence Φ. Define the “mapping”
+
+I( • ) to
+
+be Consistency-Preserving iff I(A) is consistent whenever A is regularly consistent. Sections 3, 4 and
+5 will prove that the three mappings IS( • ), ISREF( • ) and ISλ ( • ) are each consistency-preserving.
+Sections 3 and 6 will prove that ISREF(A) and ISλ (A) can verify their TangPred and TangRoot reflection
+principles. Section 7 will prove three new versions of the Second Incompleteness Theorem, showing that
+ISREF(A) and ISλ (A) cannot be improved much further. For instance, one of Section 7’s theorems will show
+that no reasonable axiom can support Equation (1)’s Canonical Reflection Principle.
+This article will also include several Appendices. The Appendix A briefly summarizes a very pretty
+unpublished theorem by Robert Solovay. It oddly implies all the seemingly natural hybrids of ISREF(A) and
+IS(A) are actually infeasible. (Appendix A also describes related research of Nelson, Paris, Pudlák and Wilkie
+[24, 28, 38], which Solovay credited for partially inspiring his theorem-proof.) Applications of the Fixed Point
+Theorem that provide a formal Gödel-encoding for the Group-3 axioms of IS(A), ISREF(A) and ISλ (A) are
+illustrated in Appendices B through D (with different levels of mathematical terseness). The paper has been
+organized so that the reader can examine the Appendices either before or after Sections 3-7.
+
+3
+
+Analysis of ISREF(A)
+
+Our discussion will begin with ISREF(A) because it is easy to analyze. We first need two lemmas:
+12
+
+Lemma 3.1 Let Φ denote a prenex* sentence. Then Definition 1.1’s notation implies:
+A) a ≤ b ∧ Φia ⊃ Φib
+B)
+
+a ≥ b ∧ Φaj ⊃ Φbj
+
+C)
+
+Φij ⊃ Φi
+
+D) a ≥ b ∧ Φa ⊃ Φb
+
+Proof. Immediate from Φij ’s definition (given in Definition 1.1).
+
+2
+
+Lemma 3.2. Let Mi denote the finite model of the natural numbers which assumes that only the integers
+0, 1, 2, ...i exist. Let Θ denote a Π−
+1 sentence whose constant symbols represent numbers ≤ i . The validity
+of Θ in the Standard Model of the Natural Numbers implies Θ is also valid in the model Mi .
+Proof Summary. The key point is that Π−
+1 sentences are built out of Grounding Functions (which satisfy
+a non-growth property), rather than out of the more conventional growth-oriented functions of Addition and
+Multiplication. This non-growth property makes it trivially obvious Lemma 3.2 is valid.
+
+2
+
+−
+Remark 3.3. If Θ is a Σ−
+1 or ∆0 sentence whose constants are ≤ i , the converse of Lemma 3.2 will
+
+be valid, i.e. the validity of Θ in Mi will imply its validity in the Standard Model of the Natural Numbers.
+Theorem 3.4. The regular consistency of A implies that ISREF(A) is consistent. (In other word,
+ISREF( • ) is a “Consistency-Preserving” mapping.)
+Proof-by-Contradiction. Let us suppose the contrary, and assume ISREF(A) is inconsistent but A is
+regularly consistent. The latter certainly implies ISREF(A)’s Group-zero, Group-1 and Group-2 axioms are
+all valid in the Standard Model of the Natural Numbers. Hence, some Group-3 axiom (similar to Equation
+(10)) is invalid in the Standard Model (because otherwise ISREF(A) would be consistent). Thus, there must
+exist a triple (Ψ, p, i) satisfying
+∗∗
+
+HilbPrf ISREF(A) ( d Ψ e , p )
+
+and
+
+i ≥ Size(p)
+
+and
+
+¬ Ψii
+
+Therefore, let (Ψ, p, i) denote the triple satisfying ∗ ∗ with minimal value in its third component. Our proof
+will construct another triple (Φ, q, j) with j < i to establish the desired contradiction.
+Our construction will begin with the observation that the combination of
+
+∗ ∗ and Lemma 3.2 trivially
+
+implies (see footnote3 ) that Ψ is invalid in the finite model Mi . Since p employs axioms from ISREF(A)
+3
+
+The statement ∗∗ indicates ¬Ψii is valid in the Standard Model of the Natural Numbers and its stored constants are bounded
+
+−
+i
+by i . Also, ¬Ψii is a Π−
+1 sentence (indeed, it is ∆0 because of its superscript and subscript). Thus Lemma 3.2 implies ¬ Ψi is
+
+valid in the finite model Mi . Since Ψ ≡ Ψii within the model Mi , we conclude that ¬ Ψ is also valid in the finite model Mi .
+
+13
+
+to prove a theorem Ψ (which is invalid in Mi ), certainly some axiom appearing in p must be invalid in Mi .
+The footnote 4 explains how Lemma 3.2 immediately implies that all the Group-Zero, Group-1 and Group-2
+axioms in p are valid in Mi . Thus, since all other possibilities are precluded, some Group-3 axiom lying
+in p must be invalid in Mi . The generic form of ISREF(A)’s Group-3 axioms is:
+∀x ∀y
+
+{ HilbPrf ISREF(A) ( d Φ e , y ) ∧ Size(y) ≤ x − 1
+
+⊃
+
+Φx−1
+x−1 }
+
+(11)
+
+Since (11) is invalid in Mi , there will exist a triple (Φ, q, j) in the model Mi satisfying:
+HilbPrf ISREF(A) ( d Φ e , q ) ∧ j ≥ Size(q) ∧
+
+¬ Φjj
+
+∧ j<i
+
+(12)
+
+Appendix B and C’s encoding methods will imply that the formula “ HilbPrf ISREF(A) (dΦe, q) ” in (12) (as
+−
+well as its other three formulae) are ∆−
+0 encodable. Thus, Equation (12) is a valid ∆0 sentence in the model
+
+Mi , and (by Remark 3.3) it will consequently also be valid in the Standard Model of the Natural Numbers.
+The triple (Φ, q, j) thus satisfies
+
+∗ ∗ and contradicts the minimality of (Ψ, p, i) because
+
+j < i . Hence,
+
+ISREF(A) must be consistent to avoid this contradiction. 2
+General Comment: The proofs that IS( • ) and ISλ ( • ) are consistency-preserving are very different
+from Theorem 3.4’s proof, but one aspect of them will be similar. They will be proofs by contradiction, which
+begin with a minimal element hypothetically violating the desired theorem. They will then use this minimal
+element to derive a contradiction by constructing a yet smaller element.
+Theorem 3.5. Assume ISREF(A) employs an encoding scheme satisfying Equation (13). (It assures that
+all constants within any proof y are smaller than y − 1 . Most encoding schemes, including Appendix B’s
+method, satisfy (13) simply because they encode constants as binary numbers.) Then ISREF(A) can prove
+the validity of its TangPred Reflection Principle for any prenex* sentence Ψ .
+∀y
+
+{
+
+Size(y) < y − 1
+
+}
+
+(13)
+
+x−1 . Then from its Group-3
+Proof. Since ISREF(A) can prove Lemma 3.1.C, it can verify Ψx−1
+x−1 ⊃ Ψ
+
+axiom (in Equation (10)), ISREF(A) can immediately infer
+∀x ∀y {HilbPrf ISREF(A) ( d Ψ e , y ) ∧ Size(y) ≤ x − 1
+
+⊃
+
+Ψx−1 }
+
+(14)
+
+From (13) and (14) ISREF(A) can obviously deduce:
+∀y
+4
+
+{
+
+HilbPrf ISREF(A) ( d Ψ e , y )
+
+⊃
+
+Ψy−1 }
+
+(15)
+
+We already noted that each Group-Zero, Group-1 and Group-2 axiom is a Π−
+1 sentence, which is valid in the Standard Model.
+
+Since ∗ ∗ indicates i ≥ Size(p) , Lemma 3.2 trivially implies each such axiom appearing in the proof p is valid in Mi .
+
+14
+
+Using Lemma 3.1.D, ISREF(A) can verify [ x ≤ y ∧ Ψy−1 ] ⊃ Ψx−1 . Then from this identity and (13) through
+(15), ISREF(A) can trivially verify “ ∀x∀ y { HilbPrfISREF(A) (dΨe, y) ⊃ Ψx−1 } ”. The latter is equivalent
+to ISREF(A)’s TangPred Reflection Principle (given in Equation (2) ). 2.
+Remark 3.6. One reason Theorems 3.4 and 3.5 are surprising is that the complementary negative results
+in Theorem 7.2 will imply essentially that no conceivable consistent axiom of any type can prove the analog
+of (15) for every sentence Ψ with the superscript y − 1 changed to y .
+Remark 3.7. Recall ISREF(A)’s Group-1 axioms do not recognize Successor as a total function (unlike
+IS(A)’s counterparts). It is fascinating that the Pudlák and Solovay versions of the Second Incompleteness
+Theorem imply that even if ISREF(A)’s Group-3 axioms were sharply weakened to state merely “I cannot
+produce a Hilbert-Proof of 0=1”, this modified-ISREF(A) would still be inconsistent if it merely recognized
+Successor as a total function ! (See Appendix A for more details.)
+Remark 3.8 Define ISTR(A) to be a modification of ISREF(A) whose Group-1 schema can recognize
+Bitwise-Or as a total function and whose Group-3 Scheme has the form:
+∀x ∀y ∀z { [ HilbPrf ISTR(A) ( d Ψ e , y ) ∧ Size(y) < x ≤
+
+z
+]
+2
+
+⊃
+
+Ψxz }
+
+(16)
+
+The analogs of Theorems 3.4 and 3.5 in Reference [43] show ISTR( • ) is a Consistency-Preserving Mapping
+and that ISTR(A) can prove the TangDiv2 versions of its Tangibility Reflection Principles. The TangDiv2
+Reflection Principles are of course weaker than ISREF’s TangPred Principles. However, the interesting aspect
+of ISTR is that its Bitwise-Or function formalizes finite-set union (when integers represent finite sets as
+Bit-vectors). Moreover, the Group-2 axioms recognize bitwise set-subtraction and set-intersection operations
+(when A =Peano Arithmetic). Thus, ISTR(A) recognizes a TangDiv2 formalization of its Hilbert consistency,
+the totality of the three basic finite-set operations, and the validity of Peano Arithmetic’s Π−
+1 theorems. Could
+this be a partial (albeit not complete) explanation for how Human Beings seem to have an instinctive sense
+of their Self-Consistency despite the limitations of the Second Incompleteness Theorem?
+In the interests of brevity, we will not discuss ISTR(A) any further. (The proof that it satisfies analogs
+of Theorems 3.4 and 3.5 appears in the conference paper [43].) The next three sections will show how IS(A)
+and ISλ (A) will offer some different partial answers to Section 1’s Paradoxical Question ∗ .
+
+4
+
+The IS(A) Axiom System and the Intuition Behind ISλ (A)
+
+The next section will prove that the axiom system ISλ (A) satisfies a consistency preservation property similar
+to ISREF(A). Our two goals in this section will be to review the definition of a semantic tableaux proof and to
+15
+
+prove that IS(A) satisfies a consistency preservation property similar to Theorem 3.4’s treatment of ISREF(A).
+Since IS(A) will have a weaker Group-3 schema than ISλ (A) , the main theorem in the next section will be
+strictly stronger than this section’s results. The two reasons it is desirable to discuss IS(A) first are that its
+analysis is substantially simpler than ISλ (A)’s analysis, and that all the intermediate results in this section
+will be necessary interim steps for the next section’s main proof.
+Our definition of a semantic tableaux proof of a theorem Φ will be similar to that in [10, 23, 32]. Define
+a Φ-Based Candidate Tree for the axiom system α to be a tree structure whose root corresponds to
+the sentence ¬ Φ rewritten in prenex* normal form and whose all other nodes are either axioms of α or
+deductions from higher nodes of the tree. (Unlike Hilbert proofs, the semantic tree notation requires that
+all axioms be proper sentences, i.e. open formulae are disallowed to appear as axioms in a candidate tree).
+Let the notation “ A =⇒ B ” indicate that B is a valid deduction when A is an ancestor of B in the
+candidate tree T . In this notation, the deduction rules allowed in a candidate tree are:
+1. Υ ∧ Γ =⇒ Υ and Υ ∧ Γ =⇒ Γ .
+2. ¬ ¬ Υ =⇒ Υ . Other valid Tableaux rules for the “ ¬ ” symbol include: ¬(Υ ∨ Γ) =⇒ ¬Υ ∧ ¬Γ ,
+¬(Υ ⊃ Γ) =⇒ Υ∧¬Γ ,
+¬(Υ∧Γ) =⇒ ¬Υ∨¬Γ , ¬ ∃v Υ(v) =⇒ ∀v¬ Υ(v) , ¬ ∀v Υ(v) =⇒ ∃v ¬Υ(v)
+and for any term s the rules ¬ ∃v ≤ s Υ(v) =⇒ ∀v ≤ s ¬Υ(v) and ¬ ∀v ≤ s Υ(v) =⇒ ∃v ≤ s ¬Υ(v)
+3. A pair of sibling nodes Υ and Γ is allowed in a candidate tree when their ancestor is Υ ∨ Γ .
+4. A pair of sibling nodes ¬Υ and Γ is allowed in a candidate tree when their ancestor is Υ ⊃ Γ .
+5. ∃v Υ(v) =⇒ Υ(u) where u denotes a newly introduced “Parameter Symbol”.
+6. ∃v ≤ s Υ(v) =⇒ u ≤ s ∧ Υ(u) where u denotes a newly introduced “Parameter Symbol” and
+s denotes a parameter term. (A Parameter Term is defined to be any one of a constant symbol, a
+parameter symbol, or a function symbol whose input arguments can be other parameter terms.)
+7. ∀v Υ(v) =⇒ Υ(t) where t denotes a parameter term. The “Parameter Terms” here are built out of
+any set of constant symbols c1 , c2 , .., cm and parameter symbols u1 , u2 , .., un , where each symbol ui
+was previously introduced by an ancestor of the node storing the new deduction “ Υ(t) ”.
+8. ∀v ≤ s Υ(v) =⇒ t ≤ s ⊃ Υ(t) where s and t denote parameter terms (and t satisfies the same
+constraints as in Item 7).
+Define a particular leaf-to-root branch in a candidate tree T to be Closed iff it contains both some sentence
+Υ and its negation ¬ Υ . A Semantic Tableaux proof of Φ is defined to be a candidate tree whose
+root stores the sentence ¬Φ (written in prenex* normal form) and all of whose root-to-leaf branches are
+closed. The only distinction between our definition of a semantic tableaux proof and some other conventional
+definitions in [10, 23, 32, 38] is that we require Φ’s proof tree to have its root store ¬ Φ rewritten in prenex*
+
+16
+
+normal form, whereas some other conventional definitions do not have the prenex* requirement. All our
+theorems will also hold if we drop the prenex* requirement, but the notation in our main proofs will be
+simplified if we begin with the assumption that the root has been normalized into prenex* form.
+Notation: Let y denote a Semantic Tableaux proof and “ cK ” designate the constant symbol that
+formally represents the natural number K . Let us say the symbol cK is Locally Defined within the proof
+y iff at least one proper axiom lying in the proof tree y contains the symbol cK . Also, VALUE( • ) will
+denote a function that maps each term t onto the integer VALUE(t), defined below:
+1. VALUE( cK ) = K when cK is “locally defined” in y .
+2. VALUE( cK ) = 0 when cK is “locally undefined” in y .
+3. VALUE( u ) is theoretically allowed to designate any fixed integer when u is a parameter symbol.
+(However we will often use it in contexts requiring other constraints.)
+4. VALUE( t )’s definition will generalize in the natural manner for terms t that contain function symbols
+F , i.e. VALUE(F (s, t)) = F (VALUE(s),VALUE(t) ).
+Define a Valuation for the proof-tree y to be a formal function, such as the operation VALUE( • ) above,
+that maps terms from y’s proof-tree onto integer-numbers satisfying the conditions (1)-(4). The symbols $
+and $∗ will often denote particular valuations satisfying these conditions.
+Lemma 4.1. Assume that every natural number K, requires at least Log2 (K) bits to encode the
+constant symbol “ cK ” which formally represents it. (We make this assumption because Appendix B’s Gödel
+encoding of ISλ (A) will employ such binary-like representations for encoding constants. ). Then a semantic
+√
+tableaux proof tree y (using either IS(A)’s or ISλ (A)’s axioms) will satisfy VALUE( cK ) <
+y.
+Justification of Lemma 4.1. There are several different proofs of Lemma 4.1, depending on what type
+of Gödel encoding is employed. One possibility is that the encoding of cK will require 2·Log2 (K) bits.
+In this case, Lemma 4.1 is trivially valid because the proof tree y contains only Log2 (y) bits, implying it
+√
+certainly has insufficient space to contain a constant symbol representing a number larger than y .
+Lemma 4.1 is also valid in the more conservative case where cK ’s storage requires only Log2 (K) bits. The
+proof is then slightly more elaborate. It rests on the fact that even if cK ’s encoding requires only Log2 (K)
+bits, the formal encoding of the Group-Zero, Group-1, Group-2 or Group-3 axiom containing cK will employ
+at least 2·Log2 (K) bits because the relevant axiom will contain other information besides the constant cK
+(itself). The footnote 5 examines one-by-one all IS(A)’s proper axioms containing the symbol cK and shows
+5
+
+We must separately verify the four cases of Group-Zero, Group-1, Group-2 or Group-3 axioms to verify that each axiom
+
+17
+
+they all have bit-lengths exceeding 2·Log2 (K) This implies that VALUE( cK ) will immediately satisfy
+Lemma 4.1 when the symbol cK appears inside any of y’s proper axioms (by the same trivial argument as
+had appeared in the preceding paragraph) The second footnote 6 shows that VALUE( cK ) also satisfies
+Lemma 4.1’s requirements when the constant symbol cK never appears within any of y’s proper axioms, but
+it is actually unimportant the reader examine either of these footnotes in detail. This is because all our main
+theorems will remain valid without any such considerations, if one simply uses the slightly fatter encoding
+methods from the first paragraph of this proof.
+More Notation: Recall that Section 2 indicated that IS(A) will use the axiom given in Equation (17)
+to recognize that Addition is a total function:
+∀x ∀y ∃z
+
+x = z−y
+
+(17)
+
+Let t1 and t2 denote arbitrary terms built out of Section 2’s seven Grounding functions, and let u denote an
+arbitrary parameter symbol. In our discussion, equations similar to (18), (19) and (20) (below) will be called
+respectively the Primary, Secondary and Tertiary deductions from IS(A)’s addition axiom (17). The
+reason for this terminology is that by one, two or three applications of the ∀-Elimination and ∃-Elimination
+Rules, a Semantic Tableaux proof can derive each of these three equations from (17).
+∀y ∃z
+
+t1 = z − y
+
+(18)
+
+∃z
+
+t1 = z − t2
+
+(19)
+
+t1 = u − t2
+
+(20)
+
+Also, let CONS(y) denote the largest quantity VALUE( cK ) among the constant symbols cK1 , cK2 ... cKm
+appearing in y’s proof-tree. (The preceeding sentence referred only to “constant symbols”, and CONS(y)
+thus does not reflect the size of the VALUE(u) quantities for y’s parameters and terms.) Let σ denote some
+containing a constant cK will have an encoding employing at least 2·Log2 (K) bits. Such a case-by-case analysis will reveal that:
+1. Each Group-zero axiom will satisfy this property because it will contain a constant symbol cK only if it stores a second
+constant symbol which requires essentially the same storage space as cK .
+2. Since the only three constant symbols appearing among the Group-1 axioms are the numbers 0,1 and 2, these axioms
+obviously always have more than adequately long length.
+3. Without loss of generality, we may assume that the symbol dΨe in Equation (7) represents the largest constant symbol
+appearing in this Group-2 axiom. Since Equation (7) contains the formula Φ , in addition to the symbol dΦe , its formal
+encoding clearly requires in excess of 2·Log2 ( dΦe ) bits.
+4. The Group-3 axioms for ISλ (A) (in Equation (9)) always require in excess of 2 Log2 ( dΦe ) bits, by the same argument as
+was given in the case above. (The constants in IS(A)’s Group-3 axiom (from Equation (8) ) are also adequately small.)
+6
+
+The reason VALUE( cK ) satisfies Lemma 4.1 even in the extreme case where the constant symbol cK never appears in
+any of y’s proper axioms is simply that VALUE( cK ) will then equal zero, by Part 2 of its definition. This trick obviously
+shortens the proof of Lemma 4.1, and it may first appear to be cheating by using an overly contrived definition of VALUE( cK ) .
+However, there is truthfully no harm in using this definition to shorten Lemma 4.1’s proof because if y has no proper axiom
+defining cK , then there is certainly no harm in using a notation convention that will then assume VALUE( cK ) = 0.
+
+18
+
+branch of y’s proof tree that consecutively introduces the parameter symbols u1 , u2 , u3 , ... un . Let us say
+that a valuation $ is Addition-Conservative over the branch σ iff
+1. The parameter ui will satisfy VALUE(ui ) = VALUE(t1 )+VALUE(t2 ) when it is introduced by a
+tertiary reduction similar to Equation (20).
+2. Otherwise, the parameter ui will always satisfy the inequality
+VALUE(ui ) ≤ MAX[ CONS(y), VALUE(u1 ), VALUE(u2 ), VALUE(u3 ), ...VALUE(ui−1 )]
+
+(21)
+
+3. If the sentence “ ∃x Υ(x) ” is valid under the assignment of values indicated by the valuation $
+and both this sentence and its resulting inference “ Υ(u) ” appear along the branch σ,
+
+then the
+
+sentence “ Υ(u) ” is also valid under $ . (The same is also true for the bounded existential sentence
+“ ∃x ≤ s Υ(x) ” and its deduction “ u ≤ s ∧ Υ(u) ”.)
+Let us assume a node Ni on the branch σ has a canonical form similar to either φ ∨ ψ or φ ⊃ ψ , and a
+second node Nj on this branch is a deduction from Ni via the ∨−elimination or ⊃ −elimination rules. We
+will say σ has made a proper sibling choice relative to the valuation $ iff Nj is valid under $ whenever
+its ancestor Ni is. Also, the branch σ will be defined to be Addition-Conservative iff there exists some
+Addition-Conservative valuation $ for which σ will make all the proper sibling choices.
+Lemma 4.2. Suppose y denotes some Semantic Tableaux proof that has an Addition-Conservative
+branch σ of y . Then each parameter u in this branch will satisfy VALUE(u) < y.
+Proof Sketch. It is easy to see that the fastest possible growing sequence of parameters u0 , u1 , u2 , ...un
+consecutively introduced along the branch σ will satisfy:
+VALUE(u0 ) = CONS(y)
+
+(22)
+
+VALUE(ui+1 ) = VALUE(ui ) + VALUE(ui )
+
+(23)
+
+For any i ≤ n , the preceding two equations imply
+VALUE(ui ) = 2i · CONS(y) ≤ 2n · CONS(y)
+
+(24)
+
+We may certainly assume n < 31 ·Log2 y under Appendix B’s method for encoding a proof y (or any other
+conventional encoding method) because y contains only Log2 y bits. Moreover, Lemma 4.1 indicates
+√
+CONS(y) < y. Substituting these quantities into (24) yields VALUE(ui ) < y. 2
+The remainder of this section will be devoted to proving the following theorem:
+19
+
+Theorem 4.3 If A is a regularly consistent axiom system then the axiom system IS(A) will be consistent.
+(In other words, IS( • ) is a Consistency-Preserving Mapping.)
+Remark 4.4. This paragraph will sketch the intuition behind Theorem 4.3’s proof. (The formal proof of
+the theorem is a bit long, and it will appear later in this section.) We will begin our more intuitive explanation
+by considering the Equation (25) below:
+∀y
+
+{ α(y) ⊃ β(y) }
+
+(25)
+
+Let us say that the Equation (25) is a Vacuous Truth iff it satisfies the following two conditions:
+a. The Equation (25) is a logically valid statement.
+b. Although it is a valid sentence, the Equation (25) will actually not indicate what it may first appear to
+imply because no element y will actually satisfy either α(y) or β(y) .
+It is well known that “vacuous truths” are often useful intermediate steps appearing in proofs-by-contradiction.
+(For example, a proof-by-contradiction of the assertion “ ∀y ¬α(y) can be constructed by simply employing
+Equation (25)’s “vacuous truth” and showing that no y-element can satisfy β(y).) We will now show how one
+can construct a proof of Theorem 4.3 by using the particular “vacuous truth” given below:
+++ Suppose A is regularly consistent. Then there exists a formal mapping method M that has the
+property that if y is a proof of 0=1 from IS(A) then the mapping’s “generated object” M (y) will
+represent an Addition-Conservative branch in y’s proof-tree where there is a parameter u on this
+branch such that some Gödel number p ≤ VALUE(u) will represent yet another proof of 0=1 from
+IS(A).
+Both our published 12-page 1993 conference paper [40] and its accompanying more detailed 50-page unpublished manuscript [41] contained intermediate results that were essentially equivalent to the Assertion ++.
+It also should be noted that the Lemma 4.8 (appearing later in this section) will be essentially a result that
+is strictly stronger than the Assertion ++ . At the present juncture, we shall ask the reader to put aside
+such considerations, and to just temporarily assume the validity of the Assertion ++ . The remainder of this
+paragraph will explain how the Assertion ++ can enable us to formulate a very simple and direct proof of
+Theorem 4.3. It will rest on the following two quite simple observations:
+1. The combination of Assertion ++ and Lemma 4.2 allows one to rewrite the “vacuous truth” from
+Assertion ++ into a second slightly reworded and more succinct form. This rephrased vacuous truth
+shall state that “any proof y of 0=1 from IS(A) will be automatically associated with an ordered pair
+(p, u) where p ≤VALUE(u) < y and p represents ANOTHER proof of 0=1”.
+20
+
+2. It is possible to prove Theorem 4.3 by using a method of proof-by-contradiction. It will begin by
+hypothesizing that IS(A) is inconsistent. It will thus let y represent the least integer that is a proof
+of 0=1 from IS(A). From Item 1 (above), the preceding is impossible because Item 1 indicates that
+some p < y must then represent another proof of 0=1. This contradicts y’s assumed minimality, and
+enables our proof-by-contradiction to immediately reach its desired end.
+We wish to close this paragraph by emphasizing that the items (1) and (2) above are basically trivial arguments. Thus, they show that after one has established the validity of the somewhat complicated “vacuous
+truth” given in Assertion ++, the remainder of the proof of Theorem 4.3 is fairly routine and easy.
+Remark 4.5. Before turning to a more detailed discussion of Theorem 4.3’s properties, it is desirable to
+explain why our axiom system IS(A) had omited the assumption that Multiplication is a total function. The
+inclusion of such a Multiplication axiom would have caused the proof sketched in the preceding paragraph to
+break down completely. The reason for this collapse is easiest to explain if we employ the following notation:
+a. ISMULT(A) will denote the analog of the axiom system IS(A) that recognizes Multiplication as a total
+function. Its Group-3 axiom will thus assert that “No Semantic Tableaux proof of 0=1 exists from
+ISMULT(A)”.
+b.
+
+The definition of a Multiplication Conservative valuation $ over a branch σ will be similar to an
+Addition Conservative valuation except that Part-1 of the definition will now also allow a parameter
+ui to possibly satisfy the multiplicative identity: VALUE(ui ) = VALUE(t1 ) ∗ VALUE(t2 ).
+
+At first it might appear that the analog of Remark 4.4’s 2-part proof of Theorem 4.3 would also apply to
+ISMULT(A) because the latter does in fact satisfy an analog of statement ++ (with the phrase “Addition
+Conservative” valuation simply replaced by the phase “Multiplication Conservative”). However, Remark 4.4’s
+proof of Theorem 4.3 does indeed break down fully for ISMULT(A). The difficulty arises because ISMULT(A)
+contains no analog for Lemma 4.2 (in step 1 of Remark 4.4’s 2-part proof). Lemma 4.2 essentially indicated
+that every parameter u lying on an Addition-Conservative Branch automatically satisfied VALUE(u) < y under the IS(A) axiom system. The analog of this inequality for ISMULT(A) is simply invalid for MultiplicationConservative branches because multiplication allows a sequence of parameters u0 , u1 , u2 , ...un to grow at a
+very much, much faster rate. (See footnote7 for an example.) This is the intuitive reason that Theorem 4.3
+is valid for IS(A), but the analogs of its proof for ISMULT(A) are simply not available.
+One formal proof of the consistency of IS(A), using approximately the methods sketched in Remark 4.4,
+was given in the technical report [41] − with a summary of its proof appearing in the more abbreviated
+7
+
+The sequence u0 , u1 , u2 , ...un can permit VALUE(un ) > y in a proof tree y if u0 = 2, ui+1 = ui 2 and then VALUE(un ) = 22
+
+21
+
+n
+
+12-page conference paper [40]. If the only goal of this paper was to prove IS(A)’s consistency, we would use
+“Addition-Conservative” branches to directly prove the validity of Assertion ++ . However, our goals are
+much broader because we need an umbrella formalism that will also provide a short proof of the consistency
+of the more general ISλ (A) system (of Section 5). Therefore, the version of proof for Theorem 4.3, given
+below, will be more complicated than the idea sketched in Remark 4.4, but its machinery will at the same
+time be much more powerful. In particular, the machinery in Theorem 4.3’s proof will employ the notion
+of a “(k, m)−Affirmative Branch” (defined in the next paragraph) rather than an “Addition-Conservative”
+branch (from Remark 4.4) because we will need the added power of (k, m)−Affirmativeness to prove the
+generalizations of Theorem 4.3 that will appear in Section 5.
+Definitions: Recall that branches in Candidate-Trees (unlike Semantic Tableaux Proofs) are not required
+to be “closed” (by containing a pair of contradictory sentences). Let σ denote a branch in a candidate tree
+and $ denote some fixed valuation function. Given a sentence Ψ on this branch σ , let
+
+z}|{
+
+Ψ
+
+denote a
+
+sentence identical to Ψ except that each parameter symbol u in Ψ is replaced by the constant VALUE(u).
+Also,
+
+z
+
+}|
+
+{
+
+Ψ ⇓ m will denote a sentence identical to
+
+z}|{
+
+Ψ
+
+except that its unbounded quantifiers are changed
+
+to quantifiers bounded by m . (Bounded quantifiers do not have their range change). Define a branch σ in
+a candidate-tree to be (k,m)-AFFIRMATIVE iff there exists some valuation $ such that:
+I. Unless a sentence Ψ lying on the branch σ is a “Special Exception”, the sentence
+
+z
+
+}|
+
+{
+
+Ψ ⇓ m
+
+is
+
+required to be valid. Here the “Special Exceptions” are defined to be the axiom in Equation (17) (which
+had specified Addition was a a total function) and also its Primary and Secondary deductions, given in
+Equations (18) and (19). (Tertiary Deductions will not be “Special Exceptions”.)
+II. Let βi denote the number of bits used by Appendix B to formally encode the sentences lying in the
+first i depth levels in the branch σ , and Ni denote the particular node on the branch σ at depth
+i. Each parameter symbol u appearing in the node Ni of the proof y will satisfy
+VALUE(u) < ( k +
+
+√
+
+1
+
+y ) · 2 [ 6 βi ] − 2 .
+
+(26)
+
+Lemma 4.6 Suppose y is a candidate-tree containing a (k, m)-Affirmative Branch σ . Then y cannot
+be a semantic tableaux proof using either the axiom system ISλ (A) or IS(A).
+Proof. Suppose for the sake of contradiction that y is a semantic tableaux proof. Then by definition,
+every branch of
+
+y , including σ, will contain some sentence Ψ and its negation ¬ Ψ.
+
+The footnote 8
+
+Recall that we define a sentence to be Π−
+1 if it is of the approximate form ∀v1 ∀v2 ...∀vj ϕ(v1 , v2 , ...vj ) where ϕ(v1 , v2 , ...vj )
+is a ∆−
+formula.
+Note
+that
+all
+of
+both
+IS(A)’s
+and ISλ (A)’s proper axioms are such Π−
+0
+1 sentences, except for the Equation
+−
+(17) (which was Π2 ). Moreover, the root of a Φ-based candidate tree consists of a sentence equivalent to ¬Φ, rewritten in
+8
+
+22
+
+−
+proves that Ψ must then be a ∆−
+0 sentence. This is important because no ∆0 sentence is one of Item I’s
+
+allowed “Special Exceptions”. Thus since both Ψ and its negation ¬ Ψ appear along an affirmative branch
+σ, Item I automatically requires both
+
+z
+
+}|
+
+{
+
+Ψ ⇓ m and
+
+However, it is impossible that both
+
+z
+
+}|
+
+{
+
+Ψ ⇓ m and
+
+z
+
+}|
+
+{
+
+¬Ψ ⇓ m to be true.
+z
+
+}|
+
+{
+
+¬Ψ ⇓ m are simultaneously true. Therefore our
+
+proof-by-contradiction has reached its desired end. It has shown that the assumption that y was a semantic
+tableaux proof, containing a (k, m)-Affirmative branch, led to a contradiction.
+
+2
+
+Lemma 4.7. Let σd denote the fragment of a branch σ whose nodes have depth ≤ d. Assume each
+node Nj in this fragment satisfies Part-ii of the definition of an Affirmative Branch. Then any term t in the
+1
+√
+proof y whose parameters are introduced on the sub-branch σd satisfies VALUE(t) < (k + y) · 2[ 6 βd ]−2 .
+Proof. The justification of Lemma 4.7 is extremely trivial and straightforward. However, the formal proof
+of Lemma 4.7 should be given because Lemma 4.7 is used on five occasions during the next two sections.
+Lemma 4.7’s proof begins with the following two simple observations:
+1. Lemma 4.1 indicates that any constant c appearing in the proof y will satisfy VALUE(c) <
+
+√
+
+y.
+
+2. Part-ii of the definition of a (k, m)-Affirmative Branch implies that all the parameters u lying on the
+1
+√
+sub-branch σd satisfy VALUE(u) < ( k + y ) · 2 [ 6 βd ] − 2 .
+We may assume βd ≥ 12 because a single sentence will clearly require more than twelve bits for encoding it,
+under all conventional encoding methods, including the particular encoding method employed in Appendix
+B. Since our seven Grounding functions are non-growth functions, any term built out of the constants and
+1
+√
+parameters (above) will obviously also respect the bound: VALUE(t) < (k + y) · 2[ 6 βd ]−2 . 2
+Our next lemma will have a somewhat unusual quality. Its opening sentence will state “Let us temporarily
+assume that Theorem 4.3 is false and ...”. The perspective of Lemma 4.8 is useful because the proof of Theorem
+4.3 will be a proof by contradiction. The “temporary assumption” that Theorem 4.3 is false will help establish
+the needed contradiction in Theorem 4.3’s proof.
+Lemma 4.8. Let us temporarily assume that Theorem 4.3 is false. Therefore, let A be a regularly
+consistent axiom system such that IS(A) is inconsistent. Let
+
+y
+
+denote the smallest integer which encodes
+
+a semantic tableaux proof tree of 0=1 from IS(A). Also, define m = y − 1 and k = 0 . Then the tree
+
+y
+
+must contain a (k,m)-Affirmative Branch.
+Most of the remainder of this section will be devoted to proving Lemma 4.8. However before proving
+prenex* normal form. All these founding sentences thus have their “ ¬ ” symbols pushed to the right of all their unbounded
+quantifiers. This makes it very difficult for a deduction from these sentences, “ ¬ Ψ ” to have the “ ¬ ” symbol located in its
+leftmost position. In particular, the semantic tableaux deduction rules (1-6) will allow a sentence “ ¬Ψ ” to appear in the string
+of deductions arising from such tightly normalized founding sentences only when Ψ is ∆−
+0 .
+
+23
+
+Lemma 4.8, we wish to show how it will provide us with a pleasantly short 5-sentence proof of Theorem 4.3:
+
+Proof of Theorem 4.3. Suppose for the sake of contradiction that Theorem 4.3 is false (i.e. there
+exists a Regularly Consistent axiom system A such that IS(A) is inconsistent). Let y denote the smallest
+integer which encodes a semantic tableaux proof tree of 0=1 from IS(A). By Lemma 4.8, the tree
+
+y
+
+“must contain” a (k, m)-Affirmative Branch. However, Lemma 4.6 prohibits a proof tree from containing
+any (k, m)-Affirmative Branch (because it indicates the presence of an Affirmative Branch will preclude a
+candidate tree from representing a proof). Since it is impossible for both these contradictory conditions to be
+simultaneously valid, our proof-by-contradiction has shown it is impossible for Theorem 4.3 to be false. 2
+
+Our final goal is to prove Lemma 4.8. Let Ni denote the node in the branch σ whose depth = i . Let
+σi denote the fragment of the branch σ that lies between its root node N0 and the node Ni . We will
+say that the fragment σi satisfies the (k, m)-Affirmative Condition iff every node N0 , N1 , N2 , ..., Ni on this
+fragment satisfies the two requirements (I) and (II) mentioned earlier. The proof of Lemma 4.8 will establish
+the existence of an (k, m)-Affirmative Branch σ by describing a process that inductively verifies that each
+fragmented branch σi in the sequence σ0 , σ1 , σ2 , σ3 , ... is (k, m)-Affirmative.
+Before starting the proof of Lemma 4.8, the function of Part-II of the definition of an (k, m)−Affirmative
+Branch should be briefly explained. This part of the definition of an affirmative branch was never used in in
+the proof of Lemma 4.6 or in the proof of Theorem 4.3. The reason we need the Part-II Condition is that
+the proof below becomes simpler when it shows that a branch σ satisfies both the Parts I and II conditions
+(together), than would be the case if it established just Part-I alone. (This is because the strengthened
+inductive hypothesis will significantly shorten the eighth step in Lemma 4.8’s inductive proof).
+Proof of Lemma 4.8. Our inductive proof will be divided into eleven cases. In each case, the (k, m)Affirmative Branch is assumed to employ parameters k = 0 and m = y − 1. The reason that the proof (below)
+refers to a “(k, m)” rather than “(0, y − 1)” constrained branch is that the next section’s proof of the stronger
+Theorem 5.1 will employ different values for (k, m) . The proof of Lemma 4.8 will thus be more portable if
+the notation “(k, m)” rather than “(0, y − 1)” is employed.
+Assuming the node Ni−1 (at the bottom of σi−1 ) is not a leaf, each of the eleven cases (below) will
+show there exists a longer (k, m)-Affirmative fragment σi , which contains some additional node Ni :
+1. The Case where Ni designates the root node of Lemma 4.8’s tree y : Since y represents
+a proof of 0=1, the root of the semantic tableaux tree
+
+y
+
+“ 0 6= 1 ” is a valid sentence containing no quantifiers,
+
+z
+
+is defined to be the sentence “ 0 6= 1 ”. Since
+}|
+
+{
+
+{0 6= 1} ⇓ m is obviously also valid. Hence, this
+
+sentence automatically satisfies Part-I of the definition of a (k, m)-Affirmative Branch. Since no parameter
+24
+
+symbols u appear in this sentence, it satisfies Part-II of this definition, trivially, by default.
+
+2
+
+2. The Case where Ni represents a Group-zero, Group-1 or Group-2 axiom of IS(A) : We
+need not consider the special case where Ni stores a sentence Ψ, corresponding to Equation (17)’s Group1 axiom (which had indicated Addition was a total functions). This is because Part-I of the definition of
+z
+
+}|
+
+{
+
+( k , m )-Affirmative Branch indicates this sentence is a “Special Exception”, where Ψ ⇓ m
+
+is not required
+
+to be satisfied. Leaving aside this “Special Exception”, all the other Group-zero, Group-1 and Group-2 axiom
+are Π−
+1 sentences. Clearly, every Group-zero and Group-1 axiom is valid in the Standard Model. Also, every
+Group-2 axiom is valid in the Standard Model of the Natural Numbers (by our assumption that A is regularly
+consistent). Thus, these facts imply that
+
+z
+
+}|
+
+{
+
+Ψ⇓ m
+
+is valid (simply because Ψ is a valid Π−
+1 sentence).
+
+Hence, every Group-zero, Group-1 or Group-2 axiom meets Part-I of the definition of an Affirmative Branch.
+Since there are no parameter symbols u appearing in proper axioms, Part-II of the definition of an
+Affirmative Branch is again trivially satisfied, by default.
+
+2
+
+3. The Case where Ni represents the Group-3 axiom of IS(A) : Let Γ denote this Group-3
+axiom. It was formally defined in Section 2 to be the sentence:
+∀p
+
+¬ SemPrf IS(A) ( d 0 = 1 e , p )
+
+(27)
+
+This case differs from Case 2 because the hypothesis of Lemma 4.8 does not imply Γ is a valid sentence.
+However, Lemma 4.8’s hypothesis does imply m + 1 is the smallest proof of 0=1 from IS(A). Thus even if
+z
+
+}|
+
+{
+
+Γ is invalid, the sentence Γ ⇓ m
+
+is valid. Hence, Part-I of the definition of a (k, m)−Affirmative Branch
+
+is automatically satisfied. Since no parameter symbols u appear in the sentence Γ , Part-II of this definition
+2
+
+is once again trivially satisfied by default. (It is extremely important the reader examine footnote 9 . )
+
+4. The Proof for the Case where Ni is generated by the ∧-Elimination Rule (defined in the
+second paragraph of this section): Trivial because a sentence Υ (stored in the node Ni ) will automatically
+satisfy the (k, m)-Affirmative Condition when some ancestor of it storing the sentence Υ ∧ Θ does.
+
+2
+
+5. The Proof for the Case where Ni is generated by a ¬-Deduction Rule: Once again, it
+is trivial that a sentence Υ (stored in the node Ni ) will satisfy the (k, m)-Affirmative Condition when some
+ancestor of it storing the sentence ¬ ¬ Υ does. An identical argument also applies to the other seven variants
+of ¬-Deduction Rules (described in item 2 of the second paragraph of this section). 2
+9
+
+The proof of Case 3 was only five sentences long and very straightforward. Yet this simplicity can be very misleading because
+Case 3 is perhaps the central case. The subtle aspect of Case 3 is that it will be meaningful only if the other cases assure that
+the valuation $ is unable to represent any term t along the branch σ where VALUE(t) > m . (Otherwise, Case 3’s sentence
+
+z }| {
+
+“ Γ ⇓ m ” would be simply useless.) As the reader examines the other cases, he should remember each case implicitly assures
+VALUE(t) ≤ m when it establishes its node Nj satisfies the (k, m)−Affirmative Condition. (This is intuitively because k = 0,
+m = y − 1 and βj ≤ Log2 (y), together with Lemma 4.7, implicitly assure VALUE(t) ≤ m holds for every term t .)
+
+25
+
+6. The Proof for the Case where Ni is generated by the ∨-Elimination Rule: A ∨-Deduction
+consists of introducing a pair of sibling nodes Υ and Θ when these nodes have a common ancestor Υ ∨ Θ .
+Since the inductive hypothesis implies Υ ∨ Θ satisfies the (k, m)-Affirmative Condition, one of Υ or Θ
+must also satisfy this condition. Our algorithm for constructing the branch σi will have Ni designate that
+particular one of the two nodes Υ or Θ which satisfies the (k, m)-Affirmative Condition. 2.
+7. The Proof for the Case where Ni is generated by the ⊃-Elimination Rule: Essentially the
+same as the preceding paragraph.
+
+2
+
+8. The Proof for the Case where
+
+Ni
+
+is generated by the (Unbounded version of the)
+
+∀-Elimination Rule: Assuming some ancestor Na of Ni stores the sentence ∀v Υ(v) , the ∀-Elimination
+Rule allows Ni to indicate the sentence Υ(t) (where t denotes some parameter term).
+The combination of the inductive hypothesis and Lemma 4.7 trivially implies:
+VALUE(t) < (k +
+
+√
+
+1
+
+y) · 2 [ 6 βi−1 ] − 2
+
+(28)
+
+Since βi−1 represents the bit-length of the part of proof y that lies along the path σi−1 , we have:
+βi−1 < Log2 (y)
+
+(29)
+
+Since Lemma 4.8’s hypothesis indicates m = y − 1 and k = 0, Equations (28) and (29) trivially imply
+VALUE(t) ≤ m
+
+(30)
+
+The remainder of our proof of the Case 8 will be divided into the two sub-cases where:
+A. The ancestor Na of Ni which stores “∀v Υ(v)” IS one of the Affirmative Branch’s “Special Exceptions”
+B. This ancestor Na
+
+IS NOT
+
+one of the Affirmative Branch’s “Special Exceptions”
+
+In both cases, we will show that Ni satisfies the (k, m)−Affirmative Condition.
+Justification for the Sub-Case (A): The “Special Exceptions” were carefully defined so that Υ(t) will
+automatically be a Special Exception when ∀vΥ(v) is a Special Exception. Hence, it is unnecessary to show
+that the Sub-Case (A) satisfies Part-I of the definition of an (k, m)-Affirmative Branch because the node Ni
+is another permitted “Special Exception”, where the Part-I requirement is not required. Our proof thus needs
+only to show Ni satisfies Part-II of the definition of an (k, m)-Affirmative Branch
+The proof justifying the Part-II requirement is basically trivial. This is because the ∀-Elimination Rule
+requires each parameter u in the node Ni ’s sentence Υ(t) to appear “previously” in a higher position on
+
+26
+
+the sub-branch σi−1 . It can thus be inductively assumed that VALUE(u) < (k +
+
+√
+
+1
+
+y) · 2 [ 6 βi−1 ] − 2 . Since
+
+βi−1 < βi , this inequality immediately implies:
+VALUE(u) < ( k +
+
+√
+
+1
+
+y ) · 2 [ 6 βi−1 ] − 2 < ( k +
+
+√
+
+1
+
+y ) · 2 [ 6 βi ] − 2
+
+(31)
+
+The latter shows that u satisfies the Part-II condition.
+Justification for the Sub-Case (B): Since the ancestor Na
+z
+
+}|
+
+of Ni
+{
+
+∀vΥ(v) ⇓ m
+
+this Sub-Case, we can assume that the sentence
+
+is not a “Special Exception” in
+
+is valid (because otherwise Na would
+
+violate the inductive hypothesis). The combination of the preceding overbrace expression and Equation (30)
+imply
+
+z
+
+}|
+
+{
+
+Υ(t) ⇓ m
+
+is also valid. Thus, the Part-I requirement is satisfied. The justification of the Part-II
+
+requirement in the Sub-Case (B) is identical to its justification for the Sub-Case (A) (in the paragraph above).
+2
+9. The Proof for the Case where
+
+Ni
+
+is generated by the
+
+( Bounded version of the)
+
+∀-Elimination Rule: The justification of the Part-I requirement is essentially identical to Sub-Case B of
+Case 8. Thus in this case, an ancestor Na of Ni stores a sentence of the form “ ∀v ≤ s Υ(v) ”. The inductive
+hypothesis allows us to presume that
+
+z
+
+}|
+
+{
+
+∀v ≤ s Υ(v) ⇓ m
+
+expression together with Equation (30) imply
+
+z
+
+}|
+
+is valid. As before, the preceding overbrace
+{
+
+t ≤ s ⊃ Υ(t) ⇓ m
+
+(and hence that Part-I of the definition
+
+of an Affirmative Branch is satisfied). Also it is again trivial to show that Ni satisfies the Part-II requirement
+(by once again using the construction from the second paragraph in Sub-Case (A) of Case 8). 2
+10. The Proof for the Case where
+
+Ni
+
+is generated by the (Bounded version of the)
+
+∃-Elimination Rule: Assuming some ancestor Na of Ni stores the sentence ∃v ≤ s Υ(v) , the rule
+for ∃-Elimination allows Ni to indicate the sentence u ≤ s ∧ Υ(u) (where u denotes a new unused
+parameter symbol). Applying Lemma 4.7 and the inductive hypothesis to Na implies that there exists a
+(k, m)-Affirmative Valuation $ over the sub-branch σi−1 where both
+1
+√
+inequality VALUE(s) < ( k + y ) · 2 [ 6 βi−1 ] − 2 are valid.
+
+z
+
+}|
+
+{
+
+∃v < s Υ(v) ⇓ m
+
+and the
+
+We need to construct an extended valuation $∗ (over the sub-branch σi ) which differs from $ only by
+defining a new quantity VALUE(u) for Ni ’s new parameter u . The last sentence in the preceding paragraph
+z
+}|
+{
+1
+√
+implies that such a $∗ can be constructed where both Υ(u) ⇓ m and VALUE(u) < ( k + y ) · 2 6 βi − 2
+are valid. Hence, the node Ni will satisfy both Parts I and II of the (k, m)−Affirmative Condition.
+11. The Proof for the Case where Ni
+
+2
+
+is generated by the (Unbounded version of the)
+
+∃-Elimination Rule: Assuming some ancestor Na of Ni stores the sentence ∃v Υ(v) , the ∃-Elimination
+Rule allows Ni to indicate the sentence Υ(u) (where u denotes a new unused parameter symbol). This
+case is quite simple because the only axiom of IS(A) which contains an unbounded existential quantifier is
+27
+
+the Equation (32) (below), which indicates that Addition is a total function. (Any other type of existential
+quantifier that appears in a proof of 0 = 1 from IS(A) will be bounded !!! )
+∀x ∀y ∃z
+
+x = z−y
+
+(32)
+
+Below in (33) and (34) are the “Secondary” and “Tertiary” deductions generated from Equation (32).
+Note (33) will lie on the sub-branch σi−1 whenever (34) represents the sentences stored in Ni . Moreover,
+the combination of (33)’s presence on the sub-branch σi−1 , the inductive hypothesis and Lemma 4.7 together
+imply the validity of Equations (35) and (36).
+∃z
+
+t1 = z − t2
+
+(33)
+
+t1 = u − t2
+
+(34)
+
+√
+
+y ) · 2 [ 6 βi−1 ] − 2
+
+√
+
+y ) · 2 [ 6 βi−1 ] − 2
+
+(36)
+
+VALUE(u) = VALUE(t1 ) + VALUE(t2 )
+
+(37)
+
+VALUE(t1 ) < ( k +
+VALUE(t2 ) < ( k +
+
+1
+
+(35)
+
+1
+
+Let us consider a valuation $ satisfying:
+
+The combination of Equations (35), (36) and (37) implies:
+VALUE(u) < 2 · ( k +
+
+√
+
+1
+
+y ) · 2 [ 6 βi−1 ] − 2
+
+(38)
+
+The formal Gödel encoding of the sentence (34) obviously requires substantially more than six bits for encoding
+it, under all conventional encoding methods, including the particular encoding method employed in Appendix
+B. In our notation, this implies that βi − βi−1 ≥ 6 . Substituting the latter inequality into (38), we get:
+VALUE(u) < ( k +
+
+√
+
+1
+
+y ) · 2 [ 6 βi ] − 2
+
+(39)
+
+This implies that the node storing the sentence (34) will satisfy the (k, m)−Affirmative Condition (because
+Equation (37) shows the Part-I condition is satisfied and Equation (39) shows Part-II is satisfied).
+
+5
+
+2
+
+The Consistency of ISλ (A)
+
+This section will prove ISλ (A) ’s consistency property. The proof of Theorem 5.1 will be pleasantly short
+because it will be based on incrementally revising Section 4’s proof of Theorem 4.3.
+Theorem 5.1 This theorem will consider the version of ISλ (A) that employs a constant λ = 34 Suppose
+that A is a regularly consistent axiom system. Then ISλ (A) is also consistent.
+28
+
+Comment: We have convinced ourselves Theorem 5.1 is also valid for any λ > .01 , and probably for
+much smaller λ . The reason Theorem 5.1 assumed λ = 43 was simply to make its proof shorter.
+Our proof of Theorem 5.1 will begin with two preliminary lemmas. These lemmas will have an unusual
+quality because Theorem 5.1 will employ a proof by contradiction. Thus, one of Lemma 5.2’s opening
+sentences will state “Suppose Theorem 5.1 is false...”. Lemma 5.3’s statement will similarly ask the reader
+to “temporarily assume” a condition that will be later shown to be impossible. The perspectives of Lemmas
+5.2 and 5.3 will be helpful for proving Theorem 5.1 because the final proof will be a proof by contradiction.
+Lemma 5.2. Consider the version of the ISλ (A) axiom system that uses a constant λ = 34 . Suppose
+that Theorem 5.1 is false for this version of the ISλ (A) axiom system. (In other words, suppose that there
+exists an axiom system A such that A is regularly consistent but ISλ (A) is inconsistent.) Then there will
+exist a tuple (x, y, z, Φ) where Φ is a prenex* sentence satisfying:
+3
+
+SemPrf ISλ (A) ( d Φ e , y ) ∧ y 4 <
+
+z
+∧ ¬ (Φxz )
+x
+
+(40)
+
+Proof. Since ISλ (A) is inconsistent, at least one of the axioms of ISλ (A) must be invalid under the
+Standard Model of the Natural Numbers. If A is regularly consistent then all ISλ (A) ’s Group-2 axioms
+must be valid in the Standard Model. Also, its Group-zero and Group-1 axioms are clearly valid. Therefore
+the inconsistency of ISλ (A) will imply that at least one of its Group-3 axioms is invalid in the Standard
+Model. Examining the generic form of ISλ (A)’s Group-3 axiom (described in Equation (9)) and using our
+assumption that some Group-3 axiom (with λ = 34 ) is false, we are forced to conclude that there must exist
+a tuple (x, y, z, Φ) where Φ is a prenex* sentence satisfying (40). 2
+Lemma 5.3. Suppose Φ is a prenex* sentence, the tuple (x, y, z, Φ) satisfies Equation (40), and A
+is a regularly consistent axiom system. Also, suppose that every other tuple (x∗ , y ∗ , z ∗ , Φ∗ ) satisfying (40)
+has its third component z ∗ satisfying z ∗ ≥ z . (It will be proven later that no such tuple (x, y, z, Φ)
+will satisfy these requirements, but let us temporarily assume that some such (x, y, z, Φ) does exist.) These
+conditions will then imply that the integer y , viewed as a Gödel number describing a tree, will contain at
+least one (k, m)-Affirmative Branch (with constants k = x and m = z − 1).
+The proof of Lemma 5.3 is analogous to Lemma 4.8’s proof. It appears at the end of this section. Our
+immediate goal is to explain how Lemmas 4.6, 5.2 and 5.3 will provide a short 10-sentence proof of Theorem
+5.1. It is given below:
+
+Proof of Theorem 5.1. Suppose for the sake of contradiction that Theorem 5.1 was false for the version
+of the ISλ (A) formalism that sets the constant λ = 43 . Then by Lemma 5.2, there must exist some tuple
+29
+
+(x, y, z, Φ) that will satisfy (40).
+Hence trivially, there must then exist some such tuple with minimal value in its third component. By
+this, we simply mean that there will exist a tuple (x, y, z, Φ) which will satisfy (40) and has the property
+that no other tuple (x∗ , y ∗ , z ∗ , Φ∗ ) can also satisfy (40) unless z ∗ ≥ z .
+Such a tuple will satisfy the hypothesis of Lemma 5.3. The combination of Lemmas 4.6 and 5.3 then
+easily implies (see footnote10 ) y
+
+cannot represent the Gödel number of a Semantic Tableaux proof.
+
+However, Lemma 5.2’s Equation (40) blatantly contradicts the preceding sentence. (This is because its
+formula “ SemPrf ISλ (A) ( d Φ e , y ) ” indicates that y is a semantic tableaux proof.) This contradiction
+completes our proof-by-contradiction. In particular, it shows that Theorem 5.1 must be true because otherwise
+two inherently incompatible conditions would be simultaneously valid.
+
+2
+
+We will now complete the proof of Theorem 5.1 by showing that Lemma 5.3 is valid:
+
+Proof of Lemma 5.3. The existence of a Affirmative Branch σ will be established using an inductive
+argument, analogous to Lemma 4.8’s proof. Assuming that a node Ni−1 at the bottom of a (k, m)-Affirmative
+sub-branch σi−1 is not a leaf, we will show how it is possible to construct a longer sub-branch σi , containing
+the additional node Ni , which is also (k, m)-Affirmative. One difference between the proofs of Lemmas 4.8
+and 5.3 is that the former used constants k=0 and m=y − 1, whereas we will now use constants k=x and
+m=z − 1. (However, this distinction is quite minor.)
+The proof of Lemma 5.3 is divided into eleven cases, similar to Lemma 4.8’s proof. Six of these eleven
+cases will be verbatim identical to Lemma 4.8’s treatment. Three more will differ only slightly from Lemma
+4.8’s proof analysis. Therefore our discussion of the eleven cases will delineate only those aspects of Lemma
+5.3’s proof that use a different justification than Lemma 4.8’s analog. In the inductive proof (below), we
+assume that the sub-branch σi−1 = {N0 , N1 , N2 , ...Ni−1 } is (k, m)-Affirmative: Assuming Ni−1 is not a
+leaf, our proof (below) shows how it is possible to construct a longer sub-branch σi , containing the additional
+node Ni , which has a valuation that is (k, m)- Affirmative:
+1. The Proof for the Case where Ni designates the root node of a Semantic Tableaux Proof
+Tree: Let the generic notation “ [ Υ ] ” denote Υ written in prenex* form. Thus the root of our Φ-based
+candidate tree will store the sentence [ ¬Φ] (according to Section 4’s definition).
+We will first show that this sentence satisfies Part-I of the (k, m)-Affirmative Condition. Since Φxz is
+10
+
+The implication holds because Lemma 5.3 indicates that the tree encoded by the integer y contains at least one Affirmative
+Branch. In this context, Lemma 4.6 disallows y from representing a Semantic Tableaux proof.
+
+30
+
+assumed to be prenex* , it is permissible to employ the identity:
+¬ (Φxz ) ≡ [ ¬Φ ]zx
+
+(41)
+3
+
+It is easy to verify that x ≤ z − 1 (since (40) indicated that y 4 < z/x and since every integer y,
+which represents the Gödel number of a proof, is certainly greater than say 4, under any reasonable encoding
+scheme). The x ≤ z − 1 inequality, combined with Lemma 3.1A, immediately implies
+[ ¬Φ ]zx ⊃ [ ¬Φ ]zz−1
+
+(42)
+
+Also, it follows directly from Lemma 3.1B that
+[ ¬Φ ]zz−1 ⊃ [ ¬Φ]z−1
+z−1
+
+(43)
+
+Since the root node’s sentence [ ¬Φ ] contains no parameter symbol u , our notation convention implies:
+}|
+
+z
+
+[ ¬Φ]z−1
+z−1 ≡
+
+{
+
+[ ¬Φ ] ⇓ [z − 1]
+
+(44)
+
+The hypothesis of Lemma 5.3 indicated that ¬ (Φxz ) was valid (ergo ¬ (Φxz ) was one of the conditions
+indicated by Equation (40) ). Since the hypothesis of Lemma 5.3 indicates m = z − 1 , the combination of
+¬ (Φxz ) with the four identities (above) immediately implies that
+
+z
+
+}|
+
+{
+
+[ ¬Φ ] ⇓ m
+
+is valid.
+
+Hence, the sentence stored in the root satisfies Part-I of the requirement for σ to be an (k, m)-Affirmative
+Branch. Since there are no parameter symbols u appearing in this sentence, it must also satisfy Part-II of
+the definition of (k, m)-Affirmative Branches, simply by default.
+
+2
+
+2. The Proof for the Case where Ni represents a Group-zero, Group-1 or Group-2 axiom
+of ISλ (A) : Verbatim Identical to Case 2 in Lemma 4.8’s proof.
+
+2
+
+3. The Proof for the Case where Ni represents a Group-3 axiom of ISλ (A) : Let ΓΥ denote
+the Group-3 axiom for the sentence Υ and the fixed constant λ = 34 . It is formally defined below:
+∀x ∀y ∀z
+
+z
+{ SemPrf ISλ (A) ( d Υ e , y ) ∧ y 3/4 <
+x
+
+⊃
+
+Υxz }
+
+(45)
+
+If Equation (45) is invalid, there must exist a tuple (a, b, c, Υ) satisfying
+3
+
+SemPrf ISλ (A) ( d Υ e , b ) ∧ b 4 <
+
+c
+∧ ¬ (Υac )
+a
+
+(46)
+
+The minimality assumption (from the hypothesis of Lemma 5.3) then implies that c ≥ z in Equation (46).
+This inequality assures the sentence
+
+z
+
+}|
+
+{
+
+ΓΥ ⇓ [z − 1]
+
+is valid, even if
+
+ΓΥ is invalid! Since the hypothesis
+
+of Lemma 5.3 indicates that m = z − 1 , Part-I of the definition of an (k, m)-Affirmative Branch is thus
+satisfied. Since there are no parameter symbols u appearing in the sentence ΓΥ , Part-II of the definition
+of an (k, m)-Affirmative Branches is trivially satisfied, again by default.
+31
+
+2
+
+4, 5, 6 and 7. The Proof for the Cases where Ni is generated by one of an ∧-Elimination,
+¬-Elimination, ∨-Elimination, or ⊃-Elimination, Rule:
+
+The proofs in each of these four cases are
+
+verbatim identical to cases 4 through 7 in Lemma 4.8’s proof.
+
+2
+
+8 and 9. The Proof for the Both the Bounded and Unbounded Cases where Ni is generated
+by the ∀-Elimination Rule: The combination of the inductive hypothesis and Lemma 4.7 implies the
+validity of Equation (47) by a completely trivial argument.
+VALUE(t) < (k +
+
+√
+
+1
+
+y) · 2 [ 6 βi−1 ] − 2
+
+(47)
+
+Since βi−1 represents the bit-length of the part of proof y that lies along the path σi−1 , we have:
+βi−1 < Log2 (y)
+Recall our notation assumes
+
+z
+x
+
+(48)
+3
+
+= z when x = 0. Also, Equation (40) indicates y 4 < xz , and Lemma 5.3’s
+
+hypothesis indicates m = z − 1 and k = x. In this context, Equations (47) and (48) easily imply
+VALUE(t) ≤ m
+
+(49)
+
+The remainder of the proofs of both Cases 8 and 9 for Lemma 5.3 is essentially verbatim identical to
+the comparable Cases 8 and 9 in Lemma 4.8’s proof. This is because Equation (30) in Lemma 4.8’s proof
+established a VALUE(t) ≤ m inequality, exactly analogous to Equation (49) above. The other parts of the
+proofs of Cases 8 and 9 (in the preceding section) were carefully written so that their discussion would apply
+to any other ordered pair (k, m) that satisfies the inequality VALUE(t) ≤ m. Thus the verbatim same
+arguments will apply to Cases 8 and 9 of Lemma 5.3’s proof as well.
+10. The Proof for the Case where
+
+Ni
+
+2
+
+is generated by the (Bounded version of the)
+
+∃-Elimination Rule: Also, verbatim identical to Case 10 of Lemma 4.8’s proof.
+11. The Proof for the Case where Ni
+
+2
+
+is generated by the (Unbounded version of the)
+
+∃-Elimination Rule: Assuming some ancestor Na of Ni stores the sentence ∃v Υ(v) , the ∃-Elimination
+Rule allows Ni to indicate the sentence Υ(u) (where u denotes a new unused parameter symbol).
+Define a Founding Node in a proof tree
+
+y
+
+to be a tree node that is either the tree-root or a node
+
+storing a proper axiom. Say the Founding Antecedent for an arbitrary node Ni is that particular founding
+node Nf such that Ni ’s sentence is produced by starting with the sentence in Nf and generating a finite
+string of deductions to construct Ni ’s sentence.
+There are only two possible sentences, lying in a founding node of one of ISλ (A)’s proof-trees, which can
+contain an unbounded existential quantifier. These are:
+32
+
+A. The proper axiom (given in Equation (17)) which indicates Addition is a total function.
+B. The sentence stored in the proof’s root.
+The proof of Case 11 will be divided into the two sub-cases where the node Ni ’s Founding Antecedent is of
+Type-A and of Type-B. In both cases, the node Ni , generated by the ∃-Elimination Rule, will be shown to
+satisfy the (k, m)-Affirmative Condition.
+Justification for the Sub-Case (A).
+
+Below are Equation (17)’s “Secondary” and “Tertiary” deductions:
+∃z
+
+t1 = z − t2
+
+(50)
+
+t1 = u − t2
+
+(51)
+
+We need to inductively establish that that Equation (51) satisfies the (k, m)−Affirmative condition whenever
+its ancestor corresponding to (50) satisfies this condition. The proof of this sub-case is verbatim identical to
+the second paragraph in Case 11 of Lemma 4.8’s proof.
+Justification for the Sub-Case (B):
+
+This case had not appeared in Lemma 4.8’s proof because Lemma
+
+4.8’s hypothesis implied that its tree-root contained the sentence “0 6= 1” (which has no existential quantifiers).
+Since Lemma 5.3 allows for the more general case where any type of prenex* sentence can be stored in the
+tree-root, we must now consider certainly the possibility that the root contains an unbounded existential
+quantifier and the ∃-Elimination Rule derives the node Ni by eliminating this quantifier:
+In Lemma 5.3, the root of the proof tree y is a prenex* sentence equivalent to ¬ Φ . We may assume
+¬ (Φxz ) is valid (because Lemma 5.3’s hypothesis indicates Equation (40) is true).
+From the fact that ¬ (Φxz ) is valid, one can easily construct a valuation where each parameter u, generated by the root’s existential quantifiers, will satisfy VALUE(u) ≤ x (see footnote 11 for this construction).
+We can once again assume that βi ≥ 12 (because merely the single sentence stored in the root shall require
+at least 12 bits for encoding it, under all conventional encoding methods, including the particular encoding
+method employed in Appendix B). Since the node in our present case is a sentence “ Υ(u) ” that was deduced
+from an ancestor node “ ∃v Υ(v) ”, the inductive hypothesis allows us to presume that there exists a valuation
+where
+
+z
+
+}|
+
+∃v Υ(v) ⇓ m
+
+{
+
+is true. Also Equation (40) trivially implies12 x ≤ z − 1 . Since Lemma 5.3 discusses
+
+11
+
+Normally the superscript x in Φxz designates a bound on Φ’s universal quantifiers. However, since the root of our semantic
+tableaux proofs consists of ¬ Φ , written in prenex* form, and because Equation (40) had indicated that ¬ [Φxz ] is true, the
+positions of universal and existential quantifiers reverses, with x designating a bound on the root’s existential quantifiers instead.
+The validity of ¬ [Φxz ] thus implies each parameter u replacing Φ ’s existential quantifiers can have VALUE(u) ≤ x under a
+valuation we are able to construct.
+12
+The integer y representing the Gödel number of a proof is certainly larger than say 4 under Appendix B’s Gödel encoding
+scheme. From Equation (40), this trivially implies x ≤ z − 1 .
+
+33
+
+a (k, m)−Affirmative Branch where the constants k = x and m = z − 1, it is easy to infer from the algebraic
+identities listed in this paragraph that that there exists a valuation satisfying Equations (52) and (53).
+z
+
+}|
+
+Υ(u) ⇓ m
+
+VALUE(u) < ( k +
+
+{
+
+√
+
+(52)
+1
+
+y ) · 2 [ 6 βi ] − 2
+
+(53)
+
+These two equations show that the node Ni satisfies Parts-I and II (respectively) of the definition of a
+2
+
+(k, m)−Affirmative Branch.
+
+Remark 5.4. It is significant that Theorem 5.1 was proven for a parameter λ =
+section will need that λ < 1
+Remark 5.5.
+
+3
+4
+
+< 1. The next
+
+to establish ISλ (A)’s “Tangibility Reflection Principle”.
+
+Many of our upper bounds were needlessly relaxed so that we could avoid cluttering
+
+the proofs with added notation. It is for this reason that a tighter proof of Theorem 5.1 could establish the
+theorem for λ = .01
+Remark 5.6
+
+(and probably for any λ ≥ 10−4 or even yet smaller).
+
+It is easy to generalize Theorem 5.1 so that ISλ (A)’s Group-3 axioms can use any cut-free
+
+proof method, such as Herbrand Deduction, Resolution or the Cut-Free Sequent Calculus.
+
+6
+
+The Tangibility Reflection Principle and Its Limitations
+
+Recall that TangRootk (x) denotes the formula “ ∃v x < v 1/k ”, and that ISλ (A)’s TangRoot Reflection
+Principle for the sentence Ψ was defined as the assertion:
+∀x {
+
+[ ∃ y
+
+SemPrf ISλ (A) ( d Ψ e , y ) ∧ TangRootk (x) ]
+
+⊃ Ψx
+
+}
+
+We will have two goals in this section. Theorems 6.1 and 6.2 will establish that for every sentence Ψ,
+
+(54)
+the
+
+1
+axiom system ISλ (A) can verify its TangRootk Reflection Principle for any fixed k > 1−λ
+. The second part
+
+of this section will explain why no real analog of the Tangibility Reflection Principle is available for axiom
+systems recognizing Multiplication as a total function.
+1
+Theorem 6.1 Let (λ, k) denote two constants satisfying 0 < λ < 1 and k > 1−λ
+. Assume that the
+
+axiom system A is strong enough to prove (see footnote13 ) the following Π−
+1 theorem:
+∀x ∀y ∀v
+Then for any prenex* sentence Ψ,
+
+{
+
+1
+
+⊃
+
+x < vk
+
+yλ <
+
+MAX(v, y)
+x
+
+}
+
+(55)
+
+there will exist a “HILBERT-STYLE” proof from ISλ (A)’s proper
+
+axioms of Equation (54)’s Reflection Principle for Ψ.
+1
+The intuitive reason Equation (55) is true is simply that the k > 1−λ
+inequality implies that y λ < xy when x < y 1/k ,
+λ
+1/k
+1/k
+v
+and that y < x when y
+≤ x < v .
+13
+
+34
+
+Proof. Below is the generic form of ISλ (A)’s Group-3 axiom:
+∀x ∀y ∀z
+
+{
+
+SemPrf ISλ (A) ( d Ψ e , y ) ∧ y λ <
+
+z
+x
+
+⊃
+
+Ψxz }
+
+(56)
+
+From (56), a Hilbert proof system can immediately deduce (57) (essentially because (57) is identical to (56)
+except that MAX(v, y) is substituted in the place of z ).
+∀x ∀y ∀v
+
+{
+
+SemPrf ISλ (A) ( d Ψ e , y ) ∧ y λ <
+
+MAX(v, y)
+x
+
+⊃
+
+ΨxMAX(v,y) }
+
+(57)
+
+From the combination of (55) and (57), a Hilbert proof system can immediately deduce (58).
+1
+
+ΨxMAX(v,y) }
+
+(58)
+
+Moreover since Lemma 3.1.C can be proven by ISλ (A), it can verify that ΨxMAX(v,y) ⊃ Ψx .
+
+Hence using
+
+∀x ∀y ∀v
+
+{ SemPrf ISλ (A) ( d Ψ e , y ) ∧ x < v k
+
+⊃
+
+the preceding identity and (58), Line (59) is easily derived:
+∀x ∀y ∀v
+
+{
+
+1
+
+SemPrf ISλ (A) ( d Ψ e , y ) ∧ x < v k
+
+⊃
+
+Ψx }
+
+(59)
+
+Lastly, Line (54) can be trivially derived from Line (59) because they are obviously equivalent.
+
+2
+
+Gentzen’s Cut Elimination Theorem [11, 13, 35, 37] implies that every Hilbert-style proof can be transformed into a Semantic Tableaux proof of the same theorem. Hence, Theorem 6.1 immediately yields:
+Corollary 6.2. For any prenex* sentence Ψ, the hypothesis of Theorem 6.1 also implies there exists a
+Semantic Tableaux proof from ISλ (A) of Equation (54)’s TangRoot Reflection Principle for Ψ.
+Remark 6.3. This paragraph will define a slightly stronger version of the Tangibility Reflection Principle.
+Let Ψµ denote a prenex* formula whose only free variable is µ , and Ψµ (k) be a sentence which replaces
+each occurrence of µ with the constant k . Also d Ψµ (k) e will denote Ψµ (k) ’s Gödel number, and Ψµ (k)x
+will denote a sentence identical to Ψµ (k) except that each unbounded universal quantifier from Ψµ (k) is
+now bounded by x. Then an axiom system α will be said to support the Uniform Tangibility Reflection
+Principle if it can prove (60) for each prenex* formula Ψµ
+∀v ∀x {
+
+[ ∃ y
+
+Prf α ( d Ψµ (v̇) e , y ) ∧ Tangible(x) ]
+
+⊃ Ψµ (v̇)x
+
+}
+
+(60)
+
+It is possible to develop axiom systems, similar to ISREF(A) and ISλ (A), which support the Uniform Tangibility Reflection Principle. These two axiom systems will be called ISREFU (A) and ISλU (A). They will have the
+identical Group-zero, Group-1 and Group-2 axioms as ISREF(A) and ISλ (A). They will differ only by having
+an uniformized version of their Group-3 axiom schema. This topic is mentioned because it is philosophically
+curious that one can achieve the added level of self-knowledge specified in (60). The proofs of the consistency
+of ISREFU (A) and ISλU (A) are actually quite similar to the analysis of ISREF(A) and ISλ (A). We did not
+provide them in this article because our proofs would then be cluttered with one extra level of notation.
+35
+
+CLARIFYING COMMENTS ABOUT MULTIPLICATION: Some readers may wonder whether
+an analog of ISλ (A) could recognize Multiplication as a total function. In particular, ISλ (A)’s Group-3 axiom
+(9) required that the inequality y λ < xz separate the magnitudes of y from z . It is natural to inquire
+whether an alternate “ISM(A)” system could view Multiplication as a total function, if its Group-3 axiom
+schema employed the canonical form (61) instead. Note (61)’s inequality y · Log2 (x + 2) < Log2 (z) forces
+a wider separation between the magnitudes of y and z than does (9)’s analogous inequality y λ < xz .
+∀x ∀y ∀z
+
+{ SemPrf ISM(A) ( d Ψ e , y ) ∧ y · Log2 (x + 2) < Log2 (z)
+
+⊃
+
+Ψxz }
+
+(61)
+
+The answer to the preceding question is quite surprisingly both affirmative and negative !
+The positive aspect will be that the ISM( • ) mapping does indeed possess consistency preservation
+properties analogous to ISλ ( • ) . Thus, if A is regularly consistent then so will ISM(A) be consistent, by
+a routine generalization of Section 5’s proof of Theorem 5.1.
+However the crucial comparison is that ISλ (A) (with the constant λ chosen to satisfy λ < 1 ) seems to
+have much more philosophical significance than ISM(A). This is because Theorem 6.2 showed that ISλ (A)
+could prove its TangRoot Reflection Principles. Also, Section 1’s discussion of Equation (4) and (5) explained
+how ISλ (A) could deduce from its Tangibility Reflection the theorem that
++++
+
+“ I am unable to produce a Semantic Tableaux proof of 0=1 ”
+
+However, Equation (61) is too weak for ISM(A) to prove analogously: “ ∀y ¬ SemPrfISM (A) (d0 = 1e, y) ”.
+The reason ISM(A) is unable to deduce this sentence is because the gap between the sizes of y and z is
+simply too large in Equation (61) (see footnote14 ).
+Thus oddly, ISM(A) and ISλ (A) have quite different philosophical and epistemological implications, although the strictly formalistic mathematical proofs of their consistency are virtually identical.
+Nor is any other axiom system known which recognizes Multiplication as a total function and which can
+prove an analog of Equation (54)’s Reflection Principle, using either TangRoot or any other slower growing
+Tangibility formula. A short intuitive explanation of why all the known Consistency-Preservation proofs do
+collapse when Multiplication is present was given in Remark 4.5. The theorems in the next section will discuss
+formalisms that are incompatible with the recognition of Multiplication as a total function.
+14
+
+Using x = 0 and Ψ = “0=1” in Equation (61), ISM(A) can prove ∀y [ ∃z y <Log2 (z) ] ⊃ ¬SemPrfISM(A) (d0 = 1e, y).
+
+However, the gap between the sizes of y and z in (61) is too large to also imply ∀ y ¬ SemPrf ISM(A) ( d 0 = 1 e , y )
+
+36
+
+7
+
+Three New Variations of the Second Incompleteness Theorem:
+
+This section will have two goals. One will be to prove the new variation of Gödel’s Second Incompleteness
+Theorem that was mentioned by Item C of Section 1. This version of the Second Incompleteness Theorem
+will explain why it is infeasible for any version of a self-justifying axiom system to employ Equation (1)’s
+“Canonical Reflection Principle”. It will thus explain why our ISREF(A) and ISλ (A) axiom systems had
+instead relied on Equation (2)’s weaker “Tangibility Reflection Principle”.
+Our second goal will be to prove that certain types of generalizations of the ISλ (A) axiom system become
+infeasible when they recognize Multiplication as a total function.
+Our theorems will be applicable to all the conventional methods of deduction, including Hilbert-style
+proofs, Herbrand-style proofs, Gentzen-style sequent calculus proofs, Semantic Tableaux proofs, Resolution
+proofs, etc. They will also be sufficiently general to apply to possible future methods, which unlike the
+preceding methods, actually do not need to be “fully” sound and complete. In particular, let D denote a
+method of deduction, α denote a set of proper axioms, and let “ α `D
+
+φ ” denote that there exists a
+
+proof from α, using deduction-method D, of the theorem-sentence φ. We will say that the deductionmethod D is α−Sound iff α `D
+
+φ implies that φ is true in every model of α. Similarly, define the
+
+deduction-method D to be α−Complete iff α `D
+
+φ holds whenever φ is true in every model of α.
+
+Conventional methods of deduction D are obviously α−sound and α−complete, for all axiom systems
+α . For the pleasure of added generality, the theorems in this section will also pertain to deductive methods
+which are merely sound and complete locally to α .
+Lemma 7.1. If α denotes a set of proper axioms and D denotes a deduction method that is both
+α−sound and α−complete then
+A. The combination of α `D φ,
+
+α `D ψ, and α `D φ ∧ ψ ⊃ ϕ implies α `D ϕ .
+
+B. The combination of α `D φ,
+
+α `D ψ, and the assumption that “ φ ∧ ψ ⊃ ϕ ” holds in every model
+
+M of α implies α `D ϕ .
+Proof. We will prove only Claim A, since both claims have essentially identical proofs. From the fact that
+D is α−sound and from Claim A’s hypothesis, it follows that each of the sentences φ,
+
+ψ and φ ∧ ψ ⊃ ϕ
+
+hold in every model M of α. Hence, so does ϕ hold in every model M of α. Since D is α−complete,
+the latter implies that α `D
+
+ϕ.
+
+2
+
+Comment: Let p, q and r denote proofs of the sentences φ,
+
+ψ and φ ∧ ψ ⊃ ϕ (above). If D
+
+designates a Hilbert-style proof method, then it is well known how to construct a proof s of ϕ by essentially
+37
+
+concatenating together the three initial proofs p, q and r. However, it is also known that for cut free proof
+methods, such as Semantic Tableaux, the construction of s is more complicated: It could then correspond
+to a bit string more than exponentially larger than the combined lengths of the three initial proofs p, q and
+r. The significance of Lemma 7.1 is that it asserts that s always exists (although it may be exceedingly
+difficult to construct). We will use Lemma 7.1 often in the proofs of Theorems 7.2, 7.3 and 7.4
+Notation. The symbol PAX
+
+will denote the trivial extension of Peano Arithmetic whose function
+
+symbols include the seven Grounding functions, in addition to Multiplication and Addition. The formula
+Prf D
+α (x, y) will designate that y is a proof of the sentence x from the axiom system α using the
+deduction method D. The system α’s “Canonical Reflection Principle” for the sentence Υ is the assertion:
+∀y
+
+{
+
+PrfD
+α ( dΥe , y )
+
+⊃
+
+Υ }
+
+(62)
+
+Theorem 7.2. Suppose α is a consistent axiom system, D is an α−sound and α−complete method
+−
+−
+of deduction, Prf D
+α (x, y) is a ∆0 formula, and α can verify all PAX’s Π1 theorems. Then α cannot prove
+
+the validity of the “Canonical” Reflection Principle (62) for every Π−
+1 sentence Υ.
+Comment. The above result is different from Löb’s Theorem [3, 13, 22, 23] chiefly because we do not
+assume that α recognizes either Addition or Multiplication as total functions.
+Proof of Theorem 7.2. We will first show how to use a fix-point construction to encode a Π−
+1 sentence
+Θ , whose translation into English is roughly that:
+∗∗
+
+There is no proof of this sentence from the axiom system α.
+
+Let SUBST(g, h) denote Gödel’s classic substitution relation, defined below:
+SUBST(g, h) = The integer g is an encoding of a formula, and h encodes a sentence identical to g,
+except that all free variables in g are replaced with a constant, whose value equals g.
+Then Θ can be defined as being simply the sentence Γ( n̄ ) , where Γ(g) denotes the formula given in
+Equation (63) and n̄ denotes Γ(g)’s Gödel number.
+∀x ∀h ≤ x
+
+SUBST(g, h)
+
+⊃
+
+¬ Prf D
+α (h, x)
+
+(63)
+
+We may also assume that SUBST(g, h) can be encoded as a ∆−
+0 formula, since Appendix C will show how
+this can be done (i.e. see its Theorems C.1.12 and C.2). Since the hypothesis of Theorem 7.2 indicated that
+−
+−
+Prf D
+α ( h , x ) was also a ∆0 formula, these facts imply Θ is a Π1 sentence.
+
+38
+
+Now suppose for the sake of contradiction that α could prove the validity of its canonical reflection
+−
+principle (62) for all Π−
+1 sentences. Then since Θ is Π1 , we have:
+
+α `D
+
+∀y
+
+{
+
+Prf D
+α ( d Θ e , y )
+
+⊃ Θ }
+
+(64)
+
+{ ∀ y ¬ Prf D
+α ( d Θ e , y ) } ∨ Θ
+
+(65)
+
+Applying a degenerate form of Lemma 7.1B to Equation (64), we get:
+α `D
+
+We will complete the proof of Theorem 7.2 by exploring the diagonalization properties of Θ .
+Since Θ is defined to be the mathematical sentence which corresponds to the English sentence **, it is
+evident that Equation (66) (below) is clearly valid.
+Θ
+
+⇔
+
+{ ∀ y ¬ Prf D
+α ( d Θ e , y ) }
+
+(66)
+
+However, we need slightly more than this fact because we must establish that the weak axiom system α
+can verify (66). The latter is easy to justify because Θ’s diagonalization construction implies that Θ’s Gödel
+number is the unique integer satisfying SUBST( n̄ , d Θ e ) (where n̄ was defined as the Gödel number of
+Equation (63)). The key point is that α can prove this fact about d Θ e ’s Uniqueness. The reason α
+can prove dΘe is the unique integer satisfying SUBST( n̄ , d Θ e ) is that it is provable from PAX as a Π−
+1
+theorem: It is thus accessible to α (by Theorem 7.2’s hypothesis). Once α has verified dΘe is the unique
+number satisfying SUBST( n̄ , d Θ e ), it can easily prove theorem (66). Hence, this paragraph has established
+α `D
+
+Θ ⇔ { ∀ y ¬ Prf D
+α ( d Θ e , y ) }
+
+(67)
+
+Applying Lemma 7.1B to the combination of Equations (65) and (67), we get:
+α `D
+
+Θ
+
+From (68), we know that there exists some integer m̄ such that
+
+(68)
+Prf D
+α ( d Θ e , m̄ )
+
+is true. Moreover
+
+−
+because α can prove all PAX’s Π−
+1 theorems, it obviously has a capacity to prove every ∆0 sentence which
+
+is true. Hence, we conclude that:
+α `D
+
+Prf D
+α (dΘe, m)
+
+(69)
+
+From (67), (69) and another application of Lemma 7.1B, we get:
+α `D
+
+¬Θ
+
+(70)
+
+Hence the combination of (68) and (70) shows that the axiom system α is inconsistent. This completes our
+proof of Theorem 7.2 because it shows that it is infeasible for α to be simultaneously consistent and to prove
+the validity of its canonical reflection principle (62) for all Π−
+1 sentences.
+39
+
+2
+
+Theorem 7.3. Define XISλ (PAX) to be an axiom system identical to ISλ (PAX) except that
+A. XISλ (PAX)’s Group-1 axiom schema will recognize Multiplication as a total function.
+B. The Group-3 axiom schema of XISλ (PAX) will obviously indicate XISλ (PAX)’s reflection properties
+(rather than ISλ (PAX)’s reflection principle). Thus for each prenex* sentence Θ , there will be a
+corresponding Group-3 axiom of the form:
+∀x ∀y ∀z { [SemPrf XISλ (PAX) ( d Θ e , y ) ∧ y λ <
+
+z
+] ⊃ Θx }
+x
+
+(71)
+
+Then for all values of the parameter λ , the axiom system XISλ (PAX) is inconsistent.
+Proof. Since the axiom system XISλ (PAX) recognizes Multiplication as a total function, Equation (72)
+must be valid for any fixed constant constant λ > 0 :
+XISλ (PAX) `
+
+∀x ∀y ∃z
+
+yλ <
+
+z
+x
+
+(72)
+
+Using Equation (72) and the fact that (71) is an axiom of XISλ (PAX), Lemma 7.1B implies:
+XISλ (PAX) `
+
+∀x ∀y { SemPrf XISλ (PAX) ( d Θ e , y ) ⊃ Θx }
+
+(73)
+
+Also for any Π−
+1 sentence Θ , an absolutely trivial argument shows:
+XISλ (PAX) `
+
+{ ∀x Θx } ⊃ Θ
+
+(74)
+
+Applying Lemma 7.1.B to Equations (73) and (74), we get:
+XISλ (PAX) `
+
+∀y { SemPrf XISλ (PAX) ( d Θ e , y ) ⊃ Θ }
+
+Since the above holds for all Π−
+1 sentences
+
+(75)
+
+Θ , the combination of Theorem 7.2 and Eq. (75) imply
+
+XISλ (PAX) is inconsistent. (This is because Theorem 7.2 does not allow a consistent axiom system XISλ (PAX)
+to have the capacity indicated by (75) simultaneously for all Π−
+1 sentences Θ .)
+
+2
+
+Comment. Theorem 7.3 clearly shows no hybrid of Robinson’s System Q with ISλ (A) is feasible that both
+recognizes Multiplication as a total function and can verify its TangRoot Reflection Principle. Yet although
+“hybrids” between Q and ISλ (A) are infeasible, some very interesting “interfaces” between ISλ (A) and any
+A extending Q are made possible by the theory of Definable Cuts [12, 13, 17, 18, 24, 26, 28, 29, 38, 39] See
+footnote 2 of Section 2 for an example of a surprising class of “interfaces” that can be formally constructed.
+
+40
+
+Theorem 7.4. Suppose α is a consistent axiom system, it recognizes Multiplication as a Total
+−
+Function, D is an α−sound and α−complete method of deduction, Prf D
+α (x, y) is a ∆0 formula, α can verify
+−
+15 )
+all PAX’s Π−
+1 theorems, and that for every ∆0 formula φ(x) the system α can also prove (see footnote
+
+the sentence (76) for some fixed constant
+
+k.
+
+D
+∀ p ∀ a ∀ b { [ b ≥ (p · a)k ∧ PrfD
+α ( d ∀xφ(x) e , p ) ] ⊃ ∃q < b Prfα ( d φ(ȧ) e , q ) }
+
+Then α cannot prove the validity of the theorem (77) (below)
+
+(76)
+
+for all ∆−
+0 formulae φ(x), simultaneously.
+
+∀ a { [ ∃ q Prf D
+α ( d φ(ȧ) e , q ) ] ⊃
+
+φ(a) }
+
+(77)
+
+(Equation (77) is often called [9, 33] φ(x)’s “Second Uniform” Reflection Principle.)
+Proof Sketch: We will only sketch Theorem 7.4’s proof because it is very similar to Theorem 7.3’s proof.
+Applying Lemma 7.1.B to the combination of the fact that α recognizes Multiplication as a total function
+and that it can prove (76), implies that α can also prove:
+D
+∀ p ∀ a ∃ q { Prf D
+α ( d ∀xφ(x) e , p ) ⊃ Prf α ( d φ(ȧ) e , q ) }
+
+(78)
+
+We will prove Theorem 7.4 by using a proof-by-contradiction. For the sake of establishing a contradiction,
+let us assume α can prove the theorem (77) for every ∆−
+0 formulae φ(x) . Applying Lemma 7.1.B to the combination of α ’s ability to prove (77) and (78), implies α can also prove “ ∀ p { PrfD
+α ( d ∀xφ(x) e , p ) ⊃ ∀xφ(x) } ”,
+for every Π−
+1 sentence “ ∀xφ(x) ”. This implies α is inconsistent (because Theorem 7.2 precludes a consistent
+α from having such reflection capacities).
+Hence, it is impossible for a consistent α to prove all sentences of the form (77). 2
+Comment: Part of the reason that Theorem 7.4 is interesting is that its negative result contrasts sharply
+with the uniform reflection principle which Remark 6.3 associated with ISREF(A) and ISλ (A). It also should
+be noted that during the period while this article was being refereed, we developed yet another version of
+the Second Incompleteness Theorem. It concerns Remark 5.5’s ISMULT formalism. Our theorem shows that
+for every α extending PAX, the axiom system ISMULT(α) is inconsistent. A 16-page description of this
+theorem was published by us recently in the Semantic Tableaux 2000 Conference Proceedings, i.e. see [44].
+
+8
+
+Conclusion
+
+There are several additional aspects of self-justifying axiom systems which we have postponed until a future
+paper. For example, we have represented a “proof” as a string of bits associated with some integer. An
+15
+A warning is that for some unusual semantic tableaux proof systems, the statement (76) is fallacious for all k because there
+is inadequate proof compression. However, virtually all Semantic Tableaux systems α will satisfy (76) for at least some fixed
+k , provided that for each natural number i they represent i with a constant symbol Ci and contain the very trivial formal
+statement “ ∃x = Ci ” as an axiom (rather than as a theorem).
+
+41
+
+alternate definition would allow a proof to correspond to the bit string produced by a computer whose input
+and permitted running times are specified by arbitrary integers. (This notion can be formalized with the use
+of Appendix B’s Turing functions). In this context, there are interesting generalizations of IS(A), ISREF(A)
+and ISλ (A), whose Group-3 axioms use “I am consistent” statements where the “ I ” refers to a computer able
+to generate in N units of time a bit-string of roughly N bits. (These strings are much longer than the integer
+N itself, which contains only Log(N ) bits). Such computable self-verifying systems are very subtle because
+they can become inconsistent if their “I am consistent” statement is excessively strong. (The difficulty is that
+excessive strength can cause such systems α to violate Part-ii of Section 1’s definition of self-justification.)
+For example, a computable version of IS(A) would be feasible if it recognizes Successor as a total function
+and retains the Group-zero axiom that Predecessor( n ) = n − 1. However, the computable variants of
+IS(A) will be excessively strong and inconsistent if they either recognize Addition as a total function or retain
+the Group-zero axiom that 2n − n = n . (Moreover, the axiom that Successor is a total function must be
+removed from the computable version of IS(A) if one wishes to revise its Group-3 schema to use Hilbert-style
+proofs rather than Semantic Tableaux structures.)
+There are also some interesting links between the P6=NP open question and the computable versions of
+IS(A) discussed in [42]. However frankly, we are unsure whether any of the new open questions posed in [42]
+are any easier to solve than the original P6=NP open problem.
+The chief reason for our interest in the ISREF(A) and ISλ (A) axiom systems is that they seem to offer
+some insights into a version of the Liar’s Paradox, raised by Gödel’s Incompleteness Theorem. In particular,
+they seem to provide an interesting partial answer to the paradoxical question below:
+* How do Human Beings manage to muster the physical energy and psychological desire to think (and
+prove theorems) when the various generalizations of Gödel’s Incompleteness Theorem assert that no
+reasonable conventional axiom system can confidently assume its own consistency?
+We can offer no full answer to the preceding question because paradoxes never have a full resolution. However,
+our partial answer to the Question ∗ is that a Thinking Being can assume that if he proves Ψ, then Ψ is
+valid when it is restricted to numbers of “reasonable size”. In particular, each of TangPred(x) , TangRoot(x)
+and TangDiv(x) can formalize what is meant by a number of “reasonable size” in Equation (2).
+Since none of our axiom systems will recognize Multiplication as a total function and since some will not
+recognize Addition as a total function, these axiom systems will clearly be awkward in some serious respects.
+However, what is more curious about the Tangibility Reflection Principle can perhaps be seen when it is
+examined from the exact opposite perspective. This is that Theorem 7.2 proves that even after one drops the
+axioms that Addition and Multiplication are total functions, an axiom system α will remain inconsistent if
+42
+
+it includes an ability to verify Equation (1)’s Canonical Reflection Principle.
+From this context, Equation (2)’s Tangibility Reflection Principle becomes especially enticing because it
+shows that close approximations to the infeasible Equation (1) are plausible.
+The Introduction Chapter of this article had forewarned our readers that it was extremely difficult to
+uniformly compare ISREF(A) and ISλ (A) to the prior results discussed by [20, 21, 24, 28, 36, 38]. In particular,
+Section 1 listed seven criteria where one could attempt to compare the self-verifying abilities of sundry axiom
+systems. It pointed out that the prior literature would be roughly preferable to ISREF(A) and ISλ (A) from
+the perspectives of Criteria I through IV. However, ISREF(A) and ISλ (A) would add some new insights from
+the measures of perspectives V, VI and VII.
+The salient point is that the generalizations of the Second Incompleteness Theorem, by Pudlák[28],
+Solovay[34] and our Theorems 7.2, 7.3 and 7.4, show that it is impossible for a self-verifying system to
+be optimal from all of perspectives (I)-(VII) simultaneously ! Thus, there are inherent trade-offs, where new
+insights arise only when considering axiom systems with other new types of limitations.
+Only from this perspective can ISREF(A) and ISλ (A) be fairly judged. An axiom system is unquestionably
+less than ideal when it does not verify Addition and Multiplication are total functions. However by their very
+nature, paradoxes never have ideal solutions. The partial virtues of ISλ (A) and ISREF(A) will be that their
+Tangibility Reflection Principles will offer at least a partial resolution for the Paradoxical Question ∗ .
+
+ACKNOWLEDGMENTS:
+
+I am extremely grateful to Robert Solovay for describing to me his un-
+
+published version of the Second Incompleteness Theorem. (Its formal statement is given in Appendix A.)
+Solovay’s theorem and Pudlák’s analogous result[28], which Solovay also described to me, were very helpful
+in enabling me to avoid the temptation of trying to construct several seemingly natural hybrids of ISREF(A)
+and IS(A), that are indeed infeasible. I am very grateful for this.
+I thank the University of Tel Aviv for hosting my sabbatical during 1992. It was during that period that
+I conceived the first version of a self-verifying axiom system, published in [40]. As a child of two parents who
+barely survived the Holocaust, I was glad that at least part of my research was done there.
+I also thank the anonymous referee for having read two drafts of this paper and for having suggested many
+improvements in the presentation.
+
+43
+
+Appendix A: Solovay’s Extension of Pudlák’s Theorem
+Robert Solovay (private communications, 1994) has observed there exists a finite set of Π−
+1 theorems discussing
+the properties of merely subtraction and division, such that no consistent axiom system α can prove these
+theorems, recognize Successor as a total function, and prove no Hilbert proof of 0=1 exists from itself.
+Numerous articles [13, 24, 26, 28, 29, 38] have credited an unpublished observation by Solovay for introducing the method of thinning Definable Cuts. The development of cut formulae for Robinson’s System Q
+(that model IΣ0 ) were due to Nelson [24] and to Wilkie-Paris [38, 39]. Pudlák [13, 28, 29] discovered the very
+crucial theorem that no extension of Q can prove its own Hilbert consistency. Solovay saw the very pretty
+theorem, described in this Appendix, as combining all these perspectives together.
+The reason for our interest in Theorem A.2 is it will imply that all the seemingly natural hybrids of
+ISREF(A) and IS(A) are infeasible. In the interests of brevity, some aspects of this Appendix’s proof will
+assume the reader is familiar with some of the prior works of Dimitracopoulos, Hájek, Krajı́cek, Nelson, Paris,
+Pudlák or Wilkie [13, 17, 18, 24, 26, 28, 29, 38] about Definable Cuts. This highly abbreviated format is
+reasonable because Theorem A.2 is never used in the main sections of our article. (Its sole purpose is to show,
+surprisingly, that all the seemingly natural hybrids of ISREF(A) and IS(A) are implausible.)
+Let Derive(x, y) denote a formula which indicates that the integer y represents a bit string that is some
+type of verification of the theorem whose Gödel number equals x . For example, Derive(x, y) could be a
+formula indicating that y is a Hilbert-style proof of x . However, it also could represent many other types
+of deductive formalisms as well. Also, Der(x) will be an abbreviation for “ ∃ y Derive(x, y) ”. Although
+“ Der(x) ” can specify a very non-conventional method of deductive inference, the symbol “ α ` Υ ” will
+retain its usual definition. It will specify that there exists a conventional Hilbert-style proof from the axiom
+system α of the theorem Υ . Before examining Solovay’s and Pudlák’s versions of the Second Incompleteness
+Theorem, it is useful to first consider the following generalization of the Hilbert-Bernays Theorem [14]:
+Theorem A.1 Suppose α can prove all Peano Arithmetic’s Π−
+1 theorems. Suppose for any two sentences
+Φ and Ψ, the formula Der(x) satisfies the following three conditions:
+1. If α ` Φ then α ` Der(dΦe) .
+2. α ` { Der(d Φ e)∧ Der(d Φ ⊃ Ψ e) } ⊃ Der(d Ψ e).
+3. α ` Der(d Φ e) ⊃ Der { d Der(d Φ e) e }.
+
+Then if the axiom system α is consistent, it cannot prove ¬ Der ( d 0 = 1 e )
+Comment: Mendelson’s textbook refers to the conditions (1)-(3) as the “Hilbert-Bernays Derivability Conditions”. Some other logicians have called them “the Löb Conditions” because Löb’s Theorem
+44
+
+[22, 23] is the most famous theorem about these three conditions.
+Justification of Theorem A.1. If the first sentence of Theorem A.1 had specified that α was an
+extension of Peano Arithmetic then Theorem A.1 would essentially correspond to Hilbert and Bernays’ version
+of the Second Incompleteness Theorem. The hypothesis of Theorem A.1 differs from the classic HilbertBernays theorem only by not requiring α to be an extension of Peano Arithmetic. However, it does require
+α to have an ability to prove all Peano Arithmetic’s Π−
+1 theorems. It turns out that this is actually the core
+fact that is needed by the classic proof of Hilbert-Bernays theorem.
+In the interests of brevity, we will not give a formal proof of Theorem A.1 in this very short appendix.
+However, the footnote below16 explains in detail the underlying reason why Theorem A.1’s proof is fully
+identical to Hilbert and Bernays’ well-known prior proof construction [14].
+
+2
+
+Notation: Since we will often allude to results by Hájek-Pudlák [13] and Wilkie-Paris [38], it should
+be pointed out that these two sources [13, 38] use slightly different notation conventions to define what
+is essentially the same concept. Let ω0 (x) = 2x . For i > 0 define ωi+1 (0) = 0 and ωi+1 (x) =
+2ωi (dLog2 (x+1)e−1) . Then Hájek-Pudlák [13] define Ωi to be the sentence asserting that ωi+1 is a total
+function. Similarly, ΩJi is defined as the sentence asserting that ωi+1 is a total function locally within
+the restricted domain specified by the cut formula J . Let $0 , $1 , $2 , ... denote the Wilkie-Paris [38]
+counterpart of the Hájek-Pudlák sequence ω0 , ω1 , ω2 , ... It is defined by the convention that $0 (x) = x
+and $i+1 (x) = x$i (dLog2 (x+1)e−1) . Wilkie-Paris [38] define Ωi as the sentence asserting that $i is a total
+function, and ΩJi to be the sentence asserting that $i is a total function locally within the cut formula
+J . It is well-known that IΣ0 can prove that these two definitions of Ωi are equivalent. Therefore the prior
+literature has found it mostly unnecessary to distinguish between the two slightly different notations.
+Define an axiom system α to be Successor-Regular if it recognizes Successor as a total function, it
+−
+can prove all Peano Arithmetic’s Π−
+1 theorems, HilbPrfα (x, y) can be encoded as a ∆0 formula, and α is
+
+consistent. Since α can prove all Peano Arithmetic’s Π−
+1 theorems, we can use reasoning similar to the prior
+literature’s treatment of IΣ0 to justify that α can verify that the Hájek-Pudlák and Paris-Wilkie definitions
+of Ωi are equivalent to each other when i ≥ 1 . However, the two definitions of Ω0 are not equivalent
+16
+
+Let Subst(g, h) denote Gödel’s classic substitution relation, which specifies that the integer g is an encoding of a formula,
+
+and h encodes a sentence identical to g, except that all free variables in g are replaced with a constant, whose value equals
+g. Let Θ(z) denote the formula “ ∀x∀y Subst(z, x) ⊃ ¬Derive(x, y) ”, and N denote the Gödel number of this formula. It
+is trivial to see that the Π−
+1 theorems of Peano Arithmetic are sufficient to prove that d Θ(N ) e is the unique integer satisfying
+Subst( N , d Θ(N ) e ). This immediately implies that α can prove that Θ(N ) ⇔ ¬Der(dΘ(N )e). It turns out that the preceding
+fixed point identity is the only aspect of the proof of the Hilbert-Bernays Theorem that needs Peano Arithmetic for justifying
+it. In other words, the remainder of the proof of the Hilbert-Bernays Theorem rests solely on the fact that α has the logical
+strength indicated by Theorem A.1’s hypothesis (i.e. that α supports conditions (1)-(3) ). It is for this reason that Theorem
+A.1’s proof is basically identical to the proof of the Hilbert-Bernays theorem.
+
+45
+
+under some Successor-Regular axiom systems α , which do not recognize Addition and Multiplication as total
+functions. Moreover since Hájek-Pudlák use a different subscript convention where ωi is roughly comparable
+to $i−1 , its notation can also define Ωi in the special degenerate case where i = −1 . We will therefore
+use the Hájek-Pudlák notation in the special cases where Ωi has a subscript i = 0 or i = − 1.
+The prior literature [13, 17, 18, 24, 26, 28, 29, 38, 39] has illustrated many different variants of the method
+of “thinning cuts”. In general, most arithmetic axiom systems A can define a sequence of Definable Cuts
+J0 , J1 , J2 , J3 .... such that A can prove:
+i
+1. the validity of the sentence “ ΩJi−1
+”,
+
+2. that “ Ji is a Definable Cut”,
+3. and that “ ∀x Ji (x) ⊃ Jk (x) ” for any two fixed constants satisfying k < i.
+For example, if α is a Successor-Regular axiom system, then J0 , J1 , J2 , J3 can be defined as:
+J0 (v)
+
+≡df
+
+∀u ∃z v = z − u
+
+(79)
+
+z
+J1 (v) ≡df J0 (v) ∧ ∀u ∃z { J0 (u) ⊃ [J0 (z) ∧ v = ] }
+u
+
+(80)
+
+Log(z)
+J2 (v) ≡df J1 (v) ∧ ∀u ∃z { J1 (u) ⊃ [J1 (z) ∧ Log(v) =
+]}
+Log(u)
+
+(81)
+
+LogLog(z)
+J3 (v) ≡df J2 (v) ∧ ∀u ∃z { J2 (u) ⊃ [J2 (z) ∧ LogLog(v) =
+]}
+LogLog(u)
+
+(82)
+
+The footnote17 is intended only for those readers who are not previously acquainted with the prior literature
+about cut formulae (such as [13, 18, 24, 26, 28, 29, 38, 39]): it briefly reviews this literature by summarizing
+0
+how α can formally prove the sentence ΩJ−1
+. We hope the reader will forgive us for not also reviewing how
+
+α has the capacity to similarly prove the sentences ΩJ0 1 , ΩJ1 2 , ΩJ2 3 , .... . This inductive generalization is
+not discussed because we are attempting to keep the discussion in this appendix reasonably brief, and similar
+results have appeared often elsewhere in the prior literature [13, 18, 24, 26, 28, 29, 38, 39]. Roughly speaking,
+i
+the intuitive reason that α ` ΩJi−1
+is that α has an ability to prove all Peano Arithmetic’s Π−
+1 theorems:
+
+Its Π−
+1 capacity makes α easier to analyze with more simple versions of cut formulae than would be possible
+under many of its more difficult counterparts in [13, 18, 24, 26, 28, 29, 38, 39] (Many of the axiom systems in
+17
+
+As merely a simple illustrative example for the reader who may be unacquainted with the prior literature [13, 18, 24, 26,
+0
+28, 29, 38, 39], this footnote will show how to formally establish α ` ΩJ−1
+. We first note that Equation (79) implies
+α ` J0 (x) ⊃ ∀p∃q x = q − p . Let us now use Solovay’s trick and rewrite the preceding statement, with the names of
+its variables changed, so that it appears as: α ` J0 (x) ⊃ ∀q∃r x = r − q . Combining these two equations now yields:
+α ` J0 (x) ⊃ ∀p∃r x = r − x − p . Since α can prove all Peano Arithmetic’s Π−
+1 theorems, the preceding equation,
+combined with Equation (79), yields: α ` ∀x∀y [ (J0 (x) ∧ x = y − x) ⊃ J0 (y) ] . Also Equation (79) trivially implies that
+0
+0
+α ` J0 (x) ⊃ ∃y x = y − x . From the Hájek-Pudlák definitions of ω0 and ΩJ−1
+, the last two equations imply α ` ΩJ−1
+.
+J1
+J2
+J3
+Moreover, an easy inductive generalization of this paragraph will establish α ` Ω0 , α ` Ω1 , α ` Ω2 ....
+
+46
+
+the cited articles do not prove all Peano Arithmetic’s Π−
+1 theorems, but yet they can still verify the existence
+of analogs of the sequence J0 , J1 , J2 , ... . See footnote 18 for an example.)
+Theorem A.2 (below) will be proven by defining Derive(x, y) to be “ J2 (y) ∧ HilbPrfα (x, y) ” and then
+applying Theorem A.1. Before providing more details, we should note that Solovay indicated that Pudlák’s
+analysis of extensions [28] of Robinson’s system Q should be credited for having stimulated Theorem A.2. The
+contribution of Wilkie-Paris [38]’s research will be evident from the manner in which the proof of Theorem
+A.2 employs their article. Nelson’s work can strengthen Theorem A.2 significantly (see footnote 18).
+Theorem A.2. (Solovay’s Extension of Pudlák’s Theorem): Suppose the syntax for arithmetically encoding proofs uses B-adic numbers. (Such encodings were used by Hájek, Nelson Paris, Pudlák and Wilkie
+[13, 24, 38]: It is essentially the same as the encoding of proofs as “byte-strings” in Appendix B.) Suppose
+α is a Successor-Regular axiom system. Then α cannot prove ∀p ¬HilbPrfα ( d0 = 1e , p ).
+Proof. For the sake of establishing a proof-by-contradiction, let us temporarily assume that:
+α `
+
+∀p ¬HilbPrfα ( d0 = 1e , p )
+
+(83)
+
+For any fixed constant i , define Der i (x) to be the formula ∃y Ji (y) ∧ HilbPrfα (x, y) , where Ji is some
+definable cut specified earlier in this section. Equation (83) then implies:
+α `
+
+¬Der i ( d0 = 1e )
+
+(84)
+
+Using any fixed i ≥ 2, the footnote 19 explains why the cuts formulae J2 , J3 , J4 ... satisfy:
+α ` ΩJ1 i
+
+(for any fixed i ≥ 2 )
+
+(85)
+
+Readers familiar with the prior literature, such as the work of Wilkie-Paris [38], will note Equation (85)
+implies (see footnote20 ) that the pair ( α , Der 2 (x) ) meet Theorem A.1’s three requirements.
+18
+
+Nelson [24] has shown how an axiom system Q0 , defined in Chapter 6 of his book, can prove analogs of
+ΩJ1 2 , ΩJ2 3 , .... . despite the fact that Q0 is so unusually weak that it is unable to prove even that Addition
+and Multiplication satisfy the associative, commutative and distributive principles. The only price Nelson pays for establishing
+this fact is that his analogs of the cut formulae J0 , J1 , J2 , ... have more complicated definitions than our cut formulae in
+Equations (79)-(82). Thus, our preceding discussion could actually drop the assumption that α must prove all the Π−
+1 theorems
+of Peano Arithmetic, if one were willing to employ more complicated variants of cut formulae, as Nelson [24] has already done.
+19
+i
+i
+Our earlier discussion indicated α ` ΩJi−1
+. Since by a trivial argument α ` ΩJi−1
+⊃ ΩJ1 i when i ≥ 2, Equation 85 follows.
+
+0
+ΩJ−1
+. ΩJ0 1 ,
+
+20
+
+This is intuitively because Wilkie-Paris [38] established that if an axiom system has the power of IΣ0 + Ω1 , uses a ∆−
+0 formula
+
+to recognize its axioms and employs a B-adic encoding scheme for coding its Hilbert-style proof, then it will satisfy the three
+Hilbert-Bernays-and-Löb-like conditions mentioned in the hypothesis of Theorem A.1. Moreover, if α is a Successor-Regular
+axiom system, this result also applies to extensions of α + Ω1 (because such Successor-Regular systems α have a capacity
+Ji
+to prove all Peano Arithmetic’s Π−
+1 theorems). Since Equation (85) indicates that that α can prove Ω1 , one can trivially
+
+generalize the Wilkie-Paris formalism to verify that α can prove that Der i (x) satisfies these three Löb-like properties (for any
+fixed constant i ≥ 2 ). In particular, Der 2 (x) satisfies the three Löb properties. (Since it should be evident to a reader familiar
+with the Wilkie-Paris formalism that α has these capacities, we omit further details so our summary of Solovay’s proof can be
+kept reasonably short.)
+
+47
+
+The preceding paragraph, combined with Theorem A.1, enables us to complete Theorem A.2’s proof-bycontradiction. This is because Theorem A.1 does not allow a Successor-Regular axiom system to have Der2
+satisfy the theorem’s Conditions (1)-(3) and to simultaneously prove ¬Der 2 (d 0 = 1 e) . Yet precisely these
+very conditions are established in the preceding paragraph. The forced conclusion from this contradiction is
+that the first sentence in the preceding paragraph was incorrect when it temporarily entertained the hypothesis
+that a consistent Successor-Regular axiom system α could satisfy Equation (83). 2
+Added Comments. Theorem A.2 can be strengthened considerably. Although the definition of a
+“Successor-Regular” axiom system requires that Prfα (x, y) to be a ∆0 formula, this assumption can be
+dropped. It is also unnecessary for α to have a capacity for proving all the Π−
+1 theorems of Peano Arithmetic:
+Instead, it needs to prove just some finite set of these theorems. It is also apparent that many of Pudlák’s
+more general Incompleteness properties [28] for extensions of Robinson’s system Q can be hybridized with
+Theorem A.2 (involving the Wilkie-Paris form of Restricted Herbrand proofs).
+We omit these topics because Theorem A.2 is intended only to delineate those aspects of the broader
+research of Nelson, Paris, Pudlák, Solovay and Wilkie that are directly germane to ISREF(A) and IS(A).
+Theorem A.2 is relevant because all the seemingly natural hybrids of the ISREF(A) and IS(A) are “SuccessorRegular” systems. Thus, Theorem A.2 establishes the quite counter-intuitive result, that any effort to hybridize these two systems will automatically fail because the resulting hybrid cannot be self-verifying.
+
+Appendix B: The Turing-Function Encoding of Group-3 Axioms
+This appendix will explain how to encode the Group-3 axioms for IS(A), ISλ (A) and ISREF(A). Rogers [30]
+and Jeroslow [15] have already noted that Kleene’s Fixed Point Theorem [16] can be used to expand any
+initial r.e. axiom system α into a broader system α∗ , whose one additional axiom is
+The union of the system α WITH THIS ADDITIONAL SENTENCE is a consistent axiom system.
+The reason such systems α∗ have not occurred very often in the prior literature is that they are typically
+inconsistent, despite the fact that they axiomatically do justify their own consistency (as was explained in
+Section 1’s first paragraph). The most novel aspects of IS(A), ISREF(A) and ISλ (A) will thus not be that
+they contain Group-3 axioms, similar to the indented sentence above. Rather, it is that they are actually
+consistent (as demonstrated by Theorems 3.4, 4.3 and 5.1).
+The reader should briefly skim Section 4’s second paragraph before reading this Appendix. (It formally
+defines our variant of a Semantic Tableaux proof.)
+
+48
+
+Our description of the encoding of the Group-3 axioms will be divided into two parts. This appendix
+will describe a variant IS(A), ISREF(A) and ISλ (A), called their Turing Versions, whose Group-3 axiom
+schemas are especially easy to encode. The price for this simplicity is that the Turing variations of the Group-3
+axioms will use a slightly broader set of atomic functions than those described in Section 2. Appendix C will
+illustrate a more mathematically sophisticated encoding of the Group-3 axioms, using Section 2’s Grounding
+functions. This will be called the Grounding Versions of the Group-3 axioms.
+In order to explain the difference between these two versions, it is desirable to first define a 4-tape universal
+Turing machine M that one of our axiom systems will simulate. The machine M will use “left-sided tapes”,
+i.e. tapes that can be traversed infinitely far to the left, but not to the right of the address Zero.
+The alphabet Σ stored on the Turing tapes will consist of three letters, denoted as “0”, “1” and “2”. The
+first two letters will describe the bit values of “0” and “1”. They will be called the Non-Null letters. The
+letter “2” will be a null-value symbol. It will be assumed that only a finite number of letters on any tape
+are non-null symbols. The rightmost letter on the tapes will always be a null marker (to indicate that the
+tape head cannot move any further right). The remaining null values on the tape will appear as an infinite
+sequence of consecutive null markers on the tape’s left side. The symbol “ * ” will denote this infinite repeating
+sequence of the letter “2”. Thus, if bn , bn−1 , ...b1 represents a sequence of non-null bits then ∗, bn , bn−1 , ...b1 , 2
+indicates how this sequence will be stored on its Turing tape.
+Define the sequence bn , bn−1 , ...b1 to be a Normalized Representation of the integer J iff its length
+n = Max( 1 , 1 + dLog2 Je ) and J =
+
+Pn
+
+i=1 bi · 2
+
+i−1 .
+
+The advantage of the preceding definition is that
+
+each natural number J can be mapped onto an unique normalized representation encoding it as a bit string
+(because its rightmost non-null bit bn always equals 1 ). For simplicity, we assume in this section that all
+four tapes of the M initially contain such normalized bit strings.
+One of our Turing tapes, denoted as TE , will store an “encoding” of the machine M’s instruction set.
+The other tapes, T1 ,
+
+T2 and T3 , are input tapes, containing the data that should be processed. We will
+
+assume M is a “Universal” 4-tape Turing Machine, in that it satisfies the following criteria:
+1. Given any 3-input partial recursive function f (x1 , x2 , x3 ), the machine M can simulate f by loading
+some instruction encoding ef on the tape TE and loading the triple (x1 , x2 , x3 ) on M’s input tapes.
+(The tape T1 will store f (x1 , x2 , x3 )’s value at the time when M halts.)
+2. Let the partial function g(x1 , x2 , x3 ) denote the running time on the random access machine R of the
+partial recursive function f . Then ef ’s running time on M will be no worse than k · g(x1 , x2 , x3 )k ,
+for some fixed constant k whose value depends only on M and R.
+
+49
+
+Let Z denote an arbitrary 4-tuple of integers, which represent the transcribed numbers stored on M’s
+four tapes at the time execution commences. Our Turing Machine simulation functions will include:
+a.
+
+T apei (Z, x, t) designating a number 0, 1, or 2, according to which letter is stored on M’s i-th tape in
+position x at time t − 2 when the 4-tuple Z designates the initial configuration on M’s tapes.
+
+b.
+
+Headi (Z, t) indicating the address of the i-th tape’s head at time t − 2 when the 4-tuple Z designates
+the initial configuration on M’s tapes.
+
+c.
+
+Statei (Z, t) = 1 if the machine M is in state i at time t − 2 when the 4-tuple Z designates the initial
+configuration on M’s tapes. Statei (Z, t) = 0 otherwise.
+
+Only a finite number of Π1 axioms are needed to define the Turing functions. For instance, the footnote 21
+illustrates one possible encoding. The reason Items (a)-(c) refer to a time “t − 2” rather than “t” is simply
+that the inequalities Tapei (Z, x, t) ≤ 2, Statei (Z, t) ≤ 1 and Headi (Z, t) ≤ t will then imply that the
+Turing functions satisfy Section 2’s definition of a “Non-Growth Function”.
+Section 2 had indicated the particular “Grounding” functions, used by the Group-1 schema, were chosen
+in a fairly arbitrary manner. It also indicated that if F was any arbitrary set of non-growth functions defined
+by a finite set of Π1 axioms, then it was permissible to add this set of functions of F to the Group-1 schema.
+Thus, one can add all the Turing functions to Section 2’s Group-1 schema. Since the Turing functions are
+non-growth functions, all our prior theorems are guaranteed to remain valid.
+Our remaining discussion will thus refer to two versions of IS(A), ISREF(A) and ISλ (A), called their
+“Turing” and “Grounding” versions. The Group-1 axiom schema of the Grounding versions were defined
+in Section 2: Its function symbols represent only the Grounding functions. On the other hand, the Turing
+versions of these systems will recognize the function symbols for both Grounding and Turing functions.
+Recall a formula was said to be ∆−
+0 iff all its quantifiers are bounded and it was built with the use of
+the Grounding functions. Henceforth the same formula will be called ∆+
+0 when both Turing and Grounding
++
+functions appear in it. (The distinction between the definitions of Π−
+1 and Π1 is analogous.) The remainder
+
+of this section and Appendix C will establish that:
+21
+
+There are several possible definitions of the Turing functions. One will have four parts. Its first part will define
+Tapei (Z, x, t) =Statei (Z, t) =Headi (Z, t) = 0 when t = 0 or 1. The second fragment will describe the initial values of
+the Head and State functions for t = 2. The third fragment will employ the Count and Logarithm functions to assure that the
+bit sequences stored on the tapes TE , T1 , T2 , and T3 for t = 2 correspond to the four integers associated with the 4-tuple Z.
+(This is possible to encode as a Π1 sentence essentially because the i-th bit of the integer x equals Count(x, i)−Count(x, i − 1) .)
+For t ≥ 3 , the fourth fragment will inductively define the values of the Head, State, and Tape functions at time t in terms of
+the prior values at time t − 1. More details about the exact formulation of the Group-1 axioms are unimportant because any
+formulation of these axioms as a finite set of Π1 sentences is equally suitable for our purposes.
+
+50
+
+1. The Group-3 axioms of Turing versions of IS(A), ISREF(A) and ISλ (A) can be encoded as Π+
+1 sentences
+(if one so desires).
+2. The Group-3 axioms of Grounding versions of IS(A), ISREF(A) and ISλ (A) can be encoded as Π−
+1
+sentences (if one so desires).
+3. The Group-3 axioms of Turing versions of IS(A), ISREF(A) and ISλ (A) can be encoded as Π−
+1 sentences
+(if one so desires).
+We will establish the Result (1) in this section. Appendix C will establish (2) and (3). Note that the Result
+(3) strictly supersedes (1). However, it is still desirable to discuss the topic (1) first because its encoding
+methodology is significantly simpler than those for (2) and (3). (In particular, the distinction between a Π+
+1
+and a Π−
+1 encoding will be so striking that it will take Appendix C approximately half-a-dozen pages to
+undertake a task analogous to the 5-sentence proof of Theorem B.1.)
+Like all Gödel encodings, our description will begin with a summary of the syntax employed. Our Hilbertstyle proofs will employ a language consisting of twenty fairly standard symbols. Semantic tableaux proofs
+will employ one extra symbol. These symbols are listed below:
+1. The standard symbols ∧, ∨, ¬, ⊃, ∀ and ∃, plus two symbols for bounded ∀ and ∃ quantifiers.
+2. The three types of left and right parenthesis symbols: (, ), [, ], {,and }.
+3. The punctuation symbol “ , ” and the relation symbols “ = ” and “ ≤ ”.
+4. The symbols Ĉ , V̂ , and F̂ for designating a fixed constant, a variable and a function.
+5. The symbol Û for designating a “New Parameter” in a semantic tableaux proof. “New Parameters”
+are introduced into semantic tableaux proof trees during the elimination of an existentially quantified
+variable (see Section 4’s second paragraph). This symbol is not used in Hilbert-style proofs.
+Define a byte to be an unit consisting of six bits. Our twenty-one atomic symbols will be each assigned a
+separate 6-bit code, such that each will have their leftmost bit equal to “1”. The constant representing the
+natural number i will be encoded as a string of d log 32 (i + 1) e + 1 bytes, where the first byte is the “ Ĉ ”
+symbol and the remaining bytes encode i as a base-32 number, with the convention that the lead bit in each
+6-bit sequence is “0”. The i-th variable, i-th parameter, and i-th function symbols will be encoded with the
+same convention, except that their first byte will be the V̂ , Û and F̂ symbols, instead of Ĉ. A function F̂i
+with j input arguments will use an expression of the form [ ,
+
+,
+
+,
+
+] to specify its inputs. Define an integer
+
+encoding of a formula as a number in base 64, representing its string of bytes.
+A Hilbert-style proof will be defined to be a list of formulae, each of which is either an axiom or a deduction
+from its predecessor via Modus Ponens or Generalization [7, 13, 14, 23]. We will separate the formulae on this
+list by having each begin with a left-curly bracket symbol and terminate with a right-curly bracket symbol.
+51
+
+The curly bracket symbols will have a slightly different function for Semantic Tableaux proofs [10, 32]
+because these proofs have a tree-like rather than list-like structure. Each curly-left bracket will correspond to
+a node of the Semantic Tableaux’s proof tree. We shall assume a particular node’s stored sentence appears
+immediately to the right of its curly-left bracket symbol. If x and y designate two curly-left bracket
+symbols, we will view the node x as a descendent of y if the range associated with y’s pair of curly
+brackets properly contains x’s range. (This convention is merely the natural manner for representing a tree
+employing the parenthesis notation.) The main point is that the integer encoding of either a Hilbert-style or
+Semantic-Tableaux-style proof is defined as a number in base 64, representing its string of bytes.
+We will also employ the notation defined below:
+i. Subst ( g , h ) will denote Gödel’s classic substitution formula, which yields TRUE when g is an encoding
+of a formula, and h is an encoding of a sentence which replaces all occurrence of free variables in g
+with simply a constant, whose value equals the integer g.
+ii. UNION(A) will denote the union of the Group-Zero, Group-1 and Group-2 axioms.
+iii. SubstSemPrfα (s, y, g) is a formula stating that y represents a Semantic Tableaux Proof Tree of the
+theorem s from the union of the axiom system α with the one further axiom whose Gödel number is the
+integer h satisfying Subst(g, h). The special case of SubstSemPrf where α corresponds to UNION(A) is
+denoted as SubstSemPrfUNION(A) (s, y, g, ).
+Recall Section 2 indicated that IS(A) contained only one single axiom sentence in its Group-3 schema. This
+sentence was “informally” described as being equivalent to the statement:
+∀y
+
+¬ SemPrfIS(A) ( d 0 = 1 e , y )
+
+(86)
+
+The Group-3 axiom of IS(A) is easy to “formalize” because (86) is the only sentence belonging to IS(A)’s
+Group-3 schema. In particular, let Θ(g) denote the formula:
+∀y
+
+{ ¬ SubstSemPrfUNION(A) ( d 0 = 1 e , y , g ) }
+
+(87)
+
+Let N denote the Gödel number of the formula Θ(g) above. Then the “formal” encoding of IS(A)’s Group-3
+axiom (86) can be simply defined as being the sentence Θ(N ) .
+The remainder of this section will have two goals. One will be to show SubstSemPrfUNION(A) (s, y, g)
+and its analogs have ∆+
+0 encodings. The second goal will be to describe the precise analog of Θ(N ) needed
+to encode the more complex Group-3 axiom schemes for ISREF(A) and ISλ (A). (These Group-3 schemes
+will be more complicated than IS(A)’s counterpart primarily because they consist of an infinite number of
+axiom-sentences, all referring to each other.) We will discuss the second topic first.
+52
+
+Define a Pseudo-Formula to be a logical construct which differs from conventional formula by allowing
+the three pseudo-symbols, denoted as “ ♣ ”, “ d ♣ e ”, and “ ♣zx ”, to appear anywhere in the pseudo-formula.
+Usually, Ξ ( ♣ ) will denote a pseudo-formula. The symbol “ ♣ ” will be a place-holder where an arbitrary
+sentence Φ may be later inserted into the “pseudo-formula” Ξ . Similarly, the symbols “ d ♣ e ” and
+“ ♣zx ” will be place-holders for Φ’s Gödel number d Φ e and Section 2’s symbol “ Φzx ”. In particular, our
+discussion will include a formal encoding of the primitives:
+iv.
+
+PseudoTransform1 ( h , r )
+
+indicating that h is a pseudo-formula, r is a conventional formula and
+
+there exists a Π−
+1 sentence Φ such that each appearance of “ d ♣ e ” in h is replaced by an appearance
+of “ d Φ e ” in r and each appearance of “ ♣ ” is replaced by “ Φ ” .
+v.
+
+PseudoTransform2 ( h , r )
+
+indicating that h is a pseudo-formula, r is a conventional formula and
+
+there exists a prenex* sentence Φ such that each appearance of “ d ♣ e ” in h is replaced by an
+appearance of “ d Φ e ” in r and each appearance of “ ♣xz ” is replaced by “ Φxz ” .
+vi.
+
+ExSemPrf α ( s , y , g ) is a generalization of item (iv)’s SubstSemPrfα (s, y, g) formula, taking into
+account both pseudo-formulae and item (i)’s Subst relation. In particular, let h denote the unique
+Gödel number of a pseudo-sentence satisfying Subst(g, h), where g is the Gödel number of a pseudoformula. Then ExSemPrfα (s, y, g) will indicate y is a Semantic Tableaux Proof of the prenex* sentence
+s, where each axiom a in the proof y satisfies either a ∈ α or
+
+vii.
+
+PseudoTransform2 (h, a).
+
+ExHilbPrf α ( s , y , g ) will have a definition identical to ExSemPrf α ( s , y , g ), except that it will
+treat y as a Hilbert-style proof, rather than as a Semantic Tableaux proof tree.
+
+Added Comment. Theorems B.1 and Remark B.3 will imply these formulae have ∆+
+0 encodings.
+Section 2 had indicated that ISλ (A) would contain one Group-3 axiom ΓΨ for each prenex* sentence
+Ψ . These axioms were previously “informally” described as:
+∀x ∀y ∀z
+
+{
+
+SemPrf ISλ (A) ( d Ψ e , y ) ∧ y λ <
+
+z
+x
+
+⊃
+
+Ψxz }
+
+(88)
+
+In order to “formally” encode (88), it is useful to employ the pseudo-formula Ξ ( ♣ ) below. Note (89) differs
+from (88) by replacing “Ψ” with “♣”and replacing “SemPrf ISλ (A) ( • , y)” with “ExSemPrf UNION(A) ( • , y , g)”.
+∀x ∀y ∀z
+
+z
+{ ExSemPrf UNION(A) ( d ♣ e , y , g ) ∧ y λ <
+x
+
+⊃
+
+♣xz }
+
+(89)
+
+Let Nλ denote the Gödel number of (89). Then the informal expression “ SemPrf ISλ (A) ( s , y ) ” can be
+formally encoded as: “ ExSemPrf UNION(A) ( s , y , Nλ ) ”. This implies that the Formal Gödel Encoding
+53
+
+of ISλ (A)’s Group-3 axioms (from (88)) is illustrated by Equation (90):
+∀x ∀y ∀z
+
+{
+
+ExSemPrf UNION(A) ( d Ψ e , y , Nλ ) ∧ y λ ≤
+
+z
+x
+
+⊃
+
+Ψxz }
+
+(90)
+
+Theorem B.1. The formula ExSemPrf UNION(A) ( s , y , g ) can be encoded as a ∆+
+0 formula.
+Proof Sketch. We will not provide a formal proof of Theorem B.1 because it is fairly trivial and because
+the next section will provide a more detailed proof of a more powerful theorem (about ∆−
+0 encodings).
+The intuition behind Theorem B.1 can be appreciated when it is realized that every context-free grammar
+can be recognized in Polynomial time. Thus, a string with L symbols can be checked in Polynomial(L)
+time for whether it belongs to an arbitrary context-free grammar. In particular since y represents a string
+with approximately Log 64 y bytes, one can determine in PolyLog(y) time whether or not y represents
+a tree whose individual nodes represent stored formulae using the language of ISλ (A). Moreover, it is very
+trivial to modify this recognition procedure so that it can also check whether the triple (s, y, g) satisfies
+ExSemPrfUNION(A) (s, y, g) ) also in PolyLog(s + y + g) time.
+ExSemPrfUNION(A) (s, y, g) must have a ∆+
+0 encoding simply because its
+Turing computation has a running time PolyLog(s + y + g)  O(s + y + g).
+2
+The fundamental point is
+
+Remark B.2. The significance of the ∆+
+0 encoding for ExSemPrf UNION(A) ( s , y , g ) is that it implies
+that ISλ (A)’s Group-3 axioms (in Equation (90) ) can be encoded as Π+
+1 sentences. The proof of Theorem
+B.1 was kept abbreviated because Appendix C will offer an alternate proof of Theorem B.1’s result, using a
+different set of atomic function symbols.
+Remark B.3. A similar construction will provide a Π+
+1 encoding for ISREF(A)’s Group-3 axioms. In
+particular, let ConSize(x, y) denote a ∆+
+0 formula that is satisfied when y encodes a list of formulae and
+each constant in this list y represents a quantity strictly less than x. In this notation, the Group-3 schema
+for ISREF(A) can be viewed informally as axioms of the form:
+∀x ∀y
+
+{ HilbPrf ISREF(A) ( d Ψ e , y , g ) ∧ ConSize(x, y) ⊃ Ψx−1
+x−1 }
+
+(91)
+
+Our formal Π+
+1 encoding for Equation (91) will once again begin with a pseudo-formula for representing it:
+∀x ∀y
+
+{ ExHilbPrf UNION(A) ( d ♣ e , y , g ) ∧ ConSize(x, y) ⊃ ♣x−1
+x−1 }
+
+(92)
+
+Let N be (92)’s Gödel number. Then (93) gives the formal encoding of ISREF(A)’s Group-3 axiom for Ψ.
+∀x ∀y
+
+{ ExHilbPrf UNION(A) ( d Ψ e , y , N ) ∧ ConSize(x, y) ⊃ Ψx−1
+x−1 }
+
+(93)
+
+The analog of Theorem B.1 implies that Equation (93) has a Π+
+1 encoding. Appendix C will show that more
+λ
+terse Π−
+1 encodings are possible for each of IS(A), ISREF(A) and IS (A).
+
+54
+
+Appendix C: The Π−
+1 Encoding for the Group-3 Axioms
+Our description of the Π−
+1 encoding for the Group-3 axioms will be divided into three parts in this section.
+The definition of the linear computational hierarchy, known as “ LinH, ” will be reviewed. We will then prove
+that there exists computational procedures within this hierarchy that tests whether or not an arbitrary tuple
+(s, y, g) satisfies the conditions ExSemPrfUNION(A) ( s , y , g ) and ExHilbPrfUNION(A) ( s , y , g ). The last
+part of this section will generalize some prior theorems discussed by Hájek-Pudlák, Krajı́ček and Wrathall
+[13, 18, 46] to show that each decision procedure within LinH can be encoded by a ∆−
+0 formula. (This will
+λ
+establish the existence of a Π−
+1 encoding for IS(A)’s, ISREF(A)’s and IS (A)’s Group-3 axioms.)
+
+Some definitions of a non-deterministic Oracle Turing machine can be found in [13, 18, 46]. It is defined as
+a conventional non-deterministic multi-tape Turing machine, where one of the tapes is a specially designated
+Oracle tape, and the machine has three extra states, called sQ , sY and sN . Whenever the machine enters
+the state sQ , it will check for whether or not the integer currently transcribed on the oracle tape is an
+encoding for a number lying in a specially prespecified language, called L. The machine will subsequently
+enter the sY or sN state, depending on whether the the answer to the preceding query is affirmative or not.
+Throughout this section, we shall assume, that the tapes employed by our non-deterministic oracle machines are one-way tapes. These machines will be similar to Appendix B’s multi-tape machines except that
+the machine M is now allowed to have a nondeterministic finite state control, to possess an oracle for an
+arbitrary prespecified language L, and to contain any arbitrary prespecified finite number of tapes.
+Let n denote the length of an input string x that a multi-tape Turing Machine will process. The
+following quite conventional definitions [13, 46] are employed:
+1. DTIME(f (n)) is the set of languages that some deterministic multi-tape Turing Machine can accept
+within the time bound f (n).
+2. LinTime is the union of DTIME( n ), DTIME( 2 n ), DTIME( 3 n ), ....
+3. NLinTime( σ ) is similarly the set of languages that are accepted by a non-deterministic linear time
+Turing machine that has access to an oracle σ .
+4. Σlin
+is defined to equal LinTime when i = 0, and it will equal NLinTime( Σlin
+i
+i−1 ) when i > 0 .
+lin
+lin
+5. LinH is defined to be the union of Σlin
+0 , Σ1 , Σ2 , ....
+
+The preceding definition of the of the linear computational hierarchy, “LinH”, is essentially the linear-time
+analog of the well-known Polynomial-Time Hierarchy.
+Appendix B described our formal method for encoding a Semantic Tableaux Proof as a tree. It used
+a parenthesis notation to encode the tree where there was a 1-to-1 correspondence between the left-curly
+55
+
+bracket symbols “ { ” in our byte string and the nodes of the tree it represented. The i−th sentence of the
+proof-tree was required to appear just to the right of the corresponding “ { ” symbol.
+Theorem C.1 There exists LinH algorithms to determine whether a byte-string (or in some instances
+whether a collection of several byte-strings) satisfies each of the twenty-five itemized conditions below. (The
+25-th formula in this list is the “ ExSemPrfUNION(A) (s, y, h ) ” predicate that was employed in Equation
+(90)’s encoding of ISλ (A)’s Group-3 schema.)
+1. Term(s) indicating that the byte-string s is a term built out of Section 2’s seven Grounding functions.
+2. Formula(s) indicating s is a formula in the first-order language employing the Grounding functions.
+3. FormulaTree(t) indicating that the byte-string s represents a tree where every node has one or two children
+and where the content s in each tree-node is a string satisfying Formula(s). (The formal encoding of the tree
+t will use the left and right curly bracket symbols, as was described earlier.)
+4. Sentence(s) indicating the string s satisfies Formula(s) and has no free variables (i.e. it is a “sentence”).
+5. SentenceTree(t) indicating t satisfies FormulaTree(t) and its formulae s satisfy Sentence(s).
+6. Prenex*Sentence(s) indicating that the byte-string s is a prenex* sentence.
+7. Π1 -Sentence(s) indicating that the byte-string s is a Π−
+1 sentence.
+8. Concatenate(x, y, z) indicating the byte-string z is constructed by concatenating the strings x and y .
+9. Replace(s, t, x, y) indicating that the byte-string s is identical to the byte-string t, except that every appearance
+of the substring x in s is replaced by an appearance of y in t.
+10. Replacek ( s, t, x1 , x2 , ...xk , y1 , y2 , ...yk ) designating the natural generalization of Replace(s, t, x, y), indicating
+that the byte-string s is identical to the byte-string t except that now k distinct different substrings x1 , x2 , ...xk
+from s have their every appearance in t replaced by the substrings y1 , y2 , ...yk .
+11. Transform(a, b) indicating that the byte-string a satisfies Formula(a) and that if Ψ designates this formula
+then b is the byte-string that represents the constant in IS(A)’s language that encodes dΨe .
+12. Subst( g , h ) designating Gödel’s classic substitution relation defined by Item (i) in Appendix B.
+13. Cardinality(t, n) indicating t satisfies SentenceTree(t) and this tree is comprised of n nodes.
+14. IndexedSentence(i, s, t) indicating that the byte-string t satisfies SentenceTree(t) and that the i−th node
+enumerated in this tree is the byte string s .
+15. Depth(i, d, t) indicating t satisfies SentenceTree(t) and that the i−th node in this tree has a depth of d .
+16. Ancestor(i, j, t) indicating t satisfies SentenceTree(t) and the i−th node in this tree is an ancestor of its j−th
+node.
+17. Sibling(i, j, t) indicating that t satisfies SentenceTree(t) and its i−th and j−th nodes are siblings.
+18. Leaf(i, t) indicating that the byte-string t satisfies SentenceTree(t) and its i−th node is a leaf.
+
+56
+
+19. ProperRoot(s, t) indicating that the byte-string t satisfies SentenceTree(t), that s encodes a prenex* sentence,
+and that the root of t is a second prenex* sentence identical to s except that the universal and existential
+quantifiers are reversed and one extra “ ¬ ” symbol appears to the right of the root’s quantifiers. (In other words,
+t ’s root stores the sentence, negating s , as required by Section 4’s definition of a Semantic Tableaux Proof for
+a prenex* normalized theorem s .)
+20. Closure(i, t) indicating that the byte-string t satisfies SentenceTree(t) and that the subranch between t ’s root
+and i−th node contains a pair of contradictory sentences (i.e. some sentence “ Υ ” and its negation “ ¬Υ ” ).
+21. Deduction(i, t) indicating that the byte-string t satisfies SentenceTree(t) and its i−th node is a valid Semantic
+Tableaux Deduction from one of its ancestors using Section 4’s deductive rules for ∧−Elimination, ¬−Elimination,
+∨−Elimination, ⊃ −Elimination, ∃−Elimination and ∀−Elimination.
+22. PseudoTransform1 (h, r) and PseudoTransform2 (h, r) defined by Items (iv) and (v) in Appendix B.
+23. UnionAxiom(s) indicating that the byte-string s is a Group-zero, Group-1 or Group-2 axiom.
+24. Group3Test(s, g) indicating there exists some h satisfying both Subst(g, h) and PseudoTransform2 (h, s). (We will
+employ Group3Test only when g corresponds to a special fixed constant m̄ that is a template for generating
+Group-3 axioms. In this context, Group3Test(s, m̄) will indicate s is a Group-3 axiom.)
+25. ExSemPrfUNION(A) ( s , y , g ) defined from the combination of the Items (ii) and (vi) of Appendix B. (Item (ii)
+defines “UNION(A)”, and Item (vi) defines “ExSemPrf”.)
+
+Proof Sketch: Below are somewhat abbreviated descriptions of the twenty-five LinH procedures:
+Description of LinH Decision Procedures for Representing Items (1) through (7): It is well
+known that context-free grammars can be recognized by LinH decision procedures (i.e. the needed LinH
+procedures require merely a non-deterministic Turing Machine with one tape and one extra stack[46]). Since
+Items (1) through (3) represent context-free grammars, these formulae have LinH representations.
+The decision algorithm for Item (4) uses a 2-step procedure. It will first employ Item (3)’s procedure for
+checking that s satisfies Formula(s). If the preceding answer is affirmative then s will be accepted if a
+linear-time non-deterministic search is unable to find a variable in s which is free. (Such a “failed search” for
+an unquantified variable will indicate that s satisfies “ Sentence(s) ” ). Since Item (4)’s procedure involves
+only performing one non-deterministic search after executing Item (3)’s procedure, it follows that Item (4)’s
+decision procedure lies at merely one level higher than Item (3)’s decision procedure in the LinH Hierarchy.
+A similar argument where one moves one level higher up through the LinH Hierarchy will show that Items
+(5), (6) and (7) also have LinH procedures.
+
+2
+
+Description of LinH Decision Procedures for Representing Items (8) through (12): It is
+trivial to construct LinH decision procedures for Items (8) through (11). Moreover, the LinH procedure
+for implementing Subst(g, h) is easy to construct by making subroutine calls to the procedures Transform,
+Formula and Replace (described in Items 4, 9 and 11). In the interests of brevity, we will omit giving a more
+detailed description for these Decision Procedures.
+
+2
+57
+
+Description of LinH Decision Procedures for Representing Items (13) through (20): Table II
+(located on the last page of this article) formally describes these eight LinH procedures. Each uses a similar
+2-part LinH decision algorithm, where its first part checks to see if the string t satisfies SentenceTree(t). If
+the answer is affirmative, then the second step of these eight procedures will perform a second LinH search to
+determine whether some particular additional condition is also satisfied. See Table II for the formal details.
+2
+Description of LinH Procedures for Deduction(i, t): Section 4 defined eight deduction rules for the
+“ ∧ ”, “ ¬ ”, “ ∨ ”, “ ⊃ ”, “ ∃ ” and “ ∀ ” symbols. Deduction(i, t)’s procedure will thus have eight parts
+to verify whether the i−th node is a permissible deduction under these rules. Each part will employ the
+predicates Term, Concatenate, Replace, IndexedSentence, Ancestor and Sibling in a fairly routine manner.
+For instance, let “ A ” and “ B ” denote two special symbols, and let m̄ denote a special fixed constant
+that formally represents the string “ A ∧ B ”. The ∧ −Elimination Rule’s Decision Procedure will accept the
+ordered pair (i, t) when a non-deterministic search can find four integers k < i , q < t r < t and s < t satisfying Ancestor(k, i, t), IndexedSentence(k, r, t), IndexedSentence(i, s, t) and either Replace2 (m̄, r, A, B,s, q)
+or Replace2 (m̄, r, A, B,q, s) .
+The procedures for eliminating the symbols “ ¬ ”, “ ∨ ”, “ ⊃ ”, “ ∃ ” and “ ∀ ” will be closely
+analogous to the LinH algorithm (above). Thus, the Elimination procedures for “ ∨ ”, and “ ⊃ ”, will
+employ the Sibling LinH Decision Procedure in the natural manner suggested by these elimination rules. The
+∀−Elimination Procedure will obviously employ the Term and Replace Subroutines to assure that a sentence
+of the form “ ∀ v Υ(v) ” has all occurrences of “ v ” in “ Υ(v) ” replaced by some term “ s ” in the derived
+deduction “ Υ(s) ”. In the interests of brevity, we will omit the additional details.
+
+2
+
+Description of LinH Procedures for PseudoTransform1 (h, r) and PseudoTransform2 (h, r) :
+Both procedures have similar representations. Therefore we will describe only PseudoTransform1 (h, r)’s
+decision procedure. It will begin by calling the procedure Formula(r) to verify r is a formula. If the preceding
+answer is affirmative, then the ordered pair (h, r) will be accepted if a non-deterministic search can find an
+ordered pair of strings (a, b) with a < r and b < r satisfying each of Transform(a, b), Π1 −Sentence(a) and
+Replace2 ( h , r , “ ♣ ” , “ d ♣ e ” , a , b ).
+
+2
+
+Description of UnionAxiom(s)’s LinH Decision Procedure: For i equal to 0, 1 or 2, let Groupi (s)
+be a formula indicating that s is a Group-i type axiom. It is trivial to devise a LinH algorithm that tests for
+whether Group0 (s) is satisfied. Since there exists only a finite number of allowed Group-1 axioms, there certainly exists a LinH algorithm that can test for whether Group1 (s) is satisfied. Employing PseudoTransform1 ,
+it is easy to devise a LinH algorithm that also tests for whether Group2 (s) is satisfied. (This is because for
+
+58
+
+some fixed constant m̄ , which serves as a “template” for “generating” the full set of Group-2 axioms,
+Group2 (s) can be defined as the set of s satisfying PseudoTransform1 (m̄, s). ) The decision procedure
+UnionAxiom(s) is then defined as the operation Group0 (s)∨Group1 (s)∨Group2 (s).
+
+2
+
+Description of Group3Test(s, g)’s LinH Decision Procedure: This procedure will accept the input
+(s, g) when a nondeterministic search, running in time O(Log(s)),
+
+can construct a string h such that both
+
+Subst(g, h) and PseudoTransform2 (h, s) are satisfied. (We may assume that our encoding scheme is designed
+so that h ≤ s when h exists. Therefore O(Log(s)) bounds the search’s nondeterministic running time.) 2
+Description of ExSemPrfUNION(A) ( s , y , g )’s LinH Decision Procedure: This decision procedure will begin by testing for whether SentenceTree(y) and ProperRoot(s, y) are satisfied. If these conditions
+are met, it will accept (s, y, g) if the two conditions below are satisfied
+A. Every branch of the candidate-tree y is closed by containing a pair of contradictory sentences. (A LinH
+procedure for checking this condition will seek to non-deterministicly find an integer i < y satisfying
+Leaf(i, y) ∧ ¬ Closure(i, y) . The inability to find such a
+
+y
+
+will indicate that Condition (A) holds.)
+
+B. Every non-root node in the candidate-tree y must be either an axiom of ISλ (A) or a permitted deduction
+from a higher node in the proof tree. A LinH procedure can verify this condition by confirming that a
+non-deterministic search cannot find two integers i < y and s < y satisfying:
+i ≥ 2 ∧ IndexedSentence(i, s, y) ∧ ¬ UnionAxiom(s) ∧ ¬ Group3Test(s, g) ∧ ¬ Deduction(i, y) (94)
+Hence, ExSemPrfUNION(A) ( s , y , g ) has a LinH Decision Procedure because the two conditions (above) can
+be tested by LinH procedures.
+
+2
+
+Theorem C.2 For each decision procedure D( • ) in the LinH Hierarchy, there exists a ∆−
+0 formula
+ΘD (s) such that ΘD (s) is true precisely when the procedure D accepts the input string s .
+
+Justification of Theorem C.2. It is implicit from the prior literature that Theorem C.2 is valid.
+Wrathall [46] showed how to translate LinH Decision Procedures into Rudimentary Formulae. Both HájekPudlák and Krajı́ček [13, 18] discussed how Wrathall’s result can be extended to establish that every LinH
+Decision Procedure has a ∆0 encoding (using results from Benett’s dissertation [2] as an intermediate step).
+Our task is less ambitious and easier than the prior literature because it involves ∆−
+0 rather than ∆0
+encodings. This is because COUNT(x,i) and LOG(x) are two of the seven Grounding functions allowed in
+∆−
+0 formulae. The axiom system IΣ0 can also prove the COUNT operation is a total function represented
+by a ∆0 graph, but the relevant proof in [13] is quite long. (As a mere intermediate step, the proof from
+59
+
+IΣ0 in [13] requires employing some variant of Benett’s encoding of Exponentiation [2], to verify that IΣ0 can
+formally prove that Logarithm is a total function, represented by ∆0 formula. This is necessary for [13] to
+define a function called “NUON(x)” satisfying NUON(x) = COUNT(x, ∞) .)
+By choosing to be less ambitious and defining the Group-1 axioms so that they recognize two function
+symbols for Count and Logarithm, we simply avoid the hardest part of the proofs in [13, 18, 46]. The formal
+proof of Theorem C.2 appears in Appendix D. It is unnecessary for the reader to examine Appendix D, if he
+accepts the claim that Theorem C.2’s proof is very implicit from the prior literature.
+Theorem C.3. The Group-3 axiom schemas for ISλ (A), IS(A) and ISREF(A) have Π−
+1 encodings.
+Proof. The application of Theorem C.2 to Part 25 of Theorem C.1 implies ExSemPrf UNION(A) (s, y, g)
+λ
+has a ∆−
+0 encoding. The remainder of the analysis of IS (A) is essentially identical to Appendix B’s treatment
++
+of the same topic, except that we now do the proof in terms of ∆−
+0 encodings rather than ∆0 encodings.
+
+Thus, we again set Nλ equal to the Gödel number of the pseudo-formula in Equation (95), and define
+SemPrf ISλ (A) ( s , y) to be the formula : “ ExSemPrf UNION(A) ( s , y , Nλ )”.
+∀x ∀y ∀z
+
+{
+
+z
+x
+
+ExSemPrf UNION(A) ( d ♣ e , y , g ) ∧ y λ <
+
+⊃
+
+♣xz }
+
+(95)
+
+This definition, combined with Lemmas C.1 and C.2, immediately implies that “ SemPrf ISλ (A) ( s , y ) ”
+−
+λ
+has a ∆−
+0 encoding, and that the corresponding Group-3 axioms for IS (A) are the Π1 sentences illustrated
+
+below:
+∀x ∀y ∀z
+
+{
+
+ExSemPrf UNION(A) ( d Ψ e , y , Nλ ) ∧ y λ ≤
+
+z
+x
+
+⊃
+
+Ψxz }
+
+(96)
+
+Once again, the generalization of the preceding proof to IS(A) and ISREF(A) is routine. This is because
+analogs of Theorem C.1 imply that ExHilbPrf UNION(A) (s, y, g) and SubstSemPrf UNION(A) (s, y, g) also
+have LinH representations. Therefore applying Theorem C.2 to Equations (93) and (87), the Group-3 axioms
+λ
+of ISREF(A) and IS(A) have Π−
+1 encodings similar to IS (A)’s counterpart.
+
+2
+
+Remark C.4. We want to return to the predicate Group3Test(s, g) (defined in Part 24 of Theorem C.1)
+so that there is no ambiguity about its role in Theorem C.3’s proof. Let the variables g and s correspond
+to the Gödel numbers of Equations (95) and (96) in Theorem C.3’s proof. The latter Gödel number can be
+much larger than the former, and this issue may at first appear to be problematic in the context of an axiom
+systems that recognizes no operation as a total function that grows faster than Addition and Scalar Multiplication. However, such differences in magnitudes actually make no difference at all in the context of Theorem
+C.3’s particular proof. This is because the proof defines Nλ to be the particular fixed constant representing
+Equation (95)’s Gödel number. In this context, Equation (96)’s formula “ ExSemPrf UNION(A) ( s , y , Nλ )”.
+will have the constant Nλ replace the variable g on every occasion where the subformula Group3Test(s, g)
+60
+
+appears inside this larger formula. Thus, the resulting formula “ Group3Test ( s , Nλ ) ” , has the desired property of being a ∆−
+0 formula, free only in the variable s , representing the set of Gödel numbers
+corresponding to a sentence of the form of Equation (96).
+Remark C.5 Recall that Section 2 had defined IS(A), ISREF(A) and ISλ (A) so that their Group-1
+function set could be possibly much broader than section 2’s simple “Grounding Function Set”. In particular,
+Group-1 could include the union of the Grounding functions with any further set of functions F, where F
+may be any set of non-growth functions that can be defined by any finite set of Π1 axioms. Theorem C.3
+generalizes to such F−extended versions of IS(A), ISREF(A) and ISλ (A) in a perhaps surprisingly strong
+manner. This generalization will state that even when one adds the set of functions F to the Group-1
+axioms, they are not needed to encode the Group-3 axioms as Π1 sentences! For example, if F is Appendix
+B’s set of Turing functions, then we can encode the Group-3 axiom schema as a set of Π−
+1 sentences (rather
+than as a set of Π+
+1 sentences).
+The preceding remark is surprising because it implies the Turing versions of the IS(A), ISREF(A) and
+ISλ (A) have essentially no disadvantage. That is, these Turing versions clearly contain some added flexibility
+because their Group-1 axiom set is larger. One might initially suspect that a penalty for this additional
+flexibility would be that the Turing versions would require more cumbersome Π+
+1 Group-3 axioms. However,
+this is not the case. Our preceding construction can be generalized to establish that even the Turing versions
+of IS(A), ISREF(A) and ISλ (A) can have their Group-3 axioms encoded as Π−
+1 sentences!
+
+Appendix D: Proof of Theorem C.2
+Since close analogs of Theorem C.2 were previously described by Hájek-Pudlák, Krajı́cek and Wrathall [13,
+18, 46], we will only sketch a proof of Theorem C.2 in this section.
+Since the input string s has a bit-length equal to Logarithm(s), let us say that the decision procedure
+D( • ) is a LinH procedure With a Coefficient Strictly Bounded By k when D requires no more than
+k · ( Log2 (s) − 1 ) time to process any string s. Define a ks-Vector to be an ordered collection of k
+integers u1 , u2 , ...uk ,
+
+where each ui ≤ s. Henceforth, capital letter symbols, such as U,
+
+will denote
+
+ks-vectors. We will think of U as a sequence of k · ( Log2 (s) − 1 ) bits, where its first Log2 (s) − 1 bits
+are stored in u1 , its second Log2 (s) − 1 bits are stored in u2 , ... etc. Thus the artificial notation “ ∃U ”
+will be an abbreviated manner for formally writing ∃u1 ≤ s, ∃u2 ≤ s, ... ∃uk ≤ s. Similarly, “ ∀U ” will be
+an abbreviation for ∀u1 ≤ s, ∀u2 ≤ s, ... ∀uk ≤ s. The advantage of the ks-vector notation is that it will
+describe how some particular memory bits (or other logical constructs) will change their state-values over the
+k · ( Log2 (s) − 1 ) units of time during which the decision procedure D is running.
+
+61
+
+Let U (t) denote the t−th bit of the ks-vector U . We will encode the action of our linear-time
+multi-tape Turing machine D by employing the following four groups of ks-vectors:
+1. Assume that the Turing Machine D’s finite state control has m bits of memory. For each j ≤ m,
+there will exist a ks-vector Bj such that Bj (t) indicates the value stored in the j-th bit of the finite
+state control at the time t.
+2. Assume that each tape of the Turing Machine D consists of an infinitely long stream of bits. For each
+tape Ti , there will exist a ks-vector Wi such that Wi (t) indicates which particular bit-value lies
+underneath the tape’s head at the particular time t.
+3. Li (t) = 1 if the i-th Turing tape head moves left at the time t. Otherwise, Li (t) = 0.
+4. Ri (t) = 1 if the i-th Turing tape head moves right at the time t. Otherwise, Ri (t) = 0.
+Let us assume that the relevant multi-tape Turing machines are using one-way tapes. Since the purpose of
+the machine D is to process the input string s, we will also assume that:
+a) The tape T1 initially stores a bit-string providing the binary encoding of the integer s.
+b) The head of tape T1 is initially located at the address Log2 (s).
+c) All the other tapes are initially filled with zero bits with their tape heads located initially at Address= 0
+Recall that COUNT(u, i) is one of the total functions recognized by the Group-1 axioms of IS(A),
+ISREF(A) and ISλ (A). It was defined to equal the number of “1” bits which are located to the right of
+the bit-address i in the integer u. Although COUNT(u, i) is technically defined to be a function whose
+two input arguments are both required to be integers, we can trivially define a generalization of it, called
+COUNTks (U, i), which allows U to be a ks-vector. Our definition will require that k must be a prespecified
+constant whose value is known in advance and which is solely a function of D . In this case (where k’s value
+is specified in advance), the Group-1 axioms are sufficient for both encoding COUNTks (U, i) as ∆−
+0 formula
+and for proving it is a total function. Below are a list of three useful features of the COUNTks primitive:
+I. For any ks-vector U, and for any t ≤ k · ( Log2 (s) − 1 ), we can use COUNTks to formally calculate
+the value of the bit U (t). This is because U (t) = COUNTks (t)−COUNTks (t − 1).
+II. Let Headi (t) denote the address of the tape Ti ’s head at the time t. For any t ≤ k · ( Log2 (s) − 1 ),
+we can use COUNTks to formally calculate the value of Headi (t). This is because
+
+62
+
+Headi (t) = COUNTks (Li , t) − COUNTks (Ri , t)
+
+when i ≥ 2
+
+(97)
+
+Head1 (t) = Log(s) + COUNTks (L1 , t) − COUNTks (R1 , t).
+
+(98)
+
+and
+
+III. Let Biti (t, x) denote the bit stored at the address x of the tape Ti
+t ≤ k · ( Log2 (s) − 1 ),
+
+at the time t. For any
+
+we can use COUNTks to formally calculate the value of Biti (t, x).
+
+This is
+
+because Items (a) and (c) already indicated how to calculate the values for Biti (0, x). For all other
+t ≤ k · ( Log2 (s) − 1 ), we can calculate the value of Biti (t, x) by searching for the greatest g ≤ t such
+that Headi (g) = x. If such a g exists then Biti (t, x) = Wi (g). Otherwise, set Biti (t, x) = Biti (0, x).
+It is not hard to see how we can formally encode each of items I, II and III (above) as ∆−
+0 formulae. In
+essence, whenever a ks-vector U appears in the context of an “ ∃U ” or “ ∀U ” quantifier, we can formally
+rewrite the quantifier as “ ∃u1 ≤ s, ∃u2 ≤ s, ... ∃uk ≤ s ” or “ ∀u1 ≤ s, ∀u2 ≤ s, ... ∀uk ≤ s ”.
+Thus, the preceding discussion has outlined how we can encode any linear time decision procedure D(s)
+of a Multi-Tape Deterministic Turing Machine as a ∆−
+0 formula. An essentially identical argument can be
+used for every Σlin
+i level of the Linear Time Hierarchy. This is because each level of the Linear Time Hierarchy
+may be represented by adding a finite number of additional “ ∃U ” or “ ∀U ” ks-vector quantifiers (all of
+which may be, once again, rewritten with bounded quantifiers).
+We will not provide further details about the ∆−
+0 encoding of LinH decision procedures in this Appendix
+because similar encodings have been discussed by Hájek-Pudlák, Krajı́cek and Wrathall [13, 18, 46]. It should
+be stressed that our COUNT(u,i) function is operationally equivalent to the “NUON” function [13], since
+NUON(x) = COUNT(x, ∞) . Therefore, the formal encoding, outlined in this appendix, has been very
+analogous to Chapter V.2.e of [13].
+
+Table I: List of Π−
+1 Axioms Defining The Grounding Functions and The
+Relation Predicates
+1.
+
+∀x x = x
+
+2.
+
+∀x ∀y x = y ⊃ y = x
+
+3.
+
+∀x ∀y ∀z { x = y ∧ y = z } ⊃ x = z
+
+4.
+
+∀x ∀y
+
+5.
+
+∀x ∀y ∀a ∀b
+
+x=y
+
+⊃
+
+Predecessor(x) =Predecessor(y) ∧ Logarithm(x) =Logarithm(y)
+
+{x=a ∧ y=b}
+
+⊃
+
+x−y =a−b ∧
+
+x
+a
+y = b
+
+Maximum(x, y) =Maximum(a, b) ∧ Root(x, y) =Root(a, b)
+
+63
+
+∧ Count(x, y) =Count(a, b) ∧
+
+6.
+
+∀x ∀y ∀a ∀b
+
+{ x−y = a−b ∧ y =b }
+
+7.
+
+∀x ∀y ∀a ∀b
+
+{ x=a ∧ y =b ∧x<y }
+
+8.
+
+∀x ∀y
+
+9.
+
+∀x ∀y ∀z { x < y ∧ y < z } ⊃ x < z
+
+10.
+
+∀x
+
+¬x<x
+
+11.
+
+∀x
+
+x<1 ⊃ x=0
+
+⊃
+⊃
+
+x=a
+a<b
+
+x=y ∨ x<y ∨ y<x
+
+12. Predecessor(0)=0
+13.
+
+∀x
+
+x 6= 0
+
+⊃
+
+14.
+
+∀x ∀y ¬ [ Predecessor(x) < y < x ]
+
+15.
+
+∀x ∀y ∃z ≤ y
+
+16.
+
+∀x
+
+17.
+
+∀x ∀y y 6= 0 ⊃ x − y = Predecessor( x − Predecessor(y) )
+
+18.
+
+∀x ∀y
+
+Predecessor(x) < x
+
+x < y ⊃ x =Predecessor(z)
+
+x−0=x
+
+x<y ⊃
+x
+0
+
+x
+1
+
+x
+y
+
+= 0
+
+19.
+
+∀x
+
+20.
+
+∀x ∀y
+
+21.
+
+∀x ∀y { x ≥ y ⊃ Maximum(x, y) = x } ∧ { y ≥ x ⊃ Maximum(x, y) = y }
+
+22.
+
+Logarithm(0)=0 ∧ Logarithm(1)=1 ∧ Logarithm(2)=2
+
+23.
+
+∀x
+
+x ≥ 3 ⊃ Logarithm(x) − 1 = Logarithm( x2 )
+
+24.
+
+∀x
+
+Count(x, 0) = Count(0, x) = 0
+
+25.
+
+∀x
+
+x > 0 ⊃ Count(x − 1, 1) 6= Count(x, 1) ≤ 1
+
+26.
+
+∀x ∀y
+
+{ Count(x, 1) > 0 ∨ Count( x2 , y − 1) > 0 } ⊃ Count(x, y) > 0
+
+27.
+
+∀x ∀y
+
+Count(x, y)−Count(x, 1) = Count( x2 , y − 1)
+
+28.
+
+∀x
+
+29.
+
+∀x ∀y ≥ 2
+
+30.
+
+∀x ∀y ≥ 2 ∀z
+
+=
+
+= x
+
+x ≥ y ≥ 1 ⊃ [ xy > 0 ∧ xy − 1 = x−y
+y ]
+
+Root(0, x) = 0 ∧ Root(x, 0) = Root(x, 1) = x
+Root(x, y) ≤ Root( Rootx(x,y) , y − 1 )
+z >Root(x, y) ⊃ z > Root( xz , y − 1)
+
+64
+
+Table II: Description of LinH Decision Procedures for Representing Items
+(13) through (20):
+
+Cardinality(t, n)’s LinH procedure will count the number of “ { ” symbols appearing in the string t . It will
+accept the ordered pair (t, n) if this count= n and SentenceTree(t) is satisfied.
+IndexedSentence(i, s, t)’s LinH procedure will accept the string (i, s, t) if Sentence(s) and SentenceTree(t)
+are satisfied and the string lying between the i−th “ { ” symbol in the string t and the next curly
+bracket symbol in the tree t represents the string s .
+Depth(i, d, t)’s LinH procedure will count the number of “ } ” symbols appearing to the left of the i−th “ { ”
+symbol in the string t . If k denotes this count then Depth(i, d, t)’s procedure will accept the triple
+(i, d, t) when d = i − k − 1 and SentenceTree(t) is satisfied.
+Ancestor(i, j, t)’s LinH procedure will accept (i, j, t) if i ≤ j and a non-deterministic search can find two
+integers d ≤ j and e ≤ j satisfying Depth(i, d, t),
+
+Depth(j, e, , t) and d < e, but a second non-
+
+deterministic search cannot find two additional integers k < j and f ≤ d satisfying k > i and
+Depth(k, f, t). (Also, the Ancestor procedure will accept the triple (i, j, t) if i = j and Tree(t) is
+satisfied because any node will be considered as an “ancestor” of itself.)
+Sibling(i, j, t)’s LinH procedure will accept (i, j, t) if a non-deterministic search can find a < i and d < t
+satisfying: Ancestor(a, i, t), Ancestor(a, j, t), Depth(i, d, t), Depth(j, d, t) and Depth(a, d − 1, t).
+Leaf(i, t)’s LinH procedure will make a non-deterministic search for some integer b < t such that Ancestor(i, b, t)
+and i 6= b are satisfied. It will accept the ordered pair (i, t) if the preceding LinH search fails but a
+non-deterministic search can find some n < t satisfying Cardinality(t, n) and i ≤ n.
+ProperRoot(s, t)’s LinH procedure will accept (s, t) if Prenex*Sentence(s) and SentenceTree(t) are satisfied
+and the root of t represents a sentence
+
+r
+
+identical to s except that r ’s universal and existential
+
+quantifiers are reversed and one extra “ ¬ ” symbol appears directly to the right of the root’s quantifiers.
+Closure(i, t)’s LinH procedure will accept (i, t) if a nondeterministic search can find a ≤ i , b ≤ i , s < t and
+q < t such that Ancestor(a, i, t), Ancestor(b, i, t), IndexedSentence(a, s, t), IndexedSentence(b, q, t)
+and Concatenate(“ ¬ ”,q, s) are all satisfied (i.e. the ancestors of i represent some sentence “ Υ ” and
+its negation “ ¬Υ ” ).
+
+References
+[1] Z. Adamowicz, “On Tableau consistency in weak theories”, circulating manuscript from the Mathematics Institute
+of the Polish Academy of Sciences (1999).
+[2] J. Benett, Ph. D. Dissertation, Princeton University, 1962.
+[3] G. Boolos, The Logic of Provability Cambridge University Press, 1993.
+
+65
+
+[4] A. Bezboruah and J. Shepherdson, “Gödel’s Second Incompleteness Theorem for Q”, J of Symbolic Logic 41 (1976),
+503-512.
+[5] S. Buss, “Polynomial Hierarchy and Fragments of Bounded Arithmetic”, 17th ACM Symp on Theory of Comp
+(1985) pp. 285-290
+[6] S. Buss, Bounded Arithmetic, Princeton Ph. D. dissertation published in Proof Theory Lecture Notes, Vol. 3,
+published by Bibliopolic (1986).
+[7] H. Enderton, A Mathematical Introduction to Logic, Academic Press 1972.
+[8] S. Feferman, “Arithmetization of Metamathematics in a General Setting”, Fund Math 49 (1960) pp. 35-92.
+[9] S. Feferman,“Transfinite Recursive Progressions of Axiomatic Theories”, J of Symbolic Logic, 27 (1962) 259-316.
+[10] M. Fitting, First Order Logic and Automated Theorem Proving, Springer-Verlag Monograph in Comp Science,
+1990.
+[11] G. Gentzen, “Collected Papers of Gerhard Gentzen”, (English translation by M. Szabo), North Holland (1969).
+[12] P. Hájek, “On the Interpretatability of Theories Containing Arithmetic (II)”, Comm. Math. Univ. Carol. 22 (1981)
+pp.595-594.
+[13] P. Hájek and P. Pudlák, Metamathematics of First Order Arithmetic, Springer-Verlag (1991).
+[14] D. Hilbert and B. Bernays, Grundlager der Mathematik Volume 1 (1934) and Volume 2 (1939), Springer.
+[15] R. Jeroslow, “Consistency Statements in Formal Mathematics”, Fundamentae Mathematicae 72 (1971) pp. 17-40.
+[16] S. Kleene, “On the Notation of Ordinal Numbers”, Journal of Symbolic Logic 3 (1938), pp. 150-156.
+[17] J. Krajı́cek, “A Note on the Proofs of Falsehoods”, Arch Math Logik 26 (1987) pp. 169-176.
+[18] J. Krajı́cek, Bounded Propositional Logic and Complexity Theory, Cambridge University Press, 1995.
+[19] J. Krajı́cek and P. Pudlák, “Propositional Proof Systems, The Consistency of First-Order Theories and The
+Complexity of Computation”, J. of Symb Logic 54 (1989) PP. 1063-1079.
+[20] G. Kreisel, “A Survey of Proof Theory, Part I” in Journal of Symbolic Logic 33 (1968) pp. 321-388 and “ Part II” in
+Proceedings of Second Scandinavian Logic Symposium (1971) North Holland Press (with Fenstad ed.), Amsterdam
+[21] G. Kreisel and G. Takeuti, “Formally self-referential propositions for cut-free classical analysis and related systems”,
+Dissertations Mathematica 118, 1974 pp. 1 -55.
+[22] M. Löb, A Solution to a Problem by Leon Henkin, Journal of Symbolic Logic 20 (1955) pp. 115-118.
+[23] E. Mendelson, Introduction to Mathematical Logic, Wadsworth and Brooks/Cole Mathematics Series, 1987.
+[24] E. Nelson, Predicative Arithmetic, Mathematical Notes, Princeton University Press, 1986.
+[25] R.Parikh, “Existence and Feasibility in Arithmetic”, Journal of Symbolic Logic 36 (1971), pp.494-508.
+[26] J. Paris and C. Dimitracopoulos, “A Note on the Undefinability of Cuts”, J of Symbolic Logic 48 (1983) pp.
+564-569.
+[27] J. Paris and A. Wilkie, “∆0 Sets and Induction”, Proceedings of the Jadswin Logic Conference (Poland), Leeds
+University Press (1981) pp. 237-248.
+[28] P. Pudlák, “Cuts Consistency Statements and Interpretations”, Journal of Symbolic Logic 50 (1985) pp.423-442.
+[29] P. Pudlák, “On the Lengths of Proofs of Consistency”, in Collegium Logicum: Annals of the Kurt Gödel Society
+Volume 2, published (1996) by Springer-Wien-NewYork in cooperation with the Kurt Gödel Gesellshaft of the
+Institut für Computersprachen of Technische Universität Wien (Vienna Austria), pp 65-86.
+
+66
+
+[30] H. Rogers, Theory of Recursive Functions and Effective Compatibility, McGraw Hill 1967, see pp. 186-188.
+[31] J. Shoenfeld, Mathematical Logic, Addison-Wesley, 1967.
+[32] R. Smullyan, First Order Logic, Springer-Verlag, 1968.
+[33] C. Smorynski, “The Incompleteness Theorem”, in Handbook on Mathematical Logic, pp. 821-866, 1983.
+[34] R. Solovay, Private Communications (April 1994) generalizing Pudlák’s Proposition 2.2 from [28] to establish
+that no axiom system can recognize Successor, Subtraction and Division as functions, prove all the Π1 theorems of
+Arithmetic and verify its own Hilbert consistency. (Solovay never published his theorem, and he gave us permission
+to present a short summary of his proof in Appendix A. Solovay’s full theorem is slightly stronger than the result
+proven in Appendix A.)
+[35] R. Statman, “Herbrand’s theorem and Gentzen’s Notion of a Direct Proof”, in Handbook on Mathematical Logic,
+North Holland Publishing House (1983) pp. 897-913.
+[36] G. Takeuti, “On a Generalized Logical Calculus”, Japan Journal on Mathematics 23 (1953) pp. 39-96.
+[37] G. Takeuti, Proof Theory, Studies in Logic Volume 81, North Holland, 1987.
+[38] A. Wilkie and J. Paris, “On the Scheme of Induction for Bounded Arithmetic”, Annals Pure Applied Logic (35)
+1987, pp. 261-302.
+[39] A. Wilkie, an unpublished manuscript which indicates that there exists a cut of Robinson’s System Q that models
+IΣ0 + Ωn in a global rather than local manner. (The localized version of the same theorem was published by
+Nelson in [24].) Hájek and Pudlák [13] credit Wilkie’s unpublished theorem (on page 407) for being responsible for
+Theorem 5.7 in Chapter V.5.c of their textbook, and they give a formal statement and proof of Wilkie’s unpublished
+theorem.
+[40] D. Willard, “Self-Verifying Axiom Systems”, in Proceedings of the Third Kurt Gödel Symposium (1993) pp.
+325-336, published in Springer-Verlag LNCS (Vol. 713). See also the next reference below:
+[41] D. Willard, “Self-Verifying Axiom Systems and the Incompleteness Theorem”, SUNY-Albany Technical Report
+March 1994. (This 50-page technical report expands the abbreviated proofs in the 12-page Extended Abstract [40]
+into full proofs.)
+[42] D. Willard, “Self-Reflection Principles and NP-Hardness”, Dimacs Series in Discrete Mathematics and Theoretical
+Computer Science (published by the American Mathematics Society), Volume 39 (December 1997), pp. 297-320.
+[43] D. Willard, “The Tangibility Reflection Principle for Self-Verifying Axiom Systems”, in The Proceedings of the
+Third Kurt Gödel Colloquium, (published in 1997 as Volume 1289 of Springer-Verlag LNCS Series), pp. 319-334.
+[44] D. Willard, The Semantic Tableaux Version of the Second Incompleteness Theorem Extends Almost to Robinson’s
+Arithmetic Q, presented initially as a 16–page conference abstract in Automated Reasoning with Semantic Tableaux
+and Related Methods (2000), Springer-Verlag LNAI#1847, pp. 415-430. A longer more detailed version of this paper
+will appear soon in the JSL. (It is approximately twice the size of the conference paper, and it contains some more
+detailed proofs and several further theorems.)
+[45] D. Willard, A Generalization of the Second Incompleteness Theorem and Some Exceptions to It, Annals of Pure
+and Applied Logic 141 (2006) pp. 472-496.
+[46] C. Wrathall, “Rudimentary Predicates and Relative Computation”, Siam J. on Computing 7 (1978), pp. 194-209.
+
+67
+
+

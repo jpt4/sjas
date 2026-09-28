@@ -1,0 +1,241 @@
+RESUME for Dan Edward Willard
+
+(last updated in Septermber 2015)
+
+BIOGRAPHICAL INFORMATION
+Address and Telephone:
+Room Li-67a, Computer Science Department, University at Albany
+1400 Washington Avenue, Albany, New York 12222
+Telephone: 518-442-4284
+Email = dew [We all hate spam dogs] cs.albany.edu
+CURRENT STATUS
+Professor at the University of New York at Albany who received the university’s “Excellence
+in Research Award” in 2008 and who holds a courtesy position with the Mathematics
+Department.
+DEGREES
+Ph.D., Mathematics, Harvard University, 1978.
+A.M., Mathematics, Harvard University, 1972.
+B.S., Mathematics, SUNY at Stony Brook, 1970.
+PROFESSIONAL INTERESTS
+Proof-Theoretic Aspects of Mathematical Logic, Algorithms, Data Structures, Complexity
+Theory, Computational Geometry, and Data Base Theory. Various aspects of my research
+have been reported in national news media outlets. For instance, the Fusion Trees were
+the first of just six topics mentioned in the “Mathematics and Computer Science” section
+of the National Science Foundation 1991 Annual Report. (The details are provided in Part
+C of the Publication List.)
+MOST RECENT RESEARCH INTERESTS
+Our recent research has focused mostly on developing generalizations of Gödel’s Second
+Incompleteness Theorem and on formalizing boundary-case exceptions where it is not valid.
+This research has appeared in the papers of: A.1 through A.8, A.11, and B.1 through B.9
+(with the article B.1 offering a nice 16-page summary of these combined results that requires
+little prerequisite knowledge).
+We have also worked on several recent papers about more conventional computer science topics, such as Fusion Trees, Advanced Data Structures and Relational Database
+Optimization ( A.9, A.10, and A.12 through A.14). Most of our articles have been published in presitgeous journals, including four sole-authored papers in logic’s top journal
+(the Journal of Symbolic Logic) and two additional sole-authored articles in its second best
+known journal (the Annals of Pure and Applied Logic.)
+1
+
+TEACHING EXPERIENCE
+Algorithms, Highly Advanced Data Structures, Mathematical Logic, Complexity Theory,
+Computational Geometry, and Data Base Theory.
+PROFESSIONAL EXPERIENCE
+1. Studied Mathematics at Harvard prior to 1973 and mostly Computer Science subsequently.
+2. Computer Programmer (4 summers) at N.Y. Life Insurance and one summer at
+I.B.M.’s New York Watson Research Center during my education at Harvard.
+3. Member of Technical Staff of Bell Laboratories (1979-1983).
+4. Faculty Member at State University of New York at Albany (1983 - Present).
+5. Summer-time Consultant at Bellcore (1984 and 1989)
+
+SUPPORT FROM THE NATIONAL SCIENCE FOUNDATION:
+Approximately $ 685K of support under the five sole-authored NSF grants of DCR8412447,
+IRI8703430, CCR9060509, CCR9302920 , CCR9902726 & CCF0956405.
+
+A. Journal Publications
+The articles below are not listed in chronolgical order. Instead, they are listed in roughly
+a sequential order related to my current research interests. Thus, the four papers in the
+Journal of Symbolic Logic are listed first — although not all of them are my four most
+recent papers chronologically.
+Also, the reader should be aware that our recent Year-2014 conference paper (B.1) offers
+a nice 16-page introduction to the formalism appearing in journal paper A.1 through A.8.
+(We recommend it be read before our other more technical papers are examined.)
+1. “On the Available Partial Respects in which an Axiomization for Real Valued Arithmetic Can Verify its Own Formal Consistency and Related Topics”, Journal of Symbolic Logic 71 (2006) pp. 1189–1999.
+2. “An Exploration of the Partial Respects in which an Axiom System Recognizing Solely
+Addition as a Total Function Can Verify Its Own Consistency”, Journal of Symbolic
+Logic 70 (2005) pp. 1171-1209.
+2
+
+3. “How to Extend The Semantic Tableaux And Cut–Free Versions of the Second Incompleteness Theorem Almost to Robinson’s Arithmetic Q”, Journal of Symbolic Logic
+67 (2002) pp. 465-496.
+4. “Self–Verifying Systems, the Incompleteness Theorem and the Tangibility Reflection
+Principle”, Journal of Symbolic Logic 66 (2001) pp. 536–596.
+5. “A Generalization of the Second Incompleteness Theorem and Some Exceptions to
+It”, invited paper in the Annals of Pure and Applied Logic 141 (2006) pp. 472-496.
+6. “Passive Induction and a Solution to a Paris-Wilkie Open Question”, Annals of Pure
+and Applied Logic 146 (2007) pp. 124-149.
+7. “Some Specially Formulated Axiomizations for IΣ0 Manage to Evade the Herbrandized Version of the Second Incompleteness Theorem”, invited paper by Information and Computation 207 (2009) pp. 1078-1093.
+8. “A Version of the Second Incompleteness Theorem For Axiom Systems that Recognize
+Addition But Not Multiplication as a Total Function”, in First Order Logic Revisited,
+edited by V. Hendricks et al. and published by Logos Verlag (Berlin) 2004, pp. 337–
+368.
+9. “An Algorithm for Handling Many Relational Calculus Queries Efficiently”, Journal
+of Computer and System Sciences 65 (2002) pp. 295-331.
+10. “Examining Computational Geometry, Van Emde Boas Trees and Hashing From the
+Perspective of the Fusion Tree”, Siam Journal on Computing 29 (2000) pp. 1030–
+1049.
+11. “Self-Reflection Principles and NP-Hardness”, invited paper in The Dimacs Series in
+Discrete Mathematics and Theoretical Computer Science (published by the American
+Mathematics Society), Volume 39 (January 1998), pp. 297-320.
+12. “Applications of Range Query Theory to Relational Database Selection and Join
+Operations”, Journal of Computer and Systems Sciences 52 (1996) pp 157-169.
+13. “Transdichotomous Algorithms for Minimum Spanning Trees and Shortest Paths”
+(with M. L. Fredman), invited paper in The Journal of Computer and Systems Sciences 48 (1994) pp. 533-551.
+14. “Surpassing the Information Theoretic Barrier with Fusion Trees”, (with M. L. Fredman), invited paper in The Journal of Computer and Systems Sciences 47 (1993) pp.
+424-433.
+
+3
+
+15. “Optimal Sampling Residues for Differentiable Data Base Query Problems”, Journal
+of ACM, 38 (1991), pp 104-119.
+16. “Multi-Dimensional Search Trees that Provide New Types of Memory Reduction,”
+Journal of ACM 34 (1987), pp. 846-858.
+17. “A Transformation for Adding Range Restriction Capability to Data Structures,”
+(with G.S. Lueker); Journal of ACM, 32 (1985), pp. 597-618.
+18. “Algorithms for Resolving Conflicts in Dynamic Storage Allocation,” (with B.S. Baker
+and E.G. Coffman, Jr.), Journal of ACM, 32 (1985) pp. 327-343.
+19. “Log-logarithmic Selection Resolution Protocols in a Multiple Access Channel,” in
+SIAM Journal on Computing, 15 (1986), pp. 468-477.
+20. “New Data Structures for Orthogonal Range Queries,” SIAM Journal on Computing,
+14(1985), pp. 232-253.
+21. “Searching Unindexed and Non-uniformly Generated Files in Log Log N Time,” SIAM
+Journal on Computing, 14 (1985), pp. 1013-1029.
+22. “Polygon Retrieval,” SIAM Journal on Computing, 11 (1982), pp. 149-166.
+23. “New Fast Trie Data Structures Which Support Very Fast Search Operations,” Journal of Computer and Systems Sciences 28 (1984), pp. 379-395.
+24. “Lower Bounds for the Addition-Subtraction Operations in Orthogonal Range Queries
+and Related Problems,” Information and Computation. 82 (1989) pp. 45-64
+25. “A Density Control Algorithm for Doing Insertions and Deletions in a Sequentially
+Ordered File in Good-Worst Case Time,” Information and Computation 97 (1992)
+pp. 150-204.
+26. “The Very Unusual Behavior of Parallel Interpolation Search,” (with J. Reif), Information and Computation. 81 (1989) pp. 364-379.
+27. “Log-Logarithmic Worst-Case Range Queries are Possible in Space O(N),” Information Processing Letters 17 (1983), pp. 81-84.
+28. “A Data Structure for Dynamic Range Queries,” (with G.S. Lueker), Information
+Processing Letters 15 (1982), pp. 209-213.
+29. “On the Angle Restricted Nearest Neighbor Problem,” (with Y.C. Wee and S. Chaiken),
+Information Processing Letters, 34 (1990) pp. 71-76.
+
+4
+
+30. “Natural Selection of Parental Ability to Vary Sex Ratio of Offspring”, (with R.L.
+Trivers), Science, (Jan. 5, 1973), pp. 90-92.
+31. Dissertation has been published in the Garland Company’s Series of Outstanding
+Dissertations in Computer Science.
+
+B. Publications in Refereed Conference Proceedings
+The list below includes only papers published in “refereed” conference proceedings. It does
+not include twentyfive additional talks I gave at ASL conferences during 1995-2012, whose
+300-word abstracts were published in the Bulletin of Symbolic Logic, but which were not
+refereed articles.
+In order to avoid duplication, every item in the list below is distinct and separate from
+the journal publications mentioned in Part-A of my publication list. Therefore, the list
+(below) does not include the Items 5 and 8 from the Part-A list — that were technically
+results announced in year-2003 conferences and which were subsequently invited and refereed for publication as either a journal article or a book chapter of the proceedings of the
+specified conferences.
+1. “On the Broader Epistemological Significance of Self-Justiying Axiom Systems”, Springer
+Verlag LNCS 8652, pp.221-236. (This is the Proceedings of Wollics 2014 conference.)
+2. “The Axiom System IΣ0 Manages to Simultaneously Obey and Evade the Herbrandized Version of the Second Incompleteness Theorem”, Electronic Notes in Theoretical Computer Science 165 (November 2006) pp. 213–226 (This is the Proceedings of
+Wollics 2006 conference.)
+3. “On the Results of a 14-Year Effort to Generalize Gödel’s Second Incompleteness
+Theorem and Explore Its Partial Exceptions”, Collegium Logicum IX (2007) pp. 8186.
+4. “On the Partial Respects in Which an Axiomization for Real Valued Arithmetic Can
+Verify its Tableaux Consistency”, Automated Reasoning with Analytic Tableaux and
+Related Methods (2005 Proceedings), Springer–Verlag LNCS # 3702, pp. 292-306.
+5. “Some New Exceptions for the Semantic Tableaux Version of the Second Incompleteness Theorem”, Automated Reasoning with Analytic Tableaux and Related Methods
+(2002 Proceedings), Springer–Verlag LNCS # 2381, pp. 281-297.
+5
+
+6. “The Semantic Tableaux Version of the Second Incompleteness Theorem Extends
+Almost to Robinson’s Arithmetic Q”, in Automated Reasoning with Semantic Tableaux
+and Related Methods, Springer–Verlag LNCS # 1847, 2000, pp. 415–430.
+7. “Tangibility Reflection Principle for Self-Verifying Axiom System”, in Computational
+Logic and Proof Theory: The 5-th Kurt Gödel Colloquium, Springer-Verlag LNCS #
+1289 (1997), pp. 319-334.
+8. “Self-Verifying Axiom Systems”, in Computational Logic and Proof Theory: The 3-rd
+Kurt Gödel Colloquium, Springer-Verlag LNCS # 713 (1993), pp. 325-336.
+9. “A New Form of the Semantic Tableaux Version of the Second Incompleteness Theorem”, a position paper at the Rome (Italy) Semantic Tableaux 2003 conference,
+disseminated in University of Rome Technical Report RT-DIA-80-2003, pp. 68-72
+(September 2003).
+10. “Applications of the Fusion Tree Methodology to Computational Geometry and Searching”, in The Proceedings of the Third Annual SIAM Symposium of Discrete Algorithms, (1992) pp. 286-295.
+11. “Blasting Through The Information Theoretic Barrier with Fusion Trees” (with M.
+Fredman), in ACM Proceedings of the 22nd Symposium on Theory of Computing,
+(1990), pp 1-7.
+12. “Transdichotomous Algorithms for Minimum Spanning Trees and Shortest Paths”
+(with M. Fredman), in The Proceedings of the 31st IEEE Symposium on the Foundations of Computer Science. (1990), pages 719-725.
+13. “Quasilinear Algorithms for Processing Relational Calculus Expressions”, in The Proceedings of PODS -1990 Conference, pp. 243-257.
+14. “Computing Geographic Nearest Neighbors Using Monotone Matrix Searching”, Proceedings of the 18th ACM CSI Conference, 1990 (with Y.C. Wee and S. Chaiken)
+15. “General Metrics and Angle Restricted Voronoi Diagrams”, in Proceedings of First
+Canadian Conference on Computational Geometry, Montreal, 1989 (with Y.C. Wee
+and S. Chaiken)
+16. “Quasi-Valid Range Querying and Its Implications for Nearest Neighbor Problems”
+(with Y.C. Wee), published in the Proceedings of the 1988 ACM Computational Geometry Conference, pp. 34-43.
+17. “Good Worst-Case Algorithms for Inserting and Deleting Records in Dense Sequential
+Files”, in the Proceedings of 1986 SIGMOD Conf., pp. 251-260.
+6
+
+18. “On the Application of Sheared Retrieval to Orthogonal Range Queries,” in The
+Proceedings of the 1986 ACM Conference on Computational Geometry, June 1986,
+pp. 80-89.
+19. “Lower Bounds for Dynamic Range Queries that Permit Subtraction”, published in
+The Proceedings of the 1986 International Conference on Automata, Languages and
+Programming pp. 444-455.
+20. “Lower Bounds for Randomized Algorithms and an Open Question,” in The Proceedings of the Twentieth Annual Conference on Information Sciences and Systems,
+March 1986, pp. 333-335.
+21. “Reduced Memory Space for Multi-Dimensional Search Trees,” in the Proceedings of
+the Symposium on Theoretical Aspects of Computer Science, 1985, Springer-Verlag
+LNCS Volume 182, pp. 363-374.
+22. “Parallel Interpolation Search,” (with J. Reif), 23-rd Allerton Conf. on Comm.
+Contr. and Comput, 1985, pp. 821-829.
+23. “Log-logarithmic Selection Protocols for Resolving Ethernet and Semaphore Conflicts”, in the 16-th ACM Symp. on Theory of Computing (May 1984) pp. 512-521.
+24. “Efficient Processing of Relational Calculus Expressions Using Range Query Theory”,
+Proceedings of 1984 ACM SIGMOD Conference, pp.164-175.
+25. “Sampling Algorithms for Differentiable Batch Retrieval Problems,” 1984 International Conference on Automatas, Languages and Programming (ICALP), pp. 514-526,
+and The 1984 SIAM Conference on the Statistics-Computer Science Interface invited
+a second oral presentation of this result.
+26. “Predicate Retrieval Theory”, 21st Allerton Conf. on Comm., Cont., and Comp.
+(1983), pp. 663-674.
+27. “Surprisingly Efficient Search Algorithms for Non uniformly Generated Files”, 21-st
+Allerton Conf. on Comm., Contr., and Comp., (1983), pp. 656-662.
+28. “A New Time Complexity for Orthogonal Range Queries,” 20-th Allerton Conf. on
+Comm., Contr. and Comp., (1982), pp. 462-471.
+29. “Maintaining a Dense Sequential Files in a Dynamic Environment,” at the 14th ACM
+Symp on Theory of Computing, 1982, pp. 114-122.
+30. “Two Very Fast Trie Data Structures”, 19-th Allerton Conf. on Comm., Contr., and
+Comp., (1981), pp. 355-363.
+7
+
+31. “A Log Log N Search Algorithm for Nonuniform Distributions,” invited paper in
+Proceedings of ORSA-TIMS Conf. on Applied Probability Computer Science Interface,
+vol. II, pp. 3-14, 1981.
+32. See Items 5 and 8 of my Journal Publication list for two journal-style articles that
+were invited for publication after the initial presentation of these results at year-2003
+conference meetings.
+
+C. Citations in The National News Media to the Fredman-Willard
+Fusion Trees and Others of Willard’s Results
+1. Byte Magazine, August 1991, p. 25.
+2. Computer World, 27 May 1991 (p. 18).
+3. Science News, 29 June 1991 (p. 406).
+4. Information Week, 21 October 1991 (p. 60).
+5. National Science Foundation 1991 Annual Report (page 12). This item was the first of
+only six topics mentioned in the section entitled “Mathematics and Computer Science
+Research (during 1991)”.
+6. NSF Press Release 91-32, 29 April 1991.
+7. The Wikipedia contains a description of journal articles [13] and [14] under the heading
+of “Fusion Trees”.
+8. The Wikipedia contains two description of results from Willard’s journal articles [27]
+under the heading of “X-fast Tries” and “Y-fast Tries”.
+9. The Wikipedia contains a description of journal articles [3] and [4] under the heading
+of “Self-verifying theories”.
+10. According to Google Scholar, there have been 2,771 scholarly citations to the TrviersWillard journal article [30] as of September 2015.
+
+8
+
+

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Extended suite: loads the Ansatz-verified kernel, re-runs the language tests
+# on the verified measures, and runs the kernel's own tests.  Offline only:
+# ANSATZ_OFFLINE=1 forbids any download, and the store lives in ./stores.
+cd "$(dirname "$0")/.." || exit 2
+export ANSATZ_OFFLINE=1
+export ANSATZ_STORE_DIR="$PWD/stores"
+exec clojure -J-Xmx1200m -M:ansatz -m lcert.test-runner extended "$@"

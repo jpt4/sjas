@@ -1,0 +1,798 @@
+On the Broader Epistemological Signiﬁcance
+of Self-Justifying Axiom Systems
+Dan E. Willard
+University at Albany Computer Science and Mathematics Departments
+
+Abstract. This article will be a continuation of our research into selfjustifying systems. It will introduce several new theorems (one of which
+will transform our previous inﬁnite-sized self-verifying logics into formalisms or purely ﬁnite size). It will explain how self-justiﬁcation is useful, even when the Incompleteness Theorem clearly limits its scope.
+
+1
+
+Introduction
+
+Gödel’s Incompleteness Theorem has two parts. Its ﬁrst half indicates no decision
+procedure can identify arithmetic’s true statements. Its “Second Incompleteness”
+result speciﬁes suﬃciently strong logics cannot verify their own consistency. Gödel
+was careful to insert a caveat into his historic paper [11], indicating a diluted form
+of Hilbert’s Consistency Program might have some success:
+∗ “It must be expressly noted Proposition XI represents no contradiction
+of the formalistic standpoint of Hilbert. For this standpoint presupposes
+only the existence of a consistency proof by ﬁnite means, and there might
+conceivably be ﬁnite proofs which cannot be stated in P or in ...”
+Some scholars have interpreted ∗ as, possibly, anticipating attempts to conﬁrm
+Peano Arithmetic’s consistency, via either Gentzen’s formalism or Gödel’s Dialetica interpretation. On the other hand, the Stanford’s Encyclopedia’s entry
+about Gödel quotes him, in its Section 2.2.4, stating he was hesitant to view the
+Second Incompleteness Theorem as fully ubiquitous, until learning of Turing’s
+work. Moreover, Yourgrau [45] states von Neumann “argued against Gödel himself ” in the early 1930’s, about the deﬁnitive termination of Hilbert’s consistency
+program, which “for several years” after [11]’s publication, Gödel “was cautious
+not to prejudge”. Also, it is known [6,13,45] that Gödel did initially presume the
+second theorem was false, before proving its stunning result.
+In any case several year after he wrote ∗’s initial statement, Gödel gave a 1933
+lecture [12], where he told his audience that Hilbert’s initial 1926 objectives,
+summarized formally by ∗∗ below, had “unfortunately” no “hope of succeeding
+along” its originally intended plans.
+∗ ∗ (Hilbert [17] 1926): “Where else would reliability and truth be found
+if even mathematical thinking fails? The deﬁnitive nature of the inﬁnite
+has become necessary, not merely for the special interests of individual
+sciences, but rather for the honor of human understanding itself.”
+U. Kohlenbach et al. (Eds.): WoLLIC 2014, LNCS 8652, pp. 221–236, 2014.
+c Springer-Verlag Berlin Heidelberg 2014
+
+
+222
+
+D.E. Willard
+
+Our research, in both the current article and prior papers [35–44], was stimulated by the prospect that we ﬁnd ∗∗ enticing, even though the Second Incompleteness Theorem unequivocally demonstrates that logics cannot recognize their
+own consistency in a robust sense. Accordingly, we have studied both generalizations and boundary-case exceptions for the Second Incompleteness Theorem
+in [35–44]. The current article will seek to both strengthen these prior results, in
+the context of axiom systems with strictly ﬁnite cardinalities, and to also provide
+a more intuitive explanation of the meaning behind [35–44]’s results.
+The thesis of this article will be delicate because there can be no doubt that
+the Second Incompleteness Theorem is sharply robust, when viewed from a conventional purist mathematical perspective. On the other hand, we will argue that
+there are certain facets of a “Self-Justifying Logics”, that are tempting under
+a hard-nosed engineering perspective, contemplating sharply curtailed forms of
+Hilbert’s goals. These results will be fragile but not fully immaterial.
+
+2
+
+Background Setting
+
+Let (α, d) denote any axiom system and deduction method satisfying the simple
+“Split Rule” below 1 . This pair will be called “Self Justifying” when:
+i one of α ’s theorems will state that the deduction method d, applied to the
+system α, will produce a consistent set of theorems, and
+ii the axiom system α is in fact consistent.
+For any (α, d) , it is easy to construct a second αd ⊇ α that satisﬁes the Part-i
+requirement. For instance, αd could consist of all of α ’s axioms plus an added
+“SelfRef(α, d)” sentence, deﬁned as stating:
+• There is no proof (using d’s deduction method) of 0 = 1 from the union
+of the system α with this sentence “SelfRef(α, d)” (looking at itself).
+Kleene [20] noted how to encode rough analogs of “SelfRef(α, d)”. Each of Kleene,
+Rogers and Jeroslow [19, 20, 29] noted αd may, however, be inconsistent (despite
+SelfRef(α, d)’s assertion), thus causing it to violate Part-ii’s requirement.
+This problem arises in many contexts besides Gödel’s paradigm, where α was
+an extension of Peano Arithmetic (see [1–5,7,9,11,14–16,18,21–23,25–34,38,39,
+43]). Such results formalize paradigms where self-justiﬁcation is infeasible, due
+to diagonalization issues. (It should, perhaps, be added that among this lengthy
+list of articles, it was especially [1, 4, 11, 23, 27, 31, 34]’s incompleteness results
+that inﬂuenced our work in [35–44].) In any case, the main point is that most
+logicians have hesitated to employ an analog of a SelfRef(α, d) axiom because
+αd = α+SelfRef(α, d) is typically inconsistent.
+1
+
+Our “Split Rule” is the trivial requirement that all the axiom sentences in α are
+technically proper axioms, and that deduction method d is required to include
+BOTH a ﬁnite number of rules of inference and whatever “logical axioms” are
+needed (if any ? ) by d’s methodology. (This trivial notation convention is helpful.)
+
+Epistemological Signiﬁcance of Self-Justifying Axiom Systems
+
+223
+
+Our research in [35, 37, 40–42] focused on paradigms where self-justiﬁcation is
+feasible. It involved weakening the properties a logic can prove about addition
+and/or multiplication (to avoid potential diﬃculties). To be more precise, let
+Add(x, y, z) and M ult(x, y, z) denote 3-way predicates specifying x + y = z
+and x ∗ y = z. Then a logic will be said to recognize successor, addition and
+multiplication as Total Functions iﬀ it includes sentences 1-3 as axioms.
+∀x ∃z Add(x, 1, z)
+∀x ∀y ∃z Add(x, y, z)
+∀x ∀y ∃z M ult(x, y, z)
+
+(1)
+(2)
+(3)
+
+A logic α will be called Type-M iﬀ it contains 1-3 as axioms, Type-A iﬀ
+it contains only (1) and (2) as axioms, Type-S iﬀ it contains only (1) as an
+axiom, and Type-NS iﬀ it contains none of these axioms. The relationship of
+these constructs to self-justiﬁcation is explained by items (a) and (b):
+a. The existence of Type-A systems that can recognize their own consistency
+under semantic tableaux deduction, while proving analogs of all Peano Arithmetic’s Π1 theorems (in a slightly diﬀerent language), was demonstrated
+in [40]. Also, [37, 41] noted that some specialized forms of Type-NS systems
+can likewise recognize their own Hilbert consistency.
+b. The above evasions of the Second Incompleteness Theorem are known to
+be near-maximal in a mathematical sense. This is because the combined
+work of Pudlák, Solovay, Nelson and Wilkie-Paris [24, 27, 31, 34] implied no
+natural Type-S system can recognize its Hilbert consistency, and Willard
+subsequently [38, 43, 44] hybridized their formalisms with some techniques
+of Adamowicz-Zbierski [1, 2] to establish that most Type-M systems cannot
+recognize their own semantic tableaux consistency.
+Other fascinating eﬀorts to evade the Second Incompleteness Theorem have
+used the Kreisel-Takeuti “CFA” system [22] or the the interpretational framework of Friedman, Nelson, Pudlák and Visser [10, 24, 27, 33]. These systems are
+unrelated to our approach because they do not use Kleene-like “I am consistent”
+axiom-sentences. Instead, CFA uses the special properties of “second order” generalizations of Gentzen’s cut-free Sequent Calculus, and the interpretational approach formalizes how some systems recognize their Herbrand consistency on
+localized sets of integers, which unbeknown to themselves, includes all integers.
+(These alternate results are interesting but unrelated to our approach.)
+
+3
+
+Deﬁning Notation and Earlier Results
+
+A function F will be called Non-Growth iﬀ F (a1 ...aj ) ≤ M aximum(a1 ...aj )
+holds. Six examples of non-growth functions are Integer Subtraction (where x−y
+is deﬁned to equal zero when x ≤ y ), Integer Division (where x ÷ y equals x
+when y = 0, and it equals  x/y  otherwise), M aximum(x, y), Logarithm(x)
+Root(x, y) =  x1/y  and Count(x, j) designating the number of “1” bits among
+x’s rightmost j bits. The term U-Grounding Function referred in [40] to a set
+
+224
+
+D.E. Willard
+
+of primitives, which included the preceding functions plus the growth operations
+of addition and Double(x) = x + x. Our language L∗ was built out of these
+symbols, plus the primitives of “0”, “1”, “ = ” and “ ≤ ”.
+In a context where t is any term in [40]’s language L∗ , the quantiﬁers in
+the wﬀs ∀ v ≤ t Ψ (v) and ∃ v ≤ t Ψ (v) were called bounded quantiﬁers. Any
+formula in L∗ , all of whose quantiﬁers are bounded, was called a Δ∗0 formula.
+The Πn∗ and Σn∗ formulae were then deﬁned by the usual rules that:
+1. Every Δ∗0 formula is considered to be “ Π0∗ ” and also “ Σ0∗ ”.
+∗
+2. A wﬀ is called Πn∗ when it is encoded as ∀v1 ... ∀vk Φ with Φ being Σn−1
+∗
+∗
+3. Also, a wﬀ is called Σn when it is encoded as ∃v1 ..∃vk Φ, where Φ is Πn−1
+.
+Our article [40] used the symbol D to denote a deduction method. In addition
+to using Fitting’s version of semantic tableaux methodology [8], it deﬁned an
+alternative, called Tab-k deduction, that consisted of a speeded-up version of
+a tableaux, which permitted a limited analog of Gentzen-style deductive cuts for
+Πk∗ and Σk∗ formulae.
+Thus, if H denotes a sequence of ordered pairs (t1 , p1 ), (t2 , p2 ), ... (tn , pn ),
+where pi is a Semantic Tableaux proof of the theorem ti , then H was called
+a “Tab-k Proof ” of a theorem T from α’s axioms iﬀ T = tn and also:
+1. Each of the “intermediately derived theorems” t1 , t2 , ... , tn−1 have a complexity no greater than that of either a Πk∗ or Σk∗ sentence.
+2. Each axiom in pi ’s proof either comes from α or is one of t1 , t2 , ... , ti−1 .
+Let us say an axiom system α has a Level-J Understanding of its own
+consistency under a deduction method D iﬀ α can prove that there exists no
+proofs using its axioms and D’s deduction of both a ΠJ∗ theorem and its negation.
+In this notation, items A and B summarize [36, 38–40, 43]’s main results:
+A. For any axiom system A using L∗ ’s U-Grounding language, [40] showed
+its ISD (A) formalism could prove all A’s Π1∗ theorems and simultaneously
+verify its Level-1 consistency under Tab−1 deduction.
+B. Two negative results, tightly complementing item A’s positive result, were
+exhibited in [36, 38, 39, 43]. The ﬁrst was that [36, 38, 43] showed most systems are unable to verify their Level-0 consistency under semantic tableaux
+deduction, when they included statement (3)’s “Type-M” axiom that multiplication is a total function. Moreover, [39] oﬀered an alternate form of this
+incompleteness result, showing statement (2)’s far weaker Type-A systems
+cannot verify their Level-0 consistency under Tab−2 deduction.
+The contrast between these positive and negative results had led to our conjecture that automated theorem provers are likely to eventually achieve a fragmentary part of the ambitions that were suggested by Hilbert in ∗∗ . This is
+because the question of whether a formalism can support an idealized Utopian
+conception of its own consistency is diﬀerent from exploring the degrees to which
+theorem-provers can possess a fragmentary knowledge of their own consistency.
+The Incompleteness Theorem has demonstrated an Utopian idealized form of
+self-justiﬁcation is unobtainable, but our research has found some diluted cousins
+of this construct that are feasible
+
+Epistemological Signiﬁcance of Self-Justifying Axiom Systems
+
+4
+
+225
+
+The ISD (A) Axiom System
+
+In a context where A denotes any axiom system using L∗ ’s U-Grounding
+language, ISD (A) was deﬁned in [40] to be an axiomatic formalism capable of
+recognizing all of A’s Π1∗ theorems and corroborating its own Level-1 consistency
+under D’s deductive method. It consisted of the following four groups of axioms:
+Group-Zero: Two of the Group-zero axioms will deﬁne the constant-symbols,
+c̄0 and c̄1 , designating the integers of 0 and 1. The Group-zero axioms will
+also deﬁne the growth functions of addition and Double(x) = x + x. The
+net eﬀect of these axioms will be to set up a machinery to deﬁne any integer
+n ≥ 2 using fewer than 3 ·  Log n  logic symbols.
+Group-1: This axiom group will consist of a ﬁnite set of Π1∗ sentences, denoted
+as F , which can prove any Δ∗0 sentence that holds true under the standard
+model of the natural numbers. (Any ﬁnite set of Π1∗ sentences F with this
+property may be used to deﬁne Group-1, as [40] noted.)
+Group-2: Let Φ denote Φ’s Gödel Number, and HilbPrfA (Φ, p) denote a
+Δ∗0 formula indicating p is a Hilbert-styled proof of theorem Φ from
+axiom system A. For each Π1∗ sentence Φ, the Group-2 schema will contain
+an axiom of form (4). (Thus ISD (A) can trivially prove all A’s Π1∗ theorems.)
+∀p
+
+{ HilbPrfA (Φ, p) ⇒ Φ }
+
+(4)
+
+Group-3: The ﬁnal part of the ISD (A) will be a self-referencing Π1∗ axiom,
+indicating ISD (A) meets §3’s criteria of being “Level-1 consistent” under
+deductive method D. It is, thus, the following declaration:
+# No two proofs exist for a Π1∗ sentence and its negation, when D’s
+deductive method is applied to an axiom system, consisting of the
+union of Groups 0, 1 and 2 with this sentence (looking at itself ).
+One encoding of #, as a self-referencing Π1∗ axiom, appears in [40]. Thus,
+(5) is a Π1∗ styled encoding for # when: 1) Prf ISD (A) (a, b) is a Δ∗0
+formula indicating that b is a proof of a theorem a under ISD (A)’s axiom
+system and D’s deduction method, and 2) Pair(x, y) is a Δ∗0 formula
+indicating that x is a Π1∗ sentence and that y represents x ’s negation.
+∀x∀y∀p∀q
+
+¬ [ Pair(x, y) ∧ Prf ISD (A) (x, p) ∧ Prf ISD (A) (y, q) ] (5)
+
+Notation. An operation I( • ) that maps an initial axiom system A onto
+an alternate system I(A) will be called Consistency Preserving iﬀ I(A) is
+consistent whenever all of A’s axioms hold true under the standard model of the
+natural numbers. In this context, [40] demonstrated:
+Theorem 1. Suppose the symbol D denotes either semantic tableaux deduction
+or its Tab−1 generalization. Then the ISD ( • ) mapping operation is consistency
+preserving (e.g. ISD (A) will be consistent whenever all of A’s axioms hold true
+under the standard model of the natural numbers).
+
+226
+
+D.E. Willard
+
+We emphasize the most diﬃcult part of [40]’s result was neither the deﬁnition
+of its ISD (A)’s axiom system nor the Π1∗ ﬁxed-point encoding of (5)’s Group-3
+axiom. Instead, the key challenge was the conﬁrming of Theorem 1’s “Consistency Preservation” property.
+The conﬁrming of this property is subtle because its invariant breaks down
+when D is a deduction method only slightly stronger than either semantic
+tableaux or Tab−1 deduction. Thus, Pudlák’s and Solovay’s work [27,31] implies
+Theorem 1’s analog fails when D represents Hilbert deduction, and [39] showed
+its generalization fails even when D represents Tab−2 deduction.
+
+5
+
+A Finitized Generalization of Theorem 1’s Methodology
+
+One diﬃculty with ISD (A) is that it employs an inﬁnite number of diﬀerent
+incarnations of sentence (4) in its Group-2 scheme (since it contains one incarnation of this sentence for each Π1∗ sentence Φ in L∗ ’s language). Such a
+Group-2 schema is awkward because it simulates A’s Π1∗ knowledge almost via
+a brute-force enumeration.
+Our Deﬁnition 1 and Theorems 2 and 3 will show how to mostly overcome
+this problem by compressing the inﬁnite number of instances of sentence (4) in
+ISD (A)’s Group-2 schema into a purely ﬁnite structure.
+Definition 1. Let β denote any ﬁnite set of axioms that have Π1∗ encodings.
+Then IS#
+D (β) will denote an axiom system, similar to ISD (A), except its Group-2
+scheme will employ β ’s set of axioms, instead of using an inﬁnite number of
+applications of statement (4)’s scheme. (Thus, the “I am consistent” statement
+in IS#
+D (β)’s Group-3 axiom will be the same as before, except that the “I am”
+fragment of its self-referencing statement will reﬂect these changes in Group-2
+in the obvious manner.)
+Theorem 2. Let D again denote either semantic tableaux or Tab−1 deduction,
+and β again denote a set of Π1∗ axioms. Then IS#
+D (β) will be consistent whenever
+all β’s axioms hold true under the standard model. (In other words, IS#
+D (β) will
+satisfy an analog of Theorem 1’s consistency preservation property for ISD (A).)
+Theorem 2’s proof is almost identical to [40]’s proof of Theorem 1. It will. not
+be repeated in this extended abstract. Instead, this section will apply Theorem 2
+to show how finite-sized self-justifying logics can provide an infinite amount
+of “kernelized” Π1∗ information.
+Definition 2. Let Testi (t, x) denote any Δ∗0 formula, and Ψ  denote Ψ ’s
+Gödel number. Then Testi (t, x) will be called a Kernelized Formula iﬀ Peano
+Arithmetic can prove every Π1∗ sentence Ψ satisﬁes (6)’s identity:
+Ψ
+
+⇐⇒
+
+∀ x Testi (  Ψ  , x )
+
+(6)
+
+There are inﬁnitely many Δ∗0 predicates Test1 (t, x), Test2 (t, x), Test3 (t, x) ...
+satisfying this kernelized condition (one of which is illustrated by Example 1).
+An enumerated list of all the available kernels is called a Kernel-List.
+
+Epistemological Signiﬁcance of Self-Justifying Axiom Systems
+
+227
+
+Example 1. The set of true Σ1∗ sentences is r.e. This implies there exists a Δ∗0
+formula, called say Probe(g, x), such that g is the Gödel number of a Σ1∗
+statement that holds true in the Standard Model iﬀ (7) is true:
+∃ x Probe(g, x) ∧ x ≥ g
+
+(7)
+
+Now, let Pair(t, g) denote a Δ∗0 formula that speciﬁes t is the Gödel number
+of a Π1∗ statement and g is the Σ1∗ formula which is its negation. Then our
+notation implies that t is a true Π1∗ statement if and only if (8) holds true:
+∀x
+
+¬[∃g ≤ x
+
+Pair(t, g) ∧ Probe(g, x) ]
+
+(8)
+
+Thus if Test0 (t, x) denotes the Δ∗0 formula of ¬ [ ∃ g ≤ x Pair(t, g) ∧ Probe(g, x)],
+it is one example of what Deﬁnition 2 would call a “Kernelized Formula”.
+Definition 3. Let us recall Deﬁnition 2 deﬁned Kernel-List to be an enumeration of all the kernelized formulae Test1 (t, x), Test2 (t, x), Test3 (t, x)... . Assuming
+Testi (t, x) is the i−th element in this list and Ψ is an arbitrary Π1∗ sentence,
+Ψ ’s i-th Kernel Image will be deﬁned as the following Π1∗ sentence:
+∀ x Test i (  Ψ  , x )
+
+(9)
+
+Example 2. The Deﬁnitions 2 and 3 suggest that there is a subtle relationship
+between a sentence Ψ and its i−th Kernel Image. This is because Deﬁnition 2
+indicates that Peano Arithmetic can prove the invariant (6), indicating that Ψ
+is equivalent to its i−th Kernel Image. However, a weak axiom system can be
+plausibly uncertain about whether this equivalence holds.
+Thus if a weak axiom system proves statement (9) (rather than Ψ ), it may
+not be able to equate these results. This problem will apply to Theorem 3’s
+formalism. However, Theorem 3 will be still of much interest because §6 will
+illustrate a methodology that overcomes many of Theorem 3’s limitations.
+Theorem 3. Let A denote any system, whose axioms hold true in arithmetic’s
+standard model, and i denote the index of any of Deﬁnition 2’s kernelized
+formulae Testi (t, x). Then it is possible to construct a ﬁnite-sized collection of
+Π1∗ sentences, called say βA,i , where IS#
+D (βA,i ) satisﬁes the following invariant:
+If Ψ is one of the Π1∗ theorems of A then IS#
+D (βA,i ) can prove (9)’s
+statement (e.g. it will prove the “the i−th kernelized image” of Ψ ).
+Proof Sketch: Our justiﬁcation of Theorem 3 will use the following notation:
+1. Check(t) will denote a Δ∗0 formula that produces a Boolean value of “True”
+when t represents the Gödel number of a Π1∗ sentence.
+2. HilbPrfA (t, q) will denote a Δ∗0 formula that indicates q is a Hilbert-style
+proof of the theorem t from axiom system A .
+3. For any kernelized Testi (t, x) formula, GlobSimi will denote (10)’s Π1∗ sentence. (It will be called A’s i−th “Global Simulation Sentence”.)
+
+228
+
+D.E. Willard
+
+∀ t ∀ q ∀ x { [ HilbPrfA (t, q) ∧ Check(t) ]
+
+=⇒
+
+Testi (t, x)
+
+} (10)
+
+In this notation, the requirements of Theorem 3 will be satisﬁed by any version
+of the axiom system IS#
+D (β), whose Group-2 schema β is a ﬁnite sized consistent
+set of Π1∗ sentences that has (10) as an axiom. (This includes the minimal sized
+such system, that has only (10) as an axiom.) This is because if Ψ is any Π1∗
+theorem of A, whose proof is denoted as p̄ , then both the Δ∗0 predicates of
+HilbPrfA (Ψ , p̄) and Check(Ψ ) are true. Moreover, IS#
+D (β)’s Group-1 axiom
+subgroup was deﬁned so that it can automatically prove all Δ∗0 sentences that
+are true. Thus, IS#
+D (β) will prove these two statements and hence corroborate
+(via axiom (10)) the further statement:
+∀ x Test i ( Ψ  , x )
+
+(11)
+
+Hence for each of the inﬁnite number of Π1∗ theorems that A proves, the above
+deﬁned formalism will prove a matching statement that corresponds to the i−th
+kernelized image of each such proven theorem.
+
+
+6
+
+L-Fold Generalizations of Theorem 3
+
+Theorem 3 is of interest because every axiom system A will have its formalism
+∗
+IS#
+D (βA,i ) prove the i−th kernelized image of every Π1 theorem that A proves.
+This fact is helpful because (6)’s invariance holds for all Π1∗ sentences. Moreover,
+our “U-Grounded” Π1∗ sentences capture all Conventional Arithmetic’s crucial
+Π1 information because they can view multiplication as a 3-way Δ∗0 predicate
+Mult(x, y, z) via (12)’s encoding of this predicate.
+[ (x = 0∨y = 0) ⇒ z = 0 ] ∧ [ (x = 0∧y = 0 ) ⇒ (
+
+z−1
+z
+=y∧
+< y ) ] (12)
+x
+x
+
+#
+One diﬃculty with IS#
+D (β) and ISD (βA,i ) was mentioned by Example 2. It
+was that while Peano Arithmetic can corroborate (6)’s invariance for every Π1∗
+sentence Ψ , these latter systems cannot also do so.
+While there will probably never be a perfect method for fully resolving this
+challenge, there is a pragmatic engineering-style solution that is often available.
+This is essentially because our proof of Theorem 3 employed a formalism β
+that used essentially only one axiom sentence (e.g. (10)’s Π1∗ declaration ).
+Since the IS#
+D (β) formalism was intended for use by any ﬁnite-sized system β,
+it is clearly possible to include any ﬁnite number of formally true Π1∗ sentences in
+β. Thus for some ﬁxed constant L, one can easily let β include L copies of (10)’s
+axiom framework for a ﬁnite number of diﬀerent Test1 , Test2 ... TestL predicates,
+each of which satisfy Deﬁnition 2’s criteria for being kernelized formulae. In this
+∗
+case, IS#
+D (β) will formally map each initial Π1 theorem Ψ of some axiom system
+∗
+A onto L resulting diﬀerent Π1 theorems of the form (9).
+
+Epistemological Signiﬁcance of Self-Justifying Axiom Systems
+
+229
+
+Remark 1. Our basic conjecture is, essentially, that a goodly number of issues,
+concerning logic-based engineering applications called say E, may have convenient solutions via self-justifying logics, that follow the preceding outlined L-fold
+strategy. Thus, we are suggesting that if β is a large-but-ﬁnite set of axioms,
+that consists of L copies of (10)’s axiom framework for diﬀerent Test1 ...TestL
+predicates, then some future engineering applications E may possibly have
+their needs met by an IS#
+D (β) formalisms, when a software engineer meticulously
+chooses an appropriately constructed ﬁnite-sized β.
+Remark 2. The preceding was not meant to overlook that the Second Incompleteness Theorem is a robust result, applying to all logics of suﬃcient strength.
+Our suggestion, however, is that computers are becoming so powerful, in both
+speed and memory size as the 21st century is progressing, that there will likely
+emerge engineering-style applications E that will beneﬁt from IS#
+D (β)’s selfreferencing formalisms when a large-but-ﬁnite-sized β is delicately chosen. Moreover, it is of interest to speculate whether such computers can partially imitate
+a human being’s approximate instinctive conjectures about his own consistency
+(that, as common colloquially held conjectures, seem to serve as essential prerequisites for humans to gain their motivation to cogitate).
+Sections 7-9 will examine the preceding issues in further detail. One of their
+themes will be that our exceptions to Gödel’s second theorem, while sometimes
+nontrivial, clearly do not narrow the main intentions of Gödel’s result.
+
+7
+
+Comparing Type-M and Type-A Formalisms
+
+Let us recall axioms (1)-(3) indicated Type-A systems diﬀer from Type−M formalisms by treating Multiplication as a 3-way relation (rather than as a total
+function). For the sake of accurately characterizing what our systems can and
+cannot do, we have described our results as being fringe-like exceptions to the
+Second Incompleteness Theorem, from the perspective of an Utopian view of
+Mathematics, while perhaps being more signiﬁcant results from an engineeringstyle perspective of knowledge. Our goal in this section will be to amplify upon
+this perspective by taking a closer look at Type-A and Type-M formalisms.
+Let us assume that x0 = 2 = y0 and that x1 , x2 , x3 , ... and y1 , y2 , y3 , ... are
+deﬁned by the recurrence rules of:
+xi+1 = xi + xi
+
+AND
+
+yi+1 = yi ∗ yi
+
+(13)
+
+The sequences x0 , x1 , x2 , ... and y0 , y1 , y2 , ... will thus represent the growth rates
+associated with the addition and multiplication primitives, lying in the statements (2) and (3)’s “Type-A” and “Type-M” axioms.
+n
+Since x0 = 2 = y0 , the rule (13) implies yn = 22 and xn = 2n+1 . The
+y0 , y1 , y2 , ... sequence will, thus, grow much more quickly than the x0 , x1 , x2 , ...
+sequence (since yn ’s binary encoding will have an Log(yn ) = 2n length while
+xn ’s binary encoding will have a shorter length = Log(xn ) = n + 1 ).
+
+230
+
+D.E. Willard
+
+Our prior papers noted that the diﬀerence between these growth rates was the
+reason that [36, 38, 43] showed all natural Type-M systems, recognizing integermultiplication as a total function, were unable to recognize their tableaux-styled
+consistency — while [35, 37, 40] showed some Type-A systems could simultaneously prove all Peano Arithmetic Π1∗ theorems and corroborate their own
+tableaux consistency. Their gist was that a Gödel-like diagonalization argument,
+which causes an axiom system to become inconsistent as soon as it proves a
+theorem aﬃrming its own tableaux consistency, stems, ultimately, from the exponential growth in the series y0 , y1 , y2 , ... .
+This growth, thus, facilitates an intense amount of self-referencing, using the
+identity Log(yn ) ∼
+= 2n , that will, ultimately, invoke the force of Gödel’s seminal
+diagonalization machinery. It thus raises raises the following question:
+∗∗∗ How natural are exponentially growing sequences, such as y0 , y1 , y2 ..,
+whose n−th member needs 2n bits for its encoding, when such lengths
+are greater than the number of atoms in the universe when merely
+n > 100 ? Is such a sequence’s use, for corroborating the Second Incompleteness Eﬀect, an inherently artiﬁcial construct ?
+We will not attempt to derive a Yes-or-No answer to Question ∗ ∗ ∗ because
+it is one of those epistemological questions that can be debated endlessly. Our
+point is that ∗ ∗ ∗ probably does not require a deﬁnitive positive or negative
+answer because both perspectives are useful. Thus, the theoretical existence of a
+sequence integers of y0 , y1 , y2 , ..., whose binary encodings are doubling in length,
+is tempting from the perspective of an Utopian view of mathematics, while
+awkward from an engineering styled perspective. We therefore ask: “Why not be
+tolerant of both perspectives? ”
+One virtue of this tolerance is it ushers in a greater understanding for the
+statements ∗ and ∗∗ that Gödel and Hilbert made during 1926 and 1931. This
+is because the Incompleteness Theorem demonstrates no formalism can display
+an understanding of its own consistency in an idealized Utopian sense. On the
+other hand, §6 suggested these remarks by Gödel and Hilbert might receive more
+sympathetic interpretations, if one sought to explore such questions from a less
+ambitious almost engineering-style perspective.
+Our main thesis is supported by a theorem from [42]. It indicated that tableaux
+variations of self-justifying systems have no diﬃculty in recognizing that an inﬁnitized generalization of a computer’s ﬂoating point multiplication (with rounding) is a total function. The latter diﬀers from integer-multiplication, by not
+having its output become double the length of its input when a number is multiplied by itself. Thus, the intuitive reason [42]’s multiplication-with-rounding
+operation is compatible with self-justiﬁcation is because it avoids the inexorable
+exponential growth under rule (13)’s sequence y0 , y1 , y2 .. .
+Also, Theorem 4 indicates self-justifying logics can view a double-precision
+form of integer multiplication as likewise a total function. Its proof, exactly
+analogous to [42]’s methodology, will appear in a longer version of this paper.
+
+Epistemological Signiﬁcance of Self-Justifying Axiom Systems
+
+231
+
+Theorem 4. Let us assume the A in ISD (A) and IS#
+D (βA,i ) represents Peano
+(β
+)
+can
+formalize
+two
+total functions, called
+Arithmetic. Then ISD (A) and IS#
+A,i
+D
+Left(a, b) and Right(a, b), where any pair of integers (a, b) is mapped onto the left
+and right halves of a and b’s multiplicative product.
+Remark 3. One slightly tricky aspect is that our positive results, involving [42]’s
+ﬂoating point multiplication and Theorem 4’s double precision multiplication,
+should not be confused with a diﬀerent examination of Herbrandized consistency
+in [44]. The latter took advantage of the fact that our Herbrand-styled proofs,
+in [44]’s paradigm, are exponentially longer than their tableaux counterparts,
+thus allowing [44] to formalize a limited use of multiplication (because its deductive methods was exponentially less eﬃcient). Thus [44]’s results, while perhaps
+theoretically interesting, are basically irrelevant to engineering environments,
+e.g. the main concern of Theorems 1–4 (especially in regards to their particular
+interpretations given in Remark 2).
+
+8
+
+A Diﬀerent Type of Evidence Supporting Our Thesis
+
+Let us recall Pudlák and Solovay [27, 31] observed that essentially all TypeS systems, containing merely statement (1)’s axiom that successor is a total
+function, cannot verify their own consistency under Hilbert deduction. (See also
+related work by Buss-Ignjatovic [5], Švejdar [32] and the Appendix A of [37])
+It turns out that [39] generalized these results to show that Equation (2)’s
+Type-A systems are unable to verify their own consistency, under the Tab−2
+deduction (deﬁned in §3). At the same time, the ISD and IS#
+D frameworks, from
+Sections 4 and 5, can verify their own consistency under Tab−1 deduction. Our
+goal in this section will be to illustrate how the tight contrast between these
+positive and negative results is analogous to the diﬀering growth rates of the
+sequences x0 , x1 , x2 , ... and y0 , y1 , y2 , ... from rule (13).
+During our discussion Gi (v) will denote the scalar-multiplication operation
+i
+that maps an integer v onto 22 · v . Also, Υi will denote the statement, in the
+U-Grounding language, that declares that Gi is a total function. Our paper [39]
+proved that Υi has a Π2∗ encoding. It is also implied that Gi satisﬁed:
+Gi+1 (v)
+
+=
+
+Gi ( Gi (v) )
+
+(14)
+
+It was noted in [39] that this identity implies one can construct an axiom system
+β, comprised of solely Π1∗ sentences, where a semantic tableaux proof can establish Υi+1 from β + Υi in a constant number of steps. This implies, in turn, that a
+Tab−2 proof from β will require no more that O(n) steps to prove Υn (when it
+uses the obvious n-step process to conﬁrm in chronological order Υ1 , Υ2 , ...Υn . )
+n
+
+These observations are signiﬁcant because Gn (1) = 22 . Thus, [39] showed a
+Tab−2 proof from β can verify in O(n) steps that this integer exists.
+This example is helpful because it illustrates the diﬀerence between the growth
+speeds under Tab−1 and Tab−2 deduction, is analogous to the diﬀering growth
+
+232
+
+D.E. Willard
+
+rates of the sequences x0 , x1 , x2 , ... and y0 , y1 , y2 , ... from rule (13). Hence once
+again, a faster growth-rate will usher in the Second Incompleteness Theorem’s
+power (e.g. see [39]).
+This analogy suggests that the Second Incompleteness Theorem has diﬀerent
+implications from the perspectives of Utopian and engineering theories about
+the intended applications of mathematics. Thus, a Utopian may possibly be
+comfortable with a perspective, that contemplates sequences y0 , y1 , y2 , ... with
+elements growing in length at an exponential speed, but many engineers may be
+suspicious of such growths.
+A hard-core engineer, in contrast, might surmise that the inability of selfjustifying formalisms to be compatible with Tab−2 deduction is not as disturbing
+as it might initially appear to be. This is because Tab−2 diﬀers from Tab−1
+deduction by producing exponential growths that are so sharp that their material
+realization has no analog in the everyday mechanical reality that is the focus of
+an engineer’s interest.
+Our personal preference is for a perspective lying half-way between that of
+an Utopian mathematician and a hard-nosed engineer. Its dualistic approach
+suggests some form of diluted partial agreement with Hilbert’s goals in ∗∗.
+
+9
+
+Related Reﬂection Principles
+
+An added point is that there are many types of self-justifying systems available,
+with some better suited for engineering environments than others.
+Ideally, one would like to develop self-justifying systems S that could corroborate the validity of (15)’s reﬂection principle for all sentences Φ.
+∀p [ P rfSD (Φ, p) ⇒ Φ ]
+
+(15)
+
+Löb’s Theorem establishes, however, that all systems S, containing Peano Arithmetic’s strength, are able to prove (15)’s invariant only in the degenerate case
+where they prove Φ itself. Also, the Theorem 7.2 from [37] showed essentially all
+axiom systems, weaker than Peano Arithmetic, are unable to prove (15) for all
+Π1∗ sentences Φ simultaneously. Thus, Theorem 5 will be near optimal:
+Theorem 5. For any input axiom system A, it is possible to extend the selfjustifying ISD (A) and IS#
+D (βA,i ) systems, from Theorems 1 and 3, so that the
+resulting self-justifying logics S can also:
+1. Verify that Tab−1 deduction supports the following analog of (15)’s selfreﬂection principle under S for any Δ∗0 and Σ1∗ sentences Φ :
+∀p [ P rfSTab−1 (Φ, p) ⇒ Φ ]
+
+(16)
+
+2. Verify (17)’s more general “root-diluted” reﬂection principle for S whenever θ is Σ ∗1 and Φ is a Π2∗ sentence of the form “ ∀u1 ...∀un θ(u1 ...un ) ”.
+√
+√
+∀p [ P rfSTab−1 (Φ, p) =⇒ ∀x ∀u1 < x ... ∀un < x θ(u1 ...un ) ] (17)
+
+Epistemological Signiﬁcance of Self-Justifying Axiom Systems
+
+233
+
+Theorem 5’s proof will rest upon hybridizing the techniques from [37]’s tangibility reﬂection principle with Theorem 3’s methodologies, in a natural manner,
+as will be demonstrated in a longer version of this article. Analogous to our other
+results, Theorem 5 reinforces the theme about how exceptions to the Second Incompleteness Theorem may appear to be quite minor from the perspective of
+an Utopian view of mathematics, while being signiﬁcant from an engineering
+standpoint. In Theorem 5’s particular case, this is because:
+A. The ability of Theorem 5’s system S to support (16)’s self-reﬂection principle under Tab−1 proofs for any Δ∗0 and Σ1∗ sentence, as well as to support
+(17)’s root reﬂection principle for Π2∗ sentences, is clearly signiﬁcant.
+B. The incompleteness result of [37]’s Theorem 7.2 imposes, however, sharp
+limitations upon Item A’s generality (in that it cannot be extended to fully
+all Π1∗ sentences, in an undiluted sense).
+Thus, the tight ﬁt between A and B is reminiscent of other slender borderlines,
+that separated generalizations and boundary-case exceptions for the Incompleteness Theorem, explored earlier. Once again, the Second Incompleteness Theorem
+is seen as robust, from an idealized Utopian perspective on mathematics, while
+permitting caveats from engineering styled perspectives.
+This dualistic viewpoint allows one to nicely share partial (and not full) agreement with Hilbert’s main aspirations in ∗∗, while also appreciating the stunning
+achievement of the Second Incompleteness Theorem.
+
+10
+
+Concluding Remarks
+
+At a purely technical level, this article has reached beyond our prior papers
+in several respects, including §5’s demonstration that any initial system A can
+have a kernelized image of its Π1∗ knowledge duplicated by IS#
+D (βA,i )’s strictly
+finite sized self-justifying system, and also by Section 6’s and Remark 2’s quite
+pragmatic L-fold generalizations of this result.
+These results help resolve the mystery that has enshrouded the Second Incompleteness Theorem and the statements ∗ and ∗∗ of Gödel and Hilbert. This is
+because we have meticulously separated the goals of a pristine theoretical study of
+mathematical logic from those of a ﬁnite-sized axiomatic subset of mathematics,
+intended for modeling mostly an engineering environment.
+There is no question that Gödel’s Second Theorem is ideally robust, relative
+to a purely pristine approach to mathematics. On the other hand, we suspect
+Hilbert was half-way correct by speculating in ∗∗ about humans possessing a
+knowledge about their own consistency, in at least some strikingly weak and tender sense, as essentially a fundamental prerequisite for psychologically motivating
+their cogitations.
+Thus in a context where the limitations of axiom systems, that fail to recognize multiplication as a total function, are manifestly obvious, even when such
+systems duplicate Peano Arithmetic’s central Π1∗ knowledge, it is legitimate to
+inquire whether posterity might ﬁnd some partial-albeit-not-full redeeming value
+in formalisms having weak-style knowledges of their Tab−1 consistency?
+
+234
+
+D.E. Willard
+
+More precisely, Sections 5-9 were intended to provide a uniﬁed broad-scale
+interpretation of our diverse earlier results from [35–44]. In a context where the
+Incompleteness Theorem is ﬁrmly understood to be suﬃciently ubiquitous to
+preclude Hilbert’s aspirations in ∗∗ from ever being fully realized, they show
+how some fragmentary portion of Hilbert’s conjectures can be corroborated by
+judiciously weakened logics, using a formalism, that is much less than ideally
+robust, although not fully immaterial.
+Acknowledgments. I thank Bradley Armour-Garb and Seth Chaiken for many
+useful suggestions about how to improve the presentation of our results. I also
+thank the anonymous referees for their comments. This research was partially
+supported by NSF Grant CCR 0956495.
+
+References
+1. Adamowicz, Z.: Herbrand consistency and bounded arithmetic. Fundamenta Mathematicae 171(3), 279–292 (2002)
+2. Adamowicz, Z., Zbierski, P.: On Herbrand consistency in weak theories. Archive
+for Mathematical Logic 40(6), 399–413 (2001)
+3. Bezboruah, A., Shepherdson, J.C.: Gödel’s second incompleteness theorem for Q.
+Jour. Symb. Logic 41(2), 503–512 (1976)
+4. Buss, S.R.: Bounded Arithmetic. Studies in Proof Theory, Lecture Notes 3. Published by Bibliopolis (1986) (Revised version of Ph. D. Thesis)
+5. Buss, S.R., Ignjatovic, A.: Unprovability of consistency statements in fragments of
+bounded arithmetic. Annals Pure and Applied Logic 74(3), 221–244 (1995)
+6. Dawson, J.W.: Logical Dilemmas the life and work of Kurt Gödel. AKPeters (1997)
+7. Feferman, S.: Arithmetization of metamathematics in a general setting. Fundamenta Mathematicae 49, 35–92 (1960)
+8. Fitting, M.: First Order Logic and Automated Theorem Proving. Springer (1996)
+9. Friedman, H.M.: On the consistency, completeness and correctness problems. Technical report, Ohio State Univ. (1979), See Pudlák [28]’s summary of this result
+10. Friedman, H.M.: Translatability and relative consistency. Technical report, Ohio
+State Univ. (1979), See Pudlák [28]’s summary of this result
+11. Gödel, K.: Über formal unentscheidbare Sätze der Principia Mathematica und
+verwandter Systeme I. Monatshefte für Math. Phys. 38, 173–198 (1931)
+12. Gödel, K.: The present situation in the foundations of mathematics. In: Feferman,
+S., Dawson, J.W., Goldfarb, W., Parson, C., Solovay, R. (eds.) Collected Works
+Volume III: Unpublished Essays and Lectures, pp. 45–53. Oxford University Press
+(2004), Our quotes from this 1933 lecture come from its page 52
+13. Goldstein, R.: Incompleteness The Proof and Paradox of Kurt Gödel. Norton
+(2005)
+14. Hájek, P.: Mathematical fuzzy logic and natural numbers. Fundamenta Mathematicae 81, 155–163 (2007)
+15. Hájek, P.: Towards metamathematics of weak arithmetics over fuzzy. Logic Journal
+of the IPL 19(3), 467–475 (2011)
+
+Epistemological Signiﬁcance of Self-Justifying Axiom Systems
+
+235
+
+16. Hájek, P., Pudlák, P.: Metamathematics of First Order Arithmetic. Springer (1991)
+17. Hilbert, D.: Über das Unendliche. Mathematische Annalen 95, 161–191 (1926)
+18. Hilbert, D., Bernays, P.: Grundlagen der Mathematik, vol. II. Springer (1939)
+19. Jeroslow, R.G.: Consistency statements in formal theories. Fundamenta Mathematicae 72, 17–40 (1971)
+20. Kleene, S.C.: On notation for ordinal numbers. Jour. Symb. Logic 3(1), 150–156
+(1938)
+21. Kolodziejczyk, L.A.: On the Herbrand notion of consistency for ﬁnitely axiomatizable fragments of bounded arithmetic theories. Jour. Symb. Logic 71(2), 624–638
+(2006)
+22. Kreisel, G., Takeuti, G.: Formally self-referential propositions in cut-free classical
+analysis and related systems. Dissertationes Mathematicae 118, 1–50 (1974)
+23. Löb, M.H.: A solution of a problem of Leon Henkin. Jour. Symb. Logic 20(2),
+115–118 (1955)
+24. Nelson, E.: Predicative Arithmetic. Math. Notes. Princeton Univ. Press (1986)
+25. Parikh, R.: Existence and feasibility in arithmetic. Jour. Symb. Logic 36(3), 494–
+508 (1971)
+26. Parsons, C.H.: On n−quantiﬁer induction. Jour. Symb. Logic 37(3), 466–482 (1972)
+27. Pudlák, P.: Cuts, consistency statements and interpretations. Jour. Symb.
+Logic 50(2), 423–442 (1985)
+28. Pudlák, P.: On the lengths of proofs of consistency. In: Collegium Logicum: Annals
+of the Kurt Gödel, vol. 2, pp. 65–86. Springer-Wien (1996)
+29. Rogers, H.A.: Theory of Recursive Functions and Eﬀective Compatibility. McGraw
+Hill (1967)
+30. Salehi, S.: Herbrand consistency of some arithmetical theories. Jour. Symb.
+Logic 77(3), 807–827 (2012)
+31. Solovay, R.M.: Telephone conversation in 1994 describing Solovay’s generalization
+of one of Pudlák’s theorems [27], using some methods of Nelson and Wilkie-Paris
+[24, 34] (The Appendix A of [37] oﬀers a 4-page summary of this conversation)
+(1994)
+32. Svejdar, V.: An interpretation of Robinson arithmetic in its Grzegorczjk’s weaker
+variant. Fundamenta Mathematicae 81, 347–354 (2007)
+33. Visser, A.: Faith and falsity. Annals Pure and Applied Logic 131(1), 103–131 (2005)
+34. Wilkie, A.J., Paris, J.B.: On the scheme of induction for bounded arithmetic. Annals Pure and Applied Logic 35, 261–302 (1987)
+35. Willard, D.E.: Self-verifying axiom systems. In: Mundici, D., Gottlob, G., Leitsch,
+A. (eds.) KGC 1993. LNCS, vol. 713, pp. 325–336. Springer, Heidelberg (1993)
+36. Willard, D.E.: The semantic tableaux version of the second incompleteness theorem
+extends almost to Robinson’s arithmetic Q. In: Dyckhoﬀ, R. (ed.) TABLEAUX
+2000. LNCS, vol. 1847, pp. 415–430. Springer, Heidelberg (2000)
+37. Willard, D.E.: Self-verifying systems, the incompleteness theorem and the tangibility reﬂection principle. Jour. Symb. Logic 66(2), 536–596 (2001)
+38. Willard, D.E.: How to extend the semantic tableaux and cut-free versions of the
+second incompleteness theorem almost to Robinson’s arithmetic Q. Jour. Symb.
+Logic 67(1), 465–496 (2002)
+
+236
+
+D.E. Willard
+
+39. Willard, D.E.: A version of the second incompleteness theorem for axiom systems
+that recognize addition but not multiplication as a total function. In: Hendricks,
+V., Neuhaus, F., Pederson, S.A., Scheﬄer, U., Wansing, H. (eds.) First Order Logic
+Revisited, pp. 337–368. Logos Verlag, Berlin (2004)
+40. Willard, D.E.: An exploration of the partial respects in which an axiom system
+recognizing solely addition as a total function can verify its own consistency. Jour.
+Symb. Logic 70(4), 1171–1209 (2005)
+41. Willard, D.E.: A generalization of the second incompleteness theorem and some
+exceptions to it. Annals Pure and Applied Logic 141(3), 472–496 (2006)
+42. Willard, D.E.: On the available partial respects in which an axiomatization for real
+valued arithmetic can recognize its consistency. Jour. Symb. Logic 71(4), 1189–1199
+(2006)
+43. Willard, D.E.: Passive induction and a solution to a Paris-Wilkie open question.
+Annals Pure and Applied Logic 146(2), 124–149 (2007)
+44. Willard, D.E.: Some specially formulated axiomizations for IΣ0 manage to evade
+the Herbrandized version of the second incompleteness theorem. Information and
+Computation 207(10), 1078–1093 (2009)
+45. Yourgrau, P.: A World Without Time: The Forgotten Legacy of Gödel and Einstein.
+Basic Books (2005), See page 58 for the passages we have quoted
+
+

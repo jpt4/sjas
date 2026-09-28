@@ -1,0 +1,2101 @@
+T HE J OURNAL OF S YMBOLIC L OGIC
+Volume 00, Number 0, XXX 0000
+
+AN EXPLORATION OF THE PARTIAL RESPECTS IN WHICH AN AXIOM
+SYSTEM RECOGNIZING SOLELY ADDITION AS A TOTAL FUNCTION CAN
+VERIFY ITS OWN CONSISTENCY
+
+DAN E. WILLARD
+
+Abstract. This article will study a class of deduction systems that allow for a limited use of the modus
+ponens method of deduction. We will show that it is possible to devise axiom systems α that can recognize
+their consistency under a deduction system D provided that: 1) α treats multiplication as a 3-way relation
+(rather than as a total function), and that 2) D does not allow for the use of a modus ponens methodology above
+essentially the levels of Π1 and Σ1 formulae.
+Part of what will make this boundary-case exception to the Second Incompleteness Theorem interesting is
+that we will also characterize generalizations of the Second Incompleteness Theorem that take force when we
+only slightly weaken the assumptions of our boundary-case exceptions in any of several further directions.
+
+NOTE TO THE READER:
+
+This paper was pubished in 2005 in the Journal of
+
+Symbolic Logic 70 pp. 1171–1209.
+§1. Introduction. Let A(x, y, z) denote a 3-way predicate relation indicating that
+x + y = z, and let M (x, y, z) indicate that x ∗ y = z. Let us say an axiom system α
+recognizes addition and multiplication as “Total” Functions iff it can prove:
+(1)
+
+∀x ∀y ∃z A(x, y, z) AND ∀x ∀y ∃z M (x, y, z)
+
+Section 2 of this article will define a “U-Grounding Language” that formally recognizes
+addition as a total function, but treats multiplication as only a 3-way relation. Section
+2 will use the terminology Σ∗n and Π∗n to describe the analogs of classical arithmetic’s
+Σn and Πn sentences within this U-Grounding language notation. Thus, Section 2’s
+Σ∗n and Π∗n sentences will differ from arithmetic’s classic Σn and Πn sentences by
+omitting a notational assumption, whose connotation would cause multiplication to be
+automatically treated as an implicitly defined total function.
+The term K–Deduction will refer to an inference methodology, defined in Section
+2, that contains a modus ponens rule for Σ∗K and Π∗K sentences (but not for higher
+sentences). The main result of this paper will be that it is feasible to devise a class of
+axiom systems for a U-Grounding language that recognize their own self-consistencies
+relative to 1–deduction.
+
+c 2005, Association for Symbolic Logic
+0022-4812/00/0000-0000/$00.00
+
+1
+
+2
+
+DAN E. WILLARD
+
+Our result about 1–deduction will be near maximal because 1) an accompanying
+paper [70] has shown that a 2–deductive analog of our self-justifying formalism is provably infeasible, and because 2) Section 6 will introduce a new negativistic result that
+illustrates another direction in which our formalism cannot be further extended.
+Moreover our new ISD (A) formalism is stronger than its predecessor, called IS(A)
+in [67], and ISD (A)’s associated proof is also significantly simpler.
+Underlying Formalism: Some notation is needed to start our discussion. Let α
+denote an axiom system and D denote a deduction method. The pair (α, D) will be
+called an Introspectively Unified Logic iff
+i: one of α ’s formal theorems will state that the deduction method D, applied to
+the axiom system α, will produce a consistent set of theorems,
+ii: and the axiom system α is in fact consistent.
+Also, an axiom system α will be called Self-Justifying iff there exists some frequently
+employed deduction method D, such as perhaps the Semantic Tableaux, Hilbert, Herbrand or Sequent-Calculus formalisms, where (α, D) is an Introspectively Unified
+Logic.
+Kleene’s Fixed Point Theorem implies that every r.e. axiom system α can be easily
+extended into a broader system α∗ which satisfies condition (i). For a fixed deduction
+method D, Kleene proposed [24] to let α∗ contain all α’s axioms plus one added
+axiom sentence stating :
++ There is no proof (using deduction method D ) of a prototypical absurditysentence (such as for example “0=1”) from the union of the axiom system
+α with this sentence “+” (looking at itself).
+Kleene explained how to apply the Fixed Point Theorem to encode a self-referencing
+statement, similar to the axiom (above). However, he pointed out that the catch is that
+α∗ may be inconsistent even while its added axiom formally asserts α∗ ’s consistency.
+For this reason, Kleene, Rogers and Jeroslow [22, 24, 46] each warned their readers
+that most axiom systems, similar to α∗ , were useless on account of their inconsistency,
+although they were technically well-defined. In the nomenclature of the previous paragraph, the difficulty is that (α∗ , D) may satisfy Part-i but not the equally important
+Part-ii of the definition of introspective unification.
+This problem arises in settings considerably more general than Gödel’s original paradigm, where α was an extension of Peano Arithmetic. For instance, Section 4’s
+literature survey will discuss a large class of more general settings [1, 2, 3, 4, 7, 9, 14,
+20, 23, 37, 38, 40, 41, 42, 43, 49, 52, 53, 57, 58, 64, 68, 70], where sundry variations of
+Gödel’s Second Incompleteness Theorem apply to weak axiom systems. Each of these
+generalizations of the Second Incompleteness Theorem can be mapped onto a paradigm
+where it is impossible to construct a self-justifying formalism (α, D).
+
+AN AXIOM SYSTEM THAT CAN VERIFY ITS OWN CONSISTENCY
+
+3
+
+Our interest in this topic began with the observation that there are certain settings
+where it is actually feasible to construct introspectively unified logics (α, D). The two
+main examples discussed in our previous work were the particular cases where:
+A: The axiom system α recognized addition but not multiplication as a total
+function, and D was some cut-free deductive method, such as semantic tableaux
+or Herbrand deduction. [67].
+B: The system α did not assume that either addition or multiplication was total,
+but now D represented Hilbert deduction. (The strongest version of this paradigm appeared in [72], where an “additive naming convention” had replaced the
+conventional axiom declaring addition is total.)
+Items (A) and (B) naturally raise the question whether it is feasible to hybridize these
+effects. One of our results will show that some types of hybridizations are possible,
+under a formalism called ISD (A), which recognizes addition as a total function and
+uses a deductive method that allows for the application of a modus ponens principle for
+Π∗1 and Σ∗1 sentences.
+Part of what will make ISD (A) interesting is that there are several generalizations
+of Gödel’s Second Incompleteness Theorem, that indicate ISD (A) is difficult to further
+improve. Among these generalizations of the Second Incompleteness are the following
+phenomena:
+1. Pudlák [41] has demonstrated that no extension of axiom system Q [7, 58] can
+verify its own Hilbert consistency localized on a definable cut. Solovay [52]
+has revised Pudlák’s formalism with some additional techniques of Nelson and
+Wilkie-Paris [34, 64] to establish that essentially all axiom systems recognizing
+Successor as a total function are unable verify their own Hilbert consistency. (Section 4 will review this prior literature in considerable detail.)
+2. We developed in [70] a generalization of Item 1’s result which showed that all
+axiom systems recognizing addition as a total function are unable to verify their
+2-deductive consistency.
+3. Expanding upon some techniques pioneered by Adamowicz, Paris, Pudlák, Solovay, Takeuti, Wilkie and Zbierski in [1, 4, 38, 41, 52, 57, 64], we developed in
+[68] a further new result which showed that no natural axiom system can recognize multiplication as total and also verify its cut-free consistency (or “semantic
+tableaux” [66] consistency).
+4. Section 6 of our current article will describe a close cousin of ISD (A), called
+k,m
+NSD
+(A), that is essentially always inconsistent. This fact will be interesting
+k,m
+because the only substantial difference between ISD (A) and NSD
+(A) will be
+the respective manners in which they define the word “this” in the Statement + ’s
+Kleene-like axiom.
+A detailed review of the prior literature will appear in Section 4. It will explain more
+fully exactly how our work is related to the prior literature. Our two new results about
+
+4
+
+DAN E. WILLARD
+
+k,m
+ISD (A) and NSD
+(A) shall represent a pair of closely matching positive and negative
+results. Also, ISD (A) will be significant because it will fill most of the gap that was left
+unexplored by results (1)–(4).
+
+In essence, the close match between these positive and negative results will be mathematically significant, regardless of whether or not it is found later to have added significance for epistemology. From a mathematical standpoint, these theorems are useful
+because the mixture of their opposing positive and negative results will help characterize
+the exact threshold-level where the Second Incompleteness Theorem takes force.
+This paper will be divided into three parts. Sections 2 and 3 will summarize our new
+results. Section 4 will be a literature survey. Sections 5 and 6 will prove our main new
+theorems.
+This article is entirely self-contained. It should be comprehensible to most logicians. A researcher who has taken an intensive 2-semester graduate-level course on
+logic should probably be able to follow most of the gist of this paper.
+§2. Description of Main Results. Let us define a mapping F (a1 , a2 ...aj ) to be a
+Non-Growth function iff F (a1 , a2 , ...aj ) ≤ M aximum(a1 , a2 , ...aj ) for all values of
+a1 , a2 , ...aj . Six examples of non-growth functions are:
+1. Integer Subtraction where x − y is defined to equal zero when x ≤ y,
+2. Integer Division where x ÷ y equals x when y = 0, and it equals b x/y c
+otherwise,
+3. Root(x, y) which equals d x1/y e when y ≥ 1, and it equals x when y = 0.
+4. M aximum(x, y),
+5. Logarithm(x) = b Log2 (x) c when x ≥ 2, and it equals zero otherwise.
+6. Count(x, j) designating the number of “1” bits among x’s rightmost j bits.
+These six function are called the Grounding Functions. Also, the term U-Grounding
+Function will henceforth refer to a set of functions that includes these six operations
+plus the growth functions of addition and Double(x) = x + x.
+All our results will use a U-Grounding language. This notation is technically unnecessary — because a system that uses the combination of Equation (2) (which implies addition and doubling are total functions) along with only the first six non-growth
+Grounding operations would have properties similar to the U-Grounding language.
+(2)
+
+∀x ∀y ∃z x = z − y
+
+However, our notation is much simplified under a language employing function symbols
+also for addition and Double(x) = x + x. The virtue of this notation is that it uses
+no more than 2 Log2 N appearances of the addition and doubling function symbols
+(applied to the input of “1”) to encode every integer N ≥ 2. Such a term will be
+called a U-Grounded Binary Representation of N, and it will be denoted as N . For
+
+AN AXIOM SYSTEM THAT CAN VERIFY ITS OWN CONSISTENCY
+
+5
+
+instance, 25 can be encoded as:
+(3)
+
+1 + Double( Double( Double( 1 + Double(1) ) ) ).
+
+The use of logic’s conventional notation about Πn and Σm sentences is technically
+inappropriate in this paper because the latter notation (with its multiplication function
+symbol) is suitable only for axiom systems which recognize multiplication as a total
+function. Instead, our analogs for Πn and Σm in the U-Grounding Function language
+are called Π∗n and Σ∗m . Here, a term t is defined to be a constant, variable or a
+U-Grounding function symbol (whose input arguments are recursively defined terms).
+Also, the quantifiers in the wffs ∀ v ≤ t Ψ(v) and ∃ v ≤ t Ψ(v) are called bounded
+quantifiers. We will say a formula Φ belongs to the ∆∗0 class if it uses the U-Grounding
+primitives as its function symbols, the two relation symbols of “ = ” and “ < ”, and all
+its quantifiers are bounded. (Following conventional logic notation, we will sometimes
+also use the terms “ Π∗0 ” and “ Σ∗0 ” to designate the ∆∗0 class.) For n ≥ 1, a formula
+Υ shall be called Π∗n iff it is written in the form ∀v1 ∀v2 ... ∀vk Φ, where Φ is Σ∗n−1 .
+Likewise, Υ is called Σ∗n iff it is written in the form ∃v1 ∃v2 ... ∃vk Φ, where Φ
+is Π∗n−1 . Also, Υ is called Q∗n iff it is a Boolean combination of several Σ∗n and Π∗n
+formulae (using the standard connective symbols of ∧ , ∨ , ¬ and → ).
+The preceding notation is the same as [20]’s quite conventional definitions for Σn ,
+Πn and Qn except that the definitions of Σ∗n , Π∗n and Q∗n employ a U-Grounding language instead of a language using the primitives of arithmetic. In particular since our
+U-Grounding language has no function symbol for multiplication, our U-Grounding
+based axiom systems α do not implicitly assume that multiplication is a total function.
+However, they do certainly retain an ability to encode the graph M (x, y, z) of multiplication as a ∆∗0 formula. For instance, one possible ∆∗0 encoding for M (x, y, z) is
+illustrated below:
+(4)
+z
+z−1
+[ (x = 0 ∨ y = 0) ⇒ z = 0 ] ∧ [ (x 6= 0 ∧ y 6= 0 ) ⇒ ( = y ∧
+<y)]
+x
+x
+Equation (4)’s formal encoding of M (x, y, z)’s graph as a ∆∗0 formula will add a substantial level of semantic depth to our U-Grounding axiom systems α because it
+will imply that that these logics will have an understanding of multiplication’s main
+generic properties (except of course for the deliberately omitted totality condition of
+“ ∀x ∀y ∃ z M (x, y, z) ”.)
+In a context where (α, D) is an ordered pair with α representing an axiom system
+and with D designating a deduction method, we will also use the following notation:
+1. A Level(n) Definition of (α, D) ’s consistency is the declaration that there exists
+no Π∗n sentence Υ such that (α, D) supports simultaneous proofs of both Υ
+and ¬ Υ.
+2. A Level(0-) Definition of (α, D) ’s consistency is the statement that there exists
+no proof of 0=1 from the (α, D) configuration.
+
+6
+
+DAN E. WILLARD
+
+All the definitions of consistency, from Level(0-) up to Level(n) for any n , are equivalent to each other under strong enough models of arithmetic. However, many weak
+axiom systems do not have a mathematical strength to recognize this equivalence.
+Our basic goal will be to determine for what configurations (α, D) is it possible to
+construct introspectively unified logics that have a Level(1) understanding of their own
+self-consistency. As we shall explain, it will turn out that it is impossible to construct
+self-justifying formalisms much above the Level(1). Indeed, there will be some respects
+in which a formalism is unable to have even a Level(0-) appreciation of its own selfconsistency.
+It is helpful to review the definition of a semantic tableaux proof from Fitting’s or
+Smullyan’s textbooks [13, 51] before summarizing our new results. Let us call a sentence Prenex∗ Normalized iff it is either Π∗i or Σ∗i sentence, for some i ≥ 0. Define a
+Φ-Focused Candidate Tree for the axiom system α to be a tree structure whose root
+corresponds to the sentence ¬ Φ rewritten in Prenex∗ form and whose all other nodes
+are either axioms of α or deductions from higher nodes of the tree. Let the notation
+“ A =⇒ B ” indicate that B is a valid deduction when A is an ancestor of B in a
+specified proof tree. In this notation, the deduction rules allowed in a candidate tree are:
+1. Υ ∧ Γ =⇒ Υ and Υ ∧ Γ =⇒ Γ .
+2. ¬ ¬ Υ =⇒ Υ. Other rules for the “ ¬ ” symbol include: ¬(Υ∨Γ) =⇒ ¬Υ∧¬Γ,
+¬(Υ → Γ) =⇒ Υ ∧ ¬Γ , ¬(Υ ∧ Γ) =⇒ ¬Υ ∨ ¬Γ , ¬ ∃v Υ(v) =⇒ ∀v¬ Υ(v)
+and ¬ ∀v Υ(v) =⇒ ∃v ¬Υ(v)
+3. A pair of sibling nodes Υ and Γ is allowed when their ancestor is Υ ∨ Γ.
+4. A pair of sibling nodes ¬Υ and Γ is allowed when their ancestor is Υ → Γ.
+5. ∃v Υ(v) =⇒ Υ(u) where u is a newly introduced “Parameter Symbol”.
+6. Our variation of Rule 5 for bounded existential quantifiers of the form “ ∃v ≤ s ”
+is the identity: ∃v ≤ s Υ(v) =⇒ u ≤ s ∧ Υ(u)
+7. ∀v Υ(v) =⇒ Υ(t) where t denotes a U-Grounded term. These terms are defined to be parameter symbols, constant symbols, or U-Grounding functions with
+recursively defined inputs. (Without loss of generality, we may assume that each
+“parameter symbol” u, appearing in such a term t, is required to be introduced
+by some ancestor of the current node, which has used one of the Rules 5 or 6.)
+8. Our variation of Rule 7 for bounded universal quantifiers of the form “ ∀v ≤ s ”
+is the identity: ∀v ≤ s Υ(v) =⇒ t ≤ s → Υ(t).
+Define a particular leaf-to-root branch in a candidate tree T to be Closed iff it contains
+both some sentence Υ and its negation ¬ Υ. A Semantic Tableaux proof of Φ is
+then defined to be a candidate tree, all of whose root-to-leaf branches are closed, such
+that the tree’s root stores the sentence ¬Φ (rewritten in Prenex∗ normal form) and all
+its other nodes are either axioms of α or deductions from higher nodes.
+The only distinction between our definition of a semantic tableaux proof and some
+other conventional definitions in [13, 51, 64] is that we require Φ’s proof tree to have
+
+AN AXIOM SYSTEM THAT CAN VERIFY ITS OWN CONSISTENCY
+
+7
+
+its root store ¬ Φ written in Prenex∗ normal form, whereas some other conventional
+definitions do not have the Prenex∗ requirement. All our results will also hold if we
+drop the Prenex∗ requirement. However, the notation will be greatly simplified if we
+begin with the Prenex∗ assumption.
+We are now ready to define the main deductive method studied in this paper. Let
+H denote a sequence of ordered pairs (t1 , p1 ), (t2 , p2 ), ... (tn , pn ), where pi is
+a Semantic Tableaux proof of the theorem ti , and where < is an arbitrary class of
+sentences. Define H to be a Tab−<−List proof of a theorem T from the axiom
+system α iff T = tn and also:
+1. Each axiom in pi ’s proof is either one of t1 , t2 , ... , ti−1 or comes from α.
+2. Each of the “intermediately derived theorems” t1 , t2 , ... , tn−1 must lie within
+the “pre-specified class” < of sentences.
+Tab−<−List proofs are thus a stronger deductive method than the semantic tableaux
+by allowing for a limited type of modus ponens rule for sentences that belong to the
+intermediate class, that is formalized by <. For instance, if < represents the set of
+Q∗K sentences, then a Tab−<−List proof would represent a modified form of semantic
+tableaux that allows for modus ponens for the Q∗K class of sentences. Henceforth, this
+style of proof will be called a “Tab−Q∗k −List” proof. (If < represents the universal set of all sentences, then Tab−<−List deduction will have a deductive-efficiency
+essentially equivalent to that of a Hilbert-style proof.)
+There are several forms of tab-list deduction that lie between Tab−Q∗k−1 and Tab−Q∗k
+List deduction. For instance, let Uk∗ denote the union of the Σ∗k and Π∗k classes. Then
+a Tab−Uk∗ −List proof will be defined as a variant of tab-list deduction where < represents the set of Uk∗ sentences. Similarly, the Tab−Σ∗k and Tab−Π∗k −List deductive
+methods will be variants of the tab-list formalism where < represents the class of Σ∗k
+and Π∗k sentences (respectively).
+This notation is useful for describing those introspectively unified logics that are feasible to construct, as well as those which are infeasible. Let A denote an arbitrary
+consistent axiom system that employs the U-Grounding language. Then our main positive result will be that if D represents either the Tab−U1∗ −List (or yet the stronger
+Tab−Q∗1 deductive method), then it is possible to construct an introspectively unified
+logic (α, D) where α is an axiom system capable of recognizing addition as a total
+function and also of verifying all A’s Π∗1 theorems. (Both such (α, D) will recognize
+their self-consistency under a Level(1) definition for (α, D)-styled consistency.)
+On the other hand, a complementary negative result from [70] shows that no analog
+of this effect is available for the Tab−Σ∗2 and Tab−Π∗2 −List deductive methods — even
+when one uses the fully weak Level(0-) definition of self-consistency. Moreover, there
+are a large number of other types of generalizations of the Second Incompleteness Theorem, delineating other respects in which it is impossible to further expand or improve
+upon Section 3’s proposed ISD (A) formalism.
+
+8
+
+DAN E. WILLARD
+
+One of these negativistic results will appear in Section 6 of the current paper: It will
+demonstrate some inherent limitations associated with Kleene-like “I am consistent”
+axioms.
+Other directions in which it is impossible to further improve upon ISD (A) will be
+discussed during Section 4’s literature survey.
+k,m
+§3. Formal Description of the ISD (A) and NSD
+(A) Axiom Systems. Let A
+denote any axiom system which employs the U-Grounding language, and D denote a
+deduction method. The symbol ISD (A) will denote an axiom system, associated with
+the ordered pair (A, D), that has a simultaneous capacity to:
+
+1. prove all A’s Π∗1 theorems,
+2. recognize addition as a total function, and
+3. contain a Kleene-like self-referencing axiom asserting its own Level(1) consistency under the deduction method D.
+This section will define the ISD (A) axiom system and its similar-looking cousin, called
+k,m
+NSD
+(A). Despite their superficial resemblances, these two axiom system will actually have nearly the opposite properties. Our main goal will be to determine: Which
+deduction methods D shall make the ISD (A) formalism consistent? It will be a consequence of the joint research of largely Pudlák and Solovay (reviewed during Section
+4’s literature survey) that if D denotes Hilbert deduction then our ISD (A) system will
+be automatically inconsistent.
+Formal Definition of ISD (A): In a context where A is any axiom system employing the U-Grounding language and D denotes a deduction method, ISD (A) is defined
+to be an axiom system with the following four sub-groups of axioms:
+Group-Zero: Two of the Group-zero axioms will define the two initial named constant symbols, c̄0 and c̄1 , that designate the integers of 0 and 1. The third
+and fourth Group-zero axioms will define the growth functions of addition and
+Double(x) = x + x. In conjunction, the net effect of these four Group-zero axioms will be to set up the machinery to define unambiguously any natural number
+n ≥ 2 as a term using only the constant symbol c̄1 and employing O( Log n )
+appearances of the function symbols for the addition and doubling operations.
+Section 2 had indicated that such a term, analogous to Equation (3), which encodes n in a binary-like format, will be denoted as n .
+Group-1: This axiom group will consist of a finite set of Π∗1 sentences, called F,
+such that the union of F with the Group-zero axioms is sufficient to prove every
+∆∗0 sentence that is valid under the standard model of the natural numbers. (Any
+finite set of Π∗1 sentences F with this property may be used to define Group-1. One
+suitable finite set of axioms was defined by Table I of our article [67]. However,
+any other alternate finite set of Π∗1 axioms is equally suitable.)
+
+AN AXIOM SYSTEM THAT CAN VERIFY ITS OWN CONSISTENCY
+
+9
+
+Group-2: Throughout this paper, d Φ e will denote the Gödel number of Φ. Also
+PrfA (t, p) will denote a ∆∗0 formula indicating that p is a proof of the theorem
+t from the axiom system A. For each Π∗1 sentence Φ, the Group-2 schema
+will contain an axiom of the form (5), written in Π∗1 normalized form. Thus, the
+Group-2 scheme shall trivially endow ISD (A) with a capacity to verify all A’s Π∗1
+theorems.
+(5)
+
+∀ p { Prf A ( d Φ e , p ) → Φ }
+
+Group-3: This axiom group will consist of one single Π∗1 sentence stating essentially
+that:
+∗ In the context of the deduction methodology D, there exists no two
+proofs of both some Π∗1 sentence and its formal negation from the union
+of the Group-zero, 1 and 2 axioms with this sentence (itself).
+In order to formally encode the self-referential statement ∗ as a Π∗1 sentence,
+let Pair(x, y) denote a ∆∗0 formula indicating x is the Gödel number of a Π∗1
+sentence and y is x ’s negation. Also, let Prf ISD (A) (t, b) denote a ∆∗0 formula
+that indicates that b is a proof (using the deduction method D ) of the theorem
+t from the axiom system ISD (A). In this context, the formal encoding of ∗ can
+be approximated as:
+(6)
+
+∀ x ∀ y ∀ p ∀ q ¬ [ Pair(x, y) ∧ Prf ISD (A) (x, p) ∧ Prf ISD (A) (y, q) ]
+
+More Detailed Description of the Group-3 Axiom:
+A formal description of
+ISD (A)’s Group-3 axiom is more complicated than the abbreviated descriptions given
+either by Sentence ∗ or by Equation (6)’s analog. The main added complication is
+because the Group-3 axiom declares the consistency of a formal set of axioms that includes “itself” (in the words of Sentence ∗ ). As was noted in Section 1, the notion of
+an axiom including “itself” when it refers to the consistency of an axiom schema dates
+back to Kleene’s 1938 paper [24]. However, Kleene’s abbreviated description is insufficient to establish that Equation (6) can be encoded precisely as a Π∗1 sentence. The next
+two paragraphs will explain how this can be done.
+Let UNION(A) denote the union of ISD (A)’s Group-Zero, Group-1 and Group-2
+axioms. We will also use the following notation:
+i: PrfDU N ION (A) ( t , p ) will denote a formula designating that p is a proof of the
+theorem t from the axiom system UNION(A) using the deduction method D.
+ii: ExPrfDU N ION (A) ( h , t , p ) will be a formula stating that p is a proof (using
+the deduction method D ) of a theorem t from the union of the axiom system
+UNION(A) with the added axiom sentence whose Gödel number equals h .
+iii: Subst ( g , h ) will denote Gödel’s classic substitution formula — which yields
+TRUE when g is an encoding of a formula and h is an encoding of a sentence that
+replaces all occurrence of free variables in g with the formally Gödel-encoded
+term of g .
+
+10
+
+DAN E. WILLARD
+
+iv: SubstPrfDU N ION (A) ( g , t , p ) will denote the natural hybridizations of the constructs from Items (ii) and (iii) which yields a Boolean value of TRUE exactly
+when there exists some integer h simultaneously satisfying both the conditions
+Subst ( g , h ) and ExPrfDU N ION (A) ( h , t , p ).
+Each of (i)–(iv) can be encoded as ∆∗0 formulae. Thus, Appendices C and D of [67]
+explained how the first three of these predicates can receive ∆∗0 encodings when one
+applies the theory of LinH functions [20, 25, 73]. In such a context, Equation (7) illustrates one possible ∆∗0 encoding for SubstPrfDU N ION (A) (g, t, p)’s graph. (It is equivalent to “ ∃ h [ Subst(g, h) ∧ ExPrfDU N ION (A) (h, t, p) ] ”, but Equation (7) is a ∆∗0
+formula — unlike the quoted expression.)
+(7)
+PrfDU N ION (A) ( t , p ) ∨ ∃ h ≤ p [ Subst ( g , h ) ∧ ExPrfDU N ION (A) ( h , t , p ) ]
+Utilizing (7)’s ∆∗0 encoding for SubstPrfD
+U N ION (A) (g, t, p), it is easy to encode the
+∗
+Group-3 axiom of ISD (A) as a Π1 sentence. Thus, let Γ(g) denote Equation (8)’s
+formula, and let n denote Γ(g)’s Gödel number. Then “ Γ( n ) ” is a Π∗1 sentence
+encoding this Group-3 axiom.
+(8)
+D
+∀ x ∀ y ∀ p ∀ q ¬ [ Pair(x, y) ∧ SubstPrfD
+U N ION (A) (g, x, p) ∧ SubstPrfU N ION (A) (g, y, q) ]
+Thus in a context where n denotes (8)’s Gödel number, the construct Prf ISD (A) (t, p)
+can receive a formal ∆∗0 encoding as : “ SubstPrfDU N ION (A) ( n , t , p ) ”.
+Section 5 will use the preceding paragraph’s ∆∗0 encoding for “ Prf ISD (A) (t, p) ”
+to interpret Equation (6)’s Group-3 axiom as a Π∗1 sentence. (This Π∗1 encoding will be
+important in Section 5. Our results would be substantially less significant if Equation
+(6) had a weaker Π∗2 encoding.)
+The Broader Perspective of this Article: The potential difficulty pertaining to
+ISD (A) is that there is no guarantee that it is consistent. Thus using Section 1’s nomenclature, ISD (A) can potentially violate “Part-ii” of the definition for “introspective unification”
+For instance, Section 4’s literature survey will explain how the combined work of
+Nelson, Pudlák, Solovay and Wilkie-Paris [34, 41, 52, 64] implies no consistent axiom
+system can recognize its own Hilbert-consistency when it recognizes Successor as total.
+Thus, ISD (A) can not satisfy Part-ii of the definition of introspective unification when
+D represents Hilbert deduction.
+What types of deduction methods D do have the property that ISD (A) can satisfy
+Part-ii of the definition of introspective unification ? Three definitions will help answer
+this question.
+D EFINITION 1. Consider a function = which maps an initial axiom system A
+(employing the language of the U-Grounding functions) onto a second axiom system,
+
+AN AXIOM SYSTEM THAT CAN VERIFY ITS OWN CONSISTENCY
+
+11
+
+denoted as =(A). Let us call this function = Consistency Preserving iff =(A)
+is guaranteed to be consistent whenever A ’s Π∗1 theorems are valid in the standard
+model. (In this notation, the main problem considered in this article is to identify the
+axiom mapping functions = ( • ) that are consistency-preserving.)
+D EFINITION 2. Throughout this paper, Log(z) will denote Base-2 Logarithm, with
+downwards rounding to the lowest integer, and Logk (z) will denote Log(Log...(Log(z)))
+— where k is an integer indicating the number of iterations of Log here. The symbol
+k
+2m
+k will denote the least integer z such that Log (z) ≥ m. Also, Υ( k , m ) will
+∗
+denote the Σ1 sentence defined below:
+(9)
+
+∃ z Log k (z) ≥ m
+
+k,m
+D EFINITION 3. The axiom system NSD
+(A) shall have an identical definition as
+ISD (A), except for the following two changes:
+k,m
+a: The Group-zero schema of NSD
+(A) will include Υ( k , m ) as an added axiom.
+k,m
+b: NSD
+(A)’s Group-3 axiom will have an identical structure as ISD (A)’s Groupk,m
+3 axiom — except that NSD
+(A)’s Group-3 axiom will be sensitive to the change
+that was made by Item (a) above. Thus, the meaning of the word “this” in the
+Group-3 axiom that declares “This system is consistent” will be sensitive to the
+fact that the construct “this” now refers to a system that includes Υ( k , m ) as an
+axiom under its scope.
+
+The two main theorems in this paper are Theorems 5 and 6. The former result will
+establish that ISD ( • ) is a consistency-preserving transformation for the case where
+D denotes Tab−U1∗ −List deduction. On the other hand, Theorem 6 will show that this
+k,m
+consistency preservation property does not extend to NSD
+( • ) for most values of k
+and m — even in the extremal case where D represents a cut-free deductive method,
+such as semantic tableaux.
+The contrast between Theorems 5 and 6 is clearly counter-intuitive. After all, the
+version of ISD (A) — where D represents Tab−U1∗ −List deduction — has an ability
+to prove the validity of Equation (9)’s sentence Υ( k , m ) and then to use this sentence
+as an intermediate step during the proofs of subsequent theorems.
+However, such proofs would be sharply shorter if ISD (A) could treat Υ( k , m ) as
+k,m
+a starting axiom, similar to the NSD
+(A) formalism. In essence, this fact combined
+k,m
+with Part-b of the definition of NSD (A) will alter sufficiently the meaning of the word
+k,m
+“this” in Definition 3’s formalization of NSD
+(A) for Theorems 5 and 6 to provide
+contrasting results.
+One reason this topic is interesting is because it clarifies the nature of the threshold
+where the Second Incompleteness Theorem takes force. A second interesting aspect of
+
+12
+
+DAN E. WILLARD
+
+Theorem 5 is that it is stronger than [67]’s prior results because 1) it uses a Level(1)
+(rather than Level(0-) ) definition of consistency and 2) its modus ponens rule extends
+to all Σ∗1 and Π∗1 sentences. Moreover, Section 4’s literature survey will explain that
+ISD (A) is near-maximal because a variety of generalizations of the Second Incompleteness Theorem show that it is difficult to further improve in most directions that one
+would want to pursue.
+§4. Literature Survey. Research into the incompleteness phenomena began with
+Gödel’s 1931 paper [16] and with Rosser’s removal [47] of Gödel’s ω−consistency
+assumption. Gödel’s Second Incompleteness Theorem indicated that no extension of
+Peano Arithmetic can verify its own consistency. The literature has subsequently used
+the symbol Q to denote an axiom system weaker than Peano Arithmetic, which contains no induction schema and which essentially only recognizes addition and multiplication as total functions. Tarski-Mostowski-Robinson [58], showed a construct called
+“Essential Undecidability”, was valid for Q, all its extensions, but none of its subsets.
+Several articles have subsequently developed formal generalizations of the Second
+Incompleteness Theorem for Q. The first of these, by Bezboruah-Shepherdson [7], explored a paradigm that was dependent on the exact encoding of the provability predicate.
+Stronger results were subsequently derived by other authors. Some further notation is
+needed to summarize these results.
+Let S(x) denote the “successor” operation that maps the integer x onto x + 1. A
+formula ϕ(x) is called [20] a Definable Cut for an axiom system α iff α can prove:
+(10)
+
+ϕ(0) AND ∀ x { ϕ(x) → ϕ[S(x)] } AND ∀ x ∀ y < x { ϕ(x) → ϕ(y) }
+
+Definable cuts have been studied by a very extensive literature [1, 4, 9, 10, 17, 19, 20,
+23, 26, 25, 34, 37, 38, 40, 41, 43, 55, 60, 61, 63, 64]. All axioms systems, strictly weaker
+than Peano Arithmetic, contain some definable cut that is not provably equivalent to the
+full set of integers. (In the proof-theory literature, the definition of “Definable cuts” is
+conceptually unrelated to Gentzen’s notion of a sequent calculus deductive “cut rule”,
+despite their similar sounding names.)
+In a context where Υ(x) and ϕ(x) denote two definable cuts, the formula ϕ(x)
+has been called a Thinning of Υ(x) (relative to α ) iff α can prove:
+(11)
+
+∀ x [ ϕ(x) → Υ(x) ]
+
+Several articles [9, 20, 23, 25, 34, 37, 41, 43, 44, 61, 64, 67] have credited some unpublished comments of Robert Solovay for observing (in Definition 2’s notation) that for
+each integer K and definable cut Υ(x), there exists a thinning ϕ(x) of Υ(x) where
+most naturally-formed arithmetic axiom system α can prove:
+(12)
+K
+
+p
+∀ p [ ϕ(p) → ∃ q Υ(q) ∧ q = 2pK ] AND ∀ p [ ϕ(p) → ∃ r ϕ(r) ∧ r = 22·Log
+]
+K
+
+AN AXIOM SYSTEM THAT CAN VERIFY ITS OWN CONSISTENCY
+
+13
+
+It is somewhat awkward to provide an exact summary of Solovay’s theorem because
+Solovay never published it, and several authors [9, 20, 23, 25, 34, 37, 41, 43, 44, 61, 64,
+67] have provided several slightly different interpretations of it. For instance, we were
+deliberately vague in the second sentence of this paragraph when stating Solovay’s theorem applied to “most naturally-formed” arithmetic systems, since the latter italicized
+phrase can have several different interpretations. One possible resolution for this ambiguity is to introduce the notion of a Successor-based Arithmetic axiom system, as
+formally defined in the Footnote 1 , and to view Equation (12)’s Thinning Formalism as
+applying to any “Successor-based” axiom system α.
+Equation (12)’s 2-part condition (and its various analogs) has been used to classify
+the generality of the Second Incompleteness Theorem. Let d Ψ e denote Ψ ’s Gödel
+number, and PrfD
+α (t, p) denote p is a proof of the theorem t from the axiom system
+α using the deduction method D. Then α will be said to recognize its Cut-Localized
+D-consistency under ϕ(x) iff α can prove:
+(15)
+
+∀ p { ϕ(p) → ¬ PrfD
+α ( d0 = 1e , p ) }
+
+The recent literature has sought to identify exactly what triples ( ϕ , D , α ) have
+the property that α can prove (15)’s self-reflecting statement about itself. Both negative and positive results, about the feasibility of constructing such triples, have been
+established.
+A crucial negative result concerning the nature of Cut-Localized D-consistency was
+developed by Pudlák. The article [41] formalizes a generalization of the Second Incompleteness Theorem that shows that if D denotes Hilbert deduction and α represents
+1 A “SUCCESSOR-BASED ARITHMETIC” axiom system α can be thought of intuitively as an axiomatic framework that recognizes Successor as a total function and which treats Addition, Multiplication and
+Exponentiation as three binary and ternary relations, denoted as A(x, y, z), M (x, y, z), and E(x, y), rather
+than as formally total functions. By this, we mean that α will posses a finite set of Π 1 −like axioms built out
+of the atomic objects of a successor function symbol and the five predicate symbols for the equality, less-than,
+A(x, y, z), M (x, y, z), and E(x, y) relations, such that the basic associative, commutative, distributive and
+identity axioms for addition and multiplication, as well as the inductive definition of the exponent operation,
+can be expressed by such Π1 −like axioms. For instance, Equations (13) and (14) are examples of such
+Π1 −like axioms, declaring that addition satisfies the commutative principle, and that the exponent operation
+satisfies its conventional inductive axiomatic definition.
+
+(13)
+
+∀x ∀y ∀z { A(x, y, z) −→ A(y, x, z) }
+
+(14)
+
+∀x ∀y ∀z { [ E(x, y) ∧ A(y, y, z) ] ←→ E( Successor(x) , z ) }
+
+IMPORTANT ADDED COMMENT about this Definition: There are several possible alternate somewhat broader definitions of a “Successor-Based Arithmetic” axiom system α, where both Equation (12)’s
+Thinning Formalism and Theorem ∗ ’s variation of the Second Incompleteness will continue to hold. For
+example, it follows from Benett’s dissertation [6] that our preceding definition needs no explicit reference to
+E(x, y)’s exponent predicate (because it is ∆0 definable in terms of addition and multiplication). Also, the
+opening chapters of Nelson’s book [34] essentially implied that we may permissibly start with weaker principles than the associative, commutative and distributive axioms for addition and multiplication. However for
+the purposes of the current chapter’s abbreviated literature survey, the preceding definition for “SuccessorBased Arithmetics” is essentially adequate for understanding the main aspects of Equation (12)’s Thinning
+Formalism and its use by Theorem ∗.
+
+14
+
+DAN E. WILLARD
+
+any consistent extension of Q, then α must be unable to prove (15)’s statement about
+the “cut” ϕ.
+The implications of Pudlák’s theorem can be further appreciated when one reviews
+some additional work by Nelson, Solovay and Wilkie-Paris. One of the opening chapters of Nelson’s book [34] explored an axiom system, called Q0 , that had a conventional interpretation for the successor function, but which allowed for unconventional
+interpretations for addition and multiplication. By employing definable cuts as an intermediate concept, Nelson observed that this axiom system had many properties similar
+to the Tarski-Mostowski-Robinson axiom system Q [58]. Wilkie-Paris [64] used the
+theory of definable cuts to prove several new versions of the Second Incompleteness
+Theorem in [64] — one of which indicated that IΣ0 + Exp is unable to prove the
+Hilbert consistency of Q. Solovay [52] observed that one could combine the Pudlák
+theorem (from the prior paragraph) with the formalisms of Nelson and Wilkie-Paris to
+establish the following result:
+Theorem ∗ (Solovay’s generalization of Pudlák’s Theorem 2.3 from [41]
+using the additional mathematical methodologies of Nelson and Wilkie-Paris
+[34, 64], as approximately summarized in [52]’s 4-page proof.) No consistent axiom system, satisfying the “Successor-Based Arithmetic Criteria”
+defined formally by Footnote 1, can possibly prove the non-existence of a
+Hilbert-proof of 0 = 1 from itself.
+Aside from the work of Pudlák, Solovay and Wilkie-Paris already mentioned, there
+are many other generalizations of the Second Incompleteness Theorem for weak logics
+[1, 2, 3, 4, 5, 7, 8, 9, 11, 14, 15, 20, 21, 23, 29, 36, 37, 38, 40, 43, 45, 57, 66, 70].
+The reason for our special interest in Theorem ∗ is because this theorem, as described
+in reference [52], can help identify the precise circumstances where it is infeasible to
+develop an introspectively unified logic. In particular, [67, 72] have shown it is possible
+to devise introspective systems (α, D) when either:
+A: D represents Semantic Tableaux deduction and α is an axiom system that
+recognizes addition but not multiplication as a total function [65, 67], or
+B: D represents Hilbert deduction and α is a system that drops the axiom that addition is a total function and replaces it with the weaker “additive naming convention” of [72].
+The Theorem ∗ is relevant to the topics (A) and (B) because it shows that the natural
+hybrid of these two introspective logics is infeasible — for the case where D corresponds to Hilbert deduction and α recognizes addition (or even merely successor) as
+total.
+Hence the contrast between Theorem ∗ ’s negative result with the positive results
+from Items (A) and (B) leads one to want to identify the exact juncture where the Second
+
+AN AXIOM SYSTEM THAT CAN VERIFY ITS OWN CONSISTENCY
+
+15
+
+Incompleteness Theorem takes force among axiom systems that recognize addition as a
+total function. More precisely, it raises the following question:
+# Which precise class of deduction methods D shall allow for an introspectively unified logic when α recognizes addition as a total function?
+One part of an essentially 3-part answer to Question # was contained in our recent
+conference paper [70]. It showed that there existed a fixed Π∗1 theorem W, valid in
+the standard model of arithmetic (and actually provable from Peano Arithmetic), such
+that no consistent axiom system α can simultaneously prove W, recognize addition
+as a total function and verify its own self-consistency under either of the Tab−Σ∗2 or
+Tab−Π∗2 deduction methods. In effect, this means that the modus ponens rules for either Σ∗2 or Π∗2 sentences are sufficient to enact the power of the Second Incompleteness
+Theorem for essentially all axiom systems α which recognize addition as total. (The
+article [70] also explains how its results are related to some techniques that were developed by Adamowicz, Paris, Pudlák, Solovay, Takeuti, Wilkie, Zbierski and ourselves in
+[1, 4, 38, 41, 52, 57, 64, 68].)
+Section 5 will present the second part of our 3-way answer to Question #. It will
+explore this question from an essentially opposite perspective as [70] by seeking a positive rather than negative-oriented answer to Question #. By analyzing the properties
+of Section 3’s ISD (A) system, Section 5 will show that an introspectively unified logic
+(α, D) can simultaneously recognize its self-consistency under a modus ponens principle at the level of Σ∗1 and Π∗1 formulae and also retain an ability to prove all Peano
+Arithmetic’s Π∗1 theorems.
+A third part of our answer to the Question # will appear in Section 6. It will show
+k,m
+(A), is inconsistent.
+that a close cousin of ISD (A), which Definition 3 had called NSD
+Hence, the combination of our positive and negative results will help characterize the
+threshold points where the Second Incompleteness Theorem takes force.
+The prior literature has used an approach quite different from ISD (A)’s Group-3
+axiomatic mechanism for formalizing a type of respect in which an axiom system α can
+evade the Incompleteness Theorem and obtain a partial understanding of its own selfconsistency. It has sought to accomplish this objective by formalizing some Definable
+Cuts ϕ such that an axiom system α has an ability to prove the validity of its own
+Cut-Localized D-consistency within the domain of ϕ ’s definable cut (as is formally
+defined by Equation (15) ). Some examples of this type of phenomena are listed below:
+A: In a context where D denotes a second order generalization of Gentzen’s sequent calculus and α is a formalization of arithmetic among the natural numbers,
+the Kreisel-Takeuti system [27, 56] can prove Equation (15)’s statement about its
+own D-consistency.
+B: Nelson [34] demonstrated that a variant of the axiom system Q (with linear
+ordering) can corroborate Equation (15)’s statement about its own Cut-Localized
+
+16
+
+DAN E. WILLARD
+
+consistency when D denotes Herbrand deduction and the cut ϕ is carefully
+chosen.
+C: Pudlák has formalized a major generalization of Items A and B that has very
+far-reaching and generic implications. The article [41] demonstrates that every
+“sequential” [20] axiom system α of finite cardinality can be associated with a
+definable cut ϕ such that α can prove Equation (15) is valid for ϕ when D
+denotes any cut-free method of deduction. (Indeed for an arbitrary definable cut
+Υ, this cut ϕ can be chosen to be a thinning of Υ. ) At the same time, [41]
+showed that no consistent α ⊃ Q can prove any form of (15)’s sentence about
+itself when D denotes Hilbert deduction.
+D: While GB Set Theory can prove its global Hilbert consistency is equivalent to the
+global Hilbert consistency of ZF Set Theory, Hájek, Švejdar and Vopěnka [55, 63]
+have shown GB views these theories differently inside the ranges of definable cuts.
+Thus, Vopěnka-Hájek [63] identified a definable cut ϕ where GB Set Theory
+can prove Equation (15)’s validity when D denotes Hilbert deduction and α
+denotes ZF Set Theory. Moreover, Švejdar [55] has generalized this phenomena
+with regards to interpretability. These results are surprising because Pudlák [41]
+subsequently proved GB can never verify its own Hilbert consistency on any of
+Equation (15)’s definable cuts. Thus, GB will view its Hilbert consistency as
+equivalent to ZF’s Hilbert consistency in a global sense — but not in a sense
+localized within each definable cut.
+E: The notion of relative interpretability was made explicit as early as 1953 by
+Tarski-Mostowski-Robinson [58]. This topic and lattices of interpretability have
+been systematically studied by Feferman, Kreisel, Lindström, Montague, Mycielski, Orey, Pudlák and Švejdar [11, 12, 32, 31, 33, 35, 28, 54, 55, 39]. Characterizations of relative interpretability for reflexive axiom systems with infinite
+cardinality were obtained by Hájek [17, 18, 19] using the Orey Compactness Theorem, and for finite theories by Friedman and Pudlák independently [14, 41] —
+with Visser subsequently extending some of these results and introducing the notion of a feasible interpretation in [59, 62]. (Friedman never published his results
+of [15], which instead have been surveyed in articles by Pudlák, Smoryński and
+Visser [43, 50, 59, 62] and which were also largely independently reconstructed
+by Pudlák.) For essentially all finite theories S and T , the theory S has an interpretation in T if and only if IΣ0 + Exp can prove T ’s Herbrand consistency
+implies S’s Herbrand consistency.
+F: Let Conϕ (IΣ0 ) denote the particular variation of Equation (15) where α =IΣ0
+and where D designates Hilbert-style deduction. Krajı́cek [26] proved that
+for any IΣ0 cut Υ there exists a thinner IΣ0 cut ϕ such that the theorem
+IΣ0 + Conϕ (IΣ0 ) + ¬ ConΥ (IΣ0 ) is consistent. Visser [61] has generalized this
+construct to show that many consistent axiom systems, such as Q, ACA0 and
+GB-Set Theory, have the property that no finite consistent extension of themselves
+
+AN AXIOM SYSTEM THAT CAN VERIFY ITS OWN CONSISTENCY
+
+17
+
+implies there exists Hilbert-style proofs of 0=1 from themselves simultaneously
+positioned in every one of their definable cuts.
+The underlying framework behind the ISD (A) system (of Section 3) is significantly
+different from the results summarized by Items A–F. The main reason ISD (A) is of
+interest is because it is able to internally recognize its own self-consistency in a global
+sense (rather than in a more narrow localized respect using Equation (15)’s Definable
+Cut formula ϕ ). On the other hand, the price we pay for this added degree of generality
+is quite considerable — since ISD (A) treats multiplication as a 3-way relation — rather
+than as a total function.
+A key point that needs to be appreciated is that this trade-off is essentially unavoidable. This point can be understood by taking a look at the recent literature on weak
+axiom systems. Aside from the work of Pudlák, Solovay and Wilkie-Paris already
+mentioned, other recent papers about incompleteness for weak axiom systems (listed
+chronologically) include: Paris-Dimitracopoulos’s observation [37] that one cannot
+universally define thinnings of definable cuts that are closed automatically under exponentiation, several generalizations of the Second Incompleteness Theorem for Bounded
+Arithmetic by Buss and Ignjatovic [8, 9], Takeuti’s observation [57] that one can define an exponentially-small and super-exponentially-small proof predicate that has some
+useful features for proving incompleteness results for cut-free deduction, AdamowiczZbierski’s observations [1, 4] that IΣ0 + Ω1 is unable to verify its cut-free consistency,
+and some further generalizations of Adamowicz-Zbierski’s result for IΣ0 by Willard
+[66, 68] and more recently Salehi [48]. Moreover, [66, 68] has also extended this formalism to show that for each cut-free deduction method D, there exists a particular
+well-defined Π∗1 sentence, called WD , such that every consistent system α ⊃ WD is
+unable to simultaneously recognize multiplication as total and to also prove a theorem
+affirming its Level(0-) consistency under D. This result is relevant to any effort to hybridize the theorems from the articles listed in Items A–F with ISD (A) because it shows
+that such hybridizations cannot globalize Equation (15)’s notion of a Cut-Localized
+D-consistency, and simultaneously extend ISD (A) to recognize multiplication as total.
+Our result about multiplication [66, 68] is different from the incompleteness theorems of Bezboruah-Shepherdson, Pudlák, Solovay and Wilkie-Paris in [7, 41, 52, 64]
+by applying to a paradigm where D is a cut-free rather than a cut-permissive deduction method. It establishes that any effort to find a cut-free deduction method D and
+an axiom system α — where α can prove its Level(0-) consistency under D without
+relying upon Equation (15)’s Definable Cuts — is fruitless when α recognizes multiplication as total and α ⊃ WD . Its incompleteness result explains why our goal will
+be to drop the Π∗2 axiom that declares multiplication is total, so that Section 5’s ISD (A)
+axiom system can obtain a Tab−U1∗ −List (or slightly greater) understanding of its own
+self-consistency.
+This alternate perspective is useful partly because it is interesting to consider axiomatic formalisms that do not rely upon Equation (15)’s notion of a locally-defined
+
+18
+
+DAN E. WILLARD
+
+consistency property for gaining a partial understanding of their own self-consistencies.
+This approach clearly has its limitations because ISD (A) drops the important axiom
+that multiplication is total. However in a context where the philosophical paradox associated with Gödel’s Second Incompleteness Theorem is inherently perplexing, it is of
+theoretic interest to consider ISD (A)’s alternate properties.
+A second reason for interest in ISD (A) is because a multiplicity of generalizations
+of the Second Incompleteness Theorem, including one especially relevant new effect
+delineated in Section 6, collectively imply that further efforts to improve ISD (A) will
+meet inherent limitations.
+
+§5. The Consistency Preservation Property of ISD ( • ). This chapter will be divided into three subsections. Section 5.1 will describe a general framework for determining which deduction methods D are associated with “ISD ( • ) mappings” that are
+consistency-preserving. Section 5.2 and 5.3 will prove that these conditions are met
+respectively when D represents semantic tableaux and Tab−U1∗ −List deduction.
+Some readers may be feeling a bit puzzled by Section 3’s announcement that a close
+k,m
+cousin of ISD ( • ), called NSD
+( • ), always fails to satisfy the consistency-preserving
+property. A 3-paragraph summary about the intuitive differences between ISD ( • ) and
+k,m
+NSD
+( • ) is provided by Section 6.1 of the next chapter.
+It is unnecessary for the reader to examine Section 6.1’s short 3-paragraph passage
+before he enters the current chapter. However, if a reader takes a quick glance at Section
+6.1 at this juncture, he may find some of his most puzzling questions are answered.
+5.1. Structural Aspects of Main Proof. The Appendix A describes one canonical
+method for assigning Gödel encodings to proofs using the ISD (A) axiom system. This
+encoding method is roughly the same as what Wilkie-Paris [64] had called a natural
+B-adic encoding — or a similar counterpart in the Hájek-Pudlák textbook [20]. Such Badic encodings are maximally compressed in that their encoding for a proof p will have
+a bit-length approximately proportional to the effort for writing down such a proof by
+hand. The Appendix A’s formalized description of our encoding conventions is provided
+only for the sake of completeness. Its reading can be easily omitted.
+Some added notation is needed to help introduce this section’s main theorem. Let
+us say a Π∗1 sentence ∀x1 ∀x2 ... ∀xn ψ(x1 , x2 ...xn ) satisfies the App∀(a) condition
+when Equation (16) is true:
+(16)
+
+∀x1 ≤ a ∀x2 ≤ a ... ∀xn ≤ a ψ(x1 , x2 ...xn )
+
+Similarly, a Σ∗1 sentence ∃x1 ∃x2 ... ∃xn ψ(x1 , x2 ...xn ) is said to satisfy App∃(b)
+when (17) is true.
+(17)
+
+∃x1 ≤ b ∃x2 ≤ b ... ∃xn ≤ b ψ(x1 , x2 ...xn )
+
+AN AXIOM SYSTEM THAT CAN VERIFY ITS OWN CONSISTENCY
+
+19
+
+These definitions refer only to the ranges of a sentence’s unbounded universal and existential quantifiers. Bounded quantifiers do not have their ranges changed similarly
+under these definitions.
+D EFINITION 4. For any ordered pair (a, b) with a > b ≥ 1, let us say an axiom
+system α satisfies the Normed(a,b) condition iff:
+1. All α’s axioms are either Π∗1 sentences satisfying the App∀(a) condition or Σ∗1
+sentences satisfying the App∃(b) condition.
+2. α uses a language that employs the eight U-Grounding function symbols and
+absolutely no other function symbols.
+(The second condition is designed to preclude α from employing a multiplication
+function symbol — or any of its many functional equivalents.)
+
+Definition 5 will be the main engine used to prove ISD ( • )’s consistency preservation
+property, for actually several different deduction methods D. It did not exist in our prior
+papers. It is helpful for both shortening several of our prior proofs — and for producing
+substantially stronger results:
+D EFINITION 5. Let α denote an Normed(a, b) system with a > b ≥ 1, Φ denote
+some Π∗1 or Σ∗1 sentence, and p denote the Gödel number of some proof from α of
+the theorem Φ (using the deduction method D ). Let θ < 13 be a positive constant,
+and p satisfy Equation (18).
+a
+(18)
+p ≤ d e + 1
+b
+Then the deduction method D will be called θ−Compactified iff every such tuple
+(α, Φ, p, a, b) satisfies the following two conditions:
+A: If Φ is a Σ∗1 theorem (whose proof p satisfies the above conditions), then Φ
+has an App∃( b · pθ ) level of validity.
+a
+B: Likewise if Φ is a Π∗1 theorem proved by p, it must have an App∀( θ ) level
+p
+of validity.
+
+T HEOREM 1. For some positive constant θ < 13 , let us assume that D is a
+θ−Compactified deduction method. Then the ISD ( • ) mapping transformation is a
+“consistency-preserving” operation. (Consistency Preservation was defined by Definition 1. It indicates that ISD (A) is automatically a consistent axiom system whenever
+A ’s Π∗1 theorems are valid in the standard model.)
+
+20
+
+DAN E. WILLARD
+
+P ROOF. Our justification of Theorem 1 will be a proof by contradiction. It will
+therefore begin by assuming that all A ’s Π∗1 theorems are valid in the standard model
+but ISD (A) is inconsistent. It will show this assumption leads to a contradiction.
+In our discussion, j1 will represent a proof of some Π∗1 theorem, called say Φ,
+and j2 will be a proof of the Σ∗1 theorem that is Φ’s negation. Also, m will denote
+the quantity Max(j1 , j2 ). If ISD (A) is inconsistent, then such a triple ( j1 , j2 , m )
+will clearly exist. Let us therefore select such a triple whose third component has the
+minimum possible value for m.
+It is obvious that all ISD (A)’s Group-0 and 1 axioms are valid under the standard
+model. From our starting assumption that all A ’s Π∗1 theorems are valid in the standard
+model, it immediately follows that all ISD (A)’s Group-2 axioms are also valid in the
+standard model. Moreover, all these axioms can be encoded as Π∗1 sentences (when they
+are written in Prenex* form). Hence since ISD (A)’s Group-3 axiom sentence becomes
+invalid only for integers greater than m − 1, ISD (A) is certainly a Normed(m − 1, 1)
+system.
+We already observed that the two Gödel numbers, j1 and j2 , that prove Φ and
+its negation, are integers no larger than m. These facts, Definition 5 and ISD (A)’s
+m−1
+) or
+Normed(m − 1, 1) property immediately imply that that Φ has an App∀(
+mθ
+θ
+greater level of validity and its negation has at least a App∃( m ) level of validity.
+These observations are all that is needed to bring our proof-by-contradiction to its
+desired conclusion. This is because if g > h, then it is clearly impossible for both a
+Π∗1 sentence Φ to have an App∀( g ) level of validity and for simultaneously the Σ∗1
+sentence corresponding to its negation to have an App∃( h ) level of validity. Yet prem−1
+cisely this pair of inherently incompatible conditions is established, with g =
+mθ
+and h = mθ by the last sentence of the preceding paragraph (since θ < 31 implies g > h ). Hence ISD (A) must be forced to be consistent, since the alternative
+hypothesis would otherwise force two inherently incompatible conditions to become
+simultaneously valid.
+a
+
+R EMARK 1. The next two sections will apply Theorem 1 to prove that ISD ( • )’s
+mapping transformation is consistency-preserving in the two particular cases where D
+represents semantic tableaux and Tab−U1∗ −List deduction. Although we will not have
+the page space to do so, there are many other examples where Theorem 1’s formalism
+is also useful. For instance, it can be used to prove the ISD ( • ) transformation is
+consistency-preserving in the additional cases where D represents the cut-free version
+of the sequent calculus, Herbrand deduction, Tab−Q∗1 −List deduction, or a variant of
+Hilbert deduction where each intermediate formula in a proof is required to have a
+Q∗1 format. In each of these cases, the proof of consistency preservation has a similar
+structure: It involves first doing a detailed case analysis showing the relevant method
+
+AN AXIOM SYSTEM THAT CAN VERIFY ITS OWN CONSISTENCY
+
+21
+
+D satisfies Definition 5’s θ−Compactification condition and then applying Theorem
+1’s machinery.
+R EMARK 2. Proofs by contradiction are often quite difficult to visualize in mathematics because of their non-constructive nature. The core proof of Theorem 4.3 in [67]
+had this problem. On the other hand, our current proof of Theorem 1 is much easier to
+visualize. Thus in addition to strengthening [67]’s results, Theorem 1’s machinery and
+its formal applications in the next two sections are also much more easy to visualize.
+R EMARK 3. Section 4’s literature survey had indicated that Solovay had combined
+the formalisms of Nelson, Pudlák and Wilkie-Paris to prove that no axiom system recognizing Successor as a total function can verify its own Hilbert consistency. Also, our
+literature review had mentioned that [70] has generalized this prior result to establish
+that there exists essentially no introspectively unified logics (α, D) where α can
+recognize addition as a total function and D has the power of either the Tab−Π∗2 or
+Tab−Σ∗2 −List deductive methodologies. At this juncture, it is possible to explain intuitively why these generalizations of the Incompleteness Theorem hold. It is because
+their deductive methods do not satisfy Parts (A) and (B) of Definition 5’s requirements
+for θ−Compactification. Hence, some significant generalizations of the Second Incompleteness Theorem take place at exactly the level where Definition 5’s formalism
+becomes no longer applicable.
+R EMARK 4. It also noteworthy that Parts (A) and (B) of Definition 5’s requirements
+are impossible to satisfy when Part-2 of the definition of a Normed(a,b) system is expanded to allow for multiplication to appear as a ninth function symbol. This is intuitively because multiplication has a faster growth property than addition, which will
+overwhelm Definition 5’s constraints. Moreover, a Level(0-) styled semantic tableaux
+generalization of the Second Incompleteness Theorem in [68] implies that no useful
+analog of Definition 5 can be found for axiom systems recognizing multiplication as a
+total function, under any possible deduction method D, whether cut-free or otherwise.
+
+5.2. Formal Analysis of Semantic Tableaux Deduction. This section will prove
+semantic tableaux satisfies Definition 5’s θ−Compactification property when θ = 41 .
+In conjunction with Theorem 1 and with some further results proven in Section 5.3, this
+result will imply that the ISD ( • ) mapping is a consistency-preserving transformation
+when D designates either semantic tableaux or Tab−U1∗ −List deduction.
+Notation: Given an axiom system Z, a Z–Based Deduction Tree is defined as
+a tree of sentences — where every node of this tree is either a formal axiom of Z
+or a deduction from an axiom, using one of Section 2’s eight rules for Tableaux-style
+deductions. This definition differs from a Semantic Tableaux proof in two respects.
+These are:
+
+22
+
+DAN E. WILLARD
+
+i: Since a Z–Based Deduction Tree is not technically “a proof”, its root will store
+an axiom of Z (rather than store the negation of a target theorem).
+ii: Unlike Section 2’s definition of a “Semantic Tableaux proof tree”, a Z–Based
+Deduction Tree will not be required to have every one of its branches “closed” by
+a pair of contradictory sentences. (Indeed, if Z is consistent, then its Z–Based
+Deduction Trees will always contain at least one branch that is not “closed”.)
+Also, the notation (below) is used when discussing Z–Based Deduction Trees:
+1. The U-Length of a node sentence s is defined to be the number of U-grounding
+function symbols appearing in this sentence.
+2. The U-Depth of a node sentence s, henceforth denoted as ∆(s), is defined to
+be the sum of s’s U-length with the U-lengths of all its ancestors.
+3. The U-Height of a Deduction Tree is the maximum U-Depth value among its
+leaves.
+Some notation is needed to start our discussion. For any ordered pair (a, b) with
+a > b ≥ 1, let Z denote an Normed(a, b) system, T denote a Z-Based Deduction
+Tree, and β denote a branch of T. Let VAL( • ) denote a “valuation” function that
+maps each parameter symbol u (appearing in the branch β ) onto an integer VAL(u),
+satisfying the following two constraints:
+I: Suppose a node s of the branch β introduces a new parameter symbol u via
+one of Section 2’s ∃ quantifier Elimination rules. Then Item 2’s ∆(s) symbol
+will satisfy the inequality:
+(19)
+
+Val(u) ≤ b · 2∆(s)
+
+II: Every node-sentence s along the branch β will satisfy the following 3-part
+condition:
+II-a: If s is a Π∗1 sentence then it will possess an App∀(a) level of validity
+under the valuation VAL.
+II-b: If s is a Σ∗1 sentence then it will be App∃( b ) valid under VAL.
+II-c: If s is a ∆∗0 sentence, then it will be a logically valid statement under the
+valuation’s scheme for assigning an integer value VAL(u) to each parameter
+symbol u. (This third requirement can be thought of as the intersection of
+requirements II-a and II-b because their combination corresponds to II-c’s
+requirement when a sentence contains absolutely no unbounded quantifiers.
+This is because our definitions of App∀(c) and App∃(c) involves changing a
+sentence’s unbounded quantifiers so that their ranges are bound by c , but it
+implies no similar change in a bounded quantifier’s range.)
+Henceforth, a node N in the deduction tree T will be called Positive(a,b) iff the union
+of N ’s sentence with its ancestors in the deduction tree T satisfy the conditions I and
+
+AN AXIOM SYSTEM THAT CAN VERIFY ITS OWN CONSISTENCY
+
+23
+
+II under some valuation VAL. Also, a root-to-leaf branch β will be called Positive(a,b)
+when there exists a valuation VAL where all its nodes satisfy the conditions I and II.
+L EMMA 1. For any a > b ≥ 1, let Z denote an Normed(a, b) system and T
+denote a Z-Based Deduction Tree whose U-Height is less than Log2 a − Log2 b. Then
+T possesses at least one Positive(a,b) branch.
+
+P ROOF. The easiest manner to prove Lemma 1 is to first give an algorithm that constructs T’s Positive Branch and then to prove the correctness of this algorithm. Our algorithm for constructing this branch β and its valuation VAL from the input (a, b, T )
+will be called Probe(a, b, T ). Its four steps are listed below:
+1. The top node along the path β will always be T ’s root.
+2. Suppose the first i nodes along the path β are N1 , N2 , ... Ni and Ni has two
+children, denoted as Ne and Nf . In this case, the deduction tree T has used
+either the ∨ or → Elimination rule to justify this binary split, and we will let
+Ψe and Ψf denote the two sentences stored in these two nodes. The algorithm
+Probe(a, b, T ) will make the “left child” Ne constitute the next element along
+β’s path when the valuation VAL has Ψe satisfy condition II. Otherwise, it will
+make Nf be β’s next node.
+3. If the first i nodes in β’s path are N1 , N2 , ... Ni and Ni has only one
+child, denoted as Ni+1 , then the algorithm Probe(a, b, T ) will “attempt” to make
+Ni+1 into β’s next node. If Ni+1 introduces a new parameter symbol u, this
+“attempted step” will also assign VAL( u ) the smallest integer value satisfying the Positive(a, b) condition (consistent with earlier assignments the valuation
+VAL had already made). The proof that this “attempted extension” of β will
+always successfully satisfy the Positive(a, b) condition has nine subcases, labeled
+(a) through (i), appearing on the next several pages.
+4. The procedure Probe(a, b, T ) will iteratively repeat Steps 2 and 3 to make the path
+β become longer and longer until it reaches the tree’s leaf-level.
+The remainder of our proof of Lemma 1 will be devoted to establishing that the
+procedure Probe(a, b, T ) will successfully construct a Positive(a, b) branch when the
+deduction tree T satisfies this lemma’s hypothesis. The Principle of Induction will be
+employed to justify this claim. Our inductive proof shall assume that the first i nodes
+N1 , N2 ...Ni along the path β satisfy the positive condition, and it will use this fact to
+deduce Ni+1 is also positive. Our inductive proof will be divided into nine sub–cases
+because we must separately consider the possibilities that Ni+1 is an axiom of Z
+or is deduced via one of the eight Tableaux-style Elimination rules, that were formally
+defined in Section 2.
+
+24
+
+DAN E. WILLARD
+
+a. The Case where Ni+1 stores one of Z’s axioms. Any axiom trivially satisfies
+Part-I of the definition of Positiveness (simply because it contains no parameter symbols u ). Moreover by definition, each axiom of an Normed(a, b) system automatically
+satisfies Requirement II. 2
+b. The Case where Ni+1 is generated by the “Unbounded Version” of the ∃Elimination Rule (i.e. Section 2’s Deduction Rule 5): This Elimination rule allows
+Ni+1 to represent a sentence ψ(u∗ ), containing a new parameter symbol u∗ , when
+an ancestor Nj of Ni+1 represents the sentence ∃v ψ(v). Since Nj can be inductively
+presumed to satisfy Part II-b of the definition of Positiveness, it is immediately apparent
+that u∗ can be assigned a valuation number VAL(u∗ ) enabling Ni+1 to also satisfy the
+Positive(a, b) condition. 2
+c. The Case where Ni+1 is generated by the “Bounded” type ∃ Elimination
+Rule (i.e. Deduction Rule 6): This case is analogous to Item b, although it is more
+complicated. In this case, an ancestor Nj of Ni+1 will represent the formal sentence
+∃ v ≤ t ψ(v), and Ni+1 is a deduction from Nj introducing a new symbol u∗ and
+storing the sentence u∗ ≤ t ∧ ψ(u∗ ). Let ∆ denote Ni+1 ’s U-Depth, and let L
+denote Ni+1 ’s U-Length. Since Nj can be inductively presumed to satisfy Part I of the
+definition of Positiveness and because Nj has a U-depth ≤ ∆−L, it follows that every
+parameter symbol u1 , u2 , ... um appearing in Nj will satisfy VAL( ui ) ≤ b · 2∆−L .
+In turn, this implies that VAL( t ) has an integer value no greater than b · 2∆ (because
+t is constructed by taking input values no larger than b · 2∆−L and applying no more
+than L iterations of growth-functions using these inputs — where the Double operation
+is the fastest available growth function). Since Nj can be inductively assumed to
+satisfy Part II-c of the definition of Positiveness and it is a sentence of the generic form
+∃ v ≤ t ψ(v), we can certainly construct a valuation where VAL( u∗ ) ≤ b · 2∆ and
+where VAL( u∗ ) assures that Ni+1 will consequently satisfy Parts I and IIc of the
+Positive(a, b) condition. 2
+d. The Case where Ni+1 is generated by the “Unbounded Version” of the
+∀ Elimination Rule (i.e. Deduction Rule 7): This Elimination rule allows Ni+1
+to represent a sentence φ(t), when an ancestor Nj of Ni+1 stores the sentence
+∀v φ(v) and t represents a term in the U-Grounding language. Our Deduction Rule 7
+further requires that each parameter symbol u, appearing in Rule 7’s term t , must be
+previously introduced by an ancestor of Ni+1 , employing the ∃ Elimination Rule.
+It is automatic from the last fact that Ni+1 will satisfy Part-I of the definition of
+the Positiveness (simply because there are no new parameter symbols u introduced by
+the ∀-Elimination Rule). To show that Ni+1 also satisfies the Part-II requirement, ∆
+and L will again denote Ni+1 ’s U-Depth and U-Length. Then since t has no more
+than L function symbols and no newly introduced parameter symbols, we can apply
+Case (c)’s methodology to again conclude that VAL( t ) ≤ b · 2∆ (see footnote 2 ).
+2 The same argument, as before, applies because each parameter symbol u inside t can again be inductively presumed to satisfy VAL(u) ≤ b · 2∆−L . This in turn implies VAL( t ) ≤ b · 2∆ because t
+
+AN AXIOM SYSTEM THAT CAN VERIFY ITS OWN CONSISTENCY
+
+25
+
+Hence since T has a U-Height less than Log2 a − Log2 b, we get VAL( t ) ≤ a.
+This last inequality, combined with the inductive assumption that Nj satisfies Part
+II-a of Positive(a, b) condition, immediately implies Ni+1 also satisfies Part-II of the
+definition of Positive(a, b). 2
+e. The Case where Ni+1 is generated by the “Bounded Version” of the ∀ Elimination Rule (i.e. Deduction Rule 8): This case can be viewed as a degenerate version
+of the Case (d) above, and it thus requires no proof.
+f. The Case where Ni+1 is generated by the ∧ Elimination Rule: Trivial because a sentence Υ will automatically satisfy the Positive(a, b) Condition when some
+ancestor of it storing the sentence Υ ∧ Γ does. 2
+g. The Case where Ni+1 is generated by a ¬ Elimination Rule: It is, once
+again, trivial that a sentence Υ will automatically satisfy the Positive(a, b) Condition
+when some ancestor of it storing the sentence ¬ ¬ Υ does. Also, a similar easy argument applies to the other variants of the ¬ Elimination (formally defined by Section 2’s
+Deduction Rule 2). 2
+h. The Case where Ni+1 is generated by the ∨ Elimination Rule: This rule
+introduces a pair of sibling nodes Υ and Γ when they have a common ancestor
+Υ ∨ Γ. Since the inductive hypothesis implies Υ ∨ Γ satisfies the Positive(a, b)
+Condition, one of Υ or Γ must also satisfy this condition. Our algorithm Probe will
+automatically select this satisfying node. 2
+i. The Case where Ni+1 is generated by the → Elimination Rule: Essentially the
+same as the preceding Case h. 2
+a
+L EMMA 2. Again suppose a > b ≥ 1, that Z is a Normed(a, b) axiom system,
+and that T denotes a Z-Based Deduction Tree. Then no Positive(a,b) Branch of Z’s
+deduction Tree T can be “closed” by containing simultaneously some sentence Υ and
+its negation.
+P ROOF. Our proof of Lemma 2 will be a proof-by-contradiction. We will thus entertain the hypothesis that T has a closed Positive (a,b) branch containing simultaneously
+some sentence Υ and its negation, and show that this assumption leads to a contradiction.
+From the fact that all axioms in a Normed(a, b) system are Prenex* sentences of the
+Π∗1 and Σ∗1 types, it follows that a branch can contain a sentence Υ and its strictly
+encoded negation of the exact form “ ¬ Υ ” only when both Υ and ¬ Υ are ∆∗0
+sentences (i.e. see footnote 3 ).
+applies no more than L iterations of the doubling and addition functions to inputs whose initial sizes are
+bounded by b · 2∆−L .
+3 The classes of ∆∗ formulae were defined in Section 2. They consisted of any sentence all of whose
+0
+quantifiers were bounded. On the other hand, our defining conventions implied that if a sentence Υ was
+Σ ∗1 or Π∗1 BUT NOT ∆∗0 , then it must contain one or more unbounded quantifier to the left of all other
+logical symbols, including the “ ¬” symbol. This means that if Υ is either a proper Σ ∗1 or Π∗1 sentence,
+
+26
+
+DAN E. WILLARD
+
+However, Part II-c of the definition of Positiveness indicates each ∆∗0 sentence, appearing in a Positive(a, b) branch, must be a valid statement under the branch’s valuation function. Hence, the concerned valuation must cause Υ and ¬ Υ to become
+simultaneously valid.
+The latter property of Υ and ¬ Υ is, of course, inherently infeasible. Hence, our
+proof-by-contradiction has reached its goal because it has shown that it is infeasible for
+T to possess a closed Positive(a,b) branch.
+a
+We will now prove our second theorem about the θ−Compactification property.
+T HEOREM 2. . Semantic tableaux satisfies the θ−Compactification property when
+θ = 14 .
+P ROOF. Lemmas 1 and 2 will enable us to show that semantic tableaux satisfies Parts
+(A) and (B) of the definition of θ−Compactification:
+
+Demonstration that Semantic Tableaux Deduction satisfies Part (A) of the definition for θ−Compactification: Let us suppose — for the sake of establishing a
+contradiction — that a Σ∗1 sentence Φ has a proof p ≤ d ab e + 1 from a
+Normed(a, b) system α while Φ’s App∃( pθ · b ) interpretation is simultaneously
+fallacious. Then p’s root will represent the negation of Φ rewritten in Prenex* form,
+and this Π∗1 representation of ¬ Φ will be have an App∀( pθ · b ) validity level.
+Let Z denote the axiom system that is the union of this Π∗1 representation for ¬Φ
+with α. It is easy to verify that Z is a Normed( pθ · b , b ) system (see footnote 4 ).
+Our next observation is rather technical. The Appendix A’s method for encoding
+proof-trees, as well as any other reasonable encoding methodology, will clearly satisfy
+Equation (20)’s inequality.
+(20)
+
+U-Height(p) <
+
+1
+Log2 (p)
+5
+
+Since Theorem 2’s hypothesis indicated that θ = 41 and Z was a Normed( pθ · b , b )
+system, Equation (20) implies that the pair (p, Z) must consequently satisfy Lemma
+
+then technically ¬ Υ is neither Σ ∗1 nor Π∗1 because a negation symbol appears to the left of its unbounded
+quantifiers. Hence since no sentence along our explored branch β has a complexity higher than Σ∗1 or Π∗1
+and because both Υ and ¬ Υ appear in this Positive(a,b) branch, the forced conclusion is that Υ is a ∆∗0
+sentence.
+4 The opening sentence of our proof assumed that p ≤ d a e + 1. Also, Theorem 2’s hypothesis
+b
+indicates θ = 14 . These identities imply pθ · b ≤ a. Since the opening sentence of our proof presumed
+α was a Normed(a, b) system, this pθ · b ≤ a inequality implies α is also a Normed( pθ · b , b ) system.
+Since ¬ Φ possesses an App∀( pθ · b ) level of validity when it is written as a Π∗1 sentence, the union of
+¬ Φ with α must thus also be a Normed( pθ · b , b ) system.
+
+AN AXIOM SYSTEM THAT CAN VERIFY ITS OWN CONSISTENCY
+
+27
+
+1’s hypothesis (i.e. see footnote 5 ). Hence, Lemma 1 implies that p must have a
+positive branch.
+From Lemma 2, this implies that such a branch of p will fail to be closed. Hence,
+p cannot be a formal semantic tableaux proof (because at least one of its branches fails
+to be “closed”). The latter observation brings our proof-by-contradiction to its desired
+end by contradicting the initial assumption that p was a proof of Φ. 2
+Demonstration that Semantic Tableaux Deduction satisfies Part (B) of the definition for θ−Compactification: This proof appears in Appendix B. Briefly summarized, it is roughly a permutation of the ideas from Part (A)’s proof — with the roles
+of the universal and existential quantifiers now reversed. (As with Part (A)’s proof, the
+main idea behind (B)’s proof rests on using the mathematical machineries of Lemmas 1
+and 2 as the main underlying interim steps.)
+a
+T HEOREM 3. The ISD ( • ) mapping is a consistency-preserving transformation when
+D denotes the semantic tableaux. (In other words, ISD (A) is automatically consistent
+when all A’s Π∗1 theorems are valid in the standard model of the natural numbers.)
+P ROOF. An immediate consequence of Theorems 1 and 2 because the latter result
+shows ISD ( • ) satisfies the Theorem 1’s requirements for consistency preservation. a
+R EMARK 5. (concerning the formal nature of Theorems 2 and 3): The meticulous
+reader may have noticed that the proofs in this section relied upon some very exacting definitions for semantic tableaux deduction and for Π∗1 and Σ∗1 sentences. These
+notation conventions were that:
+I: The root in Φ ’s semantic tableaux proof was required to consist of the sentence
+¬ Φ rewritten in Prenex∗ form. (This requirement was announced during Section 2’s formal definition of a semantic tableaux proof. Some but not all of the
+prior literature has used a similar definition of a semantic tableaux that includes a
+“Prenex Normalized” requirement for representing ¬ Φ. )
+II: If Υ is a proper Σ∗1 formula then the formalized sentence “ ¬ Υ ” was technically viewed in our discussion as not constituting a formal Π∗1 sentence (because
+a ¬ symbol had appeared to the left of its unbounded ∃−quantifiers.) However,
+this formalized sentence “ ¬ Υ ” is clearly logically equivalent to a Π∗1 sentence. This type of strict definition for the Π∗1 and Σ∗1 classes helped simplify the
+discussion in Footnote 3 of Lemma 2’s proof.
+The notation conventions in I and II were used because they have simplified the structure
+for the proofs of Lemma 2 and Theorem 2. They also obviously raise the following
+natural question:
+5 To verify that (p, Z) satisfies Lemma 1’s hypothesis, it is sufficient to ascertain that p ’s U-Height
+satisfies the inequality of U-Height(p) < Log2 ( pθ · b ) − Log2 b = θ · Log2 p. The combination of
+Theorem 2’s assumption that θ = 41 and Equation (20) immediately implies the validity of the claimed
+U-Height(p) < θ · Log2 (p) inequality.
+
+28
+
+DAN E. WILLARD
+
+∗ Would the results in Theorems 2 and 3 remain valid if Item I and II’s
+particular notation conventions were dropped? After all, one would certainly
+prefer these two propositions to be sufficiently robust so that they do not rely
+upon such exacting assumptions?
+The answer to ∗ is that the conventions used by I and II are indeed completely unnecessary. However, the formal proofs of Lemma 2 and Theorem 2 become significantly
+simplified when the conventions I and II are employed. In particular, the Footnote 3 in
+Lemma 2’s proof and the opening paragraphs in the Cases (A) and (B) of Theorem 2’s
+proof gain pleasantly simpler structures when the conventions from Items I and II are
+followed.
+
+5.3. Formal Analysis of Tab−U1∗ −List Deduction. The ISD (A) axiom system of
+Theorem 3 — with or without Remark 5’s added considerations — is already much
+stronger than the IS(A) system of [67] because it has a capacity to recognize its semantic
+tableaux self-consistency in a Level(1) rather than in a Level(0-) formalized sense. The
+natural follow-up question is whether Theorem 3’s results can be possibly improved yet
+further, beyond Remark 5’s proposed omitting of the Requirements I and II ?
+On the positive side of the ledger, our research has found that Theorem 3 can be
+strengthened by having D represent either Tab−U1∗ or Tab−Q∗1 −List deduction. These
+strengthened versions of Theorem 3 are close to maximal effects, since the conventional
+force of the Second Incompleteness Theorem takes place at the levels of both Tab−Σ∗2
+or Tab−Π∗2 −List deduction [70].
+For both Tab−U1∗ or Tab−Q∗1 −List deduction, the proofs of their generalizations of
+Theorem 3 rests on a 2-step process that first shows these deduction methods satisfy the
+θ−Compactification property and then uses Theorem 1 to finish the analysis. Our discussion will focus on Tab−U1∗ −List deduction because its formal analysis is pleasantly
+shorter.
+T HEOREM 4. Tab−U1∗ −List deduction satisfies the θ−Compactification property
+when θ = 41 .
+P ROOF. We will use the Principle of Induction to infer Theorem 4 from Theorem 2.
+Let P denote the Gödel number of a sequence of pairs, (t1 , p1 ), (t2 , p2 ), ... (tn , pn ),
+which constitute a Tab−U1∗ −List proof of a theorem Φ from a Normed(a, b) axiom
+system called α. The formalism for θ−Compactification (given in Definition 5) indicates that this construct applies to any proof P which satisfies (21)’s inequality.
+a
+(21)
+P ≤ d e + 1
+b
+Let Q denote the quantity defined below:
+(22)
+
+Q = b
+
+P
+c
+pn
+
+29
+
+AN AXIOM SYSTEM THAT CAN VERIFY ITS OWN CONSISTENCY
+
+A later step in our proof will use the fact that Equations (21) and (22) imply (23)’s
+validity.
+a
+(23)
++ 1e
+pn ≤ d
+b ·Q
+Our inductive construction is allowed to assume that each of the intermediate theorems of t1 , t2 , ... tn−1 have Tab−U1∗ −List proofs no larger than Q (because this
+invariant holds under all typical encoding conventions, including the particular encoding method delineated in Appendix A). In this context, our proof-by-induction may
+presume that for each integer i ≤ n − 1, the sentence ti will have
+A: an App∃( Qθ · b ) level of validity when ti is a Σ∗1 sentence, and
+a
+B: an App∀( θ ) level of validity when ti is Π∗1 .
+Q
+The union of α with the sentences t1 , t2 , ... tn−1 is thus an Normed(
+axiom system. Let us call this axiom system α∗ .
+
+a
+, Qθ · b )
+Qθ
+
+We will next use the fact that pn is the Gödel number of a semantic tableaux proof
+from the axiom system α∗ of the theorem Φ. This fact combined with Theorem 2,
+a
+Equation (23) and α∗ ’s Normed( θ , Qθ · b ) property implies (via footnote 6 )
+Q
+that:
+i: Φ has an App∃( ( Q · pn )θ · b ) level of validity when it is a Σ∗1 theorem,
+a
+ii: Φ has an App∀(
+) level of validity when it is a Π∗1 theorem.
+( Q · pn )θ
+Since Equation (22) indicates P ≥ Q · pn , the invariants (i) and (ii) in turn imply:
+A: Φ has an App∃( P θ · b ) level of validity when it is a Σ∗1 theorem,
+a
+B: Φ has an an App∀( θ ) level of validity when it is a Π∗1 theorem,
+P
+The latter two observations show that Tab−U1∗ −List deduction is θ−Compactified. a
+T HEOREM 5. The ISD ( • ) mapping is a consistency-preserving transformation when
+D denotes the Tab−U1∗ deduction method. (In particular, this means that ISD (A) is automatically consistent when all A’s Π∗1 theorems are valid under the standard model.)
+a
+, Qθ · b )
+Qθ
+axiom system. Also, Theorem 2 indicated that semantic tableaux deduction satisfied the θ−Compactification
+property. From the formal description of this property (in Definition 5), it is apparent that every semantic
+tableaux proof pn of a theorem Φ (from the axiom system α∗ ) shall automatically satisfy the invariants
+(i) and (ii) when pn satisfies the inequality of:
+6 The second paragraph in Theorem 4’s proof indicated that
+
+α∗ was a Normed(
+
+a
+pn ≤ d b · Q
+2θ e + 1
+
+The final point is that Equation (23) and the fact that θ = 1/4 imply that pn does, in fact, satisfy the
+above inequality. Hence, the above construction shows that invariants (i) and (ii) do hold. 2
+
+30
+
+DAN E. WILLARD
+
+P ROOF. An immediate consequence of Theorems 1 and 4 because the latter result
+shows that ISD ( • ) satisfies the Theorem 1’s requirements for consistency preservation.
+a
+R EMARK 6. A class of self-justifying statements, called the Tangibility Reflection
+Principles, was defined in [67]. It is possible to hybridize our current results with [67]’s
+formalism — so that Tab−U1∗ deduction can be incorporated into axioms systems verifying their tangibility principles. (These hybrids are also compatible with the Tab−Q∗1
+and the other 1-deductive methods of Remark 1.) The details for constructing such hybrids are very lengthy. They are therefore not done here. Our article [67] explains why
+the tangibility reflection principle is actually very useful.
+R EMARK 7. This paper was submitted to the Journal of Symbolic Logic in August
+of 2004, and we have not made any major changes in the manuscript since then except
+essentially for responding to the referee’s suggestions, all of which were very helpful.
+During the 9-month period following the submission of this manuscript, we continued working on this on-going research project, and found an interesting application of
+Theorem 5’s formalism. This application requires a rather lengthy description, and its
+characteristics are summarized by the conference announcement [71] and its accompanying full-length technical report. It essentially explains how if one changes the venue
+of application from integer arithmetic to a computer’s floating point arithmetic environment, then Theorem 5’s ISD (A) formalism can formally recognize each of the computer
+operations of addition, multiplication, subtraction and division as total functions among
+computerized representations of real numbers. In particular, [71] views a real number as an ordered pair of bit-strings for representing the mantissa and exponent, and it
+employs the usual computer hardware convention of rounding a real number after an
+arithmetic operation so that the outputted mantissa will have a bit-length no larger than
+the maximum of the lengths of the two input mantissas. This type of formalization of
+floating point arithmetic, described more fully in [71], is useful for reminding ourselves
+that there do exist certain particularized respects in which a self-justifying axiom system can recognize multiplication as a mathematically total function. Such applications
+do not change the fact that ISD (A) cannot recognize integer multiplication as a total
+function — and that our year-2002 paper [68] showed that no reasonable self-justifying
+axiom system can overcome this obstacle. However, it does show that there are certain
+types of computerized real-valued cousins of integer multiplication that ISD (A) can
+recognize as formally total.
+k,m
+§6. The Inconsistency Property of NSD
+(A). This section will have two parts.
+k,m
+Section 6.1 will explain the intuitive reason that the formalisms ISD (A) and NSD
+(A)
+have contrasting consistency properties. Section 6.2 will then provide a formal proof
+k,m
+that NSD
+(A) is inconsistent for most inputs of (k, m, D, A).
+k,m
+6.1. The Intuitive Structural Difference Between the ISD (A) and NSD
+(A)
+k,m
+Formalisms. Both the sentence Υ( k , m ) and the formal system NSD (A) were
+
+AN AXIOM SYSTEM THAT CAN VERIFY ITS OWN CONSISTENCY
+
+31
+
+defined in Section 3. Thus, Equation (9) defined Υ( k , m ) to be the Σ∗1 sentence
+k,m
+“ ∃ z Log k (z) ≥ m ”. The Definition 3 of Section 3 gave NSD
+(A) an identical
+definition as ISD (A) except for the following changes:
+k,m
+a: NSD
+(A)’s Group-zero schema contained the one additional axiom sentence of
+Υ( k , m ).
+k,m
+b: NSD
+(A)’s Group-3 axiom had an identical structure as ISD (A)’s Group-3 axk,m
+iom — except that NSD
+(A)’s Group-3 axiom was sensitive to the change that
+k,m
+was made by Item (a) above. Thus, the word “this” when NSD
+(A)’s Group-3
+axiom declared “This system is consistent” had a connotation that was sensitive
+to the fact that the construct “this” referred to a system that includes the axiom
+Υ( k , m ) within its scope.
+k,m
+A key point is that if one compares the formalisms ISD (A) and NSD
+(A), both are
+capable of proving the statement Υ( k , m ) as a theorem. Their only significant differk,m
+ence is that the Group-3 axiom under NSD
+(A) makes a stronger statement because its
+usage of the word “this” has a connotation which treats Υ( k , m ) as being a formal
+axiom (in addition to being a theorem).
+
+This section will prove the counter-intuitive result that Theorem 5’s consistency preserk,m
+vation property collapses under the NSD
+( • ) mapping function, for most values of
+(k, m, D). Essentially, this distinction will arise because the changed scope of the word
+k,m
+k,m
+“this” under NSD
+(A)’s Group-3 axiom will prevent NSD
+(A) from satisfying Part-ii
+of Section 1’s definition for introspective unification.
+Underlying Nature of this Distinction: Let ζ(p) denote a function that maps an
+k,m
+initial proof p from the union of the Group 0, 1 and 2 axioms of NSD
+(A) onto the
+shortest proof of the same theorem from the Group 0, 1 and 2 axioms of ISD (A). Also,
+the Definition 2 (from Section 3) had defined the symbol 2m
+k . Using this notation, it
+m
+is apparent there exists a fixed constant C > 2k such that C assuredly bounds the
+difference between the proof-lengths of p and ζ(p) when the deduction method D
+k,m
+used by the NSD
+(A) and ISD (A) formalisms is the Tab−U1∗ deduction method.
+In Proof Theory, two axiom systems typically have similar properties when their
+proof lengths differ by only an additive constant. However, what is unusual about the
+k,m
+(A) is that:
+particular systems ISD (A) and NSD
+1. The fixed constant C > 2m
+k separating these two proof lengths is an enormous
+quantity.
+2. As noted by the opening paragraph of this section, the meaning of the word “this”
+k,m
+in the Group-3 axiom sentences of ISD (A) and NSD
+(A) is affected by Item
+(1)’s distinction.
+The complicated interaction between Items (1) and (2) is the reason why ISD ( • ) is
+k,m
+consistency preserving but NSD
+( • ) is not. (In particular, a Kleene-like Group-3
+
+32
+
+DAN E. WILLARD
+
+axiom has a different connotation when it refers to a short proof, referencing itself, than
+k,m
+when it refers to a long such proof.) The remainder of this section will prove NSD
+(A)
+is inconsistent for most inputs (k, m, D, A).
+
+k,m
+6.2. Formal Proof of NSD
+(A)’s Inconsistency Property. Let Consα (n) be the
+“finistic consistency statement” which declares that there is no proof of 0=1 from the axiom system α whose length is less than n. Both Friedman and Pudlák [14, 40, 43, 44]
+have observed that for some constant  > 0, most consistent systems α require
+a bit-length at least as large as O( n ) to prove Consα (n). These results do not
+apply to all self-justifying axiom systems α that recognize addition but not multiplication as a total function. For instance, consider the possibility that n = 2bs ,
+D denotes Tab−U1∗ −List deduction, α = ISD (A) and we encode Consα ( 2bs ) as:
+“There exists no Tab−U1∗ −List proof p of 0=1 from ISD (A) satisfying the inequality
+Log s (p) < b ”. Then ISD (A) is consistent, and it can use its Group-3 axiom to obtain
+k,m
+a significantly shorter than O( n ) sized proof of Consα ( 2bs ) . However, NSD
+(A)
+k,m
+will have very different properties: We will formally prove that NSD (A) is inconsistent by employing a finistic consistency statement. Our discussion will employ the
+following notation:
+
+i: The symbol PA will denote Peano Arithmetic. The symbol PA+ will denote
+the minor extension Peano Arithmetic that contains further function symbols for
+Section 2’s U-Grounding language. (The footnote 7 explains why it is actually
+k,m
+permissible for the sub-component PA+ of the IS(PA+) and NSD
+(PA+) systems to employ internally within itself a multiplication function symbol, provided
+that it is remembered that the “Π+
+1 theorems” of PA+, used by Equation (5)’s
+Group-2 axioms, are forbidden from containing appearances of the multiplication
+function symbol.)
+ii: Subst ( g , h ) will denote Gödel’s well-known ∆∗0 substitution formula — which
+yields TRUE when g is an encoding of a formula and h is an encoding of a sentence that replaces all occurrence of free variables in g with the Gödel-encoded
+term g .
+iii: f will denote the Gödel diagonalization sentence which states “There exists
+no proof (using deduction method D ) of this sentence from the axiom system
+k,m
+NSD
+(PA+)”.
+
+7 The point is that Equation (5)’s formalization of the Group-2 axiom-scheme permits its axioms to use a
+theorem Φ from the axiom system PA+ to transfer axiomatic information to the axiom system of IS(PA+)
+k,m
+or to NSD
+(PA+) only when Φ does not violate the Π∗1 condition by containing Peano Arithmetic’s
+multiplication function symbol. However, the formalism PA+ is certainly permitted to prove an intermediate
+theorem Ψ , possessing some multiplication function symbols, that is subsequently applied to prove a further
+Π∗1 theorem Φ, which will be employed by Equation (5)’s Group-2 axiom. (Such an action is permitted if
+Φ ( unlike Ψ ) does not contain multiplication function symbols under the paradigm we describe.)
+
+AN AXIOM SYSTEM THAT CAN VERIFY ITS OWN CONSISTENCY
+
+33
+
+iv: f(s, b) will denote the variant of Item (iii)’s Gödel sentence that applies to proofs
+whose size is bounded by 2bs . It will formally state: “There exists no proof p (usk,m
+ing deduction method D ) of this sentence from the axiom system NSD
+(PA+)
+b
+which satisfies p < 2s ”.
+To achieve our main results, it will be necessary that f(s, b) have a Π∗1 encoding. It is
+easy to accomplish this. Thus, let Γ(g) denote the Π∗1 formula defined by Equation
+(24), and let n denote (24)’s Gödel number. Then f(s, b) is formally defined to be
+the Π∗1 sentence Γ( n ).
+∀ p ∀ h { [ Subst(g, h) ∧ Log s (p) < b ] → ¬ PrfNSk,m ( P A+ ) (h, p) }
+
+(24)
+
+D
+
+D EFINITION 6. The symbol CheckProof(t, p, q) will denote a ∆∗0 formula indicating
+that the condition PrfNSk,m ( P A+ ) (t, p) is satisfied and that q represents a proof
+D
+(using deduction method D ) of Equation (25)’s statement from the axiom system
+k,m
+NSD
+(PA+).
+∃ p PrfNSk,m ( P A+ ) ( t , p )
+
+(25)
+
+D
+
+Also, F (t, p) will denote the function, which given an input of (t, p) satisfying
+PrfNSk,m ( P A+ ) (t, p), will produce the minimal integer q satisfying CheckProof(t, p, q).
+D
+
+L EMMA 3. There exists a constant C > 0, such that if q = F (t, p) then Definition 6’s function F will guarantee that Log(q) < O{ [ Log(p) ]C }.
+Proof Sketch: The prior literature [1, 4, 8, 14, 20, 38, 40, 41, 50, 61, 64] has illustrated
+several examples of a constant C, a Gödel-encoding method M and an axiom system
+α such that if p is a M −encoded proof using α ’s axioms then there will exist a second
+proof q satisfying Log(q) < O{ [ Log(p) ]C } such that q is a proof that p is a
+M −encoded proof using α ’s axioms. An analogous construction will verify Lemma
+k,m
+3’s validity. In this case NSD
+(PA+) is the employed axiom system, and Appendix A
+formalizes the Gödel-encoding method. 2
+C OROLLARY 1. There exists a constant a0 > 0, such that if a > a0 and if
+k,m
+p < 2ba−1 is a proof of an arbitrary theorem t from the axiom system NSD
+(PA+)
+b
+then F (p, t) < 2a .
+a
+
+P ROOF. An immediate consequence of Lemma 3.
+
+L EMMA 4. There exists a constant a0 > 0, such that if a > a0 then for any constant b, Equation (26)’s Π∗1 sentence is both true and provable from Peano Arithmetic.
+∀ p ∀ n ∃ q < n { [ Loga−1 p < b ∧ Loga n ≥ b ∧ PrfNS k,m ( P A+ ) ( d f(a − 1, b) e , p ) ]
+D
+
+(26)
+
+→ CheckProof( d f(a − 1, b) e , p , q ) }
+
+34
+
+DAN E. WILLARD
+
+P ROOF. Equation (26)’s statement is a formalistic Π∗1 assertion whose logical content is identical to Corollary 1’s statement — for the special case where t represents
+the sentence f(a − 1, b). Therefore, the logical validity of (26) is an immediate consequence of Corollary 1. Moreover, Peano Arithmetic can verify (26)’s statement because
+it can formalize the proof of Corollary 1.
+a
+T HEOREM 6. For simplicity, let us assume D denotes the Tab−U1∗ −List deduction method (although this theorem will actually generalize for all cut-free deduction
+methods such as semantic tableaux or Herbrand deduction). For each such deduction
+method D, there will exist a constant k0 such that for every integer k > k0 , the
+k,m
+axiom system NSD
+(PA+) is inconsistent.
+On the Significance of Theorem 6 : There are several stronger versions of Theorem
+6 than the variant above. In essence, we will focus on proving a relatively weak version
+of this proposition because its proof is pleasantly shorter. The Remark 8, at the end
+of this section, lists some stronger versions of Theorem 6. The contrast between their
+negative results and Theorem 5’s positive result will be even sharper than that for the
+particular variant proven below:
+P ROOF. Our proof of Theorem 6 will have two parts. First, we will construct a proof
+k,m
+W of the Gödel sentence f(k − 1, m) from the axiom system NSD
+(PA+). Then we
+k,m
+(PA+)
+will analyze the length of W ’s proof and show it is short enough to force NSD
+to become inconsistent.
+Description of a 7-step Tab−U1∗ −List Proof of f(k − 1, m) (called “W”):
+Lemma 4 had indicated that for any ordered pair (a, b) where a > a0 , Peano Arithk,m
+metic can prove Equation (26)’s Π∗1 sentence. Since NSD
+(PA+)’s Group-2 scheme
+k,m
+allows NSD
+(PA+) to prove every Π∗1 theorem of Peano Arithmetic, it follows that
+k,m
+(PA+) can also prove (26). Applying this result in the particular case where
+NSD
+k,m
+k = a , m = b and k is presumed to be larger than a0 , we obtain NSD
+(PA+) can
+certainly prove the statement:
+∀ p ∀ n ∃ q < n { [ Logk−1 p < m ∧ Logk n ≥ m ∧ PrfNS k,m ( P A+ ) ( d f(k −1, m) e , p ) ]
+D
+
+(27)
+
+→ CheckProof( d f(k − 1, m) e , p , q ) }
+
+Let us next recall that Pair(x, y) denotes a ∆∗0 formula that is satisfied precisely when
+x is the Gödel number of a Π∗1 sentence and y is the Gödel number of the sentence
+that represents the negation of x ’s formal statement. Under this notation convention,
+k,m
+Equation (28) is certainly a logically valid statement. Moreover, NSD
+(PA+) must be
+able to prove the validity of Equation (28) (because its Groups 0 and 1 axioms endow
+it with a capacity to prove every ∆∗0 sentence that is valid under the standard model of
+the natural numbers.)
+(28)
+
+Pair( d f(k − 1, m) e , d ¬ f(k − 1, m) e )
+
+AN AXIOM SYSTEM THAT CAN VERIFY ITS OWN CONSISTENCY
+
+35
+
+The hypothesis of Theorem 6 had focused on Tab−U1∗ −List deduction (essentially
+for the sake of simplifying the current proof). This form of deduction consists of a
+sequence of semantic tableaux proofs, where each proof establishes the validity of some
+Π∗1 or Σ∗1 sentence that is allowed to be used in the subsequent further steps of the
+Tab−U1∗ −List proof. In such a context, Equations (27) and (28) will represent the first
+two intermediate results that our Tab−U1∗ −List proof shall deduce.
+k,m
+Let us next recall that NSD
+(PA+)’s Group-3 axiom is identical to Equation (6)’s
+formulation of ISD (A)’s Group-3 axiom, except that the relevant subscripts are now
+k,m
+k,m
+changed from ISD (A) to NSD
+(PA+). Thus, Equation (29) formalizes NSD
+(PA+)’s
+Group-3 axiom:
+(29)
+∀ x ∀ y ∀ p ∀ q ¬ [ Pair(x, y) ∧ PrfNS k,m ( P A+ ) (x, p) ∧ PrfNS k,m ( P A+ ) (y, q) ]
+D
+
+D
+
+The third step in our proof W will establish the validity of Equation (30) as an immediate consequence of the combination of Equations (28) and (29).
+(30)
+∀p ∀q ¬ {PrfNS k,m (P A+) (df(k − 1, m)e, p) ∧ PrfNS k,m (P A+) (d¬f(k − 1, m)e, q) }
+D
+
+D
+
+The fourth step of the proof W is mostly notational. The definitions of CheckProof
+and f(k−1, m) imply that CheckProof( d f(k−1, m) e , p , q ) is logically equivalent
+to Equation (30)’s curly bracket expression. Therefore, a fourth tableaux proof can
+derive (31) as a consequence from (30).
+(31)
+
+∀ p ∀ q ¬ CheckProof( d f(k − 1, m) e , p , q )
+
+Combining the intermediate results from Equations (27) and (31), our fifth semantic
+tableaux proof will then derive the result of:
+(32)
+∀p ∀n ¬ {Logk−1 p < m ∧ Logk n ≥ m ∧ PrfNS k,m ( P A+ ) ( d f(k − 1, m) e , p )}
+D
+
+Since the axiom Υ( k , m ) (defined in Equation (9)) indicates the existence of an integer n satisfying Logk n ≥ m , a sixth semantic tableaux proof can now deduce (33)
+from (32).
+(33)
+
+∀ p ¬ { Logk−1 p < m ∧ PrfNS k,m ( P A+ ) ( d f(k − 1, m) e , p ) }
+D
+
+Equation (33) is clearly equivalent to f(k − 1, m) ’s Gödel sentence. It is therefore
+routine for a seventh tableaux proof to use Equation (33)’s intermediate result to arrive
+at the deduction of f(k−1, m). The Tab−U1∗ proof, consisting of these seven semantic
+tableaux subcomponents, is defined to be the formal proof called W.
+Finishing the Proof of Theorem 6 by Analyzing the Formal Length of W ’s
+k,m
+Proof: The critical difference between the axioms systems ISD (A) and NSD
+(PA+)
+is that the latter formalism contained Equation (9)’s added Group-zero axiom, which
+we denoted as Υ( k , m ). This axiom is technically unnecessary for deducing Equation
+(33) from (32) (because if the axiom Υ( k , m ) was absent then our proof methodology
+
+36
+
+DAN E. WILLARD
+
+could still derive Υ( k , m ) as a theorem). However, the point is that if Υ( k , m ) is a
+formal axiom, then the resulting proof, deriving (33) from (32), is sharply shorter. As a
+result of this proof compression, it is quite routine to obtain that there exists a constant
+k0 such that every ordered pair (k, m) with k > k0 will automatically satisfy the
+condition that the proof W (constructed above) has a Gödel number less than 2m
+k−1 .
+The latter observation will now enable us to complete the proof of Theorem 6. This
+k,m
+is because it shows that that NSD
+(PA+) can prove the Gödel sentence f(k − 1, m)
+with a proof whose length is so short — that the very existence of such a proof is
+k,m
+precluded by f(k − 1, m) ’s formal statement. Hence, the axiom system NSD
+(PA+)
+is inconsistent, as Theorem 6 had claimed.
+a
+
+R EMARK 8. (concerning stronger versions of Theorem 6): There are several stronger
+versions of Theorem 6. They arise because as the values for k and m increase, this
+chapter’s proof engine gains new applications. Among these stronger versions of Theorem 6 are:
+1. A more sophisticated variant which indicates that if one increases the values of
+k,m
+(k, m) by a small amount then NSD
+(PA+) will also be inconsistent when D
+denotes semantic tableaux, Herbrand deduction or the cut-free version of the sequent calculus,
+k,m
+2. A variant of Theorem 6 which states NSD
+(A) remains inconsistent when A
+represents the empty axiom system (instead of PA+) and (k, m) is made sufficiently large. The footnote 8 explains why large enough values of (k, m) enable
+Theorem 6 to generalize in this direction.
+3. A third type of generalization of Theorem 6 where for each cut-free deduction
+method D there exists a finite-sized non-growth axiom system A and a pair of
+k,m
+large enough intgers (k, m) where a modified form of NSD
+(A), which drops
+the two Group-zero axioms that had declared addition and doubling were total
+k,m
+functions, is inconsistent. Thus, this variant of NSD
+(A) is inconsistent even
+though it fails to recognize the assured existence of any integer larger than 2m
+k .
+Main Perspective: The broader significance of Theorems 5 and 6 is difficult to
+appreciate until these two results are contrasted in detail. This is because the opposing
+results of these two theorems are quite counter-intuitive — especially when their added
+generalizations in Remarks 1, 6, 7 and and 8 are also contrasted.
+8 The prior literature on weak axiom systems [20, 23, 34, 41, 52, 64] has noted that a good part of the force
+of the Principle Induction applies to the set of integers lying within the ranges of well-defined Definable Cuts,
+even when an axiom system does not recognize the formal validity of the Principle Induction. The proof of
+Theorem 6 can be modified to gainfully employ this fact when (k, m) represents a large enough pair of fixed
+constants. The net effect of this observation is that Theorem 6 will remain valid in the extremal case where
+A represents the empty axiom system — provided the threshold values for k and m are appropriately
+increased.
+
+AN AXIOM SYSTEM THAT CAN VERIFY ITS OWN CONSISTENCY
+
+37
+
+Contrast Between Σ∗1 and Π∗1 Sentences: Let us recall that Section 3’s definition of
+k,m
+NSD
+(A) involved adding a logically valid Σ∗1 sentence to ISD (A), called Υ( k , m ),
+and then adjusting the Group-3 axiom to reflect this change. For any fixed sentence
+k,m
+Ψ, let ND (A, Ψ) denote the analog of NSD
+(A) where the sentence added to Groupzero is Ψ (instead of Υ( k , m ) ), and the Group-3 “I am consistent” statement
+k,m
+is accordingly adjusted again. Although Theorem 6 showed NSD
+(A) was typically
+inconsistent, there is no analog of this inconsistency when Ψ is a logically valid Π∗1
+sentence. Instead, Theorem 5’s opposing positive result can be generalized to show
+that ND (A, Ψ) is always consistent when Ψ and all A ’s Π∗1 theorems are valid in the
+standard model.
+§7. Concluding Remarks. The two main results of this article are the opposing
+positive and negative effects of Theorems 5 and 6. This subject matter should generate
+scholarly interest — even if its main lasting significance is seen as only defining more
+precisely the exact mathematical borderline that separates the Second Incompleteness
+Theorem from its boundary-case exceptions.
+The ISD (A) axiom system of Theorem 5 is stronger than the IS(A) system of our
+prior article [67] in two respects. These are that 1) ISD (A) uses a Level(1) rather
+than Level(0-) definition of self-consistency and 2) its mode of deduction replaces the
+semantic tableaux methodology with the more flexible Tab−U1∗ −List approach.
+As Remark 1 had noted, Theorem 5’s consistency property can be strengthened by
+extending it from Tab−U1∗ to Tab−Q∗1 deduction. In essence, we opted for presenting
+a simplified version of Theorem 5 because it was preferable to broaden the audience
+for this paper through Section 5’s shorter form of presentation, rather than to offer its
+strongest version.
+k,m
+The opposing result of Theorem 6 was that ISD (A)’s cousin, called NSD
+(A), is inconsistent. This contrast is very surprising because the main difference between ISD (A)
+k,m
+and NSD
+(A) is the connotation their respective Group-3 axioms associate with the
+word “this”.
+
+A more detailed commentary about ISD (A)’s significance has been provided by Remarks 2-4 at the end of Section 5.1. These remarks discuss several further respects in
+which ISD (A) is a close-to-maximal variant of introspective formalism, whose additional strengthening is not feasible.
+Also, Remark 2 explained how Section 5’s methodologies significantly simplifies the
+proof techniques from [67], in addition to providing a stronger and more precise form
+of result.
+Before closing, it is also helpful to recall that the definitions for Σ∗1 and Π∗1 sentences
+had allowed for an arbitrary combination of bounded quantifiers to appear to the right
+of the unbounded quantifiers of a Σ∗1 and Π∗1 sentence. This condition is called the
+unlimited-bounded-quantifier property. If our formalism had not incorporated this level
+
+38
+
+DAN E. WILLARD
+
+of generality into the Tab−U1∗ −List deduction method, then the significance of Theorem 5’s ISD (A) axiom system could perhaps be interpreted as a much narrowed and
+very restricted form of result.
+However in a context where [70] has established that the Second Incompleteness
+Theorem applies to both Tab−Σ∗2 and Tab−Π∗2 deduction, Theorem 5 can be proven to
+be a very close to maximal result. This is because Tab−U1∗ −List’s modus ponens rule
+is essentially the next weaker level of deduction available. It applies to every Σ∗1 and
+Π∗1 sentence satisfying the previous paragraph’s unlimited-bounded-quantifier property,
+rather than to a narrower subset of this generic class (i.e. see footnote 9 ).
+Thus, the ISD (A) system provides an unusual combination of qualities. It is unconventional firstly because ISD (A) does not recognize integer-based multiplication as a
+total function — a drawback whose consequences simply cannot be easily ignored —
+even when Remark 7 noted that ISD (A) can recognize floating point multiplication as
+a formally total function. Also, ISD (A)’s Group-3 axiom employs an unusual form
+of restricted modus ponens principle. One reason ISD (A) should stimulate scholarly
+interest, despite its clearly evident partial disadvantages, is because it possesses a type
+of limited (and certainly not full) understanding of its own self-consistency — under
+a definition of consistency that is applicable to the previous paragraph’s Level-1 styled
+form of deduction.
+The main reason for interest in ISD (A) is, of course, because it is always helpful to
+consider unconventional boundary-case paradigms, to help sharpen one’s understanding
+of great seminal theorems, such as for instance Gödel’s historic incompleteness result.
+Our discussion has deliberately avoided speculations about the fuller epistemological
+implications of self-justifying axiom systems, similar to ISD (A), because such implications are very complex — especially when all self-justifying systems which affirm
+their own Level(0-) semantic tableaux consistencies are inherently unable [68] to prove
+multiplication is a total function among integers. Instead, our goal has been to sharpen
+the scholarly understanding of the Second Incompleteness Theorem’s meaning, by having the contrasting positive and negative results of Theorems 5 and 6 help identify the
+mathematical threshold levels where this incompleteness theorem formally takes hold.
+
+ACKNOWLEDGMENT: I thank the anonymous referee for many helpful suggestions about how to improve the presentation. I thank Robert Solovay for some telephone
+conversation we had in 1994. In those conversations (see reference [52]), Solovay described to me the Theorem ∗, whose formal statement appears in Section 4. This theorem has been germane to my research, which has sought to both generalize Theorem ∗
+and to find its main interesting boundary-case exceptions.
+9 For instance, Theorem 5’s significance would be much narrowed if for some fixed constant K, it had
+required that no more than K alternations of bounded universal and existential quantifiers can lie to the right
+of the unbounded quantifiers of a Σ∗1 and Π∗1 sentence.
+
+AN AXIOM SYSTEM THAT CAN VERIFY ITS OWN CONSISTENCY
+
+39
+
+Appendix A: Summary of Gödel Encoding Method. This appendix describes our
+formal method for encoding Semantic Tableaux Proof trees and Tab−<−List proofs
+as Gödel numbers. Our encoding scheme will be roughly analogous to the “natural Badic” encoding methods of Hájek-Pudlák [20] and Wilkie-Paris [64] — insofar as the
+number of utilized bits to encode a semantic object will be approximately proportional
+to the length of such an expression written by hand. This appendix will be somewhat
+unnecessary because a reader should be able to appreciate the gist of our article without
+examining a description of our Gödel encoding method. However in a context where
+Sections 2–6 often allude to the “ Gödel encoding” of a syntactic object, it is clearly
+helpful to summarize our encoding method.
+Our scheme for encoding a semantic tableaux proof will use the following 24 language symbols:
+1. The standard connective symbols of ∧, ∨, ¬, →, ∀ and ∃.
+2. Two left and two right parenthesis symbols denoted as: ( , ) ( and ) .
+3. Two symbols to represent the special constants of “0” and “1”.
+4. Eight function symbols for representing for representing the eight formal U-grounding
+functions of Addition, Doubling, Subtraction, Division, Logarithm, etc.
+5. The relation symbols of “ = ” and “ ≤ ”.
+6. The symbol V̂ for designating the presence of a basic variable v in a logical
+sentence.
+7. The symbol Û for designating the presence of a parameter constant u in a logical
+sentence (which is produced by Section 2’s deduction rules 5 and 6 for eliminating
+existential quantifiers).
+Define a byte to be an unit consisting of six bits. We will think of a proof as either
+comprising a sequence of bytes (or being an integer written in base 64). Each of the
+24 symbols (above) will be given some unique 6-bit code, ranging between 32 and 55.
+Our method for representing the presence of the i-th variable vi will be to encode it is
+as a string of d log 32 (i + 1) e + 1 bytes, where the first byte is the “ V̂ ” symbol and
+the remaining bytes encode i as a base-32 number, with the convention that the lead bit
+in each byte’s 6-bit sequence is “0”. The same convention will be used to denote the
+presence of the i-th parameter ui except its first byte will be the “ Û ” symbol.
+Our notation has employed two types of parenthesis symbols because the first pair
+of parenthesis symbols will have their usual meaning in punctuating a mathematical
+sentence, whereas the latter pair of symbols ( and ) will separate the individual
+sentences in a Semantic Tableaux proof tree. For example, consider a tree which stores
+1) the sentence ψ1 as its root, 2) the sentences ψ2 and ψ3 as the root’s children, and
+3) ψ4 as the child of ψ3 . There are several possible notation conventions for using the
+( and ) symbols to encode a Semantic Proof tree. Our encoding convention will be
+that ψi is an “ancestor” of ψj if and only if the range beginning with the parenthesis
+to ψi ’s immediate left and continuing to the matching right parenthesis includes ψj .
+
+40
+
+DAN E. WILLARD
+
+The example of our 4-node proof tree would thus be encoded as:
+(34)
+
+( ψ1 ( ψ 2 ) ( ψ 3 ( ψ4 ) ) )
+
+The preceding paragraph summarized our method for encoding semantic tableaux
+proofs. Its generalization for encoding of Tab−< proofs is straightforward. Thus if
+p1 , p2 , ...pn collectively constitute a list of semantic tableaux proofs then the natural
+concatenation of their byte strings will be the corresponding Tab−< proof.
+This byte-styled encoding method is approximately analogous to what Wilkie-Paris
+[64] have called a natural B-adic encoding or a similar counterpart in the Hájek-Pudlák
+textbook [20]. Such compressed encodings are considered to be more meaningful and
+efficient than an uncompressed encoding method, using say a Prime Number decomposition scheme [30] (because the latter has an unnecessarily long bit-length). All our
+theorems would also be valid for uncompressed encoding methods. However, they are
+more meaningful when one uses an efficiently compressed B-adic encoding method.
+Appendix B: Demonstration that semantic tableaux satisfies Part (B) of the definition of θ−Compactification. The proof that semantic tableaux satisfies the Part-B
+condition has been put into this appendix because it is similar to Section 5.2’s proof of
+the Part-A condition.
+The hypothesis of Theorem 2 had indicated that θ = 41 . Since our discussion will
+employ a proof-by-contradiction, we will entertain the temporary hypothesis that the
+Part-B condition is false. Then there must exist a Π ∗1 sentence Φ, that has a proof
+p ≤ d ab e + 1 from a Normed(a, b) axiom system α where Φ’s App∀( paθ )
+interpretation is fallacious. Then p’s root will be a Σ ∗1 sentence that represents the
+a
+negation of Φ, and it will possess an App∃( θ ) validity level.
+p
+Let Z denote the axiom system that is the union of this Σ∗1 representation of ¬Φ
+a
+with α. The footnote 10 proves Z is a Normed( a , θ ) system (by employing a
+p
+minor variation of the formalism that Section 5.2 used in Part-A’s proof.)
+The footnote 11 shows that the the pair (p, Z) then must satisfy Lemma 1’s hypothesis. Hence, Lemma 1 will ascertain that p must possesses a positive branch.
+a
+≥ b holds because the first sentence of Footnote 4’s proof had proven the validity
+pθ
+θ
+of the inequality: p · b ≤ a. The key point is that the combination of the fact that α is a Normed( a , b )
+a
+a
+system and the
+≥ b inequality imply α is also a Normed( a , θ ) system. Since the Σ∗1
+pθ
+p
+a
+representation of ¬ Φ possesses an App∃( θ ) level of validity, this implies that the union of ¬ Φ with
+p
+a
+α is another Normed( a , θ ) system.
+p
+1
+11 The combination of Equation (20), our assumption that
+θ
+=
+and the equality
+4
+a
+a
+Log2 (a) − Log2 θ = θ · Log2 p immediately imply that U-Height(p) < Log2 (a) − Log2 θ . The
+p
+p
+latter inequality shows that the the pair (p, Z) satisfies Lemma 1’s hypothesis.
+10 We can assume
+
+AN AXIOM SYSTEM THAT CAN VERIFY ITS OWN CONSISTENCY
+
+41
+
+We will now bring our proof-by-contradiction to a conclusion by employing Lemma
+2. It indicates that such a positive branch of p cannot be closed. Hence, p cannot
+be a semantic tableaux proof (because one of its branches remains open). This observation brings our proof-by-contradiction to its desired end by contradicting the initial
+assumption that p was a proof of Φ. 2
+REFERENCES
+
+[1] Z. A DAMOWICZ, Herbrand consistency and bounded arithmetic, Fundamenta Mathematica, vol.
+171 (2002), pp. 279–292.
+[2] Z. A DAMOWICZ and T. B IGORAJSKA, Existentially closed structures and Gödel’s second incompleteness theorem, this J OURNAL, vol. 66 (2001), pp. 349–356.
+[3] Z. A DAMOWICZ and P. Z BIERSKI, The logic of mathematics: A modern course in classical logic,
+John Wiley and Sons, 1997.
+[4]
+, On Herbrand consistency in weak theories, Archive for Mathematical Logic, vol. 40 (2001),
+pp. 399–413.
+[5] T. A RAI, Derivability conditions on Rosser’s proof predicates, Notre Dame Journal on Formal Logic,
+vol. 31 (1990), pp. 487–497.
+[6] J. B ENETT, Ph.D. thesis, Princeton University, 1962, A detailed summary of Benett’s main theorem
+can be found on pages 299–303 and 406 of the Hájek-Pudlák textbook [20].
+[7] A. B EZBORUAH and J. C. S HEPHERDSON, Gödel’s second incompleteness theorem for Q, this J OUR NAL , vol. 41 (1976), pp. 503–512.
+[8] S. R. B USS, Bounded arithmetic, Proof Theory Lecture Notes 3 (Bibliopolic), 1986, (Revised version
+of Ph. D. Thesis.).
+[9] S. R. B USS and A. I GNJATOVIC, Unprovability of consistency statements in fragments of bounded
+arithmetic, Annals on Pure and Applied Logic, vol. 74 (1995), pp. 221–244.
+[10] C. D IMITRACOPOULOS, Overspill and fragments of arithmetic, Archive for Mathematical Logic,
+vol. 28 (1989), pp. 173–179.
+[11] S. F EFERMAN, Arithmetization of mathematics in a general setting, Fundamenta Mathematica,
+vol. 19 (1960), pp. 35–92.
+[12] S. F EFERMAN , G. K RIESEL , and S. O REY, 1-consistency and faithful interpretations, Archive for
+Mathematical Logic, vol. 6 (1962), pp. 52–63.
+[13] M. F ITTING, First order logic and automated theorem proving, Springer, 1990.
+[14] H. M. F RIEDMAN, On the consistency, completeness and correctness problems, Technical report,
+Ohio State University Mathematics Department, 1979, Some summaries of these unpublished results by
+Friedman can be found in [43, 50, 59, 62].
+[15]
+, Translatability and relative consistency, Technical report, Ohio State University Mathematics Department, 1979, Some summaries of these unpublished results by Friedman can be found in
+[43, 50, 59, 62].
+[16] K. G ÖDEL, ”Uber formal unentscheidbare sätse der principia mathematica und verwandte systeme,
+Monatshefte für Math. Phys., vol. 37 (1931), pp. 349–360.
+[17] P. H ÁJEK, On interpretability in set theory Part I, Com. Math. Univ. Carol, vol. 12 (1971), pp. 73–
+79.
+[18]
+, On interpretability in set theory Part II, Com. Math. Univ. Carol, vol. 13 (1972), pp. 445–
+455.
+[19]
+, Interpretability in theories containing arithmetic, Com. Math. Univ. Carol, vol. 22 (1981),
+pp. 225–234.
+[20] P. H ÁJEK and P. P UDL ÁK, Metamathematics of first order arithmetic, Springer Verlag, 1991.
+[21] D. H ILBERT and P. B ERNAYS, Grundlagen der mathematic, Springer, 1939.
+[22] R. G. J EROSLOW, Consistency statements in formal mathematics, Fundamenta Mathematica, vol.
+72 (1971), pp. 17–40.
+[23] R. K AYE, Models of peano arithmetic, Oxford University Press, 1991.
+[24] S. C. K LEENE, On the notation of ordinal numbers, this J OURNAL, vol. 3 (1938), pp. 150–156.
+
+42
+
+DAN E. WILLARD
+
+[25] J. K RAJ ÍCEK, Bounded propositional logic and complexity theory, Cambridge University Press,
+1995.
+, A note on proofs of falsehood, Archive for Mathematical Logic, vol. 1987 (26), pp. 169–
+[26]
+176.
+[27] G. K REISEL and G. TAKEUTI, Formally self-referential propositions for cut-free classical analysis,
+Dissertationes Mathematicae, vol. 118 (1974), pp. 1–55.
+[28] P. L INDSTR ÖM, On faithful interpretability, Computation and proof theory, vol. 1104, Springer
+Lecture Notes in Mathematics, 1984, pp. 279–288.
+[29] M. H. L ÖB, A solution to a problem by Leon Henkin, this J OURNAL, vol. 20 (1955), pp. 115–118.
+[30] E. M ENDELSON, Introduction to mathematical logic, Chapman Hall, 1997.
+[31] R. M ONTAGUE, Theories incomparable with respect to interpretability, this J OURNAL, vol. 27
+(1962), pp. 195–211.
+[32]
+, The continuum of relative interpretability, this J OURNAL, vol. 1958 (23), pp. 494–511.
+[33] J. M YCIESLSKI, A lattice connected with relative interpretability, Notices of AMS, vol. 9 (1962),
+pp. 407–408.
+[34] E. N ELSON, Predicative arithmetic, Princeton Math Notes Press, 1986.
+[35] S. O REY, Relative interpretations, Zeitscrfit fur Math Logic, vol. 7 (1961), pp. 146–153.
+[36] R. PARIKH, Existence and feasibility in arithmetic, this J OURNAL, vol. 36 (1971), pp. 494–508.
+[37] J. B. PARIS and C. D IMITRACOPOULOS, A note on the undefinability of cuts, this J OURNAL, vol. 48
+(1983), pp. 564–569.
+[38] J. B. PARIS and A. J. W ILKIE, ∆0 sets and induction, Proceedings of the Jadswin logic conference,
+Leeds University Press, 1981, pp. 237–248.
+[39] P. P UDL ÁK, Some prime elements in the lattice of interpretability, Transactions of the AMS, vol. 280
+(1983), pp. 255–275.
+[40]
+, On lengths of proofs of finisitic consistency statements in first order theories, Logic colloquium 84, North Holland, 1984, pp. 165–196.
+[41]
+, Cuts, consistency statements and interpretations, this J OURNAL, vol. 50 (1985), pp. 423–
+442.
+[42]
+, Improved bounds on the lengths of proofs of finistic consistency statements, AMS Contemporary Mathematics Series, vol. 65 (1987), pp. 309–331.
+[43]
+, On the lengths of proofs of consistency, Collegium logicum: Annals of the kurt gödel,
+vol. 2, Springer-Wien, 1996, pp. 65–86.
+[44]
+, The lengths of proofs, The handbook of proof theory, North Holland, 1998, pp. 547–636.
+[45] Z. R ATAJCZYK, Subsystems of true arithmetic and hierarchies of functions, Annals on Pure and
+Applied Logic, vol. 64 (1993), pp. 95–152.
+[46] H. A. ROGERS, Recursive functions and effective compatibility, McGraw Hill, 1967.
+[47] J. B. ROSSER, Extensions of some earlier theorems by Gödel and Church, this J OURNAL, vol. 1
+(1936), pp. 87–91.
+[48] S. S ALEHI, Herbrand consistency in arithmetics with bounded induction, Ph.D. thesis, Polish Academy, 2001.
+[49] C. A. S MORY ŃSKI, The incompleteness theorem, Handbook on mathematical logic, North Holland,
+1977, pp. 821–865.
+[50]
+, Non-standard models and related developments, Harvey friedman’s research in the foundations of mathematics, North Holland, 1985, pp. 179–220.
+[51] R. M. S MULLYAN, First order logic, Springer Verlag, 1968.
+[52] R. M. S OLOVAY, Several private telephone communications during April of 1994 describing Solovay’s generalization of one of Pudlák’s theorems [41], using the additional formalisms of Nelson and WilkiParis [34, 64]. Solovay never published this result (which we call Theorem ∗ in Section 4) or any of his other
+observations about “Definable Cuts” that several logicians [20, 25, 34, 37, 41, 43, 44, 61, 64] have attributed
+to his private communications. To help acquaint unfamiliar readers with this subject, the Appendix A of [67]
+provides a short 4-page interpretation summarizing approximately how the Theorem ∗ can be thought of as
+arriving from the joint research of Nelson, Pudlák, Solovay and Wilkie-Paris.
+[53] R. M S OLOVAY, Injecting inconsistencies into models of PA, Annals on Pure and Applied Logic,
+vol. 44 (1988), pp. 102–132.
+[54] V. S VEJDAR, Degrees of interpretability, Com. Math. Univ. Carol, vol. 19 (1978), pp. 783–813.
+
+AN AXIOM SYSTEM THAT CAN VERIFY ITS OWN CONSISTENCY
+
+43
+
+[55]
+, Modal analysis of generalized Rosser sentences, this J OURNAL, vol. 48 (1983), pp. 986–
+999.
+[56] G. TAKEUTI, Proof theory, North Holland, 1987.
+[57]
+, Gödel sentences of bounded arithmetic, this J OURNAL, vol. 65 (2000), pp. 1338–1346.
+[58] A. TARSKI , A. M OSTOWSKI , and R. ROBINSON, Undecidable theories, North Holland Press, 1953.
+[59] A. V ISSER, Interpretability logic, Mathematical Logic: Proceedings of the Heyting Summer School,
+1988, pp. 175–208.
+[60]
+, An inside view of exp, this J OURNAL, vol. 57 (1992), pp. 131–165.
+[61]
+, The unprovability of small inconsistency, Archive for Mathematical Logic, vol. 32 (1993),
+pp. 131–165.
+[62]
+, Faith and falsity, Annals on Pure and Applied Logic, (2006), to appear.
+[63] P. VOP ĚNKA and P. H ÁJEK, Existence of a generalized semantic model of Gödel-Bernays set theory,
+Bulletin de l’Academie Polonaise des Sciences,Mathmatiques, Astromiques et Physiques, vol. 12 (1973),
+pp. 1079–1086.
+[64] A. J. W ILKIE and J. B. PARIS, On the scheme of induction for bounded arithmetic, Annals on Pure
+and Applied Logic, vol. 35 (1987), pp. 261–302.
+[65] D. W ILLARD, Self-verifying axiom systems, Springer Lecture Notes in Computer Science, vol. 713
+(1993), pp. 325–336, (Proceedings of the Third Kurt Gödel’s Symposium).
+[66]
+, The semantic tableaux version of the second incompleteness theorem extends almost to
+Robinson’s arithmetic Q, Springer Lecture Notes in Computer Science, vol. 1847 (2000), pp. 415–430,
+(“Tableaux-2000” Conference Proceedings).
+[67]
+, Self-verifying systems, the incompleteness theorem and the tangibility reflection principle,
+this J OURNAL, vol. 66 (2001), pp. 536–596, See also [65] for a shorter 12-page conference-stye paper that
+summarizes the intuition behind the IS(A) axiom system, without formal proofs.
+[68]
+, How to extend the semantic tableaux and cut-free versions of the second incompleteness
+theorem almost to Robinson’s arithmetic Q, this J OURNAL, vol. 67 (2002), pp. 465–496, (See also [66] for
+the earlier more compressed conference version of this paper. It differs from our journal article by having a
+substantially less rigorous but more informal style of presentation.).
+[69]
+, Some new exceptions for the semantic tableaux version of the second incompleteness theorem, Springer Lecture Notes in Computer Science, vol. 2381 (2002), pp. 281–297, (“Tableaux-2002” Conference Proceedings).
+[70]
+, A version of the second incompleteness theorem for axiom systems that recognize addition
+but not multiplication as a total function, First order logic revisited (Berlin) (V. Hendricks et. al., editor),
+Logos Verlag (conference met in 2003 – prior to the publication of its Proceedings), July 2004, pp. 337–368.
+[71]
+, On two partial (and not full) respects where an axiom system can recognize its own consistency and multiplication as a total function, 2005, a presented talk at the summer ASL-2005 conference in
+Athens whose 300-word abstract will be publised in the Bulletin of Symbolic Logic and which is described in
+further detail in an University of Albany technical report.
+, A new variant of Hilbert styled generalization of the second incompleteness theorem and
+[72]
+some exceptions to it, Annals on Pure and Applied Logic, (2006), A 200-word abstract summarizing the
+contents of this forthcoming invited article can be found on the web-site of The 2nd St. Petersburg Conference on Logic and Computability (2003), i.e. http://logic.pdmi.ras.ru/2ndDays or in the Atlas Mathematical
+Conference Abstracts.
+[73] C. W RATHALL, Rudimentary predicates and relative computation, Siam Journal on Computing,
+vol. 7 (1978), pp. 194–209.
+DEPARTMENT OF COMPUTER SCIENCE
+UNIVERSITY OF ALBANY
+ALBANY, NY 12222, USA
+
+E-mail: dew@cs.albany.edu
+URL: http://www.cs.albany.edu/ ∼ dew
+
+

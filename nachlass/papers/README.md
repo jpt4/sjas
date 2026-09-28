@@ -38,12 +38,16 @@ This pass intentionally does not add Sci-Hub material as a new witness.
 | Willard2000 logic | `willard2000_tableaux_robinson_q_author_tab2000.pdf` | archived SUNY author copy `tab2000.pdf` |
 | Willard2000 data structures | `willard2000_fusion_tree_perspective_sicomp.pdf` | archived SUNY author copy `sicomp.pdf` |
 | Willard1998 | `willard1998_self_reflection_np_hardness_dimacs_volume.pdf` | symlink to existing `../../lit/Dimacs1996.pdf` volume witness |
+| Willard1993 | `willard1993_self_verifying_axiom_systems_kgc_lncs713.pdf` | symlink to existing `../../lit/danwillard1993.pdf` (published 12-page KGC chapter; reconciled 2026-08-20 coverage pass) |
+| Willard2020-LFCS | `willard2020_tender_line_lfcs2020_lncs11972_chapter.pdf` | chapter extract (LNCS 11972 pp. 268–286, DOI `10.1007/978-3-030-36755-8_17`) from the volume witness below |
+| Willard2020-LFCS | `willard2020_tender_line_lfcs2020_lncs11972_volume.pdf` | full LNCS 11972 proceedings volume; dokumen.pub upload, user browser download 2026-08-20 (Cloudflare-blocked for automation; see `../codification/coverage-report-2026-08-20.md`) |
 | Willard1994 | `WillardFredman_SUNYarchive.pdf` | existing SUNY archive scan; not OCR text |
 
 Additional related Willard witnesses that are not direct paperlist rows:
 
 | Work | Local witness | Public source |
 | --- | --- | --- |
+| Self-Verifying Axiom Systems and the Incompleteness Theorem, SUNY-Albany TR 93-10 (full-length original of the `Willard1993` KGC chapter) | `1993technicalreport/willard1993_self_verifying_axiom_systems_tr93_10_searchable.pdf` (searchable collation of scan parts `tr1993-0/1/2.pdf`; see [`1993technicalreport/README.md`](1993technicalreport/README.md)) | private scan of the original report; not publicly hosted |
 | On the Results of a 14-Year Effort to Generalize Godel's Second Incompleteness Theorem and Explore Its Partial Exceptions | `willard2007_fourteen_year_effort_author_kgs6.pdf` | archived SUNY author copy `kgs6.pdf` |
 | On the Nature of Godel's Second Incompleteness Theorem | `willard2006_nature_godel_second_incompleteness_talk.pdf` | Dartmouth logic seminar PDF |
 | On the Significance of Self-Justifying Axiom Systems from the Perspective of Analytic Tableaux | `willard2013_significance_self_justifying_axiom_systems_arxiv_1307.0150.pdf` | arXiv `1307.0150` |
@@ -54,10 +58,32 @@ Additional related Willard witnesses that are not direct paperlist rows:
   `1612.08071`, not the Trivers-Willard avian paper listed under
   `Willard2017`. The correctly matched biology file is now stored as
   `willard2017_trivers_willard_avian_arxiv_1707.00039.pdf`.
-- Public full-text witnesses were not located for the paperlist's
-  `Willard1997` Springer KGC chapter or `Willard1993` Springer KGC chapter
-  through legal public sources. Their DOI/DBLP metadata remains public, but no
-  author-side PDF was found in the SUNY archive crawl.
+- A public full-text witness was not located for the paperlist's
+  `Willard1997` Springer KGC chapter ("The Tangibility Reflection Principle
+  for Self-Verifying Axiom Systems", LNCS 1289, pp. 319-334) through legal
+  public sources. Its DOI/DBLP metadata remains public, but no author-side
+  PDF was found in the SUNY archive crawl.
+- `Willard1993` is fully witnessed as of the 2026-08-20 coverage pass: the
+  published 12-page KGC chapter via the `lit/danwillard1993.pdf` symlink
+  above, and the full-length origin text via SUNY-Albany TR 93-10
+  (`1993technicalreport/`, searchable collation added 2026-08-20), whose
+  preface states the KGC chapter is its 12-page abbreviated version. JSL 2001
+  reference [41] cites the same report as "SUNY-Albany Technical Report,
+  March 1994" (50 pages) — treated as the same artifact under a loose
+  date/page description pending contrary evidence. The LNCS 713 volume also
+  exists in `lit/` as DJVU.
+- Post-2020 coverage gap found by the 2026-08-20 pass (see
+  `../codification/coverage-report-2026-08-20.md`): the LFCS 2020 conference
+  paper "On the Tender Line Separating Generalizations and Boundary-Case
+  Exceptions..." is now witnessed (chapter extract + volume, rows above;
+  acquired by user browser download from dokumen.pub the same day). Its
+  journal version, "About the characterization of a fine line that separates
+  generalizations and boundary-case exceptions for the Second Incompleteness
+  Theorem under semantic tableau deduction", Journal of Logic and
+  Computation 31(1) (2021), pp. 375-392, DOI `10.1093/logcom/exaa083`,
+  remains without a witness: no legal OA location exists (OpenAlex: closed)
+  and no shadow copy is known (libgen metadata-only). Purchase or
+  interlibrary loan is the identified route.
 - Public full-text witnesses were not located for the older data-structure and
   database entries `Willard1996`, `Willard1992`, `Willard1991`, `Willard1990`,
   `Willard1989a/b`, `Willard1987`, `Willard1986`, `Willard1985a/b`,

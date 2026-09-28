@@ -1,0 +1,110 @@
+# Willard1998 search aid (chapter PDF pages 158-170 / printed 297-320)
+# Image-only DIMACS volume; this file is a SEARCH AID ONLY — page images govern.
+# Generated 2026-08-29 from visual control of /tmp/willard1998/p-158.png .. p-170.png
+# (tesseract on two-page spreads was unreliable; structured aid from image-verified inventory)
+
+===== PDF p-158 / printed 297 (title) =====
+DIMACS Series in Discrete Mathematics and Theoretical Computer Science Volume 39 1998
+Self-Reflection Principles and NP-Hardness
+Dan E. Willard
+NSF Grant CCR 93-02920
+MSC 1991: 68QXX, 03FXX, 03BXX
+Abstract: capacities of weak axiom systems proving own consistency (self-justifying);
+properties closely related to open questions about NP.
+Section 1 INTRODUCTION
+Self-Justifying axiom system alpha: (i) proves own consistency; (ii) is in fact consistent.
+Kleene Fixed Point Theorem; Hilbert-Bernays properties; Goedel Second Incompleteness.
+
+===== PDF p-159 / printed 298-299 =====
+Subtraction x monus y = 0 when x < y; Division [x/y] = x when y = 0.
+Prf_alpha(x,y) Delta_0 formula. Canonical Reflection Principle Eq (1):
+{ exists y Prf_alpha(ceil Psi, y) } implies Psi.
+Drop Addition Multiplication Successor totality; P=?NP.
+Pudlak Solovay generalizations A B C.
+Section 2 Tangibility Reflection Principles
+Phi^i_j quantifier bounding; Phi dagger = Phi^L_infty.
+Tangible(x); three definitions TangPred TangDiv_k TangRoot_k (k>=2).
+
+===== PDF p-160 / printed 300-301 =====
+TangPred(x) = { exists z  x = z - 1 }
+TangDiv_k(x) = { exists z  x < z/k }
+TangRoot_k(x) = { exists z  x < z^{1/k} }
+Tangibility Reflection Principle Eq (2):
+forall x { [ exists y Prf_alpha(ceil Psi, y) and Tangible(x) ] implies Psi^x }
+Paradoxical Question (*); Thinking Being; drop Mult Add Successor totality.
+Section 3 Definition of ISREF(A)
+4-tape UTM M; left-sided tapes; alphabet {0,1,2}; tapes T_E T_1 T_2 T_3.
+Tape_i(Z,x,t); Head_i(Z,t); State_i(Z,t).
+
+===== PDF p-161 / printed 302-303 =====
+Non-Growth Function: F <= Maximum(2, a1,...,aj).
+Grounding: Maximum, Logarithm=ceil Log2(x+1), Predecessor=Max(x-1,0),
+Root=ceil x^{1/y}, Count, Bit, Subtraction, Division + Turing functions.
+Delta_0^+ Pi_1^+. IS = Introspective Semantics; ISREF = with Reflection.
+Group-Zero: n-bar constants; Predecessor; 2n compression axioms.
+Group-1: Pi_1^+ grounding axioms.
+Group-2 Eq (3): forall y { Prf_A(ceil Phi, y) implies Phi }
+Group-3 Eq (4): forall x forall y { Prf_ISREF(A)(ceil Psi, y) and x > Size(y) implies Psi^{x-1}_{x-1} }
+No growth functions; self-referential encoding.
+
+===== PDF p-162 / printed 304-305 =====
+Eqs (5)(6): flat consistency forall y not Prf(ceil 0=1, y).
+Regularly Consistent; Consistency-Preserving.
+Eq (7): Size(p) <= p-2.
+Theorem 4.1: regularly consistent A => ISREF(A) consistent.
+Eq (8) generic Group-3. Section 5 Generalizations: TangPred TangDiv TangRoot.
+
+===== PDF p-163 / printed 306-307 =====
+ISTR(A) Bitwise-Or TangDiv_2; IS^lambda(A) Addition cut-free TangRoot.
+PAX = PA + grounding + Add + Mult.
+DIAGONAL(alpha); SUBST(g,h); Eq (10).
+Theorem 6.1: proving DIAGONAL => inconsistent.
+Theorem 6.2: cannot verify all Pi_1^+ Reflection Eq (9).
+
+===== PDF p-164 / printed 308-309 =====
+Remark 6.4 Eq (14) strengthening Group-3 destroys consistency.
+Section 7 Self Justification and NP
+OUTPUT(e,t,x); Prf*_alpha; ISREF^R(A) Eq (18).
+Cognitive Conjecture: R >> PolyLog with ISREF^R(PAX) consistent.
+Section 8 ISREF*(A) Eq (19) TangPred + Prf*.
+
+===== PDF p-165 / printed 310-311 =====
+Section 9 The P=?NP Question
+Theta^R = DIAGONAL(ISREF^R(PAX)); SAT(a,b).
+Lemma 9.1 P=NP+SAT => poly-log proof finder.
+PARADOX^R(y,c); Upsilon_c(k).
+Lemma 9.2 SAT => Upsilon; PA proves SAT => ISREF^R proves Upsilon.
+
+===== PDF p-166 / printed 312-313 =====
+Lemma 9.3 ISREF^R proves forall y not PARADOX^R(y,c).
+Eqs (21)(22) Group-3 forms.
+Lemma 9.4 proving Upsilon_c(k) => ISREF^R inconsistent.
+
+===== PDF p-167 / printed 314-315 =====
+Theorem 9.5: ISREF^R(PAX) consistent + R>>PolyLog => PA cannot prove SAT(a,b).
+Theorem 9.6: ISREF^R consistency-preserving => P != NP.
+Section 10 Further Results: ISTM^lambda(A)
+Group-Zero reduced; Group-3 time bound t < p^lambda.
+Firmly Prove P=NP; CASCONS_alpha(k); cascade-self-verifying.
+Either-Or results cited to [35].
+
+===== PDF p-168 / printed 316-317 =====
+Cascade conjecture; Acknowledgments.
+Appendix Goedel Encoding of Group-3.
+UNION(A); ExPrf; SUBST; IS_-(A) Eqs (23)(24).
+g-pseudo-formulas clubsuit; ClubSet; ExPrf*.
+
+===== PDF p-169 / printed 318-319 =====
+Eqs (25)(26)(27) formal Group-3 encoding.
+Theorem A.1 ExPrf* is Delta_0^+ => Group-3 are Pi_1^+.
+Remark A.2: no Successor Addition Multiplication totality.
+Remark A.3 grounding-only; Remark A.4 applies to ISREF^R ISREF*.
+References [1]-[18] begin.
+
+===== PDF p-170 / printed 320 =====
+References [19]-[36]: Solovay 1994 [28]; Willard 1993 [33];
+Willard 1997 Tangibility Reflection KGC5 [34];
+Willard 1996 Either-Or manuscript [35];
+Willard 1997 Self-Verifying manuscript [36] (-> Willard2001).
+Author: SUNY Albany CS; dew@cs.albany.edu
+(Right half: Selected Titles in This Series — volume back matter, not chapter body.)

@@ -1,0 +1,1394 @@
+A Version of the Second Incompleteness
+Theorem For Axiom Systems that Recognize
+Addition But Not Multiplication as a Total
+Function
+
+Dan E. Willard
+dew@cs.albany.edu
+SUNY Albany Computer Science Department
+
+ABSTRACT: Let A(x, y, z) and M (x, y, z) denote predicates
+indicating x + y = z and x ∗ y = z respectively. Let us say an
+axiom system α recognizes Addition and Multiplication both as Total
+Functions iff it can prove:
+∀x∀y∃z A(x, y, z)
+
+AND ∀x∀y∃z M (x, y, z)
+
+(1)
+
+We will introduce some new variations of the Second Incompleteness Theorem for axiom systems which recognize Addition as a “total” function but which treat Multiplication as only a 3-way relation.
+These generalizations of the Second Incompleteness Theorem are interesting because our prior work [30, 32, 34] has explored several types
+of boundary-case exceptions to the Second Incompleteness Theorem
+that occur when one weakens the the hypothesis for our main theorems
+only slightly further.
+
+1
+
+Introduction
+
+The Second Incompleteness Theorem states that sufficiently strong axiom
+systems are unable to formally verify their own consistency. There has been
+
+337
+Hendricks et al. (eds.):
+First-Order Logic Revisited
+Logos Verlag Berlin (2004), 337–368
+
+338
+
+NEW VERSION OF SECOND INCOMPLETNESS THEOREM
+
+an extensive amount of research about how the Second Incompleteness Theorem can be generalized for weak axiom systems in the context of Frege and
+Hilbert deduction. For instance, Bezboruah-Shepherdson [3] showed how a
+version of the Second Incompleteness Theorem is valid for an axiom system
+that Tarski-Mostowski-Robinson [24] called Q. Pudlák [16] proved a more
+robust version of the Second Incompleteness Theorem, that applied to all
+extensions of Q and to all versions of its Gödel encoding (including very importantly localized versions on Definable Cuts) involving Frege-Hilbert style
+deduction. Wilkie-Paris [29] developed several examples of other versions of
+the Second Incompleteness Theorems involving for example the inability of
+IΣ0 +Exp to prove the consistency of Q. Solovay [21] observed how one could
+modify the formalism of Pudlák [16] with some techniques used by Nelson
+and Wilkie-Paris [11, 29] to obtain the following result:
+∗ (Solovay’s Extension of Pudlák’s Generalization of the Second Incompleteness Theorem [16, 21]) No reasonable consistent
+axiom system α treating merely Successor as a total function
+(and viewing Addition and Multiplication as 3-way relations) can
+recognize the assured non-existence of a Frege-Hilbert style proof
+of 0=1 employing α’s axioms.
+Our research was greatly stimulated by the Theorem ∗ resulting from
+the joint work of Nelson, Pudlák, Solovay and Wilkie-Paris. It differs from
+this theorem’s formalism mainly by examining a Semantic Tableaux style of
+a proof rather than a Frege-Hilbert methodology.
+It turns out that some results from Theorem ∗ concerning Frege-Hilbert
+deduction generalize for Semantic Tableaux, but other aspects of it do not
+generalize. Our research is also relevant to some open questions raised by
+Paris and Wilkie [14] concerning the characterization of the exact circumstances where the Semantic Tableaux version of the Second Incompleteness
+Theorem applies to weak axiom systems.
+There have been a substantial amount of research in recent years [1, 2,
+4, 7, 8, 9, 10, 13, 14, 16, 17, 18, 19, 23, 25, 26, 27, 29, 33] into this topic.
+Our contribution in [30, 32, 34] was the focus on axiom systems α which
+drop Equation (1)’s assumption that Multiplication is a total function. (Most
+of [30, 32, 34]’s systems regarded only Addition as total and viewed Multiplication as a 3-way relation.) This topic is interesting because significant
+boundary case exceptions for the Semantic Tableaux version of the Second
+
+DAN E. WILLARD
+
+339
+
+Incompleteness Theorem can be found when an axiom system recognizes
+merely Addition as formally total.
+One of the strongest types of boundary-case exceptions to the Second
+Incompleteness was presented in [34]. It introduced a hierarchy of several
+increasingly strong definitions of Semantic Tableaux consistency and demonstrated that the prior systems of [30, 32] could be improved so that they
+had a capacity to recognize their self-consistency under a “Level(1)” definition of Semantic Tableaux consistency (rather than using [30, 32]’s weaker
+“Level-zero” type definition). The theme of [34] was essentially that all the
+different levels of definition of Semantic Tableaux consistency were logically
+equivalent to each other from the standpoint of a strong enough axiom systems. However, a weak axiom system is typically unable to recognize the
+equivalence of these different levels of definition. Using this fact, [34] demonstrated that some axiom systems were able to evade the force of the Second
+Incompleteness Theorem when the level-number of their associated definition
+of Semantic Tableaux consistency was made sufficiently small. In essence,
+our goal in this paper and in our prior work is to attempt to characterize in
+as much detail as possible the maximum level number where such an evasion
+of the Second Incompleteness Theorem is feasible.
+Section 2 of this paper will review our definition of different levels of Semantic Tableaux consistency. Our chief goal will be to show that the Semantic Tableaux version of the Second Incompleteness Theorem becomes valid
+at what is called “Level(2+)” for essentially all axiom systems that recognize
+merely Addition as a total function. This result is significant because there
+is a very narrow gap between the Level(1) — where [34] showed the Second Incompleteness Theorem can be evaded when Multiplication is treated
+as a 3-way relation — and the Level(2+) where the Second Incompleteness
+Theorem takes force.
+There is also a second variant of our results (in both their positive and
+complementary negative forms) that involves a what we call a TabList style
+of deduction, described later at the end of the next section.
+
+2
+
+Formal Statement of Main Theorems
+
+Some added notation is needed to define our leveled hierarchy and the various new theorems we will present. Define the mapping F (a1 , a2 ...aj ) to be
+
+340
+
+NEW VERSION OF SECOND INCOMPLETNESS THEOREM
+
+a Non-Growth function iff F (a1 , a2 , ...aj ) ≤ Maximum(a1 , a2 , ...aj ) for all
+values of a1 , a2 , ...aj . Six examples of non-growth functions are Integer Subtraction (where x−y is defined to equal zero when x ≤ y ), Integer Division
+(where x ÷ y is defined to equal x when y = 0 , and it equals b x/y c
+otherwise), M aximum(x, y), Logarithm(x), Root(x, y) = d x1/y e and
+Count(x, j) designating the number of “1” bits among x’s rightmost j bits.
+The term U-Grounding Function will refer to this set of six non-growth
+functions plus the Growth operations of Addition and Double(x) = x + x.
+All our results in this paper will technically be couched in terms of a
+language that houses function symbols for the eight operations defined above.
+This notation is technically unnecessary — because a system that uses the
+combination of Equation (2) (which implies Addition and Doubling are total
+functions) along with only our first six non-growth U-Grounding operations
+would have properties similar to the U-Grounding language.
+∀x ∀y ∃z
+
+x = z − y
+
+(2)
+
+However, it is much easier to present a short proof of our results if our language does employ two additional function symbols for the operations of
+Addition and Double(x) = x + x . The virtue of this notation convention
+is that it allows us to formally employ constant symbols only for the numbers of 0 and 1 and to encode every other integer N ≥ 2 using no more
+than 2·Log2 N appearances of the function symbols for Addition and Doubling applied to these two input symbols. Such a mathematical term will be
+henceforth called the U-Grounded Binary Representation of N and be
+denoted as N . For instance, 25 can be encoded in a “binary-like” form as:
+1 + Double( Double( Double( 1 + Double(1) ) ) ).
+The use of logic’s conventional notation about Πn and Σm sentences is
+technically inappropriate in this paper because the latter notation (with its
+Multiplication Function symbol) is suitable only for axiom systems which
+recognize Multiplication as a total function. Instead, our analogs for Πn and
+Σm in the U-Grounding Function language are called Π∗n and Σ∗m . Here, a
+term t is defined to be a constant, variable or a U-Grounding function
+symbol (whose input arguments are recursively defined terms). Also, the
+quantifiers in the wffs ∀ v ≤ t Ψ(v) and ∃ v ≤ t Ψ(v) are called bounded
+quantifiers. If Φ is a formula that uses the U-Grounding primitives as its
+function symbols and the two relation symbols of “ = ” and “ ≤ ”, then
+
+DAN E. WILLARD
+
+341
+
+this formula will be called both Π∗0 and Σ∗0 whenever all its quantifiers are
+bounded. For n ≥ 1 , a formula Υ shall be called Π∗n iff it is written in the
+form ∀v1 ∀v2 ... ∀vk Φ,
+where Φ is Σ∗n−1 . Likewise, Υ is called Σ∗n iff
+it is written in the form ∃v1 ∃v2 ... ∃vk Φ, where Φ is Π∗n−1 .
+Let us call Υ a Q∗n sentence iff it is one of a Σ∗n sentence, a Π∗n sentence
+or a Boolean combination of several Σ∗n and Π∗n sentences (using the standard
+connective symbols of ∧ , ∨ , ¬ and → ). There will be three types
+of definitions of Semantic Tableaux consistency that we will examine in this
+paper. They are defined below:
+1. A Level(n) Definition of an axiom system α’s Tableaux consistency
+is the declaration that there exists no Π∗n sentence Υ supporting
+simultaneous Semantic Tableaux proofs from α of both Υ and its
+negation.
+2. A Level(n+) Definition of an axiom system α’s Tableaux consistency is the statement that no Q∗n sentence Υ supports simultaneous
+Semantic Tableaux proofs for both Υ and its negation.
+3. A Level(0-) Definition of a system α’s Tableaux consistency is the
+statement that there exists no proof of 0=1 from α.
+All definitions of consistency, from Level(0-) up to Level(n+) for any
+n , are equivalent to each other under strong enough models of Arithmetic.
+However, many weak axiom systems do not have a mathematical strength to
+formally prove and recognize this equivalence.
+Translated into this Π∗1 styled notation convention, the core result in
+[34] was the construction of a consistent axiom system α which had the
+following properties:
+1. α was capable of recognizing its Level(1) Tableaux consistency.
+2. α was capable of recognizing Addition as a total function.
+3. α was capable of proving all of Peano Arithmetic’s Π∗1 theorems.
+The above result beckons one to consider whether or not it would be
+possible to develop stronger versions of this effect where α could recognize
+higher levels of its own Tableaux consistency. Theorem 1 and Remark 1 show
+that most such generalizations are infeasible.
+
+342
+
+NEW VERSION OF SECOND INCOMPLETNESS THEOREM
+
+Theorem 1. Let α denote an axiom system that uses the language of the
+U-Grounding functions (and thus recognizes Addition as a total function).
+There exists a Π∗1 theorem W of Peano Arithmetic such that no consistent α ⊃ W of finite cardinality can recognize its own Level(2+) Tableaux
+consistency.
+Remark 1. It is also possible to generalize Theorem 1 for essentially
+all axiom system α ⊃ W of infinite cardinality. In particular, let us say
+an axiom system α satisfies the Conventional Deciphering Property
+iff there exists a Σ∗0 sentence Test(n) such that n represents the Gödel
+number of an axiom of α iff and only iff Test(n) is true. We will not have
+the page space to prove this stronger result here, but Theorem 1 can be
+strengthened to indicate that no consistent axiom system α ⊃ W satisfying
+the Conventional Deciphering Property can prove a theorem affirming its
+own Level(2+) Tableaux consistency.
+Remark 2. The Incompleteness effect described by Theorem 1 and Remark 1 should not be confused with a prior result published by us in [33].
+The latter’s version of the Incompleteness Theorem showed that there were
+essentially no interesting axiom systems that could simultaneously recognize
+their Level(0-) Tableaux consistency and also recognize both Addition and
+Multiplication as total functions. This alternate effect is quite different from
+our current result, which will apply to axiom systems that recognize solely
+Addition as a total function.
+In particular, this distinction is non-trivial essentially because [34] showed
+that axiom systems could recognize their Level(1) consistency when they
+treated Multiplication as a 3-way relation (rather than as a total function).
+Hence, there arises the question concerning at what Level of Tableaux consistency does the Semantic Tableaux version of the Second Incompleteness
+become valid for this latter class of axiom systems which do not employ [33]’s
+assumption that Multiplication is a total function? The purpose of Theorem 1’s generalization of the Second Incompleteness Theorem is to at least
+partially answer this question. It shows that while [33]’s Tableaux generalization of the Second Incompleteness Theorem is known from [34] to become
+false at all levels between 0 − and 1 when a system fails to recognize
+Multiplication as total, there is nevertheless available a Level(2+) Tableaux
+generalization of the Second Incompleteness Theorem for such systems.
+We will also discuss in this paper a cousin of Theorem 1’s Incompleteness
+
+DAN E. WILLARD
+
+343
+
+result, involving an alternative rule of inference, called TabList deduction.
+It is helpful to review Smullyan’s formal definition of a Semantic Tableaux
+proof before formally defining TabList deduction.
+Following roughly Fitting’s or Smullyan’s notation [5, 20], let us define
+a Φ-Based Candidate Tree for the axiom system α to be a tree whose
+root corresponds to the sentence ¬ Φ and whose all other nodes are either
+axioms of α or deductions from higher nodes of the tree. Let the notation
+“ A =⇒ B ” indicate that B is a valid deduction when A is an ancestor
+of B . In this notation, the Tableaux-Deduction rules are:
+1. Υ ∧ Γ =⇒ Υ and Υ ∧ Γ =⇒ Γ .
+2. ¬ ¬ Υ =⇒ Υ. Other deduction rules for the ¬ symbol include:
+¬(Υ ∨ Γ) =⇒ ¬Υ ∧ ¬Γ , ¬(Υ → Γ) =⇒ Υ ∧ ¬Γ , ¬(Υ ∧ Γ) =⇒ ¬Υ ∨ ¬Γ ,
+¬ ∃v Υ(v) =⇒ ∀v¬ Υ(v) and ¬ ∀v Υ(v) =⇒ ∃v ¬Υ(v)
+3. A pair of sibling nodes Υ and Γ is allowed when their ancestor is Υ ∨ Γ .
+4. A pair of sibling nodes ¬Υ and Γ is allowed when their ancestor is Υ → Γ.
+5. ∃v Υ(v) =⇒ Υ(u) where u is a newly introduced Parameter Symbol.
+6. ∀v Υ(v) =⇒ Υ(t) where t denotes a “Function Term”. These terms
+are U-Grounding Function objects, whose inputs are any set of constant
+symbols, parameter symbols or other function-objects.
+
+Define a particular leaf-to-root branch in a candidate tree T to be Closed
+iff it contains both some sentence Υ and its negation ¬ Υ . A Semantic
+Tableaux proof of Φ is then defined [5, 20] to be a candidate tree whose
+root stores the sentence ¬Φ and all of whose root-to-leaf branches are closed.
+One further definition is needed before we can describe the second variation of Theorem 1’s Incompleteness Result explored in this paper. Let H
+denote a sequence of ordered pairs (t1 , p1 ), (t2 , p2 ), ... (tn , pn ) , where pi is
+a Semantic Tableaux proof of the theorem ti , and let < denote an arbitrary
+class of sentences. Define H to be a Tab−<−List proof of a theorem T
+from the axiom system α iff T = tn and also:
+1. Each axiom in pi ’s proof is either one of t1 , t2 , ...ti−1 or comes from α.
+
+344
+
+NEW VERSION OF SECOND INCOMPLETNESS THEOREM
+
+2. Each of the “intermediately derived theorems” t1 , t2 , ...tn−1 must lie
+within the “prespecified class” < of sentences.
+If < denotes the set of Q∗K sentences, the notion of an Tab−Q∗k −List proof
+is quite similar (although not fully identical) to constructs that have been
+called R-proofs and Qk style proofs by Hájek, Paris, Pudlák and Wilkie in
+[7, 16, 29]. One minor difference between these definitions is that the TabList
+notion contains some added flexibility because it allows one to set < equal
+to any of the classes of Π∗k sentences, Σ∗k sentences, Q∗K sentences, or for
+example the union of the sets of Π∗k and Σ∗k sentences. Another difference
+is that the R-proofs and Qk style proofs of [7, 16, 29] are based on partially
+limiting the power of Hilbert-style deduction, whereas our dual form of this
+construct proceeds in the opposite direction — where we seek to progressively
+expand the logical power of Semantic Tableaux style deduction instead.
+For any class < of sentences, each of our prior definitions of Level(0),
+Level(N) and Level(N+) consistency can be generalized for Tab−<−List
+deduction. For instance, an axiom system α’s Level(0−) consistency under
+Tab−<−List deduction is the statement that every Tab−<−List proof from
+α’s axioms fails to prove 0=1.
+Below are our main theorems about the generality and limitations of the
+Second Incompleteness Theorem under TabList deduction.
+Theorem 2. Let α denote an arbitrary axiom system that uses the language of the U-Grounding functions (and thus recognizes Addition as a total
+function). It is not necessary, but for the sake of simplifying our proof of
+Theorem 2 we will also assume that the axiom system α has finite cardinality. Then there exists two Π∗1 theorems of Peano Arithmetic, VA and VB
+such that
+A. No consistent α ⊃ VA can prove a theorem affirming its own Level(0-)
+consistency under Tab−Π∗2 −List deduction.
+B. No consistent α ⊃ VB can prove a theorem affirming its own Level(0-)
+consistency under Tab−Σ∗2 −List deduction.
+Theorem 3. Let Tab1 List be an abbreviation for the variant of Tab−<−List
+deduction where < denotes the union of the set of Π∗1 and Σ∗1 sentences.
+Then for each consistent axiom system A that is an extension of Peano
+Arithmetic, there exists a consistent axiom system α that can
+
+DAN E. WILLARD
+
+345
+
+1. recognize its own Level(1) consistency under Tab1 List deduction.
+2. recognize the validity of all A’s Π∗1 theorems, and
+3. recognize Addition as a total function
+Part of the reason Theorems 2 and 3 are interesting is due to the close
+match between their complementary positive and negative results. Thus,
+Theorem 3 established that there exists a Boundary-Case exception to the
+Second Incompleteness Theorem when < represents the union of the set
+of Π∗1 and Σ∗1 sentences, while Theorem 2 shows the Second Incompleteness
+Theorem comes to force when < represents instead either the class of Π∗2
+sentences or the class of Σ∗2 sentences. Moreover, Theorem 3 indicates that
+its Boundary-Case exception rises up to Level(1) definitions of consistency,
+while Theorem 2 shows that even the lower Level(0−) is problematic under
+Tab−Π∗2 −List and Tab−Σ∗2 −List deduction.
+Most of our discussion in this paper will focus on proving Theorems 1
+and 2. Theorem 3’s result was technically announced on the last page of our
+Tableaux-2002 conference paper [34]. However, the latter conference paper
+was written in a too abbreviated style for it to also include a proof of Theorem
+3. Instead, its formal proof examined a slightly more specialized variation
+of Theorem 3 where Semantic Tableaux deduction replaced Tab1 List deduction (in Clause 1 of Theorem 3). We have therefore also inserted a 3-page
+appendix into the current article, which roughly outlines how [34]’s proof
+formalism can be slightly strengthened to obtain Theorem 3’s more general
+result. This appendix is helpful because there is a pleasantly tight and sharp
+match between Theorem 3’s positive result and Theorem 2’s complementary
+negative result, as was explained in the prior paragraph.
+
+3
+
+Overall structure of Theorem 1’s Proof
+
+Our method for encoding a Semantic Tableaux proof p is described on page
+581 of our article [32]. This encoding is maximally compressed in that it will
+encode p as an integer whose “Bit-Length” is approximately proportional
+to the length of such a Semantic Tableaux proof when it is written down
+by hand. Several other authors [7, 29] have also employed roughly similar
+types of maximally compressed encoding methods. It is therefore probably
+unnecessary for a reader to examine our exact encoding method in [32].
+
+346
+
+NEW VERSION OF SECOND INCOMPLETNESS THEOREM
+
+This section will sketch the overall structure of Theorem 1’s proof. Let
+Prfα (x, y) denote a Σ∗0 formula indicating y is a semantic tableaux proof of
+the theorem x from the axiom system α. Also, let Log(z) denote Base-2 Logarithm, with downwards rounding to the lowest integer, and Logλ (z) denote
+the operation Log(Log(Log...(Log(z)))) — where λ designates an integer indicating the number of iterations of Log here. It is useful to employ the
+notation ShortPrf λα (x, y, z) to denote a Σ∗0 formula indicating that y represents a Semantic Tableaux proof of the theorem x from the axiom system α
+and that y =Logλ (z) .
+Takeuti [23] introduced a form of the λ–Short-Proof concept for studying integers y satisfying the condition ∃ z Logλ (z) = y . His goal was to
+use this construct to help explicate the relationship between Buss’s Bounded
+Arithmetic, Gentzen’s sequent calculus and some of NP’s properties [23]. An
+entirely different type of application of the λ–Shortness concept was subsequently observed by Adamowicz, Salehi, Willard and Zbierski [1, 2, 19, 31, 33]
+(largely independently of Takeuti’s research). This second line of research
+used the λ–Shortness concept as an intermediate step to help answer some
+open questions about IΣ0 ’s Incompleteness properties raised by Paris and
+Wilkie in [14]. Thus in approximate chronological order, the latter research
+included Adamowicz-Zbierski’s observation [1, 2] that a cut-free version of
+the Second Incompleteness Theorem was valid at the level of IΣ0 + Ω1 ,
+Willard’s strengthening of this result so that the threshold for the Cut-Free
+Second Incompleteness effect would be lowered so that it would include all
+extensions of IΣ0 and most extensions of Q [31, 33], and Salehi’s more
+recent second type of proof [19] of Willard’s IΣ0 Incompleteness Theorem.
+The λ-Short concept will also help us prove Theorem 1 in this paper.
+Thus, let D(α) denote the following Gödel sentence:
+“There is no Semantic Tableaux proof of this sentence from α’s
+set of proper axioms”
+Let Dλ (α) denote the “ShortPrf λα (x, y, z)” analog of this diagonalization sentence, defined below:
+“In a context of the ShortPrf αλ (x, y, z) notation convention, there
+exists no code (y, z) that proves this sentence from α’s axioms”
+
+347
+
+DAN E. WILLARD
+
+It is easy to give D λ (α) a Π∗1 encoding. Thus, let Subst(g, h) denote the
+following Σ∗0 formula:
+Subst(g,h) = The integer g is an encoding of a formula, and h encodes
+a sentence identical to g, except all g’s free variables are now replaced
+by a term equal to the constant g itself.
+Then following Gödel’s example, D λ (α) is formally defined to be the sentence Γ( n̄ ) , where Equation (3) defines the formula Γ(g) and n̄ is a term
+whose numerical value represents Γ(g)’s Gödel number.
+∀y ∀z ∀h < y
+
+{ Subst(g, h)
+
+→
+
+¬ ShortPrf λα ( h , y , z ) }
+
+(3)
+
+Our proof of Theorem 1 will use the D λ (α) Diagonalization sentence
+as an intermediate step to help corroborate Theorem 1. In particular, let
+Pair(s,t) denote a Σ∗0 formula indicating that s is the Gödel number of a
+Q∗2 sentence and that t is the Gödel number of a second Q∗2 sentence which
+is the negation of s . Also, let d D λ (α) e denote D λ (α)’s Gödel number.
+Then the Theorem 4 (below) will help prove Theorem 1.
+Theorem 4. Suppose α is a consistent axiom system capable of proving all
+the Σ∗0 sentences that are valid in the Standard Model. Suppose there exists
+two constants, λ and L , such that α can also prove:
+A)
+
+∀g ∀h ∀h∗ {
+
+B)
+
+∀z > L
+
+∀y
+
+[ Subst( g , h ) ∧ Subst( g , h∗ ) ] → h = h∗
+{
+
+ShortPrf λα ( d Dλ (α) e , y, z )
+
+∃p<z ∃q<z ∃s<z ∃t<z
+
+}
+
+→
+
+[ Pair(s, t) ∧ Prfα (p, s) ∧ Prfα (q, t) ]}
+
+Then α must be incapable of proving:
+∀p ∀q ∀s ∀t ¬ [ Pair(s, t) ∧ Prfα (p, s) ∧ Prfα (q, t) ].
+We will not prove Theorem 4 here because its justification is similar to
+the Theorem 2.3 from [33]. The remainder of this article will use Theorem 4
+as an intermediate step to help prove Theorems 1 and 2.
+
+348
+
+4
+
+NEW VERSION OF SECOND INCOMPLETNESS THEOREM
+
+The Formal Proof of Theorem 1.
+
+Let α denote an axiom system and ϕ(x) denote a formula free in only x .
+The formula ϕ(x) is called [7] a Definable Cut relative to α iff α can
+prove the theorem:
+ϕ(0)
+
+AND
+
+∀ x ϕ(x) → ϕ(x+1)
+
+AND
+
+∀ x ∀ y < x ϕ(x) → ϕ(y) (4)
+
+Definable Cuts have been studied by a very extensive literature [1, 2, 4, 6,
+7, 8, 9, 10, 11, 13, 14, 16, 17, 22, 25, 26, 27, 28, 29]. They are unrelated to
+Gentzen’s notion of a Sequent Calculus “Deductive Cut Rule”.
+It is convenient to call a Definable Cut trivial relative to α iff α can
+formally prove “ ∀ x ϕ(x) ”. For example since Peano Arithmetic recognizes
+the validity of the Principle of Induction, all its Definable Cut Formulae are
+trivial. On the other hand, every arithmetical logical system strictly weaker
+than Peano Arithmetic contains some non-trivial Definable Cut.
+One theme of the literature about Definable Cuts is that they are very
+helpful for developing new versions of the Second Incompleteness Theorem,
+as well as for devising new uses of it. For instance, the Theorem ∗ ,
+attributed in Section 1 to the joint work of Nelson, Pudlák, Solovay and
+Wilkie-Paris, was derived by using Definable Cuts as a crucial intermediate
+step. As we pointed out in Section 1, our new Theorem 1 is related to this
+literature, and it was greatly stimulated by its over-all perspective. However,
+one aspect of our main proof will veer in a slightly different direction.
+The distinction arises because the Second Incompleteness Theorem is
+much more difficult to prove and generalize for cut-free proof methods, such
+as Semantic Tableaux or the Cut-Free variant of the Sequent Calculus, than
+it is for Cut-Permissive formalisms, such as the Hilbert-style methodology
+or the Sequent Calculus with a Cut Rule. The intuitive reason for this distinction is that most generalizations of the Second Incompleteness Theorem
+using Equation (4)’s formalism require a Gentzen-style Deductive Cut Rule
+(or equivalently some Hilbert-style modus ponens deductions) as an intermediate step. Since we are not allowed to use these methodologies under
+Semantic Tableaux deductive calculi, our strategy for proving Theorem 1
+will instead use Theorem 4’s formalism as an alternate interim step to facilitate the proof.
+We will now summarize the notation used in Theorem 1’s proof. For any
+fixed integer i , let Gi (x) denote the scalar-multiplication operation that
+
+349
+
+DAN E. WILLARD
+i
+
+maps the integer x onto the quantity 22 · x . Let Λ(i, x, y) denote a
+Σ∗0 formula which indicates that y = Gi (x) . There are many possible Σ∗0
+encodings for Λ(i, x, y)’s graph. Equation (5) provides one example:
+{i 6= 0 ∧ x 6= 0 → ∃v ≤ y [LogLog(v) = i ∧ LogLog(v − 1) < i ∧
+
+y
+y−1
+=x∧
+< x]}
+v
+v
+
+{ [ i=0 ∨ x=0 ] → y = x+x }
+
+AND
+
+(5)
+
+Let Υi denote Equation (6)’s Π∗2 sentence, which states that the operation
+that maps x onto the integer Gi (x) is a total function.
+Υi
+
+[ ∀x ∃y
+
+=def
+
+Λ( i , x , y )
+
+]
+
+(6)
+
+Gi ’s definition clearly implies ∀i ∀x Gi+1 (x) = Gi (Gi (x)). Equation (7)
+encodes this fact as a Π∗1 sentence.
+∀i ∀x ∀y ∀z
+
+[ Λ(i, x, y) ∧ Λ(i, y, z) ] → Λ(i + 1, x, z)
+
+(7)
+
+Also, for any m > 0 and n > 0 , let (8) and (9) define the sentences Θm
+and 0n below. (Equation (7) implies their validity.)
+Θm
+0n
+
+=def
+
+[ Υm−1 → Υm ]
+
+(8)
+
+[ Υ0 ∧ Θ1 ∧ Θ2 ∧ ... ∧ Θn ]
+
+(9)
+
+=def
+
+The intuitive reason why the Second Incompleteness Theorem is harder
+to prove for the Semantic Tableaux deductive calculus than for the Hilbert
+method of deduction can be appreciated by examining an axiom system β
+whose only non-trivial axiom about the U-Grounding functions corresponds
+to (7)’s axiom. This axiom, combined with the built-in assumption that
+Addition is a total function, allows one to construct a Hilbert-style proof of
+the theorem Υn from β whose length is no longer than c · nc for some
+constant c , using a methodology that many logicians [4, 7, 8, 10, 11, 13,
+16, 17, 21, 29, 32] have attributed to unpublished private communications
+from Robert Solovay. However, it oddly turns out that while the Semantic
+Tableaux calculus supports equally short proofs of similar approximate length
+O( c · nc ) for the sentences Θn and 0n from β , there is no analogously
+short Semantic Tableaux proof of Υn from β !
+
+350
+
+NEW VERSION OF SECOND INCOMPLETNESS THEOREM
+
+Our proof of Theorem 1 is related to this fact. It will formalize a Level(2+)
+Tableaux-style generalization of the Second Incompleteness Theorem that has
+no analog at Level(1) essentially because 0n has a much shorter proof than
+Υn from β (under Semantic Tableaux). No analog of this Tableaux-type
+separation characterizes the several Hilbert-style versions of the Second Incompleteness Theorem, discussed in say [4, 7, 8, 9, 10, 13, 14, 16, 17, 25,
+26, 27, 29], where the Second Incompleteness Theorem is equally valid at all
+levels L . The intuitive reason the Semantic Tableaux will be shown in the
+discussion (below) to have contrasting properties for the Levels 1 and 2+ ,
+unlike Hilbert deduction, will ultimately be because the difference between
+the proof-lengths of Υn and 0n is much greater under Semantic Tableaux
+deduction than under Hilbert deduction.
+In essence, the above observations combined with Theorem 4’s role as
+a very helpful intermediate step explain the two main underlying intuitions
+behind Theorem 1’s proof.
+Summary of Main Proof: In the context of our proof of Theorem 1,
+the symbol “ α ” in the predicates ShortPrf 2α (x, y, z) and Prf α (x, y) will
+have a slightly unconventional interpretation. Rather than treat “ α ” as
+a fixed constant that denotes a finite-sized axiom system, this section will
+view it as an integer that designates a Gödel number that represents a finite
+sequence of sentences S1 , S2 ... Sn , listing α’s axioms. (Under our method
+for encoding an axiom system α , its Gödel number will have a bit-length
+proportional to the sum of the lengths of S1 , S2 ... Sn .)
+Our formal analysis will begin by defining the Π∗1 sentence W mentioned
+in Theorem 1’s hypothesis. It is defined as a conjunction of nine Π∗1 clauses
+W0 , W1 ... W8 — where many of these clauses Wi are in turn conjunctions
+of several further Π∗1 sub-clauses. These nine clauses are defined below:
+Definition of W0 : This axiom will be a multi-clause Π∗1 sentence which
+provides sufficient information about the eight U-Grounding functions so that
+W0 has the capacity to formally prove every Σ∗0 sentence that is logically
+valid. (It is unimportant which particular finite set of Π∗1 clauses is used to
+formulate W0 , as long as one of its clauses is the explicit statement “0 6= 1”.)
+Definitions of W1 through W5 : The definition of the Π∗1 sentence W1
+was given in Equation (7). In a context where Prfα (x, y), Subst(g,h) and
+Λ(i, x, y) were already given Σ∗0 defining formulae, the further Π∗1 definitions
+
+351
+
+DAN E. WILLARD
+of W2 through W5 are given by Equations 10 through 13.
+∀g ∀h ∀h∗ { [ Subst( g , h ) ∧ Subst( g , h∗ ) ] → h = h∗
+
+[ Λ(i, 1 , z) →
+
+∀ i ∀z
+
+∀α ∀t ∀n
+
+∀g
+
+[
+
+∀h
+
+[
+
+}
+
+(10)
+
+LogLog(z) = i ]
+
+(11)
+
+Prf α ( t , n )
+
+∨
+
+¬ Prf α ( t , n ) ]
+
+(12)
+
+Subst (g, h)
+
+∨
+
+¬ Subst (g, h) ]
+
+(13)
+
+Definitions of W6 and W7 : We will not provide a formal equational
+description of these two Π∗1 sentences, similar to the prior Equations (10)
+through (13), because their formal structures are a bit tedious to encode.
+Instead, we will provide a functional description of them:
+1. The Π∗1 sentence W6 will contain sufficient information about the
+U-Grounding functions so that for each ordered triple ( α , h , y )
+where h denotes the Gödel number of D 2 (α) and Prf α ( h , y )
+is true, the formal proof of Prf α ( h , y ) ) from W6 will have a
+bit-length no larger than [Log(y)]C6 for some constant C6 . Likewise,
+the Π∗1 sentence W6 will contain sufficient information about the UGrounding functions so that for each ordered pair ( g , h , ) where
+Subst( g , h ) is true, the formal proof of this fact will have a bit-length
+no larger than [Log(h)]C6 (It is easy to construct a Π∗1 axiom W6 and
+accompanying constant C6 with these properties.)
+2. Let us recall that “U-Grounded Binary-encoded Representations” n
+of integers n were defined in Section 2. The Π∗1 sentence W7 will
+contain sufficient information about the U-Grounding functions so that
+for any integer n > 1 , the proof from W7 of “ n − 1 + 1 = n ”
+has a bit-length no larger than nC7 , for some sufficiently large fixed
+constant C7 .
+Definition of W8 : The Π∗1 definition of W8 will appear in Equation (26)
+later in this section. Its presentation is postponed because some preliminary
+lemmas need to first help motivate it.
+
+352
+
+NEW VERSION OF SECOND INCOMPLETNESS THEOREM
+
+Lemma 1. Each of W0 through W7 are Π∗1 theorems of Peano Arithmetic.
+Proof: It is obvious that W1 through W5 are Π∗1 theorems of Peano
+Arithmetic. Also, it is trivial to construct Π∗1 sentences W0 , W6 and W7 that
+satisfy their functional requirements. 2
+Lemma 2. Let us recall that Υi , Θm and 0n were defined by Equations (6),
+(8) and (9). Then there exists three constants K0 , K1 and K2 such that:
+i) A semantic tableaux proof of Θm from W requires a bit-length no greater
+than K1 · mK1 .
+ii) A semantic tableaux proof of 0n from W requires a bit-length no greater
+than K2 · nK2 .
+iii) The semantic tableaux proofs of Υi from the union of W and Υi−1 ,
+and of ¬ Υi−1 from the union of W and ¬ Υi , each require a
+bit-length no greater than K0 · iK0 .
+Proof:
+It is immediate from the definition of the sentences W1 and W7 that
+these two parts of W are sufficient to assure that Θm ’s proof will have a
+length satisfying constraint (i). The assertion (ii) follows from (i) because
+the proof of 0n has a length essentially no greater than the sum of the proof
+lengths for Υ0 and for Θ1 , Θ2 ... Θn . The assertion (iii) follows from (i)
+because the definition of Θm makes it obvious that (iii)’s two proofs have
+a sufficiently similar structure to (i)’s proof for there to be no meaningful
+difference between their proof lengths.
+2
+Our proof of Theorem 1 will be centered around showing that the axiom
+system α satisfies the requirement (B) of Theorem 4 when λ = 2 . After
+establishing this fact, the remainder of Theorem 1’s proof will be quite easy.
+Paraphrased into the English Language, Theorem 4’s Part-B requirement,
+with λ = 2 and L representing a fixed constant, is the statement:
++
+If an ordered pair (y, z) (with z > L ) encodes a
+“2-short proof” (from α ) of the Gödel-like diagonalization sentence D2 (α), then there will exist some corresponding Q∗2 sentence
+(called say S ) where both S and ¬ S have Semantic Tableaux
+proofs from α whose Gödel numbers are smaller than z.
+
+DAN E. WILLARD
+
+353
+
+Our proof of this statement will rest on showing that for some integer
+n (whose exact value will depend only on the ordered pair (y, z) ), one
+adequate sentence S satisfying the above assertion is Equation (9)’s sentence
+0n . In order to complete Theorem 1’s proof, we will need to show that
+any axiom system satisfying Theorem 1’s hypothesis will both satisfy +’s
+requirements and recognize this fact about itself.
+Some added notation will be employed by our next two lemmas. The
+symbol W ∗ will denote a multi-clause axiom, similar to W , except that
+W ∗ ’s clauses will consist of W0 through W7 (and thus omit the W8
+condition). Also, p will be called a Partial Proof of the theorem Φ from
+α iff its structure is identical to a Semantic Tableaux proof tree except that
+one of its branches is released from the requirement of containing a pair of
+contradictory nodes. This unique branch will be called p’s Open Branch.
+Its lowest node will be called p’s Bottom Node. Our proof of + will have
+a nicely compartmentalized modular nature, where it develops a sequence of
+increasing complex partial proof trees P1 , P2 , ... Pm , where each tree Pi+1
+is an extension of the prior tree Pi and the final object Pm is the well-defined
+Semantic Tableaux proof of the sentence ¬ S required by Statement +.
+Lemma 3. There exists a constant K3 > 0 (whose exact numeric value will
+be unimportant to our main theorem) such that for each n ≥ 1, it is possible
+to construct a Partial Proof P1 of ¬ 0n from the axiom system W ∗ whose
+bottom node stores Υn and where P1 ’s length is bounded by K3 · nK3 .
+Proof: Since P1 represents a proof of ¬ 0n , its root will consist of the
+sentence ¬ ¬ 0n . The root’s child will be the sentence 0n (which is formally
+derived via Section 2’s ¬ Elimination rule for Semantic Tableaux proofs).
+Then via several applications of the ∧ Elimination rule, Equation (9)’s 0 n
+sentence will be broken repeatedly into smaller and smaller components until
+each of the formal Q∗2 sentences of Υ0 , Θ1 , Θ2 , ... Θn is enumerated
+along P1 ’s open branch. The last n steps of P1 ’s proof will consist in
+chronological order of n repeated applications of the → Elimination
+Rule, whose i−th iteration splits Equation (8)’s Θi sentence into a left
+sibling nodes of the form ¬ Υi−1 and a right sibling of Υi . (These splits
+will be performed so that the sentences Υ1 , Υ2 , ... Υn are enumerated in
+chronological order along P1 ’s open branch.)
+To verify the above tree is a “Partial Proof” whose “Bottom Node” is Υn ,
+we need to confirm each of the preceding paragraph’s “left sibling nodes” of
+
+354
+
+NEW VERSION OF SECOND INCOMPLETNESS THEOREM
+
+the form ¬ Υi−1 are indeed leaves lying at the bottom of closed branches.
+This fact is a consequence of our inductive construction because the parent
+of each leaf storing a sentence ¬ Υi−1 will store its negation Υi−1 .
+Hence, P1 certainly represents a Partial Proof of ¬ 0n . It is trivial
+that for some constant K3 > 0, its proof length is bounded by K3 · nK3 . 2
+Lemma 4. There exists a constant K4 > 0 such that for every n ≥ 1 it is
+possible to construct a Partial Proof P2 of the sentence ¬ 0n from the axiom
+system W ∗ — where this proof ’s bit-length is bounded by K4 · nK4 and where
+for some parameter u (created during existential quantifier elimination) the
+Bottom Node of this Partial Proof is the sentence “ LogLog(u) = n ” .
+Proof: The proof P2 is constructed by taking Lemma 3’s partial proof
+P1 (whose Bottom node had stored the sentence Υn ) and adding seven
+nodes below this bottom node. The first two of these seven nodes will store
+the sentences indicated by Equations (14) and (15). In particular, (14) is
+deduced from Equation (6)’s sentence Υn via the ∀ Elimination Rule, and
+(15) is deduced from (14) via the ∃ Elimination Rule.
+∃y
+
+Λ( n , 1 , y )
+
+Λ( n , 1 , u )
+
+(14)
+(15)
+
+The next three sentences in P2 ’s proof tree will consist of the axiom W3
+(whose formal statement was listed in Equation (11)) and then two deductions from this axiom based on applying the ∀ Elimination Rule so that
+Equation (11)’s universally quantified variables of i and z are replaced by
+n and u . The final sentence at the bottom of these three steps is:
+Λ( n , 1 , u ) →
+
+LogLog(u) = n
+
+(16)
+
+The last two nodes of P2 ’s proof tree will be deduced from (16) via the
+→ Elimination rule. These two nodes will thus be sibling nodes storing
+the sentences of “ ¬ Λ( n , 1 , u ) ” and “ LogLog(u) = n ” .
+The tree P2 (above) is a Partial Proof because “ LogLog(u) = n ” is its
+Bottom Node and the vertex storing “ ¬ Λ( n , 1 , u ) ” is contradicted
+by Equation (15)’s sentence (and hence represents the needed leaf closing a
+branch). Since P2 differs from P1 by only having seven additional nodes,
+
+355
+
+DAN E. WILLARD
+
+both trees have the same approximate bit-length (thereby establishing that
+P2 ’s length is sufficiently small to satisfy Lemma 4’s claim). 2
+Lemma 5. Let α denote any axiom system of finite cardinality that is an
+extension of W ∗ . Let us recall the Gödel Sentence D 2 ( α ) was defined in
+Section 3. Suppose N denotes the Gödel number of a semantic tableaux
+proof of D 2 ( α ) from α . Then there will exist a semantic tableaux proof
+P of the sentence ¬ 0N from α whose bit-length is bounded by K5 · N K5
+for some fixed constant K5 > 0 .
+Proof Sketch. The proof P is built by taking Lemma 4’s partial proof
+P2 and inserting directly below P2 ’s Bottom Sentence nine additional nodes
+and three further subtrees. The first of these nine nodes will be Equation
+(12)’s W4 axiom sentence. The next three nodes will represent reductions
+from this axiom, using the ∀ Elimination Rule to replace (12)’s universally
+quantified variables t, α and n with D 2 (α)’s Gödel number, α and N . The
+resulting sentence at the end of these reductions is:
+Prf α ( dD2 (α)e , N ) ∨
+
+¬ Prf α ( dD2 (α)e , N )
+
+(17)
+
+Below node (17), P ’s proof will apply the ∨ Elimination rule to produce
+the following two sibling nodes
+¬ Prf α ( dD2 (α)e , N )
+
+(18)
+
+Prf α ( dD2 (α)e , N )
+
+(19)
+
+It is easy to inject a closed subtree T1 below node (18) which meets Lemma
+5’s requirements. This is because the lemma’s hypothesis indicates N is a
+proof of D 2 (α) and the axiom W6 then implies the subtree T1 can have
+a small enough bit-length to satisfy Lemma 5’s requirements.
+In order to construct an analogous second suitably small subtree below
+(19)’s sentence, let G denote the particular Gödel number satisfying the
+identity Subst ( G , dD 2 (α)e ) . In this context, we will insert below
+(19)’s sentence, a 3-node sequence beginning with Equation (13)’s W5 axiom
+followed by two iterations of the ∀ Elimination rule to obtain the deduction:
+Subst ( G , dD 2 (α)e )
+
+∨
+
+¬ Subst ( G , dD 2 (α)e , )
+
+(20)
+
+356
+
+NEW VERSION OF SECOND INCOMPLETNESS THEOREM
+
+Next, let us apply the ∨ Elimination Rule to split (20)’s node into (21)
+and (22)’s pair of sibling nodes.
+¬Subst ( G , dD 2 (α)e , )
+
+(21)
+
+Subst ( G , dD 2 (α)e , )
+
+(22)
+
+Using axiom W6 , it is easy to insert below node (21) a closed subtree T2A
+whose bit-length is sufficiently small to satisfy Lemma 5’s requirements. Thus
+to complete Lemma 5’s proof, we must merely show that it is also possible
+to insert below node (22) a second adequately small subtree T2B .
+In order to construct T2B , we will use again the fact that N represents a
+proof of the theorem D 2 (α). Since N proves a theorem D 2 (α) (whose formal
+statement in Equation (3) begins with three universally quantified variables
+y, z and h ) , one can apply standard methods from Proof Theory to deduce
+the existence of a proof T ∗ of 0=1 from the union of the axiom system α with
+the added axioms given in Equations (23) through (25) such that T ∗ ≤ N 2
+when these two proofs are viewed as Gödel numbers. (The footnote 1 explains
+the intuition behind T ∗ ’s construction, and a longer version of this paper will
+give a more formal proof that T ∗ ≤ N 2 exists.)
+Subst ( G , u1 )
+
+(23)
+
+Prf α ( u1 , u2 )
+
+(24)
+
+LogLog(u) = u2
+
+(25)
+
+In the above context, T2B will be defined as a tree identical to T ∗ except that
+each appearance of u1 and u2 in T ∗ is replaced by respectively dD 2 ( α )e
+1
+
+The intuitive reason that T ∗ ≤ N 2 exists is that a proof N of D 2 (α) will store ¬ D 2 (α)
+in N ’s root, and the main non-degenerate versions of such proofs N will next apply the
+¬ Elimination Rule to transform D 2 (α)’s universally quantified variables y, z and h into
+existentially quantified variables that are subsequently replaced by the parameter symbols
+u1 , u2 and u satisfying Equations (23) through (25) in a context where these three nodes
+appear in a straight-line path in N ’s proof-tree directly below the root. This footnote
+should not be considered a formal proof that there exists the required T ∗ ≤ N 2 because
+a formal proof, appearing in a longer version of this paper, must also consider certain
+degenerate cases, in addition to the main non-degenerate case outlined here.
+
+357
+
+DAN E. WILLARD
+
+and N in T2B . This subtree must certainly close the portion of P ’s proof
+tree that descends from node (22) because the sentences in Equations (23)
+through (25) are identical to the three respective sentences in (22), (19)
+and P2 ’s Bottom Node with dD 2 ( α )e and N now replacing u1 and u2 .
+Essentially because the replacement of u2 with the longer expression of N
+will cause T2B ’s bit-length to have an O[ (Log N )2 ] magnitude, the resulting
+constructed T2B tree will be short enough to satisfy Lemma 5’s claim. 2
+Lemma 6. Let MinAx( α ) denote a Σ∗0 formula that indicates α is
+an axiom system of finite cardinality which includes the Π∗1 sentences of
+W0 , W1 ... W7 . Then there exists a suitably large constant L > 0 such that
+Equation (26)’s Π∗1 sentence is both valid and a theorem of Peano Arithmetic:
+∀z > L ∀y ∀r
+
+{ [ ShortPrf r2 (d D2 (r) e, y, z)
+
+∧
+
+MinAx(r) ]
+
+→
+
+∃ p < z ∃ q < z ∃ s < z ∃ t < z [ Pair(s, t) ∧ Prfr (p, s) ∧ Prfr (q, t) ]} (26)
+Proof: The combination of Lemma 2 (part ii) and Lemma 5 easily implies
+that Equation (26) is valid for sufficiently large enough L . This is because
+these two lemmas imply that if (z, y, r) satisfies the left side of (26)’s
+implication clause, then (for suitably large enough L ) the Q∗2 sentence 0y
+will have short enough proofs of both itself and its negation to automatically
+satisfy the right side of (26)’s implication clause. (Moreover, (26) is a Π ∗1
+theorem of Peano Arithmetic because all the lemmas presented in this chapter
+can be formally proven by Peano Arithmetic.) 2
+Finishing the Definition of W . The final clause W8 of the system W will be defined as Equation (26)’s Π∗1 sentence with a large enough
+value assigned to the constant L to make this sentence valid. (We had
+not provided W8 ’s definition earlier in this section because it seemed more
+appropriate to first introduce the Lemma 6 — indicating the correctness of
+W8 — before defining it.)
+Finishing the Proof of Theorem 1. The combination of Lemmas 1
+through 6 indicates that all the clause of W are valid Π∗1 theorems of
+Peano Arithmetic (as the hypothesis of Theorem 1 had required). To finish
+the proof of Theorem 1, we must show that every finite and consistent axiom
+system α ⊃ W is unable to prove its Level(2+) consistency.
+
+358
+
+NEW VERSION OF SECOND INCOMPLETNESS THEOREM
+
+This fact is an easy consequence of Theorem 4. In particular, any α ⊃ W
+must be able to prove the two sentences (A) and (B) required by Theorem
+4 because the sentence (A) is identical to α’s W2 axiom clause and because α can verify (B) by taking Equation (26)’s W8 axiom-sentence and
+observing that it reduces to (B) when one sets r = α (and uses the fact
+that MinAx( α ) =True). Hence since α can prove (A) and (B), Theorem 4
+indicates α is unable to verify its Level(2+) Tableaux consistency. 2
+Clarification Concerning Theorem 1’s Proof and Meaning. The
+preceding paragraph showed how it was relatively easy to derive from Theorem 4 the conclusion that no consistent α ⊃ W can verify its own Level(2+)
+Tableaux consistency. This result would actually be totally meaningless if W
+was an invalid statement because there would then be no example of a consistent α ⊃ W actually existing ! The more subtle aspect of Theorem 1’s
+proof was thus not its second paragraph (which explored the properties of
+systems satisfying α ⊃ W ) but rather it was its first paragraph (which noted
+Lemmas 1 through 6 imply W is a logically valid Π∗1 sentence). Without
+this latter crucial fact, Theorem 1 would be devoid of meaningful, non-trivial
+structural implications. (A similar distinction about the importance of W
+being a valid Π∗1 sentence will also apply to the generalizations of Theorem
+1 explored in the next section.)
+
+5
+
+Sketch of Theorem 2’s Proof
+
+Throughout this section, Tab−<−Listλα (t, p) will denote a Σ∗0 sentence asserting p is a Tab−<−List proof of the theorem t from the axiom system
+α . Also, Short−<−Listλα (x, y, z) will denote the TabList analog of Section
+3’s ShortPrf(x, y, z) predicate. It will thus denote a Σ∗0 sentence that asserts
+that the two conditions of y =Logλ (z) and Tab−<−Listα (x, y) both hold.
+Also, D<λ ( α ) will denote the analog of Section 3’s D λ ( α ) Gödel sentence.
+Thus, D<λ ( α ) is defined to be the following diagonalization sentence:
+There exists no code (y, z) that represents a ShortList proof
+(with exponent λ and intermediate set < ) of this sentence
+from α’s axioms.
+Throughout this section, the symbol ⊥ will denote the Gödel number
+of the sentence 0 = 1 . Our general technique for proving Theorem 2 will
+
+359
+
+DAN E. WILLARD
+
+employ a methodology very similar to Theorem 1’s proof. It will thus employ
+an intermediate step, analogous to the Theorem 4, used in Sections 3 and 4.
+The formal statement of this revised form of Theorem 4 is given below:
+Theorem 5. . Let < denote an arbitrary class of sentences. (In our
+particular applications of Theorem 5, < will represent either the set of Π ∗2
+formulae or the set of Σ∗2 formulae). Suppose α is a consistent axiom system
+capable of proving all the Σ∗0 sentences that are valid in the Standard Model.
+Suppose there exists two constants, λ and L , such that α can also prove:
+A)
+
+∀g ∀h ∀h∗ {
+
+B)
+
+∀z > L
+
+[ Subst( g , h ) ∧ Subst( g , h∗ ) ] → h = h∗
+
+∀y
+
+{
+
+∃p<z
+
+Short−<−List λα ( d D<λ (α) e , y, z )
+Tab−<−Listα ( ⊥ , p )
+
+}
+
+→
+
+}
+
+Then α must be incapable of proving Equation (27)’s theorem statement
+(which intuitively indicates that Tab−<−List proofs using α’s set of proper
+axioms are Level(0–) consistent).
+∀p
+
+¬ Tab−<−Listα ( ⊥ , p )
+
+(27)
+
+In addition to using Theorem 5 to prove Theorem 2, we will need an
+approximate analog of the prior section’s Lemma 6. Below is Lemma 6’s
+analog for TabList deduction:
+Lemma 7. Let MinW( α ) denote a Σ∗0 formula that indicates α is an axiom
+system of finite cardinality which includes Section 4’s Π∗1 sentence W. Then
+there exists two suitably large constants L1 > 0 and L2 > 0 such that
+Equations (28) and (29) are both Π∗1 theorems of Peano Arithmetic:
+∀ z > L1 ∀ y ∀ r
+
+{
+
+2 (r) e, y, z)
+[ Short−Π∗2 −List r2 (d DΠ
+∗
+2
+
+∃ p1 < z
+∀ z > L2 ∀ y ∀ r
+
+{
+
+Tab−Π∗2 −Listα ( ⊥ , p1 )
+
+2 (r) e, y, z)
+[ Short−Σ∗2 −List r2 (d DΣ
+∗
+
+∃ p2 < z
+
+∧
+
+2
+
+Tab−Σ∗2 −Listα ( ⊥ , p1 )
+
+MinW(r) ]
+
+}
+∧
+
+(28)
+MinW(r) ]
+
+}
+
+→
+
+→
+
+(29)
+
+360
+
+NEW VERSION OF SECOND INCOMPLETNESS THEOREM
+
+Proof Sketch for Lemma 7. In a very abbreviated form, the proof
+element p1 needed to make Equation (28) valid can be summarized as
+having the following 4-part structure:
+1. Its first fragment will be the Tab−Π∗2 −List proof y , which intuitively
+2
+represents a proof of the Π∗1 theorem DΠ
+∗ (α) .
+2
+2. Its second fragment will prove the Π∗0 theorem which states that y ,
+2
+viewed as a Gödel number, proves the theorem DΠ
+∗ (α) . (This theorem
+2
+∗
+2
+2
+is formally encoded as: Tab−Π2 −List α ( d DΠ∗2 (r) e , y ). )
+3. Its third fragment will prove the precise sequence of Π∗2 theorems of
+Υ1 , Υ2 , ... Υy in exactly the chronological order just specified. (The
+reason it is necessary to prove these theorems in increasing chronological order is that it will turn out that Part-iii of Lemma 2 can then
+assure that each proof is sufficiently compact for p1 to satisfy Equation
+(28)’s severe size constraint of p1 < z .)
+4. The last fragment of p1 will use the combination of the preceding three
+results to prove 0=1, via a variant of Gödel’s traditional diagonalization
+contradiction argument. (The exactly helpful role of the theorem Υy
+in this contradiction proof is that it will guarantee the existence of the
+y
+integer z = 22 — whose formally proven existence is required to
+finish our proof of 0=1. )
+Likewise summarized again in an abbreviated form, the proof element p2
+satisfying Equation (29) is the following 4-part structure:
+1. Its first fragment will be the Tab−Σ∗2 −List proof y , which intuitively
+represents a proof of the Π∗1 theorem DΣ2 ∗2 (α) .
+2. Its second fragment will prove the Σ∗0 theorem which states that y ,
+viewed as a Gödel number, proves the theorem DΣ2 ∗2 (α) . (This Σ∗0
+theorem is formally encoded as Tab−Σ∗2 −List 2α ( d DΣ2 ∗2 (r) e , y ). )
+3. Its third fragment will prove the precise sequence of Σ∗2 theorems of
+¬ Υy , ¬ Υy−1 , ... ¬ Υ1 in exactly the descending chronological order
+just specified. (The reason it is necessary to prove these theorems in
+decreasing chronological order is that the theorem ¬ Υy can be derived
+
+DAN E. WILLARD
+
+361
+
+easily as a combined consequence of Item 1 and 2’s intermediate results,
+and for each integer i we can then use Part-iii of Lemma 2 to obtain a
+suitably short proof of ¬ Υi−1 from the preceding intermediate result
+of ¬ Υi to satisfy Equation (29)’s severe size constraint of p2 < z .)
+4. The last fragment of p2 will use Item 3’s intermediate result of ¬ Υ1
+to prove the desired contradiction theorem of 0=1.
+The proof that the objects p1 and p2 satisfy the size constraints in Lemma
+7’s two claims can be summarized as being analogous to Section 4’s multistep proof of Lemma 6 — except that roughly Part-iii of Lemma 2 will now
+replace its prior Part-ii in certain intermediate steps of Lemma 7’a proof. (A
+more formal proof of Lemma 7 will appear in a longer version of this article.)
+Sketch of the Remainder of Theorem 2’s proof:
+To complete
+Theorem 5’s proof, we will set VA equal to the conjunction of Section 4’s
+axiom W with Equation (28)’s Π∗1 sentence, and set VB equal to the
+conjunction of W with Equation (29)’s Π∗1 sentence. Then a similar type
+of diagonalization proof, as was used in Section 4, can finish Theorem 2’s
+proof. In particular, one can combine the intermediate results of Theorem 5
+and Lemma 7 to derive Theorem 2 in the same manner that the prior section
+combined Theorem 4 and Lemma 6 to derive Theorem 1. (Several additional
+details concerning exactly how Section 4’s proof of Theorem 1 can generalize
+to also verify Theorem 2 shall appear in a longer version of this paper.)
+Significance of Theorem 2’s Result. Part of the reason that Theorem
+2 is significant is that Theorem 3 shows that if one were to weaken only
+slightly either Part-A or Part-B of Theorem 2’s hypothesis then significant
+Boundary-Case Exceptions to the Second Incompleteness Theorem will arise.
+It should also be stated that Theorem 2 generalizes to all axioms systems of
+infinite cardinality satisfying Remark 1’s Conventional Deciphering Property.
+It is also apparent that the Incompleteness effects described by Theorems
+1 and 2 can generalize from Semantic Tableaux deduction to any other cutfree rule of inference, such as for example Herbrand deduction or the cut-free
+variants of the Sequent calculus. (In the particular case of Theorem 2, the
+analogs of TabList deduction obviously will have their subcomponent proofs
+p1 , p2 , ...pn consist of Herbrand or Cut-Free sequent calculus proofs.)
+
+362
+
+6
+
+NEW VERSION OF SECOND INCOMPLETNESS THEOREM
+
+Appendix: Sketch of Theorem 3’s Proof
+
+This appendix will sketch a proof of Theorem 3. As Section 2 had explained, Theorem 3’s result was technically announced on the last page of our
+Tableaux-2002 paper [34]. However, the latter conference paper only formally
+proved the correctness of a weaker version of this result — where Semantic
+Tableaux deduction replaced Tab1 List deduction in Clause 1 of Theorem 3’s
+formal statement. Our goal in this Appendix is to briefly summarize the
+added functionality needed to prove the stronger and more general version
+of [34]’s theorem. Throughout this appendix, we will assume that the reader
+has already examined our prior paper [34] and has a copy of it on his desk.
+Thus, we will not review most of the definitions from [34]. Also, if a Lemma
+number ends with “t” (as in say “Lemma 2-t”) then it refers to a result from
+our Tableaux–2002 Conference paper [34].
+In all candor, we first hesitated to include a very abbreviated proof of
+Theorem 3 as an appendix to this article. However, it seemed desirable
+to include some type of justification of Theorem 3 here because there is
+such a tight match between Theorem 3’s positive result and Theorem 2’s
+complementing negative result for this topic to be worth mentioning.
+Notation Conventions: The deductive rule of inference that had been
+called “R(1,1) Hierarchy Deduction” in our prior paper [34] has now been
+renamed, and it is called instead “Tab1 List” deduction in the current paper.
+Thus Tab1 List α (t, p) will denote a Σ∗0 formula indicating that p is a
+Tab1 List proof of the theorem t from the axiom system α
+As in our earlier article [34], Pair*(x, y) will denote a Σ∗0 formula indicating that x is a Π∗1 sentence and y is its negation. The last page
+of [34] had defined IS-1*(A) as an axiom system identical to [34]’s IS-1(A)
+system, except that Tab1 List deduction had replaced Semantic Tableaux deduction in the statement of IS-1*(A)’s self-justifying Group-3 axiom. Thus,
+the Group-3 axiom of IS-1*(A) is a self-referencing axiom of the form:
+∀ x ∀ y ∀ p ∀ q ¬ [ Pair*(x, y) ∧ Tab1 List IS-1*(A) (x, p) ∧ Tab1 List IS-1*(A) (y, q) ] (30)
+
+Our proof of Theorem 3 will rest on showing that one can generalize the
+Theorem 2-t from [34] to establish that:
++ If A is consistent then IS-1*(A) is automatically also consistent.
+
+363
+
+DAN E. WILLARD
+
+Henceforth, ω(x, y, p, q) will denote the Σ∗0 formula enclosed within (30)’s
+square bracket expression. In order to establish + , it is sufficient to prove
+the following alternate form of this assertion:
++ + If A is consistent then ∀ x ∀ y ∀ p ∀ q
+
+¬ ω(x, y, p, q)
+
+Outline of the Proof of ++ . For the sake of constructing a proofby-contradiction, let us assume + + was false and that (X, Y, P, Q) denotes
+the particular tuple satisfying ω(X, Y, P, Q) that has minimal value for the
+quantity G = Max(P, Q). Then Equation (31) is valid:
+∀x∀y∀p∀q
+
+{ p < G ∧ q < G } → ¬ ω(p, q, x, y)
+
+(31)
+
+The procedure PROBE, the notion of a (L, M )−Conservative Branch of a
+Semantic Tableaux proof and the condition called Constraint(p, β) were each
+defined in [34]. Our goals will be 1) to use Equation (31) and these concepts to
+construct an ordered pair satisfying Constraint(t, β), and then 2) to combine
+this fact with [34]’s Lemma 1-t to finish our proof-by-contradiction.
+Some added notation is now needed to formalize this proof of ++. Let
+H again denote a Tab1 List proof, comprised of the sequence of ordered pairs
+of (t1 , p1 ) , (t2 , p2 )...(tn , pn ) , where pi is a semantic Tableaux proof of the
+intermediate result ti . Let us call Υ the Conclusion of the proof H iff
+it is the last theorem that H proves (i.e. this means that tn = Υ ). Define
+χ(pi ) to be the number of logical
+Pn symbols appearing in pi ’s proof. Also, let
+=(H) denote the quantity
+i=1 χ(pi ). Let us say that:
+1. The Σ∗1 sentence “ ∃ v1 ∃ v2 ... ∃ vm ψ(v1 , v2 , ...vm ) ” is G−good iff
+there exists a Tab1 List proof H ≤ G from IS-1*(A) of this sentence,
+and it is accompanied with a valid Equation (32).
+∃ v1 ≤ 2=(H) ∃ v2 ≤ 2=(H) ... ∃ vm ≤ 2=(H)
+
+ψ(v1 , v2 , ...vm )
+
+(32)
+
+2. The Π∗1 sentence “ ∀ v1 ∀ v2 ... ∀ vm ψ(v1 , v2 , ...vm ) ” is G−good iff
+there exists a Tab1 List proof H ≤ G from IS-1*(A) of this sentence,
+and it is accompanied with a valid Equation (33).
+∀ v1 ≤ G·2− =(H) ∀ v2 ≤ G·2− =(H) ... ∀ vm ≤ G·2− =(H)
+
+φ(v1 , v2 , ...vm )
+(33)
+
+364
+
+NEW VERSION OF SECOND INCOMPLETNESS THEOREM
+
+The opening paragraph of this proof had assumed that ω(X, Y, P, Q)
+was true, and it had defined the integer G to equal Max(P, Q). In this
+context, all the standard encoding conventions imply that the two formal
+inequalities of =(P ) < 13 Log2 (G) and =(Q) < 13 Log2 (G) both hold when
+the Π∗1 sentence X and the Σ∗1 sentence Y are both G−good. Since it is
+impossible for both X and Y to have G−good proofs under the preceding
+circumstances, we are forced to conclude that there exists some sentence Υ∗
+which fails to be G−good and whose proof H ∗ ≤ G has the smallest Gödel
+number among the set of proofs that fail the G−good criteria.
+Let p∗ denote the particular tableaux proof belonging to H ∗ that proves
+the theorem Υ∗ . It turns out that [34]’s procedure PROBE can construct
+under these assumptions a branch β ∗ of p∗ satisfying Constraint(p∗ , β ∗ ).
+In particular, this procedure PROBE will produce such an output when it is
+given the input arguments of
+∗
+
+∗
+
+∗
+
+1. M = G · 2−=(H ) − 1 , L = 2=(H ) − χ(p ) and T = p∗ when Υ∗ is a
+Π∗1 sentence.
+∗
+
+∗
+
+∗
+
+2. M = G · 2χ(p ) − =(H ) − 1 , L = 2=(H ) and T = p∗ when Υ∗ is a
+Σ∗1 sentence.
+The formal proof that these input values for L, M and T will enable the
+procedure PROBE to produce an (L, M )−Conservative branch is roughly
+similar to the 8-step construction used in [34] to justify its Lemmas 2-t and
+3-t. The added details needed to now justify our stronger effect appear in a
+longer version of this paper. It differs from the analogous results from [34]
+by essentially using Equation (31) and the certifiable fact that H ∗ is the
+smallest Tab1 List style proof failing G−goodness to enable us to strengthen
+Lemmas 2-t and 3-t.
+Our justification of ++ can now be finished with the same type of proofby-contradiction that was used in [34]. The preceding four paragraphs have
+shown that if ++ was false, then we could construct some β satisfying Constraint(p∗ , β ∗ ). However such a construction is actually impossible because the axioms in p∗ ’s proof would then form a system satisfying
+the hypothesis of Lemma 1-t. In this context, Lemma 1-t certainly forbids
+Constraint(p∗ , β ∗ ) from being true. Hence, ++ must be true to avoid this
+inherent contradiction. 2
+
+DAN E. WILLARD
+
+365
+
+Acknowledgment:
+I thank Robert Solovay for several stimulating
+telephone conversations that we had during 1994. In essence, the Theorems
+1 and 2 of the current article were designed to strengthen the formalism from
+the Theorem ∗ that Solovay communicated to me during 1994 (see [21]).
+This paper’s research was funded partially by NSF Grant 99-02726.
+
+7
+
+Bibliography
+
+[1] Z. Adamowicz, “Herbrand Consistency and Bounded Arithmetic”, Fundamenta Mathematica 171 (2002) pp. 279-292.
+[2] Z. Adamowicz and P. Zbierski, “On Herbrand consistency in weak theories”, Archive for Mathematical Logic 40 (2001) pp. 399-413.
+[3] A. Bezboruah and J. C. Shepherdson, “Gödel’s Second Incompleteness
+Theorem for Q”, Journal of Symbolic Logic 41 (1976) pp. 503-512.
+[4] S. R. Buss and A. Ignjatovic, “Unprovability of Consistency Statements
+in Fragments of Bounded Arithmetic”, Annals of Pure and Applied Logic
+74 (1995) pp. 221-244.
+[5] M. Fitting, First Order Logic & Automated Theorem Proving, Springer
+1996.
+[6] P. Hájek, “On Intrepretability in Set Theory”, Part I in Comm, Math,
+Univ. Carol Vol 12 (1971) pp. 73–79 and Part II in Comm, Math, Univ.
+Carol Vol 13 (1972) pp. 445-455.
+[7] P. Hájek and P. Pudlák, Metamathematics of First Order Arithmetic,
+Springer Verlag 1991.
+[8] R. Kaye, Models of Peano Arithmetic, Oxford University Press 1991.
+[9] J. Krajı́cek, “A Note on Proofs of Falsehood”, Archives on Math Logic
+26 (1987) pp. 169-176.
+[10] J. Krajı́cek, Bounded Propositional Logic and Complexity Theory, Cambridge University Press, 1995.
+
+366
+
+NEW VERSION OF SECOND INCOMPLETNESS THEOREM
+
+[11] E. Nelson, Predicative Arithmetic, Math Notes, Princeton Press, 1986.
+[12] R. Parikh, “Existence and Feasibility in Arithmetic”, Journal of Symbolic Logic 36 (1971), pp.494-508.
+[13] J. B. Paris and C. Dimitracopoulos, “A Note on the Undefinability of
+Cuts”, Journal of Symbolic Logic 48 (1983) pp. 564-569.
+[14] J. B. Paris and A. J. Wilkie, “∆0 Sets and Induction”, Proceedings of
+the Jadswin Logic Conference (Poland), Leeds Univ. Press (1981) pp.
+237-248.
+[15] P. Pudlák, “On the Lengths of Finistic Consistency Statements in First
+Order Theories”, Logic Colloquium 1984, North Holland Press, pp. 165196.
+[16] P. Pudlák, “Cuts, Consistency Statements and Interpretations”, Journal
+of Symbolic Logic 50 (1985) pp.423-442.
+[17] P. Pudlák, “On the Lengths of Proofs of Consistency”, in Colleqium
+Logicum: Annals of the Kurt Gödel Society Volume 2, Springer-WienNewYork (1996) pp 65-86.
+[18] Z. Ratajczyk, “Subsystems of True Arithmetic and Hierarchies of Functions”, Annals or Pure and Applied Logic 64 (1993) pp. 95–152.
+[19] S. Salehi, Herbrand Consistency in Arithmetics with Bounded Induction,
+Polish Academy of Sciences Ph D thesis, October 2001.
+[20] R. Smullyan, First Order Logic, Springer Verlag, 1968.
+[21] R. Solovay, Some detailed telephone conversations between Robert Solovay and Dan Willard (in April of 1994), subsequently summarized and
+published in Appendix A of [32]. During these conversations, Solovay
+described his generalization of one of Pudlák’s theorems from [16]. Solovay never published any of his observations about “Definable Cuts” that
+numerous logicians [4, 7, 8, 10, 11, 13, 16, 17, 29] have attributed to his
+private communications. A 1-sentence summary of Solovay’s idea, communicated to us, is described by Theorem ∗ , whose formal statement
+can be found in the first paragraph of Section 1. See the Appendix A
+
+DAN E. WILLARD
+
+367
+
+of [32] for a much longer 4-page summary of these telephone conversations with Robert Solovay and an interpretation of how the joint work
+of Nelson, Pudlák, Solovay and Wilkie-Paris had collectively produced
+the basic result of Theorem ∗ .
+[22] V. Švejdar, “Modal Analysis of Generalized Rosser Sentences”, Journal
+of Symbolic Logic 48 (1983) pp. 986-999.
+[23] G. Taekuti, “Gödel Sentences of Bounded Arithmetic”, Journal of Symbolic Logic 65 (2000) pp. 1338-1346 (A preliminary version of this result
+appeared in the Proceedings of the Logic 1996 conference, pp. 247–261.)
+[24] A. Tarski, A. Mostowski and R. Robinson, Undecidable Theories, N.
+Holland 1953.
+[25] A. Visser, “An Inside View of Exp”, Journal of Symbolic Logic 57 (1992)
+131–165
+[26] A. Visser, “The Unprovability of Small Inconsistency”, Archive for
+Mathematical Logic 32 (1993) pp. 275-298.
+[27] A. Visser, “Faith and Falsity”, Utrecht Univ. Tech. Report (October
+2002).
+[28] P. Vopěnka and P. Hájek, “Existence of a Generalized Semantic Model
+of Gödel-Bernays Set Theory”, Bulletin de l’Academie Polonaise des
+Sciences, Mathmatiques, Astromiques et Physiques 12 (1973) pp.10791086.
+[29] A. J. Wilkie and J. B. Paris, “On the Scheme of Induction for Bounded
+Arithmetic”, Annals of Pure and Applied Logic (35) 1987, 261-302
+[30] D. Willard, “Self-Verifying Axiom Systems”, Third Kurt Gödel Colloquium (1993), Springer-Verlag LNCS#713, pp. 325-336.
+[31] D. Willard, “The Semantic Tableaux Version of the Second Incompleteness Theorem Extends Almost to Robinson’s Arithmetic Q”, in Automated Reasoning with Analytic Tableaux and Related Methods (2000),
+SpringerVerlag LNAI#1847, pp. 415-430.
+[32] D. Willard, “Self-Verifying Systems, the Incompleteness Theorem and
+the Tangibility Reflection Principle”, Journal Symbolic Logic 66 (2001)
+536-596.
+[33] D. Willard, “How to Extend The Semantic Tableaux And Cut-Free
+Versions of the Second Incompleteness Theorem Almost to Robinson’s
+Arithmetic Q”, Journal of Symbolic Logic 67 (2002) pp. 465-496.
+
+368
+
+NEW VERSION OF SECOND INCOMPLETNESS THEOREM
+
+[34] D. Willard, “Some New Exceptions for the Semantic Tableaux Version
+of the Second Incompleteness Theorem”, in Automated Reasoning with
+Semantic Tableaux and Related Methods, Springer–Verlag LNAI#2381,
+(2002) 281-297.
+
+

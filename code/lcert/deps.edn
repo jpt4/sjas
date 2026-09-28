@@ -1,0 +1,12 @@
+;; λᶜᵉʳᵗ₀ — a minimal certificate language (ADR-0005).
+;;
+;; The fast suite needs only Clojure.  The :ansatz alias adds the Ansatz
+;; library and the verified kernel (ansatz/lcert/verified.clj); the extended
+;; suite runs under it.  Never initialise a Mathlib store: the kernel uses
+;; Ansatz's bundled Lean Init environment only, with ANSATZ_OFFLINE=1.
+{:paths ["src"]
+ :deps {org.clojure/clojure {:mvn/version "1.12.0"}}
+ :aliases
+ {:test   {:extra-paths ["test"]}
+  :ansatz {:extra-deps {org.replikativ/ansatz {:mvn/version "0.2.115"}}
+           :extra-paths ["ansatz" "test" "test-ext"]}}}

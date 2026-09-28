@@ -1,0 +1,136 @@
+{
+  "problems": [
+    "Willard2006b: no bibliography in the JSL text layer; use Willard2005-TAB for the conference-form reference list",
+    "willard2006b: weak refs parse (0 entries)"
+  ],
+  "per_doc": {
+    "willard1993->Willard1993": {
+      "n": 23,
+      "how": "heading"
+    },
+    "willard1993-tr->Willard1993-TR": {
+      "n": 7,
+      "how": "heading"
+    },
+    "willard1998->Willard1998": {
+      "n": 0,
+      "how": "heading"
+    },
+    "willard2000-tab->Willard2000-TAB": {
+      "n": 27,
+      "how": "heading"
+    },
+    "willard2001->Willard2001": {
+      "n": 45,
+      "how": "heading"
+    },
+    "willard2002a->Willard2002a": {
+      "n": 29,
+      "how": "heading"
+    },
+    "willard2002c->Willard2002c": {
+      "n": 25,
+      "how": "heading"
+    },
+    "willard2004->Willard2004": {
+      "n": 34,
+      "how": "heading"
+    },
+    "willard2005->Willard2005": {
+      "n": 45,
+      "how": "heading"
+    },
+    "willard2005-tab->Willard2005-TAB": {
+      "n": 43,
+      "how": "heading"
+    },
+    "willard2006a->Willard2006a": {
+      "n": 52,
+      "how": "heading"
+    },
+    "willard2006b->Willard2006b": {
+      "n": 0,
+      "how": "tail-fallback"
+    },
+    "willard2006-wollic->Willard2006-WoLLIC": {
+      "n": 40,
+      "how": "heading"
+    },
+    "willard2006-talk->Willard2006-Talk": {
+      "n": 7,
+      "how": "heading"
+    },
+    "willard2007-apal->Willard2007-APAL": {
+      "n": 43,
+      "how": "heading"
+    },
+    "willard2007-kgs6->Willard2007-KGS6": {
+      "n": 21,
+      "how": "heading"
+    },
+    "willard2009->Willard2009": {
+      "n": 56,
+      "how": "heading"
+    },
+    "willard2011->Willard2011": {
+      "n": 69,
+      "how": "heading"
+    },
+    "willard2013->Willard2013": {
+      "n": 34,
+      "how": "heading"
+    },
+    "willard2014->Willard2014": {
+      "n": 45,
+      "how": "heading"
+    },
+    "willard2014-archive->Willard2014": {
+      "n": 24,
+      "how": "heading"
+    },
+    "willard2016->Willard2016": {
+      "n": 61,
+      "how": "heading"
+    },
+    "willard2018->Willard2018": {
+      "n": 71,
+      "how": "heading"
+    },
+    "willard2020->Willard2020": {
+      "n": 53,
+      "how": "heading"
+    },
+    "willard2020-lfcs->Willard2020-LFCS": {
+      "n": 55,
+      "how": "heading"
+    }
+  },
+  "external_rows": 712,
+  "self_rows": 174,
+  "clusters": 157,
+  "documents_covered": [
+    "Willard1993",
+    "Willard1993-TR",
+    "Willard1998",
+    "Willard2000-TAB",
+    "Willard2001",
+    "Willard2002a",
+    "Willard2002c",
+    "Willard2004",
+    "Willard2005",
+    "Willard2005-TAB",
+    "Willard2006-Talk",
+    "Willard2006-WoLLIC",
+    "Willard2006a",
+    "Willard2007-APAL",
+    "Willard2007-KGS6",
+    "Willard2009",
+    "Willard2011",
+    "Willard2013",
+    "Willard2014",
+    "Willard2016",
+    "Willard2018",
+    "Willard2020",
+    "Willard2020-LFCS"
+  ]
+}

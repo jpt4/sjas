@@ -1,0 +1,1618 @@
+Some Specially Formulated Axiomizations for
+IΣ0 Manage to Evade the Herbrandized
+Version of the Second Incompleteness
+Theorem
+
+Dan E. Willard
+More polished version in Information and Computation 207 (2009) pp. 1078-1093.
+
+Abstract
+In 1981, Paris and Wilkie [28] indicated it was an open question whether IΣ0 would
+satisfy the Second Incompleteness Theorem for Herbrand deduction. We will show
+that some specially formulated axiomizations for IΣ0 can evade the Herbrandized
+version of the Second Incompleteness Theorem.
+Key words: Gödel’s Second Incompleteness Theorem, Herbrand Consistency
+MSC: 03B52; 03F25; 03F45; 03H13
+
+1
+
+Introduction
+
+Gödel’s Second Incompleteness Theorem [11] asserts that neither Peano
+Arithmetic, nor any consistent extension of it, can prove a theorem affirming
+its own self-consistency under Hilbert deduction. There have been numerous
+generalizations and extensions of Gödel’s seminal result [1–4,6–9,15,19,23,24,28,30–
+36,38,41,40,43,44,46,48,50,52,54]. For example, Solovay [36] has combined the
+work of Nelson, Pudlák and Wilkie-Paris [25,31,46] to establish that essentially
+no axiom system that recognizes Successor(x) = x + 1 as a total function
+(and which treats addition and multiplication as 3-way relations) can prove
+a theorem affirming its own consistency under the conventional paradigm of
+Hilbert deduction.
+1
+
+Email=dew@cs.albany.edu. This research was partially supported by NSF Grant
+CCR 99-02726
+
+Preprint submitted to Elsevier
+
+8 February 2013
+
+In 1981, Paris and Wilkie [28] noticed that it was an open question whether
+the axiom system IΣ0 did satisfy the Second Incompleteness Theorem for
+semantic tableaux and Herbrand deduction. Interestingly at the same time,
+Paris-Wilkie observed that there was an available solution to this problem for
+Hilbert deduction. Thus, IΣ0 +Exp is unable to prove the Hilbert consistency of
+even an axiom system as simple as Q [46]. Subsequently. Adamowicz-Zbierski
+[1,3] showed that IΣ0 +Ω1 was unable to verify its Herbrand consistency, and
+Willard [48,50] developed an alternate variant of the Adamowicz-Zbierski formalism that showed at least one type of natural encoding of the IΣ0 axiom
+system would satisfy the semantic tableaux version of the Second Incompleteness Theorem.
+On 16 November 2005, we received a fascinating email communication from
+L.A. Kolodziejczyk about this subject (which were an outgrowth out of some
+conversations he had with Zofia Adamowicz and Konrad Zdanowksi). It observed that there are two natural formalisms for axiomatizing IΣ0 , henceforth
+called Ax-1 and Ax-2. Both shall take the Tarski-Mostowski-Robinson axiom
+system Q as their starting base. In a context where φ(x, y) is a ∆0 formula,
+these formalisms will use respectively Equations (1) and (2) to denote their
+induction schemes.
+∀x { { φ(x, 0) ∧ ∀y [ φ(x, y) =⇒ φ(x, y 0 ) ] } =⇒ ∀y φ(x, y) } (1)
+∀x ∀z { { φ(x, 0) ∧ ∀y ≤ z [ φ(x, y) =⇒ φ(x, y 0 ) ] } =⇒ ∀y ≤ z φ(x, y) } (2)
+Kolodziejczyk noticed that logically equivalent axiom systems, such as Ax-1
+and Ax-2, do not necessarily have the same properties with regards to the
+semantic tableaux and Herbrandized versions of the Second Incompleteness
+Theorem. Thus, Kolodziejczyk’s email asked whether [50]’s semantic tableaux
+version of the Second Incompleteness Theorem will generalize for Ax-2’s unconventional induction scheme? It also inquired to what extent are generalizations of the Second Incompleteness Theorem germane to Herbrand deduction?
+One reason the second question is especially intriguing is that Kolodziejczyk
+demonstrated in [18,19] that there exists bounded arithmetics where Herbrand
+consistency and tableaux consistency are provably not logically equivalent.
+One part of our answer to this question had appeared in the separate paper [55]. It explained how our prior results about Ax-1’s semantic tableaux
+incompleteness properties have direct generalizations for Ax-2.
+A second type of answer to Kolodziejczyk’s stimulating open question will
+appear in this paper. We will prove that there is a third type of axiomization
+of IΣ0 , called Ax-3, which is logically equivalent to Ax-1 and Ax-2, but which
+has the property that an extension of Ax-3 is capable of recognizing its own
+Herbrand consistency.
+2
+
+This last result is likely to raise almost as many questions as it does answer.
+This is because there are many potential logically equivalent axiomizations for
+IΣ0 . Thus, one may ask for which potential particular axiomizations α for
+IΣ0 do the Questions (1) and (2) below have a positive answer?
+(1) Are all extensions of α ’s axiomization for IΣ0 unable to prove a theorem
+verifying their own semantic tableaux consistency?
+(2) Likewise, are all extensions of α ’s axiomization for IΣ0 unable to prove
+a theorem verifying their own Herbrand consistency?
+Since the Second Incompleteness Theorem generalizes for most types of axiom
+systems, it is of course reasonable to conjecture that most of the answers
+to the Questions 1 and 2 (above) will be in a positive direction. However,
+the point of this article is that an automatic “yes” response to Questions
+1 and 2 cannot be always secured. Thus, Kolodziejczyk [18,19] has shown
+that Herbrand consistency and semantic tableaux consistency are not always
+equivalent to each other, and the current article will actually construct a
+particular formalization of IΣ0 , called Ax-3, that manages to evade at least
+Question 2’s Herbrandized version of the Second Incompleteness Theorem.
+
+2
+
+The Definition of a New Version of IΣ0
+
+This section will define the Ax-3 axiomatization for IΣ0 and provide the
+formal statement of our main theorem (which will be subsequently proven in
+Sections 3 and 4). As the reader examines the formal definitions in the current
+section, it should be kept in mind that Ax-3 was deliberately endowed with an
+unconventional method for axiomatizing IΣ0 so that its formalism will evade
+the Herbrandized version of the Second Incompleteness Theorem. (Moreover
+because of a technical difference between the definitions of Herbrand consistency and semantic tableaux consistency, it should be kept in mind that
+Ax-3’s evasion of the Second Incompleteness Theorem under a Herbrandized
+definition of consistency does not generalize for semantic tableaux deduction.)
+In our discussion, a formula will be called ∆R
+0 iff it has a structure similar
+to a ∆0 formula (appearing in for example the Hájek -Pudlák textbook [13])
+except that its bounded quantifiers, “ ∀ v ≤ T ” and “ ∃ v ≤ T, ”, are
+now disallowed from using the conventional arithmetic functions of addition
+and multiplication in their terms T . Instead, the terms of a ∆R
+0 formula
+will employ only the maximum function as the only permissible operator to
+define a variable’s bounded range. (Arithmetic functions are allowed to appear
+elsewhere in the body of a ∆R
+0 formula.) Thus, Equation (3) is an example
+3
+
+R
+of a ∆R
+0 formula, and (4) is an example of a ∆0 formula that is not ∆0 .
+
+∀ p ≤ Max(x, y) [ ( p + y ≤ x + 2 ∗ y) ∨ ( p ∗ y ≤ y ∗ y ∗ y ) ] (3)
+∀ p≤ x∗y
+
+[ ( p + y ≤ x + 2 ∗ y) ∨ ( p ∗ y ≤ y ∗ y ∗ x ) ]
+
+(4)
+
+Let us say a formula is ΠR
+1 iff it can be written as ∀ v1 ∀ v2 ... ∀ vn φ(v1 , v2 , ... , vn )
+where φ(v1 , v2 , . . . , vn ) is a ∆R
+0 formula. Each of Ax-1, Ax-2 and Ax-3 will
+contain a common set of nine ΠR
+1 axioms, called Q0 and listed below. The
+main purpose of Q0 will be to define the constructs of addition, multiplication, integer-successor, maximum and also = and ≤.
+1 = 00 ∧ 2 = 10 ∧ 0 = 0 ∧ 00 6= 0 ∧ 0 ≤ 0 ∧ ¬ [ 00 ≤ 0 ] (5)
+∀ x ( x+0 = x ∧ x·0 = 0 ∧ x·1 = x )
+
+(6)
+
+∀x ∀y ( x0 = y 0 ⇐⇒ x = y )
+
+(7)
+
+∀x ∀y ( x ≤ y ⇐⇒ ( x0 ≤ y ∨ x = y )
+
+(8)
+
+∀x ∀y
+
+x · y 0 = (x · y) + x
+
+∀x ∀y ∀z
+
+[x=y ∧ y=z ] ⇒ [x=z ∧ z=x]
+
+(10)
+
+∀x ∀y ∀z
+
+[x=y ∧ y≤z ] ⇒ x≤z
+
+(11)
+
+∀x ∀y ∀z
+
+[x=y ∧ z≤y ] ⇒ z≤x
+
+(12)
+
+∧
+
+x + y 0 = (x + y)0
+
+(9)
+
+∀x ∀y ( x ≤ y ⇒ Max(x, y) = y ) ∧ ( y ≤ x ⇒ Max(x, y) = x )(13)
+
+In the context of the above definition for Q0 , the Ax-1 and Ax-2 formalisms
+will be respectively defined as the union of Q0 with all the instances of the
+respective induction schemes in Equations (1) and (2), where φ(x, y) is a ∆0
+formula. Similarly, I∆R
+0 will be defined as the union of Q0 with all instances
+of Equation (2)’s induction schemas where φ(x, y) is ∆R
+0.
+This paragraph will define a set of ΠR
+1 sentences, called Trivial-R, that has
+R
+the property that I∆0 + Trivial-R proves the same set of theorems as the more
+conventional Ax-1 and Ax-2 axiomatization for IΣ0 . In our discussion, a tuple
+(a0 , a1 , a2 , . . . , aN ) is called a Split Representation of an non-negative
+integer x when the following condition is satisfied:
+x =
+
+N
+X
+
+ai ∗ (a0 + 1)i−1 AND a1 ≤ a0 ∧ a2 ≤ a0 ∧ ... aN ≤ a0 (14)
+
+i=1
+
+4
+
+For a fixed integer N , let SplitN ( x , a0 , a1 , . . . , aN ) denote a ∆R
+0 formula
+indicating (14) is satisfied.
+For each of the arithmetic operators of + , ∗ , Max, = and ≤, the axR
+iom system Trivial-R will have available a family of ∆R
+0 predicates and Π1
+axioms for simulating the operations of these functions when they manipulate Split Representations of integers. Thus for a fixed triple (I, J, K),
+let MultI,J,K (a0 , a1 , ..., aI , b0 , b1 , ..., bJ , c0 , c1 , ..., cK ) designate a ∆R
+0 predicate
+simulating the action of integer multiplication when its input is the two split
+integers of (a0 , a1 , . . . , aI ) and (b0 , b1 , . . . , bJ ) and its resultant is the
+multiplicative product of (c0 , c1 , . . . , cK ). The accompanying ΠR
+1 axiom of
+Trivial-R that formalizes this predicate will be:
+
+∀ x ∀ y ∀ z ∀ a0 ∀ a1 ... ∀ aI ∀ b0 ∀ b1 ... ∀ bJ ∀ c0 ∀ c1 ... ∀ cK
+{ [ SplitI (x, a0 , ... , aI ) ∧ SplitJ (y, b0 , ... , bJ ) ∧ SplitK (z, c0 , ... , cK ) ] =⇒
+[ x∗y =z
+
+⇐⇒ MultI,J,K (a0 , ... , aI , b0 , ... , bJ , c0 , ... , cK ) ] } (15)
+
+Likewise, Trivial-R will have available analogs of Equation (15) to simulate addition, maximum, equality, and less-than-or-equals among split integers. Thus,
+the predicates of AddI,J,K (a0 , a1 , . . . , aI , b0 , b1 , . . . , bJ , c0 , c1 , . . . , cK ),
+MaximI,J,K (a0 , a1 , . . . , aI , b0 , b1 , . . . , b, c1 , . . . , cK ), EqI,J (a0 , a1 , . . . , aI , b0 , b1 , . . . , bJ )
+I,J,K
+and LTEI,J (a0 , a1 , . . . , aI , b0 , b1 , . . . , bJ ) will be the ∆R
+0 analogs of Mult
+for these four structural relations. Their counterparts of Equation (15)’s formal
+axiom will then be:
+
+∀ x ∀ y ∀ z ∀ a0 ∀ a1 ... ∀ aI ∀ b0 ∀ b1 ... ∀ bJ ∀ c0 ∀ c1 ... ∀ cK
+{ [ SplitI (x, a0 ...aI ) ∧ SplitJ (y, b0 ...bJ ) ∧ SplitK (z, c0 ...cK ) ]
+[ x+y =z
+
+=⇒
+
+⇐⇒ AddI,J,K (a0 ...aI , b0 ...bJ , c0 ...cK ) ] }
+
+(16)
+
+∀ x ∀ y ∀ z ∀ a0 ∀ a1 ... ∀ aI ∀ b0 ∀ b1 ... ∀ bJ ∀ c0 ∀ c1 ... ∀ cK
+{ [ SplitI (x, a0 ...aI ) ∧ SplitJ (y, b0 ...bJ ) ∧ SplitK (z, c0 ...cK ) ]
+[ z = Max(x, y)
+
+=⇒
+
+⇐⇒ MaximI,J,K (a0 ...aI , b0 ...bJ , c0 ...cK ) ] } (17)
+
+5
+
+∀ x ∀ y ∀ a0 ∀ a1 ... ∀ aI ∀ b0 ∀ b1 ... ∀ bJ
+=⇒ [ x = y
+
+⇐⇒ EqI,J (a0 ...aI , b0 ...bJ ) ]
+
+∀ x ∀ y ∀ a0 ∀ a1 ... ∀ aI ∀ b0 ∀ b1 ... ∀ bJ
+=⇒ [ x ≤ y
+
+[ SplitI (x, a0 ...aI ) ∧ SplitJ (y, b0 ...bJ ) ]
+(18)
+
+[ SplitI (x, a0 ...aI ) ∧ SplitJ (y, b0 ...bJ ) ]
+
+⇐⇒ LTEI,J (a0 ...aI , b0 ...bJ ) ]
+
+(19)
+
+Henceforth, Ax-3 will denote the axiom system I∆R
+0 + Trivial-R. Section 3
+will prove that Ax-3 proves the same set of theorems as Ax-1 and Ax-2.
+
+Definition 1: Let α ⊇ β denote that α’s set of formal axioms includes
+all β ’s axioms. (This definition of “ ⊇ ” is stronger than the more modest
+construct that α proves all β ’s theorems.) Also assuming α denotes a consistent axiom system and D denotes a deductive method, (α, D) will be
+called a Threshold for the Second Incompleteness Effect iff all consistent
+extensions α∗ ⊇ α have the property that α∗ is unable to prove the consistency of its proofs using deduction method D. Otherwise, (α, D) will be called
+an Anti-Threshold. (It means that some consistent α∗ ⊇ α can prove a
+theorem affirming its own consistency under deduction method D.)
+
+Using Definition 1’s notation, the main theorem proven in this article will
+be that Ax-3 is an anti-threshold for the Herbrandized version of the Second
+Incompleteness Theorem. This means that there must assuredly exist some
+consistent system α∗ ⊇ Ax-3, where α∗ can prove a theorem affirming its
+own Herbrand consistency.
+
+3
+
+Basic Framework and Underlying Intuition
+
+This section will have two purposes. It will formally prove Ax-3 proves
+the same set of theorems as Ax-1 and Ax-2, thus establishing that Ax-3 is a
+permissible formal means for axiomatizing IΣ0 . It will also provide an intuitive
+explanation of why Ax-3 is able to evade the Herbrandized version of the
+Second Incompleteness Theorem (by satisfying Definition 1’s “anti-threshold”
+property for Herbrand consistency).
+Theorem 1 Each of Ax-1, Ax-2 and Ax-3 prove the same set of theorems.
+6
+
+Proof Sketch: It is well known Ax-1 and Ax-2 prove the same set of
+theorems. Thus to establish Theorem 1, we need only show Ax-2 and Ax-3.
+also prove the same set of theorems.
+Our proof will use the fact that Paris and Dimitracopoulos [26] have observed that in a model-theoretic sense, there is a 1-to-1 correspondence between ∆0 formulae and their equivalent representations in a ∆R
+0 form. Let
+R
+ψ(x, y) denote an arbitrary ∆0 formula. The Paris and Dimitracopoulos [26]
+result easily implies that for any integer k, it is possible to construct a ∆R
+0
+formula ψ ∗ (x, y0 , y1 , . . . , yk ) that is its logical counterpart of ψ(x, y) under
+split representations for an integer. More precisely, it implies that one can map
+∗
+ψ(x, y) onto a ∆R
+0 formula ψ (x, y0 , y1 , . . . , yk ) such that the Ax-2 and Ax-3
+representations of IΣ0 can both trivially prove the following property:
+∀ x ∀ y ∀ y0 ∀ y1 ... ∀ yk
+
+{ Splitk (y, y0 , y1 , . . . , yk ) =⇒ [ ψ(x, y) ⇐⇒ ψ ∗ (x, y0 , y1 , . . . , yk ) ] } (20)
+Let SizeL (y0 , y1 , . . . , yk ) denote a ∆R
+0 formula indicating that (y0 , y1 , . . . , yk )
+represents an integer ≤ L. Then it is not hard to show that Ax-3 can use
+its Trivial-R axioms to prove that the two ∆0 formulae of ∃y ≤ xk ψ(x, y)
+and ∀y ≤ xk ψ(x, y) are equivalent to the respective ∆R
+0 formulae of:
+∃ y0 ≤ x ∃ y1 ≤ x ... ∃ yk ≤ x Sizexk (y0 , y1 , ... , yk ) ∧ ψ ∗ (x, y0 , y1 , ... , yk ) (21)
+∀ y0 ≤ x ∀ y1 ≤ x ... ∀ yk ≤ x Sizexk (y0 , y1 , ... , yk ) ⇒ ψ ∗ (x, y0 , y1 , ... , yk ) (22)
+Thus by essentially applying n iterations of this technique (and its obvious
+analogs) to any initial ∆0 formula with n bounded quantifiers, Ax-3 can
+transform an arbitrary ∆0 formula into a provably equivalent ∆R
+0 formula. It
+thus follows that although the Ax-3 system contains technically only instances
+of Equation (2)’s axiom schema for ∆R
+0 formulae, it nevertheless has an ability
+to formally prove as theorems all the remaining instances of Ax-2’s axiom
+schema for ∆0 formulae as well. (In particular if φ(x, y) is a ∆0 formula which
+∗
+R
+is not ∆R
+0 and if φ (x, y) is a ∆0 formula equivalent to φ(x, y), then Ax-3
+can prove a theorem verifying the validity of Equation (2)’s axiom scheme for
+φ(x, y) by first observing that this axiom scheme is valid for φ∗ (x, y) and then
+observing the latter is equivalent to φ(x, y)’s axiom scheme.)
+Hence although Ax-3 contains technically only a proper superset of Ax-2’s
+induction axioms as formal axioms within its own induction schema, it has
+the ability to formally prove the validity of all of Ax-2’s axioms. The proof
+in the reverse direction (establishing that Ax-2 can prove all Ax-3’s axioms)
+is straightforward because Ax-2 can easily prove all Ax-3’s Trivial-R axioms.
+Hence, Ax-2 and Ax-3 will prove identical sets of theorems. 2
+7
+
+Remark 1. Our proof that Ax-3 is an anti-threshold for the Herbrandized
+version of the Incompleteness Theorem will appear in Section 4. This result
+is quite surprising because there are of course many more generalizations of
+Gödel’s Second Incompleteness Theorem available in the mathematical literature [1–4,6–9,15,19,23,24,28,30–36,38,41,40,43,44,46,48,50,52,54] than there
+are published examples of boundary-case style exceptions to its formalism.
+In order to explain intuitively the core idea about why our paper is able
+to achieve this surprising evasion of the Second Incompleteness Theorem, it
+is helpful to let Υn denote Equation (23)’s ∆0 sentence. Note that this
+sentence is comprised of O( n ) logic symbols. It asserts that the variables
+i
+v0 , v1 , v2 , . . . , vn , satisfy vi = 22 .
+∃ v0 ≤ 2 ∃ v1 ≤ v0 ∗ v0 ∃ v2 ≤ v1 ∗ v1 ... ∃ vn ≤ vn−1 ∗ vn−1
+v0 = 2 ∧ v1 = v0 ∗ v0 ∧ v2 = v1 ∗ v1 ∧ ... ∧ vn = vn−1 ∗ vn−1
+
+(23)
+
+It is easy to see there exists some ∆R
+ΥR
+that
+0 sentence, called say
+n ,
+is the counterpart of Equation (23) written in a notation using split integers. This sentence will indicate the existence of a sequence of split integers
+i
+S0 , S1 , S2 , . . . , Sn , where Si represents the quantity 22 .
+However although they in some sense represent equivalent concepts, there is
+a fundamental difference between the ∆0 sentence Υn and its ∆R
+0 counterpart
+ΥR
+.
+This
+difference
+is
+easiest
+to
+explain
+if
+one
+uses
+a
+logical
+language
+that
+n
+has only 3 named constants, 0, 1 and 2, and if split integers are encoded
+will be encoded as a sequence of at least
+as base 2 numbers. Then ΥR
+n
+n
+2 characters, but Υn ’s length has a sharply smaller O(n) magnitude. As
+a consequence of this distinction (and its generalizations), we realized that
+one could formulate an axiom system that was logically equivalent to the
+more conventional encodings for IΣ0 , but which was an anti-threshold to the
+Herbrandized version of the Second Incompleteness Theorem (using Definition
+1’s terminology).
+In particular, it turns out that the exponential difference between the lengths
+R
+of the ∆0 sentence Υn and its ∆R
+0 counterpart Υn plays a major role in
+understanding the central concept that motivated much of the research that
+stimulated the current article. Thus, this paradigm (and its formal generalization for arbitrarily more complicated sequences of sentences) are used by
+Section 4’s machinery in a much more sophisticated context to prove that it is
+feasible to construct awkward encodings for IΣ0 , similar to Ax-3, that are actual anti-thresholds to the Herbrandized version of the Second Incompleteness
+Theorem. (A reader should not worry if he does not follow fully the intuitive
+idea, sketched in this paragraph, about the significance of logically equivalent
+statements that have exponentially different sizes in length. This is because
+8
+
+a fully formalized proof of our main theorem, that uses this effect, will be
+explored in great detail in the next section.)
+
+4
+
+Main Analysis
+
+A sentence ψ in the propositional calculus will be called an Anti-Tautology
+iff ψ is unsatisfiable (i.e. ¬ ψ is a tautology). Our definition of Herbrand deduction will be identical to the definitions used by Adamowicz, Hájek-Pudlák
+and Kolodziejczyk [1,13,19], except that we will use a dual version of this definition that follows from De Morgan’s Rule, where disjunctions are replaced
+with conjunctions and where tautologies are replaced with anti-tautologies. In
+other words, our definition will use the well-known identity that
+n
+_
+i=1
+
+¬ φi
+
+=
+
+¬
+
+n
+^
+
+φi
+
+(24)
+
+i=1
+
+Our definition of Herbrand deduction will differ from its more conventional
+definitions by using the right (instead of left) side of (24)’s identity. This
+change in notation is unnecessary, but it does help to considerably simplify
+our proofs.
+Let Ψ denote an arbitrary prenex normal sentence such as the prototype
+below, whose open subcomponent is denoted as f
+ψ .
+∀ x1 ∃ y1 ∀ x2 ∃ y2 ....
+
+∀ xn ∃ yn
+
+f
+ψ (x , y ...x , y )
+1
+
+1
+
+n
+
+n
+
+(25)
+
+In a context where f1ψ (x1 ), f2ψ (x1 , x2 ) ... fnψ (x1 , x2 , . . . , xn ) are new function
+symbols, Equation (26) is called the Skolemization of Equation (25).
+∀ x1 ∀ x2 .... ∀ xn f
+ψ [ x1 , f1ψ (x1 ) , x2 , f2ψ (x1 , x2 ) ... xn , fnψ (x1 , x2 , . . . , xn ) ] (26)
+In a context where L is a logical language and α is an axiom system, we
+will let CL and FL denote the set of constant and function symbols associated with L . Similarly, Fα will denote the set of “Skolemized” function
+symbols associated with α’s axioms. Thus using (25) and (26)’s notation, let
+α denote a system of axioms Ψ1 , Ψ2 , Ψ3 ... , and for an arbitrary index i let
+its Skolemized function symbols carry names such as fiψ1 , fiψ2 , fiψ3 , ... The
+Herbrandized Terms for this ordered pair (α, L) will then be defined to
+be the set of all terms generated by the constants from the set CL combined
+with the functional operations from the set Fα ∪ FL .
+9
+
+A Herbrandized Instance of a Skolemized axiom is a sentence identical
+to this axiom except that all its universally quantified variables are replaced
+by Herbrandized terms. For instance in a context where T1 , T2 , T3 ... are
+Herbrandized terms, Equation (27) is such an instance of (26)’s axiom:
+f
+ψ [ T1 , f1ψ (T1 ) , T2 , f2ψ (T1 , T2 ) . . . , Tn , fnψ (T1 , T2 , . . . , Tn ) ]
+
+(27)
+
+Let ⊥ denote the logical constant of FALSE. A Herbrandized Proof of
+⊥ from the axiom system α is defined as a finite collection of Herbrandized
+instances of α together with a proof, in the pure propositional calculus, that
+the conjunction of these instances is an anti-tautology.
+Definition 2 : Using our revised notation convention, the theorem Υ
+will be said to have a Herbrandized Proof from the axiom system β if
+and only if the union of the axiom system β with the added sentence ¬ Υ
+produces a Herbrandized proof of ⊥ .
+More Notation: Let us say that a function G( x1 , x2 , . . . , xn ) is a
+Non-Growth Function iff G( x1 , x2 , . . . , xn ) ≤ Max( x1 , x2 , . . . , xn ).
+Define a set S of functions to be an Arithmetic Controlled Set iff S
+includes the arithmetic functions of addition, multiplication and successor and
+all its other functions are non-growth functions. Also, define a term t to be
+an Arithmetically Controlled Term iff t is a term that uses only the
+symbols of 0, 1 and 2 as its inputted constants and all its function symbols
+come from some Arithmetic Controlled Set S. Thus if G1 and G2 are nongrowth functions, Equation (28) represents an arithmetically controlled term.
+G1 [ (2 + 1) ∗ (1 + 1) , 1 + 2 ] ∗ G2 ( 2 + 2 + 0 , 2 + 2 + 1 + 0 )
+
+(28)
+
+Also, in a context where Ct and Ft denote the number of constant and
+function symbols in t, we will use the following notation:
+(1) MinG(t) will denote the quantity 2Ct +Ft .
+(2) Val(t) will denote the quantity represented by the term t.
+For example if G1 (x, y) = |x − y| and G2 (x, y) = Min(x, y) then Equation
+(28)’s term t will have V al(t) = 3 ∗ 4 = 12 and MinG(t) = 225 (because
+t contains 12 function symbols and 13 constant symbols).
+Lemma 1 Let t be an arithmetically controlled term which satisfies the
+inequality Val(t) ≥ 4. Then Val(t) < MinG(t).
+Proof Sketch: Suppose for some k ≥ 2, that Val(t) = 2k . Then it
+easy to see that t ’s maximally compressed representation as an arithmetically
+10
+
+controlled term is “ 2 ∗ 2 ∗ .... 2 ”. Thus MinG(t) = 22k−1 > Val(t) = 2k is valid
+in this case because the preceding product has k appearances of the constant
+2 connected by k − 1 appearances of the multiplication symbol. Moreover, it
+is easily proven that terms, which are not powers of 2, are never represented in
+a more compressed form than the greatest power of 2 that they exceed. Thus
+Lemma 1 is valid for all terms where Val(t) ≥ 4. 2
+Definition 3. For a fixed constant B > 0, a set S of functions is
+defined to be a B−Bounded Arithmetic Set iff S includes the arithmetic
+functions of addition, multiplication and successor and all its other functions
+G satisfy the constraint that
+G(x1 , x2 , ... , xn ) ≤ Max(x1 , x2 , ... , xn ) when Max(x1 , x2 , ... , xn ) < B
+Also, we will say a term t is a B-Bounded Arithmetic Term iff t is a
+term that uses only the symbols of 0, 1 and 2 as its inputted constants and all
+its function symbols come from some B-Bounded Arithmetic Set S . Lemma
+2 provides the generalization of Lemma 1 for B-bounded arithmetic terms.
+Its proof is omitted because it is an easy generalization (see footnote 2 ) of
+Lemma 1’s proof.
+Lemma 2 Suppose that t is a B−bounded arithmetic term with MinG(t) < B
+and Val(t) ≥ 4. Then Val(t) < MinG(t).
+R
+Definition 4. Let Φ denote the ΠR
+1 sentence below whose ∆0 subformula
+is defined by f
+φ ( a1 , a2 ... an ) :
+
+∀a1 ∀a2 ...∀an f
+φ (a1 , a2 ...an ).
+
+(30)
+
+For any B ≥ 1, Equation (30) is called a B−Bounded Valid ΠR
+1 sentence
+iff (31) is valid under the standard model of the natural numbers
+∀ a1 < B ∀ a2 < B ... ∀ an < B
+
+f
+φ ( a1 , a2 , . . . , an ).
+
+(31)
+
+Definition 5. An axiom system α will be said to satisfy the Canonical Arithmetic Condition when all α’s axioms are ΠR
+1 sentences and they
+include Q0 ’s nine axioms (i.e. Equations (5)–(13) ).
+2
+
+The intuitive reason that Lemmas 1 and 2 have similar proofs is that arithmetically controlled terms and B−bounded arithmetic terms have precisely identical
+growth rates until a construction process builds an intermediate object t with
+MinG(t) ≥ B .
+
+11
+
+(29)
+
+Definition 6. Let Θ denote a methodology for assigning Gödel numbers to Herbrand proofs (which are henceforth denoted as P ). Let us recall
+that MinG(t) was defined by Item (1) in this section. Define Θ to be a
+Conventional Encoding Method if Θ(P ) > MinG(t) whenever the
+proof P contains the Herbrand term t . (Such encodings are called “conventional” because all usual methods for encoding Herbrand proofs satisfy
+Θ(P ) > MinG(t) .)
+Theorem 2 Suppose α is a canonical arithmetic axiom system consisting
+of B−Bounded Valid ΠR
+1 sentences and Θ again satisfies Definition 6’s Conventional Encoding property. Then any Herbrand proof P of ⊥ from the
+axiom system α will satisfy the inequality that Θ(P ) > B .
+General Comments about Theorem 2 and its Proof: At an intuitive
+level, Theorem 2 can be viewed as a consequence of the machineries of Lemma
+2 and Definitions 3-6. This is because the B-Bounded validity condition in
+Theorem 2’s hypothesis can be used to show that a Herbrand proof P of ⊥
+must contain some term t where Val(t) ≥ B . In this context, the combination
+of Lemma 2 and Definition 6 will imply that such a term will force P ’s Gödel
+number to exceed the lower bound of B.
+A more detailed formal proof of Theorem 2 appears in Appendix A. It explains the precise role that Definition 3 and Lemma 2 play in establishing
+this theorem. Our recommendation is that a reader postpone examining Appendix A until after he finishes the remainder of this section. It will explain
+the significance of Theorem 2 by showing how it enables us to prove the surprising result that the Ax-3 axiomatization for IΣ0 is an anti-threshold for the
+Herbrandized version of the Second Incompleteness Theorem.
+
+Theorem 3 For any arbitrary axiom system α and deduction method D, let
+Diagonal(α, D) and αD denote the following two constructs:
+A. Diagonal(α, D) will denote a logical sentence that states: “There is
+no proof (using deduction method D ) of the falsity sentence ⊥ from the
+union of the axiom system α with this sentence Diagonal(α, D) (looking
+at itself).”
+B. αD will denote the formal union of the axiom system α with the
+sentence Diagonal(α, D).
+Let Diag(Ax-3) denote the special variant of Diagonal(α, D) where α = Ax-3
+and D designates Herbrand deduction. Both these two constructs and also
+αD are well defined. Also, Diag(Ax-3) has a ΠR
+1 encoding.
+12
+
+Abbreviated Sketch of Theorem 3’s proof. As early as 1938, Kleene
+observed [17] that the Fixed Point Theorem implied that a type of cousin of
+the sentence Diagonal(α, D) was well defined. More recently, Willard [49,52]
+showed how Diagonal(α, D) could be formally endowed with a Π1 encoding
+under the conventional language of arithmetic. It is reasonably straightforward
+to generalize [49,52]’s result to establish that Diag(Ax-3) also has a well defined
+ΠR
+1 encoding (thus completing Theorem 3’s proof.) The remainder of this proof
+sketch will summarize the ideas from [49,52] for the benefit of those readers
+who are unfamiliar with this topic. Our discussion will employ the following
+notation:
+i PrfD
+α ( t , p ) will denote a formula designating that p is a proof of the
+theorem t from the axiom system α using the deduction method D.
+ii ExPrfD
+α ( h , t , p ) will be a formula stating that p is a proof (using the
+deduction method D ) of a theorem t from the union of the axiom system
+α with the added axiom sentence whose Gödel number equals h .
+iii Subst ( g , h ) will denote Gödel’s classic substitution formula — which
+yields TRUE when g is an encoding of a formula and h is an encoding
+of a sentence that replaces all occurrence of free variables in g with a
+mathematical term formalizing the Gödel number for representing “g”.
+iv SubstPrfD
+α ( g , t , p ) will denote the natural hybridizations of the constructs from Items (ii) and (iii) which yields a Boolean value of TRUE
+exactly when there exists some integer h simultaneously satisfying both
+Subst ( g , h ) and ExPrfDα ( h , t , p ).
+Each of (i)–(iv) can be encoded as ∆R
+0 formulae when α is any recursively enumerable axiom system. In particular, Appendices C and D of [49] essentially
+established (see footnote 3 ) that the first three of these predicates can receive
+∆R
+0 encodings when one applies the theory of LinH functions from [13,21,56]
+in a reasonably routine manner. In such a context, Equation (32) illustrates
+D
+one possible ∆R
+0 encoding for SubstPrfα (g, t, p)’s graph. (It is equivalent to
+D
+“ ∃ h [ Subst(g, h) ∧ ExPrfα (h, t, p) ] ”, but Equation (32) is a ∆R
+0 formula
+— unlike the quoted expression.)
+PrfDα ( t , p )
+
+∨
+
+∃ h ≤ p [ Subst ( g , h ) ∧ ExPrfDα ( h , t , p ) ] (32)
+
+3
+
+The results of Wrathall [56] have been noted by Hájek–Pudlák [13] to imply
+that every LinH function [13,21,56] has a ∆0 encoding. Using a slightly different
+“ ∆−
+0 ”notation, the results from Appendices C and D of [49] explained how this reD
+D
+sult would imply that the each of PrfD
+α (t, p), ExPrfα (h, t, p) and SubstPrfα (g, t, p)
+−
+R
+have “ ∆0 ”encodings. Since the ∆0 class of formalae is broader than ∆−
+0 ,
+R
+these formulae must also have ∆0 encodings.
+
+13
+
+D
+Utilizing (32)’s ∆R
+0 encoding for SubstPrfα (g, t, p), it is easy to formulate a
+ΠR
+1 encoding for the axiom sentence Diagonal(α, D). Thus, let Γ(g) denote
+Equation (33)’s formula, and let N denote Γ(g)’s Gödel number. Then
+Γ( N ) is a ΠR
+1 encoding for Diagonal(α, D).
+
+∀ p ¬ SubstPrfD
+α( g , ⊥ , p )
+
+(33)
+
+2
+Clarifying Comment: One should be somewhat cautious in interpreting
+the meaning of Theorem 3. It does not indicate that Diag(Ax-3) is a logically
+valid statement under the standard model of the natural numbers. Rather, it
+merely indicates Diag(Ax-3) is a well defined ΠR
+1 sentence. In order to establish
+prove that Diag(Ax-3) is also valid, we will need the added force of Theorem
+4 below.
+Theorem 4 Let Ax-3* denote the union of the axiom system Ax-3 with the
+sentence Diag(Ax-3). Then Ax-3* is consistent. (Thus, Ax-3 is an “antithreshold” for the Herbrandized version of the Second Incompleteness Theorem
+under Definition 1’s notation convention.)
+Proof of the Consistency Property of Ax-3* : Suppose for the sake
+of establishing a proof-by-contradiction that Ax-3* was inconsistent. Then one
+could identify a proof P of ⊥ whose Gödel number Θ(P ) is the smallest
+Gödel number of a Herbrand proof of ⊥ from Ax-3*. We will now construct
+from P an alternate Herbrand proof R of ⊥ where Θ(R) < Θ(P ). The
+formal construction of such a R will suffice for our proof by contradiction to
+reach its desired end because such a R cannot possibly exist (on account of
+P ’s minimality property).
+Our strategy is to use Theorem 2 to construct R from P . Theorem 2 is
+relevant to Ax-3* because all the formal axiom sentences of Ax-3* are assuredly
+4
+ΠR
+for the justification of this claim). In such a
+1 sentences (see footnote
+context, we may apply Theorem 2 to conclude that for some B < Θ(P ), at
+least one of the axiom sentences of Ax-3* must fail to be a B-Bounded valid
+ΠR
+1 sentence. Moreover, it is obvious that all the axioms of Ax-3 possess an
+unbounded level of validity (i.e they are B−Bounded valid for all possible B).
+Hence, these two observations imply Diag(Ax-3) fails to be B−bounded valid
+(simply because some axiom from Ax-3* must fail to be B−bounded valid,
+and Diag(Ax-3) is the only available axiom belonging to Ax-3* that is not also
+a member of Ax-3.)
+4
+
+Theorem 3 implies that the Diag(Ax-3) axiom of Ax-3* has a ΠR
+1 structure, and
+Section 2’s definition of Ax-3 implies that all the other axiom-sentences belonging
+to Ax-3 are certainly also ΠR
+1.
+
+14
+
+The latter observation, combined with Diag(Ax-3)’s definition implies (see
+footnote 5 ) that some R with Θ(R) < B must be another proof of ⊥.
+Hence our last two inequalities certainly imply that Θ(R) < B < Θ(P ) .
+This finishes our proof-by-contradiction because P ’s previously presumed
+minimality has been contradicted by R. 2
+Remark 2. Our discussion in this section had assumed that the terms T
+in a ∆R
+0 ’s formula’s bounded quantifiers included only the Maximum function
+symbol. The results of Theorem 4 would actually also hold if these quantifiers were also permitted to include the Addition function symbol. (The only
+reason our discussion had omitted the possibility that both the addition and
+maximum function symbols appear in the ∆R
+0 formula φ’s bounded quantifiers
+in Equation (2) was for the sake of simplifying the presentation.)
+
+Remark 3. The attached Appendix B discusses a yet further reason why
+Theorem 4 is of interest. The anonymous referee had suggested we add this appendix to the current paper. Its methodologies are related to Kolodziejczyk’s
+observation [18,19] that semantic tableaux and Herbrand deduction can sometimes have an exponential difference in their proof lengths. The purpose of
+Appendix B is to sketch how one can generalize [55]’s results for Ax-1 and
+Ax-2 to establish that Ax-3 is also a threshold for the semantic tableaux version of the Second Incompleteness Theorem. In a context where Theorem 4
+had established the polar opposite result for Ax-3 under Herbrand deduction,
+this contrast is, of course, quite interesting.
+
+5
+
+Discussion of Significance of Results
+
+A comparison between our research and the prior research of Kreisel-Takeuti
+and Pudlák [22,31,39] was postponed until the closing part of this current
+article because the results from Sections 3 and 4 were needed to precede this
+discussion.
+In this section, S(x) will denote the “successor” operation that maps the
+integer x onto x + 1. A formula ϕ(x) is called [13] a Definable Cut for an
+axiom system α iff α can prove:
+ϕ(0) AND ∀ x { ϕ(x) ⇒ ϕ[S(x)] } AND ∀ x ∀ y < x { ϕ(x) ⇒ ϕ(y) } (34)
+5
+
+The strictly formalistic definition of Diag(Ax-3) as the entity “ Γ(N ) ” (using a
+self-reference principle) can be found in the last sentence of Theorem 3’s proof. The
+syntax of its Equation (33) implies that if Diag(Ax-3) fails to be B−Bounded valid
+then another proof R must assuredly exist for the sentence ⊥ with Θ(R) < B .
+
+15
+
+A very extensive literature [1,3,6,10,12,13,16,20,21,25,27–33,35,37,42–46,50,51]
+has studied Definable cuts. We have published two 6-page summaries of this
+literature in the review chapters of our articles [52,54]. (Also, Pudlak’s fulllength survey article [32] offers an excellent review of the work done in this
+subject prior to approximately 1990.)
+All axioms systems, strictly weaker than Peano Arithmetic, contain some
+definable cut that is not provably equivalent to the full set of integers. In
+the proof-theory literature, the definition of a “Definable Cut” (see [13]) is
+formally unrelated to Gentzen’s notion of a sequent calculus deductive “cut
+rule”, despite their very similar sounding names.
+Let d Ψ e denote Ψ ’s Gödel number, and PrfD
+α (t, p) denote that p is
+a proof of the theorem t from the axiom system α using the deduction
+method D. Also, let ϕ(x) denote a definable cut. Let us say that an axiom
+system α can recognize its Cut-Localized D-consistency under ϕ(x) iff
+α can formally prove:
+∀p
+
+{ ϕ(p) ⇒ ¬ PrfD
+α ( d0 = 1e , p ) }
+
+(35)
+
+Pudlák [31] proved that no consistent extension of the Tarski-MostowskiRobinson [41] system Q can prove the validity of Equation (35) for any
+definable cut when D denotes either Hilbert deduction or a Gentzen sequent
+calculus system with a deductive cut rule.
+At the same time, the literature about Definable Cuts has also defined
+some circumstances where (35) is provable from α when for example D
+denotes either semantic tableaux or Herbrand deduction. The strongest result
+of this type was discovered by Pudlák [31]. For both Herbrand and semantic
+tableaux deduction, [31] showed that it is possible to construct a definable
+cut ϕ(p) where α can prove the validity of Equation (35)’s Cut-Localized
+D-consistency property when α is an axiom system with finite cardinality
+that satisfies a relatively minor additional constraint called “sequentiality”.
+A second class of boundary-like exceptions to the Second Incompleteness
+can be constructed via the “Cut Free Analysis” (CFA) systems of Kreisel and
+Takeuti [22,39]. It has consisted of a Second Order Logic generalization of the
+cut-free version of Gentzen’s Sequent Calculus that is able to prove some types
+of versions of statements about its own consistency
+The work of Kreisel and Takeuti [22,39] had chronologically preceded most
+of the literature about Definable Cuts. There is a fascinating partial analogy
+between the perspectives of these two approaches. This is because the KreiselTakeuti papers [22,39] can be viewed as using an analog of Equation (35) in
+an implicit manner. Thus [22] employs a set of objects, which we shall call I,
+16
+
+that includes all the standard integers plus plausibly non-standard integers
+that can represent a proof of a contradiction. It then uses I to construct
+a subset of it, called “ N ”, which can be viewed as a representation of the
+natural numbers. (More precisely, the pages 16-17 of [22] construct N from
+I in this manner by employing Dedekind’s and Zermelo’s inductive secondorder logic definitions of the natural numbers. They thus formally treat the
+Dedekind and Zermelo inductive definitions of N as an analog of ϕ(p) in
+Equation (35)’s Cut-Localized D-Consistency statement.)
+A question which then naturally arises is whether or not one can also develop
+some types of axiom systems which can prove their own consistency without
+relying upon Equation (35)’s “Cut-Localized D-consistency” machinery (or
+[22]’s analog of it for a second-order generalization of a Gentzen Cut-Free
+logic.) Such an approach is desirable because one would ideally like to characterize the properties of the natural numbers directly — instead of being
+required to view them as a subset of a potentially larger set of objects, called
+I .
+It is indeed possible to make some progress in this area by using a third approach, relying upon the Diagonal(α, D) sentence, which was formally defined
+by the Theorem 3. (Analogs of this Diagonal(α, D) sentence have also been
+used in several of our previous papers [47,49,52,54] in some contexts quite
+different from the paradigm outlined by Theorem 4.)
+It is difficult to make more detailed comparisons between the partial exceptions to Gödel’s Second Theorem that use our Diagonal(α, D) sentence with
+the methods of Kreisel-Takeuti and Pudlák [22,31,39]. Each technique has its
+own distinct separate advantage. There also appears to be no natural way to
+hybridize these techniques. (The point is that each of these different methodologies is looking at a different type of problem setting, where a different form
+of solution method is available.)
+In particular, our research has treated the sentence Diagonal(α, D) as an
+axiom of α while the Kreisel-Takeuti and Pudlák papers [22,31,39] treat
+their analogs of Equation (35) as derived theorems. In this context, it is very
+natural for a reader to inquire whether is is preferable to treat an “I am
+consistent” statement as a theorem rather than as an axiom of the system α
+that generates it?
+There is surprisingly no easy answer to this question. For instance, if one’s
+goal is to attempt to return to the original objectives of Hilbert’s consistency
+program, then the Kreisel-Takeuti and Pudlák approaches are quite significant
+because they indicate some respects in which an axiom system can indeed formally prove at least a reduced versions of its consistency statement. However
+from an alternate perspective, there is a substantial difficulty with approaches
+17
+
+that treat the statement “I am consistent” and its analogs as a theorem rather
+than as an axiom. The difficulty arises when the relevant systems do not have
+an operating modus ponens or Gentzen-like cut rule (as is the case with the
+axiom systems of [22,31]). Such systems cannot draw inferences when they
+prove a theorem essentially declaring that “I am consistent”. However, a similar such difficulty does not affect the self-justifying axiom systems in our
+earlier papers [47,49,52–54] or in Theorem 4 because they treat the statement
+Diagonal(α, D) as a formal axiom rather than as a theorem. (The point here is
+that axiom sentences, quite unlike theorem sentences, can be permissibly used
+as intermediate steps to generate other deductions under the inference rules of
+semantic tableaux, the cut-free sequent calculus and/or Herbrand deduction
+— thus causing their presence to have stronger implications.)
+Thus, there are quite different insights that arise from systems that treat
+variants of the “I am consistent” statement as an axiom instead of as a theorem
+(because of the different connotations these two approaches carry). Neither
+approach is uniformly preferable over the other. Another difference between
+our research and the investigations of Kreisel-Takeuti and Pudlák [22,31,39]
+is that the sentence Diagonal(α, D) declares the consistency of α in a global
+sense whereas Equation (35) refers only to the localized subset of integers that
+lie within the domain of ϕ. (In the case of Kreisel-Takeuti second-order logic
+system, Equation (35) is used implicitly on the pages 16 and 17 of [22] to draw
+the distinction between what we have called I and N earlier in this section.)
+When one compares our results in Theorem 4 or in our earlier papers
+[47,49,52–54] with the research of Kreisel-Takeuti and Pudlák [22,31,39], it is
+best to remember that Gödel’s Second Incompleteness Theorem precludes an
+exception to it from becoming too powerful. Thus, it is possible to develop different types of partial evasions to the Second Incompleteness Theorem around
+its periphery that shed different types of useful new perspectives. However, it
+is awkward to attempt to hybridize these different types of partial evasions
+into a stronger uniform evasion. This is because if such a hybrid combined the
+strengths of the different approaches X, Y and Z, then it would become so
+strong that its properties could potentially violate the statement of Gödel’s
+historic result. Thus, there are trade-offs where different types of useful insights, stemming from different approaches (that are difficult to hybridize into
+one unified methodology), examine somewhat different problems and produce
+different new perspectives.
+Part of the reason that Ax-3’s evasion of the Herbrandized version of the
+Second Incompleteness Theorem is interesting is that it is known that further
+improvements upon this result are very difficult to obtain. Thus, AdamowiczZbierski [1,3] showed that IΣ0 +Ω1 was unable to verify its Herbrand consistency, Willard [48,50,55] modified this result to show the Second Incompleteness Theorem applied also to Ax-1 and Ax-2’s versions of IΣ0 ’s axiomatization
+18
+
+under semantic tableaux deduction, and Salehi [33] extended some of the earlier results from [1,3,48,50] to develop some further incompleteness results for
+IΣ0 under Herbrand deduction. Thus in a context where several earlier papers
+have explored types of results where the Second Incompleteness Theorem holds
+for encodings for IΣ0 and its cousins , it is surprising that the current article
+has documented a paradigm where at least the Ax-3 encoding for IΣ0 evades
+the Herbrandized version of the Second Incompleteness Theorem.
+
+6
+
+Broader Perspectives
+
+Some added notation is useful so that we can examine Theorem 4’s results
+from a broader perspective. Let us say a formula Φ is ΣR
+1 when it can be
+written in the form ¬ Ψ where Ψ is ΠR
+.
+Some
+other
+fairly
+conventional
+1
+R
+notation is that a sentence will be called Πk+1 when it can be written in
+the form ∀ v1 ∀ v2 ... ∀ vn φ(v1 , v2 , . . . , vn ) where φ(v1 , v2 , . . . , vn ) is a ΣR
+k
+formula. Likewise, a sentence will be called ΣR
+when
+it
+can
+be
+written
+as
+k+1
+∃ v1 ∃ v2 ... ∃ vn φ(v1 , v2 , . . . , vn ) where φ(v1 , v2 , . . . , vn ) is a ΠR
+k formula.
+R
+Also, a sentence will be said to be Level−k if it is either ΠR
+or
+Σ
+k
+k.
+
+Definition 7. Let H denote a sequence of ordered pairs (t1 , p1 ), (t2 , p2 ), ... (tn , pn ),
+where pi is a Herbrand proof of the theorem ti . For an arbitrary integer
+k ≥ 1 , this list H will be defined to be a Herb−k proof of a theorem T
+from the axiom system α iff T = tn and also:
+(1) Each axiom in pi ’s proof is either one of t1 , t2 , ... , ti−1 or comes from α.
+(2) Each of the “intermediately derived theorems” t1 , t2 , ... , tn−1 must lie
+within the Level-k class of sentences.
+Intuitively, Herb−k deduction can be viewed as an extension of Herbrand
+deduction that contains a type of Gentzen-like deductive cut rule for Level-k
+sentences.
+
+The Definition 7’s machinery is useful for helping to describe both the maximal generalizations as well as inherent limitations of Section 4’s formalism.
+Thus using Definition 7’s notation, one can establish the following two tightly
+complementary negative and positive results:
+I. There exists a logically valid ΠR
+1 sentence denoted as Ψ such that no
+consistent axiom system can contain Ψ as an axiom and prove a theorem
+affirming its own consistency under Herb−2 deduction.
+19
+
+II. In contrast for each consistent axiom system A , there exists a consistent
+axiom system I(A) that can prove all A ’s ΠR
+1 theorems and recognize its
+own consistency under Herb−1 deduction.
+In other words, Items I and II indicate that there is a fundamental difference
+between Herb−1 and Herb−2 deduction. Thus, Herb−1 deduction allows for a
+type of robust evasion of the Second Incompleteness Theorem under a formalism that contains a type of limited Gentzen-style cut rule. However, Result-II
+precludes this evasion from becoming too strong.
+We will not prove results I and II here because each has a rather long proof.
+Also, partial analogs of these two prior results have appeared in our prior
+work. Thus, [51] and [52] have used the term Tab−k deduction to refer to a
+construct similar to Herb−k deduction except for the following two changes:
+(1) Under Tab−k deduction, the proofs p1 , p2 , . . . , pn associated with
+the sequence (t1 , p1 ), (t2 , p2 ), . . . , (tn , pn ), are semantic tableaux
+proofs instead of Herbrand proofs.
+(2) Also under Tab−k deduction, the intermediate results t1 , t2 , . . . , tn−1
+will technically represent what [51,52] had called Π∗k and Σ∗k sentences
+∗
+∗
+R
+(instead of being ΠR
+k and Σk sentences). These Πk and Σk sentences can
+R
+be intuitively viewed as being roughly analogous to ΠR
+k and Σk sentences
+— except that they contain no multiplication function symbol. (They
+instead use a relation primitive M (x, y, z) to treat multiplication as a
+3-way relation.)
+In essence Item-I’s result can be viewed as being analogous to [51]’s main
+theorem. Similarly, Item-II’s result can be viewed as following from a rather
+natural hybridization of [52]’s main result with the machinery that we had
+developed in Section 4.
+For further details about this material, the reader should examine [51,52]’s
+generic formalisms. The reason we had slightly changed the topic from semantic tableaux to Herbrand deduction in the current paper is because Herbrand
+deduction and its Herb−1 generalization possess one interesting quality that
+semantic tableaux and Tab−1 deduction simply do not possess. This is that
+the Ax-3 encoding of the axiom system IΣ0 is an anti-threshold to the Herbrandized (and also Herb−1 ) versions of the Second Incompleteness Theorem. However, the similar anti-threshold effect does not apply also to semantic tableaux deduction (as is explained in Appendix B). Thus, the Herb−1
+deduction method will support certain types of evasions of the Second Incompleteness Theorem that have no analogs under Tab−1 deduction. (The
+interested reader should also examine Kolodziejczyk work [18,19], which observed how semantic tableaux and Herbrand-styled proofs can sometimes have
+an exponential difference in their lengths.)
+20
+
+In essence the over-all goal of our research, in the current paper and in
+the previous papers [47] – [55], has been to attempt to sharpen the academic
+community’s understanding of the meaning of the Second Incompleteness Theorem, by exploring both its maximal generalizations and permitted allowed
+boundary-case exceptions. We plan to prepare a new article about this subject in the near future, describing the underlying philosophical motivation for
+much of this research. One must clearly approach this subject matter carefully because the many generalizations of the Second Incompleteness Theorem
+are seemingly more significant than its occasional boundary-case exceptions.
+The reason that the partial exceptions to the Second Incompleteness Theorem should not be ignored is because Gödel’s Incompleteness Theorem is
+often regarded as the paramount discovery of 20th century mathematics. It
+thus beckons the academic community to explore both its maximum generalizations and possible boundary case exceptions, so that an understanding of
+the full meaning of its historic result can be sharpened and made more precise. Within such a limited-but-precise framework, the anomalous behavior of
+Ax-3, documented in this article, should be of scholarly interest.
+
+Acknowledgments: I warmly thank Leszek Kolodziejczyk for the interesting questions that he had emailed me on November 16, 2005. Those questions
+played a major role in encouraging me to re-examine my earlier work in [50]
+for one more time. I also thank Zofia Adamowicz and Konrad Zdanowksi, who
+helped at least partially stimulate the emailed questions from L. Kolodziejczyk
+through their conversations with him in Warsaw. Those questions from Leszek
+Kolodziejczyk had greatly stimulated my research in this article. I also thank
+the anonymous referee for his many useful comments, including the suggestion
+that I add the Appendix B to this article.
+
+Appendix A: The Proof For Theorem 2
+
+This appendix will explain in further detail how Definitions 3-6 and Lemma
+2 may be used to prove Theorem 2. Our discussion will begin with one further
+definition and two further lemmas.
+
+Definition 8. Consider the possibility that Ψ is the prenex normal sentence, whose open part is formalized by f
+ψ (x1 , y1 ...xn , yn ), shown in Equation
+(36) and whose Skolemized normalized form is illustrated by Equation (37).
+∀ x1 ∃ y1 ∀ x2 ∃ y2 ....
+
+∀ xn ∃ yn
+
+f
+ψ (x , y ...x , y )
+1
+
+1
+
+n
+
+n
+
+(36)
+
+∀x1 ∀x2 .... ∀xn f
+ψ [ x1 , f1ψ (x1 ) , x2 , f2ψ (x1 , x2 ), ... xn , fnψ (x1 , x2 ... xn ) ] (37)
+21
+
+For any B ≥ 1, Equations (36) and (37) will be called a B−Bounded Good
+Skolemization iff one can define (37)’s Skolem functions f1Ψ , f2Ψ , ... fnΨ so
+they satisfy both Definition 3’s B−Bounded requirement (see footnote 6 )
+and Equation (38) under the standard model of the natural numbers.
+∀ x1 < B ∀ x2 < B ....
+
+∀ xn < B
+
+f
+ψ [ x1 , f1ψ (x1 ) , x2 , f2ψ (x1 , x2 ) . . . , xn , fnψ (x1 , x2 . . . , xn ) ]
+
+(38)
+
+Likewise, we will say an axiom system α has a B−Bounded Good Skolemization iff all its axioms are so Skolemized.
+
+Lemma 3 Using the notation conventions from Definitions 4 and 8, every
+B−Bounded Valid ΠR
+1 sentence can be rewritten into a logically equivalent
+form that has a B−Bounded Good Skolemization.
+Proof. Follows immediately from the definitions of Bounded Validity and
+Bounded Good Skolemizations (i.e. see Definitions 4 and 8).
+
+Remark 4: From Lemma 3, one can gain a further intuitive appreciation
+of the role that Definition 3 will play in our proof of Theorem 2. This lemma
+indicated that every B−Bounded Valid ΠR
+1 sentence had a B−Bounded Good
+Skolemization, and Definition 8 indicated that such skolemizations satisfied
+Definition 3’s requirement that no such invoked Skolem function would grow
+faster than the multiplication primitive. Such slow-growth Skolem functions
+characterize Ax-3 (but not also the Ax-1 and Ax-2 systems). The intuitive
+reason for this distinction is that the paradigm in the footnote 6 of Definition
+8 applies only to Ax-3.
+Lemma 4 Using the notation conventions from Definitions 5, 6 and 8, suppose that α is a canonical arithmetic system consisting of prenex sentences
+with B−Bounded Good Skolemizations and that Θ satisfies the Conventional
+Encoding property. Then any Herbrand proof P of ⊥ from the axiom system
+α will satisfy Θ(P ) > B .
+
+Proof-by-contradiction: Consider the contrary possibility that the inequality Θ(P ) > B failed and that P is a Herbrand-proof of ⊥ from the
+system α where Θ(P ) ≤ B. We shall denote this inequality as ∗ ∗ ∗ .
+6
+
+The function of Definition 3’s B−Bounded requirement is that it assures that
+each of Equation (37)’s Skolem functions of f1Ψ , f2Ψ , ... satisfy the constraint that
+fiΨ (x1 , x2 , ... , xi ) ≤ Max(x1 , x2 , ... , xi ) whenever Max(x1 , x2 , ... , xn ) < B .
+
+22
+
+Definition 6 had indicated every term T in the proof P satisfies the
+inequality of Θ(P ) > MinG(T.) Also, Lemma 2 implied Val(T ) <MinG(T ).
+These inequalities and *** imply that every term T in the proof P satisfies
+Val(T ) < B
+
+(39)
+
+Equation (39) implies all the terms T1 , T2 , T3 ... in the Herbrandized instances
+in the proof P satisfy Val(Ti ) < B. The normalized form of an instance of
+a Skolemized axiom is illustrated by Equation (40). The combination of our
+Val(Ti ) < B inequalities together with (38)’s B−Bounded constraint on α’s
+axioms implies that each such instance of (40) appearing in the proof P must
+be automatically valid under the standard model of the natural numbers.
+f
+ψ [ T1 , f1ψ (T1 ) , T2 , f2ψ (T1 , T2 ) , . . . , Tn , fnψ (T1 , T2 . . . , Tn ) ]
+
+(40)
+
+The latter observation completes our proof-by-contradiction because it contradicts the statement ∗ ∗ ∗ that had started our proof. More precisely ∗ ∗ ∗
+had asserted that P was a Herbrand-proof of ⊥ from the axiom system α.
+However, the Footnote 7 shows that such is impossible when the last sentence
+of the preceding paragraph indicated that each instance of (40)’s Skolemized
+axiom is valid under the standard model of the natural numbers. 2
+Finishing the Proof for Theorem 2.
+It is easy to combine the machineries of Lemmas 3 and 4 to complete the proof of Theorem 2. This is
+because Lemma 3 had indicated that every B−Bounded Valid ΠR
+1 sentence
+can be rewritten into a logically equivalent form that has a B−Bounded Good
+Skolemization. Thus, Theorem 2 follows by simply taking such rewritten forms
+of α’s axioms and then applying Lemma 4’s machinery. 2
+
+Appendix B: An Analysis of Ax-3’s Semantic Tableaux Properties
+
+This appendix will illustrate how the methods of [55] may be extended to
+prove that Ax-3 satisfies the semantic tableaux version of the Second Incompleteness Theorem. Our discussion will be closely related to Kolodziejczyk’s
+observations [18,19] that (in the context of Buss’s Bounded Arithmetic [5])
+7
+
+The point here is simply that a conjunction of Skolemized instances can produce
+a proof of ⊥ only when there exists no model M where all these instances
+are simultaneously valid. Hence when the preceding paragraph shows that all these
+Skolemized instances are simultaneously valid under the Standard Model of the
+Natural Numbers, it implies that certainly no such proof of ⊥ can feasibly exist.
+
+23
+
+semantic tableaux and Herbrand deduction can sometimes have an exponential or greater difference in their proof lengths. In a context where Theorem 4
+had showed that Ax-3 was an anti-threshold under Herbrand deduction, the
+results in this appendix are noteworthy because they imply Ax-3 has polar
+opposite qualities under semantic tableaux and Herbrand deduction.
+The discussion in this abbreviated appendix will assume that the reader is
+familiar with [55]’s proof that Ax-1 and Ax-2 satisfy the semantic tableaux
+version of the Second Incompleteness Theorem. We will also often rely upon
+the notation convention from the second paragraph of Section 2 of [55] (which
+defined semantic tableaux deduction’s eight elimination rules).
+It is desirable to examine a fourth axiomization for IΣ0 , called Ax-4, before
+considering Ax-3 because such an approach will help make the underlying
+intuitions behind our methodologies easier to appreciate. In our discussion,
+the symbol Ψ will denote the ΠR
+1 sentence defined by Equation (41). Ax-4
+will be defined to be an encoding of IΣ0 that is identical to Ax-3 except that
+it includes Equation (41)’s added sentence. (Since Ax-3 can trivially prove the
+validity of Equation (41), the Ax-4 system is clearly logically equivalent to
+Ax-3. Thus while proof lengths may differ in these two axiom systems, the
+final theorems that they derive are the same.)
+∀z
+
+∀q ≤ z
+
+[ q∗q ≤ z ⇒ ∃ r ≤ z ( r = q∗q ) ]
+
+(41)
+
+Lemma 5 The axiom system Ax-4 satisfies the semantic tableaux version of
+the Second Incompleteness Theorem. (In other words using Definition 1’s notation, Ax-4 is a “threshold for the Second Incompleteness Effect” under semantic tableaux deduction).
+Proof Sketch: Our justification of Lemma 5 will employ the definition of
+semantic tableaux deduction that had appeared in Section 2 of [55]. Its second
+paragraph listed eight elimination rules for semantic tableaux deduction. For
+any term s, its sixth rule applies to bounded existential quantifiers appearing
+in expressions similar to:
+∃ v ≤ s Θ(v)
+
+(42)
+
+For an arbitrary new constant symbol U that does not appear in the base
+axiom system α or in any higher node in the semantic tableaux proof tree,
+this rule 6 allows Equation (43) to be a descendant of Equation (42)’s node.
+U ≤ s ∧ Θ(U )
+
+(43)
+
+Also consider Equation (44)’s universally quantified sentence.
+∀v
+
+Φ(v)
+
+(44)
+24
+
+In this context for any term t which is free in Φ, the seventh elimination rule
+in Section 2 of [55] indicated that a descendant of Equation (44)’s sentence
+in a semantic tableaux proof tree is allowed to be any sentence of the form
+Φ(t) . In particular if we take t to be a term of the form “ U ∗ U ” (where
+U was defined in Equation (43) ) then this universal quantifier elimination
+rule may produce the following reduction from Equation (44).
+Φ( U ∗ U )
+
+(45)
+
+Lastly for any term ŝ, consider Equation (46)’s sentence.
+∀ v ≤ ŝ Φ(v)
+
+(46)
+
+In this context for any term t (again required to be free in Φ), the eighth
+elimination rule from Section 2 of [55] indicated that Equation (47) is allowed
+to be descendant of Equation (46)’s sentence in a semantic tableaux proof.
+t ≤ ŝ
+
+⇒
+
+Φ(t)
+
+(47)
+
+Since Equation (47)’s rule for eliminating universal quantifiers can apply to
+any term t (free in Φ), it is applicable to the case where t is a term of the
+form “ U ” where U is a new constant created by Equation (43)’s elimination
+rule. In this special case, Equation (47)’s elimination rule can be rewritten as:
+U ≤ ŝ
+
+⇒
+
+Φ( U )
+
+(48)
+
+In essence, one may apply to Equation (41) n iterations of the elimination
+rules from Equations (43), (45) and (48) to construct a sequence of constants
+U0 , U1 , U2 , . . . Un such that U0 = 2 and Ui+1 = Ui ∗ Ui . (The footnote 8
+summarizes the structure of the i−th round of these n iterations.) In a formal
+sense, these n iterations may thus be simulated by a fragment of a semantic
+tableaux proof tree, denoted as F , where all the branches of F are closed
+except for one branch, called the pivotal branch, which contains the parameter
+symbols of U0 , U1 , U2 , . . . Un together with a collection of sentences,
+appearing in linear order, asserting that U0 = 2 and Ui+1 = Ui ∗ Ui .
+n
+
+Hence this “pivotal branch” of F will imply that Un = 22 . Moreover
+since the fragment F will have only O( n ) nodes, it will establish the
+8
+
+The i−th iteration of this process will have z , q and r from Equation (41)
+be replaced by respectively Ui ∗ Ui , Ui and Ui+1 via the elimination rules from
+respectively Equations (45), (48) and (43) to produce an essentially thrice-revised
+form of Equation (41) which implies that Ui+1 = Ui ∗ Ui .
+
+25
+
+n
+
+existence of a number Un = 22 , whose binary encoding has a 2n length
+that is much larger than F ’s length.
+The above invariant is essentially all that we need to generalize [55]’s semantic tableaux version of the Second Incompleteness Theorem so that it also
+applies to Ax-4. (We obviously have omitted many details here. However, they
+are relatively straightforward extensions of [55]’s methodologies because the
+super-exponential growth property, established by the prior paragraphs, opens
+an avenue for introducing [55]’s proof techniques, whose formal details are too
+lengthy to be fully duplicated during this abbreviated proof sketch.) 2
+The remainder of this appendix will sketch how Lemma 5’s variant of the
+semantic tableaux version of the Second Incompleteness Theorem can be extended from the axiom system Ax-4 to Ax-3 (itself). Before doing so, we wish
+to introduce one further preliminary lemma.
+Lemma 6 The axiom system Ax-4 satisfies the same anti-threshold property
+for Herbrandized deduction as did Ax-3 (in Theorem 4 ).
+Proof Sketch Every aspect of the proof of Theorem 4 (for Ax-3) does generalize also for Ax-4’s paradigm. This is because Theorem 4’s proof generalizes
+for any extension of Ax-3 that consists of a finite number of additional logically
+valid ΠR
+1 sentences. Thus, if α denotes any such an extension of Ax-3 and if
+∗
+α denotes the extension of α which contains one additional ΠR
+1 sentence,
+asserting the consistency of α∗ (analogous to Theorem 3’s Diagonal(α, D)
+sentence), then every aspect of our prior analysis of Ax-3∗ applies also to α∗ .
+Thus using the same reasoning as before, it follows that α (and hence also
+Ax-4) must be anti-thresholds relative to Herbrand deduction. 2
+The combination of Lemmas 5 and 6 already shows that semantic tableaux
+and Herbrand deduction have polar opposite threshold properties with respect
+to Ax-4. (This is because the latter satisfies the semantic tableaux version
+of the Second Incompleteness Theorem, but it does not also satisfy its Herbrandized variant.) The same pair of polar opposite qualities also applies to
+IΣ0 ’s Ax-3 axiomization. However, the proof that Ax-3 satisfies the semantic
+tableaux version of the Second Incompleteness Theorem is substantially more
+complicated than Lemma 5’s analogous result for Ax-4.
+The final goal in this appendix will thus be to explain how one may incrementally revise Lemma 5’s proof-analysis for Ax-4 so that a similar incompleteness property also applies to Ax-3. In our discussion, f
+ψ (v) will denote
+the following ∆R
+formula,
+which
+is
+free
+only
+in
+v
+:
+0
+∀q ≤ v
+
+[ q∗q ≤ v ⇒ ∃ r ≤ v ( r = q∗q ) ]
+26
+
+(49)
+
+In this notation, the sentence Ψ that constituted Ax-4’s one additional ΠR
+1
+axiom-sentence (defined in Equation (41) ) can be rewritten as:
+∀v
+
+f
+ψ (v)
+
+(50)
+
+Note that Ax-3, unlike Ax-4, does not contain Equation (50)’s ΠR
+1 sentence
+as an axiom of its formalism. However using an analog of “passive induction”
+from our paper [55], we will show Ax-3 contains a counterpart of Equation
+(50) within its inductive schema that has comparable properties.
+In particular, let
+
+ψ (z) denote the following ∆R
+0 formula:
+|{z}
+
+{ f
+ψ (0) ∧ ∀y ≤ z [ f
+ψ (y) =⇒ f
+ψ (y 0 ) ] } =⇒ ∀y ≤ z f
+ψ (y)
+
+(51)
+
+Then Equation (52) represents an encoding of one of Ax-3’s induction axioms.
+∀z
+
+ψ (z)
+
+(52)
+
+|{z}
+
+In order to explain the significance of this added notation, let Ψ again denote
+Equation (41)’s axiom sentence (which we saw was identical to Equation (50)’s
+sentence except that the latter uses a slightly different notation). Also, let Ψ∗
+denote Equation (52)’s sentence. In this notation, Ψ∗ can be viewed as a
+cousin of Ψ which has the property that although Ψ is not an axiom of
+Ax-3, its cousin Ψ∗ is a formal axiom of Ax-3.
+The latter property is important because we need a vehicle for formally
+translating proofs from the Ax-4 system to proofs in the Ax-3 system. Since
+Ψ is the only axiom belonging to Ax-4 which is not also in Ax-3, Equation
+(51)’s formal counterpart of it, called Ψ∗ , will provide a means for doing
+this translation. The implications of this translation mechanism is described
+by our next lemma.
+Lemma 7 Let Ω denote an arbitrary theorem that is proven from the axiom
+system Ax-4 under a semantic tableaux proof T that consists of n applications of the ∀ elimination to rule to Equation (50)’s axiom sentence of Ψ .
+For some term ti , let us assume that the i−th such application of this rule
+replaces Equation (50) with the reduced sentence of
+f
+ψ ( ti )
+
+(53)
+
+Then for a constant k whose value is entirely independent of n , one can
+construct a proof T ∗ of the same theorem Ω from the axiom system Ax-3
+27
+
+where the difference between the number of node-sentences appearing in the
+proofs of T and of T ∗ is bounded by the quantity of kn .
+Proof: The justification of Lemma 7 is fairly straightforward. On each occasion where T ’s proof contains a node similar to Equation (53), the comparable
+structure in T ∗ will replace this sentence with a tree-fragment that consists
+of the following four components:
+(1) An initial node-sentence of the form (54) (which is justified because it is
+an instance of Equation (52)’s axiom sentence of Ψ∗ ).
+ψ ( ti )
+
+(54)
+
+|{z}
+
+(2) A branch separation will appear directly below Equation (54)’s node that
+consists of the two sibling sentences of (55) and (56). In light of Equation
+(51)’s definition of
+ψ , this binary separation is justified by the
+|{z}
+
+semantic tableaux rule for eliminating the ⇒ symbol (which was
+formalized by Item 4 from the second paragraph of [55]’s Section 2).
+¬ { f
+ψ (0) ∧ ∀y ≤ ti [ f
+ψ (y) =⇒ f
+ψ (y 0 ) ] }
+
+(55)
+
+∀y ≤ ti f
+ψ (y)
+
+(56)
+
+(3) Since Ax-3 can prove Equation (41)’s sentence of Ψ as a theorem, it
+is trivial to establish that for some fixed constant k1 which does not
+depend on i , one may insert a closed semantic tableaux proof of length
+k1 under Equation (55)’s sentence, which accomplishes the desired effect
+of showing that Equation (55) is inherently contradictory.
+(4) Using one more time [55]’s semantic tableaux rules for eliminating the
+bounded universal quantifiers and the ⇒ symbol, one may easily
+insert a branch below Equation (56) that ends with the pair of sibling
+sentences given in equations (57) and (58) below. Moreover, it is evident
+that Equation (57) is inherently contradictory. Thus for some fixed constant k2 (which again does not depend on i ) , the net consequence
+of this step will be to consist of a sequence of k2 node sentences that
+includes the sentences given in (57) and (58) and closes the proof-tree
+that descends from Equation (57) with the desired forced contradiction.
+¬ ( ti ≤ ti )
+
+(57)
+
+f
+ψ ( ti )
+
+(58)
+
+Let k denote a constant that equals the quantity of k1 + k2 + 3 .
+Then each iteration of the above 4-step procedure will replace Equation (53)’s
+sentence with a subtree fragment consisting of k new sentences. Note that
+the final sentence at the end of each such iteration (given in Equation (58) )
+28
+
+contains the identical logical statement as was given in Equation (53)’s initial
+sentence. Since all the other branches of our new sub-structure are closed and
+since Equations (53) and Equation (58) are identical to each other, it follows
+that after we finish performing n iterations of the above process, introducing
+kn new sentences, our new revised semantic tableaux tree will prove the
+theorem Ω from Ax-3 instead of Ax-4. 2
+Theorem 5 The axiom system Ax-3 (similar to Ax-4) satisfies the semantic
+tableaux version of the Second Incompleteness Theorem. (Thus using Definition 1’s notation, Ax-3 is also a “threshold for the Second Incompleteness
+Effect” under semantic tableaux deduction).
+Proof Sketch: For the sake of brevity, we will only outline the intuition behind Theorem 5’s proof. It will be essentially a consequence of the combination
+of Lemmas 5 and 7.
+In particular, the core idea behind Lemma 5’s analysis of Ax-4 was to employ
+a sequence of n iterated applications of Equation (41)’s axiom of Ψ so as
+to construct a formal sequence of constants U0 , U1 , U2 , . . . Un such that
+U0 = 2 and Ui+1 = Ui ∗ Ui . By Lemma 7, the precisely identical sequence of
+U0 , U1 , U2 , . . . Un can be constructed from Ax-3 using only kn additional
+sentences, for some fixed constant k whose value is independent of n .
+n
+
+Since Un represents the quantity of 22 whose binary encoding has a
+length of 2n , this binary length is clearly much larger than kn as n
+approaches of infinity. As a result of this exponential difference in lengths, it
+is relatively routine to revise Lemma 5’s proof of the semantic tableaux version
+of the Second Incompleteness Theorem for Ax-4 so that it may also apply to
+Ax-3. (The remaining details are analogous to the constructions that we used
+in [50,55] and are omitted for the sake of brevity.) 2
+Summing Up What Has Been Done in this Appendix : We have
+outlined abbreviated proofs showing that the Ax-3 and Ax-4 encodings for
+IΣ0 satisfy the semantic tableaux versions of the Second Incompleteness Theorem. We visited this topic twice because the result is easier to establish for
+Ax-4, although it is stronger for Ax-3. (The latter is stronger because Ax-3
+contains one less axiom sentence than Ax-4.) Both our results for Ax-3 and
+Ax-4 are interesting because these formalisms are anti-thresholds for the Herbrandized version of the Second Incompleteness while they are thresholds when
+the paradigm is changed to focus upon semantic tableaux style deduction.
+We close this appendix by once again reminding the reader that a different
+type of axiomatic setting where semantic tableaux and Herbrandized proofs
+have a sharp difference in length was formalized by Kolodziejczyk in [18,19].
+(In particular, Kolodziejczyk [18,19] focused his discussion on Buss’s bounded
+arithmetic of [5].)
+29
+
+References
+
+[1] Z. Adamowicz, “Herbrand Consistency and Bounded Arithmetic”, Fundamenta
+Mathematica 171 (2002) 279-292.
+[2] Z. Adamowicz and T. Bigorajska, “Existentially Closed Structures and Gödel’s
+Second Incompleteness Theorem”, Journal of Symbolic Logic 66 (2001), 349-356.
+[3] Z. Adamowicz and P. Zbierski, “On Herbrand consistency in weak theories”,
+Archive for Mathematical Logic 40 (2001) pp. 399-413.
+[4] A. Bezboruah and J. Shepherdson, “Gödel’s Second Incompleteness Theorem for
+Q”, Journal of Symb Logic 41 (1976) 503-512.
+[5] S. Buss, Bounded Arithmetic, in Proof Theory Lecture Notes, Vol. 3, published
+by Bibliopolis, Naples, 1986.
+[6] S. Buss and A. Ignjatovic, “Unprovability of Consistency Statements in Frag. of
+Bounded Arithmetic”, Annals Pure and Applied Logic 74 (1995)221-244.
+[7] M. Davis, Computability and Unsolvability McGraw Hill 1983.
+[8] M. Davis, H. Putnam and J. Robinson, “The Decision Problem for Exponential
+Diophantine Equations”, Annals of Mathematic 74 (1961) pp. 425-436.
+[9] S. Feferman, “Arithmetization of Mathematics in a General Setting”,
+Fundamenta Mathematica 19 (1960) pp. 35-92.
+[10] H. Gaifman and C. Dimitracpoulos, Fragments of Peano Arithmetic and
+the MDRP Theorem, Logic and Algorithms, Monagraphies de l’Ensignment
+Mathamtique, 30 (1982) pp. 197-206.
+[11] K. Gödel, “ Über formal unentscheidbare Sätse der Principia Mathematica und
+Verwandte Systeme I”, Monatshefte für Math. Phys. 37 (1931) pp. 349-360.
+[12] P. Hájek, On Interpretability in Set Theory, Part I in Comm, Math, Univ. Carol
+Volume 12 (1971) pp. 73–79 and Part II in Volume 13 (1972) pp. 445-455.
+[13] P. Hájek and P. Pudlák, Metamathematics of First Order Arithmetic, Springer
+Verlag 1991.
+[14] J. Herbrand, Recherches sur la theorie de la demonstration, Travaux de la
+Soceite et des Lettres de Varsvoie III 33 pp. 33-160 (1930).
+[15] D. Hilbert and P. Bernays, Grundlagen der Mathematic, Springer 1939.
+[16] R. Kaye, Models of Peano Arithmetic, Oxford University Press, 1991.
+[17] S. Kleene, “On the Notation of Ordinal Numbers”, Journal of Symbolic Logic
+3 (1938), pp. 150-156.
+[18] L.A. Kolodziejczyk, “Some results on Weak Consistency Statements in Weak
+Theories”, talk at the JAF25 conference in Clermon-Ferrand (2006) whose slides
+are available at hhtp://www.cs.us.es/glm/jaf25-CMBFD/slides-lk.pdf.
+
+30
+
+[19] L.A. Kolodziejczyk, “On the Herbrand Notion of Consistency for Finitely
+Axiomatizable Fragments of Bound Arithmetic”, Journal of Symbolic Logic 71
+(2006) pp. 624-638.
+[20] J. Krajı́cek, “A Note on Proofs of Falsehood”, Archive for Math Logic 26 (1987)
+169-176.
+[21] J. Krajı́cek, Bounded Propositional Logic and Complexity Theory, Cambridge
+Unniversity Press, 1995.
+[22] G. Kreisel and G. Takeuti, “Formally Self-Referential Propositions for Cut-Free
+Classical Analysis”, Dissertationes Mathematicae 118 (1974) pp. 1–55
+[23] M. H. Löb, A Solution to a Problem by Leon Henkin, JSL 20(1955) pp 115-118
+[24] Y. Matiyasevich, Hilbert’s Tenth Problem, MIT Press (1993)
+[25] E. Nelson, Predicative Arithmetic, Math Notes, Princeton Press, 1986.
+[26] J. Paris and C. Dimitracopoulos, “Truth definitions for ∆0 formulae”,
+Monagraphie de L’Enseignement Mathematique 30 (1982) pp. 317-329.
+[27] J. Paris and C. Dimitracopoulos, A Note on the Undefinability of Cuts, Journal
+of Symbolic Logic 48 (1983) pp. 564–569.
+[28] J. Paris and A. Wilkie, “∆0 Sets and Induction”, 1981 Jadswin Conference
+Proceedings, (Leeds University Press) pp. 237-248.
+[29] P. Pudlák, Some Prime Elements in the Lattice of Interpretability Types,
+Transactions of the American Mathematical Society 280 (1983) pp. 255-275
+[30] P. Pudlák, “On Lengths of Proofs of Finisitic Consistency Statements in First
+order Theories”, Logic Colloquium 84, North Holland (1986) pp. 165-196.
+[31] P. Pudlák, “Cuts, Consistency Statements and Interpretations”, Journal of
+Symbolic Logic 50 (1985) 423-442
+[32] P. Pudlák, “On the Lengths of Proofs of Consistency”, in The Collegium
+Logicum: The Offical 1996 Annals of Kurt Gödel Society ( Volume 2), SpringerWien-NewYork, pp. 65-86.
+[33] S. Salehi, Herbrand Consistency in Arithmetics with Bounded Induction, Polish
+Academy of Sciences Ph D thesis, October 2001.
+[34] C. Smoryński, “The Incompleteness Theorem”, The Handbook on Mathematical
+Logic, 1977, North Holland, pp. 821–865.
+[35] C. Smoryński, “Non-standard Models and Related Developments in the Work
+of Harvey Friedman”, in Harvey Friedman’s Research in Foundations of Math.,
+North Holland 1985, pp. 179-220.
+[36] R. Solovay, Private telephone conversations between Robert Solovay and
+Dan Willard (during April of 1994) concerning Solovay’s generalization of
+one of Pudlák’s theorems [31], using also some of Nelson’s and Wilkie-Paris’s
+
+31
+
+methodologies [25,46]. Solovay’s unpublished theorem shows that essentially no
+axiom system that recognizes Successor(x) = x + 1 as a total function (and
+which treats multiplication and addition as 3-way relations) can prove a theorem
+affirming its own consistency under Hilbert deduction. The Appendix A of [49]
+offers a 4-page interpretation of the intuition behind Solovay’s unpublished idea.
+[37] V. Švejdar, Modal Analysis of Generalized Rosser Sentences, Journal of
+Symbolic Logic 48 (1983) pp. 986-999.
+[38] S. Swierczkowski, Finite Sets and Gödel’s
+Dissertationes Mathematicae 422 (2003) pp. 1–58
+
+Incompleteness
+
+Theorem
+
+[39] G. Takeuti, “On a Generalized Logical Calculus”, Japan Journal of Mathematics
+23 (1953) pp. 39–96.
+[40] G. Takeuti, “Gödel Sentences of Bounded Arithmetic”, Journal of Symbolic
+Logic 65 (2000) pp. 1338-1346
+[41] A. Tarski, A. Mostowski and R. M. Robinson, Undecidable Theories, North
+Holland, 1953.
+[42] A. Visser, An Inside View of Exp (or The Closed Fragment of The Provability
+Logic I∆0 +Ω1 With a Propositional Constant for Exp), Journal of Symbolic Logic
+57 (1992) pp. 131–165
+[43] A. Visser, “The Unprovability of Small Inconsistency”, Archive for
+Mathematical Logic 32 (1993) pp. 275-298.
+[44] A. Visser, “Faith and Falsity”, Annals Pure & Applied Logic 131 (2005), pp.
+103-131.
+[45] P. Vopěnka and P. Hájek, Existence of a Generalized Semantic Model of
+Gödel-Bernays Set Theory, Bulletin de l’Academie Polonaise des Sciences,
+Mathmatiques, Astromiques et Physiques 12 (1973) pp.1079-1086.
+[46] A. Wilkie and J. Paris, “On the Scheme of Induction for Bounded Arithmetic”,
+Annals of Pure and Applied Logic (35) 1987, 261-302
+[47] D. Willard, “Self-Verifying Axiom Systems”, Third Kurt Gödel Colloq (1993),
+Springer-Verlag LNCS#713, 325-336.
+[48] D. Willard, “The Semantic Tableaux Version of the Second Incompleteness
+Theorem Extends Almost to Robinson’s Arithmetic Q”, Springer Verlag
+LNCS#1847, July 2000, pp. 415-430.
+[49] D. Willard, “Self-Verifying Systems, the Incompleteness Theorem and the
+Tangibility Principle”, in Journal of Symbolic Logic 66 (2001) pp. 536-596.
+[50] D. Willard, “How to Extend The Semantic Tableaux And Cut-Free Versions of
+the Second Incompleteness Theorem Almost to Robinson’s Arithmetic Q”, in
+Journal of Symbolic Logic 67 (2002) pp. 465–496.
+
+32
+
+[51] D. Willard, “A Version of the Second Incompleteness Theorem For Axiom
+Systems that Recognize Addition But Not Multiplication as a Total Function”,
+First Order Logic Revisited, Logos Verlag (Berlin) 2004, pp. 337–368.
+[52] D. Willard, “An Exploration of the Partial Respects in which an Axiom System
+Recognizing Solely Addition as a Total Function Can Verify Its Own Consistency”,
+Journal of Symbolic Logic 70 #4 (2005) pp. 1171-1209.
+[53] D. Willard, “On the Available Partial Respects in which an Axiomatization
+for Real Valued Arithmetic Can Recognize its Consistency”, Journal of Symbolic
+Logic 71 pp. 1189-1199.
+[54] D. Willard, “A Generalization of the Second Incompleteness Theorem and Some
+Exceptions to It”, Annals of Pure and Applied Logic 141 (2006) pp. 472-496.
+[55] D. Willard, “Passive Induction and a Solution to a Paris-Wilkie Open
+Question”, Annals of Pure and Applied Logic 146 (2007) pp. 124-149.
+[56] C. Wrathall, “Rudimentary Predicates and Relative Computation”, Siam J. on
+Computing 7 (1978), pp. 194-209.
+
+33
+
+

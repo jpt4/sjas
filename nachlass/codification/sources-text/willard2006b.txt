@@ -1,0 +1,484 @@
+T HE J OURNAL OF S YMBOLIC L OGIC
+Volume 00, Number 0, XXX 0000
+
+ON THE AVAILABLE PARTIAL RESPECTS IN WHICH AN AXIOMATIZATION
+FOR REAL VALUED ARITHMETIC CAN RECOGNIZE ITS CONSISTENCY
+
+DAN E. WILLARD
+
+Abstract. Gödel’s Second Incompleteness Theorem states axiom systems of sufficient strength are unable
+to verify their own consistency. We will show that axiomatizations for a computer’s floating point arithmetic can
+recognize their cut-free consistency in a stronger respect than is feasible under integer arithmetics. This paper
+will include both new generalizations of the Second Incompleteness Theorem and techniques for evading it.
+
+Published in Journal of Symbolic Logic 71 (2006) pp.1189-1199.
+§1. Introduction. Let A(x, y, z) and M (x, y, z) denote two 3-way predicates indicating x + y = z and x ∗ y = z. An axiom system α will be said to recognize
+successor, addition and multiplication as Total Functions iff it can prove:
+(1)
+
+∀x ∃z A(x, 1, z) AND ∀x ∀y ∃z A(x, y, z) AND ∀x ∀y ∃z M (x, y, z)
+
+Using this notation, we will say a formal system α is of:
+Type-S: iff it contains an axiom declaring that successor is a total function
+Type-A: iff it contains an axiom declaring integer addition is a total function
+Type-M: iff it contains an axiom indicating integer multiplication is a total function.
+This classification is related to Gödel’s Second Incompleteness Theorem. Thus, Solovay [??] noted how to combine some earlier methodologies of Nelson, Puldlák and
+Wilkie-Paris [??, ??, ??] to establish that all Type-S systems (that merely recognize
+addition and multiplication as 3-way relations) are unable to prove a theorem affirming
+their own Hilbert consistency, and Adamowicz-Zbierski [??, ??] developed a cut-free
+generalization of this result for IΣ0 + Ω1 . Subsequently, Willard [??] extended the semantic tableaux version of the Second Incompleteness Theorem to IΣ0 and to virtually
+all Type-M systems. In contrast, [??, ??] showed exceptions to this tableaux version of
+the Second Incompleteness Theorem do exist for some Type-A systems.
+The preceding research naturally raises the question whether an analogous phenomenon holds when one changes the venue of application from integer arithmetic to a
+computer’s commonly employed floating point arithmetic instruction set? In this paper, we will use the term simulated real-arithmetic to refer to an instruction set that is
+slightly more general and powerful than the common floating point instructions used by
+c 2005, Association for Symbolic Logic
+0022-4812/00/0000-0000/$00.00
+
+1
+
+2
+
+DAN E. WILLARD
+
+a digital computer. We will prove 1 that simulated real arithmetic is quite unlike integer arithmetic — insofar as an axiom system can simultaneously recognize its semantic
+tableaux consistency and the totality of all the simulated real-arithmetic operations.
+Our result will be significant because a computer’s floating point instruction set has
+essentially as many practical applications as an integer arithmetic. Moreover, Section 3
+will formalize another very unusual aspect of simulated arithmetic. It will be that our
+partial exceptions to the Second Incompleteness Theorem actually house a novel type
+of limited Gentzen-style deductive cut rule for simulated real arithmetic, which has no
+analog for integer-based arithmetics. Thus, the main contribution of this paper will
+be the demonstration that simulated real-valued arithmetic in several respects supports
+more robust forms of evasions of Gödel’s Second Incompleteness Theorem for cut-free
+deduction methods than an integer arithmetic can feasibly do.
+It is, of course, obvious that if an axiomatization of simulated real arithmetic becomes
+sufficiently strong then the power of the Second Incompleteness Theorem will apply to
+it. However what is intriguing about simulated real arithmetic is that the threshold for
+activating the Second Incompleteness Theorem for cut-free deduction under simulated
+real arithmetic has a very different quality than its analog for integer arithmetic.
+Thus, our analysis in this paper will consist of a dualistic description of both new
+threshold levels where the Second Incompleteness Theorem becomes applicable to simulated real arithmetic, as well as a description of when it can be evaded.
+§2. General Formalism. The discussion in this abbreviated note will be largely self
+contained. Its gist should be comprehensible to a reader who has not yet read our earlier
+papers. Two 5-page literature surveys about the incompleteness properties of weak
+arithmetic systems have been provided in our earlier papers [??, ??], and a longer full
+length survey of this topic was written by Puldlák [??]. It is therefore unnecessary to
+include a lengthy survey about generalizations of the Second Incompleteness Theorem
+[??, ??, ??, ??, ??, ??, ??, ??, ??, ??, ??] for weak arithmetics in this brief note.
+Instead, our discussion will cite the main results that we shall employ when they are
+used.
+D EFINITION 1. Two formalizations of an integer, called NN and IPN, will be used in
+this paper. The first definition “NN” will represent the set of non-negative integers. The
+second definition, called “IPN”, will regard an integer as being any positive or negative
+whole number and also reserve a special symbol for representing ∞ .
+D EFINITION 2. The symbol F will denote a 1-1 function that maps the set of NN
+integers onto IPN integers. In particular, let Even(x) denote a function that equals 1
+if x is an even number and −1 if x is odd. Let Half(x) denote the integer-truncated
+quantity b x ÷ 2 c . Then F (x) is defined by the convention that:
+F (x) = Even(x) · Half(x) when x 6= 1
+
+AND F (1) = ∞
+
+1 This result was first announced at the Tableaux-2005 Symposium (Springer-LNCS 3702 pp. 292–306).
+
+REAL VALUED ARITHMETICS CAN PARTIALLY RECOGNIZE THEIR OWN CONSISTENCY
+
+3
+
+Lower case letters x will henceforth denote NN-integers, and upper case letters X
+will denote IPN integers.
+D EFINITION 3. Let i denote some indexing integer. Then the i−th Simulated
+Real-Number will be defined to be an ordered pair (Mi , Ei ) where Mi is an IPN
+number storing the mantissa, and Ei is a second IPN integer storing the exponent. The
+bold-face symbol Ri will denote this simulated real-number. It is defined as follows:
+1. If Ei 6= ∞ and 0 6= Mi 6= ∞ then Ri = Mi · 2 − b Log2 ( | Mi | ) c · 2 Ei .
+2. If Ei = ∞ and Mi is a power of 2 , then Ri represents the real number 0
+written in a binary notation with Log( Mi ) digits to the right of the decimal point.
+3. Otherwise, Ri will represent an “overflow” (resulting from division by zero).
+Added Comment: Often, the NN notation (mi , ei ) will be employed to denote a
+simulated real number, instead of IPN. In this case, Definition 2’s function F will map
+(mi , ei ) onto its IPN counterpart (Mi , Ei ) , so as to calculate Ri ’s value.
+D EFINITION 4. Let R1 , R2 and R3 denote three simulated real-numbers that are
+encoded by the respective ordered pairs (m1 , e1 ), (m2 , e2 ) and (m3 , e3 ) when written in the NN-integer notation. Let S denote one of the four arithmetic symbols of
++ , × , − or ÷ . Then ΘS (m1 , e1 , m2 , e2 , m3 , e3 ) will henceforth denote a
+formula which states that the two real numbers R1 and R2 , combined under the arithmetic operation of S , will produce a third simulated real of R3 . More precisely,
+ΘS (m1 , e1 , m2 , e2 , m3 , e3 )’s definition will employ the usual computerized floating
+point hardware rounding convention that R3 ’s computed mantissa has a bit-length L
+equal to the maximum of the lengths for the two input mantissas of R1 and R2 . It will
+thus specify R3 represents the closest approximation of the combination of R1 and R2
+under the operation S which has a mantissa-length of L .
+D EFINITION 5. In a context where R denotes the real number (m1 , e1 ), the term
+Expand(R) will denote a second simulated real, (m2 , e2 ) , whose value is identical to
+that of R except that the mantissa for Expand(R) will have one extra bit of precision
+(by containing an additional bit storing the value of zero). Thus, if b1 denotes the
+rightmost bit of m1 (when m1 is viewed as an “NN” integer), then Equation (2) is a
+formula, denoted usually as ΘE (m1 , e1 , m2 , e2 ) , indicating that R2 = Expand(R1 ) .
+(2)
+
+m2 = 2 · m1 − b1 AND e1 = e2
+
+The term Simulated Real Arithmetic will henceforth refer to an instruction set that
+includes the Expand operation (above) united with Definition 4’s four floating point
+operations for addition, subtraction, multiplication and division.
+D EFINITION 6. The predicate LongMult(m1 , e1 , m2 , e2 , m3 , e3 ) will denote that
+the real number (m3 , e3 ) represents the untruncated multiplicative product of the real
+numbers of (m1 , e1 ) and (m2 , e2 ). (Thus if L∗ equals the sum of the bit lengths for
+m1 and m2 , then m3 ’s bit-length will equal either L∗ or L∗ − 1 ). This is quite unlike
+Definition 4’s formalism which had m3 ’s length be the maximum of m1 ’s and m2 ’s
+
+4
+
+DAN E. WILLARD
+
+lengths.) Thus unlike Definition 4’s formalism, Long Multiplication shall be viewed as
+lying formally outside the domain of the simulated arithmetic instruction set.
+Finally, we will summarize the main results that will be presented in this article. Our
+first result was motivated by fact that [??] had established that no reasonable Type-M
+axiomatization of integer arithmetic can prove a theorem affirming its own semantic
+tableaux consistency. Despite this fact, we will show it is feasible to develop axiomatizations for simulated real arithmetic that can recognize their own cut-free consistency,
+as well as retain an ability to recognize the five arithmetic operations of simulated real
+arithmetic (given in Definitions 4 and 5) as total functions. Moreover, such systems
+will be able to additionally conceptualize integer addition, subtraction and division as
+total functions, as well as retain an ability to verify their consistency under a deductive method called Tab−1, which is a hybrid lying midway between semantic tableaux
+deduction and Hilbert deduction. Our second result will state that such partial exceptions for the Second Incompleteness Theorem do not also prevail under Hilbert deduction. (This is because no reasonable axiom system that merely recognizes Definition
+4’s simulated real addition operation as a total function will be able to prove a theorem
+affirming its own Hilbert consistency.) Our final theorem will be a generalization of
+the Second Incompleteness Theorem. It will show that Definition 6’s notion of Long
+Multiplication differs from the truncated real multiplication (in Definition 4) by being
+incompatible with an axiom system recognizing its own semantic tableaux consistency.
+§3. The Formal Nature of Simulated Arithmetic. It is useful to introduce some
+notation before discussing our new results. The operation F (a1 , a2 ...aj ) will be called
+a Non-Growth function iff it satisfies: F (a1 , a2 , ...aj ) ≤ M aximum(a1 , a2 , ...aj ).
+Six examples of non-growth functions are Integer Subtraction (where x − y is defined
+to equal zero when x ≤ y ), Integer Division (where x ÷ y is defined to equal x
+when y = 0 , and it equals b x/y c otherwise), M aximum(x, y), Logarithm(x),
+Root(x, y) = d x1/y e and Count(x, j) designating the number of “1” bits among x’s
+rightmost j bits. These function are called the Grounding Functions.
+The term U-Grounding Function will refer to a set of eight operations, which includes these six non-growth Grounding functions plus the growth operations of addition and Double(x) = x + x. When discussing a formalism that employs NN integers and the U-grounding functions, our analogs for Logic’s Πn and Σm sentences
+in the U-Grounding language will be called Π∗n and Σ∗m sentences. Under this notation, a term t is defined to be a constant, variable or a U-Grounding function symbol
+(whose input arguments are recursively defined terms). Also, the quantifiers in the wffs
+∀ v ≤ t Ψ(v) and ∃ v ≤ t Ψ(v) are called bounded integer quantifiers. Any formula
+in the U-Grounding language, all of whose quantifiers are bounded, will be called ∆∗0 .
+Following conventional notation, every ∆∗0 formula will be considered to satisfy the
+“ Π∗0 ” and “ Σ∗0 ” conditions. For n ≥ 1 , a formula Υ shall be called Π∗n iff it is
+written in the form ∀v1 ∀v2 ... ∀vk Φ, where Φ is Σ∗n−1 . Likewise, Υ is called Σ∗n
+
+REAL VALUED ARITHMETICS CAN PARTIALLY RECOGNIZE THEIR OWN CONSISTENCY
+
+5
+
+iff it is written in the form ∃v1 ∃v2 ... ∃vk Φ, where Φ is Π∗n−1 . Also throughout our
+discussion, a sentence will be called “Tier(k)” when it is either Π∗k or Σ∗k .
+D EFINITION 7. Let H denote a sequence of pairs (t1 , p1 ), (t2 , p2 ), ... (tn , pn ) ,
+where pi is a semantic tableaux proof of the theorem ti , and let < designate some
+class of sentences, such as perhaps Tier(k), Π∗k or Σ∗k . In this context, H will be called
+a Tab−< proof of a theorem T from the axiom system α iff T = tn and also:
+1. Each axiom in pi ’s proof is either one of t1 , t2 , ...ti−1 or comes from α.
+2. Each of the “intermediate results” t1 , t2 , ...tn−1 lie in the pre-specified class < .
+Thus, Tab−< deduction is stronger than classic semantic tableaux by allowing for a type
+of Gentzen-like deductive cut rule for sentences that belong to the intermediate class,
+that is formalized by < . Also, the symbol Tab−k will denote the special version of
+Tab−< deduction that results when < represents the Tier(k) class of sentences.
+Using the preceding notation, it is possible to summarize [??, ??]’s main results.
+In essence, [??] showed that there are no reasonable axiom systems, employing the
+U-Grounding language, that can prove a theorem affirming their own self consistency
+under the Tab−2 deduction method. In contrast, [??] showed that some U-Grounding
+axiom systems can prove a theorem affirming their own consistency when Tab−1 deduction is used. In particular, [??]’s main result was the following assertion:
+T HEOREM 1. Let A denote any axiom system employing the U-Grounding language whose theorems are valid under the standard model of the natural numbers. Then
+it is possible to construct a second “self justifying” and consistent axiom systems, called
+ISD (A) in [??], with the following three properties:
+1. ISD (A) can prove all the Tier(1) theorems of A ,
+2. ISD (A) can prove all eight of the U-Grounding operations are total functions,
+3. ISD (A) contains an axiom affirming ISD (A) ’s consistency under Tab−1 deduction (i.e. that no Tab−1 formulated proof of 0=1 exists from ISD (A)’s axiom-set).
+The feature (3) of the axiom system ISD (A) is unusual because Kleene [??] had
+observed that most axiom systems α cannot be expanded into a broader system α∗ ,
+where an analog of Feature 3’s self-affirming axiom can declare α∗ ’s own consistency.
+This is because such systems α∗ would be rendered inconsistent on account of essentially a Gödel-like diagonalization effect [??]. However, our article [??] explained
+that ISD (A)’s self-affirming axiom is viable because ISD (A) lies just below the threshold level where Gödel’s Second Incompleteness Theorem applies. We need two more
+lemmas to help prove our new results about simulated real arithmetic.
+L EMMA 1. For each of the four cases where S denotes one of Definition 4’s symbols
+of + , × , − or ÷ , the predicate ΘS (m1 , e1 , m2 , e2 , m3 , e3 ) has a ∆∗0 encoding.
+Two other examples of predicates whose graphs have ∆∗0 encodings are:
+1. Definition 5’s ΘE (m1 , e1 , m2 , e2 ) predicate (for the “Expand” operator).
+
+6
+
+DAN E. WILLARD
+
+2. A predicate ΘG (m1 , e1 , m2 , e2 ) indicating that the real number associated with
+(m1 , e1 ) is greater than or equal to (m2 , e2 ) ’s real number.
+Proof Sketch: It is helpful to begin our proof by distinguishing between the notions of
+∆0 , ∆00 and ∆∗0 formulae. The first of these constructs has been studied extensively in
+the literature about arithmetic: It refers to the set of logical formulae whose function set
+includes only the addition and multiplication operators and all of whose quantifiers are
+bounded. The ∆00 class of formulae will differ from ∆0 by having no function operators.
+Instead, it will have four predicate symbols formalizing equality, less-than-or-equals,
+addition and multiplication. Thus, ∆00 will require that the upper limits associated with
+its bounded quantifiers be specified by a single variable rather than by a mathematical
+term. Finally, the second paragraph of this section had defined ∆∗0 .
+Most of the prior research during the last 50 years has focused on the ∆0 class. An
+excellent summary of ∆0 encoding methods appears in the Chapter V of the HájekPuldlák textbook [??] (including a summary of the techniques used by Bennett and
+Wrathall [??, ??] ). Because ∆0 formulae are allowed to contain polynomial bounded
+quantifiers of the forms ∀ v ≤ xk and ∃ v ≤ xk , one may apply routine methods
+to establish that Θs has a ∆0 encoding in each of the six cases where S represents
+the symbols of + , × , − , ÷ , E or G . Moreover, Paris-Dimitracopoulos [??]
+showed how to translate every ∆0 formula into an equivalent ∆00 representation. Since
+Equation (3) provides a ∆∗0 definition for the graph for multiplication, it further follows
+that these ∆00 predicates can be translated into equivalent ∆∗0 forms.
+(3)
+
+[ (x = 0 ∨ y = 0) ⇒ z = 0 ] ∧ [ (x 6= 0 ∧ y 6= 0 ) ⇒ (
+
+z
+z−1
+=y∧
+< y )]
+x
+x
+
+Thus, Θs has a ∆∗0 encoding in each of these six cases. 2.
+L EMMA 2. Let S again denote one of Definition 4’s four arithmetic symbols of + ,
+× , − or ÷ under simulated real arithmetic. In each of these four cases, the statement
+that S represents a total function can be encoded as a Π∗1 sentence. Also, there is a Π∗1
+sentence implying Definition 5’s Expand operator is a total function.
+Proof: It is clear that if Lemma 2’s statement was changed so that the totality of S
+was expressed as a Π∗2 (rather than Π∗1 ) sentence, then it would be a direct consequence
+of Lemma 1. This is because in each of the four cases where S denotes the symbol of
++ , × , − or ÷ , Equation (4) declares the totality of the operation of S :
+(4)
+
+∀ m1 ∀ e1 ∀ m2 ∀ e2 ∃ m3 ∃ e3 ΘS (m1 , e1 , m2 , e2 , m3 , e3 )
+
+In order to construct a Π∗1 sentence that implies the validity of (4), we will use the fact
+that in each of the four cases where S denotes the symbol of + , × , − or ÷ , a
+6-tuple will satisfy ΘS (m1 , e1 , m2 , e2 , m3 , e3 ) only when:
+∗∗ m3 ≤ Double(Max(m1 , m2 )) AND e3 ≤ Double(Double(Max(e1 , e2 )))
+
+REAL VALUED ARITHMETICS CAN PARTIALLY RECOGNIZE THEIR OWN CONSISTENCY
+
+7
+
+Let t denote the term of Double(Double(Max(m1 , m2 , e1 , e2 ))). Item ∗∗ then implies
+that Equation (5) is a Π∗1 sentence which implies the validity of Equation (4).
+(5)
+
+∀ m1 ∀ e1 ∀ m2 ∀ e2 ∃ m3 ≤ t ∃ e3 ≤ t ΘS (m1 , e1 , m2 , e2 , m3 , e3 )
+
+Similarly, Equation (6) is a Π∗1 formula implying Expand( R) is a total function. 2
+(6)
+
+∀ m1 ∀ e1 ∃ m2 ≤ Double(m1 ) ∃ e2 ≤ e1 ΘE (m1 , e1 , m2 , e2 )
+
+T HEOREM 2. Let A denote any axiom system employing the U-Grounding functions
+that is valid under the standard model of the natural numbers. Then there exists a
+second axiom system A0 ⊇ A such that Theorem 1’s axiom system ISD (A0 ) is a
+consistent system, capable of verifying its own Tab−1 consistency and able to prove all
+five of Lemma 2’s simulated real arithmetic functions are total functions.
+Proof: Let Ψ1 , Ψ2 , Ψ3 , Ψ4 and Ψ5 denote the five Π∗1 sentences, defined by Lemma
+2, that indicate the totality of the five simulated arithmetic functions. Let A0 denote
+the union of the axiom system A with these sentences. Theorem 2 then follows immediately from the combination of Lemma 2 and Theorem 1. 2
+Some notation is needed to explain Theorem 2’s significance. Let hm, ei denote the
+simulated real with mantissa m and exponent e. Also | hm, ei |J will denote the
+quantity begotten by taking hm, ei ’s absolute value and raising it to the J−th power.
+Assuming that J 6= 0 , hn, f i ≥ 1 and that Length(m) denotes m ’s bit-length, the
+formal expression of hm, ei JL hn, f i will have the following meaning:
+1. Length(m) ≤ Length(n) + L and if J ≥ 1 then | hn, f i |J ≥ | hm, ei | ≥ 1.
+2. Length(m) ≤ Length(n) + L and if J ≤ −1 then | hn, f i |J ≤ | hm, ei | ≤ 1.
+Assuming that R is a term that specifies the value of a simulated real number whose
+value is greater than 1, we will also use the preceding notation to define Bounded Real
+Quantifiers of the form ∃ hm, ei JL R and ∀ hm, ei JL R .
+The term Bounded Integer Quantifier will refer to expressions of the form ∀ x ≤ t
+or ∃ x ≤ t , that were defined at the beginning of this section. A wff will be called
+∆⊕
+0 iff it is built in any arbitrary manner out of our four forms of bounded quantifiers, together with the usual U-Grounding function symbols, the equality and less-than
+predicates and the standard Boolean connectives. If Ψ is a ∆⊕
+0 formula then the
+expressions of ∀ v1 ∀ v2 ... ∀ vk Ψ and ∃ v1 ∃ v2 ... ∃ vk Ψ will be called Π⊕
+1 and
+⊕
+⊕
+Σ⊕
+formulae.
+Also
+a
+sentence
+will
+be
+called
+Tier(1)
+when
+it
+is
+either
+Π
+or
+Σ⊕
+1
+1
+1 .
+T HEOREM 3. There exists a function F that maps each Tier(1)⊕ formula φ onto a
+Tier(1) formula Φ such that φ and Φ are equivalent to each other (under any axiom
+system that uses Φ’s and φ’s notation and which proves all IΣ0 ’s Π∗1 theorems).
+Proof Sketch: Let ΘJL (m1 , e1 , m2 , e2 ) be a predicate that is satisfied when the
+condition hm1 , e1 i JL hm2 , e2 i holds. Lemma 1 implies that ΘJL has a ∆∗0
+encoding. In a context where L0 = L + 2 , J 0 = d Log( |J| )e + 2 and DoubleK
+denotes K iterations of the Double function, it is easy to see (m1 , e1 ) can satisfy
+
+8
+
+DAN E. WILLARD
+0
+
+0
+
+hm1 , e1 i JL hm2 , e2 i only when m1 ≤ DoubleL (m2 ) ∧ e1 ≤ DoubleJ (e2 ) .
+This fact, in turn, implies that the following two invariants must hold:
+A) The wff ∃ hm1 , e1 i JL hm2 , e2 i Ψ(m1 , e1 ) is equivalent to the formula:
+0
+
+0
+
+∃ m1 ≤ DoubleL (m2 ) ∃ e1 ≤ DoubleJ (e2 ) [ ΘJL (m1 , e1 , m2 , e2 ) ∧ Ψ(m1 , e1 ) ]
+B) The wff ∀ hm1 , e1 i JL hm2 , e2 i Ψ(m1 , e1 ) is equivalent to the formula:
+0
+
+0
+
+∀ m1 ≤ DoubleL (m2 ) ∀ e1 ≤ DoubleJ (e2 ) [ ΘJL (m1 , e1 , m2 , e2 ) → Ψ(m1 , e1 ) ]
+Hence if we repeatedly apply the rules (A) and (B) to translate each bounded real quantifier into their equivalent forms, then at the end of this process we will have translated
+a Tier(1)⊕ formula φ into an equivalent Tier(1) formula Φ . 2
+R EMARK 1. Theorem 3’s proof was of course quite simple. However, its implications for numerical analysis are actually quite subtle. The purpose of numerical analysis
+is essentially to produce Cauchy sequences of real numbers R1 , R2 , R3 , ... that converge upon target answers with a decreasing error rate 1 , 2 , 3 , ... . By choosing to
+use mantissas with sufficiently large lengths, it is easy to formalize such algorithms
+under simulated real arithmetic. Moreover, most of the theorems specifying the efficiency of numerical algorithms can be encoded as Tier(1)⊕ sentences. Thus, one can
+formally prove that if one sets the base A of the axiom system ISD (A) equal to Peano
+Arithmetic, then ISD (A) can prove all the Tier(1)⊕ numerical theorems that Peano
+Arithmetic can verify. Moreover since by Theorem 3, the Tab−1 deduction method can
+apply a modus ponens deductive rule to any Tier(1)⊕ sentence, it follows that ISD (A)
+will retain a surprising ability to recognize the consistency of any chain of Tier(1)⊕
+numerical theorems that are derived via this Tab−1 deductive cut rule !!!
+R EMARK 2. It is useful to explore the difference between a purist branch of mathematics, such as Number Theory, and a highly computation-oriented subject, such
+as Numerical Analysis. Very few of the theorems about Number Theory can be encoded as Tier(1) sentences. This is because the Tier(1) bounded quantifiers, such as
+∀x ≤ t(v1 , v2 ...vj ) or ∃x ≤ t(v1 , v2 ...vj ) , will require that x span over a range
+that is bounded by an excessively tight constraint of the form K · Max(v1 , v2 ...vj ), for
+some fixed constant K. In contrast, the bounded real quantifiers in a Tier(1)⊕ formula
+of the type ∃ hm, ei JL R or ∀ hm, ei JL R will allow hm, ei ’s real number
+to attain values essentially as large as RJ . This distinction is important because many
+of the classic results in Numerical Analysis, when reduced to the stage of producing
+Cauchy sequences that converge (with a specified efficiency) upon target real numbers,
+can be encoded as Tier(1)⊕ formulae on account of the polynomial range of the latter’s real-valued bounded quantifiers [??, ??]. Hence what we are suggesting here is
+that while a formalism, such as ISD (A), will serve very few of the needs of a purist
+branch of mathematics, such as Number Theory, it can treat the computation-oriented
+Numerical Analysis more adroitly. Thus while Gödel’s Second Incompleteness Theorem certainly applies to both Number Theory and Numerical Analysis, it allows the
+
+REAL VALUED ARITHMETICS CAN PARTIALLY RECOGNIZE THEIR OWN CONSISTENCY
+
+9
+
+latter subject a greater degree of freedom to, under some circumstances, partially evade
+its reach.
+§4. Three Related Incompleteness Results. Solovay [??] observed how one could
+modify an incompleteness theorem from Puldlák’s article [??], with the techniques of
+Nelson and Wilkie-Paris [??, ??], to establish the following more refined result:
+T HEOREM 4. (Solovay’s 1994 refinement [??] of Pudlák’s Theorem 2.3 from [??])
+No consistent Type-S axiom system that formalizes integer addition and multiplication
+as 3-way relations A(x,y,z) and M(x,y,z) satisfying the associative, distributive and idempotent axioms, can prove the non-existence of a Hilbert-proof of 0 = 1 from itself.
+A 4-page summary of the idea [??] which Solovay privately communicated to us can
+be found in Appendix A of [??]. Although Theorem 4’s statement technically makes
+no mention of functions for simulating real-valued arithmetic, it is relevant to this topic
+because it delineates an important direction in which the formalisms of Theorems 1–3
+cannot be further extended
+∗
+Henceforth, the term Π−
+1 will refer to the subset of Π1 sentences that do not contain
+any appearances of the Addition or Double function symbols. Thus, a formalized axiom system containing solely Π−
+1 sentences will lie outside the gendre of Theorem 4’s
+formalism (because it does not include the axiom that successor is a total function). It
+is for this reason that Theorems 5 and 6 are of interest.
+T HEOREM 5. There exists a Π−
+1 sentence W (with a very simple structure) such that
+no consistent Grounding-language based axiom system α , containing W as an axiom,
+is able to simultaneously prove a theorem affirming its own Hilbert consistency and to
+also prove that Definition 4’s simulated-real addition operation is a total function.
+Proof Sketch: We will use Theorem 4 to justify Theorem 5’s validity. The key point
+is that the totality of the simulated addition operation implies that the operation that
+maps the simulated real R onto R + R is a total function. Note that the exponent
+of R + R exceeds the exponent of R by an increment of 1 (when these exponents are
+viewed as IPN integers). Assuming the Π−
+1 sentence W is rich enough, the axiom
+system α will be capable of deducing successor is a total function among NN integers
+from its totality among IPN integers. Also assuming W is rich enough, it will contain
+sufficient information to indicate that addition and multiplication among NN integers
+satisfies the associative, distributive and idempotent axioms mentioned in Theorem 4’s
+hypothesis. Thus under these circumstances, we can apply Theorem 4 to conclude that
+α is unable to prove a theorem affirming its own Hilbert consistency 2
+T HEOREM 6. There exists some particular Π−
+1 sentence W such that no consistent
+axiom system α ⊃ W will include the statement that Definition 6’s Long Multiplication operation is a total function among simulated real numbers and will also prove a
+theorem affirming the non-existence of a semantic tableaux proof of 0=1 from itself.
+
+10
+
+DAN E. WILLARD
+
+Proof Sketch: Our justification of Theorem 6 will use the fact that the article [??] had
+established the existence of a Π−
+1 sentence V such that no consistent axiom system
+α ⊃ V will include the axiom that integer-multiplication is a total function and also
+prove a theorem formally affirming the non-existence of a semantic tableaux proof of
+0=1 from itself. The discussion in [??] technically focused on the topic of multiplication
+among NN integers. However, it is trivial to extend [??]’s results also to IPN integermultiplication, provided one replaces [??]’s base starting axiom V with a slightly
+revised Π−
+1 axiom W. Thus, our proof of Theorem 6 will be finished by employing
+the observation that two input real numbers R1 and R2 , whose multiplicative product is
+R3 (under Long Multiplication), will have the property that their mantissas (under IPN
+multiplication) will produce R3 ’s mantissa. 2
+R EMARK 3. It is useful to compare the contrasting features of Theorems 2 and 6.
+Consider a sequence of real numbers R0 , R1 , R2 , ... defined by the recurrence rules
+that R0 = 2.0 (with k bits of precision) and that Ri+1 = Ri ∗ Ri . Then, Rn repren
+sents the quantity 22 stored with respectively k + n and O( k · 2n ) bits of memory
+under Definition 4 and 6’s formalizations of multiplication. Thus if n = 100, then
+the first truncated representation of Rn is tractable (since it uses 100 + k digits) —
+whereas the latter untruncated form of multiplication requires more digits than there are
+atoms in the universe. This example and its many analogs illustrate why a computationoriented subject, such as Numerical Analysis, is forced to use Definition 4 rather than
+6’s form of multiplication. Thus while Theorem 6’s generalization of the Second Incompleteness Theorem is surely significant, Rn ’s example, combined with the other
+computational issues raised by Remarks 1 and 2, do illustrate that Theorem 2’s evasion
+of the Second Incompleteness Theorem also has some interesting features.
+§5. Overall Perspective. Summing together all these results, we have illustrated
+how the threshold levels where the Second Incompleteness Theorem becomes active
+has a different quality for the two mathematical fields of Numerical Analysis and Number Theory. Thus, [??] has shown that Type-M axiomatizations for integer arithmetic
+are unable to recognize their semantic tableaux consistency — whereas Theorem 2 established that a computation-oriented real-valued axiom system can simultaneously recognize its Tab−1 consistency and the totality of the simulated arithmetic instruction set.
+Another contrast is that Remarks 1 and 2 showed that a goodly number of the theorems
+of numerical analysis fall into the Tier(1) and Tier(1)⊕ classes — while very few of the
+theorems of Number Theory fall into such categories. This fact is important because
+these two remarks also noted how the main robustness of an evasion of the Second
+Incompleteness Theorem will dwell within these two classes.
+Naturally when an axiomatization for Numerical Analysis does become sufficiently
+strong, the Second Incompleteness Theorem will apply to it. However, the precise
+threshold where the Second Incompleteness Theorem becomes active has a different
+quality for integer arithmetic than for simulated arithmetic.
+
+REAL VALUED ARITHMETICS CAN PARTIALLY RECOGNIZE THEIR OWN CONSISTENCY
+
+11
+
+It is plainly obvious that conventional axiom systems possess many virtues that simulated arithmetics simply lack. For instance, the deficiency of an axiomatic framework
+that does not recognize integer-multiplication as a total function is quite readily evident.
+However, the salient point is that systems using simulated arithmetic also possess some
+partial (albeit very mixed) virtues. They are able to recognize their own Tab−1 consistency and to simultaneously focus on the computationally tractable components of
+numerical analysis.
+In closing, the combination of our contrasting positive and negative results — where
+we have generalized Gödel’s Second Incompleteness Theorem and also identified some
+of its boundary-case exceptions — should help to sharpen the academic community’s
+knowledge about the meaning of Gödel’s historic discovery, by identifying the precise
+circumstances where Gödel’s centennial theorem is applicable.
+Acknowledgment: I thank the anonymous referee for his suggestions.
+DEPARTMENTS OF COMPUTER SCIENCE AND MATHEMATICS
+UNIVERSITY OF ALBANY
+ALBANY, NY 12222, USA
+
+E-mail: dew@cs.albany.edu
+URL: http://www.cs.albany.edu/ ∼ dew
+
+

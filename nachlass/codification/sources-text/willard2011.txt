@@ -1,0 +1,3222 @@
+arXiv:1108.6330v8 [math.LO] 31 Dec 2011
+
+A Detailed Examination of Methods for Unifying,
+Simplifying and Extending Several Results About
+Self-Justifying Logics
+Dan E.Willard∗
+State University of New York at Albany
+
+Abstract
+
+This paper will develop a single framework for unifying, simplifying
+and extending our prior results about axiom systems that retain a partial knowledge of their own consistency, via an axiomatic declaration of
+self-consistency. Its perhaps single most surprising new result will be its
+exploration of a viable alternative to conventional reflection principles.
+
+Keywords: Gödel’s Second Incompleteness Theorem, Consistency, Hilbert’s Second
+Open Question, Semantic Tableaux
+
+Mathematics Subject Classification: 03B52; 03F25; 03F45; 03H13
+
+∗
+
+This research was partially supported by the NSF Grant CCR 0956495. Email = dew@cs.albany.edu.
+
+1
+
+Introduction
+
+Let α denote an axiom system, and d denote a deduction method. The ordered pair
+(α, d) will be called Self Justifying when:
+i one of α ’s theorems states that the deduction method d, applied to the system α,
+will produce a consistent set of theorems, and
+ii the axiom system α is in fact consistent.
+For any (α, d) , it is easy to construct a second axiom system αd ⊇ α that satisﬁes
+
+Part-i of this deﬁnition. For instance, αd could consist of all of α ’s axioms plus the
+following added sentence, that we call SelfRef(α, d) :
+•
+
+There is no proof (using d’s deduction method) of 0 = 1 from the union
+
+of the axiom system α with this sentence “SelfRef(α, d) ” (looking at itself).
+Kleene [19] discussed how to encode approximate analogs of SelfRef(α, d)’s self-referential
+statement. Each of Kleene, Rogers and Jeroslow [19, 35, 17] noted αd may, however, be
+inconsistent (despite SelfRef(α, d)’s assertion), thus causing it to violate Part-ii of selfjustiﬁcation’s deﬁnition.
+This problem arises in settings more general than Gödel’s paradigm, where α was
+an extension of Peano Arithmetic. There are many settings where the Second Incompleteness Theorem does generalize [1, 2, 3, 8, 9, 10, 11, 14, 15, 16, 21, 24, 25, 29, 30, 32,
+33, 34, 35, 37, 39, 44, 46, 49, 52, 54, 56, 58, 62, 66, 63, 67]. Each such result formalizes
+a paradigm where self-justiﬁcation is infeasible, due to a diagonalization issue. Most
+logicians have hesitated to thus employ a SelfRef(α, d) axiom because α+SelfRef(α, d) is
+usually inconsistent 1 .
+Our research explored special circumstances [61, 64, 65, 66] where it is feasible to
+construct self-justifying formalisms. These paradigms involved weakening the properties
+a system can prove about addition and/or multiplication (to avoid the preceding diﬃculties). To be more precise, let Add(x, y, z) and M ult(x, y, z) denote two 3-way predicates
+1
+d
+
+α
+
+Typical ordered pairs (α, d) will have the property that the broader axiom system
+= α + SelfRef(α, d) will be inconsistent, even when α is consistent. This is because a standard
+
+Gödel-like self-referencing construction will typically produce a proof of 0 = 1 from αd , irregardless of
+whether or not α is consistent.
+
+1
+
+indicating x, y and z satisfy x + y = z and x ∗ y = z. A logic will be said to recognize
+successor, addition and multiplication as Total Functions iﬀ it includes 1-3 as axioms.
+∀x ∃z
+
+Add(x, 1, z)
+
+(1)
+
+∀x ∀y ∃z
+
+Add(x, y, z)
+
+(2)
+
+∀x ∀y ∃z
+
+M ult(x, y, z)
+
+(3)
+
+We will say a logic system α is Type-M iﬀ it contains each of (1) – (3) as axioms,
+Type-A iﬀ it contains only (1) and (2) as axioms, and Type-S iﬀ it contains only (1)
+as an axiom. A system is called Type-NS iﬀ it does not contain any of these axioms.
+Our investigations [61]–[67] began by observing some Type-A systems can recognize
+their consistency under semantic tableaux deduction, and several Type-NS systems can
+recognize their Hilbert consistency. Many of these systems were capable of proving Peano
+Arithmetic’s Π1 theorems in a language that represents addition and multiplication as
+the 3-way predicates of Add(x, y, z) and Mult(x, y, z).
+Our self-justifying evasions of the Incompleteness Theorem are diﬃcult to further
+extend primarily because the combined work of Pudlák, Solovay, Nelson and WilkieParis [26, 33, 44, 58] showed natural Type-S systems cannot recognize their own Hilbert
+consistency. Also, Willard [62, 67, 68] strengthened earlier results of Adamowicz-Zbierski
+[1, 3] to establish that natural Type-M system cannot recognize their semantic tableaux
+consistency.
+A related class of evasions of the Second Incompleteness Theorem was discovered in
+[68]. Let us say α is a Type-Almost-M axiom system iﬀ α can prove statements
+(4) and (5) as theorems while treating none of sentences (1) – (5) as axioms. (Many
+axiom systems, that use function symbols “ + ” and “ ∗ ” for formalizing addition and
+multiplication, fall technically into the Type-Almost-M category.)
+∀x ∀y ∃z
+
+x+y =z
+
+(4)
+
+∀x ∀y ∃z
+
+x∗y =z
+
+(5)
+
+The preceding is of interest because some surprisingly strong (albeit unusual) TypeAlmost-M systems [68] have an ability to verify their Herbrand but not also semantic
+tableaux consistency.
+The proofs in our prior papers were challenging primarily because they required one
+to separate the local combinatorial methods employed in [59, 64, 66, 68]’s particular
+applications from the common principles that underlied behind all these works. Our
+Theorems 5.9, 5.11 and 6.6 will rectify this problem by identifying common components
+that unite these four paradigms. (Theorems 6.3, 6.10, 6.12, E.1, G.2 and G.3 will then
+carry on in further directions.)
+2
+
+All these theorems will contain severe limits on their generality, so that the Second
+Incompleteness Theorem does not contradict them. It is clearly perplexing to imagine
+how humans are able to motivate themselves to cogitate, without their thought processes
+possessing some type of at least tentative presumption of their own consistency. Our
+research has thus consisted of an approximately equal eﬀort in exploring both [62, 63,
+66, 67]’s new generalizations of the Second Incompleteness Theorem and [59, 61, 64, 65,
+66, 68]’s unusual boundary-case exceptions to it.
+It is clear every boundary-case exception to the Second Incompleteness Theorem has
+limited scope because the Incompleteness Theorem is a broadly encompassing result.
+This paper will, thus, be addressing a challenging near-paradoxical question about the
+maximal nature of self-justiﬁcation that can never be resolved in a fully satisfying manner. The Second Incompleteness Theorem is clearly suﬃciently central to logic for it
+to be desirable to know what partial roads of success a self-justifying axiom system can
+obtain.
+
+2
+
+Literature Survey
+
+Two 5-page surveys of the prior literature about the Second Incompleteness Theorem
+were provided in our articles [64, 66]. This section will present a more abbreviated survey,
+focusing on only those developments that are particularly germane to the current article.
+The study of incompleteness began with four classic papers by Gödel, Löb, Rosser
+and Tarski [14, 25, 36, 50] and with the Hilbert-Bernays exploration of their derivability
+conditions [15, 16, 18]. Generalizations of these results for weak axiom systems, such as
+Q, began with the work of Tarski-Mostowski-Robinson [51] and Bezboruah-Shepherdson
+[8].
+Some more notation is needed to describe more recent developments. Let x′ denote
+the “successor” operation that maps x onto x + 1. A formula ϕ(x) is called [15] a
+Definable Cut for an axiom system α iﬀ α can prove:
+ϕ(0) AND ∀ x { ϕ(x) ⇒ ϕ( x′ ) } AND ∀ x ∀ y < x { ϕ(x) ⇒ ϕ(y) }
+
+(6)
+
+Deﬁnable cuts and their cousins have been studied by an extensive literature [1, 3, 6, 9,
+10, 15, 18, 21, 22, 26, 27, 29, 30, 31, 32, 33, 34, 39, 45, 46, 52, 54, 55, 56, 57, 58]. (They
+are unrelated to Gentzen’s notion of sequent calculus deductive “cut rule”, which uses
+the word “cut” in a diﬀerent context).
+A Deﬁnable Cut ϕ(x) is called Non-Trivial relative to an axiom system α iﬀ
+α cannot prove ∀ x ϕ(x) , although it can prove (6). Every axiom system α, strictly
+
+weaker than Peano Arithmetic, will contain some non-trivial Deﬁnable Cut. This cut
+will have the property that α can verify ϕ(n) for each ﬁxed integer n, although it
+
+cannot prove ∀ x ϕ(x) .
+3
+
+Let ⌈ Ψ ⌉ denote Ψ’s Gödel number, and Prf αd (t, p) denote that p is a proof of the
+
+theorem t from the axiom system α using d ’s deduction method. An axiom system
+
+α will then be said to recognize its own Cut-Localized d-Consistency relative to a
+Deﬁnable Cut ϕ iﬀ α can prove:
+∀p
+
+{
+
+ϕ(p) ⇒ ¬ Prf dα ( ⌈0 = 1⌉ , p ) }
+
+(7)
+
+The recent literature has sought to identify which triples (ϕ, d, α) have this property.
+A crucial negative result about Cut-Localized d-Consistency, discovered by Pudlák [33],
+established a signiﬁcant generalization of Gödel’s Second Incompleteness Theorem. It
+showed that an axiom system α must be unable to prove (7)’s statement about any of its
+deﬁnable cuts ϕ , when d represents Hilbert deduction and α is any consistent extension
+of Q.
+Solovay [44] noted how Pudlák’s result could be combined with the techniques of
+Nelson and Wilkie-Paris [26, 58] to establish the following theorem that will often be
+cited in this paper:
+Theorem 2.1 (Solovay’s 1994 Generalization [44] of a 1985 theorem of Pudlák
+[33] using some of Nelson and Wilkie-Paris [26, 58]’s methods ) : Let α denote
+any axiom system which contains Equation (1)’s Type-S statement and which assures the successor operation always satisﬁes x′ 6= 0 and x′ = y ′ ⇔ x = y. Then
+
+α will be unable to recognize its own Hilbert consistency, whenever it treats addition and multiplication as 3-way relations satisfying their usual identity, associative,
+commutative and distributive properties.
+
+Solovay never published any precise proof of Theorem 2.1’s hybridizing of the work of
+Pudlák, Nelson and Wilkie-Paris [33, 26, 58], which he privately communicated [44] to
+us. A reader can ﬁnd generalizations of the Second Incompleteness Theorem that are
+closely related to Theorem 2.1 in papers by Pudlák, Buss-Ignjatovic, Švejdar and Willard
+[10, 33, 46, 63], as well as in Appendix A of [61].
+Other interesting observations that preceded our research were that Wilkie-Paris [58]
+demonstrated that IΣ0 + Exp cannot prove the Hilbert consistency of even the axiom
+system Q,
+
+and that Adamowicz-Zbierski [1, 3] showed that IΣ0 + Ω1 satisﬁed the
+
+Herbrandized version of the Second Incompleteness Theorem. Both these results helped
+stimulate [62, 67]’s semantic tableaux generalizations of the Second Incompleteness Theorem for IΣ0 .
+A fascinating observation by L. A. Kolodziejczyk [20, 21], about the diﬀerence in
+lengths between semantic tableaux and Herbrandized proofs, also motivated our investigation [68] into some surprising properties of unorthodox encodings for IΣ0 . Kolodziejczyk
+observed [20, 21] that various generalizations of the Second Incompleteness Theorem for
+IΣ0 and IΣ0 + Ωi in [1, 3, 37, 62, 67, 68] imply that the proof of the Herbrandized version of the Second Incompleteness Theorem can be more complicated than its semantic
+4
+
+tableaux counterpart. This is because there can be an exponential diﬀerence between
+semantic tableaux and Herbrandized proof lengths under extremal circumstances. It was
+due to Kolodziejczyk’s insightful communications 2 that [68] developed an axiom system that was a boundary-case exception to the Herbrandized but not also the semantic
+tableaux version of the Second Incompleteness Theorem.
+The literature on Deﬁnable Cuts has centered its evasions of the Second Incompleteness Theorem around Equation (7)’s localization formalism (rather than employing
+analogs of Section 1’s SelfRef(α, d) axiom, as we did in [59, 61, 64, 65, 66, 68]). Pudlák
+[33] proved that essentially every axiom system α of ﬁnite cardinality can be associated
+with a deﬁnable cut ϕ such that α can prove sentence (7)’s validity for ϕ when d
+is either the semantic tableaux or Herbrand-styled deductive method.
+Pudlàk’s theorem is related to Friedman’s observation [13] that for many ﬁnite theories S and T , the theory S has an interpretation in T if and only if IΣ0 + Exp can
+prove that T ’s Herbrand consistency implies S’s Herbrand consistency. Several generalizations of these results by Krajı́cek, Pudlàk, Smoryński, Švejdar and Visser appear in
+[22, 33, 34, 39, 46, 54, 55, 56]. Visser’s article [56] contains an excellent review of this
+literature, as well as many additional new results. Also, we will see how some of the reﬂection machines of Beklemishev, Kreisel-Takeuti and Verbrugge-Visser [5, 6, 7, 24, 52, 56]
+nicely complement Theorem 6.12’s reﬂection mechanisms in alternate types of intended
+applications.
+It was established by Hájek, Švejdar and Vopěnka [45, 57] that GB Set Theory can
+construct a deﬁnable cut ϕ where it can prove the statement (7) is valid when d denotes
+Hilbert deduction and α is ZF Set Theory. This result was surprising because Pudlák
+[33] showed GB can never verify its own Hilbert consistency localized on a deﬁnable cut.
+(Thus, GB will view its Hilbert consistency as equivalent to ZF’s Hilbert consistency in
+a global sense but not in a cut-localized respect.).
+In some sense, Kreisel and Takeuti [24, 47] can be viewed as the ﬁrst authors to
+develop a logic recognizing its own consistency using a variant of Equation (6)’s formula.
+Their results for typed logics formalized a second-order generalization of Gentzen’s sequent calculus that can verify its own consistency, when no sequent calculus deductive
+cuts are performed. A key aspect of their formalism can be seen as using an analog of
+(7)’s sentence in an implicit manner. It thus begins by using a set of objects, which we
+shall call I,
+
+that includes all the standard integers plus some allowed non-standard
+
+2
+
+The Herbrandized and semantic tableaux deﬁnitions of an axiom system α’s consistency are diﬀerent
+from each other because the former requires skolemizing α ’s axioms, while the latter permits [12] an
+existential quantiﬁer elimination rule to replace Skolemization. This distinction can create a potential
+exponential diﬀerence between the lengths of Herbrand and Semantic Tableaux proofs. This insightful
+observation, due to private communications from L. A. Kolodziejczyk [20], was used in [68] to create
+an axiom system that satisﬁed the semantic tableaux but not also Herbrandized version of the Second
+Incompleteness Theorem.
+
+5
+
+integers (that can permissibly represent contradictory proofs). Their second-order logic
+then uses Dedekind’s deﬁnition of the natural numbers to construct a subset of I ,
+called “ N ”, which includes all the standard integers and which is disallowed to contain
+any contradiction proof. We will not go into the details here, but this transition from I
+to N (with an accompanying relativization of the provability predicate onto N ’s more
+restricted domain) can be viewed as Kreisel-Takeuti’s analog of (7)’s local consistency
+statement for [24, 47]’s “CFA” second-order logic.
+It is diﬃcult to compare our research (which has relied upon an analog of SelfRef(α, d)’s
+Kleene-like “I am consistent” axiom) with the preceding literature that has used various
+forms of Localized d-Consistency statements. This is because every eﬀort to evade the
+Second Incompleteness Theorem employs some built-in weakness to evade Gödel’s classic
+paradigm.
+Our work in [59, 61, 64, 65, 68] represented less than a full-scale evasion of the
+Second Incompleteness Theorem mostly because it was incompatible with treating as
+formal axioms the statements in Equations (3) and (5) that multiplication is a total
+function 3 . Some reasons why it was helpful for [59, 61, 64, 65, 68] to employ analogs
+of Section 1’s SelfRef axiom are that:
+A An axiom’s self-referential “I am consistent” declaration allows a formalism to recognize its consistency in a global sense, rather than in the ϕ−localized sense used by
+sentence (7) and the analogous Kreisel-Takeuti relativization of their second-order
+proof predicate.
+B If a logic is employing a deductive method d that lacks a modus ponens rule, as
+occurs in nearly all self-justifying systems, then it is preferable for it to view its “I
+am consistent” statement as an axiom rather than as a theorem. (This is because
+weak deductive methods are capable of drawing logical inferences only from axioms
+when modus ponens is absent.)
+C Analogs of Section 1’s SelfRef(α, d)’s “I am consistent” axiom have been shown by
+[59, 61, 64, 65, 66, 68] to at least partially formalize the notion of a logic possessing
+an almost instinctive form of faith in its own internal consistency. (This paper will
+make it apparent that such an instinctive faith is less than a full-scale proof. Yet,
+Theorem 6.12 and Remarks 6.13, 6.14 and 6.16 will make it apparent that such
+formalizations of instinctive faith are also useful.)
+3
+
+This caveat applies also to our article [68], although its Herbandized form of self-justiﬁcation diﬀers
+from our other papers by retaining a capacity to treat (5)’s statement about multiplication’s totality as
+a derived theorem that is not an axiom. The key point is that theorems are weaker than axioms under
+Herbrand deduction because only axioms are used as intermediate steps during proofs. This explains
+intuitively how [68]’s formalism was able to recognize its Herbrandized consistency, while treating (5)’s
+statement about the totality of multiplication as a theorem. (We will return to this subject in Appendix
+D.)
+
+6
+
+We emphasize that both virtues and drawbacks of SelfRef(α, d)’s “I am consistent” axiom
+statements have been cited in this paragraph because every eﬀort to evade the Second
+Incompleteness Theorem can obtain no more than limited levels of success.
+The scope of the challenge we face becomes apparent when one realizes α + SelfRef(α, d)
+is inconsistent for most (α, d). This is because α+SelfRef(α, d) typically satisﬁes Parti but not also Part-ii of Section 1’s deﬁnition of a “self-justifying” logic. (Thus, a
+diagonalization paradigm will typically imply α + SelfRef(α, d) is inconsistent, as a consequence of it containing SelfRef(α, d) as an axiom.) This is the reason Kleene, Rogers
+and Jeroslow [19, 35, 17] were hesitant about the utility of SelfRef(α, d)’s mirror-like
+axiom sentence. Our goal in [59]-[68] has been to develop generalizations and boundarycase exceptions for the Second Incompleteness Theorem, so as determine exactly which
+paradigms can support, for example, Theorem 6.12’s limited notion of self-justiﬁcation.
+The reason one would anticipate some limited exceptions to the Second Incompleteness Theorem to exist is it is hard to imagine how humans can motivate themselves to
+cogitate without using some variant of self-justiﬁcation.
+
+3
+
+Generic Configurations
+
+The phrase Bounded Quantifier will refer to expressions of the form “ ∃ v ≤ T ”
+
+or “ ∀ v ≤ T ” where T is a term. A formula is called Fully-Bounded when all its
+quantiﬁers are so bounded. Lemma 3.6 will soon explain how Deﬁnition 3.1’s formalism
+can encode conventional arithmetic:
+
+Definition 3.1 Let ξ denote some non-integer indexing superscript (whose properties will be discussed later by Deﬁnition 3.4). Then the symbol ∆ξ0 will denote some
+ﬁxed special set of fully-bounded formulae that is closed under negation, in a language
+that will be later called Lξ . (Thus, if some formula Ψ is a member of ∆ξ0 then so
+is ¬ Ψ .) Items 1-3 formalize how Πξn and Σξn formulae are built in a straightforward
+
+manner out of these ∆ξ0 sub-components:
+
+1. Every ∆ξ0 formula is considered to be also a Πξ0 and Σξ0 formula.
+2. For n ≥ 1 , a formula will be called Πξn
+form of ∀v1 ∀v2 ... ∀vk
+
+Φ(v1 , v2 , ..vk ),
+
+iﬀ it can be written in the canonical
+
+where Φ is Σξn−1 .
+
+3. Likewise for n ≥ 1 , a formula will be called
+form of ∃v1 ∃v2 ... ∃vk
+
+Φ(v1 , v2 , ..vk ),
+
+Σξn
+
+iﬀ it can be written in the
+
+where Φ is Πξn−1 .
+
+Notation Convention: Our rules for deﬁning ξ, speciﬁed later in this section, will
+never have this superscript designate an integer quantity. This is because integer superscripts have a special meaning under a typed-based hierarchy, not intended here.
+7
+
+Example 3.2 Let L denote a conventional arithmetic language that uses function
+symbols for denoting addition and multiplication. Below are two examples of ∆0 −like
+
+formulae that invoke Deﬁnition 3.1’s notation:
+
+a The symbol “ ∆A
+0 ” will denote any fully bounded formula that uses the addition,
+multiplication and maximum function symbols in an arbitrary manner. (Thus, ∆A
+0
+corresponds to what many textbooks [15, 18, 23] simply call a “ ∆0 ” formula.)
+b The symbol “ ∆R
+0 ” will denote a class of formulae in L’s language whose bounded
+quantiﬁers are allowed to use only the Maximum function symbol. Their bodies,
+however, may contain any combination of addition, multiplication and maximum
+function symbols.
+R
+Formulae (8) and (9) illustrate the distinction between the ∆A
+0 and ∆0 classes. Thus,
+
+(8) satisﬁes the ﬁrst but not second condition (on account of the presence of the multiplication symbol used by its bounded quantiﬁers). In contrast, (9) is an example of a
+∆R
+0 formula.
+∃y ≤ x∗x
+∃y ≤ x
+
+∀z ≤ y ∗y
+∀z ≤ y
+
+∃w ≤ y ∗z
+
+∃ w ≤ Max(y, z)
+
+:
+
+:
+
+{
+
+x∗y =z+w
+
+}
+
+(8)
+
+{
+
+x∗y =z+w
+
+}
+
+(9)
+
+R
+The distinction between ∆A
+0 arithmetic formulae and the unconventional ∆0 class may
+
+ﬁrst convey the impression that these two classes have fundamentally diﬀerent natures.
+Actually, Lemma 3.6 will show that their relationship is more subtle. This is because
+R
+its formalism will map ∆A
+0 formulae onto ∆0 expressions that are equivalent to it under
+
+Deﬁnition 3.3’s Standard-M model — in a context where only the length of these
+formulae is allowed to possibly grow. This equivalence enabled [68] to construct a natural
+axiomatic formalism that could recognize its own Herbrandized consistency but which
+nevertheless satisfied the idealized form 4 of the semantic tableaux version of the Second
+Incompleteness Theorem.
+Definition 3.3 “Standard-M” will denote the standard model of integers.
+The reason for our interest in Standard-M is that many pairs of formulae are equivalent under the Standard-M model, while weak axiom systems often cannot formally prove
+they are equivalent. For instance, this will occur when Example 3.5 examines Deﬁnition
+3.4’s properties.
+4
+
+An axiom system α is deﬁned to satisfy the “idealized form” of the semantic tableaux version
+Second Incompleteness Theorem when no β ⊇ α can prove a semantic tableaux proof of 0=1 from itself
+is incapable of existing. We will summarize [68]’s formalism and the distinction between Herbrandized
+and semantic tableaux deduction at the of Appendix D.
+
+8
+
+Definition 3.4 A Generic Configuration, often identified by the superscript symbol of ξ , is defined to be a 5-tuple ( Lξ , ∆ξ0 , B ξ , d , G ) where:
+1. Lξ is a language that includes logical symbols for “0”, “1”, “2”, “=”, “≤” and for
+the operation of “Maximum(x,y)”. Lξ also includes a suﬃcient number of function
+and constant symbols so that every integer k can be encoded by some term Tk
+specifying k ’s value.
+2. ∆ξ0 corresponds to any variation of Deﬁnition 3.1’s class of “fully-bounded” formulae that is rich enough to assure that there exists two ∆ξ0 formulae, henceforth
+called “Add(x, y, z)” and “Mult(x, y, z)”, for formalizing the graphs of addition
+and multiplication. (It will generate ξ’s set of Πξn and Σξn sentences, using Deﬁnition 3.1’s 3-part formalism.)
+3. B ξ denotes a “Base Axiom System”, whose axiom-sentences are true under
+the Standard-M model and which is Σξ1 complete. (Thus, B ξ can prove every true
+Σξ1 sentence, and it can likewise refute all false Πξ1 sentences.)
+4. d denotes ξ ’s method of deduction. It is required to be suﬃciently conventional to satisfy the usual indirect-implication property 5 associated with Gödel’s
+Completeness Theorem.
+5. g denotes a method for encoding the Gödel numbers of proofs.
+Example 3.5 Let us recall Example 3.2 deﬁned “ ∆A
+0 ” as essentially the conventional textbook notion [15, 23] of an arithmetic “ ∆0 ” formula. This example will outline
+how well-known techniques can map every ∆A
+0 formula onto a semantically equivalent
+∆ξ0 formula under the Standard-M model.
+Our discussion will have Seq(x) denote a function that maps non-negative integers
+onto binary strings in lexicographic order. Thus Seq(x) maps 0 onto the empty string,
+the integers 1 and 2 onto the strings of “0” and “1”, the integers 3–6 onto “00”, “01”,
+“10”, “11”, etc. (Formally, Seq(x) is an operation that maps integer x onto the bitstring that occurs to the immediate right of the leftmost “1” bit in the binary encoding
+of x + 1. )
+Given any k−tuple ( x1 , x2 , ... xk ), let STRING(x1 , x2 , ... xk ) denote the concatenation of Seq(x1 ), ... Seq(xk ). For any integers v and w satisfying v ≤ w2 , it is clear
+
+that there exists (x1 , x2 , x3 ) where STRING(x1 , x2 , x3 ) represents v’s binary encoding
+and each xi ≤ Max(w, 4).
+5
+
+This is that irregardless of whether or not d contains a built-in modus ponens rule, it does
+support some form of a (possibly quite lengthy) proof of a theorem Z, when it is able to prove X, Y and
+(X ∧ Y ) → Z as theorems.
+
+9
+
+An example will now illustrate the approximate structure of an inductive methodξ
+ology for mapping ∆A
+0 formulae onto their equivalent ∆0 counterparts in the Standard-M
+
+model. Let SQUARE(x1 , x2 , x3 , w) be a ∆ξ0 formula which speciﬁes that STRING(x1 , x2 , x3 )
+represents an integer ≤ w2 . Also, let φ∗ (x1 , x2 , x3 ) and φ(v) represent a pair of ∆ξ0 and
+
+∆A
+0 formulae that are equivalent under the Standard-M model when STRING(x1 , x2 , x3 )
+is an encoding for v . Then one possible method for mapping ∆A
+0 formulae onto their
+equivalent ∆ξ0 counterparts (in the Standard-M model) could map the formula (10) onto
+(11)’s alternate form:
+∀ v ≤ w2
+∀ x1 ≤ Max(w, 2)
+
+φ(v)
+
+∀ x2 ≤ Max(w, 2)
+
+(10)
+
+∀ x3 ≤ Max(w, 2)
+
+{ SQUARE(x1 , x2 , x3 , w) ⇒ φ∗ (x1 , x2 , x3 ) }
+
+(11)
+
+Lemma 3.6 indicates Example 3.5’s translational methodology generalizes easily to all
+combinations of ∆A
+0 inputs and generic conﬁgurations ξ , via an approximate inductive
+generalization of the transition from sentence (10) to (11). (Its procedure essentially
+performs iteratively a ﬁnite number of such transitions, so as to translate all the clauses
+ξ
+of an initial ∆A
+0 formulae into their ∆0 counterparts via an inductive methodology. The
+
+intuition behind these transitions is they will repeatedly replace a single variable, such
+as v in sentence (10), with a multiplicity of variables, such as (x1 , x2 , x3 ) in (11).)
+Lemma 3.6 (Paris-Dimitracopoulos [28] ) For every generic configuration ξ, each
+ξ
+∆A
+0 formula can be translated into an equivalent ∆0 formula in the Standard-M model
+via a generalization of Example 3.5’s process. (This clearly implies ΠA
+j formulae can also
+ξ
+be translated into Πj expressions.)
+
+Paris-Dimitracopoulos [28] sketched an analog of Lemma 3.6’s translation algorithm,
+using only slightly diﬀerent notation, that is applicable to any formalism that satisﬁes
+Parts (1) and (2) of Deﬁnition 3.4. Their formalism thus uses an inductively-iterated
+analog of the prior example’s replacement of a single variable v in formula (10) with
+(11)’s multiplicity of variables (x1 , x2 , x3 ) , so as to perform Lemma 3.6’s translation
+task. It will be unnecessary for a reader to consider the details behind [28]’s Theorem
+1 or Lemma 3.6’s similar translation mechanism because the remainder of this article
+will never use them again. Instead, their sole purpose has been to provide an implicit
+backdrop for our results by illustrating how the study of the Πξ1 sentences of Deﬁnition
+3.4’s generic conﬁgurations provides information about ΠA
+1 sentences (after the needed
+translating is done).
+Four examples of self-justifying systems that employ Deﬁnition 3.4’s Πξ1 sentences
+will be illustrated in Appendix D . These examples are too complicated to be examined
+before Sections 3 – 6 are read. However, the next example should convey some useful
+intuitions:
+10
+
+Example 3.7 Let x0 , x1 , x2 , ... and y0 , y1 , y2 , ... denote sequences deﬁned by:
+x0
+
+=
+
+2
+
+=
+
+y0
+
+(12)
+
+xi
+
+=
+
+xi−1 + xi−1
+
+(13)
+
+yi
+
+=
+
+yi−1 ∗ yi−1
+
+(14)
+
+For i > 0 , let φi and ψi denote the sentences in (13) and (14) respectively. Also, let φ0
+and ψ0 denote (12)’s sentence. Then φ0 , φ1 , ... φn imply xn = 2n+1 , and ψ0 , ψ1 , ... ψn
+n
+
+imply yn = 22 . Thus, the latter sequence grows at a faster rate than the former.
+Much of our research has used the diﬀerence between the growth rates of x0 , x1 , x2 , ...
+and y0 , y1 , y2 , ... as a motivating example explaining why Equation (2)’s Type-A axiom
+systems can support a stronger form of boundary-case exception to the semantic tableaux
+version of the Second Incompleteness theorem than can Type-M systems.
+Let Log( yn ) = 2n and Log( xn ) = n + 1 thus designate the lengths of the binary
+codings for yn and xn . Then yn ’s coding has a length 2n , which is much larger
+than the n + 1 steps that ψ0 , ψ1 , ... ψn use to deﬁne its existence. However, xn ’s
+length has a smaller size of n + 1 . These observations are useful because every proof
+of the Incompleteness Theorem involves a Gödel number z coding a sentence that has
+a capacity to self-reference its own deﬁnition. The faster growing series y0 , y1 , , ... yn
+should be intuitively anticipated to have this self-referencing capacity because yn ’s
+binary encoding has a 2n+1 length that dwarfs the size of the O(n) steps used to deﬁne
+its value. Leaving aside [62, 67]’s many details, this fast growth explains roughly why
+many Type-M logics satisfy the semantic tableaux version of the Second Incompleteness
+Theorem.
+This paradigm also illustrates intuitively why some Type-A systems, employing
+[59, 61, 64]’s semantic tableaux formalism, can represent boundary-case exceptions to
+the Second Incompleteness Theorem. This is because such formalisms lack access to
+Equation (3)’s axiom that multiplication is a total function. (They are unable, thus,
+to easily construct numbers z that can self-reference their own deﬁnitions because they
+have access only to the slower growing addition primitive.) In particular assuming only
+that each sentence in the axiom-sequence φ0 , φ1 , ...φn (from Equation (13) ) requires a
+mere two bits for its encoding, the length n + 1 of xn ’s binary encoding will be smaller
+than the length of its deﬁning sequence.
+This short length for xn had motivated [59, 61, 64, 65]’s evasion of the semantic
+tableaux version of the Second Incompleteness Theorem. It suggested that the self11
+
+referencing needed in a Gödel-like diagonalization argument would stop being feasible
+when Equation (13)’s slow-growing x1 , x2 , x3 , ... sequence represents the fastest growth
+that is possible.
+One of the several goals in this article will be to formalize a generalizations of [59,
+61, 64, 65]’s self-justifying methodologies by using Deﬁnition 3.4’s generic conﬁgurations.
+The proofs of our main theorems will, of course, be more subtle than the hand-waving
+intuitions appearing in this example. For instance, the combined work of Pudlák, Solovay,
+Nelson and Wilkie-Paris [26, 33, 44, 58] (summarized by Theorem 2.1) raised the subtle
+issue that no Type-S system can prove a theorem aﬃrming its own Hilbert consistency.
+Another complication is that the Equation (14)’s implication for proofs that use the
+multiplication operative has diﬀerent side eﬀects for Herbrandized and semantic tableaux
+deduction (on account of Kolodziejczyk [20, 21]’s previously mentioned observations
+about the potential exponential diﬀerence between the lengths of these proofs under
+extremal circumstances).
+Our main theorems will show that self-justifying systems, using four deduction methods, are capable of proving all of Peano Arithmetic’s Πξ1 theorems. Interestingly, selfjustiﬁcation will be compatible with [64]’s modiﬁcation of semantic tableaux deduction,
+that includes a modus ponens rule for Πξ1 and Σξ1 type sentences. However, [63] has shown
+an analogous modus ponens rule for Πξ2 and Σξ2 sentences is incompatible with self justiﬁcation. (Thus, the contrast between our main results and the Second Incompleteness
+Theorem’s generalizations will be quite tight.)
+
+4
+
+Five Helpful Definitions and An Informative Lemma
+
+This section will introduce ﬁve deﬁnitions and prove a Lemma 4.6 about self justiﬁcation.
+This lemma will be weaker than Sections 5 and 6’s main results. Its main purpose will
+be to provide a useful starting example.
+Definition 4.1 The symbol “E(n)” will denote some term in Deﬁnition 3.4’s language Lξ that represents the value 2n . In using this symbol, we do not presume that Lξ
+possesses a function symbol for the exponent operation. Thus if Lξ has only a function
+symbol for multiplication, then E(n) could designate the term of “ 2 ∗ 2 ∗ ... ∗ 2 ” with
+n repetitions of “2” . (Alternatively, E(n) can be deﬁned via applying 2n iterations of
+
+the successor function to zero, or by having a special constant symbol designating 2n ’s
+value. Essentially, any reasonable method can be used to deﬁne E(n)’s value)
+
+12
+
+Definition 4.2 Let Υ denote a prenex normal sentence. Then ScopeE (Υ,N) will
+denote a sentence identical to Υ except that every unbounded universal quantiﬁer
+“ ∀ v ” is changed to “ ∀ v < E(N ) ”, and every unbounded existential quantiﬁer “ ∃ v ”
+is changed to “ ∃ v < E(N ) ”. (No change is made among the bounded quantiﬁers
+
+within the ∆ξ0 part of the sentence Υ .) For example, if Υ denotes the Πξ1 sentence
+of ∀ v1 ∀ v2 ... ∀ vk
+
+if Υ is the
+
+Σξ1
+
+φ(v1 , v2 , ...vk ) then (15) illustrates ScopeE (Υ,N)’s form. Likewise
+sentence of ∃ v1 ∃ v2 ... ∃ vk
+
+φ(v1 , v2 , ...vk ) then (16) illustrates
+
+ScopeE (Υ,N)’s form.
+
+∀ v1 < E(N ) ∀ v2 < E(N ) ...∀ vk < E(N )
+
+:
+
+φ(v1 , v2 , ...vk )
+
+(15)
+
+∃ v1 < E(N ) ∃ v2 < E(N ) ...∃ vk < E(N )
+
+:
+
+φ(v1 , v2 , ...vk )
+
+(16)
+
+Special Note about Definition 4.2’s Meaning. If Υ is a ∆ξ0 sentence then
+ScopeE (Υ, N ) will be equivalent to Υ for every N ≥ 0 by deﬁnition. (This is because
+
+∆ξ0 formulae contain no unbounded quantiﬁers that undergo change when Υ is mapped
+onto ScopeE (Υ, N ). )
+More About this Notation: The potentially lengthy syntactic object of “ ScopeE (Υ,N) ”
+will actually not be used in our physical encodings of proofs. Instead, these encodings
+will use the more desirably compressed object of “ Υ ” (which has no possibly bulky E(N )
+term). The sole function of ScopeE (Υ,N) will be for us to speculate about what Boolean
+value Υ would theoretically assume (under the Standard-M model) if Υ ’s quantiﬁers
+were modiﬁed so that their ranges were changed to be bounded by E(N ). (It turns out
+that ScopeE (Υ,N) ’s ﬁnitized quantiﬁer-range will help simplify our analysis.)
+Definition 4.3 A Πξ1 or Σξ1 sentence Υ will be called Good(N) when the entity
+ScopeE (Υ, N ) is true under the Standard-M model 6 . Also, a set of Πξ1 sentences, denoted
+as θ, is called Good(N) iﬀ all of its sentences are Good(N).
+Definition 4.4 If Υ is a Πξ1 sentence then ♯( Υ ) will denote the largest integer J
+such that Υ satisﬁes the Good(J) condition. (It will equal ∞ if Υ satisﬁes Good(J) for
+all J.) Also, if θ is a set of Πξ1 sentences, then ♯( θ ) will denote the largest J where each
+
+sentence in θ is Good(J).
+A Very Helpful Start : Several more deﬁnitions will be needed before Section 6
+can present our strongest results. The remainder of this section will illustrate how the
+current formalism is already suﬃcient for introducing a useful starting lemma.
+6
+
+A quite unusual aspect of Deﬁnition 4.3 is that its Good(N ) condition has opposite properties when
+it is applied to Πξ1 and Σξ1 sentences in one particular respect. This is because for each N, the Good( N )
+condition is weaker than the Good( ∞ ) condition for Πξ1 sentences, while it is stronger than it for Σξ1
+sentences. (For instance, ∀ x φ(x) is stronger than ∀ x < E(N ) φ(x) , but ∃ x φ(x) is weaker than
+∃ x < E(N ) φ(x) .)
+
+13
+
+Definition 4.5 Let (Lξ , ∆ξ0 , B ξ , d, G) again denote a generic conﬁguration called
+ξ , and let us presume that its base axiom system B ξ is comprised exclusively of Πξ1
+sentences. Also, let β ⊃ B ξ denote a second axiom system, comprised also of Πξ1
+
+sentences, that (unlike B ξ ) can possibly be inconsistent. (If β is inconsistent then let
+qβ denote the shortest proof of 0 = 1 from β . ) Then the generic conﬁguration ξ
+will be called Tight if iﬀ every inconsistent set of Πξ1 sentences β ⊃ B ξ satisﬁes the
+
+following constraint:
+
+Log( qβ ) ≥
+
+♯( β ) + 2
+
+(17)
+
+Lemma 4.6 will prove B ξ +SelfRef(B ξ , d) satisﬁes Section 1’s self-justiﬁcation criteria
+whenever ξ is tight. This “tightness” will clearly fail to be satisﬁed by many generic
+conﬁgurations. This is because the Second Incompleteness Theorem is a widely encompassing result, which imposes severe restrictions on its allowed exceptions. Lemma 4.6’s
+mini-result will be of interest primarily because it will be generalized substantially in
+Sections 5 and 6.
+Lemma 4.6 If a generic configuration (Lξ , ∆ξ0 , B ξ , d, G) is tight then B ξ +SelfRef(B ξ , d)
+will be a consistent self-justifying axiom system.
+Proof Sketch: Our justiﬁcation of Lemma 4.6’s mini-result will be simpler than the
+next section’s proof of Theorem 5.9’s stronger result. The current proof will also be kept
+brief and informal because the same topic will be visited more rigorously during Section
+5’s discourse.
+Let Ψ denote Section 1’s SelfRef(B ξ , d) sentence. We will omit formalizing Ψ ’s
+exact Πξ1 encoding here because Appendix A will provide a more general ﬁxed-point
+construction, using Deﬁnition 5.7’s stronger paradigm. The current proof will simply
+presume Ψ ’s ﬁxed point statement can receive a Πξ1 encoding under sentence (18),
+where “ PrfdB ξ +SelfRef(B ξ ,d) ( ⌈ 0 = 1 ⌉ , p ) ” is a ∆ξ0 formula, indicating that p is a
+
+proof of 0=1 from B ξ + SelfRef(B ξ , d) under d ’s deduction method.
+∀p
+
+¬ PrfdB ξ +SelfRef(B ξ ,d) ( ⌈ 0 = 1 ⌉ , p )
+
+(18)
+
+The Deﬁnition 4.4’s symbol ♯ will be helpful at this juncture. The application
+of ξ’s tightness to (18)’s Πξ1 styled encoding will imply 7 that (19) must be true when
+Ψ is false under the Standard-M model and when the shortest proof of 0 = 1 from
+B ξ + SelfRef(B ξ , d) is denoted as q.
+Log( q ) =
+
+♯( Ψ ) + 1
+
+(19)
+
+7
+Equation (19) is easy to justify when one presumes there is an available Πξ1 encoding of (18)’s
+statement, which we call Ψ . (This Πξ1 presumption is reasonable because an analog of Ψ ’s exact Πξ1
+encoding will be discussed later by Deﬁnition 5.7 and in Appendix A.) The invalidity of Ψ will thus
+assure the existence of a proof of 0 = 1 from B ξ + SelfRef(B ξ , d). Moreover, Deﬁnition 4.4’s notation
+implies ♯( Ψ ) will equal Log(q) − 1 when q denotes the shortest proof of 0 = 1 from B ξ + SelfRef(B ξ , d).
+The latter shows (19) is valid.
+
+14
+
+Also Deﬁnition 4.4 trivially implies ♯( B ξ + Ψ ) = ♯( Ψ ) (because all of B ξ ’s axioms
+are true under the Standard-M model). Thus, (19) yields (20).
+Log( q ) =
+
+♯( B ξ + Ψ ) + 1
+
+(20)
+
+But the point is that the Tightness constraint’s Equation (17), used in the context where
+β is the axiom system of B ξ + Ψ , implies
+
+Log( q ) ≥
+
+♯( B ξ + Ψ ) + 2 . This
+
+directly contradicts Equation (20)’s equality, whenever the proof “ q ” of 0 = 1 cited
+in our discussion does formally exist. This contradiction is precisely what is needed to
+corroborate Lemma 4.6’s claim that the axiom system B ξ + SelfRef(B ξ , d) must be
+consistent. (Thus, B ξ + SelfRef(B ξ , d) must be consistent because otherwise a proof
+q of 0 = 1 would exist and have its Log( q ) ≥ ♯( B ξ + Ψ ) + 2 inequality contradict
+Equation (20).)
+
+✷
+
+How Lemma 4.6 May Be Interpreted : We remind the reader that many (but
+not all) generic conﬁgurations will fail to satisfy Lemma 4.6’s tightness hypothesis. This
+is because any conﬁguration satisfying this hypothesis represents one of those unusual
+boundary-case exceptions to the Second Incompleteness Theorem that are feasible.
+Lemma 4.6 was intended to capture the simplest variant of a self-justifying phenomena (that employs Deﬁnition 4.4’s machinery). Its proof was kept informal because more
+sophisticated self-justifying formalisms will be explored in Sections 5 and 6. They will
+apply to four diﬀerent types of generic conﬁgurations, each of whose base axiom systems
+B ξ can be made capable of proving all Peano Arithmetic’s Πξ1 theorems — in a context
+where these systems use a broader variant of “I am consistent” axiom-statement than
+does Lemma 4.6’s “SelfRef(B ξ , d)” sentence.
+
+5
+
+The First Two Meta-Theorems about Self-Justification
+
+The core theorems in this section will employ the following notation:
+1. The symbol θ will denote any recursively enumerable (r.e.) set of Πξ1 sentences,
+henceforth called a R-View. (An R-View does not need to be valid under the
+Standard-M model. It only needs to be r.e.)
+2. RE-Class(ξ) shall denote the set of all possible “R-Views” θ that can be built out
+of ξ ’s language Lξ . (This permits both valid and invalid R-Views to appear in
+RE-Class(ξ). We choose this unrestricted deﬁnition because no recursive decision
+procedure can identify all the true Πξ1 sentences in the Standard-M model.)
+
+15
+
+Definition 5.1 Let ξ denote the 5-tuple (Lξ , ∆ξ0 , B ξ , d, G) representing one of Definition 3.4’s generic conﬁgurations, and let RE-Class(ξ) and its R-Views “θ” be deﬁned
+as in the previous paragraph. Then ξ is called A-Stable iﬀ each θ ∈ RE-Class(ξ)
+satisﬁes the following invariant:
+*
+
+If Υ is a Πξ1 theorem of axiom system θ ∪ B ξ via a proof p whose length satisﬁes
+Log(p) ≤ ♯( θ) + 1 then Υ will satisfy Good{
+
+1
+2
+
+♯( θ) } .
+
+Remark 5.2 The invariant ∗ states short proofs (with lengths ≤ ♯( θ) + 1 ) will
+
+produce at least partially useful deductions, in that their Πξ1 theorems will always satisfy
+Good{
+
+1
+2
+
+♯( θ) } , irregardless of whether or not θ’s axioms are technically true. (This
+
+makes the study of A-stability very interesting unto itself, apart from its applications in
+the current article).
+Theorem 5.11 will show the presence of A-stability, alone, is suﬃcient for constructing
+self-justifying systems. This will imply every A-stable conﬁguration must contain some
+embedded weakness (as every evasion of the Second Incompleteness Theorem always
+does). On the other hand, Appendix F will explain how A-stability and its “EA-stable”
+cousin (deﬁned later) are both epistemologically interesting. Thus, A-stability has redeeming features.
+Definition 5.3 A Generic Conﬁguration ξ will be called E-Stable iﬀ all of the
+θ ∈ RE-Class(ξ) satisfy
+
+∗ ∗ . (This construct is the counterpart for Σξ1 sentences of
+
+the Item ∗ in Deﬁnition 5.1.)
+
+** If Υ is a Σξ1 theorem derived from the axiom system θ ∪ B ξ via a proof p
+
+whose length satisﬁes Log(p) ≤ ♯( θ) + 1 then Υ will automatically satisfy
+Good{ 21 ⌊ Log(p) ⌋ − 1 } .
+
+(This invariant further implies 8 that Υ will also
+
+satisfy the Good{ 12 ♯( θ) } criteria.)
+Remark 5.4 The invariants ∗ and ∗∗ are partially analogous to each other because
+
+both imply that if p is a proof short enough to satisfy Log(p) ≤
+
+their resulting theorem will satisfy Good{
+
+1
+2
+
+♯( θ) + 1 then
+
+♯( θ) } . However, there is a distinction
+
+between Deﬁnitions 5.1 and 5.3, as well. This is because the prior section’s Footnote
+
+6 observed that Σξ1 sentences are stronger when they meet a Good( N ) rather than a
+Good( ∞ ) threshold, while the reverse is true for Πξ1 sentences. Thus ∗∗ ’s short proofs
+
+p (satisfying Log(p) ≤ ♯( θ) + 1 ) will have the special property that their theorems
+
+Υ will satisfy a “Good{ 12 ⌊ Log(p) ⌋ − 1 } ” constraint that is actually stronger than
+their formal Σξ1 statements.
+
+8
+This point is easy to conﬁrm when one remembers that Σξ1 sentences Υ have the property
+that A < B implies ScopeE (Υ, A) is stronger than ScopeE (Υ, B). It is then obvious that the
+Good{ 12 ⌊ Log(p) ⌋ − 1 } criteria implies the validity of Good{ 21 ♯( θ) } for Σξ1 sentences
+because the invariant ∗∗ presumes its Σξ1 theorems have proofs p satisfying “ Log(p) ≤ ♯( θ) + 1 ”.
+
+16
+
+The Appendix D will provide four examples of generic conﬁgurations that are either
+E-stable or A-stable (or often both). Its most prominent example will be a conﬁguration
+ξ ∗ that uses semantic tableaux deduction and recognizes addition as a total function.
+Theorem D.4 will imply such systems can be made self-justifying and able to prove Peano
+Arithmetic’s Π∗1 theorems.
+Three more deﬁnitions are needed to help introduce our ﬁrst theorem
+Definition 5.5 A generic conﬁguration ξ will be called EA-stable iﬀ it is both
+E-stable and A-stable. (It will thus satisfy both ∗ and ∗ ∗ .)
+Our next deﬁnition is related to the fact that many deﬁnitions of consistency are
+logically equivalent from the perspective of strong enough logics, but they are often not
+provably equivalent from the perspectives of weak logics.
+Definition 5.6 Let ξ denote the generic conﬁguration (Lξ , ∆ξ0 , B ξ , d, G), and α be
+an axiom system satisfying α ⊇ B ξ . Then α is called Level(kξ ) Consistent when there
+exists no proofs from α via d’s deduction method of both a Πξk sentence and of the Σξk
+
+sentence that is its negation
+Most of this article will focus on self-justifying systems that recognize their Level(k ξ )
+consistency when k equals 0 or 1. Our next deﬁnition will be applied mostly to these
+two cases.
+Definition 5.7 Given any k ≥ 0, a generic conﬁguration (Lξ , ∆ξ0 , B ξ , d, G) and an
+
+axiom system β ⊃ B ξ , the symbol SelfConsk (β, d) will denote a self-referencing Πξ1
+
+sentence declaring β+SelfConsk (β, d)’s formal Level(kξ ) consistency, as is illustrated
+below by the statement
+
++ . (An encoding for SelfConsk (β, d) will be provided by
+
+Appendix A.)
++
+
+There exists no two proofs (using deduction method d) of both some
+
+Πξk sentence and of the Σξk sentence,
+
+that represents its negation, from the
+
+union of the axiom system β with this added sentence “SelfConsk (β, d) ”
+(looking at itself ).
+Remark 5.8 We will focus on Deﬁnition 5.7’s SelfConsk (β, d) axiom mostly in the
+settings where k = 0 or 1. This is because SelfConsk (β, d) will typically be too strong
+for it to generate boundary-case exceptions to the Second Incompleteness Theorem when
+k ≥ 2 . It turns out that even when k = 1 , Deﬁnition 5.7’s SelfConsk (β, d) state-
+
+ment will be signiﬁcantly stronger than the axiomatic declaration • used by Section 1’s
+
+SelfRef(β, d) axiom. This is because SelfCons1 (β, d) asserts non-existence of simultane-
+
+ous proofs for a Πξ1 sentence and its negation, while SelfRef(β, d) establishes merely
+the non-existence of a proof of 0 = 1.
+
+17
+
+Theorem 5.9 Let ξ denote a generic configuration (Lξ , ∆ξ0 , B ξ , d, G) that is EAstable. Then the corresponding axiom system of B ξ +SelfCons1 (B ξ , d) must satisfy Section 1’s definition of self-justification.
+Proof. The justiﬁcation of Theorem 5.9 will be a more elaborate version of Lemma
+4.6’s mini-proof. It will replace Deﬁnition 4.5’s Tightness constraint with an EA-stability
+requirement. It will also replace SelfRef(β, d)’s “I am consistent” axiom with a stronger
+SelfCons1 (β, d) statement.
+Our proof will focus on showing B ξ +SelfCons1 (B ξ , d) is consistent (and thus satisﬁes
+the subtle Part-ii component of Section 1’s deﬁnition of “Self-Justiﬁcation”). It will be
+awkward during our discussion to write repeatedly the expression “ B ξ +SelfCons1 (B ξ , d) ”.
+Therefore, “S” will be the abbreviated name for this axiom system. We will also employ
+the following notation:
+1. PrfS (t, p) will denote that p is a proof of the theorem t from the above
+mentioned formalism “ S ” (using ξ ’s deduction method of d ).
+2. Neg1 (x, y) will denote that x is the Gödel encoding of a Πξ1 sentence and that
+y is a Σξ1 sentence which represents x ’s formal negation.
+Appendix A explains how to combine the theory of LinH functions [15, 23, 69] with
+[61]’s ﬁxed point methods to provide PrfS (t, p) and Neg1 (x, y) with ∆ξ0 encodings. (A
+reader can omit examining Appendix A, if he just accepts this fact.) Thus, (21) can be
+viewed 9 in this context as being SelfCons1 (B ξ , d) ’s formalized Πξ1 statement, declaring
+the Level(1ξ ) consistency of S:
+∀x∀y∀p∀q
+
+¬ { Neg1 (x, y) ∧ PrfS (x, p) ∧ PrfS (y, q) }
+
+(21)
+
+Let Φ denote (21)’s sentence. We will use it to prove Theorem 5.9’s claim that S is
+consistent. Our proof will be a proof by contradiction. It will begin with the assumption
+that S is inconsistent. This implies Φ is false under the Standard-M model. Hence,
+Deﬁnition 4.4 implies
+♯( Φ ) < ∞
+
+(22)
+
+Equation (22) thus indicates there exists (p̄, q̄, x̄, ȳ) satisfying (23) (because such a tuple
+will be a counter-example to (21)’s assertion). The particular (p, q, x, y) satisfying (23)
+9
+
+Our notation convention has the abbreviated formula of “ PrfS (t, p) ” in Equation (21) corresponding
+to Appendix A’s “ SubstPrf dβ (n̄, t, p) ” formula, in a context where n speciﬁes the Gödel number of
+the expression Γk (g) in Appendix A’s Equation (36) and where the superscript k within this formula
+“ Γk (g) ” is set equal to 1. This implies that sentence (21) does assert the Level(1ξ ) consistency of S.
+——————————————————-
+
+18
+
+with minimum value for Log{ Max[p, q, x, y] } can then be easily shown 10 to also satisfy
+
+Equation (24).
+
+Neg1 ( x̄ , ȳ ) ∧ PrfS ( x̄ , p̄ ) ∧ PrfS ( ȳ , q̄ )
+
+(23)
+
+Log { Max[ p̄ , q̄ , x̄ , ȳ ] }
+
+(24)
+
+=
+
+♯( Φ ) + 1
+
+We will now use (23) and (24) to bring our proof-by-contradiction to its conclusion.
+Let Υ denote the Πξ1 sentence speciﬁed by x̄ . Then ¬ Υ will correspond to the Σξ1
+
+sentence denoted by ȳ . Also, (23) and (24) imply that both Υ and ¬ Υ have proofs
+such that the logarithms of their Gödel numbers are bounded by ♯( Φ ) + 1 . These
+facts imply that Υ and ¬ Υ both satisfy Good{
+
+1
+2
+
+♯( Φ) } under our formalism.
+
+(This is because if we take θ in Deﬁnitions 5.1 and 5.3 to be simply Φ ’s 1-sentence
+
+statement, then the invariants of ∗ and ∗∗ from these two deﬁnitions both impose the
+
+same Good{
+
+1
+2
+
+♯( Φ) } constraint on Υ and ¬ Υ .)
+
+It is infeasible, however, for a sentence and its negation to both satisfy the same
+goodness constraint. This completes Theorem 5.9’s proof-by-contradiction because the
+initial assumption that S was inconsistent has led to an infeasible conclusion.
+
+✷
+
+Our next deﬁnition will help formalize a useful cousin of Theorem 5.9.
+Definition 5.10 A Generic Conﬁguration of ξ will be called 0-Stable when every
+particular θ ∈ RE-Class(ξ) satisﬁes the invariant of ∗ ∗ ∗. (This invariant is strictly
+
+weaker than its counterparts ∗ and ∗∗ in Deﬁnitions 5.1 and 5.3.)
+
+*** If Υ is a ∆ξ0 theorem derived from the axiom system θ ∪ B ξ via a proof p
+
+whose length satisﬁes Log(p) ≤ ♯( θ) + 1 , then Υ is true under the Standard-M
+model.
+
+Theorem 5.11 If the configuration ξ is 0-stable then B ξ +SelfCons0 (B ξ , d) is a selfjustifying formalism. (Appendix C shows this result applies also to E-stable and A-stable
+conﬁgurations.)
+Theorem 5.11’s proof is similar to Theorem 5.9’s proof. The diﬀerence between these
+two propositions is that Theorem 5.11 has reduced SelfCons’s superscript from 1 to 0,
+so that its hypothesis can encompass a theoretically broader set of applications. (The
+Appendix C summarizes how Theorem 5.9’s proof can be easily modiﬁed to also prove
+Theorem 5.11.)
+10
+
+Let L denote the minimum value for Log{ Max[p, q, x, y] } for a tuple (p, q, x, y) satisfying Equation (23). Then by deﬁnition, Φ satisﬁes Good(L − 1) but not Good(L). From Deﬁnition 4.4, this
+establishes the validity of Equation (24) (because the minimal (p̄, q̄, x̄, ȳ) satisfying sentence (23) has
+Log{Max[p̄, q̄, x̄, ȳ]} = L. )
+
+19
+
+Remark 5.12 Theorems 5.9 and 5.11 should clarify the nature of [59]–[68]’s formalisms. This is because proofs-by-contradictions are notorious in the mathematical
+literature for being confusing. They should be simpliﬁed whenever possible. This has
+been done mainly through Theorem 5.9’s short proof. (It applies to three of Appendix
+D’s four examples of generic conﬁgurations, and Theorem 5.11 applies to Appendix D’s
+fourth example.) Furthermore, Section 6 will show how more elaborate self-justiﬁcation
+systems can verify all Peano Arithmetic’s Πξ1 theorems.
+
+6
+
+Four Further Meta-Theorems
+
+We need one preliminary lemma before exploring how strong self-viewing logics may
+become before they cross the inevitable boundary between self-justiﬁcation and inconsistency, implied by Gödel’s Theorem.
+Lemma 6.1 Let ξ denote a generic configuration (Lξ , ∆ξ0 , B ξ , d, G) , and θ • denote
+an r.e. set of Πξ1 sentences, each of which holds true in the Standard-M model. Let ξ •
+denote a 5-tuple that differs from ξ in that its base axiom system is B ξ ∪ θ • (rather than
+
+B ξ ). These conditions imply that ξ • is a generic configuration, and it will satisfy the
+following four invariants:
+i If ξ is 0-stable then ξ • will also be 0-stable .
+ii If ξ is A-stable then ξ • will also be A-stable .
+iii If ξ is E-stable then ξ • will also be E-stable .
+iv If ξ is EA-stable then ξ • will also be EA-stable .
+Lemma 6.1’s proof is fairly straightforward. It has been placed in the Appendix B.
+
+This section will use Lemma 6.1 to prove four meta-theorems that are consequences of
+its formalism.
+Definition 6.2 Let ξ again denote a generic conﬁguration (Lξ , ∆ξ0 , B ξ , d, G), and
+θ denote some r.e. set of Πξ1 sentences (which are not required to be true under the
+Standard-M model). For the cases where k is either 0 or 1, the symbol Gξk ( θ ) will
+denote the following axiom system:
+Gξk ( θ ) = θ ∪ B ξ ∪ SelfConsk { [ θ ∪ B ξ ] , d }
+
+(25)
+
+Also when k = 0 or 1, the function Gξk (which maps θ onto Gξk ( θ ) ) is called Con-
+
+sistency Preserving iﬀ Gξk ( θ ) is assured to be consistent whenever all the sentences
+in θ are true under the Standard-M model.
+We emphasize consistency preservation is unusual in logic. This is because Gξk ( θ )
+
+comes from adding a self-justifying axiom to an initially consistent formalism B ξ +θ , and
+20
+
+the Second Incompleteness Theorem demonstrates that suﬃciently powerful formalisms
+are simply incompatible with such an axiom. However, there will be four specialized
+paradigms, deﬁned in Appendix D, that are exceptions to this rule. They will be related
+to our next result:
+Theorem 6.3 The function Gξ1 shall satisfy Definition 6.2’s consistency preservation property when ξ is EA-stable. Likewise the function Gξ0 will be consistency
+preserving when ξ is any one of A-stable, E-stable or 0-stable. (Thus in each case,
+Gξk ( θ ) will be consistent when all the sentences in θ are true in the Standard-M
+model.)
+Proof. It will be convenient for our proof to use a dot-style notation, analogous to
+Lemma 6.1’s terminology. Thus,
+1. θ • denotes any r.e. set of Πξ1 sentences that are each true under the Standard-M
+model.
+2. ξ • is the tuple ( Lξ , ∆ξ0 , B ξ ∪ θ • , d , G ). (It diﬀers from ξ by replacing ξ ’s base
+axiom system of B ξ with B ξ ∪ θ • .)
+
+Part-iv of Lemma 6.1 indicates the EA-stability of ξ implies the EA-stability of ξ • . Moreover Theorem 5.9 applies to all EA-stable conﬁgurations, including ξ • . Thus, Gξ1 ( θ • ) is
+consistent because ξ is EA-stable and all of θ • ’s sentences are true in the Standard-M
+model. This proves Theorem 6.3’s ﬁrst claim.
+An almost identical proof, where Theorem 5.11 simply replaces Theorem 5.9 as the
+central self-justifying engine, will corroborate Theorem 6.3’s second claim . Thus, Gξ0
+is consistency preserving when ξ is one of A-stable, E-stable or 0-stable.
+
+✷
+
+Remark 6.4 Most generic conﬁgurations ξ will not satisfy Theorem 6.3’s hypothesis because Gξk (θ) will typically be inconsistent, irregardless 11 of whether or not all
+of θ ’s axioms are valid under the Standard-M model. The signiﬁcance of Theorem 6.3
+is that it shows that some outlying exceptions to this general rule do prevail when ξ
+satisﬁes one of Theorem 6.3’s four stability conditions. These exceptions are related to
+the 3-page abbreviated philosophical discussion that will appear later in Appendix F.
+They will assure that Theorem 6.3’s formalisms of Gξ1 (θ) and Gξ0 (θ) are always consistent
+whenever θ ’s axioms are valid in the Standard-M model.
+Our next deﬁnition will enable self-justifying formalisms to prove the Πξ1 theorems
+of any consistent r.e. axiom system that uses Lξ ’s language.
+Definition 6.5 Let ξ denote a generic conﬁguration (Lξ , ∆ξ0 , B ξ , d, G). Let B denote
+
+any recursive axiom system whose language is an extension of Lξ . For an arbitrary
+11
+Conventional generic conﬁgurations ξ will satisfy the Hilbert-Bernays derivability conditions [16, 15].
+Their Gξk (θ) will thus be automatically inconsistent because of a Gödel-like diagonalization argument.
+
+21
+
+deduction method D (which may be possibly diﬀerent from ξ ’s deduction method d ),
+
+ξ
+let PrfD
+B ( ⌈ Ψ ⌉ , q ) denote a ∆0 formula indicating q is a proof of the theorem Ψ from
+
+axiom system B , using deduction method D . Then the Group-2 Schema for (B, D)
+is deﬁned as an inﬁnite set of axioms that includes one instance of (26)’s axiom for each
+Πξ1 sentence Ψ.
+∀q
+
+{ PrfD
+B (⌈Ψ⌉, q)
+
+−→
+
+Ψ }
+
+(26)
+
+Comment about this Notation: The Deﬁnition 6.5 had called (26) a “Group-2
+Schema” so as to keep our terminology consistent with [59, 61, 64, 66]’s notation.
+Theorem 6.6 Let ξ denote any arbitrary generic configuration, and (B, D) denote
+
+any pair consisting of an axiom system and a deduction method (which, once again, are
+allowed to be different from ξ ’s deduction method and axiom system). Then if all of
+(B, D)’s Πξ1 theorems are true in the Standard-M model, the following two invariants will
+
+hold:
+
+i If ξ is EA-stable then there will exist an r.e. self-justifying system that can prove
+all of (B, D)’s Πξ1 theorems and recognize its own Level( 1ξ ) consistency.
+ii Likewise, if ξ is one of A-stable, E-stable or 0-stable, there will exist an r.e. selfjustifying system that can confirm all of (B, D)’s Πξ1 theorems and which can recognize its own Level( 0ξ ) consistency.
+
+Proof. Theorem 6.6 follows from Theorem 6.3. Thus let θ denote the set of all
+Πξ1 sentences that are members of Deﬁnition 6.5’s Group-2 schema.
+
+Then every one of
+
+θ ’s Group-2 axioms must be true under the Standard-M model (because the hypothesis
+of Theorem 6.6 indicated all of (B, D)’s Πξ1 theorems are true in this model). Hence,
+Theorem 6.3 implies:
+
+1. Gξ1 ( θ ) is consistent when ξ is EA-stable.
+2. Gξ0 ( θ ) is consistent when ξ is one of A-stable, E-stable or 0-stable.
+Since Gξ0 ( θ ) and Gξ1 ( θ ) are self-justifying systems that prove all of (B, D)’s Πξ1 theorems,
+
+Items 1 and 2 will substantiate Theorem 6.6’s two claims. ✷
+
+An awkward aspect of Deﬁnition 6.5’s “Group-2” schema is that it employs an inﬁnite
+number of instances of (26)’s Group-2-like axiom sentences. It turns out that this Group2 scheme can be compressed into a single axiom sentence, if one is willing to settle for a
+slightly diluted variant of (B, D)’s Πξ1 knowledge. To formalize this concept, the following
+
+notation shall be used:
+
+22
+
+1. Checkξ (t) will denote a ∆ξ0 formula that checks to see whether t represents the
+Gödel number of a Πξ1 sentence.
+2. Testξ (t, x) will denote any ∆ξ0 formula where (27)’s invariant is true under the
+Standard-M model for every Πξ1 sentence Ψ simultaneously. There are inﬁnitely
+many diﬀerent ∆ξ0 formulae that can serve as Testξ (t, x) predicates satisfying this
+condition. (Example 6.7 will illustrate one such encoding of a Testξ (t, x) predicate.)
+Ψ
+
+←→
+
+∀ x Testξ ( ⌈ Ψ ⌉ , x )
+
+(27)
+
+The expression (28) will be called a Global Simulation Sentence for representing
+(B, D) via ξ . Its Testξ (t, x) clause essentially allows ξ to simulate the Πξ1 knowledge of
+
+(B, D)’s set of theorems.
+
+ξ
+∀ t ∀ q ∀ x { [ PrfD
+B (t, q) ∧ Check (t) ]
+
+−→
+
+Testξ (t, x)
+
+}
+
+(28)
+
+Example 6.7 For any generic conﬁguration ξ = (Lξ , ∆ξ0 , B ξ , d, G), let NegPrfξ (t, x)
+denote a ∆ξ0 formula specifying that t is a Πξ1 sentence and that x is a proof under d ’s
+deduction method of the Σξ1 sentence that represents t ’s negation. Also, let Testξ0 (t, x)
+be deﬁned as follow:
+Testξ0 (t, x)
+
+=def
+
+¬ NegPrfξ (t, x)
+
+(29)
+
+For each Πξ1 sentence Ψ, it is easy to verify 12 that the statement (30) is true under the
+Standard-M model.
+Ψ
+
+←→
+
+∀ x Testξ0 ( ⌈ Ψ ⌉ , x )
+
+(30)
+
+The latter implies that (31) is a global simulation sentence for (B, D).
+ξ
+∀ t ∀ q ∀ x { [ PrfD
+B (t, q) ∧ Check (t) ]
+
+−→
+
+Testξ0 (t, x) }
+
+(31)
+
+We emphasize that there are countably inﬁnite diﬀerent examples of Testξi (t, x) predicates that generate global simulation sentences and that statement (31) illustrates only
+one such example.
+Definition 6.8 Let (B, D) denote any ordered pair whose set of Πξ1 theorems are
+
+true under the Standard-M model. Let Testξ1 , Testξ2 , Testξ3 .... denote the set of
+∆ξ0 formulae where statement (27) is true under the Standard-M model for every Πξ1
+sentences Ψ. Then TestListξ will denote a list of all these Testξi predicates. Also for
+
+each Testξj formula in TestListξ , the symbol GlobSimD
+B (ξ, j) will denote the special
+version of (28)’s global simulation formalism that employs Testξj ’s machinery.
+Part-3 of Deﬁnition 3.4 indicated that ξ ’s base axiom system is “ Σξ1 complete”. (It is thus able
+to prove all Σξ1 sentences that are true in the true in Standard-M model, and it will likewise refute all
+Πξ1 sentences that are false.) The statement (29) then immediately implies that (30) must be true under
+the Standard-M model for every Πξ1 sentence Ψ .
+12
+
+23
+
+Remark 6.9 A comparison between Deﬁnition 6.5’s Group-2 schema with 6.8’s
+global simulation sentences will reveal neither is strictly better than the other. Both
+have their own separate advantages. Thus, the attractive aspect about Deﬁnition 6.8’s
+GlobSimD
+B (ξ, j) sentence is that it is a ﬁnite-sized object that can simulate the inﬁnite
+set of axioms associated with Deﬁnition 6.5’s Group-2 schema. The accompanying drawback 13 of a global simulation sentence is that the union of it with the base-axiom system
+B ξ will typically be inadequate to prove every Πξ1 sentence that is a theorem of (B, D).
+Instead, in a context where Ψ is a Πξ1 theorem of (B, D), the sentence GlobSimD
+B (ξ, j)
+will usually provide only enough fragmented information to prove the statement (32)
+(which is equivalent to Ψ under the Standard-M model).
+∀ x Testξj ( ⌈ Ψ ⌉ , x )
+
+(32)
+
+While (32) may be insuﬃcient to prove Ψ from B ξ , it still (according to the statement
+(27) ) has the desired property of being equivalent to Ψ under the Standard-M model.
+(This means that the knowledge of (32)’s truth is helpful, even if it is unknown from
+B ξ ’s perspective to be equivalent to Ψ . )
+Our prior articles [59, 61, 64, 66] did not use Deﬁnition 6.8’s global simulation formalism. They employed, instead, Deﬁnition 6.5’s Group-2 axiom schema. Theorem 6.10 will
+be the analog of Theorem 6.6 for global simulation. It will be useful when one desires to
+compress all the information held by a Group-2 schema into a single ﬁnite-sized object.
+Theorem 6.10 Let ξ denote the generic configuration (Lξ , ∆ξ0 , B ξ , d, G), B denote
+
+a recursively enumerable axiom system and D denote any deduction method (which can
+be different than ξ ’s deduction method d ) . Suppose that all the Πξ1 theorems generated
+
+by ( B , D ) are true under the Standard-M model. Then the following invariants do hold:
+i If ξ is EA-stable then for each j there exists a finitized extension
+
+βj of
+ξ
+ξ
+B that recognizes its Level(1 ) self-consistency and which contains the sentence
+GlobSimD
+B (ξ, j).
+
+ii Likewise for each j, if ξ is E-stable, A-stable or 0-stable then there exists a finitized extension βj of B ξ that recognizes its Level(0ξ ) self-consistency and which
+contains the sentence GlobSimD
+B (ξ, j).
+Proof: Let θ denote the 1-sentence R-View of “GlobSimD
+B (ξ, j)” formalized by
+Deﬁnition 6.8,
+
+and let βj1
+
+and βj0
+
+denote
+
+B ξ ∪ θ + SelfCons1 ( B ξ ∪ θ )
+
+and
+
+The chief diﬃculty arises essentially because a Πξ1 theorem of (B, D) may contain an arbitrarily long
+combination of bounded universal and bounded existential quantiﬁers. Thus, some generic conﬁgurations
+will have base axiom systems B ξ that are so weak that their combination with (28)’s Global Simulation
+Sentence is insuﬃcient to prove the validity of (27)’s equivalence statement for all Πξ1 sentences Ψ
+simultaneously. In particular, such proofs will often be infeasible when Ψ ’s sequence of bounded quantiﬁes
+has a length greatly exceeding the length of the Gödel encoding for (28)’s global simulation statement.
+13
+
+24
+
+B ξ ∪ θ + SelfCons0 ( B ξ ∪ θ ) , respectively. These axiom systems correspond to the
+
+objects that Deﬁnition 6.2 had called Gξ1 (θ) and Gξ0 (θ).
+
+Theorem 6.10’s hypothesis indicates all the Πξ1 theorems of (B, D) are true under the
+
+Standard-M model. Thus, it follows that θ is also true in the Standard-M model. Hence
+Theorem 6.3 implies that βj1 = Gξ1 (θ) is a consistent system satisfying Theorem 6.10’s
+
+claim (i). Likewise, Theorem 6.3 implies βj0 = Gξ0 (θ) satisﬁes Theorem 6.10’s second
+claim.
+
+✷
+
+Remark 6.11 Theorems 6.6 and 6.10 raise a fascinating question: Is the trade-off
+between these formalisms needed? That is, can self-justifying systems use only a a ﬁnite
+number of added axioms beyond those lying in ξ ’s base system of B ξ and also duplicate
+all (B, D)’s Πξ1 theorems in a pure sense (i.e. without simulation) ? We will return to
+
+this topic in Appendix G.
+
+REFLECTION PARADIGMS : Our last goal is to show how self-justifying
+systems support unusually strong reﬂection principles. Let Reﬂectα,d ( Ψ ) denote (33)’s
+statement when Ψ is a sentence with Gödel number ⌈ Ψ ⌉ , and (α, d) denotes an
+
+axiom system and deduction method.
+∀p
+
+[ Prfα,d ( ⌈ Ψ ⌉ , p )
+
+⇒
+
+Ψ ]
+
+(33)
+
+Löb’s Theorem [15, 25, 42] implies that conventional systems (α, d) , possessing at least
+Peano Arithmetic’s strength, are unable to prove Reﬂectα,d ( Ψ ) except for in the
+degenerate cases where they can prove Ψ.
+Moreover, it is easy to generalize Löb’s Theorem (via say [61]’s Theorem 7.2) so that
+a wide class of formalisms α , weaker than Peano Arithmetic, are also unable to prove
+Reﬂectα,d ( Ψ ) for all Πξ1 sentences Ψ simultaneously.
+The intuition behind this generalization is quite simple. Let ✵ denote a Πξ1 encoding
+for the classic Gödel sentence declaring:
+
+“ There is no proof of me from the axiom
+
+system α using d ’s deduction method”. Then [61]’s Theorem 7.2 uses a very routine
+diagonalization argument to show most formalisms α will be inconsistent if they prove
+Reﬂectα,d ( ✵ )’s statement.
+Our next theorem will show, surprisingly, that the preceding limitation is much less
+stringent than it may initially appear to be. This is because Level( 1ξ ) self-justifying
+axiom systems are capable of proving very close analogs to (33)’s impermissible
+
+25
+
+reﬂection principle, using a “translational” methodology.
+Thus, let T denote an algorithm that maps a Πξ1 sentence Ψ onto a “translated”
+sentence ΨT that is equivalent to Ψ under the Standard-M model and which is also
+written in a Πξ1 format. (See footnote14 for why it is absolutely imperative that both
+these requirements be included in T ’s deﬁnition.) Also, let ReﬂectTα,d ( Ψ ) denote the
+translational modiﬁcation of (33)’s reﬂection principle that replaces Ψ with ΨT .
+∀ p [ Prfα,d ( ⌈ Ψ ⌉ , p )
+
+⇒
+
+ΨT ]
+
+(34)
+
+Theorem 6.12 Let ξ denote the EA-stable configuration of (Lξ , ∆ξ0 , B ξ , d, G), and
+let α = B ξ + SelfCons1 ( B ξ ) denote ξ ’s corresponding Level(1) self-justifying axiom
+system. Then there will exist a translation methodology T
+
+where α can prove the
+
+validity of (34) for all its Πξ1 sentences simultaneously.
+Proof: Let us use Example 6.7’s notation. It observed that Ψ ’s Πξ1 statement was
+equivalent under the Standard-M model to “ ∀ x Testξ0 ( ⌈ Ψ ⌉ , x )”. Thus, let us view T
+as being a mapping of the ﬁrst sentence onto the second.
+
+Our proof of Theorem 6.12 will next use the following observations:
+1. The non-existence of a proof of ¬ Ψ from B ξ + SelfCons1 ( B ξ ) trivially implies
+the non-existence of a proof of the same theorem from B ξ (because the latter
+axiom system is simply a subset of the former).
+2. Moreover, Example 6.7’s notation treats “ ∀ x Testξ0 ( ⌈ Ψ ⌉ , x )” as being equivalent
+to the declaration that no proof of ¬ Ψ from B ξ exists.
+
+Hence, α can prove (34)’s statement by noting that p ’s proof of a Πξ1 sentence Ψ
+implies (via α ’s SelfCons1 axiom) the non-existence of a proof of ¬ Ψ , which (via
+
+Items 1 and 2) implies “ ∀ x Testξ0 ( ⌈ Ψ ⌉ , x )”
+Remark 6.13 :
+
+✷.
+
+Theorem 6.12 and the statement (34)’s Translational Reﬂection
+
+Principle may possibly be useful devices in unraveling some of the mystery that has
+enshrouded Gödel’s Second Incompleteness Theorem, since its inception. This is partly
+because Gödel was explicitly uncertain about the generality of the Second Incompleteness
+Theorem in his initial 1931 seminal paper [14] about this subject. His centennial paper
+about Incompleteness thus included the following quite poignant caveat:
+Part-3 of Deﬁnition 3.4 indicated that generic conﬁgurations are Σξ1 complete. Our requirement
+that ΨT must have a Πξ1 format thus causes T to gain much added meaning. This is because the
+axiom system B ξ will then automatically disprove ΨT whenever it is false under the Standard-M
+model. (Thus, T ’s mapping of Ψ onto ΨT gains much signiﬁcance when Ψ and ΨT do rest on the
+same Πξ1 level of the arithmetic hierarchy.)
+14
+
+26
+
+•
+
+: “It must be expressly noted that Theorem XI (i.e the Second Incom-
+
+pleteness Theorem) represents no contradiction of the formalistic standpoint
+of Hilbert. For this standpoint presupposes only the existence of a consistency proof by ﬁnite means, and there might conceivably be finite proofs which
+cannot be stated in ... ”
+Some of the issues that troubled Gödel in the statement • can perhaps be partially
+
+resolved if one compares the reﬂection principles of sentences (33) and (34). This is
+because (33) is probably unnecessary to explain how thinking beings can appreciate
+their Πξ1 theorems when Theorem 6.12’s specialized logics can, instead, use the fact
+
+that its Πξ1 sentences satisfy at least (34)’s modiﬁed reﬂection principle. Thus, some
+of the mystery surrounding the Second Incompleteness Eﬀect can be clariﬁed when one
+notices that (34)’s translational reﬂection princible is a useful precept, that was shown
+by Theorem 6.12 to be technically unrelated to Gödel’s observation that no reasonable
+formalism can prove (33)’s purist principle for all Πξ1 sentences simultaneously.
+Remark 6.14 Theorem 6.12 is also signiﬁcant because it explains how its specialized
+logics can grapple with a Πξ1 encoded Gödel sentence ✵ which asserts “There is no
+proof of me”. This issue is challenging because routine constructions, such as [61]’s
+Theorem 7.2, demonstrate that no natural logic can verify statement (33)’s validity for
+all Πξ1 sentences Ψ (on account of the well-known syllogism posed by ✵’s Gödel
+sentence). Theorem 6.12 constructs, however, a reply to this challenge. This is because
+its self-justifying systems do surprisingly prove, without diﬃculty 15 , the validity of (34)’s
+translated modification of (33)’s unobtainable Πξ1 styled variant of a reﬂection principle.
+Remark 6.15 We encourage the reader to examine the work of Beklemishev, KreiselTakeuti and Verbrugge-Visser [5, 6, 7, 24, 52, 56] to see alternative reﬂection principles
+and their uses. (The constraint on proof-length, by Verbrugge-Visser, is certainly one
+alternative to Theorem 6.12’s machinery. Likewise, Kreisel-Takeuti’s Second Order Logic
+CFA reﬂection is another alternative, although it will not 16 generalize to ﬁrst-order logics.) One complicating aspect of our Theorem 6.12’s reﬂection method is that Appendix
+E proves it becomes inoperable when an axiom system is suﬃciently conventional to satisfy Gödel’s Second Incompleteness Theorem. In essence, Theorem 6.12’s translational
+15
+
+Since Ψ and ΨT are equivalent under the Standard-M Model but not also equivalent from the
+perspective of the system α = B ξ + SelfCons1 ( B ξ ), the conventional contradictions, produced by
+(33)’s reﬂection principle, disappear when it is replaced by (34). (Thus, there is no danger that α could
+use (34)’s reﬂection principle to prove an analog of ✵ ’s forbidden Gödel sentence.)
+——————————————————Kreisel-Takeuti indicate on page 25 of [24] that CFA’s reﬂection principle for a ﬁrst order formula
+“A” infers the validity of only the relativized formula “ AN ” from A’s proof. Also, their proof predicate
+is similarily relativized. Thus CFA’s second-order logic reﬂection principle, while fascinating, does not
+generalize to ﬁrst-order logic environments.
+16
+
+27
+
+reﬂection principle is a specialized methodology, intended for logics using Deﬁnition 5.7’s
+Level(1) style of self-justiﬁcation.
+Remark 6.16 The preceding discussion clearly shows self-justifying logics are tempting. At the same time, it is necessary to be very cautious because there are also two
+fundamental barriers limiting such results:
+a The ﬁrst is the Theorem 2.1 arising from the joint work of Pudlák, Solovay, Nelson and Wilkie-Paris [26, 33, 44, 58]. It showed no reasonable system recognizing
+successor as a total function can verify its own Hilbert consistency. Also, Willard
+[62, 67] established analogous results under semantic tableaux consistency for systems recognizing multiplication as a total function. Thus, each eﬀort to evade the
+Second Incompleteness Theorem must encounter robust barriers.
+b A second issue is that Deﬁnition 5.7’s “SelfCons” “I am consistent” axiom sentence is
+less than ideal because it causes axiom systems to produce essentially a 1-line proof
+of their own consistency. Such an excessively compressed proof corresponds more
+closely to an axiom system formulating an instinctive faith in its own consistency
+(rather than it supporting a full-length proof-justiﬁcation of this fact).
+Part of the reason self-justifying systems are of interest, despite these limitations, is that
+they illustrate how some formalisms are compatible with at least an instinctive faith in
+their own self-consistency. (This compatibility issue is non-trivial because Item (a) implies there are many circumstances where a generalization of the Second Incompleteness
+Theorem will make it infeasible for a formalism to satisfy both Parts (i) and (ii) of Section 1’s deﬁnition of Self-Justiﬁcation.) Moreover, three of Appendix D’s four sample
+self-justifying conﬁgurations, called ξ ∗ , ξ ∗∗ and ξ R , will be Type-A systems that recognize addition as a total function. These conﬁgurations will thus possess the following
+three signiﬁcant ﬁnitized features:
+1. They will be able to construct the entire inﬁnite set of integers by finite means
+because they recognize addition as a total function.
+2. For any r.e. logical conﬁguration (B, D), it will be possible to develop a 1-sentence
+
+finitized extension for the base axiom systems of any of the conﬁgurations of ξ ∗ ,
+
+ξ ∗∗ and ξ R , which deploy (28)’s Global Simulation Sentence to simulate the
+Πξ1 knowledge of (B, D). This means that some fully ﬁnite-sized extensions of the
+base-formalisms of ξ ∗ , ξ ∗∗ and ξ R will contain a non-trivial amount of Πξ1
+styled knowledge, since (B, D) can correspond to, say, Peano Arithmetic.
+3. The key point is that a 1-sentence extension of an axiom system containing features
+(1) and (2) can formalize how a logic can possess an instinctive faith in its own
+28
+
+consistency via Theorem 6.10’s explicitly finitized structure. (Moreover, Theorem
+6.12’s Translational Reﬂection Principle is applicable to Appendix D’s generic conﬁgurations of ξ ∗ and ξ ∗∗ . It will thus imply that their single finitized Level-1
+self-justifying axioms enable them to prove an infinite number of incarnations of
+(34)’s translational reﬂection principle, where each Π∗1 sentence Ψ is mapped onto
+one such unique instance.)
+The contrast between Items 1-3’s positive remarks about “ﬁnitized” cogitation with
+Items (a) and (b)’s opposing comments is obviously formidable. It is clearly preferable
+to view these positive results cautiously and treat them as being no more than boundarycase exceptions to the Second Incompleteness Theorem. The essential reason why these
+exceptions are of interest is that Gödel’s famous centennial paper has implicitly raised
+the following puzzling issue:
+# How is it that Human Beings manage to muster the physical drive to
+think (and prove theorems) when the many generalizations of Gödel’s Second
+Incompleteness Theorem assert conventional logics lack knowledge of their
+own consistency?
+There will, of course, never be any perfect answer to the puzzle posed by # because
+philosophical paradoxes and ironical dilemmas never yield perfect answers. However,
+part of an imperfect answer to # is that Items 1-3 reply to Challenges (a) and (b) by
+formalizing how a thinking being can muster an approximate partial instinctive faith in its
+own self-consistency. (Moreover, the tight contrast between various generalizations of the
+Second Incompleteness Theorem [1, 3, 8, 10, 15, 16, 21, 25, 33, 37, 44, 46, 58, 62, 63, 67]
+with the self-justifying systems appearing in Appendixes D and G suggests that these
+come close to being maximal forms of feasible results.)
+Our remaining discussion will consist of four optional sections, called Appendixes D,
+E, F and G, which can be skimmed, omitted or examined in any order the reader prefers.
+A summary of their contents is given below:
+I The Appendix D provides four examples of generic conﬁgurations that utilize Theorems 5.9, 5.11, 6.3, 6.6 and 6.10. Its most prominent examples involve Equation (2)’s Type-A axiom systems where the deduction method is either semantic
+tableaux or a modiﬁed version of tableaux that permits a modus ponens rule for
+Πξ1 and Σξ1 sentences.
+II The Appendix E introduces a generalization of the Second Incompleteness Theorem
+which shows that Theorem 6.12’s Translational Reﬂection Principle applies only to
+self-justifying logics. (It is thus fully inoperative for conventional logics. This may
+explain why Theorem 6.12’s self-justifying systems are an interesting topic.)
+29
+
+III The Appendix F diﬀers from the rest of this paper by having a philosophical slant.
+It will oﬀer a 3-page summary about why we suspect Theorem 6.3’s self-justiﬁcation
+formalism and Remark 6.16’s notion of “instinctive faith” are useful.
+IV The Appendix G introduces a “Bracedξ (Φ, j)” construct and two new theorems
+that hybridize the methodologies of Theorems 6.6 and 6.10. These results will
+improve upon Theorem 6.6 because their self-justifying systems contain only a
+ﬁnite number of axiom-sentences beyond those lying in ξ ’s base formalism of
+B ξ . They will improve upon Theorem 6.10 because they can prove the important
+Bracedξ (Φ, j) subset of (B, D)’s Πξ1 theorems in a full sense (rather than in Re-
+
+mark 6.9’s weaker simulated respect). Appendix G’s results are useful because for
+arbitrary k and for any of Appendix D’s four sample conﬁgurations, every Πξ1 the-
+
+orem of (B, D) containing k or fewer bounded and unbounded quantiﬁers will be
+
+proven by its Theorem G.3 to be self-justifying in an undiluted pure sense. (This
+is because each such Πξ1 sentence, with fewer than k quantiﬁers, will lie in some
+ﬁxed Bracedξ (Φ, j) set — where solely the value of k determines the values for
+Φ and j . )
+It is probably desirable to concentrate primarily on Theorems 5.9, 5.11, 6.3, 6.6, 6.10
+and 6.12 during one’s ﬁrst reading of this paper. This is because Appendixes A-G are
+
+less central than these core theorems, although their material does add several useful
+further perspectives to this subject.
+
+7. Concluding Remarks
+The research in this article has been a continuation of our prior research [59]-[68] that
+simultaneously has simpliﬁed, uniﬁed and extended the prior results. It has explored
+self-justiﬁcation with a 3-part approach where:
+1. Sections 4 and 5 introduced three diﬀerent stem components that can be used to
+generate self-justifying systems. (These are the relatively simple Lemma 4.6 and
+the mathematically more sophisticated Theorems 5.9 and 5.11.)
+2. Section 6 and Appendix G then generalized our initial stem-like theorems in the
+six diﬀerent directions formalized by Theorem 6.3, 6.6, 6.10, 6.12, G.2 and G.3
+3. Appendix D subsequently provided four examples of generic conﬁgurations that
+are applications of Section 6’s results.
+This 3-part approach is very diﬀerent from the methods used in our prior articles [59, 64,
+66, 68]. The latter examined particular isolated applications in thorough detail (rather
+30
+
+than compartmentalize and separate the analysis into three stages). The virtue of this
+3-stage analysis is it leads to many new theorems, in addition to unifying our prior
+results.
+It is desirable to categorize the maximal generality and strongest form of boundarycase exceptions for the Second Incompleteness Theorem that are feasible because Gödel’s
+centennial discovery beckons the scholarly community to sharpen their understanding of
+his 1931 landmark discovery, that has fundamentally reshaped mathematics.
+It should be emphasized that our over-all research in [59] – [68] has spent an approximately equal eﬀort in exploring generalizations of the Second Incompleteness Theorem
+[62, 63, 66, 67] and in examining its viable boundary-case exceptions [59, 61, 64, 65, 66, 68]
+(although the current article focused on the latter topic). This is because the Second
+Incompleteness Theorem is a starkly robust result that imposes sharp limits on how
+strong self-justifying systems may become.
+Finally, we encourage the reader to take another brief glance at Remarks 6.13 – 6.16.
+They oﬀer a brief summary of both the strengths and limitations of our chief results.
+They also explain how Theorem 6.12’s reﬂection principle for Πξ1 styled theorems is a
+very unexpected result.
+
+ACKNOWLEDGMENTS: I thank Bradley Armour-Garb, Seth Chaiken and
+Kenneth W. Regan for many useful suggestions about how to improve the presentation
+style of some earlier drafts of this article. As was noted in the text of this article, some
+of my research during the last 17 years was inﬂuenced by some private communications
+that I had with Robert M. Solovay in 1994 and Leszek Kolodziejczy in 2005.
+
+31
+
+Appendix A: The Πξ1 encoding for SelfConsk (β, d)
+This appendix will summarize how to formalize a Πξ1 encoding for Deﬁnition 5.7’s
+SelfConsk (β, d) predicate. It will use the following notation:
+1. Negk (x, y), will denote a ∆ξ0 formula indicating that x is the Gödel number of a
+Πξk sentence and that y represents the Σξk sentence which is its logical negation.
+2. Prf dβ ( t , p ) will denote a formula designating that p is a proof of theorem t
+from the axiom system β using the deduction method d.
+3. ExPrf dβ ( h , t , p ) will denote that p is a proof (using d’s deduction method) of a
+theorem t from the union of the axiom system β with the added sentence whose
+Gödel number equals h .
+4. Subst ( g , h ) will denote Gödel’s substitution formula — which yields TRUE when
+g is an encoding of a formula and h encodes a sentence that replaces all occurrence
+of free variables in g with a term of ḡ (that speciﬁes g’s Gödel number).
+5. SubstPrf dβ ( g , t , p ) will denote the hybridization of Items 3 and 4 that yields a
+Boolean value of TRUE when there exists an integer h satisfying Subst ( g , h )
+and ExPrf dβ ( h , t , p ).
+It is easy to apply [61]’s methodologies to conﬁrm Items 1-5 can be encoded as
+∆ξ0 formulae.
+
+Thus, Appendixes C and D of [61] explained how the theory of LinH
+
+functions [15, 23, 69] implied there existed ∆0 encodings for formulae 1-4, and these
+∆0 encodings can be easily rewritten 17 as ∆ξ0 expressions. Equation (35) uses this
+information to formulate a ∆ξ0 encoding for SubstPrf dβ (g, t, p)’s graph. It is equivalent
+to “ ∃ h { Subst(g, h) ∧ ExPrf dβ (h, t, p) } ”,
+
+but Equation (35) is written in a ∆ξ0
+
+format — unlike the quoted expression.
+Prf dβ ( t , p )
+
+∨
+
+∃ h ≤ p { Subst ( g , h ) ∧ ExPrf dβ ( h , t , p ) }
+
+(35)
+
+Using (35)’s ∆ξ0 encoding for SubstPrf dβ (g, t, p), it is easy to encode SelfConsk (β, d)
+as a Πξ1 axiom-sentence. Thus, let Γk (g) denote (36)’s formula, and let n̄ denote Γ(g)’s
+Gödel number.
+∀x∀y∀p∀q
+
+¬ { Negk (x, y) ∧ SubstPrf dβ (g, x, p) ∧ SubstPrf dβ (g, y, q) }
+
+(36)
+
+Then “ Γk ( n̄ ) ” is a Πξ1 encoding for SelfConsk (β, d)’s formalization of the statement
++ from Deﬁnition 5.7. Thus, Γk ( n̄ ) is encoded is as follows:
+∀x∀y∀p∀q
+
+¬ { Negk (x, y) ∧ SubstPrf dβ (n̄, x, p) ∧ SubstPrf dβ (n̄, y, q) }
+
+(37)
+
+This rewriting of conventional ∆0 formulae into a ∆ξ0 format is possible because Part 2 of Deﬁnition 3.4 indicated that two 3-way predicates of Add(x, y, z) and Mult(x, y, z) do encode addition and
+multiplication in a ∆ξ0 styled form.
+17
+
+32
+
+Reminder about Equation (37) : This sentence’s deﬁnition for SelfConsk (β, d)
+does not assure (37) is true under the Standard-M model. Indeed for nearly all (β, d),
+it will be false when k ≥ 2. This is the reason that the study of SelfConsk (β, d), under
+Theorems 5.9 and 5.11, has focused on the cases where k equals 0 or 1. Moreover, the
+
+preceding construction did assure that SelfConsk (β, d) had a Πξ1 encoding because such
+an “I am consistent” axiom carries more meaning than a Πξ2 encoded axiom.
+
+Appendix B: The Proof of Lemma 6.1
+Lemma 6.1 is a crucial interim step used to verify each of Theorems 6.3, 6.6 and 6.10.
+Its proof will employ the following three straightforward observations:
+Fact B.1 Lemma 6.1’s hypothesis implies that ξ • is a generic conﬁguration. (This is
+because it speciﬁed that ξ was a generic conﬁguration and that all the Πξ1 sentences
+of θ • were true in the Standard-M model. Thus, ξ • must also be a generic
+conﬁguration.)
+Fact B.2 The associative identity of θ ∪ (θ • ∪ B ξ ) = ( θ ∪ θ • ) ∪ B ξ obviously holds.
+It implies a sentence Υ is a theorem of θ ∪ (θ • ∪ B ξ ) if and only if it is a theorem
+
+of ( θ ∪ θ • ) ∪ B ξ .
+
+Fact B.3 Lemma 6.1’s hypothesis directly 18 implies ♯( θ) = ♯( θ • ∪ θ).
+The justiﬁcation of claims (i)-(iv) are consequences of Facts B.1 through B.3. We
+will provide a detailed proof of only Claim (i) here because all four claims have similar
+proofs.
+Proof of Claim (i) : The hypothesis of Claim (i) indicated that ξ was 0-stable.
+Therefore, it satisﬁes Deﬁnition 5.10’s invariant of ∗ ∗ ∗ . In a context where φ is a
+
+variable designating a r.e. set of Πξ1 sentences and Υ is a variable corresponding to a
+∆ξ0 sentence, the invariant ∗ ∗ ∗ can be rewritten in a quasi-rigorous form as :
+∀φ ∀Υ
+∀ p
+
+the below statement, called Ψ1 (φ, Υ), is true
+
+(38)
+
+If Υ is a ∆ξ0 theorem derived from the axiom system φ ∪ B ξ via a
+
+proof p , whose length satisﬁes Log(p) ≤ ♯( φ ) + 1 , then Υ is true under
+the Standard-M model.
+
+Since (38)’s universally quantiﬁed variable φ can designate any r.e. set of Πξ1 sentences,
+it may designate the object “ θ ∪ θ • ”, where θ • is the r.e. set of Πξ1 sentences deﬁned
+18
+
+The identity of ♯( θ• ) = ∞ must be true because the hypothesis of Lemma 6.1 indicated
+that all the Πξ1 sentences in θ• are true under the Standard-M model. By Deﬁnition 4.4, this implies
+♯( θ ) = ♯( θ• ∪ θ ) .
+
+33
+
+by Lemma 6.1’s hypothesis (and θ is any second r.e. set of sentences). Thus, (38)
+directly implies :
+∀ θ ∀Υ
+
+the below statement, called Ψ2 (θ, Υ), is true
+
+(39)
+
+∀ p If Υ is a ∆ξ0 theorem derived from the axiom system ( θ ∪ θ • ) ∪ B ξ
+
+via a proof p , whose length satisﬁes Log(p) ≤ ♯( θ ∪ θ • ) + 1, then Υ is
+
+true under Standard-M.
+
+Facts B.2 and B.3 enable one to simplify (39)’s terms of ( θ ∪ θ • ) ∪ B ξ and ♯( ( θ ∪ θ • ) )
+and thus to derive (40) as a consequence.
+∀ θ ∀Υ
+
+the below statement, called Ψ3 (θ, Υ), is true
+
+(40)
+
+∀ p If Υ is a ∆ξ0 theorem derived from axiom system θ ∪ ( θ • ∪ B ξ ) via
+
+a proof p, whose length satisﬁes Log(p) ≤ ♯( θ) + 1, then Υ is true under
+the Standard-M model.
+
+We will now use Fact B.1’s observation that ξ • is a generic conﬁguration. The sentence
+(40) indicates this conﬁguration satisﬁes Deﬁnition 5.10’s invariant of ∗ ∗ ∗. Hence, ξ • is
+
+0-stable. ✷
+
+Brief Comments about the Justifications of Claims (ii)-(iv): This appendix
+has omitted proving (ii)-(iv) for the sake of brevity. Their proofs are similar to Claim
+(i)’s proof. For instance, Claim (ii)’s proof diﬀers from Claim (i)’s proof by having the
+0-stability invariant in ∗ ∗ ∗ replaced by the A-stability invariant of ∗ . This will cause
+
+the analogs of (38) – (40) to undergo the following two simple changes under Claim (ii)’s
+proof :
+
+1. Υ will represent a Πξ1 (rather than a ∆ξ0 ) theorem-statement under the revised
+versions of Ψ1 , Ψ2 and Ψ3 used in Claim (ii)’s proof
+2. The requirement (in sentences (38)-(40) of Claim i’s proof) that Υ be true in the
+Standard model is changed to the stipulation that Υ satisﬁes the Good{ 12 ♯( φ) }
+
+and Good{ 21 ♯( θ)} conditions under the revised forms of Ψ1 , Ψ2 and Ψ3 used to
+
+prove Claim (ii).
+Other minor adjustments in Claim (i)’s proof shall verify Claims iii and iv.
+
+34
+
+Appendix C: The Proof of Theorem 5.11
+Our proof of Theorem 5.11 is a straightforward modiﬁcation of Theorem 5.9’s proof. It
+will be divided into two lemmas.
+Lemma C.1. Every generic configuration that is either E-stable or A-stable will
+automatically satisfy Definition 5.10’s 0-stability condition.
+Proof.
+
+Lemma C.1 is a consequence of the “Special Note” appearing at the end
+
+of Deﬁnition 4.2. For every N ≥ 0, it indicated that if Υ is a ∆ξ0
+
+sentence then
+
+ScopeE (Υ, N ) is equivalent to Υ . This implies (via Deﬁnition 4.3) that if Υ is a
+Good(N) ∆ξ0 formula then ScopeE (Υ, N ) is automatically true under the Standard-M
+model.
+The latter observation makes it easy to conﬁrm Lemma C.1. This is because every
+
+∆ξ0 sentence is a Πξ1 and Σξ1 statement.
+and ∗ ∗
+
+Hence, the application of the invariants
+
+∗
+
+from Deﬁnitions 5.1 and 5.3, in the degenerate case where Υ is a ∆ξ0 theorem,
+
+corroborates Lemma C.1’s claim (by showing that Deﬁnition 5.10’s invariant of ∗ ∗ ∗
+does hold).
+
+✷
+
+The remainder of this appendix will focus on Deﬁnition 5.10’s 0-stability condition.
+(This is suﬃcient to justify Theorem 5.11 because Lemma C.1 showed all E-stable and
+A-stable conﬁgurations are 0-stable.)
+Lemma C.2. Let ξ denote a generic configuration (Lξ , ∆ξ0 , B ξ , d, G) that is 0Stable. Then the axiom system of B ξ +SelfCons0 (B ξ , d) will be consistent (and hence
+self-justifying).
+Proof: It will be awkward to write repeatedly the expression “ B ξ +SelfCons0 (B ξ , d) ”
+during our proof. Therefore, H will be an abbreviated name for this system. Our justiﬁcation of Lemma C.2, is similar to Theorem 5.9’s proof, except it replaces a Level(1ξ )
+form of self-justiﬁcation with a Level(0ξ ). It will thus be abbreviated and use the following notation:
+1. PrfH (t, p) is a ∆ξ0 formula specifying p is a proof of the theorem t from the
+axiom system H (using ξ ’s deduction method of d ).
+2. Neg0 (x, y) is a ∆ξ0 formula indicating x is the Gödel encoding of a ∆ξ0 sentence
+and y is a ∆ξ0 sentence representing x ’s negation.
+Expression (41) denotes H ’s Level(0ξ ) self-justiﬁcation axiom. It is encoded using
+Appendix A’s methodology, similar to its counterpart used in Theorem 5.9’s proof (i.e.
+Equation (21) ).
+∀x∀y∀p∀q
+
+¬ { Neg0 (x, y) ∧ PrfH (x, p) ∧ PrfH (y, q) }
+
+35
+
+(41)
+
+Our proof of Lemma C.2 will be a proof by contradiction. It will thus begin with the
+contrary assumption that H is inconsistent and have Φ denote (41)’s sentence. The
+inconsistency of H implies that Φ is false under the Standard-M model. Hence via
+Deﬁnition 4.4, we get:
+♯( Φ ) < ∞
+
+(42)
+
+Equation (42) implies there exists a tuple (p̄, q̄, x̄, ȳ) satisfying (43). (This is because such
+a (p̄, q̄, x̄, ȳ) corroborates (42)’s implication that a counter-example to (41)’s sentence
+does exist.)
+Neg0 ( x̄ , ȳ ) ∧ PrfH ( x̄ , p̄ ) ∧ PrfH ( ȳ , q̄ )
+
+(43)
+
+The (p, q, x, y) satisfying (43) with minimum value for Log{ Max[p, q, x, y] } will addition-
+
+ally satisfy (44). (This observation follows from the analog of the Footnote 10 appearing
+in Theorem 5.9’s proof. Thus, Section 5’s Equations of (23) and (24) are the analogs of
+the current Equations (43) and (44). The Footnote 10 showed the particular (p, q, x, y)
+satisfying (23) with minimum value for Log{ Max[p, q, x, y] } satisﬁed (24). By the same
+reasoning, the minimal (p̄, q̄, x̄, ȳ) satisfying (43) will satisfy (44).)
+Log { Max[ p̄ , q̄ , x̄ , ȳ ] }
+
+=
+
+♯( Φ ) + 1
+
+(44)
+
+Equations (43) and (44) shall bring Lemma C.2’s proof-by-contradiction to its soughtafter end. Thus, let Υ denote the ∆ξ0 sentence speciﬁed by x̄ . Then ¬ Υ corresponds
+
+to the ∆ξ0 sentence denoted by ȳ . Equation (44) indicates that both Υ and ¬ Υ have
+
+proofs such that the logarithms of their Gödel numbers are bounded by
+Using Deﬁnition 5.10’s invariant of
+
+∗∗∗
+
+♯( Φ ) + 1 .
+
+, these facts establish 19 that both
+
+Υ and
+
+¬ Υ are true under the Standard-M model.
+
+But it is impossible for a sentence and its negation to be both true. This ﬁnishes
+
+Lemma C.2’s proof because the temporary assumption that H was inconsistent has led
+to a contradiction.
+
+✷
+
+Theorem 5.11 is a consequence of the Lemmas C.1 and C.2 because Lemma C.2’s formalism generalizes to all E-stable and A-stable conﬁgurations via Lemma C.1’s reduction
+methodology.
+
+19
+
+To apply Deﬁnition 5.10’s invariant ∗ ∗ ∗ in the present setting, one simply sets θ ’s R-View equal
+to Φ ’s 1-sentence statement. Then ∗ ∗ ∗ implies that both Υ and ¬ Υ must be true under the
+Standard-M model because both their proofs had lengths ≤ ♯( Φ ) + 1 .
+
+36
+
+Appendix D: Applications and Examples
+This appendix will illustrate four examples of generic conﬁgurations that satisfy Theorems 5.9 and 5.11 (and which therefore are self-justifying). It will be divided into three
+parts. Section D-1 will deﬁne our ﬁrst example of self-justifying conﬁguration, called ξ ∗ .
+It will use semantic tableaux deduction. Section D-2 will prove that ξ ∗ is EA-stable.
+Section D-3 will brieﬂy sketch three additional examples of stable generic conﬁgurations
+It is likely preferable to examine Sections 3 – 6 before this appendix. However, Section
+D-1’s short 2-page discussion can be read quite easily either before or after Section 6.
+
+D-1. Definition of the EA-Stable Configuration ξ ∗
+Our ﬁrst example of an EA-Stable conﬁguration, called ξ ∗ , will be deﬁned in this section.
+Its deduction method will be semantic tableaux. Its base axiom system B ∗ will be a
+Type-A formalism, which treats addition but not multiplication as a total function (i.e.
+see Equation (2) ).
+The closest analog of B ∗ and ξ ∗ in our prior work appeared in Section 5 of [64]. (It
+diﬀered from ξ ∗ partly because it did not use Deﬁnition 3.4’s unifying notation.) In [64],
+a function F was called Non-Growth iﬀ F (a1 , a2 , ...aj ) ≤ M aximum(a1 , a2 , ...aj ) for
+
+all a1 , a2 , ...aj . Six examples of non-growth functions are:
+
+1. Integer Subtraction where “ x− y ” is deﬁned to equal zero in the special case where
+x ≤ y,
+2. Integer Division where “ x ÷ y ” equals x when y = 0, and it equals ⌊ x/y ⌋
+otherwise,
+
+3. Root(x, y) which equals ⌈ x1/y ⌉ when y ≥ 1, and it equals x when y = 0.
+4. M aximum(x, y),
+5. Logarithm(x) = ⌊ Log2 (x) ⌋ when x ≥ 2, and zero otherwise.
+6. Count(x, j) = the number of “1” bits among x’s rightmost j bits.
+These operations were called Grounding Functions in [64]. The term U-Grounding
+Function referred to a set of functions that included the Grounding operations plus the
+further primitives of addition and Double(x) = x + x. (The Double operation is helpful
+because it signiﬁcantly enhances [64]’s linguistic eﬃciency 20 .)
+The symbol ∆∗0 will be the analog of Deﬁnition 3.1’s ∆ξ0 construct under the UGrounding function language. (It will be deﬁned to be any formula in a U-Grounding
+20
+
+The symbol Double(x) was technically unnecessary in [64]’s formalism because x + x can encode
+Double(x). However, its notation adds expressive power to [64]’s language because, for example, Double(Double(Double(Double(x))) requires less memory space to encode than than x added to itself 16
+times.
+
+37
+
+language where all its quantiﬁers are bounded.) It is easy in this context to encode a
+∆∗0 formula M ult(x, y, z) for representing multiplication’s graph. For instance, Equation
+(45) is one such ∆∗0 formula (which actually does not employ any bounded quantiﬁers):
+[ (x = 0 ∨ y = 0) ⇒ z = 0 ] ∧ [ (x 6= 0 ∧ y 6= 0 ) ⇒ (
+
+z
+z−1
+=y ∧
+< y ) ] (45)
+x
+x
+
+Expression (45) is signiﬁcant because Part 2 of Deﬁnition 3.4 indicated every generic
+conﬁguration must have available some method to represent the graphs of addition and
+multiplication in a ∆ξ0 styled format, similar to (45)’s paradigm. (Addition can be treated
+trivially because the U-grounding language possesses an addition function symbol.) The
+footnote 21 serves as a reminder about why these ∆∗0 encodings are needed. Our next
+goal is to deﬁne the generic conﬁguration ξ ∗ that Section D-2 will prove is EA-stable.
+Definition D.1. The language L∗ of the generic conﬁguration ξ ∗ will be built in
+a natural manner out of the eight U-grounding function operations, the usual atomic
+predicate symbols of “ = ” and “ ≤ ”, and the three constant symbols K0 , K1 and
+
+K2 (that deﬁne the integers of 0, 1 and 2). The other components of ξ ∗ ’s conﬁguration
+are deﬁned below:
+
+i As previously noted, ∆∗0 is deﬁned to represent the set of all formulae in L∗ ’s language, whose quantiﬁers are bounded in an arbitrary manner by terms employing
+the U-Grounding function symbols. (It will thus generate via Deﬁnition 3.1 the
+Π∗n and Σ∗n sentences of L∗ .)
+ii The base axiom system B ∗ for ξ ∗ will be allowed to be any consistent set of Πξ1
+
+∗
+
+sentences that is capable of proving every ∆∗0 sentence that is valid in StandardM. It will also include sentence (46)’s very precise 22 Π∗1 styled declaration that
+addition is a total function.
+∀x
+
+∀y
+
+∃ z ≤x+y :
+
+{
+
+z =x+y
+
+}
+
+(46)
+
+iii
+
+ξ ∗ ’s deduction method will be the semantic tableaux method.
+
+iv
+
+ξ ∗ ’ s Gödelized method g for encoding a semantic tableaux proof can be essentially
+any natural method that satisﬁes the minor stipulation that at least 5 J bits are
+required to encode a semantic tableaux proof that has J function symbols. This
+
+21
+Section 3 explained during its discussion of Lemma 3.6 that every generic conﬁguration ξ must have
+a means to encode the graphs of addition and multiplication as ∆ξ0 formulae (visavis Parts 1 and 2 of
+Deﬁnition 3.4). This enabled Lemma 3.6’s procedure to translate all of conventional arithmetic’s Σj and
+Πj formulae into equivalent Σξj and Πξj expressions.
+
+——————————————————The two appearances of the term “ x + y ” in sentence (46) may at ﬁrst appear to be redundant.
+(This statement is equivalent to sentence (4)’s declaration that addition is a total function, which had
+avoided such redundancy.) The virtue of (46)’s format is that it is a Π∗1 styled statement, unlike (4)’s
+Π∗2 styled format. This sharpened Π∗1 perspective will help simplify some of our proofs.
+22
+
+38
+
+stipulation is called the “Conventional Tableaux Encoding Requirement”.
+It is trivial 23 to corroborate that all the usual methods for encoding semantic
+tableaux proofs satisfy this criteria. (The Appendix A of [64] provides one example
+of a possible tableaux encoding method. Any other natural mechanism for encoding
+tableaux proofs is equally suitable.)
+Section D-2 will, interestingly, prove that ξ ∗ is EA-stable. This will imply (via
+Theorem 5.9) that B ∗ ∪ SelfCons1 { B ∗ , d } is self-justifying. Theorems 6.6, 6.10,
+
+G.2 and G.3 will, formalize, in this context, four diﬀerent methods in which B ∗ can be
+extended to construct self-justifying formalisms that are able to prove Peano Arithmetic’s
+Π∗1 theorems.
+Thus while self-justifying axiom systems contain unavoidable weaknesses, they also
+possess the nice feature that they are able to prove many of the useful theorems of
+mathematics.
+
+D-2. Proof of the EA-Stability of ξ ∗
+This section will prove ξ ∗ is EA-stable and thus satisﬁes the paradigms of Theorems 5.9,
+6.3, 6.6, 6.10 and 6.12. Our proof will be based on modifying some of the methodologies
+from [64], so that they become applicable to ξ ∗ . Many readers may prefer to omit examining both this part of Appendix D and Section D-3 because they are unnecessary for
+understanding the material in Section 6 and Appendixes E and F. (Our recommendation
+is that the latter material be read ﬁrst.)
+Our notation for deﬁning a semantic tableaux proof in the next paragraph will be
+similar to the conventional deﬁnitions appearing in Fitting’s and Smullyan’s textbooks
+[12, 40]. It will employ [64]’s notation so that we can employ two of its lemmas during
+our analysis of semantic tableaux proofs.
+In our discussion, Φ will be called a Prenex-Level( m∗ ) sentence iﬀ it is a Π∗m
+or Σ∗m expression that satisﬁes the usual prenex requirement (that all its unbounded
+quantiﬁers lie in its leftmost part). If Φ is Prenex-Level(m∗ ) then Reverse(Φ) shall
+denote a second Prenex-Level( m∗ ) sentence that is equivalent to ¬ Φ rewritten 24 in
+23
+
+The Conventional Tableaux Encoding Criteria requires that the Gödel number of a semantic tableaux
+proof, with J function symbols, must be least as large as 32J . It is clear that all the usual methods for
+generating the Gödel codes satisfy this criteria. This is because any proof that has J function symbols
+will contain at least 2 J logical symbols and thus employ at least 5 J bits.
+——————————————————For example, if Φ denotes “ ∀ x ∃ y
+“ ∃ x ∀ y ¬ ψ(x, y) ”.
+24
+
+ψ(x, y) ” then Reverse(Φ) would be written as
+
+39
+
+a Prenex Level( m∗ ) form. For a ﬁxed axiom system α, its Φ-Based Candidate Tree
+will be deﬁned to be a tree structure whose root is the sentence Reverse(Φ) and whose
+all other nodes are either axioms of α or deductions from higher nodes of the tree, via
+the rules 1–8 given below. (The symbol “ A =⇒ B ” in rules 1-8 will mean that B is
+a valid deduction from its ancestor A in the germane deduction tree.)
+1. Υ ∧ Γ =⇒ Υ and Υ ∧ Γ =⇒ Γ .
+2. ¬ ¬ Υ =⇒ Υ. Other rules for the “ ¬ ” symbol are: ¬(Υ ∨ Γ) =⇒ ¬Υ ∧ ¬Γ,
+¬(Υ → Γ) =⇒ Υ ∧ ¬Γ ,
+and
+
+¬(Υ ∧ Γ) =⇒ ¬Υ ∨ ¬Γ , ¬ ∃v Υ(v) =⇒ ∀v¬ Υ(v)
+
+¬ ∀v Υ(v) =⇒ ∃v ¬Υ(v)
+
+3. A pair of sibling nodes Υ and Γ is allowed when their ancestor is Υ ∨ Γ.
+4. A pair of sibling nodes ¬Υ and Γ is allowed when their ancestor is Υ → Γ.
+5. ∃v Υ(v) =⇒ Υ(u) where u is a newly introduced “Parameter Symbol”.
+6. ∃v ≤ s Υ(v)
+
+=⇒
+
+u ≤ s ∧ Υ(u) is the variation of Rule 5 for bounded
+
+existential quantiﬁers of the form “ ∃v ≤ s ”.
+
+7. ∀v Υ(v) =⇒ Υ(t) where t denotes a U-Grounded term. These terms may be
+any one of a constant symbol, a parameter symbol (deﬁned by a prior application
+
+of Rules 5 or 6 to some some ancestor of the current node), or a U-Grounding
+function-symbol with recursively deﬁned inputs.
+8. ∀v ≤ s Υ(v) =⇒ t ≤ s → Υ(t) is the variation of Rule 7 for a bounded quantiﬁer
+such as “ ∀v ≤ s ”
+
+Let us say a leaf-to-root branch (in a candidate tree) is Closed iﬀ it contains both some
+sentence Υ and its negation “ ¬ Υ ”. Then a Semantic Tableaux Proof of Φ, from
+
+the axiom system α, is deﬁned to be a Φ-Based Candidate Tree whose every leaf-to-root
+branch is closed.
+It is next helpful to deﬁne the notion of a Z-Based Deduction Tree, in a context
+
+where Z represents an axiom system, typically diﬀerent from the prior paragraph’s α .
+This object will be deﬁned to be identical to a semantic tableaux proof, except for the
+following changes:
+i Every node in a Z−Based deduction tree must be either an axiom of Z or a deduction
+from a higher node of the tree via the rules 1-8. (This applies also to the root of a
+Z−Based deduction tree. It will store an axiom of Z in its root, unlike a semantic
+tableaux proof which had stored Reverse(Φ) in its root.)
+
+40
+
+ii There will be no requirement that each leaf-to-root branch be closed in a Z−Based
+deduction tree. (Indeed, some branch will automatically not be closed if Z is
+consistent.)
+Items (i) and (ii) make it apparent that Z−Based deduction trees are diﬀerent from
+semantic tableaux proofs. It will turn out, nevertheless, that the study of Z−Based
+deduction trees will clarify the nature of semantic tableaux proofs.
+
+Definition D.2. Let a and b denote two integers that are powers of 2 satisfying
+a > b ≥ 2 Then an axiom system Z (employing L∗ ’s language) will be called a
+
+Normed(a,b) formalism iﬀ:
+
+1. All Z’s axioms are either Π∗1 or Σ∗1 sentences.
+2. Each Π∗1 axiom of Z will satisfy Deﬁnition 4.3’s Good( Log2 a ) criteria, and each
+Σ∗1 axiom of Z will likewise satisfy Good( Log2 b ).
+
+Clarification about Definition D.2 :
+
+The “Normed(a,b)” concept (above)
+
+is obviously equivalent to the same-named notion appearing in Deﬁnition 4 of [64].
+It uses, however, a diﬀerent notation to make it compatible with Section 4’s formalism. Thus, Item 2’s assertion that the Π∗1 axiom ∀ v1 ∀ v2 ...∀vk φ(v1 , v2 , ...vk ) satis-
+
+ﬁes Good( Log2 a ) is equivalent to (47)’s statement. The Good( Log2 b ) property of
+∃ v1 ∃ v2 ... ∃ vk φ(v1 , v2 , ...vk ) is, likewise, equivalent to (48).
+∀ v1 < a ∀ v2 < a ...∀ vk < a
+
+:
+
+φ(v1 , v2 , ...vk ) .
+
+(47)
+
+∃ v1 < b ∃ v2 < b ...∃ vk < b
+
+:
+
+φ(v1 , v2 , ...vk ) .
+
+(48)
+
+Our interests in this notation will center around Fact D.3’s invariant:
+
+41
+
+Fact D.3 . Let ξ ∗ denote Deﬁnition D.1’s generic conﬁguration, and Z be an extension of ξ ∗ ’s base axiom system B ∗ which satisﬁes Deﬁnition D.2’s Normed(a, b) constraint. Then any Z−Based deduction tree T that has a Gödel number smaller than
+(a/b)4 must contain at least one root-to-leaf branch, called σ , that is not “closed”. (In
+other words, this path σ will be contradiction-free, insofar as it does not contain both
+some sentence Ψ and its formal negation).
+Proof:
+
+The justiﬁcation of Fact D.3 is a direct consequence of the Lemmas 1 and
+
+2 appearing in article [64] (see footnote 25 for more details).
+
+25
+
+✷
+
+A proof of Fact D.3 from ﬁrst principles would be quite complicated because there are eight elimi-
+
+nation rules employed by semantic tableaux deduction, each of which needs to be examined by such a
+proof’s umbrella formalism. Fortunately, we do not need provide such a complicated analysis here because a 4-page proof of the Lemmas 1 and 2 in Section 5.2 of [64] had already visited these issues. Thus,
+Fact D.3 turns out to be an easy consequence of these two lemmas after the following two straightforward
+issues are addressed:
+1. Section 5.2 of [64] had deﬁned the “U-Height” of a deduction tree to be the largest number of
+U-Grounding function symbols that appear in any of its root-to-leaf branches. Its Lemma 1 proved
+that every deduction tree with a U-Height ≤ Log2 a − Log2 b will contain at least one branch
+
+satisfying a condition, which [64] called “Positive(a,b)”. The Lemma 2 in [64] then showed that
+this Positive(a,b) property implies that the germane deduction tree must contain some branch
+that is contradiction-free. The combination of these two lemmas thus amounts to the establishing
+of the following rephrased hybridized statement:
+•
+
+If a Z-based deduction tree has a U-Height ≤ Log2 a − Log2 b , then some branch
+
+of it is contradiction-free (i.e. this branch cannot contain both some sentence Ψ and
+its negation).
+
+2. Fact D.3 ’s hypothesis indicated the Gödel number g for its deduction tree satisﬁed the following
+conditions:
+I.
+II.
+
+g ≤ (a/b)4
+
+The U-Height of g ’s deduction tree is less than
+
+1
+5
+
+Log2 g . (This is simply because Fact
+
+D.3 presumes that the “Conventional Tableaux Encoding” methodology from Part-iv of
+Deﬁnition D.1 was used to encode g’s Gödel number.)
+Items I and II imply g ’s tree has a U-Height ≤ Log2 a − Log2 b. The invariant • then implies
+
+this deduction tree has at least one branch that is contradiction-free (as Fact D.3 claimed). ✷
+
+We emphasize that the above justiﬁcation of Fact D.3 is much simpler than a proof from ﬁrst principles.
+The latter would require examining eight diﬀerent tableaux elimination rules, as the detailed proofs of
+[64]’s Lemmas 1 and 2 actually did do.
+
+42
+
+We will now apply Fact D.3 to prove Theorem D.4. Its invariant will, interestingly,
+collapse entirely 26 if one were to merely add a multiplication function symbol to the UGrounding language. This is why our boundary-case exceptions to the semantic tableaux
+version of the Second Incompleteness allow a Type-A axiom system to recognize addition
+as a total function (but suppress a similar treatment of multiplication).
+Theorem D.4. The generic configuration ξ ∗ is both A-stable and E-stable. (This
+implies many diﬀerent self-justifying formalisms exist via Theorems 5.9, 6.3, 6.6, 6.10,
+6.12, G.2 and G.3.)
+Our proof of Theorem D.4 will separately show ξ ∗ is A-stable and E-stable.
+Proof of ξ ∗ ’s A-stability : Suppose for the sake of establishing a proof by contradiction that ξ ∗ was not A-stable. Then the constraint ∗ of Deﬁnition 5.1 would be
+violated by at least some θ ∈ RE-Class(ξ). This violation will cause the statement +
+
+to be true for such a θ :
+
++ There exists a semantic tableaux proof p of a Π∗1 theorem, called say Υ , from
+the axiom system of θ ∪ B ξ such that Log(p) ≤ ♯( θ) + 1 and where Υ also
+
+fails to satisfy Good{
+
+1
+2
+
+♯( θ) } .
+
+Let us recall that if Υ is Π∗1 then Reverse( Υ ) is a Σ∗1 sentence equivalent to ¬Υ . Thus,
+Reverse( Υ ) will satisfy Good{
+
+1
+2
+
+♯( θ) } criteria (simply because it has the opposite
+
+goodness property as Υ ). Also, if Z denotes the axiom system of θ∪B ξ + Reverse( Υ ),
+√
+it is easy to verify 27 that Z ’s axioms will satisfy the Normed{ 2 ♯( θ ) , 2 ♯( θ ) } criteria.
+
+It is next helpful to observe that what is a proof from one perspective corresponds
+to being a deduction tree from a diﬀerent perspective. Thus, Item + ’s proof p of the
+26
+
+The diﬃculty posed by multiplication can be easily understood when one compares two integers
+sequences x0 , x1 , x2 , ... and y0 , y1 , y2 , ..., deﬁned as follows:
+xi = xi−1 + xi−1
+AND
+yi = yi−1 ∗ yi−1
+It turns out that the faster growth rate of multiplication under the series y0 , y1 , y2 , ... enables one to
+to construct tiny Z−Based deduction trees T that violate the analog of Fact D.3 ’s paradigm. (This is
+because such trees can have Gödel numbers smaller than (a/b)4 , while all their root-to-leaf branches can
+be simultaneously “closed” via contradictions.) This property of multiplication is analogous to Example
+3.7’s observations about how the diﬀering growth rates of x0 , x1 , x2 , ... and y0 , y1 , y2 , ... are related to the
+threshold where the semantic tableaux version of Second Incompleteness Theorem can be evaded.
+——————————————————√
+2 ♯( θ ) } because:
+The axiom system Z must satisfy Normed{ 2 ♯( θ ) ,
+
+27
+
+1. The quantity 2 ♯( θ ) is a valid ﬁrst component for Z’s norming constraint because all the axioms
+of B ξ are true in the Standard-M model and because Deﬁnition 4.4 implies all of θ ’s axioms
+satisfy Good { ♯( θ) }.
+√
+2. The quantity
+2 ♯( θ ) is a valid second component for Z’s norming constraint because
+Reverse( Υ ) is the only Σ∗1 sentence belonging to Z, and because Reverse( Υ ) satisﬁes
+Good{ 21 ♯( θ) } .
+
+43
+
+theorem Υ from the axiom system of θ ∪ B ξ corresponds to being a Z-based deduction
+
+tree, with Z representing the axiom system of θ ∪ B ξ + Reverse( Υ ). In this context,
+
+Item + ’s inequality of Log(p) ≤ ♯( θ ) + 1 implies 28 that p , viewed as a deduction
+
+tree for Z , satisﬁes the hypothesis of Fact D.3 . Hence, Fact D.3 establishes that p
+must contain at least one contradiction-free root-to-leaf branch.
+
+This last observation is all that is needed to conﬁrm ξ ∗ ’s A-stability, via a proof-bycontradiction. This is because the deﬁnition of a semantic tableaux proof implies every
+one of its root-to-leaf branches must end with a pair of contradicting nodes. However,
+the last paragraph showed p will not satisfy this required property, if ξ ∗ is not A-stable.
+Hence our construction has proven the A-stability of ξ ∗ by showing that otherwise an
+infeasible circumstance will arise.
+
+✷
+
+Proof of ξ ∗ ’s E-stability : A proof-by-contradiction will verify ξ ∗ is E-stable,
+analogous to the proof of its A-stability. Thus if ξ ∗ was not E-stable, then statement
+++ would be true for some θ. (This is because at least one θ ∈ RE-Class(ξ) would then
+
+violate Deﬁnition 5.3’s requirement of ∗ ∗ .)
+
+++ There exists a semantic tableaux proof p of a Σξ1 theorem Υ from the axiom system θ ∪ B ξ such that Log(p) ≤ ♯( θ)+ 1 and Υ also fails to satisfy Good{ 12 ♯( θ) }.
+Item ++ implies Reverse(Υ) satisﬁes Good{ 12 ♯( θ)} (because Reverse(Υ) again has
+the opposite goodness property as Υ ). Let Z now denote the formal axiom system of
+θ ∪ B ξ + Reverse(Υ). The footnote 29 then uses reasoning similar to footnote 27 to show
+√
+2 ♯( θ ) , 2 }
+Z satisﬁes Normed{
+As before via a simple change in notation, p ’s semantic tableaux proof of Υ can be
+viewed as a deduction tree using Z ’s axioms. Also as before, we may use the combination
+√
+of the facts that Z is a Normed{
+2 ♯( θ ) , 2 } system and that Item ++ indicated
+
+Log(p) ≤ ♯( θ) + 1 to deduce30 that p is small enough to satisfy Fact D.3 ’s hypothesis.
+
+28
+Without loss of generality, we may assume that every non-trivial proof p satisﬁes Log(p) ≥ 64
+(since a string with fewer than 64 bits is too short to be a proof). Then the footnoted paragraph’s
+Log(p) ≤ ♯( θ) √+ 1 inequality trivially implies p < 3 ♯( θ ) . In a context where Z is a
+Normed{ 2 ♯( θ ) ,
+2 ♯( θ ) } axiom system, the latter inequality certainly implies p , viewed as a
+deduction tree for Z , has a small enough√Gödel number to satisfy the hypothesis for Fact D.3. (This is
+because if one sets a = 2 ♯( θ ) and b = 2 ♯( θ ) then obviously p < 3 ♯( θ ) < 4 ♯( θ ) = (a/b)4 ).
+
+——————————————————√
+The axiom system Z must satisfy Normed{
+2 ♯( θ ) , 2 } because:
+√
+2 ♯( θ ) because Reverse( Υ )
+1. The ﬁrst component of its norming constraint can be set equal to
+∗
+∗
+1
+is a Good{ 2 ♯( θ ) } Π1 sentence, and all Z ’s other Π1 sentences satisfy more relaxed
+constraints.
+
+29
+
+2. The second component of Z’s norming constraint is satisﬁed by the constant of 2 because Deﬁnition
+D.2 implies this quantity is always permissible when Z contains no Σ∗1 axiom sentences.
+——————————————————The proof that p is small enough to satisfy Fact D.3 ’s hypothesis in the current E-stable case is
+
+30
+
+44
+
+Hence once again, Fact D.3 implies that Z must contain at least one contradiction-free
+root-to-leaf branch. As before, the existence of this contradiction-free path violates the
+deﬁnition of a semantic tableaux proof and enables our proof-by-contradiction to reach
+its desired end. ✷
+Remark D.5 (about Theorem D.4’s significance) : Part-ii of Deﬁnition D.1 indicated
+ξ ∗ ’s base axiom of
+
+B ∗ was a Type-A formalism that recognized addition as a total
+
+function. This is signiﬁcant because [60, 62, 67, 68] showed nearly all Type-M formalisms,
+including all the common axiomatizations for IΣ0 , are unable to recognize their semantic
+tableaux consistency. Thus, the declaration that multiplication is a total function is the
+trigger-point causing 31 the semantic tableaux version of the Second Incompleteness
+Theorem to become active. This threshold eﬀect is signiﬁcant because Theorem D.4,
+combined with Theorems 6.6, 6.10, G.2 and G.3, formalize four different respects in
+which Type-A self-justifying formalisms can prove all Peano Arithmetic’s Π∗1 theorems
+( after multiplication’s totality axiom is suppressed).
+
+D-3. Three Further Examples of Stable Generic Configurations
+Our second example of an EA-stable conﬁguration is called ξ ∗∗ . It will be identical to
+ξ ∗ except that it will replace semantic tableaux with a stronger deduction method, which
+[64] called Tab−U1∗ . The latter is a revised version of semantic tableaux that permits a
+modus ponens rule to perform deductive cut operations on Π∗1 and Σ∗1 sentences. (The
+formal deﬁnition of Tab−U1∗ deduction had appeared in [64]. It will be unnecessary to
+repeat here.)
+The Section 5.3 of [64] noted Tab−U1∗ has similar self-justiﬁcation properties as
+conventional semantic tableaux. All the results that Section D-2 proved about ξ ∗ apply
+also to ξ ∗∗ , via their natural generalization under [64]’s Tab−U1∗ deduction method.
+Thus, ξ ∗∗ is also EA-stable.
+A key point is that there is a non-trivial distinction between ξ ∗ and ξ ∗∗ , despite the
+fact that they have similar technical qualities. This is because ξ ∗∗ contains a Level-1
+modus ponens rule (unlike ξ ∗ ). If it were infeasible to expand ξ ∗ into a broader ξ ∗∗ ,
+then both formalisms could, perhaps, be easily dismissed as having negligible pragmatic
+almost identical to Footnote 28’s analysis of the A-stable case. Thus as in the earlier case, Item ++’s
+inequality of Log(p) ≤ ♯( θ) + 1 trivially implies p < 3 ♯( θ ) . Also, we may again assume that
+Log(p) ≥ 64 (since a sequence with fewer than 64 bits cannot amount to a proof of any interesting
+fact under all normal coding conventions). An analog of Footnote √
+28’s chain of inequalities will then
+allow us to conclude that p is small enough proof from a Normed{
+2 ♯( θ ) , 2 } system to satisfy the
+hypothesis for Fact D.3.
+——————————————————We formally proved in [60, 62, 67, 68] that multiplication’s totality property causes the semantic
+tableaux version of the Second Incompleteness Theorem to become active. The Example 3.7 summarizes
+the main intuition behind these results.
+31
+
+45
+
+signiﬁcance (since modus ponens is central to cogitation). However in a context where
+ξ ∗∗ does permit a Level-1 modus ponens rule, it is a tempting formalism (despite its
+limited modus ponens rule).
+Unlike ξ ∗ and ξ ∗∗ , our third example of an EA-stable conﬁguration, called ξ − , will
+support an unlimited modus ponens rule. This will be possible because ξ − ’s language
+of L− will be weaker than the languages of ξ ∗ and ξ ∗∗ . Thus L− will include
+the six Grounding functions, but not the Growth functions of addition and doubling. It
+will thus treat addition and multiplication as 3-way atomic predicates, Add(x, y, z) and
+Mult(x, y, z), rather than as formal functions.
+This perspective enabled ξ − to support an evasion of the Second Incompleteness
+Theorem with an unlimited modus ponens rule present, in a context where the other
+four parts of its generic conﬁguration are deﬁned below:
+− will be built in an essentially natural manner from the
+1. The ∆−
+0 class for ξ
+
+Grounding function set. It will thus include all formulae in L− ’s language, whose
+quantiﬁers are bounded in any arbitrary manner using the Grounding function
+primitives.
+2. The base axiom system B − of ξ − will employ an inﬁnite number of constant
+symbols, denoted as K1 , K2 , K3 , ... where K1 = 1 and where Ki+1 is a power of 2
+deﬁned by the axiom of:
+Add( Ki , Ki , Ki+1 )
+
+(49)
+
+Thus, the combination of K1 , K2 , K3 , ... with the Grounding function of subtraction allows the language L− to encode the value of any arbitrary natural number
+(as Part 1 of Deﬁnition 3.4 had required). Essentially, ξ − ’s base axiom system of
+B − can be any consistent r.e. set of Π−
+1 sentences that includes (49)’s axiom
+schema and is able to prove every ∆−
+0 sentence which is valid in the Standard-M
+model.
+3. ξ − ’s deduction method can be any version of a classic Hilbert-style proof methodology. (Thus, it will include a modus ponens rule with no restrictions.)
+4. ξ − ’s Gödelization method can be essentially any natural technique.
+An interesting aspect of ξ − is it can be proven to be EA-stable via an analog of Section
+D-2’s treatment of ξ ∗ . Thus, Theorem 6.6 implies every axiom system α, whose Π−
+1
+theorems hold true in the Standard-M model, can be mapped onto an extension of ξ − ’s
+base axiom system that can recognize its own Hilbert consistency and prove α’s Π−
+1
+theorems. Except for minor changes in notation, this result represents a new way of
+proving [66]’s Theorem 3.
+
+46
+
+The self-justifying features of ξ ∗ , ξ ∗∗ and ξ − are of interest primarily because the
+Second Incompleteness Theorem implies that they cannot be improved much further.
+This tight ﬁt is summarized by Items 1-4.
+1. The Theorem 2.1 (due to the combined work of Nelson, Pudlák, Solovay and WilkieParis [26, 33, 44, 58] ) implies no natural axiom system can prove Successor is a total
+function and recognize its own Hilbert consistency. This theorem thus explains why
+the presence of growth functions must be omitted from ξ − ’s base axiom system of
+B −.
+2. Moreover, [66] proved ξ − ’s method for evading the Second Incompleteness Theorem will collapse if one replaces Equation (49)’s “addition-based named sequence”
+of constant symbols K1 , K2 , K3 , ... with a faster growing “multiplicative convention”, where the constant symbols C1 , C2 , C3 , ... are formally deﬁned via (50)’s
+schema.
+Mult( Ci , Ci , Ci+1 )
+
+(50)
+
+Thus, [66] showed that there exists a Π−
+1 sentence W (provable from Peano Arithmetic) such that no consistent system can simultaneously prove W , contain (50)’s
+axiom schema and prove the non-existence of proof of 0 = 1 from itself. There
+is no space to prove it here, but a generalization of the Second Incompleteness
+Theorem implies the modiﬁcation of ξ − that replaces (49)’s axiom schema with
+(50)’s schema is not even 0-stable.
+3. Similarly, [62, 67] proved that if ξ ∗ ’s and ξ ∗∗ ’s base axiom system of B ∗ was
+strengthened to include the assumption that multiplication was a total function
+then [64]’s two semantic tableaux evasions of the Second Incompleteness Theorem
+would both collapse.
+4. Also, [63] proved that an analog of ξ ∗∗ ’s evasion of the Second Incompleteness
+Theorem will collapse if its modus ponens rule was expanded to apply to either Π∗2
+or Σ∗2 sentences.
+The Item 3 is especially interesting because [65] proved [64]’s evasion of the Second
+Incompleteness Theorem was compatible with its formalism recognizing an inﬁnitized
+generalization of a computer’s ﬂoating point multiplication as a total function. Thus
+while the semantic tableaux formalisms of ξ ∗ or ξ ∗∗ are provably unable [62, 67] to
+recognize integer multiplication as a total function, their relationship to ﬂoating point
+multiplication is more subtle.
+Our fourth example of an application of Section 6’s theorems was stimulated by some
+insightful email we received from L. A. Kolodziejczyk [20] in 2005. It noted there existed
+a potential exponential gap between the lengths of semantic tableaux and Herbrand-style
+47
+
+proofs under some circumstances. Our earlier research [62] addressed a 1981 Paris-Wilkie
+open question [30] by generalizing some Adamowicz-Zbierski techniques [1, 3] to show
+a natural axiomatization of IΣ0 satisﬁed the semantic tableaux version of the Second
+Incompleteness Theorem. In this context, Kolodziejczyk asked whether this would apply
+to all plausible axiomatizations for IΣ0 ?
+We replied in [68] to Kolodziejczyk’s stimulating question by distinguishing between
+R
+Example 3.2’s ∆A
+0 and ∆0 formulae and by using the Paris-Dimitracopoulos [28] transla-
+
+tion algorithm for ∆0 formulae. (The latter procedure was summarized earlier by Lemma
+R
+3.6. It demonstrated how to map classic arithmetic’s ∆A
+0 formulae onto equivalent ∆0
+
+formulae in the Standard-M model.) Our reply to Kolodziejczyk’s question, thus, employed this translation methodology to show that there existed an axiom system, called
+Ax-3, which proved the identical set of theorems as the more common Ax-1 and Ax-2
+encodings of IΣ0 and which possessed the following pair of quite fascinating contrasting
+properties:
+A No consistent superset β of Ax-3’s set of axioms is capable of proving its own
+semantic tableaux consistency [68].
+B In contrast, if “Herb” denotes the next paragraph’s Herbrand-styled deduction and
+if “SelfRef” denotes the sentence • from Section 1, then Ax3 + SelfRef(Ax-3,Herb)
+will be a self-justifying axiom system.
+
+The intuition behind [68]’s proof of Items A and B can be easily summarized if we
+deﬁne a “Herbrandized-style” proof of a theorem Φ from an axiom system α as being
+an essentially 2-part structure where:
+1. Each of α’s axioms and also the sentence ¬Φ are ﬁrst written as Skolemized
+expressions.
+
+2. A propositional calculus proof is then used to show that some formal conjunction
+of instances of Item 1’s Skolemization schema has no satisfying truth assignment.
+Such a formalism is diﬀerent from the deﬁnition of a semantic tableaux proof (appearing
+in for example Fitting’s textbook [12] ). This is because the latter replaces the use of
+Skolemization in Items 1 and 2 with an existential quantiﬁer elimination rule. It turns
+out that this distinction enables some semantic tableaux proofs to be exponentially more
+compressed than their Herbrandized counterparts, as Kolodziejczyk observed [20, 21].
+This fact enabled [68] to prove that Herbrandized and semantic tableaux proofs have the
+divergent properties summarized by Items A and B.
+One reason Ax-3’s evasion of the Second Incompleteness Theorem is of interest is
+that IΣ0 supports many more generalizations of the Second Incompleteness Theorem
+than evasions of it. Thus, Willard [62, 67, 68] proved that the semantic tableaux version
+48
+
+of the Second Incompleteness Theorem was valid for three diﬀerent encodings of IΣ0 ,
+and Adamowicz, Salehi and Zbierski have discussed in great detail [1, 3, 37] various
+Herbrandized generalizations of the Second Incompleteness Theorem for particular encodings of IΣ0 and IΣ0 + Ωi . Moreover, an added facet of [68]’s Ax-3 encoding for IΣ0 is
+that most automated theorem provers use a particular variant of the Resolution method
+that causes [68]’s unusual methodology to apply also to them 32 .
+The reason for our interest in [68]’s results is that it represents a fourth example where
+the meta-theorems from Sections 5 and 6 can be useful. Thus, the footnote 33 summarizes
+how a fourth type of generic conﬁguration, called ξ R , can be deﬁned that both duplicates
+[68]’s main self-justiﬁcation results under the above deﬁnition of Herb-deduction, as well
+as strengthens them. (In particular, ξ R meets Theorem 5.11’s requirements, and selfjustifying extensions of its Ax-3 system thus recognize their Level(0R ) consistency.)
+The properties of our four generic conﬁgurations of ξ R , ξ ∗ , ξ ∗∗ and ξ − are
+summarized by Table I. These conﬁgurations are listed in ascending order according to
+the strength of their deduction methods d . As their deduction methods increase in
+strength, these conﬁgurations have their ability reduced to recognize the totality of the
+addition and multiplication operations.
+ξ R is thus a Type Almost-M system that can prove multiplication is a total function
+(but which does not contain Equation (5)’s totality statement as an axiom). On the other
+hand, ξ − uses a stronger Hilbert-styled deduction methodology, which is incompatible
+with treating the totality of addition or multiplication as either axioms or as derived
+theorems.
+32
+
+The main theorems in [68] generalize for resolution because Resolution-based theorem provers employ
+skolemization analogously to Herbrand deduction.
+——————————————————The discussion in [68] did not technically use Deﬁnition 5.3’s machinery to establish there existed
+an extension of its “Ax-3” encoding for IΣ0 that could recognize its own Herbrand consistency. Its
+formalism, however, could be easily couched in terms of Deﬁnition 5.3’s machinery, if one uses a generic
+conﬁguration ξ R where
+33
+
+1. ξ R ’s base language is the same as the usual language of arithmetic,
+2. ξ R ’s ∆R
+0 sub-class is deﬁned by Item (b) in Example 3.2,
+3. ξ R ’s base axiom system is [68]’s “Ax-3” system,
+4. ξ R ’s deduction method is either a Herbrandized styled-method or a Resolution system that relies
+upon Skolemizatin in a similar manner.
+5. ξ R ’s Gödel encoding scheme may be any such natural method.
+This approach supports a stronger form of self-justiﬁcation result than had appeared in [68]. This is
+because ξ R can be proven to be E-stable (by a generalization of [68]’s analysis techniques). Thus,
+Theorem 5.11 implies that Ax-3 has a well-deﬁned self-justifying extension that can recognizes its own
+formalized Level(0R ) consistency. (This self-justiﬁcation result is stronger than [68]’s main theorem. The
+latter merely established that some extension of Ax-3 recognized the non-existence of a Herbrandized
+deduction of 0 = 1 from itself.)
+——————————————————-
+
+49
+
+Each of Table I’s rows ξ R , ξ ∗∗ and ξ − are maximal (in that an alternate row
+improves upon one column’s measurement only when it is weaker from the perspective
+of another column). Only ξ ∗ is an exception to this rule: It is strictly weaker 34 than
+ξ ∗∗ . This appendix has discussed ξ ∗ because it makes Theorem D.4’s proof simpler (and
+also because semantic tableaux is a frequent topic in the logic literature).
+Table I
+Name
+
+Deduction Method
+
+Type
+A
+
+Almost
+M
+
+Type
+M
+
+Axiom
+Format
+
+Self-Just
+Level
+
+ξR
+
+Resolution and/or
+Herbrandized analogs
+
+Yes35
+
+Yes
+
+No
+
+E-stable
+
+Level (0R )
+
+ξ∗
+
+Semantic Tableaux
+
+Yes
+
+No
+
+No
+
+EA-stable
+
+Level (1∗ )
+
+ξ ∗∗
+
+Tab−U1∗ Deduction 34
+
+Yes
+
+No
+
+No
+
+EA-stable
+
+Level (1∗ )
+
+ξ−
+
+Hilbert Deduction
+
+No
+
+No
+
+No
+
+EA-stable
+
+Level ( ∞− )
+
+The footnote 35 , attached to Table I’s ﬁrst row, explains why a caveat is attached
+to its ﬁrst “Yes” entry. The theme of Table I is that self-justifying axiom systems have
+some nice redeeming features, although the Second Incompleteness Theorem clearly also
+imposes severe limits on their abilities. This point will be reinforced when Appendix E
+introduces a generalization of the Second Incompleteness Theorem, that shows Theorem
+6.12’s translational reﬂection principle is close to being a maximal feasible result, and
+when Appendix F discusses the epistemological signiﬁcance of self justiﬁcation.
+
+34
+
+ξ ∗∗ employs a stronger deduction method than ξ ∗ because it allows a modus ponens rule for Π∗1
+and Σ∗1 sentences to be added to semantic tableaux deduction (see [64] for the precise deﬁnition of this
+“Tab−U1∗ ” modiﬁcation of the semantic tableaux deductive method).
+——————————————————For the sake of simplicity, the Ax-3 system of [68] did not use either Equations (2) or (4)’s as
+axiom statements (since they were provable as theorems). All [68]’s results do, however, generalize when
+(2)’s statement about addition’s totality is included as an axiom. Thus, it is appropriate to attach the
+designation of “Yes” with a caveat to the “Type-A” entry in Table I’s ﬁrst row. (This row is called
+“Resolution and/or Herbrandized analogs” because it applies to essentially any deduction scheme that
+relies upon Skolemization as an alternative to [12]’s semantic tableaux existential quantiﬁer elimination
+rule.)
+35
+
+50
+
+Appendix E: A Clarification of Theorem 6.12’s Significance
+It has been known since the time of Gödel that most conventional arithmetic axiom
+systems will satisfy the following two invariants:
+1. They are physically unable to prove their own consistency
+2. They are Σ1 complete. This means they can formally prove any Σ1 arithmetic
+sentence that holds true in the Standard-M model, and they can likewise refute
+any Πξ1 sentence that is false.
+Let ξ denote any generic conﬁguration of the form (Lξ , ∆ξ0 , B ξ , d, G). This appendix
+will use the term ξ−Conventional to describe any axiom system that satisﬁes analogs
+of the preceding conditions for generic conﬁgurations. Thus α is ξ−Conventional iﬀ it
+satisﬁes the following two criteria:
+a.
+
+The axiom system α will be unable to verify its own consistency under ξ ’s
+deduction method of d .
+
+b.
+
+The axiom system α will be an extension of ξ ’s base axiom of B ξ . Part-3 of
+Deﬁnition 3.4 will thus imply it is Σξ1 complete. (Hence, α can formally prove any
+Σξ1 sentence that holds true in the Standard-M model, and it can likewise refute
+any Πξ1 sentence that is false.)
+This section will prove no analog of Equation (34)’s translational reﬂection principle
+
+is feasible for ξ−Conventional axiom systems. Thus, Theorem 6.12 must be close to
+being a maximal result, since it cannot plausibly be further extended to hold under
+conventional axiom systems.
+Theorem E.1 (A New Type of Version of the Second Incompleteness Theorem):
+There exists no ξ−Conventional axiom system α that can prove the validity of (51)’s
+Translational Reflection Principle for any translation-mapping T. (In other words, there
+exists no algorithm T that maps Πξ1 sentences Ψ onto alternate Πξ1 sentences ΨT ,
+which are equivalent to Ψ in the Standard-M model and where α can verify (51)’s
+reﬂection principle for every Πξ1 sentence Ψ. )
+∀ p [ Prfα,d ( ⌈ Ψ ⌉ , p )
+
+⇒
+
+ΨT ]
+
+(51)
+
+Proof: It is easy to prove Theorem E.1 via a proof-by-contradiction. Thus consider
+the possibility that Theorem E.1’s translational mapping T did exist. One can then
+easily select a Πξ1 sentences Ψ that is false in the Standard-M model. Then ΨT is also
+false under the Standard-M model (since Ψ and ΨT are equivalent in this model).
+Hence Part-b of the deﬁnition of ξ−Conventionality implies α must prove ¬ ΨT
+
+(on account of ΨT ’s Πξ1 format).
+
+51
+
+It is at this juncture that our proof-by-contradiction will reach its end. This is
+because if α can prove (51)’s statement and also prove the sentence ¬ ΨT , then it
+
+certainly can combine these two facts to prove the non-existence of a proof of Ψ . The
+latter contradicts Part-a of the deﬁnition of ξ−Conventionality (because it shows α can
+verify its own consistency).
+
+✷
+
+Remark E.2. We remind the reader that Footnote 14 pointed out that T ’s translational mapping would lose its main functionality, if it did not require ΨT to have a Πξ1
+format, similar to Ψ. In essence, Theorem E.1 is of interest because it shows that Theorem 6.12’s evasion of the Second Incompleteness Theorem is close to being a maximal
+result. (It thus shows that (51)’s translational reﬂection principle does not generalize
+to conventional axiom systems.) This dichotomy may explain why self-justifying axiom
+systems, along with Theorem 6.12’s particular invariant, are potentially useful results.
+
+Appendix F: Epistemological Perspective and Speculations
+It is desirable to include a short purely epistemological discussion within this mostly
+mathematical article so that the more subtle nature of our results cannot be misconstrued.
+Part of the reason Self Justiﬁcation can lend itself to easy misinterpretations is that
+the First Incompleteness Theorem demonstrates the impossibility of constructing an
+ideally optimal axiomatization of number theory. For any initial r.e. axiom system α
+and deduction method d, Gödel thus noted it is easy 36 to develop an extension of α
+that can prove strictly more theorems than α under d’s deduction method. Moreover,
+a large number of generalizations of the Second Incompleteness Theorem, starting with
+its 1939 Hilbert-Bernays version [16], are known to be robust results.
+Such considerations naturally lead to questions about whether any r.e. axiom system
+can encompass the workings of the human mind. It may surprise some readers to learn
+that this author shares such skepticism. That is, we doubt any single ISOLATED selfjustifying r.e. logic can fully approximate the complex workings of the human mind.
+In this short appendix, let us instead view cogitation as roughly a process wondering though some universe U , comprised of both consistent and inconsistent axiom
+
+systems, with a trial-and-error evolutionary method focusing its attention over time increasingly onto the members of this universe U that are found to be consistent. It is
+straightforward37 to deﬁne many universes U and evolutionary processes that fall into
+36
+
+Let ✵(a, d) the classic Gödel sentence that asserts: “There is no proof of this sentence from α’s
+axiom system under d’s deduction method.” Gödel [14] noted α + ✵(α, d) always proves more theorems
+than α.
+37
+It is trivial from a theoretical perspective to design a learning heuristic that will utilize all consistent
+
+52
+
+this gendre. Our goal in this section will be to examine Section 5’s “R-View” θ and its
+RE-Class(ξ).
+Thus, θ will denote an R-View that consists of an arbitrary r.e. set of Πξ1 sentences.
+Also, RE-Class(ξ) will again denote the set of all θ which can be built under ξ ’s
+language of Lξ . (Section 5 had allowed both valid and invalid R-Views θ to appear
+in RE-Class(ξ) because no recursive decision procedure can identify all the Standard-M
+model’s true Πξ1 sentences.)
+The epistemological purpose of this notation was revealed in Section 6. For the cases
+where k = 0 or 1, Section 6 deﬁned Gξk ( θ ) to be the axiom system:
+Gξk ( θ ) = θ ∪ B ξ ∪ SelfConsk { [ θ ∪ B ξ ] , d }
+
+(52)
+
+Also, Deﬁnition 6.2 indicated that the function Gξk (which maps θ onto Gξk ( θ ) ) would
+be called Consistency Preserving iﬀ Gξk ( θ ) is assured to be consistent whenever all
+
+the sentences in θ are true under the Standard-M model. Theorem 6.3 indicated, in
+this context, that Gξ1 satisﬁes this property whenever ξ is EA-stable. Likewise, Gξ0
+is consistency preserving whenever ξ is one of A-stable, E-stable or 0-stable.
+These results indicate a trial-and-error experimental process can, indeed, walk in an
+unusually orderly manner through an universe of self-reﬂecting candidate formalisms,
+when RE-Class(ξ) denotes U ’s universe and ξ satisﬁes any of the EA-stable, E-stable,
+A-stable or 0-stable conditions. This is because if θ designates a set of Πξ1 sentences
+
+holding true in the Standard-M model, then Gξk (θ) will automatically satisfy both
+Parts (i) and (ii) of Section 1’s deﬁnition of Self Justiﬁcation, according to Theorem 6.3.
+Such consistency preservation is surprising because it is simply inapplicable to the Gξk
+functions for most pairs (ξ, k). Theorem 6.3’s ﬁrst contribution is, thus, that it formalizes
+how Gξk ’s mapping function can represent a type of approximation for instinctive faith,
+under certain well-deﬁned circumstances.
+This notion of instinctive faith is, of course, less robust than a conventional proof.
+One obvious diﬃculty is that a 1-sentence proof, using an “I am consistent” axiom, is
+less convincing than a full-length proof from ﬁrst principles. Also, if the initial formalism
+θ contains a false Πξ1 sentence then B ξ + θ and Gξk (θ) will be both inconsistent.
+axiom systems from its available universe U eventually, and it will spend only an inﬁnitesimal fraction
+of its eﬀort on inconsistent systems as time runs to inﬁnity. (This because there exists only a countable
+number of distinct r.e. sets belonging to the universe U. ) Also, this learning process can presumably be
+made to employ some type of smart souped-up AI heuristics to enhance its eﬃciency, whose details will
+not concern us in this abbreviated 3-page appendix. What is central to the current discussion is that
+some type of formally non-recursive and presumably trial-and-error method must obviously be used by
+this learning process to ﬁnd the consistent elements of U , on account of Gödel’s undecidability results.
+
+53
+
+Nevertheless for k equals 0 or 1, if θ is comprised of the true sentences in the
+Standard-M model, then Theorem 6.3 will assure that Gξk (θ) is a consistent system
+that has an ability to use its “I am consistent” axiom sentence to formalize its own
+consistency. Moreover, the axiom system Gξk (θ) is helpful because Gödel’s famous
+centennial paper implicitly raised the following bedeviling issue:
+#
+
+How is it that Human Beings manage to muster the physical drive to
+
+think (and prove theorems) when the many generalizations of Gödel’s Second
+Incompleteness Theorem demonstrate conventional logics lack knowledge of
+their own consistency?
+While philosophical paradoxes and ironical dilemmas, similar to # , never yield perfect answers, the preceding discussion is helpful because it explores a certain syllogism
+whereby a logic can formalize at least some fragmented operational appreciation of its
+own consistency.
+Moreover, Part-3 of Appendix D indicated that its four self-justifying conﬁgurations
+were close to being maximal results that cannot be much improved, on account of various
+barriers imposed by the Second Incompleteness Theorem. Thus, these particular positive
+results, combined with Theorems 5.9 6.3, 6.6, 6.10, 6.12, D.4, E.1, G.2, G.3 and Remarks
+6.4 and 6.16, come close to formalizing the maximal variants of instinctive faith that a
+ﬁrst-order logic can bolster.
+The theme of the last two paragraphs is thus that our approximation of “instinctive
+faith” may be imperfect, but it is still a useful partial reply to # ’s puzzling dilemma
+in a context where unambiguous full resolutions to # are not permitted by the Second
+Incompleteness Theorem. Furthermore, Equation (34)’s translational reﬂection principle,
+together with Theorem 6.12 and the Remarks 6.13 and 6.14, illustrate how the notion
+of an instinctive faith about the usefulness of Πξ1 theorems can be almost physically
+hard-wired into self-justifying formalisms.
+A Yet Further Facet of this Unusual Epistemological Interpretation: Let
+the term Epistemological Bundle Theory refer to the underlying theory, advanced in
+this appendix, which speculates about a Thinking Agent walking through RE-Class(ξ)’s
+bundled universe of valid and invalid collections of Πξ1 sentences and then applying some
+heuristic to attempt to identify those θ ∈ RE-Class(ξ) whose sentences are true under
+the Standard-M model.
+
+Such a theory has a second virtue, aside from addressing # ’s paradoxical question
+about the nature of “instinctive faith”. It also clariﬁes the meaning of our main theorems
+and the related E-stability, A-stability, EA-stability and RE-Class(ξ) constructs.
+
+54
+
+This is because the Items ∗ and ∗∗ from the deﬁnitions of A-stability and E-stability
+
+in Section 5 formalize how a thinking agent T can view short proofs from a technically
+inconsistent axiom system of B ξ ∪ θ as containing pragmatically useful information
+
+under the assumption that the lengths of T ’s proofs are shorter than the errors in
+θ ’s Πξ1 styled-statements. The pleasing aspect about this observation, illustrated by
+Remark 5.2, is that those same invariants, ∗ and ∗∗ , which tempt a thinking agent T
+
+to engage in a trial-and-error walk through RE-Class(ξ)’s bundled universe, also make
+viable Theorem 5.9’s self-justifying formalisms.
+Thus aside from addressing # ’s dilemma about the nature of instinctive faith, the
+
+meta-formalism in this appendix is useful in explaining the motivation behind the elaborate network of theorems, proofs and deﬁnitions that were introduced in this paper.
+In summary, EA-stable logics are thus interesting both in their own right (as a vehicle
+enabling a Thinking Being to partially tolerate its own errors), and because they are
+useful in explaining how a Thinking Being can possess a type of instinctive faith in its
+own consistency (via the reﬂection principles of Theorem 6.12 and of Remarks 6.13 and
+6.14).
+
+Appendix G: Improvements upon Theorems 6.6 and 6.10
+Let us recall that Remark 6.11 indicated that there was a subtle trade-oﬀ between
+Theorems 6.6 and 6.10, where neither result was strictly better than the other. This
+section will introduce two hybrid methodologies, using Deﬁnition G.1’s formalism, that
+improve upon Theorem 6.10 while retaining a large part of Theorem 6.6’s nice features.
+Definition G.1 Let ξ denote the generic conﬁguration, whose base axiom system
+is again denoted as B ξ ,
+
+Φ denote any Πξ1 sentence that is true in the Standard-M
+
+model and j denote an index that represents some predicate Testξj lying in Deﬁnition
+6.8’s TestListξ sequence. Then a Πξ1 sentences Ψ will be said to be a Bracedξ ( Φ , j )
+expression when B ξ + Φ can prove:
+{
+
+∀x
+
+Testξj ( ⌈ Ψ ⌉ , x ) }
+
+−→
+
+Ψ
+
+(53)
+
+Theorem G.2 Let ξ again denote an arbitrary generic configuration (Lξ , ∆ξ0 , B ξ , d, G),
+and let (B, D) again denote any second axiom system and deduction method whose Πξ1
+theorems are true under the Standard-M model. Then for any integer j and for any Πξ1
+
+sentence Φ that is true in the Standard-M model, the following invariants do hold:
+i If ξ is EA-stable then there will exist a self-justifying βj ⊃ B ξ that can recognize its
+Level(1ξ ) consistency, contains only a finite number of additional axioms beyond
+
+those appearing in B ξ , and which can prove all of (B, D)’s Πξ1 theorems that are
+
+Bracedξ (Φ, j) expressions.
+
+55
+
+ii Likewise, if ξ is E-stable, A-stable or 0-stable then a self-justifying βj ⊃ B ξ will exist
+with the same properties except that it recognizes its own Level(0ξ ) consistency.
+
+Proof. To justify Theorem G.2, we must ﬁrst deﬁne the axiom system βj , whose
+existence is claimed by Items (i) and (ii). It will be deﬁned to consist of the union of the
+initial base axiom system B ξ with the following three added axiom-sentences.
+1 The Πξ1 sentence Φ used by Deﬁnition G.1’s Bracedξ (Φ, j) formula.
+2 A GlobSimD
+B (ξ, j) sentence whose indexing integer j is deﬁned by Deﬁnition G.1.
+This global simulation sentence is thus the statement:
+ξ
+∀ t ∀ q ∀ x { [ PrfD
+B (t, q) ∧ Check (t) ]
+
+−→
+
+Testξj (t, x) }
+
+(54)
+
+3 A Πξ1 sentence of the form SelfConsk { [ θ ∪ B ξ ] , d } where:
+a θ is an R-view consisting of the two Πξ1 sentences deﬁned by Items 1 and 2.
+b B ξ is ξ ’s base axiom system, and
+c k equals respectively 1 and 0 under formalisms (i) and (ii).
+Thus, the system βj uses identical deﬁnitions under formalisms (i) and (ii), except that
+its third sentence will use a diﬀerent value for k . Our proof of Theorem G.2 will require
+ﬁrst conﬁrming the following fact:
+Claim * The axiom system βj (which consists of the union of B ξ with the sentences
+1-3) will have a capacity to prove every Bracedξ (Φ, j) sentence Ψ that is a Πξ1
+theorem of (B, D).
+The proof of Claim * is quite simple. It will rest on the following three observations:
+a For each Πξ1 sentence Ψ, the system βj must certainly have a capacity to prove
+(55)’s sentence (which states that Ψ ’s Gödel number formally encodes a Πξ1 statement). This is because (55) is true in the Standard-M model and because Part 3
+of Deﬁnition 3.4 indicated that the B ξ sub-component of βj has a capacity to
+prove every ∆ξ0 sentence that is true.
+Checkξ ( ⌈ Ψ ⌉ )
+
+(55)
+
+b Since Claim ∗ speciﬁes Ψ is a theorem of (B, D), there must certainly exist some
+integer N that is the Gödel number of its proof from (B, D). This implies that
+
+(56) must be a true ∆ξ0 sentence under the Standard-M model. As was the case
+
+with Equation (55), this implies that it must be provable from B ξ (because it is
+a valid ∆ξ0 sentence).
+PrfD
+B ( ⌈Ψ⌉ , N )
+56
+
+(56)
+
+c It is apparent that Equations (54), (55) and (56) imply the validity of (57). Moreover,
+Part 4 of Deﬁnition 3.4 indicated that the generic conﬁguration ξ ’s deduction
+method does satisfy Gödel’s Completeness Theorem. This fact assures that βj
+must be able to prove (57) because it contains (54) as an axiom and (55) and (56)
+as derived theorems 38 .
+∀ x Testξj ( ⌈ Ψ ⌉ , x )
+
+(57)
+
+Claim ∗ is a consequence of Observations a-c. This is because Φ is one of βj ’s deﬁned
+axioms, and Deﬁnition G.1 indicated B ξ + Φ was capable of proving (53)’s statement
+
+for every Bracedξ (Φ, j) sentence Ψ . These facts corroborate Claim ∗ because they imply
+that βj must be able to verify Claim ∗ ’s sentence Ψ (because βj can verify statements
+
+(53) and (57)).
+
+The remainder of Theorem G.2’s proof is analogous to Theorem 6.10’s proof. This is
+because the prior paragraph established that βj can prove every Bracedξ (Φ, j) theorem
+of (B, D) (as was required by Claims i and ii ). The only remaining task is to show
+
+that βj is a self-justifying formalism that can recognize its Level(1ξ ) and Level(0ξ )
+consistencies, as speciﬁed by Claims i and ii. This part of Theorem G.2’s veriﬁcation
+is identical to the methods used to prove Theorems 6.3 and 6.10. It will thus not be
+repeated here.
+
+✷
+
+The last part of this appendix will require the following additional notation to formalize the main intended application of Theorem G.2’s formalism.
+1. Count(Ψ) will denote the number of quantiﬁers appearing in the sentence Ψ (including both its bounded and unbounded quantiﬁers).
+2. Sizeξ (c) will denote the set of Πξ1 sentences Ψ where Count(Ψ) ≤ c .
+Our next theorem will be a specialized variant of Theorem G.2, using the Sizeξ (c) construct. It will explain the intended application of this formalism:
+Theorem G.3.
+configurations of
+
+ξ∗ ,
+
+Let
+ξ ∗∗ ,
+
+ξ
+
+denote any one of Appendix D’s four sample generic
+ξ−
+
+or ξ R . Then for any c > 0 , Theorem G.2’s axiom
+
+systems of βj can be arranged so that they can prove all of (B, D)’s Sizeξ (c) Πξ1 theorems
+while simultaneously also recognizing their:
+
+1. Level(1) consistency for the cases when ξ is one of ξ ∗ , ξ ∗∗ or ξ − .
+2. Level(0) consistency when ξ is ξ R .
+38
+
+Every deduction method d, satisfying Gödel’s Completeness Theorem, will be automatically able
+to prove a theorem Z when it contains X, Y and (X ∧Y ) → Z as theorems, irregardless of whether or
+not it contains an explicit built-in modus ponens rule. Thus d can prove (57) because of its knowledge
+about (54)–(56)’s validity.
+
+57
+
+Proof Sketch: The intuition behind Theorem G.3’s proof is quite easy to summarize.
+For arbitrary c > 0 and any of Appendix D’s conﬁgurations of ξ ∗ , ξ ∗∗ , ξ − and ξ R ,
+it is routine to construct an ordered pair (Φ, j) where every Πξ1 sentence of Sizeξ (c) is
+a Bracedξ (Φ, j) expression. Theorem G.3’s ﬁrst claim is, thus, a consequence of Part (i)
+of Theorem G.2 and the fact that each of ξ ∗ , ξ ∗∗ and ξ − are EA-stable. Likewise,
+Theorem G.3’s second claim follows from Part (ii) of Theorem G.2 and the fact that ξ R
+is E-stable,
+
+✷
+
+Remark G.4. The Theorems G.2 and G.3 are of interest because the set of Πξ1
+sentences of Sizeξ (c) is a natural class to examine. It is, thus, tempting to consider a
+system that recognizes its own formal consistency, uses only a ﬁnite number of axiom
+sentences beyond those in B ξ ,
+
+and which can prove all of (B, D)’s Πξ1 theorems of
+
+Sizeξ (c). Such a system replies to Remark 6.11’s challenge by hybridizing the properties
+of Theorems 6.6 and 6.10, in a seemingly pragmatic manner.
+
+58
+
+References
+[1] Z. Adamowicz, “Herbrand Consistency and Bounded Arithmetic”, Fundamenta
+Mathematicae 171 (2002) pp. 279-292.
+[2] Z. Adamowicz and T. Bigorajska, “Existentially Closed Structures and Gödel’s Second Incompleteness Theorem”, Journal of Symbolic Logic 66 (2001), pp. 349-356.
+[3] Z. Adamowicz and P. Zbierski, “On Herbrand consistency in weak theories”,
+Archives for Mathematical Logic 40(2001) 399-413
+[4] T. Arai, “Derivability Conditions on Rosser’s Proof Predicates”, Notre Dame Journal of Formal Logic 30(1990) 487-490
+[5] L Berkemishev, “Iterated Local Reﬂection Versus Iterated Consistency”, Annals of
+Pure and Applied Logic 75 (1995) pp. 25-48.
+[6] L Berkemishev, “Induction Rules, Reﬂection Principles and Provably Recursive
+Functions”, Annals of Pure and Applied Logic 85 (1997) pp. 193-242.
+[7] L Berkemishev, “Proof Theoretic Analysis by Iterated Reﬂection”, Archives on
+Mathematical Logic 42 (2003) pp. 515-552.
+[8] A. Bezboruah and J. C. Shepherdson, “Gödel’s Second Incompleteness Theorem for
+Q”, Journal of Symbolic Logic 41 (1976) pp. 503-512
+[9] S. R. Buss, Bounded Arithmetic, (Ph D Thesis) Proof Theory Notes #3, Bibliopolis
+1986.
+[10] S. R. Buss and A. Ignjatovic, “Unprovability of Consistency Statements in Fragments of Bounded Arithmetic”, Annals of Pure and Applied Logic 74 (1995) pp.
+221-244.
+[11] S. Feferman, “Arithmetization of Mathematics in a General Setting”, Fundamenta
+Mathematicae 49 (1960) pp. 35-92.
+[12] M. Fitting, First Order Logic and Automated Theorem Proving, Springer-Verlag,
+1996.
+[13] H. M. Friedman, “Translatability and Relative Consistency”, Ohio State Tech Report, 1979.
+[14] K. Gödel, “ Über formal unentscheidbare Sätze der Principia Mathematica und
+verwandte Systeme I”, Monatshefte für Mathematik und Physik 37 (1931) pp. 349360.
+
+59
+
+[15] P. Hájek and P. Pudlák, Metamathematics of First Order Arithmetic, Springer Verlag 1991.
+[16] D. Hilbert and P. Bernays, Grundlagen der Mathematic, Springer 1939.
+[17] R. Jeroslow, “Consistency Statements in Mathematics ”, Fundamenta Math 72
+(1971) pp.17-40.
+[18] R. Kaye, Models of Peano Arithmetic, Oxford University Press, 1991.
+[19] S. C. Kleene, “On the Notation of Ordinal Numbers”, Journal of Symbolic Logic 3
+(1938), 150-156.
+[20] L. A. Kolodziejczyk, Private Email Communications during November of 2005.
+[21] L. A. Kolodziejczyk, “On the Herbrand Notion of Consistency for Finitely Axiomatizable Fragments of Bound Arithmetic”, Journal of Symbolic Logic 71 (2006) pp.
+624-638.
+[22] J. Krajı́cek, “A Note on Proofs of Falsehood”, Archives on Math Logic 26 (1987)
+pp. 169-176.
+[23] J. Krajı́cek, Bounded Propositional Logic and Complexity Theory, Cambridge University Press 1995.
+[24] G. Kreisel and G. Takeuti, “Formally Self-Referential Propositions for Cut-Free
+Classical Analysis”, Dissertationes Mathematicae 118 (1974) pp. 1–55
+[25] M. H. Löb, A Solution to a Problem by Leon Henkin, Journal of Symbolic Logic 20
+(1955) 115-118.
+[26] E. Nelson, Predicative Arithmetic, Mathematics Notes Princeton U Press, 1986.
+[27] R. Parikh, “Existence and Feasibility in Arithmetic”, Journal of Symbolic Logic 36
+(1971), pp. 494-508
+[28] J. B. Paris and C. Dimitracopoulos, “Truth Deﬁnition for ∆0 Formula”, Monagraphie de L’Ensignment Mathematique 30 (1982) pp. 317-329. (See especially the ﬁrst
+two pages of this article to ﬁnd the counterpart of Lemma 3.6 in it.)
+[29] J. B. Paris and C. Dimitracopoulos, “A Note on Undeﬁnability of Cuts”, Journal
+Symbolic Logic 48 (1983) 564-569
+[30] J. B. Paris and A. J. Wilkie, “∆0 Sets and Induction”, 1981 Jadswin Conference
+Proceedings, pp. 237-248.
+[31] C. Parsons, On n−Quantiﬁer Elimination, Journal of Symbolic Logic 37 (1972), pp.
+466-482.
+60
+
+[32] P. Pudlák, “On Lengths of Proofs of Finistic Consistency Statements in First order
+Theories”, Logic Colloquium 84, North Holland (1986) pp. 165-196.
+[33] P. Pudlák, “Cuts, Consistency Statements and Interpretations”, Journal of Symbolic
+Logic 50 (1985) 423-442
+[34] P. Pudlák, “On the Lengths of Proofs of Consistency”, in Collegium Logicum: 1996
+Annals of the Kurt Gödel Society ( Volume 2), Springer-Wien-NewYork, pp 65-86.
+[35] H. Rogers, Recursive Functions and Effective Compatibility, McGrawHill 1967.
+[36] J. B. Rosser, “Extensions of Some Theorems by Gödel and Church”, Journal of
+Symbolic Logic 1 (1936) pp. 87-91.
+[37] S. Salehi, Herbrandized Consistency of Some Finite Fragments of Bounded Arithmetic Theories (CoRR 2011) http://arxiv.org/abs/1110.1848.
+[38] C. A. Smoryński, The Incompleteness Theorem, Handbook on Mathematical Logic,
+pp. 821–866, 1977.
+[39] C. A. Smoryński, “Non-standard Models and Related Developments in the Work
+of Harvey Friedman”, in Harvey Friedman’s Research in the Foundations of Mathematics, NH 1985, pp 179-229.
+[40] R. Smullyan, First Order Logic, Springer-Verlag, 1968.
+[41] R. M. Solovay, “Interpretability in set theories”. Unpublished letter to Petr Hájek
+dated August 17, 1976 and available on Petr Hájek’s home page.
+[42] R. M. Solovay, “Provability Interpretations in Modal Logics”, Israel Journal of
+Mathematics 25 (1976) pp. 278-304.
+[43] R. M. Solovay, “Injecting Inconsistencies into Models of PA”, Annals Pure and
+Applied Logic” 44(1988) 102-132
+[44] R. M. Solovay, Private communications in 1994 describing Solovay’s generalization of
+one of Pudlák’s theorems [33], using the additional formalisms of Nelson and WilkieParis [26, 58]. Solovay never published this result (called Theorem 2.1 in Section 2)
+or his other observations that several logicians [15, 26, 29, 30, 33, 34, 41, 46, 58]
+have attributed to his private communications. The Appendix A of [61] oﬀers our
+4-page interpretation of Solovay’s basic suggestion. See also reference [41] for a pdf
+ﬁle consisting of Solovay’s earlier unpublished 1976 letter to Petr Hájek.
+[45] V. Švejdar, ”Modal Analysis of Rosser Sentences”, Journal of Symbolic Logic 48
+(1983) 986-999.
+
+61
+
+[46] V. Švejdar, ”An Interpretation of Robinson Arithmetic in its Grzegorczjk’s Weaker
+Variant” Fundamenta Informaticae 81 (2007) pp. 347-354.
+[47] G. Takeuti, “On a Generalized Logical Calculi”, Japan Journal of Mathematics 32
+(1953) pp. 39-96.
+[48] G. Takeuti, Proof Theory, Studies in Logic Volume 81, North Holland, 1987.
+[49] G. Takeuti, “Gödel Sentences of Bounded Arithmetic”, Journal of Symbolic Logic
+65 (2000) 1338-1346.
+[50] A. Tarski, “Der Wahrheitsbegriﬀ in den formalisisierten Sprachen”, Studia Philosphie. 1 (1936) 261-405
+[51] A. Tarski, A. Mostowski and R. M. Robinson, Undecidable Theories, North Holland,
+1953.
+[52] R, Verbrugge and A. Visser, “A Small Reﬂection Principle for Bounded Arithmetic”,
+Journal of Symbolic Logic 59 (1994) pp. 785-812.
+[53] A. Visser, “Peano’s Smart Children: A Provability Logical Study of Systems with
+Built-in Consistency”, Notre Dame Journal of Formal Logic, 30 (1987) pp. 161-196.
+[54] A. Visser, “An Inside View of Exp”, Journal of Symbolic Logic 57 (1992) 131–165.
+[55] A. Visser, “The Unprovability of Small Inconsistency”, Archive for Math Logic 32
+(1993) pp. 275-298.
+[56] A. Visser, “Faith and Falsity”, Annals of Pure and Applied Logic 131 (2005) pp.
+103-131.
+[57] P. Vopěnka and P. Hájek, “Existence of a Generalized Semantic Model of GödelBernays Set Theory”, Bulletin de l’Academie Polonaise des Sciences, Math, Astromiques et Physiques 12 (1973) 1079-1086.
+[58] A. J. Wilkie and J. B. Paris, “On the Scheme of Induction for Bounded Arithmetic”,
+Annals of Pure and Applied Logic (35) 1987, 261-302.
+[59] D. Willard, “Self-Verifying Axiom Systems”, Computational Logic and Proof
+Theory: The Third Kurt Gödel Colloquium (1993), Springer-Verlag LNCS#713,
+325-336.
+[60] D. Willard, “The Semantic Tableaux Version of the Second Incompleteness Theorem
+Extends Almost to Robinson’s Arithmetic Q”, Automated Reasoning with Analytic
+Tableaux and Related Methods, Springer Verlag (2000) LNCS#1847, pp. 415-430.
+
+62
+
+[61] D. Willard, “Self-Verifying Systems, the Incompleteness Theorem and Related Reﬂection Principles”, in Journal of Symbolic Logic 66 (2001) pp. 536-596.
+[62] D. Willard, “How to Extend The Semantic Tableaux And Cut-Free Versions of
+the Second Incompleteness Theorem Almost to Robinson’s Arithmetic”, Journal of
+Symbolic Logic 67 (2002) pp. 465–496.
+[63] D. Willard, “A Version of the Second Incompleteness Theorem For Axiom Systems
+that Recognize Addition But Not Multiplication as a Total Function”, First Order
+Logic Revisited, Logos Verlag (Berlin) 2004, pp. 337–368.
+[64] D. Willard, “An Exploration of the Partial Respects in which an Axiom System
+Recognizing Solely Addition as a Total Function Can Verify Its Own Consistency”,
+Journal of Symbolic Logic 70 (2005) pp. 1171-1209.
+[65] D. Willard, “On the Available Partial Respects in which an Axiomatization for Real
+Valued Arithmetic Can Recognize its Consistency”, Journal of Symbolic Logic 71
+(2006) pp. 1189-1199.
+[66] D. Willard, “A Generalization of the Second Incompleteness Theorem and Some
+Exceptions to It”. Annals of Pure and Applied Logic 141 (2006) pp. 472-496.
+[67] D. Willard, “Passive induction and a solution to a Paris-Wilkie question”, Annals
+of Pure and Applied Logic 146(2007) pp. 124-149.
+[68] D. Willard, “Some Specially Formulated Axiomizations for IΣ0 Manage to Evade
+the Herbrandized Version of the Second Incompleteness Theorem”, Information and
+Computation 207(2009) 1078-1093
+[69] C. Wrathall, “Rudimentary Predicates and Relative Computation”, Siam Journal
+on Computing 7 (1978), pp 194-209
+
+63
+
+

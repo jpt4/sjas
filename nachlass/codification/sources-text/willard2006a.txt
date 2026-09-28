@@ -1,0 +1,2284 @@
+A Generalization of the Second Incompleteness Theorem
+and Some Exceptions to It
+Dan E. Willard ∗
+More polished version in Annals of Pure and Applied Logic 141 (2006)
+pp. 472-496
+
+Abstract
+This paper will introduce the notion of a naming convention and use this paradigm
+to both develop a new version of the Second Incompleteness Theorem and to describe
+when an axiom system can partially evade the Second Incompleteness Theorem.
+
+1
+
+Introduction
+
+The Second Incompleteness Theorem states that no consistent axiom system is able to verify
+its own consistency when it attains a sufficient level of strength. Our objective will be to
+explore the generality and boundary-case exceptions for this effect under a class of axiom
+systems that fail to recognize successor as a total function and instead treat addition and
+multiplication as 3-way relations. ( These formalisms cannot prove that ∀ x∃ y x + 1 = y.)
+Instead, they will recognize the existence of an infinite collection of integers 0, 1, 2, ... by
+using an infinite number of constant symbols C0 , C1 , C2 , ... .
+We will use the term “Naming Convention” to refer to a particular scheme for assigning
+integer values to named constant symbols. It will turn out that our ability to either generalize
+the Second Incompleteness Theorem or to find boundary-case exceptions to it will depend on
+the choice of naming method.
+For simplicity, all our naming conventions will assign the values of 0, 1 and 2 to the first
+three constant symbols of C0 , C1 and C2 , . For i ≥ 3 , our Incremental, Additive and
+Multiplicative Naming Conventions will use the three different identities, specified by
+∗
+
+University of Albany, Email=dew@cs.albany.edu. Partially supported by NSF Grant CCR 99-02726
+
+1
+
+Equations (1)–(3), to define Ci ’s value recursively in terms of Ci−1 ’s value. A more formal alternate definition of these naming conventions, that does not use the technically impermissible
+addition and multiplication function symbols, will appear in Section 3.
+Ci = Ci−1 + 1
+
+(1)
+
+Ci = Ci−1 + Ci−1
+
+(2)
+
+Ci = Ci−1 ∗ Ci−1
+
+(3)
+
+Integers having no formal names will be constructed from “named integers” via the operations
+of subtraction and division. (Thus since 5 = 8 − 2 − 1 , the term C4 − C2 − C1 will define
+5 under Equation (2)’s “additive” convention.)
+One of our theorems will state that the additive naming convention does allow for some
+types of unusual boundary-type exceptions for the Hilbert-styled version of the Second Incompleteness Theorem. (A similar result will also hold for the incremental naming convention
+by a degenerate and thus somewhat weaker form of Section 4’s overall formalism.) On the
+other hand, Theorem 4 will state that every non-trivial, consistent axiom system α , using
+Equation (3)’s multiplicative naming convention, is unable to recognize its own Hilbert consistency. (The result of Theorem 4 differs from our prior papers [43, 45, 46, 47, 48, 49, 50, 51] by
+examining a Hilbert mode of deduction, rather than the cut-free semantic tableaux deductive
+method.)
+Some added notation is needed to describe our new results more formally. An axiom system
+α will be henceforth called Self-Justifying when:
+i) one of α’s theorems will assert α ’s consistency (using some reasonable definition of
+consistency), and
+ii) the axiom system α is in fact consistent.
+It is well known [13, 15, 29] that Kleene’s Fixed Point Theorem implies every r.e. axiom system
+α can be easily extended into a broader system α∗ which satisfies condition (i). Kleene’s
+proposal [15] was essentially for α∗ to contain all α’s axioms plus the following additional
+axiom sentence:
+#
+
+There is no proof of 0=1 from the union of α with “THIS SENTENCE”.
+2
+
+Kleene noted that it was easy to apply the Fixed Point Theorem to formally encode a selfreferencing statement, similar to the sentence # . The catch is that α∗ can be inconsistent even
+while its added axiom # formally asserts α∗ ’s consistency. For this reason, Kleene, Rogers
+and Jeroslow [13, 15, 29] each emphatically warned their readers that most axiom systems
+similar to α∗ were useless on account of their inconsistency, although they were technically welldefined. This problem arises in both Gödel’s paradigm (where α extends Peano Arithmetic),
+as well as in more general settings [1, 3, 5, 11, 23, 28, 25, 32, 42, 47].
+Our prior research [43, 46, 51] has developed several examples of self-justifying axiom systems using analogs of the axiom-sentence # , despite these limitations, mostly for the case
+where an axiom system recognized addition as a total function and treated multiplication as a
+3-way relation that was not provably total. (Thus if M (x, y, z) is a 3-way relation indicating
+that x ∗ y = z then our axiom systems α were unable to prove ∀x ∀y ∃z M (x, y, z) ). In
+this context, we illustrated in [43, 46, 51] how several forms of the Kleene-like self-reflecting
+axiom # could construct self-justifying axiom systems under various definitions of semantic
+tableaux consistency.
+The challenge in these articles was to assure the resulting axiom system α∗ did not violate
+Part-ii of the definition of self-justification (by being inconsistent — due to a Gödel-like
+diagonalization argument — thereby making α∗ useless albeit well-defined — and thus
+irrelevant). Our articles [43, 46, 51] showed this difficulty did not plague systems recognizing
+solely addition as a total function for some natural definitions of semantic tableaux consistency.
+On the other hand, [47] demonstrated the unavailability of this paradigm for circumventing
+the semantic tableaux version of the Second Incompleteness when an axiom system recognized
+multiplication as a total function.
+Our goal in the present paper is to explore to what extent the preceding results about
+semantic tableaux definitions of consistency will generalize for definitions of consistency under
+Hilbert-style proof systems. Our research was stimulated in part by some theorems of Nelson,
+Pudlák, Solovay and Wilkie-Paris [21, 25, 32, 42]. In particular, a formula ϕ(x) is called a
+Definable Cut for α iff α can prove the theorem:
+ϕ(0) AND ∀ x ϕ(x) ⇒ ϕ(x + 1) AND ∀ x ∀ y < x ϕ(x) ⇒ ϕ(y)
+
+(4)
+
+Also, let Q denote the well-known axiom system of Tarski-Mostowski-Robinson [36] that recognizes addition and multiplication as total functions, but contains little information about
+addition and multiplication beyond that. Tarski-Mostowski-Robinson [36], showed a general3
+
+ization of the Gödel [9] and Rosser [28] versions of the First Incompleteness Theorem, which
+they called “Essential Undecidability”, was valid for Q , all its extensions, but none of its
+subsets. There have been several examples of generalizations of the Second Incompleteness
+Theorem for Q beginning with Bezboruah-Shepherdson’s initial observations [5] on this subject (demonstrating that there were at least some particularized encodings of the provability
+predicate under which Q was unable to prove its own Hilbert Consistency). Wilkie-Paris
+announced several extensions of the Second Incompleteness Theorem in [42] — demonstrating
+for instance that axiom systems as powerful as IΣ0 + Exp are unable to prove the Hilbertconsistency of formalisms as weak as Q. Pudlák [25] proved the following new form of the
+Second Incompleteness result:
+Theorem 1 (Pudlák 1985). Suppose the consistent axiom system α satisfies
+α ⊃ Q , ϕ(x) denotes any of Equation (4)’s definable cuts, and Contraα (p)
+denotes any type of Gödel encoded statement asserting that p represents a
+Hilbert-style proof of 0=1 from α. Then α can neither prove a conventional
+statement recognizing its own Hilbert consistency nor any weaker theorem of the
+form: “ ∀ p ϕ(p) ⇒ ¬ Contraα (p )”.
+Let us say an axiom system β Canonically Formalizes Arithmetic iff there exists two
+predicates A(x, y, z) and M (x, y, z) where β proves:
+i.
+
+A(x, y, z) is true when x + y = z
+
+ii.
+
+M (x, y, z) is true when x ∗ y = z
+
+During several telephone calls in April of 1994, Robert Solovay communicated to us how the
+Theorem 1 (by Pudlák) could be combined with additional methods due to Nelson and WilkieParis [21, 42], to obtain the following result about canonical formalizations of arithmetic:
+Theorem 2 ( Solovay’s 1994 Modification [32] of Pudlák’s 1985 Version of the
+Second Incompleteness Theorem [25] using some of the methods of Nelson and
+Wilkie-Paris [21, 42] ):
+
+Let β denote any consistent axiom system, canonically
+
+formalizing arithmetic, such that:
+A) β is able to prove Eq. (5)’s statement that successor is a total function.
+∀x
+
+∃z
+4
+
+A(x, 1, z)
+
+(5)
+
+B)
+
+β is able to prove a Π1 type formatted theorem indicating the A(x, y, z)
+and M (x, y, z) predicates satisfy the associative, commutative, distributive
+and identity-element axioms for addition and multiplication.
+
+Then β must be unable to prove the non-existence of a Hilbert-style proof of 0=1
+from β ’s set of axioms.
+The following two observations will help explain the relationship between the preceding two
+theorems of Pudlák and Solovay:
+1. Let us say that an axiom system β recognizes addition and multiplication as total
+functions iff it can prove:
+∀ x ∀ y ∃ z A(x, y, z)
+
+AND
+
+∀ x ∀ y ∃ z M (x, y, z)
+
+(6)
+
+The Theorem 2 by Solovay is an immediate consequence of the 1985 Theorem 1 by
+Pudlák when Equation (6) is made to replace Equation (5)’s formalism in Theorem 2’s
+hypothesis.
+2. The reason that Solovay had communicated in April of 1994 to us the content of Theorem
+2 is that we published in 1993 a paper [43] which showed that boundary-case exceptions
+to the semantic tableaux version of the Second Incompleteness Theorem do exist among
+axiom systems that recognize addition but not multiplication as a total function. Our
+paper [43] thus raised the question whether such boundary-case exceptions to the Second
+Incompleteness Theorem can be extended to Hilbert styled proofs under axiom systems
+that recognize solely addition as total? The Theorem 2 by Solovay is significant because
+it shows that no such extension is feasible for the Hilbert-style method of deduction.
+A more detailed description of the formalisms that were employed by Theorems 1 and 2
+and the related literature will appear during Section 2’s literature survey. At a first glance,
+it would certainly appear that Theorem 2 implies no meaningful axiom system can recognize
+its own Hilbert consistency — simply because Equation (5)’s axiom, recognizing successor as
+total, is the main threshold for activating Theorem 2 ’s formalism.
+However, it turns out that Theorems 1 and 2 do allow for a subtle form of exception to
+exist for the Hilbert-styled version of the Second Incompleteness Theorem. This is because
+Equations (2) and (3)’s naming conventions have different and contrasting characteristics with
+5
+
+regards to the Second Incompleteness Theorem (that do not fall under the scope of either of
+these two theorems). In particular, one can construct axiom systems α , not recognizing
+successor as a total function and employing Equation (2)’s additive naming convention, which
+somewhat surprisingly can recognize their own Hilbert consistency. On the other hand, our
+Theorem 4 will show no analog of this boundary-type exception to the Second Incompleteness
+Theorem is available when a system employs Equation (3)’s multiplicative naming convention.
+(The point is that neither of these results are predicted by the earlier literature because the
+prior Theorems 1 and 2 presumed their axiom systems would recognize at least successor as a
+total function.)
+Some added notation will help formalize our new results. Say a function F satisfies a NonGrowth property iff F (a1 , a2 , ...aj ) ≤ M aximum(2, a1 , a2 , ...aj ) for all values of a1 , a2 , ...aj .
+Seven examples of non-growth functions are Integer Subtraction (where x − y is defined to
+equal 0 when x < y ), Division-with-rounding (where x ÷ y is defined to equal x when
+y = 0,
+
+and it equals b xy c otherwise), M aximum(x, y),
+
+P redecessor(x) = Max( x − 1 , 0 ),
+
+Logarithm(x) = 1 + bLog2 xc ,
+
+Root(x, y) = d x1/y e and Count(x, j) designating the
+
+number of “1” bits among x’s rightmost j bits. These functions are called the Grounding
+Functions.
+We will use the term Π−
+1 sentence to refer to a mathematical sentence identical to conventional Logic’s Π1 sentence, except that the addition and multiplication function primitives are
+replaced by the grounding functions under the definition of a Π−
+1 sentence. More formally, a
+Bounded Quantifier is defined as a phrase similar to either “ ∀ v ≤ t Ψ(v) ” or “ ∃ v ≤ t Ψ(v)”
+where t is a term built out of the grounding function primitives. Let us call a formula ∆−
+0
+when all its quantifiers are bounded, its two relation symbols are “ = ” and “ ≤ ” and it
+uses the grounding function symbols. Then Υ will be called Π−
+1 when it is written in the form
+∀v1 ∀v2 ... ∀vn
+
+Φ , where Φ is ∆−
+0 . Using this terminology, our two main theorems are
+
+listed below:
+Theorem 3 . Let A denote an arbitrary, consistent axiom system (using the grounding
+function language) all of whose Π−
+1 theorems are logically valid under the standard model of
+the natural numbers. Suppose there also exists a ∆−
+0 encoding for the predicate HilbPrfA (t, p)
+— which formally indicates that p is a Hilbert-style proof of the theorem t from axiom
+system A . Then there exists a consistent axiom system, called ISCE(A) (which is formally
+defined in Section 4), whose constant symbols are defined via the additive naming convention’s
+6
+
+methodology and which has an ability to
+i. recognize the validity of all A’s Π−
+1 theorems,
+ii. recognize the assured non-existence of a Hilbert-style proof of 0=1 from its own set of
+proper axioms.
+Theorem 4 . No consistent axiom system α is capable of proving a theorem affirming its
+own Hilbert-Consistency when it 1) contains all the multiplicative naming convention’s axioms, 2) retains an ability to prove all Peano Arithmetic’s Π−
+1 theorems, and 3) satisfies a
+minor additional constraint, which the Definition 1 of Section 5 shall call the “Concise Encoding” property. (This “Concise Encoding” property is slightly stronger than a requirement
+that a ∆−
+0 predicate identify all α ’s axioms.)
+Remark 1. A stronger form of Theorem 4, called Theorem 4*, will receive an abbreviated
+proof in Appendix C. Theorem 4* will drop Theorem 4’s “Concise Encoding” assumption and
+also isolate a Π−
+1 theorem W of Peano Arithmetic, where no consistent r.e. axiom system
+α ⊃ W , using the multiplicative naming convention, can formally verify its own Hilbert
+consistency.
+Theorems 3, 4 and 4* are interesting partly because of their sharply contrasting features
+— where the simple replacement of the additive naming convention with a multiplicative
+convention is sufficient to activate the power of the Second Incompleteness Theorem.
+A second interesting aspect requires some added notation to explain. Let us say a sequence
+of axioms S1 , S2 , S3 , ... defining the constant symbols C1 , C2 , C3 , ... is Continuously
+Expanding iff there exists a sequence of constants K1 , K2 , K3 , ... with Ki < Ki+1 such that the
+set of axioms with Gödel numbers less than Ki is sufficient to generate a proof of the existence
+of an integer larger than Ki+1 . For example, the additive and multiplicative conventions,
+defined by Equations (2) and (3), satisfy the continuous expansion property — under the
+normalized assumption that the axiom defining Ci has a O(Log (i + 2)) bit-length. On
+the other hand, Equation (1)’s incremental naming convention is not continuously expanding
+because it grows too slowly.
+Ideally, an axiom system α should satisfy the continuous expansion property — even if
+it fails to recognize successor as a total function — because the latter feature formalizes at
+least some type of weak notion of an infinite growth among integers. This explains the second
+7
+
+reason for our interest in Theorems 3 and 4. A degenerate version of Theorem 3 — with
+the incremental naming convention replacing the additive method — was established by the
+Theorem 3.4 of [46]. However Theorem 3.4’s axiom systems failed to satisfy the continuous
+expansion property because they relied upon the slow growing incremental naming convention.
+The additive convention will thus represent a useful compromise between the faster-growing
+multiplicative convention and the slower incremental convention — whose growth rate is
+simultaneously sufficiently slow to satisfy Theorem 3’s self-justification property while also
+sufficiently fast to satisfy the continuous expansion property. This distinction is significant
+because the terms K1 , K2 , K3 , ... in the additive convention’s continuous expansion sequence
+will grow at a fast super-exponential rate.
+One further definition is needed to describe a third theme in this article. Let P redN (x)
+denote a compound operation that consists of N
+(thereby causing P redN (x) = x − N
+
+iterations of the predecessor function
+
+). Say an axiom system α is Infinitely Far-
+
+Reaching iff there exists a finite subset of axioms S ⊂ α such that for an arbitrary integer
+N, the finite set S is sufficient to prove ∃x P redN (x) = 1 . Section 6 will outline how
+it is theoretically possible to construct an axiom system, which is simultaneously 1) Infintely
+Far Reaching, 2) able to verify its own Hilbert consistency, and 3) able to to prove all Peano
+Arithmetic’s Π−
+1 theorems.
+Section 6’s axiom system will be highly awkward in its internal structure. However, it is
+noteworthy because one’s first intuition would be that the combination of the incompleteness
+effects described by Theorems 1, 2 and 4 would preclude a formalism from satisfying conditions
+1–3 simultaneously.
+Over-all Perspectives and Objectives of this Article:
+
+Any axiom system which
+
+fails to recognize successor as a total function is certainly a mixed blessing, whose weaknesses
+certainly cannot be overlooked or ignored. However, Gödel’s Incompleteness Theorem beckons
+one to wonder whether there are any boundary-case circumstances where the force of the
+Second Incompleteness Theorem can at least be partially evaded. Theorem 3 and Section
+6’s ISINF(A) formalism will illustrate two types of partially curious forms of self-justifying
+systems that can be formally constructed. On the other hand, the prior literature’s Theorems
+1 and 2 and our new Theorems 4 and 7 will indicate that there is a firm limit as to how far
+one can strengthen these boundary-case exceptions for the Second Incompleteness Theorem.
+This topic has a different slant than the study of semantic tableaux in [43, 45, 46, 47, 48,
+8
+
+49, 50, 51] because the Theorem 2 (by Solovay) shows Hilbert-style exceptions to the Second
+Incompleteness Theorem cannot recognize even successor as a total function. It thus has
+a different flavor than the semantic tableaux formalisms of [43, 46, 48, 49, 50, 51], which
+recognized addition as a total function.
+
+2
+
+Background Literature
+
+Let S(x) denote the “successor” operation that maps the integer x onto x + 1. A formula
+ϕ(x) is called [11] a Definable Cut for an axiom system α iff α can prove:
+ϕ(0) AND ∀ x ϕ(x) ⇒ ϕ[S(x)] AND ∀ x ∀ y < x ϕ(x) ⇒ ϕ(y)
+
+(7)
+
+The articles [1, 3, 7, 8, 10, 11, 14, 16, 17, 21, 23, 24, 25, 27, 33, 38, 39, 41, 42] have studied
+Definable cuts. This concept is unrelated to a Gentzen-like “deductive cut rule”.
+In a context where Υ(x) and ϕ(x) denote two definable cuts, the formula ϕ(x) has been
+called a Thinning of Υ(x) (relative to α ) iff α can prove:
+∀ x ϕ(x) ⇒ Υ(x)
+
+(8)
+
+The symbol d Ψ e will henceforth denote Ψ ’s Gödel number, and Prf α , D (t, p) will denote
+that p is a proof of the theorem t from the axiom system α using the deduction method
+D . The system α will be said to recognize its Cut-Localized D-consistency under ϕ(x)
+iff α can prove:
+∀p
+
+{ ϕ(p) ⇒ ¬ Prf α , D ( d0 = 1e , p ) }
+
+(9)
+
+The recent literature has sought to identify exactly what triples ( ϕ , D , α ) have the
+property that α can prove (9)’s self-reflecting statement. Both positive and negative results,
+about the feasibility of constructing such triples have been established. Below is a summary
+of some of the recent results:
+1. While GB Set Theory can prove its global Hilbert consistency is equivalent to the global
+Hilbert consistency of ZF-Set Theory, Hájek, Švejdar and Vopěnka [33, 41] have shown
+GB Set Theory cannot verify this equivalence within the range of every definable cut. In
+particular, Vopěnka-Hájek [41] identified a definable cut ϕ where GB Set Theory can
+prove the validity of Equation (9) when D denotes Hilbert deduction and α denotes ZFset Theory. Moreover, Švejdar [33] has discussed some important generalizations of this
+9
+
+phenomena with regards to interpretability. (These two results are surprising because
+Pudlák [25] has proved that GB-Set Theory can never prove its Hilbert consistency on
+any of Equation (9)’s definable cuts. Thus, GB-Theory will view its Hilbert consistency
+as equivalent to ZF’s Hilbert consistency in a global sense — but not in a sense localized
+inside each definable cut.)
+2. In a context where D denotes a second order generalization of Gentzen’s sequent
+calculus and α is a formalization of Arithmetic among the natural numbers, KreiselTakeuti [19] identified a definable cut where their system could prove (9)’s statement of
+about its D-consistency.
+3. Nelson [21] demonstrated that a variant of the Tarski-Mostowski-Robinson axiom system
+Q (with Linear Ordering) can corroborate Equation (9)’s statement about its CutLocalized consistency when D denotes Herbrand deduction and the cut ϕ is carefully
+chosen.
+4. Pudlák proved two results about Equation (9) in [25]. The first was a substantial
+generalization of Items 2 and 3 (above), which showed that every “sequential” [11]
+axiom system of finite cardinality can be associated with a definable cut ϕ such that
+α can prove Equation (9) is valid for ϕ when D denotes any cut-free method of
+deduction. The Theorem 1 , mentioned earlier in Section 1, also appeared in Pudlák’s
+article [25]. It indicated that no consistent α ⊃ Q can prove any form of Equation
+(9)’s sentence about itself when D denotes Hilbert deduction.
+5. Wilkie-Paris [42] used the theory of definable cuts to prove several new versions of the
+Second Incompleteness Theorem in [42]. One of their most surprising results was the
+demonstration that an axiom system as strong as IΣ0 + Exp is unable to prove the
+Hilbert consistency of Q .
+6. Let LogK (z) denote the operation Log(Log...(Log(z)))) — where K
+
+is an integer
+
+indicating the number of iterations of Log here. Several articles [11, 17, 21, 23, 25, 27,
+39, 42] have credited some unpublished comments of Robert Solovay for observing that
+for each integer K and definable cut Υ(x) , there exists a thinning ϕ(x) of Υ(x)
+where most (even weak) arithmetic axiom systems α can prove:
+
+10
+
+∀ p [ ϕ(p) ⇒ ∃ q Υ(q) ∧ LogK (q) = p ]
+
+AND
+
+∀ p [ ϕ(p) ⇒ ∃ r ϕ(r) ∧ LogK (r) = 2 · Log K p ]
+
+(10)
+
+This never-published but often cited result by Solovay has been gainfully employed by a
+large part of the literature on Definable Cuts. (A very nice proof of it appears on pages
+172–173 of the Hájek-Pudlák textbook [11]).
+7. As noted in Section 1, Robert Solovay privately communicated to us in April of 1994 that
+he knew how to combine the formalisms of Nelson, Pudlák and Wilkie-Paris [21, 25, 42]
+to prove the Theorem 2 , which can refine the 1985 Pudlák-like Incompleteness Effect
+— so it will apply to axiom systems recognizing merely successor as a total function.
+To help publicize this never-published result, we published a proof of a weak version of
+Theorem 2 — with attribution to our communications with Solovay — in Appendix A
+of our year-2001 article [46]. This appendix’s result is not quite as strong as the broader
+version of Solovay’s Theorem 2 , but it has the virtue of having a pleasantly short 4-page
+proof.
+8. Paris-Dimitracopoulos [23] (and Pudlák [25] using a different method) both observed
+that for an arbitrary initial definable cut Υ , it is not always automatically feasible to
+construct a thinner cut ϕ that is closed under the operation of Exponentiation.
+9. Characterizations of relative interpretability for finitely axiomatized sequential theories
+were independently developed by Friedman and Pudlák in [8, 25]. See some papers by
+Smoryński and Visser [31, 37, 40] for some very detailed descriptions of these contributions by Friedman and Pudlák.
+10. Let Conϕ (IΣ0 ) denote the variant of Equation (9) where 1) α =IΣ0 , 2) D designates
+the Hilbert deduction method and 3) ϕ represents Equation (9)’s employed definable
+cut. Krajı́cek [16] proved that for any IΣ0 cut Υ there exists a thinner IΣ0 cut ϕ such
+that the theorem IΣ0 + Conϕ (IΣ0 ) + ¬ ConΥ (IΣ0 ) is consistent, and that an analog of
+this construct holds for any finitely generated sequential theory under the Wilkie-Paris
+notion of a restricted proof [42]. Visser [39] generalized this construct to show that many
+consistent axiom systems, such as Q , ACA0 and GB-Set Theory, have the property
+that no finite consistent extension of themselves implies there exists Hilbert-style proofs
+of 0=1 from themselves simultaneously positioned in each of their definable cuts.
+11
+
+11. Buss, Ignjatovic, Krajı́cek, Pudlák and Takeuti [6, 7, 18, 26, 35] have explored the problem of separating Buss’s axiom system S2 into its sub-systems called S21 , S22 , S23 , ... .
+This problem is connected to a variety of open questions about NP, the Polynomial Hierarchy and Cook’s system PV. Several of these articles have used the properties of
+definable cuts in the course of their analysis. For example using the theory of definable
+cuts, Buss and Ignjatovic [7] showed that P V is unable to confirm the consistency of its
+induction-free fragment, called P V − .
+A small amount of additional notation is needed to describe one further development in
+proof theory. Let D denote any deduction method such as Herbrand deduction, Hilbert
+deduction, semantic tableaux etc. Let 0 D (α) denote the classic Gödel Diagonalization
+Sentence that states:
+∗ There is no proof of this sentence from axiom system α using deduction
+method D .
+Let Logλ (z) denote the operation Log(Log...(Log(z)))) — where λ is an integer indicating the
+number of iterations of Log here. Let ShortPrf λα ,D (x, y, z) denote a ∆−
+0 formula indicating
+that y represents a proof of the theorem x from the axiom system α using deduction method
+D and that y =Logλ (z) . Also, let 0 λD (α) denote the generalization of the 0 D (α)
+sentence that has the ShortPrf λα ,D (x, y, z) construct replace conventional deduction. This
+construct, called a Generalized Gödel Sentence, is defined formally as:
+∗ ∗ In a context where one employs the “ ShortPrf λα ,D (x, y, z) ” notation, there
+exists no code (y, z) that “proves” this sentence.
+Several articles have noticed how Generalized Gödel sentences can serve as a helpful intermediate step for developing a variety of generalizations and applications of the Incompleteness
+Theorem. This is essentially because Definable Cuts are not always ideally suited for generalizing the Second Incompleteness Theorem when D represents a cut-free deduction method,
+such as Herbrand deduction, semantic tableaux or the cut-free sequent calculus. Thus, Takeuti
+[35] used generalized Gödel sentences to analyze the 3-way relationship between the properties
+of NP, Buss’s Bounded Arithmetic and some generalizations of Gentzen’s sequent calculus.
+Generalized Gödel sentences have also been used to answer a 20-year old Paris-Wilkie open
+question [24] about whether any extension of IΣ0 can prove its own cut-free consistency. In
+12
+
+this context, Adamowicz-Zbierski [1, 3] used Generalized Gödel sentences to show that a cutfree version of the Second Incompleteness Theorem was valid at the level of IΣ0 + Ω1 ,
+Willard’s two papers [45, 47] strengthened this result to show that such a cut-free second
+incompleteness effect applied to all extensions of IΣ0 and most extensions of Q , and Salehi
+[30] has recently explored some other types of interesting proofs of this incompleteness effect.
+One type of formalism that combines the theories of definable cuts and of Generalized
+Gödel Sentences into a hybridized framework can be found in [49]. It examines a hierarchy of
+several increasingly elaborate definitions of semantic tableaux consistency, where one wishes
+to determine at what level in this hierarchy does the semantic tableaux version of the Second
+Incompleteness Theorem become operative for axiom systems that recognize addition (but
+not multiplication) as a total function. Via a hybridizing of the theory of definable cuts with
+the notion of a Generalized Gödel Sentence, [49] obtained an incompleteness result for this
+hierarchy.
+Finally, let us return to the Theorems 1 and 2 of Pudlák and Solovay. Theorem 2 was
+described by Solovay as resulting from the combined research efforts of himself and of Nelson,
+Pudlák and Wilkie-Paris. It stated that no axiom system can prove its own Hilbert consistency
+and also recognize successor as a total function. An important fact is that Theorem 2 does
+not apply to semantic tableaux deduction, since our papers [43, 46, 48, 51] had established
+that semantic tableaux boundary-case exceptions to the Second Incompleteness Theorem can
+recognize addition as a total function. Hence, there naturally arises the question to consider
+whether some type of axiom system, dropping the assumption that successor is a total function,
+can recognize its own Hilbert consistency? Our Theorems 3, 4, 6 and 7 will partially answer
+this question by providing some closely matching positive and negative results.
+
+3
+
+Main Notation Conventions
+
+This section will offer a brief summary of the formal notation used in this paper. An intuitive
+(but not formal) description of the three incremental, additive and multiplicative naming
+conventions was provided by Equations (1)–(3) in the Introduction Section. These equations
+should not be regarded as the formal definitions of these three naming conventions because the
+addition and multiplication function symbols were employed in their recursive definitions. To
+rectify this problem, we need to rewrite these equations in a language that has the grounding
+function symbols of predecessor, subtraction and division-with-rounding replace the roles of
+13
+
+addition and multiplication.
+Our first task is to define the constant symbols C0 , C1 and C2 to represent the integers
+of 0, 1 and 2. Since Predecessor(0) = 0, this is done below:
+Pred(C0 ) = C0 ∧ C1 6= C0 ∧ Pred(C1 ) = C0 ∧ Pred(C2 ) = C1
+
+(11)
+
+Next, let ADD(x, y, z) denote “ z ≥ x ∧ z − x = y ” , and MULT(x, y, z) denote [ (x =
+0 ∨ y = 0) ⇒ z = 0 ] ∧ [ (x 6= 0 ∧ y 6= 0 ) ⇒ ( xz = y ∧
+
+z−1
+<y
+x
+
+) ].
+
+These two ∆−
+0 predicates do not technically use the Multiplication and Addition function
+symbols, but a triple satisfies them only when respectively x + y = z and x ∗ y = z are true.
+Finally, let j1 , j2 , j3 ... , a1 , a2 , a3 ... and b1 , b2 , b3 ... denote the axiom-sequences, used
+by our incremental, additive and multiplicative naming conventions. The ADD(x, y, z) and
+MULT(x, y, z) predicates allow us to rewrite the description of these axioms (from Equations
+(1)–(3) ) in a revised language that replaces the Addition and Multiplication function symbols
+with the operations of Predecessor, Subtraction and Division-with-rounding. Thus, the first
+formal axiom of these three conventions (i.e. j1 ,
+
+a1 and b1 ) is defined by Equation (11).
+
+For i ≥ 2 their additional axioms are:
+ji
+
+=df
+
+ADD( Ci , 1 , Ci+1 )
+
+(12)
+
+ai
+
+=df
+
+ADD( Ci , Ci , Ci+1 )
+
+(13)
+
+bi
+
+=df
+
+MULT( Ci , Ci , Ci+1 )
+
+(14)
+
+Let Bit(x, i) denote the i−th rightmost bit associated with the binary encoding of the
+integer x . Equation (15) shows how one can encode the term Bit(x, i) in our grounding
+function language as a compound function built out of the grounding operations of count and
+subtraction:
+Bit(x, i)
+
+=
+
+Count( x , i ) − Count( x , i − 1 )
+
+(15)
+
+Let us recall that P redN (x) denotes an operation that consists of N iterations of the
+predecessor function (thereby causing P redN (x) = x − N ). Section 1 had defined our
+grounding function Log(x) to formally represent the integer value of 1 + bLog2 xc . Let Ld
+denote an integer constant that represents the bit-length of the integer d ’s binary encoding,
+and let its binary representation be formally encoded by the bit-sequence β1 , β2 ... βLd . In
+this context, let σd (x) denote Equation (16)’s ∆−
+0 formula. It has the characteristic that the
+only integer x satisfying (16) is the integer d itself.
+14
+
+Bit(x, Log(x)) = β1
+
+∧
+
+Bit(x, Pred(Log(x))) = β2
+
+Bit(x, PredLd −1 (Log(x))) = βLd
+
+∧
+
+∧
+
+... ∧
+
+PredLd −1 (Log(x))) = 1
+
+(16)
+
+Since d Φ e denotes Φ’s Gödel number, our notation convention will imply that the only
+integer x satisfying σdΦe (x) is Φ’s Gödel number.
+Our method for encoding Gödel numbers is defined in Appendix A. This convention is
+ideally compact insofar as its encoding of a particular sentence or proof will have a bit-length
+that is essentially proportional to the effort to write down such an object by hand. Other
+examples of ideally-compact Gödel encoding schemes have been described by for example
+Hájek-Pudlák and Wilkie-Paris in [11, 42]. It is therefore probably unnecessary for a reader
+to examine Appendix A in much detail. Essentially, Appendix A can be omitted provided the
+reader keeps in mind that the bit-length needed for encoding the name of the symbol Ci ,
+as well as for encoding the accompanying axioms ji , ai or bi , will have an ideally compressed
+O( Log(i + 1 ) ) order of magnitude.
+Our results also generalize in various forms for non-compressed encodings, where Ci has an
+O(i) bit-length instead. We omit discussing these generalizations here because uncompressed
+encodings are inherently unnatural.
+
+4
+
+The ISCE Formalism and its Generalizations
+
+This section will be devoted to proving Theorem 3 and defining its accompanying ISCE(A)
+formalism. In our discussion, a Π−
+1 sentence will be called 2-reduced iff it uses only the
+constant symbols for the three natural numbers 0,1 and 2. This restriction is not serious
+because every unreduced Π−
+1 sentence has a 2-reduced counterpart that is equivalent to it
+under Equation (16)’s σ−formalism. For instance, if φ(a, b) is a 2-reduced ∆−
+0 formula and
+if k̄ is an arbitrary integer, then the unreduced Π−
+1 sentence “ ∀x φ( x , k̄ ) ”is equivalent
+under the standard model to the 2-reduced Π−
+1 sentence below:
+∀x ∀y
+
+{ σk (y) ⇒ φ( x , y ) }
+
+(17)
+
+A similar transformation is obviously available to map every unreduced Π−
+1 sentence onto its
+equivalent 2-reduced counterpart. Moreover in the context of axiom systems that recognize
+the existence of an unending sequence of natural numbers 0,1,2, .... by using for example
+the additive naming convention, the 2-reduced sentence (17) is provably equivalent to its
+15
+
+unreduced counterpart “ ∀x φ( x , k̄ ) ”. Thus, there is no difficulty when we employ 2-reduced
+Π−
+1 sentences in this section. Often we will omit the phrase “2-reduced” when it is evident
+that the Π−
+1 sentence is 2-reduced.
+The acronym “ISCE” will stand for Introspective Semantics with Continuous Expansion”.
+It will be defined similarly to [43, 46]’s IS(A) and ISREF(A) axiom systems except that
+ISCE(A) will hybridize Section 1’s continuous expansion property with an ability of a selfreflecting formalism to recognize its own Hilbert consistency. Given an initial axiom system
+A , ISCE(A) will thus be defined to be a self-justifying axiom system, capable of proving all
+of A ’s Π−
+1 theorems, and consisting of the following four axiom groups:
+GROUP-ZERO: This axiom group will consist of the axiom sentences a1 , a2 , a3 ... used
+by Equations (11) and (13) of Section 3’s additive naming method. It differs from the
+Group-Zero axioms in our earlier papers by using an additive (rather than incremental)
+naming method. (Note that additive naming is continuously expanding, but incremental
+naming is not.)
+GROUP-1: This group will consist of a finite set of Π−
+1 axioms defining ISCE’s grounding functions. This means that for each grounding function G and set of numbers
+k, k1 , k2 , ...km , the combination of the Group-Zero and Group-1 axioms will imply
+G(k1 , k2 , ...km ) = k when this sentence is true. The Group-1 scheme will also assign
+the “=” and “<” predicates their usual logical properties. Any finite set of 2-reduced
+Π−
+1 sentences that meet the preceding conditions is adequate. Table I of [46] provides
+one example of a suitable set of Group-1 axioms.
+GROUP-2: Let d Φ e denote Φ’s Gödel number, and HilbPrfA (x, y) denote a ∆−
+0 formula
+indicating y is a proof from axiom system A of the theorem x. Suppose that A uses
+the same grounding function symbols as ISCE(A), and it therefore generates a set of Π−
+1
+theorems. For each Π−
+1 sentence Φ, our prior papers had the Group-2 schema contain
+an axiom of the form:
+∀y
+
+{ HilbPrf A ( d Φ e , y ) ⇒ Φ }
+
+(18)
+
+The Group-2 axioms of ISCE(A) will have essentially the same format, except we cannot
+use exactly Equation (18)’s formal equation because ISCE’s language does not contain
+16
+
+constant symbols for every natural number. It is easy to overcome this difficulty by using
+Equation (17)’s formalism for mapping an unreduced Π−
+1 sentence onto its 2-reduced
+counterpart. Thus, the effective equivalent for (18)’s Π−
+1 sentence is:
+∀ y ∀ x { [ σ d Φ e (x) ∧ { HilbPrf A ( x , y ) ] ⇒ Φ }
+
+(19)
+
+ISCE(A) will contain one such axiom for each 2-reduced Π−
+1 sentence Φ.
+GROUP-3: ISCE(A)’s Group-3 axiom will consist of a single Π−
+1 sentence that essentially
+corresponds to the following statement:
+♠
+
+“There is no Hilbert-style proof of 0=1 from the union of the Group-0, 1
+
+and 2 axioms with THIS SENTENCE (referring to itself)”.
+We have already illustrated in several papers [44, 46] how similar Kleene-like self-referential
+−
+Π−
+1 constructions to the sentence ♠ above were possible. In essence, the Π1 encoding of
+
+♠ rests on constructing a special ∆−
+0 formula called “ HilbPrf ISCE(A) ( x , y) ” such
+that Equation (20) (below) can be roughly thought of as being semantically equivalent to the
+sentence ♠ . The exact details of how HilbPrf ISCE(A) ( x , y) shall receive a ∆−
+0 encoding
+will be explained in the course of Lemma 1’s proof.
+∀x ∀y ¬ { σ d 0=1 e (x) ∧ HilbPrf ISCE(A) ( x , y ) }
+
+(20)
+
+Lemma 1 . There exists a ∆−
+0 encoding for the HilbPrf ISCE(A) ( x , y) predicate which
+will cause Equation (20)’s formal mathematical sentence to be semantically equivalent to the
+content of the Group-3 statement ♠ .
+Proof Sketch. Our justification of Lemma 1 will be somewhat abbreviated because analogous
+techniques were previously used in our paper [46] to define its Group-3 axiom. In particular,
+let us employ the following notation:
+1. Subst ( g , h ) will denote Gödel’s classic substitution formula, which yields TRUE when
+h is a formula identical to g — except that it replaces all g’s free variables with an
+integer term equal to g’s Gödel number.
+2. UNION(A) will denote the union of ISCE(A)’s Groups 0, 1 and 2 axioms.
+17
+
+3. HilbPrfUNION(A) (t, p) is a formula stating that p represents a Hilbert-style proof of
+the theorem t from the axiom system UNION(A).
+4. ExtraPrfUNION(A) (t, h, p) is a formula stating that p represents a Hilbert-style proof
+of the theorem t from the union of the axiom system UNION(A) with the additional
+axiom-sentence whose Gödel number is represented by the integer h .
+5. FixPointPrf(t, g, p) will be an abbreviation for the sentence:
+
+HilbPrfUNION(A) (t, p)
+
+∨
+
+∃ h ≤ p [ Subst(g, h) ∧ ExtraPrfUNION(A) (t, h, p) ]
+
+(21)
+
+Appendixes B through D of our article [46] had explained in meticulous detail how one could
+use the theory of LinH functions [11, 17, 52] to provide ∆−
+0 encodings for each of the formulae
+of Subst(g, h), HilbPrfUNION(A) (t, p) and ExtraPrfUNION(A) (t, h, p). It therefore follows
+that Equation (21)’s compound formula of FixPointPrf(t, g, p) also has a ∆−
+0 encoding. This
+in turn implies that Equation (22) (below) has a Π−
+1 encoding:
+∀x ∀y ¬ { σ d 0=1 e (x) ∧ FixPointPrf ( x , g , y ) }
+
+(22)
+
+The only free variable in Equation (21) is g. Let Ψ(g) denote this formula, and θ denote
+Ψ(g)’s Gödel number. Also, let C ∗ denote the particular constant employed by our additive
+naming convention that represents the least power of 2 greater than θ . Let θ denote a
+term whose value equals θ — where θ ’s encoding has a binary-like format with its term
+beginning with the constant symbol C ∗ and then subtracting the Log2 θ or fewer needed
+powers of 2 smaller than C ∗ , so that θ’s exact value is produced. The Equation (23)’s
+sentence can then be viewed as being the formal semantic representation of either Equation
+(20)’s sentence or the equivalent Group-3 statement ♠ .
+∀x ∀y ¬ { σ d 0=1 e (x) ∧ FixPointPrf ( x , θ , y ) }
+
+(23)
+
+Hence, this proof has confirmed Lemma 1’s claim by showing how one can view (23)’s
+“ FixPointPrf ( x , θ , y ) ” predicate as being the ∆−
+0 formalization of (20)’s “ HilbPrf ISCE(A) ( x , y ) ”
+formula — thereby causing Equation (23) to capture the semantic meaning of the statement
+♠.
+
+2.
+18
+
+Remark 2. The proof of Lemma 1 had assigned HilbPrf ISCE(A) ( x , y ) a ∆−
+0 encoding
+because Lemma 1’s formalism would become substantially less significant if this requirement
+was relinquished
+The formal statement of Theorem 3 was given in Section 1. It was essentially that the
+axiom system ISCE(A) will be automatically consistent whenever:
+1. All A’s Π−
+1 theorems are logically valid under the standard model, and
+2. The formula HilbPrf A (x, y) has a ∆−
+0 encoding.
+The proof of Theorem 3 is given below:
+Proof.
+
+We will prove Theorem 3 by employing a proof-by-contradiction. If this theorem
+
+was false, then there would exist an axiom system A satisfying conditions 1 and 2 (above)
+where ISCE(A) is inconsistent. In this context, let p represent the minimal sized proof of
+0 = 1 from ISCE(A).
+Let G denote the Gödel number of Equation (20)’s Group-3 axiom-sentence. Let k
+denote the least integer greater than 1 + Log2 (G) such that the additive naming convention’s
+particular axiom ak+1 does not appear inside the proof p. Also, define the integer j to
+equal 2k . Consider a model-theoretic interpretation, Mjk , of the axioms appearing in p ,
+that has the following two properties:
+A) The interpretation Mjk will assume that Ci = 2i−1 when 1 ≤ i ≤ k + 1 and that
+Ci = 0 when either i ≥ k + 2 or i = 0.
+B) The interpretation Mjk will assume no integer larger than j = 2k exists. By this
+we mean that both the “named integers”, associated with explicitly denoted constant
+symbols C0 , C1 , C2 , ... ,
+
+and also the “unnamed integers” (which are not assigned
+
+a designated constant symbol) are presumed under the interpretation Mjk to assume
+values no larger than j = 2k .
+Since the additive naming convention’s i−th axiom ai causes Ci+1 = 2Ci , the model Mjk
+is obviously consistent with all this convention’s axioms a1 , a2 , a3 ... except for the axiom
+ak+1 , which plainly violates Requirement-A.
+Also because the grounding functions are non-growth functions, each 2-reduced Π−
+1 sentence,
+which is valid under the standard model, must be automatically valid also in the finite model
+19
+
+Mjk . Thus, all the Group-1 axioms are valid in Mjk . Also, all ISCE(A)’s Group-2 axioms
+are valid in the finite model Mjk because of the prior page’s Assumption-1 combined with
+the fact that ISCE(A)’s Group-2 axioms are 2-reduced Π−
+1 sentences.
+Let Z denote the set of all Group 0, 1 and 2 axioms except that the axiom ak+1 is
+excluded from the set Z . All the axioms in Z were shown by the preceding two paragraphs
+to satisfy the model Mjk . However since p represents a proof of 0=1, some axiom in p ’s
+proof must be invalid in this model Mjk . This implies that Equation (20)’s Group-3 axiom
+must be automatically invalid in the model Mjk (because ak+1 does not appear in the proof
+p and some axiom inside the proof p must violate Mjk ).
+The invalidity of (20)’s Group-3 axiom under the model Mjk , in turn, implies there must
+exist a proof q from ISCE(A) of 0=1 such that:
+q ≤ j = 2k
+
+(24)
+
+We will now use Equation (24) to prove q < p , a result that will finish our proof-bycontradiction (by contradicting the initial assumption that p was the minimal proof of 0=1
+from ISCE(A) ). The preceding paragraph had demonstrated how p ’s proof of 0=1 had
+employed Equation (20)’s Group-3 axiom as one of its essential steps. Let G again denote
+the Gödel number of this Group-3 axiom. Since Equation (23)’s Group-3 axiom is a necessary
+step in p’s proof, it is obvious that p’s bit-length is certainly more than three times the length
+of this Group-3 axiom (under all natural methods for the Gödel encoding of a proof, including
+the particular encoding methods we have sketched in Appendix A). Hence, Equation (25)
+formalizes this inequality:
+Log2 (p) > 3 Log2 (G)
+
+(25)
+
+Moreover, let L denote the number of Group-zero axioms appearing inside the proof p .
+Then the quantity k (defined in the second paragraph of this proof) obviously satisfies the
+inequality:
+k ≤ L + 1 + Log2 (G)
+
+(26)
+
+Under all usual encoding conventions, including the particular convention sketched in Appendix A, the number of Group-zero axioms in p’s proof will be less than 31 Log2 (p). (This is
+because every Group-zero axiom uses more than 3 bits of storage.)
+
+Equation (27) formalizes
+
+this inequality:
+L <
+
+1
+Log2 (p)
+3
+20
+
+(27)
+
+In order to now finish our proof-by-contradiction, we must show that the combination of
+Equations (24) – (27) imply that:
+q < p
+
+(28)
+
+The justification of (28)’s inequality is quite trivial. It is because the presence of the factors
+“3” in Equation (25) and
+more than essentially
+
+2
+3
+
+1
+3
+
+in (27) assure (via Equations (24) and (26) ) that Log(q) is no
+
+of the size of Log(p) (whenever p has more than a tiny length of
+
+say roughly 100 bits).
+Equation (28)’s inequality q < p clearly contradicts our initial assumption that p was
+the minimal proof of 0=1 from ISCE(A). Hence, our proof-by-contradiction has shown that
+Theorem 3 must be valid because otherwise the required minimal size of the proof p will be
+violated.
+
+2
+
+Significance of Theorem 3.
+
+Part of what makes Theorem 3 interesting is that there is
+
+a tight match between this theorem’s boundary-case exceptions to the Second Incompleteness
+Theorem and Theorem 4’s generalization for it (because these two theorems differ only by
+replacing the former’s additive naming convention with the latter’s multiplicative convention).
+A second interesting aspect of ISCE(A) is that it satisfies a “continuous expansion property” (where the concerned axiom system can be associated with a sequence of integers
+K1
+
+<
+
+K2
+
+<
+
+K3
+
+<
+
+K4 ... ,
+
+such that the union of all the axioms with Gödel
+
+number less than Ki can be combined to prove the existence of an integer larger than
+Ki+1 ) .
+
+What makes this expansion paradigm especially interesting is that the sequence
+
+K1 , K2 , K3 ...
+
+grows at a very fast rate as its index goes to infinity. In particular, let 2i1
+i
+
+designate another way of writing the number 2i , and let 2im+1 denote the quantity 22m .
+The sequence K1 , K2 , K3 ... will actually grow faster than the elements in any sequence of
+the form 21m , 22m , 23m , ... , for any fixed m . More precisely for a carefully chosen positive
+constant r < 1, ISCE(A)’s additive naming convention will have its continuous expansion
+sequence grow at an essentially super-exponential rate which satisfies (29)’s inequality:
+Ki+1 > 2(Ki )
+
+r
+
+(29)
+
+There is also a third interesting facet of the ISCE(A) axiom system. For a prenex normal
+sentence Ψ, let Ψx denote a sentence identical to Ψ except every previously unbounded
+universally quantified variable in Ψx is bounded by x . (All existential quantifiers and bounded
+universal quantifiers have their ranges unchanged under this definition.) Also let TangPred(x)
+21
+
+and TangDiv(x) denote the following two formulae:
+a. TangPred (x)
+
+=
+
+{ ∃v x = v − 1 }
+
+b. TangDiv (x)
+
+=
+
+{ ∃v x < v2 }
+
+In a notation where Tangible(x) denotes either TangPred(x) or TangDiv(x), an axiom system
+α’s Tangibility Reflection Principle for the sentence Ψ is defined to be the assertion:
+∀x { [ ∃ y HilbPrf α ( d Ψ e , y ) ∧ Tangible(x) ] ⇒ Ψx }
+
+(30)
+
+Our prior papers [44, 46] had illustrated two examples of self-justifying systems, called ISREF(A)
+and ISTR(A), that could prove the correctness of their respective TangPred and TangDiv reflection principles for every prenex normal sentence Ψ . These papers also explained why a
+system α’s ability to prove the validity of its tangibility reflection principle for each sentence
+Ψ is a much stronger form of self-justifying assertion than α’s mere ability to prove the
+non-existence of a proof of “ 0 = 1 ” from itself (see footnote 1 ).
+The term “incremental naming convention” had not appeared in our article [46]. However,
+its Theorem 3.4 had implicitly presumed the presence of an incremental naming method, since
+its encoding convention had employed a constant symbol with an O( Log (i + 2) ) bit-length
+for representing each integer i . It turns out that one can readily generalize [46]’s formalism
+for the case where α employs Equation (13)’s stronger additive naming convention instead
+of the weaker incremental method. Thus by hybridizing Theorem 3’s proof with our earlier
+formalisms from Section 3 of [46], one can obtain:
+Theorem 3* .
+
+Let us again use the assumptions from Theorem 3’s hypothesis that the
+
+axiom system A satisfies the following two conditions:
+1. All A’s Π−
+1 theorems are logically valid under the standard model, and
+2. The formula HilbPrf A (x, y) will have a ∆−
+0 encoding.
+Then it is possible to devise a consistent axiom system α that can simultaneously prove
+all A’s Π−
+1 theorems, verify the correctness of its TangPred reflection principle and support
+the additive naming convention.
+1
+
+For instance, the Theorem 7.2 from [46] shows that the analog of Equation (30)’s reflection principle is
+typically infeasible when its Tangible(x) phrase is removed. Thus, Equation (30) is both more expressive than
+the mere statement that no proof of 0=1 exists, and it is close to the maximal type of self-justifying statement
+feasible.
+
+22
+
+In the interests of brevity, Theorem 3* ’s proof shall not be presented here. This proof
+was omitted mostly because it is a natural hybrid of the Theorem 3’s proof with the added
+formalism that [46] used to prove its Theorem 3.4. A second reason for focusing on the
+weaker but simpler version of Theorem 3 is that the contrast between the opposing positive
+and negative results of Theorems 3 and 4 is easier to visualize under Theorem 3’s simpler
+version.
+
+5
+
+Incompleteness under the Multiplicative Naming Convention
+
+This section will discuss the incompleteness properties of an axiom system that employs
+Equation (14)’s multiplicative naming convention.
+Definition 1.
+
+Let us recall Equation (16) defined σn (x) to be a ∆−
+0 formula that was
+
+satisfied only when x corresponded to the natural number n. Define HilbPrfα (x, y) to have a
+Concise Gödel Encoding iff HilbPrfα (x, y)’s formula is ∆−
+0 and there exists a constant R > 0
+and an accompanying finite subset F ⊂ α which satisfy the following two invariants:
+I) ∀ p ∀ t
+
+R
+
+If p is the proof of the theorem t from the axiom system α then ∃ q < 2p
+
+where q is a proof from axiom system F of:
+∀x ∀y
+
+{ σt (x) ∧ σp (y) ⇒ HilbPrfα (x, y) }
+
+(31)
+
+II) Peano Arithmetic can formally prove that the triple (α, F, R) satisfies Item I’s requirements. (This added condition is typically trivial to satisfy).
+It is easily verified that essentially all r.e. axiom systems have concise encodings. Indeed,
+R
+
+Definition 1’s constraint q < 2p
+
+is somewhat excessive because q will typically have a
+
+much smaller magnitude. Theorem 4’s requirement that α has a concise encoding is thus a
+very minor constraint.
+It should also be noted that Definition 1’s formalism will be omitted when Appendix C
+sketehes a proof of a somewhat stronger version of Theorem 4.
+Lemma 2 . Let α denote any axiom system that can prove all Peano Arithmetic’s Π−
+1 theorems and which also employs the multiplicative naming convention’s axioms. Let σn (x) again
+23
+
+be defined by Equation (16). Then there will exist a constant Kα (whose value depends only
+on α ) such that there exists a proof from α of the sentence (32), whose length is bounded
+by Kα + O( n3 ) .
+∃z
+
+∃w
+
+σn (w) ∧ LogLog(z) ≥ w
+
+(32)
+
+Proof. For i ≥ 2 the multiplicative convention’s axiom bi (defined in Equation (14) )
+indicates Ci+1 = Ci ∗ Ci . Thus, the combination of the axioms b1 , b2 , b3 ... bn+1 imply that
+n
+
+Cn+2 = 22 . Hence, there exists some finite subset of Peano Arithmetic’s Π−
+1 theorems, called
+say F, such that the union of F with b1 , b2 ... bn+1 provides a proof of Equation (32), such that
+this proof has no more than O(n2 ) lines and each line uses O(n) or fewer bits. This proof’s
+total bit-length will thus be bounded by O( n3 ).
+The full proof of (32) will thus have two parts. Its first half will use α to prove all the
+theorems of F . Its length is represented by a constant Kα (whose value depends on α). The
+second half, outlined in the preceding paragraph, will have an O( n3 ) size. Hence, the full
+proof has a Kα + O(n3 ) length.
+Remark 3.
+
+2
+
+The analog of Lemma 2 is false if the additive naming convention replaces
+
+the multiplicative convention in this lemma’s hypothesis. In particular, every proof of the
+existence of an integer N using the additive convention will have a larger Gödel number
+than N. In contrast, the multiplicative convention allows for the Gödel number of such
+proofs to have a sharply smaller magnitude than N (when for instance N = 22
+
+k
+
+and k
+
+is larger than some fixed constant). In essence, this difference in magnitude is the reason the
+Second Incompleteness Theorem will generalize under the multiplicative naming paradigm
+— while Section 4 showed boundary-case exceptions to it exist under the additive naming
+convention.
+Definition 2. Consider an encoding of the integer N that uses only the constant symbols
+from the multiplicative naming convention and only the grounding functions of division and
+subtraction to encode N . There are of course an infinite number of such encodings for N .
+In this section,
+
+z}|{
+
+N will denote the encoding of N with the minimal such Gödel number
+
+(using Appendix A’s notation). For instance since the constant-symbols of C1 , C2 and C5
+represent the integers of 1, 2 and 256 under the multiplicative naming convention, the value
+z }| {
+
+125 is encoded as:
+
+[ C5 ÷ C2 ] − C1 − C2 .
+
+24
+
+z}|{
+
+Lemma 3 . For any integer N , the bit-length for the encoding of N has an O[ (Log N )2 ]
+or smaller magnitude.
+Proof Sketch:
+
+We will not provide a detailed justification of Lemma 3 here because it
+
+is both quite straightforward and actually not technically needed to prove Theorem 4. (The
+latter is because if one replaces Lemma 3’s exponent 2 with any larger fixed positive constant,
+then a sufficient bound will be available to prove Theorem 4). An abbreviated justification of
+the underlying methodology needed to prove Lemma 3 is given below:
+1. If N is a power of 2, then
+
+z}|{
+
+N can be encoded by taking the multiplicative naming
+
+convention’s next higher constant and dividing it by LogLog(N ) or fewer smaller named
+symbols.
+2. Since any integer N can be encoded by taking the power of 2 that is larger than it and
+then subtracting Log(N ) or fewer smaller powers of 2, it follows from Item 1 that each
+integer N can be encoded using no more than O[ Log(N ) · LogLog(N ) ] appearances
+of named constant symbols.
+3. Because the i−th named constant symbol under Appendix A’s convention is encoded
+with O( Log(i)) bits and because Items 2’s constants Ci1 , Ci2 , ... Cik have indices
+satisfying ij ≤ Log(N ) , it follows that no more than O[ (Log N )2 ] bits are needed
+to encode
+
+z}|{
+
+N .
+
+2
+
+Definition 3. Let Logλ z again denote Log(Log(Log...(Log(z)))) − where there are λ
+iterations of the logarithm function. Section 2 had defined ShortPrf λα , D (x, y, z) to be a ∆−
+0
+formula indicating y =Logλ z and that y is a proof of the theorem x from the axiom system
+α using the deduction method D . Whenever the subscript D is absent in this notation
+(as for example in the formula “ ShortPrf λα (x, y, z) ” ), our default assumption shall be that
+D denotes Hilbert deduction. Also likewise, the symbol 0λ (α) will be an abbreviation for
+Section 2’s Generalized Gödel Sentence 0 λD (α) (defined in its sentence **) — where again
+the omitted symbol D is taken by default to represent Hilbert Deduction. Translated into
+the English language, 0λ (α) will thus be an abbreviation for the following sentence:
+In a context where one employs the “ ShortPrf λα (x, y, z) ” proof-notation, there
+exists no code (y, z) that “proves” this sentence (looking at itself).
+25
+
+It is easy to assign 0λ (α) a formal Π−
+1 encoding by following Gödel’s classic example. Thus,
+let Subst*(g, h) denote the following ∆−
+0 formula:
+Subst*(g, h)
+
+=
+
+The integer g is an encoding of a formula, and h encodes
+
+a sentence identical to g,
+with Definition 2’s term
+
+except that all free variables in g are now replaced
+z}|{
+
+g .
+
+Then 0λ (α) is defined as the Π1 sentence Γ(
+(33), n is its Gödel number, and
+∀h ∀y ∀z
+
+z}|{
+
+n
+
+z}|{
+
+n ) , where Γ(g) denotes the formula in
+
+is a formal term representing n ’s integer value.
+
+{ Subst*(g, h)
+
+⇒
+
+¬ ShortPrf λα ( h , y , z ) }
+
+(33)
+
+In Lemma 4, the symbol ⊥ denotes the Gödel number of the sentence 0=1.
+Lemma 4 . Let α denote any axiom system satisfying Definition 1’s concise-encoding property. Suppose α can prove all Peano Arithmetic’s Π−
+1 theorems, and α additionally includes
+all the multiplicative naming convention’s axioms. Then there will exist some corresponding
+constant Lα such that Definition 3’s two formulae ShortPrf 2α (x, y, z) and 02 (α) will
+automatically satisfy the following invariant under the standard model of the natural numbers.
+z
+
+z}|{
+
+}|
+
+{
+
+∀z > Lα ∀y { ShortPrf 2α ( d02 (α)e , y, z) ⇒ ∃x < z HilbPrfα (⊥, x) }
+
+(34)
+
+z}|{
+
+Proof: Consider a sentence identical to (34), except that its clauses z > Lα and x < z are
+now removed. (Equation (35) illustrates this sentence.) We will first prove (35)’s validity in
+the standard model and then prove Lemma 4.
+∀z ∀y
+
+{ ShortPrf 2α (
+
+z
+
+}|
+
+2
+
+{
+
+d0 (α)e , y, z)
+
+⇒ ∃x HilbPrfα (⊥, x) }
+z
+
+}|
+
+(35)
+
+{
+
+We will prove (35) by assuming (y, z) satisfies ShortPrf 2α ( d 02 (α) e , y, z) . Our proof
+will construct four substrings, called x1 , x2 , x3 , x4 , such that their bit-wise concatenation
+represents the proof x whose existence is claimed by (35). The formal definition of these
+four stings x1 , x2 , x3 , x4 is as follows:
+1. The substring x1 will be simply the integer y . It will thus be a proof from α of 02 (α).
+2. The substring x2 will be a proof from α that y proves 02 (α). (Since Lemma 4’s hyR
+
+pothesis contains a conciseness assumption, Definition 1 thereby implies x2 < 2y , for a
+constant R whose value depends on α.)
+26
+
+3. The substring x3 will be a proof from α that “ ∃v LogLog(v) =
+
+z}|{
+
+y
+
+”. (Lemma 2
+
+assures x3 is sufficiently small for Log(x3 ) ≤ Kα + O( y 3 ), where Kα is a constant that
+depends only on α.)
+4. The substring x4 will combine the intermediate results from the preceding segments
+to derive the conclusion “0=1”. It is easy for x4 to do this because x1 proved the
+diagonalizing theorem 02 (α), which states essentially that “There is no code (y,z) that
+is a proof of me”, while x2 and x3 proved precisely such y and z do exist. (The length
+of x4 is inconsequential because it is much smaller than the lengths of x1 , x2 and x3 .)
+This construction clearly shows that Equation (35) is valid under the standard model of
+the natural numbers because the integer x , that is the natural concatenation of the four
+substrings x1 , x2 , x3 , x4 , obviously satisfies the claim of Equation (35). Moreover, it is easy to
+extend our construction to also verify Equation (34)’s slightly stronger claim. This is because
+we can choose a constant Lα such that if z > Lα then each of the four preceding strings satisfy
+Log(xi ) < 51 Log(z) (see footnote 2 ). Thus the natural concatenation of these four strings
+will consist of an element x that meets Equation (34)’s requirement for satisfying x < z . 2
+Corollary 1 . The sentence (34) is also a theorem of Peano Arithmetic.
+Proof Sketch: The definition of Conciseness had included the Invariant II precisely so we
+could prove the current corollary. In particular, the Invariant II states that the Invariant I is
+provable from Peano Arithmetic (in addition to being logically valid). As a result, Lemma 4’s
+proof can be carried out in Peano Arithmetic. (The exact place we need Invariant II in the
+preceding construction is in its step 2.) The other steps in Corollary 1’s proofs are the same
+as their counterparts in Lemma 4’s proof; they need no justification here. 2
+Lemma 5 . Suppose α is a consistent axiom system that satisfies Lemma 4’s hypothesis.
+Then Peano Arithmetic is able to prove the following Π−
+1 sentence.
+z
+
+}|
+
+{
+
+∀z ∀y { ShortPrf 2α ( d02 (α)e , y, z) ⇒ ∃x < z HilbPrfα (⊥, x) }
+
+(36)
+
+2
+Items 1–4 of the footnoted paragraph specified upper bounds on the lengths of the four strings
+x1 , x2 , x3 and x4 . It also may be presumed y =LogLog(z) because (y, z) satisfies the predicate
+z }| {
+ShortPrf 2α ( d 02 (α) e , y, z). These observations trivially imply that we can choose a large enough value
+for Lα such that each of the four xi automatically satisfy Log(xi ) < 15 Log(z) when z > Lα .
+
+27
+
+Proof. An intermediate step in our proof of Lemma 4 had shown Equation (35) was valid
+under the standard model. Since α is consistent, it immediately follows that (37) is also
+certainly valid under the standard model.
+z
+
+}|
+
+{
+
+¬ ShortPrf 2α ( d 02 (α) e , y, z )
+
+∀y ∀z
+
+(37)
+
+The validity of (37) is of course insufficient to assure that Peano Arithmetic can actually derive
+this sentence as a theorem. However, it is well-known that Peano Arithmetic can prove every
+−
+∆−
+0 sentence that is valid. In particular, Equation (38) (below) is a ∆0 sentence that differs
+
+from (37) by having the range of its universally quantified variables bounded by Lemma 4’s
+constant Lα . Hence, the validity of (37) implies the validity of (38), which in turn implies
+that Peano Arithmetic must be able to prove (38) as a theorem.
+z}|{
+
+∀y ≤ Lα
+
+}|
+
+z
+
+z}|{
+
+{
+
+¬ ShortPrf 2α ( d 02 (α) e , y, z )
+
+∀z ≤ Lα
+
+(38)
+
+Since ShortPrf2α (x, y, z) forces y < z, Peano Arithmetic can use (38) to get:
+z}|{
+
+∀z ≤ Lα
+
+z
+
+}|
+
+{
+
+¬ ShortPrf 2α ( d 02 (α) e , y, z )
+
+∀y
+
+(39)
+
+The combination of Corollary 1 and the preceding paragraph demonstrate that Peano Arithmetic can prove the assertions of Equations (34) and (39). This implies Peano Arithmetic can
+also formally verify Equation (36) (because it is an immediate consequence of (34) and (39)
+2
+
+).
+
+Theorem 5 Assume ShortPrf λα (x, y, z) and Definition 3’s formula Subst*(g, h) have ∆−
+0 encodings. Suppose α is an axiom system that has a capacity for proving all the ∆−
+0 sentences
+that are valid in the standard model of the natural numbers. Also assume (for some fixed
+constant λ ) that α has a capacity to prove the three theorems listed below. Then α is
+inconsistent.
+A)
+
+∀p ¬ HilbPrfα ( ⊥ , p )
+
+B)
+
+{
+
+∃y ∃z ShortPrf λα (
+
+C)
+
+∀g ∀h ∀h∗ {
+
+z
+
+}|
+
+{
+
+d 0 (α) e , y, z ) } ⇒
+λ
+
+∃x HilbPrfα ( ⊥ , x )
+
+[ Subst*( g , h ) ∧ Subst*( g , h∗ ) ] ⇒ h = h∗
+
+}
+
+Justification. We have put the proof of Theorem 5 into Appendix B because its justification
+is quite similar to the Theorem 2.3 that was proved in [47].
+28
+
+Let us recall that Theorem 4’s formal statement (from Section 1) stated that no consistent
+axiom system α can prove a theorem corroborating its own Hilbert-Consistency when it
+contains all the multiplicative naming convention’s axioms, satisfies Definition 1’s “concise
+encoding” property and also retains an ability to prove all Peano Arithmetic’s Π−
+1 theorems.
+The formal proof of this theorem is given below:
+Proof: For the sake of constructing a proof-by-contradiction, let us temporarily assume
+Theorem 4 was false. Then there would exist a consistent axiom system α satisfying Theorem
+4’s hypothesis and the condition below:
+α
+
+`
+
+∀ x ¬ HilbPrfα ( ⊥ , x )
+
+(40)
+
+Let λ = 2. It is then easy to establish (α, λ) satisfies the three requirements of Theorem 5’s
+hypothesis. The justification of this claim is given below:
+1. Equation (40) shows α can prove Theorem 5’s needed sentence (A).
+2. It is easy to apply Lemma 5 to establish α can also prove the sentence (B) from Theorem
+5’s hypothesis. This is because Lemma 5 shows that Equation (36) is a theorem of Peano
+Arithmetic, and Theorem 4 ’s hypothesis indicated that α had a capacity to prove all
+Peano Arithmetic’s Π−
+1 theorems. Hence, α can prove the validity of Equation (36),
+which in turn implies α can prove Theorem 5’s sentence (B) (because the latter with
+λ = 2 follows from Equation (36)).
+3. Since Theorem 5’s sentence (C) is another of Peano Arithmetic’s Π−
+1 theorems, α can
+clearly prove (C).
+Thus α satisfies Theorem 5’s three requirements, and this theorem then implies that α must
+be inconsistent. This latter observation completes our proof-by-contradiction because it began
+by assuming α was consistent. 2
+A Slightly Stronger Form of Theorem 4 :
+
+For the sake of keeping our presentation
+
+in this section reasonably short, Theorem 4 required its axiom systems α retain an ability
+to prove all Peano Arithmetic’s Π−
+1 theorems. The Appendix C will sketch a proof of a more
+elaborate form of Theorem 4, called Theorem 4*, where α is neither required to prove
+all Peano Arithmetic’s Π−
+1 theorems nor to be concisely-encoded. Instead, its incompleteness
+result will state that one can isolate one single Π−
+1 theorem W of Peano Arithmetic, such that
+29
+
+no consistent r.e. axiom system α ⊃ W , employing the multiplicative naming convention,
+can verify its own Hilbert consistency.
+Alternative Naming Conventions :
+
+The three most natural naming conventions are
+
+clearly the incremental, additive and multiplicative conventions, defined by Equations (12)–
+(14). It is also possible to consider hybridized naming conventions that lie midway between
+the additive and multiplicative conventions. For a fixed constant H and any i ≥ 3 , let
+H
+
+Hybrid(H) refer to a naming convention that defines Ci to equal d 2 [ Log(i)] e · Ci−1 .
+This convention can unify the formalisms of Theorems 3 and 4. Thus, Theorem 3’s partial
+exception to the Second Incompleteness Theorem remains valid when one sets H = 1 under
+the Hybrid convention. Similarly by choosing a constant H > 1 , the second incompleteness
+effects under Theorems 4 and 4* can be generalized. This paper has focused on the additive
+and multiplicative naming conventions because they shorten the proofs for Theorems 3 and
+4, and their naming methodologies are also very natural.
+Added Comment. A more elaborate version of the proofs appearing in this section and
+Appendix C can generalize these incompleteness results from Hilbert-style deduction to cutfree deductive methods, such as semantic tableaux and Herbrand deduction.
+
+6
+
+Infinite Far Reach
+
+An axiom system α is called Infinitely Far-Reaching iff there exists a finite subset of axioms S ⊂ α such that for arbitrary N this fixed-and-finite set S is sufficient to prove
+∃x P redN (x) = 1 . This section will demonstrate Infinitely Far-Reaching systems exist that
+are capable of recognizing their own Hilbert consistency. The ISINF(A) system, defined in this
+section, will possess an unnatural quality because it will be Infinitely Far-Reaching without
+sustaining an ability to prove successor is a total function. Nevertheless as a theoretical albeit
+highly artificial instrument, ISINF(A) is useful because of its counter-intuitive nature.
+Notation Used in this Section:
+
+As earlier in this paper, HilbPrfα (x, y) will denote
+
+that y is a Hilbert-style proof of x from α. In our current discussion, JumpPrfα (x, y) will
+denote a second ∆−
+0 predicate, specifying that either the bit-string encoding the integer 2y
+or the bit-string encoding 1 + 2y represents a Hilbert-style proof from α of the theorem x .
+A key point is that if a ∆−
+0 formula can identify α ’s axioms, then JumpPrfα (x, y) will have
+a ∆−
+0 encoding, even if α does not technically recognize either successor or the operation
+30
+
+of doubling are formally total functions. (In essence, ISINF(A)’s counter-intuitive — albeit
+artificial — features will be due to this fact.)
+Definition of ISINF(A): The system ISINF(A) will contain four axiom groups, similar
+to ISCE(A). Its Group-zero axiom will simply indicate the existence of the first three natural
+numbers, called 0, 1 and 2. ISINF(A)’s Group-1 and Group-2 axioms will have the same
+definitions as they did under ISCE(A). The novel aspect of ISINF(A) will be its Group-3
+scheme. Unlike our prior formalism, ISINF(A)’s Group-3 scheme will contain two axioms.
+These axioms, formalized by Equations (41) and (42), will be defined simultaneously via the
+self-referencing methodology of the Fixed Point Theorem. In essence, (41)’s fixed-point axiom
+will assert the ISINF(A) formalism is Hilbert-consistent. On the other hand, Theorem 6 will
+prove that (42)’s axiom will make ISINF(A) Infinitely Far Reaching. (The symbol d x2 e in
+Equation (42) will denote x divided by 2 with upwards rounding, and
+
+⊥
+
+will denote the
+
+Gödel number of the sentence 0=1. )
+∀x
+
+∀x
+
+{
+
+¬ HilbPrf ISINF(A) ( ⊥ , x )
+
+(41)
+
+[ ∀ y ≤ d x2 e ¬ JumpPrf ISINF(A) ( ⊥ , y ) ]
+∃z
+
+x=z−1
+
+}
+
+⇒
+(42)
+
+We will not provide a formal encoding for (41) and (42)’s axioms because Lemma 1’s treatment of ISCE(A)’s Group-3 axiom has direct analogs for both of these two axioms. Thus,
+HilbPrfISINF(A) (
+
+⊥
+
+, x) and the formula JumpPrfISINF(A) (
+
+⊥
+
+, y) both have ∆−
+0
+
+encodings.
+Theorem 6 . Let A denote an arbitrary axiom system that satisfies the invariant conditions
+of:
+i. Each of A’s Π−
+1 theorems is valid in the standard model, and
+ii.
+
+The formula HilbPrf A (x, y) employed by ISINF(A)’s Group-2 scheme will have a ∆−
+0
+encoding.
+
+Then ISINF(A) will be both 1) consistent and 2) Infinitely Far-Reaching.
+31
+
+Proof of Item 1. Suppose for the sake of establishing a proof-by-contradiction that item
+1 was false. Then one could construct a system A satisfying conditions (i) and (ii) where
+ISINF(A) is inconsistent. In this context, let p denote the minimal-sized proof of ⊥ from
+ISINF(A).
+Our contradiction proof will have a structure similar to Theorem 3’s proof. We will therefore only sketch it. The only method by which ISINF(A) can learn about the existence of
+any integer i ≥ 3 consists of repeatedly applying Equation (42)’s “Expansion Axiom” to
+successively construct the integers 3, 4, 5, ... i . Thus if p is the smallest proof of ⊥ , then
+j = 2 · b p2 c − 1 ≤ p − 1 is the largest integer whose existence is implied by axiom (42).
+Let Mj denote the finite model which assumes that the only integers which exist are the
+numbers 0, 1, 2, ....j . Since the previous paragraph indicated j = 2 · b p2 c − 1 where p is
+the minimal proof of ⊥ , the axiom (42) must be valid in the model Mj . Also, all ISINF(A)’s
+Group-zero, 1 and 2 axioms must be valid in the model Mj , by the same reasoning as was
+used in Theorem 3’s proof (see footnote 3 ).
+The main point is that since p is a proof of ⊥ , some axiom in p ’s proof must be invalid in
+the model Mj . This implies axiom (41) is invalid in Mj (because each other axiom used in p ’s
+proof is valid in Mj ). This contradicts p’s presumed minimality by implying that a smaller
+q ≤ j < p is also a proof of ⊥ . Hence Item 1 is true because its negation is contradictory.
+2
+Proof of Item 2. Essentially a trivial consequence of the combination of Item 1 with axiom
+(42)’s formal structure. In particular, let φ(x) denote the expression enclosed by the square
+brackets of (42). This expression is ∆−
+0 because JumpPrfISINF(A) ( ⊥ , y ) was. The key
+point is that every logically valid ∆−
+0 formula γ(c) has the property that ISINF(A) is capable
+of proving γ( c ) for any integer c
+
+whose formal existence is known to ISINF(A). Thus,
+
+(42)’s square bracket expression has this property. Hence ISINF(A) can combine axiom (42)
+with φ(c)’s verification property to automatically infer the existence of a larger constant c+1
+from the existence of c . Thus, ISINF(A) is Infinitely Far-Reaching because it can learn of the
+existence of any natural number n by applying n − 2 iterations of the preceding rule.
+
+2
+
+−
+Section 4 defined “2-reduced” Π−
+1 sentences and noted every “2-reduced” Π1 sentence is automatically
+valid in each finite model Mj having j ≥ 2 when it is valid in the standard model of the natural numbers.
+Since each of ISINF(A)’s Group-zero, 1 and 2 axioms are such 2-reduced Π−
+1 sentences, their validity under
+Mj is thus immediately assured.
+3
+
+32
+
+Generalizations of Theorem 6 and Its Significance.
+
+The system ISINF(A) is
+
+awkward because of the appearance of the two different proof predicates “HilbPrf α ( x , y )”
+and “JumpPrf α ( x , y )” in its Group-3 axioms. A second drawback is that ISINF(A) appears
+to be incompatible with the tangibility reflection principles (defined at the end of Section 4).
+It is thus quite unlike ISCE(A), which was fully compatible with the tangibility reflection
+principles (via Theorem 3* ). As a whole, ISCE(A) is thus preferable over ISINF(A). One
+reason ISINF(A) is partially interesting, despite its awkward nature, is that it seems to clarify
+the meaning of the Theorems 1, 2 and 4, by Pudlák, Solovay and ourselves. In particular,
+it shows that these generalizations of the Second Incompleteness theorem do not technically
+apply to all formal axiom systems with Infinite Far Reach.
+There is also a second interesting facet of Theorem 6’s formalism that was brought to our
+attention in the form of an open question from Pavel Pudlák. Let us call F (x) an Extender
+Function iff it satisfies axioms (43) and (44).
+∀x ∀y
+
+x 6= y ⇒ F (x) 6= F (y)
+
+(43)
+
+∀x
+
+(44)
+
+F (x) 6= 0
+
+It is easy to construct a finite set of Π−
+1 axioms, called say S , such that the union of S
+with the two axioms from Equations (43) and (44) constitutes an axiom system of Infinite
+Far Reach. The study of axiom systems that employ such extender functions was initiated by
+Ajtai [4] during his investigation of various generalizations of the Pigeon Hole Principle. In
+this context, Pudlák’s question was whether one could use an Extender Function to construct
+a self-justifying axiom system of Infinite Far Reach ?
+In order to present one formalized version of this open question, let us define IS.Extender(A)
+to be an axiom system identical to Section 4’s ISCE(A) formalism except for the following
+changes:
+1. The IS.Extender(A) formalism will contain an extra function symbol F , and its Group1 axiom class will contain the two additional axiom-sentences listed in Equations (43)
+and (44). (No change will be made among IS.Extender(A)’s Group-2 axioms; they will
+thus not discuss any further properties of the newly created function symbol F .)
+2. The Group-3 axiom of IS.Extender(A) will be identical to ISCE(A)’s Group-3 Kleenelike “I am consistent axiom” except that the pronoun “I” will now refer to a revised
+33
+
+system that contains the two additional axiom-sentences given in Equations (43) and
+(44).
+Based on the fact that Theorems 3, 3* and 6 discuss three close cousins of IS.Extender(A)
+that are automatically consistent when A is consistent, it is reasonable to conjecture that
+IS.Extender(A) has a similar consistency property. Pavel Pudlák, in private communications,
+noticed that if IS.Extender(A) satisfied this consistency condition, then it would be a significant generalization of Theorem 6’s self-justifying system. (This is because IS.Extender(A)
+employs a more natural form of Infinite Far Reach than ISINF(A). ) The purpose of this
+paragraph is thus to bring to the research community’s attention this interesting question,
+raised by Pudlák.
+For the sake of clarity, it should be noted that if one were to supplement the Equations (43)
+and (44) with Equation (45)’s further axiom, then a generalization of the Second Incompleteness Theorem will be activated.
+∀x ∀y
+
+x < y ⇒ F (x) < F (y)
+
+(45)
+
+In particular, Theorem 7 formalizes this effect.
+Theorem 7 . There exists a Π−
+1 theorem W of Peano Arithmetic such that no consistent
+axiom system α can simultaneously prove W , prove the validity of the sentences in Equations
+(43) through (45) and prove a theorem verifying its own Hilbert consistency.
+The Appendix D sketches a proof for Theorem 7 that essentially corroborates Theorem 7
+by a reduction argument to the earlier results of the Theorems 1 and 2 by Pudlák and Solovay
+[25, 32]. As Appendix D explains, there is one added complication in proving Theorem 7,
+which did not arise in the proofs of the Theorems 1 and 2 by Pudlák and Solovay. After
+overcoming this problem, Appendix D will then finish Theorem 7’s proof by applying the
+earlier methods that [25, 32] had previously used to prove their Theorems 1 and 2.
+Theorem 7 is interesting partly because it shows that axiom systems only slightly stronger
+than IS.Extender(A) are known to obey the Hilbert-style version of the Second Incompleteness Theorem. Thus if IS.Extender(A) turns out to be a self-justifying axiom system, then
+it will represent close to the maximal type of such a formalism that is feasible under at least
+Hilbert style deduction. An interesting open question to determine is where between Theorem 6’s boundary-case exception to the Second Incompleteness Theorem and Theorem 7’s
+generalization of it does the Is.Extender(A) formalism lie ?
+34
+
+7
+
+Concluding Remarks
+
+The sharp contrast between the positive and negative results of Theorems 3 and 4 is the main
+result of this paper. In combination, these propositions indicate the Second Incompleteness
+Effect for Hilbert-style deduction can be evaded when an axiom system employs the additive naming convention, although it becomes operative when the multiplicative convention is
+present.
+These results differ from our prior study of semantic tableaux deduction because [43, 46,
+48, 51] used axiom systems that could simultaneously recognize their own semantic tableaux
+consistency and addition as a total function. On the other hand, the Theorem 2 by Solovay
+[32] showed that no analog of this paradigm for Hilbert-styled deduction can even recognize
+successor as a total function. To evade the obstacle that was formalized by Solovay’s theorem,
+our ISCE(A) formalism has thus replaced the conventional axiom declaring addition is a total
+function with an additive naming convention.
+Section 4’s ISCE(A) axiom system is of interest also because it satisfies a “continuous expansion property” — where the concerned axiom system is associated with a sequence of
+integers K1 < K2 < K3 ... such that the union of all the axioms with Gödel number
+less than Ki can be combined to prove the existence of an integer greater than Ki+1 . This
+construct is weaker than an axiom declaring successor is a total function. However, it allows
+ISCE(A) to retain at least some weak notion of an infinite growth among integers. Indeed,
+Equation (29) has shown that ISCE(A)’s continuous expansion sequence grows at a very fast
+super-exponential rate. Our chief results are thus that this rapid-growth of ISCE(A)’s additive convention is compatible with a boundary-case exception to the Second Incompleteness
+Theorem for Hilbert-style deduction, while the stronger multiplicative naming conventions (of
+Theorems 4 and 4* ) will reactivate the Second Incompleteness Theorem.
+Acknowledgments:
+
+I thank Robert Solovay for several telephone conversations we had
+
+during 1994. During those conversations (see [32]), Solovay described the Theorem 2 , whose
+statement appeared in the Introduction Section and which stimulated much of the research
+in this paper. I thank Pavel Pudlák for his comments during 2001 that were summarized in
+Section 6, and which had stimulated my discovery of Theorem 7. I also thank the anonymous
+referee for several very useful comments about this manuscript.
+
+35
+
+Appendix A: Summary of Gödel Encoding Method
+This appendix will briefly summarize our formal method for generating Gödel numbers for
+logical sentence and proofs. This encoding scheme will be roughly analogous to the natural
+B-adic encoding methods described by Hájek-Pudlák [11] and Wilkie-Paris [42] — insofar as
+the number of utilized bits to encode a semantic object will be approximately proportional to
+the length of such an expression written by hand.
+Our encoding scheme will use the following 20 language symbols to formalize a logical
+sentence or proof:
+1. The standard connective symbols of ∧, ∨, ¬, ⇒, ∀ and ∃.
+2. The left and right parenthesis symbols, and also a comma symbol.
+3. Seven function symbols for representing the seven grounding functions of subtraction,
+division, logarithm, etc.
+4. The relation symbols of “ = ” and “ ≤ ”.
+5. The symbol V̂ for designating the presence of a basic variable symbol.
+6. The symbol Ĉ for designating the presence of a constant symbol C .
+Let a byte denote an unit of six bits. Define a proof as being either a sequence of bytes
+(or equivalently being an integer, written in base 64). Each of the 20 symbols (above) will
+be given some unique 6-bit code, ranging between 32 and 51. Our method for representing
+the presence of the i-th variable vi will be to encode it is as a string of d log 32 (i + 1) e + 1
+bytes, where the first byte is the “ V̂ ” symbol and the remaining bytes encode i as a base-32
+number. The same convention will be used to denote the presence of the i-th constant symbol
+Ci except its first byte will be the “ Ĉ ” symbol. (This method for encoding the name of the
+i − th constant symbol in a digital-like format is the reason that Sections 1 and 3 had stated
+that the i − th constant symbol’s name would have the important needed O( Log(i + 1) )
+bit-length.)
+Our byte-styled encoding method will produce proof strings whose length is approximately
+proportional to the effort to write down such a proof by hand. There are many analogs of such
+types of encodings in the prior literature (see for example the Hájek-Pudlák textbook [11] ).
+36
+
+Such compressed encodings are usually considered to be preferable and more efficient than
+an uncompressed encoding method, using say the Chinese Remainder Theorem [20]. All our
+theorems have analogs under such uncompressed encoding methods, but they are substantially
+more meaningful when one uses efficiently compressed encodings.
+
+Appendix B: Sketch of Theorem 5’s Proof
+Theorem 5’s formal statement is similar to article [47]’s Theorem 2.3, except that it discusses
+Hilbert deduction rather than semantic tableaux deduction. We will therefore provide only a
+sketch of Theorem 5’s proof.
+Proof Sketch. Let 0∗ denote the “diagonalizing” sentence defined below:
+0∗
+
+z
+
+}|
+
+{
+
+d 0λ (α) e , y, z ) }
+
+¬ ShortPrfλα (
+
+=df { ∀ y ∀ z
+
+(46)
+
+Consider the sentences (A) and (B) from Theorem 5’s hypothesis. From the definitions of (A)
+and (B), it is trivial that “ A ∧ B ` 0∗ ” . Since (A) and (B) are provable from α , we get:
+
+It is clear that
+
+0∗
+
+`
+
+α
+
+(47)
+
+0λ (α) and 0∗ are equivalent sentences under sufficiently strong models
+
+of arithmetic. However, we need more than this fact to prove Theorem 5. We need establish
+that a weak axiom system α (satisfying Theorem 5’s hypothesis) can also recognize this
+equivalence.
+z}|{
+
+To establish this last fact, let
+
+n
+
+again denote (33)’s Gödel number, encoded with
+
+Definition 2’s overbrace notation. Then 0λ (α)’s definition implies Subst*(
+
+z}|{
+
+n ,
+
+z
+
+}|
+
+{
+
+d 0λ (α) e )
+
+is true. This implies (48) because Theorem 5’s hypothesis indicates α can prove all logically
+valid ∆−
+0 sentences.
+α
+
+`
+
+Subst*(
+
+z}|{
+
+n ,
+
+z
+
+}|
+
+{
+
+d 0 (α) e )
+λ
+
+(48)
+
+We shall now use (48) to deduce the validity of the Equation (49) (given below). Let Λ
+represent the sentence Subst*(
+
+z}|{
+
+n ,
+
+z
+
+}|
+
+{
+
+d 0 (α) e ) , Θ represent the sentence (C) in Theorem
+λ
+
+5’s hypothesis, and Ξ be the identity 0λ (α) ≡ 0∗ . For these Λ , Θ and Ξ , it is easy to
+infer that α ` Λ ∧ Θ ⇒ Ξ (because Λ ∧ Θ enables α to immediately deduce that the
+only value for h satisfying Subst*(
+
+n , h ) is the quantity d 0λ (α) e ). Thus since α can
+
+z}|{
+
+37
+
+prove Λ , Θ and Λ ∧ Θ ⇒ Ξ , we get:
+0λ (α) ≡ 0∗
+
+`
+
+α
+
+(49)
+
+Also, the combination of Equations (47) and (49) trivially implies that
+α
+
+0λ (α)
+
+`
+
+(50)
+
+The justification of Theorem 5 will now be finished by applying the roughly classic paradigm
+where a proof formally verifies the statement that: “There is no proof of me”. In particular,
+let p denote the proof of 0λ (α). (Note that p’s existence is assured by Equation (50).)
+Choose a second integer q satisfying Logλ (q) = p. Let r denote the Gödel number of the
+sentence 0λ (α). Also, if
+∀h ∀y ∀z
+
+n represents (33)’s Gödel number, then 0λ (α) is encoded as:
+
+z}|{
+
+{ Subst*(
+
+⇒
+
+z}|{
+
+n , h)
+
+¬ ShortPrf λα ( h , y , z ) }
+
+(51)
+
+The key point is that Equation (51) must be false because if one replaces its three variables
+y, z, and h with the three constants p, q, and r then (51)’s formal statement is clearly negated
+(via the usual diagonalization argument). Since Theorem 5’s hypothesis indicates α has a
+capacity to prove all valid ∆−
+0 sentences, it clearly must also have a capacity to refute any
+Π−
+1 sentence that is invalid in the Standard Model. Hence, we obtain:
+α
+
+`
+
+¬ 0λ (α)
+
+The combination of (50) and (52) shows that α is inconsistent.
+
+(52)
+2
+
+Appendix C: An Alternate Version of Theorem 4’s Result
+The Theorem 4* (proven in this appendix) will differ from Section 5’s Theorem 4 essentially
+by isolating a particular Π−
+1 theorem W of Peano Arithmetic that serves as a threshold for
+activating the Second Incompleteness Theorem when the multiplicative naming convention is
+present. Our proof of Theorem 4* will be an incremental modification of Theorem 4’s proof.
+It will therefore be kept very brief. It will use the following notation:
+1. An axiom system α will be called Finitely Generated iff there exists a finite list
+of axioms φ1 , φ2 , .... φn , such that α consists of the union of these n axioms
+with the infinite set of axioms of b1 , b2 , b3 ... employed by the multiplicative naming
+38
+
+convention. In this case, Base(α) will denote the byte-sequence encoding the axiom
+list: “ φ1 , φ2 , φ3 , .... φn ”. Also, A will denote Base(α)’s “Gödel number”.
+2. FinGenPrf(A, t, p) will denote a ∆−
+0 formula which states that p is a Hilbert-style
+proof of the theorem t from a finitely generated axiom system whose particular Gödel
+number is identified by the integer A .
+Lemma 6 . There exists a Π−
+1 theorem V of Peano Arithmetic and an exact formalization
+M for encoding FinGenPrf(A,t,p) as a ∆−
+0 formula such that no consistent, finitely-generated
+axiom system α may contain both V as an axiom and prove (53)’s statement corroborating
+its own Hilbert consistency.
+∀p ¬ FinGenPrf(
+
+z
+
+}|
+
+{
+
+d Base(α) e , ⊥ , p )
+
+(53)
+
+Lemma 6’s proof is not provided here because the same basic techniques that Section 5 used
+to prove its Theorem 4 will also corroborate Lemma 6. Thus, the intuition behind Lemma 6
+is quite simple:
+
+It is that if one is allowed the freedom to pick the most amenable available
+
+∆−
+0 encoding for the formula FinGenPrf(A, t, p), henceforth denoted as M , and also given
+the freedom to choose a sufficiently strong accompanying Π−
+1 sentence V , then these two
+extra degrees of freedom will allow one to easily modify Section 5’s proof of Theorem 4 to
+additionally corroborate Lemma 6’s statement.
+Lemma 6 will be interesting because it turns out that after one has established its validity,
+for just one specialized form of ∆−
+0 encoding of the FinGenPrf(A, t, p) predicate, a significantly
+more general result can be derived — whose formalism is independent of the utilized ∆−
+0
+encoding and which also applies to essentially all axiom systems of infinite cardinality as well.
+One further definition will help explore this point.
+Definition 4.
+
+Let β denote a finitely-generated axiom system and α denote a recursively
+
+enumerable axiom system that is not necessarily finitely-generated. In this context, β will
+be called a Base-Subset of α iff all β’s axioms are axioms of α .
+∗
+Lemma 7 . There exists a Π−
+such that the union of V ∗ with the multiplicative
+1 sentence V
+
+naming convention’s axioms can prove Equation (54) whenever (using Definition 4’s notation)
+β is a base-subset of α .
+
+39
+
+∀t ∀p [ FinGenPrf(
+
+z
+
+}|
+
+{
+
+d Base(β) e , t , p ) ⇒ HilbPrfα (t, p) ]
+
+(54)
+
+∗
+Definition 4 makes it quite easy to construct a Π−
+which satisfies Lemma
+1 sentence V
+
+7’s requirements. We will omit the construction of V ∗ here because our goal is to keep this
+appendix very brief.
+Definition 5.
+
+The symbol W will denote a Π−
+1 sentence that is the conjunction of the two
+
+sentences V and V ∗ (defined by Lemmas 6 and 7).
+Theorem 4* .
+
+(A strengthened version of Theorem 4’s result).
+
+No consistent recursively
+
+enumerable axiom system α which contains Definition 5’s axiom W as well the multiplicative
+naming convention’s axioms can prove a Π−
+1 theorem indicating the non-existence of a proof
+of 0=1 from itself.
+Proof: For the sake of establishing a proof-by-contradiction, let us assume Theorem 4* was
+false. Then some consistent recursively enumerable axiom system α will satisfy Theorem 4*
+’s hypothesis and be able to prove its own Hilbert consistency.
+Let p denote such a proof of α’s consistency, and γ denote the finite subset of axioms from
+α that appears in the proof p . Also, let β denote the union of γ with the combination
+of the Π−
+1 sentence W and with all the multiplicative naming convention’s axioms.
+Then β is a finitely-generated system (because γ had finite cardinality). Since the first
+paragraph of this proof had presumed α was consistent and because β ⊂ α , it follows that
+β must also be certainly consistent. Hence, β satisfies the two requirements of Lemma 6’s
+hypothesis. This lemma will thus imply that β is unable to prove its own Hilbert consistency.
+We will now complete our proof-by-contradiction by proving the statement
+
++
+
+below
+
+(which contradicts the preceding paragraph’s final sentence):
++ The axiom system β can verify its own Hilbert-consistency.
+We will use Lemma 7 to prove +. This lemma implies that any finitely-generated axiom
+system, containing V ∗ , has the ability to infer β’s consistency from α’s consistency. Also,
+V ∗ is provable from γ because γ’s definition indicated it includes the axiom W (and
+because Definition 5 indicated that W includes the clause V ∗ .) These facts imply that β
+must be able to verify its own Hilbert-consistency because γ (which is a subset of β )
+possesses an ability to verify the consistency of α (which is a superset of β ) . Hence,
+Lemma 7 certainly implies the validity of + .
+40
+
+The combination of the preceding proofs of + and of + ’s negation enables our proofby-contradiction to reach its desired end by showing an unavoidable contradiction will occur
+if Theorem 4* is false. 2
+Added Comment: The only significant difference between Theorems 4 and 4* is that the
+latter isolates a particular Π−
+1 sentence W that acts as an uniform threshold for activating
+the multiplicative naming convention’s version of the Second Incompleteness Theorem. This
+appendix’s proof for Theorem 4* was written in a highly abbreviated style essentially because
+Section 5 had already proved the only slightly weaker Theorem 4.
+Also, it should be noted that Theorem 4* ’s requirement that α contain the Π−
+1 sentence W
+as an axiom can be replaced by a milder constraint that α merely retain an ability to prove
+∗
+some fixed and pre-specified Π−
+1 theorem W .
+
+Appendix D: Sketch of Theorem 7’s Proof
+This appendix will sketch a proof of Theorem 7 by employing the Theorems 1 and 2 of
+Pudlák and Solovay as the main interim step that is needed to corroborate Theorem 7 . The
+key challenge in proving Theorem 7 can be realized when one considers the possibility that we
+could plausibly be examining a non-standard model M of the set of natural numbers where
+the extender function F satisfies the following two conditions:
+1. F (x) = x + 1 when x is a standard integer, and
+2. F (x) = x − 1 when x is any non-standard number.
+Such a function F is consistent with the axioms from Equations (43) through (45). However,
+this particular function F (and many other examples) will grow at a slower rate than the
+successor function. Our strategy will thus be to find a way to apply the machinery of the
+Theorems 1 and 2 of Pudlák and Solovay to prove Theorem 7 despite the added complication
+that F could be plausibly growing at a slower rate than the successor function.
+To overcome this difficulty, let Ψ(x) denote the following formula
+∀t≤x
+
+F (t) > t
+
+41
+
+(55)
+
+−
+Also, let us assume that Theorem 7’s Π−
+1 sentence W is a conjunction of several Π1 clauses
+
+W1 , W2 , ... Wn where its first three clauses W1 , W2 and W3 are defined below:
+∀g
+
+∀h ∃i≤h
+
+∀a ∀b ∀c ∀d
+∀a ∀b ∀c
+
+[ g <h ⇒ g =i−1 ]
+
+(56)
+
+[ a< b <d ∧ c−1=a ] ⇒ c<d
+
+(57)
+
+[a ≤ b
+
+(58)
+
+∧ b ≤ c ] ⇒ a ≤ c
+
+Then by essentially utilizing Equations (44), (45), (56), (57) and (58) as helpful intermediate
+steps, Theorem 7’s axiom system α can prove that the formula Ψ(x) has the central
+properties of a definable cut. By this, we mean that α can prove that Ψ(x) satisfies the
+following three conditions:
+A.
+
+Ψ(0)
+
+B.
+
+∀ p Ψ(p) ⇒ ∃ q [ Predecessor(q) = p ∧ Ψ(q) ]
+
+C.
+
+∀p ∀q
+
+[ q < p ∧ Ψ(p) ] ⇒ Ψ(q)
+
+The central point is thus that although the axiom system α may lack the power to recognize
+that successor is a total function in a formally global sense, it will be able to apply the
+conjunction of Equations (44), (45), (56) and (57) to infer the validity of the Item B (above)
+— which essentially states that the operation of successor is indeed a total function in a local
+sense among the set of integers x that satisfy the condition Ψ(x) .
+Once we have established the preceding condition, the remainder of Theorem 7’s proof can
+rest on a reduction argument that applies essentially the formal machinery that Pudlák and
+Solovay used to prove Theorems 1 and 2. By this we mean that if α could prove the sentence
+∀ p ¬ HilbPrfα ( d0 = 1e , p ) then it could clearly also verify Equation (59)’s assertion
+(which essentially states that no integer p satisfying Ψ(p) is a proof of 0=1.)
+∀p
+
+[
+
+Ψ(p) ⇒ ¬ HilbPrfα ( d0 = 1e , p ) ]
+
+(59)
+
+Since items A–C establish Ψ is functionally equivalent to a definable cut, the prior mathematical machinery from the literature about definable cuts can then finish the proof of Theorem
+7, in the same manner that Pudlák and Solovay previously used it to prove Theorems 1 and
+2. In particular, this method will establish that no consistent axiom system α ⊃ W can
+
+42
+
+prove its own consistency — because otherwise α would then also prove Equation (59) — a
+result which would render α automatically inconsistent.
+In summary, this appendix was kept abbreviated because it sought to only summarize how
+the methods of Pudlák and Solovay can be used to prove Theorem 7’s statement, even in the
+extreme case where α does not recognize successor as a total function. It has shown α can
+prove Ψ(x) satisfies conditions A–C, thus making the Pudlák-Solovay paradigm applicable.
+
+References
+[1] Z. Adamowicz, “Herbrand Consistency and Bounded Arithmetic”, Fundamenta Mathematica 171 (2002) pp. 279-292.
+[2] Z. Adamowicz and P. Zbierski, The Logic of Mathematics: A Modern Course in Classical
+Logic, John Wiley and Sons, 1997.
+[3] Z. Adamowicz and P. Zbierski, “On Herbrand consistency in weak theories”, Archive for
+Mathematical Logic 40 (2001) pp. 399-413.
+[4] M. Ajtai, Complexity of Pigeonhole Principle, Combintorica 14 (1994) 417-433
+[5] A. Bezboruah and J. C. Shepherdson, “Gödel’s Second Incompleteness Theorem for Q”,
+Journal of Symbolic Logic 41 (1976) pp. 503-512.
+[6] S. R. Buss, Bounded Arithmetic, Proof Theory Lect. Notes #3, Bibliopolic 1986.
+[7] S. R. Buss and A. Ignjatovic, “Unprovability of Consistency Statements in Fragments of
+Bounded Arith”, Annals Pure and Appl. Logic 74 (1995) 221-244
+[8] H. Friedman, “Translatability and Relative Consistency”, University of Ohio Technical
+Report, 1985.
+[9] K. Gödel, “ Über formal unentscheidbare Sätse der Principia Mathematica und Verwandte Systeme I”, Monatshefte für Math. Phys. 37 (1931) pp. 349-360.
+[10] P. Hájek, “On Intrepretability in Set Theory”, Part I in Comm, Math, Univ. Carol
+Volume 12 (1971) pp. 73–79 and Part II in Volume 13 (1972) pp. 445-455.
+[11] P. Hájek and P. Pudlák, Metamathematics of First Order Arith, Springer 1991.
+[12] D. Hilbert and P. Bernays, Grundlagen der Mathematic, Springer 1939.
+[13] R. Jeroslow, “Consistency Statements in Formal Mathematics”, Fund. Math. 72 (1971)
+pp. 17-40.
+[14] R. Kaye, Models of Peano Arithmetic, Oxford University Press 1991.
+[15] S. Kleene, “On the Notation of Ordinal Numbers”, Journal of Symbolic Logic 3 (1938),
+pp. 150-156.
+[16] J. Krajı́cek, “A Note on Proofs of Falsehood”, Archives for Math Logic 26 (1987), pp.
+169-176.
+[17] J. Krajı́cek, Bounded Propositional Logic and Complexity Theory, Cambridge University
+Press, 1995.
+43
+
+[18] J. Krajı́cek, P. Pudlák and G. Takeuti, “Bounded Arithmetic and the Polynomial Hierarchy”. Annals of Pure and Applied Logic 52 (1991) 143-153
+[19] G. Kreisel and G. Takeuti, “Formally Self-Referential Propositions for Cut-Free Classical
+Analysis”, Dissertationes Mathematicae 118 (1974) pp. 1–55
+[20] E. Mendelson, Introduction to Mathematical Logic, Chapman & Hall (1997).
+[21] E. Nelson, Predicative Arithmetic, Math Notes, Princeton Press, 1986.
+[22] R. Parikh, “Existence and Feasibility in Arithmetic”, Journal of Symbolic Logic 36 (1971),
+pp.494-508.
+[23] J. B. Paris and C. Dimitracopoulos, “A Note on the Undefinability of Cuts”, Journal of
+Symbolic Logic 48 (1983) pp. 564-569.
+[24] J. B. Paris and A. J. Wilkie, “∆0 Sets and Induction”, Proceedings of the Jadswin Logic
+Conference (Poland), Leeds Univ. Press (1981) pp. 237-248.
+[25] P. Pudlák, “Cuts, Consistency Statements and Interpretations”, Journal of Symbolic
+Logic 50 (1985) pp.423-442.
+[26] P. Pudlák, “A Note on Bounded Arithmetic”, Fund. Math. 136 (1990) pp. 85-89.
+[27] P. Pudlák, “On the Lengths of Proofs of Consistency”, in Colleqium Logicum: Annals of
+Kurt Gödel Society Vol. 2, Springer-Wien-NewYork (1996) pp 65-86
+[28] J. B. Rosser, “Extensions of Some Earlier Theorems by Gödel and Church”, Journal of
+Symbolic Logic 1 (1936) pp. 87-91.
+[29] H. Rogers, Theory of Recursive Functions, McGraw Hill 1967.
+[30] S. Salehi, Herbrand Consistency in Arithmetics with Bounded Induction, Polish Academy
+of Sciences Ph D thesis, October 2001.
+[31] C. Smoryński, “Non-standard Models and Related Developments in the Work of Harvey
+Friedman”, in Harvey Friedman’s Research in the Foundations of Mathematics (editor L.
+Harrington), North Holland 1985.
+[32] R. Solovay, Private Communications (1994) about his generalization of one of Pudlák’s
+theorems from [25], using also the techniques of Nelson and Wilkie-Pairs [21, 42]. Solovay
+never published any of his observations about “Definable Cuts” that numerous logicians
+[7, 11, 14, 17, 21, 23, 25, 27, 42] have attributed to his private communications. The
+Theorem 2 (in Section 1) gave a 2-sentence summary of the result Solovay communicated
+over the telephone to us in April of 1994. A more detailed 4-page summary of our conversations with Solovay, including a type of proof of his theorem, appears in Appendix
+A of [46].
+[33] V. Švejdar, “Modal Analysis of Generalized Rosser Sentences”, Journal of Symbolic Logic
+48 (1983) pp. 986-999.
+[34] G. Takeuti, Proof Theory, North Holland, 1987.
+[35] G. Takeuti, “Gödel Sentences of Bounded Arithmetic”, Journal of Symbolic Logic 65
+(2000) pp. 1338-1346 (A preliminary version of this result appeared in the Proceedings of
+the Logic 1996 conference, pp. 247–261.)
+[36] A. Tarski, A. Mostowski & R. Robinson, Undecidable Theories, N. Holland 1953
+44
+
+[37] A. Visser, Intrepretablity Logic, Mathematical Logic: Proceedings of the 1988 Heyting
+Summer School, (editor: P. Petkov), Plenum Press, 1990, pp. 175-208. Also available in
+Utrecht Univ Philosophy Department TR #29, 1988.
+[38] A. Visser, “An Inside View of Exp”, Journal Symbolic Logic 57 (1992) 131–165
+[39] A. Visser, “The Unprovability of Small Inconsistency”, Archive for Mathematical Logic
+32 (1993) pp. 275-298.
+[40] A. Visser, “Faith and Falsity”, Annals of Pure and Applied Logic 131 (2005) pp. 103-131.
+[41] P. Vopěnka and P. Hájek, “Existence of a Generalized Semantic Model of Gödel-Bernays
+Set Theory”, Bulletin de l’Academie Polonaise des Sciences, Mathmatiques, Astromiques
+et Physiques 12 (1973) pp.1079-1086.
+[42] A. J. Wilkie and J. B. Paris, “On the Scheme of Induction for Bounded Arithmetic”,
+Annals of Pure and Applied Logic (35) 1987, 261-302
+[43] D. Willard, “Self-Verifying Axiom Systems”, Third Kurt Gödel Colloquium (1993),
+Springer-Verlag LNCS#713, pp. 325-336.
+[44] D. Willard, “The Tangibility Reflection Principle”, Fifth Kurt Gödel Colloquium (1997),
+Springer-Verlag LNCS#1289, pp. 319–334.
+[45] D. Willard, “The Semantic Tableaux Version of the Second Incompleteness Theorem
+Extends to Robinson’s Arithmetic Q”, Automated Reasoning with Analytic Tableaux and
+Related Methods (2000), SpringerVerlag LNAI#1847, 415-430
+[46] D. Willard, “Self-Verifying Systems, the Incompleteness Theorem and the Tangibility
+Reflection Principle”, Journal Symbolic Logic 66 (2001) 536-596.
+[47] D. Willard, “How to Extend The Semantic Tableaux And Cut-Free Versions of the Second
+Incompleteness Theorem Almost to Robinson’s Arithmetic Q”, Journal of Symbolic Logic
+67 (2002) pp. 465-496.
+[48] D. Willard, “Some New Exceptions for the Semantic Tableaux Version of the Second
+Incompleteness Theorem”, in Automated Reasoning with Analytic Tableaux and Related
+Methods (2002), Springer–Verlag LNAI#2381, pp. 281-297.
+[49] D. Willard, “A Version of the Second Incompleteness Theorem For Axiom Systems that
+Recognize Addition But Not Multiplication as a Total Function”, in First Order Logic
+Revisited (Proceedings of September 2003 FOL-75 Conf.), edited by V. Hendricks et. al.,
+Logos Verlag (Berlin) 2004, pp. 337–368.
+[50] D. Willard, ”On the Partial Respects in which a Real Valued Arithmetic System Can Verify its Tableaux Consistency” Automated Reasoning with Analytic Tableaux and Related
+Methods (2005), SpringerVerlag LNCS#3702, pp. 292-306.
+[51] D. Willard, “An Exploration of the Partial Respects in which an Axiom System Recognizing Solely Addition as a Total Function Can Verify Its Own Consistency”, Journal of
+Symbolic Logic 70 (2005) pp. 1171-1209.
+[52] C. Wrathall, “Rudimentary Predicates and Relative Computation”, Siam J. on Computing 7 (1978), pp. 194-209.
+
+45
+
+

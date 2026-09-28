@@ -3,6 +3,20 @@ In descending chronological order.
 See `papers/README.md` for the local public-witness inventory, source notes,
 checksums, and remaining public-full-text gaps.
 
+[Willard2021]
+
+[37] Willard, D. E. (2021). About the characterization of a fine line that separates generalizations and boundary-case exceptions for the Second Incompleteness Theorem under semantic tableau deduction. Journal of Logic and Computation 31(1), pp. 375-392. (Online 2020-12-30.)
+
+https://doi.org/10.1093/logcom/exaa083
+
+[No local witness; closed access, no known OA or shadow copy. Journal version of [36-LFCS]. Found by the 2026-08-20 coverage pass.]
+
+[Willard2020-LFCS]
+
+[36-LFCS] Willard, D. E. (2020). On the Tender Line Separating Generalizations and Boundary-Case Exceptions for the Second Incompleteness Theorem Under Semantic Tableaux Deduction. Logical Foundations of Computer Science (LFCS 2020), Springer LNCS 11972, pp. 268-286.
+
+https://doi.org/10.1007/978-3-030-36755-8_17
+
 [Willard2020]
 
 [36] Willard, D. E. (2020). How the Law of Excluded Middle Pertains to the Second Incompleteness Theorem and its Boundary-Case Exceptions. arXiv preprint arXiv:2006.01057.
@@ -91,8 +105,14 @@ Incompleteness Theorem”, Proceedings of the Tableaux 2002 Conference SpringerV
 
 [Willard2001]
 
-[22] D. Willard, “Self-verifying systems, the incompleteness theorem and the tangibility
-reflection principle”, in Journal of Symbolic Logic 66 (2001) pp. 536-596.
+[22] D. Willard, “Self-Verifying Axiom Systems, the Incompleteness Theorem and Related
+Reflection Principles”, in Journal of Symbolic Logic 66 (2001) pp. 536-596.
+
+[Title corrected 2026-08-21 (Codification C6) against the paper's own title page.
+Willard's self-citation in the 2005 JSL paper, ref. [67], gives the subtitle as
+"the tangibility reflection principle", which this list had inherited; that phrase
+names a construct inside the paper and the title of the 1997 KGC-5 chapter, not
+this paper. See codification/concordance/drift-ledger.md D20.]
 
 [Willard2000]
 
@@ -124,6 +144,11 @@ Journal of Computer and Systems Sciences 48 (1994) pp. 533-551.
 
 [16] D. Willard, “Self-verifying axiom systems”, Computational Logic and Proof Theory:
 The Third Kurt G¨odel Colloquium (1993), Springer-Verlag LNCS#713, 325-336.
+
+[16-TR] D. Willard, “Self-Verifying Axiom Systems and the Incompleteness Theorem”,
+SUNY-Albany Computer Science Department Technical Report 93-10 (1993). Full-length
+original of [16] (its preface: [16] is “a 12-page abbreviated version of this paper”).
+Local witness: papers/1993technicalreport/ (searchable collation of three scan parts).
 
 [Willard1992]
 
