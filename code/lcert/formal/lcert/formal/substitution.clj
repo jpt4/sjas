@@ -51,6 +51,9 @@
   §8  Item 2, Lemma 3.1: for Gp ⊢ t : s and SubOK Gp σ G,
         ⟦subst σ t⟧ G s η = ⟦t⟧ Gp s (envOf n Gp σ G η)
       (denAt_subst at one level, lemma31 at every budget n).
+  §9  Item 3, Lemma 3.3's substitution clause: for Gp ⊢ A type and
+      SubOK Gp σ G, V n (subst σ A) G η k (skel A) v ↔
+      V n A Gp (envOf n Gp σ G η) k (skel A) v (V_subst, lemma33_subst).
 
   Proof technique.  Each case lemma is one explicit proof term: a chain of
   Eq.trans/congrArg steps (`cong`), one step per recursive call of the
@@ -1398,4 +1401,159 @@
   (rw [(envOf_envAt chkf dec encTy n Gp sg G en)])
   (rw [(den_fun_eq chkf dec encTy n)])
   (exact (denAt_subst chkf dec encTy (prevOf chkf dec encTy n) n w0 Gp t s der G sg en hs)))
+
+;; ===========================================================================
+;; §9  Item 3: the substitution clause of Lemma 3.3 for V
+;; ===========================================================================
+;; For a formation derivation Gp ⊢ A type and SubOK Gp σ G:
+;;   Vⁿₖ(A[σ])η = Vⁿₖ(A)(x ↦ ⟦σ x⟧ⁿη)   at the skeleton skel A,
+;; by induction on the derivation.  T(b) is Lemma 3.1 (lemma31) for b; Π and
+;; Σ are congruences of their clauses (usage 0, 1, ω: U.rec's three minor
+;; premises), with the hypothesis for B at up σ and the environment
+;; rewritten by envOf_up.  The equation is between propositions (then an
+;; Iff, lemma33_subst), so the same congrArg/funext chains apply.
+;;
+;; The statement is at the skeleton skel A, as V is used in the model
+;; (model.clj): under a Π or Σ, V B is then read at skel B with the bound
+;; variable at skel A, the context the formation derivation of B has.
+;; (tBrs is not a formation rule of SkJ, so it does not arise.)
+
+;; envOf of the shifted substitution at the extended environment (§7's
+;; envAt_up, transferred to den n).
+(thm envOf_up [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+               a :- Sk, Gp :- (List Sk), sg :- (=> Nat Exp), G :- (List Sk), eta :- (HEnv G), v :- (Car a), h :- (SubOK Gp sg G)]
+  (= (envOf chkf dec encTy n (List.cons Sk a Gp) (fn [i :- Nat] (up sg i)) (List.cons Sk a G) (Prod.mk v eta))
+     (Prod.mk v (envOf chkf dec encTy n Gp sg G eta)))
+  (rw [(envOf_envAt chkf dec encTy n (List.cons Sk a Gp) (fn [i :- Nat] (up sg i)) (List.cons Sk a G) (Prod.mk v eta))
+       (envOf_envAt chkf dec encTy n Gp sg G eta)])
+  (rw [(den_fun_eq chkf dec encTy n)])
+  (exact (envAt_up chkf dec encTy (prevOf chkf dec encTy n) n a Gp sg G eta v h)))
+
+;; --- proof-term generation for V ------------------------------------------------
+;; VS is the motive; beq / aeq are the hypotheses for B (under the binder,
+;; at value a) and for A; vB-l/-r and vA-l/-r the two sides they relate.
+(def ^:private vparams '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat])
+(defn- Vf [A G en k s v] (list 'V 'chkf 'dec 'encTy 'n A G en k s v))
+(defn- EO [Gp] (list 'envOf 'chkf 'dec 'encTy 'n Gp 'sg 'G 'en))
+;; The motive of item 3, for a formation derivation Gp ⊢ A type.
+(defn- VS [Gp A]
+  (list 'forall '[G (List Sk)] (list 'forall '[sg (=> Nat Exp)] (list 'forall '[en (HEnv G)] (list 'forall '[k Nat]
+    (list 'forall ['v (list 'Car (list 'skel A))]
+      (list '=> (list 'SubOK Gp 'sg 'G)
+            (list '= (Vf (list 'subst 'sg A) 'G 'en 'k (list 'skel A) 'v) (Vf A Gp (EO Gp) 'k (list 'skel A) 'v)))))))))
+
+;; V of B under the Π/Σ binder, at value a, footprint kk, element vv.
+(defn- beq [a kk vv]
+  (list 'Eq.trans
+        (list 'ih_hB '(List.cons Sk (skel A) G) '(upn 1 sg) (list 'Prod.mk a 'en) kk vv '(subOK_up (skel A) Gp sg G hs))
+        (list 'congrArg (list 'fn '[qe :- (HEnv (List.cons Sk (skel A) Gp))] (Vf 'B '(List.cons Sk (skel A) Gp) 'qe kk '(skel B) vv))
+              (list 'envOf_up 'chkf 'dec 'encTy 'n '(skel A) 'Gp 'sg 'G 'en a 'hs))))
+(defn- aeq [kk vv] (list 'ih_hA 'G 'sg 'en kk vv 'hs))
+(defn- vB-l [a kk vv] (Vf '(subst (upn 1 sg) B) '(List.cons Sk (skel A) G) (list 'Prod.mk a 'en) kk '(skel B) vv))
+(defn- vB-r [a kk vv] (Vf 'B '(List.cons Sk (skel A) Gp) (list 'Prod.mk a (EO 'Gp)) kk '(skel B) vv))
+(defn- vA-l [kk vv] (Vf '(subst sg A) 'G 'en kk '(skel A) vv))
+(defn- vA-r [kk vv] (Vf 'A 'Gp (EO 'Gp) kk '(skel A) vv))
+
+(defn- vs-thm! [nm params prop tactics]
+  (a/prove-theorem nm (lv (expand2 (into vparams params))) (lv (expand2 prop)) (lv (expand2 tactics))))
+
+(vs-thm! 'vs_T '[Gp :- (List Sk), b :- Exp, hb :- (SkJ Bool.false Gp b Sk.bool)]
+  (VS 'Gp '(Exp.tT b))
+  ['(intro G sg en k v hs)
+   (list 'exact (list 'congrArg '(fn [q :- Bool] (Eq Bool q Bool.true))
+                      '(lemma31 chkf dec encTy n Bool.false Gp b Sk.bool hb G sg en hs)))])
+
+(vs-thm! 'vs_Pi (vec (concat '[Gp :- (List Sk), r :- U, A :- Exp, B :- Exp]
+                             ['ih_hA :- (VS 'Gp 'A) 'ih_hB :- (VS '(List.cons Sk (skel A) Gp) 'B)]))
+  (VS 'Gp '(Exp.tPi r A B))
+  ['(intro G sg en k f hs)
+   (list 'exact
+     (cong '(U.rec$1 (fn [_ :- U] Prop) q1 q2 q3 r)
+       [;; usage 0: every argument
+        ['Prop
+         (list 'forall '[a (Car (skel A))] (vB-l 'a 'k '(f a)))
+         (list 'forall '[a (Car (skel A))] (vB-r 'a 'k '(f a)))
+         (list 'congrArg (list 'fn '[P :- (=> (Car (skel A)) Prop)] '(forall [a (Car (skel A))] (P a)))
+               (list 'funext (list 'fn '[a :- (Car (skel A))] (beq 'a 'k '(f a)))))]
+        ;; usage 1: footprints j with k + j ≤ n
+        ['Prop
+         (list 'forall '[j Nat] (list '=> '(Nat.le (+ k j) n) (list 'forall '[a (Car (skel A))] (list '=> (vA-l 'j 'a) (vB-l 'a '(+ k j) '(f a))))))
+         (list 'forall '[j Nat] (list '=> '(Nat.le (+ k j) n) (list 'forall '[a (Car (skel A))] (list '=> (vA-r 'j 'a) (vB-r 'a '(+ k j) '(f a))))))
+         (cong '(forall [j Nat] (=> (Nat.le (+ k j) n) (forall [a (Car (skel A))] (=> (q1 j a) (q2 j a)))))
+               [['(=> Nat (Car (skel A)) Prop)
+                 (list 'fn '[j :- Nat, a :- (Car (skel A))] (vA-l 'j 'a))
+                 (list 'fn '[j :- Nat, a :- (Car (skel A))] (vA-r 'j 'a))
+                 (list 'funext (list 'fn '[j :- Nat] (list 'funext (list 'fn '[a :- (Car (skel A))] (aeq 'j 'a)))))]
+                ['(=> Nat (Car (skel A)) Prop)
+                 (list 'fn '[j :- Nat, a :- (Car (skel A))] (vB-l 'a '(+ k j) '(f a)))
+                 (list 'fn '[j :- Nat, a :- (Car (skel A))] (vB-r 'a '(+ k j) '(f a)))
+                 (list 'funext (list 'fn '[j :- Nat] (list 'funext (list 'fn '[a :- (Car (skel A))] (beq 'a '(+ k j) '(f a))))))]])]
+        ;; usage ω: arguments in V₀
+        ['Prop
+         (list 'forall '[a (Car (skel A))] (list '=> (vA-l 0 'a) (vB-l 'a 'k '(f a))))
+         (list 'forall '[a (Car (skel A))] (list '=> (vA-r 0 'a) (vB-r 'a 'k '(f a))))
+         (cong '(forall [a (Car (skel A))] (=> (q1 a) (q2 a)))
+               [['(=> (Car (skel A)) Prop)
+                 (list 'fn '[a :- (Car (skel A))] (vA-l 0 'a))
+                 (list 'fn '[a :- (Car (skel A))] (vA-r 0 'a))
+                 (list 'funext (list 'fn '[a :- (Car (skel A))] (aeq 0 'a)))]
+                ['(=> (Car (skel A)) Prop)
+                 (list 'fn '[a :- (Car (skel A))] (vB-l 'a 'k '(f a)))
+                 (list 'fn '[a :- (Car (skel A))] (vB-r 'a 'k '(f a)))
+                 (list 'funext (list 'fn '[a :- (Car (skel A))] (beq 'a 'k '(f a))))]])]]))])
+
+(vs-thm! 'vs_Sig (vec (concat '[Gp :- (List Sk), r :- U, A :- Exp, B :- Exp]
+                              ['ih_hA :- (VS 'Gp 'A) 'ih_hB :- (VS '(List.cons Sk (skel A) Gp) 'B)]))
+  (VS 'Gp '(Exp.tSig r A B))
+  ['(intro G sg en k p hs)
+   (list 'exact
+     (cong '(U.rec$1 (fn [_ :- U] Prop) q1 q2 q3 r)
+       [;; usage 0: the second component
+        ['Prop (vB-l '(Prod.fst p) 'k '(Prod.snd p)) (vB-r '(Prod.fst p) 'k '(Prod.snd p)) (beq '(Prod.fst p) 'k '(Prod.snd p))]
+        ;; usage 1: a split j + (k − j) of the footprint
+        ['Prop
+         (list 'Exists (list 'fn '[j :- Nat] (list 'And '(Nat.le j k) (list 'And (vA-l 'j '(Prod.fst p)) (vB-l '(Prod.fst p) '(- k j) '(Prod.snd p))))))
+         (list 'Exists (list 'fn '[j :- Nat] (list 'And '(Nat.le j k) (list 'And (vA-r 'j '(Prod.fst p)) (vB-r '(Prod.fst p) '(- k j) '(Prod.snd p))))))
+         (list 'congrArg '(fn [P :- (=> Nat Prop)] (Exists P))
+               (list 'funext (list 'fn '[j :- Nat]
+                 (cong '(And (Nat.le j k) (And q1 q2))
+                       [['Prop (vA-l 'j '(Prod.fst p)) (vA-r 'j '(Prod.fst p)) (aeq 'j '(Prod.fst p))]
+                        ['Prop (vB-l '(Prod.fst p) '(- k j) '(Prod.snd p)) (vB-r '(Prod.fst p) '(- k j) '(Prod.snd p))
+                         (beq '(Prod.fst p) '(- k j) '(Prod.snd p))]]))))]
+        ;; usage ω: the first component in V₀
+        ['Prop
+         (list 'And (vA-l 0 '(Prod.fst p)) (vB-l '(Prod.fst p) 'k '(Prod.snd p)))
+         (list 'And (vA-r 0 '(Prod.fst p)) (vB-r '(Prod.fst p) 'k '(Prod.snd p)))
+         (cong '(And q1 q2)
+               [['Prop (vA-l 0 '(Prod.fst p)) (vA-r 0 '(Prod.fst p)) (aeq 0 '(Prod.fst p))]
+                ['Prop (vB-l '(Prod.fst p) 'k '(Prod.snd p)) (vB-r '(Prod.fst p) 'k '(Prod.snd p)) (beq '(Prod.fst p) 'k '(Prod.snd p))]])]]))])
+
+(defn- vs-case [rule]
+  (case rule
+    (wEmpty wUnit wBool wNat wLbl wSyn wDia wR) '[(intro hw G sg en k v hs) (rfl)]
+    wT '[(intro hw) (exact (vs_T chkf dec encTy n G b hb))]
+    wPi '[(intro hw) (exact (vs_Pi chkf dec encTy n G r A B (ih_hA (Eq.refl$1 Bool.true)) (ih_hB (Eq.refl$1 Bool.true))))]
+    wSig '[(intro hw) (exact (vs_Sig chkf dec encTy n G r A B (ih_hA (Eq.refl$1 Bool.true)) (ih_hB (Eq.refl$1 Bool.true))))]
+    '[(intro hw) (cases hw)]))
+
+(a/prove-theorem 'V_subst_gen
+  (lv (into vparams '[w0 :- Bool, G0 :- (List Sk), e0 :- Exp, s0 :- Sk, der :- (SkJ w0 G0 e0 s0)]))
+  (lv (list '=> '(= w0 Bool.true) (VS 'G0 'e0)))
+  (lv (into ['(induction der)] (mapcat vs-case skj-rules))))
+
+;; Item 3 (Lemma 3.3, substitution clause), as an equation of propositions
+;; and as an Iff.
+(thm V_subst [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+              Gp :- (List Sk), A :- Exp, der :- (SkJ Bool.true Gp A Sk.unit),
+              G :- (List Sk), sg :- (=> Nat Exp), en :- (HEnv G), hs :- (SubOK Gp sg G), k :- Nat, v :- (Car (skel A))]
+  (= (V chkf dec encTy n (subst sg A) G en k (skel A) v)
+     (V chkf dec encTy n A Gp (envOf chkf dec encTy n Gp sg G en) k (skel A) v))
+  (exact (V_subst_gen chkf dec encTy n Bool.true Gp A Sk.unit der (Eq.refl$1 Bool.true) G sg en k v hs)))
+
+(thm lemma33_subst [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+                    Gp :- (List Sk), A :- Exp, der :- (SkJ Bool.true Gp A Sk.unit),
+                    G :- (List Sk), sg :- (=> Nat Exp), en :- (HEnv G), hs :- (SubOK Gp sg G), k :- Nat, v :- (Car (skel A))]
+  (Iff (V chkf dec encTy n (subst sg A) G en k (skel A) v)
+       (V chkf dec encTy n A Gp (envOf chkf dec encTy n Gp sg G en) k (skel A) v))
+  (exact (Iff.of_eq (V_subst chkf dec encTy n Gp A der G sg en hs k v))))
 
