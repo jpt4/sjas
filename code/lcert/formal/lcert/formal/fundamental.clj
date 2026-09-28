@@ -30,9 +30,12 @@
     so ⟦f u⟧ = ⟦f⟧(⟦u⟧); V(B[u/x])η = V(B)(η, ⟦u⟧) (Lemma 3.3, V_subst1);
     the Π clause of ⟦f⟧'s IH at ⟦u⟧'s footprint, raised to k (V_mono).
 
+  - ElimBool: the motive at ⟦b⟧; each branch's IH at P[tt], P[ff] becomes
+    V(P) at (tt, η), (ff, η) by V_subst1, and the scrutinee picks one.
+
   Pending (they need Lemma 3.1/3.3's substitution or weakening clauses, 3.2,
   or the outer induction on n): Var, App₀, Pair₀, Pair, Let, Conv,
-  ElimBool, RecN, CaseL, Bcons, RecS, ItR, H₁, Refl, Inspect."
+  RecN, CaseL, Bcons, RecS, ItR, H₁, Refl, Inspect."
   (:require [ansatz.core :as a]
             [lcert.formal.base :refer [thm kdef]]
             [lcert.formal.usage :refer :all]
@@ -347,3 +350,78 @@
   (all_goals (first (exact (Bool.noConfusion hr)) (skip)))
   (exact (F_app1 chkf dec encTy n D (List.nil U) us1 us2 f u A B hu hA hB ihf ihu en k hk hs))
   (exact (F_appw chkf dec encTy n D (List.nil U) us1 us2 f u A B hu hA hB ihf ihu en k hk hs)))
+
+;; --- dependent elimination of booleans -------------------------------------------------
+
+;; A property of a family of values g s, carried along an equality of
+;; skeletons (the value's carrier depends on the skeleton, so rewriting a
+;; hypothesis directly is not available).
+(thm sk_transport [F :- (forall [s Sk] (=> (Car s) Prop)), g :- (forall [s Sk] (Car s)), s1 :- Sk, s2 :- Sk,
+                   h :- (Eq Sk s1 s2), hf :- (F s1 (g s1))]
+  (F s2 (g s2))
+  (subst h) (exact hf))
+
+;; Bool.rec under a predicate that may depend on the scrutinee.
+(thm bool_rec_dep [α :- Type, Q :- (=> Bool α Prop), x :- α, y :- α, bv :- Bool, hx :- (Q Bool.false x), hy :- (Q Bool.true y)]
+  (Q bv (Bool.rec$1 (fn [_ :- Bool] α) x y bv))
+  (cases bv) (exact hx) (exact hy))
+
+(thm den_tt_bool [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+                  n :- Nat, G :- (List Sk), en :- (HEnv G)]
+  (Eq Bool (den chkf dec encTy n Exp.tt G Sk.bool en) Bool.true)
+  (rw [(den_tt_at chkf dec encTy n G Sk.bool en)]))
+
+(thm den_ff_bool [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+                  n :- Nat, G :- (List Sk), en :- (HEnv G)]
+  (Eq Bool (den chkf dec encTy n Exp.ff G Sk.bool en) Bool.false)
+  (rw [(den_ff_at chkf dec encTy n G Sk.bool en)]))
+
+(def ^:private GB '(List.cons Sk Sk.bool (skels D)))
+(defn- VPb "V(P) at (bv, η)." [bv v] (list 'V 'chkf 'dec 'encTy 'n 'P GB (list 'Prod.mk bv 'en) 'k '(skel P) v))
+
+(defn- bool-branch
+  "From a branch's IH at P[c/x] (c = tt or ff, typed by rule sc), V(P) at
+  (⟦c⟧, η): the IH, its skeleton carried from skel (P[c/x]) to skel P, then
+  V_subst1."
+  [nm c dt ih sc]
+  (let [h0 (symbol (str nm "0")) h1 (symbol (str nm "1")) h2 (symbol (str nm "2"))
+        dv (fn [s] (list 'den 'chkf 'dec 'encTy 'n dt '(skels D) s 'en))
+        Vc (fn [s v] (list 'V 'chkf 'dec 'encTy 'n (list 'subst1 c 'P) '(skels D) 'en 'k s v))]
+    [(list 'have h0 (Vc (list 'skel (list 'subst1 c 'P)) (dv (list 'skel (list 'subst1 c 'P)))) (list ih 'en 'k 'hk 'hs2))
+     (list 'have h1 (Vc '(skel P) (dv '(skel P)))
+           (list 'sk_transport (list 'fn '[s :- Sk, v :- (Car s)] (Vc 's 'v)) (list 'fn '[s :- Sk] (dv 's))
+                 (list 'skel (list 'subst1 c 'P)) '(skel P) (list 'skel_subst1 c 'P 'rfl) h0))
+     (list 'have h2 (VPb (list 'den 'chkf 'dec 'encTy 'n c '(skels D) 'Sk.bool 'en) (dv '(skel P)))
+           (list 'Iff.mp (list 'V_subst1 'chkf 'dec 'encTy 'n '(skels D) 'Sk.bool 'P 'hPS c (list sc '(skels D)) 'rfl 'en 'k (dv '(skel P))) h1))]))
+
+;; ElimBool.  ⟦elimB P b t e⟧ = if ⟦b⟧ then ⟦t⟧ else ⟦e⟧, and the goal
+;; V(P[b/x])η is V(P) at (⟦b⟧, η) (V_subst1); split Γ₁ + Γ₂ and use each
+;; branch's IH, the value of ⟦b⟧ choosing.
+(case! 'F_elimB
+  (into '[us1 :- (List U), us2 :- (List U), P :- Exp, b :- Exp, t :- Exp, e :- Exp,
+          hb :- (Rt chkf D us1 b Exp.tBool), hP :- (Tl chkf Bool.true (List.cons Exp Exp.tBool D) P Exp.tUnit)]
+        (into ['iht :- (SND 'us2 't '(subst1 Exp.tt P)) 'ihe :- (SND 'us2 'e '(subst1 Exp.ff P))]
+              (conj ENV 'hs :- (ES '(vadd us1 us2) 'k))))
+  (concl '(subst1 b P) '(Exp.elimB P b t e))
+  (concat
+    ['(have hPS (SkJ Bool.true (List.cons Sk Sk.bool (skels D)) P Sk.unit) (lemma25_tl_type chkf (List.cons Exp Exp.tBool D) P hP))
+     '(have hbS (SkJ Bool.false (skels D) b Sk.bool) (lemma25_rt chkf D us1 b Exp.tBool hb))
+     '(have hbU (Eq Sk (skel b) Sk.unit) (skj_term_unit Bool.false (skels D) b Sk.bool hbS rfl))
+     '(have hbk (Eq (Option Sk) (skOf (skels D) b) (Option.some Sk Sk.bool)) (skOf_rt chkf D us1 b Exp.tBool hb rfl))
+     '(rw [(skel_subst1 b P hbU)])
+     '(rw [(den_elimB_at chkf dec encTy n P b t e (skels D) (skel P) en)])
+     '(refine' (Iff.mpr (V_subst1 chkf dec encTy n (skels D) Sk.bool P hPS b hbS hbk en k _) _))]
+    (split-steps 'hs 'us1 'us2 'k 'k1 'k2 'p)
+    ['(have hle (Nat.le k2 k) (Nat.le_trans (Nat.le_add_left k2 k1) (And.left p)))
+     '(have hs2 (EnvSat chkf dec encTy n D us2 en k) (EnvSat_mono chkf dec encTy n D us2 en k2 k hle (And.right (And.right p))))]
+    (bool-branch 'vt 'Exp.tt 't 'iht 'SkJ.sTT)
+    (bool-branch 've 'Exp.ff 'e 'ihe 'SkJ.sFF)
+    [(list 'have 'vt3 (VPb 'Bool.true '(den chkf dec encTy n t (skels D) (skel P) en))
+       (list 'Eq.mp (list 'congrArg (list 'fn '[bv :- Bool] (VPb 'bv '(den chkf dec encTy n t (skels D) (skel P) en)))
+                          '(den_tt_bool chkf dec encTy n (skels D) en)) 'vt2))
+     (list 'have 've3 (VPb 'Bool.false '(den chkf dec encTy n e (skels D) (skel P) en))
+       (list 'Eq.mp (list 'congrArg (list 'fn '[bv :- Bool] (VPb 'bv '(den chkf dec encTy n e (skels D) (skel P) en)))
+                          '(den_ff_bool chkf dec encTy n (skels D) en)) 've2))
+     (list 'exact (list 'bool_rec_dep '(Car (skel P)) (list 'fn '[bv :- Bool, v :- (Car (skel P))] (VPb 'bv 'v))
+                        '(den chkf dec encTy n e (skels D) (skel P) en) '(den chkf dec encTy n t (skels D) (skel P) en)
+                        '(den chkf dec encTy n b (skels D) Sk.bool en) 've3 'vt3))]))
