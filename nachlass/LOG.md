@@ -6330,3 +6330,24 @@ checker modified to accept two leaf certificates at `D` and `neg D`.
 
 The pair form is thus strictly stronger as a postulate. Reviewed by the Claude
 subagent: no breaking finding, five minor wording fixes.
+
+## 2026-09-27 — Formalization in Ansatz (ADR-0006), F0–F3 so far
+
+Branch `adr-0006-formalization`; suite `code/lcert/bin/test-formal`.
+- **Kernel-checked:** usages and their laws; `Exp`, lifting and substitution;
+  skeletons, head steps, conversion, the rule table (`Tl`, `Rt`, `SkJ`);
+  Lemma 2.5 (skeletons are preserved by typing, substitution and steps);
+  carriers, coercion, the denotation `den` and the semantic types `V`;
+  `denT_stable`; Lemma 3.3's monotonicity (`V_mono`); Theorem 2 for `H`.
+- **Stated only:** Lemma 3.6, Theorem 1, Corollary 3.7.
+- **Deviations** are recorded in ADR-0006; two came from reviewers'
+  counterexamples (Codex: the `tBrs` skeleton; Grok: reflect at open types).
+- **Ansatz lessons** (the ones that cost hours): Type-valued definitions go
+  through a kernel-only `kdef` with explicit universe levels; recursors must
+  never be over-applied; large generated forms exceed the JVM method limit and
+  are split per constructor; folded definitions must be restated with
+  `have`/`change` before use; a `(peek)` tactic prints the goals, since errors
+  do not say which tactic failed.
+- **Agents.** Codex wrote the congruence generator and the lift algebra; Grok
+  the coercion lemmas; a Claude subagent Lemma 2.5. Each was reviewed and
+  merged here. A Claude subagent is now on the substitution lemmas (3.1, 3.3).

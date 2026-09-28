@@ -99,6 +99,24 @@ statements are not vacuous.
 - **A review question for each phase:** does the formal statement say what the
   paper says? Differences are recorded here.
 
+## Deviations recorded during the work
+
+Each is a difference between design 3 above, or the paper, and what the kernel
+now checks.
+- **Denotation is a function, not a relation.** `den n t G s η : Car s` is
+  defined as a table of levels, `denT n n`. `T (k+1) m` reuses row `k` below
+  level `m` and re-evaluates at `m`. Reflect runs its decoded program at
+  exactly `⟦t′⟧ᵐ` (`denT_stable`). Typing is split into `Tl` (formation) and
+  `Rt` (runtime, with usage vectors), with skeleton typing `SkJ` beside them.
+- **Branch lists are a constructor, `tBrs P k`,** with skeleton `Lbl → skel P`.
+  Ansatz's inductive compiler cannot derive recursors for function-typed
+  fields. The first skeleton given to `tBrs` broke Lemma 2.5, which Codex
+  found; the present one does not.
+- **`SkJ`'s reflect rule requires a base type.** Grok found that Lemma 3.1
+  fails for reflect at an open type. The paper's rule has the same premise
+  implicitly, since `chk′`'s type is closed. The formal rule states it.
+- **`V` takes the skeleton explicitly,** since carriers depend on it.
+
 ## Consequences
 
 - The metatheory's status line will change from "paper proofs" to naming what
