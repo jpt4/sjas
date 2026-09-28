@@ -145,3 +145,30 @@
              k :- Nat, v :- (Car (skel A))]
   (= (V chkf dec encTy n (lift 1 c A) (insS c x G) (insE c x G en vx) k (skel A) v) (V chkf dec encTy n A G en k (skel A) v))
   (exact (V_lift_gen chkf dec encTy n Bool.true G A Sk.unit der (Eq.refl$1 Bool.true) c x en vx k v)))
+
+;; The same for a family of values g s, read at the lifted type's own
+;; skeleton skel (lift 1 c A) (equal to skel A, but not definitionally), as
+;; the fundamental lemma's hypotheses come.
+(thm V_lift_fam [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+                   G :- (List Sk), A :- Exp, der :- (SkJ Bool.true G A Sk.unit), c :- Nat, x :- Sk, en :- (HEnv G), vx :- (Car x),
+                   k :- Nat, g :- (forall [s Sk] (Car s))]
+  (Iff (V chkf dec encTy n (lift 1 c A) (insS c x G) (insE c x G en vx) k (skel (lift 1 c A)) (g (skel (lift 1 c A))))
+       (V chkf dec encTy n A G en k (skel A) (g (skel A))))
+  (rw [(skel_lift A 1 c)])
+  (exact (Iff.of_eq (V_lift chkf dec encTy n G A der c x en vx k (g (skel A))))))
+
+;; Two binders at once (Let's body, typed at lift 2 0 C under the pair's
+;; components): V(lift 2 0 C) at (vb, (va, η)) is V(C) at η.
+(thm V_lift2_fam [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+                    G :- (List Sk), C :- Exp, der :- (SkJ Bool.true G C Sk.unit), sa :- Sk, sb :- Sk, en :- (HEnv G), va :- (Car sa), vb :- (Car sb),
+                    k :- Nat, g :- (forall [s Sk] (Car s)),
+                    h :- (V chkf dec encTy n (lift 2 0 C) (List.cons Sk sb (List.cons Sk sa G)) (Prod.mk vb (Prod.mk va en)) k (skel (lift 2 0 C)) (g (skel (lift 2 0 C))))]
+  (V chkf dec encTy n C G en k (skel C) (g (skel C)))
+  (have h1 (V chkf dec encTy n (lift 1 0 (lift 1 0 C)) (List.cons Sk sb (List.cons Sk sa G)) (Prod.mk vb (Prod.mk va en)) k
+              (skel (lift 1 0 (lift 1 0 C))) (g (skel (lift 1 0 (lift 1 0 C)))))
+    (Eq.mp (congrArg (fn [E :- Exp] (V chkf dec encTy n E (List.cons Sk sb (List.cons Sk sa G)) (Prod.mk vb (Prod.mk va en)) k (skel E) (g (skel E))))
+                     (Eq.symm (lift_comp C 1 1 0))) h))
+  (have hW (SkJ Bool.true (List.cons Sk sa G) (lift 1 0 C) Sk.unit) (skj_weaken Bool.true G C Sk.unit der 0 sa))
+  (have h2 (V chkf dec encTy n (lift 1 0 C) (List.cons Sk sa G) (Prod.mk va en) k (skel (lift 1 0 C)) (g (skel (lift 1 0 C))))
+    (Iff.mp (V_lift_fam chkf dec encTy n (List.cons Sk sa G) (lift 1 0 C) hW 0 sb (Prod.mk va en) vb k g) h1))
+  (exact (Iff.mp (V_lift_fam chkf dec encTy n G C der 0 sa en va k g) h2)))

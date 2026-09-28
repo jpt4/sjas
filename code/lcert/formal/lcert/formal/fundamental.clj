@@ -33,12 +33,12 @@
   - ElimBool: the motive at ⟦b⟧; each branch's IH at P[tt], P[ff] becomes
     V(P) at (tt, η), (ff, η) by V_subst1, and the scrutinee picks one.
 
-  - Pair, at usage 1 and ω (see the section).
+  - Pair, at usage 1 and ω; Let, at every usage (see the sections).
   - Var: in a well-formed context, the entry's value, read through the lift
     of its type by V_lift (vweaken.clj).
 
   Pending (they need Lemma 3.1/3.3's substitution or weakening clauses, 3.2,
-  or the outer induction on n): App₀, Pair₀, Let, Conv,
+  or the outer induction on n): App₀, Pair₀, Conv,
   RecN, CaseL, Bcons, RecS, ItR, H₁, Refl, Inspect."
   (:require [ansatz.core :as a]
             [lcert.formal.base :refer [thm kdef]]
@@ -640,3 +640,110 @@
   (all_goals (first (exact (Bool.noConfusion hr)) (skip)))
   (exact (F_pair1 chkf dec encTy n D (List.nil U) us1 us2 A B x y hA hB hx ihx ihy en k hk hs))
   (exact (F_pairw chkf dec encTy n D (List.nil U) us1 us2 A B x y hA hB hx ihx ihy en k hk hs)))
+
+;; --- let ---------------------------------------------------------------------------
+
+;; Let at usage r.  ⟦let (x, y) = p in t⟧ = ⟦t⟧ at (⟦p⟧₂, (⟦p⟧₁, η)), since
+;; skOf p is p's Σ skeleton (skOf_rt).  Γ₁ + Γ₂ splits as k₁ + k₂; p's IH puts
+;; ⟦p⟧ in V_k₁(Σ r A B), whose clause gives the footprints of the two new
+;; entries (usage 1: j and k₁ − j; ω and 0: 0 and k₁); with Γ₂'s k₂ they
+;; satisfy the extended context (EnvSat_cons), within k.  t's IH, at
+;; lift 2 0 C, is read back as V(C) by V_lift2_fam and raised to k.
+
+(thm le_let [j :- Nat, k1 :- Nat, k2 :- Nat, k :- Nat, h1 :- (LE.le j k1), h2 :- (LE.le (+ k1 k2) k)] (LE.le (+ (- k1 j) (+ j k2)) k) (omega))
+
+(thm den_letp_some [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+                      C :- Exp, p :- Exp, t :- Exp, G :- (List Sk), sa :- Sk, sb :- Sk, sk :- Sk, en :- (HEnv G),
+                      h :- (Eq (Option Sk) (skOf G p) (Option.some Sk (Sk.prod sa sb)))]
+  (Eq (Car sk) (den chkf dec encTy n (Exp.letp C p t) G sk en)
+     (den chkf dec encTy n t (List.cons Sk sb (List.cons Sk sa G)) sk
+          (Prod.mk (Prod.snd (den chkf dec encTy n p G (Sk.prod sa sb) en)) (Prod.mk (Prod.fst (den chkf dec encTy n p G (Sk.prod sa sb) en)) en))))
+  (rw [(den_letp_at chkf dec encTy n C p t G sk en)])
+  (change (Eq (Car sk) (Option.rec$1$0 Sk (fn [_ :- (Option Sk)] (Car sk)) (dflt sk)
+                         (fn [sp :- Sk] (splitProd sk sp (den chkf dec encTy n p G sp en)
+                            (fn [a :- Sk, b :- Sk, va :- (Car a), vb :- (Car b)] (den chkf dec encTy n t (sk2 b a G) sk (Prod.mk vb (Prod.mk va en))))))
+                         (skOf G p))
+                  (den chkf dec encTy n t (List.cons Sk sb (List.cons Sk sa G)) sk
+                       (Prod.mk (Prod.snd (den chkf dec encTy n p G (Sk.prod sa sb) en)) (Prod.mk (Prod.fst (den chkf dec encTy n p G (Sk.prod sa sb) en)) en)))))
+  (rw [h]))
+
+(thm EnvSat_cons [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+                    A :- Exp, D :- (List Exp), r :- U, us :- (List U), a :- (Car (skel A)), en :- (HEnv (skels D)), j :- Nat, kk :- Nat,
+                    hs :- (EnvSat chkf dec encTy n D us en kk),
+                    he :- (EntryOK r j (fn [jx :- Nat] (V chkf dec encTy n A (skels D) en jx (skel A) a)))]
+  (EnvSat chkf dec encTy n (List.cons Exp A D) (List.cons U r us) (Prod.mk a en) (+ j kk))
+  (constructor) (exact j) (constructor) (exact kk) (constructor) (exact (Nat.le_refl (+ j kk))) (constructor) (exact hs) (exact he))
+
+(def ^:private pv '(den chkf dec encTy n p (skels D) (Sk.prod (skel A) (skel B)) en))
+(def ^:private va (list 'Prod.fst pv))
+(def ^:private vb (list 'Prod.snd pv))
+(def ^:private E (list 'Prod.mk vb (list 'Prod.mk va 'en)))
+(def ^:private G3 '(List.cons Sk (skel B) (List.cons Sk (skel A) (skels D))))
+(defn- VA [jj] (list 'V 'chkf 'dec 'encTy 'n 'A '(skels D) 'en jj '(skel A) va))
+(defn- VB [jj] (list 'V 'chkf 'dec 'encTy 'n 'B '(List.cons Sk (skel A) (skels D)) (list 'Prod.mk va 'en) jj '(skel B) vb))
+(defn- let-open [r]
+  [(list 'have 'hSS (list 'SkJ 'Bool.true '(skels D) (list 'Exp.tSig r 'A 'B) 'Sk.unit)
+         (list 'SkJ.wSig '(skels D) r 'A 'B '(lemma25_tl_type chkf D A hA) '(lemma25_tl_type chkf (List.cons Exp A D) B hB)))
+   (list 'have 'hpk (list 'Eq '(Option Sk) '(skOf (skels D) p) '(Option.some Sk (Sk.prod (skel A) (skel B))))
+         (list 'skOf_rt 'chkf 'D 'us1 'p (list 'Exp.tSig r 'A 'B) 'hp (list 'skj_clean 'Bool.true '(skels D) (list 'Exp.tSig r 'A 'B) 'Sk.unit 'hSS)))
+   '(rw [(den_letp_some chkf dec encTy n C p t (skels D) (skel A) (skel B) (skel C) en hpk)])
+   '(have hCS (SkJ Bool.true (skels D) C Sk.unit) (lemma25_tl_type chkf D C hC))])
+(defn- let-close [r K hKk]
+  ;; the body's IH at the extended environment and footprint K, read back through lift 2
+  [(list 'have 'vt (list 'V 'chkf 'dec 'encTy 'n '(lift 2 0 C) G3 E K '(skel (lift 2 0 C)) (list 'den 'chkf 'dec 'encTy 'n 't G3 '(skel (lift 2 0 C)) E))
+         (list 'iht E K '(Nat.le_trans hKk hk) 'hES))
+   (list 'have 'vt2 (list 'V 'chkf 'dec 'encTy 'n 'C '(skels D) 'en K '(skel C) (list 'den 'chkf 'dec 'encTy 'n 't G3 '(skel C) E))
+         (list 'V_lift2_fam 'chkf 'dec 'encTy 'n '(skels D) 'C 'hCS '(skel A) '(skel B) 'en va vb K
+               (list 'fn '[s :- Sk] (list 'den 'chkf 'dec 'encTy 'n 't G3 's E)) 'vt))
+   (list 'exact (list 'V_mono 'chkf 'dec 'encTy 'n 'C '(skels D) 'en K 'k '(skel C) (list 'den 'chkf 'dec 'encTy 'n 't G3 '(skel C) E) hKk 'hk 'vt2))])
+(defn- let-thm [nm r]
+  (list 'lcert.formal.base/thm nm
+    (into P6 (into ['us1 :- '(List U) 'us2 :- '(List U) 'A :- 'Exp 'B :- 'Exp 'C :- 'Exp 'p :- 'Exp 't :- 'Exp
+                    'hp :- (list 'Rt 'chkf 'D 'us1 'p (list 'Exp.tSig r 'A 'B)) 'hC :- '(Tl chkf Bool.true D C Exp.tUnit)
+                    'hA :- '(Tl chkf Bool.true D A Exp.tUnit) 'hB :- '(Tl chkf Bool.true (List.cons Exp A D) B Exp.tUnit)
+                    'ihp :- (SND 'us1 'p (list 'Exp.tSig r 'A 'B))
+                    'iht :- (list 'Sound 'chkf 'dec 'encTy 'n '(List.cons Exp B (List.cons Exp A D)) (list 'List.cons 'U 'U.u1 (list 'List.cons 'U r 'us2)) 't '(lift 2 0 C))]
+                   (conj ENV 'hs :- (ES '(vadd us1 us2) 'k))))
+    (concl 'C '(Exp.letp C p t))))
+(def ^:private let1-tactics
+  (concat (let-open 'U.u1)
+    (split-steps 'hs 'us1 'us2 'k 'k1 'k2 'q)
+    ['(have hk1 (Nat.le k1 n) (Nat.le_trans (Nat.le_trans (Nat.le_add_right k1 k2) (And.left q)) hk))
+     (list 'have 'vp (list 'Exists (list 'fn '[j :- Nat] (list 'And '(Nat.le j k1) (list 'And (VA 'j) (VB '(- k1 j))))))
+           '(ihp en k1 hk1 (And.left (And.right q))))
+     '(refine' (exN _ _ vp _)) '(intro j hj)
+     (list 'have 'hq (list 'And '(Nat.le j k1) (list 'And (VA 'j) (VB '(- k1 j)))) 'hj)
+     '(have hKk (LE.le (+ (- k1 j) (+ j k2)) k) (le_let j k1 k2 k (And.left hq) (And.left q)))
+     (list 'have 'hES (list 'EnvSat 'chkf 'dec 'encTy 'n '(List.cons Exp B (List.cons Exp A D)) '(List.cons U U.u1 (List.cons U U.u1 us2)) E '(+ (- k1 j) (+ j k2)))
+       (list 'EnvSat_cons 'chkf 'dec 'encTy 'n 'B '(List.cons Exp A D) 'U.u1 '(List.cons U U.u1 us2) vb (list 'Prod.mk va 'en) '(- k1 j) '(+ j k2)
+             (list 'EnvSat_cons 'chkf 'dec 'encTy 'n 'A 'D 'U.u1 'us2 va 'en 'j 'k2 '(And.right (And.right q)) '(And.left (And.right hq)))
+             '(And.right (And.right hq))))]
+    (let-close 'U.u1 '(+ (- k1 j) (+ j k2)) 'hKk)))
+(eval (concat (let-thm 'F_let1 'U.u1) let1-tactics))
+
+(thm le_let0 [k1 :- Nat, k2 :- Nat, k :- Nat, h :- (LE.le (+ k1 k2) k)] (LE.le (+ k1 (+ 0 k2)) k) (omega))
+(defn- let0-tactics [r vp-type entry]
+  (concat (let-open r)
+    (split-steps 'hs 'us1 'us2 'k 'k1 'k2 'q)
+    ['(have hk1 (Nat.le k1 n) (Nat.le_trans (Nat.le_trans (Nat.le_add_right k1 k2) (And.left q)) hk))
+     (list 'have 'vp vp-type '(ihp en k1 hk1 (And.left (And.right q))))
+     '(have hKk (LE.le (+ k1 (+ 0 k2)) k) (le_let0 k1 k2 k (And.left q)))
+     (list 'have 'hES (list 'EnvSat 'chkf 'dec 'encTy 'n '(List.cons Exp B (List.cons Exp A D)) (list 'List.cons 'U 'U.u1 (list 'List.cons 'U r 'us2)) E '(+ k1 (+ 0 k2)))
+       (list 'EnvSat_cons 'chkf 'dec 'encTy 'n 'B '(List.cons Exp A D) 'U.u1 (list 'List.cons 'U r 'us2) vb (list 'Prod.mk va 'en) 'k1 '(+ 0 k2)
+             (list 'EnvSat_cons 'chkf 'dec 'encTy 'n 'A 'D r 'us2 va 'en 0 'k2 '(And.right (And.right q)) entry)
+             (if (= r 'U.uw) '(And.right vp) 'vp)))]
+    (let-close r '(+ k1 (+ 0 k2)) 'hKk)))
+(eval (concat (let-thm 'F_letw 'U.uw) (let0-tactics 'U.uw (list 'And (VA 0) (VB 'k1)) '(And.intro rfl (And.left vp)))))
+(eval (concat (let-thm 'F_let0 'U.u0) (let0-tactics 'U.u0 (VB 'k1) 'rfl)))
+
+;; Let at any usage, in the motive's form.  (Goals after cases r: ω, 1, 0.)
+(thm F_let [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+            n :- Nat, D :- (List Exp), us1 :- (List U), us2 :- (List U), A :- Exp, B :- Exp, C :- Exp, p :- Exp, t :- Exp,
+            hC :- (Tl chkf Bool.true D C Exp.tUnit), hA :- (Tl chkf Bool.true D A Exp.tUnit), hB :- (Tl chkf Bool.true (List.cons Exp A D) B Exp.tUnit)]
+  (forall [r U] (=> (Rt chkf D us1 p (Exp.tSig r A B)) (Sound chkf dec encTy n D us1 p (Exp.tSig r A B))
+    (Sound chkf dec encTy n (List.cons Exp B (List.cons Exp A D)) (List.cons U U.u1 (List.cons U r us2)) t (lift 2 0 C))
+    (Sound chkf dec encTy n D (vadd us1 us2) (Exp.letp C p t) C)))
+  (intro r) (cases r) (all_goals (intro hp ihp iht en k hk hs))
+  (exact (F_letw chkf dec encTy n D (List.nil U) us1 us2 A B C p t hp hC hA hB ihp iht en k hk hs))
+  (exact (F_let1 chkf dec encTy n D (List.nil U) us1 us2 A B C p t hp hC hA hB ihp iht en k hk hs))
+  (exact (F_let0 chkf dec encTy n D (List.nil U) us1 us2 A B C p t hp hC hA hB ihp iht en k hk hs)))

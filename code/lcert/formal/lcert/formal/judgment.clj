@@ -93,7 +93,8 @@
 ;; (hence the application clause of ⟦·⟧) has no skeleton for it, and the
 ;; fundamental lemma fails.  hB is also B's formation, which the
 ;; substitution lemma needs.  Paper derivations meet it by regularity.
-;; Pair₀/Pair likewise take fSig's premises (hA, hB) for their Σ type.
+;; Pair₀/Pair likewise take fSig's premises (hA, hB) for their Σ type, and Let
+;; for the Σ type it eliminates (its body's context extends by A and B).
 (a/defn clean [e :- Exp] Bool
   (match e
     [(tT b) (clean b)]
@@ -239,6 +240,7 @@
          :where [D (vadd (vscale r us1) us2) (Exp.pair (Exp.tSig r A B) x y) (Exp.tSig r A B)])
   (rLet [D (List Exp)] [us1 (List U)] [us2 (List U)] [r U] [A Exp] [B Exp] [C Exp] [p Exp] [t Exp]
         [hp (Rt chkf D us1 p (Exp.tSig r A B))] [hC (Tl chkf Bool.true D C Exp.tUnit)]
+        [hA (Tl chkf Bool.true D A Exp.tUnit)] [hB (Tl chkf Bool.true (List.cons Exp A D) B Exp.tUnit)]
         [ht (Rt chkf (consE B (consE A D)) (consU U.u1 (consU r us2)) t (lift 2 0 C))]
         :where [D (vadd us1 us2) (Exp.letp C p t) C])
   (rAbort [D (List Exp)] [us (List U)] [A Exp] [t Exp] [ht (Rt chkf D us t Exp.tEmpty)] [hA (Tl chkf Bool.true D A Exp.tUnit)]
