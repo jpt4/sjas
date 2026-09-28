@@ -85,6 +85,43 @@
     [(lbl l) (match A [tLbl (Nat.blt l (NL))] [_ false])]
     [_ false]))
 
+;; clean A: A contains no branch-list pseudo-type tBrs anywhere.  The paper
+;; has no such type; the formalization types caseLbl's branch lists through
+;; it (the module notes, above).  App's argument type must be clean: otherwise
+;; a context entry of type Π(y : tBrs P k). B lets a branch list be passed as
+;; an argument, where skOf (hence the application clause of ⟦·⟧) has no
+;; skeleton for it, and the fundamental lemma fails.  Paper derivations meet
+;; the premise, since every paper type is clean.
+(a/defn clean [e :- Exp] Bool
+  (match e
+    [(tT b) (clean b)]
+    [(tPi r A B) (Bool.and (clean A) (clean B))]
+    [(tSig r A B) (Bool.and (clean A) (clean B))]
+    [(abort A t) (Bool.and (clean A) (clean t))]
+    [(ite b t e) (Bool.and (clean b) (Bool.and (clean t) (clean e)))]
+    [(elimB P b t e) (Bool.and (clean P) (Bool.and (clean b) (Bool.and (clean t) (clean e))))]
+    [(succ n) (clean n)]
+    [(recN P z s n) (Bool.and (clean P) (Bool.and (clean z) (Bool.and (clean s) (clean n))))]
+    [(caseL P a bs) (Bool.and (clean P) (Bool.and (clean a) (clean bs)))]
+    [(bcons h t) (Bool.and (clean h) (clean t))]
+    [(sleaf a) (clean a)]
+    [(snode a c1 c2) (Bool.and (clean a) (Bool.and (clean c1) (clean c2)))]
+    [(recS P tl tn c) (Bool.and (clean P) (Bool.and (clean tl) (Bool.and (clean tn) (clean c))))]
+    [(leaf a) (clean a)]
+    [(node d a r1 r2) (Bool.and (clean d) (Bool.and (clean a) (Bool.and (clean r1) (clean r2))))]
+    [(itR X g h r) (Bool.and (clean X) (Bool.and (clean g) (Bool.and (clean h) (clean r))))]
+    [(prn r) (clean r)]
+    [(lam r A t) (Bool.and (clean A) (clean t))]
+    [(app f u) (Bool.and (clean f) (clean u))]
+    [(pair S a b) (Bool.and (clean S) (Bool.and (clean a) (clean b)))]
+    [(letp C p t) (Bool.and (clean C) (Bool.and (clean p) (clean t)))]
+    [(chk c d) (Bool.and (clean c) (clean d))]
+    [(h1 r s c e1 e2) (Bool.and (clean r) (Bool.and (clean s) (Bool.and (clean c) (Bool.and (clean e1) (clean e2)))))]
+    [(refl D r e) (Bool.and (clean D) (Bool.and (clean r) (clean e)))]
+    [(insp X r c t1 t2) (Bool.and (clean X) (Bool.and (clean r) (Bool.and (clean c) (Bool.and (clean t1) (clean t2)))))]
+    [(tBrs P k) false]
+    [_ true]))
+
 ;; ---------------------------------------------------------------------------
 ;; Formation and type-level typing (Tl).  w = Bool.true: `Δ ⊢ t type`;
 ;; w = Bool.false: `Δ ⊢ t :⁰ A`.  Every term premise is type-level, and
@@ -186,10 +223,10 @@
   (rLam [D (List Exp)] [us (List U)] [r U] [A Exp] [t Exp] [B Exp] [hA (Tl chkf Bool.true D A Exp.tUnit)]
         [ht (Rt chkf (consE A D) (consU r us) t B)] :where [D us (Exp.lam r A t) (Exp.tPi r A B)])
   (rApp0 [D (List Exp)] [us (List U)] [f Exp] [u Exp] [A Exp] [B Exp] [hf (Rt chkf D us f (Exp.tPi U.u0 A B))]
-         [hu (Tl chkf Bool.false D u A)] :where [D us (Exp.app f u) (subst1 u B)])
+         [hu (Tl chkf Bool.false D u A)] [hcl (Eq Bool (clean A) Bool.true)] :where [D us (Exp.app f u) (subst1 u B)])
   (rApp [D (List Exp)] [us1 (List U)] [us2 (List U)] [r U] [f Exp] [u Exp] [A Exp] [B Exp]
         [hr (Eq Bool (nonzero r) Bool.true)] [hf (Rt chkf D us1 f (Exp.tPi r A B))] [hu (Rt chkf D us2 u A)]
-        :where [D (vadd us1 (vscale r us2)) (Exp.app f u) (subst1 u B)])
+        [hcl (Eq Bool (clean A) Bool.true)] :where [D (vadd us1 (vscale r us2)) (Exp.app f u) (subst1 u B)])
   (rPair0 [D (List Exp)] [us (List U)] [A Exp] [B Exp] [x Exp] [y Exp] [hS (Tl chkf Bool.true D (Exp.tSig U.u0 A B) Exp.tUnit)]
           [hx (Tl chkf Bool.false D x A)] [hy (Rt chkf D us y (subst1 x B))]
           :where [D us (Exp.pair (Exp.tSig U.u0 A B) x y) (Exp.tSig U.u0 A B)])
