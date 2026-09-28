@@ -90,3 +90,30 @@
   '(forall [G (List Sk)] (forall [en (HEnv G)] (forall [k Nat] (forall [k2 Nat] (forall [s Sk] (forall [v (Car s)]
      (=> (LE.le k k2) (LE.le k2 n) (V chkf dec encTy n A G en k s v) (V chkf dec encTy n A G en k2 s v))))))))
   (lcert.formal.base/lv (into ['(induction A)] (mapcat script ctors))))
+
+;; --- Lemma 3.4: base data types across budgets ---------------------------------
+
+;; V at R, raised from cap m and footprint m to cap n and footprint k ≥ m.  The
+;; set is { v : ‖v‖ ≤ footprint } at the cert skeleton and empty elsewhere; it
+;; never mentions the cap or the environment.
+(thm base_R_mono [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+                  m :- Nat, n :- Nat, k :- Nat, G :- (List Sk), G2 :- (List Sk), en :- (HEnv G), en2 :- (HEnv G2), hmk :- (Nat.le m k)]
+  (forall [s Sk] (forall [v (Car s)] (=> (V chkf dec encTy m Exp.tR G en m s v) (V chkf dec encTy n Exp.tR G2 en2 k s v))))
+  (intro s) (cases s) (all_goals (intro v hv))
+  ;; every skeleton but cert: the same False on both sides
+  (all_goals (first (exact hv) (skip)))
+  (have h2 (Nat.le (cnodes v) m) hv) (exact (Nat.le_trans h2 hmk)))
+
+;; Lemma 3.4: for a base data type D (isBaseTy: 0, 1, Bool, Nat, Lbl, Syn, R)
+;; and m ≤ k, Vᵐₘ(D) ⊆ Vⁿₖ(D) — at any caps and environments, since none of
+;; these sets depends on them.  This is what lets reflect, which runs a program
+;; at a smaller budget m, return its value at budget n.
+(thm Lemma_3_4 [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+                D :- Exp, m :- Nat, n :- Nat, k :- Nat, G :- (List Sk), G2 :- (List Sk), en :- (HEnv G), en2 :- (HEnv G2),
+                s :- Sk, v :- (Car s)]
+  (=> (Eq Bool (isBaseTy D) Bool.true) (Nat.le m k) (V chkf dec encTy m D G en m s v) (V chkf dec encTy n D G2 en2 k s v))
+  (cases D) (all_goals (intro hb hmk hv))
+  ;; non-base constructors: isBaseTy is false; 0, 1, Bool, Nat, Lbl, Syn: the
+  ;; same set on both sides
+  (all_goals (first (exact (Bool.noConfusion hb)) (exact hv) (skip)))
+  (exact (base_R_mono chkf dec encTy m n k G G2 en en2 hmk s v hv)))

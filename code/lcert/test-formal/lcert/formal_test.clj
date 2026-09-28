@@ -125,7 +125,16 @@
   (testing "footprints cannot be lowered: Vₖ(R) is not contained in V₀(R)"
     (is (b/rejects? '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code)]
                     '(V chkf dec encTy 1 Exp.tR (List.nil Sk) Unit.unit 0 Sk.cert (Code.sn 0 (Code.sl 0) (Code.sl 0)))
-                    '[(decide)]))))
+                    '[(decide)])))
+  (testing "Lemma 3.4: base data types across budgets"
+    (is (b/has? 'Lemma_3_4)))
+  (testing "Lemma 3.4 needs m ≤ k: a one-node certificate is in V₁(R) and provably not in V₀(R)"
+    (let [ps '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code)]
+          vR (fn [k] (list 'V 'chkf 'dec 'encTy 5 'Exp.tR '(List.nil Sk) 'Unit.unit k 'Sk.cert '(Code.sn 0 (Code.sl 0) (Code.sl 0))))]
+      (is (not (b/rejects? ps (vR 1) '[(exact (Nat.le_refl 1))])))
+      (is (not (b/rejects? ps (list 'Not (vR 0)) '[(intro h) (have h2 (LE.le 1 0) h) (omega)])))))
+  (testing "and T(b) is not a base type: its set depends on the cap"
+    (is (b/rejects? '[] '(Eq Bool (isBaseTy (Exp.tT Exp.tt)) Bool.true) '[(rfl)]))))
 
 (require 'lcert.formal.skeletons)
 (deftest f2e-lemma-2-5
