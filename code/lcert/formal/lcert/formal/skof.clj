@@ -6,7 +6,8 @@
   (SubOK).  This namespace proves what the fundamental lemma needs to meet
   those assumptions:
 
-    skOf_rt:  Rt D us t A  and  clean A  ⟹  skOf (skels D) t = some (skel A).
+    skOf_rt:  Rt D us t A  and  clean A  ⟹  skOf (skels D) t = some (skel A),
+    skOf_tl:  the same for type-level terms (Tl false).
 
   clean A (judgment.clj) says A contains no branch-list pseudo-type tBrs.  A
   branch list has every skeleton Lbl → s, so skOf has none to give it; the
@@ -142,3 +143,40 @@
     '(exact (Bool.noConfusion hcA))
     ;; RecSyn
     (list 'exact (some-cong (list 'Eq.symm (list 'skel_subst1 'c 'P (term-unit 'us1 'c 'Exp.tSyn 'hc)))))))
+
+;; skOf_tl: the same for type-level terms (Tl at w = false), whose arguments
+;; App₀ and Pair₀ substitute into types.  Formation derivations (w = true)
+;; are excluded by the first hypothesis.
+(defn- tu [X T hX] (list 'skj_term_unit 'Bool.false '(skels D) X (list 'skel T) (list 'lemma25_tl_term 'chkf 'D X T hX) 'rfl))
+(defn- scg [eq] (list 'congrArg '(fn [x :- Sk] (Option.some Sk x)) eq))
+(eval (list 'thm 'skOf_tl '[chkf :- (=> Code Code Bool), w0 :- Bool, D0 :- (List Exp), t0 :- Exp, A0 :- Exp, der :- (Tl chkf w0 D0 t0 A0)]
+  '(=> (Eq Bool w0 Bool.false) (Eq Bool (clean A0) Bool.true) (Eq (Option Sk) (skOf (skels D0) t0) (Option.some Sk (skel A0))))
+  '(induction der)
+  '(all_goals (intro hw hcA))
+  '(all_goals (first (exact (Bool.noConfusion hw)) (skip)))
+  '(all_goals (try (rfl)))
+  ;; RecSyn
+  (list 'exact (scg (list 'Eq.symm (list 'skel_subst1 'c 'P (tu 'c 'Exp.tSyn 'hc)))))
+  ;; Bcons, Bnil
+  '(exact (Bool.noConfusion hcA))
+  '(exact (Bool.noConfusion hcA))
+  ;; CaseL, RecN, ElimBool
+  (list 'exact (scg (list 'Eq.symm (list 'skel_subst1 'x 'P (tu 'x 'Exp.tLbl 'hx)))))
+  (list 'exact (scg (list 'Eq.symm (list 'skel_subst1 'n 'P (tu 'n 'Exp.tNat 'hn)))))
+  (list 'exact (scg (list 'Eq.symm (list 'skel_subst1 'b 'P (tu 'b 'Exp.tBool 'hb)))))
+  ;; If
+  '(exact (ih_ht rfl hcA))
+  ;; App
+  (list 'exact (list 'Eq.trans '(skOf_app (skels D) f u (skel (Exp.tPi r A B))
+                                   (ih_hf rfl (skj_clean Bool.true (skels D) (Exp.tPi r A B) Sk.unit
+                                                (SkJ.wPi (skels D) r A B (lemma25_tl_type chkf D A hA) (lemma25_tl_type chkf (List.cons Exp A D) B hB)))))
+         (scg (list 'Eq.symm (list 'skel_subst1 'u 'B (tu 'u 'A 'hu))))))
+  ;; Lam
+  '(exact (skOf_lam (skels D) r A t (skel B) (ih_ht rfl (band_right (clean A) (clean B) hcA))))
+  ;; Conv
+  (list 'exact (list 'Eq.trans '(ih_ht rfl (skj_clean Bool.true (skels D) A Sk.unit (cv_wf_left chkf (skels D) A B hc)))
+         (scg '(cv_skel chkf (skels D) A B hc))))
+  ;; Const
+  '(exact (skOf_const (skels D) t A h))
+  ;; Var
+  (list 'exact (list 'Eq.trans '(skels_nth D i A h) (scg '(Eq.symm (skel_lift A (+ i 1) 0)))))))

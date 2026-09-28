@@ -33,12 +33,13 @@
   - ElimBool: the motive at ⟦b⟧; each branch's IH at P[tt], P[ff] becomes
     V(P) at (tt, η), (ff, η) by V_subst1, and the scrutinee picks one.
 
-  - Pair, at usage 1 and ω; Let, at every usage (see the sections).
+  - Pair, at usage 1 and ω; Let, at every usage; App₀ and Pair₀ (see the
+    sections).
   - Var: in a well-formed context, the entry's value, read through the lift
     of its type by V_lift (vweaken.clj).
 
   Pending (they need Lemma 3.1/3.3's substitution or weakening clauses, 3.2,
-  or the outer induction on n): App₀, Pair₀, Conv,
+  or the outer induction on n): Conv,
   RecN, CaseL, Bcons, RecS, ItR, H₁, Refl, Inspect."
   (:require [ansatz.core :as a]
             [lcert.formal.base :refer [thm kdef]]
@@ -747,3 +748,47 @@
   (exact (F_letw chkf dec encTy n D (List.nil U) us1 us2 A B C p t hp hC hA hB ihp iht en k hk hs))
   (exact (F_let1 chkf dec encTy n D (List.nil U) us1 us2 A B C p t hp hC hA hB ihp iht en k hk hs))
   (exact (F_let0 chkf dec encTy n D (List.nil U) us1 us2 A B C p t hp hC hA hB ihp iht en k hk hs)))
+
+;; --- usage-0 application and pairs --------------------------------------------------
+
+;; App₀: u is type-level (Tl), so its skOf comes from skOf_tl; the Π₀ clause
+;; of f's IH holds at every argument, in particular ⟦u⟧, at the same footprint.
+(case! 'F_app0
+  (into '[f :- Exp, u :- Exp, A :- Exp, B :- Exp,
+          hu :- (Tl chkf Bool.false D u A), hA :- (Tl chkf Bool.true D A Exp.tUnit), hB :- (Tl chkf Bool.true (List.cons Exp A D) B Exp.tUnit)]
+        (into ['ihf :- (SND 'us 'f '(Exp.tPi U.u0 A B))] (conj ENV 'hs :- (ES 'us 'k))))
+  (concl '(subst1 u B) '(Exp.app f u))
+  '[(have hAS (SkJ Bool.true (skels D) A Sk.unit) (lemma25_tl_type chkf D A hA))
+    (have hBS (SkJ Bool.true (List.cons Sk (skel A) (skels D)) B Sk.unit) (lemma25_tl_type chkf (List.cons Exp A D) B hB))
+    (have hclA (Eq Bool (clean A) Bool.true) (skj_clean Bool.true (skels D) A Sk.unit hAS))
+    (have huS (SkJ Bool.false (skels D) u (skel A)) (lemma25_tl_term chkf D u A hu))
+    (have hsk (Eq (Option Sk) (skOf (skels D) u) (Option.some Sk (skel A))) (skOf_tl chkf Bool.false D u A hu rfl hclA))
+    (have hU (Eq Sk (skel u) Sk.unit) (skj_term_unit Bool.false (skels D) u (skel A) huS rfl))
+    (rw [(skel_subst1 u B hU)])
+    (rw [(den_app_some chkf dec encTy n f u (skels D) (skel A) (skel B) en hsk)])
+    (refine' (Iff.mpr (V_subst1 chkf dec encTy n (skels D) (skel A) B hBS u huS hsk en k _) _))
+    (have hvf (forall [a (Car (skel A))] (V chkf dec encTy n B (List.cons Sk (skel A) (skels D)) (Prod.mk a en) k (skel B)
+                 ((den chkf dec encTy n f (skels D) (Sk.arr (skel A) (skel B)) en) a)))
+      (ihf en k hk hs))
+    (exact (hvf (den chkf dec encTy n u (skels D) (skel A) en)))])
+
+;; Pair₀: the Σ₀ clause asks only for the second component, in V(B) at
+;; (⟦x⟧, η); x is type-level.
+(case! 'F_pair0
+  (into '[A :- Exp, B :- Exp, x :- Exp, y :- Exp,
+          hA :- (Tl chkf Bool.true D A Exp.tUnit), hB :- (Tl chkf Bool.true (List.cons Exp A D) B Exp.tUnit), hx :- (Tl chkf Bool.false D x A)]
+        (into ['ihy :- (SND 'us 'y '(subst1 x B))] (conj ENV 'hs :- (ES 'us 'k))))
+  (concl '(Exp.tSig U.u0 A B) '(Exp.pair (Exp.tSig U.u0 A B) x y))
+  '[(have hAS (SkJ Bool.true (skels D) A Sk.unit) (lemma25_tl_type chkf D A hA))
+    (have hBS (SkJ Bool.true (List.cons Sk (skel A) (skels D)) B Sk.unit) (lemma25_tl_type chkf (List.cons Exp A D) B hB))
+    (have hclA (Eq Bool (clean A) Bool.true) (skj_clean Bool.true (skels D) A Sk.unit hAS))
+    (have hxS (SkJ Bool.false (skels D) x (skel A)) (lemma25_tl_term chkf D x A hx))
+    (have hxk (Eq (Option Sk) (skOf (skels D) x) (Option.some Sk (skel A))) (skOf_tl chkf Bool.false D x A hx rfl hclA))
+    (have hxU (Eq Sk (skel x) Sk.unit) (skj_term_unit Bool.false (skels D) x (skel A) hxS rfl))
+    (rw [(den_pair_at chkf dec encTy n (Exp.tSig U.u0 A B) x y (skels D) (skel (Exp.tSig U.u0 A B)) en)])
+    (have vy0 (V chkf dec encTy n (subst1 x B) (skels D) en k (skel (subst1 x B)) (den chkf dec encTy n y (skels D) (skel (subst1 x B)) en))
+      (ihy en k hk hs))
+    (have vy1 (V chkf dec encTy n (subst1 x B) (skels D) en k (skel B) (den chkf dec encTy n y (skels D) (skel B) en))
+      (sk_transport (fn [s :- Sk, v :- (Car s)] (V chkf dec encTy n (subst1 x B) (skels D) en k s v))
+                    (fn [s :- Sk] (den chkf dec encTy n y (skels D) s en)) (skel (subst1 x B)) (skel B) (skel_subst1 x B hxU) vy0))
+    (exact (Iff.mp (V_subst1 chkf dec encTy n (skels D) (skel A) B hBS x hxS hxk en k (den chkf dec encTy n y (skels D) (skel B) en)) vy1))])

@@ -94,7 +94,9 @@
 ;; fundamental lemma fails.  hB is also B's formation, which the
 ;; substitution lemma needs.  Paper derivations meet it by regularity.
 ;; Pair₀/Pair likewise take fSig's premises (hA, hB) for their Σ type, and Let
-;; for the Σ type it eliminates (its body's context extends by A and B).
+;; for the Σ type it eliminates (its body's context extends by A and B).  The
+;; type-level rules zApp, zPair and zLet take the same premises, since
+;; type-level arguments are substituted into types (App₀, Pair₀).
 (a/defn clean [e :- Exp] Bool
   (match e
     [(tT b) (clean b)]
@@ -147,12 +149,14 @@
   (zLam [D (List Exp)] [r U] [A Exp] [t Exp] [B Exp] [hA (Tl chkf Bool.true D A Exp.tUnit)]
         [ht (Tl chkf Bool.false (List.cons Exp A D) t B)] :where [Bool.false D (Exp.lam r A t) (Exp.tPi r A B)])
   (zApp [D (List Exp)] [r U] [f Exp] [u Exp] [A Exp] [B Exp] [hf (Tl chkf Bool.false D f (Exp.tPi r A B))]
-        [hu (Tl chkf Bool.false D u A)] :where [Bool.false D (Exp.app f u) (subst1 u B)])
-  (zPair [D (List Exp)] [r U] [A Exp] [B Exp] [x Exp] [y Exp] [hS (Tl chkf Bool.true D (Exp.tSig r A B) Exp.tUnit)]
+        [hu (Tl chkf Bool.false D u A)] [hA (Tl chkf Bool.true D A Exp.tUnit)] [hB (Tl chkf Bool.true (List.cons Exp A D) B Exp.tUnit)] :where [Bool.false D (Exp.app f u) (subst1 u B)])
+  (zPair [D (List Exp)] [r U] [A Exp] [B Exp] [x Exp] [y Exp] [hA (Tl chkf Bool.true D A Exp.tUnit)]
+         [hB (Tl chkf Bool.true (List.cons Exp A D) B Exp.tUnit)]
          [hx (Tl chkf Bool.false D x A)] [hy (Tl chkf Bool.false D y (subst1 x B))]
          :where [Bool.false D (Exp.pair (Exp.tSig r A B) x y) (Exp.tSig r A B)])
   (zLet [D (List Exp)] [r U] [A Exp] [B Exp] [C Exp] [p Exp] [t Exp] [hp (Tl chkf Bool.false D p (Exp.tSig r A B))]
-        [hC (Tl chkf Bool.true D C Exp.tUnit)] [ht (Tl chkf Bool.false (List.cons Exp B (List.cons Exp A D)) t (lift 2 0 C))]
+        [hC (Tl chkf Bool.true D C Exp.tUnit)] [hA (Tl chkf Bool.true D A Exp.tUnit)] [hB (Tl chkf Bool.true (List.cons Exp A D) B Exp.tUnit)]
+        [ht (Tl chkf Bool.false (List.cons Exp B (List.cons Exp A D)) t (lift 2 0 C))]
         :where [Bool.false D (Exp.letp C p t) C])
   (zAbort [D (List Exp)] [A Exp] [t Exp] [ht (Tl chkf Bool.false D t Exp.tEmpty)] [hA (Tl chkf Bool.true D A Exp.tUnit)]
           :where [Bool.false D (Exp.abort A t) A])

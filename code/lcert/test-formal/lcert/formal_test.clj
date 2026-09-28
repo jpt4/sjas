@@ -182,7 +182,7 @@
     (doseq [c '[Sound F_const F_succ F_sleaf F_snode F_prn F_chk F_lam0 F_lam1 F_lamw F_lam F_abort F_ite F_leaf F_node F_bnil
                 den_app_some F_app1 F_appw F_app sk_transport bool_rec_dep F_elimB
                 WFCtx var_wf entry_nz var_succ var_zero var_sem F_var le_sub_add F_pair1 F_pairw F_pair
-                den_letp_some EnvSat_cons le_let le_let0 F_let1 F_letw F_let0 F_let]]
+                den_letp_some EnvSat_cons le_let le_let0 F_let1 F_letw F_let0 F_let F_app0 F_pair0]]
       (is (b/has? c) (str c))))
   (testing "a label constant must be below NL: lbl 100 is not in V(Lbl)"
     (is (not (b/rejects? '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat]
@@ -262,7 +262,7 @@
 (require 'lcert.formal.skof)
 (deftest f3k-skof-completeness
   (testing "skOf is complete on runtime terms at clean types; skeleton-typed expressions are clean"
-    (doseq [c '[clean_tPi clean_app skj_clean cv_wf_left skOf_const skOf_rt]]
+    (doseq [c '[clean_tPi clean_app skj_clean cv_wf_left skOf_const skOf_rt skOf_tl]]
       (is (b/has? c) (str c))))
   (testing "a branch list has no inferred skeleton, which is why the clean premise is needed"
     (is (not (b/rejects? '[G :- (List Sk)] '(Eq (Option Sk) (skOf G Exp.bnil) (Option.none Sk)) '[(rfl)])))))
