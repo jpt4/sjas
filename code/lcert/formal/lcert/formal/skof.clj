@@ -10,8 +10,8 @@
 
   clean A (judgment.clj) says A contains no branch-list pseudo-type tBrs.  A
   branch list has every skeleton Lbl → s, so skOf has none to give it; the
-  clean premise of App₀/App keeps branch lists out of argument position, and
-  every paper type is clean.
+  formation premise of App₀/App (hence clean function types) keeps branch
+  lists out of argument position, and every paper type is clean.
 
   Supporting facts:
   - clean_<ctor>: clean is true of a constructor whose Exp fields are clean
@@ -104,8 +104,8 @@
 ;; skOf_rt, by induction on the derivation.  Rules whose conclusion's skOf
 ;; is a constant or the annotation's skeleton close by rfl.  Of the rest:
 ;; - Var: nthS of the skeleton context, and skel (lift …) = skel;
-;; - Lam, If, App₀, App: the IH (for App at the function, whose type is clean
-;;   by the premise), with skel (B[u/x]) = skel B;
+;; - Lam, If, App₀, App: the IH (for App at the function, whose type is
+;;   formed by the premise, hence clean), with skel (B[u/x]) = skel B;
 ;; - Conv: the IH at the original type, clean because it is well-formed
 ;;   (cv_wf_left, skj_clean), and conversion keeps skeletons;
 ;; - ElimBool, RecN, CaseL, RecSyn: skel (P[x/y]) = skel P;
@@ -123,10 +123,10 @@
     ;; Lam
     '(exact (skOf_lam (skels D) r A t (skel B) (ih_ht (band_right (clean A) (clean B) hcA))))
     ;; App₀
-    (list 'exact (list 'Eq.trans '(skOf_app (skels D) f u (skel (Exp.tPi U.u0 A B)) (ih_hf hcl))
+    (list 'exact (list 'Eq.trans '(skOf_app (skels D) f u (skel (Exp.tPi U.u0 A B)) (ih_hf (skj_clean Bool.true (skels D) (Exp.tPi U.u0 A B) Sk.unit (SkJ.wPi (skels D) U.u0 A B (lemma25_tl_type chkf D A hA) (lemma25_tl_type chkf (List.cons Exp A D) B hB)))))
            (some-cong (list 'Eq.symm (list 'skel_subst1 'u 'B '(skj_term_unit Bool.false (skels D) u (skel A) (lemma25_tl_term chkf D u A hu) rfl))))))
     ;; App
-    (list 'exact (list 'Eq.trans '(skOf_app (skels D) f u (skel (Exp.tPi r A B)) (ih_hf hcl))
+    (list 'exact (list 'Eq.trans '(skOf_app (skels D) f u (skel (Exp.tPi r A B)) (ih_hf (skj_clean Bool.true (skels D) (Exp.tPi r A B) Sk.unit (SkJ.wPi (skels D) r A B (lemma25_tl_type chkf D A hA) (lemma25_tl_type chkf (List.cons Exp A D) B hB)))))
            (some-cong (list 'Eq.symm (list 'skel_subst1 'u 'B (term-unit 'us2 'u 'A 'hu))))))
     ;; Conv
     (list 'exact (list 'Eq.trans '(ih_ht (skj_clean Bool.true (skels D) A Sk.unit (cv_wf_left chkf (skels D) A B hc)))

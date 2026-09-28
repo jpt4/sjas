@@ -26,8 +26,12 @@
     splitting Γ₁ + Γ₂ + Γ₃ + Γ₄;
   - Bnil: its set is vacuous at NL (no label l with NL ≤ l < NL).
 
+  - App, at usage 1 and ω: skOf of the argument is its skeleton (skOf_rt),
+    so ⟦f u⟧ = ⟦f⟧(⟦u⟧); V(B[u/x])η = V(B)(η, ⟦u⟧) (Lemma 3.3, V_subst1);
+    the Π clause of ⟦f⟧'s IH at ⟦u⟧'s footprint, raised to k (V_mono).
+
   Pending (they need Lemma 3.1/3.3's substitution or weakening clauses, 3.2,
-  or the outer induction on n): Var, App₀, App, Pair₀, Pair, Let, Conv,
+  or the outer induction on n): Var, App₀, Pair₀, Pair, Let, Conv,
   ElimBool, RecN, CaseL, Bcons, RecS, ItR, H₁, Refl, Inspect."
   (:require [ansatz.core :as a]
             [lcert.formal.base :refer [thm kdef]]
@@ -42,7 +46,11 @@
             [lcert.formal.model :refer :all]
             [lcert.formal.subst]
             [lcert.formal.splitting :refer :all]
-            [lcert.formal.unfold :refer :all]))
+            [lcert.formal.unfold :refer :all]
+            [lcert.formal.mono]
+            [lcert.formal.substitution]
+            [lcert.formal.skeletons]
+            [lcert.formal.skof]))
 
 ;; --- the motive ----------------------------------------------------------------
 
@@ -245,3 +253,97 @@
 ;; bnil : tBrs P NL.  The set quantifies over labels l with NL ≤ l < NL: none.
 (case! 'F_bnil (into '[P :- Exp] ENV) (concl '(Exp.tBrs P (NL)) 'Exp.bnil)
   '[(intro l h1 h2) (have h3 (LE.le 100 l) h1) (have h4 (LT.lt l 100) h2) (exfalso) (omega)])
+
+;; --- application -------------------------------------------------------------------
+
+;; ⟦f u⟧ when skOf finds u's skeleton: the application clause of den_gen.clj.
+(thm den_app_some [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+                   f :- Exp, u :- Exp, G :- (List Sk), su :- Sk, sk :- Sk, en :- (HEnv G),
+                   h :- (Eq (Option Sk) (skOf G u) (Option.some Sk su))]
+  (Eq (Car sk) (den chkf dec encTy n (Exp.app f u) G sk en) ((den chkf dec encTy n f G (Sk.arr su sk) en) (den chkf dec encTy n u G su en)))
+  (rw [(den_app_at chkf dec encTy n f u G sk en)])
+  (change (Eq (Car sk) (Option.rec$1$0 Sk (fn [_ :- (Option Sk)] (Car sk)) (dflt sk)
+                         (fn [s2 :- Sk] ((den chkf dec encTy n f G (Sk.arr s2 sk) en) (den chkf dec encTy n u G s2 en))) (skOf G u))
+                  ((den chkf dec encTy n f G (Sk.arr su sk) en) (den chkf dec encTy n u G su en))))
+  (rw [h]))
+
+;; The common opening of the App cases: from the premises, the facts the
+;; substitution lemma needs (A, B well-formed; u skeleton-typed with skOf its
+;; skeleton; skel u = Unit), then skel (B[u/x]) = skel B, ⟦f u⟧ = ⟦f⟧(⟦u⟧),
+;; and V(B[u/x])η = V(B)(η, ⟦u⟧).
+(def ^:private app-facts
+  '[(have hAS (SkJ Bool.true (skels D) A Sk.unit) (lemma25_tl_type chkf D A hA))
+    (have hBS (SkJ Bool.true (List.cons Sk (skel A) (skels D)) B Sk.unit) (lemma25_tl_type chkf (List.cons Exp A D) B hB))
+    (have hclA (Eq Bool (clean A) Bool.true) (skj_clean Bool.true (skels D) A Sk.unit hAS))
+    (have huS (SkJ Bool.false (skels D) u (skel A)) (lemma25_rt chkf D us2 u A hu))
+    (have hsk (Eq (Option Sk) (skOf (skels D) u) (Option.some Sk (skel A))) (skOf_rt chkf D us2 u A hu hclA))
+    (have hU (Eq Sk (skel u) Sk.unit) (skj_term_unit Bool.false (skels D) u (skel A) huS rfl))
+    (rw [(skel_subst1 u B hU)])
+    (rw [(den_app_some chkf dec encTy n f u (skels D) (skel A) (skel B) en hsk)])
+    (refine' (Iff.mpr (V_subst1 chkf dec encTy n (skels D) (skel A) B hBS u huS hsk en k _) _))])
+
+(def ^:private app-params
+  '[us1 :- (List U), us2 :- (List U), f :- Exp, u :- Exp, A :- Exp, B :- Exp,
+    hu :- (Rt chkf D us2 u A), hA :- (Tl chkf Bool.true D A Exp.tUnit), hB :- (Tl chkf Bool.true (List.cons Exp A D) B Exp.tUnit)])
+
+(def ^:private fu '((den chkf dec encTy n f (skels D) (Sk.arr (skel A) (skel B)) en) (den chkf dec encTy n u (skels D) (skel A) en)))
+(def ^:private uen '(Prod.mk (den chkf dec encTy n u (skels D) (skel A) en) en))
+(def ^:private ctxA '(List.cons Sk (skel A) (skels D)))
+
+;; App at usage 1: Γ₁ + Γ₂ splits as k₁ + k₂ ≤ k; ⟦u⟧ ∈ V_k₂(A); the Π₁
+;; clause at j = k₂ puts ⟦f⟧(⟦u⟧) in V_{k₁+k₂}(B), raised to k.
+(case! 'F_app1
+  (into app-params (into ['ihf :- (SND 'us1 'f '(Exp.tPi U.u1 A B)) 'ihu :- (SND 'us2 'u 'A)]
+                         (conj ENV 'hs :- (ES '(vadd us1 (vscale U.u1 us2)) 'k))))
+  (concl '(subst1 u B) '(Exp.app f u))
+  (concat app-facts
+    (split-steps 'hs 'us1 '(vscale U.u1 us2) 'k 'k1 'k2 'p)
+    ['(have hs2 (EnvSat chkf dec encTy n D us2 en k2) (EnvSat_one chkf dec encTy n D us2 en k2 (And.right (And.right p))))
+     '(have hkn (Nat.le (+ k1 k2) n) (Nat.le_trans (And.left p) hk))
+     '(have hk1 (Nat.le k1 n) (Nat.le_trans (Nat.le_add_right k1 k2) hkn))
+     '(have hk2 (Nat.le k2 n) (Nat.le_trans (Nat.le_add_left k2 k1) hkn))
+     (list 'have 'hvf (list 'forall '[j Nat] (list '=> '(Nat.le (+ k1 j) n) (list 'forall '[a (Car (skel A))]
+          (list '=> '(V chkf dec encTy n A (skels D) en j (skel A) a)
+              (list 'V 'chkf 'dec 'encTy 'n 'B ctxA '(Prod.mk a en) '(+ k1 j) '(skel B)
+                 '((den chkf dec encTy n f (skels D) (Sk.arr (skel A) (skel B)) en) a))))))
+        '(ihf en k1 hk1 (And.left (And.right p))))
+     '(have hvu (V chkf dec encTy n A (skels D) en k2 (skel A) (den chkf dec encTy n u (skels D) (skel A) en)) (ihu en k2 hk2 hs2))
+     (list 'have 'hv (list 'V 'chkf 'dec 'encTy 'n 'B ctxA uen '(+ k1 k2) '(skel B) fu)
+        '(hvf k2 hkn (den chkf dec encTy n u (skels D) (skel A) en) hvu))
+     (list 'exact (list 'V_mono 'chkf 'dec 'encTy 'n 'B ctxA uen '(+ k1 k2) 'k '(skel B) fu '(And.left p) 'hk 'hv))]))
+
+;; App at usage ω: Γ₂ is ω-scaled, so ⟦u⟧ ∈ V₀(A) (Lemma 3.5 ii), and the Πω
+;; clause puts ⟦f⟧(⟦u⟧) in V_k₁(B), raised to k.
+(case! 'F_appw
+  (into app-params (into ['ihf :- (SND 'us1 'f '(Exp.tPi U.uw A B)) 'ihu :- (SND 'us2 'u 'A)]
+                         (conj ENV 'hs :- (ES '(vadd us1 (vscale U.uw us2)) 'k))))
+  (concl '(subst1 u B) '(Exp.app f u))
+  (concat app-facts
+    (split-steps 'hs 'us1 '(vscale U.uw us2) 'k 'k1 'k2 'p)
+    ['(have hs2 (EnvSat chkf dec encTy n D us2 en 0) (EnvSat_omega chkf dec encTy n D us2 en k2 (And.right (And.right p))))
+     '(have hk1k (Nat.le k1 k) (Nat.le_trans (Nat.le_add_right k1 k2) (And.left p)))
+     '(have hk1 (Nat.le k1 n) (Nat.le_trans hk1k hk))
+     (list 'have 'hvf (list 'forall '[a (Car (skel A))]
+          (list '=> '(V chkf dec encTy n A (skels D) en 0 (skel A) a)
+              (list 'V 'chkf 'dec 'encTy 'n 'B ctxA '(Prod.mk a en) 'k1 '(skel B)
+                 '((den chkf dec encTy n f (skels D) (Sk.arr (skel A) (skel B)) en) a))))
+        '(ihf en k1 hk1 (And.left (And.right p))))
+     '(have hvu (V chkf dec encTy n A (skels D) en 0 (skel A) (den chkf dec encTy n u (skels D) (skel A) en)) (ihu en 0 (Nat.zero_le n) hs2))
+     (list 'have 'hv (list 'V 'chkf 'dec 'encTy 'n 'B ctxA uen 'k1 '(skel B) fu)
+        '(hvf (den chkf dec encTy n u (skels D) (skel A) en) hvu))
+     (list 'exact (list 'V_mono 'chkf 'dec 'encTy 'n 'B ctxA uen 'k1 'k '(skel B) fu 'hk1k 'hk 'hv))]))
+
+;; App at any nonzero usage, in the motive's form.  (After cases r, usage 0
+;; is refuted by nonzero; the goals left are u1 then ω, checked with peek.
+;; Each lemma is applied to its own goal: inside `first`, Ansatz's exact can
+;; accept a term for the wrong goal, which the kernel then rejects.)
+(thm F_app [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+            n :- Nat, D :- (List Exp), us1 :- (List U), us2 :- (List U), f :- Exp, u :- Exp, A :- Exp, B :- Exp,
+            hu :- (Rt chkf D us2 u A), hA :- (Tl chkf Bool.true D A Exp.tUnit), hB :- (Tl chkf Bool.true (List.cons Exp A D) B Exp.tUnit)]
+  (forall [r U] (=> (Eq Bool (nonzero r) Bool.true)
+    (Sound chkf dec encTy n D us1 f (Exp.tPi r A B)) (Sound chkf dec encTy n D us2 u A)
+    (Sound chkf dec encTy n D (vadd us1 (vscale r us2)) (Exp.app f u) (subst1 u B))))
+  (intro r) (cases r) (all_goals (intro hr ihf ihu en k hk hs))
+  (all_goals (first (exact (Bool.noConfusion hr)) (skip)))
+  (exact (F_app1 chkf dec encTy n D (List.nil U) us1 us2 f u A B hu hA hB ihf ihu en k hk hs))
+  (exact (F_appw chkf dec encTy n D (List.nil U) us1 us2 f u A B hu hA hB ihf ihu en k hk hs)))
