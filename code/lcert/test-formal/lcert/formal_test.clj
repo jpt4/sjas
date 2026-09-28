@@ -32,6 +32,14 @@
     (is (b/has? 'codeOf))
     (is (b/rejects? '[] '(= (skel Exp.tNat) Sk.unit) '[(rfl)]))))
 
+(deftest f2a-usage-vectors-compute
+  (testing "vadd reduces definitionally, so proofs can compute with usage vectors"
+    (is (not (b/rejects? '[y :- (List U)] '(= (vadd (List.nil U) y) (List.nil U)) '[(rfl)])))
+    (is (not (b/rejects? '[a :- U, b :- U, x :- (List U), y :- (List U)]
+                         '(= (vadd (List.cons U a x) (List.cons U b y)) (List.cons U (uadd a b) (vadd x y))) '[(rfl)]))))
+  (testing "and not to something else"
+    (is (b/rejects? '[a :- U, x :- (List U)] '(= (vadd (List.cons U a x) (List.nil U)) (List.cons U a x)) '[(rfl)]))))
+
 (require 'lcert.formal.conv)
 (deftest f2b-steps
   (is (b/has? 'Hd)))
@@ -129,3 +137,15 @@
     (is (b/has? 'step_skel_needs_wf)))
   (testing "a derivation's skeleton is not arbitrary"
     (is (b/rejects? '[] '(SkJ Bool.false (List.nil Sk) Exp.tt Sk.nat) '[(constructor)]))))
+
+(require 'lcert.formal.splitting)
+(deftest f3h-lemma-3-5
+  (testing "Lemma 3.5: splitting, ω-contexts, 1-contexts, raising the bound"
+    (doseq [c '[entry_split EnvSat_split entry_omega EnvSat_omega EnvSat_one EnvSat_mono]]
+      (is (b/has? c) (str c))))
+  (testing "the 0 summand of a usage-1 entry cannot take its footprint"
+    (is (b/rejects? '[j :- Nat, P :- (=> Nat Prop)] '(=> (EntryOK (uadd U.u1 U.u0) j P) (EntryOK U.u0 j P))
+                    '[(intro h) (exact rfl)])))
+  (testing "a usage-1 entry is not usable at footprint 0: only ω entries are"
+    (is (b/rejects? '[j :- Nat, P :- (=> Nat Prop)] '(=> (EntryOK U.u1 j P) (EntryOK U.u1 0 P))
+                    '[(intro h) (exact h)]))))

@@ -17,16 +17,27 @@
   Skeletons (Lemma 2.5).  skel(0) = skel(1) = skel(T b) = Unit; Π and Σ go to
   arrows and products; other base types and ◇ are their own skeletons."
   (:require [ansatz.core :as a]
-            [lcert.formal.base :refer [thm]]
+            [lcert.formal.base :refer [thm kdef]]
             [lcert.formal.usage :refer :all]
             [lcert.formal.syntax :refer :all]))
 
 ;; --- usage vectors -------------------------------------------------------
 
-(a/defn vadd [x :- (List U), y :- (List U)] (List U)
-  (match x
-    [nil (List.nil)]
-    [(cons a xs) (match y [nil (List.nil)] [(cons b ys) (List.cons (uadd a b) (vadd xs ys))])]))
+;; vadd x y: pointwise sum, truncated to the shorter vector.  Defined by
+;; structural recursion on x returning a function of y (both vectors shrink,
+;; which a/defn would compile by well-founded recursion, and a well-founded
+;; definition does not reduce definitionally: proofs could not compute with
+;; it).  So vadd (a::x) (b::y) ≡ uadd a b :: vadd x y holds by rfl.
+(kdef vadd (=> (List U) (List U) (List U))
+  (fn [x :- (List U)]
+    (List.rec$1$0 U (fn [_ :- (List U)] (=> (List U) (List U)))
+      (fn [y :- (List U)] (List.nil U))
+      (fn [a :- U, xs :- (List U), ih :- (=> (List U) (List U))]
+        (fn [y :- (List U)]
+          (List.rec$1$0 U (fn [_ :- (List U)] (List U)) (List.nil U)
+            (fn [b :- U, ys :- (List U), _ :- (List U)] (List.cons U (uadd a b) (ih ys)))
+            y)))
+      x)))
 
 (a/defn vscale [r :- U, x :- (List U)] (List U)
   (match x [nil (List.nil)] [(cons a xs) (List.cons (umul r a) (vscale r xs))]))

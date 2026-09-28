@@ -1,0 +1,258 @@
+(ns lcert.formal.splitting
+  "F3h — splitting environments (R4-metatheory.md Lemma 3.5), and the other
+  facts about η ⊨ⁿₖ Γ that the fundamental lemma (3.6) uses.
+
+  EnvSat n D us η k (model.clj) reads: every usage-1 entry of the context has
+  its value in V at some footprint j, the footprints sum to at most k, every
+  usage-ω entry has its value in V₀, and usage-0 entries are unconstrained.
+  Per entry, that is EntryOK r j P, with P the entry's semantic type.
+
+  Proved here:
+  - entry_split / EnvSat_split: Lemma 3.5, first clause.  If η ⊨ₖ Γ₁ + Γ₂
+    then η ⊨ₖ₁ Γ₁ and η ⊨ₖ₂ Γ₂ with k₁ + k₂ ≤ k.
+  - entry_omega / EnvSat_omega: Lemma 3.5, second clause.  If η ⊨ₖ ωΓ then
+    η ⊨₀ Γ.
+  - EnvSat_one: η ⊨ₖ 1Γ gives η ⊨ₖ Γ (vscale U.u1 is the identity pointwise;
+    the rules write 1·Γ for a premise at usage 1).
+  - EnvSat_mono: a footprint bound may be raised.
+
+  Technique.  Each clause is an induction on the context D, generalized over
+  the usage vectors, the environment and the footprint.  The cons step is a
+  separate lemma with clean names (…_cons), because the names that `cases`
+  gives list fields are generated.  Existentials are eliminated with exN,
+  applied by refine' (Ansatz has no obtain/rcases), and every folded EnvSat
+  or EntryOK is restated with `have` before its parts are used.  The tactic
+  scripts are built as data by the helpers below, since the same shapes
+  recur."
+  (:require [ansatz.core :as a]
+            [lcert.formal.base :refer [thm kdef]]
+            [lcert.formal.usage :refer :all]
+            [lcert.formal.syntax :refer :all]
+            [lcert.formal.skel :refer :all]
+            [lcert.formal.conv :refer :all]
+            [lcert.formal.judgment :refer :all]
+            [lcert.formal.carrier :refer :all]
+            [lcert.formal.den :refer :all]
+            [lcert.formal.sem :refer :all]
+            [lcert.formal.model :refer :all]))
+
+;; --- existential elimination -----------------------------------------------
+
+;; exN: ∃-elimination at Nat into any Prop.  Used as (refine' (exN _ _ h _))
+;; followed by (intro x hx): the unifier fills the predicate and the goal.
+(thm exN [P :- (=> Nat Prop), Q :- Prop, h :- (Exists P), f :- (forall [x Nat] (=> (P x) Q))] Q
+  (exact (AT_Exists.rec Nat P (fn [_ :- (Exists P)] Q) f h)))
+
+;; --- per-entry facts -----------------------------------------------------
+
+;; Splitting one entry: whatever the pair of usages, the entry's footprint j
+;; divides as j₁ + j₂ ≤ j between the summands.  A usage-1 entry is 1 in one
+;; summand and 0 in the other, so it keeps j on its side; an entry of usage
+;; ω (either summand ω, or 1 + 1) has its value in V₀, so both sides take 0.
+;; `cases` leaves the nine goals in the order written below (checked with peek).
+(defn- witnesses
+  "Tactic steps proving ∃ j₁ j₂, j₁ + j₂ ≤ j ∧ E₁ ∧ E₂ from explicit terms."
+  [j1 j2 le e1 e2]
+  (list '(constructor) (list 'exact j1) '(constructor) (list 'exact j2)
+        '(constructor) (list 'exact le) '(constructor) (list 'exact e1) (list 'exact e2)))
+
+(def ^:private as-omega '(have h2 (And (Eq Nat j 0) (P 0)) h))   ; ω entry: j = 0 and V₀
+(def ^:private as-zero '(have h2 (Eq Nat j 0) h))                ; 0 entry: j = 0
+(def ^:private as-one '(have h2 (P j) h))                        ; 1 entry: Vⱼ
+(def ^:private omega-of-h2 '(And.intro rfl (And.right h2)))      ; an ω entry at footprint 0
+
+(eval
+  (concat
+    '(thm entry_split [r1 :- U, r2 :- U, j :- Nat, P :- (=> Nat Prop)]
+       (=> (EntryOK (uadd r1 r2) j P)
+           (Exists (fn [j1 :- Nat] (Exists (fn [j2 :- Nat]
+             (And (Nat.le (+ j1 j2) j) (And (EntryOK r1 j1 P) (EntryOK r2 j2 P))))))))
+       (cases r1) (all_goals (cases r2)) (all_goals (intro h)))
+    ;; (0,ω) (0,1) (0,0) (1,ω) (1,1) (1,0) (ω,ω) (ω,1) (ω,0)
+    [as-omega] (witnesses 0 0 '(Nat.zero_le j) 'rfl omega-of-h2)
+    [as-one] (witnesses 0 'j '(Nat.le_of_eq (Nat.zero_add j)) 'rfl 'h2)
+    [as-zero] (witnesses 0 0 '(Nat.zero_le j) 'rfl 'rfl)
+    [as-omega] (witnesses 0 0 '(Nat.zero_le j) '(And.right h2) omega-of-h2)
+    [as-omega] (witnesses 0 0 '(Nat.zero_le j) '(And.right h2) '(And.right h2))
+    [as-one] (witnesses 'j 0 '(Nat.le_refl j) 'h2 'rfl)
+    [as-omega] (witnesses 0 0 '(Nat.zero_le j) omega-of-h2 omega-of-h2)
+    [as-omega] (witnesses 0 0 '(Nat.zero_le j) omega-of-h2 '(And.right h2))
+    [as-omega] (witnesses 0 0 '(Nat.zero_le j) omega-of-h2 'rfl)))
+
+;; An entry of ωΓ satisfies Γ's entry at footprint 0: ω·0 = 0 is
+;; unconstrained, and ω·1 = ω·ω = ω puts the value in V₀.
+;; Goals after `cases r`: ω, 1, 0.
+(thm entry_omega [r :- U, j :- Nat, P :- (=> Nat Prop)] (=> (EntryOK (umul U.uw r) j P) (EntryOK r 0 P))
+  (cases r) (all_goals (intro h))
+  (have h3 (And (Eq Nat j 0) (P 0)) h) (constructor) (exact rfl) (exact (And.right h3))
+  (have h2 (And (Eq Nat j 0) (P 0)) h) (exact (And.right h2))
+  (exact rfl))
+
+;; --- script builders for the context inductions ----------------------------
+
+(def ^:private params
+  '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+    n :- Nat, A :- Exp, D :- (List Exp)])
+
+(def ^:private CD '(List.cons Exp A D))            ; the context A :: D
+
+(defn- ES [D us en k] (list 'EnvSat 'chkf 'dec 'encTy 'n D us en k))
+
+;; The head entry's semantic type, as EnvSat's cons clause states it.
+(def ^:private P '(fn [jj :- Nat] (V chkf dec encTy n A (skels D) (Prod.snd en) jj (skel A) (Prod.fst en))))
+
+(defn- ent [r jv] (list 'EntryOK r jv P))
+
+(defn- cons-clause
+  "EnvSat's cons clause at usages `us` of the tail, footprint bound `k`, head
+  usage `r`: ∃ j kk, j + kk ≤ k ∧ tail ⊨_kk ∧ EntryOK r j P."
+  [us k r]
+  (list 'Exists (list 'fn '[j :- Nat] (list 'Exists (list 'fn '[kk :- Nat]
+    (list 'And (list 'Nat.le '(+ j kk) k) (list 'And (ES 'D us '(Prod.snd en) 'kk) (ent r 'j))))))))
+
+(defn- cons-body
+  "The body of cons-clause once j and kk are introduced."
+  [us k r]
+  (list 'And (list 'Nat.le '(+ j kk) k) (list 'And (ES 'D us '(Prod.snd en) 'kk) (ent r 'j))))
+
+(def ^:private open-cons
+  "Unfold h (a cons clause, restated as h2) and introduce j, kk, hk2."
+  (fn [us k r]
+    [(list 'have 'h2 (cons-clause us k r) 'h)
+     '(refine' (exN _ _ h2 _)) '(intro j hj) '(refine' (exN _ _ hj _)) '(intro kk hkk)
+     (list 'have 'hk2 (cons-body us k r) 'hkk)]))
+
+(defn- split-goal
+  "∃ k1 k2, k1 + k2 ≤ k ∧ D ⊨_k1 (us1) ∧ D ⊨_k2 (us2)."
+  [D us1 us2 en k]
+  (list 'Exists (list 'fn '[k1 :- Nat] (list 'Exists (list 'fn '[k2 :- Nat]
+    (list 'And (list 'Nat.le '(+ k1 k2) k) (list 'And (ES D us1 en 'k1) (ES D us2 en 'k2))))))))
+
+;; --- Lemma 3.5, first clause: splitting ---------------------------------------
+
+;; The cons step.  From A :: D ⊨ₖ (r1 + r2 :: t1 + t2): the tail splits by the
+;; induction hypothesis into k1 + k2 ≤ kk, the head by entry_split into
+;; j1 + j2 ≤ j; the halves get footprints j1 + k1 and j2 + k2.
+(eval
+  (list* 'thm 'split_cons
+    (into params ['r1 :- 'U, 'r2 :- 'U, 't1 :- '(List U), 't2 :- '(List U), 'en :- (list 'HEnv (list 'skels CD)), 'k :- 'Nat,
+                  'ih :- (list 'forall '[us1 (List U)] (list 'forall '[us2 (List U)] (list 'forall '[en (HEnv (skels D))] (list 'forall '[k Nat]
+                           (list '=> (ES 'D '(vadd us1 us2) 'en 'k) (split-goal 'D 'us1 'us2 'en 'k))))))
+                  'h :- (ES CD '(vadd (List.cons U r1 t1) (List.cons U r2 t2)) 'en 'k)])
+    (split-goal CD '(List.cons U r1 t1) '(List.cons U r2 t2) 'en 'k)
+    (concat
+      (open-cons '(vadd t1 t2) 'k '(uadd r1 r2))
+      [;; the tail, by the induction hypothesis
+       (list 'have 'hr (ES 'D '(vadd t1 t2) '(Prod.snd en) 'kk) '(And.left (And.right hk2)))
+       (list 'have 'hih (split-goal 'D 't1 't2 '(Prod.snd en) 'kk) '(ih t1 t2 _ kk hr))
+       '(refine' (exN _ _ hih _)) '(intro k1 hk1) '(refine' (exN _ _ hk1 _)) '(intro k2 hk12)
+       (list 'have 'hs (list 'And '(Nat.le (+ k1 k2) kk) (list 'And (ES 'D 't1 '(Prod.snd en) 'k1) (ES 'D 't2 '(Prod.snd en) 'k2))) 'hk12)
+       ;; the head, by entry_split
+       (list 'have 'hent (ent '(uadd r1 r2) 'j) '(And.right (And.right hk2)))
+       (list 'have 'he (list 'Exists (list 'fn '[j1 :- Nat] (list 'Exists (list 'fn '[j2 :- Nat]
+                          (list 'And '(Nat.le (+ j1 j2) j) (list 'And (ent 'r1 'j1) (ent 'r2 'j2)))))))
+             (list 'entry_split 'r1 'r2 'j P 'hent))
+       '(refine' (exN _ _ he _)) '(intro j1 hj1) '(refine' (exN _ _ hj1 _)) '(intro j2 hj12)
+       (list 'have 'hjs (list 'And '(Nat.le (+ j1 j2) j) (list 'And (ent 'r1 'j1) (ent 'r2 'j2))) 'hj12)
+       ;; the footprints, and their sum
+       '(constructor) '(exact (+ j1 k1)) '(constructor) '(exact (+ j2 k2)) '(constructor)
+       '(have o1 (LE.le (+ j1 j2) j) (And.left hjs)) '(have o2 (LE.le (+ k1 k2) kk) (And.left hs))
+       '(have o3 (LE.le (+ j kk) k) (And.left hk2))
+       '(change (LE.le (+ (+ j1 k1) (+ j2 k2)) k)) '(omega)
+       ;; each half: its head entry and its tail
+       '(constructor)
+       '(constructor) '(exact j1) '(constructor) '(exact k1) '(constructor) '(exact (Nat.le_refl (+ j1 k1)))
+       '(constructor) '(exact (And.left (And.right hs))) '(exact (And.left (And.right hjs)))
+       '(constructor) '(exact j2) '(constructor) '(exact k2) '(constructor) '(exact (Nat.le_refl (+ j2 k2)))
+       '(constructor) '(exact (And.right (And.right hs))) '(exact (And.right (And.right hjs)))])))
+
+;; Lemma 3.5 (i).  Vectors shorter than the context satisfy nothing (EnvSat
+;; is False there), which disposes of the nil cases.
+(thm EnvSat_split [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+                   n :- Nat, D :- (List Exp)]
+  (forall [us1 (List U)] (forall [us2 (List U)] (forall [en (HEnv (skels D))] (forall [k Nat]
+    (=> (EnvSat chkf dec encTy n D (vadd us1 us2) en k)
+      (Exists (fn [k1 :- Nat] (Exists (fn [k2 :- Nat]
+        (And (Nat.le (+ k1 k2) k)
+          (And (EnvSat chkf dec encTy n D us1 en k1) (EnvSat chkf dec encTy n D us2 en k2))))))))))))
+  (induction D)
+  ;; the empty context: footprints 0 and 0
+  (intro us1 us2 en k h) (constructor) (exact 0) (constructor) (exact 0) (constructor) (exact (Nat.zero_le k))
+  (constructor) (exact True.intro) (exact True.intro)
+  ;; A :: D, with either vector empty: the hypothesis is False
+  (intro us1) (cases us1) (intro us2 en k h) (exact (False.elim h))
+  (intro us2) (cases us2) (intro en k h) (exact (False.elim h))
+  (intro en k h) (exact (split_cons _ _ _ _ _ _ _ _ _ _ _ _ ih_tail h)))
+
+;; --- Lemma 3.5, second clause: ωΓ ---------------------------------------------
+
+(eval
+  (list* 'thm 'omega_cons
+    (into params ['r :- 'U, 't :- '(List U), 'en :- (list 'HEnv (list 'skels CD)), 'k :- 'Nat,
+                  'ih :- (list 'forall '[us (List U)] (list 'forall '[en (HEnv (skels D))] (list 'forall '[k Nat]
+                           (list '=> (ES 'D '(vscale U.uw us) 'en 'k) (ES 'D 'us 'en 0)))))
+                  'h :- (ES CD '(vscale U.uw (List.cons U r t)) 'en 'k)])
+    (ES CD '(List.cons U r t) 'en 0)
+    (concat
+      (open-cons '(vscale U.uw t) 'k '(umul U.uw r))
+      [(list 'have 'hr (ES 'D '(vscale U.uw t) '(Prod.snd en) 'kk) '(And.left (And.right hk2)))
+       (list 'have 'ht (ES 'D 't '(Prod.snd en) 0) '(ih t _ kk hr))
+       (list 'have 'hent (ent '(umul U.uw r) 'j) '(And.right (And.right hk2)))
+       (list 'have 'he (ent 'r 0) (list 'entry_omega 'r 'j P 'hent))
+       '(constructor) '(exact 0) '(constructor) '(exact 0) '(constructor) '(exact (Nat.le_refl 0))
+       '(constructor) '(exact ht) '(exact he)])))
+
+;; Lemma 3.5 (ii).
+(thm EnvSat_omega [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+                   n :- Nat, D :- (List Exp)]
+  (forall [us (List U)] (forall [en (HEnv (skels D))] (forall [k Nat]
+    (=> (EnvSat chkf dec encTy n D (vscale U.uw us) en k) (EnvSat chkf dec encTy n D us en 0)))))
+  (induction D)
+  (intro us en k h) (exact True.intro)
+  (intro us) (cases us) (intro en k h) (exact (False.elim h))
+  (intro en k h) (exact (omega_cons _ _ _ _ _ _ _ _ _ _ ih_tail h)))
+
+;; --- 1Γ = Γ -----------------------------------------------------------------
+
+;; umul U.u1 r reduces to r, so the head entry carries over unchanged.
+(eval
+  (list* 'thm 'one_cons
+    (into params ['r :- 'U, 't :- '(List U), 'en :- (list 'HEnv (list 'skels CD)), 'k :- 'Nat,
+                  'ih :- (list 'forall '[us (List U)] (list 'forall '[en (HEnv (skels D))] (list 'forall '[k Nat]
+                           (list '=> (ES 'D '(vscale U.u1 us) 'en 'k) (ES 'D 'us 'en 'k)))))
+                  'h :- (ES CD '(vscale U.u1 (List.cons U r t)) 'en 'k)])
+    (ES CD '(List.cons U r t) 'en 'k)
+    (concat
+      (open-cons '(vscale U.u1 t) 'k 'r)
+      [(list 'have 'hr (ES 'D '(vscale U.u1 t) '(Prod.snd en) 'kk) '(And.left (And.right hk2)))
+       (list 'have 'ht (ES 'D 't '(Prod.snd en) 'kk) '(ih t _ kk hr))
+       '(constructor) '(exact j) '(constructor) '(exact kk) '(constructor) '(exact (And.left hk2))
+       '(constructor) '(exact ht) '(exact (And.right (And.right hk2)))])))
+
+(thm EnvSat_one [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+                 n :- Nat, D :- (List Exp)]
+  (forall [us (List U)] (forall [en (HEnv (skels D))] (forall [k Nat]
+    (=> (EnvSat chkf dec encTy n D (vscale U.u1 us) en k) (EnvSat chkf dec encTy n D us en k)))))
+  (induction D)
+  (intro us en k h) (exact True.intro)
+  (intro us) (cases us) (intro en k h) (exact (False.elim h))
+  (intro en k h) (exact (one_cons _ _ _ _ _ _ _ _ _ _ ih_tail h)))
+
+;; --- raising the footprint bound ----------------------------------------------
+
+;; Only the head's bound j + kk ≤ k mentions k, so no induction is needed.
+(eval
+  (list* 'thm 'mono_cons
+    (into params ['r :- 'U, 't :- '(List U), 'en :- (list 'HEnv (list 'skels CD)), 'k :- 'Nat, 'k2 :- 'Nat,
+                  'hle :- '(Nat.le k k2), 'h :- (ES CD '(List.cons U r t) 'en 'k)])
+    (ES CD '(List.cons U r t) 'en 'k2)
+    (concat
+      (open-cons 't 'k 'r)
+      ['(constructor) '(exact j) '(constructor) '(exact kk) '(constructor) '(exact (Nat.le_trans (And.left hk2) hle))
+       '(exact (And.right hk2))])))
+
+(thm EnvSat_mono [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+                  n :- Nat, D :- (List Exp), us :- (List U), en :- (HEnv (skels D)), k :- Nat, k2 :- Nat,
+                  hle :- (Nat.le k k2), h :- (EnvSat chkf dec encTy n D us en k)]
+  (EnvSat chkf dec encTy n D us en k2)
+  (cases D) (exact True.intro) (cases us) (exact (False.elim h)) (exact (mono_cons _ _ _ _ _ _ _ _ _ _ _ hle h)))
