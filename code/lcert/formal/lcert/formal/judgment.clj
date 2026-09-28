@@ -93,6 +93,7 @@
 ;; (hence the application clause of ⟦·⟧) has no skeleton for it, and the
 ;; fundamental lemma fails.  hB is also B's formation, which the
 ;; substitution lemma needs.  Paper derivations meet it by regularity.
+;; Pair₀/Pair likewise take fSig's premises (hA, hB) for their Σ type.
 (a/defn clean [e :- Exp] Bool
   (match e
     [(tT b) (clean b)]
@@ -228,11 +229,12 @@
   (rApp [D (List Exp)] [us1 (List U)] [us2 (List U)] [r U] [f Exp] [u Exp] [A Exp] [B Exp]
         [hr (Eq Bool (nonzero r) Bool.true)] [hf (Rt chkf D us1 f (Exp.tPi r A B))] [hu (Rt chkf D us2 u A)]
         [hA (Tl chkf Bool.true D A Exp.tUnit)] [hB (Tl chkf Bool.true (List.cons Exp A D) B Exp.tUnit)] :where [D (vadd us1 (vscale r us2)) (Exp.app f u) (subst1 u B)])
-  (rPair0 [D (List Exp)] [us (List U)] [A Exp] [B Exp] [x Exp] [y Exp] [hS (Tl chkf Bool.true D (Exp.tSig U.u0 A B) Exp.tUnit)]
+  (rPair0 [D (List Exp)] [us (List U)] [A Exp] [B Exp] [x Exp] [y Exp] [hA (Tl chkf Bool.true D A Exp.tUnit)] [hB (Tl chkf Bool.true (List.cons Exp A D) B Exp.tUnit)]
           [hx (Tl chkf Bool.false D x A)] [hy (Rt chkf D us y (subst1 x B))]
           :where [D us (Exp.pair (Exp.tSig U.u0 A B) x y) (Exp.tSig U.u0 A B)])
   (rPair [D (List Exp)] [us1 (List U)] [us2 (List U)] [r U] [A Exp] [B Exp] [x Exp] [y Exp]
-         [hr (Eq Bool (nonzero r) Bool.true)] [hS (Tl chkf Bool.true D (Exp.tSig r A B) Exp.tUnit)]
+         [hr (Eq Bool (nonzero r) Bool.true)] [hA (Tl chkf Bool.true D A Exp.tUnit)]
+         [hB (Tl chkf Bool.true (List.cons Exp A D) B Exp.tUnit)]
          [hx (Rt chkf D us1 x A)] [hy (Rt chkf D us2 y (subst1 x B))]
          :where [D (vadd (vscale r us1) us2) (Exp.pair (Exp.tSig r A B) x y) (Exp.tSig r A B)])
   (rLet [D (List Exp)] [us1 (List U)] [us2 (List U)] [r U] [A Exp] [B Exp] [C Exp] [p Exp] [t Exp]

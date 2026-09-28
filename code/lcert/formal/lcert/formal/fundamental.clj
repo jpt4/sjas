@@ -33,11 +33,12 @@
   - ElimBool: the motive at ⟦b⟧; each branch's IH at P[tt], P[ff] becomes
     V(P) at (tt, η), (ff, η) by V_subst1, and the scrutinee picks one.
 
+  - Pair, at usage 1 and ω (see the section).
   - Var: in a well-formed context, the entry's value, read through the lift
     of its type by V_lift (vweaken.clj).
 
   Pending (they need Lemma 3.1/3.3's substitution or weakening clauses, 3.2,
-  or the outer induction on n): App₀, Pair₀, Pair, Let, Conv,
+  or the outer induction on n): App₀, Pair₀, Let, Conv,
   RecN, CaseL, Bcons, RecS, ItR, H₁, Refl, Inspect."
   (:require [ansatz.core :as a]
             [lcert.formal.base :refer [thm kdef]]
@@ -555,3 +556,87 @@
   (concl '(lift (+ i 1) 0 A) '(Exp.var i))
   '[(rw [(den_var_at chkf dec encTy n i (skels D) (skel (lift (+ i 1) 0 A)) en)])
     (exact (var_sem chkf dec encTy n D hwf i A hA us r en k hu hr hk hs))])
+
+;; --- pairs ---------------------------------------------------------------------------
+
+(thm le_sub_add [a :- Nat, b :- Nat, c :- Nat, h :- (LE.le (+ a b) c)] (LE.le b (- c a)) (omega))
+
+;; Pair at usage 1 and ω.  ⟦pair x y⟧ = (⟦x⟧, ⟦y⟧) at the product skeleton.
+;; y's IH at B[x/y] becomes V(B) at (⟦x⟧, η) (sk_transport, V_subst1; skOf x
+;; is its skeleton by skOf_rt).  At usage 1 the Σ₁ clause splits the
+;; footprint as k₁ + (k − k₁), k₁ the first component's; at ω the first
+;; component is in V₀ (Lemma 3.5 ii).
+(def ^:private ydB '(den chkf dec encTy n y (skels D) (skel B) en))
+(def ^:private xdA '(den chkf dec encTy n x (skels D) (skel A) en))
+(defn- yB-steps [kk]
+  ;; from the IH for y at footprint kk: V(B) at (⟦x⟧, η)
+  [(list 'have 'vy0 (list 'V 'chkf 'dec 'encTy 'n '(subst1 x B) '(skels D) 'en kk '(skel (subst1 x B)) '(den chkf dec encTy n y (skels D) (skel (subst1 x B)) en))
+         (list 'ihy 'en kk 'hky 'hsy))
+   (list 'have 'vy1 (list 'V 'chkf 'dec 'encTy 'n '(subst1 x B) '(skels D) 'en kk '(skel B) ydB)
+         (list 'sk_transport (list 'fn '[s :- Sk, v :- (Car s)] (list 'V 'chkf 'dec 'encTy 'n '(subst1 x B) '(skels D) 'en kk 's 'v))
+               '(fn [s :- Sk] (den chkf dec encTy n y (skels D) s en)) '(skel (subst1 x B)) '(skel B) '(skel_subst1 x B hxU) 'vy0))
+   (list 'have 'vy2 (list 'V 'chkf 'dec 'encTy 'n 'B '(List.cons Sk (skel A) (skels D)) (list 'Prod.mk xdA 'en) kk '(skel B) ydB)
+         (list 'Iff.mp (list 'V_subst1 'chkf 'dec 'encTy 'n '(skels D) '(skel A) 'B 'hBS 'x 'hxS 'hxk 'en kk ydB) 'vy1))])
+(def ^:private pair-facts
+  '[(have hAS (SkJ Bool.true (skels D) A Sk.unit) (lemma25_tl_type chkf D A hA))
+    (have hBS (SkJ Bool.true (List.cons Sk (skel A) (skels D)) B Sk.unit) (lemma25_tl_type chkf (List.cons Exp A D) B hB))
+    (have hclA (Eq Bool (clean A) Bool.true) (skj_clean Bool.true (skels D) A Sk.unit hAS))
+    (have hxS (SkJ Bool.false (skels D) x (skel A)) (lemma25_rt chkf D us1 x A hx))
+    (have hxk (Eq (Option Sk) (skOf (skels D) x) (Option.some Sk (skel A))) (skOf_rt chkf D us1 x A hx hclA))
+    (have hxU (Eq Sk (skel x) Sk.unit) (skj_term_unit Bool.false (skels D) x (skel A) hxS rfl))])
+(eval (list* 'lcert.formal.base/thm 'F_pair1
+  (into P6 (into '[us1 :- (List U), us2 :- (List U), A :- Exp, B :- Exp, x :- Exp, y :- Exp,
+                   hA :- (Tl chkf Bool.true D A Exp.tUnit), hB :- (Tl chkf Bool.true (List.cons Exp A D) B Exp.tUnit), hx :- (Rt chkf D us1 x A)]
+                 (into ['ihx :- (SND 'us1 'x 'A) 'ihy :- (SND 'us2 'y '(subst1 x B))]
+                       (conj ENV 'hs :- (ES '(vadd (vscale U.u1 us1) us2) 'k)))))
+  (concl '(Exp.tSig U.u1 A B) '(Exp.pair (Exp.tSig U.u1 A B) x y))
+  (concat pair-facts
+    ['(rw [(den_pair_at chkf dec encTy n (Exp.tSig U.u1 A B) x y (skels D) (skel (Exp.tSig U.u1 A B)) en)])]
+    (split-steps 'hs '(vscale U.u1 us1) 'us2 'k 'k1 'k2 'p)
+    ['(have hsx (EnvSat chkf dec encTy n D us1 en k1) (EnvSat_one chkf dec encTy n D us1 en k1 (And.left (And.right p))))
+     '(have hsy (EnvSat chkf dec encTy n D us2 en k2) (And.right (And.right p)))
+     '(have hkn (Nat.le (+ k1 k2) n) (Nat.le_trans (And.left p) hk))
+     '(have hkx (Nat.le k1 n) (Nat.le_trans (Nat.le_add_right k1 k2) hkn))
+     '(have hky (Nat.le k2 n) (Nat.le_trans (Nat.le_add_left k2 k1) hkn))
+     (list 'have 'vx (list 'V 'chkf 'dec 'encTy 'n 'A '(skels D) 'en 'k1 '(skel A) xdA) '(ihx en k1 hkx hsx))]
+    (yB-steps 'k2)
+    ['(have o1 (LE.le (+ k1 k2) k) (And.left p))
+     '(have hle (LE.le k2 (- k k1)) (le_sub_add k1 k2 k o1))
+     (list 'change (list 'Exists (list 'fn '[j :- Nat] (list 'And '(Nat.le j k)
+        (list 'And (list 'V 'chkf 'dec 'encTy 'n 'A '(skels D) 'en 'j '(skel A) xdA)
+                   (list 'V 'chkf 'dec 'encTy 'n 'B '(List.cons Sk (skel A) (skels D)) (list 'Prod.mk xdA 'en) '(- k j) '(skel B) ydB))))))
+     '(constructor) '(exact k1) '(constructor) '(exact (Nat.le_trans (Nat.le_add_right k1 k2) (And.left p))) '(constructor) '(exact vx)
+     (list 'exact (list 'V_mono 'chkf 'dec 'encTy 'n 'B '(List.cons Sk (skel A) (skels D)) (list 'Prod.mk xdA 'en) 'k2 '(- k k1) '(skel B) ydB
+                        'hle '(Nat.le_trans (Nat.sub_le k k1) hk) 'vy2))])))
+
+(eval (list* 'lcert.formal.base/thm 'F_pairw
+  (into P6 (into '[us1 :- (List U), us2 :- (List U), A :- Exp, B :- Exp, x :- Exp, y :- Exp,
+                   hA :- (Tl chkf Bool.true D A Exp.tUnit), hB :- (Tl chkf Bool.true (List.cons Exp A D) B Exp.tUnit), hx :- (Rt chkf D us1 x A)]
+                 (into ['ihx :- (SND 'us1 'x 'A) 'ihy :- (SND 'us2 'y '(subst1 x B))]
+                       (conj ENV 'hs :- (ES '(vadd (vscale U.uw us1) us2) 'k)))))
+  (concl '(Exp.tSig U.uw A B) '(Exp.pair (Exp.tSig U.uw A B) x y))
+  (concat pair-facts
+    ['(rw [(den_pair_at chkf dec encTy n (Exp.tSig U.uw A B) x y (skels D) (skel (Exp.tSig U.uw A B)) en)])]
+    (split-steps 'hs '(vscale U.uw us1) 'us2 'k 'k1 'k2 'p)
+    ['(have hsx (EnvSat chkf dec encTy n D us1 en 0) (EnvSat_omega chkf dec encTy n D us1 en k1 (And.left (And.right p))))
+     '(have hsy (EnvSat chkf dec encTy n D us2 en k2) (And.right (And.right p)))
+     '(have hk2k (Nat.le k2 k) (Nat.le_trans (Nat.le_add_left k2 k1) (And.left p)))
+     '(have hky (Nat.le k2 n) (Nat.le_trans hk2k hk))
+     (list 'have 'vx (list 'V 'chkf 'dec 'encTy 'n 'A '(skels D) 'en 0 '(skel A) xdA) '(ihx en 0 (Nat.zero_le n) hsx))]
+    (yB-steps 'k2)
+    [(list 'change (list 'And (list 'V 'chkf 'dec 'encTy 'n 'A '(skels D) 'en 0 '(skel A) xdA)
+                              (list 'V 'chkf 'dec 'encTy 'n 'B '(List.cons Sk (skel A) (skels D)) (list 'Prod.mk xdA 'en) 'k '(skel B) ydB)))
+     '(constructor) '(exact vx)
+     (list 'exact (list 'V_mono 'chkf 'dec 'encTy 'n 'B '(List.cons Sk (skel A) (skels D)) (list 'Prod.mk xdA 'en) 'k2 'k '(skel B) ydB 'hk2k 'hk 'vy2))])))
+
+;; Pair at any nonzero usage, in the motive's form (goals: u1, then ω).
+(thm F_pair [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+             n :- Nat, D :- (List Exp), us1 :- (List U), us2 :- (List U), A :- Exp, B :- Exp, x :- Exp, y :- Exp,
+             hA :- (Tl chkf Bool.true D A Exp.tUnit), hB :- (Tl chkf Bool.true (List.cons Exp A D) B Exp.tUnit), hx :- (Rt chkf D us1 x A)]
+  (forall [r U] (=> (Eq Bool (nonzero r) Bool.true)
+    (Sound chkf dec encTy n D us1 x A) (Sound chkf dec encTy n D us2 y (subst1 x B))
+    (Sound chkf dec encTy n D (vadd (vscale r us1) us2) (Exp.pair (Exp.tSig r A B) x y) (Exp.tSig r A B))))
+  (intro r) (cases r) (all_goals (intro hr ihx ihy en k hk hs))
+  (all_goals (first (exact (Bool.noConfusion hr)) (skip)))
+  (exact (F_pair1 chkf dec encTy n D (List.nil U) us1 us2 A B x y hA hB hx ihx ihy en k hk hs))
+  (exact (F_pairw chkf dec encTy n D (List.nil U) us1 us2 A B x y hA hB hx ihx ihy en k hk hs)))

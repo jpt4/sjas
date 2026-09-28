@@ -700,10 +700,10 @@
       (SkJ.sApp G f u (skel A) (skel B) ih_hf ih_hu)
       (Eq.symm (skel_subst1 u B (TU u (skel A) ih_hu))))
     ;; rPair0: the first component is a type-level premise
-    (SkJ.sPair G U.u0 A B x y (LT D (Exp.tSig U.u0 A B) hS) (LF D x A hx)
+    (SkJ.sPair G U.u0 A B x y (SkJ.wSig G U.u0 A B (LT D A hA) (LT (List.cons Exp A D) B hB)) (LF D x A hx)
       (CAST y (skel (subst1 x B)) (skel B) ih_hy (skel_subst1 x B (TU x (skel A) (LF D x A hx)))))
     ;; rPair
-    (SkJ.sPair G r A B x y (LT D (Exp.tSig r A B) hS) ih_hx
+    (SkJ.sPair G r A B x y (SkJ.wSig G r A B (LT D A hA) (LT (List.cons Exp A D) B hB)) ih_hx
       (CAST y (skel (subst1 x B)) (skel B) ih_hy (skel_subst1 x B (TU x (skel A) ih_hx))))
     ;; rLet
     (SkJ.sLetp G C p t (skel A) (skel B) (LT D C hC) ih_hp
