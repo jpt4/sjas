@@ -135,8 +135,8 @@
   (testing "Lemma 3.4 needs m ≤ k: a one-node certificate is in V₁(R) and provably not in V₀(R)"
     (let [ps '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code)]
           vR (fn [k] (list 'V 'chkf 'dec 'encTy 5 'Exp.tR '(List.nil Sk) 'Unit.unit k 'Sk.cert '(Code.sn 0 (Code.sl 0) (Code.sl 0))))]
-      (is (not (b/rejects? ps (vR 1) '[(exact (Nat.le_refl 1))])))
-      (is (not (b/rejects? ps (list 'Not (vR 0)) '[(intro h) (have h2 (LE.le 1 0) h) (omega)])))))
+      (is (not (b/rejects? ps (vR 1) '[(exact (And.intro (Nat.le_refl 1) rfl))])))
+      (is (not (b/rejects? ps (list 'Not (vR 0)) '[(intro h) (have h2 (LE.le 1 0) (And.left h)) (omega)])))))
   (testing "and T(b) is not a base type: its set depends on the cap"
     (is (b/rejects? '[] '(Eq Bool (isBaseTy (Exp.tT Exp.tt)) Bool.true) '[(rfl)]))))
 
@@ -190,10 +190,14 @@
     (is (not (b/rejects? '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat]
                          '(Not (V chkf dec encTy n Exp.tLbl (List.nil Sk) Unit.unit 0 Sk.lbl 100))
                          '[(intro h) (have h2 (LT.lt 100 100) h) (omega)]))))
+  (testing "certificate labels are below NL: a leaf labelled NL is not in V(R)"
+    (is (not (b/rejects? '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat]
+                         '(Not (V chkf dec encTy n Exp.tR (List.nil Sk) Unit.unit 5 Sk.cert (Code.sl 100)))
+                         '[(intro h) (exact (Bool.noConfusion (And.right h)))]))))
   (testing "a node costs a token: node ⋆ … at footprint 0 is not in V₀(R)"
     (is (not (b/rejects? '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat]
                          '(Not (V chkf dec encTy n Exp.tR (List.nil Sk) Unit.unit 0 Sk.cert (Code.sn 0 (Code.sl 0) (Code.sl 0))))
-                         '[(intro h) (have h2 (LE.le 1 0) h) (omega)])))))
+                         '[(intro h) (have h2 (LE.le 1 0) (And.left h)) (omega)])))))
 
 (require 'lcert.formal.substitution)
 (def ^:private den-params

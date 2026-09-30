@@ -137,9 +137,7 @@
 ;; --- data whose set is the whole carrier --------------------------------------------
 
 (case! 'F_succ (into '[m :- Exp] ENV) (concl 'Exp.tNat '(Exp.succ m)) '[(exact True.intro)])
-(case! 'F_sleaf (into '[x :- Exp] ENV) (concl 'Exp.tSyn '(Exp.sleaf x)) '[(exact True.intro)])
-(case! 'F_snode (into '[x :- Exp, c1 :- Exp, c2 :- Exp] ENV) (concl 'Exp.tSyn '(Exp.snode x c1 c2)) '[(exact True.intro)])
-(case! 'F_prn (into '[r :- Exp] ENV) (concl 'Exp.tSyn '(Exp.prn r)) '[(exact True.intro)])
+;; Sleaf, Snode, Prn, Leaf and Node: see the section on codes and certificates.
 (case! 'F_chk (into '[c :- Exp, d :- Exp] ENV) (concl 'Exp.tBool '(Exp.chk c d)) '[(exact True.intro)])
 
 ;; --- functions -----------------------------------------------------------------
@@ -223,38 +221,9 @@
 
 ;; --- certificates -------------------------------------------------------------------
 
-(case! 'F_leaf (into '[x :- Exp] ENV) (concl 'Exp.tR '(Exp.leaf x))
-  '[(rw [(den_leaf_at chkf dec encTy n x (skels D) (skel Exp.tR) en)])
-    (rw [(coe_self Sk.cert (Code.sl (den chkf dec encTy n x (skels D) Sk.lbl en)))])
-    (exact (Nat.zero_le k))])
 
-;; Node: split Γ₁ + (Γ₂ + (Γ₃ + Γ₄)) three times, then ‖node‖ = 1 + ‖r₁‖ + ‖r₂‖
-;; ≤ k₁ + k₃ + k₄ ≤ k, the 1 because d ∈ V_k₁(◇) forces k₁ ≥ 1.
-(case! 'F_node
-  (into '[us1 :- (List U), us2 :- (List U), us3 :- (List U), us4 :- (List U), d :- Exp, x :- Exp, r1 :- Exp, r2 :- Exp]
-        (into ['ihd :- (SND 'us1 'd 'Exp.tDia) 'ih1 :- (SND 'us3 'r1 'Exp.tR) 'ih2 :- (SND 'us4 'r2 'Exp.tR)]
-              (conj ENV 'hs :- (ES '(vadd us1 (vadd us2 (vadd us3 us4))) 'k))))
-  (concl 'Exp.tR '(Exp.node d x r1 r2))
-  (concat
-    ['(rw [(den_node_at chkf dec encTy n d x r1 r2 (skels D) (skel Exp.tR) en)])
-     '(rw [(coe_self Sk.cert (Code.sn (den chkf dec encTy n x (skels D) Sk.lbl en) (den chkf dec encTy n r1 (skels D) Sk.cert en)
-                                      (den chkf dec encTy n r2 (skels D) Sk.cert en)))])]
-    (split-steps 'hs 'us1 '(vadd us2 (vadd us3 us4)) 'k 'k1 'm1 'p1)
-    (split-steps '(And.right (And.right p1)) 'us2 '(vadd us3 us4) 'm1 'k2 'm2 'p2)
-    (split-steps '(And.right (And.right p2)) 'us3 'us4 'm2 'k3 'k4 'p3)
-    ['(have o1 (LE.le (+ k1 m1) k) (And.left p1)) '(have o2 (LE.le (+ k2 m2) m1) (And.left p2))
-     '(have o3 (LE.le (+ k3 k4) m2) (And.left p3))
-     ;; each footprint is within the cap, as the IHs require
-     '(have b1 (Nat.le k1 n) (Nat.le_trans (Nat.le_trans (Nat.le_add_right k1 m1) (And.left p1)) hk))
-     '(have bm (Nat.le m2 n) (Nat.le_trans (Nat.le_trans (Nat.le_add_left m2 k2) (And.left p2))
-                               (Nat.le_trans (Nat.le_trans (Nat.le_add_left m1 k1) (And.left p1)) hk)))
-     '(have b3 (Nat.le k3 n) (Nat.le_trans (Nat.le_trans (Nat.le_add_right k3 k4) (And.left p3)) bm))
-     '(have b4 (Nat.le k4 n) (Nat.le_trans (Nat.le_trans (Nat.le_add_left k4 k3) (And.left p3)) bm))
-     '(have vd (LE.le 1 k1) (ihd en k1 b1 (And.left (And.right p1))))
-     '(have v1 (LE.le (cnodes (den chkf dec encTy n r1 (skels D) Sk.cert en)) k3) (ih1 en k3 b3 (And.left (And.right p3))))
-     '(have v2 (LE.le (cnodes (den chkf dec encTy n r2 (skels D) Sk.cert en)) k4) (ih2 en k4 b4 (And.right (And.right p3))))
-     '(change (LE.le (+ 1 (+ (cnodes (den chkf dec encTy n r1 (skels D) Sk.cert en)) (cnodes (den chkf dec encTy n r2 (skels D) Sk.cert en)))) k))
-     '(omega)]))
+
+
 
 ;; --- branch lists --------------------------------------------------------------------
 
@@ -1029,3 +998,84 @@
    (list 'have 'vt3 (VPl 'l 'k (list fb '(- l kk)))
       (list 'Eq.mp (list 'congrArg (list 'fn '[q :- Nat] (VPl 'l 'k (list fb 'q))) '(Eq.symm (sub_succ kk l h))) 'vt2))
    '(exact vt3)]))
+
+;; --- codes and certificates ------------------------------------------------------------
+
+;; V(Syn) and V(R) contain only trees whose labels are below NL (lblOk), and
+;; V(R) bounds the node count by the footprint.  Sleaf, Snode, Leaf and Node
+;; take the label bound from their label argument's IH (V(Lbl): below NL) and
+;; the subtrees'; Prn from its certificate's.  Node's count: split
+;; Γ₁ + (Γ₂ + (Γ₃ + Γ₄)) three times, then ‖node‖ = 1 + ‖r₁‖ + ‖r₂‖
+;; ≤ k₁ + k₃ + k₄ ≤ k, the 1 because d ∈ V_k₁(◇) forces k₁ ≥ 1.
+(thm le_three [k1 :- Nat, m1 :- Nat, k2 :- Nat, k3 :- Nat, k :- Nat, n :- Nat,
+                 o1 :- (LE.le (+ k1 m1) k), o2 :- (LE.le (+ k2 k3) m1), hk :- (LE.le k n)]
+  (And (LE.le k1 n) (And (LE.le k2 n) (LE.le k3 n))) (constructor) (omega) (constructor) (omega) (omega))
+
+(thm band3 [a :- Bool, b :- Bool, c :- Bool, ha :- (Eq Bool a Bool.true), hb :- (Eq Bool b Bool.true), hc :- (Eq Bool c Bool.true)]
+  (Eq Bool (Bool.and a (Bool.and b c)) Bool.true) (rw [ha hb hc]))
+(def ^:private dxl '(den chkf dec encTy n x (skels D) Sk.lbl en))
+(eval (list 'lcert.formal.base/thm 'F_sleaf (into P6 (into '[us :- (List U), x :- Exp] (into ['ihx :- (SND 'us 'x 'Exp.tLbl)] (conj ENV 'hs :- (ES 'us 'k)))))
+  (concl 'Exp.tSyn '(Exp.sleaf x))
+  '(rw [(den_sleaf_at chkf dec encTy n x (skels D) (skel Exp.tSyn) en)])
+  (list 'have 'hx (list 'Nat.lt dxl 100) '(ihx en k hk hs))
+  (list 'exact (list 'Nat.ble_eq_true_of_le 'hx))))
+(eval (list 'lcert.formal.base/thm 'F_prn (into P6 (into '[us :- (List U), r :- Exp] (into ['ihr :- (SND 'us 'r 'Exp.tR)] (conj ENV 'hs :- (ES 'us 'k)))))
+  (concl 'Exp.tSyn '(Exp.prn r))
+  '(rw [(den_prn_at chkf dec encTy n r (skels D) (skel Exp.tSyn) en)])
+  '(exact (And.right (ihr en k hk hs)))))
+(eval (list 'lcert.formal.base/thm 'F_leaf (into P6 (into '[us :- (List U), x :- Exp] (into ['ihx :- (SND 'us 'x 'Exp.tLbl)] (conj ENV 'hs :- (ES 'us 'k)))))
+  (concl 'Exp.tR '(Exp.leaf x))
+  '(rw [(den_leaf_at chkf dec encTy n x (skels D) (skel Exp.tR) en)])
+  (list 'have 'hx (list 'Nat.lt dxl 100) '(ihx en k hk hs))
+  '(constructor) '(exact (Nat.zero_le k)) (list 'exact (list 'Nat.ble_eq_true_of_le 'hx))))
+
+(defn- dv [t s] (list 'den 'chkf 'dec 'encTy 'n t '(skels D) s 'en))
+(eval (concat (list 'lcert.formal.base/thm 'F_snode
+  (into P6 (into '[us1 :- (List U), us2 :- (List U), us3 :- (List U), x :- Exp, c1 :- Exp, c2 :- Exp]
+                 (into ['ihx :- (SND 'us1 'x 'Exp.tLbl) 'ih1 :- (SND 'us2 'c1 'Exp.tSyn) 'ih2 :- (SND 'us3 'c2 'Exp.tSyn)]
+                       (conj ENV 'hs :- (ES '(vadd us1 (vadd us2 us3)) 'k)))))
+  (concl 'Exp.tSyn '(Exp.snode x c1 c2)))
+  (concat
+    ['(rw [(den_snode_at chkf dec encTy n x c1 c2 (skels D) (skel Exp.tSyn) en)])]
+    (split-steps 'hs 'us1 '(vadd us2 us3) 'k 'k1 'm1 'p1)
+    (split-steps '(And.right (And.right p1)) 'us2 'us3 'm1 'k2 'k3 'p2)
+    ['(have b (And (LE.le k1 n) (And (LE.le k2 n) (LE.le k3 n))) (le_three k1 m1 k2 k3 k n (And.left p1) (And.left p2) hk))
+     (list 'have 'hx (list 'Nat.lt (dv 'x 'Sk.lbl) 100) '(ihx en k1 (And.left b) (And.left (And.right p1))))
+     (list 'have 'h1 (list 'Eq 'Bool (list 'lblOk (dv 'c1 'Sk.syn)) 'Bool.true) '(ih1 en k2 (And.left (And.right b)) (And.left (And.right p2))))
+     (list 'have 'h2 (list 'Eq 'Bool (list 'lblOk (dv 'c2 'Sk.syn)) 'Bool.true) '(ih2 en k3 (And.right (And.right b)) (And.right (And.right p2))))
+     (list 'exact (list 'band3 (list 'Nat.blt (dv 'x 'Sk.lbl) 100) (list 'lblOk (dv 'c1 'Sk.syn)) (list 'lblOk (dv 'c2 'Sk.syn))
+                        '(Nat.ble_eq_true_of_le hx) 'h1 'h2))])))
+
+(case! 'F_node
+  (into '[us1 :- (List U), us2 :- (List U), us3 :- (List U), us4 :- (List U), d :- Exp, x :- Exp, r1 :- Exp, r2 :- Exp]
+        (into ['ihd :- (SND 'us1 'd 'Exp.tDia) 'ihx :- (SND 'us2 'x 'Exp.tLbl) 'ih1 :- (SND 'us3 'r1 'Exp.tR) 'ih2 :- (SND 'us4 'r2 'Exp.tR)]
+              (conj ENV 'hs :- (ES '(vadd us1 (vadd us2 (vadd us3 us4))) 'k))))
+  (concl 'Exp.tR '(Exp.node d x r1 r2))
+  (concat
+    ['(rw [(den_node_at chkf dec encTy n d x r1 r2 (skels D) (skel Exp.tR) en)])
+     '(rw [(coe_self Sk.cert (Code.sn (den chkf dec encTy n x (skels D) Sk.lbl en) (den chkf dec encTy n r1 (skels D) Sk.cert en)
+                                      (den chkf dec encTy n r2 (skels D) Sk.cert en)))])]
+    (split-steps 'hs 'us1 '(vadd us2 (vadd us3 us4)) 'k 'k1 'm1 'p1)
+    (split-steps '(And.right (And.right p1)) 'us2 '(vadd us3 us4) 'm1 'k2 'm2 'p2)
+    (split-steps '(And.right (And.right p2)) 'us3 'us4 'm2 'k3 'k4 'p3)
+    ['(have o1 (LE.le (+ k1 m1) k) (And.left p1)) '(have o2 (LE.le (+ k2 m2) m1) (And.left p2))
+     '(have o3 (LE.le (+ k3 k4) m2) (And.left p3))
+     ;; each footprint is within the cap, as the IHs require
+     '(have b1 (Nat.le k1 n) (Nat.le_trans (Nat.le_trans (Nat.le_add_right k1 m1) (And.left p1)) hk))
+     '(have bm (Nat.le m2 n) (Nat.le_trans (Nat.le_trans (Nat.le_add_left m2 k2) (And.left p2))
+                               (Nat.le_trans (Nat.le_trans (Nat.le_add_left m1 k1) (And.left p1)) hk)))
+     '(have b3 (Nat.le k3 n) (Nat.le_trans (Nat.le_trans (Nat.le_add_right k3 k4) (And.left p3)) bm))
+     '(have b4 (Nat.le k4 n) (Nat.le_trans (Nat.le_trans (Nat.le_add_left k4 k3) (And.left p3)) bm))
+     '(have b2 (Nat.le k2 n) (Nat.le_trans (Nat.le_trans (Nat.le_add_right k2 m2) (And.left p2))
+                               (Nat.le_trans (Nat.le_trans (Nat.le_add_left m1 k1) (And.left p1)) hk)))
+     '(have vd (LE.le 1 k1) (ihd en k1 b1 (And.left (And.right p1))))
+     '(have vx (Nat.lt (den chkf dec encTy n x (skels D) Sk.lbl en) 100) (ihx en k2 b2 (And.left (And.right p2))))
+     '(have v1 (And (LE.le (cnodes (den chkf dec encTy n r1 (skels D) Sk.cert en)) k3) (Eq Bool (lblOk (den chkf dec encTy n r1 (skels D) Sk.cert en)) Bool.true)) (ih1 en k3 b3 (And.left (And.right p3))))
+     '(have v2 (And (LE.le (cnodes (den chkf dec encTy n r2 (skels D) Sk.cert en)) k4) (Eq Bool (lblOk (den chkf dec encTy n r2 (skels D) Sk.cert en)) Bool.true)) (ih2 en k4 b4 (And.right (And.right p3))))
+     '(have v1c (LE.le (cnodes (den chkf dec encTy n r1 (skels D) Sk.cert en)) k3) (And.left v1))
+     '(have v2c (LE.le (cnodes (den chkf dec encTy n r2 (skels D) Sk.cert en)) k4) (And.left v2))
+     '(constructor)
+     '(change (LE.le (+ 1 (+ (cnodes (den chkf dec encTy n r1 (skels D) Sk.cert en)) (cnodes (den chkf dec encTy n r2 (skels D) Sk.cert en)))) k))
+     '(omega)
+     '(exact (band3 (Nat.blt (den chkf dec encTy n x (skels D) Sk.lbl en) 100) (lblOk (den chkf dec encTy n r1 (skels D) Sk.cert en))
+               (lblOk (den chkf dec encTy n r2 (skels D) Sk.cert en)) (Nat.ble_eq_true_of_le vx) (And.right v1) (And.right v2)))]))

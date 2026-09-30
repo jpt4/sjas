@@ -26,10 +26,12 @@ def shape(sk_ctor, prop_of_v, arity=0):
     return "(Sk.rec$1 (fn [t :- Sk] (=> (Car t) Prop)) %s s)" % " ".join(cases)
 ANY = "(fn [s :- Sk, v :- (Car s)] True)"
 bodies = {
- 'tEmpty': "False", 'tUnit': "True", 'tBool': "True", 'tNat': "True", 'tSyn': "True",
+ 'tEmpty': "False", 'tUnit': "True", 'tBool': "True", 'tNat': "True",
+ # codes and certificates are trees over the labels below NL (lblOk)
+ 'tSyn': "(%s v)" % shape("syn", "(fn [v :- Code] (Eq Bool (lblOk v) Bool.true))"),
  'tLbl': "(%s v)" % shape("lbl", "(fn [v :- Nat] (Nat.lt v 100))"),
  'tDia': "(Nat.le 1 k)",
- 'tR': "(%s v)" % shape("cert", "(fn [v :- Code] (Nat.le (cnodes v) k))"),
+ 'tR': "(%s v)" % shape("cert", "(fn [v :- Code] (And (Nat.le (cnodes v) k) (Eq Bool (lblOk v) Bool.true)))"),
  'tT': "(Eq Bool (den chkf dec encTy cap b G Sk.bool en) Bool.true)",
  'tPi': "(%s v)" % shape("arr",
     "(fn [x :- Sk, y :- Sk, px :- (=> (Car x) Prop), py :- (=> (Car y) Prop)] (fn [f :- (Car (Sk.arr x y))] "
