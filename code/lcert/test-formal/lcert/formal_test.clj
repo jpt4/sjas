@@ -277,3 +277,31 @@
                          '(Not (V chkf dec encTy 0 (Exp.tT (Exp.var 0)) (List.cons Sk Sk.bool (List.cons Sk Sk.bool (List.nil Sk)))
                                   (Prod.mk Bool.false (Prod.mk Bool.true Unit.unit)) 0 Sk.unit Unit.unit))
                          '[(intro h) (exact (Bool.noConfusion h))])))))
+
+(require 'lcert.formal.derivations)
+(deftest f2f-runtime-weakening
+  (testing "Lemma 2.1: every runtime rule permits insertion at usage zero"
+    (doseq [c '[closed_lift closedTy_lift lift_lift_comm lift_comp_ge lift_subst
+                lift_subst1 lift_substL hd_lift step_lift cv_lift
+                insD insU vadd_insU vscale_insU vadd_ins0 vscale_ins0
+                tl_weaken rt_cast rt_cast_t rt_ctx1 rt_ctx2 rt_var rt_weaken]]
+      (is (b/has? c) (str c))))
+  ;; This instantiation exercises both the index shift and the usage lookup:
+  ;; an old token at index 0 moves to index 1 behind a new, unused Bool.
+  (let [ps '[chkf :- (=> Code Code Bool)]
+        proof '[(exact (rt_weaken chkf (thetaD 1) (thetaU 1) (Exp.var 0) Exp.tDia
+                         (Rt.rVar chkf (thetaD 1) (thetaU 1) 0 Exp.tDia U.u1
+                           rfl rfl rfl rfl) 0 Exp.tBool))]
+        context '(List.cons Exp Exp.tBool (thetaD 1))
+        usages '(List.cons U U.u0 (thetaU 1))]
+    (testing "the shifted variable retains its original type and usage"
+      (is (not (b/rejects? ps (list 'Rt 'chkf context usages '(Exp.var 1) 'Exp.tDia) proof))))
+    (testing "omitting the index shift does not prove the original judgment"
+      (is (b/rejects? ps (list 'Rt 'chkf context usages '(Exp.var 0) 'Exp.tDia) proof))))
+  (testing "closed types may contain bound variables: these stay fixed under lift"
+    (is (not (b/rejects? '[]
+                         '(= (lift 3 0 (Exp.tPi U.u1 Exp.tBool (Exp.tT (Exp.var 0))))
+                             (Exp.tPi U.u1 Exp.tBool (Exp.tT (Exp.var 0))))
+                         '[(exact (closedTy_lift (Exp.tPi U.u1 Exp.tBool (Exp.tT (Exp.var 0))) rfl 3 0))]))))
+  (testing "closedness matters: lifting an open type changes its free variable"
+    (is (b/rejects? '[] '(= (lift 1 0 (Exp.tT (Exp.var 0))) (Exp.tT (Exp.var 0))) '[(rfl)]))))

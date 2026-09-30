@@ -1202,3 +1202,261 @@
   '[chkf :- (=> Code Code Bool), w0 :- Bool, D0 :- (List Exp), t0 :- Exp, A0 :- Exp, der :- (Tl chkf w0 D0 t0 A0)]
   '(forall [cc Nat] (forall [XX Exp] (Tl chkf w0 (insD cc XX D0) (lift 1 cc t0) (lift 1 cc A0))))
   (lv (into ['(induction der)] (mapcat (fn [c] ['(intro cc XX) (list 'exact (wk-expand c))]) tl-wk-cases))))
+
+;; --- Lemma 2.1 at runtime ------------------------------------------------------------
+;; The new entry has usage 0 (insU cc U.u0).  Sums and scalings of usage
+;; vectors commute with inserting 0 (vadd_ins0, vscale_ins0), so a rule's
+;; conclusion over the premises' extended vectors is its conclusion over the
+;; original vectors, extended.
+
+(thm rt_cast [chkf :- (=> Code Code Bool), D :- (List Exp), us :- (List U), us2 :- (List U), t :- Exp, A :- Exp, B :- Exp,
+              h :- (Rt chkf D us t A), eu :- (= us us2), eA :- (= A B)]
+  (Rt chkf D us2 t B)
+  (subst eu) (subst eA) (exact h))
+
+(thm rt_cast_t [chkf :- (=> Code Code Bool), D :- (List Exp), us :- (List U), t :- Exp, t2 :- Exp, A :- Exp, B :- Exp,
+                h :- (Rt chkf D us t A), et :- (= t t2), eA :- (= A B)]
+  (Rt chkf D us t2 B)
+  (subst et) (subst eA) (exact h))
+
+(thm rt_ctx1 [chkf :- (=> Code Code Bool), a0 :- Exp, a1 :- Exp, G :- (List Exp), us :- (List U), t :- Exp, A :- Exp,
+              h :- (Rt chkf (List.cons Exp a0 G) us t A), e :- (= a0 a1)]
+  (Rt chkf (List.cons Exp a1 G) us t A)
+  (subst e) (exact h))
+
+(thm rt_ctx2 [chkf :- (=> Code Code Bool), a0 :- Exp, a1 :- Exp, b0 :- Exp, b1 :- Exp, G :- (List Exp), us :- (List U), t :- Exp, A :- Exp,
+              h :- (Rt chkf (List.cons Exp a0 (List.cons Exp b0 G)) us t A), ea :- (= a0 a1), eb :- (= b0 b1)]
+  (Rt chkf (List.cons Exp a1 (List.cons Exp b1 G)) us t A)
+  (subst ea) (subst eb) (exact h))
+
+;; The variable rule: as tl_var, with the usage read at the same index
+;; (nthU_ins_ge / nthU_ins_lt) and the lengths kept equal (len_ins).
+(thm rt_var [chkf :- (=> Code Code Bool), D :- (List Exp), us :- (List U), i :- Nat, A :- Exp, r :- U,
+             hl :- (= (lenU us) (lenE D)), hA :- (= (nthE D i) (Option.some Exp A)), hu :- (= (nthU us i) (Option.some U r)),
+             hr :- (= (nonzero r) true), cc :- Nat, XX :- Exp]
+  (Rt chkf (insD cc XX D) (insU cc U.u0 us) (lift 1 cc (Exp.var i)) (lift 1 cc (lift (+ i 1) 0 A)))
+  (have hc (Decidable (Nat.lt i cc)) (Nat.decLt i cc))
+  (cases hc)
+  (exact (rt_cast_t chkf (insD cc XX D) (insU cc U.u0 us) (Exp.var (+ i 1)) (lift 1 cc (Exp.var i))
+           (lift (+ (+ i 1) 1) 0 A) (lift 1 cc (lift (+ i 1) 0 A))
+           (Rt.rVar chkf (insD cc XX D) (insU cc U.u0 us) (+ i 1) A r (len_ins XX U.u0 cc D us hl)
+             (Eq.trans (nthE_ins_ge XX cc i D (Nat.le_of_not_lt h)) hA)
+             (Eq.trans (nthU_ins_ge U.u0 cc i us (Nat.le_of_not_lt h)) hu) hr)
+           (Eq.symm (lift_var_above 1 cc i (Nat.le_of_not_lt h)))
+           (var_ty_ge A cc i (Nat.le_of_not_lt h))))
+  (exact (rt_cast_t chkf (insD cc XX D) (insU cc U.u0 us) (Exp.var i) (lift 1 cc (Exp.var i))
+           (lift (+ i 1) 0 (lift 1 (- (- cc i) 1) A)) (lift 1 cc (lift (+ i 1) 0 A))
+           (Rt.rVar chkf (insD cc XX D) (insU cc U.u0 us) i (lift 1 (- (- cc i) 1) A) r (len_ins XX U.u0 cc D us hl)
+             (nthE_ins_lt XX cc i D A h hA) (nthU_ins_lt U.u0 cc i us r h hu) hr)
+           (Eq.symm (lift_var_below 1 cc i h))
+           (var_ty_lt A cc i h))))
+
+;; Usage-vector expressions of the rule table, built from vadd and vscale
+;; over the premises' vectors.  (ueq E) = [l p]: l is E with every vector x
+;; replaced by its extension insU cc 0 x (the form a rule applied to the
+;; extended premises concludes with), and p : l = insU cc 0 E.
+(defn- UI [x] (list 'insU 'cc 'U.u0 x))
+(defn- ueq [E]
+  (let [lu '(List U)]
+    (cond
+      (symbol? E) [(UI E) (list 'Eq.refl$1 (UI E))]
+      (= (first E) 'vscale)
+      (let [[_ r X] E [l p] (ueq X)]
+        [(list 'vscale r l)
+         (list 'Eq.trans (list 'congrArg (list 'fn ['v :- lu] (list 'vscale r 'v)) p) (list 'vscale_ins0 r 'cc X))])
+      (= (first E) 'vadd)
+      (let [[_ X Y] E [l1 p1] (ueq X) [l2 p2] (ueq Y)]
+        [(list 'vadd l1 l2)
+         (list 'Eq.trans (list 'congrArg (list 'fn ['v :- lu] (list 'vadd 'v l2)) p1)
+               (list 'Eq.trans (list 'congrArg (list 'fn ['v :- lu] (list 'vadd (UI X) 'v)) p2)
+                     (list 'vadd_ins0 'cc X Y)))]))))
+
+;; Abbreviations of the runtime cases (besides those of the type level):
+;;   (UI x)               insU cc U.u0 x
+;;   (TF D A h k)         tl_weaken of a formation premise D ⊢ A type
+;;   (T0 D t A h k)       tl_weaken of a :⁰ premise D ⊢ t :⁰ A
+;;   (RC E t A B h eA)    h concludes at the vector (ueq E)'s l and type A:
+;;                        cast to insU cc 0 E and type B
+;;   (PU E)               the equation l = insU cc 0 E of (ueq E)
+(defn- rwk-expand [form]
+  (let [cut (fn [k] (if (zero? k) 'cc (list '+ 'cc k)))]
+    (wk-expand
+     (walk/prewalk
+      (fn [x]
+        (cond
+          (and (seq? x) (= (first x) 'UI)) (UI (second x))
+          (and (seq? x) (= (first x) 'TF)) (let [[_ D A h k] x] (list 'tl_weaken 'chkf 'Bool.true D A 'Exp.tUnit h (cut k) 'XX))
+          (and (seq? x) (= (first x) 'T0)) (let [[_ D t A h k] x] (list 'tl_weaken 'chkf 'Bool.false D t A h (cut k) 'XX))
+          (and (seq? x) (= (first x) 'RC))
+          (let [[_ E t A B h eA] x [l p] (ueq E)]
+            (list 'rt_cast 'chkf 'DI l (UI E) t A B h p eA))
+          (and (seq? x) (= (first x) 'PU)) (second (ueq (second x)))
+          :else x))
+      form))))
+
+(def ^:private rt-wk-cases
+  '[;; rVar, rConst
+    (rt_var chkf D us i A r hl hA hu hr cc XX)
+    (Rt.rConst chkf DI (UI us) (L 0 t) (L 0 A) (len_ins XX U.u0 cc D us hl) (constTyped_lift t A h 1 cc))
+    ;; rLam
+    (Rt.rLam chkf DI (UI us) r (L 0 A) (L 1 t) (L 1 B) (TF D A hA 0) (IH ih_ht 1))
+    ;; rApp0
+    (rt_cast chkf DI (UI us) (UI us) (Exp.app (L 0 f) (L 0 u)) (subst1 (L 0 u) (L 1 B)) (L 0 (subst1 u B))
+      (Rt.rApp0 chkf DI (UI us) (L 0 f) (L 0 u) (L 0 A) (L 1 B) (IH ih_hf 0) (T0 D u A hu 0) (TF D A hA 0)
+        (TF (List.cons Exp A D) B hB 1))
+      (Eq.refl$1 (UI us)) (Eq.symm (lift_subst1 u B cc)))
+    ;; rApp
+    (RC (vadd us1 (vscale r us2)) (Exp.app (L 0 f) (L 0 u)) (subst1 (L 0 u) (L 1 B)) (L 0 (subst1 u B))
+      (Rt.rApp chkf DI (UI us1) (UI us2) r (L 0 f) (L 0 u) (L 0 A) (L 1 B) hr (IH ih_hf 0) (IH ih_hu 0) (TF D A hA 0)
+        (TF (List.cons Exp A D) B hB 1))
+      (Eq.symm (lift_subst1 u B cc)))
+    ;; rPair0
+    (Rt.rPair0 chkf DI (UI us) (L 0 A) (L 1 B) (L 0 x) (L 0 y) (TF D A hA 0) (TF (List.cons Exp A D) B hB 1) (T0 D x A hx 0)
+      (rt_cast chkf DI (UI us) (UI us) (L 0 y) (L 0 (subst1 x B)) (subst1 (L 0 x) (L 1 B)) (IH ih_hy 0)
+        (Eq.refl$1 (UI us)) (lift_subst1 x B cc)))
+    ;; rPair
+    (RC (vadd (vscale r us1) us2) (Exp.pair (Exp.tSig r (L 0 A) (L 1 B)) (L 0 x) (L 0 y)) (Exp.tSig r (L 0 A) (L 1 B)) (Exp.tSig r (L 0 A) (L 1 B))
+      (Rt.rPair chkf DI (UI us1) (UI us2) r (L 0 A) (L 1 B) (L 0 x) (L 0 y) hr (TF D A hA 0) (TF (List.cons Exp A D) B hB 1)
+        (IH ih_hx 0)
+        (rt_cast chkf DI (UI us2) (UI us2) (L 0 y) (L 0 (subst1 x B)) (subst1 (L 0 x) (L 1 B)) (IH ih_hy 0)
+          (Eq.refl$1 (UI us2)) (lift_subst1 x B cc)))
+      (Eq.refl$1 (Exp.tSig r (L 0 A) (L 1 B))))
+    ;; rLet
+    (RC (vadd us1 us2) (Exp.letp (L 0 C) (L 0 p) (L 2 t)) (L 0 C) (L 0 C)
+      (Rt.rLet chkf DI (UI us1) (UI us2) r (L 0 A) (L 1 B) (L 0 C) (L 0 p) (L 2 t) (IH ih_hp 0) (TF D C hC 0) (TF D A hA 0)
+        (TF (List.cons Exp A D) B hB 1)
+        (rt_cast chkf (List.cons Exp (L 1 B) (List.cons Exp (L 0 A) DI))
+          (List.cons U U.u1 (List.cons U r (UI us2))) (List.cons U U.u1 (List.cons U r (UI us2)))
+          (L 2 t) (L 2 (lift 2 0 C)) (lift 2 0 (L 0 C)) (IH ih_ht 2)
+          (Eq.refl$1 (List.cons U U.u1 (List.cons U r (UI us2)))) (lift_lift2 C cc)))
+      (Eq.refl$1 (L 0 C)))
+    ;; rAbort
+    (Rt.rAbort chkf DI (UI us) (L 0 A) (L 0 t) (IH ih_ht 0) (TF D A hA 0))
+    ;; rConv
+    (Rt.rConv chkf DI (UI us) (L 0 t) (L 0 A) (L 0 B) (IH ih_ht 0) (TF D B hB 0) (cv_weaken chkf D A B hc cc XX))
+    ;; rIte
+    (RC (vadd us1 us2) (Exp.ite (L 0 b) (L 0 t) (L 0 e)) (L 0 C) (L 0 C)
+      (Rt.rIte chkf DI (UI us1) (UI us2) (L 0 b) (L 0 t) (L 0 e) (L 0 C) (IH ih_hb 0) (IH ih_ht 0) (IH ih_he 0))
+      (Eq.refl$1 (L 0 C)))
+    ;; rElimB
+    (RC (vadd us1 us2) (Exp.elimB (L 1 P) (L 0 b) (L 0 t) (L 0 e)) (subst1 (L 0 b) (L 1 P)) (L 0 (subst1 b P))
+      (Rt.rElimB chkf DI (UI us1) (UI us2) (L 1 P) (L 0 b) (L 0 t) (L 0 e) (IH ih_hb 0) (TF (consE Exp.tBool D) P hP 1)
+        (rt_cast chkf DI (UI us2) (UI us2) (L 0 t) (L 0 (subst1 Exp.tt P)) (subst1 Exp.tt (L 1 P)) (IH ih_ht 0)
+          (Eq.refl$1 (UI us2)) (lift_subst1 Exp.tt P cc))
+        (rt_cast chkf DI (UI us2) (UI us2) (L 0 e) (L 0 (subst1 Exp.ff P)) (subst1 Exp.ff (L 1 P)) (IH ih_he 0)
+          (Eq.refl$1 (UI us2)) (lift_subst1 Exp.ff P cc)))
+      (Eq.symm (lift_subst1 b P cc)))
+    ;; rSucc
+    (Rt.rSucc chkf DI (UI us) (L 0 n) (IH ih_h 0))
+    ;; rRecN: the step at usages 1 (y), ω (x) and ω·us3
+    (RC (vadd us1 (vadd us2 (vscale U.uw us3))) (Exp.recN (L 1 P) (L 0 z) (L 2 s) (L 0 n)) (subst1 (L 0 n) (L 1 P)) (L 0 (subst1 n P))
+      (Rt.rRecN chkf DI (UI us1) (UI us2) (UI us3) (L 1 P) (L 0 z) (L 2 s) (L 0 n) (IH ih_hn 0) (TF (consE Exp.tNat D) P hP 1)
+        (rt_cast chkf DI (UI us2) (UI us2) (L 0 z) (L 0 (subst1 Exp.zero P)) (subst1 Exp.zero (L 1 P)) (IH ih_hz 0)
+          (Eq.refl$1 (UI us2)) (lift_subst1 Exp.zero P cc))
+        (rt_cast chkf (List.cons Exp (L 1 P) (List.cons Exp Exp.tNat DI))
+          (List.cons U U.u1 (List.cons U U.uw (UI (vscale U.uw us3))))
+          (List.cons U U.u1 (List.cons U U.uw (vscale U.uw (UI us3))))
+          (L 2 s) (L 2 (stepTy P)) (stepTy (L 1 P)) (IH ih_hs 2)
+          (congrArg (fn [v :- (List U)] (List.cons U U.u1 (List.cons U U.uw v))) (Eq.symm (PU (vscale U.uw us3))))
+          (lift_stepTy P cc)))
+      (Eq.symm (lift_subst1 n P cc)))
+    ;; rCaseL
+    (RC (vadd us1 us2) (Exp.caseL (L 1 P) (L 0 x) (L 0 bs)) (subst1 (L 0 x) (L 1 P)) (L 0 (subst1 x P))
+      (Rt.rCaseL chkf DI (UI us1) (UI us2) (L 1 P) (L 0 x) (L 0 bs) (IH ih_hx 0) (TF (consE Exp.tLbl D) P hP 1) (IH ih_hb 0))
+      (Eq.symm (lift_subst1 x P cc)))
+    ;; rBnil, rBcons
+    (Rt.rBnil chkf DI (UI us) (L 1 P) (len_ins XX U.u0 cc D us hl))
+    (Rt.rBcons chkf DI (UI us) (L 1 P) k (L 0 h) (L 0 t)
+      (rt_cast chkf DI (UI us) (UI us) (L 0 h) (L 0 (subst1 (Exp.lbl k) P)) (subst1 (Exp.lbl k) (L 1 P)) (IH ih_hh 0)
+        (Eq.refl$1 (UI us)) (lift_subst1 (Exp.lbl k) P cc))
+      (IH ih_ht 0))
+    ;; rSleaf, rSnode
+    (Rt.rSleaf chkf DI (UI us) (L 0 x) (IH ih_h 0))
+    (RC (vadd us1 (vadd us2 us3)) (Exp.snode (L 0 x) (L 0 c1) (L 0 c2)) Exp.tSyn Exp.tSyn
+      (Rt.rSnode chkf DI (UI us1) (UI us2) (UI us3) (L 0 x) (L 0 c1) (L 0 c2) (IH ih_hx 0) (IH ih_h1 0) (IH ih_h2 0))
+      (Eq.refl$1 Exp.tSyn))
+    ;; rRecS
+    (RC (vadd us1 (vadd (vscale U.uw us2) (vscale U.uw us3))) (Exp.recS (L 1 P) (L 1 tl) (L 5 tn) (L 0 c))
+        (subst1 (L 0 c) (L 1 P)) (L 0 (subst1 c P))
+      (Rt.rRecS chkf DI (UI us1) (UI us2) (UI us3) (L 1 P) (L 1 tl) (L 5 tn) (L 0 c) (IH ih_hc 0) (TF (consE Exp.tSyn D) P hP 1)
+        (rt_cast chkf (List.cons Exp Exp.tLbl DI)
+          (List.cons U U.uw (UI (vscale U.uw us2))) (List.cons U U.uw (vscale U.uw (UI us2)))
+          (L 1 tl) (L 1 (leafTy P)) (leafTy (L 1 P)) (IH ih_hl 1)
+          (congrArg (fn [v :- (List U)] (List.cons U U.uw v)) (Eq.symm (PU (vscale U.uw us2))))
+          (lift_leafTy P cc))
+        (rt_ctx2 chkf (L 4 (y2Ty P)) (y2Ty (L 1 P)) (L 3 (y1Ty P)) (y1Ty (L 1 P))
+          (List.cons Exp Exp.tSyn (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl DI)))
+          (List.cons U U.u1 (List.cons U U.u1 (List.cons U U.uw (List.cons U U.uw (List.cons U U.uw (vscale U.uw (UI us3)))))))
+          (L 5 tn) (nodeTy (L 1 P))
+          (rt_cast chkf
+            (List.cons Exp (L 4 (y2Ty P)) (List.cons Exp (L 3 (y1Ty P))
+              (List.cons Exp Exp.tSyn (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl DI)))))
+            (List.cons U U.u1 (List.cons U U.u1 (List.cons U U.uw (List.cons U U.uw (List.cons U U.uw (UI (vscale U.uw us3)))))))
+            (List.cons U U.u1 (List.cons U U.u1 (List.cons U U.uw (List.cons U U.uw (List.cons U U.uw (vscale U.uw (UI us3)))))))
+            (L 5 tn) (L 5 (nodeTy P)) (nodeTy (L 1 P)) (IH ih_hn 5)
+            (congrArg (fn [v :- (List U)] (List.cons U U.u1 (List.cons U U.u1 (List.cons U U.uw (List.cons U U.uw (List.cons U U.uw v))))))
+                      (Eq.symm (PU (vscale U.uw us3))))
+            (lift_nodeTy P cc))
+          (lift_y2Ty P cc) (lift_y1Ty P cc)))
+      (Eq.symm (lift_subst1 c P cc)))
+    ;; rLeaf, rNode
+    (Rt.rLeaf chkf DI (UI us) (L 0 x) (IH ih_h 0))
+    (RC (vadd us1 (vadd us2 (vadd us3 us4))) (Exp.node (L 0 d) (L 0 x) (L 0 r1) (L 0 r2)) Exp.tR Exp.tR
+      (Rt.rNode chkf DI (UI us1) (UI us2) (UI us3) (UI us4) (L 0 d) (L 0 x) (L 0 r1) (L 0 r2)
+        (IH ih_hd 0) (IH ih_hx 0) (IH ih_h1 0) (IH ih_h2 0))
+      (Eq.refl$1 Exp.tR))
+    ;; rItR: the steps at ω·us1, ω·us2
+    (RC (vadd (vscale U.uw us1) (vadd (vscale U.uw us2) us3)) (Exp.itR (L 0 X) (L 0 g) (L 0 h) (L 0 r)) (L 0 X) (L 0 X)
+      (Rt.rItR chkf DI (UI us1) (UI us2) (UI us3) (L 0 X) (L 0 g) (L 0 h) (L 0 r) (TF D X hX 0)
+        (rt_cast chkf DI (UI (vscale U.uw us1)) (vscale U.uw (UI us1)) (L 0 g) (L 0 (gTy X)) (gTy (L 0 X)) (IH ih_hg 0)
+          (Eq.symm (PU (vscale U.uw us1))) (lift_gTy X cc))
+        (rt_cast chkf DI (UI (vscale U.uw us2)) (vscale U.uw (UI us2)) (L 0 h) (L 0 (hTy X)) (hTy (L 0 X)) (IH ih_hh 0)
+          (Eq.symm (PU (vscale U.uw us2))) (lift_hTy X cc))
+        (IH ih_hr 0))
+      (Eq.refl$1 (L 0 X)))
+    ;; rPrn, rChk
+    (Rt.rPrn chkf DI (UI us) (L 0 r) (IH ih_h 0))
+    (RC (vadd us1 us2) (Exp.chk (L 0 c) (L 0 d)) Exp.tBool Exp.tBool
+      (Rt.rChk chkf DI (UI us1) (UI us2) (L 0 c) (L 0 d) (IH ih_hc 0) (IH ih_hd 0))
+      (Eq.refl$1 Exp.tBool))
+    ;; rH1: the code c at ω·us3
+    (RC (vadd us1 (vadd us2 (vadd (vscale U.uw us3) (vadd us4 us5)))) (Exp.h1 (L 0 r) (L 0 s) (L 0 c) (L 0 e1) (L 0 e2)) Exp.tEmpty Exp.tEmpty
+      (Rt.rH1 chkf DI (UI us1) (UI us2) (UI us3) (UI us4) (UI us5) (L 0 r) (L 0 s) (L 0 c) (L 0 e1) (L 0 e2)
+        (IH ih_hr 0) (IH ih_hs 0)
+        (rt_cast chkf DI (UI (vscale U.uw us3)) (vscale U.uw (UI us3)) (L 0 c) Exp.tSyn Exp.tSyn (IH ih_hc 0)
+          (Eq.symm (PU (vscale U.uw us3))) (Eq.refl$1 Exp.tSyn))
+        (IH ih_h1 0) (IH ih_h2 0))
+      (Eq.refl$1 Exp.tEmpty))
+    ;; rRefl
+    (RC (vadd us1 us2) (Exp.refl (L 0 X) (L 0 r) (L 0 e)) (L 0 X) (L 0 X)
+      (Rt.rRefl chkf DI (UI us1) (UI us2) (L 0 X) (L 0 cd) (L 0 r) (L 0 e) (baseCode_lift X cd hb 1 cc) (IH ih_hr 0) (IH ih_he 0))
+      (Eq.refl$1 (L 0 X)))
+    ;; rInsp: c at ω·us0; the branches as at type level
+    (RC (vadd us1 (vadd (vscale U.uw us0) us2)) (Exp.insp (L 0 X) (L 0 r) (L 0 c) (L 2 t1) (L 2 t2)) (L 0 X) (L 0 X)
+      (Rt.rInsp chkf DI (UI us1) (UI us0) (UI us2) (L 0 X) (L 0 r) (L 0 c) (L 2 t1) (L 2 t2) (IH ih_hr 0)
+        (rt_cast chkf DI (UI (vscale U.uw us0)) (vscale U.uw (UI us0)) (L 0 c) Exp.tSyn Exp.tSyn (IH ih_hc 0)
+          (Eq.symm (PU (vscale U.uw us0))) (Eq.refl$1 Exp.tSyn))
+        (TF D X hX 0)
+        (rt_ctx1 chkf (L 1 (chkT (Exp.var 0) (lift 1 0 c))) (chkT (Exp.var 0) (lift 1 0 (L 0 c)))
+          (List.cons Exp Exp.tR DI) (List.cons U U.u1 (List.cons U U.u1 (UI us2))) (L 2 t1) (lift 2 0 (L 0 X))
+          (rt_cast chkf (List.cons Exp (L 1 (chkT (Exp.var 0) (lift 1 0 c))) (List.cons Exp Exp.tR DI))
+            (List.cons U U.u1 (List.cons U U.u1 (UI us2))) (List.cons U U.u1 (List.cons U U.u1 (UI us2)))
+            (L 2 t1) (L 2 (lift 2 0 X)) (lift 2 0 (L 0 X)) (IH ih_h1 2)
+            (Eq.refl$1 (List.cons U U.u1 (List.cons U U.u1 (UI us2)))) (lift_lift2 X cc))
+          (congrArg (fn [v :- Exp] (chkT (Exp.var 0) v)) (lift_lift_comm c 1 cc 0)))
+        (rt_ctx1 chkf (L 1 (Exp.tT (notE (Exp.chk (Exp.prn (Exp.var 0)) (lift 1 0 c)))))
+          (Exp.tT (notE (Exp.chk (Exp.prn (Exp.var 0)) (lift 1 0 (L 0 c)))))
+          (List.cons Exp Exp.tR DI) (List.cons U U.u1 (List.cons U U.u1 (UI us2))) (L 2 t2) (lift 2 0 (L 0 X))
+          (rt_cast chkf (List.cons Exp (L 1 (Exp.tT (notE (Exp.chk (Exp.prn (Exp.var 0)) (lift 1 0 c))))) (List.cons Exp Exp.tR DI))
+            (List.cons U U.u1 (List.cons U U.u1 (UI us2))) (List.cons U U.u1 (List.cons U U.u1 (UI us2)))
+            (L 2 t2) (L 2 (lift 2 0 X)) (lift 2 0 (L 0 X)) (IH ih_h2 2)
+            (Eq.refl$1 (List.cons U U.u1 (List.cons U U.u1 (UI us2)))) (lift_lift2 X cc))
+          (congrArg (fn [v :- Exp] (Exp.tT (notE (Exp.chk (Exp.prn (Exp.var 0)) v)))) (lift_lift_comm c 1 cc 0))))
+      (Eq.refl$1 (L 0 X)))])
+
+;; Lemma 2.1 (weakening), runtime: Γ ⊢ t :¹ A gives the same judgment with an
+;; entry XX at usage 0 inserted at any position cc, t and A lifted at cc.
+(a/prove-theorem 'rt_weaken
+  '[chkf :- (=> Code Code Bool), D0 :- (List Exp), us0 :- (List U), t0 :- Exp, A0 :- Exp, der :- (Rt chkf D0 us0 t0 A0)]
+  '(forall [cc Nat] (forall [XX Exp] (Rt chkf (insD cc XX D0) (insU cc U.u0 us0) (lift 1 cc t0) (lift 1 cc A0))))
+  (lv (into ['(induction der)] (mapcat (fn [c] ['(intro cc XX) (list 'exact (rwk-expand c))]) rt-wk-cases))))
