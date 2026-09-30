@@ -1555,3 +1555,28 @@
            (rt_weaken chkf (thetaD (+ m n)) (prefixU m U.u1 (vzero n)) (lift n m t) A ih_n m Exp.tDia)
            (insD_theta m n) (insU_prefix m U.u1 U.u0 (vzero n))
            (lift_comp t 1 n m) (closedTy_lift A hc 1 m))))
+
+;; Lemma 2.4 (composition). The stored telescope lists t1's m1 tokens first
+;; and t2's m2 tokens second. De Bruijn renaming is explicit in the result:
+;; t1' = lift m2 m1 t1 and t2' = lift m1 0 t2. The extra formation premise
+;; records regularity that Rt alone does not currently provide; closedTy
+;; only checks free variables and is not itself a formation judgment.
+(thm lemma24 [chkf :- (=> Code Code Bool), m1 :- Nat, m2 :- Nat, t1 :- Exp, t2 :- Exp, A :- Exp,
+              hc :- (= (closedTy A) true), hA :- (Tl chkf Bool.true (List.nil Exp) A Exp.tUnit),
+              h1 :- (Rt chkf (thetaD m1) (thetaU m1) t1 A),
+              h2 :- (Rt chkf (thetaD m2) (thetaU m2) t2 (Exp.tPi U.u1 A Exp.tEmpty))]
+  (Rt chkf (thetaD (+ m1 m2)) (thetaU (+ m1 m2))
+      (Exp.app (lift m1 0 t2) (lift m2 m1 t1)) Exp.tEmpty)
+  (have hneg (= (closedTy (Exp.tPi U.u1 A Exp.tEmpty)) true)
+    (andb_intro (closedTy A) true hc (Eq.refl$1 Bool.true)))
+  (exact (rt_cast chkf (thetaD (+ m1 m2))
+           (vadd (prefixU m1 U.u0 (thetaU m2)) (vscale U.u1 (prefixU m1 U.u1 (vzero m2))))
+           (thetaU (+ m1 m2)) (Exp.app (lift m1 0 t2) (lift m2 m1 t1)) Exp.tEmpty Exp.tEmpty
+           (Rt.rApp chkf (thetaD (+ m1 m2))
+             (prefixU m1 U.u0 (thetaU m2)) (prefixU m1 U.u1 (vzero m2)) U.u1
+             (lift m1 0 t2) (lift m2 m1 t1) A Exp.tEmpty (Eq.refl$1 Bool.true)
+             (rt_theta_prepend chkf m2 t2 (Exp.tPi U.u1 A Exp.tEmpty) hneg h2 m1)
+             (rt_theta_append chkf m1 t1 A hc h1 m2)
+             (tl_theta_closed chkf A hc hA (+ m1 m2))
+             (Tl.fBase chkf (List.cons Exp A (thetaD (+ m1 m2))) Exp.tEmpty (Eq.refl$1 Bool.true)))
+           (vadd_theta_blocks m1 m2) (Eq.refl$1 Exp.tEmpty))))

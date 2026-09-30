@@ -116,6 +116,13 @@ now checks.
   fails for reflect at an open type. The paper's rule has the same premise
   implicitly, since `chk′`'s type is closed. The formal rule states it.
 - **`V` takes the skeleton explicitly,** since carriers depend on it.
+- **Lemma 2.4 takes closed formation explicitly.** `lemma24` also assumes
+  `Tl chkf Bool.true (List.nil Exp) A Exp.tUnit`, then weakens that formation
+  judgment into the combined token context (`tl_theta_closed`). No existing
+  regularity/strengthening theorem supplies it from the two runtime premises;
+  `closedTy A = true` only checks variable scope. The typing definitions are
+  unchanged. Discharging this extra hypothesis for the fundamental lemma's
+  H₁ case remains an integration obligation.
 
 ## Statement index
 
@@ -130,6 +137,8 @@ theorem quantifies over `chkf dec encTy`, and those using the checker take
 | §1.4 typing rules | `Tl`, `Rt` (judgment); `SkJ` (conv) | defined | `tBrs` pseudo-type for branch lists; App₀/App require `clean A` |
 | §1.5 conversion | `Hd`, `Step`, `Cv` (conv) | defined | steps are recorded with a position |
 | §1.6 Check, via Lemmas 2.6–2.8, E1, E5 | `CheckSpec` (model) | hypothesis | the trust base; F7 is to discharge it |
+| Lemma 2.1, weakening | `tl_weaken`, `rt_weaken` (derivations) | proved | arbitrary insertion; runtime entry has usage 0; exchange is not covered |
+| Lemma 2.4 | `lemma24` (derivations) | proved | explicit closed formation premise; terms are `lift m2 m1 t1` and `lift m1 0 t2` |
 | Lemma 2.5 | `lemma25_tl`, `lemma25_rt`, `skel_subst`, `cv_skel` (skeletons) | proved | — |
 | §3.1–3.2 carriers, ⟦·⟧ⁿ | `Car`, `den` = `denT n n` (carrier, den) | defined | a table of levels (reflect runs at ⟦t′⟧ᵐ: `denT_stable`) |
 | Lemma 3.1 | `lemma31`, `den_subst1`, `den_substL` (substitution) | proved | hypothesis `SubOK` (substituted terms have `skOf`) — see the counterexample `lemma31_skj_counterexample` |

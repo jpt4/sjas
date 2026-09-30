@@ -328,3 +328,14 @@
       (is (not (b/rejects? ps
                            '(Rt chkf (thetaD 5) (prefixU 2 U.u1 (vzero 3)) (Exp.var 1) Exp.tDia)
                            [(list 'exact (list 'rt_theta_append 'chkf 2 '(Exp.var 1) 'Exp.tDia 'rfl source 3))]))))))
+
+(deftest f2f-composition
+  (testing "Lemma 2.4 composes the two derivations at the sum of their token budgets"
+    (is (b/has? 'lemma24)))
+  ;; closedTy checks variable scope on every Exp, including term constructors.
+  ;; It cannot replace the Tl formation premise required by rApp.
+  (testing "closedness by itself is not type formation"
+    (is (not (b/rejects? '[] '(= (closedTy Exp.star) true) '[(rfl)])))
+    (is (b/rejects? '[chkf :- (=> Code Code Bool)]
+                    '(Tl chkf Bool.true (List.nil Exp) Exp.star Exp.tUnit)
+                    '[(exact (Tl.fBase chkf (List.nil Exp) Exp.star rfl))]))))
