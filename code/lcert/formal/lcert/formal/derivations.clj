@@ -740,3 +740,203 @@
                    (skj_weaken Bool.true G C Sk.unit hc c xs)))
   (exact (Cv.cvBwd chkf (insS c xs G) (lift 1 c A) (lift 1 c B) (lift 1 c C) ih_hab (step_lift chkf C B hs c)
                    (skj_weaken Bool.true G C Sk.unit hc c xs))))
+
+;; ===========================================================================
+;; §4  Insertion into contexts and usage vectors
+;; ===========================================================================
+
+;; insD c X D: D with X inserted at position c (innermost first).  An entry
+;; before the insertion point (position j < c) has X inserted c − j − 1
+;; places into its tail, so it is lifted at that cutoff:
+;;   insD 0 X D            = X :: D
+;;   insD (k+1) X (A :: D) = lift 1 k A :: insD k X D
+;;   insD (k+1) X []       = []      (past the end: nothing is inserted)
+;; Recursion on c returning a function of D (as insS, substitution.clj), so
+;; each equation holds definitionally.
+(kdef insDF (=> Nat Exp (List Exp) (List Exp))
+  (fn [c :- Nat, X :- Exp]
+    (Nat.rec$1 (fn [_ :- Nat] (=> (List Exp) (List Exp)))
+      (fn [D :- (List Exp)] (List.cons Exp X D))
+      (fn [k :- Nat, ih :- (=> (List Exp) (List Exp))]
+        (fn [D :- (List Exp)]
+          (List.rec$1$0 Exp (fn [_ :- (List Exp)] (List Exp))
+            (List.nil Exp)
+            (fn [A :- Exp, rest :- (List Exp), _ :- (List Exp)] (List.cons Exp (lift 1 k A) (ih rest)))
+            D)))
+      c)))
+
+(kdef insD (=> Nat Exp (List Exp) (List Exp))
+  (fn [c :- Nat, X :- Exp, D :- (List Exp)] (insDF c X D)))
+
+;; insU c r us: the usage r inserted at position c (no lifting).
+(kdef insUF (=> Nat U (List U) (List U))
+  (fn [c :- Nat, r :- U]
+    (Nat.rec$1 (fn [_ :- Nat] (=> (List U) (List U)))
+      (fn [us :- (List U)] (List.cons U r us))
+      (fn [k :- Nat, ih :- (=> (List U) (List U))]
+        (fn [us :- (List U)]
+          (List.rec$1$0 U (fn [_ :- (List U)] (List U))
+            (List.nil U)
+            (fn [a :- U, rest :- (List U), _ :- (List U)] (List.cons U a (ih rest)))
+            us)))
+      c)))
+
+(kdef insU (=> Nat U (List U) (List U))
+  (fn [c :- Nat, r :- U, us :- (List U)] (insUF c r us)))
+
+(thm insD_zero [X :- Exp, D :- (List Exp)] (= (insD 0 X D) (List.cons Exp X D)) (rfl))
+(thm insD_succ_cons [c :- Nat, X :- Exp, A :- Exp, D :- (List Exp)]
+  (= (insD (+ c 1) X (List.cons Exp A D)) (List.cons Exp (lift 1 c A) (insD c X D))) (rfl))
+
+;; The skeletons of the extended context are the skeleton context extended
+;; at the same position (lifting preserves skeletons, skel_lift).
+(thm skels_insD [X :- Exp, c :- Nat]
+  (forall [D (List Exp)] (= (skels (insD c X D)) (insS c (skel X) (skels D))))
+  (induction c)
+  (intro D)
+  (rfl)
+  (intro D)
+  (cases D)
+  (rfl)
+  (exact (Eq.trans (congrArg (fn [v :- Sk] (List.cons Sk v (skels (insD n X tail)))) (skel_lift head 1 n))
+                   (congrArg (fn [v :- (List Sk)] (List.cons Sk (skel head) v)) (ih_n tail)))))
+
+;; Lookup at or above the insertion point: index m + c + 1 of the extended
+;; context is index m + c of the original.  (nthE is well-founded: its
+;; equation lemmas nthE.eq_1..3.)
+(thm nthE_insD_above [X :- Exp, m :- Nat, c :- Nat]
+  (forall [D (List Exp)] (= (nthE (insD c X D) (+ (+ m c) 1)) (nthE D (+ m c))))
+  (induction c)
+  (intro D)
+  (exact (nthE.eq_3 X D (+ m 0)))
+  (intro D)
+  (cases D)
+  (exact (Eq.trans (nthE.eq_1 (+ (+ m (+ n 1)) 1)) (Eq.symm (nthE.eq_1 (+ m (+ n 1))))))
+  (exact (Eq.trans (nthE.eq_3 (lift 1 n head) (insD n X tail) (+ (+ m n) 1))
+           (Eq.trans (ih_n tail) (Eq.symm (nthE.eq_3 head tail (+ m n)))))))
+
+;; Lookup below the insertion point (index i < c = m + i + 1): the entry
+;; lifted at m = c − i − 1.
+(thm nthE_insD_below [X :- Exp, m :- Nat, i :- Nat]
+  (forall [D (List Exp)] (forall [A Exp]
+    (=> (= (nthE D i) (Option.some Exp A)) (= (nthE (insD (+ (+ m i) 1) X D) i) (Option.some Exp (lift 1 m A))))))
+  (induction i)
+  (intro D A)
+  (cases D)
+  (intro h)
+  (exact (False.elim$0 (none_ne_someE A (Eq.trans (Eq.symm (nthE.eq_1 0)) h))))
+  (intro h)
+  (exact (Eq.trans (nthE.eq_2 (lift 1 (+ m 0) head) (insD (+ m 0) X tail))
+           (congrArg (fn [v :- Exp] (Option.some Exp (lift 1 m v))) (some_inj head A (Eq.trans (Eq.symm (nthE.eq_2 head tail)) h)))))
+  (intro D A)
+  (cases D)
+  (intro h)
+  (exact (False.elim$0 (none_ne_someE A (Eq.trans (Eq.symm (nthE.eq_1 (+ n 1))) h))))
+  (intro h)
+  (exact (Eq.trans (nthE.eq_3 (lift 1 (+ (+ m n) 1) head) (insD (+ (+ m n) 1) X tail) n)
+           (ih_n tail A (Eq.trans (Eq.symm (nthE.eq_3 head tail n)) h)))))
+
+;; The same for usage vectors (nthU.eq_1..3).
+(thm nthU_insU_above [r :- U, m :- Nat, c :- Nat]
+  (forall [us (List U)] (= (nthU (insU c r us) (+ (+ m c) 1)) (nthU us (+ m c))))
+  (induction c)
+  (intro us)
+  (exact (nthU.eq_3 r us (+ m 0)))
+  (intro us)
+  (cases us)
+  (exact (Eq.trans (nthU.eq_1 (+ (+ m (+ n 1)) 1)) (Eq.symm (nthU.eq_1 (+ m (+ n 1))))))
+  (exact (Eq.trans (nthU.eq_3 head (insU n r tail) (+ (+ m n) 1))
+           (Eq.trans (ih_n tail) (Eq.symm (nthU.eq_3 head tail (+ m n)))))))
+
+(thm none_ne_someU [v :- U, h :- (= (Option.none U) (Option.some U v))] False (cases h))
+
+(thm nthU_insU_below [r :- U, m :- Nat, i :- Nat]
+  (forall [us (List U)] (forall [v U]
+    (=> (= (nthU us i) (Option.some U v)) (= (nthU (insU (+ (+ m i) 1) r us) i) (Option.some U v)))))
+  (induction i)
+  (intro us v)
+  (cases us)
+  (intro h)
+  (exact (False.elim$0 (none_ne_someU v (Eq.trans (Eq.symm (nthU.eq_1 0)) h))))
+  (intro h)
+  (exact (Eq.trans (nthU.eq_2 head (insU (+ m 0) r tail)) (Eq.trans (Eq.symm (nthU.eq_2 head tail)) h)))
+  (intro us v)
+  (cases us)
+  (intro h)
+  (exact (False.elim$0 (none_ne_someU v (Eq.trans (Eq.symm (nthU.eq_1 (+ n 1))) h))))
+  (intro h)
+  (exact (Eq.trans (nthU.eq_3 head (insU (+ (+ m n) 1) r tail) n)
+           (ih_n tail v (Eq.trans (Eq.symm (nthU.eq_3 head tail n)) h)))))
+
+;; Lengths stay equal (the axioms' side condition lenU us = lenE D).
+(thm succ_inj_h [a0 :- Nat, b0 :- Nat, h :- (= (+ a0 1) (+ b0 1))] (= a0 b0) (omega))
+
+;; (The cons/cons cases are separate lemmas with clean parameters: a second
+;; `cases` on a list names its fields unstably; they are applied with _.)
+(thm len_cons [X :- Exp, r :- U, c :- Nat, A :- Exp, D :- (List Exp), u :- U, us :- (List U),
+               ih :- (forall [D2 (List Exp)] (forall [us2 (List U)]
+                       (=> (= (lenU us2) (lenE D2)) (= (lenU (insU c r us2)) (lenE (insD c X D2)))))),
+               h :- (= (lenU (List.cons U u us)) (lenE (List.cons Exp A D)))]
+  (= (lenU (insU (+ c 1) r (List.cons U u us))) (lenE (insD (+ c 1) X (List.cons Exp A D))))
+  (exact (congrArg (fn [v :- Nat] (+ v 1)) (ih D us (succ_inj_h (lenU us) (lenE D) h)))))
+
+(thm len_ins [X :- Exp, r :- U, c :- Nat]
+  (forall [D (List Exp)] (forall [us (List U)]
+    (=> (= (lenU us) (lenE D)) (= (lenU (insU c r us)) (lenE (insD c X D))))))
+  (induction c)
+  (intro D us h)
+  (exact (congrArg (fn [v :- Nat] (+ v 1)) h))
+  (intro D us)
+  (cases D)
+  (cases us)
+  (intro h)
+  (rfl)
+  (intro h)
+  (exact (absurd h (Nat.succ_ne_zero (lenU tail))))
+  (cases us)
+  (intro h)
+  (exact (absurd (Eq.symm h) (Nat.succ_ne_zero (lenE tail))))
+  (intro h)
+  (exact (len_cons X r n head tail _ _ ih_n h)))
+
+;; Usage-vector arithmetic commutes with insertion.  vadd truncates to the
+;; shorter vector; the identity holds at every position regardless.
+(thm vadd_cons [c :- Nat, a :- U, x :- (List U), b :- U, y :- (List U), a0 :- U, b0 :- U,
+                ih :- (forall [x2 (List U)] (forall [y2 (List U)] (forall [a1 U] (forall [b1 U]
+                        (= (vadd (insU c a1 x2) (insU c b1 y2)) (insU c (uadd a1 b1) (vadd x2 y2)))))))]
+  (= (vadd (insU (+ c 1) a0 (List.cons U a x)) (insU (+ c 1) b0 (List.cons U b y)))
+     (insU (+ c 1) (uadd a0 b0) (vadd (List.cons U a x) (List.cons U b y))))
+  (exact (congrArg (fn [v :- (List U)] (List.cons U (uadd a b) v)) (ih x y a0 b0))))
+
+(thm vadd_insU [c :- Nat]
+  (forall [x (List U)] (forall [y (List U)] (forall [a0 U] (forall [b0 U]
+    (= (vadd (insU c a0 x) (insU c b0 y)) (insU c (uadd a0 b0) (vadd x y)))))))
+  (induction c)
+  (intro x y a0 b0)
+  (rfl)
+  (intro x y a0 b0)
+  (cases x)
+  (rfl)
+  (cases y)
+  (rfl)
+  (exact (vadd_cons n head tail _ _ a0 b0 ih_n)))
+
+(thm vscale_insU [r :- U, c :- Nat]
+  (forall [x (List U)] (forall [a0 U] (= (vscale r (insU c a0 x)) (insU c (umul r a0) (vscale r x)))))
+  (induction c)
+  (intro x a0)
+  (rfl)
+  (intro x a0)
+  (cases x)
+  (rfl)
+  (exact (congrArg (fn [v :- (List U)] (List.cons U (umul r head) v)) (ih_n tail a0))))
+
+;; The instances at usage 0 (0 + 0 = 0, ρ · 0 = 0).
+(thm vadd_ins0 [c :- Nat, x :- (List U), y :- (List U)]
+  (= (vadd (insU c U.u0 x) (insU c U.u0 y)) (insU c U.u0 (vadd x y)))
+  (exact (vadd_insU c x y U.u0 U.u0)))
+
+(thm vscale_ins0 [r :- U, c :- Nat, x :- (List U)]
+  (= (vscale r (insU c U.u0 x)) (insU c U.u0 (vscale r x)))
+  (exact (Eq.trans (vscale_insU r c x U.u0)
+                   (congrArg (fn [v :- U] (insU c v (vscale r x))) (umul_zero_right r)))))
