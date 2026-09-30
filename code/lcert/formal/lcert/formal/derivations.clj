@@ -57,6 +57,11 @@
 (def ^:private under @#'lcert.formal.syntactic/under)
 (def ^:private ih @#'lcert.formal.syntactic/ih)
 
+;; prove-exp! with the case tactics passed through lv, so that they may use
+;; explicit universe levels (Foo$1) and explicit application (AT_Foo).
+(defn- prove-exp-lv! [nm prop intros clause]
+  (prove-exp! nm prop intros (fn [ctor fields] (lv (clause ctor fields)))))
+
 ;; ===========================================================================
 ;; §1  Lift algebra
 ;; ===========================================================================
@@ -403,3 +408,179 @@
   (rw [(substL_instLS us t)])
   (rw [(substL_instLS (liftL c us) (lift 1 (+ c (lenE us)) t))])
   (exact (lift_subst t (instLS us) (instLS (liftL c us)) c (+ c (lenE us)) (lsc_list us c))))
+
+;; ===========================================================================
+;; §3  Steps and conversion under lift
+;; ===========================================================================
+
+;; ∃-elimination into any Prop, at Nat and at Exp (as exN of
+;; lcert.formal.splitting): (refine' (exNat _ _ h _)) then (intro x hx).
+(thm exNat [P :- (=> Nat Prop), Q :- Prop, h :- (Exists P), f :- (forall [x Nat] (=> (P x) Q))] Q
+  (exact (AT_Exists.rec Nat P (fn [_ :- (Exists P)] Q) f h)))
+(thm exExp [P :- (=> Exp Prop), Q :- Prop, h :- (Exists P), f :- (forall [x Exp] (=> (P x) Q))] Q
+  (exact (AT_Exists.rec Exp P (fn [_ :- (Exists P)] Q) f h)))
+(thm exPath [P :- (=> (List Nat) Prop), Q :- Prop, h :- (Exists P), f :- (forall [x (List Nat)] (=> (P x) Q))] Q
+  (exact (AT_Exists.rec (List Nat) P (fn [_ :- (Exists P)] Q) f h)))
+
+;; --- the contents of head redexes -------------------------------------------
+
+;; caseLbl's branch lookup commutes with lift.  nthB recurses on two
+;; arguments, so it is well-founded and read through its equation lemmas:
+;; nthB.eq_k (label first, then the fields) for the k-th constructor of Exp
+;; (k ≤ 24), eq_25 / eq_26 (fields, then label) for
+;; bcons at label 0 / m + 1, and eq_(k+1) for the constructors after bcons.
+;; (The label and hypothesis are introduced after `cases` on the label,
+;; since cases does not rewrite hypotheses; their names lq bq hq avoid the
+;; field names l, h, t.)
+(prove-exp-lv! 'nthB_lift
+  '(forall [kc Nat] (forall [lq Nat] (forall [bq Exp]
+     (=> (= (nthB e lq) (Option.some Exp bq)) (= (nthB (lift 1 kc e) lq) (Option.some Exp (lift 1 kc bq)))))))
+  '[kc lq]
+  (let [index (into {} (map-indexed (fn [n [ctor _]] [ctor n]) exp-fields))]
+    (fn [ctor fields]
+      (let [n (index ctor)]
+        (if (= ctor 'bcons)
+          '[(cases lq)
+            (intro bq hq)
+            (exact (Eq.trans (nthB.eq_25 (lift 1 kc h) (lift 1 kc t))
+                     (congrArg (fn [v :- Exp] (Option.some Exp (lift 1 kc v)))
+                               (some_inj h bq (Eq.trans (Eq.symm (nthB.eq_25 h t)) hq)))))
+            (intro bq hq)
+            (exact (Eq.trans (nthB.eq_26 (lift 1 kc h) (lift 1 kc t) n)
+                     (ih_t kc n bq (Eq.trans (Eq.symm (nthB.eq_26 h t n)) hq))))]
+          (let [eqn (symbol (str "nthB.eq_" (if (< n 24) (inc n) (+ n 2))))]
+            ['(intro bq hq)
+             (list 'exact (list 'False.elim$0
+               (list 'none_ne_someE 'bq
+                     (list 'Eq.trans (list 'Eq.symm (apply list eqn (cons 'lq (map first fields)))) 'hq))))]))))))
+
+;; A canonical code term (codeOf e ≠ none: sleaf/snode over labels) has no
+;; variables, so every lift fixes it.  codeOf's snode clause, as a function
+;; of the two sub-results (codeF), is none as soon as either is.
+(kdef codeF (=> Nat (Option Code) (Option Code) (Option Code))
+  (fn [l :- Nat, o1 :- (Option Code), o2 :- (Option Code)]
+    (Option.rec$1$0 Code (fn [_ :- (Option Code)] (Option Code)) (Option.none Code)
+      (fn [a0 :- Code] (Option.rec$1$0 Code (fn [_ :- (Option Code)] (Option Code)) (Option.none Code)
+         (fn [b0 :- Code] (Option.some Code (Code.sn l a0 b0))) o2)) o1)))
+
+(thm codeF_none_left [l :- Nat, o2 :- (Option Code)] (= (codeF l (Option.none Code) o2) (Option.none Code)) (rfl))
+(thm codeF_none_right [l :- Nat, o1 :- (Option Code)] (= (codeF l o1 (Option.none Code)) (Option.none Code))
+  (cases o1) (rfl) (rfl))
+
+(def ^:private non-lbl-leaves
+  "Tactics closing the goals of (cases x) for a code position x: the label
+  case by `lbl-tac`, every other constructor by refuting codeOf ≠ none (the
+  hypothesis hn is introduced after the split: cases does not rewrite it)."
+  (fn [lbl-tac]
+    (mapcat (fn [[ctor _]]
+              (if (= ctor 'lbl) (cons '(intro hn) lbl-tac)
+                  ['(intro hn) '(exact (False.elim$0 (hn (Eq.refl$1 (Option.none Code)))))]))
+            exp-fields)))
+
+;; The two code constructors, as lemmas with clean parameters (the label
+;; position a is split by cases, which must not meet an induction
+;; hypothesis mentioning a).
+(a/prove-theorem 'code_sleaf '[a :- Exp, kq :- Nat, cq :- Nat]
+  '(=> (=> (= (codeOf (Exp.sleaf a)) (Option.none Code)) False) (= (lift kq cq (Exp.sleaf a)) (Exp.sleaf a)))
+  (lv (into ['(cases a)] (non-lbl-leaves ['(rfl)]))))
+
+(a/prove-theorem 'code_snode
+  '[a :- Exp, c1 :- Exp, c2 :- Exp, kq :- Nat, cq :- Nat,
+    ih1 :- (=> (=> (= (codeOf c1) (Option.none Code)) False) (= (lift kq cq c1) c1)),
+    ih2 :- (=> (=> (= (codeOf c2) (Option.none Code)) False) (= (lift kq cq c2) c2))]
+  '(=> (=> (= (codeOf (Exp.snode a c1 c2)) (Option.none Code)) False) (= (lift kq cq (Exp.snode a c1 c2)) (Exp.snode a c1 c2)))
+  (lv (into ['(cases a)]
+            (non-lbl-leaves
+             ['(exact (Eq.trans
+                 (congrArg (fn [v :- Exp] (Exp.snode (Exp.lbl l) v (lift kq cq c2)))
+                   (ih1 (fn [h1 :- (Eq (Option Code) (codeOf c1) (Option.none Code))]
+                     (hn (Eq.trans (congrArg (fn [o :- (Option Code)] (codeF l o (codeOf c2))) h1) (codeF_none_left l (codeOf c2)))))))
+                 (congrArg (fn [v :- Exp] (Exp.snode (Exp.lbl l) c1 v))
+                   (ih2 (fn [h2 :- (Eq (Option Code) (codeOf c2) (Option.none Code))]
+                     (hn (Eq.trans (congrArg (fn [o :- (Option Code)] (codeF l (codeOf c1) o)) h2) (codeF_none_right l (codeOf c1)))))))))]))))
+
+(prove-exp-lv! 'code_lift
+  '(forall [kq Nat] (forall [cq Nat] (=> (=> (= (codeOf e) (Option.none Code)) False) (= (lift kq cq e) e))))
+  '[kq cq]
+  (fn [ctor fields]
+    (case ctor
+      sleaf '[(exact (code_sleaf a kq cq))]
+      snode '[(exact (code_snode a c1 c2 kq cq (ih_c1 kq cq) (ih_c2 kq cq)))]
+      ['(intro hn) '(exact (False.elim$0 (hn (Eq.refl$1 (Option.none Code)))))])))
+
+(thm none_ne_someC [cc :- Code, h :- (= (Option.none Code) (Option.some Code cc))] False (cases h))
+
+(thm code_lift_some [e :- Exp, cc :- Code, h :- (= (codeOf e) (Option.some Code cc)), k :- Nat, c :- Nat] (= (lift k c e) e)
+  (exact (code_lift e k c (fn [h0 :- (Eq (Option Code) (codeOf e) (Option.none Code))] (none_ne_someC cc (Eq.trans (Eq.symm h0) h))))))
+
+(thm boolExp_lift [b :- Bool, k :- Nat, c :- Nat] (= (lift k c (boolExp b)) (boolExp b))
+  (cases b) (rfl) (rfl))
+
+;; --- head steps -------------------------------------------------------------
+
+(thm hd_cast [chkf :- (=> Code Code Bool), r :- Exp, a0 :- Exp, b0 :- Exp, h :- (Hd chkf r a0), e :- (= a0 b0)] (Hd chkf r b0)
+  (subst e) (exact h))
+
+;; A head step lifts to a head step, at every cutoff.  The contractum's
+;; substitutions commute with lift by §2 (β, let, recN, recSyn); caseLbl's
+;; branch by nthB_lift; δ's codes are closed (code_lift_some), and so is its
+;; Boolean result.
+(defn- hd-expand [form]
+  (walk/postwalk
+   (fn [x]
+     (if (and (seq? x) (#{'L 'L1 'L2 'L5} (first x)))
+       (list 'lift 1 (case (first x) L 'kc L1 '(+ kc 1) L2 '(+ kc 2) L5 '(+ kc 5)) (second x))
+       x))
+   form))
+
+(def ^:private hd-cases
+  '[;; beta
+    (hd_cast chkf (L (Exp.app (Exp.lam r A t) u)) (subst1 (L u) (L1 t)) (L (subst1 u t))
+      (Hd.beta chkf r (L A) (L1 t) (L u)) (Eq.symm (lift_subst1 u t kc)))
+    ;; betaLet
+    (hd_cast chkf (L (Exp.letp C (Exp.pair S x y) t)) (substL (liftL kc (List.cons Exp y (List.cons Exp x (List.nil Exp)))) (L2 t))
+      (L (substL (List.cons Exp y (List.cons Exp x (List.nil Exp))) t))
+      (Hd.betaLet chkf (L C) (L S) (L x) (L y) (L2 t))
+      (Eq.symm (lift_substL (List.cons Exp y (List.cons Exp x (List.nil Exp))) t kc)))
+    (Hd.iteT chkf (L t) (L e))
+    (Hd.iteF chkf (L t) (L e))
+    (Hd.elimT chkf (L1 P) (L t) (L e))
+    (Hd.elimF chkf (L1 P) (L t) (L e))
+    (Hd.recNZ chkf (L1 P) (L z) (L2 s))
+    ;; recNS
+    (hd_cast chkf (L (Exp.recN P z s (Exp.succ n)))
+      (substL (liftL kc (List.cons Exp (Exp.recN P z s n) (List.cons Exp n (List.nil Exp)))) (L2 s))
+      (L (substL (List.cons Exp (Exp.recN P z s n) (List.cons Exp n (List.nil Exp))) s))
+      (Hd.recNS chkf (L1 P) (L z) (L2 s) (L n))
+      (Eq.symm (lift_substL (List.cons Exp (Exp.recN P z s n) (List.cons Exp n (List.nil Exp))) s kc)))
+    ;; caseLb
+    (Hd.caseLb chkf (L1 P) l (L bs) (L b) (nthB_lift bs kc l b h))
+    ;; recSL
+    (hd_cast chkf (L (Exp.recS P tl tn (Exp.sleaf x))) (subst1 (L x) (L1 tl)) (L (subst1 x tl))
+      (Hd.recSL chkf (L1 P) (L1 tl) (L5 tn) (L x)) (Eq.symm (lift_subst1 x tl kc)))
+    ;; recSN
+    (hd_cast chkf (L (Exp.recS P tl tn (Exp.snode x c1 c2)))
+      (substL (liftL kc (List.cons Exp (Exp.recS P tl tn c2) (List.cons Exp (Exp.recS P tl tn c1)
+               (List.cons Exp c2 (List.cons Exp c1 (List.cons Exp x (List.nil Exp))))))) (L5 tn))
+      (L (substL (List.cons Exp (Exp.recS P tl tn c2) (List.cons Exp (Exp.recS P tl tn c1)
+               (List.cons Exp c2 (List.cons Exp c1 (List.cons Exp x (List.nil Exp)))))) tn))
+      (Hd.recSN chkf (L1 P) (L1 tl) (L5 tn) (L x) (L c1) (L c2))
+      (Eq.symm (lift_substL (List.cons Exp (Exp.recS P tl tn c2) (List.cons Exp (Exp.recS P tl tn c1)
+               (List.cons Exp c2 (List.cons Exp c1 (List.cons Exp x (List.nil Exp)))))) tn kc)))
+    (Hd.itRL chkf (L X) (L g) (L h) (L x))
+    (Hd.itRN chkf (L X) (L g) (L h) (L d) (L x) (L r1) (L r2))
+    (Hd.prnL chkf (L x))
+    (Hd.prnN chkf (L d) (L x) (L r1) (L r2))
+    ;; delta: the codes are closed
+    (hd_cast chkf (L (Exp.chk c d)) (boolExp (chkf cc dc)) (L (boolExp (chkf cc dc)))
+      (Hd.delta chkf (L c) (L d) cc dc
+        (Eq.trans (congrArg codeOf (code_lift_some c cc hc 1 kc)) hc)
+        (Eq.trans (congrArg codeOf (code_lift_some d dc hd 1 kc)) hd))
+      (Eq.symm (boolExp_lift (chkf cc dc) 1 kc)))
+    (Hd.tTT chkf)
+    (Hd.tTF chkf)])
+
+(a/prove-theorem 'hd_lift
+  '[chkf :- (=> Code Code Bool), r0 :- Exp, s0 :- Exp, der :- (Hd chkf r0 s0)]
+  '(forall [kc Nat] (Hd chkf (lift 1 kc r0) (lift 1 kc s0)))
+  (lv (into ['(induction der)] (mapcat (fn [c] ['(intro kc) (list 'exact (hd-expand c))]) hd-cases))))
