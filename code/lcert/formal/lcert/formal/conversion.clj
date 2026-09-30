@@ -39,7 +39,7 @@
       when the redex is nbr (den_beta, via den_subst1 and skOf_complete).
       conv_skj_counterexample is the kernel-checked failure of β over
       SkJ alone.  The substituting ι-steps, δ, and the T steps are open.
-  Position congruence, the chain for V, and F_conv are not in this file yet.
+  β for let (den_betaLet) is the same pattern.  Position congruence, the chain for V, and F_conv are not in this file yet.
 
   Equivalence at a position.  EquivAt w G s a b says a may replace b at a
   position of mode w, context G and skeleton s:
@@ -710,3 +710,190 @@
                                (List.nil Sk) Sk.bool Unit.unit))))))
   (exact (And.intro (Hd.beta chkf U.uw (Exp.tPi U.uw Exp.tLbl Exp.tBool) (Exp.caseL Exp.tBool (Exp.lbl 0) (Exp.var 0)) (Exp.bcons Exp.tt Exp.bnil))
                     (And.intro cex_redex_typed (And.intro cex_nbr_ff (cex_den_ne chkf dec encTy))))))
+
+;; --- β for let (Lemma 3.2), under nbr ---------------------------------------
+;; Hd.betaLet sends letp C (pair S x y) t to substL [y, x] t.  skOf of a pair
+;; is some (skel S), read off the type annotation, so the let's denotation
+;; splits the pair rather than defaulting — provided the pair is not a branch
+;; list, which nbr of the redex gives for x and y (den_substL2 needs their
+;; skOf).  The environment order is the let's: (⟦y⟧, ⟦x⟧, η).
+
+(thm prod_inj [a :- Sk, b :- Sk, c :- Sk, d :- Sk, h :- (Eq Sk (Sk.prod a b) (Sk.prod c d))]
+  (And (Eq Sk a c) (Eq Sk b d))
+  (cases h)
+  (exact (And.intro rfl rfl)))
+
+(thm exU [P :- (=> U Prop), Q :- Prop, hx :- (Exists P), f :- (forall [r U] (=> (P r) Q))]
+  Q
+  (cases hx)
+  (exact (f w h)))
+
+(thm exExp [P :- (=> Exp Prop), Q :- Prop, hx :- (Exists P), f :- (forall [e Exp] (=> (P e) Q))]
+  Q
+  (cases hx)
+  (exact (f w h)))
+
+(thm skof_pair [S :- Exp, x :- Exp, y :- Exp, G :- (List Sk)]
+  (Eq (Option Sk) (skOf G (Exp.pair S x y)) (Option.some Sk (skel S)))
+  (rfl))
+
+;; ⟦pair S x y⟧ at a product skeleton is the pair of the components' denotations.
+(thm den_pair_prod [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+                    S :- Exp, x :- Exp, y :- Exp, G :- (List Sk), sa :- Sk, sb :- Sk, en :- (HEnv G)]
+  (Eq (Prod (Car sa) (Car sb))
+      (den chkf dec encTy n (Exp.pair S x y) G (Sk.prod sa sb) en)
+      (Prod.mk (den chkf dec encTy n x G sa en) (den chkf dec encTy n y G sb en)))
+  (rw [(den_pair_at chkf dec encTy n S x y G (Sk.prod sa sb) en)]))
+
+(lcert.formal.base/thm den_betaLet_at [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+  C :- Exp, S :- Exp, x :- Exp, y :- Exp, t :- Exp, G :- (List Sk), s :- Sk, s1 :- Sk, s2 :- Sk,
+  rr :- U, AA :- Exp, BB :- Exp,
+  hs :- (Eq Sk s (skel C)),
+  hp :- (SkJ Bool.false G (Exp.pair S x y) (Sk.prod s1 s2)),
+  ht :- (SkJ Bool.false (sk2 s2 s1 G) t (skel C)),
+  hn :- (Eq Bool (nbr (Exp.letp C (Exp.pair S x y) t)) Bool.true),
+  en :- (HEnv G),
+  hBB :- (And (Eq Exp S (Exp.tSig rr AA BB))
+           (And (Eq Sk (Sk.prod s1 s2) (Sk.prod (skel AA) (skel BB)))
+             (And (SkJ Bool.true G S Sk.unit)
+               (And (SkJ Bool.false G x (skel AA))
+                 (SkJ Bool.false G y (skel BB))))))]
+  (Eq (Car s)
+      (den chkf dec encTy n (substL (List.cons Exp y (List.cons Exp x (List.nil Exp))) t) G s en)
+      (den chkf dec encTy n (Exp.letp C (Exp.pair S x y) t) G s en))
+  (have hS (Eq Exp S (Exp.tSig rr AA BB)) (And.left hBB))
+  (have hsk (Eq Sk (Sk.prod s1 s2) (Sk.prod (skel AA) (skel BB))) (And.left (And.right hBB)))
+  (have hx (SkJ Bool.false G x (skel AA)) (And.left (And.right (And.right (And.right hBB)))))
+  (have hy (SkJ Bool.false G y (skel BB)) (And.right (And.right (And.right (And.right hBB)))))
+  (have hpi (And (Eq Sk s1 (skel AA)) (Eq Sk s2 (skel BB))) (prod_inj s1 s2 (skel AA) (skel BB) hsk))
+  (have h1 (Eq Sk s1 (skel AA)) (And.left hpi))
+  (have h2 (Eq Sk s2 (skel BB)) (And.right hpi))
+  (have hrest (Eq Bool (Bool.and ((nbrF (Exp.pair S x y)) false) ((nbrF t) false)) Bool.true)
+        (band_right ((nbrF C) false) (Bool.and ((nbrF (Exp.pair S x y)) false) ((nbrF t) false)) hn))
+  (have hpn (Eq Bool ((nbrF (Exp.pair S x y)) false) Bool.true)
+        (band_left ((nbrF (Exp.pair S x y)) false) ((nbrF t) false) hrest))
+  (have hxy (Eq Bool (Bool.and ((nbrF x) false) ((nbrF y) false)) Bool.true)
+        (band_right ((nbrF S) false) (Bool.and ((nbrF x) false) ((nbrF y) false)) hpn))
+  (have hnx (Eq Bool ((nbrF x) false) Bool.true) (band_left ((nbrF x) false) ((nbrF y) false) hxy))
+  (have hny (Eq Bool ((nbrF y) false) Bool.true) (band_right ((nbrF x) false) ((nbrF y) false) hxy))
+  (have hkx (Eq (Option Sk) (skOf G x) (Option.some Sk (skel AA))) (skOf_ok G x (skel AA) hx hnx))
+  (have hky (Eq (Option Sk) (skOf G y) (Option.some Sk (skel BB))) (skOf_ok G y (skel BB) hy hny))
+  (subst h1)
+  (subst h2)
+  (subst hs)
+  (have hkp (Eq (Option Sk) (skOf G (Exp.pair S x y)) (Option.some Sk (Sk.prod (skel AA) (skel BB))))
+        (Eq.trans (skof_pair S x y G) (congrArg (fn [E :- Exp] (Option.some Sk (skel E))) hS)))
+  (rw [(den_letp_some chkf dec encTy n C (Exp.pair S x y) t G (skel AA) (skel BB) (skel C) en hkp)])
+  (rw [(den_pair_prod chkf dec encTy n S x y G (skel AA) (skel BB) en)])
+  (exact (den_substL2 chkf dec encTy n G x (skel AA) y (skel BB) hx hkx hy hky Bool.false t (skel C) ht en)))
+
+(lcert.formal.base/thm den_betaLet_core [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+  C :- Exp, S :- Exp, x :- Exp, y :- Exp, t :- Exp, G :- (List Sk), s :- Sk, s1 :- Sk, s2 :- Sk,
+  hs :- (Eq Sk s (skel C)),
+  hp :- (SkJ Bool.false G (Exp.pair S x y) (Sk.prod s1 s2)),
+  ht :- (SkJ Bool.false (sk2 s2 s1 G) t (skel C)),
+  hn :- (Eq Bool (nbr (Exp.letp C (Exp.pair S x y) t)) Bool.true),
+  en :- (HEnv G)]
+  (Eq (Car s)
+      (den chkf dec encTy n (substL (List.cons Exp y (List.cons Exp x (List.nil Exp))) t) G s en)
+      (den chkf dec encTy n (Exp.letp C (Exp.pair S x y) t) G s en))
+  (have hpair (And (Eq Bool Bool.false Bool.false)
+                   (Exists (fn [rr :- U]
+                     (Exists (fn [AA :- Exp]
+                       (Exists (fn [BB :- Exp]
+                         (And (Eq Exp S (Exp.tSig rr AA BB))
+                           (And (Eq Sk (Sk.prod s1 s2) (Sk.prod (skel AA) (skel BB)))
+                             (And (SkJ Bool.true G S Sk.unit)
+                               (And (SkJ Bool.false G x (skel AA))
+                                 (SkJ Bool.false G y (skel BB)))))))))))))
+        (inv_pair Bool.false G S x y (Sk.prod s1 s2) hp))
+  (exact (exU (fn [rr :- U] (Exists (fn [AA :- Exp] (Exists (fn [BB :- Exp]
+                   (And (Eq Exp S (Exp.tSig rr AA BB))
+                     (And (Eq Sk (Sk.prod s1 s2) (Sk.prod (skel AA) (skel BB)))
+                       (And (SkJ Bool.true G S Sk.unit)
+                         (And (SkJ Bool.false G x (skel AA))
+                           (SkJ Bool.false G y (skel BB)))))))))))
+               (Eq (Car s)
+                   (den chkf dec encTy n (substL (List.cons Exp y (List.cons Exp x (List.nil Exp))) t) G s en)
+                   (den chkf dec encTy n (Exp.letp C (Exp.pair S x y) t) G s en))
+               (And.right hpair)
+               (fn [rr :- U, hrr :- (Exists (fn [AA :- Exp] (Exists (fn [BB :- Exp]
+                      (And (Eq Exp S (Exp.tSig rr AA BB))
+                        (And (Eq Sk (Sk.prod s1 s2) (Sk.prod (skel AA) (skel BB)))
+                          (And (SkJ Bool.true G S Sk.unit)
+                            (And (SkJ Bool.false G x (skel AA))
+                              (SkJ Bool.false G y (skel BB))))))))))]
+                 (exExp (fn [AA :- Exp] (Exists (fn [BB :- Exp]
+                          (And (Eq Exp S (Exp.tSig rr AA BB))
+                            (And (Eq Sk (Sk.prod s1 s2) (Sk.prod (skel AA) (skel BB)))
+                              (And (SkJ Bool.true G S Sk.unit)
+                                (And (SkJ Bool.false G x (skel AA))
+                                  (SkJ Bool.false G y (skel BB)))))))))
+                       (Eq (Car s)
+                           (den chkf dec encTy n (substL (List.cons Exp y (List.cons Exp x (List.nil Exp))) t) G s en)
+                           (den chkf dec encTy n (Exp.letp C (Exp.pair S x y) t) G s en))
+                       hrr
+                       (fn [AA :- Exp, hAA :- (Exists (fn [BB :- Exp]
+                              (And (Eq Exp S (Exp.tSig rr AA BB))
+                                (And (Eq Sk (Sk.prod s1 s2) (Sk.prod (skel AA) (skel BB)))
+                                  (And (SkJ Bool.true G S Sk.unit)
+                                    (And (SkJ Bool.false G x (skel AA))
+                                      (SkJ Bool.false G y (skel BB))))))))]
+                         (exExp (fn [BB :- Exp]
+                                 (And (Eq Exp S (Exp.tSig rr AA BB))
+                                   (And (Eq Sk (Sk.prod s1 s2) (Sk.prod (skel AA) (skel BB)))
+                                     (And (SkJ Bool.true G S Sk.unit)
+                                       (And (SkJ Bool.false G x (skel AA))
+                                         (SkJ Bool.false G y (skel BB)))))))
+                               (Eq (Car s)
+                                   (den chkf dec encTy n (substL (List.cons Exp y (List.cons Exp x (List.nil Exp))) t) G s en)
+                                   (den chkf dec encTy n (Exp.letp C (Exp.pair S x y) t) G s en))
+                               hAA
+                               (fn [BB :- Exp, hBB :- (And (Eq Exp S (Exp.tSig rr AA BB))
+                                                      (And (Eq Sk (Sk.prod s1 s2) (Sk.prod (skel AA) (skel BB)))
+                                                        (And (SkJ Bool.true G S Sk.unit)
+                                                          (And (SkJ Bool.false G x (skel AA))
+                                                            (SkJ Bool.false G y (skel BB))))))]
+                                 (den_betaLet_at chkf dec encTy n C S x y t G s s1 s2 rr AA BB hs hp ht hn en hBB)))))))))
+(lcert.formal.base/thm den_betaLet [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+  C :- Exp, S :- Exp, x :- Exp, y :- Exp, t :- Exp, G :- (List Sk), s :- Sk,
+  hj :- (SkJ Bool.false G (Exp.letp C (Exp.pair S x y) t) s),
+  hn :- (Eq Bool (nbr (Exp.letp C (Exp.pair S x y) t)) Bool.true),
+  en :- (HEnv G)]
+  (Eq (Car s)
+      (den chkf dec encTy n (substL (List.cons Exp y (List.cons Exp x (List.nil Exp))) t) G s en)
+      (den chkf dec encTy n (Exp.letp C (Exp.pair S x y) t) G s en))
+  (have hlet (And (Eq Bool Bool.false Bool.false)
+                  (And (Eq Sk s (skel C))
+                    (Exists (fn [s1 :- Sk]
+                      (Exists (fn [s2 :- Sk]
+                        (And (SkJ Bool.true G C Sk.unit)
+                          (And (SkJ Bool.false G (Exp.pair S x y) (Sk.prod s1 s2))
+                            (SkJ Bool.false (sk2 s2 s1 G) t (skel C))))))))))
+        (inv_letp Bool.false G C (Exp.pair S x y) t s hj))
+  (have hs (Eq Sk s (skel C)) (And.left (And.right hlet)))
+  (exact (exSk (fn [s1 :- Sk] (Exists (fn [s2 :- Sk]
+                   (And (SkJ Bool.true G C Sk.unit)
+                     (And (SkJ Bool.false G (Exp.pair S x y) (Sk.prod s1 s2))
+                       (SkJ Bool.false (sk2 s2 s1 G) t (skel C)))))))
+               (Eq (Car s)
+                   (den chkf dec encTy n (substL (List.cons Exp y (List.cons Exp x (List.nil Exp))) t) G s en)
+                   (den chkf dec encTy n (Exp.letp C (Exp.pair S x y) t) G s en))
+               (And.right (And.right hlet))
+               (fn [s1 :- Sk, hs1 :- (Exists (fn [s2 :- Sk]
+                      (And (SkJ Bool.true G C Sk.unit)
+                        (And (SkJ Bool.false G (Exp.pair S x y) (Sk.prod s1 s2))
+                          (SkJ Bool.false (sk2 s2 s1 G) t (skel C))))))]
+                 (exSk (fn [s2 :- Sk]
+                         (And (SkJ Bool.true G C Sk.unit)
+                           (And (SkJ Bool.false G (Exp.pair S x y) (Sk.prod s1 s2))
+                             (SkJ Bool.false (sk2 s2 s1 G) t (skel C)))))
+                       (Eq (Car s)
+                           (den chkf dec encTy n (substL (List.cons Exp y (List.cons Exp x (List.nil Exp))) t) G s en)
+                           (den chkf dec encTy n (Exp.letp C (Exp.pair S x y) t) G s en))
+                       hs1
+                       (fn [s2 :- Sk, hs2 :- (And (SkJ Bool.true G C Sk.unit)
+                                             (And (SkJ Bool.false G (Exp.pair S x y) (Sk.prod s1 s2))
+                                               (SkJ Bool.false (sk2 s2 s1 G) t (skel C))))]
+                         (den_betaLet_core chkf dec encTy n C S x y t G s s1 s2 hs
+                           (And.left (And.right hs2)) (And.right (And.right hs2)) hn en)))))))
