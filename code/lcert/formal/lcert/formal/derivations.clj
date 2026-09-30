@@ -1437,6 +1437,15 @@
         (rt_cast chkf DI (UI (vscale U.uw us0)) (vscale U.uw (UI us0)) (L 0 c) Exp.tSyn Exp.tSyn (IH ih_hc 0)
           (Eq.symm (PU (vscale U.uw us0))) (Eq.refl$1 Exp.tSyn))
         (TF D X hX 0)
+        ;; the formation premises of the branches' added entries, weakened
+        ;; under the certificate binder and cast as the branch contexts are
+        (tl_cast3 chkf Bool.true (List.cons Exp Exp.tR DI) (L 1 (chkT (Exp.var 0) (lift 1 0 c))) (chkT (Exp.var 0) (lift 1 0 (L 0 c)))
+          Exp.tUnit Exp.tUnit (TF (List.cons Exp Exp.tR D) (chkT (Exp.var 0) (lift 1 0 c)) hF1 1)
+          (congrArg (fn [v :- Exp] (chkT (Exp.var 0) v)) (lift_lift_comm c 1 cc 0)) (Eq.refl$1 Exp.tUnit))
+        (tl_cast3 chkf Bool.true (List.cons Exp Exp.tR DI) (L 1 (Exp.tT (notE (Exp.chk (Exp.prn (Exp.var 0)) (lift 1 0 c)))))
+          (Exp.tT (notE (Exp.chk (Exp.prn (Exp.var 0)) (lift 1 0 (L 0 c)))))
+          Exp.tUnit Exp.tUnit (TF (List.cons Exp Exp.tR D) (Exp.tT (notE (Exp.chk (Exp.prn (Exp.var 0)) (lift 1 0 c)))) hF2 1)
+          (congrArg (fn [v :- Exp] (Exp.tT (notE (Exp.chk (Exp.prn (Exp.var 0)) v)))) (lift_lift_comm c 1 cc 0)) (Eq.refl$1 Exp.tUnit))
         (rt_ctx1 chkf (L 1 (chkT (Exp.var 0) (lift 1 0 c))) (chkT (Exp.var 0) (lift 1 0 (L 0 c)))
           (List.cons Exp Exp.tR DI) (List.cons U U.u1 (List.cons U U.u1 (UI us2))) (L 2 t1) (lift 2 0 (L 0 X))
           (rt_cast chkf (List.cons Exp (L 1 (chkT (Exp.var 0) (lift 1 0 c))) (List.cons Exp Exp.tR DI))
