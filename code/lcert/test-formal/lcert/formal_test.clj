@@ -305,3 +305,26 @@
                          '[(exact (closedTy_lift (Exp.tPi U.u1 Exp.tBool (Exp.tT (Exp.var 0))) rfl 3 0))]))))
   (testing "closedness matters: lifting an open type changes its free variable"
     (is (b/rejects? '[] '(= (lift 1 0 (Exp.tT (Exp.var 0))) (Exp.tT (Exp.var 0))) '[(rfl)]))))
+
+(deftest f2f-token-blocks
+  (testing "Lemma 2.4 helpers: zero padding, closed formation, and repeated weakening"
+    (doseq [c '[prefixU prefixU_one insU_prefix insD_theta vscale_one vadd_theta_zero
+                vadd_theta_blocks rt_reindex tl_theta_closed rt_theta_prepend rt_theta_append]]
+      (is (b/has? c) (str c))))
+  (testing "complementary blocks preserve usage 1 for all five tokens"
+    (is (not (b/rejects? '[]
+                         '(= (vadd (prefixU 2 U.u0 (thetaU 3))
+                                   (vscale U.u1 (prefixU 2 U.u1 (vzero 3)))) (thetaU 5))
+                         '[(exact (vadd_theta_blocks 2 3))]))))
+  (testing "overlapping token blocks cannot be treated as disjoint: 1 + 1 is omega"
+    (is (b/rejects? '[] '(= (vadd (thetaU 2) (thetaU 2)) (thetaU 2)) '[(rfl)])))
+  (let [ps '[chkf :- (=> Code Code Bool)]
+        source '(Rt.rVar chkf (thetaD 2) (thetaU 2) 1 Exp.tDia U.u1 rfl rfl rfl rfl)]
+    (testing "prepending unused tokens shifts the old token into the second block"
+      (is (not (b/rejects? ps
+                           '(Rt chkf (thetaD 5) (prefixU 3 U.u0 (thetaU 2)) (Exp.var 4) Exp.tDia)
+                           [(list 'exact (list 'rt_theta_prepend 'chkf 2 '(Exp.var 1) 'Exp.tDia 'rfl source 3))]))))
+    (testing "appending unused tokens keeps the old token in the first block"
+      (is (not (b/rejects? ps
+                           '(Rt chkf (thetaD 5) (prefixU 2 U.u1 (vzero 3)) (Exp.var 1) Exp.tDia)
+                           [(list 'exact (list 'rt_theta_append 'chkf 2 '(Exp.var 1) 'Exp.tDia 'rfl source 3))]))))))

@@ -1460,3 +1460,98 @@
   '[chkf :- (=> Code Code Bool), D0 :- (List Exp), us0 :- (List U), t0 :- Exp, A0 :- Exp, der :- (Rt chkf D0 us0 t0 A0)]
   '(forall [cc Nat] (forall [XX Exp] (Rt chkf (insD cc XX D0) (insU cc U.u0 us0) (lift 1 cc t0) (lift 1 cc A0))))
   (lv (into ['(induction der)] (mapcat (fn [c] ['(intro cc XX) (list 'exact (rwk-expand c))]) rt-wk-cases))))
+
+;; ===========================================================================
+;; §6  Lemma 2.4: disjoint token blocks and composition
+;; ===========================================================================
+
+;; A uniform usage prefix. The tail remains an arbitrary usage vector.
+(a/defn prefixU [n :- Nat, r :- U, us :- (List U)] (List U)
+  (match n [zero us] [(succ k) (List.cons U r (prefixU k r us))]))
+
+(thm prefixU_one [n :- Nat]
+  (= (prefixU n U.u1 (List.nil U)) (thetaU n))
+  (induction n)
+  (rfl)
+  (exact (congrArg (fn [v :- (List U)] (List.cons U U.u1 v)) ih_n)))
+
+(thm insU_prefix [n :- Nat, r :- U, s :- U, us :- (List U)]
+  (= (insU n s (prefixU n r us)) (prefixU n r (List.cons U s us)))
+  (induction n)
+  (rfl)
+  (exact (congrArg (fn [v :- (List U)] (List.cons U r v)) ih_n)))
+
+;; Every inserted type is Dia, hence no telescope entry changes under lift.
+(thm insD_theta [c :- Nat, m :- Nat]
+  (= (insD c Exp.tDia (thetaD (+ c m))) (thetaD (+ (+ c m) 1)))
+  (induction c)
+  (rw [(Nat.zero_add m)])
+  (rw [(Nat.succ_add n m)])
+  (exact (congrArg (fn [v :- (List Exp)] (List.cons Exp Exp.tDia v)) ih_n)))
+
+(thm vscale_one [us :- (List U)] (= (vscale U.u1 us) us)
+  (induction us)
+  (rfl)
+  (exact (congrArg (fn [v :- (List U)] (List.cons U head v)) ih_tail)))
+
+(thm vadd_theta_zero [m :- Nat]
+  (= (vadd (thetaU m) (vzero m)) (thetaU m))
+  (induction m)
+  (rfl)
+  (exact (congrArg (fn [v :- (List U)] (List.cons U U.u1 v)) ih_n)))
+
+(thm vadd_theta_blocks [m1 :- Nat, m2 :- Nat]
+  (= (vadd (prefixU m1 U.u0 (thetaU m2))
+           (vscale U.u1 (prefixU m1 U.u1 (vzero m2))))
+     (thetaU (+ m1 m2)))
+  (rw [(vscale_one (prefixU m1 U.u1 (vzero m2)))])
+  (induction m1)
+  (exact (Eq.trans (vadd_theta_zero m2) (Eq.symm (congrArg thetaU (Nat.zero_add m2)))))
+  (rw [(Nat.succ_add n m2)])
+  (exact (congrArg (fn [v :- (List U)] (List.cons U U.u1 v)) ih_n)))
+
+;; Transport all four indices of Rt. This only transports equalities,
+;; and does not add a conversion or subusaging rule to the object calculus.
+(thm rt_reindex [chkf :- (=> Code Code Bool), D :- (List Exp), us :- (List U), t :- Exp, A :- Exp,
+                 D2 :- (List Exp), us2 :- (List U), t2 :- Exp, A2 :- Exp,
+                 h :- (Rt chkf D us t A), eD :- (= D D2), eu :- (= us us2), et :- (= t t2), eA :- (= A A2)]
+  (Rt chkf D2 us2 t2 A2)
+  (subst eD) (subst eu) (subst et) (subst eA) (exact h))
+
+;; Formation at the empty context extends to any token context. The closed
+;; hypothesis removes each lift of A; the formation judgment is independent
+;; of runtime usages.
+(thm tl_theta_closed [chkf :- (=> Code Code Bool), A :- Exp, hc :- (= (closedTy A) true),
+                      hA :- (Tl chkf Bool.true (List.nil Exp) A Exp.tUnit), m :- Nat]
+  (Tl chkf Bool.true (thetaD m) A Exp.tUnit)
+  (induction m)
+  (exact hA)
+  (exact (tl_cast3 chkf Bool.true (thetaD (+ n 1)) (lift 1 0 A) A Exp.tUnit Exp.tUnit
+           (tl_weaken chkf Bool.true (thetaD n) A Exp.tUnit ih_n 0 Exp.tDia)
+           (closedTy_lift A hc 1 0) (Eq.refl$1 Exp.tUnit))))
+
+;; Prepending n unused tokens: the original block moves up by n indices.
+(thm rt_theta_prepend [chkf :- (=> Code Code Bool), m :- Nat, t :- Exp, A :- Exp,
+                       hc :- (= (closedTy A) true), h :- (Rt chkf (thetaD m) (thetaU m) t A), n :- Nat]
+  (Rt chkf (thetaD (+ n m)) (prefixU n U.u0 (thetaU m)) (lift n 0 t) A)
+  (induction n)
+  (exact (rt_reindex chkf _ _ _ _ _ _ _ _ h
+           (Eq.symm (congrArg thetaD (Nat.zero_add m))) rfl (Eq.symm (lift_zero t 0)) rfl))
+  (rw [(Nat.succ_add n m)])
+  (exact (rt_reindex chkf _ _ _ _ _ _ _ _
+           (rt_weaken chkf (thetaD (+ n m)) (prefixU n U.u0 (thetaU m)) (lift n 0 t) A ih_n 0 Exp.tDia)
+           rfl rfl (lift_comp t 1 n 0) (closedTy_lift A hc 1 0))))
+
+;; Appending n unused tokens at the original block's outer edge. Writing
+;; lift n m t explicitly avoids needing a separate scopedness/strengthening
+;; theorem even though a well-scoped t has no free index >= m.
+(thm rt_theta_append [chkf :- (=> Code Code Bool), m :- Nat, t :- Exp, A :- Exp,
+                      hc :- (= (closedTy A) true), h :- (Rt chkf (thetaD m) (thetaU m) t A), n :- Nat]
+  (Rt chkf (thetaD (+ m n)) (prefixU m U.u1 (vzero n)) (lift n m t) A)
+  (induction n)
+  (exact (rt_reindex chkf _ _ _ _ _ _ _ _ h
+           rfl (Eq.symm (prefixU_one m)) (Eq.symm (lift_zero t m)) rfl))
+  (exact (rt_reindex chkf _ _ _ _ _ _ _ _
+           (rt_weaken chkf (thetaD (+ m n)) (prefixU m U.u1 (vzero n)) (lift n m t) A ih_n m Exp.tDia)
+           (insD_theta m n) (insU_prefix m U.u1 U.u0 (vzero n))
+           (lift_comp t 1 n m) (closedTy_lift A hc 1 m))))
