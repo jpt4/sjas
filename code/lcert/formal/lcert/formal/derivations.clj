@@ -584,3 +584,159 @@
   '[chkf :- (=> Code Code Bool), r0 :- Exp, s0 :- Exp, der :- (Hd chkf r0 s0)]
   '(forall [kc Nat] (Hd chkf (lift 1 kc r0) (lift 1 kc s0)))
   (lv (into ['(induction der)] (mapcat (fn [c] ['(intro kc) (list 'exact (hd-expand c))]) hd-cases))))
+
+;; --- positions ------------------------------------------------------------------
+
+;; ChL kc e i ch c2: child i of e is ch, and in lift 1 kc e it is ch lifted at
+;; c2 (kc plus the binders the child lives under); writing child i there
+;; commutes with the lift.
+(kdef ChL (=> Nat Exp Nat Exp Nat Prop)
+  (fn [kc :- Nat, e :- Exp, i :- Nat, ch :- Exp, c2 :- Nat]
+    (And (Eq (Option Exp) (child (lift 1 kc e) i) (Option.some Exp (lift 1 c2 ch)))
+         (forall [x Exp] (Eq Exp (setKid (lift 1 kc e) i (lift 1 c2 x)) (lift 1 kc (setKid e i x)))))))
+
+;; One lemma per constructor, with clean parameter names p0, p1, … (fields
+;; such as n would collide with the names `cases` gives the index).  The
+;; index is split into 0, 1, …, arity − 1 (each an existing child, read off
+;; by computation) and ≥ arity (no child: the hypothesis is none = some).
+(defn- child-lift-ctor! [ctor fields]
+  (let [ps (mapv (fn [k [_ ty _]] [(symbol (str "p" k)) ty]) (range) fields)
+        E (if (seq ps) (apply list (symbol (str "Exp." ctor)) (map first ps)) (symbol (str "Exp." ctor)))
+        kids (keep-indexed (fn [k [_ ty depth]] (when (= ty 'Exp) [(symbol (str "p" k)) depth])) fields)
+        leaf (fn [j [F depth]]
+               (let [D (under 'kc depth)]
+                 ['(intro ch hch)
+                  (list 'have 'heq (list '= 'ch F) (list 'Eq.symm (list 'some_inj F 'ch 'hch)))
+                  '(subst heq)
+                  (list 'apply (list 'Exists.intro D))
+                  '(unfold ChL)
+                  (list 'exact (list 'And.intro (list 'Eq.refl$1 (list 'Option.some 'Exp (list 'lift 1 D F)))
+                                     (list 'fn '[x :- Exp] (list 'Eq.refl$1 (list 'lift 1 'kc (list 'setKid E j 'x))))))]))]
+    (a/prove-theorem (symbol (str "child_lift_" ctor))
+      (lv (into (vec (mapcat (fn [[p ty]] [p :- ty]) ps)) '[kc :- Nat, ix :- Nat]))
+      (lv (list 'forall '[ch Exp] (list '=> (list '= (list 'child E 'ix) '(Option.some Exp ch))
+                                        (list 'Exists (list 'fn '[c2 :- Nat] (list 'ChL 'kc E 'ix 'ch 'c2))))))
+      (lv (vec (concat
+                (mapcat (fn [j kid] (cons (if (zero? j) '(cases ix) '(cases n)) (leaf j kid))) (range) kids)
+                ['(intro ch hch) '(exact (False.elim$0 (none_ne_someE ch hch)))]))))))
+
+(doseq [[ctor fields] exp-fields] (child-lift-ctor! ctor fields))
+
+(prove-exp! 'child_lift
+  '(forall [kc Nat] (forall [ix Nat] (forall [ch Exp] (=> (= (child e ix) (Option.some Exp ch))
+     (Exists (fn [c2 :- Nat] (ChL kc e ix ch c2)))))))
+  '[kc ix]
+  (fn [ctor fields]
+    [(list 'exact (apply list (symbol (str "child_lift_" ctor)) (concat (map first fields) ['kc 'ix])))]))
+
+;; Reading and writing along i :: q, once child i is known.
+(thm optrec_get [q :- (List Nat), o :- (Option Exp), C :- Exp, h :- (= o (Option.some Exp C))]
+  (= (Option.rec$1$0 Exp (fn [_ :- (Option Exp)] (Option Exp)) (Option.none Exp) (fn [c :- Exp] (getP q c)) o) (getP q C))
+  (subst h) (rfl))
+(thm optrec_set [i :- Nat, q :- (List Nat), E :- Exp, y :- Exp, o :- (Option Exp), C :- Exp, h :- (= o (Option.some Exp C))]
+  (= (Option.rec$1$0 Exp (fn [_ :- (Option Exp)] Exp) E (fn [c :- Exp] (setKid E i (setP q c y))) o) (setKid E i (setP q C y)))
+  (subst h) (rfl))
+(thm getP_some [i :- Nat, q :- (List Nat), E :- Exp, C :- Exp, h :- (= (child E i) (Option.some Exp C))]
+  (= (getP (List.cons Nat i q) E) (getP q C))
+  (exact (optrec_get q (child E i) C h)))
+(thm setP_some [i :- Nat, q :- (List Nat), E :- Exp, C :- Exp, y :- Exp, h :- (= (child E i) (Option.some Exp C))]
+  (= (setP (List.cons Nat i q) E y) (setKid E i (setP q C y)))
+  (exact (optrec_set i q E y (child E i) C h)))
+
+;; PathL p e kc r c2: the subterm of e at path p is r, and at the same path of
+;; lift 1 kc e sits r lifted at c2; writing there commutes with the lift.
+(kdef PathL (=> (List Nat) Exp Nat Exp Nat Prop)
+  (fn [p :- (List Nat), e :- Exp, kc :- Nat, r :- Exp, c2 :- Nat]
+    (And (Eq (Option Exp) (getP p (lift 1 kc e)) (Option.some Exp (lift 1 c2 r)))
+         (forall [x Exp] (Eq Exp (setP p (lift 1 kc e) (lift 1 c2 x)) (lift 1 kc (setP p e x)))))))
+
+(thm path_cons [i :- Nat, q :- (List Nat), e :- Exp, kc :- Nat, r :- Exp,
+                hg :- (= (getP (List.cons Nat i q) e) (Option.some Exp r)),
+                ihq :- (forall [e2 Exp] (forall [k2 Nat] (forall [r2 Exp]
+                         (=> (= (getP q e2) (Option.some Exp r2)) (Exists (fn [c2 :- Nat] (PathL q e2 k2 r2 c2)))))))]
+  (Exists (fn [c2 :- Nat] (PathL (List.cons Nat i q) e kc r c2)))
+  (refine' (exExp _ _ (getP_cons i q e e r hg) _))
+  (intro ch hc)
+  (refine' (exNat _ _ (child_lift e kc i ch (And.left hc)) _))
+  (intro c1 hc1)
+  (refine' (exNat _ _ (ihq ch c1 r (And.left (And.right hc))) _))
+  (intro c2 hp2)
+  (apply (Exists.intro c2))
+  (unfold PathL)
+  (exact (And.intro
+    (Eq.trans (getP_some i q (lift 1 kc e) (lift 1 c1 ch) (And.left hc1)) (And.left hp2))
+    (fn [x :- Exp]
+      (Eq.trans (setP_some i q (lift 1 kc e) (lift 1 c1 ch) (lift 1 c2 x) (And.left hc1))
+        (Eq.trans (congrArg (fn [v :- Exp] (setKid (lift 1 kc e) i v)) ((And.right hp2) x))
+          (Eq.trans ((And.right hc1) (setP q ch x))
+            (congrArg (fn [v :- Exp] (lift 1 kc v)) (Eq.symm (setP_some i q e ch x (And.left hc)))))))))))
+
+(thm path_lift [p :- (List Nat)]
+  (forall [e Exp] (forall [kc Nat] (forall [r Exp]
+    (=> (= (getP p e) (Option.some Exp r)) (Exists (fn [c2 :- Nat] (PathL p e kc r c2)))))))
+  (induction p)
+  (intro e kc r hg)
+  ;; the empty path: r is e itself (subst eliminates r, the left side)
+  (have heq (= r e) (Eq.symm (some_inj e r hg)))
+  (subst heq)
+  (apply (Exists.intro kc))
+  (unfold PathL)
+  (exact (And.intro (Eq.refl$1 (Option.some Exp (lift 1 kc e))) (fn [x :- Exp] (Eq.refl$1 (lift 1 kc x)))))
+  ;; i :: q
+  (intro e kc r hg)
+  (exact (path_cons head tail e kc r hg ih_tail)))
+
+;; --- steps and conversion -----------------------------------------------------
+
+(thm step_lift_core [chkf :- (=> Code Code Bool), e :- Exp, e2 :- Exp, kc :- Nat, p :- (List Nat), r :- Exp, r2 :- Exp,
+                     hg :- (= (getP p e) (Option.some Exp r)), hd :- (Hd chkf r r2), he :- (= e2 (setP p e r2))]
+  (Step chkf (lift 1 kc e) (lift 1 kc e2))
+  (refine' (exNat _ _ (path_lift p e kc r hg) _))
+  (intro c2 hp)
+  (unfold Step)
+  (apply (Exists.intro p))
+  (apply (Exists.intro (lift 1 c2 r)))
+  (apply (Exists.intro (lift 1 c2 r2)))
+  (exact (And.intro (And.left hp)
+           (And.intro (hd_lift chkf r r2 hd c2)
+             (Eq.trans (congrArg (fn [v :- Exp] (lift 1 kc v)) he) (Eq.symm ((And.right hp) r2)))))))
+
+;; A step lifts to a step (the same path, the redex lifted under the
+;; binders on the path).
+(thm step_lift [chkf :- (=> Code Code Bool), e :- Exp, e2 :- Exp, hs :- (Step chkf e e2), kc :- Nat]
+  (Step chkf (lift 1 kc e) (lift 1 kc e2))
+  (exact (exists_elimL
+    (fn [p :- (List Nat)] (Exists (fn [r :- Exp] (Exists (fn [r2 :- Exp]
+      (And (Eq (Option Exp) (getP p e) (Option.some Exp r)) (And (Hd chkf r r2) (Eq Exp e2 (setP p e r2)))))))))
+    (Step chkf (lift 1 kc e) (lift 1 kc e2))
+    hs
+    (fn [p :- (List Nat),
+         hp :- (Exists (fn [r :- Exp] (Exists (fn [r2 :- Exp]
+                 (And (Eq (Option Exp) (getP p e) (Option.some Exp r)) (And (Hd chkf r r2) (Eq Exp e2 (setP p e r2))))))))]
+      (exists_elimE
+        (fn [r :- Exp] (Exists (fn [r2 :- Exp]
+          (And (Eq (Option Exp) (getP p e) (Option.some Exp r)) (And (Hd chkf r r2) (Eq Exp e2 (setP p e r2)))))))
+        (Step chkf (lift 1 kc e) (lift 1 kc e2))
+        hp
+        (fn [r :- Exp,
+             hr :- (Exists (fn [r2 :- Exp]
+                     (And (Eq (Option Exp) (getP p e) (Option.some Exp r)) (And (Hd chkf r r2) (Eq Exp e2 (setP p e r2))))))]
+          (exists_elimE
+            (fn [r2 :- Exp] (And (Eq (Option Exp) (getP p e) (Option.some Exp r)) (And (Hd chkf r r2) (Eq Exp e2 (setP p e r2)))))
+            (Step chkf (lift 1 kc e) (lift 1 kc e2))
+            hr
+            (fn [r2 :- Exp,
+                 h3 :- (And (Eq (Option Exp) (getP p e) (Option.some Exp r)) (And (Hd chkf r r2) (Eq Exp e2 (setP p e r2))))]
+              (step_lift_core chkf e e2 kc p r r2 (And.left h3) (And.left (And.right h3)) (And.right (And.right h3)))))))))))
+
+;; Conversion is preserved by weakening: the chain is lifted step by step,
+;; and every element stays skeleton-well-formed in the extended skeleton
+;; context (skj_weaken, lcert.formal.substitution).
+(thm cv_lift [chkf :- (=> Code Code Bool), G :- (List Sk), c :- Nat, xs :- Sk, A0 :- Exp, B0 :- Exp, der :- (Cv chkf G A0 B0)]
+  (Cv chkf (insS c xs G) (lift 1 c A0) (lift 1 c B0))
+  (induction der)
+  (exact (Cv.cvRefl chkf (insS c xs G) (lift 1 c A) (skj_weaken Bool.true G A Sk.unit h c xs)))
+  (exact (Cv.cvFwd chkf (insS c xs G) (lift 1 c A) (lift 1 c B) (lift 1 c C) ih_hab (step_lift chkf B C hs c)
+                   (skj_weaken Bool.true G C Sk.unit hc c xs)))
+  (exact (Cv.cvBwd chkf (insS c xs G) (lift 1 c A) (lift 1 c B) (lift 1 c C) ih_hab (step_lift chkf C B hs c)
+                   (skj_weaken Bool.true G C Sk.unit hc c xs))))
