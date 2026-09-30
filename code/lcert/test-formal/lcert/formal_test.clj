@@ -267,6 +267,30 @@
   (testing "a branch list has no inferred skeleton, which is why the clean premise is needed"
     (is (not (b/rejects? '[G :- (List Sk)] '(Eq (Option Sk) (skOf G Exp.bnil) (Option.none Sk)) '[(rfl)])))))
 
+(require 'lcert.formal.conversion)
+(deftest f3m-conversion
+  (testing "Lemma 3.2 for the head steps proved so far, and the SkJ-only counterexample"
+    (doseq [c '[nbr nbrF skOf_complete skOf_ok skj_inv EquivAt mk_eqv_t mk_eqv_ty
+                eqv_den eqv_sko eqv_skel eqv_V
+                hd_iteT skof_ite den_iteT den_iteF den_elimT den_elimF den_recNZ
+                den_prnL den_prnN den_boolExp den_boolExp_ff den_boolExp_tt
+                none_ne_someC den_sleaf_code codeOf_sleaf_inv
+                arr_inj exSk den_lam_arr den_beta_core den_beta
+                cex_red_eq cex_den_redex cex_den_contr cex_nbr_ff cex_redex_typed
+                cex_den_ne conv_skj_counterexample]]
+      (is (b/has? c) (str c))))
+  (testing "the β redex and its contractum are not denoted equally: the application defaults"
+    (is (b/rejects? den-params
+                    '(= (den chkf dec encTy 0
+                             (Exp.app (Exp.lam U.uw (Exp.tPi U.uw Exp.tLbl Exp.tBool)
+                                               (Exp.caseL Exp.tBool (Exp.lbl 0) (Exp.var 0)))
+                                      (Exp.bcons Exp.tt Exp.bnil))
+                             (List.nil Sk) Sk.bool Unit.unit)
+                        (den chkf dec encTy 0
+                             (Exp.caseL Exp.tBool (Exp.lbl 0) (Exp.bcons Exp.tt Exp.bnil))
+                             (List.nil Sk) Sk.bool Unit.unit))
+                    '[(rfl)]))))
+
 (require 'lcert.formal.vweaken)
 (deftest f3l-v-weakening
   (testing "weakening for V: V(lift 1 c A) at an inserted environment is V(A)"
