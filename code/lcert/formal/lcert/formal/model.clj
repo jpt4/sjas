@@ -10,7 +10,7 @@
   Check only through these properties, which the concrete Check has by
   construction (§1.6; proved for it in phase F7):
   - Lemmas 2.6–2.7: if chkf c d, then c decodes (dec) to a derivable,
-    closed-typed judgment Θₘ ⊢ t :¹ A with ⌜A⌝ = d and m < nodes(c);
+    closed-typed judgment Θₘ ⊢ t :¹ A with ⊢ A type, ⌜A⌝ = d and m < nodes(c);
   - the base-type codes used by the rules are the encodings of those types;
   - E5: ⌜A ⊸ 0⌝ = snode arrow₁ ⌜A⌝ ⌜0⌝ for closed A;
   - E1: the encoding is injective on closed types.
@@ -108,14 +108,17 @@
   (fn [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code)]
     (And
       ;; Lemmas 2.6–2.7: an accepted code decodes to a derivable closed-typed
-      ;; judgment at its declared budget, which is below its node count.
+      ;; judgment at its declared budget, which is below its node count; its
+      ;; type is formed (regularity of the derivable judgment; the H₁ case's
+      ;; composition, Lemma 2.4, needs it).
       (forall [c Code] (forall [d Code] (=> (Eq Bool (chkf c d) Bool.true)
         (Exists (fn [m :- Nat] (Exists (fn [t :- Exp] (Exists (fn [A :- Exp]
           (And (Eq (Option (Prod Nat (Prod Exp Exp))) (dec c) (Option.some (Prod Nat (Prod Exp Exp)) (Prod.mk m (Prod.mk t A))))
           (And (Rt chkf (thetaD m) (thetaU m) t A)
+          (And (Tl chkf Bool.true (List.nil Exp) A Exp.tUnit)
           (And (Eq Bool (closedTy A) Bool.true)
           (And (Eq Code (encTy A) d)
-               (Nat.lt m (cnodes c)))))))))))))))
+               (Nat.lt m (cnodes c))))))))))))))))
     (And
       ;; the base-type codes of the rules are the encodings of those types
       (forall [D Exp] (forall [cd Exp] (=> (Eq (Option Exp) (baseCode D) (Option.some Exp cd))

@@ -75,11 +75,11 @@
           '(exact p)]
    'tBrs ['(cases s) '(exact hv) '(exact hv) '(exact hv) '(exact hv) '(exact hv) '(exact hv) '(exact hv)
           '(have h2 (forall [l Nat] (=> (LE.le k l) (LT.lt l 100)
-                    (V chkf dec encTy n P (List.cons Sk s G) (Prod.mk (coe Sk.lbl s l) en) fk t (vv (coe Sk.lbl s l))))) hv)
+                    (V chkf dec encTy n P (List.cons Sk s G) (Prod.mk (coe Sk.lbl s l) en) fk t (vv (coe Sk.lbl s (- l k)))))) hv)
           '(change (forall [l Nat] (=> (LE.le k l) (LT.lt l 100)
-                    (V chkf dec encTy n P (List.cons Sk s G) (Prod.mk (coe Sk.lbl s l) en) fk2 t (vv (coe Sk.lbl s l))))))
+                    (V chkf dec encTy n P (List.cons Sk s G) (Prod.mk (coe Sk.lbl s l) en) fk2 t (vv (coe Sk.lbl s (- l k)))))))
           '(intro l hl1 hl2)
-          '(exact (ih_P (List.cons Sk s G) (Prod.mk (coe Sk.lbl s l) en) fk fk2 t (vv (coe Sk.lbl s l)) hk hkn (h2 l hl1 hl2)))
+          '(exact (ih_P (List.cons Sk s G) (Prod.mk (coe Sk.lbl s l) en) fk fk2 t (vv (coe Sk.lbl s (- l k))) hk hkn (h2 l hl1 hl2)))
           '(exact hv)]})
 
 (defn- script [c]

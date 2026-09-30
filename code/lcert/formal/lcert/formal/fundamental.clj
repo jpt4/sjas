@@ -33,14 +33,13 @@
   - ElimBool: the motive at ⟦b⟧; each branch's IH at P[tt], P[ff] becomes
     V(P) at (tt, η), (ff, η) by V_subst1, and the scrutinee picks one.
 
-  - Pair, at usage 1 and ω; Let, at every usage; App₀ and Pair₀ (see the
-    sections).
+  - Pair, at usage 1 and ω; Let, at every usage; App₀ and Pair₀; RecN;
+    CaseL and Bcons (see the sections).
   - Var: in a well-formed context, the entry's value, read through the lift
     of its type by V_lift (vweaken.clj).
 
   Pending (they need Lemma 3.1/3.3's substitution or weakening clauses, 3.2,
-  or the outer induction on n): Conv,
-  RecN, CaseL, Bcons, RecS, ItR, H₁, Refl, Inspect."
+  or the outer induction on n): Conv, RecS, ItR, H₁, Refl, Inspect."
   (:require [ansatz.core :as a]
             [lcert.formal.base :refer [thm kdef]]
             [lcert.formal.usage :refer :all]
@@ -792,3 +791,241 @@
       (sk_transport (fn [s :- Sk, v :- (Car s)] (V chkf dec encTy n (subst1 x B) (skels D) en k s v))
                     (fn [s :- Sk] (den chkf dec encTy n y (skels D) s en)) (skel (subst1 x B)) (skel B) (skel_subst1 x B hxU) vy0))
     (exact (Iff.mp (V_subst1 chkf dec encTy n (skels D) (skel A) B hBS x hxS hxk en k (den chkf dec encTy n y (skels D) (skel B) en)) vy1))])
+
+;; --- natural-number recursion ----------------------------------------------------
+
+;; RecN.  ⟦recN P z s n⟧ = Nat.rec ⟦z⟧ (i, acc ↦ ⟦s⟧(acc, (i, η))) ⟦n⟧, and the
+;; goal V(P[n/x])η is V(P) at (⟦n⟧, η) (V_subst1).  By induction on the value
+;; i (natrec_inv): the result at i is in V(P) at (i, η) with z's footprint k₂.
+;; Base: z's IH at P[0].  Step: s's IH at the extended environment
+;; (acc, (i, η)), whose context is (P, Nat, ω·Γ₃): acc at usage 1 with
+;; footprint k₂, i at ω (V(Nat) is everything), and ω·Γ₃ at footprint 0 —
+;; Lemma 3.5 (ii) and its converse at 0 (EnvSat_omega_back) — so the
+;; footprint does not grow; its type stepTy P is read as V(P) at (i + 1, η)
+;; by V_stepTy.  Finally raise k₂ to k.
+
+(thm entry_omega_back [r :- U, P :- (=> Nat Prop)] (=> (EntryOK r 0 P) (EntryOK (umul U.uw r) 0 P))
+  (cases r) (all_goals (intro h))
+  (exact h)
+  (have h1 (P 0) h) (constructor) (exact rfl) (exact h1)
+  (exact rfl))
+
+(thm add_le_zero_l [a :- Nat, b :- Nat, h :- (LE.le (+ a b) 0)] (Eq Nat a 0) (omega))
+(thm add_le_zero_r [a :- Nat, b :- Nat, h :- (LE.le (+ a b) 0)] (Eq Nat b 0) (omega))
+
+;; The converse of Lemma 3.5 (ii) at footprint 0: η ⊨₀ Γ ⟹ η ⊨₀ ωΓ.
+(eval (list* 'lcert.formal.base/thm 'omega_back_cons
+  '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+    A :- Exp, D :- (List Exp), r :- U, t :- (List U), en :- (HEnv (skels (List.cons Exp A D))),
+    ih :- (forall [us (List U)] (forall [en (HEnv (skels D))] (=> (EnvSat chkf dec encTy n D us en 0) (EnvSat chkf dec encTy n D (vscale U.uw us) en 0)))),
+    h :- (EnvSat chkf dec encTy n (List.cons Exp A D) (List.cons U r t) en 0)]
+  '(EnvSat chkf dec encTy n (List.cons Exp A D) (vscale U.uw (List.cons U r t)) en 0)
+  '[(have h2 (Exists (fn [j :- Nat] (Exists (fn [kk :- Nat] (And (Nat.le (+ j kk) 0) (And (EnvSat chkf dec encTy n D t (Prod.snd en) kk)
+       (EntryOK r j (fn [jj :- Nat] (V chkf dec encTy n A (skels D) (Prod.snd en) jj (skel A) (Prod.fst en)))))))))) h)
+    (refine' (exN _ _ h2 _)) (intro j hj) (refine' (exN _ _ hj _)) (intro kk hkk)
+    (have p (And (Nat.le (+ j kk) 0) (And (EnvSat chkf dec encTy n D t (Prod.snd en) kk)
+       (EntryOK r j (fn [jj :- Nat] (V chkf dec encTy n A (skels D) (Prod.snd en) jj (skel A) (Prod.fst en)))))) hkk)
+    (have o (LE.le (+ j kk) 0) (And.left p))
+    (have ej (Eq Nat j 0) (add_le_zero_l j kk o))
+    (have ek (Eq Nat kk 0) (add_le_zero_r j kk o))
+    (have ht (EnvSat chkf dec encTy n D t (Prod.snd en) 0)
+      (Eq.mp (congrArg (fn [q :- Nat] (EnvSat chkf dec encTy n D t (Prod.snd en) q)) ek) (And.left (And.right p))))
+    (have he (EntryOK r 0 (fn [jj :- Nat] (V chkf dec encTy n A (skels D) (Prod.snd en) jj (skel A) (Prod.fst en))))
+      (Eq.mp (congrArg (fn [q :- Nat] (EntryOK r q (fn [jj :- Nat] (V chkf dec encTy n A (skels D) (Prod.snd en) jj (skel A) (Prod.fst en))))) ej)
+             (And.right (And.right p))))
+    (exact (EnvSat_cons chkf dec encTy n A D (umul U.uw r) (vscale U.uw t) (Prod.fst en) (Prod.snd en) 0 0
+             (ih t (Prod.snd en) ht)
+             (entry_omega_back r (fn [jj :- Nat] (V chkf dec encTy n A (skels D) (Prod.snd en) jj (skel A) (Prod.fst en))) he)))]))
+(thm EnvSat_omega_back [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat, D :- (List Exp)]
+  (forall [us (List U)] (forall [en (HEnv (skels D))] (=> (EnvSat chkf dec encTy n D us en 0) (EnvSat chkf dec encTy n D (vscale U.uw us) en 0))))
+  (induction D)
+  (intro us en h) (exact True.intro)
+  (intro us) (cases us) (intro en h) (exact (False.elim h))
+  (intro en h) (exact (omega_back_cons _ _ _ _ _ _ _ _ _ ih_tail h)))
+
+
+;; V(stepTy P) at (acc, (i, η)) is V(P) at (i + 1, η): V_lift_fam through the
+;; lift (P[sSucc] is well-formed by skj_subst), then V_subst for sSucc, whose
+;; environment is (i + 1, η) (envOf_sSucc).
+(def ^:private Qs '(subst (fn [j :- Nat] (sSucc j)) P))
+(def ^:private GN '(List.cons Sk Sk.nat G))
+(eval (list 'lcert.formal.base/thm 'V_stepTy
+  '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+    G :- (List Sk), P :- Exp, der :- (SkJ Bool.true (List.cons Sk Sk.nat G) P Sk.unit), sk :- Sk, acc :- (Car sk), i :- Nat, en :- (HEnv G),
+    K :- Nat, g :- (forall [s Sk] (Car s)),
+    h :- (V chkf dec encTy n (stepTy P) (List.cons Sk sk (List.cons Sk Sk.nat G)) (Prod.mk acc (Prod.mk i en)) K (skel (stepTy P)) (g (skel (stepTy P))))]
+  (list 'V 'chkf 'dec 'encTy 'n 'P GN '(Prod.mk (Nat.succ i) en) 'K '(skel P) '(g (skel P)))
+  (list 'have 'hQ (list 'SkJ 'Bool.true GN Qs 'Sk.unit)
+        (list 'skj_subst 'Bool.true GN 'P 'Sk.unit 'der GN '(fn [j :- Nat] (sSucc j)) '(subOK_sSucc G)))
+  (list 'have 'h1 (list 'V 'chkf 'dec 'encTy 'n (list 'lift 1 0 Qs) (list 'List.cons 'Sk 'sk GN) '(Prod.mk acc (Prod.mk i en)) 'K
+                        (list 'skel (list 'lift 1 0 Qs)) (list 'g (list 'skel (list 'lift 1 0 Qs)))) 'h)
+  (list 'have 'h2 (list 'V 'chkf 'dec 'encTy 'n Qs GN '(Prod.mk i en) 'K (list 'skel Qs) (list 'g (list 'skel Qs)))
+        (list 'Iff.mp (list 'V_lift_fam 'chkf 'dec 'encTy 'n GN Qs 'hQ 0 'sk '(Prod.mk i en) 'acc 'K 'g) 'h1))
+  (list 'have 'h3 (list 'V 'chkf 'dec 'encTy 'n Qs GN '(Prod.mk i en) 'K '(skel P) '(g (skel P)))
+        (list 'sk_transport (list 'fn '[s :- Sk, v :- (Car s)] (list 'V 'chkf 'dec 'encTy 'n Qs GN '(Prod.mk i en) 'K 's 'v)) 'g
+              (list 'skel Qs) '(skel P) '(skel_subst P (fn [j :- Nat] (sSucc j)) sSucc_unit) 'h2))
+  (list 'have 'h4 (list 'V 'chkf 'dec 'encTy 'n 'P GN (list 'envOf 'chkf 'dec 'encTy 'n GN '(fn [j :- Nat] (sSucc j)) GN '(Prod.mk i en)) 'K '(skel P) '(g (skel P)))
+        (list 'Eq.mp (list 'V_subst 'chkf 'dec 'encTy 'n GN 'P 'der GN '(fn [j :- Nat] (sSucc j)) '(Prod.mk i en) '(subOK_sSucc G) 'K '(g (skel P))) 'h3))
+  (list 'exact (list 'Eq.mp (list 'congrArg (list 'fn ['e :- (list 'HEnv GN)] (list 'V 'chkf 'dec 'encTy 'n 'P GN 'e 'K '(skel P) '(g (skel P))))
+                                  '(envOf_sSucc chkf dec encTy n G i en)) 'h4))))
+
+(thm den_zero_nat [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat, G :- (List Sk), en :- (HEnv G)]
+  (Eq Nat (den chkf dec encTy n Exp.zero G Sk.nat en) 0)
+  (rw [(den_zero_at chkf dec encTy n G Sk.nat en)]))
+;; the invariant, abstracted: a base value and a step preserving V(P) at the index
+(thm natrec_inv [α :- Type, Q :- (=> Nat α Prop), b :- α, f :- (=> Nat α α),
+                   hb :- (Q 0 b), hf :- (forall [i Nat] (forall [a α] (=> (Q i a) (Q (Nat.succ i) (f i a)))))]
+  (forall [i Nat] (Q i (Nat.rec$1 (fn [_ :- Nat] α) b f i)))
+  (intro i) (induction i) (exact hb) (exact (hf n (Nat.rec$1 (fn [_ :- Nat] α) b f n) ih_n)))
+
+(def ^:private GNt '(List.cons Sk Sk.nat (skels D)))
+(def ^:private G3n '(List.cons Sk (skel P) (List.cons Sk Sk.nat (skels D))))
+(defn- VPn [iv kk v] (list 'V 'chkf 'dec 'encTy 'n 'P GNt (list 'Prod.mk iv 'en) kk '(skel P) v))
+(def ^:private stepf '(fn [i :- Nat, acc :- (Car (skel P))] (den chkf dec encTy n st (List.cons Sk (skel P) (List.cons Sk Sk.nat (skels D))) (skel P) (Prod.mk acc (Prod.mk i en)))))
+(def ^:private zv '(den chkf dec encTy n z (skels D) (skel P) en))
+(eval (concat (list 'lcert.formal.base/thm 'F_recN
+  (into P6 (into '[us1 :- (List U), us2 :- (List U), us3 :- (List U), P :- Exp, z :- Exp, st :- Exp, m :- Exp,
+                   hm :- (Rt chkf D us1 m Exp.tNat), hP :- (Tl chkf Bool.true (List.cons Exp Exp.tNat D) P Exp.tUnit)]
+                 (into ['ihz :- (SND 'us2 'z '(subst1 Exp.zero P))
+                        'ihs :- '(Sound chkf dec encTy n (List.cons Exp P (List.cons Exp Exp.tNat D)) (List.cons U U.u1 (List.cons U U.uw (vscale U.uw us3))) st (stepTy P))]
+                       (conj ENV 'hs :- (ES '(vadd us1 (vadd us2 (vscale U.uw us3))) 'k)))))
+  (concl '(subst1 m P) '(Exp.recN P z st m)))
+  (concat
+    ['(have hPS (SkJ Bool.true (List.cons Sk Sk.nat (skels D)) P Sk.unit) (lemma25_tl_type chkf (List.cons Exp Exp.tNat D) P hP))
+     '(have hmS (SkJ Bool.false (skels D) m Sk.nat) (lemma25_rt chkf D us1 m Exp.tNat hm))
+     '(have hmU (Eq Sk (skel m) Sk.unit) (skj_term_unit Bool.false (skels D) m Sk.nat hmS rfl))
+     '(have hmk (Eq (Option Sk) (skOf (skels D) m) (Option.some Sk Sk.nat)) (skOf_rt chkf D us1 m Exp.tNat hm rfl))
+     '(rw [(skel_subst1 m P hmU)])
+     '(rw [(den_recN_at chkf dec encTy n P z st m (skels D) (skel P) en)])
+     '(refine' (Iff.mpr (V_subst1 chkf dec encTy n (skels D) Sk.nat P hPS m hmS hmk en k _) _))]
+    (split-steps 'hs 'us1 '(vadd us2 (vscale U.uw us3)) 'k 'k1 'm1 'p1)
+    (split-steps '(And.right (And.right p1)) 'us2 '(vscale U.uw us3) 'm1 'k2 'k3 'p2)
+    ['(have hk2k (Nat.le k2 k) (Nat.le_trans (Nat.le_trans (Nat.le_add_right k2 k3) (And.left p2)) (Nat.le_trans (Nat.le_add_left m1 k1) (And.left p1))))
+     '(have hk2 (Nat.le k2 n) (Nat.le_trans hk2k hk))
+     '(have hs2 (EnvSat chkf dec encTy n D us2 en k2) (And.left (And.right p2)))
+     '(have hs3 (EnvSat chkf dec encTy n D (vscale U.uw us3) en 0)
+        (EnvSat_omega_back chkf dec encTy n D us3 en (EnvSat_omega chkf dec encTy n D us3 en k3 (And.right (And.right p2)))))
+     ;; the base case: V(P) at (0, η)
+     '(have vz0 (V chkf dec encTy n (subst1 Exp.zero P) (skels D) en k2 (skel (subst1 Exp.zero P)) (den chkf dec encTy n z (skels D) (skel (subst1 Exp.zero P)) en))
+        (ihz en k2 hk2 hs2))
+     '(have vz1 (V chkf dec encTy n (subst1 Exp.zero P) (skels D) en k2 (skel P) (den chkf dec encTy n z (skels D) (skel P) en))
+        (sk_transport (fn [s :- Sk, v :- (Car s)] (V chkf dec encTy n (subst1 Exp.zero P) (skels D) en k2 s v))
+                      (fn [s :- Sk] (den chkf dec encTy n z (skels D) s en)) (skel (subst1 Exp.zero P)) (skel P) (skel_subst1 Exp.zero P rfl) vz0))
+     (list 'have 'vz2 (VPn '(den chkf dec encTy n Exp.zero (skels D) Sk.nat en) 'k2 zv)
+        (list 'Iff.mp '(V_subst1 chkf dec encTy n (skels D) Sk.nat P hPS Exp.zero (SkJ.sZero (skels D)) rfl en k2 (den chkf dec encTy n z (skels D) (skel P) en)) 'vz1))
+     (list 'have 'vz3 (VPn 0 'k2 zv)
+        (list 'Eq.mp (list 'congrArg (list 'fn '[q :- Nat] (VPn 'q 'k2 zv)) '(den_zero_nat chkf dec encTy n (skels D) en)) 'vz2))
+     ;; the step: V(P) at (i, η) for the accumulator gives V(P) at (i + 1, η)
+     (list 'have 'vstep (list 'forall '[i Nat] (list 'forall '[acc (Car (skel P))] (list '=> (VPn 'i 'k2 'acc) (VPn '(Nat.succ i) 'k2 (list stepf 'i 'acc)))))
+        (list 'fn '[i :- Nat, acc :- (Car (skel P)), ha :- (V chkf dec encTy n P (List.cons Sk Sk.nat (skels D)) (Prod.mk i en) k2 (skel P) acc)]
+          (list 'V_stepTy 'chkf 'dec 'encTy 'n '(skels D) 'P 'hPS '(skel P) 'acc 'i 'en 'k2
+                (list 'fn '[s :- Sk] (list 'den 'chkf 'dec 'encTy 'n 'st G3n 's '(Prod.mk acc (Prod.mk i en))))
+                (list 'ihs '(Prod.mk acc (Prod.mk i en)) '(+ k2 (+ 0 0)) 'hk2
+                      '(EnvSat_cons chkf dec encTy n P (List.cons Exp Exp.tNat D) U.u1 (List.cons U U.uw (vscale U.uw us3)) acc (Prod.mk i en) k2 (+ 0 0)
+                         (EnvSat_cons chkf dec encTy n Exp.tNat D U.uw (vscale U.uw us3) i en 0 0 hs3 (And.intro rfl True.intro))
+                         ha)))))
+     (list 'have 'vall (list 'V 'chkf 'dec 'encTy 'n 'P GNt '(Prod.mk (den chkf dec encTy n m (skels D) Sk.nat en) en) 'k2 '(skel P)
+                            (list 'Nat.rec$1 '(fn [_ :- Nat] (Car (skel P))) zv stepf '(den chkf dec encTy n m (skels D) Sk.nat en)))
+        (list 'natrec_inv '(Car (skel P)) (list 'fn '[i :- Nat, v :- (Car (skel P))] (VPn 'i 'k2 'v)) zv stepf 'vz3 'vstep
+              '(den chkf dec encTy n m (skels D) Sk.nat en)))
+     (list 'exact (list 'V_mono 'chkf 'dec 'encTy 'n 'P GNt '(Prod.mk (den chkf dec encTy n m (skels D) Sk.nat en) en) 'k2 'k '(skel P)
+                        (list 'Nat.rec$1 '(fn [_ :- Nat] (Car (skel P))) zv stepf '(den chkf dec encTy n m (skels D) Sk.nat en)) 'hk2k 'hk 'vall))])))
+
+;; --- label case analysis and branch lists ----------------------------------------------
+
+;; CaseL.  ⟦caseL P x bs⟧ = ⟦bs⟧(⟦x⟧), and the goal V(P[x/y])η is V(P) at
+;; (⟦x⟧, η) (V_subst1).  bs's IH puts ⟦bs⟧ in V(tBrs P 0): every label l < NL
+;; has its branch in V(P) at (l, η); x's IH gives ⟦x⟧ < NL.  Split Γ₁ + Γ₂
+;; and raise the branch's footprint to k.
+(def ^:private GL '(List.cons Sk Sk.lbl (skels D)))
+(def ^:private fbs '(den chkf dec encTy n bs (skels D) (Sk.arr Sk.lbl (skel P)) en))
+(def ^:private dxl '(den chkf dec encTy n x (skels D) Sk.lbl en))
+(eval (concat (list 'lcert.formal.base/thm 'F_caseL
+  (into P6 (into '[us1 :- (List U), us2 :- (List U), P :- Exp, x :- Exp, bs :- Exp,
+                   hx :- (Rt chkf D us1 x Exp.tLbl), hP :- (Tl chkf Bool.true (List.cons Exp Exp.tLbl D) P Exp.tUnit)]
+                 (into ['ihx :- (SND 'us1 'x 'Exp.tLbl) 'ihb :- (SND 'us2 'bs '(Exp.tBrs P 0))]
+                       (conj ENV 'hs :- (ES '(vadd us1 us2) 'k)))))
+  (concl '(subst1 x P) '(Exp.caseL P x bs)))
+  (concat
+    ['(have hPS (SkJ Bool.true (List.cons Sk Sk.lbl (skels D)) P Sk.unit) (lemma25_tl_type chkf (List.cons Exp Exp.tLbl D) P hP))
+     '(have hxS (SkJ Bool.false (skels D) x Sk.lbl) (lemma25_rt chkf D us1 x Exp.tLbl hx))
+     '(have hxU (Eq Sk (skel x) Sk.unit) (skj_term_unit Bool.false (skels D) x Sk.lbl hxS rfl))
+     '(have hxk (Eq (Option Sk) (skOf (skels D) x) (Option.some Sk Sk.lbl)) (skOf_rt chkf D us1 x Exp.tLbl hx rfl))
+     '(rw [(skel_subst1 x P hxU)])
+     '(rw [(den_caseL_at chkf dec encTy n P x bs (skels D) (skel P) en)])
+     '(refine' (Iff.mpr (V_subst1 chkf dec encTy n (skels D) Sk.lbl P hPS x hxS hxk en k _) _))]
+    (split-steps 'hs 'us1 'us2 'k 'k1 'k2 'p)
+    ['(have hkn (Nat.le (+ k1 k2) n) (Nat.le_trans (And.left p) hk))
+     '(have hk1 (Nat.le k1 n) (Nat.le_trans (Nat.le_add_right k1 k2) hkn))
+     '(have hk2k (Nat.le k2 k) (Nat.le_trans (Nat.le_add_left k2 k1) (And.left p)))
+     '(have hk2 (Nat.le k2 n) (Nat.le_trans hk2k hk))
+     (list 'have 'vx (list 'Nat.lt dxl 100) '(ihx en k1 hk1 (And.left (And.right p))))
+     (list 'have 'vb (list 'forall '[l Nat] (list '=> '(Nat.le 0 l) '(Nat.lt l 100)
+              (list 'V 'chkf 'dec 'encTy 'n 'P GL '(Prod.mk (coe Sk.lbl Sk.lbl l) en) 'k2 '(skel P) (list fbs '(coe Sk.lbl Sk.lbl (- l 0))))))
+           '(ihb en k2 hk2 (And.right (And.right p))))
+     (list 'have 'v2 (list 'V 'chkf 'dec 'encTy 'n 'P GL (list 'Prod.mk dxl 'en) 'k2 '(skel P) (list fbs dxl))
+           (list 'vb dxl (list 'Nat.zero_le dxl) 'vx))
+     (list 'exact (list 'V_mono 'chkf 'dec 'encTy 'n 'P GL (list 'Prod.mk dxl 'en) 'k2 'k '(skel P) (list fbs dxl) 'hk2k 'hk 'v2))])))
+
+
+;; Bcons.  A branch list is read positionally: ⟦bcons h t⟧ is ⟦h⟧ at 0 and ⟦t⟧
+;; at j at j + 1 (bcons_zero, bcons_succ), and V(tBrs P k) reads the branch
+;; for label l ≥ k at position l − k (sem_gen.clj).  At l = k: h's IH at
+;; P[k/y], through V_subst1 at the label k.  At l > k: position
+;; (l − (k+1)) + 1, which is t's element l − (k+1), covered by t's IH at
+;; tBrs P (k+1).
+(thm bcons_zero [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+                   hd :- Exp, tl :- Exp, G :- (List Sk), s :- Sk, en :- (HEnv G)]
+  (Eq (Car s) ((den chkf dec encTy n (Exp.bcons hd tl) G (Sk.arr Sk.lbl s) en) 0) (den chkf dec encTy n hd G s en))
+  (rw [(den_bcons_at chkf dec encTy n hd tl G (Sk.arr Sk.lbl s) en)]))
+(thm bcons_succ [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+                   hd :- Exp, tl :- Exp, G :- (List Sk), s :- Sk, en :- (HEnv G), j :- Nat]
+  (Eq (Car s) ((den chkf dec encTy n (Exp.bcons hd tl) G (Sk.arr Sk.lbl s) en) (+ j 1)) ((den chkf dec encTy n tl G (Sk.arr Sk.lbl s) en) j))
+  (rw [(den_bcons_at chkf dec encTy n hd tl G (Sk.arr Sk.lbl s) en)]))
+
+(thm sub_eq_zero [kk :- Nat, l :- Nat, h :- (Eq Nat kk l)] (Eq Nat (- l kk) 0) (omega))
+(thm sub_succ [kk :- Nat, l :- Nat, h :- (LT.lt kk l)] (Eq Nat (- l kk) (+ (- l (+ kk 1)) 1)) (omega))
+(thm den_lbl_lbl [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat, G :- (List Sk), l :- Nat, en :- (HEnv G)]
+  (Eq Nat (den chkf dec encTy n (Exp.lbl l) G Sk.lbl en) l)
+  (rw [(den_lbl_at chkf dec encTy n l G Sk.lbl en)]))
+(defn- VPl [lv kk v] (list 'V 'chkf 'dec 'encTy 'n 'P GL (list 'Prod.mk lv 'en) kk '(skel P) v))
+(def ^:private fb '(den chkf dec encTy n (Exp.bcons hd tl) (skels D) (Sk.arr Sk.lbl (skel P)) en))
+(def ^:private ftl '(den chkf dec encTy n tl (skels D) (Sk.arr Sk.lbl (skel P)) en))
+(def ^:private hdv '(den chkf dec encTy n hd (skels D) (skel P) en))
+(eval (concat (list 'lcert.formal.base/thm 'F_bcons
+  (into P6 (into '[us :- (List U), P :- Exp, kk :- Nat, hd :- Exp, tl :- Exp,
+                   hP :- (Tl chkf Bool.true (List.cons Exp Exp.tLbl D) P Exp.tUnit)]
+                 (into ['ihh :- (SND 'us 'hd '(subst1 (Exp.lbl kk) P)) 'iht :- (SND 'us 'tl '(Exp.tBrs P (+ kk 1)))]
+                       (conj ENV 'hs :- (ES 'us 'k)))))
+  (concl '(Exp.tBrs P kk) '(Exp.bcons hd tl)))
+  ['(have hPS (SkJ Bool.true (List.cons Sk Sk.lbl (skels D)) P Sk.unit) (lemma25_tl_type chkf (List.cons Exp Exp.tLbl D) P hP))
+   '(intro l h1 h2)
+   '(have hor (Or (Eq Nat kk l) (Nat.lt kk l)) (Nat.eq_or_lt_of_le h1))
+   '(cases hor)
+   ;; l = kk: the head
+   '(have vh0 (V chkf dec encTy n (subst1 (Exp.lbl kk) P) (skels D) en k (skel (subst1 (Exp.lbl kk) P)) (den chkf dec encTy n hd (skels D) (skel (subst1 (Exp.lbl kk) P)) en))
+      (ihh en k hk hs))
+   '(have vh1 (V chkf dec encTy n (subst1 (Exp.lbl kk) P) (skels D) en k (skel P) (den chkf dec encTy n hd (skels D) (skel P) en))
+      (sk_transport (fn [s :- Sk, v :- (Car s)] (V chkf dec encTy n (subst1 (Exp.lbl kk) P) (skels D) en k s v))
+                    (fn [s :- Sk] (den chkf dec encTy n hd (skels D) s en)) (skel (subst1 (Exp.lbl kk) P)) (skel P) (skel_subst1 (Exp.lbl kk) P rfl) vh0))
+   (list 'have 'vh2 (VPl '(den chkf dec encTy n (Exp.lbl kk) (skels D) Sk.lbl en) 'k hdv)
+      (list 'Iff.mp (list 'V_subst1 'chkf 'dec 'encTy 'n '(skels D) 'Sk.lbl 'P 'hPS '(Exp.lbl kk) '(SkJ.sLbl (skels D) kk) 'rfl 'en 'k hdv) 'vh1))
+   (list 'have 'vh3 (VPl 'kk 'k hdv)
+      (list 'Eq.mp (list 'congrArg (list 'fn '[q :- Nat] (VPl 'q 'k hdv)) '(den_lbl_lbl chkf dec encTy n (skels D) kk en)) 'vh2))
+   (list 'have 'vh4 (VPl 'l 'k hdv) (list 'Eq.mp (list 'congrArg (list 'fn '[q :- Nat] (VPl 'q 'k hdv)) 'h) 'vh3))
+   (list 'have 'vh5 (VPl 'l 'k (list fb 0))
+      (list 'Eq.mp (list 'congrArg (list 'fn '[v :- (Car (skel P))] (VPl 'l 'k 'v))
+                         '(Eq.symm (bcons_zero chkf dec encTy n hd tl (skels D) (skel P) en))) 'vh4))
+   (list 'have 'vh6 (VPl 'l 'k (list fb '(- l kk)))
+      (list 'Eq.mp (list 'congrArg (list 'fn '[q :- Nat] (VPl 'l 'k (list fb 'q))) '(Eq.symm (sub_eq_zero kk l h))) 'vh5))
+   '(exact vh6)
+   ;; l > kk: the tail, at l
+   (list 'have 'vt (list 'forall '[l2 Nat] (list '=> '(Nat.le (+ kk 1) l2) '(Nat.lt l2 100) (VPl 'l2 'k (list ftl '(- l2 (+ kk 1))))))
+      '(iht en k hk hs))
+   (list 'have 'vt1 (VPl 'l 'k (list ftl '(- l (+ kk 1)))) '(vt l (Nat.succ_le_of_lt h) h2))
+   (list 'have 'vt2 (VPl 'l 'k (list fb '(+ (- l (+ kk 1)) 1)))
+      (list 'Eq.mp (list 'congrArg (list 'fn '[v :- (Car (skel P))] (VPl 'l 'k 'v))
+                         '(Eq.symm (bcons_succ chkf dec encTy n hd tl (skels D) (skel P) en (- l (+ kk 1))))) 'vt1))
+   (list 'have 'vt3 (VPl 'l 'k (list fb '(- l kk)))
+      (list 'Eq.mp (list 'congrArg (list 'fn '[q :- Nat] (VPl 'l 'k (list fb 'q))) '(Eq.symm (sub_succ kk l h))) 'vt2))
+   '(exact vt3)]))

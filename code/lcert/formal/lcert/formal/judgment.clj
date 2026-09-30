@@ -96,7 +96,8 @@
 ;; Pair₀/Pair likewise take fSig's premises (hA, hB) for their Σ type, and Let
 ;; for the Σ type it eliminates (its body's context extends by A and B).  The
 ;; type-level rules zApp, zPair and zLet take the same premises, since
-;; type-level arguments are substituted into types (App₀, Pair₀).
+;; type-level arguments are substituted into types (App₀, Pair₀).  Inspect
+;; takes the formation of the types its branches' contexts add (hF1, hF2).
 (a/defn clean [e :- Exp] Bool
   (match e
     [(tT b) (clean b)]
@@ -302,6 +303,8 @@
          [he (Rt chkf D us2 e (chkT r cd))] :where [D (vadd us1 us2) (Exp.refl X r e) X])
   (rInsp [D (List Exp)] [us1 (List U)] [us0 (List U)] [us2 (List U)] [X Exp] [r Exp] [c Exp] [t1 Exp] [t2 Exp]
          [hr (Rt chkf D us1 r Exp.tR)] [hc (Rt chkf D (vscale U.uw us0) c Exp.tSyn)] [hX (Tl chkf Bool.true D X Exp.tUnit)]
+         [hF1 (Tl chkf Bool.true (List.cons Exp Exp.tR D) (chkT (Exp.var 0) (lift 1 0 c)) Exp.tUnit)]
+         [hF2 (Tl chkf Bool.true (List.cons Exp Exp.tR D) (Exp.tT (notE (Exp.chk (Exp.prn (Exp.var 0)) (lift 1 0 c)))) Exp.tUnit)]
          [h1 (Rt chkf (consE (chkT (Exp.var 0) (lift 1 0 c)) (consE Exp.tR D)) (consU U.u1 (consU U.u1 us2)) t1 (lift 2 0 X))]
          [h2 (Rt chkf (consE (Exp.tT (notE (Exp.chk (Exp.prn (Exp.var 0)) (lift 1 0 c)))) (consE Exp.tR D))
                   (consU U.u1 (consU U.u1 us2)) t2 (lift 2 0 X))]
