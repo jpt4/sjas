@@ -182,7 +182,8 @@
     (doseq [c '[Sound F_const F_succ F_sleaf F_snode F_prn F_chk F_lam0 F_lam1 F_lamw F_lam F_abort F_ite F_leaf F_node F_bnil
                 den_app_some F_app1 F_appw F_app sk_transport bool_rec_dep F_elimB
                 WFCtx var_wf entry_nz var_succ var_zero var_sem F_var le_sub_add F_pair1 F_pairw F_pair
-                den_letp_some EnvSat_cons le_let le_let0 F_let1 F_letw F_let0 F_let F_app0 F_pair0]]
+                den_letp_some EnvSat_cons le_let le_let0 F_let1 F_letw F_let0 F_let F_app0 F_pair0
+                entry_omega_back EnvSat_omega_back V_stepTy den_zero_nat natrec_inv F_recN]]
       (is (b/has? c) (str c))))
   (testing "a label constant must be below NL: lbl 100 is not in V(Lbl)"
     (is (not (b/rejects? '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat]
@@ -270,7 +271,7 @@
 (require 'lcert.formal.vweaken)
 (deftest f3l-v-weakening
   (testing "weakening for V: V(lift 1 c A) at an inserted environment is V(A)"
-    (doseq [c '[vw_T vw_Pi vw_Sig V_lift_gen V_lift V_lift_fam V_lift2_fam]]
+    (doseq [c '[vw_T vw_Pi vw_Sig V_lift_gen V_lift V_lift_fam V_lift2_fam skj_subst subOK_shift subOK_sSucc envOf_shift envOf_sSucc]]
       (is (b/has? c) (str c))))
   (testing "the lift matters: T(x) is not T(x) one level up, at an environment where they differ"
     (is (not (b/rejects? '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code)]

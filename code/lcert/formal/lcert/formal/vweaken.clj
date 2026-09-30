@@ -28,6 +28,8 @@
             [lcert.formal.carrier :refer :all]
             [lcert.formal.den :refer :all]
             [lcert.formal.sem :refer :all]
+            [lcert.formal.unfold]
+            [lcert.formal.skeletons]
             [lcert.formal.substitution]))
 
 (def ^:private cong @#'lcert.formal.substitution/cong)
@@ -172,3 +174,106 @@
   (have h2 (V chkf dec encTy n (lift 1 0 C) (List.cons Sk sa G) (Prod.mk va en) k (skel (lift 1 0 C)) (g (skel (lift 1 0 C))))
     (Iff.mp (V_lift_fam chkf dec encTy n (List.cons Sk sa G) (lift 1 0 C) hW 0 sb (Prod.mk va en) vb k g) h1))
   (exact (Iff.mp (V_lift_fam chkf dec encTy n G C der 0 sa en va k g) h2)))
+
+;; --- skeleton typing under substitution ------------------------------------------
+
+;; skj_subst: SkJ is preserved by a substitution σ with SubOK Gp σ G (typed,
+;; skOf-faithful, skeleton Unit): Gp ⊢ e : s ⟹ G ⊢ e[σ] : s.  Generated from
+;; skj_weaken's case table (substitution.clj), with lift 1 (cc+k) replaced by
+;; subst (upn k σ), skel_lift by skel_subst (σ's terms have skeleton Unit,
+;; also under upn: upn_unit), and each hypothesis for a premise under k
+;; binders taken at upn k σ with SubOK carried under the binders by
+;; subOK_up.  `binders` lists, per premise, its binder skeletons in the
+;; source context (innermost first).  RecN's step type P[succ x/x] needs it.
+(def ^:private sw-cases @#'lcert.formal.substitution/sw-cases)
+;; binder skeletons (innermost first) of each IH, in the SOURCE context
+(def ^:private binders {['wPi 'ih_hB] '[(skel A)], ['wSig 'ih_hB] '[(skel A)], ['sElimB 'ih_hP] '[Sk.bool], ['sRecN 'ih_hP] '[Sk.nat],
+              ['sRecN 'ih_hs] '[(skel P) Sk.nat], ['sCaseL 'ih_hP] '[Sk.lbl], ['sRecS 'ih_hP] '[Sk.syn], ['sRecS 'ih_hl] '[Sk.lbl],
+              ['sRecS 'ih_hn] '[(skel P) (skel P) Sk.syn Sk.syn Sk.lbl], ['sLam 'ih_ht] '[(skel A)], ['sLetp 'ih_ht] '[s2 s1],
+              ['sInsp 'ih_h1] '[Sk.unit Sk.cert], ['sInsp 'ih_h2] '[Sk.unit Sk.cert]})
+(defn- SG [k] (if (zero? k) 'sg (list 'upn k 'sg)))
+(defn- ctx [bs base] (reduce (fn [acc b] (list 'List.cons 'Sk b acc)) base (reverse bs)))
+(defn- SOK [bs]
+  ;; SubOK (bs ++ G) (upn |bs| sg) (bs ++ G2), innermost binder first in bs
+  (if (empty? bs) 'hs
+      (let [rest (vec (rest bs)) k (count rest)]
+        (list 'subOK_up (first bs) (ctx rest 'G) (SG k) (ctx rest 'G2) (SOK rest)))))
+(defn- UNIT [k] (if (zero? k) '(subOK_skel G sg G2 hs) (list 'upn_unit k 'sg '(subOK_skel G sg G2 hs))))
+(defn- sb-expand [rule form]
+  (walk/postwalk
+   (fn [x]
+     (cond
+       (= x 'GI) 'G2
+       (and (seq? x) (= (first x) 'L)) (let [[_ k F] x] (list 'subst (SG k) F))
+       (and (seq? x) (= (first x) 'SL)) (let [[_ k F] x] (list 'skel_subst F (SG k) (UNIT k)))
+       (and (seq? x) (= (first x) 'SLs)) (let [[_ k F] x] (list 'Eq.symm (list 'skel_subst F (SG k) (UNIT k))))
+       (and (seq? x) (= (first x) 'IH)) (let [[_ ih k] x bs (get binders [rule ih] [])]
+                                          (assert (= k (count bs)) [rule ih k])
+                                          (list ih (ctx bs 'G2) (SG k) (SOK bs)))
+       (and (seq? x) (= (first x) 'CS)) (let [[_ c t s1 s2 h e] x] (list 'skj_cast 'Bool.false c t s1 s2 h e))
+       :else x))
+   form))
+(def ^:private sb-cases
+  (assoc sw-cases
+    'sVar '(subOK_ty G sg G2 hs i s h)
+    'sRefl '(CS GI (Exp.refl (L 0 D) (L 0 r) (L 0 e)) (skel (L 0 D)) (skel D)
+             (SkJ.sRefl GI (L 0 D) (L 0 r) (L 0 e) (IH ih_hD 0) (Eq.trans (congrArg isBaseTy (subst_base D hb sg)) hb)
+               (IH ih_hr 0) (IH ih_he 0))
+             (SL 0 D))))
+(a/prove-theorem 'skj_subst '[w0 :- Bool, G0 :- (List Sk), e0 :- Exp, s0 :- Sk, der :- (SkJ w0 G0 e0 s0)]
+  (lv '(forall [G2 (List Sk)] (forall [sg (=> Nat Exp)] (=> (SubOK G0 sg G2) (SkJ w0 G2 (subst sg e0) s0)))))
+  (lv (into ['(induction der)]
+            (mapcat (fn [rule] ['(intro G2 sg hs) (list 'exact (sb-expand rule (sb-cases rule)))]) skj-rules))))
+
+;; --- the successor substitution of RecN's step type ------------------------------------
+
+;; stepTy P = lift 1 0 (P[sSucc]), with sSucc 0 = succ x and sSucc (j+1) = var
+;; (j+1): P's own variable replaced by its successor.  sSucc is consSub of
+;; succ (var 0) and the shift, hence SubOK from nat :: G to itself, and its
+;; environment at (i, η) is (i + 1, η).
+(thm subOK_shift [s :- Sk, G :- (List Sk)] (SubOK G (fn [j :- Nat] (Exp.var (+ j 1))) (List.cons Sk s G))
+  (exact (subOK_mk G (fn [j :- Nat] (Exp.var (+ j 1))) (List.cons Sk s G)
+    (fn [i :- Nat, s2 :- Sk, h :- (Eq (Option Sk) (nthS G i) (Option.some Sk s2))]
+      (SkJ.sVar (List.cons Sk s G) (+ i 1) s2 (Eq.trans (nthS.eq_3 s G i) h)))
+    (fn [i :- Nat] (nthS.eq_3 s G i))
+    (fn [i :- Nat] (Eq.refl$1 Sk.unit)))))
+
+(thm sSucc_consSub [i :- Nat] (Eq Exp (sSucc i) (consSub (Exp.succ (Exp.var 0)) (fn [j :- Nat] (Exp.var (+ j 1))) i))
+  (cases i) (rfl) (rfl))
+
+(thm subOK_sSucc [G :- (List Sk)] (SubOK (List.cons Sk Sk.nat G) (fn [i :- Nat] (sSucc i)) (List.cons Sk Sk.nat G))
+  (have e (Eq (=> Nat Exp) (fn [i :- Nat] (sSucc i)) (consSub (Exp.succ (Exp.var 0)) (fn [j :- Nat] (Exp.var (+ j 1)))))
+    (funext (fn [i :- Nat] (sSucc_consSub i))))
+  (rw [e])
+  (exact (subOK_cons (Exp.succ (Exp.var 0)) Sk.nat G (fn [j :- Nat] (Exp.var (+ j 1))) (List.cons Sk Sk.nat G)
+           (SkJ.sSucc (List.cons Sk Sk.nat G) (Exp.var 0) (SkJ.sVar (List.cons Sk Sk.nat G) 0 Sk.nat (nthS.eq_2 Sk.nat G)))
+           (Eq.refl$1 (Option.some Sk Sk.nat))
+           (subOK_shift Sk.nat G))))
+
+(thm den_succ_var0 [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+                      G :- (List Sk), i :- Nat, en :- (HEnv G)]
+  (Eq Nat (den chkf dec encTy n (Exp.succ (Exp.var 0)) (List.cons Sk Sk.nat G) Sk.nat (Prod.mk i en)) (Nat.succ i))
+  (rw [(den_succ_at chkf dec encTy n (Exp.var 0) (List.cons Sk Sk.nat G) Sk.nat (Prod.mk i en))])
+  (rw [(den_var_eq chkf dec encTy n 0)]))
+
+(thm envOf_shift [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+                  s :- Sk, G :- (List Sk), v :- (Car s), en :- (HEnv G)]
+  (Eq (HEnv G) (envOf chkf dec encTy n G (fn [j :- Nat] (Exp.var (+ j 1))) (List.cons Sk s G) (Prod.mk v en)) en)
+  (rw [(envOf_envAt chkf dec encTy n G (fn [j :- Nat] (Exp.var (+ j 1))) (List.cons Sk s G) (Prod.mk v en))])
+  (rw [(den_fun_eq chkf dec encTy n)])
+  (exact (Eq.trans (envAt_lift chkf dec encTy (denPrev chkf dec encTy n) n s G en v G (fn [i :- Nat] (Exp.var i))
+                      (subOK_ty G (fn [i :- Nat] (Exp.var i)) G (subOK_id G)))
+                   (envAt_var chkf dec encTy (denPrev chkf dec encTy n) n G en))))
+
+(thm envOf_sSucc [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+                    G :- (List Sk), i :- Nat, en :- (HEnv G)]
+  (Eq (HEnv (List.cons Sk Sk.nat G)) (envOf chkf dec encTy n (List.cons Sk Sk.nat G) (fn [j :- Nat] (sSucc j)) (List.cons Sk Sk.nat G) (Prod.mk i en))
+      (Prod.mk (Nat.succ i) en))
+  (have e (Eq (=> Nat Exp) (fn [j :- Nat] (sSucc j)) (consSub (Exp.succ (Exp.var 0)) (fn [j :- Nat] (Exp.var (+ j 1)))))
+    (funext (fn [j :- Nat] (sSucc_consSub j))))
+  (rw [e])
+  (change (Eq (HEnv (List.cons Sk Sk.nat G))
+              (Prod.mk (den chkf dec encTy n (Exp.succ (Exp.var 0)) (List.cons Sk Sk.nat G) Sk.nat (Prod.mk i en))
+                       (envOf chkf dec encTy n G (fn [j :- Nat] (Exp.var (+ j 1))) (List.cons Sk Sk.nat G) (Prod.mk i en)))
+              (Prod.mk (Nat.succ i) en)))
+  (rw [(den_succ_var0 chkf dec encTy n G i en) (envOf_shift chkf dec encTy n Sk.nat G i en)]))
