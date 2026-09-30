@@ -115,6 +115,16 @@ now checks.
 - **`SkJ`'s reflect rule requires a base type.** Grok found that Lemma 3.1
   fails for reflect at an open type. The paper's rule has the same premise
   implicitly, since `chk′`'s type is closed. The formal rule states it.
+- **Formation premises and well-formed contexts.** App₀/App, Pair₀/Pair and
+  Let (and their type-level counterparts zApp, zPair, zLet) carry the
+  formation premises of their Π or Σ type (fPi/fSig's), and Lemma 3.6
+  assumes a well-formed context (`WFCtx`). The paper presupposes both;
+  without them a branch list can reach argument position, where skeleton
+  inference has nothing to give it, and the fundamental lemma fails.
+- **Branch lists are read positionally.** `V(tBrs P k)` reads the branch
+  for label l ≥ k at the list's position l − k, matching the denotation of
+  `bcons` (first element at 0). The first version read position l, which
+  made the Bcons case unprovable for k > 0.
 - **`V` takes the skeleton explicitly,** since carriers depend on it.
 
 ## Statement index
