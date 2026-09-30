@@ -277,6 +277,7 @@
                 none_ne_someC den_sleaf_code codeOf_sleaf_inv
                 arr_inj exSk exU exExp den_lam_arr den_beta_core den_beta
                 prod_inj skof_pair den_pair_prod den_betaLet_at den_betaLet_core den_betaLet
+                den_itRL den_itRL_nbr V_tTT V_tTF V_tTT_at V_tTF_at hd_tTT hd_tTF
                 cex_red_eq cex_den_redex cex_den_contr cex_nbr_ff cex_redex_typed
                 cex_den_ne conv_skj_counterexample]]
       (is (b/has? c) (str c))))

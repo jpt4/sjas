@@ -38,7 +38,7 @@
       preserve the denotation with no nbr hypothesis.  β preserves it
       when the redex is nbr (den_beta, via den_subst1 and skOf_complete).
       conv_skj_counterexample is the kernel-checked failure of β over
-      SkJ alone.  The substituting ι-steps, δ, and the T steps are open.
+      SkJ alone.  itR on a leaf (den_itRL_nbr) needs nbr so the label has an skOf.  T(tt) and T(ff) preserve V (hd_tTT, hd_tTF).  The substituting ι-steps, itR on a node, caseLbl, and δ are open.
   β for let (den_betaLet) is the same pattern.  Position congruence, the chain for V, and F_conv are not in this file yet.
 
   Equivalence at a position.  EquivAt w G s a b says a may replace b at a
@@ -897,3 +897,107 @@
                                                (SkJ Bool.false (sk2 s2 s1 G) t (skel C))))]
                          (den_betaLet_core chkf dec encTy n C S x y t G s s1 s2 hs
                            (And.left (And.right hs2)) (And.right (And.right hs2)) hn en)))))))
+
+;; --- itR on a leaf (Lemma 3.2) ----------------------------------------------
+;; Hd.itRL sends itR X g h (leaf x) to app g x.  The certificate denotes a
+;; leaf code, so the iterator applies g; the application does the same once
+;; skOf x = some Lbl (otherwise it defaults).  den_itRL_nbr gets that skOf
+;; from skeleton typing of the redex together with nbr, via skOf_ok.
+
+(lcert.formal.base/thm den_itRL [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+  X :- Exp, g :- Exp, h :- Exp, x :- Exp, G :- (List Sk), s :- Sk, en :- (HEnv G),
+  hk :- (Eq (Option Sk) (skOf G x) (Option.some Sk Sk.lbl))]
+  (Eq (Car s) (den chkf dec encTy n (Exp.app g x) G s en) (den chkf dec encTy n (Exp.itR X g h (Exp.leaf x)) G s en))
+  (rw [(den_app_some chkf dec encTy n g x G Sk.lbl s en hk)])
+  (rw [(den_itR_at chkf dec encTy n X g h (Exp.leaf x) G s en)])
+  (change (Eq (Car s) ((den chkf dec encTy n g G (Sk.arr Sk.lbl s) en) (den chkf dec encTy n x G Sk.lbl en))
+              (Code.rec$1 (fn [_ :- Code] (Car s))
+                (fn [l :- Nat] ((den chkf dec encTy n g G (Sk.arr Sk.lbl s) en) l))
+                (fn [l :- Nat, a :- Code, b :- Code, ya :- (Car s), yb :- (Car s)]
+                  ((den chkf dec encTy n h G (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr s (Sk.arr s s)))) en) Unit.unit l ya yb))
+                (den chkf dec encTy n (Exp.leaf x) G Sk.cert en))))
+  (rw [(den_leaf_at chkf dec encTy n x G Sk.cert en)]))
+
+(lcert.formal.base/thm den_itRL_nbr [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+  X :- Exp, g :- Exp, h :- Exp, x :- Exp, G :- (List Sk), s :- Sk,
+  hj :- (SkJ Bool.false G (Exp.itR X g h (Exp.leaf x)) s),
+  hn :- (Eq Bool (nbr (Exp.itR X g h (Exp.leaf x))) Bool.true),
+  en :- (HEnv G)]
+  (Eq (Car s) (den chkf dec encTy n (Exp.app g x) G s en) (den chkf dec encTy n (Exp.itR X g h (Exp.leaf x)) G s en))
+  (have hit (And (Eq Bool Bool.false Bool.false)
+                 (And (Eq Sk s (skel X))
+                   (And (SkJ Bool.true G X Sk.unit)
+                     (And (SkJ Bool.false G g (Sk.arr Sk.lbl (skel X)))
+                       (And (SkJ Bool.false G h (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr (skel X) (Sk.arr (skel X) (skel X))))))
+                         (SkJ Bool.false G (Exp.leaf x) Sk.cert))))))
+        (inv_itR Bool.false G X g h (Exp.leaf x) s hj))
+  (have hleaf (And (Eq Bool Bool.false Bool.false)
+                   (And (Eq Sk Sk.cert Sk.cert)
+                     (SkJ Bool.false G x Sk.lbl)))
+        (inv_leaf Bool.false G x Sk.cert (And.right (And.right (And.right (And.right (And.right hit)))))))
+  (have h1 (Eq Bool (Bool.and ((nbrF g) false) (Bool.and ((nbrF h) false) ((nbrF (Exp.leaf x)) false))) Bool.true)
+        (band_right ((nbrF X) false)
+                    (Bool.and ((nbrF g) false) (Bool.and ((nbrF h) false) ((nbrF (Exp.leaf x)) false))) hn))
+  (have h2 (Eq Bool (Bool.and ((nbrF h) false) ((nbrF (Exp.leaf x)) false)) Bool.true)
+        (band_right ((nbrF g) false) (Bool.and ((nbrF h) false) ((nbrF (Exp.leaf x)) false)) h1))
+  (have h3 (Eq Bool ((nbrF (Exp.leaf x)) false) Bool.true)
+        (band_right ((nbrF h) false) ((nbrF (Exp.leaf x)) false) h2))
+  (have hk (Eq (Option Sk) (skOf G x) (Option.some Sk Sk.lbl))
+        (skOf_ok G x Sk.lbl (And.right (And.right hleaf)) h3))
+  (exact (den_itRL chkf dec encTy n X g h x G s en hk)))
+
+;; --- T steps (Lemma 3.3's conversion, at a head step) -----------------------
+;; V(T(tt)) = V(1) and V(T(ff)) = V(0).  Both types have skeleton Unit, so
+;; EquivAt's type side is the V equation (hd_tTT, hd_tTF).  unfold V exposes
+;; the clause; propext identifies (tt = tt) with True and (ff = tt) with False.
+
+(lcert.formal.base/thm V_tTT [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+  G :- (List Sk), en :- (HEnv G), k :- Nat, v :- (Car Sk.unit)]
+  (Eq Prop (V chkf dec encTy n (Exp.tT Exp.tt) G en k Sk.unit v)
+          (V chkf dec encTy n Exp.tUnit G en k Sk.unit v))
+  (unfold V)
+  (rw [(den_tt_bool chkf dec encTy n G en)])
+  (exact (propext (Iff.intro (fn [_ :- (Eq Bool Bool.true Bool.true)] True.intro) (fn [_ :- True] (Eq.refl$1 Bool.true))))))
+
+;; The same equation at skel(T(tt)), which is the skeleton EquivAt quantifies over.
+(lcert.formal.base/thm V_tTT_at [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+  G :- (List Sk), en :- (HEnv G), k :- Nat, v :- (Car (skel (Exp.tT Exp.tt)))]
+  (Eq Prop (V chkf dec encTy n Exp.tUnit G en k (skel (Exp.tT Exp.tt)) v)
+          (V chkf dec encTy n (Exp.tT Exp.tt) G en k (skel (Exp.tT Exp.tt)) v))
+  (unfold V)
+  (rw [(den_tt_bool chkf dec encTy n G en)])
+  (exact (propext (Iff.intro (fn [_ :- True] (Eq.refl$1 Bool.true)) (fn [_ :- (Eq Bool Bool.true Bool.true)] True.intro)))))
+
+(lcert.formal.base/thm V_tTF [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+  G :- (List Sk), en :- (HEnv G), k :- Nat, v :- (Car Sk.unit)]
+  (Eq Prop (V chkf dec encTy n (Exp.tT Exp.ff) G en k Sk.unit v)
+          (V chkf dec encTy n Exp.tEmpty G en k Sk.unit v))
+  (unfold V)
+  (rw [(den_ff_bool chkf dec encTy n G en)])
+  (exact (propext (Iff.intro (fn [h :- (Eq Bool Bool.false Bool.true)] (Bool.noConfusion h))
+                             (fn [h :- False] (False.elim$0 h))))))
+
+(lcert.formal.base/thm V_tTF_at [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+  G :- (List Sk), en :- (HEnv G), k :- Nat, v :- (Car (skel (Exp.tT Exp.ff)))]
+  (Eq Prop (V chkf dec encTy n Exp.tEmpty G en k (skel (Exp.tT Exp.ff)) v)
+          (V chkf dec encTy n (Exp.tT Exp.ff) G en k (skel (Exp.tT Exp.ff)) v))
+  (unfold V)
+  (rw [(den_ff_bool chkf dec encTy n G en)])
+  (exact (propext (Iff.intro (fn [h :- False] (False.elim$0 h))
+                             (fn [h :- (Eq Bool Bool.false Bool.true)] (Bool.noConfusion h))))))
+(lcert.formal.base/thm hd_tTT [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+  w :- Bool, G :- (List Sk), s :- Sk, hj :- (SkJ w G (Exp.tT Exp.tt) s)]
+  (EquivAt chkf dec encTy n w G s Exp.tUnit (Exp.tT Exp.tt))
+  (exact (mk_eqv_ty chkf dec encTy n w G s Exp.tUnit (Exp.tT Exp.tt)
+            (And.left (inv_tT w G Exp.tt s hj))
+            (Eq.refl$1 Sk.unit)
+            (fn [en :- (HEnv G), k :- Nat, v :- (Car (skel (Exp.tT Exp.tt)))]
+              (V_tTT_at chkf dec encTy n G en k v)))))
+(lcert.formal.base/thm hd_tTF [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+  w :- Bool, G :- (List Sk), s :- Sk, hj :- (SkJ w G (Exp.tT Exp.ff) s)]
+  (EquivAt chkf dec encTy n w G s Exp.tEmpty (Exp.tT Exp.ff))
+  (exact (mk_eqv_ty chkf dec encTy n w G s Exp.tEmpty (Exp.tT Exp.ff)
+            (And.left (inv_tT w G Exp.ff s hj))
+            (Eq.refl$1 Sk.unit)
+            (fn [en :- (HEnv G), k :- Nat, v :- (Car (skel (Exp.tT Exp.ff)))]
+              (V_tTF_at chkf dec encTy n G en k v)))))
