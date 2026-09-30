@@ -940,3 +940,265 @@
   (= (vscale r (insU c U.u0 x)) (insU c U.u0 (vscale r x)))
   (exact (Eq.trans (vscale_insU r c x U.u0)
                    (congrArg (fn [v :- U] (insU c v (vscale r x))) (umul_zero_right r)))))
+
+;; ===========================================================================
+;; §5  Lemma 2.1 (weakening)
+;; ===========================================================================
+
+;; --- side conditions of the axioms --------------------------------------------
+
+;; Base types and ◇ (fBase), the constants' types (zConst, rConst), and
+;; reflect's base type with its code (zRefl, rRefl) have no variables.
+(a/prove-theorem 'baseDia_lift '[X :- Exp]
+  '(=> (= (isBaseOrDia X) true) (forall [k Nat] (forall [c Nat] (= (lift k c X) X))))
+  (into ['(cases X)]
+        (mapcat (fn [[ctor _]]
+                  (if ('#{tEmpty tUnit tBool tNat tLbl tSyn tDia tR} ctor) '[(intro h k c) (rfl)] '[(intro h) (cases h)]))
+                exp-fields)))
+
+;; constTyped t A = true only for a constant t at its base type; the split on
+;; A tries `exact h` first (the matching base type, or a type whose clause
+;; is false on both sides), and refutes h otherwise (a variable, whose lift
+;; does not compute).
+(def ^:private const-ctors '#{star tt ff zero lbl})
+(a/prove-theorem 'constTyped_lift '[t :- Exp]
+  '(forall [A Exp] (=> (= (constTyped t A) true) (forall [k Nat] (forall [c Nat] (= (constTyped (lift k c t) (lift k c A)) true)))))
+  (into ['(cases t)]
+        (mapcat (fn [[ctor _]]
+                  (if (const-ctors ctor)
+                    (into ['(intro A) '(cases A)]
+                          (mapcat (fn [_] ['(intro h k c) '(first (exact h) (cases h))]) exp-fields))
+                    ['(intro A h) '(cases h)]))
+                exp-fields)))
+
+;; baseCode X = some cd: X is a base data type and cd its (closed) code.
+(def ^:private base-label '{tEmpty 15 tUnit 16 tBool 17 tNat 18 tLbl 19 tSyn 20 tR 22})
+(a/prove-theorem 'baseCode_lift '[X :- Exp]
+  '(forall [cd Exp] (=> (= (baseCode X) (Option.some Exp cd))
+     (forall [k Nat] (forall [c Nat] (= (baseCode (lift k c X)) (Option.some Exp (lift k c cd)))))))
+  (lv (into ['(cases X)]
+            (mapcat (fn [[ctor _]]
+                      (if-let [l (base-label ctor)]
+                        ['(intro cd hb k c)
+                         (list 'have 'heq (list '= 'cd (list 'cLeaf l)) (list 'Eq.symm (list 'some_inj (list 'cLeaf l) 'cd 'hb)))
+                         '(subst heq)
+                         '(rfl)]
+                        ['(intro cd hb) '(exact (False.elim$0 (none_ne_someE cd hb)))]))
+                    exp-fields))))
+
+;; --- casts ------------------------------------------------------------------------
+
+(thm tl_cast [chkf :- (=> Code Code Bool), w :- Bool, D :- (List Exp), t :- Exp, A :- Exp, B :- Exp,
+              h :- (Tl chkf w D t A), e :- (= A B)]
+  (Tl chkf w D t B)
+  (subst e) (exact h))
+
+(thm tl_cast3 [chkf :- (=> Code Code Bool), w :- Bool, D :- (List Exp), t :- Exp, t2 :- Exp, A :- Exp, B :- Exp,
+               h :- (Tl chkf w D t A), et :- (= t t2), e :- (= A B)]
+  (Tl chkf w D t2 B)
+  (subst et) (subst e) (exact h))
+
+(thm tl_ctx1 [chkf :- (=> Code Code Bool), w :- Bool, a0 :- Exp, a1 :- Exp, G :- (List Exp), t :- Exp, A :- Exp,
+              h :- (Tl chkf w (List.cons Exp a0 G) t A), e :- (= a0 a1)]
+  (Tl chkf w (List.cons Exp a1 G) t A)
+  (subst e) (exact h))
+
+(thm tl_ctx2 [chkf :- (=> Code Code Bool), w :- Bool, a0 :- Exp, a1 :- Exp, b0 :- Exp, b1 :- Exp, G :- (List Exp), t :- Exp, A :- Exp,
+              h :- (Tl chkf w (List.cons Exp a0 (List.cons Exp b0 G)) t A), ea :- (= a0 a1), eb :- (= b0 b1)]
+  (Tl chkf w (List.cons Exp a1 (List.cons Exp b1 G)) t A)
+  (subst ea) (subst eb) (exact h))
+
+;; --- the variable rule ---------------------------------------------------------------
+
+;; Lookup at an index i ≥ c, as nthE_insD_above with m = i − c.
+(thm nthE_ins_ge [X :- Exp, c :- Nat, i :- Nat, D :- (List Exp), hle :- (LE.le c i)]
+  (= (nthE (insD c X D) (+ i 1)) (nthE D i))
+  (exact (Eq.trans (congrArg (fn [j :- Nat] (nthE (insD c X D) (+ j 1))) (Eq.symm (Nat.sub_add_cancel hle)))
+           (Eq.trans (nthE_insD_above X (- i c) c D)
+             (congrArg (fn [j :- Nat] (nthE D j)) (Nat.sub_add_cancel hle))))))
+
+(thm nthU_ins_ge [r :- U, c :- Nat, i :- Nat, us :- (List U), hle :- (LE.le c i)]
+  (= (nthU (insU c r us) (+ i 1)) (nthU us i))
+  (exact (Eq.trans (congrArg (fn [j :- Nat] (nthU (insU c r us) (+ j 1))) (Eq.symm (Nat.sub_add_cancel hle)))
+           (Eq.trans (nthU_insU_above r (- i c) c us)
+             (congrArg (fn [j :- Nat] (nthU us j)) (Nat.sub_add_cancel hle))))))
+
+;; Lookup at an index i < c: c = (c − i − 1) + i + 1.
+(thm cut_eq [i :- Nat, c :- Nat, h :- (LT.lt i c)] (= (+ (+ (- (- c i) 1) i) 1) c) (omega))
+(thm cut_eq2 [i :- Nat, c :- Nat, h :- (LT.lt i c)] (= (+ (- (- c i) 1) (+ i 1)) c) (omega))
+(thm le_succ_of_le [c :- Nat, i :- Nat, h :- (LE.le c i)] (LE.le c (+ i 1)) (omega))
+
+(thm nthE_ins_lt [X :- Exp, c :- Nat, i :- Nat, D :- (List Exp), A :- Exp, h :- (LT.lt i c),
+                  hA :- (= (nthE D i) (Option.some Exp A))]
+  (= (nthE (insD c X D) i) (Option.some Exp (lift 1 (- (- c i) 1) A)))
+  (exact (Eq.trans (congrArg (fn [j :- Nat] (nthE (insD j X D) i)) (Eq.symm (cut_eq i c h)))
+                   (nthE_insD_below X (- (- c i) 1) i D A hA))))
+
+(thm nthU_ins_lt [r :- U, c :- Nat, i :- Nat, us :- (List U), v :- U, h :- (LT.lt i c),
+                  hv :- (= (nthU us i) (Option.some U v))]
+  (= (nthU (insU c r us) i) (Option.some U v))
+  (exact (Eq.trans (congrArg (fn [j :- Nat] (nthU (insU j r us) i)) (Eq.symm (cut_eq i c h)))
+                   (nthU_insU_below r (- (- c i) 1) i us v hv))))
+
+;; The variable's type lift (i+1) 0 A, after weakening: above the insertion
+;; point the index moves up by one (lift_comp_ge), below it the stored
+;; entry is lifted and the lifts commute (lift_lift_comm).
+(thm var_ty_ge [A :- Exp, c :- Nat, i :- Nat, hle :- (LE.le c i)]
+  (= (lift (+ (+ i 1) 1) 0 A) (lift 1 c (lift (+ i 1) 0 A)))
+  (exact (Eq.symm (lift_comp_ge A 1 (+ i 1) c (le_succ_of_le c i hle) 0))))
+
+(thm var_ty_lt [A :- Exp, c :- Nat, i :- Nat, h :- (LT.lt i c)]
+  (= (lift (+ i 1) 0 (lift 1 (- (- c i) 1) A)) (lift 1 c (lift (+ i 1) 0 A)))
+  (exact (Eq.trans (Eq.symm (lift_lift_comm A (+ i 1) (- (- c i) 1) 0))
+                   (congrArg (fn [j :- Nat] (lift 1 j (lift (+ i 1) 0 A))) (cut_eq2 i c h)))))
+
+(thm tl_var [chkf :- (=> Code Code Bool), D :- (List Exp), i :- Nat, A :- Exp, hA :- (= (nthE D i) (Option.some Exp A)),
+             cc :- Nat, XX :- Exp]
+  (Tl chkf Bool.false (insD cc XX D) (lift 1 cc (Exp.var i)) (lift 1 cc (lift (+ i 1) 0 A)))
+  (have hc (Decidable (Nat.lt i cc)) (Nat.decLt i cc))
+  (cases hc)
+  (exact (tl_cast3 chkf Bool.false (insD cc XX D) (Exp.var (+ i 1)) (lift 1 cc (Exp.var i))
+           (lift (+ (+ i 1) 1) 0 A) (lift 1 cc (lift (+ i 1) 0 A))
+           (Tl.zVar chkf (insD cc XX D) (+ i 1) A (Eq.trans (nthE_ins_ge XX cc i D (Nat.le_of_not_lt h)) hA))
+           (Eq.symm (lift_var_above 1 cc i (Nat.le_of_not_lt h)))
+           (var_ty_ge A cc i (Nat.le_of_not_lt h))))
+  (exact (tl_cast3 chkf Bool.false (insD cc XX D) (Exp.var i) (lift 1 cc (Exp.var i))
+           (lift (+ i 1) 0 (lift 1 (- (- cc i) 1) A)) (lift 1 cc (lift (+ i 1) 0 A))
+           (Tl.zVar chkf (insD cc XX D) i (lift 1 (- (- cc i) 1) A) (nthE_ins_lt XX cc i D A h hA))
+           (Eq.symm (lift_var_below 1 cc i h))
+           (var_ty_lt A cc i h))))
+
+;; Conversion in the extended context (cv_lift, with skels_insD).
+(thm cv_weaken [chkf :- (=> Code Code Bool), D :- (List Exp), A :- Exp, B :- Exp, hc :- (Cv chkf (skels D) A B),
+                cc :- Nat, XX :- Exp]
+  (Cv chkf (skels (insD cc XX D)) (lift 1 cc A) (lift 1 cc B))
+  (rw [(skels_insD XX cc D)])
+  (exact (cv_lift chkf (skels D) cc (skel XX) A B hc)))
+
+;; --- Lemma 2.1 at type level ------------------------------------------------------
+;; One explicit term per rule of Tl (judgment.clj), in the rule table's order,
+;; written with the abbreviations
+;;   DI              the extended context insD cc XX D
+;;   (L k F)         F lifted at cc + k (a field under k binders)
+;;   (IH ih k)       the hypothesis ih at cutoff cc + k (a premise under k
+;;                   binders; its context insD (cc+k) XX (… :: D) reduces to
+;;                   the rule's extended context over DI)
+;;   (TC t A B h e)  tl_cast: h : Tl false DI t A and e : A = B
+;; Substituted types are moved through the lift by §2, conversion by §3.
+(defn- wk-expand [form]
+  (let [cut (fn [k] (if (zero? k) 'cc (list '+ 'cc k)))]
+    (walk/postwalk
+     (fn [x]
+       (cond
+         (= x 'DI) '(insD cc XX D)
+         (and (seq? x) (= (first x) 'L)) (let [[_ k F] x] (list 'lift 1 (cut k) F))
+         (and (seq? x) (= (first x) 'IH)) (let [[_ h k] x] (list h (cut k) 'XX))
+         (and (seq? x) (= (first x) 'TC)) (let [[_ t A B h e] x] (list 'tl_cast 'chkf 'Bool.false '(insD cc XX D) t A B h e))
+         :else x))
+     form)))
+
+(def ^:private tl-wk-cases
+  '[;; fBase
+    (Tl.fBase chkf DI (L 0 X) (Eq.trans (congrArg isBaseOrDia (baseDia_lift X h 1 cc)) h))
+    ;; fT, fPi, fSig
+    (Tl.fT chkf DI (L 0 b) (IH ih_hb 0))
+    (Tl.fPi chkf DI r (L 0 A) (L 1 B) (IH ih_hA 0) (IH ih_hB 1))
+    (Tl.fSig chkf DI r (L 0 A) (L 1 B) (IH ih_hA 0) (IH ih_hB 1))
+    ;; zVar
+    (tl_var chkf D i A h cc XX)
+    ;; zConst
+    (Tl.zConst chkf DI (L 0 t) (L 0 A) (constTyped_lift t A h 1 cc))
+    ;; zConv
+    (Tl.zConv chkf DI (L 0 t) (L 0 A) (L 0 B) (IH ih_ht 0) (IH ih_hB 0) (cv_weaken chkf D A B hc cc XX))
+    ;; zLam
+    (Tl.zLam chkf DI r (L 0 A) (L 1 t) (L 1 B) (IH ih_hA 0) (IH ih_ht 1))
+    ;; zApp
+    (TC (Exp.app (L 0 f) (L 0 u)) (subst1 (L 0 u) (L 1 B)) (L 0 (subst1 u B))
+      (Tl.zApp chkf DI r (L 0 f) (L 0 u) (L 0 A) (L 1 B) (IH ih_hf 0) (IH ih_hu 0) (IH ih_hA 0) (IH ih_hB 1))
+      (Eq.symm (lift_subst1 u B cc)))
+    ;; zPair
+    (Tl.zPair chkf DI r (L 0 A) (L 1 B) (L 0 x) (L 0 y) (IH ih_hA 0) (IH ih_hB 1) (IH ih_hx 0)
+      (TC (L 0 y) (L 0 (subst1 x B)) (subst1 (L 0 x) (L 1 B)) (IH ih_hy 0) (lift_subst1 x B cc)))
+    ;; zLet
+    (Tl.zLet chkf DI r (L 0 A) (L 1 B) (L 0 C) (L 0 p) (L 2 t) (IH ih_hp 0) (IH ih_hC 0) (IH ih_hA 0) (IH ih_hB 1)
+      (tl_cast chkf Bool.false (List.cons Exp (L 1 B) (List.cons Exp (L 0 A) DI)) (L 2 t) (L 2 (lift 2 0 C)) (lift 2 0 (L 0 C))
+        (IH ih_ht 2) (lift_lift2 C cc)))
+    ;; zAbort, zIte
+    (Tl.zAbort chkf DI (L 0 A) (L 0 t) (IH ih_ht 0) (IH ih_hA 0))
+    (Tl.zIte chkf DI (L 0 b) (L 0 t) (L 0 e) (L 0 C) (IH ih_hb 0) (IH ih_ht 0) (IH ih_he 0))
+    ;; zElimB
+    (TC (Exp.elimB (L 1 P) (L 0 b) (L 0 t) (L 0 e)) (subst1 (L 0 b) (L 1 P)) (L 0 (subst1 b P))
+      (Tl.zElimB chkf DI (L 1 P) (L 0 b) (L 0 t) (L 0 e) (IH ih_hb 0) (IH ih_hP 1)
+        (TC (L 0 t) (L 0 (subst1 Exp.tt P)) (subst1 Exp.tt (L 1 P)) (IH ih_ht 0) (lift_subst1 Exp.tt P cc))
+        (TC (L 0 e) (L 0 (subst1 Exp.ff P)) (subst1 Exp.ff (L 1 P)) (IH ih_he 0) (lift_subst1 Exp.ff P cc)))
+      (Eq.symm (lift_subst1 b P cc)))
+    ;; zSucc
+    (Tl.zSucc chkf DI (L 0 n) (IH ih_h 0))
+    ;; zRecN: the step under x : Nat, y : P, at cc + 2
+    (TC (Exp.recN (L 1 P) (L 0 z) (L 2 s) (L 0 n)) (subst1 (L 0 n) (L 1 P)) (L 0 (subst1 n P))
+      (Tl.zRecN chkf DI (L 1 P) (L 0 z) (L 2 s) (L 0 n) (IH ih_hn 0) (IH ih_hP 1)
+        (TC (L 0 z) (L 0 (subst1 Exp.zero P)) (subst1 Exp.zero (L 1 P)) (IH ih_hz 0) (lift_subst1 Exp.zero P cc))
+        (tl_cast chkf Bool.false (List.cons Exp (L 1 P) (List.cons Exp Exp.tNat DI)) (L 2 s) (L 2 (stepTy P)) (stepTy (L 1 P))
+          (IH ih_hs 2) (lift_stepTy P cc)))
+      (Eq.symm (lift_subst1 n P cc)))
+    ;; zCaseL
+    (TC (Exp.caseL (L 1 P) (L 0 x) (L 0 bs)) (subst1 (L 0 x) (L 1 P)) (L 0 (subst1 x P))
+      (Tl.zCaseL chkf DI (L 1 P) (L 0 x) (L 0 bs) (IH ih_hx 0) (IH ih_hP 1) (IH ih_hb 0))
+      (Eq.symm (lift_subst1 x P cc)))
+    ;; zBnil, zBcons
+    (Tl.zBnil chkf DI (L 1 P))
+    (Tl.zBcons chkf DI (L 1 P) k (L 0 h) (L 0 t)
+      (TC (L 0 h) (L 0 (subst1 (Exp.lbl k) P)) (subst1 (Exp.lbl k) (L 1 P)) (IH ih_hh 0) (lift_subst1 (Exp.lbl k) P cc))
+      (IH ih_ht 0))
+    ;; zSleaf, zSnode
+    (Tl.zSleaf chkf DI (L 0 x) (IH ih_h 0))
+    (Tl.zSnode chkf DI (L 0 x) (L 0 c1) (L 0 c2) (IH ih_hx 0) (IH ih_h1 0) (IH ih_h2 0))
+    ;; zRecS: the leaf step under a (cc + 1), the node step under a c1 c2 y1 y2 (cc + 5)
+    (TC (Exp.recS (L 1 P) (L 1 tl) (L 5 tn) (L 0 c)) (subst1 (L 0 c) (L 1 P)) (L 0 (subst1 c P))
+      (Tl.zRecS chkf DI (L 1 P) (L 1 tl) (L 5 tn) (L 0 c) (IH ih_hc 0) (IH ih_hP 1)
+        (tl_cast chkf Bool.false (List.cons Exp Exp.tLbl DI) (L 1 tl) (L 1 (leafTy P)) (leafTy (L 1 P))
+          (IH ih_hl 1) (lift_leafTy P cc))
+        (tl_ctx2 chkf Bool.false (L 4 (y2Ty P)) (y2Ty (L 1 P)) (L 3 (y1Ty P)) (y1Ty (L 1 P))
+          (List.cons Exp Exp.tSyn (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl DI))) (L 5 tn) (nodeTy (L 1 P))
+          (tl_cast chkf Bool.false
+            (List.cons Exp (L 4 (y2Ty P)) (List.cons Exp (L 3 (y1Ty P))
+              (List.cons Exp Exp.tSyn (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl DI)))))
+            (L 5 tn) (L 5 (nodeTy P)) (nodeTy (L 1 P)) (IH ih_hn 5) (lift_nodeTy P cc))
+          (lift_y2Ty P cc) (lift_y1Ty P cc)))
+      (Eq.symm (lift_subst1 c P cc)))
+    ;; zLeaf, zNode
+    (Tl.zLeaf chkf DI (L 0 x) (IH ih_h 0))
+    (Tl.zNode chkf DI (L 0 d) (L 0 x) (L 0 r1) (L 0 r2) (IH ih_hd 0) (IH ih_hx 0) (IH ih_h1 0) (IH ih_h2 0))
+    ;; zItR
+    (Tl.zItR chkf DI (L 0 X) (L 0 g) (L 0 h) (L 0 r) (IH ih_hX 0)
+      (TC (L 0 g) (L 0 (gTy X)) (gTy (L 0 X)) (IH ih_hg 0) (lift_gTy X cc))
+      (TC (L 0 h) (L 0 (hTy X)) (hTy (L 0 X)) (IH ih_hh 0) (lift_hTy X cc))
+      (IH ih_hr 0))
+    ;; zPrn, zChk, zH1
+    (Tl.zPrn chkf DI (L 0 r) (IH ih_h 0))
+    (Tl.zChk chkf DI (L 0 c) (L 0 d) (IH ih_hc 0) (IH ih_hd 0))
+    (Tl.zH1 chkf DI (L 0 r) (L 0 s) (L 0 c) (L 0 e1) (L 0 e2) (IH ih_hr 0) (IH ih_hs 0) (IH ih_hc 0) (IH ih_h1 0) (IH ih_h2 0))
+    ;; zRefl: X and its code are closed
+    (Tl.zRefl chkf DI (L 0 X) (L 0 cd) (L 0 r) (L 0 e) (baseCode_lift X cd hb 1 cc) (IH ih_hr 0) (IH ih_he 0))
+    ;; zInsp: the branches under r : R and a T(…) proof (cc + 2); the
+    ;; context entries mention c lifted past r (lift_lift_comm)
+    (Tl.zInsp chkf DI (L 0 X) (L 0 r) (L 0 c) (L 2 t1) (L 2 t2) (IH ih_hr 0) (IH ih_hc 0) (IH ih_hX 0)
+      (tl_ctx1 chkf Bool.false (L 1 (chkT (Exp.var 0) (lift 1 0 c))) (chkT (Exp.var 0) (lift 1 0 (L 0 c)))
+        (List.cons Exp Exp.tR DI) (L 2 t1) (lift 2 0 (L 0 X))
+        (tl_cast chkf Bool.false (List.cons Exp (L 1 (chkT (Exp.var 0) (lift 1 0 c))) (List.cons Exp Exp.tR DI))
+          (L 2 t1) (L 2 (lift 2 0 X)) (lift 2 0 (L 0 X)) (IH ih_h1 2) (lift_lift2 X cc))
+        (congrArg (fn [v :- Exp] (chkT (Exp.var 0) v)) (lift_lift_comm c 1 cc 0)))
+      (tl_ctx1 chkf Bool.false (L 1 (Exp.tT (notE (Exp.chk (Exp.prn (Exp.var 0)) (lift 1 0 c)))))
+        (Exp.tT (notE (Exp.chk (Exp.prn (Exp.var 0)) (lift 1 0 (L 0 c)))))
+        (List.cons Exp Exp.tR DI) (L 2 t2) (lift 2 0 (L 0 X))
+        (tl_cast chkf Bool.false (List.cons Exp (L 1 (Exp.tT (notE (Exp.chk (Exp.prn (Exp.var 0)) (lift 1 0 c))))) (List.cons Exp Exp.tR DI))
+          (L 2 t2) (L 2 (lift 2 0 X)) (lift 2 0 (L 0 X)) (IH ih_h2 2) (lift_lift2 X cc))
+        (congrArg (fn [v :- Exp] (Exp.tT (notE (Exp.chk (Exp.prn (Exp.var 0)) v)))) (lift_lift_comm c 1 cc 0))))])
+
+;; Lemma 2.1 (weakening), type level: formation and :⁰ typing are preserved
+;; by inserting any entry XX at any position cc, the subject and its type
+;; lifted at cc.
+(a/prove-theorem 'tl_weaken
+  '[chkf :- (=> Code Code Bool), w0 :- Bool, D0 :- (List Exp), t0 :- Exp, A0 :- Exp, der :- (Tl chkf w0 D0 t0 A0)]
+  '(forall [cc Nat] (forall [XX Exp] (Tl chkf w0 (insD cc XX D0) (lift 1 cc t0) (lift 1 cc A0))))
+  (lv (into ['(induction der)] (mapcat (fn [c] ['(intro cc XX) (list 'exact (wk-expand c))]) tl-wk-cases))))
