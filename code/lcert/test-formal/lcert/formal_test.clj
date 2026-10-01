@@ -444,3 +444,15 @@
                       ht :- (Rt chkf (List.nil Exp) (List.nil U) t (Exp.tBrs Exp.tBool 1))]
                     '(Rt chkf (List.nil Exp) (List.nil U) (Exp.bcons h t) (Exp.tBrs Exp.tBool 0))
                     '[(exact (Rt.rBcons chkf (List.nil Exp) (List.nil U) Exp.tBool 0 h t hh ht))]))))
+
+(require 'lcert.formal.convcase)
+(deftest f3m-convcase-subst
+  (testing "nbr is preserved by substitution, and β's contractum stays skeleton-typed (Lemma 3.2)"
+    (doseq [c '[nbrF_var nbrF_anyflag up_pres upn_pres nbrF_subst_var nbrF_subst
+                inst1_nbr nbr_subst1 NbrAll instL_nbr instLS_nbr nbr_substL
+                skj_subst1 skj_substL skj_beta_core skj_beta]]
+      (is (b/has? c) (str c))))
+  (testing "a branch list substituted for a variable is not nbr"
+    (is (b/rejects? '[]
+                    '(Eq Bool (nbr (subst1 (Exp.bcons Exp.tt Exp.bnil) (Exp.var 0))) Bool.true)
+                    '[(rfl)]))))
