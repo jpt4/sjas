@@ -438,3 +438,118 @@
   (rw [(envOf_past chkf dec encTy n G
                     (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl (List.nil Sk))))))
                     (Prod.mk yb (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en))))))]))
+
+;; ---------------------------------------------------------------------------
+;; Reading V through a motive instance.  leafTy, nodeTy, y1Ty and y2Ty are
+;; substitutions of P, not lifts (unlike RecN's stepTy).  V_subst therefore
+;; applies directly: V(P[σ]) at η, at skeleton skel P, is V(P) at envOf σ.
+;; skel of each instance equals skel P only propositionally (skel_leafTy and
+;; its siblings), so the value — a family g of carriers — is carried along
+;; that equation by sk_transport, the same move V_stepTy makes after the lift.
+;;   V_leafTy, V_nodeTy read a method's result back as V(P) at the code.
+;;   V_y1Ty, V_y2Ty embed a recursive result, already in V(P), as the y
+;;   entry the node method's context asks for.
+;; ---------------------------------------------------------------------------
+
+(thm V_leafTy [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+               G :- (List Sk), P :- Exp, der :- (SkJ Bool.true (List.cons Sk Sk.syn G) P Sk.unit),
+               l :- Nat, en :- (HEnv G), K :- Nat, g :- (forall [s Sk] (Car s)),
+               h :- (V chkf dec encTy n (leafTy P) (List.cons Sk Sk.lbl G) (Prod.mk l en) K (skel (leafTy P)) (g (skel (leafTy P))))]
+  (V chkf dec encTy n P (List.cons Sk Sk.syn G) (Prod.mk (Code.sl l) en) K (skel P) (g (skel P)))
+  (have h1 (V chkf dec encTy n (leafTy P) (List.cons Sk Sk.lbl G) (Prod.mk l en) K (skel P) (g (skel P)))
+    (sk_transport (fn [s :- Sk, v :- (Car s)] (V chkf dec encTy n (leafTy P) (List.cons Sk Sk.lbl G) (Prod.mk l en) K s v))
+                  g (skel (leafTy P)) (skel P) (skel_leafTy P) h))
+  (have h2 (V chkf dec encTy n P (List.cons Sk Sk.syn G)
+              (envOf chkf dec encTy n (List.cons Sk Sk.syn G) (fn [j :- Nat] (sLeafI j)) (List.cons Sk Sk.lbl G) (Prod.mk l en))
+              K (skel P) (g (skel P)))
+    (Eq.mp (V_subst chkf dec encTy n (List.cons Sk Sk.syn G) P der (List.cons Sk Sk.lbl G) (fn [j :- Nat] (sLeafI j)) (Prod.mk l en) (subOK_sLeafI G) K (g (skel P))) h1))
+  (exact (Eq.mp (congrArg (fn [e :- (HEnv (List.cons Sk Sk.syn G))]
+                            (V chkf dec encTy n P (List.cons Sk Sk.syn G) e K (skel P) (g (skel P))))
+                          (envOf_sLeafI chkf dec encTy n G l en)) h2)))
+
+(thm V_nodeTy [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+               G :- (List Sk), P :- Exp, der :- (SkJ Bool.true (List.cons Sk Sk.syn G) P Sk.unit), s :- Sk,
+               yb :- (Car s), ya :- (Car s), b :- Code, a :- Code, l :- Nat, en :- (HEnv G), K :- Nat, g :- (forall [s2 Sk] (Car s2)),
+               h :- (V chkf dec encTy n (nodeTy P)
+                       (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                       (Prod.mk yb (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))))
+                       K (skel (nodeTy P)) (g (skel (nodeTy P))))]
+  (V chkf dec encTy n P (List.cons Sk Sk.syn G) (Prod.mk (Code.sn l a b) en) K (skel P) (g (skel P)))
+  (have h1 (V chkf dec encTy n (nodeTy P)
+              (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+              (Prod.mk yb (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))))
+              K (skel P) (g (skel P)))
+    (sk_transport (fn [s2 :- Sk, v :- (Car s2)]
+                    (V chkf dec encTy n (nodeTy P)
+                       (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                       (Prod.mk yb (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en))))) K s2 v))
+                  g (skel (nodeTy P)) (skel P) (skel_nodeTy P) h))
+  (have h2 (V chkf dec encTy n P (List.cons Sk Sk.syn G)
+              (envOf chkf dec encTy n (List.cons Sk Sk.syn G) (fn [j :- Nat] (sNodeI j))
+                     (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                     (Prod.mk yb (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en))))))
+              K (skel P) (g (skel P)))
+    (Eq.mp (V_subst chkf dec encTy n (List.cons Sk Sk.syn G) P der
+                    (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                    (fn [j :- Nat] (sNodeI j))
+                    (Prod.mk yb (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))))
+                    (subOK_sNodeI s G) K (g (skel P))) h1))
+  (exact (Eq.mp (congrArg (fn [e :- (HEnv (List.cons Sk Sk.syn G))]
+                            (V chkf dec encTy n P (List.cons Sk Sk.syn G) e K (skel P) (g (skel P))))
+                          (envOf_sNodeI chkf dec encTy n s G yb ya b a l en)) h2)))
+
+;; The other direction: a value in V(P) at (a, η) is in V(y1Ty P) at
+;; (b, (a, (l, η))), which is where the node method finds c₁.
+(thm V_y1Ty [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+             G :- (List Sk), P :- Exp, der :- (SkJ Bool.true (List.cons Sk Sk.syn G) P Sk.unit),
+             b :- Code, a :- Code, l :- Nat, en :- (HEnv G), K :- Nat, g :- (forall [s Sk] (Car s)),
+             h :- (V chkf dec encTy n P (List.cons Sk Sk.syn G) (Prod.mk a en) K (skel P) (g (skel P)))]
+  (V chkf dec encTy n (y1Ty P) (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))
+     (Prod.mk b (Prod.mk a (Prod.mk l en))) K (skel (y1Ty P)) (g (skel (y1Ty P))))
+  (have h1 (V chkf dec encTy n P (List.cons Sk Sk.syn G)
+              (envOf chkf dec encTy n (List.cons Sk Sk.syn G) (fn [j :- Nat] (sAt 1 3 j))
+                     (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))
+                     (Prod.mk b (Prod.mk a (Prod.mk l en))))
+              K (skel P) (g (skel P)))
+    (Eq.mpr (congrArg (fn [e :- (HEnv (List.cons Sk Sk.syn G))]
+                        (V chkf dec encTy n P (List.cons Sk Sk.syn G) e K (skel P) (g (skel P))))
+                      (envOf_sAt13 chkf dec encTy n G b a l en)) h))
+  (have h2 (V chkf dec encTy n (y1Ty P) (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))
+              (Prod.mk b (Prod.mk a (Prod.mk l en))) K (skel P) (g (skel P)))
+    (Eq.mpr (V_subst chkf dec encTy n (List.cons Sk Sk.syn G) P der
+                     (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))
+                     (fn [j :- Nat] (sAt 1 3 j)) (Prod.mk b (Prod.mk a (Prod.mk l en)))
+                     (subOK_sAt13 G) K (g (skel P))) h1))
+  (exact (sk_transport (fn [s :- Sk, v :- (Car s)]
+                         (V chkf dec encTy n (y1Ty P) (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))
+                            (Prod.mk b (Prod.mk a (Prod.mk l en))) K s v))
+                       g (skel P) (skel (y1Ty P)) (Eq.symm (skel_y1Ty P)) h2)))
+
+;; Likewise c₂: V(P) at (b, η) is V(y2Ty P) at (ya, (b, (a, (l, η)))).
+(thm V_y2Ty [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+             G :- (List Sk), P :- Exp, der :- (SkJ Bool.true (List.cons Sk Sk.syn G) P Sk.unit), s :- Sk,
+             ya :- (Car s), b :- Code, a :- Code, l :- Nat, en :- (HEnv G), K :- Nat, g :- (forall [s2 Sk] (Car s2)),
+             h :- (V chkf dec encTy n P (List.cons Sk Sk.syn G) (Prod.mk b en) K (skel P) (g (skel P)))]
+  (V chkf dec encTy n (y2Ty P)
+     (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G))))
+     (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))) K (skel (y2Ty P)) (g (skel (y2Ty P))))
+  (have h1 (V chkf dec encTy n P (List.cons Sk Sk.syn G)
+              (envOf chkf dec encTy n (List.cons Sk Sk.syn G) (fn [j :- Nat] (sAt 1 4 j))
+                     (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G))))
+                     (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))))
+              K (skel P) (g (skel P)))
+    (Eq.mpr (congrArg (fn [e :- (HEnv (List.cons Sk Sk.syn G))]
+                        (V chkf dec encTy n P (List.cons Sk Sk.syn G) e K (skel P) (g (skel P))))
+                      (envOf_sAt14 chkf dec encTy n s G ya b a l en)) h))
+  (have h2 (V chkf dec encTy n (y2Ty P)
+              (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G))))
+              (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))) K (skel P) (g (skel P)))
+    (Eq.mpr (V_subst chkf dec encTy n (List.cons Sk Sk.syn G) P der
+                     (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G))))
+                     (fn [j :- Nat] (sAt 1 4 j)) (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en))))
+                     (subOK_sAt14 s G) K (g (skel P))) h1))
+  (exact (sk_transport (fn [s2 :- Sk, v :- (Car s2)]
+                         (V chkf dec encTy n (y2Ty P)
+                            (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G))))
+                            (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))) K s2 v))
+                       g (skel P) (skel (y2Ty P)) (Eq.symm (skel_y2Ty P)) h2)))
