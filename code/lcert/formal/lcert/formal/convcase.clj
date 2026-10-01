@@ -1592,3 +1592,99 @@
       [(mk 'ih_c 'c 2 'den_chk_c false)
        (mk 'ih_d 'd 3 'den_chk_d true)]))
   
+;; elimB: the motive is a skeleton annotation (sk_elimB_P).  The branches
+;; are typed at skel P and denoted at the output skeleton, which inversion
+;; equates; Eq.mp moves the branch's skeleton typing across that equation.
+(prove! 'sk_elimB_P
+    '[chkf :- (=> Code Code Bool), P :- Exp, b :- Exp, t :- Exp, e :- Exp, G :- (List Sk),
+      q :- (List Nat), r :- Exp, r2 :- Exp,
+      hP :- (SkJ Bool.true (List.cons Sk Sk.bool G) P Sk.unit),
+      hg :- (Eq (Option Exp) (getP q P) (Option.some Exp r)),
+      hd :- (Hd chkf r r2)]
+    '(Eq (Option Sk) (skOf G (Exp.elimB (setP q P r2) b t e)) (skOf G (Exp.elimB P b t e)))
+    ['(have hs (Eq Sk (skel (setP q P r2)) (skel P))
+        (step_skel_path chkf q P r r2
+          (skj_isTy Bool.true (List.cons Sk Sk.bool G) P Sk.unit hP rfl) hg hd))
+     '(exact (congrArg (fn [k :- Sk] (Option.some Sk k)) hs))])
+
+  
+(defn- el [nm which]
+    (let [fq (symbol (str which "q"))
+          order '[P b t e]
+          csk (if (= which 'b) 'Sk.bool 'sk)
+          args-new (map #(if (= % which) fq %) order)
+          left (apply list 'Exp.elimB args-new)
+          denb '(den chkf dec encTy cap b G Sk.bool en)
+          dent (fn [x] (list 'den 'chkf 'dec 'encTy 'cap x 'G 'sk 'en))
+          dene (fn [x] (list 'den 'chkf 'dec 'encTy 'cap x 'G 'sk 'en))
+          rec (fn [bv tv ev]
+                (list 'Bool.rec$1 '(fn [_ :- Bool] (Car sk)) ev tv bv))
+          newv (fn [pos v]
+                 (cond (= which 'b) (rec v (dent 't) (dene 'e))
+                       (= which 't) (rec denb v (dene 'e))
+                       :else (rec denb (dent 't) v)))]
+      (prove! nm
+        (into Pcap (concat
+                     (mapcat (fn [g] (if (= g which) [g :- 'Exp, fq :- 'Exp] [g :- 'Exp])) order)
+                     ['G :- '(List Sk), 'sk :- 'Sk, 'en :- '(HEnv G),
+                      'h :- (list 'Eq (list 'Car (if (= which 'b) 'Sk.bool 'sk))
+                              (list 'den 'chkf 'dec 'encTy 'cap fq 'G (if (= which 'b) 'Sk.bool 'sk) 'en)
+                              (list 'den 'chkf 'dec 'encTy 'cap which 'G (if (= which 'b) 'Sk.bool 'sk) 'en))]))
+        (list 'Eq '(Car sk)
+          (list 'den 'chkf 'dec 'encTy 'cap left 'G 'sk 'en)
+          '(den chkf dec encTy cap (Exp.elimB P b t e) G sk en))
+        [(list 'rw [(apply list 'den_elimB_at 'chkf 'dec 'encTy 'cap (concat args-new ['G 'sk 'en]))])
+         '(rw [(den_elimB_at chkf dec encTy cap P b t e G sk en)])
+         (list 'change (list 'Eq '(Car sk)
+                        (newv which (list 'den 'chkf 'dec 'encTy 'cap fq 'G (if (= which 'b) 'Sk.bool 'sk) 'en))
+                        (newv which (list 'den 'chkf 'dec 'encTy 'cap which 'G (if (= which 'b) 'Sk.bool 'sk) 'en))))
+         (list 'exact (list 'congrArg
+                       (list 'fn ['v ':- (list 'Car (if (= which 'b) 'Sk.bool 'sk))]
+                         (newv which 'v))
+                       'h))])))
+  (el 'den_el_b 'b)
+  (el 'den_el_t 't)
+  (el 'den_el_e 'e)
+  
+(defn at-out [field sj-at-skel hs]
+    (list 'Eq.mp
+      (list 'congrArg (list 'fn ['k ':- 'Sk] (list 'SkJ 'Bool.false 'G field 'k))
+            (list 'Eq.symm hs))
+      sj-at-skel))
+  (let [term '(Exp.elimB P b t e)
+        inv '(inv_elimB Bool.false G P b t e out hj)
+        hs (list 'And.left (rights 1 inv))
+        hP (list 'And.left (rights 2 inv))
+        hb (list 'And.left (rights 3 inv))
+        ht (list 'And.left (rights 4 inv))
+        he (rights 5 inv)
+        nbr (fn [f] (list (symbol (str "nbr_elimB_" f)) 'P 'b 't 'e 'fl 'hn))
+        denih (fn [ih csk sj nb]
+                (list 'And.right (list ih 'Bool.false 'G csk sj nb 'tail 're 'co 'hgc 'hd)))
+        args (fn [field]
+               (mapcat (fn [g] (if (= g field) [g (list 'setP 'tail g 'co)] [g])) '[P b t e]))
+        call (fn [den field csk sj nb]
+               (list 'fn '[cap :- Nat, en :- (HEnv G)]
+                 (apply list (concat [den 'chkf 'dec 'encTy 'cap] (args field)
+                   ['G 'out 'en (list (denih (symbol (str "ih_" field)) csk sj nb) 'cap 'en)]))))
+        pP (list 'And.intro
+             (list 'sk_elimB_P 'chkf 'P 'b 't 'e 'G 'tail 're 'co hP 'hgc 'hd)
+             '(fn [cap :- Nat, en :- (HEnv G)]
+                (den_ig_elimB_P chkf dec encTy cap P (setP tail P co) b t e G out en)))
+        pb (list 'And.intro '(Eq.refl$1 (skOf G (Exp.elimB P b t e)))
+             (call 'den_el_b 'b 'Sk.bool hb (nbr 'b)))
+        pt (list 'And.intro '(Eq.refl$1 (skOf G (Exp.elimB P b t e)))
+             (call 'den_el_t 't 'out (at-out 't ht hs) (nbr 't)))
+        pe (list 'And.intro '(Eq.refl$1 (skOf G (Exp.elimB P b t e)))
+             (call 'den_el_e 'e 'out (at-out 'e he hs) (nbr 'e)))
+        split (index-split term [pP pb pt pe])]
+    (prove! 'step_elimB
+      (into step-params '[P :- Exp, b :- Exp, t :- Exp, e :- Exp,
+                 ih_b :- (StepPack chkf dec encTy b),
+                 ih_t :- (StepPack chkf dec encTy t),
+                 ih_e :- (StepPack chkf dec encTy e)])
+      '(StepPack chkf dec encTy (Exp.elimB P b t e))
+      ['(intro fl G out hj hn pth) '(cases pth) '(intro re co hg hd)
+       '(exact (step_nil_fl chkf dec encTy fl (Exp.elimB P b t e) G out hj hn re co hg hd))
+       '(intro re co hg hd) (list 'exact split)]))
+  
