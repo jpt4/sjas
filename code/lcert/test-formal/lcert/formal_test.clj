@@ -611,7 +611,7 @@
                 case_sleaf case_leaf case_prn case_lam case_pair case_chk
                 case_app case_let case_refl case_insp h1_oks case_h1
                 adeq_skj adeq_from_below below_zero below_succ adeq_below_all
-                theorem4 theorem4_spec corollary51]]
+                theorem4 theorem4_spec corollary51 corollary51_conv corollary51_nodes]]
       (is (b/has? c) (str c))))
   (testing "bnil is simply typable and argsOK, but skOf is none: argsOK alone does not give skOf = some"
     (is (not (b/rejects? '[G :- (List Sk)]
@@ -625,4 +625,7 @@
                     '[(rfl)]))
     (is (b/rejects? '[]
                     '(Eq Bool (isBaseTy (Exp.tPi U.u0 Exp.tUnit Exp.tUnit)) Bool.true)
+                    '[(rfl)]))
+    (is (b/rejects? '[]
+                    '(Eq Bool (isBaseTy Exp.tR) Bool.false)
                     '[(rfl)]))))

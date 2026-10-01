@@ -8,7 +8,10 @@
   adeq_skj inducts on SkJ, feeding the adequacy lemmas; the budget induction
   is strong because reflect decodes a certificate at a smaller budget.
   theorem4_spec inhabits the constant Theorem_4.  corollary51 is Corollary
-  5.1, with ConvCase kept as a hypothesis.
+  5.1, with ConvCase kept as a hypothesis.  corollary51_conv is the same
+  statement with that hypothesis discharged by conv_all (Lemma 3.2 is the
+  Conv case).  corollary51_nodes is the certificate-size half of Theorem 4′
+  at Θₙ: an R denotation has at most n internal nodes, by theorem3.
 
   skOf (carrier.clj) reads one skeleton off a term.  On a branch list it
   returns none: sBnil and sBcons type bnil and bcons at every skeleton
@@ -44,7 +47,8 @@
             [lcert.formal.skeletons]
             [lcert.formal.skof]
             [lcert.formal.substitution]
-            [lcert.formal.lemma36]))
+            [lcert.formal.lemma36]
+            [lcert.formal.convcase]))
 
 ;; --- the clauses of skOf that inspect a recursive result ----------------------
 
@@ -1827,3 +1831,42 @@
   (constructor) (exact (And.right hvand))
   (constructor) (exact hv)
   (exact heq))
+
+;; Corollary 5.1 with the Conv case discharged.  conv_all is ConvAll: every
+;; checker satisfying CheckSpec has ConvCase at every budget (F_conv).  That
+;; is the hypothesis corollary51 was holding.  The conclusion is unchanged:
+;; evalₙ terminates at the denotation, and that denotation lies in V(D).
+(thm corollary51_conv
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   hcs :- (CheckSpec chkf dec encTy),
+   n :- Nat, t :- Exp, D :- Exp,
+   hd :- (Rt chkf (thetaD n) (thetaU n) t D),
+   hb :- (Eq Bool (isBaseTy D) Bool.true)]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy n (rtokens n) t v)
+      (And (rel chkf dec encTy n (skel D) v
+             (den chkf dec encTy n t (thetaSk n) (skel D) (tokenEnv n)))
+        (And (V chkf dec encTy n D (skels (thetaD n)) (tokEnvD n) n (skel D)
+               (den chkf dec encTy n t (skels (thetaD n)) (skel D) (tokEnvD n)))
+             (Eq (Car (skel D))
+               (den chkf dec encTy n t (thetaSk n) (skel D) (tokenEnv n))
+               (den chkf dec encTy n t (skels (thetaD n)) (skel D) (tokEnvD n))))))))
+  (exact (corollary51 chkf dec encTy hcs (conv_all chkf dec encTy hcs) n t D hd hb)))
+
+;; Theorem 4′, the size clause, for the denotation evalₙ returns.  At Θₙ an
+;; R term's value has at most n internal nodes (Theorem 3, footprint n, the
+;; all-token environment).  conv_all discharges ConvCase, as in
+;; corollary51_conv.  Combined with the equality at base skeletons, the
+;; runtime certificate evalₙ returns is that tree.
+(thm corollary51_nodes
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   hcs :- (CheckSpec chkf dec encTy),
+   n :- Nat, t :- Exp,
+   hd :- (Rt chkf (thetaD n) (thetaU n) t Exp.tR)]
+  (LE.le (cnodes (den chkf dec encTy n t (skels (thetaD n)) Sk.cert (tokEnvD n))) n)
+  (exact (theorem3 chkf dec encTy hcs (conv_all chkf dec encTy hcs) n
+           (thetaD n) (thetaU n) t hd
+           (wf_theta chkf n) (tokEnvD n) n (Nat.le_refl n)
+           (tok_sat chkf dec encTy n n))))
