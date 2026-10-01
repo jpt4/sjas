@@ -456,3 +456,15 @@
     (is (b/rejects? '[]
                     '(Eq Bool (nbr (subst1 (Exp.bcons Exp.tt Exp.bnil) (Exp.var 0))) Bool.true)
                     '[(rfl)]))))
+
+(deftest f3m-convcase-hd-skj
+  (testing "every head step preserves skeleton typing and nbr (Lemma 3.2)"
+    (doseq [c '[skj_iteT skj_iteF skj_elimT skj_elimF skj_recNZ skj_recNS skj_recSL
+                skj_prnL skj_prnN skj_boolExp skj_delta
+                skj_betaLet_at skj_betaLet_core skj_betaLet skj_recSN skj_itRL skj_itRN
+                skj_bcons_pick nbr_bcons_pick skj_nthB nbr_nthB skj_caseLb hd_skj]]
+      (is (b/has? c) (str c))))
+  (testing "nthB of a non-branch-list is not a branch"
+    (is (b/rejects? '[]
+                    '(Eq (Option Exp) (nthB Exp.tt 0) (Option.some Exp Exp.tt))
+                    '[(rfl)]))))
