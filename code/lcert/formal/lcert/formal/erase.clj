@@ -1059,7 +1059,7 @@
         (fn [v :- RV, p :- (Car (uskSk (USk.prod0 d c)))]
           (Exists (fn [a :- RV] (Exists (fn [b :- RV]
             (And (Eq RV v (RV.pair a b))
-                 (rc b (Prod.snd p))))))))
+                 (rc b (Prod.snd p)))))))))
       (fn [d :- USk, c :- USk, rd :- (=> RV (Car (uskSk d)) Prop), rc :- (=> RV (Car (uskSk c)) Prop)]
         (fn [v :- RV, p :- (Car (uskSk (USk.prodN d c)))]
           (Exists (fn [a :- RV] (Exists (fn [b :- RV]
@@ -1522,4 +1522,4 @@
   (intro i h)
   (cases i)
   (exact (nz_vscale_z r hr head tail h))
-  (exact (nz_vscale_s r hr head tail n (ih_tail n) h))))
+  (exact (nz_vscale_s r hr head tail n (ih_tail n) h)))
