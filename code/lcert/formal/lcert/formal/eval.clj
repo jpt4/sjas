@@ -1238,3 +1238,178 @@
            (eval_cast chkf dec encTy n rho c vc
              (RV.cert (den chkf dec encTy n c G Sk.cert eta)) he hr)))
   (rfl))
+
+;; A code leaf is the leaf of the label it denotes (Theorem 4).
+(thm adeq_sleaf
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), n :- Nat, G :- (List Sk), a :- Exp,
+   rho :- (List RV), eta :- (HEnv G),
+   ih :- (Exists (fn [va :- RV]
+           (And (Eval chkf dec encTy n rho a va)
+                (rel chkf dec encTy n Sk.lbl va (den chkf dec encTy n a G Sk.lbl eta)))))]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy n rho (Exp.sleaf a) v)
+         (rel chkf dec encTy n Sk.syn v (den chkf dec encTy n (Exp.sleaf a) G Sk.syn eta)))))
+  (rw [(den_sleaf_at chkf dec encTy n a G Sk.syn eta)])
+  (rw [(coe_self Sk.syn (Code.sl (den chkf dec encTy n a G Sk.lbl eta)))])
+  (refine' (exT RV _ _ ih _)) (intro va ha)
+  (have he (Eval chkf dec encTy n rho a va) (And.left ha))
+  (have hr (rel chkf dec encTy n Sk.lbl va (den chkf dec encTy n a G Sk.lbl eta)) (And.right ha))
+  (constructor) (exact (RV.code (Code.sl (den chkf dec encTy n a G Sk.lbl eta))))
+  (constructor)
+  (exact (Ev.eSleaf chkf dec encTy n rho a (den chkf dec encTy n a G Sk.lbl eta)
+           (eval_cast chkf dec encTy n rho a va
+             (RV.lbl (den chkf dec encTy n a G Sk.lbl eta)) he hr)))
+  (rfl))
+
+;; A certificate leaf is the same construction at the certificate skeleton.
+(thm adeq_leaf
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), n :- Nat, G :- (List Sk), a :- Exp,
+   rho :- (List RV), eta :- (HEnv G),
+   ih :- (Exists (fn [va :- RV]
+           (And (Eval chkf dec encTy n rho a va)
+                (rel chkf dec encTy n Sk.lbl va (den chkf dec encTy n a G Sk.lbl eta)))))]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy n rho (Exp.leaf a) v)
+         (rel chkf dec encTy n Sk.cert v (den chkf dec encTy n (Exp.leaf a) G Sk.cert eta)))))
+  (rw [(den_leaf_at chkf dec encTy n a G Sk.cert eta)])
+  (rw [(coe_self Sk.cert (Code.sl (den chkf dec encTy n a G Sk.lbl eta)))])
+  (refine' (exT RV _ _ ih _)) (intro va ha)
+  (have he (Eval chkf dec encTy n rho a va) (And.left ha))
+  (have hr (rel chkf dec encTy n Sk.lbl va (den chkf dec encTy n a G Sk.lbl eta)) (And.right ha))
+  (constructor) (exact (RV.cert (Code.sl (den chkf dec encTy n a G Sk.lbl eta))))
+  (constructor)
+  (exact (Ev.eLeaf chkf dec encTy n rho a (den chkf dec encTy n a G Sk.lbl eta)
+           (eval_cast chkf dec encTy n rho a va
+             (RV.lbl (den chkf dec encTy n a G Sk.lbl eta)) he hr)))
+  (rfl))
+
+;; A code node is the node of the label and the two codes (Theorem 4).
+(thm adeq_snode
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), n :- Nat, G :- (List Sk),
+   a :- Exp, c1 :- Exp, c2 :- Exp,
+   rho :- (List RV), eta :- (HEnv G),
+   iha :- (Exists (fn [va :- RV]
+            (And (Eval chkf dec encTy n rho a va)
+                 (rel chkf dec encTy n Sk.lbl va (den chkf dec encTy n a G Sk.lbl eta))))),
+   ih1 :- (Exists (fn [v1 :- RV]
+            (And (Eval chkf dec encTy n rho c1 v1)
+                 (rel chkf dec encTy n Sk.syn v1 (den chkf dec encTy n c1 G Sk.syn eta))))),
+   ih2 :- (Exists (fn [v2 :- RV]
+            (And (Eval chkf dec encTy n rho c2 v2)
+                 (rel chkf dec encTy n Sk.syn v2 (den chkf dec encTy n c2 G Sk.syn eta)))))]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy n rho (Exp.snode a c1 c2) v)
+         (rel chkf dec encTy n Sk.syn v (den chkf dec encTy n (Exp.snode a c1 c2) G Sk.syn eta)))))
+  (rw [(den_snode_at chkf dec encTy n a c1 c2 G Sk.syn eta)])
+  (rw [(coe_self Sk.syn (Code.sn (den chkf dec encTy n a G Sk.lbl eta)
+                           (den chkf dec encTy n c1 G Sk.syn eta)
+                           (den chkf dec encTy n c2 G Sk.syn eta)))])
+  (refine' (exT RV _ _ iha _)) (intro va ha)
+  (have hea (Eval chkf dec encTy n rho a va) (And.left ha))
+  (have hra (rel chkf dec encTy n Sk.lbl va (den chkf dec encTy n a G Sk.lbl eta)) (And.right ha))
+  (refine' (exT RV _ _ ih1 _)) (intro v1 h1)
+  (have he1 (Eval chkf dec encTy n rho c1 v1) (And.left h1))
+  (have hr1 (rel chkf dec encTy n Sk.syn v1 (den chkf dec encTy n c1 G Sk.syn eta)) (And.right h1))
+  (refine' (exT RV _ _ ih2 _)) (intro v2 h2)
+  (have he2 (Eval chkf dec encTy n rho c2 v2) (And.left h2))
+  (have hr2 (rel chkf dec encTy n Sk.syn v2 (den chkf dec encTy n c2 G Sk.syn eta)) (And.right h2))
+  (constructor)
+  (exact (RV.code (Code.sn (den chkf dec encTy n a G Sk.lbl eta)
+                    (den chkf dec encTy n c1 G Sk.syn eta)
+                    (den chkf dec encTy n c2 G Sk.syn eta))))
+  (constructor)
+  (exact (Ev.eSnode chkf dec encTy n rho a c1 c2
+           (den chkf dec encTy n a G Sk.lbl eta)
+           (den chkf dec encTy n c1 G Sk.syn eta)
+           (den chkf dec encTy n c2 G Sk.syn eta)
+           (eval_cast chkf dec encTy n rho a va (RV.lbl (den chkf dec encTy n a G Sk.lbl eta)) hea hra)
+           (eval_cast chkf dec encTy n rho c1 v1 (RV.code (den chkf dec encTy n c1 G Sk.syn eta)) he1 hr1)
+           (eval_cast chkf dec encTy n rho c2 v2 (RV.code (den chkf dec encTy n c2 G Sk.syn eta)) he2 hr2)))
+  (rfl))
+
+;; A certificate node evaluates its token and drops it.  The denoted code is
+;; built from the label and the two subtrees; the token does not appear.
+(thm adeq_node
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), n :- Nat, G :- (List Sk),
+   d :- Exp, a :- Exp, r1 :- Exp, r2 :- Exp,
+   rho :- (List RV), eta :- (HEnv G),
+   ihd :- (Exists (fn [vd :- RV] (Eval chkf dec encTy n rho d vd))),
+   iha :- (Exists (fn [va :- RV]
+            (And (Eval chkf dec encTy n rho a va)
+                 (rel chkf dec encTy n Sk.lbl va (den chkf dec encTy n a G Sk.lbl eta))))),
+   ih1 :- (Exists (fn [v1 :- RV]
+            (And (Eval chkf dec encTy n rho r1 v1)
+                 (rel chkf dec encTy n Sk.cert v1 (den chkf dec encTy n r1 G Sk.cert eta))))),
+   ih2 :- (Exists (fn [v2 :- RV]
+            (And (Eval chkf dec encTy n rho r2 v2)
+                 (rel chkf dec encTy n Sk.cert v2 (den chkf dec encTy n r2 G Sk.cert eta)))))]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy n rho (Exp.node d a r1 r2) v)
+         (rel chkf dec encTy n Sk.cert v (den chkf dec encTy n (Exp.node d a r1 r2) G Sk.cert eta)))))
+  (rw [(den_node_at chkf dec encTy n d a r1 r2 G Sk.cert eta)])
+  (rw [(coe_self Sk.cert (Code.sn (den chkf dec encTy n a G Sk.lbl eta)
+                            (den chkf dec encTy n r1 G Sk.cert eta)
+                            (den chkf dec encTy n r2 G Sk.cert eta)))])
+  (refine' (exT RV _ _ ihd _)) (intro vd hd)
+  (refine' (exT RV _ _ iha _)) (intro va ha)
+  (have hea (Eval chkf dec encTy n rho a va) (And.left ha))
+  (have hra (rel chkf dec encTy n Sk.lbl va (den chkf dec encTy n a G Sk.lbl eta)) (And.right ha))
+  (refine' (exT RV _ _ ih1 _)) (intro v1 h1)
+  (have he1 (Eval chkf dec encTy n rho r1 v1) (And.left h1))
+  (have hr1 (rel chkf dec encTy n Sk.cert v1 (den chkf dec encTy n r1 G Sk.cert eta)) (And.right h1))
+  (refine' (exT RV _ _ ih2 _)) (intro v2 h2)
+  (have he2 (Eval chkf dec encTy n rho r2 v2) (And.left h2))
+  (have hr2 (rel chkf dec encTy n Sk.cert v2 (den chkf dec encTy n r2 G Sk.cert eta)) (And.right h2))
+  (constructor)
+  (exact (RV.cert (Code.sn (den chkf dec encTy n a G Sk.lbl eta)
+                    (den chkf dec encTy n r1 G Sk.cert eta)
+                    (den chkf dec encTy n r2 G Sk.cert eta))))
+  (constructor)
+  (exact (Ev.eNode chkf dec encTy n rho d a r1 r2 vd
+           (den chkf dec encTy n a G Sk.lbl eta)
+           (den chkf dec encTy n r1 G Sk.cert eta)
+           (den chkf dec encTy n r2 G Sk.cert eta)
+           hd
+           (eval_cast chkf dec encTy n rho a va (RV.lbl (den chkf dec encTy n a G Sk.lbl eta)) hea hra)
+           (eval_cast chkf dec encTy n rho r1 v1 (RV.cert (den chkf dec encTy n r1 G Sk.cert eta)) he1 hr1)
+           (eval_cast chkf dec encTy n rho r2 v2 (RV.cert (den chkf dec encTy n r2 G Sk.cert eta)) he2 hr2)))
+  (rfl))
+
+;; caseLbl (Theorem 4) is application of the branch list to the label.
+(thm adeq_caseL
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), n :- Nat, G :- (List Sk),
+   P :- Exp, a :- Exp, bs :- Exp, s :- Sk,
+   rho :- (List RV), eta :- (HEnv G),
+   iha :- (Exists (fn [va :- RV]
+            (And (Eval chkf dec encTy n rho a va)
+                 (rel chkf dec encTy n Sk.lbl va (den chkf dec encTy n a G Sk.lbl eta))))),
+   ihb :- (Exists (fn [vf :- RV]
+            (And (Eval chkf dec encTy n rho bs vf)
+                 (rel chkf dec encTy n (Sk.arr Sk.lbl s) vf
+                   (den chkf dec encTy n bs G (Sk.arr Sk.lbl s) eta)))))]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy n rho (Exp.caseL P a bs) v)
+         (rel chkf dec encTy n s v (den chkf dec encTy n (Exp.caseL P a bs) G s eta)))))
+  (rw [(den_caseL_at chkf dec encTy n P a bs G s eta)])
+  (refine' (exT RV _ _ iha _)) (intro va ha)
+  (have hea (Eval chkf dec encTy n rho a va) (And.left ha))
+  (have hra (rel chkf dec encTy n Sk.lbl va (den chkf dec encTy n a G Sk.lbl eta)) (And.right ha))
+  (refine' (exT RV _ _ ihb _)) (intro vf hb)
+  (have heb (Eval chkf dec encTy n rho bs vf) (And.left hb))
+  (have hrb (rel chkf dec encTy n (Sk.arr Sk.lbl s) vf
+              (den chkf dec encTy n bs G (Sk.arr Sk.lbl s) eta)) (And.right hb))
+  (refine' (exT RV _ _ (hrb va (den chkf dec encTy n a G Sk.lbl eta) hra) _))
+  (intro w hw)
+  (have hap (Ev chkf dec encTy n (EvSrc.ap vf va) w) (And.left hw))
+  (have hrel (rel chkf dec encTy n s w
+               ((den chkf dec encTy n bs G (Sk.arr Sk.lbl s) eta)
+                (den chkf dec encTy n a G Sk.lbl eta))) (And.right hw))
+  (constructor) (exact w)
+  (constructor)
+  (exact (Ev.eCaseL chkf dec encTy n rho P a bs va vf w hea heb hap))
+  (exact hrel))
