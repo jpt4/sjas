@@ -50,8 +50,11 @@
   H₁ returns ⋆: its only SkJ skeleton is Unit.  abort and a failed reflect
   return rdflt of the skeleton of the type annotation (the annotation is not
   evaluated).  reflect, when the cap test and chkf succeed and dec returns
-  (m, t′, A), evaluates t′ at budget m in m tokens; the proof that m < n and
-  that t′ is the program ⟦·⟧ runs is CheckSpec, as in outer.clj."
+  (m, t′, A), evaluates t′ at budget m in m tokens.  adeq_refl_ok takes that
+  smaller evaluation as a hypothesis: CheckSpec gives an Rt judgment, not
+  argsOK of the decoded term, so the outer induction is not yet discharged.
+  The result skeleton has to be a base skeleton (baseSk), because rel at an
+  arrow mentions the budget and the decoded term is related at m."
   (:require [ansatz.core :as a]
             [lcert.formal.base :refer [thm kdef]]
             [lcert.formal.usage :refer :all]
@@ -2310,3 +2313,206 @@
         (constructor)
         (exact (Ev.eItR chkf dec encTy cap rho X g h r vg vh (den chkf dec encTy cap r G Sk.cert eta) v heg heh her hi))
         (exact hrel))
+
+;; A skeleton is a base skeleton when relatedness is an equality, so it does
+;; not depend on the budget.  Reflect evaluates the decoded term at m and
+;; relates the result at n; rel_budget moves the relation across that gap.
+(a/defn baseSk [s :- Sk] Bool
+  (match s
+    [unit Bool.true] [bool Bool.true] [nat Bool.true] [lbl Bool.true]
+    [syn Bool.true] [dia Bool.true] [cert Bool.true]
+    [(arr x y) Bool.false] [(prod x y) Bool.false]))
+
+
+;; At a base skeleton, rel n and rel m are the same equality.
+(thm rel_budget
+        [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+         encTy :- (=> Exp Code), n :- Nat, m :- Nat, s :- Sk]
+        (=> (Eq Bool (baseSk s) Bool.true)
+          (forall [v RV] (forall [a (Car s)]
+            (Iff (rel chkf dec encTy n s v a) (rel chkf dec encTy m s v a)))))
+        (induction s)
+        (intro hb) (intro v) (intro a) (constructor) (intro h) (exact h) (intro h) (exact h)
+        (intro hb) (intro v) (intro a) (constructor) (intro h) (exact h) (intro h) (exact h)
+        (intro hb) (intro v) (intro a) (constructor) (intro h) (exact h) (intro h) (exact h)
+        (intro hb) (intro v) (intro a) (constructor) (intro h) (exact h) (intro h) (exact h)
+        (intro hb) (intro v) (intro a) (constructor) (intro h) (exact h) (intro h) (exact h)
+        (intro hb) (intro v) (intro a) (constructor) (intro h) (exact h) (intro h) (exact h)
+        (intro hb) (intro v) (intro a) (constructor) (intro h) (exact h) (intro h) (exact h)
+        (intro hb) (intro v) (intro a) (exact (Bool.noConfusion hb))
+        (intro hb) (intro v) (intro a) (exact (Bool.noConfusion hb)))
+
+;; reflect denotes the default when the cap test or chkf fails.
+(thm den_refl_false
+        [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+         encTy :- (=> Exp Code), n :- Nat,
+         D :- Exp, r :- Exp, e :- Exp, G :- (List Sk), eta :- (HEnv G),
+         hb :- (Eq Bool (Bool.and (Nat.ble (cnodes (den chkf dec encTy n r G Sk.cert eta)) n)
+                           (chkf (den chkf dec encTy n r G Sk.cert eta) (encTy D))) Bool.false)]
+        (Eq (Car (skel D)) (den chkf dec encTy n (Exp.refl D r e) G (skel D) eta) (dflt (skel D)))
+        (rw [(den_refl_at chkf dec encTy n D r e G (skel D) eta)])
+        (change (Eq (Car (skel D))
+          (Bool.rec$1 (fn [_ :- Bool] (Car (skel D))) (dflt (skel D))
+            (Option.rec$1$0 (Prod Nat (Prod Exp Exp)) (fn [_ :- (Option (Prod Nat (Prod Exp Exp)))] (Car (skel D)))
+              (dflt (skel D))
+              (fn [tr :- (Prod Nat (Prod Exp Exp))]
+                (coe (skel D) (skel D)
+                  (denPrev chkf dec encTy n (Prod.fst tr) (Prod.fst (Prod.snd tr))
+                    (thetaSk (Prod.fst tr)) (skel D) (tokenEnv (Prod.fst tr)))))
+              (dec (den chkf dec encTy n r G Sk.cert eta)))
+            (Bool.and (Nat.ble (cnodes (den chkf dec encTy n r G Sk.cert eta)) n)
+              (chkf (den chkf dec encTy n r G Sk.cert eta) (encTy D))))
+          (dflt (skel D))))
+        (rw [hb]))
+
+;; reflect denotes the default when the code does not decode.
+(thm den_refl_none
+        [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+         encTy :- (=> Exp Code), n :- Nat,
+         D :- Exp, r :- Exp, e :- Exp, G :- (List Sk), eta :- (HEnv G),
+         hc :- (Eq Bool (Bool.and (Nat.ble (cnodes (den chkf dec encTy n r G Sk.cert eta)) n)
+                           (chkf (den chkf dec encTy n r G Sk.cert eta) (encTy D))) Bool.true),
+         hd :- (Eq (Option (Prod Nat (Prod Exp Exp))) (dec (den chkf dec encTy n r G Sk.cert eta))
+                 (Option.none (Prod Nat (Prod Exp Exp))))]
+        (Eq (Car (skel D)) (den chkf dec encTy n (Exp.refl D r e) G (skel D) eta) (dflt (skel D)))
+        (rw [(den_refl_at chkf dec encTy n D r e G (skel D) eta)])
+        (change (Eq (Car (skel D))
+          (Bool.rec$1 (fn [_ :- Bool] (Car (skel D))) (dflt (skel D))
+            (Option.rec$1$0 (Prod Nat (Prod Exp Exp)) (fn [_ :- (Option (Prod Nat (Prod Exp Exp)))] (Car (skel D)))
+              (dflt (skel D))
+              (fn [tr :- (Prod Nat (Prod Exp Exp))]
+                (coe (skel D) (skel D)
+                  (denPrev chkf dec encTy n (Prod.fst tr) (Prod.fst (Prod.snd tr))
+                    (thetaSk (Prod.fst tr)) (skel D) (tokenEnv (Prod.fst tr)))))
+              (dec (den chkf dec encTy n r G Sk.cert eta)))
+            (Bool.and (Nat.ble (cnodes (den chkf dec encTy n r G Sk.cert eta)) n)
+              (chkf (den chkf dec encTy n r G Sk.cert eta) (encTy D))))
+          (dflt (skel D))))
+        (rw [hc hd]))
+
+;; reflect denotes the decoded term at budget m, once m < n
+;; (denPrev_stable) and the result skeleton is the skeleton of D.
+(thm den_refl_ok_eq
+        [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+         encTy :- (=> Exp Code), n :- Nat, G :- (List Sk),
+         D :- Exp, r :- Exp, e :- Exp, eta :- (HEnv G),
+         m :- Nat, t2 :- Exp, A :- Exp,
+         hc :- (Eq Bool (Bool.and (Nat.ble (cnodes (den chkf dec encTy n r G Sk.cert eta)) n)
+                           (chkf (den chkf dec encTy n r G Sk.cert eta) (encTy D))) Bool.true),
+         hd :- (Eq (Option (Prod Nat (Prod Exp Exp))) (dec (den chkf dec encTy n r G Sk.cert eta))
+                 (Option.some (Prod Nat (Prod Exp Exp)) (Prod.mk m (Prod.mk t2 A)))),
+         hlt :- (LT.lt m n)]
+        (Eq (Car (skel D)) (den chkf dec encTy n (Exp.refl D r e) G (skel D) eta)
+          (den chkf dec encTy m t2 (thetaSk m) (skel D) (tokenEnv m)))
+        (rw [(den_refl_some chkf dec encTy n D r e G (skel D) eta m t2 A hc hd)])
+        (rw [(coe_self (skel D) (denPrev chkf dec encTy n m t2 (thetaSk m) (skel D) (tokenEnv m)))])
+        (rw [(congrArg (fn [f :- DenBody] (f (thetaSk m) (skel D) (tokenEnv m)))
+                       (denPrev_stable chkf dec encTy n m t2 hlt))]))
+
+;; reflect (Theorem 4), the failing check.  Both arguments are
+;; evaluated; the value is the default, which rdflt_rel relates.
+(thm adeq_refl_no
+        [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+         encTy :- (=> Exp Code), n :- Nat, G :- (List Sk),
+         D :- Exp, r :- Exp, e :- Exp,
+         rho :- (List RV), eta :- (HEnv G),
+         ihr :- (Exists (fn [vr :- RV]
+                  (And (Eval chkf dec encTy n rho r vr)
+                       (rel chkf dec encTy n Sk.cert vr (den chkf dec encTy n r G Sk.cert eta))))),
+         ihe :- (Exists (fn [ve :- RV] (Eval chkf dec encTy n rho e ve))),
+         hb :- (Eq Bool (Bool.and (Nat.ble (cnodes (den chkf dec encTy n r G Sk.cert eta)) n)
+                           (chkf (den chkf dec encTy n r G Sk.cert eta) (encTy D))) Bool.false)]
+        (Exists (fn [v :- RV]
+          (And (Eval chkf dec encTy n rho (Exp.refl D r e) v)
+               (rel chkf dec encTy n (skel D) v (den chkf dec encTy n (Exp.refl D r e) G (skel D) eta)))))
+        (rw [(den_refl_false chkf dec encTy n D r e G eta hb)])
+        (refine' (exT RV _ _ ihr _)) (intro vr hr)
+        (have her0 (Eval chkf dec encTy n rho r vr) (And.left hr))
+        (have hrr (rel chkf dec encTy n Sk.cert vr (den chkf dec encTy n r G Sk.cert eta)) (And.right hr))
+        (have her (Eval chkf dec encTy n rho r (RV.cert (den chkf dec encTy n r G Sk.cert eta)))
+          (eval_cast chkf dec encTy n rho r vr (RV.cert (den chkf dec encTy n r G Sk.cert eta)) her0 hrr))
+        (refine' (exT RV _ _ ihe _)) (intro ve he)
+        (constructor) (exact (rdflt (skel D)))
+        (constructor)
+        (exact (Ev.eReflNo chkf dec encTy n rho D r e (den chkf dec encTy n r G Sk.cert eta) ve her he hb))
+        (exact (rdflt_rel chkf dec encTy n (skel D))))
+
+;; reflect (Theorem 4), decoding returns none.  Same default.
+(thm adeq_refl_none
+        [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+         encTy :- (=> Exp Code), n :- Nat, G :- (List Sk),
+         D :- Exp, r :- Exp, e :- Exp,
+         rho :- (List RV), eta :- (HEnv G),
+         ihr :- (Exists (fn [vr :- RV]
+                  (And (Eval chkf dec encTy n rho r vr)
+                       (rel chkf dec encTy n Sk.cert vr (den chkf dec encTy n r G Sk.cert eta))))),
+         ihe :- (Exists (fn [ve :- RV] (Eval chkf dec encTy n rho e ve))),
+         hc :- (Eq Bool (Bool.and (Nat.ble (cnodes (den chkf dec encTy n r G Sk.cert eta)) n)
+                           (chkf (den chkf dec encTy n r G Sk.cert eta) (encTy D))) Bool.true),
+         hd :- (Eq (Option (Prod Nat (Prod Exp Exp))) (dec (den chkf dec encTy n r G Sk.cert eta))
+                 (Option.none (Prod Nat (Prod Exp Exp))))]
+        (Exists (fn [v :- RV]
+          (And (Eval chkf dec encTy n rho (Exp.refl D r e) v)
+               (rel chkf dec encTy n (skel D) v (den chkf dec encTy n (Exp.refl D r e) G (skel D) eta)))))
+        (rw [(den_refl_none chkf dec encTy n D r e G eta hc hd)])
+        (refine' (exT RV _ _ ihr _)) (intro vr hr)
+        (have her0 (Eval chkf dec encTy n rho r vr) (And.left hr))
+        (have hrr (rel chkf dec encTy n Sk.cert vr (den chkf dec encTy n r G Sk.cert eta)) (And.right hr))
+        (have her (Eval chkf dec encTy n rho r (RV.cert (den chkf dec encTy n r G Sk.cert eta)))
+          (eval_cast chkf dec encTy n rho r vr (RV.cert (den chkf dec encTy n r G Sk.cert eta)) her0 hrr))
+        (refine' (exT RV _ _ ihe _)) (intro ve he)
+        (constructor) (exact (rdflt (skel D)))
+        (constructor)
+        (exact (Ev.eReflNone chkf dec encTy n rho D r e (den chkf dec encTy n r G Sk.cert eta) ve her he hc hd))
+        (exact (rdflt_rel chkf dec encTy n (skel D))))
+
+;; reflect (Theorem 4), the success case.  The decoded term is
+;; assumed evaluated and related at budget m (the outer induction,
+;; not yet assembled: CheckSpec gives an Rt judgment, and argsOK of
+;; that term is not part of CheckSpec).  The result skeleton must be
+;; a base skeleton, so the relation does not depend on the budget.
+(thm adeq_refl_ok
+        [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+         encTy :- (=> Exp Code), n :- Nat, G :- (List Sk),
+         D :- Exp, r :- Exp, e :- Exp,
+         rho :- (List RV), eta :- (HEnv G),
+         m :- Nat, t2 :- Exp, A :- Exp,
+         hbase :- (Eq Bool (baseSk (skel D)) Bool.true),
+         ihr :- (Exists (fn [vr :- RV]
+                  (And (Eval chkf dec encTy n rho r vr)
+                       (rel chkf dec encTy n Sk.cert vr (den chkf dec encTy n r G Sk.cert eta))))),
+         ihe :- (Exists (fn [ve :- RV] (Eval chkf dec encTy n rho e ve))),
+         hc :- (Eq Bool (Bool.and (Nat.ble (cnodes (den chkf dec encTy n r G Sk.cert eta)) n)
+                           (chkf (den chkf dec encTy n r G Sk.cert eta) (encTy D))) Bool.true),
+         hd :- (Eq (Option (Prod Nat (Prod Exp Exp))) (dec (den chkf dec encTy n r G Sk.cert eta))
+                 (Option.some (Prod Nat (Prod Exp Exp)) (Prod.mk m (Prod.mk t2 A)))),
+         hlt :- (LT.lt m n),
+         ih :- (Exists (fn [w :- RV]
+                 (And (Eval chkf dec encTy m (rtokens m) t2 w)
+                      (rel chkf dec encTy m (skel D) w
+                        (den chkf dec encTy m t2 (thetaSk m) (skel D) (tokenEnv m))))))]
+        (Exists (fn [v :- RV]
+          (And (Eval chkf dec encTy n rho (Exp.refl D r e) v)
+               (rel chkf dec encTy n (skel D) v (den chkf dec encTy n (Exp.refl D r e) G (skel D) eta)))))
+        (rw [(den_refl_ok_eq chkf dec encTy n G D r e eta m t2 A hc hd hlt)])
+        (refine' (exT RV _ _ ihr _)) (intro vr hr)
+        (have her0 (Eval chkf dec encTy n rho r vr) (And.left hr))
+        (have hrr (rel chkf dec encTy n Sk.cert vr (den chkf dec encTy n r G Sk.cert eta)) (And.right hr))
+        (have her (Eval chkf dec encTy n rho r (RV.cert (den chkf dec encTy n r G Sk.cert eta)))
+          (eval_cast chkf dec encTy n rho r vr (RV.cert (den chkf dec encTy n r G Sk.cert eta)) her0 hrr))
+        (refine' (exT RV _ _ ihe _)) (intro ve he)
+        (refine' (exT RV _ _ ih _)) (intro w hw)
+        (have het (Eval chkf dec encTy m (rtokens m) t2 w) (And.left hw))
+        (have hrel (rel chkf dec encTy m (skel D) w
+                     (den chkf dec encTy m t2 (thetaSk m) (skel D) (tokenEnv m))) (And.right hw))
+        (have hiff (Iff (rel chkf dec encTy n (skel D) w
+                         (den chkf dec encTy m t2 (thetaSk m) (skel D) (tokenEnv m)))
+                       (rel chkf dec encTy m (skel D) w
+                         (den chkf dec encTy m t2 (thetaSk m) (skel D) (tokenEnv m))))
+          (rel_budget chkf dec encTy n m (skel D) hbase w
+            (den chkf dec encTy m t2 (thetaSk m) (skel D) (tokenEnv m))))
+        (constructor) (exact w)
+        (constructor)
+        (exact (Ev.eReflOk chkf dec encTy n rho D r e (den chkf dec encTy n r G Sk.cert eta)
+                 m t2 A ve w her he hc hd het))
+        (exact (Iff.mpr hiff hrel)))
