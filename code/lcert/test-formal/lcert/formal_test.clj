@@ -410,7 +410,9 @@
                 adeq_succ adeq_var envRel_cons arrCase_arr adeq_lam adeq_app
                 adeq_ite adeq_ite_den prodCase_prod adeq_pair adeq_chk
                 adeq_bnil adeq_elim adeq_elim_den adeq_prn
-                adeq_sleaf adeq_leaf adeq_snode adeq_node adeq_caseL]]
+                adeq_sleaf adeq_leaf adeq_snode adeq_node adeq_caseL
+                bcons_apply_zero bcons_apply_succ adeq_bcons
+                adeq_insp_pick adeq_insp]]
       (is (b/has? c) (str c))))
   (testing "tt does not evaluate to ff: the true-constructor is the wrong value"
     (is (b/rejects? '[chkf :- (=> Code Code Bool),

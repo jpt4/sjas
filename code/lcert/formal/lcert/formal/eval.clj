@@ -1413,3 +1413,209 @@
   (constructor)
   (exact (Ev.eCaseL chkf dec encTy n rho P a bs va vf w hea heb hap))
   (exact hrel))
+
+;; A cons branch list at label 0 is the head (bcons_zero).  The argument is
+;; related at Lbl, so it is that label; the application is transported from
+;; the literal 0 that apBconsZ uses.
+(thm bcons_apply_zero
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+   h :- Exp, t :- Exp, s :- Sk,
+   rho :- (List RV), eta :- (HEnv G),
+   vh :- RV, vt :- RV, arg :- RV,
+   hrh :- (rel chkf dec encTy cap s vh (den chkf dec encTy cap h G s eta)),
+   harg :- (rel chkf dec encTy cap Sk.lbl arg 0)]
+  (Exists (fn [w :- RV]
+    (And (Ev chkf dec encTy cap (EvSrc.ap (RV.bcons vh vt) arg) w)
+         (rel chkf dec encTy cap s w
+           ((den chkf dec encTy cap (Exp.bcons h t) G (Sk.arr Sk.lbl s) eta) 0)))))
+  (constructor) (exact vh)
+  (constructor)
+  (exact (Eq.mp (congrArg (fn [a :- RV] (Ev chkf dec encTy cap (EvSrc.ap (RV.bcons vh vt) a) vh)) (Eq.symm harg))
+                (Ev.apBconsZ chkf dec encTy cap vh vt)))
+  (rw [(bcons_zero chkf dec encTy cap h t G s eta)])
+  (exact hrh))
+
+;; At label k + 1 the tail is applied to k (bcons_succ, apBconsS).
+(thm bcons_apply_succ
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+   h :- Exp, t :- Exp, s :- Sk,
+   rho :- (List RV), eta :- (HEnv G),
+   vh :- RV, vt :- RV, arg :- RV, k :- Nat,
+   hrt :- (rel chkf dec encTy cap (Sk.arr Sk.lbl s) vt
+            (den chkf dec encTy cap t G (Sk.arr Sk.lbl s) eta)),
+   harg :- (rel chkf dec encTy cap Sk.lbl arg (Nat.succ k))]
+  (Exists (fn [w :- RV]
+    (And (Ev chkf dec encTy cap (EvSrc.ap (RV.bcons vh vt) arg) w)
+         (rel chkf dec encTy cap s w
+           ((den chkf dec encTy cap (Exp.bcons h t) G (Sk.arr Sk.lbl s) eta) (Nat.succ k))))))
+  (refine' (exT RV _ _ (hrt (RV.lbl k) k rfl) _))
+  (intro w hw)
+  (have hap (Ev chkf dec encTy cap (EvSrc.ap vt (RV.lbl k)) w) (And.left hw))
+  (have hrel (rel chkf dec encTy cap s w
+               ((den chkf dec encTy cap t G (Sk.arr Sk.lbl s) eta) k)) (And.right hw))
+  (constructor) (exact w)
+  (constructor)
+  (exact (Eq.mp (congrArg (fn [a :- RV] (Ev chkf dec encTy cap (EvSrc.ap (RV.bcons vh vt) a) w)) (Eq.symm harg))
+                (Ev.apBconsS chkf dec encTy cap vh vt k w hap)))
+  (rw [(bcons_succ chkf dec encTy cap h t G s eta k)])
+  (exact hrel))
+
+;; bcons (Theorem 4).  The value is the spine of the two values.  cases on
+;; the label comes before the relatedness hypothesis is introduced, so the
+;; hypothesis sees 0 or succ k rather than an unreduced variable.
+(thm adeq_bcons
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+   h :- Exp, t :- Exp, s :- Sk,
+   rho :- (List RV), eta :- (HEnv G),
+   ihh :- (Exists (fn [vh :- RV]
+            (And (Eval chkf dec encTy cap rho h vh)
+                 (rel chkf dec encTy cap s vh (den chkf dec encTy cap h G s eta))))),
+   iht :- (Exists (fn [vt :- RV]
+            (And (Eval chkf dec encTy cap rho t vt)
+                 (rel chkf dec encTy cap (Sk.arr Sk.lbl s) vt
+                   (den chkf dec encTy cap t G (Sk.arr Sk.lbl s) eta)))))]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy cap rho (Exp.bcons h t) v)
+         (rel chkf dec encTy cap (Sk.arr Sk.lbl s) v
+           (den chkf dec encTy cap (Exp.bcons h t) G (Sk.arr Sk.lbl s) eta)))))
+  (refine' (exT RV _ _ ihh _)) (intro vh hh)
+  (have heh (Eval chkf dec encTy cap rho h vh) (And.left hh))
+  (have hrh (rel chkf dec encTy cap s vh (den chkf dec encTy cap h G s eta)) (And.right hh))
+  (refine' (exT RV _ _ iht _)) (intro vt ht)
+  (have het (Eval chkf dec encTy cap rho t vt) (And.left ht))
+  (have hrt (rel chkf dec encTy cap (Sk.arr Sk.lbl s) vt
+              (den chkf dec encTy cap t G (Sk.arr Sk.lbl s) eta)) (And.right ht))
+  (constructor) (exact (RV.bcons vh vt))
+  (constructor)
+  (exact (Ev.eBcons chkf dec encTy cap rho h t vh vt heh het))
+  (intro arg) (intro alpha) (cases alpha)
+  (intro harg)
+  (exact (bcons_apply_zero chkf dec encTy cap G h t s rho eta vh vt arg hrh harg))
+  (intro harg)
+  (exact (bcons_apply_succ chkf dec encTy cap G h t s rho eta vh vt arg n hrt harg)))
+
+;; inspect (Theorem 4).  chkf of the certificate and the code selects the
+;; branch.  Both branches run in the environment (⋆, certificate, ρ), which
+;; is related once the certificate denotes the code it evaluates to.  The
+;; split is adeq_insp_pick: cases on the Boolean comes before the equality
+;; hypothesis, so eInspT sees tt and eInspF sees ff.
+(thm adeq_insp_pick
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), n :- Nat, G :- (List Sk),
+   X :- Exp, r :- Exp, c :- Exp, t1 :- Exp, t2 :- Exp, s :- Sk,
+   rho :- (List RV), eta :- (HEnv G),
+   cr :- Code, cd :- Code,
+   her :- (Eval chkf dec encTy n rho r (RV.cert cr)),
+   hec :- (Eval chkf dec encTy n rho c (RV.code cd)),
+   w1 :- RV,
+   he1 :- (Eval chkf dec encTy n (List.cons RV RV.star (List.cons RV (RV.cert cr) rho)) t1 w1),
+   hr1 :- (rel chkf dec encTy n s w1
+            (den chkf dec encTy n t1 (List.cons Sk Sk.unit (List.cons Sk Sk.cert G)) s
+              (Prod.mk Unit.unit (Prod.mk cr eta)))),
+   w2 :- RV,
+   he2 :- (Eval chkf dec encTy n (List.cons RV RV.star (List.cons RV (RV.cert cr) rho)) t2 w2),
+   hr2 :- (rel chkf dec encTy n s w2
+            (den chkf dec encTy n t2 (List.cons Sk Sk.unit (List.cons Sk Sk.cert G)) s
+              (Prod.mk Unit.unit (Prod.mk cr eta)))),
+   b :- Bool]
+  (forall [_u Unit]
+    (=> (Eq Bool (chkf cr cd) b)
+      (Exists (fn [v :- RV]
+        (And (Eval chkf dec encTy n rho (Exp.insp X r c t1 t2) v)
+             (rel chkf dec encTy n s v
+               (Bool.rec$1 (fn [_ :- Bool] (Car s))
+                 (den chkf dec encTy n t2 (List.cons Sk Sk.unit (List.cons Sk Sk.cert G)) s
+                   (Prod.mk Unit.unit (Prod.mk cr eta)))
+                 (den chkf dec encTy n t1 (List.cons Sk Sk.unit (List.cons Sk Sk.cert G)) s
+                   (Prod.mk Unit.unit (Prod.mk cr eta)))
+                 b)))))))
+  (cases b)
+  (intro u hb)
+  (constructor) (exact w2)
+  (constructor)
+  (exact (Ev.eInspF chkf dec encTy n rho X r c t1 t2 cr cd w2 her hec hb he2))
+  (exact hr2)
+  (intro u hb)
+  (constructor) (exact w1)
+  (constructor)
+  (exact (Ev.eInspT chkf dec encTy n rho X r c t1 t2 cr cd w1 her hec hb he1))
+  (exact hr1))
+
+(thm adeq_insp
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), n :- Nat, G :- (List Sk),
+   X :- Exp, r :- Exp, c :- Exp, t1 :- Exp, t2 :- Exp, s :- Sk,
+   rho :- (List RV), eta :- (HEnv G),
+   hr0 :- (envRel chkf dec encTy n G rho eta),
+   ihr :- (Exists (fn [vr :- RV]
+            (And (Eval chkf dec encTy n rho r vr)
+                 (rel chkf dec encTy n Sk.cert vr (den chkf dec encTy n r G Sk.cert eta))))),
+   ihc :- (Exists (fn [vc :- RV]
+            (And (Eval chkf dec encTy n rho c vc)
+                 (rel chkf dec encTy n Sk.syn vc (den chkf dec encTy n c G Sk.syn eta))))),
+   ih1 :- (forall [rho2 (List RV)]
+            (forall [eta2 (HEnv (List.cons Sk Sk.unit (List.cons Sk Sk.cert G)))]
+              (=> (envRel chkf dec encTy n (List.cons Sk Sk.unit (List.cons Sk Sk.cert G)) rho2 eta2)
+                (Exists (fn [w :- RV]
+                  (And (Eval chkf dec encTy n rho2 t1 w)
+                       (rel chkf dec encTy n s w
+                         (den chkf dec encTy n t1 (List.cons Sk Sk.unit (List.cons Sk Sk.cert G)) s eta2)))))))),
+   ih2 :- (forall [rho2 (List RV)]
+            (forall [eta2 (HEnv (List.cons Sk Sk.unit (List.cons Sk Sk.cert G)))]
+              (=> (envRel chkf dec encTy n (List.cons Sk Sk.unit (List.cons Sk Sk.cert G)) rho2 eta2)
+                (Exists (fn [w :- RV]
+                  (And (Eval chkf dec encTy n rho2 t2 w)
+                       (rel chkf dec encTy n s w
+                         (den chkf dec encTy n t2 (List.cons Sk Sk.unit (List.cons Sk Sk.cert G)) s eta2))))))))]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy n rho (Exp.insp X r c t1 t2) v)
+         (rel chkf dec encTy n s v (den chkf dec encTy n (Exp.insp X r c t1 t2) G s eta)))))
+  (rw [(den_insp_at chkf dec encTy n X r c t1 t2 G s eta)])
+  (refine' (exT RV _ _ ihr _)) (intro vr hr)
+  (have her0 (Eval chkf dec encTy n rho r vr) (And.left hr))
+  (have hrr (rel chkf dec encTy n Sk.cert vr (den chkf dec encTy n r G Sk.cert eta)) (And.right hr))
+  (have her (Eval chkf dec encTy n rho r (RV.cert (den chkf dec encTy n r G Sk.cert eta)))
+    (eval_cast chkf dec encTy n rho r vr (RV.cert (den chkf dec encTy n r G Sk.cert eta)) her0 hrr))
+  (refine' (exT RV _ _ ihc _)) (intro vc hc)
+  (have hec0 (Eval chkf dec encTy n rho c vc) (And.left hc))
+  (have hrc (rel chkf dec encTy n Sk.syn vc (den chkf dec encTy n c G Sk.syn eta)) (And.right hc))
+  (have hec (Eval chkf dec encTy n rho c (RV.code (den chkf dec encTy n c G Sk.syn eta)))
+    (eval_cast chkf dec encTy n rho c vc (RV.code (den chkf dec encTy n c G Sk.syn eta)) hec0 hrc))
+  (have hmid (envRel chkf dec encTy n (List.cons Sk Sk.cert G)
+               (List.cons RV (RV.cert (den chkf dec encTy n r G Sk.cert eta)) rho)
+               (Prod.mk (den chkf dec encTy n r G Sk.cert eta) eta))
+    (envRel_cons chkf dec encTy n Sk.cert G
+      (RV.cert (den chkf dec encTy n r G Sk.cert eta)) rho
+      (den chkf dec encTy n r G Sk.cert eta) eta rfl hr0))
+  (have henv (envRel chkf dec encTy n (List.cons Sk Sk.unit (List.cons Sk Sk.cert G))
+               (List.cons RV RV.star (List.cons RV (RV.cert (den chkf dec encTy n r G Sk.cert eta)) rho))
+               (Prod.mk Unit.unit (Prod.mk (den chkf dec encTy n r G Sk.cert eta) eta)))
+    (envRel_cons chkf dec encTy n Sk.unit (List.cons Sk Sk.cert G)
+      RV.star (List.cons RV (RV.cert (den chkf dec encTy n r G Sk.cert eta)) rho)
+      Unit.unit (Prod.mk (den chkf dec encTy n r G Sk.cert eta) eta)
+      (rel_unit_rfl chkf dec encTy n) hmid))
+  (refine' (exT RV _ _
+    (ih1 (List.cons RV RV.star (List.cons RV (RV.cert (den chkf dec encTy n r G Sk.cert eta)) rho))
+         (Prod.mk Unit.unit (Prod.mk (den chkf dec encTy n r G Sk.cert eta) eta)) henv) _))
+  (intro w1 h1)
+  (have he1 (Eval chkf dec encTy n (List.cons RV RV.star (List.cons RV (RV.cert (den chkf dec encTy n r G Sk.cert eta)) rho)) t1 w1) (And.left h1))
+  (have hr1 (rel chkf dec encTy n s w1
+              (den chkf dec encTy n t1 (List.cons Sk Sk.unit (List.cons Sk Sk.cert G)) s
+                (Prod.mk Unit.unit (Prod.mk (den chkf dec encTy n r G Sk.cert eta) eta)))) (And.right h1))
+  (refine' (exT RV _ _
+    (ih2 (List.cons RV RV.star (List.cons RV (RV.cert (den chkf dec encTy n r G Sk.cert eta)) rho))
+         (Prod.mk Unit.unit (Prod.mk (den chkf dec encTy n r G Sk.cert eta) eta)) henv) _))
+  (intro w2 h2)
+  (have he2 (Eval chkf dec encTy n (List.cons RV RV.star (List.cons RV (RV.cert (den chkf dec encTy n r G Sk.cert eta)) rho)) t2 w2) (And.left h2))
+  (have hr2 (rel chkf dec encTy n s w2
+              (den chkf dec encTy n t2 (List.cons Sk Sk.unit (List.cons Sk Sk.cert G)) s
+                (Prod.mk Unit.unit (Prod.mk (den chkf dec encTy n r G Sk.cert eta) eta)))) (And.right h2))
+  (exact (adeq_insp_pick chkf dec encTy n G X r c t1 t2 s rho eta
+           (den chkf dec encTy n r G Sk.cert eta)
+           (den chkf dec encTy n c G Sk.syn eta)
+           her hec w1 he1 hr1 w2 he2 hr2
+           (chkf (den chkf dec encTy n r G Sk.cert eta) (den chkf dec encTy n c G Sk.syn eta))
+           Unit.unit rfl)))
