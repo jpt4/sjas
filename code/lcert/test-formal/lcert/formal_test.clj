@@ -629,3 +629,17 @@
     (is (b/rejects? '[]
                     '(Eq Bool (isBaseTy Exp.tR) Bool.false)
                     '[(rfl)]))))
+(require 'lcert.formal.erase)
+(deftest f5-erase
+  (testing "erasure, the erasing evaluator, and the trace root"
+    (doseq [c '[bad_abort bad_h1 bad_H bad_refl_unit bad_star
+                isH_empty isH_unit
+                usk_empty usk_unit usk_bool usk_t usk_pi0 usk_pi1 usk_sig0 usk_brs
+                ebase_unit eve_star ok_star
+                er_app0_shape er_pair0_shape er_total]]
+      (is (b/has? c) (str c))))
+  (testing "⋆ is not an abort, and a Π₀ type is not the runtime arrow"
+    (is (b/rejects? '[] '(Eq Bool (badNode Exp.star) Bool.true) '[(rfl)]))
+    (is (b/rejects? '[X :- Exp, Y :- Exp]
+                    '(Eq USk (usk (Exp.tPi U.u0 X Y)) (USk.arrN (usk X) (usk Y)))
+                    '[(rfl)]))))
