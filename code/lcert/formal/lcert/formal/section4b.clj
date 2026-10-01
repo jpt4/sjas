@@ -783,7 +783,9 @@
 ;; empty path, getP and setP are the identity: getP_nil and setP_nil from
 ;; conversion.clj.  The kernel has one global constant environment, so
 ;; those equations are not restated here.  One-child steps are packed from
-;; the child and setKid equations.
+;; the child and setKid equations (step_child, step_child0).  The name
+;; step_pack is convcase.clj's path induction for Lemma 3.2; prove! there
+;; skips a constant that already exists, so this file must not take it.
 (thm child_tT [b :- Exp] (Eq (Option Exp) (child (Exp.tT b) 0) (Option.some Exp b)) (rfl))
 
 (thm set_tT [b :- Exp, x :- Exp] (Eq Exp (setKid (Exp.tT b) 0 x) (Exp.tT x)) (rfl))
@@ -833,7 +835,7 @@
   (Step chkf e e3)
   (subst eq) (exact hs))
 
-(thm step_pack [chkf :- (=> Code Code Bool), i :- Nat, E :- Exp, C :- Exp, C2 :- Exp,
+(thm step_child [chkf :- (=> Code Code Bool), i :- Nat, E :- Exp, C :- Exp, C2 :- Exp,
                      hch :- (Eq (Option Exp) (child E i) (Option.some Exp C)),
                      p :- (List Nat), r :- Exp, r2 :- Exp,
                      h3 :- (And (Eq (Option Exp) (getP p C) (Option.some Exp r)) (And (Hd chkf r r2) (Eq Exp C2 (setP p C r2))))]
@@ -847,7 +849,7 @@
              (Eq.trans (congrArg (fn [t :- Exp] (setKid E i t)) (And.right (And.right h3)))
                        (Eq.symm (setP_some i p E C r2 hch)))))))
 
-(thm step_pack0 [chkf :- (=> Code Code Bool), E :- Exp, C :- Exp, C2 :- Exp,
+(thm step_child0 [chkf :- (=> Code Code Bool), E :- Exp, C :- Exp, C2 :- Exp,
                       hch :- (Eq (Option Exp) (child E 0) (Option.some Exp C)),
                       p :- (List Nat), r :- Exp, r2 :- Exp,
                       h3 :- (And (Eq (Option Exp) (getP p C) (Option.some Exp r)) (And (Hd chkf r r2) (Eq Exp C2 (setP p C r2))))]
@@ -887,7 +889,7 @@
             hr
             (fn [r2 :- Exp,
                  h3 :- (And (Eq (Option Exp) (getP p C) (Option.some Exp r)) (And (Hd chkf r r2) (Eq Exp C2 (setP p C r2))))]
-              (step_pack0 chkf E C C2 hch p r r2 h3)))))))))
+              (step_child0 chkf E C C2 hch p r r2 h3)))))))))
 
 (thm step_at [chkf :- (=> Code Code Bool), i :- Nat, E :- Exp, C :- Exp, C2 :- Exp,
                    hch :- (Eq (Option Exp) (child E i) (Option.some Exp C)),
@@ -916,7 +918,7 @@
             (Step chkf E (setKid E i C2)) hr
             (fn [r2 :- Exp, h3 :- (And (Eq (Option Exp) (getP p C) (Option.some Exp r))
                                        (And (Hd chkf r r2) (Eq Exp C2 (setP p C r2))))]
-              (step_pack chkf i E C C2 hch p r r2 h3)))))))))
+              (step_child chkf i E C C2 hch p r r2 h3)))))))))
 
 (thm step_delta_tt [chkf :- (=> Code Code Bool), c :- Exp, d :- Exp, cc :- Code, dc :- Code,
                          hc :- (Eq (Option Code) (codeOf c) (Option.some Code cc)),
