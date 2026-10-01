@@ -1,6 +1,6 @@
 # ADR-0006 — Formalizing the R4 metatheory in Ansatz
 
-**Status.** Accepted 2026-09-27. In progress: F1–F3 done but for the Conv case of Lemma 3.6; F4 begun; F5 in progress.
+**Status.** Accepted 2026-09-27. In progress: F1–F3 done (Lemma 3.6, Theorems 1–3, Corollary 3.7); F4 begun; F5 in progress; F7's encoding done, its checker open; F6 not begun.
 
 **Branch.** `adr-0006-formalization`, from `sjas-codification`, merged back
 into it phase by phase.
@@ -125,6 +125,10 @@ now checks.
   for label l ≥ k at the list's position l − k, matching the denotation of
   `bcons` (first element at 0). The first version read position l, which
   made the Bcons case unprovable for k > 0.
+- **Conversion requires `nbr` at every chain element.** Internal branch lists
+  may occur only in `caseL` branch position or a branch-list tail; the paper
+  has no branch-list terms. This excludes `conv_skj_counterexample`, whose
+  skeleton-typed beta step changes denotation.
 - **Codes and certificates have labels below NL.** The carrier of Syn and R
   is `Code`, trees with natural-number labels; the paper's are trees over the
   finite label set L. So `V(Syn)` and `V(R)` also require every label below
@@ -167,14 +171,14 @@ theorem quantifies over `chkf dec encTy`, and those using the checker take
 | §3.3 V | `V` (sem) | defined | explicit skeleton argument |
 | Lemma 3.3 monotonicity | `V_mono` (mono) | proved | — |
 | Lemma 3.3 substitution | `lemma33_subst`, `V_subst1`, `V_substL` (substitution) | proved | `SubOK`; stated at skeleton `skel A` |
-| Lemma 3.3 conversion, Lemma 3.2 | head steps proved on branch `f3-conversion` (conversion) | in progress | `Cv` requires `nbr` (no branch list in argument position) of every element |
+| Lemma 3.3 conversion, Lemma 3.2 | `hd_den`, `den_step_nil` (conversion); path congruence, `cv_V`, `F_conv`, `conv_all` (convcase) | proved | `Cv` requires `nbr` (no branch list in argument position) of every element; without it Lemma 3.2 fails (`conv_skj_counterexample`) |
 | Lemma 3.4 | `Lemma_3_4` (mono) | proved | — |
 | Lemma 3.5 | `EnvSat_split`, `EnvSat_omega` (splitting) | proved | plus `EnvSat_one`, `EnvSat_mono` |
-| Lemma 3.6 | `Lemma_3_6` (model); `lemma36`, `paper_lemma36` (lemma36); cases `F_*` (fundamental, outer, recsyn) | proved, given the Conv case (`ConvCase`) | well-formed contexts (`WFCtx`); Syn and R values have labels below NL |
-| Theorem 1, Corollary 3.7 | `Theorem_1`, `Corollary_3_7` (model); `theorem1`, `cor37_*`, `paper_theorem1`, `paper_cor37` (lemma36) | proved, given the Conv case | — |
+| Lemma 3.6 | `Lemma_3_6` (model), `Lemma_3_6_holds` (convcase); `lemma36` (lemma36); cases `F_*` (fundamental, outer, recsyn, convcase) | proved | well-formed contexts (`WFCtx`); Syn and R values have labels below NL |
+| Theorem 1, Corollary 3.7 | `Theorem_1`, `Corollary_3_7` (model); `Theorem_1_holds`, `Corollary_3_7_holds` (convcase); `theorem1`, `cor37_*` (lemma36) | proved | — |
 | Theorem 2 (H) | `Theorem_2_H` (model) | proved | |
 | Theorem 2 (H₁) | `Theorem_2_H1` (model) | proved | — |
-| Theorem 3 | `theorem3`, `theorem3_tokens` (lemma36) | proved, given the Conv case | the refinement needs the budget to reach the token count |
+| Theorem 3 | `theorem3`, `theorem3_tokens` (lemma36) | proved (with `conv_all` for its Conv hypothesis) | the refinement needs the budget to reach the token count |
 | Proposition 4.1, 4.7 | `prop41_closed`, `prop41_fun`, `prop47` (section4) | proved (4.1 given the Conv case) | 4.1(ii) for codes with labels below NL |
 | §4 (the rest), §5, §6 | — | open | F5 in progress on branch `f5-eval` |
 

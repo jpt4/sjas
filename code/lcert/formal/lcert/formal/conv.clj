@@ -281,11 +281,74 @@
          [h1 (SkJ Bool.false (sk2 Sk.unit Sk.cert G) t1 (skel X))] [h2 (SkJ Bool.false (sk2 Sk.unit Sk.cert G) t2 (skel X))]
          :where [Bool.false G (Exp.insp X r c t1 t2) (skel X)]))
 
+;; Internal branch lists are allowed only in caseL's branch position and
+;; in bcons tails. All other children are ordinary terms/types. This is the
+;; nbrF definition formerly in conversion.clj, moved here so Cv can require
+;; it at every element (ADR-0006; conv_skj_counterexample).
+;; The conjunctions remain right-nested in field order for band projections.
+(a/defn nbrF [e :- Exp] (=> Bool Bool)
+  (match e
+    [tEmpty (fn [fl :- Bool] true)]
+    [tUnit (fn [fl :- Bool] true)]
+    [tBool (fn [fl :- Bool] true)]
+    [tNat (fn [fl :- Bool] true)]
+    [tLbl (fn [fl :- Bool] true)]
+    [tSyn (fn [fl :- Bool] true)]
+    [tDia (fn [fl :- Bool] true)]
+    [tR (fn [fl :- Bool] true)]
+    [(tT b) (fn [fl :- Bool] ((nbrF b) false))]
+    [(tPi r A B) (fn [fl :- Bool] (Bool.and ((nbrF A) false) ((nbrF B) false)))]
+    [(tSig r A B) (fn [fl :- Bool] (Bool.and ((nbrF A) false) ((nbrF B) false)))]
+    [(var i) (fn [fl :- Bool] true)]
+    [star (fn [fl :- Bool] true)]
+    [(abort A t) (fn [fl :- Bool] (Bool.and ((nbrF A) false) ((nbrF t) false)))]
+    [tt (fn [fl :- Bool] true)]
+    [ff (fn [fl :- Bool] true)]
+    [(ite b t e) (fn [fl :- Bool] (Bool.and ((nbrF b) false) (Bool.and ((nbrF t) false) ((nbrF e) false))))]
+    [(elimB P b t e) (fn [fl :- Bool] (Bool.and ((nbrF P) false) (Bool.and ((nbrF b) false) (Bool.and ((nbrF t) false) ((nbrF e) false)))))]
+    [zero (fn [fl :- Bool] true)]
+    [(succ n) (fn [fl :- Bool] ((nbrF n) false))]
+    [(recN P z s n) (fn [fl :- Bool] (Bool.and ((nbrF P) false) (Bool.and ((nbrF z) false) (Bool.and ((nbrF s) false) ((nbrF n) false)))))]
+    [(lbl l) (fn [fl :- Bool] true)]
+    [(caseL P a bs) (fn [fl :- Bool] (Bool.and ((nbrF P) false) (Bool.and ((nbrF a) false) ((nbrF bs) true))))]
+    [bnil (fn [fl :- Bool] fl)]
+    [(bcons h t) (fn [fl :- Bool] (Bool.and fl (Bool.and ((nbrF h) false) ((nbrF t) true))))]
+    [(sleaf a) (fn [fl :- Bool] ((nbrF a) false))]
+    [(snode a c1 c2) (fn [fl :- Bool] (Bool.and ((nbrF a) false) (Bool.and ((nbrF c1) false) ((nbrF c2) false))))]
+    [(recS P tl tn c) (fn [fl :- Bool] (Bool.and ((nbrF P) false) (Bool.and ((nbrF tl) false) (Bool.and ((nbrF tn) false) ((nbrF c) false)))))]
+    [(leaf a) (fn [fl :- Bool] ((nbrF a) false))]
+    [(node d a r1 r2) (fn [fl :- Bool] (Bool.and ((nbrF d) false) (Bool.and ((nbrF a) false) (Bool.and ((nbrF r1) false) ((nbrF r2) false)))))]
+    [(itR X g h r) (fn [fl :- Bool] (Bool.and ((nbrF X) false) (Bool.and ((nbrF g) false) (Bool.and ((nbrF h) false) ((nbrF r) false)))))]
+    [(prn r) (fn [fl :- Bool] ((nbrF r) false))]
+    [(lam r A t) (fn [fl :- Bool] (Bool.and ((nbrF A) false) ((nbrF t) false)))]
+    [(app f u) (fn [fl :- Bool] (Bool.and ((nbrF f) false) ((nbrF u) false)))]
+    [(pair S a b) (fn [fl :- Bool] (Bool.and ((nbrF S) false) (Bool.and ((nbrF a) false) ((nbrF b) false))))]
+    [(letp C p t) (fn [fl :- Bool] (Bool.and ((nbrF C) false) (Bool.and ((nbrF p) false) ((nbrF t) false))))]
+    [(chk c d) (fn [fl :- Bool] (Bool.and ((nbrF c) false) ((nbrF d) false)))]
+    [(h1 r s c e1 e2) (fn [fl :- Bool] (Bool.and ((nbrF r) false) (Bool.and ((nbrF s) false) (Bool.and ((nbrF c) false) (Bool.and ((nbrF e1) false) ((nbrF e2) false))))))]
+    [(refl D r e) (fn [fl :- Bool] (Bool.and ((nbrF D) false) (Bool.and ((nbrF r) false) ((nbrF e) false))))]
+    [(insp X r c t1 t2) (fn [fl :- Bool] (Bool.and ((nbrF X) false) (Bool.and ((nbrF r) false) (Bool.and ((nbrF c) false) (Bool.and ((nbrF t1) false) ((nbrF t2) false))))))]
+    [(tBrs P k) (fn [fl :- Bool] ((nbrF P) false))]))
+
+(a/defn nbr [e :- Exp] Bool ((nbrF e) false))
+
 ;; --- conversion ---------------------------------------------------------------
 
 ;; Cv chkf G A B: A and B are joined by a chain of steps, taken in either
-;; direction, every element of which is a skeleton-well-formed type in G.
+;; direction, every element of which is a skeleton-well-formed type in G
+;; with branch lists confined to their internal syntactic positions (nbr).
 (a/inductive Cv [chkf (=> Code Code Bool), G (List Sk)] :in Prop :indices [A Exp, B Exp]
-  (cvRefl [A Exp] [h (SkJ Bool.true G A Sk.unit)] :where [A A])
-  (cvFwd [A Exp] [B Exp] [C Exp] [hab (Cv chkf G A B)] [hs (Step chkf B C)] [hc (SkJ Bool.true G C Sk.unit)] :where [A C])
-  (cvBwd [A Exp] [B Exp] [C Exp] [hab (Cv chkf G A B)] [hs (Step chkf C B)] [hc (SkJ Bool.true G C Sk.unit)] :where [A C]))
+  (cvRefl [A Exp] [h (SkJ Bool.true G A Sk.unit)] [hn (Eq Bool (nbr A) Bool.true)] :where [A A])
+  (cvFwd [A Exp] [B Exp] [C Exp] [hab (Cv chkf G A B)] [hs (Step chkf B C)] [hc (SkJ Bool.true G C Sk.unit)] [hn (Eq Bool (nbr C) Bool.true)] :where [A C])
+  (cvBwd [A Exp] [B Exp] [C Exp] [hab (Cv chkf G A B)] [hs (Step chkf C B)] [hc (SkJ Bool.true G C Sk.unit)] [hn (Eq Bool (nbr C) Bool.true)] :where [A C]))
+
+;; Each endpoint inherits nbr from the constructor that introduced it.
+(thm cv_nbr_left [chkf :- (=> Code Code Bool), G0 :- (List Sk), A0 :- Exp, B0 :- Exp, der :- (Cv chkf G0 A0 B0)]
+  (Eq Bool (nbr A0) Bool.true)
+  (induction der)
+  (exact hn) (exact ih_hab) (exact ih_hab))
+
+(thm cv_nbr_right [chkf :- (=> Code Code Bool), G0 :- (List Sk), A0 :- Exp, B0 :- Exp, der :- (Cv chkf G0 A0 B0)]
+  (Eq Bool (nbr B0) Bool.true)
+  (induction der)
+  (exact hn) (exact hn) (exact hn))

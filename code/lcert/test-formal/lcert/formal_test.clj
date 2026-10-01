@@ -297,6 +297,51 @@
   (testing "a branch list has no inferred skeleton, which is why the clean premise is needed"
     (is (not (b/rejects? '[G :- (List Sk)] '(Eq (Option Sk) (skOf G Exp.bnil) (Option.none Sk)) '[(rfl)])))))
 
+(require 'lcert.formal.conversion)
+(deftest f3m-conversion
+  (testing "conversion records nbr at both endpoints, and lifting preserves it"
+    (doseq [c '[cv_nbr_left cv_nbr_right nbrF_lift_var nbrF_lift nbr_lift]]
+      (is (b/has? c) (str c))))
+  (testing "branch lists are admitted in caseL, but never as application arguments"
+    (is (not (b/rejects? '[]
+               '(Eq Bool (nbr (Exp.caseL Exp.tBool (Exp.lbl 0) (Exp.bcons Exp.tt Exp.bnil))) Bool.true)
+               '[(rfl)])))
+    (is (b/rejects? '[]
+           '(Eq Bool (nbr (Exp.app (Exp.var 0) (Exp.bcons Exp.tt Exp.bnil))) Bool.true)
+           '[(rfl)])))
+  (testing "Lemma 3.2 for the head steps proved so far, and the SkJ-only counterexample"
+    (doseq [c '[nbr nbrF skOf_complete skOf_ok skj_inv EquivAt mk_eqv_t mk_eqv_ty
+                eqv_den eqv_sko eqv_skel eqv_V
+                hd_iteT skof_ite den_iteT den_iteF den_elimT den_elimF den_recNZ
+                den_prnL den_prnN den_boolExp den_boolExp_ff den_boolExp_tt
+                code_none_ne_some den_sleaf_code codeOf_sleaf_inv
+                arr_inj exSk exU exExpC den_lam_arr den_beta_core den_beta
+                prod_inj skof_pair den_pair_prod den_betaLet_at den_betaLet_core den_betaLet
+                den_itRL den_itRL_nbr V_tTT V_tTF V_tTT_at V_tTF_at hd_tTT hd_tTF
+                cex_red_eq cex_den_redex cex_den_contr cex_nbr_ff cex_redex_typed
+                cex_den_ne conv_skj_counterexample
+                nbr_recN_n nbr_recS_c nbr_snode_a nbr_snode_c1 nbr_snode_c2
+                nbr_itR_r nbr_node_d nbr_node_a nbr_caseL_bs nbr_bcons_t nbr_bcons_h
+                den_recNS_eval den_recNS den_nthB den_caseLb
+                den_recSL_eval den_recSL den_recSN_eval den_recSN
+                canonicalNode canonicalNode_some canonicalNode_den
+                den_code_sleaf den_snode_code den_code_snode den_codeOf den_delta
+                den_dia_unique den_itRN_eval den_itRN cex_no_cv
+                skj_not_tT skj_not_tUnit hd_den setP_nil getP_nil den_step_nil
+                setKid_ite_0 setKid_ite_1 setKid_ite_2 den_abort_ty den_ite_b]]
+      (is (b/has? c) (str c))))
+  (testing "the β redex and its contractum are not denoted equally: the application defaults"
+    (is (b/rejects? den-params
+                    '(= (den chkf dec encTy 0
+                             (Exp.app (Exp.lam U.uw (Exp.tPi U.uw Exp.tLbl Exp.tBool)
+                                               (Exp.caseL Exp.tBool (Exp.lbl 0) (Exp.var 0)))
+                                      (Exp.bcons Exp.tt Exp.bnil))
+                             (List.nil Sk) Sk.bool Unit.unit)
+                        (den chkf dec encTy 0
+                             (Exp.caseL Exp.tBool (Exp.lbl 0) (Exp.bcons Exp.tt Exp.bnil))
+                             (List.nil Sk) Sk.bool Unit.unit))
+                    '[(rfl)]))))
+
 (require 'lcert.formal.vweaken)
 (deftest f3l-v-weakening
   (testing "weakening for V: V(lift 1 c A) at an inserted environment is V(A)"
@@ -473,3 +518,67 @@
     (is (not (b/rejects? '[] '(Eq Code (encE (Exp.tPi U.u1 Exp.tUnit Exp.tEmpty)) (Code.sn 25 (Code.sl 16) (Code.sl 15))) '[(rfl)]))))
   (testing "distinct types have distinct codes: the usage is in the label"
     (is (b/rejects? '[] '(Eq Code (encE (Exp.tPi U.u1 Exp.tUnit Exp.tEmpty)) (encE (Exp.tPi U.uw Exp.tUnit Exp.tEmpty))) '[(rfl)]))))
+(require 'lcert.formal.convcase)
+(deftest f3m-convcase-subst
+  (testing "nbr is preserved by substitution, and β's contractum stays skeleton-typed (Lemma 3.2)"
+    (doseq [c '[nbrF_var nbrF_anyflag up_pres upn_pres nbrF_subst_var nbrF_subst
+                inst1_nbr nbr_subst1 NbrAll instL_nbr instLS_nbr nbr_substL
+                skj_subst1 skj_substL skj_beta_core skj_beta]]
+      (is (b/has? c) (str c))))
+  (testing "a branch list substituted for a variable is not nbr"
+    (is (b/rejects? '[]
+                    '(Eq Bool (nbr (subst1 (Exp.bcons Exp.tt Exp.bnil) (Exp.var 0))) Bool.true)
+                    '[(rfl)]))))
+
+(deftest f3m-convcase-hd-skj
+  (testing "every head step preserves skeleton typing and nbr (Lemma 3.2)"
+    (doseq [c '[skj_iteT skj_iteF skj_elimT skj_elimF skj_recNZ skj_recNS skj_recSL
+                skj_prnL skj_prnN skj_boolExp skj_delta
+                skj_betaLet_at skj_betaLet_core skj_betaLet skj_recSN skj_itRL skj_itRN
+                skj_bcons_pick nbr_bcons_pick skj_nthB nbr_nthB skj_caseLb hd_skj]]
+      (is (b/has? c) (str c))))
+  (testing "nthB of a non-branch-list is not a branch"
+    (is (b/rejects? '[]
+                    '(Eq (Option Exp) (nthB Exp.tt 0) (Option.some Exp Exp.tt))
+                    '[(rfl)]))))
+
+(deftest f3m-convcase-path
+  (testing "a path step preserves skOf and the denotation (Lemma 3.2)"
+    (doseq [c '[step_nil_pack hd_not_base nbr_hd_flag step_nil_fl
+                step_tEmpty step_tUnit step_tBool step_tNat step_tLbl step_tSyn
+                step_tDia step_tR step_tT step_tPi step_tSig step_tBrs
+                step_var step_star step_tt step_ff step_zero step_lbl step_bnil
+                den_succ_cong sk_abort_A
+                den_ig_abort_A den_ig_h1_r den_ig_node_d den_coe_sleaf den_coe_leaf
+                den_coe_prn den_ite_t den_ite_e
+                den_sn_a den_sn_c1 den_sn_c2 den_nd_a den_nd_r1 den_nd_r2 den_chk_c den_chk_d
+                step_abort step_succ step_h1 step_sleaf step_leaf step_prn step_ite
+                step_snode step_node step_chk
+                sk_elimB_P den_el_b den_el_t den_el_e step_elimB
+                den_recN_n den_recN_z den_recN_s sk_recN_P step_recN
+                den_caseL_a den_caseL_bs sk_caseL_P step_caseL
+                den_bcons_h den_bcons_t step_bcons
+                den_recS_c den_recS_tl den_recS_tn sk_recS_P step_recS
+                den_itR_g den_itR_h den_itR_r sk_itR_X step_itR
+                sk_lam_A sk_lam_t den_lam_t step_lam
+                sk_app_f den_app_f den_app_u step_app
+                sk_pair_S den_pair_a den_pair_b step_pair
+                skof_letp sk_letp_C den_letp_p den_letp_t step_letp
+                getP_base den_refl_r step_refl_D step_refl
+                den_insp_r den_insp_c den_insp_t1 den_insp_t2 sk_insp_X step_insp
+                step_pack
+                V_tT_den V_tTT_gen V_tTF_gen step_V_tT_nil step_V_tT_b step_V_tT
+                V_pi_at V_pi_at_cast V_pi_dom
+                pi_no_head V_pi_at_bcst V_pi_cod step_V_pi
+                V_sig_at sig_no_head V_sig_at_cast V_sig_dom
+                V_sig_at_bcst V_sig_cod step_V_sig
+                step_V_tEmpty step_V_tDia step_V_var step_V_tT_pack
+                step_V_tPi step_V_tSig step_V_tBrs step_V
+                step_V_of_step cv_V F_conv conv_all
+                Lemma_3_6_holds Theorem_1_holds Corollary_3_7_holds]]
+      (is (b/has? c) (str c))))
+  (testing "a childless term has no child to step in"
+    (is (b/rejects? '[]
+                    '(Eq (Option Exp) (getP (List.cons Nat 0 (List.nil Nat)) Exp.star)
+                                      (Option.some Exp Exp.star))
+                    '[(rfl)]))))
