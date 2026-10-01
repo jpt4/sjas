@@ -1047,11 +1047,19 @@
               (Exists (fn [w :- RV]
                 (And (EvE chkf dec encTy n (EvSrc.ap v arg) w)
                      (rc w (f alpha))))))))))
+      ;; Σ₀ forgets the first component: any runtime a is related, and the
+      ;; second component is E-related to the carrier's second.  The paper
+      ;; writes the pair as (⋆, b), which is what erasure produces, but the
+      ;; runtime default of a product is (dflt σ, dflt τ) (rdflt), not
+      ;; (⋆, dflt τ).  abort of Σ(y :₀ Bool). 1 therefore returns (ff, ⋆).
+      ;; Requiring the first component to be ⋆ would make that default
+      ;; unrelated, and the defaults paragraph of Theorem 4′ would fail.
+      ;; Forgetting it is the reading on which defaults are related.
       (fn [d :- USk, c :- USk, _rd :- (=> RV (Car (uskSk d)) Prop), rc :- (=> RV (Car (uskSk c)) Prop)]
         (fn [v :- RV, p :- (Car (uskSk (USk.prod0 d c)))]
-          (Exists (fn [b :- RV]
-            (And (Eq RV v (RV.pair RV.star b))
-                 (rc b (Prod.snd p)))))))
+          (Exists (fn [a :- RV] (Exists (fn [b :- RV]
+            (And (Eq RV v (RV.pair a b))
+                 (rc b (Prod.snd p))))))))
       (fn [d :- USk, c :- USk, rd :- (=> RV (Car (uskSk d)) Prop), rc :- (=> RV (Car (uskSk c)) Prop)]
         (fn [v :- RV, p :- (Car (uskSk (USk.prodN d c)))]
           (Exists (fn [a :- RV] (Exists (fn [b :- RV]
@@ -1270,3 +1278,235 @@
   (refine' (exT Exp _ _ ih_h2 _)) (intro t2e ht2)
   (constructor) (exact (Exp.insp X re ce t1e t2e))
   (exact (Er.eInsp chkf D us1 us0 us2 X r c t1 t2 re ce t1e t2e hre hce hX hF1 hF2 ht1 ht2)))
+
+;; usk forgets the usage bit and agrees with skel.  Π and Σ need the
+;; induction hypotheses; every other constructor, including T(b), is rfl.
+(thm usk_skel [A :- Exp]
+  (Eq Sk (uskSk (usk A)) (skel A))
+  (induction A)
+  (all_goals (try rfl))
+  (exact (congrArg (fn [y :- Sk] (Sk.arr Sk.lbl y)) ih_P))
+  (cases r)
+  (all_goals (exact (Eq.trans
+    (congrArg (fn [x :- Sk] (Sk.prod x (uskSk (usk B)))) ih_A)
+    (congrArg (fn [y :- Sk] (Sk.prod (skel A) y)) ih_B))))
+  (cases r)
+  (all_goals (exact (Eq.trans
+    (congrArg (fn [x :- Sk] (Sk.arr x (uskSk (usk B)))) ih_A)
+    (congrArg (fn [y :- Sk] (Sk.arr (skel A) y)) ih_B)))))
+
+;; Constants evaluate under EvE to the carrier constant, and E at that base
+;; skeleton is the equality (Theorem 4′, the constant cases).
+(thm e_star
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), n :- Nat, G :- (List Sk), rho :- (List RV), eta :- (HEnv G)]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho Exp.star v)
+         (Erel chkf dec encTy n (USk.base Sk.unit) v
+           (den chkf dec encTy n Exp.star G Sk.unit eta)))))
+  (constructor) (exact RV.star)
+  (constructor) (exact (EvE.eStar chkf dec encTy n rho)) (rfl))
+
+(thm e_tt
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), n :- Nat, G :- (List Sk), rho :- (List RV), eta :- (HEnv G)]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho Exp.tt v)
+         (Erel chkf dec encTy n (USk.base Sk.bool) v
+           (den chkf dec encTy n Exp.tt G Sk.bool eta)))))
+  (rw [(den_tt_at chkf dec encTy n G Sk.bool eta)])
+  (rw [(coe_self Sk.bool Bool.true)])
+  (constructor) (exact (RV.bool Bool.true))
+  (constructor) (exact (EvE.eTT chkf dec encTy n rho)) (rfl))
+
+(thm e_ff
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), n :- Nat, G :- (List Sk), rho :- (List RV), eta :- (HEnv G)]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho Exp.ff v)
+         (Erel chkf dec encTy n (USk.base Sk.bool) v
+           (den chkf dec encTy n Exp.ff G Sk.bool eta)))))
+  (rw [(den_ff_at chkf dec encTy n G Sk.bool eta)])
+  (rw [(coe_self Sk.bool Bool.false)])
+  (constructor) (exact (RV.bool Bool.false))
+  (constructor) (exact (EvE.eFF chkf dec encTy n rho)) (rfl))
+
+(thm e_zero
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), n :- Nat, G :- (List Sk), rho :- (List RV), eta :- (HEnv G)]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho Exp.zero v)
+         (Erel chkf dec encTy n (USk.base Sk.nat) v
+           (den chkf dec encTy n Exp.zero G Sk.nat eta)))))
+  (rw [(den_zero_at chkf dec encTy n G Sk.nat eta)])
+  (rw [(coe_self Sk.nat 0)])
+  (constructor) (exact (RV.nat 0))
+  (constructor) (exact (EvE.eZero chkf dec encTy n rho)) (rfl))
+
+(thm e_lbl
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), n :- Nat, l :- Nat, G :- (List Sk), rho :- (List RV), eta :- (HEnv G)]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.lbl l) v)
+         (Erel chkf dec encTy n (USk.base Sk.lbl) v
+           (den chkf dec encTy n (Exp.lbl l) G Sk.lbl eta)))))
+  (rw [(den_lbl_at chkf dec encTy n l G Sk.lbl eta)])
+  (rw [(coe_self Sk.lbl l)])
+  (constructor) (exact (RV.lbl l))
+  (constructor) (exact (EvE.eLbl chkf dec encTy n rho l)) (rfl))
+
+;; At a base skeleton the runtime default is the carrier default (E's base
+;; clause).  An arrow or a product is not a base; baseSk is false there.
+(thm ebase_dflt [s :- Sk, h :- (Eq Bool (baseSk s) Bool.true)]
+  (ebase s (rdflt s) (dflt s))
+  (cases s)
+  (all_goals (try rfl))
+  (exact (Bool.noConfusion h))
+  (exact (Bool.noConfusion h)))
+
+;; Restriction, scalar half (Theorem 4′ and Theorem 5.2): a sum is nonzero
+;; when either part is, and a product of two nonzero usages is nonzero.
+;; uadd_eq_zero / umul_eq_zero are the contrapositives; these are the
+;; direction the environment argument uses.
+(thm nz_uadd [x :- U, y :- U, h :- (Eq Bool (nonzero x) Bool.true)]
+  (Eq Bool (nonzero (uadd x y)) Bool.true)
+  (cases x)
+  (all_goals (cases y))
+  (all_goals (try rfl))
+  (exact (Bool.noConfusion h)))
+
+(thm nz_umul [r :- U, x :- U,
+              hr :- (Eq Bool (nonzero r) Bool.true),
+              hx :- (Eq Bool (nonzero x) Bool.true)]
+  (Eq Bool (nonzero (umul r x)) Bool.true)
+  (cases r)
+  (all_goals (cases x))
+  (all_goals (try rfl))
+  (exact (Bool.noConfusion hr))
+  (exact (Bool.noConfusion hr))
+  (exact (Bool.noConfusion hr))
+  (exact (Bool.noConfusion hx))
+  (exact (Bool.noConfusion hx)))
+
+
+;; --- restriction on usage vectors (Theorem 4′ / 5.2) ----------------
+
+(thm succ_eq [a :- Nat, b :- Nat, h :- (Eq Nat (Nat.succ a) (Nat.succ b))]
+  (Eq Nat a b)
+  (cases h)
+  (rfl))
+
+(kdef nzAt (=> (List U) Nat Bool)
+  (fn [us :- (List U)]
+    (List.rec$1$0 U (fn [_ :- (List U)] (=> Nat Bool))
+      (fn [_i :- Nat] Bool.false)
+      (fn [a :- U, rest :- (List U), ih :- (=> Nat Bool)]
+        (fn [i :- Nat]
+          (Nat.rec$1 (fn [_ :- Nat] Bool) (nonzero a)
+            (fn [j :- Nat, _ :- Bool] (ih j)) i)))
+      us)))
+
+(thm lenU_cons [a :- U, xs :- (List U)]
+  (Eq Nat (lenU (List.cons U a xs)) (Nat.succ (lenU xs)))
+  (rfl))
+
+(thm vadd_cc [a :- U, b :- U, xs :- (List U), ys :- (List U)]
+  (Eq (List U) (vadd (List.cons U a xs) (List.cons U b ys))
+               (List.cons U (uadd a b) (vadd xs ys)))
+  (rfl))
+
+(thm nzAt_zero [a :- U, xs :- (List U)]
+  (Eq Bool (nzAt (List.cons U a xs) 0) (nonzero a))
+  (rfl))
+
+(thm nzAt_succ [a :- U, xs :- (List U), j :- Nat]
+  (Eq Bool (nzAt (List.cons U a xs) (Nat.succ j)) (nzAt xs j))
+  (rfl))
+
+(thm nz_vadd_z [a :- U, xs :- (List U), b :- U, ys :- (List U),
+                h :- (Eq Bool (nzAt (List.cons U a xs) 0) Bool.true)]
+  (Eq Bool (nzAt (vadd (List.cons U a xs) (List.cons U b ys)) 0) Bool.true)
+  (rw [nzAt_zero])
+  (exact (nz_uadd a b (Eq.trans (Eq.symm (nzAt_zero a xs)) h))))
+
+(thm nz_vadd_s [a :- U, xs :- (List U), b :- U, ys :- (List U), j :- Nat,
+                ih :- (=> (Eq Bool (nzAt xs j) Bool.true)
+                          (Eq Bool (nzAt (vadd xs ys) j) Bool.true)),
+                h :- (Eq Bool (nzAt (List.cons U a xs) (Nat.succ j)) Bool.true)]
+  (Eq Bool (nzAt (vadd (List.cons U a xs) (List.cons U b ys)) (Nat.succ j)) Bool.true)
+  (rw [nzAt_succ])
+  (exact (ih (Eq.trans (Eq.symm (nzAt_succ a xs j)) h))))
+
+(thm nz_vadd_step [a :- U, xs :- (List U), b :- U, ys :- (List U),
+                   ih :- (forall [i Nat]
+                           (=> (Eq Bool (nzAt xs i) Bool.true)
+                               (Eq Bool (nzAt (vadd xs ys) i) Bool.true)))]
+  (forall [i Nat]
+    (=> (Eq Bool (nzAt (List.cons U a xs) i) Bool.true)
+        (Eq Bool (nzAt (vadd (List.cons U a xs) (List.cons U b ys)) i) Bool.true)))
+  (intro i h)
+  (cases i)
+  (exact (nz_vadd_z a xs b ys h))
+  (exact (nz_vadd_s a xs b ys n (ih n) h)))
+
+(thm nz_vadd_cons [p :- U, ps :- (List U),
+                   ih :- (forall [zs (List U)] (forall [j Nat]
+                           (=> (Eq Nat (lenU ps) (lenU zs))
+                             (=> (Eq Bool (nzAt ps j) Bool.true)
+                                 (Eq Bool (nzAt (vadd ps zs) j) Bool.true))))),
+                   ys :- (List U), i :- Nat,
+                   hlen :- (Eq Nat (lenU (List.cons U p ps)) (lenU ys)),
+                   h :- (Eq Bool (nzAt (List.cons U p ps) i) Bool.true)]
+  (Eq Bool (nzAt (vadd (List.cons U p ps) ys) i) Bool.true)
+  (cases ys)
+  (exact (absurd (Eq.trans (Eq.symm (lenU_cons p ps)) hlen) (Nat.succ_ne_zero (lenU ps))))
+  (have ht (Eq Nat (lenU ps) (lenU tail))
+    (succ_eq (lenU ps) (lenU tail)
+      (Eq.trans (Eq.symm (lenU_cons p ps))
+        (Eq.trans hlen (lenU_cons head tail)))))
+  (exact (nz_vadd_step p ps head tail
+            (fn [j :- Nat, hj :- (Eq Bool (nzAt ps j) Bool.true)] (ih tail j ht hj))
+            i h)))
+
+(thm nz_vadd [xs :- (List U)]
+  (forall [ys (List U)] (forall [i Nat]
+    (=> (Eq Nat (lenU xs) (lenU ys))
+      (=> (Eq Bool (nzAt xs i) Bool.true)
+          (Eq Bool (nzAt (vadd xs ys) i) Bool.true)))))
+  (induction xs)
+  (intro ys i hlen h) (exact (Bool.noConfusion h))
+  (intro ys i hlen h)
+  (exact (nz_vadd_cons head tail ih_tail ys i hlen h)))
+
+(thm vscale_cc [r :- U, a :- U, xs :- (List U)]
+  (Eq (List U) (vscale r (List.cons U a xs)) (List.cons U (umul r a) (vscale r xs)))
+  (rfl))
+
+(thm nz_vscale_z [r :- U, hr :- (Eq Bool (nonzero r) Bool.true),
+                  a :- U, xs :- (List U),
+                  h :- (Eq Bool (nzAt (List.cons U a xs) 0) Bool.true)]
+  (Eq Bool (nzAt (vscale r (List.cons U a xs)) 0) Bool.true)
+  (rw [vscale_cc])
+  (rw [nzAt_zero])
+  (exact (nz_umul r a hr (Eq.trans (Eq.symm (nzAt_zero a xs)) h))))
+
+(thm nz_vscale_s [r :- U, hr :- (Eq Bool (nonzero r) Bool.true),
+                  a :- U, xs :- (List U), j :- Nat,
+                  ih :- (=> (Eq Bool (nzAt xs j) Bool.true)
+                            (Eq Bool (nzAt (vscale r xs) j) Bool.true)),
+                  h :- (Eq Bool (nzAt (List.cons U a xs) (Nat.succ j)) Bool.true)]
+  (Eq Bool (nzAt (vscale r (List.cons U a xs)) (Nat.succ j)) Bool.true)
+  (rw [vscale_cc])
+  (rw [nzAt_succ])
+  (exact (ih (Eq.trans (Eq.symm (nzAt_succ a xs j)) h))))
+
+(thm nz_vscale [r :- U, hr :- (Eq Bool (nonzero r) Bool.true), us :- (List U)]
+  (forall [i Nat]
+    (=> (Eq Bool (nzAt us i) Bool.true)
+        (Eq Bool (nzAt (vscale r us) i) Bool.true)))
+  (induction us)
+  (intro i h) (exact (Bool.noConfusion h))
+  (intro i h)
+  (cases i)
+  (exact (nz_vscale_z r hr head tail h))
+  (exact (nz_vscale_s r hr head tail n (ih_tail n) h))))
