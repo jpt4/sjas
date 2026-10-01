@@ -2311,3 +2311,114 @@
        '(exact (step_nil_fl chkf dec encTy fl (Exp.itR X g h r) G out hj hn re co hg hd))
        '(intro re co hg hd)
        (list 'exact split)]))
+
+;; lam (Lemma 3.2).  The domain is a type: a step there preserves skel,
+;; so skOf (lamSk of that skeleton and the body) and the denotation
+;; (which ignores the domain) are unchanged.  The body is under one
+;; binder.  The λ is typed at Arr (skel A) s1; Eq.mp moves the body's
+;; denotation equation to the output skeleton.  skOf of the λ is lamSk
+;; of the body's skOf.
+
+
+  ;; A step inside the domain annotation does not change skel A, so both
+  ;; the arrow skOf builds and the context it reads the body in stay the
+  ;; same (skOf_lam_eq).
+  (prove! 'sk_lam_A
+    '[chkf :- (=> Code Code Bool), r :- U, A :- Exp, t :- Exp, G :- (List Sk),
+      q :- (List Nat), rd :- Exp, r2 :- Exp,
+      hA :- (SkJ Bool.true G A Sk.unit),
+      hg :- (Eq (Option Exp) (getP q A) (Option.some Exp rd)),
+      hd :- (Hd chkf rd r2)]
+    '(Eq (Option Sk) (skOf G (Exp.lam r (setP q A r2) t)) (skOf G (Exp.lam r A t)))
+    ['(have hs (Eq Sk (skel (setP q A r2)) (skel A))
+        (step_skel_path chkf q A rd r2
+          (skj_isTy Bool.true G A Sk.unit hA rfl) hg hd))
+     '(rw [(skOf_lam_eq G r (setP q A r2) t)])
+     '(rw [(skOf_lam_eq G r A t)])
+     '(rw [hs])])
+
+  ;; A step inside the body changes skOf only through the body's skOf in
+  ;; (skel A :: G), which lamSk wraps.
+  (prove! 'sk_lam_t
+    '[r :- U, A :- Exp, t :- Exp, tq :- Exp, G :- (List Sk),
+      he :- (Eq (Option Sk)
+              (skOf (List.cons Sk (skel A) G) tq)
+              (skOf (List.cons Sk (skel A) G) t))]
+    '(Eq (Option Sk) (skOf G (Exp.lam r A tq)) (skOf G (Exp.lam r A t)))
+    ['(rw [(skOf_lam_eq G r A tq)])
+     '(rw [(skOf_lam_eq G r A t)])
+     '(exact (congrArg (fn [o :- (Option Sk)] (lamSk (skel A) o)) he))])
+
+  ;; ⟦λ.t⟧ at Arr (skel A) s1 is the function sending v to ⟦t⟧ at (v, η).
+  (def ^:private lam-fn
+    '(fn [v :- (Car (skel A))]
+       (den chkf dec encTy cap T (List.cons Sk (skel A) G) s1 (Prod.mk v en))))
+  (defn- lam-of [tm] (clojure.walk/postwalk-replace {'T tm} lam-fn))
+  (prove! 'den_lam_t
+    (into Pcap '[r :- U, A :- Exp, t :- Exp, tq :- Exp, G :- (List Sk), s1 :- Sk, en :- (HEnv G),
+                 he :- (Eq (=> (Car (skel A)) (Car s1))
+                         (fn [v :- (Car (skel A))]
+                           (den chkf dec encTy cap tq (List.cons Sk (skel A) G) s1 (Prod.mk v en)))
+                         (fn [v :- (Car (skel A))]
+                           (den chkf dec encTy cap t (List.cons Sk (skel A) G) s1 (Prod.mk v en))))])
+    '(Eq (Car (Sk.arr (skel A) s1))
+       (den chkf dec encTy cap (Exp.lam r A tq) G (Sk.arr (skel A) s1) en)
+       (den chkf dec encTy cap (Exp.lam r A t) G (Sk.arr (skel A) s1) en))
+    [(list 'rw ['(den_lam_at chkf dec encTy cap r A tq G (Sk.arr (skel A) s1) en)])
+     '(rw [(den_lam_at chkf dec encTy cap r A t G (Sk.arr (skel A) s1) en)])
+     (list 'change (list 'Eq '(Car (Sk.arr (skel A) s1))
+                    (lam-of 'tq) (lam-of 't)))
+     '(exact he)])
+
+
+  (let [term '(Exp.lam r A t)
+        pred '(fn [s1 :- Sk]
+                (And (Eq Sk out (Sk.arr (skel A) s1))
+                     (And (SkJ Bool.true G A Sk.unit)
+                          (SkJ Bool.false (List.cons Sk (skel A) G) t s1))))
+        pack '(And (Eq Sk out (Sk.arr (skel A) s1))
+                   (And (SkJ Bool.true G A Sk.unit)
+                        (SkJ Bool.false (List.cons Sk (skel A) G) t s1)))
+        wit '(And.right (inv_lam Bool.false G r A t out hj))
+        branch (fn [i body]
+                 (let [idx (sucn i 0)]
+                   (list 'exSk pred (path-and term idx) wit
+                     (list 'fn ['s1 ':- 'Sk, 'hs1 ':- pack] body))))
+        pA (branch 0
+             '(And.intro
+                (sk_lam_A chkf r A t G tail re co
+                  (And.left (And.right hs1)) hgc hd)
+                (fn [cap :- Nat, en :- (HEnv G)]
+                  (den_ig_lam_A chkf dec encTy cap r A (setP tail A co) t G out en))))
+        ih '(ih_t Bool.false (List.cons Sk (skel A) G) s1
+              (And.right (And.right hs1))
+              (nbr_lam_t r A t fl hn)
+              tail re co hgc hd)
+        moved (list 'setP '(List.cons Nat (Nat.succ 0) tail) term 'co)
+        pt (branch 1
+             (list 'And.intro
+               (list 'sk_lam_t 'r 'A 't '(setP tail t co) 'G
+                 (list 'And.left ih))
+               (list 'fn '[cap :- Nat, en :- (HEnv G)]
+                 (list 'Eq.mp
+                   (list 'congrArg
+                     (list 'fn '[k :- Sk]
+                       (list 'Eq '(Car k)
+                         (list 'den 'chkf 'dec 'encTy 'cap moved 'G 'k 'en)
+                         (list 'den 'chkf 'dec 'encTy 'cap term 'G 'k 'en)))
+                     '(Eq.symm (And.left hs1)))
+                   (list 'den_lam_t 'chkf 'dec 'encTy 'cap 'r 'A 't '(setP tail t co)
+                     'G 's1 'en
+                     (list 'funext
+                       (list 'fn '[v :- (Car (skel A))]
+                         (list (list 'And.right ih) 'cap '(Prod.mk v en)))))))))
+        split (index-split term [pA pt])]
+    (prove! 'step_lam
+      (into step-params '[r :- U, A :- Exp, t :- Exp,
+                          ih_t :- (StepPack chkf dec encTy t)])
+      '(StepPack chkf dec encTy (Exp.lam r A t))
+      ['(intro fl G out hj hn pth) '(cases pth)
+       '(intro re co hg hd)
+       '(exact (step_nil_fl chkf dec encTy fl (Exp.lam r A t) G out hj hn re co hg hd))
+       '(intro re co hg hd)
+       (list 'exact split)]))
