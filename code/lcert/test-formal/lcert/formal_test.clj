@@ -290,8 +290,8 @@
                 eqv_den eqv_sko eqv_skel eqv_V
                 hd_iteT skof_ite den_iteT den_iteF den_elimT den_elimF den_recNZ
                 den_prnL den_prnN den_boolExp den_boolExp_ff den_boolExp_tt
-                none_ne_someC den_sleaf_code codeOf_sleaf_inv
-                arr_inj exSk exU exExp den_lam_arr den_beta_core den_beta
+                code_none_ne_some den_sleaf_code codeOf_sleaf_inv
+                arr_inj exSk exU exExpC den_lam_arr den_beta_core den_beta
                 prod_inj skof_pair den_pair_prod den_betaLet_at den_betaLet_core den_betaLet
                 den_itRL den_itRL_nbr V_tTT V_tTF V_tTT_at V_tTF_at hd_tTT hd_tTF
                 cex_red_eq cex_den_redex cex_den_contr cex_nbr_ff cex_redex_typed

@@ -475,8 +475,10 @@
 ;; codeOf succeeds only for sleaf (lbl l) and snode of the same (skel.clj).
 ;; none ≠ some for Code; cases on that equation is accepted by the kernel
 ;; (unlike Option in general, which needs some_inj / none_ne_someE).
+;; Named code_none_ne_some: derivations.clj already declares none_ne_someC,
+;; and the suite loads these namespaces in either order.
 
-(thm none_ne_someC [r :- Code, h :- (Eq (Option Code) (Option.none Code) (Option.some Code r))]
+(thm code_none_ne_some [r :- Code, h :- (Eq (Option Code) (Option.none Code) (Option.some Code r))]
   False
   (cases h))
 
@@ -494,7 +496,7 @@
 (let [ctors (mapv first exp-fields)
       idx (.indexOf ctors 'lbl)
       n (count ctors)
-      refute '(exact (False.elim$0 (none_ne_someC c0 hc)))
+      refute '(exact (False.elim$0 (code_none_ne_some c0 hc)))
       lbl ['(have he (Eq Code (Code.sl l) c0) (Option.some.inj hc))
            '(apply Exists.intro)
            '(exact l)
@@ -704,7 +706,8 @@
   (cases hx)
   (exact (f w h)))
 
-(thm exExp [P :- (=> Exp Prop), Q :- Prop, hx :- (Exists P), f :- (forall [e Exp] (=> (P e) Q))]
+;; exExpC, not exExp: derivations.clj declares exExp for the same elimination.
+(thm exExpC [P :- (=> Exp Prop), Q :- Prop, hx :- (Exists P), f :- (forall [e Exp] (=> (P e) Q))]
   Q
   (cases hx)
   (exact (f w h)))
@@ -799,7 +802,7 @@
                           (And (SkJ Bool.true G S Sk.unit)
                             (And (SkJ Bool.false G x (skel AA))
                               (SkJ Bool.false G y (skel BB))))))))))]
-                 (exExp (fn [AA :- Exp] (Exists (fn [BB :- Exp]
+                 (exExpC (fn [AA :- Exp] (Exists (fn [BB :- Exp]
                           (And (Eq Exp S (Exp.tSig rr AA BB))
                             (And (Eq Sk (Sk.prod s1 s2) (Sk.prod (skel AA) (skel BB)))
                               (And (SkJ Bool.true G S Sk.unit)
@@ -815,7 +818,7 @@
                                   (And (SkJ Bool.true G S Sk.unit)
                                     (And (SkJ Bool.false G x (skel AA))
                                       (SkJ Bool.false G y (skel BB))))))))]
-                         (exExp (fn [BB :- Exp]
+                         (exExpC (fn [BB :- Exp]
                                  (And (Eq Exp S (Exp.tSig rr AA BB))
                                    (And (Eq Sk (Sk.prod s1 s2) (Sk.prod (skel AA) (skel BB)))
                                      (And (SkJ Bool.true G S Sk.unit)
