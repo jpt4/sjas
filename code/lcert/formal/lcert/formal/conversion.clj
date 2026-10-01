@@ -37,8 +37,8 @@
       preserve the denotation with no nbr hypothesis.  β preserves it
       when the redex is nbr (den_beta, via den_subst1 and skOf_complete).
       conv_skj_counterexample is the kernel-checked failure of β over
-      SkJ alone.  itR on a leaf (den_itRL_nbr) needs nbr so the label has an skOf.  T(tt) and T(ff) preserve V (hd_tTT, hd_tTF).  The substituting ι-steps, itR on a node, caseLbl, and δ are open.
-  β for let (den_betaLet) is the same pattern.  Position congruence, the chain for V, and F_conv are not in this file yet.
+      SkJ alone.  itR on a leaf (den_itRL_nbr) needs nbr so the label has an skOf.  T(tt) and T(ff) preserve V (hd_tTT, hd_tTF).
+  β for let (den_betaLet) is the same pattern.  §4 proves the remaining head steps: recNS, recSL, recSN, caseLb, itR on a node, and δ (a canonical code term denotes its code, snode included).  Position congruence, the chain for V, and F_conv are not in this file yet.
 
   Equivalence at a position.  EquivAt w G s a b says a may replace b at a
   position of mode w, context G and skeleton s:
@@ -980,3 +980,418 @@
             (Eq.refl$1 Sk.unit)
             (fn [en :- (HEnv G), k :- Nat, v :- (Car (skel (Exp.tT Exp.ff)))]
               (V_tTF_at chkf dec encTy n G en k v)))))
+
+;; ---------------------------------------------------------------------------
+;; §4  The remaining head steps of Lemma 3.2 (R4-metatheory.md §3.2).
+;;
+;; recNS, recSL and recSN substitute the recursive result (and the
+;; predecessor or the node's components) into the step.  den_subst1 /
+;; den_substL apply only when each substituted term is skOf-faithful;
+;; nbr of the redex supplies that for the components, and the recursive
+;; result is faithful by the same skeleton annotation as the redex.
+;; caseLb is lookup: the denotation of a branch list is the function
+;; nthB reads.  delta reduces chk of two canonical code terms to the
+;; boolean chkf returns, because a canonical syntax term denotes the
+;; Code that codeOf accepts (den_codeOf), including snode at any depth.
+;; itRN applies the node step to the token, the label, and the two
+;; recursive results.  The token's carrier is the unit type, so the
+;; syntactic token argument and the denotation's Unit.unit are
+;; definitionally the same value; the last rewrite closes by rfl.
+;; cex_no_cv is the kernel-checked fact that the strengthened Cv refuses
+;; the branch-list counterexample at either end of a chain.
+;; ---------------------------------------------------------------------------
+
+;; Field projections of nbrF. The flag changes only at caseL.bs and
+;; bcons.t. These lemmas keep the folded application in each statement,
+;; which is essential for rewriting generated denotation clauses.
+(defn- nbr-flag [ctor f]
+  (if (or (and (= ctor 'caseL) (= f 'bs)) (and (= ctor 'bcons) (= f 't))) 'true 'false))
+(defn- band-chain [xs]
+  (if (= 1 (count xs)) (first xs) (list 'Bool.and (first xs) (band-chain (rest xs)))))
+(defn- band-project [xs i h]
+  (if (= 1 (count xs)) h
+    (if (zero? i) (list 'band_left (first xs) (band-chain (rest xs)) h)
+      (band-project (rest xs) (dec i) (list 'band_right (first xs) (band-chain (rest xs)) h)))))
+(doseq [[ctor fields] exp-fields
+        :let [fs (filter #(= 'Exp (second %)) fields)
+              es (map (fn [[f]] (list (list 'nbrF f) (nbr-flag ctor f))) fs)
+              es (if (= ctor 'bcons) (cons 'fl es) es)
+              term (apply list (symbol (str "Exp." ctor)) (map first fields))]
+        [idx [f]] (map-indexed vector fs)]
+  (a/prove-theorem (symbol (str "nbr_" ctor "_" f))
+    (lv (vec (concat (mapcat (fn [[v ty]] [v ':- ty]) fields)
+                    ['fl ':- 'Bool 'hn ':- (list 'Eq 'Bool (list (list 'nbrF term) 'fl) 'Bool.true)])))
+    (lv (list 'Eq 'Bool (list (list 'nbrF f) (nbr-flag ctor f)) 'Bool.true))
+    (lv [(list 'exact (band-project es (+ idx (if (= ctor 'bcons) 1 0)) 'hn))])))
+
+;; Unfolding at a natural successor, before using substitution. This
+;; equation itself holds at any output skeleton, without typing premises.
+(pthm den_recNS_eval [P :- Exp, z :- Exp, st :- Exp, m :- Exp, G :- (List Sk), s :- Sk, en :- (HEnv G)]
+  (Eq (Car s)
+    (den chkf dec encTy n (Exp.recN P z st (Exp.succ m)) G s en)
+    (den chkf dec encTy n st (sk2 s Sk.nat G) s
+      (Prod.mk (den chkf dec encTy n (Exp.recN P z st m) G s en)
+               (Prod.mk (den chkf dec encTy n m G Sk.nat en) en))))
+  (rw [(den_recN_at chkf dec encTy n P z st (Exp.succ m) G s en)])
+  (change (Eq (Car s)
+    (Nat.rec$1 (fn [_ :- Nat] (Car s)) (den chkf dec encTy n z G s en)
+      (fn [j :- Nat, acc :- (Car s)] (den chkf dec encTy n st (sk2 s Sk.nat G) s (Prod.mk acc (Prod.mk j en))))
+      (den chkf dec encTy n (Exp.succ m) G Sk.nat en))
+    (den chkf dec encTy n st (sk2 s Sk.nat G) s
+      (Prod.mk (den chkf dec encTy n (Exp.recN P z st m) G s en)
+               (Prod.mk (den chkf dec encTy n m G Sk.nat en) en)))))
+  (rw [(den_succ_at chkf dec encTy n m G Sk.nat en)])
+  (rw [(den_recN_at chkf dec encTy n P z st m G s en)]))
+
+;; Lemma 3.2, Hd.recNS. The recursive result is skOf-faithful by its
+;; annotation; nbr supplies faithfulness of the predecessor m.
+(pthm den_recNS [P :- Exp, z :- Exp, st :- Exp, m :- Exp, G :- (List Sk), s :- Sk,
+  hj :- (SkJ Bool.false G (Exp.recN P z st (Exp.succ m)) s),
+  hn :- (Eq Bool (nbr (Exp.recN P z st (Exp.succ m))) Bool.true), en :- (HEnv G)]
+  (Eq (Car s)
+    (den chkf dec encTy n (substL (List.cons Exp (Exp.recN P z st m) (List.cons Exp m (List.nil Exp))) st) G s en)
+    (den chkf dec encTy n (Exp.recN P z st (Exp.succ m)) G s en))
+  (have hi (InvSkJ Bool.false G (Exp.recN P z st (Exp.succ m)) s)
+    (inv_recN Bool.false G P z st (Exp.succ m) s hj))
+  (have he (Eq Sk s (skel P)) (And.left (And.right hi)))
+  (have hm (SkJ Bool.false G m Sk.nat)
+    (And.right (And.right (inv_succ Bool.false G m Sk.nat (And.right (And.right (And.right (And.right (And.right hi)))))))))
+  (have hkm (Eq (Option Sk) (skOf G m) (Option.some Sk Sk.nat))
+    (skOf_ok G m Sk.nat hm (nbr_recN_n P z st (Exp.succ m) Bool.false hn)))
+  (have hr (SkJ Bool.false G (Exp.recN P z st m) (skel P))
+    (SkJ.sRecN G P z st m (And.left (And.right (And.right hi)))
+      (And.left (And.right (And.right (And.right hi))))
+      (And.left (And.right (And.right (And.right (And.right hi))))) hm))
+  (subst he)
+  (exact (Eq.trans
+    (den_substL2 chkf dec encTy n G m Sk.nat (Exp.recN P z st m) (skel P)
+      hm hkm hr rfl Bool.false st (skel P)
+      (And.left (And.right (And.right (And.right (And.right hi))))) en)
+    (Eq.symm (den_recNS_eval chkf dec encTy n P z st m G (skel P) en)))))
+
+;; Lookup is positional, including beyond a prefix: nthB's generated
+;; equations are needed because it recurses on both list and index.
+(a/prove-theorem 'den_nthB
+  (lv (into (walk/postwalk-replace '{n budget} P4) '[G :- (List Sk), outsk :- Sk, en :- (HEnv G), bs :- Exp]))
+  (lv '(forall [lq Nat] (forall [bq Exp]
+    (=> (Eq (Option Exp) (nthB bs lq) (Option.some Exp bq))
+      (Eq (Car outsk) (den chkf dec encTy budget bq G outsk en)
+        ((den chkf dec encTy budget bs G (Sk.arr Sk.lbl outsk) en) lq))))))
+  (lv (into ['(induction bs)]
+    (mapcat (fn [[idx [ctor fields]]]
+      (if (= ctor 'bcons)
+        '[(intro lq) (cases lq)
+          (intro bq hq)
+          (exact (Eq.trans
+            (congrArg (fn [v :- Exp] (den chkf dec encTy budget v G outsk en))
+              (Eq.symm (some_inj h bq (Eq.trans (Eq.symm (nthB.eq_25 h t)) hq))))
+            (Eq.symm (bcons_zero chkf dec encTy budget h t G outsk en))))
+          (intro bq hq)
+          (exact (Eq.trans
+            (ih_t n bq (Eq.trans (Eq.symm (nthB.eq_26 h t n)) hq))
+            (Eq.symm (bcons_succ chkf dec encTy budget h t G outsk en n))))]
+        (let [eqn (symbol (str "nthB.eq_" (if (< idx 24) (inc idx) (+ idx 2))))]
+          ['(intro lq bq hq)
+           (list 'exact (list 'False.elim$0
+             (list 'none_ne_someE 'bq
+               (list 'Eq.trans (list 'Eq.symm (apply list eqn (cons 'lq (map first fields)))) 'hq))))])))
+      (map-indexed vector exp-fields)))))
+
+;; Lemma 3.2, Hd.caseLb. The denotation reads the same branch as nthB,
+;; without a typing or nbr premise (even though Cv still requires both).
+(pthm den_caseLb [P :- Exp, l :- Nat, bs :- Exp, b :- Exp,
+  hb :- (Eq (Option Exp) (nthB bs l) (Option.some Exp b)),
+  G :- (List Sk), s :- Sk, en :- (HEnv G)]
+  (Eq (Car s) (den chkf dec encTy n b G s en)
+              (den chkf dec encTy n (Exp.caseL P (Exp.lbl l) bs) G s en))
+  (rw [(den_caseL_at chkf dec encTy n P (Exp.lbl l) bs G s en)])
+  (change (Eq (Car s) (den chkf dec encTy n b G s en)
+    ((den chkf dec encTy n bs G (Sk.arr Sk.lbl s) en) (den chkf dec encTy n (Exp.lbl l) G Sk.lbl en))))
+  (rw [(den_lbl_lbl chkf dec encTy n G l en)])
+  (exact (den_nthB chkf dec encTy n G s en bs l b hb)))
+
+(pthm den_recSL_eval [P :- Exp, tl :- Exp, tn :- Exp, x :- Exp, G :- (List Sk), s :- Sk, en :- (HEnv G)]
+  (Eq (Car s)
+    (den chkf dec encTy n (Exp.recS P tl tn (Exp.sleaf x)) G s en)
+    (den chkf dec encTy n tl (List.cons Sk Sk.lbl G) s (Prod.mk (den chkf dec encTy n x G Sk.lbl en) en)))
+  (rw [(den_recS_at chkf dec encTy n P tl tn (Exp.sleaf x) G s en)])
+  (change (Eq (Car s)
+    (Code.rec$1 (fn [_ :- Code] (Car s))
+      (fn [l :- Nat] (den chkf dec encTy n tl (List.cons Sk Sk.lbl G) s (Prod.mk l en)))
+      (fn [l :- Nat, a :- Code, b :- Code, ya :- (Car s), yb :- (Car s)]
+        (den chkf dec encTy n tn (sk2 s s (sk2 Sk.syn Sk.syn (List.cons Sk Sk.lbl G))) s
+          (Prod.mk yb (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))))))
+      (den chkf dec encTy n (Exp.sleaf x) G Sk.syn en))
+    (den chkf dec encTy n tl (List.cons Sk Sk.lbl G) s (Prod.mk (den chkf dec encTy n x G Sk.lbl en) en))))
+  (rw [(den_sleaf_at chkf dec encTy n x G Sk.syn en)]))
+
+;; Lemma 3.2, Hd.recSL. nbr makes the substituted label skOf-faithful.
+(pthm den_recSL [P :- Exp, tl :- Exp, tn :- Exp, x :- Exp, G :- (List Sk), s :- Sk,
+  hj :- (SkJ Bool.false G (Exp.recS P tl tn (Exp.sleaf x)) s),
+  hn :- (Eq Bool (nbr (Exp.recS P tl tn (Exp.sleaf x))) Bool.true), en :- (HEnv G)]
+  (Eq (Car s) (den chkf dec encTy n (subst1 x tl) G s en)
+              (den chkf dec encTy n (Exp.recS P tl tn (Exp.sleaf x)) G s en))
+  (have hi (InvSkJ Bool.false G (Exp.recS P tl tn (Exp.sleaf x)) s)
+    (inv_recS Bool.false G P tl tn (Exp.sleaf x) s hj))
+  (have he (Eq Sk s (skel P)) (And.left (And.right hi)))
+  (have hx (SkJ Bool.false G x Sk.lbl)
+    (And.right (And.right (inv_sleaf Bool.false G x Sk.syn (And.right (And.right (And.right (And.right (And.right hi)))))))))
+  (have hk (Eq (Option Sk) (skOf G x) (Option.some Sk Sk.lbl))
+    (skOf_ok G x Sk.lbl hx (nbr_recS_c P tl tn (Exp.sleaf x) Bool.false hn)))
+  (subst he)
+  (exact (Eq.trans
+    (den_subst1 chkf dec encTy n Bool.false G Sk.lbl tl (skel P)
+      (And.left (And.right (And.right (And.right hi)))) x hx hk en)
+    (Eq.symm (den_recSL_eval chkf dec encTy n P tl tn x G (skel P) en)))))
+
+(pthm den_recSN_eval [P :- Exp, tl :- Exp, tn :- Exp, x :- Exp, c1 :- Exp, c2 :- Exp,
+  G :- (List Sk), s :- Sk, en :- (HEnv G)]
+  (Eq (Car s)
+    (den chkf dec encTy n (Exp.recS P tl tn (Exp.snode x c1 c2)) G s en)
+    (den chkf dec encTy n tn (sk2 s s (sk2 Sk.syn Sk.syn (List.cons Sk Sk.lbl G))) s
+      (Prod.mk (den chkf dec encTy n (Exp.recS P tl tn c2) G s en)
+        (Prod.mk (den chkf dec encTy n (Exp.recS P tl tn c1) G s en)
+          (Prod.mk (den chkf dec encTy n c2 G Sk.syn en)
+            (Prod.mk (den chkf dec encTy n c1 G Sk.syn en)
+              (Prod.mk (den chkf dec encTy n x G Sk.lbl en) en)))))))
+  (rw [(den_recS_at chkf dec encTy n P tl tn (Exp.snode x c1 c2) G s en)])
+  (change (Eq (Car s)
+    (Code.rec$1 (fn [_ :- Code] (Car s))
+      (fn [l :- Nat] (den chkf dec encTy n tl (List.cons Sk Sk.lbl G) s (Prod.mk l en)))
+      (fn [l :- Nat, a :- Code, b :- Code, ya :- (Car s), yb :- (Car s)]
+        (den chkf dec encTy n tn (sk2 s s (sk2 Sk.syn Sk.syn (List.cons Sk Sk.lbl G))) s
+          (Prod.mk yb (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))))))
+      (den chkf dec encTy n (Exp.snode x c1 c2) G Sk.syn en))
+    (den chkf dec encTy n tn (sk2 s s (sk2 Sk.syn Sk.syn (List.cons Sk Sk.lbl G))) s
+      (Prod.mk (den chkf dec encTy n (Exp.recS P tl tn c2) G s en)
+        (Prod.mk (den chkf dec encTy n (Exp.recS P tl tn c1) G s en)
+          (Prod.mk (den chkf dec encTy n c2 G Sk.syn en)
+            (Prod.mk (den chkf dec encTy n c1 G Sk.syn en)
+              (Prod.mk (den chkf dec encTy n x G Sk.lbl en) en))))))))
+  (rw [(den_snode_at chkf dec encTy n x c1 c2 G Sk.syn en)])
+  (rw [(den_recS_at chkf dec encTy n P tl tn c1 G s en)])
+  (rw [(den_recS_at chkf dec encTy n P tl tn c2 G s en)]))
+
+;; Lemma 3.2, Hd.recSN. The five substituted terms are in de Bruijn order:
+;; recursive right result, recursive left result, right code, left code,
+;; label. TyL records both typing and skOf faithfulness for each term.
+(pthm den_recSN [P :- Exp, tl :- Exp, tn :- Exp, x :- Exp, c1 :- Exp, c2 :- Exp,
+  G :- (List Sk), s :- Sk,
+  hj :- (SkJ Bool.false G (Exp.recS P tl tn (Exp.snode x c1 c2)) s),
+  hn :- (Eq Bool (nbr (Exp.recS P tl tn (Exp.snode x c1 c2))) Bool.true), en :- (HEnv G)]
+  (Eq (Car s)
+    (den chkf dec encTy n
+      (substL (List.cons Exp (Exp.recS P tl tn c2) (List.cons Exp (Exp.recS P tl tn c1)
+        (List.cons Exp c2 (List.cons Exp c1 (List.cons Exp x (List.nil Exp)))))) tn) G s en)
+    (den chkf dec encTy n (Exp.recS P tl tn (Exp.snode x c1 c2)) G s en))
+  (have hi (InvSkJ Bool.false G (Exp.recS P tl tn (Exp.snode x c1 c2)) s)
+    (inv_recS Bool.false G P tl tn (Exp.snode x c1 c2) s hj))
+  (have he (Eq Sk s (skel P)) (And.left (And.right hi)))
+  (have hc (InvSkJ Bool.false G (Exp.snode x c1 c2) Sk.syn)
+    (inv_snode Bool.false G x c1 c2 Sk.syn (And.right (And.right (And.right (And.right (And.right hi)))))))
+  (have hnc (Eq Bool (nbr (Exp.snode x c1 c2)) Bool.true)
+    (nbr_recS_c P tl tn (Exp.snode x c1 c2) Bool.false hn))
+  (have hx (SkJ Bool.false G x Sk.lbl) (And.left (And.right (And.right hc))))
+  (have h1 (SkJ Bool.false G c1 Sk.syn) (And.left (And.right (And.right (And.right hc)))))
+  (have h2 (SkJ Bool.false G c2 Sk.syn) (And.right (And.right (And.right (And.right hc)))))
+  (have hkx (Eq (Option Sk) (skOf G x) (Option.some Sk Sk.lbl))
+    (skOf_ok G x Sk.lbl hx (nbr_snode_a x c1 c2 Bool.false hnc)))
+  (have hk1 (Eq (Option Sk) (skOf G c1) (Option.some Sk Sk.syn))
+    (skOf_ok G c1 Sk.syn h1 (nbr_snode_c1 x c1 c2 Bool.false hnc)))
+  (have hk2 (Eq (Option Sk) (skOf G c2) (Option.some Sk Sk.syn))
+    (skOf_ok G c2 Sk.syn h2 (nbr_snode_c2 x c1 c2 Bool.false hnc)))
+  (have hr1 (SkJ Bool.false G (Exp.recS P tl tn c1) (skel P))
+    (SkJ.sRecS G P tl tn c1 (And.left (And.right (And.right hi)))
+      (And.left (And.right (And.right (And.right hi))))
+      (And.left (And.right (And.right (And.right (And.right hi))))) h1))
+  (have hr2 (SkJ Bool.false G (Exp.recS P tl tn c2) (skel P))
+    (SkJ.sRecS G P tl tn c2 (And.left (And.right (And.right hi)))
+      (And.left (And.right (And.right (And.right hi))))
+      (And.left (And.right (And.right (And.right (And.right hi))))) h2))
+  (subst he)
+  (exact (Eq.trans
+    (den_substL chkf dec encTy n G
+      (List.cons Exp (Exp.recS P tl tn c2) (List.cons Exp (Exp.recS P tl tn c1)
+        (List.cons Exp c2 (List.cons Exp c1 (List.cons Exp x (List.nil Exp))))))
+      (List.cons Sk (skel P) (List.cons Sk (skel P)
+        (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl (List.nil Sk))))))
+      (And.intro hr2 (And.intro rfl (And.intro hr1 (And.intro rfl
+        (And.intro h2 (And.intro hk2 (And.intro h1 (And.intro hk1
+          (And.intro hx (And.intro hkx (Eq.refl$1 (List.nil Sk))))))))))))
+      Bool.false tn (skel P) (And.left (And.right (And.right (And.right (And.right hi))))) en)
+    (Eq.symm (den_recSN_eval chkf dec encTy n P tl tn x c1 c2 G (skel P) en)))))
+
+;; The Option calculation behind codeOf's snode case. The equations remain
+;; premises of the motive while splitting Options; no dependent cases on
+;; some = some are used.
+(kdef canonicalNode (=> Nat (Option Code) (Option Code) (Option Code))
+  (fn [l :- Nat, a :- (Option Code), b :- (Option Code)]
+    (Option.rec$1$0 Code (fn [_ :- (Option Code)] (Option Code)) (Option.none Code)
+      (fn [ca :- Code]
+        (Option.rec$1$0 Code (fn [_ :- (Option Code)] (Option Code)) (Option.none Code)
+          (fn [cb :- Code] (Option.some Code (Code.sn l ca cb))) b)) a)))
+
+(thm canonicalNode_some [l :- Nat, ca :- Code, da :- Code, db :- Code, hb :- (Option Code)]
+  (=> (Eq Code da ca)
+      (forall [cb Code] (=> (Eq (Option Code) hb (Option.some Code cb)) (Eq Code db cb)))
+      (forall [cc Code] (=> (Eq (Option Code) (canonicalNode l (Option.some Code ca) hb) (Option.some Code cc))
+                           (Eq Code (Code.sn l da db) cc))))
+  (cases hb)
+  (intro ha ihb cc hc)
+  (exact (False.elim$0 (code_none_ne_some cc hc)))
+  (intro ha ihb cc hc)
+  (exact (Eq.trans
+    (congrArg (fn [v :- Code] (Code.sn l v db)) ha)
+    (Eq.trans (congrArg (fn [v :- Code] (Code.sn l ca v)) (ihb val rfl))
+              (Option.some.inj hc)))))
+
+(thm canonicalNode_den [l :- Nat, da :- Code, db :- Code, oa :- (Option Code), ob :- (Option Code)]
+  (=> (forall [ca Code] (=> (Eq (Option Code) oa (Option.some Code ca)) (Eq Code da ca)))
+      (forall [cb Code] (=> (Eq (Option Code) ob (Option.some Code cb)) (Eq Code db cb)))
+      (forall [cc Code] (=> (Eq (Option Code) (canonicalNode l oa ob) (Option.some Code cc))
+                           (Eq Code (Code.sn l da db) cc))))
+  (cases oa)
+  (intro iha ihb cc hc)
+  (exact (False.elim$0 (code_none_ne_some cc hc)))
+  (intro iha ihb)
+  (exact (canonicalNode_some l val da db ob (iha val rfl) ihb)))
+
+(pthm den_code_sleaf [x :- Exp, G :- (List Sk), en :- (HEnv G)]
+  (forall [cc Code] (=> (Eq (Option Code) (codeOf (Exp.sleaf x)) (Option.some Code cc))
+                        (Eq Code (den chkf dec encTy n (Exp.sleaf x) G Sk.syn en) cc)))
+  (intro cc hc)
+  (refine' (exN _ _ (codeOf_sleaf_inv x cc hc) _))
+  (intro l hh)
+  (have hx (Eq Exp x (Exp.lbl l)) (And.left hh))
+  (subst hx)
+  (exact (Eq.trans (den_sleaf_code chkf dec encTy n l G en) (Eq.symm (And.right hh)))))
+
+(pthm den_snode_code [l :- Nat, c1 :- Exp, c2 :- Exp, G :- (List Sk), en :- (HEnv G)]
+  (Eq Code (den chkf dec encTy n (Exp.snode (Exp.lbl l) c1 c2) G Sk.syn en)
+           (Code.sn l (den chkf dec encTy n c1 G Sk.syn en) (den chkf dec encTy n c2 G Sk.syn en)))
+  (rw [(den_snode_at chkf dec encTy n (Exp.lbl l) c1 c2 G Sk.syn en)])
+  (change (Eq Code
+    (Code.sn (den chkf dec encTy n (Exp.lbl l) G Sk.lbl en)
+             (den chkf dec encTy n c1 G Sk.syn en) (den chkf dec encTy n c2 G Sk.syn en))
+    (Code.sn l (den chkf dec encTy n c1 G Sk.syn en) (den chkf dec encTy n c2 G Sk.syn en))))
+  (rw [(den_lbl_at chkf dec encTy n l G Sk.lbl en)]))
+
+(a/prove-theorem 'den_code_snode
+  (lv (into P4 '[x :- Exp, c1 :- Exp, c2 :- Exp, G :- (List Sk), en :- (HEnv G),
+    ih1 :- (forall [cc Code] (=> (Eq (Option Code) (codeOf c1) (Option.some Code cc))
+                                (Eq Code (den chkf dec encTy n c1 G Sk.syn en) cc))),
+    ih2 :- (forall [cc Code] (=> (Eq (Option Code) (codeOf c2) (Option.some Code cc))
+                                (Eq Code (den chkf dec encTy n c2 G Sk.syn en) cc)))]))
+  (lv '(forall [cc Code] (=> (Eq (Option Code) (codeOf (Exp.snode x c1 c2)) (Option.some Code cc))
+                            (Eq Code (den chkf dec encTy n (Exp.snode x c1 c2) G Sk.syn en) cc))))
+  (lv (into ['(cases x)]
+    (mapcat (fn [[ctor _]]
+      (concat ['(intro cc hc)]
+        (if (= ctor 'lbl)
+          '[(exact (Eq.trans (den_snode_code chkf dec encTy n l c1 c2 G en)
+                    (canonicalNode_den l (den chkf dec encTy n c1 G Sk.syn en)
+                       (den chkf dec encTy n c2 G Sk.syn en) (codeOf c1) (codeOf c2) ih1 ih2 cc hc)))]
+          '[(exact (False.elim$0 (code_none_ne_some cc hc)))]))) exp-fields))))
+
+;; Lemma 3.2, delta: every closed canonical syntax term denotes precisely
+;; the Code accepted by codeOf. The snode proof covers arbitrary tree depth.
+(a/prove-theorem 'den_codeOf
+  (lv (into P4 '[G :- (List Sk), en :- (HEnv G), e :- Exp]))
+  (lv '(forall [cc Code] (=> (Eq (Option Code) (codeOf e) (Option.some Code cc))
+                            (Eq Code (den chkf dec encTy n e G Sk.syn en) cc))))
+  (lv (into ['(induction e)]
+    (mapcat (fn [[ctor _]]
+      (case ctor
+        sleaf '[(exact (den_code_sleaf chkf dec encTy n a G en))]
+        snode '[(exact (den_code_snode chkf dec encTy n a c1 c2 G en ih_c1 ih_c2))]
+        '[(intro cc hc) (exact (False.elim$0 (code_none_ne_some cc hc)))])) exp-fields))))
+
+(pthm den_delta [c :- Exp, d :- Exp, cc :- Code, dc :- Code,
+  hc :- (Eq (Option Code) (codeOf c) (Option.some Code cc)),
+  hd :- (Eq (Option Code) (codeOf d) (Option.some Code dc)),
+  G :- (List Sk), s :- Sk, en :- (HEnv G)]
+  (Eq (Car s) (den chkf dec encTy n (boolExp (chkf cc dc)) G s en)
+              (den chkf dec encTy n (Exp.chk c d) G s en))
+  (rw [(den_boolExp chkf dec encTy n (chkf cc dc) G s en)])
+  (rw [(den_chk_at chkf dec encTy n c d G s en)])
+  (change (Eq (Car s) (coe Sk.bool s (chkf cc dc))
+    (coe Sk.bool s (chkf (den chkf dec encTy n c G Sk.syn en) (den chkf dec encTy n d G Sk.syn en)))))
+  (rw [(den_codeOf chkf dec encTy n G en c cc hc)])
+  (rw [(den_codeOf chkf dec encTy n G en d dc hd)]))
+
+;; Tokens have a singleton carrier; itR's node clause supplies that sole
+;; value while the operational rule passes the syntactic token argument.
+(thm den_dia_unique [v :- (Car Sk.dia)] (Eq (Car Sk.dia) v Unit.unit)
+  (cases v) (rfl))
+
+(pthm den_itRN_eval [X :- Exp, g :- Exp, h :- Exp, d :- Exp, x :- Exp, r1 :- Exp, r2 :- Exp,
+  G :- (List Sk), s :- Sk, en :- (HEnv G)]
+  (Eq (Car s)
+    (den chkf dec encTy n (Exp.itR X g h (Exp.node d x r1 r2)) G s en)
+    ((den chkf dec encTy n h G (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr s (Sk.arr s s)))) en)
+      Unit.unit (den chkf dec encTy n x G Sk.lbl en)
+      (den chkf dec encTy n (Exp.itR X g h r1) G s en)
+      (den chkf dec encTy n (Exp.itR X g h r2) G s en)))
+  (rw [(den_itR_at chkf dec encTy n X g h (Exp.node d x r1 r2) G s en)])
+  (change (Eq (Car s)
+    (Code.rec$1 (fn [_ :- Code] (Car s))
+      (fn [l :- Nat] ((den chkf dec encTy n g G (Sk.arr Sk.lbl s) en) l))
+      (fn [l :- Nat, a :- Code, b :- Code, ya :- (Car s), yb :- (Car s)]
+        ((den chkf dec encTy n h G (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr s (Sk.arr s s)))) en) Unit.unit l ya yb))
+      (den chkf dec encTy n (Exp.node d x r1 r2) G Sk.cert en))
+    ((den chkf dec encTy n h G (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr s (Sk.arr s s)))) en)
+      Unit.unit (den chkf dec encTy n x G Sk.lbl en)
+      (den chkf dec encTy n (Exp.itR X g h r1) G s en)
+      (den chkf dec encTy n (Exp.itR X g h r2) G s en))))
+  (rw [(den_node_at chkf dec encTy n d x r1 r2 G Sk.cert en)])
+  (rw [(den_itR_at chkf dec encTy n X g h r1 G s en)])
+  (rw [(den_itR_at chkf dec encTy n X g h r2 G s en)]))
+
+;; Lemma 3.2, Hd.itRN. Only d and x need skOf completeness; the two
+;; recursive iterator arguments infer their skeleton from X.
+(pthm den_itRN [X :- Exp, g :- Exp, h :- Exp, d :- Exp, x :- Exp, r1 :- Exp, r2 :- Exp,
+  G :- (List Sk), s :- Sk,
+  hj :- (SkJ Bool.false G (Exp.itR X g h (Exp.node d x r1 r2)) s),
+  hn :- (Eq Bool (nbr (Exp.itR X g h (Exp.node d x r1 r2))) Bool.true), en :- (HEnv G)]
+  (Eq (Car s)
+    (den chkf dec encTy n
+      (Exp.app (Exp.app (Exp.app (Exp.app h d) x) (Exp.itR X g h r1)) (Exp.itR X g h r2)) G s en)
+    (den chkf dec encTy n (Exp.itR X g h (Exp.node d x r1 r2)) G s en))
+  (have hi (InvSkJ Bool.false G (Exp.itR X g h (Exp.node d x r1 r2)) s)
+    (inv_itR Bool.false G X g h (Exp.node d x r1 r2) s hj))
+  (have he (Eq Sk s (skel X)) (And.left (And.right hi)))
+  (have hc (InvSkJ Bool.false G (Exp.node d x r1 r2) Sk.cert)
+    (inv_node Bool.false G d x r1 r2 Sk.cert (And.right (And.right (And.right (And.right (And.right hi)))))))
+  (have hnc (Eq Bool (nbr (Exp.node d x r1 r2)) Bool.true)
+    (nbr_itR_r X g h (Exp.node d x r1 r2) Bool.false hn))
+  (have hkd (Eq (Option Sk) (skOf G d) (Option.some Sk Sk.dia))
+    (skOf_ok G d Sk.dia (And.left (And.right (And.right hc))) (nbr_node_d d x r1 r2 Bool.false hnc)))
+  (have hkx (Eq (Option Sk) (skOf G x) (Option.some Sk Sk.lbl))
+    (skOf_ok G x Sk.lbl (And.left (And.right (And.right (And.right hc))))
+      (nbr_node_a d x r1 r2 Bool.false hnc)))
+  (subst he)
+  (rw [(den_app_some chkf dec encTy n
+    (Exp.app (Exp.app (Exp.app h d) x) (Exp.itR X g h r1)) (Exp.itR X g h r2) G (skel X) (skel X) en rfl)])
+  (rw [(den_app_some chkf dec encTy n
+    (Exp.app (Exp.app h d) x) (Exp.itR X g h r1) G (skel X) (Sk.arr (skel X) (skel X)) en rfl)])
+  (rw [(den_app_some chkf dec encTy n
+    (Exp.app h d) x G Sk.lbl (Sk.arr (skel X) (Sk.arr (skel X) (skel X))) en hkx)])
+  (rw [(den_app_some chkf dec encTy n
+    h d G Sk.dia (Sk.arr Sk.lbl (Sk.arr (skel X) (Sk.arr (skel X) (skel X)))) en hkd)])
+  (rw [(den_itRN_eval chkf dec encTy n X g h d x r1 r2 G (skel X) en)]))
+;; The strengthened Cv excludes the earlier counterexample at either end.
+;; This is a proved negation, not merely a failed proof search.
+(thm cex_no_cv [chkf :- (=> Code Code Bool), B :- Exp]
+  (Not (Cv chkf (List.nil Sk)
+    (Exp.tT (Exp.app
+      (Exp.lam U.uw (Exp.tPi U.uw Exp.tLbl Exp.tBool)
+        (Exp.caseL Exp.tBool (Exp.lbl 0) (Exp.var 0)))
+      (Exp.bcons Exp.tt Exp.bnil))) B))
+  (intro hc)
+  (exact (Bool.noConfusion
+    (Eq.trans (Eq.symm cex_nbr_ff)
+      (cv_nbr_left chkf (List.nil Sk)
+        (Exp.tT (Exp.app
+          (Exp.lam U.uw (Exp.tPi U.uw Exp.tLbl Exp.tBool)
+            (Exp.caseL Exp.tBool (Exp.lbl 0) (Exp.var 0)))
+          (Exp.bcons Exp.tt Exp.bnil))) B hc)))))

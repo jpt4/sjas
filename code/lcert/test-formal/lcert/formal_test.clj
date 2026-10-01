@@ -295,7 +295,14 @@
                 prod_inj skof_pair den_pair_prod den_betaLet_at den_betaLet_core den_betaLet
                 den_itRL den_itRL_nbr V_tTT V_tTF V_tTT_at V_tTF_at hd_tTT hd_tTF
                 cex_red_eq cex_den_redex cex_den_contr cex_nbr_ff cex_redex_typed
-                cex_den_ne conv_skj_counterexample]]
+                cex_den_ne conv_skj_counterexample
+                nbr_recN_n nbr_recS_c nbr_snode_a nbr_snode_c1 nbr_snode_c2
+                nbr_itR_r nbr_node_d nbr_node_a nbr_caseL_bs nbr_bcons_t nbr_bcons_h
+                den_recNS_eval den_recNS den_nthB den_caseLb
+                den_recSL_eval den_recSL den_recSN_eval den_recSN
+                canonicalNode canonicalNode_some canonicalNode_den
+                den_code_sleaf den_snode_code den_code_snode den_codeOf den_delta
+                den_dia_unique den_itRN_eval den_itRN cex_no_cv]]
       (is (b/has? c) (str c))))
   (testing "the β redex and its contractum are not denoted equally: the application defaults"
     (is (b/rejects? den-params
