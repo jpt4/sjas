@@ -493,7 +493,9 @@
                 skof_letp sk_letp_C den_letp_p den_letp_t step_letp
                 getP_base den_refl_r step_refl_D step_refl
                 den_insp_r den_insp_c den_insp_t1 den_insp_t2 sk_insp_X step_insp
-                step_pack]]
+                step_pack
+                V_tT_den V_tTT_gen V_tTF_gen step_V_tT_nil step_V_tT_b step_V_tT
+                V_pi_at V_pi_at_cast V_pi_dom]]
       (is (b/has? c) (str c))))
   (testing "a childless term has no child to step in"
     (is (b/rejects? '[]

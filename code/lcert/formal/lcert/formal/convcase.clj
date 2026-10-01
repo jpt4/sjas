@@ -3174,3 +3174,224 @@
           (concat [(symbol (str "step_" (name ctor))) 'chkf 'dec 'encTy]
                   (map first fields)
                   (map #(symbol (str "ih_" %)) (get ih-fields ctor [])))))))
+
+;; ===========================================================================
+;; §4  A step of a type preserves V (Lemma 3.3)
+;; ===========================================================================
+;;
+;; V(T b) is ⟦b⟧ = tt, so a step inside the boolean is step_pack and a head
+;; step is T(tt) ⇝ 1 or T(ff) ⇝ 0.  V(Π) at the arrow skeleton is the three
+;; usage clauses; once the domain's skeleton agrees, those clauses follow
+;; the domain's V.  The codomain, Σ, the conversion chain and ConvCase are
+;; next.
+
+
+  ;; V(T b) is ⟦b⟧ = tt.  A step that preserves that boolean preserves V
+  ;; at every skeleton (the clause does not read the value).
+  (prove! 'V_tT_den
+    (into step-params
+      '[cap :- Nat, b :- Exp, bq :- Exp, G :- (List Sk), en :- (HEnv G), k :- Nat,
+        s :- Sk, v :- (Car s),
+        h :- (Eq (Car Sk.bool) (den chkf dec encTy cap bq G Sk.bool en)
+                                 (den chkf dec encTy cap b G Sk.bool en))])
+    '(Eq Prop (V chkf dec encTy cap (Exp.tT bq) G en k s v)
+              (V chkf dec encTy cap (Exp.tT b) G en k s v))
+    ['(unfold V)
+     '(exact (congrArg (fn [q :- Bool] (Eq Bool q Bool.true)) h))])
+
+
+  ;; Head steps of a type: T(tt) ⇝ 1 and T(ff) ⇝ 0.  V does not depend on
+  ;; the value's skeleton (both clauses ignore it), so the equation holds
+  ;; at every carrier, not only at Unit.
+  (prove! 'V_tTT_gen
+    (into step-params
+      '[cap :- Nat, G :- (List Sk), en :- (HEnv G), k :- Nat, s :- Sk, v :- (Car s)])
+    '(Eq Prop (V chkf dec encTy cap Exp.tUnit G en k s v)
+              (V chkf dec encTy cap (Exp.tT Exp.tt) G en k s v))
+    ['(unfold V)
+     '(rw [(den_tt_bool chkf dec encTy cap G en)])
+     '(exact (propext (Iff.intro (fn [_ :- True] (Eq.refl$1 Bool.true))
+                                 (fn [_ :- (Eq Bool Bool.true Bool.true)] True.intro))))])
+  (prove! 'V_tTF_gen
+    (into step-params
+      '[cap :- Nat, G :- (List Sk), en :- (HEnv G), k :- Nat, s :- Sk, v :- (Car s)])
+    '(Eq Prop (V chkf dec encTy cap Exp.tEmpty G en k s v)
+              (V chkf dec encTy cap (Exp.tT Exp.ff) G en k s v))
+    ['(unfold V)
+     '(rw [(den_ff_bool chkf dec encTy cap G en)])
+     '(exact (propext (Iff.intro (fn [h :- False] (False.elim$0 h))
+                                 (fn [h :- (Eq Bool Bool.false Bool.true)] (Bool.noConfusion h)))))])
+
+
+
+  ;; The one child: a step inside the boolean.  step_pack keeps ⟦b⟧, and
+  ;; V(T ·) reads nothing else.
+  (prove! 'step_V_tT_b
+    (into Pcap
+      '[b :- Exp, G :- (List Sk),
+        hj :- (SkJ Bool.true G (Exp.tT b) Sk.unit),
+        hn :- (Eq Bool (nbr (Exp.tT b)) Bool.true),
+        q :- (List Nat), re :- Exp, co :- Exp,
+        hg :- (Eq (Option Exp) (getP (List.cons Nat 0 q) (Exp.tT b)) (Option.some Exp re)),
+        hd :- (Hd chkf re co)])
+    '(forall [en (HEnv G)] (forall [k Nat] (forall [s Sk] (forall [v (Car s)]
+       (Eq Prop (V chkf dec encTy cap (setP (List.cons Nat 0 q) (Exp.tT b) co) G en k s v)
+                 (V chkf dec encTy cap (Exp.tT b) G en k s v))))))
+    ['(intro en k s v)
+     '(have hb (SkJ Bool.false G b Sk.bool)
+        (And.right (And.right (inv_tT Bool.true G b Sk.unit hj))))
+     '(have hden (Eq (Car Sk.bool)
+                  (den chkf dec encTy cap (setP q b co) G Sk.bool en)
+                  (den chkf dec encTy cap b G Sk.bool en))
+        ((And.right (step_pack chkf dec encTy b Bool.false G Sk.bool hb
+                      (nbr_tT_b b Bool.false hn) q re co hg hd))
+          cap en))
+     '(exact (V_tT_den chkf dec encTy cap b (setP q b co) G en k s v hden))])
+
+  (prove! 'step_V_tT_nil
+    (into Pcap
+      '[b :- Exp, G :- (List Sk),
+        r :- Exp, r2 :- Exp,
+        hg :- (Eq (Option Exp) (getP (List.nil Nat) (Exp.tT b)) (Option.some Exp r)),
+        hd :- (Hd chkf r r2)])
+    '(forall [en (HEnv G)] (forall [k Nat] (forall [s Sk] (forall [v (Car s)]
+       (Eq Prop (V chkf dec encTy cap (setP (List.nil Nat) (Exp.tT b) r2) G en k s v)
+                 (V chkf dec encTy cap (Exp.tT b) G en k s v))))))
+    ['(have he (Eq Exp (Exp.tT b) r)
+        (some_inj (Exp.tT b) r (Eq.trans (Eq.symm (getP_nil (Exp.tT b))) hg)))
+     '(subst he)
+     '(intro en k s v)
+     '(cases hd)
+     '(exact (Eq.trans
+        (congrArg (fn [e :- Exp] (V chkf dec encTy cap e G en k s v))
+                  (setP_nil (Exp.tT Exp.ff) Exp.tEmpty))
+        (V_tTF_gen chkf dec encTy cap G en k s v)))
+     '(exact (Eq.trans
+        (congrArg (fn [e :- Exp] (V chkf dec encTy cap e G en k s v))
+                  (setP_nil (Exp.tT Exp.tt) Exp.tUnit))
+        (V_tTT_gen chkf dec encTy cap G en k s v)))])
+
+  (prove! 'step_V_tT
+    (into Pcap
+      '[b :- Exp, G :- (List Sk),
+        hj :- (SkJ Bool.true G (Exp.tT b) Sk.unit),
+        hn :- (Eq Bool (nbr (Exp.tT b)) Bool.true),
+        p :- (List Nat), r :- Exp, r2 :- Exp,
+        hg :- (Eq (Option Exp) (getP p (Exp.tT b)) (Option.some Exp r)),
+        hd :- (Hd chkf r r2)])
+    '(forall [en (HEnv G)] (forall [k Nat] (forall [s Sk] (forall [v (Car s)]
+       (Eq Prop (V chkf dec encTy cap (setP p (Exp.tT b) r2) G en k s v)
+                 (V chkf dec encTy cap (Exp.tT b) G en k s v))))))
+    ['(cases p)
+     '(exact (step_V_tT_nil chkf dec encTy cap b G r r2 hg hd))
+     '(cases head)
+     '(exact (step_V_tT_b chkf dec encTy cap b G hj hn tail r r2 hg hd))
+     '(exact (False.elim$0 (none_ne_someE r hg)))])
+
+  (prove! 'V_pi_at
+    (into Pcap
+      '[r :- U, A :- Exp, B :- Exp, G :- (List Sk), en :- (HEnv G), k :- Nat,
+        f :- (Car (Sk.arr (skel A) (skel B)))])
+    '(Eq Prop
+       (V chkf dec encTy cap (Exp.tPi r A B) G en k (Sk.arr (skel A) (skel B)) f)
+       (U.rec$1 (fn [_ :- U] Prop)
+         (forall [a (Car (skel A))]
+           (V chkf dec encTy cap B (List.cons Sk (skel A) G) (Prod.mk a en) k (skel B) (f a)))
+         (forall [j Nat]
+           (=> (Nat.le (+ k j) cap)
+             (forall [a (Car (skel A))]
+               (=> (V chkf dec encTy cap A G en j (skel A) a)
+                   (V chkf dec encTy cap B (List.cons Sk (skel A) G) (Prod.mk a en) (+ k j) (skel B) (f a))))))
+         (forall [a (Car (skel A))]
+           (=> (V chkf dec encTy cap A G en 0 (skel A) a)
+               (V chkf dec encTy cap B (List.cons Sk (skel A) G) (Prod.mk a en) k (skel B) (f a))))
+         r))
+    ['(unfold V) '(rfl)])
+
+  ;; V(Π) at an arrow whose domain is only propositionally skel A2.
+  ;; subst needs the skeleton to be a variable.
+  (prove! 'V_pi_at_cast
+    (into Pcap
+      '[r :- U, A :- Exp, B :- Exp, G :- (List Sk), en :- (HEnv G), k :- Nat,
+        s :- Sk, hs :- (Eq Sk s (skel A)),
+        f :- (Car (Sk.arr s (skel B)))])
+    '(Eq Prop
+       (V chkf dec encTy cap (Exp.tPi r A B) G en k (Sk.arr s (skel B)) f)
+       (U.rec$1 (fn [_ :- U] Prop)
+         (forall [a (Car s)]
+           (V chkf dec encTy cap B (List.cons Sk s G) (Prod.mk a en) k (skel B) (f a)))
+         (forall [j Nat]
+           (=> (Nat.le (+ k j) cap)
+             (forall [a (Car s)]
+               (=> (V chkf dec encTy cap A G en j s a)
+                   (V chkf dec encTy cap B (List.cons Sk s G) (Prod.mk a en) (+ k j) (skel B) (f a))))))
+         (forall [a (Car s)]
+           (=> (V chkf dec encTy cap A G en 0 s a)
+               (V chkf dec encTy cap B (List.cons Sk s G) (Prod.mk a en) k (skel B) (f a))))
+         r))
+    ['(subst hs)
+     '(exact (V_pi_at chkf dec encTy cap r A B G en k f))])
+
+
+  (def ^:private cong @#'lcert.formal.substitution/cong)
+  (def VA '(V chkf dec encTy cap A G en j (skel A) a))
+  (def VA2 '(V chkf dec encTy cap A2 G en j (skel A) a))
+  (def VB '(V chkf dec encTy cap B (List.cons Sk (skel A) G) (Prod.mk a en) k (skel B) (f a)))
+  (def VBj '(V chkf dec encTy cap B (List.cons Sk (skel A) G) (Prod.mk a en) (+ k j) (skel B) (f a)))
+
+  ;; A step in the domain, once skeletons agree and V of the domain agrees at
+  ;; every footprint, leaves the three usage clauses of V(Π) agreeing.
+  (prove! 'V_pi_dom
+    (into Pcap
+      '[r :- U, A :- Exp, A2 :- Exp, B :- Exp, G :- (List Sk),
+        hsk :- (Eq Sk (skel A2) (skel A)),
+        en :- (HEnv G), k :- Nat,
+        hA :- (forall [j Nat] (forall [a (Car (skel A))]
+                (Eq Prop (V chkf dec encTy cap A2 G en j (skel A) a)
+                          (V chkf dec encTy cap A G en j (skel A) a)))),
+        f :- (Car (Sk.arr (skel A) (skel B)))])
+    '(Eq Prop
+       (V chkf dec encTy cap (Exp.tPi r A2 B) G en k (Sk.arr (skel A) (skel B)) f)
+       (V chkf dec encTy cap (Exp.tPi r A B) G en k (Sk.arr (skel A) (skel B)) f))
+    ['(rw [(V_pi_at_cast chkf dec encTy cap r A2 B G en k (skel A) (Eq.symm hsk) f)])
+     '(rw [(V_pi_at chkf dec encTy cap r A B G en k f)])
+     (list 'exact
+       (cong '(U.rec$1 (fn [_ :- U] Prop) q1 q2 q3 r)
+         [['Prop
+           '(forall [a (Car (skel A))]
+              (V chkf dec encTy cap B (List.cons Sk (skel A) G) (Prod.mk a en) k (skel B) (f a)))
+           '(forall [a (Car (skel A))]
+              (V chkf dec encTy cap B (List.cons Sk (skel A) G) (Prod.mk a en) k (skel B) (f a)))
+           '(Eq.refl$1
+             (forall [a (Car (skel A))]
+               (V chkf dec encTy cap B (List.cons Sk (skel A) G) (Prod.mk a en) k (skel B) (f a))))]
+          ['Prop
+           '(forall [j Nat]
+              (=> (Nat.le (+ k j) cap)
+                (forall [a (Car (skel A))]
+                  (=> (V chkf dec encTy cap A2 G en j (skel A) a)
+                      (V chkf dec encTy cap B (List.cons Sk (skel A) G) (Prod.mk a en) (+ k j) (skel B) (f a))))))
+           '(forall [j Nat]
+              (=> (Nat.le (+ k j) cap)
+                (forall [a (Car (skel A))]
+                  (=> (V chkf dec encTy cap A G en j (skel A) a)
+                      (V chkf dec encTy cap B (List.cons Sk (skel A) G) (Prod.mk a en) (+ k j) (skel B) (f a))))))
+           '(congrArg (fn [P :- (=> Nat (Car (skel A)) Prop)]
+                        (forall [j Nat]
+                          (=> (Nat.le (+ k j) cap)
+                            (forall [a (Car (skel A))]
+                              (=> (P j a)
+                                  (V chkf dec encTy cap B (List.cons Sk (skel A) G) (Prod.mk a en) (+ k j) (skel B) (f a)))))))
+              (funext (fn [j :- Nat] (funext (fn [a :- (Car (skel A))] (hA j a))))))]
+          ['Prop
+           '(forall [a (Car (skel A))]
+              (=> (V chkf dec encTy cap A2 G en 0 (skel A) a)
+                  (V chkf dec encTy cap B (List.cons Sk (skel A) G) (Prod.mk a en) k (skel B) (f a))))
+           '(forall [a (Car (skel A))]
+              (=> (V chkf dec encTy cap A G en 0 (skel A) a)
+                  (V chkf dec encTy cap B (List.cons Sk (skel A) G) (Prod.mk a en) k (skel B) (f a))))
+           '(congrArg (fn [P :- (=> (Car (skel A)) Prop)]
+                        (forall [a (Car (skel A))]
+                          (=> (P a)
+                              (V chkf dec encTy cap B (List.cons Sk (skel A) G) (Prod.mk a en) k (skel B) (f a)))))
+              (funext (fn [a :- (Car (skel A))] (hA 0 a))))]]))])
