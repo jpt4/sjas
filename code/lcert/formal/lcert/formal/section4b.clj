@@ -48,7 +48,8 @@
             [lcert.formal.fundamental :refer :all]
             [lcert.formal.model :refer :all]
             [lcert.formal.syntactic :refer :all]
-            [lcert.formal.conversion :refer [getP_nil setP_nil]]))
+            ;; Load only: getP_nil and setP_nil are kernel constants, not vars.
+            [lcert.formal.conversion]))
 
 ;; --- the canonical code term ⌜c⌝ -------------------------------------------------------
 
