@@ -3768,3 +3768,100 @@
                        tail re co hg hd (Prod.mk a en) kk vv))))
                v))
      '(exact (False.elim$0 (none_ne_someE re hg)))])
+
+;; Every constructor, then induction: StepV e for every e.  Non-types are
+;; not skeleton-typed at w = true; base types admit no step; T, Π and Σ are
+;; the cases above.
+
+
+  ;; A base type has no child and is not a head redex, so it admits no step.
+  (prove! 'step_V_tEmpty
+    (into Pcap '[])
+    '(StepV chkf dec encTy cap Exp.tEmpty)
+    ['(intro G hj hn pth re co hg hd)
+     '(cases pth)
+     '(have he (Eq Exp Exp.tEmpty re)
+        (some_inj Exp.tEmpty re (Eq.trans (Eq.symm (getP_nil Exp.tEmpty)) hg)))
+     '(subst he)
+     '(cases hd)
+     '(exact (False.elim$0 (none_ne_someE re hg)))])
+
+  (prove! 'step_V_tDia
+    (into Pcap '[])
+    '(StepV chkf dec encTy cap Exp.tDia)
+    ['(intro G hj hn pth re co hg hd)
+     '(cases pth)
+     '(have he (Eq Exp Exp.tDia re)
+        (some_inj Exp.tDia re (Eq.trans (Eq.symm (getP_nil Exp.tDia)) hg)))
+     '(subst he)
+     '(cases hd)
+     '(exact (False.elim$0 (none_ne_someE re hg)))])
+
+  ;; Skeleton typing at w = true is the type rules only.
+  (prove! 'step_V_var
+    (into Pcap '[i :- Nat])
+    '(StepV chkf dec encTy cap (Exp.var i))
+    ['(intro G hj)
+     '(exact (False.elim$0 (Bool.noConfusion (And.left (skj_inv Bool.true G (Exp.var i) Sk.unit hj)))))])
+
+  (prove! 'step_V_tT_pack
+    (into Pcap '[b :- Exp])
+    '(StepV chkf dec encTy cap (Exp.tT b))
+    ['(intro G hj hn pth re co hg hd en k v)
+     '(exact (step_V_tT chkf dec encTy cap b G hj hn pth re co hg hd en k (skel (Exp.tT b)) v))])
+
+  (def ^:private type-no-child '#{tEmpty tUnit tBool tNat tLbl tSyn tDia tR})
+  (doseq [[ctor fields] exp-fields]
+    (let [term (ctor-term ctor fields)
+          params (into Pcap (mapcat (fn [[f ty]] [f :- ty]) fields))
+          nm (symbol (str "step_V_" ctor))]
+      (cond
+        (type-no-child ctor)
+        (prove! nm params (list 'StepV 'chkf 'dec 'encTy 'cap term)
+          ['(intro G hj hn pth re co hg hd)
+           '(cases pth)
+           (list 'have 'he (list 'Eq 'Exp term 're)
+             (list 'some_inj term 're
+               (list 'Eq.trans (list 'Eq.symm (list 'getP_nil term)) 'hg)))
+           '(subst he)
+           '(cases hd)
+           '(exact (False.elim$0 (none_ne_someE re hg)))])
+        (= ctor 'tBrs)
+        (prove! nm params (list 'StepV 'chkf 'dec 'encTy 'cap term)
+          ['(intro G hj)
+           (list 'exact (list 'False.elim$0 (list 'skj_inv 'Bool.true 'G term 'Sk.unit 'hj)))])
+        (#{'tT 'tPi 'tSig} ctor) nil
+        :else
+        (prove! nm params (list 'StepV 'chkf 'dec 'encTy 'cap term)
+          ['(intro G hj)
+           (list 'exact (list 'False.elim$0
+                          (list 'Bool.noConfusion
+                            (list 'And.left (list 'skj_inv 'Bool.true 'G term 'Sk.unit 'hj)))))]))))
+
+  (prove! 'step_V_tPi
+    (into Pcap '[r :- U, A :- Exp, B :- Exp,
+                 ih_A :- (StepV chkf dec encTy cap A),
+                 ih_B :- (StepV chkf dec encTy cap B)])
+    '(StepV chkf dec encTy cap (Exp.tPi r A B))
+    ['(intro G hj hn pth re co hg hd)
+     '(exact (step_V_pi chkf dec encTy cap r A B ih_A ih_B G hj hn pth re co hg hd))])
+
+  (prove! 'step_V_tSig
+    (into Pcap '[r :- U, A :- Exp, B :- Exp,
+                 ih_A :- (StepV chkf dec encTy cap A),
+                 ih_B :- (StepV chkf dec encTy cap B)])
+    '(StepV chkf dec encTy cap (Exp.tSig r A B))
+    ['(intro G hj hn pth re co hg hd)
+     '(exact (step_V_sig chkf dec encTy cap r A B ih_A ih_B G hj hn pth re co hg hd))])
+
+(def ^:private ih {'tPi '[A B] 'tSig '[A B]})
+  (prove! 'step_V
+    (into Pcap '[e :- Exp])
+    '(StepV chkf dec encTy cap e)
+    (into ['(induction e)]
+      (for [[ctor fields] exp-fields]
+        (let [nm (if (= ctor 'tT) 'step_V_tT_pack (symbol (str "step_V_" ctor)))]
+          (list 'exact
+            (concat [nm 'chkf 'dec 'encTy 'cap]
+                    (map first fields)
+                    (map #(symbol (str "ih_" %)) (get ih ctor []))))))))
