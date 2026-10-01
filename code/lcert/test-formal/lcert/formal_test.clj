@@ -184,7 +184,8 @@
                 WFCtx var_wf entry_nz var_succ var_zero var_sem F_var le_sub_add F_pair1 F_pairw F_pair
                 den_letp_some EnvSat_cons le_let le_let0 F_let1 F_letw F_let0 F_let F_app0 F_pair0
                 entry_omega_back EnvSat_omega_back V_stepTy den_zero_nat natrec_inv F_recN
-                F_caseL bcons_zero bcons_succ sub_eq_zero sub_succ den_lbl_lbl F_bcons]]
+                F_caseL bcons_zero bcons_succ sub_eq_zero sub_succ den_lbl_lbl F_bcons
+                lblOk_sn cnodes_sn lbl_lt coderec_inv V_l1s skj_lsuc V_lsuc F_itR]]
       (is (b/has? c) (str c))))
   (testing "a label constant must be below NL: lbl 100 is not in V(Lbl)"
     (is (not (b/rejects? '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat]
