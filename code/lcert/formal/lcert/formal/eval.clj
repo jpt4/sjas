@@ -993,3 +993,68 @@
   (constructor)
   (exact (Ev.eApp chkf dec encTy n rho f u vf vu w hef heu hap))
   (exact hrel))
+
+;; ite (Theorem 4).  The scrutinee denotes a Boolean c, so it evaluates at
+;; RV.bool c (eval_cast).  The false case runs the else branch and the true
+;; case the then branch; Bool.rec in the denotation does the same.  adeq_ite
+;; is the case split; adeq_ite_den is the denotation.
+(thm adeq_ite
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), n :- Nat, G :- (List Sk),
+   b :- Exp, t :- Exp, e :- Exp, s :- Sk,
+   rho :- (List RV), eta :- (HEnv G), c :- Bool,
+   hb :- (Eval chkf dec encTy n rho b (RV.bool c)),
+   iht :- (Exists (fn [v :- RV]
+            (And (Eval chkf dec encTy n rho t v)
+                 (rel chkf dec encTy n s v (den chkf dec encTy n t G s eta))))),
+   ihe :- (Exists (fn [v :- RV]
+            (And (Eval chkf dec encTy n rho e v)
+                 (rel chkf dec encTy n s v (den chkf dec encTy n e G s eta)))))]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy n rho (Exp.ite b t e) v)
+         (rel chkf dec encTy n s v
+           (Bool.rec$1 (fn [_ :- Bool] (Car s))
+             (den chkf dec encTy n e G s eta)
+             (den chkf dec encTy n t G s eta) c)))))
+  (cases c)
+  (refine' (exT RV _ _ ihe _)) (intro ve he)
+  (have hee (Eval chkf dec encTy n rho e ve) (And.left he))
+  (have hre (rel chkf dec encTy n s ve (den chkf dec encTy n e G s eta)) (And.right he))
+  (constructor) (exact ve)
+  (constructor)
+  (exact (Ev.eIteF chkf dec encTy n rho b t e ve hb hee))
+  (exact hre)
+  (refine' (exT RV _ _ iht _)) (intro vt ht)
+  (have het (Eval chkf dec encTy n rho t vt) (And.left ht))
+  (have hrt (rel chkf dec encTy n s vt (den chkf dec encTy n t G s eta)) (And.right ht))
+  (constructor) (exact vt)
+  (constructor)
+  (exact (Ev.eIteT chkf dec encTy n rho b t e vt hb het))
+  (exact hrt))
+
+(thm adeq_ite_den
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), n :- Nat, G :- (List Sk),
+   b :- Exp, t :- Exp, e :- Exp, s :- Sk,
+   rho :- (List RV), eta :- (HEnv G),
+   ihb :- (Exists (fn [vb :- RV]
+            (And (Eval chkf dec encTy n rho b vb)
+                 (rel chkf dec encTy n Sk.bool vb (den chkf dec encTy n b G Sk.bool eta))))),
+   iht :- (Exists (fn [v :- RV]
+            (And (Eval chkf dec encTy n rho t v)
+                 (rel chkf dec encTy n s v (den chkf dec encTy n t G s eta))))),
+   ihe :- (Exists (fn [v :- RV]
+            (And (Eval chkf dec encTy n rho e v)
+                 (rel chkf dec encTy n s v (den chkf dec encTy n e G s eta)))))]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy n rho (Exp.ite b t e) v)
+         (rel chkf dec encTy n s v (den chkf dec encTy n (Exp.ite b t e) G s eta)))))
+  (rw [(den_ite_at chkf dec encTy n b t e G s eta)])
+  (refine' (exT RV _ _ ihb _)) (intro vb hb)
+  (have hev (Eval chkf dec encTy n rho b vb) (And.left hb))
+  (have hr (rel chkf dec encTy n Sk.bool vb (den chkf dec encTy n b G Sk.bool eta)) (And.right hb))
+  (exact (adeq_ite chkf dec encTy n G b t e s rho eta
+           (den chkf dec encTy n b G Sk.bool eta)
+           (eval_cast chkf dec encTy n rho b vb
+             (RV.bool (den chkf dec encTy n b G Sk.bool eta)) hev hr)
+           iht ihe)))
