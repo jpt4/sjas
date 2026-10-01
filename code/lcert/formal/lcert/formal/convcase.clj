@@ -2814,3 +2814,124 @@
        '(exact (step_nil_fl chkf dec encTy fl (Exp.letp C p t) G out hj hn re co hg hd))
        '(intro re co hg hd)
        (list 'exact split)]))
+
+;; reflect (Lemma 3.2).  The type is a base type, so a cons-path into it
+;; is impossible: the empty continuation would make the base type the
+;; redex (hd_not_base), and a longer path asks a base type for a child
+;; (getP_base).  The certificate is the value the clause checks and runs;
+;; the evidence is ignored.  out = skel D.
+
+
+  ;; A base type has no children, so a cons-path into it is none.
+  ;; reflect's type is a base type (isBaseTy), so a step inside D is impossible.
+  (let [base #{'tEmpty 'tUnit 'tBool 'tNat 'tLbl 'tSyn 'tR}]
+    (prove! 'getP_base
+      '[D :- Exp, hb :- (Eq Bool (isBaseTy D) Bool.true)]
+      '(forall [i Nat] (forall [q (List Nat)]
+         (Eq (Option Exp) (getP (List.cons Nat i q) D) (Option.none Exp))))
+      (into ['(cases D)]
+        (mapcat (fn [[ctor _]]
+                  (if (base ctor)
+                    '[(intro i q) (rfl)]
+                    '[(exact (Bool.noConfusion hb))]))
+                exp-fields))))
+
+  (def ^:private refl-of
+    '(Bool.rec$1 (fn [_ :- Bool] (Car (skel D))) (dflt (skel D))
+       (Option.rec$1$0 (Prod Nat (Prod Exp Exp))
+         (fn [_ :- (Option (Prod Nat (Prod Exp Exp)))] (Car (skel D)))
+         (dflt (skel D))
+         (fn [tr :- (Prod Nat (Prod Exp Exp))]
+           (coe (skel D) (skel D)
+             ((denPrev chkf dec encTy cap) (Prod.fst tr) (Prod.fst (Prod.snd tr))
+               (thetaSk (Prod.fst tr)) (skel D) (tokenEnv (Prod.fst tr)))))
+         (dec QR))
+       (Bool.and (Nat.ble (cnodes QR) cap) (chkf QR (encTy D)))))
+  (defn- refl-at [qr]
+    (clojure.walk/postwalk-replace {'QR qr} refl-of))
+  (prove! 'den_refl_r
+    (into Pcap '[D :- Exp, r :- Exp, rq :- Exp, e :- Exp, G :- (List Sk), en :- (HEnv G),
+                 he :- (Eq (Car Sk.cert) (den chkf dec encTy cap rq G Sk.cert en)
+                                          (den chkf dec encTy cap r G Sk.cert en))])
+    '(Eq (Car (skel D))
+       (den chkf dec encTy cap (Exp.refl D rq e) G (skel D) en)
+       (den chkf dec encTy cap (Exp.refl D r e) G (skel D) en))
+    [(list 'rw ['(den_refl_at chkf dec encTy cap D rq e G (skel D) en)])
+     '(rw [(den_refl_at chkf dec encTy cap D r e G (skel D) en)])
+     (list 'change (list 'Eq '(Car (skel D))
+                    (refl-at '(den chkf dec encTy cap rq G Sk.cert en))
+                    (refl-at '(den chkf dec encTy cap r G Sk.cert en))))
+     (list 'exact (list 'congrArg
+                   (list 'fn '[v :- (Car Sk.cert)]
+                     (refl-at 'v))
+                   'he))])
+
+
+  ;; A cons-path into reflect's type.  The empty continuation would make
+  ;; the base type itself the redex (hd_not_base).  A longer path reads a
+  ;; child a base type does not have (getP_base).
+  (prove! 'step_refl_D
+    (into step-params
+      '[D :- Exp, r :- Exp, e :- Exp, G :- (List Sk), out :- Sk,
+        hj :- (SkJ Bool.false G (Exp.refl D r e) out),
+        q :- (List Nat), rd :- Exp, co :- Exp,
+        hgc :- (Eq (Option Exp) (getP (List.cons Nat 0 q) (Exp.refl D r e)) (Option.some Exp rd)),
+        hder :- (Hd chkf rd co)])
+    '(And (Eq (Option Sk) (skOf G (setP (List.cons Nat 0 q) (Exp.refl D r e) co))
+                           (skOf G (Exp.refl D r e)))
+          (forall [cap Nat] (forall [en (HEnv G)]
+            (Eq (Car out) (den chkf dec encTy cap (setP (List.cons Nat 0 q) (Exp.refl D r e) co) G out en)
+                          (den chkf dec encTy cap (Exp.refl D r e) G out en)))))
+    ['(have hb (Eq Bool (isBaseTy D) Bool.true)
+        (And.left (And.right (And.right (And.right (inv_refl Bool.false G D r e out hj))))))
+     '(cases q)
+     '(have he (Eq Exp D rd)
+        (some_inj D rd (Eq.trans (Eq.symm (getP_nil D)) hgc)))
+     '(exact (False.elim$0
+        (hd_not_base chkf D co
+          (Eq.mp (congrArg (fn [x :- Exp] (Hd chkf x co)) (Eq.symm he)) hder)
+          hb)))
+     '(exact (False.elim$0
+        (none_ne_someE rd
+          (Eq.trans (Eq.symm (getP_base D hb head tail)) hgc))))])
+
+
+  ;; reflect's type is a base type, so it has no children: a cons-path
+  ;; into D is none (getP_base).  The certificate is the only value the
+  ;; clause reads; the evidence is ignored.  out = skel D.
+  (let [term '(Exp.refl D r e)
+        inv '(inv_refl Bool.false G D r e out hj)
+        hs (list 'And.left (rights 1 inv))
+        hb (list 'And.left (rights 3 inv))
+        hr (list 'And.left (rights 4 inv))
+        pD '(step_refl_D chkf dec encTy D r e G out hj tail re co hgc hd)
+        moved (list 'setP '(List.cons Nat (Nat.succ 0) tail) term 'co)
+        pr (list 'And.intro
+             '(Eq.refl$1 (skOf G (Exp.refl D r e)))
+             (list 'fn '[cap :- Nat, en :- (HEnv G)]
+               (list 'Eq.mp
+                 (list 'congrArg
+                   (list 'fn '[k :- Sk]
+                     (list 'Eq '(Car k)
+                       (list 'den 'chkf 'dec 'encTy 'cap moved 'G 'k 'en)
+                       (list 'den 'chkf 'dec 'encTy 'cap term 'G 'k 'en)))
+                   (list 'Eq.symm hs))
+                 (list 'den_refl_r 'chkf 'dec 'encTy 'cap 'D 'r '(setP tail r co) 'e 'G 'en
+                   (list (list 'And.right
+                           (list 'ih_r 'Bool.false 'G 'Sk.cert hr
+                             '(nbr_refl_r D r e fl hn) 'tail 're 'co 'hgc 'hd))
+                     'cap 'en)))))
+        pe (list 'And.intro
+             '(Eq.refl$1 (skOf G (Exp.refl D r e)))
+             '(fn [cap :- Nat, en :- (HEnv G)]
+                (den_ig_refl_e chkf dec encTy cap D r e (setP tail e co) G out en)))
+        split (index-split term [pD pr pe])]
+    (prove! 'step_refl
+      (into step-params '[D :- Exp, r :- Exp, e :- Exp,
+                          ih_r :- (StepPack chkf dec encTy r)])
+      '(StepPack chkf dec encTy (Exp.refl D r e))
+      ['(intro fl G out hj hn pth) '(cases pth)
+       '(intro re co hg hd)
+       '(exact (step_nil_fl chkf dec encTy fl (Exp.refl D r e) G out hj hn re co hg hd))
+       '(intro re co hg hd)
+       (list 'exact split)]))
