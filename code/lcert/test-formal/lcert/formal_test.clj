@@ -399,3 +399,19 @@
                       ht :- (Rt chkf (List.nil Exp) (List.nil U) t (Exp.tBrs Exp.tBool 1))]
                     '(Rt chkf (List.nil Exp) (List.nil U) (Exp.bcons h t) (Exp.tBrs Exp.tBool 0))
                     '[(exact (Rt.rBcons chkf (List.nil Exp) (List.nil U) Exp.tBool 0 h t hh ht))]))))
+
+(require 'lcert.formal.eval)
+(deftest f5-evaluator
+  (testing "Theorem 4's evaluator: a program evaluates, and the constant cases are adequate"
+    (doseq [c '[Eval AppV rel envRel argsOK Adeq Theorem_4
+                eval_tt eval_not_tt rlookup_head rel_bool_rfl rel_unit_rfl
+                skel_reify rdflt_rel
+                adeq_star adeq_tt adeq_ff adeq_zero adeq_lbl adeq_abort adeq_h1]]
+      (is (b/has? c) (str c))))
+  (testing "tt does not evaluate to ff: the true-constructor is the wrong value"
+    (is (b/rejects? '[chkf :- (=> Code Code Bool),
+                      dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+                      encTy :- (=> Exp Code),
+                      n :- Nat, rho :- (List RV)]
+                    '(Eval chkf dec encTy n rho Exp.tt (RV.bool Bool.false))
+                    '[(exact (Ev.eTT chkf dec encTy n rho))]))))
