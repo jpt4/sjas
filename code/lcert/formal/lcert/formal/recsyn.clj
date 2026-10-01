@@ -729,3 +729,107 @@
             (Prod.mk (carTo (skel (y1Ty P)) (skel P) (skel_y1Ty P) ya) (Prod.mk b (Prod.mk a (Prod.mk l en)))) 0 0 hsY1
             (V_y2_val chkf dec encTy n (skels D) P der (skel (y1Ty P))
                       (carTo (skel (y1Ty P)) (skel P) (skel_y1Ty P) ya) b a l en 0 yb hb))))
+
+;; Move a node-method denotation from the cast environment (y values at
+;; skel(y2Ty P) and skel(y1Ty P)) back to the raw environment Code.rec
+;; builds, where both y skeletons are skel P.  Each step is an Eq.rec on one
+;; skeleton.  At the start the transport proof is the skeleton equation, so
+;; the value is the cast; at the end it is a proof of skel P = skel P, which
+;; is rfl, so the value is the raw recursive result.
+(thm node_v_raw [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+                 P :- Exp, D :- (List Exp), tn :- Exp,
+                 yb :- (Car (skel P)), ya :- (Car (skel P)), b :- Code, a :- Code, l :- Nat, en :- (HEnv (skels D)),
+                 hv :- (V chkf dec encTy n (nodeTy P)
+                          (List.cons Sk (skel (y2Ty P)) (List.cons Sk (skel (y1Ty P)) (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl (skels D))))))
+                          (Prod.mk (carTo (skel (y2Ty P)) (skel P) (skel_y2Ty P) yb)
+                            (Prod.mk (carTo (skel (y1Ty P)) (skel P) (skel_y1Ty P) ya)
+                              (Prod.mk b (Prod.mk a (Prod.mk l en)))))
+                          0 (skel (nodeTy P))
+                          (den chkf dec encTy n tn
+                            (List.cons Sk (skel (y2Ty P)) (List.cons Sk (skel (y1Ty P)) (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl (skels D))))))
+                            (skel (nodeTy P))
+                            (Prod.mk (carTo (skel (y2Ty P)) (skel P) (skel_y2Ty P) yb)
+                              (Prod.mk (carTo (skel (y1Ty P)) (skel P) (skel_y1Ty P) ya)
+                                (Prod.mk b (Prod.mk a (Prod.mk l en)))))))]
+  (V chkf dec encTy n (nodeTy P)
+     (List.cons Sk (skel P) (List.cons Sk (skel P) (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl (skels D))))))
+     (Prod.mk yb (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))))
+     0 (skel (nodeTy P))
+     (den chkf dec encTy n tn
+       (List.cons Sk (skel P) (List.cons Sk (skel P) (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl (skels D))))))
+       (skel (nodeTy P))
+       (Prod.mk yb (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))))))
+  (have hv1 (V chkf dec encTy n (nodeTy P)
+               (List.cons Sk (skel (y2Ty P)) (List.cons Sk (skel P) (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl (skels D))))))
+               (Prod.mk (carTo (skel (y2Ty P)) (skel P) (skel_y2Ty P) yb)
+                 (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))))
+               0 (skel (nodeTy P))
+               (den chkf dec encTy n tn
+                 (List.cons Sk (skel (y2Ty P)) (List.cons Sk (skel P) (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl (skels D))))))
+                 (skel (nodeTy P))
+                 (Prod.mk (carTo (skel (y2Ty P)) (skel P) (skel_y2Ty P) yb)
+                   (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))))))
+    (Eq.rec Sk (skel (y1Ty P))
+      (fn [t :- Sk, hq :- (Eq Sk (skel (y1Ty P)) t)]
+        (V chkf dec encTy n (nodeTy P)
+           (List.cons Sk (skel (y2Ty P)) (List.cons Sk t (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl (skels D))))))
+           (Prod.mk (carTo (skel (y2Ty P)) (skel P) (skel_y2Ty P) yb)
+             (Prod.mk (carTo t (skel P) (Eq.trans (Eq.symm hq) (skel_y1Ty P)) ya)
+               (Prod.mk b (Prod.mk a (Prod.mk l en)))))
+           0 (skel (nodeTy P))
+           (den chkf dec encTy n tn
+             (List.cons Sk (skel (y2Ty P)) (List.cons Sk t (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl (skels D))))))
+             (skel (nodeTy P))
+             (Prod.mk (carTo (skel (y2Ty P)) (skel P) (skel_y2Ty P) yb)
+               (Prod.mk (carTo t (skel P) (Eq.trans (Eq.symm hq) (skel_y1Ty P)) ya)
+                 (Prod.mk b (Prod.mk a (Prod.mk l en))))))))
+      hv (skel P) (skel_y1Ty P)))
+  (exact (Eq.rec Sk (skel (y2Ty P))
+           (fn [s :- Sk, hq :- (Eq Sk (skel (y2Ty P)) s)]
+             (V chkf dec encTy n (nodeTy P)
+                (List.cons Sk s (List.cons Sk (skel P) (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl (skels D))))))
+                (Prod.mk (carTo s (skel P) (Eq.trans (Eq.symm hq) (skel_y2Ty P)) yb)
+                  (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))))
+                0 (skel (nodeTy P))
+                (den chkf dec encTy n tn
+                  (List.cons Sk s (List.cons Sk (skel P) (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl (skels D))))))
+                  (skel (nodeTy P))
+                  (Prod.mk (carTo s (skel P) (Eq.trans (Eq.symm hq) (skel_y2Ty P)) yb)
+                    (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en))))))))
+           hv1 (skel P) (skel_y2Ty P))))
+
+;; A node of a label-ok code.  tn runs once, at footprint 0, in the five-deep
+;; context (y₂, y₁, c₂, c₁, label, ω·Γ₃).  The recursive results are in V(P)
+;; at the subcodes; recS_node_sat puts them in the context, node_v_raw reads
+;; the denotation back at the raw environment Code.rec builds, and V_nodeTy
+;; turns V(nodeTy P) into V(P) at (sn l a b, η).
+(thm recS_node [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+                D :- (List Exp), us3 :- (List U), P :- Exp, tn :- Exp,
+                der :- (SkJ Bool.true (List.cons Sk Sk.syn (skels D)) P Sk.unit),
+                ihn :- (Sound chkf dec encTy n
+                         (List.cons Exp (y2Ty P) (List.cons Exp (y1Ty P) (List.cons Exp Exp.tSyn (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D)))))
+                         (List.cons U U.u1 (List.cons U U.u1 (List.cons U U.uw (List.cons U U.uw (List.cons U U.uw (vscale U.uw us3))))))
+                         tn (nodeTy P)),
+                en :- (HEnv (skels D)), hs :- (EnvSat chkf dec encTy n D (vscale U.uw us3) en 0),
+                l :- Nat, a :- Code, b :- Code, ya :- (Car (skel P)), yb :- (Car (skel P)),
+                hok :- (Eq Bool (Nat.blt l 100) Bool.true),
+                haOk :- (Eq Bool (lblOk a) Bool.true), hbOk :- (Eq Bool (lblOk b) Bool.true),
+                ha :- (V chkf dec encTy n P (List.cons Sk Sk.syn (skels D)) (Prod.mk a en) 0 (skel P) ya),
+                hb :- (V chkf dec encTy n P (List.cons Sk Sk.syn (skels D)) (Prod.mk b en) 0 (skel P) yb)]
+  (V chkf dec encTy n P (List.cons Sk Sk.syn (skels D)) (Prod.mk (Code.sn l a b) en) 0 (skel P)
+     (den chkf dec encTy n tn
+       (List.cons Sk (skel P) (List.cons Sk (skel P) (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl (skels D))))))
+       (skel P)
+       (Prod.mk yb (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))))))
+  (exact (V_nodeTy chkf dec encTy n (skels D) P der (skel P) yb ya b a l en 0
+           (fn [s2 :- Sk]
+             (den chkf dec encTy n tn
+               (List.cons Sk (skel P) (List.cons Sk (skel P) (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl (skels D))))))
+               s2
+               (Prod.mk yb (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))))))
+           (node_v_raw chkf dec encTy n P D tn yb ya b a l en
+             (ihn (Prod.mk (carTo (skel (y2Ty P)) (skel P) (skel_y2Ty P) yb)
+                    (Prod.mk (carTo (skel (y1Ty P)) (skel P) (skel_y1Ty P) ya)
+                      (Prod.mk b (Prod.mk a (Prod.mk l en)))))
+                  0 (Nat.zero_le n)
+                  (recS_node_sat chkf dec encTy n D us3 P der en hs l a b ya yb hok haOk hbOk ha hb))))))
