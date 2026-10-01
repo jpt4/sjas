@@ -478,7 +478,9 @@
                 den_succ_cong sk_abort_A
                 den_ig_abort_A den_ig_h1_r den_ig_node_d den_coe_sleaf den_coe_leaf
                 den_coe_prn den_ite_t den_ite_e
-                step_abort step_succ step_h1 step_sleaf step_leaf step_prn step_ite]]
+                den_sn_a den_sn_c1 den_sn_c2 den_nd_a den_nd_r1 den_nd_r2 den_chk_c den_chk_d
+                step_abort step_succ step_h1 step_sleaf step_leaf step_prn step_ite
+                step_snode step_node step_chk]]
       (is (b/has? c) (str c))))
   (testing "a childless term has no child to step in"
     (is (b/rejects? '[]

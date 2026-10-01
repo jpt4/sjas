@@ -1395,3 +1395,200 @@
        (list 'fn '[cap :- Nat, en :- (HEnv G)]
          (list 'den_ite_e 'chkf 'dec 'encTy 'cap 'b 't 'e '(setP tail e co) 'G 'out 'en
            (list (den-of 'ih_e 'out he nbre) 'cap 'en))))]))
+
+
+;; snode and node denote a code node of the children the clause reads.
+;; node.d is ignored (den_ig_node_d).  chk is chkf of the two code denotations.
+(defn- rights [n t] (if (zero? n) t (list 'And.right (rights (dec n) t))))
+(defn- ih-den [ihname csk sj nbr]
+  (list 'And.right (list ihname 'Bool.false 'G csk sj nbr 'tail 're 'co 'hgc 'hd)))
+(defn- pack! [nm extra term proofs]
+  (prove! nm (into step-params extra) (list 'StepPack 'chkf 'dec 'encTy term)
+    ['(intro fl G out hj hn pth) '(cases pth) '(intro re co hg hd)
+     (list 'exact (list 'step_nil_fl 'chkf 'dec 'encTy 'fl term 'G 'out 'hj 'hn 're 'co 'hg 'hd))
+     '(intro re co hg hd) (list 'exact (index-split term proofs))]))
+
+(defn- sn-lemma [nm ctor outsk slots changed]
+    ;; slots: vector of [field child-skel]. changed is the index.
+    (let [fs (mapv first slots)
+          f (nth fs changed)
+          fq (symbol (str f "q"))
+          csk (second (nth slots changed))
+          dens (fn [useq]
+                 (map-indexed (fn [i [g sk]]
+                                (list 'den 'chkf 'dec 'encTy 'cap
+                                  (if (and useq (= i changed)) fq g) 'G sk 'en))
+                              slots))
+          left (apply list (symbol (str "Exp." ctor)) (map-indexed (fn [i g] (if (= i changed) fq g)) fs))
+          right (apply list (symbol (str "Exp." ctor)) fs)
+          at (symbol (str "den_" ctor "_at"))
+          clause (fn [useq]
+                   (list 'coe outsk 'sk (apply list 'Code.sn (dens useq))))
+          params (into Pcap (concat
+                    (mapcat (fn [[i [g _]]]
+                              (if (= i changed) [g :- 'Exp, fq :- 'Exp] [g :- 'Exp]))
+                            (map-indexed vector slots))
+                    ['G :- '(List Sk), 'sk :- 'Sk, 'en :- '(HEnv G),
+                     'h :- (list 'Eq (list 'Car csk)
+                             (list 'den 'chkf 'dec 'encTy 'cap fq 'G csk 'en)
+                             (list 'den 'chkf 'dec 'encTy 'cap f 'G csk 'en))]))]
+      (prove! nm params
+        (list 'Eq '(Car sk)
+          (list 'den 'chkf 'dec 'encTy 'cap left 'G 'sk 'en)
+          (list 'den 'chkf 'dec 'encTy 'cap right 'G 'sk 'en))
+        [(list 'rw [(apply list at 'chkf 'dec 'encTy 'cap (concat (map-indexed (fn [i g] (if (= i changed) fq g)) fs) ['G 'sk 'en]))])
+         (list 'rw [(apply list at 'chkf 'dec 'encTy 'cap (concat fs ['G 'sk 'en]))])
+         (list 'change (list 'Eq '(Car sk) (clause true) (clause false)))
+         (list 'exact (list 'congrArg
+                       (list 'fn ['v ':- (list 'Car csk)]
+                         (list 'coe outsk 'sk
+                           (apply list 'Code.sn
+                             (map-indexed (fn [i [g sk]]
+                                            (if (= i changed) 'v
+                                              (list 'den 'chkf 'dec 'encTy 'cap g 'G sk 'en)))
+                                          slots))))
+                       'h))])))
+
+(def ^:private snode-slots '[[a Sk.lbl] [c1 Sk.syn] [c2 Sk.syn]])
+(sn-lemma 'den_sn_a 'snode 'Sk.syn snode-slots 0)
+(sn-lemma 'den_sn_c1 'snode 'Sk.syn snode-slots 1)
+(sn-lemma 'den_sn_c2 'snode 'Sk.syn snode-slots 2)
+
+(defn- nd [nm which]
+    (let [fq (symbol (str which "q"))
+          fields '[d a r1 r2]
+          csk ({'a 'Sk.lbl 'r1 'Sk.cert 'r2 'Sk.cert} which)
+          left (apply list 'Exp.node (map #(if (= % which) fq %) fields))
+          right '(Exp.node d a r1 r2)
+          denf (fn [g sk] (list 'den 'chkf 'dec 'encTy 'cap g 'G sk 'en))
+          hole (fn [usev]
+                 (list 'coe 'Sk.cert 'sk
+                   (list 'Code.sn
+                     (if (= which 'a) (if usev 'v (denf (if usev fq 'a) 'Sk.lbl)) (denf 'a 'Sk.lbl))
+                     (if (= which 'r1) (if usev 'v (denf 'r1 'Sk.cert)) (denf 'r1 'Sk.cert))
+                     (if (= which 'r2) (if usev 'v (denf 'r2 'Sk.cert)) (denf 'r2 'Sk.cert)))))
+          at-args (fn [new?] (map #(if (and new? (= % which)) fq %) fields))]
+      (prove! nm
+        (into Pcap (concat
+                     (mapcat (fn [g] (if (= g which) [g :- 'Exp, fq :- 'Exp] [g :- 'Exp])) fields)
+                     ['G :- '(List Sk), 'sk :- 'Sk, 'en :- '(HEnv G),
+                      'h :- (list 'Eq (list 'Car csk)
+                              (list 'den 'chkf 'dec 'encTy 'cap fq 'G csk 'en)
+                              (list 'den 'chkf 'dec 'encTy 'cap which 'G csk 'en))]))
+        (list 'Eq '(Car sk)
+          (list 'den 'chkf 'dec 'encTy 'cap left 'G 'sk 'en)
+          (list 'den 'chkf 'dec 'encTy 'cap right 'G 'sk 'en))
+        [(list 'rw [(apply list 'den_node_at 'chkf 'dec 'encTy 'cap (concat (at-args true) ['G 'sk 'en]))])
+         (list 'rw [(apply list 'den_node_at 'chkf 'dec 'encTy 'cap (concat (at-args false) ['G 'sk 'en]))])
+         (list 'change (list 'Eq '(Car sk)
+                        (list 'coe 'Sk.cert 'sk
+                          (list 'Code.sn
+                            (denf (if (= which 'a) fq 'a) 'Sk.lbl)
+                            (denf (if (= which 'r1) fq 'r1) 'Sk.cert)
+                            (denf (if (= which 'r2) fq 'r2) 'Sk.cert)))
+                        (list 'coe 'Sk.cert 'sk
+                          (list 'Code.sn (denf 'a 'Sk.lbl) (denf 'r1 'Sk.cert) (denf 'r2 'Sk.cert)))))
+         (list 'exact (list 'congrArg
+                       (list 'fn ['v ':- (list 'Car csk)] (hole true))
+                       'h))])))
+  (nd 'den_nd_a 'a)
+  (nd 'den_nd_r1 'r1)
+  (nd 'den_nd_r2 'r2)
+
+  (nd 'den_nd_a 'a)
+(nd 'den_nd_r1 'r1)
+(nd 'den_nd_r2 'r2)
+
+(let [term '(Exp.snode a c1 c2)
+        inv '(inv_snode Bool.false G a c1 c2 out hj)
+        mk (fn [ihname field csk nproj den last?]
+             (let [sj (if last? (rights nproj inv) (list 'And.left (rights nproj inv)))
+                   nbr (list (symbol (str "nbr_snode_" field)) 'a 'c1 'c2 'fl 'hn)
+                   args (mapcat (fn [g]
+                                  (if (= g field) [g (list 'setP 'tail g 'co)] [g]))
+                                '[a c1 c2])]
+               (list 'And.intro '(Eq.refl$1 (skOf G (Exp.snode a c1 c2)))
+                 (list 'fn '[cap :- Nat, en :- (HEnv G)]
+                   (apply list (concat [den 'chkf 'dec 'encTy 'cap] args
+                     ['G 'out 'en
+                      (list (ih-den ihname csk sj nbr) 'cap 'en)]))))))]
+    (pack! 'step_snode
+      '[a :- Exp, c1 :- Exp, c2 :- Exp,
+        ih_a :- (StepPack chkf dec encTy a),
+        ih_c1 :- (StepPack chkf dec encTy c1),
+        ih_c2 :- (StepPack chkf dec encTy c2)]
+      term
+      [(mk 'ih_a 'a 'Sk.lbl 2 'den_sn_a false)
+       (mk 'ih_c1 'c1 'Sk.syn 3 'den_sn_c1 false)
+       (mk 'ih_c2 'c2 'Sk.syn 4 'den_sn_c2 true)]))
+  
+(let [term '(Exp.node d a r1 r2)
+        inv '(inv_node Bool.false G d a r1 r2 out hj)
+        mk (fn [ihname field csk nproj den last?]
+             (let [sj (if last? (rights nproj inv) (list 'And.left (rights nproj inv)))
+                   nbr (list (symbol (str "nbr_node_" field)) 'd 'a 'r1 'r2 'fl 'hn)
+                   args (mapcat (fn [g] (if (= g field) [g (list 'setP 'tail g 'co)] [g]))
+                                '[d a r1 r2])]
+               (list 'And.intro '(Eq.refl$1 (skOf G (Exp.node d a r1 r2)))
+                 (list 'fn '[cap :- Nat, en :- (HEnv G)]
+                   (apply list (concat [den 'chkf 'dec 'encTy 'cap] args
+                     ['G 'out 'en (list (ih-den ihname csk sj nbr) 'cap 'en)]))))))]
+    (pack! 'step_node
+      '[d :- Exp, a :- Exp, r1 :- Exp, r2 :- Exp,
+        ih_a :- (StepPack chkf dec encTy a),
+        ih_r1 :- (StepPack chkf dec encTy r1),
+        ih_r2 :- (StepPack chkf dec encTy r2)]
+      term
+      ['(And.intro (Eq.refl$1 (skOf G (Exp.node d a r1 r2)))
+          (fn [cap :- Nat, en :- (HEnv G)]
+            (den_ig_node_d chkf dec encTy cap d (setP tail d co) a r1 r2 G out en)))
+       (mk 'ih_a 'a 'Sk.lbl 3 'den_nd_a false)
+       (mk 'ih_r1 'r1 'Sk.cert 4 'den_nd_r1 false)
+       (mk 'ih_r2 'r2 'Sk.cert 5 'den_nd_r2 true)]))
+
+  
+(prove! 'den_chk_c
+    (into Pcap '[c :- Exp, cq :- Exp, d :- Exp, G :- (List Sk), sk :- Sk, en :- (HEnv G),
+                 h :- (Eq (Car Sk.syn) (den chkf dec encTy cap cq G Sk.syn en)
+                                       (den chkf dec encTy cap c G Sk.syn en))])
+    '(Eq (Car sk) (den chkf dec encTy cap (Exp.chk cq d) G sk en)
+                  (den chkf dec encTy cap (Exp.chk c d) G sk en))
+    ['(rw [(den_chk_at chkf dec encTy cap cq d G sk en)])
+     '(rw [(den_chk_at chkf dec encTy cap c d G sk en)])
+     '(change (Eq (Car sk)
+        (coe Sk.bool sk (chkf (den chkf dec encTy cap cq G Sk.syn en) (den chkf dec encTy cap d G Sk.syn en)))
+        (coe Sk.bool sk (chkf (den chkf dec encTy cap c G Sk.syn en) (den chkf dec encTy cap d G Sk.syn en)))))
+     '(exact (congrArg (fn [v :- (Car Sk.syn)]
+               (coe Sk.bool sk (chkf v (den chkf dec encTy cap d G Sk.syn en)))) h))])
+  (prove! 'den_chk_d
+    (into Pcap '[c :- Exp, d :- Exp, dq :- Exp, G :- (List Sk), sk :- Sk, en :- (HEnv G),
+                 h :- (Eq (Car Sk.syn) (den chkf dec encTy cap dq G Sk.syn en)
+                                       (den chkf dec encTy cap d G Sk.syn en))])
+    '(Eq (Car sk) (den chkf dec encTy cap (Exp.chk c dq) G sk en)
+                  (den chkf dec encTy cap (Exp.chk c d) G sk en))
+    ['(rw [(den_chk_at chkf dec encTy cap c dq G sk en)])
+     '(rw [(den_chk_at chkf dec encTy cap c d G sk en)])
+     '(change (Eq (Car sk)
+        (coe Sk.bool sk (chkf (den chkf dec encTy cap c G Sk.syn en) (den chkf dec encTy cap dq G Sk.syn en)))
+        (coe Sk.bool sk (chkf (den chkf dec encTy cap c G Sk.syn en) (den chkf dec encTy cap d G Sk.syn en)))))
+     '(exact (congrArg (fn [v :- (Car Sk.syn)]
+               (coe Sk.bool sk (chkf (den chkf dec encTy cap c G Sk.syn en) v))) h))])
+
+  (let [term '(Exp.chk c d)
+        inv '(inv_chk Bool.false G c d out hj)
+        mk (fn [ihname field nproj den last?]
+             (let [sj (if last? (rights nproj inv) (list 'And.left (rights nproj inv)))
+                   nbr (list (symbol (str "nbr_chk_" field)) 'c 'd 'fl 'hn)
+                   args (mapcat (fn [g] (if (= g field) [g (list 'setP 'tail g 'co)] [g])) '[c d])]
+               (list 'And.intro '(Eq.refl$1 (skOf G (Exp.chk c d)))
+                 (list 'fn '[cap :- Nat, en :- (HEnv G)]
+                   (apply list (concat [den 'chkf 'dec 'encTy 'cap] args
+                     ['G 'out 'en (list (ih-den ihname 'Sk.syn sj nbr) 'cap 'en)]))))))]
+    (pack! 'step_chk
+      '[c :- Exp, d :- Exp,
+        ih_c :- (StepPack chkf dec encTy c),
+        ih_d :- (StepPack chkf dec encTy d)]
+      term
+      [(mk 'ih_c 'c 2 'den_chk_c false)
+       (mk 'ih_d 'd 3 'den_chk_d true)]))
+  
