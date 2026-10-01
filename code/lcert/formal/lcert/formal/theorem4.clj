@@ -548,3 +548,176 @@
                ih_h1 ih_h2)))))
 
 (println :rt-args-ok)
+
+;; --- what reflect's decoded term needs ---------------------------------------
+;;
+;; CheckSpec hands Theorem 4 a runtime derivation at a smaller budget.  The
+;; outer induction applies Adeq there, which needs a skeleton judgment at
+;; thetaSk (lemma25_rt, transported by skels_theta), argsOK in that context
+;; (rt_argsOK, transported by argsOK_ctx), and the token environment related
+;; to itself (tokens_rel).  The arithmetic m < cap is omega on
+;; m < cnodes(⟦r⟧) ≤ cap.
+
+;; match-is-true means the option is some.
+(thm sk_witness [o :- (Option Sk),
+                 h :- (Eq Bool (match o [none Bool.false] [(some sf) Bool.true]) Bool.true)]
+  (Exists (fn [s :- Sk] (Eq (Option Sk) o (Option.some Sk s))))
+  (cases o)
+  (exact (Bool.noConfusion h))
+  (constructor)
+  (exact val)
+  (rfl))
+
+(thm skels_theta [m :- Nat]
+  (Eq (List Sk) (skels (thetaD m)) (thetaSk m))
+  (induction m)
+  (rfl)
+  (exact (congrArg (fn [g :- (List Sk)] (List.cons Sk Sk.dia g)) ih_n)))
+
+;; isBaseTy D picks the seven data types reflect may target.  Each of them
+;; has a base skeleton, so rel there is equality, and each is closed, so E1
+;; of CheckSpec applies.
+(thm baseSk_base [D :- Exp]
+  (=> (Eq Bool (isBaseTy D) Bool.true) (Eq Bool (baseSk (skel D)) Bool.true))
+  (cases D)
+  (all_goals (intro hb))
+  (all_goals (first (rfl) (exact (Bool.noConfusion hb)))))
+
+(thm closed_of_base [D :- Exp]
+  (=> (Eq Bool (isBaseTy D) Bool.true) (Eq Bool (closedTy D) Bool.true))
+  (cases D)
+  (all_goals (intro hb))
+  (all_goals (first (rfl) (exact (Bool.noConfusion hb)))))
+
+(thm skj_along [w :- Bool, e :- Exp, s :- Sk, G1 :- (List Sk), G2 :- (List Sk),
+                hG :- (Eq (List Sk) G1 G2), h :- (SkJ w G1 e s)]
+  (SkJ w G2 e s)
+  (exact (Eq.mp (congrArg (fn [G :- (List Sk)] (SkJ w G e s)) hG) h)))
+
+;; Drop the relation from an adequacy witness.  adeq_node's token premise,
+;; and reflect's evidence, are evaluation only.
+(thm eval_only
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), n :- Nat, rho :- (List RV), t :- Exp, s :- Sk,
+   G :- (List Sk), eta :- (HEnv G),
+   h :- (Exists (fn [v :- RV]
+          (And (Eval chkf dec encTy n rho t v)
+               (rel chkf dec encTy n s v (den chkf dec encTy n t G s eta)))))]
+  (Exists (fn [v :- RV] (Eval chkf dec encTy n rho t v)))
+  (refine' (exT RV _ _ h _))
+  (intro v hv)
+  (exact (Exists.intro v (And.left hv))))
+
+;; An argument whose skOf-match succeeded is typed at the skeleton SkJ gave
+;; it.  sk_witness recovers the option; br_of_skSome turns it into the
+;; brHead hypothesis skOf_agree needs.
+(thm app_arg_sk [G :- (List Sk), u :- Exp, s :- Sk, der :- (SkJ Bool.false G u s),
+                 hok :- (Eq Bool (argsOK G u) Bool.true),
+                 hm :- (Eq Bool (match (skOf G u) [none Bool.false] [(some sf) Bool.true]) Bool.true)]
+  (Eq (Option Sk) (skOf G u) (Option.some Sk s))
+  (refine' (exT Sk _ _ (sk_witness (skOf G u) hm) _))
+  (intro s0 hs0)
+  (exact (skOf_agree Bool.false G u s der rfl hok (br_of_skSome u G s0 hs0))))
+
+;; The outer match of let's argsOK clause is true whenever the inner one is:
+;; the none branch is false, so the scrutinee's skOf is some.
+(thm let_match_some [sp :- (Option Sk), inner :- (=> Sk Bool),
+                     h :- (Eq Bool (match sp [none Bool.false] [(some s0) (inner s0)]) Bool.true)]
+  (Eq Bool (match sp [none Bool.false] [(some sf) Bool.true]) Bool.true)
+  (cases sp)
+  (exact (Bool.noConfusion h))
+  (rfl))
+
+;; Once skOf of the scrutinee is the product, the inner clause of argsOK is
+;; the body's argsOK in the extended context.  subst rewrites the option
+;; variable; the product is not a variable, so the equation is a hypothesis.
+(thm let_body_of [pOK :- Bool, sp :- (Option Sk), a :- Sk, b :- Sk, t :- Exp, G :- (List Sk),
+                  hs :- (Eq (Option Sk) sp (Option.some Sk (Sk.prod a b))),
+                  h :- (Eq Bool
+                        (Bool.and pOK
+                          (match sp
+                            [none Bool.false]
+                            [(some s0) (match s0 [(prod x y) (argsOK (sk2 y x G) t)] [_ Bool.false])]))
+                        Bool.true)]
+  (Eq Bool (argsOK (sk2 b a G) t) Bool.true)
+  (subst hs)
+  (exact (andb_right pOK (argsOK (sk2 b a G) t) h)))
+
+;; m < b and b ≤ c give m < c.  omega is a tactic, not a proof term, so the
+;; step is its own lemma.  Nat.le_of_ble_eq_true returns Nat.le, which omega
+;; accepts.
+(thm lt_le_omega [a :- Nat, b :- Nat, c :- Nat, h1 :- (LT.lt a b), h2 :- (Nat.le b c)]
+  (LT.lt a c)
+  (omega))
+
+;; Theorem 4, reflect (R4-metatheory §5, the sRefl clause).
+;;
+;; r and e are adequate by the induction hypothesis.  The guard is
+;; cnodes(⟦r⟧) ≤ cap ∧ chkf(⟦r⟧, ⌜D⌝).  Failure returns the error token
+;; (adeq_refl_no).  Success: CheckSpec decodes ⟦r⟧ to Θₘ ⊢ t₂ : A with
+;; m < cnodes(⟦r⟧), hence m < cap; E1 and closed_of_base give A = D; the
+;; outer hypothesis at m evaluates t₂ in the token environment.  adeq_refl_ok
+;; assembles the certificate.
+(thm adeq_refl_asm
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+   D :- Exp, r :- Exp, e :- Exp,
+   rho :- (List RV), eta :- (HEnv G),
+   hcs :- (CheckSpec chkf dec encTy),
+   below :- (forall [m Nat] (=> (LT.lt m cap) (Adeq chkf dec encTy m))),
+   hb :- (Eq Bool (isBaseTy D) Bool.true),
+   ihr :- (Exists (fn [vr :- RV]
+            (And (Eval chkf dec encTy cap rho r vr)
+                 (rel chkf dec encTy cap Sk.cert vr (den chkf dec encTy cap r G Sk.cert eta))))),
+   ihe :- (Exists (fn [ve :- RV]
+            (And (Eval chkf dec encTy cap rho e ve)
+                 (rel chkf dec encTy cap Sk.unit ve (den chkf dec encTy cap e G Sk.unit eta)))))]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy cap rho (Exp.refl D r e) v)
+         (rel chkf dec encTy cap (skel D) v (den chkf dec encTy cap (Exp.refl D r e) G (skel D) eta)))))
+  (have ie (Exists (fn [ve :- RV] (Eval chkf dec encTy cap rho e ve)))
+    (eval_only chkf dec encTy cap rho e Sk.unit G eta ihe))
+  (by_cases (Bool.and (Nat.ble (cnodes (den chkf dec encTy cap r G Sk.cert eta)) cap)
+              (chkf (den chkf dec encTy cap r G Sk.cert eta) (encTy D))))
+  (exact (adeq_refl_no chkf dec encTy cap G D r e rho eta ihr ie hc))
+  (have hchk (Eq Bool (chkf (den chkf dec encTy cap r G Sk.cert eta) (encTy D)) Bool.true)
+    (andb_right (Nat.ble (cnodes (den chkf dec encTy cap r G Sk.cert eta)) cap)
+      (chkf (den chkf dec encTy cap r G Sk.cert eta) (encTy D)) hc))
+  (refine' (exT Nat _ _ ((And.left hcs) (den chkf dec encTy cap r G Sk.cert eta) (encTy D) hchk) _))
+  (intro m hm)
+  (refine' (exT Exp _ _ hm _))
+  (intro t2 ht2)
+  (refine' (exT Exp _ _ ht2 _))
+  (intro A hA)
+  (have hd (Eq (Option (Prod Nat (Prod Exp Exp)))
+            (dec (den chkf dec encTy cap r G Sk.cert eta))
+            (Option.some (Prod Nat (Prod Exp Exp)) (Prod.mk m (Prod.mk t2 A))))
+    (And.left hA))
+  (have hrt (Rt chkf (thetaD m) (thetaU m) t2 A) (And.left (And.right hA)))
+  (have hclA (Eq Bool (closedTy A) Bool.true)
+    (And.left (And.right (And.right (And.right hA)))))
+  (have henc (Eq Code (encTy A) (encTy D))
+    (And.left (And.right (And.right (And.right (And.right hA))))))
+  (have hlt0 (LT.lt m (cnodes (den chkf dec encTy cap r G Sk.cert eta)))
+    (And.right (And.right (And.right (And.right (And.right hA))))))
+  (have hble (Eq Bool (Nat.ble (cnodes (den chkf dec encTy cap r G Sk.cert eta)) cap) Bool.true)
+    (andb_left (Nat.ble (cnodes (den chkf dec encTy cap r G Sk.cert eta)) cap)
+      (chkf (den chkf dec encTy cap r G Sk.cert eta) (encTy D)) hc))
+  (have hle (Nat.le (cnodes (den chkf dec encTy cap r G Sk.cert eta)) cap) (Nat.le_of_ble_eq_true hble))
+  (have hlt (LT.lt m cap) (lt_le_omega m (cnodes (den chkf dec encTy cap r G Sk.cert eta)) cap hlt0 hle))
+  (have eAD (Eq Exp A D)
+    ((And.right (And.right (And.right hcs))) A D hclA (closed_of_base D hb) henc))
+  (have hrtD (Rt chkf (thetaD m) (thetaU m) t2 D)
+    (Eq.mp (congrArg (fn [Z :- Exp] (Rt chkf (thetaD m) (thetaU m) t2 Z)) eAD) hrt))
+  (have hsk (SkJ Bool.false (thetaSk m) t2 (skel D))
+    (skj_along Bool.false t2 (skel D) (skels (thetaD m)) (thetaSk m) (skels_theta m)
+      (lemma25_rt chkf (thetaD m) (thetaU m) t2 D hrtD)))
+  (have hok (Eq Bool (argsOK (thetaSk m) t2) Bool.true)
+    (Eq.trans (Eq.symm (argsOK_ctx t2 (skels (thetaD m)) (thetaSk m) (skels_theta m)))
+      (rt_argsOK chkf (thetaD m) (thetaU m) t2 D hrtD)))
+  (have hdec := (below m hlt (thetaSk m) t2 (skel D) hsk hok (rtokens m) (tokenEnv m)
+                  (tokens_rel chkf dec encTy m m)))
+  (exact (adeq_refl_ok chkf dec encTy cap G D r e rho eta m t2 A
+           (baseSk_base D hb) ihr ie hc hd hlt hdec)))
+
+(println :refl-asm-ok)

@@ -470,7 +470,10 @@
                 brHead_bnil argsOK_bnil_true argsOK_app_eq
                 skOf_brHead br_of_skSome skOf_agree
                 argsOK_base argsOK_const match_sk_true argsOK_app_asm
-                let_ok_prod argsOK_recs_tn tl_argsOK rt_argsOK]]
+                let_ok_prod argsOK_recs_tn tl_argsOK rt_argsOK
+                sk_witness skels_theta baseSk_base closed_of_base skj_along
+                eval_only app_arg_sk let_match_some let_body_of lt_le_omega
+                adeq_refl_asm]]
       (is (b/has? c) (str c))))
   (testing "bnil is simply typable and argsOK, but skOf is none: argsOK alone does not give skOf = some"
     (is (not (b/rejects? '[G :- (List Sk)]
