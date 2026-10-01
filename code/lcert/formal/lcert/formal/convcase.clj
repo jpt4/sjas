@@ -1688,3 +1688,136 @@
        '(exact (step_nil_fl chkf dec encTy fl (Exp.elimB P b t e) G out hj hn re co hg hd))
        '(intro re co hg hd) (list 'exact split)]))
   
+;; recN: the motive is a skeleton annotation.  The zero is typed at
+;; skel P and denoted at the output skeleton (Eq.mp, as in elimB).
+;; The step function is under two binders; funext lifts the induction
+;; hypothesis at the extended context.  The scrutinee is read at Nat.
+(prove! 'den_recN_n
+    (into Pcap '[P :- Exp, z :- Exp, s :- Exp, n :- Exp, nq :- Exp, G :- (List Sk), sk :- Sk, en :- (HEnv G),
+                 h :- (Eq (Car Sk.nat) (den chkf dec encTy cap nq G Sk.nat en)
+                                       (den chkf dec encTy cap n G Sk.nat en))])
+    '(Eq (Car sk) (den chkf dec encTy cap (Exp.recN P z s nq) G sk en)
+                  (den chkf dec encTy cap (Exp.recN P z s n) G sk en))
+    ['(rw [(den_recN_at chkf dec encTy cap P z s nq G sk en)])
+     '(rw [(den_recN_at chkf dec encTy cap P z s n G sk en)])
+     '(change (Eq (Car sk)
+        (Nat.rec$1 (fn [_ :- Nat] (Car sk))
+          (den chkf dec encTy cap z G sk en)
+          (fn [k :- Nat, acc :- (Car sk)]
+            (den chkf dec encTy cap s (sk2 sk Sk.nat G) sk (Prod.mk acc (Prod.mk k en))))
+          (den chkf dec encTy cap nq G Sk.nat en))
+        (Nat.rec$1 (fn [_ :- Nat] (Car sk))
+          (den chkf dec encTy cap z G sk en)
+          (fn [k :- Nat, acc :- (Car sk)]
+            (den chkf dec encTy cap s (sk2 sk Sk.nat G) sk (Prod.mk acc (Prod.mk k en))))
+          (den chkf dec encTy cap n G Sk.nat en))))
+     '(exact (congrArg (fn [v :- (Car Sk.nat)]
+               (Nat.rec$1 (fn [_ :- Nat] (Car sk))
+                 (den chkf dec encTy cap z G sk en)
+                 (fn [k :- Nat, acc :- (Car sk)]
+                   (den chkf dec encTy cap s (sk2 sk Sk.nat G) sk (Prod.mk acc (Prod.mk k en))))
+                 v)) h))])
+  
+(def ^:private stepfn
+  '(fn [k :- Nat, acc :- (Car sk)]
+     (den chkf dec encTy cap STEP (sk2 sk Sk.nat G) sk (Prod.mk acc (Prod.mk k en)))))
+(defn- with-step [st]
+  (clojure.walk/postwalk-replace {'STEP st} stepfn))
+  (defn rec [z0 sf n0]
+    (list 'Nat.rec$1 '(fn [_ :- Nat] (Car sk)) z0 sf n0))
+  (prove! 'den_recN_z
+    (into Pcap '[P :- Exp, z :- Exp, zq :- Exp, s :- Exp, n :- Exp, G :- (List Sk), sk :- Sk, en :- (HEnv G),
+                 h :- (Eq (Car sk) (den chkf dec encTy cap zq G sk en) (den chkf dec encTy cap z G sk en))])
+    '(Eq (Car sk) (den chkf dec encTy cap (Exp.recN P zq s n) G sk en)
+                  (den chkf dec encTy cap (Exp.recN P z s n) G sk en))
+    [(list 'rw ['(den_recN_at chkf dec encTy cap P zq s n G sk en)])
+     '(rw [(den_recN_at chkf dec encTy cap P z s n G sk en)])
+     (list 'change (list 'Eq '(Car sk)
+                    (rec '(den chkf dec encTy cap zq G sk en) (with-step 's) '(den chkf dec encTy cap n G Sk.nat en))
+                    (rec '(den chkf dec encTy cap z G sk en) (with-step 's) '(den chkf dec encTy cap n G Sk.nat en))))
+     (list 'exact (list 'congrArg
+                   (list 'fn '[v :- (Car sk)] (rec 'v (with-step 's) '(den chkf dec encTy cap n G Sk.nat en)))
+                   'h))])
+  (prove! 'den_recN_s
+    (into Pcap '[P :- Exp, z :- Exp, s :- Exp, sq :- Exp, n :- Exp, G :- (List Sk), sk :- Sk, en :- (HEnv G),
+                 h :- (Eq (=> Nat (Car sk) (Car sk))
+                       (fn [k :- Nat, acc :- (Car sk)]
+                         (den chkf dec encTy cap sq (sk2 sk Sk.nat G) sk (Prod.mk acc (Prod.mk k en))))
+                       (fn [k :- Nat, acc :- (Car sk)]
+                         (den chkf dec encTy cap s (sk2 sk Sk.nat G) sk (Prod.mk acc (Prod.mk k en)))))])
+    '(Eq (Car sk) (den chkf dec encTy cap (Exp.recN P z sq n) G sk en)
+                  (den chkf dec encTy cap (Exp.recN P z s n) G sk en))
+    [(list 'rw ['(den_recN_at chkf dec encTy cap P z sq n G sk en)])
+     '(rw [(den_recN_at chkf dec encTy cap P z s n G sk en)])
+     (list 'change (list 'Eq '(Car sk)
+                    (rec '(den chkf dec encTy cap z G sk en) (with-step 'sq) '(den chkf dec encTy cap n G Sk.nat en))
+                    (rec '(den chkf dec encTy cap z G sk en) (with-step 's) '(den chkf dec encTy cap n G Sk.nat en))))
+     (list 'exact (list 'congrArg
+                   (list 'fn '[f :- (=> Nat (Car sk) (Car sk))]
+                     (rec '(den chkf dec encTy cap z G sk en) 'f '(den chkf dec encTy cap n G Sk.nat en)))
+                   'h))])
+  (prove! 'sk_recN_P
+    '[chkf :- (=> Code Code Bool), P :- Exp, z :- Exp, s :- Exp, n :- Exp, G :- (List Sk),
+      q :- (List Nat), r :- Exp, r2 :- Exp,
+      hP :- (SkJ Bool.true (List.cons Sk Sk.nat G) P Sk.unit),
+      hg :- (Eq (Option Exp) (getP q P) (Option.some Exp r)),
+      hd :- (Hd chkf r r2)]
+    '(Eq (Option Sk) (skOf G (Exp.recN (setP q P r2) z s n)) (skOf G (Exp.recN P z s n)))
+    ['(have hs (Eq Sk (skel (setP q P r2)) (skel P))
+        (step_skel_path chkf q P r r2
+          (skj_isTy Bool.true (List.cons Sk Sk.nat G) P Sk.unit hP rfl) hg hd))
+     '(exact (congrArg (fn [k :- Sk] (Option.some Sk k)) hs))])
+  
+(defn rights [n t] (if (zero? n) t (list 'And.right (rights (dec n) t))))
+  (let [term '(Exp.recN P z s n)
+        inv '(inv_recN Bool.false G P z s n out hj)
+        hs (list 'And.left (rights 1 inv))
+        hP (list 'And.left (rights 2 inv))
+        hz (list 'And.left (rights 3 inv))
+        hst (list 'And.left (rights 4 inv))
+        hn (rights 5 inv)
+        to-out (fn [field sj]
+                 (list 'Eq.mp
+                   (list 'congrArg (list 'fn ['k ':- 'Sk] (list 'SkJ 'Bool.false 'G field 'k))
+                         (list 'Eq.symm hs)) sj))
+        st-sj (list 'Eq.mp
+                (list 'congrArg
+                  '(fn [k :- Sk] (SkJ Bool.false (sk2 k Sk.nat G) s k))
+                  (list 'Eq.symm hs))
+                hst)
+        nbr (fn [f] (list (symbol (str "nbr_recN_" f)) 'P 'z 's 'n 'fl 'hn))
+        denih (fn [ih g csk sj nb]
+                (list 'And.right (list ih 'Bool.false g csk sj nb 'tail 're 'co 'hgc 'hd)))
+        pP (list 'And.intro
+             '(sk_recN_P chkf P z s n G tail re co
+                (And.left (And.right (And.right (inv_recN Bool.false G P z s n out hj)))) hgc hd)
+             '(fn [cap :- Nat, en :- (HEnv G)]
+                (den_ig_recN_P chkf dec encTy cap P (setP tail P co) z s n G out en)))
+        pz (list 'And.intro '(Eq.refl$1 (skOf G (Exp.recN P z s n)))
+             (list 'fn '[cap :- Nat, en :- (HEnv G)]
+               (list 'den_recN_z 'chkf 'dec 'encTy 'cap 'P 'z '(setP tail z co) 's 'n 'G 'out 'en
+                 (list (denih 'ih_z 'G 'out (to-out 'z hz) (nbr 'z)) 'cap 'en))))
+        fun (list 'fn '[cap :- Nat, en :- (HEnv G)]
+              (list 'den_recN_s 'chkf 'dec 'encTy 'cap 'P 'z 's '(setP tail s co) 'n 'G 'out 'en
+                (list 'funext
+                  (list 'fn '[k :- Nat]
+                    (list 'funext
+                      (list 'fn '[acc :- (Car out)]
+                        (list (denih 'ih_s '(sk2 out Sk.nat G) 'out st-sj (nbr 's))
+                          'cap '(Prod.mk acc (Prod.mk k en)))))))))
+        ps (list 'And.intro '(Eq.refl$1 (skOf G (Exp.recN P z s n))) fun)
+        pn (list 'And.intro '(Eq.refl$1 (skOf G (Exp.recN P z s n)))
+             (list 'fn '[cap :- Nat, en :- (HEnv G)]
+               (list 'den_recN_n 'chkf 'dec 'encTy 'cap 'P 'z 's 'n '(setP tail n co) 'G 'out 'en
+                 (list (denih 'ih_n 'G 'Sk.nat hn (nbr 'n)) 'cap 'en))))
+        split (index-split term [pP pz ps pn])]
+    (prove! 'step_recN
+      (into step-params '[P :- Exp, z :- Exp, s :- Exp, n :- Exp,
+                 ih_z :- (StepPack chkf dec encTy z),
+                 ih_s :- (StepPack chkf dec encTy s),
+                 ih_n :- (StepPack chkf dec encTy n)])
+      '(StepPack chkf dec encTy (Exp.recN P z s n))
+      ['(intro fl G out hj hn pth) '(cases pth) '(intro re co hg hd)
+       '(exact (step_nil_fl chkf dec encTy fl (Exp.recN P z s n) G out hj hn re co hg hd))
+       '(intro re co hg hd) (list 'exact split)]))
+  
