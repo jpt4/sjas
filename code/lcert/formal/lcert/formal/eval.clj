@@ -1817,3 +1817,322 @@
   (exact (Ev.eRecN chkf dec encTy cap rho P z step nv
            (den chkf dec encTy cap nv G Sk.nat eta) z0 v hek hez hi))
   (exact hrel))
+
+;; recSyn, the leaf (Theorem 4).  The leaf method runs with the label bound.
+(thm adeq_recs_leaf
+        [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+         encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+         tl :- Exp, tn :- Exp, s :- Sk, l :- Nat,
+         rho :- (List RV), eta :- (HEnv G),
+         hr :- (envRel chkf dec encTy cap G rho eta),
+         ihl :- (forall [rho2 (List RV)]
+                  (forall [eta2 (HEnv (List.cons Sk Sk.lbl G))]
+                    (=> (envRel chkf dec encTy cap (List.cons Sk Sk.lbl G) rho2 eta2)
+                      (Exists (fn [w :- RV]
+                        (And (Eval chkf dec encTy cap rho2 tl w)
+                             (rel chkf dec encTy cap s w
+                               (den chkf dec encTy cap tl (List.cons Sk Sk.lbl G) s eta2))))))))]
+        (Exists (fn [v :- RV]
+          (And (Ev chkf dec encTy cap (EvSrc.recs rho tl tn (Code.sl l)) v)
+               (rel chkf dec encTy cap s v
+                 (Code.rec$1 (fn [_ :- Code] (Car s))
+                   (fn [j :- Nat] (den chkf dec encTy cap tl (List.cons Sk Sk.lbl G) s (Prod.mk j eta)))
+                   (fn [j :- Nat, a :- Code, b :- Code, ya :- (Car s), yb :- (Car s)]
+                     (den chkf dec encTy cap tn
+                       (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                       s (Prod.mk yb (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk j eta)))))))
+                   (Code.sl l))))))
+        (have henv (envRel chkf dec encTy cap (List.cons Sk Sk.lbl G)
+                     (List.cons RV (RV.lbl l) rho) (Prod.mk l eta))
+          (envRel_cons chkf dec encTy cap Sk.lbl G (RV.lbl l) rho l eta rfl hr))
+        (refine' (exT RV _ _ (ihl (List.cons RV (RV.lbl l) rho) (Prod.mk l eta) henv) _))
+        (intro w hw)
+        (have he (Eval chkf dec encTy cap (List.cons RV (RV.lbl l) rho) tl w) (And.left hw))
+        (have hrel (rel chkf dec encTy cap s w
+                     (den chkf dec encTy cap tl (List.cons Sk Sk.lbl G) s (Prod.mk l eta))) (And.right hw))
+        (constructor) (exact w)
+        (constructor)
+        (exact (Ev.eRecSL chkf dec encTy cap rho tl tn l w he))
+        (exact hrel))
+
+;; recSyn, the node.  The two recursive results and the label and codes
+;; extend the environment in the order the denotation uses: yb, ya, b, a, l.
+(thm adeq_recs_node
+        [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+         encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+         tl :- Exp, tn :- Exp, s :- Sk, l :- Nat, a :- Code, b :- Code,
+         rho :- (List RV), eta :- (HEnv G),
+         hr :- (envRel chkf dec encTy cap G rho eta),
+         iha :- (Exists (fn [ya :- RV]
+                  (And (Ev chkf dec encTy cap (EvSrc.recs rho tl tn a) ya)
+                       (rel chkf dec encTy cap s ya
+                         (Code.rec$1 (fn [_ :- Code] (Car s))
+                           (fn [j :- Nat] (den chkf dec encTy cap tl (List.cons Sk Sk.lbl G) s (Prod.mk j eta)))
+                           (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)]
+                             (den chkf dec encTy cap tn
+                               (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                               s (Prod.mk yb (Prod.mk ya (Prod.mk xb (Prod.mk xa (Prod.mk j eta)))))))
+                           a))))),
+         ihb :- (Exists (fn [yb :- RV]
+                  (And (Ev chkf dec encTy cap (EvSrc.recs rho tl tn b) yb)
+                       (rel chkf dec encTy cap s yb
+                         (Code.rec$1 (fn [_ :- Code] (Car s))
+                           (fn [j :- Nat] (den chkf dec encTy cap tl (List.cons Sk Sk.lbl G) s (Prod.mk j eta)))
+                           (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)]
+                             (den chkf dec encTy cap tn
+                               (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                               s (Prod.mk yb (Prod.mk ya (Prod.mk xb (Prod.mk xa (Prod.mk j eta)))))))
+                           b))))),
+         ihn :- (forall [rho2 (List RV)]
+                  (forall [eta2 (HEnv (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G))))))]
+                    (=> (envRel chkf dec encTy cap
+                          (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                          rho2 eta2)
+                      (Exists (fn [w :- RV]
+                        (And (Eval chkf dec encTy cap rho2 tn w)
+                             (rel chkf dec encTy cap s w
+                               (den chkf dec encTy cap tn
+                                 (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                                 s eta2))))))))]
+        (Exists (fn [v :- RV]
+          (And (Ev chkf dec encTy cap (EvSrc.recs rho tl tn (Code.sn l a b)) v)
+               (rel chkf dec encTy cap s v
+                 (Code.rec$1 (fn [_ :- Code] (Car s))
+                   (fn [j :- Nat] (den chkf dec encTy cap tl (List.cons Sk Sk.lbl G) s (Prod.mk j eta)))
+                   (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)]
+                     (den chkf dec encTy cap tn
+                       (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                       s (Prod.mk yb (Prod.mk ya (Prod.mk xb (Prod.mk xa (Prod.mk j eta)))))))
+                   (Code.sn l a b))))))
+        (refine' (exT RV _ _ iha _)) (intro ya ha)
+        (have hea (Ev chkf dec encTy cap (EvSrc.recs rho tl tn a) ya) (And.left ha))
+        (have hra (rel chkf dec encTy cap s ya
+                    (Code.rec$1 (fn [_ :- Code] (Car s))
+                      (fn [j :- Nat] (den chkf dec encTy cap tl (List.cons Sk Sk.lbl G) s (Prod.mk j eta)))
+                      (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)]
+                        (den chkf dec encTy cap tn
+                          (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                          s (Prod.mk yb (Prod.mk ya (Prod.mk xb (Prod.mk xa (Prod.mk j eta)))))))
+                      a)) (And.right ha))
+        (refine' (exT RV _ _ ihb _)) (intro yb hb)
+        (have heb (Ev chkf dec encTy cap (EvSrc.recs rho tl tn b) yb) (And.left hb))
+        (have hrb (rel chkf dec encTy cap s yb
+                    (Code.rec$1 (fn [_ :- Code] (Car s))
+                      (fn [j :- Nat] (den chkf dec encTy cap tl (List.cons Sk Sk.lbl G) s (Prod.mk j eta)))
+                      (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)]
+                        (den chkf dec encTy cap tn
+                          (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                          s (Prod.mk yb (Prod.mk ya (Prod.mk xb (Prod.mk xa (Prod.mk j eta)))))))
+                      b)) (And.right hb))
+        (have eL (envRel chkf dec encTy cap (List.cons Sk Sk.lbl G)
+                   (List.cons RV (RV.lbl l) rho) (Prod.mk l eta))
+          (envRel_cons chkf dec encTy cap Sk.lbl G (RV.lbl l) rho l eta rfl hr))
+        (have eA (envRel chkf dec encTy cap (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G))
+                   (List.cons RV (RV.code a) (List.cons RV (RV.lbl l) rho))
+                   (Prod.mk a (Prod.mk l eta)))
+          (envRel_cons chkf dec encTy cap Sk.syn (List.cons Sk Sk.lbl G)
+            (RV.code a) (List.cons RV (RV.lbl l) rho) a (Prod.mk l eta) rfl eL))
+        (have eB (envRel chkf dec encTy cap (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))
+                   (List.cons RV (RV.code b) (List.cons RV (RV.code a) (List.cons RV (RV.lbl l) rho)))
+                   (Prod.mk b (Prod.mk a (Prod.mk l eta))))
+          (envRel_cons chkf dec encTy cap Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G))
+            (RV.code b) (List.cons RV (RV.code a) (List.cons RV (RV.lbl l) rho))
+            b (Prod.mk a (Prod.mk l eta)) rfl eA))
+        (have eYa (envRel chkf dec encTy cap
+                    (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G))))
+                    (List.cons RV ya (List.cons RV (RV.code b) (List.cons RV (RV.code a) (List.cons RV (RV.lbl l) rho))))
+                    (Prod.mk (Code.rec$1 (fn [_ :- Code] (Car s))
+                               (fn [j :- Nat] (den chkf dec encTy cap tl (List.cons Sk Sk.lbl G) s (Prod.mk j eta)))
+                               (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)]
+                                 (den chkf dec encTy cap tn
+                                   (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                                   s (Prod.mk yb (Prod.mk ya (Prod.mk xb (Prod.mk xa (Prod.mk j eta)))))))
+                               a)
+                      (Prod.mk b (Prod.mk a (Prod.mk l eta)))))
+          (envRel_cons chkf dec encTy cap s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))
+            ya (List.cons RV (RV.code b) (List.cons RV (RV.code a) (List.cons RV (RV.lbl l) rho)))
+            (Code.rec$1 (fn [_ :- Code] (Car s))
+              (fn [j :- Nat] (den chkf dec encTy cap tl (List.cons Sk Sk.lbl G) s (Prod.mk j eta)))
+              (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)]
+                (den chkf dec encTy cap tn
+                  (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                  s (Prod.mk yb (Prod.mk ya (Prod.mk xb (Prod.mk xa (Prod.mk j eta)))))))
+              a)
+            (Prod.mk b (Prod.mk a (Prod.mk l eta))) hra eB))
+        (have eYb (envRel chkf dec encTy cap
+                    (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                    (List.cons RV yb (List.cons RV ya (List.cons RV (RV.code b) (List.cons RV (RV.code a) (List.cons RV (RV.lbl l) rho)))))
+                    (Prod.mk (Code.rec$1 (fn [_ :- Code] (Car s))
+                               (fn [j :- Nat] (den chkf dec encTy cap tl (List.cons Sk Sk.lbl G) s (Prod.mk j eta)))
+                               (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)]
+                                 (den chkf dec encTy cap tn
+                                   (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                                   s (Prod.mk yb (Prod.mk ya (Prod.mk xb (Prod.mk xa (Prod.mk j eta)))))))
+                               b)
+                      (Prod.mk (Code.rec$1 (fn [_ :- Code] (Car s))
+                                 (fn [j :- Nat] (den chkf dec encTy cap tl (List.cons Sk Sk.lbl G) s (Prod.mk j eta)))
+                                 (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)]
+                                   (den chkf dec encTy cap tn
+                                     (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                                     s (Prod.mk yb (Prod.mk ya (Prod.mk xb (Prod.mk xa (Prod.mk j eta)))))))
+                                 a)
+                        (Prod.mk b (Prod.mk a (Prod.mk l eta))))))
+          (envRel_cons chkf dec encTy cap s
+            (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G))))
+            yb (List.cons RV ya (List.cons RV (RV.code b) (List.cons RV (RV.code a) (List.cons RV (RV.lbl l) rho))))
+            (Code.rec$1 (fn [_ :- Code] (Car s))
+              (fn [j :- Nat] (den chkf dec encTy cap tl (List.cons Sk Sk.lbl G) s (Prod.mk j eta)))
+              (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)]
+                (den chkf dec encTy cap tn
+                  (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                  s (Prod.mk yb (Prod.mk ya (Prod.mk xb (Prod.mk xa (Prod.mk j eta)))))))
+              b)
+            (Prod.mk (Code.rec$1 (fn [_ :- Code] (Car s))
+                       (fn [j :- Nat] (den chkf dec encTy cap tl (List.cons Sk Sk.lbl G) s (Prod.mk j eta)))
+                       (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)]
+                         (den chkf dec encTy cap tn
+                           (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                           s (Prod.mk yb (Prod.mk ya (Prod.mk xb (Prod.mk xa (Prod.mk j eta)))))))
+                       a)
+              (Prod.mk b (Prod.mk a (Prod.mk l eta))))
+            hrb eYa))
+        (refine' (exT RV _ _
+          (ihn (List.cons RV yb (List.cons RV ya (List.cons RV (RV.code b) (List.cons RV (RV.code a) (List.cons RV (RV.lbl l) rho)))))
+               (Prod.mk (Code.rec$1 (fn [_ :- Code] (Car s))
+                          (fn [j :- Nat] (den chkf dec encTy cap tl (List.cons Sk Sk.lbl G) s (Prod.mk j eta)))
+                          (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)]
+                            (den chkf dec encTy cap tn
+                              (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                              s (Prod.mk yb (Prod.mk ya (Prod.mk xb (Prod.mk xa (Prod.mk j eta)))))))
+                          b)
+                 (Prod.mk (Code.rec$1 (fn [_ :- Code] (Car s))
+                            (fn [j :- Nat] (den chkf dec encTy cap tl (List.cons Sk Sk.lbl G) s (Prod.mk j eta)))
+                            (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)]
+                              (den chkf dec encTy cap tn
+                                (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                                s (Prod.mk yb (Prod.mk ya (Prod.mk xb (Prod.mk xa (Prod.mk j eta)))))))
+                            a)
+                   (Prod.mk b (Prod.mk a (Prod.mk l eta)))))
+               eYb) _))
+        (intro w hw)
+        (have he (Eval chkf dec encTy cap
+                   (List.cons RV yb (List.cons RV ya (List.cons RV (RV.code b) (List.cons RV (RV.code a) (List.cons RV (RV.lbl l) rho)))))
+                   tn w) (And.left hw))
+        (have hrel (rel chkf dec encTy cap s w
+                     (den chkf dec encTy cap tn
+                       (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                       s
+                       (Prod.mk (Code.rec$1 (fn [_ :- Code] (Car s))
+                                  (fn [j :- Nat] (den chkf dec encTy cap tl (List.cons Sk Sk.lbl G) s (Prod.mk j eta)))
+                                  (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)]
+                                    (den chkf dec encTy cap tn
+                                      (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                                      s (Prod.mk yb (Prod.mk ya (Prod.mk xb (Prod.mk xa (Prod.mk j eta)))))))
+                                  b)
+                         (Prod.mk (Code.rec$1 (fn [_ :- Code] (Car s))
+                                    (fn [j :- Nat] (den chkf dec encTy cap tl (List.cons Sk Sk.lbl G) s (Prod.mk j eta)))
+                                    (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)]
+                                      (den chkf dec encTy cap tn
+                                        (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                                        s (Prod.mk yb (Prod.mk ya (Prod.mk xb (Prod.mk xa (Prod.mk j eta)))))))
+                                    a)
+                           (Prod.mk b (Prod.mk a (Prod.mk l eta))))))) (And.right hw))
+        (constructor) (exact w)
+        (constructor)
+        (exact (Ev.eRecSN chkf dec encTy cap rho tl tn l a b ya yb w hea heb he))
+        (exact hrel))
+
+;; recSyn's recursion (Theorem 4's inner induction on the code).
+(thm adeq_recs
+        [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+         encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+         tl :- Exp, tn :- Exp, s :- Sk,
+         rho :- (List RV), eta :- (HEnv G),
+         hr :- (envRel chkf dec encTy cap G rho eta),
+         ihl :- (forall [rho2 (List RV)]
+                  (forall [eta2 (HEnv (List.cons Sk Sk.lbl G))]
+                    (=> (envRel chkf dec encTy cap (List.cons Sk Sk.lbl G) rho2 eta2)
+                      (Exists (fn [w :- RV]
+                        (And (Eval chkf dec encTy cap rho2 tl w)
+                             (rel chkf dec encTy cap s w
+                               (den chkf dec encTy cap tl (List.cons Sk Sk.lbl G) s eta2)))))))),
+         ihn :- (forall [rho2 (List RV)]
+                  (forall [eta2 (HEnv (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G))))))]
+                    (=> (envRel chkf dec encTy cap
+                          (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                          rho2 eta2)
+                      (Exists (fn [w :- RV]
+                        (And (Eval chkf dec encTy cap rho2 tn w)
+                             (rel chkf dec encTy cap s w
+                               (den chkf dec encTy cap tn
+                                 (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                                 s eta2))))))))]
+        (forall [c Code]
+          (Exists (fn [v :- RV]
+            (And (Ev chkf dec encTy cap (EvSrc.recs rho tl tn c) v)
+                 (rel chkf dec encTy cap s v
+                   (Code.rec$1 (fn [_ :- Code] (Car s))
+                     (fn [j :- Nat] (den chkf dec encTy cap tl (List.cons Sk Sk.lbl G) s (Prod.mk j eta)))
+                     (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)]
+                       (den chkf dec encTy cap tn
+                         (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                         s (Prod.mk yb (Prod.mk ya (Prod.mk xb (Prod.mk xa (Prod.mk j eta)))))))
+                     c))))))
+        (intro c) (induction c)
+        (exact (adeq_recs_leaf chkf dec encTy cap G tl tn s l rho eta hr ihl))
+        (exact (adeq_recs_node chkf dec encTy cap G tl tn s l a b rho eta hr ih_a ih_b ihn)))
+
+;; recS (Theorem 4).  The scrutinee denotes a code; adeq_recs folds the methods.
+(thm adeq_recS
+        [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+         encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+         P :- Exp, tl :- Exp, tn :- Exp, c :- Exp, s :- Sk,
+         rho :- (List RV), eta :- (HEnv G),
+         hr :- (envRel chkf dec encTy cap G rho eta),
+         ihc :- (Exists (fn [vc :- RV]
+                  (And (Eval chkf dec encTy cap rho c vc)
+                       (rel chkf dec encTy cap Sk.syn vc (den chkf dec encTy cap c G Sk.syn eta))))),
+         ihl :- (forall [rho2 (List RV)]
+                  (forall [eta2 (HEnv (List.cons Sk Sk.lbl G))]
+                    (=> (envRel chkf dec encTy cap (List.cons Sk Sk.lbl G) rho2 eta2)
+                      (Exists (fn [w :- RV]
+                        (And (Eval chkf dec encTy cap rho2 tl w)
+                             (rel chkf dec encTy cap s w
+                               (den chkf dec encTy cap tl (List.cons Sk Sk.lbl G) s eta2)))))))),
+         ihn :- (forall [rho2 (List RV)]
+                  (forall [eta2 (HEnv (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G))))))]
+                    (=> (envRel chkf dec encTy cap
+                          (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                          rho2 eta2)
+                      (Exists (fn [w :- RV]
+                        (And (Eval chkf dec encTy cap rho2 tn w)
+                             (rel chkf dec encTy cap s w
+                               (den chkf dec encTy cap tn
+                                 (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                                 s eta2))))))))]
+        (Exists (fn [v :- RV]
+          (And (Eval chkf dec encTy cap rho (Exp.recS P tl tn c) v)
+               (rel chkf dec encTy cap s v (den chkf dec encTy cap (Exp.recS P tl tn c) G s eta)))))
+        (rw [(den_recS_at chkf dec encTy cap P tl tn c G s eta)])
+        (refine' (exT RV _ _ ihc _)) (intro vc hc)
+        (have hec (Eval chkf dec encTy cap rho c vc) (And.left hc))
+        (have hrc (rel chkf dec encTy cap Sk.syn vc (den chkf dec encTy cap c G Sk.syn eta)) (And.right hc))
+        (have hek (Eval chkf dec encTy cap rho c (RV.code (den chkf dec encTy cap c G Sk.syn eta)))
+          (eval_cast chkf dec encTy cap rho c vc (RV.code (den chkf dec encTy cap c G Sk.syn eta)) hec hrc))
+        (refine' (exT RV _ _
+          (adeq_recs chkf dec encTy cap G tl tn s rho eta hr ihl ihn
+            (den chkf dec encTy cap c G Sk.syn eta)) _))
+        (intro v hv)
+        (have hi (Ev chkf dec encTy cap (EvSrc.recs rho tl tn (den chkf dec encTy cap c G Sk.syn eta)) v) (And.left hv))
+        (have hrel (rel chkf dec encTy cap s v
+                     (Code.rec$1 (fn [_ :- Code] (Car s))
+                       (fn [j :- Nat] (den chkf dec encTy cap tl (List.cons Sk Sk.lbl G) s (Prod.mk j eta)))
+                       (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)]
+                         (den chkf dec encTy cap tn
+                           (List.cons Sk s (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))))
+                           s (Prod.mk yb (Prod.mk ya (Prod.mk xb (Prod.mk xa (Prod.mk j eta)))))))
+                       (den chkf dec encTy cap c G Sk.syn eta))) (And.right hv))
+        (constructor) (exact v)
+        (constructor)
+        (exact (Ev.eRecS chkf dec encTy cap rho P tl tn c (den chkf dec encTy cap c G Sk.syn eta) v hek hi))
+        (exact hrel))
