@@ -130,6 +130,9 @@ now checks.
   finite label set L. So `V(Syn)` and `V(R)` also require every label below
   NL (`lblOk`). Without it the recursors over codes and certificates (RecSyn,
   ItR) could not pass a tree's labels to methods expecting `Lbl`.
+- **Bcons carries its motive's formation** (`hP`), as CaseL does; the
+  fundamental lemma's Bcons case reads it. Admissible in the paper, where
+  every type in a derivation is formed.
 - **`V` takes the skeleton explicitly,** since carriers depend on it.
 - **Lemma 2.4 takes closed formation explicitly.** `lemma24` also assumes
   `Tl chkf Bool.true (List.nil Exp) A Exp.tUnit`, then weakens that formation

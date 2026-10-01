@@ -97,7 +97,9 @@
 ;; for the Σ type it eliminates (its body's context extends by A and B).  The
 ;; type-level rules zApp, zPair and zLet take the same premises, since
 ;; type-level arguments are substituted into types (App₀, Pair₀).  Inspect
-;; takes the formation of the types its branches' contexts add (hF1, hF2).
+;; takes the formation of the types its branches' contexts add (hF1, hF2);
+;; Bcons the formation of its motive P (hP), as CaseL does, which its case of
+;; the fundamental lemma reads (V_subst1 at the label).
 (a/defn clean [e :- Exp] Bool
   (match e
     [(tT b) (clean b)]
@@ -269,7 +271,8 @@
           :where [D (vadd us1 us2) (Exp.caseL P x bs) (subst1 x P)])
   (rBnil [D (List Exp)] [us (List U)] [P Exp] [hl (Eq Nat (lenU us) (lenE D))] :where [D us Exp.bnil (Exp.tBrs P (NL))])
   (rBcons [D (List Exp)] [us (List U)] [P Exp] [k Nat] [h Exp] [t Exp] [hh (Rt chkf D us h (subst1 (Exp.lbl k) P))]
-          [ht (Rt chkf D us t (Exp.tBrs P (+ k 1)))] :where [D us (Exp.bcons h t) (Exp.tBrs P k)])
+          [ht (Rt chkf D us t (Exp.tBrs P (+ k 1)))] [hP (Tl chkf Bool.true (consE Exp.tLbl D) P Exp.tUnit)]
+          :where [D us (Exp.bcons h t) (Exp.tBrs P k)])
   (rSleaf [D (List Exp)] [us (List U)] [x Exp] [h (Rt chkf D us x Exp.tLbl)] :where [D us (Exp.sleaf x) Exp.tSyn])
   (rSnode [D (List Exp)] [us1 (List U)] [us2 (List U)] [us3 (List U)] [x Exp] [c1 Exp] [c2 Exp]
           [hx (Rt chkf D us1 x Exp.tLbl)] [h1 (Rt chkf D us2 c1 Exp.tSyn)] [h2 (Rt chkf D us3 c2 Exp.tSyn)]

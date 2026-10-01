@@ -1369,7 +1369,7 @@
     (Rt.rBcons chkf DI (UI us) (L 1 P) k (L 0 h) (L 0 t)
       (rt_cast chkf DI (UI us) (UI us) (L 0 h) (L 0 (subst1 (Exp.lbl k) P)) (subst1 (Exp.lbl k) (L 1 P)) (IH ih_hh 0)
         (Eq.refl$1 (UI us)) (lift_subst1 (Exp.lbl k) P cc))
-      (IH ih_ht 0))
+      (IH ih_ht 0) (TF (consE Exp.tLbl D) P hP 1))
     ;; rSleaf, rSnode
     (Rt.rSleaf chkf DI (UI us) (L 0 x) (IH ih_h 0))
     (RC (vadd us1 (vadd us2 us3)) (Exp.snode (L 0 x) (L 0 c1) (L 0 c2)) Exp.tSyn Exp.tSyn
