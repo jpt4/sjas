@@ -1469,3 +1469,551 @@
            (Eq.symm (certTerm_unfold v (encTy A)))
            (Eq.symm (boxTy_unfold (encTy A))))))
 
+
+;; --- Proposition 4.10 (R4-metatheory.md §4.9) ---------------------------------------------
+;; neg c⊥ is ⌜0 ⊸ 0⌝.  CheckSpec's base-code clause reads ⌜0⌝ off c⊥, and E5
+;; builds the arrow code; codeTerm of that code is neg c⊥.
+(thm some_inj_code [x :- Code, y :- Code, h :- (Eq (Option Code) (Option.some Code x) (Option.some Code y))]
+  (Eq Code x y) (cases h) (rfl))
+
+(thm code_cbot [] (Eq (Option Code) (codeOf (cbot)) (Option.some Code (Code.sl 15))) (rfl))
+
+(thm base_empty [] (Eq (Option Exp) (baseCode Exp.tEmpty) (Option.some Exp (cbot))) (rfl))
+
+(thm closed_empty [] (Eq Bool (closedTy Exp.tEmpty) Bool.true) (rfl))
+
+(thm enc_empty [chkf :- (=> Code Code Bool),
+                     dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+                     encTy :- (=> Exp Code),
+                     hspec :- (CheckSpec chkf dec encTy)]
+  (Eq Code (encTy Exp.tEmpty) (Code.sl 15))
+  (have h (Eq (Option Code) (codeOf (cbot)) (Option.some Code (encTy Exp.tEmpty)))
+    (((And.left (And.right hspec)) Exp.tEmpty (cbot)) base_empty))
+  (exact (Eq.symm (some_inj_code (Code.sl 15) (encTy Exp.tEmpty) (Eq.trans (Eq.symm code_cbot) h)))))
+
+(thm neg_unfold []
+  (Eq Exp (negT (cbot)) (Exp.snode (Exp.lbl 25) (Exp.sleaf (Exp.lbl 15)) (Exp.sleaf (Exp.lbl 15))))
+  (rfl))
+
+(thm enc_neg [chkf :- (=> Code Code Bool),
+                   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+                   encTy :- (=> Exp Code),
+                   hspec :- (CheckSpec chkf dec encTy)]
+  (Eq Code (encTy (Exp.tPi U.u1 Exp.tEmpty Exp.tEmpty)) (Code.sn 25 (Code.sl 15) (Code.sl 15)))
+  (have h (Eq Code (encTy (Exp.tPi U.u1 Exp.tEmpty Exp.tEmpty)) (Code.sn 25 (encTy Exp.tEmpty) (Code.sl 15)))
+    (((And.left (And.right (And.right hspec))) Exp.tEmpty) closed_empty))
+  (exact (Eq.trans h (congrArg (fn [c :- Code] (Code.sn 25 c (Code.sl 15))) (enc_empty chkf dec encTy hspec)))))
+
+(thm neg_cbot [chkf :- (=> Code Code Bool),
+                    dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+                    encTy :- (=> Exp Code),
+                    hspec :- (CheckSpec chkf dec encTy)]
+  (Eq Exp (negT (cbot)) (codeTerm (encTy (Exp.tPi U.u1 Exp.tEmpty Exp.tEmpty))))
+  (have hcode (Eq Exp (codeTerm (encTy (Exp.tPi U.u1 Exp.tEmpty Exp.tEmpty)))
+                      (codeTerm (Code.sn 25 (Code.sl 15) (Code.sl 15))))
+    (congrArg codeTerm (enc_neg chkf dec encTy hspec)))
+  (have hunf (Eq Exp (codeTerm (Code.sn 25 (Code.sl 15) (Code.sl 15)))
+                   (Exp.snode (Exp.lbl 25) (Exp.sleaf (Exp.lbl 15)) (Exp.sleaf (Exp.lbl 15))))
+    (Eq.trans (codeTerm_sn 25 (Code.sl 15) (Code.sl 15))
+      (Eq.trans (congrArg (fn [a :- Exp] (Exp.snode (Exp.lbl 25) a (codeTerm (Code.sl 15)))) (codeTerm_sl 15))
+                (congrArg (fn [b :- Exp] (Exp.snode (Exp.lbl 25) (Exp.sleaf (Exp.lbl 15)) b)) (codeTerm_sl 15)))))
+  (exact (Eq.trans neg_unfold (Eq.symm (Eq.trans hcode hunf)))))
+
+(thm lift_unit [k :- Nat] (Eq Exp (lift k 0 Exp.tUnit) Exp.tUnit) (rfl))
+
+(thm lift_ev [k :- Nat, t :- Exp, ca :- Exp]
+  (Eq Exp (lift k 0 (evTy t ca)) (evTy (lift k 0 t) (lift k 0 ca))) (rfl))
+
+(thm lift_chkT [k :- Nat, r :- Exp, c :- Exp]
+  (Eq Exp (lift k 0 (chkT r c)) (chkT (lift k 0 r) (lift k 0 c))) (rfl))
+
+(thm lit_lift2 [v :- Code]
+  (Eq Exp (lift 2 0 (lit0 v)) ((litAt v) 2))
+  (exact (Eq.trans (congrArg (fn [t :- Exp] (lift 2 0 t)) (lit0_at v))
+           (Eq.trans (lit_shift v 0 2) (congrArg (fn [i :- Nat] ((litAt v) i)) (Nat.zero_add 2))))))
+
+(thm vscale_vzero [r :- U, n :- Nat] (Eq (List U) (vscale r (vzero n)) (vzero n))
+  (induction n) (rfl)
+  (exact (Eq.trans (congrArg (fn [us :- (List U)] (List.cons U (umul r U.u0) us)) ih_n)
+                   (congrArg (fn [a :- U] (List.cons U a (vzero n))) (umul_zero_right r)))))
+
+(thm two [] (Eq Nat (+ 1 1) 2) (omega))
+
+(thm lift_cbot [k :- Nat] (Eq Exp (lift k 0 (cbot)) (cbot)) (rfl))
+
+(thm lift_var0 [k :- Nat]
+  (Eq Exp (lift k 0 (Exp.var 0)) (Exp.var k))
+  (exact (Eq.trans (lift_var_above k 0 0 (le_refl 0)) (congrArg Exp.var (Nat.zero_add k)))))
+
+(thm chkT_shift []
+  (Eq Exp (lift 1 0 (chkT (Exp.var 0) (cbot))) (chkT (Exp.var 1) (cbot)))
+  (exact (Eq.trans (lift_chkT 1 (Exp.var 0) (cbot))
+           (Eq.trans (congrArg (fn [r :- Exp] (chkT r (lift 1 0 (cbot)))) (lift_var0 1))
+                     (congrArg (fn [c :- Exp] (chkT (Exp.var 1) c)) (lift_cbot 1))))))
+
+(thm rt_lit2 [chkf :- (=> Code Code Bool), v :- Code, hok :- (Eq Bool (lblOk v) Bool.true)]
+  (Rt chkf (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD (cnodes v))))
+      (List.cons U U.u0 (List.cons U U.u0 (thetaU (cnodes v))))
+      ((litAt v) 2) Exp.tR)
+  (have h1 (Rt chkf (List.cons Exp Exp.tR (thetaD (cnodes v)))
+               (List.cons U U.u0 (thetaU (cnodes v)))
+               (lift 1 0 (lit0 v)) Exp.tR)
+    (rt_cast chkf (insD 0 Exp.tR (thetaD (cnodes v)))
+      (insU 0 U.u0 (thetaU (cnodes v)))
+      (List.cons U U.u0 (thetaU (cnodes v)))
+      (lift 1 0 (lit0 v))
+      (lift 1 0 Exp.tR) Exp.tR
+      (((rt_weaken chkf (thetaD (cnodes v)) (thetaU (cnodes v)) (lit0 v) Exp.tR ((rt_lit chkf v) hok)) 0) Exp.tR)
+      (insU_zero U.u0 (thetaU (cnodes v)))
+      (closedTy_lift Exp.tR closed_tR 1 0)))
+  (have h2 (Rt chkf
+             (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD (cnodes v))))
+             (List.cons U U.u0 (List.cons U U.u0 (thetaU (cnodes v))))
+             (lift 1 0 (lift 1 0 (lit0 v))) Exp.tR)
+    (rt_cast chkf
+      (insD 0 (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD (cnodes v))))
+      (insU 0 U.u0 (List.cons U U.u0 (thetaU (cnodes v))))
+      (List.cons U U.u0 (List.cons U U.u0 (thetaU (cnodes v))))
+      (lift 1 0 (lift 1 0 (lit0 v)))
+      (lift 1 0 Exp.tR) Exp.tR
+      (((rt_weaken chkf (List.cons Exp Exp.tR (thetaD (cnodes v)))
+           (List.cons U U.u0 (thetaU (cnodes v)))
+           (lift 1 0 (lit0 v)) Exp.tR h1) 0) (chkT (Exp.var 0) (cbot)))
+      (insU_zero U.u0 (List.cons U U.u0 (thetaU (cnodes v))))
+      (closedTy_lift Exp.tR closed_tR 1 0)))
+  (exact (rt_cast_t chkf
+           (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD (cnodes v))))
+           (List.cons U U.u0 (List.cons U U.u0 (thetaU (cnodes v))))
+           (lift 1 0 (lift 1 0 (lit0 v))) ((litAt v) 2) Exp.tR Exp.tR h2
+           (Eq.trans (lift_comp (lit0 v) 1 1 0)
+             (Eq.trans (congrArg (fn [k :- Nat] (lift k 0 (lit0 v))) two) (lit_lift2 v)))
+           rfl)))
+
+(thm lbl_arrow []
+  (Eq Bool (lblOk (Code.sn 25 (Code.sl 15) (Code.sl 15))) Bool.true) (rfl))
+
+(thm lbl15 [] (Eq Bool (constTyped (Exp.lbl 15) Exp.tLbl) Bool.true) (rfl))
+
+(thm nth_r [n :- Nat, A :- Exp]
+  (Eq (Option Exp) (nthE (List.cons Exp A (List.cons Exp Exp.tR (thetaD n))) 1) (Option.some Exp Exp.tR))
+  (exact (Eq.trans (nthE.eq_3 A (List.cons Exp Exp.tR (thetaD n)) 0) (nthE.eq_2 Exp.tR (thetaD n)))))
+
+(thm nth_e [n :- Nat, A :- Exp]
+  (Eq (Option Exp) (nthE (List.cons Exp A (List.cons Exp Exp.tR (thetaD n))) 0) (Option.some Exp A))
+  (exact (nthE.eq_2 A (List.cons Exp Exp.tR (thetaD n)))))
+
+(thm len_pad [n :- Nat, A :- Exp]
+  (Eq Nat (lenU (List.cons U U.u0 (List.cons U U.u1 (vzero n))))
+          (lenE (List.cons Exp A (List.cons Exp Exp.tR (thetaD n)))))
+  (exact (Eq.trans
+           (Eq.trans (lenU_cons U.u0 (List.cons U U.u1 (vzero n)))
+             (Eq.trans (congrArg Nat.succ (lenU_cons U.u1 (vzero n)))
+                       (congrArg (fn [k :- Nat] (Nat.succ (Nat.succ k))) (lenU_vzero n))))
+           (Eq.symm
+             (Eq.trans (lenE_cons A (List.cons Exp Exp.tR (thetaD n)))
+               (Eq.trans (congrArg Nat.succ (lenE_cons Exp.tR (thetaD n)))
+                         (congrArg (fn [k :- Nat] (Nat.succ (Nat.succ k))) (lenE_theta n))))))))
+
+(thm rt_binder_r [chkf :- (=> Code Code Bool), n :- Nat, A :- Exp]
+  (Rt chkf (List.cons Exp A (List.cons Exp Exp.tR (thetaD n)))
+      (List.cons U U.u0 (List.cons U U.u1 (vzero n))) (Exp.var 1) Exp.tR)
+  (exact (rt_cast chkf (List.cons Exp A (List.cons Exp Exp.tR (thetaD n)))
+           (List.cons U U.u0 (List.cons U U.u1 (vzero n)))
+           (List.cons U U.u0 (List.cons U U.u1 (vzero n)))
+           (Exp.var 1) (lift (+ 1 1) 0 Exp.tR) Exp.tR
+           (Rt.rVar chkf (List.cons Exp A (List.cons Exp Exp.tR (thetaD n)))
+             (List.cons U U.u0 (List.cons U U.u1 (vzero n))) 1 Exp.tR U.u1
+             (len_pad n A) (nth_r n A)
+             (Eq.trans (nthU.eq_3 U.u0 (List.cons U U.u1 (vzero n)) 0) (nthU.eq_2 U.u1 (vzero n)))
+             nonzero_u1)
+           rfl (closedTy_lift Exp.tR closed_tR (+ 1 1) 0))))
+
+(thm rt_binder_e [chkf :- (=> Code Code Bool), n :- Nat]
+  (Rt chkf (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD n)))
+      (List.cons U U.u1 (List.cons U U.u0 (vzero n))) (Exp.var 0) (chkT (Exp.var 1) (cbot)))
+  (exact (rt_cast chkf (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD n)))
+           (List.cons U U.u1 (List.cons U U.u0 (vzero n)))
+           (List.cons U U.u1 (List.cons U U.u0 (vzero n)))
+           (Exp.var 0) (lift 1 0 (chkT (Exp.var 0) (cbot))) (chkT (Exp.var 1) (cbot))
+           (Rt.rVar chkf (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD n)))
+             (List.cons U U.u1 (List.cons U U.u0 (vzero n))) 0 (chkT (Exp.var 0) (cbot)) U.u1
+             (len_pad n (chkT (Exp.var 0) (cbot)))
+             (nth_e n (chkT (Exp.var 0) (cbot)))
+             (nthU.eq_2 U.u1 (List.cons U U.u0 (vzero n)))
+             nonzero_u1)
+           rfl chkT_shift)))
+
+(thm vadd_zero_zero [n :- Nat] (Eq (List U) (vadd (vzero n) (vzero n)) (vzero n))
+  (induction n) (rfl)
+  (exact (congrArg (fn [us :- (List U)] (List.cons U U.u0 us)) ih_n)))
+
+(thm uadd_e_head [] (Eq U (uadd U.u0 (uadd U.u0 (uadd U.u0 (uadd U.u1 U.u0)))) U.u1) (rfl))
+
+(thm uadd_r_head [] (Eq U (uadd U.u1 (uadd U.u0 (uadd U.u0 (uadd U.u0 U.u0)))) U.u1) (rfl))
+
+(thm vadd_cons5 [a :- U, b :- U, c :- U, d :- U, e :- U,
+                      xa :- (List U), xb :- (List U), xc :- (List U), xd :- (List U), xe :- (List U)]
+  (Eq (List U)
+    (vadd (List.cons U a xa)
+      (vadd (List.cons U b xb)
+        (vadd (List.cons U c xc)
+          (vadd (List.cons U d xd) (List.cons U e xe)))))
+    (List.cons U (uadd a (uadd b (uadd c (uadd d e))))
+      (vadd xa (vadd xb (vadd xc (vadd xd xe))))))
+  (rfl))
+
+(thm uadd_tail_head [] (Eq U (uadd U.u0 (uadd U.u1 (uadd U.u0 (uadd U.u0 U.u0)))) U.u1) (rfl))
+
+(thm h1_tail [n :- Nat]
+  (Eq (List U)
+    (vadd (vzero n) (vadd (thetaU n) (vadd (vzero n) (vadd (vzero n) (vzero n)))))
+    (thetaU n))
+  (induction n) (rfl)
+  (have hC (Eq (List U)
+      (vadd (List.cons U U.u0 (vzero n))
+        (vadd (List.cons U U.u1 (thetaU n))
+          (vadd (List.cons U U.u0 (vzero n))
+            (vadd (List.cons U U.u0 (vzero n)) (List.cons U U.u0 (vzero n))))))
+      (List.cons U U.u1 (vadd (vzero n) (vadd (thetaU n) (vadd (vzero n) (vadd (vzero n) (vzero n)))))))
+    (Eq.trans (vadd_cons5 U.u0 U.u1 U.u0 U.u0 U.u0 (vzero n) (thetaU n) (vzero n) (vzero n) (vzero n))
+              (congrArg (fn [r :- U] (List.cons U r (vadd (vzero n) (vadd (thetaU n) (vadd (vzero n) (vadd (vzero n) (vzero n)))))))
+                        uadd_tail_head)))
+  (exact (Eq.trans
+           (congrArg (fn [us :- (List U)]
+                       (vadd us (vadd (thetaU (Nat.succ n)) (vadd (vzero (Nat.succ n)) (vadd (vzero (Nat.succ n)) (vzero (Nat.succ n)))))))
+                     (vzero_succ n))
+           (Eq.trans
+             (congrArg (fn [us :- (List U)]
+                         (vadd (List.cons U U.u0 (vzero n))
+                           (vadd us (vadd (vzero (Nat.succ n)) (vadd (vzero (Nat.succ n)) (vzero (Nat.succ n)))))))
+                       (thetaU_succ n))
+             (Eq.trans
+               (congrArg (fn [us :- (List U)]
+                           (vadd (List.cons U U.u0 (vzero n))
+                             (vadd (List.cons U U.u1 (thetaU n))
+                               (vadd us (vadd (vzero (Nat.succ n)) (vzero (Nat.succ n)))))))
+                         (vzero_succ n))
+               (Eq.trans
+                 (congrArg (fn [us :- (List U)]
+                             (vadd (List.cons U U.u0 (vzero n))
+                               (vadd (List.cons U U.u1 (thetaU n))
+                                 (vadd (List.cons U U.u0 (vzero n)) (vadd us (vzero (Nat.succ n)))))))
+                           (vzero_succ n))
+                 (Eq.trans
+                   (congrArg (fn [us :- (List U)]
+                               (vadd (List.cons U U.u0 (vzero n))
+                                 (vadd (List.cons U U.u1 (thetaU n))
+                                   (vadd (List.cons U U.u0 (vzero n))
+                                     (vadd (List.cons U U.u0 (vzero n)) us)))))
+                             (vzero_succ n))
+                   (Eq.trans hC
+                     (Eq.trans (congrArg (fn [us :- (List U)] (List.cons U U.u1 us)) ih_n)
+                               (Eq.symm (thetaU_succ n)))))))))))
+
+(thm h1_us [n :- Nat]
+  (Eq (List U)
+    (vadd (List.cons U U.u0 (List.cons U U.u1 (vzero n)))
+      (vadd (List.cons U U.u0 (List.cons U U.u0 (thetaU n)))
+        (vadd (vscale U.uw (vzero (Nat.succ (Nat.succ n))))
+          (vadd (List.cons U U.u1 (List.cons U U.u0 (vzero n)))
+                (vzero (Nat.succ (Nat.succ n)))))))
+    (List.cons U U.u1 (List.cons U U.u1 (thetaU n))))
+  (have z (Eq (List U) (vzero (Nat.succ (Nat.succ n))) (List.cons U U.u0 (List.cons U U.u0 (vzero n))))
+    (Eq.trans (vzero_succ (Nat.succ n)) (congrArg (fn [us :- (List U)] (List.cons U U.u0 us)) (vzero_succ n))))
+  (have hS (Eq (List U)
+      (vadd (List.cons U U.u0 (List.cons U U.u1 (vzero n)))
+        (vadd (List.cons U U.u0 (List.cons U U.u0 (thetaU n)))
+          (vadd (vscale U.uw (vzero (Nat.succ (Nat.succ n))))
+            (vadd (List.cons U U.u1 (List.cons U U.u0 (vzero n)))
+                  (vzero (Nat.succ (Nat.succ n)))))))
+      (vadd (List.cons U U.u0 (List.cons U U.u1 (vzero n)))
+        (vadd (List.cons U U.u0 (List.cons U U.u0 (thetaU n)))
+          (vadd (List.cons U U.u0 (List.cons U U.u0 (vzero n)))
+            (vadd (List.cons U U.u1 (List.cons U U.u0 (vzero n)))
+                  (List.cons U U.u0 (List.cons U U.u0 (vzero n))))))))
+    (Eq.trans
+      (congrArg (fn [us :- (List U)]
+                  (vadd (List.cons U U.u0 (List.cons U U.u1 (vzero n)))
+                    (vadd (List.cons U U.u0 (List.cons U U.u0 (thetaU n)))
+                      (vadd us (vadd (List.cons U U.u1 (List.cons U U.u0 (vzero n)))
+                                     (vzero (Nat.succ (Nat.succ n))))))))
+                (Eq.trans (vscale_vzero U.uw (Nat.succ (Nat.succ n))) z))
+      (congrArg (fn [us :- (List U)]
+                  (vadd (List.cons U U.u0 (List.cons U U.u1 (vzero n)))
+                    (vadd (List.cons U U.u0 (List.cons U U.u0 (thetaU n)))
+                      (vadd (List.cons U U.u0 (List.cons U U.u0 (vzero n)))
+                        (vadd (List.cons U U.u1 (List.cons U U.u0 (vzero n))) us)))))
+                z)))
+  (have h1 (Eq (List U)
+      (vadd (List.cons U U.u0 (List.cons U U.u1 (vzero n)))
+        (vadd (List.cons U U.u0 (List.cons U U.u0 (thetaU n)))
+          (vadd (List.cons U U.u0 (List.cons U U.u0 (vzero n)))
+            (vadd (List.cons U U.u1 (List.cons U U.u0 (vzero n)))
+                  (List.cons U U.u0 (List.cons U U.u0 (vzero n)))))))
+      (List.cons U U.u1
+        (vadd (List.cons U U.u1 (vzero n))
+          (vadd (List.cons U U.u0 (thetaU n))
+            (vadd (List.cons U U.u0 (vzero n))
+              (vadd (List.cons U U.u0 (vzero n)) (List.cons U U.u0 (vzero n))))))))
+    (Eq.trans (vadd_cons5 U.u0 U.u0 U.u0 U.u1 U.u0
+                (List.cons U U.u1 (vzero n)) (List.cons U U.u0 (thetaU n))
+                (List.cons U U.u0 (vzero n)) (List.cons U U.u0 (vzero n)) (List.cons U U.u0 (vzero n)))
+              (congrArg (fn [r :- U]
+                          (List.cons U r
+                            (vadd (List.cons U U.u1 (vzero n))
+                              (vadd (List.cons U U.u0 (thetaU n))
+                                (vadd (List.cons U U.u0 (vzero n))
+                                  (vadd (List.cons U U.u0 (vzero n)) (List.cons U U.u0 (vzero n))))))))
+                        uadd_e_head)))
+  (have h2 (Eq (List U)
+      (List.cons U U.u1
+        (vadd (List.cons U U.u1 (vzero n))
+          (vadd (List.cons U U.u0 (thetaU n))
+            (vadd (List.cons U U.u0 (vzero n))
+              (vadd (List.cons U U.u0 (vzero n)) (List.cons U U.u0 (vzero n)))))))
+      (List.cons U U.u1 (List.cons U U.u1
+        (vadd (vzero n) (vadd (thetaU n) (vadd (vzero n) (vadd (vzero n) (vzero n))))))))
+    (congrArg (fn [us :- (List U)] (List.cons U U.u1 us))
+      (Eq.trans (vadd_cons5 U.u1 U.u0 U.u0 U.u0 U.u0 (vzero n) (thetaU n) (vzero n) (vzero n) (vzero n))
+                (congrArg (fn [r :- U] (List.cons U r (vadd (vzero n) (vadd (thetaU n) (vadd (vzero n) (vadd (vzero n) (vzero n)))))))
+                          uadd_r_head))))
+  (exact (Eq.trans hS (Eq.trans h1 (Eq.trans h2
+           (congrArg (fn [us :- (List U)] (List.cons U U.u1 (List.cons U U.u1 us))) (h1_tail n)))))))
+
+(thm cv_cast_end [chkf :- (=> Code Code Bool), G :- (List Sk), A :- Exp, B :- Exp, B2 :- Exp,
+                       h :- (Cv chkf G A B), eq :- (Eq Exp B B2)]
+  (Cv chkf G A B2) (subst eq) (exact h))
+
+(thm cv_cast_start [chkf :- (=> Code Code Bool), G :- (List Sk), A :- Exp, A2 :- Exp, B :- Exp,
+                         h :- (Cv chkf G A B), eq :- (Eq Exp A A2)]
+  (Cv chkf G A2 B) (subst eq) (exact h))
+
+(thm lbl_neg [chkf :- (=> Code Code Bool),
+                   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+                   encTy :- (=> Exp Code),
+                   hspec :- (CheckSpec chkf dec encTy)]
+  (Eq Bool (lblOk (encTy (Exp.tPi U.u1 Exp.tEmpty Exp.tEmpty))) Bool.true)
+  (exact (Eq.trans (congrArg lblOk (enc_neg chkf dec encTy hspec)) lbl_arrow)))
+
+(thm ev_arrow [chkf :- (=> Code Code Bool),
+                    dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+                    encTy :- (=> Exp Code),
+                    hspec :- (CheckSpec chkf dec encTy),
+                    v :- Code]
+  (Eq Exp (lift 1 0 (lift 1 0 (evTy (lit0 v) (codeTerm (encTy (Exp.tPi U.u1 Exp.tEmpty Exp.tEmpty))))))
+          (evTy ((litAt v) 2) (negT (cbot))))
+  (exact (Eq.trans (lift_comp (evTy (lit0 v) (codeTerm (encTy (Exp.tPi U.u1 Exp.tEmpty Exp.tEmpty)))) 1 1 0)
+           (Eq.trans (congrArg (fn [k :- Nat] (lift k 0 (evTy (lit0 v) (codeTerm (encTy (Exp.tPi U.u1 Exp.tEmpty Exp.tEmpty)))))) two)
+             (Eq.trans (lift_ev 2 (lit0 v) (codeTerm (encTy (Exp.tPi U.u1 Exp.tEmpty Exp.tEmpty))))
+               (Eq.trans (congrArg (fn [t :- Exp] (evTy t (lift 2 0 (codeTerm (encTy (Exp.tPi U.u1 Exp.tEmpty Exp.tEmpty)))))) (lit_lift2 v))
+                 (Eq.trans (congrArg (fn [c :- Exp] (evTy ((litAt v) 2) c)) ((lift_code (encTy (Exp.tPi U.u1 Exp.tEmpty Exp.tEmpty))) 2 0))
+                           (congrArg (fn [c :- Exp] (evTy ((litAt v) 2) c)) (Eq.symm (neg_cbot chkf dec encTy hspec))))))))))
+
+(thm unit_arrow []
+  (Eq Exp (lift 1 0 (lift 1 0 Exp.tUnit)) Exp.tUnit)
+  (exact (Eq.trans (congrArg (fn [t :- Exp] (lift 1 0 t)) (lift_unit 1)) (lift_unit 1))))
+
+(thm cv_arrow [chkf :- (=> Code Code Bool),
+                    dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+                    encTy :- (=> Exp Code),
+                    hspec :- (CheckSpec chkf dec encTy),
+                    v :- Code,
+                    hck :- (Eq Bool (chkf v (encTy (Exp.tPi U.u1 Exp.tEmpty Exp.tEmpty))) Bool.true)]
+  (Cv chkf (skels (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD (cnodes v)))))
+      Exp.tUnit (evTy ((litAt v) 2) (negT (cbot))))
+  (exact (cv_cast_end chkf
+           (skels (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD (cnodes v)))))
+           Exp.tUnit
+           (lift 1 0 (lift 1 0 (evTy (lit0 v) (codeTerm (encTy (Exp.tPi U.u1 Exp.tEmpty Exp.tEmpty))))))
+           (evTy ((litAt v) 2) (negT (cbot)))
+           (cv_cast_start chkf
+             (skels (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD (cnodes v)))))
+             (lift 1 0 (lift 1 0 Exp.tUnit)) Exp.tUnit
+             (lift 1 0 (lift 1 0 (evTy (lit0 v) (codeTerm (encTy (Exp.tPi U.u1 Exp.tEmpty Exp.tEmpty))))))
+             (cv_weaken chkf (List.cons Exp Exp.tR (thetaD (cnodes v)))
+               (lift 1 0 Exp.tUnit)
+               (lift 1 0 (evTy (lit0 v) (codeTerm (encTy (Exp.tPi U.u1 Exp.tEmpty Exp.tEmpty)))))
+               (cv_weaken chkf (thetaD (cnodes v)) Exp.tUnit
+                 (evTy (lit0 v) (codeTerm (encTy (Exp.tPi U.u1 Exp.tEmpty Exp.tEmpty))))
+                 (cv_lit chkf v (encTy (Exp.tPi U.u1 Exp.tEmpty Exp.tEmpty)) hck)
+                 0 Exp.tR)
+               0 (chkT (Exp.var 0) (cbot)))
+             unit_arrow)
+           (ev_arrow chkf dec encTy hspec v))))
+
+(thm lbl25 [] (Eq Bool (constTyped (Exp.lbl 25) Exp.tLbl) Bool.true) (rfl))
+
+(thm tl_lit2 [chkf :- (=> Code Code Bool), v :- Code, hok :- (Eq Bool (lblOk v) Bool.true)]
+  (Tl chkf Bool.false
+      (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD (cnodes v))))
+      ((litAt v) 2) Exp.tR)
+  (have h0 (Tl chkf Bool.false (thetaD (cnodes v)) (lit0 v) Exp.tR)
+    (tl_cast_D chkf Bool.false (thetaD (+ 0 (+ (cnodes v) 0))) (thetaD (cnodes v)) (lit0 v) Exp.tR
+      (((tl_lit chkf v) hok) 0 0) (congrArg thetaD (add0_bound (cnodes v)))))
+  (have h1 (Tl chkf Bool.false (List.cons Exp Exp.tR (thetaD (cnodes v))) (lift 1 0 (lit0 v)) Exp.tR)
+    (tl_cast3 chkf Bool.false (List.cons Exp Exp.tR (thetaD (cnodes v)))
+      (lift 1 0 (lit0 v)) (lift 1 0 (lit0 v)) (lift 1 0 Exp.tR) Exp.tR
+      (((tl_weaken chkf Bool.false (thetaD (cnodes v)) (lit0 v) Exp.tR h0) 0) Exp.tR)
+      rfl (closedTy_lift Exp.tR closed_tR 1 0)))
+  (have h2 (Tl chkf Bool.false
+             (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD (cnodes v))))
+             (lift 1 0 (lift 1 0 (lit0 v))) Exp.tR)
+    (tl_cast3 chkf Bool.false
+      (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD (cnodes v))))
+      (lift 1 0 (lift 1 0 (lit0 v))) (lift 1 0 (lift 1 0 (lit0 v))) (lift 1 0 Exp.tR) Exp.tR
+      (((tl_weaken chkf Bool.false (List.cons Exp Exp.tR (thetaD (cnodes v))) (lift 1 0 (lit0 v)) Exp.tR h1) 0)
+        (chkT (Exp.var 0) (cbot)))
+      rfl (closedTy_lift Exp.tR closed_tR 1 0)))
+  (exact (tl_cast3 chkf Bool.false
+           (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD (cnodes v))))
+           (lift 1 0 (lift 1 0 (lit0 v))) ((litAt v) 2) Exp.tR Exp.tR h2
+           (Eq.trans (lift_comp (lit0 v) 1 1 0)
+             (Eq.trans (congrArg (fn [k :- Nat] (lift k 0 (lit0 v))) two) (lit_lift2 v)))
+           rfl)))
+
+(thm tl_cbot [chkf :- (=> Code Code Bool), D :- (List Exp)]
+  (Tl chkf Bool.false D (cbot) Exp.tSyn)
+  (exact (Tl.zSleaf chkf D (Exp.lbl 15) (Tl.zConst chkf D (Exp.lbl 15) Exp.tLbl lbl15))))
+
+(thm tl_neg [chkf :- (=> Code Code Bool), D :- (List Exp)]
+  (Tl chkf Bool.false D (negT (cbot)) Exp.tSyn)
+  (exact (tl_cast3 chkf Bool.false D
+           (Exp.snode (Exp.lbl 25) (Exp.sleaf (Exp.lbl 15)) (Exp.sleaf (Exp.lbl 15)))
+           (negT (cbot)) Exp.tSyn Exp.tSyn
+           (Tl.zSnode chkf D (Exp.lbl 25) (Exp.sleaf (Exp.lbl 15)) (Exp.sleaf (Exp.lbl 15))
+             (Tl.zConst chkf D (Exp.lbl 25) Exp.tLbl lbl25)
+             (Tl.zSleaf chkf D (Exp.lbl 15) (Tl.zConst chkf D (Exp.lbl 15) Exp.tLbl lbl15))
+             (Tl.zSleaf chkf D (Exp.lbl 15) (Tl.zConst chkf D (Exp.lbl 15) Exp.tLbl lbl15)))
+           (Eq.symm neg_unfold) rfl)))
+
+(thm tl_binder [chkf :- (=> Code Code Bool), D :- (List Exp)]
+  (Tl chkf Bool.true (List.cons Exp Exp.tR D) (chkT (Exp.var 0) (cbot)) Exp.tUnit)
+  (exact (Tl.fT chkf (List.cons Exp Exp.tR D) (Exp.chk (Exp.prn (Exp.var 0)) (cbot))
+           (Tl.zChk chkf (List.cons Exp Exp.tR D) (Exp.prn (Exp.var 0)) (cbot)
+             (Tl.zPrn chkf (List.cons Exp Exp.tR D) (Exp.var 0)
+               (tl_cast chkf Bool.false (List.cons Exp Exp.tR D) (Exp.var 0) (lift 1 0 Exp.tR) Exp.tR
+                 (Tl.zVar chkf (List.cons Exp Exp.tR D) 0 Exp.tR (nthE.eq_2 Exp.tR D))
+                 (closedTy_lift Exp.tR closed_tR 1 0)))
+             (tl_cbot chkf (List.cons Exp Exp.tR D))))))
+
+(thm len_zz [n :- Nat]
+  (Eq Nat (lenU (vzero (Nat.succ (Nat.succ n))))
+          (lenE (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD n)))))
+  (exact (Eq.trans (lenU_vzero (Nat.succ (Nat.succ n)))
+           (Eq.symm
+             (Eq.trans (lenE_cons (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD n)))
+               (Eq.trans (congrArg Nat.succ (lenE_cons Exp.tR (thetaD n)))
+                         (congrArg (fn [k :- Nat] (Nat.succ (Nat.succ k))) (lenE_theta n))))))))
+
+(thm rt_cbot [chkf :- (=> Code Code Bool), n :- Nat]
+  (Rt chkf (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD n)))
+      (vscale U.uw (vzero (Nat.succ (Nat.succ n)))) (cbot) Exp.tSyn)
+  (exact (rt_cast chkf
+           (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD n)))
+           (vzero (Nat.succ (Nat.succ n)))
+           (vscale U.uw (vzero (Nat.succ (Nat.succ n))))
+           (cbot) Exp.tSyn Exp.tSyn
+           (Rt.rSleaf chkf
+             (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD n)))
+             (vzero (Nat.succ (Nat.succ n))) (Exp.lbl 15)
+             (Rt.rConst chkf
+               (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD n)))
+               (vzero (Nat.succ (Nat.succ n))) (Exp.lbl 15) Exp.tLbl
+               (len_zz n) lbl15))
+           (Eq.symm (vscale_vzero U.uw (Nat.succ (Nat.succ n)))) rfl)))
+
+(thm tl_ev_h [chkf :- (=> Code Code Bool), v :- Code, hok :- (Eq Bool (lblOk v) Bool.true)]
+  (Tl chkf Bool.true
+      (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD (cnodes v))))
+      (evTy ((litAt v) 2) (negT (cbot))) Exp.tUnit)
+  (exact (Tl.fT chkf
+           (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD (cnodes v))))
+           (Exp.chk (Exp.prn ((litAt v) 2)) (negT (cbot)))
+           (Tl.zChk chkf
+             (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD (cnodes v))))
+             (Exp.prn ((litAt v) 2)) (negT (cbot))
+             (Tl.zPrn chkf
+               (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD (cnodes v))))
+               ((litAt v) 2) (tl_lit2 chkf v hok))
+             (tl_neg chkf
+               (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD (cnodes v)))))))))
+
+(thm rt_star_h [chkf :- (=> Code Code Bool),
+                     dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+                     encTy :- (=> Exp Code),
+                     hspec :- (CheckSpec chkf dec encTy),
+                     v :- Code,
+                     hok :- (Eq Bool (lblOk v) Bool.true),
+                     hck :- (Eq Bool (chkf v (encTy (Exp.tPi U.u1 Exp.tEmpty Exp.tEmpty))) Bool.true)]
+  (Rt chkf (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD (cnodes v))))
+      (vzero (Nat.succ (Nat.succ (cnodes v)))) Exp.star
+      (evTy ((litAt v) 2) (negT (cbot))))
+  (exact (Rt.rConv chkf
+           (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD (cnodes v))))
+           (vzero (Nat.succ (Nat.succ (cnodes v)))) Exp.star Exp.tUnit
+           (evTy ((litAt v) 2) (negT (cbot)))
+           (Rt.rConst chkf
+             (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD (cnodes v))))
+             (vzero (Nat.succ (Nat.succ (cnodes v)))) Exp.star Exp.tUnit
+             (len_zz (cnodes v)) star_unit)
+           (tl_ev_h chkf v hok)
+           (cv_arrow chkf dec encTy hspec v hck))))
+
+
+;; Proposition 4.10.  A certificate v of 0 ⊸ 0 gives, at budget ‖v‖,
+;; Θ_{‖v‖} ⊢ λ(r :₁ R). λ(e :₁ T(chk′ (print r) c⊥)). H₁ r (lit v) c⊥ e ⋆ :¹ H°.
+;; r and e are H₁'s refutation and its evidence; lit v, shifted under the two
+;; binders, is the certificate of 0 ⊸ 0, and ⋆ converts because neg c⊥ is that
+;; code (cv_arrow).  c⊥ is carried at usage ω · 0.
+(thm prop410 [chkf :- (=> Code Code Bool),
+                   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+                   encTy :- (=> Exp Code),
+                   hspec :- (CheckSpec chkf dec encTy),
+                   v :- Code,
+                   hok :- (Eq Bool (lblOk v) Bool.true),
+                   hck :- (Eq Bool (chkf v (encTy (Exp.tPi U.u1 Exp.tEmpty Exp.tEmpty))) Bool.true)]
+  (Rt chkf (thetaD (cnodes v)) (thetaU (cnodes v))
+      (Exp.lam U.u1 Exp.tR
+        (Exp.lam U.u1 (chkT (Exp.var 0) (cbot))
+          (Exp.h1 (Exp.var 1) ((litAt v) 2) (cbot) (Exp.var 0) Exp.star)))
+      (Hcirc))
+  (have hH (Rt chkf
+             (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD (cnodes v))))
+             (List.cons U U.u1 (List.cons U U.u1 (thetaU (cnodes v))))
+             (Exp.h1 (Exp.var 1) ((litAt v) 2) (cbot) (Exp.var 0) Exp.star) Exp.tEmpty)
+    (rt_reindex chkf
+      (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD (cnodes v))))
+      (vadd (List.cons U U.u0 (List.cons U U.u1 (vzero (cnodes v))))
+        (vadd (List.cons U U.u0 (List.cons U U.u0 (thetaU (cnodes v))))
+          (vadd (vscale U.uw (vzero (Nat.succ (Nat.succ (cnodes v)))))
+            (vadd (List.cons U U.u1 (List.cons U U.u0 (vzero (cnodes v))))
+                  (vzero (Nat.succ (Nat.succ (cnodes v))))))))
+      (Exp.h1 (Exp.var 1) ((litAt v) 2) (cbot) (Exp.var 0) Exp.star) Exp.tEmpty
+      (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD (cnodes v))))
+      (List.cons U U.u1 (List.cons U U.u1 (thetaU (cnodes v))))
+      (Exp.h1 (Exp.var 1) ((litAt v) 2) (cbot) (Exp.var 0) Exp.star) Exp.tEmpty
+      (Rt.rH1 chkf
+        (List.cons Exp (chkT (Exp.var 0) (cbot)) (List.cons Exp Exp.tR (thetaD (cnodes v))))
+        (List.cons U U.u0 (List.cons U U.u1 (vzero (cnodes v))))
+        (List.cons U U.u0 (List.cons U U.u0 (thetaU (cnodes v))))
+        (vzero (Nat.succ (Nat.succ (cnodes v))))
+        (List.cons U U.u1 (List.cons U U.u0 (vzero (cnodes v))))
+        (vzero (Nat.succ (Nat.succ (cnodes v))))
+        (Exp.var 1) ((litAt v) 2) (cbot) (Exp.var 0) Exp.star
+        (rt_binder_r chkf (cnodes v) (chkT (Exp.var 0) (cbot)))
+        (rt_lit2 chkf v hok)
+        (rt_cbot chkf (cnodes v))
+        (rt_binder_e chkf (cnodes v))
+        (rt_star_h chkf dec encTy hspec v hok hck))
+      rfl (h1_us (cnodes v)) rfl rfl))
+  (exact (Rt.rLam chkf (thetaD (cnodes v)) (thetaU (cnodes v)) U.u1 Exp.tR
+           (Exp.lam U.u1 (chkT (Exp.var 0) (cbot))
+             (Exp.h1 (Exp.var 1) ((litAt v) 2) (cbot) (Exp.var 0) Exp.star))
+           (Exp.tPi U.u1 (chkT (Exp.var 0) (cbot)) Exp.tEmpty)
+           (Tl.fBase chkf (thetaD (cnodes v)) Exp.tR base_tR)
+           (Rt.rLam chkf (List.cons Exp Exp.tR (thetaD (cnodes v)))
+             (List.cons U U.u1 (thetaU (cnodes v))) U.u1 (chkT (Exp.var 0) (cbot))
+             (Exp.h1 (Exp.var 1) ((litAt v) 2) (cbot) (Exp.var 0) Exp.star) Exp.tEmpty
+             (tl_binder chkf (thetaD (cnodes v)))
+             hH))))
+
