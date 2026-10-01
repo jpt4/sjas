@@ -302,7 +302,7 @@
              (closed_lbl l (+ off (+ (+ 1 (+ (cnodes a) (cnodes b))) extra)))
              (andb_intro ((closedF ((litAt a) (+ off 1))) (+ off (+ (+ 1 (+ (cnodes a) (cnodes b))) extra)))
                          ((closedF ((litAt b) (+ (+ off 1) (cnodes a)))) (+ off (+ (+ 1 (+ (cnodes a) (cnodes b))) extra)))
-                         ha hb))))
+                         ha hb)))))
 
 ;; --- nbr and skeleton typing of a literal ------------------------------------------------
 
