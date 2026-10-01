@@ -1684,3 +1684,136 @@
   (constructor)
   (exact (Ev.eLet chkf dec encTy n rho C p t va vb w hep2 het))
   (exact hrel))
+
+;; The recN iterator (Theorem 4's inner induction on the numeral).  At 0 the
+;; accumulator is the base.  At k + 1 the step runs in (mid, (k, ρ)), and that
+;; environment is related because mid is related to the denotational Nat.rec
+;; at k.  Nat.rec at a successor is that step, definitionally.
+(thm adeq_iter
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+   step :- Exp, s :- Sk,
+   rho :- (List RV), eta :- (HEnv G),
+   z0 :- RV, alpha :- (Car s),
+   hz :- (rel chkf dec encTy cap s z0 alpha),
+   hr :- (envRel chkf dec encTy cap G rho eta),
+   ihs :- (forall [rho2 (List RV)]
+            (forall [eta2 (HEnv (List.cons Sk s (List.cons Sk Sk.nat G)))]
+              (=> (envRel chkf dec encTy cap (List.cons Sk s (List.cons Sk Sk.nat G)) rho2 eta2)
+                (Exists (fn [w :- RV]
+                  (And (Eval chkf dec encTy cap rho2 step w)
+                       (rel chkf dec encTy cap s w
+                         (den chkf dec encTy cap step (List.cons Sk s (List.cons Sk Sk.nat G)) s eta2))))))))]
+  (forall [k Nat]
+    (Exists (fn [v :- RV]
+      (And (Ev chkf dec encTy cap (EvSrc.iter rho step k z0) v)
+           (rel chkf dec encTy cap s v
+             (Nat.rec$1 (fn [_ :- Nat] (Car s)) alpha
+               (fn [j :- Nat, acc :- (Car s)]
+                 (den chkf dec encTy cap step (List.cons Sk s (List.cons Sk Sk.nat G)) s
+                   (Prod.mk acc (Prod.mk j eta))))
+               k))))))
+  (intro k) (induction k)
+  (constructor) (exact z0)
+  (constructor) (exact (Ev.eIterZ chkf dec encTy cap rho step z0))
+  (exact hz)
+  (refine' (exT RV _ _ ih_n _)) (intro mid hm)
+  (have hem (Ev chkf dec encTy cap (EvSrc.iter rho step n z0) mid) (And.left hm))
+  (have hrm (rel chkf dec encTy cap s mid
+              (Nat.rec$1 (fn [_ :- Nat] (Car s)) alpha
+                (fn [j :- Nat, acc :- (Car s)]
+                  (den chkf dec encTy cap step (List.cons Sk s (List.cons Sk Sk.nat G)) s
+                    (Prod.mk acc (Prod.mk j eta))))
+                n)) (And.right hm))
+  (have henv1 (envRel chkf dec encTy cap (List.cons Sk Sk.nat G)
+                (List.cons RV (RV.nat n) rho) (Prod.mk n eta))
+    (envRel_cons chkf dec encTy cap Sk.nat G (RV.nat n) rho n eta rfl hr))
+  (have henv2 (envRel chkf dec encTy cap (List.cons Sk s (List.cons Sk Sk.nat G))
+                (List.cons RV mid (List.cons RV (RV.nat n) rho))
+                (Prod.mk (Nat.rec$1 (fn [_ :- Nat] (Car s)) alpha
+                           (fn [j :- Nat, acc :- (Car s)]
+                             (den chkf dec encTy cap step (List.cons Sk s (List.cons Sk Sk.nat G)) s
+                               (Prod.mk acc (Prod.mk j eta))))
+                           n)
+                  (Prod.mk n eta)))
+    (envRel_cons chkf dec encTy cap s (List.cons Sk Sk.nat G) mid (List.cons RV (RV.nat n) rho)
+      (Nat.rec$1 (fn [_ :- Nat] (Car s)) alpha
+        (fn [j :- Nat, acc :- (Car s)]
+          (den chkf dec encTy cap step (List.cons Sk s (List.cons Sk Sk.nat G)) s
+            (Prod.mk acc (Prod.mk j eta))))
+        n)
+      (Prod.mk n eta) hrm henv1))
+  (refine' (exT RV _ _
+    (ihs (List.cons RV mid (List.cons RV (RV.nat n) rho))
+         (Prod.mk (Nat.rec$1 (fn [_ :- Nat] (Car s)) alpha
+                    (fn [j :- Nat, acc :- (Car s)]
+                      (den chkf dec encTy cap step (List.cons Sk s (List.cons Sk Sk.nat G)) s
+                        (Prod.mk acc (Prod.mk j eta))))
+                    n)
+           (Prod.mk n eta))
+         henv2) _))
+  (intro out ho)
+  (have heo (Eval chkf dec encTy cap (List.cons RV mid (List.cons RV (RV.nat n) rho)) step out) (And.left ho))
+  (have hro (rel chkf dec encTy cap s out
+              (den chkf dec encTy cap step (List.cons Sk s (List.cons Sk Sk.nat G)) s
+                (Prod.mk (Nat.rec$1 (fn [_ :- Nat] (Car s)) alpha
+                           (fn [j :- Nat, acc :- (Car s)]
+                             (den chkf dec encTy cap step (List.cons Sk s (List.cons Sk Sk.nat G)) s
+                               (Prod.mk acc (Prod.mk j eta))))
+                           n)
+                  (Prod.mk n eta)))) (And.right ho))
+  (constructor) (exact out)
+  (constructor)
+  (exact (Ev.eIterS chkf dec encTy cap rho step n z0 mid out hem heo))
+  (exact hro))
+
+;; recN (Theorem 4).  The scrutinee denotes a numeral k, the base is related
+;; at the result skeleton, and adeq_iter runs the step k times.
+(thm adeq_recN
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+   P :- Exp, z :- Exp, step :- Exp, nv :- Exp, s :- Sk,
+   rho :- (List RV), eta :- (HEnv G),
+   hr :- (envRel chkf dec encTy cap G rho eta),
+   ihn :- (Exists (fn [vn :- RV]
+            (And (Eval chkf dec encTy cap rho nv vn)
+                 (rel chkf dec encTy cap Sk.nat vn (den chkf dec encTy cap nv G Sk.nat eta))))),
+   ihz :- (Exists (fn [z0 :- RV]
+            (And (Eval chkf dec encTy cap rho z z0)
+                 (rel chkf dec encTy cap s z0 (den chkf dec encTy cap z G s eta))))),
+   ihs :- (forall [rho2 (List RV)]
+            (forall [eta2 (HEnv (List.cons Sk s (List.cons Sk Sk.nat G)))]
+              (=> (envRel chkf dec encTy cap (List.cons Sk s (List.cons Sk Sk.nat G)) rho2 eta2)
+                (Exists (fn [w :- RV]
+                  (And (Eval chkf dec encTy cap rho2 step w)
+                       (rel chkf dec encTy cap s w
+                         (den chkf dec encTy cap step (List.cons Sk s (List.cons Sk Sk.nat G)) s eta2))))))))]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy cap rho (Exp.recN P z step nv) v)
+         (rel chkf dec encTy cap s v (den chkf dec encTy cap (Exp.recN P z step nv) G s eta)))))
+  (rw [(den_recN_at chkf dec encTy cap P z step nv G s eta)])
+  (refine' (exT RV _ _ ihn _)) (intro vn hn)
+  (have hen (Eval chkf dec encTy cap rho nv vn) (And.left hn))
+  (have hrn (rel chkf dec encTy cap Sk.nat vn (den chkf dec encTy cap nv G Sk.nat eta)) (And.right hn))
+  (have hek (Eval chkf dec encTy cap rho nv (RV.nat (den chkf dec encTy cap nv G Sk.nat eta)))
+    (eval_cast chkf dec encTy cap rho nv vn (RV.nat (den chkf dec encTy cap nv G Sk.nat eta)) hen hrn))
+  (refine' (exT RV _ _ ihz _)) (intro z0 hz0)
+  (have hez (Eval chkf dec encTy cap rho z z0) (And.left hz0))
+  (have hrz (rel chkf dec encTy cap s z0 (den chkf dec encTy cap z G s eta)) (And.right hz0))
+  (refine' (exT RV _ _
+    (adeq_iter chkf dec encTy cap G step s rho eta z0
+      (den chkf dec encTy cap z G s eta) hrz hr ihs
+      (den chkf dec encTy cap nv G Sk.nat eta)) _))
+  (intro v hv)
+  (have hi (Ev chkf dec encTy cap (EvSrc.iter rho step (den chkf dec encTy cap nv G Sk.nat eta) z0) v) (And.left hv))
+  (have hrel (rel chkf dec encTy cap s v
+               (Nat.rec$1 (fn [_ :- Nat] (Car s)) (den chkf dec encTy cap z G s eta)
+                 (fn [j :- Nat, acc :- (Car s)]
+                   (den chkf dec encTy cap step (List.cons Sk s (List.cons Sk Sk.nat G)) s
+                     (Prod.mk acc (Prod.mk j eta))))
+                 (den chkf dec encTy cap nv G Sk.nat eta))) (And.right hv))
+  (constructor) (exact v)
+  (constructor)
+  (exact (Ev.eRecN chkf dec encTy cap rho P z step nv
+           (den chkf dec encTy cap nv G Sk.nat eta) z0 v hek hez hi))
+  (exact hrel))
