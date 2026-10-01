@@ -38,7 +38,7 @@
       when the redex is nbr (den_beta, via den_subst1 and skOf_complete).
       conv_skj_counterexample is the kernel-checked failure of β over
       SkJ alone.  itR on a leaf (den_itRL_nbr) needs nbr so the label has an skOf.  T(tt) and T(ff) preserve V (hd_tTT, hd_tTF).
-  β for let (den_betaLet) is the same pattern.  §4 proves the remaining head steps: recNS, recSL, recSN, caseLb, itR on a node, and δ (a canonical code term denotes its code, snode included).  Position congruence, the chain for V, and F_conv are not in this file yet.
+  β for let (den_betaLet) is the same pattern.  §4 proves the remaining head steps: recNS, recSL, recSN, caseLb, itR on a node, and δ (a canonical code term denotes its code, snode included).  §5 packages them: hd_den is Lemma 3.2 at the root, and den_step_nil is the empty-path case of position congruence.  A step under a constructor, the chain for V, and F_conv are not in this file yet.
 
   Equivalence at a position.  EquivAt w G s a b says a may replace b at a
   position of mode w, context G and skeleton s:
@@ -1395,3 +1395,122 @@
           (Exp.lam U.uw (Exp.tPi U.uw Exp.tLbl Exp.tBool)
             (Exp.caseL Exp.tBool (Exp.lbl 0) (Exp.var 0)))
           (Exp.bcons Exp.tt Exp.bnil))) B hc)))))
+
+;; ---------------------------------------------------------------------------
+;; §5  Lemma 3.2 at the root of a path (R4-metatheory.md §3.2).
+;;
+;; hd_den is every head step, under nbr and skeleton typing of the redex.
+;; The type steps tTT and tTF are not steps of a term (skj_not_tT).
+;; den_step_nil is the empty-path case of position congruence: getP of the
+;; empty path is the term itself and setP replaces it, so the claim is hd_den.
+;; A nonempty path descends into a child (step_skel_path's pattern). That
+;; inductive step is not proved here: the child's denotation and skOf have
+;; to be carried back out through every constructor, and app / letp read
+;; skOf of an argument while β, β-let, recNS, recSL and recSN produce their
+;; contractum by substitution. skOf_subst does not apply to those
+;; substitutions, because the substituted term's skeleton is the binder's
+;; skeleton rather than Unit.
+;; den_ite_b and den_abort_ty are the one-child congruences the inductive
+;; step uses for ite's scrutinee and for a child the denotation ignores.
+;; ---------------------------------------------------------------------------
+
+;; A type former is never a skeleton-typed term. Head steps tTT and tTF
+;; are therefore excluded from the term clause of Lemma 3.2.
+(thm skj_not_tT [b :- Exp, G :- (List Sk), s :- Sk, h :- (SkJ Bool.false G (Exp.tT b) s)]
+  False
+  (cases h))
+
+(thm skj_not_tUnit [G :- (List Sk), s :- Sk, h :- (SkJ Bool.false G Exp.tUnit s)]
+  False
+  (cases h))
+
+;; Lemma 3.2 at the root of a path: one head step of an nbr skeleton-typed
+;; term preserves the denotation at the typed skeleton. Type steps tTT and
+;; tTF are not term steps.
+(thm hd_den [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), cap :- Nat,
+  re :- Exp, co :- Exp, hder :- (Hd chkf re co),
+  ctx :- (List Sk), out :- Sk,
+  hty :- (SkJ Bool.false ctx re out),
+  hnbr :- (Eq Bool (nbr re) Bool.true),
+  env :- (HEnv ctx)]
+  (Eq (Car out) (den chkf dec encTy cap co ctx out env) (den chkf dec encTy cap re ctx out env))
+  (cases hder)
+  (exact (den_beta chkf dec encTy cap r A t u ctx out hty hnbr env))
+  (exact (den_betaLet chkf dec encTy cap C S x y t ctx out hty hnbr env))
+  (exact (den_iteT chkf dec encTy cap t e ctx out env))
+  (exact (den_iteF chkf dec encTy cap t e ctx out env))
+  (exact (den_elimT chkf dec encTy cap P t e ctx out env))
+  (exact (den_elimF chkf dec encTy cap P t e ctx out env))
+  (exact (den_recNZ chkf dec encTy cap P z s ctx out env))
+  (exact (den_recNS chkf dec encTy cap P z s n ctx out hty hnbr env))
+  (exact (den_caseLb chkf dec encTy cap P l bs b h ctx out env))
+  (exact (den_recSL chkf dec encTy cap P tl tn x ctx out hty hnbr env))
+  (exact (den_recSN chkf dec encTy cap P tl tn x c1 c2 ctx out hty hnbr env))
+  (exact (den_itRL_nbr chkf dec encTy cap X g h x ctx out hty hnbr env))
+  (exact (den_itRN chkf dec encTy cap X g h d x r1 r2 ctx out hty hnbr env))
+  (exact (den_prnL chkf dec encTy cap x ctx out env))
+  (exact (den_prnN chkf dec encTy cap d x r1 r2 ctx out env))
+  (exact (den_delta chkf dec encTy cap c d cc dc hc hd ctx out env))
+  (exact (False.elim$0 (skj_not_tT Exp.tt ctx out hty)))
+  (exact (False.elim$0 (skj_not_tT Exp.ff ctx out hty))))
+
+(thm setP_nil [e :- Exp, x :- Exp]
+  (Eq Exp (setP (List.nil Nat) e x) x)
+  (rfl))
+
+(thm getP_nil [e :- Exp]
+  (Eq (Option Exp) (getP (List.nil Nat) e) (Option.some Exp e))
+  (rfl))
+
+;; Lemma 3.2 at the empty path: the redex is the whole term.
+(thm den_step_nil [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), cap :- Nat,
+  e :- Exp, ctx :- (List Sk), out :- Sk,
+  hty :- (SkJ Bool.false ctx e out),
+  hnbr :- (Eq Bool (nbr e) Bool.true),
+  r :- Exp, co :- Exp,
+  hg :- (Eq (Option Exp) (getP (List.nil Nat) e) (Option.some Exp r)),
+  hder :- (Hd chkf r co),
+  env :- (HEnv ctx)]
+  (Eq (Car out) (den chkf dec encTy cap (setP (List.nil Nat) e co) ctx out env)
+                (den chkf dec encTy cap e ctx out env))
+  (have he (Eq Exp e r) (some_inj e r (Eq.trans (Eq.symm (getP_nil e)) hg)))
+  (subst he)
+  (rw [(setP_nil r co)])
+  (exact (hd_den chkf dec encTy cap r co hder ctx out hty hnbr env)))
+
+(thm setKid_ite_0 [b :- Exp, t :- Exp, e :- Exp, x :- Exp]
+  (Eq Exp (setKid (Exp.ite b t e) 0 x) (Exp.ite x t e))
+  (rfl))
+
+(thm setKid_ite_1 [b :- Exp, t :- Exp, e :- Exp, x :- Exp]
+  (Eq Exp (setKid (Exp.ite b t e) 1 x) (Exp.ite b x e))
+  (rfl))
+
+(thm setKid_ite_2 [b :- Exp, t :- Exp, e :- Exp, x :- Exp]
+  (Eq Exp (setKid (Exp.ite b t e) 2 x) (Exp.ite b t x))
+  (rfl))
+
+;; A child den ignores (abort's type) can be replaced without changing ⟦·⟧.
+(pthm den_abort_ty [A :- Exp, A2 :- Exp, t :- Exp, G :- (List Sk), s :- Sk, en :- (HEnv G)]
+  (Eq (Car s) (den chkf dec encTy n (Exp.abort A2 t) G s en)
+              (den chkf dec encTy n (Exp.abort A t) G s en))
+  (rw [(den_abort_at chkf dec encTy n A2 t G s en)])
+  (rw [(den_abort_at chkf dec encTy n A t G s en)]))
+
+;; Replacing ite's scrutinee preserves ⟦·⟧ when the scrutinees agree at Bool.
+(pthm den_ite_b [b :- Exp, b2 :- Exp, t :- Exp, e :- Exp, G :- (List Sk), s :- Sk, en :- (HEnv G),
+  hb :- (Eq (Car Sk.bool) (den chkf dec encTy n b2 G Sk.bool en) (den chkf dec encTy n b G Sk.bool en))]
+  (Eq (Car s) (den chkf dec encTy n (Exp.ite b2 t e) G s en)
+              (den chkf dec encTy n (Exp.ite b t e) G s en))
+  (rw [(den_ite_at chkf dec encTy n b2 t e G s en)])
+  (rw [(den_ite_at chkf dec encTy n b t e G s en)])
+  (change (Eq (Car s)
+    (Bool.rec$1 (fn [_ :- Bool] (Car s))
+      (den chkf dec encTy n e G s en) (den chkf dec encTy n t G s en)
+      (den chkf dec encTy n b2 G Sk.bool en))
+    (Bool.rec$1 (fn [_ :- Bool] (Car s))
+      (den chkf dec encTy n e G s en) (den chkf dec encTy n t G s en)
+      (den chkf dec encTy n b G Sk.bool en))))
+  (exact (congrArg (fn [v :- (Car Sk.bool)]
+            (Bool.rec$1 (fn [_ :- Bool] (Car s))
+              (den chkf dec encTy n e G s en) (den chkf dec encTy n t G s en) v)) hb)))

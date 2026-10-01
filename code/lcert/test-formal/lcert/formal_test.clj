@@ -302,7 +302,9 @@
                 den_recSL_eval den_recSL den_recSN_eval den_recSN
                 canonicalNode canonicalNode_some canonicalNode_den
                 den_code_sleaf den_snode_code den_code_snode den_codeOf den_delta
-                den_dia_unique den_itRN_eval den_itRN cex_no_cv]]
+                den_dia_unique den_itRN_eval den_itRN cex_no_cv
+                skj_not_tT skj_not_tUnit hd_den setP_nil getP_nil den_step_nil
+                setKid_ite_0 setKid_ite_1 setKid_ite_2 den_abort_ty den_ite_b]]
       (is (b/has? c) (str c))))
   (testing "the β redex and its contractum are not denoted equally: the application defaults"
     (is (b/rejects? den-params

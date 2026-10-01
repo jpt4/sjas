@@ -164,7 +164,7 @@ theorem quantifies over `chkf dec encTy`, and those using the checker take
 | §3.3 V | `V` (sem) | defined | explicit skeleton argument |
 | Lemma 3.3 monotonicity | `V_mono` (mono) | proved | — |
 | Lemma 3.3 substitution | `lemma33_subst`, `V_subst1`, `V_substL` (substitution) | proved | `SubOK`; stated at skeleton `skel A` |
-| Lemma 3.3 conversion, Lemma 3.2 | — | open | |
+| Lemma 3.3 conversion, Lemma 3.2 | `hd_den`, `den_step_nil`, head-step `den_*` (conversion) | partial | an nbr skeleton-typed term's head step, and a step at the empty path, preserve ⟦·⟧; a step under a constructor, the V chain, and `F_conv` are open |
 | Lemma 3.4 | `Lemma_3_4` (mono) | proved | — |
 | Lemma 3.5 | `EnvSat_split`, `EnvSat_omega` (splitting) | proved | plus `EnvSat_one`, `EnvSat_mono` |
 | Lemma 3.6 | `Lemma_3_6` (model); cases `F_*` (fundamental) | stated; 12 of 32 cases proved | |
