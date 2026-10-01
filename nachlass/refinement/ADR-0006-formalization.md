@@ -180,6 +180,7 @@ theorem quantifies over `chkf dec encTy`, and those using the checker take
 | Theorem 2 (H₁) | `Theorem_2_H1` (model) | proved | — |
 | Theorem 3 | `theorem3`, `theorem3_tokens` (lemma36) | proved (with `conv_all` for its Conv hypothesis) | the refinement needs the budget to reach the token count |
 | Proposition 4.1, 4.7 | `prop41_closed`, `prop41_fun`, `prop47` (section4) | proved (4.1 given the Conv case) | 4.1(ii) for codes with labels below NL |
+| Propositions 4.3, 4.4 (1) | `prop43`, `prop44_1` (prop434) | proved, given `EncSize` | `EncSize` states E2–E4's consequence (an accepted certificate has ≥ 1 + m + f + ‖⌜A⌝‖ nodes), part of the trust base of §2; μ(A) enters as a lower bound, and 4.4 uses ¬ᵏ⁺¹1 and a minimal certificate; 4.4 (2), (3) open |
 | Proposition 4.10′ (H does not give H₁) | `prop410_prime` (prop410); `lemma36_noH1`, `rt_tr` | proved | χ accepts every code above a size bound (the paper changes Check at two pairs); "without H₁" is `noH1` of the term |
 | Theorem 4, Corollary 5.1 | `theorem4`, `Theorem_4`, `corollary51` (eval, theorem4) | proved | simply typed terms with `argsOK` (skOf defined at every argument; not a branch-list head) |
 | §4 (the rest), Theorem 4′, Theorem 5.2, §6 | — | open | F4 derivations and F5's last results in progress |
