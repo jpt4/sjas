@@ -587,3 +587,26 @@
             (Code.rec$1 (fn [_ :- Code] α) (fn [l :- Nat] (lf l))
                         (fn [l :- Nat, a :- Code, b :- Code, ya :- α, yb :- α] (nd l a b ya yb)) b)
             hl ha hb (ih_a ha) (ih_b hb))))
+
+;; A leaf of a label-ok code.  tl runs once, in the ω-scaled context
+;; (Lbl, ω·Γ₂), at footprint 0: the label is below NL because lblOk says so,
+;; and Lemma 3.5 (ii) with its converse at 0 puts ω·Γ₂ at footprint 0.
+;; V(leafTy P) there is V(P) at (sl l, η) by V_leafTy.
+(thm recS_leaf [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+                D :- (List Exp), us2 :- (List U), P :- Exp, tl :- Exp,
+                der :- (SkJ Bool.true (List.cons Sk Sk.syn (skels D)) P Sk.unit),
+                ihl :- (Sound chkf dec encTy n (List.cons Exp Exp.tLbl D) (List.cons U U.uw (vscale U.uw us2)) tl (leafTy P)),
+                en :- (HEnv (skels D)), hs :- (EnvSat chkf dec encTy n D (vscale U.uw us2) en 0),
+                l :- Nat, hok :- (Eq Bool (Nat.blt l 100) Bool.true)]
+  (V chkf dec encTy n P (List.cons Sk Sk.syn (skels D)) (Prod.mk (Code.sl l) en) 0 (skel P)
+     (den chkf dec encTy n tl (List.cons Sk Sk.lbl (skels D)) (skel P) (Prod.mk l en)))
+  (have hb (Eq Bool (Nat.ble (+ l 1) 100) Bool.true) hok)
+  (have he (EntryOK U.uw 0 (fn [jx :- Nat] (V chkf dec encTy n Exp.tLbl (skels D) en jx (skel Exp.tLbl) l)))
+    (And.intro (Eq.refl$1 Nat.zero) (Nat.le_of_ble_eq_true hb)))
+  (have hsL (EnvSat chkf dec encTy n (List.cons Exp Exp.tLbl D) (List.cons U U.uw (vscale U.uw us2)) (Prod.mk l en) 0)
+    (EnvSat_cons chkf dec encTy n Exp.tLbl D U.uw (vscale U.uw us2) l en 0 0 hs he))
+  (have hv (V chkf dec encTy n (leafTy P) (List.cons Sk Sk.lbl (skels D)) (Prod.mk l en) 0 (skel (leafTy P))
+              (den chkf dec encTy n tl (List.cons Sk Sk.lbl (skels D)) (skel (leafTy P)) (Prod.mk l en)))
+    (ihl (Prod.mk l en) 0 (Nat.zero_le n) hsL))
+  (exact (V_leafTy chkf dec encTy n (skels D) P der l en 0
+                   (fn [s :- Sk] (den chkf dec encTy n tl (List.cons Sk Sk.lbl (skels D)) s (Prod.mk l en))) hv)))
