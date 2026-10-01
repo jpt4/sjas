@@ -2136,3 +2136,177 @@
         (constructor)
         (exact (Ev.eRecS chkf dec encTy cap rho P tl tn c (den chkf dec encTy cap c G Sk.syn eta) v hek hi))
         (exact hrel))
+
+;; itR, the leaf (Theorem 4).  g is applied to the label.
+(thm adeq_itr_leaf
+        [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+         encTy :- (=> Exp Code), cap :- Nat, s :- Sk, l :- Nat,
+         vg :- RV, vh :- RV,
+         fg :- (=> Nat (Car s)),
+         fh :- (=> Unit (=> Nat (=> (Car s) (=> (Car s) (Car s))))),
+         hg :- (rel chkf dec encTy cap (Sk.arr Sk.lbl s) vg fg)]
+        (Exists (fn [w :- RV]
+          (And (Ev chkf dec encTy cap (EvSrc.itr vg vh (Code.sl l)) w)
+               (rel chkf dec encTy cap s w
+                 (Code.rec$1 (fn [_ :- Code] (Car s))
+                   (fn [j :- Nat] (fg j))
+                   (fn [j :- Nat, a :- Code, b :- Code, ya :- (Car s), yb :- (Car s)] (fh Unit.unit j ya yb))
+                   (Code.sl l))))))
+        (refine' (exT RV _ _ (hg (RV.lbl l) l rfl) _))
+        (intro w hw)
+        (have hap (Ev chkf dec encTy cap (EvSrc.ap vg (RV.lbl l)) w) (And.left hw))
+        (have hrel (rel chkf dec encTy cap s w (fg l)) (And.right hw))
+        (constructor) (exact w)
+        (constructor)
+        (exact (Ev.eItL chkf dec encTy cap vg vh l w hap))
+        (exact hrel))
+
+;; itR, the node.  h is applied to the token, the label, and the two
+;; recursive results.  The token is related at ◇ because every token is.
+(thm adeq_itr_node
+        [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+         encTy :- (=> Exp Code), cap :- Nat, s :- Sk, l :- Nat, a :- Code, b :- Code,
+         vg :- RV, vh :- RV,
+         fg :- (=> Nat (Car s)),
+         fh :- (=> Unit (=> Nat (=> (Car s) (=> (Car s) (Car s))))),
+         hh :- (rel chkf dec encTy cap (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr s (Sk.arr s s)))) vh fh),
+         iha :- (Exists (fn [ya :- RV]
+                  (And (Ev chkf dec encTy cap (EvSrc.itr vg vh a) ya)
+                       (rel chkf dec encTy cap s ya
+                         (Code.rec$1 (fn [_ :- Code] (Car s)) (fn [j :- Nat] (fg j))
+                           (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)] (fh Unit.unit j ya yb))
+                           a))))),
+         ihb :- (Exists (fn [yb :- RV]
+                  (And (Ev chkf dec encTy cap (EvSrc.itr vg vh b) yb)
+                       (rel chkf dec encTy cap s yb
+                         (Code.rec$1 (fn [_ :- Code] (Car s)) (fn [j :- Nat] (fg j))
+                           (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)] (fh Unit.unit j ya yb))
+                           b)))))]
+        (Exists (fn [w :- RV]
+          (And (Ev chkf dec encTy cap (EvSrc.itr vg vh (Code.sn l a b)) w)
+               (rel chkf dec encTy cap s w
+                 (Code.rec$1 (fn [_ :- Code] (Car s)) (fn [j :- Nat] (fg j))
+                   (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)] (fh Unit.unit j ya yb))
+                   (Code.sn l a b))))))
+        (refine' (exT RV _ _ iha _)) (intro ya ha)
+        (have hea (Ev chkf dec encTy cap (EvSrc.itr vg vh a) ya) (And.left ha))
+        (have hra (rel chkf dec encTy cap s ya
+                    (Code.rec$1 (fn [_ :- Code] (Car s)) (fn [j :- Nat] (fg j))
+                      (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)] (fh Unit.unit j ya yb))
+                      a)) (And.right ha))
+        (refine' (exT RV _ _ ihb _)) (intro yb hb)
+        (have heb (Ev chkf dec encTy cap (EvSrc.itr vg vh b) yb) (And.left hb))
+        (have hrb (rel chkf dec encTy cap s yb
+                    (Code.rec$1 (fn [_ :- Code] (Car s)) (fn [j :- Nat] (fg j))
+                      (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)] (fh Unit.unit j ya yb))
+                      b)) (And.right hb))
+        (refine' (exT RV _ _ (hh RV.token Unit.unit rfl) _)) (intro v1 h1)
+        (have he1 (Ev chkf dec encTy cap (EvSrc.ap vh RV.token) v1) (And.left h1))
+        (have hr1 (rel chkf dec encTy cap (Sk.arr Sk.lbl (Sk.arr s (Sk.arr s s))) v1 (fh Unit.unit)) (And.right h1))
+        (refine' (exT RV _ _ (hr1 (RV.lbl l) l rfl) _)) (intro v2 h2)
+        (have he2 (Ev chkf dec encTy cap (EvSrc.ap v1 (RV.lbl l)) v2) (And.left h2))
+        (have hr2 (rel chkf dec encTy cap (Sk.arr s (Sk.arr s s)) v2 ((fh Unit.unit) l)) (And.right h2))
+        (refine' (exT RV _ _ (hr2 ya
+                    (Code.rec$1 (fn [_ :- Code] (Car s)) (fn [j :- Nat] (fg j))
+                      (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)] (fh Unit.unit j ya yb))
+                      a) hra) _))
+        (intro v3 h3)
+        (have he3 (Ev chkf dec encTy cap (EvSrc.ap v2 ya) v3) (And.left h3))
+        (have hr3 (rel chkf dec encTy cap (Sk.arr s s) v3
+                    (((fh Unit.unit) l)
+                     (Code.rec$1 (fn [_ :- Code] (Car s)) (fn [j :- Nat] (fg j))
+                       (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)] (fh Unit.unit j ya yb))
+                       a))) (And.right h3))
+        (refine' (exT RV _ _ (hr3 yb
+                    (Code.rec$1 (fn [_ :- Code] (Car s)) (fn [j :- Nat] (fg j))
+                      (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)] (fh Unit.unit j ya yb))
+                      b) hrb) _))
+        (intro w hw)
+        (have he4 (Ev chkf dec encTy cap (EvSrc.ap v3 yb) w) (And.left hw))
+        (have hrel (rel chkf dec encTy cap s w
+                     ((((fh Unit.unit) l)
+                       (Code.rec$1 (fn [_ :- Code] (Car s)) (fn [j :- Nat] (fg j))
+                         (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)] (fh Unit.unit j ya yb))
+                         a))
+                      (Code.rec$1 (fn [_ :- Code] (Car s)) (fn [j :- Nat] (fg j))
+                        (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)] (fh Unit.unit j ya yb))
+                        b))) (And.right hw))
+        (constructor) (exact w)
+        (constructor)
+        (exact (Ev.eItN chkf dec encTy cap vg vh l a b ya yb v1 v2 v3 w hea heb he1 he2 he3 he4))
+        (exact hrel))
+
+;; itR's recursion (Theorem 4's inner induction on the certificate).
+(thm adeq_itr
+        [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+         encTy :- (=> Exp Code), cap :- Nat, s :- Sk,
+         vg :- RV, vh :- RV,
+         fg :- (=> Nat (Car s)),
+         fh :- (=> Unit (=> Nat (=> (Car s) (=> (Car s) (Car s))))),
+         hg :- (rel chkf dec encTy cap (Sk.arr Sk.lbl s) vg fg),
+         hh :- (rel chkf dec encTy cap (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr s (Sk.arr s s)))) vh fh)]
+        (forall [c Code]
+          (Exists (fn [w :- RV]
+            (And (Ev chkf dec encTy cap (EvSrc.itr vg vh c) w)
+                 (rel chkf dec encTy cap s w
+                   (Code.rec$1 (fn [_ :- Code] (Car s)) (fn [j :- Nat] (fg j))
+                     (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)] (fh Unit.unit j ya yb))
+                     c))))))
+        (intro c) (induction c)
+        (exact (adeq_itr_leaf chkf dec encTy cap s l vg vh fg fh hg))
+        (exact (adeq_itr_node chkf dec encTy cap s l a b vg vh fg fh hh ih_a ih_b)))
+
+;; itR (Theorem 4).  g, h, and the certificate are evaluated, then adeq_itr
+;; folds them the way Code.rec folds the denotation.
+(thm adeq_itR
+        [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+         encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+         X :- Exp, g :- Exp, h :- Exp, r :- Exp, s :- Sk,
+         rho :- (List RV), eta :- (HEnv G),
+         ihg :- (Exists (fn [vg :- RV]
+                  (And (Eval chkf dec encTy cap rho g vg)
+                       (rel chkf dec encTy cap (Sk.arr Sk.lbl s) vg
+                         (den chkf dec encTy cap g G (Sk.arr Sk.lbl s) eta))))),
+         ihh :- (Exists (fn [vh :- RV]
+                  (And (Eval chkf dec encTy cap rho h vh)
+                       (rel chkf dec encTy cap (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr s (Sk.arr s s)))) vh
+                         (den chkf dec encTy cap h G (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr s (Sk.arr s s)))) eta))))),
+         ihr :- (Exists (fn [vr :- RV]
+                  (And (Eval chkf dec encTy cap rho r vr)
+                       (rel chkf dec encTy cap Sk.cert vr (den chkf dec encTy cap r G Sk.cert eta)))))]
+        (Exists (fn [v :- RV]
+          (And (Eval chkf dec encTy cap rho (Exp.itR X g h r) v)
+               (rel chkf dec encTy cap s v (den chkf dec encTy cap (Exp.itR X g h r) G s eta)))))
+        (rw [(den_itR_at chkf dec encTy cap X g h r G s eta)])
+        (refine' (exT RV _ _ ihg _)) (intro vg hg)
+        (have heg (Eval chkf dec encTy cap rho g vg) (And.left hg))
+        (have hrg (rel chkf dec encTy cap (Sk.arr Sk.lbl s) vg
+                    (den chkf dec encTy cap g G (Sk.arr Sk.lbl s) eta)) (And.right hg))
+        (refine' (exT RV _ _ ihh _)) (intro vh hh)
+        (have heh (Eval chkf dec encTy cap rho h vh) (And.left hh))
+        (have hrh (rel chkf dec encTy cap (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr s (Sk.arr s s)))) vh
+                    (den chkf dec encTy cap h G (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr s (Sk.arr s s)))) eta)) (And.right hh))
+        (refine' (exT RV _ _ ihr _)) (intro vr hr)
+        (have her0 (Eval chkf dec encTy cap rho r vr) (And.left hr))
+        (have hrr (rel chkf dec encTy cap Sk.cert vr (den chkf dec encTy cap r G Sk.cert eta)) (And.right hr))
+        (have her (Eval chkf dec encTy cap rho r (RV.cert (den chkf dec encTy cap r G Sk.cert eta)))
+          (eval_cast chkf dec encTy cap rho r vr (RV.cert (den chkf dec encTy cap r G Sk.cert eta)) her0 hrr))
+        (refine' (exT RV _ _
+          (adeq_itr chkf dec encTy cap s vg vh
+            (den chkf dec encTy cap g G (Sk.arr Sk.lbl s) eta)
+            (den chkf dec encTy cap h G (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr s (Sk.arr s s)))) eta)
+            hrg hrh
+            (den chkf dec encTy cap r G Sk.cert eta)) _))
+        (intro v hv)
+        (have hi (Ev chkf dec encTy cap (EvSrc.itr vg vh (den chkf dec encTy cap r G Sk.cert eta)) v) (And.left hv))
+        (have hrel (rel chkf dec encTy cap s v
+                     (Code.rec$1 (fn [_ :- Code] (Car s))
+                       (fn [j :- Nat] ((den chkf dec encTy cap g G (Sk.arr Sk.lbl s) eta) j))
+                       (fn [j :- Nat, xa :- Code, xb :- Code, ya :- (Car s), yb :- (Car s)]
+                         ((den chkf dec encTy cap h G (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr s (Sk.arr s s)))) eta)
+                          Unit.unit j ya yb))
+                       (den chkf dec encTy cap r G Sk.cert eta))) (And.right hv))
+        (constructor) (exact v)
+        (constructor)
+        (exact (Ev.eItR chkf dec encTy cap rho X g h r vg vh (den chkf dec encTy cap r G Sk.cert eta) v heg heh her hi))
+        (exact hrel))

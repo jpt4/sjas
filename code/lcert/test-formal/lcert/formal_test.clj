@@ -413,7 +413,8 @@
                 adeq_sleaf adeq_leaf adeq_snode adeq_node adeq_caseL
                 bcons_apply_zero bcons_apply_succ adeq_bcons
                 adeq_insp_pick adeq_insp adeq_let adeq_iter adeq_recN
-                adeq_recs_leaf adeq_recs_node adeq_recs adeq_recS]]
+                adeq_recs_leaf adeq_recs_node adeq_recs adeq_recS
+                adeq_itr_leaf adeq_itr_node adeq_itr adeq_itR]]
       (is (b/has? c) (str c))))
   (testing "tt does not evaluate to ff: the true-constructor is the wrong value"
     (is (b/rejects? '[chkf :- (=> Code Code Bool),
