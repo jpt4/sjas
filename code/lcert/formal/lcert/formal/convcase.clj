@@ -2548,3 +2548,128 @@
        '(exact (step_nil_fl chkf dec encTy fl (Exp.app f u) G out hj hn re co hg hd))
        '(intro re co hg hd)
        (list 'exact split)]))
+
+;; pair (Lemma 3.2).  skOf is some (skel S), so only a step in the
+;; type annotation changes it.  The denotation at the product of the
+;; component skeletons (the witness inside inv_pair) is the pair of the
+;; components; Eq.mp moves that equation to the output skeleton.
+
+
+  (prove! 'sk_pair_S
+    '[chkf :- (=> Code Code Bool), S :- Exp, a :- Exp, b :- Exp, G :- (List Sk),
+      q :- (List Nat), rd :- Exp, r2 :- Exp,
+      hS :- (SkJ Bool.true G S Sk.unit),
+      hg :- (Eq (Option Exp) (getP q S) (Option.some Exp rd)),
+      hd :- (Hd chkf rd r2)]
+    '(Eq (Option Sk) (skOf G (Exp.pair (setP q S r2) a b)) (skOf G (Exp.pair S a b)))
+    ['(have hs (Eq Sk (skel (setP q S r2)) (skel S))
+        (step_skel_path chkf q S rd r2
+          (skj_isTy Bool.true G S Sk.unit hS rfl) hg hd))
+     '(rw [(skof_pair (setP q S r2) a b G)])
+     '(rw [(skof_pair S a b G)])
+     '(exact (congrArg (fn [k :- Sk] (Option.some Sk k)) hs))])
+
+  (prove! 'den_pair_a
+    (into Pcap '[S :- Exp, a :- Exp, aq :- Exp, b :- Exp, G :- (List Sk),
+                 sa :- Sk, sb :- Sk, en :- (HEnv G),
+                 he :- (Eq (Car sa) (den chkf dec encTy cap aq G sa en)
+                                     (den chkf dec encTy cap a G sa en))])
+    '(Eq (Car (Sk.prod sa sb))
+       (den chkf dec encTy cap (Exp.pair S aq b) G (Sk.prod sa sb) en)
+       (den chkf dec encTy cap (Exp.pair S a b) G (Sk.prod sa sb) en))
+    ['(rw [(den_pair_at chkf dec encTy cap S aq b G (Sk.prod sa sb) en)])
+     '(rw [(den_pair_at chkf dec encTy cap S a b G (Sk.prod sa sb) en)])
+     '(change (Eq (Car (Sk.prod sa sb))
+        (Prod.mk (den chkf dec encTy cap aq G sa en) (den chkf dec encTy cap b G sb en))
+        (Prod.mk (den chkf dec encTy cap a G sa en) (den chkf dec encTy cap b G sb en))))
+     '(exact (congrArg (fn [v :- (Car sa)]
+                (Prod.mk v (den chkf dec encTy cap b G sb en))) he))])
+
+  (prove! 'den_pair_b
+    (into Pcap '[S :- Exp, a :- Exp, b :- Exp, bq :- Exp, G :- (List Sk),
+                 sa :- Sk, sb :- Sk, en :- (HEnv G),
+                 he :- (Eq (Car sb) (den chkf dec encTy cap bq G sb en)
+                                     (den chkf dec encTy cap b G sb en))])
+    '(Eq (Car (Sk.prod sa sb))
+       (den chkf dec encTy cap (Exp.pair S a bq) G (Sk.prod sa sb) en)
+       (den chkf dec encTy cap (Exp.pair S a b) G (Sk.prod sa sb) en))
+    ['(rw [(den_pair_at chkf dec encTy cap S a bq G (Sk.prod sa sb) en)])
+     '(rw [(den_pair_at chkf dec encTy cap S a b G (Sk.prod sa sb) en)])
+     '(change (Eq (Car (Sk.prod sa sb))
+        (Prod.mk (den chkf dec encTy cap a G sa en) (den chkf dec encTy cap bq G sb en))
+        (Prod.mk (den chkf dec encTy cap a G sa en) (den chkf dec encTy cap b G sb en))))
+     '(exact (congrArg (fn [v :- (Car sb)]
+                (Prod.mk (den chkf dec encTy cap a G sa en) v)) he))])
+
+
+  ;; inv_pair is three nested existentials (the Σ's level, domain and
+  ;; codomain).  The output skeleton is the product of the two component
+  ;; skeletons; Eq.mp moves a component equation there.
+  (let [term '(Exp.pair S a b)
+        pk '(And (Eq Exp S (Exp.tSig rr AA BB))
+              (And (Eq Sk out (Sk.prod (skel AA) (skel BB)))
+                (And (SkJ Bool.true G S Sk.unit)
+                  (And (SkJ Bool.false G a (skel AA))
+                       (SkJ Bool.false G b (skel BB))))))
+        exBB (list 'Exists (list 'fn '[BB :- Exp] pk))
+        exAA (list 'Exists (list 'fn '[AA :- Exp] exBB))
+        pred (list 'fn '[rr :- U] exAA)
+        hs (list 'And.left (rights 1 'hb))
+        hS (list 'And.left (rights 2 'hb))
+        ha (list 'And.left (rights 3 'hb))
+        hbb (rights 4 'hb)
+        transport (fn [idx lemma args]
+                    (let [moved (list 'setP (list 'List.cons 'Nat (sucn idx 0) 'tail) term 'co)]
+                      (list 'Eq.mp
+                        (list 'congrArg
+                          (list 'fn '[k :- Sk]
+                            (list 'Eq '(Car k)
+                              (list 'den 'chkf 'dec 'encTy 'cap moved 'G 'k 'en)
+                              (list 'den 'chkf 'dec 'encTy 'cap term 'G 'k 'en)))
+                          (list 'Eq.symm hs))
+                        (concat (list lemma 'chkf 'dec 'encTy 'cap) args))))
+        ih (fn [nm sk sj nb]
+             (list nm 'Bool.false 'G sk sj nb 'tail 're 'co 'hgc 'hd))
+        opened (fn [idx body]
+                 (let [q (path-and term (sucn idx 0))]
+                   (list 'exU pred q
+                     '(And.right (inv_pair Bool.false G S a b out hj))
+                     (list 'fn ['rr ':- 'U, 'hr ':- exAA]
+                       (list 'exExpC (list 'fn '[AA :- Exp] exBB) q 'hr
+                         (list 'fn ['AA ':- 'Exp, 'hA ':- exBB]
+                           (list 'exExpC (list 'fn '[BB :- Exp] pk) q 'hA
+                             (list 'fn ['BB ':- 'Exp, 'hb ':- pk] body))))))))
+        pS (opened 0
+             (list 'And.intro
+               (list 'sk_pair_S 'chkf 'S 'a 'b 'G 'tail 're 'co hS 'hgc 'hd)
+               '(fn [cap :- Nat, en :- (HEnv G)]
+                  (den_ig_pair_S chkf dec encTy cap S (setP tail S co) a b G out en))))
+        pa (opened 1
+             (list 'And.intro
+               '(Eq.refl$1 (skOf G (Exp.pair S a b)))
+               (list 'fn '[cap :- Nat, en :- (HEnv G)]
+                 (transport 1 'den_pair_a
+                   ['S 'a '(setP tail a co) 'b 'G '(skel AA) '(skel BB) 'en
+                    (list (list 'And.right
+                            (ih 'ih_a '(skel AA) ha '(nbr_pair_a S a b fl hn)))
+                      'cap 'en)]))))
+        pb (opened 2
+             (list 'And.intro
+               '(Eq.refl$1 (skOf G (Exp.pair S a b)))
+               (list 'fn '[cap :- Nat, en :- (HEnv G)]
+                 (transport 2 'den_pair_b
+                   ['S 'a 'b '(setP tail b co) 'G '(skel AA) '(skel BB) 'en
+                    (list (list 'And.right
+                            (ih 'ih_b '(skel BB) hbb '(nbr_pair_b S a b fl hn)))
+                      'cap 'en)]))))
+        split (index-split term [pS pa pb])]
+    (prove! 'step_pair
+      (into step-params '[S :- Exp, a :- Exp, b :- Exp,
+                          ih_a :- (StepPack chkf dec encTy a),
+                          ih_b :- (StepPack chkf dec encTy b)])
+      '(StepPack chkf dec encTy (Exp.pair S a b))
+      ['(intro fl G out hj hn pth) '(cases pth)
+       '(intro re co hg hd)
+       '(exact (step_nil_fl chkf dec encTy fl (Exp.pair S a b) G out hj hn re co hg hd))
+       '(intro re co hg hd)
+       (list 'exact split)]))
