@@ -415,7 +415,7 @@
                 adeq_insp_pick adeq_insp adeq_let adeq_iter adeq_recN
                 adeq_recs_leaf adeq_recs_node adeq_recs adeq_recS
                 adeq_itr_leaf adeq_itr_node adeq_itr adeq_itR
-                baseSk rel_budget den_refl_false den_refl_none den_refl_ok_eq
+                baseSk rel_budget tokens_rel den_refl_false den_refl_none den_refl_ok_eq
                 adeq_refl_no adeq_refl_none adeq_refl_ok]]
       (is (b/has? c) (str c))))
   (testing "tt does not evaluate to ff: the true-constructor is the wrong value"

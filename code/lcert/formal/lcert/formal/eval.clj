@@ -2325,6 +2325,17 @@
 
 
 ;; At a base skeleton, rel n and rel m are the same equality.
+;; The m tokens are related to the token environment at ◇, pointwise.
+;; Reflect's success case evaluates in this environment (Theorem 4).
+(thm tokens_rel
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, m :- Nat]
+  (envRel chkf dec encTy cap (thetaSk m) (rtokens m) (tokenEnv m))
+  (induction m)
+  (rfl)
+  (exact (envRel_cons chkf dec encTy cap Sk.dia (thetaSk n) RV.token (rtokens n)
+           Unit.unit (tokenEnv n) rfl ih_n)))
+
 (thm rel_budget
         [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
          encTy :- (=> Exp Code), n :- Nat, m :- Nat, s :- Sk]
