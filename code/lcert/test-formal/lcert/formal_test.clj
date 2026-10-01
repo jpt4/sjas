@@ -462,3 +462,18 @@
                       n :- Nat, rho :- (List RV)]
                     '(Eval chkf dec encTy n rho Exp.tt (RV.bool Bool.false))
                     '[(exact (Ev.eTT chkf dec encTy n rho))]))))
+
+(require 'lcert.formal.theorem4)
+(deftest f5-skof-agree
+  (testing "skOf agrees with simple typing off the branch-list spine"
+    (doseq [c '[arrCod_arr skOf_lam_none skOf_app_none skOf_bnil_none
+                brHead_bnil argsOK_bnil_true argsOK_app_eq
+                skOf_brHead br_of_skSome skOf_agree]]
+      (is (b/has? c) (str c))))
+  (testing "bnil is simply typable and argsOK, but skOf is none: argsOK alone does not give skOf = some"
+    (is (not (b/rejects? '[G :- (List Sk)]
+                          '(Eq Bool (argsOK G Exp.bnil) Bool.true)
+                          '[(rfl)])))
+    (is (b/rejects? '[G :- (List Sk)]
+                    '(Eq (Option Sk) (skOf G Exp.bnil) (Option.some Sk (Sk.arr Sk.lbl Sk.unit)))
+                    '[(rfl)]))))
