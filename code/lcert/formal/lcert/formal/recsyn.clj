@@ -610,3 +610,122 @@
     (ihl (Prod.mk l en) 0 (Nat.zero_le n) hsL))
   (exact (V_leafTy chkf dec encTy n (skels D) P der l en 0
                    (fn [s :- Sk] (den chkf dec encTy n tl (List.cons Sk Sk.lbl (skels D)) s (Prod.mk l en))) hv)))
+
+;; Transport a carrier along an equality of skeletons.  e : s1 = s2 sends a
+;; value of skeleton s2 to skeleton s1.  Proof irrelevance makes any proof of
+;; s = s act as rfl, so the transport is the identity there; that is what lets
+;; the node step move a cast environment back to the raw one Code.rec builds.
+(kdef carTo
+  (forall [s1 Sk] (forall [s2 Sk] (=> (Eq Sk s1 s2) (=> (Car s2) (Car s1)))))
+  (fn [s1 :- Sk, s2 :- Sk, e :- (Eq Sk s1 s2), v :- (Car s2)]
+    (Eq.ndrec Sk s2 (fn [s :- Sk] (Car s)) v s1 (Eq.symm e))))
+
+;; V(P) at the code a, of a concrete value v, is V(y1Ty P) of v transported
+;; to skel(y1Ty P).  The node context's y₁ entry has that skeleton, not skel P.
+(thm V_y1_val [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+               G :- (List Sk), P :- Exp, der :- (SkJ Bool.true (List.cons Sk Sk.syn G) P Sk.unit),
+               b :- Code, a :- Code, l :- Nat, en :- (HEnv G), K :- Nat, v :- (Car (skel P)),
+               h :- (V chkf dec encTy n P (List.cons Sk Sk.syn G) (Prod.mk a en) K (skel P) v)]
+  (V chkf dec encTy n (y1Ty P) (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))
+     (Prod.mk b (Prod.mk a (Prod.mk l en))) K (skel (y1Ty P))
+     (carTo (skel (y1Ty P)) (skel P) (skel_y1Ty P) v))
+  (have h1 (V chkf dec encTy n P (List.cons Sk Sk.syn G)
+              (envOf chkf dec encTy n (List.cons Sk Sk.syn G) (fn [j :- Nat] (sAt 1 3 j))
+                     (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))
+                     (Prod.mk b (Prod.mk a (Prod.mk l en))))
+              K (skel P) v)
+    (Eq.mpr (congrArg (fn [e :- (HEnv (List.cons Sk Sk.syn G))]
+                        (V chkf dec encTy n P (List.cons Sk Sk.syn G) e K (skel P) v))
+                      (envOf_sAt13 chkf dec encTy n G b a l en)) h))
+  (have h2 (V chkf dec encTy n (y1Ty P) (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))
+              (Prod.mk b (Prod.mk a (Prod.mk l en))) K (skel P) v)
+    (Eq.mpr (V_subst chkf dec encTy n (List.cons Sk Sk.syn G) P der
+                     (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))
+                     (fn [j :- Nat] (sAt 1 3 j)) (Prod.mk b (Prod.mk a (Prod.mk l en)))
+                     (subOK_sAt13 G) K v) h1))
+  (exact (Eq.rec Sk (skel P)
+           (fn [s :- Sk, hq :- (Eq Sk (skel P) s)]
+             (V chkf dec encTy n (y1Ty P) (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G)))
+                (Prod.mk b (Prod.mk a (Prod.mk l en))) K s (carTo s (skel P) (Eq.symm hq) v)))
+           h2 (skel (y1Ty P)) (Eq.symm (skel_y1Ty P)))))
+
+(thm V_y2_val [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+               G :- (List Sk), P :- Exp, der :- (SkJ Bool.true (List.cons Sk Sk.syn G) P Sk.unit), s :- Sk,
+               ya :- (Car s), b :- Code, a :- Code, l :- Nat, en :- (HEnv G), K :- Nat, v :- (Car (skel P)),
+               h :- (V chkf dec encTy n P (List.cons Sk Sk.syn G) (Prod.mk b en) K (skel P) v)]
+  (V chkf dec encTy n (y2Ty P)
+     (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G))))
+     (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))) K (skel (y2Ty P))
+     (carTo (skel (y2Ty P)) (skel P) (skel_y2Ty P) v))
+  (have h1 (V chkf dec encTy n P (List.cons Sk Sk.syn G)
+              (envOf chkf dec encTy n (List.cons Sk Sk.syn G) (fn [j :- Nat] (sAt 1 4 j))
+                     (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G))))
+                     (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))))
+              K (skel P) v)
+    (Eq.mpr (congrArg (fn [e :- (HEnv (List.cons Sk Sk.syn G))]
+                        (V chkf dec encTy n P (List.cons Sk Sk.syn G) e K (skel P) v))
+                      (envOf_sAt14 chkf dec encTy n s G ya b a l en)) h))
+  (have h2 (V chkf dec encTy n (y2Ty P)
+              (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G))))
+              (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))) K (skel P) v)
+    (Eq.mpr (V_subst chkf dec encTy n (List.cons Sk Sk.syn G) P der
+                     (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G))))
+                     (fn [j :- Nat] (sAt 1 4 j)) (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en))))
+                     (subOK_sAt14 s G) K v) h1))
+  (exact (Eq.rec Sk (skel P)
+           (fn [s2 :- Sk, hq :- (Eq Sk (skel P) s2)]
+             (V chkf dec encTy n (y2Ty P)
+                (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G))))
+                (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))) K s2 (carTo s2 (skel P) (Eq.symm hq) v)))
+           h2 (skel (y2Ty P)) (Eq.symm (skel_y2Ty P)))))
+
+;; The node method's context at footprint 0.  c₂, c₁ and the label are ω
+;; entries (V at footprint 0: the label below NL, both codes label-ok).  y₁
+;; and y₂ are usage 1 at footprint 0, the recursive results transported to
+;; skel(y1Ty P) and skel(y2Ty P), which is the skeleton those entries have.
+(thm recS_node_sat [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+                    D :- (List Exp), us3 :- (List U), P :- Exp,
+                    der :- (SkJ Bool.true (List.cons Sk Sk.syn (skels D)) P Sk.unit),
+                    en :- (HEnv (skels D)), hs :- (EnvSat chkf dec encTy n D (vscale U.uw us3) en 0),
+                    l :- Nat, a :- Code, b :- Code, ya :- (Car (skel P)), yb :- (Car (skel P)),
+                    hok :- (Eq Bool (Nat.blt l 100) Bool.true),
+                    haOk :- (Eq Bool (lblOk a) Bool.true), hbOk :- (Eq Bool (lblOk b) Bool.true),
+                    ha :- (V chkf dec encTy n P (List.cons Sk Sk.syn (skels D)) (Prod.mk a en) 0 (skel P) ya),
+                    hb :- (V chkf dec encTy n P (List.cons Sk Sk.syn (skels D)) (Prod.mk b en) 0 (skel P) yb)]
+  (EnvSat chkf dec encTy n
+     (List.cons Exp (y2Ty P) (List.cons Exp (y1Ty P) (List.cons Exp Exp.tSyn (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D)))))
+     (List.cons U U.u1 (List.cons U U.u1 (List.cons U U.uw (List.cons U U.uw (List.cons U U.uw (vscale U.uw us3))))))
+     (Prod.mk (carTo (skel (y2Ty P)) (skel P) (skel_y2Ty P) yb)
+       (Prod.mk (carTo (skel (y1Ty P)) (skel P) (skel_y1Ty P) ya)
+         (Prod.mk b (Prod.mk a (Prod.mk l en)))))
+     0)
+  (have hbl (Eq Bool (Nat.ble (+ l 1) 100) Bool.true) hok)
+  (have heL (EntryOK U.uw 0 (fn [jx :- Nat] (V chkf dec encTy n Exp.tLbl (skels D) en jx (skel Exp.tLbl) l)))
+    (And.intro (Eq.refl$1 Nat.zero) (Nat.le_of_ble_eq_true hbl)))
+  (have hsL (EnvSat chkf dec encTy n (List.cons Exp Exp.tLbl D) (List.cons U U.uw (vscale U.uw us3)) (Prod.mk l en) 0)
+    (EnvSat_cons chkf dec encTy n Exp.tLbl D U.uw (vscale U.uw us3) l en 0 0 hs heL))
+  (have heA (EntryOK U.uw 0 (fn [jx :- Nat] (V chkf dec encTy n Exp.tSyn (skels (List.cons Exp Exp.tLbl D)) (Prod.mk l en) jx (skel Exp.tSyn) a)))
+    (And.intro (Eq.refl$1 Nat.zero) haOk))
+  (have hsA (EnvSat chkf dec encTy n (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D))
+                    (List.cons U U.uw (List.cons U U.uw (vscale U.uw us3))) (Prod.mk a (Prod.mk l en)) 0)
+    (EnvSat_cons chkf dec encTy n Exp.tSyn (List.cons Exp Exp.tLbl D) U.uw (List.cons U U.uw (vscale U.uw us3)) a (Prod.mk l en) 0 0 hsL heA))
+  (have heB (EntryOK U.uw 0 (fn [jx :- Nat] (V chkf dec encTy n Exp.tSyn (skels (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D))) (Prod.mk a (Prod.mk l en)) jx (skel Exp.tSyn) b)))
+    (And.intro (Eq.refl$1 Nat.zero) hbOk))
+  (have hsB (EnvSat chkf dec encTy n (List.cons Exp Exp.tSyn (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D)))
+                    (List.cons U U.uw (List.cons U U.uw (List.cons U U.uw (vscale U.uw us3)))) (Prod.mk b (Prod.mk a (Prod.mk l en))) 0)
+    (EnvSat_cons chkf dec encTy n Exp.tSyn (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D)) U.uw
+                 (List.cons U U.uw (List.cons U U.uw (vscale U.uw us3))) b (Prod.mk a (Prod.mk l en)) 0 0 hsA heB))
+  (have hsY1 (EnvSat chkf dec encTy n (List.cons Exp (y1Ty P) (List.cons Exp Exp.tSyn (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D))))
+                     (List.cons U U.u1 (List.cons U U.uw (List.cons U U.uw (List.cons U U.uw (vscale U.uw us3)))))
+                     (Prod.mk (carTo (skel (y1Ty P)) (skel P) (skel_y1Ty P) ya) (Prod.mk b (Prod.mk a (Prod.mk l en)))) 0)
+    (EnvSat_cons chkf dec encTy n (y1Ty P) (List.cons Exp Exp.tSyn (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D))) U.u1
+                 (List.cons U U.uw (List.cons U U.uw (List.cons U U.uw (vscale U.uw us3))))
+                 (carTo (skel (y1Ty P)) (skel P) (skel_y1Ty P) ya) (Prod.mk b (Prod.mk a (Prod.mk l en))) 0 0 hsB
+                 (V_y1_val chkf dec encTy n (skels D) P der b a l en 0 ya ha)))
+  (exact (EnvSat_cons chkf dec encTy n (y2Ty P)
+            (List.cons Exp (y1Ty P) (List.cons Exp Exp.tSyn (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D)))) U.u1
+            (List.cons U U.u1 (List.cons U U.uw (List.cons U U.uw (List.cons U U.uw (vscale U.uw us3)))))
+            (carTo (skel (y2Ty P)) (skel P) (skel_y2Ty P) yb)
+            (Prod.mk (carTo (skel (y1Ty P)) (skel P) (skel_y1Ty P) ya) (Prod.mk b (Prod.mk a (Prod.mk l en)))) 0 0 hsY1
+            (V_y2_val chkf dec encTy n (skels D) P der (skel (y1Ty P))
+                      (carTo (skel (y1Ty P)) (skel P) (skel_y1Ty P) ya) b a l en 0 yb hb))))
