@@ -47,7 +47,8 @@
             [lcert.formal.skof :refer :all]
             [lcert.formal.fundamental :refer :all]
             [lcert.formal.model :refer :all]
-            [lcert.formal.syntactic :refer :all]))
+            [lcert.formal.syntactic :refer :all]
+            [lcert.formal.conversion :refer [getP_nil setP_nil]]))
 
 ;; --- the canonical code term ⌜c⌝ -------------------------------------------------------
 
@@ -778,13 +779,10 @@
 
 ;; --- the conversion under T(chk′) -------------------------------------------------------
 ;; A Step is a path, a head redex and its contractum (conv.clj).  At the
-;; empty path, getP and setP are the identity.  Those two equations live in
-;; conversion.clj, which this namespace does not require, so they are
-;; restated.  One-child steps are packed from the child and setKid equations.
-(thm getP_nil [e :- Exp] (Eq (Option Exp) (getP (List.nil Nat) e) (Option.some Exp e)) (rfl))
-
-(thm setP_nil [e :- Exp, x :- Exp] (Eq Exp (setP (List.nil Nat) e x) x) (rfl))
-
+;; empty path, getP and setP are the identity: getP_nil and setP_nil from
+;; conversion.clj.  The kernel has one global constant environment, so
+;; those equations are not restated here.  One-child steps are packed from
+;; the child and setKid equations.
 (thm child_tT [b :- Exp] (Eq (Option Exp) (child (Exp.tT b) 0) (Option.some Exp b)) (rfl))
 
 (thm set_tT [b :- Exp, x :- Exp] (Eq Exp (setKid (Exp.tT b) 0 x) (Exp.tT x)) (rfl))
