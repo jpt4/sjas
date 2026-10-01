@@ -1619,3 +1619,68 @@
            her hec w1 he1 hr1 w2 he2 hr2
            (chkf (den chkf dec encTy n r G Sk.cert eta) (den chkf dec encTy n c G Sk.syn eta))
            Unit.unit rfl)))
+
+;; let (Theorem 4), when skOf of the scrutinee is the product the typing
+;; assigned.  den_letp_some is the body under (second, (first, η)).  The
+;; product clause of rel supplies the two components; envRel_cons extends
+;; the environment in that order (variable 0 is the second component).
+(thm adeq_let
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), n :- Nat, G :- (List Sk),
+   C :- Exp, p :- Exp, t :- Exp, sa :- Sk, sb :- Sk, s :- Sk,
+   rho :- (List RV), eta :- (HEnv G),
+   hr :- (envRel chkf dec encTy n G rho eta),
+   hsu :- (Eq (Option Sk) (skOf G p) (Option.some Sk (Sk.prod sa sb))),
+   ihp :- (Exists (fn [vp :- RV]
+            (And (Eval chkf dec encTy n rho p vp)
+                 (rel chkf dec encTy n (Sk.prod sa sb) vp
+                   (den chkf dec encTy n p G (Sk.prod sa sb) eta))))),
+   iht :- (forall [rho2 (List RV)]
+            (forall [eta2 (HEnv (List.cons Sk sb (List.cons Sk sa G)))]
+              (=> (envRel chkf dec encTy n (List.cons Sk sb (List.cons Sk sa G)) rho2 eta2)
+                (Exists (fn [w :- RV]
+                  (And (Eval chkf dec encTy n rho2 t w)
+                       (rel chkf dec encTy n s w
+                         (den chkf dec encTy n t (List.cons Sk sb (List.cons Sk sa G)) s eta2))))))))]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy n rho (Exp.letp C p t) v)
+         (rel chkf dec encTy n s v (den chkf dec encTy n (Exp.letp C p t) G s eta)))))
+  (rw [(den_letp_some chkf dec encTy n C p t G sa sb s eta hsu)])
+  (refine' (exT RV _ _ ihp _)) (intro vp hp)
+  (have hep (Eval chkf dec encTy n rho p vp) (And.left hp))
+  (have hrp (rel chkf dec encTy n (Sk.prod sa sb) vp (den chkf dec encTy n p G (Sk.prod sa sb) eta)) (And.right hp))
+  (refine' (exT RV _ _ hrp _)) (intro va ha)
+  (refine' (exT RV _ _ ha _)) (intro vb hb)
+  (have heq (Eq RV vp (RV.pair va vb)) (And.left hb))
+  (have hra (rel chkf dec encTy n sa va (Prod.fst (den chkf dec encTy n p G (Sk.prod sa sb) eta))) (And.left (And.right hb)))
+  (have hrb (rel chkf dec encTy n sb vb (Prod.snd (den chkf dec encTy n p G (Sk.prod sa sb) eta))) (And.right (And.right hb)))
+  (have hep2 (Eval chkf dec encTy n rho p (RV.pair va vb))
+    (eval_cast chkf dec encTy n rho p vp (RV.pair va vb) hep heq))
+  (have henv1 (envRel chkf dec encTy n (List.cons Sk sa G) (List.cons RV va rho)
+                (Prod.mk (Prod.fst (den chkf dec encTy n p G (Sk.prod sa sb) eta)) eta))
+    (envRel_cons chkf dec encTy n sa G va rho
+      (Prod.fst (den chkf dec encTy n p G (Sk.prod sa sb) eta)) eta hra hr))
+  (have henv2 (envRel chkf dec encTy n (List.cons Sk sb (List.cons Sk sa G))
+                (List.cons RV vb (List.cons RV va rho))
+                (Prod.mk (Prod.snd (den chkf dec encTy n p G (Sk.prod sa sb) eta))
+                  (Prod.mk (Prod.fst (den chkf dec encTy n p G (Sk.prod sa sb) eta)) eta)))
+    (envRel_cons chkf dec encTy n sb (List.cons Sk sa G) vb (List.cons RV va rho)
+      (Prod.snd (den chkf dec encTy n p G (Sk.prod sa sb) eta))
+      (Prod.mk (Prod.fst (den chkf dec encTy n p G (Sk.prod sa sb) eta)) eta)
+      hrb henv1))
+  (refine' (exT RV _ _
+    (iht (List.cons RV vb (List.cons RV va rho))
+         (Prod.mk (Prod.snd (den chkf dec encTy n p G (Sk.prod sa sb) eta))
+           (Prod.mk (Prod.fst (den chkf dec encTy n p G (Sk.prod sa sb) eta)) eta))
+         henv2) _))
+  (intro w hw)
+  (have het (Eval chkf dec encTy n (List.cons RV vb (List.cons RV va rho)) t w) (And.left hw))
+  (have hrel (rel chkf dec encTy n s w
+               (den chkf dec encTy n t (List.cons Sk sb (List.cons Sk sa G)) s
+                 (Prod.mk (Prod.snd (den chkf dec encTy n p G (Sk.prod sa sb) eta))
+                   (Prod.mk (Prod.fst (den chkf dec encTy n p G (Sk.prod sa sb) eta)) eta))))
+    (And.right hw))
+  (constructor) (exact w)
+  (constructor)
+  (exact (Ev.eLet chkf dec encTy n rho C p t va vb w hep2 het))
+  (exact hrel))
