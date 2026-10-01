@@ -496,7 +496,9 @@
                 step_pack
                 V_tT_den V_tTT_gen V_tTF_gen step_V_tT_nil step_V_tT_b step_V_tT
                 V_pi_at V_pi_at_cast V_pi_dom
-                pi_no_head V_pi_at_bcst V_pi_cod step_V_pi]]
+                pi_no_head V_pi_at_bcst V_pi_cod step_V_pi
+                V_sig_at sig_no_head V_sig_at_cast V_sig_dom
+                V_sig_at_bcst V_sig_cod step_V_sig]]
       (is (b/has? c) (str c))))
   (testing "a childless term has no child to step in"
     (is (b/rejects? '[]
