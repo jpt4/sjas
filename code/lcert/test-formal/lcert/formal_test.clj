@@ -638,6 +638,7 @@
                 ebase_unit eve_star ok_star
                 er_app0_shape er_pair0_shape er_total
                 usk_skel e_star e_tt e_ff e_zero e_lbl ebase_dflt ebase_rel
+                erdflt_arr0 erdflt_arrN erdflt_prod0 erdflt_prodN
                 nz_uadd nz_umul nz_vadd nz_vscale]]
       (is (b/has? c) (str c))))
   (testing "⋆ is not an abort, and a Π₀ type is not the runtime arrow"

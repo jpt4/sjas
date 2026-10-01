@@ -1523,3 +1523,89 @@
   (cases i)
   (exact (nz_vscale_z r hr head tail h))
   (exact (nz_vscale_s r hr head tail n (ih_tail n) h)))
+
+
+;; Defaults are related (Theorem 4′, the defaults paragraph).  At a base
+;; skeleton this is ebase_dflt.  At Π₀ the default closure is applied to ⋆;
+;; at Π₁/Πω it is applied to a related argument and ignores it.  At Σ₀ the
+;; first component of the pair of defaults is forgotten; at Σ₁/Σω both
+;; components are related.
+
+(thm erdflt_arr0
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, d :- USk, c :- USk,
+   hc :- (Erel chkf dec encTy n c (rdflt (uskSk c)) (dflt (uskSk c)))]
+  (Erel chkf dec encTy n (USk.arr0 d c)
+    (rdflt (Sk.arr (uskSk d) (uskSk c)))
+    (dflt (Sk.arr (uskSk d) (uskSk c))))
+  (intro alpha)
+  (constructor)
+  (exact (rdflt (skel (reifySk (uskSk c)))))
+  (constructor)
+  (exact (EvE.apClos chkf dec encTy n (List.nil RV)
+           (Exp.abort (reifySk (uskSk c)) Exp.star) RV.star
+           (rdflt (skel (reifySk (uskSk c))))
+           (EvE.eAbort chkf dec encTy n
+             (List.cons RV RV.star (List.nil RV))
+             (reifySk (uskSk c)) Exp.star RV.star
+             (EvE.eStar chkf dec encTy n
+               (List.cons RV RV.star (List.nil RV))))))
+  (rw [(dflt_arr (uskSk d) (uskSk c) alpha)])
+  (rw [(congrArg rdflt (skel_reify (uskSk c)))])
+  (exact hc))
+
+(thm erdflt_arrN
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, d :- USk, c :- USk,
+   hc :- (Erel chkf dec encTy n c (rdflt (uskSk c)) (dflt (uskSk c)))]
+  (Erel chkf dec encTy n (USk.arrN d c)
+    (rdflt (Sk.arr (uskSk d) (uskSk c)))
+    (dflt (Sk.arr (uskSk d) (uskSk c))))
+  (intro arg) (intro alpha) (intro _harg)
+  (constructor)
+  (exact (rdflt (skel (reifySk (uskSk c)))))
+  (constructor)
+  (exact (EvE.apClos chkf dec encTy n (List.nil RV)
+           (Exp.abort (reifySk (uskSk c)) Exp.star) arg
+           (rdflt (skel (reifySk (uskSk c))))
+           (EvE.eAbort chkf dec encTy n
+             (List.cons RV arg (List.nil RV))
+             (reifySk (uskSk c)) Exp.star RV.star
+             (EvE.eStar chkf dec encTy n
+               (List.cons RV arg (List.nil RV))))))
+  (rw [(dflt_arr (uskSk d) (uskSk c) alpha)])
+  (rw [(congrArg rdflt (skel_reify (uskSk c)))])
+  (exact hc))
+
+(thm erdflt_prod0
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, d :- USk, c :- USk,
+   hc :- (Erel chkf dec encTy n c (rdflt (uskSk c)) (dflt (uskSk c)))]
+  (Erel chkf dec encTy n (USk.prod0 d c)
+    (rdflt (Sk.prod (uskSk d) (uskSk c)))
+    (dflt (Sk.prod (uskSk d) (uskSk c))))
+  (constructor) (exact (rdflt (uskSk d)))
+  (constructor) (exact (rdflt (uskSk c)))
+  (constructor) (rfl)
+  (exact hc))
+
+(thm erdflt_prodN
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, d :- USk, c :- USk,
+   hd :- (Erel chkf dec encTy n d (rdflt (uskSk d)) (dflt (uskSk d))),
+   hc :- (Erel chkf dec encTy n c (rdflt (uskSk c)) (dflt (uskSk c)))]
+  (Erel chkf dec encTy n (USk.prodN d c)
+    (rdflt (Sk.prod (uskSk d) (uskSk c)))
+    (dflt (Sk.prod (uskSk d) (uskSk c))))
+  (constructor) (exact (rdflt (uskSk d)))
+  (constructor) (exact (rdflt (uskSk c)))
+  (constructor) (rfl)
+  (constructor) (exact hd) (exact hc))
