@@ -3,9 +3,12 @@
 
   eval.clj states Adeq and Theorem_4 and proves one lemma per SkJ term
   constructor (adeq_*).  Two obligations were left open there.  This
-  namespace discharges both: skOf agrees with simple typing off the
-  branch-list spine, and a derivable term has argsOK (so reflect's decoded
-  term can be fed to Adeq).
+  namespace discharges both, then proves Theorem 4.  skOf agrees with
+  simple typing off the branch-list spine, and a derivable term has argsOK.
+  adeq_skj inducts on SkJ, feeding the adequacy lemmas; the budget induction
+  is strong because reflect decodes a certificate at a smaller budget.
+  theorem4_spec inhabits the constant Theorem_4.  corollary51 is Corollary
+  5.1, with ConvCase kept as a hypothesis.
 
   skOf (carrier.clj) reads one skeleton off a term.  On a branch list it
   returns none: sBnil and sBcons type bnil and bcons at every skeleton
@@ -40,7 +43,8 @@
             [lcert.formal.eval]
             [lcert.formal.skeletons]
             [lcert.formal.skof]
-            [lcert.formal.substitution]))
+            [lcert.formal.substitution]
+            [lcert.formal.lemma36]))
 
 ;; --- the clauses of skOf that inspect a recursive result ----------------------
 
@@ -721,3 +725,1105 @@
            (baseSk_base D hb) ihr ie hc hd hlt hdec)))
 
 (println :refl-asm-ok)
+
+;; --- Theorem 4 ----------------------------------------------------------------
+;;
+;; Each SkJ term constructor is one lemma (case_*).  adeq_skj is the inner
+;; induction; adeq_from_below / below_succ / adeq_below_all are the strong
+;; induction on the budget (reflect is the only appeal to a smaller budget).
+;; theorem4 is that statement; theorem4_spec is the constant Theorem_4 in
+;; eval.clj, which reduces to it.  corollary51 is Corollary 5.1: at a base
+;; data type the value is the canonical form of an element of V(D).
+
+(thm case_abort
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk), A :- Exp, t :- Exp,
+   iht :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G t) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 t v)
+                         (rel chkf dec encTy cap Sk.unit v (den chkf dec encTy cap t G Sk.unit eta2)))))))))),
+   hok :- (Eq Bool (argsOK G t) Bool.true),
+   rho :- (List RV), eta :- (HEnv G),
+   henv :- (envRel chkf dec encTy cap G rho eta)]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy cap rho (Exp.abort A t) v)
+         (rel chkf dec encTy cap (skel A) v (den chkf dec encTy cap (Exp.abort A t) G (skel A) eta)))))
+  (have ie := (iht rfl hok rho eta henv))
+  (refine' (exT RV _ _ ie _))
+  (intro vt hv)
+  (exact (adeq_abort chkf dec encTy cap G A t rho eta vt (And.left hv))))
+
+(thm case_ite
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+   b :- Exp, t :- Exp, e :- Exp, s :- Sk,
+   ihb :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G b) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 b v)
+                         (rel chkf dec encTy cap Sk.bool v (den chkf dec encTy cap b G Sk.bool eta2)))))))))),
+   iht :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G t) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 t v)
+                         (rel chkf dec encTy cap s v (den chkf dec encTy cap t G s eta2)))))))))),
+   ihe :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G e) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 e v)
+                         (rel chkf dec encTy cap s v (den chkf dec encTy cap e G s eta2)))))))))),
+   hok :- (Eq Bool (Bool.and (argsOK G b) (Bool.and (argsOK G t) (argsOK G e))) Bool.true),
+   rho :- (List RV), eta :- (HEnv G),
+   henv :- (envRel chkf dec encTy cap G rho eta)]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy cap rho (Exp.ite b t e) v)
+         (rel chkf dec encTy cap s v (den chkf dec encTy cap (Exp.ite b t e) G s eta)))))
+  (exact (adeq_ite_den chkf dec encTy cap G b t e s rho eta
+           (ihb rfl (andb_left (argsOK G b) (Bool.and (argsOK G t) (argsOK G e)) hok) rho eta henv)
+           (iht rfl (andb_left (argsOK G t) (argsOK G e)
+                      (andb_right (argsOK G b) (Bool.and (argsOK G t) (argsOK G e)) hok)) rho eta henv)
+           (ihe rfl (andb_right (argsOK G t) (argsOK G e)
+                      (andb_right (argsOK G b) (Bool.and (argsOK G t) (argsOK G e)) hok)) rho eta henv))))
+
+(thm case_elim
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+   P :- Exp, b :- Exp, t :- Exp, e :- Exp,
+   ihb :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G b) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 b v)
+                         (rel chkf dec encTy cap Sk.bool v (den chkf dec encTy cap b G Sk.bool eta2)))))))))),
+   iht :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G t) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 t v)
+                         (rel chkf dec encTy cap (skel P) v (den chkf dec encTy cap t G (skel P) eta2)))))))))),
+   ihe :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G e) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 e v)
+                         (rel chkf dec encTy cap (skel P) v (den chkf dec encTy cap e G (skel P) eta2)))))))))),
+   hok :- (Eq Bool (Bool.and (argsOK G b) (Bool.and (argsOK G t) (argsOK G e))) Bool.true),
+   rho :- (List RV), eta :- (HEnv G),
+   henv :- (envRel chkf dec encTy cap G rho eta)]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy cap rho (Exp.elimB P b t e) v)
+         (rel chkf dec encTy cap (skel P) v (den chkf dec encTy cap (Exp.elimB P b t e) G (skel P) eta)))))
+  (exact (adeq_elim_den chkf dec encTy cap G P b t e rho eta
+           (ihb rfl (andb_left (argsOK G b) (Bool.and (argsOK G t) (argsOK G e)) hok) rho eta henv)
+           (iht rfl (andb_left (argsOK G t) (argsOK G e)
+                      (andb_right (argsOK G b) (Bool.and (argsOK G t) (argsOK G e)) hok)) rho eta henv)
+           (ihe rfl (andb_right (argsOK G t) (argsOK G e)
+                      (andb_right (argsOK G b) (Bool.and (argsOK G t) (argsOK G e)) hok)) rho eta henv))))
+
+(thm case_succ
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk), n :- Exp,
+   ih :- (=> (Eq Bool Bool.false Bool.false)
+           (=> (Eq Bool (argsOK G n) Bool.true)
+             (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+               (=> (envRel chkf dec encTy cap G rho2 eta2)
+                 (Exists (fn [v :- RV]
+                   (And (Eval chkf dec encTy cap rho2 n v)
+                        (rel chkf dec encTy cap Sk.nat v (den chkf dec encTy cap n G Sk.nat eta2)))))))))),
+   hok :- (Eq Bool (argsOK G n) Bool.true),
+   rho :- (List RV), eta :- (HEnv G),
+   henv :- (envRel chkf dec encTy cap G rho eta)]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy cap rho (Exp.succ n) v)
+         (rel chkf dec encTy cap Sk.nat v (den chkf dec encTy cap (Exp.succ n) G Sk.nat eta)))))
+  (have ie := (ih rfl hok rho eta henv))
+  (refine' (exT RV _ _ ie _))
+  (intro vt hv)
+  (exact (adeq_succ chkf dec encTy cap G n rho eta vt (And.left hv) (And.right hv))))
+
+(thm case_recN
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+   P :- Exp, z :- Exp, st :- Exp, n :- Exp,
+   ihz :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G z) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 z v)
+                         (rel chkf dec encTy cap (skel P) v (den chkf dec encTy cap z G (skel P) eta2)))))))))),
+   ihs :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK (sk2 (skel P) Sk.nat G) st) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv (sk2 (skel P) Sk.nat G))]
+                (=> (envRel chkf dec encTy cap (sk2 (skel P) Sk.nat G) rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 st v)
+                         (rel chkf dec encTy cap (skel P) v
+                           (den chkf dec encTy cap st (sk2 (skel P) Sk.nat G) (skel P) eta2)))))))))),
+   ihn :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G n) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 n v)
+                         (rel chkf dec encTy cap Sk.nat v (den chkf dec encTy cap n G Sk.nat eta2)))))))))),
+   hok :- (Eq Bool
+            (Bool.and (argsOK G z)
+              (Bool.and (argsOK G n) (argsOK (sk2 (skel P) Sk.nat G) st)))
+            Bool.true),
+   rho :- (List RV), eta :- (HEnv G),
+   henv :- (envRel chkf dec encTy cap G rho eta)]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy cap rho (Exp.recN P z st n) v)
+         (rel chkf dec encTy cap (skel P) v (den chkf dec encTy cap (Exp.recN P z st n) G (skel P) eta)))))
+  (exact (adeq_recN chkf dec encTy cap G P z st n (skel P) rho eta henv
+           (ihn rfl
+             (andb_left (argsOK G n) (argsOK (sk2 (skel P) Sk.nat G) st)
+               (andb_right (argsOK G z)
+                 (Bool.and (argsOK G n) (argsOK (sk2 (skel P) Sk.nat G) st)) hok))
+             rho eta henv)
+           (ihz rfl
+             (andb_left (argsOK G z)
+               (Bool.and (argsOK G n) (argsOK (sk2 (skel P) Sk.nat G) st)) hok)
+             rho eta henv)
+           (ihs rfl
+             (andb_right (argsOK G n) (argsOK (sk2 (skel P) Sk.nat G) st)
+               (andb_right (argsOK G z)
+                 (Bool.and (argsOK G n) (argsOK (sk2 (skel P) Sk.nat G) st)) hok))))))
+
+(thm case_caseL
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+   P :- Exp, x :- Exp, bs :- Exp,
+   ihx :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G x) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 x v)
+                         (rel chkf dec encTy cap Sk.lbl v (den chkf dec encTy cap x G Sk.lbl eta2)))))))))),
+   ihb :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G bs) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 bs v)
+                         (rel chkf dec encTy cap (Sk.arr Sk.lbl (skel P)) v
+                           (den chkf dec encTy cap bs G (Sk.arr Sk.lbl (skel P)) eta2)))))))))),
+   hok :- (Eq Bool (Bool.and (argsOK G x) (argsOK G bs)) Bool.true),
+   rho :- (List RV), eta :- (HEnv G),
+   henv :- (envRel chkf dec encTy cap G rho eta)]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy cap rho (Exp.caseL P x bs) v)
+         (rel chkf dec encTy cap (skel P) v (den chkf dec encTy cap (Exp.caseL P x bs) G (skel P) eta)))))
+  (exact (adeq_caseL chkf dec encTy cap G P x bs (skel P) rho eta
+           (ihx rfl (andb_left (argsOK G x) (argsOK G bs) hok) rho eta henv)
+           (ihb rfl (andb_right (argsOK G x) (argsOK G bs) hok) rho eta henv))))
+
+(thm case_bcons
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+   h :- Exp, t :- Exp, s :- Sk,
+   ihh :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G h) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 h v)
+                         (rel chkf dec encTy cap s v (den chkf dec encTy cap h G s eta2)))))))))),
+   iht :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G t) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 t v)
+                         (rel chkf dec encTy cap (Sk.arr Sk.lbl s) v
+                           (den chkf dec encTy cap t G (Sk.arr Sk.lbl s) eta2)))))))))),
+   hok :- (Eq Bool (Bool.and (argsOK G h) (argsOK G t)) Bool.true),
+   rho :- (List RV), eta :- (HEnv G),
+   henv :- (envRel chkf dec encTy cap G rho eta)]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy cap rho (Exp.bcons h t) v)
+         (rel chkf dec encTy cap (Sk.arr Sk.lbl s) v
+           (den chkf dec encTy cap (Exp.bcons h t) G (Sk.arr Sk.lbl s) eta)))))
+  (exact (adeq_bcons chkf dec encTy cap G h t s rho eta
+           (ihh rfl (andb_left (argsOK G h) (argsOK G t) hok) rho eta henv)
+           (iht rfl (andb_right (argsOK G h) (argsOK G t) hok) rho eta henv))))
+
+(thm case_snode
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+   x :- Exp, c1 :- Exp, c2 :- Exp,
+   ihx :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G x) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 x v)
+                         (rel chkf dec encTy cap Sk.lbl v (den chkf dec encTy cap x G Sk.lbl eta2)))))))))),
+   ih1 :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G c1) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 c1 v)
+                         (rel chkf dec encTy cap Sk.syn v (den chkf dec encTy cap c1 G Sk.syn eta2)))))))))),
+   ih2 :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G c2) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 c2 v)
+                         (rel chkf dec encTy cap Sk.syn v (den chkf dec encTy cap c2 G Sk.syn eta2)))))))))),
+   hok :- (Eq Bool (Bool.and (argsOK G x) (Bool.and (argsOK G c1) (argsOK G c2))) Bool.true),
+   rho :- (List RV), eta :- (HEnv G),
+   henv :- (envRel chkf dec encTy cap G rho eta)]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy cap rho (Exp.snode x c1 c2) v)
+         (rel chkf dec encTy cap Sk.syn v (den chkf dec encTy cap (Exp.snode x c1 c2) G Sk.syn eta)))))
+  (exact (adeq_snode chkf dec encTy cap G x c1 c2 rho eta
+           (ihx rfl (andb_left (argsOK G x) (Bool.and (argsOK G c1) (argsOK G c2)) hok) rho eta henv)
+           (ih1 rfl (andb_left (argsOK G c1) (argsOK G c2)
+                      (andb_right (argsOK G x) (Bool.and (argsOK G c1) (argsOK G c2)) hok)) rho eta henv)
+           (ih2 rfl (andb_right (argsOK G c1) (argsOK G c2)
+                      (andb_right (argsOK G x) (Bool.and (argsOK G c1) (argsOK G c2)) hok)) rho eta henv))))
+
+(thm case_recS
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+   P :- Exp, tl :- Exp, tn :- Exp, c :- Exp,
+   ihl :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK (List.cons Sk Sk.lbl G) tl) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv (List.cons Sk Sk.lbl G))]
+                (=> (envRel chkf dec encTy cap (List.cons Sk Sk.lbl G) rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 tl v)
+                         (rel chkf dec encTy cap (skel P) v
+                           (den chkf dec encTy cap tl (List.cons Sk Sk.lbl G) (skel P) eta2)))))))))),
+   ihn :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK (sk2 (skel P) (skel P) (sk2 Sk.syn Sk.syn (List.cons Sk Sk.lbl G))) tn) Bool.true)
+              (forall [rho2 (List RV)]
+                (forall [eta2 (HEnv (sk2 (skel P) (skel P) (sk2 Sk.syn Sk.syn (List.cons Sk Sk.lbl G))))]
+                  (=> (envRel chkf dec encTy cap
+                        (sk2 (skel P) (skel P) (sk2 Sk.syn Sk.syn (List.cons Sk Sk.lbl G))) rho2 eta2)
+                    (Exists (fn [v :- RV]
+                      (And (Eval chkf dec encTy cap rho2 tn v)
+                           (rel chkf dec encTy cap (skel P) v
+                             (den chkf dec encTy cap tn
+                               (sk2 (skel P) (skel P) (sk2 Sk.syn Sk.syn (List.cons Sk Sk.lbl G)))
+                               (skel P) eta2)))))))))),
+   ihc :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G c) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 c v)
+                         (rel chkf dec encTy cap Sk.syn v (den chkf dec encTy cap c G Sk.syn eta2)))))))))),
+   hok :- (Eq Bool
+            (Bool.and (argsOK G c)
+              (Bool.and (argsOK (List.cons Sk Sk.lbl G) tl)
+                (argsOK (sk2 (skel P) (skel P) (sk2 Sk.syn Sk.syn (List.cons Sk Sk.lbl G))) tn)))
+            Bool.true),
+   rho :- (List RV), eta :- (HEnv G),
+   henv :- (envRel chkf dec encTy cap G rho eta)]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy cap rho (Exp.recS P tl tn c) v)
+         (rel chkf dec encTy cap (skel P) v (den chkf dec encTy cap (Exp.recS P tl tn c) G (skel P) eta)))))
+  (exact (adeq_recS chkf dec encTy cap G P tl tn c (skel P) rho eta henv
+           (ihc rfl
+             (andb_left (argsOK G c)
+               (Bool.and (argsOK (List.cons Sk Sk.lbl G) tl)
+                 (argsOK (sk2 (skel P) (skel P) (sk2 Sk.syn Sk.syn (List.cons Sk Sk.lbl G))) tn))
+               hok)
+             rho eta henv)
+           (ihl rfl
+             (andb_left (argsOK (List.cons Sk Sk.lbl G) tl)
+               (argsOK (sk2 (skel P) (skel P) (sk2 Sk.syn Sk.syn (List.cons Sk Sk.lbl G))) tn)
+               (andb_right (argsOK G c)
+                 (Bool.and (argsOK (List.cons Sk Sk.lbl G) tl)
+                   (argsOK (sk2 (skel P) (skel P) (sk2 Sk.syn Sk.syn (List.cons Sk Sk.lbl G))) tn))
+                 hok)))
+           (ihn rfl
+             (andb_right (argsOK (List.cons Sk Sk.lbl G) tl)
+               (argsOK (sk2 (skel P) (skel P) (sk2 Sk.syn Sk.syn (List.cons Sk Sk.lbl G))) tn)
+               (andb_right (argsOK G c)
+                 (Bool.and (argsOK (List.cons Sk Sk.lbl G) tl)
+                   (argsOK (sk2 (skel P) (skel P) (sk2 Sk.syn Sk.syn (List.cons Sk Sk.lbl G))) tn))
+                 hok))))))
+
+(thm case_node
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+   d :- Exp, x :- Exp, r1 :- Exp, r2 :- Exp,
+   ihd :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G d) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 d v)
+                         (rel chkf dec encTy cap Sk.dia v (den chkf dec encTy cap d G Sk.dia eta2)))))))))),
+   ihx :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G x) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 x v)
+                         (rel chkf dec encTy cap Sk.lbl v (den chkf dec encTy cap x G Sk.lbl eta2)))))))))),
+   ih1 :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G r1) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 r1 v)
+                         (rel chkf dec encTy cap Sk.cert v (den chkf dec encTy cap r1 G Sk.cert eta2)))))))))),
+   ih2 :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G r2) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 r2 v)
+                         (rel chkf dec encTy cap Sk.cert v (den chkf dec encTy cap r2 G Sk.cert eta2)))))))))),
+   hok :- (Eq Bool
+            (Bool.and (argsOK G d)
+              (Bool.and (argsOK G x) (Bool.and (argsOK G r1) (argsOK G r2))))
+            Bool.true),
+   rho :- (List RV), eta :- (HEnv G),
+   henv :- (envRel chkf dec encTy cap G rho eta)]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy cap rho (Exp.node d x r1 r2) v)
+         (rel chkf dec encTy cap Sk.cert v (den chkf dec encTy cap (Exp.node d x r1 r2) G Sk.cert eta)))))
+  (exact (adeq_node chkf dec encTy cap G d x r1 r2 rho eta
+           (eval_only chkf dec encTy cap rho d Sk.dia G eta
+             (ihd rfl
+               (andb_left (argsOK G d)
+                 (Bool.and (argsOK G x) (Bool.and (argsOK G r1) (argsOK G r2))) hok)
+               rho eta henv))
+           (ihx rfl
+             (andb_left (argsOK G x) (Bool.and (argsOK G r1) (argsOK G r2))
+               (andb_right (argsOK G d)
+                 (Bool.and (argsOK G x) (Bool.and (argsOK G r1) (argsOK G r2))) hok))
+             rho eta henv)
+           (ih1 rfl
+             (andb_left (argsOK G r1) (argsOK G r2)
+               (andb_right (argsOK G x) (Bool.and (argsOK G r1) (argsOK G r2))
+                 (andb_right (argsOK G d)
+                   (Bool.and (argsOK G x) (Bool.and (argsOK G r1) (argsOK G r2))) hok)))
+             rho eta henv)
+           (ih2 rfl
+             (andb_right (argsOK G r1) (argsOK G r2)
+               (andb_right (argsOK G x) (Bool.and (argsOK G r1) (argsOK G r2))
+                 (andb_right (argsOK G d)
+                   (Bool.and (argsOK G x) (Bool.and (argsOK G r1) (argsOK G r2))) hok)))
+             rho eta henv))))
+
+(thm case_itR
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+   X :- Exp, g :- Exp, h :- Exp, r :- Exp,
+   ihg :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G g) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 g v)
+                         (rel chkf dec encTy cap (Sk.arr Sk.lbl (skel X)) v
+                           (den chkf dec encTy cap g G (Sk.arr Sk.lbl (skel X)) eta2)))))))))),
+   ihh :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G h) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 h v)
+                         (rel chkf dec encTy cap
+                           (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr (skel X) (Sk.arr (skel X) (skel X))))) v
+                           (den chkf dec encTy cap h G
+                             (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr (skel X) (Sk.arr (skel X) (skel X)))))
+                             eta2)))))))))),
+   ihr :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G r) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 r v)
+                         (rel chkf dec encTy cap Sk.cert v (den chkf dec encTy cap r G Sk.cert eta2)))))))))),
+   hok :- (Eq Bool (Bool.and (argsOK G g) (Bool.and (argsOK G h) (argsOK G r))) Bool.true),
+   rho :- (List RV), eta :- (HEnv G),
+   henv :- (envRel chkf dec encTy cap G rho eta)]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy cap rho (Exp.itR X g h r) v)
+         (rel chkf dec encTy cap (skel X) v (den chkf dec encTy cap (Exp.itR X g h r) G (skel X) eta)))))
+  (exact (adeq_itR chkf dec encTy cap G X g h r (skel X) rho eta
+           (ihg rfl (andb_left (argsOK G g) (Bool.and (argsOK G h) (argsOK G r)) hok) rho eta henv)
+           (ihh rfl (andb_left (argsOK G h) (argsOK G r)
+                      (andb_right (argsOK G g) (Bool.and (argsOK G h) (argsOK G r)) hok)) rho eta henv)
+           (ihr rfl (andb_right (argsOK G h) (argsOK G r)
+                      (andb_right (argsOK G g) (Bool.and (argsOK G h) (argsOK G r)) hok)) rho eta henv))))
+
+(thm case_sleaf
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk), x :- Exp,
+   ih :- (=> (Eq Bool Bool.false Bool.false)
+           (=> (Eq Bool (argsOK G x) Bool.true)
+             (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+               (=> (envRel chkf dec encTy cap G rho2 eta2)
+                 (Exists (fn [v :- RV]
+                   (And (Eval chkf dec encTy cap rho2 x v)
+                        (rel chkf dec encTy cap Sk.lbl v (den chkf dec encTy cap x G Sk.lbl eta2)))))))))),
+   hok :- (Eq Bool (argsOK G x) Bool.true),
+   rho :- (List RV), eta :- (HEnv G),
+   henv :- (envRel chkf dec encTy cap G rho eta)]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy cap rho (Exp.sleaf x) v)
+         (rel chkf dec encTy cap Sk.syn v (den chkf dec encTy cap (Exp.sleaf x) G Sk.syn eta)))))
+  (exact (adeq_sleaf chkf dec encTy cap G x rho eta (ih rfl hok rho eta henv))))
+
+(thm case_leaf
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk), x :- Exp,
+   ih :- (=> (Eq Bool Bool.false Bool.false)
+           (=> (Eq Bool (argsOK G x) Bool.true)
+             (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+               (=> (envRel chkf dec encTy cap G rho2 eta2)
+                 (Exists (fn [v :- RV]
+                   (And (Eval chkf dec encTy cap rho2 x v)
+                        (rel chkf dec encTy cap Sk.lbl v (den chkf dec encTy cap x G Sk.lbl eta2)))))))))),
+   hok :- (Eq Bool (argsOK G x) Bool.true),
+   rho :- (List RV), eta :- (HEnv G),
+   henv :- (envRel chkf dec encTy cap G rho eta)]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy cap rho (Exp.leaf x) v)
+         (rel chkf dec encTy cap Sk.cert v (den chkf dec encTy cap (Exp.leaf x) G Sk.cert eta)))))
+  (exact (adeq_leaf chkf dec encTy cap G x rho eta (ih rfl hok rho eta henv))))
+
+(thm case_prn
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk), r :- Exp,
+   ih :- (=> (Eq Bool Bool.false Bool.false)
+           (=> (Eq Bool (argsOK G r) Bool.true)
+             (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+               (=> (envRel chkf dec encTy cap G rho2 eta2)
+                 (Exists (fn [v :- RV]
+                   (And (Eval chkf dec encTy cap rho2 r v)
+                        (rel chkf dec encTy cap Sk.cert v (den chkf dec encTy cap r G Sk.cert eta2)))))))))),
+   hok :- (Eq Bool (argsOK G r) Bool.true),
+   rho :- (List RV), eta :- (HEnv G),
+   henv :- (envRel chkf dec encTy cap G rho eta)]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy cap rho (Exp.prn r) v)
+         (rel chkf dec encTy cap Sk.syn v (den chkf dec encTy cap (Exp.prn r) G Sk.syn eta)))))
+  (exact (adeq_prn chkf dec encTy cap G r rho eta (ih rfl hok rho eta henv))))
+
+(thm case_lam
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+   r :- U, A :- Exp, t :- Exp, s :- Sk,
+   iht :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK (List.cons Sk (skel A) G) t) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv (List.cons Sk (skel A) G))]
+                (=> (envRel chkf dec encTy cap (List.cons Sk (skel A) G) rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 t v)
+                         (rel chkf dec encTy cap s v
+                           (den chkf dec encTy cap t (List.cons Sk (skel A) G) s eta2)))))))))),
+   hok :- (Eq Bool (argsOK (List.cons Sk (skel A) G) t) Bool.true),
+   rho :- (List RV), eta :- (HEnv G),
+   henv :- (envRel chkf dec encTy cap G rho eta)]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy cap rho (Exp.lam r A t) v)
+         (rel chkf dec encTy cap (Sk.arr (skel A) s) v
+           (den chkf dec encTy cap (Exp.lam r A t) G (Sk.arr (skel A) s) eta)))))
+  (exact (adeq_lam chkf dec encTy cap G r A t s rho eta henv (iht rfl hok))))
+
+(thm case_pair
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+   r :- U, A :- Exp, B :- Exp, x :- Exp, y :- Exp,
+   ihx :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G x) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 x v)
+                         (rel chkf dec encTy cap (skel A) v (den chkf dec encTy cap x G (skel A) eta2)))))))))),
+   ihy :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G y) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 y v)
+                         (rel chkf dec encTy cap (skel B) v (den chkf dec encTy cap y G (skel B) eta2)))))))))),
+   hok :- (Eq Bool (Bool.and (argsOK G x) (argsOK G y)) Bool.true),
+   rho :- (List RV), eta :- (HEnv G),
+   henv :- (envRel chkf dec encTy cap G rho eta)]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy cap rho (Exp.pair (Exp.tSig r A B) x y) v)
+         (rel chkf dec encTy cap (Sk.prod (skel A) (skel B)) v
+           (den chkf dec encTy cap (Exp.pair (Exp.tSig r A B) x y) G (Sk.prod (skel A) (skel B)) eta)))))
+  (exact (adeq_pair chkf dec encTy cap G r A B x y rho eta
+           (ihx rfl (andb_left (argsOK G x) (argsOK G y) hok) rho eta henv)
+           (ihy rfl (andb_right (argsOK G x) (argsOK G y) hok) rho eta henv))))
+
+(thm case_chk
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk), c :- Exp, d :- Exp,
+   ihc :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G c) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 c v)
+                         (rel chkf dec encTy cap Sk.syn v (den chkf dec encTy cap c G Sk.syn eta2)))))))))),
+   ihd :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G d) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 d v)
+                         (rel chkf dec encTy cap Sk.syn v (den chkf dec encTy cap d G Sk.syn eta2)))))))))),
+   hok :- (Eq Bool (Bool.and (argsOK G c) (argsOK G d)) Bool.true),
+   rho :- (List RV), eta :- (HEnv G),
+   henv :- (envRel chkf dec encTy cap G rho eta)]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy cap rho (Exp.chk c d) v)
+         (rel chkf dec encTy cap Sk.bool v (den chkf dec encTy cap (Exp.chk c d) G Sk.bool eta)))))
+  (exact (adeq_chk chkf dec encTy cap G c d rho eta
+           (ihc rfl (andb_left (argsOK G c) (argsOK G d) hok) rho eta henv)
+           (ihd rfl (andb_right (argsOK G c) (argsOK G d) hok) rho eta henv))))
+
+(thm case_app
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+   f :- Exp, u :- Exp, s :- Sk, t :- Sk,
+   hf :- (SkJ Bool.false G f (Sk.arr s t)),
+   hu :- (SkJ Bool.false G u s),
+   ihf :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G f) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 f v)
+                         (rel chkf dec encTy cap (Sk.arr s t) v
+                           (den chkf dec encTy cap f G (Sk.arr s t) eta2)))))))))),
+   ihu :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G u) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 u v)
+                         (rel chkf dec encTy cap s v (den chkf dec encTy cap u G s eta2)))))))))),
+   hok :- (Eq Bool
+            (Bool.and (argsOK G f)
+              (Bool.and (argsOK G u)
+                (match (skOf G u) [none Bool.false] [(some sf) Bool.true])))
+            Bool.true),
+   rho :- (List RV), eta :- (HEnv G),
+   henv :- (envRel chkf dec encTy cap G rho eta)]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy cap rho (Exp.app f u) v)
+         (rel chkf dec encTy cap t v (den chkf dec encTy cap (Exp.app f u) G t eta)))))
+  (have hsu := (app_arg_sk G u s hu
+                 (andb_left (argsOK G u)
+                   (match (skOf G u) [none Bool.false] [(some sf) Bool.true])
+                   (andb_right (argsOK G f)
+                     (Bool.and (argsOK G u)
+                       (match (skOf G u) [none Bool.false] [(some sf) Bool.true]))
+                     hok))
+                 (andb_right (argsOK G u)
+                   (match (skOf G u) [none Bool.false] [(some sf) Bool.true])
+                   (andb_right (argsOK G f)
+                     (Bool.and (argsOK G u)
+                       (match (skOf G u) [none Bool.false] [(some sf) Bool.true]))
+                     hok))))
+  (exact (adeq_app chkf dec encTy cap G f u s t rho eta hsu
+           (ihf rfl
+             (andb_left (argsOK G f)
+               (Bool.and (argsOK G u)
+                 (match (skOf G u) [none Bool.false] [(some sf) Bool.true]))
+               hok)
+             rho eta henv)
+           (ihu rfl
+             (andb_left (argsOK G u)
+               (match (skOf G u) [none Bool.false] [(some sf) Bool.true])
+               (andb_right (argsOK G f)
+                 (Bool.and (argsOK G u)
+                   (match (skOf G u) [none Bool.false] [(some sf) Bool.true]))
+                 hok))
+             rho eta henv))))
+
+(thm case_let
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+   C :- Exp, p :- Exp, t :- Exp, s1 :- Sk, s2 :- Sk,
+   hp :- (SkJ Bool.false G p (Sk.prod s1 s2)),
+   ihp :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G p) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 p v)
+                         (rel chkf dec encTy cap (Sk.prod s1 s2) v
+                           (den chkf dec encTy cap p G (Sk.prod s1 s2) eta2)))))))))),
+   iht :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK (sk2 s2 s1 G) t) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv (sk2 s2 s1 G))]
+                (=> (envRel chkf dec encTy cap (sk2 s2 s1 G) rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 t v)
+                         (rel chkf dec encTy cap (skel C) v
+                           (den chkf dec encTy cap t (sk2 s2 s1 G) (skel C) eta2)))))))))),
+   hok :- (Eq Bool
+            (Bool.and (argsOK G p)
+              (match (skOf G p)
+                [none Bool.false]
+                [(some s0) (match s0 [(prod xa ya) (argsOK (sk2 ya xa G) t)] [_ Bool.false])]))
+            Bool.true),
+   rho :- (List RV), eta :- (HEnv G),
+   henv :- (envRel chkf dec encTy cap G rho eta)]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy cap rho (Exp.letp C p t) v)
+         (rel chkf dec encTy cap (skel C) v (den chkf dec encTy cap (Exp.letp C p t) G (skel C) eta)))))
+  (have hsu := (app_arg_sk G p (Sk.prod s1 s2) hp
+                 (andb_left (argsOK G p)
+                   (match (skOf G p)
+                     [none Bool.false]
+                     [(some s0) (match s0 [(prod xa ya) (argsOK (sk2 ya xa G) t)] [_ Bool.false])])
+                   hok)
+                 (let_match_some (skOf G p)
+                   (fn [s0 :- Sk] (match s0 [(prod xa ya) (argsOK (sk2 ya xa G) t)] [_ Bool.false]))
+                   (andb_right (argsOK G p)
+                     (match (skOf G p)
+                       [none Bool.false]
+                       [(some s0) (match s0 [(prod xa ya) (argsOK (sk2 ya xa G) t)] [_ Bool.false])])
+                     hok))))
+  (have hbody := (let_body_of (argsOK G p) (skOf G p) s1 s2 t G hsu hok))
+  (exact (adeq_let chkf dec encTy cap G C p t s1 s2 (skel C) rho eta henv hsu
+           (ihp rfl
+             (andb_left (argsOK G p)
+               (match (skOf G p)
+                 [none Bool.false]
+                 [(some s0) (match s0 [(prod xa ya) (argsOK (sk2 ya xa G) t)] [_ Bool.false])])
+               hok)
+             rho eta henv)
+           (iht rfl hbody))))
+
+(thm case_refl
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+   hcs :- (CheckSpec chkf dec encTy),
+   below :- (forall [m Nat] (=> (LT.lt m cap) (Adeq chkf dec encTy m))),
+   D :- Exp, r :- Exp, e :- Exp,
+   hb :- (Eq Bool (isBaseTy D) Bool.true),
+   ihr :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G r) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 r v)
+                         (rel chkf dec encTy cap Sk.cert v (den chkf dec encTy cap r G Sk.cert eta2)))))))))),
+   ihe :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G e) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 e v)
+                         (rel chkf dec encTy cap Sk.unit v (den chkf dec encTy cap e G Sk.unit eta2)))))))))),
+   hok :- (Eq Bool (Bool.and (argsOK G r) (argsOK G e)) Bool.true),
+   rho :- (List RV), eta :- (HEnv G),
+   henv :- (envRel chkf dec encTy cap G rho eta)]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy cap rho (Exp.refl D r e) v)
+         (rel chkf dec encTy cap (skel D) v (den chkf dec encTy cap (Exp.refl D r e) G (skel D) eta)))))
+  (exact (adeq_refl_asm chkf dec encTy cap G D r e rho eta hcs below hb
+           (ihr rfl (andb_left (argsOK G r) (argsOK G e) hok) rho eta henv)
+           (ihe rfl (andb_right (argsOK G r) (argsOK G e) hok) rho eta henv))))
+
+(thm case_insp
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+   X :- Exp, r :- Exp, c :- Exp, t1 :- Exp, t2 :- Exp,
+   ihr :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G r) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 r v)
+                         (rel chkf dec encTy cap Sk.cert v (den chkf dec encTy cap r G Sk.cert eta2)))))))))),
+   ihc :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G c) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 c v)
+                         (rel chkf dec encTy cap Sk.syn v (den chkf dec encTy cap c G Sk.syn eta2)))))))))),
+   ih1 :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK (sk2 Sk.unit Sk.cert G) t1) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv (sk2 Sk.unit Sk.cert G))]
+                (=> (envRel chkf dec encTy cap (sk2 Sk.unit Sk.cert G) rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 t1 v)
+                         (rel chkf dec encTy cap (skel X) v
+                           (den chkf dec encTy cap t1 (sk2 Sk.unit Sk.cert G) (skel X) eta2)))))))))),
+   ih2 :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK (sk2 Sk.unit Sk.cert G) t2) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv (sk2 Sk.unit Sk.cert G))]
+                (=> (envRel chkf dec encTy cap (sk2 Sk.unit Sk.cert G) rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 t2 v)
+                         (rel chkf dec encTy cap (skel X) v
+                           (den chkf dec encTy cap t2 (sk2 Sk.unit Sk.cert G) (skel X) eta2)))))))))),
+   hok :- (Eq Bool
+            (Bool.and (argsOK G r)
+              (Bool.and (argsOK G c)
+                (Bool.and (argsOK (sk2 Sk.unit Sk.cert G) t1)
+                  (argsOK (sk2 Sk.unit Sk.cert G) t2))))
+            Bool.true),
+   rho :- (List RV), eta :- (HEnv G),
+   henv :- (envRel chkf dec encTy cap G rho eta)]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy cap rho (Exp.insp X r c t1 t2) v)
+         (rel chkf dec encTy cap (skel X) v (den chkf dec encTy cap (Exp.insp X r c t1 t2) G (skel X) eta)))))
+  (exact (adeq_insp chkf dec encTy cap G X r c t1 t2 (skel X) rho eta henv
+           (ihr rfl
+             (andb_left (argsOK G r)
+               (Bool.and (argsOK G c)
+                 (Bool.and (argsOK (sk2 Sk.unit Sk.cert G) t1) (argsOK (sk2 Sk.unit Sk.cert G) t2)))
+               hok)
+             rho eta henv)
+           (ihc rfl
+             (andb_left (argsOK G c)
+               (Bool.and (argsOK (sk2 Sk.unit Sk.cert G) t1) (argsOK (sk2 Sk.unit Sk.cert G) t2))
+               (andb_right (argsOK G r)
+                 (Bool.and (argsOK G c)
+                   (Bool.and (argsOK (sk2 Sk.unit Sk.cert G) t1) (argsOK (sk2 Sk.unit Sk.cert G) t2)))
+                 hok))
+             rho eta henv)
+           (ih1 rfl
+             (andb_left (argsOK (sk2 Sk.unit Sk.cert G) t1) (argsOK (sk2 Sk.unit Sk.cert G) t2)
+               (andb_right (argsOK G c)
+                 (Bool.and (argsOK (sk2 Sk.unit Sk.cert G) t1) (argsOK (sk2 Sk.unit Sk.cert G) t2))
+                 (andb_right (argsOK G r)
+                   (Bool.and (argsOK G c)
+                     (Bool.and (argsOK (sk2 Sk.unit Sk.cert G) t1) (argsOK (sk2 Sk.unit Sk.cert G) t2)))
+                   hok))))
+           (ih2 rfl
+             (andb_right (argsOK (sk2 Sk.unit Sk.cert G) t1) (argsOK (sk2 Sk.unit Sk.cert G) t2)
+               (andb_right (argsOK G c)
+                 (Bool.and (argsOK (sk2 Sk.unit Sk.cert G) t1) (argsOK (sk2 Sk.unit Sk.cert G) t2))
+                 (andb_right (argsOK G r)
+                   (Bool.and (argsOK G c)
+                     (Bool.and (argsOK (sk2 Sk.unit Sk.cert G) t1) (argsOK (sk2 Sk.unit Sk.cert G) t2)))
+                   hok)))))))
+
+(thm h1_oks [G :- (List Sk), r :- Exp, s :- Exp, c :- Exp, e1 :- Exp, e2 :- Exp,
+             hok :- (Eq Bool
+                      (Bool.and (argsOK G r)
+                        (Bool.and (argsOK G s)
+                          (Bool.and (argsOK G c)
+                            (Bool.and (argsOK G e1) (argsOK G e2)))))
+                      Bool.true)]
+  (And (Eq Bool (argsOK G r) Bool.true)
+    (And (Eq Bool (argsOK G s) Bool.true)
+      (And (Eq Bool (argsOK G c) Bool.true)
+        (And (Eq Bool (argsOK G e1) Bool.true)
+             (Eq Bool (argsOK G e2) Bool.true)))))
+  (constructor)
+  (exact (andb_left (argsOK G r)
+           (Bool.and (argsOK G s)
+             (Bool.and (argsOK G c) (Bool.and (argsOK G e1) (argsOK G e2))))
+           hok))
+  (constructor)
+  (exact (andb_left (argsOK G s)
+           (Bool.and (argsOK G c) (Bool.and (argsOK G e1) (argsOK G e2)))
+           (andb_right (argsOK G r)
+             (Bool.and (argsOK G s)
+               (Bool.and (argsOK G c) (Bool.and (argsOK G e1) (argsOK G e2))))
+             hok)))
+  (constructor)
+  (exact (andb_left (argsOK G c) (Bool.and (argsOK G e1) (argsOK G e2))
+           (andb_right (argsOK G s)
+             (Bool.and (argsOK G c) (Bool.and (argsOK G e1) (argsOK G e2)))
+             (andb_right (argsOK G r)
+               (Bool.and (argsOK G s)
+                 (Bool.and (argsOK G c) (Bool.and (argsOK G e1) (argsOK G e2))))
+               hok))))
+  (constructor)
+  (exact (andb_left (argsOK G e1) (argsOK G e2)
+           (andb_right (argsOK G c) (Bool.and (argsOK G e1) (argsOK G e2))
+             (andb_right (argsOK G s)
+               (Bool.and (argsOK G c) (Bool.and (argsOK G e1) (argsOK G e2)))
+               (andb_right (argsOK G r)
+                 (Bool.and (argsOK G s)
+                   (Bool.and (argsOK G c) (Bool.and (argsOK G e1) (argsOK G e2))))
+                 hok)))))
+  (exact (andb_right (argsOK G e1) (argsOK G e2)
+           (andb_right (argsOK G c) (Bool.and (argsOK G e1) (argsOK G e2))
+             (andb_right (argsOK G s)
+               (Bool.and (argsOK G c) (Bool.and (argsOK G e1) (argsOK G e2)))
+               (andb_right (argsOK G r)
+                 (Bool.and (argsOK G s)
+                   (Bool.and (argsOK G c) (Bool.and (argsOK G e1) (argsOK G e2))))
+                 hok))))))
+
+(thm case_h1
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk),
+   r :- Exp, s :- Exp, c :- Exp, e1 :- Exp, e2 :- Exp,
+   ihr :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G r) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 r v)
+                         (rel chkf dec encTy cap Sk.cert v (den chkf dec encTy cap r G Sk.cert eta2)))))))))),
+   ihs :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G s) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 s v)
+                         (rel chkf dec encTy cap Sk.cert v (den chkf dec encTy cap s G Sk.cert eta2)))))))))),
+   ihc :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G c) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 c v)
+                         (rel chkf dec encTy cap Sk.syn v (den chkf dec encTy cap c G Sk.syn eta2)))))))))),
+   ih1 :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G e1) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 e1 v)
+                         (rel chkf dec encTy cap Sk.unit v (den chkf dec encTy cap e1 G Sk.unit eta2)))))))))),
+   ih2 :- (=> (Eq Bool Bool.false Bool.false)
+            (=> (Eq Bool (argsOK G e2) Bool.true)
+              (forall [rho2 (List RV)] (forall [eta2 (HEnv G)]
+                (=> (envRel chkf dec encTy cap G rho2 eta2)
+                  (Exists (fn [v :- RV]
+                    (And (Eval chkf dec encTy cap rho2 e2 v)
+                         (rel chkf dec encTy cap Sk.unit v (den chkf dec encTy cap e2 G Sk.unit eta2)))))))))),
+   hok :- (Eq Bool
+            (Bool.and (argsOK G r)
+              (Bool.and (argsOK G s)
+                (Bool.and (argsOK G c) (Bool.and (argsOK G e1) (argsOK G e2)))))
+            Bool.true),
+   rho :- (List RV), eta :- (HEnv G),
+   henv :- (envRel chkf dec encTy cap G rho eta)]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy cap rho (Exp.h1 r s c e1 e2) v)
+         (rel chkf dec encTy cap Sk.unit v (den chkf dec encTy cap (Exp.h1 r s c e1 e2) G Sk.unit eta)))))
+  (have oks := (h1_oks G r s c e1 e2 hok))
+  (have er := (ihr rfl (And.left oks) rho eta henv))
+  (refine' (exT RV _ _ er _)) (intro vr pvr)
+  (have es := (ihs rfl (And.left (And.right oks)) rho eta henv))
+  (refine' (exT RV _ _ es _)) (intro vs pvs)
+  (have ec := (ihc rfl (And.left (And.right (And.right oks))) rho eta henv))
+  (refine' (exT RV _ _ ec _)) (intro vc pvc)
+  (have ee1 := (ih1 rfl (And.left (And.right (And.right (And.right oks)))) rho eta henv))
+  (refine' (exT RV _ _ ee1 _)) (intro v1 p1)
+  (have ee2 := (ih2 rfl (And.right (And.right (And.right (And.right oks)))) rho eta henv))
+  (refine' (exT RV _ _ ee2 _)) (intro v2 p2)
+  (exact (adeq_h1 chkf dec encTy cap G r s c e1 e2 rho eta vr vs vc v1 v2
+           (And.left pvr) (And.left pvs) (And.left pvc) (And.left p1) (And.left p2))))
+
+;; Theorem 4, inner induction on the simple-typing derivation
+;; (R4-metatheory §5).  Each term constructor is one adequacy lemma.
+(thm adeq_skj
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat,
+   hcs :- (CheckSpec chkf dec encTy),
+   below :- (forall [m Nat] (=> (LT.lt m cap) (Adeq chkf dec encTy m))),
+   w0 :- Bool, G0 :- (List Sk), e0 :- Exp, s0 :- Sk, der :- (SkJ w0 G0 e0 s0)]
+  (=> (Eq Bool w0 Bool.false)
+    (=> (Eq Bool (argsOK G0 e0) Bool.true)
+      (forall [rho (List RV)] (forall [eta (HEnv G0)]
+        (=> (envRel chkf dec encTy cap G0 rho eta)
+          (Exists (fn [v :- RV]
+            (And (Eval chkf dec encTy cap rho e0 v)
+                 (rel chkf dec encTy cap s0 v (den chkf dec encTy cap e0 G0 s0 eta))))))))))
+  (induction der)
+  (intro hw) (exact (Bool.noConfusion hw))
+  (intro hw) (exact (Bool.noConfusion hw))
+  (intro hw) (exact (Bool.noConfusion hw))
+  (intro hw) (exact (Bool.noConfusion hw))
+  (intro hw) (exact (Bool.noConfusion hw))
+  (intro hw) (exact (Bool.noConfusion hw))
+  (intro hw) (exact (Bool.noConfusion hw))
+  (intro hw) (exact (Bool.noConfusion hw))
+  (intro hw) (exact (Bool.noConfusion hw))
+  (intro hw) (exact (Bool.noConfusion hw))
+  (intro hw) (exact (Bool.noConfusion hw))
+  (intro hw hok rho eta henv)
+  (exact (adeq_var chkf dec encTy cap G i s h rho eta henv))
+  (intro hw hok rho eta henv)
+  (exact (adeq_star chkf dec encTy cap G rho eta))
+  (intro hw hok rho eta henv)
+  (exact (case_abort chkf dec encTy cap G A t ih_ht hok rho eta henv))
+  (intro hw hok rho eta henv)
+  (exact (adeq_tt chkf dec encTy cap G rho eta))
+  (intro hw hok rho eta henv)
+  (exact (adeq_ff chkf dec encTy cap G rho eta))
+  (intro hw hok rho eta henv)
+  (exact (case_ite chkf dec encTy cap G b t e s ih_hb ih_ht ih_he hok rho eta henv))
+  (intro hw hok rho eta henv)
+  (exact (case_elim chkf dec encTy cap G P b t e ih_hb ih_ht ih_he hok rho eta henv))
+  (intro hw hok rho eta henv)
+  (exact (adeq_zero chkf dec encTy cap G rho eta))
+  (intro hw hok rho eta henv)
+  (exact (case_succ chkf dec encTy cap G n ih_h hok rho eta henv))
+  (intro hw hok rho eta henv)
+  (exact (case_recN chkf dec encTy cap G P z st n ih_hz ih_hs ih_hn hok rho eta henv))
+  (intro hw hok rho eta henv)
+  (exact (adeq_lbl chkf dec encTy cap l G rho eta))
+  (intro hw hok rho eta henv)
+  (exact (case_caseL chkf dec encTy cap G P x bs ih_hx ih_hb hok rho eta henv))
+  (intro hw hok rho eta henv)
+  (exact (adeq_bnil chkf dec encTy cap G s rho eta))
+  (intro hw hok rho eta henv)
+  (exact (case_bcons chkf dec encTy cap G h t s ih_hh ih_ht hok rho eta henv))
+  (intro hw hok rho eta henv)
+  (exact (case_sleaf chkf dec encTy cap G x ih_h hok rho eta henv))
+  (intro hw hok rho eta henv)
+  (exact (case_snode chkf dec encTy cap G x c1 c2 ih_hx ih_h1 ih_h2 hok rho eta henv))
+  (intro hw hok rho eta henv)
+  (exact (case_recS chkf dec encTy cap G P tl tn c ih_hl ih_hn ih_hc hok rho eta henv))
+  (intro hw hok rho eta henv)
+  (exact (case_leaf chkf dec encTy cap G x ih_h hok rho eta henv))
+  (intro hw hok rho eta henv)
+  (exact (case_node chkf dec encTy cap G d x r1 r2 ih_hd ih_hx ih_h1 ih_h2 hok rho eta henv))
+  (intro hw hok rho eta henv)
+  (exact (case_itR chkf dec encTy cap G X g h r ih_hg ih_hh ih_hr hok rho eta henv))
+  (intro hw hok rho eta henv)
+  (exact (case_prn chkf dec encTy cap G r ih_h hok rho eta henv))
+  (intro hw hok rho eta henv)
+  (exact (case_lam chkf dec encTy cap G r A t s ih_ht hok rho eta henv))
+  (intro hw hok rho eta henv)
+  (exact (case_app chkf dec encTy cap G f u s t hf hu ih_hf ih_hu hok rho eta henv))
+  (intro hw hok rho eta henv)
+  (exact (case_pair chkf dec encTy cap G r A B x y ih_hx ih_hy hok rho eta henv))
+  (intro hw hok rho eta henv)
+  (exact (case_let chkf dec encTy cap G C p t s1 s2 hp ih_hp ih_ht hok rho eta henv))
+  (intro hw hok rho eta henv)
+  (exact (case_chk chkf dec encTy cap G c d ih_hc ih_hd hok rho eta henv))
+  (intro hw hok rho eta henv)
+  (exact (case_h1 chkf dec encTy cap G r s c e1 e2 ih_hr ih_hs ih_hc ih_h1 ih_h2 hok rho eta henv))
+  (intro hw hok rho eta henv)
+  (exact (case_refl chkf dec encTy cap G hcs below D r e hb ih_hr ih_he hok rho eta henv))
+  (intro hw hok rho eta henv)
+  (exact (case_insp chkf dec encTy cap G X r c t1 t2 ih_hr ih_hc ih_h1 ih_h2 hok rho eta henv)))
+
+;; Adeq at cap, given Adeq at every smaller budget.  The SkJ induction is
+;; adeq_skj; reflect is the only constructor that uses the smaller budgets.
+(thm adeq_from_below
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat,
+   hcs :- (CheckSpec chkf dec encTy),
+   below :- (forall [m Nat] (=> (LT.lt m cap) (Adeq chkf dec encTy m)))]
+  (Adeq chkf dec encTy cap)
+  (intro G t s hsk hok rho eta hr)
+  (exact (adeq_skj chkf dec encTy cap hcs below Bool.false G t s hsk rfl hok rho eta hr)))
+
+(thm below_zero
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code)]
+  (forall [m Nat] (=> (LT.lt m 0) (Adeq chkf dec encTy m)))
+  (intro m hm)
+  (exact (False.elim (Nat.not_lt_zero m hm))))
+
+;; Strong step: m < n + 1 is m = n or m < n.  The equal case is Adeq at n
+;; from the hypothesis for everything smaller; the rest is the hypothesis.
+(thm below_succ
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   hcs :- (CheckSpec chkf dec encTy)]
+  (forall [n Nat]
+    (=> (forall [m Nat] (=> (LT.lt m n) (Adeq chkf dec encTy m)))
+        (forall [m Nat] (=> (LT.lt m (Nat.succ n)) (Adeq chkf dec encTy m)))))
+  (intro n ih m hm)
+  (have hor (Or (Eq Nat m n) (LT.lt m n)) (Nat.eq_or_lt_of_le (Nat.le_of_lt_succ hm)))
+  (cases hor)
+  (subst h)
+  (exact (adeq_from_below chkf dec encTy n hcs ih))
+  (exact (ih m h)))
+
+;; Theorem 4 (R4-metatheory §5): under CheckSpec, evalₙ terminates and is
+;; adequate for every simply typed term with argsOK, at every budget.
+;; The constant Theorem_4 in eval.clj is this statement.  Induction on the
+;; budget needs the index in context first (induction: hypothesis not in
+;; context, otherwise).
+(thm adeq_below_all
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   hcs :- (CheckSpec chkf dec encTy)]
+  (forall [n Nat] (forall [m Nat] (=> (LT.lt m n) (Adeq chkf dec encTy m))))
+  (intro n)
+  (induction n)
+  (exact (below_zero chkf dec encTy))
+  (exact (below_succ chkf dec encTy hcs n ih_n)))
+
+(thm theorem4
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   hcs :- (CheckSpec chkf dec encTy)]
+  (forall [n Nat] (Adeq chkf dec encTy n))
+  (intro n)
+  (exact (adeq_from_below chkf dec encTy n hcs (adeq_below_all chkf dec encTy hcs n))))
+
+(thm theorem4_spec [] Theorem_4
+  (exact theorem4))
+
+;; Corollary 5.1 (R4-metatheory §5).  A derivable term of a base data type,
+;; at the token context Θₙ, evaluates under evalₙ.  Theorem 4 supplies the
+;; value and, because the skeleton is a base skeleton, relates it by equality
+;; to the denotation: the value is that denotation's canonical runtime form.
+;; Lemma 3.6 puts the same denotation in V(D).  ConvCase stays a hypothesis,
+;; as it does for Lemma 3.6.  The two environments (tokenEnv and tokEnvD)
+;; denote the same element (tok_transfer).
+(thm corollary51
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   hcs :- (CheckSpec chkf dec encTy),
+   hconv :- (forall [k Nat] (ConvCase chkf dec encTy k)),
+   n :- Nat, t :- Exp, D :- Exp,
+   hd :- (Rt chkf (thetaD n) (thetaU n) t D),
+   hb :- (Eq Bool (isBaseTy D) Bool.true)]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy n (rtokens n) t v)
+      (And (rel chkf dec encTy n (skel D) v
+             (den chkf dec encTy n t (thetaSk n) (skel D) (tokenEnv n)))
+        (And (V chkf dec encTy n D (skels (thetaD n)) (tokEnvD n) n (skel D)
+               (den chkf dec encTy n t (skels (thetaD n)) (skel D) (tokEnvD n)))
+             (Eq (Car (skel D))
+               (den chkf dec encTy n t (thetaSk n) (skel D) (tokenEnv n))
+               (den chkf dec encTy n t (skels (thetaD n)) (skel D) (tokEnvD n))))))))
+  (have hsk (SkJ Bool.false (thetaSk n) t (skel D))
+    (skj_along Bool.false t (skel D) (skels (thetaD n)) (thetaSk n) (skels_theta n)
+      (lemma25_rt chkf (thetaD n) (thetaU n) t D hd)))
+  (have hok (Eq Bool (argsOK (thetaSk n) t) Bool.true)
+    (Eq.trans (Eq.symm (argsOK_ctx t (skels (thetaD n)) (thetaSk n) (skels_theta n)))
+      (rt_argsOK chkf (thetaD n) (thetaU n) t D hd)))
+  (have hrun := (theorem4 chkf dec encTy hcs n (thetaSk n) t (skel D) hsk hok
+                  (rtokens n) (tokenEnv n) (tokens_rel chkf dec encTy n n)))
+  (have hv := (lemma36 chkf dec encTy hcs hconv n (thetaD n) (thetaU n) t D hd
+                (wf_theta chkf n) (tokEnvD n) n (Nat.le_refl n) (tok_sat chkf dec encTy n n)))
+  (have heq := (tok_transfer n (den chkf dec encTy n t) (skel D)))
+  (refine' (exT RV _ _ hrun _))
+  (intro v hvand)
+  (constructor) (exact v)
+  (constructor) (exact (And.left hvand))
+  (constructor) (exact (And.right hvand))
+  (constructor) (exact hv)
+  (exact heq))
