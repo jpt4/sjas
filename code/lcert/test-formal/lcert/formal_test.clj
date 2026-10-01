@@ -404,9 +404,10 @@
 (deftest f5-evaluator
   (testing "Theorem 4's evaluator: a program evaluates, and the constant cases are adequate"
     (doseq [c '[Eval AppV rel envRel argsOK Adeq Theorem_4
-                eval_tt eval_not_tt rlookup_head rel_bool_rfl rel_unit_rfl
-                skel_reify rdflt_rel
-                adeq_star adeq_tt adeq_ff adeq_zero adeq_lbl adeq_abort adeq_h1]]
+                eval_tt eval_not_tt rlookup_head rlookup_zero rlookup_succ eval_cast
+                some_injSk rel_bool_rfl rel_unit_rfl skel_reify rdflt_rel env_at
+                adeq_star adeq_tt adeq_ff adeq_zero adeq_lbl adeq_abort adeq_h1
+                adeq_succ adeq_var]]
       (is (b/has? c) (str c))))
   (testing "tt does not evaluate to ff: the true-constructor is the wrong value"
     (is (b/rejects? '[chkf :- (=> Code Code Bool),

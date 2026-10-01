@@ -60,7 +60,15 @@
             [lcert.formal.conv :refer :all]
             [lcert.formal.carrier :refer :all]
             [lcert.formal.den :refer :all]
-            [lcert.formal.model :refer :all]))
+            [lcert.formal.model :refer :all]
+            ;; Loading these defines the kernel constants the adequacy proofs
+            ;; name (den_*_at, coe_self, none_ne_someS, exT).  Theorems are
+            ;; not Clojure vars, so they are not referred.  None of these
+            ;; namespaces depends on eval.
+            [lcert.formal.unfold]
+            [lcert.formal.subst]
+            [lcert.formal.substitution]
+            [lcert.formal.outer]))
 
 ;; --- runtime values ----------------------------------------------------------
 
@@ -569,6 +577,33 @@
   (Eq (Option RV) (rlookup (List.cons RV h (List.nil RV)) 0) (Option.some RV h))
   (rfl))
 
+(thm rlookup_zero [h :- RV, t :- (List RV)]
+  (Eq (Option RV) (rlookup (List.cons RV h t) 0) (Option.some RV h))
+  (rfl))
+
+(thm rlookup_succ [h :- RV, t :- (List RV), j :- Nat]
+  (Eq (Option RV) (rlookup (List.cons RV h t) (Nat.succ j)) (rlookup t j))
+  (rfl))
+
+;; Eval is a proposition indexed by the result, so an equality of runtime
+;; values transports a derivation.  The base of rel is such an equality, and
+;; the clauses that build on a numeral or a Boolean need the canonical one.
+(thm eval_cast
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), n :- Nat, rho :- (List RV), t :- Exp,
+   v :- RV, w :- RV,
+   h :- (Eval chkf dec encTy n rho t v),
+   e :- (Eq RV v w)]
+  (Eval chkf dec encTy n rho t w)
+  (exact (Eq.mp (congrArg (fn [x :- RV] (Eval chkf dec encTy n rho t x)) e) h)))
+
+;; Option.some is injective at Sk.  cases on the equality is the same proof
+;; as some_injU; the kernel accepts it.
+(thm some_injSk [x :- Sk, y :- Sk,
+                 h :- (Eq (Option Sk) (Option.some Sk x) (Option.some Sk y))]
+  (Eq Sk x y)
+  (cases h) (rfl))
+
 ;; §5's running example, the one den_not_tt computes: (λ_. ite b ff tt) tt
 ;; evaluates to ff.  The scrutinee is variable 0, bound to tt, so the true
 ;; branch of ite is ff.
@@ -766,3 +801,96 @@
   (constructor)
   (exact (Ev.eH1 chkf dec encTy n rho r s c e1 e2 vr vs vc v1 v2 hr hs hc h1 h2))
   (rfl))
+
+;; A related environment agrees with lookup at every index nthS defines.
+;; The budget is named cap: cases on the index would otherwise rename the
+;; predecessor, because the budget already occupies the name n.  At 0 the
+;; head is coe of itself, hence the first component (coe_self).  At a
+;; successor, nthS.eq_3 and rlookup_succ step into the tail.
+(thm env_at
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), cap :- Nat, G :- (List Sk)]
+  (forall [rho (List RV)] (forall [eta (HEnv G)]
+    (=> (envRel chkf dec encTy cap G rho eta)
+      (forall [i Nat] (forall [s Sk]
+        (=> (Eq (Option Sk) (nthS G i) (Option.some Sk s))
+          (Exists (fn [v :- RV]
+            (And (Eq (Option RV) (rlookup rho i) (Option.some RV v))
+                 (rel chkf dec encTy cap s v (lookup G i s eta)))))))))))
+  (induction G)
+  (intro rho) (intro eta) (intro hr) (intro i) (intro s) (intro hs)
+  (exact (False.elim (none_ne_someS s (Eq.trans (Eq.symm (nthS.eq_1 i)) hs))))
+  (intro rho) (intro eta) (intro hr) (intro i) (intro s) (intro hs)
+  (cases i)
+  (have hs2 (Eq (Option Sk) (Option.some Sk head) (Option.some Sk s))
+    (Eq.trans (Eq.symm (nthS.eq_2 head tail)) hs))
+  (have hhd (Eq Sk head s) (some_injSk head s hs2))
+  (subst hhd)
+  (refine' (exT RV _ _ hr _)) (intro v hex)
+  (refine' (exT (List RV) _ _ hex _)) (intro rho2 hp)
+  (have hl (Eq (List RV) rho (List.cons RV v rho2)) (And.left hp))
+  (have hv (rel chkf dec encTy cap s v (Prod.fst eta)) (And.left (And.right hp)))
+  (have hr0 (Eq (Option RV) (rlookup rho 0) (Option.some RV v))
+    (Eq.trans (congrArg (fn [r :- (List RV)] (rlookup r 0)) hl) (rlookup_zero v rho2)))
+  (have hv2 (rel chkf dec encTy cap s v (coe s s (Prod.fst eta)))
+    (Eq.mp (congrArg (fn [a :- (Car s)] (rel chkf dec encTy cap s v a))
+                     (Eq.symm (coe_self s (Prod.fst eta)))) hv))
+  (constructor) (exact v) (constructor) (exact hr0) (exact hv2)
+  (refine' (exT RV _ _ hr _)) (intro v0 hex)
+  (refine' (exT (List RV) _ _ hex _)) (intro rho2 hp)
+  (have hl (Eq (List RV) rho (List.cons RV v0 rho2)) (And.left hp))
+  (have hrest (envRel chkf dec encTy cap tail rho2 (Prod.snd eta)) (And.right (And.right hp)))
+  (have hs3 (Eq (Option Sk) (nthS tail n) (Option.some Sk s))
+    (Eq.trans (Eq.symm (nthS.eq_3 head tail n)) hs))
+  (refine' (exT RV _ _ (ih_tail rho2 (Prod.snd eta) hrest n s hs3) _))
+  (intro w hand)
+  (have hrn (Eq (Option RV) (rlookup rho2 n) (Option.some RV w)) (And.left hand))
+  (have hrel (rel chkf dec encTy cap s w (lookup tail n s (Prod.snd eta))) (And.right hand))
+  (have hr1 (Eq (Option RV) (rlookup rho (Nat.succ n)) (Option.some RV w))
+    (Eq.trans (congrArg (fn [r :- (List RV)] (rlookup r (Nat.succ n))) hl)
+              (Eq.trans (rlookup_succ v0 rho2 n) hrn)))
+  (constructor) (exact w) (constructor) (exact hr1) (exact hrel))
+
+;; Successor: the premise denotes a numeral k, so it evaluates at RV.nat k
+;; (eval_cast along rel), and the successor value is related to succ k.
+(thm adeq_succ
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), n :- Nat, G :- (List Sk), m :- Exp,
+   rho :- (List RV), eta :- (HEnv G), vt :- RV,
+   ht :- (Eval chkf dec encTy n rho m vt),
+   he :- (rel chkf dec encTy n Sk.nat vt (den chkf dec encTy n m G Sk.nat eta))]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy n rho (Exp.succ m) v)
+         (rel chkf dec encTy n Sk.nat v
+           (den chkf dec encTy n (Exp.succ m) G Sk.nat eta)))))
+  (rw [(den_succ_at chkf dec encTy n m G Sk.nat eta)])
+  (rw [(coe_self Sk.nat (Nat.succ (den chkf dec encTy n m G Sk.nat eta)))])
+  (constructor)
+  (exact (RV.nat (Nat.succ (den chkf dec encTy n m G Sk.nat eta))))
+  (constructor)
+  (exact (Ev.eSucc chkf dec encTy n rho m
+           (den chkf dec encTy n m G Sk.nat eta)
+           (eval_cast chkf dec encTy n rho m vt
+             (RV.nat (den chkf dec encTy n m G Sk.nat eta)) ht he)))
+  (rfl))
+
+;; Variables (Theorem 4): the value env_at finds is the denotation, which is
+;; lookup, and eVar records the rlookup equation.
+(thm adeq_var
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), n :- Nat, G :- (List Sk), i :- Nat, s :- Sk,
+   hs :- (Eq (Option Sk) (nthS G i) (Option.some Sk s)),
+   rho :- (List RV), eta :- (HEnv G),
+   hr :- (envRel chkf dec encTy n G rho eta)]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy n rho (Exp.var i) v)
+         (rel chkf dec encTy n s v (den chkf dec encTy n (Exp.var i) G s eta)))))
+  (rw [(den_var_at chkf dec encTy n i G s eta)])
+  (refine' (exT RV _ _ (env_at chkf dec encTy n G rho eta hr i s hs) _))
+  (intro v hand)
+  (have hl (Eq (Option RV) (rlookup rho i) (Option.some RV v)) (And.left hand))
+  (have hv (rel chkf dec encTy n s v (lookup G i s eta)) (And.right hand))
+  (constructor) (exact v)
+  (constructor)
+  (exact (Ev.eVar chkf dec encTy n rho i v hl))
+  (exact hv))
