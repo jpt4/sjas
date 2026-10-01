@@ -833,3 +833,110 @@
                       (Prod.mk b (Prod.mk a (Prod.mk l en)))))
                   0 (Nat.zero_le n)
                   (recS_node_sat chkf dec encTy n D us3 P der en hs l a b ya yb hok haOk hbOk ha hb))))))
+
+;; RecSyn, Lemma 3.6.  ⟦recS P tl tn c⟧ = Code.rec ⟦c⟧, and the goal
+;; V(P[c/x])η is V(P) at (⟦c⟧, η) (V_subst1; c is a code, skOf by skOf_rt,
+;; clean of Syn by rfl).  c's IH is lblOk ⟦c⟧.  By induction on that code
+;; (recrec_inv) the result at each constructor is in V(P) at footprint 0:
+;; the leaf and node methods run once, in ω-scaled contexts brought to
+;; footprint 0 by Lemma 3.5 (ii) and EnvSat_omega_back.  Raise 0 to k.
+(thm F_recS [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+             D :- (List Exp), us :- (List U), us1 :- (List U), us2 :- (List U), us3 :- (List U),
+             P :- Exp, tl :- Exp, tn :- Exp, c :- Exp,
+             hc :- (Rt chkf D us1 c Exp.tSyn), hP :- (Tl chkf Bool.true (List.cons Exp Exp.tSyn D) P Exp.tUnit),
+             ihl :- (Sound chkf dec encTy n (List.cons Exp Exp.tLbl D) (List.cons U U.uw (vscale U.uw us2)) tl (leafTy P)),
+             ihn :- (Sound chkf dec encTy n
+                      (List.cons Exp (y2Ty P) (List.cons Exp (y1Ty P) (List.cons Exp Exp.tSyn (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D)))))
+                      (List.cons U U.u1 (List.cons U U.u1 (List.cons U U.uw (List.cons U U.uw (List.cons U U.uw (vscale U.uw us3))))))
+                      tn (nodeTy P)),
+             ihc :- (Sound chkf dec encTy n D us1 c Exp.tSyn),
+             en :- (HEnv (skels D)), k :- Nat, hk :- (Nat.le k n),
+             hs :- (EnvSat chkf dec encTy n D (vadd us1 (vadd (vscale U.uw us2) (vscale U.uw us3))) en k)]
+  (V chkf dec encTy n (subst1 c P) (skels D) en k (skel (subst1 c P))
+     (den chkf dec encTy n (Exp.recS P tl tn c) (skels D) (skel (subst1 c P)) en))
+  (have hPS (SkJ Bool.true (List.cons Sk Sk.syn (skels D)) P Sk.unit)
+    (lemma25_tl_type chkf (List.cons Exp Exp.tSyn D) P hP))
+  (have hcS (SkJ Bool.false (skels D) c Sk.syn) (lemma25_rt chkf D us1 c Exp.tSyn hc))
+  (have hcU (Eq Sk (skel c) Sk.unit) (skj_term_unit Bool.false (skels D) c Sk.syn hcS rfl))
+  (have hmk (Eq (Option Sk) (skOf (skels D) c) (Option.some Sk Sk.syn)) (skOf_rt chkf D us1 c Exp.tSyn hc rfl))
+  (rw [(skel_subst1 c P hcU)])
+  (rw [(den_recS_at chkf dec encTy n P tl tn c (skels D) (skel P) en)])
+  (refine' (Iff.mpr (V_subst1 chkf dec encTy n (skels D) Sk.syn P hPS c hcS hmk en k _) _))
+  (have p1_ex (Exists (fn [k1 :- Nat] (Exists (fn [m1 :- Nat]
+          (And (Nat.le (+ k1 m1) k)
+            (And (EnvSat chkf dec encTy n D us1 en k1)
+                 (EnvSat chkf dec encTy n D (vadd (vscale U.uw us2) (vscale U.uw us3)) en m1)))))))
+    (EnvSat_split chkf dec encTy n D us1 (vadd (vscale U.uw us2) (vscale U.uw us3)) en k hs))
+  (refine' (exN _ _ p1_ex _)) (intro k1 p1_q) (refine' (exN _ _ p1_q _)) (intro m1 p1_r)
+  (have p1 (And (Nat.le (+ k1 m1) k)
+            (And (EnvSat chkf dec encTy n D us1 en k1)
+                 (EnvSat chkf dec encTy n D (vadd (vscale U.uw us2) (vscale U.uw us3)) en m1))) p1_r)
+  (have p2_ex (Exists (fn [k2 :- Nat] (Exists (fn [k3 :- Nat]
+          (And (Nat.le (+ k2 k3) m1)
+            (And (EnvSat chkf dec encTy n D (vscale U.uw us2) en k2)
+                 (EnvSat chkf dec encTy n D (vscale U.uw us3) en k3)))))))
+    (EnvSat_split chkf dec encTy n D (vscale U.uw us2) (vscale U.uw us3) en m1 (And.right (And.right p1))))
+  (refine' (exN _ _ p2_ex _)) (intro k2 p2_q) (refine' (exN _ _ p2_q _)) (intro k3 p2_r)
+  (have p2 (And (Nat.le (+ k2 k3) m1)
+            (And (EnvSat chkf dec encTy n D (vscale U.uw us2) en k2)
+                 (EnvSat chkf dec encTy n D (vscale U.uw us3) en k3))) p2_r)
+  (have hk1 (Nat.le k1 n) (Nat.le_trans (Nat.le_trans (Nat.le_add_right k1 m1) (And.left p1)) hk))
+  (have hs1 (EnvSat chkf dec encTy n D us1 en k1) (And.left (And.right p1)))
+  (have hcv (Eq Bool (lblOk (den chkf dec encTy n c (skels D) Sk.syn en)) Bool.true) (ihc en k1 hk1 hs1))
+  (have hsL (EnvSat chkf dec encTy n D (vscale U.uw us2) en 0)
+    (EnvSat_omega_back chkf dec encTy n D us2 en
+      (EnvSat_omega chkf dec encTy n D us2 en k2 (And.left (And.right p2)))))
+  (have hsN (EnvSat chkf dec encTy n D (vscale U.uw us3) en 0)
+    (EnvSat_omega_back chkf dec encTy n D us3 en
+      (EnvSat_omega chkf dec encTy n D us3 en k3 (And.right (And.right p2)))))
+  (have hlf (forall [l Nat] (=> (Eq Bool (Nat.blt l 100) Bool.true)
+              (V chkf dec encTy n P (List.cons Sk Sk.syn (skels D)) (Prod.mk (Code.sl l) en) 0 (skel P)
+                 (den chkf dec encTy n tl (List.cons Sk Sk.lbl (skels D)) (skel P) (Prod.mk l en)))))
+    (fn [l :- Nat, hok :- (Eq Bool (Nat.blt l 100) Bool.true)]
+      (recS_leaf chkf dec encTy n D us2 P tl hPS ihl en hsL l hok)))
+  (have hnd (forall [l Nat] (forall [a Code] (forall [b Code] (forall [ya (Car (skel P))] (forall [yb (Car (skel P))]
+              (=> (Eq Bool (Nat.blt l 100) Bool.true) (Eq Bool (lblOk a) Bool.true) (Eq Bool (lblOk b) Bool.true)
+                  (V chkf dec encTy n P (List.cons Sk Sk.syn (skels D)) (Prod.mk a en) 0 (skel P) ya)
+                  (V chkf dec encTy n P (List.cons Sk Sk.syn (skels D)) (Prod.mk b en) 0 (skel P) yb)
+                  (V chkf dec encTy n P (List.cons Sk Sk.syn (skels D)) (Prod.mk (Code.sn l a b) en) 0 (skel P)
+                     (den chkf dec encTy n tn
+                       (sk2 (skel P) (skel P) (sk2 Sk.syn Sk.syn (List.cons Sk Sk.lbl (skels D))))
+                       (skel P)
+                       (Prod.mk yb (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))))))))))))
+    (fn [l :- Nat, a :- Code, b :- Code, ya :- (Car (skel P)), yb :- (Car (skel P)),
+         hok :- (Eq Bool (Nat.blt l 100) Bool.true), haOk :- (Eq Bool (lblOk a) Bool.true), hbOk :- (Eq Bool (lblOk b) Bool.true),
+         ha :- (V chkf dec encTy n P (List.cons Sk Sk.syn (skels D)) (Prod.mk a en) 0 (skel P) ya),
+         hb :- (V chkf dec encTy n P (List.cons Sk Sk.syn (skels D)) (Prod.mk b en) 0 (skel P) yb)]
+      (recS_node chkf dec encTy n D us3 P tn hPS ihn en hsN l a b ya yb hok haOk hbOk ha hb)))
+  (have vall (V chkf dec encTy n P (List.cons Sk Sk.syn (skels D))
+                (Prod.mk (den chkf dec encTy n c (skels D) Sk.syn en) en) 0 (skel P)
+                (Code.rec$1 (fn [_ :- Code] (Car (skel P)))
+                  (fn [l :- Nat] (den chkf dec encTy n tl (List.cons Sk Sk.lbl (skels D)) (skel P) (Prod.mk l en)))
+                  (fn [l :- Nat, a :- Code, b :- Code, ya :- (Car (skel P)), yb :- (Car (skel P))]
+                    (den chkf dec encTy n tn
+                      (sk2 (skel P) (skel P) (sk2 Sk.syn Sk.syn (List.cons Sk Sk.lbl (skels D))))
+                      (skel P)
+                      (Prod.mk yb (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))))))
+                  (den chkf dec encTy n c (skels D) Sk.syn en)))
+    (recrec_inv (Car (skel P))
+      (fn [w :- Code, v :- (Car (skel P))]
+        (V chkf dec encTy n P (List.cons Sk Sk.syn (skels D)) (Prod.mk w en) 0 (skel P) v))
+      (fn [l :- Nat] (den chkf dec encTy n tl (List.cons Sk Sk.lbl (skels D)) (skel P) (Prod.mk l en)))
+      (fn [l :- Nat, a :- Code, b :- Code, ya :- (Car (skel P)), yb :- (Car (skel P))]
+        (den chkf dec encTy n tn
+          (sk2 (skel P) (skel P) (sk2 Sk.syn Sk.syn (List.cons Sk Sk.lbl (skels D))))
+          (skel P)
+          (Prod.mk yb (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))))))
+      hlf hnd (den chkf dec encTy n c (skels D) Sk.syn en) hcv))
+  (exact (V_mono chkf dec encTy n P (List.cons Sk Sk.syn (skels D))
+            (Prod.mk (den chkf dec encTy n c (skels D) Sk.syn en) en)
+            0 k (skel P)
+            (Code.rec$1 (fn [_ :- Code] (Car (skel P)))
+              (fn [l :- Nat] (den chkf dec encTy n tl (List.cons Sk Sk.lbl (skels D)) (skel P) (Prod.mk l en)))
+              (fn [l :- Nat, a :- Code, b :- Code, ya :- (Car (skel P)), yb :- (Car (skel P))]
+                (den chkf dec encTy n tn
+                  (sk2 (skel P) (skel P) (sk2 Sk.syn Sk.syn (List.cons Sk Sk.lbl (skels D))))
+                  (skel P)
+                  (Prod.mk yb (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))))))
+              (den chkf dec encTy n c (skels D) Sk.syn en))
+            (Nat.zero_le k) hk vall)))
