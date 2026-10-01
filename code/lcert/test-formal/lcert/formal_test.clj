@@ -642,6 +642,7 @@
                 erdflt erdflt_ty dflt_cast erel_rv erel_car e_abort e_h1
                 usks_nil usks_cons entryE_u0 entryE_u1 entryE_uw
                 envE_nil envE_cons envE_cons0 envE_cons1 envE_consw
+                usk_hd usk_hd_needs_wf
                 nz_uadd nz_umul nz_vadd nz_vscale]]
       (is (b/has? c) (str c))))
   (testing "⋆ is not an abort, and a Π₀ type is not the runtime arrow"
@@ -655,4 +656,8 @@
     ;; The product default is (ff, ⋆), not (⋆, ⋆): Σ₀ of E cannot demand ⋆.
     (is (b/rejects? '[]
                     '(Eq RV (rdflt (Sk.prod Sk.bool Sk.unit)) (RV.pair RV.star RV.star))
+                    '[(rfl)]))
+    ;; Ill-typed β changes the usage skeleton, so usk_hd needs isTy.
+    (is (b/rejects? '[]
+                    '(Eq USk (usk (Exp.app (Exp.lam U.uw Exp.tNat Exp.tBool) Exp.star)) (usk Exp.tBool))
                     '[(rfl)]))))

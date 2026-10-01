@@ -1891,3 +1891,27 @@
   (envE chkf dec encTy n (List.cons USk u rest) (List.cons U U.uw rs)
         (List.cons RV v rho) (Prod.mk alpha eta))
   (exact (envE_cons chkf dec encTy n u rest U.uw rs v rho alpha eta hv ht)))
+
+;; A head step of a type preserves the usage skeleton (Theorem 4′, invariance
+;; under ≡, the head case).  The only head redexes of shape isTy are
+;; T(tt) ⇝ 1 and T(ff) ⇝ 0, and both sides are the unit clause.  Every other
+;; head redex is a term, so isTy is false.  The same proof as hd_skel.
+;; A step under a path, and therefore a Cv chain, is not yet proved: it is
+;; the same argument as step_skel / cv_skel, and it needs the child lemma.
+(thm usk_hd
+  [chkf :- (=> Code Code Bool), r :- Exp, r2 :- Exp, der :- (Hd chkf r r2)]
+  (=> (Eq Bool (isTy r) Bool.true) (Eq USk (usk r2) (usk r)))
+  (induction der)
+  (all_goals (intro hc))
+  (all_goals (first (rfl) (cases hc))))
+
+;; The well-formedness hypothesis is necessary.  β at the ill-formed
+;; application (λx:Nat. Bool) ⋆ yields Bool, and usk goes from the wildcard
+;; unit clause to Bool.  The same redex as beta_step_example / step_skel_needs_wf.
+(thm usk_hd_needs_wf [chkf :- (=> Code Code Bool)]
+  (Not (forall [A Exp] (forall [B Exp] (=> (Hd chkf A B) (Eq USk (usk A) (usk B))))))
+  (intro h)
+  (have hn (Eq USk (usk (Exp.app (Exp.lam U.uw Exp.tNat Exp.tBool) Exp.star)) (usk Exp.tBool))
+    (h (Exp.app (Exp.lam U.uw Exp.tNat Exp.tBool) Exp.star) Exp.tBool
+       (Hd.beta chkf U.uw Exp.tNat Exp.tBool Exp.star)))
+  (cases hn))
