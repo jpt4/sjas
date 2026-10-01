@@ -30,8 +30,10 @@
   Proposition 4.5, per instance.  D3 (prop45_d3): □A ⊸ □□A at budget ‖w‖
   for a certificate w of □A.  The lambda discards its input; ⋆ carries that
   usage and (lit w, ⋆), shifted under the binder, is the Proposition 4.2
-  pair at □□A.  Boxed contraction □A ⊸ □A ⊗ □A at budget 2‖v‖ places two
-  such pairs on disjoint token blocks (Lemma 2.1)."
+  pair at □□A.  Boxed contraction (prop45_contraction) is □A ⊸ □A ⊗ □A
+  at budget 2‖v‖: two copies of (lit v, ⋆) on disjoint token blocks
+  (Lemma 2.1).  The combining pair is at usage 1, so both blocks survive,
+  and ⋆ on the inner block carries the discarded input."
   (:require [ansatz.core :as a]
             [lcert.formal.base :refer [thm kdef lv]]
             [lcert.formal.usage :refer :all]
@@ -2220,3 +2222,636 @@
     (tl_boxTy chkf (thetaD (cnodes w)) (encTy A) hA)
     (cert_front chkf w (encTy (boxTy (codeTerm (encTy A)))) hok hB hck
       (boxTy (codeTerm (encTy A)))))))
+
+;; --- Proposition 4.5, boxed contraction (R4-metatheory.md §4.4) ------------------------
+;; □A ⊸ □A ⊗ □A at budget 2‖v‖.  ⊗ is the usage-1 sigma: both components are
+;; runtime terms, and usage 0 would keep only the second component's tokens.
+;; The two copies of (lit v, ⋆) sit on disjoint halves of Θ_{2‖v‖} (Lemma 2.1:
+;; rt_theta_append for the inner block, rt_theta_prepend for the outer).  The
+;; lambda discards its □A input; ⋆ of the inner copy carries that usage.
+
+;; □A has no free variables, so substituting for a binder outside it is the
+;; identity.  The tensor's second component is typed at B[x/0], and B is □A.
+(thm subst_code_any [s :- (=> Nat Exp), c :- Code]
+  (Eq Exp (subst s (codeTerm c)) (codeTerm c))
+  (induction c)
+  (rfl)
+  (have hL (Eq Exp (subst s (codeTerm (Code.sn l a b))) (subst s (Exp.snode (Exp.lbl l) (codeTerm a) (codeTerm b))))
+    (congrArg (fn [v :- Exp] (subst s v)) (codeTerm_sn l a b)))
+  (have hR (Eq Exp (codeTerm (Code.sn l a b)) (Exp.snode (Exp.lbl l) (codeTerm a) (codeTerm b)))
+    (codeTerm_sn l a b))
+  (have hI (Eq Exp (subst s (Exp.snode (Exp.lbl l) (codeTerm a) (codeTerm b)))
+                  (Exp.snode (Exp.lbl l) (codeTerm a) (codeTerm b)))
+    (Eq.trans (congrArg (fn [v :- Exp] (Exp.snode (Exp.lbl l) v (subst s (codeTerm b)))) ih_a)
+              (congrArg (fn [v :- Exp] (Exp.snode (Exp.lbl l) (codeTerm a) v)) ih_b)))
+  (exact (Eq.trans hL (Eq.trans hI (Eq.symm hR)))))
+
+(thm upn_var0 [u :- Exp]
+  (Eq Exp (subst (upn 1 (fn [i :- Nat] (inst1 u i))) (Exp.var 0)) (Exp.var 0)) (rfl))
+
+(thm subst_body_step [sg :- (=> Nat Exp), c :- Code]
+  (Eq Exp (subst sg (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm c))))
+          (Exp.tT (Exp.chk (Exp.prn (subst sg (Exp.var 0))) (subst sg (codeTerm c)))))
+  (rfl))
+
+(thm subst_sig_step [u :- Exp, c :- Code]
+  (Eq Exp (subst1 u (Exp.tSig U.u1 Exp.tR (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm c)))))
+          (Exp.tSig U.u1 Exp.tR (subst (upn 1 (fn [i :- Nat] (inst1 u i)))
+                                  (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm c))))))
+  (rfl))
+
+(thm subst_box [u :- Exp, c :- Code]
+  (Eq Exp (subst1 u (boxTy (codeTerm c))) (boxTy (codeTerm c)))
+  (have hL (Eq Exp (subst1 u (boxTy (codeTerm c)))
+                   (subst1 u (Exp.tSig U.u1 Exp.tR (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm c))))))
+    (congrArg (fn [v :- Exp] (subst1 u v)) (boxTy_unfold c)))
+  (have hS (Eq Exp (subst1 u (Exp.tSig U.u1 Exp.tR (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm c)))))
+                   (Exp.tSig U.u1 Exp.tR (subst (upn 1 (fn [i :- Nat] (inst1 u i)))
+                                          (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm c))))))
+    (subst_sig_step u c))
+  (have hB (Eq Exp (subst (upn 1 (fn [i :- Nat] (inst1 u i)))
+                     (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm c))))
+                   (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm c))))
+    (Eq.trans (subst_body_step (upn 1 (fn [i :- Nat] (inst1 u i))) c)
+      (Eq.trans (congrArg (fn [v :- Exp] (Exp.tT (Exp.chk (Exp.prn v) (subst (upn 1 (fn [i :- Nat] (inst1 u i))) (codeTerm c)))))
+                  (upn_var0 u))
+        (congrArg (fn [v :- Exp] (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) v)))
+          (subst_code_any (upn 1 (fn [i :- Nat] (inst1 u i))) c)))))
+  (have hR (Eq Exp (Exp.tSig U.u1 Exp.tR (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm c))))
+                   (boxTy (codeTerm c)))
+    (Eq.symm (boxTy_unfold c)))
+  (exact (Eq.trans hL (Eq.trans hS (Eq.trans (congrArg (fn [v :- Exp] (Exp.tSig U.u1 Exp.tR v)) hB) hR)))))
+
+(thm add_zero_r [m :- Nat] (Eq Nat (+ m 0) m) (omega))
+(thm add_n1 [n :- Nat] (Eq Nat (+ n 1) (Nat.succ n)) (omega))
+(thm add_succ_out [m :- Nat, n :- Nat] (Eq Nat (+ m (Nat.succ n)) (Nat.succ (+ m n))) (omega))
+(thm add_n0 [n :- Nat, m :- Nat] (Eq Nat (+ n (+ m 0)) (+ n m)) (omega))
+
+;; A Cv chain in Θ_m stays a Cv chain after n unused tokens are inserted at
+;; the inner edge (prepend) or at the outer edge of the original block (append).
+(thm cv_theta_prepend [chkf :- (=> Code Code Bool), m :- Nat, A :- Exp, B :- Exp,
+                            h :- (Cv chkf (skels (thetaD m)) A B), n :- Nat]
+  (Cv chkf (skels (thetaD (+ n m))) (lift n 0 A) (lift n 0 B))
+  (induction n)
+  (exact (cv_cast_G chkf (skels (thetaD m)) (skels (thetaD (+ 0 m)))
+    (lift 0 0 A) (lift 0 0 B)
+    (cv_cast_end chkf (skels (thetaD m)) (lift 0 0 A) B (lift 0 0 B)
+      (cv_cast_start chkf (skels (thetaD m)) A (lift 0 0 A) B h
+        (Eq.symm (lift_zero A 0)))
+      (Eq.symm (lift_zero B 0)))
+    (congrArg skels (congrArg thetaD (Eq.symm (Nat.zero_add m))))))
+  (exact (cv_cast_G chkf
+    (skels (thetaD (Nat.succ (+ n m))))
+    (skels (thetaD (+ (Nat.succ n) m)))
+    (lift (Nat.succ n) 0 A) (lift (Nat.succ n) 0 B)
+    (cv_cast_end chkf (skels (thetaD (Nat.succ (+ n m))))
+      (lift (Nat.succ n) 0 A) (lift 1 0 (lift n 0 B)) (lift (Nat.succ n) 0 B)
+      (cv_cast_start chkf (skels (thetaD (Nat.succ (+ n m))))
+        (lift 1 0 (lift n 0 A)) (lift (Nat.succ n) 0 A) (lift 1 0 (lift n 0 B))
+        (cv_cast_G chkf
+          (skels (insD 0 Exp.tDia (thetaD (+ n m))))
+          (skels (thetaD (Nat.succ (+ n m))))
+          (lift 1 0 (lift n 0 A)) (lift 1 0 (lift n 0 B))
+          (cv_weaken chkf (thetaD (+ n m)) (lift n 0 A) (lift n 0 B) ih_n 0 Exp.tDia)
+          (Eq.trans
+            (congrArg skels (insD_zero Exp.tDia (thetaD (+ n m))))
+            (Eq.trans (skels_cons Exp.tDia (thetaD (+ n m)))
+              (Eq.symm (Eq.trans (congrArg skels (thetaD_succ (+ n m)))
+                                 (skels_cons Exp.tDia (thetaD (+ n m))))))))
+        (Eq.trans (lift_comp A 1 n 0) (congrArg (fn [k :- Nat] (lift k 0 A)) (add_n1 n))))
+      (Eq.trans (lift_comp B 1 n 0) (congrArg (fn [k :- Nat] (lift k 0 B)) (add_n1 n))))
+    (congrArg (fn [k :- Nat] (skels (thetaD k))) (Eq.symm (Nat.succ_add n m))))))
+
+(thm cv_theta_append [chkf :- (=> Code Code Bool), m :- Nat, A :- Exp, B :- Exp,
+                           h :- (Cv chkf (skels (thetaD m)) A B), n :- Nat]
+  (Cv chkf (skels (thetaD (+ m n))) (lift n m A) (lift n m B))
+  (induction n)
+  (exact (cv_cast_G chkf (skels (thetaD m)) (skels (thetaD (+ m 0)))
+    (lift 0 m A) (lift 0 m B)
+    (cv_cast_end chkf (skels (thetaD m)) (lift 0 m A) B (lift 0 m B)
+      (cv_cast_start chkf (skels (thetaD m)) A (lift 0 m A) B h
+        (Eq.symm (lift_zero A m)))
+      (Eq.symm (lift_zero B m)))
+    (congrArg skels (congrArg thetaD (Eq.symm (add_zero_r m))))))
+  (exact (cv_cast_G chkf
+    (skels (insD m Exp.tDia (thetaD (+ m n))))
+    (skels (thetaD (+ m (Nat.succ n))))
+    (lift (Nat.succ n) m A) (lift (Nat.succ n) m B)
+    (cv_cast_end chkf (skels (insD m Exp.tDia (thetaD (+ m n))))
+      (lift (Nat.succ n) m A) (lift 1 m (lift n m B)) (lift (Nat.succ n) m B)
+      (cv_cast_start chkf (skels (insD m Exp.tDia (thetaD (+ m n))))
+        (lift 1 m (lift n m A)) (lift (Nat.succ n) m A) (lift 1 m (lift n m B))
+        (cv_weaken chkf (thetaD (+ m n)) (lift n m A) (lift n m B) ih_n m Exp.tDia)
+        (Eq.trans (lift_comp A 1 n m) (congrArg (fn [k :- Nat] (lift k m A)) (add_n1 n))))
+      (Eq.trans (lift_comp B 1 n m) (congrArg (fn [k :- Nat] (lift k m B)) (add_n1 n))))
+    (Eq.trans (congrArg skels (insD_theta m n))
+      (Eq.trans (congrArg (fn [k :- Nat] (skels (thetaD k))) (add_n1 (+ m n)))
+        (congrArg (fn [k :- Nat] (skels (thetaD k))) (Eq.symm (add_succ_out m n))))))))
+
+(thm lift_unit_at [k :- Nat, cut :- Nat] (Eq Exp (lift k cut Exp.tUnit) Exp.tUnit) (rfl))
+(thm lift_ev_at [k :- Nat, cut :- Nat, t :- Exp, ca :- Exp]
+  (Eq Exp (lift k cut (evTy t ca)) (evTy (lift k cut t) (lift k cut ca))) (rfl))
+
+;; lit0 mentions only variables below ‖v‖, so padding the outer edge leaves it.
+(thm lit_fixed [v :- Code]
+  (Eq Exp (lift (cnodes v) (cnodes v) (lit0 v)) (lit0 v))
+  (exact (closed_lift (lit0 v) (cnodes v) (lit_closed_block v) (cnodes v) (cnodes v) (le_refl (cnodes v)))))
+
+;; Inner copy: the original tokens, with ‖v‖ unused tokens appended outside them.
+(thm lit_inner [chkf :- (=> Code Code Bool), v :- Code, hok :- (Eq Bool (lblOk v) Bool.true)]
+  (Rt chkf (thetaD (+ (cnodes v) (cnodes v))) (prefixU (cnodes v) U.u1 (vzero (cnodes v))) (lit0 v) Exp.tR)
+  (exact (rt_reindex chkf
+    (thetaD (+ (cnodes v) (cnodes v)))
+    (prefixU (cnodes v) U.u1 (vzero (cnodes v)))
+    (lift (cnodes v) (cnodes v) (lit0 v)) Exp.tR
+    (thetaD (+ (cnodes v) (cnodes v)))
+    (prefixU (cnodes v) U.u1 (vzero (cnodes v)))
+    (lit0 v) Exp.tR
+    (rt_theta_append chkf (cnodes v) (lit0 v) Exp.tR closed_tR ((rt_lit chkf v) hok) (cnodes v))
+    rfl rfl (lit_fixed v) rfl)))
+
+;; The same literal under the discarded binder.  Variables move up by one.
+(thm lit_left [chkf :- (=> Code Code Bool), v :- Code,
+                    hok :- (Eq Bool (lblOk v) Bool.true), XX :- Exp]
+  (Rt chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+      (List.cons U U.u0 (prefixU (cnodes v) U.u1 (vzero (cnodes v))))
+      ((litAt v) 1) Exp.tR)
+  (exact (rt_reindex chkf
+    (insD 0 XX (thetaD (+ (cnodes v) (cnodes v))))
+    (insU 0 U.u0 (prefixU (cnodes v) U.u1 (vzero (cnodes v))))
+    (lift 1 0 (lit0 v)) (lift 1 0 Exp.tR)
+    (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+    (List.cons U U.u0 (prefixU (cnodes v) U.u1 (vzero (cnodes v))))
+    ((litAt v) 1) Exp.tR
+    (rt_weaken chkf (thetaD (+ (cnodes v) (cnodes v)))
+      (prefixU (cnodes v) U.u1 (vzero (cnodes v))) (lit0 v) Exp.tR
+      (lit_inner chkf v hok) 0 XX)
+    (insD_zero XX (thetaD (+ (cnodes v) (cnodes v))))
+    (insU_zero U.u0 (prefixU (cnodes v) U.u1 (vzero (cnodes v))))
+    (Eq.trans (congrArg (fn [t :- Exp] (lift 1 0 t)) (lit0_at v))
+      (Eq.trans (lit_shift v 0 1) (congrArg (fn [i :- Nat] ((litAt v) i)) (Nat.zero_add 1))))
+    (closedTy_lift Exp.tR closed_tR 1 0))))
+
+;; Outer copy: ‖v‖ unused tokens in front, so the literal starts at index ‖v‖.
+(thm lit_outer [chkf :- (=> Code Code Bool), v :- Code, hok :- (Eq Bool (lblOk v) Bool.true)]
+  (Rt chkf (thetaD (+ (cnodes v) (cnodes v)))
+      (prefixU (cnodes v) U.u0 (thetaU (cnodes v)))
+      ((litAt v) (cnodes v)) Exp.tR)
+  (exact (rt_reindex chkf
+    (thetaD (+ (cnodes v) (cnodes v)))
+    (prefixU (cnodes v) U.u0 (thetaU (cnodes v)))
+    (lift (cnodes v) 0 (lit0 v)) Exp.tR
+    (thetaD (+ (cnodes v) (cnodes v)))
+    (prefixU (cnodes v) U.u0 (thetaU (cnodes v)))
+    ((litAt v) (cnodes v)) Exp.tR
+    (rt_theta_prepend chkf (cnodes v) (lit0 v) Exp.tR closed_tR ((rt_lit chkf v) hok) (cnodes v))
+    rfl rfl
+    (Eq.trans (congrArg (fn [t :- Exp] (lift (cnodes v) 0 t)) (lit0_at v))
+      (Eq.trans (lit_shift v 0 (cnodes v))
+        (congrArg (fn [i :- Nat] ((litAt v) i)) (Nat.zero_add (cnodes v)))))
+    rfl)))
+
+(thm lit_right [chkf :- (=> Code Code Bool), v :- Code,
+                     hok :- (Eq Bool (lblOk v) Bool.true), XX :- Exp]
+  (Rt chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+      (List.cons U U.u0 (prefixU (cnodes v) U.u0 (thetaU (cnodes v))))
+      ((litAt v) (+ (cnodes v) 1)) Exp.tR)
+  (exact (rt_reindex chkf
+    (insD 0 XX (thetaD (+ (cnodes v) (cnodes v))))
+    (insU 0 U.u0 (prefixU (cnodes v) U.u0 (thetaU (cnodes v))))
+    (lift 1 0 ((litAt v) (cnodes v))) (lift 1 0 Exp.tR)
+    (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+    (List.cons U U.u0 (prefixU (cnodes v) U.u0 (thetaU (cnodes v))))
+    ((litAt v) (+ (cnodes v) 1)) Exp.tR
+    (rt_weaken chkf (thetaD (+ (cnodes v) (cnodes v)))
+      (prefixU (cnodes v) U.u0 (thetaU (cnodes v))) ((litAt v) (cnodes v)) Exp.tR
+      (lit_outer chkf v hok) 0 XX)
+    (insD_zero XX (thetaD (+ (cnodes v) (cnodes v))))
+    (insU_zero U.u0 (prefixU (cnodes v) U.u0 (thetaU (cnodes v))))
+    (lit_shift v (cnodes v) 1)
+    (closedTy_lift Exp.tR closed_tR 1 0))))
+
+;; Proposition 4.2's chain, padded and then shifted under the binder, so each
+;; copy's ⋆ converts to T(chk (print (lit …)) ⌜A⌝).
+(thm cv_inner [chkf :- (=> Code Code Bool), v :- Code, cA :- Code,
+                    hck :- (Eq Bool (chkf v cA) Bool.true)]
+  (Cv chkf (skels (thetaD (+ (cnodes v) (cnodes v)))) Exp.tUnit
+      (evTy (lit0 v) (codeTerm cA)))
+  (exact (cv_cast_start chkf (skels (thetaD (+ (cnodes v) (cnodes v))))
+    (lift (cnodes v) (cnodes v) Exp.tUnit) Exp.tUnit
+    (evTy (lit0 v) (codeTerm cA))
+    (cv_cast_end chkf (skels (thetaD (+ (cnodes v) (cnodes v))))
+      (lift (cnodes v) (cnodes v) Exp.tUnit)
+      (lift (cnodes v) (cnodes v) (evTy (lit0 v) (codeTerm cA)))
+      (evTy (lit0 v) (codeTerm cA))
+      (cv_theta_append chkf (cnodes v) Exp.tUnit (evTy (lit0 v) (codeTerm cA))
+        (cv_lit chkf v cA hck) (cnodes v))
+      (Eq.trans (lift_ev_at (cnodes v) (cnodes v) (lit0 v) (codeTerm cA))
+        (Eq.trans (congrArg (fn [t :- Exp] (evTy t (lift (cnodes v) (cnodes v) (codeTerm cA))))
+                    (lit_fixed v))
+          (congrArg (fn [c :- Exp] (evTy (lit0 v) c)) (lift_code cA (cnodes v) (cnodes v))))))
+    (lift_unit_at (cnodes v) (cnodes v)))))
+
+(thm cv_left [chkf :- (=> Code Code Bool), v :- Code, cA :- Code,
+                   hck :- (Eq Bool (chkf v cA) Bool.true), XX :- Exp]
+  (Cv chkf (skels (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))) Exp.tUnit
+      (evTy ((litAt v) 1) (codeTerm cA)))
+  (exact (cv_cast_G chkf
+    (skels (insD 0 XX (thetaD (+ (cnodes v) (cnodes v)))))
+    (skels (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v)))))
+    Exp.tUnit (evTy ((litAt v) 1) (codeTerm cA))
+    (cv_cast_start chkf (skels (insD 0 XX (thetaD (+ (cnodes v) (cnodes v)))))
+      (lift 1 0 Exp.tUnit) Exp.tUnit (evTy ((litAt v) 1) (codeTerm cA))
+      (cv_cast_end chkf (skels (insD 0 XX (thetaD (+ (cnodes v) (cnodes v)))))
+        (lift 1 0 Exp.tUnit) (lift 1 0 (evTy (lit0 v) (codeTerm cA)))
+        (evTy ((litAt v) 1) (codeTerm cA))
+        (cv_weaken chkf (thetaD (+ (cnodes v) (cnodes v))) Exp.tUnit
+          (evTy (lit0 v) (codeTerm cA)) (cv_inner chkf v cA hck) 0 XX)
+        (Eq.trans (lift_ev 1 (lit0 v) (codeTerm cA))
+          (Eq.trans (congrArg (fn [t :- Exp] (evTy t (lift 1 0 (codeTerm cA))))
+                      (Eq.trans (congrArg (fn [t :- Exp] (lift 1 0 t)) (lit0_at v))
+                        (Eq.trans (lit_shift v 0 1)
+                          (congrArg (fn [i :- Nat] ((litAt v) i)) (Nat.zero_add 1)))))
+            (congrArg (fn [c :- Exp] (evTy ((litAt v) 1) c)) (lift_code cA 1 0)))))
+      (lift_unit 1))
+    (congrArg skels (insD_zero XX (thetaD (+ (cnodes v) (cnodes v))))))))
+
+(thm cv_outer [chkf :- (=> Code Code Bool), v :- Code, cA :- Code,
+                    hck :- (Eq Bool (chkf v cA) Bool.true)]
+  (Cv chkf (skels (thetaD (+ (cnodes v) (cnodes v)))) Exp.tUnit
+      (evTy ((litAt v) (cnodes v)) (codeTerm cA)))
+  (exact (cv_cast_start chkf (skels (thetaD (+ (cnodes v) (cnodes v))))
+    (lift (cnodes v) 0 Exp.tUnit) Exp.tUnit
+    (evTy ((litAt v) (cnodes v)) (codeTerm cA))
+    (cv_cast_end chkf (skels (thetaD (+ (cnodes v) (cnodes v))))
+      (lift (cnodes v) 0 Exp.tUnit)
+      (lift (cnodes v) 0 (evTy (lit0 v) (codeTerm cA)))
+      (evTy ((litAt v) (cnodes v)) (codeTerm cA))
+      (cv_theta_prepend chkf (cnodes v) Exp.tUnit (evTy (lit0 v) (codeTerm cA))
+        (cv_lit chkf v cA hck) (cnodes v))
+      (Eq.trans (lift_ev_at (cnodes v) 0 (lit0 v) (codeTerm cA))
+        (Eq.trans (congrArg (fn [t :- Exp] (evTy t (lift (cnodes v) 0 (codeTerm cA))))
+                    (Eq.trans (congrArg (fn [t :- Exp] (lift (cnodes v) 0 t)) (lit0_at v))
+                      (Eq.trans (lit_shift v 0 (cnodes v))
+                        (congrArg (fn [i :- Nat] ((litAt v) i)) (Nat.zero_add (cnodes v))))))
+          (congrArg (fn [c :- Exp] (evTy ((litAt v) (cnodes v)) c)) (lift_code cA (cnodes v) 0)))))
+    (lift_unit (cnodes v)))))
+
+(thm cv_right [chkf :- (=> Code Code Bool), v :- Code, cA :- Code,
+                    hck :- (Eq Bool (chkf v cA) Bool.true), XX :- Exp]
+  (Cv chkf (skels (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))) Exp.tUnit
+      (evTy ((litAt v) (+ (cnodes v) 1)) (codeTerm cA)))
+  (exact (cv_cast_G chkf
+    (skels (insD 0 XX (thetaD (+ (cnodes v) (cnodes v)))))
+    (skels (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v)))))
+    Exp.tUnit (evTy ((litAt v) (+ (cnodes v) 1)) (codeTerm cA))
+    (cv_cast_start chkf (skels (insD 0 XX (thetaD (+ (cnodes v) (cnodes v)))))
+      (lift 1 0 Exp.tUnit) Exp.tUnit
+      (evTy ((litAt v) (+ (cnodes v) 1)) (codeTerm cA))
+      (cv_cast_end chkf (skels (insD 0 XX (thetaD (+ (cnodes v) (cnodes v)))))
+        (lift 1 0 Exp.tUnit)
+        (lift 1 0 (evTy ((litAt v) (cnodes v)) (codeTerm cA)))
+        (evTy ((litAt v) (+ (cnodes v) 1)) (codeTerm cA))
+        (cv_weaken chkf (thetaD (+ (cnodes v) (cnodes v))) Exp.tUnit
+          (evTy ((litAt v) (cnodes v)) (codeTerm cA)) (cv_outer chkf v cA hck) 0 XX)
+        (Eq.trans (lift_ev 1 ((litAt v) (cnodes v)) (codeTerm cA))
+          (Eq.trans (congrArg (fn [t :- Exp] (evTy t (lift 1 0 (codeTerm cA))))
+                      (lit_shift v (cnodes v) 1))
+            (congrArg (fn [c :- Exp] (evTy ((litAt v) (+ (cnodes v) 1)) c)) (lift_code cA 1 0)))))
+      (lift_unit 1))
+    (congrArg skels (insD_zero XX (thetaD (+ (cnodes v) (cnodes v))))))))
+
+(thm tl_lit_left [chkf :- (=> Code Code Bool), v :- Code,
+                       hok :- (Eq Bool (lblOk v) Bool.true), XX :- Exp]
+  (Tl chkf Bool.false (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+      ((litAt v) 1) Exp.tR)
+  (exact (tl_cast3 chkf Bool.false (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+    (lift 1 0 ((litAt v) 0)) ((litAt v) 1) (lift 1 0 Exp.tR) Exp.tR
+    (tl_cast_D chkf Bool.false
+      (insD 0 XX (thetaD (+ 0 (+ (cnodes v) (cnodes v)))))
+      (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+      (lift 1 0 ((litAt v) 0)) (lift 1 0 Exp.tR)
+      (tl_weaken chkf Bool.false (thetaD (+ 0 (+ (cnodes v) (cnodes v))))
+        ((litAt v) 0) Exp.tR (((tl_lit chkf v) hok) 0 (cnodes v)) 0 XX)
+      (Eq.trans (insD_zero XX (thetaD (+ 0 (+ (cnodes v) (cnodes v)))))
+        (congrArg (fn [D :- (List Exp)] (List.cons Exp XX D))
+          (congrArg thetaD (Nat.zero_add (+ (cnodes v) (cnodes v)))))))
+    (Eq.trans (lit_shift v 0 1) (congrArg (fn [i :- Nat] ((litAt v) i)) (Nat.zero_add 1)))
+    (closedTy_lift Exp.tR closed_tR 1 0))))
+
+(thm tl_lit_right [chkf :- (=> Code Code Bool), v :- Code,
+                        hok :- (Eq Bool (lblOk v) Bool.true), XX :- Exp]
+  (Tl chkf Bool.false (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+      ((litAt v) (+ (cnodes v) 1)) Exp.tR)
+  (exact (tl_cast3 chkf Bool.false (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+    (lift 1 0 ((litAt v) (cnodes v))) ((litAt v) (+ (cnodes v) 1))
+    (lift 1 0 Exp.tR) Exp.tR
+    (tl_cast_D chkf Bool.false
+      (insD 0 XX (thetaD (+ (cnodes v) (+ (cnodes v) 0))))
+      (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+      (lift 1 0 ((litAt v) (cnodes v))) (lift 1 0 Exp.tR)
+      (tl_weaken chkf Bool.false (thetaD (+ (cnodes v) (+ (cnodes v) 0)))
+        ((litAt v) (cnodes v)) Exp.tR (((tl_lit chkf v) hok) (cnodes v) 0) 0 XX)
+      (Eq.trans (insD_zero XX (thetaD (+ (cnodes v) (+ (cnodes v) 0))))
+        (congrArg (fn [D :- (List Exp)] (List.cons Exp XX D))
+          (congrArg thetaD (add_n0 (cnodes v) (cnodes v))))))
+    (lit_shift v (cnodes v) 1)
+    (closedTy_lift Exp.tR closed_tR 1 0))))
+
+(thm tl_ev_left [chkf :- (=> Code Code Bool), v :- Code, cA :- Code,
+                      hok :- (Eq Bool (lblOk v) Bool.true),
+                      hA :- (Eq Bool (lblOk cA) Bool.true), XX :- Exp]
+  (Tl chkf Bool.true (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+      (evTy ((litAt v) 1) (codeTerm cA)) Exp.tUnit)
+  (exact (Tl.fT chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+    (Exp.chk (Exp.prn ((litAt v) 1)) (codeTerm cA))
+    (Tl.zChk chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+      (Exp.prn ((litAt v) 1)) (codeTerm cA)
+      (Tl.zPrn chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v)))) ((litAt v) 1)
+        (tl_lit_left chkf v hok XX))
+      ((tl_code chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v)))) cA) hA)))))
+
+(thm tl_ev_right [chkf :- (=> Code Code Bool), v :- Code, cA :- Code,
+                       hok :- (Eq Bool (lblOk v) Bool.true),
+                       hA :- (Eq Bool (lblOk cA) Bool.true), XX :- Exp]
+  (Tl chkf Bool.true (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+      (evTy ((litAt v) (+ (cnodes v) 1)) (codeTerm cA)) Exp.tUnit)
+  (exact (Tl.fT chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+    (Exp.chk (Exp.prn ((litAt v) (+ (cnodes v) 1))) (codeTerm cA))
+    (Tl.zChk chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+      (Exp.prn ((litAt v) (+ (cnodes v) 1))) (codeTerm cA)
+      (Tl.zPrn chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+        ((litAt v) (+ (cnodes v) 1)) (tl_lit_right chkf v hok XX))
+      ((tl_code chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v)))) cA) hA)))))
+
+;; r is the usage of the discarded binder.  The inner copy takes r = 1;
+;; the outer copy takes r = 0.
+(thm rt_star_left [chkf :- (=> Code Code Bool), v :- Code, cA :- Code,
+                        hok :- (Eq Bool (lblOk v) Bool.true),
+                        hA :- (Eq Bool (lblOk cA) Bool.true),
+                        hck :- (Eq Bool (chkf v cA) Bool.true), XX :- Exp, r :- U]
+  (Rt chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+      (List.cons U r (vzero (+ (cnodes v) (cnodes v)))) Exp.star
+      (subst1 ((litAt v) 1) (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm cA)))))
+  (exact (rt_cast chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+    (List.cons U r (vzero (+ (cnodes v) (cnodes v))))
+    (List.cons U r (vzero (+ (cnodes v) (cnodes v)))) Exp.star
+    (evTy ((litAt v) 1) (codeTerm cA))
+    (subst1 ((litAt v) 1) (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm cA))))
+    (Rt.rConv chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+      (List.cons U r (vzero (+ (cnodes v) (cnodes v)))) Exp.star Exp.tUnit
+      (evTy ((litAt v) 1) (codeTerm cA))
+      (Rt.rConst chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+        (List.cons U r (vzero (+ (cnodes v) (cnodes v)))) Exp.star Exp.tUnit
+        (len_front XX r (+ (cnodes v) (cnodes v))) star_unit)
+      (tl_ev_left chkf v cA hok hA XX)
+      (cv_left chkf v cA hck XX))
+    rfl (Eq.symm (subst_ev_code ((litAt v) 1) cA)))))
+
+(thm rt_star_right [chkf :- (=> Code Code Bool), v :- Code, cA :- Code,
+                         hok :- (Eq Bool (lblOk v) Bool.true),
+                         hA :- (Eq Bool (lblOk cA) Bool.true),
+                         hck :- (Eq Bool (chkf v cA) Bool.true), XX :- Exp, r :- U]
+  (Rt chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+      (List.cons U r (vzero (+ (cnodes v) (cnodes v)))) Exp.star
+      (subst1 ((litAt v) (+ (cnodes v) 1)) (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm cA)))))
+  (exact (rt_cast chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+    (List.cons U r (vzero (+ (cnodes v) (cnodes v))))
+    (List.cons U r (vzero (+ (cnodes v) (cnodes v)))) Exp.star
+    (evTy ((litAt v) (+ (cnodes v) 1)) (codeTerm cA))
+    (subst1 ((litAt v) (+ (cnodes v) 1)) (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm cA))))
+    (Rt.rConv chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+      (List.cons U r (vzero (+ (cnodes v) (cnodes v)))) Exp.star Exp.tUnit
+      (evTy ((litAt v) (+ (cnodes v) 1)) (codeTerm cA))
+      (Rt.rConst chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+        (List.cons U r (vzero (+ (cnodes v) (cnodes v)))) Exp.star Exp.tUnit
+        (len_front XX r (+ (cnodes v) (cnodes v))) star_unit)
+      (tl_ev_right chkf v cA hok hA XX)
+      (cv_right chkf v cA hck XX))
+    rfl (Eq.symm (subst_ev_code ((litAt v) (+ (cnodes v) 1)) cA)))))
+
+(thm uadd_one_zero [] (Eq U (uadd U.u1 U.u0) U.u1) (rfl))
+
+(thm vzero_cat [n :- Nat, m :- Nat]
+  (Eq (List U) (vzero (+ n m)) (prefixU n U.u0 (vzero m)))
+  (induction n)
+  (exact (Eq.trans (congrArg vzero (Nat.zero_add m)) (Eq.symm (prefixU_zero U.u0 (vzero m)))))
+  (exact (Eq.trans (congrArg vzero (Nat.succ_add n m))
+    (Eq.trans (vzero_succ (+ n m))
+      (Eq.trans (congrArg (fn [us :- (List U)] (List.cons U U.u0 us)) ih_n)
+        (Eq.symm (prefixU_succ n U.u0 (vzero m))))))))
+
+(thm vadd_prefix_zero [n :- Nat, xs :- (List U), ys :- (List U)]
+  (Eq (List U) (vadd (prefixU n U.u0 xs) (prefixU n U.u0 ys))
+               (prefixU n U.u0 (vadd xs ys)))
+  (induction n)
+  (rfl)
+  (exact (Eq.trans (vadd_cons2 U.u0 U.u0 (prefixU n U.u0 xs) (prefixU n U.u0 ys))
+    (Eq.trans (congrArg (fn [us :- (List U)] (List.cons U (uadd U.u0 U.u0) us)) ih_n)
+      (Eq.trans (congrArg (fn [r :- U] (List.cons U r (prefixU n U.u0 (vadd xs ys)))) (uadd_zero_left U.u0))
+        (Eq.symm (prefixU_succ n U.u0 (vadd xs ys))))))))
+
+(thm vadd_ones_zeros [n :- Nat, m :- Nat]
+  (Eq (List U) (vadd (prefixU n U.u1 (vzero m)) (prefixU n U.u0 (vzero m)))
+               (prefixU n U.u1 (vzero m)))
+  (induction n)
+  (exact (vadd_zero_zero m))
+  (exact (Eq.trans (vadd_cons2 U.u1 U.u0 (prefixU n U.u1 (vzero m)) (prefixU n U.u0 (vzero m)))
+    (Eq.trans (congrArg (fn [us :- (List U)] (List.cons U (uadd U.u1 U.u0) us)) ih_n)
+      (Eq.trans (congrArg (fn [r :- U] (List.cons U r (prefixU n U.u1 (vzero m)))) uadd_one_zero)
+        (Eq.symm (prefixU_succ n U.u1 (vzero m))))))))
+
+;; Inner pair: lit takes the first block, ⋆ takes usage 1 of the binder.
+(thm us_left [n :- Nat]
+  (Eq (List U)
+    (vadd (vscale U.u1 (List.cons U U.u0 (prefixU n U.u1 (vzero n))))
+          (List.cons U U.u1 (vzero (+ n n))))
+    (List.cons U U.u1 (prefixU n U.u1 (vzero n))))
+  (exact (Eq.trans
+    (congrArg (fn [us :- (List U)] (vadd us (List.cons U U.u1 (vzero (+ n n)))))
+      (vscale_one (List.cons U U.u0 (prefixU n U.u1 (vzero n)))))
+    (Eq.trans (vadd_cons2 U.u0 U.u1 (prefixU n U.u1 (vzero n)) (vzero (+ n n)))
+      (Eq.trans (congrArg (fn [us :- (List U)] (List.cons U (uadd U.u0 U.u1) us))
+                  (Eq.trans (congrArg (fn [ys :- (List U)] (vadd (prefixU n U.u1 (vzero n)) ys))
+                              (vzero_cat n n))
+                    (vadd_ones_zeros n n)))
+        (congrArg (fn [r :- U] (List.cons U r (prefixU n U.u1 (vzero n)))) (uadd_zero_left U.u1)))))))
+
+;; Outer pair: lit takes the second block, and nothing uses the binder.
+(thm us_right [n :- Nat]
+  (Eq (List U)
+    (vadd (vscale U.u1 (List.cons U U.u0 (prefixU n U.u0 (thetaU n))))
+          (List.cons U U.u0 (vzero (+ n n))))
+    (List.cons U U.u0 (prefixU n U.u0 (thetaU n))))
+  (exact (Eq.trans
+    (congrArg (fn [us :- (List U)] (vadd us (List.cons U U.u0 (vzero (+ n n)))))
+      (vscale_one (List.cons U U.u0 (prefixU n U.u0 (thetaU n)))))
+    (Eq.trans (vadd_cons2 U.u0 U.u0 (prefixU n U.u0 (thetaU n)) (vzero (+ n n)))
+      (Eq.trans (congrArg (fn [us :- (List U)] (List.cons U (uadd U.u0 U.u0) us))
+                  (Eq.trans (congrArg (fn [ys :- (List U)] (vadd (prefixU n U.u0 (thetaU n)) ys))
+                              (vzero_cat n n))
+                    (Eq.trans (vadd_prefix_zero n (thetaU n) (vzero n))
+                      (congrArg (fn [us :- (List U)] (prefixU n U.u0 us)) (vadd_theta_zero n)))))
+        (congrArg (fn [r :- U] (List.cons U r (prefixU n U.u0 (thetaU n)))) (uadd_zero_left U.u0)))))))
+
+;; The two block usages, added at usage 1, are Θ_{2n}, with the binder at 1.
+(thm us_tensor [n :- Nat]
+  (Eq (List U)
+    (vadd (vscale U.u1 (List.cons U U.u0 (prefixU n U.u0 (thetaU n))))
+          (List.cons U U.u1 (prefixU n U.u1 (vzero n))))
+    (List.cons U U.u1 (thetaU (+ n n))))
+  (exact (Eq.trans
+    (congrArg (fn [us :- (List U)]
+                (vadd us (List.cons U U.u1 (prefixU n U.u1 (vzero n)))))
+      (vscale_one (List.cons U U.u0 (prefixU n U.u0 (thetaU n)))))
+    (Eq.trans
+      (vadd_cons2 U.u0 U.u1 (prefixU n U.u0 (thetaU n)) (prefixU n U.u1 (vzero n)))
+      (Eq.trans
+        (congrArg (fn [us :- (List U)] (List.cons U (uadd U.u0 U.u1) us))
+          (Eq.trans
+            (congrArg (fn [ys :- (List U)] (vadd (prefixU n U.u0 (thetaU n)) ys))
+              (Eq.symm (vscale_one (prefixU n U.u1 (vzero n)))))
+            (vadd_theta_blocks n n)))
+        (congrArg (fn [r :- U] (List.cons U r (thetaU (+ n n)))) (uadd_zero_left U.u1)))))))
+
+(thm cert_left [chkf :- (=> Code Code Bool), v :- Code, cA :- Code,
+                     hok :- (Eq Bool (lblOk v) Bool.true),
+                     hA :- (Eq Bool (lblOk cA) Bool.true),
+                     hck :- (Eq Bool (chkf v cA) Bool.true), XX :- Exp]
+  (Rt chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+      (List.cons U U.u1 (prefixU (cnodes v) U.u1 (vzero (cnodes v))))
+      (Exp.pair (boxTy (codeTerm cA)) ((litAt v) 1) Exp.star)
+      (boxTy (codeTerm cA)))
+  (exact (rt_reindex chkf
+    (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+    (vadd (vscale U.u1 (List.cons U U.u0 (prefixU (cnodes v) U.u1 (vzero (cnodes v)))))
+          (List.cons U U.u1 (vzero (+ (cnodes v) (cnodes v)))))
+    (Exp.pair (Exp.tSig U.u1 Exp.tR (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm cA))))
+              ((litAt v) 1) Exp.star)
+    (Exp.tSig U.u1 Exp.tR (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm cA))))
+    (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+    (List.cons U U.u1 (prefixU (cnodes v) U.u1 (vzero (cnodes v))))
+    (Exp.pair (boxTy (codeTerm cA)) ((litAt v) 1) Exp.star)
+    (boxTy (codeTerm cA))
+    (Rt.rPair chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+      (List.cons U U.u0 (prefixU (cnodes v) U.u1 (vzero (cnodes v))))
+      (List.cons U U.u1 (vzero (+ (cnodes v) (cnodes v))))
+      U.u1 Exp.tR (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm cA)))
+      ((litAt v) 1) Exp.star nonzero_u1
+      (Tl.fBase chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v)))) Exp.tR base_tR)
+      (tl_box_body chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v)))) cA hA)
+      (lit_left chkf v hok XX)
+      (rt_star_left chkf v cA hok hA hck XX U.u1))
+    rfl (us_left (cnodes v))
+    (congrArg (fn [S :- Exp] (Exp.pair S ((litAt v) 1) Exp.star)) (Eq.symm (boxTy_unfold cA)))
+    (Eq.symm (boxTy_unfold cA)))))
+
+(thm cert_right [chkf :- (=> Code Code Bool), v :- Code, cA :- Code,
+                      hok :- (Eq Bool (lblOk v) Bool.true),
+                      hA :- (Eq Bool (lblOk cA) Bool.true),
+                      hck :- (Eq Bool (chkf v cA) Bool.true), XX :- Exp]
+  (Rt chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+      (List.cons U U.u0 (prefixU (cnodes v) U.u0 (thetaU (cnodes v))))
+      (Exp.pair (boxTy (codeTerm cA)) ((litAt v) (+ (cnodes v) 1)) Exp.star)
+      (boxTy (codeTerm cA)))
+  (exact (rt_reindex chkf
+    (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+    (vadd (vscale U.u1 (List.cons U U.u0 (prefixU (cnodes v) U.u0 (thetaU (cnodes v)))))
+          (List.cons U U.u0 (vzero (+ (cnodes v) (cnodes v)))))
+    (Exp.pair (Exp.tSig U.u1 Exp.tR (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm cA))))
+              ((litAt v) (+ (cnodes v) 1)) Exp.star)
+    (Exp.tSig U.u1 Exp.tR (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm cA))))
+    (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+    (List.cons U U.u0 (prefixU (cnodes v) U.u0 (thetaU (cnodes v))))
+    (Exp.pair (boxTy (codeTerm cA)) ((litAt v) (+ (cnodes v) 1)) Exp.star)
+    (boxTy (codeTerm cA))
+    (Rt.rPair chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v))))
+      (List.cons U U.u0 (prefixU (cnodes v) U.u0 (thetaU (cnodes v))))
+      (List.cons U U.u0 (vzero (+ (cnodes v) (cnodes v))))
+      U.u1 Exp.tR (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm cA)))
+      ((litAt v) (+ (cnodes v) 1)) Exp.star nonzero_u1
+      (Tl.fBase chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v)))) Exp.tR base_tR)
+      (tl_box_body chkf (List.cons Exp XX (thetaD (+ (cnodes v) (cnodes v)))) cA hA)
+      (lit_right chkf v hok XX)
+      (rt_star_right chkf v cA hok hA hck XX U.u0))
+    rfl (us_right (cnodes v))
+    (congrArg (fn [S :- Exp] (Exp.pair S ((litAt v) (+ (cnodes v) 1)) Exp.star))
+      (Eq.symm (boxTy_unfold cA)))
+    (Eq.symm (boxTy_unfold cA)))))
+
+;; The two certificates, paired at usage 1.  The outer copy is the first
+;; component so vadd_theta_blocks sees its zero-prefix on the left.
+(thm tensor_body [chkf :- (=> Code Code Bool), v :- Code, cA :- Code,
+                       hok :- (Eq Bool (lblOk v) Bool.true),
+                       hA :- (Eq Bool (lblOk cA) Bool.true),
+                       hck :- (Eq Bool (chkf v cA) Bool.true)]
+  (Rt chkf (List.cons Exp (boxTy (codeTerm cA)) (thetaD (+ (cnodes v) (cnodes v))))
+      (List.cons U U.u1 (thetaU (+ (cnodes v) (cnodes v))))
+      (Exp.pair (Exp.tSig U.u1 (boxTy (codeTerm cA)) (boxTy (codeTerm cA)))
+        (Exp.pair (boxTy (codeTerm cA)) ((litAt v) (+ (cnodes v) 1)) Exp.star)
+        (Exp.pair (boxTy (codeTerm cA)) ((litAt v) 1) Exp.star))
+      (Exp.tSig U.u1 (boxTy (codeTerm cA)) (boxTy (codeTerm cA))))
+  (exact (rt_cast chkf
+    (List.cons Exp (boxTy (codeTerm cA)) (thetaD (+ (cnodes v) (cnodes v))))
+    (vadd (vscale U.u1 (List.cons U U.u0 (prefixU (cnodes v) U.u0 (thetaU (cnodes v)))))
+          (List.cons U U.u1 (prefixU (cnodes v) U.u1 (vzero (cnodes v)))))
+    (List.cons U U.u1 (thetaU (+ (cnodes v) (cnodes v))))
+    (Exp.pair (Exp.tSig U.u1 (boxTy (codeTerm cA)) (boxTy (codeTerm cA)))
+      (Exp.pair (boxTy (codeTerm cA)) ((litAt v) (+ (cnodes v) 1)) Exp.star)
+      (Exp.pair (boxTy (codeTerm cA)) ((litAt v) 1) Exp.star))
+    (Exp.tSig U.u1 (boxTy (codeTerm cA)) (boxTy (codeTerm cA)))
+    (Exp.tSig U.u1 (boxTy (codeTerm cA)) (boxTy (codeTerm cA)))
+    (Rt.rPair chkf
+      (List.cons Exp (boxTy (codeTerm cA)) (thetaD (+ (cnodes v) (cnodes v))))
+      (List.cons U U.u0 (prefixU (cnodes v) U.u0 (thetaU (cnodes v))))
+      (List.cons U U.u1 (prefixU (cnodes v) U.u1 (vzero (cnodes v))))
+      U.u1 (boxTy (codeTerm cA)) (boxTy (codeTerm cA))
+      (Exp.pair (boxTy (codeTerm cA)) ((litAt v) (+ (cnodes v) 1)) Exp.star)
+      (Exp.pair (boxTy (codeTerm cA)) ((litAt v) 1) Exp.star)
+      nonzero_u1
+      (tl_boxTy chkf (List.cons Exp (boxTy (codeTerm cA)) (thetaD (+ (cnodes v) (cnodes v)))) cA hA)
+      (tl_boxTy chkf
+        (List.cons Exp (boxTy (codeTerm cA))
+          (List.cons Exp (boxTy (codeTerm cA)) (thetaD (+ (cnodes v) (cnodes v))))) cA hA)
+      (cert_right chkf v cA hok hA hck (boxTy (codeTerm cA)))
+      (rt_cast chkf
+        (List.cons Exp (boxTy (codeTerm cA)) (thetaD (+ (cnodes v) (cnodes v))))
+        (List.cons U U.u1 (prefixU (cnodes v) U.u1 (vzero (cnodes v))))
+        (List.cons U U.u1 (prefixU (cnodes v) U.u1 (vzero (cnodes v))))
+        (Exp.pair (boxTy (codeTerm cA)) ((litAt v) 1) Exp.star)
+        (boxTy (codeTerm cA))
+        (subst1 (Exp.pair (boxTy (codeTerm cA)) ((litAt v) (+ (cnodes v) 1)) Exp.star)
+                (boxTy (codeTerm cA)))
+        (cert_left chkf v cA hok hA hck (boxTy (codeTerm cA)))
+        rfl
+        (Eq.symm (subst_box
+          (Exp.pair (boxTy (codeTerm cA)) ((litAt v) (+ (cnodes v) 1)) Exp.star) cA))))
+    (us_tensor (cnodes v)) rfl)))
+
+;; Proposition 4.5, boxed contraction.  For a certificate v of A,
+;; Θ_{2‖v‖} ⊢ λz. ((lit v, ⋆), (lit v, ⋆)) :¹ □A ⊸ □A ⊗ □A.
+;; The two literals use disjoint token blocks; ⋆ of the inner copy carries
+;; the usage of z, which the term ignores.  The decoder is not used.
+(thm prop45_contraction [chkf :- (=> Code Code Bool),
+                              dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+                              encTy :- (=> Exp Code),
+                              A :- Exp, v :- Code,
+                              hok :- (Eq Bool (lblOk v) Bool.true),
+                              hA :- (Eq Bool (lblOk (encTy A)) Bool.true),
+                              hck :- (Eq Bool (chkf v (encTy A)) Bool.true)]
+  (Rt chkf (thetaD (+ (cnodes v) (cnodes v))) (thetaU (+ (cnodes v) (cnodes v)))
+      (Exp.lam U.u1 (boxTy (codeTerm (encTy A)))
+        (Exp.pair (Exp.tSig U.u1 (boxTy (codeTerm (encTy A))) (boxTy (codeTerm (encTy A))))
+          (Exp.pair (boxTy (codeTerm (encTy A))) ((litAt v) (+ (cnodes v) 1)) Exp.star)
+          (Exp.pair (boxTy (codeTerm (encTy A))) ((litAt v) 1) Exp.star)))
+      (Exp.tPi U.u1 (boxTy (codeTerm (encTy A)))
+        (Exp.tSig U.u1 (boxTy (codeTerm (encTy A))) (boxTy (codeTerm (encTy A))))))
+  (exact (Rt.rLam chkf (thetaD (+ (cnodes v) (cnodes v)))
+    (thetaU (+ (cnodes v) (cnodes v))) U.u1
+    (boxTy (codeTerm (encTy A)))
+    (Exp.pair (Exp.tSig U.u1 (boxTy (codeTerm (encTy A))) (boxTy (codeTerm (encTy A))))
+      (Exp.pair (boxTy (codeTerm (encTy A))) ((litAt v) (+ (cnodes v) 1)) Exp.star)
+      (Exp.pair (boxTy (codeTerm (encTy A))) ((litAt v) 1) Exp.star))
+    (Exp.tSig U.u1 (boxTy (codeTerm (encTy A))) (boxTy (codeTerm (encTy A))))
+    (tl_boxTy chkf (thetaD (+ (cnodes v) (cnodes v))) (encTy A) hA)
+    (tensor_body chkf v (encTy A) hok hA hck))))
