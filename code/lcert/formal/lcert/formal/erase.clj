@@ -1364,6 +1364,19 @@
   (exact (Bool.noConfusion h))
   (exact (Bool.noConfusion h)))
 
+;; On a base skeleton E is Theorem 4's relation: both are the same equality,
+;; so they do not depend on the budget.  This is why an erasing run and
+;; evalₙ can be compared at a base data type.
+(thm ebase_rel
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), n :- Nat, s :- Sk, v :- RV, a :- (Car s),
+   h :- (Eq Bool (baseSk s) Bool.true)]
+  (Eq Prop (ebase s v a) (rel chkf dec encTy n s v a))
+  (cases s)
+  (all_goals (try rfl))
+  (exact (Bool.noConfusion h))
+  (exact (Bool.noConfusion h)))
+
 ;; Restriction, scalar half (Theorem 4′ and Theorem 5.2): a sum is nonzero
 ;; when either part is, and a product of two nonzero usages is nonzero.
 ;; uadd_eq_zero / umul_eq_zero are the contrapositives; these are the
