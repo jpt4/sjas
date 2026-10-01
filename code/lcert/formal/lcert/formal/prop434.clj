@@ -7,8 +7,8 @@
   - prop44_1: for every k, no q with Θₖ, x :₁ R ⊢ q :¹ R maps every
     certificate of every closed A to a certificate of □A (stated for a
     minimal certificate of ¬ᵏ⁺¹1, whose existence the paper presumes).
-  Both assume CheckSpec and EncSize (E2–E4's size consequence); 4.4 (2), (3)
-  are open."
+  4.3 assumes CheckSpec and TokSize; 4.4 (1) also TypeSize (E2–E4's size
+  consequences, each as weak as its use allows); 4.4 (2), (3) are open."
   (:require [ansatz.core :as a]
             [lcert.formal.base :as b :refer [thm kdef lv]]
             [lcert.formal.usage :refer :all]
@@ -29,20 +29,29 @@
             [lcert.formal.conversion]
             [lcert.formal.convcase]))
 
-;; --- E2–E4, as the size of an accepted certificate ------------------------------------------
+;; --- E2–E4, as two size facts about an accepted certificate ---------------------------------
 
-;; EncSize: an accepted certificate of Θₘ ⊢ t : A has at least 1 + m + f + ‖⌜A⌝‖
-;; internal nodes, f the tokens free in t: its root is a derivation node (E2),
-;; its judgment holds the context (m entries), the term (a node per variable
-;; occurrence) and the type as disjoint subtrees (E3, E4).  Part of the trust
-;; base (ADR-0006 §2: the encoding properties), a hypothesis where used.
-
-;; E2–E4's consequence for an accepted certificate (part of the trust base, ADR-0006 §2)
-(kdef EncSize (forall [chkf (=> Code Code Bool)] (forall [dec (=> Code (Option (Prod Nat (Prod Exp Exp))))] (=> (=> Exp Code) Prop)))
+;; Each is a hypothesis exactly where it is used, and each is a consequence of
+;; the encoding properties of §1.6 (part of the trust base, ADR-0006 §2),
+;; stated as weakly as its use allows.  For an accepted certificate c of
+;; Θₘ ⊢ t :¹ A (as dec decodes it):
+;;
+;; TokSize: 2f < ‖c‖, f the tokens free in t.  Each such token is recorded
+;;   twice in disjoint subtrees — as a context entry (E3) and as an occurrence
+;;   in the term (E4) — below a root derivation node (E2).  The paper's
+;;   ‖c‖ ≥ 1 + m + f implies it (f ≤ m).  Proposition 4.3 uses it.
+;; TypeSize: ‖⌜A⌝‖ < ‖c‖.  The judgment contains the type's encoding (E2, E3)
+;;   below the root.  Proposition 4.4 uses it ("its root judgment encodes A").
+(kdef TokSize (forall [chkf (=> Code Code Bool)] (forall [dec (=> Code (Option (Prod Nat (Prod Exp Exp))))] Prop))
+  (fn [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp))))]
+    (forall [c Code] (forall [d Code] (forall [m Nat] (forall [t Exp] (forall [A Exp]
+      (=> (Eq Bool (chkf c d) Bool.true) (Eq (Option (Prod Nat (Prod Exp Exp))) (dec c) (Option.some (Prod Nat (Prod Exp Exp)) (Prod.mk m (Prod.mk t A))))
+          (LT.lt (+ (cntU (maskUF (thetaU m) (freshF t))) (cntU (maskUF (thetaU m) (freshF t)))) (cnodes c))))))))))
+(kdef TypeSize (forall [chkf (=> Code Code Bool)] (forall [dec (=> Code (Option (Prod Nat (Prod Exp Exp))))] (=> (=> Exp Code) Prop)))
   (fn [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code)]
     (forall [c Code] (forall [d Code] (forall [m Nat] (forall [t Exp] (forall [A Exp]
       (=> (Eq Bool (chkf c d) Bool.true) (Eq (Option (Prod Nat (Prod Exp Exp))) (dec c) (Option.some (Prod Nat (Prod Exp Exp)) (Prod.mk m (Prod.mk t A))))
-          (LE.le (+ 1 (+ m (+ (cntU (maskUF (thetaU m) (freshF t))) (cnodes (encTy A))))) (cnodes c))))))))))
+          (LT.lt (cnodes (encTy A)) (cnodes c))))))))))
 (thm ucnt_sel [bb :- Bool] (LE.le (ucnt (Bool.rec$1 (fn [_ :- Bool] U) U.u1 U.u0 bb)) 1) (cases bb) (exact (Nat.le_refl 1)) (exact (Nat.zero_le 1)))
 (thm add_le_succ [a :- Nat, b :- Nat, m :- Nat, ha :- (LE.le a 1), hb :- (LE.le b m)] (LE.le (+ a b) (+ m 1)) (omega))
 (thm cnt_mask_le [m :- Nat] (forall [g (=> Nat Bool)] (LE.le (cntU (maskUF (thetaU m) g)) m))
@@ -67,12 +76,12 @@
 (def ^:private Gm '(skels (thetaD mm)))
 (def ^:private em '(tokEnvD mm))
 (def ^:private Pv (list 'den 'chkf 'dec 'encTy 'mm 'tt Gm '(Sk.prod Sk.cert Sk.unit) em))
-(thm p43_arith [M :- Nat, c :- Nat, j :- Nat, f :- Nat, m :- Nat, s :- Nat, w :- Nat,
-                  h1 :- (LE.le M c), h2 :- (LE.le c j), h3 :- (LE.le j f), h4 :- (LE.le f m), h5 :- (LE.le (+ 1 (+ m (+ f s))) w)]
+(thm p43_arith [M :- Nat, c :- Nat, j :- Nat, f :- Nat, w :- Nat,
+                  h1 :- (LE.le M c), h2 :- (LE.le c j), h3 :- (LE.le j f), h5 :- (LT.lt (+ f f) w)]
   (LT.lt (+ M M) w) (omega))
 (eval (list 'lcert.formal.base/thm 'prop43
   '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
-    hcs :- (CheckSpec chkf dec encTy), hes :- (EncSize chkf dec encTy),
+    hcs :- (CheckSpec chkf dec encTy), hes :- (TokSize chkf dec),
     A :- Exp, cA :- Exp, hcA :- (Eq (Option Code) (codeOf cA) (Option.some Code (encTy A))),
     hbc :- (Eq Bool (closedTy (Exp.tSig U.u1 Exp.tR (chkT (Exp.var 0) cA))) Bool.true),
     w :- Code, hw :- (Eq Bool (chkf w (encTy (Exp.tSig U.u1 Exp.tR (chkT (Exp.var 0) cA)))) Bool.true),
@@ -84,7 +93,7 @@
   (list 'have 'eB (list 'Eq 'Exp 'AA box) (list '(And.right (And.right (And.right hcs))) 'AA box (gets 'q 3) 'hbc (gets 'q 4)))
   (list 'have 'hRt (list 'Rt 'chkf '(thetaD mm) '(thetaU mm) 'tt box)
         (list 'Eq.mp (list 'congrArg '(fn [Z :- Exp] (Rt chkf (thetaD mm) (thetaU mm) tt Z)) 'eB) (gets 'q 1)))
-  (list 'have 'hsz (list 'LE.le (list '+ 1 (list '+ 'mm (list '+ ftok '(cnodes (encTy AA))))) '(cnodes w))
+  (list 'have 'hsz (list 'LT.lt (list '+ ftok ftok) '(cnodes w))
         (list 'hes 'w (list 'encTy box) 'mm 'tt 'AA 'hw (gets 'q 0)))
   (list 'have 'hfle (list 'LE.le ftok 'mm) '(cnt_mask_le mm (freshF tt)))
   (list 'have 'hsnd (list 'Sound 'chkf 'dec 'encTy 'mm '(thetaD mm) '(maskUF (thetaU mm) (freshF tt)) 'tt box)
@@ -107,8 +116,8 @@
               (list 'congrArg (list 'fn '[y :- Code] (list 'chkf (list 'Prod.fst Pv) 'y))
                     (list 'den_codeOf 'chkf 'dec 'encTy 'mm (list 'List.cons 'Sk 'Sk.cert Gm) (list 'Prod.mk (list 'Prod.fst Pv) em) 'cA '(encTy A) 'hcA))))
               'hch))
-  (list 'exact (list 'p43_arith 'M (list 'cnodes (list 'Prod.fst Pv)) 'j ftok 'mm '(cnodes (encTy AA)) '(cnodes w)
-                     (list 'hM (list 'Prod.fst Pv) 'hacc) '(And.left (And.left (And.right hj))) '(And.left hj) 'hfle 'hsz))))
+  (list 'exact (list 'p43_arith 'M (list 'cnodes (list 'Prod.fst Pv)) 'j ftok '(cnodes w)
+                     (list 'hM (list 'Prod.fst Pv) 'hacc) '(And.left (And.left (And.right hj))) '(And.left hj) 'hsz))))
 
 
 ;; --- Proposition 4.4 (1): no uniform budget -----------------------------------------------
@@ -154,17 +163,15 @@
   (rw [(e5 (negN n) (negN_closed n))])
   (exact (arith3 (cnodes (encTy (negN n))) n ih_n)))
 
-(thm arith4 [m :- Nat, f :- Nat, s :- Nat, c :- Nat, h :- (LE.le (+ 1 (+ m (+ f s))) c)] (LT.lt s c) (omega))
 (eval (list 'lcert.formal.base/thm 'cert_size
   '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
-    hcs :- (CheckSpec chkf dec encTy), hes :- (EncSize chkf dec encTy), A :- Exp, v :- Code, hv :- (Eq Bool (chkf v (encTy A)) Bool.true)]
+    hcs :- (CheckSpec chkf dec encTy), hts :- (TypeSize chkf dec encTy), A :- Exp, v :- Code, hv :- (Eq Bool (chkf v (encTy A)) Bool.true)]
   '(LT.lt (cnodes (encTy A)) (cnodes v))
   (list 'have 'X1 (Cex 'v '(encTy A)) '((And.left hcs) v (encTy A) hv))
   '(refine' (exT Nat _ _ X1 _)) '(intro mm hmm) '(refine' (exT Exp _ _ hmm _)) '(intro tt htt) '(refine' (exT Exp _ _ htt _)) '(intro AA hAA)
   (list 'have 'q (Cb 'v '(encTy A) 'mm 'tt 'AA) 'hAA)
-  (list 'have 'hsz (list 'LE.le (list '+ 1 (list '+ 'mm (list '+ ftok '(cnodes (encTy AA))))) '(cnodes v)) (list 'hes 'v '(encTy A) 'mm 'tt 'AA 'hv (gets 'q 0)))
-  (list 'exact (list 'arith4 'mm ftok '(cnodes (encTy A)) '(cnodes v)
-                     (list 'Eq.mp (list 'congrArg (list 'fn '[z :- Code] (list 'LE.le (list '+ 1 (list '+ 'mm (list '+ ftok '(cnodes z)))) '(cnodes v))) (gets 'q 4)) 'hsz)))))
+  (list 'have 'hsz '(LT.lt (cnodes (encTy AA)) (cnodes v)) (list 'hts 'v '(encTy A) 'mm 'tt 'AA 'hv (gets 'q 0)))
+  (list 'exact (list 'Eq.mp (list 'congrArg '(fn [z :- Code] (LT.lt (cnodes z) (cnodes v))) (gets 'q 4)) 'hsz))))
 (thm arith5 [cv :- Nat, cw :- Nat, k :- Nat, s :- Nat, h1 :- (LT.lt (+ cv cv) cw), h2 :- (LE.le cw (+ cv k)), h3 :- (LE.le (+ k 1) s), h4 :- (LT.lt s cv)] False (omega))
 (thm arith6 [a :- Nat, b :- Nat] (LE.le (+ a b) (+ b a)) (omega))
 
@@ -180,7 +187,7 @@
 (def ^:private boxA (list 'Exp.tSig 'U.u1 'Exp.tR (list 'chkT '(Exp.var 0) (list 'cTerm (list 'encTy A44)))))
 (eval (list 'lcert.formal.base/thm 'prop44_1
   ['chkf :- '(=> Code Code Bool), 'dec :- '(=> Code (Option (Prod Nat (Prod Exp Exp)))), 'encTy :- '(=> Exp Code),
-   'hcs :- '(CheckSpec chkf dec encTy), 'hes :- '(EncSize chkf dec encTy), 'k :- 'Nat, 'q :- 'Exp,
+   'hcs :- '(CheckSpec chkf dec encTy), 'hes :- '(TokSize chkf dec), 'hts :- '(TypeSize chkf dec encTy), 'k :- 'Nat, 'q :- 'Exp,
    'der :- '(Rt chkf (List.cons Exp Exp.tR (thetaD k)) (List.cons U U.u1 (thetaU k)) q Exp.tR),
    'hmap :- (list 'forall '[n Nat] (list 'forall '[A Exp] (list 'forall '[v Code]
               (list '=> '(Eq Bool (closedTy A) Bool.true) '(Eq Bool (chkf v (encTy A)) Bool.true) '(Eq Bool (lblOk v) Bool.true)
@@ -201,4 +208,4 @@
               '(And.intro (Tl.fBase chkf (thetaD k) Exp.tR (Eq.refl$1 Bool.true)) (wf_theta chkf k)) env44 '(+ (cnodes v) k) '(arith6 (cnodes v) k) 'hsat))
   (list 'exact (list 'arith5 '(cnodes v) (list 'cnodes (w44 '(+ k (cnodes v)))) 'k (list 'cnodes (list 'encTy A44)) 'h43 'h3
                      (list 'negN_size 'encTy '(And.left (And.right (And.right hcs))) '(+ k 1))
-                     (list 'cert_size 'chkf 'dec 'encTy 'hcs 'hes A44 'v 'hv)))))
+                     (list 'cert_size 'chkf 'dec 'encTy 'hcs 'hts A44 'v 'hv)))))
