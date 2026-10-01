@@ -271,6 +271,16 @@
 
 (require 'lcert.formal.conversion)
 (deftest f3m-conversion
+  (testing "conversion records nbr at both endpoints, and lifting preserves it"
+    (doseq [c '[cv_nbr_left cv_nbr_right nbrF_lift_var nbrF_lift nbr_lift]]
+      (is (b/has? c) (str c))))
+  (testing "branch lists are admitted in caseL, but never as application arguments"
+    (is (not (b/rejects? '[]
+               '(Eq Bool (nbr (Exp.caseL Exp.tBool (Exp.lbl 0) (Exp.bcons Exp.tt Exp.bnil))) Bool.true)
+               '[(rfl)])))
+    (is (b/rejects? '[]
+           '(Eq Bool (nbr (Exp.app (Exp.var 0) (Exp.bcons Exp.tt Exp.bnil))) Bool.true)
+           '[(rfl)])))
   (testing "Lemma 3.2 for the head steps proved so far, and the SkJ-only counterexample"
     (doseq [c '[nbr nbrF skOf_complete skOf_ok skj_inv EquivAt mk_eqv_t mk_eqv_ty
                 eqv_den eqv_sko eqv_skel eqv_V

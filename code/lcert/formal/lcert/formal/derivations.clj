@@ -735,11 +735,12 @@
 (thm cv_lift [chkf :- (=> Code Code Bool), G :- (List Sk), c :- Nat, xs :- Sk, A0 :- Exp, B0 :- Exp, der :- (Cv chkf G A0 B0)]
   (Cv chkf (insS c xs G) (lift 1 c A0) (lift 1 c B0))
   (induction der)
-  (exact (Cv.cvRefl chkf (insS c xs G) (lift 1 c A) (skj_weaken Bool.true G A Sk.unit h c xs)))
+  (exact (Cv.cvRefl chkf (insS c xs G) (lift 1 c A) (skj_weaken Bool.true G A Sk.unit h c xs)
+                   (nbr_lift A 1 c hn)))
   (exact (Cv.cvFwd chkf (insS c xs G) (lift 1 c A) (lift 1 c B) (lift 1 c C) ih_hab (step_lift chkf B C hs c)
-                   (skj_weaken Bool.true G C Sk.unit hc c xs)))
+                   (skj_weaken Bool.true G C Sk.unit hc c xs) (nbr_lift C 1 c hn)))
   (exact (Cv.cvBwd chkf (insS c xs G) (lift 1 c A) (lift 1 c B) (lift 1 c C) ih_hab (step_lift chkf C B hs c)
-                   (skj_weaken Bool.true G C Sk.unit hc c xs))))
+                   (skj_weaken Bool.true G C Sk.unit hc c xs) (nbr_lift C 1 c hn))))
 
 ;; ===========================================================================
 ;; §4  Insertion into contexts and usage vectors

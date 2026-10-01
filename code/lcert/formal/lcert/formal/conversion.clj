@@ -7,7 +7,7 @@
   (Lemma 3.2), and if A ≡ B then Vⁿₖ(A)η = Vⁿₖ(B)η (Lemma 3.3).  Conversion
   (conv.clj, Cv) is a chain of single steps (Step: a head step Hd at a
   path), taken in either direction, every element of which is a
-  skeleton-well-formed type (SkJ Bool.true).
+  skeleton-well-formed type (SkJ Bool.true) satisfying nbr.
 
   DEVIATION (forced; conv_skj_counterexample is the kernel-checked witness).  Over
   skeleton typing alone the conversion clause is FALSE for this
@@ -17,20 +17,19 @@
   moves a branch list out of argument position changes the denotation:
       b  = (λ(y : Π(l:Lbl).Bool). caseL Bool 0 y) (bcons tt bnil)
       b′ = caseL Bool 0 (bcons tt bnil)   (b ⇝ b′ by β)
-  ⟦b⟧ = ff (the application defaults) but ⟦b′⟧ = tt, so T(b′) ≡ T(b), both
+  ⟦b⟧ = ff (the application defaults) but ⟦b′⟧ = tt, so the old Cv related T(b′) and T(b), both
   skeleton-well-formed, but V(T b′) = {⋆} and V(T b) = ∅.  The paper's
   syntax has no branch lists as terms (caseLbl's branches are part of its
   syntax); the encoding's bnil / bcons are first-class Exp terms only for
   structural recursion (syntax.clj).  Steps that read an argument through
   skOf (β, and the ι-steps that substitute or apply) therefore assume nbr
   (§1): a branch list may occur only as the branch list of a caseL, or as
-  the tail of a branch list.  Cv itself only requires SkJ of each element,
-  so a chain lemma cannot induct on plain Cv; it will need nbr on every
-  element.  Real (Rt/Tl) terms type branch lists only at the pseudo-type
+  the tail of a branch list. Cv now requires nbr of each element,
+  excluding this counterexample throughout a conversion chain.  Real (Rt/Tl) terms type branch lists only at the pseudo-type
   tBrs, which no binder or argument has.
 
   Contents.
-  §1  nbrF, and skOf_complete: on a skeleton-typed term with no stray
+  §1  skOf_complete (nbrF is defined in conv.clj): on a skeleton-typed term with no stray
       branch list, skOf returns the typed skeleton.
   §2  Inversion of skeleton typing (InvSkJ / skj_inv / inv_<ctor>).
   §3  EquivAt, and the head steps proved so far (Lemma 3.2 for Hd).
@@ -77,31 +76,8 @@
 ;; §1  Branch lists in branch-list position; skOf is complete there
 ;; ===========================================================================
 
-;; nbrF e fl: e has no branch list (bnil / bcons) outside branch-list
-;; position.  The flag fl says whether e itself stands in branch-list
-;; position: the third field of caseL, and the tail of a bcons.  A branch
-;; list is allowed exactly there; every other field is read with fl = false.
-;; Recursion on e, returning a function of the flag (structural, as liftF).
-;; The conjunctions are right-nested in field order, so a field's condition
-;; is reached by band_left / band_right (skof.clj).
-(defn- and-chain [xs]
-  (if (seq xs) (reduce (fn [acc x] (list 'Bool.and x acc)) (last xs) (reverse (butlast xs))) 'true))
-
-(defn- nbr-clause [[ctor fields]]
-  (let [pat (if (seq fields) (apply list ctor (map first fields)) ctor)
-        exps (for [[f ty] fields :when (= ty 'Exp)] f)
-        flag (fn [f] (if (or (and (= ctor 'caseL) (= f 'bs)) (and (= ctor 'bcons) (= f 't))) 'true 'false))
-        body (case ctor
-               bnil 'fl
-               bcons (list 'Bool.and 'fl (and-chain (for [f exps] (list (list 'nbrF f) (flag f)))))
-               (and-chain (for [f exps] (list (list 'nbrF f) (flag f)))))]
-    [pat (list 'fn '[fl :- Bool] body)]))
-
-(eval (list 'a/defn 'nbrF '[e :- Exp] '(=> Bool Bool)
-            (apply list 'match 'e (map nbr-clause exp-fields))))
-
-;; nbr e: e stands in ordinary (term or type) position.
-(a/defn nbr [e :- Exp] Bool ((nbrF e) false))
+;; nbrF and nbr now live in conv.clj, before Cv. Their definitions are
+;; unchanged; conversion explicitly records the condition at every element.
 
 ;; The rules whose conclusion is a formation judgment (w = true).
 (def ^:private formation-rules '#{wEmpty wUnit wBool wNat wLbl wSyn wDia wR wT wPi wSig})
@@ -617,7 +593,7 @@
 ;; ⟦redex⟧ at Bool is ff (den_app defaults when skOf of the argument is none)
 ;; and ⟦contractum⟧ is tt (caseL computes).  This is why den_beta assumes nbr.
 ;; Wrapping either side in T makes V differ (V(T tt) is inhabited, V(T ff)
-;; is empty), which is why a plain Cv chain does not preserve V.
+;; is empty). Cv now excludes this redex by requiring nbr of every element.
 
 (thm cex_red_eq []
   (Eq Exp (subst1 (Exp.bcons Exp.tt Exp.bnil) (Exp.caseL Exp.tBool (Exp.lbl 0) (Exp.var 0)))

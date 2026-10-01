@@ -125,6 +125,10 @@ now checks.
   for label l ≥ k at the list's position l − k, matching the denotation of
   `bcons` (first element at 0). The first version read position l, which
   made the Bcons case unprovable for k > 0.
+- **Conversion requires `nbr` at every chain element.** Internal branch lists
+  may occur only in `caseL` branch position or a branch-list tail; the paper
+  has no branch-list terms. This excludes `conv_skj_counterexample`, whose
+  skeleton-typed beta step changes denotation.
 - **`V` takes the skeleton explicitly,** since carriers depend on it.
 - **Lemma 2.4 takes closed formation explicitly.** `lemma24` also assumes
   `Tl chkf Bool.true (List.nil Exp) A Exp.tUnit`, then weakens that formation

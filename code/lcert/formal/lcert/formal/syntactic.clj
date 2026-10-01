@@ -143,3 +143,49 @@
                        [ty (list 'lift 'amt cut (list 'lift 'other cut f))
                         (list 'lift '(+ other amt) cut f) (list (ih f) 'amt 'other cut)]
                        [ty f f nil]))) fields)))])))
+
+;; The internal branch-list position invariant of Cv is independent of
+;; variable indices. Lifting changes only those indices and preserves every
+;; constructor and branch-list position, including beneath binders.
+(thm nbrF_lift_var [i :- Nat, amt :- Nat, cut :- Nat, fl :- Bool]
+  (Eq Bool ((nbrF (lift amt cut (Exp.var i))) fl) Bool.true)
+  (have hc (Decidable (Nat.lt i cut)) (Nat.decLt i cut))
+  (cases hc)
+  (exact (Eq.trans
+    (congrArg (fn [v :- Exp] ((nbrF v) fl)) (lift_var_above amt cut i (Nat.le_of_not_lt h))) rfl))
+  (exact (Eq.trans
+    (congrArg (fn [v :- Exp] ((nbrF v) fl)) (lift_var_below amt cut i h)) rfl)))
+
+(defn- nbr-lift-conjunction [fields]
+  (if (= 1 (count fields))
+    (nth (first fields) 3)
+    (let [[_ l r pf] (first fields)
+          rest-fields (rest fields)
+          chain (fn chain [xs] (if (= 1 (count xs)) (first xs)
+                                (list 'Bool.and (first xs) (chain (rest xs))))) ]
+      (congruence 'Bool.and
+        [['Bool l r pf]
+         ['Bool (chain (map second rest-fields)) (chain (map #(nth % 2) rest-fields))
+          (nbr-lift-conjunction rest-fields)]]))))
+
+(prove-exp! 'nbrF_lift
+  '(forall [amt Nat] (forall [cut Nat] (forall [fl Bool]
+     (Eq Bool ((nbrF (lift amt cut e)) fl) ((nbrF e) fl)))))
+  '[amt cut fl]
+  (fn [ctor fields]
+    (let [fs (vec (concat
+                   (when (= ctor 'bcons) [['Bool 'fl 'fl 'rfl]])
+                   (for [[f ty depth] fields :when (= ty 'Exp)
+                         :let [flag (if (or (and (= ctor 'caseL) (= f 'bs))
+                                            (and (= ctor 'bcons) (= f 't))) 'true 'false)
+                               cut (under 'cut depth)]]
+                     ['Bool (list (list 'nbrF (list 'lift 'amt cut f)) flag)
+                      (list (list 'nbrF f) flag) (list (ih f) 'amt cut flag)])))]
+      (cond
+        (= ctor 'var) '[(exact (nbrF_lift_var i amt cut fl))]
+        (empty? fs) '[(rfl)]
+        :else [(list 'exact (nbr-lift-conjunction fs))]))))
+
+(thm nbr_lift [e :- Exp, amt :- Nat, cut :- Nat, hn :- (Eq Bool (nbr e) Bool.true)]
+  (Eq Bool (nbr (lift amt cut e)) Bool.true)
+  (exact (Eq.trans (nbrF_lift e amt cut Bool.false) hn)))
