@@ -412,3 +412,19 @@
     (is (b/rejects? '[chkf :- (=> Code Code Bool)]
                     '(Rt chkf (List.nil Exp) (List.nil U) (p47term) (Exp.tPi U.u1 (Hcirc) (ConP)))
                     '[(exact (prop47 chkf))]))))
+
+(require 'lcert.formal.strengthen)
+(deftest f2-strengthening
+  (testing "Lemma 2.3 and its infrastructure"
+    (doseq [c '[freshF fresh_app fresh_lam fresh_insp zeroUF zero_vadd zero_vscale zero_len zero_nth rt_ucast rt_strengthen]]
+      (is (b/has? c) (str c))))
+  (let [ps '[chkf :- (=> Code Code Bool)]
+        D '(List.cons Exp Exp.tDia (List.cons Exp Exp.tDia (List.nil Exp)))
+        us '(List.cons U U.u1 (List.cons U U.u1 (List.nil U)))
+        der (list 'Rt.rVar 'chkf D us 0 'Exp.tDia 'U.u1 'rfl 'rfl 'rfl 'rfl)]
+    (testing "a token not free in the term is lowered to usage 0"
+      (is (not (b/rejects? ps (list 'Rt 'chkf D '(List.cons U U.u1 (List.cons U U.u0 (List.nil U))) '(Exp.var 0) '(lift 1 0 Exp.tDia))
+                           [(list 'exact (list 'rt_strengthen 'chkf D us '(Exp.var 0) '(lift 1 0 Exp.tDia) der 1 'rfl))]))))
+    (testing "the variable that occurs cannot be lowered: its freshness is false"
+      (is (b/rejects? ps (list 'Rt 'chkf D '(List.cons U U.u0 (List.cons U U.u1 (List.nil U))) '(Exp.var 0) '(lift 1 0 Exp.tDia))
+                      [(list 'exact (list 'rt_strengthen 'chkf D us '(Exp.var 0) '(lift 1 0 Exp.tDia) der 0 'rfl))])))))
