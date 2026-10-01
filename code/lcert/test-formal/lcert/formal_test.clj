@@ -408,7 +408,8 @@
                 some_injSk rel_bool_rfl rel_unit_rfl skel_reify rdflt_rel env_at
                 adeq_star adeq_tt adeq_ff adeq_zero adeq_lbl adeq_abort adeq_h1
                 adeq_succ adeq_var envRel_cons arrCase_arr adeq_lam adeq_app
-                adeq_ite adeq_ite_den]]
+                adeq_ite adeq_ite_den prodCase_prod adeq_pair adeq_chk
+                adeq_bnil adeq_elim adeq_elim_den adeq_prn]]
       (is (b/has? c) (str c))))
   (testing "tt does not evaluate to ff: the true-constructor is the wrong value"
     (is (b/rejects? '[chkf :- (=> Code Code Bool),
