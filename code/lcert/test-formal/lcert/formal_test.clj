@@ -491,7 +491,9 @@
                 sk_app_f den_app_f den_app_u step_app
                 sk_pair_S den_pair_a den_pair_b step_pair
                 skof_letp sk_letp_C den_letp_p den_letp_t step_letp
-                getP_base den_refl_r step_refl_D step_refl]]
+                getP_base den_refl_r step_refl_D step_refl
+                den_insp_r den_insp_c den_insp_t1 den_insp_t2 sk_insp_X step_insp
+                step_pack]]
       (is (b/has? c) (str c))))
   (testing "a childless term has no child to step in"
     (is (b/rejects? '[]

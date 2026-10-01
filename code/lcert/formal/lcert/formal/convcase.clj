@@ -2935,3 +2935,242 @@
        '(exact (step_nil_fl chkf dec encTy fl (Exp.refl D r e) G out hj hn re co hg hd))
        '(intro re co hg hd)
        (list 'exact split)]))
+
+;; inspect (Lemma 3.2).  The motive is a skeleton annotation.  Bool.rec
+;; on chkf(⟦r⟧, ⟦c⟧) selects t1 or t2, both read at (⋆, ⟦r⟧, η).  A step
+;; in the certificate changes every occurrence of that code; a step in a
+;; branch is that branch at the same environment.  The branch typing
+;; moves from skel X to the output skeleton by Eq.mp.
+
+
+  ;; Bool.rec on chkf(⟦r⟧, ⟦c⟧).  The false branch is t2 and the true
+  ;; branch is t1, both at (⋆, ⟦r⟧, η).  A change of ⟦r⟧ is every
+  ;; occurrence of that code.
+  (def ^:private insp-rec
+    '(Bool.rec$1 (fn [_ :- Bool] (Car sk))
+       (den chkf dec encTy cap T2 (sk2 Sk.unit Sk.cert G) sk
+         (Prod.mk Unit.unit (Prod.mk RV en)))
+       (den chkf dec encTy cap T1 (sk2 Sk.unit Sk.cert G) sk
+         (Prod.mk Unit.unit (Prod.mk RV en)))
+       (chkf RV CV)))
+  (defn- insp-of [t1 t2 rv cv]
+    (clojure.walk/postwalk-replace {'T1 t1 'T2 t2 'RV rv 'CV cv} insp-rec))
+  (def ^:private i-t1 '(den chkf dec encTy cap t1 (sk2 Sk.unit Sk.cert G) sk
+               (Prod.mk Unit.unit (Prod.mk (den chkf dec encTy cap r G Sk.cert en) en))))
+  (def ^:private i-t2 '(den chkf dec encTy cap t2 (sk2 Sk.unit Sk.cert G) sk
+               (Prod.mk Unit.unit (Prod.mk (den chkf dec encTy cap r G Sk.cert en) en))))
+  (def ^:private i-r '(den chkf dec encTy cap r G Sk.cert en))
+  (def ^:private i-c '(den chkf dec encTy cap c G Sk.syn en))
+  (def ^:private i-rq '(den chkf dec encTy cap rq G Sk.cert en))
+  (def ^:private i-cq '(den chkf dec encTy cap cq G Sk.syn en))
+
+  (prove! 'den_insp_r
+    (into Pcap '[X :- Exp, r :- Exp, rq :- Exp, c :- Exp, t1 :- Exp, t2 :- Exp,
+                 G :- (List Sk), sk :- Sk, en :- (HEnv G),
+                 he :- (Eq (Car Sk.cert) (den chkf dec encTy cap rq G Sk.cert en)
+                                          (den chkf dec encTy cap r G Sk.cert en))])
+    '(Eq (Car sk) (den chkf dec encTy cap (Exp.insp X rq c t1 t2) G sk en)
+                  (den chkf dec encTy cap (Exp.insp X r c t1 t2) G sk en))
+    [(list 'rw ['(den_insp_at chkf dec encTy cap X rq c t1 t2 G sk en)])
+     '(rw [(den_insp_at chkf dec encTy cap X r c t1 t2 G sk en)])
+     (list 'change (list 'Eq '(Car sk)
+                    (insp-of 't1 't2 i-rq i-c)
+                    (insp-of 't1 't2 i-r i-c)))
+     (list 'exact (list 'congrArg
+                   (list 'fn '[v :- (Car Sk.cert)] (insp-of 't1 't2 'v i-c))
+                   'he))])
+
+  (prove! 'den_insp_c
+    (into Pcap '[X :- Exp, r :- Exp, c :- Exp, cq :- Exp, t1 :- Exp, t2 :- Exp,
+                 G :- (List Sk), sk :- Sk, en :- (HEnv G),
+                 he :- (Eq (Car Sk.syn) (den chkf dec encTy cap cq G Sk.syn en)
+                                         (den chkf dec encTy cap c G Sk.syn en))])
+    '(Eq (Car sk) (den chkf dec encTy cap (Exp.insp X r cq t1 t2) G sk en)
+                  (den chkf dec encTy cap (Exp.insp X r c t1 t2) G sk en))
+    [(list 'rw ['(den_insp_at chkf dec encTy cap X r cq t1 t2 G sk en)])
+     '(rw [(den_insp_at chkf dec encTy cap X r c t1 t2 G sk en)])
+     (list 'change (list 'Eq '(Car sk)
+                    (insp-of 't1 't2 i-r i-cq)
+                    (insp-of 't1 't2 i-r i-c)))
+     (list 'exact (list 'congrArg
+                   (list 'fn '[v :- (Car Sk.syn)] (insp-of 't1 't2 i-r 'v))
+                   'he))])
+
+  (prove! 'den_insp_t1
+    (into Pcap '[X :- Exp, r :- Exp, c :- Exp, t1 :- Exp, t1q :- Exp, t2 :- Exp,
+                 G :- (List Sk), sk :- Sk, en :- (HEnv G),
+                 he :- (Eq (Car sk)
+                         (den chkf dec encTy cap t1q (sk2 Sk.unit Sk.cert G) sk
+                           (Prod.mk Unit.unit (Prod.mk (den chkf dec encTy cap r G Sk.cert en) en)))
+                         (den chkf dec encTy cap t1 (sk2 Sk.unit Sk.cert G) sk
+                           (Prod.mk Unit.unit (Prod.mk (den chkf dec encTy cap r G Sk.cert en) en))))])
+    '(Eq (Car sk) (den chkf dec encTy cap (Exp.insp X r c t1q t2) G sk en)
+                  (den chkf dec encTy cap (Exp.insp X r c t1 t2) G sk en))
+    [(list 'rw ['(den_insp_at chkf dec encTy cap X r c t1q t2 G sk en)])
+     '(rw [(den_insp_at chkf dec encTy cap X r c t1 t2 G sk en)])
+     (list 'change (list 'Eq '(Car sk)
+                    '(Bool.rec$1 (fn [_ :- Bool] (Car sk))
+                       (den chkf dec encTy cap t2 (sk2 Sk.unit Sk.cert G) sk
+                         (Prod.mk Unit.unit (Prod.mk (den chkf dec encTy cap r G Sk.cert en) en)))
+                       (den chkf dec encTy cap t1q (sk2 Sk.unit Sk.cert G) sk
+                         (Prod.mk Unit.unit (Prod.mk (den chkf dec encTy cap r G Sk.cert en) en)))
+                       (chkf (den chkf dec encTy cap r G Sk.cert en)
+                             (den chkf dec encTy cap c G Sk.syn en)))
+                    '(Bool.rec$1 (fn [_ :- Bool] (Car sk))
+                       (den chkf dec encTy cap t2 (sk2 Sk.unit Sk.cert G) sk
+                         (Prod.mk Unit.unit (Prod.mk (den chkf dec encTy cap r G Sk.cert en) en)))
+                       (den chkf dec encTy cap t1 (sk2 Sk.unit Sk.cert G) sk
+                         (Prod.mk Unit.unit (Prod.mk (den chkf dec encTy cap r G Sk.cert en) en)))
+                       (chkf (den chkf dec encTy cap r G Sk.cert en)
+                             (den chkf dec encTy cap c G Sk.syn en)))))
+     '(exact (congrArg
+        (fn [v :- (Car sk)]
+          (Bool.rec$1 (fn [_ :- Bool] (Car sk))
+            (den chkf dec encTy cap t2 (sk2 Sk.unit Sk.cert G) sk
+              (Prod.mk Unit.unit (Prod.mk (den chkf dec encTy cap r G Sk.cert en) en)))
+            v
+            (chkf (den chkf dec encTy cap r G Sk.cert en)
+                  (den chkf dec encTy cap c G Sk.syn en))))
+        he))])
+
+  (prove! 'den_insp_t2
+    (into Pcap '[X :- Exp, r :- Exp, c :- Exp, t1 :- Exp, t2 :- Exp, t2q :- Exp,
+                 G :- (List Sk), sk :- Sk, en :- (HEnv G),
+                 he :- (Eq (Car sk)
+                         (den chkf dec encTy cap t2q (sk2 Sk.unit Sk.cert G) sk
+                           (Prod.mk Unit.unit (Prod.mk (den chkf dec encTy cap r G Sk.cert en) en)))
+                         (den chkf dec encTy cap t2 (sk2 Sk.unit Sk.cert G) sk
+                           (Prod.mk Unit.unit (Prod.mk (den chkf dec encTy cap r G Sk.cert en) en))))])
+    '(Eq (Car sk) (den chkf dec encTy cap (Exp.insp X r c t1 t2q) G sk en)
+                  (den chkf dec encTy cap (Exp.insp X r c t1 t2) G sk en))
+    [(list 'rw ['(den_insp_at chkf dec encTy cap X r c t1 t2q G sk en)])
+     '(rw [(den_insp_at chkf dec encTy cap X r c t1 t2 G sk en)])
+     (list 'change (list 'Eq '(Car sk)
+                    '(Bool.rec$1 (fn [_ :- Bool] (Car sk))
+                       (den chkf dec encTy cap t2q (sk2 Sk.unit Sk.cert G) sk
+                         (Prod.mk Unit.unit (Prod.mk (den chkf dec encTy cap r G Sk.cert en) en)))
+                       (den chkf dec encTy cap t1 (sk2 Sk.unit Sk.cert G) sk
+                         (Prod.mk Unit.unit (Prod.mk (den chkf dec encTy cap r G Sk.cert en) en)))
+                       (chkf (den chkf dec encTy cap r G Sk.cert en)
+                             (den chkf dec encTy cap c G Sk.syn en)))
+                    '(Bool.rec$1 (fn [_ :- Bool] (Car sk))
+                       (den chkf dec encTy cap t2 (sk2 Sk.unit Sk.cert G) sk
+                         (Prod.mk Unit.unit (Prod.mk (den chkf dec encTy cap r G Sk.cert en) en)))
+                       (den chkf dec encTy cap t1 (sk2 Sk.unit Sk.cert G) sk
+                         (Prod.mk Unit.unit (Prod.mk (den chkf dec encTy cap r G Sk.cert en) en)))
+                       (chkf (den chkf dec encTy cap r G Sk.cert en)
+                             (den chkf dec encTy cap c G Sk.syn en)))))
+     '(exact (congrArg
+        (fn [v :- (Car sk)]
+          (Bool.rec$1 (fn [_ :- Bool] (Car sk))
+            v
+            (den chkf dec encTy cap t1 (sk2 Sk.unit Sk.cert G) sk
+              (Prod.mk Unit.unit (Prod.mk (den chkf dec encTy cap r G Sk.cert en) en)))
+            (chkf (den chkf dec encTy cap r G Sk.cert en)
+                  (den chkf dec encTy cap c G Sk.syn en))))
+        he))])
+
+  (prove! 'sk_insp_X
+    '[chkf :- (=> Code Code Bool), X :- Exp, r :- Exp, c :- Exp, t1 :- Exp, t2 :- Exp,
+      G :- (List Sk), q :- (List Nat), rd :- Exp, r2 :- Exp,
+      hX :- (SkJ Bool.true G X Sk.unit),
+      hg :- (Eq (Option Exp) (getP q X) (Option.some Exp rd)),
+      hd :- (Hd chkf rd r2)]
+    '(Eq (Option Sk) (skOf G (Exp.insp (setP q X r2) r c t1 t2)) (skOf G (Exp.insp X r c t1 t2)))
+    ['(have hs (Eq Sk (skel (setP q X r2)) (skel X))
+        (step_skel_path chkf q X rd r2
+          (skj_isTy Bool.true G X Sk.unit hX rfl) hg hd))
+     '(exact (congrArg (fn [k :- Sk] (Option.some Sk k)) hs))])
+
+
+  (let [term '(Exp.insp X r c t1 t2)
+        inv '(inv_insp Bool.false G X r c t1 t2 out hj)
+        hs (list 'And.left (rights 1 inv))
+        hX (list 'And.left (rights 2 inv))
+        hr (list 'And.left (rights 3 inv))
+        hc (list 'And.left (rights 4 inv))
+        ht1 (list 'And.left (rights 5 inv))
+        ht2 (rights 6 inv)
+        sj (fn [field hyp]
+             (list 'Eq.mp
+               (list 'congrArg
+                 (list 'fn '[k :- Sk]
+                   (list 'SkJ 'Bool.false '(sk2 Sk.unit Sk.cert G) field 'k))
+                 (list 'Eq.symm hs))
+               hyp))
+        env '(Prod.mk Unit.unit (Prod.mk (den chkf dec encTy cap r G Sk.cert en) en))
+        denih (fn [ih g csk sj nb]
+                (list (list 'And.right (list ih 'Bool.false g csk sj nb 'tail 're 'co 'hgc 'hd))
+                  'cap 'en))
+        refl '(Eq.refl$1 (skOf G (Exp.insp X r c t1 t2)))
+        pX (list 'And.intro
+             (list 'sk_insp_X 'chkf 'X 'r 'c 't1 't2 'G 'tail 're 'co hX 'hgc 'hd)
+             '(fn [cap :- Nat, en :- (HEnv G)]
+                (den_ig_insp_X chkf dec encTy cap X (setP tail X co) r c t1 t2 G out en)))
+        pr (list 'And.intro refl
+             (list 'fn '[cap :- Nat, en :- (HEnv G)]
+               (list 'den_insp_r 'chkf 'dec 'encTy 'cap 'X 'r '(setP tail r co) 'c 't1 't2
+                 'G 'out 'en
+                 (denih 'ih_r 'G 'Sk.cert hr '(nbr_insp_r X r c t1 t2 fl hn)))))
+        pc (list 'And.intro refl
+             (list 'fn '[cap :- Nat, en :- (HEnv G)]
+               (list 'den_insp_c 'chkf 'dec 'encTy 'cap 'X 'r 'c '(setP tail c co) 't1 't2
+                 'G 'out 'en
+                 (denih 'ih_c 'G 'Sk.syn hc '(nbr_insp_c X r c t1 t2 fl hn)))))
+        pt1 (list 'And.intro refl
+              (list 'fn '[cap :- Nat, en :- (HEnv G)]
+                (list 'den_insp_t1 'chkf 'dec 'encTy 'cap 'X 'r 'c 't1 '(setP tail t1 co) 't2
+                  'G 'out 'en
+                  (list (list 'And.right
+                          (list 'ih_t1 'Bool.false '(sk2 Sk.unit Sk.cert G) 'out
+                            (sj 't1 ht1) '(nbr_insp_t1 X r c t1 t2 fl hn)
+                            'tail 're 'co 'hgc 'hd))
+                    'cap env))))
+        pt2 (list 'And.intro refl
+              (list 'fn '[cap :- Nat, en :- (HEnv G)]
+                (list 'den_insp_t2 'chkf 'dec 'encTy 'cap 'X 'r 'c 't1 't2 '(setP tail t2 co)
+                  'G 'out 'en
+                  (list (list 'And.right
+                          (list 'ih_t2 'Bool.false '(sk2 Sk.unit Sk.cert G) 'out
+                            (sj 't2 ht2) '(nbr_insp_t2 X r c t1 t2 fl hn)
+                            'tail 're 'co 'hgc 'hd))
+                    'cap env))))
+        split (index-split term [pX pr pc pt1 pt2])]
+    (prove! 'step_insp
+      (into step-params '[X :- Exp, r :- Exp, c :- Exp, t1 :- Exp, t2 :- Exp,
+                          ih_r :- (StepPack chkf dec encTy r),
+                          ih_c :- (StepPack chkf dec encTy c),
+                          ih_t1 :- (StepPack chkf dec encTy t1),
+                          ih_t2 :- (StepPack chkf dec encTy t2)])
+      '(StepPack chkf dec encTy (Exp.insp X r c t1 t2))
+      ['(intro fl G out hj hn pth) '(cases pth)
+       '(intro re co hg hd)
+       '(exact (step_nil_fl chkf dec encTy fl (Exp.insp X r c t1 t2) G out hj hn re co hg hd))
+       '(intro re co hg hd)
+       (list 'exact split)]))
+
+
+;; Lemma 3.2 at every position.  step_<ctor> is one constructor; induction
+;; on the term assembles them.  A child the constructor lemma does not
+;; recurse into is a skeleton annotation or an ignored field, proved there
+;; from inversion rather than from an induction hypothesis.
+
+
+  ;; Which induction hypotheses the path lemma for each constructor uses.
+  ;; A child the lemma does not recurse into (a skeleton annotation, an
+  ;; ignored field, a base type) is absent: the lemma proves that child
+  ;; from inversion alone.
+  (def ih-fields
+    '{succ [n] ite [b t e] elimB [b t e] recN [z s n] caseL [a bs]
+      bcons [h t] sleaf [a] snode [a c1 c2] recS [tl tn c] leaf [a]
+      node [a r1 r2] itR [g h r] prn [r] lam [t] app [f u] pair [a b]
+      letp [p t] chk [c d] refl [r] insp [r c t1 t2]})
+  (prove! 'step_pack
+    (into step-params '[e :- Exp])
+    '(StepPack chkf dec encTy e)
+    (into ['(induction e)]
+      (for [[ctor fields] exp-fields]
+        (list 'exact
+          (concat [(symbol (str "step_" (name ctor))) 'chkf 'dec 'encTy]
+                  (map first fields)
+                  (map #(symbol (str "ih_" %)) (get ih-fields ctor [])))))))
