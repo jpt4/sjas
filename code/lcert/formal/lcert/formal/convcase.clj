@@ -1897,3 +1897,114 @@
        '(exact (step_nil_fl chkf dec encTy fl (Exp.caseL P a bs) G out hj hn re co hg hd))
        '(intro re co hg hd) (list 'exact split)]))
   
+;; bcons (Lemma 3.2, a step inside a branch list).  The list is typed at
+;; Lbl → s1 for a witness s1 (inv_bcons); skOf returns none for every
+;; branch list, so both children leave it unchanged.  At that arrow the
+;; denotation is Nat.rec on the label (wk_bcons): the head is the zero
+;; argument, the tail is the function applied at the successor.  Eq.mp
+;; moves the resulting equation along out = Lbl → s1.  The tail is nbr
+;; at flag true.
+
+
+  ;; The reduced branch-list clause at Lbl → s (wk_bcons).  Z is the head at
+  ;; s; F is the tail at Lbl → s.  v is the label the outer function binds.
+  (def ^:private bcrec
+    '(Nat.rec$1 (fn [_ :- Nat] (Car s))
+       Z
+       (fn [k :- Nat, w :- (Car s)] (F (coe Sk.lbl Sk.lbl k)))
+       (coe Sk.lbl Sk.lbl v)))
+  (defn- rec-of [z f]
+    (clojure.walk/postwalk-replace {'Z z 'F f} bcrec))
+  (defn- bfun [z f]
+    (list 'fn '[v :- Nat] (rec-of z f)))
+  (def ^:private bc-h0 '(den chkf dec encTy cap h G s en))
+  (def ^:private bc-hq '(den chkf dec encTy cap hq G s en))
+  (def ^:private bc-t0 '(den chkf dec encTy cap t G (Sk.arr Sk.lbl s) en))
+  (def ^:private bc-tq '(den chkf dec encTy cap tq G (Sk.arr Sk.lbl s) en))
+
+  (prove! 'den_bcons_h
+    (into Pcap '[h :- Exp, hq :- Exp, t :- Exp, G :- (List Sk), s :- Sk, en :- (HEnv G),
+                 he :- (Eq (Car s) (den chkf dec encTy cap hq G s en)
+                                    (den chkf dec encTy cap h G s en))])
+    '(Eq (Car (Sk.arr Sk.lbl s))
+       (den chkf dec encTy cap (Exp.bcons hq t) G (Sk.arr Sk.lbl s) en)
+       (den chkf dec encTy cap (Exp.bcons h t) G (Sk.arr Sk.lbl s) en))
+    [(list 'rw ['(den_bcons_at chkf dec encTy cap hq t G (Sk.arr Sk.lbl s) en)])
+     '(rw [(den_bcons_at chkf dec encTy cap h t G (Sk.arr Sk.lbl s) en)])
+     (list 'change (list 'Eq '(Car (Sk.arr Sk.lbl s)) (bfun bc-hq bc-t0) (bfun bc-h0 bc-t0)))
+     (list 'exact
+       (list 'funext
+         (list 'fn '[v :- Nat]
+           (list 'congrArg
+             (list 'fn '[z :- (Car s)] (rec-of 'z bc-t0))
+             'he))))])
+
+  (prove! 'den_bcons_t
+    (into Pcap '[h :- Exp, t :- Exp, tq :- Exp, G :- (List Sk), s :- Sk, en :- (HEnv G),
+                 he :- (Eq (Car (Sk.arr Sk.lbl s))
+                        (den chkf dec encTy cap tq G (Sk.arr Sk.lbl s) en)
+                        (den chkf dec encTy cap t G (Sk.arr Sk.lbl s) en))])
+    '(Eq (Car (Sk.arr Sk.lbl s))
+       (den chkf dec encTy cap (Exp.bcons h tq) G (Sk.arr Sk.lbl s) en)
+       (den chkf dec encTy cap (Exp.bcons h t) G (Sk.arr Sk.lbl s) en))
+    [(list 'rw ['(den_bcons_at chkf dec encTy cap h tq G (Sk.arr Sk.lbl s) en)])
+     '(rw [(den_bcons_at chkf dec encTy cap h t G (Sk.arr Sk.lbl s) en)])
+     (list 'change (list 'Eq '(Car (Sk.arr Sk.lbl s)) (bfun bc-h0 bc-tq) (bfun bc-h0 bc-t0)))
+     (list 'exact
+       (list 'funext
+         (list 'fn '[v :- Nat]
+           (list 'congrArg
+             (list 'fn '[f :- (=> Nat (Car s))] (rec-of bc-h0 'f))
+             'he))))])
+
+
+  ;; bcons is skeleton-typed at Lbl → s1 for a witness s1 (inv_bcons).
+  ;; skOf ignores both children.  den_bcons_h / den_bcons_t give the
+  ;; denotation at that arrow; Eq.mp moves it to the output skeleton.
+  (let [term '(Exp.bcons h t)
+        pred '(fn [s1 :- Sk]
+                (And (Eq Sk out (Sk.arr Sk.lbl s1))
+                     (And (SkJ Bool.false G h s1)
+                          (SkJ Bool.false G t (Sk.arr Sk.lbl s1)))))
+        pack '(And (Eq Sk out (Sk.arr Sk.lbl s1))
+                   (And (SkJ Bool.false G h s1)
+                        (SkJ Bool.false G t (Sk.arr Sk.lbl s1))))
+        wit '(And.right (inv_bcons Bool.false G h t out hj))
+        branch (fn [i lemma pre ihapp]
+                 (let [idx (sucn i 0)
+                       moved (list 'setP (list 'List.cons 'Nat idx 'tail) term 'co)]
+                   (list 'exSk pred (path-and term idx) wit
+                     (list 'fn ['s1 ':- 'Sk, 'hs1 ':- pack]
+                       (list 'And.intro
+                         '(Eq.refl$1 (skOf G (Exp.bcons h t)))
+                         (list 'fn '[cap :- Nat, en :- (HEnv G)]
+                           (list 'Eq.mp
+                             (list 'congrArg
+                               (list 'fn '[k :- Sk]
+                                 (list 'Eq '(Car k)
+                                   (list 'den 'chkf 'dec 'encTy 'cap moved 'G 'k 'en)
+                                   (list 'den 'chkf 'dec 'encTy 'cap term 'G 'k 'en)))
+                               '(Eq.symm (And.left hs1)))
+                             (concat (list lemma 'chkf 'dec 'encTy 'cap) pre
+                                     (list (list ihapp 'cap 'en))))))))))
+        ihh '(And.right (ih_h Bool.false G s1
+                          (And.left (And.right hs1))
+                          (nbr_bcons_h h t fl hn)
+                          tail re co hgc hd))
+        iht '(And.right (ih_t Bool.true G (Sk.arr Sk.lbl s1)
+                          (And.right (And.right hs1))
+                          (nbr_bcons_t h t fl hn)
+                          tail re co hgc hd))
+        ph (branch 0 'den_bcons_h ['h '(setP tail h co) 't 'G 's1 'en] ihh)
+        pt (branch 1 'den_bcons_t ['h 't '(setP tail t co) 'G 's1 'en] iht)
+        split (index-split term [ph pt])]
+    (prove! 'step_bcons
+      (into step-params '[h :- Exp, t :- Exp,
+                          ih_h :- (StepPack chkf dec encTy h),
+                          ih_t :- (StepPack chkf dec encTy t)])
+      '(StepPack chkf dec encTy (Exp.bcons h t))
+      ['(intro fl G out hj hn pth) '(cases pth)
+       '(intro re co hg hd)
+       '(exact (step_nil_fl chkf dec encTy fl (Exp.bcons h t) G out hj hn re co hg hd))
+       '(intro re co hg hd)
+       (list 'exact split)]))
