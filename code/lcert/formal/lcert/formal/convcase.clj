@@ -3865,3 +3865,173 @@
             (concat [nm 'chkf 'dec 'encTy 'cap]
                     (map first fields)
                     (map #(symbol (str "ih_" %)) (get ih ctor []))))))))
+
+;; ===========================================================================
+;; §5  Lemma 3.3 and the Conv case of Lemma 3.6
+;; ===========================================================================
+;;
+;; cv_V is Lemma 3.3 for a value family g: if A ≡ B, then V(A) at g(skel A)
+;; equals V(B) at g(skel B).  One step is step_V (V at the redex's skeleton)
+;; transported along step_skel by sk_transport.  F_conv is the Conv case of
+;; the fundamental lemma, reading g as s ↦ ⟦t⟧_s.  conv_all discharges it for
+;; every checker, and the three paper statements are the main development's
+;; lemmas applied to that case.
+
+  (def ^:private goal
+    '(Eq Prop
+       (V chkf dec encTy cap C G en k (skel B) (g (skel B)))
+       (V chkf dec encTy cap B G en k (skel B) (g (skel B)))))
+  (prove! 'step_V_of_step
+    (into Pcap
+      '[B :- Exp, C :- Exp, G :- (List Sk),
+        hj :- (SkJ Bool.true G B Sk.unit),
+        hn :- (Eq Bool (nbr B) Bool.true),
+        hs :- (Step chkf B C),
+        g :- (forall [s Sk] (Car s)),
+        en :- (HEnv G), k :- Nat])
+    goal
+    [(list 'exact
+       (list 'exists_elimL
+         '(fn [p :- (List Nat)]
+            (Exists (fn [r :- Exp]
+              (Exists (fn [r2 :- Exp]
+                (And (Eq (Option Exp) (getP p B) (Option.some Exp r))
+                     (And (Hd chkf r r2) (Eq Exp C (setP p B r2)))))))))
+         goal
+         'hs
+         (clojure.walk/postwalk-replace {'GOAL goal}
+         '(fn [p :- (List Nat),
+               hp :- (Exists (fn [r :- Exp]
+                       (Exists (fn [r2 :- Exp]
+                         (And (Eq (Option Exp) (getP p B) (Option.some Exp r))
+                              (And (Hd chkf r r2) (Eq Exp C (setP p B r2))))))))]
+            (exists_elimE
+              (fn [r :- Exp]
+                (Exists (fn [r2 :- Exp]
+                  (And (Eq (Option Exp) (getP p B) (Option.some Exp r))
+                       (And (Hd chkf r r2) (Eq Exp C (setP p B r2)))))))
+              GOAL
+              hp
+              (fn [r :- Exp,
+                   hr :- (Exists (fn [r2 :- Exp]
+                           (And (Eq (Option Exp) (getP p B) (Option.some Exp r))
+                                (And (Hd chkf r r2) (Eq Exp C (setP p B r2))))))]
+                (exists_elimE
+                  (fn [r2 :- Exp]
+                    (And (Eq (Option Exp) (getP p B) (Option.some Exp r))
+                         (And (Hd chkf r r2) (Eq Exp C (setP p B r2)))))
+                  GOAL
+                  hr
+                  (fn [r2 :- Exp,
+                       h3 :- (And (Eq (Option Exp) (getP p B) (Option.some Exp r))
+                                  (And (Hd chkf r r2) (Eq Exp C (setP p B r2))))]
+                    (Eq.mp
+                      (congrArg
+                        (fn [e :- Exp]
+                          (Eq Prop
+                            (V chkf dec encTy cap e G en k (skel B) (g (skel B)))
+                            (V chkf dec encTy cap B G en k (skel B) (g (skel B)))))
+                        (Eq.symm (And.right (And.right h3))))
+                      (step_V chkf dec encTy cap B G hj hn p r r2
+                        (And.left h3) (And.left (And.right h3))
+                        en k (g (skel B))))))))))))])
+
+  (prove! 'cv_V
+    (into Pcap
+      '[G :- (List Sk), A :- Exp, B :- Exp, der :- (Cv chkf G A B)])
+    '(forall [g (forall [s Sk] (Car s))]
+       (forall [en (HEnv G)] (forall [k Nat]
+         (Eq Prop
+           (V chkf dec encTy cap A G en k (skel A) (g (skel A)))
+           (V chkf dec encTy cap B G en k (skel B) (g (skel B)))))))
+    ['(induction der)
+     ;; cvRefl
+     '(intro g en k)
+     '(exact (Eq.refl$1 (V chkf dec encTy cap A G en k (skel A) (g (skel A)))))
+     ;; cvFwd: A ≡ B and B steps to C
+     '(intro g en k)
+     '(have hJB (SkJ Bool.true G B Sk.unit) (And.right (cv_skel_wf chkf G A B hab)))
+     '(have hnB (Eq Bool (nbr B) Bool.true) (cv_nbr_right chkf G A B hab))
+     '(have hstep (Eq Prop
+                    (V chkf dec encTy cap C G en k (skel B) (g (skel B)))
+                    (V chkf dec encTy cap B G en k (skel B) (g (skel B))))
+        (step_V_of_step chkf dec encTy cap B C G hJB hnB hs g en k))
+     '(have hAB (Eq Prop
+                  (V chkf dec encTy cap A G en k (skel A) (g (skel A)))
+                  (V chkf dec encTy cap B G en k (skel B) (g (skel B))))
+        (ih_hab g en k))
+     '(have hAC (Eq Prop
+                  (V chkf dec encTy cap A G en k (skel A) (g (skel A)))
+                  (V chkf dec encTy cap C G en k (skel B) (g (skel B))))
+        (Eq.trans hAB (Eq.symm hstep)))
+     '(have hsk (Eq Sk (skel C) (skel B))
+        (step_skel chkf B C
+          (skj_isTy Bool.true G B Sk.unit hJB (Eq.refl$1 Bool.true)) hs))
+     '(exact (sk_transport
+        (fn [s :- Sk] (fn [w :- (Car s)]
+          (Eq Prop
+            (V chkf dec encTy cap A G en k (skel A) (g (skel A)))
+            (V chkf dec encTy cap C G en k s w))))
+        g (skel B) (skel C) (Eq.symm hsk) hAC))
+     ;; cvBwd: A ≡ B and C steps to B
+     '(intro g en k)
+     '(have hsk (Eq Sk (skel B) (skel C))
+        (step_skel chkf C B
+          (skj_isTy Bool.true G C Sk.unit hc (Eq.refl$1 Bool.true)) hs))
+     '(have hAB (Eq Prop
+                  (V chkf dec encTy cap A G en k (skel A) (g (skel A)))
+                  (V chkf dec encTy cap B G en k (skel B) (g (skel B))))
+        (ih_hab g en k))
+     '(have hABatC (Eq Prop
+                     (V chkf dec encTy cap A G en k (skel A) (g (skel A)))
+                     (V chkf dec encTy cap B G en k (skel C) (g (skel C))))
+        (sk_transport
+          (fn [s :- Sk] (fn [w :- (Car s)]
+            (Eq Prop
+              (V chkf dec encTy cap A G en k (skel A) (g (skel A)))
+              (V chkf dec encTy cap B G en k s w))))
+          g (skel B) (skel C) hsk hAB))
+     '(have hstep (Eq Prop
+                    (V chkf dec encTy cap B G en k (skel C) (g (skel C)))
+                    (V chkf dec encTy cap C G en k (skel C) (g (skel C))))
+        (step_V_of_step chkf dec encTy cap C B G hc hn hs g en k))
+     '(exact (Eq.trans hABatC hstep))])
+
+
+  ;; The Conv case of the fundamental lemma.  Soundness at A is V(A) at ⟦t⟧.
+  ;; cv_V, with the family s ↦ ⟦t⟧_s, is V(A) at that value iff V(B) at it,
+  ;; and skel A = skel B is how the family is read on each side.
+  (prove! 'F_conv
+    '[chkf :- (=> Code Code Bool),
+      dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+      encTy :- (=> Exp Code),
+      n :- Nat]
+    '(ConvCase chkf dec encTy n)
+    ['(intro D us t A B hrt htl hcv hsound)
+     '(intro en k hk hsat)
+     '(exact (Eq.mp
+        (cv_V chkf dec encTy n (skels D) A B hcv
+          (fn [s :- Sk] (den chkf dec encTy n t (skels D) s en))
+          en k)
+        (hsound en k hk hsat)))])
+
+  (prove! 'conv_all
+    '[]
+    'ConvAll
+    ['(intro chkf dec encTy hcs n)
+     '(exact (F_conv chkf dec encTy n))])
+
+  (prove! 'Lemma_3_6_holds
+    '[]
+    'Lemma_3_6
+    ['(exact (paper_lemma36 conv_all))])
+
+  (prove! 'Theorem_1_holds
+    '[]
+    'Theorem_1
+    ['(exact (paper_theorem1 conv_all))])
+
+  (prove! 'Corollary_3_7_holds
+    '[]
+    'Corollary_3_7
+    ['(exact (paper_cor37 conv_all))])
