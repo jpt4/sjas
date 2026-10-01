@@ -99,7 +99,8 @@
 ;; type-level arguments are substituted into types (App₀, Pair₀).  Inspect
 ;; takes the formation of the types its branches' contexts add (hF1, hF2);
 ;; Bcons the formation of its motive P (hP), as CaseL does, which its case of
-;; the fundamental lemma reads (V_subst1 at the label).
+;; the fundamental lemma reads (V_subst1 at the label); RecSyn the formation
+;; of the two recursive results' types its node branch adds (hY1, hY2).
 (a/defn clean [e :- Exp] Bool
   (match e
     [(tT b) (clean b)]
@@ -282,6 +283,8 @@
          [hl (Rt chkf (consE Exp.tLbl D) (consU U.uw (vscale U.uw us2)) tl (leafTy P))]
          [hn (Rt chkf (consE (y2Ty P) (consE (y1Ty P) (consE Exp.tSyn (consE Exp.tSyn (consE Exp.tLbl D)))))
                   (consU U.u1 (consU U.u1 (consU U.uw (consU U.uw (consU U.uw (vscale U.uw us3)))))) tn (nodeTy P))]
+         [hY1 (Tl chkf Bool.true (consE Exp.tSyn (consE Exp.tSyn (consE Exp.tLbl D))) (y1Ty P) Exp.tUnit)]
+         [hY2 (Tl chkf Bool.true (consE (y1Ty P) (consE Exp.tSyn (consE Exp.tSyn (consE Exp.tLbl D)))) (y2Ty P) Exp.tUnit)]
          :where [D (vadd us1 (vadd (vscale U.uw us2) (vscale U.uw us3))) (Exp.recS P tl tn c) (subst1 c P)])
   ;; tokens and certificates
   (rLeaf [D (List Exp)] [us (List U)] [x Exp] [h (Rt chkf D us x Exp.tLbl)] :where [D us (Exp.leaf x) Exp.tR])

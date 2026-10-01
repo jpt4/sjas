@@ -131,8 +131,10 @@ now checks.
   NL (`lblOk`). Without it the recursors over codes and certificates (RecSyn,
   ItR) could not pass a tree's labels to methods expecting `Lbl`.
 - **Bcons carries its motive's formation** (`hP`), as CaseL does; the
-  fundamental lemma's Bcons case reads it. Admissible in the paper, where
-  every type in a derivation is formed.
+  fundamental lemma's Bcons case reads it. RecSyn carries the formation of
+  its node branch's two added types (`hY1`, `hY2`), for that branch's
+  well-formed context. Both are admissible in the paper, where every type in
+  a derivation is formed.
 - **`V` takes the skeleton explicitly,** since carriers depend on it.
 - **Lemma 2.4 takes closed formation explicitly.** `lemma24` also assumes
   `Tl chkf Bool.true (List.nil Exp) A Exp.tUnit`, then weakens that formation

@@ -384,8 +384,8 @@
 
 (require 'lcert.formal.lemma36)
 (deftest f3n-lemma36-and-main-results
-  (testing "Lemma 3.6 assembled, Theorem 1, Corollary 3.7 and Theorem 3 (Conv and RecSyn as hypotheses)"
-    (doseq [c '[ConvCase RecSCase lemma36_step outer_zero outer_succ outer_all lemma36
+  (testing "Lemma 3.6 assembled, Theorem 1, Corollary 3.7 and Theorem 3 (Conv as a hypothesis)"
+    (doseq [c '[ConvCase lemma36_step outer_zero outer_succ outer_all lemma36
                 theorem1 bool_false_of cor37_refutation cor37_contradiction theorem3]]
       (is (b/has? c) (str c))))
   (testing "Theorem 1 is not vacuous about derivability: Θ₀ ⊢ ⋆ : 1 is derivable"

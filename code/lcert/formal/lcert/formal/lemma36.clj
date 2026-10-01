@@ -22,9 +22,9 @@
   Then Theorem 1 (consistency), Corollary 3.7 (Check accepts no refutation
   and no contradictory pair) and Theorem 3 (certificate size), from Lemma 3.6.
 
-  Two rules enter as hypotheses until their cases are proved: Conv (needs
-  Lemma 3.2, conversion invariance) and RecSyn.  Their statements are
-  exactly what the induction needs (ConvCase, RecSCase)."
+  One rule enters as a hypothesis until its case is proved: Conv (needs
+  Lemma 3.2, conversion invariance), stated as exactly what the induction
+  needs (ConvCase)."
   (:require [ansatz.core :as a]
             [clojure.string :as str]
             [lcert.formal.base :refer [thm kdef lv]]
@@ -41,7 +41,8 @@
             [lcert.formal.fundamental :refer :all]
             [lcert.formal.derivations]
             [lcert.formal.skeletons]
-            [lcert.formal.outer :refer :all]))
+            [lcert.formal.outer :refer :all]
+            [lcert.formal.recsyn]))
 
 (def ^:private PS "chkf dec encTy")
 
@@ -52,22 +53,6 @@
     (forall [D (List Exp)] (forall [us (List U)] (forall [t Exp] (forall [A Exp] (forall [B Exp]
       (=> (Rt chkf D us t A) (Tl chkf Bool.true D B Exp.tUnit) (Cv chkf (skels D) A B)
           (Sound chkf dec encTy n D us t A) (Sound chkf dec encTy n D us t B)))))))))
-
-;; The RecSyn case, as the induction uses it (the node branch's IH still
-;; asks for its context's well-formedness).
-(kdef RecSCase (forall [chkf (=> Code Code Bool)] (forall [dec (=> Code (Option (Prod Nat (Prod Exp Exp))))] (forall [encTy (=> Exp Code)] (=> Nat Prop))))
-  (fn [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat]
-    (forall [D (List Exp)] (forall [us1 (List U)] (forall [us2 (List U)] (forall [us3 (List U)]
-    (forall [P Exp] (forall [tl Exp] (forall [tn Exp] (forall [c Exp]
-      (=> (Rt chkf D us1 c Exp.tSyn) (Tl chkf Bool.true (consE Exp.tSyn D) P Exp.tUnit)
-          (Sound chkf dec encTy n D us1 c Exp.tSyn)
-          (=> (WFCtx chkf (consE Exp.tLbl D))
-              (Sound chkf dec encTy n (consE Exp.tLbl D) (consU U.uw (vscale U.uw us2)) tl (leafTy P)))
-          (=> (WFCtx chkf (consE (y2Ty P) (consE (y1Ty P) (consE Exp.tSyn (consE Exp.tSyn (consE Exp.tLbl D))))))
-              (Sound chkf dec encTy n (consE (y2Ty P) (consE (y1Ty P) (consE Exp.tSyn (consE Exp.tSyn (consE Exp.tLbl D)))))
-                     (consU U.u1 (consU U.u1 (consU U.uw (consU U.uw (consU U.uw (vscale U.uw us3)))))) tn (nodeTy P)))
-          (WFCtx chkf D)
-          (Sound chkf dec encTy n D (vadd us1 (vadd (vscale U.uw us2) (vscale U.uw us3))) (Exp.recS P tl tn c) (subst1 c P)))))))))))))
 
 ;; A case whose lemma takes no environment hypothesis (V of its type is
 ;; everything at that value): wrap it as Sound.
@@ -105,7 +90,10 @@
      ;; rSleaf, rSnode, rRecS
      (str "(F_sleaf " C " D us x (ih_h hw))")
      (str "(F_snode " C " D us1 us1 us2 us3 x c1 c2 (ih_hx hw) (ih_h1 hw) (ih_h2 hw))")
-     "(hrecs D us1 us2 us3 P tl tn c hc hP (ih_hc hw) ih_hl ih_hn hw)"
+     (str "(F_recS " C " D us1 us1 us2 us3 P tl tn c hc hP (ih_hl (And.intro (Tl.fBase chkf D Exp.tLbl (Eq.refl$1 Bool.true)) hw)) "
+          "(ih_hn (And.intro hY2 (And.intro hY1 (And.intro (Tl.fBase chkf (consE Exp.tSyn (consE Exp.tLbl D)) Exp.tSyn (Eq.refl$1 Bool.true)) "
+          "(And.intro (Tl.fBase chkf (consE Exp.tLbl D) Exp.tSyn (Eq.refl$1 Bool.true)) (And.intro (Tl.fBase chkf D Exp.tLbl (Eq.refl$1 Bool.true)) hw)))))) "
+          "(ih_hc hw))")
      ;; rLeaf, rNode, rItR, rPrn
      (str "(F_leaf " C " D us x (ih_h hw))")
      (str "(F_node " C " D us1 us1 us2 us3 us4 d x r1 r2 (ih_hd hw) (ih_hx hw) (ih_h1 hw) (ih_h2 hw))")
@@ -120,7 +108,7 @@
 (a/prove-theorem 'lemma36_step
   (lv '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), cap :- Nat,
         hcs :- (CheckSpec chkf dec encTy), hout :- (OuterIH chkf dec encTy cap),
-        hconv :- (ConvCase chkf dec encTy cap), hrecs :- (RecSCase chkf dec encTy cap),
+        hconv :- (ConvCase chkf dec encTy cap),
         D0 :- (List Exp), us0 :- (List U), t0 :- Exp, A0 :- Exp, der :- (Rt chkf D0 us0 t0 A0)])
   '(=> (WFCtx chkf D0) (Sound chkf dec encTy cap D0 us0 t0 A0))
   (lv (into ['(induction der)]
@@ -133,9 +121,8 @@
   (OuterIH chkf dec encTy 0)
   (intro m hm) (exact (False.elim (Nat.not_lt_zero m hm))))
 
-;; The trust base (CheckSpec) and, until proved, the Conv and RecSyn cases.
-(def ^:private HYP '[hcs :- (CheckSpec chkf dec encTy), hconv :- (forall [n Nat] (ConvCase chkf dec encTy n)),
-                     hrecs :- (forall [n Nat] (RecSCase chkf dec encTy n))])
+;; The trust base (CheckSpec) and, until proved, the Conv case.
+(def ^:private HYP '[hcs :- (CheckSpec chkf dec encTy), hconv :- (forall [n Nat] (ConvCase chkf dec encTy n))])
 ;; outer_succ: OuterIH (n+1) from OuterIH n — at m < n by the hypothesis, at
 ;; m = n by lemma36_step at the token environment.
 (eval (list 'lcert.formal.base/thm 'outer_succ (into P3 HYP)
@@ -144,18 +131,18 @@
   '(have hor (Or (Eq Nat m n) (Nat.lt m n)) (Nat.eq_or_lt_of_le (Nat.le_of_lt_succ hm)))
   '(cases hor)
   '(subst h)
-  '(exact (lemma36_step chkf dec encTy n hcs ih (hconv n) (hrecs n) (thetaD n) (thetaU n) t A hd (wf_theta chkf n)
+  '(exact (lemma36_step chkf dec encTy n hcs ih (hconv n) (thetaD n) (thetaU n) t A hd (wf_theta chkf n)
             (tokEnvD n) n (Nat.le_refl n) (tok_sat chkf dec encTy n n)))
   '(exact (ih m h t A hd))))
 (eval (list 'lcert.formal.base/thm 'outer_all (into P3 HYP) '(forall [n Nat] (OuterIH chkf dec encTy n))
   '(intro n) '(induction n)
   '(exact (outer_zero chkf dec encTy))
-  '(exact (outer_succ chkf dec encTy hcs hconv hrecs n ih_n))))
+  '(exact (outer_succ chkf dec encTy hcs hconv n ih_n))))
 ;; Lemma 3.6.
 (eval (list 'lcert.formal.base/thm 'lemma36
   (into (into P3 HYP) '[n :- Nat, D :- (List Exp), us :- (List U), t :- Exp, A :- Exp, der :- (Rt chkf D us t A), hw :- (WFCtx chkf D)])
   '(Sound chkf dec encTy n D us t A)
-  '(exact (lemma36_step chkf dec encTy n hcs (outer_all chkf dec encTy hcs hconv hrecs n) (hconv n) (hrecs n) D us t A der hw))))
+  '(exact (lemma36_step chkf dec encTy n hcs (outer_all chkf dec encTy hcs hconv n) (hconv n) D us t A der hw))))
 
 ;; --- the main results ------------------------------------------------------------------
 
@@ -163,7 +150,7 @@
 ;; Theorem 1 (§3.8): no derivable Θₙ ⊢ t :¹ 0.  The all-token environment
 ;; satisfies Θₙ with footprint n, and Lemma 3.6 puts ⟦t⟧ⁿ in V(0) = ∅.
 (eval (list 'lcert.formal.base/thm 'theorem1 (into PH '[n :- Nat, t :- Exp, hd :- (Rt chkf (thetaD n) (thetaU n) t Exp.tEmpty)]) 'False
-  '(exact (lemma36 chkf dec encTy hcs hconv hrecs n (thetaD n) (thetaU n) t Exp.tEmpty hd (wf_theta chkf n)
+  '(exact (lemma36 chkf dec encTy hcs hconv n (thetaD n) (thetaU n) t Exp.tEmpty hd (wf_theta chkf n)
             (tokEnvD n) n (Nat.le_refl n) (tok_sat chkf dec encTy n n)))))
 (defn- Cb [cv dv mm tt AA]
   (list 'And (list 'Eq '(Option (Prod Nat (Prod Exp Exp))) (list 'dec cv) (list 'Option.some '(Prod Nat (Prod Exp Exp)) (list 'Prod.mk mm (list 'Prod.mk tt AA))))
@@ -186,7 +173,7 @@
   '(refine' (exT Nat _ _ X1 _)) '(intro mm hm) '(refine' (exT Exp _ _ hm _)) '(intro tt ht) '(refine' (exT Exp _ _ ht _)) '(intro AA hA)
   (list 'have 'q (Cb 'c '(encTy Exp.tEmpty) 'mm 'tt 'AA) 'hA)
   (list 'have 'eA '(Eq Exp AA Exp.tEmpty) (list '(And.right (And.right (And.right hcs))) 'AA 'Exp.tEmpty (gets 'q 3) '(Eq.refl$1 Bool.true) (gets 'q 4)))
-  (list 'exact (list 'theorem1 'chkf 'dec 'encTy 'hcs 'hconv 'hrecs 'mm 'tt
+  (list 'exact (list 'theorem1 'chkf 'dec 'encTy 'hcs 'hconv 'mm 'tt
                      (list 'Eq.mp '(congrArg (fn [Z :- Exp] (Rt chkf (thetaD mm) (thetaU mm) tt Z)) eA) (gets 'q 1))))))
 ;; Corollary 3.7 (ii): no c₁, c₂, d with Check(c₁, d) = Check(c₂, neg d) = tt.
 ;; Decode both: Θₘ₁ ⊢ t₁ : A with ⌜A⌝ = d, Θₘ₂ ⊢ t₂ : B with ⌜B⌝ = neg d =
@@ -209,7 +196,7 @@
   (list 'have 'eB '(Eq Exp (Exp.tPi U.u1 Aa Exp.tEmpty) Ab) (list '(And.right (And.right (And.right hcs))) '(Exp.tPi U.u1 Aa Exp.tEmpty) 'Ab 'hcl (gets 'qb 3) 'henc))
   (list 'have 'hRtb '(Rt chkf (thetaD mb) (thetaU mb) tb (Exp.tPi U.u1 Aa Exp.tEmpty))
      (list 'Eq.mpr (list 'congrArg '(fn [Z :- Exp] (Rt chkf (thetaD mb) (thetaU mb) tb Z)) 'eB) (gets 'qb 1)))
-  (list 'exact (list 'theorem1 'chkf 'dec 'encTy 'hcs 'hconv 'hrecs '(+ ma mb) '(Exp.app (lift ma 0 tb) (lift mb ma ta))
+  (list 'exact (list 'theorem1 'chkf 'dec 'encTy 'hcs 'hconv '(+ ma mb) '(Exp.app (lift ma 0 tb) (lift mb ma ta))
                      (list 'lemma24 'chkf 'ma 'mb 'ta 'tb 'Aa (gets 'qa 3) (gets 'qa 2) (gets 'qa 1) 'hRtb)))))
 ;; Theorem 3 (§3.7), first claim: a certificate term's value has at most k
 ;; nodes, for an environment satisfying the context at footprint k (V(R)).
@@ -217,4 +204,4 @@
   (into PH '[n :- Nat, D :- (List Exp), us :- (List U), t :- Exp, der :- (Rt chkf D us t Exp.tR), hw :- (WFCtx chkf D),
              en :- (HEnv (skels D)), k :- Nat, hk :- (Nat.le k n), hs :- (EnvSat chkf dec encTy n D us en k)])
   '(LE.le (cnodes (den chkf dec encTy n t (skels D) Sk.cert en)) k)
-  '(exact (And.left (lemma36 chkf dec encTy hcs hconv hrecs n D us t Exp.tR der hw en k hk hs)))))
+  '(exact (And.left (lemma36 chkf dec encTy hcs hconv n D us t Exp.tR der hw en k hk hs)))))
