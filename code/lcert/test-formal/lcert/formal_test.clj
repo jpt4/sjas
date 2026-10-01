@@ -184,7 +184,8 @@
                 WFCtx var_wf entry_nz var_succ var_zero var_sem F_var le_sub_add F_pair1 F_pairw F_pair
                 den_letp_some EnvSat_cons le_let le_let0 F_let1 F_letw F_let0 F_let F_app0 F_pair0
                 entry_omega_back EnvSat_omega_back V_stepTy den_zero_nat natrec_inv F_recN
-                F_caseL bcons_zero bcons_succ sub_eq_zero sub_succ den_lbl_lbl F_bcons]]
+                F_caseL bcons_zero bcons_succ sub_eq_zero sub_succ den_lbl_lbl F_bcons
+                lblOk_sn cnodes_sn lbl_lt coderec_inv V_l1s skj_lsuc V_lsuc F_itR]]
       (is (b/has? c) (str c))))
   (testing "a label constant must be below NL: lbl 100 is not in V(Lbl)"
     (is (not (b/rejects? '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat]
@@ -198,6 +199,29 @@
     (is (not (b/rejects? '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat]
                          '(Not (V chkf dec encTy n Exp.tR (List.nil Sk) Unit.unit 0 Sk.cert (Code.sn 0 (Code.sl 0) (Code.sl 0))))
                          '[(intro h) (have h2 (LE.le 1 0) (And.left h)) (omega)])))))
+
+(require 'lcert.formal.recsyn)
+(deftest f3j-recsyn
+  (testing "Lemma 3.6, the RecSyn case: motive substitutions, the code induction, F_recS"
+    (doseq [c '[sLeafI_consSub subOK_sLeafI den_sleaf_var0 envOf_sLeafI
+                skel_var skOf_var nthS_past subOK_past var_shift_succ envOf_lift1 envDrop envOf_past
+                sAt_consSub nthS_at1_y1 subOK_sAt13 den_var1_y1 envOf_sAt13
+                nthS_at1_y2 subOK_sAt14 den_var1_y2 envOf_sAt14
+                nthS_node_lbl nthS_node_c1 nthS_node_c2 nthS_node_tail
+                sNodeI_ty sNodeI_sko subOK_sNodeI den_snode_vars envOf_sNodeI
+                V_leafTy V_nodeTy V_y1Ty V_y2Ty carTo V_y1_val V_y2_val
+                recrec_inv recS_leaf recS_node_sat node_v_raw recS_node F_recS]]
+      (is (b/has? c) (str c))))
+  (testing "sLeafI sends the label to the leaf code, not to the leaf of its successor"
+    (is (b/rejects? '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+                      n :- Nat, G :- (List Sk), l :- Nat, en :- (HEnv G)]
+                    '(Eq (HEnv (List.cons Sk Sk.syn G))
+                         (envOf chkf dec encTy n (List.cons Sk Sk.syn G) (fn [j :- Nat] (sLeafI j))
+                                (List.cons Sk Sk.lbl G) (Prod.mk l en))
+                         (Prod.mk (Code.sl (Nat.succ l)) en))
+                    '[(exact (envOf_sLeafI chkf dec encTy n G l en))])))
+  (testing "a leaf labelled NL is not a code in V(Syn)"
+    (is (b/rejects? '[] '(Eq Bool (lblOk (Code.sl 100)) Bool.true) '[(rfl)]))))
 
 (require 'lcert.formal.substitution)
 (def ^:private den-params
@@ -402,3 +426,21 @@
                       m :- Nat, t :- Exp]
                     '(Eq DenBody (denPrev chkf dec encTy 0 m t) (den chkf dec encTy m t))
                     '[(rfl)]))))
+
+(require 'lcert.formal.lemma36)
+(deftest f3n-lemma36-and-main-results
+  (testing "Lemma 3.6 assembled, Theorem 1, Corollary 3.7 and Theorem 3 (Conv as a hypothesis)"
+    (doseq [c '[ConvCase lemma36_step outer_zero outer_succ outer_all lemma36
+                theorem1 bool_false_of cor37_refutation cor37_contradiction theorem3
+                ConvAll paper_lemma36 paper_theorem1 paper_cor37 Theorem_2_H1]]
+      (is (b/has? c) (str c))))
+  (testing "Theorem 1 is not vacuous about derivability: Θ₀ ⊢ ⋆ : 1 is derivable"
+    (is (not (b/rejects? '[chkf :- (=> Code Code Bool)]
+                         '(Rt chkf (thetaD 0) (thetaU 0) Exp.star Exp.tUnit)
+                         '[(exact (Rt.rConst chkf (List.nil Exp) (List.nil U) Exp.star Exp.tUnit rfl rfl))]))))
+  (testing "Bcons now requires its motive's formation: without hP the rule does not apply"
+    (is (b/rejects? '[chkf :- (=> Code Code Bool), h :- Exp, t :- Exp,
+                      hh :- (Rt chkf (List.nil Exp) (List.nil U) h (subst1 (Exp.lbl 0) Exp.tBool)),
+                      ht :- (Rt chkf (List.nil Exp) (List.nil U) t (Exp.tBrs Exp.tBool 1))]
+                    '(Rt chkf (List.nil Exp) (List.nil U) (Exp.bcons h t) (Exp.tBrs Exp.tBool 0))
+                    '[(exact (Rt.rBcons chkf (List.nil Exp) (List.nil U) Exp.tBool 0 h t hh ht))]))))

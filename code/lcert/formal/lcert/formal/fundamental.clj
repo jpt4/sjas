@@ -34,12 +34,13 @@
     V(P) at (tt, η), (ff, η) by V_subst1, and the scrutinee picks one.
 
   - Pair, at usage 1 and ω; Let, at every usage; App₀ and Pair₀; RecN;
-    CaseL and Bcons (see the sections).
+    CaseL and Bcons; the code and certificate constructors; ItR (see the
+    sections).
   - Var: in a well-formed context, the entry's value, read through the lift
     of its type by V_lift (vweaken.clj).
 
-  Pending (they need Lemma 3.1/3.3's substitution or weakening clauses, 3.2,
-  or the outer induction on n): Conv, RecS, ItR, H₁, Refl, Inspect."
+  Elsewhere: Reflect, H₁ and Inspect (outer.clj; the first two use the
+  outer induction on n).  Pending: Conv (needs Lemma 3.2) and RecS."
   (:require [ansatz.core :as a]
             [lcert.formal.base :refer [thm kdef]]
             [lcert.formal.usage :refer :all]
@@ -1079,3 +1080,153 @@
      '(omega)
      '(exact (band3 (Nat.blt (den chkf dec encTy n x (skels D) Sk.lbl en) 100) (lblOk (den chkf dec encTy n r1 (skels D) Sk.cert en))
                (lblOk (den chkf dec encTy n r2 (skels D) Sk.cert en)) (Nat.ble_eq_true_of_le vx) (And.right v1) (And.right v2)))]))
+;; --- iteration over certificates (ItR) ----------------------------------------------
+
+;; ItR (the paper's case): ⟦itR X g h r⟧ is Code.rec over ⟦r⟧ — a leaf l
+;; gives ⟦g⟧ l, a node l a b gives ⟦h⟧ ⋆ l y_a y_b on the subtrees' results.
+;; g and h are typed in ω-scaled contexts, so their values are in V at
+;; footprint 0 (Lemma 3.5 ii and its converse).  By induction on the
+;; certificate (coderec_inv), the result at w is in V(X) with footprint
+;; ‖w‖, its node count: each node spends one token, the ◇ argument of h
+;; (V_1(◇) holds), and adds its subtrees' footprints (the two Π₁ arguments).
+;; Labels are below NL (lblOk), as V(Lbl) requires for g's and h's label
+;; arguments.  r's IH gives ‖⟦r⟧‖ ≤ k₃ ≤ k and lblOk ⟦r⟧; raise ‖⟦r⟧‖ to k.
+;; h's type hTy X lifts X under 2, 3 and 4 binders; V_lsuc / V_l1s read
+;; those lifts back as V(X) at the skeleton skel X.
+
+(thm cnodes_split [a :- Nat, b :- Nat, n :- Nat, h :- (LE.le (+ 1 (+ a b)) n)] (And (LE.le a n) (LE.le b n)) (constructor) (omega) (omega))
+
+(thm lblOk_sn [l :- Nat, a :- Code, b :- Code] (Eq Bool (lblOk (Code.sn l a b)) (Bool.and (Nat.blt l 100) (Bool.and (lblOk a) (lblOk b)))) (rfl))
+(thm cnodes_sn [l :- Nat, a :- Code, b :- Code] (Eq Nat (cnodes (Code.sn l a b)) (+ 1 (+ (cnodes a) (cnodes b)))) (rfl))
+(thm lblOk_sl [l :- Nat] (Eq Bool (lblOk (Code.sl l)) (Nat.blt l 100)) (rfl))
+
+(thm lbl_lt [l :- Nat, h :- (Eq Bool (Nat.blt l 100) Bool.true)] (LT.lt l 100) (exact (Eq.mp (Nat.blt_eq l 100) h)))
+
+(thm coderec_inv [α :- Type, Q :- (=> Nat α Prop), fl :- (=> Nat α), fnd :- (=> Nat Code Code α α α), n :- Nat,
+                    hl :- (forall [l Nat] (=> (LT.lt l 100) (Q 0 (fl l)))),
+                    hn :- (forall [l Nat] (forall [a Code] (forall [b Code] (forall [ya α] (forall [yb α]
+                            (=> (LT.lt l 100) (Q (cnodes a) ya) (Q (cnodes b) yb) (LE.le (+ 1 (+ (cnodes a) (cnodes b))) n)
+                                (Q (+ 1 (+ (cnodes a) (cnodes b))) (fnd l a b ya yb))))))))]
+  (forall [w Code] (=> (Eq Bool (lblOk w) Bool.true) (LE.le (cnodes w) n) (Q (cnodes w) (Code.rec$1 (fn [_ :- Code] α) fl fnd w))))
+  (intro w) (induction w)
+  (intro h1 h2) (exact (hl l (lbl_lt l (Eq.trans (Eq.symm (lblOk_sl l)) h1))))
+  (intro h1 h2)
+  (have hok (Eq Bool (Bool.and (Nat.blt l 100) (Bool.and (lblOk a) (lblOk b))) Bool.true) (Eq.trans (Eq.symm (lblOk_sn l a b)) h1))
+  (have hc (LE.le (+ 1 (+ (cnodes a) (cnodes b))) n) (Eq.mp (congrArg (fn [q :- Nat] (LE.le q n)) (cnodes_sn l a b)) h2))
+  (have hab (And (LE.le (cnodes a) n) (LE.le (cnodes b) n)) (cnodes_split (cnodes a) (cnodes b) n hc))
+  (have hr (Eq Bool (Bool.and (lblOk a) (lblOk b)) Bool.true) (band_right (Nat.blt l 100) (Bool.and (lblOk a) (lblOk b)) hok))
+  (rw [(cnodes_sn l a b)])
+  (exact (hn l a b (Code.rec$1 (fn [_ :- Code] α) fl fnd a) (Code.rec$1 (fn [_ :- Code] α) fl fnd b)
+             (lbl_lt l (band_left (Nat.blt l 100) (Bool.and (lblOk a) (lblOk b)) hok))
+             (ih_a (band_left (lblOk a) (lblOk b) hr) (And.left hab))
+             (ih_b (band_right (lblOk a) (lblOk b) hr) (And.right hab))
+             hc)))
+
+(thm V_l1s [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+              G :- (List Sk), A :- Exp, der :- (SkJ Bool.true G A Sk.unit), x :- Sk, en :- (HEnv G), vx :- (Car x),
+              k :- Nat, s :- Sk, e :- (Eq Sk s (skel A)), v :- (Car s)]
+  (Eq Prop (V chkf dec encTy n (lift 1 0 A) (List.cons Sk x G) (Prod.mk vx en) k s v) (V chkf dec encTy n A G en k s v))
+  (subst e) (exact (V_lift chkf dec encTy n G A der 0 x en vx k v)))
+
+(thm skj_lsuc [G :- (List Sk), X :- Exp, j :- Nat, x :- Sk, h :- (SkJ Bool.true G (lift j 0 X) Sk.unit)]
+  (SkJ Bool.true (List.cons Sk x G) (lift (+ j 1) 0 X) Sk.unit)
+  (exact (Eq.mp (congrArg (fn [E :- Exp] (SkJ Bool.true (List.cons Sk x G) E Sk.unit)) (lift_comp X 1 j 0))
+                (skj_weaken Bool.true G (lift j 0 X) Sk.unit h 0 x))))
+(thm V_lsuc [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+               G :- (List Sk), X :- Exp, j :- Nat, der :- (SkJ Bool.true G (lift j 0 X) Sk.unit), x :- Sk, en :- (HEnv G), vx :- (Car x),
+               k :- Nat, s :- Sk, e :- (Eq Sk s (skel X)), v :- (Car s)]
+  (Eq Prop (V chkf dec encTy n (lift (+ j 1) 0 X) (List.cons Sk x G) (Prod.mk vx en) k s v) (V chkf dec encTy n (lift j 0 X) G en k s v))
+  (rw [(Eq.symm (lift_comp X 1 j 0))])
+  (exact (V_l1s chkf dec encTy n G (lift j 0 X) der x en vx k s (Eq.trans e (Eq.symm (skel_lift X j 0))) v)))
+
+(thm itr_arith [kg :- Nat, m :- Nat, kh :- Nat, k3 :- Nat, k :- Nat, n :- Nat, c :- Nat,
+                  o1 :- (LE.le (+ kg m) k), o2 :- (LE.le (+ kh k3) m), hk :- (LE.le k n), hc :- (LE.le c k3)]
+  (And (LE.le k3 n) (And (LE.le c k) (LE.le c n))) (constructor) (omega) (constructor) (omega) (omega))
+(thm itr_node_arith [a :- Nat, b :- Nat, n :- Nat, h :- (LE.le (+ 1 (+ a b)) n)]
+  (And (LE.le (+ 0 1) n) (And (LE.le (+ (+ 0 1) a) n) (And (LE.le (+ (+ (+ 0 1) a) b) n) (Eq Nat (+ (+ (+ 0 1) a) b) (+ 1 (+ a b))))))
+  (constructor) (omega) (constructor) (omega) (constructor) (omega) (omega))
+(def ^:private G0 '(skels D))
+(def ^:private sX '(skel X))
+(def ^:private SH '(Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr (skel X) (Sk.arr (skel X) (skel X))))))
+(def ^:private hden (list 'den 'chkf 'dec 'encTy 'n 'h G0 SH 'en))
+(def ^:private gden '(den chkf dec encTy n g (skels D) (Sk.arr Sk.lbl (skel X)) en))
+(def ^:private fl (list 'fn '[l :- Nat] (list gden 'l)))
+(def ^:private fnd (list 'fn '[l :- Nat, a :- Code, b :- Code, ya :- (Car (skel X)), yb :- (Car (skel X))] (list hden 'Unit.unit 'l 'ya 'yb)))
+(def ^:private Qf '(fn [j :- Nat, y :- (Car (skel X))] (V chkf dec encTy n X (skels D) en j (skel X) y)))
+(def ^:private rv '(den chkf dec encTy n r (skels D) Sk.cert en))
+(def ^:private recv (list 'Code.rec$1 '(fn [_ :- Code] (Car (skel X))) fl fnd rv))
+(defn- VX [kk v] (list 'V 'chkf 'dec 'encTy 'n 'X G0 'en kk sX v))
+(def ^:private c1 '(List.cons Sk Sk.dia (skels D)))
+(def ^:private c2 '(List.cons Sk Sk.lbl (List.cons Sk Sk.dia (skels D))))
+(def ^:private c3 '(List.cons Sk (skel X) (List.cons Sk Sk.lbl (List.cons Sk Sk.dia (skels D)))))
+(def ^:private c4 '(List.cons Sk (skel X) (List.cons Sk (skel X) (List.cons Sk Sk.lbl (List.cons Sk Sk.dia (skels D))))))
+(def ^:private e1 '(Prod.mk Unit.unit en))
+(def ^:private e2 (list 'Prod.mk 'l e1))
+(def ^:private e3 (list 'Prod.mk 'ya e2))
+(def ^:private e4 (list 'Prod.mk 'yb e3))
+(defn- Vl [m ctx env kk v] (list 'V 'chkf 'dec 'encTy 'n (list 'lift m 0 'X) ctx env kk sX v))
+
+(defn- hhF-type []
+  (let [l4 (list 'forall '[jb Nat] (list '=> '(Nat.le (+ (+ (+ 0 j) ja) jb) n)
+             (list 'forall (vector 'yb (list 'Car sX)) (list '=> (Vl 3 c3 '(Prod.mk ya (Prod.mk l (Prod.mk a en))) 'jb 'yb)
+               (Vl 4 c4 '(Prod.mk yb (Prod.mk ya (Prod.mk l (Prod.mk a en)))) '(+ (+ (+ 0 j) ja) jb) (list hden 'a 'l 'ya 'yb))))))
+        l3 (list 'forall '[ja Nat] (list '=> '(Nat.le (+ (+ 0 j) ja) n)
+             (list 'forall (vector 'ya (list 'Car sX)) (list '=> (Vl 2 c2 '(Prod.mk l (Prod.mk a en)) 'ja 'ya) l4))))
+        l2 (list 'forall '[l (Car Sk.lbl)] (list '=> (list 'V 'chkf 'dec 'encTy 'n 'Exp.tLbl c1 '(Prod.mk a en) 0 'Sk.lbl 'l) l3))]
+    (list 'forall '[j Nat] (list '=> '(Nat.le (+ 0 j) n)
+      (list 'forall '[a (Car Sk.dia)] (list '=> (list 'V 'chkf 'dec 'encTy 'n 'Exp.tDia G0 'en 'j 'Sk.dia 'a) l2))))))
+
+(eval (concat (list 'lcert.formal.base/thm 'F_itR
+  (into P6 (into '[us1 :- (List U), us2 :- (List U), us3 :- (List U), X :- Exp, g :- Exp, h :- Exp, r :- Exp,
+                   hX :- (Tl chkf Bool.true D X Exp.tUnit)]
+                 (into ['ihg :- (SND '(vscale U.uw us1) 'g '(gTy X)) 'ihh :- (SND '(vscale U.uw us2) 'h '(hTy X)) 'ihr :- (SND 'us3 'r 'Exp.tR)]
+                       (conj ENV 'hs :- (ES '(vadd (vscale U.uw us1) (vadd (vscale U.uw us2) us3)) 'k)))))
+  (concl 'X '(Exp.itR X g h r)))
+  (concat
+    ['(have hXS (SkJ Bool.true (skels D) X Sk.unit) (lemma25_tl_type chkf D X hX))
+     '(rw [(den_itR_at chkf dec encTy n X g h r (skels D) (skel X) en)])]
+    (split-steps 'hs '(vscale U.uw us1) '(vadd (vscale U.uw us2) us3) 'k 'kg 'm 'p1)
+    (split-steps '(And.right (And.right p1)) '(vscale U.uw us2) 'us3 'm 'kh 'k3 'p2)
+    ['(have hsg (EnvSat chkf dec encTy n D (vscale U.uw us1) en 0)
+        (EnvSat_omega_back chkf dec encTy n D us1 en (EnvSat_omega chkf dec encTy n D us1 en kg (And.left (And.right p1)))))
+     '(have hsh (EnvSat chkf dec encTy n D (vscale U.uw us2) en 0)
+        (EnvSat_omega_back chkf dec encTy n D us2 en (EnvSat_omega chkf dec encTy n D us2 en kh (And.left (And.right p2)))))
+     ;; leaves: g at footprint 0
+     '(have hgF (forall [a Nat] (=> (V chkf dec encTy n Exp.tLbl (skels D) en 0 Sk.lbl a)
+                  (V chkf dec encTy n (lift 1 0 X) (List.cons Sk Sk.lbl (skels D)) (Prod.mk a en) 0 (skel (lift 1 0 X))
+                     ((den chkf dec encTy n g (skels D) (Sk.arr Sk.lbl (skel (lift 1 0 X))) en) a))))
+        (ihg en 0 (Nat.zero_le n) hsg))
+     (list 'have 'HL (list 'forall '[l Nat] (list '=> '(LT.lt l 100) (VX 0 (list gden 'l))))
+        '(fn [l :- Nat, hl :- (LT.lt l 100)]
+           (Iff.mp (V_lift_fam chkf dec encTy n (skels D) X hXS 0 Sk.lbl en l 0 (fn [s :- Sk] ((den chkf dec encTy n g (skels D) (Sk.arr Sk.lbl s) en) l)))
+                   (hgF l hl))))
+     ;; nodes: h at footprint 0, transported to the clause's skeleton
+     (list 'have 'hh0 (list 'V 'chkf 'dec 'encTy 'n '(hTy X) G0 'en 0 '(skel (hTy X)) '(den chkf dec encTy n h (skels D) (skel (hTy X)) en))
+        '(ihh en 0 (Nat.zero_le n) hsh))
+     (list 'have 'hh1 (list 'V 'chkf 'dec 'encTy 'n '(hTy X) G0 'en 0 SH hden)
+        (list 'sk_transport '(fn [s :- Sk, v :- (Car s)] (V chkf dec encTy n (hTy X) (skels D) en 0 s v))
+              '(fn [s :- Sk] (den chkf dec encTy n h (skels D) s en)) '(skel (hTy X)) SH '(skel_hTy X) 'hh0))
+     (list 'have 'hhF (hhF-type) 'hh1)
+     '(have d1 (SkJ Bool.true (List.cons Sk Sk.dia (skels D)) (lift 1 0 X) Sk.unit) (skj_weaken Bool.true (skels D) X Sk.unit hXS 0 Sk.dia))
+     '(have d2 (SkJ Bool.true (List.cons Sk Sk.lbl (List.cons Sk Sk.dia (skels D))) (lift 2 0 X) Sk.unit) (skj_lsuc (List.cons Sk Sk.dia (skels D)) X 1 Sk.lbl d1))
+     '(have d3 (SkJ Bool.true (List.cons Sk (skel X) (List.cons Sk Sk.lbl (List.cons Sk Sk.dia (skels D)))) (lift 3 0 X) Sk.unit)
+        (skj_lsuc (List.cons Sk Sk.lbl (List.cons Sk Sk.dia (skels D))) X 2 (skel X) d2))
+     '(have HN (forall [l Nat] (forall [a Code] (forall [b Code] (forall [ya (Car (skel X))] (forall [yb (Car (skel X))]
+              (=> (LT.lt l 100) (V chkf dec encTy n X (skels D) en (cnodes a) (skel X) ya) (V chkf dec encTy n X (skels D) en (cnodes b) (skel X) yb)
+                  (LE.le (+ 1 (+ (cnodes a) (cnodes b))) n)
+                  (V chkf dec encTy n X (skels D) en (+ 1 (+ (cnodes a) (cnodes b))) (skel X) ((den chkf dec encTy n h (skels D) (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr (skel X) (Sk.arr (skel X) (skel X))))) en) Unit.unit l ya yb))))))))
+        (fn [l :- Nat, a :- Code, b :- Code, ya :- (Car (skel X)), yb :- (Car (skel X)), hl :- (LT.lt l 100),
+             qa :- (V chkf dec encTy n X (skels D) en (cnodes a) (skel X) ya), qb :- (V chkf dec encTy n X (skels D) en (cnodes b) (skel X) yb),
+             hc :- (LE.le (+ 1 (+ (cnodes a) (cnodes b))) n)]
+          (Eq.mp (congrArg (fn [q :- Nat] (V chkf dec encTy n X (skels D) en q (skel X) ((den chkf dec encTy n h (skels D) (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr (skel X) (Sk.arr (skel X) (skel X))))) en) Unit.unit l ya yb))) (And.right (And.right (And.right (itr_node_arith (cnodes a) (cnodes b) n hc)))))
+            (Eq.mp (Eq.trans (V_lsuc chkf dec encTy n (List.cons Sk (skel X) (List.cons Sk Sk.lbl (List.cons Sk Sk.dia (skels D)))) X 3 d3 (skel X) (Prod.mk ya (Prod.mk l (Prod.mk Unit.unit en))) yb (+ (+ (+ 0 1) (cnodes a)) (cnodes b)) (skel X) (Eq.refl$1 (skel X)) ((den chkf dec encTy n h (skels D) (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr (skel X) (Sk.arr (skel X) (skel X))))) en) Unit.unit l ya yb)) (Eq.trans (V_lsuc chkf dec encTy n (List.cons Sk Sk.lbl (List.cons Sk Sk.dia (skels D))) X 2 d2 (skel X) (Prod.mk l (Prod.mk Unit.unit en)) ya (+ (+ (+ 0 1) (cnodes a)) (cnodes b)) (skel X) (Eq.refl$1 (skel X)) ((den chkf dec encTy n h (skels D) (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr (skel X) (Sk.arr (skel X) (skel X))))) en) Unit.unit l ya yb)) (Eq.trans (V_lsuc chkf dec encTy n (List.cons Sk Sk.dia (skels D)) X 1 d1 Sk.lbl (Prod.mk Unit.unit en) l (+ (+ (+ 0 1) (cnodes a)) (cnodes b)) (skel X) (Eq.refl$1 (skel X)) ((den chkf dec encTy n h (skels D) (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr (skel X) (Sk.arr (skel X) (skel X))))) en) Unit.unit l ya yb)) (V_l1s chkf dec encTy n (skels D) X hXS Sk.dia en Unit.unit (+ (+ (+ 0 1) (cnodes a)) (cnodes b)) (skel X) (Eq.refl$1 (skel X)) ((den chkf dec encTy n h (skels D) (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr (skel X) (Sk.arr (skel X) (skel X))))) en) Unit.unit l ya yb)))))
+              (hhF 1 (And.left (itr_node_arith (cnodes a) (cnodes b) n hc)) Unit.unit (Nat.le_refl 1) l hl (cnodes a) (And.left (And.right (itr_node_arith (cnodes a) (cnodes b) n hc))) ya (Eq.mpr (Eq.trans (V_lsuc chkf dec encTy n (List.cons Sk Sk.dia (skels D)) X 1 d1 Sk.lbl (Prod.mk Unit.unit en) l (cnodes a) (skel X) (Eq.refl$1 (skel X)) ya) (V_l1s chkf dec encTy n (skels D) X hXS Sk.dia en Unit.unit (cnodes a) (skel X) (Eq.refl$1 (skel X)) ya)) qa) (cnodes b) (And.left (And.right (And.right (itr_node_arith (cnodes a) (cnodes b) n hc)))) yb (Eq.mpr (Eq.trans (V_lsuc chkf dec encTy n (List.cons Sk Sk.lbl (List.cons Sk Sk.dia (skels D))) X 2 d2 (skel X) (Prod.mk l (Prod.mk Unit.unit en)) ya (cnodes b) (skel X) (Eq.refl$1 (skel X)) yb) (Eq.trans (V_lsuc chkf dec encTy n (List.cons Sk Sk.dia (skels D)) X 1 d1 Sk.lbl (Prod.mk Unit.unit en) l (cnodes b) (skel X) (Eq.refl$1 (skel X)) yb) (V_l1s chkf dec encTy n (skels D) X hXS Sk.dia en Unit.unit (cnodes b) (skel X) (Eq.refl$1 (skel X)) yb))) qb))))))
+     (list 'have 'hinv (list 'forall '[w Code] (list '=> '(Eq Bool (lblOk w) Bool.true) '(LE.le (cnodes w) n)
+                          (VX '(cnodes w) (list 'Code.rec$1 '(fn [_ :- Code] (Car (skel X))) fl fnd 'w))))
+        (list 'coderec_inv '(Car (skel X)) Qf fl fnd 'n 'HL 'HN))
+     (list 'have 'vr (list 'And (list 'Nat.le (list 'cnodes rv) 'k3) (list 'Eq 'Bool (list 'lblOk rv) 'Bool.true))
+        '(ihr en k3 (And.left (itr_arith kg m kh k3 k n 0 (And.left p1) (And.left p2) hk (Nat.zero_le k3))) (And.right (And.right p2))))
+     (list 'have 'ar (list 'And '(LE.le k3 n) (list 'And (list 'LE.le (list 'cnodes rv) 'k) (list 'LE.le (list 'cnodes rv) 'n)))
+        (list 'itr_arith 'kg 'm 'kh 'k3 'k 'n (list 'cnodes rv) '(And.left p1) '(And.left p2) 'hk '(And.left vr)))
+     (list 'exact (list 'V_mono 'chkf 'dec 'encTy 'n 'X G0 'en (list 'cnodes rv) 'k sX recv '(And.left (And.right ar)) 'hk
+                        (list 'hinv rv '(And.right vr) '(And.right (And.right ar)))))])))

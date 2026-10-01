@@ -1370,7 +1370,7 @@
     (Rt.rBcons chkf DI (UI us) (L 1 P) k (L 0 h) (L 0 t)
       (rt_cast chkf DI (UI us) (UI us) (L 0 h) (L 0 (subst1 (Exp.lbl k) P)) (subst1 (Exp.lbl k) (L 1 P)) (IH ih_hh 0)
         (Eq.refl$1 (UI us)) (lift_subst1 (Exp.lbl k) P cc))
-      (IH ih_ht 0))
+      (IH ih_ht 0) (TF (consE Exp.tLbl D) P hP 1))
     ;; rSleaf, rSnode
     (Rt.rSleaf chkf DI (UI us) (L 0 x) (IH ih_h 0))
     (RC (vadd us1 (vadd us2 us3)) (Exp.snode (L 0 x) (L 0 c1) (L 0 c2)) Exp.tSyn Exp.tSyn
@@ -1398,7 +1398,18 @@
             (congrArg (fn [v :- (List U)] (List.cons U U.u1 (List.cons U U.u1 (List.cons U U.uw (List.cons U U.uw (List.cons U U.uw v))))))
                       (Eq.symm (PU (vscale U.uw us3))))
             (lift_nodeTy P cc))
-          (lift_y2Ty P cc) (lift_y1Ty P cc)))
+          (lift_y2Ty P cc) (lift_y1Ty P cc))
+        ;; hY1, hY2: weakened under the node branch's binders, then cast as
+        ;; the branch's context is (lift_y1Ty, lift_y2Ty)
+        (tl_cast3 chkf Bool.true (List.cons Exp Exp.tSyn (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl DI)))
+          (L 3 (y1Ty P)) (y1Ty (L 1 P)) Exp.tUnit Exp.tUnit
+          (TF (consE Exp.tSyn (consE Exp.tSyn (consE Exp.tLbl D))) (y1Ty P) hY1 3) (lift_y1Ty P cc) (Eq.refl$1 Exp.tUnit))
+        (tl_ctx1 chkf Bool.true (L 3 (y1Ty P)) (y1Ty (L 1 P)) (List.cons Exp Exp.tSyn (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl DI)))
+          (y2Ty (L 1 P)) Exp.tUnit
+          (tl_cast3 chkf Bool.true (List.cons Exp (L 3 (y1Ty P)) (List.cons Exp Exp.tSyn (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl DI))))
+            (L 4 (y2Ty P)) (y2Ty (L 1 P)) Exp.tUnit Exp.tUnit
+            (TF (consE (y1Ty P) (consE Exp.tSyn (consE Exp.tSyn (consE Exp.tLbl D)))) (y2Ty P) hY2 4) (lift_y2Ty P cc) (Eq.refl$1 Exp.tUnit))
+          (lift_y1Ty P cc)))
       (Eq.symm (lift_subst1 c P cc)))
     ;; rLeaf, rNode
     (Rt.rLeaf chkf DI (UI us) (L 0 x) (IH ih_h 0))

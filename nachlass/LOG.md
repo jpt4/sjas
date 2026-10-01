@@ -6351,3 +6351,25 @@ Branch `adr-0006-formalization`; suite `code/lcert/bin/test-formal`.
 - **Agents.** Codex wrote the congruence generator and the lift algebra; Grok
   the coercion lemmas; a Claude subagent Lemma 2.5. Each was reviewed and
   merged here. A Claude subagent is now on the substitution lemmas (3.1, 3.3).
+
+## 2026-09-30 — RecSyn case of the fundamental lemma (Lemma 3.6)
+
+Branch `f3-recs`, namespace `lcert.formal.recsyn`. The case is `F_recS`.
+Both methods run once per constructor, in ω-scaled contexts, so by induction
+on the code (`recrec_inv`) every result is in `V(P)` at footprint 0
+(`recS_leaf`, `recS_node`); `V_mono` raises that to the context's footprint.
+`V(P[c/x])` is `V(P)` at `(⟦c⟧, η)` by `V_subst1`, and `c`'s hypothesis is
+`lblOk ⟦c⟧`.
+
+The motive instances are substitutions, not lifts. `subOK` and `envOf` for
+`sLeafI`, `sNodeI`, and `sAt 1 3` / `sAt 1 4` are the RecSyn analogues of
+`subOK_sSucc` and `envOf_sSucc`. `V_leafTy` and `V_nodeTy` read `V` back
+through those substitutions; `V_y1_val` and `V_y2_val` put the recursive
+results into `V(y1Ty P)` and `V(y2Ty P)` by transporting the carrier along
+`skel(yᵢTy P) = skel P` (`carTo`). The node method's context is those
+skeletons, so the induction hypothesis runs at the transported environment
+and `node_v_raw` moves the denotation back to the raw one `Code.rec` builds.
+
+Formation premises for `y1Ty P` and `y2Ty P` were not added to `rRecS`.
+`V_subst` needs the skeleton judgment of `P`, which `hP` already gives, and
+neither `EnvSat` nor `Sound` asks the entries to be formed.
