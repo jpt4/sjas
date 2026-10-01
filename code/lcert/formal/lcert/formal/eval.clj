@@ -894,3 +894,102 @@
   (constructor)
   (exact (Ev.eVar chkf dec encTy n rho i v hl))
   (exact hv))
+
+;; Extending a related environment by one related value.  The head of a
+;; de Bruijn environment is the new binding.
+(thm envRel_cons
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), n :- Nat, s0 :- Sk, G :- (List Sk),
+   v :- RV, rho :- (List RV), alpha :- (Car s0), eta :- (HEnv G),
+   hv :- (rel chkf dec encTy n s0 v alpha),
+   hr :- (envRel chkf dec encTy n G rho eta)]
+  (envRel chkf dec encTy n (List.cons Sk s0 G) (List.cons RV v rho) (Prod.mk alpha eta))
+  (constructor) (exact v)
+  (constructor) (exact rho)
+  (constructor) (rfl)
+  (constructor) (exact hv) (exact hr))
+
+(thm arrCase_arr [x :- Sk, y :- Sk, f :- (forall [a Sk] (forall [b Sk] (Car (Sk.arr a b))))]
+  (= (arrCase (Sk.arr x y) f) (f x y))
+  (rfl))
+
+;; λ (Theorem 4): the value is the closure of the current environment.  At an
+;; arrow, a related argument extends the environment (envRel_cons) and the
+;; hypothesis for the body supplies the result.  den_lam at that arrow is the
+;; denotation of the body, definitionally, so the relation matches.
+(thm adeq_lam
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), n :- Nat, G :- (List Sk),
+   r :- U, A :- Exp, t :- Exp, s :- Sk,
+   rho :- (List RV), eta :- (HEnv G),
+   hr :- (envRel chkf dec encTy n G rho eta),
+   ih :- (forall [rho2 (List RV)] (forall [eta2 (HEnv (List.cons Sk (skel A) G))]
+           (=> (envRel chkf dec encTy n (List.cons Sk (skel A) G) rho2 eta2)
+             (Exists (fn [w :- RV]
+               (And (Eval chkf dec encTy n rho2 t w)
+                    (rel chkf dec encTy n s w
+                      (den chkf dec encTy n t (List.cons Sk (skel A) G) s eta2))))))))]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy n rho (Exp.lam r A t) v)
+         (rel chkf dec encTy n (Sk.arr (skel A) s) v
+           (den chkf dec encTy n (Exp.lam r A t) G (Sk.arr (skel A) s) eta)))))
+  (rw [(den_lam_at chkf dec encTy n r A t G (Sk.arr (skel A) s) eta)])
+  (constructor) (exact (RV.clos rho t))
+  (constructor) (exact (Ev.eLam chkf dec encTy n rho r A t))
+  (intro arg) (intro alpha) (intro harg)
+  (have henv (envRel chkf dec encTy n (List.cons Sk (skel A) G)
+               (List.cons RV arg rho) (Prod.mk alpha eta))
+    (envRel_cons chkf dec encTy n (skel A) G arg rho alpha eta harg hr))
+  (refine' (exT RV _ _ (ih (List.cons RV arg rho) (Prod.mk alpha eta) henv) _))
+  (intro w hand)
+  (have hev (Eval chkf dec encTy n (List.cons RV arg rho) t w) (And.left hand))
+  (have hrel (rel chkf dec encTy n s w
+               (den chkf dec encTy n t (List.cons Sk (skel A) G) s (Prod.mk alpha eta)))
+    (And.right hand))
+  (constructor) (exact w)
+  (constructor)
+  (exact (Ev.apClos chkf dec encTy n rho t arg w hev))
+  (exact hrel))
+
+;; Application (Theorem 4), when skOf of the argument is the skeleton SkJ
+;; gave it.  den_app_some is then ⟦f⟧(⟦u⟧).  The arrow clause of rel on f,
+;; at the value of u, is the application.  argsOK is what guarantees skOf is
+;; some; that the some is this skeleton is skOf_agree, not yet assembled
+;; (bnil is SkJ-typed at every arrow and skOf of it is none, so the equation
+;; is not true for every SkJ term).
+(thm adeq_app
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), n :- Nat, G :- (List Sk),
+   f :- Exp, u :- Exp, s :- Sk, t :- Sk,
+   rho :- (List RV), eta :- (HEnv G),
+   hsu :- (Eq (Option Sk) (skOf G u) (Option.some Sk s)),
+   ihf :- (Exists (fn [vf :- RV]
+            (And (Eval chkf dec encTy n rho f vf)
+                 (rel chkf dec encTy n (Sk.arr s t) vf
+                   (den chkf dec encTy n f G (Sk.arr s t) eta))))),
+   ihu :- (Exists (fn [vu :- RV]
+            (And (Eval chkf dec encTy n rho u vu)
+                 (rel chkf dec encTy n s vu
+                   (den chkf dec encTy n u G s eta)))))]
+  (Exists (fn [v :- RV]
+    (And (Eval chkf dec encTy n rho (Exp.app f u) v)
+         (rel chkf dec encTy n t v
+           (den chkf dec encTy n (Exp.app f u) G t eta)))))
+  (rw [(den_app_some chkf dec encTy n f u G s t eta hsu)])
+  (refine' (exT RV _ _ ihf _)) (intro vf hf)
+  (have hef (Eval chkf dec encTy n rho f vf) (And.left hf))
+  (have hrf (rel chkf dec encTy n (Sk.arr s t) vf
+              (den chkf dec encTy n f G (Sk.arr s t) eta)) (And.right hf))
+  (refine' (exT RV _ _ ihu _)) (intro vu hu)
+  (have heu (Eval chkf dec encTy n rho u vu) (And.left hu))
+  (have hru (rel chkf dec encTy n s vu (den chkf dec encTy n u G s eta)) (And.right hu))
+  (refine' (exT RV _ _ (hrf vu (den chkf dec encTy n u G s eta) hru) _))
+  (intro w hw)
+  (have hap (Ev chkf dec encTy n (EvSrc.ap vf vu) w) (And.left hw))
+  (have hrel (rel chkf dec encTy n t w
+               ((den chkf dec encTy n f G (Sk.arr s t) eta)
+                (den chkf dec encTy n u G s eta))) (And.right hw))
+  (constructor) (exact w)
+  (constructor)
+  (exact (Ev.eApp chkf dec encTy n rho f u vf vu w hef heu hap))
+  (exact hrel))
