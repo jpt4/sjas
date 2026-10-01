@@ -428,3 +428,12 @@
     (testing "the variable that occurs cannot be lowered: its freshness is false"
       (is (b/rejects? ps (list 'Rt 'chkf D '(List.cons U U.u0 (List.cons U U.u1 (List.nil U))) '(Exp.var 0) '(lift 1 0 Exp.tDia))
                       [(list 'exact (list 'rt_strengthen 'chkf D us '(Exp.var 0) '(lift 1 0 Exp.tDia) der 0 'rfl))])))))
+
+(deftest f3-theorem3-tokens
+  (testing "Lemma 2.3 for a mask, and Theorem 3's refinement to the free tokens"
+    (doseq [c '[maskUF gsh mask_cons mask_vadd mask_vscale mask_len mask_nth sh_ok mask_var_false rt_mask
+                ucnt cntU tok_entry tok_sat_mask theorem3_tokens]]
+      (is (b/has? c) (str c))))
+  (testing "the count is of the tokens actually free: var 0 in Θ₂ leaves one token"
+    (is (not (b/rejects? '[] '(Eq Nat (cntU (maskUF (thetaU 2) (freshF (Exp.var 0)))) 1) '[(rfl)])))
+    (is (b/rejects? '[] '(Eq Nat (cntU (maskUF (thetaU 2) (freshF (Exp.var 0)))) 2) '[(rfl)]))))

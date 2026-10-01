@@ -20,7 +20,8 @@
   well-formed context.
 
   Then Theorem 1 (consistency), Corollary 3.7 (Check accepts no refutation
-  and no contradictory pair) and Theorem 3 (certificate size), from Lemma 3.6.
+  and no contradictory pair) and Theorem 3 (certificate size, and its
+  refinement to the free tokens), from Lemma 3.6.
 
   One rule enters as a hypothesis until its case is proved: Conv (needs
   Lemma 3.2, conversion invariance), stated as exactly what the induction
@@ -42,7 +43,8 @@
             [lcert.formal.derivations]
             [lcert.formal.skeletons]
             [lcert.formal.outer :refer :all]
-            [lcert.formal.recsyn]))
+            [lcert.formal.recsyn]
+            [lcert.formal.strengthen]))
 
 (def ^:private PS "chkf dec encTy")
 
@@ -205,6 +207,39 @@
              en :- (HEnv (skels D)), k :- Nat, hk :- (Nat.le k n), hs :- (EnvSat chkf dec encTy n D us en k)])
   '(LE.le (cnodes (den chkf dec encTy n t (skels D) Sk.cert en)) k)
   '(exact (And.left (lemma36 chkf dec encTy hcs hconv n D us t Exp.tR der hw en k hk hs)))))
+
+;; --- Theorem 3's refinement: at most the free tokens -----------------------------------------
+
+;; In Θₘ, ‖⟦t⟧‖ is at most the number of distinct token variables free in t
+;; (§3.7): mask every token not free in t (rt_mask with g = freshF t); the
+;; all-token environment satisfies the masked context at footprint cntU of
+;; the mask, the number of tokens left at usage 1 (tok_sat_mask); Theorem 3
+;; at that footprint.  The budget must reach that count (hn).
+(a/defn ucnt [r :- U] Nat (match r [u0 0] [u1 1] [uw 1]))
+(a/defn cntU [us :- (List U)] Nat (match us [nil 0] [(cons x rest) (+ (ucnt x) (cntU rest))]))
+(thm tok_entry [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), cap :- Nat,
+                  m :- Nat, bb :- Bool, rest :- (List U),
+                  hr :- (EnvSat chkf dec encTy cap (thetaD m) rest (tokEnvD m) (cntU rest))]
+  (EnvSat chkf dec encTy cap (List.cons Exp Exp.tDia (thetaD m)) (List.cons U (Bool.rec$1 (fn [_ :- Bool] U) U.u1 U.u0 bb) rest)
+          (Prod.mk Unit.unit (tokEnvD m)) (cntU (List.cons U (Bool.rec$1 (fn [_ :- Bool] U) U.u1 U.u0 bb) rest)))
+  (cases bb)
+  (exact (EnvSat_cons chkf dec encTy cap Exp.tDia (thetaD m) U.u1 rest Unit.unit (tokEnvD m) 1 (cntU rest) hr (Nat.le_refl 1)))
+  (exact (EnvSat_cons chkf dec encTy cap Exp.tDia (thetaD m) U.u0 rest Unit.unit (tokEnvD m) 0 (cntU rest) hr (Eq.refl$1 0))))
+(thm tok_sat_mask [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), cap :- Nat, m :- Nat]
+  (forall [g (=> Nat Bool)] (EnvSat chkf dec encTy cap (thetaD m) (maskUF (thetaU m) g) (tokEnvD m) (cntU (maskUF (thetaU m) g))))
+  (induction m)
+  (intro g) (exact True.intro)
+  (intro g)
+  (exact (tok_entry chkf dec encTy cap n (g 0) (maskUF (thetaU n) (fn [j :- Nat] (g (+ j 1)))) (ih_n (fn [j :- Nat] (g (+ j 1)))))))
+(thm theorem3_tokens [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+                        hcs :- (CheckSpec chkf dec encTy), hconv :- (forall [n Nat] (ConvCase chkf dec encTy n)),
+                        m :- Nat, n :- Nat, t :- Exp, der :- (Rt chkf (thetaD m) (thetaU m) t Exp.tR),
+                        hn :- (Nat.le (cntU (maskUF (thetaU m) (freshF t))) n)]
+  (LE.le (cnodes (den chkf dec encTy n t (skels (thetaD m)) Sk.cert (tokEnvD m))) (cntU (maskUF (thetaU m) (freshF t))))
+  (exact (theorem3 chkf dec encTy hcs hconv n (thetaD m) (maskUF (thetaU m) (freshF t)) t
+           (rt_mask chkf (thetaD m) (thetaU m) t Exp.tR der (freshF t) (fn [j :- Nat, h :- (Eq Bool ((freshF t) j) Bool.true)] h))
+           (wf_theta chkf m) (tokEnvD m) (cntU (maskUF (thetaU m) (freshF t))) hn
+           (tok_sat_mask chkf dec encTy n m (freshF t)))))
 
 ;; --- the statements of model.clj, proved ------------------------------------------------
 

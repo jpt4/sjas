@@ -7,7 +7,9 @@
   derivation, as the paper's proof: set c's usage to 0 in every judgment.  No
   Var instance is for c; the axioms accept any usages of the right length;
   sums and scalings of 0 are 0 (zero_vadd, zero_vscale); type-level premises
-  ignore usages.  Under a binder the variable is c + 1."
+  ignore usages.  Under a binder the variable is c + 1.
+
+  rt_mask: the same for every variable a mask selects, at once."
   (:require [ansatz.core :as a]
             [clojure.walk :as walk]
             [lcert.formal.base :as b :refer [thm kdef lv]]
@@ -222,3 +224,135 @@
   '[chkf :- (=> Code Code Bool), D0 :- (List Exp), us0 :- (List U), t0 :- Exp, A0 :- Exp, der :- (Rt chkf D0 us0 t0 A0)]
   '(forall [cz Nat] (=> (Eq Bool ((freshF t0) cz) Bool.true) (Rt chkf D0 (zeroUF us0 cz) t0 A0)))
   (lv (into ['(induction der)] (mapcat (fn [c] ['(intro cz hfr) (list 'refine' (expand c))]) cases))))
+
+;; --- Lemma 2.3 for a set of variables at once --------------------------------------------
+
+;; rt_mask: every variable a mask g selects, if none is free in t, can be
+;; lowered to usage 0 at once — Lemma 2.3 applied to each; Theorem 3's
+;; refinement needs it for all the unused tokens of Θₘ.  maskUF us g zeroes
+;; the positions g selects; under a binder the mask shifts (gsh: the new
+;; variable is never masked), and maskUF (r :: us) (gsh g) = r :: maskUF us g
+;; holds by rfl.  The proof is rt_strengthen's table (cases) with the position
+;; replaced by the mask: each premise's freshness becomes a function over the
+;; masked positions (fresh-fn, built with sh_ok under binders), and Var reads
+;; g i = false off the hypothesis (mask_var_false).  The mask is named gm: ItR
+;; has a field g.
+;; maskUF us g: every position j with g j = true set to usage 0
+(kdef maskUF (=> (List U) (=> Nat Bool) (List U))
+  (fn [us :- (List U)]
+    (List.rec$1$0 U (fn [_ :- (List U)] (=> (=> Nat Bool) (List U))) (fn [g :- (=> Nat Bool)] (List.nil U))
+      (fn [x :- U, rest :- (List U), ih :- (=> (=> Nat Bool) (List U))]
+        (fn [g :- (=> Nat Bool)] (List.cons U (Bool.rec$1 (fn [_ :- Bool] U) x U.u0 (g 0)) (ih (fn [j :- Nat] (g (+ j 1)))))))
+      us)))
+;; the mask under one binder: the new variable is never masked
+(kdef gsh (=> (=> Nat Bool) Nat Bool)
+  (fn [g :- (=> Nat Bool), j :- Nat] (Nat.rec$1 (fn [_ :- Nat] Bool) Bool.false (fn [k :- Nat, _ :- Bool] (g k)) j)))
+(thm mask_cons [r :- U, us :- (List U), g :- (=> Nat Bool)]
+  (Eq (List U) (maskUF (List.cons U r us) (gsh g)) (List.cons U r (maskUF us g)))
+  (rfl))
+(thm sel_uadd [bb :- Bool, a :- U, b :- U]
+  (Eq U (Bool.rec$1 (fn [_ :- Bool] U) (uadd a b) U.u0 bb) (uadd (Bool.rec$1 (fn [_ :- Bool] U) a U.u0 bb) (Bool.rec$1 (fn [_ :- Bool] U) b U.u0 bb)))
+  (cases bb) (rfl) (rfl))
+(thm sel_umul [bb :- Bool, r :- U, a :- U]
+  (Eq U (Bool.rec$1 (fn [_ :- Bool] U) (umul r a) U.u0 bb) (umul r (Bool.rec$1 (fn [_ :- Bool] U) a U.u0 bb)))
+  (cases bb) (rfl) (exact (Eq.symm (umul_zero_right r))))
+
+(thm mask_vadd_step [a :- U, b :- U, xs :- (List U), ys :- (List U), g :- (=> Nat Bool),
+                       ih :- (forall [y (List U)] (forall [g (=> Nat Bool)] (Eq (List U) (maskUF (vadd xs y) g) (vadd (maskUF xs g) (maskUF y g)))))]
+  (Eq (List U) (maskUF (vadd (List.cons U a xs) (List.cons U b ys)) g) (vadd (maskUF (List.cons U a xs) g) (maskUF (List.cons U b ys) g)))
+  (exact (Eq.trans (congrArg (fn [v :- U] (List.cons U v (maskUF (vadd xs ys) (fn [j :- Nat] (g (+ j 1)))))) (sel_uadd (g 0) a b))
+                   (congrArg (fn [v :- (List U)] (List.cons U (uadd (Bool.rec$1 (fn [_ :- Bool] U) a U.u0 (g 0)) (Bool.rec$1 (fn [_ :- Bool] U) b U.u0 (g 0))) v))
+                             (ih ys (fn [j :- Nat] (g (+ j 1))))))))
+(thm mask_vadd [x :- (List U)]
+  (forall [y (List U)] (forall [g (=> Nat Bool)] (Eq (List U) (maskUF (vadd x y) g) (vadd (maskUF x g) (maskUF y g)))))
+  (induction x)
+  (intro y g) (rfl)
+  (intro y g) (cases y) (rfl)
+  (refine' (mask_vadd_step _ _ _ _ _ ih_tail)))
+(thm mask_vscale [r :- U, x :- (List U)]
+  (forall [g (=> Nat Bool)] (Eq (List U) (maskUF (vscale r x) g) (vscale r (maskUF x g))))
+  (induction x)
+  (intro g) (rfl)
+  (intro g)
+  (exact (Eq.trans (congrArg (fn [v :- U] (List.cons U v (maskUF (vscale r tail) (fn [j :- Nat] (g (+ j 1)))))) (sel_umul (g 0) r head))
+                   (congrArg (fn [v :- (List U)] (List.cons U (umul r (Bool.rec$1 (fn [_ :- Bool] U) head U.u0 (g 0))) v)) (ih_tail (fn [j :- Nat] (g (+ j 1))))))))
+(thm mask_len [us :- (List U)] (forall [g (=> Nat Bool)] (Eq Nat (lenU (maskUF us g)) (lenU us)))
+  (induction us) (intro g) (rfl) (intro g) (exact (congrArg (fn [q :- Nat] (+ q 1)) (ih_tail (fn [j :- Nat] (g (+ j 1)))))))
+(thm mask_nth [us :- (List U)]
+  (forall [g (=> Nat Bool)] (forall [i Nat] (=> (Eq Bool (g i) Bool.false) (Eq (Option U) (nthU (maskUF us g) i) (nthU us i)))))
+  (induction us)
+  (intro g i h) (rfl)
+  (intro g i h) (cases i)
+  (exact (Eq.trans (nthU.eq_2 (Bool.rec$1 (fn [_ :- Bool] U) head U.u0 (g 0)) (maskUF tail (fn [j :- Nat] (g (+ j 1)))))
+           (Eq.trans (congrArg (fn [bb :- Bool] (Option.some U (Bool.rec$1 (fn [_ :- Bool] U) head U.u0 bb))) h) (Eq.symm (nthU.eq_2 head tail)))))
+  (exact (Eq.trans (nthU.eq_3 (Bool.rec$1 (fn [_ :- Bool] U) head U.u0 (g 0)) (maskUF tail (fn [j :- Nat] (g (+ j 1)))) n)
+           (Eq.trans (ih_tail (fn [j :- Nat] (g (+ j 1))) n h) (Eq.symm (nthU.eq_3 head tail n))))))
+;; freshness under the shifted mask
+(thm sh_ok [g :- (=> Nat Bool), P :- (=> Nat Prop), h :- (forall [j Nat] (=> (Eq Bool (g j) Bool.true) (P (+ j 1))))]
+  (forall [j Nat] (=> (Eq Bool (gsh g j) Bool.true) (P j)))
+  (intro j) (cases j) (intro hj) (exact (Bool.noConfusion hj)) (intro hj) (exact (h n hj)))
+
+(thm beq_refl [i :- Nat] (Eq Bool (Nat.beq i i) Bool.true) (induction i) (rfl) (exact ih_n))
+(thm bfalse [b :- Bool] (=> (=> (Eq Bool b Bool.true) False) (Eq Bool b Bool.false))
+  (cases b) (all_goals (intro h)) (exact (False.elim (h (Eq.refl$1 Bool.true)))) (exact (Eq.refl$1 Bool.false)))
+(thm mask_var_false [g :- (=> Nat Bool), i :- Nat,
+                       hfr :- (forall [j Nat] (=> (Eq Bool (g j) Bool.true) (Eq Bool ((freshF (Exp.var i)) j) Bool.true)))]
+  (Eq Bool (g i) Bool.false)
+  (exact (bfalse (g i) (fn [h :- (Eq Bool (g i) Bool.true)]
+           (Bool.noConfusion (Eq.trans (congrArg Bool.not (Eq.symm (beq_refl i))) (hfr i h)))))))
+
+(defn- gk [k] (if (zero? k) 'gm (list 'gsh (gk (dec k)))))
+(defn- frj [lem args i n] ;; freshness of field i at cut j, from hfr j hj
+  (let [base (concat (list lem) args (list 'j (list 'hfr 'j 'hj)))
+        f (fn f [t m] (if (zero? m) (if (= i (dec n)) t (list 'And.left t)) (f (list 'And.right t) (dec m))))]
+    (if (= i (dec n)) (reduce (fn [t _] (list 'And.right t)) base (range i)) (f base i))))
+(defn- exp-args [lem args]
+  (let [ctor (symbol (subs (name lem) (count "fresh_")))
+        fields (second (first (filter #(= (first %) ctor) exp-fields)))]
+    (for [[a [_ ty _]] (map vector args fields) :when (= ty 'Exp)] a)))
+(defn- fresh-fn [k lem args i n]
+  (let [s (nth (exp-args lem args) i)
+        P (fn [off] (list 'Eq 'Bool (list (list 'freshF s) (if (zero? off) 'j (list '+ 'j off))) 'Bool.true))
+        base (list 'fn ['j :- 'Nat 'hj :- (list 'Eq 'Bool (list 'gm 'j) 'Bool.true)] (frj lem args i n))]
+    (loop [d 1 t base]
+      (if (> d k) t
+          (recur (inc d) (list 'sh_ok (gk (dec d)) (list 'fn '[j :- Nat] (P (- k d))) t))))))
+(defn- M [x] (list 'maskUF x 'gm))
+(defn- mq [E]
+  (let [lu '(List U)]
+    (cond (symbol? E) [(M E) (list 'Eq.refl$1 (M E))]
+          (= (first E) 'vscale) (let [[_ r X] E [l p] (mq X)]
+                                  [(list 'vscale r l) (list 'Eq.trans (list 'congrArg (list 'fn ['v :- lu] (list 'vscale r 'v)) p) (list 'Eq.symm (list 'mask_vscale r X 'gm)))])
+          (= (first E) 'vadd) (let [[_ X Y] E [l1 p1] (mq X) [l2 p2] (mq Y)]
+                                [(list 'vadd l1 l2)
+                                 (list 'Eq.trans (list 'congrArg (list 'fn ['v :- lu] (list 'vadd 'v l2)) p1)
+                                       (list 'Eq.trans (list 'congrArg (list 'fn ['v :- lu] (list 'vadd (M X) 'v)) p2)
+                                             (list 'Eq.symm (list 'mask_vadd X Y 'gm))))]))))
+(defn- ih-call? [x] (and (seq? x) (symbol? (first x)) (.startsWith (name (first x)) "ih_")))
+(defn- mexpand [form]
+  (walk/prewalk
+    (fn [x]
+      (cond
+        (and (seq? x) (= (first x) 'RC)) (let [[_ E h] x [l p] (mq E)] (list 'rt_ucast 'chkf '_ l (M E) '_ '_ h p))
+        (and (seq? x) (= (first x) 'UC)) (let [[_ h wrap E] x [l p] (mq E)
+                                               w (fn [v] (walk/postwalk-replace {'HOLE v} wrap))]
+                                           (list 'rt_ucast 'chkf '_ (w (M E)) (w l) '_ '_ h
+                                                 (list 'congrArg (list 'fn '[v :- (List U)] (w 'v)) (list 'Eq.symm p))))
+        (ih-call? x) (let [[ih pos fr] x
+                           k (if (= pos 'cz) 0 (second pos))]
+                       (list ih (gk k) (if (= fr 'hfr) 'hfr (let [[_ lem args i n] fr] (fresh-fn k lem args i n)))))
+        (= x 'zeroUF) 'maskUF
+        (= x 'zero_len) 'mask_len
+        (= x 'cz) 'gm
+        :else x))
+    form))
+
+(def ^:private mcases
+  (into ['(Rt.rVar chkf D (maskUF us gm) i A r (Eq.trans (mask_len us gm) hl) hA
+           (Eq.trans (mask_nth us gm i (mask_var_false gm i hfr)) hu) hr)]
+        (map mexpand (rest cases))))
+(a/prove-theorem 'rt_mask
+  '[chkf :- (=> Code Code Bool), D0 :- (List Exp), us0 :- (List U), t0 :- Exp, A0 :- Exp, der :- (Rt chkf D0 us0 t0 A0)]
+  '(forall [gm (=> Nat Bool)] (=> (forall [j Nat] (=> (Eq Bool (gm j) Bool.true) (Eq Bool ((freshF t0) j) Bool.true)))
+                                 (Rt chkf D0 (maskUF us0 gm) t0 A0)))
+  (lv (into ['(induction der)] (mapcat (fn [c] ['(intro gm hfr) (list 'refine' c)]) mcases))))

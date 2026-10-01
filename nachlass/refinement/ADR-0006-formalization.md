@@ -158,7 +158,7 @@ theorem quantifies over `chkf dec encTy`, and those using the checker take
 | §1.5 conversion | `Hd`, `Step`, `Cv` (conv) | defined | steps are recorded with a position |
 | §1.6 Check, via Lemmas 2.6–2.8, E1, E5 | `CheckSpec` (model) | hypothesis | the trust base; F7 is to discharge it. Its first clause also gives the decoded type's formation |
 | Lemma 2.1, weakening | `tl_weaken`, `rt_weaken` (derivations) | proved | arbitrary insertion; runtime entry has usage 0; exchange is not covered |
-| Lemma 2.3, strengthening | `rt_strengthen` (strengthen) | proved | one variable at a time; "not free" is `freshF` |
+| Lemma 2.3, strengthening | `rt_strengthen`, `rt_mask` (strengthen) | proved | "not free" is `freshF`; `rt_mask` lowers a set of variables at once |
 | Lemma 2.4 | `lemma24` (derivations) | proved | explicit closed formation premise; terms are `lift m2 m1 t1` and `lift m1 0 t2` |
 | Lemma 2.5 | `lemma25_tl`, `lemma25_rt`, `skel_subst`, `cv_skel` (skeletons) | proved | — |
 | §3.1–3.2 carriers, ⟦·⟧ⁿ | `Car`, `den` = `denT n n` (carrier, den) | defined | a table of levels (reflect runs at ⟦t′⟧ᵐ: `denT_stable`) |
@@ -173,7 +173,7 @@ theorem quantifies over `chkf dec encTy`, and those using the checker take
 | Theorem 1, Corollary 3.7 | `Theorem_1`, `Corollary_3_7` (model); `theorem1`, `cor37_*`, `paper_theorem1`, `paper_cor37` (lemma36) | proved, given the Conv case | — |
 | Theorem 2 (H) | `Theorem_2_H` (model) | proved | |
 | Theorem 2 (H₁) | `Theorem_2_H1` (model) | proved | — |
-| Theorem 3 | `theorem3` (lemma36) | first claim proved, given the Conv case | the token-count refinement (Lemma 2.3) is open |
+| Theorem 3 | `theorem3`, `theorem3_tokens` (lemma36) | proved, given the Conv case | the refinement needs the budget to reach the token count |
 | Proposition 4.1, 4.7 | `prop41_closed`, `prop41_fun`, `prop47` (section4) | proved (4.1 given the Conv case) | 4.1(ii) for codes with labels below NL |
 | §4 (the rest), §5, §6 | — | open | F5 in progress on branch `f5-eval` |
 
