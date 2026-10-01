@@ -181,7 +181,8 @@ theorem quantifies over `chkf dec encTy`, and those using the checker take
 | Theorem 3 | `theorem3`, `theorem3_tokens` (lemma36) | proved (with `conv_all` for its Conv hypothesis) | the refinement needs the budget to reach the token count |
 | Proposition 4.1, 4.7 | `prop41_closed`, `prop41_fun`, `prop47` (section4) | proved (4.1 given the Conv case) | 4.1(ii) for codes with labels below NL |
 | Proposition 4.10′ (H does not give H₁) | `prop410_prime` (prop410); `lemma36_noH1`, `rt_tr` | proved | χ accepts every code above a size bound (the paper changes Check at two pairs); "without H₁" is `noH1` of the term |
-| §4 (the rest), §5, §6 | — | open | F5 in progress on branch `f5-eval` |
+| Theorem 4, Corollary 5.1 | `theorem4`, `Theorem_4`, `corollary51` (eval, theorem4) | proved | simply typed terms with `argsOK` (skOf defined at every argument; not a branch-list head) |
+| §4 (the rest), Theorem 4′, Theorem 5.2, §6 | — | open | F4 derivations and F5's last results in progress |
 
 ## Review guide
 
