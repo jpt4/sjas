@@ -2422,3 +2422,129 @@
        '(exact (step_nil_fl chkf dec encTy fl (Exp.lam r A t) G out hj hn re co hg hd))
        '(intro re co hg hd)
        (list 'exact split)]))
+
+;; app (Lemma 3.2).  skOf follows the function (appSk).  The denotation
+;; is Option.rec on skOf of the argument (optrec_congr, skOf_typed): a
+;; step in the function changes the function at Arr s1 out, and a step
+;; in the argument changes both that skOf and the argument's value at s1.
+;; The none branch defaults on both sides.
+
+
+  ;; skOf of an application follows the function (appSk), not the argument.
+  (prove! 'sk_app_f
+    '[f :- Exp, fq :- Exp, u :- Exp, G :- (List Sk),
+      he :- (Eq (Option Sk) (skOf G fq) (skOf G f))]
+    '(Eq (Option Sk) (skOf G (Exp.app fq u)) (skOf G (Exp.app f u)))
+    ['(rw [(skOf_app_eq G fq u)])
+     '(rw [(skOf_app_eq G f u)])
+     '(exact (congrArg appSk he))])
+
+  ;; The application clause is Option.rec on skOf of the argument
+  ;; (den_app_some, optrec_congr).  A step in the function changes the
+  ;; function denoted at Arr su sk; skOf of the argument is untouched.
+  (prove! 'den_app_f
+    (into Pcap '[f :- Exp, fq :- Exp, u :- Exp, G :- (List Sk), sk :- Sk, s1 :- Sk, en :- (HEnv G),
+                 hu :- (SkJ Bool.false G u s1),
+                 he :- (Eq (Car (Sk.arr s1 sk))
+                         (den chkf dec encTy cap fq G (Sk.arr s1 sk) en)
+                         (den chkf dec encTy cap f G (Sk.arr s1 sk) en))])
+    '(Eq (Car sk) (den chkf dec encTy cap (Exp.app fq u) G sk en)
+                  (den chkf dec encTy cap (Exp.app f u) G sk en))
+    ['(rw [(den_app_at chkf dec encTy cap fq u G sk en)])
+     '(rw [(den_app_at chkf dec encTy cap f u G sk en)])
+     '(change (Eq (Car sk)
+        (Option.rec$1$0 Sk (fn [_ :- (Option Sk)] (Car sk)) (dflt sk)
+          (fn [su :- Sk] ((den chkf dec encTy cap fq G (Sk.arr su sk) en)
+                          (den chkf dec encTy cap u G su en)))
+          (skOf G u))
+        (Option.rec$1$0 Sk (fn [_ :- (Option Sk)] (Car sk)) (dflt sk)
+          (fn [su :- Sk] ((den chkf dec encTy cap f G (Sk.arr su sk) en)
+                          (den chkf dec encTy cap u G su en)))
+          (skOf G u))))
+     '(exact (optrec_congr (Car sk) (dflt sk)
+        (fn [su :- Sk] ((den chkf dec encTy cap fq G (Sk.arr su sk) en)
+                        (den chkf dec encTy cap u G su en)))
+        (fn [su :- Sk] ((den chkf dec encTy cap f G (Sk.arr su sk) en)
+                        (den chkf dec encTy cap u G su en)))
+        (skOf G u) (skOf G u) s1
+        (Eq.refl$1 (skOf G u))
+        (skOf_typed Bool.false G u s1 hu)
+        (congrArg (fn [fv :- (Car (Sk.arr s1 sk))]
+                    (fv (den chkf dec encTy cap u G s1 en)))
+          he)))])
+
+  ;; A step in the argument changes skOf of the argument and the value
+  ;; it denotes at the domain.  optrec_congr uses that skOf equation and
+  ;; skOf_typed, so the none branch defaults on both sides.
+  (prove! 'den_app_u
+    (into Pcap '[f :- Exp, u :- Exp, uq :- Exp, G :- (List Sk), sk :- Sk, s1 :- Sk, en :- (HEnv G),
+                 hu :- (SkJ Bool.false G u s1),
+                 ho :- (Eq (Option Sk) (skOf G uq) (skOf G u)),
+                 he :- (Eq (Car s1) (den chkf dec encTy cap uq G s1 en)
+                                     (den chkf dec encTy cap u G s1 en))])
+    '(Eq (Car sk) (den chkf dec encTy cap (Exp.app f uq) G sk en)
+                  (den chkf dec encTy cap (Exp.app f u) G sk en))
+    ['(rw [(den_app_at chkf dec encTy cap f uq G sk en)])
+     '(rw [(den_app_at chkf dec encTy cap f u G sk en)])
+     '(change (Eq (Car sk)
+        (Option.rec$1$0 Sk (fn [_ :- (Option Sk)] (Car sk)) (dflt sk)
+          (fn [su :- Sk] ((den chkf dec encTy cap f G (Sk.arr su sk) en)
+                          (den chkf dec encTy cap uq G su en)))
+          (skOf G uq))
+        (Option.rec$1$0 Sk (fn [_ :- (Option Sk)] (Car sk)) (dflt sk)
+          (fn [su :- Sk] ((den chkf dec encTy cap f G (Sk.arr su sk) en)
+                          (den chkf dec encTy cap u G su en)))
+          (skOf G u))))
+     '(exact (optrec_congr (Car sk) (dflt sk)
+        (fn [su :- Sk] ((den chkf dec encTy cap f G (Sk.arr su sk) en)
+                        (den chkf dec encTy cap uq G su en)))
+        (fn [su :- Sk] ((den chkf dec encTy cap f G (Sk.arr su sk) en)
+                        (den chkf dec encTy cap u G su en)))
+        (skOf G uq) (skOf G u) s1
+        ho
+        (skOf_typed Bool.false G u s1 hu)
+        (congrArg (fn [v :- (Car s1)]
+                    ((den chkf dec encTy cap f G (Sk.arr s1 sk) en) v))
+          he)))])
+
+
+  (let [term '(Exp.app f u)
+        pred '(fn [s1 :- Sk]
+                (And (SkJ Bool.false G f (Sk.arr s1 out))
+                     (SkJ Bool.false G u s1)))
+        pack '(And (SkJ Bool.false G f (Sk.arr s1 out))
+                   (SkJ Bool.false G u s1))
+        wit '(And.right (inv_app Bool.false G f u out hj))
+        branch (fn [i body]
+                 (list 'exSk pred (path-and term (sucn i 0)) wit
+                   (list 'fn ['s1 ':- 'Sk, 'hs1 ':- pack] body)))
+        ihf '(ih_f Bool.false G (Sk.arr s1 out) (And.left hs1)
+               (nbr_app_f f u fl hn) tail re co hgc hd)
+        ihu '(ih_u Bool.false G s1 (And.right hs1)
+               (nbr_app_u f u fl hn) tail re co hgc hd)
+        pf (branch 0
+             (list 'And.intro
+               (list 'sk_app_f 'f '(setP tail f co) 'u 'G (list 'And.left ihf))
+               (list 'fn '[cap :- Nat, en :- (HEnv G)]
+                 (list 'den_app_f 'chkf 'dec 'encTy 'cap 'f '(setP tail f co) 'u
+                   'G 'out 's1 'en '(And.right hs1)
+                   (list (list 'And.right ihf) 'cap 'en)))))
+        pu (branch 1
+             (list 'And.intro
+               '(Eq.refl$1 (skOf G (Exp.app f u)))
+               (list 'fn '[cap :- Nat, en :- (HEnv G)]
+                 (list 'den_app_u 'chkf 'dec 'encTy 'cap 'f 'u '(setP tail u co)
+                   'G 'out 's1 'en '(And.right hs1)
+                   (list 'And.left ihu)
+                   (list (list 'And.right ihu) 'cap 'en)))))
+        split (index-split term [pf pu])]
+    (prove! 'step_app
+      (into step-params '[f :- Exp, u :- Exp,
+                          ih_f :- (StepPack chkf dec encTy f),
+                          ih_u :- (StepPack chkf dec encTy u)])
+      '(StepPack chkf dec encTy (Exp.app f u))
+      ['(intro fl G out hj hn pth) '(cases pth)
+       '(intro re co hg hd)
+       '(exact (step_nil_fl chkf dec encTy fl (Exp.app f u) G out hj hn re co hg hd))
+       '(intro re co hg hd)
+       (list 'exact split)]))
