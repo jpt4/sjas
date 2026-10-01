@@ -2673,3 +2673,144 @@
        '(exact (step_nil_fl chkf dec encTy fl (Exp.pair S a b) G out hj hn re co hg hd))
        '(intro re co hg hd)
        (list 'exact split)]))
+
+;; let (Lemma 3.2).  skOf is some (skel C).  den_letp_some reads the pair
+;; at the product skeleton skOf finds: a step in the pair changes that
+;; value, and a step in the body is read at the pair's two components.
+;; The body's typing moves from skel C to the output skeleton by Eq.mp.
+
+
+  (prove! 'skof_letp
+    '[C :- Exp, p :- Exp, t :- Exp, G :- (List Sk)]
+    '(Eq (Option Sk) (skOf G (Exp.letp C p t)) (Option.some Sk (skel C)))
+    ['(rfl)])
+
+  (prove! 'sk_letp_C
+    '[chkf :- (=> Code Code Bool), C :- Exp, p :- Exp, t :- Exp, G :- (List Sk),
+      q :- (List Nat), rd :- Exp, r2 :- Exp,
+      hC :- (SkJ Bool.true G C Sk.unit),
+      hg :- (Eq (Option Exp) (getP q C) (Option.some Exp rd)),
+      hd :- (Hd chkf rd r2)]
+    '(Eq (Option Sk) (skOf G (Exp.letp (setP q C r2) p t)) (skOf G (Exp.letp C p t)))
+    ['(have hs (Eq Sk (skel (setP q C r2)) (skel C))
+        (step_skel_path chkf q C rd r2
+          (skj_isTy Bool.true G C Sk.unit hC rfl) hg hd))
+     '(rw [(skof_letp (setP q C r2) p t G)])
+     '(rw [(skof_letp C p t G)])
+     '(exact (congrArg (fn [k :- Sk] (Option.some Sk k)) hs))])
+
+  ;; den_letp_some reads the pair at its product skeleton.  Equal pair
+  ;; denotations give equal bodies, because the body is applied to the
+  ;; pair's two components.
+  (def let-env
+    '(Prod.mk (Prod.snd (den chkf dec encTy cap P G (Sk.prod s1 s2) en))
+              (Prod.mk (Prod.fst (den chkf dec encTy cap P G (Sk.prod s1 s2) en)) en)))
+  (defn let-body [tm v]
+    (list 'den 'chkf 'dec 'encTy 'cap tm
+      '(sk2 s2 s1 G) 'sk
+      (list 'Prod.mk (list 'Prod.snd v) (list 'Prod.mk (list 'Prod.fst v) 'en))))
+  (prove! 'den_letp_p
+    (into Pcap '[C :- Exp, p :- Exp, pq :- Exp, t :- Exp, G :- (List Sk),
+                 s1 :- Sk, s2 :- Sk, sk :- Sk, en :- (HEnv G),
+                 hsk :- (Eq (Option Sk) (skOf G p) (Option.some Sk (Sk.prod s1 s2))),
+                 ho :- (Eq (Option Sk) (skOf G pq) (skOf G p)),
+                 he :- (Eq (Car (Sk.prod s1 s2))
+                         (den chkf dec encTy cap pq G (Sk.prod s1 s2) en)
+                         (den chkf dec encTy cap p G (Sk.prod s1 s2) en))])
+    '(Eq (Car sk) (den chkf dec encTy cap (Exp.letp C pq t) G sk en)
+                  (den chkf dec encTy cap (Exp.letp C p t) G sk en))
+    ['(have hskq (Eq (Option Sk) (skOf G pq) (Option.some Sk (Sk.prod s1 s2)))
+        (Eq.trans ho hsk))
+     '(exact (Eq.trans
+        (den_letp_some chkf dec encTy cap C pq t G s1 s2 sk en hskq)
+        (Eq.trans
+          (congrArg (fn [v :- (Car (Sk.prod s1 s2))]
+                      (den chkf dec encTy cap t (sk2 s2 s1 G) sk
+                        (Prod.mk (Prod.snd v) (Prod.mk (Prod.fst v) en))))
+            he)
+          (Eq.symm (den_letp_some chkf dec encTy cap C p t G s1 s2 sk en hsk)))))])
+
+  (prove! 'den_letp_t
+    (into Pcap '[C :- Exp, p :- Exp, t :- Exp, tq :- Exp, G :- (List Sk),
+                 s1 :- Sk, s2 :- Sk, sk :- Sk, en :- (HEnv G),
+                 hsk :- (Eq (Option Sk) (skOf G p) (Option.some Sk (Sk.prod s1 s2))),
+                 he :- (Eq (Car sk)
+                         (den chkf dec encTy cap tq (sk2 s2 s1 G) sk
+                           (Prod.mk (Prod.snd (den chkf dec encTy cap p G (Sk.prod s1 s2) en))
+                             (Prod.mk (Prod.fst (den chkf dec encTy cap p G (Sk.prod s1 s2) en)) en)))
+                         (den chkf dec encTy cap t (sk2 s2 s1 G) sk
+                           (Prod.mk (Prod.snd (den chkf dec encTy cap p G (Sk.prod s1 s2) en))
+                             (Prod.mk (Prod.fst (den chkf dec encTy cap p G (Sk.prod s1 s2) en)) en))))])
+    '(Eq (Car sk) (den chkf dec encTy cap (Exp.letp C p tq) G sk en)
+                  (den chkf dec encTy cap (Exp.letp C p t) G sk en))
+    ['(exact (Eq.trans
+        (den_letp_some chkf dec encTy cap C p tq G s1 s2 sk en hsk)
+        (Eq.trans he
+          (Eq.symm (den_letp_some chkf dec encTy cap C p t G s1 s2 sk en hsk)))))])
+
+
+  (let [term '(Exp.letp C p t)
+        pk '(And (SkJ Bool.true G C Sk.unit)
+              (And (SkJ Bool.false G p (Sk.prod s1 s2))
+                   (SkJ Bool.false (sk2 s2 s1 G) t (skel C))))
+        ex2 (list 'Exists (list 'fn '[s2 :- Sk] pk))
+        pred (list 'fn '[s1 :- Sk] ex2)
+        inv '(inv_letp Bool.false G C p t out hj)
+        hs (list 'And.left (list 'And.right inv))
+        hC '(And.left hb)
+        hp '(And.left (And.right hb))
+        ht '(And.right (And.right hb))
+        sjt (list 'Eq.mp
+              (list 'congrArg
+                '(fn [k :- Sk] (SkJ Bool.false (sk2 s2 s1 G) t k))
+                (list 'Eq.symm hs))
+              ht)
+        hsk '(skOf_ok G p (Sk.prod s1 s2) (And.left (And.right hb))
+               (nbr_letp_p C p t fl hn))
+        env '(Prod.mk (Prod.snd (den chkf dec encTy cap p G (Sk.prod s1 s2) en))
+               (Prod.mk (Prod.fst (den chkf dec encTy cap p G (Sk.prod s1 s2) en)) en))
+        opened (fn [idx body]
+                 (let [q (path-and term (sucn idx 0))]
+                   (list 'exSk pred q (list 'And.right (list 'And.right inv))
+                     (list 'fn ['s1 ':- 'Sk, 'h1 ':- ex2]
+                       (list 'exSk (list 'fn '[s2 :- Sk] pk) q 'h1
+                         (list 'fn ['s2 ':- 'Sk, 'hb ':- pk] body))))))
+        pC (opened 0
+             (list 'And.intro
+               (list 'sk_letp_C 'chkf 'C 'p 't 'G 'tail 're 'co hC 'hgc 'hd)
+               '(fn [cap :- Nat, en :- (HEnv G)]
+                  (den_ig_letp_C chkf dec encTy cap C (setP tail C co) p t G out en))))
+        pp (opened 1
+             (list 'And.intro
+               '(Eq.refl$1 (skOf G (Exp.letp C p t)))
+               (list 'fn '[cap :- Nat, en :- (HEnv G)]
+                 (list 'den_letp_p 'chkf 'dec 'encTy 'cap 'C 'p '(setP tail p co) 't
+                   'G 's1 's2 'out 'en hsk
+                   (list 'And.left
+                     '(ih_p Bool.false G (Sk.prod s1 s2) (And.left (And.right hb))
+                        (nbr_letp_p C p t fl hn) tail re co hgc hd))
+                   (list (list 'And.right
+                           '(ih_p Bool.false G (Sk.prod s1 s2) (And.left (And.right hb))
+                              (nbr_letp_p C p t fl hn) tail re co hgc hd))
+                     'cap 'en)))))
+        pt (opened 2
+             (list 'And.intro
+               '(Eq.refl$1 (skOf G (Exp.letp C p t)))
+               (list 'fn '[cap :- Nat, en :- (HEnv G)]
+                 (list 'den_letp_t 'chkf 'dec 'encTy 'cap 'C 'p 't '(setP tail t co)
+                   'G 's1 's2 'out 'en hsk
+                   (list (list 'And.right
+                           (list 'ih_t 'Bool.false '(sk2 s2 s1 G) 'out sjt
+                             '(nbr_letp_t C p t fl hn) 'tail 're 'co 'hgc 'hd))
+                     'cap env)))))
+        split (index-split term [pC pp pt])]
+    (prove! 'step_letp
+      (into step-params '[C :- Exp, p :- Exp, t :- Exp,
+                          ih_p :- (StepPack chkf dec encTy p),
+                          ih_t :- (StepPack chkf dec encTy t)])
+      '(StepPack chkf dec encTy (Exp.letp C p t))
+      ['(intro fl G out hj hn pth) '(cases pth)
+       '(intro re co hg hd)
+       '(exact (step_nil_fl chkf dec encTy fl (Exp.letp C p t) G out hj hn re co hg hd))
+       '(intro re co hg hd)
+       (list 'exact split)]))
