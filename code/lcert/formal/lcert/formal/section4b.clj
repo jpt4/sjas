@@ -774,3 +774,698 @@
              (congrArg thetaU (Eq.trans (Eq.symm (add1_succ (+ (cnodes a) (cnodes b)))) (Eq.symm (cnodes_sn l a b)))))
            (Eq.trans (Eq.symm (litAt_sn l a b 0)) (Eq.symm (lit0_at (Code.sn l a b))))
            rfl)))
+
+;; --- the conversion under T(chk′) -------------------------------------------------------
+;; A Step is a path, a head redex and its contractum (conv.clj).  At the
+;; empty path, getP and setP are the identity.  Those two equations live in
+;; conversion.clj, which this namespace does not require, so they are
+;; restated.  One-child steps are packed from the child and setKid equations.
+(thm getP_nil [e :- Exp] (Eq (Option Exp) (getP (List.nil Nat) e) (Option.some Exp e)) (rfl))
+
+(thm setP_nil [e :- Exp, x :- Exp] (Eq Exp (setP (List.nil Nat) e x) x) (rfl))
+
+(thm child_tT [b :- Exp] (Eq (Option Exp) (child (Exp.tT b) 0) (Option.some Exp b)) (rfl))
+
+(thm set_tT [b :- Exp, x :- Exp] (Eq Exp (setKid (Exp.tT b) 0 x) (Exp.tT x)) (rfl))
+
+(thm child_chk [c :- Exp, d :- Exp] (Eq (Option Exp) (child (Exp.chk c d) 0) (Option.some Exp c)) (rfl))
+
+(thm set_chk [c :- Exp, d :- Exp, x :- Exp] (Eq Exp (setKid (Exp.chk c d) 0 x) (Exp.chk x d)) (rfl))
+
+(thm child_sn1 [x :- Exp, a :- Exp, b :- Exp]
+  (Eq (Option Exp) (child (Exp.snode x a b) 1) (Option.some Exp a)) (rfl))
+
+(thm child_sn2 [x :- Exp, a :- Exp, b :- Exp]
+  (Eq (Option Exp) (child (Exp.snode x a b) 2) (Option.some Exp b)) (rfl))
+
+(thm set_sn1 [x :- Exp, a :- Exp, b :- Exp, y :- Exp]
+  (Eq Exp (setKid (Exp.snode x a b) 1 y) (Exp.snode x y b)) (rfl))
+
+(thm set_sn2 [x :- Exp, a :- Exp, b :- Exp, y :- Exp]
+  (Eq Exp (setKid (Exp.snode x a b) 2 y) (Exp.snode x a y)) (rfl))
+
+(thm boolExp_tt [] (Eq Exp (boolExp Bool.true) Exp.tt) (rfl))
+
+(thm nbr_tUnit [] (Eq Bool (nbr Exp.tUnit) Bool.true) (rfl))
+
+(thm nbr_tt [] (Eq Bool (nbr Exp.tt) Bool.true) (rfl))
+
+(thm nbr_tT [b :- Exp] (Eq Bool (nbr (Exp.tT b)) (nbr b)) (rfl))
+
+(thm nbr_chk [c :- Exp, d :- Exp] (Eq Bool (nbr (Exp.chk c d)) (Bool.and (nbr c) (nbr d))) (rfl))
+
+(thm nbr_prn [r :- Exp] (Eq Bool (nbr (Exp.prn r)) (nbr r)) (rfl))
+
+(thm nbr_snode [x :- Exp, a :- Exp, b :- Exp]
+  (Eq Bool (nbr (Exp.snode x a b)) (Bool.and (nbr x) (Bool.and (nbr a) (nbr b)))) (rfl))
+
+(thm nbr_sleaf [x :- Exp] (Eq Bool (nbr (Exp.sleaf x)) (nbr x)) (rfl))
+
+(thm step_hd [chkf :- (=> Code Code Bool), e :- Exp, e2 :- Exp, h :- (Hd chkf e e2)]
+  (Step chkf e e2)
+  (unfold Step)
+  (apply (Exists.intro (List.nil Nat)))
+  (apply (Exists.intro e))
+  (apply (Exists.intro e2))
+  (exact (And.intro (getP_nil e) (And.intro h (Eq.symm (setP_nil e e2))))))
+
+(thm step_cast [chkf :- (=> Code Code Bool), e :- Exp, e2 :- Exp, e3 :- Exp, hs :- (Step chkf e e2), eq :- (Eq Exp e2 e3)]
+  (Step chkf e e3)
+  (subst eq) (exact hs))
+
+(thm step_pack [chkf :- (=> Code Code Bool), i :- Nat, E :- Exp, C :- Exp, C2 :- Exp,
+                     hch :- (Eq (Option Exp) (child E i) (Option.some Exp C)),
+                     p :- (List Nat), r :- Exp, r2 :- Exp,
+                     h3 :- (And (Eq (Option Exp) (getP p C) (Option.some Exp r)) (And (Hd chkf r r2) (Eq Exp C2 (setP p C r2))))]
+  (Step chkf E (setKid E i C2))
+  (unfold Step)
+  (apply (Exists.intro (List.cons Nat i p)))
+  (apply (Exists.intro r))
+  (apply (Exists.intro r2))
+  (exact (And.intro (Eq.trans (getP_some i p E C hch) (And.left h3))
+           (And.intro (And.left (And.right h3))
+             (Eq.trans (congrArg (fn [t :- Exp] (setKid E i t)) (And.right (And.right h3)))
+                       (Eq.symm (setP_some i p E C r2 hch)))))))
+
+(thm step_pack0 [chkf :- (=> Code Code Bool), E :- Exp, C :- Exp, C2 :- Exp,
+                      hch :- (Eq (Option Exp) (child E 0) (Option.some Exp C)),
+                      p :- (List Nat), r :- Exp, r2 :- Exp,
+                      h3 :- (And (Eq (Option Exp) (getP p C) (Option.some Exp r)) (And (Hd chkf r r2) (Eq Exp C2 (setP p C r2))))]
+  (Step chkf E (setKid E 0 C2))
+  (unfold Step)
+  (apply (Exists.intro (List.cons Nat 0 p)))
+  (apply (Exists.intro r))
+  (apply (Exists.intro r2))
+  (exact (And.intro (Eq.trans (getP_some 0 p E C hch) (And.left h3))
+           (And.intro (And.left (And.right h3))
+             (Eq.trans (congrArg (fn [t :- Exp] (setKid E 0 t)) (And.right (And.right h3)))
+                       (Eq.symm (setP_some 0 p E C r2 hch)))))))
+
+(thm step_cons0 [chkf :- (=> Code Code Bool), E :- Exp, C :- Exp, C2 :- Exp,
+                      hch :- (Eq (Option Exp) (child E 0) (Option.some Exp C)),
+                      hs :- (Step chkf C C2)]
+  (Step chkf E (setKid E 0 C2))
+  (exact (exists_elimL
+    (fn [p :- (List Nat)] (Exists (fn [r :- Exp] (Exists (fn [r2 :- Exp]
+      (And (Eq (Option Exp) (getP p C) (Option.some Exp r)) (And (Hd chkf r r2) (Eq Exp C2 (setP p C r2)))))))))
+    (Step chkf E (setKid E 0 C2))
+    hs
+    (fn [p :- (List Nat),
+         hp :- (Exists (fn [r :- Exp] (Exists (fn [r2 :- Exp]
+           (And (Eq (Option Exp) (getP p C) (Option.some Exp r)) (And (Hd chkf r r2) (Eq Exp C2 (setP p C r2))))))))]
+      (exists_elimE
+        (fn [r :- Exp] (Exists (fn [r2 :- Exp]
+          (And (Eq (Option Exp) (getP p C) (Option.some Exp r)) (And (Hd chkf r r2) (Eq Exp C2 (setP p C r2)))))))
+        (Step chkf E (setKid E 0 C2))
+        hp
+        (fn [r :- Exp,
+             hr :- (Exists (fn [r2 :- Exp]
+               (And (Eq (Option Exp) (getP p C) (Option.some Exp r)) (And (Hd chkf r r2) (Eq Exp C2 (setP p C r2))))))]
+          (exists_elimE
+            (fn [r2 :- Exp] (And (Eq (Option Exp) (getP p C) (Option.some Exp r)) (And (Hd chkf r r2) (Eq Exp C2 (setP p C r2)))))
+            (Step chkf E (setKid E 0 C2))
+            hr
+            (fn [r2 :- Exp,
+                 h3 :- (And (Eq (Option Exp) (getP p C) (Option.some Exp r)) (And (Hd chkf r r2) (Eq Exp C2 (setP p C r2))))]
+              (step_pack0 chkf E C C2 hch p r r2 h3)))))))))
+
+(thm step_at [chkf :- (=> Code Code Bool), i :- Nat, E :- Exp, C :- Exp, C2 :- Exp,
+                   hch :- (Eq (Option Exp) (child E i) (Option.some Exp C)),
+                   hs :- (Step chkf C C2)]
+  (Step chkf E (setKid E i C2))
+  (exact (exists_elimL
+    (fn [p :- (List Nat)] (Exists (fn [r :- Exp] (Exists (fn [r2 :- Exp]
+      (And (Eq (Option Exp) (getP p C) (Option.some Exp r))
+           (And (Hd chkf r r2) (Eq Exp C2 (setP p C r2)))))))))
+    (Step chkf E (setKid E i C2)) hs
+    (fn [p :- (List Nat), hp :- (Exists (fn [r :- Exp] (Exists (fn [r2 :- Exp]
+           (And (Eq (Option Exp) (getP p C) (Option.some Exp r))
+                (And (Hd chkf r r2) (Eq Exp C2 (setP p C r2))))))))]
+      (exists_elimE
+        (fn [r :- Exp] (Exists (fn [r2 :- Exp]
+          (And (Eq (Option Exp) (getP p C) (Option.some Exp r))
+               (And (Hd chkf r r2) (Eq Exp C2 (setP p C r2)))))))
+        (Step chkf E (setKid E i C2)) hp
+        (fn [r :- Exp, hr :- (Exists (fn [r2 :- Exp]
+               (And (Eq (Option Exp) (getP p C) (Option.some Exp r))
+                    (And (Hd chkf r r2) (Eq Exp C2 (setP p C r2))))))]
+          (exists_elimE
+            (fn [r2 :- Exp]
+              (And (Eq (Option Exp) (getP p C) (Option.some Exp r))
+                   (And (Hd chkf r r2) (Eq Exp C2 (setP p C r2)))))
+            (Step chkf E (setKid E i C2)) hr
+            (fn [r2 :- Exp, h3 :- (And (Eq (Option Exp) (getP p C) (Option.some Exp r))
+                                       (And (Hd chkf r r2) (Eq Exp C2 (setP p C r2))))]
+              (step_pack chkf i E C C2 hch p r r2 h3)))))))))
+
+(thm step_delta_tt [chkf :- (=> Code Code Bool), c :- Exp, d :- Exp, cc :- Code, dc :- Code,
+                         hc :- (Eq (Option Code) (codeOf c) (Option.some Code cc)),
+                         hd :- (Eq (Option Code) (codeOf d) (Option.some Code dc)),
+                         hck :- (Eq Bool (chkf cc dc) Bool.true)]
+  (Step chkf (Exp.chk c d) Exp.tt)
+  (exact (step_cast chkf (Exp.chk c d) (boolExp (chkf cc dc)) Exp.tt
+           (step_hd chkf (Exp.chk c d) (boolExp (chkf cc dc)) (Hd.delta chkf c d cc dc hc hd))
+           (Eq.trans (congrArg boolExp hck) boolExp_tt))))
+
+(thm step_tchk [chkf :- (=> Code Code Bool), u :- Exp, u2 :- Exp, ca :- Exp, hs :- (Step chkf u u2)]
+  (Step chkf (Exp.tT (Exp.chk u ca)) (Exp.tT (Exp.chk u2 ca)))
+  (exact (step_at chkf 0 (Exp.tT (Exp.chk u ca)) (Exp.chk u ca) (Exp.chk u2 ca)
+           (child_tT (Exp.chk u ca))
+           (step_at chkf 0 (Exp.chk u ca) u u2 (child_chk u ca) hs))))
+
+(thm cv_trans [chkf :- (=> Code Code Bool), G :- (List Sk), B0 :- Exp, C0 :- Exp, hbc :- (Cv chkf G B0 C0)]
+  (forall [A0 Exp] (=> (Cv chkf G A0 B0) (Cv chkf G A0 C0)))
+  (induction hbc)
+  (intro A0 h0) (exact h0)
+  (intro A0 h0) (exact (Cv.cvFwd chkf G A0 B C (ih_hab A0 h0) hs hc hn))
+  (intro A0 h0) (exact (Cv.cvBwd chkf G A0 B C (ih_hab A0 h0) hs hc hn)))
+
+(thm cv_unit_tt [chkf :- (=> Code Code Bool), G :- (List Sk)]
+  (Cv chkf G Exp.tUnit (Exp.tT Exp.tt))
+  (exact (Cv.cvBwd chkf G Exp.tUnit Exp.tUnit (Exp.tT Exp.tt)
+           (Cv.cvRefl chkf G Exp.tUnit (SkJ.wUnit G) nbr_tUnit)
+           (step_hd chkf (Exp.tT Exp.tt) Exp.tUnit (Hd.tTT chkf))
+           (SkJ.wT G Exp.tt (SkJ.sTT G))
+           (Eq.trans (nbr_tT Exp.tt) nbr_tt))))
+
+(thm cv_code_tt [chkf :- (=> Code Code Bool), G :- (List Sk), v :- Code, cA :- Code,
+                      hck :- (Eq Bool (chkf v cA) Bool.true)]
+  (Cv chkf G Exp.tUnit (Exp.tT (Exp.chk (codeTerm v) (codeTerm cA))))
+  (exact (Cv.cvBwd chkf G Exp.tUnit (Exp.tT Exp.tt) (Exp.tT (Exp.chk (codeTerm v) (codeTerm cA)))
+           (cv_unit_tt chkf G)
+           (step_cons0 chkf (Exp.tT (Exp.chk (codeTerm v) (codeTerm cA))) (Exp.chk (codeTerm v) (codeTerm cA)) Exp.tt
+             (child_tT (Exp.chk (codeTerm v) (codeTerm cA)))
+             (step_delta_tt chkf (codeTerm v) (codeTerm cA) v cA (codeTerm_of v) (codeTerm_of cA) hck))
+           (SkJ.wT G (Exp.chk (codeTerm v) (codeTerm cA))
+             (SkJ.sChk G (codeTerm v) (codeTerm cA) (skj_code G v) (skj_code G cA)))
+           (Eq.trans (nbr_tT (Exp.chk (codeTerm v) (codeTerm cA)))
+             (Eq.trans (nbr_chk (codeTerm v) (codeTerm cA))
+               (andb_intro (nbr (codeTerm v)) (nbr (codeTerm cA)) (nbr_code v) (nbr_code cA)))))))
+
+
+;; A syn reduction whose every right-hand term is skeleton-typed at Syn and
+;; satisfies nbr.  A head step preserves both (the constructors below); there
+;; is no subject reduction at an arbitrary path, so print's ι chain carries
+;; the two proofs and wr_to_cv turns the chain into a Cv under T(chk).
+(a/inductive WRed [chkf (=> Code Code Bool), G (List Sk)] :in Prop :indices [a Exp, b Exp]
+    (wrRefl [a Exp] [hj (SkJ Bool.false G a Sk.syn)] [hn (Eq Bool (nbr a) Bool.true)] :where [a a])
+    (wrStep [a Exp] [b Exp] [c Exp] [h (WRed chkf G a b)] [s (Step chkf b c)]
+            [hj (SkJ Bool.false G c Sk.syn)] [hn (Eq Bool (nbr c) Bool.true)] :where [a c]))
+
+(thm wr_right [chkf :- (=> Code Code Bool), G :- (List Sk), a0 :- Exp, b0 :- Exp, h :- (WRed chkf G a0 b0)]
+  (And (SkJ Bool.false G b0 Sk.syn) (Eq Bool (nbr b0) Bool.true))
+  (induction h)
+  (exact (And.intro hj hn))
+  (exact (And.intro hj hn)))
+
+(thm wr_trans [chkf :- (=> Code Code Bool), G :- (List Sk), b0 :- Exp, c0 :- Exp, hbc :- (WRed chkf G b0 c0)]
+  (forall [a0 Exp] (=> (WRed chkf G a0 b0) (WRed chkf G a0 c0)))
+  (induction hbc)
+  (intro a0 h1) (exact h1)
+  (intro a0 h1) (exact (WRed.wrStep chkf G a0 b c (ih_h a0 h1) s hj hn)))
+
+(thm wr_cast_G [chkf :- (=> Code Code Bool), G :- (List Sk), G2 :- (List Sk), a :- Exp, b :- Exp,
+                     h :- (WRed chkf G a b), eq :- (Eq (List Sk) G G2)]
+  (WRed chkf G2 a b)
+  (subst eq) (exact h))
+
+(thm skj_cast_G [w :- Bool, G :- (List Sk), G2 :- (List Sk), t :- Exp, s :- Sk,
+                      h :- (SkJ w G t s), eq :- (Eq (List Sk) G G2)]
+  (SkJ w G2 t s)
+  (subst eq) (exact h))
+
+(thm wr_cast_end [chkf :- (=> Code Code Bool), G :- (List Sk), a :- Exp, b :- Exp, b2 :- Exp,
+                       h :- (WRed chkf G a b), eq :- (Eq Exp b b2)]
+  (WRed chkf G a b2) (subst eq) (exact h))
+
+(thm wr_cast_start [chkf :- (=> Code Code Bool), G :- (List Sk), a :- Exp, a2 :- Exp, b :- Exp,
+                         h :- (WRed chkf G a b), eq :- (Eq Exp a a2)]
+  (WRed chkf G a2 b) (subst eq) (exact h))
+
+(thm skj_cast_tm [w :- Bool, G :- (List Sk), t :- Exp, t2 :- Exp, s :- Sk,
+                       h :- (SkJ w G t s), eq :- (Eq Exp t t2)]
+  (SkJ w G t2 s) (subst eq) (exact h))
+
+(thm wr_sn1 [chkf :- (=> Code Code Bool), G :- (List Sk), x :- Exp, r :- Exp, a0 :- Exp, b0 :- Exp,
+                  h0 :- (WRed chkf G a0 b0),
+                  hx :- (SkJ Bool.false G x Sk.lbl), hnx :- (Eq Bool (nbr x) Bool.true),
+                  hr :- (SkJ Bool.false G r Sk.syn), hnr :- (Eq Bool (nbr r) Bool.true)]
+  (WRed chkf G (Exp.snode x a0 r) (Exp.snode x b0 r))
+  (induction h0)
+  (exact (WRed.wrRefl chkf G (Exp.snode x a r)
+           (SkJ.sSnode G x a r hx hj hr)
+           (Eq.trans (nbr_snode x a r)
+             (andb_intro (nbr x) (Bool.and (nbr a) (nbr r)) hnx (andb_intro (nbr a) (nbr r) hn hnr)))))
+  (exact (WRed.wrStep chkf G (Exp.snode x a r) (Exp.snode x b r) (Exp.snode x c r) ih_h
+           (step_at chkf 1 (Exp.snode x b r) b c (child_sn1 x b r) s)
+           (SkJ.sSnode G x c r hx hj hr)
+           (Eq.trans (nbr_snode x c r)
+             (andb_intro (nbr x) (Bool.and (nbr c) (nbr r)) hnx (andb_intro (nbr c) (nbr r) hn hnr))))))
+
+(thm wr_sn2 [chkf :- (=> Code Code Bool), G :- (List Sk), x :- Exp, u :- Exp, a0 :- Exp, b0 :- Exp,
+                  h0 :- (WRed chkf G a0 b0),
+                  hx :- (SkJ Bool.false G x Sk.lbl), hnx :- (Eq Bool (nbr x) Bool.true),
+                  hu :- (SkJ Bool.false G u Sk.syn), hnu :- (Eq Bool (nbr u) Bool.true)]
+  (WRed chkf G (Exp.snode x u a0) (Exp.snode x u b0))
+  (induction h0)
+  (exact (WRed.wrRefl chkf G (Exp.snode x u a)
+           (SkJ.sSnode G x u a hx hu hj)
+           (Eq.trans (nbr_snode x u a)
+             (andb_intro (nbr x) (Bool.and (nbr u) (nbr a)) hnx (andb_intro (nbr u) (nbr a) hnu hn)))))
+  (exact (WRed.wrStep chkf G (Exp.snode x u a) (Exp.snode x u b) (Exp.snode x u c) ih_h
+           (step_at chkf 2 (Exp.snode x u b) b c (child_sn2 x u b) s)
+           (SkJ.sSnode G x u c hx hu hj)
+           (Eq.trans (nbr_snode x u c)
+             (andb_intro (nbr x) (Bool.and (nbr u) (nbr c)) hnx (andb_intro (nbr u) (nbr c) hnu hn))))))
+
+(thm wr_to_cv [chkf :- (=> Code Code Bool), G :- (List Sk), ca :- Exp, a0 :- Exp, b0 :- Exp,
+                    h0 :- (WRed chkf G a0 b0),
+                    hca :- (SkJ Bool.false G ca Sk.syn),
+                    hnca :- (Eq Bool (nbr ca) Bool.true)]
+  (Cv chkf G (Exp.tT (Exp.chk b0 ca)) (Exp.tT (Exp.chk a0 ca)))
+  (induction h0)
+  (exact (Cv.cvRefl chkf G (Exp.tT (Exp.chk a ca))
+           (SkJ.wT G (Exp.chk a ca) (SkJ.sChk G a ca hj hca))
+           (Eq.trans (nbr_tT (Exp.chk a ca))
+             (Eq.trans (nbr_chk a ca) (andb_intro (nbr a) (nbr ca) hn hnca)))))
+  (have one (Cv chkf G (Exp.tT (Exp.chk c ca)) (Exp.tT (Exp.chk b ca)))
+    (Cv.cvBwd chkf G (Exp.tT (Exp.chk c ca)) (Exp.tT (Exp.chk c ca)) (Exp.tT (Exp.chk b ca))
+      (Cv.cvRefl chkf G (Exp.tT (Exp.chk c ca))
+        (SkJ.wT G (Exp.chk c ca) (SkJ.sChk G c ca hj hca))
+        (Eq.trans (nbr_tT (Exp.chk c ca))
+          (Eq.trans (nbr_chk c ca) (andb_intro (nbr c) (nbr ca) hn hnca))))
+      (step_tchk chkf b c ca s)
+      (SkJ.wT G (Exp.chk b ca) (SkJ.sChk G b ca (And.left (wr_right chkf G a b h)) hca))
+      (Eq.trans (nbr_tT (Exp.chk b ca))
+        (Eq.trans (nbr_chk b ca)
+          (andb_intro (nbr b) (nbr ca) (And.right (wr_right chkf G a b h)) hnca)))))
+  (exact ((cv_trans chkf G (Exp.tT (Exp.chk b ca)) (Exp.tT (Exp.chk a ca)) ih_h)
+          (Exp.tT (Exp.chk c ca)) one)))
+
+(thm wr_prn_node [chkf :- (=> Code Code Bool), G :- (List Sk), l :- Nat, a :- Code, b :- Code, off :- Nat,
+                       hL :- (WRed chkf G (Exp.prn ((litAt a) (+ off 1))) (codeTerm a)),
+                       hR :- (WRed chkf G (Exp.prn ((litAt b) (+ (+ off 1) (cnodes a)))) (codeTerm b)),
+                       hnode :- (SkJ Bool.false G (Exp.node (Exp.var off) (Exp.lbl l) ((litAt a) (+ off 1)) ((litAt b) (+ (+ off 1) (cnodes a)))) Sk.cert),
+                       hLa :- (SkJ Bool.false G ((litAt a) (+ off 1)) Sk.cert),
+                       hLb :- (SkJ Bool.false G ((litAt b) (+ (+ off 1) (cnodes a))) Sk.cert)]
+  (WRed chkf G (Exp.prn (Exp.node (Exp.var off) (Exp.lbl l) ((litAt a) (+ off 1)) ((litAt b) (+ (+ off 1) (cnodes a)))))
+              (codeTerm (Code.sn l a b)))
+  (have hnL (Eq Bool (nbr (Exp.prn ((litAt a) (+ off 1)))) Bool.true)
+    (Eq.trans (nbr_prn ((litAt a) (+ off 1))) (nbr_lit a (+ off 1))))
+  (have hnR (Eq Bool (nbr (Exp.prn ((litAt b) (+ (+ off 1) (cnodes a))))) Bool.true)
+    (Eq.trans (nbr_prn ((litAt b) (+ (+ off 1) (cnodes a)))) (nbr_lit b (+ (+ off 1) (cnodes a)))))
+  (have hS (WRed chkf G
+            (Exp.snode (Exp.lbl l) (Exp.prn ((litAt a) (+ off 1))) (Exp.prn ((litAt b) (+ (+ off 1) (cnodes a)))))
+            (Exp.snode (Exp.lbl l) (codeTerm a) (codeTerm b)))
+    ((wr_trans chkf G
+        (Exp.snode (Exp.lbl l) (codeTerm a) (Exp.prn ((litAt b) (+ (+ off 1) (cnodes a)))))
+        (Exp.snode (Exp.lbl l) (codeTerm a) (codeTerm b))
+        (wr_sn2 chkf G (Exp.lbl l) (codeTerm a)
+           (Exp.prn ((litAt b) (+ (+ off 1) (cnodes a)))) (codeTerm b) hR
+           (SkJ.sLbl G l) (nbr_lbl_tt l) (skj_code G a) (nbr_code a)))
+      (Exp.snode (Exp.lbl l) (Exp.prn ((litAt a) (+ off 1))) (Exp.prn ((litAt b) (+ (+ off 1) (cnodes a)))))
+      (wr_sn1 chkf G (Exp.lbl l) (Exp.prn ((litAt b) (+ (+ off 1) (cnodes a))))
+         (Exp.prn ((litAt a) (+ off 1))) (codeTerm a) hL
+         (SkJ.sLbl G l) (nbr_lbl_tt l)
+         (SkJ.sPrn G ((litAt b) (+ (+ off 1) (cnodes a))) hLb) hnR)))
+  (have hP (WRed chkf G
+            (Exp.prn (Exp.node (Exp.var off) (Exp.lbl l) ((litAt a) (+ off 1)) ((litAt b) (+ (+ off 1) (cnodes a)))))
+            (Exp.snode (Exp.lbl l) (Exp.prn ((litAt a) (+ off 1))) (Exp.prn ((litAt b) (+ (+ off 1) (cnodes a))))))
+    (WRed.wrStep chkf G
+      (Exp.prn (Exp.node (Exp.var off) (Exp.lbl l) ((litAt a) (+ off 1)) ((litAt b) (+ (+ off 1) (cnodes a)))))
+      (Exp.prn (Exp.node (Exp.var off) (Exp.lbl l) ((litAt a) (+ off 1)) ((litAt b) (+ (+ off 1) (cnodes a)))))
+      (Exp.snode (Exp.lbl l) (Exp.prn ((litAt a) (+ off 1))) (Exp.prn ((litAt b) (+ (+ off 1) (cnodes a)))))
+      (WRed.wrRefl chkf G
+        (Exp.prn (Exp.node (Exp.var off) (Exp.lbl l) ((litAt a) (+ off 1)) ((litAt b) (+ (+ off 1) (cnodes a)))))
+        (SkJ.sPrn G (Exp.node (Exp.var off) (Exp.lbl l) ((litAt a) (+ off 1)) ((litAt b) (+ (+ off 1) (cnodes a)))) hnode)
+        (Eq.trans (nbr_prn (Exp.node (Exp.var off) (Exp.lbl l) ((litAt a) (+ off 1)) ((litAt b) (+ (+ off 1) (cnodes a)))))
+                  (nbr_lit (Code.sn l a b) off)))
+      (step_hd chkf
+        (Exp.prn (Exp.node (Exp.var off) (Exp.lbl l) ((litAt a) (+ off 1)) ((litAt b) (+ (+ off 1) (cnodes a)))))
+        (Exp.snode (Exp.lbl l) (Exp.prn ((litAt a) (+ off 1))) (Exp.prn ((litAt b) (+ (+ off 1) (cnodes a)))))
+        (Hd.prnN chkf (Exp.var off) (Exp.lbl l) ((litAt a) (+ off 1)) ((litAt b) (+ (+ off 1) (cnodes a)))))
+      (SkJ.sSnode G (Exp.lbl l) (Exp.prn ((litAt a) (+ off 1))) (Exp.prn ((litAt b) (+ (+ off 1) (cnodes a))))
+        (SkJ.sLbl G l) (SkJ.sPrn G ((litAt a) (+ off 1)) hLa) (SkJ.sPrn G ((litAt b) (+ (+ off 1) (cnodes a))) hLb))
+      (Eq.trans (nbr_snode (Exp.lbl l) (Exp.prn ((litAt a) (+ off 1))) (Exp.prn ((litAt b) (+ (+ off 1) (cnodes a)))))
+        (andb_intro (nbr (Exp.lbl l))
+          (Bool.and (nbr (Exp.prn ((litAt a) (+ off 1)))) (nbr (Exp.prn ((litAt b) (+ (+ off 1) (cnodes a))))))
+          (nbr_lbl_tt l) (andb_intro (nbr (Exp.prn ((litAt a) (+ off 1)))) (nbr (Exp.prn ((litAt b) (+ (+ off 1) (cnodes a))))) hnL hnR)))))
+  (exact (wr_cast_end chkf G
+           (Exp.prn (Exp.node (Exp.var off) (Exp.lbl l) ((litAt a) (+ off 1)) ((litAt b) (+ (+ off 1) (cnodes a)))))
+           (Exp.snode (Exp.lbl l) (codeTerm a) (codeTerm b))
+           (codeTerm (Code.sn l a b))
+           ((wr_trans chkf G
+              (Exp.snode (Exp.lbl l) (Exp.prn ((litAt a) (+ off 1))) (Exp.prn ((litAt b) (+ (+ off 1) (cnodes a)))))
+              (Exp.snode (Exp.lbl l) (codeTerm a) (codeTerm b)) hS)
+            (Exp.prn (Exp.node (Exp.var off) (Exp.lbl l) ((litAt a) (+ off 1)) ((litAt b) (+ (+ off 1) (cnodes a)))))
+            hP)
+           (Eq.symm (codeTerm_sn l a b)))))
+
+
+;; print (litAt v off) ι-reduces to ⌜v⌝ by Hd.prnL and Hd.prnN, in any token
+;; context long enough for v's block and `extra` tokens after it.  This is
+;; the ι stage of Proposition 4.2.
+(thm wr_print [chkf :- (=> Code Code Bool), v :- Code]
+  (forall [off Nat] (forall [extra Nat]
+    (WRed chkf (skels (thetaD (+ off (+ (cnodes v) extra)))) (Exp.prn ((litAt v) off)) (codeTerm v))))
+  (induction v)
+
+  (intro off extra)
+  (exact (wr_cast_end chkf (skels (thetaD (+ off (+ (cnodes (Code.sl l)) extra))))
+           (Exp.prn (Exp.leaf (Exp.lbl l))) (Exp.sleaf (Exp.lbl l)) (codeTerm (Code.sl l))
+           (WRed.wrStep chkf (skels (thetaD (+ off (+ (cnodes (Code.sl l)) extra))))
+             (Exp.prn (Exp.leaf (Exp.lbl l))) (Exp.prn (Exp.leaf (Exp.lbl l))) (Exp.sleaf (Exp.lbl l))
+             (WRed.wrRefl chkf (skels (thetaD (+ off (+ (cnodes (Code.sl l)) extra))))
+               (Exp.prn (Exp.leaf (Exp.lbl l)))
+               (SkJ.sPrn (skels (thetaD (+ off (+ (cnodes (Code.sl l)) extra)))) (Exp.leaf (Exp.lbl l))
+                 (SkJ.sLeaf (skels (thetaD (+ off (+ (cnodes (Code.sl l)) extra)))) (Exp.lbl l)
+                   (SkJ.sLbl (skels (thetaD (+ off (+ (cnodes (Code.sl l)) extra)))) l)))
+               (Eq.trans (nbr_prn (Exp.leaf (Exp.lbl l))) (Eq.trans (nbr_leaf (Exp.lbl l)) (nbr_lbl_tt l))))
+             (step_hd chkf (Exp.prn (Exp.leaf (Exp.lbl l))) (Exp.sleaf (Exp.lbl l)) (Hd.prnL chkf (Exp.lbl l)))
+             (SkJ.sSleaf (skels (thetaD (+ off (+ (cnodes (Code.sl l)) extra)))) (Exp.lbl l)
+               (SkJ.sLbl (skels (thetaD (+ off (+ (cnodes (Code.sl l)) extra)))) l))
+             (Eq.trans (nbr_sleaf (Exp.lbl l)) (nbr_lbl_tt l)))
+           (Eq.symm (codeTerm_sl l))))
+
+  (intro off extra)
+  (have eGL (Eq (List Sk)
+      (skels (thetaD (+ (+ off 1) (+ (cnodes a) (+ (cnodes b) extra)))))
+      (skels (thetaD (+ off (+ (cnodes (Code.sn l a b)) extra)))))
+    (Eq.trans (congrArg (fn [n :- Nat] (skels (thetaD n))) (scope_add_l off (cnodes a) (cnodes b) extra))
+      (congrArg (fn [n :- Nat] (skels (thetaD n)))
+        (congrArg (fn [k :- Nat] (+ off (+ k extra))) (Eq.symm (cnodes_sn l a b))))))
+  (have eGR (Eq (List Sk)
+      (skels (thetaD (+ (+ (+ off 1) (cnodes a)) (+ (cnodes b) extra))))
+      (skels (thetaD (+ off (+ (cnodes (Code.sn l a b)) extra)))))
+    (Eq.trans (congrArg (fn [n :- Nat] (skels (thetaD n))) (scope_add_r off (cnodes a) (cnodes b) extra))
+      (congrArg (fn [n :- Nat] (skels (thetaD n)))
+        (congrArg (fn [k :- Nat] (+ off (+ k extra))) (Eq.symm (cnodes_sn l a b))))))
+  (exact (wr_cast_start chkf (skels (thetaD (+ off (+ (cnodes (Code.sn l a b)) extra))))
+           (Exp.prn (Exp.node (Exp.var off) (Exp.lbl l) ((litAt a) (+ off 1)) ((litAt b) (+ (+ off 1) (cnodes a)))))
+           (Exp.prn ((litAt (Code.sn l a b)) off))
+           (codeTerm (Code.sn l a b))
+           (wr_prn_node chkf (skels (thetaD (+ off (+ (cnodes (Code.sn l a b)) extra)))) l a b off
+             (wr_cast_G chkf
+               (skels (thetaD (+ (+ off 1) (+ (cnodes a) (+ (cnodes b) extra)))))
+               (skels (thetaD (+ off (+ (cnodes (Code.sn l a b)) extra))))
+               (Exp.prn ((litAt a) (+ off 1))) (codeTerm a)
+               (ih_a (+ off 1) (+ (cnodes b) extra)) eGL)
+             (wr_cast_G chkf
+               (skels (thetaD (+ (+ (+ off 1) (cnodes a)) (+ (cnodes b) extra))))
+               (skels (thetaD (+ off (+ (cnodes (Code.sn l a b)) extra))))
+               (Exp.prn ((litAt b) (+ (+ off 1) (cnodes a)))) (codeTerm b)
+               (ih_b (+ (+ off 1) (cnodes a)) extra) eGR)
+             (skj_cast_tm Bool.false (skels (thetaD (+ off (+ (cnodes (Code.sn l a b)) extra))))
+               ((litAt (Code.sn l a b)) off)
+               (Exp.node (Exp.var off) (Exp.lbl l) ((litAt a) (+ off 1)) ((litAt b) (+ (+ off 1) (cnodes a))))
+               Sk.cert (skj_lit (Code.sn l a b) off extra) (litAt_sn l a b off))
+             (skj_cast_G Bool.false
+               (skels (thetaD (+ (+ off 1) (+ (cnodes a) (+ (cnodes b) extra)))))
+               (skels (thetaD (+ off (+ (cnodes (Code.sn l a b)) extra))))
+               ((litAt a) (+ off 1)) Sk.cert
+               (skj_lit a (+ off 1) (+ (cnodes b) extra)) eGL)
+             (skj_cast_G Bool.false
+               (skels (thetaD (+ (+ (+ off 1) (cnodes a)) (+ (cnodes b) extra))))
+               (skels (thetaD (+ off (+ (cnodes (Code.sn l a b)) extra))))
+               ((litAt b) (+ (+ off 1) (cnodes a))) Sk.cert
+               (skj_lit b (+ (+ off 1) (cnodes a)) extra) eGR))
+           (Eq.symm (congrArg Exp.prn (litAt_sn l a b off)))))
+
+  )
+
+(thm cv_cast_G [chkf :- (=> Code Code Bool), G :- (List Sk), G2 :- (List Sk), A :- Exp, B :- Exp,
+                     h :- (Cv chkf G A B), eq :- (Eq (List Sk) G G2)]
+  (Cv chkf G2 A B)
+  (subst eq) (exact h))
+
+
+;; Proposition 4.2's Cv chain at the innermost token: 1 ▷ T(tt) by Hd.tTT,
+;; ▷ T(chk ⌜v⌝ ⌜A⌝) by Hd.delta using chkf v (encTy A) = tt, then back along
+;; the print reduction to T(chk (print (lit v)) ⌜A⌝).
+(thm cv_lit [chkf :- (=> Code Code Bool), v :- Code, cA :- Code,
+                  hck :- (Eq Bool (chkf v cA) Bool.true)]
+  (Cv chkf (skels (thetaD (cnodes v))) Exp.tUnit (Exp.tT (Exp.chk (Exp.prn (lit0 v)) (codeTerm cA))))
+  (exact (cv_cast_G chkf
+           (skels (thetaD (+ 0 (+ (cnodes v) 0))))
+           (skels (thetaD (cnodes v)))
+           Exp.tUnit
+           (Exp.tT (Exp.chk (Exp.prn (lit0 v)) (codeTerm cA)))
+           ((cv_trans chkf (skels (thetaD (+ 0 (+ (cnodes v) 0))))
+              (Exp.tT (Exp.chk (codeTerm v) (codeTerm cA)))
+              (Exp.tT (Exp.chk (Exp.prn (lit0 v)) (codeTerm cA)))
+              (wr_to_cv chkf (skels (thetaD (+ 0 (+ (cnodes v) 0))))
+                (codeTerm cA) (Exp.prn (lit0 v)) (codeTerm v)
+                (wr_print chkf v 0 0)
+                (skj_code (skels (thetaD (+ 0 (+ (cnodes v) 0)))) cA)
+                (nbr_code cA)))
+            Exp.tUnit
+            (cv_code_tt chkf (skels (thetaD (+ 0 (+ (cnodes v) 0)))) v cA hck))
+           (congrArg (fn [n :- Nat] (skels (thetaD n))) (add0_bound (cnodes v))))))
+
+(thm base_tR [] (Eq Bool (isBaseOrDia Exp.tR) Bool.true) (rfl))
+
+(thm star_unit [] (Eq Bool (constTyped Exp.star Exp.tUnit) Bool.true) (rfl))
+
+
+;; --- □A is a type, and (lit v, ⋆) inhabits it -------------------------------------------
+;; ⌜c⌝ :⁰ Syn wherever every label is below NL: constTyped's test for ℓ : Lbl.
+(thm tl_code [chkf :- (=> Code Code Bool), D :- (List Exp), c :- Code]
+  (=> (Eq Bool (lblOk c) Bool.true) (Tl chkf Bool.false D (codeTerm c) Exp.tSyn))
+  (induction c)
+  (intro h)
+  (exact (Tl.zSleaf chkf D (Exp.lbl l)
+           (Tl.zConst chkf D (Exp.lbl l) Exp.tLbl (const_lbl l (Eq.trans (Eq.symm (lblOk_sl l)) h)))))
+  (intro h)
+  (have hok (Eq Bool (Bool.and (Nat.blt l 100) (Bool.and (lblOk a) (lblOk b))) Bool.true)
+    (Eq.trans (Eq.symm (lblOk_sn l a b)) h))
+  (have hl (Eq Bool (Nat.blt l 100) Bool.true)
+    (band_left (Nat.blt l 100) (Bool.and (lblOk a) (lblOk b)) hok))
+  (have hab (Eq Bool (Bool.and (lblOk a) (lblOk b)) Bool.true)
+    (band_right (Nat.blt l 100) (Bool.and (lblOk a) (lblOk b)) hok))
+  (exact (tl_cast3 chkf Bool.false D
+           (Exp.snode (Exp.lbl l) (codeTerm a) (codeTerm b)) (codeTerm (Code.sn l a b)) Exp.tSyn Exp.tSyn
+           (Tl.zSnode chkf D (Exp.lbl l) (codeTerm a) (codeTerm b)
+             (Tl.zConst chkf D (Exp.lbl l) Exp.tLbl (const_lbl l hl))
+             (ih_a (band_left (lblOk a) (lblOk b) hab))
+             (ih_b (band_right (lblOk a) (lblOk b) hab)))
+           (Eq.symm (codeTerm_sn l a b)) rfl)))
+
+(thm nthE_theta [i :- Nat]
+  (forall [extra Nat]
+    (Eq (Option Exp) (nthE (thetaD (+ i (Nat.succ extra))) i) (Option.some Exp Exp.tDia)))
+  (induction i)
+  (intro extra)
+  (have e0 (Eq Nat (+ 0 (Nat.succ extra)) (Nat.succ extra)) (Nat.zero_add (Nat.succ extra)))
+  (exact (Eq.trans (congrArg (fn [q :- Nat] (nthE (thetaD q) 0)) e0)
+           (Eq.trans (congrArg (fn [D :- (List Exp)] (nthE D 0)) (thetaD_succ extra))
+                     (nthE.eq_2 Exp.tDia (thetaD extra)))))
+  (intro extra)
+  (have eadd (Eq Nat (+ (Nat.succ n) (Nat.succ extra)) (Nat.succ (+ n (Nat.succ extra))))
+    (Nat.succ_add n (Nat.succ extra)))
+  (have hnth (Eq (Option Exp)
+      (nthE (thetaD (Nat.succ (+ n (Nat.succ extra)))) (Nat.succ n))
+      (nthE (thetaD (+ n (Nat.succ extra))) n))
+    (Eq.trans (congrArg (fn [D :- (List Exp)] (nthE D (Nat.succ n))) (thetaD_succ (+ n (Nat.succ extra))))
+              (nthE.eq_3 Exp.tDia (thetaD (+ n (Nat.succ extra))) n)))
+  (exact (Eq.trans (congrArg (fn [q :- Nat] (nthE (thetaD q) (Nat.succ n))) eadd)
+                   (Eq.trans hnth (ih_n extra)))))
+
+(thm tl_cast_D [chkf :- (=> Code Code Bool), w :- Bool, D :- (List Exp), D2 :- (List Exp), t :- Exp, A :- Exp,
+                     h :- (Tl chkf w D t A), eq :- (Eq (List Exp) D D2)]
+  (Tl chkf w D2 t A)
+  (subst eq) (exact h))
+
+(thm tl_lit [chkf :- (=> Code Code Bool), v :- Code]
+  (=> (Eq Bool (lblOk v) Bool.true)
+      (forall [off Nat] (forall [extra Nat]
+        (Tl chkf Bool.false (thetaD (+ off (+ (cnodes v) extra))) ((litAt v) off) Exp.tR))))
+  (induction v)
+  (intro h) (intro off) (intro extra)
+  (exact (tl_cast3 chkf Bool.false (thetaD (+ off (+ (cnodes (Code.sl l)) extra)))
+           (Exp.leaf (Exp.lbl l)) ((litAt (Code.sl l)) off) Exp.tR Exp.tR
+           (Tl.zLeaf chkf (thetaD (+ off (+ (cnodes (Code.sl l)) extra))) (Exp.lbl l)
+             (Tl.zConst chkf (thetaD (+ off (+ (cnodes (Code.sl l)) extra))) (Exp.lbl l) Exp.tLbl
+               (const_lbl l (Eq.trans (Eq.symm (lblOk_sl l)) h))))
+           (Eq.symm (litAt_sl l off)) rfl))
+  (intro h) (intro off) (intro extra)
+  (have hok (Eq Bool (Bool.and (Nat.blt l 100) (Bool.and (lblOk a) (lblOk b))) Bool.true)
+    (Eq.trans (Eq.symm (lblOk_sn l a b)) h))
+  (have hl (Eq Bool (Nat.blt l 100) Bool.true)
+    (band_left (Nat.blt l 100) (Bool.and (lblOk a) (lblOk b)) hok))
+  (have hab (Eq Bool (Bool.and (lblOk a) (lblOk b)) Bool.true)
+    (band_right (Nat.blt l 100) (Bool.and (lblOk a) (lblOk b)) hok))
+  (have eL (Eq Nat (+ (+ off 1) (+ (cnodes a) (+ (cnodes b) extra)))
+                     (+ off (+ (cnodes (Code.sn l a b)) extra)))
+    (Eq.trans (scope_add_l off (cnodes a) (cnodes b) extra)
+      (congrArg (fn [k :- Nat] (+ off (+ k extra))) (Eq.symm (cnodes_sn l a b)))))
+  (have eR (Eq Nat (+ (+ (+ off 1) (cnodes a)) (+ (cnodes b) extra))
+                     (+ off (+ (cnodes (Code.sn l a b)) extra)))
+    (Eq.trans (scope_add_r off (cnodes a) (cnodes b) extra)
+      (congrArg (fn [k :- Nat] (+ off (+ k extra))) (Eq.symm (cnodes_sn l a b)))))
+  (have eTok (Eq Nat (+ off (+ (cnodes (Code.sn l a b)) extra))
+                      (+ off (Nat.succ (+ (+ (cnodes a) (cnodes b)) extra))))
+    (congrArg (fn [k :- Nat] (+ off k))
+      (Eq.trans (congrArg (fn [k :- Nat] (+ k extra)) (cnodes_sn l a b))
+        (Eq.trans (congrArg (fn [k :- Nat] (+ k extra)) (add1_succ (+ (cnodes a) (cnodes b))))
+                  (Nat.succ_add (+ (cnodes a) (cnodes b)) extra)))))
+  (have hlook (Eq (Option Exp) (nthE (thetaD (+ off (+ (cnodes (Code.sn l a b)) extra))) off)
+                                  (Option.some Exp Exp.tDia))
+    (Eq.trans (congrArg (fn [q :- Nat] (nthE (thetaD q) off)) eTok)
+              (nthE_theta off (+ (+ (cnodes a) (cnodes b)) extra))))
+  (have hvar (Tl chkf Bool.false (thetaD (+ off (+ (cnodes (Code.sn l a b)) extra))) (Exp.var off) Exp.tDia)
+    (tl_cast chkf Bool.false (thetaD (+ off (+ (cnodes (Code.sn l a b)) extra))) (Exp.var off)
+      (lift (+ off 1) 0 Exp.tDia) Exp.tDia
+      (Tl.zVar chkf (thetaD (+ off (+ (cnodes (Code.sn l a b)) extra))) off Exp.tDia hlook)
+      (closedTy_lift Exp.tDia closed_tDia (+ off 1) 0)))
+  (exact (tl_cast3 chkf Bool.false (thetaD (+ off (+ (cnodes (Code.sn l a b)) extra)))
+           (Exp.node (Exp.var off) (Exp.lbl l) ((litAt a) (+ off 1)) ((litAt b) (+ (+ off 1) (cnodes a))))
+           ((litAt (Code.sn l a b)) off) Exp.tR Exp.tR
+           (Tl.zNode chkf (thetaD (+ off (+ (cnodes (Code.sn l a b)) extra)))
+             (Exp.var off) (Exp.lbl l) ((litAt a) (+ off 1)) ((litAt b) (+ (+ off 1) (cnodes a)))
+             hvar
+             (Tl.zConst chkf (thetaD (+ off (+ (cnodes (Code.sn l a b)) extra))) (Exp.lbl l) Exp.tLbl (const_lbl l hl))
+             (tl_cast_D chkf Bool.false
+               (thetaD (+ (+ off 1) (+ (cnodes a) (+ (cnodes b) extra))))
+               (thetaD (+ off (+ (cnodes (Code.sn l a b)) extra)))
+               ((litAt a) (+ off 1)) Exp.tR
+               ((ih_a (band_left (lblOk a) (lblOk b) hab)) (+ off 1) (+ (cnodes b) extra))
+               (congrArg thetaD eL))
+             (tl_cast_D chkf Bool.false
+               (thetaD (+ (+ (+ off 1) (cnodes a)) (+ (cnodes b) extra)))
+               (thetaD (+ off (+ (cnodes (Code.sn l a b)) extra)))
+               ((litAt b) (+ (+ off 1) (cnodes a))) Exp.tR
+               ((ih_b (band_right (lblOk a) (lblOk b) hab)) (+ (+ off 1) (cnodes a)) extra)
+               (congrArg thetaD eR)))
+           (litAt_sn l a b off) rfl)))
+
+(thm subst_ev [u :- Exp, ca :- Exp]
+  (Eq Exp (subst1 u (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) ca)))
+          (Exp.tT (Exp.chk (Exp.prn u) (subst1 u ca))))
+  (rfl))
+
+(thm subst_ev_code [u :- Exp, cA :- Code]
+  (Eq Exp (subst1 u (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm cA))))
+          (evTy u (codeTerm cA)))
+  (exact (Eq.trans (subst_ev u (codeTerm cA))
+           (congrArg (fn [c :- Exp] (Exp.tT (Exp.chk (Exp.prn u) c))) (subst_code u cA)))))
+
+(thm tl_box_body [chkf :- (=> Code Code Bool), D :- (List Exp), cA :- Code,
+                       hA :- (Eq Bool (lblOk cA) Bool.true)]
+  (Tl chkf Bool.true (List.cons Exp Exp.tR D)
+      (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm cA))) Exp.tUnit)
+  (exact (Tl.fT chkf (List.cons Exp Exp.tR D) (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm cA))
+           (Tl.zChk chkf (List.cons Exp Exp.tR D) (Exp.prn (Exp.var 0)) (codeTerm cA)
+             (Tl.zPrn chkf (List.cons Exp Exp.tR D) (Exp.var 0)
+               (tl_cast chkf Bool.false (List.cons Exp Exp.tR D) (Exp.var 0)
+                 (lift 1 0 Exp.tR) Exp.tR
+                 (Tl.zVar chkf (List.cons Exp Exp.tR D) 0 Exp.tR (nthE.eq_2 Exp.tR D))
+                 (closedTy_lift Exp.tR closed_tR 1 0)))
+             ((tl_code chkf (List.cons Exp Exp.tR D) cA) hA)))))
+
+(thm tl_box_body [chkf :- (=> Code Code Bool), D :- (List Exp), cA :- Code,
+                       hA :- (Eq Bool (lblOk cA) Bool.true)]
+  (Tl chkf Bool.true (List.cons Exp Exp.tR D)
+      (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm cA))) Exp.tUnit)
+  (exact (Tl.fT chkf (List.cons Exp Exp.tR D) (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm cA))
+           (Tl.zChk chkf (List.cons Exp Exp.tR D) (Exp.prn (Exp.var 0)) (codeTerm cA)
+             (Tl.zPrn chkf (List.cons Exp Exp.tR D) (Exp.var 0)
+               (tl_cast chkf Bool.false (List.cons Exp Exp.tR D) (Exp.var 0)
+                 (lift 1 0 Exp.tR) Exp.tR
+                 (Tl.zVar chkf (List.cons Exp Exp.tR D) 0 Exp.tR (nthE.eq_2 Exp.tR D))
+                 (closedTy_lift Exp.tR closed_tR 1 0)))
+             ((tl_code chkf (List.cons Exp Exp.tR D) cA) hA)))))
+
+(thm tl_ev [chkf :- (=> Code Code Bool), v :- Code, cA :- Code,
+                 hok :- (Eq Bool (lblOk v) Bool.true), hA :- (Eq Bool (lblOk cA) Bool.true)]
+  (Tl chkf Bool.true (thetaD (cnodes v)) (evTy (lit0 v) (codeTerm cA)) Exp.tUnit)
+  (exact (Tl.fT chkf (thetaD (cnodes v)) (Exp.chk (Exp.prn (lit0 v)) (codeTerm cA))
+           (Tl.zChk chkf (thetaD (cnodes v)) (Exp.prn (lit0 v)) (codeTerm cA)
+             (Tl.zPrn chkf (thetaD (cnodes v)) (lit0 v)
+               (tl_cast_D chkf Bool.false
+                 (thetaD (+ 0 (+ (cnodes v) 0))) (thetaD (cnodes v)) (lit0 v) Exp.tR
+                 (((tl_lit chkf v) hok) 0 0)
+                 (congrArg thetaD (add0_bound (cnodes v)))))
+             ((tl_code chkf (thetaD (cnodes v)) cA) hA)))))
+
+(thm rt_star [chkf :- (=> Code Code Bool), v :- Code, cA :- Code,
+                  hok :- (Eq Bool (lblOk v) Bool.true),
+                  hA :- (Eq Bool (lblOk cA) Bool.true),
+                  hck :- (Eq Bool (chkf v cA) Bool.true)]
+  (Rt chkf (thetaD (cnodes v)) (vzero (cnodes v)) Exp.star
+      (subst1 (lit0 v) (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm cA)))))
+  (exact (rt_cast chkf (thetaD (cnodes v)) (vzero (cnodes v)) (vzero (cnodes v)) Exp.star
+           (evTy (lit0 v) (codeTerm cA))
+           (subst1 (lit0 v) (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm cA))))
+           (Rt.rConv chkf (thetaD (cnodes v)) (vzero (cnodes v)) Exp.star Exp.tUnit
+             (evTy (lit0 v) (codeTerm cA))
+             (Rt.rConst chkf (thetaD (cnodes v)) (vzero (cnodes v)) Exp.star Exp.tUnit
+               (Eq.trans (lenU_vzero (cnodes v)) (Eq.symm (lenE_theta (cnodes v))))
+               star_unit)
+             (tl_ev chkf v cA hok hA)
+             (cv_lit chkf v cA hck))
+           rfl
+           (Eq.symm (subst_ev_code (lit0 v) cA)))))
+
+(thm us_pair [n :- Nat]
+  (Eq (List U) (vadd (vscale U.u1 (thetaU n)) (vzero n)) (thetaU n))
+  (exact (Eq.trans (congrArg (fn [us :- (List U)] (vadd us (vzero n))) (vscale_one (thetaU n)))
+                   (vadd_theta_zero n))))
+
+(thm certTerm_unfold [v :- Code, cA :- Code]
+  (Eq Exp (certTerm v (codeTerm cA))
+      (Exp.pair (Exp.tSig U.u1 Exp.tR (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm cA))))
+                (lit0 v) Exp.star))
+  (rfl))
+
+(thm boxTy_unfold [cA :- Code]
+  (Eq Exp (boxTy (codeTerm cA))
+      (Exp.tSig U.u1 Exp.tR (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm cA)))))
+  (rfl))
+
+(thm prop42_raw [chkf :- (=> Code Code Bool), v :- Code, cA :- Code,
+                     hok :- (Eq Bool (lblOk v) Bool.true),
+                     hA :- (Eq Bool (lblOk cA) Bool.true),
+                     hck :- (Eq Bool (chkf v cA) Bool.true)]
+  (Rt chkf (thetaD (cnodes v))
+      (vadd (vscale U.u1 (thetaU (cnodes v))) (vzero (cnodes v)))
+      (Exp.pair (Exp.tSig U.u1 Exp.tR (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm cA))))
+                (lit0 v) Exp.star)
+      (Exp.tSig U.u1 Exp.tR (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm cA)))))
+  (exact (Rt.rPair chkf (thetaD (cnodes v)) (thetaU (cnodes v)) (vzero (cnodes v)) U.u1
+           Exp.tR (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm cA)))
+           (lit0 v) Exp.star
+           nonzero_u1
+           (Tl.fBase chkf (thetaD (cnodes v)) Exp.tR base_tR)
+           (tl_box_body chkf (thetaD (cnodes v)) cA hA)
+           ((rt_lit chkf v) hok)
+           (rt_star chkf v cA hok hA hck))))
+
+
+;; Proposition 4.2 (R4-metatheory.md §4.2), for an arbitrary checker, decoder
+;; and encoder.  If v is a certificate of A — its labels lie in L, so do the
+;; labels of encTy A, and chkf accepts v at that code — then
+;; Θ_{‖v‖} ⊢ (lit v, ⋆) :¹ □A.  The decoder is not used.  Pair is at usage 1:
+;; lit v takes every token once, and ⋆, typed at 1 by the axiom, converts
+;; along cv_lit and may carry the zero usage.
+(thm prop42 [chkf :- (=> Code Code Bool),
+                  dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+                  encTy :- (=> Exp Code),
+                  A :- Exp, v :- Code,
+                  hok :- (Eq Bool (lblOk v) Bool.true),
+                  hA :- (Eq Bool (lblOk (encTy A)) Bool.true),
+                  hck :- (Eq Bool (chkf v (encTy A)) Bool.true)]
+  (Rt chkf (thetaD (cnodes v)) (thetaU (cnodes v))
+      (certTerm v (codeTerm (encTy A))) (boxTy (codeTerm (encTy A))))
+  (exact (rt_reindex chkf
+           (thetaD (cnodes v))
+           (vadd (vscale U.u1 (thetaU (cnodes v))) (vzero (cnodes v)))
+           (Exp.pair (Exp.tSig U.u1 Exp.tR (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm (encTy A)))))
+                     (lit0 v) Exp.star)
+           (Exp.tSig U.u1 Exp.tR (Exp.tT (Exp.chk (Exp.prn (Exp.var 0)) (codeTerm (encTy A)))))
+           (thetaD (cnodes v)) (thetaU (cnodes v))
+           (certTerm v (codeTerm (encTy A))) (boxTy (codeTerm (encTy A)))
+           (prop42_raw chkf v (encTy A) hok hA hck)
+           rfl (us_pair (cnodes v))
+           (Eq.symm (certTerm_unfold v (encTy A)))
+           (Eq.symm (boxTy_unfold (encTy A))))))
+
