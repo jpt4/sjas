@@ -1821,3 +1821,79 @@
        '(exact (step_nil_fl chkf dec encTy fl (Exp.recN P z s n) G out hj hn re co hg hd))
        '(intro re co hg hd) (list 'exact split)]))
   
+;; caseL applies the branch function to the scrutinee.  The branch list
+;; is nbr at flag true and typed at arr lbl (skel P); Eq.mp moves that
+;; to arr lbl of the output skeleton, which is what the clause reads.
+(defn app [f a] (list f a))
+  (defn Dbs [x] (list 'den 'chkf 'dec 'encTy 'cap x 'G '(Sk.arr Sk.lbl sk) 'en))
+  (defn Da [x] (list 'den 'chkf 'dec 'encTy 'cap x 'G 'Sk.lbl 'en))
+  (prove! 'den_caseL_a
+    (into Pcap '[P :- Exp, a :- Exp, aq :- Exp, bs :- Exp, G :- (List Sk), sk :- Sk, en :- (HEnv G),
+                 h :- (Eq (Car Sk.lbl) (den chkf dec encTy cap aq G Sk.lbl en)
+                                       (den chkf dec encTy cap a G Sk.lbl en))])
+    '(Eq (Car sk) (den chkf dec encTy cap (Exp.caseL P aq bs) G sk en)
+                  (den chkf dec encTy cap (Exp.caseL P a bs) G sk en))
+    ['(rw [(den_caseL_at chkf dec encTy cap P aq bs G sk en)])
+     '(rw [(den_caseL_at chkf dec encTy cap P a bs G sk en)])
+     (list 'change (list 'Eq '(Car sk) (app (Dbs 'bs) (Da 'aq)) (app (Dbs 'bs) (Da 'a))))
+     (list 'exact (list 'congrArg (list 'fn '[v :- (Car Sk.lbl)] (app (Dbs 'bs) 'v)) 'h))])
+  (prove! 'den_caseL_bs
+    (into Pcap '[P :- Exp, a :- Exp, bs :- Exp, bsq :- Exp, G :- (List Sk), sk :- Sk, en :- (HEnv G),
+                 h :- (Eq (Car (Sk.arr Sk.lbl sk))
+                        (den chkf dec encTy cap bsq G (Sk.arr Sk.lbl sk) en)
+                        (den chkf dec encTy cap bs G (Sk.arr Sk.lbl sk) en))])
+    '(Eq (Car sk) (den chkf dec encTy cap (Exp.caseL P a bsq) G sk en)
+                  (den chkf dec encTy cap (Exp.caseL P a bs) G sk en))
+    ['(rw [(den_caseL_at chkf dec encTy cap P a bsq G sk en)])
+     '(rw [(den_caseL_at chkf dec encTy cap P a bs G sk en)])
+     (list 'change (list 'Eq '(Car sk) (app (Dbs 'bsq) (Da 'a)) (app (Dbs 'bs) (Da 'a))))
+     (list 'exact (list 'congrArg
+                   (list 'fn '[f :- (Car (Sk.arr Sk.lbl sk))] (app 'f (Da 'a))) 'h))])
+  (prove! 'sk_caseL_P
+    '[chkf :- (=> Code Code Bool), P :- Exp, a :- Exp, bs :- Exp, G :- (List Sk),
+      q :- (List Nat), r :- Exp, r2 :- Exp,
+      hP :- (SkJ Bool.true (List.cons Sk Sk.lbl G) P Sk.unit),
+      hg :- (Eq (Option Exp) (getP q P) (Option.some Exp r)),
+      hd :- (Hd chkf r r2)]
+    '(Eq (Option Sk) (skOf G (Exp.caseL (setP q P r2) a bs)) (skOf G (Exp.caseL P a bs)))
+    ['(have hs (Eq Sk (skel (setP q P r2)) (skel P))
+        (step_skel_path chkf q P r r2
+          (skj_isTy Bool.true (List.cons Sk Sk.lbl G) P Sk.unit hP rfl) hg hd))
+     '(exact (congrArg (fn [k :- Sk] (Option.some Sk k)) hs))])
+  (let [term '(Exp.caseL P a bs)
+        inv '(inv_caseL Bool.false G P a bs out hj)
+        hs (list 'And.left (rights 1 inv))
+        hP (list 'And.left (rights 2 inv))
+        ha (list 'And.left (rights 3 inv))
+        hbs (rights 4 inv)
+        sjbs (list 'Eq.mp
+               (list 'congrArg '(fn [k :- Sk] (SkJ Bool.false G bs (Sk.arr Sk.lbl k)))
+                     (list 'Eq.symm hs))
+               hbs)
+        denih (fn [ih g csk sj nb]
+                (list 'And.right (list ih 'Bool.false g csk sj nb 'tail 're 'co 'hgc 'hd)))
+        pP (list 'And.intro
+             (list 'sk_caseL_P 'chkf 'P 'a 'bs 'G 'tail 're 'co hP 'hgc 'hd)
+             '(fn [cap :- Nat, en :- (HEnv G)]
+                (den_ig_caseL_P chkf dec encTy cap P (setP tail P co) a bs G out en)))
+        pa (list 'And.intro '(Eq.refl$1 (skOf G (Exp.caseL P a bs)))
+             (list 'fn '[cap :- Nat, en :- (HEnv G)]
+               (list 'den_caseL_a 'chkf 'dec 'encTy 'cap 'P 'a '(setP tail a co) 'bs 'G 'out 'en
+                 (list (denih 'ih_a 'G 'Sk.lbl ha '(nbr_caseL_a P a bs fl hn)) 'cap 'en))))
+        pbs (list 'And.intro '(Eq.refl$1 (skOf G (Exp.caseL P a bs)))
+              (list 'fn '[cap :- Nat, en :- (HEnv G)]
+                (list 'den_caseL_bs 'chkf 'dec 'encTy 'cap 'P 'a 'bs '(setP tail bs co) 'G 'out 'en
+                  (list (list 'And.right
+                      (list 'ih_bs 'Bool.true 'G '(Sk.arr Sk.lbl out) sjbs
+                        '(nbr_caseL_bs P a bs fl hn) 'tail 're 'co 'hgc 'hd))
+                    'cap 'en))))
+        split (index-split term [pP pa pbs])]
+    (prove! 'step_caseL
+      (into step-params '[P :- Exp, a :- Exp, bs :- Exp,
+                 ih_a :- (StepPack chkf dec encTy a),
+                 ih_bs :- (StepPack chkf dec encTy bs)])
+      '(StepPack chkf dec encTy (Exp.caseL P a bs))
+      ['(intro fl G out hj hn pth) '(cases pth) '(intro re co hg hd)
+       '(exact (step_nil_fl chkf dec encTy fl (Exp.caseL P a bs) G out hj hn re co hg hd))
+       '(intro re co hg hd) (list 'exact split)]))
+  
