@@ -186,3 +186,52 @@
                 (consU U.u0 (consU U.u1 (List.nil U))) 1 Exp.tR U.u1 rfl rfl rfl rfl)
              (Rt.rVar chkf (consE (chkT (Exp.var 0) (cbot)) (consE Exp.tR (List.nil Exp)))
                 (consU U.u1 (consU U.u0 (List.nil U))) 0 (chkT (Exp.var 0) (cbot)) U.u1 rfl rfl rfl rfl))))))
+
+;; H₁° = Π(r :₁ R). Π(s :₁ R). Π(c :ω Syn). T(chk′ (print r) c) ⊸ T(chk′ (print s) (neg c)) ⊸ 0,
+;; inhabited by λr. λs. λc. λe₁. λe₂. H₁ r s c e₁ e₂ (de Bruijn: r = 4, …, e₂ = 0).
+(a/defn H1circ [] Exp
+  (Exp.tPi U.u1 Exp.tR (Exp.tPi U.u1 Exp.tR (Exp.tPi U.uw Exp.tSyn
+    (Exp.tPi U.u1 (chkT (Exp.var 2) (Exp.var 0)) (Exp.tPi U.u1 (chkT (Exp.var 2) (negT (Exp.var 1))) Exp.tEmpty))))))
+(a/defn H1term [] Exp
+  (Exp.lam U.u1 Exp.tR (Exp.lam U.u1 Exp.tR (Exp.lam U.uw Exp.tSyn
+    (Exp.lam U.u1 (chkT (Exp.var 2) (Exp.var 0)) (Exp.lam U.u1 (chkT (Exp.var 2) (negT (Exp.var 1)))
+      (Exp.h1 (Exp.var 4) (Exp.var 3) (Exp.var 2) (Exp.var 1) (Exp.var 0))))))))
+;; ⊢ H1term :¹ H₁°, at budget 0: five rLam (formation of each binder type;
+;; neg c is snode 25 c c⊥) around rH1, whose premises are the variables, each
+;; used once, c at ω (one-hot usage vectors summing to the context's).
+(let [D0 '(List.nil Exp) D1 (list 'consE 'Exp.tR D0) D2 (list 'consE 'Exp.tR D1) D3 (list 'consE 'Exp.tSyn D2)
+      A4 '(chkT (Exp.var 2) (Exp.var 0)) A5 '(chkT (Exp.var 2) (negT (Exp.var 1)))
+      D4 (list 'consE A4 D3) D5 (list 'consE A5 D4)
+      U1 '(consU U.u1 (List.nil U)) U2 (list 'consU 'U.u1 U1) U3 (list 'consU 'U.uw U2) U4 (list 'consU 'U.u1 U3)
+      vec5 (fn [xs] (reduce (fn [acc x] (list 'consU x acc)) '(List.nil U) (reverse xs)))
+      hot (fn [i r] (vec5 (assoc (vec (repeat 5 'U.u0)) i r)))
+      V1 (hot 4 'U.u1) V2 (hot 3 'U.u1) V3 (hot 2 'U.u1) V4 (hot 1 'U.u1) V5 (hot 0 'U.u1)
+      body '(Exp.h1 (Exp.var 4) (Exp.var 3) (Exp.var 2) (Exp.var 1) (Exp.var 0))
+      BODY (list 'Rt.rH1 'chkf D5 V1 V2 V3 V4 V5 '(Exp.var 4) '(Exp.var 3) '(Exp.var 2) '(Exp.var 1) '(Exp.var 0)
+                 (list 'Rt.rVar 'chkf D5 V1 4 'Exp.tR 'U.u1 'rfl 'rfl 'rfl 'rfl)
+                 (list 'Rt.rVar 'chkf D5 V2 3 'Exp.tR 'U.u1 'rfl 'rfl 'rfl 'rfl)
+                 (list 'Rt.rVar 'chkf D5 (list 'vscale 'U.uw V3) 2 'Exp.tSyn 'U.uw 'rfl 'rfl 'rfl 'rfl)
+                 (list 'Rt.rVar 'chkf D5 V4 1 A4 'U.u1 'rfl 'rfl 'rfl 'rfl)
+                 (list 'Rt.rVar 'chkf D5 V5 0 A5 'U.u1 'rfl 'rfl 'rfl 'rfl))
+      F4 (list 'Tl.fT 'chkf D3 '(Exp.chk (Exp.prn (Exp.var 2)) (Exp.var 0))
+               (list 'Tl.zChk 'chkf D3 '(Exp.prn (Exp.var 2)) '(Exp.var 0)
+                     (list 'Tl.zPrn 'chkf D3 '(Exp.var 2) (list 'Tl.zVar 'chkf D3 2 'Exp.tR 'rfl))
+                     (list 'Tl.zVar 'chkf D3 0 'Exp.tSyn 'rfl)))
+      NEG (list 'Tl.zSnode 'chkf D4 '(Exp.lbl 25) '(Exp.var 1) '(cLeaf 15)
+                (list 'Tl.zConst 'chkf D4 '(Exp.lbl 25) 'Exp.tLbl 'rfl) (list 'Tl.zVar 'chkf D4 1 'Exp.tSyn 'rfl)
+                (list 'Tl.zSleaf 'chkf D4 '(Exp.lbl 15) (list 'Tl.zConst 'chkf D4 '(Exp.lbl 15) 'Exp.tLbl 'rfl)))
+      F5 (list 'Tl.fT 'chkf D4 '(Exp.chk (Exp.prn (Exp.var 2)) (negT (Exp.var 1)))
+               (list 'Tl.zChk 'chkf D4 '(Exp.prn (Exp.var 2)) '(negT (Exp.var 1))
+                     (list 'Tl.zPrn 'chkf D4 '(Exp.var 2) (list 'Tl.zVar 'chkf D4 2 'Exp.tR 'rfl)) NEG))
+      t5 (list 'Exp.lam 'U.u1 A5 body) T5 (list 'Exp.tPi 'U.u1 A5 'Exp.tEmpty)
+      t4 (list 'Exp.lam 'U.u1 A4 t5) T4 (list 'Exp.tPi 'U.u1 A4 T5)
+      t3 (list 'Exp.lam 'U.uw 'Exp.tSyn t4) T3 (list 'Exp.tPi 'U.uw 'Exp.tSyn T4)
+      t2 (list 'Exp.lam 'U.u1 'Exp.tR t3) T2 (list 'Exp.tPi 'U.u1 'Exp.tR T3)
+      L5 (list 'Rt.rLam 'chkf D4 U4 'U.u1 A5 body 'Exp.tEmpty F5 BODY)
+      L4 (list 'Rt.rLam 'chkf D3 U3 'U.u1 A4 t5 T5 F4 L5)
+      L3 (list 'Rt.rLam 'chkf D2 U2 'U.uw 'Exp.tSyn t4 T4 (list 'Tl.fBase 'chkf D2 'Exp.tSyn 'rfl) L4)
+      L2 (list 'Rt.rLam 'chkf D1 U1 'U.u1 'Exp.tR t3 T3 (list 'Tl.fBase 'chkf D1 'Exp.tR 'rfl) L3)
+      L1 (list 'Rt.rLam 'chkf D0 '(List.nil U) 'U.u1 'Exp.tR t2 T2 (list 'Tl.fBase 'chkf D0 'Exp.tR 'rfl) L2)]
+  (eval (list 'lcert.formal.base/thm 'Theorem_2_H1 '[chkf :- (=> Code Code Bool)]
+              '(Rt chkf (List.nil Exp) (List.nil U) (H1term) (H1circ))
+              (list 'exact L1))))

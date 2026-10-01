@@ -386,7 +386,8 @@
 (deftest f3n-lemma36-and-main-results
   (testing "Lemma 3.6 assembled, Theorem 1, Corollary 3.7 and Theorem 3 (Conv as a hypothesis)"
     (doseq [c '[ConvCase lemma36_step outer_zero outer_succ outer_all lemma36
-                theorem1 bool_false_of cor37_refutation cor37_contradiction theorem3]]
+                theorem1 bool_false_of cor37_refutation cor37_contradiction theorem3
+                ConvAll paper_lemma36 paper_theorem1 paper_cor37 Theorem_2_H1]]
       (is (b/has? c) (str c))))
   (testing "Theorem 1 is not vacuous about derivability: Θ₀ ⊢ ⋆ : 1 is derivable"
     (is (not (b/rejects? '[chkf :- (=> Code Code Bool)]

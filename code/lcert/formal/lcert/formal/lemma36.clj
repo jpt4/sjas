@@ -205,3 +205,26 @@
              en :- (HEnv (skels D)), k :- Nat, hk :- (Nat.le k n), hs :- (EnvSat chkf dec encTy n D us en k)])
   '(LE.le (cnodes (den chkf dec encTy n t (skels D) Sk.cert en)) k)
   '(exact (And.left (lemma36 chkf dec encTy hcs hconv n D us t Exp.tR der hw en k hk hs)))))
+
+;; --- the statements of model.clj, proved ------------------------------------------------
+
+;; Lemma_3_6, Theorem_1 and Corollary_3_7 (model.clj) are the paper's
+;; statements, quantified over every checker satisfying CheckSpec.  They
+;; follow from the theorems above given the Conv case for every such checker
+;; (ConvAll) — the one case of Lemma 3.6 not yet proved.
+(kdef ConvAll Prop
+  (forall [chkf (=> Code Code Bool)] (forall [dec (=> Code (Option (Prod Nat (Prod Exp Exp))))] (forall [encTy (=> Exp Code)]
+    (=> (CheckSpec chkf dec encTy) (forall [n Nat] (ConvCase chkf dec encTy n)))))))
+(thm paper_lemma36 [hc :- ConvAll] Lemma_3_6
+  (intro chkf dec encTy hcs n D us t A hw der en k hk hs)
+  (exact (lemma36 chkf dec encTy hcs (hc chkf dec encTy hcs) n D us t A der hw en k hk hs)))
+(thm paper_theorem1 [hc :- ConvAll] Theorem_1
+  (intro chkf dec encTy hcs n t hd)
+  (exact (theorem1 chkf dec encTy hcs (hc chkf dec encTy hcs) n t hd)))
+(thm paper_cor37 [hc :- ConvAll] Corollary_3_7
+  (intro chkf dec encTy hcs)
+  (constructor)
+  (intro c h)
+  (exact (Bool.noConfusion (Eq.trans (Eq.symm (cor37_refutation chkf dec encTy hcs (hc chkf dec encTy hcs) c)) h)))
+  (intro c1 c2 d h)
+  (exact (cor37_contradiction chkf dec encTy hcs (hc chkf dec encTy hcs) c1 c2 d (And.left h) (And.right h))))
