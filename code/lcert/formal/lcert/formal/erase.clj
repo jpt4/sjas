@@ -28,6 +28,11 @@
   (⋆ related to ⋆).  Π₀ relates f ⋆ to φ(α) for every carrier α; Σ₀ forgets
   the first component.  At a base skeleton E is equality of the runtime
   value with the carrier value, which does not depend on the budget.
+  erdflt is the defaults paragraph, for every type.  envE is the
+  environment half of the fundamental property: usage 0 is unconstrained,
+  and usage 1 or ω is E-related.  e_abort and e_h1 evaluate the premises
+  and return that related default.  The vacuous reading of those nodes is
+  Theorem 5.2, which needs S(0) = ∅ and is not these two lemmas.
 
   badNode and the trace predicates Ok and OkE are Theorem 5.2's trace.  Ok
   is an evaluation derivation with no abort node, no H₁ node, and no reflect
@@ -1609,3 +1614,280 @@
   (constructor) (exact (rdflt (uskSk c)))
   (constructor) (rfl)
   (constructor) (exact hd) (exact hc))
+
+;; The defaults paragraph of Theorem 4′, for every type.  The carrier is
+;; Car(uskSk(usk A)), which is where Erel lives, so the four skeleton
+;; lemmas apply with no cast.  Bases, T(b) and non-types are the unit (or
+;; the matching base) clause and close by rfl.  A branch list is an arrow
+;; from labels.  Π₀/Σ₀ use only the codomain hypothesis; Π and Σ at 1 and ω
+;; use both, except that an arrow default ignores its argument, so the
+;; domain hypothesis is not required there either.
+(thm erdflt
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, A :- Exp]
+  (Erel chkf dec encTy n (usk A)
+    (rdflt (uskSk (usk A)))
+    (dflt (uskSk (usk A))))
+  (induction A)
+  (all_goals (try rfl))
+  (exact (erdflt_arrN chkf dec encTy n (USk.base Sk.lbl) (usk P) ih_P))
+  (cases r)
+  (exact (erdflt_prod0 chkf dec encTy n (usk A) (usk B) ih_B))
+  (exact (erdflt_prodN chkf dec encTy n (usk A) (usk B) ih_A ih_B))
+  (exact (erdflt_prodN chkf dec encTy n (usk A) (usk B) ih_A ih_B))
+  (cases r)
+  (exact (erdflt_arr0 chkf dec encTy n (usk A) (usk B) ih_B))
+  (exact (erdflt_arrN chkf dec encTy n (usk A) (usk B) ih_B))
+  (exact (erdflt_arrN chkf dec encTy n (usk A) (usk B) ih_B)))
+
+;; Transport of a carrier default along a skeleton equation.  cases on the
+;; equation, not subst: subst leaves the Eq.mp motive with a free variable.
+(thm dflt_cast [s :- Sk, t :- Sk, e :- (Eq Sk s t)]
+  (Eq (Car t) (Eq.mp (congrArg Car e) (dflt s)) (dflt t))
+  (cases e)
+  (rfl))
+
+;; Erel is a predicate of the runtime value and of the carrier value, so an
+;; equality of either transports a witness.  subst rewrites the hypothesis.
+(thm erel_rv
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, u :- USk, v :- RV, w :- RV, a :- (Car (uskSk u)),
+   hv :- (Erel chkf dec encTy n u v a),
+   e :- (Eq RV v w)]
+  (Erel chkf dec encTy n u w a)
+  (subst e)
+  (exact hv))
+
+(thm erel_car
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, u :- USk, v :- RV, a :- (Car (uskSk u)), b :- (Car (uskSk u)),
+   hv :- (Erel chkf dec encTy n u v a),
+   e :- (Eq (Car (uskSk u)) a b)]
+  (Erel chkf dec encTy n u v b)
+  (subst e)
+  (exact hv))
+
+;; The same defaults, stated at skel A, which is the carrier denotation
+;; uses.  usk_skel is not definitional at Π, Σ and branch lists, so the
+;; carrier value is the cast of dflt(skel A) along that equation.
+(thm erdflt_ty
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, A :- Exp]
+  (Erel chkf dec encTy n (usk A) (rdflt (skel A))
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel A))) (dflt (skel A))))
+  (exact (erel_car chkf dec encTy n (usk A) (rdflt (skel A))
+           (dflt (uskSk (usk A)))
+           (Eq.mp (congrArg Car (Eq.symm (usk_skel A))) (dflt (skel A)))
+           (erel_rv chkf dec encTy n (usk A)
+             (rdflt (uskSk (usk A))) (rdflt (skel A))
+             (dflt (uskSk (usk A)))
+             (erdflt chkf dec encTy n A)
+             (congrArg rdflt (usk_skel A)))
+           (Eq.symm (dflt_cast (skel A) (uskSk (usk A)) (Eq.symm (usk_skel A)))))))
+
+;; abort (Theorem 4′).  The argument is evaluated and discarded; the result
+;; is the runtime default of the annotation, related to the carrier default
+;; by erdflt_ty.  This is not vacuous: E(0) relates ⋆ to ⋆, unlike S(0).
+(thm e_abort
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), n :- Nat, G :- (List Sk), A :- Exp, t :- Exp,
+   rho :- (List RV), eta :- (HEnv G), vt :- RV,
+   ht :- (EvalE chkf dec encTy n rho t vt)]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.abort A t) v)
+         (Erel chkf dec encTy n (usk A) v
+           (Eq.mp (congrArg Car (Eq.symm (usk_skel A)))
+             (den chkf dec encTy n (Exp.abort A t) G (skel A) eta))))))
+  (rw [(den_abort_at chkf dec encTy n A t G (skel A) eta)])
+  (constructor) (exact (rdflt (skel A)))
+  (constructor) (exact (EvE.eAbort chkf dec encTy n rho A t vt ht))
+  (exact (erdflt_ty chkf dec encTy n A)))
+
+;; H₁ returns ⋆, and E at 1 does not read the denotation (Theorem 4′).
+;; The five premises are evaluated.  Corollary 3.7, which makes the case
+;; vacuous for Theorem 5.2, is not used here.
+(thm e_h1
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code), n :- Nat, G :- (List Sk),
+   r :- Exp, s :- Exp, c :- Exp, e1 :- Exp, e2 :- Exp,
+   rho :- (List RV), eta :- (HEnv G),
+   vr :- RV, vs :- RV, vc :- RV, v1 :- RV, v2 :- RV,
+   hr :- (EvalE chkf dec encTy n rho r vr),
+   hs :- (EvalE chkf dec encTy n rho s vs),
+   hc :- (EvalE chkf dec encTy n rho c vc),
+   h1 :- (EvalE chkf dec encTy n rho e1 v1),
+   h2 :- (EvalE chkf dec encTy n rho e2 v2)]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.h1 r s c e1 e2) v)
+         (Erel chkf dec encTy n (USk.base Sk.unit) v
+           (den chkf dec encTy n (Exp.h1 r s c e1 e2) G Sk.unit eta)))))
+  (constructor) (exact RV.star)
+  (constructor)
+  (exact (EvE.eH1 chkf dec encTy n rho r s c e1 e2 vr vs vc v1 v2 hr hs hc h1 h2))
+  (rfl))
+
+;; --- environments for E (Theorem 4′, the fundamental property) ------------
+;; usks forgets the usage bit of a usage-skeleton context, innermost first,
+;; so HEnv(usks G) is a carrier environment whose head has type
+;; Car(uskSk u), the type Erel expects.
+
+(a/defn usks [G :- (List USk)] (List Sk)
+  (match G
+    [nil (List.nil Sk)]
+    [(cons u rest) (List.cons Sk (uskSk u) (usks rest))]))
+
+(thm usks_nil []
+  (Eq (List Sk) (usks (List.nil USk)) (List.nil Sk))
+  (rfl))
+
+(thm usks_cons [u :- USk, rest :- (List USk)]
+  (Eq (List Sk) (usks (List.cons USk u rest)) (List.cons Sk (uskSk u) (usks rest)))
+  (rfl))
+
+;; One entry.  Usage 0 is True: the erased program never reads it, so any
+;; runtime value is allowed against any carrier value.  Usage 1 and ω are
+;; Erel.  (An earlier state required usage-0 entries to be ⋆; review T52-04.)
+(kdef entryE
+  (forall [chkf (=> Code Code Bool)]
+    (forall [dec (=> Code (Option (Prod Nat (Prod Exp Exp))))]
+      (forall [encTy (=> Exp Code)]
+        (forall [n Nat] (forall [r U] (forall [u USk] (=> RV (Car (uskSk u)) Prop)))))))
+  (fn [chkf :- (=> Code Code Bool),
+       dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+       encTy :- (=> Exp Code),
+       n :- Nat, r :- U, u :- USk]
+    (U.rec$1 (fn [_ :- U] (=> RV (Car (uskSk u)) Prop))
+      (fn [_v :- RV, _a :- (Car (uskSk u))] True)
+      (fn [v :- RV, a :- (Car (uskSk u))] (Erel chkf dec encTy n u v a))
+      (fn [v :- RV, a :- (Car (uskSk u))] (Erel chkf dec encTy n u v a))
+      r)))
+
+(thm entryE_u0
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, u :- USk, v :- RV, a :- (Car (uskSk u))]
+  (entryE chkf dec encTy n U.u0 u v a)
+  (exact True.intro))
+
+(thm entryE_u1
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, u :- USk, v :- RV, a :- (Car (uskSk u))]
+  (Eq Prop (entryE chkf dec encTy n U.u1 u v a) (Erel chkf dec encTy n u v a))
+  (rfl))
+
+(thm entryE_uw
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, u :- USk, v :- RV, a :- (Car (uskSk u))]
+  (Eq Prop (entryE chkf dec encTy n U.uw u v a) (Erel chkf dec encTy n u v a))
+  (rfl))
+
+;; envE n G rs ρ η: the runtime environment ρ is E-related to η along the
+;; usage-skeleton context G, with usages rs.  The lists are innermost first.
+;; A mismatch of length is not related.  η is an environment for usks G,
+;; not for skels of a type context; usk_skel moves one entry, and a lemma
+;; for a whole denotation environment is still open.
+(kdef envE
+  (forall [chkf (=> Code Code Bool)]
+    (forall [dec (=> Code (Option (Prod Nat (Prod Exp Exp))))]
+      (forall [encTy (=> Exp Code)]
+        (forall [n Nat] (forall [G (List USk)]
+          (=> (List U) (=> (List RV) (HEnv (usks G)) Prop)))))))
+  (fn [chkf :- (=> Code Code Bool),
+       dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+       encTy :- (=> Exp Code),
+       n :- Nat, G :- (List USk)]
+    (List.rec$1$0 USk (fn [G :- (List USk)] (=> (List U) (=> (List RV) (HEnv (usks G)) Prop)))
+      (fn [rs :- (List U), rho :- (List RV), _e :- Unit]
+        (And (Eq (List U) rs (List.nil U)) (Eq (List RV) rho (List.nil RV))))
+      (fn [u :- USk, rest :- (List USk),
+           ih :- (=> (List U) (=> (List RV) (HEnv (usks rest)) Prop))]
+        (fn [rs :- (List U), rho :- (List RV), e :- (HEnv (usks (List.cons USk u rest)))]
+          (Exists (fn [r :- U] (Exists (fn [rs2 :- (List U)]
+            (Exists (fn [v :- RV] (Exists (fn [rho2 :- (List RV)]
+              (And (Eq (List U) rs (List.cons U r rs2))
+                (And (Eq (List RV) rho (List.cons RV v rho2))
+                  (And (ih rs2 rho2 (Prod.snd e))
+                       (entryE chkf dec encTy n r u v (Prod.fst e)))))))))))))))
+      G)))
+
+(thm envE_nil
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat]
+  (envE chkf dec encTy n (List.nil USk) (List.nil U) (List.nil RV) Unit.unit)
+  (constructor) (rfl) (rfl))
+
+(thm envE_cons
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, u :- USk, rest :- (List USk), r :- U,
+   rs :- (List U), v :- RV, rho :- (List RV),
+   alpha :- (Car (uskSk u)), eta :- (HEnv (usks rest)),
+   he :- (entryE chkf dec encTy n r u v alpha),
+   ht :- (envE chkf dec encTy n rest rs rho eta)]
+  (envE chkf dec encTy n (List.cons USk u rest) (List.cons U r rs)
+        (List.cons RV v rho) (Prod.mk alpha eta))
+  (constructor) (exact r)
+  (constructor) (exact rs)
+  (constructor) (exact v)
+  (constructor) (exact rho)
+  (constructor) (rfl)
+  (constructor) (rfl)
+  (constructor) (exact ht) (exact he))
+
+;; Usage 0 extends by any runtime value and any carrier value.
+(thm envE_cons0
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, u :- USk, rest :- (List USk),
+   rs :- (List U), v :- RV, rho :- (List RV),
+   alpha :- (Car (uskSk u)), eta :- (HEnv (usks rest)),
+   ht :- (envE chkf dec encTy n rest rs rho eta)]
+  (envE chkf dec encTy n (List.cons USk u rest) (List.cons U U.u0 rs)
+        (List.cons RV v rho) (Prod.mk alpha eta))
+  (exact (envE_cons chkf dec encTy n u rest U.u0 rs v rho alpha eta
+           (entryE_u0 chkf dec encTy n u v alpha) ht)))
+
+;; Usage 1 extends only by an E-related value.  entryE at 1 is Erel.
+(thm envE_cons1
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, u :- USk, rest :- (List USk),
+   rs :- (List U), v :- RV, rho :- (List RV),
+   alpha :- (Car (uskSk u)), eta :- (HEnv (usks rest)),
+   hv :- (Erel chkf dec encTy n u v alpha),
+   ht :- (envE chkf dec encTy n rest rs rho eta)]
+  (envE chkf dec encTy n (List.cons USk u rest) (List.cons U U.u1 rs)
+        (List.cons RV v rho) (Prod.mk alpha eta))
+  (exact (envE_cons chkf dec encTy n u rest U.u1 rs v rho alpha eta hv ht)))
+
+;; Usage ω, the same clause as usage 1.
+(thm envE_consw
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, u :- USk, rest :- (List USk),
+   rs :- (List U), v :- RV, rho :- (List RV),
+   alpha :- (Car (uskSk u)), eta :- (HEnv (usks rest)),
+   hv :- (Erel chkf dec encTy n u v alpha),
+   ht :- (envE chkf dec encTy n rest rs rho eta)]
+  (envE chkf dec encTy n (List.cons USk u rest) (List.cons U U.uw rs)
+        (List.cons RV v rho) (Prod.mk alpha eta))
+  (exact (envE_cons chkf dec encTy n u rest U.uw rs v rho alpha eta hv ht)))

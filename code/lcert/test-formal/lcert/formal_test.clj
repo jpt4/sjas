@@ -639,6 +639,9 @@
                 er_app0_shape er_pair0_shape er_total
                 usk_skel e_star e_tt e_ff e_zero e_lbl ebase_dflt ebase_rel
                 erdflt_arr0 erdflt_arrN erdflt_prod0 erdflt_prodN
+                erdflt erdflt_ty dflt_cast erel_rv erel_car e_abort e_h1
+                usks_nil usks_cons entryE_u0 entryE_u1 entryE_uw
+                envE_nil envE_cons envE_cons0 envE_cons1 envE_consw
                 nz_uadd nz_umul nz_vadd nz_vscale]]
       (is (b/has? c) (str c))))
   (testing "⋆ is not an abort, and a Π₀ type is not the runtime arrow"
@@ -648,4 +651,8 @@
                     '[(rfl)]))
     (is (b/rejects? '[xs :- (List U)]
                     '(Eq Bool (nzAt (List.cons U U.u0 xs) 0) Bool.true)
+                    '[(rfl)]))
+    ;; The product default is (ff, ⋆), not (⋆, ⋆): Σ₀ of E cannot demand ⋆.
+    (is (b/rejects? '[]
+                    '(Eq RV (rdflt (Sk.prod Sk.bool Sk.unit)) (RV.pair RV.star RV.star))
                     '[(rfl)]))))
