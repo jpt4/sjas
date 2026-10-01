@@ -468,3 +468,20 @@
     (is (b/rejects? '[]
                     '(Eq (Option Exp) (nthB Exp.tt 0) (Option.some Exp Exp.tt))
                     '[(rfl)]))))
+
+(deftest f3m-convcase-path
+  (testing "a path step preserves skOf and the denotation (Lemma 3.2)"
+    (doseq [c '[step_nil_pack hd_not_base nbr_hd_flag step_nil_fl
+                step_tEmpty step_tUnit step_tBool step_tNat step_tLbl step_tSyn
+                step_tDia step_tR step_tT step_tPi step_tSig step_tBrs
+                step_var step_star step_tt step_ff step_zero step_lbl step_bnil
+                den_succ_cong sk_abort_A
+                den_ig_abort_A den_ig_h1_r den_ig_node_d den_coe_sleaf den_coe_leaf
+                den_coe_prn den_ite_t den_ite_e
+                step_abort step_succ step_h1 step_sleaf step_leaf step_prn step_ite]]
+      (is (b/has? c) (str c))))
+  (testing "a childless term has no child to step in"
+    (is (b/rejects? '[]
+                    '(Eq (Option Exp) (getP (List.cons Nat 0 (List.nil Nat)) Exp.star)
+                                      (Option.some Exp Exp.star))
+                    '[(rfl)]))))

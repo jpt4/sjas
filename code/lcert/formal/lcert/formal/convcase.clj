@@ -25,9 +25,21 @@
       contractum stays skeleton-typed at the redex's skeleton, and nbr.
       caseLb is lookup (skj_nthB, nbr_nthB); tTT and tTF are impossible.
 
-  Later sections (path congruence, the V chain, F_conv, conv_all) are added
-  as they are checked.  conv_all is ConvAll (lemma36.clj); Lemma_3_6_holds,
-  Theorem_1_holds and Corollary_3_7_holds are the paper statements."
+  §3  A step at a path preserves ⟦·⟧ and skOf (Lemma 3.2).  StepPack is the
+      motive.  The empty path is step_nil_fl.  A type former is not a
+      skeleton-typed term, and a childless term has no cons-path.  At a
+      child, the index is split by Nat.rec (skeletons.clj's
+      child-index-split): a child the denotation ignores is den_ig, and a
+      child it reads at a fixed skeleton is a congruence (den_succ_cong,
+      den_coe_*, den_ite_*).  skOf is Eq.refl when the constructor does not
+      read that child, the induction hypothesis when it reads skOf of the
+      child (ite's then-branch), and sk_abort_A when it reads the child's
+      skeleton.  Bare rfl inside the recursor leaves a universe hole;
+      Eq.refl$1 does not.
+
+  The V chain, F_conv and conv_all are added as they are checked.
+  conv_all is ConvAll (lemma36.clj); Lemma_3_6_holds, Theorem_1_holds and
+  Corollary_3_7_holds are the paper statements."
   (:require [ansatz.core :as a]
             [lcert.formal.base :refer [thm kdef lv]]
             [lcert.formal.usage :refer :all]
@@ -944,3 +956,442 @@
   (exact (False.elim$0 (skj_not_tT Exp.tt G out hj)))
   (exact (False.elim$0 (skj_not_tT Exp.ff G out hj))))
 
+;; ===========================================================================
+;; §3  A step at a path preserves ⟦·⟧ and skOf (Lemma 3.2)
+;; ===========================================================================
+;;
+;; The empty path is a head step: hd_den and hd_skj, packaged by
+;; step_nil_pack.  A head redex is never a branch list, so it is nbr at
+;; false whenever it is nbr at the flag the position demands (nbr_hd_flag);
+;; and it is never a base type (hd_not_base), so reflect's type annotation
+;; cannot be the redex.
+
+(thm step_nil_pack [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+                    e :- Exp, G :- (List Sk), s :- Sk,
+                    hj :- (SkJ Bool.false G e s),
+                    hn :- (Eq Bool (nbr e) Bool.true),
+                    r :- Exp, co :- Exp,
+                    hg :- (Eq (Option Exp) (getP (List.nil Nat) e) (Option.some Exp r)),
+                    hder :- (Hd chkf r co)]
+  (And (Eq (Option Sk) (skOf G (setP (List.nil Nat) e co)) (skOf G e))
+       (forall [cap Nat] (forall [en (HEnv G)]
+         (Eq (Car s) (den chkf dec encTy cap (setP (List.nil Nat) e co) G s en)
+                     (den chkf dec encTy cap e G s en)))))
+  (have he (Eq Exp e r) (some_inj e r (Eq.trans (Eq.symm (getP_nil e)) hg)))
+  (subst he)
+  (have hco (And (SkJ Bool.false G co s) (Eq Bool (nbr co) Bool.true))
+        (hd_skj chkf r co hder G s hj hn))
+  (exact (And.intro
+           (Eq.trans (congrArg (fn [t :- Exp] (skOf G t)) (setP_nil r co))
+                     (Eq.trans (skOf_ok G co s (And.left hco) (And.right hco))
+                               (Eq.symm (skOf_ok G r s hj hn))))
+           (fn [cap :- Nat, en :- (HEnv G)]
+             (den_step_nil chkf dec encTy cap r G s hj hn r co (getP_nil r) hder en)))))
+
+(thm hd_not_base [chkf :- (=> Code Code Bool), re :- Exp, r2 :- Exp, hder :- (Hd chkf re r2),
+                  hb :- (Eq Bool (isBaseTy re) Bool.true)]
+  False
+  (cases hder)
+  (exact (Bool.noConfusion hb))
+  (exact (Bool.noConfusion hb))
+  (exact (Bool.noConfusion hb))
+  (exact (Bool.noConfusion hb))
+  (exact (Bool.noConfusion hb))
+  (exact (Bool.noConfusion hb))
+  (exact (Bool.noConfusion hb))
+  (exact (Bool.noConfusion hb))
+  (exact (Bool.noConfusion hb))
+  (exact (Bool.noConfusion hb))
+  (exact (Bool.noConfusion hb))
+  (exact (Bool.noConfusion hb))
+  (exact (Bool.noConfusion hb))
+  (exact (Bool.noConfusion hb))
+  (exact (Bool.noConfusion hb))
+  (exact (Bool.noConfusion hb))
+  (exact (Bool.noConfusion hb))
+  (exact (Bool.noConfusion hb)))
+
+(thm nbr_hd_flag [chkf :- (=> Code Code Bool), re :- Exp, r2 :- Exp, hder :- (Hd chkf re r2), fl :- Bool]
+  (Eq Bool ((nbrF re) fl) ((nbrF re) Bool.false))
+  (cases hder)
+  (rfl) (rfl) (rfl) (rfl) (rfl) (rfl) (rfl) (rfl) (rfl) (rfl)
+  (rfl) (rfl) (rfl) (rfl) (rfl) (rfl) (rfl) (rfl))
+
+;; The same pack at whatever flag the position is nbr.  The redex ignores
+;; the flag, so nbr at fl is nbr at false, which step_nil_pack needs.
+(thm step_nil_fl [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+                  fl :- Bool, e :- Exp, G :- (List Sk), s :- Sk,
+                  hj :- (SkJ Bool.false G e s),
+                  hn :- (Eq Bool ((nbrF e) fl) Bool.true),
+                  r :- Exp, co :- Exp,
+                  hg :- (Eq (Option Exp) (getP (List.nil Nat) e) (Option.some Exp r)),
+                  hder :- (Hd chkf r co)]
+  (And (Eq (Option Sk) (skOf G (setP (List.nil Nat) e co)) (skOf G e))
+       (forall [cap Nat] (forall [en (HEnv G)]
+         (Eq (Car s) (den chkf dec encTy cap (setP (List.nil Nat) e co) G s en)
+                     (den chkf dec encTy cap e G s en)))))
+  (have he (Eq Exp e r) (some_inj e r (Eq.trans (Eq.symm (getP_nil e)) hg)))
+  (subst he)
+  (have hn0 (Eq Bool (nbr r) Bool.true)
+        (Eq.trans (Eq.symm (nbr_hd_flag chkf r co hder fl)) hn))
+  (exact (step_nil_pack chkf dec encTy r G s hj hn0 r co (getP_nil r) hder)))
+
+;; StepPack chkf dec encTy e: a step anywhere in an nbr skeleton-typed term
+;; preserves skOf and the denotation at the typed skeleton.  The flag is the
+;; one the position is nbr at (false everywhere except a branch-list tail).
+(kdef StepPack
+  (forall [chkf (=> Code Code Bool)] (forall [dec (=> Code (Option (Prod Nat (Prod Exp Exp))))]
+    (forall [encTy (=> Exp Code)] (=> Exp Prop))))
+  (fn [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), e :- Exp]
+    (forall [fl Bool] (forall [G (List Sk)] (forall [s Sk]
+      (=> (SkJ Bool.false G e s)
+          (=> (Eq Bool ((nbrF e) fl) Bool.true)
+              (forall [p (List Nat)] (forall [r Exp] (forall [r2 Exp]
+                (=> (Eq (Option Exp) (getP p e) (Option.some Exp r))
+                    (=> (Hd chkf r r2)
+                        (And (Eq (Option Sk) (skOf G (setP p e r2)) (skOf G e))
+                             (forall [cap Nat] (forall [en (HEnv G)]
+                               (Eq (Car s) (den chkf dec encTy cap (setP p e r2) G s en)
+                                           (den chkf dec encTy cap e G s en)))))))))))))))))
+
+(def ^:private step-params
+  '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code)])
+
+(defn- ctor-term [ctor fields]
+  (let [fs (map first fields)]
+    (if (seq fs) (apply list (symbol (str "Exp." ctor)) fs) (symbol (str "Exp." ctor)))))
+
+;; A type former is never skeleton-typed as a term (its rule has w = true;
+;; tBrs has no rule at all).  A childless term has no cons-path.
+(def ^:private type-formers
+  '#{tEmpty tUnit tBool tNat tLbl tSyn tDia tR tT tPi tSig})
+
+(defn- prove-step! [nm params concl tactics]
+  (when-not (lcert.formal.base/has? nm)
+    (a/prove-theorem nm (lv params) (lv concl) (lv tactics))))
+
+(doseq [[ctor fields] exp-fields]
+  (let [term (ctor-term ctor fields)
+        params (into step-params (mapcat (fn [[f ty]] [f :- ty]) fields))
+        nm (symbol (str "step_" ctor))]
+    (cond
+      (= ctor 'tBrs)
+      (prove-step! nm params (list 'StepPack 'chkf 'dec 'encTy term)
+        ['(intro fl G s hj hn)
+         (list 'exact (list 'False.elim$0 (list 'skj_inv 'Bool.false 'G term 's 'hj)))])
+      (type-formers ctor)
+      (prove-step! nm params (list 'StepPack 'chkf 'dec 'encTy term)
+        ['(intro fl G s hj hn)
+         (list 'exact (list 'False.elim$0
+                       (list 'Bool.noConfusion
+                         (list 'And.left (list 'skj_inv 'Bool.false 'G term 's 'hj)))))])
+      (not-any? #(= 'Exp (second %)) fields)
+      (prove-step! nm params (list 'StepPack 'chkf 'dec 'encTy term)
+        ['(intro fl G s hj hn p)
+         '(cases p)
+         '(intro r r2 hg hd)
+         (list 'exact (list 'step_nil_fl 'chkf 'dec 'encTy 'fl term 'G 's 'hj 'hn 'r 'r2 'hg 'hd))
+         '(intro r r2 hg hd)
+         '(exact (False.elim$0 (none_ne_someE r hg)))]))))
+
+
+;; A cons-path is one child index, then a path inside that child.  Nat.rec
+;; peels the index: 0, 1, …, and every larger index is not a child.  The
+;; skeleton is `out` and the redex is `re`, so the binders do not shadow a
+;; constructor field (h1 has a field s, prn has a field r).
+(defn- path-and [term idx]
+  (list 'And
+    (list 'Eq '(Option Sk)
+      (list 'skOf 'G (list 'setP (list 'List.cons 'Nat idx 'tail) term 'co))
+      (list 'skOf 'G term))
+    (list 'forall '[cap Nat]
+      (list 'forall '[en (HEnv G)]
+        (list 'Eq '(Car out)
+          (list 'den 'chkf 'dec 'encTy 'cap
+            (list 'setP (list 'List.cons 'Nat idx 'tail) term 'co) 'G 'out 'en)
+          (list 'den 'chkf 'dec 'encTy 'cap term 'G 'out 'en))))))
+
+(defn- path-hyp [term idx]
+  (list 'Eq '(Option Exp)
+    (list 'getP (list 'List.cons 'Nat idx 'tail) term)
+    '(Option.some Exp re)))
+
+(defn- path-mot [term idx] (list '=> (path-hyp term idx) (path-and term idx)))
+
+(defn- sucn [n v]
+  (if (zero? n) v (list 'Nat.succ (sucn (dec n) v))))
+
+(defn- index-split [term proofs]
+  (let [n (count proofs)]
+    (letfn [(build [i]
+              (let [idx-var (if (zero? i) 'j (sucn i 'j))
+                    idx0 (sucn i 0)
+                    overflow (sucn (inc i) 'k)]
+                (list 'Nat.rec$0
+                  (list 'fn '[j :- Nat] (path-mot term idx-var))
+                  (list 'fn ['hgc ':- (path-hyp term idx0)] (nth proofs i))
+                  (if (< (inc i) n)
+                    (list 'fn ['j ':- 'Nat, 'ihj ':- (path-mot term idx-var)]
+                      (build (inc i)))
+                    (list 'fn ['k ':- 'Nat,
+                               'ihk ':- (path-mot term (sucn i 'k)),
+                               'hgc ':- (path-hyp term overflow)]
+                      (list 'False.rec$0
+                        (list 'fn '[_ :- False] (path-and term overflow))
+                        '(none_ne_someE re hgc))))
+                  (if (zero? i) 'head 'j))))]
+      (list (build 0) 'hg))))
+
+(defn- prove! [nm params concl tactics]
+  (when-not (lcert.formal.base/has? nm)
+    (a/prove-theorem nm (lv params) (lv concl) (lv tactics))))
+
+(def ^:private Pcap
+  '[chkf :- (=> Code Code Bool),
+    dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+    encTy :- (=> Exp Code), cap :- Nat])
+
+;; Fields whose denotation clause never applies the field's own denotation.
+;; Replacing one of them leaves ⟦·⟧ unchanged at every skeleton.
+(def ^:private den-unread
+  '{abort #{A t} elimB #{P} recN #{P} caseL #{P} recS #{P}
+    node #{d} itR #{X} lam #{A} pair #{S} letp #{C}
+    h1 #{r s c e1 e2} refl #{e} insp #{X}})
+
+(doseq [[ctor fields] exp-fields
+        :let [dead (get den-unread ctor)]
+        [f ty] fields
+        :when (and dead (= ty 'Exp) (contains? dead f))]
+  (let [fq (symbol (str f "q"))
+        fs (mapv first fields)
+        left (apply list (symbol (str "Exp." ctor)) (replace {f fq} fs))
+        right (ctor-term ctor fields)
+        at (symbol (str "den_" ctor "_at"))
+        params (into Pcap
+                 (concat
+                   (mapcat (fn [[v t]]
+                             (if (= v f) [v :- t, fq :- 'Exp] [v :- t]))
+                           fields)
+                   '[G :- (List Sk), sk :- Sk, en :- (HEnv G)]))
+        concl (list 'Eq '(Car sk)
+                (list 'den 'chkf 'dec 'encTy 'cap left 'G 'sk 'en)
+                (list 'den 'chkf 'dec 'encTy 'cap right 'G 'sk 'en))]
+    (prove! (symbol (str "den_ig_" ctor "_" f)) params concl
+      [(list 'rw [(apply list at 'chkf 'dec 'encTy 'cap (concat (replace {f fq} fs) ['G 'sk 'en]))])
+       (list 'rw [(apply list at 'chkf 'dec 'encTy 'cap (concat fs ['G 'sk 'en]))])])))
+
+;; Successor reads its argument at Nat.  The clause is coe (succ ⟦n⟧).
+(prove! 'den_succ_cong
+  (into Pcap '[n :- Exp, n2 :- Exp, G :- (List Sk), sk :- Sk, en :- (HEnv G),
+               h :- (Eq (Car Sk.nat) (den chkf dec encTy cap n2 G Sk.nat en)
+                                     (den chkf dec encTy cap n G Sk.nat en))])
+  '(Eq (Car sk) (den chkf dec encTy cap (Exp.succ n2) G sk en)
+                (den chkf dec encTy cap (Exp.succ n) G sk en))
+  ['(rw [(den_succ_at chkf dec encTy cap n2 G sk en)])
+   '(rw [(den_succ_at chkf dec encTy cap n G sk en)])
+   '(change (Eq (Car sk)
+      (coe Sk.nat sk (Nat.succ (den chkf dec encTy cap n2 G Sk.nat en)))
+      (coe Sk.nat sk (Nat.succ (den chkf dec encTy cap n G Sk.nat en)))))
+   '(exact (congrArg (fn [v :- (Car Sk.nat)] (coe Sk.nat sk (Nat.succ v))) h))])
+
+(prove! 'den_coe_sleaf
+  (into Pcap '[a :- Exp, aq :- Exp, G :- (List Sk), sk :- Sk, en :- (HEnv G),
+               h :- (Eq (Car Sk.lbl) (den chkf dec encTy cap aq G Sk.lbl en)
+                                     (den chkf dec encTy cap a G Sk.lbl en))])
+  '(Eq (Car sk) (den chkf dec encTy cap (Exp.sleaf aq) G sk en)
+                (den chkf dec encTy cap (Exp.sleaf a) G sk en))
+  ['(rw [(den_sleaf_at chkf dec encTy cap aq G sk en)])
+   '(rw [(den_sleaf_at chkf dec encTy cap a G sk en)])
+   '(change (Eq (Car sk)
+      (coe Sk.syn sk (Code.sl (den chkf dec encTy cap aq G Sk.lbl en)))
+      (coe Sk.syn sk (Code.sl (den chkf dec encTy cap a G Sk.lbl en)))))
+   '(exact (congrArg (fn [v :- (Car Sk.lbl)] (coe Sk.syn sk (Code.sl v))) h))])
+
+(prove! 'den_coe_leaf
+  (into Pcap '[a :- Exp, aq :- Exp, G :- (List Sk), sk :- Sk, en :- (HEnv G),
+               h :- (Eq (Car Sk.lbl) (den chkf dec encTy cap aq G Sk.lbl en)
+                                     (den chkf dec encTy cap a G Sk.lbl en))])
+  '(Eq (Car sk) (den chkf dec encTy cap (Exp.leaf aq) G sk en)
+                (den chkf dec encTy cap (Exp.leaf a) G sk en))
+  ['(rw [(den_leaf_at chkf dec encTy cap aq G sk en)])
+   '(rw [(den_leaf_at chkf dec encTy cap a G sk en)])
+   '(change (Eq (Car sk)
+      (coe Sk.cert sk (Code.sl (den chkf dec encTy cap aq G Sk.lbl en)))
+      (coe Sk.cert sk (Code.sl (den chkf dec encTy cap a G Sk.lbl en)))))
+   '(exact (congrArg (fn [v :- (Car Sk.lbl)] (coe Sk.cert sk (Code.sl v))) h))])
+
+(prove! 'den_coe_prn
+  (into Pcap '[r :- Exp, rq :- Exp, G :- (List Sk), sk :- Sk, en :- (HEnv G),
+               h :- (Eq (Car Sk.cert) (den chkf dec encTy cap rq G Sk.cert en)
+                                      (den chkf dec encTy cap r G Sk.cert en))])
+  '(Eq (Car sk) (den chkf dec encTy cap (Exp.prn rq) G sk en)
+                (den chkf dec encTy cap (Exp.prn r) G sk en))
+  ['(rw [(den_prn_at chkf dec encTy cap rq G sk en)])
+   '(rw [(den_prn_at chkf dec encTy cap r G sk en)])
+   '(change (Eq (Car sk)
+      (coe Sk.syn sk (den chkf dec encTy cap rq G Sk.cert en))
+      (coe Sk.syn sk (den chkf dec encTy cap r G Sk.cert en))))
+   '(exact (congrArg (fn [v :- (Car Sk.cert)] (coe Sk.syn sk v)) h))])
+
+;; ite's branches are denoted at the output skeleton, which is the skeleton
+;; they are typed at.  The scrutinee is den_ite_b (conversion.clj).
+(prove! 'den_ite_t
+  (into Pcap '[b :- Exp, t :- Exp, tq :- Exp, e :- Exp, G :- (List Sk), sk :- Sk, en :- (HEnv G),
+               h :- (Eq (Car sk) (den chkf dec encTy cap tq G sk en)
+                                  (den chkf dec encTy cap t G sk en))])
+  '(Eq (Car sk) (den chkf dec encTy cap (Exp.ite b tq e) G sk en)
+                (den chkf dec encTy cap (Exp.ite b t e) G sk en))
+  ['(rw [(den_ite_at chkf dec encTy cap b tq e G sk en)])
+   '(rw [(den_ite_at chkf dec encTy cap b t e G sk en)])
+   '(change (Eq (Car sk)
+      (Bool.rec$1 (fn [_ :- Bool] (Car sk))
+        (den chkf dec encTy cap e G sk en) (den chkf dec encTy cap tq G sk en)
+        (den chkf dec encTy cap b G Sk.bool en))
+      (Bool.rec$1 (fn [_ :- Bool] (Car sk))
+        (den chkf dec encTy cap e G sk en) (den chkf dec encTy cap t G sk en)
+        (den chkf dec encTy cap b G Sk.bool en))))
+   '(exact (congrArg (fn [v :- (Car sk)]
+             (Bool.rec$1 (fn [_ :- Bool] (Car sk))
+               (den chkf dec encTy cap e G sk en) v
+               (den chkf dec encTy cap b G Sk.bool en))) h))])
+
+(prove! 'den_ite_e
+  (into Pcap '[b :- Exp, t :- Exp, e :- Exp, eq :- Exp, G :- (List Sk), sk :- Sk, en :- (HEnv G),
+               h :- (Eq (Car sk) (den chkf dec encTy cap eq G sk en)
+                                  (den chkf dec encTy cap e G sk en))])
+  '(Eq (Car sk) (den chkf dec encTy cap (Exp.ite b t eq) G sk en)
+                (den chkf dec encTy cap (Exp.ite b t e) G sk en))
+  ['(rw [(den_ite_at chkf dec encTy cap b t eq G sk en)])
+   '(rw [(den_ite_at chkf dec encTy cap b t e G sk en)])
+   '(change (Eq (Car sk)
+      (Bool.rec$1 (fn [_ :- Bool] (Car sk))
+        (den chkf dec encTy cap eq G sk en) (den chkf dec encTy cap t G sk en)
+        (den chkf dec encTy cap b G Sk.bool en))
+      (Bool.rec$1 (fn [_ :- Bool] (Car sk))
+        (den chkf dec encTy cap e G sk en) (den chkf dec encTy cap t G sk en)
+        (den chkf dec encTy cap b G Sk.bool en))))
+   '(exact (congrArg (fn [v :- (Car sk)]
+             (Bool.rec$1 (fn [_ :- Bool] (Car sk))
+               v (den chkf dec encTy cap t G sk en)
+               (den chkf dec encTy cap b G Sk.bool en))) h))])
+
+;; abort's type is a skeleton annotation: a step inside it preserves skel
+;; (step_skel_path), and skOf of abort is some of that skeleton.
+(prove! 'sk_abort_A
+  '[chkf :- (=> Code Code Bool), A :- Exp, t :- Exp, G :- (List Sk), q :- (List Nat),
+    r :- Exp, r2 :- Exp,
+    hA :- (SkJ Bool.true G A Sk.unit),
+    hg :- (Eq (Option Exp) (getP q A) (Option.some Exp r)),
+    hd :- (Hd chkf r r2)]
+  '(Eq (Option Sk) (skOf G (Exp.abort (setP q A r2) t)) (skOf G (Exp.abort A t)))
+  ['(have hs (Eq Sk (skel (setP q A r2)) (skel A))
+      (step_skel_path chkf q A r r2 (skj_isTy Bool.true G A Sk.unit hA rfl) hg hd))
+   '(exact (congrArg (fn [sk :- Sk] (Option.some Sk sk)) hs))])
+
+(defn- pack-step! [nm extra term proofs]
+  (prove! nm (into step-params extra)
+    (list 'StepPack 'chkf 'dec 'encTy term)
+    ['(intro fl G out hj hn pth)
+     '(cases pth)
+     '(intro re co hg hd)
+     (list 'exact (list 'step_nil_fl 'chkf 'dec 'encTy 'fl term 'G 'out 'hj 'hn 're 'co 'hg 'hd))
+     '(intro re co hg hd)
+     (list 'exact (index-split term proofs))]))
+
+;; h1 denotes the default carrier.  Every child is invisible to ⟦·⟧ and to skOf.
+(let [fields '[[r Exp] [s Exp] [c Exp] [e1 Exp] [e2 Exp]]
+      term '(Exp.h1 r s c e1 e2)]
+  (pack-step! 'step_h1 (mapcat (fn [[f]] [f :- 'Exp]) fields) term
+    (vec (for [[f] fields]
+           (list 'And.intro '(Eq.refl$1 (skOf G (Exp.h1 r s c e1 e2)))
+             (list 'fn '[cap :- Nat, en :- (HEnv G)]
+               (apply list (concat
+                 [(symbol (str "den_ig_h1_" f)) 'chkf 'dec 'encTy 'cap]
+                 (mapcat (fn [[g]] (if (= g f) [g (list 'setP 'tail g 'co)] [g])) fields)
+                 ['G 'out 'en]))))))))
+
+(pack-step! 'step_succ
+  '[n :- Exp, ih_n :- (StepPack chkf dec encTy n)]
+  '(Exp.succ n)
+  ['(And.intro (Eq.refl$1 (skOf G (Exp.succ n)))
+      (fn [cap :- Nat, en :- (HEnv G)]
+        (den_succ_cong chkf dec encTy cap n (setP tail n co) G out en
+          ((And.right (ih_n Bool.false G Sk.nat
+             (And.right (And.right (inv_succ Bool.false G n out hj)))
+             (nbr_succ_n n fl hn)
+             tail re co hgc hd)) cap en))))])
+
+(pack-step! 'step_abort '[A :- Exp, t :- Exp] '(Exp.abort A t)
+  [(list 'And.intro
+     '(sk_abort_A chkf A t G tail re co
+        (And.left (And.right (And.right (inv_abort Bool.false G A t out hj)))) hgc hd)
+     '(fn [cap :- Nat, en :- (HEnv G)]
+        (den_ig_abort_A chkf dec encTy cap A (setP tail A co) t G out en)))
+   '(And.intro (Eq.refl$1 (skOf G (Exp.abort A t)))
+      (fn [cap :- Nat, en :- (HEnv G)]
+        (den_ig_abort_t chkf dec encTy cap A t (setP tail t co) G out en)))])
+
+(pack-step! 'step_sleaf
+  '[a :- Exp, ih_a :- (StepPack chkf dec encTy a)]
+  '(Exp.sleaf a)
+  ['(And.intro (Eq.refl$1 (skOf G (Exp.sleaf a)))
+      (fn [cap :- Nat, en :- (HEnv G)]
+        (den_coe_sleaf chkf dec encTy cap a (setP tail a co) G out en
+          ((And.right (ih_a Bool.false G Sk.lbl
+             (And.right (And.right (inv_sleaf Bool.false G a out hj)))
+             (nbr_sleaf_a a fl hn)
+             tail re co hgc hd)) cap en))))])
+
+(pack-step! 'step_leaf
+  '[a :- Exp, ih_a :- (StepPack chkf dec encTy a)]
+  '(Exp.leaf a)
+  ['(And.intro (Eq.refl$1 (skOf G (Exp.leaf a)))
+      (fn [cap :- Nat, en :- (HEnv G)]
+        (den_coe_leaf chkf dec encTy cap a (setP tail a co) G out en
+          ((And.right (ih_a Bool.false G Sk.lbl
+             (And.right (And.right (inv_leaf Bool.false G a out hj)))
+             (nbr_leaf_a a fl hn)
+             tail re co hgc hd)) cap en))))])
+
+(pack-step! 'step_prn
+  '[r :- Exp, ih_r :- (StepPack chkf dec encTy r)]
+  '(Exp.prn r)
+  ['(And.intro (Eq.refl$1 (skOf G (Exp.prn r)))
+      (fn [cap :- Nat, en :- (HEnv G)]
+        (den_coe_prn chkf dec encTy cap r (setP tail r co) G out en
+          ((And.right (ih_r Bool.false G Sk.cert
+             (And.right (And.right (inv_prn Bool.false G r out hj)))
+             (nbr_prn_r r fl hn)
+             tail re co hgc hd)) cap en))))])
+
+;; ite's then-branch is the only child skOf reads.  Its induction hypothesis
+;; is already the skOf equation, because skOf (ite b t e) reduces to skOf t.
+(let [term '(Exp.ite b t e)
+      inv '(inv_ite Bool.false G b t e out hj)
+      hb (list 'And.left (list 'And.right inv))
+      ht (list 'And.left (list 'And.right (list 'And.right inv)))
+      he (list 'And.right (list 'And.right (list 'And.right inv)))
+      nbrb '(nbr_ite_b b t e fl hn)
+      nbrt '(nbr_ite_t b t e fl hn)
+      nbre '(nbr_ite_e b t e fl hn)
+      den-of (fn [ih csk sj nb]
+               (list 'And.right (list ih 'Bool.false 'G csk sj nb 'tail 're 'co 'hgc 'hd)))]
+  (pack-step! 'step_ite
+    '[b :- Exp, t :- Exp, e :- Exp,
+      ih_b :- (StepPack chkf dec encTy b),
+      ih_t :- (StepPack chkf dec encTy t),
+      ih_e :- (StepPack chkf dec encTy e)]
+    term
+    [(list 'And.intro '(Eq.refl$1 (skOf G (Exp.ite b t e)))
+       (list 'fn '[cap :- Nat, en :- (HEnv G)]
+         (list 'den_ite_b 'chkf 'dec 'encTy 'cap 'b '(setP tail b co) 't 'e 'G 'out 'en
+           (list (den-of 'ih_b 'Sk.bool hb nbrb) 'cap 'en))))
+     (list 'And.intro
+       (list 'And.left (list 'ih_t 'Bool.false 'G 'out ht nbrt 'tail 're 'co 'hgc 'hd))
+       (list 'fn '[cap :- Nat, en :- (HEnv G)]
+         (list 'den_ite_t 'chkf 'dec 'encTy 'cap 'b 't '(setP tail t co) 'e 'G 'out 'en
+           (list (den-of 'ih_t 'out ht nbrt) 'cap 'en))))
+     (list 'And.intro '(Eq.refl$1 (skOf G (Exp.ite b t e)))
+       (list 'fn '[cap :- Nat, en :- (HEnv G)]
+         (list 'den_ite_e 'chkf 'dec 'encTy 'cap 'b 't 'e '(setP tail e co) 'G 'out 'en
+           (list (den-of 'ih_e 'out he nbre) 'cap 'en))))]))
