@@ -31,7 +31,8 @@
 (def ^:private scripts
   {'tDia ['(have h1 (LE.le 1 fk) hv) '(exact (Nat.le_trans h1 hk))]
    'tR   ['(cases s) '(exact hv) '(exact hv) '(exact hv) '(exact hv) '(exact hv) '(exact hv)
-          '(have h1 (LE.le (cnodes vv) fk) hv) '(exact (Nat.le_trans h1 hk)) '(exact hv) '(exact hv)]
+          '(have h1 (And (LE.le (cnodes vv) fk) (Eq Bool (lblOk vv) Bool.true)) hv)
+          '(constructor) '(exact (Nat.le_trans (And.left h1) hk)) '(exact (And.right h1)) '(exact hv) '(exact hv)]
    'tPi  ['(cases s) '(exact hv) '(exact hv) '(exact hv) '(exact hv) '(exact hv) '(exact hv) '(exact hv)
           '(cases r)
           ;; usage 0: every argument
@@ -94,7 +95,7 @@
 ;; --- Lemma 3.4: base data types across budgets ---------------------------------
 
 ;; V at R, raised from cap m and footprint m to cap n and footprint k ≥ m.  The
-;; set is { v : ‖v‖ ≤ footprint } at the cert skeleton and empty elsewhere; it
+;; set is { v : ‖v‖ ≤ footprint, labels < NL } at the cert skeleton and empty elsewhere; it
 ;; never mentions the cap or the environment.
 (thm base_R_mono [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
                   m :- Nat, n :- Nat, k :- Nat, G :- (List Sk), G2 :- (List Sk), en :- (HEnv G), en2 :- (HEnv G2), hmk :- (Nat.le m k)]
@@ -102,7 +103,8 @@
   (intro s) (cases s) (all_goals (intro v hv))
   ;; every skeleton but cert: the same False on both sides
   (all_goals (first (exact hv) (skip)))
-  (have h2 (Nat.le (cnodes v) m) hv) (exact (Nat.le_trans h2 hmk)))
+  (have h2 (And (Nat.le (cnodes v) m) (Eq Bool (lblOk v) Bool.true)) hv)
+  (constructor) (exact (Nat.le_trans (And.left h2) hmk)) (exact (And.right h2)))
 
 ;; Lemma 3.4: for a base data type D (isBaseTy: 0, 1, Bool, Nat, Lbl, Syn, R)
 ;; and m ≤ k, Vᵐₘ(D) ⊆ Vⁿₖ(D) — at any caps and environments, since none of

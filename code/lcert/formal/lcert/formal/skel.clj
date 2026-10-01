@@ -63,6 +63,12 @@
 (a/defn cnodes [c :- Code] Nat
   (match c [(sl l) 0] [(sn l x y) (+ 1 (+ (cnodes x) (cnodes y)))]))
 
+;; lblOk c: every label of c is below NL = 100.  The paper's codes and
+;; certificates are trees over the finite label set L; the carrier here
+;; (Code, with Nat labels) is larger, so V(Syn) and V(R) require this.
+(a/defn lblOk [c :- Code] Bool
+  (match c [(sl l) (Nat.blt l 100)] [(sn l x y) (Bool.and (Nat.blt l 100) (Bool.and (lblOk x) (lblOk y)))]))
+
 ;; --- skeletons ---------------------------------------------------------------
 
 (a/inductive Sk [] (unit) (bool) (nat) (lbl) (syn) (dia) (cert)

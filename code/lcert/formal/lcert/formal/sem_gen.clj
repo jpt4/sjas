@@ -22,7 +22,7 @@
 
 (kdef sem_tSyn
   (forall [chkf (=> Code Code Bool)] (forall [dec (=> Code (Option (Prod Nat (Prod Exp Exp))))] (forall [encTy (=> Exp Code)] (forall [cap Nat] (forall [G (List Sk)] (=> (HEnv G) Nat (forall [s Sk] (=> (Car s) Prop))))))))
-  (fn [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), cap :- Nat] (fn [G :- (List Sk), en :- (HEnv G), k :- Nat, s :- Sk, v :- (Car s)] True)))
+  (fn [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), cap :- Nat] (fn [G :- (List Sk), en :- (HEnv G), k :- Nat, s :- Sk, v :- (Car s)] ((Sk.rec$1 (fn [t :- Sk] (=> (Car t) Prop)) (fn [v :- (Car Sk.unit)] False) (fn [v :- (Car Sk.bool)] False) (fn [v :- (Car Sk.nat)] False) (fn [v :- (Car Sk.lbl)] False) (fn [v :- Code] (Eq Bool (lblOk v) Bool.true)) (fn [v :- (Car Sk.dia)] False) (fn [v :- (Car Sk.cert)] False) (fn [x :- Sk, y :- Sk, px :- (=> (Car x) Prop), py :- (=> (Car y) Prop)] (fn [v :- (Car (Sk.arr x y))] False)) (fn [x :- Sk, y :- Sk, px :- (=> (Car x) Prop), py :- (=> (Car y) Prop)] (fn [v :- (Car (Sk.prod x y))] False)) s) v))))
 
 (kdef sem_tDia
   (forall [chkf (=> Code Code Bool)] (forall [dec (=> Code (Option (Prod Nat (Prod Exp Exp))))] (forall [encTy (=> Exp Code)] (forall [cap Nat] (forall [G (List Sk)] (=> (HEnv G) Nat (forall [s Sk] (=> (Car s) Prop))))))))
@@ -30,7 +30,7 @@
 
 (kdef sem_tR
   (forall [chkf (=> Code Code Bool)] (forall [dec (=> Code (Option (Prod Nat (Prod Exp Exp))))] (forall [encTy (=> Exp Code)] (forall [cap Nat] (forall [G (List Sk)] (=> (HEnv G) Nat (forall [s Sk] (=> (Car s) Prop))))))))
-  (fn [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), cap :- Nat] (fn [G :- (List Sk), en :- (HEnv G), k :- Nat, s :- Sk, v :- (Car s)] ((Sk.rec$1 (fn [t :- Sk] (=> (Car t) Prop)) (fn [v :- (Car Sk.unit)] False) (fn [v :- (Car Sk.bool)] False) (fn [v :- (Car Sk.nat)] False) (fn [v :- (Car Sk.lbl)] False) (fn [v :- (Car Sk.syn)] False) (fn [v :- (Car Sk.dia)] False) (fn [v :- Code] (Nat.le (cnodes v) k)) (fn [x :- Sk, y :- Sk, px :- (=> (Car x) Prop), py :- (=> (Car y) Prop)] (fn [v :- (Car (Sk.arr x y))] False)) (fn [x :- Sk, y :- Sk, px :- (=> (Car x) Prop), py :- (=> (Car y) Prop)] (fn [v :- (Car (Sk.prod x y))] False)) s) v))))
+  (fn [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), cap :- Nat] (fn [G :- (List Sk), en :- (HEnv G), k :- Nat, s :- Sk, v :- (Car s)] ((Sk.rec$1 (fn [t :- Sk] (=> (Car t) Prop)) (fn [v :- (Car Sk.unit)] False) (fn [v :- (Car Sk.bool)] False) (fn [v :- (Car Sk.nat)] False) (fn [v :- (Car Sk.lbl)] False) (fn [v :- (Car Sk.syn)] False) (fn [v :- (Car Sk.dia)] False) (fn [v :- Code] (And (Nat.le (cnodes v) k) (Eq Bool (lblOk v) Bool.true))) (fn [x :- Sk, y :- Sk, px :- (=> (Car x) Prop), py :- (=> (Car y) Prop)] (fn [v :- (Car (Sk.arr x y))] False)) (fn [x :- Sk, y :- Sk, px :- (=> (Car x) Prop), py :- (=> (Car y) Prop)] (fn [v :- (Car (Sk.prod x y))] False)) s) v))))
 
 (kdef sem_tT
   (forall [chkf (=> Code Code Bool)] (forall [dec (=> Code (Option (Prod Nat (Prod Exp Exp))))] (forall [encTy (=> Exp Code)] (forall [cap Nat] (forall [b Exp] (forall [i_b (forall [G (List Sk)] (=> (HEnv G) Nat (forall [s Sk] (=> (Car s) Prop))))] (forall [G (List Sk)] (=> (HEnv G) Nat (forall [s Sk] (=> (Car s) Prop))))))))))

@@ -129,6 +129,11 @@ now checks.
   may occur only in `caseL` branch position or a branch-list tail; the paper
   has no branch-list terms. This excludes `conv_skj_counterexample`, whose
   skeleton-typed beta step changes denotation.
+- **Codes and certificates have labels below NL.** The carrier of Syn and R
+  is `Code`, trees with natural-number labels; the paper's are trees over the
+  finite label set L. So `V(Syn)` and `V(R)` also require every label below
+  NL (`lblOk`). Without it the recursors over codes and certificates (RecSyn,
+  ItR) could not pass a tree's labels to methods expecting `Lbl`.
 - **`V` takes the skeleton explicitly,** since carriers depend on it.
 - **Lemma 2.4 takes closed formation explicitly.** `lemma24` also assumes
   `Tl chkf Bool.true (List.nil Exp) A Exp.tUnit`, then weakens that formation
