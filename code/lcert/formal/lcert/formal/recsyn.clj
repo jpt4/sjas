@@ -553,3 +553,37 @@
                             (List.cons Sk s (List.cons Sk Sk.syn (List.cons Sk Sk.syn (List.cons Sk Sk.lbl G))))
                             (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))) K s2 v))
                        g (skel P) (skel (y2Ty P)) (Eq.symm (skel_y2Ty P)) h2)))
+
+;; ---------------------------------------------------------------------------
+;; The code induction (R4 §3.5: by induction on the code, every result has
+;; footprint 0).  lblOk is part of the motive, so a node supplies it to both
+;; subcodes.  It reduces on constructors: a leaf's lblOk is the label's
+;; bound, a node's is the conjunction band_left / band_right split.
+;; ---------------------------------------------------------------------------
+
+(thm recrec_inv [α :- Type, Q :- (=> Code α Prop), lf :- (=> Nat α),
+                 nd :- (=> Nat Code Code α α α),
+                 hlf :- (forall [l Nat] (=> (Eq Bool (Nat.blt l 100) Bool.true) (Q (Code.sl l) (lf l)))),
+                 hnd :- (forall [l Nat] (forall [a Code] (forall [b Code] (forall [ya α] (forall [yb α]
+                   (=> (Eq Bool (Nat.blt l 100) Bool.true) (Eq Bool (lblOk a) Bool.true) (Eq Bool (lblOk b) Bool.true)
+                       (Q a ya) (Q b yb) (Q (Code.sn l a b) (nd l a b ya yb))))))))]
+  (forall [w Code] (=> (Eq Bool (lblOk w) Bool.true)
+    (Q w (Code.rec$1 (fn [_ :- Code] α) (fn [l :- Nat] (lf l))
+                     (fn [l :- Nat, a :- Code, b :- Code, ya :- α, yb :- α] (nd l a b ya yb)) w))))
+  (intro w)
+  (induction w)
+  (intro hok)
+  (exact (hlf l hok))
+  (intro hok)
+  (have hl (Eq Bool (Nat.blt l 100) Bool.true)
+    (band_left (Nat.blt l 100) (Bool.and (lblOk a) (lblOk b)) hok))
+  (have hr (Eq Bool (Bool.and (lblOk a) (lblOk b)) Bool.true)
+    (band_right (Nat.blt l 100) (Bool.and (lblOk a) (lblOk b)) hok))
+  (have ha (Eq Bool (lblOk a) Bool.true) (band_left (lblOk a) (lblOk b) hr))
+  (have hb (Eq Bool (lblOk b) Bool.true) (band_right (lblOk a) (lblOk b) hr))
+  (exact (hnd l a b
+            (Code.rec$1 (fn [_ :- Code] α) (fn [l :- Nat] (lf l))
+                        (fn [l :- Nat, a :- Code, b :- Code, ya :- α, yb :- α] (nd l a b ya yb)) a)
+            (Code.rec$1 (fn [_ :- Code] α) (fn [l :- Nat] (lf l))
+                        (fn [l :- Nat, a :- Code, b :- Code, ya :- α, yb :- α] (nd l a b ya yb)) b)
+            hl ha hb (ih_a ha) (ih_b hb))))
