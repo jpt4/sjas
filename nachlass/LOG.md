@@ -6373,3 +6373,30 @@ and `node_v_raw` moves the denotation back to the raw one `Code.rec` builds.
 Formation premises for `y1Ty P` and `y2Ty P` were not added to `rRecS`.
 `V_subst` needs the skeleton judgment of `P`, which `hP` already gives, and
 neither `EnvSat` nor `Sound` asks the entries to be formed.
+
+## 2026-09-30 — Lemma 3.6 assembled; Theorems 1–3 and Corollary 3.7
+
+Branch `adr-0006-formalization`.
+- **Cases.** RecN, CaseL, Bcons, ItR, the code constructors (with label
+  bounds), Reflect, H₁ and Inspect (`outer.clj`, the outer induction on the
+  budget); RecSyn by Grok (`recsyn.clj`). `lemma36.clj` assembles them by
+  induction on the derivation with motive `WFCtx D → Sound …`, and discharges
+  the outer hypothesis by induction on the budget at the token environment.
+- **Results.** Theorem 1, Corollary 3.7, Theorem 3 (first claim), and
+  `model.clj`'s `Lemma_3_6`/`Theorem_1`/`Corollary_3_7` exactly as stated,
+  all given the Conv case (`ConvCase`/`ConvAll`), which awaits Lemma 3.2.
+  Theorem 2 for H₁. Propositions 4.1 and 4.7 (`section4.clj`).
+- **Corrections found by the formalization** (ADR-0006, deviations): V of a
+  branch list read its elements at the label rather than its position, which
+  made Bcons unprovable; Syn and R values need labels below NL; Bcons,
+  RecSyn and Inspect need the formation of the types they add; CheckSpec
+  gives the decoded type's formation (H₁'s Lemma 2.4 needs it).
+- **Conversion.** Lemma 3.2 fails over plain `Cv`: a skeleton-typed β-step
+  with a branch list in argument position changes the denotation (kernel
+  counterexample). `Cv` now requires `nbr` of every element. Head steps are
+  proved (Codex, then Grok, branch `agent-a851…`); path congruence and F_conv
+  remain.
+- **Agents.** Codex ran out of credits mid-task; GPT-5.6 Sol (Cursor) hit its
+  usage limit; Grok 4.7 carried RecSyn, conversion and now F5 (branch
+  `f5-eval`). The machine rebooted once and lost every running process; the
+  durable logs are now under `code/lcert/test-runs/`.

@@ -1,6 +1,6 @@
 # ADR-0006 — Formalizing the R4 metatheory in Ansatz
 
-**Status.** Accepted 2026-09-27. In progress.
+**Status.** Accepted 2026-09-27. In progress: F1–F3 done but for the Conv case of Lemma 3.6; F4 begun; F5 in progress.
 
 **Branch.** `adr-0006-formalization`, from `sjas-codification`, merged back
 into it phase by phase.
@@ -154,9 +154,9 @@ theorem quantifies over `chkf dec encTy`, and those using the checker take
 | Paper | Constant (namespace) | Status | Differences |
 | --- | --- | --- | --- |
 | §1.1 usage algebra | `uadd_*`, `umul_*` (usage) | proved | — |
-| §1.4 typing rules | `Tl`, `Rt` (judgment); `SkJ` (conv) | defined | `tBrs` pseudo-type for branch lists; App₀/App require `clean A` |
+| §1.4 typing rules | `Tl`, `Rt` (judgment); `SkJ` (conv) | defined | `tBrs` pseudo-type for branch lists; App₀/App/Pair₀/Pair/Let carry their Π/Σ formation; Bcons, RecSyn and Inspect carry the formation of the types they add (see the deviations) |
 | §1.5 conversion | `Hd`, `Step`, `Cv` (conv) | defined | steps are recorded with a position |
-| §1.6 Check, via Lemmas 2.6–2.8, E1, E5 | `CheckSpec` (model) | hypothesis | the trust base; F7 is to discharge it |
+| §1.6 Check, via Lemmas 2.6–2.8, E1, E5 | `CheckSpec` (model) | hypothesis | the trust base; F7 is to discharge it. Its first clause also gives the decoded type's formation |
 | Lemma 2.1, weakening | `tl_weaken`, `rt_weaken` (derivations) | proved | arbitrary insertion; runtime entry has usage 0; exchange is not covered |
 | Lemma 2.4 | `lemma24` (derivations) | proved | explicit closed formation premise; terms are `lift m2 m1 t1` and `lift m1 0 t2` |
 | Lemma 2.5 | `lemma25_tl`, `lemma25_rt`, `skel_subst`, `cv_skel` (skeletons) | proved | — |
@@ -165,13 +165,16 @@ theorem quantifies over `chkf dec encTy`, and those using the checker take
 | §3.3 V | `V` (sem) | defined | explicit skeleton argument |
 | Lemma 3.3 monotonicity | `V_mono` (mono) | proved | — |
 | Lemma 3.3 substitution | `lemma33_subst`, `V_subst1`, `V_substL` (substitution) | proved | `SubOK`; stated at skeleton `skel A` |
-| Lemma 3.3 conversion, Lemma 3.2 | — | open | |
+| Lemma 3.3 conversion, Lemma 3.2 | head steps proved on branch `f3-conversion` (conversion) | in progress | `Cv` requires `nbr` (no branch list in argument position) of every element |
 | Lemma 3.4 | `Lemma_3_4` (mono) | proved | — |
 | Lemma 3.5 | `EnvSat_split`, `EnvSat_omega` (splitting) | proved | plus `EnvSat_one`, `EnvSat_mono` |
-| Lemma 3.6 | `Lemma_3_6` (model); cases `F_*` (fundamental) | stated; 12 of 32 cases proved | |
-| Theorem 1, Corollary 3.7 | `Theorem_1`, `Corollary_3_7` (model) | stated | |
+| Lemma 3.6 | `Lemma_3_6` (model); `lemma36`, `paper_lemma36` (lemma36); cases `F_*` (fundamental, outer, recsyn) | proved, given the Conv case (`ConvCase`) | well-formed contexts (`WFCtx`); Syn and R values have labels below NL |
+| Theorem 1, Corollary 3.7 | `Theorem_1`, `Corollary_3_7` (model); `theorem1`, `cor37_*`, `paper_theorem1`, `paper_cor37` (lemma36) | proved, given the Conv case | — |
 | Theorem 2 (H) | `Theorem_2_H` (model) | proved | |
-| Theorem 2 (H₁), Theorem 3, §4–§6 | — | open | |
+| Theorem 2 (H₁) | `Theorem_2_H1` (model) | proved | — |
+| Theorem 3 | `theorem3` (lemma36) | first claim proved, given the Conv case | the token-count refinement (Lemma 2.3) is open |
+| Proposition 4.1, 4.7 | `prop41_closed`, `prop41_fun`, `prop47` (section4) | proved (4.1 given the Conv case) | 4.1(ii) for codes with labels below NL |
+| §4 (the rest), §5, §6 | — | open | F5 in progress on branch `f5-eval` |
 
 ## Review guide
 
