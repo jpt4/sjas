@@ -495,7 +495,8 @@
                 den_insp_r den_insp_c den_insp_t1 den_insp_t2 sk_insp_X step_insp
                 step_pack
                 V_tT_den V_tTT_gen V_tTF_gen step_V_tT_nil step_V_tT_b step_V_tT
-                V_pi_at V_pi_at_cast V_pi_dom]]
+                V_pi_at V_pi_at_cast V_pi_dom
+                pi_no_head V_pi_at_bcst V_pi_cod step_V_pi]]
       (is (b/has? c) (str c))))
   (testing "a childless term has no child to step in"
     (is (b/rejects? '[]
