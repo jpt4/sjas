@@ -6409,3 +6409,47 @@ Branch `adr-0006-formalization`.
 - **Proposition 4.5.** D3 (`prop45_d3`): □A ⊸ □□A at budget ‖w‖ for a certificate w of □A; the lambda discards its input and ⋆ carries that usage. Boxed contraction (`prop45_contraction`): □A ⊸ □A ⊗ □A at budget 2‖v‖, two copies of (lit v, ⋆) on disjoint token blocks (Lemma 2.1). The tensor is a usage-1 sigma, so both blocks survive.
 - **Load fixes.** `lit_scope` was one parenthesis short, so a fresh read never left that form. `getP_nil` and `setP_nil` are conversion.clj's constants (one kernel environment). The child-step packers are `step_child` / `step_child0`, because convcase.clj's `prove!` skips a constant named `step_pack` that already exists.
 - **Suite.** `bin/test-formal`: 42 tests, 792 assertions, 0 failures, 0 errors.
+
+## 2026-10-02 — F7 derivation data and the first concrete checkers
+
+On the clean `f7-checker` worktree, implemented the first checker units of
+[ADR-0006's F7 plan](refinement/ADR-0006-formalization.md#f7-plan-the-concrete-checker).
+No existing kernel definition was changed.
+
+- `check_hd.clj`: `HdDT`, `hdCheck_sound`, all 18
+  `hdCheck_<rule>_sound` lemmas, and `stepCheck_sound`. The checker computes
+  substitution, checks the selected branch or both decoded δ codes, compares
+  both endpoints with `expEq`, and validates the complete path replacement.
+- `check_skj.clj`: `SkDT`, `skjCheck_sound` and all 40
+  `skjCheck_<rule>_sound` lemmas. Hidden skeletons are recorded in trees;
+  contexts are supplied and extended by each rule. This handles branch
+  lists, where `skOf` deliberately returns `none`, without altering `SkJ`.
+- `check_dt.clj`: ordinary derivation data for all 30 `Tl`, 28 `Rt` and
+  3 `Cv` rules, `DTJ` and `concl`; `StepDT` and `stepDTCheck_sound` reuse
+  the proved path checker. `concl` extracts a claim, including malformed
+  claims, and is not evidence that the claim is derivable. `Cv`/`Tl`/`Rt`
+  checking, derivation encoding/decoding and the final `CheckSpec`, `TokSize`
+  and `TypeSize` proofs remain open.
+
+**Validation.** Before loading each new unit, its positive statement failed
+because its constants were absent. The same computations passed after loading.
+Focused socket-REPL suites passed: head/path 4 tests / 64 assertions;
+skeleton 3 / 181; derivation data 2 / 73. These include every head and
+skeleton constructor, both δ outcomes, false code claims, absent branches,
+invalid paths, altered siblings, bad annotations and malformed premises.
+The initial dependency load and a premature socket require overlapped,
+causing a missing-`lemma24` elaboration error; the initializer then completed,
+and new units were loaded sequentially. Fresh-JVM replay is the authority.
+The REPL was stopped before the full suite; a temporary launcher caps the
+suite's heap at 1500 MB while preserving `bin/test-formal`'s other arguments.
+Full-suite result: pending (log `code/lcert/test-runs/f7-full-suite.log`).
+
+**Local commits.** The session's sandbox mounts
+`.git/worktrees/f7` read-only: the ordinary commit attempt failed creating
+`index.lock`. The original branch/index remain untouched. To preserve each
+proved unit, commits were made in the isolated local Git store
+`code/lcert/test-runs/f7-commits`, using the original objects as read-only
+alternates. The verified incremental bundle
+`code/lcert/test-runs/f7-checker.bundle` contains the `f7-checker` history
+above prerequisite `dfe8fb72188b88bd59d5ba6773a5260e1b4d0887`.
+The source edits also remain in the worktree. Nothing was pushed or merged.

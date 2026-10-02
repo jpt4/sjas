@@ -1,6 +1,6 @@
 # ADR-0006 — Formalizing the R4 metatheory in Ansatz
 
-**Status.** Accepted 2026-09-27. In progress: F1–F3 done (Lemma 3.6, Theorems 1–3, Corollary 3.7); F4 begun; F5 in progress; F7's encoding done, its checker open; F6 not begun.
+**Status.** Accepted 2026-09-27. In progress: F1–F3 done (Lemma 3.6, Theorems 1–3, Corollary 3.7); F4 begun; F5 in progress; F7's encoding, derivation data and head/path/skeleton checker soundness done, its complete checker open; F6 not begun.
 
 **Branch.** `adr-0006-formalization`, from `sjas-codification`, merged back
 into it phase by phase.
@@ -117,6 +117,49 @@ them. The plan, in dependency order (namespace `check.clj` and successors):
 Steps 2 and 3 are the bulk; each inductive's checker is independent once
 the tree type exists, so they can proceed in parallel.
 
+**F7 part 1 (2026-10-02, `f7-checker`).** Steps 2 and the initial parts of
+3 now have these kernel-checked definitions and soundness proofs:
+
+- `check_hd.clj`: `HdDT` records all 18 `Hd` rules. `hdCheck_sound` proves
+  `hdCheck chkf tree e e2 = true → Hd chkf e e2`; its 18 case lemmas are
+  `hdCheck_<rule>_sound`. Both endpoints are compared with `expEq`, β
+  contracta use the existing `subst1`/`substL`, and the recorded `caseLb`
+  branch and δ codes are checked by `nthB` and both `codeOf` calls.
+  `stepCheck_sound` proves
+  `stepCheck chkf p tree e e2 = true → Step chkf e e2`, checking `getP`
+  and the entire `setP` result.
+- `check_skj.clj`: `SkDT` records all 40 `SkJ` rules and premise trees.
+  `skjCheck_sound` proves
+  `skjCheck w G e s tree = true → SkJ w G e s`, with 40 lemmas named
+  `skjCheck_<rule>_sound`. The tree records otherwise undetermined
+  skeletons, rather than inferring them with `skOf` (which returns `none`
+  on branch lists). The context is supplied to the checker; each rule
+  computes its premises' context extensions. Mode, expression, skeleton,
+  lookup/base-type side conditions and every premise are checked.
+- `check_dt.clj`: `DT` has all 30 `Tl`, 28 `Rt` and 3 `Cv` constructors.
+  Its ordinary premise trees are recursive `DT` fields; conversion's
+  skeleton and step premises reuse `SkDT` and `StepDT`. `DTJ` represents
+  their conclusions as data, and `concl : DT → Option DTJ` extracts the
+  claimed conclusion. Every constructed tree has a conclusion, so this
+  extractor always returns `some`; it deliberately accepts malformed
+  records as data. `stepDTCheck_sound` proves the stored-step wrapper
+  sound. There is no soundness claim for `concl` alone.
+
+This decomposes the planned single tree type into reusable `HdDT`, `SkDT`,
+`StepDT` and `DT`. No existing definition or rule was changed, and no
+completeness theorem is needed or claimed. The `Cv` checker (including
+its existing `nbr` conditions), `Tl`/`Rt` checkers, derivation encoding and
+decoding, final `Check`/`dec`, and the proofs of `CheckSpec`, `TokSize` and
+`TypeSize` remain open. In particular the supplied `chkf` is still a
+parameter, not the final self-referential concrete checker.
+
+Each new namespace has a registered formal suite. The focused REPL runs
+passed 9 tests / 318 assertions, including acceptance for every head and
+skeleton rule, both δ outcomes, bad decoded-code claims, failed lookups,
+wrong annotations, invalid paths and altered siblings. See the
+[F7 work log](../LOG.md#2026-10-02--f7-derivation-data-and-the-first-concrete-checkers)
+for the fresh full-suite result and commit preservation details.
+
 ## Success and failure
 
 - **Success:** F1–F6 formalized in the sense of 1, with the trust base of 2,
@@ -191,6 +234,7 @@ theorem quantifies over `chkf dec encTy`, and those using the checker take
 | §1.5 conversion | `Hd`, `Step`, `Cv` (conv) | defined | steps are recorded with a position |
 | §1.6 Check, via Lemmas 2.6–2.8, E1, E5 | `CheckSpec` (model) | hypothesis | the trust base; F7 is to discharge it. Its first clause also gives the decoded type's formation |
 | §1.6 the encoding, E1, E5 | `encE`, `encE_inj`, `E5`, `base_enc`, `checkspec_sat` (encode) | proved | E1 holds on all expressions; CheckSpec is satisfiable (by the checker that accepts nothing), so no theorem is vacuous through it. The checker itself (CheckSpec's first clause) is F7's open part |
+| §1.5–1.6 checker, part 1 | `hdCheck_sound`, `stepCheck_sound` (check-hd); `skjCheck_sound` (check-skj); `stepDTCheck_sound`, `DT`, `concl` (check-dt) | head/path/skeleton soundness proved; derivation data defined | recorded rule data and hidden skeletons; all 18 `Hd` and 40 `SkJ` rules; `DT` records all `Tl`/`Rt`/`Cv` rules but their checkers and the final `CheckSpec` construction remain open |
 | Lemma 2.1, weakening | `tl_weaken`, `rt_weaken` (derivations) | proved | arbitrary insertion; runtime entry has usage 0; exchange is not covered |
 | Lemma 2.3, strengthening | `rt_strengthen`, `rt_mask` (strengthen) | proved | "not free" is `freshF`; `rt_mask` lowers a set of variables at once |
 | Lemma 2.4 | `lemma24` (derivations) | proved | explicit closed formation premise; terms are `lift m2 m1 t1` and `lift m1 0 t2` |
