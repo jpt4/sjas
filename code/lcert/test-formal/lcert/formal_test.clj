@@ -799,6 +799,19 @@
     (is (b/rejects? '[chkf :- (=> Code Code Bool)]
                     '(Rt chkf (List.nil Exp) (List.nil U) (sh4_doubler (sh4_num 0)) Exp.tSyn)
                     '[(exact (prop412_typed chkf 0))]))))
+  (testing "Proposition 4.9, the uniform arm: T(ff) inhabits 0, and depthLeq at 0 is a closed Bool function"
+    (doseq [c '[sh4_nbr_ff sh4_nbr_empty sh4_nbr_tff sh4_tt_ty sh4_ff_ty
+                sh4_step_hd sh4_cv_ff sh4_from_ff
+                sh4_depth_leaf sh4_depth_node sh4_depth_rec sh4_depth0_typed]]
+      (is (b/has? c) (str c))))
+  (testing "T(ff) is not Unit, and the depth predicate is not a Syn term"
+    (is (b/rejects? '[chkf :- (=> Code Code Bool)]
+                    '(Rt chkf (List.cons Exp (Exp.tT Exp.ff) (List.nil Exp))
+                         (List.cons U U.u1 (List.nil U)) (Exp.var 0) Exp.tUnit)
+                    '[(exact (sh4_from_ff chkf))]))
+    (is (b/rejects? '[chkf :- (=> Code Code Bool)]
+                    '(Rt chkf (List.nil Exp) (List.nil U) (sh4_depth0) Exp.tSyn)
+                    '[(exact (sh4_depth0_typed chkf))]))))
 
 (require 'lcert.formal.prop434)
 (deftest f4-prop43-44

@@ -828,3 +828,104 @@
        (Eq Nat (cnodes (Prod.fst (den chkf dec encTy cap (sh4_doubler (sh4_num n)) (List.nil Sk) (Sk.prod Sk.syn Sk.unit) Unit.unit)))
                (Nat.sub (sh4_pow n) 1)))
   (exact (And.intro (prop412_typed chkf n) (prop412_nodes chkf dec encTy cap n))))
+
+;; --- Proposition 4.9, the part that is a single derivation ----------------------------
+;; The paper's inhabitant, for each k, is a closed term of
+;; Π(c :ω Syn). T(depthLeq c k) ⊸ T(chk′ c c⊥) ⊸ 0, built by case analysis
+;; on c down to depth k.  Two facts make the full term a different size of
+;; job from the arms:
+;;   - δ (Hd.delta, then Corollary 3.7) fires only when both codes are
+;;     canonical.  While c is a variable, chk c c⊥ does not compute, so the
+;;     evidence T(chk c c⊥) does not become T(ff) until a recSyn/caseLbl
+;;     branch has substituted a constructor.  Labels are 0..NL-1, so each
+;;     caseLbl is 100 branches, and a node has two subcodes: the derivation
+;;     for depth k is doubly exponential in k.
+;;   - The arm that is uniform, and is proved here, is the one the paper
+;;     uses when the depth bound has already computed to ff: T(ff) ▹ 0 by
+;;     Hd.tTF, so the evidence itself inhabits 0 (sh4_from_ff).
+;; sh4_depth0 is the k = 0 bound: recSyn with motive Bool, tt on a leaf and
+;; ff on a node.  It is the predicate the k = 0 inhabitant would case on.
+;; It is not that inhabitant.
+
+(thm sh4_nbr_ff [] (Eq Bool (nbr Exp.ff) Bool.true) (rfl))
+(thm sh4_nbr_empty [] (Eq Bool (nbr Exp.tEmpty) Bool.true) (rfl))
+(thm sh4_nbr_tff [] (Eq Bool (nbr (Exp.tT Exp.ff)) Bool.true) (rfl))
+(thm sh4_tt_ty [] (Eq Bool (constTyped Exp.tt Exp.tBool) Bool.true) (rfl))
+(thm sh4_ff_ty [] (Eq Bool (constTyped Exp.ff Exp.tBool) Bool.true) (rfl))
+
+;; A head step is a Step at the empty position.
+(thm sh4_step_hd [chkf :- (=> Code Code Bool), e :- Exp, e2 :- Exp, h :- (Hd chkf e e2)]
+  (Step chkf e e2)
+  (unfold Step)
+  (apply (Exists.intro (List.nil Nat)))
+  (apply (Exists.intro e))
+  (apply (Exists.intro e2))
+  (exact (And.intro (getP_nil e) (And.intro h (Eq.symm (setP_nil e e2))))))
+
+;; Hd.tTF: T(ff) ▹ 0.  The skeleton of T(ff) is Unit, witnessed by wT/sFF.
+(thm sh4_cv_ff [chkf :- (=> Code Code Bool), G :- (List Sk)]
+  (Cv chkf G (Exp.tT Exp.ff) Exp.tEmpty)
+  (exact (Cv.cvFwd chkf G (Exp.tT Exp.ff) (Exp.tT Exp.ff) Exp.tEmpty
+           (Cv.cvRefl chkf G (Exp.tT Exp.ff) (SkJ.wT G Exp.ff (SkJ.sFF G)) sh4_nbr_tff)
+           (sh4_step_hd chkf (Exp.tT Exp.ff) Exp.tEmpty (Hd.tTF chkf))
+           (SkJ.wEmpty G) sh4_nbr_empty)))
+
+;; Where the depth bound has computed to ff, the evidence inhabits 0.
+(thm sh4_from_ff [chkf :- (=> Code Code Bool)]
+  (Rt chkf (List.cons Exp (Exp.tT Exp.ff) (List.nil Exp))
+      (List.cons U U.u1 (List.nil U)) (Exp.var 0) Exp.tEmpty)
+  (exact (Rt.rConv chkf (List.cons Exp (Exp.tT Exp.ff) (List.nil Exp))
+           (List.cons U U.u1 (List.nil U)) (Exp.var 0) (Exp.tT Exp.ff) Exp.tEmpty
+           (Rt.rVar chkf (List.cons Exp (Exp.tT Exp.ff) (List.nil Exp))
+             (List.cons U U.u1 (List.nil U)) 0 (Exp.tT Exp.ff) U.u1
+             rfl (nthE.eq_2 (Exp.tT Exp.ff) (List.nil Exp))
+             (nthU.eq_2 U.u1 (List.nil U)) sh4_nz1)
+           (Tl.fBase chkf (List.cons Exp (Exp.tT Exp.ff) (List.nil Exp)) Exp.tEmpty rfl)
+           (sh4_cv_ff chkf (List.cons Sk Sk.unit (List.nil Sk))))))
+
+;; depthLeq at 0.  The leaf does not use the label or the outer code, and the
+;; node does not use its recursive results; those forced usages are carried
+;; by the constant (rConst accepts any vector of the right length).
+(a/defn sh4_depth0 [] Exp
+  (Exp.lam U.uw Exp.tSyn (Exp.recS Exp.tBool Exp.tt Exp.ff (Exp.var 0))))
+(thm sh4_depth_leaf [chkf :- (=> Code Code Bool)]
+  (Rt chkf (List.cons Exp Exp.tLbl (List.cons Exp Exp.tSyn (List.nil Exp)))
+      (consU U.uw (vscale U.uw (List.cons U U.u0 (List.nil U))))
+      Exp.tt Exp.tBool)
+  (exact (Rt.rConst chkf (List.cons Exp Exp.tLbl (List.cons Exp Exp.tSyn (List.nil Exp)))
+           (consU U.uw (vscale U.uw (List.cons U U.u0 (List.nil U))))
+           Exp.tt Exp.tBool rfl sh4_tt_ty)))
+(thm sh4_depth_node [chkf :- (=> Code Code Bool)]
+  (Rt chkf
+      (List.cons Exp Exp.tBool (List.cons Exp Exp.tBool
+        (List.cons Exp Exp.tSyn (List.cons Exp Exp.tSyn
+          (List.cons Exp Exp.tLbl (List.cons Exp Exp.tSyn (List.nil Exp)))))))
+      (consU U.u1 (consU U.u1 (consU U.uw (consU U.uw (consU U.uw (vscale U.uw (List.cons U U.u0 (List.nil U))))))))
+      Exp.ff Exp.tBool)
+  (exact (Rt.rConst chkf
+           (List.cons Exp Exp.tBool (List.cons Exp Exp.tBool
+             (List.cons Exp Exp.tSyn (List.cons Exp Exp.tSyn
+               (List.cons Exp Exp.tLbl (List.cons Exp Exp.tSyn (List.nil Exp)))))))
+           (consU U.u1 (consU U.u1 (consU U.uw (consU U.uw (consU U.uw (vscale U.uw (List.cons U U.u0 (List.nil U))))))))
+           Exp.ff Exp.tBool rfl sh4_ff_ty)))
+(thm sh4_depth_rec [chkf :- (=> Code Code Bool)]
+  (Rt chkf (List.cons Exp Exp.tSyn (List.nil Exp)) (List.cons U U.uw (List.nil U))
+      (Exp.recS Exp.tBool Exp.tt Exp.ff (Exp.var 0)) Exp.tBool)
+  (exact (Rt.rRecS chkf (List.cons Exp Exp.tSyn (List.nil Exp))
+           (List.cons U U.uw (List.nil U)) (List.cons U U.u0 (List.nil U)) (List.cons U U.u0 (List.nil U))
+           Exp.tBool Exp.tt Exp.ff (Exp.var 0)
+           (Rt.rVar chkf (List.cons Exp Exp.tSyn (List.nil Exp))
+             (List.cons U U.uw (List.nil U)) 0 Exp.tSyn U.uw rfl
+             (nthE.eq_2 Exp.tSyn (List.nil Exp)) (nthU.eq_2 U.uw (List.nil U)) sh4_nonzero_w)
+           (Tl.fBase chkf (List.cons Exp Exp.tSyn (List.cons Exp Exp.tSyn (List.nil Exp))) Exp.tBool rfl)
+           (sh4_depth_leaf chkf) (sh4_depth_node chkf)
+           (Tl.fBase chkf (List.cons Exp Exp.tSyn (List.cons Exp Exp.tSyn
+                            (List.cons Exp Exp.tLbl (List.cons Exp Exp.tSyn (List.nil Exp))))) Exp.tBool rfl)
+           (Tl.fBase chkf (List.cons Exp Exp.tBool (List.cons Exp Exp.tSyn (List.cons Exp Exp.tSyn
+                            (List.cons Exp Exp.tLbl (List.cons Exp Exp.tSyn (List.nil Exp)))))) Exp.tBool rfl))))
+(thm sh4_depth0_typed [chkf :- (=> Code Code Bool)]
+  (Rt chkf (List.nil Exp) (List.nil U) (sh4_depth0) (Exp.tPi U.uw Exp.tSyn Exp.tBool))
+  (exact (Rt.rLam chkf (List.nil Exp) (List.nil U) U.uw Exp.tSyn
+           (Exp.recS Exp.tBool Exp.tt Exp.ff (Exp.var 0)) Exp.tBool
+           (Tl.fBase chkf (List.nil Exp) Exp.tSyn rfl)
+           (sh4_depth_rec chkf))))
