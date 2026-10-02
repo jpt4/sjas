@@ -131,8 +131,12 @@
 
 (defn- run-suites! [nss]
   (let [nss (filter #(.exists (suite-file %)) nss)]
-    (doseq [n nss] (require (suite-of n) :reload) (stamp! (suite-file n)))
-    (if (seq nss) (apply t/run-tests (map suite-of nss)) (println "  no suites to run"))))
+    ;; remove-ns first: require :reload keeps vars, so a deleted deftest would still run.
+    (doseq [n nss] (remove-ns (suite-of n)) (require (suite-of n) :reload) (stamp! (suite-file n)))
+    ;; clojure.test writes to *test-out*, bound at load to the server's stdout;
+    ;; rebind it so the report reaches the client (bin/formal-check).
+    (binding [t/*test-out* *out*]
+      (if (seq nss) (apply t/run-tests (map suite-of nss)) (println "  no suites to run")))))
 
 (defn- rebuild-env!
   "Reset the kernel environment to base-env plus the recorded constants of the
