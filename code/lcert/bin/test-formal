@@ -11,7 +11,8 @@ export ANSATZ_OFFLINE=1
 exec clojure -J-Xmx2g -M:formal -e "
 (require 'clojure.test 'lcert.formal-test)
 (def nss (if (seq *command-line-args*)
-           (map #(symbol (str \"lcert.formal-test.\" %)) *command-line-args*)
+           ;; check_hd or check-hd both name lcert.formal-test.check-hd
+           (map #(symbol (str \"lcert.formal-test.\" (.replace (str %) \"_\" \"-\"))) *command-line-args*)
            lcert.formal-test/suites))
 (apply require nss)
 (let [{:keys [fail error]} (apply clojure.test/run-tests nss)]

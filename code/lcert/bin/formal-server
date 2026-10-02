@@ -7,7 +7,7 @@ bin/check-formal-names || exit 1
 mkdir -p test-runs
 [ -f test-runs/formal-server.pid ] && kill "$(cat test-runs/formal-server.pid)" 2>/dev/null
 ANSATZ_OFFLINE=1 nohup clojure -J-Xmx2g -J-Dclojure.server.repl="{:port 5699 :accept clojure.core.server/repl}" -M:formal \
-  -e "(require 'lcert.formal-server) (println :warming) (lcert.formal-server/warm!) (println :ready) @(promise)" \
+  -e "(require 'lcert.formal-server) (println :warming) (try (lcert.formal-server/warm!) (catch Throwable e (println :warm-failed (.getMessage e)))) (println :ready) @(promise)" \
   > test-runs/formal-server.log 2>&1 &
 echo $! > test-runs/formal-server.pid
 echo "formal server starting (PID $(cat test-runs/formal-server.pid)); progress: tail -f test-runs/formal-server.log"
