@@ -1,10 +1,18 @@
 #!/usr/bin/env bash
 # Formal suite (ADR-0006): kernel-checks the formalization of the metatheory.
+#   bin/test-formal                 every suite (lcert.formal-test/suites)
+#   bin/test-formal prop434 erase   only the named suites (and what they load)
+# A suite lcert.formal-test.X requires the formal namespace lcert.formal.X,
+# which kernel-checks every declaration in it and in everything it needs.
 cd "$(dirname "$0")/.." || exit 2
+# Kernel-name clashes between namespaces fail here in seconds, not at load.
+bin/check-formal-names || exit 1
 export ANSATZ_OFFLINE=1
 exec clojure -J-Xmx2g -M:formal -e "
-(require 'clojure.test)
-(def nss (or (seq (map symbol *command-line-args*)) '[lcert.formal-test]))
+(require 'clojure.test 'lcert.formal-test)
+(def nss (if (seq *command-line-args*)
+           (map #(symbol (str \"lcert.formal-test.\" %)) *command-line-args*)
+           lcert.formal-test/suites))
 (apply require nss)
 (let [{:keys [fail error]} (apply clojure.test/run-tests nss)]
   (shutdown-agents)

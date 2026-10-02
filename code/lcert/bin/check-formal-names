@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Fast pre-check for the formal suite: no kernel constant may be declared in
+# two namespaces.  Ansatz refuses a second declaration ("Constant already
+# declared"), but only when the second namespace loads — after half an hour
+# of elaboration.  This finds such clashes in seconds, by scanning the
+# sources for the literal declaration forms:
+#   (thm N  (kdef N  (a/defn N  prove-theorem 'N  base/thm 'N
+#   prove! 'N  prove-exp! 'N  case! 'N
+# Names built by generators (doseq loops, str) are not seen; the suite itself
+# still catches those.
+# Usage: bin/check-formal-names [DIR]   (default: formal/lcert/formal)
+dir="${1:-$(dirname "$0")/../formal/lcert/formal}"
+dups=$(grep -oE "(\(thm |\(kdef |\(a/defn |prove-theorem '+|base/thm '|prove! '|prove-exp! '|case! ')[A-Za-z][A-Za-z0-9_']*" "$dir"/*.clj \
+  | sed -E "s/^([^:]*):.*[ ']([A-Za-z][A-Za-z0-9_']*)$/\2 \1/" \
+  | sort -u | awk '{n[$1]++; f[$1]=f[$1] " " $2} END {for (k in n) if (n[k] > 1) print k ":" f[k]}')
+if [ -n "$dups" ]; then
+  echo "Kernel constants declared in more than one namespace:" >&2
+  echo "$dups" >&2
+  exit 1
+fi

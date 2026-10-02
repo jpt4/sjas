@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Ask the warm server (bin/formal-server) to re-check what changed since its
+# last load: it reloads from the earliest changed formal namespace and runs the
+# affected suites.  Exit status 0 iff no test failed or errored.
+cd "$(dirname "$0")/.." || exit 2
+bin/check-formal-names || exit 1
+grep -q ":ready" test-runs/formal-server.log 2>/dev/null || { echo "server not ready (see test-runs/formal-server.log)"; exit 2; }
+out=$(echo "(lcert.formal-server/recheck!)" | nc -N localhost 5699)
+echo "$out"
+echo "$out" | grep -q "Nothing changed since the last check." && exit 0
+echo "$out" | grep -qE "^[0-9]+ failures, [0-9]+ errors\." || exit 1
+echo "$out" | grep -qE "^0 failures, 0 errors\." || exit 1
