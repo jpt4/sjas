@@ -40,9 +40,15 @@
   the runtime first component is unconstrained; the denotation still reads
   it.  The tail environment is envE at the body's usage vector, which is a
   summand of the conclusion's vector; restricting envE along vadd is the
-  assembly's obligation, not this case's."
+  assembly's obligation, not this case's.
+
+  if selects one branch at the same type.  elimBool's branches are judged
+  at P[tt] and P[ff] and the conclusion at P[b]; a Boolean term has skeleton
+  Unit, so those three types have one usage skeleton (skel_subst_eq) and
+  the carriers agree (denU_ty).  caseLbl applies the branch list, and the
+  conclusion P[a/x] is the codomain P after a Unit substitution."
   (:require [ansatz.core :as a]
-            [lcert.formal.base :refer [thm kdef]]
+            [lcert.formal.base :refer [thm kdef lv]]
             [lcert.formal.usage :refer :all]
             [lcert.formal.syntax :refer :all]
             [lcert.formal.skel :refer :all]
@@ -2687,3 +2693,692 @@
            (denU_projw_fst chkf dec encTy n D A B p eta)
            (denU_projw_snd chkf dec encTy n D A B p eta)
            hep het hrel)))
+
+;; --- if (Theorem 4′, the conditional) ---------------------------------------
+;;
+;; At Bool, E is equality with the denotation (denU_bool), so both sides see
+;; the same Boolean and select the same branch.  The branches are judged at
+;; one type, so the hypothesis applies with no transport.  Bool.rec's
+;; arguments are else, then, scrutinee, and cases on the Boolean meets the
+;; false goal first.
+
+(thm denU_bool
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), b :- Exp,
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq Bool
+    (denU chkf dec encTy n D b Exp.tBool eta)
+    (den chkf dec encTy n b (skels D) Sk.bool (henv_of_usk D eta)))
+  (rfl))
+
+(thm cast_boolrec
+  [s1 :- Sk, s2 :- Sk, e :- (Eq Sk s1 s2),
+   a :- (Car s2), b :- (Car s2), c :- Bool]
+  (Eq (Car s1)
+    (Eq.mp (congrArg Car (Eq.symm e))
+      (Bool.rec$1 (fn [_ :- Bool] (Car s2)) a b c))
+    (Bool.rec$1 (fn [_ :- Bool] (Car s1))
+      (Eq.mp (congrArg Car (Eq.symm e)) a)
+      (Eq.mp (congrArg Car (Eq.symm e)) b)
+      c))
+  (cases e)
+  (cases c)
+  (rfl)
+  (rfl))
+
+(thm denU_ite
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), b :- Exp, t :- Exp, e :- Exp, C :- Exp,
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (Car (uskSk (usk C)))
+    (denU chkf dec encTy n D (Exp.ite b t e) C eta)
+    (Bool.rec$1 (fn [_ :- Bool] (Car (uskSk (usk C))))
+      (denU chkf dec encTy n D e C eta)
+      (denU chkf dec encTy n D t C eta)
+      (denU chkf dec encTy n D b Exp.tBool eta)))
+  (exact (Eq.trans
+    (congrArg
+      (fn [x :- (Car (skel C))]
+        (Eq.mp (congrArg Car (Eq.symm (usk_skel C))) x))
+      (den_ite_at chkf dec encTy n b t e (skels D) (skel C) (henv_of_usk D eta)))
+    (cast_boolrec (uskSk (usk C)) (skel C) (usk_skel C)
+      (den chkf dec encTy n e (skels D) (skel C) (henv_of_usk D eta))
+      (den chkf dec encTy n t (skels D) (skel C) (henv_of_usk D eta))
+      (den chkf dec encTy n b (skels D) Sk.bool (henv_of_usk D eta))))))
+
+(thm adeqE_ite_cases
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp),
+   b :- Exp, t :- Exp, e :- Exp, C :- Exp,
+   be :- Exp, te :- Exp, ee :- Exp,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   c :- Bool,
+   hb :- (EvalE chkf dec encTy n rho be (RV.bool c)),
+   iht :- (Exists (fn [v :- RV]
+            (And (EvalE chkf dec encTy n rho te v)
+                 (Erel chkf dec encTy n (usk C) v
+                   (denU chkf dec encTy n D t C eta))))),
+   ihe :- (Exists (fn [v :- RV]
+            (And (EvalE chkf dec encTy n rho ee v)
+                 (Erel chkf dec encTy n (usk C) v
+                   (denU chkf dec encTy n D e C eta)))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.ite be te ee) v)
+         (Erel chkf dec encTy n (usk C) v
+           (Bool.rec$1 (fn [_ :- Bool] (Car (uskSk (usk C))))
+             (denU chkf dec encTy n D e C eta)
+             (denU chkf dec encTy n D t C eta)
+             c)))))
+  (cases c)
+  (refine' (exT RV _ _ ihe _)) (intro ve he)
+  (have hee (EvalE chkf dec encTy n rho ee ve) (And.left he))
+  (have hre (Erel chkf dec encTy n (usk C) ve (denU chkf dec encTy n D e C eta))
+    (And.right he))
+  (constructor) (exact ve)
+  (constructor)
+  (exact (EvE.eIteF chkf dec encTy n rho be te ee ve hb hee))
+  (exact hre)
+  (refine' (exT RV _ _ iht _)) (intro vt ht)
+  (have het (EvalE chkf dec encTy n rho te vt) (And.left ht))
+  (have hrt (Erel chkf dec encTy n (usk C) vt (denU chkf dec encTy n D t C eta))
+    (And.right ht))
+  (constructor) (exact vt)
+  (constructor)
+  (exact (EvE.eIteT chkf dec encTy n rho be te ee vt hb het))
+  (exact hrt))
+
+(thm adeqE_ite
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp),
+   b :- Exp, t :- Exp, e :- Exp, C :- Exp,
+   be :- Exp, te :- Exp, ee :- Exp,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   ihb :- (Exists (fn [vb :- RV]
+            (And (EvalE chkf dec encTy n rho be vb)
+                 (Erel chkf dec encTy n (usk Exp.tBool) vb
+                   (denU chkf dec encTy n D b Exp.tBool eta))))),
+   iht :- (Exists (fn [v :- RV]
+            (And (EvalE chkf dec encTy n rho te v)
+                 (Erel chkf dec encTy n (usk C) v
+                   (denU chkf dec encTy n D t C eta))))),
+   ihe :- (Exists (fn [v :- RV]
+            (And (EvalE chkf dec encTy n rho ee v)
+                 (Erel chkf dec encTy n (usk C) v
+                   (denU chkf dec encTy n D e C eta)))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.ite be te ee) v)
+         (Erel chkf dec encTy n (usk C) v
+           (denU chkf dec encTy n D (Exp.ite b t e) C eta)))))
+  (rw [(denU_ite chkf dec encTy n D b t e C eta)])
+  (refine' (exT RV _ _ ihb _)) (intro vb hb0)
+  (have hev (EvalE chkf dec encTy n rho be vb) (And.left hb0))
+  (have hr (Eq RV vb (RV.bool (denU chkf dec encTy n D b Exp.tBool eta)))
+    (And.right hb0))
+  (exact (adeqE_ite_cases chkf dec encTy n D b t e C be te ee rho eta
+           (denU chkf dec encTy n D b Exp.tBool eta)
+           (evalE_cast chkf dec encTy n rho be vb
+             (RV.bool (denU chkf dec encTy n D b Exp.tBool eta)) hev hr)
+           iht ihe)))
+
+
+;; --- substitution of equal skeletons ----------------------------------------
+;;
+;; elimBool and caseLbl conclude at P[b/x] while a premise is judged at
+;; P[c/x] or at P.  usk and skel read a substituted type only through the
+;; skeletons of the values the substitution inserts (the variable case) and
+;; through Π, Σ and branch lists.  Two substitutions that agree pointwise
+;; on those skeletons therefore agree (skel_subst_eq, usk_subst_eq), and
+;; denU transports along that agreement (denU_ty).  A Boolean or label term
+;; has skeleton Unit, so it agrees with tt, ff and with the Unit hypothesis
+;; of usk_subst1.
+
+(thm up_skel_eq
+  [sg1 :- (=> Nat Exp), sg2 :- (=> Nat Exp),
+   hs :- (forall [i Nat] (Eq Sk (skel (sg1 i)) (skel (sg2 i)))),
+   i :- Nat]
+  (Eq Sk (skel (up sg1 i)) (skel (up sg2 i)))
+  (cases i)
+  (rfl)
+  (exact (Eq.trans (skel_lift (sg1 n) 1 0)
+           (Eq.trans (hs n) (Eq.symm (skel_lift (sg2 n) 1 0))))))
+
+(thm upn_skel_eq [n :- Nat]
+  (forall [sg1 (=> Nat Exp)]
+    (forall [sg2 (=> Nat Exp)]
+      (=> (forall [i Nat] (Eq Sk (skel (sg1 i)) (skel (sg2 i))))
+          (forall [i Nat] (Eq Sk (skel ((upn n sg1) i)) (skel ((upn n sg2) i)))))))
+  (induction n)
+  (intro sg1 sg2 hs)
+  (exact hs)
+  (intro sg1 sg2 hs i)
+  (exact (up_skel_eq (upn n sg1) (upn n sg2) (ih_n sg1 sg2 hs) i)))
+
+(thm up_usk_eq
+  [sg1 :- (=> Nat Exp), sg2 :- (=> Nat Exp),
+   hs :- (forall [i Nat] (Eq USk (usk (sg1 i)) (usk (sg2 i)))),
+   i :- Nat]
+  (Eq USk (usk (up sg1 i)) (usk (up sg2 i)))
+  (cases i)
+  (rfl)
+  (exact (Eq.trans (usk_lift (sg1 n) 1 0)
+           (Eq.trans (hs n) (Eq.symm (usk_lift (sg2 n) 1 0))))))
+
+(thm upn_usk_eq [n :- Nat]
+  (forall [sg1 (=> Nat Exp)]
+    (forall [sg2 (=> Nat Exp)]
+      (=> (forall [i Nat] (Eq USk (usk (sg1 i)) (usk (sg2 i))))
+          (forall [i Nat] (Eq USk (usk ((upn n sg1) i)) (usk ((upn n sg2) i)))))))
+  (induction n)
+  (intro sg1 sg2 hs)
+  (exact hs)
+  (intro sg1 sg2 hs i)
+  (exact (up_usk_eq (upn n sg1) (upn n sg2) (ih_n sg1 sg2 hs) i)))
+
+
+(let [exp-fields @#'lcert.formal.syntactic/exp-fields
+      congruence @#'lcert.formal.syntactic/congruence
+      args (fn [ty fun hyp-name fields]
+             (for [[f fty depth] fields :when (= fty 'Exp)]
+               [ty
+                (list fun (list 'subst (if (zero? depth) 'sg1 (list 'upn depth 'sg1)) f))
+                (list fun (list 'subst (if (zero? depth) 'sg2 (list 'upn depth 'sg2)) f))
+                (list (symbol (str "ih_" f))
+                      (if (zero? depth) 'sg1 (list 'upn depth 'sg1))
+                      (if (zero? depth) 'sg2 (list 'upn depth 'sg2))
+                      (if (zero? depth) 'hs (list hyp-name depth 'sg1 'sg2 'hs)))]))]
+  (a/prove-theorem 'skel_subst_eq (lv '[e :- Exp])
+    (lv '(forall [sg1 (=> Nat Exp)]
+           (forall [sg2 (=> Nat Exp)]
+             (=> (forall [i Nat] (Eq Sk (skel (sg1 i)) (skel (sg2 i))))
+                 (Eq Sk (skel (subst sg1 e)) (skel (subst sg2 e)))))))
+    (lv (into ['(induction e)]
+              (mapcat
+               (fn [[ctor fields]]
+                 (cons '(intro sg1 sg2 hs)
+                       (cond
+                         (= ctor 'var) '[(exact (hs i))]
+                         (#{'tPi 'tSig 'tBrs} ctor)
+                         [(list 'exact
+                                (congruence (if (= ctor 'tSig) 'Sk.prod 'Sk.arr)
+                                  (into (if (= ctor 'tBrs) [['Sk 'Sk.lbl 'Sk.lbl nil]] [])
+                                        (args 'Sk 'skel 'upn_skel_eq fields))))]
+                         :else '[(rfl)])))
+               exp-fields))))
+  (a/prove-theorem 'usk_subst_eq (lv '[e :- Exp])
+    (lv '(forall [sg1 (=> Nat Exp)]
+           (forall [sg2 (=> Nat Exp)]
+             (=> (forall [i Nat] (Eq USk (usk (sg1 i)) (usk (sg2 i))))
+                 (Eq USk (usk (subst sg1 e)) (usk (subst sg2 e)))))))
+    (lv (into ['(induction e)]
+              (mapcat
+               (fn [[ctor fields]]
+                 (cons '(intro sg1 sg2 hs)
+                       (cond
+                         (= ctor 'var) '[(exact (hs i))]
+                         (= ctor 'tPi)
+                         (into ['(cases r)]
+                               (for [k '[USk.arr0 USk.arrN USk.arrN]]
+                                 (list 'exact (congruence k (args 'USk 'usk 'upn_usk_eq fields)))))
+                         (= ctor 'tSig)
+                         (into ['(cases r)]
+                               (for [k '[USk.prod0 USk.prodN USk.prodN]]
+                                 (list 'exact (congruence k (args 'USk 'usk 'upn_usk_eq fields)))))
+                         (= ctor 'tBrs)
+                         [(list 'exact
+                                (congruence 'USk.arrN
+                                  (into [['USk '(USk.base Sk.lbl) '(USk.base Sk.lbl) nil]]
+                                        (args 'USk 'usk 'upn_usk_eq fields))))]
+                         :else '[(rfl)])))
+               exp-fields)))))
+
+
+(thm skel_subst1_eq
+  [u :- Exp, v :- Exp, e :- Exp, h :- (Eq Sk (skel u) (skel v))]
+  (Eq Sk (skel (subst1 u e)) (skel (subst1 v e)))
+  (exact (skel_subst_eq e
+           (fn [i :- Nat] (inst1 u i))
+           (fn [i :- Nat] (inst1 v i))
+           (fn [i :- Nat]
+             (Nat.rec (fn [j :- Nat] (Eq Sk (skel (inst1 u j)) (skel (inst1 v j))))
+               h
+               (fn [j :- Nat, _ :- (Eq Sk (skel (inst1 u j)) (skel (inst1 v j)))]
+                 (Eq.refl$1 (skel (Exp.var j))))
+               i)))))
+
+(thm usk_subst1_eq
+  [u :- Exp, v :- Exp, e :- Exp, h :- (Eq USk (usk u) (usk v))]
+  (Eq USk (usk (subst1 u e)) (usk (subst1 v e)))
+  (exact (usk_subst_eq e
+           (fn [i :- Nat] (inst1 u i))
+           (fn [i :- Nat] (inst1 v i))
+           (fn [i :- Nat]
+             (Nat.rec (fn [j :- Nat] (Eq USk (usk (inst1 u j)) (usk (inst1 v j))))
+               h
+               (fn [j :- Nat, _ :- (Eq USk (usk (inst1 u j)) (usk (inst1 v j)))]
+                 (Eq.refl$1 (usk (Exp.var j))))
+               i)))))
+
+(thm denU_ty_from
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), t :- Exp, A :- Exp, B :- Exp,
+   eta :- (HEnv (usks (uskCtx D))),
+   eu :- (Eq USk (usk B) (usk A)),
+   eS :- (Eq Sk (skel B) (skel A))]
+  (Eq (Car (uskSk (usk B)))
+    (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w))) (Eq.symm eu))
+      (Eq.mp (congrArg Car (Eq.symm (usk_skel A)))
+        (den chkf dec encTy n t (skels D) (skel A) (henv_of_usk D eta))))
+    (denU chkf dec encTy n D t B eta))
+  (exact (Eq.trans
+    (cast_usk_path (usk B) (usk A) eu
+      (skel A) (skel B)
+      (usk_skel A) (usk_skel B) eS
+      (den chkf dec encTy n t (skels D) (skel A) (henv_of_usk D eta)))
+    (Eq.trans
+      (cast_square
+        (uskSk (usk B)) (uskSk (usk A)) (skel A) (skel B)
+        (usk_skel A) eS (usk_skel B)
+        (den chkf dec encTy n t (skels D) (skel A) (henv_of_usk D eta)))
+      (congrArg
+        (fn [x :- (Car (skel B))]
+          (Eq.mp (congrArg Car (Eq.symm (usk_skel B))) x))
+        (den_at_eq chkf dec encTy n t (skels D)
+          (skel A) (skel B) (Eq.symm eS)
+          (henv_of_usk D eta)))))))
+
+(thm denU_ty
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), t :- Exp, A :- Exp, B :- Exp,
+   eta :- (HEnv (usks (uskCtx D))),
+   eu :- (Eq USk (usk B) (usk A)),
+   eS :- (Eq Sk (skel B) (skel A))]
+  (Eq (Car (uskSk (usk A)))
+    (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w))) eu)
+      (denU chkf dec encTy n D t B eta))
+    (denU chkf dec encTy n D t A eta))
+  (exact (Eq.trans
+    (congrArg
+      (fn [x :- (Car (uskSk (usk B)))]
+        (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w))) eu) x))
+      (Eq.symm (denU_ty_from chkf dec encTy n D t A B eta eu eS)))
+    (cast_usk_back (usk B) (usk A) eu
+      (denU chkf dec encTy n D t A eta)))))
+
+
+;; --- elimBool (Theorem 4′) --------------------------------------------------
+;;
+;; The same Boolean split as if.  The then branch is judged at P[tt] and the
+;; else branch at P[ff]; the conclusion is P[b].  adeqE_retarget moves each
+;; branch's E-witness onto P[b] once the skeletons agree, which they do
+;; because a Boolean term has skeleton Unit (skj_term_unit, from the Rt the
+;; assembly already has for skOf).  adeqE_elim is the split given those
+;; equations; adeqE_elimB derives the equations.
+
+(thm denU_elim
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), P :- Exp, b :- Exp, t :- Exp, e :- Exp,
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (Car (uskSk (usk (subst1 b P))))
+    (denU chkf dec encTy n D (Exp.elimB P b t e) (subst1 b P) eta)
+    (Bool.rec$1 (fn [_ :- Bool] (Car (uskSk (usk (subst1 b P)))))
+      (denU chkf dec encTy n D e (subst1 b P) eta)
+      (denU chkf dec encTy n D t (subst1 b P) eta)
+      (denU chkf dec encTy n D b Exp.tBool eta)))
+  (exact (Eq.trans
+    (congrArg
+      (fn [x :- (Car (skel (subst1 b P)))]
+        (Eq.mp (congrArg Car (Eq.symm (usk_skel (subst1 b P)))) x))
+      (den_elimB_at chkf dec encTy n P b t e (skels D) (skel (subst1 b P))
+        (henv_of_usk D eta)))
+    (cast_boolrec (uskSk (usk (subst1 b P))) (skel (subst1 b P))
+      (usk_skel (subst1 b P))
+      (den chkf dec encTy n e (skels D) (skel (subst1 b P)) (henv_of_usk D eta))
+      (den chkf dec encTy n t (skels D) (skel (subst1 b P)) (henv_of_usk D eta))
+      (den chkf dec encTy n b (skels D) Sk.bool (henv_of_usk D eta))))))
+
+(thm adeqE_retarget
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), t :- Exp, te :- Exp, A :- Exp, B :- Exp,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   eu :- (Eq USk (usk A) (usk B)),
+   eS :- (Eq Sk (skel A) (skel B)),
+   ih :- (Exists (fn [v :- RV]
+           (And (EvalE chkf dec encTy n rho te v)
+                (Erel chkf dec encTy n (usk A) v
+                  (denU chkf dec encTy n D t A eta)))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho te v)
+         (Erel chkf dec encTy n (usk B) v
+           (denU chkf dec encTy n D t B eta)))))
+  (refine' (exT RV _ _ ih _)) (intro v hv)
+  (have he (EvalE chkf dec encTy n rho te v) (And.left hv))
+  (have hr (Erel chkf dec encTy n (usk A) v (denU chkf dec encTy n D t A eta))
+    (And.right hv))
+  (constructor) (exact v)
+  (constructor)
+  (exact he)
+  (exact (erel_car chkf dec encTy n (usk B) v
+           (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w))) eu)
+             (denU chkf dec encTy n D t A eta))
+           (denU chkf dec encTy n D t B eta)
+           (erel_at chkf dec encTy n (usk A) (usk B) v
+             (denU chkf dec encTy n D t A eta) hr eu)
+           (denU_ty chkf dec encTy n D t B A eta eu eS))))
+
+(thm adeqE_elim_cases
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp),
+   P :- Exp, b :- Exp, t :- Exp, e :- Exp,
+   be :- Exp, te :- Exp, ee :- Exp,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   c :- Bool,
+   hb :- (EvalE chkf dec encTy n rho be (RV.bool c)),
+   iht :- (Exists (fn [v :- RV]
+            (And (EvalE chkf dec encTy n rho te v)
+                 (Erel chkf dec encTy n (usk (subst1 b P)) v
+                   (denU chkf dec encTy n D t (subst1 b P) eta))))),
+   ihe :- (Exists (fn [v :- RV]
+            (And (EvalE chkf dec encTy n rho ee v)
+                 (Erel chkf dec encTy n (usk (subst1 b P)) v
+                   (denU chkf dec encTy n D e (subst1 b P) eta)))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.elimB P be te ee) v)
+         (Erel chkf dec encTy n (usk (subst1 b P)) v
+           (Bool.rec$1 (fn [_ :- Bool] (Car (uskSk (usk (subst1 b P)))))
+             (denU chkf dec encTy n D e (subst1 b P) eta)
+             (denU chkf dec encTy n D t (subst1 b P) eta)
+             c)))))
+  (cases c)
+  (refine' (exT RV _ _ ihe _)) (intro ve he)
+  (have hee (EvalE chkf dec encTy n rho ee ve) (And.left he))
+  (have hre (Erel chkf dec encTy n (usk (subst1 b P)) ve
+              (denU chkf dec encTy n D e (subst1 b P) eta))
+    (And.right he))
+  (constructor) (exact ve)
+  (constructor)
+  (exact (EvE.eElimF chkf dec encTy n rho P be te ee ve hb hee))
+  (exact hre)
+  (refine' (exT RV _ _ iht _)) (intro vt ht)
+  (have het (EvalE chkf dec encTy n rho te vt) (And.left ht))
+  (have hrt (Erel chkf dec encTy n (usk (subst1 b P)) vt
+              (denU chkf dec encTy n D t (subst1 b P) eta))
+    (And.right ht))
+  (constructor) (exact vt)
+  (constructor)
+  (exact (EvE.eElimT chkf dec encTy n rho P be te ee vt hb het))
+  (exact hrt))
+
+(thm adeqE_elim
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp),
+   P :- Exp, b :- Exp, t :- Exp, e :- Exp,
+   be :- Exp, te :- Exp, ee :- Exp,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   hub :- (Eq USk (usk b) (USk.base Sk.unit)),
+   hsb :- (Eq Sk (skel b) Sk.unit),
+   ihb :- (Exists (fn [vb :- RV]
+            (And (EvalE chkf dec encTy n rho be vb)
+                 (Erel chkf dec encTy n (usk Exp.tBool) vb
+                   (denU chkf dec encTy n D b Exp.tBool eta))))),
+   iht :- (Exists (fn [v :- RV]
+            (And (EvalE chkf dec encTy n rho te v)
+                 (Erel chkf dec encTy n (usk (subst1 Exp.tt P)) v
+                   (denU chkf dec encTy n D t (subst1 Exp.tt P) eta))))),
+   ihe :- (Exists (fn [v :- RV]
+            (And (EvalE chkf dec encTy n rho ee v)
+                 (Erel chkf dec encTy n (usk (subst1 Exp.ff P)) v
+                   (denU chkf dec encTy n D e (subst1 Exp.ff P) eta)))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.elimB P be te ee) v)
+         (Erel chkf dec encTy n (usk (subst1 b P)) v
+           (denU chkf dec encTy n D (Exp.elimB P b t e) (subst1 b P) eta)))))
+  (rw [(denU_elim chkf dec encTy n D P b t e eta)])
+  (refine' (exT RV _ _ ihb _)) (intro vb hb0)
+  (have hev (EvalE chkf dec encTy n rho be vb) (And.left hb0))
+  (have hr (Eq RV vb (RV.bool (denU chkf dec encTy n D b Exp.tBool eta)))
+    (And.right hb0))
+  (have htt (Eq USk (usk Exp.tt) (USk.base Sk.unit)) (rfl))
+  (have hff (Eq USk (usk Exp.ff) (USk.base Sk.unit)) (rfl))
+  (have hst (Eq Sk (skel Exp.tt) Sk.unit) (rfl))
+  (have hsf (Eq Sk (skel Exp.ff) Sk.unit) (rfl))
+  (exact (adeqE_elim_cases chkf dec encTy n D P b t e be te ee rho eta
+           (denU chkf dec encTy n D b Exp.tBool eta)
+           (evalE_cast chkf dec encTy n rho be vb
+             (RV.bool (denU chkf dec encTy n D b Exp.tBool eta)) hev hr)
+           (adeqE_retarget chkf dec encTy n D t te
+             (subst1 Exp.tt P) (subst1 b P) rho eta
+             (usk_subst1_eq Exp.tt b P (Eq.trans htt (Eq.symm hub)))
+             (skel_subst1_eq Exp.tt b P (Eq.trans hst (Eq.symm hsb)))
+             iht)
+           (adeqE_retarget chkf dec encTy n D e ee
+             (subst1 Exp.ff P) (subst1 b P) rho eta
+             (usk_subst1_eq Exp.ff b P (Eq.trans hff (Eq.symm hub)))
+             (skel_subst1_eq Exp.ff b P (Eq.trans hsf (Eq.symm hsb)))
+             ihe))))
+
+
+;; --- caseLbl (Theorem 4′) ---------------------------------------------------
+;;
+;; caseLbl is application of the branch list.  usk of tBrs is an arrow from
+;; labels whose codomain cast is usk of the motive (usk_skel_brs), so the
+;; arrow clause of E applies.  The conclusion is P[a/x].  a is a term, so
+;; its skeleton is Unit and that substitution does not change the usage
+;; skeleton (usk_subst1); denU_case is the application, transported.
+
+(thm usk_skel_brs [P :- Exp, k :- Nat]
+  (Eq (Eq Sk (Sk.arr Sk.lbl (uskSk (usk P))) (Sk.arr Sk.lbl (skel P)))
+      (usk_skel (Exp.tBrs P k))
+      (congrArg (fn [y :- Sk] (Sk.arr Sk.lbl y)) (usk_skel P)))
+  (rfl))
+
+(thm cast_app_brs
+  [c :- Sk, sC :- Sk, eB :- (Eq Sk c sC),
+   f :- (Car (Sk.arr Sk.lbl sC)),
+   a :- (Car Sk.lbl)]
+  (Eq (Car c)
+    ((Eq.mp (congrArg Car (Eq.symm (congrArg (fn [y :- Sk] (Sk.arr Sk.lbl y)) eB))) f) a)
+    (Eq.mp (congrArg Car (Eq.symm eB)) (f a)))
+  (cases eB)
+  (rfl))
+
+(thm denU_brs_at
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), bs :- Exp, P :- Exp,
+   alpha :- (Car Sk.lbl),
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (Car (uskSk (usk P)))
+    ((denU chkf dec encTy n D bs (Exp.tBrs P 0) eta) alpha)
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel P)))
+      ((den chkf dec encTy n bs (skels D) (Sk.arr Sk.lbl (skel P)) (henv_of_usk D eta))
+       alpha)))
+  (exact (cast_app_brs (uskSk (usk P)) (skel P) (usk_skel P)
+           (den chkf dec encTy n bs (skels D) (Sk.arr Sk.lbl (skel P)) (henv_of_usk D eta))
+           alpha)))
+
+(thm denU_lbl
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), a :- Exp,
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (Car Sk.lbl)
+    (denU chkf dec encTy n D a Exp.tLbl eta)
+    (den chkf dec encTy n a (skels D) Sk.lbl (henv_of_usk D eta)))
+  (rfl))
+
+(thm denU_case_fun
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), P :- Exp, a :- Exp, bs :- Exp,
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (Car (uskSk (usk P)))
+    ((denU chkf dec encTy n D bs (Exp.tBrs P 0) eta)
+     (denU chkf dec encTy n D a Exp.tLbl eta))
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel P)))
+      (den chkf dec encTy n (Exp.caseL P a bs) (skels D) (skel P)
+        (henv_of_usk D eta))))
+  (exact (Eq.trans
+    (denU_brs_at chkf dec encTy n D bs P
+      (denU chkf dec encTy n D a Exp.tLbl eta) eta)
+    (congrArg
+      (fn [x :- (Car (skel P))]
+        (Eq.mp (congrArg Car (Eq.symm (usk_skel P))) x))
+      (Eq.symm (den_caseL_at chkf dec encTy n P a bs (skels D) (skel P)
+                 (henv_of_usk D eta)))))))
+
+(thm denU_case
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), P :- Exp, a :- Exp, bs :- Exp,
+   eta :- (HEnv (usks (uskCtx D))),
+   hU :- (Eq Sk (skel a) Sk.unit)]
+  (Eq (Car (uskSk (usk (subst1 a P))))
+    (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w)))
+             (Eq.symm (usk_subst1 a P (usk_of_unit a hU))))
+      ((denU chkf dec encTy n D bs (Exp.tBrs P 0) eta)
+       (denU chkf dec encTy n D a Exp.tLbl eta)))
+    (denU chkf dec encTy n D (Exp.caseL P a bs) (subst1 a P) eta))
+  (exact (Eq.trans
+    (congrArg
+      (fn [x :- (Car (uskSk (usk P)))]
+        (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w)))
+                 (Eq.symm (usk_subst1 a P (usk_of_unit a hU)))) x))
+      (denU_case_fun chkf dec encTy n D P a bs eta))
+    (Eq.trans
+      (cast_usk_path (usk (subst1 a P)) (usk P) (usk_subst1 a P (usk_of_unit a hU))
+        (skel P) (skel (subst1 a P))
+        (usk_skel P) (usk_skel (subst1 a P)) (skel_subst1 a P hU)
+        (den chkf dec encTy n (Exp.caseL P a bs) (skels D) (skel P)
+          (henv_of_usk D eta)))
+      (Eq.trans
+        (cast_square
+          (uskSk (usk (subst1 a P))) (uskSk (usk P)) (skel P) (skel (subst1 a P))
+          (usk_skel P) (skel_subst1 a P hU) (usk_skel (subst1 a P))
+          (den chkf dec encTy n (Exp.caseL P a bs) (skels D) (skel P)
+            (henv_of_usk D eta)))
+        (congrArg
+          (fn [x :- (Car (skel (subst1 a P)))]
+            (Eq.mp (congrArg Car (Eq.symm (usk_skel (subst1 a P)))) x))
+          (den_at_eq chkf dec encTy n (Exp.caseL P a bs) (skels D)
+            (skel P) (skel (subst1 a P)) (Eq.symm (skel_subst1 a P hU))
+            (henv_of_usk D eta))))))))
+
+(thm adeqE_case
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), us1 :- (List U),
+   P :- Exp, a :- Exp, bs :- Exp, ae :- Exp, bse :- Exp,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   ha :- (Rt chkf D us1 a Exp.tLbl),
+   iha :- (Exists (fn [va :- RV]
+            (And (EvalE chkf dec encTy n rho ae va)
+                 (Erel chkf dec encTy n (usk Exp.tLbl) va
+                   (denU chkf dec encTy n D a Exp.tLbl eta))))),
+   ihb :- (Exists (fn [vf :- RV]
+            (And (EvalE chkf dec encTy n rho bse vf)
+                 (Erel chkf dec encTy n (usk (Exp.tBrs P 0)) vf
+                   (denU chkf dec encTy n D bs (Exp.tBrs P 0) eta)))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.caseL P ae bse) v)
+         (Erel chkf dec encTy n (usk (subst1 a P)) v
+           (denU chkf dec encTy n D (Exp.caseL P a bs) (subst1 a P) eta)))))
+  (have haS (SkJ Bool.false (skels D) a (skel Exp.tLbl))
+    (lemma25_rt chkf D us1 a Exp.tLbl ha))
+  (have hU (Eq Sk (skel a) Sk.unit)
+    (skj_term_unit Bool.false (skels D) a (skel Exp.tLbl) haS rfl))
+  (refine' (exT RV _ _ ihb _)) (intro vf hf)
+  (have hef (EvalE chkf dec encTy n rho bse vf) (And.left hf))
+  (have hrf (Erel chkf dec encTy n (usk (Exp.tBrs P 0)) vf
+              (denU chkf dec encTy n D bs (Exp.tBrs P 0) eta))
+    (And.right hf))
+  (refine' (exT RV _ _ iha _)) (intro va hpa)
+  (have hea (EvalE chkf dec encTy n rho ae va) (And.left hpa))
+  (have hra (Erel chkf dec encTy n (usk Exp.tLbl) va
+              (denU chkf dec encTy n D a Exp.tLbl eta))
+    (And.right hpa))
+  (refine' (exT RV _ _ (hrf va (denU chkf dec encTy n D a Exp.tLbl eta) hra) _))
+  (intro w hw)
+  (have hap (EvE chkf dec encTy n (EvSrc.ap vf va) w) (And.left hw))
+  (have hrel (Erel chkf dec encTy n (usk P) w
+               ((denU chkf dec encTy n D bs (Exp.tBrs P 0) eta)
+                (denU chkf dec encTy n D a Exp.tLbl eta)))
+    (And.right hw))
+  (have hsub (Erel chkf dec encTy n (usk (subst1 a P)) w
+               (Eq.mp (congrArg (fn [z :- USk] (Car (uskSk z)))
+                        (Eq.symm (usk_subst1 a P (usk_of_unit a hU))))
+                 ((denU chkf dec encTy n D bs (Exp.tBrs P 0) eta)
+                  (denU chkf dec encTy n D a Exp.tLbl eta))))
+    (erel_subst_unit chkf dec encTy n a P w
+      ((denU chkf dec encTy n D bs (Exp.tBrs P 0) eta)
+       (denU chkf dec encTy n D a Exp.tLbl eta))
+      hU hrel))
+  (constructor) (exact w)
+  (constructor)
+  (exact (EvE.eCaseL chkf dec encTy n rho P ae bse va vf w hea hef hap))
+  (exact (erel_car chkf dec encTy n (usk (subst1 a P)) w
+           (Eq.mp (congrArg (fn [z :- USk] (Car (uskSk z)))
+                    (Eq.symm (usk_subst1 a P (usk_of_unit a hU))))
+             ((denU chkf dec encTy n D bs (Exp.tBrs P 0) eta)
+              (denU chkf dec encTy n D a Exp.tLbl eta)))
+           (denU chkf dec encTy n D (Exp.caseL P a bs) (subst1 a P) eta)
+           hsub
+           (denU_case chkf dec encTy n D P a bs eta hU))))
+
+;; adeqE_elim is the split.  The derivation of the scrutinee is a term
+;; judgment, so its skeleton is Unit and the two equations are derived.
+(thm adeqE_elimB
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), us1 :- (List U),
+   P :- Exp, b :- Exp, t :- Exp, e :- Exp,
+   be :- Exp, te :- Exp, ee :- Exp,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   hb :- (Rt chkf D us1 b Exp.tBool),
+   ihb :- (Exists (fn [vb :- RV]
+            (And (EvalE chkf dec encTy n rho be vb)
+                 (Erel chkf dec encTy n (usk Exp.tBool) vb
+                   (denU chkf dec encTy n D b Exp.tBool eta))))),
+   iht :- (Exists (fn [v :- RV]
+            (And (EvalE chkf dec encTy n rho te v)
+                 (Erel chkf dec encTy n (usk (subst1 Exp.tt P)) v
+                   (denU chkf dec encTy n D t (subst1 Exp.tt P) eta))))),
+   ihe :- (Exists (fn [v :- RV]
+            (And (EvalE chkf dec encTy n rho ee v)
+                 (Erel chkf dec encTy n (usk (subst1 Exp.ff P)) v
+                   (denU chkf dec encTy n D e (subst1 Exp.ff P) eta)))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.elimB P be te ee) v)
+         (Erel chkf dec encTy n (usk (subst1 b P)) v
+           (denU chkf dec encTy n D (Exp.elimB P b t e) (subst1 b P) eta)))))
+  (have hbS (SkJ Bool.false (skels D) b (skel Exp.tBool))
+    (lemma25_rt chkf D us1 b Exp.tBool hb))
+  (have hsb (Eq Sk (skel b) Sk.unit)
+    (skj_term_unit Bool.false (skels D) b (skel Exp.tBool) hbS rfl))
+  (exact (adeqE_elim chkf dec encTy n D P b t e be te ee rho eta
+           (usk_of_unit b hsb) hsb ihb iht ihe)))
