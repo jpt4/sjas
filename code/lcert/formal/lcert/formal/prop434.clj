@@ -7,8 +7,11 @@
   - prop44_1: for every k, no q with Θₖ, x :₁ R ⊢ q :¹ R maps every
     certificate of every closed A to a certificate of □A (stated for a
     minimal certificate of ¬ᵏ⁺¹1, whose existence the paper presumes).
-  4.3 assumes CheckSpec and TokSize; 4.4 (1) also TypeSize (E2–E4's size
-  consequences, each as weak as its use allows); 4.4 (2), (3) are open."
+  - prop44_2, prop44_3: no uniform D3 (□A ⊸ □□A) and no uniform boxed
+    contraction (□A ⊸ □A ⊗ □A), each refuted at ¬ᵏ⁺¹1.
+  4.3 assumes CheckSpec and TokSize; 4.4 (1), (2) also TypeSize; 4.4 (3) only
+  CheckSpec and TypeSize (E2–E4's size consequences, each as weak as its use
+  allows)."
   (:require [ansatz.core :as a]
             [lcert.formal.base :as b :refer [thm kdef lv]]
             [lcert.formal.usage :refer :all]
@@ -209,3 +212,122 @@
   (list 'exact (list 'arith5 '(cnodes v) (list 'cnodes (w44 '(+ k (cnodes v)))) 'k (list 'cnodes (list 'encTy A44)) 'h43 'h3
                      (list 'negN_size 'encTy '(And.left (And.right (And.right hcs))) '(+ k 1))
                      (list 'cert_size 'chkf 'dec 'encTy 'hcs 'hts A44 'v 'hv)))))
+
+;; --- Proposition 4.4 (2), (3) -----------------------------------------------------------
+
+;; In and out of □A: (v, ⋆) is in V(□A) at footprint ‖v‖ when Check accepts v
+;; for A (box_in, evid); a value of □A at footprint j carries a certificate of
+;; A with at most j nodes (box_out).
+
+(def ^:private bx (fn [A] (list 'Exp.tSig 'U.u1 'Exp.tR (list 'chkT '(Exp.var 0) (list 'cTerm (list 'encTy A))))))
+(def ^:private PS '(Sk.prod Sk.cert Sk.unit))
+;; out of the box: a value of □A at footprint j carries a certificate of A with at most j nodes
+(eval (list 'lcert.formal.base/thm 'box_out
+  '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+    G :- (List Sk), e :- (HEnv G), j :- Nat, A :- Exp, c :- (Car (Sk.prod Sk.cert Sk.unit))]
+  (list '=> (list 'V 'chkf 'dec 'encTy 'n (bx 'A) 'G 'e 'j PS 'c)
+        '(And (LE.le (cnodes (Prod.fst c)) j) (Eq Bool (chkf (Prod.fst c) (encTy A)) Bool.true)))
+  '(intro h)
+  (list 'have 'h2 (list 'Exists (list 'fn '[j2 :- Nat] (list 'And '(Nat.le j2 j)
+                     (list 'And '(V chkf dec encTy n Exp.tR G e j2 Sk.cert (Prod.fst c))
+                                (list 'V 'chkf 'dec 'encTy 'n (list 'chkT '(Exp.var 0) '(cTerm (encTy A))) '(List.cons Sk Sk.cert G) '(Prod.mk (Prod.fst c) e) '(- j j2) 'Sk.unit '(Prod.snd c)))))) 'h)
+  '(refine' (exN _ _ h2 _)) '(intro j2 hj2)
+  (list 'have 'hch (list 'Eq 'Bool (list 'chkf '(den chkf dec encTy n (Exp.var 0) (List.cons Sk Sk.cert G) Sk.cert (Prod.mk (Prod.fst c) e))
+                                         '(den chkf dec encTy n (cTerm (encTy A)) (List.cons Sk Sk.cert G) Sk.syn (Prod.mk (Prod.fst c) e))) 'Bool.true)
+        '(chk_true chkf dec encTy n (List.cons Sk Sk.cert G) (Prod.mk (Prod.fst c) e) (- j j2) (Exp.var 0) (cTerm (encTy A)) (Prod.snd c) (And.right (And.right hj2))))
+  '(constructor)
+  '(exact (Nat.le_trans (And.left (And.left (And.right hj2))) (And.left hj2)))
+  '(exact (Eq.trans (Eq.symm (Eq.trans
+            (congrArg (fn [x :- Code] (chkf x (den chkf dec encTy n (cTerm (encTy A)) (List.cons Sk Sk.cert G) Sk.syn (Prod.mk (Prod.fst c) e))))
+                      (den_var0c chkf dec encTy n G e (Prod.fst c)))
+            (congrArg (fn [y :- Code] (chkf (Prod.fst c) y))
+                      (den_codeOf chkf dec encTy n (List.cons Sk Sk.cert G) (Prod.mk (Prod.fst c) e) (cTerm (encTy A)) (encTy A) (cterm_code (encTy A))))))
+           hch))))
+
+(thm box_evid [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+             G :- (List Sk), e :- (HEnv G), A :- Exp, v :- Code, hv :- (Eq Bool (chkf v (encTy A)) Bool.true)]
+  (Eq Bool (den chkf dec encTy n (Exp.chk (Exp.prn (Exp.var 0)) (cTerm (encTy A))) (List.cons Sk Sk.cert G) Sk.bool (Prod.mk v e)) Bool.true)
+  (rw [(den_chk_val chkf dec encTy n (Exp.prn (Exp.var 0)) (cTerm (encTy A)) (List.cons Sk Sk.cert G) (Prod.mk v e))])
+  (rw [(den_prn_val chkf dec encTy n (Exp.var 0) (List.cons Sk Sk.cert G) (Prod.mk v e))])
+  (rw [(den_var0c chkf dec encTy n G e v)])
+  (rw [(den_codeOf chkf dec encTy n (List.cons Sk Sk.cert G) (Prod.mk v e) (cTerm (encTy A)) (encTy A) (cterm_code (encTy A)))])
+  (exact hv))
+(eval (list 'lcert.formal.base/thm 'box_in
+  '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), n :- Nat,
+    G :- (List Sk), e :- (HEnv G), A :- Exp, v :- Code, hok :- (Eq Bool (lblOk v) Bool.true), hv :- (Eq Bool (chkf v (encTy A)) Bool.true)]
+  (list 'V 'chkf 'dec 'encTy 'n (bx 'A) 'G 'e '(cnodes v) PS '(Prod.mk v Unit.unit))
+  (list 'exact (list 'Exists.intro$1 '(cnodes v)
+                     '(And.intro (Nat.le_refl (cnodes v)) (And.intro (And.intro (Nat.le_refl (cnodes v)) hok) (box_evid chkf dec encTy n G e A v hv)))))))
+
+;; (3): no c_A with Θₖ ⊢ c_A :¹ □A ⊸ □A ⊗ □A for every certifiable A — at
+;; ¬ᵏ⁺¹1 and a minimal certificate v, the two output certificates share the
+;; footprint k + ‖v‖ and each has at least ‖v‖ nodes, while ‖v‖ > k + 1.
+;; Needs TypeSize, not TokSize.
+
+(thm arith7 [cv :- Nat, j :- Nat, K :- Nat, k :- Nat, s :- Nat, h1 :- (LE.le cv j), h2 :- (LE.le cv (- K j)), h3 :- (LE.le j K),
+               h4 :- (Eq Nat K (+ k cv)), h5 :- (LE.le (+ k 1) s), h6 :- (LT.lt s cv)] False (omega))
+
+(def ^:private A44x '(negN (+ k 1)))
+(def ^:private bA (bx A44x))
+(def ^:private T3 (list 'Exp.tPi 'U.u1 bA (list 'Exp.tSig 'U.u1 bA bA)))
+(def ^:private P2 (list 'Sk.prod PS PS))
+(def ^:private fq (list 'den 'chkf 'dec 'encTy '(+ k (cnodes v)) 'q '(skels (thetaD k)) (list 'Sk.arr PS P2) '(tokEnvD k)))
+(eval (list 'lcert.formal.base/thm 'prop44_3
+  ['chkf :- '(=> Code Code Bool), 'dec :- '(=> Code (Option (Prod Nat (Prod Exp Exp)))), 'encTy :- '(=> Exp Code),
+   'hcs :- '(CheckSpec chkf dec encTy), 'hts :- '(TypeSize chkf dec encTy), 'k :- 'Nat, 'q :- 'Exp,
+   'der :- (list 'Rt 'chkf '(thetaD k) '(thetaU k) 'q T3),
+   'v :- 'Code, 'hv :- (list 'Eq 'Bool (list 'chkf 'v (list 'encTy A44x)) 'Bool.true), 'hvok :- '(Eq Bool (lblOk v) Bool.true),
+   'hmin :- (list 'forall '[v2 Code] (list '=> (list 'Eq 'Bool (list 'chkf 'v2 (list 'encTy A44x)) 'Bool.true) '(LE.le (cnodes v) (cnodes v2))))]
+  'False
+  (list 'have 'hs (list 'forall '[j Nat] (list '=> '(Nat.le (+ k j) (+ k (cnodes v))) (list 'forall (vector 'a (list 'Car PS))
+            (list '=> (list 'V 'chkf 'dec 'encTy '(+ k (cnodes v)) bA '(skels (thetaD k)) '(tokEnvD k) 'j PS 'a)
+                  (list 'V 'chkf 'dec 'encTy '(+ k (cnodes v)) (list 'Exp.tSig 'U.u1 bA bA) (list 'List.cons 'Sk PS '(skels (thetaD k))) '(Prod.mk a (tokEnvD k)) '(+ k j) P2 (list fq 'a))))))
+        (list 'lemma36 'chkf 'dec 'encTy 'hcs '(conv_all chkf dec encTy hcs) '(+ k (cnodes v)) '(thetaD k) '(thetaU k) 'q T3 'der '(wf_theta chkf k)
+              '(tokEnvD k) 'k '(Nat.le_add_right k (cnodes v)) '(tok_sat chkf dec encTy (+ k (cnodes v)) k)))
+  (list 'have 'hout (list 'V 'chkf 'dec 'encTy '(+ k (cnodes v)) (list 'Exp.tSig 'U.u1 bA bA) (list 'List.cons 'Sk PS '(skels (thetaD k))) '(Prod.mk (Prod.mk v Unit.unit) (tokEnvD k)) '(+ k (cnodes v)) P2 (list fq '(Prod.mk v Unit.unit)))
+        (list 'hs '(cnodes v) '(Nat.le_refl (+ k (cnodes v))) '(Prod.mk v Unit.unit)
+              (list 'box_in 'chkf 'dec 'encTy '(+ k (cnodes v)) '(skels (thetaD k)) '(tokEnvD k) A44x 'v 'hvok 'hv)))
+  (list 'have 'hx (list 'Exists (list 'fn '[j :- Nat] (list 'And '(Nat.le j (+ k (cnodes v)))
+                     (list 'And (list 'V 'chkf 'dec 'encTy '(+ k (cnodes v)) bA (list 'List.cons 'Sk PS '(skels (thetaD k))) '(Prod.mk (Prod.mk v Unit.unit) (tokEnvD k)) 'j PS (list 'Prod.fst (list fq '(Prod.mk v Unit.unit))))
+                                (list 'V 'chkf 'dec 'encTy '(+ k (cnodes v)) bA (list 'List.cons 'Sk PS (list 'List.cons 'Sk PS '(skels (thetaD k))))
+                                      (list 'Prod.mk (list 'Prod.fst (list fq '(Prod.mk v Unit.unit))) '(Prod.mk (Prod.mk v Unit.unit) (tokEnvD k)))
+                                      '(- (+ k (cnodes v)) j) PS (list 'Prod.snd (list fq '(Prod.mk v Unit.unit)))))))) 'hout)
+  '(refine' (exN _ _ hx _)) '(intro j hj)
+  (list 'refine' (list 'arith7 '(cnodes v) 'j '(+ k (cnodes v)) 'k (list 'cnodes (list 'encTy A44x))
+     (list 'Nat.le_trans (list 'hmin '_ (list 'And.right (list 'box_out 'chkf 'dec 'encTy '(+ k (cnodes v)) '_ '_ 'j A44x '_ '(And.left (And.right hj))))) (list 'And.left (list 'box_out 'chkf 'dec 'encTy '(+ k (cnodes v)) '_ '_ 'j A44x '_ '(And.left (And.right hj)))))
+     (list 'Nat.le_trans (list 'hmin '_ (list 'And.right (list 'box_out 'chkf 'dec 'encTy '(+ k (cnodes v)) '_ '_ '(- (+ k (cnodes v)) j) A44x '_ '(And.right (And.right hj))))) (list 'And.left (list 'box_out 'chkf 'dec 'encTy '(+ k (cnodes v)) '_ '_ '(- (+ k (cnodes v)) j) A44x '_ '(And.right (And.right hj)))))
+     '(And.left hj) '(Eq.refl$1 (+ k (cnodes v)))
+     (list 'negN_size 'encTy '(And.left (And.right (And.right hcs))) '(+ k 1))
+     (list 'cert_size 'chkf 'dec 'encTy 'hcs 'hts A44x 'v 'hv)))))
+
+;; (2): no q_A with Θₖ ⊢ q_A :¹ □A ⊸ □□A for every certifiable A — the output's
+;; certificate of □A has at most k + ‖v‖ nodes but needs more than 2‖v‖
+;; (Proposition 4.3).
+
+(def ^:private bbA (bx bA))
+(def ^:private T2 (list 'Exp.tPi 'U.u1 bA bbA))
+(def ^:private fq2 (list 'den 'chkf 'dec 'encTy '(+ k (cnodes v)) 'q '(skels (thetaD k)) (list 'Sk.arr PS PS) '(tokEnvD k)))
+(thm arith8 [cv :- Nat, cw :- Nat, k :- Nat, s :- Nat, h1 :- (LT.lt (+ cv cv) cw), h2 :- (LE.le cw (+ k cv)), h3 :- (LE.le (+ k 1) s), h4 :- (LT.lt s cv)] False (omega))
+(eval (list 'lcert.formal.base/thm 'prop44_2
+  ['chkf :- '(=> Code Code Bool), 'dec :- '(=> Code (Option (Prod Nat (Prod Exp Exp)))), 'encTy :- '(=> Exp Code),
+   'hcs :- '(CheckSpec chkf dec encTy), 'hes :- '(TokSize chkf dec), 'hts :- '(TypeSize chkf dec encTy), 'k :- 'Nat, 'q :- 'Exp,
+   'der :- (list 'Rt 'chkf '(thetaD k) '(thetaU k) 'q T2),
+   'v :- 'Code, 'hv :- (list 'Eq 'Bool (list 'chkf 'v (list 'encTy A44x)) 'Bool.true), 'hvok :- '(Eq Bool (lblOk v) Bool.true),
+   'hmin :- (list 'forall '[v2 Code] (list '=> (list 'Eq 'Bool (list 'chkf 'v2 (list 'encTy A44x)) 'Bool.true) '(LE.le (cnodes v) (cnodes v2))))]
+  'False
+  (list 'have 'hs (list 'forall '[j Nat] (list '=> '(Nat.le (+ k j) (+ k (cnodes v))) (list 'forall (vector 'a (list 'Car PS))
+            (list '=> (list 'V 'chkf 'dec 'encTy '(+ k (cnodes v)) bA '(skels (thetaD k)) '(tokEnvD k) 'j PS 'a)
+                  (list 'V 'chkf 'dec 'encTy '(+ k (cnodes v)) bbA (list 'List.cons 'Sk PS '(skels (thetaD k))) '(Prod.mk a (tokEnvD k)) '(+ k j) PS (list fq2 'a))))))
+        (list 'lemma36 'chkf 'dec 'encTy 'hcs '(conv_all chkf dec encTy hcs) '(+ k (cnodes v)) '(thetaD k) '(thetaU k) 'q T2 'der '(wf_theta chkf k)
+              '(tokEnvD k) 'k '(Nat.le_add_right k (cnodes v)) '(tok_sat chkf dec encTy (+ k (cnodes v)) k)))
+  (list 'have 'hout (list 'V 'chkf 'dec 'encTy '(+ k (cnodes v)) bbA (list 'List.cons 'Sk PS '(skels (thetaD k))) '(Prod.mk (Prod.mk v Unit.unit) (tokEnvD k)) '(+ k (cnodes v)) PS (list fq2 '(Prod.mk v Unit.unit)))
+        (list 'hs '(cnodes v) '(Nat.le_refl (+ k (cnodes v))) '(Prod.mk v Unit.unit)
+              (list 'box_in 'chkf 'dec 'encTy '(+ k (cnodes v)) '(skels (thetaD k)) '(tokEnvD k) A44x 'v 'hvok 'hv)))
+  (list 'refine' (list 'arith8 '(cnodes v) (list 'cnodes (list 'Prod.fst (list fq2 '(Prod.mk v Unit.unit)))) 'k (list 'cnodes (list 'encTy A44x))
+     (list 'prop43 'chkf 'dec 'encTy 'hcs 'hes A44x (list 'cTerm (list 'encTy A44x)) (list 'cterm_code (list 'encTy A44x))
+           (list 'box_closed (list 'encTy A44x)) (list 'Prod.fst (list fq2 '(Prod.mk v Unit.unit)))
+           (list 'And.right (list 'box_out 'chkf 'dec 'encTy '(+ k (cnodes v)) '_ '_ '(+ k (cnodes v)) bA '_ 'hout))
+           '(cnodes v) 'hmin)
+     (list 'And.left (list 'box_out 'chkf 'dec 'encTy '(+ k (cnodes v)) '_ '_ '(+ k (cnodes v)) bA '_ 'hout))
+     (list 'negN_size 'encTy '(And.left (And.right (And.right hcs))) '(+ k 1))
+     (list 'cert_size 'chkf 'dec 'encTy 'hcs 'hts A44x 'v 'hv)))))
