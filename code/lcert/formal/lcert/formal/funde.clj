@@ -67,7 +67,9 @@
   itR inducts on the certificate.  g, at Lbl ⊸ X, is applied to the label.
   h is applied to the token, the label, and the two recursive results;
   gTy and hTy quantify the motive under lifts, so each result is cast
-  back to usk X.  A token is related to itself at ◇."
+  back to usk X.  A token is related to itself at ◇.  denU of itR is
+  that Code.rec (denU_itR): the cast stays outside Code.rec.  adeqE_itR
+  evaluates g, h, and the certificate, then folds them."
   (:require [ansatz.core :as a]
             [lcert.formal.base :refer [thm kdef lv]]
             [lcert.formal.usage :refer :all]
@@ -5483,8 +5485,8 @@
 ;;
 ;; g is applied to the label; h to the token, the label, and the two
 ;; recursive results.  gTy and hTy bind the motive under lifts, so the
-;; carriers are cast back to usk X.  itrDen is that Code.rec.  The outer
-;; judgment, equating it with ⟦itR⟧, is not yet proved.
+;; carriers are cast back to usk X.  itrDen is that Code.rec.  denU_itR
+;; equates it with ⟦itR⟧, and adeqE_itR is the judgment.
 
 (kdef itrDen
   (forall [X Exp]
@@ -5702,3 +5704,1029 @@
   (intro c) (induction c)
   (exact (adeqE_itr_leaf chkf dec encTy cap X l vg vh fg fh hg))
   (exact (adeqE_itr_node chkf dec encTy cap X l a b vg vh fg fh hh ih_a ih_b)))
+
+;; --- the outer itR judgment (Theorem 4′) ------------------------------------
+;;
+;; ⟦itR⟧ is a Code.rec whose leaf applies ⟦g⟧ to the label and whose node
+;; applies ⟦h⟧ to the token, the label, and the two recursive results.
+;; itrDen is the same recursor at the usage-skeleton carriers.  The casts
+;; stay outside Code.rec (cast_code).  adeqE_itR evaluates g, h, and the
+;; certificate, then adeqE_itr folds them.
+
+(thm den_itR_open
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   prev :- DenFn, n :- Nat,
+   X :- Exp, g :- Exp, h :- Exp, r :- Exp,
+   iX :- (forall [G (List Sk)] (forall [sk Sk] (=> (HEnv G) (Car sk)))),
+   ig :- (forall [G (List Sk)] (forall [sk Sk] (=> (HEnv G) (Car sk)))),
+   ih :- (forall [G (List Sk)] (forall [sk Sk] (=> (HEnv G) (Car sk)))),
+   ir :- (forall [G (List Sk)] (forall [sk Sk] (=> (HEnv G) (Car sk)))),
+   G :- (List Sk), sk :- Sk, en :- (HEnv G)]
+  (Eq (Car sk)
+    (den_itR chkf dec encTy prev n X g h r iX ig ih ir G sk en)
+    (Code.rec$1 (fn [_ :- Code] (Car sk))
+      (fn [l :- Nat] ((ig G (Sk.arr Sk.lbl sk) en) l))
+      (fn [l :- Nat, a :- Code, b :- Code, ya :- (Car sk), yb :- (Car sk)]
+        ((ih G (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr sk (Sk.arr sk sk)))) en)
+          Unit.unit l ya yb))
+      (ir G Sk.cert en)))
+  (rfl))
+
+;; denU of g, applied to a label, is ⟦g⟧ at the arrow of the lifted motive.
+;; The label cast is the identity.
+(thm denU_itr_app
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), X :- Exp, g :- Exp,
+   eta :- (HEnv (usks (uskCtx D))), j :- Nat]
+  (Eq (Car (uskSk (usk (lift 1 0 X))))
+    ((denU chkf dec encTy n D g (gTy X) eta) j)
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel (lift 1 0 X))))
+      ((den chkf dec encTy n g (skels D)
+          (Sk.arr Sk.lbl (skel (lift 1 0 X))) (henv_of_usk D eta))
+       j)))
+  (exact (Eq.trans
+    (denU_piw_at chkf dec encTy n D g Exp.tLbl (lift 1 0 X) j eta)
+    (congrArg
+      (fn [a :- Nat]
+        (Eq.mp (congrArg Car (Eq.symm (usk_skel (lift 1 0 X))))
+          ((den chkf dec encTy n g (skels D)
+              (Sk.arr Sk.lbl (skel (lift 1 0 X))) (henv_of_usk D eta))
+           a)))
+      (Eq.symm (cast_lbl_id j))))))
+
+;; ⟦g⟧ at the lifted arrow, applied to the label, is ⟦g⟧ at the motive's arrow.
+(thm denU_itr_arr2
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), X :- Exp, g :- Exp,
+   eta :- (HEnv (usks (uskCtx D))), j :- Nat]
+  (Eq (Car (skel X))
+    ((den chkf dec encTy n g (skels D)
+        (Sk.arr Sk.lbl (skel X)) (henv_of_usk D eta)) j)
+    (Eq.mp (congrArg Car (skel_lift X 1 0))
+      ((den chkf dec encTy n g (skels D)
+          (Sk.arr Sk.lbl (skel (lift 1 0 X))) (henv_of_usk D eta)) j)))
+  (have eArr (Eq Sk (Sk.arr Sk.lbl (skel (lift 1 0 X))) (Sk.arr Sk.lbl (skel X)))
+    (congrArg (fn [y :- Sk] (Sk.arr Sk.lbl y)) (skel_lift X 1 0)))
+  (have hd (Eq (Car (Sk.arr Sk.lbl (skel X)))
+              (Eq.mp (congrArg Car eArr)
+                (den chkf dec encTy n g (skels D)
+                  (Sk.arr Sk.lbl (skel (lift 1 0 X))) (henv_of_usk D eta)))
+              (den chkf dec encTy n g (skels D)
+                (Sk.arr Sk.lbl (skel X)) (henv_of_usk D eta)))
+    (den_at_eq chkf dec encTy n g (skels D)
+      (Sk.arr Sk.lbl (skel (lift 1 0 X))) (Sk.arr Sk.lbl (skel X)) eArr
+      (henv_of_usk D eta)))
+  (have ha (Eq (Car (skel X))
+              ((Eq.mp (congrArg Car
+                  (Eq.trans
+                    (congrArg (fn [x :- Sk] (Sk.arr x (skel (lift 1 0 X))))
+                      (Eq.refl$1 Sk Sk.lbl))
+                    (congrArg (fn [y :- Sk] (Sk.arr Sk.lbl y))
+                      (skel_lift X 1 0))))
+                 (den chkf dec encTy n g (skels D)
+                   (Sk.arr Sk.lbl (skel (lift 1 0 X))) (henv_of_usk D eta)))
+               j)
+              (Eq.mp (congrArg Car (skel_lift X 1 0))
+                ((den chkf dec encTy n g (skels D)
+                    (Sk.arr Sk.lbl (skel (lift 1 0 X))) (henv_of_usk D eta)) j)))
+    (cast_app Sk.lbl (skel (lift 1 0 X)) Sk.lbl (skel X)
+      (Eq.refl$1 Sk Sk.lbl) (skel_lift X 1 0)
+      (den chkf dec encTy n g (skels D)
+        (Sk.arr Sk.lbl (skel (lift 1 0 X))) (henv_of_usk D eta))
+      j))
+  (exact (Eq.trans
+    (Eq.symm (congrArg
+      (fn [f :- (Car (Sk.arr Sk.lbl (skel X)))] (f j))
+      hd))
+    ha)))
+
+;; Symmetry of a symmetry is the equation.  cast_square writes the double
+;; symmetry, and the lift equation is the single one.
+(thm eq_symm_symm
+  [s1 :- Sk, s2 :- Sk, e :- (Eq Sk s1 s2), a :- (Car s1)]
+  (Eq (Car s2)
+    (Eq.mp (congrArg Car (Eq.symm (Eq.symm e))) a)
+    (Eq.mp (congrArg Car e) a))
+  (cases e)
+  (rfl))
+
+;; The leaf of itrDen is the cast of ⟦g⟧ at the motive's arrow (Theorem 4′).
+(thm denU_itr_leaf
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), X :- Exp, g :- Exp,
+   eta :- (HEnv (usks (uskCtx D))), j :- Nat]
+  (Eq (Car (uskSk (usk X)))
+    (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (usk_lift X 1 0))
+      ((denU chkf dec encTy n D g (gTy X) eta) j))
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel X)))
+      ((den chkf dec encTy n g (skels D)
+          (Sk.arr Sk.lbl (skel X)) (henv_of_usk D eta)) j)))
+  (have happ (Eq (Car (uskSk (usk (lift 1 0 X))))
+                ((denU chkf dec encTy n D g (gTy X) eta) j)
+                (Eq.mp (congrArg Car (Eq.symm (usk_skel (lift 1 0 X))))
+                  ((den chkf dec encTy n g (skels D)
+                      (Sk.arr Sk.lbl (skel (lift 1 0 X))) (henv_of_usk D eta))
+                   j)))
+    (denU_itr_app chkf dec encTy n D X g eta j))
+  (have hL (Eq (Car (uskSk (usk X)))
+              (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (usk_lift X 1 0))
+                ((denU chkf dec encTy n D g (gTy X) eta) j))
+              (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (usk_lift X 1 0))
+                (Eq.mp (congrArg Car (Eq.symm (usk_skel (lift 1 0 X))))
+                  ((den chkf dec encTy n g (skels D)
+                      (Sk.arr Sk.lbl (skel (lift 1 0 X))) (henv_of_usk D eta))
+                   j))))
+    (congrArg
+      (fn [v :- (Car (uskSk (usk (lift 1 0 X))))]
+        (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (usk_lift X 1 0)) v))
+      happ))
+  (rw [hL])
+  (exact (Eq.trans
+    (cast_usk_path (usk X) (usk (lift 1 0 X)) (Eq.symm (usk_lift X 1 0))
+      (skel (lift 1 0 X)) (skel X)
+      (usk_skel (lift 1 0 X)) (usk_skel X) (Eq.symm (skel_lift X 1 0))
+      ((den chkf dec encTy n g (skels D)
+          (Sk.arr Sk.lbl (skel (lift 1 0 X))) (henv_of_usk D eta)) j))
+    (Eq.trans
+      (cast_square (uskSk (usk X)) (uskSk (usk (lift 1 0 X)))
+        (skel (lift 1 0 X)) (skel X)
+        (usk_skel (lift 1 0 X)) (Eq.symm (skel_lift X 1 0)) (usk_skel X)
+        ((den chkf dec encTy n g (skels D)
+            (Sk.arr Sk.lbl (skel (lift 1 0 X))) (henv_of_usk D eta)) j))
+      (congrArg
+        (fn [w :- (Car (skel X))]
+          (Eq.mp (congrArg Car (Eq.symm (usk_skel X))) w))
+        (Eq.trans
+          (eq_symm_symm (skel (lift 1 0 X)) (skel X) (skel_lift X 1 0)
+            ((den chkf dec encTy n g (skels D)
+                (Sk.arr Sk.lbl (skel (lift 1 0 X))) (henv_of_usk D eta)) j))
+          (Eq.symm (denU_itr_arr2 chkf dec encTy n D X g eta j))))))))
+
+;; A carrier at the lifted skeleton, cast to the lift's usage skeleton and
+;; then to the motive, is the carrier cast along the lift and then back by
+;; usk_skel.  The same path, read backwards, sends a motive value into the lift.
+(thm cast_lift
+  [k :- Nat, X :- Exp, d :- (Car (skel (lift k 0 X)))]
+  (Eq (Car (uskSk (usk X)))
+    (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (usk_lift X k 0))
+      (Eq.mp (congrArg Car (Eq.symm (usk_skel (lift k 0 X)))) d))
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel X)))
+      (Eq.mp (congrArg Car (skel_lift X k 0)) d)))
+  (exact (Eq.trans
+    (cast_usk_path (usk X) (usk (lift k 0 X)) (Eq.symm (usk_lift X k 0))
+      (skel (lift k 0 X)) (skel X)
+      (usk_skel (lift k 0 X)) (usk_skel X) (Eq.symm (skel_lift X k 0))
+      d)
+    (Eq.trans
+      (cast_square (uskSk (usk X)) (uskSk (usk (lift k 0 X)))
+        (skel (lift k 0 X)) (skel X)
+        (usk_skel (lift k 0 X)) (Eq.symm (skel_lift X k 0)) (usk_skel X)
+        d)
+      (congrArg
+        (fn [w :- (Car (skel X))]
+          (Eq.mp (congrArg Car (Eq.symm (usk_skel X))) w))
+        (eq_symm_symm (skel (lift k 0 X)) (skel X) (skel_lift X k 0) d))))))
+
+(thm cast_back_u
+  [u1 :- USk, u2 :- USk, eu :- (Eq USk u1 u2), a :- (Car (uskSk u2))]
+  (Eq (Car (uskSk u2))
+    (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w))) eu)
+      (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w))) (Eq.symm eu)) a))
+    a)
+  (cases eu) (rfl))
+
+(thm cast_back_u2
+  [u1 :- USk, u2 :- USk, eu :- (Eq USk u1 u2), a :- (Car (uskSk u1))]
+  (Eq (Car (uskSk u1))
+    (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w))) (Eq.symm eu))
+      (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w))) eu) a))
+    a)
+  (cases eu) (rfl))
+
+(thm cast_arg_probe
+  [k :- Nat, X :- Exp, ya2 :- (Car (skel X))]
+  (Eq (Car (skel X))
+    (Eq.mp (congrArg Car (skel_lift X k 0))
+      (Eq.mp (congrArg Car (Eq.symm (skel_lift X k 0))) ya2))
+    ya2)
+  (exact (cast_back (skel (lift k 0 X)) (skel X) (skel_lift X k 0) ya2)))
+
+(thm cast_arg_hL
+  [k :- Nat, X :- Exp, ya2 :- (Car (skel X))]
+  (Eq (Car (uskSk (usk X)))
+    (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (usk_lift X k 0))
+      (Eq.mp (congrArg Car (Eq.symm (usk_skel (lift k 0 X))))
+        (Eq.mp (congrArg Car (Eq.symm (skel_lift X k 0))) ya2)))
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel X)))
+      (Eq.mp (congrArg Car (skel_lift X k 0))
+        (Eq.mp (congrArg Car (Eq.symm (skel_lift X k 0))) ya2))))
+  (exact (cast_lift k X
+           (Eq.mp (congrArg Car (Eq.symm (skel_lift X k 0))) ya2))))
+
+(thm cast_arg_h1b
+  [k :- Nat, X :- Exp, ya2 :- (Car (skel X))]
+  (Eq (Car (uskSk (usk X)))
+    (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (usk_lift X k 0))
+      (Eq.mp (congrArg Car (Eq.symm (usk_skel (lift k 0 X))))
+        (Eq.mp (congrArg Car (Eq.symm (skel_lift X k 0))) ya2)))
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel X))) ya2))
+  (exact (Eq.trans
+    (cast_arg_hL k X ya2)
+    (congrArg
+      (fn [w :- (Car (skel X))]
+        (Eq.mp (congrArg Car (Eq.symm (usk_skel X))) w))
+      (cast_arg_probe k X ya2)))))
+
+(thm cast_arg_h2b
+  [k :- Nat, X :- Exp, ya2 :- (Car (skel X))]
+  (Eq (Car (uskSk (usk (lift k 0 X))))
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel (lift k 0 X))))
+      (Eq.mp (congrArg Car (Eq.symm (skel_lift X k 0))) ya2))
+    (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X k 0)))
+      (Eq.mp (congrArg Car (Eq.symm (usk_skel X))) ya2)))
+  (exact (Eq.trans
+    (Eq.symm
+      (cast_back_u2 (usk (lift k 0 X)) (usk X) (usk_lift X k 0)
+        (Eq.mp (congrArg Car (Eq.symm (usk_skel (lift k 0 X))))
+          (Eq.mp (congrArg Car (Eq.symm (skel_lift X k 0))) ya2))))
+    (congrArg
+      (fn [v :- (Car (uskSk (usk X)))]
+        (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X k 0))) v))
+      (cast_arg_h1b k X ya2)))))
+
+;; A value at the motive, cast to the lift's usage skeleton and back to the
+;; lifted skeleton, is the value cast along the skeleton lift.
+(thm cast_arg
+  [k :- Nat, X :- Exp, ya2 :- (Car (skel X))]
+  (Eq (Car (skel (lift k 0 X)))
+    (Eq.mp (congrArg Car (Eq.symm (skel_lift X k 0))) ya2)
+    (Eq.mp (congrArg Car (usk_skel (lift k 0 X)))
+      (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X k 0)))
+        (Eq.mp (congrArg Car (Eq.symm (usk_skel X))) ya2))))
+  (exact (Eq.trans
+    (Eq.symm
+      (cast_back (uskSk (usk (lift k 0 X))) (skel (lift k 0 X))
+        (usk_skel (lift k 0 X))
+        (Eq.mp (congrArg Car (Eq.symm (skel_lift X k 0))) ya2)))
+    (congrArg
+      (fn [v :- (Car (uskSk (usk (lift k 0 X))))]
+        (Eq.mp (congrArg Car (usk_skel (lift k 0 X))) v))
+      (cast_arg_h2b k X ya2)))))
+
+;; usk_skel at Π₁ and Πω is the two component casts, as at Π₀.
+(thm usk_skel_pi1 [A :- Exp, B :- Exp]
+  (Eq (Eq Sk (uskSk (usk (Exp.tPi U.u1 A B))) (skel (Exp.tPi U.u1 A B)))
+    (usk_skel (Exp.tPi U.u1 A B))
+    (Eq.trans
+      (congrArg (fn [x :- Sk] (Sk.arr x (uskSk (usk B)))) (usk_skel A))
+      (congrArg (fn [y :- Sk] (Sk.arr (skel A) y)) (usk_skel B))))
+  (rfl))
+
+(thm usk_skel_piw [A :- Exp, B :- Exp]
+  (Eq (Eq Sk (uskSk (usk (Exp.tPi U.uw A B))) (skel (Exp.tPi U.uw A B)))
+    (usk_skel (Exp.tPi U.uw A B))
+    (Eq.trans
+      (congrArg (fn [x :- Sk] (Sk.arr x (uskSk (usk B)))) (usk_skel A))
+      (congrArg (fn [y :- Sk] (Sk.arr (skel A) y)) (usk_skel B))))
+  (rfl))
+
+;; Applying a function cast along usk_skel of a Π is the cast of the application.
+(thm app_cast_pi1
+  [A :- Exp, B :- Exp,
+   f :- (Car (Sk.arr (skel A) (skel B))),
+   a :- (Car (uskSk (usk A)))]
+  (Eq (Car (uskSk (usk B)))
+    ((Eq.mp (congrArg Car (Eq.symm (usk_skel (Exp.tPi U.u1 A B)))) f) a)
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel B)))
+      (f (Eq.mp (congrArg Car (usk_skel A)) a))))
+  (exact (cast_app_pi (uskSk (usk A)) (uskSk (usk B)) (skel A) (skel B)
+           (usk_skel A) (usk_skel B) f a)))
+
+(thm app_cast_piw
+  [A :- Exp, B :- Exp,
+   f :- (Car (Sk.arr (skel A) (skel B))),
+   a :- (Car (uskSk (usk A)))]
+  (Eq (Car (uskSk (usk B)))
+    ((Eq.mp (congrArg Car (Eq.symm (usk_skel (Exp.tPi U.uw A B)))) f) a)
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel B)))
+      (f (Eq.mp (congrArg Car (usk_skel A)) a))))
+  (exact (cast_app_pi (uskSk (usk A)) (uskSk (usk B)) (skel A) (skel B)
+           (usk_skel A) (usk_skel B) f a)))
+
+;; The carrier of ◇ is unit, so the cast of the token's denotation is the unit.
+(thm cast_dia_id [u :- Unit]
+  (Eq Unit (Eq.mp (congrArg Car (usk_skel Exp.tDia)) u) u)
+  (rfl))
+;; The continuations of hTy, so each application of h names its codomain.
+(kdef hCont (forall [X Exp] Exp)
+  (fn [X :- Exp]
+    (Exp.tPi U.uw Exp.tLbl
+      (Exp.tPi U.u1 (lift 2 0 X)
+        (Exp.tPi U.u1 (lift 3 0 X) (lift 4 0 X))))))
+
+(kdef hPair (forall [X Exp] Exp)
+  (fn [X :- Exp]
+    (Exp.tPi U.u1 (lift 2 0 X)
+      (Exp.tPi U.u1 (lift 3 0 X) (lift 4 0 X)))))
+
+(kdef hRight (forall [X Exp] Exp)
+  (fn [X :- Exp]
+    (Exp.tPi U.u1 (lift 3 0 X) (lift 4 0 X))))
+
+(thm hTy_cont [X :- Exp]
+  (Eq Exp (hTy X) (Exp.tPi U.u1 Exp.tDia (hCont X)))
+  (rfl))
+
+(thm hCont_skel [X :- Exp]
+  (Eq Sk (skel (hCont X)) (Sk.arr Sk.lbl (skel (hPair X))))
+  (rfl))
+
+(thm hPair_skel [X :- Exp]
+  (Eq Sk (skel (hPair X))
+    (Sk.arr (skel (lift 2 0 X)) (skel (hRight X))))
+  (rfl))
+
+(thm hRight_skel [X :- Exp]
+  (Eq Sk (skel (hRight X))
+    (Sk.arr (skel (lift 3 0 X)) (skel (lift 4 0 X))))
+  (rfl))
+
+(thm hCont_pair [X :- Exp]
+  (Eq Exp (hCont X) (Exp.tPi U.uw Exp.tLbl (hPair X)))
+  (rfl))
+
+(thm hPair_right [X :- Exp]
+  (Eq Exp (hPair X) (Exp.tPi U.u1 (lift 2 0 X) (hRight X)))
+  (rfl))
+
+(thm hRight_lift [X :- Exp]
+  (Eq Exp (hRight X) (Exp.tPi U.u1 (lift 3 0 X) (lift 4 0 X)))
+  (rfl))
+
+;; h applied to the token.  The unit cast at ◇ is the identity.
+(thm denU_itr_tok
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), X :- Exp, h :- Exp,
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (Car (uskSk (usk (hCont X))))
+    ((denU chkf dec encTy n D h (hTy X) eta) Unit.unit)
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel (hCont X))))
+      ((den chkf dec encTy n h (skels D)
+          (Sk.arr Sk.dia (skel (hCont X))) (henv_of_usk D eta))
+       Unit.unit)))
+  (exact (Eq.trans
+    (denU_pi1_at chkf dec encTy n D h Exp.tDia (hCont X) Unit.unit eta)
+    (congrArg
+      (fn [a :- Unit]
+        (Eq.mp (congrArg Car (Eq.symm (usk_skel (hCont X))))
+          ((den chkf dec encTy n h (skels D)
+              (Sk.arr Sk.dia (skel (hCont X))) (henv_of_usk D eta))
+           a)))
+      (Eq.symm (cast_dia_id Unit.unit))))))
+
+;; h applied to the label.  The label cast is the identity.
+(thm denU_itr_lbl
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), X :- Exp, h :- Exp,
+   eta :- (HEnv (usks (uskCtx D))), j :- Nat]
+  (Eq (Car (uskSk (usk (hPair X))))
+    (((denU chkf dec encTy n D h (hTy X) eta) Unit.unit) j)
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel (hPair X))))
+      (((den chkf dec encTy n h (skels D)
+           (Sk.arr Sk.dia (skel (hCont X))) (henv_of_usk D eta))
+        Unit.unit)
+       j)))
+  (have hf (Eq (Car (uskSk (usk (hCont X))))
+              ((denU chkf dec encTy n D h (hTy X) eta) Unit.unit)
+              (Eq.mp (congrArg Car (Eq.symm (usk_skel (hCont X))))
+                ((den chkf dec encTy n h (skels D)
+                    (Sk.arr Sk.dia (skel (hCont X))) (henv_of_usk D eta))
+                 Unit.unit)))
+    (denU_itr_tok chkf dec encTy n D X h eta))
+  (have ha (Eq (Car (uskSk (usk (hPair X))))
+              ((Eq.mp (congrArg Car (Eq.symm (usk_skel (hCont X))))
+                 ((den chkf dec encTy n h (skels D)
+                     (Sk.arr Sk.dia (skel (hCont X))) (henv_of_usk D eta))
+                  Unit.unit))
+               j)
+              (Eq.mp (congrArg Car (Eq.symm (usk_skel (hPair X))))
+                (((den chkf dec encTy n h (skels D)
+                     (Sk.arr Sk.dia (skel (hCont X))) (henv_of_usk D eta))
+                  Unit.unit)
+                 (Eq.mp (congrArg Car (usk_skel Exp.tLbl)) j))))
+    (app_cast_piw Exp.tLbl (hPair X)
+      ((den chkf dec encTy n h (skels D)
+          (Sk.arr Sk.dia (skel (hCont X))) (henv_of_usk D eta))
+       Unit.unit)
+      j))
+  (exact (Eq.trans
+    (congrArg (fn [f :- (Car (uskSk (usk (hCont X))))] (f j)) hf)
+    (Eq.trans ha
+      (congrArg
+        (fn [a :- Nat]
+          (Eq.mp (congrArg Car (Eq.symm (usk_skel (hPair X))))
+            (((den chkf dec encTy n h (skels D)
+                 (Sk.arr Sk.dia (skel (hCont X))) (henv_of_usk D eta))
+              Unit.unit)
+             a)))
+        (cast_lbl_id j))))))
+
+;; h applied to the left recursive result, still at the lift's usage skeleton.
+(thm denU_itr_ya
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), X :- Exp, h :- Exp,
+   eta :- (HEnv (usks (uskCtx D))), j :- Nat,
+   ya1 :- (Car (uskSk (usk X)))]
+  (Eq (Car (uskSk (usk (hRight X))))
+    ((((denU chkf dec encTy n D h (hTy X) eta) Unit.unit) j)
+      (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X 2 0))) ya1))
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel (hRight X))))
+      ((((den chkf dec encTy n h (skels D)
+            (Sk.arr Sk.dia (skel (hCont X))) (henv_of_usk D eta))
+         Unit.unit)
+        j)
+       (Eq.mp (congrArg Car (usk_skel (lift 2 0 X)))
+         (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X 2 0))) ya1)))))
+  (have hf (Eq (Car (uskSk (usk (hPair X))))
+              (((denU chkf dec encTy n D h (hTy X) eta) Unit.unit) j)
+              (Eq.mp (congrArg Car (Eq.symm (usk_skel (hPair X))))
+                (((den chkf dec encTy n h (skels D)
+                     (Sk.arr Sk.dia (skel (hCont X))) (henv_of_usk D eta))
+                  Unit.unit)
+                 j)))
+    (denU_itr_lbl chkf dec encTy n D X h eta j))
+  (exact (Eq.trans
+    (congrArg
+      (fn [f :- (Car (uskSk (usk (hPair X))))]
+        (f (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X 2 0))) ya1)))
+      hf)
+    (app_cast_pi1 (lift 2 0 X) (hRight X)
+      (((den chkf dec encTy n h (skels D)
+           (Sk.arr Sk.dia (skel (hCont X))) (henv_of_usk D eta))
+        Unit.unit)
+       j)
+      (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X 2 0))) ya1)))))
+
+;; h applied to the right recursive result.
+(thm denU_itr_yb
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), X :- Exp, h :- Exp,
+   eta :- (HEnv (usks (uskCtx D))), j :- Nat,
+   ya1 :- (Car (uskSk (usk X))),
+   yb1 :- (Car (uskSk (usk X)))]
+  (Eq (Car (uskSk (usk (lift 4 0 X))))
+    (((((denU chkf dec encTy n D h (hTy X) eta) Unit.unit) j)
+       (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X 2 0))) ya1))
+      (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X 3 0))) yb1))
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel (lift 4 0 X))))
+      (((((den chkf dec encTy n h (skels D)
+             (Sk.arr Sk.dia (skel (hCont X))) (henv_of_usk D eta))
+          Unit.unit)
+         j)
+        (Eq.mp (congrArg Car (usk_skel (lift 2 0 X)))
+          (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X 2 0))) ya1)))
+       (Eq.mp (congrArg Car (usk_skel (lift 3 0 X)))
+         (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X 3 0))) yb1)))))
+  (have hf (Eq (Car (uskSk (usk (hRight X))))
+              ((((denU chkf dec encTy n D h (hTy X) eta) Unit.unit) j)
+                (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X 2 0))) ya1))
+              (Eq.mp (congrArg Car (Eq.symm (usk_skel (hRight X))))
+                ((((den chkf dec encTy n h (skels D)
+                      (Sk.arr Sk.dia (skel (hCont X))) (henv_of_usk D eta))
+                   Unit.unit)
+                  j)
+                 (Eq.mp (congrArg Car (usk_skel (lift 2 0 X)))
+                   (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X 2 0))) ya1)))))
+    (denU_itr_ya chkf dec encTy n D X h eta j ya1))
+  (exact (Eq.trans
+    (congrArg
+      (fn [f :- (Car (uskSk (usk (hRight X))))]
+        (f (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X 3 0))) yb1)))
+      hf)
+    (app_cast_pi1 (lift 3 0 X) (lift 4 0 X)
+      ((((den chkf dec encTy n h (skels D)
+            (Sk.arr Sk.dia (skel (hCont X))) (henv_of_usk D eta))
+         Unit.unit)
+        j)
+       (Eq.mp (congrArg Car (usk_skel (lift 2 0 X)))
+         (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X 2 0))) ya1)))
+      (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X 3 0))) yb1)))))
+
+;; ⟦h⟧ after the token and the label.  The two recursive arguments are still open.
+(kdef hDen
+  (forall [chkf (=> Code Code Bool)]
+    (forall [dec (=> Code (Option (Prod Nat (Prod Exp Exp))))]
+      (forall [encTy (=> Exp Code)]
+        (forall [n Nat] (forall [D (List Exp)] (forall [X Exp] (forall [h Exp]
+          (forall [eta (HEnv (usks (uskCtx D)))] (forall [j Nat]
+            (Car (skel (hPair X))))))))))))
+  (fn [chkf :- (=> Code Code Bool),
+       dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+       encTy :- (=> Exp Code),
+       n :- Nat, D :- (List Exp), X :- Exp, h :- Exp,
+       eta :- (HEnv (usks (uskCtx D))), j :- Nat]
+    (((den chkf dec encTy n h (skels D)
+         (Sk.arr Sk.dia (skel (hCont X))) (henv_of_usk D eta))
+      Unit.unit)
+     j)))
+
+(thm denU_itr_yb2
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), X :- Exp, h :- Exp,
+   eta :- (HEnv (usks (uskCtx D))), j :- Nat,
+   ya1 :- (Car (uskSk (usk X))),
+   yb1 :- (Car (uskSk (usk X)))]
+  (Eq (Car (uskSk (usk (lift 4 0 X))))
+    (((((denU chkf dec encTy n D h (hTy X) eta) Unit.unit) j)
+       (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X 2 0))) ya1))
+      (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X 3 0))) yb1))
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel (lift 4 0 X))))
+      ((hDen chkf dec encTy n D X h eta j
+         (Eq.mp (congrArg Car (usk_skel (lift 2 0 X)))
+           (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X 2 0))) ya1)))
+       (Eq.mp (congrArg Car (usk_skel (lift 3 0 X)))
+         (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X 3 0))) yb1)))))
+  (exact (denU_itr_yb chkf dec encTy n D X h eta j ya1 yb1)))
+
+;; A recursive result, related at the motive, is the argument at the lifted skeleton.
+(thm arg_at
+  [k :- Nat, X :- Exp,
+   ya1 :- (Car (uskSk (usk X))),
+   ya2 :- (Car (skel X)),
+   ha :- (Eq (Car (uskSk (usk X))) ya1
+           (Eq.mp (congrArg Car (Eq.symm (usk_skel X))) ya2))]
+  (Eq (Car (skel (lift k 0 X)))
+    (Eq.mp (congrArg Car (usk_skel (lift k 0 X)))
+      (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X k 0))) ya1))
+    (Eq.mp (congrArg Car (Eq.symm (skel_lift X k 0))) ya2))
+  (exact (Eq.trans
+    (congrArg
+      (fn [v :- (Car (uskSk (usk X)))]
+        (Eq.mp (congrArg Car (usk_skel (lift k 0 X)))
+          (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X k 0))) v)))
+      ha)
+    (Eq.symm (cast_arg k X ya2)))))
+
+(thm denU_itr_args
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), X :- Exp, h :- Exp,
+   eta :- (HEnv (usks (uskCtx D))), j :- Nat,
+   ya1 :- (Car (uskSk (usk X))), yb1 :- (Car (uskSk (usk X))),
+   ya2 :- (Car (skel X)), yb2 :- (Car (skel X)),
+   ha :- (Eq (Car (uskSk (usk X))) ya1
+           (Eq.mp (congrArg Car (Eq.symm (usk_skel X))) ya2)),
+   hb :- (Eq (Car (uskSk (usk X))) yb1
+           (Eq.mp (congrArg Car (Eq.symm (usk_skel X))) yb2))]
+  (Eq (Car (uskSk (usk (lift 4 0 X))))
+    (((((denU chkf dec encTy n D h (hTy X) eta) Unit.unit) j)
+       (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X 2 0))) ya1))
+      (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X 3 0))) yb1))
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel (lift 4 0 X))))
+      ((hDen chkf dec encTy n D X h eta j
+         (Eq.mp (congrArg Car (Eq.symm (skel_lift X 2 0))) ya2))
+       (Eq.mp (congrArg Car (Eq.symm (skel_lift X 3 0))) yb2))))
+  (exact (Eq.trans
+    (denU_itr_yb2 chkf dec encTy n D X h eta j ya1 yb1)
+    (congrArg
+      (fn [v :- (Car (skel (lift 4 0 X)))]
+        (Eq.mp (congrArg Car (Eq.symm (usk_skel (lift 4 0 X)))) v))
+      (Eq.trans
+        (congrArg
+          (fn [b :- (Car (skel (lift 3 0 X)))]
+            ((hDen chkf dec encTy n D X h eta j
+               (Eq.mp (congrArg Car (usk_skel (lift 2 0 X)))
+                 (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X 2 0))) ya1)))
+             b))
+          (arg_at 3 X yb1 yb2 hb))
+        (congrArg
+          (fn [a :- (Car (skel (lift 2 0 X)))]
+            ((hDen chkf dec encTy n D X h eta j a)
+             (Eq.mp (congrArg Car (Eq.symm (skel_lift X 3 0))) yb2)))
+          (arg_at 2 X ya1 ya2 ha)))))))
+;; ⟦h⟧'s arrow at the lifted motive and at the motive itself.
+(kdef hSkL (forall [X Exp] Sk)
+  (fn [X :- Exp] (Sk.arr Sk.dia (skel (hCont X)))))
+
+(kdef hSkX (forall [X Exp] Sk)
+  (fn [X :- Exp]
+    (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr (skel X) (Sk.arr (skel X) (skel X)))))))
+
+(thm hYb_eq [X :- Exp]
+  (Eq Sk (Sk.arr (skel (lift 3 0 X)) (skel (lift 4 0 X)))
+        (Sk.arr (skel X) (skel X)))
+  (exact (Eq.trans
+    (congrArg (fn [x :- Sk] (Sk.arr x (skel (lift 4 0 X)))) (skel_lift X 3 0))
+    (congrArg (fn [y :- Sk] (Sk.arr (skel X) y)) (skel_lift X 4 0)))))
+
+(thm hYa_eq [X :- Exp]
+  (Eq Sk (Sk.arr (skel (lift 2 0 X)) (skel (hRight X)))
+        (Sk.arr (skel X) (Sk.arr (skel X) (skel X))))
+  (exact (Eq.trans
+    (congrArg (fn [x :- Sk] (Sk.arr x (skel (hRight X)))) (skel_lift X 2 0))
+    (congrArg (fn [y :- Sk] (Sk.arr (skel X) y)) (hYb_eq X)))))
+
+(thm hLbl_eq [X :- Exp]
+  (Eq Sk (Sk.arr Sk.lbl (skel (hPair X)))
+        (Sk.arr Sk.lbl (Sk.arr (skel X) (Sk.arr (skel X) (skel X)))))
+  (exact (congrArg (fn [y :- Sk] (Sk.arr Sk.lbl y)) (hYa_eq X))))
+
+(thm hSk_eq [X :- Exp]
+  (Eq Sk (hSkL X) (hSkX X))
+  (exact (congrArg (fn [y :- Sk] (Sk.arr Sk.dia y))
+    (congrArg (fn [y :- Sk] (Sk.arr Sk.lbl y))
+      (Eq.trans
+        (congrArg (fn [x :- Sk] (Sk.arr x (skel (hRight X)))) (skel_lift X 2 0))
+        (congrArg (fn [y :- Sk] (Sk.arr (skel X) y))
+          (Eq.trans
+            (congrArg (fn [x :- Sk] (Sk.arr x (skel (lift 4 0 X)))) (skel_lift X 3 0))
+            (congrArg (fn [y :- Sk] (Sk.arr (skel X) y)) (skel_lift X 4 0)))))))))
+
+;; Move ⟦h⟧ from the lifted arrow to the motive's arrow, one application at a time.
+(thm denU_itr_mv_tok
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), X :- Exp, h :- Exp,
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (Car (Sk.arr Sk.lbl (Sk.arr (skel X) (Sk.arr (skel X) (skel X)))))
+    ((den chkf dec encTy n h (skels D) (hSkX X) (henv_of_usk D eta)) Unit.unit)
+    (Eq.mp (congrArg Car (hLbl_eq X))
+      ((den chkf dec encTy n h (skels D) (hSkL X) (henv_of_usk D eta)) Unit.unit)))
+  (have hd (Eq (Car (hSkX X))
+              (Eq.mp (congrArg Car (hSk_eq X))
+                (den chkf dec encTy n h (skels D) (hSkL X) (henv_of_usk D eta)))
+              (den chkf dec encTy n h (skels D) (hSkX X) (henv_of_usk D eta)))
+    (den_at_eq chkf dec encTy n h (skels D) (hSkL X) (hSkX X) (hSk_eq X)
+      (henv_of_usk D eta)))
+  (have ha (Eq (Car (Sk.arr Sk.lbl (Sk.arr (skel X) (Sk.arr (skel X) (skel X)))))
+              ((Eq.mp (congrArg Car
+                  (Eq.trans
+                    (congrArg (fn [x :- Sk] (Sk.arr x (skel (hCont X))))
+                      (Eq.refl$1 Sk Sk.dia))
+                    (congrArg (fn [y :- Sk] (Sk.arr Sk.dia y)) (hLbl_eq X))))
+                 (den chkf dec encTy n h (skels D) (hSkL X) (henv_of_usk D eta)))
+               Unit.unit)
+              (Eq.mp (congrArg Car (hLbl_eq X))
+                ((den chkf dec encTy n h (skels D) (hSkL X) (henv_of_usk D eta))
+                 Unit.unit)))
+    (cast_app Sk.dia (skel (hCont X)) Sk.dia
+      (Sk.arr Sk.lbl (Sk.arr (skel X) (Sk.arr (skel X) (skel X))))
+      (Eq.refl$1 Sk Sk.dia) (hLbl_eq X)
+      (den chkf dec encTy n h (skels D) (hSkL X) (henv_of_usk D eta))
+      Unit.unit))
+  (exact (Eq.trans
+    (Eq.symm (congrArg
+      (fn [f :- (Car (hSkX X))] (f Unit.unit))
+      hd))
+    ha)))
+
+(thm denU_itr_mv_lbl
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), X :- Exp, h :- Exp,
+   eta :- (HEnv (usks (uskCtx D))), j :- Nat]
+  (Eq (Car (Sk.arr (skel X) (Sk.arr (skel X) (skel X))))
+    (((den chkf dec encTy n h (skels D) (hSkX X) (henv_of_usk D eta)) Unit.unit) j)
+    (Eq.mp (congrArg Car (hYa_eq X))
+      (hDen chkf dec encTy n D X h eta j)))
+  (have hd (Eq (Car (Sk.arr Sk.lbl (Sk.arr (skel X) (Sk.arr (skel X) (skel X)))))
+              ((den chkf dec encTy n h (skels D) (hSkX X) (henv_of_usk D eta)) Unit.unit)
+              (Eq.mp (congrArg Car (hLbl_eq X))
+                ((den chkf dec encTy n h (skels D) (hSkL X) (henv_of_usk D eta)) Unit.unit)))
+    (denU_itr_mv_tok chkf dec encTy n D X h eta))
+  (have ha (Eq (Car (Sk.arr (skel X) (Sk.arr (skel X) (skel X))))
+              ((Eq.mp (congrArg Car
+                  (Eq.trans
+                    (congrArg (fn [x :- Sk]
+                                (Sk.arr x (Sk.arr (skel (lift 2 0 X)) (skel (hRight X)))))
+                      (Eq.refl$1 Sk Sk.lbl))
+                    (congrArg (fn [y :- Sk] (Sk.arr Sk.lbl y)) (hYa_eq X))))
+                 ((den chkf dec encTy n h (skels D) (hSkL X) (henv_of_usk D eta)) Unit.unit))
+               j)
+              (Eq.mp (congrArg Car (hYa_eq X))
+                (((den chkf dec encTy n h (skels D) (hSkL X) (henv_of_usk D eta)) Unit.unit) j)))
+    (cast_app Sk.lbl (Sk.arr (skel (lift 2 0 X)) (skel (hRight X))) Sk.lbl
+      (Sk.arr (skel X) (Sk.arr (skel X) (skel X)))
+      (Eq.refl$1 Sk Sk.lbl) (hYa_eq X)
+      ((den chkf dec encTy n h (skels D) (hSkL X) (henv_of_usk D eta)) Unit.unit)
+      j))
+  (exact (Eq.trans
+    (congrArg (fn [f :- (Car (Sk.arr Sk.lbl (Sk.arr (skel X) (Sk.arr (skel X) (skel X)))))] (f j)) hd)
+    ha)))
+
+(thm denU_itr_mv_ya
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), X :- Exp, h :- Exp,
+   eta :- (HEnv (usks (uskCtx D))), j :- Nat,
+   ya2 :- (Car (skel X))]
+  (Eq (Car (Sk.arr (skel X) (skel X)))
+    ((((den chkf dec encTy n h (skels D) (hSkX X) (henv_of_usk D eta)) Unit.unit) j) ya2)
+    (Eq.mp (congrArg Car (hYb_eq X))
+      ((hDen chkf dec encTy n D X h eta j)
+       (Eq.mp (congrArg Car (Eq.symm (skel_lift X 2 0))) ya2))))
+  (have hd (Eq (Car (Sk.arr (skel X) (Sk.arr (skel X) (skel X))))
+              (((den chkf dec encTy n h (skels D) (hSkX X) (henv_of_usk D eta)) Unit.unit) j)
+              (Eq.mp (congrArg Car (hYa_eq X))
+                (hDen chkf dec encTy n D X h eta j)))
+    (denU_itr_mv_lbl chkf dec encTy n D X h eta j))
+  (have ha (Eq (Car (Sk.arr (skel X) (skel X)))
+              ((Eq.mp (congrArg Car
+                  (Eq.trans
+                    (congrArg (fn [x :- Sk] (Sk.arr x (skel (hRight X)))) (skel_lift X 2 0))
+                    (congrArg (fn [y :- Sk] (Sk.arr (skel X) y)) (hYb_eq X))))
+                 (hDen chkf dec encTy n D X h eta j))
+               (Eq.mp (congrArg Car (skel_lift X 2 0))
+                 (Eq.mp (congrArg Car (Eq.symm (skel_lift X 2 0))) ya2)))
+              (Eq.mp (congrArg Car (hYb_eq X))
+                ((hDen chkf dec encTy n D X h eta j)
+                 (Eq.mp (congrArg Car (Eq.symm (skel_lift X 2 0))) ya2))))
+    (cast_app (skel (lift 2 0 X)) (skel (hRight X)) (skel X)
+      (Sk.arr (skel X) (skel X))
+      (skel_lift X 2 0) (hYb_eq X)
+      (hDen chkf dec encTy n D X h eta j)
+      (Eq.mp (congrArg Car (Eq.symm (skel_lift X 2 0))) ya2)))
+  (have hb (Eq (Car (Sk.arr (skel X) (skel X)))
+              ((Eq.mp (congrArg Car (hYa_eq X))
+                 (hDen chkf dec encTy n D X h eta j))
+               ya2)
+              ((Eq.mp (congrArg Car
+                  (Eq.trans
+                    (congrArg (fn [x :- Sk] (Sk.arr x (skel (hRight X)))) (skel_lift X 2 0))
+                    (congrArg (fn [y :- Sk] (Sk.arr (skel X) y)) (hYb_eq X))))
+                 (hDen chkf dec encTy n D X h eta j))
+               (Eq.mp (congrArg Car (skel_lift X 2 0))
+                 (Eq.mp (congrArg Car (Eq.symm (skel_lift X 2 0))) ya2))))
+    (congrArg
+      (fn [a :- (Car (skel X))]
+        ((Eq.mp (congrArg Car (hYa_eq X))
+           (hDen chkf dec encTy n D X h eta j))
+         a))
+      (Eq.symm (cast_back (skel (lift 2 0 X)) (skel X) (skel_lift X 2 0) ya2))))
+  (exact (Eq.trans
+    (congrArg
+      (fn [f :- (Car (Sk.arr (skel X) (Sk.arr (skel X) (skel X))))] (f ya2))
+      hd)
+    (Eq.trans hb ha))))
+
+(thm denU_itr_mv_yb
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), X :- Exp, h :- Exp,
+   eta :- (HEnv (usks (uskCtx D))), j :- Nat,
+   ya2 :- (Car (skel X)), yb2 :- (Car (skel X))]
+  (Eq (Car (skel X))
+    (((((den chkf dec encTy n h (skels D) (hSkX X) (henv_of_usk D eta)) Unit.unit) j) ya2) yb2)
+    (Eq.mp (congrArg Car (skel_lift X 4 0))
+      ((hDen chkf dec encTy n D X h eta j
+         (Eq.mp (congrArg Car (Eq.symm (skel_lift X 2 0))) ya2))
+       (Eq.mp (congrArg Car (Eq.symm (skel_lift X 3 0))) yb2))))
+  (have hd (Eq (Car (Sk.arr (skel X) (skel X)))
+              ((((den chkf dec encTy n h (skels D) (hSkX X) (henv_of_usk D eta)) Unit.unit) j) ya2)
+              (Eq.mp (congrArg Car (hYb_eq X))
+                ((hDen chkf dec encTy n D X h eta j)
+                 (Eq.mp (congrArg Car (Eq.symm (skel_lift X 2 0))) ya2))))
+    (denU_itr_mv_ya chkf dec encTy n D X h eta j ya2))
+  (have ha (Eq (Car (skel X))
+              ((Eq.mp (congrArg Car
+                  (Eq.trans
+                    (congrArg (fn [x :- Sk] (Sk.arr x (skel (lift 4 0 X)))) (skel_lift X 3 0))
+                    (congrArg (fn [y :- Sk] (Sk.arr (skel X) y)) (skel_lift X 4 0))))
+                 ((hDen chkf dec encTy n D X h eta j)
+                  (Eq.mp (congrArg Car (Eq.symm (skel_lift X 2 0))) ya2)))
+               (Eq.mp (congrArg Car (skel_lift X 3 0))
+                 (Eq.mp (congrArg Car (Eq.symm (skel_lift X 3 0))) yb2)))
+              (Eq.mp (congrArg Car (skel_lift X 4 0))
+                (((hDen chkf dec encTy n D X h eta j)
+                  (Eq.mp (congrArg Car (Eq.symm (skel_lift X 2 0))) ya2))
+                 (Eq.mp (congrArg Car (Eq.symm (skel_lift X 3 0))) yb2))))
+    (cast_app (skel (lift 3 0 X)) (skel (lift 4 0 X)) (skel X) (skel X)
+      (skel_lift X 3 0) (skel_lift X 4 0)
+      ((hDen chkf dec encTy n D X h eta j)
+       (Eq.mp (congrArg Car (Eq.symm (skel_lift X 2 0))) ya2))
+      (Eq.mp (congrArg Car (Eq.symm (skel_lift X 3 0))) yb2)))
+  (have hb (Eq (Car (skel X))
+              ((Eq.mp (congrArg Car (hYb_eq X))
+                 ((hDen chkf dec encTy n D X h eta j)
+                  (Eq.mp (congrArg Car (Eq.symm (skel_lift X 2 0))) ya2)))
+               yb2)
+              ((Eq.mp (congrArg Car
+                  (Eq.trans
+                    (congrArg (fn [x :- Sk] (Sk.arr x (skel (lift 4 0 X)))) (skel_lift X 3 0))
+                    (congrArg (fn [y :- Sk] (Sk.arr (skel X) y)) (skel_lift X 4 0))))
+                 ((hDen chkf dec encTy n D X h eta j)
+                  (Eq.mp (congrArg Car (Eq.symm (skel_lift X 2 0))) ya2)))
+               (Eq.mp (congrArg Car (skel_lift X 3 0))
+                 (Eq.mp (congrArg Car (Eq.symm (skel_lift X 3 0))) yb2))))
+    (congrArg
+      (fn [b :- (Car (skel X))]
+        ((Eq.mp (congrArg Car (hYb_eq X))
+           ((hDen chkf dec encTy n D X h eta j)
+            (Eq.mp (congrArg Car (Eq.symm (skel_lift X 2 0))) ya2)))
+         b))
+      (Eq.symm (cast_back (skel (lift 3 0 X)) (skel X) (skel_lift X 3 0) yb2))))
+  (exact (Eq.trans
+    (congrArg
+      (fn [f :- (Car (Sk.arr (skel X) (skel X)))] (f yb2))
+      hd)
+    (Eq.trans hb ha))))
+
+;; The node of itrDen is the cast of ⟦h⟧ at the motive's arrow (Theorem 4′).
+(thm denU_itr_node
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), X :- Exp, h :- Exp,
+   eta :- (HEnv (usks (uskCtx D))), j :- Nat,
+   ya1 :- (Car (uskSk (usk X))), yb1 :- (Car (uskSk (usk X))),
+   ya2 :- (Car (skel X)), yb2 :- (Car (skel X)),
+   ha :- (Eq (Car (uskSk (usk X))) ya1
+           (Eq.mp (congrArg Car (Eq.symm (usk_skel X))) ya2)),
+   hb :- (Eq (Car (uskSk (usk X))) yb1
+           (Eq.mp (congrArg Car (Eq.symm (usk_skel X))) yb2))]
+  (Eq (Car (uskSk (usk X)))
+    (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (usk_lift X 4 0))
+      (((((denU chkf dec encTy n D h (hTy X) eta) Unit.unit) j)
+         (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X 2 0))) ya1))
+        (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm (usk_lift X 3 0))) yb1)))
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel X)))
+      (((((den chkf dec encTy n h (skels D) (hSkX X) (henv_of_usk D eta))
+          Unit.unit) j) ya2) yb2)))
+  (exact (Eq.trans
+    (congrArg
+      (fn [v :- (Car (uskSk (usk (lift 4 0 X))))]
+        (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (usk_lift X 4 0)) v))
+      (denU_itr_args chkf dec encTy n D X h eta j ya1 yb1 ya2 yb2 ha hb))
+    (Eq.trans
+      (cast_lift 4 X
+        ((hDen chkf dec encTy n D X h eta j
+           (Eq.mp (congrArg Car (Eq.symm (skel_lift X 2 0))) ya2))
+         (Eq.mp (congrArg Car (Eq.symm (skel_lift X 3 0))) yb2)))
+      (congrArg
+        (fn [w :- (Car (skel X))]
+          (Eq.mp (congrArg Car (Eq.symm (usk_skel X))) w))
+        (Eq.symm (denU_itr_mv_yb chkf dec encTy n D X h eta j ya2 yb2)))))))
+
+;; denU at a certificate is ⟦·⟧ at Sk.cert.
+(thm denU_cert_id
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), t :- Exp,
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq Code
+    (denU chkf dec encTy n D t Exp.tR eta)
+    (den chkf dec encTy n t (skels D) Sk.cert (henv_of_usk D eta)))
+  (rfl))
+
+;; denU of itR is itrDen of the denotations (Theorem 4′).  The cast stays
+;; outside Code.rec.
+(thm denU_itR
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), X :- Exp, g :- Exp, h :- Exp, r :- Exp,
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (Car (uskSk (usk X)))
+    (denU chkf dec encTy n D (Exp.itR X g h r) X eta)
+    (itrDen X
+      (denU chkf dec encTy n D g (gTy X) eta)
+      (denU chkf dec encTy n D h (hTy X) eta)
+      (denU chkf dec encTy n D r Exp.tR eta)))
+  (exact (Eq.trans
+    (congrArg
+      (fn [x :- (Car (skel X))]
+        (Eq.mp (congrArg Car (Eq.symm (usk_skel X))) x))
+      (Eq.trans
+        (den_itR_at chkf dec encTy n X g h r (skels D) (skel X)
+          (henv_of_usk D eta))
+        (den_itR_open chkf dec encTy (denPrev chkf dec encTy n) n
+          X g h r
+          (den chkf dec encTy n X)
+          (den chkf dec encTy n g)
+          (den chkf dec encTy n h)
+          (den chkf dec encTy n r)
+          (skels D) (skel X) (henv_of_usk D eta))))
+    (Eq.symm
+      (cast_code (uskSk (usk X)) (skel X) (usk_skel X)
+        (fn [j :- Nat]
+          (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (usk_lift X 1 0))
+            ((denU chkf dec encTy n D g (gTy X) eta) j)))
+        (fn [j :- Nat]
+          ((den chkf dec encTy n g (skels D)
+              (Sk.arr Sk.lbl (skel X)) (henv_of_usk D eta))
+           j))
+        (fn [j :- Nat, a :- Code, b :- Code,
+             ya :- (Car (uskSk (usk X))), yb :- (Car (uskSk (usk X)))]
+          (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (usk_lift X 4 0))
+            (((((denU chkf dec encTy n D h (hTy X) eta) Unit.unit) j)
+               (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u)))
+                        (Eq.symm (usk_lift X 2 0))) ya))
+              (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u)))
+                       (Eq.symm (usk_lift X 3 0))) yb))))
+        (fn [j :- Nat, a :- Code, b :- Code,
+             ya :- (Car (skel X)), yb :- (Car (skel X))]
+          (((((den chkf dec encTy n h (skels D) (hSkX X) (henv_of_usk D eta))
+              Unit.unit) j) ya) yb))
+        (den chkf dec encTy n r (skels D) Sk.cert (henv_of_usk D eta))
+        (fn [j :- Nat]
+          (denU_itr_leaf chkf dec encTy n D X g eta j))
+        (fn [j :- Nat, a :- Code, b :- Code,
+             ya2 :- (Car (skel X)), yb2 :- (Car (skel X)),
+             ya1 :- (Car (uskSk (usk X))), yb1 :- (Car (uskSk (usk X))),
+             ha :- (Eq (Car (uskSk (usk X))) ya1
+                     (Eq.mp (congrArg Car (Eq.symm (usk_skel X))) ya2)),
+             hb :- (Eq (Car (uskSk (usk X))) yb1
+                     (Eq.mp (congrArg Car (Eq.symm (usk_skel X))) yb2))]
+          (denU_itr_node chkf dec encTy n D X h eta j
+            ya1 yb1 ya2 yb2 ha hb)))))))
+
+;; itR (Theorem 4′).  g, h, and the certificate are evaluated, then adeqE_itr
+;; folds them the way Code.rec folds the denotation.
+(thm adeqE_itR
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   cap :- Nat, D :- (List Exp), X :- Exp,
+   g :- Exp, h :- Exp, r :- Exp,
+   ge :- Exp, he :- Exp, re :- Exp,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   ihg :- (Exists (fn [vg :- RV]
+            (And (EvalE chkf dec encTy cap rho ge vg)
+                 (Erel chkf dec encTy cap (usk (gTy X)) vg
+                   (denU chkf dec encTy cap D g (gTy X) eta))))),
+   ihh :- (Exists (fn [vh :- RV]
+            (And (EvalE chkf dec encTy cap rho he vh)
+                 (Erel chkf dec encTy cap (usk (hTy X)) vh
+                   (denU chkf dec encTy cap D h (hTy X) eta))))),
+   ihr :- (Exists (fn [vr :- RV]
+            (And (EvalE chkf dec encTy cap rho re vr)
+                 (Erel chkf dec encTy cap (usk Exp.tR) vr
+                   (denU chkf dec encTy cap D r Exp.tR eta)))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy cap rho (Exp.itR X ge he re) v)
+         (Erel chkf dec encTy cap (usk X) v
+           (denU chkf dec encTy cap D (Exp.itR X g h r) X eta)))))
+  (rw [(denU_itR chkf dec encTy cap D X g h r eta)])
+  (refine' (exT RV _ _ ihg _)) (intro vg hg0)
+  (have heg (EvalE chkf dec encTy cap rho ge vg) (And.left hg0))
+  (have hrg (Erel chkf dec encTy cap (usk (gTy X)) vg
+              (denU chkf dec encTy cap D g (gTy X) eta))
+    (And.right hg0))
+  (refine' (exT RV _ _ ihh _)) (intro vh hh0)
+  (have heh (EvalE chkf dec encTy cap rho he vh) (And.left hh0))
+  (have hrh (Erel chkf dec encTy cap (usk (hTy X)) vh
+              (denU chkf dec encTy cap D h (hTy X) eta))
+    (And.right hh0))
+  (refine' (exT RV _ _ ihr _)) (intro vr hr0)
+  (have her0 (EvalE chkf dec encTy cap rho re vr) (And.left hr0))
+  (have hrr (Eq RV vr (RV.cert (denU chkf dec encTy cap D r Exp.tR eta)))
+    (And.right hr0))
+  (have her (EvalE chkf dec encTy cap rho re
+              (RV.cert (denU chkf dec encTy cap D r Exp.tR eta)))
+    (evalE_cast chkf dec encTy cap rho re vr
+      (RV.cert (denU chkf dec encTy cap D r Exp.tR eta)) her0 hrr))
+  (refine' (exT RV _ _
+    (adeqE_itr chkf dec encTy cap X vg vh
+      (denU chkf dec encTy cap D g (gTy X) eta)
+      (denU chkf dec encTy cap D h (hTy X) eta)
+      hrg hrh
+      (denU chkf dec encTy cap D r Exp.tR eta)) _))
+  (intro v hv)
+  (have hi (EvE chkf dec encTy cap
+             (EvSrc.itr vg vh (denU chkf dec encTy cap D r Exp.tR eta)) v)
+    (And.left hv))
+  (have hrel (Erel chkf dec encTy cap (usk X) v
+               (itrDen X
+                 (denU chkf dec encTy cap D g (gTy X) eta)
+                 (denU chkf dec encTy cap D h (hTy X) eta)
+                 (denU chkf dec encTy cap D r Exp.tR eta)))
+    (And.right hv))
+  (constructor) (exact v)
+  (constructor)
+  (exact (EvE.eItR chkf dec encTy cap rho X ge he re vg vh
+           (denU chkf dec encTy cap D r Exp.tR eta) v heg heh her hi))
+  (exact hrel))

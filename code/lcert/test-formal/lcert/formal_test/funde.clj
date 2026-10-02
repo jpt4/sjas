@@ -7,7 +7,7 @@
             [lcert.formal.funde]))
 
 (deftest f5-funde
-  (testing "constants through the recursion of itR in the fundamental property of evalᴱ"
+  (testing "constants through itR in the fundamental property of evalᴱ"
     (doseq [c '[denU AdeqE
                 adeqE_star adeqE_tt adeqE_ff adeqE_zero adeqE_lbl
                 nthUS some_injUS none_ne_someUS entryE_nz lookup_usk_head envE_at
@@ -59,7 +59,18 @@
                 henv_code_tail henv_recs den_ctx_next denU_rec_snode
                 den_recS_open denU_recS
                 adeqE_leaf_at adeqE_node_at adeqE_recS_at adeqE_recS
-                erel_dia_rfl adeqE_itr_leaf adeqE_itr_node adeqE_itr]]
+                erel_dia_rfl adeqE_itr_leaf adeqE_itr_node adeqE_itr
+                den_itR_open denU_itr_app denU_itr_arr2 eq_symm_symm denU_itr_leaf
+                cast_lift cast_back_u cast_back_u2
+                cast_arg_probe cast_arg_hL cast_arg_h1b cast_arg_h2b cast_arg
+                usk_skel_pi1 usk_skel_piw app_cast_pi1 app_cast_piw cast_dia_id
+                hTy_cont hCont_skel hPair_skel hRight_skel
+                hCont_pair hPair_right hRight_lift
+                denU_itr_tok denU_itr_lbl denU_itr_ya denU_itr_yb denU_itr_yb2
+                arg_at denU_itr_args
+                hYb_eq hYa_eq hLbl_eq hSk_eq
+                denU_itr_mv_tok denU_itr_mv_lbl denU_itr_mv_ya denU_itr_mv_yb
+                denU_itr_node denU_cert_id denU_itR adeqE_itR]]
       (is (b/has? c) (str c))))
   (testing "tt denotes true, not false, at the carrier E reads"
     (is (b/rejects?
