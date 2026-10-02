@@ -1797,8 +1797,10 @@
 ;; envE n G rs ρ η: the runtime environment ρ is E-related to η along the
 ;; usage-skeleton context G, with usages rs.  The lists are innermost first.
 ;; A mismatch of length is not related.  η is an environment for usks G,
-;; not for skels of a type context; usk_skel moves one entry, and a lemma
-;; for a whole denotation environment is still open.
+;; not for skels of a type context.  usk_skel moves one entry; usk_ctx
+;; (uskel.clj) moves the whole context, and henv_of_usk transports η to
+;; the HEnv ⟦·⟧ reads.  henv_of_usk is a function: HEnv is a type, so the
+;; transport is not a proposition.
 (kdef envE
   (forall [chkf (=> Code Code Bool)]
     (forall [dec (=> Code (Option (Prod Nat (Prod Exp Exp))))]
