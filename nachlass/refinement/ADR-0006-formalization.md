@@ -88,6 +88,35 @@ until it is proved, which is the red step. Each namespace also carries
 negative checks, such as a false variant the kernel must reject, so that the
 statements are not vacuous.
 
+## F7 plan: the concrete checker
+
+CheckSpec, TokSize and TypeSize are hypotheses until a concrete `Check` meets
+them. The plan, in dependency order (namespace `check.clj` and successors):
+
+1. **Decidable equality** of codes and expressions (`codeEq`, `expEq`, through
+   the injective encoding). *Done.*
+2. **Derivation trees as data.** An inductive type `DT` (in `Type`) with one
+   constructor per rule of `Rt`, `Tl`, `SkJ` and conversion, carrying the
+   rule's explicit fields and premise trees, and `concl : DT → Option judgment`.
+3. **Checkers with soundness,** one `Bool` check per rule:
+   - head steps (`Hd`, 18 kinds) and steps at a path (`getP`/`setP`);
+   - skeleton typing (`SkJ`, about 40 rules) and `nbr`;
+   - conversion chains (`Cv`);
+   - the type-level (`Tl`) and runtime (`Rt`) rules: the side conditions
+     (lookups, usage arithmetic, closedness, base codes) and that each
+     premise tree concludes what the rule needs.
+   Soundness: `check d = true → concl d = some J → J derivable`, by induction
+   on `d`, generated per rule as the other rule-table proofs are.
+4. **The encoding of derivations** (`encD : DT → Code`, as `lcert.encode`'s
+   `enc-deriv`) and its decoder, with the round trip.
+5. **Check and dec:** `Check c d` decodes `c` to a tree, checks it, and
+   compares its conclusion's type code with `d`; `dec` returns its budget,
+   term and type. Then CheckSpec's first clause (Lemmas 2.6–2.7) from
+   soundness, and TokSize and TypeSize from the encoding's shape (E2–E4).
+
+Steps 2 and 3 are the bulk; each inductive's checker is independent once
+the tree type exists, so they can proceed in parallel.
+
 ## Success and failure
 
 - **Success:** F1–F6 formalized in the sense of 1, with the trust base of 2,
