@@ -755,6 +755,24 @@
     (is (b/rejects? '[]
                     '(Eq USk (usk (subst1 Exp.tNat (Exp.var 0))) (USk.base Sk.unit))
                     '[(rfl)]))))
+(require 'lcert.formal.funde)
+(deftest f5-funde
+  (testing "constants and variables of the fundamental property of evalᴱ"
+    (doseq [c '[denU AdeqE
+                adeqE_star adeqE_tt adeqE_ff adeqE_zero adeqE_lbl
+                nthUS some_injUS none_ne_someUS entryE_nz lookup_usk_head envE_at
+                lookup_mp lookup_sk congr_uskSk denU_var var_carrier
+                uskCtx_nth adeqE_var]]
+      (is (b/has? c) (str c))))
+  (testing "tt denotes true, not false, at the carrier E reads"
+    (is (b/rejects?
+          '[chkf :- (=> Code Code Bool),
+            dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+            encTy :- (=> Exp Code), n :- Nat]
+          '(Eq Bool
+             (denU chkf dec encTy n (List.nil Exp) Exp.tt Exp.tBool Unit.unit)
+             Bool.false)
+          '[(rfl)]))))
 
 (require 'lcert.formal.prop434)
 (deftest f4-prop43-44
