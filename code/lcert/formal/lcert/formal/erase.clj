@@ -1424,7 +1424,7 @@
             (fn [j :- Nat, _ :- Bool] (ih j)) i)))
       us)))
 
-(thm lenU_cons [a :- U, xs :- (List U)]
+(thm lenU_cons_e [a :- U, xs :- (List U)]
   (Eq Nat (lenU (List.cons U a xs)) (Nat.succ (lenU xs)))
   (rfl))
 
@@ -1477,11 +1477,11 @@
                    h :- (Eq Bool (nzAt (List.cons U p ps) i) Bool.true)]
   (Eq Bool (nzAt (vadd (List.cons U p ps) ys) i) Bool.true)
   (cases ys)
-  (exact (absurd (Eq.trans (Eq.symm (lenU_cons p ps)) hlen) (Nat.succ_ne_zero (lenU ps))))
+  (exact (absurd (Eq.trans (Eq.symm (lenU_cons_e p ps)) hlen) (Nat.succ_ne_zero (lenU ps))))
   (have ht (Eq Nat (lenU ps) (lenU tail))
     (succ_eq (lenU ps) (lenU tail)
-      (Eq.trans (Eq.symm (lenU_cons p ps))
-        (Eq.trans hlen (lenU_cons head tail)))))
+      (Eq.trans (Eq.symm (lenU_cons_e p ps))
+        (Eq.trans hlen (lenU_cons_e head tail)))))
   (exact (nz_vadd_step p ps head tail
             (fn [j :- Nat, hj :- (Eq Bool (nzAt ps j) Bool.true)] (ih tail j ht hj))
             i h)))
