@@ -7,7 +7,7 @@
             [lcert.formal.funde]))
 
 (deftest f5-funde
-  (testing "constants through itR in the fundamental property of evalᴱ"
+  (testing "constants through print and chk′ in the fundamental property of evalᴱ"
     (doseq [c '[denU AdeqE
                 adeqE_star adeqE_tt adeqE_ff adeqE_zero adeqE_lbl
                 nthUS some_injUS none_ne_someUS entryE_nz lookup_usk_head envE_at
@@ -70,7 +70,8 @@
                 arg_at denU_itr_args
                 hYb_eq hYa_eq hLbl_eq hSk_eq
                 denU_itr_mv_tok denU_itr_mv_lbl denU_itr_mv_ya denU_itr_mv_yb
-                denU_itr_node denU_cert_id denU_itR adeqE_itR]]
+                denU_itr_node denU_cert_id denU_itR adeqE_itR
+                adeqE_prn adeqE_chk]]
       (is (b/has? c) (str c))))
   (testing "tt denotes true, not false, at the carrier E reads"
     (is (b/rejects?

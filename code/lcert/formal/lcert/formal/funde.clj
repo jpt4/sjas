@@ -69,7 +69,8 @@
   gTy and hTy quantify the motive under lifts, so each result is cast
   back to usk X.  A token is related to itself at ◇.  denU of itR is
   that Code.rec (denU_itR): the cast stays outside Code.rec.  adeqE_itR
-  evaluates g, h, and the certificate, then folds them."
+  evaluates g, h, and the certificate, then folds them.  print returns
+  the certificate's code.  chk′ returns Check of the two codes."
   (:require [ansatz.core :as a]
             [lcert.formal.base :refer [thm kdef lv]]
             [lcert.formal.usage :refer :all]
@@ -6730,3 +6731,77 @@
   (exact (EvE.eItR chkf dec encTy cap rho X ge he re vg vh
            (denU chkf dec encTy cap D r Exp.tR eta) v heg heh her hi))
   (exact hrel))
+
+;; --- print and chk′ (Theorem 4′) --------------------------------------------
+;;
+;; print forgets the token: the certificate's code is the Syn value.
+;; chk′ agrees because Check is a total function of the two codes.
+
+(thm adeqE_prn
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), r :- Exp, re :- Exp,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   ih :- (Exists (fn [vr :- RV]
+           (And (EvalE chkf dec encTy n rho re vr)
+                (Erel chkf dec encTy n (usk Exp.tR) vr
+                  (denU chkf dec encTy n D r Exp.tR eta)))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.prn re) v)
+         (Erel chkf dec encTy n (usk Exp.tSyn) v
+           (denU chkf dec encTy n D (Exp.prn r) Exp.tSyn eta)))))
+  (rw [(den_prn_at chkf dec encTy n r (skels D) (skel Exp.tSyn) (henv_of_usk D eta))])
+  (rw [(coe_self Sk.syn (den chkf dec encTy n r (skels D) Sk.cert (henv_of_usk D eta)))])
+  (refine' (exT RV _ _ ih _)) (intro vr hr0)
+  (have he (EvalE chkf dec encTy n rho re vr) (And.left hr0))
+  (have hr (Eq RV vr (RV.cert (denU chkf dec encTy n D r Exp.tR eta))) (And.right hr0))
+  (constructor)
+  (exact (RV.code (denU chkf dec encTy n D r Exp.tR eta)))
+  (constructor)
+  (exact (EvE.ePrn chkf dec encTy n rho re
+           (denU chkf dec encTy n D r Exp.tR eta)
+           (evalE_cast chkf dec encTy n rho re vr
+             (RV.cert (denU chkf dec encTy n D r Exp.tR eta)) he hr)))
+  (rfl))
+
+(thm adeqE_chk
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), c :- Exp, d :- Exp, ce :- Exp, de :- Exp,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   ihc :- (Exists (fn [vc :- RV]
+            (And (EvalE chkf dec encTy n rho ce vc)
+                 (Erel chkf dec encTy n (usk Exp.tSyn) vc
+                   (denU chkf dec encTy n D c Exp.tSyn eta))))),
+   ihd :- (Exists (fn [vd :- RV]
+            (And (EvalE chkf dec encTy n rho de vd)
+                 (Erel chkf dec encTy n (usk Exp.tSyn) vd
+                   (denU chkf dec encTy n D d Exp.tSyn eta)))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.chk ce de) v)
+         (Erel chkf dec encTy n (usk Exp.tBool) v
+           (denU chkf dec encTy n D (Exp.chk c d) Exp.tBool eta)))))
+  (rw [(den_chk_at chkf dec encTy n c d (skels D) (skel Exp.tBool) (henv_of_usk D eta))])
+  (rw [(coe_self Sk.bool
+         (chkf (den chkf dec encTy n c (skels D) Sk.syn (henv_of_usk D eta))
+               (den chkf dec encTy n d (skels D) Sk.syn (henv_of_usk D eta))))])
+  (refine' (exT RV _ _ ihc _)) (intro vc hc)
+  (have hec (EvalE chkf dec encTy n rho ce vc) (And.left hc))
+  (have hrc (Eq RV vc (RV.code (denU chkf dec encTy n D c Exp.tSyn eta))) (And.right hc))
+  (refine' (exT RV _ _ ihd _)) (intro vd hd)
+  (have hed (EvalE chkf dec encTy n rho de vd) (And.left hd))
+  (have hrd (Eq RV vd (RV.code (denU chkf dec encTy n D d Exp.tSyn eta))) (And.right hd))
+  (constructor)
+  (exact (RV.bool (chkf (denU chkf dec encTy n D c Exp.tSyn eta)
+                        (denU chkf dec encTy n D d Exp.tSyn eta))))
+  (constructor)
+  (exact (EvE.eChk chkf dec encTy n rho ce de
+           (denU chkf dec encTy n D c Exp.tSyn eta)
+           (denU chkf dec encTy n D d Exp.tSyn eta)
+           (evalE_cast chkf dec encTy n rho ce vc
+             (RV.code (denU chkf dec encTy n D c Exp.tSyn eta)) hec hrc)
+           (evalE_cast chkf dec encTy n rho de vd
+             (RV.code (denU chkf dec encTy n D d Exp.tSyn eta)) hed hrd)))
+  (rfl))
