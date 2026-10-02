@@ -179,7 +179,9 @@
         (try (doseq [n order :when (redo n)] (load-ns! n))
              (run-suites! (distinct (concat (filter redo order) suites-changed)))
              (catch Throwable e
-               (println "Load failed:" (.getMessage e))
+               ;; the whole cause chain: the outer message only names the form
+               (println "Load failed:")
+               (loop [c e] (when c (println " " (.getName (class c)) (.getMessage c)) (recur (.getCause c))))
                (println "1 failures, 1 errors."))))
 
       (seq suites-changed) (run-suites! suites-changed)
