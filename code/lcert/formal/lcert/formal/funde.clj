@@ -28,7 +28,9 @@
   clause at ⟦u⟧.  At Π₀ the runtime argument is ⋆ and u is a logical
   premise; at Π₁ and Πω the argument is evaluated and E-related.  The
   codomain is B[u/x], and E there is E at B (erel_subst_unit) because a
-  term has skeleton Unit."
+  term has skeleton Unit.  A pair is the pair of its components.  At Σ₀
+  the first is erased to ⋆ and forgotten; at Σ₁ and Σω both are kept, and
+  the second component's type B[x/y] is brought back to B by denU_unsubst."
   (:require [ansatz.core :as a]
             [lcert.formal.base :refer [thm kdef]]
             [lcert.formal.usage :refer :all]
@@ -1385,3 +1387,504 @@
            (denU chkf dec encTy n D (Exp.app f u) (subst1 u B) eta)
            hsub
            (denU_appw chkf dec encTy n D f u A B eta hsu hU))))
+
+;; --- pairs (Theorem 4′, the Pair clauses) -----------------------------------
+;;
+;; A pair's denotation is the pair of the components (denE_pair_prod).  The
+;; usage-skeleton cast of a product commutes with the projections
+;; (cast_fst, cast_snd).  The second component is typed at B[x/y], and
+;; denU_unsubst brings that denotation back to usk B, which is the carrier
+;; the product clause of E reads.  At Σ₀ the first component is erased to ⋆
+;; and forgotten by E.  At Σ₁ and Σω both components are kept.
+
+(thm cast_snd
+  [d :- Sk, c :- Sk, sD :- Sk, sC :- Sk,
+   eA :- (Eq Sk d sD), eB :- (Eq Sk c sC),
+   p :- (Car (Sk.prod sD sC))]
+  (Eq (Car c)
+    (Prod.snd
+      (Eq.mp (congrArg Car (Eq.symm (Eq.trans
+               (congrArg (fn [x :- Sk] (Sk.prod x c)) eA)
+               (congrArg (fn [y :- Sk] (Sk.prod sD y)) eB))))
+        p))
+    (Eq.mp (congrArg Car (Eq.symm eB)) (Prod.snd p)))
+  (cases eA)
+  (cases eB)
+  (rfl))
+
+(thm cast_fst
+  [d :- Sk, c :- Sk, sD :- Sk, sC :- Sk,
+   eA :- (Eq Sk d sD), eB :- (Eq Sk c sC),
+   p :- (Car (Sk.prod sD sC))]
+  (Eq (Car d)
+    (Prod.fst
+      (Eq.mp (congrArg Car (Eq.symm (Eq.trans
+               (congrArg (fn [x :- Sk] (Sk.prod x c)) eA)
+               (congrArg (fn [y :- Sk] (Sk.prod sD y)) eB))))
+        p))
+    (Eq.mp (congrArg Car (Eq.symm eA)) (Prod.fst p)))
+  (cases eA)
+  (cases eB)
+  (rfl))
+
+(thm denE_pair_prod
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, S :- Exp, x :- Exp, y :- Exp, G :- (List Sk),
+   sa :- Sk, sb :- Sk, en :- (HEnv G)]
+  (Eq (Prod (Car sa) (Car sb))
+    (den chkf dec encTy n (Exp.pair S x y) G (Sk.prod sa sb) en)
+    (Prod.mk (den chkf dec encTy n x G sa en) (den chkf dec encTy n y G sb en)))
+  (rw [(den_pair_at chkf dec encTy n S x y G (Sk.prod sa sb) en)]))
+
+;; Casting along a usage-skeleton equation and casting back is the identity.
+(thm cast_usk_back
+  [u1 :- USk, u2 :- USk, eu :- (Eq USk u1 u2), a :- (Car (uskSk u2))]
+  (Eq (Car (uskSk u2))
+    (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w))) eu)
+      (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w))) (Eq.symm eu)) a))
+    a)
+  (cases eu)
+  (rfl))
+
+;; ⟦t⟧ at B, cast into the substituted type B[u/x].  The argument has
+;; skeleton Unit, so the skeletons agree (skel_subst1, usk_subst1).
+(thm denU_subst_from
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), u :- Exp, e :- Exp, t :- Exp,
+   eta :- (HEnv (usks (uskCtx D))),
+   hU :- (Eq Sk (skel u) Sk.unit)]
+  (Eq (Car (uskSk (usk (subst1 u e))))
+    (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w)))
+             (Eq.symm (usk_subst1 u e (usk_of_unit u hU))))
+      (Eq.mp (congrArg Car (Eq.symm (usk_skel e)))
+        (den chkf dec encTy n t (skels D) (skel e) (henv_of_usk D eta))))
+    (denU chkf dec encTy n D t (subst1 u e) eta))
+  (exact (Eq.trans
+    (cast_usk_path (usk (subst1 u e)) (usk e) (usk_subst1 u e (usk_of_unit u hU))
+      (skel e) (skel (subst1 u e))
+      (usk_skel e) (usk_skel (subst1 u e)) (skel_subst1 u e hU)
+      (den chkf dec encTy n t (skels D) (skel e) (henv_of_usk D eta)))
+    (Eq.trans
+      (cast_square
+        (uskSk (usk (subst1 u e))) (uskSk (usk e)) (skel e) (skel (subst1 u e))
+        (usk_skel e) (skel_subst1 u e hU) (usk_skel (subst1 u e))
+        (den chkf dec encTy n t (skels D) (skel e) (henv_of_usk D eta)))
+      (congrArg
+        (fn [x :- (Car (skel (subst1 u e)))]
+          (Eq.mp (congrArg Car (Eq.symm (usk_skel (subst1 u e)))) x))
+        (den_at_eq chkf dec encTy n t (skels D)
+          (skel e) (skel (subst1 u e)) (Eq.symm (skel_subst1 u e hU))
+          (henv_of_usk D eta)))))))
+
+;; The other direction: ⟦t⟧ read at B[u/x], brought back to usk B.
+(thm denU_unsubst
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), u :- Exp, e :- Exp, t :- Exp,
+   eta :- (HEnv (usks (uskCtx D))),
+   hU :- (Eq Sk (skel u) Sk.unit)]
+  (Eq (Car (uskSk (usk e)))
+    (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w)))
+             (usk_subst1 u e (usk_of_unit u hU)))
+      (denU chkf dec encTy n D t (subst1 u e) eta))
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel e)))
+      (den chkf dec encTy n t (skels D) (skel e) (henv_of_usk D eta))))
+  (exact (Eq.trans
+    (congrArg
+      (fn [x :- (Car (uskSk (usk (subst1 u e))))]
+        (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w)))
+                 (usk_subst1 u e (usk_of_unit u hU))) x))
+      (Eq.symm (denU_subst_from chkf dec encTy n D u e t eta hU)))
+    (cast_usk_back (usk (subst1 u e)) (usk e) (usk_subst1 u e (usk_of_unit u hU))
+      (Eq.mp (congrArg Car (Eq.symm (usk_skel e)))
+        (den chkf dec encTy n t (skels D) (skel e) (henv_of_usk D eta)))))))
+
+(thm denU_sig0_snd
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), A :- Exp, B :- Exp, x :- Exp, y :- Exp,
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (Car (uskSk (usk B)))
+    (Prod.snd (denU chkf dec encTy n D (Exp.pair (Exp.tSig U.u0 A B) x y) (Exp.tSig U.u0 A B) eta))
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel B)))
+      (Prod.snd (den chkf dec encTy n (Exp.pair (Exp.tSig U.u0 A B) x y) (skels D)
+                 (Sk.prod (skel A) (skel B)) (henv_of_usk D eta)))))
+  (exact (cast_snd (uskSk (usk A)) (uskSk (usk B)) (skel A) (skel B)
+           (usk_skel A) (usk_skel B)
+           (den chkf dec encTy n (Exp.pair (Exp.tSig U.u0 A B) x y) (skels D)
+                (Sk.prod (skel A) (skel B)) (henv_of_usk D eta)))))
+
+(thm denU_sig0_y
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), A :- Exp, B :- Exp, x :- Exp, y :- Exp,
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (Car (uskSk (usk B)))
+    (Prod.snd (denU chkf dec encTy n D (Exp.pair (Exp.tSig U.u0 A B) x y) (Exp.tSig U.u0 A B) eta))
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel B)))
+      (den chkf dec encTy n y (skels D) (skel B) (henv_of_usk D eta))))
+  (exact (Eq.trans
+           (denU_sig0_snd chkf dec encTy n D A B x y eta)
+           (congrArg
+             (fn [p :- (Prod (Car (skel A)) (Car (skel B)))]
+               (Eq.mp (congrArg Car (Eq.symm (usk_skel B))) (Prod.snd p)))
+             (denE_pair_prod chkf dec encTy n (Exp.tSig U.u0 A B) x y (skels D)
+               (skel A) (skel B) (henv_of_usk D eta))))))
+
+(thm denU_pair0_snd
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), A :- Exp, B :- Exp, x :- Exp, y :- Exp,
+   eta :- (HEnv (usks (uskCtx D))),
+   hU :- (Eq Sk (skel x) Sk.unit)]
+  (Eq (Car (uskSk (usk B)))
+    (Prod.snd (denU chkf dec encTy n D
+                (Exp.pair (Exp.tSig U.u0 A B) x y) (Exp.tSig U.u0 A B) eta))
+    (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w)))
+             (usk_subst1 x B (usk_of_unit x hU)))
+      (denU chkf dec encTy n D y (subst1 x B) eta)))
+  (exact (Eq.trans
+           (denU_sig0_y chkf dec encTy n D A B x y eta)
+           (Eq.symm (denU_unsubst chkf dec encTy n D x B y eta hU)))))
+
+(thm denU_sig1_snd
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), A :- Exp, B :- Exp, x :- Exp, y :- Exp,
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (Car (uskSk (usk B)))
+    (Prod.snd (denU chkf dec encTy n D (Exp.pair (Exp.tSig U.u1 A B) x y) (Exp.tSig U.u1 A B) eta))
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel B)))
+      (Prod.snd (den chkf dec encTy n (Exp.pair (Exp.tSig U.u1 A B) x y) (skels D)
+                 (Sk.prod (skel A) (skel B)) (henv_of_usk D eta)))))
+  (exact (cast_snd (uskSk (usk A)) (uskSk (usk B)) (skel A) (skel B)
+           (usk_skel A) (usk_skel B)
+           (den chkf dec encTy n (Exp.pair (Exp.tSig U.u1 A B) x y) (skels D)
+                (Sk.prod (skel A) (skel B)) (henv_of_usk D eta)))))
+
+(thm denU_sig1_y
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), A :- Exp, B :- Exp, x :- Exp, y :- Exp,
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (Car (uskSk (usk B)))
+    (Prod.snd (denU chkf dec encTy n D (Exp.pair (Exp.tSig U.u1 A B) x y) (Exp.tSig U.u1 A B) eta))
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel B)))
+      (den chkf dec encTy n y (skels D) (skel B) (henv_of_usk D eta))))
+  (exact (Eq.trans
+           (denU_sig1_snd chkf dec encTy n D A B x y eta)
+           (congrArg
+             (fn [p :- (Prod (Car (skel A)) (Car (skel B)))]
+               (Eq.mp (congrArg Car (Eq.symm (usk_skel B))) (Prod.snd p)))
+             (denE_pair_prod chkf dec encTy n (Exp.tSig U.u1 A B) x y (skels D)
+               (skel A) (skel B) (henv_of_usk D eta))))))
+
+(thm denU_pair1_snd
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), A :- Exp, B :- Exp, x :- Exp, y :- Exp,
+   eta :- (HEnv (usks (uskCtx D))),
+   hU :- (Eq Sk (skel x) Sk.unit)]
+  (Eq (Car (uskSk (usk B)))
+    (Prod.snd (denU chkf dec encTy n D
+                (Exp.pair (Exp.tSig U.u1 A B) x y) (Exp.tSig U.u1 A B) eta))
+    (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w)))
+             (usk_subst1 x B (usk_of_unit x hU)))
+      (denU chkf dec encTy n D y (subst1 x B) eta)))
+  (exact (Eq.trans
+           (denU_sig1_y chkf dec encTy n D A B x y eta)
+           (Eq.symm (denU_unsubst chkf dec encTy n D x B y eta hU)))))
+
+(thm denU_sig1_fst
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), A :- Exp, B :- Exp, x :- Exp, y :- Exp,
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (Car (uskSk (usk A)))
+    (Prod.fst (denU chkf dec encTy n D (Exp.pair (Exp.tSig U.u1 A B) x y) (Exp.tSig U.u1 A B) eta))
+    (denU chkf dec encTy n D x A eta))
+  (exact (Eq.trans
+           (cast_fst (uskSk (usk A)) (uskSk (usk B)) (skel A) (skel B)
+             (usk_skel A) (usk_skel B)
+             (den chkf dec encTy n (Exp.pair (Exp.tSig U.u1 A B) x y) (skels D)
+                  (Sk.prod (skel A) (skel B)) (henv_of_usk D eta)))
+           (congrArg
+             (fn [p :- (Prod (Car (skel A)) (Car (skel B)))]
+               (Eq.mp (congrArg Car (Eq.symm (usk_skel A))) (Prod.fst p)))
+             (denE_pair_prod chkf dec encTy n (Exp.tSig U.u1 A B) x y (skels D)
+               (skel A) (skel B) (henv_of_usk D eta))))))
+
+(thm denU_sigw_snd
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), A :- Exp, B :- Exp, x :- Exp, y :- Exp,
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (Car (uskSk (usk B)))
+    (Prod.snd (denU chkf dec encTy n D (Exp.pair (Exp.tSig U.uw A B) x y) (Exp.tSig U.uw A B) eta))
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel B)))
+      (Prod.snd (den chkf dec encTy n (Exp.pair (Exp.tSig U.uw A B) x y) (skels D)
+                 (Sk.prod (skel A) (skel B)) (henv_of_usk D eta)))))
+  (exact (cast_snd (uskSk (usk A)) (uskSk (usk B)) (skel A) (skel B)
+           (usk_skel A) (usk_skel B)
+           (den chkf dec encTy n (Exp.pair (Exp.tSig U.uw A B) x y) (skels D)
+                (Sk.prod (skel A) (skel B)) (henv_of_usk D eta)))))
+
+(thm denU_sigw_y
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), A :- Exp, B :- Exp, x :- Exp, y :- Exp,
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (Car (uskSk (usk B)))
+    (Prod.snd (denU chkf dec encTy n D (Exp.pair (Exp.tSig U.uw A B) x y) (Exp.tSig U.uw A B) eta))
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel B)))
+      (den chkf dec encTy n y (skels D) (skel B) (henv_of_usk D eta))))
+  (exact (Eq.trans
+           (denU_sigw_snd chkf dec encTy n D A B x y eta)
+           (congrArg
+             (fn [p :- (Prod (Car (skel A)) (Car (skel B)))]
+               (Eq.mp (congrArg Car (Eq.symm (usk_skel B))) (Prod.snd p)))
+             (denE_pair_prod chkf dec encTy n (Exp.tSig U.uw A B) x y (skels D)
+               (skel A) (skel B) (henv_of_usk D eta))))))
+
+(thm denU_pairw_snd
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), A :- Exp, B :- Exp, x :- Exp, y :- Exp,
+   eta :- (HEnv (usks (uskCtx D))),
+   hU :- (Eq Sk (skel x) Sk.unit)]
+  (Eq (Car (uskSk (usk B)))
+    (Prod.snd (denU chkf dec encTy n D
+                (Exp.pair (Exp.tSig U.uw A B) x y) (Exp.tSig U.uw A B) eta))
+    (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w)))
+             (usk_subst1 x B (usk_of_unit x hU)))
+      (denU chkf dec encTy n D y (subst1 x B) eta)))
+  (exact (Eq.trans
+           (denU_sigw_y chkf dec encTy n D A B x y eta)
+           (Eq.symm (denU_unsubst chkf dec encTy n D x B y eta hU)))))
+
+(thm denU_sigw_fst
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), A :- Exp, B :- Exp, x :- Exp, y :- Exp,
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (Car (uskSk (usk A)))
+    (Prod.fst (denU chkf dec encTy n D (Exp.pair (Exp.tSig U.uw A B) x y) (Exp.tSig U.uw A B) eta))
+    (denU chkf dec encTy n D x A eta))
+  (exact (Eq.trans
+           (cast_fst (uskSk (usk A)) (uskSk (usk B)) (skel A) (skel B)
+             (usk_skel A) (usk_skel B)
+             (den chkf dec encTy n (Exp.pair (Exp.tSig U.uw A B) x y) (skels D)
+                  (Sk.prod (skel A) (skel B)) (henv_of_usk D eta)))
+           (congrArg
+             (fn [p :- (Prod (Car (skel A)) (Car (skel B)))]
+               (Eq.mp (congrArg Car (Eq.symm (usk_skel A))) (Prod.fst p)))
+             (denE_pair_prod chkf dec encTy n (Exp.tSig U.uw A B) x y (skels D)
+               (skel A) (skel B) (henv_of_usk D eta))))))
+
+;; Theorem 4′, fundamental property, pair at Σ₀.  The first component is
+;; erased to ⋆ and E forgets it.  The second is E-related at B[x/y];
+;; denU_pair0_snd is that value as the second projection of ⟦pair⟧.
+(thm adeqE_pair0
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp),
+   A :- Exp, B :- Exp, x :- Exp, y :- Exp, ye :- Exp,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   hx :- (Tl chkf Bool.false D x A),
+   hA :- (Tl chkf Bool.true D A Exp.tUnit),
+   hB :- (Tl chkf Bool.true (List.cons Exp A D) B Exp.tUnit),
+   ihy :- (Exists (fn [vy :- RV]
+            (And (EvalE chkf dec encTy n rho ye vy)
+                 (Erel chkf dec encTy n (usk (subst1 x B)) vy
+                   (denU chkf dec encTy n D y (subst1 x B) eta)))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.pair (Exp.tSig U.u0 A B) Exp.star ye) v)
+         (Erel chkf dec encTy n (usk (Exp.tSig U.u0 A B)) v
+           (denU chkf dec encTy n D (Exp.pair (Exp.tSig U.u0 A B) x y) (Exp.tSig U.u0 A B) eta)))))
+  (have hxS (SkJ Bool.false (skels D) x (skel A)) (lemma25_tl_term chkf D x A hx))
+  (have hU (Eq Sk (skel x) Sk.unit) (skj_term_unit Bool.false (skels D) x (skel A) hxS rfl))
+  (refine' (exT RV _ _ ihy _)) (intro vy hy)
+  (have hey (EvalE chkf dec encTy n rho ye vy) (And.left hy))
+  (have hry (Erel chkf dec encTy n (usk (subst1 x B)) vy
+              (denU chkf dec encTy n D y (subst1 x B) eta))
+    (And.right hy))
+  (have hsub (Erel chkf dec encTy n (usk B) vy
+               (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w)))
+                        (usk_subst1 x B (usk_of_unit x hU)))
+                 (denU chkf dec encTy n D y (subst1 x B) eta)))
+    (erel_at chkf dec encTy n (usk (subst1 x B)) (usk B) vy
+      (denU chkf dec encTy n D y (subst1 x B) eta)
+      hry (usk_subst1 x B (usk_of_unit x hU))))
+  (have hrel (Erel chkf dec encTy n (usk B) vy
+               (Prod.snd (denU chkf dec encTy n D
+                           (Exp.pair (Exp.tSig U.u0 A B) x y) (Exp.tSig U.u0 A B) eta)))
+    (erel_car chkf dec encTy n (usk B) vy
+      (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w)))
+               (usk_subst1 x B (usk_of_unit x hU)))
+        (denU chkf dec encTy n D y (subst1 x B) eta))
+      (Prod.snd (denU chkf dec encTy n D
+                  (Exp.pair (Exp.tSig U.u0 A B) x y) (Exp.tSig U.u0 A B) eta))
+      hsub
+      (Eq.symm (denU_pair0_snd chkf dec encTy n D A B x y eta hU))))
+  (constructor) (exact (RV.pair RV.star vy))
+  (constructor)
+  (exact (EvE.ePair chkf dec encTy n rho (Exp.tSig U.u0 A B) Exp.star ye RV.star vy
+           (EvE.eStar chkf dec encTy n rho) hey))
+  (constructor) (exact RV.star)
+  (constructor) (exact vy)
+  (constructor) (rfl)
+  (exact hrel))
+
+;; Theorem 4′, fundamental property, pair at Σ₁.  Both components are
+;; evaluated.  The first is E-related at A; the second, at B[x/y].
+(thm adeqE_pair1
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), us1 :- (List U),
+   A :- Exp, B :- Exp, x :- Exp, y :- Exp, xe :- Exp, ye :- Exp,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   hx :- (Rt chkf D us1 x A),
+   hA :- (Tl chkf Bool.true D A Exp.tUnit),
+   ihx :- (Exists (fn [vx :- RV]
+            (And (EvalE chkf dec encTy n rho xe vx)
+                 (Erel chkf dec encTy n (usk A) vx
+                   (denU chkf dec encTy n D x A eta))))),
+   ihy :- (Exists (fn [vy :- RV]
+            (And (EvalE chkf dec encTy n rho ye vy)
+                 (Erel chkf dec encTy n (usk (subst1 x B)) vy
+                   (denU chkf dec encTy n D y (subst1 x B) eta)))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.pair (Exp.tSig U.u1 A B) xe ye) v)
+         (Erel chkf dec encTy n (usk (Exp.tSig U.u1 A B)) v
+           (denU chkf dec encTy n D (Exp.pair (Exp.tSig U.u1 A B) x y) (Exp.tSig U.u1 A B) eta)))))
+  (have hxS (SkJ Bool.false (skels D) x (skel A)) (lemma25_rt chkf D us1 x A hx))
+  (have hU (Eq Sk (skel x) Sk.unit) (skj_term_unit Bool.false (skels D) x (skel A) hxS rfl))
+  (refine' (exT RV _ _ ihx _)) (intro vx px)
+  (have hex (EvalE chkf dec encTy n rho xe vx) (And.left px))
+  (have hrx (Erel chkf dec encTy n (usk A) vx (denU chkf dec encTy n D x A eta))
+    (And.right px))
+  (refine' (exT RV _ _ ihy _)) (intro vy py)
+  (have hey (EvalE chkf dec encTy n rho ye vy) (And.left py))
+  (have hry (Erel chkf dec encTy n (usk (subst1 x B)) vy
+              (denU chkf dec encTy n D y (subst1 x B) eta))
+    (And.right py))
+  (have hsub (Erel chkf dec encTy n (usk B) vy
+               (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w)))
+                        (usk_subst1 x B (usk_of_unit x hU)))
+                 (denU chkf dec encTy n D y (subst1 x B) eta)))
+    (erel_at chkf dec encTy n (usk (subst1 x B)) (usk B) vy
+      (denU chkf dec encTy n D y (subst1 x B) eta)
+      hry (usk_subst1 x B (usk_of_unit x hU))))
+  (have hrys (Erel chkf dec encTy n (usk B) vy
+               (Prod.snd (denU chkf dec encTy n D
+                           (Exp.pair (Exp.tSig U.u1 A B) x y) (Exp.tSig U.u1 A B) eta)))
+    (erel_car chkf dec encTy n (usk B) vy
+      (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w)))
+               (usk_subst1 x B (usk_of_unit x hU)))
+        (denU chkf dec encTy n D y (subst1 x B) eta))
+      (Prod.snd (denU chkf dec encTy n D
+                  (Exp.pair (Exp.tSig U.u1 A B) x y) (Exp.tSig U.u1 A B) eta))
+      hsub
+      (Eq.symm (denU_pair1_snd chkf dec encTy n D A B x y eta hU))))
+  (have hrxf (Erel chkf dec encTy n (usk A) vx
+               (Prod.fst (denU chkf dec encTy n D
+                           (Exp.pair (Exp.tSig U.u1 A B) x y) (Exp.tSig U.u1 A B) eta)))
+    (erel_car chkf dec encTy n (usk A) vx
+      (denU chkf dec encTy n D x A eta)
+      (Prod.fst (denU chkf dec encTy n D
+                  (Exp.pair (Exp.tSig U.u1 A B) x y) (Exp.tSig U.u1 A B) eta))
+      hrx
+      (Eq.symm (denU_sig1_fst chkf dec encTy n D A B x y eta))))
+  (constructor) (exact (RV.pair vx vy))
+  (constructor)
+  (exact (EvE.ePair chkf dec encTy n rho (Exp.tSig U.u1 A B) xe ye vx vy hex hey))
+  (constructor) (exact vx)
+  (constructor) (exact vy)
+  (constructor) (rfl)
+  (constructor) (exact hrxf) (exact hrys))
+
+;; Theorem 4′, fundamental property, pair at Σω.  The same clause as usage 1.
+(thm adeqE_pairw
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), us1 :- (List U),
+   A :- Exp, B :- Exp, x :- Exp, y :- Exp, xe :- Exp, ye :- Exp,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   hx :- (Rt chkf D us1 x A),
+   hA :- (Tl chkf Bool.true D A Exp.tUnit),
+   ihx :- (Exists (fn [vx :- RV]
+            (And (EvalE chkf dec encTy n rho xe vx)
+                 (Erel chkf dec encTy n (usk A) vx
+                   (denU chkf dec encTy n D x A eta))))),
+   ihy :- (Exists (fn [vy :- RV]
+            (And (EvalE chkf dec encTy n rho ye vy)
+                 (Erel chkf dec encTy n (usk (subst1 x B)) vy
+                   (denU chkf dec encTy n D y (subst1 x B) eta)))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.pair (Exp.tSig U.uw A B) xe ye) v)
+         (Erel chkf dec encTy n (usk (Exp.tSig U.uw A B)) v
+           (denU chkf dec encTy n D (Exp.pair (Exp.tSig U.uw A B) x y) (Exp.tSig U.uw A B) eta)))))
+  (have hxS (SkJ Bool.false (skels D) x (skel A)) (lemma25_rt chkf D us1 x A hx))
+  (have hU (Eq Sk (skel x) Sk.unit) (skj_term_unit Bool.false (skels D) x (skel A) hxS rfl))
+  (refine' (exT RV _ _ ihx _)) (intro vx px)
+  (have hex (EvalE chkf dec encTy n rho xe vx) (And.left px))
+  (have hrx (Erel chkf dec encTy n (usk A) vx (denU chkf dec encTy n D x A eta))
+    (And.right px))
+  (refine' (exT RV _ _ ihy _)) (intro vy py)
+  (have hey (EvalE chkf dec encTy n rho ye vy) (And.left py))
+  (have hry (Erel chkf dec encTy n (usk (subst1 x B)) vy
+              (denU chkf dec encTy n D y (subst1 x B) eta))
+    (And.right py))
+  (have hsub (Erel chkf dec encTy n (usk B) vy
+               (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w)))
+                        (usk_subst1 x B (usk_of_unit x hU)))
+                 (denU chkf dec encTy n D y (subst1 x B) eta)))
+    (erel_at chkf dec encTy n (usk (subst1 x B)) (usk B) vy
+      (denU chkf dec encTy n D y (subst1 x B) eta)
+      hry (usk_subst1 x B (usk_of_unit x hU))))
+  (have hrys (Erel chkf dec encTy n (usk B) vy
+               (Prod.snd (denU chkf dec encTy n D
+                           (Exp.pair (Exp.tSig U.uw A B) x y) (Exp.tSig U.uw A B) eta)))
+    (erel_car chkf dec encTy n (usk B) vy
+      (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w)))
+               (usk_subst1 x B (usk_of_unit x hU)))
+        (denU chkf dec encTy n D y (subst1 x B) eta))
+      (Prod.snd (denU chkf dec encTy n D
+                  (Exp.pair (Exp.tSig U.uw A B) x y) (Exp.tSig U.uw A B) eta))
+      hsub
+      (Eq.symm (denU_pairw_snd chkf dec encTy n D A B x y eta hU))))
+  (have hrxf (Erel chkf dec encTy n (usk A) vx
+               (Prod.fst (denU chkf dec encTy n D
+                           (Exp.pair (Exp.tSig U.uw A B) x y) (Exp.tSig U.uw A B) eta)))
+    (erel_car chkf dec encTy n (usk A) vx
+      (denU chkf dec encTy n D x A eta)
+      (Prod.fst (denU chkf dec encTy n D
+                  (Exp.pair (Exp.tSig U.uw A B) x y) (Exp.tSig U.uw A B) eta))
+      hrx
+      (Eq.symm (denU_sigw_fst chkf dec encTy n D A B x y eta))))
+  (constructor) (exact (RV.pair vx vy))
+  (constructor)
+  (exact (EvE.ePair chkf dec encTy n rho (Exp.tSig U.uw A B) xe ye vx vy hex hey))
+  (constructor) (exact vx)
+  (constructor) (exact vy)
+  (constructor) (rfl)
+  (constructor) (exact hrxf) (exact hrys))
