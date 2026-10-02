@@ -59,7 +59,10 @@
   label at usage ω.  leafTy, nodeTy, y1Ty and y2Ty are substitutions of
   terms, so they share the motive's usage skeleton, and the node entries
   are those carriers cast along the equation.  recsDen is the Code.rec of
-  the two methods."
+  the two methods.  denU of recS is that recursor (denU_recS): the cast
+  stays outside Code.rec, as cast_iter stays outside Nat.rec.  The
+  conclusion is P[c], and that carrier is the one at P because a code
+  term has skeleton Unit."
   (:require [ansatz.core :as a]
             [lcert.formal.base :refer [thm kdef lv]]
             [lcert.formal.usage :refer :all]
@@ -4834,3 +4837,639 @@
   (intro c) (induction c)
   (exact (adeqE_recs_leaf chkf dec encTy cap D P tl tn tle tne us l rho eta hr ihl))
   (exact (adeqE_recs_node chkf dec encTy cap D P tl tn tle tne us l a b rho eta hr ih_a ih_b ihn)))
+
+;; --- recSyn, the outer judgment (Theorem 4′) --------------------------------
+;;
+;; ⟦recS⟧ is a Code.rec.  denU casts that whole recursor; the cast stays
+;; outside it (cast_code), because a cast inside the node function makes
+;; the eliminator's motive fail to match.  At Lbl and Syn the usage
+;; skeleton is the base skeleton, so those entries are not cast.
+
+(thm usk_skel_lbl []
+  (Eq Sk (uskSk (usk Exp.tLbl)) Sk.lbl)
+  (rfl))
+
+(thm usk_skel_syn []
+  (Eq Sk (uskSk (usk Exp.tSyn)) Sk.syn)
+  (rfl))
+
+(thm denU_syn_id
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), t :- Exp,
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq Code
+    (denU chkf dec encTy n D t Exp.tSyn eta)
+    (den chkf dec encTy n t (skels D) Sk.syn (henv_of_usk D eta)))
+  (rfl))
+
+(thm skels_lbl_ctx [D :- (List Exp)]
+  (Eq (List Sk) (skels (List.cons Exp Exp.tLbl D))
+      (List.cons Sk Sk.lbl (skels D)))
+  (rfl))
+
+(thm cast_lbl_id [j :- Nat]
+  (Eq Nat (Eq.mp (congrArg Car (usk_skel Exp.tLbl)) j) j)
+  (rfl))
+
+(thm cast_syn_id [c :- Code]
+  (Eq Code (Eq.mp (congrArg Car (usk_skel Exp.tSyn)) c) c)
+  (rfl))
+
+;; denU unfolds to the cast of ⟦·⟧ along usk_skel, at the transported
+;; environment.  The equation is the definition.
+(thm denU_open_leaf
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), P :- Exp, tl :- Exp,
+   eta :- (HEnv (usks (uskCtx (List.cons Exp Exp.tLbl D))))]
+  (Eq (Car (uskSk (usk P)))
+    (denU chkf dec encTy n (List.cons Exp Exp.tLbl D) tl P eta)
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel P)))
+      (den chkf dec encTy n tl (skels (List.cons Exp Exp.tLbl D)) (skel P)
+        (henv_of_usk (List.cons Exp Exp.tLbl D) eta))))
+  (rfl))
+
+;; The leaf method reads the label.  henv_ext casts the label by usk_skel
+;; of Lbl, and that cast is the label (cast_lbl_id), so the environment
+;; ⟦·⟧ sees is (j, η).
+(thm denU_rec_sleaf
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), P :- Exp, tl :- Exp,
+   eta :- (HEnv (usks (uskCtx D))), j :- Nat]
+  (Eq (Car (uskSk (usk P)))
+    (denU chkf dec encTy n (List.cons Exp Exp.tLbl D) tl P (Prod.mk j eta))
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel P)))
+      (den chkf dec encTy n tl (List.cons Sk Sk.lbl (skels D)) (skel P)
+        (Prod.mk j (henv_of_usk D eta)))))
+  (exact (congrArg
+    (fn [en :- (HEnv (skels (List.cons Exp Exp.tLbl D)))]
+      (Eq.mp (congrArg Car (Eq.symm (usk_skel P)))
+        (den chkf dec encTy n tl
+          (skels (List.cons Exp Exp.tLbl D)) (skel P) en)))
+    (henv_ext Exp.tLbl D j eta))))
+
+;; A cast stays outside Code.rec.  The induction hypothesis carries it,
+;; and the leaf and node hypotheses apply it.  Same shape as cast_iter.
+(thm cast_code
+  [s1 :- Sk, s2 :- Sk, e :- (Eq Sk s1 s2),
+   leaf1 :- (=> Nat (Car s1)),
+   leaf2 :- (=> Nat (Car s2)),
+   node1 :- (=> Nat Code Code (Car s1) (Car s1) (Car s1)),
+   node2 :- (=> Nat Code Code (Car s2) (Car s2) (Car s2)),
+   k :- Code,
+   hleaf :- (forall [j Nat]
+             (Eq (Car s1) (leaf1 j)
+               (Eq.mp (congrArg Car (Eq.symm e)) (leaf2 j)))),
+   hnode :- (forall [j Nat] (forall [a Code] (forall [b Code]
+             (forall [ya2 (Car s2)] (forall [yb2 (Car s2)]
+               (forall [ya1 (Car s1)] (forall [yb1 (Car s1)]
+                 (=> (Eq (Car s1) ya1 (Eq.mp (congrArg Car (Eq.symm e)) ya2))
+                   (=> (Eq (Car s1) yb1 (Eq.mp (congrArg Car (Eq.symm e)) yb2))
+                     (Eq (Car s1) (node1 j a b ya1 yb1)
+                       (Eq.mp (congrArg Car (Eq.symm e))
+                         (node2 j a b ya2 yb2))))))))))))]
+  (Eq (Car s1)
+    (Code.rec$1 (fn [_ :- Code] (Car s1)) leaf1 node1 k)
+    (Eq.mp (congrArg Car (Eq.symm e))
+      (Code.rec$1 (fn [_ :- Code] (Car s2)) leaf2 node2 k)))
+  (induction k)
+  (change (Eq (Car s1) (leaf1 l)
+            (Eq.mp (congrArg Car (Eq.symm e)) (leaf2 l))))
+  (exact (hleaf l))
+  (change (Eq (Car s1)
+    (node1 l a b
+      (Code.rec$1 (fn [_ :- Code] (Car s1)) leaf1 node1 a)
+      (Code.rec$1 (fn [_ :- Code] (Car s1)) leaf1 node1 b))
+    (Eq.mp (congrArg Car (Eq.symm e))
+      (node2 l a b
+        (Code.rec$1 (fn [_ :- Code] (Car s2)) leaf2 node2 a)
+        (Code.rec$1 (fn [_ :- Code] (Car s2)) leaf2 node2 b)))))
+  (exact (hnode l a b
+    (Code.rec$1 (fn [_ :- Code] (Car s2)) leaf2 node2 a)
+    (Code.rec$1 (fn [_ :- Code] (Car s2)) leaf2 node2 b)
+    (Code.rec$1 (fn [_ :- Code] (Car s1)) leaf1 node1 a)
+    (Code.rec$1 (fn [_ :- Code] (Car s1)) leaf1 node1 b)
+    ih_a ih_b)))
+
+;; Replacing the head skeleton of a context, and the head carrier with it.
+(thm den_ctx_head
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, t :- Exp, s1 :- Sk, s2 :- Sk, e :- (Eq Sk s1 s2),
+   G :- (List Sk), sk :- Sk, en :- (HEnv G), a :- (Car s2)]
+  (Eq (Car sk)
+    (den chkf dec encTy n t (List.cons Sk s1 G) sk
+      (Prod.mk (Eq.mp (congrArg Car (Eq.symm e)) a) en))
+    (den chkf dec encTy n t (List.cons Sk s2 G) sk (Prod.mk a en)))
+  (cases e) (rfl))
+
+;; The same, one binder down: the outer binder stays, the next one moves.
+(thm den_ctx_next
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, t :- Exp, s0 :- Sk, s1 :- Sk, s2 :- Sk,
+   e :- (Eq Sk s1 s2),
+   G :- (List Sk), sk :- Sk, en :- (HEnv G),
+   b :- (Car s0), a :- (Car s2)]
+  (Eq (Car sk)
+    (den chkf dec encTy n t (List.cons Sk s0 (List.cons Sk s1 G)) sk
+      (Prod.mk b (Prod.mk (Eq.mp (congrArg Car (Eq.symm e)) a) en)))
+    (den chkf dec encTy n t (List.cons Sk s0 (List.cons Sk s2 G)) sk
+      (Prod.mk b (Prod.mk a en))))
+  (cases e) (rfl))
+
+;; The skeleton path from the motive, through y1Ty or y2Ty, and back.
+;; Only skeleton equations: a usage-skeleton equation is cased by
+;; cast_usk_path, and casing both at once was rejected.
+(thm cast_y_simp
+  [sU1 :- Sk, sU2 :- Sk, sP :- Sk, sQ :- Sk,
+   eP :- (Eq Sk sU2 sP),
+   eQ :- (Eq Sk sU1 sQ),
+   eS :- (Eq Sk sQ sP),
+   a :- (Car sP)]
+  (Eq (Car sQ)
+    (Eq.mp (congrArg Car eQ)
+      (Eq.mp (congrArg Car (Eq.trans eP (Eq.trans (Eq.symm eS) (Eq.symm eQ))))
+        (Eq.mp (congrArg Car (Eq.symm eP)) a)))
+    (Eq.mp (congrArg Car (Eq.symm eS)) a))
+  (cases eP) (cases eQ) (cases eS) (rfl))
+
+;; A carrier at skel P, cast to usk P and then to usk Q, cast back by
+;; usk_skel Q, is the carrier cast along skel Q = skel P.
+(thm cast_y_head
+  [uP :- USk, uQ :- USk, sP :- Sk, sQ :- Sk,
+   eU :- (Eq USk uQ uP),
+   eP :- (Eq Sk (uskSk uP) sP),
+   eQ :- (Eq Sk (uskSk uQ) sQ),
+   eS :- (Eq Sk sQ sP),
+   a :- (Car sP)]
+  (Eq (Car sQ)
+    (Eq.mp (congrArg Car eQ)
+      (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (Eq.symm eU))
+        (Eq.mp (congrArg Car (Eq.symm eP)) a)))
+    (Eq.mp (congrArg Car (Eq.symm eS)) a))
+  (exact (Eq.trans
+    (congrArg
+      (fn [x :- (Car (uskSk uQ))] (Eq.mp (congrArg Car eQ) x))
+      (cast_usk_path uQ uP eU sP sQ eP eQ eS a))
+    (cast_y_simp (uskSk uQ) (uskSk uP) sP sQ eP eQ eS a))))
+
+;; The two codes and the label.  Their usage skeletons are the base
+;; skeletons, so henv_ext's casts are the values themselves.
+(thm henv_code_tail
+  [D :- (List Exp), j :- Nat, a :- Code, b :- Code,
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (HEnv (skels (List.cons Exp Exp.tSyn
+                     (List.cons Exp Exp.tSyn
+                       (List.cons Exp Exp.tLbl D)))))
+    (henv_of_usk (List.cons Exp Exp.tSyn
+                   (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D)))
+      (Prod.mk b (Prod.mk a (Prod.mk j eta))))
+    (Prod.mk b (Prod.mk a (Prod.mk j (henv_of_usk D eta)))))
+  (exact (Eq.trans
+    (henv_ext Exp.tSyn
+      (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D))
+      b (Prod.mk a (Prod.mk j eta)))
+    (congrArg
+      (fn [en :- (HEnv (skels (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D))))]
+        (Prod.mk (Eq.mp (congrArg Car (usk_skel Exp.tSyn)) b) en))
+      (Eq.trans
+        (henv_ext Exp.tSyn (List.cons Exp Exp.tLbl D) a (Prod.mk j eta))
+        (congrArg
+          (fn [en :- (HEnv (skels (List.cons Exp Exp.tLbl D)))]
+            (Prod.mk (Eq.mp (congrArg Car (usk_skel Exp.tSyn)) a) en))
+          (henv_ext Exp.tLbl D j eta)))))))
+
+;; The node method's environment.  yb and ya arrive at usk P and are cast
+;; into y2Ty and y1Ty; henv_of_usk casts them on to the skeletons, and
+;; cast_y_head brings those back to skel P.  The codes and the label are
+;; henv_code_tail.
+(thm henv_recs
+  [P :- Exp, D :- (List Exp), j :- Nat, a :- Code, b :- Code,
+   ya2 :- (Car (skel P)), yb2 :- (Car (skel P)),
+   ya1 :- (Car (uskSk (usk P))), yb1 :- (Car (uskSk (usk P))),
+   eta :- (HEnv (usks (uskCtx D))),
+   ha :- (Eq (Car (uskSk (usk P))) ya1
+           (Eq.mp (congrArg Car (Eq.symm (usk_skel P))) ya2)),
+   hb :- (Eq (Car (uskSk (usk P))) yb1
+           (Eq.mp (congrArg Car (Eq.symm (usk_skel P))) yb2))]
+  (Eq (HEnv (skels (List.cons Exp (y2Ty P)
+                     (List.cons Exp (y1Ty P)
+                       (List.cons Exp Exp.tSyn
+                         (List.cons Exp Exp.tSyn
+                           (List.cons Exp Exp.tLbl D)))))))
+    (henv_of_usk (List.cons Exp (y2Ty P)
+                   (List.cons Exp (y1Ty P)
+                     (List.cons Exp Exp.tSyn
+                       (List.cons Exp Exp.tSyn
+                         (List.cons Exp Exp.tLbl D)))))
+      (Prod.mk (castYP P (y2Ty P) yb1 (y2Ty_usk P))
+        (Prod.mk (castYP P (y1Ty P) ya1 (y1Ty_usk P))
+          (Prod.mk b (Prod.mk a (Prod.mk j eta))))))
+    (Prod.mk (Eq.mp (congrArg Car (Eq.symm (y2Ty_skel P))) yb2)
+      (Prod.mk (Eq.mp (congrArg Car (Eq.symm (y1Ty_skel P))) ya2)
+        (Prod.mk b (Prod.mk a (Prod.mk j (henv_of_usk D eta)))))))
+  (rw [hb]) (rw [ha])
+  (exact (Eq.trans
+    (henv_ext (y2Ty P)
+      (List.cons Exp (y1Ty P)
+        (List.cons Exp Exp.tSyn
+          (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D))))
+      (castYP P (y2Ty P)
+        (Eq.mp (congrArg Car (Eq.symm (usk_skel P))) yb2)
+        (y2Ty_usk P))
+      (Prod.mk (castYP P (y1Ty P)
+                 (Eq.mp (congrArg Car (Eq.symm (usk_skel P))) ya2)
+                 (y1Ty_usk P))
+        (Prod.mk b (Prod.mk a (Prod.mk j eta)))))
+    (Eq.trans
+      (congrArg
+        (fn [h :- (Car (skel (y2Ty P)))]
+          (Prod.mk h
+            (henv_of_usk (List.cons Exp (y1Ty P)
+                           (List.cons Exp Exp.tSyn
+                             (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D))))
+              (Prod.mk (castYP P (y1Ty P)
+                         (Eq.mp (congrArg Car (Eq.symm (usk_skel P))) ya2)
+                         (y1Ty_usk P))
+                (Prod.mk b (Prod.mk a (Prod.mk j eta)))))))
+        (cast_y_head (usk P) (usk (y2Ty P)) (skel P) (skel (y2Ty P))
+          (y2Ty_usk P) (usk_skel P) (usk_skel (y2Ty P)) (y2Ty_skel P) yb2))
+      (congrArg
+        (fn [en :- (HEnv (skels (List.cons Exp (y1Ty P)
+                                (List.cons Exp Exp.tSyn
+                                  (List.cons Exp Exp.tSyn
+                                    (List.cons Exp Exp.tLbl D))))))]
+          (Prod.mk (Eq.mp (congrArg Car (Eq.symm (y2Ty_skel P))) yb2) en))
+        (Eq.trans
+          (henv_ext (y1Ty P)
+            (List.cons Exp Exp.tSyn
+              (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D)))
+            (castYP P (y1Ty P)
+              (Eq.mp (congrArg Car (Eq.symm (usk_skel P))) ya2)
+              (y1Ty_usk P))
+            (Prod.mk b (Prod.mk a (Prod.mk j eta))))
+          (Eq.trans
+            (congrArg
+              (fn [h :- (Car (skel (y1Ty P)))]
+                (Prod.mk h
+                  (henv_of_usk (List.cons Exp Exp.tSyn
+                                 (List.cons Exp Exp.tSyn
+                                   (List.cons Exp Exp.tLbl D)))
+                    (Prod.mk b (Prod.mk a (Prod.mk j eta))))))
+              (cast_y_head (usk P) (usk (y1Ty P)) (skel P) (skel (y1Ty P))
+                (y1Ty_usk P) (usk_skel P) (usk_skel (y1Ty P)) (y1Ty_skel P) ya2))
+            (congrArg
+              (fn [en :- (HEnv (skels (List.cons Exp Exp.tSyn
+                                      (List.cons Exp Exp.tSyn
+                                        (List.cons Exp Exp.tLbl D)))))]
+                (Prod.mk (Eq.mp (congrArg Car (Eq.symm (y1Ty_skel P))) ya2) en))
+              (henv_code_tail D j a b eta)))))))))
+
+;; The node method of ⟦recS⟧ reads yb and ya at skel P.  denU reads them
+;; at y2Ty and y1Ty.  henv_recs is that environment, and the two context
+;; heads move from skel(y2Ty) and skel(y1Ty) to skel P.
+(thm denU_rec_snode
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), P :- Exp, tn :- Exp,
+   eta :- (HEnv (usks (uskCtx D))),
+   j :- Nat, a :- Code, b :- Code,
+   ya2 :- (Car (skel P)), yb2 :- (Car (skel P)),
+   ya1 :- (Car (uskSk (usk P))), yb1 :- (Car (uskSk (usk P))),
+   ha :- (Eq (Car (uskSk (usk P))) ya1
+           (Eq.mp (congrArg Car (Eq.symm (usk_skel P))) ya2)),
+   hb :- (Eq (Car (uskSk (usk P))) yb1
+           (Eq.mp (congrArg Car (Eq.symm (usk_skel P))) yb2))]
+  (Eq (Car (uskSk (usk P)))
+    (denU chkf dec encTy n
+      (List.cons Exp (y2Ty P)
+        (List.cons Exp (y1Ty P)
+          (List.cons Exp Exp.tSyn
+            (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D)))))
+      tn P
+      (Prod.mk (castYP P (y2Ty P) yb1 (y2Ty_usk P))
+        (Prod.mk (castYP P (y1Ty P) ya1 (y1Ty_usk P))
+          (Prod.mk b (Prod.mk a (Prod.mk j eta))))))
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel P)))
+      (den chkf dec encTy n tn
+        (sk2 (skel P) (skel P)
+          (sk2 Sk.syn Sk.syn (List.cons Sk Sk.lbl (skels D))))
+        (skel P)
+        (Prod.mk yb2 (Prod.mk ya2
+          (Prod.mk b (Prod.mk a (Prod.mk j (henv_of_usk D eta)))))))))
+  (exact (Eq.trans
+    (congrArg
+      (fn [en :- (HEnv (skels (List.cons Exp (y2Ty P)
+                               (List.cons Exp (y1Ty P)
+                                 (List.cons Exp Exp.tSyn
+                                   (List.cons Exp Exp.tSyn
+                                     (List.cons Exp Exp.tLbl D)))))))]
+        (Eq.mp (congrArg Car (Eq.symm (usk_skel P)))
+          (den chkf dec encTy n tn
+            (skels (List.cons Exp (y2Ty P)
+                     (List.cons Exp (y1Ty P)
+                       (List.cons Exp Exp.tSyn
+                         (List.cons Exp Exp.tSyn
+                           (List.cons Exp Exp.tLbl D))))))
+            (skel P) en)))
+      (henv_recs P D j a b ya2 yb2 ya1 yb1 eta ha hb))
+    (Eq.trans
+      (congrArg
+        (fn [v :- (Car (skel P))]
+          (Eq.mp (congrArg Car (Eq.symm (usk_skel P))) v))
+        (den_ctx_head chkf dec encTy n tn
+          (skel (y2Ty P)) (skel P) (y2Ty_skel P)
+          (skels (List.cons Exp (y1Ty P)
+                   (List.cons Exp Exp.tSyn
+                     (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D)))))
+          (skel P)
+          (Prod.mk (Eq.mp (congrArg Car (Eq.symm (y1Ty_skel P))) ya2)
+            (Prod.mk b (Prod.mk a (Prod.mk j (henv_of_usk D eta)))))
+          yb2))
+      (congrArg
+        (fn [v :- (Car (skel P))]
+          (Eq.mp (congrArg Car (Eq.symm (usk_skel P))) v))
+        (den_ctx_next chkf dec encTy n tn
+          (skel P) (skel (y1Ty P)) (skel P) (y1Ty_skel P)
+          (skels (List.cons Exp Exp.tSyn
+                   (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D))))
+          (skel P)
+          (Prod.mk b (Prod.mk a (Prod.mk j (henv_of_usk D eta))))
+          yb2 ya2))))))
+
+;; den_recS is a kernel definition.  Rewrite sees the folded application,
+;; not the Code.rec inside it.
+(thm den_recS_open
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   prev :- DenFn, n :- Nat,
+   P :- Exp, tl :- Exp, tn :- Exp, c :- Exp,
+   iP :- (forall [G (List Sk)] (forall [sk Sk] (=> (HEnv G) (Car sk)))),
+   itl :- (forall [G (List Sk)] (forall [sk Sk] (=> (HEnv G) (Car sk)))),
+   itn :- (forall [G (List Sk)] (forall [sk Sk] (=> (HEnv G) (Car sk)))),
+   ic :- (forall [G (List Sk)] (forall [sk Sk] (=> (HEnv G) (Car sk)))),
+   G :- (List Sk), sk :- Sk, en :- (HEnv G)]
+  (Eq (Car sk)
+    (den_recS chkf dec encTy prev n P tl tn c iP itl itn ic G sk en)
+    (Code.rec$1 (fn [_ :- Code] (Car sk))
+      (fn [l :- Nat] (itl (List.cons Sk Sk.lbl G) sk (Prod.mk l en)))
+      (fn [l :- Nat, a :- Code, b :- Code, ya :- (Car sk), yb :- (Car sk)]
+        (itn (sk2 sk sk (sk2 Sk.syn Sk.syn (List.cons Sk Sk.lbl G))) sk
+          (Prod.mk yb (Prod.mk ya (Prod.mk b (Prod.mk a (Prod.mk l en)))))))
+      (ic G Sk.syn en)))
+  (rfl))
+
+;; ⟦recS⟧ at usk P is the Code.rec of denU.  den_recS is folded, so the
+;; equation is den_recS_open; the cast of that recursor is cast_code.
+(thm denU_recS
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), P :- Exp, tl :- Exp, tn :- Exp, c :- Exp,
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (Car (uskSk (usk P)))
+    (denU chkf dec encTy n D (Exp.recS P tl tn c) P eta)
+    (recsDen chkf dec encTy n D P tl tn eta
+      (denU chkf dec encTy n D c Exp.tSyn eta)))
+  (exact (Eq.trans
+    (congrArg
+      (fn [x :- (Car (skel P))]
+        (Eq.mp (congrArg Car (Eq.symm (usk_skel P))) x))
+      (Eq.trans
+        (den_recS_at chkf dec encTy n P tl tn c (skels D) (skel P)
+          (henv_of_usk D eta))
+        (den_recS_open chkf dec encTy (denPrev chkf dec encTy n) n P tl tn c
+          (den chkf dec encTy n P) (den chkf dec encTy n tl)
+          (den chkf dec encTy n tn) (den chkf dec encTy n c)
+          (skels D) (skel P) (henv_of_usk D eta))))
+    (Eq.symm
+      (cast_code (uskSk (usk P)) (skel P) (usk_skel P)
+        (fn [j :- Nat]
+          (denU chkf dec encTy n (List.cons Exp Exp.tLbl D) tl P
+            (Prod.mk j eta)))
+        (fn [j :- Nat]
+          (den chkf dec encTy n tl (List.cons Sk Sk.lbl (skels D)) (skel P)
+            (Prod.mk j (henv_of_usk D eta))))
+        (fn [j :- Nat, a :- Code, b :- Code,
+             ya :- (Car (uskSk (usk P))), yb :- (Car (uskSk (usk P)))]
+          (denU chkf dec encTy n
+            (List.cons Exp (y2Ty P)
+              (List.cons Exp (y1Ty P)
+                (List.cons Exp Exp.tSyn
+                  (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D)))))
+            tn P
+            (Prod.mk (castYP P (y2Ty P) yb (y2Ty_usk P))
+              (Prod.mk (castYP P (y1Ty P) ya (y1Ty_usk P))
+                (Prod.mk b (Prod.mk a (Prod.mk j eta)))))))
+        (fn [j :- Nat, a :- Code, b :- Code,
+             ya :- (Car (skel P)), yb :- (Car (skel P))]
+          (den chkf dec encTy n tn
+            (sk2 (skel P) (skel P)
+              (sk2 Sk.syn Sk.syn (List.cons Sk Sk.lbl (skels D))))
+            (skel P)
+            (Prod.mk yb (Prod.mk ya
+              (Prod.mk b (Prod.mk a (Prod.mk j (henv_of_usk D eta))))))))
+        (den chkf dec encTy n c (skels D) Sk.syn (henv_of_usk D eta))
+        (fn [j :- Nat]
+          (denU_rec_sleaf chkf dec encTy n D P tl eta j))
+        (fn [j :- Nat, a :- Code, b :- Code,
+             ya2 :- (Car (skel P)), yb2 :- (Car (skel P)),
+             ya1 :- (Car (uskSk (usk P))), yb1 :- (Car (uskSk (usk P))),
+             ha :- (Eq (Car (uskSk (usk P))) ya1
+                     (Eq.mp (congrArg Car (Eq.symm (usk_skel P))) ya2)),
+             hb :- (Eq (Car (uskSk (usk P))) yb1
+                     (Eq.mp (congrArg Car (Eq.symm (usk_skel P))) yb2))]
+          (denU_rec_snode chkf dec encTy n D P tn eta j a b
+            ya2 yb2 ya1 yb1 ha hb)))))))
+
+;; The leaf method is judged at leafTy.  leafTy is a substitution of a
+;; term, so it has the usage skeleton of P, and the witness moves.
+(thm adeqE_leaf_at
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   cap :- Nat, D :- (List Exp), P :- Exp, tl :- Exp, tle :- Exp,
+   us :- (List U),
+   ihl :- (forall [rho2 (List RV)]
+            (forall [eta2 (HEnv (usks (uskCtx (List.cons Exp Exp.tLbl D))))]
+              (=> (envE chkf dec encTy cap
+                    (uskCtx (List.cons Exp Exp.tLbl D))
+                    (List.cons U U.uw us) rho2 eta2)
+                (Exists (fn [w :- RV]
+                  (And (EvalE chkf dec encTy cap rho2 tle w)
+                       (Erel chkf dec encTy cap (usk (leafTy P)) w
+                         (denU chkf dec encTy cap
+                           (List.cons Exp Exp.tLbl D) tl (leafTy P) eta2))))))))]
+  (forall [rho2 (List RV)]
+    (forall [eta2 (HEnv (usks (uskCtx (List.cons Exp Exp.tLbl D))))]
+      (=> (envE chkf dec encTy cap
+            (uskCtx (List.cons Exp Exp.tLbl D))
+            (List.cons U U.uw us) rho2 eta2)
+        (Exists (fn [w :- RV]
+          (And (EvalE chkf dec encTy cap rho2 tle w)
+               (Erel chkf dec encTy cap (usk P) w
+                 (denU chkf dec encTy cap
+                   (List.cons Exp Exp.tLbl D) tl P eta2))))))))
+  (intro rho2) (intro eta2) (intro he)
+  (exact (adeqE_retarget chkf dec encTy cap
+           (List.cons Exp Exp.tLbl D) tl tle (leafTy P) P rho2 eta2
+           (leafTy_usk P) (leafTy_skel P)
+           (ihl rho2 eta2 he))))
+
+;; The node method is judged at nodeTy, and nodeTy likewise has the
+;; skeleton of P.
+(thm adeqE_node_at
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   cap :- Nat, D :- (List Exp), P :- Exp, tn :- Exp, tne :- Exp,
+   us :- (List U),
+   ihn :- (forall [rho2 (List RV)]
+            (forall [eta2 (HEnv (usks (uskCtx (nodeCtx P D))))]
+              (=> (envE chkf dec encTy cap
+                    (uskCtx (nodeCtx P D)) (nodeUs us) rho2 eta2)
+                (Exists (fn [w :- RV]
+                  (And (EvalE chkf dec encTy cap rho2 tne w)
+                       (Erel chkf dec encTy cap (usk (nodeTy P)) w
+                         (denU chkf dec encTy cap (nodeCtx P D) tn
+                           (nodeTy P) eta2))))))))]
+  (forall [rho2 (List RV)]
+    (forall [eta2 (HEnv (usks (uskCtx (nodeCtx P D))))]
+      (=> (envE chkf dec encTy cap
+            (uskCtx (nodeCtx P D)) (nodeUs us) rho2 eta2)
+        (Exists (fn [w :- RV]
+          (And (EvalE chkf dec encTy cap rho2 tne w)
+               (Erel chkf dec encTy cap (usk P) w
+                 (denU chkf dec encTy cap (nodeCtx P D) tn P eta2))))))))
+  (intro rho2) (intro eta2) (intro he)
+  (exact (adeqE_retarget chkf dec encTy cap
+           (nodeCtx P D) tn tne (nodeTy P) P rho2 eta2
+           (nodeTy_usk P) (nodeTy_skel P)
+           (ihn rho2 eta2 he))))
+
+;; recS at the motive's own skeleton (Theorem 4′).  The methods are judged
+;; at leafTy and nodeTy and moved to P.  The scrutinee denotes the code
+;; the recursion runs on.  denU_recS is that Code.rec.
+(thm adeqE_recS_at
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   cap :- Nat, D :- (List Exp), P :- Exp,
+   tl :- Exp, tn :- Exp, c :- Exp,
+   tle :- Exp, tne :- Exp, ce :- Exp,
+   us :- (List U),
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   hr :- (envE chkf dec encTy cap (uskCtx D) us rho eta),
+   ihc :- (Exists (fn [vc :- RV]
+            (And (EvalE chkf dec encTy cap rho ce vc)
+                 (Erel chkf dec encTy cap (usk Exp.tSyn) vc
+                   (denU chkf dec encTy cap D c Exp.tSyn eta))))),
+   ihl :- (forall [rho2 (List RV)]
+            (forall [eta2 (HEnv (usks (uskCtx (List.cons Exp Exp.tLbl D))))]
+              (=> (envE chkf dec encTy cap
+                    (uskCtx (List.cons Exp Exp.tLbl D))
+                    (List.cons U U.uw us) rho2 eta2)
+                (Exists (fn [w :- RV]
+                  (And (EvalE chkf dec encTy cap rho2 tle w)
+                       (Erel chkf dec encTy cap (usk (leafTy P)) w
+                         (denU chkf dec encTy cap
+                           (List.cons Exp Exp.tLbl D) tl (leafTy P) eta2)))))))),
+   ihn :- (forall [rho2 (List RV)]
+            (forall [eta2 (HEnv (usks (uskCtx (nodeCtx P D))))]
+              (=> (envE chkf dec encTy cap
+                    (uskCtx (nodeCtx P D)) (nodeUs us) rho2 eta2)
+                (Exists (fn [w :- RV]
+                  (And (EvalE chkf dec encTy cap rho2 tne w)
+                       (Erel chkf dec encTy cap (usk (nodeTy P)) w
+                         (denU chkf dec encTy cap (nodeCtx P D) tn
+                           (nodeTy P) eta2))))))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy cap rho (Exp.recS P tle tne ce) v)
+         (Erel chkf dec encTy cap (usk P) v
+           (denU chkf dec encTy cap D (Exp.recS P tl tn c) P eta)))))
+  (rw [(denU_recS chkf dec encTy cap D P tl tn c eta)])
+  (refine' (exT RV _ _ ihc _)) (intro vc hc)
+  (have hec (EvalE chkf dec encTy cap rho ce vc) (And.left hc))
+  (have hrc (Eq RV vc (RV.code (denU chkf dec encTy cap D c Exp.tSyn eta)))
+    (And.right hc))
+  (have hek (EvalE chkf dec encTy cap rho ce
+              (RV.code (denU chkf dec encTy cap D c Exp.tSyn eta)))
+    (evalE_cast chkf dec encTy cap rho ce vc
+      (RV.code (denU chkf dec encTy cap D c Exp.tSyn eta)) hec hrc))
+  (refine' (exT RV _ _
+    (adeqE_recs chkf dec encTy cap D P tl tn tle tne us rho eta hr
+      (adeqE_leaf_at chkf dec encTy cap D P tl tle us ihl)
+      (adeqE_node_at chkf dec encTy cap D P tn tne us ihn)
+      (denU chkf dec encTy cap D c Exp.tSyn eta)) _))
+  (intro v hv)
+  (have hi (EvE chkf dec encTy cap
+             (EvSrc.recs rho tle tne (denU chkf dec encTy cap D c Exp.tSyn eta)) v)
+    (And.left hv))
+  (have hrel (Erel chkf dec encTy cap (usk P) v
+               (recsDen chkf dec encTy cap D P tl tn eta
+                 (denU chkf dec encTy cap D c Exp.tSyn eta)))
+    (And.right hv))
+  (constructor) (exact v)
+  (constructor)
+  (exact (EvE.eRecS chkf dec encTy cap rho P tle tne ce
+           (denU chkf dec encTy cap D c Exp.tSyn eta) v hek hi))
+  (exact hrel))
+
+;; The conclusion of recS is P[c], not P.  A code term has skeleton Unit,
+;; so the two carriers agree and adeqE_recS_at transports.
+(thm adeqE_recS
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   cap :- Nat, D :- (List Exp), P :- Exp,
+   tl :- Exp, tn :- Exp, c :- Exp,
+   tle :- Exp, tne :- Exp, ce :- Exp,
+   us :- (List U),
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   hub :- (Eq USk (usk c) (USk.base Sk.unit)),
+   hsc :- (Eq Sk (skel c) Sk.unit),
+   hr :- (envE chkf dec encTy cap (uskCtx D) us rho eta),
+   ihc :- (Exists (fn [vc :- RV]
+            (And (EvalE chkf dec encTy cap rho ce vc)
+                 (Erel chkf dec encTy cap (usk Exp.tSyn) vc
+                   (denU chkf dec encTy cap D c Exp.tSyn eta))))),
+   ihl :- (forall [rho2 (List RV)]
+            (forall [eta2 (HEnv (usks (uskCtx (List.cons Exp Exp.tLbl D))))]
+              (=> (envE chkf dec encTy cap
+                    (uskCtx (List.cons Exp Exp.tLbl D))
+                    (List.cons U U.uw us) rho2 eta2)
+                (Exists (fn [w :- RV]
+                  (And (EvalE chkf dec encTy cap rho2 tle w)
+                       (Erel chkf dec encTy cap (usk (leafTy P)) w
+                         (denU chkf dec encTy cap
+                           (List.cons Exp Exp.tLbl D) tl (leafTy P) eta2)))))))),
+   ihn :- (forall [rho2 (List RV)]
+            (forall [eta2 (HEnv (usks (uskCtx (nodeCtx P D))))]
+              (=> (envE chkf dec encTy cap
+                    (uskCtx (nodeCtx P D)) (nodeUs us) rho2 eta2)
+                (Exists (fn [w :- RV]
+                  (And (EvalE chkf dec encTy cap rho2 tne w)
+                       (Erel chkf dec encTy cap (usk (nodeTy P)) w
+                         (denU chkf dec encTy cap (nodeCtx P D) tn
+                           (nodeTy P) eta2))))))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy cap rho (Exp.recS P tle tne ce) v)
+         (Erel chkf dec encTy cap (usk (subst1 c P)) v
+           (denU chkf dec encTy cap D (Exp.recS P tl tn c) (subst1 c P) eta)))))
+  (exact (adeqE_retarget chkf dec encTy cap D
+           (Exp.recS P tl tn c) (Exp.recS P tle tne ce)
+           P (subst1 c P) rho eta
+           (Eq.symm (usk_subst1 c P hub))
+           (Eq.symm (skel_subst1 c P hsc))
+           (adeqE_recS_at chkf dec encTy cap D P tl tn c tle tne ce us
+             rho eta hr ihc ihl ihn))))
