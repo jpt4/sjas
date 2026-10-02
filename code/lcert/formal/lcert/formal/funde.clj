@@ -52,7 +52,14 @@
   stepTy, both of which have the usage skeleton of P: zero, a successor and
   the numeral are terms.  denU of recN is the Nat.rec of those denotations.
   The conclusion is P[n], and that carrier is the one at P because the
-  numeral has skeleton Unit."
+  numeral has skeleton Unit.
+
+  recSyn inducts on the code.  The leaf binds the label at usage ω.  The
+  node binds the two recursive results at usage 1 and the two codes and the
+  label at usage ω.  leafTy, nodeTy, y1Ty and y2Ty are substitutions of
+  terms, so they share the motive's usage skeleton, and the node entries
+  are those carriers cast along the equation.  recsDen is the Code.rec of
+  the two methods."
   (:require [ansatz.core :as a]
             [lcert.formal.base :refer [thm kdef lv]]
             [lcert.formal.usage :refer :all]
@@ -4483,3 +4490,347 @@
   (constructor)
   (exact (EvE.eRecSL chkf dec encTy cap rho tle tne l w he))
   (exact hrel))
+
+;; --- recSyn, the node (Theorem 4′) ------------------------------------------
+;;
+;; The node method's Code.rec is the same term the leaf states inline.
+;; Naming it (recsDen) keeps the node proof inside the JVM method limit.
+;; The two casts of a usage-skeleton equation are the same term: erel_at
+;; writes the fused congruence, and the recursor writes congruence twice.
+
+(thm cast_usk_car
+  [u1 :- USk, u2 :- USk, e :- (Eq USk u1 u2), a :- (Car (uskSk u1))]
+  (Eq (Car (uskSk u2))
+    (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) e) a)
+    (Eq.mp (congrArg Car (congrArg (fn [w :- USk] (uskSk w)) e)) a))
+  (rfl))
+
+;; The five-binder context of the node method, innermost last: yb at y2Ty,
+;; ya at y1Ty, the right code, the left code, the label.
+(kdef nodeCtx
+  (forall [P Exp] (forall [D (List Exp)] (List Exp)))
+  (fn [P :- Exp, D :- (List Exp)]
+    (List.cons Exp (y2Ty P)
+      (List.cons Exp (y1Ty P)
+        (List.cons Exp Exp.tSyn
+          (List.cons Exp Exp.tSyn
+            (List.cons Exp Exp.tLbl D)))))))
+
+(thm nodeCtx_eq
+  [P :- Exp, D :- (List Exp)]
+  (Eq (List Exp) (nodeCtx P D)
+    (List.cons Exp (y2Ty P)
+      (List.cons Exp (y1Ty P)
+        (List.cons Exp Exp.tSyn
+          (List.cons Exp Exp.tSyn
+            (List.cons Exp Exp.tLbl D))))))
+  (rfl))
+
+;; Cast a carrier at usk P across usk Q = usk P.
+(kdef castYP
+  (forall [P Exp] (forall [Q Exp]
+    (forall [a (Car (uskSk (usk P)))]
+      (=> (Eq USk (usk Q) (usk P)) (Car (uskSk (usk Q)))))))
+  (fn [P :- Exp, Q :- Exp, a :- (Car (uskSk (usk P))),
+       e :- (Eq USk (usk Q) (usk P))]
+    (Eq.mp (congrArg Car (congrArg (fn [w :- USk] (uskSk w)) (Eq.symm e))) a)))
+
+(thm castYP_eq
+  [P :- Exp, Q :- Exp, a :- (Car (uskSk (usk P))),
+   e :- (Eq USk (usk Q) (usk P))]
+  (Eq (Car (uskSk (usk Q))) (castYP P Q a e)
+    (Eq.mp (congrArg Car (congrArg (fn [w :- USk] (uskSk w)) (Eq.symm e))) a))
+  (rfl))
+
+;; The carrier of recSyn: Code.rec of the two methods.  The leaf theorem
+;; states this recursor inline; recsDen_leaf is that they are one term.
+(kdef recsDen
+  (forall [chkf (=> Code Code Bool)]
+    (forall [dec (=> Code (Option (Prod Nat (Prod Exp Exp))))]
+      (forall [encTy (=> Exp Code)]
+        (forall [cap Nat] (forall [D (List Exp)] (forall [P Exp]
+          (forall [tl Exp] (forall [tn Exp]
+            (forall [eta (HEnv (usks (uskCtx D)))]
+              (=> Code (Car (uskSk (usk P)))))))))))))
+  (fn [chkf :- (=> Code Code Bool),
+       dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+       encTy :- (=> Exp Code),
+       cap :- Nat, D :- (List Exp), P :- Exp, tl :- Exp, tn :- Exp,
+       eta :- (HEnv (usks (uskCtx D))), c :- Code]
+    (Code.rec$1 (fn [_ :- Code] (Car (uskSk (usk P))))
+      (fn [j :- Nat]
+        (denU chkf dec encTy cap (List.cons Exp Exp.tLbl D) tl P
+          (Prod.mk j eta)))
+      (fn [j :- Nat, a :- Code, b :- Code,
+           ya :- (Car (uskSk (usk P))), yb :- (Car (uskSk (usk P)))]
+        (denU chkf dec encTy cap
+          (List.cons Exp (y2Ty P)
+            (List.cons Exp (y1Ty P)
+              (List.cons Exp Exp.tSyn
+                (List.cons Exp Exp.tSyn
+                  (List.cons Exp Exp.tLbl D)))))
+          tn P
+          (Prod.mk
+            (Eq.mp (congrArg Car (congrArg (fn [w :- USk] (uskSk w))
+                      (Eq.symm (y2Ty_usk P)))) yb)
+            (Prod.mk
+              (Eq.mp (congrArg Car (congrArg (fn [w :- USk] (uskSk w))
+                        (Eq.symm (y1Ty_usk P)))) ya)
+              (Prod.mk b (Prod.mk a (Prod.mk j eta)))))))
+      c)))
+
+(thm recsDen_leaf
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   cap :- Nat, D :- (List Exp), P :- Exp, tl :- Exp, tn :- Exp,
+   eta :- (HEnv (usks (uskCtx D))), l :- Nat]
+  (Eq (Car (uskSk (usk P)))
+    (recsDen chkf dec encTy cap D P tl tn eta (Code.sl l))
+    (Code.rec$1 (fn [_ :- Code] (Car (uskSk (usk P))))
+             (fn [j :- Nat]
+               (denU chkf dec encTy cap (List.cons Exp Exp.tLbl D) tl P
+                 (Prod.mk j eta)))
+             (fn [j :- Nat, a :- Code, b :- Code,
+                  ya :- (Car (uskSk (usk P))), yb :- (Car (uskSk (usk P)))]
+               (denU chkf dec encTy cap
+                 (List.cons Exp (y2Ty P)
+                   (List.cons Exp (y1Ty P)
+                     (List.cons Exp Exp.tSyn
+                       (List.cons Exp Exp.tSyn
+                         (List.cons Exp Exp.tLbl D)))))
+                 tn P
+                 (Prod.mk
+                   (Eq.mp (congrArg Car (congrArg (fn [w :- USk] (uskSk w))
+                             (Eq.symm (y2Ty_usk P)))) yb)
+                   (Prod.mk
+                     (Eq.mp (congrArg Car (congrArg (fn [w :- USk] (uskSk w))
+                               (Eq.symm (y1Ty_usk P)))) ya)
+                     (Prod.mk b (Prod.mk a (Prod.mk j eta)))))))
+             (Code.sl l)))
+  (rfl))
+
+;; The node method's carrier environment: the two recursive results cast
+;; from usk P to y2Ty and y1Ty, then the right code, the left code, the label.
+(kdef nodeEta
+  (forall [P Exp] (forall [D (List Exp)]
+    (forall [a Code] (forall [b Code] (forall [l Nat]
+      (forall [ca (Car (uskSk (usk P)))]
+        (forall [cb (Car (uskSk (usk P)))]
+          (forall [eta (HEnv (usks (uskCtx D)))]
+            (HEnv (usks (uskCtx (nodeCtx P D))))))))))))
+  (fn [P :- Exp, D :- (List Exp), a :- Code, b :- Code, l :- Nat,
+       ca :- (Car (uskSk (usk P))), cb :- (Car (uskSk (usk P))),
+       eta :- (HEnv (usks (uskCtx D)))]
+    (Prod.mk (castYP P (y2Ty P) cb (y2Ty_usk P))
+      (Prod.mk (castYP P (y1Ty P) ca (y1Ty_usk P))
+        (Prod.mk b (Prod.mk a (Prod.mk l eta)))))))
+
+;; The node method's runtime environment, same order as nodeEta.
+(kdef nodeRho
+  (forall [yb RV] (forall [ya RV] (forall [b Code] (forall [a Code]
+    (forall [l Nat] (forall [rho (List RV)] (List RV)))))))
+  (fn [yb :- RV, ya :- RV, b :- Code, a :- Code, l :- Nat, rho :- (List RV)]
+    (List.cons RV yb (List.cons RV ya
+      (List.cons RV (RV.code b)
+        (List.cons RV (RV.code a)
+          (List.cons RV (RV.lbl l) rho)))))))
+
+;; Usage vector of the node method: ya and yb at 1, the two codes and the
+;; label at ω, then the tail.
+(kdef nodeUs
+  (forall [us (List U)] (List U))
+  (fn [us :- (List U)]
+    (List.cons U U.u1 (List.cons U U.u1
+      (List.cons U U.uw (List.cons U U.uw (List.cons U U.uw us)))))))
+
+(thm nodeEta_eq
+  [P :- Exp, D :- (List Exp), a :- Code, b :- Code, l :- Nat,
+   ca :- (Car (uskSk (usk P))), cb :- (Car (uskSk (usk P))),
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (HEnv (usks (uskCtx (nodeCtx P D))))
+    (nodeEta P D a b l ca cb eta)
+    (Prod.mk (castYP P (y2Ty P) cb (y2Ty_usk P))
+      (Prod.mk (castYP P (y1Ty P) ca (y1Ty_usk P))
+        (Prod.mk b (Prod.mk a (Prod.mk l eta))))))
+  (rfl))
+
+(thm nodeRho_eq
+  [yb :- RV, ya :- RV, b :- Code, a :- Code, l :- Nat, rho :- (List RV)]
+  (Eq (List RV) (nodeRho yb ya b a l rho)
+    (List.cons RV yb (List.cons RV ya
+      (List.cons RV (RV.code b)
+        (List.cons RV (RV.code a)
+          (List.cons RV (RV.lbl l) rho))))))
+  (rfl))
+
+(thm nodeUs_eq
+  [us :- (List U)]
+  (Eq (List U) (nodeUs us)
+    (List.cons U U.u1 (List.cons U U.u1
+      (List.cons U U.uw (List.cons U U.uw (List.cons U U.uw us))))))
+  (rfl))
+
+;; recSyn, the node (Theorem 4′).  The two recursive results are E-related
+;; at usk P; the binders are y2Ty and y1Ty, which have that usage skeleton,
+;; so the entries are the cast carriers.  recsDen is the Code.rec the leaf
+;; states inline.
+
+(thm adeqE_recs_node
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   cap :- Nat, D :- (List Exp), P :- Exp, tl :- Exp, tn :- Exp,
+   tle :- Exp, tne :- Exp, us :- (List U),
+   l :- Nat, a :- Code, b :- Code,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   hr :- (envE chkf dec encTy cap (uskCtx D) us rho eta),
+   iha :- (Exists (fn [ya :- RV]
+            (And (EvE chkf dec encTy cap (EvSrc.recs rho tle tne a) ya)
+                 (Erel chkf dec encTy cap (usk P) ya (recsDen chkf dec encTy cap D P tl tn eta a))))),
+   ihb :- (Exists (fn [yb :- RV]
+            (And (EvE chkf dec encTy cap (EvSrc.recs rho tle tne b) yb)
+                 (Erel chkf dec encTy cap (usk P) yb (recsDen chkf dec encTy cap D P tl tn eta b))))),
+   ihn :- (forall [rho2 (List RV)]
+            (forall [eta2 (HEnv (usks (uskCtx (nodeCtx P D))))]
+              (=> (envE chkf dec encTy cap (uskCtx (nodeCtx P D)) (nodeUs us)
+                    rho2 eta2)
+                (Exists (fn [w :- RV]
+                  (And (EvalE chkf dec encTy cap rho2 tne w)
+                       (Erel chkf dec encTy cap (usk P) w
+                         (denU chkf dec encTy cap (nodeCtx P D) tn P eta2))))))))]
+  (Exists (fn [v :- RV]
+    (And (EvE chkf dec encTy cap (EvSrc.recs rho tle tne (Code.sn l a b)) v)
+         (Erel chkf dec encTy cap (usk P) v (recsDen chkf dec encTy cap D P tl tn eta (Code.sn l a b))))))
+  (refine' (exT RV _ _ iha _)) (intro ya ha)
+  (have hea (EvE chkf dec encTy cap (EvSrc.recs rho tle tne a) ya) (And.left ha))
+  (have hra (Erel chkf dec encTy cap (usk P) ya (recsDen chkf dec encTy cap D P tl tn eta a)) (And.right ha))
+  (refine' (exT RV _ _ ihb _)) (intro yb hb)
+  (have heb (EvE chkf dec encTy cap (EvSrc.recs rho tle tne b) yb) (And.left hb))
+  (have hrb (Erel chkf dec encTy cap (usk P) yb (recsDen chkf dec encTy cap D P tl tn eta b)) (And.right hb))
+  (have eL (envE chkf dec encTy cap
+             (uskCtx (List.cons Exp Exp.tLbl D))
+             (List.cons U U.uw us)
+             (List.cons RV (RV.lbl l) rho)
+             (Prod.mk l eta))
+    (envE_consw chkf dec encTy cap (usk Exp.tLbl) (uskCtx D) us
+      (RV.lbl l) rho l eta (erel_lbl_rfl chkf dec encTy cap l) hr))
+  (have eA (envE chkf dec encTy cap
+             (uskCtx (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D)))
+             (List.cons U U.uw (List.cons U U.uw us))
+             (List.cons RV (RV.code a) (List.cons RV (RV.lbl l) rho))
+             (Prod.mk a (Prod.mk l eta)))
+    (envE_consw chkf dec encTy cap (usk Exp.tSyn)
+      (uskCtx (List.cons Exp Exp.tLbl D))
+      (List.cons U U.uw us)
+      (RV.code a) (List.cons RV (RV.lbl l) rho)
+      a (Prod.mk l eta) (erel_code_rfl chkf dec encTy cap a) eL))
+  (have eB (envE chkf dec encTy cap
+             (uskCtx (List.cons Exp Exp.tSyn
+                       (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D))))
+             (List.cons U U.uw (List.cons U U.uw (List.cons U U.uw us)))
+             (List.cons RV (RV.code b)
+               (List.cons RV (RV.code a) (List.cons RV (RV.lbl l) rho)))
+             (Prod.mk b (Prod.mk a (Prod.mk l eta))))
+    (envE_consw chkf dec encTy cap (usk Exp.tSyn)
+      (uskCtx (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D)))
+      (List.cons U U.uw (List.cons U U.uw us))
+      (RV.code b)
+      (List.cons RV (RV.code a) (List.cons RV (RV.lbl l) rho))
+      b (Prod.mk a (Prod.mk l eta)) (erel_code_rfl chkf dec encTy cap b) eA))
+  (have eYa (envE chkf dec encTy cap
+              (uskCtx (List.cons Exp (y1Ty P)
+                (List.cons Exp Exp.tSyn
+                  (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D)))))
+              (List.cons U U.u1
+                (List.cons U U.uw (List.cons U U.uw (List.cons U U.uw us))))
+              (List.cons RV ya
+                (List.cons RV (RV.code b)
+                  (List.cons RV (RV.code a) (List.cons RV (RV.lbl l) rho))))
+              (Prod.mk (castYP P (y1Ty P) (recsDen chkf dec encTy cap D P tl tn eta a) (y1Ty_usk P))
+                (Prod.mk b (Prod.mk a (Prod.mk l eta)))))
+    (envE_cons1 chkf dec encTy cap (usk (y1Ty P))
+      (uskCtx (List.cons Exp Exp.tSyn
+                (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D))))
+      (List.cons U U.uw (List.cons U U.uw (List.cons U U.uw us)))
+      ya
+      (List.cons RV (RV.code b)
+        (List.cons RV (RV.code a) (List.cons RV (RV.lbl l) rho)))
+      (castYP P (y1Ty P) (recsDen chkf dec encTy cap D P tl tn eta a) (y1Ty_usk P))
+      (Prod.mk b (Prod.mk a (Prod.mk l eta)))
+      (erel_at chkf dec encTy cap (usk P) (usk (y1Ty P)) ya
+        (recsDen chkf dec encTy cap D P tl tn eta a) hra (Eq.symm (y1Ty_usk P)))
+      eB))
+  (have eYb (envE chkf dec encTy cap
+              (uskCtx (nodeCtx P D)) (nodeUs us)
+              (nodeRho yb ya b a l rho)
+              (nodeEta P D a b l (recsDen chkf dec encTy cap D P tl tn eta a) (recsDen chkf dec encTy cap D P tl tn eta b) eta))
+    (envE_cons1 chkf dec encTy cap (usk (y2Ty P))
+      (uskCtx (List.cons Exp (y1Ty P)
+        (List.cons Exp Exp.tSyn
+          (List.cons Exp Exp.tSyn (List.cons Exp Exp.tLbl D)))))
+      (List.cons U U.u1
+        (List.cons U U.uw (List.cons U U.uw (List.cons U U.uw us))))
+      yb
+      (List.cons RV ya
+        (List.cons RV (RV.code b)
+          (List.cons RV (RV.code a) (List.cons RV (RV.lbl l) rho))))
+      (castYP P (y2Ty P) (recsDen chkf dec encTy cap D P tl tn eta b) (y2Ty_usk P))
+      (Prod.mk (castYP P (y1Ty P) (recsDen chkf dec encTy cap D P tl tn eta a) (y1Ty_usk P))
+        (Prod.mk b (Prod.mk a (Prod.mk l eta))))
+      (erel_at chkf dec encTy cap (usk P) (usk (y2Ty P)) yb
+        (recsDen chkf dec encTy cap D P tl tn eta b) hrb (Eq.symm (y2Ty_usk P)))
+      eYa))
+  (refine' (exT RV _ _
+    (ihn (nodeRho yb ya b a l rho)
+         (nodeEta P D a b l (recsDen chkf dec encTy cap D P tl tn eta a) (recsDen chkf dec encTy cap D P tl tn eta b) eta)
+         eYb) _))
+  (intro w hw)
+  (have he (EvalE chkf dec encTy cap (nodeRho yb ya b a l rho) tne w)
+    (And.left hw))
+  (have hrel (Erel chkf dec encTy cap (usk P) w
+               (denU chkf dec encTy cap (nodeCtx P D) tn P
+                 (nodeEta P D a b l (recsDen chkf dec encTy cap D P tl tn eta a) (recsDen chkf dec encTy cap D P tl tn eta b) eta)))
+    (And.right hw))
+  (constructor) (exact w)
+  (constructor)
+  (exact (EvE.eRecSN chkf dec encTy cap rho tle tne l a b ya yb w hea heb he))
+  (exact hrel))
+
+;; recSyn's recursion (Theorem 4′).  Induction on the code.  The leaf and
+;; the node share the tail environment; the leaf binds the label at ω and
+;; the node binds yb, ya at 1 and the two codes and the label at ω.
+(thm adeqE_recs
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   cap :- Nat, D :- (List Exp), P :- Exp, tl :- Exp, tn :- Exp,
+   tle :- Exp, tne :- Exp, us :- (List U),
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   hr :- (envE chkf dec encTy cap (uskCtx D) us rho eta),
+   ihl :- (forall [rho2 (List RV)]
+            (forall [eta2 (HEnv (usks (uskCtx (List.cons Exp Exp.tLbl D))))]
+              (=> (envE chkf dec encTy cap
+                    (uskCtx (List.cons Exp Exp.tLbl D))
+                    (List.cons U U.uw us) rho2 eta2)
+                (Exists (fn [w :- RV]
+                  (And (EvalE chkf dec encTy cap rho2 tle w)
+                       (Erel chkf dec encTy cap (usk P) w
+                         (denU chkf dec encTy cap
+                           (List.cons Exp Exp.tLbl D) tl P eta2)))))))),
+   ihn :- (forall [rho2 (List RV)]
+            (forall [eta2 (HEnv (usks (uskCtx (nodeCtx P D))))]
+              (=> (envE chkf dec encTy cap (uskCtx (nodeCtx P D)) (nodeUs us)
+                    rho2 eta2)
+                (Exists (fn [w :- RV]
+                  (And (EvalE chkf dec encTy cap rho2 tne w)
+                       (Erel chkf dec encTy cap (usk P) w
+                         (denU chkf dec encTy cap (nodeCtx P D) tn P eta2))))))))]
+  (forall [c Code]
+    (Exists (fn [v :- RV]
+      (And (EvE chkf dec encTy cap (EvSrc.recs rho tle tne c) v)
+           (Erel chkf dec encTy cap (usk P) v
+             (recsDen chkf dec encTy cap D P tl tn eta c))))))
+  (intro c) (induction c)
+  (exact (adeqE_recs_leaf chkf dec encTy cap D P tl tn tle tne us l rho eta hr ihl))
+  (exact (adeqE_recs_node chkf dec encTy cap D P tl tn tle tne us l a b rho eta hr ih_a ih_b ihn)))
