@@ -6409,3 +6409,52 @@ Branch `adr-0006-formalization`.
 - **Proposition 4.5.** D3 (`prop45_d3`): □A ⊸ □□A at budget ‖w‖ for a certificate w of □A; the lambda discards its input and ⋆ carries that usage. Boxed contraction (`prop45_contraction`): □A ⊸ □A ⊗ □A at budget 2‖v‖, two copies of (lit v, ⋆) on disjoint token blocks (Lemma 2.1). The tensor is a usage-1 sigma, so both blocks survive.
 - **Load fixes.** `lit_scope` was one parenthesis short, so a fresh read never left that form. `getP_nil` and `setP_nil` are conversion.clj's constants (one kernel environment). The child-step packers are `step_child` / `step_child0`, because convcase.clj's `prove!` skips a constant named `step_pack` that already exists.
 - **Suite.** `bin/test-formal`: 42 tests, 792 assertions, 0 failures, 0 errors.
+
+## 2026-10-01 — Theorem 4, Corollary 5.1, Propositions 4.3, 4.4 (1), 4.10′
+
+- **Theorem 4 and Corollary 5.1** (`theorem4.clj`, Grok, merged b75beb1): eval
+  is adequate when the checker decodes a smaller derivation; ConvCase is
+  discharged (ff10b6e).
+- **Proposition 4.10′** (`prop410.clj`): `H` does not give `H₁`. A χ-model
+  (`chiF chkf N` accepts every pair whose second code exceeds N nodes) and a
+  transport `rt_tr` moving a derivation to any checker agreeing below a size
+  bound.
+- **Propositions 4.3 and 4.4 (1)** (`prop434.clj`). The size facts are split
+  as the user asked, each as weak as its use: `TokSize` (2f < ‖c‖) and
+  `TypeSize` (‖⌜A⌝‖ < ‖c‖) are hypotheses beside CheckSpec until F7's
+  concrete checker meets them (50c31ce).
+- **F5 infrastructure** (Grok, `f5-eval`): erasure as a relation, usage
+  skeletons, `E` on base skeletons, defaults related (merged 5db793e).
+
+## 2026-10-02 — 4.4 (2)(3), 4.11, 4.12 (1), 4.9 in part; suites by namespace; the warm server
+
+- **Propositions 4.4 (2), (3)** (00a1e80): no uniform D3, no uniform boxed
+  contraction. **4.11, 4.12 (1), 4.9 in part** (`section4c.clj`, Grok, branch
+  `f4-constructions`, merged fddbb69). 4.9's closed inhabitant for every depth
+  `k` was not built: `Hd.delta` fires only on canonical codes, so the paper's
+  proof needs nested `recSyn`/`caseLbl` with 100 branches per label, doubly
+  exponential in `k`.
+- **Kernel-name clashes** cost two 50-minute suite runs (`lenU_cons`,
+  `den_refl_none`): `bin/check-formal-names` now rejects them in seconds.
+- **Suites by namespace** (1a1ae02): one suite per formal namespace;
+  `bin/test-formal X Y` runs only those. The full run: 27 minutes.
+- **The warm server** (`bin/formal-server`, `bin/formal-check`). Ansatz's
+  persistent store (`init!` from a konserve store) is import-oriented (it
+  wants NDJSON parser state), and replaying our declarations would skip the
+  Clojure-side registrations (matchers, equation lemmas) of `a/defn` and
+  `a/inductive`; a long-lived JVM was simpler. First design: snapshot
+  Ansatz's atoms before each namespace, reload from the earliest changed one
+  — but load order puts siblings alphabetically, so an edit to `check.clj`
+  reloaded most of the formalization (11 minutes). Second design (bd1be02):
+  record each namespace's added constants; rebuild the environment from the
+  post-base env plus the unaffected namespaces' constants, carry over the Env
+  extensions (simp, matchers, attributes, instances), reload only the
+  dependents-closure of what changed. The fresh-JVM suite stays the check
+  before a push.
+- **F7** (the concrete checker): plan in ADR-0006 (dfe8fb7); decidable
+  equality of codes and expressions (`check.clj`). Codex wrote head-step,
+  skeleton-typing and derivation-tree checkers (`check_hd`, `check_skj`,
+  `check_dt`) and then ran out of credits; saved unverified on `f7-checker`.
+- **Agents.** Codex is out of credits again; Cursor (Grok) is out of usage
+  after 10 more F5 cases (let, eliminators, constructors, recN, recSyn, itR,
+  print, chk′). A Claude subagent continues F5 in Grok's still-loaded REPL.
