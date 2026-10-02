@@ -757,12 +757,17 @@
                     '[(rfl)]))))
 (require 'lcert.formal.funde)
 (deftest f5-funde
-  (testing "constants and variables of the fundamental property of evalᴱ"
+  (testing "constants, variables, and λ of the fundamental property of evalᴱ"
     (doseq [c '[denU AdeqE
                 adeqE_star adeqE_tt adeqE_ff adeqE_zero adeqE_lbl
                 nthUS some_injUS none_ne_someUS entryE_nz lookup_usk_head envE_at
                 lookup_mp lookup_sk congr_uskSk denU_var var_carrier
-                uskCtx_nth adeqE_var]]
+                uskCtx_nth adeqE_var
+                cast_app henv_prod usk_skel_pi0 cast_app_pi henv_ext
+                denE_lam_arr denU_lam_cast denU_lam_body denU_body_env denU_lam0
+                denU_lam_cast1 denU_lam_body1 denU_lam1
+                denU_lam_castw denU_lam_bodyw denU_lamw
+                adeqE_lam0 adeqE_lam1 adeqE_lamw]]
       (is (b/has? c) (str c))))
   (testing "tt denotes true, not false, at the carrier E reads"
     (is (b/rejects?
@@ -771,6 +776,17 @@
             encTy :- (=> Exp Code), n :- Nat]
           '(Eq Bool
              (denU chkf dec encTy n (List.nil Exp) Exp.tt Exp.tBool Unit.unit)
+             Bool.false)
+          '[(rfl)]))
+    (is (b/rejects?
+          '[chkf :- (=> Code Code Bool),
+            dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+            encTy :- (=> Exp Code), n :- Nat]
+          '(Eq Bool
+             ((denU chkf dec encTy n (List.nil Exp)
+                (Exp.lam U.u0 Exp.tUnit Exp.tt)
+                (Exp.tPi U.u0 Exp.tUnit Exp.tBool) Unit.unit)
+              Unit.unit)
              Bool.false)
           '[(rfl)]))))
 
