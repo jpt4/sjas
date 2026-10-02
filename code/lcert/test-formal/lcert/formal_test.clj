@@ -775,7 +775,8 @@
                 cast_snd cast_fst denE_pair_prod cast_usk_back denU_subst_from denU_unsubst
                 denU_sig0_snd denU_sig0_y denU_pair0_snd adeqE_pair0
                 denU_sig1_snd denU_sig1_y denU_pair1_snd denU_sig1_fst adeqE_pair1
-                denU_sigw_snd denU_sigw_y denU_pairw_snd denU_sigw_fst adeqE_pairw]]
+                denU_sigw_snd denU_sigw_y denU_pairw_snd denU_sigw_fst adeqE_pairw
+                denU_cv_from denU_cv adeqE_conv]]
       (is (b/has? c) (str c))))
   (testing "tt denotes true, not false, at the carrier E reads"
     (is (b/rejects?

@@ -1888,3 +1888,99 @@
   (constructor) (exact vy)
   (constructor) (rfl)
   (constructor) (exact hrxf) (exact hrys))
+
+;; --- conversion (Theorem 4′, the Conv clause) -------------------------------
+;;
+;; E does not depend on the terms inside a type, so a conversion A ≡ B
+;; leaves the usage skeleton (usk_cv) and therefore E.  The denotation is
+;; read at B; denU_cv says that is the cast of the denotation read at A.
+;; The erased term is the premise's erasure.
+
+(thm denU_cv_from
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), t :- Exp, A :- Exp, B :- Exp,
+   eta :- (HEnv (usks (uskCtx D))),
+   hcv :- (Cv chkf (skels D) A B)]
+  (Eq (Car (uskSk (usk A)))
+    (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w)))
+             (Eq.symm (usk_cv chkf (skels D) A B hcv)))
+      (Eq.mp (congrArg Car (Eq.symm (usk_skel B)))
+        (den chkf dec encTy n t (skels D) (skel B) (henv_of_usk D eta))))
+    (denU chkf dec encTy n D t A eta))
+  (exact (Eq.trans
+    (cast_usk_path (usk A) (usk B) (usk_cv chkf (skels D) A B hcv)
+      (skel B) (skel A)
+      (usk_skel B) (usk_skel A) (cv_skel chkf (skels D) A B hcv)
+      (den chkf dec encTy n t (skels D) (skel B) (henv_of_usk D eta)))
+    (Eq.trans
+      (cast_square
+        (uskSk (usk A)) (uskSk (usk B)) (skel B) (skel A)
+        (usk_skel B) (cv_skel chkf (skels D) A B hcv) (usk_skel A)
+        (den chkf dec encTy n t (skels D) (skel B) (henv_of_usk D eta)))
+      (congrArg
+        (fn [x :- (Car (skel A))]
+          (Eq.mp (congrArg Car (Eq.symm (usk_skel A))) x))
+        (den_at_eq chkf dec encTy n t (skels D)
+          (skel B) (skel A) (Eq.symm (cv_skel chkf (skels D) A B hcv))
+          (henv_of_usk D eta)))))))
+
+(thm denU_cv
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), t :- Exp, A :- Exp, B :- Exp,
+   eta :- (HEnv (usks (uskCtx D))),
+   hcv :- (Cv chkf (skels D) A B)]
+  (Eq (Car (uskSk (usk B)))
+    (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w)))
+             (usk_cv chkf (skels D) A B hcv))
+      (denU chkf dec encTy n D t A eta))
+    (denU chkf dec encTy n D t B eta))
+  (exact (Eq.trans
+    (congrArg
+      (fn [x :- (Car (uskSk (usk A)))]
+        (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w)))
+                 (usk_cv chkf (skels D) A B hcv)) x))
+      (Eq.symm (denU_cv_from chkf dec encTy n D t A B eta hcv)))
+    (cast_usk_back (usk A) (usk B) (usk_cv chkf (skels D) A B hcv)
+      (denU chkf dec encTy n D t B eta)))))
+
+;; Theorem 4′, fundamental property, conversion.  The value is the premise's
+;; value.  erel_cv moves the relation to the converted type, and denU_cv
+;; moves the carrier onto ⟦t⟧ at that type.
+(thm adeqE_conv
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), t :- Exp, A :- Exp, B :- Exp, te :- Exp,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   hcv :- (Cv chkf (skels D) A B),
+   ih :- (Exists (fn [v :- RV]
+           (And (EvalE chkf dec encTy n rho te v)
+                (Erel chkf dec encTy n (usk A) v
+                  (denU chkf dec encTy n D t A eta)))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho te v)
+         (Erel chkf dec encTy n (usk B) v
+           (denU chkf dec encTy n D t B eta)))))
+  (refine' (exT RV _ _ ih _)) (intro v hv)
+  (have he (EvalE chkf dec encTy n rho te v) (And.left hv))
+  (have hr (Erel chkf dec encTy n (usk A) v (denU chkf dec encTy n D t A eta))
+    (And.right hv))
+  (have h2 (Erel chkf dec encTy n (usk B) v
+             (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w)))
+                      (usk_cv chkf (skels D) A B hcv))
+               (denU chkf dec encTy n D t A eta)))
+    (erel_cv chkf dec encTy n (skels D) A B v
+      (denU chkf dec encTy n D t A eta) hcv hr))
+  (constructor) (exact v)
+  (constructor) (exact he)
+  (exact (erel_car chkf dec encTy n (usk B) v
+           (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w)))
+                    (usk_cv chkf (skels D) A B hcv))
+             (denU chkf dec encTy n D t A eta))
+           (denU chkf dec encTy n D t B eta)
+           h2
+           (denU_cv chkf dec encTy n D t A B eta hcv))))
