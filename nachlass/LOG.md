@@ -6400,3 +6400,12 @@ Branch `adr-0006-formalization`.
   usage limit; Grok 4.7 carried RecSyn, conversion and now F5 (branch
   `f5-eval`). The machine rebooted once and lost every running process; the
   durable logs are now under `code/lcert/test-runs/`.
+
+## 2026-10-01 — Propositions 4.2, 4.10 and 4.5 (branch f4-derivs)
+
+`section4b.clj`. Each statement is for an arbitrary checker, decoder and encoder.
+- **Proposition 4.2** (`prop42`). A certificate v of A — labels of v and of encTy A below NL, and chkf v (encTy A) = tt — gives Θ_{‖v‖} ⊢ (lit v, ⋆) :¹ □A. lit rebuilds v in preorder, one token per node. The Cv chain is print's ι-steps to the canonical code, δ to tt, and T(tt) ⇝ 1. The decoder is unused.
+- **Proposition 4.10** (`prop410`). The same for 0 ⊸ 0, under CheckSpec, gives Θ_{‖v‖} ⊢ λr. λe. H₁ r (lit v) c⊥ e ⋆ :¹ H°. neg c⊥ is ⌜0 ⊸ 0⌝ from E5 and the base code of 0.
+- **Proposition 4.5.** D3 (`prop45_d3`): □A ⊸ □□A at budget ‖w‖ for a certificate w of □A; the lambda discards its input and ⋆ carries that usage. Boxed contraction (`prop45_contraction`): □A ⊸ □A ⊗ □A at budget 2‖v‖, two copies of (lit v, ⋆) on disjoint token blocks (Lemma 2.1). The tensor is a usage-1 sigma, so both blocks survive.
+- **Load fixes.** `lit_scope` was one parenthesis short, so a fresh read never left that form. `getP_nil` and `setP_nil` are conversion.clj's constants (one kernel environment). The child-step packers are `step_child` / `step_child0`, because convcase.clj's `prove!` skips a constant named `step_pack` that already exists.
+- **Suite.** `bin/test-formal`: 42 tests, 792 assertions, 0 failures, 0 errors.
