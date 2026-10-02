@@ -7,7 +7,7 @@
             [lcert.formal.funde]))
 
 (deftest f5-funde
-  (testing "constants through recSyn of the fundamental property of evalᴱ"
+  (testing "constants through the recursion of itR in the fundamental property of evalᴱ"
     (doseq [c '[denU AdeqE
                 adeqE_star adeqE_tt adeqE_ff adeqE_zero adeqE_lbl
                 nthUS some_injUS none_ne_someUS entryE_nz lookup_usk_head envE_at
@@ -58,7 +58,8 @@
                 cast_code den_ctx_head cast_y_simp cast_y_head
                 henv_code_tail henv_recs den_ctx_next denU_rec_snode
                 den_recS_open denU_recS
-                adeqE_leaf_at adeqE_node_at adeqE_recS_at adeqE_recS]]
+                adeqE_leaf_at adeqE_node_at adeqE_recS_at adeqE_recS
+                erel_dia_rfl adeqE_itr_leaf adeqE_itr_node adeqE_itr]]
       (is (b/has? c) (str c))))
   (testing "tt denotes true, not false, at the carrier E reads"
     (is (b/rejects?

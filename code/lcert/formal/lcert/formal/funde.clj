@@ -62,7 +62,12 @@
   the two methods.  denU of recS is that recursor (denU_recS): the cast
   stays outside Code.rec, as cast_iter stays outside Nat.rec.  The
   conclusion is P[c], and that carrier is the one at P because a code
-  term has skeleton Unit."
+  term has skeleton Unit.
+
+  itR inducts on the certificate.  g, at Lbl ⊸ X, is applied to the label.
+  h is applied to the token, the label, and the two recursive results;
+  gTy and hTy quantify the motive under lifts, so each result is cast
+  back to usk X.  A token is related to itself at ◇."
   (:require [ansatz.core :as a]
             [lcert.formal.base :refer [thm kdef lv]]
             [lcert.formal.usage :refer :all]
@@ -5473,3 +5478,227 @@
            (Eq.symm (skel_subst1 c P hsc))
            (adeqE_recS_at chkf dec encTy cap D P tl tn c tle tne ce us
              rho eta hr ihc ihl ihn))))
+
+;; --- itR (Theorem 4′) -------------------------------------------------------
+;;
+;; g is applied to the label; h to the token, the label, and the two
+;; recursive results.  gTy and hTy bind the motive under lifts, so the
+;; carriers are cast back to usk X.  itrDen is that Code.rec.  The outer
+;; judgment, equating it with ⟦itR⟧, is not yet proved.
+
+(kdef itrDen
+  (forall [X Exp]
+    (forall [fg (=> Nat (Car (uskSk (usk (lift 1 0 X)))))]
+      (forall [fh (=> Unit (=> Nat
+                    (=> (Car (uskSk (usk (lift 2 0 X))))
+                      (=> (Car (uskSk (usk (lift 3 0 X))))
+                        (Car (uskSk (usk (lift 4 0 X))))))))]
+        (=> Code (Car (uskSk (usk X)))))))
+  (fn [X :- Exp,
+       fg :- (=> Nat (Car (uskSk (usk (lift 1 0 X))))),
+       fh :- (=> Unit (=> Nat
+               (=> (Car (uskSk (usk (lift 2 0 X))))
+                 (=> (Car (uskSk (usk (lift 3 0 X))))
+                   (Car (uskSk (usk (lift 4 0 X)))))))),
+       c :- Code]
+    (Code.rec$1 (fn [_ :- Code] (Car (uskSk (usk X))))
+      (fn [j :- Nat]
+        (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (usk_lift X 1 0))
+          (fg j)))
+      (fn [j :- Nat, a :- Code, b :- Code,
+           ya :- (Car (uskSk (usk X))), yb :- (Car (uskSk (usk X)))]
+        (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (usk_lift X 4 0))
+          (((fh Unit.unit) j)
+            (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u)))
+                     (Eq.symm (usk_lift X 2 0))) ya)
+            (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u)))
+                     (Eq.symm (usk_lift X 3 0))) yb))))
+      c)))
+
+;; E at ◇ is equality with the token.  The carrier is unit and is ignored.
+(thm erel_dia_rfl
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   cap :- Nat]
+  (Erel chkf dec encTy cap (usk Exp.tDia) RV.token Unit.unit)
+  (rfl))
+
+;; itR, the leaf (Theorem 4′).  g is applied to the label.  The codomain
+;; of gTy is lift 1 0 X, and that usage skeleton is usk X.
+(thm adeqE_itr_leaf
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   cap :- Nat, X :- Exp, l :- Nat,
+   vg :- RV, vh :- RV,
+   fg :- (=> Nat (Car (uskSk (usk (lift 1 0 X))))),
+   fh :- (=> Unit (=> Nat
+           (=> (Car (uskSk (usk (lift 2 0 X))))
+             (=> (Car (uskSk (usk (lift 3 0 X))))
+               (Car (uskSk (usk (lift 4 0 X)))))))),
+   hg :- (Erel chkf dec encTy cap (usk (gTy X)) vg fg)]
+  (Exists (fn [w :- RV]
+    (And (EvE chkf dec encTy cap (EvSrc.itr vg vh (Code.sl l)) w)
+         (Erel chkf dec encTy cap (usk X) w
+           (Code.rec$1 (fn [_ :- Code] (Car (uskSk (usk X))))
+             (fn [j :- Nat]
+               (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (usk_lift X 1 0))
+                 (fg j)))
+             (fn [j :- Nat, a :- Code, b :- Code,
+                  ya :- (Car (uskSk (usk X))), yb :- (Car (uskSk (usk X)))]
+               (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (usk_lift X 4 0))
+                 (((fh Unit.unit) j)
+                   (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u)))
+                            (Eq.symm (usk_lift X 2 0))) ya)
+                   (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u)))
+                            (Eq.symm (usk_lift X 3 0))) yb))))
+             (Code.sl l))))))
+  (refine' (exT RV _ _ (hg (RV.lbl l) l (erel_lbl_rfl chkf dec encTy cap l)) _))
+  (intro w hw)
+  (have hap (EvE chkf dec encTy cap (EvSrc.ap vg (RV.lbl l)) w) (And.left hw))
+  (have h0 (Erel chkf dec encTy cap (usk (lift 1 0 X)) w (fg l)) (And.right hw))
+  (have hrel (Erel chkf dec encTy cap (usk X) w
+               (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (usk_lift X 1 0))
+                 (fg l)))
+    (erel_at chkf dec encTy cap (usk (lift 1 0 X)) (usk X) w (fg l) h0
+      (usk_lift X 1 0)))
+  (constructor) (exact w)
+  (constructor)
+  (exact (EvE.eItL chkf dec encTy cap vg vh l w hap))
+  (exact hrel))
+
+;; itR, the node (Theorem 4′).  h is applied to the token, the label, and
+;; the two recursive results.  The results are E-related at usk X and cast
+;; into the lifted binders of hTy; the codomain lift 4 0 X comes back.
+(thm adeqE_itr_node
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   cap :- Nat, X :- Exp, l :- Nat, a :- Code, b :- Code,
+   vg :- RV, vh :- RV,
+   fg :- (=> Nat (Car (uskSk (usk (lift 1 0 X))))),
+   fh :- (=> Unit (=> Nat
+           (=> (Car (uskSk (usk (lift 2 0 X))))
+             (=> (Car (uskSk (usk (lift 3 0 X))))
+               (Car (uskSk (usk (lift 4 0 X)))))))),
+   hh :- (Erel chkf dec encTy cap (usk (hTy X)) vh fh),
+   iha :- (Exists (fn [ya :- RV]
+            (And (EvE chkf dec encTy cap (EvSrc.itr vg vh a) ya)
+                 (Erel chkf dec encTy cap (usk X) ya (itrDen X fg fh a))))),
+   ihb :- (Exists (fn [yb :- RV]
+            (And (EvE chkf dec encTy cap (EvSrc.itr vg vh b) yb)
+                 (Erel chkf dec encTy cap (usk X) yb (itrDen X fg fh b)))))]
+  (Exists (fn [w :- RV]
+    (And (EvE chkf dec encTy cap (EvSrc.itr vg vh (Code.sn l a b)) w)
+         (Erel chkf dec encTy cap (usk X) w (itrDen X fg fh (Code.sn l a b))))))
+  (refine' (exT RV _ _ iha _)) (intro ya ha)
+  (have hea (EvE chkf dec encTy cap (EvSrc.itr vg vh a) ya) (And.left ha))
+  (have hra (Erel chkf dec encTy cap (usk X) ya (itrDen X fg fh a)) (And.right ha))
+  (refine' (exT RV _ _ ihb _)) (intro yb hb)
+  (have heb (EvE chkf dec encTy cap (EvSrc.itr vg vh b) yb) (And.left hb))
+  (have hrb (Erel chkf dec encTy cap (usk X) yb (itrDen X fg fh b)) (And.right hb))
+  (refine' (exT RV _ _ (hh RV.token Unit.unit (erel_dia_rfl chkf dec encTy cap)) _))
+  (intro v1 h1)
+  (have he1 (EvE chkf dec encTy cap (EvSrc.ap vh RV.token) v1) (And.left h1))
+  (have hr1 (Erel chkf dec encTy cap
+              (usk (Exp.tPi U.uw Exp.tLbl
+                     (Exp.tPi U.u1 (lift 2 0 X)
+                       (Exp.tPi U.u1 (lift 3 0 X) (lift 4 0 X)))))
+              v1 (fh Unit.unit))
+    (And.right h1))
+  (refine' (exT RV _ _ (hr1 (RV.lbl l) l (erel_lbl_rfl chkf dec encTy cap l)) _))
+  (intro v2 h2)
+  (have he2 (EvE chkf dec encTy cap (EvSrc.ap v1 (RV.lbl l)) v2) (And.left h2))
+  (have hr2 (Erel chkf dec encTy cap
+              (usk (Exp.tPi U.u1 (lift 2 0 X)
+                     (Exp.tPi U.u1 (lift 3 0 X) (lift 4 0 X))))
+              v2 ((fh Unit.unit) l))
+    (And.right h2))
+  (have hya (Erel chkf dec encTy cap (usk (lift 2 0 X)) ya
+              (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u)))
+                       (Eq.symm (usk_lift X 2 0)))
+                (itrDen X fg fh a)))
+    (erel_at chkf dec encTy cap (usk X) (usk (lift 2 0 X)) ya
+      (itrDen X fg fh a) hra (Eq.symm (usk_lift X 2 0))))
+  (refine' (exT RV _ _ (hr2 ya
+              (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u)))
+                       (Eq.symm (usk_lift X 2 0)))
+                (itrDen X fg fh a))
+              hya) _))
+  (intro v3 h3)
+  (have he3 (EvE chkf dec encTy cap (EvSrc.ap v2 ya) v3) (And.left h3))
+  (have hr3 (Erel chkf dec encTy cap
+              (usk (Exp.tPi U.u1 (lift 3 0 X) (lift 4 0 X)))
+              v3 (((fh Unit.unit) l)
+                   (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u)))
+                            (Eq.symm (usk_lift X 2 0)))
+                     (itrDen X fg fh a))))
+    (And.right h3))
+  (have hyb (Erel chkf dec encTy cap (usk (lift 3 0 X)) yb
+              (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u)))
+                       (Eq.symm (usk_lift X 3 0)))
+                (itrDen X fg fh b)))
+    (erel_at chkf dec encTy cap (usk X) (usk (lift 3 0 X)) yb
+      (itrDen X fg fh b) hrb (Eq.symm (usk_lift X 3 0))))
+  (refine' (exT RV _ _ (hr3 yb
+              (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u)))
+                       (Eq.symm (usk_lift X 3 0)))
+                (itrDen X fg fh b))
+              hyb) _))
+  (intro w hw)
+  (have he4 (EvE chkf dec encTy cap (EvSrc.ap v3 yb) w) (And.left hw))
+  (have h0 (Erel chkf dec encTy cap (usk (lift 4 0 X)) w
+             (((fh Unit.unit) l)
+               (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u)))
+                        (Eq.symm (usk_lift X 2 0)))
+                 (itrDen X fg fh a))
+               (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u)))
+                        (Eq.symm (usk_lift X 3 0)))
+                 (itrDen X fg fh b))))
+    (And.right hw))
+  (have hrel (Erel chkf dec encTy cap (usk X) w
+               (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u))) (usk_lift X 4 0))
+                 (((fh Unit.unit) l)
+                   (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u)))
+                            (Eq.symm (usk_lift X 2 0)))
+                     (itrDen X fg fh a))
+                   (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u)))
+                            (Eq.symm (usk_lift X 3 0)))
+                     (itrDen X fg fh b)))))
+    (erel_at chkf dec encTy cap (usk (lift 4 0 X)) (usk X) w
+      (((fh Unit.unit) l)
+        (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u)))
+                 (Eq.symm (usk_lift X 2 0)))
+          (itrDen X fg fh a))
+        (Eq.mp (congrArg (fn [u :- USk] (Car (uskSk u)))
+                 (Eq.symm (usk_lift X 3 0)))
+          (itrDen X fg fh b)))
+      h0 (usk_lift X 4 0)))
+  (constructor) (exact w)
+  (constructor)
+  (exact (EvE.eItN chkf dec encTy cap vg vh l a b ya yb v1 v2 v3 w
+           hea heb he1 he2 he3 he4))
+  (exact hrel))
+
+;; itR's recursion (Theorem 4′).  Induction on the certificate.
+(thm adeqE_itr
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   cap :- Nat, X :- Exp,
+   vg :- RV, vh :- RV,
+   fg :- (=> Nat (Car (uskSk (usk (lift 1 0 X))))),
+   fh :- (=> Unit (=> Nat
+           (=> (Car (uskSk (usk (lift 2 0 X))))
+             (=> (Car (uskSk (usk (lift 3 0 X))))
+               (Car (uskSk (usk (lift 4 0 X)))))))),
+   hg :- (Erel chkf dec encTy cap (usk (gTy X)) vg fg),
+   hh :- (Erel chkf dec encTy cap (usk (hTy X)) vh fh)]
+  (forall [c Code]
+    (Exists (fn [w :- RV]
+      (And (EvE chkf dec encTy cap (EvSrc.itr vg vh c) w)
+           (Erel chkf dec encTy cap (usk X) w (itrDen X fg fh c))))))
+  (intro c) (induction c)
+  (exact (adeqE_itr_leaf chkf dec encTy cap X l vg vh fg fh hg))
+  (exact (adeqE_itr_node chkf dec encTy cap X l a b vg vh fg fh hh ih_a ih_b)))
