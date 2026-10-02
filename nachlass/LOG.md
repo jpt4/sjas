@@ -6440,16 +6440,11 @@ invalid paths, altered siblings, bad annotations and malformed premises.
 The initial dependency load and a premature socket require overlapped,
 causing a missing-`lemma24` elaboration error; the initializer then completed,
 and new units were loaded sequentially. Fresh-JVM replay is the authority.
-The REPL was stopped before the full suite; a temporary launcher caps the
-suite's heap at 1500 MB while preserving `bin/test-formal`'s other arguments.
-Full-suite result: pending (log `code/lcert/test-runs/f7-full-suite.log`).
-
-**Local commits.** The session's sandbox mounts
-`.git/worktrees/f7` read-only: the ordinary commit attempt failed creating
-`index.lock`. The original branch/index remain untouched. To preserve each
-proved unit, commits were made in the isolated local Git store
-`code/lcert/test-runs/f7-commits`, using the original objects as read-only
-alternates. The verified incremental bundle
-`code/lcert/test-runs/f7-checker.bundle` contains the `f7-checker` history
-above prerequisite `dfe8fb72188b88bd59d5ba6773a5260e1b4d0887`.
-The source edits also remain in the worktree. Nothing was pushed or merged.
+Codex ran out of credits before the full suite. Its sandbox mounted
+`.git/worktrees/f7` read-only, so it committed into a side store
+(`code/lcert/test-runs/f7-commits`, bundle `f7-checker.bundle`); the source
+edits also stayed in the worktree, and were committed from there as
+2626a30. Fresh-JVM check (`bin/test-formal check check-hd check-skj
+check-dt`): 9 tests, 320 assertions, 0 failures (22 min). Reviewed: no axioms; the
+soundness statements are `hdCheck … = true → Hd …`, `stepCheck … = true →
+Step …`, `skjCheck … = true → SkJ …`, each for an arbitrary `chkf`.
