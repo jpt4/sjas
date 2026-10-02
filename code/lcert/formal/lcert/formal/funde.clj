@@ -3382,3 +3382,434 @@
     (skj_term_unit Bool.false (skels D) b (skel Exp.tBool) hbS rfl))
   (exact (adeqE_elim chkf dec encTy n D P b t e be te ee rho eta
            (usk_of_unit b hsb) hsb ihb iht ihe)))
+
+;; --- constructors (Theorem 4′) ----------------------------------------------
+;;
+;; At a base skeleton E is equality, so a constructor of related arguments is
+;; the constructor of their denotations.  succ, sleaf and snode build Nat and
+;; Syn; leaf and node build a certificate, and node evaluates its token only
+;; to discard it.  bnil is the default branch list: applying it returns the
+;; runtime default, which erdflt_ty relates to the carrier default.  bcons is
+;; the positional list.  Its head is judged at P[ℓ], and a label has skeleton
+;; Unit, so that carrier is the head's denotation at P.  The arrow clause
+;; cases on the label; the hypothesis is an E-witness, and the equality with
+;; RV.lbl is read out after the case so the numeral is a constructor.
+
+
+(thm adeqE_succ
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), m :- Exp, me :- Exp,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   ih :- (Exists (fn [vt :- RV]
+           (And (EvalE chkf dec encTy n rho me vt)
+                (Erel chkf dec encTy n (usk Exp.tNat) vt
+                  (denU chkf dec encTy n D m Exp.tNat eta)))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.succ me) v)
+         (Erel chkf dec encTy n (usk Exp.tNat) v
+           (denU chkf dec encTy n D (Exp.succ m) Exp.tNat eta)))))
+  (rw [(den_succ_at chkf dec encTy n m (skels D) (skel Exp.tNat) (henv_of_usk D eta))])
+  (rw [(coe_self Sk.nat (Nat.succ (den chkf dec encTy n m (skels D) Sk.nat (henv_of_usk D eta))))])
+  (refine' (exT RV _ _ ih _)) (intro vt ht)
+  (have he (EvalE chkf dec encTy n rho me vt) (And.left ht))
+  (have hr (Eq RV vt (RV.nat (denU chkf dec encTy n D m Exp.tNat eta))) (And.right ht))
+  (constructor)
+  (exact (RV.nat (Nat.succ (denU chkf dec encTy n D m Exp.tNat eta))))
+  (constructor)
+  (exact (EvE.eSucc chkf dec encTy n rho me
+           (denU chkf dec encTy n D m Exp.tNat eta)
+           (evalE_cast chkf dec encTy n rho me vt
+             (RV.nat (denU chkf dec encTy n D m Exp.tNat eta)) he hr)))
+  (rfl))
+
+(thm adeqE_sleaf
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), a :- Exp, ae :- Exp,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   ih :- (Exists (fn [va :- RV]
+           (And (EvalE chkf dec encTy n rho ae va)
+                (Erel chkf dec encTy n (usk Exp.tLbl) va
+                  (denU chkf dec encTy n D a Exp.tLbl eta)))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.sleaf ae) v)
+         (Erel chkf dec encTy n (usk Exp.tSyn) v
+           (denU chkf dec encTy n D (Exp.sleaf a) Exp.tSyn eta)))))
+  (rw [(den_sleaf_at chkf dec encTy n a (skels D) (skel Exp.tSyn) (henv_of_usk D eta))])
+  (rw [(coe_self Sk.syn (Code.sl (den chkf dec encTy n a (skels D) Sk.lbl (henv_of_usk D eta))))])
+  (refine' (exT RV _ _ ih _)) (intro va ha)
+  (have he (EvalE chkf dec encTy n rho ae va) (And.left ha))
+  (have hr (Eq RV va (RV.lbl (denU chkf dec encTy n D a Exp.tLbl eta))) (And.right ha))
+  (constructor)
+  (exact (RV.code (Code.sl (denU chkf dec encTy n D a Exp.tLbl eta))))
+  (constructor)
+  (exact (EvE.eSleaf chkf dec encTy n rho ae
+           (denU chkf dec encTy n D a Exp.tLbl eta)
+           (evalE_cast chkf dec encTy n rho ae va
+             (RV.lbl (denU chkf dec encTy n D a Exp.tLbl eta)) he hr)))
+  (rfl))
+
+(thm adeqE_leaf
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), a :- Exp, ae :- Exp,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   ih :- (Exists (fn [va :- RV]
+           (And (EvalE chkf dec encTy n rho ae va)
+                (Erel chkf dec encTy n (usk Exp.tLbl) va
+                  (denU chkf dec encTy n D a Exp.tLbl eta)))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.leaf ae) v)
+         (Erel chkf dec encTy n (usk Exp.tR) v
+           (denU chkf dec encTy n D (Exp.leaf a) Exp.tR eta)))))
+  (rw [(den_leaf_at chkf dec encTy n a (skels D) (skel Exp.tR) (henv_of_usk D eta))])
+  (rw [(coe_self Sk.cert (Code.sl (den chkf dec encTy n a (skels D) Sk.lbl (henv_of_usk D eta))))])
+  (refine' (exT RV _ _ ih _)) (intro va ha)
+  (have he (EvalE chkf dec encTy n rho ae va) (And.left ha))
+  (have hr (Eq RV va (RV.lbl (denU chkf dec encTy n D a Exp.tLbl eta))) (And.right ha))
+  (constructor)
+  (exact (RV.cert (Code.sl (denU chkf dec encTy n D a Exp.tLbl eta))))
+  (constructor)
+  (exact (EvE.eLeaf chkf dec encTy n rho ae
+           (denU chkf dec encTy n D a Exp.tLbl eta)
+           (evalE_cast chkf dec encTy n rho ae va
+             (RV.lbl (denU chkf dec encTy n D a Exp.tLbl eta)) he hr)))
+  (rfl))
+
+(thm adeqE_snode
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp),
+   a :- Exp, c1 :- Exp, c2 :- Exp, ae :- Exp, c1e :- Exp, c2e :- Exp,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   iha :- (Exists (fn [va :- RV]
+            (And (EvalE chkf dec encTy n rho ae va)
+                 (Erel chkf dec encTy n (usk Exp.tLbl) va
+                   (denU chkf dec encTy n D a Exp.tLbl eta))))),
+   ih1 :- (Exists (fn [v1 :- RV]
+            (And (EvalE chkf dec encTy n rho c1e v1)
+                 (Erel chkf dec encTy n (usk Exp.tSyn) v1
+                   (denU chkf dec encTy n D c1 Exp.tSyn eta))))),
+   ih2 :- (Exists (fn [v2 :- RV]
+            (And (EvalE chkf dec encTy n rho c2e v2)
+                 (Erel chkf dec encTy n (usk Exp.tSyn) v2
+                   (denU chkf dec encTy n D c2 Exp.tSyn eta)))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.snode ae c1e c2e) v)
+         (Erel chkf dec encTy n (usk Exp.tSyn) v
+           (denU chkf dec encTy n D (Exp.snode a c1 c2) Exp.tSyn eta)))))
+  (rw [(den_snode_at chkf dec encTy n a c1 c2 (skels D) (skel Exp.tSyn) (henv_of_usk D eta))])
+  (rw [(coe_self Sk.syn (Code.sn
+         (den chkf dec encTy n a (skels D) Sk.lbl (henv_of_usk D eta))
+         (den chkf dec encTy n c1 (skels D) Sk.syn (henv_of_usk D eta))
+         (den chkf dec encTy n c2 (skels D) Sk.syn (henv_of_usk D eta))))])
+  (refine' (exT RV _ _ iha _)) (intro va ha)
+  (have hea (EvalE chkf dec encTy n rho ae va) (And.left ha))
+  (have hra (Eq RV va (RV.lbl (denU chkf dec encTy n D a Exp.tLbl eta))) (And.right ha))
+  (refine' (exT RV _ _ ih1 _)) (intro v1 h1)
+  (have he1 (EvalE chkf dec encTy n rho c1e v1) (And.left h1))
+  (have hr1 (Eq RV v1 (RV.code (denU chkf dec encTy n D c1 Exp.tSyn eta))) (And.right h1))
+  (refine' (exT RV _ _ ih2 _)) (intro v2 h2)
+  (have he2 (EvalE chkf dec encTy n rho c2e v2) (And.left h2))
+  (have hr2 (Eq RV v2 (RV.code (denU chkf dec encTy n D c2 Exp.tSyn eta))) (And.right h2))
+  (constructor)
+  (exact (RV.code (Code.sn (denU chkf dec encTy n D a Exp.tLbl eta)
+                    (denU chkf dec encTy n D c1 Exp.tSyn eta)
+                    (denU chkf dec encTy n D c2 Exp.tSyn eta))))
+  (constructor)
+  (exact (EvE.eSnode chkf dec encTy n rho ae c1e c2e
+           (denU chkf dec encTy n D a Exp.tLbl eta)
+           (denU chkf dec encTy n D c1 Exp.tSyn eta)
+           (denU chkf dec encTy n D c2 Exp.tSyn eta)
+           (evalE_cast chkf dec encTy n rho ae va
+             (RV.lbl (denU chkf dec encTy n D a Exp.tLbl eta)) hea hra)
+           (evalE_cast chkf dec encTy n rho c1e v1
+             (RV.code (denU chkf dec encTy n D c1 Exp.tSyn eta)) he1 hr1)
+           (evalE_cast chkf dec encTy n rho c2e v2
+             (RV.code (denU chkf dec encTy n D c2 Exp.tSyn eta)) he2 hr2)))
+  (rfl))
+
+(thm adeqE_node
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp),
+   d :- Exp, a :- Exp, r1 :- Exp, r2 :- Exp,
+   de :- Exp, ae :- Exp, r1e :- Exp, r2e :- Exp,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   ihd :- (Exists (fn [vd :- RV]
+            (And (EvalE chkf dec encTy n rho de vd)
+                 (Erel chkf dec encTy n (usk Exp.tDia) vd
+                   (denU chkf dec encTy n D d Exp.tDia eta))))),
+   iha :- (Exists (fn [va :- RV]
+            (And (EvalE chkf dec encTy n rho ae va)
+                 (Erel chkf dec encTy n (usk Exp.tLbl) va
+                   (denU chkf dec encTy n D a Exp.tLbl eta))))),
+   ih1 :- (Exists (fn [v1 :- RV]
+            (And (EvalE chkf dec encTy n rho r1e v1)
+                 (Erel chkf dec encTy n (usk Exp.tR) v1
+                   (denU chkf dec encTy n D r1 Exp.tR eta))))),
+   ih2 :- (Exists (fn [v2 :- RV]
+            (And (EvalE chkf dec encTy n rho r2e v2)
+                 (Erel chkf dec encTy n (usk Exp.tR) v2
+                   (denU chkf dec encTy n D r2 Exp.tR eta)))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.node de ae r1e r2e) v)
+         (Erel chkf dec encTy n (usk Exp.tR) v
+           (denU chkf dec encTy n D (Exp.node d a r1 r2) Exp.tR eta)))))
+  (rw [(den_node_at chkf dec encTy n d a r1 r2 (skels D) (skel Exp.tR) (henv_of_usk D eta))])
+  (rw [(coe_self Sk.cert (Code.sn
+         (den chkf dec encTy n a (skels D) Sk.lbl (henv_of_usk D eta))
+         (den chkf dec encTy n r1 (skels D) Sk.cert (henv_of_usk D eta))
+         (den chkf dec encTy n r2 (skels D) Sk.cert (henv_of_usk D eta))))])
+  (refine' (exT RV _ _ ihd _)) (intro vd hd)
+  (have hed (EvalE chkf dec encTy n rho de vd) (And.left hd))
+  (refine' (exT RV _ _ iha _)) (intro va ha)
+  (have hea (EvalE chkf dec encTy n rho ae va) (And.left ha))
+  (have hra (Eq RV va (RV.lbl (denU chkf dec encTy n D a Exp.tLbl eta))) (And.right ha))
+  (refine' (exT RV _ _ ih1 _)) (intro v1 h1)
+  (have he1 (EvalE chkf dec encTy n rho r1e v1) (And.left h1))
+  (have hr1 (Eq RV v1 (RV.cert (denU chkf dec encTy n D r1 Exp.tR eta))) (And.right h1))
+  (refine' (exT RV _ _ ih2 _)) (intro v2 h2)
+  (have he2 (EvalE chkf dec encTy n rho r2e v2) (And.left h2))
+  (have hr2 (Eq RV v2 (RV.cert (denU chkf dec encTy n D r2 Exp.tR eta))) (And.right h2))
+  (constructor)
+  (exact (RV.cert (Code.sn (denU chkf dec encTy n D a Exp.tLbl eta)
+                    (denU chkf dec encTy n D r1 Exp.tR eta)
+                    (denU chkf dec encTy n D r2 Exp.tR eta))))
+  (constructor)
+  (exact (EvE.eNode chkf dec encTy n rho de ae r1e r2e vd
+           (denU chkf dec encTy n D a Exp.tLbl eta)
+           (denU chkf dec encTy n D r1 Exp.tR eta)
+           (denU chkf dec encTy n D r2 Exp.tR eta)
+           hed
+           (evalE_cast chkf dec encTy n rho ae va
+             (RV.lbl (denU chkf dec encTy n D a Exp.tLbl eta)) hea hra)
+           (evalE_cast chkf dec encTy n rho r1e v1
+             (RV.cert (denU chkf dec encTy n D r1 Exp.tR eta)) he1 hr1)
+           (evalE_cast chkf dec encTy n rho r2e v2
+             (RV.cert (denU chkf dec encTy n D r2 Exp.tR eta)) he2 hr2)))
+  (rfl))
+
+(thm denU_bnil_app
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), P :- Exp, k :- Nat,
+   alpha :- (Car Sk.lbl),
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (Car (uskSk (usk P)))
+    ((denU chkf dec encTy n D Exp.bnil (Exp.tBrs P k) eta) alpha)
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel P))) (dflt (skel P))))
+  (exact (Eq.trans
+    (denU_brs_at chkf dec encTy n D Exp.bnil P alpha eta)
+    (congrArg
+      (fn [x :- (Car (skel P))]
+        (Eq.mp (congrArg Car (Eq.symm (usk_skel P))) x))
+      (Eq.trans
+        (congrArg (fn [f :- (Car (Sk.arr Sk.lbl (skel P)))] (f alpha))
+          (den_bnil_at chkf dec encTy n (skels D)
+            (Sk.arr Sk.lbl (skel P)) (henv_of_usk D eta)))
+        (dflt_arr Sk.lbl (skel P) alpha))))))
+
+(thm adeqE_bnil
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), P :- Exp, k :- Nat,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D)))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho Exp.bnil v)
+         (Erel chkf dec encTy n (usk (Exp.tBrs P k)) v
+           (denU chkf dec encTy n D Exp.bnil (Exp.tBrs P k) eta)))))
+  (constructor) (exact (RV.bnil (skel P)))
+  (constructor) (exact (EvE.eBnil chkf dec encTy n rho (skel P)))
+  (intro arg) (intro alpha) (intro _harg)
+  (constructor) (exact (rdflt (skel P)))
+  (constructor) (exact (EvE.apBnil chkf dec encTy n (skel P) arg))
+  (exact (erel_car chkf dec encTy n (usk P) (rdflt (skel P))
+           (Eq.mp (congrArg Car (Eq.symm (usk_skel P))) (dflt (skel P)))
+           ((denU chkf dec encTy n D Exp.bnil (Exp.tBrs P k) eta) alpha)
+           (erdflt_ty chkf dec encTy n P)
+           (Eq.symm (denU_bnil_app chkf dec encTy n D P k alpha eta)))))
+
+(thm denU_bcons_zero
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), h :- Exp, t :- Exp, P :- Exp,
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (Car (uskSk (usk P)))
+    ((denU chkf dec encTy n D (Exp.bcons h t) (Exp.tBrs P 0) eta) 0)
+    (denU chkf dec encTy n D h P eta))
+  (exact (Eq.trans
+    (denU_brs_at chkf dec encTy n D (Exp.bcons h t) P 0 eta)
+    (congrArg
+      (fn [x :- (Car (skel P))]
+        (Eq.mp (congrArg Car (Eq.symm (usk_skel P))) x))
+      (bcons_zero chkf dec encTy n h t (skels D) (skel P) (henv_of_usk D eta))))))
+
+(thm denU_bcons_succ
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), h :- Exp, t :- Exp, P :- Exp, j :- Nat,
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (Car (uskSk (usk P)))
+    ((denU chkf dec encTy n D (Exp.bcons h t) (Exp.tBrs P 0) eta) (Nat.succ j))
+    ((denU chkf dec encTy n D t (Exp.tBrs P 0) eta) j))
+  (exact (Eq.trans
+    (denU_brs_at chkf dec encTy n D (Exp.bcons h t) P (Nat.succ j) eta)
+    (Eq.trans
+      (congrArg
+        (fn [x :- (Car (skel P))]
+          (Eq.mp (congrArg Car (Eq.symm (usk_skel P))) x))
+        (bcons_succ chkf dec encTy n h t (skels D) (skel P) (henv_of_usk D eta) j))
+      (Eq.symm (denU_brs_at chkf dec encTy n D t P j eta))))))
+
+(thm adeqE_bcons_zero
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), h :- Exp, t :- Exp, P :- Exp,
+   eta :- (HEnv (usks (uskCtx D))),
+   vh :- RV, vt :- RV, arg :- RV,
+   hrh :- (Erel chkf dec encTy n (usk P) vh (denU chkf dec encTy n D h P eta)),
+   harg :- (Eq RV arg (RV.lbl 0))]
+  (Exists (fn [w :- RV]
+    (And (EvE chkf dec encTy n (EvSrc.ap (RV.bcons vh vt) arg) w)
+         (Erel chkf dec encTy n (usk P) w
+           ((denU chkf dec encTy n D (Exp.bcons h t) (Exp.tBrs P 0) eta) 0)))))
+  (constructor) (exact vh)
+  (constructor)
+  (exact (Eq.mp
+           (congrArg (fn [a :- RV]
+                       (EvE chkf dec encTy n (EvSrc.ap (RV.bcons vh vt) a) vh))
+             (Eq.symm harg))
+           (EvE.apBconsZ chkf dec encTy n vh vt)))
+  (exact (erel_car chkf dec encTy n (usk P) vh
+           (denU chkf dec encTy n D h P eta)
+           ((denU chkf dec encTy n D (Exp.bcons h t) (Exp.tBrs P 0) eta) 0)
+           hrh
+           (Eq.symm (denU_bcons_zero chkf dec encTy n D h t P eta)))))
+
+(thm adeqE_bcons_succ
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), h :- Exp, t :- Exp, P :- Exp,
+   eta :- (HEnv (usks (uskCtx D))),
+   vh :- RV, vt :- RV, arg :- RV, j :- Nat,
+   hrt :- (Erel chkf dec encTy n (usk (Exp.tBrs P 0)) vt
+            (denU chkf dec encTy n D t (Exp.tBrs P 0) eta)),
+   harg :- (Eq RV arg (RV.lbl (Nat.succ j)))]
+  (Exists (fn [w :- RV]
+    (And (EvE chkf dec encTy n (EvSrc.ap (RV.bcons vh vt) arg) w)
+         (Erel chkf dec encTy n (usk P) w
+           ((denU chkf dec encTy n D (Exp.bcons h t) (Exp.tBrs P 0) eta) (Nat.succ j))))))
+  (refine' (exT RV _ _ (hrt (RV.lbl j) j rfl) _))
+  (intro w hw)
+  (have hap (EvE chkf dec encTy n (EvSrc.ap vt (RV.lbl j)) w) (And.left hw))
+  (have hrel (Erel chkf dec encTy n (usk P) w
+               ((denU chkf dec encTy n D t (Exp.tBrs P 0) eta) j))
+    (And.right hw))
+  (constructor) (exact w)
+  (constructor)
+  (exact (Eq.mp
+           (congrArg (fn [a :- RV]
+                       (EvE chkf dec encTy n (EvSrc.ap (RV.bcons vh vt) a) w))
+             (Eq.symm harg))
+           (EvE.apBconsS chkf dec encTy n vh vt j w hap)))
+  (exact (erel_car chkf dec encTy n (usk P) w
+           ((denU chkf dec encTy n D t (Exp.tBrs P 0) eta) j)
+           ((denU chkf dec encTy n D (Exp.bcons h t) (Exp.tBrs P 0) eta) (Nat.succ j))
+           hrel
+           (Eq.symm (denU_bcons_succ chkf dec encTy n D h t P j eta)))))
+
+(thm adeqE_bcons_at
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   cap :- Nat, D :- (List Exp), h :- Exp, t :- Exp, P :- Exp,
+   eta :- (HEnv (usks (uskCtx D))),
+   vh :- RV, vt :- RV, arg :- RV, alpha :- Nat,
+   hrh :- (Erel chkf dec encTy cap (usk P) vh (denU chkf dec encTy cap D h P eta)),
+   hrt :- (Erel chkf dec encTy cap (usk (Exp.tBrs P 0)) vt
+            (denU chkf dec encTy cap D t (Exp.tBrs P 0) eta)),
+   harg :- (Erel chkf dec encTy cap (USk.base Sk.lbl) arg alpha)]
+  (Exists (fn [w :- RV]
+    (And (EvE chkf dec encTy cap (EvSrc.ap (RV.bcons vh vt) arg) w)
+         (Erel chkf dec encTy cap (usk P) w
+           ((denU chkf dec encTy cap D (Exp.bcons h t) (Exp.tBrs P 0) eta) alpha)))))
+  (cases alpha)
+  (have heq (Eq RV arg (RV.lbl 0)) harg)
+  (exact (adeqE_bcons_zero chkf dec encTy cap D h t P eta vh vt arg hrh heq))
+  (have heq (Eq RV arg (RV.lbl (Nat.succ n))) harg)
+  (exact (adeqE_bcons_succ chkf dec encTy cap D h t P eta vh vt arg n hrt heq)))
+
+(thm adeqE_bconsK
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), P :- Exp, k :- Nat,
+   h :- Exp, t :- Exp, he :- Exp, te :- Exp,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   ihh :- (Exists (fn [vh :- RV]
+            (And (EvalE chkf dec encTy n rho he vh)
+                 (Erel chkf dec encTy n (usk (subst1 (Exp.lbl k) P)) vh
+                   (denU chkf dec encTy n D h (subst1 (Exp.lbl k) P) eta))))),
+   iht :- (Exists (fn [vt :- RV]
+            (And (EvalE chkf dec encTy n rho te vt)
+                 (Erel chkf dec encTy n (usk (Exp.tBrs P (Nat.succ k))) vt
+                   (denU chkf dec encTy n D t (Exp.tBrs P (Nat.succ k)) eta)))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.bcons he te) v)
+         (Erel chkf dec encTy n (usk (Exp.tBrs P k)) v
+           (denU chkf dec encTy n D (Exp.bcons h t) (Exp.tBrs P k) eta)))))
+  (have hl (Eq Sk (skel (Exp.lbl k)) Sk.unit) (rfl))
+  (refine' (exT RV _ _
+    (adeqE_retarget chkf dec encTy n D h he
+      (subst1 (Exp.lbl k) P) P rho eta
+      (usk_subst1 (Exp.lbl k) P (usk_of_unit (Exp.lbl k) hl))
+      (skel_subst1 (Exp.lbl k) P hl)
+      ihh) _))
+  (intro vh hh)
+  (have heh (EvalE chkf dec encTy n rho he vh) (And.left hh))
+  (have hrh (Erel chkf dec encTy n (usk P) vh (denU chkf dec encTy n D h P eta))
+    (And.right hh))
+  (refine' (exT RV _ _ iht _)) (intro vt ht)
+  (have het (EvalE chkf dec encTy n rho te vt) (And.left ht))
+  (have hrt (Erel chkf dec encTy n (usk (Exp.tBrs P (Nat.succ k))) vt
+              (denU chkf dec encTy n D t (Exp.tBrs P (Nat.succ k)) eta))
+    (And.right ht))
+  (constructor) (exact (RV.bcons vh vt))
+  (constructor)
+  (exact (EvE.eBcons chkf dec encTy n rho he te vh vt heh het))
+  (intro arg) (intro alpha) (intro harg)
+  (exact (adeqE_bcons_at chkf dec encTy n D h t P eta vh vt arg alpha hrh hrt harg)))
+
+(thm adeqE_bcons
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), P :- Exp, k :- Nat,
+   h :- Exp, t :- Exp, he :- Exp, te :- Exp,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   ihh :- (Exists (fn [vh :- RV]
+            (And (EvalE chkf dec encTy n rho he vh)
+                 (Erel chkf dec encTy n (usk (subst1 (Exp.lbl k) P)) vh
+                   (denU chkf dec encTy n D h (subst1 (Exp.lbl k) P) eta))))),
+   iht :- (Exists (fn [vt :- RV]
+            (And (EvalE chkf dec encTy n rho te vt)
+                 (Erel chkf dec encTy n (usk (Exp.tBrs P (Nat.succ k))) vt
+                   (denU chkf dec encTy n D t (Exp.tBrs P (Nat.succ k)) eta)))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.bcons he te) v)
+         (Erel chkf dec encTy n (usk (Exp.tBrs P k)) v
+           (denU chkf dec encTy n D (Exp.bcons h t) (Exp.tBrs P k) eta)))))
+  (exact (adeqE_bconsK chkf dec encTy n D P k h t he te rho eta ihh iht)))

@@ -7,7 +7,7 @@
             [lcert.formal.funde]))
 
 (deftest f5-funde
-  (testing "constants through eliminators of the fundamental property of evalᴱ"
+  (testing "constants through constructors of the fundamental property of evalᴱ"
     (doseq [c '[denU AdeqE
                 adeqE_star adeqE_tt adeqE_ff adeqE_zero adeqE_lbl
                 nthUS some_injUS none_ne_someUS entryE_nz lookup_usk_head envE_at
@@ -37,7 +37,11 @@
                 denU_ty_from denU_ty
                 denU_elim adeqE_retarget adeqE_elim_cases adeqE_elim adeqE_elimB
                 usk_skel_brs cast_app_brs denU_brs_at denU_lbl
-                denU_case_fun denU_case adeqE_case]]
+                denU_case_fun denU_case adeqE_case
+                adeqE_succ adeqE_sleaf adeqE_leaf adeqE_snode adeqE_node
+                denU_bnil_app adeqE_bnil
+                denU_bcons_zero denU_bcons_succ adeqE_bcons_zero adeqE_bcons_succ
+                adeqE_bcons_at adeqE_bconsK adeqE_bcons]]
       (is (b/has? c) (str c))))
   (testing "tt denotes true, not false, at the carrier E reads"
     (is (b/rejects?
