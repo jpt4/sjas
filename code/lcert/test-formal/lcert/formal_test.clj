@@ -770,7 +770,7 @@
                     '[(exact (prop411_den chkf dec encTy cap 0))]))
     (is (b/rejects? '[chkf :- (=> Code Code Bool)]
                     '(Rt chkf (List.nil Exp) (List.nil U) (sh4_cn 0) Exp.tR)
-                    '[(exact (prop411_typed chkf 0))]))))
+                    '[(exact (prop411_typed chkf 0))])))
   (testing "Proposition 4.12 (1): the doubling recursor, packaged, at budget 0"
     (doseq [c '[sh4_M sh4_motive_step sh4_motive_sub sh4_star_ty sh4_zero_ty sh4_nz1
                 sh4_len_nil sh4_lenL sh4_lenC sh4_lenS sh4_lenP sh4_nth_syn sh4_nthu_w
@@ -798,7 +798,7 @@
                     '[(exact (prop412_den chkf dec encTy cap 0))]))
     (is (b/rejects? '[chkf :- (=> Code Code Bool)]
                     '(Rt chkf (List.nil Exp) (List.nil U) (sh4_doubler (sh4_num 0)) Exp.tSyn)
-                    '[(exact (prop412_typed chkf 0))]))))
+                    '[(exact (prop412_typed chkf 0))])))
   (testing "Proposition 4.9, the uniform arm: T(ff) inhabits 0, and depthLeq at 0 is a closed Bool function"
     (doseq [c '[sh4_nbr_ff sh4_nbr_empty sh4_nbr_tff sh4_tt_ty sh4_ff_ty
                 sh4_step_hd sh4_cv_ff sh4_from_ff
