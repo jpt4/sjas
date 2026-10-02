@@ -42,6 +42,7 @@
     lcert.formal-test.erase
     lcert.formal-test.prop434
     lcert.formal-test.check
+    lcert.formal-test.section4c
     lcert.formal-test.check-hd
     lcert.formal-test.check-skj
     lcert.formal-test.check-dt])
