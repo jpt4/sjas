@@ -4324,3 +4324,162 @@
            (Eq.symm (skel_subst1 nv P hsn))
            (adeqE_recN_at chkf dec encTy n D P z st nv ze se ne us rho eta
              hr ihn ihz ihs))))
+
+;; --- recSyn, the leaf (Theorem 4′) ------------------------------------------
+;;
+;; The leaf method runs with the label bound at usage ω.  leafTy, nodeTy,
+;; y1Ty and y2Ty are substitutions of terms, so each has the usage skeleton
+;; of the motive.  The node branch of Code.rec casts the two recursive
+;; carriers into those binder types; a leaf does not run it.
+
+
+;; recSyn (Theorem 4′).  The leaf method is P[sleaf a] under the label, and
+;; the node method is P[snode a c1 c2] under five binders.  Each substituent
+;; is a term, so those types have the usage skeleton of P.
+
+(thm sLeaf_usk [i :- Nat]
+  (Eq USk (usk (sLeafI i)) (USk.base Sk.unit))
+  (cases i) (rfl) (rfl))
+
+(thm sLeaf_skel [i :- Nat]
+  (Eq Sk (skel (sLeafI i)) Sk.unit)
+  (cases i) (rfl) (rfl))
+
+(thm sNode_usk [i :- Nat]
+  (Eq USk (usk (sNodeI i)) (USk.base Sk.unit))
+  (cases i) (rfl) (rfl))
+
+(thm sNode_skel [i :- Nat]
+  (Eq Sk (skel (sNodeI i)) Sk.unit)
+  (cases i) (rfl) (rfl))
+
+(thm sAt_usk [k :- Nat, sh :- Nat, i :- Nat]
+  (Eq USk (usk (sAt k sh i)) (USk.base Sk.unit))
+  (cases i) (rfl) (rfl))
+
+(thm sAt_skel [k :- Nat, sh :- Nat, i :- Nat]
+  (Eq Sk (skel (sAt k sh i)) Sk.unit)
+  (cases i) (rfl) (rfl))
+
+(thm leafTy_usk [P :- Exp]
+  (Eq USk (usk (leafTy P)) (usk P))
+  (exact (usk_subst P (fn [i :- Nat] (sLeafI i))
+           (fn [i :- Nat] (sLeaf_usk i)))))
+
+(thm leafTy_skel [P :- Exp]
+  (Eq Sk (skel (leafTy P)) (skel P))
+  (exact (skel_subst P (fn [i :- Nat] (sLeafI i))
+           (fn [i :- Nat] (sLeaf_skel i)))))
+
+(thm nodeTy_usk [P :- Exp]
+  (Eq USk (usk (nodeTy P)) (usk P))
+  (exact (usk_subst P (fn [i :- Nat] (sNodeI i))
+           (fn [i :- Nat] (sNode_usk i)))))
+
+(thm nodeTy_skel [P :- Exp]
+  (Eq Sk (skel (nodeTy P)) (skel P))
+  (exact (skel_subst P (fn [i :- Nat] (sNodeI i))
+           (fn [i :- Nat] (sNode_skel i)))))
+
+(thm y1Ty_usk [P :- Exp]
+  (Eq USk (usk (y1Ty P)) (usk P))
+  (exact (usk_subst P (fn [i :- Nat] (sAt 1 3 i))
+           (fn [i :- Nat] (sAt_usk 1 3 i)))))
+
+(thm y1Ty_skel [P :- Exp]
+  (Eq Sk (skel (y1Ty P)) (skel P))
+  (exact (skel_subst P (fn [i :- Nat] (sAt 1 3 i))
+           (fn [i :- Nat] (sAt_skel 1 3 i)))))
+
+(thm y2Ty_usk [P :- Exp]
+  (Eq USk (usk (y2Ty P)) (usk P))
+  (exact (usk_subst P (fn [i :- Nat] (sAt 1 4 i))
+           (fn [i :- Nat] (sAt_usk 1 4 i)))))
+
+(thm y2Ty_skel [P :- Exp]
+  (Eq Sk (skel (y2Ty P)) (skel P))
+  (exact (skel_subst P (fn [i :- Nat] (sAt 1 4 i))
+           (fn [i :- Nat] (sAt_skel 1 4 i)))))
+
+(thm erel_lbl_rfl
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   cap :- Nat, j :- Nat]
+  (Erel chkf dec encTy cap (usk Exp.tLbl) (RV.lbl j) j)
+  (rfl))
+
+(thm erel_code_rfl
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   cap :- Nat, c :- Code]
+  (Erel chkf dec encTy cap (usk Exp.tSyn) (RV.code c) c)
+  (rfl))
+
+;; The leaf of recSyn.  The label is bound at usage ω and related to itself.
+;; Code.rec at a leaf is the leaf method; the node method is part of the
+;; recursor and is not run.  Its environment casts the two recursive carriers
+;; from usk P to the binder types y1Ty and y2Ty, which have that skeleton.
+(thm adeqE_recs_leaf
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   cap :- Nat, D :- (List Exp), P :- Exp, tl :- Exp, tn :- Exp,
+   tle :- Exp, tne :- Exp, us :- (List U), l :- Nat,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   hr :- (envE chkf dec encTy cap (uskCtx D) us rho eta),
+   ihl :- (forall [rho2 (List RV)]
+            (forall [eta2 (HEnv (usks (uskCtx (List.cons Exp Exp.tLbl D))))]
+              (=> (envE chkf dec encTy cap
+                    (uskCtx (List.cons Exp Exp.tLbl D))
+                    (List.cons U U.uw us) rho2 eta2)
+                (Exists (fn [w :- RV]
+                  (And (EvalE chkf dec encTy cap rho2 tle w)
+                       (Erel chkf dec encTy cap (usk P) w
+                         (denU chkf dec encTy cap
+                           (List.cons Exp Exp.tLbl D) tl P eta2))))))))]
+  (Exists (fn [v :- RV]
+    (And (EvE chkf dec encTy cap (EvSrc.recs rho tle tne (Code.sl l)) v)
+         (Erel chkf dec encTy cap (usk P) v
+           (Code.rec$1 (fn [_ :- Code] (Car (uskSk (usk P))))
+             (fn [j :- Nat]
+               (denU chkf dec encTy cap (List.cons Exp Exp.tLbl D) tl P
+                 (Prod.mk j eta)))
+             (fn [j :- Nat, a :- Code, b :- Code,
+                  ya :- (Car (uskSk (usk P))), yb :- (Car (uskSk (usk P)))]
+               (denU chkf dec encTy cap
+                 (List.cons Exp (y2Ty P)
+                   (List.cons Exp (y1Ty P)
+                     (List.cons Exp Exp.tSyn
+                       (List.cons Exp Exp.tSyn
+                         (List.cons Exp Exp.tLbl D)))))
+                 tn P
+                 (Prod.mk
+                   (Eq.mp (congrArg Car (congrArg (fn [w :- USk] (uskSk w))
+                             (Eq.symm (y2Ty_usk P)))) yb)
+                   (Prod.mk
+                     (Eq.mp (congrArg Car (congrArg (fn [w :- USk] (uskSk w))
+                               (Eq.symm (y1Ty_usk P)))) ya)
+                     (Prod.mk b (Prod.mk a (Prod.mk j eta)))))))
+             (Code.sl l))))))
+  (have henv (envE chkf dec encTy cap
+               (uskCtx (List.cons Exp Exp.tLbl D))
+               (List.cons U U.uw us)
+               (List.cons RV (RV.lbl l) rho)
+               (Prod.mk l eta))
+    (envE_consw chkf dec encTy cap (usk Exp.tLbl) (uskCtx D) us
+      (RV.lbl l) rho l eta (erel_lbl_rfl chkf dec encTy cap l) hr))
+  (refine' (exT RV _ _
+    (ihl (List.cons RV (RV.lbl l) rho) (Prod.mk l eta) henv) _))
+  (intro w hw)
+  (have he (EvalE chkf dec encTy cap (List.cons RV (RV.lbl l) rho) tle w)
+    (And.left hw))
+  (have hrel (Erel chkf dec encTy cap (usk P) w
+               (denU chkf dec encTy cap (List.cons Exp Exp.tLbl D) tl P
+                 (Prod.mk l eta)))
+    (And.right hw))
+  (constructor) (exact w)
+  (constructor)
+  (exact (EvE.eRecSL chkf dec encTy cap rho tle tne l w he))
+  (exact hrel))
