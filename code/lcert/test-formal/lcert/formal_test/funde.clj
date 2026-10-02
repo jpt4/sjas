@@ -7,7 +7,7 @@
             [lcert.formal.funde]))
 
 (deftest f5-funde
-  (testing "constants through constructors of the fundamental property of evalᴱ"
+  (testing "constants through recN of the fundamental property of evalᴱ"
     (doseq [c '[denU AdeqE
                 adeqE_star adeqE_tt adeqE_ff adeqE_zero adeqE_lbl
                 nthUS some_injUS none_ne_someUS entryE_nz lookup_usk_head envE_at
@@ -41,7 +41,11 @@
                 adeqE_succ adeqE_sleaf adeqE_leaf adeqE_snode adeqE_node
                 denU_bnil_app adeqE_bnil
                 denU_bcons_zero denU_bcons_succ adeqE_bcons_zero adeqE_bcons_succ
-                adeqE_bcons_at adeqE_bconsK adeqE_bcons]]
+                adeqE_bcons_at adeqE_bconsK adeqE_bcons
+                cast_nat_id skels_rec_ctx denU_nat_id
+                sSucc_usk sSucc_skel stepTy_usk stepTy_skel
+                natrec_cong den_recN_open cast_iter denU_rec_step denU_recN
+                erel_nat_rfl adeqE_iter adeqE_step_at adeqE_recN_at adeqE_recN]]
       (is (b/has? c) (str c))))
   (testing "tt denotes true, not false, at the carrier E reads"
     (is (b/rejects?

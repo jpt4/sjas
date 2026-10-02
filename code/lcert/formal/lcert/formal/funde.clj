@@ -46,7 +46,13 @@
   at P[tt] and P[ff] and the conclusion at P[b]; a Boolean term has skeleton
   Unit, so those three types have one usage skeleton (skel_subst_eq) and
   the carriers agree (denU_ty).  caseLbl applies the branch list, and the
-  conclusion P[a/x] is the codomain P after a Unit substitution."
+  conclusion P[a/x] is the codomain P after a Unit substitution.
+
+  recN iterates the step.  The base is judged at P[zero] and the step at
+  stepTy, both of which have the usage skeleton of P: zero, a successor and
+  the numeral are terms.  denU of recN is the Nat.rec of those denotations.
+  The conclusion is P[n], and that carrier is the one at P because the
+  numeral has skeleton Unit."
   (:require [ansatz.core :as a]
             [lcert.formal.base :refer [thm kdef lv]]
             [lcert.formal.usage :refer :all]
@@ -3813,3 +3819,508 @@
          (Erel chkf dec encTy n (usk (Exp.tBrs P k)) v
            (denU chkf dec encTy n D (Exp.bcons h t) (Exp.tBrs P k) eta)))))
   (exact (adeqE_bconsK chkf dec encTy n D P k h t he te rho eta ihh iht)))
+
+;; --- recN (Theorem 4′) ------------------------------------------------------
+;;
+;; The inner induction is on the numeral.  Every accumulator is read at the
+;; motive P: P[zero], stepTy and P[n] have that usage skeleton, because zero,
+;; a successor and the numeral are terms (skeleton Unit).  denU of the recursor
+;; is the Nat.rec of those denotations.  The conclusion of the judgment is
+;; P[n], and adeqE_recN moves the witness there.
+
+
+;; recN (Theorem 4′).  The motive instance P[succ x] and the substitutions
+;; P[zero], P[n] have the usage skeleton of P: zero, succ and a numeral are
+;; terms, so their skeleton is Unit.  The iterator then reads every
+;; accumulator at that one skeleton.
+
+(thm cast_nat_id [j :- Nat]
+  (Eq Nat (Eq.mp (congrArg Car (usk_skel Exp.tNat)) j) j)
+  (rfl))
+
+(thm skels_rec_ctx [P :- Exp, D :- (List Exp)]
+  (Eq (List Sk)
+    (skels (List.cons Exp P (List.cons Exp Exp.tNat D)))
+    (sk2 (skel P) Sk.nat (skels D)))
+  (rfl))
+
+(thm denU_nat_id
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), nv :- Exp,
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq Nat
+    (denU chkf dec encTy n D nv Exp.tNat eta)
+    (den chkf dec encTy n nv (skels D) Sk.nat (henv_of_usk D eta)))
+  (rfl))
+
+(thm sSucc_usk [i :- Nat]
+  (Eq USk (usk (sSucc i)) (USk.base Sk.unit))
+  (cases i)
+  (rfl)
+  (rfl))
+
+(thm sSucc_skel [i :- Nat]
+  (Eq Sk (skel (sSucc i)) Sk.unit)
+  (cases i)
+  (rfl)
+  (rfl))
+
+(thm stepTy_usk [P :- Exp]
+  (Eq USk (usk (stepTy P)) (usk P))
+  (exact (Eq.trans
+    (usk_lift (subst (fn [i :- Nat] (sSucc i)) P) 1 0)
+    (usk_subst P (fn [i :- Nat] (sSucc i))
+      (fn [i :- Nat] (sSucc_usk i))))))
+
+(thm stepTy_skel [P :- Exp]
+  (Eq Sk (skel (stepTy P)) (skel P))
+  (exact (Eq.trans
+    (skel_lift (subst (fn [i :- Nat] (sSucc i)) P) 1 0)
+    (skel_subst P (fn [i :- Nat] (sSucc i))
+      (fn [i :- Nat] (sSucc_skel i))))))
+
+;; Pointwise equal steps give equal iterates.  The zero case is the shared
+;; base; at a successor the hypothesis rewrites the step and the induction
+;; hypothesis rewrites the accumulator it receives.
+(thm natrec_cong
+  [s :- Sk, base :- (Car s),
+   f :- (=> Nat (Car s) (Car s)),
+   g :- (=> Nat (Car s) (Car s)),
+   k :- Nat,
+   h :- (forall [j Nat] (forall [a (Car s)]
+          (Eq (Car s) (f j a) (g j a))))]
+  (Eq (Car s)
+    (Nat.rec$1 (fn [_ :- Nat] (Car s)) base f k)
+    (Nat.rec$1 (fn [_ :- Nat] (Car s)) base g k))
+  (induction k)
+  (rfl)
+  (exact (Eq.trans
+    (h n (Nat.rec$1 (fn [_ :- Nat] (Car s)) base f n))
+    (congrArg (fn [a :- (Car s)] (g n a)) ih_n))))
+
+;; den_recN is a kernel definition.  Rewrite sees the folded application,
+;; not the Nat.rec inside it, so the equation is stated on its own.
+(thm den_recN_open
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   prev :- DenFn, n :- Nat,
+   P :- Exp, z :- Exp, st :- Exp, nv :- Exp,
+   iP :- (forall [G (List Sk)] (forall [sk Sk] (=> (HEnv G) (Car sk)))),
+   iz :- (forall [G (List Sk)] (forall [sk Sk] (=> (HEnv G) (Car sk)))),
+   is :- (forall [G (List Sk)] (forall [sk Sk] (=> (HEnv G) (Car sk)))),
+   in :- (forall [G (List Sk)] (forall [sk Sk] (=> (HEnv G) (Car sk)))),
+   G :- (List Sk), sk :- Sk, en :- (HEnv G)]
+  (Eq (Car sk)
+    (den_recN chkf dec encTy prev n P z st nv iP iz is in G sk en)
+    (Nat.rec$1 (fn [_ :- Nat] (Car sk))
+      (iz G sk en)
+      (fn [k :- Nat, acc :- (Car sk)]
+        (is (sk2 sk Sk.nat G) sk (Prod.mk acc (Prod.mk k en))))
+      (in G Sk.nat en)))
+  (rfl))
+
+;; A cast stays outside the recursor.  Putting Eq.mp inside the step makes
+;; the eliminator's motive fail to match the simple function; the induction
+;; hypothesis carries the cast, and the step hypothesis applies it.
+(thm cast_iter
+  [s1 :- Sk, s2 :- Sk, e :- (Eq Sk s1 s2),
+   base1 :- (Car s1), base2 :- (Car s2),
+   step1 :- (=> Nat (Car s1) (Car s1)),
+   step2 :- (=> Nat (Car s2) (Car s2)),
+   k :- Nat,
+   hbase :- (Eq (Car s1) base1
+             (Eq.mp (congrArg Car (Eq.symm e)) base2)),
+   hstep :- (forall [j Nat]
+             (forall [a2 (Car s2)]
+              (forall [a1 (Car s1)]
+               (=> (Eq (Car s1) a1 (Eq.mp (congrArg Car (Eq.symm e)) a2))
+                 (Eq (Car s1) (step1 j a1)
+                   (Eq.mp (congrArg Car (Eq.symm e)) (step2 j a2)))))))]
+  (Eq (Car s1)
+    (Nat.rec$1 (fn [_ :- Nat] (Car s1)) base1 step1 k)
+    (Eq.mp (congrArg Car (Eq.symm e))
+      (Nat.rec$1 (fn [_ :- Nat] (Car s2)) base2 step2 k)))
+  (induction k)
+  (exact hbase)
+  (change (Eq (Car s1)
+    (step1 n (Nat.rec$1 (fn [_ :- Nat] (Car s1)) base1 step1 n))
+    (Eq.mp (congrArg Car (Eq.symm e))
+      (step2 n (Nat.rec$1 (fn [_ :- Nat] (Car s2)) base2 step2 n)))))
+  (exact (hstep n
+           (Nat.rec$1 (fn [_ :- Nat] (Car s2)) base2 step2 n)
+           (Nat.rec$1 (fn [_ :- Nat] (Car s1)) base1 step1 n)
+           ih_n)))
+
+;; The step of ⟦recN⟧ reads the accumulator at skel P.  denU reads it at
+;; usk P.  henv_ext2 is that environment once the accumulator is the cast,
+;; which the hypothesis ha is.
+(thm denU_rec_step
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), P :- Exp, st :- Exp,
+   eta :- (HEnv (usks (uskCtx D))),
+   j :- Nat, a2 :- (Car (skel P)), a1 :- (Car (uskSk (usk P))),
+   ha :- (Eq (Car (uskSk (usk P))) a1
+           (Eq.mp (congrArg Car (Eq.symm (usk_skel P))) a2))]
+  (Eq (Car (uskSk (usk P)))
+    (denU chkf dec encTy n
+      (List.cons Exp P (List.cons Exp Exp.tNat D)) st P
+      (Prod.mk a1 (Prod.mk j eta)))
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel P)))
+      (den chkf dec encTy n st
+        (sk2 (skel P) Sk.nat (skels D)) (skel P)
+        (Prod.mk a2 (Prod.mk j (henv_of_usk D eta))))))
+  (have hback (Eq (Car (skel P)) a2
+                (Eq.mp (congrArg Car (usk_skel P)) a1))
+    (Eq.trans
+      (Eq.symm (cast_back (uskSk (usk P)) (skel P) (usk_skel P) a2))
+      (congrArg
+        (fn [x :- (Car (uskSk (usk P)))]
+          (Eq.mp (congrArg Car (usk_skel P)) x))
+        (Eq.symm ha))))
+  (rw [hback])
+  (exact (Eq.symm
+    (congrArg
+      (fn [en :- (HEnv (skels (List.cons Exp P (List.cons Exp Exp.tNat D))))]
+        (Eq.mp (congrArg Car (Eq.symm (usk_skel P)))
+          (den chkf dec encTy n st
+            (skels (List.cons Exp P (List.cons Exp Exp.tNat D)))
+            (skel P) en)))
+      (Eq.symm (henv_ext2 Exp.tNat P D j a1 eta))))))
+
+;; ⟦recN⟧ at usk P is the Nat.rec of denU.  den_recN is folded, so the
+;; equation is den_recN_open; the cast of that recursor is cast_iter.
+(thm denU_recN
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), P :- Exp, z :- Exp, st :- Exp, nv :- Exp,
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (Car (uskSk (usk P)))
+    (denU chkf dec encTy n D (Exp.recN P z st nv) P eta)
+    (Nat.rec$1 (fn [_ :- Nat] (Car (uskSk (usk P))))
+      (denU chkf dec encTy n D z P eta)
+      (fn [j :- Nat, acc :- (Car (uskSk (usk P)))]
+        (denU chkf dec encTy n
+          (List.cons Exp P (List.cons Exp Exp.tNat D)) st P
+          (Prod.mk acc (Prod.mk j eta))))
+      (denU chkf dec encTy n D nv Exp.tNat eta)))
+  (exact (Eq.trans
+    (congrArg
+      (fn [x :- (Car (skel P))]
+        (Eq.mp (congrArg Car (Eq.symm (usk_skel P))) x))
+      (Eq.trans
+        (den_recN_at chkf dec encTy n P z st nv (skels D) (skel P) (henv_of_usk D eta))
+        (den_recN_open chkf dec encTy (denPrev chkf dec encTy n) n P z st nv
+          (den chkf dec encTy n P) (den chkf dec encTy n z)
+          (den chkf dec encTy n st) (den chkf dec encTy n nv)
+          (skels D) (skel P) (henv_of_usk D eta))))
+    (Eq.symm
+      (cast_iter (uskSk (usk P)) (skel P) (usk_skel P)
+        (denU chkf dec encTy n D z P eta)
+        (den chkf dec encTy n z (skels D) (skel P) (henv_of_usk D eta))
+        (fn [j :- Nat, acc :- (Car (uskSk (usk P)))]
+          (denU chkf dec encTy n
+            (List.cons Exp P (List.cons Exp Exp.tNat D)) st P
+            (Prod.mk acc (Prod.mk j eta))))
+        (fn [k :- Nat, acc :- (Car (skel P))]
+          (den chkf dec encTy n st
+            (sk2 (skel P) Sk.nat (skels D)) (skel P)
+            (Prod.mk acc (Prod.mk k (henv_of_usk D eta)))))
+        (den chkf dec encTy n nv (skels D) Sk.nat (henv_of_usk D eta))
+        rfl
+        (fn [j :- Nat, a2 :- (Car (skel P)), a1 :- (Car (uskSk (usk P))),
+             ha :- (Eq (Car (uskSk (usk P))) a1
+                     (Eq.mp (congrArg Car (Eq.symm (usk_skel P))) a2))]
+          (denU_rec_step chkf dec encTy n D P st eta j a2 a1 ha)))))))
+
+
+;; E at Nat is equality with RV.nat.  The predecessor bound in the step is
+;; that numeral, so the new environment entry is reflexivity.
+(thm erel_nat_rfl
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   cap :- Nat, j :- Nat]
+  (Erel chkf dec encTy cap (usk Exp.tNat) (RV.nat j) j)
+  (rfl))
+
+;; The recN iterator (Theorem 4′, inner induction on the numeral).  At 0 the
+;; accumulator is the base.  At k + 1 the step runs in (mid, (k, ρ)).  That
+;; environment is envE because mid is E-related to the denotational Nat.rec
+;; at k, and k is related to itself at Nat.  The step's induction hypothesis
+;; is already at the motive P: the caller moves it off stepTy.
+(thm adeqE_iter
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   cap :- Nat, D :- (List Exp), P :- Exp, st :- Exp, se :- Exp,
+   us :- (List U),
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   z0 :- RV, alpha :- (Car (uskSk (usk P))),
+   hz :- (Erel chkf dec encTy cap (usk P) z0 alpha),
+   hr :- (envE chkf dec encTy cap (uskCtx D) us rho eta),
+   ihs :- (forall [rho2 (List RV)]
+            (forall [eta2 (HEnv (usks (uskCtx (List.cons Exp P (List.cons Exp Exp.tNat D)))))]
+              (=> (envE chkf dec encTy cap
+                    (uskCtx (List.cons Exp P (List.cons Exp Exp.tNat D)))
+                    (List.cons U U.u1 (List.cons U U.uw us)) rho2 eta2)
+                (Exists (fn [w :- RV]
+                  (And (EvalE chkf dec encTy cap rho2 se w)
+                       (Erel chkf dec encTy cap (usk P) w
+                         (denU chkf dec encTy cap
+                           (List.cons Exp P (List.cons Exp Exp.tNat D))
+                           st P eta2))))))))]
+  (forall [k Nat]
+    (Exists (fn [v :- RV]
+      (And (EvE chkf dec encTy cap (EvSrc.iter rho se k z0) v)
+           (Erel chkf dec encTy cap (usk P) v
+             (Nat.rec$1 (fn [_ :- Nat] (Car (uskSk (usk P)))) alpha
+               (fn [j :- Nat, acc :- (Car (uskSk (usk P)))]
+                 (denU chkf dec encTy cap
+                   (List.cons Exp P (List.cons Exp Exp.tNat D)) st P
+                   (Prod.mk acc (Prod.mk j eta))))
+               k))))))
+  (intro k)
+  (induction k)
+  (constructor) (exact z0)
+  (constructor) (exact (EvE.eIterZ chkf dec encTy cap rho se z0))
+  (exact hz)
+  (refine' (exT RV _ _ ih_n _)) (intro mid hm)
+  (have hem (EvE chkf dec encTy cap (EvSrc.iter rho se n z0) mid) (And.left hm))
+  (have hrm (Erel chkf dec encTy cap (usk P) mid
+              (Nat.rec$1 (fn [_ :- Nat] (Car (uskSk (usk P)))) alpha
+                (fn [j :- Nat, acc :- (Car (uskSk (usk P)))]
+                  (denU chkf dec encTy cap
+                    (List.cons Exp P (List.cons Exp Exp.tNat D)) st P
+                    (Prod.mk acc (Prod.mk j eta))))
+                n))
+    (And.right hm))
+  (have henv1 (envE chkf dec encTy cap
+                (List.cons USk (usk Exp.tNat) (uskCtx D))
+                (List.cons U U.uw us)
+                (List.cons RV (RV.nat n) rho)
+                (Prod.mk n eta))
+    (envE_consw chkf dec encTy cap (usk Exp.tNat) (uskCtx D) us
+      (RV.nat n) rho n eta (erel_nat_rfl chkf dec encTy cap n) hr))
+  (have henv2 (envE chkf dec encTy cap
+                (uskCtx (List.cons Exp P (List.cons Exp Exp.tNat D)))
+                (List.cons U U.u1 (List.cons U U.uw us))
+                (List.cons RV mid (List.cons RV (RV.nat n) rho))
+                (Prod.mk
+                  (Nat.rec$1 (fn [_ :- Nat] (Car (uskSk (usk P)))) alpha
+                    (fn [j :- Nat, acc :- (Car (uskSk (usk P)))]
+                      (denU chkf dec encTy cap
+                        (List.cons Exp P (List.cons Exp Exp.tNat D)) st P
+                        (Prod.mk acc (Prod.mk j eta))))
+                    n)
+                  (Prod.mk n eta)))
+    (envE_cons1 chkf dec encTy cap (usk P)
+      (List.cons USk (usk Exp.tNat) (uskCtx D))
+      (List.cons U U.uw us)
+      mid (List.cons RV (RV.nat n) rho)
+      (Nat.rec$1 (fn [_ :- Nat] (Car (uskSk (usk P)))) alpha
+        (fn [j :- Nat, acc :- (Car (uskSk (usk P)))]
+          (denU chkf dec encTy cap
+            (List.cons Exp P (List.cons Exp Exp.tNat D)) st P
+            (Prod.mk acc (Prod.mk j eta))))
+        n)
+      (Prod.mk n eta) hrm henv1))
+  (refine' (exT RV _ _
+    (ihs (List.cons RV mid (List.cons RV (RV.nat n) rho))
+         (Prod.mk
+           (Nat.rec$1 (fn [_ :- Nat] (Car (uskSk (usk P)))) alpha
+             (fn [j :- Nat, acc :- (Car (uskSk (usk P)))]
+               (denU chkf dec encTy cap
+                 (List.cons Exp P (List.cons Exp Exp.tNat D)) st P
+                 (Prod.mk acc (Prod.mk j eta))))
+             n)
+           (Prod.mk n eta))
+         henv2) _))
+  (intro out ho)
+  (have heo (EvalE chkf dec encTy cap
+              (List.cons RV mid (List.cons RV (RV.nat n) rho)) se out)
+    (And.left ho))
+  (have hro (Erel chkf dec encTy cap (usk P) out
+              (denU chkf dec encTy cap
+                (List.cons Exp P (List.cons Exp Exp.tNat D)) st P
+                (Prod.mk
+                  (Nat.rec$1 (fn [_ :- Nat] (Car (uskSk (usk P)))) alpha
+                    (fn [j :- Nat, acc :- (Car (uskSk (usk P)))]
+                      (denU chkf dec encTy cap
+                        (List.cons Exp P (List.cons Exp Exp.tNat D)) st P
+                        (Prod.mk acc (Prod.mk j eta))))
+                    n)
+                  (Prod.mk n eta))))
+    (And.right ho))
+  (constructor) (exact out)
+  (constructor)
+  (exact (EvE.eIterS chkf dec encTy cap rho se n z0 mid out hem heo))
+  (exact hro))
+
+
+;; The step is judged at stepTy, which is P[succ x] under the accumulator.
+;; That type has the skeleton of P, so the iterator, which reads the step at
+;; P, gets the hypothesis by adeqE_retarget.
+(thm adeqE_step_at
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), P :- Exp, st :- Exp, se :- Exp,
+   us :- (List U),
+   ihs :- (forall [rho2 (List RV)]
+            (forall [eta2 (HEnv (usks (uskCtx (List.cons Exp P (List.cons Exp Exp.tNat D)))))]
+              (=> (envE chkf dec encTy n
+                    (uskCtx (List.cons Exp P (List.cons Exp Exp.tNat D)))
+                    (List.cons U U.u1 (List.cons U U.uw us)) rho2 eta2)
+                (Exists (fn [w :- RV]
+                  (And (EvalE chkf dec encTy n rho2 se w)
+                       (Erel chkf dec encTy n (usk (stepTy P)) w
+                         (denU chkf dec encTy n
+                           (List.cons Exp P (List.cons Exp Exp.tNat D))
+                           st (stepTy P) eta2))))))))]
+  (forall [rho2 (List RV)]
+    (forall [eta2 (HEnv (usks (uskCtx (List.cons Exp P (List.cons Exp Exp.tNat D)))))]
+      (=> (envE chkf dec encTy n
+            (uskCtx (List.cons Exp P (List.cons Exp Exp.tNat D)))
+            (List.cons U U.u1 (List.cons U U.uw us)) rho2 eta2)
+        (Exists (fn [w :- RV]
+          (And (EvalE chkf dec encTy n rho2 se w)
+               (Erel chkf dec encTy n (usk P) w
+                 (denU chkf dec encTy n
+                   (List.cons Exp P (List.cons Exp Exp.tNat D))
+                   st P eta2))))))))
+  (intro rho2) (intro eta2) (intro he)
+  (exact (adeqE_retarget chkf dec encTy n
+           (List.cons Exp P (List.cons Exp Exp.tNat D))
+           st se (stepTy P) P rho2 eta2
+           (stepTy_usk P) (stepTy_skel P)
+           (ihs rho2 eta2 he))))
+
+;; recN at the motive's own skeleton (Theorem 4′).  The base is judged at
+;; P[zero] and moved to P, because zero has skeleton Unit.  The scrutinee
+;; denotes the numeral the iterator runs for.  denU_recN is that iterate.
+(thm adeqE_recN_at
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), P :- Exp,
+   z :- Exp, st :- Exp, nv :- Exp,
+   ze :- Exp, se :- Exp, ne :- Exp,
+   us :- (List U),
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   hr :- (envE chkf dec encTy n (uskCtx D) us rho eta),
+   ihn :- (Exists (fn [vn :- RV]
+            (And (EvalE chkf dec encTy n rho ne vn)
+                 (Erel chkf dec encTy n (usk Exp.tNat) vn
+                   (denU chkf dec encTy n D nv Exp.tNat eta))))),
+   ihz :- (Exists (fn [z0 :- RV]
+            (And (EvalE chkf dec encTy n rho ze z0)
+                 (Erel chkf dec encTy n (usk (subst1 Exp.zero P)) z0
+                   (denU chkf dec encTy n D z (subst1 Exp.zero P) eta))))),
+   ihs :- (forall [rho2 (List RV)]
+            (forall [eta2 (HEnv (usks (uskCtx (List.cons Exp P (List.cons Exp Exp.tNat D)))))]
+              (=> (envE chkf dec encTy n
+                    (uskCtx (List.cons Exp P (List.cons Exp Exp.tNat D)))
+                    (List.cons U U.u1 (List.cons U U.uw us)) rho2 eta2)
+                (Exists (fn [w :- RV]
+                  (And (EvalE chkf dec encTy n rho2 se w)
+                       (Erel chkf dec encTy n (usk (stepTy P)) w
+                         (denU chkf dec encTy n
+                           (List.cons Exp P (List.cons Exp Exp.tNat D))
+                           st (stepTy P) eta2))))))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.recN P ze se ne) v)
+         (Erel chkf dec encTy n (usk P) v
+           (denU chkf dec encTy n D (Exp.recN P z st nv) P eta)))))
+  (rw [(denU_recN chkf dec encTy n D P z st nv eta)])
+  (refine' (exT RV _ _ ihn _)) (intro vn hn)
+  (have hen (EvalE chkf dec encTy n rho ne vn) (And.left hn))
+  (have hrn (Eq RV vn (RV.nat (denU chkf dec encTy n D nv Exp.tNat eta)))
+    (And.right hn))
+  (have hek (EvalE chkf dec encTy n rho ne
+              (RV.nat (denU chkf dec encTy n D nv Exp.tNat eta)))
+    (evalE_cast chkf dec encTy n rho ne vn
+      (RV.nat (denU chkf dec encTy n D nv Exp.tNat eta)) hen hrn))
+  (refine' (exT RV _ _
+    (adeqE_retarget chkf dec encTy n D z ze (subst1 Exp.zero P) P rho eta
+      (usk_subst1 Exp.zero P (usk_of_unit Exp.zero rfl))
+      (skel_subst1 Exp.zero P rfl)
+      ihz) _))
+  (intro z0 hz0)
+  (have hez (EvalE chkf dec encTy n rho ze z0) (And.left hz0))
+  (have hrz (Erel chkf dec encTy n (usk P) z0
+              (denU chkf dec encTy n D z P eta))
+    (And.right hz0))
+  (refine' (exT RV _ _
+    (adeqE_iter chkf dec encTy n D P st se us rho eta z0
+      (denU chkf dec encTy n D z P eta) hrz hr
+      (adeqE_step_at chkf dec encTy n D P st se us ihs)
+      (denU chkf dec encTy n D nv Exp.tNat eta)) _))
+  (intro v hv)
+  (have hi (EvE chkf dec encTy n
+             (EvSrc.iter rho se (denU chkf dec encTy n D nv Exp.tNat eta) z0) v)
+    (And.left hv))
+  (have hrel (Erel chkf dec encTy n (usk P) v
+               (Nat.rec$1 (fn [_ :- Nat] (Car (uskSk (usk P))))
+                 (denU chkf dec encTy n D z P eta)
+                 (fn [j :- Nat, acc :- (Car (uskSk (usk P)))]
+                   (denU chkf dec encTy n
+                     (List.cons Exp P (List.cons Exp Exp.tNat D)) st P
+                     (Prod.mk acc (Prod.mk j eta))))
+                 (denU chkf dec encTy n D nv Exp.tNat eta)))
+    (And.right hv))
+  (constructor) (exact v)
+  (constructor)
+  (exact (EvE.eRecN chkf dec encTy n rho P ze se ne
+           (denU chkf dec encTy n D nv Exp.tNat eta) z0 v hek hez hi))
+  (exact hrel))
+
+;; The conclusion of recN is P[n], not P.  A numeral has skeleton Unit, so
+;; the two carriers agree and adeqE_recN_at transports.
+(thm adeqE_recN
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), P :- Exp,
+   z :- Exp, st :- Exp, nv :- Exp,
+   ze :- Exp, se :- Exp, ne :- Exp,
+   us :- (List U),
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   hub :- (Eq USk (usk nv) (USk.base Sk.unit)),
+   hsn :- (Eq Sk (skel nv) Sk.unit),
+   hr :- (envE chkf dec encTy n (uskCtx D) us rho eta),
+   ihn :- (Exists (fn [vn :- RV]
+            (And (EvalE chkf dec encTy n rho ne vn)
+                 (Erel chkf dec encTy n (usk Exp.tNat) vn
+                   (denU chkf dec encTy n D nv Exp.tNat eta))))),
+   ihz :- (Exists (fn [z0 :- RV]
+            (And (EvalE chkf dec encTy n rho ze z0)
+                 (Erel chkf dec encTy n (usk (subst1 Exp.zero P)) z0
+                   (denU chkf dec encTy n D z (subst1 Exp.zero P) eta))))),
+   ihs :- (forall [rho2 (List RV)]
+            (forall [eta2 (HEnv (usks (uskCtx (List.cons Exp P (List.cons Exp Exp.tNat D)))))]
+              (=> (envE chkf dec encTy n
+                    (uskCtx (List.cons Exp P (List.cons Exp Exp.tNat D)))
+                    (List.cons U U.u1 (List.cons U U.uw us)) rho2 eta2)
+                (Exists (fn [w :- RV]
+                  (And (EvalE chkf dec encTy n rho2 se w)
+                       (Erel chkf dec encTy n (usk (stepTy P)) w
+                         (denU chkf dec encTy n
+                           (List.cons Exp P (List.cons Exp Exp.tNat D))
+                           st (stepTy P) eta2))))))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.recN P ze se ne) v)
+         (Erel chkf dec encTy n (usk (subst1 nv P)) v
+           (denU chkf dec encTy n D (Exp.recN P z st nv) (subst1 nv P) eta)))))
+  (exact (adeqE_retarget chkf dec encTy n D
+           (Exp.recN P z st nv) (Exp.recN P ze se ne)
+           P (subst1 nv P) rho eta
+           (Eq.symm (usk_subst1 nv P hub))
+           (Eq.symm (skel_subst1 nv P hsn))
+           (adeqE_recN_at chkf dec encTy n D P z st nv ze se ne us rho eta
+             hr ihn ihz ihs))))
