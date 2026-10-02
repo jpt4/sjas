@@ -465,3 +465,366 @@
                (Nat.sub (sh4_pow n) 1)))
   (exact (And.intro (prop411_typed chkf n)
            (Eq.trans (congrArg cnodes (prop411_den chkf dec encTy cap n)) (prop411_nodes n)))))
+
+;; --- Proposition 4.12 (1) --------------------------------------------------------------
+;; recN doubling a tree, through the packaged motive Σ(p :ω Syn). 1.  The
+;; motive does not mention the Nat it is recursing on, so stepTy and every
+;; subst1 of it are the motive itself.  The base is the leaf, packaged with
+;; ⋆.  The step opens the accumulator (variable 0, usage 1) and rebuilds a
+;; node with two copies of its code; the predecessor (variable 1, usage ω) is
+;; not mentioned, and its usage is carried by the ⋆, which rConst types at
+;; any vector.  Part (2) of the proposition, that the certificate stays
+;; polynomial, is the paper's citation of T3 and Proposition 4.1; it is not
+;; restated here.  The formal content is the budget-0 typing and the
+;; denotation: at numeral n the package's code has 2ⁿ − 1 internal nodes.
+
+;; The motive, the step's two contexts, and the usage vectors the rules sum to.
+;; Each vector below is what the corresponding vadd/vscale computes to, so the
+;; rule's where-clause usage and the vector are the same list.
+(a/defn sh4_M [] Exp (Exp.tSig U.uw Exp.tSyn Exp.tUnit))
+(a/defn sh4_CB [] (List Exp)
+  (List.cons Exp Exp.tUnit
+    (List.cons Exp Exp.tSyn
+      (List.cons Exp (sh4_M) (List.cons Exp Exp.tNat (List.nil Exp))))))
+(a/defn sh4_CS [] (List Exp)
+  (List.cons Exp (sh4_M) (List.cons Exp Exp.tNat (List.nil Exp))))
+(a/defn sh4_usL [] (List U)
+  (List.cons U U.u0 (List.cons U U.u0 (List.cons U U.u0 (List.cons U U.u0 (List.nil U))))))
+(a/defn sh4_usC [] (List U)
+  (List.cons U U.u0 (List.cons U U.uw (List.cons U U.u0 (List.cons U U.u0 (List.nil U))))))
+(a/defn sh4_usS [] (List U)
+  (List.cons U U.u1 (List.cons U U.u0 (List.cons U U.u0 (List.cons U U.uw (List.nil U))))))
+(a/defn sh4_usB [] (List U)
+  (List.cons U U.u1 (List.cons U U.uw (List.cons U U.u0 (List.cons U U.uw (List.nil U))))))
+(a/defn sh4_usP [] (List U) (List.cons U U.u1 (List.cons U U.u0 (List.nil U))))
+(a/defn sh4_us2 [] (List U) (List.cons U U.u0 (List.cons U U.uw (List.nil U))))
+(a/defn sh4_usR [] (List U) (List.cons U U.u1 (List.cons U U.uw (List.nil U))))
+
+;; Body, in [1, Syn, Σ, Nat]: (snode ℓ y y, ⋆), with y the code at index 1.
+(a/defn sh4_dbl_body [] Exp
+  (Exp.pair (sh4_M) (Exp.snode (Exp.lbl 0) (Exp.var 1) (Exp.var 1)) Exp.star))
+;; Step, in [Σ, Nat]: open the accumulator and return the doubled package.
+(a/defn sh4_dbl_step [] Exp (Exp.letp (sh4_M) (Exp.var 0) (sh4_dbl_body)))
+(a/defn sh4_dbl_base [] Exp (Exp.pair (sh4_M) (Exp.sleaf (Exp.lbl 0)) Exp.star))
+(a/defn sh4_num [n :- Nat] Exp
+  (match n [zero Exp.zero] [(succ k) (Exp.succ (sh4_num k))]))
+(a/defn sh4_doubler [e :- Exp] Exp
+  (Exp.recN (sh4_M) (sh4_dbl_base) (sh4_dbl_step) e))
+
+;; The motive is closed, so the recursor's type computations are identities,
+;; and the concrete vectors are the sums the rules form.
+(thm sh4_motive_step [] (Eq Exp (stepTy (sh4_M)) (sh4_M)) (rfl))
+(thm sh4_motive_sub [e :- Exp] (Eq Exp (subst1 e (sh4_M)) (sh4_M)) (rfl))
+(thm sh4_star_ty [] (Eq Bool (constTyped Exp.star Exp.tUnit) Bool.true) (rfl))
+(thm sh4_zero_ty [] (Eq Bool (constTyped Exp.zero Exp.tNat) Bool.true) (rfl))
+(thm sh4_nz1 [] (Eq Bool (nonzero U.u1) Bool.true) (rfl))
+(thm sh4_len_nil [] (Eq Nat (lenU (List.nil U)) (lenE (List.nil Exp))) (rfl))
+(thm sh4_lenL [] (Eq Nat (lenU (sh4_usL)) (lenE (sh4_CB))) (rfl))
+(thm sh4_lenC [] (Eq Nat (lenU (sh4_usC)) (lenE (sh4_CB))) (rfl))
+(thm sh4_lenS [] (Eq Nat (lenU (sh4_usS)) (lenE (sh4_CB))) (rfl))
+(thm sh4_lenP [] (Eq Nat (lenU (sh4_usP)) (lenE (sh4_CS))) (rfl))
+;; Index 1 is the Syn under the Unit binder, so peel both.
+(thm sh4_nth_syn []
+  (Eq (Option Exp) (nthE (sh4_CB) 1) (Option.some Exp Exp.tSyn))
+  (exact (Eq.trans (nthE.eq_3 Exp.tUnit (List.cons Exp Exp.tSyn (sh4_CS)) 0)
+                   (nthE.eq_2 Exp.tSyn (sh4_CS)))))
+(thm sh4_nthu_w []
+  (Eq (Option U) (nthU (sh4_usC) 1) (Option.some U U.uw))
+  (exact (Eq.trans (nthU.eq_3 U.u0 (List.cons U U.uw (List.cons U U.u0 (List.cons U U.u0 (List.nil U)))) 0)
+                   (nthU.eq_2 U.uw (List.cons U U.u0 (List.cons U U.u0 (List.nil U)))))))
+
+(thm sh4_lbl_body [chkf :- (=> Code Code Bool)]
+  (Rt chkf (sh4_CB) (sh4_usL) (Exp.lbl 0) Exp.tLbl)
+  (exact (Rt.rConst chkf (sh4_CB) (sh4_usL) (Exp.lbl 0) Exp.tLbl sh4_lenL rfl)))
+(thm sh4_code_var [chkf :- (=> Code Code Bool)]
+  (Rt chkf (sh4_CB) (sh4_usC) (Exp.var 1) Exp.tSyn)
+  (exact (Rt.rVar chkf (sh4_CB) (sh4_usC) 1 Exp.tSyn U.uw sh4_lenC sh4_nth_syn sh4_nthu_w sh4_nonzero_w)))
+(thm sh4_star_body [chkf :- (=> Code Code Bool)]
+  (Rt chkf (sh4_CB) (sh4_usS) Exp.star Exp.tUnit)
+  (exact (Rt.rConst chkf (sh4_CB) (sh4_usS) Exp.star Exp.tUnit sh4_lenS sh4_star_ty)))
+(thm sh4_snode_body [chkf :- (=> Code Code Bool)]
+  (Rt chkf (sh4_CB) (sh4_usC) (Exp.snode (Exp.lbl 0) (Exp.var 1) (Exp.var 1)) Exp.tSyn)
+  (exact (Rt.rSnode chkf (sh4_CB) (sh4_usL) (sh4_usC) (sh4_usC)
+           (Exp.lbl 0) (Exp.var 1) (Exp.var 1)
+           (sh4_lbl_body chkf) (sh4_code_var chkf) (sh4_code_var chkf))))
+(thm sh4_pair_body [chkf :- (=> Code Code Bool)]
+  (Rt chkf (sh4_CB) (sh4_usB) (sh4_dbl_body) (sh4_M))
+  (exact (Rt.rPair chkf (sh4_CB) (sh4_usC) (sh4_usS) U.uw Exp.tSyn Exp.tUnit
+           (Exp.snode (Exp.lbl 0) (Exp.var 1) (Exp.var 1)) Exp.star
+           sh4_nonzero_w
+           (Tl.fBase chkf (sh4_CB) Exp.tSyn rfl)
+           (Tl.fBase chkf (List.cons Exp Exp.tSyn (sh4_CB)) Exp.tUnit rfl)
+           (sh4_snode_body chkf) (sh4_star_body chkf))))
+(thm sh4_acc_var [chkf :- (=> Code Code Bool)]
+  (Rt chkf (sh4_CS) (sh4_usP) (Exp.var 0) (sh4_M))
+  (exact (Rt.rVar chkf (sh4_CS) (sh4_usP) 0 (sh4_M) U.u1
+           sh4_lenP (nthE.eq_2 (sh4_M) (List.cons Exp Exp.tNat (List.nil Exp)))
+           (nthU.eq_2 U.u1 (List.cons U U.u0 (List.nil U))) sh4_nz1)))
+(thm sh4_let_step [chkf :- (=> Code Code Bool)]
+  (Rt chkf (sh4_CS) (sh4_usR) (sh4_dbl_step) (sh4_M))
+  (exact (Rt.rLet chkf (sh4_CS) (sh4_usP) (sh4_us2) U.uw Exp.tSyn Exp.tUnit (sh4_M)
+           (Exp.var 0) (sh4_dbl_body)
+           (sh4_acc_var chkf)
+           (Tl.fSig chkf (sh4_CS) U.uw Exp.tSyn Exp.tUnit
+             (Tl.fBase chkf (sh4_CS) Exp.tSyn rfl)
+             (Tl.fBase chkf (List.cons Exp Exp.tSyn (sh4_CS)) Exp.tUnit rfl))
+           (Tl.fBase chkf (sh4_CS) Exp.tSyn rfl)
+           (Tl.fBase chkf (List.cons Exp Exp.tSyn (sh4_CS)) Exp.tUnit rfl)
+           (sh4_pair_body chkf))))
+(thm sh4_base [chkf :- (=> Code Code Bool)]
+  (Rt chkf (List.nil Exp) (List.nil U) (sh4_dbl_base) (sh4_M))
+  (exact (Rt.rPair chkf (List.nil Exp) (List.nil U) (List.nil U) U.uw Exp.tSyn Exp.tUnit
+           (Exp.sleaf (Exp.lbl 0)) Exp.star
+           sh4_nonzero_w
+           (Tl.fBase chkf (List.nil Exp) Exp.tSyn rfl)
+           (Tl.fBase chkf (List.cons Exp Exp.tSyn (List.nil Exp)) Exp.tUnit rfl)
+           (Rt.rSleaf chkf (List.nil Exp) (List.nil U) (Exp.lbl 0)
+             (Rt.rConst chkf (List.nil Exp) (List.nil U) (Exp.lbl 0) Exp.tLbl sh4_len_nil rfl))
+           (Rt.rConst chkf (List.nil Exp) (List.nil U) Exp.star Exp.tUnit sh4_len_nil sh4_star_ty))))
+(thm sh4_num_typed [chkf :- (=> Code Code Bool), n :- Nat]
+  (Rt chkf (List.nil Exp) (List.nil U) (sh4_num n) Exp.tNat)
+  (induction n)
+  (exact (Rt.rConst chkf (List.nil Exp) (List.nil U) Exp.zero Exp.tNat sh4_len_nil sh4_zero_ty))
+  (exact (Rt.rSucc chkf (List.nil Exp) (List.nil U) (sh4_num n) ih_n)))
+(thm sh4_formP [chkf :- (=> Code Code Bool)]
+  (Tl chkf Bool.true (List.cons Exp Exp.tNat (List.nil Exp)) (sh4_M) Exp.tUnit)
+  (exact (Tl.fSig chkf (List.cons Exp Exp.tNat (List.nil Exp)) U.uw Exp.tSyn Exp.tUnit
+           (Tl.fBase chkf (List.cons Exp Exp.tNat (List.nil Exp)) Exp.tSyn rfl)
+           (Tl.fBase chkf (List.cons Exp Exp.tSyn (List.cons Exp Exp.tNat (List.nil Exp))) Exp.tUnit rfl))))
+
+;; Proposition 4.12 (1), the typing: the doubler at numeral n, budget 0.
+(thm prop412_typed [chkf :- (=> Code Code Bool), n :- Nat]
+  (Rt chkf (List.nil Exp) (List.nil U) (sh4_doubler (sh4_num n)) (sh4_M))
+  (exact (Rt.rRecN chkf (List.nil Exp) (List.nil U) (List.nil U) (List.nil U)
+           (sh4_M) (sh4_dbl_base) (sh4_dbl_step) (sh4_num n)
+           (sh4_num_typed chkf n) (sh4_formP chkf) (sh4_base chkf) (sh4_let_step chkf))))
+
+;; --- denotation of the doubler -------------------------------------------------------------
+;; ⟦recN⟧ at a successor is the step at (⟦recN⟧ of the predecessor, the
+;; predecessor, η) (den_recNS_eval).  The step's let splits the package
+;; (den_letp_some; skOf of variable 0 is the Σ skeleton) into (⋆, the code),
+;; and the node is two copies of that code.  Iterating from the leaf is the
+;; same bush as Proposition 4.11.
+
+(thm sh4_den_var1 [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+                   cap :- Nat, G :- (List Sk), en :- (HEnv G), c :- Code, u :- Unit]
+  (Eq Code (den chkf dec encTy cap (Exp.var 1)
+               (List.cons Sk Sk.unit (List.cons Sk Sk.syn G)) Sk.syn
+               (Prod.mk u (Prod.mk c en)))
+           c)
+  (rw [(den_var_at chkf dec encTy cap 1 (List.cons Sk Sk.unit (List.cons Sk Sk.syn G)) Sk.syn (Prod.mk u (Prod.mk c en)))]))
+(thm sh4_den_star [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+                   cap :- Nat, G :- (List Sk), en :- (HEnv G)]
+  (Eq Unit (den chkf dec encTy cap Exp.star G Sk.unit en) Unit.unit)
+  (rw [(den_star_at chkf dec encTy cap G Sk.unit en)]))
+;; nthS does not compute, so the equation lemma supplies the lookup.
+(thm sh4_sk_var0 [G :- (List Sk)]
+  (Eq (Option Sk) (skOf (List.cons Sk (Sk.prod Sk.syn Sk.unit) G) (Exp.var 0))
+                  (Option.some Sk (Sk.prod Sk.syn Sk.unit)))
+  (exact (nthS.eq_2 (Sk.prod Sk.syn Sk.unit) G)))
+(thm sh4_den_acc [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+                  cap :- Nat, G :- (List Sk), en :- (HEnv G), c :- Code, j :- Nat]
+  (Eq (Prod Code Unit)
+      (den chkf dec encTy cap (Exp.var 0)
+           (List.cons Sk (Sk.prod Sk.syn Sk.unit) (List.cons Sk Sk.nat G))
+           (Sk.prod Sk.syn Sk.unit)
+           (Prod.mk (Prod.mk c Unit.unit) (Prod.mk j en)))
+      (Prod.mk c Unit.unit))
+  (rw [(den_var_at chkf dec encTy cap 0
+         (List.cons Sk (Sk.prod Sk.syn Sk.unit) (List.cons Sk Sk.nat G))
+         (Sk.prod Sk.syn Sk.unit)
+         (Prod.mk (Prod.mk c Unit.unit) (Prod.mk j en)))]))
+(thm sh4_fst [c :- Code] (Eq Code (Prod.fst (Prod.mk c Unit.unit)) c) (rfl))
+(thm sh4_snd [c :- Code] (Eq Unit (Prod.snd (Prod.mk c Unit.unit)) Unit.unit) (rfl))
+
+(thm sh4_den_snode1 [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+                     cap :- Nat, G :- (List Sk), en :- (HEnv G), c :- Code, u :- Unit]
+  (Eq Code (den chkf dec encTy cap (Exp.snode (Exp.lbl 0) (Exp.var 1) (Exp.var 1))
+               (List.cons Sk Sk.unit (List.cons Sk Sk.syn G)) Sk.syn
+               (Prod.mk u (Prod.mk c en)))
+           (Code.sn 0 c c))
+  (rw [(den_snode_code chkf dec encTy cap 0 (Exp.var 1) (Exp.var 1)
+         (List.cons Sk Sk.unit (List.cons Sk Sk.syn G)) (Prod.mk u (Prod.mk c en)))])
+  (exact (congrArg (fn [a :- Code] (Code.sn 0 a a)) (sh4_den_var1 chkf dec encTy cap G en c u))))
+
+(thm sh4_den_body [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+                   cap :- Nat, G :- (List Sk), en :- (HEnv G), c :- Code, u :- Unit]
+  (Eq (Prod Code Unit)
+      (den chkf dec encTy cap (sh4_dbl_body)
+           (List.cons Sk Sk.unit (List.cons Sk Sk.syn G)) (Sk.prod Sk.syn Sk.unit)
+           (Prod.mk u (Prod.mk c en)))
+      (Prod.mk (Code.sn 0 c c) Unit.unit))
+  (have hs (Eq Code
+            (den chkf dec encTy cap (Exp.snode (Exp.lbl 0) (Exp.var 1) (Exp.var 1))
+                 (List.cons Sk Sk.unit (List.cons Sk Sk.syn G)) Sk.syn (Prod.mk u (Prod.mk c en)))
+            (Code.sn 0 c c))
+    (sh4_den_snode1 chkf dec encTy cap G en c u))
+  (have hu (Eq Unit
+            (den chkf dec encTy cap Exp.star
+                 (List.cons Sk Sk.unit (List.cons Sk Sk.syn G)) Sk.unit (Prod.mk u (Prod.mk c en)))
+            Unit.unit)
+    (sh4_den_star chkf dec encTy cap (List.cons Sk Sk.unit (List.cons Sk Sk.syn G)) (Prod.mk u (Prod.mk c en))))
+  (exact (Eq.trans
+    (den_pair_prod chkf dec encTy cap (sh4_M)
+       (Exp.snode (Exp.lbl 0) (Exp.var 1) (Exp.var 1)) Exp.star
+       (List.cons Sk Sk.unit (List.cons Sk Sk.syn G)) Sk.syn Sk.unit (Prod.mk u (Prod.mk c en)))
+    (Eq.trans
+      (congrArg (fn [a :- Code]
+                  (Prod.mk a (den chkf dec encTy cap Exp.star
+                       (List.cons Sk Sk.unit (List.cons Sk Sk.syn G)) Sk.unit (Prod.mk u (Prod.mk c en)))))
+                hs)
+      (congrArg (fn [b :- Unit] (Prod.mk (Code.sn 0 c c) b)) hu)))))
+
+;; Opening a package whose code is c yields the package of the doubled node.
+(thm sh4_den_step [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+                   cap :- Nat, G :- (List Sk), en :- (HEnv G), c :- Code, j :- Nat]
+  (Eq (Prod Code Unit)
+      (den chkf dec encTy cap (sh4_dbl_step)
+           (List.cons Sk (Sk.prod Sk.syn Sk.unit) (List.cons Sk Sk.nat G))
+           (Sk.prod Sk.syn Sk.unit)
+           (Prod.mk (Prod.mk c Unit.unit) (Prod.mk j en)))
+      (Prod.mk (Code.sn 0 c c) Unit.unit))
+  (have hlet (Eq (Prod Code Unit)
+              (den chkf dec encTy cap (sh4_dbl_step)
+                   (List.cons Sk (Sk.prod Sk.syn Sk.unit) (List.cons Sk Sk.nat G))
+                   (Sk.prod Sk.syn Sk.unit)
+                   (Prod.mk (Prod.mk c Unit.unit) (Prod.mk j en)))
+              (den chkf dec encTy cap (sh4_dbl_body)
+                   (List.cons Sk Sk.unit (List.cons Sk Sk.syn
+                     (List.cons Sk (Sk.prod Sk.syn Sk.unit) (List.cons Sk Sk.nat G))))
+                   (Sk.prod Sk.syn Sk.unit)
+                   (Prod.mk (Prod.snd (den chkf dec encTy cap (Exp.var 0)
+                        (List.cons Sk (Sk.prod Sk.syn Sk.unit) (List.cons Sk Sk.nat G))
+                        (Sk.prod Sk.syn Sk.unit)
+                        (Prod.mk (Prod.mk c Unit.unit) (Prod.mk j en))))
+                     (Prod.mk (Prod.fst (den chkf dec encTy cap (Exp.var 0)
+                        (List.cons Sk (Sk.prod Sk.syn Sk.unit) (List.cons Sk Sk.nat G))
+                        (Sk.prod Sk.syn Sk.unit)
+                        (Prod.mk (Prod.mk c Unit.unit) (Prod.mk j en))))
+                       (Prod.mk (Prod.mk c Unit.unit) (Prod.mk j en))))))
+    (den_letp_some chkf dec encTy cap (sh4_M) (Exp.var 0) (sh4_dbl_body)
+       (List.cons Sk (Sk.prod Sk.syn Sk.unit) (List.cons Sk Sk.nat G))
+       Sk.syn Sk.unit (Sk.prod Sk.syn Sk.unit)
+       (Prod.mk (Prod.mk c Unit.unit) (Prod.mk j en))
+       (sh4_sk_var0 (List.cons Sk Sk.nat G))))
+  (have henv (Eq (Prod Unit (Prod Code (HEnv (List.cons Sk (Sk.prod Sk.syn Sk.unit) (List.cons Sk Sk.nat G)))))
+              (Prod.mk (Prod.snd (den chkf dec encTy cap (Exp.var 0)
+                   (List.cons Sk (Sk.prod Sk.syn Sk.unit) (List.cons Sk Sk.nat G))
+                   (Sk.prod Sk.syn Sk.unit)
+                   (Prod.mk (Prod.mk c Unit.unit) (Prod.mk j en))))
+                (Prod.mk (Prod.fst (den chkf dec encTy cap (Exp.var 0)
+                   (List.cons Sk (Sk.prod Sk.syn Sk.unit) (List.cons Sk Sk.nat G))
+                   (Sk.prod Sk.syn Sk.unit)
+                   (Prod.mk (Prod.mk c Unit.unit) (Prod.mk j en))))
+                  (Prod.mk (Prod.mk c Unit.unit) (Prod.mk j en))))
+              (Prod.mk Unit.unit (Prod.mk c (Prod.mk (Prod.mk c Unit.unit) (Prod.mk j en)))))
+    (congrArg (fn [p :- (Prod Code Unit)]
+                (Prod.mk (Prod.snd p)
+                  (Prod.mk (Prod.fst p) (Prod.mk (Prod.mk c Unit.unit) (Prod.mk j en)))))
+              (sh4_den_acc chkf dec encTy cap G en c j)))
+  (have hb (Eq (Prod Code Unit)
+            (den chkf dec encTy cap (sh4_dbl_body)
+                 (List.cons Sk Sk.unit (List.cons Sk Sk.syn
+                   (List.cons Sk (Sk.prod Sk.syn Sk.unit) (List.cons Sk Sk.nat G))))
+                 (Sk.prod Sk.syn Sk.unit)
+                 (Prod.mk Unit.unit (Prod.mk c (Prod.mk (Prod.mk c Unit.unit) (Prod.mk j en)))))
+            (Prod.mk (Code.sn 0 c c) Unit.unit))
+    (sh4_den_body chkf dec encTy cap
+       (List.cons Sk (Sk.prod Sk.syn Sk.unit) (List.cons Sk Sk.nat G))
+       (Prod.mk (Prod.mk c Unit.unit) (Prod.mk j en)) c Unit.unit))
+  (exact (Eq.trans hlet
+           (Eq.trans (congrArg (fn [e :- (Prod Unit (Prod Code (HEnv (List.cons Sk (Sk.prod Sk.syn Sk.unit) (List.cons Sk Sk.nat G)))))]
+                        (den chkf dec encTy cap (sh4_dbl_body)
+                             (List.cons Sk Sk.unit (List.cons Sk Sk.syn
+                               (List.cons Sk (Sk.prod Sk.syn Sk.unit) (List.cons Sk Sk.nat G))))
+                             (Sk.prod Sk.syn Sk.unit) e))
+                      henv)
+             hb))))
+
+(thm sh4_den_base [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), cap :- Nat]
+  (Eq (Prod Code Unit)
+      (den chkf dec encTy cap (sh4_dbl_base) (List.nil Sk) (Sk.prod Sk.syn Sk.unit) Unit.unit)
+      (Prod.mk (Code.sl 0) Unit.unit))
+  (have hl (Eq Code (den chkf dec encTy cap (Exp.sleaf (Exp.lbl 0)) (List.nil Sk) Sk.syn Unit.unit) (Code.sl 0))
+    (den_sleaf_code chkf dec encTy cap 0 (List.nil Sk) Unit.unit))
+  (have hu (Eq Unit (den chkf dec encTy cap Exp.star (List.nil Sk) Sk.unit Unit.unit) Unit.unit)
+    (sh4_den_star chkf dec encTy cap (List.nil Sk) Unit.unit))
+  (exact (Eq.trans
+    (den_pair_prod chkf dec encTy cap (sh4_M) (Exp.sleaf (Exp.lbl 0)) Exp.star
+       (List.nil Sk) Sk.syn Sk.unit Unit.unit)
+    (Eq.trans
+      (congrArg (fn [a :- Code] (Prod.mk a (den chkf dec encTy cap Exp.star (List.nil Sk) Sk.unit Unit.unit))) hl)
+      (congrArg (fn [b :- Unit] (Prod.mk (Code.sl 0) b)) hu)))))
+
+(thm sh4_den_num [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), cap :- Nat, n :- Nat]
+  (Eq Nat (den chkf dec encTy cap (sh4_num n) (List.nil Sk) Sk.nat Unit.unit) n)
+  (induction n)
+  (exact (den_zero_nat chkf dec encTy cap (List.nil Sk) Unit.unit))
+  (rw [(den_succ_at chkf dec encTy cap (sh4_num n) (List.nil Sk) Sk.nat Unit.unit)])
+  (exact (congrArg Nat.succ ih_n)))
+
+(thm sh4_den_doubler [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), cap :- Nat, n :- Nat]
+  (Eq (Prod Code Unit)
+      (den chkf dec encTy cap (sh4_doubler (sh4_num n)) (List.nil Sk) (Sk.prod Sk.syn Sk.unit) Unit.unit)
+      (Prod.mk (sh4_bush n) Unit.unit))
+  (induction n)
+  (exact (Eq.trans
+    (Eq.symm (den_recNZ chkf dec encTy cap (sh4_M) (sh4_dbl_base) (sh4_dbl_step)
+               (List.nil Sk) (Sk.prod Sk.syn Sk.unit) Unit.unit))
+    (sh4_den_base chkf dec encTy cap)))
+  (have he (Eq (Prod Code Unit)
+            (den chkf dec encTy cap
+                 (Exp.recN (sh4_M) (sh4_dbl_base) (sh4_dbl_step) (Exp.succ (sh4_num n)))
+                 (List.nil Sk) (Sk.prod Sk.syn Sk.unit) Unit.unit)
+            (den chkf dec encTy cap (sh4_dbl_step)
+                 (sk2 (Sk.prod Sk.syn Sk.unit) Sk.nat (List.nil Sk))
+                 (Sk.prod Sk.syn Sk.unit)
+                 (Prod.mk (den chkf dec encTy cap (sh4_doubler (sh4_num n))
+                              (List.nil Sk) (Sk.prod Sk.syn Sk.unit) Unit.unit)
+                          (Prod.mk (den chkf dec encTy cap (sh4_num n) (List.nil Sk) Sk.nat Unit.unit) Unit.unit))))
+    (den_recNS_eval chkf dec encTy cap (sh4_M) (sh4_dbl_base) (sh4_dbl_step) (sh4_num n)
+       (List.nil Sk) (Sk.prod Sk.syn Sk.unit) Unit.unit))
+  (have henv (Eq (Prod (Prod Code Unit) (Prod Nat Unit))
+              (Prod.mk (den chkf dec encTy cap (sh4_doubler (sh4_num n))
+                           (List.nil Sk) (Sk.prod Sk.syn Sk.unit) Unit.unit)
+                       (Prod.mk (den chkf dec encTy cap (sh4_num n) (List.nil Sk) Sk.nat Unit.unit) Unit.unit))
+              (Prod.mk (Prod.mk (sh4_bush n) Unit.unit) (Prod.mk n Unit.unit)))
+    (Eq.trans
+      (congrArg (fn [p :- (Prod Code Unit)]
+                  (Prod.mk p (Prod.mk (den chkf dec encTy cap (sh4_num n) (List.nil Sk) Sk.nat Unit.unit) Unit.unit)))
+                ih_n)
+      (congrArg (fn [k :- Nat] (Prod.mk (Prod.mk (sh4_bush n) Unit.unit) (Prod.mk k Unit.unit)))
+                (sh4_den_num chkf dec encTy cap n))))
+  (have hs (Eq (Prod Code Unit)
+            (den chkf dec encTy cap (sh4_dbl_step)
+                 (List.cons Sk (Sk.prod Sk.syn Sk.unit) (List.cons Sk Sk.nat (List.nil Sk)))
+                 (Sk.prod Sk.syn Sk.unit)
+                 (Prod.mk (Prod.mk (sh4_bush n) Unit.unit) (Prod.mk n Unit.unit)))
+            (Prod.mk (Code.sn 0 (sh4_bush n) (sh4_bush n)) Unit.unit))
+    (sh4_den_step chkf dec encTy cap (List.nil Sk) Unit.unit (sh4_bush n) n))
+  (exact (Eq.trans he
+           (Eq.trans (congrArg (fn [e :- (Prod (Prod Code Unit) (Prod Nat Unit))]
+                        (den chkf dec encTy cap (sh4_dbl_step)
+                             (sk2 (Sk.prod Sk.syn Sk.unit) Sk.nat (List.nil Sk))
+                             (Sk.prod Sk.syn Sk.unit) e))
+                      henv)
+             hs))))
+
+;; Proposition 4.12 (1), the denotation: at numeral n the package is the bush.
+(thm prop412_den [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), cap :- Nat, n :- Nat]
+  (Eq (Prod Code Unit)
+      (den chkf dec encTy cap (sh4_doubler (sh4_num n)) (List.nil Sk) (Sk.prod Sk.syn Sk.unit) Unit.unit)
+      (Prod.mk (sh4_bush n) Unit.unit))
+  (exact (sh4_den_doubler chkf dec encTy cap n)))
+(thm prop412_nodes [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), cap :- Nat, n :- Nat]
+  (Eq Nat (cnodes (Prod.fst (den chkf dec encTy cap (sh4_doubler (sh4_num n)) (List.nil Sk) (Sk.prod Sk.syn Sk.unit) Unit.unit)))
+          (Nat.sub (sh4_pow n) 1))
+  (exact (Eq.trans
+    (congrArg cnodes (Eq.trans (congrArg Prod.fst (prop412_den chkf dec encTy cap n)) (sh4_fst (sh4_bush n))))
+    (prop411_nodes n))))
+;; Proposition 4.12 (1): budget 0, and the denoted code has 2ⁿ − 1 internal nodes.
+(thm prop412 [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code), cap :- Nat, n :- Nat]
+  (And (Rt chkf (List.nil Exp) (List.nil U) (sh4_doubler (sh4_num n)) (sh4_M))
+       (Eq Nat (cnodes (Prod.fst (den chkf dec encTy cap (sh4_doubler (sh4_num n)) (List.nil Sk) (Sk.prod Sk.syn Sk.unit) Unit.unit)))
+               (Nat.sub (sh4_pow n) 1)))
+  (exact (And.intro (prop412_typed chkf n) (prop412_nodes chkf dec encTy cap n))))

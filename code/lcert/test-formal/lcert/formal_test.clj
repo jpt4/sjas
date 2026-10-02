@@ -771,6 +771,34 @@
     (is (b/rejects? '[chkf :- (=> Code Code Bool)]
                     '(Rt chkf (List.nil Exp) (List.nil U) (sh4_cn 0) Exp.tR)
                     '[(exact (prop411_typed chkf 0))]))))
+  (testing "Proposition 4.12 (1): the doubling recursor, packaged, at budget 0"
+    (doseq [c '[sh4_M sh4_motive_step sh4_motive_sub sh4_star_ty sh4_zero_ty sh4_nz1
+                sh4_len_nil sh4_lenL sh4_lenC sh4_lenS sh4_lenP sh4_nth_syn sh4_nthu_w
+                sh4_lbl_body sh4_code_var sh4_star_body sh4_snode_body sh4_pair_body
+                sh4_acc_var sh4_let_step sh4_base sh4_num_typed sh4_formP prop412_typed
+                sh4_den_var1 sh4_den_star sh4_sk_var0 sh4_den_acc sh4_fst sh4_snd
+                sh4_den_snode1 sh4_den_body sh4_den_step sh4_den_base sh4_den_num
+                sh4_den_doubler prop412_den prop412_nodes prop412]]
+      (is (b/has? c) (str c))))
+  (testing "at 3 the package has seven internal nodes; at 0 it is a leaf, not a node, and not a Syn term"
+    (is (not (b/rejects? '[chkf :- (=> Code Code Bool),
+                           dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+                           encTy :- (=> Exp Code), cap :- Nat]
+                         '(Eq Nat (cnodes (Prod.fst (den chkf dec encTy cap (sh4_doubler (sh4_num 3))
+                                                          (List.nil Sk) (Sk.prod Sk.syn Sk.unit) Unit.unit)))
+                                 7)
+                         '[(exact (prop412_nodes chkf dec encTy cap 3))])))
+    (is (b/rejects? '[chkf :- (=> Code Code Bool),
+                      dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+                      encTy :- (=> Exp Code), cap :- Nat]
+                    '(Eq (Prod Code Unit)
+                         (den chkf dec encTy cap (sh4_doubler (sh4_num 0))
+                              (List.nil Sk) (Sk.prod Sk.syn Sk.unit) Unit.unit)
+                         (Prod.mk (Code.sn 0 (Code.sl 0) (Code.sl 0)) Unit.unit))
+                    '[(exact (prop412_den chkf dec encTy cap 0))]))
+    (is (b/rejects? '[chkf :- (=> Code Code Bool)]
+                    '(Rt chkf (List.nil Exp) (List.nil U) (sh4_doubler (sh4_num 0)) Exp.tSyn)
+                    '[(exact (prop412_typed chkf 0))]))))
 
 (require 'lcert.formal.prop434)
 (deftest f4-prop43-44
