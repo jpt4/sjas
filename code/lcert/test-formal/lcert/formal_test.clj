@@ -757,7 +757,7 @@
                     '[(rfl)]))))
 (require 'lcert.formal.funde)
 (deftest f5-funde
-  (testing "constants, variables, and λ of the fundamental property of evalᴱ"
+  (testing "constants, variables, λ, and application of the fundamental property of evalᴱ"
     (doseq [c '[denU AdeqE
                 adeqE_star adeqE_tt adeqE_ff adeqE_zero adeqE_lbl
                 nthUS some_injUS none_ne_someUS entryE_nz lookup_usk_head envE_at
@@ -767,7 +767,11 @@
                 denE_lam_arr denU_lam_cast denU_lam_body denU_body_env denU_lam0
                 denU_lam_cast1 denU_lam_body1 denU_lam1
                 denU_lam_castw denU_lam_bodyw denU_lamw
-                adeqE_lam0 adeqE_lam1 adeqE_lamw]]
+                adeqE_lam0 adeqE_lam1 adeqE_lamw
+                cast_back den_at_eq cast_uskSk cast_square cast_usk_path denU_back
+                denU_pi0_at denU_app_fun denU_app0 adeqE_app0
+                denU_pi1_at denU_app_fun1 denU_app1 adeqE_app1
+                denU_piw_at denU_app_funw denU_appw adeqE_appw]]
       (is (b/has? c) (str c))))
   (testing "tt denotes true, not false, at the carrier E reads"
     (is (b/rejects?

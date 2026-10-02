@@ -24,7 +24,11 @@
   ⟦λ⟧ cast along usk_skel, which at a Π is the two component casts, so
   applying it is the cast of the body's denotation (denU_lam0, denU_lam1,
   denU_lamw).  The body's induction hypothesis, in the environment extended
-  by that argument, is then that value."
+  by that argument, is then that value.  Application instantiates that
+  clause at ⟦u⟧.  At Π₀ the runtime argument is ⋆ and u is a logical
+  premise; at Π₁ and Πω the argument is evaluated and E-related.  The
+  codomain is B[u/x], and E there is E at B (erel_subst_unit) because a
+  term has skeleton Unit."
   (:require [ansatz.core :as a]
             [lcert.formal.base :refer [thm kdef]]
             [lcert.formal.usage :refer :all]
@@ -846,3 +850,538 @@
            ((denU chkf dec encTy n D (Exp.lam U.uw A t) (Exp.tPi U.uw A B) eta) alpha)
            hrel
            (Eq.symm (denU_lamw chkf dec encTy n D A B t alpha eta)))))
+
+;; --- application (Theorem 4′, the App clauses) ------------------------------
+;;
+;; ⟦f u⟧ is ⟦f⟧(⟦u⟧) when skOf finds u's skeleton (den_app_some).  denU reads
+;; that at the usage skeleton, so the value is a cast.  cast_back undoes
+;; denU on the argument.  The codomain of the judgment is B[u/x], whose
+;; usage skeleton is usk B (usk_subst1, because skel u is Unit).  The
+;; carrier E obtains from the arrow clause is the cast of ⟦f⟧(⟦u⟧) along
+;; that equation (erel_subst_unit).  cast_uskSk, cast_usk_path and
+;; cast_square say that cast is denU of the application.
+
+(thm cast_back
+  [s1 :- Sk, s2 :- Sk, e :- (Eq Sk s1 s2), a :- (Car s2)]
+  (Eq (Car s2)
+    (Eq.mp (congrArg Car e) (Eq.mp (congrArg Car (Eq.symm e)) a))
+    a)
+  (cases e)
+  (rfl))
+
+(thm den_at_eq
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, t :- Exp, G :- (List Sk), s1 :- Sk, s2 :- Sk,
+   e :- (Eq Sk s1 s2), en :- (HEnv G)]
+  (Eq (Car s2)
+    (Eq.mp (congrArg Car e) (den chkf dec encTy n t G s1 en))
+    (den chkf dec encTy n t G s2 en))
+  (cases e)
+  (rfl))
+
+;; A cast along a usage-skeleton equation is the cast along the underlying
+;; skeletons.  u1 and u2 are parameters, so cases reduces both Eq.mps.
+(thm cast_uskSk
+  [u1 :- USk, u2 :- USk, eu :- (Eq USk u1 u2), a :- (Car (uskSk u2))]
+  (Eq (Car (uskSk u1))
+    (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w))) (Eq.symm eu)) a)
+    (Eq.mp (congrArg Car (congrArg (fn [w :- USk] (uskSk w)) (Eq.symm eu))) a))
+  (cases eu)
+  (rfl))
+
+;; The skeleton path usk B → skel B → skel(B[u/x]) → usk(B[u/x]), built as
+;; one trans so the four equations are not an independent cycle (casing an
+;; independent cycle was rejected).
+(thm cast_square
+  [sU1 :- Sk, sU2 :- Sk, sB :- Sk, sS :- Sk,
+   e2 :- (Eq Sk sU2 sB),
+   eS :- (Eq Sk sS sB),
+   e1 :- (Eq Sk sU1 sS),
+   d :- (Car sB)]
+  (Eq (Car sU1)
+    (Eq.mp (congrArg Car
+             (Eq.trans e2 (Eq.trans (Eq.symm eS) (Eq.symm e1))))
+      (Eq.mp (congrArg Car (Eq.symm e2)) d))
+    (Eq.mp (congrArg Car (Eq.symm e1))
+      (Eq.mp (congrArg Car (Eq.symm eS)) d)))
+  (cases e2)
+  (cases eS)
+  (cases e1)
+  (rfl))
+
+;; Once the two usage skeletons are identified, the usage-skeleton cast and
+;; the skeleton path are the same transport.  The skeleton equations stay
+;; in the goal; they do not have to be cased.
+(thm cast_usk_path
+  [u1 :- USk, u2 :- USk, eu :- (Eq USk u1 u2),
+   sB :- Sk, sS :- Sk,
+   e2 :- (Eq Sk (uskSk u2) sB),
+   e1 :- (Eq Sk (uskSk u1) sS),
+   eS :- (Eq Sk sS sB),
+   d :- (Car sB)]
+  (Eq (Car (uskSk u1))
+    (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w))) (Eq.symm eu))
+      (Eq.mp (congrArg Car (Eq.symm e2)) d))
+    (Eq.mp (congrArg Car
+             (Eq.trans e2 (Eq.trans (Eq.symm eS) (Eq.symm e1))))
+      (Eq.mp (congrArg Car (Eq.symm e2)) d)))
+  (cases eu)
+  (rfl))
+
+;; denU of an argument, cast back to ⟦·⟧'s carrier, is ⟦·⟧.
+(thm denU_back
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), u :- Exp, A :- Exp,
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (Car (skel A))
+    (Eq.mp (congrArg Car (usk_skel A))
+      (denU chkf dec encTy n D u A eta))
+    (den chkf dec encTy n u (skels D) (skel A) (henv_of_usk D eta)))
+  (exact (cast_back (uskSk (usk A)) (skel A) (usk_skel A)
+           (den chkf dec encTy n u (skels D) (skel A) (henv_of_usk D eta)))))
+
+(thm denU_pi0_at
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), f :- Exp, A :- Exp, B :- Exp,
+   alpha :- (Car (uskSk (usk A))),
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (Car (uskSk (usk B)))
+    ((denU chkf dec encTy n D f (Exp.tPi U.u0 A B) eta) alpha)
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel B)))
+      ((den chkf dec encTy n f (skels D) (Sk.arr (skel A) (skel B)) (henv_of_usk D eta))
+       (Eq.mp (congrArg Car (usk_skel A)) alpha))))
+  (exact (cast_app_pi (uskSk (usk A)) (uskSk (usk B)) (skel A) (skel B)
+           (usk_skel A) (usk_skel B)
+           (den chkf dec encTy n f (skels D) (Sk.arr (skel A) (skel B)) (henv_of_usk D eta))
+           alpha)))
+
+(thm denU_app_fun
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), f :- Exp, u :- Exp, A :- Exp, B :- Exp,
+   eta :- (HEnv (usks (uskCtx D))),
+   hsu :- (Eq (Option Sk) (skOf (skels D) u) (Option.some Sk (skel A)))]
+  (Eq (Car (uskSk (usk B)))
+    ((denU chkf dec encTy n D f (Exp.tPi U.u0 A B) eta)
+     (denU chkf dec encTy n D u A eta))
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel B)))
+      (den chkf dec encTy n (Exp.app f u) (skels D) (skel B) (henv_of_usk D eta))))
+  (exact (Eq.trans
+           (denU_pi0_at chkf dec encTy n D f A B
+             (denU chkf dec encTy n D u A eta) eta)
+           (Eq.trans
+             (congrArg
+               (fn [a :- (Car (skel A))]
+                 (Eq.mp (congrArg Car (Eq.symm (usk_skel B)))
+                   ((den chkf dec encTy n f (skels D)
+                         (Sk.arr (skel A) (skel B)) (henv_of_usk D eta)) a)))
+               (denU_back chkf dec encTy n D u A eta))
+             (congrArg
+               (fn [x :- (Car (skel B))]
+                 (Eq.mp (congrArg Car (Eq.symm (usk_skel B))) x))
+               (Eq.symm (den_app_some chkf dec encTy n f u (skels D) (skel A) (skel B)
+                          (henv_of_usk D eta) hsu)))))))
+
+(thm denU_app0
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), f :- Exp, u :- Exp, A :- Exp, B :- Exp,
+   eta :- (HEnv (usks (uskCtx D))),
+   hsu :- (Eq (Option Sk) (skOf (skels D) u) (Option.some Sk (skel A))),
+   hU :- (Eq Sk (skel u) Sk.unit)]
+  (Eq (Car (uskSk (usk (subst1 u B))))
+    (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w)))
+             (Eq.symm (usk_subst1 u B (usk_of_unit u hU))))
+      ((denU chkf dec encTy n D f (Exp.tPi U.u0 A B) eta)
+       (denU chkf dec encTy n D u A eta)))
+    (denU chkf dec encTy n D (Exp.app f u) (subst1 u B) eta))
+  (exact (Eq.trans
+    (congrArg
+      (fn [x :- (Car (uskSk (usk B)))]
+        (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w)))
+                 (Eq.symm (usk_subst1 u B (usk_of_unit u hU)))) x))
+      (denU_app_fun chkf dec encTy n D f u A B eta hsu))
+    (Eq.trans
+      (cast_usk_path (usk (subst1 u B)) (usk B) (usk_subst1 u B (usk_of_unit u hU))
+        (skel B) (skel (subst1 u B))
+        (usk_skel B) (usk_skel (subst1 u B)) (skel_subst1 u B hU)
+        (den chkf dec encTy n (Exp.app f u) (skels D) (skel B) (henv_of_usk D eta)))
+      (Eq.trans
+        (cast_square
+          (uskSk (usk (subst1 u B))) (uskSk (usk B)) (skel B) (skel (subst1 u B))
+          (usk_skel B) (skel_subst1 u B hU) (usk_skel (subst1 u B))
+          (den chkf dec encTy n (Exp.app f u) (skels D) (skel B) (henv_of_usk D eta)))
+        (congrArg
+          (fn [x :- (Car (skel (subst1 u B)))]
+            (Eq.mp (congrArg Car (Eq.symm (usk_skel (subst1 u B)))) x))
+          (den_at_eq chkf dec encTy n (Exp.app f u) (skels D)
+            (skel B) (skel (subst1 u B)) (Eq.symm (skel_subst1 u B hU))
+            (henv_of_usk D eta))))))))
+
+;; Theorem 4′, fundamental property, application at Π₀.  The argument is
+;; not evaluated: erasure replaced it by ⋆.  Its denotation still feeds the
+;; arrow clause, because that clause quantifies over every carrier.  skOf
+;; of a logical premise is skOf_tl.
+(thm adeqE_app0
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), us :- (List U),
+   f :- Exp, u :- Exp, A :- Exp, B :- Exp, fe :- Exp,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   hu :- (Tl chkf Bool.false D u A),
+   hA :- (Tl chkf Bool.true D A Exp.tUnit),
+   hB :- (Tl chkf Bool.true (List.cons Exp A D) B Exp.tUnit),
+   ihf :- (Exists (fn [vf :- RV]
+            (And (EvalE chkf dec encTy n rho fe vf)
+                 (Erel chkf dec encTy n (usk (Exp.tPi U.u0 A B)) vf
+                   (denU chkf dec encTy n D f (Exp.tPi U.u0 A B) eta)))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.app fe Exp.star) v)
+         (Erel chkf dec encTy n (usk (subst1 u B)) v
+           (denU chkf dec encTy n D (Exp.app f u) (subst1 u B) eta)))))
+  (have hAS (SkJ Bool.true (skels D) A Sk.unit) (lemma25_tl_type chkf D A hA))
+  (have hcl (Eq Bool (clean A) Bool.true) (skj_clean Bool.true (skels D) A Sk.unit hAS))
+  (have hsu (Eq (Option Sk) (skOf (skels D) u) (Option.some Sk (skel A)))
+    (skOf_tl chkf Bool.false D u A hu rfl hcl))
+  (have huS (SkJ Bool.false (skels D) u (skel A)) (lemma25_tl_term chkf D u A hu))
+  (have hU (Eq Sk (skel u) Sk.unit) (skj_term_unit Bool.false (skels D) u (skel A) huS rfl))
+  (refine' (exT RV _ _ ihf _)) (intro vf hf)
+  (have hef (EvalE chkf dec encTy n rho fe vf) (And.left hf))
+  (have hrf (Erel chkf dec encTy n (usk (Exp.tPi U.u0 A B)) vf
+              (denU chkf dec encTy n D f (Exp.tPi U.u0 A B) eta))
+    (And.right hf))
+  (refine' (exT RV _ _ (hrf (denU chkf dec encTy n D u A eta)) _))
+  (intro w hw)
+  (have hap (EvE chkf dec encTy n (EvSrc.ap vf RV.star) w) (And.left hw))
+  (have hrel (Erel chkf dec encTy n (usk B) w
+               ((denU chkf dec encTy n D f (Exp.tPi U.u0 A B) eta)
+                (denU chkf dec encTy n D u A eta)))
+    (And.right hw))
+  (have hsub (Erel chkf dec encTy n (usk (subst1 u B)) w
+               (Eq.mp (congrArg (fn [z :- USk] (Car (uskSk z)))
+                        (Eq.symm (usk_subst1 u B (usk_of_unit u hU))))
+                 ((denU chkf dec encTy n D f (Exp.tPi U.u0 A B) eta)
+                  (denU chkf dec encTy n D u A eta))))
+    (erel_subst_unit chkf dec encTy n u B w
+      ((denU chkf dec encTy n D f (Exp.tPi U.u0 A B) eta)
+       (denU chkf dec encTy n D u A eta))
+      hU hrel))
+  (constructor) (exact w)
+  (constructor)
+  (exact (EvE.eApp chkf dec encTy n rho fe Exp.star vf RV.star w hef
+           (EvE.eStar chkf dec encTy n rho) hap))
+  (exact (erel_car chkf dec encTy n (usk (subst1 u B)) w
+           (Eq.mp (congrArg (fn [z :- USk] (Car (uskSk z)))
+                    (Eq.symm (usk_subst1 u B (usk_of_unit u hU))))
+             ((denU chkf dec encTy n D f (Exp.tPi U.u0 A B) eta)
+              (denU chkf dec encTy n D u A eta)))
+           (denU chkf dec encTy n D (Exp.app f u) (subst1 u B) eta)
+           hsub
+           (denU_app0 chkf dec encTy n D f u A B eta hsu hU))))
+
+(thm denU_pi1_at
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), f :- Exp, A :- Exp, B :- Exp,
+   alpha :- (Car (uskSk (usk A))),
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (Car (uskSk (usk B)))
+    ((denU chkf dec encTy n D f (Exp.tPi U.u1 A B) eta) alpha)
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel B)))
+      ((den chkf dec encTy n f (skels D) (Sk.arr (skel A) (skel B)) (henv_of_usk D eta))
+       (Eq.mp (congrArg Car (usk_skel A)) alpha))))
+  (exact (cast_app_pi (uskSk (usk A)) (uskSk (usk B)) (skel A) (skel B)
+           (usk_skel A) (usk_skel B)
+           (den chkf dec encTy n f (skels D) (Sk.arr (skel A) (skel B)) (henv_of_usk D eta))
+           alpha)))
+
+(thm denU_app_fun1
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), f :- Exp, u :- Exp, A :- Exp, B :- Exp,
+   eta :- (HEnv (usks (uskCtx D))),
+   hsu :- (Eq (Option Sk) (skOf (skels D) u) (Option.some Sk (skel A)))]
+  (Eq (Car (uskSk (usk B)))
+    ((denU chkf dec encTy n D f (Exp.tPi U.u1 A B) eta)
+     (denU chkf dec encTy n D u A eta))
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel B)))
+      (den chkf dec encTy n (Exp.app f u) (skels D) (skel B) (henv_of_usk D eta))))
+  (exact (Eq.trans
+           (denU_pi1_at chkf dec encTy n D f A B
+             (denU chkf dec encTy n D u A eta) eta)
+           (Eq.trans
+             (congrArg
+               (fn [a :- (Car (skel A))]
+                 (Eq.mp (congrArg Car (Eq.symm (usk_skel B)))
+                   ((den chkf dec encTy n f (skels D)
+                         (Sk.arr (skel A) (skel B)) (henv_of_usk D eta)) a)))
+               (denU_back chkf dec encTy n D u A eta))
+             (congrArg
+               (fn [x :- (Car (skel B))]
+                 (Eq.mp (congrArg Car (Eq.symm (usk_skel B))) x))
+               (Eq.symm (den_app_some chkf dec encTy n f u (skels D) (skel A) (skel B)
+                          (henv_of_usk D eta) hsu)))))))
+
+(thm denU_app1
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), f :- Exp, u :- Exp, A :- Exp, B :- Exp,
+   eta :- (HEnv (usks (uskCtx D))),
+   hsu :- (Eq (Option Sk) (skOf (skels D) u) (Option.some Sk (skel A))),
+   hU :- (Eq Sk (skel u) Sk.unit)]
+  (Eq (Car (uskSk (usk (subst1 u B))))
+    (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w)))
+             (Eq.symm (usk_subst1 u B (usk_of_unit u hU))))
+      ((denU chkf dec encTy n D f (Exp.tPi U.u1 A B) eta)
+       (denU chkf dec encTy n D u A eta)))
+    (denU chkf dec encTy n D (Exp.app f u) (subst1 u B) eta))
+  (exact (Eq.trans
+    (congrArg
+      (fn [x :- (Car (uskSk (usk B)))]
+        (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w)))
+                 (Eq.symm (usk_subst1 u B (usk_of_unit u hU)))) x))
+      (denU_app_fun1 chkf dec encTy n D f u A B eta hsu))
+    (Eq.trans
+      (cast_usk_path (usk (subst1 u B)) (usk B) (usk_subst1 u B (usk_of_unit u hU))
+        (skel B) (skel (subst1 u B))
+        (usk_skel B) (usk_skel (subst1 u B)) (skel_subst1 u B hU)
+        (den chkf dec encTy n (Exp.app f u) (skels D) (skel B) (henv_of_usk D eta)))
+      (Eq.trans
+        (cast_square
+          (uskSk (usk (subst1 u B))) (uskSk (usk B)) (skel B) (skel (subst1 u B))
+          (usk_skel B) (skel_subst1 u B hU) (usk_skel (subst1 u B))
+          (den chkf dec encTy n (Exp.app f u) (skels D) (skel B) (henv_of_usk D eta)))
+        (congrArg
+          (fn [x :- (Car (skel (subst1 u B)))]
+            (Eq.mp (congrArg Car (Eq.symm (usk_skel (subst1 u B)))) x))
+          (den_at_eq chkf dec encTy n (Exp.app f u) (skels D)
+            (skel B) (skel (subst1 u B)) (Eq.symm (skel_subst1 u B hU))
+            (henv_of_usk D eta))))))))
+
+;; Theorem 4′, fundamental property, application at U.u1.  The argument
+;; is evaluated, and the arrow clause demands that it be E-related.
+(thm adeqE_app1
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), us2 :- (List U),
+   f :- Exp, u :- Exp, A :- Exp, B :- Exp, fe :- Exp, ue :- Exp,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   hu :- (Rt chkf D us2 u A),
+   hA :- (Tl chkf Bool.true D A Exp.tUnit),
+   hB :- (Tl chkf Bool.true (List.cons Exp A D) B Exp.tUnit),
+   ihf :- (Exists (fn [vf :- RV]
+            (And (EvalE chkf dec encTy n rho fe vf)
+                 (Erel chkf dec encTy n (usk (Exp.tPi U.u1 A B)) vf
+                   (denU chkf dec encTy n D f (Exp.tPi U.u1 A B) eta))))),
+   ihu :- (Exists (fn [vu :- RV]
+            (And (EvalE chkf dec encTy n rho ue vu)
+                 (Erel chkf dec encTy n (usk A) vu
+                   (denU chkf dec encTy n D u A eta)))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.app fe ue) v)
+         (Erel chkf dec encTy n (usk (subst1 u B)) v
+           (denU chkf dec encTy n D (Exp.app f u) (subst1 u B) eta)))))
+  (have hAS (SkJ Bool.true (skels D) A Sk.unit) (lemma25_tl_type chkf D A hA))
+  (have hcl (Eq Bool (clean A) Bool.true) (skj_clean Bool.true (skels D) A Sk.unit hAS))
+  (have hsu (Eq (Option Sk) (skOf (skels D) u) (Option.some Sk (skel A)))
+    (skOf_rt chkf D us2 u A hu hcl))
+  (have huS (SkJ Bool.false (skels D) u (skel A)) (lemma25_rt chkf D us2 u A hu))
+  (have hU (Eq Sk (skel u) Sk.unit) (skj_term_unit Bool.false (skels D) u (skel A) huS rfl))
+  (refine' (exT RV _ _ ihf _)) (intro vf hf)
+  (have hef (EvalE chkf dec encTy n rho fe vf) (And.left hf))
+  (have hrf (Erel chkf dec encTy n (usk (Exp.tPi U.u1 A B)) vf
+              (denU chkf dec encTy n D f (Exp.tPi U.u1 A B) eta))
+    (And.right hf))
+  (refine' (exT RV _ _ ihu _)) (intro vu hpu)
+  (have heu (EvalE chkf dec encTy n rho ue vu) (And.left hpu))
+  (have hru (Erel chkf dec encTy n (usk A) vu (denU chkf dec encTy n D u A eta))
+    (And.right hpu))
+  (refine' (exT RV _ _ (hrf vu (denU chkf dec encTy n D u A eta) hru) _))
+  (intro w hw)
+  (have hap (EvE chkf dec encTy n (EvSrc.ap vf vu) w) (And.left hw))
+  (have hrel (Erel chkf dec encTy n (usk B) w
+               ((denU chkf dec encTy n D f (Exp.tPi U.u1 A B) eta)
+                (denU chkf dec encTy n D u A eta)))
+    (And.right hw))
+  (have hsub (Erel chkf dec encTy n (usk (subst1 u B)) w
+               (Eq.mp (congrArg (fn [z :- USk] (Car (uskSk z)))
+                        (Eq.symm (usk_subst1 u B (usk_of_unit u hU))))
+                 ((denU chkf dec encTy n D f (Exp.tPi U.u1 A B) eta)
+                  (denU chkf dec encTy n D u A eta))))
+    (erel_subst_unit chkf dec encTy n u B w
+      ((denU chkf dec encTy n D f (Exp.tPi U.u1 A B) eta)
+       (denU chkf dec encTy n D u A eta))
+      hU hrel))
+  (constructor) (exact w)
+  (constructor)
+  (exact (EvE.eApp chkf dec encTy n rho fe ue vf vu w hef heu hap))
+  (exact (erel_car chkf dec encTy n (usk (subst1 u B)) w
+           (Eq.mp (congrArg (fn [z :- USk] (Car (uskSk z)))
+                    (Eq.symm (usk_subst1 u B (usk_of_unit u hU))))
+             ((denU chkf dec encTy n D f (Exp.tPi U.u1 A B) eta)
+              (denU chkf dec encTy n D u A eta)))
+           (denU chkf dec encTy n D (Exp.app f u) (subst1 u B) eta)
+           hsub
+           (denU_app1 chkf dec encTy n D f u A B eta hsu hU))))
+
+(thm denU_piw_at
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), f :- Exp, A :- Exp, B :- Exp,
+   alpha :- (Car (uskSk (usk A))),
+   eta :- (HEnv (usks (uskCtx D)))]
+  (Eq (Car (uskSk (usk B)))
+    ((denU chkf dec encTy n D f (Exp.tPi U.uw A B) eta) alpha)
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel B)))
+      ((den chkf dec encTy n f (skels D) (Sk.arr (skel A) (skel B)) (henv_of_usk D eta))
+       (Eq.mp (congrArg Car (usk_skel A)) alpha))))
+  (exact (cast_app_pi (uskSk (usk A)) (uskSk (usk B)) (skel A) (skel B)
+           (usk_skel A) (usk_skel B)
+           (den chkf dec encTy n f (skels D) (Sk.arr (skel A) (skel B)) (henv_of_usk D eta))
+           alpha)))
+
+(thm denU_app_funw
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), f :- Exp, u :- Exp, A :- Exp, B :- Exp,
+   eta :- (HEnv (usks (uskCtx D))),
+   hsu :- (Eq (Option Sk) (skOf (skels D) u) (Option.some Sk (skel A)))]
+  (Eq (Car (uskSk (usk B)))
+    ((denU chkf dec encTy n D f (Exp.tPi U.uw A B) eta)
+     (denU chkf dec encTy n D u A eta))
+    (Eq.mp (congrArg Car (Eq.symm (usk_skel B)))
+      (den chkf dec encTy n (Exp.app f u) (skels D) (skel B) (henv_of_usk D eta))))
+  (exact (Eq.trans
+           (denU_piw_at chkf dec encTy n D f A B
+             (denU chkf dec encTy n D u A eta) eta)
+           (Eq.trans
+             (congrArg
+               (fn [a :- (Car (skel A))]
+                 (Eq.mp (congrArg Car (Eq.symm (usk_skel B)))
+                   ((den chkf dec encTy n f (skels D)
+                         (Sk.arr (skel A) (skel B)) (henv_of_usk D eta)) a)))
+               (denU_back chkf dec encTy n D u A eta))
+             (congrArg
+               (fn [x :- (Car (skel B))]
+                 (Eq.mp (congrArg Car (Eq.symm (usk_skel B))) x))
+               (Eq.symm (den_app_some chkf dec encTy n f u (skels D) (skel A) (skel B)
+                          (henv_of_usk D eta) hsu)))))))
+
+(thm denU_appw
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), f :- Exp, u :- Exp, A :- Exp, B :- Exp,
+   eta :- (HEnv (usks (uskCtx D))),
+   hsu :- (Eq (Option Sk) (skOf (skels D) u) (Option.some Sk (skel A))),
+   hU :- (Eq Sk (skel u) Sk.unit)]
+  (Eq (Car (uskSk (usk (subst1 u B))))
+    (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w)))
+             (Eq.symm (usk_subst1 u B (usk_of_unit u hU))))
+      ((denU chkf dec encTy n D f (Exp.tPi U.uw A B) eta)
+       (denU chkf dec encTy n D u A eta)))
+    (denU chkf dec encTy n D (Exp.app f u) (subst1 u B) eta))
+  (exact (Eq.trans
+    (congrArg
+      (fn [x :- (Car (uskSk (usk B)))]
+        (Eq.mp (congrArg (fn [w :- USk] (Car (uskSk w)))
+                 (Eq.symm (usk_subst1 u B (usk_of_unit u hU)))) x))
+      (denU_app_funw chkf dec encTy n D f u A B eta hsu))
+    (Eq.trans
+      (cast_usk_path (usk (subst1 u B)) (usk B) (usk_subst1 u B (usk_of_unit u hU))
+        (skel B) (skel (subst1 u B))
+        (usk_skel B) (usk_skel (subst1 u B)) (skel_subst1 u B hU)
+        (den chkf dec encTy n (Exp.app f u) (skels D) (skel B) (henv_of_usk D eta)))
+      (Eq.trans
+        (cast_square
+          (uskSk (usk (subst1 u B))) (uskSk (usk B)) (skel B) (skel (subst1 u B))
+          (usk_skel B) (skel_subst1 u B hU) (usk_skel (subst1 u B))
+          (den chkf dec encTy n (Exp.app f u) (skels D) (skel B) (henv_of_usk D eta)))
+        (congrArg
+          (fn [x :- (Car (skel (subst1 u B)))]
+            (Eq.mp (congrArg Car (Eq.symm (usk_skel (subst1 u B)))) x))
+          (den_at_eq chkf dec encTy n (Exp.app f u) (skels D)
+            (skel B) (skel (subst1 u B)) (Eq.symm (skel_subst1 u B hU))
+            (henv_of_usk D eta))))))))
+
+;; Theorem 4′, fundamental property, application at U.uw.  The argument
+;; is evaluated, and the arrow clause demands that it be E-related.
+(thm adeqE_appw
+  [chkf :- (=> Code Code Bool),
+   dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+   encTy :- (=> Exp Code),
+   n :- Nat, D :- (List Exp), us2 :- (List U),
+   f :- Exp, u :- Exp, A :- Exp, B :- Exp, fe :- Exp, ue :- Exp,
+   rho :- (List RV), eta :- (HEnv (usks (uskCtx D))),
+   hu :- (Rt chkf D us2 u A),
+   hA :- (Tl chkf Bool.true D A Exp.tUnit),
+   hB :- (Tl chkf Bool.true (List.cons Exp A D) B Exp.tUnit),
+   ihf :- (Exists (fn [vf :- RV]
+            (And (EvalE chkf dec encTy n rho fe vf)
+                 (Erel chkf dec encTy n (usk (Exp.tPi U.uw A B)) vf
+                   (denU chkf dec encTy n D f (Exp.tPi U.uw A B) eta))))),
+   ihu :- (Exists (fn [vu :- RV]
+            (And (EvalE chkf dec encTy n rho ue vu)
+                 (Erel chkf dec encTy n (usk A) vu
+                   (denU chkf dec encTy n D u A eta)))))]
+  (Exists (fn [v :- RV]
+    (And (EvalE chkf dec encTy n rho (Exp.app fe ue) v)
+         (Erel chkf dec encTy n (usk (subst1 u B)) v
+           (denU chkf dec encTy n D (Exp.app f u) (subst1 u B) eta)))))
+  (have hAS (SkJ Bool.true (skels D) A Sk.unit) (lemma25_tl_type chkf D A hA))
+  (have hcl (Eq Bool (clean A) Bool.true) (skj_clean Bool.true (skels D) A Sk.unit hAS))
+  (have hsu (Eq (Option Sk) (skOf (skels D) u) (Option.some Sk (skel A)))
+    (skOf_rt chkf D us2 u A hu hcl))
+  (have huS (SkJ Bool.false (skels D) u (skel A)) (lemma25_rt chkf D us2 u A hu))
+  (have hU (Eq Sk (skel u) Sk.unit) (skj_term_unit Bool.false (skels D) u (skel A) huS rfl))
+  (refine' (exT RV _ _ ihf _)) (intro vf hf)
+  (have hef (EvalE chkf dec encTy n rho fe vf) (And.left hf))
+  (have hrf (Erel chkf dec encTy n (usk (Exp.tPi U.uw A B)) vf
+              (denU chkf dec encTy n D f (Exp.tPi U.uw A B) eta))
+    (And.right hf))
+  (refine' (exT RV _ _ ihu _)) (intro vu hpu)
+  (have heu (EvalE chkf dec encTy n rho ue vu) (And.left hpu))
+  (have hru (Erel chkf dec encTy n (usk A) vu (denU chkf dec encTy n D u A eta))
+    (And.right hpu))
+  (refine' (exT RV _ _ (hrf vu (denU chkf dec encTy n D u A eta) hru) _))
+  (intro w hw)
+  (have hap (EvE chkf dec encTy n (EvSrc.ap vf vu) w) (And.left hw))
+  (have hrel (Erel chkf dec encTy n (usk B) w
+               ((denU chkf dec encTy n D f (Exp.tPi U.uw A B) eta)
+                (denU chkf dec encTy n D u A eta)))
+    (And.right hw))
+  (have hsub (Erel chkf dec encTy n (usk (subst1 u B)) w
+               (Eq.mp (congrArg (fn [z :- USk] (Car (uskSk z)))
+                        (Eq.symm (usk_subst1 u B (usk_of_unit u hU))))
+                 ((denU chkf dec encTy n D f (Exp.tPi U.uw A B) eta)
+                  (denU chkf dec encTy n D u A eta))))
+    (erel_subst_unit chkf dec encTy n u B w
+      ((denU chkf dec encTy n D f (Exp.tPi U.uw A B) eta)
+       (denU chkf dec encTy n D u A eta))
+      hU hrel))
+  (constructor) (exact w)
+  (constructor)
+  (exact (EvE.eApp chkf dec encTy n rho fe ue vf vu w hef heu hap))
+  (exact (erel_car chkf dec encTy n (usk (subst1 u B)) w
+           (Eq.mp (congrArg (fn [z :- USk] (Car (uskSk z)))
+                    (Eq.symm (usk_subst1 u B (usk_of_unit u hU))))
+             ((denU chkf dec encTy n D f (Exp.tPi U.uw A B) eta)
+              (denU chkf dec encTy n D u A eta)))
+           (denU chkf dec encTy n D (Exp.app f u) (subst1 u B) eta)
+           hsub
+           (denU_appw chkf dec encTy n D f u A B eta hsu hU))))
