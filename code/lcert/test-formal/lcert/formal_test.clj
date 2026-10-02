@@ -46,4 +46,5 @@
     lcert.formal-test.check-hd
     lcert.formal-test.check-skj
     lcert.formal-test.check-dt
-    lcert.formal-test.check-der])
+    lcert.formal-test.check-der
+    lcert.formal-test.check-agree])

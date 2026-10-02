@@ -117,6 +117,35 @@ them. The plan, in dependency order (namespace `check.clj` and successors):
 Steps 2 and 3 are the bulk; each inductive's checker is independent once
 the tree type exists, so they can proceed in parallel.
 
+**Step 3 done (2026-10-02):** `check_der.clj`'s `dtCheck chkf t J` and
+`dtCheck_sound` (`dtCheck chkf t J = true → Holds chkf J`, every `chkf`, no
+hypothesis), over Codex's `check_hd`/`check_skj`/`check_dt`.
+
+**Step 5, refined: the circularity.** CheckSpec asks that an accepted code
+decode to a derivation *at the checker itself*, and δ-steps inside a
+derivation consult the checker. `prop410.clj`'s `rt_tr` does not break the
+circle: its bound is only shown to exist, and it measures the second code.
+So:
+- *5a, transport for data.* `dtCheck chk1 t J = dtCheck chk2 t J` whenever
+  the checkers agree on first codes smaller than `t`'s largest δ-code
+  (`HdDT.delta` records both codes), by induction on `DT`.
+- *5b, the checker,* by recursion on the certificate's size: decode `c` to
+  a budget, term, type and two trees (typing, and the type's formation);
+  check both at `Check` restricted to strictly smaller first codes; require
+  every δ-code of the trees to be smaller than `c`; and test the size facts
+  directly — `m < ‖c‖`, TokSize's `2f < ‖c‖`, TypeSize's `‖⌜A⌝‖ < ‖c‖`.
+  CheckSpec's first clause at `Check` follows from `dtCheck_sound` and 5a;
+  its other clauses as in `checkspec_sat`.
+- *5c, completeness:* encoding trees as codes, the round trip, and: the
+  encoding of a valid derivation, padded if necessary, is accepted. This is
+  what makes `Check` a checker of the certificates rather than merely sound.
+
+*Deviation.* The paper derives the size facts (Lemmas 2.6–2.7) from its
+encoding; `Check` tests them, so they hold of every accepted code by
+construction, and completeness pads a certificate that is too small. The
+hypotheses CheckSpec, TokSize and TypeSize are then theorems of one
+concrete checker.
+
 **F7 part 1 (2026-10-02, `f7-checker`).** Steps 2 and the initial parts of
 3 now have these kernel-checked definitions and soundness proofs:
 
