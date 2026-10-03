@@ -20,7 +20,7 @@
   Let cases do.
 
   The remaining cases.  abort and H₁ evaluate their runtime premises and
-  return the default, related by erdflt_ty (abort) or by E at 1, which does
+  return the default, related by erdflt_ty (abort) or by E at 0, which does
   not read the carrier (H₁).  inspect evaluates the certificate and the
   code, takes the branch chkf selects on both sides, and runs it in
   (⋆, certificate, ρ); the two new entries have usage 1 and are E-related.
@@ -32,6 +32,7 @@
   adeqE_step is the induction on Er at one budget; adeqE_all is the strong
   induction on the budget.  theorem4e is Theorem 4′'s agreement at Θₙ."
   (:require [ansatz.core :as a]
+            [clojure.java.io :as io]
             [lcert.formal.base :refer [thm kdef lv]]
             [lcert.formal.usage :refer :all]
             [lcert.formal.syntax :refer :all]
@@ -399,17 +400,26 @@
 (thm* 'adeqE_const (concat P3 CTX ENV)
   (list 'forall '[t Exp] (list 'forall '[A Exp]
     (list '=> '(Eq Bool (constTyped t A) Bool.true) (adq 'rho 't 'A 't))))
-  '[(intro t) (cases t) (all_goals (intro A))
-    (all_goals (first (and_then (intro hct) (exact (Bool.noConfusion hct))) (skip)))
-    (all_goals (cases A))
-    (all_goals (first (and_then (intro hct) (exact (Bool.noConfusion hct))) (skip)))
-    (all_goals (intro hct))
-    (all_goals (first (exact (adeqE_star chkf dec encTy cap D rho eta))
-                      (exact (adeqE_tt chkf dec encTy cap D rho eta))
-                      (exact (adeqE_ff chkf dec encTy cap D rho eta))
-                      (exact (adeqE_zero chkf dec encTy cap D rho eta))
-                      (skip)))
-    (exact (adeqE_lbl chkf dec encTy cap l D rho eta))])
+  ;; Dispatch explicitly. `exact` inside `first` can accept a proof for the
+  ;; wrong pending goal; moreover all_goals reaches the outer case split.
+  ;; Only the five constant constructors need a split on their type.
+  (let [fields @#'lcert.formal.syntactic/exp-fields
+        valid '{star tUnit, tt tBool, ff tBool, zero tNat, lbl tLbl}]
+    (into '[(intro t) (cases t)]
+      (mapcat
+        (fn [[ctor _]]
+          (if-let [ty (valid ctor)]
+            (into '[(intro A) (cases A)]
+              (mapcat
+                (fn [[ac _]]
+                  ['(intro hct)
+                   (if (= ac ty)
+                     (list 'exact
+                       (apply list (symbol (str "adeqE_" ctor))
+                         (concat '[chkf dec encTy cap]
+                           (when (= ctor 'lbl) '[l]) '[D rho eta])))
+                     '(exact (Bool.noConfusion hct)))]) fields))
+            '[(intro A hct) (exact (Bool.noConfusion hct))])) fields))))
 
 ;; --- abort and H₁ (Theorem 4′, the defaults) ----------------------------------------
 
@@ -958,11 +968,57 @@
          (And (EvalE chkf dec encTy cap rho e0 v)
               (Erel chkf dec encTy cap (usk A0) v (denU chkf dec encTy cap D0 t0 A0 eta)))))))))
 
-;; adeqE_step: the fundamental property at budget cap, given it below cap
-;; (reflect's outer hypothesis) and CheckSpec.  Induction on Er.
-(thm* 'adeqE_step STEP-PARAMS STEP-GOAL
-  (into ['(induction der)]
-        (mapcat (fn [t] ['(intro rho eta henv) (list 'exact t)]) case-terms)))
+;; Name the induction motive to keep the recursor application compact.
+;; Expanding the whole environment/result relation in every minor premise
+;; causes Ansatz's induction tactic to spend minutes instantiating delayed
+;; metavariables before it reaches even the variable case.
+(def ^:private J-PARAMS
+  (vec (concat P3 '[cap :- Nat, D0 :- (List Exp), us0 :- (List U),
+                    t0 :- Exp, A0 :- Exp, e0 :- Exp])))
+(lcert.formal.base/kdef! 'AdeqEJudgment
+  (reduce (fn [body [x _ ty]] (list 'forall [x ty] body)) 'Prop
+          (reverse (partition 3 J-PARAMS)))
+  (list 'fn J-PARAMS STEP-GOAL))
+
+;; adeqE_step: the fundamental property at cap, given it below cap.
+;; This is the same induction on Er, supplied as an explicit Er.rec term.
+;; Its minor premises have the constructor fields followed by the recursive
+;; hypotheses, in er-ctors' order. No tactic search or extra hypothesis is
+;; involved; the kernel checks every minor premise and the whole recursor.
+;; Take the binder types from Er's declaration so each minor has a fully
+;; specified type; anonymous type holes do not work in Ansatz's lambdas.
+(def ^:private er-fields
+  (with-open [r (java.io.PushbackReader. (io/reader (io/resource "lcert/formal/erase.clj")))]
+    (loop []
+      (let [f (read {:eof nil} r)]
+        (cond
+          (nil? f) (throw (ex-info "Missing Er declaration" {}))
+          (and (= 'a/inductive (first f)) (= 'Er (second f)))
+          (vec (filter seq? (drop 3 f)))
+          :else (recur))))))
+
+(thm* 'adeqE_step STEP-PARAMS
+  '(AdeqEJudgment chkf dec encTy cap D0 us0 t0 A0 e0)
+  [(list 'exact
+     (apply list 'Er.rec 'chkf
+       '(fn [D :- (List Exp), us :- (List U), t :- Exp, A :- Exp, e :- Exp,
+             hd :- (Er chkf D us t A e)]
+          (AdeqEJudgment chkf dec encTy cap D us t A e))
+       (concat
+         (for [[[ctor & fs] term] (map vector er-fields case-terms)
+               :let [binders (take-while vector? fs)
+                     us (nth (last fs) 1)]]
+           (list 'fn
+             (vec (concat
+               (mapcat (fn [[f ty]] [f :- ty]) binders)
+               (mapcat (fn [[f ty]]
+                         (when (and (seq? ty) (= 'Er (first ty)))
+                           [(symbol (str "ih_" f)) :-
+                            (apply list 'AdeqEJudgment 'chkf 'dec 'encTy 'cap (drop 2 ty))])) binders)
+               '[rho :- (List RV), eta :- (HEnv (usks (uskCtx D)))]
+               ['henv :- (envE-at us)]))
+             term))
+         '[D0 us0 t0 A0 e0 der])))])
 
 ;; --- the strong induction on the budget, and the fundamental property -------------
 
