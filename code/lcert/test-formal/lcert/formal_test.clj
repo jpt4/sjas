@@ -50,7 +50,7 @@
     lcert.formal-test.check-agree
     lcert.formal-test.check-spec
     lcert.formal-test.certenc
-
     lcert.formal-test.uskel
     lcert.formal-test.funde
-    lcert.formal-test.theorem4e])
+    lcert.formal-test.theorem4e
+    lcert.formal-test.safety52])
