@@ -29,6 +29,7 @@
             [clojure.walk :as walk]
             [lcert.formal.base :as b :refer [thm kdef lv]]
             [lcert.formal.check-hd :as h]
+            [lcert.formal.prop434]   ; TokSize, TypeSize
             [lcert.formal.check-agree]))
 
 ;; The decoded certificate: (m, t, A, typing tree, formation tree). Written
