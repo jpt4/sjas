@@ -6497,3 +6497,34 @@ edits also stayed in the worktree, and were committed from there as
 check-dt`): 9 tests, 320 assertions, 0 failures (22 min). Reviewed: no axioms; the
 soundness statements are `hdCheck … = true → Hd …`, `stepCheck … = true →
 Step …`, `skjCheck … = true → SkJ …`, each for an arbitrary `chkf`.
+
+## 2026-10-03 — F7 done: a concrete checker meets the trust base
+
+Branch `adr-0006-formalization`. All developed in the warm server
+(`bin/formal-check`), each namespace red first against a stub.
+- **`check_der.clj`** — `dtCheck chkf t J` checks a derivation tree against a
+  judgment; `dtCheck_sound` (every `chkf`, no hypothesis), 61 per-rule
+  lemmas over Codex's `check_hd`/`check_skj`/`check_dt`.
+- **The circularity.** CheckSpec wants derivations *at the checker itself*,
+  and δ-steps consult the checker. `prop410`'s `rt_tr` cannot break it (its
+  bound only exists, and it measures the second code). Instead
+  **`check_agree.clj`**: `dtCheck_agree`, a transport for tree *data* along
+  agreement on first codes below the tree's δ-bound.
+- **`check_spec.clj`** — `Check decD` by fuel recursion on the certificate,
+  restricted below it; `check_fix` (strong induction on fuel); CheckSpec,
+  TokSize, TypeSize as theorems, for every decoder. The size facts are
+  tested by the checker (deviation from Lemmas 2.6–2.7, recorded in ADR-0006).
+- **`certenc.clj`** — the certificate encoding and `decCert` (structural for
+  base types, fuel for the two tree types; the certificate records its
+  fuel), round trips for every type (~100 constructors, generated), and
+  `check_complete`.
+- **Ansatz lessons** (to memory): inside an induction, `have` + `rw` leaves
+  the next case in front (prove cases as separate lemmas); `rw` closes goals
+  by `rfl` as soon as the rest computes, so later rewrites need `try`;
+  combined `rw [a b c]` can fail where three `rw`s succeed; generated `have`
+  names must avoid rule field names (`hc`, `e2`); `cases` on an `Option` of
+  tuples trips the elaborator (use `Option.some.inj` and projections);
+  `exact` against a folded goal can mis-unify `congr`'s `f a` (state the
+  unfolded equality with `have` first).
+- **Agents.** Codex worked on Theorem 4′ (`theorem4e.clj`, `safety52.clj`)
+  and ran out of credits again; saved unverified on `f5-eval` (25e5a20).

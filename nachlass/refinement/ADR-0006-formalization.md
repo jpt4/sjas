@@ -1,6 +1,6 @@
 # ADR-0006 — Formalizing the R4 metatheory in Ansatz
 
-**Status.** Accepted 2026-09-27. In progress: F1–F3 done (Lemma 3.6, Theorems 1–3, Corollary 3.7); F4 begun; F5 in progress; F7's encoding, derivation data and head/path/skeleton checker soundness done, its complete checker open; F6 not begun.
+**Status.** Accepted 2026-09-27. In progress: F1–F3 done (Lemma 3.6, Theorems 1–3, Corollary 3.7); F4 mostly done (4.6, 4.8 open; 4.9 in part); F5 in progress (Theorem 4′ assembly, Theorem 5.2); **F7 done** (2026-10-03: a concrete, computing checker meets CheckSpec, TokSize and TypeSize, and accepts the certificates); F6 not begun.
 
 **Branch.** `adr-0006-formalization`, from `sjas-codification`, merged back
 into it phase by phase.
@@ -140,6 +140,17 @@ So:
   encoding of a valid derivation, padded if necessary, is accepted. This is
   what makes `Check` a checker of the certificates rather than merely sound.
 
+**Steps 5a–5c done (2026-10-03).** `check_agree.clj` (5a: `dtCheck_agree`),
+`check_spec.clj` (5b: `Check decD`, `check_fix`, `check_full`, and
+`check_spec` / `check_toksize` / `check_typesize` — CheckSpec, TokSize and
+TypeSize for every decoder), `certenc.clj` (5c: the encoding of certificates,
+`decCert`, round trips for every type a certificate holds, `decCert_enc`, and
+`check_complete`: a typing tree and a formation tree that `Check decCert`
+accepts as derivations give a certificate it accepts). The three hypotheses
+of the trust base are therefore theorems about one concrete checker,
+`Check decCert`; the metatheory's results, stated for any checker meeting
+them, apply to it.
+
 *Deviation.* The paper derives the size facts (Lemmas 2.6–2.7) from its
 encoding; `Check` tests them, so they hold of every accepted code by
 construction, and completeness pads a certificate that is too small. The
@@ -261,7 +272,7 @@ theorem quantifies over `chkf dec encTy`, and those using the checker take
 | §1.1 usage algebra | `uadd_*`, `umul_*` (usage) | proved | — |
 | §1.4 typing rules | `Tl`, `Rt` (judgment); `SkJ` (conv) | defined | `tBrs` pseudo-type for branch lists; App₀/App/Pair₀/Pair/Let carry their Π/Σ formation; Bcons, RecSyn and Inspect carry the formation of the types they add (see the deviations) |
 | §1.5 conversion | `Hd`, `Step`, `Cv` (conv) | defined | steps are recorded with a position |
-| §1.6 Check, via Lemmas 2.6–2.8, E1, E5 | `CheckSpec` (model) | hypothesis | the trust base; F7 is to discharge it. Its first clause also gives the decoded type's formation |
+| §1.6 Check, via Lemmas 2.6–2.8, E1, E5 | `CheckSpec` (model); `check_spec`, `check_toksize`, `check_typesize`, `check_complete` (check_spec, certenc) | proved of `Check decCert` | discharged by F7: a concrete checker meets the trust base and accepts the certificates. The size facts are tested by the checker rather than derived from the encoding (deviation above) |
 | §1.6 the encoding, E1, E5 | `encE`, `encE_inj`, `E5`, `base_enc`, `checkspec_sat` (encode) | proved | E1 holds on all expressions; CheckSpec is satisfiable (by the checker that accepts nothing), so no theorem is vacuous through it. The checker itself (CheckSpec's first clause) is F7's open part |
 | §1.5–1.6 checker, part 1 | `hdCheck_sound`, `stepCheck_sound` (check-hd); `skjCheck_sound` (check-skj); `stepDTCheck_sound`, `DT`, `concl` (check-dt) | head/path/skeleton soundness proved; derivation data defined | recorded rule data and hidden skeletons; all 18 `Hd` and 40 `SkJ` rules; `DT` records all `Tl`/`Rt`/`Cv` rules but their checkers and the final `CheckSpec` construction remain open |
 | Lemma 2.1, weakening | `tl_weaken`, `rt_weaken` (derivations) | proved | arbitrary insertion; runtime entry has usage 0; exchange is not covered |
