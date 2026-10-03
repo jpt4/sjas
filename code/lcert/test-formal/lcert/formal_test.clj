@@ -43,4 +43,5 @@
     lcert.formal-test.prop434
     lcert.formal-test.check
     lcert.formal-test.uskel
-    lcert.formal-test.funde])
+    lcert.formal-test.funde
+    lcert.formal-test.theorem4e])
