@@ -48,4 +48,5 @@
     lcert.formal-test.check-dt
     lcert.formal-test.check-der
     lcert.formal-test.check-agree
-    lcert.formal-test.check-spec])
+    lcert.formal-test.check-spec
+    lcert.formal-test.certenc])
