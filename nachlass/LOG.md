@@ -6549,3 +6549,47 @@ program could mint tokens …"), but no document stated it. Now
   practically vacuous;
 - the implementation builds `Θₙ` eagerly (length-`n` usage vectors), so it
   cannot run an astronomical `n` until `Θₙ` is symbolic.
+
+## 2026-10-04 — The two-tape machine model, reviewed adversarially
+
+The user likened the token discipline to a bounded automaton; I elaborated a
+two-tape reading (free `Syn`, bounded notarized `R`), attacked it, and
+repaired it to "unary resource declaration (E3) is the operative fact". The
+user predicted an imperative implementation of self-justification and asked
+for an adversarial review by Opus 5.5 at X-High effort (headless `claude -p`,
+read-only). Record: [review and brief](../docs/log/2026-10-04-two-tape-model-review.md).
+
+**What the review established** (I checked the central points):
+- **The repair is misidentified.** Unary declaration carries no weight: the
+  kernel-checked `Theorem_1` holds for every checker satisfying `CheckSpec`,
+  whose only size clause is `m < ‖c‖`; F7's own certificate format writes `m`
+  as one leaf and meets the inequality by padding. With E4, the decoded
+  term's free tokens are already fewer than the certificate's nodes, so
+  descent survives binary budgets. Willard's compression corresponds to a
+  *compressed program* (violating E4), not a binary budget. R4 (around line
+  1014) and the draft (§6–7, "must still declare the budget entry by entry")
+  make the same misattribution; to be corrected.
+- **Retracted claims:** boxed contraction needs `μ(A)`, not `2μ(A)`
+  (`λp. (p, (lit_v, ⋆))`); `reflect` is not a simulation with overhead;
+  "Willard has one bounded tape" conflates growth restriction with
+  possession; the Pudlák mapping fails for source reasons (Willard uses
+  Pudlák for G2 over Q-extensions, not finite consistency) and target reasons
+  (λᶜᵉʳᵗ₀'s finite consistency is Prop 4.9, token-free).
+- **The prediction fails as a test of self-justification.** Theorem 5.2 is
+  "well-typed programs don't go wrong" and holds identically without `H`; a
+  machine with the predicted properties runs identically with `H` deleted.
+  Self-justification has no runtime signature; it lives in the verifier's
+  acceptance set (a typing rule that mentions its own verifier).
+- **Defensible core:** a program spends only tokens it names, and a certified
+  program is written inside its certificate, so running a certificate leaves
+  strictly fewer spendable tokens than holding it cost — affine naming plus a
+  stored program (Hofmann non-size-increase on `R`).
+- **Defects found:** F7's `certenc` encodes every Nat as the leaf `sl n`,
+  but `V(Syn)`/`V(R)` require labels below NL = 100 (`skel.clj` `lblOk`), so
+  accepted certificates with budget, fuel or Nat fields ≥ 100 cannot be held
+  as `R` values (confirmed). `eval.clj`'s function default returns one shared
+  phantom token on every call (unreachable in typed programs).
+- **Open obligations it surfaced:** token distinctness and the bound on
+  intermediate states under `evalᴱ` are unproved (R4 §5); falsifiers that can
+  actually fail: strip `reflect`'s runtime check and fuzz; check distinctness
+  at every intermediate state; adversarial search for `Check(c, c⊥) = tt`.
