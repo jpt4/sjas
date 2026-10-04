@@ -6528,3 +6528,24 @@ Branch `adr-0006-formalization`. All developed in the warm server
   unfolded equality with `have` first).
 - **Agents.** Codex worked on Theorem 4′ (`theorem4e.clj`, `safety52.clj`)
   and ran out of credits again; saved unverified on `f5-eval` (25e5a20).
+
+## 2026-10-04 — The runner, made explicit
+
+The user observed that programs inherit their budget from a runner, which can
+mint tokens outside λᶜᵉʳᵗ₀, and asked what an astronomical declared budget
+does operationally. The session logs held the provenance (2026-09-26: "From
+outside the language … `(lc/run n prog)`"; "the host is unbounded"; "if a
+program could mint tokens …"), but no document stated it. Now
+`R4-metatheory.md` §1.1a and the draft's §2.6 do:
+- the runner fixes `n` before typing, may mint and materialize lazily, and
+  may restage between runs, but never grows `n` during a run (the
+  consistency induction needs `reflect`'s descent at a fixed budget);
+- **the effective budget is the tokens a program names** (Lemma 2.3, Theorem
+  3's refinement), so an astronomical `n` changes nothing operationally;
+- so the uniform-cost results (Theorem 4.6, Propositions 4.3–4.4) bound
+  *program size*: a program composing certificates of every `B` up to size
+  `N` has size at least `N`, whatever `n` is. This corrects my answer of
+  earlier the same night, which said a large `n` made those results
+  practically vacuous;
+- the implementation builds `Θₙ` eagerly (length-`n` usage vectors), so it
+  cannot run an astronomical `n` until `Θₙ` is symbolic.

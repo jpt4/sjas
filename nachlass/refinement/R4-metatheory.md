@@ -80,6 +80,72 @@ usages recorded in the context carry no meaning.
 `Θₘ` denotes `x₁ :₁ ◇, …, xₘ :₁ ◇`. A **refutation with budget `m`** is a
 derivable `Θₘ ⊢ t :¹ 0`.
 
+### 1.1a Budgets come from a runner
+
+*Added 2026-10-04, to make explicit what the implementation and the
+tutorial assumed (`lc/run n prog`) but these documents did not state.*
+
+**Where tokens come from.** `◇` has no constructor: no term of λᶜᵉʳᵗ₀ makes a
+token. A program is typed in `Θₙ` and run by a **runner** outside the theory,
+which chooses `n` and supplies `n` fresh tokens. The runner may mint as many
+as it likes; minting is not an operation of the calculus. Every result here
+holds for every `n`, so the theory places no bound on what the runner
+declares, including astronomical values.
+
+**What the runner may and may not do.**
+- *Fix the budget before the program is typed.* A run is the evaluation of
+  one derivation of `Θₙ ⊢ t :¹ A`, at that `n`.
+- *Materialize tokens lazily.* The runner may represent `Θₙ` symbolically
+  and create the token `xᵢ` when it is first used. Nothing semantic changes,
+  because `t` was typed against the fixed `Θₙ`.
+- *Not grow the budget during a run.* A running program that obtains more
+  tokens is minting inside the theory. The consistency proof is an induction
+  on a fixed budget: `reflect` runs the program its certificate encodes at the
+  budget `m < ‖v‖` that the certificate declares (Lemma 3.6, Reflect case),
+  and that descent is what makes `H` sound. A budget that could grow mid-run
+  would break it.
+- *Restage between runs.* The runner may read an input, write a new program
+  that mentions as many tokens as the input needs, and run that program. All
+  metaprogramming across this boundary is unrestricted.
+
+**The effective budget is the tokens a program names.** A term reaches a
+token only by mentioning its variable, or by receiving it inside a
+certificate built from mentioned tokens. By Lemma 2.3 every unmentioned token
+can be lowered to usage `0`, and by Theorem 3's refinement a value's footprint
+is at most the number of distinct token variables free in the term. So
+evaluating `t` at `Θₙ` gives the same result for every `n` at least the
+number of tokens `t` names: the one budget-sensitive test, `reflect`'s cap
+`‖v‖ ≤ n`, cannot then fail, and nested programs take their budgets from
+their certificates, never from the runner. Declaring an astronomical `n`
+therefore changes nothing operationally; a program can spend only the tokens
+written into it.
+
+**Consequences.**
+- *Certificates are paid for in program text.* A certificate of `N` nodes
+  needs `N` distinct token variables, so the program that builds it, or the
+  supply handed to it, mentions `N` names. Nothing compresses this cost: a
+  name can be used once. This is the calculus's form of Willard's margin
+  (draft §6).
+- *The uniform results are about program size, not about the runner's
+  declaration.* Theorem 4.6's bound `k ≥ μ(B)` says that `t` must mention at
+  least `μ(B)` tokens, since its inputs' tokens do not help (the phantom
+  argument). A single program composing certificates for every `B` up to size
+  `N` has size at least `N`, whatever `n` the runner declares. The same holds
+  for boxed copying and D3 (Propositions 4.3–4.4).
+- *What no fixed program can do:* certify runtime inputs of unbounded size
+  (the parser's supply is written into the program, and runs out); compose,
+  copy or quote certificates of every type; nest `reflect` without bound.
+- *What a runner can do instead:* stage. To certify an input of size `N`, it
+  writes a program with a supply of `N` named tokens and runs it. Feasibility
+  thereby becomes a property of the runner's staging, outside the theory.
+
+**The implementation materializes `Θₙ` eagerly** (`typing.clj`'s
+`token-context`; `eval.clj`'s fresh tokens), with usage vectors of length
+`n` at every judgment, so it cannot run an astronomical `n` as it stands. A
+symbolic `Θₙ` with sparse usage vectors would cost time proportional to the
+tokens used. The formalization (ADR-0006) quantifies over `n : Nat`
+throughout, so its theorems cover every `n`.
+
 ### 1.2 Types
 
 ```

@@ -289,6 +289,14 @@ calculus it is the case `D = 0` of `reflect_D` (§8.2).
 Write `Θₙ = x₁ :₁ ◇, …, xₙ :₁ ◇`. A **refutation with budget `n`** is a term `t`
 with `Θₙ ⊢ t : 0`. A closed refutation has budget 0.
 
+The tokens come from a **runner** outside the calculus, which chooses `n`,
+may mint as many as it likes, and may materialize them lazily, but fixes `n`
+before the program is typed and never grows it during a run. A program can
+spend only the tokens it names, so its effective budget is the number of
+token variables written into it, however large the runner's `n`; the
+uniform-cost results of §4 are therefore bounds on program size.
+`R4-metatheory.md` §1.1a states this in full.
+
 ### 2.7 A worked example: `not`, its code, and its certificate
 
 **The program.** In the ordinary layer:
