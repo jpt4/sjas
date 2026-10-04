@@ -6625,3 +6625,22 @@ What stands from the review: the unary-declaration explanation of descent
 (false: E4 plus a checked inequality suffice, as F7 shows); the Willard
 one-arena and Pudlák mappings; and that self-justification has no runtime
 signature (a machine with these arenas runs identically without `H`).
+
+**Second amendment: `H` does have a runtime signature.** The user observed
+that whether a program is run at all is runtime behaviour, and `H`/`H₁`
+decide it for programs that use them. That withdraws the review's D4 ("a
+machine with these properties runs identically with `H` deleted") and my
+"deleting `H` changes which programs run, never what any of them do". There
+are two senses of "deleting `H`":
+- *Keep the checker* (Proposition 4.10′'s setting: `chk′` still denotes the
+  same `Check`). Then programs accepted in both systems do run identically,
+  and the difference is run versus reject.
+- *Delete it from the system, its own checker included* — the self-referential
+  reading, since `Check` is the system's own verifier. Then `Check` rejects
+  every derivation that uses `H`, and even an `H`-free program accepted in
+  both systems can behave differently, by inspecting or reflecting such a
+  certificate. Example: `inspect_Nat r ⌜Nat⌝ (x e. reflect_Nat x e) (x e. 0)`,
+  given a certificate `r` of `inspect_Nat r′ c⊥ (y e′. abort_Nat (H y e′)) (y e′. 5)`,
+  returns 5 with `H` and 0 without.
+So a machine's trust in its own consistency is observable at run time, in
+which held programs it will execute and how `inspect` branches.
