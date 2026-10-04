@@ -6593,3 +6593,35 @@ read-only). Record: [review and brief](../docs/log/2026-10-04-two-tape-model-rev
   intermediate states under `evalᴱ` are unproved (R4 §5); falsifiers that can
   actually fail: strip `reflect`'s runtime check and fuzz; check distinctness
   at every intermediate state; adversarial search for `Check(c, c⊥) = tt`.
+
+**Amendment, same night (the user's rebuttal).** The review's verdicts
+above overreach in four places, and the corresponding retractions are
+withdrawn:
+- *"Tokens don't bound computation"* was too broad. Trusted execution of a
+  program held as data needs its certificate held, so tokens bound the
+  **size of trusted code**. What they do not bound is the **work** that code
+  does: a certificate of N nodes can certify a program that runs System-T
+  computations of any length at no further token cost.
+- *Linear vs affine* is no objection: affine is weaker, and an upper bound on
+  held certificate nodes survives it.
+- *"Two tapes"* read as **two memory arenas** (free `Syn`/ordinary data;
+  a capacity-bounded affine arena of certificates) is accurate — it is the
+  draft's §2.0 table.
+- *"Program text, not runtime storage"* is a false contrast: program text is
+  storage. Under §1.1a, the bounded arena's capacity is provisioned through
+  the text (each named token is a cell), so held certificate nodes ≤ named
+  tokens ≤ text size.
+- *The lower bounds:* that one figure was misread does not remove the
+  concept. In arena terms: boxed contraction needs μ(A) **fresh** cells
+  (2μ(A) occupied in all); D2 needs μ(B) fresh cells, and — Theorem 4.6's
+  real content — a uniform transformation cannot rely on recycling its
+  inputs' cells (the phantom model gives inputs with none); D3's figure
+  depends on the encoding (E3).
+- *No universal executor* holds in arena form: no fixed program can
+  trustfully run every certified program, because it holds at most its own
+  arena's worth of certificate. This is distinct from the free arena's
+  impossibility (no total interpreter of its own codes, by the diagonal).
+What stands from the review: the unary-declaration explanation of descent
+(false: E4 plus a checked inequality suffice, as F7 shows); the Willard
+one-arena and Pudlák mappings; and that self-justification has no runtime
+signature (a machine with these arenas runs identically without `H`).
