@@ -223,6 +223,10 @@ FormalizedFormalLogic/Foundation (Saitou–Noguchi, arXiv:2609.13780: G2 for
   refutation.
 - **F6.4** — the meta content of Lemma 6.4: the default model (reflect ↦
   dflt) is sound without budget induction, via Corollary 3.7 (BF₀, BF₁).
+  *Route (2026-10-05):* an instance of Theorem 4.6's generic model
+  (`f4-theorem46`, an R-interpretation `ri`) with `print` the identity and
+  `riPf` constantly false, so `reflect` always returns its default and
+  `PhCons` is Corollary 3.7 at every size; no second fundamental lemma.
 - **F6.5** — §6.4: from S1, S3, Int-6.1, Int-6.4 and F6.1's consistency, no
   budget derives Con′_ω; then Prop 4.8. The hypotheses must fix *natural*
   presentations of CHECK and Prf_PA (G2 fails for some nonstandard
@@ -349,7 +353,8 @@ theorem quantifies over `chkf dec encTy`, and those using the checker take
 | Proposition 4.12 (1) | `prop412`, `prop412_typed`, `prop412_den`, `prop412_nodes` (section4c) | proved | the motive is Σ(p :ω Syn). 1, which does not depend on the Nat; the step opens the package and rebuilds a node. Part (2), polynomial certificate size, is the paper's citation of T3 and Proposition 4.1 |
 | Proposition 4.9 | `sh4_depth0_typed`, `sh4_from_ff`, `sh4_cv_ff` (section4c) | partial | k = 0 of `depthLeq` (tt on a leaf, ff on a node) is a closed budget-0 term of Π(c :ω Syn). Bool. Where that bound has computed to ff, T(ff) ▹ 0 by Hd.tTF, so the evidence inhabits 0. The closed inhabitant of Π(c). T(depthLeq c k) ⊸ T(chk′ c c⊥) ⊸ 0 is not constructed: δ needs a canonical code, so the paper's proof case-splits to depth k (100-way caseLbl, two subcodes), and that derivation was not built |
 | §6.2 H_PA; §6.4 step 4 (PA is consistent) | `PT`, `PF`, `PAx`, `PPrv`, `paHolds`, `paPrv_sound`, `pa_consistent` (pa) | proved | de Bruijn variables (A4/A5/E2 without "free for"); DN is sound by stability (`paHolds_stab`), with no classical axiom |
-| §4 (the rest), §6 | — | open | the inhabitant of Proposition 4.9, and Proposition 5 |
+| Proposition 5, Proposition 4.8 | `ConOmega`, `prop5`, `prop48`, `prop48_lolli`; `p5Apply_w`, `p5Apply_1` (p5) | proved from named hypotheses | at the concrete checker `Check decCert`; hypotheses S1, S3, Int-6.1, Int-6.4 and two anchors, stated and justified in [P5-hypotheses.md](P5-hypotheses.md); PA's consistency is proved (pa) |
+| §4 (the rest) | — | open | the inhabitant of Proposition 4.9; Theorem 4.6 (branch `f4-theorem46`) |
 
 ## Review guide
 

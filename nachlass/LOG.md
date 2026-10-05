@@ -6663,3 +6663,36 @@ line):
   warm server: 19 suites, 591 assertions (f5f8693).
 - On the way: the label count (97 + 3 user labels = NL = 100) has no recorded
   rationale; every `caseLbl` carries one branch per label.
+
+## 2026-10-05 — F6 (P5) at the meta level: PA, the hypotheses, Proposition 5
+
+The user chose to formalize P5 at the meta level now, with S1–S3 and the
+internal versions of R4's Proposition 6.1 and Lemma 6.4 as named hypotheses.
+Each needs a rigorous informal justification: exacting paper proofs, and
+citations checked where possible. Phase 2 proves them with Mathlib and
+Foundation. Plan in ADR-0006 ("F6 plan").
+- **`pa.clj` (F6.1):** H_PA as a deep embedding, its semantics in ℕ, and
+  soundness, so `pa_consistent`. §6.4's step 4 is proved, not assumed. DN is
+  sound by stability (decidable atoms, →, ⊥, ∀), so no classical axiom.
+- **`P5-hypotheses.md` (F6.6):** exact statements, sources and paper proofs.
+  - S1: Saitou–Noguchi's mechanized G2 (Lean, Theorem 2.18), checked.
+  - S2: Open Logic's Σ₁-completeness of Q, checked.
+  - S3: van den Berg–van Slooten, *Arithmetical conservation results*,
+    Theorem 4.13 (Kohlenbach): E-PA^ω + QF-AC is conservative over PA,
+    checked; with Avigad–Feferman §3.1 on why full extensionality needs
+    Luckhardt's elimination.
+  - The classical sources (Gödel, Hilbert–Bernays, Löb, Feferman 1960,
+    Troelstra 1973, Kohlenbach 2008) were not accessible and are marked
+    unverified.
+  - Int-6.1 and Int-6.4 get paper proofs built on the standard
+    arithmetization of primitive recursion in IΣ₁. The naturalness of the
+    presentations (D1–D3; Feferman 1960) is named as the one thing the
+    formal anchors cannot fix.
+- **`p5.clj` (F6.5):** Proposition 5 and Proposition 4.8 at the concrete
+  checker, from the named hypotheses. The application step for 4.8 —
+  weakening T2's `H°` inhabitant and the two formations into `Θₙ` — holds
+  for every checker.
+- **F6.4's route:** an instance of Theorem 4.6's generic R-interpretation
+  model, with `reflect` always returning its default.
+- **Review gate:** the user wants an ultrareview (`/code-review ultra`,
+  user-triggered) once the branch is in an appropriate state.
