@@ -206,6 +206,33 @@ wrong annotations, invalid paths and altered siblings. See the
 [F7 work log](../LOG.md#2026-10-02--f7-derivation-data-and-the-first-concrete-checkers)
 for the fresh full-suite result and commit preservation details.
 
+## F6 plan: P5 at the meta level (decided 2026-10-05)
+
+The user's decision: formalize P5 at the meta level now, with S1–S3 and the
+two internalizations (R4's Proposition 6.1 inside PA, Lemma 6.4 inside
+E-PA^ω) as named hypotheses. Every hypothesis that is not proved
+independently gets a rigorous informal justification, with exacting paper
+proofs and precise citations. Phase 2 proves them with Mathlib and
+FormalizedFormalLogic/Foundation (Saitou–Noguchi, arXiv:2609.13780: G2 for
+Δ₁-definable consistent T ⊇ IΣ₁).
+- **F6.1** — H_PA as a deep embedding (R4 §6.2); semantics in ℕ;
+  soundness, so PA is consistent (proved, not assumed).
+- **F6.2** — E-PA^ω syntax and provability, enough to state S3 and Int-6.4.
+- **F6.3** — the meta content of Prop 6.1: every H_PA proof of φ gives a
+  budget-0 derivation of ⟦∀ᶜˡφ⟧ (the §6.2 templates); 0 = S0 gives a
+  refutation.
+- **F6.4** — the meta content of Lemma 6.4: the default model (reflect ↦
+  dflt) is sound without budget induction, via Corollary 3.7 (BF₀, BF₁).
+- **F6.5** — §6.4: from S1, S3, Int-6.1, Int-6.4 and F6.1's consistency, no
+  budget derives Con′_ω; then Prop 4.8. The hypotheses must fix *natural*
+  presentations of CHECK and Prf_PA (G2 fails for some nonstandard
+  provability predicates: Feferman 1960).
+- **F6.6** — a document of the hypotheses: exact statements; verified
+  citations with theorem numbers (S1: Gödel 1931, Hilbert–Bernays 1939,
+  Feferman 1960; S2: Σ₁-completeness, e.g. Hájek–Pudlák 1993; S3: Troelstra
+  1973, Kohlenbach 2008, Avigad–Feferman 1998); exacting paper proofs of
+  Int-6.1 and Int-6.4.
+
 ## Success and failure
 
 - **Success:** F1–F6 formalized in the sense of 1, with the trust base of 2,
