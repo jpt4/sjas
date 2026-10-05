@@ -57,6 +57,12 @@ hypothesis of the theorems that use it, never a global axiom:
   theorem for PA, PA's Σ₁-completeness, and E-PA^ω's conservativity are not
   proved here. They enter as hypotheses of the P5 theorem.
 - Lean's `Init` environment, as bundled with Ansatz.
+- **The metatheory itself.** Every theorem here is a theorem of Lean 4's type
+  theory as the Ansatz kernel implements it. So every consistency result —
+  λᶜᵉʳᵗ₀'s (T1), PA's (`pa_consistent`) — is *relative*: it holds if that
+  type theory is consistent (and sound for such statements). No theory proves
+  its own consistency (G2); the metatheory is far stronger than PA or
+  λᶜᵉʳᵗ₀. *Made explicit 2026-10-05, at the user's correction.*
 
 **3. The design.**
 - *A deep embedding:* one inductive type `Exp` for types and terms, as the
@@ -216,7 +222,8 @@ proofs and precise citations. Phase 2 proves them with Mathlib and
 FormalizedFormalLogic/Foundation (Saitou–Noguchi, arXiv:2609.13780: G2 for
 Δ₁-definable consistent T ⊇ IΣ₁).
 - **F6.1** — H_PA as a deep embedding (R4 §6.2); semantics in ℕ;
-  soundness, so PA is consistent (proved, not assumed).
+  soundness, so PA is consistent *relative to the metatheory* (the step is
+  a theorem of the metatheory, not an assumption of P5).
 - **F6.2** — E-PA^ω syntax and provability, enough to state S3 and Int-6.4.
 - **F6.3** — the meta content of Prop 6.1: every H_PA proof of φ gives a
   budget-0 derivation of ⟦∀ᶜˡφ⟧ (the §6.2 templates); 0 = S0 gives a
@@ -352,7 +359,7 @@ theorem quantifies over `chkf dec encTy`, and those using the checker take
 | Proposition 4.11 | `prop411`, `prop411_typed`, `prop411_den`, `prop411_nodes` (section4c) | proved | cₙ is the chain of ω-lets `sh4_cn`; label ℓ is 0 (below NL). ⟦cₙ⟧ is the complete binary code `sh4_bush` (2ⁿ internal-node-count as cnodes + 1 = 2ⁿ, since Nat subtraction truncates; `prop411_nodes` is cnodes = 2ⁿ − 1). The certificate-size table is the paper's measurement, not a theorem |
 | Proposition 4.12 (1) | `prop412`, `prop412_typed`, `prop412_den`, `prop412_nodes` (section4c) | proved | the motive is Σ(p :ω Syn). 1, which does not depend on the Nat; the step opens the package and rebuilds a node. Part (2), polynomial certificate size, is the paper's citation of T3 and Proposition 4.1 |
 | Proposition 4.9 | `sh4_depth0_typed`, `sh4_from_ff`, `sh4_cv_ff` (section4c) | partial | k = 0 of `depthLeq` (tt on a leaf, ff on a node) is a closed budget-0 term of Π(c :ω Syn). Bool. Where that bound has computed to ff, T(ff) ▹ 0 by Hd.tTF, so the evidence inhabits 0. The closed inhabitant of Π(c). T(depthLeq c k) ⊸ T(chk′ c c⊥) ⊸ 0 is not constructed: δ needs a canonical code, so the paper's proof case-splits to depth k (100-way caseLbl, two subcodes), and that derivation was not built |
-| §6.2 H_PA; §6.4 step 4 (PA is consistent) | `PT`, `PF`, `PAx`, `PPrv`, `paHolds`, `paPrv_sound`, `pa_consistent` (pa) | proved | de Bruijn variables (A4/A5/E2 without "free for"); DN is sound by stability (`paHolds_stab`), with no classical axiom |
+| §6.2 H_PA; §6.4 step 4 (PA is consistent, relative to the metatheory) | `PT`, `PF`, `PAx`, `PPrv`, `paHolds`, `paPrv_sound`, `pa_consistent` (pa) | proved | de Bruijn variables (A4/A5/E2 without "free for"); DN is sound by stability (`paHolds_stab`), with no classical axiom |
 | Proposition 5, Proposition 4.8 | `ConOmega`, `prop5`, `prop48`, `prop48_lolli`; `p5Apply_w`, `p5Apply_1` (p5) | proved from named hypotheses | at the concrete checker `Check decCert`; hypotheses S1, S3, Int-6.1, Int-6.4 and two anchors, stated and justified in [P5-hypotheses.md](P5-hypotheses.md); PA's consistency is proved (pa) |
 | §4 (the rest) | — | open | the inhabitant of Proposition 4.9; Theorem 4.6 (branch `f4-theorem46`) |
 

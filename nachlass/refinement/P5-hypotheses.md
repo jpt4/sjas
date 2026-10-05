@@ -25,7 +25,7 @@ function, and the λᶜᵉʳᵗ₀ side of the argument has no hypotheses.
 | | Status in phase 1 |
 | --- | --- |
 | PA (H_PA, R4 §6.2) and its semantics in ℕ | defined (`pa.clj`) |
-| PA is consistent (§6.4, step 4) | **proved** (`pa_consistent`) |
+| PA is consistent (§6.4, step 4) | **proved in the metatheory** (`pa_consistent`): a relative consistency result |
 | λᶜᵉʳᵗ₀ is consistent, its checker accepts no refutation (T1, Cor. 3.7) | **proved** (`selfjust.clj`) |
 | The translation of PA into λᶜᵉʳᵗ₀, at the meta level (§6.2) | to be proved (F6.3) |
 | The default model, without budget induction (§6.3, Lemma 6.4's content) | to be proved (F6.4) |
@@ -34,6 +34,16 @@ function, and the λᶜᵉʳᵗ₀ side of the argument has no hypotheses.
 | S3, conservativity of E-PA^ω over PA | hypothesis, §3 |
 | Int-6.1, Proposition 6.1 internalized in PA | hypothesis, §4 |
 | Int-6.4, Lemma 6.4 and Corollary 6.5 internalized in E-PA^ω | hypothesis, §5 |
+
+**Relative, throughout.** Every "proved" above means proved in the
+formalization's metatheory: Lean 4's type theory, as the Ansatz kernel
+implements it, using only `Init`. So `pa_consistent` and T1 are relative
+consistency results: they hold if that metatheory is consistent. That is no
+weakness peculiar to this project. By G2 no theory proves its own
+consistency, and R4's own step 4 ("PA is consistent, being true in ℕ") is
+the same semantic argument, made in an informal set-theoretic metatheory.
+The metatheory used here is far stronger than PA (the soundness proof needs
+a truth predicate with induction: roughly ACA).
 
 The formal deduction of P5 from these is short (§6). Its value is that every
 assumption is a named, exactly stated proposition, and the rest is

@@ -1,7 +1,8 @@
 (ns lcert.formal-test.pa
   "Formal suite (ADR-0006, F6.1), lcert.formal.pa: Peano arithmetic H_PA
   (R4-metatheory.md §6.2) as a deep embedding, its semantics in ℕ, soundness,
-  and consistency — proved, so P5 need not assume it."
+  and consistency relative to the metatheory — a theorem, so P5 need not
+  assume it."
   (:require [clojure.test :refer [deftest is testing]]
             [lcert.formal.base :as b]
             [lcert.formal.pa]))

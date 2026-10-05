@@ -1,5 +1,7 @@
 (ns lcert.formal.selfjust
-  "λᶜᵉʳᵗ₀'s self-justification, with no hypotheses (ADR-0006).
+  "λᶜᵉʳᵗ₀'s self-justification, with no hypotheses beyond the trust base's
+  metatheory (ADR-0006): like every theorem here, T1 is a consistency result
+  *relative to* Lean 4's type theory as the Ansatz kernel implements it.
 
   Willard's Definition 3.4 (Willard2016) asks two things of a self-justifying
   system: (i) it proves a statement of its own consistency, and (ii) it is
@@ -53,7 +55,7 @@
   (exact (And.left cor37_concrete c)))
 
 ;; Self-justification (T1 and T2, Willard's Definition 3.4), at Check decCert,
-;; with no hypotheses.
+;; with no hypotheses beyond the metatheory.
 (thm self_justification []
   (And (forall [n Nat] (forall [t Exp] (Not (Rt (Check decCert) (thetaD n) (thetaU n) t Exp.tEmpty))))
   (And (Rt (Check decCert) (List.nil Exp) (List.nil U) (Hterm) (Hcirc))

@@ -6696,3 +6696,15 @@ Foundation. Plan in ADR-0006 ("F6 plan").
   model, with `reflect` always returning its default.
 - **Review gate:** the user wants an ultrareview (`/code-review ultra`,
   user-triggered) once the branch is in an appropriate state.
+
+**Correction, same day (the user's).** I wrote that PA is "proved
+consistent". That is wrong as stated: only a relative consistency proof is
+possible. `pa_consistent` is a theorem of the formal metatheory (Lean 4's
+type theory, as the Ansatz kernel implements it, using only Init). It shows
+Con(PA) *if* that metatheory is consistent. The proof — a truth predicate,
+and induction on derivations for statements mentioning it — needs roughly
+ACA's strength, beyond PA's (G2). The same holds of every consistency result
+here, T1 included: "self-justification with no hypotheses" means none beyond
+the metatheory. ADR-0006's trust base now lists the metatheory explicitly.
+`pa.clj`, `selfjust.clj`, `P5-hypotheses.md` and the suite docstrings are
+corrected.

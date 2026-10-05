@@ -3,9 +3,15 @@
   its semantics in ℕ, soundness, and consistency (ADR-0006, F6 plan).
 
   P5's conclusion (§6.4, step 4) uses that PA is consistent, \"being true in ℕ\".
-  Here that is proved, not assumed: every H_PA theorem is true in ℕ under
-  every assignment (paPrv_sound), so 0 = S0 is not a theorem
-  (pa_consistent). Only Lean's Init is used — no classical axiom: the axiom
+  Here that is a theorem of the metatheory, not an assumption: every H_PA
+  theorem is true in ℕ under every assignment (paPrv_sound), so 0 = S0 is not
+  a theorem (pa_consistent). It is a *relative* consistency result: it holds
+  if the metatheory — Lean 4's type theory, as the Ansatz kernel implements
+  it — is consistent. The argument is the standard semantic one (a truth
+  predicate, and induction on derivations for statements that mention it),
+  which needs more strength than PA has: roughly ACA, or PA with a
+  compositional truth predicate and full induction. By G2 no such proof can
+  be carried out in PA itself. Only Lean's Init is used — no classical axiom: the axiom
   DN is sound because every formula of this language is *stable*
   (paHolds_stab), its atoms being decidable equations and its connectives →,
   ⊥, ∀ (the reason R4 chose them).
@@ -285,6 +291,7 @@
   (intro ρ) (exact (ih_hi ρ (ih_hp ρ)))
   (intro ρ a) (exact (ih_hp (paCons a ρ))))
 
-;; PA is consistent: 0 = S0 is not a theorem (R4 §6.4, step 4).
+;; PA is consistent, relative to the metatheory: 0 = S0 is not a theorem
+;; (R4 §6.4, step 4).
 (thm pa_consistent [] (Not (PPrv (PF.peq PT.pz (PT.ps PT.pz))))
   (intro hd) (exact (Nat.zero_ne_one (paPrv_sound (PF.peq PT.pz (PT.ps PT.pz)) hd (fn [i :- Nat] 0)))))
