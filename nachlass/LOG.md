@@ -6528,3 +6528,119 @@ Branch `adr-0006-formalization`. All developed in the warm server
   unfolded equality with `have` first).
 - **Agents.** Codex worked on Theorem 4′ (`theorem4e.clj`, `safety52.clj`)
   and ran out of credits again; saved unverified on `f5-eval` (25e5a20).
+
+## 2026-10-04 — The runner, made explicit
+
+The user observed that programs inherit their budget from a runner, which can
+mint tokens outside λᶜᵉʳᵗ₀, and asked what an astronomical declared budget
+does operationally. The session logs held the provenance (2026-09-26: "From
+outside the language … `(lc/run n prog)`"; "the host is unbounded"; "if a
+program could mint tokens …"), but no document stated it. Now
+`R4-metatheory.md` §1.1a and the draft's §2.6 do:
+- the runner fixes `n` before typing, may mint and materialize lazily, and
+  may restage between runs, but never grows `n` during a run (the
+  consistency induction needs `reflect`'s descent at a fixed budget);
+- **the effective budget is the tokens a program names** (Lemma 2.3, Theorem
+  3's refinement), so an astronomical `n` changes nothing operationally;
+- so the uniform-cost results (Theorem 4.6, Propositions 4.3–4.4) bound
+  *program size*: a program composing certificates of every `B` up to size
+  `N` has size at least `N`, whatever `n` is. This corrects my answer of
+  earlier the same night, which said a large `n` made those results
+  practically vacuous;
+- the implementation builds `Θₙ` eagerly (length-`n` usage vectors), so it
+  cannot run an astronomical `n` until `Θₙ` is symbolic.
+
+## 2026-10-04 — The two-tape machine model, reviewed adversarially
+
+The user likened the token discipline to a bounded automaton; I elaborated a
+two-tape reading (free `Syn`, bounded notarized `R`), attacked it, and
+repaired it to "unary resource declaration (E3) is the operative fact". The
+user predicted an imperative implementation of self-justification and asked
+for an adversarial review by Opus 5.5 at X-High effort (headless `claude -p`,
+read-only). Record: [review and brief](../docs/log/2026-10-04-two-tape-model-review.md).
+
+**What the review established** (I checked the central points):
+- **The repair is misidentified.** Unary declaration carries no weight: the
+  kernel-checked `Theorem_1` holds for every checker satisfying `CheckSpec`,
+  whose only size clause is `m < ‖c‖`; F7's own certificate format writes `m`
+  as one leaf and meets the inequality by padding. With E4, the decoded
+  term's free tokens are already fewer than the certificate's nodes, so
+  descent survives binary budgets. Willard's compression corresponds to a
+  *compressed program* (violating E4), not a binary budget. R4 (around line
+  1014) and the draft (§6–7, "must still declare the budget entry by entry")
+  make the same misattribution; to be corrected.
+- **Retracted claims:** boxed contraction needs `μ(A)`, not `2μ(A)`
+  (`λp. (p, (lit_v, ⋆))`); `reflect` is not a simulation with overhead;
+  "Willard has one bounded tape" conflates growth restriction with
+  possession; the Pudlák mapping fails for source reasons (Willard uses
+  Pudlák for G2 over Q-extensions, not finite consistency) and target reasons
+  (λᶜᵉʳᵗ₀'s finite consistency is Prop 4.9, token-free).
+- **The prediction fails as a test of self-justification.** Theorem 5.2 is
+  "well-typed programs don't go wrong" and holds identically without `H`; a
+  machine with the predicted properties runs identically with `H` deleted.
+  Self-justification has no runtime signature; it lives in the verifier's
+  acceptance set (a typing rule that mentions its own verifier).
+- **Defensible core:** a program spends only tokens it names, and a certified
+  program is written inside its certificate, so running a certificate leaves
+  strictly fewer spendable tokens than holding it cost — affine naming plus a
+  stored program (Hofmann non-size-increase on `R`).
+- **Defects found:** F7's `certenc` encodes every Nat as the leaf `sl n`,
+  but `V(Syn)`/`V(R)` require labels below NL = 100 (`skel.clj` `lblOk`), so
+  accepted certificates with budget, fuel or Nat fields ≥ 100 cannot be held
+  as `R` values (confirmed). `eval.clj`'s function default returns one shared
+  phantom token on every call (unreachable in typed programs).
+- **Open obligations it surfaced:** token distinctness and the bound on
+  intermediate states under `evalᴱ` are unproved (R4 §5); falsifiers that can
+  actually fail: strip `reflect`'s runtime check and fuzz; check distinctness
+  at every intermediate state; adversarial search for `Check(c, c⊥) = tt`.
+
+**Amendment, same night (the user's rebuttal).** The review's verdicts
+above overreach in four places, and the corresponding retractions are
+withdrawn:
+- *"Tokens don't bound computation"* was too broad. Trusted execution of a
+  program held as data needs its certificate held, so tokens bound the
+  **size of trusted code**. What they do not bound is the **work** that code
+  does: a certificate of N nodes can certify a program that runs System-T
+  computations of any length at no further token cost.
+- *Linear vs affine* is no objection: affine is weaker, and an upper bound on
+  held certificate nodes survives it.
+- *"Two tapes"* read as **two memory arenas** (free `Syn`/ordinary data;
+  a capacity-bounded affine arena of certificates) is accurate — it is the
+  draft's §2.0 table.
+- *"Program text, not runtime storage"* is a false contrast: program text is
+  storage. Under §1.1a, the bounded arena's capacity is provisioned through
+  the text (each named token is a cell), so held certificate nodes ≤ named
+  tokens ≤ text size.
+- *The lower bounds:* that one figure was misread does not remove the
+  concept. In arena terms: boxed contraction needs μ(A) **fresh** cells
+  (2μ(A) occupied in all); D2 needs μ(B) fresh cells, and — Theorem 4.6's
+  real content — a uniform transformation cannot rely on recycling its
+  inputs' cells (the phantom model gives inputs with none); D3's figure
+  depends on the encoding (E3).
+- *No universal executor* holds in arena form: no fixed program can
+  trustfully run every certified program, because it holds at most its own
+  arena's worth of certificate. This is distinct from the free arena's
+  impossibility (no total interpreter of its own codes, by the diagonal).
+What stands from the review: the unary-declaration explanation of descent
+(false: E4 plus a checked inequality suffice, as F7 shows); the Willard
+one-arena and Pudlák mappings; and that self-justification has no runtime
+signature (a machine with these arenas runs identically without `H`).
+
+**Second amendment: `H` does have a runtime signature.** The user observed
+that whether a program is run at all is runtime behaviour, and `H`/`H₁`
+decide it for programs that use them. That withdraws the review's D4 ("a
+machine with these properties runs identically with `H` deleted") and my
+"deleting `H` changes which programs run, never what any of them do". There
+are two senses of "deleting `H`":
+- *Keep the checker* (Proposition 4.10′'s setting: `chk′` still denotes the
+  same `Check`). Then programs accepted in both systems do run identically,
+  and the difference is run versus reject.
+- *Delete it from the system, its own checker included* — the self-referential
+  reading, since `Check` is the system's own verifier. Then `Check` rejects
+  every derivation that uses `H`, and even an `H`-free program accepted in
+  both systems can behave differently, by inspecting or reflecting such a
+  certificate. Example: `inspect_Nat r ⌜Nat⌝ (x e. reflect_Nat x e) (x e. 0)`,
+  given a certificate `r` of `inspect_Nat r′ c⊥ (y e′. abort_Nat (H y e′)) (y e′. 5)`,
+  returns 5 with `H` and 0 without.
+So a machine's trust in its own consistency is observable at run time, in
+which held programs it will execute and how `inspect` branches.
