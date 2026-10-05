@@ -12,7 +12,7 @@
     certificate.
 
   The encoding. Every value is a code (skel.clj's Code: sl l | sn l a b).
-  Nat n is sl n; Bool, U and Sk constructors are numbered leaves (Sk's two
+  Nat n is unary (encNat); Bool, U and Sk constructors are numbered leaves (Sk's two
   binary constructors are sn 7 / sn 8 of their children); Code is itself;
   Exp is encE (encode.clj, decoded through decT, round trip `roundtrip`).
   Lists: nil = sl 0, cons x r = sn 1 ⌜x⌝ ⌜r⌝. A constructor with fields
@@ -36,6 +36,7 @@
             [lcert.formal.check-skj]
             [lcert.formal.check-dt :as dt]
             [lcert.formal.prop410]
+            [lcert.formal.enclabels]
             [lcert.formal.check-spec]))
 
 ;; ---------------------------------------------------------------------------
@@ -80,11 +81,16 @@
 ;; ---------------------------------------------------------------------------
 ;; Base types.
 
-(kdef encN (=> Nat Code) (fn [n :- Nat] (Code.sl n)))
-(kdef decN (=> Code (Option Nat))
-  (fn [c :- Code] (Code.rec$1 (fn [_ :- Code] (Option Nat)) (fn [l :- Nat] (Option.some Nat l))
-                    (fn [l :- Nat, a :- Code, b :- Code, ia :- (Option Nat), ib :- (Option Nat)] (Option.none Nat)) c)))
-(thm rtN [n :- Nat] (Eq (Option Nat) (decN (encN n)) (Option.some Nat n)) (rfl))
+;; Numbers are unary — encode.clj's encNat: zero = sl 2, succ j = sn 3 ⌜j⌝ (sl 0)
+;; — read back through decT's number reading (decT_encNat). A number written as
+;; the single leaf sl n (as before 2026-10-05) put the label n, unbounded,
+;; into the certificate: outside L, so a certificate with a budget or fuel of
+;; 100 or more could be accepted by Check yet held by no program (V(R) asks
+;; lblOk). Unary numbers use labels 2, 3 and 0 only (enclabels.clj).
+(kdef encN (=> Nat Code) (fn [n :- Nat] (encNat n)))
+(kdef decN (=> Code (Option Nat)) (fn [c :- Code] (Prod.fst (Prod.snd (Prod.snd (decT c))))))
+(thm rtN [n :- Nat] (Eq (Option Nat) (decN (encN n)) (Option.some Nat n))
+  (exact (congrArg (fn [tp :- Tup] (Prod.fst (Prod.snd (Prod.snd tp)))) (decT_encNat n))))
 
 (kdef encC (=> Code Code) (fn [c :- Code] c))
 (kdef decC (=> Code (Option Code)) (fn [c :- Code] (Option.some Code c)))
@@ -233,10 +239,10 @@
     (swap! ty-info assoc T [enc dec rt])))
 
 (def ^:private hd-data @#'h/hd-data)
-(define-fielded! 'HdDT 'encHd 'decHd 'rtHd
-  (vec (for [rule h/hd-rules] [(first rule) (hd-data rule)])))
-(define-fielded! 'StepDT 'encSt 'decSt 'rtSt
-  '[[at [[p (List Nat)] [head HdDT] [e Exp] [e2 Exp]]]])
+(def ^:private hd-ctors (vec (for [rule h/hd-rules] [(first rule) (hd-data rule)])))
+(def ^:private st-ctors '[[at [[p (List Nat)] [head HdDT] [e Exp] [e2 Exp]]]])
+(define-fielded! 'HdDT 'encHd 'decHd 'rtHd hd-ctors)
+(define-fielded! 'StepDT 'encSt 'decSt 'rtSt st-ctors)
 
 ;; ---------------------------------------------------------------------------
 ;; Recursive trees, decoded with fuel: skeleton trees, then derivation trees.
@@ -363,12 +369,12 @@
       (swap! fuel-info assoc T [enc dec ht rt]))))
 
 (def ^:private skj-tree-fields @#'lcert.formal.check-skj/tree-fields)
-(define-fueled! 'SkDT 'encSkDT 'decSkDT 'htSkDT 'rtSkDT
-  (vec (for [rule lcert.formal.check-skj/skj-rules] [(first rule) (skj-tree-fields rule)])))
+(def ^:private skdt-ctors (vec (for [rule lcert.formal.check-skj/skj-rules] [(first rule) (skj-tree-fields rule)])))
+(define-fueled! 'SkDT 'encSkDT 'decSkDT 'htSkDT 'rtSkDT skdt-ctors)
 
 (def ^:private dt-fields @#'lcert.formal.check-dt/dt-fields)
-(define-fueled! 'DT 'encDT 'decDT 'htDT 'rtDT
-  (vec (for [[_ rule] dt/dt-rules] [(first rule) (dt-fields rule)])))
+(def ^:private dt-ctors (vec (for [[_ rule] dt/dt-rules] [(first rule) (dt-fields rule)])))
+(define-fueled! 'DT 'encDT 'decDT 'htDT 'rtDT dt-ctors)
 
 ;; ---------------------------------------------------------------------------
 ;; Certificates.
@@ -393,20 +399,201 @@
                     ['DT (list 'decDT 'v0 (field-at X 4))] ['DT (list 'decDT 'v0 (field-at X 5))]]
                 (fn [[_ m t A T1 T2]] (cd-tuple m t A T1 T2))))))
 
+(defn- rest-chain
+  "decCert's chain after the fuel u0 and budget u1: t, A and the two trees."
+  [u0 u1]
+  (let [ws '[w2 w3 w4 w5]]
+    (reduce (fn [acc [w F d]] (list 'ob F CD d (list 'fn [w :- F] acc)))
+            (list 'Option.some CD (cd-tuple u1 'w2 'w3 'w4 'w5))
+            (reverse (map vector ws '[Exp Exp DT DT]
+                          ['(decE (encE t)) '(decE (encE A)) (list 'decDT u0 '(encDT T1)) (list 'decDT u0 '(encDT T2))])))))
+
+;; The number fields decode by decT_encNat, not by computation, so the fuel
+;; and the budget are rewritten first, each followed by a change to the
+;; reduced form (the fuel is then the bound variable of the rest).
 (a/prove-theorem 'decCert_enc
   (lv '[f :- Nat, m :- Nat, t :- Exp, A :- Exp, T1 :- DT, T2 :- DT, pad :- Code,
         h1 :- (Nat.lt (htDT T1) f), h2 :- (Nat.lt (htDT T2) f)])
   (lv (list 'Eq (list 'Option CD) '(decCert (encCert f m t A T1 T2 pad)) (list 'Option.some CD (cd-tuple 'm 't 'A 'T1 'T2))))
   (lv [(list 'have 'q_c0 (list 'Eq (list 'Option CD) '(decCert (encCert f m t A T1 T2 pad))
-                               (ob-chain CD [['Exp '(decE (encE t))] ['Exp '(decE (encE A))]
-                                             ['DT '(decDT f (encDT T1))] ['DT '(decDT f (encDT T2))]]
-                                         (fn [[t2 A2 T1b T2b]] (cd-tuple 'm t2 A2 T1b T2b))))
+                               (list 'ob 'Nat CD '(decN (encN f))
+                                     (list 'fn '[u0 :- Nat] (list 'ob 'Nat CD '(decN (encN m)) (list 'fn '[u1 :- Nat] (rest-chain 'u0 'u1))))))
              '(Eq.refl (decCert (encCert f m t A T1 T2 pad))))
+       '(have q_n1 (Eq (Option Nat) (decN (encN f)) (Option.some Nat f)) (rtN f))
+       '(have q_n2 (Eq (Option Nat) (decN (encN m)) (Option.some Nat m)) (rtN m))
        '(have q_c1 (Eq (Option Exp) (decE (encE t)) (Option.some Exp t)) (rtE t))
        '(have q_c2 (Eq (Option Exp) (decE (encE A)) (Option.some Exp A)) (rtE A))
        '(have q_c3 (Eq (Option DT) (decDT f (encDT T1)) (Option.some DT T1)) (rtDT T1 f h1))
        '(have q_c4 (Eq (Option DT) (decDT f (encDT T2)) (Option.some DT T2)) (rtDT T2 f h2))
-       '(rw [q_c0]) '(try (rw [q_c1])) '(try (rw [q_c2])) '(try (rw [q_c3])) '(try (rw [q_c4]))]))
+       '(rw [q_c0]) '(rw [q_n1])
+       (list 'change (list 'Eq (list 'Option CD) (list 'ob 'Nat CD '(decN (encN m)) (list 'fn '[u1 :- Nat] (rest-chain 'f 'u1)))
+                           (list 'Option.some CD (cd-tuple 'm 't 'A 'T1 'T2))))
+       '(rw [q_n2])
+       (list 'change (list 'Eq (list 'Option CD) (rest-chain 'f 'm) (list 'Option.some CD (cd-tuple 'm 't 'A 'T1 'T2))))
+       '(try (rw [q_c1])) '(try (rw [q_c2])) '(try (rw [q_c3])) '(try (rw [q_c4]))]))
+
+;; ---------------------------------------------------------------------------
+;; Labels: every certificate encoder stays below any bound nb ≥ 97 when its
+;; data does (enclabels.clj for the bound and for expressions).
+;;
+;; Each type gets a data predicate — dataOk… nb v: the labels the value
+;; carries as data (an expression's label constants, a raw code's labels) are
+;; below nb; constantly true for types that carry none — and a lemma
+;;   lbl… nb hk v : dataOk… nb v = true → lblBelow nb (enc… v) = true.
+;; The encoders' own labels are constructor positions (at most 60) and the
+;; chain and list labels 0 and 1, all encoding labels.
+
+(defn- code-proof
+  "A proof that lblBelow nb c = true for a code expression c built from
+  literal leaves and nodes, delegating any other piece to (child piece)."
+  [c child]
+  (cond
+    (and (seq? c) (= 'Code.sl (first c)) (integer? (second c)))
+    (list 'blt_lit (second c) 'nb '(Eq.refl Bool.true) 'hk)
+    (and (seq? c) (= 'Code.sn (first c)) (integer? (second c)))
+    (let [[_ L x y] c]
+      (list 'band_tt2 (list 'Nat.blt L 'nb) (list 'Bool.and (list 'lblBelow 'nb x) (list 'lblBelow 'nb y))
+            (list 'blt_lit L 'nb '(Eq.refl Bool.true) 'hk)
+            (list 'band_tt2 (list 'lblBelow 'nb x) (list 'lblBelow 'nb y) (code-proof x child) (code-proof y child))))
+    :else (child c)))
+
+(defn- lbl-statement [pred enc v]
+  (list '=> (list 'Eq 'Bool (list pred 'nb v) 'Bool.true) (list 'Eq 'Bool (list 'lblBelow 'nb (list enc v)) 'Bool.true)))
+
+(def ^:private lbl-info
+  "Type -> [data predicate, label lemma]."
+  (atom '{Exp [lblsE lblBelow_encE], Code [lblBelow lblC]}))
+
+(thm lblC [nb :- Nat, hk :- (LE.le 97 nb), c :- Code]
+  (=> (Eq Bool (lblBelow nb c) Bool.true) (Eq Bool (lblBelow nb (encC c)) Bool.true))
+  (intro hc) (exact hc))
+
+;; Types without data: Nat (unary), Bool and U (numbered leaves), Sk.
+(doseq [[T pred lem] '[[Nat dataOkN lblN] [Bool dataOkB lblB] [U dataOkU lblU] [Sk dataOkS lblS]]]
+  (b/kdef! pred (list '=> 'Nat T 'Bool) (list 'fn ['nb :- 'Nat 'v :- T] 'Bool.true))
+  (swap! lbl-info assoc T [pred lem]))
+(thm lblN [nb :- Nat, hk :- (LE.le 97 nb), n :- Nat]
+  (=> (Eq Bool (dataOkN nb n) Bool.true) (Eq Bool (lblBelow nb (encN n)) Bool.true))
+  (intro hn) (exact (lblBelow_encNat nb hk n)))
+(doseq [[T lem n] '[[Bool lblB 2] [U lblU 3]]]
+  (a/prove-theorem lem (lv ['nb :- 'Nat 'hk :- '(LE.le 97 nb) 'v :- T])
+    (lbl-statement (first (@lbl-info T)) (first (@ty-info T)) 'v)
+    (lv (into ['(cases v)] (mapcat (fn [i] ['(intro hv) (list 'exact (list 'blt_lit i 'nb '(Eq.refl Bool.true) 'hk))]) (range n))))))
+(doseq [[nm ctor L] [['lblS_arr 'Sk.arr 7] ['lblS_prod 'Sk.prod 8]]]
+  (a/prove-theorem nm
+    (lv '[nb :- Nat, hk :- (LE.le 97 nb), s :- Sk, t :- Sk,
+          is :- (Eq Bool (lblBelow nb (encS s)) Bool.true), it :- (Eq Bool (lblBelow nb (encS t)) Bool.true)])
+    (lv (list 'Eq 'Bool (list 'lblBelow 'nb (list 'encS (list ctor 's 't))) 'Bool.true))
+    (lv [(list 'have 'q_l (list 'Eq 'Bool (list 'lblBelow 'nb (list 'Code.sn L '(encS s) '(encS t))) 'Bool.true)
+               (code-proof (list 'Code.sn L '(encS s) '(encS t)) {'(encS s) 'is '(encS t) 'it}))
+         '(exact q_l)])))
+(thm lblS [nb :- Nat, hk :- (LE.le 97 nb), sk :- Sk]
+  (=> (Eq Bool (dataOkS nb sk) Bool.true) (Eq Bool (lblBelow nb (encS sk)) Bool.true))
+  (induction sk)
+  (intro hv) (exact (blt_lit 0 nb (Eq.refl Bool.true) hk))
+  (intro hv) (exact (blt_lit 1 nb (Eq.refl Bool.true) hk))
+  (intro hv) (exact (blt_lit 2 nb (Eq.refl Bool.true) hk))
+  (intro hv) (exact (blt_lit 3 nb (Eq.refl Bool.true) hk))
+  (intro hv) (exact (blt_lit 4 nb (Eq.refl Bool.true) hk))
+  (intro hv) (exact (blt_lit 5 nb (Eq.refl Bool.true) hk))
+  (intro hv) (exact (blt_lit 6 nb (Eq.refl Bool.true) hk))
+  (intro hv) (exact (lblS_arr nb hk s t (ih_s (Eq.refl Bool.true)) (ih_t (Eq.refl Bool.true))))
+  (intro hv) (exact (lblS_prod nb hk s t (ih_s (Eq.refl Bool.true)) (ih_t (Eq.refl Bool.true)))))
+
+;; Lists: every element's data, and labels 0 (nil) and 1 (cons).
+(doseq [[suffix T] '[[N Nat] [E Exp] [U U] [S Sk]]]
+  (let [LT (list 'List T)
+        [epred elem] (@lbl-info T)
+        enc (first (@ty-info LT)) encT (first (@ty-info T))
+        pred (symbol (str "dataOkL" suffix)) lem (symbol (str "lblL" suffix)) cons-lem (symbol (str "lblL" suffix "_cons"))]
+    (b/kdef! pred (list '=> 'Nat LT 'Bool)
+      (list 'fn ['nb :- 'Nat 'l :- LT]
+        (list 'List.rec$1$0 T (list 'fn ['_ :- LT] 'Bool) 'Bool.true
+              (list 'fn ['x :- T 'xs :- LT 'ih :- 'Bool] (list 'Bool.and (list epred 'nb 'x) 'ih)) 'l)))
+    (a/prove-theorem cons-lem
+      (lv ['nb :- 'Nat 'hk :- '(LE.le 97 nb) 'x :- T 'xs :- LT
+           'ih :- (lbl-statement pred enc 'xs)
+           'hs :- (list 'Eq 'Bool (list pred 'nb (list 'List.cons T 'x 'xs)) 'Bool.true)])
+      (lv (list 'Eq 'Bool (list 'lblBelow 'nb (list enc (list 'List.cons T 'x 'xs))) 'Bool.true))
+      (let [code (list 'Code.sn 1 (list encT 'x) (list enc 'xs))
+            hx (list 'band_left (list epred 'nb 'x) (list pred 'nb 'xs) 'hs)
+            hxs (list 'band_right (list epred 'nb 'x) (list pred 'nb 'xs) 'hs)]
+        (lv [(list 'have 'q_l (list 'Eq 'Bool (list 'lblBelow 'nb code) 'Bool.true)
+                   (code-proof code {(list encT 'x) (list elem 'nb 'hk 'x hx) (list enc 'xs) (list 'ih hxs)}))
+             '(exact q_l)])))
+    (a/prove-theorem lem (lv ['nb :- 'Nat 'hk :- '(LE.le 97 nb) 'l :- LT]) (lbl-statement pred enc 'l)
+      (lv ['(induction l)
+           '(intro hs) '(exact (blt_lit 0 nb (Eq.refl Bool.true) hk))
+           '(intro hs) (list 'exact (list cons-lem 'nb 'hk 'head 'tail 'ih_tail 'hs))]))
+    (swap! lbl-info assoc LT [pred lem])))
+
+;; Head steps, steps, skeleton trees, derivation trees: the conjunction of the
+;; fields' data; the encoding is the constructor's chain.
+(defn- define-lbl!
+  "Data predicate and label lemma for T (constructors ctors), recursive in T
+  when rec? holds."
+  [T pred lem ctors]
+  (let [indexed (map-indexed vector ctors)
+        enc (first (or (@ty-info T) (@fuel-info T)))
+        rec? (fn [F] (= F T))
+        info (fn [F] (if (rec? F) [pred lem] (@lbl-info F)))
+        enc-of (fn [F] (first (or (@ty-info F) (@fuel-info F) (when (rec? F) [enc]))))
+        ih (fn [x] (symbol (str "ih_" x)))
+        ihs-of (fn [fields ty] (for [[x F] fields :when (rec? F)] [(ih x) ty]))
+        checks (fn [fields] (for [[x F] fields] (list (first (info F)) 'nb x)))
+        ;; inductive types recurse with T.rec$1; a non-recursive one is fine too
+        recursive (some (fn [[_ fs]] (some (fn [[_ F]] (rec? F)) fs)) ctors)]
+    (b/kdef! pred (list '=> 'Nat T 'Bool)
+      (list 'fn ['nb :- 'Nat 'v :- T]
+        (concat (list (symbol (str T ".rec$1")) (list 'fn ['_ :- T] 'Bool))
+          (for [[_ [_ fields]] indexed]
+            (let [body (h/f7-and (for [[x F] fields] (if (rec? F) (ih x) (list (first (info F)) 'nb x))))
+                  binders (concat fields (ihs-of fields 'Bool))]
+              (if (seq binders) (list 'fn (h/f7-params binders) body) body)))
+          ['v])))
+    (doseq [[i [nm fields]] indexed]
+      (let [v (h/f7-app (symbol (str T "." nm)) (map first fields))
+            cs (vec (checks fields))
+            code (chain-enc i (for [[x F] fields] (list (enc-of F) x)))
+            child (into {} (for [[j [x F]] (map-indexed vector fields)]
+                             [(list (enc-of F) x)
+                              (let [hj (h/f7-projection cs j 'q_hs)]
+                                (if (rec? F) (list (ih x) hj) (list (second (info F)) 'nb 'hk x hj)))]))]
+        (a/prove-theorem (symbol (str lem "_" nm))
+          (lv (h/f7-params (concat [['nb 'Nat] ['hk '(LE.le 97 nb)]] fields
+                                   (for [[x F] fields :when (rec? F)] [(ih x) (lbl-statement pred enc x)])
+                                   [['q_hs (list 'Eq 'Bool (list pred 'nb v) 'Bool.true)]])))
+          (lv (list 'Eq 'Bool (list 'lblBelow 'nb (list enc v)) 'Bool.true))
+          (lv [(list 'have 'q_l (list 'Eq 'Bool (list 'lblBelow 'nb code) 'Bool.true) (code-proof code child))
+               '(exact q_l)]))))
+    (a/prove-theorem lem (lv ['nb :- 'Nat 'hk :- '(LE.le 97 nb) 'v :- T]) (lbl-statement pred enc 'v)
+      (lv (into [(if recursive '(induction v) '(cases v))]
+                (mapcat (fn [[_ [nm fields]]]
+                          ['(intro q_hs)
+                           (list 'exact (apply list (symbol (str lem "_" nm)) 'nb 'hk
+                                               (concat (map first fields) (for [[x F] fields :when (rec? F)] (ih x)) ['q_hs])))])
+                        indexed))))
+    (swap! lbl-info assoc T [pred lem])))
+
+(define-lbl! 'HdDT 'dataOkHd 'lblHd hd-ctors)
+(define-lbl! 'StepDT 'dataOkSt 'lblSt st-ctors)
+(define-lbl! 'SkDT 'dataOkSkDT 'lblSkDT skdt-ctors)
+(define-lbl! 'DT 'dataOkDT 'lblDT dt-ctors)
+
+;; A certificate: its fuel and budget (unary), the term and type (their label
+;; constants), the two trees (their data) and the padding.
+(a/prove-theorem 'lblBelow_encCert
+  (lv '[nb :- Nat, hk :- (LE.le 97 nb), f :- Nat, m :- Nat, t :- Exp, A :- Exp, T1 :- DT, T2 :- DT, pad :- Code,
+        ht :- (Eq Bool (lblsE nb t) Bool.true), hA :- (Eq Bool (lblsE nb A) Bool.true),
+        h1 :- (Eq Bool (dataOkDT nb T1) Bool.true), h2 :- (Eq Bool (dataOkDT nb T2) Bool.true),
+        hp :- (Eq Bool (lblBelow nb pad) Bool.true)])
+  '(Eq Bool (lblBelow nb (encCert f m t A T1 T2 pad)) Bool.true)
+  (let [code (list 'Code.sn 0 (chain-enc 0 '[(encN f) (encN m) (encE t) (encE A) (encDT T1) (encDT T2)]) 'pad)]
+    (lv [(list 'have 'q_l (list 'Eq 'Bool (list 'lblBelow 'nb code) 'Bool.true)
+               (code-proof code {'(encN f) '(lblN nb hk f (Eq.refl Bool.true)) '(encN m) '(lblN nb hk m (Eq.refl Bool.true))
+                                 '(encE t) '(lblBelow_encE nb hk t ht) '(encE A) '(lblBelow_encE nb hk A hA)
+                                 '(encDT T1) '(lblDT nb hk T1 h1) '(encDT T2) '(lblDT nb hk T2 h2) 'pad 'hp}))
+         '(exact q_l)])))
 
 ;; ---------------------------------------------------------------------------
 ;; Completeness.
@@ -450,17 +637,18 @@
               (list 'Nat.ble_eq_true_of_le (le 2))
               (list 'Nat.ble_eq_true_of_le (le 3))
               (list 'Nat.ble_eq_true_of_le (le 4))]
+      cc-params '[m :- Nat, t :- Exp, A :- Exp, T1 :- DT, T2 :- DT,
+                  h1 :- (Eq Bool (dtCheck (Check decCert) T1 (DTJ.rt (thetaD m) (thetaU m) t A)) Bool.true),
+                  h2 :- (Eq Bool (dtCheck (Check decCert) T2 (DTJ.tl Bool.true (List.nil Exp) A Exp.tUnit)) Bool.true),
+                  hA :- (Eq Bool (closedTy A) Bool.true)]
       ;; the body's conjunction is true: band_tt t_i (rest_i) p_i (rest's proof),
       ;; built from the inside out
       conj-true (let [n (count checks)]
                   (reduce (fn [acc i] (list 'band_tt (nth checks i) (h/f7-and (drop (inc i) checks)) (nth proofs i) acc))
                           '(Eq.refl Bool.true) (range (dec n) -1 -1)))]
-  (a/prove-theorem 'check_complete
-    (lv '[m :- Nat, t :- Exp, A :- Exp, T1 :- DT, T2 :- DT,
-          h1 :- (Eq Bool (dtCheck (Check decCert) T1 (DTJ.rt (thetaD m) (thetaU m) t A)) Bool.true),
-          h2 :- (Eq Bool (dtCheck (Check decCert) T2 (DTJ.tl Bool.true (List.nil Exp) A Exp.tUnit)) Bool.true),
-          hA :- (Eq Bool (closedTy A) Bool.true)])
-    (lv '(Exists (fn [c :- Code] (Eq Bool (Check decCert c (encE A)) Bool.true))))
+  (a/prove-theorem 'check_cert_ok
+    (lv cc-params)
+    (lv (list 'Eq 'Bool (list 'Check 'decCert cert '(encE A)) 'Bool.true))
     (lv [(list 'have 'hC (list 'Eq 'Nat (list 'cnodes cert) (list '+ 1 (list '+ (list 'cnodes X) (list '+ N 1))))
                (list 'congrArg (list 'fn '[p :- Nat] (list '+ 1 (list '+ (list 'cnodes X) 'p))) (list 'pad_nodes N)))
          (list 'have 'hdec (list 'Eq (list 'Option CD) (list 'decCert cert) (list 'Option.some CD (cd-tuple 'm 't 'A 'T1 'T2)))
@@ -472,4 +660,21 @@
                (list 'Eq.trans (list 'check_fix 'decCert cert '(encE A))
                      (list 'Eq.trans (list 'congrArg (list 'fn ['o :- (list 'Option CD)] (list 'bodyO '(Check decCert) cert '(encE A) 'o)) 'hdec)
                            'hopt)))
-         '(constructor) (list 'exact cert) '(exact hchk)])))
+         '(exact hchk)]))
+  (a/prove-theorem 'check_complete (lv cc-params)
+    (lv '(Exists (fn [c :- Code] (Eq Bool (Check decCert c (encE A)) Bool.true))))
+    (lv ['(constructor) (list 'exact cert) '(exact (check_cert_ok m t A T1 T2 h1 h2 hA))]))
+  ;; The same certificate has every label below NL = 100 (lblOk), so a program
+  ;; can hold it as an R value — given that the trees' and the type's data
+  ;; (label constants, raw codes) are below 100, as typing already asks.
+  (a/prove-theorem 'check_complete_lbl
+    (lv (into cc-params '[lt :- (Eq Bool (lblsE 100 t) Bool.true), lA :- (Eq Bool (lblsE 100 A) Bool.true),
+                          d1 :- (Eq Bool (dataOkDT 100 T1) Bool.true), d2 :- (Eq Bool (dataOkDT 100 T2) Bool.true)]))
+    (lv '(Exists (fn [c :- Code] (And (Eq Bool (lblOk c) Bool.true) (Eq Bool (Check decCert c (encE A)) Bool.true)))))
+    (lv ['(constructor) (list 'exact cert)
+         (list 'exact (list 'And.intro
+                            (list 'Eq.trans (list 'lblOk_lblBelow cert)
+                                  (list 'lblBelow_encCert 100 '(Nat.le_of_ble_eq_true (Eq.refl Bool.true)) F 'm 't 'A 'T1 'T2 (list 'padC N)
+                                        'lt 'lA 'd1 'd2
+                                        (list 'Eq.trans (list 'Eq.symm (list 'lblOk_lblBelow (list 'padC N))) (list 'pad_ok N))))
+                            '(check_cert_ok m t A T1 T2 h1 h2 hA)))])))

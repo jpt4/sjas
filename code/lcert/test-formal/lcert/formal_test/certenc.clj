@@ -44,3 +44,12 @@
                            hA :- (Eq Bool (closedTy A) Bool.true)]
       '(Exists (fn [c :- Code] (Eq Bool (Check decCert c (encE A)) Bool.true)))
       '[(exact (check_complete m t A T1 T2 h1 h2 hA))])))))
+
+(deftest f7-certificate-labels
+  (testing "numbers in certificates are unary, so a certificate's labels stay below 100"
+    (doseq [nm '[dataOkDT lblBelow_encCert check_complete_lbl]] (is (b/has? nm) (str nm)))
+    (is (holds? '(Eq Bool (lblBelow 97 (encN 150)) Bool.true)))
+    (is (holds? '(Eq (Option Nat) (decN (encN 7)) (Option.some Nat 7)))))
+  (testing "a certificate with fuel and budget above 100 has every label below 100"
+    (is (holds? (list 'Eq 'Bool (list 'lblOk (list 'encCert 150 120 'Exp.star 'Exp.tUnit rc fb '(padC 3))) 'Bool.true)))))
+
