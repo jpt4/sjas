@@ -56,4 +56,5 @@
     lcert.formal-test.funde
     lcert.formal-test.theorem4e
     lcert.formal-test.safety52
-    lcert.formal-test.s52facts])
+    lcert.formal-test.s52facts
+    lcert.formal-test.s52trace])
