@@ -6644,3 +6644,22 @@ are two senses of "deleting `H`":
   returns 5 with `H` and 0 without.
 So a machine's trust in its own consistency is observable at run time, in
 which held programs it will execute and how `inspect` branches.
+
+## 2026-10-05 — Encodings within the label set
+
+The adversarial review (2026-10-04) found that F7's certificates wrote
+numbers as single leaves `sl n`, putting labels ≥ 100 into accepted
+certificates no program could hold (`V(R)` asks `lblOk`); `encE`'s
+pseudo-type `tBrs` also used label 100. The user asked for every label below
+100 "regardless of whether parametrized labels are introduced". Branch
+`adr-0006-label-bound` (from `f5-finish`, the F5 work merged with the main
+line):
+- `tBrs` takes label 11 (`:isType`, unused by the expression encoding);
+  numbers in certificates are unary (`encNat`).
+- `enclabels.clj` and `certenc.clj` prove the bound for every limit
+  `nb ≥ 97` (the encoding labels), generated from the encoders' own clauses
+  and constructor tables; `check_complete_lbl` yields an `lblOk` certificate.
+- Red first (the REPL showed both encodings out of range), green in the
+  warm server: 19 suites, 591 assertions (f5f8693).
+- On the way: the label count (97 + 3 user labels = NL = 100) has no recorded
+  rationale; every `caseLbl` carries one branch per label.

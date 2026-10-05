@@ -151,6 +151,12 @@ of the trust base are therefore theorems about one concrete checker,
 `Check decCert`; the metatheory's results, stated for any checker meeting
 them, apply to it.
 
+*Labels (2026-10-05).* Certificates first wrote numbers as single leaves
+`sl n`, so an accepted certificate with a budget or fuel of 100 or more
+could not be held as an `R` value (`lblOk`). Numbers are now unary, and
+`check_complete_lbl` gives a certificate that is `lblOk` as well as
+accepted, given label constants and raw codes below 100 in its data.
+
 *Deviation.* The paper derives the size facts (Lemmas 2.6–2.7) from its
 encoding; `Check` tests them, so they hold of every accepted code by
 construction, and completeness pads a certificate that is too small. The
@@ -246,6 +252,13 @@ now checks.
   finite label set L. So `V(Syn)` and `V(R)` also require every label below
   NL (`lblOk`). Without it the recursors over codes and certificates (RecSyn,
   ItR) could not pass a tree's labels to methods expecting `Lbl`.
+  *The encodings respect it (2026-10-05).* L is the 97 encoding labels plus
+  3 free ones (`lcert.syntax`); the formal encodings now introduce only
+  encoding labels — `tBrs` moved from label 100 to 11, and the certificate
+  format's numbers became unary — and `enclabels.clj` proves, for every bound
+  `nb ≥ 97`, that an encoding's labels are below `nb` whenever its data's are
+  (`lblBelow_encE`, `lblBelow_encCert`; `lblOk_lblBelow` at 100). So the
+  bound survives making |L| a parameter.
 - **Bcons carries its motive's formation** (`hP`), as CaseL does; the
   fundamental lemma's Bcons case reads it. RecSyn carries the formation of
   its node branch's two added types (`hY1`, `hY2`), for that branch's
