@@ -52,6 +52,7 @@
     lcert.formal-test.enclabels
     lcert.formal-test.certenc
     lcert.formal-test.selfjust
+    lcert.formal-test.pa
     lcert.formal-test.uskel
     lcert.formal-test.funde
     lcert.formal-test.theorem4e

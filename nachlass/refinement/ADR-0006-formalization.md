@@ -300,6 +300,13 @@ now checks.
   unchanged. Discharging this extra hypothesis for the fundamental lemma's
   H₁ case remains an integration obligation.
 
+- **H_PA uses de Bruijn variables** (F6.1, `pa.clj`). ∀ binds index 0; A4 is
+  `∀φ → φ[t/0]` (substituting and lowering), A5 `∀(φ↑ → ψ) → (φ → ∀ψ)`, E1
+  `i = i`, E2 renames a variable in an atom, Q1–Q6 use indices 0 and 1, and
+  Gen generalizes index 0. This is R4's system up to the standard
+  equivalence of named and nameless syntax; it removes the "free for" side
+  conditions.
+
 ## Statement index
 
 Each paper result, the kernel constant that states it, and where the formal
@@ -341,6 +348,7 @@ theorem quantifies over `chkf dec encTy`, and those using the checker take
 | Proposition 4.11 | `prop411`, `prop411_typed`, `prop411_den`, `prop411_nodes` (section4c) | proved | cₙ is the chain of ω-lets `sh4_cn`; label ℓ is 0 (below NL). ⟦cₙ⟧ is the complete binary code `sh4_bush` (2ⁿ internal-node-count as cnodes + 1 = 2ⁿ, since Nat subtraction truncates; `prop411_nodes` is cnodes = 2ⁿ − 1). The certificate-size table is the paper's measurement, not a theorem |
 | Proposition 4.12 (1) | `prop412`, `prop412_typed`, `prop412_den`, `prop412_nodes` (section4c) | proved | the motive is Σ(p :ω Syn). 1, which does not depend on the Nat; the step opens the package and rebuilds a node. Part (2), polynomial certificate size, is the paper's citation of T3 and Proposition 4.1 |
 | Proposition 4.9 | `sh4_depth0_typed`, `sh4_from_ff`, `sh4_cv_ff` (section4c) | partial | k = 0 of `depthLeq` (tt on a leaf, ff on a node) is a closed budget-0 term of Π(c :ω Syn). Bool. Where that bound has computed to ff, T(ff) ▹ 0 by Hd.tTF, so the evidence inhabits 0. The closed inhabitant of Π(c). T(depthLeq c k) ⊸ T(chk′ c c⊥) ⊸ 0 is not constructed: δ needs a canonical code, so the paper's proof case-splits to depth k (100-way caseLbl, two subcodes), and that derivation was not built |
+| §6.2 H_PA; §6.4 step 4 (PA is consistent) | `PT`, `PF`, `PAx`, `PPrv`, `paHolds`, `paPrv_sound`, `pa_consistent` (pa) | proved | de Bruijn variables (A4/A5/E2 without "free for"); DN is sound by stability (`paHolds_stab`), with no classical axiom |
 | §4 (the rest), §6 | — | open | the inhabitant of Proposition 4.9, and Proposition 5 |
 
 ## Review guide
