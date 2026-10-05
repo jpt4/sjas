@@ -5,7 +5,7 @@
 cd "$(dirname "$0")/.." || exit 2
 bin/check-formal-names || exit 1
 grep -q ":ready" test-runs/formal-server.log 2>/dev/null || { echo "server not ready (see test-runs/formal-server.log)"; exit 2; }
-out=$(echo "(lcert.formal-server/recheck!)" | nc -N localhost 5699)
+out=$(echo "(lcert.formal-server/recheck!)" | nc -N localhost ${FORMAL_PORT:-5699})
 echo "$out"
 echo "$out" | grep -q "Nothing changed since the last check." && exit 0
 echo "$out" | grep -qE "^[0-9]+ failures, [0-9]+ errors\." || exit 1

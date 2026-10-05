@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 # Start the warm checking server (test-formal/lcert/formal_server.clj): one
 # slow first load of the whole formalization, then fast re-checks with
-# bin/formal-check.  Detached; log and PID under test-runs/.  Port 5699.
+# bin/formal-check.  Detached; log and PID under test-runs/.  Port $FORMAL_PORT
+# (default 5699), so several worktrees can each run one.
 cd "$(dirname "$0")/.." || exit 2
 bin/check-formal-names || exit 1
 mkdir -p test-runs
 [ -f test-runs/formal-server.pid ] && kill "$(cat test-runs/formal-server.pid)" 2>/dev/null
-ANSATZ_OFFLINE=1 nohup clojure -J-Xmx2g -J-Dclojure.server.repl="{:port 5699 :accept clojure.core.server/repl}" -M:formal \
+ANSATZ_OFFLINE=1 nohup clojure -J-Xmx2g -J-Dclojure.server.repl="{:port ${FORMAL_PORT:-5699} :accept clojure.core.server/repl}" -M:formal \
   -e "(require 'lcert.formal-server) (println :warming) (try (lcert.formal-server/warm!) (catch Throwable e (println :warm-failed (.getMessage e)))) (println :ready) @(promise)" \
   > test-runs/formal-server.log 2>&1 &
 echo $! > test-runs/formal-server.pid
