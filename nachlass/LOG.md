@@ -6663,3 +6663,30 @@ line):
   warm server: 19 suites, 591 assertions (f5f8693).
 - On the way: the label count (97 + 3 user labels = NL = 100) has no recorded
   rationale; every `caseLbl` carries one branch per label.
+
+## 2026-10-06 — Theorem 4.6, Lemma 4.6a, Corollaries 4.6′/4.6″; F7 refutes Enc46
+
+Branch `f4-theorem46` (worktree `.claude/worktrees/t46`). Design note:
+[`docs-theorem46-design.md`](docs-theorem46-design.md); record in ADR-0006
+(deviations and statement index).
+
+- The phantom model is the standard model over an R-interpretation
+  (`rint.clj`). One generated proof of the fundamental lemma (`ri_*`) covers
+  both models: `lemma46a` is Lemma 4.6a, and `lemma36_via_ri` is the
+  standard Lemma 3.6.
+- Theorem 4.6 (`thm46`, `thm46_types`) takes its encoding fact as an
+  explicit hypothesis, `Enc46`. Large certificates are a hypothesis too,
+  since CheckSpec gives soundness and not completeness. E1 is used only to
+  pass from types to codes.
+- Corollaries 4.6′ and 4.6″ are proved exactly: a term exists at Θₖ iff
+  k ≥ μ(B) (resp. μ(□A)). The upper bounds above μ come from ⋆ absorbing the
+  extra tokens, a step the paper does not argue. "No budget serves every A
+  and B" is `d2_no_uniform`.
+- Finding: F7's checker reads a certificate's padding only through its
+  size, so padding is free (`check_pad`). Large certificates of any one
+  type therefore refute Enc46 at `Check decCert` (`enc46_F7`). Theorem
+  4.6's hypotheses are contradictory there at every budget beyond a
+  constant (`thm46_F7_vacuous`).
+  - So Theorem 4.6 is not established for F7's checker. Whether it holds
+    there is open. It needs another argument, or a certificate format whose
+    size facts are derived from the encoding rather than tested.

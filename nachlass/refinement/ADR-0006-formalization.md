@@ -1,6 +1,6 @@
 # ADR-0006 — Formalizing the R4 metatheory in Ansatz
 
-**Status.** Accepted 2026-09-27. In progress: F1–F3 done (Lemma 3.6, Theorems 1–3, Corollary 3.7); F4 mostly done (4.6, 4.8 open; 4.9 in part); F5 in progress (Theorem 4′ assembly, Theorem 5.2); **F7 done** (2026-10-03: a concrete, computing checker meets CheckSpec, TokSize and TypeSize, and accepts the certificates); F6 not begun.
+**Status.** Accepted 2026-09-27. In progress: F1–F3 done (Lemma 3.6, Theorems 1–3, Corollary 3.7); F4 mostly done (4.8 open; 4.9 in part; Theorem 4.6, Lemma 4.6a and Corollaries 4.6′/4.6″ proved on branch `f4-theorem46` (2026-10-06). Theorem 4.6 is proved relative to an explicit encoding hypothesis, Enc46, which F7's checker does not satisfy; see the deviations); F5 in progress (Theorem 4′ assembly, Theorem 5.2); **F7 done** (2026-10-03: a concrete, computing checker meets CheckSpec, TokSize and TypeSize, and accepts the certificates); F6 not begun.
 
 **Branch.** `adr-0006-formalization`, from `sjas-codification`, merged back
 into it phase by phase.
@@ -272,6 +272,79 @@ now checks.
   `closedTy A = true` only checks variable scope. The typing definitions are
   unchanged. Discharging this extra hypothesis for the fundamental lemma's
   H₁ case remains an integration obligation.
+- **The phantom model of §4.5 is the model over an R-interpretation**
+  (2026-10-06, branch `f4-theorem46`; design note
+  [`../docs-theorem46-design.md`](../docs-theorem46-design.md)). `rint.clj`'s
+  `RInt` fixes how certificates are read: the label `leaf a` builds, `print`,
+  and phantom-freeness. Its laws L1–L4 are bundled in the type. The carrier
+  of `R` stays `Code`. The phantoms ★ᵢ are the leaves `sl i`, i < J, and
+  `leaf a` builds `sl (a + J)`, so no term builds a phantom.
+  - The generic chain is `ri_den` … `ri_convcase`. It is a generated copy of
+    the standard chain (`tools/gen_ri_all.sh`: `gen_ri.py` renames and adds
+    the parameter, and `ri_edits.py` patches the R-specific steps). It is not
+    an in-place generalization, so no existing definition or theorem changed.
+  - The generic proof is one proof of the fundamental lemma for both models.
+    `lemma36_via_ri` recovers the standard Lemma 3.6 from it at `stdRI`.
+    Retiring the old chain is a separable follow-up: redefine
+    `den`/`V`/`EnvSat` as the `stdRI` instances.
+  - Where a phantom blocks the budget descent (the H₁ and Reflect cases), the
+    generic proof uses `PhCons`: Corollary 3.7 for trees with a phantom.
+    PhCons holds at every interpretation, by the standard Corollary 3.7
+    (`phcons_of_spec`).
+- **Theorem 4.6's encoding fact is a hypothesis, `Enc46`, and F7's checker
+  refutes it.**
+  - Case 3 of the paper's proof argues from E2, E3, E4 and E6, and from two
+    facts about the rules. Its conclusion: an accepted tree that embeds
+    accepted certificates strictly inside pays, in its own nodes, at least
+    the term size of one of them.
+  - `Enc46 chkf dec sz` (`enc46.clj`) states exactly that, for any term
+    measure `sz`. It is the theorem's only encoding fact.
+  - Enc46 is satisfiable (`enc46_sat`) and not trivial (`enc46_nontrivial`).
+    With CheckSpec and large certificates, it is jointly satisfiable only at
+    a toy checker so far (`enc46w.clj`, `thm46_hyps_sat`).
+  - F7's `Check decCert` reads a certificate's padding only through its size
+    tests. So a certificate stays accepted when its padding is replaced by
+    any larger tree (`check_pad`), including one that holds another
+    certificate.
+  - `enc46_F7`: large certificates of any one type refute Enc46 at
+    `Check decCert`, for every measure.
+  - `thm46_F7_vacuous`: Theorem 4.6's hypotheses are contradictory at every
+    budget k ≥ 2 + ‖left c₀‖ + ‖c₀‖, for any accepted c₀.
+  - So Theorem 4.6 and the lower halves of Corollaries 4.6′ and 4.6″ are
+    **not established for F7's checker**.
+  - Whether they hold there is **open**. Only the phantom model's case 3
+    fails: a program that outputs a node over its input cannot type its
+    evidence, but the model cannot see that. Two ways forward: another
+    argument, or a certificate format whose size facts are derived from the
+    encoding rather than tested, as in the paper's Lemmas 2.6–2.7.
+- **E1 is not used by Theorem 4.6 over codes; E3 is used by the paper's case
+  3.**
+  - `thm46` assumes ⌜B⌝ ≠ ⌜Aᵢ⌝. Its case 2 (`r″ = ★ᵢ`) needs only CheckSpec's
+    decoding: a code accepted at two type codes makes them equal
+    (`acc_same`).
+  - E1 enters only in `thm46_types`, to pass from B ≠ Aᵢ to ⌜B⌝ ≠ ⌜Aᵢ⌝.
+    R4 §4.5's "what the proof uses" lists E1.
+  - The paper's case 3 counts ⌜fᵢ⌝'s nodes among the root judgment's. That
+    needs the judgment to contain the term's encoding, which is E3, and R4's
+    list omits E3. The formal proof cannot see this, because Enc46 packages
+    case 3.
+  - Theorem 4.6 uses no property of the type encoding `encTy` beyond
+    CheckSpec.
+- **Large certificates are a hypothesis.**
+  - The paper builds `fᵢ := (λ(y :₀ Nat). gᵢ) N̄` with N > k. That needs the
+    checker's completeness, which CheckSpec does not give.
+  - `thm46` takes, for each input, an accepted certificate whose decoded
+    term exceeds k in `sz` (`hbig`).
+  - The corollaries take `LargeCert`: such certificates at every k.
+- **Corollary 4.6″ assumes ⌜□A⌝ ≠ ⌜A⌝.** E1 reduces it to □A ≠ A as types.
+  An injective encoding of arbitrary shape does not give that.
+- **Corollary 4.6′'s family is ¬ʲ1** (prop434's `negN`), standing in for the
+  paper's A_j = 1 ⊸ ⋯ ⊸ 1, as in Proposition 4.4.
+- **The upper bounds above μ.**
+  - "Exists exactly when k ≥ μ(B)" needs a term at every budget at least
+    μ(B). The paper types its term only at Θ_{μ(B)}.
+  - In the formalization, ⋆ absorbs the extra tokens: an axiom carries any
+    usages (`d2_upper_k46`, `d3_upper_k46`).
 
 ## Statement index
 
@@ -308,13 +381,18 @@ theorem quantifies over `chkf dec encTy`, and those using the checker take
 | Proposition 4.1, 4.7 | `prop41_closed`, `prop41_fun`, `prop47` (section4) | proved (4.1 given the Conv case) | 4.1(ii) for codes with labels below NL |
 | Propositions 4.2, 4.5, 4.10 | `prop42`, `prop45_d3`, `prop45_contraction`, `prop410` (section4b) | proved | labels below NL as hypotheses (`lblOk v`, `lblOk ⌜A⌝`) |
 | Propositions 4.3, 4.4 | `prop43`, `prop44_1`, `prop44_2`, `prop44_3` (prop434) | proved, given `TokSize` (4.3, 4.4 (1), (2)) and `TypeSize` (4.4) | two consequences of E2–E4, each as weak as its use: an accepted certificate is larger than twice its term's free tokens (`TokSize`; the paper's 1 + m + f implies it) and than its type's code (`TypeSize`); trust base of §2. μ(A) enters as a lower bound; 4.4 is refuted at ¬ᵏ⁺¹1 (the paper's A_j is 1 ⊸ ⋯ ⊸ 1) with a minimal certificate as hypothesis; 4.4 (3) needs only `TypeSize` |
+| §4.5 the phantom model | `RInt`, `RLaws`, `stdRI`, `phRI`, `PhOk`, `PhCons` (rint); `den_ri`, `V_ri`, `EnvSat_ri`, `Sound_ri` and the generic chain (ri_den … ri_convcase) | defined | the model over an R-interpretation: the carrier of R stays `Code`, phantoms are the leaves below J, and `print`, `leaf` and `reflect` read the interpretation (see the deviations) |
+| Lemma 4.6a | `lemma46a`, `lemma36_gen`, `phcons_of_spec` (lemma46a); `lemma36_ri` (ri_lemma36), `conv_all_ri` (ri_convcase) | proved | hypotheses: CheckSpec, and `PhOk` (the phantom codes' labels lie in L). No encoding fact. §4.5's "Lemma 2.8 applies without a phantom" is the interpretation's law L3. The standard Lemma 3.6 is the instance at `stdRI` (`lemma36_std`, `lemma36_via_ri`) |
+| Theorem 4.6 | `thm46` (over codes), `thm46_types` (over types), `thm46_ne_needed` (theorem46); `Enc46`, `enc46_sat`, `enc46_nontrivial` (enc46); `thm46_hyps_sat`, `thm46_W_noterm` (enc46w); `check_pad`, `enc46_F7`, `thm46_F7_vacuous` (enc46f7) | proved, relative to Enc46 | Hypotheses: CheckSpec; Enc46 for a term measure `sz` (case 3 only); for each input, a certificate with labels in L whose term exceeds k in `sz`; and ⌜B⌝ ≠ ⌜Aᵢ⌝ (`thm46`), or B ≠ Aᵢ for closed types (`thm46_types`, the theorem's only use of E1). The conclusion is a certificate of B with at most k nodes, so μ is a lower bound. B = A₁ must be excluded (`thm46_ne_needed`). The hypotheses are jointly satisfiable at a toy checker (enc46w). **At F7's checker they are refuted (enc46f7), so the theorem is not established there** |
+| Corollary 4.6′ (D2) | `d2_lower`, `d2_lower1`, `d2_upper`, `d2_upper_k46`, `cor46_prime`, `cor46_prime_iff`, `d2_no_uniform` (cor46) | proved | Lower bounds: Theorem 4.6's hypotheses, with `LargeCert` for A ⊸ B and A. Only A ≠ B is assumed; B ≠ A ⊸ B is proved (`pi_ne_cod46`). Upper bounds: any certificate of B with labels in L, at every k ≥ ‖v‖; they need neither CheckSpec nor an encoding fact. `cor46_prime_iff`: a term exists at Θₖ iff k ≥ μ(B). `d2_no_uniform` adds TypeSize and E5, at A = 1, B = ¬ᵏ⁺¹1. At F7's checker everything but the upper bounds is vacuous (`enc46_F7`) |
+| Corollary 4.6″ (D3) | `d3_lower`, `d3_gap`, `d3_upper_k46`, `cor46_dprime`, `cor46_dprime_iff` (cor46); `prop45_d3` (section4b) | proved | Lower bound: Theorem 4.6 at B = □A, with `LargeCert` for A and ⌜□A⌝ ≠ ⌜A⌝ as a hypothesis. Gap μ(□A) > 2μ(A): `prop43` (TokSize). Upper bound at every k ≥ ‖w‖. `cor46_dprime_iff`: a term exists at Θₖ iff k ≥ μ(□A). At F7's checker the lower half is vacuous |
 | Proposition 4.10′ (H does not give H₁) | `prop410_prime` (prop410); `lemma36_noH1`, `rt_tr` | proved | χ accepts every code above a size bound (the paper changes Check at two pairs); "without H₁" is `noH1` of the term |
 | Theorem 4, Corollary 5.1 | `theorem4`, `Theorem_4`, `corollary51`, `corollary51_conv`, `corollary51_nodes` (eval, theorem4) | proved | simply typed terms with `argsOK` (skOf defined at every argument; not a branch-list head). `corollary51` keeps `ConvCase`; `corollary51_conv` discharges it by `conv_all`. `corollary51_nodes` is Theorem 3 at Θₙ: an `R` denotation has at most `n` internal nodes |
 | Erasure, evalᴱ, E, the trace | `Er`, `er_total`, `usk_skel`, `ebase_rel`, `erdflt`, `erdflt_ty`, `envE`, `e_abort`, `EvE`, `Erel`, `Ok`, `OkE` (erase); `usk_cv`, `erel_cv`, `erel_subst1`, `henv_of_usk` (uskel); `AdeqE`, `adeqE_var`, `adeqE_lam0`, `adeqE_lam1`, `adeqE_lamw`, `adeqE_app0`, `adeqE_app1`, `adeqE_appw`, `adeqE_pair0`, `adeqE_pair1`, `adeqE_pairw`, `adeqE_conv`, `adeqE_let0`, `adeqE_let1`, `adeqE_letw`, `adeqE_ite`, `adeqE_elimB`, `adeqE_case`, `adeqE_succ`, `adeqE_sleaf`, `adeqE_snode`, `adeqE_leaf`, `adeqE_node`, `adeqE_bnil`, `adeqE_bcons`, `adeqE_recN`, `adeqE_recs_leaf`, `adeqE_recs_node`, `adeqE_recs`, `adeqE_recS`, `adeqE_itr`, `adeqE_itR`, `adeqE_prn`, `adeqE_chk` (funde) | defaults, the environment relation, substitution invariance of E, path congruence, and the constant, variable, λ, application, pair, conversion, let, if, elimBool, caseLbl, constructor, recN, recSyn, itR, print, and chk′ cases of the fundamental property proved; inspect, abort, H₁, reflect, the induction assembling AdeqE, and Theorem 5.2 are open | erasure is a relation because `Rt` is `Prop`. `dec` returns a term, so reflect's success rule quantifies over an `Er` of the decoded judgment (uniqueness of erasure is not proved). `E` at `Σ₀` forgets the first component: the paper writes `(⋆, b)`, but the runtime default of a product is `(dflt σ, dflt τ)`, so requiring `⋆` would leave `abort` of `Σ(y :₀ Bool). 1` unrelated. `erdflt` / `erdflt_ty` are the defaults paragraph. `envE` leaves usage 0 unconstrained. `e_abort` and `e_h1` return those defaults after evaluating the premises; they are not Theorem 5.2's vacuous cases. `usk_hd` is invariance of `E` under a head step (`T(tt) ⇝ 1`, `T(ff) ⇝ 0`). Path congruence is `usk_cv` (uskel), and `usk_step_needs_wf` is the ill-typed β. Substitution invariance is `usk_subst` / `erel_subst1`; `henv_of_usk` transports a carrier environment along `usk_ctx`, and is a function because `HEnv` is a type. The fundamental property of evalᴱ is proved for constants, variables, λ, and application (`adeqE_star`, `adeqE_tt`, `adeqE_ff`, `adeqE_zero`, `adeqE_lbl`, `adeqE_var`, `adeqE_lam0`, `adeqE_lam1`, `adeqE_lamw`, `adeqE_app0`, `adeqE_app1`, `adeqE_appw`, `adeqE_pair0`, `adeqE_pair1`, `adeqE_pairw`, `adeqE_conv`). At Π₀ the runtime argument is ⋆; the denotation still applies ⟦f⟧ to ⟦u⟧. At Σ₀ the first component is ⋆ and is forgotten by E. Conversion transports the relation by `usk_cv` and the carrier by `denU_cv`. Let (`adeqE_let0`, `adeqE_let1`, `adeqE_letw`) evaluates the erased scrutinee to a pair and the erased body under (second, (first, ρ)); the body's judgment is at `lift 2 0 C`, brought back by `denU_lift`, and `den_let_body` is `den_letp_some` once `skOf` of the scrutinee is the product. At Σ₀ the first runtime component is unconstrained. The tail environment is `envE` at the body's usage vector. `if` (`adeqE_ite`) selects the branch at one type. `elimBool` (`adeqE_elimB`) moves the branch from `P[tt]` or `P[ff]` onto `P[b]` by `skel_subst_eq`, because a Boolean term has skeleton Unit. `caseLbl` (`adeqE_case`) is application of the branch list, and `P[a/x]` is `P` after a Unit substitution. Constructors (`adeqE_succ`, `adeqE_sleaf`, `adeqE_snode`, `adeqE_leaf`, `adeqE_node`, `adeqE_bnil`, `adeqE_bcons`) build the value from related arguments; a node evaluates its token and drops it, and `bnil` returns the related default. `recN` (`adeqE_recN`) inducts on the numeral: the step runs under the accumulator and the predecessor, `stepTy` has the skeleton of `P`, and the conclusion `P[n]` agrees with `P` because a numeral has skeleton Unit. The leaf method of recSyn (`adeqE_recs_leaf`) binds the label at usage ω; `leafTy`, `nodeTy`, `y1Ty` and `y2Ty` are substitutions of terms, so they have the skeleton of the motive. The node method (`adeqE_recs_node`) binds the two recursive results at usage 1, cast from `usk P` into `y1Ty` and `y2Ty`, and the two codes and the label at usage ω. `adeqE_recs` inducts on the code. `denU_recS` is that `Code.rec`; the cast stays outside the recursor. `adeqE_recS` is the judgment at `P[c]`, which agrees with `P` because a code term has skeleton Unit. The methods are moved off `leafTy` and `nodeTy` by `adeqE_leaf_at` and `adeqE_node_at`. The itR recursion (`adeqE_itr_leaf`, `adeqE_itr_node`, `adeqE_itr`) applies `g` to the label and `h` to the token, the label, and the two recursive results; `gTy` and `hTy` quantify the motive under lifts, so the results are cast back to `usk X`. A token is related at ◇. `denU_itR` is that `Code.rec`; the cast stays outside the recursor. `adeqE_itR` evaluates `g`, `h`, and the certificate, then folds them. `adeqE_prn` returns the certificate's code. `adeqE_chk` returns Check of the two codes. `denU` and `henv_of_usk` are functions because their types are not propositions. Induction is on `Er`, which carries the erased term; `Rt` is a proposition and cannot return it. Theorem 5.2's relation `S` is not yet proved |
 | Proposition 4.11 | `prop411`, `prop411_typed`, `prop411_den`, `prop411_nodes` (section4c) | proved | cₙ is the chain of ω-lets `sh4_cn`; label ℓ is 0 (below NL). ⟦cₙ⟧ is the complete binary code `sh4_bush` (2ⁿ internal-node-count as cnodes + 1 = 2ⁿ, since Nat subtraction truncates; `prop411_nodes` is cnodes = 2ⁿ − 1). The certificate-size table is the paper's measurement, not a theorem |
 | Proposition 4.12 (1) | `prop412`, `prop412_typed`, `prop412_den`, `prop412_nodes` (section4c) | proved | the motive is Σ(p :ω Syn). 1, which does not depend on the Nat; the step opens the package and rebuilds a node. Part (2), polynomial certificate size, is the paper's citation of T3 and Proposition 4.1 |
 | Proposition 4.9 | `sh4_depth0_typed`, `sh4_from_ff`, `sh4_cv_ff` (section4c) | partial | k = 0 of `depthLeq` (tt on a leaf, ff on a node) is a closed budget-0 term of Π(c :ω Syn). Bool. Where that bound has computed to ff, T(ff) ▹ 0 by Hd.tTF, so the evidence inhabits 0. The closed inhabitant of Π(c). T(depthLeq c k) ⊸ T(chk′ c c⊥) ⊸ 0 is not constructed: δ needs a canonical code, so the paper's proof case-splits to depth k (100-way caseLbl, two subcodes), and that derivation was not built |
-| §4 (the rest), §6 | — | open | the inhabitant of Proposition 4.9, and Proposition 5 |
+| §4 (the rest), §6 | — | open | the inhabitant of Proposition 4.9, and Proposition 5; Theorem 4.6 at F7's checker (the phantom argument needs Enc46, which F7 refutes) |
 
 ## Review guide
 
@@ -325,8 +403,14 @@ kernel cannot: that each formal statement says what the paper says.
 - **Hypotheses that could make a theorem vacuous:** `CheckSpec` (is it
   satisfiable by the real `Check`? is it all the metatheory uses?), `SubOK`,
   the `clean` premise.
+  - `Enc46` with large certificates (`LargeCert`, `hbig`): they are jointly
+    satisfiable only at a toy checker (`enc46w`), and F7's checker refutes
+    them (`enc46f7`).
 - **Generators** (`tools/*.py`, and the Clojure generators in `unfold`,
   `mono`, `syntactic`, `fundamental`): do they emit the intended statements?
+  - The generic chain `ri_*` is generated by `tools/gen_ri_all.sh`, which
+    runs `gen_ri.py` and then `ri_edits.py`. Does each hand edit in
+    `ri_edits.py` match the phantom model of R4 §4.5?
 - **Deviations** above: do any change what the theorems mean?
 Proofs need not be read. `bin/test-formal` rebuilds and re-checks everything.
 
