@@ -104,7 +104,7 @@
             (And (Eq Bool (holeIn i K) Bool.true)
                  (forall [m Nat] (forall [t Exp] (forall [A Exp]
                    (=> (Eq (Option (Prod Nat (Prod Exp Exp))) (dec (sg i)) (Option.some (Prod Nat (Prod Exp Exp)) (Prod.mk m (Prod.mk t A))))
-                       (LE.le (sz t) (hnodes K))))))))))))))
+                       (LE.le (sz t) (hnodes K)))))))))))))))
 
 ;; Satisfiable: the checker that accepts nothing meets it vacuously.
 (thm enc46_sat [dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), sz :- (=> Exp Nat)]
@@ -116,6 +116,9 @@
 ;; always returns a term of measure 5, fails it at the node over one hole
 ;; (no node of its own but the root: 5 ≰ 1).
 (thm five_le_one [h :- (LE.le 5 1)] False (omega))
+;; Some code is accepted by the checker that accepts everything.
+(thm ex_code_true [] (Exists (fn [D :- Code] (Eq Bool Bool.true Bool.true)))
+  (constructor) (exact (Code.sl 0)) (exact (Eq.refl$1 Bool.true)))
 (thm enc46_nontrivial []
   (=> (Enc46 (fn [a :- Code, b :- Code] Bool.true)
              (fn [c :- Code] (Option.some (Prod Nat (Prod Exp Exp)) (Prod.mk 0 (Prod.mk Exp.star Exp.tUnit))))
@@ -130,7 +133,7 @@
                         (LE.le 5 1))))))))
     (h (fn [i :- Nat] (Code.sl 0)) (HTree.hnode 0 (HTree.hhole 0) (HTree.hleaf 0)) (Code.sl 0)
        (Eq.refl$1 Bool.true) (Eq.refl$1 Bool.true) (Eq.refl$1 Bool.true)
-       (fn [i :- Nat, hi :- (Eq Bool (holeIn i (HTree.hnode 0 (HTree.hhole 0) (HTree.hleaf 0))) Bool.true)] (Exists.intro$1 (Code.sl 0) (Eq.refl$1 Bool.true)))))
+       (fn [i :- Nat, hi :- (Eq Bool (holeIn i (HTree.hnode 0 (HTree.hhole 0) (HTree.hleaf 0))) Bool.true)] ex_code_true)))
   (refine' (exN _ _ hx _))
   (intro i hi)
   (exact (five_le_one ((And.right hi) 0 Exp.star Exp.tUnit (Eq.refl$1 (Option.some (Prod Nat (Prod Exp Exp)) (Prod.mk 0 (Prod.mk Exp.star Exp.tUnit))))))))
@@ -163,12 +166,16 @@
     (congr (congrArg (Code.sn l) ih_a) ih_b))
   (exact h))
 
+;; A node's count from its children's (both counts are 1 + left + right).
+(thm add1_eq [a :- Nat, b :- Nat, c :- Nat, d :- Nat, h1 :- (Eq Nat a c), h2 :- (Eq Nat b d)]
+  (Eq Nat (+ 1 (+ a b)) (+ 1 (+ c d)))
+  (rw [h1 h2]))
 ;; A phantom tree's own nodes are the holed tree's.
 (thm toH_nodes [J :- Nat, c :- Code] (Eq Nat (hnodes (toH J c)) (cnodes c))
   (induction c)
   (exact (hnodes_sel l J (Nat.blt l J)))
   (have h (Eq Nat (+ 1 (+ (hnodes (toH J a)) (hnodes (toH J b)))) (+ 1 (+ (cnodes a) (cnodes b))))
-    (congrArg (fn [q :- Nat] (+ 1 q)) (congr (congrArg HAdd.hAdd ih_a) ih_b)))
+    (add1_eq (hnodes (toH J a)) (hnodes (toH J b)) (cnodes a) (cnodes b) ih_a ih_b))
   (exact h))
 
 ;; A tree that is not phantom-free has a hole.
@@ -176,7 +183,7 @@
   (cases x)
   (intro h) (exact (Or.inl (Eq.refl$1 Bool.false)))
   (intro h) (exact (Or.inr h)))
-(thm bor_left_true [x :- Bool, y :- Bool, h :- (Eq Bool x Bool.true)] (Eq Bool (Bool.or x y) Bool.true) (rw [h]) (rfl))
+(thm bor_left_true [x :- Bool, y :- Bool, h :- (Eq Bool x Bool.true)] (Eq Bool (Bool.or x y) Bool.true) (rw [h]))
 (thm bor_right_true [x :- Bool, y :- Bool, h :- (Eq Bool y Bool.true)] (Eq Bool (Bool.or x y) Bool.true) (cases x) (exact h) (rfl))
 (thm hasHole_sel [l :- Nat, J :- Nat, bb :- Bool]
   (=> (Eq Bool (Nat.ble J l) Bool.false) (Eq Bool (Nat.blt l J) bb)

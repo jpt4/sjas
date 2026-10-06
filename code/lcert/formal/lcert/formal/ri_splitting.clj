@@ -168,7 +168,7 @@
   ;; A :: D, with either vector empty: the hypothesis is False
   (intro us1) (cases us1) (intro us2 en k h) (exact (False.elim h))
   (intro us2) (cases us2) (intro en k h) (exact (False.elim h))
-  (intro en k h) (exact (split_cons_ri _ _ _ _ _ _ _ _ _ _ _ _ ih_tail h)))
+  (intro en k h) (exact (split_cons_ri _ _ _ _ _ _ _ _ _ _ _ _ _ ih_tail h)))
 
 ;; --- Lemma 3.5, second clause: ωΓ ---------------------------------------------
 
@@ -196,7 +196,7 @@
   (induction D)
   (intro us en k h) (exact True.intro)
   (intro us) (cases us) (intro en k h) (exact (False.elim h))
-  (intro en k h) (exact (omega_cons_ri _ _ _ _ _ _ _ _ _ _ ih_tail h)))
+  (intro en k h) (exact (omega_cons_ri _ _ _ _ _ _ _ _ _ _ _ ih_tail h)))
 
 ;; --- 1Γ = Γ -----------------------------------------------------------------
 
@@ -222,7 +222,7 @@
   (induction D)
   (intro us en k h) (exact True.intro)
   (intro us) (cases us) (intro en k h) (exact (False.elim h))
-  (intro en k h) (exact (one_cons_ri _ _ _ _ _ _ _ _ _ _ ih_tail h)))
+  (intro en k h) (exact (one_cons_ri _ _ _ _ _ _ _ _ _ _ _ ih_tail h)))
 
 ;; --- raising the footprint bound ----------------------------------------------
 
@@ -241,4 +241,4 @@
                   n :- Nat, D :- (List Exp), us :- (List U), en :- (HEnv (skels D)), k :- Nat, k2 :- Nat,
                   hle :- (Nat.le k k2), h :- (EnvSat_ri chkf dec encTy ri n D us en k)]
   (EnvSat_ri chkf dec encTy ri n D us en k2)
-  (cases D) (exact True.intro) (cases us) (exact (False.elim h)) (exact (mono_cons_ri _ _ _ _ _ _ _ _ _ _ _ hle h)))
+  (cases D) (exact True.intro) (cases us) (exact (False.elim h)) (exact (mono_cons_ri _ _ _ _ _ _ _ _ _ _ _ _ hle h)))

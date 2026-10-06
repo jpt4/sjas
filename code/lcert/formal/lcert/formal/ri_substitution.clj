@@ -385,7 +385,7 @@
 
 (simple-case! 'wk_leaf_ri '[G :- (List Sk), x :- Exp, ih_h :- (%WK G x Sk.lbl)]
   '(Exp.leaf x) 'Sk.cert
-  '(coe Sk.cert Sk.cert (Code.sl (riLf ri q1))) ;; RI: leaf '[(%H x G Sk.lbl ih_h)])
+  '(coe Sk.cert Sk.cert (Code.sl (riLf ri q1))) '[(%H x G Sk.lbl ih_h)]) ;; RI: leaf
 
 (simple-case! 'wk_node_ri '[G :- (List Sk), d :- Exp, x :- Exp, r1 :- Exp, r2 :- Exp,
                          ih_hx :- (%WK G x Sk.lbl), ih_h1 :- (%WK G r1 Sk.cert), ih_h2 :- (%WK G r2 Sk.cert)]
@@ -406,7 +406,7 @@
 
 (simple-case! 'wk_prn_ri '[G :- (List Sk), r :- Exp, ih_h :- (%WK G r Sk.cert)]
   '(Exp.prn r) 'Sk.syn
-  '(coe Sk.syn Sk.syn (riPr ri q1)) ;; RI: print '[(%H r G Sk.cert ih_h)])
+  '(coe Sk.syn Sk.syn (riPr ri q1)) '[(%H r G Sk.cert ih_h)]) ;; RI: print
 
 ;; sLam: arrCase at the arrow skeleton reduces to the body under one binder.
 (simple-case! 'wk_lam_ri '[G :- (List Sk), r :- U, A :- Exp, t :- Exp, s :- Sk,
@@ -1000,7 +1000,7 @@
     (%H2 c Sk.syn ih_hc)])
 (sb-simple! 'sb_leaf_ri '[Gp :- (List Sk), x :- Exp, ih_h :- (%SB Gp x Sk.lbl)]
   '(Exp.leaf x) 'Sk.cert
-  '(coe Sk.cert Sk.cert (Code.sl (riLf ri q1))) ;; RI: leaf '[(%H2 x Sk.lbl ih_h)])
+  '(coe Sk.cert Sk.cert (Code.sl (riLf ri q1))) '[(%H2 x Sk.lbl ih_h)]) ;; RI: leaf
 (sb-simple! 'sb_node_ri '[Gp :- (List Sk), d :- Exp, x :- Exp, r1 :- Exp, r2 :- Exp,
                        ih_hx :- (%SB Gp x Sk.lbl), ih_h1 :- (%SB Gp r1 Sk.cert), ih_h2 :- (%SB Gp r2 Sk.cert)]
   '(Exp.node d x r1 r2) 'Sk.cert
@@ -1018,7 +1018,7 @@
     (%H2 r Sk.cert ih_hr)])
 (sb-simple! 'sb_prn_ri '[Gp :- (List Sk), r :- Exp, ih_h :- (%SB Gp r Sk.cert)]
   '(Exp.prn r) 'Sk.syn
-  '(coe Sk.syn Sk.syn (riPr ri q1)) ;; RI: print '[(%H2 r Sk.cert ih_h)])
+  '(coe Sk.syn Sk.syn (riPr ri q1)) '[(%H2 r Sk.cert ih_h)]) ;; RI: print
 (sb-simple! 'sb_pair_ri '[Gp :- (List Sk), r :- U, A :- Exp, B :- Exp, x :- Exp, y :- Exp,
                        ih_hx :- (%SB Gp x (skel A)), ih_hy :- (%SB Gp y (skel B))]
   '(Exp.pair (Exp.tSig r A B) x y) '(Sk.prod (skel A) (skel B))

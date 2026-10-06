@@ -787,7 +787,7 @@
   (induction D)
   (intro us en h) (exact True.intro)
   (intro us) (cases us) (intro en h) (exact (False.elim h))
-  (intro en h) (exact (omega_back_cons_ri _ _ _ _ _ _ _ _ _ ih_tail h)))
+  (intro en h) (exact (omega_back_cons_ri _ _ _ _ _ _ _ _ _ _ ih_tail h)))
 
 
 ;; V(stepTy P) at (acc, (i, η)) is V(P) at (i + 1, η): V_lift_fam through the
