@@ -5,7 +5,7 @@
             [lcert.formal.s52prod]))
 
 (deftest s52-pair-cases
-  (doseq [c '[s52_pair_second s52_pair s52_pair0e]]
+  (doseq [c '[s52_pair_second s52_pair s52_pair0e s52_let]]
     (is (b/has? c) (str c)))
   (testing "the second component must satisfy its truth type, even at usage zero"
     (is (b/rejects?

@@ -74,3 +74,40 @@
     (constructor) (exact RV.star) (constructor) (exact vy)
     (constructor) (rfl) (constructor) (exact True.intro)
     (exact (s52_pair_second chkf dec encTy cap Bool.true G en rho A B x y vy hB hx hk (And.right py)))])
+
+;; Let, all usages and both evaluators. The first component's premise is
+;; Entry52, so at erased usage zero it demands nothing. The second entry
+;; always satisfies S(B) in the environment extended by the first carrier.
+;; The body is typed at lift 2 C; s52_lift2_fam removes the two binders
+;; without changing either the body denotation or the safe trace.
+(def ^:private pair-den (den 'p '(Sk.prod (skel A) (skel B))))
+(def ^:private alpha (list 'Prod.fst pair-den))
+(def ^:private beta (list 'Prod.snd pair-den))
+(def ^:private G2 '(List.cons Sk (skel B) (List.cons Sk (skel A) G)))
+(def ^:private en2 (list 'Prod.mk beta (list 'Prod.mk alpha 'en)))
+(def ^:private rho2 '(List.cons RV vb (List.cons RV va rho)))
+
+(prove! 's52_let
+  (concat ctx '[r :- U, A :- Exp, B :- Exp, C :- Exp, p :- Exp, t :- Exp, pe :- Exp, te :- Exp,
+    hC :- (SkJ Bool.true G C Sk.unit),
+    hk :- (Eq (Option Sk) (skOf G p) (Option.some Sk (Sk.prod (skel A) (skel B))))]
+    ['ihp :- (result 'p '(Exp.tSig r A B) 'pe)
+     'iht :- (list 'forall '[va RV] (list 'forall '[vb RV]
+       (list '=> (list 'Entry52 'erasing 'r (rel 'A 'va alpha))
+         (apply list 'S52 (concat ps ['B '(List.cons Sk (skel A) G) (list 'Prod.mk alpha 'en) '(skel B) 'vb beta]))
+         (walk/postwalk-replace {'G G2 'en en2 'rho rho2} (result 't '(lift 2 0 C) 'te)))))])
+  (result '(Exp.letp C p t) 'C '(Exp.letp C pe te))
+  ['(rw [(den_letp_some chkf dec encTy cap C p t G (skel A) (skel B) (skel C) en hk)])
+   '(refine' (exT RV _ _ ihp _)) '(intro vp hp)
+   '(refine' (exT RV _ _ (And.right hp) _)) '(intro va hs1)
+   '(refine' (exT RV _ _ hs1 _)) '(intro vb hs2)
+   '(refine' (exT RV _ _ (iht va vb (And.left (And.right hs2)) (And.right (And.right hs2))) _))
+   '(intro w hw)
+   '(constructor) '(exact w) '(constructor)
+   '(exact (trace52_eLet chkf dec encTy erasing cap rho C pe te va vb w
+     (s52_trace_cast chkf dec encTy cap erasing (EvSrc.tm rho pe) vp (RV.pair va vb)
+       (And.left hp) (And.left hs2)) (And.left hw)))
+   (list 'exact (list 'Eq.mp
+     (apply list 's52_lift2_fam (concat ps ['G 'C 'hC '(skel A) '(skel B) 'en alpha beta 'w
+       (list 'fn '[s :- Sk] (list 'den 'chkf 'dec 'encTy 'cap 't G2 's en2))]))
+     '(And.right hw)))])
