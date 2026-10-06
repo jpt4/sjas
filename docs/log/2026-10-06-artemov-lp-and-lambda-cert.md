@@ -45,13 +45,19 @@ With a diagonal lemma they give G2 and Löb's theorem.
   λᶜᵉʳᵗ₀ both entries are wrong: its terms are proofs typed by propositions
   (Curry–Howard), application composes them, and its certificates are typed
   through the checker (□A := Σ(r :₁ R). T(chk′ (print r) ⌜A⌝)).
-- **Its account of Willard is loose.** It says Willard proves consistency
-  "for restricted classes of formulas such as Δ₀ or Π₁". In this project's
-  codified reading, the operative restrictions are on the *proof notion*
-  (semantic tableaux, which his systems can certify, versus Hilbert proofs,
-  which they cannot) and on *growth* (multiplication as a relation). Formula
-  classes enter his reflection results, not the restriction that makes self-
-  justification possible.
+- **Its account of Willard is right about the statement, silent about the
+  mechanism.** It says Willard's systems prove "∀p ¬(Proof(p, φ) ∧
+  Proof(p′, ¬φ)) for restricted classes of formulas such as Δ₀ or Π₁". That
+  is his Level(1) consistency. IS_D(A)'s Group-3 axiom says that no two
+  proofs exist for a Π₁* sentence and its negation under the deduction
+  method D (Willard's ISD papers; corpus OCR 2025-12-22_09.55.35, Groups
+  0–3). It is the analogue of λᶜᵉʳᵗ₀'s pair form H₁°. (A first draft of this
+  note called the account loose; the corpus corrected that.) What the
+  conversation leaves out is what makes the statement *provable*: the
+  restriction of D to semantic tableaux (his Hilbert-style negatives,
+  e.g. Willard2005-TAB's Theorem 4,
+  Hilbert deduction against AddComp) and of growth (no total multiplication;
+  Willard2005-TAB's Theorem 5, Level(0-) against LongMult). The formula class alone does not evade G2.
 - **Its research question is posed for the wrong system.** It asks whether
   "HBL-2/proof-composition [is] the missing ingredient". For λᶜᵉʳᵗ₀ that
   question has a precise answer, given in §3.
