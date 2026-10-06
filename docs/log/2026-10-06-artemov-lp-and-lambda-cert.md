@@ -119,6 +119,24 @@ different laws.
 | Reflection | Con′_ω, all codes: underivable at every budget (P5, from S1–S3 and Int-6.1/6.4) | H° = Π(r :₁ R). T(chk′ (print r) c⊥) ⊸ 0, derivable at budget 0 by `reflect₀` (T2); `reflect_D : □D → D` for base data D (§4.8, Thm 5.2) |
 | What reflection does | — | runs the program the certificate encodes, at the smaller budget m < ‖v‖ ≤ n it declares (Lemma 2.7; Lemma 3.6, Reflect case) |
 
+**A caveat on the D2 and D3 prices** (found by the `f4-theorem46` delegate,
+2026-10-06, after this note was first written).
+- *What is proved:* Theorem 4.6 is kernel-checked for every checker that
+  satisfies one encoding hypothesis, `Enc46`. An accepted code that embeds
+  accepted codes strictly inside must pay, in its own nodes, the size of one
+  embedded certificate's term.
+- *Where it fails:* F7's concrete checker refutes `Enc46` (`enc46_F7`). It
+  reads a certificate's padding only through its size, so a certificate can
+  carry another certificate as padding, for free (`check_pad`).
+- *So, at the concrete checker:* Theorem 4.6's hypotheses are contradictory
+  (`thm46_F7_vacuous`), and the lower bounds of Corollaries 4.6′ and 4.6″ are
+  vacuous. Their upper bounds still hold.
+- *What stands:* the prices in the table hold for unpadded formats, which
+  satisfy `Enc46`. At F7's format they are open.
+- *Why it matters:* by the project's encoding rule this is a research
+  finding. The pricing of D2 and D3 depends on the certificate format, while
+  T1 and T2 do not.
+
 **The free side behaves like GL**, implicit provability: G2 holds for it (P5).
 **The held side** has uniform reflection, like S4's T axiom, but no uniform K
 (D2) or 4 (D3) at a fixed budget. It is a graded logic, whose grades are
@@ -237,7 +255,8 @@ So none of the following is new by itself:
      defect Artemov blames for the unprovability of ∀x ¬x:⊥.
    - *It prices the operations LP gets free:* D2 is never cheaper than a
      fresh proof (Theorem 4.6), and D3 costs more than twice the original
-     (Corollary 4.6″).
+     (Corollary 4.6″). Both hold for formats satisfying `Enc46`, but not as
+     yet for F7's padded format (§3's caveat).
    - *It explains why LP's free `·` and `!` cannot coexist with internal
      uniform reflection.* With them, the Löb derivation of draft §8.3 —
      Kavvos's Ω, in computational form — would go through. That is the
