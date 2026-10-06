@@ -78,15 +78,17 @@
   (exact (entry52_nonzero erasing r P h)))
 
 ;; Raising the usage keeps an entry related (zero only where it was zero).
-(thm entry52_mono [erasing :- Bool, r :- U, r2 :- U, P :- Prop,
-                   hs :- (=> (Eq Bool (nonzero r2) Bool.true) (Eq Bool (nonzero r) Bool.true))]
-  (=> (Entry52 erasing r P) (Entry52 erasing r2 P))
+(thm entry52_mono [erasing :- Bool, r :- U, r2 :- U, P :- Prop]
+  ;; Keep the usage premise in the motive: cases does not specialize a
+  ;; hypothesis that was already introduced before splitting r2.
+  (=> (=> (Eq Bool (nonzero r2) Bool.true) (Eq Bool (nonzero r) Bool.true))
+      (Entry52 erasing r P) (Entry52 erasing r2 P))
   (cases erasing)
-  (intro h) (exact h)
+  (intro hs h) (exact h)
   (cases r2)
-  (intro h) (exact True.intro)
-  (intro h) (exact (Eq.mp (entry52_nonzero Bool.true r P (hs rfl)) h))
-  (intro h) (exact (Eq.mp (entry52_nonzero Bool.true r P (hs rfl)) h)))
+  (intro hs h) (exact True.intro)
+  (intro hs h) (exact (Eq.mp$0 (entry52_nonzero Bool.true r P (hs (Eq.refl Bool.true))) h))
+  (intro hs h) (exact (Eq.mp$0 (entry52_nonzero Bool.true r P (hs (Eq.refl Bool.true))) h)))
 
 ;; --- related environments -----------------------------------------------------------
 
@@ -110,7 +112,7 @@
                   (And (ih us2 rho2 (Prod.snd en))
                     (Entry52 erasing r
                       (S52 chkf dec encTy cap erasing A (skels rest) (Prod.snd en)
-                        (skel A) v (Prod.fst en))))))))))))))) D)))
+                        (skel A) v (Prod.fst en)))))))))))))))) D)))
 
 (def ^:private pars
   '[chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
@@ -303,7 +305,7 @@
                       (list 'Env52 'chkf 'dec 'encTy 'cap 'erasing D 'us 'rho 'en)
               (list 'Exists (list 'fn '[v :- RV]
                 (list 'And '(Eq (Option RV) (rlookup rho i) (Option.some RV v))
-                      (SVAR D 'i 'A 'en 'v)))))))))))))))
+                      (SVAR D 'i 'A 'en 'v))))))))))))))
 (def ^:private CT '(List.cons Exp head tail))
 (def ^:private GT '(List.cons Sk (skel head) (skels tail)))
 (def ^:private X '(lift (+ m 1) 0 A))
