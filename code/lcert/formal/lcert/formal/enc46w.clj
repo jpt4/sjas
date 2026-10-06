@@ -29,9 +29,9 @@
     certificate of cb, and chkW46 accepts only at ⌜1⌝).
 
   The witness is a toy: its certificates are not encoded derivations.  It
-  shows only that the hypotheses are consistent together; F7's checker,
-  whose certificates are encoded derivations, does not satisfy Enc46
-  (ADR-0006)."
+  shows only that the hypotheses are consistent together.  F7's first,
+  padded format did not satisfy Enc46 (enc46f7.clj); its canonical format,
+  whose certificates are encoded derivations, does (thm46f7.clj)."
   (:require [ansatz.core :as a]
             [lcert.formal.base :refer [thm kdef lv]]
             [lcert.formal.usage :refer :all]

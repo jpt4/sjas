@@ -53,11 +53,14 @@
   The paper does not argue the upper bound above μ(B), where the extra tokens
   must be absorbed.  Here ⋆ absorbs them (d2_upper_k46, d3_upper_k46).
 
-  At F7's concrete checker, Enc46 and LargeCert are never both true
-  (enc46f7.clj, enc46_F7), so cor46_prime, cor46_prime_iff, cor46_dprime,
-  cor46_dprime_iff and d2_no_uniform are vacuous there.  The upper bounds
-  (d2_upper, d2_upper_k46, d3_upper_k46) assume neither Enc46 nor LargeCert,
-  so they hold at F7's checker."
+  At F7's first, padded certificate format, Enc46 and LargeCert are never
+  both true (enc46f7.clj, enc46_F7), so cor46_prime, cor46_prime_iff,
+  cor46_dprime, cor46_dprime_iff and d2_no_uniform are vacuous there.  At
+  F7's canonical format Enc46 holds for every measure, and thm46f7.clj
+  states the corollaries at Check decCert without Enc46 or LargeCert
+  (cor46_prime_F7, cor46_prime_iff_F7, cor46_dprime_F7,
+  cor46_dprime_iff_F7).  The upper bounds (d2_upper, d2_upper_k46,
+  d3_upper_k46) assume neither Enc46 nor LargeCert."
   (:require [ansatz.core :as a]
             [clojure.walk]
             [lcert.formal.base :refer [thm kdef lv]]

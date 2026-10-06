@@ -45,9 +45,11 @@
   E1 (CheckSpec's fourth clause) turns B ≠ Aᵢ into ⌜B⌝ ≠ ⌜Aᵢ⌝.
 
   Findings recorded in ADR-0006: E1 is needed only to pass from types to
-  codes; the encoding enters only through Enc46; F7's concrete checker does
-  not satisfy Enc46 (its certificates carry padding read only through size
-  tests), so the theorem is not established for Check decCert."
+  codes; the encoding enters only through Enc46.  F7's first, padded
+  certificate format does not satisfy Enc46 (its padding is read only
+  through size tests: enc46f7.clj); its canonical format does, and
+  thm46f7.clj states the theorem at Check decCert with the paper's
+  hypotheses only (thm46_F7, thm46_types_F7)."
   (:require [ansatz.core :as a]
             [clojure.walk]
             [lcert.formal.base :refer [thm kdef lv]]

@@ -180,3 +180,30 @@ are now derived:
   - completeness cannot be kept without free positions;
   - a size fact is not derivable;
   - a cheap D2 term exists below μ(B).
+
+## 7. Outcome (2026-10-06)
+
+The success criterion is met in the warm subset REPL (every namespace that
+depends on the changed ones reloaded, their suites green); the fresh full
+suite is the final check (LOG.md).
+- `thm46_F7`, `thm46_types_F7`, `cor46_prime_F7`, `cor46_prime_iff_F7`,
+  `cor46_dprime_F7`, `cor46_dprime_iff_F7`, `d3_gap_F7` (`thm46f7.clj`): at
+  `Check decCert`, with no `CheckSpec`, `Enc46` or `LargeCert` hypothesis.
+- `check_spec`, `check_toksize`, `check_typesize` (generic, unchanged);
+  `check_complete`, `check_complete_lbl` (`certcanon.clj`, no padding, labels
+  below 100); `consistent_concrete`, `cor37_concrete`, `no_refutation_code`,
+  `self_justification` (`selfjust.clj`, now at the canonical checker).
+- Their axioms are Lean Init's propext, Classical.choice and Quot.sound,
+  the same as `self_justification` before.
+
+Departures from this note's plan:
+- `LargeCert` is discharged by the constant measure k + 1, as §4 says, not
+  by completeness, which the task had suggested.
+- `check_canon_pad` (§3) was dropped. The old checker accepting every new
+  certificate is not needed, and it is not immediate: the two checkers
+  consult themselves at δ-steps.
+- Node counts are built structurally (`cn_sn_eq`, `le_cn_b`, `le_cn_u`).
+  Checking `cnodes (encDT v) = 1 + (…)` by rfl is exponential in the
+  chain's length under the kernel's Nat reduction.
+- The format is a new namespace, `certcanon.clj`, not an edit of
+  `certenc.clj` (§3, *Where it lives*).

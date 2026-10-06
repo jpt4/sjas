@@ -6690,3 +6690,58 @@ Branch `f4-theorem46` (worktree `.claude/worktrees/t46`). Design note:
   - So Theorem 4.6 is not established for F7's checker. Whether it holds
     there is open. It needs another argument, or a certificate format whose
     size facts are derived from the encoding rather than tested.
+
+## 2026-10-06 — F7's canonical certificate format; Theorem 4.6 at F7's checker
+
+Branch `f7-enc46` (from `f4-theorem46`, worktree `.claude/worktrees/t46`).
+Design note: [`docs-f7-enc46-design.md`](docs-f7-enc46-design.md); record
+in ADR-0006 (F7 section, deviations, statement index).
+
+- **The gap.** F7's padded format let an accepted certificate carry any
+  code, another certificate included, at no cost in its own nodes
+  (`enc46f7.clj`), so Theorem 4.6's encoding fact Enc46 failed there. The
+  padding was not the only free position: the decoder never read the root
+  label, some children, a chain's last tail, or more fuel than needed, and a
+  δ-record stored its raw codes verbatim (a δ-step on a literal certificate
+  put the certificate inside the derivation tree).
+- **The format** (`certcanon.clj`): `sn 96 ⌜(F, m, t, A, T₁, T₂)⌝ (sl 0)`,
+  fuel `F` fixed by the trees, raw codes as literal terms
+  (`encC c = ⌜codeTerm c⌝`, certenc.clj), and a decoder that keeps a
+  decoding only if the code re-encodes to itself (`decCert_canon`). Label 96
+  is on the root only (`nlb 96` for every encoder; F7's E6).
+- **The size facts follow from the encoding** (`encsize.clj`, E3/E4:
+  `tok_encE`, `cnodes_encNat`, `code_enc_gt`; `dtB_le`), so completeness needs
+  no padding (`check_complete`, `check_complete_lbl`, labels below 100). The
+  checker still tests them (check_spec.clj unchanged), redundantly:
+  `budget_canon`, `toksize_canon`, `typesize_canon` derive them from
+  canonicity alone.
+- **Theorem 4.6 at F7** (`thm46f7.clj`): no accepted code nests inside
+  another (`check_nest_free`), so Enc46 holds at `Check decCert` for every
+  measure (`enc46_canon`). Then `thm46_F7`, `thm46_types_F7`, and the
+  corollaries `cor46_prime_F7`, `cor46_prime_iff_F7`, `cor46_dprime_F7`,
+  `cor46_dprime_iff_F7`, `d3_gap_F7` — with the paper's hypotheses only.
+  LargeCert is discharged by taking the constant measure k + 1 (Enc46 holds
+  for every measure), not by completeness: the paper's `(λy. g) N̄` would
+  need weakening of derivation trees. ⌜□A⌝ ≠ ⌜A⌝, closedness and the type
+  codes' labels are derived.
+- **Finding.** The result depends on the encoding (a reserved root label,
+  canonicity, literal raw codes): Theorem 4.6 holds at F7's checker because
+  of how F7 encodes certificates, and failed at its first encoding. It is
+  stronger than the paper's case 3 needs (no nesting at all).
+- **Kept:** the padded format as `encCertPad`/`decCertPad`/`check_complete_pad`,
+  and `enc46f7.clj` restated at `Check decCertPad` (`thm46_F7_vacuous` is now
+  a theorem about the historical format).
+- **Kernel cost.** Checking `cnodes (encDT v) = 1 + (‖f₁‖ + …)` by rfl is
+  exponential in the chain's length under the kernel's Nat reduction (a
+  ten-field constructor did not finish in 20 minutes). Node counts are now
+  built one node at a time (`cn_sn_eq`, `le_cn_b`/`le_cn_u`); a stuck REPL
+  load was aborted without losing state by setting the reducer's
+  `*whnf-fuel*` root to an empty atom.
+- **Axioms.** The new theorems reach only Lean Init's propext,
+  Classical.choice and Quot.sound, as `self_justification` already does.
+- **Process.** The deliverable-0 fresh suite of `f4-theorem46` ran from this
+  worktree while these edits were made; namespaces load lazily, so it died
+  at enc46f7 after 6 h 55 min ("Unknown constant: decCertPad"), having
+  kernel-checked everything before it, its assertions not yet run. Lesson
+  (also in memory): run verification suites from a separate clean
+  worktree.

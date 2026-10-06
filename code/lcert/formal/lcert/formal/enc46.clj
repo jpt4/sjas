@@ -27,10 +27,13 @@
 
   It is satisfiable (enc46_sat, by the checker that accepts nothing) and not
   trivial (enc46_nontrivial: the checker that accepts everything fails it).
-  F7's concrete checker does not satisfy it: Check decCert reads a
-  certificate's padding only through size tests, so an accepted certificate
-  can carry another accepted certificate in its padding at no cost in its
-  own nodes (design note §5; ADR-0006).
+  F7's first, padded certificate format does not satisfy it: Check
+  decCertPad reads a certificate's padding only through size tests, so an
+  accepted certificate can carry another accepted certificate in its
+  padding at no cost in its own nodes (enc46f7.clj; design note §5;
+  ADR-0006).  F7's canonical format (certcanon.clj) does: no accepted code
+  holds another strictly inside, so Enc46 holds vacuously at Check decCert
+  for every measure (thm46f7.clj's enc46_canon).
 
   Phantom trees are holed trees.  In the phantom interpretation phRI J σ
   (rint.clj), the leaves sl i with i < J are the phantoms ★ᵢ, and any other
