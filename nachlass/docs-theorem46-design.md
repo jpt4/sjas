@@ -321,6 +321,13 @@ The findings of §5, as they stand:
   - Consequence: the lower-bound halves of the corollaries are vacuous at
     F7, and the upper bounds still hold there.
   - Theorem 4.6 at F7 remains open.
+  - *Update, 2026-10-06 (branch `f7-enc46`): closed.* F7's certificate
+    format is now canonical and unpadded
+    ([`docs-f7-enc46-design.md`](docs-f7-enc46-design.md)). `Check decCert`
+    names that format; the padded one is `Check decCertPad`, and the three
+    results above are now stated there. Enc46 holds at the canonical
+    checker (`enc46_canon`), and Theorem 4.6 and both corollaries hold there
+    with the paper's hypotheses only (`thm46f7.clj`).
 
 **One planned negative was not added.** §7 listed "`PhCons` dropped from the
 H₁ case" as a false variant to reject. There is no kernel test of it, for two
