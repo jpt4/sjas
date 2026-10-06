@@ -6708,3 +6708,25 @@ here, T1 included: "self-justification with no hypotheses" means none beyond
 the metatheory. ADR-0006's trust base now lists the metatheory explicitly.
 `pa.clj`, `selfjust.clj`, `P5-hypotheses.md` and the suite docstrings are
 corrected.
+
+## 2026-10-06 — Artemov's explicit provability, against λᶜᵉʳᵗ₀
+
+The user asked for an assessment of a ChatGPT conversation on the
+computational reading of the HBL conditions (Artemov's m(s,t), c(t); LP's
+`·`, `!`, lifting) and a critical comparison with λᶜᵉʳᵗ₀. Record:
+[assessment](../docs/log/2026-10-06-artemov-lp-and-lambda-cert.md).
+- **The conversation assessed the wrong system.** It read `jpt4/proflog`'s
+  Willard tableau code, not λᶜᵉʳᵗ, which it could not access. Its
+  "no typed proofs, no proof application" verdict does not apply to
+  λᶜᵉʳᵗ₀.
+- **Artemov 2001 checked:** the m, c functions behind D2 and D3, and the key
+  observation that explicit reflection Proof(n, F) → F is provable for each
+  n, while implicit reflection is not.
+- **The comparison.** λᶜᵉʳᵗ₀'s H° is explicit reflection at ⊥, but stated
+  *internally and uniformly* over held certificates. LP's x:⊥ → ⊥ is only
+  schematic. LP can afford free `·` and `!` because nothing internal
+  quantifies over proofs. λᶜᵉʳᵗ₀ prices certificate composition and
+  quotation (Theorem 4.6, Props 4.3–4.5) instead. Arithmetically, H° at
+  budget n is the bounded fact BF₀(n), which is LP's per-instance content.
+  The "missing ingredient" is uniform, fixed-budget D2 and D3 on held
+  certificates, not the application operation.
