@@ -13,11 +13,17 @@
     (doseq [c '[phcons_of_spec lemma36_gen lemma46a lemma36_std den_ri_std V_ri_std sound_ri_std lemma36_via_ri]]
       (is (b/has? c) (str c))))
   (testing "the phantom model's denotation is not the standard one: leaf ℓ builds sl (ℓ + J), so no term builds a phantom"
+    ;; one unfolding script: it proves the value at phRI is sl 1 and fails on sl 0
+    (is (not (b/rejects? (into P3 '[sg :- (=> Nat Code), hsg :- (PhOk 1 sg), n :- Nat, G :- (List Sk), en :- (HEnv G)])
+                         '(Eq Code (den_ri chkf dec encTy (phRI 1 sg hsg) n (Exp.leaf (Exp.lbl 0)) G Sk.cert en) (Code.sl 1))
+                         '[(rw [(den_leaf_at_ri chkf dec encTy (phRI 1 sg hsg) n (Exp.lbl 0) G Sk.cert en)]) (rw [(den_lbl_eq_ri chkf dec encTy (phRI 1 sg hsg) n 0)])])))
     (is (b/rejects? (into P3 '[sg :- (=> Nat Code), hsg :- (PhOk 1 sg), n :- Nat, G :- (List Sk), en :- (HEnv G)])
-                    '(Eq Code (den_ri chkf dec encTy (phRI 1 sg hsg) n (Exp.leaf (Exp.lbl 0)) G Sk.cert en)
-                              (den chkf dec encTy n (Exp.leaf (Exp.lbl 0)) G Sk.cert en))
-                    '[(rfl)]))
-    ;; the same equation at the standard interpretation holds by rfl
+                    '(Eq Code (den_ri chkf dec encTy (phRI 1 sg hsg) n (Exp.leaf (Exp.lbl 0)) G Sk.cert en) (Code.sl 0))
+                    '[(rw [(den_leaf_at_ri chkf dec encTy (phRI 1 sg hsg) n (Exp.lbl 0) G Sk.cert en)]) (rw [(den_lbl_eq_ri chkf dec encTy (phRI 1 sg hsg) n 0)])]))
+    ;; at the standard interpretation the same tree is sl 0, the standard den's (den_ri_std: rfl)
+    (is (not (b/rejects? (into P3 '[n :- Nat, G :- (List Sk), en :- (HEnv G)])
+                         '(Eq Code (den_ri chkf dec encTy stdRI n (Exp.leaf (Exp.lbl 0)) G Sk.cert en) (Code.sl 0))
+                         '[(rw [(den_leaf_at_ri chkf dec encTy stdRI n (Exp.lbl 0) G Sk.cert en)]) (rw [(den_lbl_eq_ri chkf dec encTy stdRI n 0)])])))
     (is (not (b/rejects? (into P3 '[n :- Nat, G :- (List Sk), en :- (HEnv G)])
                          '(Eq Code (den_ri chkf dec encTy stdRI n (Exp.leaf (Exp.lbl 0)) G Sk.cert en)
                                    (den chkf dec encTy n (Exp.leaf (Exp.lbl 0)) G Sk.cert en))

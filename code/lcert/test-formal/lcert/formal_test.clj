@@ -61,4 +61,19 @@
     lcert.formal-test.lemma46a
     lcert.formal-test.theorem46
     lcert.formal-test.cor46
-    lcert.formal-test.enc46w])
+    lcert.formal-test.enc46w
+    lcert.formal-test.ri-convcase
+    lcert.formal-test.ri-conversion
+    lcert.formal-test.ri-den
+    lcert.formal-test.ri-fundamental
+    lcert.formal-test.ri-lemma36
+    lcert.formal-test.ri-model
+    lcert.formal-test.ri-mono
+    lcert.formal-test.ri-outer
+    lcert.formal-test.ri-recsyn
+    lcert.formal-test.ri-sem
+    lcert.formal-test.ri-splitting
+    lcert.formal-test.ri-subst
+    lcert.formal-test.ri-substitution
+    lcert.formal-test.ri-unfold
+    lcert.formal-test.ri-vweaken])
