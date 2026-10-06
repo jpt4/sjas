@@ -5,15 +5,16 @@
 
   check_spec.clj proves CheckSpec, TokSize and TypeSize for Check decD with
   *any* decoder — the decoder that decodes nothing included. What makes
-  Check the checker of the certificates is this namespace: an encoding of
-  certificates whose decoder decCert inverts it, and
-    check_complete: if Check decCert accepts a typing tree and a formation
-    tree as derivations, it accepts their encoding (suitably padded) as a
-    certificate.
+  Check the checker of the certificates is this namespace and certcanon.clj:
+  an encoding of the data a certificate holds, decoders that invert it, and
+  (certcanon.clj) the certificate itself, with check_complete: if Check
+  decCert accepts a typing tree and a formation tree as derivations, it
+  accepts their certificate.
 
   The encoding. Every value is a code (skel.clj's Code: sl l | sn l a b).
   Nat n is unary (encNat); Bool, U and Sk constructors are numbered leaves (Sk's two
-  binary constructors are sn 7 / sn 8 of their children); Code is itself;
+  binary constructors are sn 7 / sn 8 of their children); Code is its literal
+  term (below);
   Exp is encE (encode.clj, decoded through decT, round trip `roundtrip`).
   Lists: nil = sl 0, cons x r = sn 1 ⌜x⌝ ⌜r⌝. A constructor with fields
   f1 … fk (HdDT, StepDT, SkDT, DT) is sn i ⌜f1⌝ (sn 0 ⌜f2⌝ (… (sn 0 ⌜fk⌝
@@ -26,9 +27,17 @@
   trees need. Round trips are proved per constructor: an equation lemma by
   computation, then rewriting with the fields' round trips.
 
-  A certificate is sn 0 ⌜(fuel, m, t, A, typing tree, formation tree)⌝ pad:
-  the padding (prop410's padC) lets completeness make a certificate as large
-  as the checker's size tests require."
+  Raw codes inside trees (a δ-record's codes) are written as their literal
+  code terms, encC c = ⌜codeTerm c⌝ (E4, E6), so that their labels are
+  leaves.
+
+  The padded certificate sn 0 ⌜(fuel, m, t, A, typing tree, formation tree)⌝
+  pad, F7's first format, is kept here as encCertPad / decCertPad, with its
+  completeness (check_complete_pad): the padding (prop410's padC) let
+  completeness make a certificate as large as the checker's size tests
+  require, and it let an accepted certificate carry another one for free
+  (enc46f7.clj).  The format Check decCert reads, canonical and unpadded, is
+  certcanon.clj's."
   (:require [ansatz.core :as a]
             [clojure.walk :as walk]
             [lcert.formal.base :as b :refer [thm kdef lv]]
@@ -37,6 +46,10 @@
             [lcert.formal.check-dt :as dt]
             [lcert.formal.prop410]
             [lcert.formal.enclabels]
+            ;; codeTerm, codeTerm_of (raw codes as literal terms)
+            [lcert.formal.section4b]
+            ;; lbl_codeTerm
+            [lcert.formal.encsize]
             [lcert.formal.check-spec]))
 
 ;; ---------------------------------------------------------------------------
@@ -92,13 +105,26 @@
 (thm rtN [n :- Nat] (Eq (Option Nat) (decN (encN n)) (Option.some Nat n))
   (exact (congrArg (fn [tp :- Tup] (Prod.fst (Prod.snd (Prod.snd tp)))) (decT_encNat n))))
 
-(kdef encC (=> Code Code) (fn [c :- Code] c))
-(kdef decC (=> Code (Option Code)) (fn [c :- Code] (Option.some Code c)))
-(thm rtC [c :- Code] (Eq (Option Code) (decC (encC c)) (Option.some Code c)) (rfl))
-
 (kdef decE (=> Code (Option Exp)) (fn [c :- Code] (Prod.fst (decT c))))
 (thm rtE [e :- Exp] (Eq (Option Exp) (decE (encE e)) (Option.some Exp e))
   (exact (congrArg (fn [tp :- Tup] (Prod.fst tp)) (roundtrip e))))
+
+;; Raw codes (a δ-record's two codes, and any other Code field of a tree)
+;; are written as their canonical code terms, as the paper writes a code
+;; literal (E4, E6): encC c = ⌜codeTerm c⌝, read back by codeOf.  So c's
+;; labels become leaves under lbl nodes, and no raw code can put an internal
+;; node labelled 96 — the certificate label of the canonical format
+;; (certcanon.clj) — into a certificate.  (Until 2026-10-06 encC was the
+;; identity, and a δ-step on a literal certificate stored that certificate
+;; verbatim inside the derivation tree.)
+(kdef encC (=> Code Code) (fn [c :- Code] (encE (codeTerm c))))
+(kdef decC (=> Code (Option Code)) (fn [c :- Code] (ob Exp Code (decE c) codeOf)))
+(thm rtC [c :- Code] (Eq (Option Code) (decC (encC c)) (Option.some Code c))
+  (have e0 (Eq (Option Code) (decC (encC c)) (ob Exp Code (decE (encE (codeTerm c))) codeOf)) (rfl))
+  (have e1 (Eq (Option Code) (ob Exp Code (decE (encE (codeTerm c))) codeOf) (ob Exp Code (Option.some Exp (codeTerm c)) codeOf))
+    (congrArg (fn [o :- (Option Exp)] (ob Exp Code o codeOf)) (rtE (codeTerm c))))
+  (have e2 (Eq (Option Code) (ob Exp Code (Option.some Exp (codeTerm c)) codeOf) (codeOf (codeTerm c))) (rfl))
+  (exact (Eq.trans e0 (Eq.trans e1 (Eq.trans e2 (codeTerm_of c))))))
 
 ;; Enumerations: Bool and U as numbered leaves.
 (doseq [[T enc dec rt ctors] [['Bool 'encB 'decB 'rtB ['Bool.false 'Bool.true]]
@@ -377,7 +403,19 @@
 (define-fueled! 'DT 'encDT 'decDT 'htDT 'rtDT dt-ctors)
 
 ;; ---------------------------------------------------------------------------
-;; Certificates.
+;; The padded certificate format (F7's first, 2026-10-03 to 2026-10-06).
+;;
+;; A certificate was sn 0 ⌜(fuel, m, t, A, T1, T2)⌝ pad, and the checker read
+;; the padding only through the size tests.  That made the padding free: an
+;; accepted certificate could carry any code, another certificate included,
+;; in its padding (enc46f7.clj), which refutes Theorem 4.6's encoding fact
+;; Enc46 at this format.  The format is kept, renamed (encCertPad,
+;; decCertPad, check_complete_pad), as the historical counterexample; since
+;; 2026-10-06 its raw codes are literal terms (encC above), which the
+;; counterexample does not use.  The canonical, unpadded format that Check
+;; decCert now reads is in certcanon.clj, which decodes through decCertPad
+;; and then insists that the certificate is exactly the encoding of what it
+;; decoded.
 
 (def ^:private CD '(Prod Nat (Prod Exp (Prod Exp (Prod DT DT)))))
 (defn- cd-tuple [m t A T1 T2]
@@ -386,12 +424,12 @@
       (list 'Prod.mk 'Exp '(Prod DT DT) A (list 'Prod.mk 'DT 'DT T1 T2)))))
 
 ;; sn 0 ⌜(fuel, m, t, A, T1, T2)⌝ pad.
-(b/kdef! 'encCert '(=> Nat Nat Exp Exp DT DT Code Code)
+(b/kdef! 'encCertPad '(=> Nat Nat Exp Exp DT DT Code Code)
   (list 'fn '[f :- Nat, m :- Nat, t :- Exp, A :- Exp, T1 :- DT, T2 :- DT, pad :- Code]
     (list 'Code.sn 0 (chain-enc 0 '[(encN f) (encN m) (encE t) (encE A) (encDT T1) (encDT T2)]) 'pad)))
 
 ;; Read the fuel first; decode both trees with it.
-(b/kdef! 'decCert (list '=> 'Code (list 'Option CD))
+(b/kdef! 'decCertPad (list '=> 'Code (list 'Option CD))
   (list 'fn '[c :- Code]
     (let [X '(chHead c)]
       (ob-chain CD [['Nat (list 'decN (field-at X 0))] ['Nat (list 'decN (field-at X 1))]
@@ -400,7 +438,7 @@
                 (fn [[_ m t A T1 T2]] (cd-tuple m t A T1 T2))))))
 
 (defn- rest-chain
-  "decCert's chain after the fuel u0 and budget u1: t, A and the two trees."
+  "decCertPad's chain after the fuel u0 and budget u1: t, A and the two trees."
   [u0 u1]
   (let [ws '[w2 w3 w4 w5]]
     (reduce (fn [acc [w F d]] (list 'ob F CD d (list 'fn [w :- F] acc)))
@@ -411,14 +449,14 @@
 ;; The number fields decode by decT_encNat, not by computation, so the fuel
 ;; and the budget are rewritten first, each followed by a change to the
 ;; reduced form (the fuel is then the bound variable of the rest).
-(a/prove-theorem 'decCert_enc
+(a/prove-theorem 'decCertPad_enc
   (lv '[f :- Nat, m :- Nat, t :- Exp, A :- Exp, T1 :- DT, T2 :- DT, pad :- Code,
         h1 :- (Nat.lt (htDT T1) f), h2 :- (Nat.lt (htDT T2) f)])
-  (lv (list 'Eq (list 'Option CD) '(decCert (encCert f m t A T1 T2 pad)) (list 'Option.some CD (cd-tuple 'm 't 'A 'T1 'T2))))
-  (lv [(list 'have 'q_c0 (list 'Eq (list 'Option CD) '(decCert (encCert f m t A T1 T2 pad))
+  (lv (list 'Eq (list 'Option CD) '(decCertPad (encCertPad f m t A T1 T2 pad)) (list 'Option.some CD (cd-tuple 'm 't 'A 'T1 'T2))))
+  (lv [(list 'have 'q_c0 (list 'Eq (list 'Option CD) '(decCertPad (encCertPad f m t A T1 T2 pad))
                                (list 'ob 'Nat CD '(decN (encN f))
                                      (list 'fn '[u0 :- Nat] (list 'ob 'Nat CD '(decN (encN m)) (list 'fn '[u1 :- Nat] (rest-chain 'u0 'u1))))))
-             '(Eq.refl (decCert (encCert f m t A T1 T2 pad))))
+             '(Eq.refl (decCertPad (encCertPad f m t A T1 T2 pad))))
        '(have q_n1 (Eq (Option Nat) (decN (encN f)) (Option.some Nat f)) (rtN f))
        '(have q_n2 (Eq (Option Nat) (decN (encN m)) (Option.some Nat m)) (rtN m))
        '(have q_c1 (Eq (Option Exp) (decE (encE t)) (Option.some Exp t)) (rtE t))
@@ -464,9 +502,10 @@
   "Type -> [data predicate, label lemma]."
   (atom '{Exp [lblsE lblBelow_encE], Code [lblBelow lblC]}))
 
+;; A raw code's labels are its literal term's label constants (lbl_codeTerm).
 (thm lblC [nb :- Nat, hk :- (LE.le 97 nb), c :- Code]
   (=> (Eq Bool (lblBelow nb c) Bool.true) (Eq Bool (lblBelow nb (encC c)) Bool.true))
-  (intro hc) (exact hc))
+  (intro hc) (exact (lblBelow_encE nb hk (codeTerm c) (lbl_codeTerm nb c hc))))
 
 ;; Types without data: Nat (unary), Bool and U (numbered leaves), Sk.
 (doseq [[T pred lem] '[[Nat dataOkN lblN] [Bool dataOkB lblB] [U dataOkU lblU] [Sk dataOkS lblS]]]
@@ -582,12 +621,12 @@
 
 ;; A certificate: its fuel and budget (unary), the term and type (their label
 ;; constants), the two trees (their data) and the padding.
-(a/prove-theorem 'lblBelow_encCert
+(a/prove-theorem 'lblBelow_encCertPad
   (lv '[nb :- Nat, hk :- (LE.le 97 nb), f :- Nat, m :- Nat, t :- Exp, A :- Exp, T1 :- DT, T2 :- DT, pad :- Code,
         ht :- (Eq Bool (lblsE nb t) Bool.true), hA :- (Eq Bool (lblsE nb A) Bool.true),
         h1 :- (Eq Bool (dataOkDT nb T1) Bool.true), h2 :- (Eq Bool (dataOkDT nb T2) Bool.true),
         hp :- (Eq Bool (lblBelow nb pad) Bool.true)])
-  '(Eq Bool (lblBelow nb (encCert f m t A T1 T2 pad)) Bool.true)
+  '(Eq Bool (lblBelow nb (encCertPad f m t A T1 T2 pad)) Bool.true)
   (let [code (list 'Code.sn 0 (chain-enc 0 '[(encN f) (encN m) (encE t) (encE A) (encDT T1) (encDT T2)]) 'pad)]
     (lv [(list 'have 'q_l (list 'Eq 'Bool (list 'lblBelow 'nb code) 'Bool.true)
                (code-proof code {'(encN f) '(lblN nb hk f (Eq.refl Bool.true)) '(encN m) '(lblN nb hk m (Eq.refl Bool.true))
@@ -612,21 +651,23 @@
   (Eq Bool (Bool.and x y) Bool.true)
   (exact (Eq.trans (congrArg (fn [z :- Bool] (Bool.and z y)) hx) hy)))
 
-;; If Check decCert accepts a typing tree and a formation tree as derivations
-;; (and the type is closed), it accepts their certificate: fuel above both
-;; trees' heights, padding above every size the checker tests.
+;; Completeness of the padded format: if Check decCertPad accepts a typing
+;; tree and a formation tree as derivations (and the type is closed), it
+;; accepts their certificate: fuel above both trees' heights, padding above
+;; every size the checker tests.  (certcanon.clj's check_complete needs no
+;; padding: there the sizes follow from the encoding.)
 (let [ff '(cntU (maskUF (thetaU m) (freshF t)))
       xs [(list '+ 'm 1) (list '+ (list '+ ff ff) 1) '(+ (cnodes (encE A)) 1) '(dtB T1) '(dtB T2)]
       N (list '+ (xs 0) (list '+ (xs 1) (list '+ (xs 2) (list '+ (xs 3) (xs 4)))))
       F '(+ (+ (htDT T1) (htDT T2)) 1)
       X (chain-enc 0 (list (list 'encN F) '(encN m) '(encE t) '(encE A) '(encDT T1) '(encDT T2)))
-      cert (list 'encCert F 'm 't 'A 'T1 'T2 (list 'padC N))
-      checks (walk/postwalk-replace {'r '(Check decCert) 'c cert 'd '(encE A)} @#'lcert.formal.check-spec/body-checks)
+      cert (list 'encCertPad F 'm 't 'A 'T1 'T2 (list 'padC N))
+      checks (walk/postwalk-replace {'r '(Check decCertPad) 'c cert 'd '(encE A)} @#'lcert.formal.check-spec/body-checks)
       le (fn [i] (list (symbol (str "pad_le" i)) (xs 0) (xs 1) (xs 2) (xs 3) (xs 4) (list 'cnodes X) (list 'cnodes cert) 'hC))
       tree-ok (fn [T J bound-i h]
                 (list 'Eq.trans
-                  (list 'dtCheck_agree (list 'restrC '(Check decCert) cert) '(Check decCert) T
-                        (list 'restr_self_agree '(Check decCert) cert (list 'dtB T) (le bound-i)) J)
+                  (list 'dtCheck_agree (list 'restrC '(Check decCertPad) cert) '(Check decCertPad) T
+                        (list 'restr_self_agree '(Check decCertPad) cert (list 'dtB T) (le bound-i)) J)
                   h))
       proofs [(tree-ok 'T1 '(DTJ.rt (thetaD m) (thetaU m) t A) 3 'h1)
               (tree-ok 'T2 '(DTJ.tl Bool.true (List.nil Exp) A Exp.tUnit) 4 'h2)
@@ -638,43 +679,43 @@
               (list 'Nat.ble_eq_true_of_le (le 3))
               (list 'Nat.ble_eq_true_of_le (le 4))]
       cc-params '[m :- Nat, t :- Exp, A :- Exp, T1 :- DT, T2 :- DT,
-                  h1 :- (Eq Bool (dtCheck (Check decCert) T1 (DTJ.rt (thetaD m) (thetaU m) t A)) Bool.true),
-                  h2 :- (Eq Bool (dtCheck (Check decCert) T2 (DTJ.tl Bool.true (List.nil Exp) A Exp.tUnit)) Bool.true),
+                  h1 :- (Eq Bool (dtCheck (Check decCertPad) T1 (DTJ.rt (thetaD m) (thetaU m) t A)) Bool.true),
+                  h2 :- (Eq Bool (dtCheck (Check decCertPad) T2 (DTJ.tl Bool.true (List.nil Exp) A Exp.tUnit)) Bool.true),
                   hA :- (Eq Bool (closedTy A) Bool.true)]
       ;; the body's conjunction is true: band_tt t_i (rest_i) p_i (rest's proof),
       ;; built from the inside out
       conj-true (let [n (count checks)]
                   (reduce (fn [acc i] (list 'band_tt (nth checks i) (h/f7-and (drop (inc i) checks)) (nth proofs i) acc))
                           '(Eq.refl Bool.true) (range (dec n) -1 -1)))]
-  (a/prove-theorem 'check_cert_ok
+  (a/prove-theorem 'check_cert_ok_pad
     (lv cc-params)
-    (lv (list 'Eq 'Bool (list 'Check 'decCert cert '(encE A)) 'Bool.true))
+    (lv (list 'Eq 'Bool (list 'Check 'decCertPad cert '(encE A)) 'Bool.true))
     (lv [(list 'have 'hC (list 'Eq 'Nat (list 'cnodes cert) (list '+ 1 (list '+ (list 'cnodes X) (list '+ N 1))))
                (list 'congrArg (list 'fn '[p :- Nat] (list '+ 1 (list '+ (list 'cnodes X) 'p))) (list 'pad_nodes N)))
-         (list 'have 'hdec (list 'Eq (list 'Option CD) (list 'decCert cert) (list 'Option.some CD (cd-tuple 'm 't 'A 'T1 'T2)))
-               (list 'decCert_enc F 'm 't 'A 'T1 'T2 (list 'padC N) '(lt_fuel_l (htDT T1) (htDT T2)) '(lt_fuel_r (htDT T1) (htDT T2))))
+         (list 'have 'hdec (list 'Eq (list 'Option CD) (list 'decCertPad cert) (list 'Option.some CD (cd-tuple 'm 't 'A 'T1 'T2)))
+               (list 'decCertPad_enc F 'm 't 'A 'T1 'T2 (list 'padC N) '(lt_fuel_l (htDT T1) (htDT T2)) '(lt_fuel_r (htDT T1) (htDT T2))))
          (list 'have 'hbody (list 'Eq 'Bool (h/f7-and checks) 'Bool.true) conj-true)
-         (list 'have 'hopt (list 'Eq 'Bool (list 'bodyO '(Check decCert) cert '(encE A) (list 'Option.some CD (cd-tuple 'm 't 'A 'T1 'T2))) 'Bool.true)
+         (list 'have 'hopt (list 'Eq 'Bool (list 'bodyO '(Check decCertPad) cert '(encE A) (list 'Option.some CD (cd-tuple 'm 't 'A 'T1 'T2))) 'Bool.true)
                'hbody)
-         (list 'have 'hchk (list 'Eq 'Bool (list 'Check 'decCert cert '(encE A)) 'Bool.true)
-               (list 'Eq.trans (list 'check_fix 'decCert cert '(encE A))
-                     (list 'Eq.trans (list 'congrArg (list 'fn ['o :- (list 'Option CD)] (list 'bodyO '(Check decCert) cert '(encE A) 'o)) 'hdec)
+         (list 'have 'hchk (list 'Eq 'Bool (list 'Check 'decCertPad cert '(encE A)) 'Bool.true)
+               (list 'Eq.trans (list 'check_fix 'decCertPad cert '(encE A))
+                     (list 'Eq.trans (list 'congrArg (list 'fn ['o :- (list 'Option CD)] (list 'bodyO '(Check decCertPad) cert '(encE A) 'o)) 'hdec)
                            'hopt)))
          '(exact hchk)]))
-  (a/prove-theorem 'check_complete (lv cc-params)
-    (lv '(Exists (fn [c :- Code] (Eq Bool (Check decCert c (encE A)) Bool.true))))
-    (lv ['(constructor) (list 'exact cert) '(exact (check_cert_ok m t A T1 T2 h1 h2 hA))]))
+  (a/prove-theorem 'check_complete_pad (lv cc-params)
+    (lv '(Exists (fn [c :- Code] (Eq Bool (Check decCertPad c (encE A)) Bool.true))))
+    (lv ['(constructor) (list 'exact cert) '(exact (check_cert_ok_pad m t A T1 T2 h1 h2 hA))]))
   ;; The same certificate has every label below NL = 100 (lblOk), so a program
   ;; can hold it as an R value — given that the trees' and the type's data
   ;; (label constants, raw codes) are below 100, as typing already asks.
-  (a/prove-theorem 'check_complete_lbl
+  (a/prove-theorem 'check_complete_lbl_pad
     (lv (into cc-params '[lt :- (Eq Bool (lblsE 100 t) Bool.true), lA :- (Eq Bool (lblsE 100 A) Bool.true),
                           d1 :- (Eq Bool (dataOkDT 100 T1) Bool.true), d2 :- (Eq Bool (dataOkDT 100 T2) Bool.true)]))
-    (lv '(Exists (fn [c :- Code] (And (Eq Bool (lblOk c) Bool.true) (Eq Bool (Check decCert c (encE A)) Bool.true)))))
+    (lv '(Exists (fn [c :- Code] (And (Eq Bool (lblOk c) Bool.true) (Eq Bool (Check decCertPad c (encE A)) Bool.true)))))
     (lv ['(constructor) (list 'exact cert)
          (list 'exact (list 'And.intro
                             (list 'Eq.trans (list 'lblOk_lblBelow cert)
-                                  (list 'lblBelow_encCert 100 '(Nat.le_of_ble_eq_true (Eq.refl Bool.true)) F 'm 't 'A 'T1 'T2 (list 'padC N)
+                                  (list 'lblBelow_encCertPad 100 '(Nat.le_of_ble_eq_true (Eq.refl Bool.true)) F 'm 't 'A 'T1 'T2 (list 'padC N)
                                         'lt 'lA 'd1 'd2
                                         (list 'Eq.trans (list 'Eq.symm (list 'lblOk_lblBelow (list 'padC N))) (list 'pad_ok N))))
-                            '(check_cert_ok m t A T1 T2 h1 h2 hA)))])))
+                            '(check_cert_ok_pad m t A T1 T2 h1 h2 hA)))])))

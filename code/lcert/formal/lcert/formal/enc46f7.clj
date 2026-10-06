@@ -1,7 +1,10 @@
 (ns lcert.formal.enc46f7
-  "F4/F7 — F7's concrete checker does not satisfy Enc46 (R4-metatheory.md
-  §4.5, case 3 of the proof of Theorem 4.6; design note
-  nachlass/docs-theorem46-design.md §5; ADR-0006).
+  "F4/F7 — F7's first, padded certificate format does not satisfy Enc46
+  (R4-metatheory.md §4.5, case 3 of the proof of Theorem 4.6; design notes
+  nachlass/docs-theorem46-design.md §5 and docs-f7-enc46-design.md;
+  ADR-0006).  This is the historical counterexample: the format Check
+  decCert now reads is certcanon.clj's canonical one, which satisfies Enc46
+  (thm46f7.clj's enc46_canon).
 
   Theorem 4.6 is proved (theorem46.clj) for every checker that meets
   CheckSpec and Enc46, given large certificates of the input types.  Enc46
@@ -11,10 +14,10 @@
   subtree of an accepted code is a derivation node, so an embedded
   certificate is a sub-derivation whose term the root's judgment records.
 
-  F7's certificates (certenc.clj) have the form
+  F7's padded certificates (certenc.clj's encCertPad) have the form
       sn 0 ⌜(fuel, m, t, A, typing tree, formation tree)⌝ pad.
   Neither the decoder nor the checker reads pad except through its size.
-  decCert reads only the root's left child.  Check's body (check_spec.clj)
+  decCertPad reads only the root's left child.  Check's body (check_spec.clj)
   tests the certificate c only through cnodes c: the size facts, and the
   bound below which the trees' δ-steps may consult the checker.  So a
   certificate stays accepted when its padding is replaced by any larger tree,
@@ -25,31 +28,30 @@
   - bodyD_pad, check_pad: for every decoder decD, Check decD accepts c′ at d
     when it accepts c at d, c′ decodes as c does, and ‖c‖ ≤ ‖c′‖.  Padding
     is free.
-  - decCert_head: decCert c depends only on c's left child.
+  - decCertPad_head: decCertPad c depends only on c's left child.
   - padK c₀: the holed tree sn 0 (left c₀) (sn 0 c₀ □) whose one hole □
     is the padding's right child.  Filled with c₁ it is a certificate that
     decodes as c₀ and is at least as large (hfill_padK, pad_le_f7).  Its own
     node count is 2 + ‖left c₀‖ + ‖c₀‖ (padK_nodes).
   - enc46_F7_core: take an accepted c₀, and an accepted c₁ every decoding of
     whose term exceeds hnodes (padK c₀) in sz.  Then Enc46 fails at
-    Check decCert, for that measure sz.
-  - enc46_F7: LargeCert, for any code d, refutes Enc46 at Check decCert, for
-    every measure sz.  So at F7's checker the hypotheses of Corollaries 4.6′
-    and 4.6″ (cor46_prime and cor46_dprime take Enc46 and LargeCert) cannot
-    all hold.  Those corollaries are vacuous there.
-  - thm46_F7_vacuous: at F7's checker, Theorem 4.6's hypotheses are
+    Check decCertPad, for that measure sz.
+  - enc46_F7: LargeCert, for any code d, refutes Enc46 at Check decCertPad,
+    for every measure sz.  So at the padded format the hypotheses of
+    Corollaries 4.6′ and 4.6″ (cor46_prime and cor46_dprime take Enc46 and
+    LargeCert) cannot all hold.
+  - thm46_F7_vacuous: at the padded format, Theorem 4.6's hypotheses are
     contradictory at every budget k ≥ hnodes (padK c₀), for any accepted c₀.
     The contradictory pair is Enc46 together with an accepted σ 0 whose term
     exceeds k in sz (thm46's hc and hbig at i = 0).
 
-  What this does not say: that Theorem 4.6 is false at F7's checker.
-  Consider a program that outputs a node over its input certificate.  It
-  cannot type its evidence, because chk′ does not compute on an open code.
-  Only the phantom model's case 3 fails, because the model cannot see that.
-  Whether Theorem 4.6 holds at F7's checker is open.  It needs another
-  argument, or a certificate format without free padding.  In such a format
-  each size fact would be derived from the encoding, as in the paper's
-  Lemmas 2.6–2.7, rather than tested."
+  What this does not say: that Theorem 4.6 is false at the padded format.
+  Only the phantom model's case 3 fails there, because the model cannot see
+  that a program cannot type the evidence for a certificate it builds around
+  its input.  The way out was a format without free positions, whose size
+  facts are derived from the encoding, as in the paper's Lemmas 2.6–2.7,
+  rather than tested: certcanon.clj, where Theorem 4.6 holds with no
+  encoding hypothesis (thm46f7.clj)."
   (:require [ansatz.core :as a]
             [clojure.walk :as walk]
             [lcert.formal.base :as b :refer [thm kdef lv]]
@@ -57,7 +59,7 @@
             [lcert.formal.skel :refer :all]
             [lcert.formal.check-hd :as h]
             [lcert.formal.check-spec]
-            ;; decCert, chHead, band_tt
+            ;; decCertPad, chHead, band_tt
             [lcert.formal.certenc]
             ;; exT
             [lcert.formal.outer]
@@ -133,11 +135,11 @@
                              (Prod.fst (Prod.snd (Prod.snd (Prod.snd y)))) (Prod.snd (Prod.snd (Prod.snd (Prod.snd y))))
                              hle (And.right hy)))))]))
 
-;; decCert reads only the root's left child: a node over c₀'s left child
+;; decCertPad reads only the root's left child: a node over c₀'s left child
 ;; decodes as c₀, whatever its right child.
-(a/prove-theorem 'decCert_head
+(a/prove-theorem 'decCertPad_head
   (x '[c0 :- Code, P :- Code])
-  (x '(Eq (Option CD) (decCert (Code.sn 0 (chHead c0) P)) (decCert c0)))
+  (x '(Eq (Option CD) (decCertPad (Code.sn 0 (chHead c0) P)) (decCertPad c0)))
   '[(rfl)])
 
 ;; ---------------------------------------------------------------------------
@@ -199,67 +201,67 @@
   (omega))
 
 ;; ---------------------------------------------------------------------------
-;; Enc46 fails at F7's checker.
+;; Enc46 fails at the padded format's checker (Check decCertPad).
 
 ;; One accepted certificate c₀, and an accepted c₁ every decoding of whose
-;; term exceeds padK c₀'s own nodes in sz, refute Enc46 at Check decCert.
+;; term exceeds padK c₀'s own nodes in sz, refute Enc46 at Check decCertPad.
 ;; Filling padK c₀ with c₁ gives a tree Check accepts where it accepts c₀
-;; (check_pad: it decodes as c₀, decCert_head, and is no smaller, pad_le_f7).
+;; (check_pad: it decodes as c₀, decCertPad_head, and is no smaller, pad_le_f7).
 ;; Enc46 then bounds c₁'s term by hnodes (padK c₀), against hbig.
-(thm enc46_F7_core [sz :- (=> Exp Nat), c0 :- Code, d0 :- Code, h0 :- (Eq Bool (Check decCert c0 d0) Bool.true),
-                    c1 :- Code, d1 :- Code, h1 :- (Eq Bool (Check decCert c1 d1) Bool.true),
+(thm enc46_F7_core [sz :- (=> Exp Nat), c0 :- Code, d0 :- Code, h0 :- (Eq Bool (Check decCertPad c0 d0) Bool.true),
+                    c1 :- Code, d1 :- Code, h1 :- (Eq Bool (Check decCertPad c1 d1) Bool.true),
                     hbig :- (forall [m Nat] (forall [u Exp] (forall [A Exp]
-                              (=> (Eq (Option (Prod Nat (Prod Exp Exp))) (decOf decCert c1)
+                              (=> (Eq (Option (Prod Nat (Prod Exp Exp))) (decOf decCertPad c1)
                                       (Option.some (Prod Nat (Prod Exp Exp)) (Prod.mk m (Prod.mk u A))))
                                   (LT.lt (hnodes (padK c0)) (sz u))))))]
-  (=> (Enc46 (Check decCert) (decOf decCert) sz) False)
+  (=> (Enc46 (Check decCertPad) (decOf decCertPad) sz) False)
   (intro henc)
-  (have hacc (Eq Bool (Check decCert (hfill (fn [i :- Nat] c1) (padK c0)) d0) Bool.true)
-    (Eq.mpr (congrArg (fn [z :- Code] (Eq Bool (Check decCert z d0) Bool.true)) (hfill_padK (fn [i :- Nat] c1) c0))
-      (check_pad decCert c0 (Code.sn 0 (chHead c0) (Code.sn 0 c0 c1)) d0
-                 (decCert_head c0 (Code.sn 0 c0 c1)) (pad_le_f7 c0 c1) h0)))
+  (have hacc (Eq Bool (Check decCertPad (hfill (fn [i :- Nat] c1) (padK c0)) d0) Bool.true)
+    (Eq.mpr (congrArg (fn [z :- Code] (Eq Bool (Check decCertPad z d0) Bool.true)) (hfill_padK (fn [i :- Nat] c1) c0))
+      (check_pad decCertPad c0 (Code.sn 0 (chHead c0) (Code.sn 0 c0 c1)) d0
+                 (decCertPad_head c0 (Code.sn 0 c0 c1)) (pad_le_f7 c0 c1) h0)))
   (have hX (Exists (fn [i :- Nat]
              (And (Eq Bool (holeIn i (padK c0)) Bool.true)
                   (forall [m Nat] (forall [t Exp] (forall [A Exp]
-                    (=> (Eq (Option (Prod Nat (Prod Exp Exp))) (decOf decCert c1)
+                    (=> (Eq (Option (Prod Nat (Prod Exp Exp))) (decOf decCertPad c1)
                             (Option.some (Prod Nat (Prod Exp Exp)) (Prod.mk m (Prod.mk t A))))
                         (LE.le (sz t) (hnodes (padK c0))))))))))
     (henc (fn [i :- Nat] c1) (padK c0) d0 hacc (isNodeH_padK c0) (hasHole_padK c0)
-      (fn [i :- Nat, hi :- (Eq Bool (holeIn i (padK c0)) Bool.true)] (ex_acc46 (Check decCert) c1 d1 h1))))
+      (fn [i :- Nat, hi :- (Eq Bool (holeIn i (padK c0)) Bool.true)] (ex_acc46 (Check decCertPad) c1 d1 h1))))
   (refine' (exT Nat _ _ hX _)) (intro i hi)
-  (refine' (exT Nat _ _ (check_full decCert c1 d1 h1) _)) (intro m hm)
+  (refine' (exT Nat _ _ (check_full decCertPad c1 d1 h1) _)) (intro m hm)
   (refine' (exT Exp _ _ hm _)) (intro t ht)
   (refine' (exT Exp _ _ ht _)) (intro A hA)
   (have hs (LE.le (sz t) (hnodes (padK c0))) ((And.right hi) m t A (And.left hA)))
   (have hl (LT.lt (hnodes (padK c0)) (sz t)) (hbig m t A (And.left hA)))
   (exact (Nat.lt_irrefl (sz t) (Nat.lt_of_le_of_lt hs hl))))
 
-;; Large certificates of any one code refute Enc46 at F7's checker, for every
+;; Large certificates of any one code refute Enc46 at the padded format, for every
 ;; measure: the certificate at budget 0 serves as c₀, the one above
 ;; hnodes (padK c₀) as c₁.  So Enc46 and LargeCert, which cor46_prime and
-;; cor46_dprime take together, are never jointly true at Check decCert.
-(thm enc46_F7 [sz :- (=> Exp Nat), d :- Code, hL :- (LargeCert (Check decCert) (decOf decCert) sz d)]
-  (=> (Enc46 (Check decCert) (decOf decCert) sz) False)
+;; cor46_dprime take together, are never jointly true at Check decCertPad.
+(thm enc46_F7 [sz :- (=> Exp Nat), d :- Code, hL :- (LargeCert (Check decCertPad) (decOf decCertPad) sz d)]
+  (=> (Enc46 (Check decCertPad) (decOf decCertPad) sz) False)
   (refine' (exT Code _ _ (hL 0) _)) (intro c0 h0)
   (refine' (exT Code _ _ (hL (hnodes (padK c0))) _)) (intro c1 h1)
   (exact (enc46_F7_core sz c0 d (And.left h0) c1 d (And.left h1) (And.right (And.right h1)))))
 
-;; Theorem 4.6 is vacuous at F7's checker above a constant budget: for any
+;; Theorem 4.6 is vacuous at the padded format above a constant budget: for any
 ;; accepted c₀ and k ≥ hnodes (padK c₀), Enc46 and a certificate c₁ (thm46's
 ;; σ 0, accepted at its type) whose every term exceeds k in sz (thm46's hbig
 ;; at i = 0) are contradictory.
-(thm thm46_F7_vacuous [sz :- (=> Exp Nat), henc :- (Enc46 (Check decCert) (decOf decCert) sz),
-                       c0 :- Code, d0 :- Code, h0 :- (Eq Bool (Check decCert c0 d0) Bool.true),
+(thm thm46_F7_vacuous [sz :- (=> Exp Nat), henc :- (Enc46 (Check decCertPad) (decOf decCertPad) sz),
+                       c0 :- Code, d0 :- Code, h0 :- (Eq Bool (Check decCertPad c0 d0) Bool.true),
                        k :- Nat, hk :- (LE.le (hnodes (padK c0)) k),
-                       c1 :- Code, d1 :- Code, h1 :- (Eq Bool (Check decCert c1 d1) Bool.true),
+                       c1 :- Code, d1 :- Code, h1 :- (Eq Bool (Check decCertPad c1 d1) Bool.true),
                        hbig :- (forall [m Nat] (forall [u Exp] (forall [A Exp]
-                                 (=> (Eq (Option (Prod Nat (Prod Exp Exp))) (decOf decCert c1)
+                                 (=> (Eq (Option (Prod Nat (Prod Exp Exp))) (decOf decCertPad c1)
                                          (Option.some (Prod Nat (Prod Exp Exp)) (Prod.mk m (Prod.mk u A))))
                                      (LT.lt k (sz u))))))]
   False
   (exact (enc46_F7_core sz c0 d0 h0 c1 d1 h1
            (fn [m :- Nat, u :- Exp, A :- Exp,
-                e :- (Eq (Option (Prod Nat (Prod Exp Exp))) (decOf decCert c1)
+                e :- (Eq (Option (Prod Nat (Prod Exp Exp))) (decOf decCertPad c1)
                          (Option.some (Prod Nat (Prod Exp Exp)) (Prod.mk m (Prod.mk u A))))]
              (Nat.lt_of_le_of_lt hk (hbig m u A e)))
            henc)))

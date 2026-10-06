@@ -77,19 +77,26 @@ except raw codes.
    now a consequence of the encoding:
    - `m < ‖c‖`: the budget is unary, `‖encN m‖ = m`.
    - `‖⌜A⌝‖ < ‖c‖`: `⌜A⌝` is a proper subtree.
-   - `2f < ‖c‖`, f the tokens free in t: `f ≤ m` (context, E3), and
-     `f ≤ ‖⌜t⌝‖` (`tok_encE`, one internal node per variable occurrence, E4).
-     These are disjoint subtrees under the root (E2).
+   - `2f < ‖c‖`, f the tokens free in t: `f ≤ m` (context, E3; prop434's
+     `cnt_mask_le`), and `f ≤ ‖⌜t⌝‖` (`tok_encE`, one internal node per
+     variable occurrence, E4). These are disjoint subtrees under the root
+     (E2).
    - `dtB Tᵢ ≤ ‖c‖`: each δ-record carries its code as a literal term with
-     more nodes than the code (`dtB_encDT`).
+     more nodes than the code (`dtB_le`).
 
    Completeness (`check_complete`) builds `encCert` with no padding.
    `budget_canon`, `toksize_canon` and `typesize_canon` derive the first
    three size facts from canonicity alone, without the tests.
 
 The old padded format remains as `encCertPad`/`decCertPad`, for the
-historical counterexample (`enc46f7.clj`). Every new certificate is accepted
-by the old checker too (`check_canon_pad`).
+historical counterexample (`enc46f7.clj`).
+
+*Where it lives.* The size and label facts about the expression encoding
+are `encsize.clj`. The raw-code change and the renamed padded format are in
+`certenc.clj`. The canonical format, its size facts, completeness and the
+shape of accepted codes are a new namespace, `certcanon.clj`, so that
+iterating on it does not reload the generated round trips. Theorem 4.6 and
+the corollaries at F7 are `thm46f7.clj`.
 
 ## 4. What it gives
 
@@ -146,7 +153,7 @@ are now derived:
   padding.
 - **Proof.** New generated inductions:
   - `tok_encE`, over 41 expression constructors;
-  - `dtB_encDT`, over the derivation-tree constructors;
+  - `dtB_le`, over the derivation-tree constructors;
   - the internal-label bounds `nlb`, over every encoder;
   - the canonical round trip.
 - **Unchanged:**
