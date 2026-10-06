@@ -5,7 +5,8 @@
             [lcert.formal.s52itr]))
 
 (deftest s52-certificate-fold
-  (doseq [c '[s52_l1s s52_lsuc s52_lift1_at s52_lift2_at s52_lift3_at s52_lift4_at]]
+  (doseq [c '[s52_l1s s52_lsuc s52_lift1_at s52_lift2_at s52_lift3_at s52_lift4_at
+             s52_apply1_at s52_applyw_at s52_itr_leaf s52_itr_node s52_itr s52_itR]]
     (is (b/has? c) (str c)))
   (testing "applying the default function reaches abort and is not safe"
     (is (b/rejects?
