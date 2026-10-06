@@ -222,6 +222,54 @@
 (thm bool_and3_true [a :- Bool, b :- Bool, c :- Bool, ha :- (Eq Bool a Bool.true), hb :- (Eq Bool b Bool.true), hc :- (Eq Bool c Bool.true)]
   (Eq Bool (Bool.and a (Bool.and b c)) Bool.true) (rw [ha hb hc]))
 (thm lt_of_lt_eq [m :- Nat, a :- Nat, b :- Nat, h :- (LT.lt m a), e :- (Eq Nat a b)] (LT.lt m b) (rw [(Eq.symm e)]) (exact h))
+;; The phantom-free branch of Reflect: the standard argument, on the print.
+(eval (concat (list 'lcert.formal.base/thm 'refl_pf_ri
+  (into P6 (into '[X :- Exp, cd :- Exp, r :- Exp, e :- Exp,
+                   hb :- (Eq (Option Exp) (baseCode X) (Option.some Exp cd)),
+                   hcs :- (CheckSpec chkf dec encTy), hout :- (OuterIH_ri chkf dec encTy ri n), hrl :- (RLaws ri)]
+                 (into ENV ['k1 :- 'Nat 'k2 :- 'Nat 'hkk :- '(LE.le (+ k1 k2) k)
+                            'vr :- (list 'LE.le (list 'cnodes v1) 'k1)
+                            'hchk :- (list 'Eq 'Bool (list 'chkf pv1 '(encTy X)) 'Bool.true)
+                            'hpf :- (list 'Eq 'Bool (list 'riPf 'ri v1) 'Bool.true)])))
+  (concl 'X '(Exp.refl X r e)))
+  ['(have hbase (And (Eq Bool (isBaseTy X) Bool.true) (Eq Bool (closedTy X) Bool.true)) (base_is_base X cd hb))
+   (list 'have 'hsz (list 'Eq 'Nat (list 'cnodes pv1) (list 'cnodes v1)) (list 'rl_nodes 'ri 'hrl v1 'hpf))
+   (list 'have 'hC1 (list 'Exists (list 'fn '[mm :- Nat] (list 'Exists (list 'fn '[tt :- Exp] (list 'Exists (list 'fn '[AA :- Exp] (C1body 'mm 'tt 'AA)))))))
+      (list '(And.left hcs) pv1 '(encTy X) 'hchk))
+   '(refine' (exT Nat _ _ hC1 _)) '(intro mm hm) '(refine' (exT Exp _ _ hm _)) '(intro tt htt) '(refine' (exT Exp _ _ htt _)) '(intro AA hAA)
+   (list 'have 'q (C1body 'mm 'tt 'AA) 'hAA)
+   '(have eA (Eq Exp AA X) ((And.right (And.right (And.right hcs))) AA X (And.left (And.right (And.right (And.right q)))) (And.right hbase)
+                            (And.left (And.right (And.right (And.right (And.right q)))))))
+   '(have hRtX (Rt chkf (thetaD mm) (thetaU mm) tt X) (Eq.mp (congrArg (fn [Z :- Exp] (Rt chkf (thetaD mm) (thetaU mm) tt Z)) eA) (And.left (And.right q))))
+   (list 'have 'hmv (list 'LT.lt 'mm (list 'cnodes v1))
+      (list 'lt_of_lt_eq 'mm (list 'cnodes pv1) (list 'cnodes v1) '(And.right (And.right (And.right (And.right (And.right q))))) 'hsz))
+   (list 'have 'har (list 'And '(LE.le mm k) (list 'And '(LT.lt mm n) (list 'LE.le (list 'cnodes v1) 'n)))
+      (list 'refl_arith 'mm (list 'cnodes v1) 'k1 'k2 'k 'n 'hmv 'vr 'hkk 'hk))
+   (list 'have 'hc (list 'Eq 'Bool (list 'Bool.and (list 'Nat.ble (list 'cnodes v1) 'n) (list 'Bool.and (list 'riPf 'ri v1) (list 'chkf pv1 '(encTy X)))) 'Bool.true)
+      (list 'bool_and3_true (list 'Nat.ble (list 'cnodes v1) 'n) (list 'riPf 'ri v1) (list 'chkf pv1 '(encTy X))
+            (list 'Nat.ble_eq_true_of_le '(And.right (And.right har))) 'hpf 'hchk))
+   '(rw [(den_refl_some_ri chkf dec encTy ri n X r e (skels D) (skel X) en mm tt AA hc (And.left q))])
+   '(rw [(coe_self (skel X) (denPrev_ri chkf dec encTy ri n mm tt (thetaSk mm) (skel X) (tokenEnv mm)))])
+   '(rw [(congrArg (fn [f :- DenBody] (f (thetaSk mm) (skel X) (tokenEnv mm))) (denPrev_stable_ri chkf dec encTy ri n mm tt (And.left (And.right har))))])
+   '(rw [(tok_transfer mm (den_ri chkf dec encTy ri mm tt) (skel X))])
+   (list 'have 'vo (list 'V_ri 'chkf 'dec 'encTy 'ri 'mm 'X '(skels (thetaD mm)) '(tokEnvD mm) 'mm '(skel X) run)
+      '(hout mm (And.left (And.right har)) tt X hRtX))
+   (list 'exact (list 'Lemma_3_4_ri 'chkf 'dec 'encTy 'ri 'X 'mm 'n 'k '(skels (thetaD mm)) '(skels D) '(tokEnvD mm) 'en '(skel X) run
+                      '(And.left hbase) '(And.left har) 'vo))]))
+;; The branch with a phantom: ⟦reflect⟧ is the default, in V(X) for X ≠ 0;
+;; X = 0 would make the print of ⟦r⟧ an accepted refutation, against PhCons.
+(eval (list 'lcert.formal.base/thm 'refl_ph_ri
+  (into P6 (into '[X :- Exp, cd :- Exp, r :- Exp, e :- Exp,
+                   hb :- (Eq (Option Exp) (baseCode X) (Option.some Exp cd)),
+                   hrl :- (RLaws ri), hph :- (PhCons chkf encTy ri)]
+                 (into ENV ['hchk :- (list 'Eq 'Bool (list 'chkf pv1 '(encTy X)) 'Bool.true)
+                            'hpf :- (list 'Eq 'Bool (list 'riPf 'ri v1) 'Bool.false)])))
+  (concl 'X '(Exp.refl X r e))
+  '(rw [(den_refl_none_ri chkf dec encTy ri n X r e (skels D) (skel X) en hpf)])
+  (list 'exact (list 'V_dflt_ri 'chkf 'dec 'encTy 'ri 'hrl 'n '(skels D) 'en 'k 'X 'cd 'hb
+                     (list 'fn '[hX :- (Eq Exp X Exp.tEmpty)]
+                           (list '(And.left hph) v1 'hpf
+                                 (list 'Eq.mp (list 'congrArg (list 'fn '[Z :- Exp] (list 'Eq 'Bool (list 'chkf pv1 '(encTy Z)) 'Bool.true)) 'hX) 'hchk)))))))
 (eval (concat (list 'lcert.formal.base/thm 'F_refl_ri
   (into P6 (into '[us1 :- (List U), us2 :- (List U), X :- Exp, cd :- Exp, r :- Exp, e :- Exp,
                    hb :- (Eq (Option Exp) (baseCode X) (Option.some Exp cd)),
@@ -244,40 +292,11 @@
         (base_den_ri chkf dec encTy ri n (And.left (And.right hcs)) X cd hb (skels D) en))
      (list 'have 'hchk (list 'Eq 'Bool (list 'chkf pv1 '(encTy X)) 'Bool.true)
         (list 'Eq.mp (list 'congrArg (list 'fn '[q :- Code] (list 'Eq 'Bool (list 'chkf pv1 'q) 'Bool.true)) 'hcdv) 'hchk0))
-     '(have hbase (And (Eq Bool (isBaseTy X) Bool.true) (Eq Bool (closedTy X) Bool.true)) (base_is_base X cd hb))
-     (list 'refine' (list 'bool_case (list 'fn '[b :- Bool] (concl 'X '(Exp.refl X r e))) (list 'riPf 'ri v1) '_ '_))
-     ;; phantom-free: the standard argument, on the print
-     '(intro hpf)
-     (list 'have 'hsz (list 'Eq 'Nat (list 'cnodes pv1) (list 'cnodes v1)) (list 'rl_nodes 'ri 'hrl v1 'hpf))
-     (list 'have 'hC1 (list 'Exists (list 'fn '[mm :- Nat] (list 'Exists (list 'fn '[tt :- Exp] (list 'Exists (list 'fn '[AA :- Exp] (C1body 'mm 'tt 'AA)))))))
-        (list '(And.left hcs) pv1 '(encTy X) 'hchk))
-     '(refine' (exT Nat _ _ hC1 _)) '(intro mm hm) '(refine' (exT Exp _ _ hm _)) '(intro tt htt) '(refine' (exT Exp _ _ htt _)) '(intro AA hAA)
-     (list 'have 'q (C1body 'mm 'tt 'AA) 'hAA)
-     '(have eA (Eq Exp AA X) ((And.right (And.right (And.right hcs))) AA X (And.left (And.right (And.right (And.right q)))) (And.right hbase)
-                              (And.left (And.right (And.right (And.right (And.right q)))))))
-     '(have hRtX (Rt chkf (thetaD mm) (thetaU mm) tt X) (Eq.mp (congrArg (fn [Z :- Exp] (Rt chkf (thetaD mm) (thetaU mm) tt Z)) eA) (And.left (And.right q))))
-     (list 'have 'hmv (list 'LT.lt 'mm (list 'cnodes v1))
-        (list 'lt_of_lt_eq 'mm (list 'cnodes pv1) (list 'cnodes v1) '(And.right (And.right (And.right (And.right (And.right q))))) 'hsz))
-     (list 'have 'har (list 'And '(LE.le mm k) (list 'And '(LT.lt mm n) (list 'LE.le (list 'cnodes v1) 'n)))
-        (list 'refl_arith 'mm (list 'cnodes v1) 'k1 'k2 'k 'n 'hmv 'vr '(And.left p) 'hk))
-     (list 'have 'hc (list 'Eq 'Bool (list 'Bool.and (list 'Nat.ble (list 'cnodes v1) 'n) (list 'Bool.and (list 'riPf 'ri v1) (list 'chkf pv1 '(encTy X)))) 'Bool.true)
-        (list 'bool_and3_true (list 'Nat.ble (list 'cnodes v1) 'n) (list 'riPf 'ri v1) (list 'chkf pv1 '(encTy X))
-              (list 'Nat.ble_eq_true_of_le '(And.right (And.right har))) 'hpf 'hchk))
-     '(rw [(den_refl_some_ri chkf dec encTy ri n X r e (skels D) (skel X) en mm tt AA hc (And.left q))])
-     '(rw [(coe_self (skel X) (denPrev_ri chkf dec encTy ri n mm tt (thetaSk mm) (skel X) (tokenEnv mm)))])
-     '(rw [(congrArg (fn [f :- DenBody] (f (thetaSk mm) (skel X) (tokenEnv mm))) (denPrev_stable_ri chkf dec encTy ri n mm tt (And.left (And.right har))))])
-     '(rw [(tok_transfer mm (den_ri chkf dec encTy ri mm tt) (skel X))])
-     (list 'have 'vo (list 'V_ri 'chkf 'dec 'encTy 'ri 'mm 'X '(skels (thetaD mm)) '(tokEnvD mm) 'mm '(skel X) run)
-        '(hout mm (And.left (And.right har)) tt X hRtX))
-     (list 'exact (list 'Lemma_3_4_ri 'chkf 'dec 'encTy 'ri 'X 'mm 'n 'k '(skels (thetaD mm)) '(skels D) '(tokEnvD mm) 'en '(skel X) run
-                        '(And.left hbase) '(And.left har) 'vo))
-     ;; a phantom: the default
-     '(intro hpf)
-     '(rw [(den_refl_none_ri chkf dec encTy ri n X r e (skels D) (skel X) en hpf)])
-     (list 'exact (list 'V_dflt_ri 'chkf 'dec 'encTy 'ri 'hrl 'n '(skels D) 'en 'k 'X 'cd 'hb
-                        (list 'fn '[hX :- (Eq Exp X Exp.tEmpty)]
-                              (list '(And.left hph) v1 'hpf
-                                    (list 'Eq.mp (list 'congrArg (list 'fn '[Z :- Exp] (list 'Eq 'Bool (list 'chkf pv1 '(encTy Z)) 'Bool.true)) 'hX) 'hchk)))))])))
+     (list 'exact (list 'bool_case (list 'fn '[b :- Bool] (concl 'X '(Exp.refl X r e))) (list 'riPf 'ri v1)
+                        (list 'fn ['hpf :- (list 'Eq 'Bool (list 'riPf 'ri v1) 'Bool.true)]
+                              '(refl_pf_ri chkf dec encTy ri n D X cd r e hb hcs hout hrl en k hk k1 k2 (And.left p) vr hchk hpf))
+                        (list 'fn ['hpf :- (list 'Eq 'Bool (list 'riPf 'ri v1) 'Bool.false)]
+                              '(refl_ph_ri chkf dec encTy ri n D X cd r e hb hrl hph en k hk hchk hpf))))])))
 
 ;; --- H₁ ------------------------------------------------------------------------------
 

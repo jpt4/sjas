@@ -153,7 +153,55 @@ def drop_forms(s, drop):
             keep.append(";; (%s: the standard constant is used)" % name)
             last = b
     keep.append(s[last:])
-    return ''.join(keep)
+    return drop_nested(''.join(keep), drop)
+
+
+# A declaration nested inside a top-level form (a `let` or `do` that builds
+# several proofs, as in convcase.clj and conversion.clj): `(prove! 'NAME …)`
+# or `(a/prove-theorem 'NAME …)` at any depth.
+NESTED = re.compile(r"\((?:prove!|a/prove-theorem)\s+'([A-Za-z][A-Za-z0-9_']*)")
+
+
+def form_end(s, a):
+    """The end (exclusive) of the form opening at s[a] == '('."""
+    depth, i, n = 0, a, len(s)
+    while i < n:
+        c = s[i]
+        if c == ';':
+            j = s.find('\n', i); i = n if j < 0 else j; continue
+        if c == '"':
+            j = i + 1
+            while j < n and s[j] != '"':
+                j += 2 if s[j] == '\\' else 1
+            i = j + 1; continue
+        if c == '\\':
+            i += 2; continue
+        if c in '([{':
+            depth += 1
+        elif c in ')]}':
+            depth -= 1
+            if depth == 0:
+                return i + 1
+        i += 1
+    raise ValueError("unbalanced form at %d" % a)
+
+
+def drop_nested(s, drop):
+    """Replace each nested declaration of a dropped constant by nil (its
+    value is never used: these forms are evaluated for their effect)."""
+    out, last = [], 0
+    for m in NESTED.finditer(s):
+        if m.start() < last or m.group(1) not in drop:
+            continue
+        # skip matches inside a comment line
+        line = s[s.rfind('\n', 0, m.start()) + 1:m.start()]
+        if ';' in line:
+            continue
+        out.append(s[last:m.start()])
+        out.append("nil ;; (%s: the standard constant is used)\n" % m.group(1))
+        last = form_end(s, m.start())
+    out.append(s[last:])
+    return ''.join(out)
 
 
 if __name__ == '__main__':

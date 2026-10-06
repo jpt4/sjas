@@ -239,32 +239,8 @@
                         (list 'Eq.trans
                           (list 'Eq.symm (apply list eqn (cons 'lq (map first fields))))
                           'hq))))]))]
-  (a/prove-theorem 'skj_nthB
-    '[G :- (List Sk), outsk :- Sk, bs :- Exp]
-    '(forall [l Nat] (forall [b Exp]
-       (=> (Eq (Option Exp) (nthB bs l) (Option.some Exp b))
-           (=> (SkJ Bool.false G bs (Sk.arr Sk.lbl outsk))
-               (SkJ Bool.false G b outsk)))))
-    (lv (into ['(induction bs)]
-          (mapcat (fn [[idx [ctor fields]]]
-                    (if (= ctor 'bcons)
-                      '[(intro l b hq hj)
-                        (have hc (InvSkJ Bool.false G (Exp.bcons h t) (Sk.arr Sk.lbl outsk))
-                              (inv_bcons Bool.false G h t (Sk.arr Sk.lbl outsk) hj))
-                        (exact (exSk
-                          (fn [s1 :- Sk]
-                            (And (Eq Sk (Sk.arr Sk.lbl outsk) (Sk.arr Sk.lbl s1))
-                                 (And (SkJ Bool.false G h s1)
-                                      (SkJ Bool.false G t (Sk.arr Sk.lbl s1)))))
-                          (SkJ Bool.false G b outsk)
-                          (And.right hc)
-                          (fn [s1 :- Sk, hs1 :- (And (Eq Sk (Sk.arr Sk.lbl outsk) (Sk.arr Sk.lbl s1))
-                                                  (And (SkJ Bool.false G h s1)
-                                                       (SkJ Bool.false G t (Sk.arr Sk.lbl s1))))]
-                            (skj_bcons_pick h t G outsk l b s1 (And.left hs1)
-                              (And.left (And.right hs1)) (And.right (And.right hs1)) hq ih_t))))]
-                      (refute idx fields)))
-                  (map-indexed vector exp-fields))))))
+  nil ;; (skj_nthB: the standard constant is used)
+)
 
 ;; And the looked-up branch is nbr, when the list is nbr at flag true.
 (let [refute (fn [idx fields]
@@ -276,19 +252,8 @@
                         (list 'Eq.trans
                           (list 'Eq.symm (apply list eqn (cons 'lq (map first fields))))
                           'hq))))]))]
-  (a/prove-theorem 'nbr_nthB
-    '[bs :- Exp]
-    '(forall [l Nat] (forall [b Exp]
-       (=> (Eq (Option Exp) (nthB bs l) (Option.some Exp b))
-           (=> (Eq Bool ((nbrF bs) Bool.true) Bool.true)
-               (Eq Bool (nbr b) Bool.true)))))
-    (lv (into ['(induction bs)]
-          (mapcat (fn [[idx [ctor fields]]]
-                    (if (= ctor 'bcons)
-                      '[(intro l b hq hn)
-                        (exact (nbr_bcons_pick h t l b hq hn ih_t))]
-                      (refute idx fields)))
-                  (map-indexed vector exp-fields))))))
+  nil ;; (nbr_nthB: the standard constant is used)
+)
 
 ;; Lemma 3.2, Hd.caseLb, for skeleton typing and nbr.  The branch list is
 ;; typed at Lbl → skel P (inv_caseL) and is nbr at flag true (nbr_caseL_bs);
@@ -392,7 +357,7 @@
 (doseq [[ctor fields] exp-fields]
   (let [term (ctor-term ctor fields)
         params (into step-params (mapcat (fn [[f ty]] [f :- ty]) fields))
-        nm (symbol (str "step_" ctor))]
+        nm (symbol (str "step_" ctor "_ri"))] ;; RI: generated name
     (cond
       (= ctor 'tBrs)
       (prove-step! nm params (list 'StepPack_ri 'chkf 'dec 'encTy 'ri term)
@@ -485,7 +450,7 @@
         fs (mapv first fields)
         left (apply list (symbol (str "Exp." ctor)) (replace {f fq} fs))
         right (ctor-term ctor fields)
-        at (symbol (str "den_" ctor "_at"))
+        at (symbol (str "den_" ctor "_at_ri")) ;; RI: generated name
         params (into Pcap
                  (concat
                    (mapcat (fn [[v t]]
@@ -495,7 +460,8 @@
         concl (list 'Eq '(Car sk)
                 (list 'den_ri 'chkf 'dec 'encTy 'ri 'cap left 'G 'sk 'en)
                 (list 'den_ri 'chkf 'dec 'encTy 'ri 'cap right 'G 'sk 'en))]
-    (prove! (symbol (str "den_ig_" ctor "_" f)) params concl
+    (prove! (symbol (str "den_ig_" ctor "_" f "_ri")) ;; RI: generated name
+      params concl
       [(list 'rw [(apply list at 'chkf 'dec 'encTy 'ri 'cap (concat (replace {f fq} fs) ['G 'sk 'en]))])
        (list 'rw [(apply list at 'chkf 'dec 'encTy 'ri 'cap (concat fs ['G 'sk 'en]))])])))
 
@@ -598,16 +564,8 @@
 
 ;; abort's type is a skeleton annotation: a step inside it preserves skel
 ;; (step_skel_path), and skOf of abort is some of that skeleton.
-(prove! 'sk_abort_A
-  '[chkf :- (=> Code Code Bool), A :- Exp, t :- Exp, G :- (List Sk), q :- (List Nat),
-    r :- Exp, r2 :- Exp,
-    hA :- (SkJ Bool.true G A Sk.unit),
-    hg :- (Eq (Option Exp) (getP q A) (Option.some Exp r)),
-    hd :- (Hd chkf r r2)]
-  '(Eq (Option Sk) (skOf G (Exp.abort (setP q A r2) t)) (skOf G (Exp.abort A t)))
-  ['(have hs (Eq Sk (skel (setP q A r2)) (skel A))
-      (step_skel_path chkf q A r r2 (skj_isTy Bool.true G A Sk.unit hA rfl) hg hd))
-   '(exact (congrArg (fn [sk :- Sk] (Option.some Sk sk)) hs))])
+nil ;; (sk_abort_A: the standard constant is used)
+
 
 (defn- pack-step! [nm extra term proofs]
   (prove! nm (into step-params extra)
@@ -627,7 +585,7 @@
            (list 'And.intro '(Eq.refl$1 (skOf G (Exp.h1 r s c e1 e2)))
              (list 'fn '[cap :- Nat, en :- (HEnv G)]
                (apply list (concat
-                 [(symbol (str "den_ig_h1_" f)) 'chkf 'dec 'encTy 'ri 'cap]
+                 [(symbol (str "den_ig_h1_" f "_ri")) 'chkf 'dec 'encTy 'ri 'cap]
                  (mapcat (fn [[g]] (if (= g f) [g (list 'setP 'tail g 'co)] [g])) fields)
                  ['G 'out 'en]))))))))
 
@@ -742,7 +700,7 @@
                               slots))
           left (apply list (symbol (str "Exp." ctor)) (map-indexed (fn [i g] (if (= i changed) fq g)) fs))
           right (apply list (symbol (str "Exp." ctor)) fs)
-          at (symbol (str "den_" ctor "_at"))
+          at (symbol (str "den_" ctor "_at_ri")) ;; RI: generated name
           clause (fn [useq]
                    (list 'coe outsk 'sk (apply list 'Code.sn (dens useq))))
           params (into Pcap (concat
@@ -916,17 +874,8 @@
 ;; elimB: the motive is a skeleton annotation (sk_elimB_P).  The branches
 ;; are typed at skel P and denoted at the output skeleton, which inversion
 ;; equates; Eq.mp moves the branch's skeleton typing across that equation.
-(prove! 'sk_elimB_P
-    '[chkf :- (=> Code Code Bool), P :- Exp, b :- Exp, t :- Exp, e :- Exp, G :- (List Sk),
-      q :- (List Nat), r :- Exp, r2 :- Exp,
-      hP :- (SkJ Bool.true (List.cons Sk Sk.bool G) P Sk.unit),
-      hg :- (Eq (Option Exp) (getP q P) (Option.some Exp r)),
-      hd :- (Hd chkf r r2)]
-    '(Eq (Option Sk) (skOf G (Exp.elimB (setP q P r2) b t e)) (skOf G (Exp.elimB P b t e)))
-    ['(have hs (Eq Sk (skel (setP q P r2)) (skel P))
-        (step_skel_path chkf q P r r2
-          (skj_isTy Bool.true (List.cons Sk Sk.bool G) P Sk.unit hP rfl) hg hd))
-     '(exact (congrArg (fn [k :- Sk] (Option.some Sk k)) hs))])
+nil ;; (sk_elimB_P: the standard constant is used)
+
 
   
 (defn- el [nm which]
@@ -1077,17 +1026,8 @@
                    (list 'fn '[f :- (=> Nat (Car sk) (Car sk))]
                      (rec '(den_ri chkf dec encTy ri cap z G sk en) 'f '(den_ri chkf dec encTy ri cap n G Sk.nat en)))
                    'h))])
-  (prove! 'sk_recN_P
-    '[chkf :- (=> Code Code Bool), P :- Exp, z :- Exp, s :- Exp, n :- Exp, G :- (List Sk),
-      q :- (List Nat), r :- Exp, r2 :- Exp,
-      hP :- (SkJ Bool.true (List.cons Sk Sk.nat G) P Sk.unit),
-      hg :- (Eq (Option Exp) (getP q P) (Option.some Exp r)),
-      hd :- (Hd chkf r r2)]
-    '(Eq (Option Sk) (skOf G (Exp.recN (setP q P r2) z s n)) (skOf G (Exp.recN P z s n)))
-    ['(have hs (Eq Sk (skel (setP q P r2)) (skel P))
-        (step_skel_path chkf q P r r2
-          (skj_isTy Bool.true (List.cons Sk Sk.nat G) P Sk.unit hP rfl) hg hd))
-     '(exact (congrArg (fn [k :- Sk] (Option.some Sk k)) hs))])
+  nil ;; (sk_recN_P: the standard constant is used)
+
   
 (defn rights [n t] (if (zero? n) t (list 'And.right (rights (dec n) t))))
   (let [term '(Exp.recN P z s n)
@@ -1170,17 +1110,8 @@
      (list 'change (list 'Eq '(Car sk) (app (Dbs 'bsq) (Da 'a)) (app (Dbs 'bs) (Da 'a))))
      (list 'exact (list 'congrArg
                    (list 'fn '[f :- (Car (Sk.arr Sk.lbl sk))] (app 'f (Da 'a))) 'h))])
-  (prove! 'sk_caseL_P
-    '[chkf :- (=> Code Code Bool), P :- Exp, a :- Exp, bs :- Exp, G :- (List Sk),
-      q :- (List Nat), r :- Exp, r2 :- Exp,
-      hP :- (SkJ Bool.true (List.cons Sk Sk.lbl G) P Sk.unit),
-      hg :- (Eq (Option Exp) (getP q P) (Option.some Exp r)),
-      hd :- (Hd chkf r r2)]
-    '(Eq (Option Sk) (skOf G (Exp.caseL (setP q P r2) a bs)) (skOf G (Exp.caseL P a bs)))
-    ['(have hs (Eq Sk (skel (setP q P r2)) (skel P))
-        (step_skel_path chkf q P r r2
-          (skj_isTy Bool.true (List.cons Sk Sk.lbl G) P Sk.unit hP rfl) hg hd))
-     '(exact (congrArg (fn [k :- Sk] (Option.some Sk k)) hs))])
+  nil ;; (sk_caseL_P: the standard constant is used)
+
   (let [term '(Exp.caseL P a bs)
         inv '(inv_caseL Bool.false G P a bs out hj)
         hs (list 'And.left (rights 1 inv))
@@ -1413,17 +1344,8 @@
                      (rs-crec rs-L0 'f rs-C0))
                    'h))])
 
-  (prove! 'sk_recS_P
-    '[chkf :- (=> Code Code Bool), P :- Exp, tl :- Exp, tn :- Exp, c :- Exp, G :- (List Sk),
-      q :- (List Nat), r :- Exp, r2 :- Exp,
-      hP :- (SkJ Bool.true (List.cons Sk Sk.syn G) P Sk.unit),
-      hg :- (Eq (Option Exp) (getP q P) (Option.some Exp r)),
-      hd :- (Hd chkf r r2)]
-    '(Eq (Option Sk) (skOf G (Exp.recS (setP q P r2) tl tn c)) (skOf G (Exp.recS P tl tn c)))
-    ['(have hs (Eq Sk (skel (setP q P r2)) (skel P))
-        (step_skel_path chkf q P r r2
-          (skj_isTy Bool.true (List.cons Sk Sk.syn G) P Sk.unit hP rfl) hg hd))
-     '(exact (congrArg (fn [k :- Sk] (Option.some Sk k)) hs))])
+  nil ;; (sk_recS_P: the standard constant is used)
+
 
 
   ;; recS: the motive is a skeleton annotation.  The leaf is under one
@@ -1564,17 +1486,8 @@
                    (list 'fn '[v :- (Car Sk.cert)] (itr-of itr-g0 itr-h0 'v))
                    'he))])
 
-  (prove! 'sk_itR_X
-    '[chkf :- (=> Code Code Bool), X :- Exp, g :- Exp, h :- Exp, r :- Exp, G :- (List Sk),
-      q :- (List Nat), rd :- Exp, r2 :- Exp,
-      hX :- (SkJ Bool.true G X Sk.unit),
-      hg :- (Eq (Option Exp) (getP q X) (Option.some Exp rd)),
-      hd :- (Hd chkf rd r2)]
-    '(Eq (Option Sk) (skOf G (Exp.itR (setP q X r2) g h r)) (skOf G (Exp.itR X g h r)))
-    ['(have hs (Eq Sk (skel (setP q X r2)) (skel X))
-        (step_skel_path chkf q X rd r2
-          (skj_isTy Bool.true G X Sk.unit hX rfl) hg hd))
-     '(exact (congrArg (fn [k :- Sk] (Option.some Sk k)) hs))])
+  nil ;; (sk_itR_X: the standard constant is used)
+
 
 
   (let [term '(Exp.itR X g h r)
@@ -1645,31 +1558,13 @@
   ;; A step inside the domain annotation does not change skel A, so both
   ;; the arrow skOf builds and the context it reads the body in stay the
   ;; same (skOf_lam_eq).
-  (prove! 'sk_lam_A
-    '[chkf :- (=> Code Code Bool), r :- U, A :- Exp, t :- Exp, G :- (List Sk),
-      q :- (List Nat), rd :- Exp, r2 :- Exp,
-      hA :- (SkJ Bool.true G A Sk.unit),
-      hg :- (Eq (Option Exp) (getP q A) (Option.some Exp rd)),
-      hd :- (Hd chkf rd r2)]
-    '(Eq (Option Sk) (skOf G (Exp.lam r (setP q A r2) t)) (skOf G (Exp.lam r A t)))
-    ['(have hs (Eq Sk (skel (setP q A r2)) (skel A))
-        (step_skel_path chkf q A rd r2
-          (skj_isTy Bool.true G A Sk.unit hA rfl) hg hd))
-     '(rw [(skOf_lam_eq G r (setP q A r2) t)])
-     '(rw [(skOf_lam_eq G r A t)])
-     '(rw [hs])])
+  nil ;; (sk_lam_A: the standard constant is used)
+
 
   ;; A step inside the body changes skOf only through the body's skOf in
   ;; (skel A :: G), which lamSk wraps.
-  (prove! 'sk_lam_t
-    '[r :- U, A :- Exp, t :- Exp, tq :- Exp, G :- (List Sk),
-      he :- (Eq (Option Sk)
-              (skOf (List.cons Sk (skel A) G) tq)
-              (skOf (List.cons Sk (skel A) G) t))]
-    '(Eq (Option Sk) (skOf G (Exp.lam r A tq)) (skOf G (Exp.lam r A t)))
-    ['(rw [(skOf_lam_eq G r A tq)])
-     '(rw [(skOf_lam_eq G r A t)])
-     '(exact (congrArg (fn [o :- (Option Sk)] (lamSk (skel A) o)) he))])
+  nil ;; (sk_lam_t: the standard constant is used)
+
 
   ;; ⟦λ.t⟧ at Arr (skel A) s1 is the function sending v to ⟦t⟧ at (v, η).
   (def ^:private lam-fn
@@ -1753,13 +1648,8 @@
 
 
   ;; skOf of an application follows the function (appSk), not the argument.
-  (prove! 'sk_app_f
-    '[f :- Exp, fq :- Exp, u :- Exp, G :- (List Sk),
-      he :- (Eq (Option Sk) (skOf G fq) (skOf G f))]
-    '(Eq (Option Sk) (skOf G (Exp.app fq u)) (skOf G (Exp.app f u)))
-    ['(rw [(skOf_app_eq G fq u)])
-     '(rw [(skOf_app_eq G f u)])
-     '(exact (congrArg appSk he))])
+  nil ;; (sk_app_f: the standard constant is used)
+
 
   ;; The application clause is Option.rec on skOf of the argument
   ;; (den_app_some, optrec_congr).  A step in the function changes the
@@ -1877,19 +1767,8 @@
 ;; components; Eq.mp moves that equation to the output skeleton.
 
 
-  (prove! 'sk_pair_S
-    '[chkf :- (=> Code Code Bool), S :- Exp, a :- Exp, b :- Exp, G :- (List Sk),
-      q :- (List Nat), rd :- Exp, r2 :- Exp,
-      hS :- (SkJ Bool.true G S Sk.unit),
-      hg :- (Eq (Option Exp) (getP q S) (Option.some Exp rd)),
-      hd :- (Hd chkf rd r2)]
-    '(Eq (Option Sk) (skOf G (Exp.pair (setP q S r2) a b)) (skOf G (Exp.pair S a b)))
-    ['(have hs (Eq Sk (skel (setP q S r2)) (skel S))
-        (step_skel_path chkf q S rd r2
-          (skj_isTy Bool.true G S Sk.unit hS rfl) hg hd))
-     '(rw [(skof_pair (setP q S r2) a b G)])
-     '(rw [(skof_pair S a b G)])
-     '(exact (congrArg (fn [k :- Sk] (Option.some Sk k)) hs))])
+  nil ;; (sk_pair_S: the standard constant is used)
+
 
   (prove! 'den_pair_a_ri
     (into Pcap '[S :- Exp, a :- Exp, aq :- Exp, b :- Exp, G :- (List Sk),
@@ -2002,24 +1881,11 @@
 ;; The body's typing moves from skel C to the output skeleton by Eq.mp.
 
 
-  (prove! 'skof_letp
-    '[C :- Exp, p :- Exp, t :- Exp, G :- (List Sk)]
-    '(Eq (Option Sk) (skOf G (Exp.letp C p t)) (Option.some Sk (skel C)))
-    ['(rfl)])
+  nil ;; (skof_letp: the standard constant is used)
 
-  (prove! 'sk_letp_C
-    '[chkf :- (=> Code Code Bool), C :- Exp, p :- Exp, t :- Exp, G :- (List Sk),
-      q :- (List Nat), rd :- Exp, r2 :- Exp,
-      hC :- (SkJ Bool.true G C Sk.unit),
-      hg :- (Eq (Option Exp) (getP q C) (Option.some Exp rd)),
-      hd :- (Hd chkf rd r2)]
-    '(Eq (Option Sk) (skOf G (Exp.letp (setP q C r2) p t)) (skOf G (Exp.letp C p t)))
-    ['(have hs (Eq Sk (skel (setP q C r2)) (skel C))
-        (step_skel_path chkf q C rd r2
-          (skj_isTy Bool.true G C Sk.unit hC rfl) hg hd))
-     '(rw [(skof_letp (setP q C r2) p t G)])
-     '(rw [(skof_letp C p t G)])
-     '(exact (congrArg (fn [k :- Sk] (Option.some Sk k)) hs))])
+
+  nil ;; (sk_letp_C: the standard constant is used)
+
 
   ;; den_letp_some reads the pair at its product skeleton.  Equal pair
   ;; denotations give equal bodies, because the body is applied to the
@@ -2147,16 +2013,8 @@
   ;; A base type has no children, so a cons-path into it is none.
   ;; reflect's type is a base type (isBaseTy), so a step inside D is impossible.
   (let [base #{'tEmpty 'tUnit 'tBool 'tNat 'tLbl 'tSyn 'tR}]
-    (prove! 'getP_base
-      '[D :- Exp, hb :- (Eq Bool (isBaseTy D) Bool.true)]
-      '(forall [i Nat] (forall [q (List Nat)]
-         (Eq (Option Exp) (getP (List.cons Nat i q) D) (Option.none Exp))))
-      (into ['(cases D)]
-        (mapcat (fn [[ctor _]]
-                  (if (base ctor)
-                    '[(intro i q) (rfl)]
-                    '[(exact (Bool.noConfusion hb))]))
-                exp-fields))))
+    nil ;; (getP_base: the standard constant is used)
+)
 
   (def ^:private refl-of
     '(Bool.rec$1 (fn [_ :- Bool] (Car (skel D))) (dflt (skel D))
@@ -2394,17 +2252,8 @@
                   (den_ri chkf dec encTy ri cap c G Sk.syn en))))
         he))])
 
-  (prove! 'sk_insp_X
-    '[chkf :- (=> Code Code Bool), X :- Exp, r :- Exp, c :- Exp, t1 :- Exp, t2 :- Exp,
-      G :- (List Sk), q :- (List Nat), rd :- Exp, r2 :- Exp,
-      hX :- (SkJ Bool.true G X Sk.unit),
-      hg :- (Eq (Option Exp) (getP q X) (Option.some Exp rd)),
-      hd :- (Hd chkf rd r2)]
-    '(Eq (Option Sk) (skOf G (Exp.insp (setP q X r2) r c t1 t2)) (skOf G (Exp.insp X r c t1 t2)))
-    ['(have hs (Eq Sk (skel (setP q X r2)) (skel X))
-        (step_skel_path chkf q X rd r2
-          (skj_isTy Bool.true G X Sk.unit hX rfl) hg hd))
-     '(exact (congrArg (fn [k :- Sk] (Option.some Sk k)) hs))])
+  nil ;; (sk_insp_X: the standard constant is used)
+
 
 
   (let [term '(Exp.insp X r c t1 t2)
@@ -2495,7 +2344,7 @@
     (into ['(induction e)]
       (for [[ctor fields] exp-fields]
         (list 'exact
-          (concat [(symbol (str "step_" (name ctor))) 'chkf 'dec 'encTy 'ri]
+          (concat [(symbol (str "step_" (name ctor) "_ri")) 'chkf 'dec 'encTy 'ri]
                   (map first fields)
                   (map #(symbol (str "ih_" %)) (get ih-fields ctor [])))))))
 
@@ -2724,11 +2573,8 @@
 ;; a pi is a step in the domain or the codomain.  StepV is that fact for
 ;; every skeleton-typed nbr type: V at the type's own skeleton is unchanged.
 ;; step_V_pi is the pi case, from V_pi_dom and V_pi_cod.
-(prove! 'pi_no_head
-  '[chkf :- (=> Code Code Bool), r :- U, A :- Exp, B :- Exp, r2 :- Exp,
-    hd :- (Hd chkf (Exp.tPi r A B) r2)]
-  'False
-  ['(cases hd)])
+nil ;; (pi_no_head: the standard constant is used)
+
 
 (prove! 'V_pi_at_bcst_ri
     (into Pcap
@@ -2905,11 +2751,8 @@
               (V_ri chkf dec encTy ri cap B (List.cons Sk (skel A) G) (Prod.mk (Prod.fst p) en) k (skel B) (Prod.snd p)))
          r))
     ['(unfold V_ri) '(rfl)])
-  (prove! 'sig_no_head
-    '[chkf :- (=> Code Code Bool), r :- U, A :- Exp, B :- Exp, r2 :- Exp,
-      hd :- (Hd chkf (Exp.tSig r A B) r2)]
-    'False
-    ['(cases hd)])
+  nil ;; (sig_no_head: the standard constant is used)
+
 
 (prove! 'V_sig_at_cast_ri
     (into Pcap
@@ -3138,7 +2981,7 @@
   (doseq [[ctor fields] exp-fields]
     (let [term (ctor-term ctor fields)
           params (into Pcap (mapcat (fn [[f ty]] [f :- ty]) fields))
-          nm (symbol (str "step_V_" ctor))]
+          nm (symbol (str "step_V_" ctor "_ri"))] ;; RI: generated name
       (cond
         (type-no-child ctor)
         (prove! nm params (list 'StepV_ri 'chkf 'dec 'encTy 'ri 'cap term)
@@ -3184,7 +3027,7 @@
     '(StepV_ri chkf dec encTy ri cap e)
     (into ['(induction e)]
       (for [[ctor fields] exp-fields]
-        (let [nm (if (= ctor 'tT) 'step_V_tT_pack_ri (symbol (str "step_V_" ctor)))]
+        (let [nm (if (= ctor 'tT) 'step_V_tT_pack_ri (symbol (str "step_V_" ctor "_ri")))]
           (list 'exact
             (concat [nm 'chkf 'dec 'encTy 'ri 'cap]
                     (map first fields)

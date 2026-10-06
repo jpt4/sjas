@@ -189,15 +189,7 @@
 
 ;; InvSkJ by Exp.rec into Prop-valued clauses (the recursive results are
 ;; unused).
-(eval
- (list 'kdef 'InvSkJ '(=> Bool (List Sk) Exp Sk Prop)
-       (list 'fn '[w0 :- Bool, G0 :- (List Sk), e0 :- Exp, s0 :- Sk]
-             (concat (list 'Exp.rec$1 '(fn [_ :- Exp] Prop))
-                     (for [[ctor fields] exp-fields]
-                       (let [bs (vec (concat (mapcat (fn [[f ty]] [f :- ty]) fields)
-                                             (mapcat (fn [[f ty]] (when (= ty 'Exp) [(symbol (str "i_" f)) :- 'Prop])) fields)))]
-                         (if (seq bs) (list 'fn bs (inv-clause ctor)) (inv-clause ctor))))
-                     ['e0]))))
+;; RI: (InvSkJ: the standard constant is used)
 
 ;; Each SkJ rule: its constructor, conclusion (w, s), the conclusion's
 ;; constructor fields, and the proof of the clause from the rule's premises
@@ -269,14 +261,7 @@
 ;; kernel unfolds InvSkJ at the constructor).
 (defn- ctor-term [ctor vals] (if (seq vals) (apply list (symbol (str "Exp." ctor)) vals) (symbol (str "Exp." ctor))))
 
-(doseq [[ctor fields] exp-fields :when (not= ctor 'tBrs)]
-  (let [fs (map first fields)
-        e (ctor-term ctor fs)]
-    (a/prove-theorem (symbol (str "inv_" ctor))
-      (lv (vec (concat '[w :- Bool, G :- (List Sk)] (mapcat (fn [[f ty]] [f :- ty]) fields)
-                       ['sk :- 'Sk 'hj :- (list 'SkJ 'w 'G e 'sk)])))
-      (lv (clause-at ctor 'w 'G 'sk fs))
-      (lv [(list 'exact (list 'skj_inv 'w 'G e 'sk 'hj))]))))
+;; RI: (inv_<ctor>: the standard constants are used)
 
 ;; ===========================================================================
 ;; §3  Equivalence at a position; head steps
@@ -505,10 +490,8 @@
            '(exact (And.intro (Eq.refl$1 (Exp.lbl l)) (Eq.symm he)))]
       tacs (vec (concat ['(cases x)] (repeat idx refute) lbl (repeat (- n idx 1) refute)))]
   (when (neg? idx) (throw (ex-info "lbl is not an Exp constructor" {})))
-  (a/prove-theorem 'codeOf_sleaf_inv
-    (lv '[x :- Exp, c0 :- Code, hc :- (Eq (Option Code) (codeOf (Exp.sleaf x)) (Option.some Code c0))])
-    (lv '(Exists (fn [l :- Nat] (And (Eq Exp x (Exp.lbl l)) (Eq Code c0 (Code.sl l))))))
-    (lv tacs)))
+  nil ;; (codeOf_sleaf_inv: the standard constant is used)
+)
 
 ;; --- β (Lemma 3.2), under nbr ------------------------------------------------
 ;; Arrow injectivity.  cases on an equality of arrows is accepted (the
@@ -847,7 +830,7 @@
   (rw [(den_itR_at_ri chkf dec encTy ri n X g h (Exp.leaf x) G s en)])
   (change (Eq (Car s) ((den_ri chkf dec encTy ri n g G (Sk.arr Sk.lbl s) en) (den_ri chkf dec encTy ri n x G Sk.lbl en))
               (Code.rec$1 (fn [_ :- Code] (Car s))
-                (fn [l :- Nat] ((den_ri chkf dec encTy ri n g G (Sk.arr Sk.lbl s) en) l))
+                (fn [l :- Nat] ((den_ri chkf dec encTy ri n g G (Sk.arr Sk.lbl s) en) (riIt ri l))) ;; RI: itR passes riIt ri l
                 (fn [l :- Nat, a :- Code, b :- Code, ya :- (Car s), yb :- (Car s)]
                   ((den_ri chkf dec encTy ri n h G (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr s (Sk.arr s s)))) en) Unit.unit l ya yb))
                 (den_ri chkf dec encTy ri n (Exp.leaf x) G Sk.cert en))))
@@ -970,17 +953,7 @@
   (if (= 1 (count xs)) h
     (if (zero? i) (list 'band_left (first xs) (band-chain (rest xs)) h)
       (band-project (rest xs) (dec i) (list 'band_right (first xs) (band-chain (rest xs)) h)))))
-(doseq [[ctor fields] exp-fields
-        :let [fs (filter #(= 'Exp (second %)) fields)
-              es (map (fn [[f]] (list (list 'nbrF f) (nbr-flag ctor f))) fs)
-              es (if (= ctor 'bcons) (cons 'fl es) es)
-              term (apply list (symbol (str "Exp." ctor)) (map first fields))]
-        [idx [f]] (map-indexed vector fs)]
-  (a/prove-theorem (symbol (str "nbr_" ctor "_" f))
-    (lv (vec (concat (mapcat (fn [[v ty]] [v ':- ty]) fields)
-                    ['fl ':- 'Bool 'hn ':- (list 'Eq 'Bool (list (list 'nbrF term) 'fl) 'Bool.true)])))
-    (lv (list 'Eq 'Bool (list (list 'nbrF f) (nbr-flag ctor f)) 'Bool.true))
-    (lv [(list 'exact (band-project es (+ idx (if (= ctor 'bcons) 1 0)) 'hn))])))
+;; RI: (nbr_<ctor>_<field>: the standard constants are used)
 
 ;; Unfolding at a natural successor, before using substitution. This
 ;; equation itself holds at any output skeleton, without typing premises.
@@ -1266,7 +1239,7 @@
   (rw [(den_itR_at_ri chkf dec encTy ri n X g h (Exp.node d x r1 r2) G s en)])
   (change (Eq (Car s)
     (Code.rec$1 (fn [_ :- Code] (Car s))
-      (fn [l :- Nat] ((den_ri chkf dec encTy ri n g G (Sk.arr Sk.lbl s) en) l))
+      (fn [l :- Nat] ((den_ri chkf dec encTy ri n g G (Sk.arr Sk.lbl s) en) (riIt ri l))) ;; RI: itR passes riIt ri l
       (fn [l :- Nat, a :- Code, b :- Code, ya :- (Car s), yb :- (Car s)]
         ((den_ri chkf dec encTy ri n h G (Sk.arr Sk.dia (Sk.arr Sk.lbl (Sk.arr s (Sk.arr s s)))) en) Unit.unit l ya yb))
       (den_ri chkf dec encTy ri n (Exp.node d x r1 r2) G Sk.cert en))
