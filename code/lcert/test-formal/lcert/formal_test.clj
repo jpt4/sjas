@@ -50,6 +50,7 @@
     lcert.formal-test.check-agree
     lcert.formal-test.check-spec
     lcert.formal-test.enclabels
+    lcert.formal-test.encsize
     lcert.formal-test.certenc
     lcert.formal-test.selfjust
     lcert.formal-test.uskel
