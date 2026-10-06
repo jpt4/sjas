@@ -79,7 +79,9 @@
 ;; safe trace is never such a node: by induction on the trace, every rule's
 ;; root is a good node by computation, except the reflect rules, whose root
 ;; is good by their premise isH D = false.  (Inversion by `cases` on the
-;; indexed families is not available in Ansatz here.)
+;; indexed families is not available in Ansatz here.) An explicit recursor
+;; keeps the induction motive small: the induction tactic otherwise spends
+;; minutes expanding the mutually indexed trace premises while elaborating.
 (a/defn srcBad [src :- EvSrc] Bool
   (match src [(tm rho t) (badNode t)] [_ Bool.false]))
 
@@ -89,9 +91,22 @@
                 encTy :- (=> Exp Code), n0 :- Nat, src0 :- EvSrc, v0 :- RV, der :-]
               (list pred 'chkf 'dec 'encTy 'n0 'src0 'v0)))
     (lv (list 'Eq 'Bool '(srcBad src0) 'Bool.false))
-    (lv (into ['(induction der)]
-              (for [[_ & fs] (fields pred)]
-                (if (some #(= 'hH (first %)) (take-while vector? fs)) '(exact hH) '(rfl)))))))
+    (lv [(list 'exact
+      (apply list (symbol (str pred ".rec")) 'chkf 'dec 'encTy
+        (list 'fn ['n :- 'Nat, 'src :- 'EvSrc, 'v :- 'RV,
+                   'h :- (list pred 'chkf 'dec 'encTy 'n 'src 'v)]
+          '(Eq Bool (srcBad src) Bool.false))
+        (concat
+          (for [[_ & fs] (fields pred)
+                :let [bs (take-while vector? fs)]]
+            (list 'fn
+              (vec (concat (mapcat (fn [[x ty]] [x :- ty]) bs)
+                (mapcat (fn [[x ty]]
+                  (when (and (seq? ty) (= pred (first ty)))
+                    [(symbol (str "ih_" x)) :-
+                     (list 'Eq 'Bool (list 'srcBad (nth ty 5)) 'Bool.false)])) bs)))
+              (if (some #(= 'hH (first %)) bs) 'hH '(Eq.refl Bool.false))))
+          '[n0 src0 v0 der])))])))
 
 (doseq [[nm term fs] '[[abort (Exp.abort A t) [A Exp t Exp]]
                        [h1 (Exp.h1 r s c e1 e2) [r Exp s Exp c Exp e1 Exp e2 Exp]]
