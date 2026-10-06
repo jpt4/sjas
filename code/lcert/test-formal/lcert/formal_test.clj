@@ -66,4 +66,5 @@
     lcert.formal-test.s52branch
     lcert.formal-test.s52recn
     lcert.formal-test.s52inst
-    lcert.formal-test.s52recs])
+    lcert.formal-test.s52recs
+    lcert.formal-test.s52itr])
