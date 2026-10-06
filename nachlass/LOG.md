@@ -6730,3 +6730,32 @@ computational reading of the HBL conditions (Artemov's m(s,t), c(t); LP's
   budget n is the bounded fact BF₀(n), which is LP's per-instance content.
   The "missing ingredient" is uniform, fixed-budget D2 and D3 on held
   certificates, not the application operation.
+
+## 2026-10-06 — Artemov and λᶜᵉʳᵗ₀, in detail: correctness, novelty, computational meaning
+
+The user set aside the shared conversation's assessment of proflog, and asked
+for a detailed comparison of Artemov's computational interpretation of
+provability with λᶜᵉʳᵗ₀. The aim: to establish that λᶜᵉʳᵗ₀ is correct and
+novel, and that it gives self-justification a computational meaning. The
+[assessment](../docs/log/2026-10-06-artemov-lp-and-lambda-cert.md) was
+rewritten. Artemov 2019 (held in `works-citing-dew/`) was read in full;
+Artemov 2001, Alt–Artemov 2001, Artemov 2024, Gadsby 2025 and Kavvos 2020 in
+part.
+- **H°'s derivation is explicit reflection.** Its inhabitant is
+  λr e. reflect₀ r e. By Artemov's criterion it is the non-contentual
+  selector, LP's t:⊥ → ⊥. The contentual argument is the metatheory's model
+  (T1). That is Willard's Definition 3.4, but not "proves its own
+  consistency" in Hilbert's sense. The papers' wording must say so.
+- **The arithmetical ceiling** (Ignjatović; Gadsby, Proposition 4.1).
+  Selector-provable consistency is exactly relative consistency. H° is a
+  constant selector for the series {BF₀(n)}.
+- **The computational boundary is Kavvos's Ω.** Eval plus intensional
+  fixed points inhabits ⊥. reflect descends in budget (Lemma 2.7), so a
+  certificate cannot be held by the program it certifies. Recommended: a
+  formal "no certified Ω" theorem.
+- **Novelty.** Every ingredient has prior art: LP, λ∞, λ□, GLA, quantified
+  LP, Artemov's selector proofs. What appears new is their combination: an
+  arithmetizing calculus with a derivable *quantified* explicit reflection
+  over affine, token-paid certificates, in which D2 and D3 are priced.
+- **R5** (the secondary-literature pass, pending since 2026-09) is now
+  load-bearing for novelty.
