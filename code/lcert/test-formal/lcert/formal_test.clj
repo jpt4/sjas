@@ -59,4 +59,5 @@
     lcert.formal-test.rint
     lcert.formal-test.enc46
     lcert.formal-test.lemma46a
-    lcert.formal-test.theorem46])
+    lcert.formal-test.theorem46
+    lcert.formal-test.cor46])
