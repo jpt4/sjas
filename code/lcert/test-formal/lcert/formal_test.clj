@@ -62,4 +62,5 @@
     lcert.formal-test.s52fund
     lcert.formal-test.s52data
     lcert.formal-test.s52bind
-    lcert.formal-test.s52prod])
+    lcert.formal-test.s52prod
+    lcert.formal-test.s52branch])
