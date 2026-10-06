@@ -65,6 +65,7 @@
     lcert.formal-test.cor46
     lcert.formal-test.enc46w
     lcert.formal-test.enc46f7
+    lcert.formal-test.thm46f7
     lcert.formal-test.ri-convcase
     lcert.formal-test.ri-conversion
     lcert.formal-test.ri-den
