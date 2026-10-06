@@ -332,3 +332,137 @@ argument. Its invariant lives in the metatheory. Closing that gap is the
    - Address Artemov's contentual criterion explicitly.
    - Position the work against λ□, GLA and quantified logics of proofs.
 5. **Make the dependence on E3 explicit** (§4.4), or remove it.
+
+## 8. Appendix: the F7 encoding issue, and its effect on this comparison
+
+*Added later on 2026-10-06. It expands §3's caveat, from the Theorem 4.6
+delegate's findings (branch `f4-theorem46`, `enc46f7.clj`) and from the
+definitions in `certenc.clj`, `check_spec.clj` and `prop434.clj`.*
+
+### 8.1 F7's certificate format
+
+F7 is the one concrete, computing checker, `Check decCert`. Through it, T1
+and T2 hold with no hypotheses, relative to the metatheory. A certificate is
+the code
+
+```
+sn 0  ⌜(fuel, m, t, A, typing tree, formation tree)⌝  pad
+```
+
+It decodes to a budget m, a term t and a type A. Check accepts it as a proof
+of A when four conditions hold:
+- the data decodes;
+- the trees check (`dtCheck`);
+- ⌜A⌝ matches the expected type code;
+- three size tests pass, each on the *whole* code c:
+  - **m < ‖c‖**: strict overhead (Lemma 2.7), for the *declared* budget.
+    `reflect`'s budget descent relies on this one.
+  - **2f < ‖c‖** (TokSize). Here f is the number of the m declared tokens
+    that occur *free in the term t*, so f ≤ m, and m − f counts tokens
+    declared but never used. Formally (`prop434.clj`):
+    ```
+    f = cntU (maskUF (thetaU m) (freshF t))
+    ```
+    `thetaU m` is Θₘ's usage vector, every token at usage 1. `freshF t i` is
+    true when variable i is not free in t, and `maskUF` zeroes those
+    entries. `cntU` counts what is left.
+  - **‖⌜A⌝‖ < ‖c‖** (TypeSize): a certificate is larger than its type's code.
+
+**Why the paper has these facts, and why f matters.**
+- *The paper derives them from the encoding's layout.* Each token the term
+  uses is recorded twice, in disjoint subtrees under the root derivation node
+  (E2): once as a context entry (E3), once as an occurrence in the encoded
+  term (E4). So ‖c‖ ≥ 1 + m + f, and with f ≤ m this gives 2f < ‖c‖. The
+  context alone gives m < ‖c‖, and the judgment contains ⌜A⌝ (E2, E3).
+- *f bounds what the term can build.* By T3's refinement, a certificate value
+  the term constructs has at most f nodes, since each node consumes a distinct
+  token the term names.
+- *Proposition 4.3 combines the two:* a certificate w of □A must build a
+  certificate of A, so f ≥ μ(A), and ‖w‖ ≥ 1 + m + f ≥ 1 + 2μ(A). That is
+  D3's quotation cost, "more than 2μ(A)".
+
+**Where padding comes from.** F7 *tests* the size facts instead of deriving
+them. To keep completeness — every real derivation has an accepted certificate
+(`check_complete`) — the certificate carries padding, which inflates ‖c‖ until
+the tests pass (`prop410`'s `padC`). The checker reads the padding only
+through its size, so the padding may be any code.
+
+### 8.2 Why Theorem 4.6 needs `Enc46`, and why F7 refutes it
+
+**What Theorem 4.6 says.** A term turning certificates of A₁ … Aⱼ into a
+certificate of a different B needs k ≥ μ(B) tokens, the size of B's smallest
+certificate.
+
+**How it is proved.** Feed the term opaque "phantom" certificates as inputs,
+and ask where the output came from:
+1. It was built from the term's own k tokens, so k ≥ μ(B).
+2. It *is* one of the inputs. That is impossible, since B ≠ Aᵢ.
+3. It *embeds* an input strictly inside itself.
+   - The paper's encoding facts (E6, the rule facts, E2–E4) say an embedded
+     certificate can sit only as a sub-derivation.
+   - Its term is then a literal subterm of the output's term, which the
+     output's own nodes must re-encode.
+   - So the embedding costs at least the embedded term's size.
+
+`Enc46` packages case 3: an accepted code that embeds accepted codes strictly
+inside pays, in its own nodes, at least one embedded certificate's term size.
+
+**Why F7 refutes it.**
+- Padding is a place inside an accepted certificate, outside every derivation
+  node, where any code can sit at no cost in the outer certificate's own
+  nodes (`check_pad`).
+- So put a huge accepted certificate into the padding of a tiny one. The
+  result is still accepted, its own nodes are few, and the embedded term is
+  huge. `Enc46` is false at F7 (`enc46_F7`).
+- So Theorem 4.6's hypotheses are contradictory there (`thm46_F7_vacuous`).
+  At the concrete checker, the theorem and the lower halves of
+  Corollaries 4.6′ and 4.6″ say nothing. Their upper bounds still hold.
+
+**What it does not show.** It does not show that D2 is cheap at F7.
+- *What still costs tokens:* an output certificate of B still has to contain
+  a full derivation of B, built from tokens.
+- *What an input can supply for free:* only bulk, to pass the size tests.
+- *An unverified estimate:* the true bound at F7 is k ≥ μ(B) minus the padding
+  B's smallest certificate needs, which may be small. Nothing is proved
+  either way.
+- *The open question* is whether free carrying makes D2 cheaper, or only
+  breaks this proof.
+- *The repair under way* (branch `f7-enc46`): make padding canonical or
+  remove it, so that the size facts follow from the encoding as the paper
+  intends; then prove Theorem 4.6 at `Check decCert`.
+
+### 8.3 Effect on the comparison with Artemov
+
+**Unaffected.**
+- *Self-justification.* T1, T2, Corollary 3.7 and `self_justification` hold
+  at F7 as before. They use only soundness and the tested size facts, which
+  padding satisfies by construction.
+- *H° as evaluation, and the blocking of Kavvos's Ω (§4.3).* `reflect` runs
+  at budget m < ‖v‖, which Check tests directly. Padding only makes
+  certificates larger, so a program still cannot hold its own certificate.
+  The reading "self-consistency is evaluation at the empty type" (§6) stands.
+- *The serial-property and selector reading (§4.2), and P5.*
+
+**Affected: the pricing of provability operations.**
+- *The claim (§5, item 2):* the half of the novelty claim that separates
+  λᶜᵉʳᵗ₀ from LP is that LP's `·` and `!` are free, while λᶜᵉʳᵗ₀ charges for
+  D2 (at least μ(B)) and D3 (more than 2μ(A)). That pricing is what lets
+  uniform reflection coexist with arithmetization.
+- *Its status:* for the one concrete checker there is, it is not yet a
+  theorem. It is a theorem about every checker satisfying `Enc46`. That class
+  is non-empty, but shown so only by a toy checker (`enc46w`).
+
+**What it sharpens: padding is half of LP's sum.**
+- *The parallel:* padding implements one half of LP's sum operation,
+  s:F → (s+t):F. A justification stays a justification when arbitrary extra
+  evidence is attached.
+- *In LP:* this monotonicity is harmless, and it is needed to realize S4.
+- *In λᶜᵉʳᵗ₀:* it is exactly what lets one certificate carry another for
+  free, and exactly where the D2 lower bound's proof breaks.
+- *So the comparison gets a precise condition:* λᶜᵉʳᵗ₀'s pricing, as proved,
+  needs *tight* certificates. Every node must be part of the checked
+  derivation or canonical: no free `+`.
+
+**The finding, under the project's encoding rule.** Self-justification is
+robust to the certificate format. The prices of the provability operations,
+which are the boundary with LP, depend on it.
