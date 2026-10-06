@@ -17,3 +17,7 @@
              (EvSrc.tm (List.nil RV)
                (Exp.ite Exp.tt (Exp.abort Exp.tUnit Exp.star) Exp.star)) RV.star)
           '[(apply Ok.eIteF) (constructor) (constructor)]))))
+
+(deftest s52-label-cases
+  (doseq [c '[s52_bnil s52_bcons_head s52_bcons_tail s52_bcons s52_caseL]]
+    (is (b/has? c) (str c))))

@@ -96,3 +96,90 @@
   '[(by_cases (den chkf dec encTy cap b G Sk.bool en))
     (exact (s52_elimB_false chkf dec encTy cap erasing G en rho P b t e be te ee hP hb hk hc ihb ihe))
     (exact (s52_elimB_true chkf dec encTy cap erasing G en rho P b t e be te ee hP hb hk hc ihb iht))])
+
+;; Branch-list relation at one label. Positions are label minus the
+;; starting label; the motive's environment contains the original label.
+(defn- branch-rel [label v a]
+  (apply list 'S52 (concat ps ['P '(List.cons Sk Sk.lbl G) (list 'Prod.mk label 'en) '(skel P) v a])))
+(defn- branch-result [fun label offset a]
+  (list 'Exists (list 'fn '[v :- RV]
+    (list 'And (apply list 'Trace52 (concat ps [(list 'EvSrc.ap fun (list 'RV.lbl offset)) 'v]))
+      (branch-rel label 'v a)))))
+(def ^:private fcons (den '(Exp.bcons hd t) '(Sk.arr Sk.lbl (skel P))))
+(def ^:private ftail (den 't '(Sk.arr Sk.lbl (skel P))))
+
+(prove! 's52_bnil (concat ctx '[P :- Exp])
+  (result 'Exp.bnil '(Exp.tBrs P (NL)) 'Exp.bnil)
+  '[(constructor) (exact (RV.bnil (skel P))) (constructor)
+    (exact (trace52_eBnil chkf dec encTy erasing cap rho (skel P)))
+    (intro l hge hlt) (omega)])
+
+;; The head at position zero. Substitution supplies the relation at label
+;; k; the equality k=l identifies the motive's environment with label l.
+(prove! 's52_bcons_head
+  (concat ctx '[P :- Exp, k :- Nat, l :- Nat, hd :- Exp, t :- Exp, vh :- RV, vt :- RV,
+    hP :- (SkJ Bool.true (List.cons Sk Sk.lbl G) P Sk.unit), heq :- (Eq Nat k l)]
+    ['hh :- (rel '(subst1 (Exp.lbl k) P) 'vh (den 'hd '(skel (subst1 (Exp.lbl k) P))))])
+  (branch-result '(RV.bcons vh vt) 'l '(- l k) (list fcons '(- l k)))
+  ['(rw [(sub_eq_zero k l heq)])
+   (list 'rw [(list 'bcons_zero 'chkf 'dec 'encTy 'cap 'hd 't 'G '(skel P) 'en)])
+   (list 'have 'hpk (branch-rel (den '(Exp.lbl k) 'Sk.lbl) 'vh (den 'hd '(skel P)))
+     '(s52_pair_second chkf dec encTy cap erasing G en rho Exp.tLbl P (Exp.lbl k) hd vh
+       hP (SkJ.sLbl G k) rfl hh))
+   (list 'have 'hpl (branch-rel 'l 'vh (den 'hd '(skel P)))
+     (list 'Eq.mp (list 'congrArg (list 'fn '[j :- Nat] (branch-rel 'j 'vh (den 'hd '(skel P))))
+       '(Eq.trans (den_lbl_lbl chkf dec encTy cap G k en) heq)) 'hpk))
+   '(constructor) '(exact vh) '(constructor)
+   '(exact (trace52_apBconsZ chkf dec encTy erasing cap vh vt))
+   '(exact hpl)])
+
+;; A later position delegates to the tail and keeps the same label in P.
+(prove! 's52_bcons_tail
+  (concat ctx '[P :- Exp, k :- Nat, l :- Nat, hd :- Exp, t :- Exp, vh :- RV, vt :- RV,
+    hlt :- (LT.lt k l)]
+    ['ht :- (branch-result 'vt 'l '(- l (+ k 1)) (list ftail '(- l (+ k 1))))])
+  (branch-result '(RV.bcons vh vt) 'l '(- l k) (list fcons '(- l k)))
+  ['(rw [(sub_succ k l hlt)])
+   '(rw [(bcons_succ chkf dec encTy cap hd t G (skel P) en (- l (+ k 1)))])
+   '(refine' (exT RV _ _ ht _)) '(intro v hv)
+   '(constructor) '(exact v) '(constructor)
+   '(exact (trace52_apBconsS chkf dec encTy erasing cap vh vt (- l (+ k 1)) v (And.left hv)))
+   '(exact (And.right hv))])
+
+(prove! 's52_bcons
+  (concat ctx '[P :- Exp, k :- Nat, hd :- Exp, t :- Exp, he :- Exp, te :- Exp,
+    hP :- (SkJ Bool.true (List.cons Sk Sk.lbl G) P Sk.unit)]
+    ['ihh :- (result 'hd '(subst1 (Exp.lbl k) P) 'he)
+     'iht :- (result 't '(Exp.tBrs P (+ k 1)) 'te)])
+  (result '(Exp.bcons hd t) '(Exp.tBrs P k) '(Exp.bcons he te))
+  '[(refine' (exT RV _ _ ihh _)) (intro vh hh)
+    (refine' (exT RV _ _ iht _)) (intro vt ht)
+    (constructor) (exact (RV.bcons vh vt)) (constructor)
+    (exact (trace52_eBcons chkf dec encTy erasing cap rho he te vh vt (And.left hh) (And.left ht)))
+    (intro l hge hlt)
+    (have hor (Or (Eq Nat k l) (LT.lt k l)) (Nat.eq_or_lt_of_le hge)) (cases hor)
+    (exact (s52_bcons_head chkf dec encTy cap erasing G en rho P k l hd t vh vt hP h (And.right hh)))
+    (exact (s52_bcons_tail chkf dec encTy cap erasing G en rho P k l hd t vh vt h
+      ((And.right ht) l (Nat.succ_le_of_lt h) hlt)))])
+
+;; CaseLbl selects the branch at the scrutinee's identical runtime and
+;; carrier label. Its label bound is carried by S(Lbl), so bnil's vacuity
+;; cannot be used to manufacture an out-of-range result.
+(prove! 's52_caseL
+  (concat ctx '[P :- Exp, x :- Exp, bs :- Exp, xe :- Exp, bse :- Exp,
+    hP :- (SkJ Bool.true (List.cons Sk Sk.lbl G) P Sk.unit),
+    hx :- (SkJ Bool.false G x Sk.lbl),
+    hk :- (Eq (Option Sk) (skOf G x) (Option.some Sk Sk.lbl))]
+    ['ihx :- (result 'x 'Exp.tLbl 'xe) 'ihb :- (result 'bs '(Exp.tBrs P 0) 'bse)])
+  (result '(Exp.caseL P x bs) '(subst1 x P) '(Exp.caseL P xe bse))
+  '[(have hU (Eq Sk (skel x) Sk.unit) (skj_term_unit Bool.false G x Sk.lbl hx (Eq.refl Bool.false)))
+    (rw [(skel_subst1 x P hU)])
+    (rw [(den_caseL_at chkf dec encTy cap P x bs G (skel P) en)])
+    (refine' (exT RV _ _ ihb _)) (intro vb hb)
+    (refine' (exT RV _ _ ((And.right hb) (den chkf dec encTy cap x G Sk.lbl en)
+      (Nat.zero_le _) (s52_valid_lbl chkf dec encTy cap erasing G en rho x xe ihx)) _))
+    (intro v hv) (constructor) (exact v) (constructor)
+    (exact (trace52_eCaseL chkf dec encTy erasing cap rho P xe bse
+      (RV.lbl (den chkf dec encTy cap x G Sk.lbl en)) vb v
+      (s52_value_lbl chkf dec encTy cap erasing G en rho x xe ihx) (And.left hb) (And.left hv)))
+    (exact (Eq.mpr (s52_subst1 chkf dec encTy cap erasing G Sk.lbl P hP x hx hk en v _) (And.right hv)))])
