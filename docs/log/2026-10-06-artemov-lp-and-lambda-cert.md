@@ -175,8 +175,10 @@ formalized now (`f4-theorem46`, `f5-theorem52`).
      explicit reflection principle at ⊥, and the metatheory proves that
      principle sound.
    - *H₁° is weaker still, computationally.* It is the postulated constant
-     H₁ (Willard's Level(1) form). It has no reduction rule, and Theorem 5.2
-     says no evaluation ever reaches it.
+     H₁ (Willard's Level(1) form). It has no reduction rule. Theorem 5.2, as
+     proved so far, gives every typed program a run of the evaluator that
+     never reaches it. The universal form — *every* run — is a required
+     obligation in progress (see ADR-0006, deviations, 2026-10-07).
 2. **Arithmetically, H° is a serial property.**
    - *What each instance says:* at budget n, H° says no code of at most n
      nodes checks as a refutation. That is BF₀(n), a finite consistency
@@ -264,8 +266,15 @@ So none of the following is new by itself:
      that λᶜᵉʳᵗ₀ does not have the operations.
 3. **Self-consistency as evaluation.**
    - *Reflect is a certified self-evaluator that descends in budget,* with
-     soundness at base types (Theorem 5.2: no evaluation reaches abort, H or
-     H₁).
+     soundness at base types (Theorem 5.2).
+   - *A qualification, 2026-10-07:* Theorem 5.2 is proved existentially so
+     far — every typed program has *a* run reaching no abort, H or H₁.
+     - *Why that is weaker:* the evaluator is formalized as a relation, and it
+       is not deterministic, since an empty branch list's skeleton tag is
+       free. An implementation chooses that tag without consulting a
+       derivation, so its run need not be the safe one.
+     - *What the claim of certified evaluation needs:* the universal form,
+       that every run is safe. That is a required obligation, in progress.
    - *So the reading "consistency = evaluation at the empty type" comes with
      a proof that the evaluator is total and safe,* relative to the
      metatheory.
