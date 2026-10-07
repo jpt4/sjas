@@ -24,7 +24,8 @@
   (:require [ansatz.core :as a]
             [lcert.formal.base :as b :refer [thm kdef lv]]
             [lcert.formal.convcase]
-            [lcert.formal.certenc]))
+            ;; Check decCert: the canonical certificate format
+            [lcert.formal.certcanon]))
 
 ;; T1 at the concrete checker: no budget n and term t give Θₙ ⊢ t :¹ 0.
 (thm consistent_concrete [n :- Nat, t :- Exp]

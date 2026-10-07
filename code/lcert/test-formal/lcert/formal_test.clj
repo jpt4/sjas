@@ -50,7 +50,9 @@
     lcert.formal-test.check-agree
     lcert.formal-test.check-spec
     lcert.formal-test.enclabels
+    lcert.formal-test.encsize
     lcert.formal-test.certenc
+    lcert.formal-test.certcanon
     lcert.formal-test.selfjust
     lcert.formal-test.pa
     lcert.formal-test.p5
@@ -58,4 +60,27 @@
     lcert.formal-test.uskel
     lcert.formal-test.funde
     lcert.formal-test.theorem4e
-    lcert.formal-test.safety52])
+    lcert.formal-test.safety52
+    lcert.formal-test.rint
+    lcert.formal-test.enc46
+    lcert.formal-test.lemma46a
+    lcert.formal-test.theorem46
+    lcert.formal-test.cor46
+    lcert.formal-test.enc46w
+    lcert.formal-test.enc46f7
+    lcert.formal-test.thm46f7
+    lcert.formal-test.ri-convcase
+    lcert.formal-test.ri-conversion
+    lcert.formal-test.ri-den
+    lcert.formal-test.ri-fundamental
+    lcert.formal-test.ri-lemma36
+    lcert.formal-test.ri-model
+    lcert.formal-test.ri-mono
+    lcert.formal-test.ri-outer
+    lcert.formal-test.ri-recsyn
+    lcert.formal-test.ri-sem
+    lcert.formal-test.ri-splitting
+    lcert.formal-test.ri-subst
+    lcert.formal-test.ri-substitution
+    lcert.formal-test.ri-unfold
+    lcert.formal-test.ri-vweaken])
