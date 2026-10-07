@@ -58,6 +58,7 @@
     lcert.formal-test.dtgen
     lcert.formal-test.patyp
     lcert.formal-test.paform
+    lcert.formal-test.painst
     lcert.formal-test.uskel
     lcert.formal-test.funde
     lcert.formal-test.theorem4e
