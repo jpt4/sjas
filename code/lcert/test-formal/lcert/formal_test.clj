@@ -60,6 +60,7 @@
     lcert.formal-test.paform
     lcert.formal-test.painst
     lcert.formal-test.paprop
+    lcert.formal-test.paquant
     lcert.formal-test.uskel
     lcert.formal-test.funde
     lcert.formal-test.theorem4e
