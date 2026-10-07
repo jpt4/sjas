@@ -6881,3 +6881,38 @@ because other JVMs shared the CPUs (`er_rt` alone 20 min, `er_len` and
   timeout leaves the server evaluating, with the output lost to a closed
   socket; run it detached into a file under `test-runs/` and wait for the
   summary line.
+
+## 2026-10-07 — F6.4: the default model, Lemma 6.4 and Corollary 6.5 at the meta level (branch f6-4-default-model)
+
+- **Done, first run:** `code/lcert/formal/lcert/formal/dflt64.clj` (suite
+  `dflt64`, 25 assertions): `riDflt` (print identity, `riPf ≡ false`, laws
+  discharged), `riDflt_phcons` (Corollary 3.7 at every size, from
+  `phcons_of_spec`), `lemma64`, `lemma64_theta`, `cor65_dflt`, and both at
+  `Check decCert` with no hypotheses (`lemma64_concrete`, `cor65_concrete`).
+- **The route needed one observation.** `lemma36_gen` already gives Lemma 3.6
+  at every interpretation, but through `outer_all_ri`, an induction on the
+  budget. Only `refl_pf_ri` and `h1_core_ri` read `OuterIH_ri`, and both are in
+  the phantom-free branch. At `riPf ≡ false` that branch is empty, so the two
+  cases (`F_refl_dfl`, `F_h1_dfl`) are proved without `hout`, and
+  `lemma64_step` — `lemma36_step_ri` with exactly those two case terms
+  replaced, built from its private `case-terms` by string replacement — has no
+  outer hypothesis. No definition was changed; the failure criterion did not
+  trigger.
+- **What replaces the induction** is Corollary 3.7 at every size (BF₀, BF₁).
+  Its proof here (`cor37_*`) is the standard Lemma 3.6, which does induct on
+  budgets; in Int-6.4 BF₀/BF₁ are PA's closed bounded facts (Lemma 6.3), so
+  there is no circularity. This is the sentence P5-hypotheses.md §5 now
+  records.
+- **Corollary 6.5 is stated for `lblOk c`** (`IsSyn`), the `Syn` clause of
+  `V`: the argument of the `Π ω` clause must lie in `V₀(Syn)`. R4's `Con_λ` is
+  the `IsSyn` form; p5.clj's anchor `aL` quantifies over all codes (stronger),
+  recorded in P5-hypotheses.md §5. Not a gap in P5: `cor37_refutation` is
+  the all-codes statement.
+- **Negatives:** `dflt_differs_std_reflect` (reflect at `Nat`, accepted
+  certificate decoding to `succ zero`: standard model 1, default model 0;
+  hypotheses shown satisfiable), `riDflt_ne_std`, and PhCons failing for the
+  accept-all checker at `riDflt`.
+- Process: the warm server took ~3 h to load at the lowest priority under the
+  cgroup; edits to a new namespace then recheck in about a minute
+  (`echo "(lcert.formal-server/recheck!)" | nc -N localhost PORT`).
+
