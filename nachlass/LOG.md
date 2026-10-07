@@ -6663,3 +6663,43 @@ line):
   warm server: 19 suites, 591 assertions (f5f8693).
 - On the way: the label count (97 + 3 user labels = NL = 100) has no recorded
   rationale; every `caseLbl` carries one branch per label.
+
+## 2026-10-07 — Theorem 5.2 proved (branch f5-theorem52)
+
+Continued from cfeecb6 (reflection with the smaller-budget hypothesis). The
+machine had rebooted; one warm server (port 5711) took 2 h 22 min to load,
+because other JVMs shared the CPUs (`er_rt` alone 20 min, `er_len` and
+`adeqE_step` longer).
+- The five uncommitted files of the last session were kept: `s52assembly`
+  (constant dispatch and the context-extension formation lemmas; proved) and
+  the `s52erased` stub, which became the real induction.
+- **Design.** The case lemmas were stated once at `chkf dec encTy cap
+  erasing`. One generator (`rec-term`, s52assembly) builds the minor
+  premises of `Tl.rec`, `Rt.rec` and `Er.rec` from per-rule-family functions
+  that differ only by a mode (flag, premise judgment, environment
+  restriction). evalₙ's environments ignore usages, so its motives quantify
+  over an arbitrary usage vector (only its length is read, by the variable
+  case); evalᴱₙ restricts along `SubU` exactly as theorem4e.
+- **The one real obstacle: `Tl.zBcons` records no formation of its motive
+  `P`** (`Rt.rBcons` does). S's head-of-list clause substitutes a label into
+  `P`, which needs `P` formed, and evalₙ does evaluate type-level arguments
+  (App₀, Pair₀), whose derivations may contain branch lists. Changing the
+  judgment was out of the question (check_dt, derivations, the checker). The
+  type-level induction instead carries `Reg G A` — A is a formed type, or a
+  branch-list type whose motive is formed — and passes it down rule by rule
+  (`s52reg.clj`, 15 small lemmas on skeleton typing). It holds at every root
+  of use, since a type-level argument's type is formed by `hA`. No existing
+  definition was changed.
+- Everything then checked at the first full run, after two typos: a local
+  name `h` clashing with a constructor field (`cases` introduces fields named
+  `h`; use unlikely local names), and `subst` eliminating the other variable
+  than expected (use `Eq.mpr`/`congrArg` instead).
+- Statement and the unproved remainder: `ADR-0006` statement index. In short,
+  `theorem52`, `theorem52e`, `theorem52_both`, `theorem52_concrete` give an
+  `Ok`/`OkE` trace, for every type (the base-type restriction is unused);
+  `Ev` is not proved deterministic, so "the evaluation never enters
+  abort, H₁ or H" is "a safe trace exists".
+- Process: `bin/formal-check` run in the foreground and killed by a client
+  timeout leaves the server evaluating, with the output lost to a closed
+  socket; run it detached into a file under `test-runs/` and wait for the
+  summary line.
