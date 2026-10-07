@@ -658,9 +658,9 @@
   '[eStar eTT eFF eZero eLbl eSucc eRecN eCaseL eBnil eBcons eSleaf eSnode eRecS
     eLeaf eNode eItR ePrn eLam eApp ePair eLet eChk])
 
-(defn- try-case! [f & args]
-  (try (apply f args)
-       (catch Throwable e (println :CASE-FAIL (pr-str (take 2 args)) (.getMessage e)))))
+(defn- try-case!
+  "A failing case lemma aborts the load (kept as a named wrapper for readability)."
+  [f & args] (apply f args))
 
 (doseq [O '[Ok OkE], r generic-tm-rules] (try-case! case-lemma! O r))
 ;; Variable lookup: the two environments agree up to tags (s52sim).

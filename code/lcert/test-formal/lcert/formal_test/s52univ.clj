@@ -23,6 +23,15 @@
                                     (Ev.eStar chkf dec encTy n rho)))
                            (exact (trace52_no_abort chkf dec encTy Bool.false n rho Exp.tUnit Exp.star
                                     (rdflt Sk.unit)))]))))
+  (testing "...and the same for evalE: an EvE run of an untyped program reaches abort"
+    (is (not (b/rejects? (into P '[n :- Nat, rho :- (List RV)])
+                         '(And (EvE chkf dec encTy n (EvSrc.tm rho (Exp.abort Exp.tUnit Exp.star)) (rdflt Sk.unit))
+                               (Not (OkE chkf dec encTy n (EvSrc.tm rho (Exp.abort Exp.tUnit Exp.star)) (rdflt Sk.unit))))
+                         '[(constructor)
+                           (exact (EvE.eAbort chkf dec encTy n rho Exp.tUnit Exp.star RV.star
+                                    (EvE.eStar chkf dec encTy n rho)))
+                           (exact (trace52_no_abort chkf dec encTy Bool.true n rho Exp.tUnit Exp.star
+                                    (rdflt Sk.unit)))]))))
   (testing "two runs of a typed program that differ in a bnil tag are both safe"
     ;; bnil : tBrs tUnit NL is derivable in Θₙ; Ev may tag it with any skeleton.
     (is (not (b/rejects? (into P '[hcs :- (CheckSpec chkf dec encTy), n :- Nat])
