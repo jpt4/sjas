@@ -283,3 +283,38 @@
   (V_ri (Check decCert) (decOf decCert) encE riDflt n A (skels (thetaD n)) (tokEnvD n) n (skel A)
         (den_ri (Check decCert) (decOf decCert) encE riDflt n t (skels (thetaD n)) (skel A) (tokEnvD n)))
   (exact (lemma64_theta (Check decCert) (decOf decCert) encE (check_spec decCert) n t A der)))
+
+;; --- the default model is not the standard one ----------------------------------------------
+
+;; The interpretations differ already in riPf: the standard one decodes, the
+;; default never does.
+(thm riDflt_ne_std [] (Not (Eq Bool (riPf riDflt (Code.sl 0)) (riPf stdRI (Code.sl 0))))
+  (intro h)
+  (exact (Bool.noConfusion h)))
+
+;; And so the models differ at a reflect node.  Take a reflect at X = Nat whose
+;; certificate ⟦r⟧ (at budget 5) is accepted by the checker at ⌜Nat⌝ and
+;; decodes to the closed program `succ zero` at budget 0.  The standard model
+;; runs it: ⟦reflect_Nat r e⟧ = 1.  The default model returns dflt_Nat = 0.
+;; (ri's print and tree are the identity at both, so the hypotheses are
+;; stated at stdRI's print, which is the same code.)
+(thm dflt_differs_std_reflect
+  [chkf :- (=> Code Code Bool), dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))), encTy :- (=> Exp Code),
+   r :- Exp, e :- Exp, G :- (List Sk), en :- (HEnv G),
+   hc :- (Eq Bool (Bool.and (Nat.ble (cnodes (den_ri chkf dec encTy stdRI 5 r G Sk.cert en)) 5)
+                    (Bool.and (riPf stdRI (den_ri chkf dec encTy stdRI 5 r G Sk.cert en))
+                              (chkf (riPr stdRI (den_ri chkf dec encTy stdRI 5 r G Sk.cert en)) (encTy Exp.tNat)))) Bool.true),
+   hd :- (Eq (Option (Prod Nat (Prod Exp Exp))) (dec (riPr stdRI (den_ri chkf dec encTy stdRI 5 r G Sk.cert en)))
+             (Option.some (Prod Nat (Prod Exp Exp)) (Prod.mk 0 (Prod.mk (Exp.succ Exp.zero) Exp.tNat))))]
+  (Not (Eq Nat (den_ri chkf dec encTy stdRI 5 (Exp.refl Exp.tNat r e) G Sk.nat en)
+               (den_ri chkf dec encTy riDflt 5 (Exp.refl Exp.tNat r e) G Sk.nat en)))
+  (intro h)
+  (have e1 (Eq (Car Sk.nat) (den_ri chkf dec encTy stdRI 5 (Exp.refl Exp.tNat r e) G Sk.nat en)
+                            (coe (skel Exp.tNat) Sk.nat (denPrev_ri chkf dec encTy stdRI 5 0 (Exp.succ Exp.zero) (thetaSk 0) (skel Exp.tNat) (tokenEnv 0))))
+    (den_refl_some_ri chkf dec encTy stdRI 5 Exp.tNat r e G Sk.nat en 0 (Exp.succ Exp.zero) Exp.tNat hc hd))
+  (have e2 (Eq (Car Sk.nat) (den_ri chkf dec encTy riDflt 5 (Exp.refl Exp.tNat r e) G Sk.nat en) (dflt Sk.nat))
+    (den_refl_none_ri chkf dec encTy riDflt 5 Exp.tNat r e G Sk.nat en (riDflt_pf (den_ri chkf dec encTy riDflt 5 r G Sk.cert en))))
+  (have h2 (Eq Nat (coe (skel Exp.tNat) Sk.nat (denPrev_ri chkf dec encTy stdRI 5 0 (Exp.succ Exp.zero) (thetaSk 0) (skel Exp.tNat) (tokenEnv 0))) 0)
+    (Eq.trans (Eq.symm e1) (Eq.trans h e2)))
+  (have h3 (Eq Nat 1 0) h2)
+  (exact (Nat.noConfusion h3)))

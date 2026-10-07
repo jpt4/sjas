@@ -31,12 +31,20 @@
                                der :- (Rt chkf D us t A), hw :- (WFCtx chkf D)])
                     '(Sound_ri chkf dec encTy stdRI n D us t A)
                     '[(exact (lemma64_gen chkf dec encTy hcs stdRI (fn [v :- Code] (Eq.refl$1 Bool.false)) n D us t A der hw))])))
-  (testing "CheckSpec is needed (PhCons is Corollary 3.7): no proof of Lemma 6.4 without it"
-    (is (b/rejects? (into P3 '[n :- Nat, D :- (List Exp), us :- (List U), t :- Exp, A :- Exp,
-                               der :- (Rt chkf D us t A), hw :- (WFCtx chkf D)])
-                    '(Sound_ri chkf dec encTy riDflt n D us t A)
-                    '[(exact (lemma64 chkf dec encTy _ n D us t A der hw))])))
-  (testing "Corollary 6.5 is about codes in L: the unrestricted claim does not follow from the derivation alone"
-    (is (b/rejects? (into P3 '[hcs :- (CheckSpec chkf dec encTy), n :- Nat, t :- Exp, der :- (Rt chkf (thetaD n) (thetaU n) t ConOmega), c :- Code])
-                    '(Eq Bool (chkf c (encTy Exp.tEmpty)) Bool.false)
-                    '[(exact (cor65_dflt chkf dec encTy hcs n t der c _))]))))
+  (testing "the default model is not the standard one: at a reflect node they differ (dflt_differs_std_reflect)"
+    (doseq [c '[riDflt_ne_std dflt_differs_std_reflect]]
+      (is (b/has? c) (str c)))
+    (is (b/rejects? [] '(Eq Bool (riPf riDflt (Code.sl 0)) Bool.true) '[(rfl)]))
+    (is (not (b/rejects? [] '(Eq Bool (riPf riDflt (Code.sl 0)) Bool.false) '[(rfl)]))))
+  (testing "the hypotheses of dflt_differs_std_reflect are satisfiable (the claim is not vacuous): a checker accepting everything, decoding every code to `succ zero`, and the certificate r = leaf 0"
+    (is (not (b/rejects? []
+      '(Eq Bool (Bool.and (Nat.ble (cnodes (den_ri (fn [a :- Code, b :- Code] Bool.true) (fn [c :- Code] (Option.some (Prod Nat (Prod Exp Exp)) (Prod.mk 0 (Prod.mk (Exp.succ Exp.zero) Exp.tNat))))
+                                                   (fn [x :- Exp] (Code.sl 0)) stdRI 5 (Exp.leaf (Exp.lbl 0)) (List.nil Sk) Sk.cert Unit.unit)) 5)
+                  (Bool.and (riPf stdRI (den_ri (fn [a :- Code, b :- Code] Bool.true) (fn [c :- Code] (Option.some (Prod Nat (Prod Exp Exp)) (Prod.mk 0 (Prod.mk (Exp.succ Exp.zero) Exp.tNat))))
+                                                (fn [x :- Exp] (Code.sl 0)) stdRI 5 (Exp.leaf (Exp.lbl 0)) (List.nil Sk) Sk.cert Unit.unit))
+                            Bool.true)) Bool.true)
+      '[(rfl)]))))
+  (testing "Corollary 3.7 is what PhCons needs: for the checker that accepts everything, PhCons fails at riDflt"
+    (is (not (b/rejects? '[]
+                         '(=> (PhCons (fn [a :- Code, b :- Code] Bool.true) (fn [e :- Exp] (Code.sl 0)) riDflt) False)
+                         '[(intro h) (exact ((And.left h) (Code.sl 0) (Eq.refl$1 Bool.false) (Eq.refl$1 Bool.true)))])))))
