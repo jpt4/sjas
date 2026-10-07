@@ -355,9 +355,53 @@ with the following precisions, it is a complete argument.
 5. **Corollary 6.5** applies Lemma 6.4 at the root, with the tokens mapped to
    `0` and footprint `n`. `V(Con′_ω)` unfolds to `Con_λ`.
 
-**What F6.4 adds.** F6.4 proves the meta-level form: the default model is
-sound, without induction on budgets. Steps 2–4 internalize that proof, node
-by node.
+**What F6.4 adds (proved 2026-10-07, `dflt64.clj`).** F6.4 proves the
+meta-level form of steps 4 and 5, at `Check decCert`, with no hypotheses
+(`lemma64_concrete`, `cor65_concrete`; generically from `CheckSpec`,
+`lemma64_theta`, `cor65_dflt`). The model is `riDflt`: an instance of
+Theorem 4.6's generic R-interpretation chain with `print` the identity and
+`riPf` constantly false, so `reflect_X r e ↦ dflt_X` for every `X`, `H₁ … ↦ 0`.
+Step by step:
+
+- **Step 4, formalized (meta level).**
+  - *Lemma 6.4 by induction on Δ, with no outer induction:* `lemma64_step`
+    is the induction on the derivation, and takes no hypothesis on smaller
+    budgets. It is `lemma36_step_ri` with the Reflect and H₁ terms replaced
+    (`F_refl_dfl`, `F_h1_dfl`); the phantom-free branches that used the outer
+    hypothesis are empty because `riPf ≡ false`.
+  - *`reflect` at `D ≠ 0`:* `V_dflt_ri`, via `refl_ph_ri`.
+  - *`H` and `H₁` vacuous by BF₀ and BF₁:* `PhCons` is Corollary 3.7 at every
+    size (`phcons_of_spec`, from `cor37_refutation` and `cor37_contradiction`).
+    `reflect` at `D = 0` is the same fact (an accepted refutation).
+  - *All other cases:* Lemma 3.6's cases, unchanged (the generic chain).
+- **Step 5, formalized (meta level).** `cor65_dflt` applies `lemma64_theta`
+  at `Con′_ω`, unfolds `V` at the Π-ω clauses (`c` with `lblOk c` in `V₀(Syn)`,
+  then the `T(chk′ c c⊥)` argument, whose truth is `Check c ⌜0⌝ = tt`), and
+  gets `False`: no code in `L` checks as a refutation. This is `Con_λ` at
+  the meta level.
+- **Step 3 (Lemma 6.3), as a meta theorem.** BF₀ and BF₁ hold at every size
+  (`phcons_of_spec`). The PA version, with the induction on `n` outside PA
+  producing the list of small codes, is still informal; the formal content is
+  that the facts it proves are true, and that they are all the interpretation
+  needs.
+- **What remains informal: the transcription into E-PA^ω.**
+  - Step 1: that the interpretation is primitive recursive in Δ, with its
+    `V_k(A)[η]` as E-PA^ω formulas.
+  - Step 2: Lemma 6.2's proofs in E-PA^ω (β, ι, δ by `CHECK(c̄, d̄) = b̄`
+    from S2, extensionality), for the finitely many types and chains of Δ.
+  - Step 3: PA's proof of Lemma 6.3 (S2, and the enumeration).
+  - Steps 4–5: that the cases of `lemma64_step`, read as E-PA^ω proofs per
+    node of Δ, prove `V(Con′_ω)(⟦t⟧)`, which unfolds to `Con_λ`. `RecN`,
+    `RecSyn` and `ItR` there are by induction in E-PA^ω on the scrutinee;
+    that is an ordinary induction on a number or code, not on the budget.
+- **A note on the statement of `Con_λ`.** `cor65_dflt` gives the `IsSyn`
+  form (`lblOk c`), as R4 does. The anchor `aL` in `p5.clj` quantifies over
+  all codes, which is stronger: it holds as well, at the object level, by
+  `cor37_refutation` (Corollary 3.7), but not from the derivation alone.
+- **The default model is genuinely different from the standard one:**
+  `dflt_differs_std_reflect` exhibits a reflect node where the two models
+  disagree (`1` against `dflt_Nat = 0`), so soundness of the default model is
+  not a restatement of Lemma 3.6 at the standard model.
 
 ## 6. The deduction (F6.5)
 
