@@ -769,8 +769,11 @@
   (apClos [n Nat] [rho (List RV)] [body Exp] [arg RV] [w RV]
     [h (Ok chkf dec encTy n (EvSrc.tm (List.cons RV arg rho) body) w)]
     :where [n (EvSrc.ap (RV.clos rho body) arg) w])
-  (apBnil [n Nat] [s Sk] [arg RV]
-    :where [n (EvSrc.ap (RV.bnil s) arg) (rdflt s)])
+  ;; No apBnil: a safe trace never applies the empty branch list. A typed run
+  ;; never does (labels stay below NL and a list typed at k holds NL-k branches),
+  ;; and forbidding it is what makes Ok determined up to bnil tags (ADR-0006,
+  ;; Theorem 5.2 universal form): Ev's only free choices are the tag of eBnil and,
+  ;; through apBnil, its consequences.
   (apBconsZ [n Nat] [h RV] [t RV]
     :where [n (EvSrc.ap (RV.bcons h t) (RV.lbl 0)) h])
   (apBconsS [n Nat] [h RV] [t RV] [k Nat] [w RV]
@@ -996,8 +999,11 @@
   (apClos [n Nat] [rho (List RV)] [body Exp] [arg RV] [w RV]
     [h (OkE chkf dec encTy n (EvSrc.tm (List.cons RV arg rho) body) w)]
     :where [n (EvSrc.ap (RV.clos rho body) arg) w])
-  (apBnil [n Nat] [s Sk] [arg RV]
-    :where [n (EvSrc.ap (RV.bnil s) arg) (rdflt s)])
+  ;; No apBnil: a safe trace never applies the empty branch list. A typed run
+  ;; never does (labels stay below NL and a list typed at k holds NL-k branches),
+  ;; and forbidding it is what makes OkE determined up to bnil tags (ADR-0006,
+  ;; Theorem 5.2 universal form): Ev's only free choices are the tag of eBnil and,
+  ;; through apBnil, its consequences.
   (apBconsZ [n Nat] [h RV] [t RV]
     :where [n (EvSrc.ap (RV.bcons h t) (RV.lbl 0)) h])
   (apBconsS [n Nat] [h RV] [t RV] [k Nat] [w RV]

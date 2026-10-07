@@ -17,7 +17,7 @@
                 trace52_eLeaf trace52_eNode trace52_eItR trace52_eItL trace52_eItN trace52_ePrn
                 trace52_eLam trace52_eApp trace52_ePair trace52_eLet trace52_eChk
                 trace52_eReflNo trace52_eReflNone trace52_eInspT trace52_eInspF
-                trace52_apClos trace52_apBnil trace52_apBconsZ trace52_apBconsS
+                trace52_apClos trace52_apBconsZ trace52_apBconsS
                 trace52_no_abort trace52_no_h1 trace52_no_H]]
       (is (b/has? c) (str c))))
   (testing "reflect at 0 (H) has no safe trace, even when its check succeeds"
