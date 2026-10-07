@@ -52,3 +52,13 @@ and `omega`.
 
 *Apply:* when automation fails, fall back to steps whose correctness the kernel
 itself decides, and record which ones worked. From `LOG.md`, 2026-09-26.
+
+- *A warm server's recheck outlives its client.* `bin/formal-check` killed by a
+  timeout leaves the evaluation running server-side and the report is lost.
+  Start it detached (`nohup bin/formal-check > test-runs/check-out.log &`) and
+  wait for `failures` in the file; measure the server's CPU by the delta of
+  `/proc/PID/stat` utime+stime (`ps`'s %CPU is a lifetime average).
+- *Names that `cases` introduces are the constructor's field names* (`h`, `X`,
+  `G`, …). A generated tactic list that does `(intro cd G h)` after
+  `(cases X)` mixes them up for the constructors that have such fields; use
+  names no field has (`cdx`, `Gx`, `hqx`).

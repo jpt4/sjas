@@ -83,4 +83,22 @@
     lcert.formal-test.ri-subst
     lcert.formal-test.ri-substitution
     lcert.formal-test.ri-unfold
-    lcert.formal-test.ri-vweaken])
+    lcert.formal-test.ri-vweaken
+    lcert.formal-test.s52facts
+    lcert.formal-test.s52trace
+    lcert.formal-test.s52env
+    lcert.formal-test.s52fund
+    lcert.formal-test.s52data
+    lcert.formal-test.s52bind
+    lcert.formal-test.s52prod
+    lcert.formal-test.s52branch
+    lcert.formal-test.s52recn
+    lcert.formal-test.s52inst
+    lcert.formal-test.s52recs
+    lcert.formal-test.s52itr
+    lcert.formal-test.s52inspect
+    lcert.formal-test.s52reflect
+    lcert.formal-test.s52reg
+    lcert.formal-test.s52assembly
+    lcert.formal-test.s52erased
+    lcert.formal-test.s52theorem])
