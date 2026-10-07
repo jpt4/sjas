@@ -62,3 +62,36 @@ itself decides, and record which ones worked. From `LOG.md`, 2026-09-26.
   `G`, …). A generated tactic list that does `(intro cd G h)` after
   `(cases X)` mixes them up for the constructors that have such fields; use
   names no field has (`cdx`, `Gx`, `hqx`).
+
+- *A nondeterministic evaluator is made universal by determinism of the safe
+  sub-relation, not of the evaluator.* Quantifying over all runs of a relation
+  whose only free choice (a bnil tag) a safe run never observes: prove "every
+  run of a source equal up to the free choice to a safe run is safe" by induction
+  on the SAFE trace, inverting the arbitrary run at each node. Delete from the
+  safe relation exactly the rules where the choice would be observed (here
+  `apBnil`); re-proving the invariant for arbitrary runs would need a new
+  logical relation.
+- *Inversion of an indexed family by a function.* When `cases` on the family is
+  unavailable, define `Inv index := (recursion on the index)`, with one clause
+  per rule that can conclude it, generated from the rule table; one induction
+  proves `Fam index → Inv index`; `constructor`/`exT` see through the folded
+  definition. Generate, don't write.
+- *`cases`/`induction` on a nested inductive (RV with `List RV`) build ill-typed
+  terms in this kernel*; apply the nested recursor (`RV.rec`, `RV.rec_1`) by
+  hand, with Prop motives written inline (a kdef'd motive is not unfolded when
+  elaborating the minor premises).
+- *Equality of values up to a forgotten component is a function (`flV`), not a
+  relation*: injectivity and inversion are one-line `congrArg`s through
+  projections defined by the recursor; no `injection` or `noConfusion` is
+  needed.
+- *`exT` is for `Type` witnesses*; for a derivation (Prop) witness use an
+  `Exists.rec` at `Prop` (`exP`).
+- *`subst h` with `h : a = b` eliminates `a`* (the left side) — orient the
+  equation so the variable to remove is on the left; keep a second hypothesis
+  named for the survivor only.
+- *A hypothesis the rule does not record cannot be recovered from a derivation:*
+  the universal evalE theorem needed `D` to be a base type at reflect, which the
+  typing gives but `OkE` omitted; the cheapest fix was the premise in the trace
+  rule (the existential proof had the fact in scope), not an invariant on
+  values.
+

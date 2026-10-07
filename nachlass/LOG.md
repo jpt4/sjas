@@ -6881,3 +6881,53 @@ because other JVMs shared the CPUs (`er_rt` alone 20 min, `er_len` and
   timeout leaves the server evaluating, with the output lost to a closed
   socket; run it detached into a file under `test-runs/` and wait for the
   summary line.
+
+## 2026-10-07 — Theorem 5.2, universal form (t52u, branch `f5-theorem52-universal`)
+
+Design note: `docs-theorem52-universal.md` (audit of the nondeterminism of Ev/EvE,
+route, definition changes). ADR-0006 deviation closed.
+
+- **Audit first.** Ev is deterministic except for (i) the tag of `eBnil` (a free
+  choice; harmful only through `apBnil`, whose result `rdflt s` depends on the
+  tag: an arrow default is a closure that aborts) and (ii) in `EvE`, the
+  erasure `e2` of a reflected program. Reflect (Ok/No/None), inspect and
+  ite/elimB are pairwise disjoint given the premises; defaults are functions of
+  the skeleton. So "determinism of Ev" is false and not the bridge; "Ok is
+  determined up to tags" is.
+- **Route (b).** The existential `theorem52` gives a reference Ok run;
+  `detOk` (s52det) shows every Ev run of a tag-equal source is Ok with a
+  tag-equal value. Considered and rejected: (a), re-proving S for arbitrary
+  runs, which needs a universal S and new copies of S's structure lemmas
+  (substitution, lift, conversion) — the existing proof is ~3500 lines of
+  dependent denotation reasoning, none reusable.
+- **Tag-equality needs the nested recursor.** `RV` has `clos [rho (List RV)]`;
+  `flV` (every bnil tag → `Sk.unit`) is `RV.rec` with `RV.rec_1` for lists.
+  `cases`/`induction` on `RV` produce a term the kernel rejects (they use the
+  nested recursor with the wrong arity), so inversions are explicit `RV.rec`
+  terms (`rv-elim-term`), with constructor discrimination through a
+  constructor-index projection and `Nat.beq` literals.
+- **Inversion by a function, not by `cases`.** `InvAll n src v` (recursion on
+  the source) states what a derivation consists of; `ev_inv` is one induction
+  (4–9 min); the clauses are generated from the constructor tables (the
+  tables are read from the source files, as safety52 does). `constructor` and
+  `exT` unfold the folded definition; `exact` of an explicit term does not.
+- **Case lemmas generated from the Ok table.** 41 per evaluator; the
+  single-alternative term rules by one generator (premises in order: apply the
+  IH, learn data equalities by `subst`, keep similarity facts for opaque
+  values), ite/elim/inspect/reflect by "wrong-alternative" refutations, the
+  nine application/iteration/recSyn/itR rules by hand. First run: 22 generic
+  rules ×2 + eVar passed at once; the failures were all in my naming (a local
+  `h` shadowing a field, `exT` on a Prop witness → `exP`, `none_ne_some` is
+  `False`, not the goal).
+- **Two definition changes**, both forced (ADR deviation): `apBnil` removed from
+  Ok/OkE; `OkE.eReflOk` gains `hB : isBaseTy D = true`. Each required a full
+  recheck of the 25 dependent namespaces (~80 min, 124 tests, 0 failures).
+- **evalE needs a budget induction with S at base types.** Two erasures of one
+  decoded program can differ; at a base type S pins the value
+  (`s52_base_unique`), so the induction hypothesis `UE_E` carries S there, and
+  `s52_base_sim` moves S along tag-equality.
+- Results: `theorem52_all`, `theorem52e_all`, `theorem52_all_concrete`.
+  Suites `s52sim`, `s52inv`, `s52det`, `s52univ`: has? for every theorem plus
+  negatives (an Ev/EvE run of `abort ⋆` is not Ok; two bnil tags both give Ok
+  runs of a typed program; `Ok.apBnil` no longer exists).
+

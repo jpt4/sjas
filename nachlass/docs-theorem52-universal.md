@@ -94,4 +94,81 @@ is not a predicate on `Ev` derivations; a universal statement quantifies over
 
 ## 3. Route
 
-(filled in below as the work proceeds)
+**Chosen: (b), with the free choices made harmless, not ignored.**  The existential
+Theorem 5.2 stays as the reference run; a *determinism-up-to-tags* theorem for
+`Ok` transfers its safety to every `Ev` run.
+
+*Why not (a).*  Re-proving the S-relation argument for arbitrary runs means a
+universal S (the arrow clause quantifying over runs), and with it new versions of
+every structure lemma of S (`s52_subst`, `s52_lift`, `s52_cv`, the dependent
+`recN`/`recS`/`itR`/`bcons` cases): the existing proof is ~3500 lines of
+dependent denotation reasoning, and none of it carries over.
+
+*Why (b) works.*  Two runs of one program differ only in (i) the tag of `eBnil`
+(and `apBnil`, its consequence) and, for `EvE`, (ii) the erasure of a reflected
+program (§1).  Define `flV v`, `v` with every bnil tag replaced by `Sk.unit`
+(`s52sim.clj`; `RV` is nested, so this uses the nested recursor `RV.rec`/`RV.rec_1`).
+Then the main lemma (`s52det.clj`, `detOk`) is:
+
+> if `Ok n src v` is a safe trace, then for every `Ev n src' v'` with
+> `src'` equal to `src` up to tags, `Ok n src' v'` and `flV v = flV v'`.
+
+Proof: induction on the `Ok` trace (an explicit `Ok.rec`, one case lemma per rule),
+inverting the `Ev` derivation at each node.  *Inversion* is by a function, not by
+`cases` (unusable on the indexed family): `InvAll n src v` (`s52inv.clj`) is defined
+by recursion on the source and states what a derivation of `(n, src, v)` consists of;
+`ev_inv` proves, by one induction, that every derivation satisfies it.  The clauses
+are generated from the constructor tables read from `eval.clj`/`erase.clj`.
+The case lemmas are generated from the same tables, with a short list of extra
+tactics for the rules whose `Ev` counterpart has several alternatives (ite, elimB,
+inspect: refuted by the scrutinee; reflect: refuted by the guard and by `dec c`,
+whose decoded triple is a function of `c`).  Nothing in the lemma mentions typing:
+it is a statement about `Ok` and `Ev`.
+
+*Why `Ok` must have no `apBnil`* (the one change to a definition, commit 37b7a6d):
+with `apBnil` in `Ok`, the reference run could apply the empty list under one tag and
+the arbitrary run under another, `rdflt` of two tags can differ in shape (an arrow
+default is a closure that aborts), and determinism fails.  No `s52*` proof uses
+`apBnil`: a typed run never applies the empty branch list (bnil is typed only at
+`tBrs P NL`, `S`'s `tBrs` clause is vacuous at `k = NL`, labels are `< NL`).
+
+*The `EvE` side and the second definition change.*  In `EvE` the reflect rule runs
+ANY erasure `e2` of the decoded derivation.  The main lemma then needs the two
+erasures' values to agree at the reflect node.  They do at a base type: `S` pins the
+value to the denotation (`s52_base_unique`).  This needs (1) the budget induction
+hypothesis to carry `S` at base types (`UE_E`, `BELOW_E`), (2) `D` base in the trace
+rule.  Reflect is typed only at a base type, but `OkE` as it stood did not record it,
+and an `OkE` derivation alone cannot supply it, so `OkE.eReflOk` gains the premise
+`hB : isBaseTy D = true` (`erase.clj`; the existential proof supplies it from the
+typing: `s52_refl_yes` already has `hbase`; `trace52_refl_ok` takes it).  `Ok.eReflOk`
+(no erasure choice) and `Ev`, `EvE`, `S52` are unchanged.
+
+*The theorems* (`s52univ.clj`).  `theorem52_all` = `theorem52` (a reference run) +
+`detOk_tm`.  `theorem52e_all` = a strong induction on the budget (`ue_below`) whose
+step (`ue_step`) is `s52_closed_all` (the reference run) + `detOkE_tm` under the
+hypothesis for the smaller budgets; at a base type the value of the arbitrary run is
+S-related because S is invariant under tags (`s52_base_sim`).
+`theorem52_all_concrete`: both at `Check decCert` with `check_spec`.
+
+## 4. Outcome (2026-10-07)
+
+Proved (kernel-checked, `bin/formal-check` on the warm server; fresh suites
+listed in the report):
+
+* `theorem52_all`, `theorem52_all_base`: every `Ev` derivation of
+  `Eval n (rtokens n) t v` from a derivable `Θₙ ⊢ t :¹ X` is `Ok n (tm (rtokens n) t) v`.
+* `theorem52e_all`: for every erasure `e`, every `EvE` derivation of
+  `EvalE n (rtokens n) e v` is `OkE`.
+* `theorem52_all_concrete`: both at `Check decCert`, no hypotheses.
+
+Not proved / not claimed: nothing from the task is open.  The statements are
+`Ok`/`OkE` of the *same* `(n, src, v)` as the arbitrary run, so "reaches no
+abort, H₁ or H node" includes nested reflect runs, and (by the removal of
+`apBnil`) also "never applies the empty branch list".  No counterexample to
+R4 §5 was found; the failure criterion did not trigger.  Relative to the
+metatheory (Ansatz kernel), as for the whole formalization.
+
+Definition changes, both listed above: `apBnil` removed from `Ok`/`OkE`;
+`OkE.eReflOk` gains `hB`.  Neither is an axiom or a weakening of the theorem:
+both make the safe trace stricter or record a fact the typing already gives.
+
