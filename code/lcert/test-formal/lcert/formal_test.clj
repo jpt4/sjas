@@ -69,4 +69,6 @@
     lcert.formal-test.s52recs
     lcert.formal-test.s52itr
     lcert.formal-test.s52inspect
-    lcert.formal-test.s52reflect])
+    lcert.formal-test.s52reflect
+    lcert.formal-test.s52reg
+    lcert.formal-test.s52assembly])
