@@ -191,5 +191,5 @@
           (for [[ctor & fs] (trace-fields pred)]
             (list 'exact
               (apply list (symbol (str evaluator "." ctor)) 'chkf 'dec 'encTy
-                (for [[f ty] (take-while vector? fs) :when (not= f 'hH)]
+                (for [[f ty] (take-while vector? fs) :when (not (#{'hH 'hB} f))]
                   (if (and (seq? ty) (= pred (first ty))) (symbol (str "ih_" f)) f)))))))))

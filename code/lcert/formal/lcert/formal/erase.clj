@@ -961,6 +961,12 @@
     [her (Er chkf (thetaD m) (thetaU m) t2 A e2)]
     [ht (OkE chkf dec encTy m (EvSrc.tm (rtokens m) e2) w)]
         [hH (Eq Bool (isH D) Bool.false)]
+    ;; hB: reflect is typed only at a base data type.  evalE runs ANY erasure
+    ;; e2 of the decoded derivation, and two erasures can compute different
+    ;; closures; at a base type S pins the value to the denotation, so every
+    ;; erasure returns the same value.  The universal Theorem 5.2 (s52det.clj)
+    ;; needs that to compare two runs of evalE.
+    [hB (Eq Bool (isBaseTy D) Bool.true)]
     :where [n (EvSrc.tm rho (Exp.refl D r e)) w])
   (eReflNo [n Nat] [rho (List RV)] [D Exp] [r Exp] [e Exp] [c Code] [ve RV]
     [hr (OkE chkf dec encTy n (EvSrc.tm rho r) (RV.cert c))]
