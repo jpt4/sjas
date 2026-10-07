@@ -101,4 +101,5 @@
     lcert.formal-test.s52reg
     lcert.formal-test.s52assembly
     lcert.formal-test.s52erased
-    lcert.formal-test.s52theorem])
+    lcert.formal-test.s52theorem
+    lcert.formal-test.dflt64])
