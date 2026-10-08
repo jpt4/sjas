@@ -157,4 +157,88 @@ If step 2 or 3 cannot be completed at reasonable cost, deliver step 1 (and
 
 ## 9. Status
 
-(updated as units are proved)
+2026-10-08: **fallback delivered; general Proposition 4.9 remains open.**
+
+* `p49zero.clj`: `prop49_0` proves `Rt chkf nil nil p49z_term P49zero`
+  from `CheckSpec chkf dec encTy`. `prop49_0_concrete` has no hypotheses
+  at `Check decCert`. This completes k = 0, including the 100-way label
+  split and the dead node arm. `p49z_depth_agrees` identifies the bound
+  with `sh4_depth0`. The initial uncommitted implementation was recovered,
+  read, checked in the existing server, and committed as `25ea8dd`.
+* `p49depth.clj`: the kernel functions `p49dl : Nat → Exp → Exp` and
+  `P49 : Nat → Exp` implement §0. `p49dl_subst` is proved by induction on
+  k, generalized over every substitution and argument. `p49dl_leaf`,
+  `p49dl_zero_node`, and `p49dl_node` certify the rule-sized head steps.
+  `p49dl_typed` proves type-level Bool typing at every k in every context
+  with a typed Syn argument; `P49_formed` proves formation at every k.
+  `P49_zero_agrees` and `prop49_zero` give the depth-zero result in the
+  general family's notation. Committed as `cd4958c`.
+* There is **no** `t49`, `prop49`, or `prop49_concrete`. No positive-depth
+  inhabitant has been proved. Formation is not inhabitation.
+
+### Exact stopping point and cost boundary
+
+The algebra for `dl` in step 2 is complete, but the context/telescope
+algebra (Q) and step 3 are not. In particular, `p49z_leaf_arm` has the
+fixed conclusion `P49zero` specialized to a leaf, and `p49z_node_arm`
+closes by the depth-zero bound's reduction to ff. They are not instances
+of a proved peel lemma quantified over a code context or continuation.
+For a positive bound, the node arm reduces instead to
+`T(ite (p49dl j c1) (p49dl j c2) ff)`; this is not convertible to 0 for
+open c1,c2. It needs the dependent Boolean split plus recursively typed
+continuations, whose final checker argument contains the *entire rebuilt
+code*, not either child. Applying `prop49_0` to a child proves the wrong
+checker-evidence type. Corollary 3.7 is a metatheorem and does not permit
+an object-level delta step at that open rebuilt code.
+
+To bridge this gap, the remaining kernel work is:
+
+1. Define well-scoped code contexts, hole replacement, their interpretation
+   at arbitrary binder offsets, and `tele`; prove closedness and formation.
+2. Prove (Q) with the precise index maps, including the one-hole-to-two-holes
+   replacement. Replacing the first hole changes the arity and the indices
+   of the remaining holes. Existing expression substitution laws alone
+   do not identify those two generated telescopes.
+3. Prove Split and peel H with formation, usage-vector and conversion
+   premises, and a branch-list construction quantified over a label family.
+4. Define the fuel recursion inside the kernel and prove typing with the
+   potential decrease. A Clojure function expanding concrete k is not this
+   theorem.
+
+This is an unfinished proof-construction boundary, **not** a counterexample
+or a demonstrated limitation of Ansatz. The generalized induction was not
+formalized within this bounded attempt at reasonable cost: it requires the
+new indexed-context infrastructure and the typed combinators above, beyond
+extending the fixed-context builders. The task's explicit fallback is used
+rather than marking the schematic induction as proved. k = 1 is also not
+claimed: enumerating its roughly one million canonical nodes is excluded
+by the task and would not discharge the missing general induction.
+
+### Deviations and validation
+
+* Step 1 uses small Clojure builders for explicit rule proofs and a fixed
+  100-branch list. These emit kernel-checked declarations only; this is
+  permitted concrete depth-zero work, not the proposed all-k generator.
+  `dtgen.clj` from f63 was neither copied nor used.
+* The node arm at depth zero returns the depth evidence directly after
+  conversion to 0; no abort wrapper is needed when the target itself is 0.
+* Delta certification is `p49z_delta`, generic in a canonical expression
+  and its `codeOf` certificate. `p49z_checker_empty` connects CheckSpec's
+  encoding of 0 to literal code 15; `cor37_refutation` with `conv_all`
+  supplies the false equation. The conversion has **two** forward steps,
+  one under T and one T(ff) → 0 (correcting §5's “three-step” wording).
+* The `recSyn` list substitution uses `substL_instLS`; `instL` is
+  well-founded and cannot be evaluated by reflexivity at symbolic fields.
+  Direct rewrites left an incomplete goal; explicit congruence chains
+  plus this existing structural-lookup lemma finished `p49dl_node`.
+* No existing formal definition or rule was changed. General statements
+  were not silently weakened: the proved inhabitant names carry zero.
+* Warm suites: p49zero, 9 assertions; p49depth, 10 assertions; both passed.
+  p49depth's tests were first run red (missing theorems), then green.
+  Its negatives reject identifying successor depth syntax with depth zero;
+  p49zero rejects using the bounded theorem at the unbounded type and
+  an incorrect depth-zero node head certificate. These are rejection tests
+  of the supplied proof attempts, not theorems of non-inhabitability.
+* Fresh validation: pending `bin/test-formal p49zero p49depth` after stopping
+  the sole server. No full suite is run by this worktree.
+

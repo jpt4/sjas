@@ -6916,3 +6916,24 @@ because other JVMs shared the CPUs (`er_rt` alone 20 min, `er_len` and
   cgroup; edits to a new namespace then recheck in about a minute
   (`echo "(lcert.formal-server/recheck!)" | nc -N localhost PORT`).
 
+
+## 2026-10-08 — Proposition 4.9: complete depth-zero fragment; general case open
+
+- Read the inherited design (`9d54259`) and recovered the uncommitted
+  depth-zero implementation. Reused the existing single server on 5799.
+  Kernel-checked and committed `prop49_0` and `prop49_0_concrete` (`25ea8dd`):
+  a closed budget-0 inhabitant of the actual bounded consistency type.
+- Added the kernel-recursive bound `p49dl`, the general type `P49`,
+  substitution and head-step lemmas, and all-depth formation (`cd4958c`).
+  `prop49_zero` is the existential depth-zero instance of that family.
+- **Fallback, not completion of the general theorem.** The remaining
+  code-context/telescope substitution bridge and typed Split/peel
+  combinators are described precisely in
+  [the design note, status and stopping point](docs-prop49-design.md#9-status).
+  Neither k = 1 nor general k is claimed. No existing rule or definition
+  changed; no code from the f63 dtgen namespace was copied.
+- Warm checks: p49zero 9 assertions, p49depth 10 assertions, no failures.
+  p49depth was run red before its theorem implementations and green after.
+  Pending fresh scoped verification after stopping the server; full suite
+  reserved for the supervising thread. The all-deliverables-proved sentinel
+  `p49c.done` is not written because the general theorem remains open.
