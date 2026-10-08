@@ -63,6 +63,7 @@
     lcert.formal-test.paclosed
     lcert.formal-test.paquant
     lcert.formal-test.paaxioms
+    lcert.formal-test.paassembly
     lcert.formal-test.patransport
     lcert.formal-test.uskel
     lcert.formal-test.funde
