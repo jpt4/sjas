@@ -1,0 +1,166 @@
+(ns lcert.formal.p49depth
+  "Proposition 4.9: syntax of the depth bound and its substitution algebra.
+  These lemmas do not construct inhabitants at positive depths."
+  (:require [ansatz.core :as a]
+            [lcert.formal.base :refer [thm kdef]]
+            [lcert.formal.p49zero]))
+
+;; Primitive recursion in the kernel's Nat, not a Clojure enumeration of
+;; codes. The node arm has five binders: y2, y1, c2, c1, label.
+(kdef p49dl (=> Nat Exp Exp)
+  (fn [k :- Nat]
+    (Nat.rec$1 (fn [_ :- Nat] (=> Exp Exp))
+      (fn [c :- Exp] (Exp.recS Exp.tBool Exp.tt Exp.ff c))
+      (fn [j :- Nat, prev :- (=> Exp Exp)]
+        (fn [c :- Exp]
+          (Exp.recS Exp.tBool Exp.tt
+            (Exp.ite (prev (Exp.var 3)) (prev (Exp.var 2)) Exp.ff) c))) k)))
+
+(kdef P49 (=> Nat Exp)
+  (fn [k :- Nat]
+    (Exp.tPi U.uw Exp.tSyn
+      (Exp.tPi U.u1 (Exp.tT (p49dl k (Exp.var 0)))
+        (Exp.tPi U.u1 (Exp.tT (Exp.chk (Exp.var 1) (cbot))) Exp.tEmpty)))))
+
+(thm p49dl_zero_agrees [c :- Exp]
+  (Eq Exp (p49dl 0 c) (p49z_depth c)) (rfl))
+(thm P49_zero_agrees [] (Eq Exp (P49 0) P49zero) (rfl))
+
+;; Generalized over the substitution: the recursive calls in a recSyn
+;; node arm see upn 5 sigma, whose first five variables remain bound.
+(thm p49dl_subst [k :- Nat]
+  (forall [sg (=> Nat Exp)] (forall [c Exp]
+    (Eq Exp (subst sg (p49dl k c)) (p49dl k (subst sg c)))))
+  (induction k)
+  (intro sg c) (rfl)
+  (intro sg c)
+  (exact (congrArg
+    (fn [body :- Exp] (Exp.recS Exp.tBool Exp.tt body (subst sg c)))
+    (Eq.trans
+      (congrArg (fn [x :- Exp]
+        (Exp.ite x (subst (upn 5 sg) (p49dl n (Exp.var 2))) Exp.ff))
+        (ih_n (upn 5 sg) (Exp.var 3)))
+      (congrArg (fn [y :- Exp] (Exp.ite (p49dl n (Exp.var 3)) y Exp.ff))
+        (ih_n (upn 5 sg) (Exp.var 2)))))))
+
+;; Rule-sized head certificates: no code enumeration, checker evaluation,
+;; or expansion at a concrete positive k is involved.
+(thm p49dl_leaf [chkf :- (=> Code Code Bool), k :- Nat, x :- Exp]
+  (Hd chkf (p49dl k (Exp.sleaf x)) Exp.tt)
+  (cases k)
+  (exact (Hd.recSL chkf Exp.tBool Exp.tt Exp.ff x))
+  (exact (Hd.recSL chkf Exp.tBool Exp.tt
+    (Exp.ite (p49dl n (Exp.var 3)) (p49dl n (Exp.var 2)) Exp.ff) x)))
+
+(thm p49dl_zero_node [chkf :- (=> Code Code Bool), x :- Exp, c1 :- Exp, c2 :- Exp]
+  (Hd chkf (p49dl 0 (Exp.snode x c1 c2)) Exp.ff)
+  (exact (Hd.recSN chkf Exp.tBool Exp.tt Exp.ff x c1 c2)))
+
+;; instL is well-founded, so use its proved structural counterpart instead
+;; of asking reflexivity to evaluate list lookup in the recSyn contractum.
+(thm p49dl_node_subst [k :- Nat, es :- (List Exp)]
+  (Eq Exp
+    (substL es (Exp.ite (p49dl k (Exp.var 3)) (p49dl k (Exp.var 2)) Exp.ff))
+    (Exp.ite (p49dl k (instLS es 3)) (p49dl k (instLS es 2)) Exp.ff))
+  (exact (Eq.trans
+    (substL_instLS es (Exp.ite (p49dl k (Exp.var 3)) (p49dl k (Exp.var 2)) Exp.ff))
+    (Eq.trans
+      (congrArg (fn [a :- Exp]
+        (Exp.ite a (subst (instLS es) (p49dl k (Exp.var 2))) Exp.ff))
+        (p49dl_subst k (instLS es) (Exp.var 3)))
+      (congrArg (fn [b :- Exp] (Exp.ite (p49dl k (instLS es 3)) b Exp.ff))
+        (p49dl_subst k (instLS es) (Exp.var 2)))))))
+
+(thm p49dl_node [chkf :- (=> Code Code Bool), k :- Nat,
+                x :- Exp, c1 :- Exp, c2 :- Exp]
+  (Hd chkf (p49dl (+ k 1) (Exp.snode x c1 c2))
+    (Exp.ite (p49dl k c1) (p49dl k c2) Exp.ff))
+  (apply (hd_cast chkf (p49dl (+ k 1) (Exp.snode x c1 c2))
+    (substL
+      (List.cons Exp (p49dl (+ k 1) c2)
+        (List.cons Exp (p49dl (+ k 1) c1)
+          (List.cons Exp c2 (List.cons Exp c1 (List.cons Exp x (List.nil Exp))))))
+      (Exp.ite (p49dl k (Exp.var 3)) (p49dl k (Exp.var 2)) Exp.ff))
+    (Exp.ite (p49dl k c1) (p49dl k c2) Exp.ff)))
+  (exact (Hd.recSN chkf Exp.tBool Exp.tt
+    (Exp.ite (p49dl k (Exp.var 3)) (p49dl k (Exp.var 2)) Exp.ff) x c1 c2))
+  (exact (p49dl_node_subst k
+    (List.cons Exp (p49dl (+ k 1) c2)
+      (List.cons Exp (p49dl (+ k 1) c1)
+        (List.cons Exp c2 (List.cons Exp c1 (List.cons Exp x (List.nil Exp)))))))))
+
+;; Formation at arbitrary depth, in arbitrary ambient telescopes. The
+;; builders below merely write out the fixed recSyn rule premises. The
+;; induction over k itself is inside the kernel.
+(defn- p49d-ctx [xs]
+  (reduce (fn [tail x] (list 'List.cons 'Exp x tail)) 'D (reverse xs)))
+(defn- p49d-lookup [xs i]
+  (let [[x & rest-xs] xs]
+    (if (zero? i) (list 'nthE.eq_2 x (p49d-ctx rest-xs))
+      (list 'Eq.trans (list 'nthE.eq_3 x (p49d-ctx rest-xs) (dec i))
+        (p49d-lookup rest-xs (dec i))))))
+(defn- p49d-var [xs i]
+  (list 'Tl.zVar 'chkf (p49d-ctx xs) i (nth xs i) (p49d-lookup xs i)))
+(defn- p49d-base [xs A] (list 'Tl.fBase 'chkf (p49d-ctx xs) A 'rfl))
+(defn- p49d-const [xs e A] (list 'Tl.zConst 'chkf (p49d-ctx xs) e A 'rfl))
+
+(doseq [successor? [false true]]
+  (let [xs '[Exp.tBool Exp.tBool Exp.tSyn Exp.tSyn Exp.tLbl]
+        tn (if successor? '(Exp.ite (p49dl j (Exp.var 3)) (p49dl j (Exp.var 2)) Exp.ff) 'Exp.ff)
+        params (vec (concat '[chkf :- (=> Code Code Bool)]
+          (when successor?
+            '[j :- Nat, hi :- (forall [D (List Exp)] (forall [c Exp]
+               (=> (Tl chkf Bool.false D c Exp.tSyn)
+                   (Tl chkf Bool.false D (p49dl j c) Exp.tBool))))])
+          '[D :- (List Exp), c :- Exp, hc :- (Tl chkf Bool.false D c Exp.tSyn)]))]
+    (a/prove-theorem (if successor? 'p49dl_typed_succ 'p49dl_typed_zero) params
+      (list 'Tl 'chkf 'Bool.false 'D (list 'p49dl (if successor? '(+ j 1) 0) 'c) 'Exp.tBool)
+      [(list 'exact
+         (list 'Tl.zRecS 'chkf 'D 'Exp.tBool 'Exp.tt tn 'c 'hc
+           (p49d-base '[Exp.tSyn] 'Exp.tBool)
+           (p49d-const '[Exp.tLbl] 'Exp.tt 'Exp.tBool)
+           (if successor?
+             (list 'Tl.zIte 'chkf (p49d-ctx xs)
+               '(p49dl j (Exp.var 3)) '(p49dl j (Exp.var 2)) 'Exp.ff 'Exp.tBool
+               (list 'hi (p49d-ctx xs) '(Exp.var 3) (p49d-var xs 3))
+               (list 'hi (p49d-ctx xs) '(Exp.var 2) (p49d-var xs 2))
+               (p49d-const xs 'Exp.ff 'Exp.tBool))
+             (p49d-const xs 'Exp.ff 'Exp.tBool))))])))
+
+(thm p49dl_typed [chkf :- (=> Code Code Bool), k :- Nat]
+  (forall [D (List Exp)] (forall [c Exp]
+    (=> (Tl chkf Bool.false D c Exp.tSyn)
+        (Tl chkf Bool.false D (p49dl k c) Exp.tBool))))
+  (induction k)
+  (intro D c hc) (exact (p49dl_typed_zero chkf D c hc))
+  (intro D c hc) (exact (p49dl_typed_succ chkf n ih_n D c hc)))
+
+;; P49 k is a formed closed type for every k. No existence of an inhabitant
+;; follows from formation. Its bound uses the previous depth in both children.
+(let [A '(Exp.tT (p49dl k (Exp.var 0)))
+      B '(Exp.tT (Exp.chk (Exp.var 1) (cbot)))
+      body (list 'Exp.tPi 'U.u1 A (list 'Exp.tPi 'U.u1 B 'Exp.tEmpty))]
+  (a/prove-theorem 'P49_formed '[chkf :- (=> Code Code Bool), k :- Nat, D :- (List Exp)]
+    '(Tl chkf Bool.true D (P49 k) Exp.tUnit)
+    [(list 'exact
+       (list 'Tl.fPi 'chkf 'D 'U.uw 'Exp.tSyn body
+         (p49d-base [] 'Exp.tSyn)
+         (list 'Tl.fPi 'chkf (p49d-ctx '[Exp.tSyn]) 'U.u1 A
+           (list 'Exp.tPi 'U.u1 B 'Exp.tEmpty)
+           (list 'Tl.fT 'chkf (p49d-ctx '[Exp.tSyn]) '(p49dl k (Exp.var 0))
+             (list 'p49dl_typed 'chkf 'k (p49d-ctx '[Exp.tSyn]) '(Exp.var 0) (p49d-var '[Exp.tSyn] 0)))
+           (list 'Tl.fPi 'chkf (p49d-ctx [A 'Exp.tSyn]) 'U.u1 B 'Exp.tEmpty
+             (list 'Tl.fT 'chkf (p49d-ctx [A 'Exp.tSyn]) '(Exp.chk (Exp.var 1) (cbot))
+               (list 'Tl.zChk 'chkf (p49d-ctx [A 'Exp.tSyn]) '(Exp.var 1) '(cbot)
+                 (p49d-var [A 'Exp.tSyn] 1)
+                 (list 'Tl.zSleaf 'chkf (p49d-ctx [A 'Exp.tSyn]) '(Exp.lbl 15)
+                   (p49d-const [A 'Exp.tSyn] '(Exp.lbl 15) 'Exp.tLbl))))
+             (p49d-base [B A 'Exp.tSyn] 'Exp.tEmpty)))))]))
+
+;; The completed fragment expressed using the general family's name.
+(thm prop49_zero [chkf :- (=> Code Code Bool),
+                  dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),
+                  encTy :- (=> Exp Code), hcs :- (CheckSpec chkf dec encTy)]
+  (Exists (fn [t :- Exp] (Rt chkf (List.nil Exp) (List.nil U) t (P49 0))))
+  (apply (Exists.intro p49z_term))
+  (exact (prop49_0 chkf dec encTy hcs)))
