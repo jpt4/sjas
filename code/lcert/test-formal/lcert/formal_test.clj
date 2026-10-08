@@ -65,6 +65,10 @@
     lcert.formal-test.paaxioms
     lcert.formal-test.paassembly
     lcert.formal-test.patransport
+    lcert.formal-test.paequality
+    lcert.formal-test.pacong
+    lcert.formal-test.paind
+    lcert.formal-test.pastab
     lcert.formal-test.uskel
     lcert.formal-test.funde
     lcert.formal-test.theorem4e
