@@ -1,17 +1,16 @@
 (ns lcert.formal.paassembly
   "F6.3 — assembly rules for the PA translation (R4 §6.2).
 
-  The main proof translation still needs DN, E2 and IND. The theorem
-  pa_lcert_of_axioms explicitly assumes typed axiom instances; it is not
-  pa_lcert. pa_close_refutation closes a supplied translation of 0=S0.
+  The theorem pa_lcert_of_axioms explicitly assumes typed axiom instances.
+  palcert.clj discharges that premise with all templates, including DN, E2
+  and IND. pa_close_refutation closes a supplied translation of 0=S0.
   These are meta-level derivation constructions, not internal PA proofs.
   Any resulting consistency corollary is relative to the metatheory."
   (:require [lcert.formal.base :refer [thm kdef]]
             [lcert.formal.paaxioms]))
 
 ;; This is the PPrv induction for the desired main theorem. Its axiom
-;; premise is explicit until DN, E2 and IND have been supplied. In
-;; particular this theorem does not claim that those templates are proved.
+;; premise is explicit here and discharged by palcert.clj.
 (thm pa_lcert_of_axioms [chkf :- (=> Code Code Bool),
   hax :- (forall [p PF] (=> (PAx p)
     (forall [D (List Exp)] (forall [ρ (=> Nat Nat)] (=> (Good D ρ)
@@ -59,7 +58,7 @@
     (Tl.fBase chkf (List.nil Exp) Exp.tNat rfl)
     (Tl.fBase chkf paRefuteD Exp.tEmpty rfl))))
 
-;; Once pa_lcert is available, this implication is the desired
+;; palcert.clj applies this implication to pa_lcert to prove
 ;; pa_refutation. No appeal to pa_consistent or paPrv_sound occurs.
 (thm pa_refutation_of_translation [chkf :- (=> Code Code Bool),
   htr :- (forall [p PF] (=> (PPrv p)
