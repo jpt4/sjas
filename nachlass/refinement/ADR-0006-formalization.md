@@ -1,6 +1,6 @@
 # ADR-0006 — Formalizing the R4 metatheory in Ansatz
 
-**Status.** Accepted 2026-09-27. In progress: F1–F3 done (Lemma 3.6, Theorems 1–3, Corollary 3.7); F4 mostly done (4.6, 4.8 open; 4.9 in part); F5 in progress (Theorem 4′ assembly, Theorem 5.2); **F7 done** (2026-10-03: a concrete, computing checker meets CheckSpec, TokSize and TypeSize, and accepts the certificates); F6 not begun.
+**Status.** Accepted 2026-09-27. In progress: F1–F3 done (Lemma 3.6, Theorems 1–3, Corollary 3.7); F4 mostly done (4.6, 4.8 open; 4.9 in part); F5 in progress (Theorem 4′ assembly, Theorem 5.2); **F7 done** (2026-10-03: a concrete, computing checker meets CheckSpec, TokSize and TypeSize, and accepts the certificates); F6.1 and the F6.3 meta-level translation are proved; the internalization hypotheses remain.
 
 **Branch.** `adr-0006-formalization`, from `sjas-codification`, merged back
 into it phase by phase.
@@ -276,9 +276,11 @@ found.
 
 This establishes the requested meta-level derivation translation, not
 Proposition 6.1's internal PA theorem about primitive-recursive proof codes
-and CHECK. That internalization remains a named P5 hypothesis. Any
-consistency conclusion obtained by composing `pa_refutation` with
-`consistent_concrete` is relative to the Ansatz metatheory.
+and CHECK. That internalization remains a named P5 hypothesis.
+`paconsistency.clj` composes `pa_refutation` with `consistent_concrete`
+to prove `pa_consistent_via_lcert`: H_PA does not prove `0 = S0`, relative
+to the Ansatz metatheory. This composition does not use `pa_consistent`
+or `paPrv_sound`.
 
 ## Success and failure
 
