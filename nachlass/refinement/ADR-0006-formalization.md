@@ -244,6 +244,42 @@ FormalizedFormalLogic/Foundation (Saitou–Noguchi, arXiv:2609.13780: G2 for
   1973, Kohlenbach 2008, Avigad–Feferman 1998); exacting paper proofs of
   Int-6.1 and Int-6.4.
 
+### F6.3 translation delivered at the meta level (2026-10-08)
+
+`palcert.clj` proves `pa_lcert`: for any checker, every `PPrv φ`, and
+any `Good D ρ`, there exists `e` with `Rt chkf D (allW D) e (trF φ ρ)`.
+`Good` requires each PA variable's assigned context entry to be `Nat`;
+it permits aliasing. `pa_axiom_translation` covers every `PAx` constructor,
+and `pa_lcert_of_axioms` supplies induction over MP and Gen.
+`pa_refutation` turns a proof of `0 = S0` into an inhabitant of `tEmpty`
+at `thetaD 0`, `thetaU 0`: a closed budget-zero refutation.
+
+The units are `patyp` (closed arithmetic), `paform` (formation and term
+typing in Good environments), `painst` (substitution, instantiation, MP,
+Gen), `paprop`/`paquant` (A1/A2/A4/A5), `paclosed`/`paaxioms` (closed
+combinators, E1 and Q1–Q6), `patransport`/`paequality`/`pacong` (transport,
+equality combinators and E2), `pastab` (DN by formula induction), and
+`paind` (packaged IND with explicit usage 1 for the recursive package).
+Each has a suite with positive signature checks and rejected incorrect
+applications or derivation data.
+
+Implementation choices follow the F6.3 task: the main statement uses open
+Good environments and all-omega vectors; only the refutation is explicitly
+closed at the empty context. A separate finite-support universal-closure
+operator and its correctness theorem are not supplied. E2 uses induction
+on PA terms and congruence, symmetry and transitivity, avoiding conversion
+on opaque schematic types. TRANSPORT is R4's packaged term; its concrete
+derivation is split into bounded reflection subproofs and assembled with
+the original typing rules to fit the heap. No object-calculus definition,
+rule or checker definition was changed. No new counterexample to R4 was
+found.
+
+This establishes the requested meta-level derivation translation, not
+Proposition 6.1's internal PA theorem about primitive-recursive proof codes
+and CHECK. That internalization remains a named P5 hypothesis. Any
+consistency conclusion obtained by composing `pa_refutation` with
+`consistent_concrete` is relative to the Ansatz metatheory.
+
 ## Success and failure
 
 - **Success:** F1–F6 formalized in the sense of 1, with the trust base of 2,
