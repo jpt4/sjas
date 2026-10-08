@@ -51,11 +51,12 @@
        (Select52 chkf erasing m t2 A e2)
        (Trace52 chkf dec encTy m erasing (EvSrc.tm (rtokens m) e2) w)
        (Eq Bool (isH X) Bool.false)
+       (Eq Bool (isBaseTy X) Bool.true)
        (Trace52 chkf dec encTy cap erasing (EvSrc.tm rho (Exp.refl X r e)) w))
-  '[(cases erasing) (intro hr he hb hd hs ht hH) (subst hs)
+  '[(cases erasing) (intro hr he hb hd hs ht hH hB) (subst hs)
     (exact (Ok.eReflOk chkf dec encTy cap rho X r e c m t2 A ve w hr he hb hd ht hH))
-    (intro hr he hb hd hs ht hH)
-    (exact (OkE.eReflOk chkf dec encTy cap rho X r e c m t2 A e2 ve w hr he hb hd hs ht hH))])
+    (intro hr he hb hd hs ht hH hB)
+    (exact (OkE.eReflOk chkf dec encTy cap rho X r e c m t2 A e2 ve w hr he hb hd hs ht hH hB))])
 
 ;; S at base data types is independent of the budget and environment.
 ;; Empty stays empty; unlike E it never admits a default there.
@@ -144,7 +145,7 @@
        (Eq.mp (s52_base_transfer chkf dec encTy cap erasing X m (skels (thetaD m)) (tokEnvD m) G en hbase w RUN) hx))
      (constructor) (exact w) (constructor)
      (exact (trace52_refl_ok chkf dec encTy cap erasing rho X re ee CR m t2 A e2 ve w
-       her hee hc hd hs2 (And.left pw) hH))
+       her hee hc hd hs2 (And.left pw) hH hbase))
      (exact (Eq.mp (congrArg (fn [alpha :- (Car (skel X))]
        (S52 chkf dec encTy cap erasing X G en (skel X) w alpha))
        (Eq.trans (Eq.symm (tok_transfer m (den chkf dec encTy m t2) (skel X)))

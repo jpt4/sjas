@@ -769,8 +769,11 @@
   (apClos [n Nat] [rho (List RV)] [body Exp] [arg RV] [w RV]
     [h (Ok chkf dec encTy n (EvSrc.tm (List.cons RV arg rho) body) w)]
     :where [n (EvSrc.ap (RV.clos rho body) arg) w])
-  (apBnil [n Nat] [s Sk] [arg RV]
-    :where [n (EvSrc.ap (RV.bnil s) arg) (rdflt s)])
+  ;; No apBnil: a safe trace never applies the empty branch list. A typed run
+  ;; never does (labels stay below NL and a list typed at k holds NL-k branches),
+  ;; and forbidding it is what makes Ok determined up to bnil tags (ADR-0006,
+  ;; Theorem 5.2 universal form): Ev's only free choices are the tag of eBnil and,
+  ;; through apBnil, its consequences.
   (apBconsZ [n Nat] [h RV] [t RV]
     :where [n (EvSrc.ap (RV.bcons h t) (RV.lbl 0)) h])
   (apBconsS [n Nat] [h RV] [t RV] [k Nat] [w RV]
@@ -958,6 +961,12 @@
     [her (Er chkf (thetaD m) (thetaU m) t2 A e2)]
     [ht (OkE chkf dec encTy m (EvSrc.tm (rtokens m) e2) w)]
         [hH (Eq Bool (isH D) Bool.false)]
+    ;; hB: reflect is typed only at a base data type.  evalE runs ANY erasure
+    ;; e2 of the decoded derivation, and two erasures can compute different
+    ;; closures; at a base type S pins the value to the denotation, so every
+    ;; erasure returns the same value.  The universal Theorem 5.2 (s52det.clj)
+    ;; needs that to compare two runs of evalE.
+    [hB (Eq Bool (isBaseTy D) Bool.true)]
     :where [n (EvSrc.tm rho (Exp.refl D r e)) w])
   (eReflNo [n Nat] [rho (List RV)] [D Exp] [r Exp] [e Exp] [c Code] [ve RV]
     [hr (OkE chkf dec encTy n (EvSrc.tm rho r) (RV.cert c))]
@@ -996,8 +1005,11 @@
   (apClos [n Nat] [rho (List RV)] [body Exp] [arg RV] [w RV]
     [h (OkE chkf dec encTy n (EvSrc.tm (List.cons RV arg rho) body) w)]
     :where [n (EvSrc.ap (RV.clos rho body) arg) w])
-  (apBnil [n Nat] [s Sk] [arg RV]
-    :where [n (EvSrc.ap (RV.bnil s) arg) (rdflt s)])
+  ;; No apBnil: a safe trace never applies the empty branch list. A typed run
+  ;; never does (labels stay below NL and a list typed at k holds NL-k branches),
+  ;; and forbidding it is what makes OkE determined up to bnil tags (ADR-0006,
+  ;; Theorem 5.2 universal form): Ev's only free choices are the tag of eBnil and,
+  ;; through apBnil, its consequences.
   (apBconsZ [n Nat] [h RV] [t RV]
     :where [n (EvSrc.ap (RV.bcons h t) (RV.lbl 0)) h])
   (apBconsS [n Nat] [h RV] [t RV] [k Nat] [w RV]
