@@ -26,7 +26,10 @@
   (:require [ansatz.core :as a]
             [lcert.formal.base :refer [thm kdef lv]]
             [lcert.formal.s52erased]
-            [lcert.formal.certenc]))
+            [lcert.formal.certenc]
+            ;; decCert and check_spec (theorem52_concrete); a fresh load of this
+            ;; namespace alone needs them, certenc no longer defines decCert
+            [lcert.formal.certcanon]))
 
 ;; Theorem 5.2 for evalₙ.
 (thm theorem52

@@ -28,7 +28,10 @@
             [lcert.formal.base :refer [thm kdef lv]]
             [lcert.formal.s52det]
             [lcert.formal.s52theorem]
-            [lcert.formal.certenc]))
+            [lcert.formal.certenc]
+            ;; decCert, check_spec (the concrete instance); lenU_theta, lenE_theta (the suite)
+            [lcert.formal.certcanon]
+            [lcert.formal.section4b]))
 
 ;; One budget: from the budgets below it.  The existential fundamental
 ;; property (s52_closed_all, erasing) provides a reference run; detOkE
