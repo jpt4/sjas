@@ -177,8 +177,9 @@ formalized now (`f4-theorem46`, `f5-theorem52`).
    - *H₁° is weaker still, computationally.* It is the postulated constant
      H₁ (Willard's Level(1) form). It has no reduction rule. Theorem 5.2, as
      proved so far, gives every typed program a run of the evaluator that
-     never reaches it. The universal form — *every* run — is a required
-     obligation in progress (see ADR-0006, deviations, 2026-10-07).
+     never reaches it. The universal form — *every* run — was a required
+     obligation; it is now proved (`theorem52_all`, `theorem52e_all`,
+     `theorem52_all_concrete`; ADR-0006, deviations, 2026-10-07, closed).
 2. **Arithmetically, H° is a serial property.**
    - *What each instance says:* at budget n, H° says no code of at most n
      nodes checks as a refutation. That is BF₀(n), a finite consistency
@@ -274,7 +275,10 @@ So none of the following is new by itself:
        free. An implementation chooses that tag without consulting a
        derivation, so its run need not be the safe one.
      - *What the claim of certified evaluation needs:* the universal form,
-       that every run is safe. That is a required obligation, in progress.
+       that every run is safe. Proved the same day (`theorem52_all`,
+       `theorem52e_all`, `theorem52_all_concrete`): the existential theorem
+       supplies a reference run, and every run equal to it up to the free tags
+       is safe (`nachlass/docs-theorem52-universal.md`).
    - *So the reading "consistency = evaluation at the empty type" comes with
      a proof that the evaluator is total and safe,* relative to the
      metatheory.
