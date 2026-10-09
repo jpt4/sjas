@@ -6934,6 +6934,11 @@ because other JVMs shared the CPUs (`er_rt` alone 20 min, `er_len` and
   changed; no code from the f63 dtgen namespace was copied.
 - Warm checks: p49zero 9 assertions, p49depth 10 assertions, no failures.
   p49depth was run red before its theorem implementations and green after.
-  Pending fresh scoped verification after stopping the server; full suite
-  reserved for the supervising thread. The all-deliverables-proved sentinel
+  Fresh scoped verification passed after stopping the server:
+  `bin/test-formal p49zero p49depth` ran 2 tests with 19 assertions,
+  **0 failures, 0 errors**, exit status 0 (49:21.04, maximum RSS 1330104 KB;
+  `code/lcert/test-runs/p49-fresh.log`, finished 2026-10-08T20:36:32Z).
+  The resumed session verified unchanged formal sources and reran
+  `bin/check-formal-names` successfully. Full suite remains reserved for
+  the supervising thread. The all-deliverables-proved sentinel
   `p49c.done` is not written because the general theorem remains open.

@@ -239,6 +239,12 @@ by the task and would not discharge the missing general induction.
   p49zero rejects using the bounded theorem at the unbounded type and
   an incorrect depth-zero node head certificate. These are rejection tests
   of the supplied proof attempts, not theorems of non-inhabitability.
-* Fresh validation: pending `bin/test-formal p49zero p49depth` after stopping
-  the sole server. No full suite is run by this worktree.
-
+* Fresh validation: `bin/test-formal p49zero p49depth` passed after stopping
+  the sole server: **2 tests, 19 assertions; 0 failures, 0 errors; status=0**.
+  Durable log: `code/lcert/test-runs/p49-fresh.log`, finished
+  2026-10-08T20:36:32Z, elapsed 49:21.04, maximum RSS 1330104 KB.
+  The resumed session verified the result and unchanged formal sources;
+  `bin/check-formal-names` also passed. No full suite was run.
+* The supervisor's `p49c.done` marker is not written: its explicit condition
+  requires every deliverable to be proved, whereas this is the authorized
+  fallback with the general theorem still open.
