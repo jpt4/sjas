@@ -61,6 +61,8 @@
     lcert.formal-test.p49peeldepth
     lcert.formal-test.p49peelzero
     lcert.formal-test.p49teleform
+    lcert.formal-test.p49teleformbridge
+    lcert.formal-test.p49telelaws
     lcert.formal-test.check-hd
     lcert.formal-test.check-skj
     lcert.formal-test.check-dt
