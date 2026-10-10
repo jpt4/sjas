@@ -65,6 +65,7 @@
     lcert.formal-test.p49telelaws
     lcert.formal-test.p49leafcont
     lcert.formal-test.p49scoped
+    lcert.formal-test.p49nodebranch
     lcert.formal-test.check-hd
     lcert.formal-test.check-skj
     lcert.formal-test.check-dt
