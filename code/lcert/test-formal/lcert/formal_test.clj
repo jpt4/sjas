@@ -45,6 +45,22 @@
     lcert.formal-test.section4c
     lcert.formal-test.p49depth
     lcert.formal-test.p49zero
+    lcert.formal-test.p49split
+    lcert.formal-test.p49context
+    lcert.formal-test.p49contextfacts
+    lcert.formal-test.p49branches
+    lcert.formal-test.p49tele
+    lcert.formal-test.p49telebridge
+    lcert.formal-test.p49telebridgeaux
+    lcert.formal-test.p49telerepl
+    lcert.formal-test.p49telenat
+    lcert.formal-test.p49fuel
+    lcert.formal-test.p49fresh
+    lcert.formal-test.p49genfacts
+    lcert.formal-test.p49peel
+    lcert.formal-test.p49peeldepth
+    lcert.formal-test.p49peelzero
+    lcert.formal-test.p49teleform
     lcert.formal-test.check-hd
     lcert.formal-test.check-skj
     lcert.formal-test.check-dt

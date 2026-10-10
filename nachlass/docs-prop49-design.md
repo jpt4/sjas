@@ -248,3 +248,94 @@ by the task and would not discharge the missing general induction.
 * The supervisor's `p49c.done` marker is not written: its explicit condition
   requires every deliverable to be proved, whereas this is the authorized
   fallback with the general theorem still open.
+
+## 10. Renewed assessment (2026-10-08)
+
+The requested target remains the all-depth `Rt` theorem, or a refutation;
+the earlier fallback does not meet that target. A possible simplification
+is bounded dependent elimination for an arbitrary formed motive `P(c)`:
+canonical cases of depth at most k should suffice to construct
+`Π(c :ω Syn). T(dl k c) ⊸ P(c)`. In the node case instantiate the induction
+hypothesis twice, retaining the other child in the motive. This may avoid
+the code-context telescope, but requires explicit substitution, formation,
+and usage proofs; it is not yet a proved lemma.
+
+First isolate the required Boolean operation in `p49split.clj`:
+`Π(b :ω Bool). Π(c :ω Bool). T(ite b c ff) ⊸ (T(b) ⊗ T(c))`.
+Its true arm returns `(⋆, e)` after conversion; its false arm eliminates
+`e : T(ff)`. The single affine evidence is never duplicated. The new
+namespace deliberately depends only on the rule table, not consistency
+or the checker. Proving this auxiliary does not establish Proposition 4.9.
+
+## 11. Resumed proof work (2026-10-09)
+
+The current worktree adds kernel-checked auxiliary files for Boolean evidence
+splitting (`p49split`), named-hole context substitution (`p49context`),
+context typing and code readback (`p49contextfacts`), the 100-way branch
+family (`p49branches`), a generic peel with explicit premises (`p49peel`),
+and a telescope with one- and two-hole indexing checks (`p49tele`). The
+successor-depth peel file `p49peeldepth` proves runtime depth computation,
+the node evidence splitter in its actual runtime context, and an assembled
+`p49pd_peel` from precisely stated leaf and node continuation premises in a
+warm REPL run. The earlier combined fresh suite failed with a Clojure `d.mk`
+class-loading error before it could certify the peel. The generic telescope
+was isolated from the depth proof and passes its fresh focused suite
+(1 test, 3 assertions). The singleton identity `p49tele_P49` moved to
+`p49telebridge`; its separate cold suite passed (1 test, 2 assertions,
+status 0; `code/lcert/test-runs/p49-bridge-fresh-20261009.log`). The
+successor-depth peel still needs its own clean cold focused result.
+
+The telescope replacement identity is now supplied below, but the
+arity-changing peel bridge and a kernel-defined fuel recursion producing
+closed leaf and node continuations are still missing.
+In particular, `p49pd_peel` has two `Rt` premises, so it is not `prop49`.
+The all-depth inhabitant and any refutation remain open.
+
+The next assembly obligations are now sharper: instantiate the successor peel
+with the telescope tail as its unary family, prove lift/substitution laws for
+that concrete family, and construct the typed leaf/node continuations from
+the resulting tails. The arbitrary-context depth-zero peel now exists; its
+node arm consumes the impossible depth evidence. The fuel induction must
+still construct the continuation premises of each peel.
+
+The kernel now checks the strict fuel inequalities in `p49fuel.clj`:
+`p49pow3_pos`, `p49pot_leaf_decrease`, and `p49pot_node_decrease` cover
+the two generator transitions for a list of named holes. The fresh focused
+suite passed (1 test, 4 assertions, status 0; log
+`code/lcert/test-runs/p49-fuel-focused-20261009.log`). These inequalities
+establish termination of a proposed recursion, not the recursion or its
+`Rt` invariant.
+
+The new `p49fresh.clj` proves that its additive bound exceeds every named
+hole in both the context and the pending slot list (fresh focused suite:
+1 test, 5 assertions, status 0). `p49telenat.clj` proves pointwise
+environment congruence for the generic telescope (fresh focused suite:
+1 test, 2 assertions, status 0). Neither theorem constructs a continuation.
+`p49teleform.clj` now has a cold passing formation proof (1 test, 3
+assertions, status 0; `code/lcert/test-runs/p49-teleform-v2-20261009.log`).
+The arbitrary-context depth-zero peel in `p49peelzero.clj` also has a cold
+passing run (2 tests, 12 assertions, status 0;
+`code/lcert/test-runs/p49-peelzero-fresh-20261009.log`). Both remain
+conditional building blocks rather than the final inhabitant.
+
+The telescope replacement obligation is now discharged separately in
+`p49telerepl.clj`: `p49tele_repl` gives replacement for an arbitrary context
+under explicit slot-avoidance premises, and `p49tele_fresh_node_repl`
+specializes it to the two child holes selected by `p49fresh`. A fresh
+focused run passed (1 test, 11 assertions, status 0; log
+`code/lcert/test-runs/p49branches-telerepl-fresh-final.log`). This is the
+context/environment equation, not the arity-changing bridge between the
+peel continuation type and the telescope, nor the fuel-recursive `Rt` term.
+The follow-on `p49genfacts.clj` certifies that both chosen child IDs avoid
+the pending slots, including that the right child still avoids the list after
+the left child is prepended (fresh focused run: 1 test, 5 assertions, status
+0; `code/lcert/test-runs/p49genfacts-focused-v4-20261009.log`).
+
+`p49telebridgeaux.clj` now identifies the instantiated leaf and node peel
+result types with the corresponding replaced telescope tails. Its fresh
+focused suite passes (1 test, 9 assertions, status 0;
+`code/lcert/test-runs/p49branches-telebridgeaux-final.log`). These theorems
+explicitly assume lift and substitution naturality for the selected unary
+family; those laws have not been proved for the concrete telescope and need
+closedness or equivariant environment hypotheses. The bridge does not yet
+provide runtime continuations.
