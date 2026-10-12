@@ -43,6 +43,40 @@
     lcert.formal-test.prop434
     lcert.formal-test.check
     lcert.formal-test.section4c
+    lcert.formal-test.p49depth
+    lcert.formal-test.p49zero
+    lcert.formal-test.p49split
+    lcert.formal-test.p49context
+    lcert.formal-test.p49contextfacts
+    lcert.formal-test.p49branches
+    lcert.formal-test.p49tele
+    lcert.formal-test.p49telebridge
+    lcert.formal-test.p49telebridgeaux
+    lcert.formal-test.p49telerepl
+    lcert.formal-test.p49telenat
+    lcert.formal-test.p49fuel
+    lcert.formal-test.p49fresh
+    lcert.formal-test.p49genfacts
+    lcert.formal-test.p49peel
+    lcert.formal-test.p49peeldepth
+    lcert.formal-test.p49peelzero
+    lcert.formal-test.p49teleform
+    lcert.formal-test.p49teleformbridge
+    lcert.formal-test.p49telelaws
+    lcert.formal-test.p49leafcont
+    lcert.formal-test.p49scoped
+    lcert.formal-test.p49nodebranch
+    lcert.formal-test.p49nodemotive
+    lcert.formal-test.p49nodelive
+    lcert.formal-test.p49applysubst
+    lcert.formal-test.p49applytyped
+    lcert.formal-test.p49applyform
+    lcert.formal-test.p49nodeapply
+    lcert.formal-test.p49terminal
+    lcert.formal-test.p49generator
+    lcert.formal-test.p49slotsunique
+    lcert.formal-test.p49leafzero
+    lcert.formal-test.p49all
     lcert.formal-test.check-hd
     lcert.formal-test.check-skj
     lcert.formal-test.check-dt

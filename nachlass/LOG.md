@@ -6965,3 +6965,40 @@ route, definition changes). ADR-0006 deviation closed.
   negatives (an Ev/EvE run of `abort ⋆` is not Ok; two bnil tags both give Ok
   runs of a typed program; `Ok.apBnil` no longer exists).
 
+
+## 2026-10-08 — Proposition 4.9: complete depth-zero fragment; general case open
+
+- Read the inherited design (`9d54259`) and recovered the uncommitted
+  depth-zero implementation. Reused the existing single server on 5799.
+  Kernel-checked and committed `prop49_0` and `prop49_0_concrete` (`25ea8dd`):
+  a closed budget-0 inhabitant of the actual bounded consistency type.
+- Added the kernel-recursive bound `p49dl`, the general type `P49`,
+  substitution and head-step lemmas, and all-depth formation (`cd4958c`).
+  `prop49_zero` is the existential depth-zero instance of that family.
+- **Fallback, not completion of the general theorem.** The remaining
+  code-context/telescope substitution bridge and typed Split/peel
+  combinators are described precisely in
+  [the design note, status and stopping point](docs-prop49-design.md#9-status).
+  Neither k = 1 nor general k is claimed. No existing rule or definition
+  changed; no code from the f63 dtgen namespace was copied.
+- Warm checks: p49zero 9 assertions, p49depth 10 assertions, no failures.
+  p49depth was run red before its theorem implementations and green after.
+  Fresh scoped verification passed after stopping the server:
+  `bin/test-formal p49zero p49depth` ran 2 tests with 19 assertions,
+  **0 failures, 0 errors**, exit status 0 (49:21.04, maximum RSS 1330104 KB;
+  `code/lcert/test-runs/p49-fresh.log`, finished 2026-10-08T20:36:32Z).
+  The resumed session verified unchanged formal sources and reran
+  `bin/check-formal-names` successfully. Full suite remains reserved for
+  the supervising thread. The all-deliverables-proved sentinel
+  `p49c.done` is not written because the general theorem remains open.
+
+## 2026-10-12 — Proposition 4.9, all depths
+
+The fuel-recursive witness `t49` and both generic and concrete statements
+`prop49`/`prop49_concrete` are kernel checked for every `k : Nat`. The proof
+keeps depth and hole identifiers separate in the leaf continuation, uses
+`p49pot` to decrease across leaf and node branches, and applies the two live
+child witnesses in the node case. The cold `p49all` suite in branch
+`f4-prop49` passed 1 test with 8 assertions, 0 failures and 0 errors
+(`code/lcert/test-runs/p49-all-v21-20261012.log`). This supersedes the
+2026-10-08 fallback status; no proof rule or checker definition changed.
