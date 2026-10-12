@@ -119,23 +119,20 @@ different laws.
 | Reflection | Con′_ω, all codes: underivable at every budget (P5, from S1–S3 and Int-6.1/6.4) | H° = Π(r :₁ R). T(chk′ (print r) c⊥) ⊸ 0, derivable at budget 0 by `reflect₀` (T2); `reflect_D : □D → D` for base data D (§4.8, Thm 5.2) |
 | What reflection does | — | runs the program the certificate encodes, at the smaller budget m < ‖v‖ ≤ n it declares (Lemma 2.7; Lemma 3.6, Reflect case) |
 
-**A caveat on the D2 and D3 prices** (found by the `f4-theorem46` delegate,
-2026-10-06, after this note was first written).
-- *What is proved:* Theorem 4.6 is kernel-checked for every checker that
-  satisfies one encoding hypothesis, `Enc46`. An accepted code that embeds
-  accepted codes strictly inside must pay, in its own nodes, the size of one
-  embedded certificate's term.
-- *Where it fails:* F7's concrete checker refutes `Enc46` (`enc46_F7`). It
-  reads a certificate's padding only through its size, so a certificate can
-  carry another certificate as padding, for free (`check_pad`).
-- *So, at the concrete checker:* Theorem 4.6's hypotheses are contradictory
-  (`thm46_F7_vacuous`), and the lower bounds of Corollaries 4.6′ and 4.6″ are
-  vacuous. Their upper bounds still hold.
-- *What stands:* the prices in the table hold for unpadded formats, which
-  satisfy `Enc46`. At F7's format they are open.
-- *Why it matters:* by the project's encoding rule this is a research
-  finding. The pricing of D2 and D3 depends on the certificate format, while
-  T1 and T2 do not.
+**The D2 and D3 prices at the concrete checker** (updated after F7's
+canonical format). `thm46_F7` and `thm46_types_F7` prove Theorem 4.6 at
+`Check decCert` with the paper's certificate and distinct-type hypotheses;
+`cor46_prime_F7` and `cor46_dprime_F7` give the D2 and D3 bounds there.
+The padded predecessor format refutes `Enc46` (`enc46_F7` in `enc46f7.clj`):
+it could carry an accepted certificate in unchecked padding. That remains a
+theorem about that historical format. The current format is canonical and
+unpadded (`certcanon.clj`); `budget_canon`, `toksize_canon`, and
+`typesize_canon` derive its size facts from the encoding. Its root-only
+certificate marker makes accepted certificates non-nesting, so
+`enc46_canon` holds and the prices are nonvacuous at F7. The finding is that
+these pricing proofs need *tight* certificates, which the concrete checker
+now enforces. The exact paper case of a nested accepted sub-derivation is
+not exercised by this format; the formal proof uses its non-nesting shape.
 
 **The free side behaves like GL**, implicit provability: G2 holds for it (P5).
 **The held side** has uniform reflection, like S4's T axiom, but no uniform K
@@ -152,8 +149,8 @@ Lean's type theory as Ansatz implements it:
 - all three at a concrete, computing checker (`selfjust.clj`).
 
 P5 and Proposition 4.8 are checked from named hypotheses (`p5.clj`; the
-hypotheses are in `P5-hypotheses.md`). Theorems 4.6 and 5.2 are being
-formalized now (`f4-theorem46`, `f5-theorem52`).
+hypotheses are in `P5-hypotheses.md`). Theorems 4.6 and 5.2 are now kernel-checked at the concrete checker
+(`thm46_types_F7`, `theorem52_all_concrete`), relative to the metatheory.
 
 **What the comparison exposes.**
 
@@ -209,15 +206,15 @@ formalized now (`f4-theorem46`, `f5-theorem52`).
      "fix z. reflect z", at any budget — rather than leave it implicit in
      T1.
 4. **The encoding.**
-   - *What H°'s soundness uses:* that a certificate declares its budget
-     uncompressed (E3), with E2 and E4. R4 §4.8 records that Willard's
-     counterexample (local Π₁ reflection inconsistent; Willard1993-TR,
-     Proposition 5) is avoided for this reason.
-   - *An open item:* "whether Willard's counterexample can be transcribed
-     into λᶜᵉʳᵗ₀ at all is not checked".
-   - *Under the project's encoding-sensitivity rule,* that is a research
-     finding to make explicit: does self-justification depend on E3, or does
-     E4 suffice, as was noted earlier for strict overhead?
+   - *What H°'s soundness uses:* `CheckSpec`'s strict bound `m < ‖c‖`.
+     `Theorem_1` is kernel-checked for every checker meeting that
+     specification. E3 is one way to derive the bound for R4's paper
+     encoding; the canonical F7 encoding proves it as `budget_canon`.
+     With E4, the decoded program's free token occurrences cost nodes even
+     if its budget were written in binary. A compressed program that evades
+     E4 is the relevant analogue of Willard's compact proof names.
+   - *An open item:* whether Willard's counterexample can be transcribed
+     into λᶜᵉʳᵗ₀ at all remains unchecked (R4 §4.8).
 
 ## 5. Novelty: what is prior art, and what appears new
 
@@ -258,8 +255,9 @@ So none of the following is new by itself:
      defect Artemov blames for the unprovability of ∀x ¬x:⊥.
    - *It prices the operations LP gets free:* D2 is never cheaper than a
      fresh proof (Theorem 4.6), and D3 costs more than twice the original
-     (Corollary 4.6″). Both hold for formats satisfying `Enc46`, but not as
-     yet for F7's padded format (§3's caveat).
+     (Corollary 4.6″). Both now hold at the canonical, unpadded F7 checker
+     (`thm46_types_F7`, `cor46_prime_F7`, `cor46_dprime_F7`). The padded
+     predecessor refutes `Enc46`; pricing needs tight certificates (§3).
    - *It explains why LP's free `·` and `!` cannot coexist with internal
      uniform reflection.* With them, the Löb derivation of draft §8.3 —
      Kavvos's Ω, in computational form — would go through. That is the
@@ -344,138 +342,51 @@ argument. Its invariant lives in the metatheory. Closing that gap is the
    - Say "self-justifying in Willard's sense (Definition 3.4)".
    - Address Artemov's contentual criterion explicitly.
    - Position the work against λ□, GLA and quantified logics of proofs.
-5. **Make the dependence on E3 explicit** (§4.4), or remove it.
+5. **State the precise size dependencies** (§4.4): `CheckSpec` for strict
+   descent, E4 for stored programs, and E3 for the factor-two quotation bound.
 
-## 8. Appendix: the F7 encoding issue, and its effect on this comparison
+## 8. Appendix: the F7 encoding issue, resolved for the canonical format
 
-*Added later on 2026-10-06. It expands §3's caveat, from the Theorem 4.6
-delegate's findings (branch `f4-theorem46`, `enc46f7.clj`) and from the
-definitions in `certenc.clj`, `check_spec.clj` and `prop434.clj`.*
+*Added 2026-10-06 for the padded-format finding; updated after the canonical
+checker and `thm46f7.clj` were merged. Both formats and their theorems remain
+in the formal record.*
 
-### 8.1 F7's certificate format
+### 8.1 The padded predecessor
 
-F7 is the one concrete, computing checker, `Check decCert`. Through it, T1
-and T2 hold with no hypotheses, relative to the metatheory. A certificate is
-the code
+The initial F7 certificate had an unchecked padding position. `Check` tested
+`m < ‖c‖`, `2f < ‖c‖`, and `‖⌜A⌝‖ < ‖c‖` on the whole code. Padding made these
+inequalities true without encoding additional derivation content. In
+particular, a small accepted derivation could carry a much larger accepted
+certificate in padding; `enc46_F7` refutes `Enc46` for this format. The
+padded format is retained as `encCertPad`/`decCertPad` with its counterexample.
+The former conclusion that concrete D2 and D3 prices were open applied to
+this predecessor only.
 
-```
-sn 0  ⌜(fuel, m, t, A, typing tree, formation tree)⌝  pad
-```
+### 8.2 The current canonical checker
 
-It decodes to a budget m, a term t and a type A. Check accepts it as a proof
-of A when four conditions hold:
-- the data decodes;
-- the trees check (`dtCheck`);
-- ⌜A⌝ matches the expected type code;
-- three size tests pass, each on the *whole* code c:
-  - **m < ‖c‖**: strict overhead (Lemma 2.7), for the *declared* budget.
-    `reflect`'s budget descent relies on this one.
-  - **2f < ‖c‖** (TokSize). Here f is the number of the m declared tokens
-    that occur *free in the term t*, so f ≤ m, and m − f counts tokens
-    declared but never used. Formally (`prop434.clj`):
-    ```
-    f = cntU (maskUF (thetaU m) (freshF t))
-    ```
-    `thetaU m` is Θₘ's usage vector, every token at usage 1. `freshF t i` is
-    true when variable i is not free in t, and `maskUF` zeroes those
-    entries. `cntU` counts what is left.
-  - **‖⌜A⌝‖ < ‖c‖** (TypeSize): a certificate is larger than its type's code.
+The current `Check decCert` uses `certcanon.clj`'s unpadded encoding:
+`encCert m t A T₁ T₂ = sn 96 ⌜(F,m,t,A,T₁,T₂)⌝ (sl 0)`, where fuel `F` is
+fixed by the trees. The decoder accepts a code only when it is exactly the
+encoding of the decoded data (`decCert_canon`). The size tests remain in
+`Check`, but `budget_canon`, `toksize_canon`, and `typesize_canon` prove them
+from this encoding. There is no free padding slot.
 
-**Why the paper has these facts, and why f matters.**
-- *The paper derives them from the encoding's layout.* Each token the term
-  uses is recorded twice, in disjoint subtrees under the root derivation node
-  (E2): once as a context entry (E3), once as an occurrence in the encoded
-  term (E4). So ‖c‖ ≥ 1 + m + f, and with f ≤ m this gives 2f < ‖c‖. The
-  context alone gives m < ‖c‖, and the judgment contains ⌜A⌝ (E2, E3).
-- *f bounds what the term can build.* By T3's refinement, a certificate value
-  the term constructs has at most f nodes, since each node consumes a distinct
-  token the term names.
-- *Proposition 4.3 combines the two:* a certificate w of □A must build a
-  certificate of A, so f ≥ μ(A), and ‖w‖ ≥ 1 + m + f ≥ 1 + 2μ(A). That is
-  D3's quotation cost, "more than 2μ(A)".
+The marker 96 appears at an accepted certificate's root and nowhere inside
+its component encodings. `check_nest_free` therefore excludes an accepted
+certificate strictly inside another accepted certificate; `enc46_canon`
+proves `Enc46` at this checker. This is stronger than the paper's case-3
+argument, which permits a nested accepted sub-derivation and charges for it.
+`thm46_F7` and `thm46_types_F7` establish Theorem 4.6 with the paper's
+certificate and distinct-type hypotheses; `cor46_prime_F7` and
+`cor46_dprime_F7` establish the D2 and D3 prices. Their corresponding iff
+forms and `d3_gap_F7` are also checked. These are concrete results, not
+claims from the contradictory hypotheses of the padded format.
 
-**Where padding comes from.** F7 *tests* the size facts instead of deriving
-them. To keep completeness — every real derivation has an accepted certificate
-(`check_complete`) — the certificate carries padding, which inflates ‖c‖ until
-the tests pass (`prop410`'s `padC`). The checker reads the padding only
-through its size, so the padding may be any code.
+### 8.3 Effect on the Artemov comparison
 
-### 8.2 Why Theorem 4.6 needs `Enc46`, and why F7 refutes it
-
-**What Theorem 4.6 says.** A term turning certificates of A₁ … Aⱼ into a
-certificate of a different B needs k ≥ μ(B) tokens, the size of B's smallest
-certificate.
-
-**How it is proved.** Feed the term opaque "phantom" certificates as inputs,
-and ask where the output came from:
-1. It was built from the term's own k tokens, so k ≥ μ(B).
-2. It *is* one of the inputs. That is impossible, since B ≠ Aᵢ.
-3. It *embeds* an input strictly inside itself.
-   - The paper's encoding facts (E6, the rule facts, E2–E4) say an embedded
-     certificate can sit only as a sub-derivation.
-   - Its term is then a literal subterm of the output's term, which the
-     output's own nodes must re-encode.
-   - So the embedding costs at least the embedded term's size.
-
-`Enc46` packages case 3: an accepted code that embeds accepted codes strictly
-inside pays, in its own nodes, at least one embedded certificate's term size.
-
-**Why F7 refutes it.**
-- Padding is a place inside an accepted certificate, outside every derivation
-  node, where any code can sit at no cost in the outer certificate's own
-  nodes (`check_pad`).
-- So put a huge accepted certificate into the padding of a tiny one. The
-  result is still accepted, its own nodes are few, and the embedded term is
-  huge. `Enc46` is false at F7 (`enc46_F7`).
-- So Theorem 4.6's hypotheses are contradictory there (`thm46_F7_vacuous`).
-  At the concrete checker, the theorem and the lower halves of
-  Corollaries 4.6′ and 4.6″ say nothing. Their upper bounds still hold.
-
-**What it does not show.** It does not show that D2 is cheap at F7.
-- *What still costs tokens:* an output certificate of B still has to contain
-  a full derivation of B, built from tokens.
-- *What an input can supply for free:* only bulk, to pass the size tests.
-- *An unverified estimate:* the true bound at F7 is k ≥ μ(B) minus the padding
-  B's smallest certificate needs, which may be small. Nothing is proved
-  either way.
-- *The open question* is whether free carrying makes D2 cheaper, or only
-  breaks this proof.
-- *The repair under way* (branch `f7-enc46`): make padding canonical or
-  remove it, so that the size facts follow from the encoding as the paper
-  intends; then prove Theorem 4.6 at `Check decCert`.
-
-### 8.3 Effect on the comparison with Artemov
-
-**Unaffected.**
-- *Self-justification.* T1, T2, Corollary 3.7 and `self_justification` hold
-  at F7 as before. They use only soundness and the tested size facts, which
-  padding satisfies by construction.
-- *H° as evaluation, and the blocking of Kavvos's Ω (§4.3).* `reflect` runs
-  at budget m < ‖v‖, which Check tests directly. Padding only makes
-  certificates larger, so a program still cannot hold its own certificate.
-  The reading "self-consistency is evaluation at the empty type" (§6) stands.
-- *The serial-property and selector reading (§4.2), and P5.*
-
-**Affected: the pricing of provability operations.**
-- *The claim (§5, item 2):* the half of the novelty claim that separates
-  λᶜᵉʳᵗ₀ from LP is that LP's `·` and `!` are free, while λᶜᵉʳᵗ₀ charges for
-  D2 (at least μ(B)) and D3 (more than 2μ(A)). That pricing is what lets
-  uniform reflection coexist with arithmetization.
-- *Its status:* for the one concrete checker there is, it is not yet a
-  theorem. It is a theorem about every checker satisfying `Enc46`. That class
-  is non-empty, but shown so only by a toy checker (`enc46w`).
-
-**What it sharpens: padding is half of LP's sum.**
-- *The parallel:* padding implements one half of LP's sum operation,
-  s:F → (s+t):F. A justification stays a justification when arbitrary extra
-  evidence is attached.
-- *In LP:* this monotonicity is harmless, and it is needed to realize S4.
-- *In λᶜᵉʳᵗ₀:* it is exactly what lets one certificate carry another for
-  free, and exactly where the D2 lower bound's proof breaks.
-- *So the comparison gets a precise condition:* λᶜᵉʳᵗ₀'s pricing, as proved,
-  needs *tight* certificates. Every node must be part of the checked
-  derivation or canonical: no free `+`.
-
-**The finding, under the project's encoding rule.** Self-justification is
-robust to the certificate format. The prices of the provability operations,
-which are the boundary with LP, depend on it.
+The padded counterexample identifies the representation condition: D2 and D3
+pricing requires *tight* certificates. The canonical checker now enforces
+that condition, while T1 and T2 continue to use the weaker `CheckSpec` size
+bound. This supports the comparison with LP's free proof operations at the
+specified concrete checker. It does not establish novelty over all the
+literature listed in §7, nor price every future certificate representation.

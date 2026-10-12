@@ -595,8 +595,8 @@ sufficient derivation of `m < ‖c‖` for the paper's full-judgment format. It 
 not necessary for descent: kernel-checked `Theorem_1` assumes `CheckSpec`,
 whose only size clause is `m < ‖c‖`, and applies to any checker meeting it.
 The canonical concrete format derives this fact from its encoding
-(`budget_canon`, `certcanon.clj`), even though the budget is compactly
-represented. With E4, each free token occurrence in the decoded term also
+(`budget_canon`, `certcanon.clj`). Its actual Nat encoding is unary, but the
+generic theorem does not require that choice. With E4, each free token occurrence in the decoded term also
 requires a node in its stored representation; a binary or one-node budget
 does not compress that program. The dangerous analogue of Willard's short
 proof names is a compressed *program* that evades E4. The separate E3 count
