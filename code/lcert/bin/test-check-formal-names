@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Regression for declarations hidden behind per-file macros and direct kernel calls.
+# Temporary sources model distinct namespaces without loading the expensive kernel.
+set -eu
+cd "$(dirname "$0")/.."
+scratch=$(mktemp -d)
+trap 'rm -rf "$scratch"' EXIT
+cat >"$scratch/one.clj" <<'EOF'
+(ns fixture.one)
+(kdef* Shared (=> Nat Nat) (fn [x :- Nat] x))
+EOF
+cat >"$scratch/two.clj" <<'EOF'
+(ns fixture.two)
+(thm* Shared [] Nat.zero (exact Nat.zero))
+EOF
+if output=$(bin/check-formal-names "$scratch" 2>&1); then
+  echo "missed kdef*/thm* clash" >&2
+  exit 1
+fi
+case "$output" in *Shared*) ;; *) echo "$output" >&2; exit 1;; esac
+cat >"$scratch/one.clj" <<'EOF'
+(ns fixture.one)
+(b/kdef! 'Direct 'Nat 'Nat.zero)
+EOF
+cat >"$scratch/two.clj" <<'EOF'
+(ns fixture.two)
+(kdef! 'Direct 'Nat 'Nat.zero)
+EOF
+if output=$(bin/check-formal-names "$scratch" 2>&1); then
+  echo "missed direct kdef! clash" >&2
+  exit 1
+fi
+case "$output" in *Direct*) ;; *) echo "$output" >&2; exit 1;; esac
