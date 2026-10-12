@@ -289,6 +289,14 @@ calculus it is the case `D = 0` of `reflect_D` (§8.2).
 Write `Θₙ = x₁ :₁ ◇, …, xₙ :₁ ◇`. A **refutation with budget `n`** is a term `t`
 with `Θₙ ⊢ t : 0`. A closed refutation has budget 0.
 
+The tokens come from a **runner** outside the calculus, which chooses `n`,
+may mint as many as it likes, and may materialize them lazily, but fixes `n`
+before the program is typed and never grows it during a run. A program can
+spend only the tokens it names, so its effective budget is the number of
+token variables written into it, however large the runner's `n`; the
+uniform-cost results of §4 are therefore bounds on program size.
+`R4-metatheory.md` §1.1a states this in full.
+
 ### 2.7 A worked example: `not`, its code, and its certificate
 
 **The program.** In the ordinary layer:
@@ -582,16 +590,17 @@ root judgment's context alone needs at least `m` internal nodes, because the
 label set is finite, and the root needs one more. This is an external property
 of `Check` and of the encoding.
 
-**A depends on a stipulation about the encoding.** Contexts must be written out
-entry by entry, with no sharing and no repetition counts. A "repeat this entry
-`m` times" node, with `m` written in binary, would let `O(log m)` nodes declare
-`m` tokens, and the descent in the theorem would fail. Sharing elsewhere — in
-the represented term, say — is harmless, because only the token budget enters
-the argument. The stipulation plays the role of `Willard2011` Definition
-D.1(iv)'s requirement of at least `5J` bits for a tableau proof with `J`
-function symbols (register row). Willard's own `u#`/`v#` constant pointers
-(`Willard1993-TR` printed p. 15) are sharing of exactly the kind this
-calculus may allow in the term and must forbid in the budget.
+**What A needs from the encoding.** E3's entry-by-entry context gives one
+sufficient derivation of `m < ‖c‖` for the paper's full-judgment format. It is
+not necessary for descent: kernel-checked `Theorem_1` assumes `CheckSpec`,
+whose only size clause is `m < ‖c‖`, and applies to any checker meeting it.
+The canonical concrete format derives this fact from its encoding
+(`budget_canon`, `certcanon.clj`). Its actual Nat encoding is unary, but the
+generic theorem does not require that choice. With E4, each free token occurrence in the decoded term also
+requires a node in its stored representation; a binary or one-node budget
+does not compress that program. The dangerous analogue of Willard's short
+proof names is a compressed *program* that evades E4. The separate E3 count
+remains relevant to Proposition 4.3's factor of two.
 
 **Exhibition.** Let `t` be a normal refutation with budget `n`. **The
 certificate `t` exhibits** is an `H`-application `H r e` inside `t` with two
@@ -783,8 +792,10 @@ forbidden:
 - the checker is symbolic.
 
 Willard's margin — "it is impossible in log₂p − 1 bits to encode a number as
-large as p" (`Willard1993-TR` printed p. 13, register row) — becomes the
-statement that a certificate cannot declare more tokens than it cost.
+large as p" (`Willard1993-TR` printed p. 13, register row) — has a different
+counterpart here: a certificate stores the decoded program, and E4 charges
+for its free token occurrences. The checked budget inequality `m < ‖c‖`
+also gives descent, regardless of how the budget numeral is represented.
 
 ## 7. Open decisions, and where an attack would come from
 
@@ -796,11 +807,13 @@ statement that a certificate cannot declare more tokens than it cost.
 - **The encoding of derivations.** Full judgments at every node (§2.4, §2.7),
   or a relative encoding in which `Check` reconstructs conclusions.
   - The choice decides the tree cost of composition (§4).
-  - A relative encoding must still declare the budget entry by entry. It keeps
-    E1, E4 and E5 (`R4-metatheory.md` §1.6), but must *replace* E2 and E3,
-    which force the whole conclusion and context to be written at every node.
-    With the replacements, it must re-prove strict overhead (Lemma 2.7) and
-    the quotation-cost bound. *An earlier state said it must keep E1–E5
+  - A relative encoding need not declare the budget entry by entry. It must
+    establish `m < ‖c‖` for accepted certificates and retain a bound like
+    E4 on the decoded program's free token occurrences. It may replace E2
+    and E3, which force the whole conclusion and context to be written at
+    every node; then it must re-prove the applicable strict-overhead and
+    quotation-cost bounds. The latter's factor of two uses E3 and does not
+    follow from `CheckSpec` alone. *An earlier state said it must keep E1–E5
     (review RR2-09).*
   - Even then, composition inside the calculus still costs `μ(B)`: the proof
     of Theorem 4.6 applies to any encoding with the properties it lists (§4,
@@ -966,7 +979,8 @@ consumes it.
     (`Willard1993-TR` Proposition 2, `full`), but local `Π₁` reflection makes
     the system inconsistent for some nice `A` (Proposition 5, `full`). The
     proved case does not contradict this: Willard's proofs are numbers, named
-    compactly, while certificates here declare their budget uncompressed.
+    compactly, while certificates here store the decoded program with E4's
+    node cost and satisfy `m < ‖c‖` (`CheckSpec`; `budget_canon` concretely).
     Whether his counterexample transcribes into this calculus is still
     **unchecked** (`R4-metatheory.md` §4.8).
 
