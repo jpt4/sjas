@@ -7,14 +7,20 @@
 #   (thm N  (kdef N  (thm* N  (kdef* N  (pthm N  (a/defn N
 #   prove-theorem 'N  base/thm 'N  (b/kdef! 'N  (kdef! 'N
 #   prove! 'N  prove-n! 'N  prove-exp! 'N  prove-exp-lv! 'N
-#   case! 'N  prove-template! 'N
-# All listed heads take the installed name as their first argument.  The
-# quoted heads also match qualified calls and eval/list-built calls.
+#   case! 'N  prove-template! 'N  rv-proj! 'N  rvl-proj! 'N ...
+# The surveyed first-argument installer helpers also include case-thm!,
+# simple-case!, sb-thm!, sb-simple!, vs-thm!, vw-thm!, rv-inversion!,
+# prove-step!, pack-step!, pack!, split-proof!, prove-agree!, prove-closed!,
+# instantiate-closed!, unfold-eq!, unfold-at!, kdef-fn!, and define!.
+# All these heads take the installed name in argument 1.  Generators such
+# as define-fielded! instead receive names in later arguments and are not
+# matched when those names are computed, nor are names built by doseq/str.
+# The quoted heads also match qualified calls and eval/list-built calls.
 # Names built by generators (doseq loops, str) are not seen; the suite itself
 # still catches those.
 # Usage: bin/check-formal-names [DIR]   (default: formal/lcert/formal)
 dir="${1:-$(dirname "$0")/../formal/lcert/formal}"
-dups=$(grep -oE "(\(thm |\(kdef |\(thm\* |\(kdef\* |\(pthm |\(a/defn |prove-theorem '+|base/thm '|\(b/kdef! '|\(kdef! '|prove! '|prove-n! '|prove-exp! '|prove-exp-lv! '|case! '|prove-template! ')[A-Za-z][A-Za-z0-9_']*" "$dir"/*.clj \
+dups=$(grep -oE "(\((thm|kdef|thm\*|kdef\*|pthm|a/defn) |(prove-theorem|base/thm|kdef!|prove!|prove-n!|prove-exp!|prove-exp-lv!|case!|prove-template!|rv-proj!|rvl-proj!|rv-inversion!|case-thm!|simple-case!|sb-thm!|sb-simple!|vs-thm!|vw-thm!|prove-step!|pack-step!|pack!|split-proof!|prove-agree!|prove-closed!|instantiate-closed!|unfold-eq!|unfold-at!|kdef-fn!|define!) '+)[A-Za-z][A-Za-z0-9_']*" "$dir"/*.clj \
   | sed -E "s/^([^:]*):.*[ ']([A-Za-z][A-Za-z0-9_']*)$/\2 \1/" \
   | sort -u | awk '{n[$1]++; f[$1]=f[$1] " " $2} END {for (k in n) if (n[k] > 1) print k ":" f[k]}')
 if [ -n "$dups" ]; then

@@ -31,3 +31,16 @@ if output=$(bin/check-formal-names "$scratch" 2>&1); then
   exit 1
 fi
 case "$output" in *Direct*) ;; *) echo "$output" >&2; exit 1;; esac
+cat >"$scratch/one.clj" <<'EOF'
+(ns fixture.one)
+(rv-proj! 'Helper 'Nat 'Nat.zero {})
+EOF
+cat >"$scratch/two.clj" <<'EOF'
+(ns fixture.two)
+(kdef! 'Helper 'Nat 'Nat.zero)
+EOF
+if output=$(bin/check-formal-names "$scratch" 2>&1); then
+  echo "missed local installer helper clash" >&2
+  exit 1
+fi
+case "$output" in *Helper*) ;; *) echo "$output" >&2; exit 1;; esac
