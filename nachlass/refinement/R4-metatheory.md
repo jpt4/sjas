@@ -1011,8 +1011,15 @@ local `Π₁` reflection is inconsistent for some nice `A`. The result above doe
 not contradict it:
 - Willard's reflection ranges over proofs coded as numbers, which the
   arithmetic names compactly.
-- Here every certificate declares its budget uncompressed (E3), and the Reflect
-  case uses exactly that.
+- Here the Reflect case uses the strict bound `m < ‖c‖` in `CheckSpec`, not a
+  unary budget declaration. The kernel-checked `Theorem_1` quantifies over
+  every checker satisfying that specification. E3 supplies one sufficient
+  proof of Lemma 2.7 for the paper's full-judgment encoding; the concrete
+  canonical checker instead obtains the bound from its encoding
+  (`budget_canon` in `certcanon.clj`). E4 keeps the decoded program's free
+  token occurrences below the certificate's nodes even with a binary budget.
+  Willard-style compression here would require a compressed *program* that
+  evades E4, not merely a compactly written budget.
 
 Whether Willard's counterexample can be transcribed into λᶜᵉʳᵗ₀ at all is
 **not checked**.
