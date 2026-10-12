@@ -243,7 +243,7 @@ FormalizedFormalLogic/Foundation (Saitou–Noguchi, arXiv:2609.13780: G2 for
 - **F6.1** — H_PA as a deep embedding (R4 §6.2); semantics in ℕ;
   soundness, so PA is consistent *relative to the metatheory* (the step is
   a theorem of the metatheory, not an assumption of P5).
-- **F6.2** — E-PA^ω syntax and provability, enough to state S3 and Int-6.4.
+- **F6.2** — E-PA^ω provability is represented by an abstract predicate `EPAw` on the deeply embedded PA sentences. This suffices to state S3 and Int-6.4, but supplies neither E-PA^ω syntax nor a verified proof predicate; those belong to phase 2.
 - **F6.3** — the meta content of Prop 6.1: every H_PA proof of φ gives a
   budget-0 derivation of ⟦∀ᶜˡφ⟧ (the §6.2 templates); 0 = S0 gives a
   refutation.
@@ -519,8 +519,8 @@ now checks.
 
 Each paper result, the kernel constant that states it, and where the formal
 statement differs. "Proved" means kernel-checked with no axioms; every
-theorem quantifies over `chkf dec encTy`, and those using the checker take
-`CheckSpec` as a hypothesis.
+generic checker theorems quantify over `chkf dec encTy` and take
+`CheckSpec` when needed; concrete specializations use `Check decCert`.
 
 | Paper | Constant (namespace) | Status | Differences |
 | --- | --- | --- | --- |
@@ -564,8 +564,66 @@ theorem quantifies over `chkf dec encTy`, and those using the checker take
 | Proposition 4.12 (1) | `prop412`, `prop412_typed`, `prop412_den`, `prop412_nodes` (section4c) | proved | the motive is Σ(p :ω Syn). 1, which does not depend on the Nat; the step opens the package and rebuilds a node. Part (2), polynomial certificate size, is the paper's citation of T3 and Proposition 4.1 |
 | Proposition 4.9 | `P49`, `t49`, `p49all_fuel`, `prop49`, `prop49_concrete` (p49depth, p49all; auxiliaries in p49 modules) | proved, all depths | For every `k : Nat`, `prop49_concrete` gives a closed budget-0 runtime inhabitant `Rt (Check decCert) nil nil (t49 k) (P49 k)`. The generic `prop49` assumes `CheckSpec`. The kernel checks fuel induction on `p49pot`, with 100-way leaf branches and two recursively instantiated node children. Cold `bin/test-formal p49all` passed 1 test, 8 assertions, 0 failures/errors (2026-10-12, `p49-all-v21-20261012.log` in the P49 worktree). No checker or typing rule changed. Earlier partial status in the [design note](../docs-prop49-design.md) is historical. |
 | §6.2 H_PA; §6.4 step 4 (PA is consistent, relative to the metatheory) | `PT`, `PF`, `PAx`, `PPrv`, `paHolds`, `paPrv_sound`, `pa_consistent` (pa) | proved | de Bruijn variables (A4/A5/E2 without "free for"); DN is sound by stability (`paHolds_stab`), with no classical axiom |
+| §6.2 Proposition 6.1, meta-level translation; relative PA consistency | `pa_axiom_translation` (paassembly), `pa_lcert` (palcert), `pa_refutation` (palcert), `pa_consistent_via_lcert` (paconsistency) | proved at the meta level | Every `PPrv φ` translates to a runtime derivation in any `Good` environment; a PA refutation translates to a closed budget-zero inhabitant of `0`, which `consistent_concrete` excludes. `pa_consistent_via_lcert` is relative to the Ansatz metatheory. The PA-internal primitive-recursive proof-code/CHECK correctness theorem Int-6.1 remains a named hypothesis, not a consequence of this external translation. |
 | Proposition 5, Proposition 4.8 | `ConOmega`, `prop5`, `prop48`, `prop48_lolli`; `p5Apply_w`, `p5Apply_1` (p5) | proved from named hypotheses | at the concrete checker `Check decCert`; hypotheses S1, S3, Int-6.1, Int-6.4 and two anchors, stated and justified in [P5-hypotheses.md](P5-hypotheses.md); PA's consistency is proved (pa) |
 | §4 (the rest) | — | open | Other §4 integration obligations remain; Proposition 4.9 is proved at all depths. |
+
+## After-action report (2026-10-12)
+
+This report evaluates the accepted ADR against the merged formal record. The
+statements named below are kernel-checked at their stated hypotheses; the
+final fresh combined suite is recorded separately in `test-runs/final-suite-*`.
+
+| Phase | Proved result and scope |
+| --- | --- |
+| F1 | Usage laws `uadd_*`, `umul_*`; syntax, lifting and substitution infrastructure. |
+| F2 | `Tl`, `Rt`, `SkJ`, `Hd`, `Step`, `Cv`; weakening `tl_weaken`/`rt_weaken`, strengthening `rt_strengthen`, and Lemmas 2.4–2.5 (`lemma24`, `lemma25_tl`, `lemma25_rt`). The judgments are defined as the formal object calculus. |
+| F3 | Carriers, denotation and `V`; fundamental lemma `lemma36`, `Theorem_1`/`theorem1`, `Corollary_3_7`, `Theorem_2_H`, `Theorem_2_H1`, and `theorem3`. `consistent_concrete` and `self_justification` specialize to F7's checker. Consistency holds relative to the Ansatz metatheory, not internally to λᶜᵉʳᵗ₀. |
+| F4 | Propositions 4.1–4.5, 4.7, 4.10–4.12(1), 4.10′ and their indexed witnesses; `lemma46a`, `thm46_F7`/`thm46_types_F7`, `cor46_prime_F7`, `cor46_dprime_F7`; Proposition 4.9 at every depth (`prop49`, `prop49_concrete`, `t49`). Proposition 4.8 follows from P5's named arithmetic hypotheses (`prop48`). Proposition 4.12(2)'s polynomial certificate-size citation is not independently formalized. |
+| F5 | Theorem 4′ (`theorem4`/`Theorem_4`) and Corollary 5.1; Theorem 5.2 for original and erased evaluation (`theorem52`, `theorem52e`) and every run (`theorem52_all`, `theorem52e_all`, `theorem52_all_concrete`). The universal proof uses determinism of safe runs up to the unconstrained `bnil` tag, not determinism of the whole evaluator. |
+| F6 | H_PA syntax/semantics and soundness (`paPrv_sound`, `pa_consistent`); meta-level translation `pa_axiom_translation`, `pa_lcert`, `pa_refutation` and relative consistency `pa_consistent_via_lcert` (F6.3); default-model `lemma64`, `lemma64_concrete`, `cor65_dflt`, `cor65_concrete` (F6.4); `prop5`/`prop48` from named hypotheses (F6.5). `P5-hypotheses.md` records the informal justifications (F6.6). F6.2 is an abstract `EPAw` predicate, rather than an E-PA^ω syntax and proof checker. |
+| F7 | The computing `Check decCert` satisfies `check_spec`, `check_toksize`, `check_typesize`; `check_complete` gives certificates, and `check_complete_lbl` gives label-safe certificates under its stated premises. The canonical unpadded format proves `budget_canon`, `toksize_canon`, `typesize_canon` from its encoding. |
+
+**Findings and deviations.** The padded predecessor format violates `Enc46`
+(`enc46_F7`): unchecked padding can contain another accepted certificate.
+The canonical format accepts only an exact encoding (`decCert_canon`); its
+root-only certificate marker proves `check_nest_free` and `enc46_canon`, so
+Theorem 4.6 and the D2/D3 prices now hold at F7 with the stated certificate
+hypotheses. This is a tight-certificate result; the paper's nested
+sub-derivation case is vacuous in this concrete format. `Theorem_1` needs
+`CheckSpec`'s `m < ‖c‖` bound, not unary budget declaration; E4 charges for
+the stored program's free token occurrences. The finite label set is made
+explicit by `lblOk` and the encoding label proofs. F6.4 uses the default
+R-interpretation with `riPf` false and proves fixed-budget soundness by
+induction on derivations, without an outer budget induction in `lemma64`.
+See the deviations above for formation, branch-list, skeleton and conversion
+conditions that were made explicit. No existing object-calculus rule or
+checker definition was changed by the F6.3 or Proposition 4.9 merges.
+
+**Evaluation against the success and failure criteria.** F1–F5 and F7 have
+kernel-checked results at the scope in the table; F6's external translation,
+default model and conditional P5 are also checked. Thus the phase-1 formal
+core and its concrete checker are delivered. The ADR's full F1–F6 success
+criterion is not yet met: phase 2 must discharge the arithmetic hypotheses
+and connect them to natural proof predicates. The padded-format `Enc46`
+counterexample met the ADR's failure criterion for a false encoding claim;
+the format was corrected and the counterexample retained. Proposition 4.9's
+earlier depth-zero fallback is superseded by `prop49_concrete` for every
+`k`. Theorem 5.2's former existential-only status is superseded by its
+universal form. None of these changes makes a relative consistency theorem
+an internal proof of its own soundness.
+
+**Open obligations.** Phase 2 remains: prove S1–S3 (S2 is used in the
+informal internalization proofs), Int-6.1's PA-internal primitive-recursive
+translation/CHECK theorem, and Int-6.4's E-PA^ω internalized default-model
+argument. `P5-hypotheses.md` supplies informal arguments and citations,
+not kernel proofs. `EPAw` remains abstract. The finite-support universal
+closure operator for F6.3, Proposition 4.12(2)'s polynomial certificate
+bound, and the remaining §4 integration obligations in the statement index
+are not claimed. The exact correspondence between every paper statement
+and its formal counterpart, including explicit extra premises, remains a
+review task. Whether Willard's local-reflection counterexample can be
+transcribed into this calculus is unchecked.
 
 ## Review guide
 

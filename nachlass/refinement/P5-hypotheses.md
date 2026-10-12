@@ -27,8 +27,8 @@ function, and the λᶜᵉʳᵗ₀ side of the argument has no hypotheses.
 | PA (H_PA, R4 §6.2) and its semantics in ℕ | defined (`pa.clj`) |
 | PA is consistent (§6.4, step 4) | **proved in the metatheory** (`pa_consistent`): a relative consistency result |
 | λᶜᵉʳᵗ₀ is consistent, its checker accepts no refutation (T1, Cor. 3.7) | **proved** (`selfjust.clj`) |
-| The translation of PA into λᶜᵉʳᵗ₀, at the meta level (§6.2) | to be proved (F6.3) |
-| The default model, without budget induction (§6.3, Lemma 6.4's content) | to be proved (F6.4) |
+| The translation of PA into λᶜᵉʳᵗ₀, at the meta level (§6.2) | **proved** (`pa_lcert`, `pa_refutation`, F6.3); the PA-internal Int-6.1 remains a hypothesis |
+| The default model, without budget induction (§6.3, Lemma 6.4's content) | **proved** (`lemma64`, `cor65_dflt`, F6.4); the E-PA^ω-internal Int-6.4 remains a hypothesis |
 | S1, Gödel's second theorem for PA | hypothesis, §1 |
 | S2, Σ₁-completeness | used only inside the proofs of §§4–5 |
 | S3, conservativity of E-PA^ω over PA | hypothesis, §3 |

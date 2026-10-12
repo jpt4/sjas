@@ -7002,3 +7002,28 @@ child witnesses in the node case. The cold `p49all` suite in branch
 `f4-prop49` passed 1 test with 8 assertions, 0 failures and 0 errors
 (`code/lcert/test-runs/p49-all-v21-20261012.log`). This supersedes the
 2026-10-08 fallback status; no proof rule or checker definition changed.
+
+## 2026-10-12 — ADR-0006 final integration and after-action report
+
+Merged the F6.3 translation branch into the final branch after the all-depth
+Proposition 4.9 merge. The merged statement index now records `pa_lcert`,
+`pa_refutation`, `pa_consistent_via_lcert`, `prop49`, and `prop49_concrete` at
+their actual scope. `bin/check-formal-names` passed after the merge.
+
+Corrected R4's attribution of strict budget descent: `Theorem_1` assumes the
+size clause `m < ‖c‖` through `CheckSpec`; E3 is a sufficient derivation for
+the paper's full-judgment encoding, while E4 charges for the decoded
+program's free token occurrences. A binary budget alone does not compress
+that program. Corrected the Artemov comparison to distinguish the padded
+format's proved `Enc46` counterexample from the current canonical format's
+proved D2/D3 prices (`thm46_F7`, `thm46_types_F7`, `cor46_prime_F7`,
+`cor46_dprime_F7`). The canonical checker enforces tight certificates.
+
+The ADR after-action report evaluates F1–F7 and the original success/failure
+criteria. Proposition 4.9 is proved at every depth, Theorem 5.2 covers every
+run up to the irrelevant `bnil` tag, and the F6.3 and F6.4 results are
+metatheorems. PA and λᶜᵉʳᵗ₀ consistency remain relative to the Ansatz
+metatheory. Phase 2, S1–S3, Int-6.1, Int-6.4, the abstract `EPAw` predicate,
+and the remaining stated scope limits are explicit. Fresh full-suite
+verification follows in `code/lcert/test-runs/final-suite-*`; this entry does
+not claim its result in advance.

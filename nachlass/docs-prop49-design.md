@@ -157,7 +157,13 @@ If step 2 or 3 cannot be completed at reasonable cost, deliver step 1 (and
 
 ## 9. Status
 
-2026-10-08: **fallback delivered; general Proposition 4.9 remains open.**
+**Current status, 2026-10-12:** General Proposition 4.9 is proved for every
+depth. `p49all.clj` defines `t49 k` and kernel-checks `prop49` under
+`CheckSpec` and `prop49_concrete` at `Check decCert`, each at budget zero.
+See §12 for the proof and validation. The following records the earlier
+2026-10-08 fallback and its stopping point; it has been superseded.
+
+2026-10-08 historical status: fallback delivered, with the general case then open.
 
 * `p49zero.clj`: `prop49_0` proves `Rt chkf nil nil p49z_term P49zero`
   from `CheckSpec chkf dec encTy`. `prop49_0_concrete` has no hypotheses
@@ -173,8 +179,8 @@ If step 2 or 3 cannot be completed at reasonable cost, deliver step 1 (and
   with a typed Syn argument; `P49_formed` proves formation at every k.
   `P49_zero_agrees` and `prop49_zero` give the depth-zero result in the
   general family's notation. Committed as `cd4958c`.
-* There is **no** `t49`, `prop49`, or `prop49_concrete`. No positive-depth
-  inhabitant has been proved. Formation is not inhabitation.
+* At that point there was no `t49`, `prop49`, or `prop49_concrete`, and no
+  positive-depth inhabitant had been proved. Formation was not inhabitation.
 
 ### Exact stopping point and cost boundary
 
