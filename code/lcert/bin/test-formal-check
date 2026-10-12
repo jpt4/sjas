@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Exercise the warm-server response protocol without starting a JVM.
+set -eu
+scratch=$(mktemp -d)
+trap 'rm -rf "$scratch"' EXIT
+mkdir -p "$scratch/bin" "$scratch/test-runs" "$scratch/path"
+cp "$(dirname "$0")/formal-check" "$scratch/bin/formal-check"
+cat >"$scratch/bin/check-formal-names" <<'EOF'
+#!/usr/bin/env bash
+exit 0
+EOF
+cat >"$scratch/path/nc" <<'EOF'
+#!/usr/bin/env bash
+cat <<'END'
+server response without a test summary
+END
+EOF
+chmod +x "$scratch/bin/check-formal-names" "$scratch/path/nc"
+echo :ready >"$scratch/test-runs/formal-server.log"
+if output=$(PATH="$scratch/path:$PATH" "$scratch/bin/formal-check" 2>&1); then
+  echo "missing summary was accepted" >&2
+  exit 1
+fi
+case "$output" in
+  *"no test summary in the server output"*) ;;
+  *) echo "missing diagnostic: $output" >&2; exit 1;;
+esac
