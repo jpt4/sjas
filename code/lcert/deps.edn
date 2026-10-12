@@ -9,4 +9,6 @@
  :aliases
  {:test   {:extra-paths ["test"]}
   :ansatz {:extra-deps {org.replikativ/ansatz {:mvn/version "0.2.115"}}
-           :extra-paths ["ansatz" "test" "test-ext"]}}}
+           :extra-paths ["ansatz" "test" "test-ext"]}
+  :formal {:extra-deps {org.replikativ/ansatz {:mvn/version "0.2.115"}}
+           :extra-paths ["ansatz" "formal" "test-formal"]}}}
