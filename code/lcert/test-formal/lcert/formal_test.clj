@@ -91,6 +91,22 @@
     lcert.formal-test.pa
     lcert.formal-test.p5
     lcert.formal-test.patr
+    lcert.formal-test.dtgen
+    lcert.formal-test.patyp
+    lcert.formal-test.paform
+    lcert.formal-test.painst
+    lcert.formal-test.paprop
+    lcert.formal-test.paclosed
+    lcert.formal-test.paquant
+    lcert.formal-test.paaxioms
+    lcert.formal-test.paassembly
+    lcert.formal-test.patransport
+    lcert.formal-test.paequality
+    lcert.formal-test.pacong
+    lcert.formal-test.paind
+    lcert.formal-test.pastab
+    lcert.formal-test.palcert
+    lcert.formal-test.paconsistency
     lcert.formal-test.uskel
     lcert.formal-test.funde
     lcert.formal-test.theorem4e

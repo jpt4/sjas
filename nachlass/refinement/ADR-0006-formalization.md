@@ -1,6 +1,6 @@
 # ADR-0006 — Formalizing the R4 metatheory in Ansatz
 
-**Status.** Accepted 2026-09-27. Updated 2026-10-12. F1–F3 done (Lemma 3.6, Theorems 1–3, Corollary 3.7). F4 mostly done: Theorem 4.6, Lemma 4.6a and Corollaries 4.6′/4.6″ are proved at F7's checker with only the paper's hypotheses (branches `f4-theorem46` and `f7-enc46`; F7's format is now canonical and unpadded, and the padded format's failure of Enc46 is kept as a theorem); Proposition 4.8 is proved from P5's named hypotheses (F6.5); Proposition 4.9 all-depth proved (`prop49_concrete`). F5 done (Theorem 4′; Theorem 5.2, proved 2026-10-07: `theorem52`, `theorem52e`, `theorem52_concrete`, and its universal form `theorem52_all`, `theorem52e_all`, `theorem52_all_concrete` — every run, not only some run, is safe). **F7 done** (2026-10-03; canonical certificate format 2026-10-06). F6 in progress: F6.1 (H_PA and its soundness, relative to the metatheory), F6.3a (the translation's substitution lemmas), F6.5 (Proposition 5) and F6.6 (the hypotheses document) done; F6.3 in progress; **F6.4 done** (2026-10-07: `lemma64`, `lemma64_theta`, `cor65_dflt`, `lemma64_concrete`, `cor65_concrete`, in `dflt64`).
+**Status.** Accepted 2026-09-27. Updated 2026-10-12. F1–F3 proved (Lemma 3.6, Theorems 1–3, Corollary 3.7); F4's Theorem 4.6, Lemma 4.6a, Corollaries 4.6′/4.6″, Proposition 4.9 at all depths, and Proposition 4.8 from named hypotheses proved; F5's Theorem 4′ and universal Theorem 5.2 proved; F7's canonical concrete checker proved. F6.1 (H_PA soundness), F6.3 (the meta-level PA-to-λᶜᵉʳᵗ₀ translation and relative PA consistency), F6.4 (default-model Lemma 6.4 and Corollary 6.5), F6.5 (Proposition 5 from named hypotheses), and F6.6 (hypotheses documentation) proved at their stated levels. S1–S3, Int-6.1 and Int-6.4 remain hypotheses; phase 2 remains open. See the after-action report below for precise scope.
 
 **Branch.** `adr-0006-formalization`, from `sjas-codification`, merged back
 into it phase by phase.
@@ -263,6 +263,44 @@ FormalizedFormalLogic/Foundation (Saitou–Noguchi, arXiv:2609.13780: G2 for
   Feferman 1960; S2: Σ₁-completeness, e.g. Hájek–Pudlák 1993; S3: Troelstra
   1973, Kohlenbach 2008, Avigad–Feferman 1998); exacting paper proofs of
   Int-6.1 and Int-6.4.
+
+### F6.3 translation delivered at the meta level (2026-10-08)
+
+`palcert.clj` proves `pa_lcert`: for any checker, every `PPrv φ`, and
+any `Good D ρ`, there exists `e` with `Rt chkf D (allW D) e (trF φ ρ)`.
+`Good` requires each PA variable's assigned context entry to be `Nat`;
+it permits aliasing. `pa_axiom_translation` covers every `PAx` constructor,
+and `pa_lcert_of_axioms` supplies induction over MP and Gen.
+`pa_refutation` turns a proof of `0 = S0` into an inhabitant of `tEmpty`
+at `thetaD 0`, `thetaU 0`: a closed budget-zero refutation.
+
+The units are `patyp` (closed arithmetic), `paform` (formation and term
+typing in Good environments), `painst` (substitution, instantiation, MP,
+Gen), `paprop`/`paquant` (A1/A2/A4/A5), `paclosed`/`paaxioms` (closed
+combinators, E1 and Q1–Q6), `patransport`/`paequality`/`pacong` (transport,
+equality combinators and E2), `pastab` (DN by formula induction), and
+`paind` (packaged IND with explicit usage 1 for the recursive package).
+Each has a suite with positive signature checks and rejected incorrect
+applications or derivation data.
+
+Implementation choices follow the F6.3 task: the main statement uses open
+Good environments and all-omega vectors; only the refutation is explicitly
+closed at the empty context. A separate finite-support universal-closure
+operator and its correctness theorem are not supplied. E2 uses induction
+on PA terms and congruence, symmetry and transitivity, avoiding conversion
+on opaque schematic types. TRANSPORT is R4's packaged term; its concrete
+derivation is split into bounded reflection subproofs and assembled with
+the original typing rules to fit the heap. No object-calculus definition,
+rule or checker definition was changed. No new counterexample to R4 was
+found.
+
+This establishes the requested meta-level derivation translation, not
+Proposition 6.1's internal PA theorem about primitive-recursive proof codes
+and CHECK. That internalization remains a named P5 hypothesis.
+`paconsistency.clj` composes `pa_refutation` with `consistent_concrete`
+to prove `pa_consistent_via_lcert`: H_PA does not prove `0 = S0`, relative
+to the Ansatz metatheory. This composition does not use `pa_consistent`
+or `paPrv_sound`.
 
 ## Success and failure
 
