@@ -60,12 +60,12 @@
     (Nat.ble (+ (cnodes (encE A)) 1) (cnodes c))
     (Nat.ble (dtB T1) (cnodes c))
     (Nat.ble (dtB T2) (cnodes c))])
-(defn- conj [r] (walk/postwalk-replace {'r r} (h/f7-and body-checks)))
+(defn- conj-checks [r] (walk/postwalk-replace {'r r} (h/f7-and body-checks)))
 (defn- proj [i hyp] (h/f7-projection body-checks i hyp))
 
 (b/kdef! 'bodyD '(=> (=> Code Code Bool) Code Code Nat Exp Exp DT DT Bool)
   (list 'fn '[r :- (=> Code Code Bool), c :- Code, d :- Code, m :- Nat, t :- Exp, A :- Exp, T1 :- DT, T2 :- DT]
-    (conj 'r)))
+    (conj-checks 'r)))
 
 ;; The body on an optional certificate (none: reject), and on c's decoding.
 (kdef* bodyO (=> (=> Code Code Bool) Code Code (Option CD) Bool)
@@ -134,7 +134,7 @@
         terms (walk/postwalk-replace {'r 'r1} body-checks)
         cong (reduce (fn [acc [tm e]] (list 'congr (list 'congrArg 'Bool.and (or e (list 'Eq.refl tm))) acc))
                      '(Eq.refl Bool.true) (reverse (map vector terms eqs)))]
-    (lv [(list 'have 'body_eq (list 'Eq 'Bool (conj 'r1) (conj 'r2)) cong) '(exact body_eq)])))
+    (lv [(list 'have 'body_eq (list 'Eq 'Bool (conj-checks 'r1) (conj-checks 'r2)) cong) '(exact body_eq)])))
 
 (thm* bodyO_congr [r1 :- (=> Code Code Bool), r2 :- (=> Code Code Bool), c :- Code, d :- Code, o :- (Option CD),
                    hag :- (forall [c2 Code] (forall [d2 Code] (=> (Nat.lt (cnodes c2) (cnodes c)) (Eq Bool (r1 c2 d2) (r2 c2 d2)))))]
