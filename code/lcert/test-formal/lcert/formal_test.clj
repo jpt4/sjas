@@ -67,6 +67,16 @@
     lcert.formal-test.p49scoped
     lcert.formal-test.p49nodebranch
     lcert.formal-test.p49nodemotive
+    lcert.formal-test.p49nodelive
+    lcert.formal-test.p49applysubst
+    lcert.formal-test.p49applytyped
+    lcert.formal-test.p49applyform
+    lcert.formal-test.p49nodeapply
+    lcert.formal-test.p49terminal
+    lcert.formal-test.p49generator
+    lcert.formal-test.p49slotsunique
+    lcert.formal-test.p49leafzero
+    lcert.formal-test.p49all
     lcert.formal-test.check-hd
     lcert.formal-test.check-skj
     lcert.formal-test.check-dt

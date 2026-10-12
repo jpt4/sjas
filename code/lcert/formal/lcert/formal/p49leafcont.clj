@@ -57,18 +57,18 @@
 
 (thm p49lc_motive_formed
   [chkf :- (=> Code Code Bool), K :- P49C,
-   slots :- (List (Prod Nat Nat)), j :- Nat,
+   slots :- (List (Prod Nat Nat)), j :- Nat, d :- Nat,
    D :- (List Exp),
    hF :- (p49pd_Form chkf (p49lc_F K slots j))]
-  (Tl chkf Bool.true (consE Exp.tLbl (p49lc_Dleaf j D))
+  (Tl chkf Bool.true (consE Exp.tLbl (p49lc_Dleaf d D))
     (p49lc_F K slots j (Exp.sleaf (Exp.var 0))) Exp.tUnit)
-  (exact (hF (consE Exp.tLbl (p49lc_Dleaf j D))
+  (exact (hF (consE Exp.tLbl (p49lc_Dleaf d D))
     (Exp.sleaf (Exp.var 0))
-    (Tl.zSleaf chkf (consE Exp.tLbl (p49lc_Dleaf j D))
+    (Tl.zSleaf chkf (consE Exp.tLbl (p49lc_Dleaf d D))
       (Exp.var 0)
-      (Tl.zVar chkf (consE Exp.tLbl (p49lc_Dleaf j D))
+      (Tl.zVar chkf (consE Exp.tLbl (p49lc_Dleaf d D))
         0 Exp.tLbl
-        (nthE.eq_2 Exp.tLbl (p49lc_Dleaf j D)))))))
+        (nthE.eq_2 Exp.tLbl (p49lc_Dleaf d D)))))))
 
 ;; Substitution into the case motive is the unary family applied to the
 ;; constructor code. No canonicality or inhabitance is assumed here.
@@ -114,7 +114,7 @@
 ;; exact hl premise of p49pd_peel.
 (thm p49lc_leaf_cont
   [chkf :- (=> Code Code Bool), K :- P49C,
-   slots :- (List (Prod Nat Nat)), j :- Nat,
+   slots :- (List (Prod Nat Nat)), j :- Nat, d :- Nat,
    D :- (List Exp), uv :- (List U),
    hlen :- (Eq Nat (lenU uv) (lenE D)),
    hj :- (p49tr_avoids slots j),
@@ -124,23 +124,23 @@
    f :- (=> Nat Exp),
    hf :- (forall [l Nat]
      (=> (Eq Bool (Nat.blt l 100) Bool.true)
-       (Rt chkf (p49lc_Dleaf j D) (p49lc_Ubranches uv)
+       (Rt chkf (p49lc_Dleaf d D) (p49lc_Ubranches uv)
          (f l)
          (p49tele (fn [q :- Nat, x :- Exp] (p49dl q x))
            ((p49crepl K) j (P49C.leaf l)) slots p49lc_rho0))))]
-  (Rt chkf (p49lc_Dleaf j D) (p49lc_Uleaf uv)
+  (Rt chkf (p49lc_Dleaf d D) (p49lc_Uleaf uv)
     (Exp.caseL
       (p49lc_F K slots j (Exp.sleaf (Exp.var 0)))
       (Exp.var 1) (p49brs 100 f 0))
     (p49peel_leafB (p49lc_F K slots j (Exp.var 0))))
   (have hP
-    (Tl chkf Bool.true (consE Exp.tLbl (p49lc_Dleaf j D))
+    (Tl chkf Bool.true (consE Exp.tLbl (p49lc_Dleaf d D))
       (p49lc_F K slots j (Exp.sleaf (Exp.var 0))) Exp.tUnit)
-    (p49lc_motive_formed chkf K slots j D hF))
+    (p49lc_motive_formed chkf K slots j d D hF))
   (have hbr
     (forall [l Nat]
       (=> (Eq Bool (Nat.blt l 100) Bool.true)
-        (Rt chkf (p49lc_Dleaf j D) (p49lc_Ubranches uv)
+        (Rt chkf (p49lc_Dleaf d D) (p49lc_Ubranches uv)
           (f l)
           (subst1 (Exp.lbl l)
             (p49lc_F K slots j (Exp.sleaf (Exp.var 0)))))))
@@ -149,11 +149,11 @@
         (Eq.mp
           (congrArg
             (fn [A :- Exp]
-              (Rt chkf (p49lc_Dleaf j D) (p49lc_Ubranches uv)
+              (Rt chkf (p49lc_Dleaf d D) (p49lc_Ubranches uv)
                 (f l) A))
             (Eq.symm (p49lc_branch_type K slots j l hj hS)))
           (hf l hlt)))))
-  (exact (p49peel_cast chkf (p49lc_Dleaf j D)
+  (exact (p49peel_cast chkf (p49lc_Dleaf d D)
     (vadd (p49lc_Uleaf uv) (p49lc_Ubranches uv))
     (p49lc_Uleaf uv)
     (Exp.caseL
@@ -162,12 +162,12 @@
     (subst1 (Exp.var 1)
       (p49lc_F K slots j (Exp.sleaf (Exp.var 0))))
     (p49peel_leafB (p49lc_F K slots j (Exp.var 0)))
-    (p49case_typed chkf (p49lc_Dleaf j D)
+    (p49case_typed chkf (p49lc_Dleaf d D)
       (p49lc_Uleaf uv) (p49lc_Ubranches uv)
       (p49lc_F K slots j (Exp.sleaf (Exp.var 0)))
       (Exp.var 1) f
       (Eq.trans (p49peel_zlen (p49lc_Uleaf uv))
-        (p49lc_leaf_len j D uv hlen))
-      hP (p49lc_label chkf j D uv hlen) hbr)
+        (p49lc_leaf_len d D uv hlen))
+      hP (p49lc_label chkf d D uv hlen) hbr)
     (p49peel_addz (p49lc_Uleaf uv))
     (p49lc_result_type K slots j hL hS))))
