@@ -224,7 +224,7 @@
              hA :- (Eq Bool (lblOk (encTy A)) Bool.true), hB :- (Eq Bool (lblOk (encTy B)) Bool.true)])
   (list 'And
     (list 'forall '[kk Nat] (list 'forall '[tt Exp]
-      (list '=> (list 'Rt 'chkf '(thetaD kk) '(thetaU kk) 'tt (clojure.walk/postwalk-replace {'k 'kk} D2T)) (cert-le '(encTy B) 'kk))))
+      (list '=> (list 'Rt 'chkf '(thetaD kk) '(thetaU kk) 'tt D2T) (cert-le '(encTy B) 'kk))))
     (list 'forall '[v Code] (list '=> '(Eq Bool (lblOk v) Bool.true) '(Eq Bool (chkf v (encTy B)) Bool.true)
       (list 'Exists (list 'fn '[tt :- Exp] (list 'Rt 'chkf '(thetaD (cnodes v)) '(thetaU (cnodes v)) 'tt D2T))))))
   '(constructor)
@@ -526,7 +526,7 @@
   '(intro hx)
   '(refine' (exT Code _ _ hx _)) '(intro v hv)
   '(constructor)
-  (list 'exact (clojure.walk/postwalk-replace {'v 'v} D2L))
+  (list 'exact D2L)
   '(exact (d2_upper_k46 chkf encTy A B v (And.left (And.right hv)) hAB hA hB (And.left hv) kk (And.right (And.right hv))))))
 
 ;; Corollary 4.6″, upper bound at Θ_{‖w‖+p}, and so at every k ≥ ‖w‖.
