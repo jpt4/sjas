@@ -56,7 +56,11 @@ hypothesis of the theorems that use it, never a global axiom:
 - **The three cited results of §6** (S1–S3), for P5 only. Gödel's second
   theorem for PA, PA's Σ₁-completeness, and E-PA^ω's conservativity are not
   proved here. They enter as hypotheses of the P5 theorem.
-- Lean's `Init` environment, as bundled with Ansatz.
+- Lean's `Init` declarations in Ansatz's bundled `ansatz/init-medium.ndjson.gz`
+  export (Lean 4.29.0-rc2, roughly 3,000 declarations). Ansatz's `load-init!`
+  replays this export with `:verify? false`: these declarations are trusted as
+  exported by Lean, whose kernel checked them; Ansatz does **not** re-check
+  them. New declarations in `code/lcert/formal` are checked by Ansatz's kernel.
 - **The metatheory itself.** Every theorem here is a theorem of Lean 4's type
   theory as the Ansatz kernel implements it. So every consistency result —
   λᶜᵉʳᵗ₀'s (T1), PA's (`pa_consistent`) — is *relative*: it holds if that
