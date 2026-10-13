@@ -7027,3 +7027,35 @@ metatheory. Phase 2, S1–S3, Int-6.1, Int-6.4, the abstract `EPAw` predicate,
 and the remaining stated scope limits are explicit. Fresh full-suite
 verification follows in `code/lcert/test-runs/final-suite-*`; this entry does
 not claim its result in advance.
+
+## 2026-10-13 — ADR-0006 ultrareview nits
+
+Audited the kernel-name scanner against the formal sources' declaration
+macros, direct installers, and literal-name helper calls. Expanded its
+recognition of those forms, with red/green duplicate-name fixtures in
+`bin/test-check-formal-names` and a clean scan of the real formal tree. The
+survey found no cross-file installed-name clashes; apparent generator
+prefixes and type arguments are not installed constants. Renamed the private
+`check_spec` conjunction helper to avoid shadowing `clojure.core/conj`, and
+made `bin/formal-check` explain a missing warm-server test summary; its mock
+server regression was red before the change and green after it.
+
+Confirmed both `cor46` substitutions were identities: `D2T` contains no
+`k`, and the affected statement already refers to `kk`; replacing `v` with
+itself leaves `D2L` unchanged. Removed the substitutions. Warm recheck of
+the changed namespaces and dependents passed 5 tests and 130 assertions
+with 0 failures and 0 errors. The two affected elaborated theorem statements
+matched their before-edit snapshots byte for byte.
+
+On `review/base`, extended `review-tools/surface.clj` to elide theorem proofs
+installed through local macros, nested forms, and `eval` constructions. Its
+focused regression was red before the fix and green afterward. A projection
+of all 156 formal `.clj` files passed `readcheck`; each original form count
+equaled projected forms plus `‹lemma` markers, and the proof-arity check
+found no retained tactic bodies.
+
+The detached full `bin/test-formal` run in
+`code/lcert/test-runs/nits-suite-20261013T082851Z.log` passed: 187 tests,
+3940 assertions, **0 failures, 0 errors** (2:40:32, maximum RSS 2538244 KB).
+These checks are relative to the Ansatz kernel and its Lean Init trust base;
+they are not an absolute consistency claim.
