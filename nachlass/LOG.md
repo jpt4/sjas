@@ -7059,3 +7059,24 @@ The detached full `bin/test-formal` run in
 3940 assertions, **0 failures, 0 errors** (2:40:32, maximum RSS 2538244 KB).
 These checks are relative to the Ansatz kernel and its Lean Init trust base;
 they are not an absolute consistency claim.
+
+## 2026-10-13 — ADR-0006 paper-statement audit
+
+Reviewed every numbered R4-metatheory statement and the §0 and §7 claims
+against the formal constants, recording kernel-elaborated types, premise
+satisfiability and focused-suite assertions in
+[`docs-statement-audit.md`](docs-statement-audit.md). Corrected the ADR
+statement index to give each numbered claim a separate status and removed
+stale F7 and erased-evaluator progress rows. The audit separates exact
+statements from semantic analogues, conditional arithmetic theorems, and
+missing claims. It treats Proposition 4.10′ as an exact statement despite a
+different proof construction, and separates Proposition 4.12(2)'s proved
+certificate bound from part (1)'s unformalized size measurements.
+
+The phase-1 checklist records the concrete fixes needed for exchange,
+renaming, print, finite-support universal closure, certificate-growth
+claims, and the typed parser. The E-PA^ω/PA internalizations of §6 remain
+phase 2. The trust review records that Ansatz accepts its bundled Lean Init
+export without rechecking it; formal declarations are kernel checked on
+initial installation. These consistency results remain relative to that
+kernel, Init export and metatheory.
