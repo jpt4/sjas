@@ -7089,3 +7089,8 @@ independent implementation checkers. Both bridges are listed in the audit.
 Proposition 4.10's construction also remains conditional on a selected
 accepted certificate of the closed identity at `0 ⊸ 0`; a named witness and
 fixed-budget specialization are phase-1 work.
+
+## 2026-10-14 — Audit follow-up
+
+Corrected the ADR after-action F5 row: `theorem4`/`Theorem_4` prove
+Theorem 4, while `theorem4e` is the erased-evaluator Theorem 4′.
