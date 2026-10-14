@@ -72,11 +72,11 @@ The paper's unqualified consistency assertions are read **relative to the Ansatz
 ∀ (chkf : Code → Code → Bool), ∀ (m1 : Nat), ∀ (m2 : Nat), ∀ (t1 : Exp), ∀ (t2 : Exp), ∀ (A : Exp), ∀ (hc : @Eq.{1} Bool (closedTy A) Bool.true), ∀ (hA : Tl chkf Bool.true (List.nil Exp) A Exp.tUnit), ∀ (h1 : Rt chkf (thetaD m1) (thetaU m1) t1 A), ∀ (h2 : Rt chkf (thetaD m2) (thetaU m2) t2 (Exp.tPi U.u1 A Exp.tEmpty)), Rt chkf (thetaD (Nat.add m1 m2)) (thetaU (Nat.add m1 m2)) (Exp.app (lift m1 0 t2) (lift m2 m1 t1)) Exp.tEmpty
 ```
 
-**Verdict: weaker.** Adds explicit closed-formation premise for A; the paper assumes A closed but does not display its formation derivation.
+**Verdict: exact after paper correction.** The paper now explicitly requires the closed formation derivation `∅ ⊢ A :⁰ 1` alongside closedness. This matches `lemma24` without changing the typing definitions.
 
-**Extra-premise satisfiability:** The added closed-formation witness is supplied for closed well-formed A by the typing premise's formation derivation; no standalone all-A satisfiability theorem is indexed, so this bridge is a finding.
+**Extra-premise satisfiability:** The formation derivation is now a stated premise. Closedness alone does not imply formation: `closedTy` checks only variable scope. For the uses in the consistency proof, the checker soundness specification supplies the decoded type's closed formation derivation.
 
-**Suite coverage:** `lemma24` → `lcert.formal-test.derivations/f2f-composition`.
+**Suite coverage:** `lemma24` → `lcert.formal-test.derivations/f2f-composition` (focused warm-server namespace run: 3 tests, 45 assertions, 0 failures, 0 errors).
 
 ### Lemma 2.5
 
@@ -1151,7 +1151,7 @@ In Ansatz 0.2.115's jar, `ansatz/core.clj:257–278` defines `load-init!`; line 
 - [x] A03 — Lemma 2.8 — give an explicit theorem for closed canonical `print` preserving labels and internal-node count, connected to the object-language term, beyond `stdRI_pr`'s identity interpretation.
 - [x] A09 — Theorem 4.6 / Lemma 4.6a premise satisfiability — add a named witness theorem for `PhOk J σ` (for example the constant safe-leaf family) at arbitrary J and document how concrete certifiability witnesses fill the hypothesis.
 - [x] A17 — Proposition 4.10 witness — prove a named closed derivation of `λ(x :₁ 0). x :¹ 0 ⊸ 0`, apply `check_complete_lbl` to obtain an accepted label-safe concrete certificate v, and specialize `prop410` at the fixed budget `cnodes v`.
-- [ ] A11 — Lemma 2.4 formation premise — prove that a closed well-formed type A in the paper's two typing hypotheses supplies `Tl chkf true [] A 1`, or amend the paper to require that formation derivation explicitly.
+- [x] A11 — Lemma 2.4 formation premise — prove that a closed well-formed type A in the paper's two typing hypotheses supplies `Tl chkf true [] A 1`, or amend the paper to require that formation derivation explicitly.
 - [ ] A13 — Proposition 4.3 and Corollaries 4.6′/4.6″ — define `μ(A)` as the least node count of an accepted certificate for certifiable `A`, prove a named least-witness theorem, and specialize the current `M`-lower-bound and exists-certificate-at-most-k statements to the paper's `μ` notation.
 A08 — §7 legacy kernel facts: **superseded by ADR-0008** (implementation extraction). The six historical constants have separate legacy coverage; any implementation bridge belongs to ADR-0008.
 A16 — §7 code-to-CT rendering: **superseded by ADR-0008** (implementation extraction and measure preservation). Current §7 bridge remains test evidence.

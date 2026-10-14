@@ -383,13 +383,15 @@ instance is for `x`, because `x ∉ FV(t)`. The axioms accept any usages. Sums
 and scalings of `0` are `0`. Type-level premises ignore usages. ∎
 
 **Lemma 2.4 (composition).** Suppose `Θₘ₁ ⊢ t₁ :¹ A` and
-`Θ′ₘ₂ ⊢ t₂ :¹ A ⊸ 0`, with `A` closed and the tokens of `Θ′` renamed apart.
+`Θ′ₘ₂ ⊢ t₂ :¹ A ⊸ 0`, with `A` closed, a closed formation derivation
+`∅ ⊢ A :⁰ 1`, and the tokens of `Θ′` renamed apart.
 Then `Θₘ₁, Θ′ₘ₂ ⊢ t₂ t₁ :¹ 0`.
 
 *Proof.*
 1. By Lemma 2.1, weaken the first judgment to `Θₘ₁, 0Θ′ₘ₂` and the second to
    `0Θₘ₁, Θ′ₘ₂`.
-2. Apply App at `ρ = 1`. The contexts add to `Θₘ₁, Θ′ₘ₂`.
+2. Weaken the formation derivation into the combined token context, then
+   apply App at `ρ = 1`. The contexts add to `Θₘ₁, Θ′ₘ₂`.
 3. The result type is `0[t₁/x] = 0`. ∎
 
 **Lemma 2.5 (skeletons).** Define `skel`:

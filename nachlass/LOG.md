@@ -1,5 +1,15 @@
 # Nachlass Log
 
+## 2026-10-14 - Statement audit A11, Lemma 2.4 formation
+
+Corrected the paper's Lemma 2.4 to require `∅ ⊢ A :⁰ 1` explicitly.
+`closedTy A = true` checks free-variable scope and is not a formation proof;
+the existing kernel theorem `lemma24` already requires that derivation. The
+existing focused test checks this distinction with a closed non-type term.
+The warm-server `derivations` suite passed: 3 tests, 45 assertions, 0 failures,
+0 errors. No definitions or formal proofs changed; the ADR and audit now
+describe the paper's corrected premise.
+
 ## 2026-10-14 - Statement audit A17, Proposition 4.10 witness
 
 The focused test first failed for the absent `id00_closed` and

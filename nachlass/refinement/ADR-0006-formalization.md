@@ -372,8 +372,9 @@ now checks.
   judgment into the combined token context (`tl_theta_closed`). No existing
   regularity/strengthening theorem supplies it from the two runtime premises;
   `closedTy A = true` only checks variable scope. The typing definitions are
-  unchanged. Discharging this extra hypothesis for the fundamental lemma's
-  H₁ case remains an integration obligation.
+  unchanged. On 2026-10-14 the paper's Lemma 2.4 was corrected to require
+  `∅ ⊢ A :⁰ 1` explicitly; `lemma24` now matches the stated premise. The
+  checker specification supplies this formation in its consistency-proof use.
 - **The phantom model of §4.5 is the model over an R-interpretation**
   (2026-10-06, branch `f4-theorem46`; design note
   [`../docs-theorem46-design.md`](../docs-theorem46-design.md)). `rint.clj`'s
@@ -545,7 +546,7 @@ The elaborated types, premise checks, and focused-suite coverage are in
 | Lemma 2.1, weakening and exchange | `tl_weaken`, `rt_weaken` (derivations) | partial | arbitrary insertion of a usage-0 entry is proved; exchange/permutation of independent entries is open in phase 1 |
 | Lemma 2.2, injective renaming | — | open in phase 1 | α-renaming is syntactic identity with de Bruijn indices; the paper's stronger injective renaming includes exchange/permutation, which is not proved |
 | Lemma 2.3, strengthening | `rt_strengthen`, `rt_mask` (strengthen) | proved | "not free" is `freshF`; `rt_mask` lowers a set of variables at once |
-| Lemma 2.4 | `lemma24` (derivations) | partial; formation bridge open | explicit closed formation premise; terms are `lift m2 m1 t1` and `lift m1 0 t2` |
+| Lemma 2.4 | `lemma24` (derivations) | exact after paper correction | the paper now requires the closed formation derivation used by the kernel theorem; terms are `lift m2 m1 t1` and `lift m1 0 t2` |
 | Lemma 2.5 | `lemma25_tl`, `lemma25_rt`, `skel_subst`, `cv_skel` (skeletons) | proved | — |
 | Lemma 2.6 | `CheckSpec` (model), `check_spec`, `check_full` (check_spec) | proved at `Check decCert` | generic soundness is in `CheckSpec`; `check_full` establishes the concrete checker instance |
 | Lemma 2.7 | `check_spec` (check_spec), `budget_canon` (certcanon); historical `strict_overhead` (ansatz/lcert/verified) | exact for `Check decCert` | `check_spec decCert` yields the accepted-code bound; `budget_canon` derives it from the canonical encoding. The legacy CT theorem covers derivation-shaped trees only |
