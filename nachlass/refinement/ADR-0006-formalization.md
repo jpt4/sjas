@@ -653,8 +653,9 @@ translation/CHECK theorem, and Int-6.4's E-PA^ω internalized default-model
 argument. `P5-hypotheses.md` supplies informal arguments and citations,
 not kernel proofs. `EPAw` remains abstract. The finite-support universal
 closure operator for F6.3, Proposition 4.12(1)'s polynomial certificate
-bound and numerical counts, and the specific §4 gaps in the statement index
-are not claimed. The completed statement review, including every extra
+bound, and the specific §4 gaps in the statement index are not claimed.
+The reference-encoding numerical counts for Propositions 4.11 and 4.12(1),
+plus §7 implementation bridges, are deferred to ADR-0008. The completed statement review, including every extra
 premise and its satisfiability status, is in
 [`docs-statement-audit.md`](../docs-statement-audit.md); its ordered phase-1
 checklist records the remaining corrections. Whether Willard's
