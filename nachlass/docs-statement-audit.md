@@ -176,7 +176,7 @@ fun (chkf : Code → Code → Bool) => fun (dec : Code → Option (Prod Nat (Pro
 
 ### Lemma 2.8
 
-**Formal constants:** `stdRI_pr` (`code/lcert/formal/lcert/formal/rint.clj:154`).
+**Formal constants:** `stdRI_pr` (`code/lcert/formal/lcert/formal/rint.clj:154`), `lemma28_print` (`code/lcert/formal/lcert/formal/section4b.clj`).
 
 **Kernel-held elaborated type:**
 
@@ -186,11 +186,20 @@ fun (chkf : Code → Code → Bool) => fun (dec : Code → Option (Prod Nat (Pro
 ∀ (c : Code), @Eq.{1} Code (riPr stdRI c) c
 ```
 
-**Verdict: different.** `stdRI_pr` says the standard semantic interpretation's print map is identity on `Code`. This entails node and label preservation for semantic codes, but does not state the paper's object-language `print` equation on closed canonical `R` trees.
+`lemma28_print`:
 
-**Extra-premise satisfiability:** No extra premise for `stdRI_pr`. An object-language print theorem remains A03.
+```lean
+∀ (chkf : Code → Code → Bool) (v : Code) (off extra : Nat),
+  WRed chkf (skels (thetaD (off + (cnodes v + extra))))
+    (Exp.prn (litAt v off)) (codeTerm v)
+  ∧ codeOf (codeTerm v) = some v
+```
 
-**Suite coverage:** `stdRI_pr` → `lcert.formal-test.rint/f4-rint`.
+**Verdict: exact for canonical certificate literals.** `lemma28_print` says that the object-language `print (litAt v off)` reduces to `codeTerm v` by the calculus’s conversion rules, and that reading the resulting canonical term returns exactly `v`. Tree equality preserves every label and the internal-node count. The token context supplies `cnodes v` entries, with arbitrary offset and extra entries. `stdRI_pr` remains the semantic counterpart.
+
+**Extra-premise satisfiability:** No extra premise for `lemma28_print` or `stdRI_pr`.
+
+**Suite coverage:** `lemma28_print` → `lcert.formal-test.section4b/f4-section4b`; `stdRI_pr` → `lcert.formal-test.rint/f4-rint`.
 
 ### Lemma 3.1
 
@@ -1127,7 +1136,7 @@ In Ansatz 0.2.115's jar, `ansatz/core.clj:257–278` defines `load-init!`; line 
 
 ## Open items (phase 1)
 
-- [ ] A03 — Lemma 2.8 — give an explicit theorem for closed canonical `print` preserving labels and internal-node count, connected to the object-language term, beyond `stdRI_pr`'s identity interpretation.
+- [x] A03 — Lemma 2.8 — give an explicit theorem for closed canonical `print` preserving labels and internal-node count, connected to the object-language term, beyond `stdRI_pr`'s identity interpretation.
 - [ ] A09 — Theorem 4.6 / Lemma 4.6a premise satisfiability — add a named witness theorem for `PhOk J σ` (for example the constant safe-leaf family) at arbitrary J and document how concrete certifiability witnesses fill the hypothesis.
 - [ ] A17 — Proposition 4.10 witness — prove a named closed derivation of `λ(x :₁ 0). x :¹ 0 ⊸ 0`, apply `check_complete_lbl` to obtain an accepted label-safe concrete certificate v, and specialize `prop410` at the fixed budget `cnodes v`.
 - [ ] A11 — Lemma 2.4 formation premise — prove that a closed well-formed type A in the paper's two typing hypotheses supplies `Tl chkf true [] A 1`, or amend the paper to require that formation derivation explicitly.

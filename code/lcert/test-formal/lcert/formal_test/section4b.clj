@@ -9,6 +9,13 @@
   (testing "Propositions 4.2, 4.10 and 4.5"
     (doseq [c '[codeTerm lit0 cv_lit prop42 prop410 cert_front prop45_d3 tensor_body prop45_contraction]]
       (is (b/has? c) (str c))))
+  (testing "Lemma 2.8 connects object-language print to its exact tree, including labels and nodes"
+    (is (b/has? 'lemma28_print))
+    (is (b/rejects? '[]
+                    '(Eq (Option Code)
+                         (codeOf (codeTerm (Code.sn 1 (Code.sl 2) (Code.sl 3))))
+                         (Option.some Code (Code.sl 1)))
+                    '[(rfl)])))
   (testing "a leaf certificate inhabits □A: labels below L compute, and the checker hypothesis is used"
     (is (not (b/rejects? '[chkf :- (=> Code Code Bool),
                            dec :- (=> Code (Option (Prod Nat (Prod Exp Exp)))),

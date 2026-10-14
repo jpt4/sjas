@@ -1195,6 +1195,19 @@
 
   )
 
+;; Lemma 2.8 for canonical certificate literals.  The object-language print
+;; reduces by its iota rules to the canonical code term.  Reading that term
+;; returns the identical Code tree, so every label and the internal-node count
+;; are preserved.  The token context supplies exactly the nodes of v; extra
+;; entries and an offset do not affect the print reduction.
+(thm lemma28_print [chkf :- (=> Code Code Bool), v :- Code, off :- Nat, extra :- Nat]
+  (And (WRed chkf (skels (thetaD (+ off (+ (cnodes v) extra))))
+             (Exp.prn ((litAt v) off)) (codeTerm v))
+       (Eq (Option Code) (codeOf (codeTerm v)) (Option.some Code v)))
+  (constructor)
+  (exact (wr_print chkf v off extra))
+  (exact (codeTerm_of v)))
+
 (thm cv_cast_G [chkf :- (=> Code Code Bool), G :- (List Sk), G2 :- (List Sk), A :- Exp, B :- Exp,
                      h :- (Cv chkf G A B), eq :- (Eq (List Sk) G G2)]
   (Cv chkf G2 A B)

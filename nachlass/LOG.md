@@ -1,5 +1,18 @@
 # Nachlass Log
 
+## 2026-10-14 - Statement audit A03, Lemma 2.8
+
+Added `lemma28_print` in `section4b.clj`. A focused `test-formal` assertion
+first failed because the constant was absent. The theorem now connects the
+object-language reduction of `print (litAt v off)` to `codeTerm v` and proves
+that reading the canonical result yields exactly `v`, preserving its labels
+and internal-node count. It packages the existing `wr_print` and
+`codeTerm_of` kernel proofs. No definitions changed. The audit and ADR-0006
+statement index now record this exact canonical-literal scope.
+The warm-server focused `lcert.formal-test.section4b` run passed: 1 test,
+16 assertions, 0 failures, 0 errors. The dependent recheck was still running
+when this item was committed.
+
 ## 2026-09-06 - Constructive SJAS and the tableaux variants
 
 At the user's request, preserved the question about a constructive Willard-style
