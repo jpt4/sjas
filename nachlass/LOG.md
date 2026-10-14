@@ -7162,3 +7162,6 @@ term. It also requires kernel-checked F7 size measurements and explicit
 resolution of the statement audit's paper/formal gaps. The `p2-strength`
 abstract-machine proposal is deferred to ADR-0009, derived from the extracted
 evaluator. No implementation or formal proof was changed in this task.
+
+## 2026-10-14 — ADR-0008: the typer must eventually be formalized
+The user decided to keep the certificate-producing typer hand-written and untrusted for ADR-0008, but requires that it eventually be formalized: a type-inference function proved sound against `Check` and then extracted. This is recorded in ADR-0008 as a required follow-up ADR, not an option. (Claude, from the session's discussion of typer false positives: within ADR-0008 a wrong typer output can only be rejected; it cannot run.)
