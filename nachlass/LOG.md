@@ -7080,3 +7080,9 @@ phase 2. The trust review records that Ansatz accepts its bundled Lean Init
 export without rechecking it; formal declarations are kernel checked on
 initial installation. These consistency results remain relative to that
 kernel, Init export and metatheory.
+
+The §7 historical claims received a separate pass. Its six `lcert.verified`
+facts are outside `test-formal`; the implementation-code-to-`CT` measure
+bridge remains test evidence. `dtCheck_agree` is conditional on `AgreeF` for
+two formal checker functions and does not identify the historical pair of
+independent implementation checkers. Both bridges are listed in the audit.
