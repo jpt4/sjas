@@ -745,7 +745,7 @@ Stored proposition definition:
 
 ### Proposition 4.10
 
-**Formal constants:** `prop410` (`code/lcert/formal/lcert/formal/section4b.clj:1957`).
+**Formal constants:** `prop410` (`code/lcert/formal/lcert/formal/section4b.clj:1957`), `id00_closed` and `prop410_witness` (`code/lcert/formal/lcert/formal/prop410witness.clj`).
 
 **Kernel-held elaborated type:**
 
@@ -755,11 +755,21 @@ Stored proposition definition:
 ∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (hspec : CheckSpec chkf dec encTy), ∀ (v : Code), ∀ (hok : @Eq.{1} Bool (lblOk v) Bool.true), ∀ (hck : @Eq.{1} Bool (chkf v (encTy (Exp.tPi U.u1 Exp.tEmpty Exp.tEmpty))) Bool.true), Rt chkf (thetaD (cnodes v)) (thetaU (cnodes v)) (Exp.lam U.u1 Exp.tR (Exp.lam U.u1 (chkT (Exp.var 0) cbot) (Exp.h1 (Exp.var 1) (litAt v 2) cbot (Exp.var 0) Exp.star))) Hcirc
 ```
 
-**Verdict: different (partial).** The term construction is exact for a selected accepted certificate of `0 ⊸ 0`, as in the paper's “let v certify” clause. The paper also asserts that such a closed identity certificate exists, yielding a fixed K; `prop410` leaves that existence as a parameter.
+`id00_closed` is the closed runtime derivation of `λ(x :₁ 0). x :¹ 0 ⊸ 0` at `Check decCert`. `prop410_witness` has the readable kernel type:
 
-**Extra-premise satisfiability:** `check_spec decCert` discharges `CheckSpec`. `check_complete_lbl` constructs the required accepted label-safe certificate from a closed derivation of the identity at `0 ⊸ 0`, but no indexed theorem supplies that particular closed derivation and its certificate in one named witness. This is A17.
+```lean
+∃ (v : Code), lblOk v = true ∧ Check decCert v (encE id00Type) = true ∧
+  Rt (Check decCert) (thetaD (cnodes v)) (thetaU (cnodes v))
+    (Exp.lam U.u1 Exp.tR
+      (Exp.lam U.u1 (chkT (Exp.var 0) cbot)
+        (Exp.h1 (Exp.var 1) (litAt v 2) cbot (Exp.var 0) Exp.star))) Hcirc
+```
 
-**Suite coverage:** `prop410` → `lcert.formal-test.section4b/f4-section4b`.
+**Verdict: exact at the concrete checker.** `id00_closed` proves the paper's named closed identity derivation. Kernel-checked derivation trees for it and its type formation feed `check_complete_lbl`, which supplies an accepted label-safe certificate. `prop410_witness` applies `prop410` at the fixed budget `K = cnodes v` for that certificate.
+
+**Extra-premise satisfiability:** `check_spec decCert` discharges `CheckSpec`; `check_complete_lbl` supplies the certificate from the closed identity and formation trees. No remaining premise.
+
+**Suite coverage:** `prop410` → `lcert.formal-test.section4b/f4-section4b`; `id00_closed`, `prop410_witness` → `lcert.formal-test.prop410witness/a17-proposition-410-witness` (1 test, 3 assertions, 0 failures, 0 errors).
 
 ### Proposition 4.10′
 
@@ -1140,7 +1150,7 @@ In Ansatz 0.2.115's jar, `ansatz/core.clj:257–278` defines `load-init!`; line 
 
 - [x] A03 — Lemma 2.8 — give an explicit theorem for closed canonical `print` preserving labels and internal-node count, connected to the object-language term, beyond `stdRI_pr`'s identity interpretation.
 - [x] A09 — Theorem 4.6 / Lemma 4.6a premise satisfiability — add a named witness theorem for `PhOk J σ` (for example the constant safe-leaf family) at arbitrary J and document how concrete certifiability witnesses fill the hypothesis.
-- [ ] A17 — Proposition 4.10 witness — prove a named closed derivation of `λ(x :₁ 0). x :¹ 0 ⊸ 0`, apply `check_complete_lbl` to obtain an accepted label-safe concrete certificate v, and specialize `prop410` at the fixed budget `cnodes v`.
+- [x] A17 — Proposition 4.10 witness — prove a named closed derivation of `λ(x :₁ 0). x :¹ 0 ⊸ 0`, apply `check_complete_lbl` to obtain an accepted label-safe concrete certificate v, and specialize `prop410` at the fixed budget `cnodes v`.
 - [ ] A11 — Lemma 2.4 formation premise — prove that a closed well-formed type A in the paper's two typing hypotheses supplies `Tl chkf true [] A 1`, or amend the paper to require that formation derivation explicitly.
 - [ ] A13 — Proposition 4.3 and Corollaries 4.6′/4.6″ — define `μ(A)` as the least node count of an accepted certificate for certifiable `A`, prove a named least-witness theorem, and specialize the current `M`-lower-bound and exists-certificate-at-most-k statements to the paper's `μ` notation.
 A08 — §7 legacy kernel facts: **superseded by ADR-0008** (implementation extraction). The six historical constants have separate legacy coverage; any implementation bridge belongs to ADR-0008.

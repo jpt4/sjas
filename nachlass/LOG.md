@@ -1,5 +1,15 @@
 # Nachlass Log
 
+## 2026-10-14 - Statement audit A17, Proposition 4.10 witness
+
+The focused test first failed for the absent `id00_closed` and
+`prop410_witness`. Added a generated runtime derivation tree and formation
+tree for the closed identity `λ(x :₁ 0). x :¹ 0 ⊸ 0`; the kernel checks them
+through `dtCheck_sound` and `check_complete_lbl`. The latter yields an accepted
+label-safe F7 certificate `v`, and `prop410_witness` specializes `prop410` at
+`K = cnodes v`. The new namespace's warm-server check passed 1 test with
+3 assertions, 0 failures, 0 errors. No existing definitions changed.
+
 ## 2026-10-14 - Statement audit A09, phantom premise witness
 
 The focused test first failed because `phok_safe` did not exist. Added the
