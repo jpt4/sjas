@@ -7086,3 +7086,6 @@ facts are outside `test-formal`; the implementation-code-to-`CT` measure
 bridge remains test evidence. `dtCheck_agree` is conditional on `AgreeF` for
 two formal checker functions and does not identify the historical pair of
 independent implementation checkers. Both bridges are listed in the audit.
+Proposition 4.10's construction also remains conditional on a selected
+accepted certificate of the closed identity at `0 ⊸ 0`; a named witness and
+fixed-budget specialization are phase-1 work.
