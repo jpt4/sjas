@@ -464,9 +464,17 @@ Stored proposition definition:
 
 **Kernel-held elaborated type:**
 
-`prop41_closed`: **pending warm-server print**.
+`prop41_closed`:
 
-`prop41_fun`: **pending warm-server print**.
+```lean
+∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (hcs : CheckSpec chkf dec encTy), ∀ (hconv : ∀ (n : Nat), ConvCase chkf dec encTy n), ∀ (n : Nat), ∀ (t : Exp), ∀ (der : Rt chkf (List.nil Exp) (List.nil U) t Exp.tR), @Exists.{1} Nat (fun (l : Nat) => @Eq.{1} Code (den chkf dec encTy n t (List.nil Sk) Sk.cert Unit.unit) (Code.sl l))
+```
+
+`prop41_fun`:
+
+```lean
+∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (hcs : CheckSpec chkf dec encTy), ∀ (hconv : ∀ (n : Nat), ConvCase chkf dec encTy n), ∀ (n : Nat), ∀ (f : Exp), ∀ (der : Rt chkf (List.nil Exp) (List.nil U) f (Exp.tPi U.u1 Exp.tSyn Exp.tR)), ∀ (c : Code), ∀ (hc : @Eq.{1} Bool (lblOk c) Bool.true), @Exists.{1} Nat (fun (l : Nat) => @Eq.{1} Code (den chkf dec encTy n f (List.nil Sk) (Sk.arr Sk.syn Sk.cert) Unit.unit c) (Code.sl l))
+```
 
 **Verdict: weaker.** Function clause formalized over label-safe codes; formal CheckSpec and typed Conv requirements apply.
 
@@ -576,7 +584,11 @@ Stored proposition definition:
 ∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (hcs : CheckSpec chkf dec encTy), ∀ (sz : Exp → Nat), ∀ (henc : Enc46 chkf dec sz), ∀ (r : Nat), ∀ (sg : Nat → Code), ∀ (hsg : PhOk (Nat.add r 1) sg), ∀ (As : Nat → Exp), ∀ (B : Exp), ∀ (k : Nat), ∀ (t : Exp), ∀ (hclA : ∀ (i : Nat), ∀ (o : LT.lt Nat instLTNat i (Nat.add r 1)), @Eq.{1} Bool (closedTy (As i)) Bool.true), ∀ (hclB : @Eq.{1} Bool (closedTy B) Bool.true), ∀ (hc : ∀ (i : Nat), ∀ (q : LT.lt Nat instLTNat i (Nat.add r 1)), @Eq.{1} Bool (chkf (sg i) (encTy (As i))) Bool.true), ∀ (hbig : ∀ (i : Nat), ∀ (r : LT.lt Nat instLTNat i (Nat.add r 1)), ∀ (m : Nat), ∀ (u : Exp), ∀ (A : Exp), ∀ (v : @Eq.{1} (Option (Prod Nat (Prod Exp Exp))) (dec (sg i)) (Option.some (Prod Nat (Prod Exp Exp)) (Prod.mk Nat (Prod Exp Exp) m (Prod.mk Exp Exp u A)))), LT.lt Nat instLTNat k (sz u)), ∀ (hne : ∀ (i : Nat), ∀ (s : LT.lt Nat instLTNat i (Nat.add r 1)), @Eq.{1} Exp B (As i) → False), ∀ (der : Rt chkf (thetaD k) (thetaU k) t (Exp.tPi U.u1 (tensB (fun (i : Nat) => encTy (As i)) 0 r) (boxTy (codeTerm (encTy B))))), @Exists.{1} Code (fun (v : Code) => And (@Eq.{1} Bool (chkf v (encTy B)) Bool.true) (And (@Eq.{1} Bool (lblOk v) Bool.true) (LE.le Nat instLENat (cnodes v) k)))
 ```
 
-`thm46_types_F7`: **pending warm-server print**.
+`thm46_types_F7`:
+
+```lean
+∀ (r : Nat), ∀ (sg : Nat → Code), ∀ (hsg : PhOk (Nat.add r 1) sg), ∀ (As : Nat → Exp), ∀ (B : Exp), ∀ (k : Nat), ∀ (t : Exp), ∀ (hclB : @Eq.{1} Bool (closedTy B) Bool.true), ∀ (hc : ∀ (i : Nat), ∀ (j : LT.lt Nat instLTNat i (Nat.add r 1)), @Eq.{1} Bool (Check decCert (sg i) (encE (As i))) Bool.true), ∀ (hne : ∀ (i : Nat), ∀ (k : LT.lt Nat instLTNat i (Nat.add r 1)), @Eq.{1} Exp B (As i) → False), ∀ (der : Rt (Check decCert) (thetaD k) (thetaU k) t (Exp.tPi U.u1 (tensB (fun (i : Nat) => encE (As i)) 0 r) (boxTy (codeTerm (encE B))))), @Exists.{1} Code (fun (v : Code) => And (@Eq.{1} Bool (Check decCert v (encE B)) Bool.true) (And (@Eq.{1} Bool (lblOk v) Bool.true) (LE.le Nat instLENat (cnodes v) k)))
+```
 
 **Verdict: weaker.** Generic theorem adds CheckSpec, Enc46, LargeCert and label bounds; the concrete theorem eliminates Enc46 but still needs certifiability witnesses and distinct closed types.
 
@@ -614,7 +626,11 @@ Stored proposition definition:
 
 **Kernel-held elaborated type:**
 
-`cor46_prime_iff_F7`: **pending warm-server print**.
+`cor46_prime_iff_F7`:
+
+```lean
+∀ (A : Exp), ∀ (B : Exp), ∀ (hclB : @Eq.{1} Bool (closedTy B) Bool.true), ∀ (hne : @Eq.{1} Exp B A → False), ∀ (c0 : Code), ∀ (h0 : @Eq.{1} Bool (Check decCert c0 (encE (Exp.tPi U.u1 A B))) Bool.true), ∀ (l0 : @Eq.{1} Bool (lblOk c0) Bool.true), ∀ (c1 : Code), ∀ (h1 : @Eq.{1} Bool (Check decCert c1 (encE A)) Bool.true), ∀ (l1 : @Eq.{1} Bool (lblOk c1) Bool.true), ∀ (kk : Nat), Iff (@Exists.{1} Exp (fun (tt : Exp) => Rt (Check decCert) (thetaD kk) (thetaU kk) tt (Exp.tPi U.u1 (Exp.tSig U.u1 (boxTy (codeTerm (encE (Exp.tPi U.u1 A B)))) (boxTy (codeTerm (encE A)))) (boxTy (codeTerm (encE B)))))) (@Exists.{1} Code (fun (v : Code) => And (@Eq.{1} Bool (Check decCert v (encE B)) Bool.true) (And (@Eq.{1} Bool (lblOk v) Bool.true) (LE.le Nat instLENat (cnodes v) kk))))
+```
 
 `d2_no_uniform`:
 
@@ -634,9 +650,17 @@ Stored proposition definition:
 
 **Kernel-held elaborated type:**
 
-`cor46_dprime_iff_F7`: **pending warm-server print**.
+`cor46_dprime_iff_F7`:
 
-`d3_gap_F7`: **pending warm-server print**.
+```lean
+∀ (A : Exp), ∀ (c : Code), ∀ (hc : @Eq.{1} Bool (Check decCert c (encE A)) Bool.true), ∀ (lc : @Eq.{1} Bool (lblOk c) Bool.true), ∀ (kk : Nat), Iff (@Exists.{1} Exp (fun (tt : Exp) => Rt (Check decCert) (thetaD kk) (thetaU kk) tt (Exp.tPi U.u1 (boxTy (codeTerm (encE A))) (boxTy (codeTerm (encE (boxTy (codeTerm (encE A))))))))) (@Exists.{1} Code (fun (v : Code) => And (@Eq.{1} Bool (Check decCert v (encE (boxTy (codeTerm (encE A))))) Bool.true) (And (@Eq.{1} Bool (lblOk v) Bool.true) (LE.le Nat instLENat (cnodes v) kk))))
+```
+
+`d3_gap_F7`:
+
+```lean
+∀ (A : Exp), ∀ (w : Code), ∀ (hw : @Eq.{1} Bool (Check decCert w (encE (boxTy (codeTerm (encE A))))) Bool.true), ∀ (M : Nat), ∀ (hM : ∀ (v : Code), ∀ (f : @Eq.{1} Bool (Check decCert v (encE A)) Bool.true), LE.le Nat instLENat M (cnodes v)), LT.lt Nat instLTNat (Nat.add M M) (cnodes w)
+```
 
 **Verdict: weaker.** Concrete threshold requires a certificate of A and closed type; gap uses concrete TokSize.
 
@@ -650,7 +674,11 @@ Stored proposition definition:
 
 **Kernel-held elaborated type:**
 
-`prop47`: **pending warm-server print**.
+`prop47`:
+
+```lean
+∀ (chkf : Code → Code → Bool), Rt chkf (List.nil Exp) (List.nil U) p47term (Exp.tPi U.u1 ConP Hcirc)
+```
 
 **Verdict: exact.** ConP-to-Hcirc term at budget zero.
 
@@ -796,9 +824,17 @@ Stored proposition definition:
 ∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (hcs : CheckSpec chkf dec encTy), ∀ (hconv : ∀ (n : Nat), ConvCase chkf dec encTy n), ∀ (n : Nat), ∀ (D : List Exp), ∀ (us : List U), ∀ (t : Exp), ∀ (der : Rt chkf D us t Exp.tR), ∀ (hw : WFCtx chkf D), ∀ (en : HEnv (skels D)), ∀ (k : Nat), ∀ (hk : Nat.le k n), ∀ (hs : EnvSat chkf dec encTy n D us en k), LE.le Nat instLENat (cnodes (den chkf dec encTy n t (skels D) Sk.cert en)) k
 ```
 
-`theorem4e_nodes`: **pending warm-server print**.
+`theorem4e_nodes`:
 
-`prop41_closed`: **pending warm-server print**.
+```lean
+∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (hcs : CheckSpec chkf dec encTy), ∀ (n : Nat), ∀ (t : Exp), ∀ (hd : Rt chkf (thetaD n) (thetaU n) t Exp.tR), ∀ (e : Exp), ∀ (i : Er chkf (thetaD n) (thetaU n) t Exp.tR e), @Exists.{1} Code (fun (c : Code) => And (EvalE chkf dec encTy n (rtokens n) e (RV.cert c)) (LE.le Nat instLENat (cnodes c) n))
+```
+
+`prop41_closed`:
+
+```lean
+∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (hcs : CheckSpec chkf dec encTy), ∀ (hconv : ∀ (n : Nat), ConvCase chkf dec encTy n), ∀ (n : Nat), ∀ (t : Exp), ∀ (der : Rt chkf (List.nil Exp) (List.nil U) t Exp.tR), @Exists.{1} Nat (fun (l : Nat) => @Eq.{1} Code (den chkf dec encTy n t (List.nil Sk) Sk.cert Unit.unit) (Code.sl l))
+```
 
 **Verdict: exact.** For results of type R, T3 bounds the denoted certificate by k; Theorem 4-prime bounds the erased runtime R value by k, and Proposition 4.1 covers closed budget-zero terms.
 
@@ -812,7 +848,11 @@ Stored proposition definition:
 
 **Kernel-held elaborated type:**
 
-`theorem4`: **pending warm-server print**.
+`theorem4`:
+
+```lean
+∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (hcs : CheckSpec chkf dec encTy), ∀ (n : Nat), Adeq chkf dec encTy n
+```
 
 **Verdict: weaker.** Simply typed argument terms require argsOK/skOf so every argument denotes; no branch-list pseudo-term is accepted.
 
@@ -826,9 +866,17 @@ Stored proposition definition:
 
 **Kernel-held elaborated type:**
 
-`corollary51_conv`: **pending warm-server print**.
+`corollary51_conv`:
 
-`corollary51_nodes`: **pending warm-server print**.
+```lean
+∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (hcs : CheckSpec chkf dec encTy), ∀ (n : Nat), ∀ (t : Exp), ∀ (D : Exp), ∀ (hd : Rt chkf (thetaD n) (thetaU n) t D), ∀ (hb : @Eq.{1} Bool (isBaseTy D) Bool.true), @Exists.{1} RV (fun (v : RV) => And (Eval chkf dec encTy n (rtokens n) t v) (And (rel chkf dec encTy n (skel D) v (den chkf dec encTy n t (thetaSk n) (skel D) (tokenEnv n))) (And (V chkf dec encTy n D (skels (thetaD n)) (tokEnvD n) n (skel D) (den chkf dec encTy n t (skels (thetaD n)) (skel D) (tokEnvD n))) (@Eq.{1} (Car (skel D)) (den chkf dec encTy n t (thetaSk n) (skel D) (tokenEnv n)) (den chkf dec encTy n t (skels (thetaD n)) (skel D) (tokEnvD n))))))
+```
+
+`corollary51_nodes`:
+
+```lean
+∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (hcs : CheckSpec chkf dec encTy), ∀ (n : Nat), ∀ (t : Exp), ∀ (hd : Rt chkf (thetaD n) (thetaU n) t Exp.tR), LE.le Nat instLENat (cnodes (den chkf dec encTy n t (skels (thetaD n)) Sk.cert (tokEnvD n))) n
+```
 
 **Verdict: weaker.** Typed conversion condition is discharged by conv_all; canonical result is represented by a value relation and node bound.
 
@@ -842,11 +890,23 @@ Stored proposition definition:
 
 **Kernel-held elaborated type:**
 
-`theorem4e`: **pending warm-server print**.
+`theorem4e`:
 
-`theorem4e_agree`: **pending warm-server print**.
+```lean
+∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (hcs : CheckSpec chkf dec encTy), ∀ (n : Nat), ∀ (t : Exp), ∀ (X : Exp), ∀ (hd : Rt chkf (thetaD n) (thetaU n) t X), ∀ (hb : @Eq.{1} Bool (isBaseTy X) Bool.true), ∀ (e : Exp), ∀ (k : Er chkf (thetaD n) (thetaU n) t X e), @Exists.{1} RV (fun (v : RV) => And (EvalE chkf dec encTy n (rtokens n) e v) (And (Eval chkf dec encTy n (rtokens n) t v) (rel chkf dec encTy n (skel X) v (den chkf dec encTy n t (thetaSk n) (skel X) (tokenEnv n)))))
+```
 
-`theorem4e_nodes`: **pending warm-server print**.
+`theorem4e_agree`:
+
+```lean
+∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (hcs : CheckSpec chkf dec encTy), ∀ (n : Nat), ∀ (t : Exp), ∀ (X : Exp), ∀ (hd : Rt chkf (thetaD n) (thetaU n) t X), ∀ (hb : @Eq.{1} Bool (isBaseTy X) Bool.true), @Exists.{1} Exp (fun (e : Exp) => And (Er chkf (thetaD n) (thetaU n) t X e) (@Exists.{1} RV (fun (v : RV) => And (EvalE chkf dec encTy n (rtokens n) e v) (Eval chkf dec encTy n (rtokens n) t v))))
+```
+
+`theorem4e_nodes`:
+
+```lean
+∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (hcs : CheckSpec chkf dec encTy), ∀ (n : Nat), ∀ (t : Exp), ∀ (hd : Rt chkf (thetaD n) (thetaU n) t Exp.tR), ∀ (e : Exp), ∀ (i : Er chkf (thetaD n) (thetaU n) t Exp.tR e), @Exists.{1} Code (fun (c : Code) => And (EvalE chkf dec encTy n (rtokens n) e (RV.cert c)) (LE.le Nat instLENat (cnodes c) n))
+```
 
 **Verdict: weaker.** The erased evaluator is indexed by a chosen Er derivation; result agreement is for base data types and needs the specific erasure proof.
 
@@ -860,9 +920,17 @@ Stored proposition definition:
 
 **Kernel-held elaborated type:**
 
-`theorem52_all_concrete`: **pending warm-server print**.
+`theorem52_all_concrete`:
 
-`theorem52e_all`: **pending warm-server print**.
+```lean
+∀ (n : Nat), ∀ (t : Exp), ∀ (X : Exp), ∀ (hd : Rt (Check decCert) (thetaD n) (thetaU n) t X), And (∀ (v : RV), ∀ (f : Eval (Check decCert) (decOf decCert) encE n (rtokens n) t v), Ok (Check decCert) (decOf decCert) encE n (EvSrc.tm (rtokens n) t) v) (∀ (e : Exp), ∀ (f : Er (Check decCert) (thetaD n) (thetaU n) t X e), ∀ (v : RV), ∀ (h : EvalE (Check decCert) (decOf decCert) encE n (rtokens n) e v), OkE (Check decCert) (decOf decCert) encE n (EvSrc.tm (rtokens n) e) v)
+```
+
+`theorem52e_all`:
+
+```lean
+∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (hcs : CheckSpec chkf dec encTy), ∀ (n : Nat), ∀ (t : Exp), ∀ (X : Exp), ∀ (hd : Rt chkf (thetaD n) (thetaU n) t X), ∀ (e : Exp), ∀ (j : Er chkf (thetaD n) (thetaU n) t X e), ∀ (v : RV), ∀ (l : EvalE chkf dec encTy n (rtokens n) e v), OkE chkf dec encTy n (EvSrc.tm (rtokens n) e) v
+```
 
 **Verdict: stronger.** Every run of the original and erased evaluators is safe; the paper states the base-data case, while the formal theorem covers every result type.
 
