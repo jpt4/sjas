@@ -1,5 +1,15 @@
 # Nachlass Log
 
+## 2026-10-14 - Statement audit A09, phantom premise witness
+
+The focused test first failed because `phok_safe` did not exist. Added the
+extractable constant safe-leaf family `safePhantoms` and proved `phok_safe :
+∀ J, PhOk J safePhantoms` in the kernel. The focused warm-server `rint` suite
+passed: 1 test, 63 assertions, 0 failures, 0 errors. For the intended theorem
+inputs, each accepted label-safe certificate from `check_complete_lbl` gives
+one entry of the `PhOk` family. The dependent recheck was still running when
+this item was committed. No existing definitions changed.
+
 ## 2026-10-14 - Statement audit A03, Lemma 2.8
 
 Added `lemma28_print` in `section4b.clj`. A focused `test-formal` assertion

@@ -9,6 +9,11 @@
 (def ^:private sg2 '(fn [i :- Nat] (Code.sn 5 (Code.sl 3) (Code.sl 4))))
 
 (deftest f4-rint
+  (testing "A09: a safe-leaf phantom family satisfies PhOk at every size"
+    (is (b/has? 'phok_safe))
+    (is (b/rejects? '[]
+                    '(PhOk 1 (fn [i :- Nat] (Code.sl 100)))
+                    '[(intro i hi) (rfl)])))
   (testing "R-interpretations, their laws, and the two instances (Theorem 4.6 design note §2)"
     (doseq [c '[RIntD mkRID dLf dPr dPf RLawsD RInt riLf riPr riPf leafLbl riIt RLaws ri_laws
                 rl_leaf rl_node rl_nodes rl_dflt ri_leaf ri_node riIt_leaf ri_itleaf leafLbl_lt riIt_lt PhCons

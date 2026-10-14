@@ -605,15 +605,17 @@ Stored proposition definition:
 
 **Verdict: weaker.** Generic theorem adds CheckSpec, Enc46, LargeCert and label bounds; the concrete theorem eliminates Enc46 but still needs certifiability witnesses and distinct closed types.
 
-**Extra-premise satisfiability:** `check_spec decCert` and `enc46_canon` discharge generic CheckSpec/Enc46. `thm46_hyps_sat` jointly witnesses CheckSpec, Enc46 and LargeCert in a toy checker. No named theorem globally constructs `PhOk` for arbitrary phantom lists; concrete certificates can supply it case by case via label-safe witnesses. This is a premise-satisfiability finding.
+**Extra-premise satisfiability:** `check_spec decCert` and `enc46_canon` discharge generic CheckSpec/Enc46. `thm46_hyps_sat` jointly witnesses CheckSpec, Enc46 and LargeCert in a toy checker. `phok_safe` supplies `PhOk J safePhantoms` at every J. For the intended arbitrary list of certifiable premises, take `sg i` to be each accepted label-safe certificate; `check_complete_lbl` constructs such a certificate from the corresponding closed derivation. Its `lblOk` conclusion supplies the `PhOk` hypothesis pointwise.
 
 **Suite coverage:** `thm46_types` → `lcert.formal-test.theorem46/f4-theorem46`; `thm46_types_F7` → `lcert.formal-test.thm46f7/f4-thm46f7-theorems`.
 
 ### Lemma 4.6a
 
-**Formal constants:** `lemma46a` (`code/lcert/formal/lcert/formal/lemma46a.clj:86`), `lemma36_ri` (`code/lcert/formal/lcert/formal/ri_lemma36.clj:155`).
+**Formal constants:** `lemma46a` (`code/lcert/formal/lcert/formal/lemma46a.clj:86`), `lemma36_ri` (`code/lcert/formal/lcert/formal/ri_lemma36.clj:155`), `phok_safe` (`code/lcert/formal/lcert/formal/rint.clj`).
 
 **Kernel-held elaborated type:**
+
+`phok_safe`: `∀ (J : Nat), PhOk J safePhantoms`, where `safePhantoms i = Code.sl 0`.
 
 `lemma46a`:
 
@@ -629,9 +631,9 @@ Stored proposition definition:
 
 **Verdict: weaker.** The generic R-interpretation theorem assumes `CheckSpec`, `PhOk` (phantom labels lie in L), and `WFCtx` for an arbitrary context; the paper states the result for well-formed typing contexts.
 
-**Extra-premise satisfiability:** `check_spec decCert` discharges CheckSpec and `wf_theta` supplies `WFCtx` at token contexts. `PhOk` has no named universal witness theorem; `stdRI_laws` witnesses the zero-phantom standard instance, and label-safe certificates witness intended nonzero examples. Formal `PhOk` satisfiability should be indexed.
+**Extra-premise satisfiability:** `check_spec decCert` discharges CheckSpec and `wf_theta` supplies `WFCtx` at token contexts. `phok_safe` supplies `PhOk J safePhantoms` at every J, including nonzero J. For the intended certificate family, each label-safe witness from `check_complete_lbl` supplies one `lblOk` premise of `PhOk`. `stdRI_laws` separately witnesses the standard interpretation.
 
-**Suite coverage:** `lemma46a` → `lcert.formal-test.lemma46a/f4-lemma46a`; `lemma36_ri` → `lcert.formal-test.ri_lemma36/f4-ri-lemma36`.
+**Suite coverage:** `lemma46a` → `lcert.formal-test.lemma46a/f4-lemma46a`; `lemma36_ri` → `lcert.formal-test.ri_lemma36/f4-ri-lemma36`; `phok_safe` → `lcert.formal-test.rint/f4-rint` (focused warm-server run: 1 test, 63 assertions, 0 failures, 0 errors).
 
 ### Corollary 4.6′
 
@@ -1137,7 +1139,7 @@ In Ansatz 0.2.115's jar, `ansatz/core.clj:257–278` defines `load-init!`; line 
 ## Open items (phase 1)
 
 - [x] A03 — Lemma 2.8 — give an explicit theorem for closed canonical `print` preserving labels and internal-node count, connected to the object-language term, beyond `stdRI_pr`'s identity interpretation.
-- [ ] A09 — Theorem 4.6 / Lemma 4.6a premise satisfiability — add a named witness theorem for `PhOk J σ` (for example the constant safe-leaf family) at arbitrary J and document how concrete certifiability witnesses fill the hypothesis.
+- [x] A09 — Theorem 4.6 / Lemma 4.6a premise satisfiability — add a named witness theorem for `PhOk J σ` (for example the constant safe-leaf family) at arbitrary J and document how concrete certifiability witnesses fill the hypothesis.
 - [ ] A17 — Proposition 4.10 witness — prove a named closed derivation of `λ(x :₁ 0). x :¹ 0 ⊸ 0`, apply `check_complete_lbl` to obtain an accepted label-safe concrete certificate v, and specialize `prop410` at the fixed budget `cnodes v`.
 - [ ] A11 — Lemma 2.4 formation premise — prove that a closed well-formed type A in the paper's two typing hypotheses supplies `Tl chkf true [] A 1`, or amend the paper to require that formation derivation explicitly.
 - [ ] A13 — Proposition 4.3 and Corollaries 4.6′/4.6″ — define `μ(A)` as the least node count of an accepted certificate for certifiable `A`, prove a named least-witness theorem, and specialize the current `M`-lower-bound and exists-certificate-at-most-k statements to the paper's `μ` notation.

@@ -188,6 +188,14 @@
 (kdef PhOk (=> Nat (=> Nat Code) Prop)
   (fn [J :- Nat, sg :- (=> Nat Code)] (forall [i Nat] (=> (LT.lt i J) (Eq Bool (lblOk (sg i)) Bool.true)))))
 
+;; The constant safe-leaf family witnesses that the phantom-label premise is
+;; satisfiable at every J.  It is an ordinary Code-valued function so a future
+;; extracted implementation can use the same witness.
+(a/defn safePhantoms [i :- Nat] Code (Code.sl 0))
+(thm phok_safe [J :- Nat] (PhOk J safePhantoms)
+  (intro i hi)
+  (rfl))
+
 (thm phPr_sl [J :- Nat, sg :- (=> Nat Code), l :- Nat]
   (Eq Code (phPr J sg (Code.sl l)) (Bool.rec$1 (fn [_ :- Bool] Code) (Code.sl (- l J)) (sg l) (Nat.blt l J)))
   (rfl))
