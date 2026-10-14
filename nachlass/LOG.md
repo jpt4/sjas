@@ -7094,3 +7094,15 @@ fixed-budget specialization are phase-1 work.
 
 Corrected the ADR after-action F5 row: `theorem4`/`Theorem_4` prove
 Theorem 4, while `theorem4e` is the erased-evaluator Theorem 4′.
+
+## 2026-10-14 — Statement audit completed
+
+Printed the remaining formal and six historical §7 kernel types through the
+external warm Ansatz server, then inventoried its 29,306 declarations. Its
+three axioms were `Classical.choice`, `Quot.sound`, and `propext`; each
+sampled headline theorem's transitive declaration closure reaches all three.
+The audit records the exact open statement gaps and phase-2 internalizations.
+Implementation extraction and historical implementation bridges are now
+assigned to ADR-0008, including the reference-encoding size measurements.
+No formal source was changed; no suite was run for this documentation pass.
+See [`docs-statement-audit.md`](docs-statement-audit.md).
