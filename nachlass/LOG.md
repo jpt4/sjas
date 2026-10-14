@@ -7106,3 +7106,16 @@ Implementation extraction and historical implementation bridges are now
 assigned to ADR-0008, including the reference-encoding size measurements.
 No formal source was changed; no suite was run for this documentation pass.
 See [`docs-statement-audit.md`](docs-statement-audit.md).
+
+## 2026-10-14 — ADR-0008: extract the λᶜᵉʳᵗ₀ trusted core
+
+Accepted [`ADR-0008-extraction.md`](refinement/ADR-0008-extraction.md) on
+`adr-0006-complete` for implementation by `x8` on `adr-0008-extraction`.
+The current `lc/run` evaluates after hand-written typing without checking a
+certificate, and the reference encoding differs from F7. The decision makes
+F7 the one encoding, requires extraction of every acceptance and evaluation
+decision, and gates execution on the caller's type and budget and the decoded
+term. It also requires kernel-checked F7 size measurements and explicit
+resolution of the statement audit's paper/formal gaps. The `p2-strength`
+abstract-machine proposal is deferred to ADR-0009, derived from the extracted
+evaluator. No implementation or formal proof was changed in this task.
