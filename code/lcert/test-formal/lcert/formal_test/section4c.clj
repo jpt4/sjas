@@ -6,7 +6,8 @@
   (:require [clojure.test :refer [deftest is testing]]
             [lcert.formal.base :as b]
             [lcert.formal.section4c]
-            [lcert.formal.prop411cert]))
+            [lcert.formal.prop411cert]
+            [lcert.formal.prop411poly]))
 
 (deftest a10-redex-certificate
   (testing "Proposition 4.11 has a concrete accepted beta-redex derivation"
@@ -23,6 +24,12 @@
   (testing "every canonical certificate recording the normal literal pays for its 2^n - 1 code nodes"
     (is (b/has? 'cert_term_size))
     (is (b/has? 'prop411_literal_lower))))
+
+(deftest a10-certificate-family
+  (testing "the sharing chain has an accepted F7 certificate at every n"
+    (doseq [c '[sh4_open_tree sh4_cn_tree sh4_cn_tree_check
+                prop411_family_cert]]
+      (is (b/has? c) (str c)))))
 
 (deftest f4-section4c
   (testing "Proposition 4.11: the sharing chain, its denotation, and the node count"

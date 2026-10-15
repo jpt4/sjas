@@ -7196,3 +7196,13 @@ it with `code_enc_gt` and `prop411_nodes` yields
 has at least `2^n − 1` internal nodes. Focused warm check: 3 tests, 107
 assertions, 0 failures, 0 errors. The quadratic upper bound for `c_n`
 remains open.
+
+## 2026-10-14 — A10: accepted sharing-chain certificates at every depth
+
+Defined the recursive derivation tree `sh4_open_tree` and its closed wrapper
+`sh4_cn_tree`. A generated table of constructor equations for F7's `dtCheck`
+let Ansatz check the recursive tree by induction, including its usage split.
+`prop411_family_cert` now obtains an accepted certificate for every `c_n`.
+The helper theorem `sh4_open_tree_succ` is checked by reduction. Focused warm
+check: 4 tests, 111 assertions, 0 failures, 0 errors. The quadratic bound
+on these certificates remains the open part of A10.

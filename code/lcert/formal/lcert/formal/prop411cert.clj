@@ -2,6 +2,9 @@
   "A10: a concrete non-normal certificate for Proposition 4.11."
   (:require [ansatz.core :as a]
             [lcert.formal.base :refer [thm lv]]
+            [lcert.formal.usage :refer :all]
+            [lcert.formal.syntax :refer :all]
+            [lcert.formal.judgment :refer :all]
             [lcert.formal.section4c]
             [lcert.formal.certcanon]))
 
@@ -66,3 +69,58 @@
                   (cnodes (encCert m (codeTerm (sh4_bush n)) Exp.tSyn T1 T2)))
     (cert_term_size m (codeTerm (sh4_bush n)) Exp.tSyn T1 T2))
   (omega))
+
+;; A derivation-tree schema for the sharing chain.  Its outer context is
+;; Syn :: D, and only variable 0 is read; D holds the older let bindings.
+;; Each successor adds one App, Lam, and Snode rule, while the old tree is
+;; shared once in the derivation.  The two occurrences of x are variables,
+;; so neither recursively duplicates the preceding derivation.
+(lcert.formal.base/kdef! 'sh4_open_tree '(=> Nat (=> (List Exp) DT))
+  '(fn [n :- Nat, D :- (List Exp)]
+    ((Nat.rec$1 (fn [_ :- Nat] (=> (List Exp) DT))
+      (fn [D :- (List Exp)]
+      (DT.rVar (List.cons Exp Exp.tSyn D)
+        (List.cons U U.uw (vzero (lenE D))) 0 Exp.tSyn U.uw))
+      (fn [k :- Nat, rec :- (=> (List Exp) DT)]
+        (fn [D :- (List Exp)]
+      (DT.rApp (List.cons Exp Exp.tSyn D)
+        (vzero (lenE (List.cons Exp Exp.tSyn D)))
+        (List.cons U U.uw (vzero (lenE D))) U.uw
+        (Exp.lam U.uw Exp.tSyn (sh4_open k))
+        (Exp.snode (Exp.lbl 0) (Exp.var 0) (Exp.var 0))
+        Exp.tSyn Exp.tSyn
+        (DT.rLam (List.cons Exp Exp.tSyn D)
+          (vzero (lenE (List.cons Exp Exp.tSyn D))) U.uw Exp.tSyn
+          (sh4_open k) Exp.tSyn
+          (DT.fBase (List.cons Exp Exp.tSyn D) Exp.tSyn)
+          (rec (List.cons Exp Exp.tSyn D)))
+        (DT.rSnode (List.cons Exp Exp.tSyn D)
+          (vzero (lenE (List.cons Exp Exp.tSyn D)))
+          (List.cons U U.uw (vzero (lenE D)))
+          (List.cons U U.uw (vzero (lenE D)))
+          (Exp.lbl 0) (Exp.var 0) (Exp.var 0)
+          (DT.rConst (List.cons Exp Exp.tSyn D)
+            (vzero (lenE (List.cons Exp Exp.tSyn D)))
+            (Exp.lbl 0) Exp.tLbl)
+          (DT.rVar (List.cons Exp Exp.tSyn D)
+            (List.cons U U.uw (vzero (lenE D))) 0 Exp.tSyn U.uw)
+          (DT.rVar (List.cons Exp Exp.tSyn D)
+            (List.cons U U.uw (vzero (lenE D))) 0 Exp.tSyn U.uw))
+        (DT.fBase (List.cons Exp Exp.tSyn D) Exp.tSyn)
+        (DT.fBase (List.cons Exp Exp.tSyn (List.cons Exp Exp.tSyn D))
+          Exp.tSyn))))
+      n) D)))
+
+(lcert.formal.base/kdef! 'sh4_cn_tree '(=> Nat DT)
+  '(fn [n :- Nat]
+     (DT.rApp (List.nil Exp) (List.nil U) (List.nil U) U.uw
+       (Exp.lam U.uw Exp.tSyn (sh4_open n)) (Exp.sleaf (Exp.lbl 0))
+       Exp.tSyn Exp.tSyn
+       (DT.rLam (List.nil Exp) (List.nil U) U.uw Exp.tSyn
+         (sh4_open n) Exp.tSyn
+         (DT.fBase (List.nil Exp) Exp.tSyn)
+         (sh4_open_tree n (List.nil Exp)))
+       (DT.rSleaf (List.nil Exp) (List.nil U) (Exp.lbl 0)
+         (DT.rConst (List.nil Exp) (List.nil U) (Exp.lbl 0) Exp.tLbl))
+       (DT.fBase (List.nil Exp) Exp.tSyn)
+       (DT.fBase (List.cons Exp Exp.tSyn (List.nil Exp)) Exp.tSyn))))
