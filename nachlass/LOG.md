@@ -7372,3 +7372,16 @@ the term-by-term bridge to `trF_subst`. The kernel then checks
 leaves its translated type unchanged. The warm focused suite passed 8 tests,
 37 assertions, with 0 failures and 0 errors. A typing derivation at that
 exact closed type still needs the required formation premise.
+
+## 2026-10-15 — A05: all PA proofs obtain finite-support closed lines
+
+A red test found the closed-sentence and combined closure theorems absent.
+For support zero, `paClosed_form1` obtains formation in the one-Nat context
+from `trF_form`; `Rt.rApp` applies the positive-bound closed proof to zero.
+`paClosed_inst0_type` identifies the resulting type with the untranslated
+closed sentence. `pa_lcert_closed0_F` gives the exact `paCloseF` type, and
+`pa_lcert_closed` splits zero versus positive support to cover every PA
+proof. This is an external typed object derivation, not PA-internal CHECK
+correctness. The warm focused suite passed 10 tests, 42 assertions, with
+0 failures and 0 errors. The converse link to arbitrary Good contexts is
+the remaining A05 agreement obligation.

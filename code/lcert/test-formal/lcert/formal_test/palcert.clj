@@ -74,6 +74,20 @@
     (doseq [nm '[paClosed_substPA paInst0_hyp paClosed_inst0_type]]
       (is (b/has? nm) (str nm)))))
 
+(deftest a05-closed-sentence-translation
+  (testing "a PA proof of a zero-support sentence yields a closed derivation"
+    (doseq [nm '[paClosed_form1 pa_lcert_closed0 pa_lcert_closed0_F]]
+      (is (b/has? nm) (str nm)))))
+
+(deftest a05-all-proofs-close
+  (testing "every PA proof has a derivation at its finite-support closure"
+    (is (b/has? 'pa_lcert_closed))
+    (is (not (b/rejects?
+      '[chkf :- (=> Code Code Bool), p :- PF, hp :- (PPrv p)]
+      '(Exists (fn [e :- Exp]
+        (Rt chkf (List.nil Exp) (List.nil U) e (paCloseF p))))
+      '[(exact (pa_lcert_closed chkf p hp))])))))
+
 (deftest all-pa-proofs-translate
   (doseq [nm '[pa_axiom_translation pa_lcert pa_refutation]]
     (is (b/has? nm) (str nm)))

@@ -404,3 +404,85 @@
   (exact (Eq.trans hs
     (congrArg (fn [q :- PF] (trF q (fn [i :- Nat] i)))
       (paClosed_substPA p hz)))))
+
+;; Formation is needed by Rt.rApp.  It lives in the one-Nat context, exactly
+;; where trF_form can derive it from the total fallback environment.
+(thm paClosed_form1 [chkf :- (=> Code Code Bool), p :- PF,
+  hz :- (Eq Nat (paSupportF p) 0)]
+  (Tl chkf Bool.true (paNatD 1)
+    (trF p (fn [i :- Nat] i)) Exp.tUnit)
+  (have hs (LE.le (paSupportF p) 1)
+    (Eq.mpr (congrArg (fn [s :- Nat] (LE.le s 1)) hz)
+      (Nat.zero_le 1)))
+  (have hag (paAgree (paSupportF p) (paEnv 1) (fn [i :- Nat] i))
+    (fn [i :- Nat, hi :- (LT.lt i (paSupportF p))]
+      (paEnv_agree 1 i (Nat.lt_of_lt_of_le hi hs))))
+  (have heq (Eq Exp (trF p (paEnv 1))
+                   (trF p (fn [i :- Nat] i)))
+    (trF_support p (paEnv 1) (fn [i :- Nat] i) hag))
+  (exact (Eq.mp (congrArg (fn [A :- Exp]
+    (Tl chkf Bool.true (paNatD 1) A Exp.tUnit)) heq)
+    (trF_form chkf p (paNatD 1) (paEnv 1)
+      (paEnv_good 1 (Nat.zero_lt_succ 0))))))
+
+(thm pa_lcert_closed0
+  [chkf :- (=> Code Code Bool), p :- PF, hp :- (PPrv p),
+   hz :- (Eq Nat (paSupportF p) 0)]
+  (Exists (fn [e :- Exp]
+    (Rt chkf (List.nil Exp) (List.nil U) e
+      (trF p (fn [i :- Nat] i)))))
+  (have hs (LE.le (paSupportF p) 1)
+    (Eq.mpr (congrArg (fn [s :- Nat] (LE.le s 1)) hz)
+      (Nat.zero_le 1)))
+  (refine' (exists_elimE _ _
+    (pa_finite_lcert_pos chkf p hp 1 (Nat.zero_lt_succ 0) hs) _))
+  (intro f hf)
+  (have hform (Tl chkf Bool.true (paNatD 1)
+      (trF p (fn [i :- Nat] i)) Exp.tUnit)
+    (paClosed_form1 chkf p hz))
+  (have happ (Rt chkf (List.nil Exp) (List.nil U)
+      (Exp.app f Exp.zero)
+      (subst1 Exp.zero (trF p (fn [i :- Nat] i))))
+    (Rt.rApp chkf (List.nil Exp) (List.nil U) (List.nil U) U.uw
+      f Exp.zero Exp.tNat (trF p (fn [i :- Nat] i)) rfl hf
+      (Rt.rConst chkf (List.nil Exp) (List.nil U)
+        Exp.zero Exp.tNat rfl rfl)
+      (Tl.fBase chkf (List.nil Exp) Exp.tNat rfl) hform))
+  (constructor)
+  (exact (Exp.app f Exp.zero))
+  (exact (Eq.mp (congrArg (fn [A :- Exp]
+    (Rt chkf (List.nil Exp) (List.nil U) (Exp.app f Exp.zero) A))
+      (paClosed_inst0_type p hz)) happ)))
+
+(thm pa_lcert_closed0_F
+  [chkf :- (=> Code Code Bool), p :- PF, hp :- (PPrv p),
+   hz :- (Eq Nat (paSupportF p) 0)]
+  (Exists (fn [e :- Exp]
+    (Rt chkf (List.nil Exp) (List.nil U) e (paCloseF p))))
+  (have heq (Eq Exp (paCloseF p)
+      (trF p (fn [i :- Nat] i)))
+    (Eq.trans
+      (congrArg (fn [s :- Nat]
+        (paCloseN s (trF p (fn [i :- Nat] i)))) hz)
+      rfl))
+  (refine' (exists_elimE _ _ (pa_lcert_closed0 chkf p hp hz) _))
+  (intro e he)
+  (constructor)
+  (exact e)
+  (exact (Eq.mpr (congrArg (fn [A :- Exp]
+    (Rt chkf (List.nil Exp) (List.nil U) e A)) heq) he)))
+
+;; This is the external closed-line form of F6.3.  It asserts an object
+;; derivation for every H_PA proof; it does not assert PA-internal CHECK
+;; correctness or a primitive-recursive proof-code translation.
+(thm pa_lcert_closed
+  [chkf :- (=> Code Code Bool), p :- PF, hp :- (PPrv p)]
+  (Exists (fn [e :- Exp]
+    (Rt chkf (List.nil Exp) (List.nil U) e (paCloseF p))))
+  (have hor (Or (Eq Nat (paSupportF p) 0)
+                (LT.lt 0 (paSupportF p)))
+    (Nat.eq_zero_or_pos (paSupportF p)))
+  (cases hor)
+  (exact (pa_lcert_closed0_F chkf p hp h))
+  (exact (pa_finite_lcert_pos chkf p hp (paSupportF p) h
+    (Nat.le_refl (paSupportF p)))))
