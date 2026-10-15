@@ -107,3 +107,47 @@
   (exact (check_cert_ok 0 (sh4_doubler (sh4_num n)) (sh4_M)
     (sh4_doubler_tree n) sh4_doubler_form_tree
     (sh4_doubler_tree_check n) rfl rfl)))
+
+;; The successor tree stores the current numeral once and the preceding
+;; derivation once.  Generate its exact F7 equation from the encoder table.
+(let [ctors (deref #'lcert.formal.certenc/dt-ctors)
+      info @(deref #'lcert.formal.certenc/ty-info)
+      finfo @(deref #'lcert.formal.certenc/fuel-info)
+      chain (deref #'lcert.formal.certenc/chain-enc)
+      nodes (deref #'lcert.formal.certcanon/nodes-of)
+      proof (deref #'lcert.formal.certcanon/cnodes-eq)
+      [i [_ fields]] (first (filter (fn [[_ [nm _]]] (= nm 'rSucc))
+                            (map-indexed vector ctors)))
+      ctor (apply list 'DT.rSucc (map first fields))
+      code (chain i (for [[x T] fields]
+                      (list (if (= T 'DT) 'encDT
+                              (first (or (info T) (finfo T)))) x)))]
+  (a/prove-theorem 'sh4_encDT_rSucc_nodes
+    (lv (hd/f7-params fields))
+    (lv (list 'Eq 'Nat (list 'cnodes (list 'encDT ctor)) (nodes code)))
+    (lv [(list 'have 'q_e (list 'Eq 'Code (list 'encDT ctor) code) '(rfl))
+         (list 'exact (list 'Eq.trans '(congrArg cnodes q_e) (proof code)))])))
+
+(thm sh4_num_tree_size_zero []
+  (Eq Nat (cnodes (encDT (sh4_num_tree 0))) 4)
+  (rfl))
+
+(thm sh4_num_tree_size_step [n :- Nat]
+  (Eq Nat (cnodes (encDT (sh4_num_tree (Nat.succ n))))
+          (+ (cnodes (encDT (sh4_num_tree n))) (+ n 4)))
+  (rw [(sh4_num_tree_succ n)])
+  (simp [sh4_encDT_rSucc_nodes sh4_num_enc_linear])
+  (omega))
+
+(thm sh4_num_tree_bound [n :- Nat]
+  (LE.le (cnodes (encDT (sh4_num_tree n)))
+         (+ (Nat.mul n n) (+ n (+ n (+ n (+ n 4))))))
+  (induction n)
+  (exact (Nat.le_refl 4))
+  (have hs (Eq Nat (cnodes (encDT (sh4_num_tree (Nat.succ n))))
+               (+ (cnodes (encDT (sh4_num_tree n))) (+ n 4)))
+    (sh4_num_tree_size_step n))
+  (have hsq (Eq Nat (Nat.mul (Nat.succ n) (Nat.succ n))
+                 (+ (Nat.mul n n) (+ n (+ n 1))))
+    (sh4_sq_succ n))
+  (omega))

@@ -831,11 +831,11 @@ Stored proposition definition:
 ∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (cap : Nat), ∀ (n : Nat), @Eq.{1} Nat (cnodes (Prod.fst (@Sk.rec.{2} (fun (_ : Sk) => Type) Unit Bool Nat Nat Code Unit Code (fun (x : Sk) => fun (y : Sk) => fun (cx : Type) => fun (cy : Type) => ∀ (j : cx), cy) (fun (x : Sk) => fun (y : Sk) => fun (cx : Type) => fun (cy : Type) => Prod cx cy) Sk.syn) (@Sk.rec.{2} (fun (_ : Sk) => Type) Unit Bool Nat Nat Code Unit Code (fun (x : Sk) => fun (y : Sk) => fun (cx : Type) => fun (cy : Type) => ∀ (j : cx), cy) (fun (x : Sk) => fun (y : Sk) => fun (cx : Type) => fun (cy : Type) => Prod cx cy) Sk.unit) (den chkf dec encTy cap (sh4_doubler (sh4_num n)) (List.nil Sk) (Sk.prod Sk.syn Sk.unit) Unit.unit))) (Nat.sub (sh4_pow n) 1)
 ```
 
-**Verdict: different (partial).** Typed budget-zero code generation and 2^n-1 denotation are proved. `sh4_num_enc_linear` proves that F7's unary numeral term field has exactly `n` internal nodes. `sh4_doubler_tree_check` and `prop412_explicit_cert` give an accepted F7 certificate for every `n`. Its derivation-tree size and resulting polynomial certificate-growth bound remain open; numerical certificate counts 414/460/522 belong to ADR-0008.
+**Verdict: different (partial).** Typed budget-zero code generation and 2^n-1 denotation are proved. `sh4_num_enc_linear` proves that F7's unary numeral term field has exactly `n` internal nodes. `sh4_doubler_tree_check` and `prop412_explicit_cert` give an accepted F7 certificate for every `n`. `sh4_num_tree_bound` proves a quadratic F7 node bound for its recursive numeral proof subtree. The complete certificate-size bound remains open; numerical certificate counts 414/460/522 belong to ADR-0008.
 
 **Extra-premise satisfiability:** No extra semantic premise for `prop412`; the polynomial certificate-growth assertion has no kernel statement or satisfiability theorem.
 
-**Suite coverage:** `prop412` and `prop412_nodes` → `lcert.formal-test.section4c/f4-section4c`; `sh4_num_enc_linear` → `lcert.formal-test.section4c/a06-numeral-encoding-size`; `prop412_explicit_cert` → `lcert.formal-test.section4c/a06-certificate-family`.
+**Suite coverage:** `prop412` and `prop412_nodes` → `lcert.formal-test.section4c/f4-section4c`; `sh4_num_enc_linear` → `lcert.formal-test.section4c/a06-numeral-encoding-size`; `prop412_explicit_cert` → `lcert.formal-test.section4c/a06-certificate-family`; `sh4_num_tree_bound` → `lcert.formal-test.section4c/a06-numeral-tree-size`.
 
 ### Proposition 4.12(2)
 

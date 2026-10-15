@@ -7280,3 +7280,14 @@ Ansatz checked both trees through `dtCheck`, then checked acceptance of
 `prop412_explicit_cert`; the focused warm suite passed 11 tests and 140
 assertions with 0 failures and 0 errors. The certificate's size bound is
 the remaining A06 obligation.
+
+## 2026-10-15 — A06: quadratic size of the numeral proof subtree
+
+The test was red for the missing F7 successor-tree size equation and bound.
+A constructor-table generator produced `sh4_encDT_rSucc_nodes`; the kernel
+checked its exact equation. `sh4_num_tree_size_step` adds `n+4` nodes at the
+next numeral, and induction proves `sh4_num_tree_bound`:
+`cnodes(encDT(sh4_num_tree n)) ≤ n²+4n+4`. This is the only growing subtree
+of the doubler's derivation. The focused warm suite passed 12 tests and 143
+assertions with 0 failures and 0 errors. The outer tree and certificate
+wrapper still need an all-`n` bound.

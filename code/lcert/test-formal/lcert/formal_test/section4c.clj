@@ -82,6 +82,12 @@
           '(Eq Bool (Check decCert (sh4_doubler_cert n) (encE (sh4_M))) Bool.true)
           '[(exact (prop412_explicit_cert n))])))))
 
+(deftest a06-numeral-tree-size
+  (testing "the numeral proof subtree has a quadratic F7 node bound"
+    (doseq [c '[sh4_encDT_rSucc_nodes sh4_num_tree_size_step
+                sh4_num_tree_bound]]
+      (is (b/has? c) (str c)))))
+
 (deftest f4-section4c
   (testing "Proposition 4.11: the sharing chain, its denotation, and the node count"
     (doseq [c '[sh4_pow_succ sh4_bush_succ sh4_grow_zero sh4_grow_succ
