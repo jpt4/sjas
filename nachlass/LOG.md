@@ -7317,3 +7317,13 @@ typed equivalence or a closed proof translation. The existing `pa_lcert`
 premise `Good D ρ` covers every index, so it cannot be instantiated at a
 finite Nat context; that bridge requires a support-restricted derivation or
 an explicit correction to the paper's closed-line claim.
+
+## 2026-10-15 — A05: close a finite Nat-context derivation
+
+`paNatD n` names the finite Nat context, and `paCloseLam n e` inserts the
+matching omega lambdas. `paClose_intro` is kernel checked for every checker,
+`n`, term, and type: a derivation under `paNatD n` closes to a derivation of
+`paCloseN n A` in the empty context. The warm focused suite passed 3 tests,
+17 assertions, with 0 failures and 0 errors. This is the generic context-to-
+closure direction. A support-bounded version of `pa_lcert` and the converse
+closed-line/open-context bridge remain A05 obligations.

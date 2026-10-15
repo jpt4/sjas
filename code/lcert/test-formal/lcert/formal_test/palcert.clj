@@ -15,6 +15,17 @@
       '(Eq Nat (paSupportF (PF.pall (PF.peq (PT.pv 0) PT.pz))) 0)
       '[(rfl)])))))
 
+(deftest a05-closure-introduction
+  (testing "a derivation in a finite Nat context can be closed by Nat lambdas"
+    (doseq [nm '[paNatD paCloseLam paClose_intro]]
+      (is (b/has? nm) (str nm)))
+    (is (not (b/rejects?
+      '[chkf :- (=> Code Code Bool), e :- Exp, A :- Exp,
+        he :- (Rt chkf (paNatD 1) (allW (paNatD 1)) e A)]
+      '(Rt chkf (List.nil Exp) (List.nil U)
+        (paCloseLam 1 e) (paCloseN 1 A))
+      '[(exact (paClose_intro chkf 1 e A he))])))))
+
 (deftest all-pa-proofs-translate
   (doseq [nm '[pa_axiom_translation pa_lcert pa_refutation]]
     (is (b/has? nm) (str nm)))

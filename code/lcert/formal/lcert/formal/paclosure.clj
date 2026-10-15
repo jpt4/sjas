@@ -5,8 +5,9 @@
   counts de Bruijn indices that may occur free; under a PA quantifier the
   bound drops by one.  Closing with that many Nat binders is the bounded
   form of the paper's ordered universal closure."
-  (:require [lcert.formal.base :refer [kdef]]
-            [lcert.formal.patr]))
+  (:require [lcert.formal.base :refer [kdef thm]]
+            [lcert.formal.patr]
+            [lcert.formal.paform]))
 
 ;; Nat.max is not exported by Ansatz's Init snapshot.  Addition after
 ;; truncated subtraction computes the same maximum on natural numbers.
@@ -41,11 +42,45 @@
 ;; closure used by proofs is available to extracted code.
 (kdef paCloseN (=> Nat Exp Exp)
   (fn [n :- Nat, A :- Exp]
-    (Nat.rec$1 (fn [_ :- Nat] Exp)
-      A
-      (fn [k :- Nat, ih :- Exp] (Exp.tPi U.uw Exp.tNat ih))
-      n)))
+    ((Nat.rec$1 (fn [_ :- Nat] (=> Exp Exp))
+       (fn [B :- Exp] B)
+       (fn [k :- Nat, ih :- (=> Exp Exp)]
+         (fn [B :- Exp] (ih (Exp.tPi U.uw Exp.tNat B))))
+       n) A)))
 
 (kdef paCloseF (=> PF Exp)
   (fn [p :- PF]
     (paCloseN (paSupportF p) (trF p (fn [i :- Nat] i)))))
+
+;; The context is ordered from the innermost Nat entry outward.  Closing a
+;; judgment removes the head entry first, and its usage is omega.
+(kdef paNatD (=> Nat (List Exp))
+  (fn [n :- Nat]
+    (Nat.rec$1 (fn [_ :- Nat] (List Exp))
+      (List.nil Exp)
+      (fn [k :- Nat, ih :- (List Exp)] (List.cons Exp Exp.tNat ih))
+      n)))
+
+(kdef paCloseLam (=> Nat Exp Exp)
+  (fn [n :- Nat, e :- Exp]
+    ((Nat.rec$1 (fn [_ :- Nat] (=> Exp Exp))
+       (fn [t :- Exp] t)
+       (fn [k :- Nat, ih :- (=> Exp Exp)]
+         (fn [t :- Exp] (ih (Exp.lam U.uw Exp.tNat t))))
+       n) e)))
+
+(thm paClose_intro [chkf :- (=> Code Code Bool), n :- Nat]
+  (forall [e Exp] (forall [A Exp]
+    (=> (Rt chkf (paNatD n) (allW (paNatD n)) e A)
+        (Rt chkf (List.nil Exp) (List.nil U)
+          (paCloseLam n e) (paCloseN n A)))))
+  (induction n)
+  (intro e A he)
+  (exact he)
+  (intro e A he)
+  (have hl (Rt chkf (paNatD n) (allW (paNatD n))
+             (Exp.lam U.uw Exp.tNat e) (Exp.tPi U.uw Exp.tNat A))
+    (Rt.rLam chkf (paNatD n) (allW (paNatD n)) U.uw Exp.tNat e A
+      (Tl.fBase chkf (paNatD n) Exp.tNat rfl) he))
+  (exact (ih_n (Exp.lam U.uw Exp.tNat e)
+           (Exp.tPi U.uw Exp.tNat A) hl)))
