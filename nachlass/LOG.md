@@ -7268,3 +7268,15 @@ internal node; induction now kernel-checks that the numeral in Proposition
 4.12(1) has exactly `n` nodes in the term field. The warm server reported
 10 tests, 133 assertions, 0 failures, 0 errors for the affected section4c
 suite. The derivation-tree size, hence the certificate bound, remains open.
+
+## 2026-10-15 — A06: accepted F7 certificate family
+
+The red test found six absent constants. The untrusted derivation generator
+showed that the doubler's trees at numerals zero and one differ only at the
+numeral term and its proof subtree. `sh4_num_tree` builds that subtree by
+Nat recursion; `sh4_doubler_tree` inserts it into the fixed recursor tree.
+Ansatz checked both trees through `dtCheck`, then checked acceptance of
+`sh4_doubler_cert n` by `Check decCert` for every `n`. The new theorem is
+`prop412_explicit_cert`; the focused warm suite passed 11 tests and 140
+assertions with 0 failures and 0 errors. The certificate's size bound is
+the remaining A06 obligation.

@@ -1,8 +1,28 @@
 (ns lcert.formal.prop412poly
   "A06: F7 size facts for the unary numeral in Proposition 4.12(1)."
-  (:require [lcert.formal.base :refer [thm]]
+  (:require [ansatz.core :as a]
+            [lcert.formal.base :as b :refer [thm lv]]
+            [lcert.formal.dtgen :as g]
+            [lcert.formal.check-dt :as dt]
+            [lcert.formal.check-der :as cd]
+            [lcert.formal.check-hd :as hd]
             [lcert.formal.section4c]
+            [lcert.formal.prop411poly]
             [lcert.formal.certcanon]))
+
+;; Generate checker equations from the same constructor table that defines
+;; dtCheck.  The kernel verifies each generated equation by reduction.
+(doseq [nm '[rSucc rRecN]]
+  (let [[family rule] (first (filter (fn [[_ r]] (= nm (first r))) dt/dt-rules))
+        fields ((deref #'dt/dt-fields) rule)
+        checks ((deref #'cd/checks-of) family rule
+                 (fn [x j] (list 'dtCheck 'chkf x j)))
+        tree (apply list (symbol (str "DT." nm)) (map first fields))]
+    (a/prove-theorem (symbol (str "dtCheck_" nm "_eq"))
+      (lv (hd/f7-params (concat [['chkf '(=> Code Code Bool)]] fields [['JJ 'DTJ]])))
+      (lv (list 'Eq 'Bool (list 'dtCheck 'chkf tree 'JJ)
+            (hd/f7-and (map first checks))))
+      (lv '[(rfl)]))))
 
 ;; F7 stores each successor under one Code.sn and zero under a Code.sl.
 ;; These equations concern the term field of a certificate; the derivation
@@ -18,3 +38,72 @@
   (rfl)
   (rw [(sh4_num_enc_step n)])
   (omega))
+
+;; The generator supplies the fixed recursor body from the paper's term.
+;; The only variable part is the numeral and its recursive derivation tree.
+;; Both generated trees are independently checked below by dtCheck.
+(b/kdef! 'sh4_num_tree '(=> Nat DT)
+  '(fn [n :- Nat]
+     (Nat.rec$1 (fn [_ :- Nat] DT)
+       (DT.rConst (List.nil Exp) (List.nil U) Exp.zero Exp.tNat)
+       (fn [k :- Nat, rec :- DT]
+         (DT.rSucc (List.nil Exp) (List.nil U) (sh4_num k) rec)) n)))
+
+(thm sh4_num_tree_succ [n :- Nat]
+  (Eq DT (sh4_num_tree (Nat.succ n))
+    (DT.rSucc (List.nil Exp) (List.nil U) (sh4_num n) (sh4_num_tree n)))
+  (rfl))
+
+(thm sh4_num_tree_check [n :- Nat]
+  (Eq Bool (dtCheck (Check decCert) (sh4_num_tree n)
+             (DTJ.rt (List.nil Exp) (List.nil U) (sh4_num n) Exp.tNat))
+           Bool.true)
+  (induction n)
+  (rfl)
+  (rw [(sh4_num_tree_succ n)])
+  (simp [dtCheck_rSucc_eq ih_n])
+  (constructor)
+  (exact (sh4_dj_rt_refl (List.nil Exp) (List.nil U)
+           (Exp.succ (sh4_num n)) Exp.tNat))
+  (exact ih_n))
+
+(def ^:private motive [:tSig :uw [:tSyn] [:tUnit]])
+(def ^:private doubler-body
+  [:pair motive [:snode [:lbl 0] [:var 1] [:var 1]] [:star]])
+(def ^:private doubler-step [:letp motive [:var 0] doubler-body])
+(def ^:private doubler-base [:pair motive [:sleaf [:lbl 0]] [:star]])
+(def ^:private zero-doubler
+  [:recN motive doubler-base doubler-step [:zero]])
+
+(let [tree (vec (g/rt [] [] zero-doubler motive))
+      ;; rRecN's final fields are n, hn, hP, hz, hs.  Assert the generated
+      ;; shape before replacing precisely the two varying fields.
+      _ (assert (= (first tree) 'DT.rRecN))
+      _ (assert (= (nth tree 8) 'Exp.zero))
+      _ (assert (= (first (nth tree 9)) 'DT.rConst))
+      body (apply list (assoc tree 8 '(sh4_num n) 9 '(sh4_num_tree n)))]
+  (b/kdef! 'sh4_doubler_tree '(=> Nat DT)
+    (lv (list 'fn '[n :- Nat] body))))
+
+(b/kdef! 'sh4_doubler_form_tree 'DT (lv (g/tl-form [] motive)))
+
+(thm sh4_doubler_tree_check [n :- Nat]
+  (Eq Bool (dtCheck (Check decCert) (sh4_doubler_tree n)
+             (DTJ.rt (List.nil Exp) (List.nil U)
+               (sh4_doubler (sh4_num n)) (sh4_M)))
+           Bool.true)
+  (unfold sh4_doubler_tree)
+  (simp [dtCheck_rRecN_eq sh4_num_tree_check
+         sh4_dj_rt_refl sh4_dj_tl_refl sh4_listE_refl sh4_listU_refl
+         expEq_refl]))
+
+(b/kdef! 'sh4_doubler_cert '(=> Nat Code)
+  '(fn [n :- Nat]
+     (encCert 0 (sh4_doubler (sh4_num n)) (sh4_M)
+       (sh4_doubler_tree n) sh4_doubler_form_tree)))
+
+(thm prop412_explicit_cert [n :- Nat]
+  (Eq Bool (Check decCert (sh4_doubler_cert n) (encE (sh4_M))) Bool.true)
+  (exact (check_cert_ok 0 (sh4_doubler (sh4_num n)) (sh4_M)
+    (sh4_doubler_tree n) sh4_doubler_form_tree
+    (sh4_doubler_tree_check n) rfl rfl)))

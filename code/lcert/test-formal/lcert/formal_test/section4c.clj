@@ -73,6 +73,15 @@
           '(Eq Nat (cnodes (encE (sh4_num n))) n)
           '[(exact (sh4_num_enc_linear n))])))))
 
+(deftest a06-certificate-family
+  (testing "the recursive doubler has an explicit checked F7 certificate at every numeral"
+    (doseq [c '[sh4_num_tree sh4_num_tree_check sh4_doubler_tree
+                sh4_doubler_tree_check sh4_doubler_cert prop412_explicit_cert]]
+      (is (b/has? c) (str c)))
+    (is (not (b/rejects? '[n :- Nat]
+          '(Eq Bool (Check decCert (sh4_doubler_cert n) (encE (sh4_M))) Bool.true)
+          '[(exact (prop412_explicit_cert n))])))))
+
 (deftest f4-section4c
   (testing "Proposition 4.11: the sharing chain, its denotation, and the node count"
     (doseq [c '[sh4_pow_succ sh4_bush_succ sh4_grow_zero sh4_grow_succ
