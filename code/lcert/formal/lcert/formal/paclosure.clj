@@ -84,3 +84,121 @@
       (Tl.fBase chkf (paNatD n) Exp.tNat rfl) he))
   (exact (ih_n (Exp.lam U.uw Exp.tNat e)
            (Exp.tPi U.uw Exp.tNat A) hl)))
+
+;; These two inequalities justify restricting an agreement hypothesis from
+;; a compound syntax node to either child.  Nat.sub is truncated subtraction.
+(thm paMax_left [a :- Nat, b :- Nat]
+  (LE.le a (paMax a b))
+  (unfold paMax)
+  (exact (Nat.le_add_right a (Nat.sub b a))))
+
+(thm paMax_right [a :- Nat, b :- Nat]
+  (LE.le b (paMax a b))
+  (have hor (Or (LE.le a b) (LE.le b a)) (Nat.le_total a b))
+  (cases hor)
+  (have hs (Eq Nat (+ (Nat.sub b a) a) b) (Nat.sub_add_cancel h))
+  (have hc (Eq Nat (+ a (Nat.sub b a)) (+ (Nat.sub b a) a))
+    (Nat.add_comm a (Nat.sub b a)))
+  (have q (Eq Nat (paMax a b) b) (Eq.trans (Eq.trans rfl hc) hs))
+  (exact (Eq.mpr (congrArg (fn [x :- Nat] (LE.le b x)) q)
+           (Nat.le_refl b)))
+  (have q (Eq Nat (paMax a b) a)
+    (Eq.trans
+      (congrArg (fn [x :- Nat] (+ a x)) (Nat.sub_eq_zero_of_le h))
+      (Nat.add_zero a)))
+  (exact (Eq.mpr (congrArg (fn [x :- Nat] (LE.le b x)) q) h)))
+
+(kdef paAgree (=> Nat (=> Nat Nat) (=> Nat Nat) Prop)
+  (fn [n :- Nat, ρ :- (=> Nat Nat), σ :- (=> Nat Nat)]
+    (forall [i Nat] (=> (LT.lt i n) (Eq Nat (ρ i) (σ i))))))
+
+;; The translated PA term reads only the indices below its computed bound.
+;; Each binary constructor projects agreement through the two paMax bounds.
+(thm trT_support [t :- PT]
+  (forall [ρ (=> Nat Nat)] (forall [σ (=> Nat Nat)]
+    (=> (paAgree (paSupportT t) ρ σ)
+        (Eq Exp (trT t ρ) (trT t σ)))))
+  (induction t)
+  (intro ρ σ h)
+  (exact (congrArg Exp.var (h i (Nat.lt_succ_self i))))
+  (intro ρ σ h) (rfl)
+  (intro ρ σ h)
+  (exact (congrArg Exp.succ (ih_t ρ σ h)))
+  (intro ρ σ h)
+  (have ht (paAgree (paSupportT t) ρ σ)
+    (fn [i :- Nat, hi :- (LT.lt i (paSupportT t))]
+      (h i (Nat.lt_of_lt_of_le hi
+             (paMax_left (paSupportT t) (paSupportT u))))))
+  (have hu (paAgree (paSupportT u) ρ σ)
+    (fn [i :- Nat, hi :- (LT.lt i (paSupportT u))]
+      (h i (Nat.lt_of_lt_of_le hi
+             (paMax_right (paSupportT t) (paSupportT u))))))
+  (have et (Eq Exp (trT t ρ) (trT t σ)) (ih_t ρ σ ht))
+  (have eu (Eq Exp (trT u ρ) (trT u σ)) (ih_u ρ σ hu))
+  (exact (congr (congrArg (fn [x :- Exp] (Exp.app (Exp.app trPLUS x))) et) eu))
+  (intro ρ σ h)
+  (have ht (paAgree (paSupportT t) ρ σ)
+    (fn [i :- Nat, hi :- (LT.lt i (paSupportT t))]
+      (h i (Nat.lt_of_lt_of_le hi
+             (paMax_left (paSupportT t) (paSupportT u))))))
+  (have hu (paAgree (paSupportT u) ρ σ)
+    (fn [i :- Nat, hi :- (LT.lt i (paSupportT u))]
+      (h i (Nat.lt_of_lt_of_le hi
+             (paMax_right (paSupportT t) (paSupportT u))))))
+  (have et (Eq Exp (trT t ρ) (trT t σ)) (ih_t ρ σ ht))
+  (have eu (Eq Exp (trT u ρ) (trT u σ)) (ih_u ρ σ hu))
+  (exact (congr (congrArg (fn [x :- Exp] (Exp.app (Exp.app trTIMES x))) et) eu)))
+
+(thm paSupp_pred [s :- Nat, k :- Nat,
+  h :- (LT.lt (Nat.succ k) s)]
+  (LT.lt k (Nat.sub s 1))
+  (omega))
+
+(thm paAgree_up [s :- Nat, ρ :- (=> Nat Nat), σ :- (=> Nat Nat),
+  h :- (paAgree (Nat.sub s 1) ρ σ)]
+  (paAgree s (trUpR ρ) (trUpR σ))
+  (intro i hi)
+  (cases i)
+  (rfl)
+  (exact (congrArg Nat.succ (h n (paSupp_pred s n hi)))))
+
+;; In the forall case, index zero is the bound Nat variable and each
+;; successor index refers to one of the prior free variables.
+(thm trF_support [p :- PF]
+  (forall [ρ (=> Nat Nat)] (forall [σ (=> Nat Nat)]
+    (=> (paAgree (paSupportF p) ρ σ)
+        (Eq Exp (trF p ρ) (trF p σ)))))
+  (induction p)
+  (intro ρ σ h)
+  (have ht (paAgree (paSupportT t) ρ σ)
+    (fn [i :- Nat, hi :- (LT.lt i (paSupportT t))]
+      (h i (Nat.lt_of_lt_of_le hi
+             (paMax_left (paSupportT t) (paSupportT u))))))
+  (have hu (paAgree (paSupportT u) ρ σ)
+    (fn [i :- Nat, hi :- (LT.lt i (paSupportT u))]
+      (h i (Nat.lt_of_lt_of_le hi
+             (paMax_right (paSupportT t) (paSupportT u))))))
+  (have et (Eq Exp (trT t ρ) (trT t σ)) (trT_support t ρ σ ht))
+  (have eu (Eq Exp (trT u ρ) (trT u σ)) (trT_support u ρ σ hu))
+  (exact (congrArg Exp.tT
+    (congr (congrArg (fn [x :- Exp] (Exp.app (Exp.app trEQ x))) et) eu)))
+  (intro ρ σ h) (rfl)
+  (intro ρ σ h)
+  (have hp (paAgree (paSupportF p) ρ σ)
+    (fn [i :- Nat, hi :- (LT.lt i (paSupportF p))]
+      (h i (Nat.lt_of_lt_of_le hi
+             (paMax_left (paSupportF p) (paSupportF q))))))
+  (have hq (paAgree (paSupportF q) (trSucR ρ) (trSucR σ))
+    (fn [i :- Nat, hi :- (LT.lt i (paSupportF q))]
+      (congrArg Nat.succ
+        (h i (Nat.lt_of_lt_of_le hi
+               (paMax_right (paSupportF p) (paSupportF q)))))))
+  (have ep (Eq Exp (trF p ρ) (trF p σ)) (ih_p ρ σ hp))
+  (have eq (Eq Exp (trF q (trSucR ρ)) (trF q (trSucR σ)))
+    (ih_q (trSucR ρ) (trSucR σ) hq))
+  (exact (congr (congrArg (fn [x :- Exp] (Exp.tPi U.uw x)) ep) eq))
+  (intro ρ σ h)
+  (have hp (paAgree (paSupportF p) (trUpR ρ) (trUpR σ))
+    (paAgree_up (paSupportF p) ρ σ h))
+  (exact (congrArg (fn [x :- Exp] (Exp.tPi U.uw Exp.tNat x))
+           (ih_p (trUpR ρ) (trUpR σ) hp))))

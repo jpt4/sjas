@@ -26,6 +26,23 @@
         (paCloseLam 1 e) (paCloseN 1 A))
       '[(exact (paClose_intro chkf 1 e A he))])))))
 
+(deftest a05-support-agreement
+  (testing "translations depend only on PA variables below their support"
+    (doseq [nm '[paMax_left paMax_right paAgree
+                 trT_support trF_support]]
+      (is (b/has? nm) (str nm)))
+    (is (not (b/rejects?
+      '[p :- PF, ρ :- (=> Nat Nat), σ :- (=> Nat Nat),
+        h :- (paAgree (paSupportF p) ρ σ)]
+      '(Eq Exp (trF p ρ) (trF p σ))
+      '[(exact (trF_support p ρ σ h))])))
+    (is (b/rejects?
+      '[]
+      '(Eq Exp
+         (trF (PF.peq (PT.pv 0) PT.pz) (fn [i :- Nat] 0))
+         (trF (PF.peq (PT.pv 0) PT.pz) (fn [i :- Nat] 1)))
+      '[(rfl)]))))
+
 (deftest all-pa-proofs-translate
   (doseq [nm '[pa_axiom_translation pa_lcert pa_refutation]]
     (is (b/has? nm) (str nm)))

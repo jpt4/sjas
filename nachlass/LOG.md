@@ -7327,3 +7327,15 @@ matching omega lambdas. `paClose_intro` is kernel checked for every checker,
 17 assertions, with 0 failures and 0 errors. This is the generic context-to-
 closure direction. A support-bounded version of `pa_lcert` and the converse
 closed-line/open-context bridge remain A05 obligations.
+
+## 2026-10-15 — A05: translation depends only on finite support
+
+The test first failed for absent support-agreement theorems. `paMax_left`
+and `paMax_right` justify both branches of a compound syntax node; the
+kernel then checked `trT_support` and `trF_support` by induction on PA
+syntax. Under a PA forall, `paAgree_up` accounts for the newly bound index
+and `paSupp_pred` lowers the bound. Thus two environments agreeing below
+`paSupportF p` yield definitionally equal translated `Exp` types. A negative
+test rejects equality of translations that assign different values to a
+free variable. The focused warm suite passed 4 tests, 24 assertions, with
+0 failures and 0 errors. The closed-line typed bridge is still open.
