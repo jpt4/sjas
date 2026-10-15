@@ -75,7 +75,301 @@
 (def ^:private zero-doubler
   [:recN motive doubler-base doubler-step [:zero]])
 
-(let [tree (vec (g/rt [] [] zero-doubler motive))
+;; The tree for zero-doubler, generated once by dtgen/rt and stored literally
+;; (Claude, 2026-10-15).  dtgen's rt has no synthesis rules for sleaf, snode
+;; or label constants, so the earlier (let [tree (g/rt …)] …) failed on a
+;; fresh load: it had only worked in a server whose dtgen was extended in the
+;; REPL.  This copy was generated with a REPL-local extension of rt-syn for
+;; exactly those three rules (rSleaf; rSnode, its usages split by alloc;
+;; rConst at Lbl).  Stored, the namespace loads from scratch without
+;; reloading dtgen's dependents, as prop411cert does with its tree, and
+;; sh4_doubler_tree_check below checks it with dtCheck in the kernel.
+(def doubler-tree-form
+  '
+  (DT.rRecN
+   (List.nil Exp)
+   (List.nil U)
+   (List.nil U)
+   (List.nil U)
+   (Exp.tSig U.uw Exp.tSyn Exp.tUnit)
+   (Exp.pair
+    (Exp.tSig U.uw Exp.tSyn Exp.tUnit)
+    (Exp.sleaf (Exp.lbl 0))
+    Exp.star)
+   (Exp.letp
+    (Exp.tSig U.uw Exp.tSyn Exp.tUnit)
+    (Exp.var 0)
+    (Exp.pair
+     (Exp.tSig U.uw Exp.tSyn Exp.tUnit)
+     (Exp.snode (Exp.lbl 0) (Exp.var 1) (Exp.var 1))
+     Exp.star))
+   Exp.zero
+   (DT.rConst (List.nil Exp) (List.nil U) Exp.zero Exp.tNat)
+   (DT.fSig
+    (List.cons Exp Exp.tNat (List.nil Exp))
+    U.uw
+    Exp.tSyn
+    Exp.tUnit
+    (DT.fBase (List.cons Exp Exp.tNat (List.nil Exp)) Exp.tSyn)
+    (DT.fBase
+     (List.cons Exp Exp.tSyn (List.cons Exp Exp.tNat (List.nil Exp)))
+     Exp.tUnit))
+   (DT.rPair
+    (List.nil Exp)
+    (List.nil U)
+    (List.nil U)
+    U.uw
+    Exp.tSyn
+    Exp.tUnit
+    (Exp.sleaf (Exp.lbl 0))
+    Exp.star
+    (DT.fBase (List.nil Exp) Exp.tSyn)
+    (DT.fBase (List.cons Exp Exp.tSyn (List.nil Exp)) Exp.tUnit)
+    (DT.rSleaf
+     (List.nil Exp)
+     (List.nil U)
+     (Exp.lbl 0)
+     (DT.rConst (List.nil Exp) (List.nil U) (Exp.lbl 0) Exp.tLbl))
+    (DT.rConst (List.nil Exp) (List.nil U) Exp.star Exp.tUnit))
+   (DT.rLet
+    (List.cons
+     Exp
+     (Exp.tSig U.uw Exp.tSyn Exp.tUnit)
+     (List.cons Exp Exp.tNat (List.nil Exp)))
+    (List.cons U U.u1 (List.cons U U.uw (List.nil U)))
+    (List.cons U U.u0 (List.cons U U.u0 (List.nil U)))
+    U.uw
+    Exp.tSyn
+    Exp.tUnit
+    (Exp.tSig U.uw Exp.tSyn Exp.tUnit)
+    (Exp.var 0)
+    (Exp.pair
+     (Exp.tSig U.uw Exp.tSyn Exp.tUnit)
+     (Exp.snode (Exp.lbl 0) (Exp.var 1) (Exp.var 1))
+     Exp.star)
+    (DT.rVar
+     (List.cons
+      Exp
+      (Exp.tSig U.uw Exp.tSyn Exp.tUnit)
+      (List.cons Exp Exp.tNat (List.nil Exp)))
+     (List.cons U U.u1 (List.cons U U.uw (List.nil U)))
+     0
+     (Exp.tSig U.uw Exp.tSyn Exp.tUnit)
+     U.u1)
+    (DT.fSig
+     (List.cons
+      Exp
+      (Exp.tSig U.uw Exp.tSyn Exp.tUnit)
+      (List.cons Exp Exp.tNat (List.nil Exp)))
+     U.uw
+     Exp.tSyn
+     Exp.tUnit
+     (DT.fBase
+      (List.cons
+       Exp
+       (Exp.tSig U.uw Exp.tSyn Exp.tUnit)
+       (List.cons Exp Exp.tNat (List.nil Exp)))
+      Exp.tSyn)
+     (DT.fBase
+      (List.cons
+       Exp
+       Exp.tSyn
+       (List.cons
+        Exp
+        (Exp.tSig U.uw Exp.tSyn Exp.tUnit)
+        (List.cons Exp Exp.tNat (List.nil Exp))))
+      Exp.tUnit))
+    (DT.fBase
+     (List.cons
+      Exp
+      (Exp.tSig U.uw Exp.tSyn Exp.tUnit)
+      (List.cons Exp Exp.tNat (List.nil Exp)))
+     Exp.tSyn)
+    (DT.fBase
+     (List.cons
+      Exp
+      Exp.tSyn
+      (List.cons
+       Exp
+       (Exp.tSig U.uw Exp.tSyn Exp.tUnit)
+       (List.cons Exp Exp.tNat (List.nil Exp))))
+     Exp.tUnit)
+    (DT.rPair
+     (List.cons
+      Exp
+      Exp.tUnit
+      (List.cons
+       Exp
+       Exp.tSyn
+       (List.cons
+        Exp
+        (Exp.tSig U.uw Exp.tSyn Exp.tUnit)
+        (List.cons Exp Exp.tNat (List.nil Exp)))))
+     (List.cons
+      U
+      U.u0
+      (List.cons
+       U
+       U.uw
+       (List.cons U U.u0 (List.cons U U.u0 (List.nil U)))))
+     (List.cons
+      U
+      U.u1
+      (List.cons
+       U
+       U.u0
+       (List.cons U U.u0 (List.cons U U.u0 (List.nil U)))))
+     U.uw
+     Exp.tSyn
+     Exp.tUnit
+     (Exp.snode (Exp.lbl 0) (Exp.var 1) (Exp.var 1))
+     Exp.star
+     (DT.fBase
+      (List.cons
+       Exp
+       Exp.tUnit
+       (List.cons
+        Exp
+        Exp.tSyn
+        (List.cons
+         Exp
+         (Exp.tSig U.uw Exp.tSyn Exp.tUnit)
+         (List.cons Exp Exp.tNat (List.nil Exp)))))
+      Exp.tSyn)
+     (DT.fBase
+      (List.cons
+       Exp
+       Exp.tSyn
+       (List.cons
+        Exp
+        Exp.tUnit
+        (List.cons
+         Exp
+         Exp.tSyn
+         (List.cons
+          Exp
+          (Exp.tSig U.uw Exp.tSyn Exp.tUnit)
+          (List.cons Exp Exp.tNat (List.nil Exp))))))
+      Exp.tUnit)
+     (DT.rSnode
+      (List.cons
+       Exp
+       Exp.tUnit
+       (List.cons
+        Exp
+        Exp.tSyn
+        (List.cons
+         Exp
+         (Exp.tSig U.uw Exp.tSyn Exp.tUnit)
+         (List.cons Exp Exp.tNat (List.nil Exp)))))
+      (List.cons
+       U
+       U.u0
+       (List.cons
+        U
+        U.u0
+        (List.cons U U.u0 (List.cons U U.u0 (List.nil U)))))
+      (List.cons
+       U
+       U.u0
+       (List.cons
+        U
+        U.uw
+        (List.cons U U.u0 (List.cons U U.u0 (List.nil U)))))
+      (List.cons
+       U
+       U.u0
+       (List.cons
+        U
+        U.uw
+        (List.cons U U.u0 (List.cons U U.u0 (List.nil U)))))
+      (Exp.lbl 0)
+      (Exp.var 1)
+      (Exp.var 1)
+      (DT.rConst
+       (List.cons
+        Exp
+        Exp.tUnit
+        (List.cons
+         Exp
+         Exp.tSyn
+         (List.cons
+          Exp
+          (Exp.tSig U.uw Exp.tSyn Exp.tUnit)
+          (List.cons Exp Exp.tNat (List.nil Exp)))))
+       (List.cons
+        U
+        U.u0
+        (List.cons
+         U
+         U.u0
+         (List.cons U U.u0 (List.cons U U.u0 (List.nil U)))))
+       (Exp.lbl 0)
+       Exp.tLbl)
+      (DT.rVar
+       (List.cons
+        Exp
+        Exp.tUnit
+        (List.cons
+         Exp
+         Exp.tSyn
+         (List.cons
+          Exp
+          (Exp.tSig U.uw Exp.tSyn Exp.tUnit)
+          (List.cons Exp Exp.tNat (List.nil Exp)))))
+       (List.cons
+        U
+        U.u0
+        (List.cons
+         U
+         U.uw
+         (List.cons U U.u0 (List.cons U U.u0 (List.nil U)))))
+       1
+       Exp.tSyn
+       U.uw)
+      (DT.rVar
+       (List.cons
+        Exp
+        Exp.tUnit
+        (List.cons
+         Exp
+         Exp.tSyn
+         (List.cons
+          Exp
+          (Exp.tSig U.uw Exp.tSyn Exp.tUnit)
+          (List.cons Exp Exp.tNat (List.nil Exp)))))
+       (List.cons
+        U
+        U.u0
+        (List.cons
+         U
+         U.uw
+         (List.cons U U.u0 (List.cons U U.u0 (List.nil U)))))
+       1
+       Exp.tSyn
+       U.uw))
+     (DT.rConst
+      (List.cons
+       Exp
+       Exp.tUnit
+       (List.cons
+        Exp
+        Exp.tSyn
+        (List.cons
+         Exp
+         (Exp.tSig U.uw Exp.tSyn Exp.tUnit)
+         (List.cons Exp Exp.tNat (List.nil Exp)))))
+      (List.cons
+       U
+       U.u1
+       (List.cons
+        U
+        U.u0
+        (List.cons U U.u0 (List.cons U U.u0 (List.nil U)))))
+      Exp.star
+      Exp.tUnit)))))
+
+(let [tree (vec doubler-tree-form)
       ;; rRecN's final fields are n, hn, hP, hz, hs.  Assert the generated
       ;; shape before replacing precisely the two varying fields.
       _ (assert (= (first tree) 'DT.rRecN))
