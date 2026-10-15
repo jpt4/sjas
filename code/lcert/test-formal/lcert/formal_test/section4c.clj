@@ -19,6 +19,11 @@
                                     (Exp.sleaf (Exp.lbl 0))))
                          '[(rfl)])))))
 
+(deftest a10-normal-literal-size
+  (testing "every canonical certificate recording the normal literal pays for its 2^n - 1 code nodes"
+    (is (b/has? 'cert_term_size))
+    (is (b/has? 'prop411_literal_lower))))
+
 (deftest f4-section4c
   (testing "Proposition 4.11: the sharing chain, its denotation, and the node count"
     (doseq [c '[sh4_pow_succ sh4_bush_succ sh4_grow_zero sh4_grow_succ

@@ -1,6 +1,7 @@
 (ns lcert.formal.prop411cert
   "A10: a concrete non-normal certificate for Proposition 4.11."
-  (:require [lcert.formal.base :refer [thm]]
+  (:require [ansatz.core :as a]
+            [lcert.formal.base :refer [thm lv]]
             [lcert.formal.section4c]
             [lcert.formal.certcanon]))
 
@@ -35,3 +36,33 @@
     (Eq Bool (Check decCert c (encE Exp.tSyn)) Bool.true)))
   (exact (check_complete 0 (sh4_cn 0) Exp.tSyn sh4_c0_tree sh4_c0_form
            rfl rfl rfl)))
+
+;; F7 records the complete term encoding strictly below the certificate
+;; root.  Reuse certcanon's exact generated node equation; the arithmetic
+;; proof is checked by the kernel, while the Clojure expression generator
+;; contributes no trusted inference.
+(def ^:private cert-nodes-form
+  ((deref #'lcert.formal.certcanon/nodes-of)
+   (deref #'lcert.formal.certcanon/cert-expr)))
+(a/prove-theorem 'cert_term_size
+  (lv '[m :- Nat, t :- Exp, A :- Exp, T1 :- DT, T2 :- DT])
+  (lv '(LT.lt (cnodes (encE t)) (cnodes (encCert m t A T1 T2))))
+  (lv [(list 'have 'q
+         (list 'Eq 'Nat '(cnodes (encCert m t A T1 T2)) cert-nodes-form)
+         '(cert_nodes m t A T1 T2))
+       '(omega)]))
+
+;; A literal for the normal code has at least one encoding node per code
+;; node (E4), and its term encoding is a proper part of any F7 certificate.
+(thm prop411_literal_lower [n :- Nat, m :- Nat, T1 :- DT, T2 :- DT]
+  (LE.le (Nat.sub (sh4_pow n) 1)
+         (cnodes (encCert m (codeTerm (sh4_bush n)) Exp.tSyn T1 T2)))
+  (have hb (Eq Nat (cnodes (sh4_bush n)) (Nat.sub (sh4_pow n) 1))
+    (prop411_nodes n))
+  (have he (LT.lt (cnodes (sh4_bush n))
+                  (cnodes (encE (codeTerm (sh4_bush n)))))
+    (code_enc_gt (sh4_bush n)))
+  (have hc (LT.lt (cnodes (encE (codeTerm (sh4_bush n))))
+                  (cnodes (encCert m (codeTerm (sh4_bush n)) Exp.tSyn T1 T2)))
+    (cert_term_size m (codeTerm (sh4_bush n)) Exp.tSyn T1 T2))
+  (omega))

@@ -7186,3 +7186,13 @@ changed `dtgen.clj`; its warm recheck ran out of heap while rebuilding
 `patransport`. Restoring that generator and rechecking the isolated witness
 succeeded: 2 tests, 105 assertions, 0 failures, 0 errors. A10's size bounds
 remain open.
+
+## 2026-10-14 — A10: normal literal certificate lower bound
+
+`cert_term_size` derives from F7's generated exact `cert_nodes` equation
+that a certificate strictly exceeds its recorded term encoding. Combining
+it with `code_enc_gt` and `prop411_nodes` yields
+`prop411_literal_lower`: any F7 certificate recording the normal literal
+has at least `2^n − 1` internal nodes. Focused warm check: 3 tests, 107
+assertions, 0 failures, 0 errors. The quadratic upper bound for `c_n`
+remains open.
