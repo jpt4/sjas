@@ -7361,3 +7361,14 @@ under `PF.pall`. This is needed to identify a zero-support formula with an
 instance where the otherwise unused free variable is replaced by zero.
 The warm focused suite passed 7 tests, 34 assertions, with 0 failures and
 0 errors. The zero-support typing bridge is still open.
+
+## 2026-10-15 — A05: zero-support type is stable under Nat instantiation
+
+The red test found three absent constants. `paClosed_substPA` uses finite
+substitution support to show that replacing a nonexistent free PA variable
+with zero leaves a zero-support formula unchanged. `paInst0_hyp` supplies
+the term-by-term bridge to `trF_subst`. The kernel then checks
+`paClosed_inst0_type`: substituting object zero for the extra Nat variable
+leaves its translated type unchanged. The warm focused suite passed 8 tests,
+37 assertions, with 0 failures and 0 errors. A typing derivation at that
+exact closed type still needs the required formation premise.

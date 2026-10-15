@@ -365,3 +365,42 @@
   (intro σ τ h)
   (exact (congrArg PF.pall
     (ih_p (paUp σ) (paUp τ) (paAgreePT_up (paSupportF p) σ τ h)))))
+
+(thm paAgreePT_zero [σ :- (=> Nat PT), τ :- (=> Nat PT)]
+  (paAgreePT 0 σ τ)
+  (intro i hi)
+  (exact (False.elim (Nat.not_lt_zero i hi))))
+
+(thm paClosed_substPA [p :- PF,
+  hz :- (Eq Nat (paSupportF p) 0)]
+  (Eq PF (paSbF (paInst PT.pz) p) p)
+  (have hag (paAgreePT (paSupportF p) (paInst PT.pz) PT.pv)
+    (Eq.mpr (congrArg
+      (fn [s :- Nat] (paAgreePT s (paInst PT.pz) PT.pv)) hz)
+      (paAgreePT_zero (paInst PT.pz) PT.pv)))
+  (exact (Eq.trans (paSbF_support p (paInst PT.pz) PT.pv hag)
+           (paSbF_id p))))
+
+(thm paInst0_hyp []
+  (forall [i Nat]
+    (Eq Exp (inst1 Exp.zero i)
+      (trT (paInst PT.pz i) (fn [j :- Nat] j))))
+  (intro i)
+  (cases i)
+  (rfl)
+  (rfl))
+
+(thm paClosed_inst0_type [p :- PF,
+  hz :- (Eq Nat (paSupportF p) 0)]
+  (Eq Exp
+    (subst1 Exp.zero (trF p (fn [i :- Nat] i)))
+    (trF p (fn [i :- Nat] i)))
+  (have hs (Eq Exp
+      (subst1 Exp.zero (trF p (fn [i :- Nat] i)))
+      (trF (paSbF (paInst PT.pz) p) (fn [i :- Nat] i)))
+    (trF_subst p (fn [i :- Nat] (inst1 Exp.zero i))
+      (fn [i :- Nat] i) (paInst PT.pz) (fn [i :- Nat] i)
+      paInst0_hyp))
+  (exact (Eq.trans hs
+    (congrArg (fn [q :- PF] (trF q (fn [i :- Nat] i)))
+      (paClosed_substPA p hz)))))

@@ -69,6 +69,11 @@
       '(Eq PF (paSbF σ p) (paSbF τ p))
       '[(exact (paSbF_support p σ τ h))])))))
 
+(deftest a05-closed-sentence-instantiation
+  (testing "a zero-support formula is unchanged by substituting zero for an unused Nat"
+    (doseq [nm '[paClosed_substPA paInst0_hyp paClosed_inst0_type]]
+      (is (b/has? nm) (str nm)))))
+
 (deftest all-pa-proofs-translate
   (doseq [nm '[pa_axiom_translation pa_lcert pa_refutation]]
     (is (b/has? nm) (str nm)))
