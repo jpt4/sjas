@@ -525,11 +525,11 @@ Stored proposition definition:
 ∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (hcs : CheckSpec chkf dec encTy), ∀ (hes : TokSize chkf dec), ∀ (A : Exp), ∀ (cA : Exp), ∀ (hcA : @Eq.{1} (Option Code) (codeOf cA) (Option.some Code (encTy A))), ∀ (hbc : @Eq.{1} Bool (closedTy (Exp.tSig U.u1 Exp.tR (chkT (Exp.var 0) cA))) Bool.true), ∀ (w : Code), ∀ (hw : @Eq.{1} Bool (chkf w (encTy (Exp.tSig U.u1 Exp.tR (chkT (Exp.var 0) cA)))) Bool.true), ∀ (M : Nat), ∀ (hM : ∀ (v : Code), ∀ (n : @Eq.{1} Bool (chkf v (encTy A)) Bool.true), LE.le Nat instLENat M (cnodes v)), LT.lt Nat instLTNat (Nat.add M M) (cnodes w)
 ```
 
-**Verdict: weaker.** Adds `CheckSpec`, `TokSize`, a code term `cA` with `codeOf cA = encTy A`, closedness of the formal box type, and a numerical lower bound `M` on every accepted certificate of `A` in place of the paper's defined `μ(A)`.
+**Verdict: exact at F7 through `prop43_mu_F7`.** The generic `prop43` has the displayed hypotheses; `muRaw_witness` selects the least accepted size and `prop43_mu_F7` specializes the bound at `Check decCert`.
 
-**Extra-premise satisfiability:** `check_toksize decCert` and `check_spec decCert` supply the checker premises. Choose `cA = cTerm (encTy A)`: `cterm_code` supplies its decoding equation and `box_closed` supplies closedness. For certifiable `A`, least-number reasoning yields `M = μ(A)`; no indexed kernel theorem selects that minimum, so the exact `μ` bridge is a finding.
+**Extra-premise satisfiability:** `check_toksize decCert` and `check_spec decCert` supply the checker premises. Choose `cA = cTerm (encTy A)`: `cterm_code` supplies its decoding equation and `box_closed` supplies closedness. `raw_min_exists` and `muRaw_witness` supply the minimum for raw certifiability.
 
-**Suite coverage:** `prop43` → `lcert.formal-test.prop434/f4-prop43-44`.
+**Suite coverage:** `prop43` → `lcert.formal-test.prop434/f4-prop43-44`; `prop43_mu_F7` → `lcert.formal-test.thm46f7/f4-minimum-certificate`.
 
 ### Proposition 4.4
 
@@ -653,11 +653,11 @@ Stored proposition definition:
 ∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (hcs : CheckSpec chkf dec encTy), ∀ (hts : TypeSize chkf dec encTy), ∀ (sz : Exp → Nat), ∀ (henc : Enc46 chkf dec sz), ∀ (k : Nat), ∀ (hLAB : LargeCert chkf dec sz (encTy (Exp.tPi U.u1 Exp.tUnit (negN (Nat.add k 1))))), ∀ (hLA : LargeCert chkf dec sz (encTy Exp.tUnit)), ∀ (t : Exp), Rt chkf (thetaD k) (thetaU k) t (Exp.tPi U.u1 (Exp.tSig U.u1 (boxTy (codeTerm (encTy (Exp.tPi U.u1 Exp.tUnit (negN (Nat.add k 1)))))) (boxTy (codeTerm (encTy Exp.tUnit)))) (boxTy (codeTerm (encTy (negN (Nat.add k 1)))))) → False
 ```
 
-**Verdict: weaker.** Concrete exact threshold requires certifiability witnesses and A!=B; no-uniform-budget part uses TypeSize and E5.
+**Verdict: exact at F7 for the corrected `μ_L` threshold.** `cor46_prime_mu_F7` proves the iff when the two input certificates are label-safe, `B` has a label-safe certificate, `B` is closed and `A ≠ B`. The paper now names `μ_L` separately from the least size among all accepted codes; the no-uniform-budget part uses TypeSize and E5.
 
 **Extra-premise satisfiability:** `check_spec decCert`, `enc46_canon`, `check_typesize decCert` discharge checker/encoding/size assumptions. Certifiability of A and A-lolli-B is the paper's premise; `check_complete_lbl` constructs witnesses from derivations. No single all-input witness theorem is expected.
 
-**Suite coverage:** `cor46_prime_iff_F7` → `lcert.formal-test.thm46f7/f4-thm46f7-theorems`; `d2_no_uniform` → `lcert.formal-test.cor46/f4-cor46`.
+**Suite coverage:** `cor46_prime_iff_F7` → `lcert.formal-test.thm46f7/f4-thm46f7-theorems`; `cor46_prime_mu_F7` → `lcert.formal-test.thm46f7/f4-minimum-certificate`; `d2_no_uniform` → `lcert.formal-test.cor46/f4-cor46`.
 
 ### Corollary 4.6″
 
@@ -677,11 +677,11 @@ Stored proposition definition:
 ∀ (A : Exp), ∀ (w : Code), ∀ (hw : @Eq.{1} Bool (Check decCert w (encE (boxTy (codeTerm (encE A))))) Bool.true), ∀ (M : Nat), ∀ (hM : ∀ (v : Code), ∀ (f : @Eq.{1} Bool (Check decCert v (encE A)) Bool.true), LE.le Nat instLENat M (cnodes v)), LT.lt Nat instLTNat (Nat.add M M) (cnodes w)
 ```
 
-**Verdict: weaker.** Concrete threshold requires a certificate of A and closed type; gap uses concrete TokSize.
+**Verdict: exact at F7 for the corrected pair of minima.** `cor46_dprime_mu_F7` gives the `μ_L(□A)` threshold with label-safe certificates of `A` and `□A`; `d3_gap_mu_F7` gives the gap against `2μ(A)` for the least accepted size. A bridge proving label-safe certifiability of `□A` solely from that of `A` is not among these theorems.
 
 **Extra-premise satisfiability:** `check_spec decCert`, `enc46_canon`, `check_toksize decCert` discharge checker/encoding/size assumptions. `check_complete_lbl` supplies witnesses for certifiable A.
 
-**Suite coverage:** `cor46_dprime_iff_F7` → `lcert.formal-test.thm46f7/f4-thm46f7-theorems`; `d3_gap_F7` → `lcert.formal-test.thm46f7/f4-thm46f7-theorems`.
+**Suite coverage:** `cor46_dprime_iff_F7` → `lcert.formal-test.thm46f7/f4-thm46f7-theorems`; `cor46_dprime_mu_F7` and `d3_gap_mu_F7` → `lcert.formal-test.thm46f7/f4-minimum-certificate`.
 
 ### Proposition 4.7
 
@@ -1152,7 +1152,7 @@ In Ansatz 0.2.115's jar, `ansatz/core.clj:257–278` defines `load-init!`; line 
 - [x] A09 — Theorem 4.6 / Lemma 4.6a premise satisfiability — add a named witness theorem for `PhOk J σ` (for example the constant safe-leaf family) at arbitrary J and document how concrete certifiability witnesses fill the hypothesis.
 - [x] A17 — Proposition 4.10 witness — prove a named closed derivation of `λ(x :₁ 0). x :¹ 0 ⊸ 0`, apply `check_complete_lbl` to obtain an accepted label-safe concrete certificate v, and specialize `prop410` at the fixed budget `cnodes v`.
 - [x] A11 — Lemma 2.4 formation premise — prove that a closed well-formed type A in the paper's two typing hypotheses supplies `Tl chkf true [] A 1`, or amend the paper to require that formation derivation explicitly.
-- [ ] A13 — Proposition 4.3 and Corollaries 4.6′/4.6″ — define `μ(A)` as the least node count of an accepted certificate for certifiable `A`, prove a named least-witness theorem, and specialize the current `M`-lower-bound and exists-certificate-at-most-k statements to the paper's `μ` notation.
+- [x] A13 — Proposition 4.3 and Corollaries 4.6′/4.6″ — `muRaw` is the paper's least accepted size, with `raw_min_exists`/`muRaw_witness` and `prop43_mu_F7`. The runtime upper bounds require label-safe codes: `muCert` selects their minimum, `least_cert_witness`/`mu_threshold` prove the threshold, and `cor46_prime_mu_F7`/`cor46_dprime_mu_F7` specialize it. R4 now calls this second quantity `μ_L`; no equality of the two minima is claimed.
 A08 — §7 legacy kernel facts: **superseded by ADR-0008** (implementation extraction). The six historical constants have separate legacy coverage; any implementation bridge belongs to ADR-0008.
 A16 — §7 code-to-CT rendering: **superseded by ADR-0008** (implementation extraction and measure preservation). Current §7 bridge remains test evidence.
 A15 — §7 independent-checker agreement: **superseded by ADR-0008** (extracted implementation and checker agreement). `dtCheck_agree` only compares formal checker functions under `AgreeF`.

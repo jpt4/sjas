@@ -37,3 +37,10 @@
                          [(list 'exact (list 'cert_closed cert 'Exp.tUnit '(Eq.refl Bool.true)))]))))
   (testing "⌜□A⌝ ≠ ⌜A⌝ is derived, but only between a type and its box: a type's code equals itself"
     (is (b/rejects? '[A :- Exp] '(=> (Eq Code (encE A) (encE A)) False) '[(intro e) (exact (box_code_ne A e))]))))
+
+(deftest f4-minimum-certificate
+  (testing "A13: raw and representable least certificate sizes, and their exact budget thresholds"
+    (doseq [c '[least_cert_nat SafeAcc CertAt Certifiable muCert least_cert_witness
+                mu_threshold RawAt RawCertifiable muRaw muRaw_witness
+                prop43_mu_F7 cor46_prime_mu_F7 cor46_dprime_mu_F7 d3_gap_mu_F7]]
+      (is (b/has? c) (str c)))))

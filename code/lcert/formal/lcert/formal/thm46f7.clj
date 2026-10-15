@@ -343,3 +343,244 @@
                 M :- Nat, hM :- (forall [v Code] (=> (Eq Bool (Check decCert v (encE A)) Bool.true) (LE.le M (cnodes v))))]
   (LT.lt (+ M M) (cnodes w))
   (exact (d3_gap (Check decCert) (decOf decCert) encE (check_spec decCert) (check_toksize decCert) A w hw M hM)))
+
+;; The natural numbers are well ordered.  This lemma selects the first true
+;; index without assuming decidability of the predicate; choice occurs only
+;; in the proof, while the certificate checker itself remains computable.
+(thm least_cert_nat [P :- (=> Nat Prop)]
+  (forall [n Nat] (=> (P n)
+    (Exists (fn [m :- Nat] (And (P m) (forall [j Nat] (=> (P j) (LE.le m j))))))))
+  (intro n)
+  (refine' (Nat.strongRecOn (fn [q :- Nat] (=> (P q)
+    (Exists (fn [m :- Nat] (And (P m) (forall [j Nat] (=> (P j) (LE.le m j)))))))) n _))
+  (intro n ih hn)
+  (have hem (Or (Exists (fn [j :- Nat] (And (P j) (LT.lt j n))))
+                (Not (Exists (fn [j :- Nat] (And (P j) (LT.lt j n))))))
+    (Classical.em (Exists (fn [j :- Nat] (And (P j) (LT.lt j n))))))
+  (cases hem)
+  (refine' (exN _ _ h _))
+  (intro j hj)
+  (exact (ih j (And.right hj) (And.left hj)))
+  (constructor)
+  (exact n)
+  (constructor)
+  (exact hn)
+  (intro j hp)
+  (have hnot (Not (LT.lt j n))
+    (fn [hlt :- (LT.lt j n)] (h (Exists.intro j (And.intro hp hlt)))))
+  (omega))
+
+;; Runtime codes have labels in L.  Count only accepted certificates that can
+;; occur as R values; the paper's μ must use this domain for the upper bounds.
+(kdef SafeAcc (=> Exp Code Prop)
+  (fn [A :- Exp, v :- Code]
+    (And (Eq Bool (lblOk v) Bool.true)
+         (Eq Bool (Check decCert v (encE A)) Bool.true))))
+
+;; A certificate is counted at exactly one size.  This proposition, rather
+;; than a bounded enumeration of codes, is the domain of μ.
+(kdef CertAt (=> Exp Nat Prop)
+  (fn [A :- Exp, n :- Nat]
+    (Exists (fn [v :- Code]
+      (And (SafeAcc A v)
+           (Eq Nat (cnodes v) n))))))
+
+(thm least_cert_selected
+  [A :- Exp, c :- Code, hc :- (SafeAcc A c)]
+  (Exists (fn [v :- Code]
+    (And (SafeAcc A v)
+      (forall [w Code] (=> (SafeAcc A w)
+                           (LE.le (cnodes v) (cnodes w)))))))
+  (have hstart (CertAt A (cnodes c))
+    (Exists.intro c (And.intro hc (Eq.refl (cnodes c)))))
+  (have hmin (Exists (fn [m :- Nat]
+      (And (CertAt A m)
+           (forall [j Nat] (=> (CertAt A j) (LE.le m j))))))
+    (least_cert_nat (CertAt A) (cnodes c) hstart))
+  (refine' (exN _ _ hmin _))
+  (intro m hm)
+  (refine' (exT Code _ _ (And.left hm) _))
+  (intro v hv)
+  (constructor)
+  (exact v)
+  (constructor)
+  (exact (And.left hv))
+  (intro w hw)
+  (have hcw (CertAt A (cnodes w))
+    (Exists.intro w (And.intro hw (Eq.refl (cnodes w)))))
+  (have hbound (LE.le m (cnodes w)) ((And.right hm) (cnodes w) hcw))
+  (rw [(And.right hv)])
+  (exact hbound))
+
+(kdef Certifiable (=> Exp Prop)
+  (fn [A :- Exp]
+    (Exists (fn [v :- Code] (SafeAcc A v)))))
+
+;; μ is indexed by a certifiability proof, since no least size exists for an
+;; uncertifiable type.  Proof irrelevance makes the chosen number independent
+;; of which certificate first established nonemptiness.
+(kdef muCert (forall [A Exp] (=> (Certifiable A) Nat))
+  (fn [A :- Exp, h :- (Certifiable A)]
+    (cnodes (Classical.choose
+      (least_cert_selected A (Classical.choose h) (Classical.choose_spec h))))))
+
+(thm least_cert_witness [A :- Exp, h :- (Certifiable A)]
+  (Exists (fn [v :- Code]
+    (And (SafeAcc A v)
+      (And (Eq Nat (cnodes v) (muCert A h))
+        (forall [w Code] (=> (SafeAcc A w)
+                             (LE.le (muCert A h) (cnodes w))))))))
+  (have hs (And (SafeAcc A
+      (Classical.choose (least_cert_selected A (Classical.choose h) (Classical.choose_spec h))))
+    (forall [w Code] (=> (SafeAcc A w)
+      (LE.le (cnodes (Classical.choose
+        (least_cert_selected A (Classical.choose h) (Classical.choose_spec h))))
+        (cnodes w)))))
+    (Classical.choose_spec
+      (least_cert_selected A (Classical.choose h) (Classical.choose_spec h))))
+  (constructor)
+  (exact (Classical.choose
+    (least_cert_selected A (Classical.choose h) (Classical.choose_spec h))))
+  (constructor)
+  (exact (And.left hs))
+  (constructor)
+  (rfl)
+  (exact (And.right hs)))
+
+(thm mu_lower [A :- Exp, h :- (Certifiable A), w :- Code, hw :- (SafeAcc A w)]
+  (LE.le (muCert A h) (cnodes w))
+  (refine' (exT Code _ _ (least_cert_witness A h) _))
+  (intro v hv)
+  (exact ((And.right (And.right hv)) w hw)))
+
+(thm mu_attained [A :- Exp, h :- (Certifiable A)]
+  (Exists (fn [v :- Code] (And (SafeAcc A v) (Eq Nat (cnodes v) (muCert A h)))))
+  (refine' (exT Code _ _ (least_cert_witness A h) _))
+  (intro v hv)
+  (constructor)
+  (exact v)
+  (exact (And.intro (And.left hv) (And.left (And.right hv)))))
+
+;; The selected minimum is exactly the budget cut used in Corollaries 4.6′
+;; and 4.6″: existence of a representable certificate at most k.
+(kdef CertLe (=> Exp Nat Prop)
+  (fn [A :- Exp, k :- Nat]
+    (Exists (fn [v :- Code] (And (SafeAcc A v) (LE.le (cnodes v) k))))))
+(thm mu_threshold [A :- Exp, h :- (Certifiable A), k :- Nat]
+  (Iff (CertLe A k) (LE.le (muCert A h) k))
+  (constructor)
+  (intro hk)
+  (refine' (exT Code _ _ hk _))
+  (intro v hv)
+  (exact (Nat.le_trans (mu_lower A h v (And.left hv)) (And.right hv)))
+  (intro hk)
+  (refine' (exT Code _ _ (mu_attained A h) _))
+  (intro v hv)
+  (constructor)
+  (exact v)
+  (constructor)
+  (exact (And.left hv))
+  (rw [(And.right hv)])
+  (exact hk))
+
+(thm certle_safe [A :- Exp, k :- Nat]
+  (Iff (Exists (fn [v :- Code]
+         (And (Eq Bool (Check decCert v (encE A)) Bool.true)
+           (And (Eq Bool (lblOk v) Bool.true) (LE.le (cnodes v) k)))))
+       (CertLe A k))
+  (constructor)
+  (intro hx)
+  (refine' (exT Code _ _ hx _))
+  (intro v hv)
+  (constructor)
+  (exact v)
+  (exact (And.intro (And.intro (And.left (And.right hv)) (And.left hv))
+                    (And.right (And.right hv))))
+  (intro hx)
+  (refine' (exT Code _ _ hx _))
+  (intro v hv)
+  (constructor)
+  (exact v)
+  (exact (And.intro (And.right (And.left hv))
+    (And.intro (And.left (And.left hv)) (And.right hv)))))
+
+;; The corollaries' iff statements are now stated directly with the selected
+;; finite minimum, rather than an existential size bound.
+(eval (list 'lcert.formal.base/thm 'cor46_prime_mu_F7
+  (into D2P '[hB :- (Certifiable B)])
+  (list 'forall '[kk Nat]
+    (list 'Iff (list 'Exists (list 'fn '[tt :- Exp]
+      (list 'Rt '(Check decCert) '(thetaD kk) '(thetaU kk) 'tt D2T)))
+      '(LE.le (muCert B hB) kk)))
+  '(intro kk)
+  '(exact (Iff.trans (cor46_prime_iff_F7 A B hclB hne c0 h0 l0 c1 h1 l1 kk)
+           (Iff.trans (certle_safe B kk) (mu_threshold B hB kk))))))
+
+(eval (list 'lcert.formal.base/thm 'cor46_dprime_mu_F7
+  (into D3P (list 'hBA ':- (list 'Certifiable BA)))
+  (list 'forall '[kk Nat]
+    (list 'Iff (list 'Exists (list 'fn '[tt :- Exp]
+      (list 'Rt '(Check decCert) '(thetaD kk) '(thetaU kk) 'tt D3T)))
+      (list 'LE.le (list 'muCert BA 'hBA) 'kk)))
+  '(intro kk)
+  (list 'exact
+    (list 'Iff.trans
+      '(cor46_dprime_iff_F7 A c hc lc kk)
+      (list 'Iff.trans (list 'certle_safe BA 'kk)
+        (list 'mu_threshold BA 'hBA 'kk))))))
+
+;; Proposition 4.3 counts every accepted certificate, including ones with
+;; labels outside L.  Its minimum may differ from the representable minimum
+;; used above by the runtime corollaries; retain the paper's raw definition.
+(kdef RawAt (=> Exp Nat Prop)
+  (fn [A :- Exp, n :- Nat]
+    (Exists (fn [v :- Code]
+      (And (Eq Bool (Check decCert v (encE A)) Bool.true)
+           (Eq Nat (cnodes v) n))))))
+(kdef RawCertifiable (=> Exp Prop)
+  (fn [A :- Exp]
+    (Exists (fn [v :- Code] (Eq Bool (Check decCert v (encE A)) Bool.true)))))
+
+(thm raw_min_exists [A :- Exp, h :- (RawCertifiable A)]
+  (Exists (fn [m :- Nat]
+    (And (RawAt A m)
+      (forall [j Nat] (=> (RawAt A j) (LE.le m j))))))
+  (refine' (exT Code _ _ h _))
+  (intro c hc)
+  (have hstart (RawAt A (cnodes c))
+    (Exists.intro c (And.intro hc (Eq.refl (cnodes c)))))
+  (exact (least_cert_nat (RawAt A) (cnodes c) hstart)))
+
+(kdef muRaw (forall [A Exp] (=> (RawCertifiable A) Nat))
+  (fn [A :- Exp, h :- (RawCertifiable A)]
+    (Classical.choose (raw_min_exists A h))))
+
+(thm muRaw_lower [A :- Exp, h :- (RawCertifiable A), w :- Code,
+                    hw :- (Eq Bool (Check decCert w (encE A)) Bool.true)]
+  (LE.le (muRaw A h) (cnodes w))
+  (have hs (And (RawAt A (muRaw A h))
+      (forall [j Nat] (=> (RawAt A j) (LE.le (muRaw A h) j))))
+    (Classical.choose_spec (raw_min_exists A h)))
+  (have hwj (RawAt A (cnodes w))
+    (Exists.intro w (And.intro hw (Eq.refl (cnodes w)))))
+  (exact ((And.right hs) (cnodes w) hwj)))
+
+(thm muRaw_witness [A :- Exp, h :- (RawCertifiable A)]
+  (Exists (fn [v :- Code]
+    (And (Eq Bool (Check decCert v (encE A)) Bool.true)
+         (Eq Nat (cnodes v) (muRaw A h)))))
+  (exact (And.left (Classical.choose_spec (raw_min_exists A h)))))
+
+(thm prop43_mu_F7
+  [A :- Exp, h :- (RawCertifiable A), w :- Code,
+   hw :- (Eq Bool (Check decCert w (encE (boxTy (codeTerm (encE A))))) Bool.true)]
+  (LT.lt (+ (muRaw A h) (muRaw A h)) (cnodes w))
+  (exact (d3_gap_F7 A w hw (muRaw A h)
+    (fn [v :- Code, hv :- (Eq Bool (Check decCert v (encE A)) Bool.true)]
+      (muRaw_lower A h v hv)))))
+
+(thm d3_gap_mu_F7
+  [A :- Exp, h :- (RawCertifiable A), w :- Code,
+   hw :- (Eq Bool (Check decCert w (encE (boxTy (codeTerm (encE A))))) Bool.true)]
+  (LT.lt (+ (muRaw A h) (muRaw A h)) (cnodes w))
+  (exact (prop43_mu_F7 A h w hw)))

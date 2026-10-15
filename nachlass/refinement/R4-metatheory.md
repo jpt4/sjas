@@ -690,6 +690,13 @@ representation.
 **`μ(A)`** is the least `‖v‖` with `Check(print v, ⌜A⌝) = tt`, or `∞` if there
 is none. The type `□A` is `Σ(r :₁ R). T(chk′ (print r) ⌜A⌝)`.
 
+For the per-instance *upper* bounds, write **`μ_L(A)`** for the least size
+among those accepted certificates whose labels lie in `L`, or `∞` if there
+is none. Such a code can occur as an `R` value. The lower bounds count all
+accepted certificates and therefore use `μ(A) ≤ μ_L(A)`. F7's checker does
+not supply a theorem that every accepted certificate has labels in `L`; the
+two minima must not be identified without that premise.
+
 ### 4.1 No token-free certificates
 
 **Proposition 4.1.** A closed runtime term of type `R` denotes a leaf. A
@@ -754,11 +761,12 @@ Take `A_j := 1 ⊸ ⋯ ⊸ 1 ⊸ 1`, with `j` arrows. It is certifiable, by
 - For (3), the two outputs together have at most `μ(A) + k` nodes, and two
   certificates of `A` need at least `2μ(A)`. ∎
 
-**Proposition 4.5 (per instance).** For each certifiable closed `A`:
-- **boxed contraction** is derivable with budget `2μ(A)`: ignore the input,
-  which affinity allows, and build two minimal certificates by Proposition 4.2;
-- **D3** (`□A ⊸ □□A`) is derivable with budget `μ(□A)`, which is finite by
-  Proposition 4.2.
+**Proposition 4.5 (per instance).** For each closed `A` with a label-safe
+accepted certificate:
+- **boxed contraction** is derivable with budget `2μ_L(A)`: ignore the input,
+  which affinity allows, and build two minimum label-safe certificates by Proposition 4.2;
+- **D3** (`□A ⊸ □□A`) is derivable with budget `μ_L(□A)` whenever a
+  label-safe certificate of `□A` is supplied.
 
 The draft's "no, for any fixed budget" is therefore right only in the uniform
 reading: no single budget serves every type. Per instance, both hold. Both
@@ -773,23 +781,26 @@ results need E3 and E4, and nothing else about the encoding.
 A program that turns certificates into a certificate of a different type is
 never cheaper than proving that type from scratch, however it uses its inputs.
 
-**Corollary 4.6′ (D2).** Let `A ≠ B`, with `A` and `A ⊸ B` certifiable.
-- A term `Θₖ ⊢ t :¹ □(A ⊸ B) ⊗ □A ⊸ □B` exists exactly when `k ≥ μ(B)`.
+**Corollary 4.6′ (D2).** Let `A ≠ B`, with label-safe certificates of `A`
+and `A ⊸ B`; assume also a label-safe certificate of `B`.
+- A term `Θₖ ⊢ t :¹ □(A ⊸ B) ⊗ □A ⊸ □B` exists exactly when `k ≥ μ_L(B)`.
 - No budget serves every such `A` and `B`: take `A = 1` and `B = A_j` of §4.4,
   with `j > k`, so that `μ(A_j) ≥ j > k`, and `1 ⊸ A_j` is certifiable.
 - Fixing the certificate of `A ⊸ B` does not help: a term `□A ⊸ □B` costs
-  `μ(B)` too.
+  at least `μ(B)` too.
 
 *Proof.* The lower bounds are Theorem 4.6, with `j = 2` and with `j = 1`. For
 the upper bound, `B` is certifiable: weaken certificates of `A ⊸ B` and of `A`
 to disjoint tokens and apply App at `ρ = 1`; `B[t₁/x] = B`, since the arrow is
-not dependent. Take a minimal certificate `v` of `B`. Then
-`λz. (lit_v, ⋆)` has the type at budget `‖v‖ = μ(B)`, by Proposition 4.2,
+not dependent. Take a minimum label-safe certificate `v` of `B`. Then
+`λz. (lit_v, ⋆)` has the type at budget `‖v‖ = μ_L(B)`, by Proposition 4.2,
 discarding `z`. ∎
 
-**Corollary 4.6″ (D3, exactly).** For certifiable closed `A`, a term
-`□A ⊸ □□A` exists exactly at budgets `k ≥ μ(□A)`, and `μ(□A) > 2μ(A)`
-(Propositions 4.3 and 4.5). This sharpens Proposition 4.4(2).
+**Corollary 4.6″ (D3, exactly).** Given label-safe certificates of closed
+`A` and `□A`, a term `□A ⊸ □□A` exists exactly at budgets
+`k ≥ μ_L(□A)`. For every accepted certificate `w` of `□A`, including a
+minimum label-safe one, `‖w‖ > 2μ(A)` (Proposition 4.3); hence
+`μ_L(□A) > 2μ(A)`. This sharpens the lower bound used in Proposition 4.4(2).
 
 This was Conjecture 4.6 until 2026-09-27. *The first version of the proof put
 phantoms into `Syn`, which is unsound: `recSyn` has a dependent motive, and it

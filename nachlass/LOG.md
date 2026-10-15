@@ -7165,3 +7165,13 @@ evaluator. No implementation or formal proof was changed in this task.
 
 ## 2026-10-14 — ADR-0008: the typer must eventually be formalized
 The user decided to keep the certificate-producing typer hand-written and untrusted for ADR-0008, but requires that it eventually be formalized: a type-inference function proved sound against `Check` and then extracted. This is recorded in ADR-0008 as a required follow-up ADR, not an option. (Claude, from the session's discussion of typer false positives: within ADR-0008 a wrong typer output can only be rejected; it cannot run.)
+
+## 2026-10-14 — A13: select both certificate minima
+
+Proved `least_cert_nat`, the raw accepted-code minimum `muRaw`, and the
+label-safe runtime minimum `muCert` through the Ansatz kernel at F7. The
+concrete Proposition 4.3 and D3 gap use `muRaw`; the D2/D3 exact budget
+iff statements use `muCert`. Corrected R4's per-instance budget notation to
+`μ_L` where a literal `R` value needs labels in `L`, and recorded the
+distinct hypotheses in ADR-0006 and the statement audit. Focused warm check:
+3 tests, 39 assertions, 0 failures, 0 errors. Next: A10.
