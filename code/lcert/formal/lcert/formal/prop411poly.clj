@@ -1,6 +1,8 @@
 (ns lcert.formal.prop411poly
   "A10: checked recursive certificates and their size for the sharing chain."
   (:require [ansatz.core :as a]
+            [clojure.java.io :as io]
+            [clojure.walk :as walk]
             [lcert.formal.base :refer [thm lv]]
             [lcert.formal.usage :refer :all]
             [lcert.formal.syntax :refer :all]
@@ -295,3 +297,40 @@
   (rw [(Nat.mul_succ (Nat.succ n) n)])
   (rw [(Nat.succ_mul n n)])
   (omega))
+
+(thm sh4_syns_succ [d :- Nat]
+  (Eq (List Exp) (sh4_syns (Nat.succ d))
+                 (List.cons Exp Exp.tSyn (sh4_syns d)))
+  (rfl))
+
+(thm sh4_syns_len [d :- Nat]
+  (Eq Nat (lenE (sh4_syns d)) d)
+  (induction d)
+  (rfl)
+  (have e (Eq Nat (lenE (sh4_syns (Nat.succ n)))
+                  (Nat.succ (lenE (sh4_syns n)))) (rfl))
+  (omega))
+
+(thm sh4_encLE_head [d :- Nat]
+  (Eq Nat (cnodes (encLE (List.cons Exp Exp.tSyn (sh4_syns d))))
+          (Nat.succ d))
+  (have e (Eq Nat (cnodes (encLE (List.cons Exp Exp.tSyn (sh4_syns d))))
+                  (+ 1 (+ 0 (cnodes (encLE (sh4_syns d)))))) (rfl))
+  (have h (Eq Nat (cnodes (encLE (sh4_syns d))) d)
+    (sh4_encLE_syns d))
+  (omega))
+
+(thm sh4_open_tree_zero [D :- (List Exp)]
+  (Eq DT (sh4_open_tree 0 D)
+    (DT.rVar (List.cons Exp Exp.tSyn D)
+      (List.cons U U.uw (vzero (lenE D))) 0 Exp.tSyn U.uw))
+  (rfl))
+
+(thm sh4_open_tree_nodes_zero [d :- Nat]
+  (Eq Nat (cnodes (encDT (sh4_open_tree 0 (sh4_syns d))))
+          (+ (Nat.mul d 2) 7))
+  (rw [(sh4_open_tree_zero (sh4_syns d))])
+  (simp [sh4_encDT_rVar_nodes sh4_encLE_head sh4_encLU_head
+         sh4_syns_len cnodes_encNat])
+  (omega))
+

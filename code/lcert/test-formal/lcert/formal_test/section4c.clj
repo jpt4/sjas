@@ -56,6 +56,14 @@
                 sh4_encLU_head sh4_sq_succ]]
       (is (b/has? c) (str c)))))
 
+(deftest a10-tree-base
+  (testing "the zero-depth F7 sharing derivation has its checked size"
+    (is (b/has? 'sh4_open_tree_nodes_zero))
+    (is (not (b/rejects? '[d :- Nat]
+          '(Eq Nat (cnodes (encDT (sh4_open_tree 0 (sh4_syns d))))
+                   (+ (Nat.mul d 2) 7))
+          '[(exact (sh4_open_tree_nodes_zero d))])))))
+
 (deftest f4-section4c
   (testing "Proposition 4.11: the sharing chain, its denotation, and the node count"
     (doseq [c '[sh4_pow_succ sh4_bush_succ sh4_grow_zero sh4_grow_succ
