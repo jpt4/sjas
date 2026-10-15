@@ -791,7 +791,7 @@ Stored proposition definition:
 
 ### Proposition 4.11
 
-**Formal constants:** `prop411` (`code/lcert/formal/lcert/formal/section4c.clj:461`), `prop411_nodes` (`code/lcert/formal/lcert/formal/section4c.clj:455`), `prop411_redex_typed`, `prop411_redex_cert`, `cert_term_size`, and `prop411_literal_lower` (`code/lcert/formal/lcert/formal/prop411cert.clj`); `sh4_cn_tree_check`, `prop411_family_cert`, `sh4_cn_cert`, `prop411_explicit_cert` (`code/lcert/formal/lcert/formal/prop411poly.clj`).
+**Formal constants:** `prop411` (`code/lcert/formal/lcert/formal/section4c.clj:461`), `prop411_nodes` (`code/lcert/formal/lcert/formal/section4c.clj:455`), `prop411_redex_typed`, `prop411_redex_cert`, `cert_term_size`, and `prop411_literal_lower` (`code/lcert/formal/lcert/formal/prop411cert.clj`); `sh4_cn_tree_check`, `prop411_family_cert`, `sh4_cn_cert`, `prop411_explicit_cert`, and seven generated `sh4_encDT_*_nodes` equations (`code/lcert/formal/lcert/formal/prop411poly.clj`).
 
 **Kernel-held elaborated type:**
 

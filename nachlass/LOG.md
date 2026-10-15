@@ -7216,3 +7216,12 @@ now applies F7's canonical `encCert` to the checked sharing-chain derivation;
 at every n. The warm kernel checked the theorem, and the focused section4c
 suite passed: 5 tests, 113 assertions, 0 failures, 0 errors. A10 still needs
 an explicit quadratic node bound for these certificates.
+
+## 2026-10-15 — A10: F7 derivation-tree node equations
+
+The new section4c test first failed for seven absent encoding-size constants.
+`prop411poly.clj` now generates the equations for fBase, rVar, rConst, rLam,
+rApp, rSleaf and rSnode from F7's constructor and encoder tables; Ansatz
+kernel-checks every generated proof. The focused suite passed: 6 tests,
+120 assertions, 0 failures, 0 errors. These equations are prerequisites
+for the all-n quadratic upper bound, which is still open.

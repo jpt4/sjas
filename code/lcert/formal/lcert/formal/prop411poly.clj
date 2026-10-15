@@ -188,3 +188,25 @@
   (Eq Bool (Check decCert (sh4_cn_cert n) (encE Exp.tSyn)) Bool.true)
   (exact (check_cert_ok 0 (sh4_cn n) Exp.tSyn
     (sh4_cn_tree n) sh4_c0_form (sh4_cn_tree_check n) rfl rfl)))
+
+;; Generate the exact size equation of each derivation-tree constructor used
+;; by the sharing chain.  The generator reads F7's constructor and encoder
+;; tables; its equations and proof terms are checked by the kernel.
+(let [wanted '#{rVar rApp rLam rSnode rSleaf rConst fBase}
+      ctors (deref #'lcert.formal.certenc/dt-ctors)
+      info @(deref #'lcert.formal.certenc/ty-info)
+      finfo @(deref #'lcert.formal.certenc/fuel-info)
+      chain (deref #'lcert.formal.certenc/chain-enc)
+      nodes (deref #'lcert.formal.certcanon/nodes-of)
+      proof (deref #'lcert.formal.certcanon/cnodes-eq)]
+  (doseq [[i [nm fields]] (map-indexed vector ctors) :when (wanted nm)]
+    (let [ctor (apply list (symbol (str "DT." nm)) (map first fields))
+          code (chain i (for [[x T] fields]
+                          (list (if (= T 'DT) 'encDT
+                                  (first (or (info T) (finfo T)))) x)))
+          params (hd/f7-params fields)]
+      (a/prove-theorem (symbol (str "sh4_encDT_" nm "_nodes"))
+        (lv params)
+        (lv (list 'Eq 'Nat (list 'cnodes (list 'encDT ctor)) (nodes code)))
+        (lv [(list 'have 'q_e (list 'Eq 'Code (list 'encDT ctor) code) '(rfl))
+             (list 'exact (list 'Eq.trans '(congrArg cnodes q_e) (proof code)))])))))

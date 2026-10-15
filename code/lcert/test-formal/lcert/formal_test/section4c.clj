@@ -36,6 +36,14 @@
     (is (b/has? 'sh4_cn_cert))
     (is (b/has? 'prop411_explicit_cert))))
 
+(deftest a10-tree-encoding-sizes
+  (testing "the F7 encoder has checked node equations for the chain's rules"
+    (doseq [c '[sh4_encDT_rVar_nodes sh4_encDT_rApp_nodes
+                sh4_encDT_rLam_nodes sh4_encDT_rSnode_nodes
+                sh4_encDT_rSleaf_nodes sh4_encDT_rConst_nodes
+                sh4_encDT_fBase_nodes]]
+      (is (b/has? c) (str c)))))
+
 (deftest f4-section4c
   (testing "Proposition 4.11: the sharing chain, its denotation, and the node count"
     (doseq [c '[sh4_pow_succ sh4_bush_succ sh4_grow_zero sh4_grow_succ
