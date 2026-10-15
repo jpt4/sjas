@@ -7291,3 +7291,17 @@ next numeral, and induction proves `sh4_num_tree_bound`:
 of the doubler's derivation. The focused warm suite passed 12 tests and 143
 assertions with 0 failures and 0 errors. The outer tree and certificate
 wrapper still need an all-`n` bound.
+
+## 2026-10-15 — A06: full F7 certificate bound stated only
+
+The red `a06-polynomial-certificate-size` test identified three absent
+constants for the certificate-size recurrence and polynomial theorem. Ansatz
+checked `sh4_num_tree_ht`, `sh4_doubler_term_size_step`, and
+`sh4_doubler_tree_ht_step`, completing the one-step growth facts for the
+numeral, term and derivation height. Whole-tree `simp` remained active for
+minutes without a result; generated direct F7 expansion of the outer tree
+also did not finish in the available proof resources. Neither attempt is a
+counterexample to the bound. The failed whole-size theorem and its red test
+were removed; the checked certificate family and sub-bounds remain. R4 and
+the ADR now identify the polynomial claim as stated-only. ADR-0008 owns the
+reference-encoding measurements and F7 remeasurement.

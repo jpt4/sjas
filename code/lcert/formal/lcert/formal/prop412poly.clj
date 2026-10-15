@@ -151,3 +151,48 @@
                  (+ (Nat.mul n n) (+ n (+ n 1))))
     (sh4_sq_succ n))
   (omega))
+
+(thm sh4_num_tree_ht [n :- Nat]
+  (Eq Nat (htDT (sh4_num_tree n)) (+ n 1))
+  (induction n)
+  (rfl)
+  (rw [(sh4_num_tree_succ n)])
+  (simp [ih_n])
+  (omega))
+
+(let [nodes (deref #'lcert.formal.certcanon/nodes-of)
+      proof (deref #'lcert.formal.certcanon/cnodes-eq)
+      code (fn [arg]
+             (list 'Code.sn 38 '(encE (sh4_M))
+               (list 'Code.sn 12 '(encE (sh4_dbl_base))
+                 (list 'Code.sn 12 '(encE (sh4_dbl_step)) arg))))
+      succ-code (code '(encE (sh4_num (Nat.succ n))))
+      prev-code (code '(encE (sh4_num n)))]
+  (a/prove-theorem 'sh4_doubler_term_size_step (lv '[n :- Nat])
+    (lv '(Eq Nat (cnodes (encE (sh4_doubler (sh4_num (Nat.succ n)))))
+          (+ (cnodes (encE (sh4_doubler (sh4_num n)))) 1)))
+    (lv [(list 'have 'qs (list 'Eq 'Code
+                 '(encE (sh4_doubler (sh4_num (Nat.succ n)))) succ-code) '(rfl))
+         (list 'have 'qp (list 'Eq 'Code
+                 '(encE (sh4_doubler (sh4_num n))) prev-code) '(rfl))
+         (list 'have 'ns (list 'Eq 'Nat
+                 '(cnodes (encE (sh4_doubler (sh4_num (Nat.succ n)))))
+                 (nodes succ-code))
+               (list 'Eq.trans '(congrArg cnodes qs) (proof succ-code)))
+         (list 'have 'np (list 'Eq 'Nat
+                 '(cnodes (encE (sh4_doubler (sh4_num n))))
+                 (nodes prev-code))
+               (list 'Eq.trans '(congrArg cnodes qp) (proof prev-code)))
+         '(have hn (Eq Nat (cnodes (encE (sh4_num (Nat.succ n))))
+                       (+ 1 (cnodes (encE (sh4_num n)))))
+            (sh4_num_enc_step n))
+         '(omega)])))
+
+(thm sh4_doubler_tree_ht_step [n :- Nat]
+  (Eq Nat (htDT (sh4_doubler_tree (Nat.succ n)))
+    (+ (htDT (sh4_doubler_tree n)) 1))
+  (unfold sh4_doubler_tree)
+  (simp [sh4_num_tree_ht]))
+
+;; The outer recursor node has four fixed proof subtrees.  Only its numeral
+;; expression and numeral proof subtree change with n.

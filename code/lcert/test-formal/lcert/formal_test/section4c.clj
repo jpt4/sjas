@@ -88,6 +88,12 @@
                 sh4_num_tree_bound]]
       (is (b/has? c) (str c)))))
 
+(deftest a06-outer-size-components
+  (testing "the doubler term and derivation height grow one step per numeral"
+    (doseq [c '[sh4_num_tree_ht sh4_doubler_term_size_step
+                sh4_doubler_tree_ht_step]]
+      (is (b/has? c) (str c)))))
+
 (deftest f4-section4c
   (testing "Proposition 4.11: the sharing chain, its denotation, and the node count"
     (doseq [c '[sh4_pow_succ sh4_bush_succ sh4_grow_zero sh4_grow_succ

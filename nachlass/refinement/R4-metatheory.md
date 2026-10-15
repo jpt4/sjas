@@ -1178,7 +1178,13 @@ restricts certificates to normal derivations.
    `k` internal nodes (T3, Theorem 4′). A closed one denotes leaves
    (Proposition 4.1).
 
-*Proof.* (1) is the construction, typed at budget 0. (2) is cited. ∎
+*Proof status.* The budget-0 typing, `2ⁿ − 1` denotation, and accepted F7
+certificate family in (1) are kernel checked. The F7 certificate's full
+polynomial size bound is stated-only: its numeral proof subtree has a checked
+quadratic bound, but Ansatz did not finish the outer-tree and certificate
+wrapper size normalization. The three displayed counts use the earlier
+reference implementation encoding; ADR-0008 will remeasure them under F7.
+Part (2) follows from T3 and Theorem 4′ at the stated R-result scope. ∎
 
 So the compression that matters is not a proof rule. It is the gap between
 describing a tree by a term, by sharing or by recursion, and holding the tree.
