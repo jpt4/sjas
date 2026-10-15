@@ -50,6 +50,12 @@
     (is (b/has? 'sh4_open_enc_linear))
     (is (b/has? 'sh4_cn_enc_linear))))
 
+(deftest a10-context-encoding-sizes
+  (testing "the contexts in the sharing certificate encode at linear cost"
+    (doseq [c '[sh4_syns sh4_encLE_syns sh4_encLU_vzero
+                sh4_encLU_head sh4_sq_succ]]
+      (is (b/has? c) (str c)))))
+
 (deftest f4-section4c
   (testing "Proposition 4.11: the sharing chain, its denotation, and the node count"
     (doseq [c '[sh4_pow_succ sh4_bush_succ sh4_grow_zero sh4_grow_succ

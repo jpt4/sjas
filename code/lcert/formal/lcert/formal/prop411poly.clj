@@ -257,3 +257,41 @@
                    (+ 4 (cnodes (encE (sh4_open n)))))
     (sh4_cn_enc_parts n))
   (omega))
+
+;; Every older let binder has type Syn; the certificate records these
+;; contexts and the matching zero-usage tails explicitly.
+(lcert.formal.base/kdef! 'sh4_syns '(=> Nat (List Exp))
+  '(fn [d :- Nat]
+     (Nat.rec$1 (fn [_ :- Nat] (List Exp)) (List.nil Exp)
+       (fn [_ :- Nat, rec :- (List Exp)] (List.cons Exp Exp.tSyn rec)) d)))
+
+(thm sh4_encLE_syns [d :- Nat]
+  (Eq Nat (cnodes (encLE (sh4_syns d))) d)
+  (induction d)
+  (rfl)
+  (have e (Eq Nat (cnodes (encLE (sh4_syns (Nat.succ n))))
+                  (+ 1 (+ 0 (cnodes (encLE (sh4_syns n)))))) (rfl))
+  (omega))
+
+(thm sh4_encLU_vzero [d :- Nat]
+  (Eq Nat (cnodes (encLU (vzero d))) d)
+  (induction d)
+  (rfl)
+  (have e (Eq Nat (cnodes (encLU (vzero (Nat.succ n))))
+                  (+ 1 (+ 0 (cnodes (encLU (vzero n)))))) (rfl))
+  (omega))
+
+(thm sh4_encLU_head [d :- Nat]
+  (Eq Nat (cnodes (encLU (List.cons U U.uw (vzero d))))
+          (Nat.succ d))
+  (have e (Eq Nat (cnodes (encLU (List.cons U U.uw (vzero d))))
+                  (+ 1 (+ 0 (cnodes (encLU (vzero d)))))) (rfl))
+  (have h (Eq Nat (cnodes (encLU (vzero d))) d) (sh4_encLU_vzero d))
+  (omega))
+
+(thm sh4_sq_succ [n :- Nat]
+  (Eq Nat (Nat.mul (Nat.succ n) (Nat.succ n))
+          (+ (Nat.mul n n) (+ n (+ n 1))))
+  (rw [(Nat.mul_succ (Nat.succ n) n)])
+  (rw [(Nat.succ_mul n n)])
+  (omega))

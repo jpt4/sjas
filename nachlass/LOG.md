@@ -7236,3 +7236,12 @@ have exactly `7n+1` and `7n+5` internal encoding nodes. A first direct
 the exact code shapes from the F7 clauses, proves them by reduction, and
 uses `cnodes-eq` before arithmetic. Warm section4c passed: 7 tests,
 123 assertions, 0 failures, 0 errors. Tree and fuel sizes remain.
+
+## 2026-10-15 — A10: context encoding size
+
+The focused test first failed for five absent constants. `sh4_syns d`
+now names the chain's all-Syn context; F7 encodes that context, the zero
+usage vector, and its omega head with respectively `d`, `d`, and `d+1`
+internal nodes. `sh4_sq_succ` supplies the kernel arithmetic equation for
+the eventual quadratic expression. Warm section4c passed: 8 tests,
+128 assertions, 0 failures, 0 errors. The tree recurrence remains.
