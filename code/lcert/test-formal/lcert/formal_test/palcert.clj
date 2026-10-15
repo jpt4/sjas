@@ -43,6 +43,22 @@
          (trF (PF.peq (PT.pv 0) PT.pz) (fn [i :- Nat] 1)))
       '[(rfl)]))))
 
+(deftest a05-finite-good-context
+  (testing "a nonempty finite Nat context admits a total fallback assignment"
+    (doseq [nm '[paNatD_nth paEnv paEnv_agree paEnv_good]]
+      (is (b/has? nm) (str nm)))))
+
+(deftest a05-positive-support-closure
+  (testing "every PA proof closes when its support fits a nonempty Nat context"
+    (is (b/has? 'pa_finite_lcert_pos))
+    (is (not (b/rejects?
+      '[chkf :- (=> Code Code Bool), p :- PF, hp :- (PPrv p),
+        k :- Nat, hk :- (LT.lt 0 k), hs :- (LE.le (paSupportF p) k)]
+      '(Exists (fn [e :- Exp]
+        (Rt chkf (List.nil Exp) (List.nil U) e
+          (paCloseN k (trF p (fn [i :- Nat] i))))))
+      '[(exact (pa_finite_lcert_pos chkf p hp k hk hs))])))))
+
 (deftest all-pa-proofs-translate
   (doseq [nm '[pa_axiom_translation pa_lcert pa_refutation]]
     (is (b/has? nm) (str nm)))

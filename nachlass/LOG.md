@@ -7339,3 +7339,15 @@ and `paSupp_pred` lowers the bound. Thus two environments agreeing below
 test rejects equality of translations that assign different values to a
 free variable. The focused warm suite passed 4 tests, 24 assertions, with
 0 failures and 0 errors. The closed-line typed bridge is still open.
+
+## 2026-10-15 — A05: positive-support closed PA proof translation
+
+A red test found the finite-context and closed translation constants absent.
+`paNatD_nth` proves every in-range entry of the Nat context has type Nat.
+`paEnv k` keeps indices below `k` and sends all others to its first entry;
+`paEnv_good` proves it satisfies the existing total `Good` premise for
+`k > 0`. Combining `pa_lcert`, `trF_support`, and `paClose_intro` gives
+`pa_finite_lcert_pos`: for every PA proof and every positive `k` covering
+its support, there is a closed term of `paCloseN k (trF p id)`. The warm
+focused suite passed 6 tests, 30 assertions, with 0 failures and 0 errors.
+The zero-support case and the reverse direction of typed equivalence remain.
