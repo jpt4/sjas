@@ -177,3 +177,14 @@
     (Eq Bool (Check decCert c (encE Exp.tSyn)) Bool.true)))
   (exact (check_complete 0 (sh4_cn n) Exp.tSyn
     (sh4_cn_tree n) sh4_c0_form (sh4_cn_tree_check n) rfl rfl)))
+
+;; Name the witness so its encoded size can be studied directly.  The
+;; certificate is built by F7's canonical encoder from the checked trees.
+(lcert.formal.base/kdef! 'sh4_cn_cert '(=> Nat Code)
+  '(fn [n :- Nat]
+     (encCert 0 (sh4_cn n) Exp.tSyn (sh4_cn_tree n) sh4_c0_form)))
+
+(thm prop411_explicit_cert [n :- Nat]
+  (Eq Bool (Check decCert (sh4_cn_cert n) (encE Exp.tSyn)) Bool.true)
+  (exact (check_cert_ok 0 (sh4_cn n) Exp.tSyn
+    (sh4_cn_tree n) sh4_c0_form (sh4_cn_tree_check n) rfl rfl)))

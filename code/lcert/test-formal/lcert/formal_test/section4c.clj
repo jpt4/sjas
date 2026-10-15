@@ -31,6 +31,11 @@
                 prop411_family_cert]]
       (is (b/has? c) (str c)))))
 
+(deftest a10-explicit-certificate
+  (testing "the accepted sharing-chain certificate is an explicit F7 code"
+    (is (b/has? 'sh4_cn_cert))
+    (is (b/has? 'prop411_explicit_cert))))
+
 (deftest f4-section4c
   (testing "Proposition 4.11: the sharing chain, its denotation, and the node count"
     (doseq [c '[sh4_pow_succ sh4_bush_succ sh4_grow_zero sh4_grow_succ

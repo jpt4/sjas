@@ -7206,3 +7206,13 @@ let Ansatz check the recursive tree by induction, including its usage split.
 The helper theorem `sh4_open_tree_succ` is checked by reduction. Focused warm
 check: 4 tests, 111 assertions, 0 failures, 0 errors. The quadratic bound
 on these certificates remains the open part of A10.
+
+## 2026-10-15 — A10: name the accepted F7 sharing-chain certificate
+
+The focused `test-formal` test failed first because `sh4_cn_cert` and
+`prop411_explicit_cert` were absent (2 failures, 0 errors). `sh4_cn_cert n`
+now applies F7's canonical `encCert` to the checked sharing-chain derivation;
+`prop411_explicit_cert` proves that `Check decCert` accepts exactly this code
+at every n. The warm kernel checked the theorem, and the focused section4c
+suite passed: 5 tests, 113 assertions, 0 failures, 0 errors. A10 still needs
+an explicit quadratic node bound for these certificates.
