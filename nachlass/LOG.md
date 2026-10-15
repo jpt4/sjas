@@ -7305,3 +7305,15 @@ counterexample to the bound. The failed whole-size theorem and its red test
 were removed; the checked certificate family and sub-bounds remain. R4 and
 the ADR now identify the polynomial claim as stated-only. ADR-0008 owns the
 reference-encoding measurements and F7 remeasurement.
+
+## 2026-10-15 — A05: finite-support closure operator, bridge pending
+
+The red focused test found the absent support and closure constants.
+`paSupportT` and `paSupportF` now compute a de Bruijn support bound, and
+`paCloseN` and `paCloseF` form the corresponding nested Nat-quantified type.
+The focused warm suite passed 2 tests, 13 assertions, with 0 failures and
+0 errors. This checks the operator and sample support calculations, not the
+typed equivalence or a closed proof translation. The existing `pa_lcert`
+premise `Good D ρ` covers every index, so it cannot be instantiated at a
+finite Nat context; that bridge requires a support-restricted derivation or
+an explicit correction to the paper's closed-line claim.

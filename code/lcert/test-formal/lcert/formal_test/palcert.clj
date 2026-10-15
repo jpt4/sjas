@@ -1,7 +1,20 @@
 (ns lcert.formal-test.palcert
   (:require [lcert.formal.palcert]
+            [lcert.formal.paclosure]
             [clojure.test :refer [deftest is testing]]
             [lcert.formal.base :as b]))
+
+(deftest a05-finite-support-closure
+  (testing "the PA translation has a finite-support closed-line operator"
+    (doseq [nm '[paMax paSupportT paSupportF paCloseN paCloseF]]
+      (is (b/has? nm) (str nm)))
+    (is (not (b/rejects? '[]
+      '(Eq Nat (paSupportF (PF.peq (PT.pv 2) PT.pz)) 3)
+      '[(rfl)])))
+    (is (not (b/rejects? '[]
+      '(Eq Nat (paSupportF (PF.pall (PF.peq (PT.pv 0) PT.pz))) 0)
+      '[(rfl)])))))
+
 (deftest all-pa-proofs-translate
   (doseq [nm '[pa_axiom_translation pa_lcert pa_refutation]]
     (is (b/has? nm) (str nm)))
