@@ -5,7 +5,19 @@
   are rejected."
   (:require [clojure.test :refer [deftest is testing]]
             [lcert.formal.base :as b]
-            [lcert.formal.section4c]))
+            [lcert.formal.section4c]
+            [lcert.formal.prop411cert]))
+
+(deftest a10-redex-certificate
+  (testing "Proposition 4.11 has a concrete accepted beta-redex derivation"
+    (is (b/has? 'prop411_redex_typed))
+    (is (b/has? 'prop411_redex_cert)))
+  (testing "the certified term has an application over a lambda at its root"
+    (is (not (b/rejects? '[]
+                         '(Eq Exp (sh4_cn 0)
+                           (Exp.app (Exp.lam U.uw Exp.tSyn (Exp.var 0))
+                                    (Exp.sleaf (Exp.lbl 0))))
+                         '[(rfl)])))))
 
 (deftest f4-section4c
   (testing "Proposition 4.11: the sharing chain, its denotation, and the node count"

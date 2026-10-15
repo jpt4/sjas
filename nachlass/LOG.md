@@ -7175,3 +7175,14 @@ iff statements use `muCert`. Corrected R4's per-instance budget notation to
 `μ_L` where a literal `R` value needs labels in `L`, and recorded the
 distinct hypotheses in ADR-0006 and the statement audit. Focused warm check:
 3 tests, 39 assertions, 0 failures, 0 errors. Next: A10.
+
+## 2026-10-14 — A10: accepted beta-redex witness
+
+Used the existing derivation-tree generator once to propose the fixed
+`sh4_cn 0` tree, then kept that tree literal in `prop411cert.clj` so a
+shared-generator edit would not reload the PA proof family. `dtCheck_sound`
+and `check_complete` kernel-check typing and acceptance. The first attempt
+changed `dtgen.clj`; its warm recheck ran out of heap while rebuilding
+`patransport`. Restoring that generator and rechecking the isolated witness
+succeeded: 2 tests, 105 assertions, 0 failures, 0 errors. A10's size bounds
+remain open.

@@ -791,7 +791,7 @@ Stored proposition definition:
 
 ### Proposition 4.11
 
-**Formal constants:** `prop411` (`code/lcert/formal/lcert/formal/section4c.clj:461`), `prop411_nodes` (`code/lcert/formal/lcert/formal/section4c.clj:455`).
+**Formal constants:** `prop411` (`code/lcert/formal/lcert/formal/section4c.clj:461`), `prop411_nodes` (`code/lcert/formal/lcert/formal/section4c.clj:455`), `prop411_redex_typed` and `prop411_redex_cert` (`code/lcert/formal/lcert/formal/prop411cert.clj`).
 
 **Kernel-held elaborated type:**
 
@@ -807,11 +807,11 @@ Stored proposition definition:
 ∀ (n : Nat), @Eq.{1} Nat (cnodes (sh4_bush n)) (Nat.sub (sh4_pow n) 1)
 ```
 
-**Verdict: different (partial).** The typed omega-let chain and 2^n-1 denotation are formalized. The numbered claim that Check accepts a beta-redex derivation, the polynomial certificate-size comparison, and the four measured pairs are absent from prop411.
+**Verdict: different (partial).** The typed omega-let chain and 2^n-1 denotation are formalized. `prop411_redex_cert` supplies an accepted derivation of `sh4_cn 0`, whose root is a beta redex. The polynomial certificate-size comparison and the normal literal's certificate lower bound remain open; the four reference-encoding measured pairs belong to ADR-0008.
 
 **Extra-premise satisfiability:** No extra premise for prop411. `check_complete` can turn a concrete typed derivation into an accepted certificate, but no indexed theorem connects it to the omega-let chain or proves the certificate-size comparison.
 
-**Suite coverage:** `prop411` → `lcert.formal-test.section4c/f4-section4c`; `prop411_nodes` → `lcert.formal-test.section4c/f4-section4c`.
+**Suite coverage:** `prop411` and `prop411_nodes` → `lcert.formal-test.section4c/f4-section4c`; `prop411_redex_cert` → `lcert.formal-test.section4c/a10-redex-certificate`.
 
 ### Proposition 4.12(1)
 
@@ -1156,7 +1156,7 @@ In Ansatz 0.2.115's jar, `ansatz/core.clj:257–278` defines `load-init!`; line 
 A08 — §7 legacy kernel facts: **superseded by ADR-0008** (implementation extraction). The six historical constants have separate legacy coverage; any implementation bridge belongs to ADR-0008.
 A16 — §7 code-to-CT rendering: **superseded by ADR-0008** (implementation extraction and measure preservation). Current §7 bridge remains test evidence.
 A15 — §7 independent-checker agreement: **superseded by ADR-0008** (extracted implementation and checker agreement). `dtCheck_agree` only compares formal checker functions under `AgreeF`.
-- [ ] A10 — Proposition 4.11 — state and prove acceptance of a derivation containing a beta redex, the quadratic upper bound on the `c_n` certificate, the `2^n − 1` lower bound for the normal literal's certificate. The four measured size pairs at n = 2, 4, 6, 8 are deferred to ADR-0008 under the reference implementation encoding; `prop411` currently proves only typing and denotation of the code term.
+- [ ] A10 — Proposition 4.11 — `prop411_redex_cert` now proves acceptance of a beta-redex derivation. Still prove the quadratic upper bound on the `c_n` certificate and the `2^n − 1` lower bound for the normal literal's certificate. The four measured size pairs at n = 2, 4, 6, 8 are deferred to ADR-0008 under the reference implementation encoding.
 - [ ] A06 — Proposition 4.12(1) — state and prove the polynomial certificate-growth bound for the paper’s intended certificate representation. The numerical measurements 414, 460, 522 at n = 4, 8, 12 are deferred to ADR-0008 because they use the reference implementation encoding rather than F7.
 - [ ] A05 — F6.3 / Proposition 6.1 external translation — define finite-support universal closure ⟦∀ᶜˡφ⟧ and prove the typed equivalence between this closed-line translation and the current open-context translation.
 - [ ] A07 — §4.7 typed parser — state and prove the parser's typed print-back equation and sufficient-supply adequacy for open codes if this unnumbered §4 claim remains in the formalization scope.
