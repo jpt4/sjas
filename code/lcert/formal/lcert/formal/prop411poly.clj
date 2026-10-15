@@ -210,3 +210,50 @@
         (lv (list 'Eq 'Nat (list 'cnodes (list 'encDT ctor)) (nodes code)))
         (lv [(list 'have 'q_e (list 'Eq 'Code (list 'encDT ctor) code) '(rfl))
              (list 'exact (list 'Eq.trans '(congrArg cnodes q_e) (proof code)))])))))
+
+;; E4's expression encoding has seven additional internal nodes for each
+;; sharing let.  The arithmetic form below uses repeated addition so omega
+;; can check the induction without nonlinear arithmetic.
+(let [nodes (deref #'lcert.formal.certcanon/nodes-of)
+      proof (deref #'lcert.formal.certcanon/cnodes-eq)
+      var0 '(Code.sn 14 (encNat 0) (Code.sl 0))
+      lbl0 '(Code.sn 39 (Code.sl 0) (Code.sl 0))
+      doubled (list 'Code.sn 42 lbl0 (list 'Code.sn 12 var0 var0))
+      open-next (list 'Code.sn 51
+                      '(Code.sn 50 (Code.sl 20) (encE (sh4_open n))) doubled)
+      cn-code (list 'Code.sn 51
+                    '(Code.sn 50 (Code.sl 20) (encE (sh4_open n)))
+                    (list 'Code.sn 41 lbl0 '(Code.sl 0)))]
+  (a/prove-theorem 'sh4_open_enc_step (lv '[n :- Nat])
+    (lv '(Eq Nat (cnodes (encE (sh4_open (Nat.succ n))))
+                 (+ 7 (cnodes (encE (sh4_open n))))))
+    (lv [(list 'have 'q_e (list 'Eq 'Code '(encE (sh4_open (Nat.succ n))) open-next) '(rfl))
+         (list 'have 'q_n (list 'Eq 'Nat '(cnodes (encE (sh4_open (Nat.succ n)))) (nodes open-next))
+               (list 'Eq.trans '(congrArg cnodes q_e) (proof open-next)))
+         '(omega)]))
+  (a/prove-theorem 'sh4_cn_enc_parts (lv '[n :- Nat])
+    (lv '(Eq Nat (cnodes (encE (sh4_cn n)))
+                 (+ 4 (cnodes (encE (sh4_open n))))))
+    (lv [(list 'have 'q_e (list 'Eq 'Code '(encE (sh4_cn n)) cn-code) '(rfl))
+         (list 'have 'q_n (list 'Eq 'Nat '(cnodes (encE (sh4_cn n))) (nodes cn-code))
+               (list 'Eq.trans '(congrArg cnodes q_e) (proof cn-code)))
+         '(omega)])))
+
+(thm sh4_open_enc_linear [n :- Nat]
+  (Eq Nat (cnodes (encE (sh4_open n)))
+          (+ 1 (+ n (+ n (+ n (+ n (+ n (+ n n))))))))
+  (induction n)
+  (rfl)
+  (rw [(sh4_open_enc_step n)])
+  (omega))
+
+(thm sh4_cn_enc_linear [n :- Nat]
+  (Eq Nat (cnodes (encE (sh4_cn n)))
+          (+ 5 (+ n (+ n (+ n (+ n (+ n (+ n n))))))))
+  (have h (Eq Nat (cnodes (encE (sh4_open n)))
+                  (+ 1 (+ n (+ n (+ n (+ n (+ n (+ n n))))))))
+    (sh4_open_enc_linear n))
+  (have hc (Eq Nat (cnodes (encE (sh4_cn n)))
+                   (+ 4 (cnodes (encE (sh4_open n)))))
+    (sh4_cn_enc_parts n))
+  (omega))

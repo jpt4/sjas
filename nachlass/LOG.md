@@ -7225,3 +7225,14 @@ rApp, rSleaf and rSnode from F7's constructor and encoder tables; Ansatz
 kernel-checks every generated proof. The focused suite passed: 6 tests,
 120 assertions, 0 failures, 0 errors. These equations are prerequisites
 for the all-n quadratic upper bound, which is still open.
+
+## 2026-10-15 — A10: exact size of the encoded sharing term
+
+The new test first failed for three absent constants. The F7 encoder's
+constructor clauses and `cnodes` equations now yield
+`sh4_open_enc_linear` and `sh4_cn_enc_linear`: the open and closed terms
+have exactly `7n+1` and `7n+5` internal encoding nodes. A first direct
+`simp` attempt left `encE` opaque to `omega`; the accepted proof constructs
+the exact code shapes from the F7 clauses, proves them by reduction, and
+uses `cnodes-eq` before arithmetic. Warm section4c passed: 7 tests,
+123 assertions, 0 failures, 0 errors. Tree and fuel sizes remain.

@@ -807,7 +807,7 @@ Stored proposition definition:
 ∀ (n : Nat), @Eq.{1} Nat (cnodes (sh4_bush n)) (Nat.sub (sh4_pow n) 1)
 ```
 
-**Verdict: different (partial).** The typed omega-let chain and 2^n-1 denotation are formalized. `sh4_cn_cert` names an F7 certificate for every `sh4_cn n`, and `prop411_explicit_cert` proves its acceptance; the root is a beta redex, and `prop411_redex_cert` gives a fixed instance. `prop411_literal_lower` proves that an F7 certificate recording the normal literal has at least `2^n − 1` nodes. The quadratic certificate upper bound remains open; the four reference-encoding measured pairs belong to ADR-0008.
+**Verdict: different (partial).** The typed omega-let chain and 2^n-1 denotation are formalized. `sh4_cn_cert` names an F7 certificate for every `sh4_cn n`, and `prop411_explicit_cert` proves its acceptance; the root is a beta redex, and `prop411_redex_cert` gives a fixed instance. `sh4_open_enc_linear` and `sh4_cn_enc_linear` prove that F7's term encoding has exactly `7n+1` and `7n+5` internal nodes, respectively. `prop411_literal_lower` proves that an F7 certificate recording the normal literal has at least `2^n − 1` nodes. The quadratic certificate upper bound remains open; the four reference-encoding measured pairs belong to ADR-0008.
 
 **Extra-premise satisfiability:** No extra premise for prop411. `check_complete` can turn a concrete typed derivation into an accepted certificate, but no indexed theorem connects it to the omega-let chain or proves the certificate-size comparison.
 

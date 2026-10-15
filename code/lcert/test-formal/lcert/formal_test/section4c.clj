@@ -44,6 +44,12 @@
                 sh4_encDT_fBase_nodes]]
       (is (b/has? c) (str c)))))
 
+(deftest a10-sharing-term-size
+  (testing "the encoded sharing term grows by a fixed number of nodes per step"
+    (is (b/has? 'sh4_open_enc_step))
+    (is (b/has? 'sh4_open_enc_linear))
+    (is (b/has? 'sh4_cn_enc_linear))))
+
 (deftest f4-section4c
   (testing "Proposition 4.11: the sharing chain, its denotation, and the node count"
     (doseq [c '[sh4_pow_succ sh4_bush_succ sh4_grow_zero sh4_grow_succ
