@@ -7245,3 +7245,17 @@ usage vector, and its omega head with respectively `d`, `d`, and `d+1`
 internal nodes. `sh4_sq_succ` supplies the kernel arithmetic equation for
 the eventual quadratic expression. Warm section4c passed: 8 tests,
 128 assertions, 0 failures, 0 errors. The tree recurrence remains.
+
+## 2026-10-15 — A10: F7 certificate-size proof limit
+
+The next test was red for the absent step-size and polynomial constants. The
+exact F7 successor constructor reduces to an expression with 14 distinct
+opaque node-count atoms. Direct `simp`, `omega` on the expanded expression,
+and an isolated arithmetic normalization all exceeded the practical warm
+Ansatz service envelope; the two earlier proof threads and the latest raw-sum
+attempt continued after their REPL clients timed out. No theorem was accepted
+from those attempts. The kernel-checked accepted certificate family, term
+encoding sizes, and normal-literal lower bound remain. The all-`n` quadratic
+bound is recorded as stated-only under ADR-0006's Ansatz-limitation clause;
+the measured reference-encoding counts belong to ADR-0008. No definition or
+checker was changed. A06 is next in checklist order.

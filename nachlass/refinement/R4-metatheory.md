@@ -1148,6 +1148,13 @@ each `let` a β-redex at `ω`. Then `⊢ c_n :¹ Syn` at budget 0.
 - `c_n`'s certificate grows quadratically: each of its `O(n)` nodes records a
   context and a term of size `O(n)`.
 
+The second bullet is a paper-level size argument. The F7 formalization checks
+the explicit certificate family and linear term-encoding size, but its
+all-`n` quadratic certificate bound is stated-only: Ansatz has not completed
+the generated derivation-tree size recurrence. The counts below use the
+reference implementation's encoding; ADR-0008 is responsible for reconciling
+them with F7. They are not F7 theorem instances.
+
 Measured by `lcert`:
 
 | `n` | 2 | 4 | 6 | 8 |
