@@ -59,6 +59,16 @@
           (paCloseN k (trF p (fn [i :- Nat] i))))))
       '[(exact (pa_finite_lcert_pos chkf p hp k hk hs))])))))
 
+(deftest a05-substitution-support
+  (testing "PA substitution reads only the free-variable support"
+    (doseq [nm '[paAgreePT paSbT_support paSbF_support]]
+      (is (b/has? nm) (str nm)))
+    (is (not (b/rejects?
+      '[p :- PF, σ :- (=> Nat PT), τ :- (=> Nat PT),
+        h :- (paAgreePT (paSupportF p) σ τ)]
+      '(Eq PF (paSbF σ p) (paSbF τ p))
+      '[(exact (paSbF_support p σ τ h))])))))
+
 (deftest all-pa-proofs-translate
   (doseq [nm '[pa_axiom_translation pa_lcert pa_refutation]]
     (is (b/has? nm) (str nm)))

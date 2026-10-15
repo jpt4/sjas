@@ -7351,3 +7351,13 @@ A red test found the finite-context and closed translation constants absent.
 its support, there is a closed term of `paCloseN k (trF p id)`. The warm
 focused suite passed 6 tests, 30 assertions, with 0 failures and 0 errors.
 The zero-support case and the reverse direction of typed equivalence remain.
+
+## 2026-10-15 — A05: PA substitution has finite support
+
+`paSbT_support` and `paSbF_support` are kernel-checked syntax inductions:
+substitution maps agreeing below a term or formula's computed support
+produce the same PA syntax. `paAgreePT_up` handles the new bound variable
+under `PF.pall`. This is needed to identify a zero-support formula with an
+instance where the otherwise unused free variable is replaced by zero.
+The warm focused suite passed 7 tests, 34 assertions, with 0 failures and
+0 errors. The zero-support typing bridge is still open.

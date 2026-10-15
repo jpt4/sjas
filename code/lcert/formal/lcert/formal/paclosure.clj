@@ -291,3 +291,77 @@
   (constructor)
   (exact (paCloseLam k e))
   (exact (paClose_intro chkf k e (trF p (fn [i :- Nat] i)) ht)))
+
+;; Substitution has the same finite-support property as translation.  This
+;; supplies the closed-formula identity needed to remove a dummy Nat binder.
+(kdef paAgreePT (=> Nat (=> Nat PT) (=> Nat PT) Prop)
+  (fn [n :- Nat, σ :- (=> Nat PT), τ :- (=> Nat PT)]
+    (forall [i Nat] (=> (LT.lt i n) (Eq PT (σ i) (τ i))))))
+
+(thm paSbT_support [t :- PT]
+  (forall [σ (=> Nat PT)] (forall [τ (=> Nat PT)]
+    (=> (paAgreePT (paSupportT t) σ τ)
+        (Eq PT (paSbT σ t) (paSbT τ t)))))
+  (induction t)
+  (intro σ τ h) (exact (h i (Nat.lt_succ_self i)))
+  (intro σ τ h) (rfl)
+  (intro σ τ h) (exact (congrArg PT.ps (ih_t σ τ h)))
+  (intro σ τ h)
+  (have ht (paAgreePT (paSupportT t) σ τ)
+    (fn [i :- Nat, hi :- (LT.lt i (paSupportT t))]
+      (h i (Nat.lt_of_lt_of_le hi
+             (paMax_left (paSupportT t) (paSupportT u))))))
+  (have hu (paAgreePT (paSupportT u) σ τ)
+    (fn [i :- Nat, hi :- (LT.lt i (paSupportT u))]
+      (h i (Nat.lt_of_lt_of_le hi
+             (paMax_right (paSupportT t) (paSupportT u))))))
+  (exact (congr (congrArg PT.padd (ih_t σ τ ht)) (ih_u σ τ hu)))
+  (intro σ τ h)
+  (have ht (paAgreePT (paSupportT t) σ τ)
+    (fn [i :- Nat, hi :- (LT.lt i (paSupportT t))]
+      (h i (Nat.lt_of_lt_of_le hi
+             (paMax_left (paSupportT t) (paSupportT u))))))
+  (have hu (paAgreePT (paSupportT u) σ τ)
+    (fn [i :- Nat, hi :- (LT.lt i (paSupportT u))]
+      (h i (Nat.lt_of_lt_of_le hi
+             (paMax_right (paSupportT t) (paSupportT u))))))
+  (exact (congr (congrArg PT.pmul (ih_t σ τ ht)) (ih_u σ τ hu))))
+
+(thm paAgreePT_up [s :- Nat, σ :- (=> Nat PT), τ :- (=> Nat PT),
+  h :- (paAgreePT (Nat.sub s 1) σ τ)]
+  (paAgreePT s (paUp σ) (paUp τ))
+  (intro i hi)
+  (cases i)
+  (rfl)
+  (exact (congrArg (paSbT paShT) (h n (paSupp_pred s n hi)))))
+
+(thm paSbF_support [p :- PF]
+  (forall [σ (=> Nat PT)] (forall [τ (=> Nat PT)]
+    (=> (paAgreePT (paSupportF p) σ τ)
+        (Eq PF (paSbF σ p) (paSbF τ p)))))
+  (induction p)
+  (intro σ τ h)
+  (have ht (paAgreePT (paSupportT t) σ τ)
+    (fn [i :- Nat, hi :- (LT.lt i (paSupportT t))]
+      (h i (Nat.lt_of_lt_of_le hi
+             (paMax_left (paSupportT t) (paSupportT u))))))
+  (have hu (paAgreePT (paSupportT u) σ τ)
+    (fn [i :- Nat, hi :- (LT.lt i (paSupportT u))]
+      (h i (Nat.lt_of_lt_of_le hi
+             (paMax_right (paSupportT t) (paSupportT u))))))
+  (exact (congr (congrArg PF.peq (paSbT_support t σ τ ht))
+           (paSbT_support u σ τ hu)))
+  (intro σ τ h) (rfl)
+  (intro σ τ h)
+  (have hp (paAgreePT (paSupportF p) σ τ)
+    (fn [i :- Nat, hi :- (LT.lt i (paSupportF p))]
+      (h i (Nat.lt_of_lt_of_le hi
+             (paMax_left (paSupportF p) (paSupportF q))))))
+  (have hq (paAgreePT (paSupportF q) σ τ)
+    (fn [i :- Nat, hi :- (LT.lt i (paSupportF q))]
+      (h i (Nat.lt_of_lt_of_le hi
+             (paMax_right (paSupportF p) (paSupportF q))))))
+  (exact (congr (congrArg PF.pimp (ih_p σ τ hp)) (ih_q σ τ hq)))
+  (intro σ τ h)
+  (exact (congrArg PF.pall
+    (ih_p (paUp σ) (paUp τ) (paAgreePT_up (paSupportF p) σ τ h)))))
