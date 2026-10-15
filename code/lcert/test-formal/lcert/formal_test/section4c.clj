@@ -7,7 +7,8 @@
             [lcert.formal.base :as b]
             [lcert.formal.section4c]
             [lcert.formal.prop411cert]
-            [lcert.formal.prop411poly]))
+            [lcert.formal.prop411poly]
+            [lcert.formal.prop412poly]))
 
 (deftest a10-redex-certificate
   (testing "Proposition 4.11 has a concrete accepted beta-redex derivation"
@@ -63,6 +64,14 @@
           '(Eq Nat (cnodes (encDT (sh4_open_tree 0 (sh4_syns d))))
                    (+ (Nat.mul d 2) 7))
           '[(exact (sh4_open_tree_nodes_zero d))])))))
+
+(deftest a06-numeral-encoding-size
+  (testing "the unary numeral in Proposition 4.12 has exactly n F7 term nodes"
+    (is (b/has? 'sh4_num_enc_step))
+    (is (b/has? 'sh4_num_enc_linear))
+    (is (not (b/rejects? '[n :- Nat]
+          '(Eq Nat (cnodes (encE (sh4_num n))) n)
+          '[(exact (sh4_num_enc_linear n))])))))
 
 (deftest f4-section4c
   (testing "Proposition 4.11: the sharing chain, its denotation, and the node count"

@@ -7259,3 +7259,12 @@ encoding sizes, and normal-literal lower bound remain. The all-`n` quadratic
 bound is recorded as stated-only under ADR-0006's Ansatz-limitation clause;
 the measured reference-encoding counts belong to ADR-0008. No definition or
 checker was changed. A06 is next in checklist order.
+
+## 2026-10-15 — A06: unary numeral encoding size
+
+The focused test first failed for the absent `sh4_num_enc_step` and
+`sh4_num_enc_linear`. F7 encodes zero as a leaf and each successor as one
+internal node; induction now kernel-checks that the numeral in Proposition
+4.12(1) has exactly `n` nodes in the term field. The warm server reported
+10 tests, 133 assertions, 0 failures, 0 errors for the affected section4c
+suite. The derivation-tree size, hence the certificate bound, remains open.
