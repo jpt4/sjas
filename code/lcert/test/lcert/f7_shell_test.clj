@@ -167,6 +167,15 @@
     (is (true? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Nat])))))
     (is (false? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Bool])))))))
 
+(deftest syntax-tree-recursion-has-f7-method-premises
+  (let [term [:recSyn [:Nat] [:zero] [:zero] [:sleaf [:lbl :a]]]
+        d (typing/check-top 0 term)
+        cert (f7/certificate 0 d)]
+    (is (= :RecSyn (:rule d)))
+    (is (= 49 (first (f7/dt d))))
+    (is (true? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Nat])))))
+    (is (false? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Bool])))))))
+
 (deftest code-and-certificate-constructors-use-f7
   (let [a [:lbl :a]
         b [:lbl :b]

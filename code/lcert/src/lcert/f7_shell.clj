@@ -198,6 +198,25 @@
        (exp label) (exp left) (exp right)
        (dt dl) (dt da) (dt db)])
 
+    (and (= j :has) (= rule :RecSyn) (= :recSyn (first term)))
+    (let [[_ motive leaf-method node-method code] term
+          [code-derivation motive-formation leaf-derivation node-derivation] prems
+          leaf-outer-ctx (subvec (:ctx leaf-derivation) 0 (count ctx))
+          node-outer-ctx (subvec (:ctx node-derivation) 0 (count ctx))
+          base-ctx (conj ctx [:w [:Lbl]] [:w [:Syn]] [:w [:Syn]])
+          first-result-type (s/subst (s/shift motive 3 1) [:var 1])
+          second-result-type (s/subst (s/shift motive 4 1) [:var 1])]
+      ;; rRecS requires formation of each recursive-result binder as well
+      ;; as the four derivations recorded by the shell typer.
+      [49 D (context-usages (:ctx code-derivation))
+       (context-usages leaf-outer-ctx) (context-usages node-outer-ctx)
+       (exp motive) (exp leaf-method) (exp node-method) (exp code)
+       (dt code-derivation) (dt motive-formation)
+       (dt leaf-derivation) (dt node-derivation)
+       (dt (typing/tf base-ctx first-result-type))
+       (dt (typing/tf (conj base-ctx [1 first-result-type])
+                      second-result-type))])
+
     (and (= j :has) (= rule :Node) (= :node (first term)))
     (let [[_ token label left right] term
           [dd dl da db] prems]
