@@ -486,3 +486,26 @@
   (exact (pa_lcert_closed0_F chkf p hp h))
   (exact (pa_finite_lcert_pos chkf p hp (paSupportF p) h
     (Nat.le_refl (paSupportF p)))))
+
+;; The body of the closed line is the same translated formula used by the
+;; canonical finite Good context; only its Nat binders have been added.
+(thm paClose_type_agree [p :- PF]
+  (Eq Exp (paCloseF p)
+    (paCloseN (paSupportF p)
+      (trF p (paEnv (paSupportF p)))))
+  (have hag (paAgree (paSupportF p)
+              (paEnv (paSupportF p)) (fn [i :- Nat] i))
+    (fn [i :- Nat, hi :- (LT.lt i (paSupportF p))]
+      (paEnv_agree (paSupportF p) i hi)))
+  (exact (congrArg
+    (fn [A :- Exp] (paCloseN (paSupportF p) A))
+    (Eq.symm (trF_support p (paEnv (paSupportF p))
+               (fn [i :- Nat] i) hag)))))
+
+(thm paClose_zero [p :- PF,
+  hz :- (Eq Nat (paSupportF p) 0)]
+  (Eq Exp (paCloseF p) (trF p (fn [i :- Nat] i)))
+  (exact (Eq.trans
+    (congrArg (fn [s :- Nat]
+      (paCloseN s (trF p (fn [i :- Nat] i)))) hz)
+    rfl)))

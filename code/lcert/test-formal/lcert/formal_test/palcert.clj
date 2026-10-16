@@ -88,6 +88,18 @@
         (Rt chkf (List.nil Exp) (List.nil U) e (paCloseF p))))
       '[(exact (pa_lcert_closed chkf p hp))])))))
 
+(deftest a05-translation-agreement
+  (testing "the closed line is the support-bound Nat closure of the canonical open translation, and has no binders at support zero"
+    (doseq [nm '[paClose_type_agree paClose_zero]]
+      (is (b/has? nm) (str nm)))
+    (is (not (b/rejects? '[p :- PF]
+          '(Eq Exp (paCloseF p)
+             (paCloseN (paSupportF p) (trF p (paEnv (paSupportF p)))))
+          '[(exact (paClose_type_agree p))])))
+    (is (not (b/rejects? '[p :- PF, hz :- (Eq Nat (paSupportF p) 0)]
+          '(Eq Exp (paCloseF p) (trF p (fn [i :- Nat] i)))
+          '[(exact (paClose_zero p hz))])))))
+
 (deftest all-pa-proofs-translate
   (doseq [nm '[pa_axiom_translation pa_lcert pa_refutation]]
     (is (b/has? nm) (str nm)))
