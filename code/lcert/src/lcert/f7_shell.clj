@@ -225,6 +225,16 @@
        (exp token) (exp label) (exp left) (exp right)
        (dt dd) (dt dl) (dt da) (dt db)])
 
+    (and (= j :has) (= rule :ItR) (= :itR (first term)))
+    (let [[_ target leaf-method node-method tree] term
+          [target-formation leaf-derivation node-derivation tree-derivation] prems]
+      [52 D (context-usages (:ctx leaf-derivation))
+       (context-usages (:ctx node-derivation))
+       (context-usages (:ctx tree-derivation))
+       (exp target) (exp leaf-method) (exp node-method) (exp tree)
+       (dt target-formation) (dt leaf-derivation)
+       (dt node-derivation) (dt tree-derivation)])
+
     (and (= j :has) (= rule :Chk) (= :chk (first term)))
     (let [[_ code expected] term
           [dc de] prems]

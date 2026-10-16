@@ -176,6 +176,23 @@
     (is (true? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Nat])))))
     (is (false? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Bool])))))))
 
+(deftest certificate-tree-iteration-has-f7-method-premises
+  (let [leaf-method [:lam :w [:Lbl] [:zero]]
+        node-method [:lam 1 [:Dia]
+                     [:lam :w [:Lbl]
+                      [:lam 1 [:Nat] [:lam 1 [:Nat] [:var 0]]]]]
+        term [:itR [:Nat] leaf-method node-method [:leaf [:lbl :a]]]
+        d (typing/check-top 0 term)
+        check (fn [type]
+                (rt/dtCheck
+                 (fn [c expected] (rt/Check rt/decCert c expected))
+                 (f7/dt d)
+                 [1 nil nil (f7/exp term) (f7/exp type)]))]
+    (is (= :ItR (:rule d)))
+    (is (= 52 (first (f7/dt d))))
+    (is (true? (check [:Nat])))
+    (is (false? (check [:Bool])))))
+
 (deftest code-and-certificate-constructors-use-f7
   (let [a [:lbl :a]
         b [:lbl :b]
