@@ -3,6 +3,7 @@
   (:require [clojure.test :refer [deftest is testing]]
             [lcert.formal.base :as b]
             [lcert.formal.encode]
+            [lcert.formal.check-spec]
             [lcert.formal.extract :as extract]))
 
 (deftest extracted-expression-encoder
@@ -25,3 +26,12 @@
     (is (= [1 14 [0 2] [0 0]] code))
     (is (= 1 (cnodes code)))
     (is (= 0 (cnodes [0 17])))))
+
+(deftest recursive-checker-fuel-base
+  ;; chkN uses a recursor inside its stored lambda. The direct-recursion
+  ;; emitter cannot peel every binder, so this exercises generic lowering.
+  (let [chkN (extract/compile-closure! 'chkN)]
+    (is (false? (chkN (constantly nil) 0 [0 0] [0 0])))
+    (is (false? (b/rejects? []
+                 '(Eq Bool (chkN decCertPad 0 (Code.sl 0) (Code.sl 0)) Bool.false)
+                 '[(rfl)])))))

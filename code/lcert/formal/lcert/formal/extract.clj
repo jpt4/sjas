@@ -17,6 +17,15 @@
 (defonce ^:private runtime-ns (create-ns 'lcert.extracted.runtime))
 (defonce ^:private original-tagged @#'cg/tagged-inductive?)
 
+(def ^:private code-independent-surface
+  ;; These a/defn functions were already generated from checked definitions
+  ;; before the Code tag workaround. They operate only on List/Exp/U/Nat, so
+  ;; their representation is unchanged. Recompiling their well-founded fix
+  ;; bodies currently emits an unresolved WellFounded.fix class reference.
+  {'nthE 'lcert.formal.judgment/nthE
+   'nthU 'lcert.formal.judgment/nthU
+   'nthS 'lcert.formal.conv/nthS})
+
 (defn- tagged-with-fielded-first-constructor?
   "Ansatz's unhandled two-constructor shape, e.g. Code.sl/Code.sn."
   [E ind]
@@ -42,20 +51,46 @@
     (when-not (and ci (.isDef ci) (.getValue ci))
       (throw (ex-info "no checked definition with a value" {:name s})))
     (let [[binders _] (#'sd/strip-telescope (.type ci))
-          shape (#'sd/audit-binders binders)]
+          shape (if (empty? binders)
+                  {:arity 0 :erased 0}
+                  (#'sd/audit-binders binders))]
       (when-not shape
         (throw (ex-info "unsupported runtime binder shape" {:name s})))
       ;; Ignore a previous surface or earlier extraction entry. The requested
       ;; order supplies dependencies already compiled in this same encoding.
       (swap! ingest/arity-registry dissoc s)
-      (let [emitted (sd/emit-direct-recursion E s (.getValue ci) shape)]
-        (when-not (:fn emitted)
-          (throw (ex-info "Ansatz could not compile checked value" {:name s})))
-        (intern runtime-ns name (:fn emitted))
+      (if-let [surface-sym (get code-independent-surface name)]
+        (do
+          (when (or (contains? (#'sd/const-refs (.getValue ci)) "Code")
+                    (re-find #"const Code" (str (.type ci))))
+            (throw (ex-info "surface function depends on Code" {:name s})))
+          (let [f (var-get (requiring-resolve surface-sym))]
+            (swap! ingest/arity-registry assoc s
+              {:sym surface-sym :arity (:arity shape) :erased (:erased shape)})
+            f))
+        (let [generated
+            (try
+              (let [emitted (sd/emit-direct-recursion E s (.getValue ci) shape)]
+                (if-let [f (:fn emitted)]
+                  f
+                  ;; A recursor inside a lambda may leave a curried fn whose
+                  ;; binders the direct-recursion emitter cannot peel.
+                  (let [raw (cg/ansatz->clj E (.getValue ci) [])]
+                    (when (or (pos? (:erased shape))
+                              (re-find #"unsupported rec pattern" (pr-str raw)))
+                      (throw (ex-info "unsupported generated value" {:name s})))
+                    (let [curried (eval raw)]
+                      (if (zero? (:arity shape))
+                        curried
+                        (fn [& args]
+                          (reduce (fn [f arg] (f arg)) curried args)))))))
+              (catch Throwable t
+                (throw (ex-info "Ansatz emission failed" {:name s} t))))]
+        (intern runtime-ns name generated)
         (swap! ingest/arity-registry assoc s
           {:sym (symbol (str (ns-name runtime-ns)) s)
            :arity (:arity shape) :erased (:erased shape)})
-        (:fn emitted)))))
+        generated)))))
 
 (defn compile-functions!
   "Generate the named checked definitions in dependency order. Returns
