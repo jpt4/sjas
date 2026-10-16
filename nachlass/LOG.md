@@ -7750,3 +7750,11 @@ formation tree at the empty context. After correcting that root, the
 extracted checker accepts a one-token certificate node and the closed
 code/certificate examples, rejecting each at the wrong type. Focused
 shell suite: 8 tests / 177 assertions, 0 failures and 0 errors.
+
+## 2026-10-16 — ADR-0008: F7 truth-type formation (x8)
+
+The shell bridge now translates `TF` to F7's `fT`, preserving the Bool
+premise that establishes `T(b)` as a type. A red test rejected the
+formation; after the new constructor, the extracted checker accepts the
+closed identity at `T(tt)` and rejects a wrong claimed type. Focused shell
+suite: 9 tests / 181 assertions, 0 failures and 0 errors.

@@ -159,3 +159,15 @@
           (is (true? (rt/Check rt/decCert cert (rt/encE (f7/exp type)))))
           (is (false? (rt/Check rt/decCert cert
                                  (rt/encE (f7/exp [:Nat]))))))))))
+
+(deftest truth-type-formation-is-checked
+  (let [proof-type [:T [:tt]]
+        term [:lam 1 proof-type [:var 0]]
+        d (typing/check-top 0 term)
+        cert (f7/certificate 0 d)]
+    (is (= :Pi (first (:type d))))
+    (is (= 1 (first (f7/dt (typing/tf [] proof-type)))))
+    (is (true? (rt/Check rt/decCert cert
+                          (rt/encE (f7/exp (:type d))))))
+    (is (false? (rt/Check rt/decCert cert
+                           (rt/encE (f7/exp [:Bool])))))))

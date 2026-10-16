@@ -84,6 +84,9 @@
     (and (= j :type) (base-formations rule))
     [0 D (exp type)]
 
+    (and (= j :type) (= rule :TF) (= :T (first type)))
+    [1 D (exp (second type)) (dt (first prems))]
+
     (and (= j :type) (= rule :PiF) (= :Pi (first type)))
     (let [[_ u A B] type]
       [2 D (field :u u) (exp A) (exp B)
