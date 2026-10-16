@@ -13,7 +13,8 @@
 
 (def fast-namespaces
   "The language's own tests, which need no Ansatz, and every example of
-  TUTORIAL.md (lcert.tutorial-test), so the tutorial cannot drift."
+  TUTORIAL.md (lcert.tutorial-test), so the tutorial cannot drift, and the
+  generated core of ADR-0008 (lcert.extracted-runtime-test)."
   '[lcert.syntax-test
     lcert.encode-test
     lcert.reduce-test
@@ -21,7 +22,8 @@
     lcert.check-test
     lcert.eval-test
     lcert.core-test
-    lcert.tutorial-test])
+    lcert.tutorial-test
+    lcert.extracted-runtime-test])
 
 (def extended-namespaces
   "Tests of the Ansatz kernel itself, run before the fast suite is repeated,

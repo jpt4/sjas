@@ -16,6 +16,9 @@
             [ansatz.surface.elaborate :as el]
             [ansatz.surface.match :as sm]
             [clojure.java.io :as io]
+            [clojure.pprint :as pp]
+            [clojure.string :as str]
+            [clojure.walk :as walk]
             [lcert.formal.base :as b]))
 
 (defonce ^:private runtime-ns (create-ns 'lcert.extracted.runtime))
@@ -30,10 +33,11 @@
    'nthS "formal/lcert/formal/conv.clj"})
 
 ;; defonce takes no docstring argument, so the docstring is metadata.
-(defonce ^{:doc "Build-time record of Ansatz forms, in compilation order, for the
-  later standalone source artifact. Never used as a runtime acceptance shortcut."}
-  generated-forms
-  (atom []))
+(defonce ^{:doc "Every generated form, by definition name, as emitted in this process: the
+  source of the standalone artifact (runtime-source). Never used as a runtime
+  acceptance shortcut."}
+  emitted-forms
+  (atom {}))
 
 (defn- find-surface-definition [path name]
   (with-open [r (java.io.PushbackReader. (io/reader path))]
@@ -110,29 +114,32 @@
       (if (contains? direct-surface-source name)
         (let [emitted (compile-surface-recursion E name shape)]
           (intern runtime-ns name (:fn emitted))
-          (swap! generated-forms conj [name (:fn-form emitted)])
+          (swap! emitted-forms assoc s (:fn-form emitted))
           (swap! ingest/arity-registry assoc s
             {:sym (symbol (str (ns-name runtime-ns)) s)
              :arity (:arity shape) :erased (:erased shape)})
           (:fn emitted))
-        (let [generated
-            (try
-              (let [emitted (sd/emit-direct-recursion E s value shape)]
-                (if-let [f (:fn emitted)]
-                  f
-                  ;; A recursor inside a lambda may leave a curried fn whose
-                  ;; binders the direct-recursion emitter cannot peel.
-                  (let [raw (cg/ansatz->clj E value [])]
-                    (when (or (pos? (:erased shape))
-                              (re-find #"unsupported rec pattern" (pr-str raw)))
-                      (throw (ex-info "unsupported generated value" {:name s})))
-                    (let [curried (eval raw)]
-                      (if (zero? (:arity shape))
-                        curried
-                        (fn [& args]
-                          (reduce (fn [f arg] (f arg)) curried args)))))))
-              (catch Throwable t
-                (throw (ex-info "Ansatz emission failed" {:name s} t))))]
+        (let [[form generated]
+              (try
+                (let [emitted (sd/emit-direct-recursion E s value shape)]
+                  (if (:fn emitted)
+                    [(:fn-form emitted) (:fn emitted)]
+                    ;; A recursor inside a lambda may leave a curried fn whose
+                    ;; binders the direct-recursion emitter cannot peel. The
+                    ;; uncurrying wrapper is part of the recorded form, so the
+                    ;; artifact and this function are the same code.
+                    (let [raw (cg/ansatz->clj E value [])]
+                      (when (or (pos? (:erased shape))
+                                (re-find #"unsupported rec pattern" (pr-str raw)))
+                        (throw (ex-info "unsupported generated value" {:name s})))
+                      (let [form (if (zero? (:arity shape))
+                                   raw
+                                   (list 'let ['curried raw]
+                                         '(fn [& args] (reduce (fn [f arg] (f arg)) curried args))))]
+                        [form (eval form)]))))
+                (catch Throwable t
+                  (throw (ex-info "Ansatz emission failed" {:name s} t))))]
+        (swap! emitted-forms assoc s form)
         (intern runtime-ns name generated)
         (swap! ingest/arity-registry assoc s
           {:sym (symbol (str (ns-name runtime-ns)) s)
@@ -156,6 +163,15 @@
                                  (or (.getMessage e) ""))]
         (symbol name)
         (recur (.getCause e))))))
+
+(defn- formal-reference [form]
+  ;; A callee that resolved through an a/defn registration in a formal
+  ;; namespace (e.g. lcert.formal.conv/nthS): standalone code cannot call it,
+  ;; so it is a dependency to generate, like an unresolved one.
+  (some (fn [x] (when (and (symbol? x) (namespace x)
+                           (str/starts-with? (namespace x) "lcert.formal"))
+                  (symbol (name x))))
+        (tree-seq coll? seq form)))
 
 (defn compile-closure!
   "Generate one checked function and only the dependencies its emitted body
@@ -183,6 +199,77 @@
                           (if-let [dependency (unresolved-dependency result)]
                             (do (ensure! dependency) (recur (inc attempt)))
                             (throw result))
-                          (do (swap! done assoc name result) result))))
+                          (if-let [dependency (formal-reference (get @emitted-forms (str name)))]
+                            (do (ensure! dependency) (recur (inc attempt)))
+                            (do (swap! done assoc name result) result)))))
                     (finally (swap! active disj name))))))]
       (ensure! root))))
+
+;; ---------------------------------------------------------------------------
+;; The standalone artifact: src/lcert/extracted/runtime.clj.
+
+(def runtime-roots
+  "The roots of the production artifact: the canonical checker and the F7
+  encoders and decoder it is used with. Their closure is the artifact."
+  '[Check decCert encCert encE])
+
+(defn- stable-locals
+  "Rename the generator's gensym locals (self_73174, f73170_0, t_73171, …)
+  by order of first appearance, so the same definitions give the same text
+  on every run. A digit run of three or more marks a gensym; the extracted
+  function names have none, and qualified symbols are never renamed."
+  [form]
+  (let [ids (atom {})
+        rename (fn [x]
+                 (if-let [[_ pre digits post] (and (symbol? x) (nil? (namespace x))
+                                                  (re-matches #"(.*?)(\d{3,})(.*)" (name x)))]
+                   (let [k (or (get @ids digits)
+                               (let [k (count @ids)] (swap! ids assoc digits k) k))]
+                     (symbol (str pre "G" k post)))
+                   x))]
+    (walk/prewalk rename form)))
+
+(def ^:private runtime-header
+  ";; GENERATED by lcert.formal.extract/write-runtime! (ADR-0008). Do not edit.
+;;
+;; Each definition is Ansatz's code generation of a kernel-checked definition
+;; of the same name in code/lcert/formal, compiled from its stored value in
+;; dependency order (see formal/lcert/formal/extract.clj for the workarounds
+;; it applies). The generator is not verified; the formal suite compares
+;; these functions with kernel reduction, and its standalone-runtime-source
+;; test fails when this file differs from a fresh generation.
+")
+
+(defn runtime-source
+  "The source text of namespace lcert.extracted.runtime: every function in
+  the closure of roots, freshly generated from the checked definitions,
+  in name order after one declare."
+  [roots]
+  ;; Forget earlier extractions, so the whole closure is generated again.
+  (let [rt (str (ns-name runtime-ns))]
+    (swap! ingest/arity-registry
+           (fn [m] (into {} (remove (fn [[_ v]] (and (symbol? (:sym v)) (= rt (namespace (:sym v))))) m)))))
+  (reset! emitted-forms {})
+  (doseq [r roots] (compile-closure! r))
+  (let [forms @emitted-forms
+        names (sort (keys forms))]
+    (binding [*print-length* nil *print-level* nil *print-meta* false
+              pp/*print-right-margin* 100]
+      (with-out-str
+        (print runtime-header)
+        (println)
+        (println "(ns lcert.extracted.runtime)")
+        (println)
+        (pp/pprint (list* 'declare (map symbol names)))
+        (doseq [nm names]
+          (println)
+          (pp/pprint (list 'def (symbol nm) (stable-locals (get forms nm)))))))))
+
+(defn write-runtime!
+  "Regenerate src/lcert/extracted/runtime.clj (run from code/lcert in the
+  formal environment, e.g. on the warm server)."
+  []
+  (let [f (io/file "src/lcert/extracted/runtime.clj")]
+    (io/make-parents f)
+    (spit f (runtime-source runtime-roots))
+    (.getPath f)))

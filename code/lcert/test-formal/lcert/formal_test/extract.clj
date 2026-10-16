@@ -1,6 +1,7 @@
 (ns lcert.formal-test.extract
   "Differential checks for ADR-0008's first extracted F7 encoder slice."
   (:require [clojure.test :refer [deftest is testing]]
+            [clojure.string :as str]
             [ansatz.core :as a]
             [ansatz.codegen :as cg]
             [ansatz.surface.elaborate :as el]
@@ -125,3 +126,34 @@
     (is (false? (check decCert (assoc cert 1 0) (encE unit))))
     (is (some? (decCert cert)))
     (is (nil? (decCert (assoc cert 1 0))))))
+
+;; The canonical F7 certificate above, with the kernel's own verdicts.
+(def ^:private f7-cert-form
+  '(encCert 0 Exp.star Exp.tUnit
+     (DT.rConst (List.nil Exp) (List.nil U) Exp.star Exp.tUnit)
+     (DT.fBase (List.nil Exp) Exp.tUnit)))
+
+(deftest standalone-runtime-source
+  ;; ADR-0008: the production path loads the extracted core from a source
+  ;; file, with neither Ansatz nor a formal namespace at run time.
+  (let [text (extract/runtime-source extract/runtime-roots)
+        path "src/lcert/extracted/runtime.clj"]
+    (testing "the committed artifact is exactly what the checked definitions generate"
+      (is (.exists (java.io.File. path)))
+      (is (= (when (.exists (java.io.File. path)) (slurp path)) text)))
+    (testing "the generated code names neither Ansatz nor a formal namespace"
+      ;; Code only: the header comment names the generator.
+      (is (not (re-find #"ansatz|lcert\.formal" (str/replace text #"(?m);.*$" "")))))
+    (testing "loaded alone, it decides the F7 certificate as the kernel does"
+      (load-string (str/replace text "lcert.extracted.runtime" "lcert.extracted.scratch"))
+      (let [r (fn [s] @(ns-resolve 'lcert.extracted.scratch s))
+            check (r 'Check) decCert (r 'decCert) encCert (r 'encCert) encE (r 'encE)
+            unit (runtime-form 'Exp.tUnit)
+            cert (encCert 0 (runtime-form 'Exp.star) unit
+                          (runtime-form '(DT.rConst (List.nil Exp) (List.nil U) Exp.star Exp.tUnit))
+                          (runtime-form '(DT.fBase (List.nil Exp) Exp.tUnit)))]
+        (is (true? (check decCert cert (encE unit))))
+        (is (false? (b/rejects? [] (list 'Eq 'Bool (list 'Check 'decCert f7-cert-form '(encE Exp.tUnit)) 'Bool.true) '[(rfl)])))
+        (is (false? (check decCert cert (encE (runtime-form 'Exp.tBool)))))
+        (is (false? (b/rejects? [] (list 'Eq 'Bool (list 'Check 'decCert f7-cert-form '(encE Exp.tBool)) 'Bool.false) '[(rfl)])))
+        (is (false? (check decCert (assoc cert 1 0) (encE unit))))))))
