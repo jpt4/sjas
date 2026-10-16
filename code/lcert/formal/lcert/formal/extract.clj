@@ -14,19 +14,46 @@
             [ansatz.kernel.name :as n]
             [ansatz.surface.ingest :as ingest]
             [ansatz.surface.elaborate :as el]
+            [ansatz.surface.match :as sm]
+            [clojure.java.io :as io]
             [lcert.formal.base :as b]))
 
 (defonce ^:private runtime-ns (create-ns 'lcert.extracted.runtime))
 (defonce ^:private original-tagged @#'cg/tagged-inductive?)
 
-(def ^:private code-independent-surface
-  ;; These a/defn functions were already generated from checked definitions
-  ;; before the Code tag workaround. They operate only on List/Exp/U/Nat, so
-  ;; their representation is unchanged. Recompiling their well-founded fix
-  ;; bodies currently emits an unresolved WellFounded.fix class reference.
-  {'nthE 'lcert.formal.judgment/nthE
-   'nthU 'lcert.formal.judgment/nthU
-   'nthS 'lcert.formal.conv/nthS})
+(def ^:private direct-surface-source
+  ;; a/defn checks these recursive bodies via well-founded recursion but
+  ;; compiles their original surface bodies as direct recursion. Reuse that
+  ;; same Ansatz path to obtain standalone generated forms.
+  {'nthE "formal/lcert/formal/judgment.clj"
+   'nthU "formal/lcert/formal/judgment.clj"
+   'nthS "formal/lcert/formal/conv.clj"})
+
+;; defonce takes no docstring argument, so the docstring is metadata.
+(defonce ^{:doc "Build-time record of Ansatz forms, in compilation order, for the
+  later standalone source artifact. Never used as a runtime acceptance shortcut."}
+  generated-forms
+  (atom []))
+
+(defn- find-surface-definition [path name]
+  (with-open [r (java.io.PushbackReader. (io/reader path))]
+    (loop []
+      (let [form (read {:eof nil} r)]
+        (cond
+          (nil? form) (throw (ex-info "surface definition missing" {:name name :path path}))
+          (and (seq? form) (= 'a/defn (first form)) (= name (second form))) form
+          :else (recur))))))
+
+(defn- compile-surface-recursion [E name shape]
+  (let [[_ _ params result body] (find-surface-definition
+                                   (get direct-surface-source name) name)
+        pairs (#'a/parse-params params)
+        term (binding [sm/*use-cases-on?* true]
+               (#'a/build-telescope-fvar E pairs result body))
+        emitted (sd/emit-direct-recursion E (str name) term shape)]
+    (when-not (:fn emitted)
+      (throw (ex-info "Ansatz could not emit surface recursion" {:name name})))
+    emitted))
 
 (defn- tagged-with-fielded-first-constructor?
   "Ansatz's unhandled two-constructor shape, e.g. Code.sl/Code.sn."
@@ -80,15 +107,14 @@
       ;; Ignore a previous surface or earlier extraction entry. The requested
       ;; order supplies dependencies already compiled in this same encoding.
       (swap! ingest/arity-registry dissoc s)
-      (if-let [surface-sym (get code-independent-surface name)]
-        (do
-          (when (or (contains? (#'sd/const-refs (.getValue ci)) "Code")
-                    (re-find #"const Code" (str (.type ci))))
-            (throw (ex-info "surface function depends on Code" {:name s})))
-          (let [f (var-get (requiring-resolve surface-sym))]
-            (swap! ingest/arity-registry assoc s
-              {:sym surface-sym :arity (:arity shape) :erased (:erased shape)})
-            f))
+      (if (contains? direct-surface-source name)
+        (let [emitted (compile-surface-recursion E name shape)]
+          (intern runtime-ns name (:fn emitted))
+          (swap! generated-forms conj [name (:fn-form emitted)])
+          (swap! ingest/arity-registry assoc s
+            {:sym (symbol (str (ns-name runtime-ns)) s)
+             :arity (:arity shape) :erased (:erased shape)})
+          (:fn emitted))
         (let [generated
             (try
               (let [emitted (sd/emit-direct-recursion E s value shape)]

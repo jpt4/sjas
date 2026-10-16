@@ -4,9 +4,11 @@
             [ansatz.core :as a]
             [ansatz.codegen :as cg]
             [ansatz.surface.elaborate :as el]
+            [ansatz.surface.ingest :as ingest]
             [lcert.formal.base :as b]
             [lcert.formal.encode]
             [lcert.formal.check-spec]
+            [lcert.formal.certcanon]
             [lcert.formal.extract :as extract]))
 
 (deftest extracted-expression-encoder
@@ -77,3 +79,49 @@
                  '(Eq (Option Nat)
                    (om Nat Nat Nat.succ (Option.some Nat 5))
                    (Option.some Nat 6)) '[(rfl)])))))
+
+(deftest recursive-surface-helpers-are-rebuilt
+  (let [nthE (extract/compile-closure! 'nthE)
+        nthU (extract/compile-closure! 'nthU)]
+    (is (= [[2]] (nthE [[1] [2]] 1)))
+    (is (nil? (nthE [[1] [2]] 2)))
+    (is (= [2] (nthU [0 2] 1)))
+    (is (false? (b/rejects? []
+                 '(Eq (Option Exp)
+                   (nthE (List.cons Exp Exp.tUnit
+                           (List.cons Exp Exp.tBool (List.nil Exp))) 1)
+                   (Option.some Exp Exp.tBool)) '[(rfl)])))
+    (is (false? (b/rejects? []
+                 '(Eq (Option U)
+                   (nthU (List.cons U U.u0
+                           (List.cons U U.uw (List.nil U))) 1)
+                   (Option.some U U.uw)) '[(rfl)])))
+    ;; The generated production artifact must not depend on formal namespaces.
+    (is (= 'lcert.extracted.runtime/nthE
+           (:sym (get @ingest/arity-registry "nthE"))))
+    (is (= 'lcert.extracted.runtime/nthU
+           (:sym (get @ingest/arity-registry "nthU"))))))
+
+(defn- runtime-form [form]
+  ;; Constructor literals for the differential fixture come from Ansatz's
+  ;; generator too, so their representation matches the extracted functions.
+  (let [E @a/ansatz-env]
+    (eval (cg/ansatz->clj E (el/elaborate E (b/lv form)) []))))
+
+(deftest canonical-f7-certificate-through-extracted-checker
+  (let [encCert (extract/compile-closure! 'encCert)
+        decCert (extract/compile-closure! 'decCert)
+        check (extract/compile-closure! 'Check)
+        encE (extract/compile-closure! 'encE)
+        star (runtime-form 'Exp.star)
+        unit (runtime-form 'Exp.tUnit)
+        bool (runtime-form 'Exp.tBool)
+        rc (runtime-form
+             '(DT.rConst (List.nil Exp) (List.nil U) Exp.star Exp.tUnit))
+        fb (runtime-form '(DT.fBase (List.nil Exp) Exp.tUnit))
+        cert (encCert 0 star unit rc fb)]
+    (is (true? (check decCert cert (encE unit))))
+    (is (false? (check decCert cert (encE bool))))
+    (is (false? (check decCert (assoc cert 1 0) (encE unit))))
+    (is (some? (decCert cert)))
+    (is (nil? (decCert (assoc cert 1 0))))))
