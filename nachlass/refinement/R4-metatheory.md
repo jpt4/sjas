@@ -40,7 +40,7 @@ correction and the section that proves it.*
 | # | Statement | Where |
 | --- | --- | --- |
 | **T1** | **Consistency.** For no `n` is there a derivable `Θₙ ⊢ t :¹ 0` | §3.8 |
-| **T2** | **Self-justification.** λᶜᵉʳᵗ₀ has closed inhabitants of its own consistency propositions `H°` and `H₁°`. With T1, both clauses of `Willard2016` Definition 3.4 hold, for this calculus's apparatus and certificate representation | §3.9 |
+| **T2** | **Self-justification.** λᶜᵉʳᵗ₀ has closed inhabitants of its own consistency propositions `H°` and `H₁°`. With T1, both clauses of `Willard2016` Definition 3.4 hold, for this calculus's apparatus and certificate representation; clause (i)'s "states" is a reading of `H°`'s type (§3.9) | §3.9 |
 | **T3** | **Size soundness.** A runtime term's value has footprint at most the tokens its context supplies, and at most the number of distinct tokens it mentions | §3.7 |
 | **T4** | **Termination and adequacy.** The budgeted evaluator terminates on every term and computes the model's value. An erasing evaluator, which the resource reading needs, agrees with it on data. Neither evaluates `abort`, `H₁` or `H` in a typed program (Theorem 5.2) | §5 |
 | **P5** | **The second incompleteness theorem applies to codes.** λᶜᵉʳᵗ₀ derives no form of `Con′`, with any budget | §6; by reduction to Gödel's theorem for PA. It cites three standard results (§6.1). The templates of its step 1 are also tested mechanically, on random instances |
@@ -155,7 +155,11 @@ A, B ::= 0 | 1 | Bool | Nat | Lbl | Syn | ◇ | R | T(b)
 
 - `A ⊸ B := Π(x :₁ A). B`, `A → B := Π(x :ω A). B`, and
   `A ⊗ B := Σ(x :₁ A). B`, each with `x` not free in `B`.
-- `Lbl` is a fixed finite label set `L`.
+- `Lbl` is a fixed finite label set `L`. The formalization (ADR-0006) takes
+  `L = {0, …, 99}`. Its trees carry natural-number labels, and the predicate
+  `lblOk` selects those with every label in `L`. A formal theorem with a
+  premise `lblOk c` is therefore about exactly the paper's codes; the premise
+  is not an extra assumption.
 - `Syn` holds finite trees over `L`: the codes.
 - `R` holds the same trees with a token at every internal node: the
   certificates.
@@ -367,13 +371,21 @@ self-reference is by name, through the primitive `chk′` (draft §2.4).
 
 ## 2. Syntactic lemmas
 
-**Lemma 2.1 (weakening and exchange).** Derivability is preserved by adding a
-context entry at usage `0` anywhere, shifting indices, and by permuting
-independent entries. *Proof:* induction on derivations. Context operations
-are pointwise. ∎
+**Lemma 2.1 (weakening).** Derivability is preserved by adding a context
+entry at usage `0` anywhere, shifting indices. *Proof:* induction on
+derivations. Context operations are pointwise. ∎
 
-**Lemma 2.2 (renaming).** Derivability is preserved by injective renaming of
-variables. *Proof:* induction on derivations. ∎
+**Lemma 2.2 (renaming).** With de Bruijn indices, renaming bound variables is
+syntactic identity, and renaming the variables of two contexts apart, as
+Lemma 2.4 does with tokens, is Lemma 2.1's shift. *Proof:* by the definition
+of the syntax. ∎
+
+*Exchange and general renaming (amended 2026-10-15).* Earlier states of these
+lemmas also claimed that derivability is preserved by permuting independent
+context entries, and by any injective renaming of variables. No result here
+uses either: Lemma 2.4 and §4.5 need only weakening. Neither is formalized,
+so neither is claimed. Both would need an induction over every rule with
+transport of dependent types across the permutation.
 
 **Lemma 2.3 (strengthening).** If `Γ, x :ρ A, Γ′ ⊢ t :¹ B` and `x ∉ FV(t)`,
 then `Γ, x :₀ A, Γ′ ⊢ t :¹ B`.
@@ -409,8 +421,8 @@ Two facts:
 annotations fix every binder's skeleton. ∎
 
 **Lemma 2.6 (Check is sound).** If `Check(c, d) = tt`, then the decoded root
-judgment `Θₘ ⊢ t :¹ A` is derivable, `A` is closed, and `⌜A⌝ = d`. *Proof:*
-the definition, and E1. ∎
+judgment `Θₘ ⊢ t :¹ A` is derivable, `A` is closed and formed (`∅ ⊢ A type`),
+`⌜A⌝ = d`, and `m < nodes(c)` (Lemma 2.7). *Proof:* the definition, and E1. ∎
 
 **Lemma 2.7 (strict overhead).** If `Check(c, d) = tt`, then
 `budget(c) < nodes(c)`.
@@ -481,8 +493,11 @@ declares.** Inside the soundness proof the cap is always met. Outside it — at
 type level, where certificates are unbounded — it leaves finitely many trees to
 evaluate. The evaluator applies the same test (§5).
 
-**Lemma 3.1 (substitution).** `⟦t[u/x]⟧ⁿη = ⟦t⟧ⁿ(η, x ↦ ⟦u⟧ⁿη)`, and likewise
-for types. *Proof:* induction on `t`. The term a `reflect` decodes is closed
+**Lemma 3.1 (substitution).** Let `t` be skeleton-typed in a context with
+`x : s`, and `u` skeleton-typed at `s` (Lemma 2.5). Then
+`⟦t[u/x]⟧ⁿη = ⟦t⟧ⁿ(η, x ↦ ⟦u⟧ⁿη)`, and likewise for types and for
+simultaneous substitutions, each replacement typed at its variable's
+skeleton. *Proof:* induction on `t`. The term a `reflect` decodes is closed
 except for its own tokens, so substitution never reaches it. ∎
 
 **Lemma 3.2 (conversion invariance).** If `t ≡ t′`, then `⟦t⟧ⁿη = ⟦t′⟧ⁿη` for
@@ -555,7 +570,8 @@ Usage-0 entries are unconstrained. For example, `(x₁ ↦ ◇, …, xₘ ↦ �
 
 ### 3.5 The fundamental lemma
 
-> **Lemma 3.6 (soundness at budget `n`).** If `Γ ⊢ t :¹ A` is derivable and
+> **Lemma 3.6 (soundness at budget `n`).** If `Γ` is well-formed (each entry's
+> type is formed over the entries before it), `Γ ⊢ t :¹ A` is derivable and
 > `η ⊨ⁿₖ Γ`, then `⟦t⟧ⁿη ∈ Vⁿₖ(A)η`. For type-level derivations,
 > `⟦t⟧ⁿη ∈ C(skel A)`.
 
@@ -641,9 +657,10 @@ the inner hypothesis unless it says *outer*. Contexts are split by Lemma 3.5.
 
 ### 3.7 Size soundness (T3)
 
-**Theorem 3.** Let `Γ ⊢ t :¹ R`, and let `η ⊨ⁿₖ Γ`. Then `‖⟦t⟧ⁿη‖ ≤ k`.
-- In `Θₘ`, the bound is at most the number of distinct token variables free in
-  `t`.
+**Theorem 3.** Let `Γ` be well-formed, `Γ ⊢ t :¹ R`, and `η ⊨ⁿₖ Γ`. Then
+`‖⟦t⟧ⁿη‖ ≤ k`.
+- In `Θₘ`, with the all-token environment, the bound is the number `c` of
+  distinct token variables free in `t`, at every cap `n ≥ c`.
 - A closed term of type `R` denotes a leaf.
 
 *Proof.* The first claim is Lemma 3.6. For the refinement, lower the usage of
@@ -680,10 +697,23 @@ The following are closed, derivable at budget 0:
 - `λ(r :₁ R). λ(s :₁ R). λ(c :ω Syn). λ(e₁ :₁ …). λ(e₂ :₁ …). H₁ r s c e₁ e₂`,
   which inhabits the pair form `H₁°`.
 
-With Theorem 1, λᶜᵉʳᵗ₀ is consistent and derives its own consistency
-propositions. These are the two clauses of `Willard2016` Definition 3.4, read
-for this calculus's apparatus (natural deduction, draft §2.8) and certificate
-representation.
+With Theorem 1, λᶜᵉʳᵗ₀ is consistent, relative to the metatheory, and
+derives its own consistency propositions. These are the two clauses of
+`Willard2016` Definition 3.4, read for this calculus's apparatus (natural
+deduction, draft §2.8) and certificate representation:
+- *Clause (ii), consistency,* is Theorem 1. At the concrete checker it also
+  holds in certificate form: `Check` accepts no certificate of `0`
+  (Corollary 3.7).
+- *Clause (i)* asks for a theorem that states that consistency. `H°` is
+  derivable, and its type says, of every certificate `r` that the
+  calculus's own checker accepts as a certificate of `⌜0⌝`, that it yields
+  `0`. Definition 3.4 is informal, and "states" is this reading of `H°`'s
+  type. The reading is not a formal relation, and is not formalized.
+
+Formalized (`willard_def34`, `Hcirc_reads`; audit item A14): `H°`'s type is
+literally `Π(r :₁ R). T(chk′ (print r) ⌜0⌝) ⊸ 0`, with `⌜0⌝` the code of
+`0`; `H°` and `H₁°` have closed budget-0 inhabitants at `Check`; and both
+forms of clause (ii) hold there, so what `H°` reads as saying is true.
 
 ## 4. The draft's §§4–5, settled
 
@@ -754,12 +784,21 @@ Take `A_j := 1 ⊸ ⋯ ⊸ 1 ⊸ 1`, with `j` arrows. It is certifiable, by
 3. there is no family `(c_A)` with `Θₖ ⊢ c_A :¹ □A ⊸ □A ⊗ □A` for every
    certifiable `A`.
 
-*Proof.* Take `A = A_{k+1}` and a minimal certificate `v`, so
-`‖v‖ = μ(A) > k`. Evaluate in the model at budget `k + μ(A)`.
-- For (1) and (2), by T3 the output has at most `μ(A) + k < 2μ(A)` nodes. By
-  Proposition 4.3, a certificate of `□A` needs more than `2μ(A)`.
-- For (3), the two outputs together have at most `μ(A) + k` nodes, and two
-  certificates of `A` need at least `2μ(A)`. ∎
+*Proof.* Take `A = A_{k+1}` and a least label-safe certificate `v`, so
+`‖v‖ = μ_L(A) > k`. Evaluate in the model at budget `k + μ_L(A)`. Every
+certificate the model produces is label-safe, so `μ_L(A)` bounds it below.
+- For (1) and (2), by T3 the output has at most `μ_L(A) + k < 2μ_L(A)` nodes.
+  By Proposition 4.3's argument, a certificate of `□A` produced in the model
+  needs more than `2μ_L(A)`.
+- For (3), the two outputs together have at most `μ_L(A) + k` nodes, and two
+  label-safe certificates of `A` need at least `2μ_L(A)`. ∎
+
+Formalized at `Check`, for every `k` (`prop44_paper_1`, `prop44_paper_2`,
+`prop44_paper_3`): the proof holds for any closed `A` whose code has more than
+`k` nodes (`prop44g_1`–`3`), and `A_{k+1}` is such a type and certifiable
+(`arrN_certifiable`). An earlier formalization used `¬ᵏ⁺¹1` in place of
+`A_{k+1}`; it has no certificate when `k` is even, which made those theorems
+vacuous there.
 
 **Proposition 4.5 (per instance).** For each closed `A` with a label-safe
 accepted certificate:
@@ -785,7 +824,8 @@ never cheaper than proving that type from scratch, however it uses its inputs.
 and `A ⊸ B`; assume also a label-safe certificate of `B`.
 - A term `Θₖ ⊢ t :¹ □(A ⊸ B) ⊗ □A ⊸ □B` exists exactly when `k ≥ μ_L(B)`.
 - No budget serves every such `A` and `B`: take `A = 1` and `B = A_j` of §4.4,
-  with `j > k`, so that `μ(A_j) ≥ j > k`, and `1 ⊸ A_j` is certifiable.
+  with `j > k`, so that `μ(A_j) ≥ j > k`, and `1 ⊸ A_j` is certifiable
+  (`cor46_prime_no_uniform`, at `j = k + 1`).
 - Fixing the certificate of `A ⊸ B` does not help: a term `□A ⊸ □B` costs
   at least `μ(B)` too.
 
@@ -1003,6 +1043,12 @@ The term is finite, and free of tokens. Its size grows doubly exponentially in
     `c`, and exactly `nodes(c)` spine nodes are used.
   - *Implemented and tested* (ADR-0005, `lcert.examples`). It is closed, and
     it prints back with enough supply, and visibly not otherwise.
+  - *Status (amended 2026-10-15, audit item A07).* The parser's typing and
+    its adequacy are paper arguments checked by the implementation's tests.
+    Neither is formalized, and no result here depends on them: Proposition
+    4.9's case analysis, which is formalized, proves the bounded instances.
+    ADR-0008's runner will check the parser's certificate with the extracted
+    `Check` before running it, which makes its typing a checked fact.
 - **What remains is correctness inside the calculus.** An internal proof that the parse prints
   back to its input is not given: `out`'s equations hold of values, not
   judgmentally of open trees. So the parse route does not yet prove the
@@ -1146,21 +1192,25 @@ each `let` a β-redex at `ω`. Then `⊢ c_n :¹ Syn` at budget 0.
 - Its normal form is a literal term for a code with `2ⁿ − 1` internal nodes.
   By E2–E4, that literal's certificate has at least `2ⁿ − 1` nodes.
 - `c_n`'s certificate grows quadratically: each of its `O(n)` nodes records a
-  context and a term of size `O(n)`.
+  context and a term of size `O(n)`. Under F7 its certificate has exactly
+  `16n² + 97n + 73` nodes (`prop411_cert_size`), at most `97(n + 1)²`
+  (`prop411_cert_quadratic`).
+- So from `n = 12` on, `c_n`'s certificate is smaller than every certificate of
+  its normal form, at any budget (`prop411_exponential_gap`).
 
-The second bullet is a paper-level size argument. The F7 formalization checks
-the explicit certificate family and linear term-encoding size, but its
-all-`n` quadratic certificate bound is stated-only: Ansatz has not completed
-the generated derivation-tree size recurrence. The counts below use the
-reference implementation's encoding; ADR-0008 is responsible for reconciling
-them with F7. They are not F7 theorem instances.
-
-Measured by `lcert`:
+Under F7, computed by the kernel from the certificates themselves
+(`prop411_cert_2` … `prop411_cert_8`, `prop411_lit_cert_2` …
+`prop411_lit_cert_8`; the normal form's is the certificate of its one
+conversion-free derivation):
 
 | `n` | 2 | 4 | 6 | 8 |
 | --- | --- | --- | --- | --- |
-| certificate of `c_n` | 192 | 433 | 758 | 1,167 |
-| certificate of its normal form | 101 | 585 | 3,001 | 14,585 |
+| certificate of `c_n` | 331 | 717 | 1,231 | 1,873 |
+| certificate of its normal form | 152 | 780 | 3,772 | 17,660 |
+
+The reference implementation's encoding (`lcert`) gave 192, 433, 758, 1,167
+and 101, 585, 3,001, 14,585 for the same rows. Its encoding is not F7's;
+ADR-0008 replaces it with the encoder extracted from F7.
 
 *What this does not show.* Statman's and Orevkov's lower bounds compare proofs
 of *one* formula. Here the two derivations conclude different judgments, about
@@ -1172,18 +1222,18 @@ restricts certificates to normal derivations.
 1. A short term can denote a large code. Besides `c_n`, a term with a `recN`
    doubling a tree, through the packaged motive `Σ(p :ω Syn). 1`, denotes at
    `n` a code of `2ⁿ − 1` internal nodes. Its certificate grows polynomially in
-   `n`, because the numeral is unary: 414, 460 and 522 nodes at `n = 4, 8, 12`,
-   against values of 15, 255 and 4,095.
+   `n`, because the numeral is unary: under F7 it has `(n² + 13n + 732)/2`
+   nodes, 400, 450 and 516 at `n = 4, 8, 12`, against values of
+   15, 255 and 4,095.
 2. Every term typed in `Θₖ`, whatever its size, denotes certificates of at most
    `k` internal nodes (T3, Theorem 4′). A closed one denotes leaves
    (Proposition 4.1).
 
-*Proof status.* The budget-0 typing, `2ⁿ − 1` denotation, and accepted F7
-certificate family in (1) are kernel checked. The F7 certificate's full
-polynomial size bound is stated-only: its numeral proof subtree has a checked
-quadratic bound, but Ansatz did not finish the outer-tree and certificate
-wrapper size normalization. The three displayed counts use the earlier
-reference implementation encoding; ADR-0008 will remeasure them under F7.
+*Proof status.* (1) is kernel-checked: the budget-0 typing, the `2ⁿ − 1`
+denotation, the accepted F7 certificate family, its exact size
+(`prop412_cert_size`: twice it is `n² + 13n + 732`) and the three counts
+(`prop412_cert_4`, `_8`, `_12`).
+The reference implementation's encoding gave 414, 460 and 522.
 Part (2) follows from T3 and Theorem 4′ at the stated R-result scope. ∎
 
 So the compression that matters is not a proof rule. It is the gap between
@@ -1392,9 +1442,10 @@ dependency on terms, and the argument is short.
 nodes a default, as the model does. In a typed program the default is never
 used:
 
-> **Theorem 5.2.** Let `Θₙ ⊢ t :¹ D` be derivable, with `D` a base data type.
-> Then neither `evalₙ(t)` nor `evalᴱₙ(t)` evaluates an `abort`, `H₁` or `H`
-> node: not in `t`, and not in any program that `reflect` decodes and runs.
+> **Theorem 5.2.** Let `Θₙ ⊢ t :¹ X` be derivable, for any type `X`; the case
+> of interest is a base data type `D`. Then neither `evalₙ(t)` nor `evalᴱₙ(t)`
+> evaluates an `abort`, `H₁` or `H` node: not in `t`, and not in any program
+> that `reflect` decodes and runs.
 
 *Why Lemma 3.6 is not enough.* An evaluator reaches a node in some
 environment. At a runtime node, Lemma 3.6 makes the context of these nodes
@@ -1655,7 +1706,14 @@ Choosing the connectives removes them.
 | `⊥` | `0` |
 | `φ → ψ` | `⟦φ⟧ → ⟦ψ⟧`, a `Π` at `ω` |
 | `∀x φ` | `Π(v_x :ω Nat). ⟦φ⟧` |
-| a line `φ`, free variables `x₁ < … < x_k` in a fixed order | `⟦∀ᶜˡ φ⟧ := Π(v_{x₁} :ω Nat) ⋯ Π(v_{x_k} :ω Nat). ⟦φ⟧` |
+| a line `φ`; variables `x₁ < … < x_k` in a fixed order, including every free variable of `φ` | `⟦∀ᶜˡ φ⟧ := Π(v_{x₁} :ω Nat) ⋯ Π(v_{x_k} :ω Nat). ⟦φ⟧` |
+
+The closure may bind variables that do not occur free in `φ`. Their binders
+are vacuous, and MP instantiates them at `zero`, as it does premise variables
+absent from the conclusion. The implementation (`lcert.pa`) binds exactly the
+free variables. The formalization (`paCloseF`, F6.3) uses de Bruijn indices and
+binds every index below the formula's support bound, the least `s` with all
+free indices below `s`. Both are instances of the definition above.
 
 `EQ`, `PLUS` and `TIMES` are closed terms, defined with two helpers:
 

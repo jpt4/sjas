@@ -95,3 +95,29 @@ itself decides, and record which ones worked. From `LOG.md`, 2026-09-26.
   rule (the existential proof had the fact in scope), not an invariant on
   values.
 
+- *A warm server's REPL state is not the repository's state.* A generator
+  extended in the REPL let `prop412poly` pass focused checks for a day while
+  the committed file could not load from a fresh JVM (2026-10-15). Never
+  extend shared code in the REPL without committing it, and end each phase
+  with a load from a fresh JVM, not only `recheck!`.
+- *A family chosen for a proof's convenience can make its theorem vacuous.*
+  `¬ʲ1` gave Proposition 4.4's size fact by E5, but `¬ʲ1` has no certificate
+  for odd `j`, so the formal theorems were vacuous at every even `k`. When a
+  statement takes a witness as a hypothesis, prove the hypothesis
+  satisfiable at every parameter value the paper quantifies over.
+- *Ansatz's omega and atoms.* omega puts each atom in weak head normal form
+  and compares atoms pairwise by definitional equality, and it reads every
+  hypothesis in the context. Sizes of symbolic certificates
+  (`cnodes (encDT (sh4_open_tree n D))`) unfold into large stuck terms, and
+  omega then runs for hours. Rewrite such atoms to their values, generalize
+  or clear the rest, or do the arithmetic in a lemma over plain variables
+  and instantiate it with `exact` (sizegen.clj, 2026-10-15).
+- *Write `Nat.mul x 16`, not `Nat.mul 16 x`.* `Nat.mul` recurses on its second
+  argument: with the literal there it unfolds to a linear sum omega can use;
+  with the literal first it is an opaque atom, and omega's search ran the
+  server out of heap.
+- *Never run a heavy proof beside a warm load.* They share one heap; an
+  `OutOfMemoryError` in a test killed the load mid-namespace (2026-10-15).
+- *A runaway thread need not cost a reload.* `test-runs/stop-threads.sh PID
+  ID` throws `ThreadDeath` into it through JVMTI (JDK 21 has no
+  `Thread.stop`; Ansatz catches `Exception`, not `Error`).

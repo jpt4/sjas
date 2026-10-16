@@ -7385,3 +7385,162 @@ proof. This is an external typed object derivation, not PA-internal CHECK
 correctness. The warm focused suite passed 10 tests, 42 assertions, with
 0 failures and 0 errors. The converse link to arbitrary Good contexts is
 the remaining A05 agreement obligation.
+
+## 2026-10-15 — A05 closed: the closed line is the paper's form (Claude)
+
+Claude took over the afix lane while Codex credits were exhausted. Codex's
+uncommitted A05 work contained three theorems. Two are kept:
+`paClose_type_agree` shows that the body of `paCloseF φ` is the open
+translation at the canonical finite environment, and `paClose_zero` that a
+zero-support closure has no binders. The third, `pa_translation_agree`, was
+only the conjunction of `pa_lcert` and `pa_lcert_closed`. Its name claimed an
+equivalence it did not prove, so it was dropped.
+
+The audit asked for a typed equivalence between the closed-line and
+open-context translations. The paper states only the closed-line form, which
+`pa_lcert_closed` proves. The open-to-closed direction is
+`pa_finite_lcert_pos`. The converse, closed line to an open derivation in an
+arbitrary `Good` context, is not a paper claim and is not formalized.
+
+One real difference remained. R4 §6.2 closed a line over exactly its free
+variables, and the implementation (`lcert.pa`) does that. `paCloseF` binds
+every de Bruijn index below the support bound, so it can add vacuous
+binders. R4 now allows the closure to bind variables that do not occur in
+φ, and MP instantiates them at zero, as it does premise variables absent
+from the conclusion. Both closures are instances of the amended definition.
+The A05 tests now check the two kept statements' exact types.
+
+## 2026-10-15 — A01 and A02: Lemmas 2.1 and 2.2 amended to what is proved (Claude)
+
+R4's Lemma 2.1 claimed weakening and exchange of independent entries;
+Lemma 2.2 claimed preservation under any injective renaming. Only weakening
+is formalized (`tl_weaken`, `rt_weaken`). A search of R4 found no result that
+uses exchange or general renaming: Lemma 2.4 and §4.5's proof use weakening,
+and Lemma 2.4's "renamed apart" tokens are, with de Bruijn indices, the
+weakening shift. Under the fidelity directive the paper was amended rather
+than left with an unproved claim: Lemma 2.1 is now weakening only, and
+Lemma 2.2 states the de Bruijn case, which holds by the definition of the
+syntax, as audit item A02 allowed. A formal exchange theorem would need an
+induction over every rule with transport of dependent types; it can be
+added if a later result needs it.
+
+## 2026-10-15 — A07: the typed parser is recorded as outside the formalization (Claude)
+
+R4 §4.7's typed parser is an aside on the draft's method ("parse and then
+apply H"). Its typing and its adequacy (print-back with enough supply) are
+paper arguments, checked by the implementation's tests. No result depends
+on them: Proposition 4.9's case analysis, which is formalized for all
+depths, proves the bounded instances of Con′. Formalizing the parser would
+need the destructor `out`, `roll` and `parse` as object terms, their typing
+derivations, and an adequacy proof through the denotational semantics. R4
+now states the parser's status, and notes that ADR-0008's runner will check
+the parser's certificate with the extracted `Check` before running it.
+
+## 2026-10-15 — prop412poly did not load from a fresh start (Claude)
+
+Restarting the warm server (three A10 proof threads had run for hours at
+200% CPU; JDK 21 cannot stop a thread) exposed a regression: the committed
+`prop412poly` failed to load, "dtgen: no runtime synthesis rule for this
+term", and the 28 namespaces after it were skipped. Its doubler tree came
+from `dtgen/rt`, which has no synthesis rules for `sleaf`, `snode` or label
+constants. A06's commits (e2754af onward) had passed only in a long-lived
+server whose `dtgen` had been extended in the REPL, never in a file.
+
+Fix: the tree is generated once, with a REPL-local extension of `rt-syn` for
+exactly those three rules (restored afterwards), and stored literally as
+`doubler-tree-form`, as `prop411cert` stores its tree. `dtCheck` still checks
+it in the kernel (`sh4_doubler_tree_check`), and editing `dtgen` would have
+reloaded its many dependents. Lesson: a warm server's REPL state is not the
+repository's state, so a phase must end with a load from a fresh JVM.
+
+## 2026-10-15 — Fidelity pass, part 1: results at the concrete checker (Claude)
+
+The audit had classed most of §§2–5 as "weaker". Two causes recur:
+- **Checker premises.** The theorems are proved for any checker meeting
+  `CheckSpec` (plus `ConvCase`, `TokSize`, `TypeSize` where used); R4 states
+  them for λᶜᵉʳᵗ₀, whose `chk′` is one checker. `concrete.clj` restates them at
+  `Check decCert`, with every checker premise discharged by `check_spec`,
+  `check_toksize`, `check_typesize` and `conv_all`: `lemma36_F7`,
+  `theorem3_F7`, `theorem3_tokens_F7`, `prop41_closed_F7`, `prop41_fun_F7`,
+  `lemma46a_F7`, `theorem4_F7`, `corollary51_nodes_F7`, `theorem4e_nodes_F7`,
+  `theorem4e_agree_F7` (kernel-checked in the warm server).
+- **Representation.** `lblOk` is how the formalization, whose labels are
+  natural numbers, says "a code over L"; R4 §1.2 now says `L = {0, …, 99}`
+  and that such premises are about exactly the paper's codes. `nbr` excludes
+  branch lists, which represent `caseLbl`'s branch family and are not paper
+  terms.
+
+Where a premise is real, the paper now states it: Lemma 3.1's typed
+substitution (without it the equation is false), well-formed contexts in
+Lemma 3.6 and T3, T3's cap condition. Where the formal result is stronger,
+the paper now states the stronger form: Lemma 2.6 (formation and the budget
+bound) and Theorem 5.2 (every result type). Thirteen audit verdicts and the
+matching ADR index rows are updated. Still open in the pass: Propositions
+4.4, 4.5, 4.11, 4.12(1) and Theorem 4.6 (being checked), and the phase-2
+items (Proposition 4.8, P5, Lemmas 6.2–6.4, Corollary 6.5).
+
+## 2026-10-15 — A10 and A06 reopened and closed: exact F7 certificate sizes (Claude)
+
+The user reopened the numeric parts of A06 and A10 ("stated-only" is not an
+allowed outcome under the fidelity directive). Both are now kernel-checked:
+- **Proposition 4.11 (A10).** `prop411_cert_size`: the F7 certificate of
+  `c_n` has exactly `16n² + 97n + 73` nodes. It rests on the open tree's
+  size `16n² + 18nd + 67n + 2d + 7` (`sh4_open_tree_nodes`, by induction from
+  one generated layer equation, `sh4_open_tree_nodes_step`) and its height
+  `9n + 1` (F7 stores the decoder's fuel, the trees' node count, in unary).
+  `prop411_cert_2` … `_8` evaluate 331, 717, 1,231 and 1,873 in the kernel;
+  `prop411_lit_cert_*` count the normal form's certificate; `prop411_cert_quadratic`
+  bounds the size by `97(n + 1)²`; `prop411_exponential_gap` shows that from
+  `n = 12` on, `c_n`'s certificate is smaller than every certificate of its
+  normal form.
+- **Proposition 4.12(1) (A06).** `prop412_cert_size`: twice the doubler
+  certificate's size is `n² + 13n + K`; `prop412_cert_4`, `_8`, `_12` give the
+  three counts. R4's tables now show these F7 counts; the reference
+  implementation's counts are recorded beside them as a different encoding.
+
+**Why the earlier attempts stalled, and the method.** Ansatz's omega puts
+each atom in weak head normal form and compares atoms pairwise by
+definitional equality, and it reads every hypothesis in the context. A
+certificate size of a symbolic tree unfolds into a large stuck term, so one
+layer's equation ran for hours (Codex's attempt and Claude's first). sizegen
+now expands one layer with the encoder's own constructor table, rewrites
+every atom to its value (closed atoms are valued by kernel reduction and
+re-checked by `rfl`), generalizes the remaining sizes to variables, clears
+the hypotheses, and only then calls omega: the layer equation checks in
+about 35 seconds. Two further rules: arithmetic over products goes into a
+lemma over plain variables, instantiated with `exact`; and a literal
+multiplier goes second (`Nat.mul x 16`), since `Nat.mul` recurses on its
+second argument and a literal first leaves an opaque atom. Even so, omega's
+proofs with literal coefficients near 100 need about 1 GB of heap, so the
+warm server and the full suite now run with 3 GB (`XMX`, `FORMAL_XMX`).
+
+## 2026-10-15 — Proposition 4.4 and Corollary 4.6′ were vacuous at even budgets (Claude)
+
+`prop434`'s `prop44_1`–`3` and `cor46`'s `d2_no_uniform` used `¬ʲ1` (`negN`)
+for R4's `A_j = 1 ⊸ ⋯ ⊸ 1`. `¬ʲ1` has no certificate for odd `j`: `1 ⊸ 0`
+would refute `1`, against T1. The theorems take a certificate of
+`¬ᵏ⁺¹1` as a hypothesis, so at every even `k` the hypothesis could not be
+met and the theorem said nothing. The formalization had used `¬ʲ1` from the
+start for its size fact (E5), while R4 always used `A_j`.
+
+Fix (prop44paper.clj, arrfamily.clj): `arrN` is R4's `A_j`; `arrN_certifiable`
+gives it a label-safe accepted certificate at every `j`, from an explicit
+derivation tree of `λ(x₁ :₁ 1). ⋯ λ(x_j :₁ 1). ⋆` checked by `dtCheck`.
+`prop44g_1`–`3` restate the proofs for any closed `A` whose code has more
+than `k` nodes, with minimality over label-safe certificates (all the proofs
+use: the certificates they compare with come from the model, whose `R`
+values are label-safe). `prop44_paper_1`–`3` then state Proposition 4.4 as R4
+does, at `Check` and every `k`, and `cor46_prime_no_uniform` gives Corollary
+4.6′'s instance `A = 1`, `B = A_{k+1}`. `prop434` itself is unchanged
+(editing it reloads about 120 namespaces); its theorems are true and are
+superseded for the paper's statements.
+
+## 2026-10-15 — A14: Willard's Definition 3.4 (Claude)
+
+`willard_def34` (willard.clj) proves, at `Check`, clause (i)'s derivations
+(closed budget-0 inhabitants of `H°` and `H₁°`) and clause (ii) in two forms:
+no budget derives `0` (T1), and `Check` accepts no certificate of `0`
+(Corollary 3.7). `Hcirc_reads` shows that `H°`'s type is literally
+`Π(r :₁ R). T(chk′ (print r) ⌜0⌝) ⊸ 0`, with `⌜0⌝` the code of `0`. Definition
+3.4 is informal: that `H°` *states* consistency is a reading of that syntax,
+and R4 §3.9 now says so, while the reading's truth is the formal clause (ii).

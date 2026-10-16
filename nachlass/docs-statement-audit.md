@@ -26,9 +26,9 @@ The paper's unqualified consistency assertions are read **relative to the Ansatz
 ∀ (chkf : Code → Code → Bool), ∀ (D0 : List Exp), ∀ (us0 : List U), ∀ (t0 : Exp), ∀ (A0 : Exp), ∀ (der : Rt chkf D0 us0 t0 A0), ∀ (cc : Nat), ∀ (XX : Exp), Rt chkf (insD cc XX D0) (insU cc U.u0 us0) (lift 1 cc t0) (lift 1 cc A0)
 ```
 
-**Verdict: different (partial).** Insertion of usage-0 entries with de Bruijn lifting formalizes weakening. Exchange/permutation of independent entries is absent, so Lemma 2.1 as a whole remains open.
+**Verdict: exact (A01, 2026-10-15).** Insertion of usage-0 entries with de Bruijn lifting formalizes weakening. R4 no longer claims exchange of independent entries: no result uses it, and it is not formalized.
 
-**Extra-premise satisfiability:** No extra premise for insertion. The missing exchange clause has no satisfiability issue; it is an absent theorem.
+**Extra-premise satisfiability:** No extra premise for insertion. Exchange is no longer claimed.
 
 **Suite coverage:** `tl_weaken` → `lcert.formal-test.derivations/f2f-runtime-weakening`; `rt_weaken` → `lcert.formal-test.derivations/f2f-runtime-weakening`.
 
@@ -36,7 +36,7 @@ The paper's unqualified consistency assertions are read **relative to the Ansatz
 
 **Formal constants and kernel type:** none.
 
-**Verdict: open.** Injective renaming under de Bruijn means an order-changing exchange/permutation; alpha-renaming alone is syntactic identity. No exchange theorem.
+**Verdict: exact by definition (A02, 2026-10-15).** R4 now states only the de Bruijn case: renaming bound variables is syntactic identity, and renaming two contexts apart is Lemma 2.1's shift. General injective renaming, which would include exchange, is no longer claimed.
 
 **Extra-premise satisfiability:** No counterpart; no extra premise to discharge.
 
@@ -138,7 +138,7 @@ fun (chkf : Code → Code → Bool) => fun (dec : Code → Option (Prod Nat (Pro
 ∀ (decD : Code → Option (Prod Nat (Prod Exp (Prod Exp (Prod DT DT))))), ∀ (c : Code), ∀ (d : Code), ∀ (h : @Eq.{1} Bool (Check decD c d) Bool.true), @Exists.{1} Nat (fun (m : Nat) => @Exists.{1} Exp (fun (t : Exp) => @Exists.{1} Exp (fun (A : Exp) => And (@Eq.{1} (Option (Prod Nat (Prod Exp Exp))) (decOf decD c) (Option.some (Prod Nat (Prod Exp Exp)) (Prod.mk Nat (Prod Exp Exp) m (Prod.mk Exp Exp t A)))) (And (Rt (Check decD) (thetaD m) (thetaU m) t A) (And (Tl (Check decD) Bool.true (List.nil Exp) A Exp.tUnit) (And (@Eq.{1} Bool (closedTy A) Bool.true) (And (@Eq.{1} Code (encE A) d) (And (Nat.lt m (cnodes c)) (And (LT.lt Nat instLTNat (Nat.add (cntU (maskUF (thetaU m) (freshF t))) (cntU (maskUF (thetaU m) (freshF t)))) (cnodes c)) (LT.lt Nat instLTNat (cnodes (encE A)) (cnodes c)))))))))))
 ```
 
-**Verdict: stronger.** `CheckSpec` gives the paper's decoded runtime derivation, closedness and matching type code, and also a closed formation derivation for the decoded type and the strict budget bound. `check_full` and `check_spec` establish this for `Check decCert`.
+**Verdict: exact (fidelity pass, 2026-10-15).** R4's Lemma 2.6 now states everything `CheckSpec` gives: the decoded derivation, a closed and formed type, `⌜A⌝ = d`, and the strict budget bound of Lemma 2.7. `check_full` and `check_spec` establish this for `Check decCert`.
 
 **Extra-premise satisfiability:** `check_spec decCert` (proved via `check_full`) satisfies generic `CheckSpec`; `checkspec_sat` also shows abstract consistency.
 
@@ -213,7 +213,7 @@ fun (chkf : Code → Code → Bool) => fun (dec : Code → Option (Prod Nat (Pro
 ∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (n : Nat), ∀ (w0 : Bool), ∀ (Gp : List Sk), ∀ (t : Exp), ∀ (s : Sk), ∀ (der : SkJ w0 Gp t s), ∀ (G : List Sk), ∀ (sg : Nat → Exp), ∀ (en : HEnv G), ∀ (hs : SubOK Gp sg G), @Eq.{1} (Car s) (den chkf dec encTy n (subst sg t) G s en) (den chkf dec encTy n t Gp s (envOf chkf dec encTy n Gp sg G en))
 ```
 
-**Verdict: weaker.** Requires SubOK, the skeleton typing of substituted expressions; bare untyped substitution is false for SkJ.
+**Verdict: exact (fidelity pass, 2026-10-15).** R4's Lemma 3.1 now states its typing hypothesis: `t` skeleton-typed, and each replacement skeleton-typed at its variable's skeleton, which is `SubOK`. Without it the equation fails (the branch-list counterexample of substitution.clj §5), and the paper's denotation `⟦u⟧` presupposes it.
 
 **Extra-premise satisfiability:** `subOK_id` satisfies SubOK for identity substitution; `subOK_cons` extends it when a replacement is skeleton-typed. Arbitrary untyped replacement need not satisfy it.
 
@@ -231,7 +231,7 @@ fun (chkf : Code → Code → Bool) => fun (dec : Code → Option (Prod Nat (Pro
 ConvAll
 ```
 
-**Verdict: weaker.** Cv requires nbr, excluding branch-list expressions in argument position; otherwise a counterexample exists.
+**Verdict: exact for the paper's syntax (fidelity pass, 2026-10-15).** `Cv`'s `nbr` condition excludes branch lists in argument position. Branch lists are the formalization's representation of `caseLbl`'s branch family and occur only in branch position; the paper's syntax has no branch-list terms, so `nbr` holds of every paper expression. The counterexample without `nbr` uses a term the paper cannot write.
 
 **Extra-premise satisfiability:** `cv_wf_left` and `conv_all` discharge typed conversion for calculus derivations; there is a counterexample without `nbr`.
 
@@ -261,7 +261,7 @@ ConvAll
 ∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (n : Nat), ∀ (Gp : List Sk), ∀ (A : Exp), ∀ (der : SkJ Bool.true Gp A Sk.unit), ∀ (G : List Sk), ∀ (sg : Nat → Exp), ∀ (en : HEnv G), ∀ (hs : SubOK Gp sg G), ∀ (k : Nat), ∀ (v : Car (skel A)), Iff (V chkf dec encTy n (subst sg A) G en k (skel A) v) (V chkf dec encTy n A Gp (envOf chkf dec encTy n Gp sg G en) k (skel A) v)
 ```
 
-**Verdict: weaker.** Substitution requires SubOK; conversion requires skeleton-typed Cv with nbr. Monotonicity is exact.
+**Verdict: exact (fidelity pass, 2026-10-15).** Monotonicity is exact. Substitution has Lemma 3.1's typing hypothesis, which R4 now states. Conversion has Lemma 3.2's `nbr`, which every paper expression satisfies.
 
 **Extra-premise satisfiability:** `subOK_id`/`subOK_cons` witness substitution premises; `conv_all` handles derivation conversion; monotonicity has no extra premise.
 
@@ -339,7 +339,7 @@ Stored proposition definition:
 Lemma_3_6
 ```
 
-**Verdict: weaker.** The proof theorem adds `CheckSpec`, `WFCtx` for the context, and `ConvCase` for typed conversion. The `Syn` and `R` label bounds belong to the formal semantic type `V`; they are part of its conclusion, not extra premises.
+**Verdict: exact at `Check` (fidelity pass, 2026-10-15).** `lemma36_F7` (concrete.clj) is the lemma at `Check decCert`, with `CheckSpec` and typed conversion discharged (`check_spec`, `conv_all`). R4 now states the well-formed context (`WFCtx`) the paper presupposed; token contexts satisfy it (`wf_theta`). The `Syn` and `R` label bounds are part of `V`, as R4 §1.2 now says.
 
 **Extra-premise satisfiability:** `check_spec decCert` discharges `CheckSpec`; `wf_theta` discharges `WFCtx` at token roots; `conv_all` discharges conversion. `check_complete_lbl` gives label-safe concrete certificates under its typed premises. Arbitrary contexts and raw codes are outside the stated domain.
 
@@ -429,7 +429,7 @@ And (∀ (n : Nat), ∀ (t : Exp), Not (Rt (Check decCert) (thetaD n) (thetaU n)
 ∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (hcs : CheckSpec chkf dec encTy), ∀ (hconv : ∀ (n : Nat), ConvCase chkf dec encTy n), ∀ (m : Nat), ∀ (n : Nat), ∀ (t : Exp), ∀ (der : Rt chkf (thetaD m) (thetaU m) t Exp.tR), ∀ (hn : Nat.le (cntU (maskUF (thetaU m) (freshF t))) n), LE.le Nat instLENat (cnodes (den chkf dec encTy n t (skels (thetaD m)) Sk.cert (tokEnvD m))) (cntU (maskUF (thetaU m) (freshF t)))
 ```
 
-**Verdict: weaker.** The free-token refinement needs the paper's freshness/strengthening and a budget covering the token context. CheckSpec is discharged concretely.
+**Verdict: exact at `Check` (fidelity pass, 2026-10-15).** `theorem3_F7` and `theorem3_tokens_F7` (concrete.clj) are T3 and its token refinement at `Check decCert`, with no checker premise. R4's T3 now states the well-formed context and, for the refinement, the cap `n ≥ c`, with `c` the number of distinct tokens free in `t`; these are exactly the remaining premises.
 
 **Extra-premise satisfiability:** `check_spec decCert` and `conv_all` discharge model premises; `wf_theta` and `tok_sat_mask` witness token environments. The cap condition is met by choosing n at least the context size.
 
@@ -489,7 +489,7 @@ Stored proposition definition:
 ∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (hcs : CheckSpec chkf dec encTy), ∀ (hconv : ∀ (n : Nat), ConvCase chkf dec encTy n), ∀ (n : Nat), ∀ (f : Exp), ∀ (der : Rt chkf (List.nil Exp) (List.nil U) f (Exp.tPi U.u1 Exp.tSyn Exp.tR)), ∀ (c : Code), ∀ (hc : @Eq.{1} Bool (lblOk c) Bool.true), @Exists.{1} Nat (fun (l : Nat) => @Eq.{1} Code (den chkf dec encTy n f (List.nil Sk) (Sk.arr Sk.syn Sk.cert) Unit.unit c) (Code.sl l))
 ```
 
-**Verdict: weaker.** Function clause formalized over label-safe codes; formal CheckSpec and typed Conv requirements apply.
+**Verdict: exact at `Check` (fidelity pass, 2026-10-15).** `prop41_closed_F7` and `prop41_fun_F7` (concrete.clj) discharge `CheckSpec` and typed conversion. The function clause's `lblOk c` says `c` is a code over `L` (R4 §1.2 now records the label representation), so it is the paper's quantification over codes.
 
 **Extra-premise satisfiability:** `check_spec decCert`, `conv_all`, `wf_theta` discharge generic assumptions. The label condition is met by `check_complete_lbl` for typed certificates, not arbitrary codes.
 
@@ -507,7 +507,7 @@ Stored proposition definition:
 ∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (A : Exp), ∀ (v : Code), ∀ (hok : @Eq.{1} Bool (lblOk v) Bool.true), ∀ (hA : @Eq.{1} Bool (lblOk (encTy A)) Bool.true), ∀ (hck : @Eq.{1} Bool (chkf v (encTy A)) Bool.true), Rt chkf (thetaD (cnodes v)) (thetaU (cnodes v)) (certTerm v (codeTerm (encTy A))) (boxTy (codeTerm (encTy A)))
 ```
 
-**Verdict: weaker.** Requires accepted certificate and label-safe encoding of its type/code; concrete canonical checker supplies encoding bounds.
+**Verdict: exact (fidelity pass, 2026-10-15).** `prop42` holds for every checker, so for `Check decCert`. Its `lblOk` premises say that the certificate and the type's code are over `L` (R4 §1.2), which every paper code is.
 
 **Extra-premise satisfiability:** `check_complete_lbl` supplies a label-safe accepted certificate for a derivable closed judgment; arbitrary accepted code does not automatically establish `lblOk` without the canonical encoding theorem.
 
@@ -555,7 +555,7 @@ Stored proposition definition:
 ∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (hcs : CheckSpec chkf dec encTy), ∀ (hts : TypeSize chkf dec encTy), ∀ (k : Nat), ∀ (q : Exp), ∀ (der : Rt chkf (thetaD k) (thetaU k) q (Exp.tPi U.u1 (Exp.tSig U.u1 Exp.tR (chkT (Exp.var 0) (cTerm (encTy (negN (Nat.add k 1)))))) (Exp.tSig U.u1 (Exp.tSig U.u1 Exp.tR (chkT (Exp.var 0) (cTerm (encTy (negN (Nat.add k 1)))))) (Exp.tSig U.u1 Exp.tR (chkT (Exp.var 0) (cTerm (encTy (negN (Nat.add k 1))))))))), ∀ (v : Code), ∀ (hv : @Eq.{1} Bool (chkf v (encTy (negN (Nat.add k 1)))) Bool.true), ∀ (hvok : @Eq.{1} Bool (lblOk v) Bool.true), (∀ (v2 : Code), ∀ (m : @Eq.{1} Bool (chkf v2 (encTy (negN (Nat.add k 1)))) Bool.true), LE.le Nat instLENat (cnodes v) (cnodes v2)) → False
 ```
 
-**Verdict: weaker.** Parts 1-2 use TokSize; part 3 uses TypeSize. Minimal witness and closedness are explicit.
+**Verdict: exact at `Check` for the paper's family (fidelity pass, 2026-10-15).** `prop44_paper_1`–`3` (prop44paper.clj) state the three parts as R4 does, at `Check decCert` and every `k`, with `A = A_{k+1} = 1 ⊸ ⋯ ⊸ 1`; `arrN_certifiable` (arrfamily.clj) supplies its certificates. **Finding:** `prop44_1`–`3` used `¬ᵏ⁺¹1`, which has no certificate for even `k` (`1 ⊸ 0` would refute `1`), so their certificate hypotheses were unsatisfiable and the theorems vacuous at every even `k`. `prop44g_1`–`3` restate the proofs for any closed `A` whose code exceeds `k` nodes, with minimality over label-safe certificates, which is all the proofs use.
 
 **Extra-premise satisfiability:** `check_toksize decCert`, `check_typesize decCert`, and `check_spec decCert` discharge generic size/checker premises; the A_j witnesses come from the concrete checker construction.
 
@@ -579,7 +579,7 @@ Stored proposition definition:
 ∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (A : Exp), ∀ (v : Code), ∀ (hok : @Eq.{1} Bool (lblOk v) Bool.true), ∀ (hA : @Eq.{1} Bool (lblOk (encTy A)) Bool.true), ∀ (hck : @Eq.{1} Bool (chkf v (encTy A)) Bool.true), Rt chkf (thetaD (Nat.add (cnodes v) (cnodes v))) (thetaU (Nat.add (cnodes v) (cnodes v))) (Exp.lam U.u1 (boxTy (codeTerm (encTy A))) (Exp.pair (Exp.tSig U.u1 (boxTy (codeTerm (encTy A))) (boxTy (codeTerm (encTy A)))) (Exp.pair (boxTy (codeTerm (encTy A))) (litAt v (Nat.add (cnodes v) 1)) Exp.star) (Exp.pair (boxTy (codeTerm (encTy A))) (litAt v 1) Exp.star))) (Exp.tPi U.u1 (boxTy (codeTerm (encTy A))) (Exp.tSig U.u1 (boxTy (codeTerm (encTy A))) (boxTy (codeTerm (encTy A)))))
 ```
 
-**Verdict: weaker as the paper's exact-budget assertion.** Each formal theorem accepts **any** selected certificate, with explicit acceptance and label-bound premises, and constructs the term at that certificate's node count (twice that count for contraction). Neither theorem states the choice of a *minimum* certificate or the paper's `μ`-budget conclusion. The displayed types do not include a type-formation premise.
+**Verdict: exact at the paper's budgets (fidelity pass, 2026-10-15).** `prop45_contraction_mu` and `prop45_d3_mu` (concrete.clj) build the terms at budgets `2 μ_L(A)` and `μ_L(□A)`, from a least label-safe certificate (`least_cert_witness`). `prop45_d3` and `prop45_contraction` remain the any-certificate forms.
 
 **Extra-premise satisfiability:** `check_complete_lbl` gives accepted label-safe certificate witnesses for derivable closed A; the explicit label-bound premises are met by that theorem. A least-number argument can choose a minimum among such certificates, but no named kernel theorem makes that selection, so the bridge to `μ` is a finding. `prop45_d3` and `prop45_contraction` themselves have no `CheckSpec` premise.
 
@@ -603,7 +603,7 @@ Stored proposition definition:
 ∀ (r : Nat), ∀ (sg : Nat → Code), ∀ (hsg : PhOk (Nat.add r 1) sg), ∀ (As : Nat → Exp), ∀ (B : Exp), ∀ (k : Nat), ∀ (t : Exp), ∀ (hclB : @Eq.{1} Bool (closedTy B) Bool.true), ∀ (hc : ∀ (i : Nat), ∀ (j : LT.lt Nat instLTNat i (Nat.add r 1)), @Eq.{1} Bool (Check decCert (sg i) (encE (As i))) Bool.true), ∀ (hne : ∀ (i : Nat), ∀ (k : LT.lt Nat instLTNat i (Nat.add r 1)), @Eq.{1} Exp B (As i) → False), ∀ (der : Rt (Check decCert) (thetaD k) (thetaU k) t (Exp.tPi U.u1 (tensB (fun (i : Nat) => encE (As i)) 0 r) (boxTy (codeTerm (encE B))))), @Exists.{1} Code (fun (v : Code) => And (@Eq.{1} Bool (Check decCert v (encE B)) Bool.true) (And (@Eq.{1} Bool (lblOk v) Bool.true) (LE.le Nat instLENat (cnodes v) k)))
 ```
 
-**Verdict: weaker.** Generic theorem adds CheckSpec, Enc46, LargeCert and label bounds; the concrete theorem eliminates Enc46 but still needs certifiability witnesses and distinct closed types.
+**Verdict: exact at `Check` (fidelity pass, 2026-10-15).** `thm46_mu_F7` (concrete.clj) concludes `μ(B) ≤ k`, the paper's form, from `thm46_types_F7` and `muRaw_lower`. The certifiable `A_i` come with chosen certificates `sg i`, whose labels lie in `L` (`PhOk`).
 
 **Extra-premise satisfiability:** `check_spec decCert` and `enc46_canon` discharge generic CheckSpec/Enc46. `thm46_hyps_sat` jointly witnesses CheckSpec, Enc46 and LargeCert in a toy checker. `phok_safe` supplies `PhOk J safePhantoms` at every J. For the intended arbitrary list of certifiable premises, take `sg i` to be each accepted label-safe certificate; `check_complete_lbl` constructs such a certificate from the corresponding closed derivation. Its `lblOk` conclusion supplies the `PhOk` hypothesis pointwise.
 
@@ -629,7 +629,7 @@ Stored proposition definition:
 ∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (ri : RInt), ∀ (hcs : CheckSpec chkf dec encTy), ∀ (hrl : RLaws ri), ∀ (hph : PhCons chkf encTy ri), ∀ (hconv : ∀ (n : Nat), ConvCase_ri chkf dec encTy ri n), ∀ (n : Nat), ∀ (D : List Exp), ∀ (us : List U), ∀ (t : Exp), ∀ (A : Exp), ∀ (der : Rt chkf D us t A), ∀ (hw : WFCtx chkf D), Sound_ri chkf dec encTy ri n D us t A
 ```
 
-**Verdict: weaker.** The generic R-interpretation theorem assumes `CheckSpec`, `PhOk` (phantom labels lie in L), and `WFCtx` for an arbitrary context; the paper states the result for well-formed typing contexts.
+**Verdict: exact at `Check` (fidelity pass, 2026-10-15).** `lemma46a_F7` (concrete.clj) discharges `CheckSpec`; its remaining premises are the well-formed context R4 now states and phantom labels in `L` (`PhOk`).
 
 **Extra-premise satisfiability:** `check_spec decCert` discharges CheckSpec and `wf_theta` supplies `WFCtx` at token contexts. `phok_safe` supplies `PhOk J safePhantoms` at every J, including nonzero J. For the intended certificate family, each label-safe witness from `check_complete_lbl` supplies one `lblOk` premise of `PhOk`. `stdRI_laws` separately witnesses the standard interpretation.
 
@@ -807,7 +807,7 @@ Stored proposition definition:
 ∀ (n : Nat), @Eq.{1} Nat (cnodes (sh4_bush n)) (Nat.sub (sh4_pow n) 1)
 ```
 
-**Verdict: different (quadratic bound stated-only).** The typed omega-let chain and 2^n-1 denotation are formalized. `sh4_cn_cert` names an F7 certificate for every `sh4_cn n`, and `prop411_explicit_cert` proves its acceptance; the root is a beta redex, and `prop411_redex_cert` gives a fixed instance. `sh4_open_enc_linear` and `sh4_cn_enc_linear` prove that F7's term encoding has exactly `7n+1` and `7n+5` internal nodes, respectively. `prop411_literal_lower` proves that an F7 certificate recording the normal literal has at least `2^n − 1` nodes. The quadratic upper bound is stated-only: its exact F7 derivation-tree successor equation expands to 14 distinct node-count atoms, and Ansatz's `simp` and `omega` attempts did not terminate within the warm service's resource envelope. This is a proof-engine limitation, not a counterexample. The four reference-encoding measured pairs belong to ADR-0008.
+**Verdict: exact under F7 (A10 reopened, 2026-10-15).** `prop411_explicit_cert` accepts the explicit beta-redex certificate `sh4_cn_cert n` at every `n`; `prop411_cert_size` gives its exact size `16n² + 97n + 73`, and `prop411_cert_quadratic` the quadratic bound; `prop411_literal_lower` bounds every certificate of the normal literal below by `2ⁿ − 1`, and `prop411_exponential_gap` makes the paper's comparison exact from `n = 12`. R4's table now shows kernel-evaluated F7 counts (`prop411_cert_*`, `prop411_lit_cert_*`).
 
 **Extra-premise satisfiability:** No extra premise for prop411. `check_complete` can turn a concrete typed derivation into an accepted certificate, but no indexed theorem connects it to the omega-let chain or proves the certificate-size comparison.
 
@@ -831,7 +831,7 @@ Stored proposition definition:
 ∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (cap : Nat), ∀ (n : Nat), @Eq.{1} Nat (cnodes (Prod.fst (@Sk.rec.{2} (fun (_ : Sk) => Type) Unit Bool Nat Nat Code Unit Code (fun (x : Sk) => fun (y : Sk) => fun (cx : Type) => fun (cy : Type) => ∀ (j : cx), cy) (fun (x : Sk) => fun (y : Sk) => fun (cx : Type) => fun (cy : Type) => Prod cx cy) Sk.syn) (@Sk.rec.{2} (fun (_ : Sk) => Type) Unit Bool Nat Nat Code Unit Code (fun (x : Sk) => fun (y : Sk) => fun (cx : Type) => fun (cy : Type) => ∀ (j : cx), cy) (fun (x : Sk) => fun (y : Sk) => fun (cx : Type) => fun (cy : Type) => Prod cx cy) Sk.unit) (den chkf dec encTy cap (sh4_doubler (sh4_num n)) (List.nil Sk) (Sk.prod Sk.syn Sk.unit) Unit.unit))) (Nat.sub (sh4_pow n) 1)
 ```
 
-**Verdict: different (partial).** Typed budget-zero code generation and 2^n-1 denotation are proved. `sh4_num_enc_linear` proves that F7's unary numeral term field has exactly `n` internal nodes. `sh4_doubler_tree_check` and `prop412_explicit_cert` give an accepted F7 certificate for every `n`. `sh4_num_tree_bound` proves a quadratic F7 node bound for its recursive numeral proof subtree. The complete certificate-size bound remains open; numerical certificate counts 414/460/522 belong to ADR-0008.
+**Verdict: exact under F7 (A06 reopened, 2026-10-15).** Budget-0 typing, the `2ⁿ − 1` denotation and an accepted F7 certificate at every `n` were checked before; `prop412_cert_size` now gives its exact size (`2|c| = n² + 13n + 732`), the polynomial statement, and `prop412_cert_4`/`_8`/`_12` the kernel-evaluated counts R4 shows.
 
 **Extra-premise satisfiability:** No extra semantic premise for `prop412`; the polynomial certificate-growth assertion has no kernel statement or satisfiability theorem.
 
@@ -879,7 +879,7 @@ Stored proposition definition:
 ∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (hcs : CheckSpec chkf dec encTy), ∀ (n : Nat), Adeq chkf dec encTy n
 ```
 
-**Verdict: weaker.** Simply typed argument terms require argsOK/skOf so every argument denotes; no branch-list pseudo-term is accepted.
+**Verdict: exact at `Check` (fidelity pass, 2026-10-15).** `theorem4_F7` (concrete.clj) gives adequacy at every budget with no checker premise. `argsOK` excludes branch-list pseudo-terms, which the paper's syntax does not have (see Lemma 3.2); `rt_argsOK` derives it from any runtime derivation.
 
 **Extra-premise satisfiability:** `rt_argsOK` derives `argsOK` from a runtime typing derivation, and `skOf_complete` supplies denotations for skeleton-typed arguments; arbitrary branch-list pseudo-terms are excluded. The budgeted evaluator's CheckSpec assumption is met by `check_spec decCert`.
 
@@ -903,7 +903,7 @@ Stored proposition definition:
 ∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (hcs : CheckSpec chkf dec encTy), ∀ (n : Nat), ∀ (t : Exp), ∀ (hd : Rt chkf (thetaD n) (thetaU n) t Exp.tR), LE.le Nat instLENat (cnodes (den chkf dec encTy n t (skels (thetaD n)) Sk.cert (tokEnvD n))) n
 ```
 
-**Verdict: weaker.** Typed conversion condition is discharged by conv_all; canonical result is represented by a value relation and node bound.
+**Verdict: exact at `Check` for the node bound (fidelity pass, 2026-10-15).** `corollary51_nodes_F7` (concrete.clj) bounds a typed `R` program's value by its budget, with no checker premise. `corollary51_conv` states the canonical-result clause through the value relation `rel`, the formal reading of "computes the model's value".
 
 **Extra-premise satisfiability:** `check_spec decCert`, `conv_all`, and `wf_theta` discharge the typed root hypotheses; base-data restriction is the paper's condition.
 
@@ -933,7 +933,7 @@ Stored proposition definition:
 ∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (hcs : CheckSpec chkf dec encTy), ∀ (n : Nat), ∀ (t : Exp), ∀ (hd : Rt chkf (thetaD n) (thetaU n) t Exp.tR), ∀ (e : Exp), ∀ (i : Er chkf (thetaD n) (thetaU n) t Exp.tR e), @Exists.{1} Code (fun (c : Code) => And (EvalE chkf dec encTy n (rtokens n) e (RV.cert c)) (LE.le Nat instLENat (cnodes c) n))
 ```
 
-**Verdict: weaker.** The erased evaluator is indexed by a chosen Er derivation; result agreement is for base data types and needs the specific erasure proof.
+**Verdict: exact at `Check` (fidelity pass, 2026-10-15).** `theorem4e_nodes_F7` and `theorem4e_agree_F7` (concrete.clj) discharge `CheckSpec`. The paper's erasure is a function; the formal `Er` is a relation that is total (`er_total`), and `theorem4e` holds for every erasure, so the statements agree.
 
 **Extra-premise satisfiability:** `er_total` supplies an erasure witness; `check_spec decCert` discharges checker properties. The base-data restriction is in the paper.
 
@@ -957,7 +957,7 @@ Stored proposition definition:
 ∀ (chkf : Code → Code → Bool), ∀ (dec : Code → Option (Prod Nat (Prod Exp Exp))), ∀ (encTy : Exp → Code), ∀ (hcs : CheckSpec chkf dec encTy), ∀ (n : Nat), ∀ (t : Exp), ∀ (X : Exp), ∀ (hd : Rt chkf (thetaD n) (thetaU n) t X), ∀ (e : Exp), ∀ (j : Er chkf (thetaD n) (thetaU n) t X e), ∀ (v : RV), ∀ (l : EvalE chkf dec encTy n (rtokens n) e v), OkE chkf dec encTy n (EvSrc.tm (rtokens n) e) v
 ```
 
-**Verdict: stronger.** Every run of the original and erased evaluators is safe; the paper states the base-data case, while the formal theorem covers every result type.
+**Verdict: exact (fidelity pass, 2026-10-15).** R4's Theorem 5.2 now states the general form, for every result type, which `theorem52_all_concrete` proves; the base-data case is the case of interest.
 
 **Extra-premise satisfiability:** `check_spec decCert` is discharged by `theorem52_all_concrete`; `er_total` supplies erasure witnesses. No extra premise remains at the concrete checker.
 
@@ -983,7 +983,7 @@ Stored proposition definition:
 
 ### Proposition 6.1
 
-**Formal constants:** `pa_lcert` (`code/lcert/formal/lcert/formal/palcert.clj:38`), `pa_refutation` (`code/lcert/formal/lcert/formal/palcert.clj:46`).
+**Formal constants:** `pa_lcert` (`code/lcert/formal/lcert/formal/palcert.clj:38`), `pa_refutation` (`code/lcert/formal/lcert/formal/palcert.clj:46`), `pa_lcert_closed` (`code/lcert/formal/lcert/formal/paclosure.clj:478`), `paClose_type_agree` (`code/lcert/formal/lcert/formal/paclosure.clj:492`), `paClose_zero` (`code/lcert/formal/lcert/formal/paclosure.clj:505`).
 
 **Kernel-held elaborated type:**
 
@@ -999,11 +999,11 @@ Stored proposition definition:
 ∀ (chkf : Code → Code → Bool), ∀ (hp : PPrv (PF.peq PT.pz (PT.ps PT.pz))), @Exists.{1} Exp (fun (t : Exp) => Rt chkf (thetaD 0) (thetaU 0) t Exp.tEmpty)
 ```
 
-**Verdict: different.** `pa_lcert` translates an H_PA proof into an object derivation in a context satisfying `Good D ρ`; it does not construct the paper's finite-support universal closure as a closed line. The paper's primitive-recursive proof-code `tr` and PA-internal CHECK correctness are phase 2 (Int-6.1).
+**Verdict: exact for the external closed-line form (A05, 2026-10-15); internal part phase 2.** `pa_lcert_closed` gives every H_PA proof of φ a closed budget-0 derivation of `paCloseF φ`, the paper's ⟦∀ᶜˡφ⟧: the translated formula under one ω-Nat binder for each de Bruijn index below its support bound. R4 §6.2 now allows the closure to bind variables that do not occur in φ, so this support-bound closure and the implementation's exact-free-variable closure are both instances of its definition. `paClose_type_agree` identifies the body of `paCloseF φ` with the open translation `pa_lcert` uses at the canonical finite environment, and `pa_finite_lcert_pos` obtains the closed line from that open derivation. The converse, from a closed line back to an open derivation in an arbitrary `Good` context, is not stated in the paper and is not formalized. The paper's primitive-recursive proof-code `tr` and PA-internal CHECK correctness are phase 2 (Int-6.1).
 
-**Extra-premise satisfiability:** `Good D ρ` is an additional context premise; `paRefute_good` supplies it for the fixed refutation translation, and `paGood_up` extends a `Good` context under a binder. There is no `Good` witness in the empty context for an arbitrary total assignment; the missing finite-support closed-line bridge is phase-1 item A05. The external theorem does not supply Int-6.1's PA-internal theorem.
+**Extra-premise satisfiability:** `Good D ρ` is an additional context premise; `paRefute_good` supplies it for the fixed refutation translation, and `paGood_up` extends a `Good` context under a binder. There is no `Good` witness in the empty context for an arbitrary total assignment; `pa_lcert_closed` needs none, because `paEnv_good` supplies one in the finite Nat context `paNatD s` that its closure removes. The external theorem does not supply Int-6.1's PA-internal theorem.
 
-**Suite coverage:** `pa_lcert` → `lcert.formal-test.palcert/all-pa-proofs-translate`; `pa_refutation` → `lcert.formal-test.palcert/all-pa-proofs-translate`.
+**Suite coverage:** `pa_lcert` → `lcert.formal-test.palcert/all-pa-proofs-translate`; `pa_refutation` → `lcert.formal-test.palcert/all-pa-proofs-translate`. `pa_lcert_closed` → `lcert.formal-test.palcert/a05-all-proofs-close`; `paClose_type_agree`, `paClose_zero` → `lcert.formal-test.palcert/a05-translation-agreement`.
 
 ### Lemma 6.2
 
@@ -1072,7 +1072,7 @@ Stored proposition definition:
 | Claim | Counterpart and finding |
 | --- | --- |
 | T1 consistency | Theorem 1 above; relative metatheorem, with `consistent_concrete` at the concrete checker. |
-| T2 self-justification | Theorem 2 above: closed object-level inhabitants of `H°` and `H₁°`. The further assertion that this particular calculus and certificate representation satisfy both clauses of Willard2016 Definition 3.4 is **open as a formal correspondence**: no constant encodes that external definition or its apparatus-matching conditions. |
+| T2 self-justification | Theorem 2 above: closed object-level inhabitants of `H°` and `H₁°`. Against Willard2016 Definition 3.4: `willard_def34` proves both clauses at `Check` (clause (ii) also as "Check accepts no certificate of `0`"), and `Hcirc_reads` gives `H°`'s type literally; that `H°` states consistency is a reading of that type, as R4 §3.9 now says (A14). |
 | T3 size soundness | Theorem 3 above, including the distinct-free-token refinement. |
 | T4 termination/adequacy and safe evaluation | Theorem 4, Theorem 4′, Corollary 5.1 and universal Theorem 5.2 above. |
 | P5 code-form second incompleteness | Proposition 5 above is conditional on named arithmetic internalizations and representation anchors; phase 2 must discharge them. |
@@ -1080,7 +1080,7 @@ Stored proposition definition:
 | Certificates not normal; codes compress | Propositions 4.11–4.12 above; the numerical certificate sizes are unformalized measurements. |
 | `H₁°` yields `H°`; `H` does not give `H₁°` | Propositions 4.10 and 4.10′ above. The latter changes the checker more broadly than the paper. |
 | `Con′ → H°`; bounded `Con′` | Propositions 4.7 and 4.9 above. |
-| Certified evaluation for base data types | Reflect case of Lemma 3.6, Theorem 4′ and Theorem 5.2. The internal parser print-back equation of §4.7 remains open. |
+| Certified evaluation for base data types | Reflect case of Lemma 3.6, Theorem 4′ and Theorem 5.2. The §4.7 typed parser is outside the formalization (A07; R4 §4.7 records its status). |
 
 ## §7 What is mechanized
 
@@ -1103,7 +1103,7 @@ The rest of §7 reports an ADR-0005 implementation and its tests, rather than si
 | Every §1.4 rule is checked twice, and the two checkers agree | `dtCheck_agree` (`code/lcert/formal/lcert/formal/check_agree.clj:180`) proves equal `dtCheck` outcomes for a fixed derivation tree under `AgreeF` on the two checker functions. **Different:** this is conditional agreement of two formal checker parameters, not a theorem equating the historical implementation's two independent checkers. The historical claim remains test evidence. `agreeF_zero` witnesses `AgreeF` on a tree without δ records; identical functions also meet it. The kernel type is printed below. | `lcert.formal-test.check_agree/f7-check-agreement` asserts `dtCheck_agree`; the historical two-checker comparison is outside `test-formal`. |
 | Encoding E3–E5 is tested | `budget_canon`, `toksize_canon`, `typesize_canon`, and `encE_inj` are kernel-checked counterparts. **Stronger** than the old test-only status; the elaborated types of `budget_canon` and `CheckSpec` are above. | `lcert.formal-test.certcanon/f7-canon-sizes`; `lcert.formal-test.encode/f7-encoding`. |
 | Erasing evaluator and Theorem 5.2 are probed on three blocked constructs | `theorem52_all_concrete` and `theorem52e_all` prove safety for all runs at typed roots; their kernel types are under Theorem 5.2. **Stronger** than a finite probe. | `lcert.formal-test.s52univ/f5-s52univ`. |
-| Propositions 4.2, 4.9 at depth 0, 4.10 and §4.7 destructor type check and run | `prop42`, all-depth `prop49_concrete`, and `prop410` have kernel statements above. **Stronger** for the first three. The §4.7 typed parser print-back equation remains **open** (A07). | `lcert.formal-test.section4b/f4-section4b`; `lcert.formal-test.p49all/all-depth-proposition-49`; no theorem assertion for the §4.7 equation. |
+| Propositions 4.2, 4.9 at depth 0, 4.10 and §4.7 destructor type check and run | `prop42`, all-depth `prop49_concrete`, and `prop410` have kernel statements above. **Stronger** for the first three. The §4.7 typed parser is outside the formalization; R4 §4.7 records why (A07). | `lcert.formal-test.section4b/f4-section4b`; `lcert.formal-test.p49all/all-depth-proposition-49`; no theorem assertion for the §4.7 equation. |
 
 The historical tests' agreement with the draft worked example remains test evidence, not a general theorem about the whole §3 model. Lemma 3.6 and its consequences now have independent kernel counterparts listed above.
 
@@ -1156,13 +1156,13 @@ In Ansatz 0.2.115's jar, `ansatz/core.clj:257–278` defines `load-init!`; line 
 A08 — §7 legacy kernel facts: **superseded by ADR-0008** (implementation extraction). The six historical constants have separate legacy coverage; any implementation bridge belongs to ADR-0008.
 A16 — §7 code-to-CT rendering: **superseded by ADR-0008** (implementation extraction and measure preservation). Current §7 bridge remains test evidence.
 A15 — §7 independent-checker agreement: **superseded by ADR-0008** (extracted implementation and checker agreement). `dtCheck_agree` only compares formal checker functions under `AgreeF`.
-- [x] A10 — Proposition 4.11 — `prop411_explicit_cert` proves acceptance of the explicit F7 beta-redex certificate `sh4_cn_cert n` at every n; `prop411_literal_lower` proves the `2^n − 1` lower bound for any F7 certificate recording the normal literal. The quadratic upper bound is **stated-only** because Ansatz did not finish the generated F7 node-count recurrence after separate `simp`, `omega`, and isolated arithmetic attempts. The four measured size pairs at n = 2, 4, 6, 8 are deferred to ADR-0008 under the reference implementation encoding.
-- [x] A06 — Proposition 4.12(1) — **stated-only polynomial certificate-growth bound**. The kernel checks budget-0 typing, the `2ⁿ − 1` denotation, an accepted explicit F7 certificate at every `n`, linear numeral and doubler-term encoding growth, and a quadratic bound for the numeral proof subtree. The full F7 certificate bound is not kernel checked: Ansatz did not finish either whole-tree expansion by `simp` or a generated exact outer-tree equation within the available proof resources. The numerical measurements 414, 460, 522 at n = 4, 8, 12 are deferred to ADR-0008 because they use the reference implementation encoding rather than F7.
-- [ ] A05 — F6.3 / Proposition 6.1 external translation — define finite-support universal closure ⟦∀ᶜˡφ⟧ and prove the typed equivalence between this closed-line translation and the current open-context translation.
-- [ ] A07 — §4.7 typed parser — state and prove the parser's typed print-back equation and sufficient-supply adequacy for open codes if this unnumbered §4 claim remains in the formalization scope.
-- [ ] A01 — Lemma 2.1 exchange — prove derivability under a permutation of independent context entries, with explicit de Bruijn transport of terms and dependent types.
-- [ ] A02 — Lemma 2.2 renaming — prove the injective renaming theorem at its intended nontrivial scope (including exchange/permutation), or revise the paper to state only the de Bruijn identity case.
-- [ ] A14 — §0 T2 / Willard2016 Definition 3.4 — encode the cited two-clause definition and this calculus's deductive apparatus and certificate representation, then prove that Theorems 1–2 satisfy its hypotheses; otherwise qualify the comparison explicitly as an external interpretation.
+- [x] A10 — Proposition 4.11 — reopened 2026-10-15 and closed: exact F7 size `16n² + 97n + 73` (`prop411_cert_size`, prop411size.clj), quadratic bound, kernel-evaluated table, and the exponential gap from `n = 12` (`prop411_exponential_gap`).
+- [x] A06 — Proposition 4.12(1) — reopened 2026-10-15 and closed: exact F7 size `2|c| = n² + 13n + 732` (`prop412_cert_size`, prop412size.clj) and kernel-evaluated counts at `n = 4, 8, 12`.
+- [x] A05 — F6.3 / Proposition 6.1 external translation — `paCloseF` is the finite-support universal closure ⟦∀ᶜˡφ⟧, and `pa_lcert_closed` proves the paper's closed-line form for every H_PA proof. `paClose_type_agree` and `pa_finite_lcert_pos` connect it to the open-context translation `pa_lcert`. R4 §6.2's closure now allows vacuous binders, so the formal closure is an instance of the paper's definition; the closed-to-open converse is not a paper claim and is not formalized.
+- [x] A07 — §4.7 typed parser — out of formalization scope, recorded in R4 §4.7 (amended 2026-10-15): the parser's typing and adequacy are paper arguments checked by the implementation's tests; no result depends on them, since Proposition 4.9's formalized case analysis proves the bounded instances. ADR-0008's runner will certify the parser's typing with the extracted `Check`.
+- [x] A01 — Lemma 2.1 exchange — R4 amended: Lemma 2.1 is weakening only, which `tl_weaken` and `rt_weaken` prove. Exchange is not used by any result and is not claimed.
+- [x] A02 — Lemma 2.2 renaming — R4 amended to the de Bruijn identity case, as this item allowed. General injective renaming is not used and is not claimed.
+- [x] A14 — §0 T2 / Willard2016 Definition 3.4 — `willard_def34` (willard.clj) proves both clauses at `Check`: clause (i)'s derivations (T2) and clause (ii) as T1 and as Corollary 3.7 (no accepted certificate of `0`). `Hcirc_reads` shows `H°`'s type is literally `Π(r :₁ R). T(chk′ (print r) ⌜0⌝) ⊸ 0`. That `H°` *states* consistency is the reading of that syntax; Definition 3.4 is informal, and R4 §3.9 now says so.
 
 ## Phase 2 items
 
