@@ -1,6 +1,9 @@
 (ns lcert.formal-test.extract
   "Differential checks for ADR-0008's first extracted F7 encoder slice."
   (:require [clojure.test :refer [deftest is testing]]
+            [ansatz.core :as a]
+            [ansatz.codegen :as cg]
+            [ansatz.surface.elaborate :as el]
             [lcert.formal.base :as b]
             [lcert.formal.encode]
             [lcert.formal.check-spec]
@@ -35,3 +38,22 @@
     (is (false? (b/rejects? []
                  '(Eq Bool (chkN decCertPad 0 (Code.sl 0) (Code.sl 0)) Bool.false)
                  '[(rfl)])))))
+
+(def ^:private fixed-star-decoder
+  '(fn [c :- Code]
+     (Option.some (Prod Nat (Prod Exp (Prod Exp (Prod DT DT))))
+       (Prod.mk Nat (Prod Exp (Prod Exp (Prod DT DT))) 0
+         (Prod.mk Exp (Prod Exp (Prod DT DT)) Exp.star
+           (Prod.mk Exp (Prod DT DT) Exp.tUnit
+             (Prod.mk DT DT (DT.rConst (List.nil Exp) (List.nil U) Exp.star Exp.tUnit)
+                            (DT.fBase (List.nil Exp) Exp.tUnit))))))))
+
+(deftest extracted-checker-accepts-and-rejects
+  (let [E @a/ansatz-env
+        decoder (eval (cg/ansatz->clj E (el/elaborate E (b/lv fixed-star-decoder)) []))
+        check (extract/compile-closure! 'Check)
+        encode (extract/compile-closure! 'encE)
+        code [1 0 [0 0] [0 0]]]
+    (is (true? (check decoder code (encode [1]))))
+    (is (false? (check decoder code (encode [2]))))
+    (is (false? (check decoder [0 0] (encode [1]))))))
