@@ -7758,3 +7758,11 @@ premise that establishes `T(b)` as a type. A red test rejected the
 formation; after the new constructor, the extracted checker accepts the
 closed identity at `T(tt)` and rejects a wrong claimed type. Focused shell
 suite: 9 tests / 181 assertions, 0 failures and 0 errors.
+
+## 2026-10-16 — ADR-0008: type-level variables (x8)
+
+The shell bridge now translates type-level `Var` to F7's `zVar`. A red
+dependent formation test rejected `Π₀ Bool. T(var 0)`; after the change,
+`dtCheck` accepts its generated formation tree, including the bound Bool
+premise at index 0. Focused shell suite: 10 tests / 185 assertions,
+0 failures and 0 errors.

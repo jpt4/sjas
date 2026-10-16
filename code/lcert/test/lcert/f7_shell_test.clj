@@ -171,3 +171,14 @@
                           (rt/encE (f7/exp (:type d))))))
     (is (false? (rt/Check rt/decCert cert
                            (rt/encE (f7/exp [:Bool])))))))
+
+(deftest dependent-truth-type-uses-the-type-level-variable-rule
+  (let [type [:Pi 0 [:Bool] [:T [:var 0]]]
+        formation (typing/tf [] type)
+        tree (f7/dt formation)
+        judgment [0 true nil (f7/exp type) [1]]]
+    (is (= 2 (first tree)))
+    (is (= 1 (first (nth tree 6))))
+    (is (= 4 (first (nth (nth tree 6) 3))))
+    (is (true? (rt/dtCheck
+                (fn [c d] (rt/Check rt/decCert c d)) tree judgment)))))

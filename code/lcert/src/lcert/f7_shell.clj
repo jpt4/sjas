@@ -103,6 +103,11 @@
     (and (= j :has0) (runtime-constants rule))
     [5 D (exp term) (exp type)]
 
+    (and (= j :has0) (= rule :Var) (= :var (first term)))
+    (let [i (second term)
+          [_ A] (nth ctx (- (count ctx) i 1))]
+      [4 D i (exp A)])
+
     (and (= j :has) (= rule :Var) (= :var (first term)))
     (let [i (second term)
           [u A] (nth ctx (- (count ctx) i 1))]
