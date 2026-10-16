@@ -173,6 +173,19 @@
     (and (= j :has) (= rule :Succ) (= :succ (first term)))
     [42 D us (exp (second term)) (dt (first prems))]
 
+    (and (= j :has) (= rule :RecN) (= :recN (first term)))
+    (let [[_ motive base step number] term
+          [number-derivation motive-formation base-derivation step-derivation] prems
+          step-outer-ctx (subvec (:ctx step-derivation) 0 (count ctx))]
+      ;; The step has two bound variables. Its outer usages are scaled by
+      ;; omega by rRecN; the two bound usages remain part of its DT premise.
+      [43 D (context-usages (:ctx number-derivation))
+       (context-usages (:ctx base-derivation))
+       (context-usages step-outer-ctx)
+       (exp motive) (exp base) (exp step) (exp number)
+       (dt number-derivation) (dt motive-formation)
+       (dt base-derivation) (dt step-derivation)])
+
     (and (= j :has) (#{:SLeaf :Leaf :Print} rule))
     [(case rule :SLeaf 47 :Leaf 50 :Print 53)
      D us (exp (second term)) (dt (first prems))]

@@ -158,6 +158,15 @@
     (is (true? (rt/Check rt/decCert cert (rt/encE (f7/exp (:type d))))))
     (is (false? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Nat])))))))
 
+(deftest natural-number-recursion-has-f7-step-usage
+  (let [term [:recN [:Nat] [:zero] [:zero] [:succ [:zero]]]
+        d (typing/check-top 0 term)
+        cert (f7/certificate 0 d)]
+    (is (= :RecN (:rule d)))
+    (is (= 43 (first (f7/dt d))))
+    (is (true? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Nat])))))
+    (is (false? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Bool])))))))
+
 (deftest code-and-certificate-constructors-use-f7
   (let [a [:lbl :a]
         b [:lbl :b]
