@@ -102,3 +102,14 @@
                               (rt/encE (f7/exp (:type d))))))
         (is (false? (rt/Check rt/decCert cert
                                (rt/encE (f7/exp [:Bool])))))))))
+
+(deftest erased-applications-have-a-type-level-argument
+  (let [term [:app [:lam 0 [:Unit] [:star]] [:star]]
+        d (typing/check-top 0 term)
+        argument (second (:prems d))
+        cert (f7/certificate 0 d)]
+    (is (= :has0 (:j argument)))
+    (is (= 33 (first (f7/dt d))))
+    (is (= 5 (first (f7/dt argument))))
+    (is (true? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Unit])))))
+    (is (false? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Bool])))))))

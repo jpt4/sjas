@@ -92,6 +92,9 @@
     (and (= j :has) (runtime-constants rule))
     [31 D us (exp term) (exp type)]
 
+    (and (= j :has0) (runtime-constants rule))
+    [5 D (exp term) (exp type)]
+
     (and (= j :has) (= rule :Var) (= :var (first term)))
     (let [i (second term)
           [u A] (nth ctx (- (count ctx) i 1))]
@@ -108,14 +111,16 @@
          (= :Pi (first (:type (first prems)))))
     (let [[hf hu] prems
           [_ r A B] (:type hf)
-          [_ f arg] term]
-      (when (= r 0)
-        (invalid :derivation derivation))
-      [34 D (context-usages (:ctx hf)) (context-usages (:ctx hu))
-       (field :u r) (exp f) (exp arg) (exp A) (exp B)
-       (dt hf) (dt hu)
-       (dt (typing/tf ctx A))
-       (dt (typing/tf (conj ctx [r A]) B))])
+          [_ f arg] term
+          domain-form (dt (typing/tf ctx A))
+          codomain-form (dt (typing/tf (conj ctx [r A]) B))]
+      (if (= r 0)
+        [33 D (context-usages (:ctx hf))
+         (exp f) (exp arg) (exp A) (exp B)
+         (dt hf) (dt hu) domain-form codomain-form]
+        [34 D (context-usages (:ctx hf)) (context-usages (:ctx hu))
+         (field :u r) (exp f) (exp arg) (exp A) (exp B)
+         (dt hf) (dt hu) domain-form codomain-form]))
 
     :else (invalid :derivation derivation))))
 

@@ -7709,3 +7709,13 @@ the green test checks identity applications and an application returning a
 lambda through the extracted F7 checker, including wrong-type rejection.
 The focused result is 4 tests / 128 assertions, 0 failures and 0 errors.
 Usage-0 applications use F7's separate `rApp0` rule and remain to be added.
+
+## 2026-10-16 — ADR-0008: F7 usage-zero application (x8)
+
+The separate `DT.rApp0` rule now translates an erased argument's type-level
+constant derivation (`DT.zConst`) and keeps only the function's runtime
+usage vector. A red test rejected the application as unsupported; the
+green focused test checks an erased application at the caller's Unit type
+and rejects Bool. The focused shell suite reports 5 tests / 133 assertions,
+0 failures and 0 errors. Type-level variables and conversions are still
+outside this bridge's supported rules.
