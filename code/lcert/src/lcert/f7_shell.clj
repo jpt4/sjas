@@ -144,6 +144,32 @@
     (and (= j :has) (= rule :Succ) (= :succ (first term)))
     [42 D us (exp (second term)) (dt (first prems))]
 
+    (and (= j :has) (#{:SLeaf :Leaf :Print} rule))
+    [(case rule :SLeaf 47 :Leaf 50 :Print 53)
+     D us (exp (second term)) (dt (first prems))]
+
+    (and (= j :has) (= rule :SNode) (= :snode (first term)))
+    (let [[_ label left right] term
+          [dl da db] prems]
+      [48 D (context-usages (:ctx dl)) (context-usages (:ctx da))
+       (context-usages (:ctx db))
+       (exp label) (exp left) (exp right)
+       (dt dl) (dt da) (dt db)])
+
+    (and (= j :has) (= rule :Node) (= :node (first term)))
+    (let [[_ token label left right] term
+          [dd dl da db] prems]
+      [51 D (context-usages (:ctx dd)) (context-usages (:ctx dl))
+       (context-usages (:ctx da)) (context-usages (:ctx db))
+       (exp token) (exp label) (exp left) (exp right)
+       (dt dd) (dt dl) (dt da) (dt db)])
+
+    (and (= j :has) (= rule :Chk) (= :chk (first term)))
+    (let [[_ code expected] term
+          [dc de] prems]
+      [54 D (context-usages (:ctx dc)) (context-usages (:ctx de))
+       (exp code) (exp expected) (dt dc) (dt de)])
+
     (and (= j :has) (= rule :If) (= :if (first term)))
     (let [[_ condition yes no] term
           [test-derivation yes-derivation no-derivation] prems]
@@ -155,14 +181,18 @@
     :else (invalid :derivation derivation))))
 
 (defn certificate
-  "Encode a supported closed derivation in canonical F7. The production runner
+  "Encode a supported Θₙ derivation in canonical F7. The production runner
   must check the result at the caller's type and budget before executing."
   [budget derivation]
   (when-not (and (integer? budget) (<= 0 budget)
-                 (zero? budget) (= :has (:j derivation)))
+                 (= :has (:j derivation))
+                 (= (:ctx derivation)
+                    (vec (repeat budget [1 [:Dia]]))))
     (invalid :derivation derivation))
   (let [term (exp (:term derivation))
         type (exp (:type derivation))
         runtime-tree (dt derivation)
+        ;; Check's formation premise is closed even when the runtime root is
+        ;; Θₙ: see check_spec.clj's DTJ.tl Bool.true [] A Unit.
         type-tree (dt (typing/tf [] (:type derivation)))]
     (rt/encCert budget term type runtime-tree type-tree)))

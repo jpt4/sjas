@@ -7739,3 +7739,14 @@ The red test rejected the new terms as unsupported; after translation,
 the extracted checker accepts a successor and a conditional with different
 branches at Nat, and rejects both at Bool. Focused shell suite: 7 tests /
 153 assertions, 0 failures and 0 errors.
+
+## 2026-10-16 — ADR-0008: F7 code and certificate constructors (x8)
+
+The shell bridge now translates `SLeaf`, `SNode`, `Leaf`, `Node`, `Print`
+and `Chk`. It admits Θₙ roots whose recorded context has exactly n
+usage-1 `Dia` entries. The first nonzero-budget test exposed a distinct
+formation context: F7's `Check` checks the runtime tree at Θₙ but the type
+formation tree at the empty context. After correcting that root, the
+extracted checker accepts a one-token certificate node and the closed
+code/certificate examples, rejecting each at the wrong type. Focused
+shell suite: 8 tests / 177 assertions, 0 failures and 0 errors.

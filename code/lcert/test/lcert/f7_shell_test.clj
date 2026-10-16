@@ -138,3 +138,24 @@
         (is (= [:Nat] (:type d)))
         (is (true? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Nat])))))
         (is (false? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Bool])))))))))
+
+(deftest code-and-certificate-constructors-use-f7
+  (let [a [:lbl :a]
+        b [:lbl :b]
+        code-leaf [:sleaf a]
+        cert-leaf [:leaf a]]
+    (doseq [[n term type constructor]
+            [[0 code-leaf [:Syn] 47]
+             [0 [:snode a code-leaf [:sleaf b]] [:Syn] 48]
+             [0 cert-leaf [:R] 50]
+             [0 [:print cert-leaf] [:Syn] 53]
+             [0 [:chk code-leaf [:sleaf b]] [:Bool] 54]
+             [1 [:node [:var 0] a cert-leaf [:leaf b]] [:R] 51]]]
+      (testing (pr-str term)
+        (let [d (typing/check-top n term)
+              cert (f7/certificate n d)]
+          (is (= constructor (first (f7/dt d))))
+          (is (= type (:type d)))
+          (is (true? (rt/Check rt/decCert cert (rt/encE (f7/exp type)))))
+          (is (false? (rt/Check rt/decCert cert
+                                 (rt/encE (f7/exp [:Nat]))))))))))
