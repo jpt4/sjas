@@ -209,6 +209,24 @@
     (is (true? (check [:Nat])))
     (is (false? (check [:Bool])))))
 
+(deftest h1-uses-the-two-distinct-proof-premises
+  (let [r [:leaf [:lbl :a]]
+        s [:leaf [:lbl :b]]
+        c [:sleaf [:lbl :a]]
+        ctx [[1 [:T [:chk [:print r] c]]]
+             [1 [:T [:chk [:print s] (syntax/neg-term c)]]]]
+        term [:h1 r s c [:var 1] [:var 0]]
+        d (typing/synth 1 ctx term)
+        tree (f7/dt d)
+        judgment [1 (list (f7/exp (second (second ctx)))
+                          (f7/exp (second (first ctx))))
+                  (list [1] [1]) (f7/exp term) (f7/exp [:Empty])]]
+    (is (= :H1 (:rule d)))
+    (is (= 55 (first tree)))
+    (is (true? (rt/dtCheck
+                (fn [code expected] (rt/Check rt/decCert code expected))
+                tree judgment)))))
+
 (deftest code-and-certificate-constructors-use-f7
   (let [a [:lbl :a]
         b [:lbl :b]

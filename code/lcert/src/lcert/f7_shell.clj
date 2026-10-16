@@ -259,6 +259,15 @@
       [54 D (context-usages (:ctx dc)) (context-usages (:ctx de))
        (exp code) (exp expected) (dt dc) (dt de)])
 
+    (and (= j :has) (= rule :H1) (= :h1 (first term)))
+    (let [[_ r s code positive negative] term
+          [dr ds dc de1 de2] prems]
+      [55 D (context-usages (:ctx dr)) (context-usages (:ctx ds))
+       (context-usages (:ctx dc)) (context-usages (:ctx de1))
+       (context-usages (:ctx de2))
+       (exp r) (exp s) (exp code) (exp positive) (exp negative)
+       (dt dr) (dt ds) (dt dc) (dt de1) (dt de2)])
+
     (and (= j :has) (= rule :If) (= :if (first term)))
     (let [[_ condition yes no] term
           [test-derivation yes-derivation no-derivation] prems]
