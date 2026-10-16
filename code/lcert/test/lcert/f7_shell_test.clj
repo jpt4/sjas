@@ -127,3 +127,14 @@
                               (rt/encE (f7/exp type)))))
         (is (false? (rt/Check rt/decCert cert
                                (rt/encE (f7/exp [:Unit])))))))))
+
+(deftest arithmetic-and-branches-have-f7-derivations
+  (doseq [[term constructor] [[[:succ [:zero]] 42]
+                              [[:if [:tt] [:zero] [:succ [:zero]]] 40]]]
+    (testing (pr-str term)
+      (let [d (typing/check-top 0 term)
+            cert (f7/certificate 0 d)]
+        (is (= constructor (first (f7/dt d))))
+        (is (= [:Nat] (:type d)))
+        (is (true? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Nat])))))
+        (is (false? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Bool])))))))))

@@ -141,6 +141,17 @@
          (field :u r) (exp A) (exp B) (exp x) (exp y)
          (dt hA) (dt hB) (dt dx) (dt dy)]))
 
+    (and (= j :has) (= rule :Succ) (= :succ (first term)))
+    [42 D us (exp (second term)) (dt (first prems))]
+
+    (and (= j :has) (= rule :If) (= :if (first term)))
+    (let [[_ condition yes no] term
+          [test-derivation yes-derivation no-derivation] prems]
+      [40 D (context-usages (:ctx test-derivation))
+       (context-usages (:ctx yes-derivation))
+       (exp condition) (exp yes) (exp no) (exp type)
+       (dt test-derivation) (dt yes-derivation) (dt no-derivation)])
+
     :else (invalid :derivation derivation))))
 
 (defn certificate

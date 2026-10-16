@@ -7729,3 +7729,13 @@ component is translated as a type-level premise. Red tests rejected pairs
 as unsupported, then the extracted checker accepted Unit pairs at usage
 0, 1 and ω and rejected each at the wrong caller type. Focused result:
 6 tests / 145 assertions, 0 failures and 0 errors.
+
+## 2026-10-16 — ADR-0008: F7 successor and conditional (x8)
+
+The shell bridge now translates runtime `Succ` and `If` to their F7 DT
+constructors. The conditional carries the test's usage vector and the
+shared branch usage vector, as recorded by the typer's raised premises.
+The red test rejected the new terms as unsupported; after translation,
+the extracted checker accepts a successor and a conditional with different
+branches at Nat, and rejects both at Bool. Focused shell suite: 7 tests /
+153 assertions, 0 failures and 0 errors.
