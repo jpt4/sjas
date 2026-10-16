@@ -7675,3 +7675,15 @@ verify the generator in general. A warm-server attempt to load the full
 `prop411size` namespace alone exhausted its 2 GB heap, so its already
 recorded kernel count proofs were not rerun in this focused check. The full
 suite uses a 3 GB heap and remains the final gate.
+
+## 2026-10-16 — ADR-0008: first F7 shell certificates (x8)
+
+The untrusted shell bridge now translates closed base-type formation and
+runtime-constant derivations to F7 `DT` data, then uses the extracted
+`encCert`. A red test found the missing certificate constructor; the green
+focused test checks `Check decCert` acceptance for `star`, `tt`, `ff`, `zero`
+and a label, plus rejection at the wrong caller type and after a forged
+root label (2 tests / 105 assertions, no failures or errors). Other typing
+rules still raise explicitly in this bridge. The public runner has not yet
+been routed through it; it must reject any unhandled derivation and check
+the resulting certificate before execution.

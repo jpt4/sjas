@@ -5,7 +5,9 @@
   formal/lcert/formal/syntax.clj.  This bridge cannot grant acceptance:
   production must compare the translated term to the decoded certificate's
   term using extracted equality, then let extracted Check decide the code."
-  (:require [lcert.syntax :as s]))
+  (:require [lcert.syntax :as s]
+            [lcert.typing :as typing]
+            [lcert.extracted.runtime :as rt]))
 
 (def ^:private constructors
   ;; Argument kinds: e is an Exp, u is U, n is Nat, l is a label position,
@@ -53,3 +55,39 @@
     (when-not (and definition (= (count args) (count kinds)))
       (invalid :expression source))
     (into [index] (map field kinds args))))
+
+(def ^:private base-formations
+  #{:EmptyF :UnitF :BoolF :NatF :LblF :SynF :DiaF :RF})
+
+(def ^:private runtime-constants
+  #{:Unit :TT :FF :Zero :Lbl})
+
+(defn dt
+  "Translate the closed constant and base-type rules to checked DT data.
+  Other rules are rejected until their premise and side-condition data have
+  been translated. This builder remains untrusted: extracted Check decides
+  whether a certificate containing this tree is accepted."
+  [{:keys [rule j ctx term type] :as derivation}]
+  (when-not (empty? ctx)
+    (invalid :derivation derivation))
+  (cond
+    (and (= j :type) (base-formations rule))
+    [0 nil (exp type)]
+
+    (and (= j :has) (runtime-constants rule))
+    [31 nil nil (exp term) (exp type)]
+
+    :else (invalid :derivation derivation)))
+
+(defn certificate
+  "Encode a closed constant derivation in canonical F7. The production runner
+  must check the result at the caller's type and budget before executing."
+  [budget derivation]
+  (when-not (and (integer? budget) (<= 0 budget)
+                 (zero? budget) (= :has (:j derivation)))
+    (invalid :derivation derivation))
+  (let [term (exp (:term derivation))
+        type (exp (:type derivation))
+        runtime-tree (dt derivation)
+        type-tree (dt (typing/tf [] (:type derivation)))]
+    (rt/encCert budget term type runtime-tree type-tree)))

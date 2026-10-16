@@ -2,7 +2,8 @@
   "The untrusted parser bridge must preserve the term checked by F7."
   (:require [clojure.test :refer [deftest is testing]]
             [lcert.extracted.runtime :as rt]
-            [lcert.f7-shell :as f7]))
+            [lcert.f7-shell :as f7]
+            [lcert.typing :as typing]))
 
 (def ^:private examples
   ;; Each expected constructor number comes from formal/syntax.clj's Exp
@@ -47,3 +48,20 @@
     (is (thrown? clojure.lang.ExceptionInfo (f7/exp [:unknown])))
     (is (thrown? clojure.lang.ExceptionInfo (f7/exp [:lam 1 [:Unit]])))
     (is (thrown? clojure.lang.ExceptionInfo (f7/exp [:lbl :not-a-label])))))
+
+(deftest closed-constant-derivations-produce-f7-certificates
+  (doseq [[term type] [[[:star] [:Unit]] [[:tt] [:Bool]]
+                       [[:ff] [:Bool]] [[:zero] [:Nat]]
+                       [[:lbl :a] [:Lbl]]]]
+    (testing (pr-str term)
+      (let [d (typing/check-top 0 term)
+            cert (f7/certificate 0 d)]
+        (is (= type (:type d)))
+        (is (= [31 nil nil (f7/exp term) (f7/exp type)] (f7/dt d)))
+        (is (= [0 nil (f7/exp type)] (f7/dt (typing/tf [] type))))
+        (is (true? (rt/Check rt/decCert cert (rt/encE (f7/exp type))))))))
+  (let [d (typing/check-top 0 [:star])
+        cert (f7/certificate 0 d)]
+    (is (false? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Nat])))))
+    (is (false? (rt/Check rt/decCert (assoc cert 1 0)
+                          (rt/encE (f7/exp [:Unit])))))))
