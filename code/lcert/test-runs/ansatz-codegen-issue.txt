@@ -46,3 +46,15 @@ Filed upstream 2026-10-16 by Claude, with standalone reproducers (only ansatz.co
   #115 skipped equation lemmas for three-level nested matches (and the docs question)
 Items 1 and 3 concern internal APIs (env/mk-def opaque hints; storedef/emit-direct-recursion symbol resolution) and were not filed.
 Reproducers: test-runs/claude-held/ansatz-issues/ in the main checkout.
+
+5. Found by the F7 shell bridge's usage-zero roundtrip test (2026-10-16):
+   (ansatz.codegen/ansatz->clj E
+     (ansatz.surface.elaborate/elaborate E
+       (lcert.formal.base/lv 'U.u0)) [])
+   => nil, while the generated U recursor and encU use numeric 0 for U.u0.
+   Thus generated decU returns [nil] for (Code.sl 0), although the kernel
+   proves decU(encU U.u0) = Option.some U U.u0. Generated decE likewise
+   returns [32 nil A t] for a usage-zero lambda, not [32 0 A t].
+   The local bridge repairs only the emitted Option.some and Exp tPi/tSig/lam
+   shapes; the formal rtU theorem and differential roundtrip tests cover it.
+   This is a new silent wrong-value codegen case; please file it upstream.

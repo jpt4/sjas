@@ -93,6 +93,27 @@
       (throw (ex-info "eta expansion differs from checked ob" {})))
     term))
 
+(defn- repair-enum-zero [name form]
+  ;; Ansatz represents a nullary, first enum constructor as numeric 0 in a
+  ;; recursor, but emits a bare occurrence of U.u0 as nil. It occurs both in
+  ;; decU's Option.some and in Exp's tPi/tSig/lam constructor fields. Rewrite
+  ;; only those generated data shapes; the kernel roundtrip theorems and
+  ;; differential tests for all three usages guard the repair.
+  (let [matches (atom 0)
+        repaired (walk/postwalk
+                   (fn [x]
+                     (cond
+                       (and (= name "decU") (= x [nil]))
+                       (do (swap! matches inc) [0])
+                       (and (vector? x) (#{9 10 32} (first x))
+                            (= nil (second x)) (= 4 (count x)))
+                       (do (swap! matches inc) (assoc x 1 0))
+                       :else x)) form)]
+    (when (and (= name "decU") (not= 1 @matches))
+      (throw (ex-info "unexpected decU enum-zero emission"
+                      {:matches @matches})))
+    repaired))
+
 (defn- compile-one!
   [E name]
   (let [s (str name)
@@ -139,12 +160,14 @@
                         [form (eval form)]))))
                 (catch Throwable t
                   (throw (ex-info "Ansatz emission failed" {:name s} t))))]
-        (swap! emitted-forms assoc s form)
+        (let [repaired (repair-enum-zero s form)
+              generated (if (= repaired form) generated (eval repaired))]
+        (swap! emitted-forms assoc s repaired)
         (intern runtime-ns name generated)
         (swap! ingest/arity-registry assoc s
           {:sym (symbol (str (ns-name runtime-ns)) s)
            :arity (:arity shape) :erased (:erased shape)})
-        generated)))))
+        generated))))))
 
 (defn compile-functions!
   "Generate the named checked definitions in dependency order. Returns

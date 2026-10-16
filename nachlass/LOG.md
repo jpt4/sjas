@@ -7634,3 +7634,22 @@ generator expands the decoder's nested matches, which is worth a look before
 performance work. Next for ADR-0008: route `lc/run` through the artifact,
 with the runner gates (caller type, `Θₙ` budget, decoded term, checked
 erasure) red first.
+
+## 2026-10-16 — ADR-0008: the shell-to-F7 expression bridge (x8)
+
+Step 3 began with red tests for every parser expression constructor: the
+bridge namespace was absent. Its implementation now rejects malformed ASTs
+and maps parsed expressions to the extracted `Exp` constructor order. The
+tests compare constructor tags and check `decE(encE(e)) = some(e)` for every
+surface constructor, all three usages and canonical label positions. This
+translation is untrusted shell work; the runner must still compare it with
+the certificate's decoded term and call extracted `Check` before execution.
+
+Those tests exposed another silent Ansatz code-generation error: bare `U.u0`
+emits as `nil` although the generated U recursor represents it as `0`. The
+extracted `decU` and `decE` thus changed usage-zero decoded values. The
+build-time extraction bridge repairs only the affected generated data shapes,
+and the generated artifact was refreshed. The exact reproducer and evidence
+are in `code/lcert/test-runs/ansatz-codegen-issue.txt`. The kernel's `rtU`
+roundtrip and the parser bridge's differential tests guard the repair; they
+do not make Ansatz's generator verified.

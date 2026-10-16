@@ -10980,7 +10980,7 @@
        [t_G3 (== fG2_0 0)]
        (if
         t_G3
-        [nil]
+        [0]
         (let [t_G4 (== fG2_0 1)] (if t_G4 [1] (let [t_G5 (== fG2_0 2)] (if t_G5 [2] nil)))))))
      1
      (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] nil)
@@ -13048,7 +13048,7 @@
              v16
              [1 fG2_0 fG2_1 [33 fG2_2 fG2_3] (lcert.extracted.runtime/subst1 fG2_3 fG2_5)])
             (and
-             ((rec_G0 (nth t_G1 7)) [1 fG2_0 fG2_1 fG2_2 [9 nil fG2_4 fG2_5]])
+             ((rec_G0 (nth t_G1 7)) [1 fG2_0 fG2_1 fG2_2 [9 0 fG2_4 fG2_5]])
              (and
               ((rec_G0 (nth t_G1 8)) [0 false fG2_0 fG2_3 fG2_4])
               (and
@@ -13130,7 +13130,7 @@
            (and
             (lcert.extracted.runtime/djEq
              v16
-             [1 fG2_0 fG2_1 [34 [10 nil fG2_2 fG2_3] fG2_4 fG2_5] [10 nil fG2_2 fG2_3]])
+             [1 fG2_0 fG2_1 [34 [10 0 fG2_2 fG2_3] fG2_4 fG2_5] [10 0 fG2_2 fG2_3]])
             (and
              ((rec_G0 (nth t_G1 7)) [0 true fG2_0 fG2_2 [1]])
              (and
@@ -19994,7 +19994,7 @@
        t_G2
        (lcert.extracted.runtime/ob
         (nth v1 0)
-        (fn [v3] (lcert.extracted.runtime/om (fn [v4] [9 nil v3 v4]) (nth v2 0))))
+        (fn [v3] (lcert.extracted.runtime/om (fn [v4] [9 0 v3 v4]) (nth v2 0))))
        (let
         [t_G3 (== v0 25)]
         (if
@@ -20015,7 +20015,7 @@
              t_G5
              (lcert.extracted.runtime/ob
               (nth v1 0)
-              (fn [v3] (lcert.extracted.runtime/om (fn [v4] [10 nil v3 v4]) (nth v2 0))))
+              (fn [v3] (lcert.extracted.runtime/om (fn [v4] [10 0 v3 v4]) (nth v2 0))))
              (let
               [t_G6 (== v0 28)]
               (if
@@ -20209,7 +20209,7 @@
                                                     (fn
                                                      [v3]
                                                      (lcert.extracted.runtime/om
-                                                      (fn [v4] [32 nil v3 v4])
+                                                      (fn [v4] [32 0 v3 v4])
                                                       (nth v2 0))))
                                                    (let
                                                     [t_G25 (== v0 49)]

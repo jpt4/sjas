@@ -23,7 +23,8 @@
     lcert.eval-test
     lcert.core-test
     lcert.tutorial-test
-    lcert.extracted-runtime-test])
+    lcert.extracted-runtime-test
+    lcert.f7-shell-test])
 
 (def extended-namespaces
   "Tests of the Ansatz kernel itself, run before the fast suite is repeated,
