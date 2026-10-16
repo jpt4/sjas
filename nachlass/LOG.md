@@ -7555,3 +7555,12 @@ passed there, but a full run would have reported green without loading them.
 Found while answering the user's question about what the full suite contains;
 the full run started at 23:21 was replaced. `bin/check-formal-suites` now
 fails a full run, in seconds, when a suite file is unlisted.
+
+## 2026-10-16 — Phase 1 complete: full suite green (Claude)
+
+Full formal suite on a fresh JVM with `FORMAL_XMX=3g`, all 157 suite
+namespaces listed (`code/lcert/test-runs/afix-suite-20261016T033712Z.log`):
+229 tests containing 4,117 assertions, 0 failures, 0 errors; elapsed
+3:25:12, peak RSS 3.9 GB. ADR-0006's status and its phase-1 after-action
+report are updated. Phase 2 (ADR-0007) continues on `adr-0007-phase2`;
+ADR-0008 (extraction) follows in the main lane.

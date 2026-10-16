@@ -1,6 +1,6 @@
 # ADR-0006 — Formalizing the R4 metatheory in Ansatz
 
-**Status.** Accepted 2026-09-27. Updated 2026-10-12. F1–F3 proved (Lemma 3.6, Theorems 1–3, Corollary 3.7); F4's Theorem 4.6, Lemma 4.6a, Corollaries 4.6′/4.6″, Proposition 4.9 at all depths, and Proposition 4.8 from named hypotheses proved; F5's Theorem 4′ and universal Theorem 5.2 proved; F7's canonical concrete checker proved. F6.1 (H_PA soundness), F6.3 (the meta-level PA-to-λᶜᵉʳᵗ₀ translation and relative PA consistency), F6.4 (default-model Lemma 6.4 and Corollary 6.5), F6.5 (Proposition 5 from named hypotheses), and F6.6 (hypotheses documentation) proved at their stated levels. S1–S3, Int-6.1 and Int-6.4 remain hypotheses; phase 2 remains open. See the after-action report below for precise scope.
+**Status.** Accepted 2026-09-27. Updated 2026-10-16: phase 1 complete (statement audit and fidelity pass closed; full suite green, see the phase-1 after-action report). F1–F3 proved (Lemma 3.6, Theorems 1–3, Corollary 3.7); F4's Theorem 4.6, Lemma 4.6a, Corollaries 4.6′/4.6″, Proposition 4.9 at all depths, and Proposition 4.8 from named hypotheses proved; F5's Theorem 4′ and universal Theorem 5.2 proved; F7's canonical concrete checker proved. F6.1 (H_PA soundness), F6.3 (the meta-level PA-to-λᶜᵉʳᵗ₀ translation and relative PA consistency), F6.4 (default-model Lemma 6.4 and Corollary 6.5), F6.5 (Proposition 5 from named hypotheses), and F6.6 (hypotheses documentation) proved at their stated levels. S1–S3, Int-6.1 and Int-6.4 remain hypotheses; phase 2 remains open. See the after-action report below for precise scope.
 
 **Branch.** `adr-0006-formalization`, from `sjas-codification`, merged back
 into it phase by phase.
@@ -677,6 +677,66 @@ premise and its satisfiability status, is in
 checklist records the remaining corrections. Whether Willard's
 local-reflection counterexample can be transcribed into this calculus is
 unchecked.
+
+## After-action report: phase 1 complete (2026-10-16)
+
+Phase 1 closed the statement audit (`docs-statement-audit.md`) and its
+fidelity pass, under the user's directive of 2026-10-14 that formal
+statements mirror the paper exactly, or the paper is amended to state what
+is proved.
+
+**Audit checklist.** Every phase-1 item is closed:
+- *Proved:* A03, A09, A11, A13, A17 (earlier); A05 (`pa_lcert_closed`, the
+  closed-line form of F6.3); A06 and A10, reopened by the user and closed
+  with exact F7 sizes and kernel-evaluated tables (`prop411_cert_size`,
+  `prop412_cert_size`), and for Proposition 4.11 the quadratic bound and
+  the exponential gap (`prop411_cert_quadratic`, `prop411_exponential_gap`);
+  A14 (`willard_def34`, `Hcirc_reads`).
+- *Amended in R4:* A01 and A02 (Lemma 2.1 is weakening only; Lemma 2.2 the
+  de Bruijn case: no result used exchange or general renaming); A07 (§4.7's
+  typed parser is recorded as outside the formalization: no result depends
+  on it); A05's closure definition now admits vacuous binders, so the
+  implementation's and the formalization's closures are both instances.
+- *Superseded by ADR-0008:* A08, A15, A16.
+
+**Fidelity pass.** Each non-exact verdict now has an exact-form theorem or a
+paper amendment:
+- `concrete.clj` restates the generic results at `Check decCert` with every
+  checker premise discharged (Lemma 3.6, T3, Propositions 4.1, 4.4, 4.5,
+  Theorem 4.6, Lemma 4.6a, T4, Corollary 5.1, Theorem 4′).
+- R4 now states the premises the proofs need (typed substitution, well-formed
+  contexts, T3's cap) and the stronger forms proved (Lemma 2.6, Theorem 5.2),
+  and §1.2 records the label representation (`L = {0, …, 99}`, `lblOk`).
+- Phase-2 verdicts (Proposition 4.8, P5, Lemmas 6.2–6.4, Corollary 6.5)
+  remain with ADR-0007.
+
+**Findings.**
+- *Vacuous theorems.* `prop44_1`–`3` and `d2_no_uniform` used `¬ʲ1` for the
+  paper's `A_j = 1 ⊸ ⋯ ⊸ 1`. `¬ʲ1` has no certificate for odd `j`, so the
+  theorems were vacuous at every even budget. `prop44paper.clj` proves
+  Proposition 4.4 and Corollary 4.6′'s instance for the paper's family at
+  every `k`, with `arrN_certifiable`.
+- *A namespace that loaded only in a warm server.* `prop412poly` depended on
+  a `dtgen` extension that existed only in a REPL; it failed on a fresh JVM
+  and skipped 28 namespaces. Its tree is now stored literally.
+- *omega and unfolding atoms.* Ansatz's omega puts atoms in weak head normal
+  form and compares them pairwise by definitional equality; certificate
+  sizes of symbolic trees made that run for hours. Size proofs now rewrite
+  atoms to their values, or do their arithmetic in lemmas over variables.
+
+**Evaluation.** F1–F5 and F7 meet the success criterion at the paper's
+statements. F6 meets it at the external level; its internal parts and the
+arithmetic hypotheses S1–S3, Int-6.1 and Int-6.4 are phase 2 (ADR-0007).
+The extraction of the implementation's trusted core is ADR-0008.
+
+**Suite.** Full run on a fresh JVM, `FORMAL_XMX=3g`
+(`code/lcert/test-runs/afix-suite-20261016T033712Z.log`): 157 suite
+namespaces, 229 tests containing 4,117 assertions, 0 failures, 0 errors;
+3 h 25 min, peak RSS 3.9 GB. The list of suites had left out seven suite
+files (`prop410witness` and phase 1's six), so an earlier full run was
+replaced; `bin/check-formal-suites` now fails a full run when a suite file
+is unlisted.
+
 
 ## Review guide
 
