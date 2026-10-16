@@ -149,6 +149,21 @@
          (field :u r) (exp A) (exp B) (exp x) (exp y)
          (dt hA) (dt hB) (dt dx) (dt dy)]))
 
+    (and (= j :has) (= rule :Let) (= :let (first term))
+         (= :Sigma (first (:type (first prems)))))
+    (let [[pair-derivation result-form body-derivation] prems
+          [_ r A B] (:type pair-derivation)
+          [_ C pair-term body-term] term
+          outer-body-ctx (subvec (:ctx body-derivation) 0 (count ctx))]
+      [37 D (context-usages (:ctx pair-derivation))
+       (context-usages outer-body-ctx)
+       (field :u r) (exp A) (exp B) (exp C)
+       (exp pair-term) (exp body-term)
+       (dt pair-derivation) (dt result-form)
+       (dt (typing/tf ctx A))
+       (dt (typing/tf (conj ctx [r A]) B))
+       (dt body-derivation)])
+
     (and (= j :has) (= rule :Succ) (= :succ (first term)))
     [42 D us (exp (second term)) (dt (first prems))]
 

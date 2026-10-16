@@ -182,3 +182,13 @@
     (is (= 4 (first (nth (nth tree 6) 3))))
     (is (true? (rt/dtCheck
                 (fn [c d] (rt/Check rt/decCert c d)) tree judgment)))))
+
+(deftest dependent-pair-elimination-has-the-two-bound-entries
+  (let [pair-type [:Sigma 1 [:Unit] [:Unit]]
+        term [:let [:Unit] [:pair pair-type [:star] [:star]] [:var 0]]
+        d (typing/check-top 0 term)
+        cert (f7/certificate 0 d)]
+    (is (= :Let (:rule d)))
+    (is (= 37 (first (f7/dt d))))
+    (is (true? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Unit])))))
+    (is (false? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Bool])))))))

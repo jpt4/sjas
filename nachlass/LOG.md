@@ -7766,3 +7766,13 @@ dependent formation test rejected `Π₀ Bool. T(var 0)`; after the change,
 `dtCheck` accepts its generated formation tree, including the bound Bool
 premise at index 0. Focused shell suite: 10 tests / 185 assertions,
 0 failures and 0 errors.
+
+## 2026-10-16 — ADR-0008: F7 pair elimination (x8)
+
+The shell bridge now translates runtime `Let` over a Sigma pair to F7's
+`rLet`. It takes the pair and body usage vectors from their derivations,
+strips the two bound entries from the body's outer usage vector, and
+supplies the separate result/domain/codomain formation trees required by
+F7. Red tests rejected the rule; the extracted checker now accepts a
+closed pair elimination returning Unit and rejects Bool. Focused shell
+suite: 11 tests / 189 assertions, 0 failures and 0 errors.
