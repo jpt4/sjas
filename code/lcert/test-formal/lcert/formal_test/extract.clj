@@ -1,0 +1,19 @@
+(ns lcert.formal-test.extract
+  "Differential checks for ADR-0008's first extracted F7 encoder slice."
+  (:require [clojure.test :refer [deftest is testing]]
+            [lcert.formal.base :as b]
+            [lcert.formal.encode]
+            [lcert.formal.extract :as extract]))
+
+(deftest extracted-expression-encoder
+  (let [fns (extract/compile-functions! '[uLbl encNat encE])
+        encE (get fns 'encE)]
+    (testing "the generated encoder follows the kernel's Code representation"
+      (is (= [0 17] (encE [2])))
+      (is (= [1 14 [0 2] [0 0]] (encE [11 0]))))
+    (testing "the expected codes reduce in the kernel"
+      (is (false? (b/rejects? []
+                   '(Eq Code (encE Exp.tBool) (Code.sl 17)) '[(rfl)])))
+      (is (false? (b/rejects? []
+                   '(Eq Code (encE (Exp.var 0))
+                     (Code.sn 14 (Code.sl 2) (Code.sl 0))) '[(rfl)]))))))

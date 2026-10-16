@@ -1,0 +1,32 @@
+Ansatz 0.2.115 code generation: opaque definitions and a two-constructor recursor
+2026-10-16; local repro in the lcert formal environment (not filed upstream).
+
+After (require 'lcert.formal.encode) and with E = @ansatz.core/ansatz-env:
+
+1. (ansatz.codegen/ansatz->clj E
+     (ansatz.surface.elaborate/elaborate E
+       (lcert.formal.base/lv '(encE Exp.tBool))) [])
+   => (encE [2])
+   `encE` was checked by b/kdef!, with hints -1 (opaque), so the generated
+   Clojure references a function that was never compiled.
+
+2. (ansatz.codegen/ansatz->clj E
+     (.getValue (ansatz.kernel.env/lookup E
+       (ansatz.kernel.name/from-string "cnodes"))) [])
+   => a function whose body is (throw (ex-info "unsupported rec pattern" {})).
+   `Code` has constructors sl Nat and sn Nat Code Code. Its first constructor
+   has a field, and tagged-inductive? returns false for this shape. The
+   recursor's switch handles neither this shape nor a generic tagged case.
+
+3. Calling ansatz.codegen.storedef/emit-direct-recursion on the stored `encE`
+   value after widening tagged-inductive? fails with:
+   CompilerException: Unable to resolve symbol: uLbl in this context
+   After registering uLbl's generated var, it fails on encNat likewise.
+   Both are a/defn functions with arity-registry entries but no :sym. The
+   emitter evaluates in a namespace where those unqualified names do not
+   resolve. Recompiling uLbl and encNat in dependency order, registering
+   qualified :sym entries, makes encE compile.
+
+The local bridge is formal/lcert/formal/extract.clj. The focused differential
+test is test-formal/lcert/formal_test/extract.clj. The bridge is a workaround;
+it does not establish correctness of Ansatz's unverified code generator.
