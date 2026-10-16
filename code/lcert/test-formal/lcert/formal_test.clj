@@ -156,4 +156,14 @@
     lcert.formal-test.s52sim
     lcert.formal-test.s52inv
     lcert.formal-test.s52det
-    lcert.formal-test.s52univ])
+    lcert.formal-test.s52univ
+    ;; Phase 1's fidelity pass (2026-10-15): statements at Check, the
+    ;; paper's family for Proposition 4.4, Willard's Definition 3.4, and the
+    ;; exact F7 certificate sizes (heaviest, last).
+    lcert.formal-test.prop410witness
+    lcert.formal-test.concrete
+    lcert.formal-test.willard
+    lcert.formal-test.arrfamily
+    lcert.formal-test.prop44paper
+    lcert.formal-test.prop411size
+    lcert.formal-test.prop412size])

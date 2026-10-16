@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Fast pre-check for the full formal suite: every suite file under
+# test-formal/lcert/formal_test must be listed in lcert.formal-test/suites
+# (test-formal/lcert/formal_test.clj).  bin/test-formal runs exactly that
+# list, so an unlisted suite is silently left out of the full run; on
+# 2026-10-15 seven were, and a green full run would not have checked them.
+# Usage: bin/check-formal-suites   (exit 1, naming the missing suites)
+cd "$(dirname "$0")/.." || exit 2
+# The namespaces named inside the (def suites '[...]) vector only.
+listed=$(sed -n '/(def suites/,/\])/p' test-formal/lcert/formal_test.clj \
+  | grep -oE "lcert\.formal-test\.[a-z0-9-]+" | sort -u)
+missing=""
+for f in test-formal/lcert/formal_test/*.clj; do
+  b=$(basename "$f" .clj)
+  ns="lcert.formal-test.${b//_/-}"       # file names use _, namespaces -
+  grep -qxF "$ns" <<<"$listed" || missing="$missing $ns"
+done
+if [ -n "$missing" ]; then
+  echo "Suite files not listed in lcert.formal-test/suites:$missing" >&2
+  exit 1
+fi

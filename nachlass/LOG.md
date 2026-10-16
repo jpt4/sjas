@@ -7544,3 +7544,14 @@ no budget derives `0` (T1), and `Check` accepts no certificate of `0`
 `Π(r :₁ R). T(chk′ (print r) ⌜0⌝) ⊸ 0`, with `⌜0⌝` the code of `0`. Definition
 3.4 is informal: that `H°` *states* consistency is a reading of that syntax,
 and R4 §3.9 now says so, while the reading's truth is the formal clause (ii).
+
+## 2026-10-15 — The full suite's list had left out seven suites (Claude)
+
+`bin/test-formal` runs the explicit list `lcert.formal-test/suites`, and seven
+suite files were not on it: `prop410witness` (Codex, 2026-10-14) and today's
+`concrete`, `willard`, `arrfamily`, `prop44paper`, `prop411size` and
+`prop412size`. The warm server's recheck finds suites by file, so they had
+passed there, but a full run would have reported green without loading them.
+Found while answering the user's question about what the full suite contains;
+the full run started at 23:21 was replaced. `bin/check-formal-suites` now
+fails a full run, in seconds, when a suite file is unlisted.
