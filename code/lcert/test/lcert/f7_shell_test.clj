@@ -88,3 +88,17 @@
           cert (f7/certificate 0 d)]
       (is (true? (rt/Check rt/decCert cert
                             (rt/encE (f7/exp (:type d)))))))))
+
+(deftest applications-carry-checked-premises
+  (doseq [term [[:app [:lam 1 [:Unit] [:var 0]] [:star]]
+                [:app [:lam :w [:Unit] [:var 0]] [:star]]
+                [:app [:lam :w [:Unit] [:lam 1 [:Unit] [:var 0]]]
+                 [:star]]]]
+    (testing (pr-str term)
+      (let [d (typing/check-top 0 term)
+            cert (f7/certificate 0 d)]
+        (is (= :App (:rule d)))
+        (is (true? (rt/Check rt/decCert cert
+                              (rt/encE (f7/exp (:type d))))))
+        (is (false? (rt/Check rt/decCert cert
+                               (rt/encE (f7/exp [:Bool])))))))))

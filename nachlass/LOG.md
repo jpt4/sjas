@@ -7699,3 +7699,13 @@ lambdas and a two-binder term using the outer variable. The focused result
 is 3 tests / 119 assertions, 0 failures and 0 errors. Applications,
 conversion and the remaining rule families are still unsupported by this
 bridge, so the runner is not yet switched to it.
+
+## 2026-10-16 — ADR-0008: F7 application derivations (x8)
+
+The shell DT bridge now translates runtime `App` with usage 1 or ω to
+`DT.rApp`, using the two premise usage vectors and rebuilding the domain
+and codomain formation trees. The red focused test rejected applications;
+the green test checks identity applications and an application returning a
+lambda through the extracted F7 checker, including wrong-type rejection.
+The focused result is 4 tests / 128 assertions, 0 failures and 0 errors.
+Usage-0 applications use F7's separate `rApp0` rule and remain to be added.

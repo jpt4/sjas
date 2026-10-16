@@ -73,7 +73,7 @@
     (apply list (map (comp #(field :u %) first) (rseq (vec ctx))))))
 
 (defn dt
-  "Translate the base, variable, lambda and Pi-formation rules to DT data.
+  "Translate supported shell derivations to F7 DT data.
   Other rules are rejected until their premise and side-condition data have
   been translated. This builder remains untrusted: extracted Check decides
   whether a certificate containing this tree is accepted."
@@ -103,6 +103,19 @@
           B (nth type 3)]
       [32 D us (field :u u) (exp A) (exp body) (exp B)
        (dt (first prems)) (dt (second prems))])
+
+    (and (= j :has) (= rule :App) (= :app (first term))
+         (= :Pi (first (:type (first prems)))))
+    (let [[hf hu] prems
+          [_ r A B] (:type hf)
+          [_ f arg] term]
+      (when (= r 0)
+        (invalid :derivation derivation))
+      [34 D (context-usages (:ctx hf)) (context-usages (:ctx hu))
+       (field :u r) (exp f) (exp arg) (exp A) (exp B)
+       (dt hf) (dt hu)
+       (dt (typing/tf ctx A))
+       (dt (typing/tf (conj ctx [r A]) B))])
 
     :else (invalid :derivation derivation))))
 
