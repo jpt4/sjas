@@ -149,6 +149,15 @@
     (is (true? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Nat])))))
     (is (false? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Bool])))))))
 
+(deftest empty-elimination-has-an-f7-derivation
+  (let [term [:lam 1 [:Empty] [:abort [:Nat] [:var 0]]]
+        d (typing/check-top 0 term)
+        cert (f7/certificate 0 d)]
+    (is (= :Abort (:rule (second (:prems d)))))
+    (is (= 38 (first (f7/dt (second (:prems d))))))
+    (is (true? (rt/Check rt/decCert cert (rt/encE (f7/exp (:type d))))))
+    (is (false? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Nat])))))))
+
 (deftest code-and-certificate-constructors-use-f7
   (let [a [:lbl :a]
         b [:lbl :b]

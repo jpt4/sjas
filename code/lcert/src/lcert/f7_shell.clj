@@ -164,6 +164,12 @@
        (dt (typing/tf (conj ctx [r A]) B))
        (dt body-derivation)])
 
+    (and (= j :has) (= rule :Abort) (= :abort (first term)))
+    (let [[_ target source] term
+          [source-derivation target-formation] prems]
+      [38 D us (exp target) (exp source)
+       (dt source-derivation) (dt target-formation)])
+
     (and (= j :has) (= rule :Succ) (= :succ (first term)))
     [42 D us (exp (second term)) (dt (first prems))]
 
