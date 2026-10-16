@@ -39,3 +39,10 @@ it does not establish correctness of Ansatz's unverified code generator.
    kernel and generates the application correctly. The local extractor
    kernel-checks the eta-expanded value and its definitional equality before
    emitting ob. This is an unsound codegen case, not merely a compile error.
+
+Filed upstream 2026-10-16 by Claude, with standalone reproducers (only ansatz.core; reproduce on 0.2.115 and 0.2.116):
+  #113 item 4 (non-lambda recursor minor: silently wrong value)
+  #114 item 2 (two-constructor type with fielded first constructor)
+  #115 skipped equation lemmas for three-level nested matches (and the docs question)
+Items 1 and 3 concern internal APIs (env/mk-def opaque hints; storedef/emit-direct-recursion symbol resolution) and were not filed.
+Reproducers: test-runs/claude-held/ansatz-issues/ in the main checkout.

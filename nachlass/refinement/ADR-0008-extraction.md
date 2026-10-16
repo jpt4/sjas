@@ -1,6 +1,6 @@
 # ADR-0008 — Extract the λᶜᵉʳᵗ₀ trusted core
 
-**Status.** Accepted 2026-10-14. Implementation in progress on `adr-0008-extraction` (step 1's baseline recorded 2026-10-16); after-action report pending.
+**Status.** Accepted 2026-10-14. Implementation in progress on `adr-0008-extraction` (step 1's baseline and step 2's spike recorded 2026-10-16); after-action report pending.
 
 **Branch.** This decision is recorded on `adr-0006-complete`. Task `x8` implements it on a new `adr-0008-extraction` branch.
 
@@ -72,6 +72,58 @@ rule on fixtures and runs in `bin/test-fast`. Baseline, before extraction:
 
 The target is zero trusted lines; the after-action report reruns the same
 script against the same registry rule.
+
+**Step 2 record: the code-generation spike (2026-10-16).** The four
+obstacles are diagnosed and worked around, without changing any checked
+definition:
+
+- `kdef!` adds definitions with `env/mk-def`'s default reducibility hint,
+  opaque (`-1`). Ansatz's `ansatz->clj` inlines only abbreviations and
+  `compile-store-def!` compiles only regular definitions, so no `kdef!`
+  function was ever generated, and a call to one was emitted as a bare
+  symbol (`(encE [2])`).
+- The undiagnosed `CompilerException` was the emitter evaluating a generated
+  form whose callees (`uLbl`, `encNat`) were registered by arity with no
+  qualified symbol: `Unable to resolve symbol: uLbl`.
+  `compile-store-def!` swallows such exceptions and caches the failure.
+- `Code` (`sl Nat | sn Nat Code Code`) has two constructors, the first with
+  fields. Ansatz gives that shape no runtime representation: its constructors
+  become indistinguishable field vectors and its recursor lowers to
+  `unsupported rec pattern` (upstream
+  [replikativ/ansatz#114](https://github.com/replikativ/ansatz/issues/114)).
+- Found while extracting: a recursor minor premise that is not syntactically
+  a lambda (the eta-reduced `f` in `ob`'s `Option.rec`) is compiled in the
+  wrong scope and returns a **wrong value without error**
+  ([#113](https://github.com/replikativ/ansatz/issues/113)).
+
+The build-time bridge is `formal/lcert/formal/extract.clj`. It compiles each
+checked definition's *stored value* with Ansatz's own emitter
+(`storedef/emit-direct-recursion`, or the generic lowering when that emitter
+cannot peel the binders), dependencies first, into `lcert.extracted.runtime`.
+It widens `tagged-inductive?` to `Code`'s shape. It replaces `ob`'s minor
+by its eta-expansion only after the kernel checks that the two are
+definitionally equal. And it rebuilds `nthE`, `nthU` and `nthS`, which the
+kernel checks by well-founded recursion, from their `a/defn` surface bodies,
+as `a/defn` itself does. Extracted so far, each compared with the kernel's
+own reduction (`rfl`) in `test-formal/lcert/formal_test/extract.clj`:
+`uLbl`, `encNat`, `encE`, `cnodes`, `chkN`, `ob`, `om`, `nthE`, `nthU`,
+`Check` on a fixed decoder, and a canonical F7 certificate through the
+extracted `encCert`, `decCert`, `Check` and `encE`. On the warm server the
+extract namespace passes 8 tests / 30 assertions, 0 failures, 0 errors.
+
+**What extraction trusts.** Ansatz's code generator is not verified: an
+extracted function is its translation of a kernel-checked term, and #113
+shows the translation can be silently wrong. The differential tests against
+kernel reduction are the check on it. Each extracted function in the
+production path therefore needs differential cases that exercise every
+branch, and the after-action report counts the generator as trusted code.
+
+Three related upstream reports were filed with standalone reproducers. All
+reproduce on Ansatz 0.2.115 and 0.2.116: #113, #114, and
+[#115](https://github.com/replikativ/ansatz/issues/115). #115 covers the
+skipped equation lemmas. As far as we can tell from Ansatz's source, a
+skipped lemma is simply absent and admits nothing; the issue asks the
+maintainers to confirm.
 
 **Success.** Every production acceptance and execution decision comes from extracted, kernel-checked definitions (or the documented kernel-reduction fallback); the strict runner checks caller type and `Θₙ`, executes the decoded term, and gates erasure; all existing examples and tests pass; all translated differential cases agree; each published F7 count has a kernel check; paper/formal differences are resolved or explicitly amended; and the measured hand-written trusted core reaches zero.
 

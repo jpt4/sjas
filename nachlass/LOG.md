@@ -7574,3 +7574,41 @@ the registry `code/lcert/trusted-core.txt`. Baseline: 1,185 hand-written
 lines that can decide certificate acceptance or program behavior, 991 shell
 lines (parser, typer, PA translation, printing, examples). ADR-0008 records
 the per-file table; extraction targets zero trusted lines.
+
+## 2026-10-16 — ADR-0008 step 2: the code-generation spike (x8, Claude)
+
+Codex (x8) built the build-time extraction bridge `formal/lcert/formal/extract.clj` in
+five commits (`f1fcca5`–`655cabd`). It extracts kernel-checked definitions
+through Ansatz's own emitter, each tested against kernel reduction: the F7
+expression encoder, `cnodes`, the checker fuel `chkN`, `Check` on a fixed
+decoder, and the polymorphic `ob`/`om`. Claude then committed the pending
+unit (`bafbce8`): the well-founded helpers `nthE`/`nthU`/`nthS` are
+rebuilt as standalone functions. A canonical F7 certificate now runs
+through the extracted `encCert`, `decCert` and `Check`.
+- Red, on the committed extractor: 2 failures.
+- Green: the extract namespace has 8 tests / 30 assertions, 0 failures,
+  0 errors.
+
+Claude also fixed a `defonce` with a docstring that had stopped the warm
+server's load.
+
+Claude confirmed three Ansatz code-generation defects with reproducers that
+use only `ansatz.core`. All three reproduce on 0.2.115 and 0.2.116, and are
+filed upstream:
+- [#113](https://github.com/replikativ/ansatz/issues/113): a recursor minor
+  that is not syntactically a lambda compiles to a silently wrong value. The
+  kernel proves `some 6`; the generated code returns `5`.
+- [#114](https://github.com/replikativ/ansatz/issues/114): `Code`'s
+  two-constructor shape has no runtime representation.
+- [#115](https://github.com/replikativ/ansatz/issues/115): a match nested
+  three levels deep gets ill-typed equation lemmas, which are skipped. This
+  explains the full suite's 271 warnings. The issue also asks the
+  maintainers to confirm that a skipped lemma admits nothing.
+
+The reproducers are in the main checkout under
+`code/lcert/test-runs/claude-held/ansatz-issues/`.
+
+The consequence for ADR-0008: the code generator is unverified and can be
+silently wrong, so differential tests against kernel reduction are the
+check on every extracted function, and the after-action report counts the
+generator as trusted. The ADR's step-2 record has the details.
