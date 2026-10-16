@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+# The function-level inventory of hand-written Clojure in the reference
+# implementation, split into the trusted core (code that decides certificate
+# acceptance or program behavior) and the untrusted shell (parsing, the
+# typer, printing, examples).  ADR-0008 records this count before extraction
+# and targets zero trusted lines after it; both counts use this script.
+#
+# Usage: bin/trusted-inventory [SRC_DIR] [REGISTRY]
+#   defaults: src/lcert and trusted-core.txt
+# Output, tab-separated: FILE FORM LINES CLASS per top-level form, then
+#   total trusted N / total shell N.
+#
+# The rule.  A line counts if it is nonblank and its first non-space
+# character is not ';' (docstrings count; comments do not).  It belongs to the
+# top-level form it is in: a top-level form starts at a line whose first
+# character is '('.  FORM is the defined name (metadata such as ^:private
+# skipped; a defmethod keeps its dispatch value; a declare is NAME (declare),
+# classified as NAME is), "ns" for the namespace form, or toplevel@LINE for
+# anything else.
+#
+# The registry (REGISTRY) has one line per source file:
+#   FILE trusted [shell: NAME ...]   every form counts as trusted except NAMEs
+#   FILE shell                       no form counts as trusted
+# Blank lines and #-comments are ignored.  A source file missing from the
+# registry is an error: new code must be classified, not assumed shell.
+set -eu
+cd "$(dirname "$0")/.."
+src=${1:-src/lcert}
+reg=${2:-trusted-core.txt}
+status=0
+out=$(mktemp)
+trap 'rm -f "$out"' EXIT
+for f in "$src"/*.clj; do
+  b=$(basename "$f")
+  entry=$(grep -v '^[[:space:]]*\(#\|$\)' "$reg" | awk -v b="$b" '$1 == b' | head -1)
+  if [ -z "$entry" ]; then
+    echo "trusted-inventory: $b is not in $reg" >&2
+    status=1
+    continue
+  fi
+  awk -v file="$b" -v entry="$entry" '
+    BEGIN {
+      n = split(entry, e, /[ \t]+/); role = e[2]
+      for (i = 3; i <= n; i++) if (e[i] != "shell:") shell[e[i]] = 1
+    }
+    function emit() {
+      if (form != "") {
+        cls = (role == "trusted" && !(key in shell)) ? "trusted" : "shell"
+        printf "%s\t%s\t%d\t%s\n", file, form, count, cls
+      }
+    }
+    /^\(/ {
+      emit(); count = 0
+      line = $0; sub(/^\(/, "", line)
+      m = split(line, t, /[ \t]+/); head = t[1]; name = ""
+      for (i = 2; i <= m; i++) if (t[i] !~ /^\^/) { name = t[i]; break }
+      sub(/\)+$/, "", name); key = name
+      if (head == "ns") form = "ns"
+      else if (head == "declare") form = name " (declare)"
+      else if (head == "defmethod") {
+        disp = ""; for (j = i + 1; j <= m; j++) if (t[j] != "") { disp = t[j]; break }
+        form = name " " disp
+      }
+      else if (head ~ /^def/) form = name
+      else form = "toplevel@" NR
+    }
+    /[^[:space:]]/ && $0 !~ /^[[:space:]]*;/ { if (form != "") count++ }
+    END { emit() }
+  ' "$f"
+done >"$out"
+cat "$out"
+awk -F'\t' '{ s[$4] += $3 } END { printf "total\ttrusted\t%d\ntotal\tshell\t%d\n", s["trusted"], s["shell"] }' "$out"
+exit $status

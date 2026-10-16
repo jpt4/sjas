@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+# Regression for bin/trusted-inventory (ADR-0008 step 1): the line-count rule
+# (nonblank lines that are not ;-comments, attributed to the top-level form
+# they belong to), the form names (metadata skipped, defmethod dispatch
+# values kept, a declare classified by the name it declares), and the
+# registry (trusted files count every form except those listed as shell;
+# shell files count none).
+set -eu
+cd "$(dirname "$0")/.."
+scratch=$(mktemp -d)
+trap 'rm -rf "$scratch"' EXIT
+mkdir "$scratch/src"
+cat >"$scratch/src/core.clj" <<'EOF'
+(ns fixture.core
+  "Docstring lines count: they are not ;-comments.")
+
+;; A comment line, and a blank line above: neither counts.
+(declare show)
+(defn ^:private decide
+  [x]
+  ;; inside a form: still a comment
+  (if x 1 0))
+
+(defmulti step :tag)
+(defmethod step :leaf [n] n)
+
+(defn show [x] (str x))
+EOF
+cat >"$scratch/src/shell.clj" <<'EOF'
+(ns fixture.shell)
+(defn parse [s] (read-string s))
+EOF
+cat >"$scratch/registry.txt" <<'EOF'
+# comment lines and blank lines are ignored
+
+core.clj   trusted  shell: show
+shell.clj  shell
+EOF
+out=$(bin/trusted-inventory "$scratch/src" "$scratch/registry.txt")
+want=$(printf '%s\n' \
+  'core.clj	ns	2	trusted' \
+  'core.clj	show (declare)	1	shell' \
+  'core.clj	decide	3	trusted' \
+  'core.clj	step	1	trusted' \
+  'core.clj	step :leaf	1	trusted' \
+  'core.clj	show	1	shell' \
+  'shell.clj	ns	1	shell' \
+  'shell.clj	parse	1	shell' \
+  'total	trusted	7' \
+  'total	shell	4')
+if [ "$out" != "$want" ]; then
+  echo "trusted-inventory output differs from the expected inventory:" >&2
+  diff <(echo "$want") <(echo "$out") >&2 || true
+  exit 1
+fi
+# A source file missing from the registry is an error, not silently shell.
+cat >"$scratch/src/new.clj" <<'EOF'
+(ns fixture.new)
+EOF
+if bin/trusted-inventory "$scratch/src" "$scratch/registry.txt" >/dev/null 2>&1; then
+  echo "an unregistered source file was accepted" >&2
+  exit 1
+fi

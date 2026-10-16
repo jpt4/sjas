@@ -1,6 +1,6 @@
 # ADR-0008 — Extract the λᶜᵉʳᵗ₀ trusted core
 
-**Status.** Accepted 2026-10-14. Implementation and after-action report pending.
+**Status.** Accepted 2026-10-14. Implementation in progress on `adr-0008-extraction` (step 1's baseline recorded 2026-10-16); after-action report pending.
 
 **Branch.** This decision is recorded on `adr-0006-complete`. Task `x8` implements it on a new `adr-0008-extraction` branch.
 
@@ -45,6 +45,33 @@ The 2026-10-14 code-generation probe found four concrete obstacles: most formal 
 2. **Spike:** diagnose those four obstacles; add a code-generating variant of `kdef!`, or use `a/defn` when it can express the definition. Extract `encE`, `decCert` and `Check`, then run the red certificates through them. If Ansatz cannot compile a function, save a minimal reproducer and exact error in `code/lcert/test-runs/ansatz-codegen-issue.txt` for Claude to file upstream; do not post to GitHub from this task. Kernel reduction of that definition is the fallback: slow, but it adds no trust component.
 3. Functionalize and prove the evaluator/erasure obligations, extract the rest of the core, route the runner through it, and turn the differential tests green. Resolve the paper/formal verdicts, establish F7 as R4's concrete encoding, and kernel-check every replacement measurement before updating the paper and tutorial. Finish with the entire lcert test suite green.
 4. Record the before/after trusted-line counts with the same inventory rule, targeting **zero hand-written trusted Clojure lines** in the acceptance and execution core. Record any remaining line and why it is trusted. Write an after-action report here and a dated `LOG.md` entry with the evidence.
+
+**Step 1 record: the trusted-line baseline (2026-10-16).** `bin/trusted-inventory`
+counts, per top-level form of `src/lcert`, the nonblank lines that are not
+`;`-comments (docstrings count), and classifies each form by the registry
+`code/lcert/trusted-core.txt`: *trusted* if it can decide certificate
+acceptance or program behavior, *shell* otherwise. Every source file must be
+registered; the classification is conservative (a helper counts as trusted
+unless it plainly serves only the shell; in `syntax.clj` every data operation
+counts and only the parser is shell). `bin/test-trusted-inventory` checks the
+rule on fixtures and runs in `bin/test-fast`. Baseline, before extraction:
+
+| File | Trusted lines | Shell lines |
+| --- | --- | --- |
+| `check.clj` | 342 (21 forms) | 13 (1 form: `certificate-literal`) |
+| `core.clj` | 27 (5 forms: `ns`, `type-code`, `check-code`, `check`, `run`) | 30 (7 forms) |
+| `encode.clj` | 239 (30 forms) | 0 |
+| `eval.clj` | 197 (14 forms) | 4 (`print-value`) |
+| `kernel.clj` | 63 (11 forms) | 0 |
+| `reduce.clj` | 136 (15 forms) | 0 |
+| `syntax.clj` | 181 (27 forms) | 133 (11 forms: the parser) |
+| `typing.clj` | 0 | 320 (23 forms) |
+| `pa.clj` | 0 | 335 (33 forms) |
+| `examples.clj` | 0 | 156 (22 forms) |
+| **Total** | **1,185** | **991** |
+
+The target is zero trusted lines; the after-action report reruns the same
+script against the same registry rule.
 
 **Success.** Every production acceptance and execution decision comes from extracted, kernel-checked definitions (or the documented kernel-reduction fallback); the strict runner checks caller type and `Θₙ`, executes the decoded term, and gates erasure; all existing examples and tests pass; all translated differential cases agree; each published F7 count has a kernel check; paper/formal differences are resolved or explicitly amended; and the measured hand-written trusted core reaches zero.
 

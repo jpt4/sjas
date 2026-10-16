@@ -1,0 +1,28 @@
+# Trusted-core registry for bin/trusted-inventory (ADR-0008 step 1).
+#
+# One line per file in src/lcert:
+#   FILE trusted [shell: NAME ...]   every top-level form is trusted except NAMEs
+#   FILE shell                       no form is trusted
+#
+# Trusted means: the form can decide whether a certificate is accepted, or
+# what a program does when it runs.  ADR-0008 extracts every trusted form
+# from a kernel-checked definition, until this registry lists no trusted
+# hand-written line.  Shell means: parsing, the typer (it produces
+# certificates, which must pass Check), printing and presentation, the PA
+# translation (its terms pass Check like any other) and the examples.
+#
+# The classification is conservative where unsure: a helper counts as trusted
+# unless it plainly serves only the shell.  In syntax.clj every data operation
+# counts (substitution, shifting, labels, the code/term maps), whether or not
+# a trusted function calls it today; only the parser is shell.
+
+check.clj     trusted  shell: certificate-literal
+core.clj      trusted  shell: parse-program check-term check-program encode certify certificate-literal certificate-form
+encode.clj    trusted
+eval.clj      trusted  shell: print-value
+kernel.clj    trusted
+reduce.clj    trusted
+syntax.clj    trusted  shell: fail token-scope lookup parse-usage parse-type numeral parse-lbl-branches parse-let parse-fn parse-term
+typing.clj    shell
+pa.clj        shell
+examples.clj  shell

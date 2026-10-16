@@ -7564,3 +7564,13 @@ namespaces listed (`code/lcert/test-runs/afix-suite-20261016T033712Z.log`):
 3:25:12, peak RSS 3.9 GB. ADR-0006's status and its phase-1 after-action
 report are updated. Phase 2 (ADR-0007) continues on `adr-0007-phase2`;
 ADR-0008 (extraction) follows in the main lane.
+
+## 2026-10-16 — ADR-0008 step 1: the trusted-line baseline (Claude)
+
+Branch `adr-0008-extraction`, from `adr-0006-complete` at `77c1400`. During
+Codex's credit wait Claude added `bin/trusted-inventory`, its fixture test
+(red before the script existed, green after; wired into `bin/test-fast`) and
+the registry `code/lcert/trusted-core.txt`. Baseline: 1,185 hand-written
+lines that can decide certificate acceptance or program behavior, 991 shell
+lines (parser, typer, PA translation, printing, examples). ADR-0008 records
+the per-file table; extraction targets zero trusted lines.
