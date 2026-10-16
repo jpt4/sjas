@@ -17,3 +17,11 @@
       (is (false? (b/rejects? []
                    '(Eq Code (encE (Exp.var 0))
                      (Code.sn 14 (Code.sl 2) (Code.sl 0))) '[(rfl)]))))))
+
+(deftest dependency-extraction-and-node-count
+  (let [encE (extract/compile-closure! 'encE)
+        cnodes (extract/compile-closure! 'cnodes)
+        code (encE [11 0])]
+    (is (= [1 14 [0 2] [0 0]] code))
+    (is (= 1 (cnodes code)))
+    (is (= 0 (cnodes [0 17])))))

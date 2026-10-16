@@ -64,3 +64,43 @@
   (use-consistent-tags!)
   (let [E @a/ansatz-env]
     (into {} (for [name names] [name (compile-one! E name)]))))
+
+(defn- unresolved-dependency [error]
+  ;; The emitter evaluates its generated form. If a kernel function was
+  ;; registered only by arity, Clojure names the missing callable in a cause.
+  (loop [e error]
+    (when e
+      (if-let [[_ name] (re-find #"Unable to resolve symbol: ([A-Za-z][A-Za-z0-9_]*)"
+                                 (or (.getMessage e) ""))]
+        (symbol name)
+        (recur (.getCause e))))))
+
+(defn compile-closure!
+  "Generate one checked function and only the dependencies its emitted body
+  actually calls. A missing callable is compiled first, then the caller is
+  regenerated. This avoids manually maintaining a large dependency list."
+  [root]
+  (use-consistent-tags!)
+  (let [E @a/ansatz-env
+        active (atom #{})
+        done (atom {})]
+    (letfn [(ensure! [name]
+              (if-let [f (get @done name)]
+                f
+                (do
+                  (when (contains? @active name)
+                    (throw (ex-info "cyclic generated dependency" {:name name})))
+                  (swap! active conj name)
+                  (try
+                    (loop [attempt 0]
+                      (when (>= attempt 256)
+                        (throw (ex-info "too many generated dependencies" {:name name})))
+                      (let [result (try (compile-one! E name)
+                                        (catch Throwable t t))]
+                        (if (instance? Throwable result)
+                          (if-let [dependency (unresolved-dependency result)]
+                            (do (ensure! dependency) (recur (inc attempt)))
+                            (throw result))
+                          (do (swap! done assoc name result) result))))
+                    (finally (swap! active disj name))))))]
+      (ensure! root))))
