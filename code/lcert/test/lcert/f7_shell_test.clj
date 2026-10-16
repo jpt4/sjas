@@ -65,3 +65,26 @@
     (is (false? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Nat])))))
     (is (false? (rt/Check rt/decCert (assoc cert 1 0)
                           (rt/encE (f7/exp [:Unit])))))))
+
+(deftest lambda-derivations-preserve-context-and-usage
+  (doseq [term [[:lam 0 [:Unit] [:star]]
+                [:lam 1 [:Unit] [:var 0]]
+                [:lam :w [:Unit] [:var 0]]]]
+    (testing (pr-str term)
+      (let [d (typing/check-top 0 term)
+            cert (f7/certificate 0 d)
+            type (:type d)]
+        (is (= :Lam (:rule d)))
+        (is (= [9 (case (second term) 0 [0] 1 [1] :w [2]) [1] [1]]
+               (f7/exp type)))
+        (is (true? (rt/Check rt/decCert cert (rt/encE (f7/exp type)))))
+        (is (false? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Unit]))))))))
+  (testing "the bound variable records the innermost context entry"
+    (let [d (second (:prems (typing/check-top 0 [:lam 1 [:Unit] [:var 0]])))]
+      (is (= [30 (list [1]) (list [1]) 0 [1] [1]] (f7/dt d)))))
+  (testing "two binders keep the outer variable at de Bruijn index one"
+    (let [term [:lam :w [:Unit] [:lam 0 [:Unit] [:var 1]]]
+          d (typing/check-top 0 term)
+          cert (f7/certificate 0 d)]
+      (is (true? (rt/Check rt/decCert cert
+                            (rt/encE (f7/exp (:type d)))))))))

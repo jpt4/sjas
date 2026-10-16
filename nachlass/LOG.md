@@ -7687,3 +7687,15 @@ root label (2 tests / 105 assertions, no failures or errors). Other typing
 rules still raise explicitly in this bridge. The public runner has not yet
 been routed through it; it must reject any unhandled derivation and check
 the resulting certificate before execution.
+
+## 2026-10-16 — ADR-0008: F7 variable and lambda derivations (x8)
+
+The shell DT bridge now translates `Var`, `Lam` and `PiF` as well as base
+rules. It reverses the parser's outermost-first context into F7's de Bruijn
+list order, preserving usage indices; an empty context becomes F7's `nil`
+list. The red focused test rejected lambdas as unsupported; after adding
+these rules the extracted checker accepts usage-0, usage-1 and usage-ω
+lambdas and a two-binder term using the outer variable. The focused result
+is 3 tests / 119 assertions, 0 failures and 0 errors. Applications,
+conversion and the remaining rule families are still unsupported by this
+bridge, so the runner is not yet switched to it.

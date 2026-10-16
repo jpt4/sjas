@@ -62,25 +62,52 @@
 (def ^:private runtime-constants
   #{:Unit :TT :FF :Zero :Lbl})
 
+(defn- context-types [ctx]
+  ;; The parser stores contexts outermost first; F7's List Exp is de Bruijn
+  ;; order, with the innermost entry at the head.
+  (when (seq ctx)
+    (apply list (map (comp exp second) (rseq (vec ctx))))))
+
+(defn- context-usages [ctx]
+  (when (seq ctx)
+    (apply list (map (comp #(field :u %) first) (rseq (vec ctx))))))
+
 (defn dt
-  "Translate the closed constant and base-type rules to checked DT data.
+  "Translate the base, variable, lambda and Pi-formation rules to DT data.
   Other rules are rejected until their premise and side-condition data have
   been translated. This builder remains untrusted: extracted Check decides
   whether a certificate containing this tree is accepted."
-  [{:keys [rule j ctx term type] :as derivation}]
-  (when-not (empty? ctx)
-    (invalid :derivation derivation))
+  [{:keys [rule j ctx term type prems] :as derivation}]
+  (let [D (context-types ctx)
+        us (context-usages ctx)]
   (cond
     (and (= j :type) (base-formations rule))
-    [0 nil (exp type)]
+    [0 D (exp type)]
+
+    (and (= j :type) (= rule :PiF) (= :Pi (first type)))
+    (let [[_ u A B] type]
+      [2 D (field :u u) (exp A) (exp B)
+       (dt (first prems)) (dt (second prems))])
 
     (and (= j :has) (runtime-constants rule))
-    [31 nil nil (exp term) (exp type)]
+    [31 D us (exp term) (exp type)]
 
-    :else (invalid :derivation derivation)))
+    (and (= j :has) (= rule :Var) (= :var (first term)))
+    (let [i (second term)
+          [u A] (nth ctx (- (count ctx) i 1))]
+      [30 D us i (exp A) (field :u u)])
+
+    (and (= j :has) (= rule :Lam) (= :lam (first term))
+         (= :Pi (first type)))
+    (let [[_ u A body] term
+          B (nth type 3)]
+      [32 D us (field :u u) (exp A) (exp body) (exp B)
+       (dt (first prems)) (dt (second prems))])
+
+    :else (invalid :derivation derivation))))
 
 (defn certificate
-  "Encode a closed constant derivation in canonical F7. The production runner
+  "Encode a supported closed derivation in canonical F7. The production runner
   must check the result at the caller's type and budget before executing."
   [budget derivation]
   (when-not (and (integer? budget) (<= 0 budget)
