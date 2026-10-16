@@ -103,6 +103,22 @@
     (and (= j :has0) (runtime-constants rule))
     [5 D (exp term) (exp type)]
 
+    (and (= j :has0) (= rule :Print) (= :print (first term)))
+    [25 D (exp (second term)) (dt (first prems))]
+
+    (and (= j :has0) (= rule :SLeaf) (= :sleaf (first term)))
+    [19 D (exp (second term)) (dt (first prems))]
+
+    (and (= j :has0) (= rule :Chk) (= :chk (first term)))
+    (let [[_ code expected] term]
+      [26 D (exp code) (exp expected)
+       (dt (first prems)) (dt (second prems))])
+
+    (and (= j :has0) (= rule :If) (= :if (first term)))
+    (let [[_ condition yes no] term]
+      [12 D (exp condition) (exp yes) (exp no) (exp type)
+       (dt (first prems)) (dt (second prems)) (dt (nth prems 2))])
+
     (and (= j :has0) (= rule :Var) (= :var (first term)))
     (let [i (second term)
           [_ A] (nth ctx (- (count ctx) i 1))]
@@ -278,6 +294,25 @@
       [56 D (context-usages (:ctx dr)) (context-usages (:ctx de))
        (exp target) encoded-target (exp certificate) (exp evidence)
        (dt dr) (dt de)])
+
+    (and (= j :has) (= rule :Inspect) (= :inspect (first term)))
+    (let [[_ target certificate code success failure] term
+          [dr dc dX d1 d2] prems
+          branch-outer-ctx (subvec (:ctx d1) 0 (count ctx))
+          cert-ctx (conj ctx [1 [:R]])
+          check-term [:chk [:print [:var 0]] (s/shift code 1)]
+          positive-assumption [:T check-term]
+          negative-assumption [:T (s/not-term check-term)]]
+      ;; The formal rInsp rule has two formation premises absent from the
+      ;; shell typer's derivation. Build them here; Check verifies both.
+      [57 D (context-usages (:ctx dr)) (context-usages (:ctx dc))
+       (context-usages branch-outer-ctx)
+       (exp target) (exp certificate) (exp code)
+       (exp success) (exp failure)
+       (dt dr) (dt dc) (dt dX)
+       (dt (typing/tf cert-ctx positive-assumption))
+       (dt (typing/tf cert-ctx negative-assumption))
+       (dt d1) (dt d2)])
 
     (and (= j :has) (= rule :If) (= :if (first term)))
     (let [[_ condition yes no] term

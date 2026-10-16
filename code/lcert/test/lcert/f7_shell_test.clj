@@ -244,6 +244,28 @@
                 (fn [cert expected] (rt/Check rt/decCert cert expected))
                 tree judgment)))))
 
+(deftest inspect-checks-both-branch-assumptions
+  (let [r [:leaf [:lbl :a]]
+        code [:sleaf [:lbl :t1]]
+        claim [:chk [:print [:var 0]] (syntax/shift code 1)]
+        positive-function [:Pi 1 [:R] [:Pi 1 [:T claim] [:Unit]]]
+        negative-function [:Pi 1 [:R]
+                           [:Pi 1 [:T (syntax/not-term claim)] [:Unit]]]
+        ctx [[:w positive-function] [:w negative-function]]
+        term [:inspect [:Unit] r code
+              [:app [:app [:var 3] [:var 1]] [:var 0]]
+              [:app [:app [:var 2] [:var 1]] [:var 0]]]
+        d (typing/synth 1 ctx term)
+        tree (f7/dt d)
+        judgment [1 (list (f7/exp negative-function)
+                          (f7/exp positive-function))
+                  (list [2] [2]) (f7/exp term) (f7/exp [:Unit])]]
+    (is (= :Inspect (:rule d)))
+    (is (= 57 (first tree)))
+    (is (true? (rt/dtCheck
+                (fn [cert expected] (rt/Check rt/decCert cert expected))
+                tree judgment)))))
+
 (deftest code-and-certificate-constructors-use-f7
   (let [a [:lbl :a]
         b [:lbl :b]
