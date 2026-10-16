@@ -227,6 +227,23 @@
                 (fn [code expected] (rt/Check rt/decCert code expected))
                 tree judgment)))))
 
+(deftest reflect-uses-the-extracted-base-type-code
+  (let [r [:leaf [:lbl :a]]
+        target [:Unit]
+        code [:sleaf [:lbl :t1]]
+        evidence [:T [:chk [:print r] code]]
+        ctx [[1 evidence]]
+        term [:reflect target r [:var 0]]
+        d (typing/synth 1 ctx term)
+        tree (f7/dt d)
+        judgment [1 (list (f7/exp evidence)) (list [1])
+                  (f7/exp term) (f7/exp target)]]
+    (is (= :Reflect (:rule d)))
+    (is (= (first (rt/baseCode (f7/exp target))) (nth tree 5)))
+    (is (true? (rt/dtCheck
+                (fn [cert expected] (rt/Check rt/decCert cert expected))
+                tree judgment)))))
+
 (deftest code-and-certificate-constructors-use-f7
   (let [a [:lbl :a]
         b [:lbl :b]

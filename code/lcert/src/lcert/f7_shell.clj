@@ -268,6 +268,17 @@
        (exp r) (exp s) (exp code) (exp positive) (exp negative)
        (dt dr) (dt ds) (dt dc) (dt de1) (dt de2)])
 
+    (and (= j :has) (= rule :Reflect) (= :reflect (first term)))
+    (let [[_ target certificate evidence] term
+          [dr de] prems
+          ;; baseCode is extracted from the checked F7 definition. A missing
+          ;; base code rejects the shell result before any evaluator sees it.
+          encoded-target (first (rt/baseCode (exp target)))]
+      (when-not encoded-target (invalid :derivation derivation))
+      [56 D (context-usages (:ctx dr)) (context-usages (:ctx de))
+       (exp target) encoded-target (exp certificate) (exp evidence)
+       (dt dr) (dt de)])
+
     (and (= j :has) (= rule :If) (= :if (first term)))
     (let [[_ condition yes no] term
           [test-derivation yes-derivation no-derivation] prems]
