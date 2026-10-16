@@ -139,6 +139,16 @@
         (is (true? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Nat])))))
         (is (false? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Bool])))))))))
 
+(deftest dependent-boolean-elimination-has-f7-premises
+  (let [term [:elimBool [:Nat] [:tt] [:zero] [:succ [:zero]]]
+        d (typing/check-top 0 term)
+        cert (f7/certificate 0 d)]
+    (is (= :ElimBool (:rule d)))
+    (is (= 41 (first (f7/dt d))))
+    (is (= [:Nat] (:type d)))
+    (is (true? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Nat])))))
+    (is (false? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Bool])))))))
+
 (deftest code-and-certificate-constructors-use-f7
   (let [a [:lbl :a]
         b [:lbl :b]

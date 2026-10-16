@@ -201,6 +201,17 @@
        (exp condition) (exp yes) (exp no) (exp type)
        (dt test-derivation) (dt yes-derivation) (dt no-derivation)])
 
+    (and (= j :has) (= rule :ElimBool) (= :elimBool (first term)))
+    (let [[_ motive condition yes no] term
+          [condition-derivation motive-formation yes-derivation no-derivation] prems]
+      ;; The two branches share a joined usage context. The motive's
+      ;; formation premise lives under a type-level Bool binder.
+      [41 D (context-usages (:ctx condition-derivation))
+       (context-usages (:ctx yes-derivation))
+       (exp motive) (exp condition) (exp yes) (exp no)
+       (dt condition-derivation) (dt motive-formation)
+       (dt yes-derivation) (dt no-derivation)])
+
     :else (invalid :derivation derivation))))
 
 (defn certificate
