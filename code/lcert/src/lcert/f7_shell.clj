@@ -186,6 +186,24 @@
        (dt number-derivation) (dt motive-formation)
        (dt base-derivation) (dt step-derivation)])
 
+    (and (= j :has) (= rule :CaseLbl) (= :caseLbl (first term)))
+    (let [[_ motive label branches] term
+          [label-derivation motive-formation & branch-derivations] prems
+          branch-usages (context-usages (:ctx (first branch-derivations)))
+          motive-tree (dt motive-formation)
+          ;; A branch vector is an F7 bcons chain. Every branch has the
+          ;; same usage context after the typer joins and raises them.
+          [_ branch-tree]
+          (reduce (fn [[tail-exp tail-tree] [k branch branch-derivation]]
+                    [[24 (exp branch) tail-exp]
+                     [46 D branch-usages (exp motive) k (exp branch)
+                      tail-exp (dt branch-derivation) tail-tree motive-tree]])
+                  [[23] [45 D branch-usages (exp motive)]]
+                  (reverse (map vector (range) branches branch-derivations)))]
+      [44 D (context-usages (:ctx label-derivation)) branch-usages
+       (exp motive) (exp label) (field :bs branches)
+       (dt label-derivation) motive-tree branch-tree])
+
     (and (= j :has) (#{:SLeaf :Leaf :Print} rule))
     [(case rule :SLeaf 47 :Leaf 50 :Print 53)
      D us (exp (second term)) (dt (first prems))]

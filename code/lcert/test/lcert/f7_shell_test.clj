@@ -3,6 +3,7 @@
   (:require [clojure.test :refer [deftest is testing]]
             [lcert.extracted.runtime :as rt]
             [lcert.f7-shell :as f7]
+            [lcert.syntax :as syntax]
             [lcert.typing :as typing]))
 
 (def ^:private examples
@@ -190,6 +191,21 @@
                  [1 nil nil (f7/exp term) (f7/exp type)]))]
     (is (= :ItR (:rule d)))
     (is (= 52 (first (f7/dt d))))
+    (is (true? (check [:Nat])))
+    (is (false? (check [:Bool])))))
+
+(deftest label-case-branches-have-f7-derivations
+  (let [term [:caseLbl [:Nat] [:lbl :a]
+              (vec (repeat (count syntax/labels) [:zero]))]
+        d (typing/check-top 0 term)
+        tree (f7/dt d)
+        check (fn [type]
+                (rt/dtCheck
+                 (fn [c expected] (rt/Check rt/decCert c expected))
+                 tree [1 nil nil (f7/exp term) (f7/exp type)]))]
+    (is (= :CaseLbl (:rule d)))
+    (is (= 44 (first tree)))
+    (is (= 46 (first (nth tree 9))))
     (is (true? (check [:Nat])))
     (is (false? (check [:Bool])))))
 
