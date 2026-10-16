@@ -111,6 +111,24 @@ own reduction (`rfl`) in `test-formal/lcert/formal_test/extract.clj`:
 extracted `encCert`, `decCert`, `Check` and `encE`. On the warm server the
 extract namespace passes 8 tests / 30 assertions, 0 failures, 0 errors.
 
+**The standalone artifact (2026-10-16).** `src/lcert/extracted/runtime.clj`
+is the generated code of the 124 checked definitions in the closure of
+`Check`, `decCert`, `encCert` and `encE`, written by
+`lcert.formal.extract/write-runtime!`. It is 1.3 MB pretty-printed;
+`decDT` alone is 0.8 MB. It loads on plain Clojure without Ansatz. Three
+tests guard it:
+- the formal test `standalone-runtime-source` fails when the file differs
+  from a fresh, deterministic generation, or when its code names Ansatz or a
+  formal namespace;
+- the same test checks the canonical F7 certificate's verdicts against
+  kernel `rfl`;
+- the fast suite runs those verdicts on plain Clojure
+  (`lcert.extracted-runtime-test`).
+
+The inventory's rule counts only `src/lcert/*.clj`, so the generated file
+is not hand-written trusted code. It is the generator's output, trusted as
+the next paragraph says.
+
 **What extraction trusts.** Ansatz's code generator is not verified: an
 extracted function is its translation of a kernel-checked term, and #113
 shows the translation can be silently wrong. The differential tests against

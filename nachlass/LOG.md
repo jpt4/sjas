@@ -7612,3 +7612,25 @@ The consequence for ADR-0008: the code generator is unverified and can be
 silently wrong, so differential tests against kernel reduction are the
 check on every extracted function, and the after-action report counts the
 generator as trusted. The ADR's step-2 record has the details.
+
+## 2026-10-16 — ADR-0008: the extracted core as a source file (Claude)
+
+`3b58bc6` writes the generated code of the 124 checked definitions behind
+`Check`, `decCert`, `encCert` and `encE` to `src/lcert/extracted/runtime.clj`.
+The file loads on plain Clojure, without Ansatz. Writing it surfaced a
+leak: one generated function called `lcert.formal.conv/nthS`, a formal
+namespace, because `nthS` resolved through its `a/defn` registration. The
+extractor now generates such callees too.
+
+Determinism needed one change: the generator's gensym locals are renamed in
+order of appearance. With that, the formal test can require the committed
+file to equal a fresh generation. Verdicts on the canonical F7 certificate
+are checked three ways: against kernel `rfl`, through the loaded file in
+the formal suite, and on plain Clojure in the fast suite (54 tests / 474
+assertions, 0 failures, 0 errors).
+
+The file is 1.3 MB pretty-printed, and `decDT` is 0.8 MB of it. The
+generator expands the decoder's nested matches, which is worth a look before
+performance work. Next for ADR-0008: route `lc/run` through the artifact,
+with the runner gates (caller type, `Θₙ` budget, decoded term, checked
+erasure) red first.
