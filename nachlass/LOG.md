@@ -7719,3 +7719,13 @@ green focused test checks an erased application at the caller's Unit type
 and rejects Bool. The focused shell suite reports 5 tests / 133 assertions,
 0 failures and 0 errors. Type-level variables and conversions are still
 outside this bridge's supported rules.
+
+## 2026-10-16 — ADR-0008: F7 Sigma and pair derivations (x8)
+
+The shell bridge now translates `SigmaF`, `rPair0` and `rPair`. It takes the
+formation premises from the typer's Sigma derivation, and the two runtime
+premise usage vectors from the pair derivation; the usage-zero first
+component is translated as a type-level premise. Red tests rejected pairs
+as unsupported, then the extracted checker accepted Unit pairs at usage
+0, 1 and ω and rejected each at the wrong caller type. Focused result:
+6 tests / 145 assertions, 0 failures and 0 errors.

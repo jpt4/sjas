@@ -89,6 +89,11 @@
       [2 D (field :u u) (exp A) (exp B)
        (dt (first prems)) (dt (second prems))])
 
+    (and (= j :type) (= rule :SigmaF) (= :Sigma (first type)))
+    (let [[_ u A B] type]
+      [3 D (field :u u) (exp A) (exp B)
+       (dt (first prems)) (dt (second prems))])
+
     (and (= j :has) (runtime-constants rule))
     [31 D us (exp term) (exp type)]
 
@@ -121,6 +126,20 @@
         [34 D (context-usages (:ctx hf)) (context-usages (:ctx hu))
          (field :u r) (exp f) (exp arg) (exp A) (exp B)
          (dt hf) (dt hu) domain-form codomain-form]))
+
+    (and (= j :has) (= rule :Pair) (= :pair (first term))
+         (= :Sigma (first type)))
+    (let [[_ r A B] type
+          [_ _ x y] term
+          [dS dx dy] prems
+          [hA hB] (:prems dS)]
+      (if (= r 0)
+        [35 D (context-usages (:ctx dy))
+         (exp A) (exp B) (exp x) (exp y)
+         (dt hA) (dt hB) (dt dx) (dt dy)]
+        [36 D (context-usages (:ctx dx)) (context-usages (:ctx dy))
+         (field :u r) (exp A) (exp B) (exp x) (exp y)
+         (dt hA) (dt hB) (dt dx) (dt dy)]))
 
     :else (invalid :derivation derivation))))
 

@@ -113,3 +113,17 @@
     (is (= 5 (first (f7/dt argument))))
     (is (true? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Unit])))))
     (is (false? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Bool])))))))
+
+(deftest pairs-preserve-sigma-usage
+  (doseq [usage [0 1 :w]]
+    (testing (str "usage " usage)
+      (let [type [:Sigma usage [:Unit] [:Unit]]
+            term [:pair type [:star] [:star]]
+            d (typing/check-top 0 term)
+            cert (f7/certificate 0 d)]
+        (is (= :Pair (:rule d)))
+        (is (= (if (= usage 0) 35 36) (first (f7/dt d))))
+        (is (true? (rt/Check rt/decCert cert
+                              (rt/encE (f7/exp type)))))
+        (is (false? (rt/Check rt/decCert cert
+                               (rt/encE (f7/exp [:Unit])))))))))
