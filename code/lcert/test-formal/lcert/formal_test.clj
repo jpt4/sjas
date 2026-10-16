@@ -169,4 +169,5 @@
     lcert.formal-test.prop412size
     ;; ADR-0008 build-time code generation changes a global Ansatz lowering
     ;; hook, so run this after all kernel namespaces have loaded.
-    lcert.formal-test.extract])
+    lcert.formal-test.extract
+    lcert.formal-test.extract-counts])

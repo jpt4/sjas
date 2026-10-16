@@ -106,11 +106,11 @@
 (deftest enum-zero-decoder-agrees-with-kernel
   ;; Ansatz 0.2.115 emits U.u0 as nil inside Option.some, although its
   ;; recursor represents the same constructor as 0. The extraction bridge
-  ;; repairs that exact emitted literal and checks the kernel's roundtrip.
+  ;; tags U at every constructor and recursor site and checks rtU.
   (let [decU (extract/compile-closure! 'decU)]
-    (is (= [0] (decU [0 0])))
-    (is (= [1] (decU [0 1])))
-    (is (= [2] (decU [0 2])))
+    (is (= [[0]] (decU [0 0])))
+    (is (= [[1]] (decU [0 1])))
+    (is (= [[2]] (decU [0 2])))
     (is (false? (b/rejects? []
                  '(Eq (Option U) (decU (encU U.u0))
                    (Option.some U U.u0)) '[(rfl)])))))

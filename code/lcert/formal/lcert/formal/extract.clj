@@ -72,9 +72,13 @@
 (defn- use-consistent-tags! []
   ;; All three constructor/recursor sites in Ansatz call this Var. Patching
   ;; it before compilation keeps generated values and matches consistent.
+  ;; The default enum constructor lowering maps U.u0 to nil, while its
+  ;; recursor dispatches on numeric 0. Give all U constructors a tag too;
+  ;; this makes bare constructors and recursors use the same representation.
   (alter-var-root #'cg/tagged-inductive?
     (constantly (fn [E ind]
-                  (or (original-tagged E ind)
+                  (or (= ind "U")
+                      (original-tagged E ind)
                       (tagged-with-fielded-first-constructor? E ind))))))
 
 (def ^:private ob-eta-form
@@ -93,26 +97,26 @@
       (throw (ex-info "eta expansion differs from checked ob" {})))
     term))
 
-(defn- repair-enum-zero [name form]
-  ;; Ansatz represents a nullary, first enum constructor as numeric 0 in a
-  ;; recursor, but emits a bare occurrence of U.u0 as nil. It occurs both in
-  ;; decU's Option.some and in Exp's tPi/tSig/lam constructor fields. Rewrite
-  ;; only those generated data shapes; the kernel roundtrip theorems and
-  ;; differential tests for all three usages guard the repair.
-  (let [matches (atom 0)
-        repaired (walk/postwalk
-                   (fn [x]
-                     (cond
-                       (and (= name "decU") (= x [nil]))
-                       (do (swap! matches inc) [0])
-                       (and (vector? x) (#{9 10 32} (first x))
-                            (= nil (second x)) (= 4 (count x)))
-                       (do (swap! matches inc) (assoc x 1 0))
-                       :else x)) form)]
-    (when (and (= name "decU") (not= 1 @matches))
-      (throw (ex-info "unexpected decU enum-zero emission"
-                      {:matches @matches})))
-    repaired))
+(defn- call-nullary-data
+  "Ansatz emits a zero-argument checked definition as a function value when
+  it occurs as a data field (for example, sh4_M inside sh4_doubler). Its
+  generated definition is a thunk, so call it at a bare reference. Preserve
+  list heads, which are already calls. Dependencies have been registered by
+  compile-closure! before this form is retained."
+  [form]
+  (let [nullary? (fn [s]
+                   (and (symbol? s)
+                        (= (str (ns-name runtime-ns)) (namespace s))
+                        (let [entry (get @ingest/arity-registry (name s))]
+                          (and (= (:sym entry) s) (zero? (:arity entry))))))]
+    (letfn [(visit [x]
+              (cond
+                (and (symbol? x) (nullary? x)) (list x)
+                (vector? x) (mapv visit x)
+                (seq? x) (apply list (first x) (map visit (rest x)))
+                (map? x) (into (empty x) (map (fn [[k v]] [(visit k) (visit v)]) x))
+                :else x))]
+      (visit form))))
 
 (defn- compile-one!
   [E name]
@@ -160,9 +164,9 @@
                         [form (eval form)]))))
                 (catch Throwable t
                   (throw (ex-info "Ansatz emission failed" {:name s} t))))]
-        (let [repaired (repair-enum-zero s form)
-              generated (if (= repaired form) generated (eval repaired))]
-        (swap! emitted-forms assoc s repaired)
+        (let [fixed (call-nullary-data form)
+              generated (if (= fixed form) generated (eval fixed))]
+        (swap! emitted-forms assoc s fixed)
         (intern runtime-ns name generated)
         (swap! ingest/arity-registry assoc s
           {:sym (symbol (str (ns-name runtime-ns)) s)

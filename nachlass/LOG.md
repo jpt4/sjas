@@ -7648,8 +7648,30 @@ the certificate's decoded term and call extracted `Check` before execution.
 Those tests exposed another silent Ansatz code-generation error: bare `U.u0`
 emits as `nil` although the generated U recursor represents it as `0`. The
 extracted `decU` and `decE` thus changed usage-zero decoded values. The
-build-time extraction bridge repairs only the affected generated data shapes,
-and the generated artifact was refreshed. The exact reproducer and evidence
+build-time extraction bridge makes `U` tagged at every constructor and
+recursor site, and the generated artifact was refreshed.
+The exact reproducer and evidence
 are in `code/lcert/test-runs/ansatz-codegen-issue.txt`. The kernel's `rtU`
 roundtrip and the parser bridge's differential tests guard the repair; they
 do not make Ansatz's generator verified.
+
+## 2026-10-16 — ADR-0008: extracted F7 count differential (x8)
+
+The formal count test now builds the checked Proposition 4.11 and 4.12(1)
+fixtures through Ansatz extraction and passes their data to the extracted
+`encCert` and `cnodes`. It reproduces all four sharing and four literal
+certificate counts (331/152, 717/780, 1231/3772, 1873/17660) and the
+three doubler counts (400, 450, 516). The source size namespaces still
+kernel-check these values and the size theorems. `codeTree` moved unchanged
+to `prop411poly` so the differential fixture can load without the heavier
+`prop411size` proofs.
+
+The tests also exposed a second code-generation mismatch: a bare reference
+to a zero-argument checked definition was emitted as a function object in a
+data field. The build-time bridge now calls such nullary dependencies in
+value position. The extraction namespace, count differential and shell
+bridge passed their focused checks (10/42, 2/11 and 1/83); this does not
+verify the generator in general. A warm-server attempt to load the full
+`prop411size` namespace alone exhausted its 2 GB heap, so its already
+recorded kernel count proofs were not rerun in this focused check. The full
+suite uses a 3 GB heap and remains the final gate.

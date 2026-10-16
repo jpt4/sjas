@@ -34,7 +34,7 @@
 (defn- field [kind value]
   (case kind
     :e (exp value)
-    :u (case value 0 0 1 1 :w 2 (invalid kind value))
+    :u (case value 0 [0] 1 [1] :w [2] (invalid kind value))
     :n (if (and (integer? value) (<= 0 value)) value (invalid kind value))
     :l (or (s/label-index value) (invalid kind value))
     :bs (if (vector? value)

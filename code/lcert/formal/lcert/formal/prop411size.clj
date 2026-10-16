@@ -285,23 +285,6 @@
            (prop411_literal_lower (+ n 12) m T1 T2)
            (sh4_pow_dominates n))))
 
-;; The normal form's certificate.  The literal codeTerm c has one
-;; conversion-free derivation: Snode at each internal node, Sleaf at each
-;; leaf, Const for each label.  codeTree c is that derivation's tree, and its
-;; F7 certificate is the one R4's table counts.
-(lcert.formal.base/kdef! 'codeTree '(=> Code DT)
-  '(fn [c :- Code]
-     (Code.rec$1 (fn [_ :- Code] DT)
-       (fn [l :- Nat]
-         (DT.rSleaf (List.nil Exp) (List.nil U) (Exp.lbl l)
-           (DT.rConst (List.nil Exp) (List.nil U) (Exp.lbl l) Exp.tLbl)))
-       (fn [l :- Nat, a :- Code, b :- Code, ia :- DT, ib :- DT]
-         (DT.rSnode (List.nil Exp) (List.nil U) (List.nil U) (List.nil U)
-           (Exp.lbl l) (codeTerm a) (codeTerm b)
-           (DT.rConst (List.nil Exp) (List.nil U) (Exp.lbl l) Exp.tLbl)
-           ia ib))
-       c)))
-
 (lcert.formal.base/kdef! 'sh4_lit_cert '(=> Nat Code)
   '(fn [n :- Nat]
      (encCert 0 (codeTerm (sh4_bush n)) Exp.tSyn (codeTree (sh4_bush n)) sh4_c0_form)))

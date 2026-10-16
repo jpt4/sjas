@@ -39,9 +39,9 @@
         (is (= tag (first value)))
         (is (= [value] (rt/decE (rt/encE value)))))))
   (testing "usage and labels have their canonical indices"
-    (is (= [32 0 [1] [12]] (f7/exp [:lam 0 [:Unit] [:star]])))
-    (is (= [32 1 [1] [12]] (f7/exp [:lam 1 [:Unit] [:star]])))
-    (is (= [32 2 [1] [12]] (f7/exp [:lam :w [:Unit] [:star]])))
+    (is (= [32 [0] [1] [12]] (f7/exp [:lam 0 [:Unit] [:star]])))
+    (is (= [32 [1] [1] [12]] (f7/exp [:lam 1 [:Unit] [:star]])))
+    (is (= [32 [2] [1] [12]] (f7/exp [:lam :w [:Unit] [:star]])))
     (is (= [21 97] (f7/exp [:lbl :a]))))
   (testing "malformed expressions cannot be silently recast as a checked term"
     (is (thrown? clojure.lang.ExceptionInfo (f7/exp [:unknown])))

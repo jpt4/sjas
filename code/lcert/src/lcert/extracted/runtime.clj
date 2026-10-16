@@ -1705,7 +1705,7 @@
         3
         false
         4
-        (< fG2_0 lcert.extracted.runtime/NL)
+        (< fG2_0 (lcert.extracted.runtime/NL))
         5
         false
         6
@@ -10980,8 +10980,8 @@
        [t_G3 (== fG2_0 0)]
        (if
         t_G3
-        [0]
-        (let [t_G4 (== fG2_0 1)] (if t_G4 [1] (let [t_G5 (== fG2_0 2)] (if t_G5 [2] nil)))))))
+        [[0]]
+        (let [t_G4 (== fG2_0 1)] (if t_G4 [[1]] (let [t_G5 (== fG2_0 2)] (if t_G5 [[2]] nil)))))))
      1
      (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] nil)
      (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G1 0)))))))))
@@ -12609,7 +12609,7 @@
            (and
             (lcert.extracted.runtime/djEq
              v4
-             [0 false fG2_0 [23] [40 fG2_1 lcert.extracted.runtime/NL]])
+             [0 false fG2_0 [23] [40 fG2_1 (lcert.extracted.runtime/NL)]])
             true)))
          18
          (let
@@ -13048,7 +13048,7 @@
              v16
              [1 fG2_0 fG2_1 [33 fG2_2 fG2_3] (lcert.extracted.runtime/subst1 fG2_3 fG2_5)])
             (and
-             ((rec_G0 (nth t_G1 7)) [1 fG2_0 fG2_1 fG2_2 [9 0 fG2_4 fG2_5]])
+             ((rec_G0 (nth t_G1 7)) [1 fG2_0 fG2_1 fG2_2 [9 [0] fG2_4 fG2_5]])
              (and
               ((rec_G0 (nth t_G1 8)) [0 false fG2_0 fG2_3 fG2_4])
               (and
@@ -13130,7 +13130,7 @@
            (and
             (lcert.extracted.runtime/djEq
              v16
-             [1 fG2_0 fG2_1 [34 [10 0 fG2_2 fG2_3] fG2_4 fG2_5] [10 0 fG2_2 fG2_3]])
+             [1 fG2_0 fG2_1 [34 [10 [0] fG2_2 fG2_3] fG2_4 fG2_5] [10 [0] fG2_2 fG2_3]])
             (and
              ((rec_G0 (nth t_G1 7)) [0 true fG2_0 fG2_2 [1]])
              (and
@@ -13239,7 +13239,7 @@
                    (lcert.extracted.runtime/consE
                     fG2_5
                     (lcert.extracted.runtime/consE fG2_4 fG2_0))
-                   (lcert.extracted.runtime/consU 1 (lcert.extracted.runtime/consU fG2_3 fG2_2))
+                   (lcert.extracted.runtime/consU [1] (lcert.extracted.runtime/consU fG2_3 fG2_2))
                    fG2_8
                    (lcert.extracted.runtime/lift 2 0 fG2_6)])
                  true))))))))
@@ -13414,7 +13414,7 @@
               fG2_0
               (lcert.extracted.runtime/vadd
                fG2_1
-               (lcert.extracted.runtime/vadd fG2_2 (lcert.extracted.runtime/vscale 2 fG2_3)))
+               (lcert.extracted.runtime/vadd fG2_2 (lcert.extracted.runtime/vscale [2] fG2_3)))
               [20 fG2_4 fG2_5 fG2_6 fG2_7]
               (lcert.extracted.runtime/subst1 fG2_7 fG2_4)])
             (and
@@ -13429,8 +13429,8 @@
                  [1
                   (lcert.extracted.runtime/consE fG2_4 (lcert.extracted.runtime/consE [3] fG2_0))
                   (lcert.extracted.runtime/consU
-                   1
-                   (lcert.extracted.runtime/consU 2 (lcert.extracted.runtime/vscale 2 fG2_3)))
+                   [1]
+                   (lcert.extracted.runtime/consU [2] (lcert.extracted.runtime/vscale [2] fG2_3)))
                   fG2_6
                   (lcert.extracted.runtime/stepTy fG2_4)])
                 true)))))))
@@ -13477,7 +13477,7 @@
            (and
             (lcert.extracted.runtime/djEq
              v5
-             [1 fG2_0 fG2_1 [23] [40 fG2_2 lcert.extracted.runtime/NL]])
+             [1 fG2_0 fG2_1 [23] [40 fG2_2 (lcert.extracted.runtime/NL)]])
             (and
              (== (lcert.extracted.runtime/lenU fG2_1) (lcert.extracted.runtime/lenE fG2_0))
              true))))
@@ -13598,8 +13598,8 @@
               (lcert.extracted.runtime/vadd
                fG2_1
                (lcert.extracted.runtime/vadd
-                (lcert.extracted.runtime/vscale 2 fG2_2)
-                (lcert.extracted.runtime/vscale 2 fG2_3)))
+                (lcert.extracted.runtime/vscale [2] fG2_2)
+                (lcert.extracted.runtime/vscale [2] fG2_3)))
               [27 fG2_4 fG2_5 fG2_6 fG2_7]
               (lcert.extracted.runtime/subst1 fG2_7 fG2_4)])
             (and
@@ -13610,7 +13610,7 @@
                ((rec_G0 (nth t_G1 11))
                 [1
                  (lcert.extracted.runtime/consE [4] fG2_0)
-                 (lcert.extracted.runtime/consU 2 (lcert.extracted.runtime/vscale 2 fG2_2))
+                 (lcert.extracted.runtime/consU [2] (lcert.extracted.runtime/vscale [2] fG2_2))
                  fG2_5
                  (lcert.extracted.runtime/leafTy fG2_4)])
                (and
@@ -13626,16 +13626,16 @@
                       [5]
                       (lcert.extracted.runtime/consE [4] fG2_0)))))
                   (lcert.extracted.runtime/consU
-                   1
+                   [1]
                    (lcert.extracted.runtime/consU
-                    1
+                    [1]
                     (lcert.extracted.runtime/consU
-                     2
+                     [2]
                      (lcert.extracted.runtime/consU
-                      2
+                      [2]
                       (lcert.extracted.runtime/consU
-                       2
-                       (lcert.extracted.runtime/vscale 2 fG2_3))))))
+                       [2]
+                       (lcert.extracted.runtime/vscale [2] fG2_3))))))
                   fG2_6
                   (lcert.extracted.runtime/nodeTy fG2_4)])
                 (and
@@ -13750,8 +13750,8 @@
              [1
               fG2_0
               (lcert.extracted.runtime/vadd
-               (lcert.extracted.runtime/vscale 2 fG2_1)
-               (lcert.extracted.runtime/vadd (lcert.extracted.runtime/vscale 2 fG2_2) fG2_3))
+               (lcert.extracted.runtime/vscale [2] fG2_1)
+               (lcert.extracted.runtime/vadd (lcert.extracted.runtime/vscale [2] fG2_2) fG2_3))
               [30 fG2_4 fG2_5 fG2_6 fG2_7]
               fG2_4])
             (and
@@ -13760,14 +13760,14 @@
               ((rec_G0 (nth t_G1 10))
                [1
                 fG2_0
-                (lcert.extracted.runtime/vscale 2 fG2_1)
+                (lcert.extracted.runtime/vscale [2] fG2_1)
                 fG2_5
                 (lcert.extracted.runtime/gTy fG2_4)])
               (and
                ((rec_G0 (nth t_G1 11))
                 [1
                  fG2_0
-                 (lcert.extracted.runtime/vscale 2 fG2_2)
+                 (lcert.extracted.runtime/vscale [2] fG2_2)
                  fG2_6
                  (lcert.extracted.runtime/hTy fG2_4)])
                (and ((rec_G0 (nth t_G1 12)) [1 fG2_0 fG2_3 fG2_7 [7]]) true)))))))
@@ -13850,7 +13850,7 @@
                (lcert.extracted.runtime/vadd
                 fG2_2
                 (lcert.extracted.runtime/vadd
-                 (lcert.extracted.runtime/vscale 2 fG2_3)
+                 (lcert.extracted.runtime/vscale [2] fG2_3)
                  (lcert.extracted.runtime/vadd fG2_4 fG2_5))))
               [37 fG2_6 fG2_7 fG2_8 fG2_9 fG2_10]
               [0]])
@@ -13860,7 +13860,7 @@
               ((rec_G0 (nth t_G1 13)) [1 fG2_0 fG2_2 fG2_7 [7]])
               (and
                ((rec_G0 (nth t_G1 14))
-                [1 fG2_0 (lcert.extracted.runtime/vscale 2 fG2_3) fG2_8 [5]])
+                [1 fG2_0 (lcert.extracted.runtime/vscale [2] fG2_3) fG2_8 [5]])
                (and
                 ((rec_G0 (nth t_G1 15))
                  [1 fG2_0 fG2_4 fG2_9 (lcert.extracted.runtime/chkT fG2_6 fG2_8)])
@@ -13949,13 +13949,14 @@
               fG2_0
               (lcert.extracted.runtime/vadd
                fG2_1
-               (lcert.extracted.runtime/vadd (lcert.extracted.runtime/vscale 2 fG2_2) fG2_3))
+               (lcert.extracted.runtime/vadd (lcert.extracted.runtime/vscale [2] fG2_2) fG2_3))
               [39 fG2_4 fG2_5 fG2_6 fG2_7 fG2_8]
               fG2_4])
             (and
              ((rec_G0 (nth t_G1 10)) [1 fG2_0 fG2_1 fG2_5 [7]])
              (and
-              ((rec_G0 (nth t_G1 11)) [1 fG2_0 (lcert.extracted.runtime/vscale 2 fG2_2) fG2_6 [5]])
+              ((rec_G0 (nth t_G1 11))
+               [1 fG2_0 (lcert.extracted.runtime/vscale [2] fG2_2) fG2_6 [5]])
               (and
                ((rec_G0 (nth t_G1 12)) [0 true fG2_0 fG2_4 [1]])
                (and
@@ -13980,7 +13981,7 @@
                     (lcert.extracted.runtime/consE
                      (lcert.extracted.runtime/chkT [11 0] (lcert.extracted.runtime/lift 1 0 fG2_6))
                      (lcert.extracted.runtime/consE [7] fG2_0))
-                    (lcert.extracted.runtime/consU 1 (lcert.extracted.runtime/consU 1 fG2_3))
+                    (lcert.extracted.runtime/consU [1] (lcert.extracted.runtime/consU [1] fG2_3))
                     fG2_7
                     (lcert.extracted.runtime/lift 2 0 fG2_4)])
                   (and
@@ -13991,7 +13992,7 @@
                        (lcert.extracted.runtime/notE
                         [36 [31 [11 0]] (lcert.extracted.runtime/lift 1 0 fG2_6)])]
                       (lcert.extracted.runtime/consE [7] fG2_0))
-                     (lcert.extracted.runtime/consU 1 (lcert.extracted.runtime/consU 1 fG2_3))
+                     (lcert.extracted.runtime/consU [1] (lcert.extracted.runtime/consU [1] fG2_3))
                      fG2_8
                      (lcert.extracted.runtime/lift 2 0 fG2_4)])
                    true))))))))))
@@ -17170,7 +17171,22 @@
 
 (def encSt (fn self_G0 ([v0] (let [t_G1 v0] (throw (ex-info "unsupported rec pattern" {}))))))
 
-(def encU (fn self_G0 ([v0] (let [t_G1 v0] (case t_G1 0 [0 0] 1 [0 1] 2 [0 2])))))
+(def
+ encU
+ (fn
+  self_G0
+  ([v0]
+   (let
+    [t_G1 v0]
+    (case
+     (nth t_G1 0)
+     0
+     [0 0]
+     1
+     [0 1]
+     2
+     [0 2]
+     (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G1 0)))))))))
 
 (def
  expEq
@@ -17253,11 +17269,11 @@
        7
        (let
         [fG3_0 (nth t_G2 1) fG3_1 (nth t_G2 2)]
-        [9 1 (rec_G1 (nth t_G2 1)) (rec_G1 (nth t_G2 2))])
+        [9 [1] (rec_G1 (nth t_G2 1)) (rec_G1 (nth t_G2 2))])
        8
        (let
         [fG3_0 (nth t_G2 1) fG3_1 (nth t_G2 2)]
-        [10 1 (rec_G1 (nth t_G2 1)) (rec_G1 (nth t_G2 2))])
+        [10 [1] (rec_G1 (nth t_G2 1)) (rec_G1 (nth t_G2 2))])
        (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G2 0))))))]
     (rec_G1 v0)))))
 
@@ -17270,13 +17286,44 @@
    (let
     [t_G1 v0]
     (case
-     t_G1
+     (nth t_G1 0)
      0
-     (let [t_G2 v1] (case t_G2 0 true 1 false 2 false))
+     (let
+      [t_G2 v1]
+      (case
+       (nth t_G2 0)
+       0
+       true
+       1
+       false
+       2
+       false
+       (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G2 0))))))
      1
-     (let [t_G3 v1] (case t_G3 0 false 1 true 2 false))
+     (let
+      [t_G3 v1]
+      (case
+       (nth t_G3 0)
+       0
+       false
+       1
+       true
+       2
+       false
+       (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G3 0))))))
      2
-     (let [t_G4 v1] (case t_G4 0 false 1 false 2 true)))))))
+     (let
+      [t_G4 v1]
+      (case
+       (nth t_G4 0)
+       0
+       false
+       1
+       false
+       2
+       true
+       (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G4 0))))))
+     (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G1 0)))))))))
 
 (def
  freshF
@@ -17503,7 +17550,7 @@
      (rec_G0 v0)))]
   (fn [& args] (reduce (fn [f arg] (f arg)) curried args))))
 
-(def gTy (fn self_G0 ([v0] [9 2 [4] (lcert.extracted.runtime/lift 1 0 v0)])))
+(def gTy (fn self_G0 ([v0] [9 [2] [4] (lcert.extracted.runtime/lift 1 0 v0)])))
 
 (def
  guardC
@@ -17528,15 +17575,15 @@
   self_G0
   ([v0]
    [9
-    1
+    [1]
     [6]
     [9
-     2
+     [2]
      [4]
      [9
-      1
+      [1]
       (lcert.extracted.runtime/lift 2 0 v0)
-      [9 1 (lcert.extracted.runtime/lift 3 0 v0) (lcert.extracted.runtime/lift 4 0 v0)]]]])))
+      [9 [1] (lcert.extracted.runtime/lift 3 0 v0) (lcert.extracted.runtime/lift 4 0 v0)]]]])))
 
 (def
  htDT
@@ -19742,7 +19789,7 @@
          (fn
           [v4]
           (clojure.core/cons
-           (let [t_G3 (v4 0)] (if t_G3 nil fG2_0))
+           (let [t_G3 (v4 0)] (if t_G3 [0] fG2_0))
            ((rec_G0 fG2_1) (fn [v5] (v4 (+' v5 1)))))))))]
      (rec_G0 v0)))]
   (fn [& args] (reduce (fn [f arg] (f arg)) curried args))))
@@ -19994,42 +20041,42 @@
        t_G2
        (lcert.extracted.runtime/ob
         (nth v1 0)
-        (fn [v3] (lcert.extracted.runtime/om (fn [v4] [9 0 v3 v4]) (nth v2 0))))
+        (fn [v3] (lcert.extracted.runtime/om (fn [v4] [9 [0] v3 v4]) (nth v2 0))))
        (let
         [t_G3 (== v0 25)]
         (if
          t_G3
          (lcert.extracted.runtime/ob
           (nth v1 0)
-          (fn [v3] (lcert.extracted.runtime/om (fn [v4] [9 1 v3 v4]) (nth v2 0))))
+          (fn [v3] (lcert.extracted.runtime/om (fn [v4] [9 [1] v3 v4]) (nth v2 0))))
          (let
           [t_G4 (== v0 26)]
           (if
            t_G4
            (lcert.extracted.runtime/ob
             (nth v1 0)
-            (fn [v3] (lcert.extracted.runtime/om (fn [v4] [9 2 v3 v4]) (nth v2 0))))
+            (fn [v3] (lcert.extracted.runtime/om (fn [v4] [9 [2] v3 v4]) (nth v2 0))))
            (let
             [t_G5 (== v0 27)]
             (if
              t_G5
              (lcert.extracted.runtime/ob
               (nth v1 0)
-              (fn [v3] (lcert.extracted.runtime/om (fn [v4] [10 0 v3 v4]) (nth v2 0))))
+              (fn [v3] (lcert.extracted.runtime/om (fn [v4] [10 [0] v3 v4]) (nth v2 0))))
              (let
               [t_G6 (== v0 28)]
               (if
                t_G6
                (lcert.extracted.runtime/ob
                 (nth v1 0)
-                (fn [v3] (lcert.extracted.runtime/om (fn [v4] [10 1 v3 v4]) (nth v2 0))))
+                (fn [v3] (lcert.extracted.runtime/om (fn [v4] [10 [1] v3 v4]) (nth v2 0))))
                (let
                 [t_G7 (== v0 29)]
                 (if
                  t_G7
                  (lcert.extracted.runtime/ob
                   (nth v1 0)
-                  (fn [v3] (lcert.extracted.runtime/om (fn [v4] [10 2 v3 v4]) (nth v2 0))))
+                  (fn [v3] (lcert.extracted.runtime/om (fn [v4] [10 [2] v3 v4]) (nth v2 0))))
                  (let
                   [t_G8 (== v0 14)]
                   (if
@@ -20209,7 +20256,7 @@
                                                     (fn
                                                      [v3]
                                                      (lcert.extracted.runtime/om
-                                                      (fn [v4] [32 0 v3 v4])
+                                                      (fn [v4] [32 [0] v3 v4])
                                                       (nth v2 0))))
                                                    (let
                                                     [t_G25 (== v0 49)]
@@ -20220,7 +20267,7 @@
                                                       (fn
                                                        [v3]
                                                        (lcert.extracted.runtime/om
-                                                        (fn [v4] [32 1 v3 v4])
+                                                        (fn [v4] [32 [1] v3 v4])
                                                         (nth v2 0))))
                                                      (let
                                                       [t_G26 (== v0 50)]
@@ -20231,7 +20278,7 @@
                                                         (fn
                                                          [v3]
                                                          (lcert.extracted.runtime/om
-                                                          (fn [v4] [32 2 v3 v4])
+                                                          (fn [v4] [32 [2] v3 v4])
                                                           (nth v2 0))))
                                                        (let
                                                         [t_G27 (== v0 51)]
@@ -20374,7 +20421,22 @@
   self_G0
   ([v0] (lcert.extracted.runtime/subst (fn [v1] (lcert.extracted.runtime/sNodeI v1)) v0))))
 
-(def nonzero (fn self_G0 ([v0] (let [t_G1 v0] (case t_G1 0 false 1 true 2 true)))))
+(def
+ nonzero
+ (fn
+  self_G0
+  ([v0]
+   (let
+    [t_G1 v0]
+    (case
+     (nth t_G1 0)
+     0
+     false
+     1
+     true
+     2
+     true
+     (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G1 0)))))))))
 
 (def notE (fn self_G0 ([v0] [16 v0 [15] [14]])))
 
@@ -21989,7 +22051,7 @@
    (letfn
     [(rec_G1
       [t_G2]
-      (if (zero? t_G2) nil (let [fG3_0 (dec t_G2)] (clojure.core/cons 1 (rec_G1 fG3_0)))))]
+      (if (zero? t_G2) nil (let [fG3_0 (dec t_G2)] (clojure.core/cons [1] (rec_G1 fG3_0)))))]
     (rec_G1 v0)))))
 
 (def
@@ -21997,23 +22059,91 @@
  (fn
   self_G0
   ([v0] (fn [v1] (self_G0 v0 v1)))
-  ([v0 v1] (let [t_G1 v0] (case t_G1 0 v1 1 (+' v1 1) 2 (+' v1 2))))))
+  ([v0 v1]
+   (let
+    [t_G1 v0]
+    (case
+     (nth t_G1 0)
+     0
+     v1
+     1
+     (+' v1 1)
+     2
+     (+' v1 2)
+     (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G1 0)))))))))
 
 (def
  uadd
  (fn
   self_G0
   ([v0] (fn [v1] (self_G0 v0 v1)))
-  ([v0 v1] (let [t_G1 v0] (case t_G1 0 v1 1 (let [t_G2 v1] (case t_G2 0 1 1 2 2 2)) 2 2)))))
+  ([v0 v1]
+   (let
+    [t_G1 v0]
+    (case
+     (nth t_G1 0)
+     0
+     v1
+     1
+     (let
+      [t_G2 v1]
+      (case
+       (nth t_G2 0)
+       0
+       [1]
+       1
+       [2]
+       2
+       [2]
+       (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G2 0))))))
+     2
+     [2]
+     (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G1 0)))))))))
 
-(def ucnt (fn self_G0 ([v0] (let [t_G1 v0] (case t_G1 0 0 1 1 2 1)))))
+(def
+ ucnt
+ (fn
+  self_G0
+  ([v0]
+   (let
+    [t_G1 v0]
+    (case
+     (nth t_G1 0)
+     0
+     0
+     1
+     1
+     2
+     1
+     (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G1 0)))))))))
 
 (def
  umul
  (fn
   self_G0
   ([v0] (fn [v1] (self_G0 v0 v1)))
-  ([v0 v1] (let [t_G1 v0] (case t_G1 0 nil 1 v1 2 (let [t_G2 v1] (case t_G2 0 nil 1 2 2 2)))))))
+  ([v0 v1]
+   (let
+    [t_G1 v0]
+    (case
+     (nth t_G1 0)
+     0
+     [0]
+     1
+     v1
+     2
+     (let
+      [t_G2 v1]
+      (case
+       (nth t_G2 0)
+       0
+       [0]
+       1
+       [2]
+       2
+       [2]
+       (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G2 0))))))
+     (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G1 0)))))))))
 
 (def
  up
