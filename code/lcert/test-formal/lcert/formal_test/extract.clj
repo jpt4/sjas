@@ -57,3 +57,23 @@
     (is (true? (check decoder code (encode [1]))))
     (is (false? (check decoder code (encode [2]))))
     (is (false? (check decoder [0 0] (encode [1]))))))
+
+(deftest polymorphic-option-bind-from-checked-definition
+  (let [ob (extract/compile-closure! 'ob)
+        f (fn [x] [(inc x)])]
+    (is (= [6] (ob [5] f)))
+    (is (nil? (ob nil f)))
+    (is (false? (b/rejects? []
+                 '(Eq (Option Nat)
+                   (ob Nat Nat (Option.some Nat 5)
+                     (fn [x :- Nat] (Option.some Nat (Nat.succ x))))
+                   (Option.some Nat 6)) '[(rfl)])))))
+
+(deftest polymorphic-option-map-from-checked-definition
+  (let [om (extract/compile-closure! 'om)]
+    (is (= [6] (om inc [5])))
+    (is (nil? (om inc nil)))
+    (is (false? (b/rejects? []
+                 '(Eq (Option Nat)
+                   (om Nat Nat Nat.succ (Option.some Nat 5))
+                   (Option.some Nat 6)) '[(rfl)])))))

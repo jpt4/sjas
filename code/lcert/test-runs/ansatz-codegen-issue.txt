@@ -30,3 +30,12 @@ After (require 'lcert.formal.encode) and with E = @ansatz.core/ansatz-env:
 The local bridge is formal/lcert/formal/extract.clj. The focused differential
 test is test-formal/lcert/formal_test/extract.clj. The bridge is a workaround;
 it does not establish correctness of Ansatz's unverified code generator.
+
+4. The Option.rec lowering drops a function-valued Some minor. The stored
+   value of kernel-checked ob contains:
+     (Option.rec.{1,0} α (fun _ => Option β) (Option.none β) f o)
+   Its generated form returns the Some field directly, omitting (f field).
+   Replacing minor f with (fun x => f x) is definitionally equal in Ansatz's
+   kernel and generates the application correctly. The local extractor
+   kernel-checks the eta-expanded value and its definitional equality before
+   emitting ob. This is an unsound codegen case, not merely a compile error.

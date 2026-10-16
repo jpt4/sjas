@@ -12,7 +12,9 @@
             [ansatz.codegen.storedef :as sd]
             [ansatz.kernel.env :as env]
             [ansatz.kernel.name :as n]
-            [ansatz.surface.ingest :as ingest]))
+            [ansatz.surface.ingest :as ingest]
+            [ansatz.surface.elaborate :as el]
+            [lcert.formal.base :as b]))
 
 (defonce ^:private runtime-ns (create-ns 'lcert.extracted.runtime))
 (defonce ^:private original-tagged @#'cg/tagged-inductive?)
@@ -44,6 +46,22 @@
                   (or (original-tagged E ind)
                       (tagged-with-fielded-first-constructor? E ind))))))
 
+(def ^:private ob-eta-form
+  ;; The code generator drops a function-valued Option.some minor. Making
+  ;; the minor a lambda is definitionally equal by eta and lowers correctly.
+  '(fn [α :- Type, β :- Type, o :- (Option α), f :- (=> α (Option β))]
+     (Option.rec$1$0 α (fn [_ :- (Option α)] (Option β))
+       (Option.none β) (fn [x :- α] (f x)) o)))
+
+(defn- checked-ob-eta [E ci]
+  (let [term (el/elaborate E (b/lv ob-eta-form) (.type ci))]
+    ;; Check the candidate as a definition, then check it is definitionally
+    ;; equal to the existing ob. The generated code has exactly ob's meaning.
+    (env/check-constant E (env/mk-def (n/from-string "obEta_x8") [] (.type ci) term))
+    (when-not (.isDefEq (ansatz.kernel.TypeChecker. E) (.getValue ci) term)
+      (throw (ex-info "eta expansion differs from checked ob" {})))
+    term))
+
 (defn- compile-one!
   [E name]
   (let [s (str name)
@@ -51,9 +69,12 @@
     (when-not (and ci (.isDef ci) (.getValue ci))
       (throw (ex-info "no checked definition with a value" {:name s})))
     (let [[binders _] (#'sd/strip-telescope (.type ci))
-          shape (if (empty? binders)
+          shape (cond
+                  (#{"ob" "om"} s) {:arity 2 :erased 2}
+                  (empty? binders)
                   {:arity 0 :erased 0}
-                  (#'sd/audit-binders binders))]
+                  :else (#'sd/audit-binders binders))
+          value (if (= s "ob") (checked-ob-eta E ci) (.getValue ci))]
       (when-not shape
         (throw (ex-info "unsupported runtime binder shape" {:name s})))
       ;; Ignore a previous surface or earlier extraction entry. The requested
@@ -70,12 +91,12 @@
             f))
         (let [generated
             (try
-              (let [emitted (sd/emit-direct-recursion E s (.getValue ci) shape)]
+              (let [emitted (sd/emit-direct-recursion E s value shape)]
                 (if-let [f (:fn emitted)]
                   f
                   ;; A recursor inside a lambda may leave a curried fn whose
                   ;; binders the direct-recursion emitter cannot peel.
-                  (let [raw (cg/ansatz->clj E (.getValue ci) [])]
+                  (let [raw (cg/ansatz->clj E value [])]
                     (when (or (pos? (:erased shape))
                               (re-find #"unsupported rec pattern" (pr-str raw)))
                       (throw (ex-info "unsupported generated value" {:name s})))
