@@ -351,3 +351,29 @@
         ;; Θₙ: see check_spec.clj's DTJ.tl Bool.true [] A Unit.
         type-tree (dt (typing/tf [] (:type derivation)))]
     (rt/encCert budget term type runtime-tree type-tree)))
+
+(defn accept-certificate
+  "Gate a shell certificate at the caller's exact budget, closed type and
+  parsed term. Return only the judgment decoded from the accepted F7 code.
+  This function is a shell boundary: all acceptance and judgment equality
+  decisions are made by extracted Check, concl, djEq and expEq."
+  [budget expected-type parsed-term code]
+  (when-not (and (integer? budget) (<= 0 budget))
+    (invalid :budget budget))
+  (let [expected (exp expected-type)
+        parsed (exp parsed-term)
+        accepted? (rt/Check rt/decCert code (rt/encE expected))
+        decoded (when accepted? (first (rt/decCert code)))]
+    (when-not decoded (invalid :certificate code))
+    (let [[m [term [type [runtime-tree type-tree]]]] decoded
+          root (first (rt/concl runtime-tree))]
+      (when-not (and (= m budget)
+                     (true? (rt/expEq type expected))
+                     (true? (rt/expEq term parsed))
+                     root
+                     (true? (rt/djEq root
+                                     [1 (rt/thetaD budget) (rt/thetaU budget)
+                                      term type])))
+        (invalid :checked-judgment decoded))
+      {:budget m :term term :type type :runtime-tree runtime-tree
+       :type-tree type-tree :code code})))

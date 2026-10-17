@@ -7776,3 +7776,30 @@ supplies the separate result/domain/codomain formation trees required by
 F7. Red tests rejected the rule; the extracted checker now accepts a
 closed pair elimination returning Unit and rejects Bool. Focused shell
 suite: 11 tests / 189 assertions, 0 failures and 0 errors.
+
+## 2026-10-17 — ADR-0008: strict acceptance boundary (Claude, from x8's draft)
+
+Codex ran out of credits mid-step; Claude finished and committed its
+uncommitted draft. `f7/accept-certificate` gates a certificate at the
+caller's budget, closed type and parsed term. The extracted `Check`
+accepts the code, and the judgment is then read from the decoded
+certificate: the extracted `concl` gives the runtime tree's root, and
+`djEq` compares it with `Θₙ ⊢ term : type`. `expEq` compares the decoded
+term and type with the caller's. So the typer's claims are never taken as
+authority. `concl` joins the runtime roots, and the extracted runtime is
+regenerated.
+
+Evidence:
+- the new shell test rejects a wrong type, a wrong budget, a different
+  term and a corrupted code;
+- fast suite, cold: 75 tests / 703 assertions, 0 failures, 0 errors
+  (`x8-accept-fast-20261017T061122Z.log`);
+- the `extract` formal suite on the lane's warm server, with the new root:
+  10 tests / 44 assertions, 0 failures, 0 errors, including the comparison
+  of the committed runtime with a fresh extraction
+  (`x8-accept-extract-warm-20261017T061232Z.log`).
+
+The red step was not observed: the shell test was written with the
+function, which HEAD lacks, so it cannot pass there. No kernel definition
+changed. The fresh-JVM formal run is left for the end of the step, as in
+x8's earlier entries.

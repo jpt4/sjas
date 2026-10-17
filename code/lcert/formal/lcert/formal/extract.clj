@@ -238,7 +238,7 @@
 (def runtime-roots
   "The roots of the production artifact: the canonical checker and the F7
   encoders and decoder it is used with. Their closure is the artifact."
-  '[Check decCert encCert encE])
+  '[Check decCert encCert encE concl])
 
 (defn- stable-locals
   "Rename the generator's gensym locals (self_73174, f73170_0, t_73171, …)

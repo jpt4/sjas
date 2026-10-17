@@ -266,6 +266,22 @@
                 (fn [cert expected] (rt/Check rt/decCert cert expected))
                 tree judgment)))))
 
+(deftest accepted-certificates-bind-caller-type-budget-and-term
+  (let [parsed [:zero]
+        cert (f7/certificate 0 (typing/check-top 0 parsed))
+        accept #(f7/accept-certificate %1 %2 %3 %4)]
+    (is (= {:budget 0 :term (f7/exp parsed) :type (f7/exp [:Nat])}
+           (select-keys (accept 0 [:Nat] parsed cert)
+                        [:budget :term :type])))
+    (is (thrown? clojure.lang.ExceptionInfo
+                 (accept 0 [:Bool] parsed cert)))
+    (is (thrown? clojure.lang.ExceptionInfo
+                 (accept 1 [:Nat] parsed cert)))
+    (is (thrown? clojure.lang.ExceptionInfo
+                 (accept 0 [:Nat] [:succ [:zero]] cert)))
+    (is (thrown? clojure.lang.ExceptionInfo
+                 (accept 0 [:Nat] parsed (assoc cert 1 0))))))
+
 (deftest code-and-certificate-constructors-use-f7
   (let [a [:lbl :a]
         b [:lbl :b]

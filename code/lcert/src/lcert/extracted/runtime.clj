@@ -31,6 +31,7 @@
  cntU
  codeEq
  codeOf
+ concl
  consE
  consU
  constTyped
@@ -1190,6 +1191,1108 @@
        (let [fG3_0 (nth t_G2 1) fG3_1 (nth t_G2 2)] nil)
        (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G2 0))))))]
     (rec_G1 v0)))))
+
+(def
+ concl
+ (fn
+  self_G0
+  ([v0]
+   (let
+    [t_G1 v0]
+    (case
+     (nth t_G1 0)
+     0
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)] [[0 true fG2_0 fG2_1 [1]]])
+     1
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      [[0 true fG2_0 [8 fG2_1] [1]]])
+     2
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)]
+      [[0 true fG2_0 [9 fG2_1 fG2_2 fG2_3] [1]]])
+     3
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)]
+      [[0 true fG2_0 [10 fG2_1 fG2_2 fG2_3] [1]]])
+     4
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      [[0 false fG2_0 [11 fG2_1] (lcert.extracted.runtime/lift (+' fG2_1 1) 0 fG2_2)]])
+     5
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] [[0 false fG2_0 fG2_1 fG2_2]])
+     6
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)]
+      [[0 false fG2_0 fG2_1 fG2_3]])
+     7
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)]
+      [[0 false fG2_0 [32 fG2_1 fG2_2 fG2_3] [9 fG2_1 fG2_2 fG2_4]]])
+     8
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)
+       fG2_9
+       (nth t_G1 10)]
+      [[0 false fG2_0 [33 fG2_2 fG2_3] (lcert.extracted.runtime/subst1 fG2_3 fG2_5)]])
+     9
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)
+       fG2_9
+       (nth t_G1 10)]
+      [[0 false fG2_0 [34 [10 fG2_1 fG2_2 fG2_3] fG2_4 fG2_5] [10 fG2_1 fG2_2 fG2_3]]])
+     10
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)
+       fG2_9
+       (nth t_G1 10)
+       fG2_10
+       (nth t_G1 11)
+       fG2_11
+       (nth t_G1 12)]
+      [[0 false fG2_0 [35 fG2_4 fG2_5 fG2_6] fG2_4]])
+     11
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)]
+      [[0 false fG2_0 [13 fG2_1 fG2_2] fG2_1]])
+     12
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)]
+      [[0 false fG2_0 [16 fG2_1 fG2_2 fG2_3] fG2_4]])
+     13
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)]
+      [[0 false fG2_0 [17 fG2_1 fG2_2 fG2_3 fG2_4] (lcert.extracted.runtime/subst1 fG2_2 fG2_1)]])
+     14
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      [[0 false fG2_0 [19 fG2_1] [3]]])
+     15
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)]
+      [[0 false fG2_0 [20 fG2_1 fG2_2 fG2_3 fG2_4] (lcert.extracted.runtime/subst1 fG2_4 fG2_1)]])
+     16
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)]
+      [[0 false fG2_0 [22 fG2_1 fG2_2 fG2_3] (lcert.extracted.runtime/subst1 fG2_2 fG2_1)]])
+     17
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)]
+      [[0 false fG2_0 [23] [40 fG2_1 (lcert.extracted.runtime/NL)]]])
+     18
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)]
+      [[0 false fG2_0 [24 fG2_3 fG2_4] [40 fG2_1 fG2_2]]])
+     19
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      [[0 false fG2_0 [25 fG2_1] [5]]])
+     20
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)]
+      [[0 false fG2_0 [26 fG2_1 fG2_2 fG2_3] [5]]])
+     21
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)]
+      [[0 false fG2_0 [27 fG2_1 fG2_2 fG2_3 fG2_4] (lcert.extracted.runtime/subst1 fG2_4 fG2_1)]])
+     22
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      [[0 false fG2_0 [28 fG2_1] [7]]])
+     23
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)]
+      [[0 false fG2_0 [29 fG2_1 fG2_2 fG2_3 fG2_4] [7]]])
+     24
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)]
+      [[0 false fG2_0 [30 fG2_1 fG2_2 fG2_3 fG2_4] fG2_1]])
+     25
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      [[0 false fG2_0 [31 fG2_1] [5]]])
+     26
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)]
+      [[0 false fG2_0 [36 fG2_1 fG2_2] [2]]])
+     27
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)
+       fG2_9
+       (nth t_G1 10)
+       fG2_10
+       (nth t_G1 11)]
+      [[0 false fG2_0 [37 fG2_1 fG2_2 fG2_3 fG2_4 fG2_5] [0]]])
+     28
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)]
+      [[0 false fG2_0 [38 fG2_1 fG2_3 fG2_4] fG2_1]])
+     29
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)
+       fG2_9
+       (nth t_G1 10)
+       fG2_10
+       (nth t_G1 11)]
+      [[0 false fG2_0 [39 fG2_1 fG2_2 fG2_3 fG2_4 fG2_5] fG2_1]])
+     30
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)]
+      [[1 fG2_0 fG2_1 [11 fG2_2] (lcert.extracted.runtime/lift (+' fG2_2 1) 0 fG2_3)]])
+     31
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [[1 fG2_0 fG2_1 fG2_2 fG2_3]])
+     32
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)]
+      [[1 fG2_0 fG2_1 [32 fG2_2 fG2_3 fG2_4] [9 fG2_2 fG2_3 fG2_5]]])
+     33
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)
+       fG2_9
+       (nth t_G1 10)]
+      [[1 fG2_0 fG2_1 [33 fG2_2 fG2_3] (lcert.extracted.runtime/subst1 fG2_3 fG2_5)]])
+     34
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)
+       fG2_9
+       (nth t_G1 10)
+       fG2_10
+       (nth t_G1 11)
+       fG2_11
+       (nth t_G1 12)]
+      [[1
+        fG2_0
+        (lcert.extracted.runtime/vadd fG2_1 (lcert.extracted.runtime/vscale fG2_3 fG2_2))
+        [33 fG2_4 fG2_5]
+        (lcert.extracted.runtime/subst1 fG2_5 fG2_7)]])
+     35
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)
+       fG2_9
+       (nth t_G1 10)]
+      [[1 fG2_0 fG2_1 [34 [10 [0] fG2_2 fG2_3] fG2_4 fG2_5] [10 [0] fG2_2 fG2_3]]])
+     36
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)
+       fG2_9
+       (nth t_G1 10)
+       fG2_10
+       (nth t_G1 11)
+       fG2_11
+       (nth t_G1 12)]
+      [[1
+        fG2_0
+        (lcert.extracted.runtime/vadd (lcert.extracted.runtime/vscale fG2_3 fG2_1) fG2_2)
+        [34 [10 fG2_3 fG2_4 fG2_5] fG2_6 fG2_7]
+        [10 fG2_3 fG2_4 fG2_5]]])
+     37
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)
+       fG2_9
+       (nth t_G1 10)
+       fG2_10
+       (nth t_G1 11)
+       fG2_11
+       (nth t_G1 12)
+       fG2_12
+       (nth t_G1 13)
+       fG2_13
+       (nth t_G1 14)]
+      [[1 fG2_0 (lcert.extracted.runtime/vadd fG2_1 fG2_2) [35 fG2_6 fG2_7 fG2_8] fG2_6]])
+     38
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)]
+      [[1 fG2_0 fG2_1 [13 fG2_2 fG2_3] fG2_2]])
+     39
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)]
+      [[1 fG2_0 fG2_1 fG2_2 fG2_4]])
+     40
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)
+       fG2_9
+       (nth t_G1 10)]
+      [[1 fG2_0 (lcert.extracted.runtime/vadd fG2_1 fG2_2) [16 fG2_3 fG2_4 fG2_5] fG2_6]])
+     41
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)
+       fG2_9
+       (nth t_G1 10)
+       fG2_10
+       (nth t_G1 11)]
+      [[1
+        fG2_0
+        (lcert.extracted.runtime/vadd fG2_1 fG2_2)
+        [17 fG2_3 fG2_4 fG2_5 fG2_6]
+        (lcert.extracted.runtime/subst1 fG2_4 fG2_3)]])
+     42
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [[1 fG2_0 fG2_1 [19 fG2_2] [3]]])
+     43
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)
+       fG2_9
+       (nth t_G1 10)
+       fG2_10
+       (nth t_G1 11)
+       fG2_11
+       (nth t_G1 12)]
+      [[1
+        fG2_0
+        (lcert.extracted.runtime/vadd
+         fG2_1
+         (lcert.extracted.runtime/vadd fG2_2 (lcert.extracted.runtime/vscale [2] fG2_3)))
+        [20 fG2_4 fG2_5 fG2_6 fG2_7]
+        (lcert.extracted.runtime/subst1 fG2_7 fG2_4)]])
+     44
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)]
+      [[1
+        fG2_0
+        (lcert.extracted.runtime/vadd fG2_1 fG2_2)
+        [22 fG2_3 fG2_4 fG2_5]
+        (lcert.extracted.runtime/subst1 fG2_4 fG2_3)]])
+     45
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      [[1 fG2_0 fG2_1 [23] [40 fG2_2 (lcert.extracted.runtime/NL)]]])
+     46
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)]
+      [[1 fG2_0 fG2_1 [24 fG2_4 fG2_5] [40 fG2_2 fG2_3]]])
+     47
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [[1 fG2_0 fG2_1 [25 fG2_2] [5]]])
+     48
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)
+       fG2_9
+       (nth t_G1 10)]
+      [[1
+        fG2_0
+        (lcert.extracted.runtime/vadd fG2_1 (lcert.extracted.runtime/vadd fG2_2 fG2_3))
+        [26 fG2_4 fG2_5 fG2_6]
+        [5]]])
+     49
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)
+       fG2_9
+       (nth t_G1 10)
+       fG2_10
+       (nth t_G1 11)
+       fG2_11
+       (nth t_G1 12)
+       fG2_12
+       (nth t_G1 13)
+       fG2_13
+       (nth t_G1 14)]
+      [[1
+        fG2_0
+        (lcert.extracted.runtime/vadd
+         fG2_1
+         (lcert.extracted.runtime/vadd
+          (lcert.extracted.runtime/vscale [2] fG2_2)
+          (lcert.extracted.runtime/vscale [2] fG2_3)))
+        [27 fG2_4 fG2_5 fG2_6 fG2_7]
+        (lcert.extracted.runtime/subst1 fG2_7 fG2_4)]])
+     50
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [[1 fG2_0 fG2_1 [28 fG2_2] [7]]])
+     51
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)
+       fG2_9
+       (nth t_G1 10)
+       fG2_10
+       (nth t_G1 11)
+       fG2_11
+       (nth t_G1 12)
+       fG2_12
+       (nth t_G1 13)]
+      [[1
+        fG2_0
+        (lcert.extracted.runtime/vadd
+         fG2_1
+         (lcert.extracted.runtime/vadd fG2_2 (lcert.extracted.runtime/vadd fG2_3 fG2_4)))
+        [29 fG2_5 fG2_6 fG2_7 fG2_8]
+        [7]]])
+     52
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)
+       fG2_9
+       (nth t_G1 10)
+       fG2_10
+       (nth t_G1 11)
+       fG2_11
+       (nth t_G1 12)]
+      [[1
+        fG2_0
+        (lcert.extracted.runtime/vadd
+         (lcert.extracted.runtime/vscale [2] fG2_1)
+         (lcert.extracted.runtime/vadd (lcert.extracted.runtime/vscale [2] fG2_2) fG2_3))
+        [30 fG2_4 fG2_5 fG2_6 fG2_7]
+        fG2_4]])
+     53
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [[1 fG2_0 fG2_1 [31 fG2_2] [5]]])
+     54
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)]
+      [[1 fG2_0 (lcert.extracted.runtime/vadd fG2_1 fG2_2) [36 fG2_3 fG2_4] [2]]])
+     55
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)
+       fG2_9
+       (nth t_G1 10)
+       fG2_10
+       (nth t_G1 11)
+       fG2_11
+       (nth t_G1 12)
+       fG2_12
+       (nth t_G1 13)
+       fG2_13
+       (nth t_G1 14)
+       fG2_14
+       (nth t_G1 15)
+       fG2_15
+       (nth t_G1 16)]
+      [[1
+        fG2_0
+        (lcert.extracted.runtime/vadd
+         fG2_1
+         (lcert.extracted.runtime/vadd
+          fG2_2
+          (lcert.extracted.runtime/vadd
+           (lcert.extracted.runtime/vscale [2] fG2_3)
+           (lcert.extracted.runtime/vadd fG2_4 fG2_5))))
+        [37 fG2_6 fG2_7 fG2_8 fG2_9 fG2_10]
+        [0]]])
+     56
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)]
+      [[1 fG2_0 (lcert.extracted.runtime/vadd fG2_1 fG2_2) [38 fG2_3 fG2_5 fG2_6] fG2_3]])
+     57
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)
+       fG2_7
+       (nth t_G1 8)
+       fG2_8
+       (nth t_G1 9)
+       fG2_9
+       (nth t_G1 10)
+       fG2_10
+       (nth t_G1 11)
+       fG2_11
+       (nth t_G1 12)
+       fG2_12
+       (nth t_G1 13)
+       fG2_13
+       (nth t_G1 14)
+       fG2_14
+       (nth t_G1 15)
+       fG2_15
+       (nth t_G1 16)]
+      [[1
+        fG2_0
+        (lcert.extracted.runtime/vadd
+         fG2_1
+         (lcert.extracted.runtime/vadd (lcert.extracted.runtime/vscale [2] fG2_2) fG2_3))
+        [39 fG2_4 fG2_5 fG2_6 fG2_7 fG2_8]
+        fG2_4]])
+     58
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] [[2 fG2_0 fG2_1 fG2_1]])
+     59
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)]
+      [[2 fG2_0 fG2_1 fG2_3]])
+     60
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)]
+      [[2 fG2_0 fG2_1 fG2_3]])
+     (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G1 0)))))))))
 
 (def consE (fn self_G0 ([v0] (fn [v1] (self_G0 v0 v1))) ([v0 v1] (clojure.core/cons v0 v1))))
 

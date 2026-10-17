@@ -160,10 +160,18 @@
       (load-string (str/replace text "lcert.extracted.runtime" "lcert.extracted.scratch"))
       (let [r (fn [s] @(ns-resolve 'lcert.extracted.scratch s))
             check (r 'Check) decCert (r 'decCert) encCert (r 'encCert) encE (r 'encE)
+            concl (r 'concl)
             unit (runtime-form 'Exp.tUnit)
+            root-tree (runtime-form '(DT.rConst (List.nil Exp) (List.nil U) Exp.star Exp.tUnit))
             cert (encCert 0 (runtime-form 'Exp.star) unit
-                          (runtime-form '(DT.rConst (List.nil Exp) (List.nil U) Exp.star Exp.tUnit))
+                          root-tree
                           (runtime-form '(DT.fBase (List.nil Exp) Exp.tUnit)))]
+        (is (= [[1 nil nil (runtime-form 'Exp.star) unit]] (concl root-tree)))
+        (is (false? (b/rejects? []
+                     '(Eq (Option DTJ)
+                          (concl (DT.rConst (List.nil Exp) (List.nil U) Exp.star Exp.tUnit))
+                          (Option.some DTJ (DTJ.rt (List.nil Exp) (List.nil U) Exp.star Exp.tUnit)))
+                     '[(rfl)])))
         (is (true? (check decCert cert (encE unit))))
         (is (false? (b/rejects? [] (list 'Eq 'Bool (list 'Check 'decCert f7-cert-form '(encE Exp.tUnit)) 'Bool.true) '[(rfl)])))
         (is (false? (check decCert cert (encE (runtime-form 'Exp.tBool)))))
