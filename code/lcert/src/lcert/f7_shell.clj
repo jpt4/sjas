@@ -537,6 +537,111 @@
        (dt condition-derivation) (dt motive-formation)
        (dt yes-derivation) (dt no-derivation)])
 
+    ;; --- Type-level (:has0) rules: F7's z* rules (check_dt.clj's tl-rules),
+    ;; which carry no usage vectors. A formation premise that the typer does
+    ;; not record is rebuilt with typing/tf, as for the runtime rules.
+    (and (= j :has0) (= rule :Lam) (= :lam (first term)) (= :Pi (first type)))
+    (let [[_ u A body] term]
+      [7 D (field :u u) (exp A) (exp body) (exp (nth type 3))
+       (dt (first prems)) (dt (second prems))])
+
+    (and (= j :has0) (= rule :App) (= :app (first term))
+         (= :Pi (first (:type (first prems)))))
+    (let [[hf hu] prems
+          [_ r A B] (:type hf)
+          [_ f arg] term]
+      [8 D (field :u r) (exp f) (exp arg) (exp A) (exp B) (dt hf) (dt hu)
+       (dt (typing/tf ctx A)) (dt (typing/tf (conj ctx [r A]) B))])
+
+    (and (= j :has0) (= rule :Pair) (= :pair (first term)) (= :Sigma (first type)))
+    (let [[_ r A B] type
+          [_ _ x y] term
+          [dS dx dy] prems
+          [hA hB] (:prems dS)]
+      [9 D (field :u r) (exp A) (exp B) (exp x) (exp y) (dt hA) (dt hB) (dt dx) (dt dy)])
+
+    (and (= j :has0) (= rule :Let) (= :let (first term))
+         (= :Sigma (first (:type (first prems)))))
+    (let [[dp dC db] prems
+          [_ r A B] (:type dp)
+          [_ C p body] term]
+      [10 D (field :u r) (exp A) (exp B) (exp C) (exp p) (exp body) (dt dp) (dt dC)
+       (dt (typing/tf ctx A)) (dt (typing/tf (conj ctx [r A]) B)) (dt db)])
+
+    (and (= j :has0) (= rule :Abort) (= :abort (first term)))
+    (let [[_ target source] term
+          [source-derivation target-formation] prems]
+      [11 D (exp target) (exp source) (dt source-derivation) (dt target-formation)])
+
+    (and (= j :has0) (= rule :ElimBool) (= :elimBool (first term)))
+    (let [[_ motive condition yes no] term
+          [db dP d1 d2] prems]
+      [13 D (exp motive) (exp condition) (exp yes) (exp no) (dt db) (dt dP) (dt d1) (dt d2)])
+
+    (and (= j :has0) (= rule :Succ) (= :succ (first term)))
+    [14 D (exp (second term)) (dt (first prems))]
+
+    (and (= j :has0) (= rule :RecN) (= :recN (first term)))
+    (let [[_ motive base step number] term
+          [dn dP dz ds] prems]
+      [15 D (exp motive) (exp base) (exp step) (exp number) (dt dn) (dt dP) (dt dz) (dt ds)])
+
+    (and (= j :has0) (= rule :CaseLbl) (= :caseLbl (first term)))
+    (let [[_ motive label branches] term
+          [dx dP & branch-derivations] prems
+          ;; The branch vector as zBcons over zBnil, as for rCaseL.
+          [_ branch-tree]
+          (reduce (fn [[tail-exp tail-tree] [k branch branch-derivation]]
+                    [[24 (exp branch) tail-exp]
+                     [18 D (exp motive) k (exp branch) tail-exp (dt branch-derivation) tail-tree]])
+                  [[23] [17 D (exp motive)]]
+                  (reverse (map vector (range) branches branch-derivations)))]
+      [16 D (exp motive) (exp label) (field :bs branches) (dt dx) (dt dP) branch-tree])
+
+    (and (= j :has0) (= rule :SNode) (= :snode (first term)))
+    (let [[_ label left right] term
+          [dl da db] prems]
+      [20 D (exp label) (exp left) (exp right) (dt dl) (dt da) (dt db)])
+
+    (and (= j :has0) (= rule :RecSyn) (= :recSyn (first term)))
+    (let [[_ motive leaf-method node-method code] term
+          [dc dP dl dn] prems]
+      [21 D (exp motive) (exp leaf-method) (exp node-method) (exp code)
+       (dt dc) (dt dP) (dt dl) (dt dn)])
+
+    (and (= j :has0) (= rule :Leaf) (= :leaf (first term)))
+    [22 D (exp (second term)) (dt (first prems))]
+
+    (and (= j :has0) (= rule :Node) (= :node (first term)))
+    (let [[_ token label left right] term
+          [dd dl da db] prems]
+      [23 D (exp token) (exp label) (exp left) (exp right) (dt dd) (dt dl) (dt da) (dt db)])
+
+    (and (= j :has0) (= rule :ItR) (= :itR (first term)))
+    (let [[_ target leaf-method node-method tree] term
+          [dX dl dn dr] prems]
+      [24 D (exp target) (exp leaf-method) (exp node-method) (exp tree)
+       (dt dX) (dt dl) (dt dn) (dt dr)])
+
+    (and (= j :has0) (= rule :H1) (= :h1 (first term)))
+    (let [[_ r s code positive negative] term
+          [dr ds dc de1 de2] prems]
+      [27 D (exp r) (exp s) (exp code) (exp positive) (exp negative)
+       (dt dr) (dt ds) (dt dc) (dt de1) (dt de2)])
+
+    (and (= j :has0) (= rule :Reflect) (= :reflect (first term)))
+    (let [[_ target certificate evidence] term
+          [dr de] prems
+          encoded-target (first (rt/baseCode (exp target)))]
+      (when-not encoded-target (invalid :derivation derivation))
+      [28 D (exp target) encoded-target (exp certificate) (exp evidence) (dt dr) (dt de)])
+
+    (and (= j :has0) (= rule :Inspect) (= :inspect (first term)))
+    (let [[_ target certificate code success failure] term
+          [dr dc dX d1 d2] prems]
+      [29 D (exp target) (exp certificate) (exp code) (exp success) (exp failure)
+       (dt dr) (dt dc) (dt dX) (dt d1) (dt d2)])
+
     ;; A term retyped along a conversion chain: zConv at type level, rConv
     ;; at runtime. The premises are the term's derivation at its own type
     ;; and the target type's formation (typing/conv).
@@ -550,6 +655,27 @@
 
     :else (invalid :derivation derivation))))
 
+(defn on-large-stack
+  "Call f on a thread with a 1 GB stack and return its value, rethrowing
+  its exception. Extracted recursions (decoding, cnodes, dtCheck) are as
+  deep as a certificate's Code tree, which is deeper than the default
+  stack for the tutorial's bounded consistency statement. The stack is
+  reserved address space; only the pages used are committed."
+  [f]
+  (let [result (promise)
+        thread (Thread. nil
+                        (fn [] (deliver result (try {:value (f)} (catch Throwable e {:error e}))))
+                        "f7-large-stack" (* 1024 1024 1024))]
+    (.start thread)
+    (.join thread)
+    (let [{:keys [value error]} @result]
+      (if error (throw error) value))))
+
+(defn check
+  "Extracted Check of an F7 certificate code at the F7 type `type`."
+  [code type]
+  (on-large-stack #(true? (rt/Check rt/decCert code (rt/encE type)))))
+
 (defn certificate
   "Encode a supported Θₙ derivation in canonical F7. The production runner
   must check the result at the caller's type and budget before executing."
@@ -559,13 +685,15 @@
                  (= (:ctx derivation)
                     (vec (repeat budget [1 [:Dia]]))))
     (invalid :derivation derivation))
-  (let [term (exp (:term derivation))
-        type (exp (:type derivation))
-        runtime-tree (dt derivation)
-        ;; Check's formation premise is closed even when the runtime root is
-        ;; Θₙ: see check_spec.clj's DTJ.tl Bool.true [] A Unit.
-        type-tree (dt (typing/tf [] (:type derivation)))]
-    (rt/encCert budget term type runtime-tree type-tree)))
+  (on-large-stack
+    (fn []
+      (let [term (exp (:term derivation))
+            type (exp (:type derivation))
+            runtime-tree (dt derivation)
+            ;; Check's formation premise is closed even when the runtime root is
+            ;; Θₙ: see check_spec.clj's DTJ.tl Bool.true [] A Unit.
+            type-tree (dt (typing/tf [] (:type derivation)))]
+        (rt/encCert budget term type runtime-tree type-tree)))))
 
 (defn accept-certificate
   "Gate a shell certificate at the caller's exact budget, closed type and
@@ -577,11 +705,11 @@
     (invalid :budget budget))
   (let [expected (exp expected-type)
         parsed (exp parsed-term)
-        accepted? (rt/Check rt/decCert code (rt/encE expected))
-        decoded (when accepted? (first (rt/decCert code)))]
+        accepted? (check code expected)
+        decoded (when accepted? (first (on-large-stack #(rt/decCert code))))]
     (when-not decoded (invalid :certificate code))
     (let [[m [term [type [runtime-tree type-tree]]]] decoded
-          root (first (rt/concl runtime-tree))]
+          root (first (on-large-stack #(rt/concl runtime-tree)))]
       (when-not (and (= m budget)
                      (true? (rt/expEq type expected))
                      (true? (rt/expEq term parsed))

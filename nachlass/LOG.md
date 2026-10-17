@@ -7909,3 +7909,38 @@ suite stays green on the lane's warm server (11 tests / 53 assertions,
 `x8-cache-extract-20261017T065849Z.log`). The shell test that checks the
 statement now takes 23 s for all 24 shell tests
 (`x8-zrules-green2-20261017T070034Z.log`, next entry).
+
+## 2026-10-17 — ADR-0008: type-level rules, and Check on a large stack (Claude)
+
+**Correction.** The entry "Conv derivations become F7 conversion chains"
+called Conv the last rule the bridge did not translate. It was the last
+rule *name*. Most rules occur at type level (`:has0`) as well, and only
+six of those were translated. A probe found this: of seven example
+programs, extracted `Check` accepted six, and `(bounded-con 0)` failed at a
+type-level application.
+
+**Rules.** The bridge now translates the type-level rules to F7's z*
+rules: zLam, zApp, zPair, zLet, zAbort, zElimB, zSucc, zRecN, zCaseL with
+zBcons/zBnil, zSnode, zRecS, zLeaf, zNode, zItR, zH1, zRefl and zInsp.
+Where F7 needs a formation premise the typer does not record (zApp's
+domain and codomain, zLet's A and B), the bridge rebuilds it with
+`typing/tf`, as the runtime rules do.
+
+**Stack.** Extracted recursions are as deep as a certificate's Code tree.
+The bounded consistency statement overflowed the default stack. So
+`f7/on-large-stack` runs certificate building, `Check` (`f7/check`),
+decoding and `concl` on a thread with a 1 GB stack, which is reserved
+address space rather than committed memory.
+
+**Evidence.** Red: both new cases threw "invalid F7 derivation"
+(`x8-zrules-red-20261017T064206Z.log`). Green: shell suite, 24 tests /
+249 assertions, 0 failures, 0 errors, in 23 s
+(`x8-zrules-green2-20261017T070034Z.log`). It covers a type-level β-redex
+inside T, reached by a two-step chain, and the bounded consistency
+statement at budget 0. Fast suite, cold: 78 tests / 723 assertions, 0
+failures, 0 errors, in 27 s (`x8-zrules-fast-20261017T070103Z.log`).
+
+**Untested.** Most new z* rules (zPair, zLet, zH1, zRefl, zInsp, …) are
+reached by no test program yet. Extracted `Check` decides each tree, so a
+wrong translation is rejected, never accepted. A test program per rule is
+still to come.

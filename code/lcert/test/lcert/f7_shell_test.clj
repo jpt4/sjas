@@ -1,6 +1,8 @@
 (ns lcert.f7-shell-test
   "The untrusted parser bridge must preserve the term checked by F7."
   (:require [clojure.test :refer [deftest is testing]]
+            [lcert.core :as lc]
+            [lcert.examples :as ex]
             [lcert.extracted.runtime :as rt]
             [lcert.f7-shell :as f7]
             [lcert.syntax :as syntax]
@@ -394,3 +396,16 @@
           cert (f7/certificate 0 derivation)]
       (is (= 3 (count (:chain conv))))
       (is (true? (rt/Check rt/decCert cert (rt/encE (f7/exp (:type derivation)))))))))
+
+(deftest type-level-derivations-become-f7-trees
+  ;; Type-level (:has0) derivations translate to F7's z* rules. Both
+  ;; programs below were rejected by the bridge before: a type-level
+  ;; application inside a type, and the tutorial's bounded consistency
+  ;; statement at budget 0.
+  (let [accepted? (fn [n derivation]
+                    (f7/check (f7/certificate n derivation) (f7/exp (:type derivation))))]
+    (testing "a type-level β-redex inside T, reached by a two-step chain"
+      (let [program [:app [:lam 1 [:T [:app [:lam 0 [:Bool] [:var 0]] [:tt]]] [:var 0]] [:star]]]
+        (is (accepted? 0 (typing/check-top 0 program)))))
+    (testing "the bounded consistency statement at budget 0"
+      (is (accepted? 0 (lc/check-program 0 (ex/bounded-con 0)))))))
