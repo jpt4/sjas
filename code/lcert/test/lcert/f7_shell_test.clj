@@ -335,3 +335,62 @@
     (is (= 37 (first (f7/dt d))))
     (is (true? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Unit])))))
     (is (false? (rt/Check rt/decCert cert (rt/encE (f7/exp [:Bool])))))))
+
+(deftest conversion-derivations-become-f7-chains
+  ;; The typer retypes ★ : 1 at T(tt) by a Conv node whose chain is
+  ;; [1, T(tt)]: one backward tTT step. F7 records the chain as cvRefl then
+  ;; cvBwd, with a skeleton tree for each type and the step's path and head
+  ;; record; extracted Check decides the result.
+  (let [program [:app [:lam 1 [:T [:tt]] [:var 0]] [:star]]
+        derivation (typing/check-top 0 program)
+        conv (first (filter #(= :Conv (:rule %)) (tree-seq map? :prems derivation)))
+        cert (f7/certificate 0 derivation)]
+    (is (= [[:Unit] [:T [:tt]]] (:chain conv)))
+    (is (= 39 (first (f7/dt conv))) "a runtime Conv is F7's rConv")
+    (is (true? (rt/Check rt/decCert cert (rt/encE (f7/exp (:type derivation))))))
+    ;; The application's type is the codomain, T(tt).
+    (is (= {:budget 0 :term (f7/exp program) :type (f7/exp [:T [:tt]])}
+           (select-keys (f7/accept-certificate 0 [:T [:tt]] program cert) [:budget :term :type]))))
+  (testing "skeleton trees follow F7's skeleton rules"
+    ;; Π(x : Bool). T(x) is well formed at skeletons; its tree is wPi over
+    ;; wBool and wT, whose premise types the variable at Sk.bool.
+    (is (= [9 [1] [2] [8 [11 0]] [2] [8 [11 0] [11 0 [1]]]]
+           (f7/skeleton-type nil (f7/exp [:Pi 1 [:Bool] [:T [:var 0]]]))))
+    (is (thrown? clojure.lang.ExceptionInfo
+                 (f7/skeleton-type nil (f7/exp [:T [:zero]])))))
+  (testing "a step is found at its redex's path, in either direction"
+    (let [chkf (fn [_ _] false)
+          a (f7/exp [:Pi 1 [:Bool] [:T [:tt]]])
+          b (f7/exp [:Pi 1 [:Bool] [:Unit]])]
+      (is (= [0 (list 1) [16] a b] (f7/find-step chkf a b)))
+      (is (nil? (f7/find-step chkf b a)))))
+  (testing "a tampered chain is rejected by extracted Check"
+    (let [derivation (typing/check-top 0 [:app [:lam 1 [:T [:tt]] [:var 0]] [:star]])
+          tamper (fn tamper [d]
+                   (if (= :Conv (:rule d))
+                     (assoc d :chain [[:Unit] [:T [:ff]]])
+                     (update d :prems #(mapv tamper %))))]
+      (is (thrown? clojure.lang.ExceptionInfo
+                   (f7/certificate 0 (tamper derivation)))))))
+
+(deftest conversion-steps-across-head-rules
+  ;; find-step identifies the redex and its head rule (check_hd.clj's
+  ;; hd-rules tags) inside T(·); extracted stepDTCheck accepts each record.
+  (let [chkf (fn [_ _] false)
+        step (fn [a b] (f7/find-step chkf (f7/exp a) (f7/exp b)))
+        head-tag (fn [a b] (first (nth (step a b) 2)))]
+    (is (= 0 (head-tag [:T [:app [:lam 1 [:Bool] [:var 0]] [:tt]]] [:T [:tt]])) "beta")
+    (is (= 2 (head-tag [:T [:if [:tt] [:ff] [:tt]]] [:T [:ff]])) "iteT")
+    (is (= 3 (head-tag [:T [:if [:ff] [:ff] [:tt]]] [:T [:tt]])) "iteF")
+    (is (= 16 (head-tag [:T [:tt]] [:Unit])) "tTT")
+    (is (= 17 (head-tag [:T [:ff]] [:Empty])) "tTF")
+    (is (= (list 0) (second (step [:T [:if [:tt] [:ff] [:tt]]] [:T [:ff]]))) "the redex is T's child 0")
+    ;; Not one step: two contractions apart.
+    (is (nil? (step [:T [:if [:tt] [:tt] [:ff]]] [:Unit]))))
+  (testing "a two-step chain: T(if tt then tt else ff) ≡ T(tt) ≡ 1"
+    (let [program [:app [:lam 1 [:T [:if [:tt] [:tt] [:ff]]] [:var 0]] [:star]]
+          derivation (typing/check-top 0 program)
+          conv (first (filter #(= :Conv (:rule %)) (tree-seq map? :prems derivation)))
+          cert (f7/certificate 0 derivation)]
+      (is (= 3 (count (:chain conv))))
+      (is (true? (rt/Check rt/decCert cert (rt/encE (f7/exp (:type derivation)))))))))

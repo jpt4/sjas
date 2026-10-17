@@ -72,6 +72,210 @@
   (when (seq ctx)
     (apply list (map (comp #(field :u %) first) (rseq (vec ctx))))))
 
+;; --- Conversion chains --------------------------------------------------
+;;
+;; F7 records a conversion A ≡ B as a chain (check_dt.clj's cv rules): cvRefl
+;; at A, then one cvFwd or cvBwd node per step. Each node carries the
+;; skeleton tree of the type it reaches and a StepDT: the step's path, its
+;; head-rule record (HdDT) and both whole types. Everything here is
+;; untrusted search; extracted Check decides the resulting tree.
+
+(def ^:private kinds-by-tag
+  ;; Field kinds by Exp tag, from `constructors`, plus the branch-list
+  ;; constructors bnil (23) and bcons (24), which `field :bs` builds.
+  (into {23 [] 24 [:e :e]} (map (fn [[_ [i kinds]]] [i kinds]) constructors)))
+
+(defn- children
+  "The Exp children of e in conv.clj's `child` order: its Exp fields (and a
+  caseLbl branch list), skipping usage, index and label fields."
+  [e]
+  (vec (keep-indexed (fn [i kind] (when (#{:e :bs} kind) (nth e (inc i))))
+                     (kinds-by-tag (first e)))))
+
+(defn- subterms
+  "Every [path subterm] of e, preorder; a path lists child indices."
+  [e]
+  (cons [() e]
+        (mapcat (fn [i c] (map (fn [[p s]] [(cons i p) s]) (subterms c)))
+                (range) (children e))))
+
+;; Skeletons (skel.clj's Sk): unit bool nat lbl syn dia cert, arr, prod.
+(def ^:private sk-unit [0])
+(def ^:private sk-bool [1])
+(def ^:private sk-nat [2])
+(def ^:private sk-lbl [3])
+(def ^:private sk-syn [4])
+(def ^:private sk-dia [5])
+(def ^:private sk-cert [6])
+(defn- sk-arr [s t] [7 s t])
+(defn- sk-prod [s t] [8 s t])
+(defn- sk2 [s t G] (cons s (cons t G)))
+
+(declare skeleton-term skeleton-at)
+
+(defn skeleton-type
+  "The SkDT tree of `SkJ true G A unit`: A is skeleton-well-formed in the
+  skeleton context G (innermost first). The SkDT tag is A's Exp tag, and G
+  is not stored (check_skj.clj)."
+  [G A]
+  (let [[tag & xs] A]
+    (cond
+      (<= 0 tag 7) [tag]
+      (= tag 8) (let [[b] xs] [8 b (skeleton-at G b sk-bool)])
+      (#{9 10} tag) (let [[r A1 B] xs]
+                      [tag r A1 B (skeleton-type G A1)
+                       (skeleton-type (cons (rt/skel A1) G) B)])
+      :else (invalid :skeleton-type A))))
+
+(defn- skeleton-at
+  "The SkDT tree of `SkJ false G t s`. A branch list's skeleton is not
+  inferable from bnil, so it is taken from s."
+  [G t s]
+  (let [[tag & xs] t]
+    (cond
+      (and (= tag 23) (= 7 (first s)) (= sk-lbl (second s))) [23 (nth s 2)]
+      (and (= tag 24) (= 7 (first s)) (= sk-lbl (second s)))
+      (let [[h tl] xs, s1 (nth s 2)]
+        [24 h tl s1 (skeleton-at G h s1) (skeleton-at G tl s)])
+      :else (let [[tree s2] (skeleton-term G t)]
+              (when-not (= s s2) (invalid :skeleton {:term t :expected s :found s2}))
+              tree))))
+
+(defn- skeleton-term
+  "[tree s]: the SkDT tree of `SkJ false G t s` and t's skeleton s, by
+  check_skj.clj's term rules (syntax-directed)."
+  [G t]
+  (let [[tag & xs] t
+        at (fn [G' x s] (skeleton-at G' x s))
+        ty (fn [G' A] (skeleton-type G' A))]
+    (case (int tag)
+      11 (let [[i] xs, s (first (rt/nthS G i))]
+           (when-not s (invalid :skeleton-var t))
+           [[11 i s] s])
+      12 [[12] sk-unit]
+      13 (let [[A u] xs] [[13 A u (ty G A) (at G u sk-unit)] (rt/skel A)])
+      14 [[14] sk-bool]
+      15 [[15] sk-bool]
+      16 (let [[b u e] xs, [tu s] (skeleton-term G u)]
+           [[16 b u e s (at G b sk-bool) tu (at G e s)] s])
+      17 (let [[P b u e] xs, sP (rt/skel P)]
+           [[17 P b u e (ty (cons sk-bool G) P) (at G b sk-bool) (at G u sP) (at G e sP)] sP])
+      18 [[18] sk-nat]
+      19 (let [[n] xs] [[19 n (at G n sk-nat)] sk-nat])
+      20 (let [[P z st n] xs, sP (rt/skel P)]
+           [[20 P z st n (ty (cons sk-nat G) P) (at G z sP) (at (sk2 sP sk-nat G) st sP) (at G n sk-nat)] sP])
+      21 [[21 (first xs)] sk-lbl]
+      22 (let [[P x bs] xs, sP (rt/skel P)]
+           [[22 P x bs (ty (cons sk-lbl G) P) (at G x sk-lbl) (at G bs (sk-arr sk-lbl sP))] sP])
+      24 (let [[h tl] xs, [th s] (skeleton-term G h), s* (sk-arr sk-lbl s)]
+           [[24 h tl s th (at G tl s*)] s*])
+      25 (let [[x] xs] [[25 x (at G x sk-lbl)] sk-syn])
+      26 (let [[x c1 c2] xs] [[26 x c1 c2 (at G x sk-lbl) (at G c1 sk-syn) (at G c2 sk-syn)] sk-syn])
+      27 (let [[P tl tn c] xs, sP (rt/skel P)]
+           [[27 P tl tn c (ty (cons sk-syn G) P) (at (cons sk-lbl G) tl sP)
+             (at (sk2 sP sP (sk2 sk-syn sk-syn (cons sk-lbl G))) tn sP) (at G c sk-syn)] sP])
+      28 (let [[x] xs] [[28 x (at G x sk-lbl)] sk-cert])
+      29 (let [[d x r1 r2] xs]
+           [[29 d x r1 r2 (at G d sk-dia) (at G x sk-lbl) (at G r1 sk-cert) (at G r2 sk-cert)] sk-cert])
+      30 (let [[X g h r] xs, sX (rt/skel X)]
+           [[30 X g h r (ty G X) (at G g (sk-arr sk-lbl sX))
+             (at G h (sk-arr sk-dia (sk-arr sk-lbl (sk-arr sX (sk-arr sX sX))))) (at G r sk-cert)] sX])
+      31 (let [[r] xs] [[31 r (at G r sk-cert)] sk-syn])
+      32 (let [[r A u] xs, sA (rt/skel A), [tu s] (skeleton-term (cons sA G) u)]
+           [[32 r A u s (ty G A) tu] (sk-arr sA s)])
+      33 (let [[f u] xs, [tf sf] (skeleton-term G f)]
+           (when-not (= 7 (first sf)) (invalid :skeleton-app t))
+           (let [[_ s s2] sf] [[33 f u s s2 tf (at G u s)] s2]))
+      34 (let [[S x y] xs]
+           (when-not (= 10 (first S)) (invalid :skeleton-pair t))
+           (let [[_ r A B] S, sA (rt/skel A), sB (rt/skel B)]
+             [[34 r A B x y (ty G S) (at G x sA) (at G y sB)] (sk-prod sA sB)]))
+      35 (let [[Cm p u] xs, [tp sp] (skeleton-term G p)]
+           (when-not (= 8 (first sp)) (invalid :skeleton-let t))
+           (let [[_ s1 s2] sp, sC (rt/skel Cm)]
+             [[35 Cm p u s1 s2 (ty G Cm) tp (at (sk2 s2 s1 G) u sC)] sC]))
+      36 (let [[c d] xs] [[36 c d (at G c sk-syn) (at G d sk-syn)] sk-bool])
+      37 (let [[r s c e1 e2] xs]
+           [[37 r s c e1 e2 (at G r sk-cert) (at G s sk-cert) (at G c sk-syn) (at G e1 sk-unit) (at G e2 sk-unit)] sk-unit])
+      38 (let [[D r e] xs] [[38 D r e (ty G D) (at G r sk-cert) (at G e sk-unit)] (rt/skel D)])
+      39 (let [[X r c t1 t2] xs, sX (rt/skel X), G2 (sk2 sk-unit sk-cert G)]
+           [[39 X r c t1 t2 (ty G X) (at G r sk-cert) (at G c sk-syn) (at G2 t1 sX) (at G2 t2 sX)] sX])
+      (invalid :skeleton-term t))))
+
+(defn- nth-branch [bs l]
+  (cond (not= 24 (first bs)) nil
+        (zero? l) (nth bs 1)
+        :else (recur (nth bs 2) (dec l))))
+
+(defn- head-record
+  "The HdDT record (check_hd.clj's hd-rules, side conditions dropped) of
+  the redex r, chosen by r's shape; nil if r is not a redex. The record is
+  only a candidate: stepDTCheck verifies it."
+  [r]
+  (let [[tag & xs] r, arg (fn [i] (nth r i)), sub-tag (fn [x] (first x))]
+    (case (int tag)
+      33 (let [[f u] xs] (when (= 32 (sub-tag f)) (let [[_ ru A t] f] [0 ru A t u])))
+      35 (let [[Cm p t] xs] (when (= 34 (sub-tag p)) (let [[_ S x y] p] [1 Cm S x y t])))
+      16 (let [[b t e] xs] (case (int (sub-tag b)) 14 [2 t e] 15 [3 t e] nil))
+      17 (let [[P b t e] xs] (case (int (sub-tag b)) 14 [4 P t e] 15 [5 P t e] nil))
+      20 (let [[P z s n] xs] (case (int (sub-tag n)) 18 [6 P z s] 19 [7 P z s (second n)] nil))
+      22 (let [[P a bs] xs]
+           (when (= 21 (sub-tag a))
+             (when-let [b (nth-branch bs (second a))] [8 P (second a) bs b])))
+      27 (let [[P tl tn c] xs]
+           (case (int (sub-tag c))
+             25 [9 P tl tn (second c)]
+             26 (let [[_ x c1 c2] c] [10 P tl tn x c1 c2])
+             nil))
+      30 (let [[X g h c] xs]
+           (case (int (sub-tag c))
+             28 [11 X g h (second c)]
+             29 (let [[_ d x r1 r2] c] [12 X g h d x r1 r2])
+             nil))
+      31 (let [[c] xs]
+           (case (int (sub-tag c))
+             28 [13 (second c)]
+             29 (let [[_ d x r1 r2] c] [14 d x r1 r2])
+             nil))
+      36 (let [[c d] xs, cc (first (rt/codeOf c)), dc (first (rt/codeOf d))]
+           (when (and cc dc) [15 c d cc dc]))
+      8 (case (int (sub-tag (arg 1))) 14 [16] 15 [17] nil)
+      nil)))
+
+(defn find-step
+  "A StepDT for one step from a to b that extracted stepDTCheck accepts at
+  the checker chkf, or nil. Each subterm of a with a head record is tried,
+  outermost first."
+  [chkf a b]
+  (let [chkf* (fn ([c] (fn [d] (chkf c d))) ([c d] (chkf c d)))]
+    (some (fn [[p r]]
+            (when-let [head (head-record r)]
+              (let [step [0 (apply list p) head a b]]
+                (when (true? (rt/stepDTCheck chkf* step)) step))))
+          (subterms a))))
+
+(defn- full-check
+  ;; δ-steps in a chain are contracted by the whole checker. Check consults
+  ;; a node-bounded restriction of it (restrC); where the two differ, the
+  ;; chain is wrong and Check rejects the certificate.
+  [c d] (rt/Check rt/decCert c d))
+
+(defn- conversion
+  "The F7 cv tree for a chain of parsed types [A … B] in the skeleton
+  context G: cvRefl at A, then cvFwd (a step to the next type) or cvBwd (a
+  step from it) per link."
+  [G chain]
+  (let [[A & more] (map exp chain)]
+    (first
+      (reduce (fn [[acc B] C]
+                (if-let [step (find-step full-check B C)]
+                  [[59 G A B C acc step (skeleton-type G C)] C]
+                  (if-let [step (find-step full-check C B)]
+                    [[60 G A B C acc step (skeleton-type G C)] C]
+                    (invalid :conversion-step {:from B :to C}))))
+              [[58 G A (skeleton-type G A)] A]
+              more))))
+
 (defn dt
   "Translate supported shell derivations to F7 DT data.
   Other rules are rejected until their premise and side-condition data have
@@ -332,6 +536,17 @@
        (exp motive) (exp condition) (exp yes) (exp no)
        (dt condition-derivation) (dt motive-formation)
        (dt yes-derivation) (dt no-derivation)])
+
+    ;; A term retyped along a conversion chain: zConv at type level, rConv
+    ;; at runtime. The premises are the term's derivation at its own type
+    ;; and the target type's formation (typing/conv).
+    (and (#{:has :has0} j) (= rule :Conv))
+    (let [[typed formation] prems
+          A (exp (:type typed))
+          cv (conversion (rt/skels D) (:chain derivation))]
+      (if (= j :has)
+        [39 D us (exp term) A (exp type) (dt typed) (dt formation) cv]
+        [6 D (exp term) A (exp type) (dt typed) (dt formation) cv]))
 
     :else (invalid :derivation derivation))))
 

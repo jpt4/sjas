@@ -7858,3 +7858,38 @@ Evidence:
   the shell test (next entry);
 - fast suite, cold: 76 tests / 712 assertions, 0 failures, 0 errors, in
   26.6 s against 45 s before (`x8-conv-fast-20261017T063808Z.log`).
+
+## 2026-10-17 — ADR-0008: Conv derivations become F7 conversion chains (Claude)
+
+The shell bridge now translates the typer's Conv node, the last rule it
+did not translate, to F7: `rConv` at runtime and `zConv` at type level.
+The typer's chain `[A … B]` becomes `cvRefl` at A, then one `cvFwd` or
+`cvBwd` per link. Each link carries:
+- the skeleton tree of the type it reaches (`skeleton-type`), built by the
+  40 rules of check_skj.clj, syntax-directed;
+- a StepDT (`find-step`): it tries each subterm with a head record
+  (`head-record`, check_hd.clj's 18 rules) and keeps the first that the
+  extracted `stepDTCheck` accepts.
+
+All of this is untrusted search; extracted `Check` decides the
+certificate. δ-steps are contracted with the whole checker, while `Check`
+consults a node-bounded restriction; where the two differ, `Check`
+rejects.
+
+Evidence:
+- red: the shell test did not compile without the new functions
+  (`x8-conv-red-20261017T062622Z.log`);
+- green: 23 tests / 247 assertions in `lcert.f7-shell-test`
+  (`x8-conv-heads-20261017T063906Z.log`). They cover:
+  - a one-step and a two-step chain, each accepted by extracted `Check`;
+  - `accept-certificate` at the codomain type;
+  - a tampered chain, rejected;
+  - a skeleton tree checked exactly, and an ill-typed one rejected;
+  - five head rules located by `find-step`, a step in the wrong direction,
+    and a pair two steps apart.
+
+  The head-rule cases were added after the code and passed at once; each
+  pairs an expected tag with a rejection (nil for the wrong direction and
+  for two steps apart).
+- fast suite, cold, with the code: 76 tests / 712 assertions
+  (`x8-conv-fast-20261017T063808Z.log`).
