@@ -166,6 +166,16 @@ decoded once. A guard in the standalone-runtime test requires it.
 `cnodes` is also cached across calls (`cache-across-calls`): `restrC`
 compares the whole certificate's node count at every δ-step.
 
+**Rule coverage, 2026-10-17.** `every-f7-rule-is-reached-and-decided-by-extracted-check`
+(`test/lcert/f7_shell_test.clj`) certifies one closed program per F7
+rule. Type-level rules are reached through an erased argument. Extracted
+`Check` must accept each certificate at its type and reject it at another
+type. Together the programs reach all 61 rules of `check_dt.clj`'s
+`dt-rules`. The test records every node `dt` builds, and the conversion
+and label-branch chains built beside it. Two mutations confirm the test
+can fail: swapping zH1's two proof premises in the bridge, and removing
+the zRefl program from the corpus.
+
 **Success.** Every production acceptance and execution decision comes from extracted, kernel-checked definitions (or the documented kernel-reduction fallback); the strict runner checks caller type and `Θₙ`, executes the decoded term, and gates erasure; all existing examples and tests pass; all translated differential cases agree; each published F7 count has a kernel check; paper/formal differences are resolved or explicitly amended; and the measured hand-written trusted core reaches zero.
 
 **Failure.** Any path executes an unchecked or different term, takes the typer's type or budget as authority, erases unchecked code, retains the old encoding for new measurements, states unproved counts, silently diverges from R4, or leaves a hand-written acceptance/evaluation decision in production. An extraction blocker must be recorded with a minimal reproducer and either a kernel-reduction fallback or an explicit unresolved failure; passing differential tests alone does not prove code generation correct.

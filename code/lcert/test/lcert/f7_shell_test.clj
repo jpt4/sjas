@@ -409,3 +409,151 @@
         (is (accepted? 0 (typing/check-top 0 program)))))
     (testing "the bounded consistency statement at budget 0"
       (is (accepted? 0 (lc/check-program 0 (ex/bounded-con 0)))))))
+
+;; --- Rule coverage -------------------------------------------------------
+;;
+;; One closed program per F7 derivation rule, each certified by the bridge
+;; and decided by extracted Check through the full certificate path. The
+;; coverage test below asserts that, together, they reach every one of
+;; F7's 61 rules (check_dt.clj's dt-rules), so a rule the bridge emits but
+;; no program reaches cannot hide behind the other tests.
+
+(def ^:private f7-rule-names
+  "F7's derivation rules in tag order, as declared in check_dt.clj (tl-rules,
+  then rt-rules, then cv-rules). Written out here, independently of the
+  bridge, so a renumbering on either side fails the coverage test."
+  [:fBase :fT :fPi :fSig :zVar :zConst :zConv :zLam :zApp :zPair :zLet
+   :zAbort :zIte :zElimB :zSucc :zRecN :zCaseL :zBnil :zBcons :zSleaf
+   :zSnode :zRecS :zLeaf :zNode :zItR :zPrn :zChk :zH1 :zRefl :zInsp
+   :rVar :rConst :rLam :rApp0 :rApp :rPair0 :rPair :rLet :rAbort :rConv
+   :rIte :rElimB :rSucc :rRecN :rCaseL :rBnil :rBcons :rSleaf :rSnode
+   :rRecS :rLeaf :rNode :rItR :rPrn :rChk :rH1 :rRefl :rInsp
+   :cvRefl :cvFwd :cvBwd])
+
+(defn- used-at-type-level
+  "A closed runtime program that uses `arg`, of type `A`, only as the
+  erased argument of an application, so the typer derives it at type level
+  (a :has0 derivation, F7's z* rules). `binders` are the types of erased
+  binders around it, outermost first; `A` and `arg` may refer to them."
+  [binders A arg]
+  (reduce (fn [body P] [:lam 0 P body])
+          [:app [:lam 0 A [:star]] arg]
+          (reverse binders)))
+
+(def ^:private r-a [:leaf [:lbl :a]])
+(def ^:private r-b [:leaf [:lbl :b]])
+(def ^:private code-a [:sleaf [:lbl :a]])
+(def ^:private label-branches (vec (repeat (count syntax/labels) [:zero])))
+(def ^:private leaf-method [:lam :w [:Lbl] [:zero]])
+(def ^:private node-method
+  [:lam 1 [:Dia] [:lam :w [:Lbl] [:lam 1 [:Nat] [:lam 1 [:Nat] [:var 0]]]]])
+;; H1's two hypotheses: r proves code-a and s proves its negation.
+(def ^:private h1-positive [:T [:chk [:print r-a] code-a]])
+(def ^:private h1-negative [:T [:chk [:print r-b] (syntax/neg-term code-a)]])
+;; Reflect's evidence: r proves the code of the base type 1 (Unit).
+(def ^:private unit-evidence [:T [:chk [:print r-a] [:sleaf [:lbl :t1]]]])
+
+(def ^:private rule-programs
+  "[F7 rule name, budget, closed program]. The rule named is the one the
+  program was written to reach; coverage is measured, not assumed."
+  [;; Type-level rules, reached through an erased argument.
+   [:zVar 0 (used-at-type-level [[:Nat]] [:Nat] [:var 0])]
+   [:zConst 0 (used-at-type-level [] [:Bool] [:tt])]
+   [:zConv 0 (used-at-type-level [[:Unit]] [:T [:tt]] [:var 0])]
+   [:zLam 0 (used-at-type-level [] [:Pi 1 [:Nat] [:Nat]] [:lam 1 [:Nat] [:var 0]])]
+   [:zApp 0 (used-at-type-level [] [:Nat] [:app [:lam 1 [:Nat] [:var 0]] [:zero]])]
+   [:zPair 0 (used-at-type-level [] [:Sigma 1 [:Nat] [:Nat]]
+                                 [:pair [:Sigma 1 [:Nat] [:Nat]] [:zero] [:zero]])]
+   [:zLet 0 (used-at-type-level [] [:Nat]
+                                [:let [:Nat] [:pair [:Sigma 1 [:Nat] [:Nat]] [:zero] [:zero]]
+                                 [:var 0]])]
+   [:zAbort 0 (used-at-type-level [[:Empty]] [:Nat] [:abort [:Nat] [:var 0]])]
+   [:zIte 0 (used-at-type-level [] [:Nat] [:if [:tt] [:zero] [:succ [:zero]]])]
+   [:zElimB 0 (used-at-type-level [] [:Nat] [:elimBool [:Nat] [:ff] [:zero] [:zero]])]
+   [:zSucc 0 (used-at-type-level [] [:Nat] [:succ [:zero]])]
+   [:zRecN 0 (used-at-type-level [] [:Nat] [:recN [:Nat] [:zero] [:var 0] [:succ [:zero]]])]
+   [:zCaseL 0 (used-at-type-level [] [:Nat] [:caseLbl [:Nat] [:lbl :b] label-branches])]
+   [:zSleaf 0 (used-at-type-level [] [:Syn] code-a)]
+   [:zSnode 0 (used-at-type-level [] [:Syn] [:snode [:lbl :a] code-a [:sleaf [:lbl :b]]])]
+   [:zRecS 0 (used-at-type-level [] [:Nat] [:recSyn [:Nat] [:zero] [:zero] code-a])]
+   [:zLeaf 0 (used-at-type-level [] [:R] r-a)]
+   [:zNode 0 (used-at-type-level [[:Dia]] [:R] [:node [:var 0] [:lbl :a] r-a r-b])]
+   [:zItR 0 (used-at-type-level [] [:Nat] [:itR [:Nat] leaf-method node-method r-a])]
+   [:zPrn 0 (used-at-type-level [] [:Syn] [:print r-a])]
+   [:zChk 0 (used-at-type-level [] [:Bool] [:chk code-a [:sleaf [:lbl :b]]])]
+   [:zH1 0 (used-at-type-level [h1-positive h1-negative] [:Empty]
+                               [:h1 r-a r-b code-a [:var 1] [:var 0]])]
+   [:zRefl 0 (used-at-type-level [unit-evidence] [:Unit] [:reflect [:Unit] r-a [:var 0]])]
+   [:zInsp 0 (used-at-type-level [] [:Unit] [:inspect [:Unit] r-a code-a [:star] [:star]])]
+   ;; Runtime rules.
+   [:rVar 0 [:lam 1 [:Unit] [:var 0]]]
+   [:rConst 0 [:star]]
+   [:rApp0 0 [:app [:lam 0 [:Unit] [:star]] [:star]]]
+   [:rApp 0 [:app [:lam 1 [:Unit] [:var 0]] [:star]]]
+   [:rPair0 0 [:pair [:Sigma 0 [:Unit] [:Unit]] [:star] [:star]]]
+   [:rPair 0 [:pair [:Sigma 1 [:Unit] [:Unit]] [:star] [:star]]]
+   [:rLet 0 [:let [:Unit] [:pair [:Sigma 1 [:Unit] [:Unit]] [:star] [:star]] [:var 0]]]
+   [:rAbort 0 [:lam 1 [:Empty] [:abort [:Nat] [:var 0]]]]
+   ;; ★ : 1 retyped at T(tt): a backward step.
+   [:cvBwd 0 [:app [:lam 1 [:T [:tt]] [:var 0]] [:star]]]
+   ;; x : T(tt) retyped at 1: a forward step.
+   [:cvFwd 0 [:lam 1 [:T [:tt]] [:app [:lam 1 [:Unit] [:var 0]] [:var 0]]]]
+   [:rIte 0 [:if [:tt] [:zero] [:succ [:zero]]]]
+   [:rElimB 0 [:elimBool [:Nat] [:tt] [:zero] [:succ [:zero]]]]
+   [:rRecN 0 [:recN [:Nat] [:zero] [:zero] [:succ [:zero]]]]
+   [:rCaseL 0 [:caseLbl [:Nat] [:lbl :a] label-branches]]
+   [:rSnode 0 [:snode [:lbl :a] code-a [:sleaf [:lbl :b]]]]
+   [:rRecS 0 [:recSyn [:Nat] [:zero] [:zero] code-a]]
+   [:rNode 1 [:node [:var 0] [:lbl :a] r-a r-b]]
+   [:rItR 0 [:itR [:Nat] leaf-method node-method r-a]]
+   [:rPrn 0 [:print r-a]]
+   [:rChk 0 [:chk code-a [:sleaf [:lbl :b]]]]
+   [:rH1 0 [:lam 1 h1-positive [:lam 1 h1-negative [:h1 r-a r-b code-a [:var 1] [:var 0]]]]]
+   [:rRefl 0 [:lam 1 unit-evidence [:reflect [:Unit] r-a [:var 0]]]]
+   [:rInsp 0 [:inspect [:Unit] r-a code-a [:star] [:star]]]])
+
+(defn- tree-rules
+  "The F7 rule tags of an F7 DT node that dt builds without a recursive
+  call: the steps of a conversion chain (the last field of rConv and zConv)
+  and the bcons/bnil chain of a label case (the last field of rCaseL and
+  zCaseL)."
+  [tree]
+  (let [chain (fn [node tail-of]
+                (loop [n node acc []]
+                  (if (nil? n) acc
+                      (recur (tail-of n) (conj acc (first n))))))]
+    (case (first tree)
+      (6 39) (chain (peek tree) #(when (#{59 60} (first %)) (nth % 5)))
+      44 (chain (peek tree) #(when (= 46 (first %)) (nth % 8)))
+      16 (chain (peek tree) #(when (= 18 (first %)) (nth % 7)))
+      [])))
+
+(defn- certify-recording-rules
+  "Certify `program` at `budget` and return [derivation certificate tags],
+  where tags are the F7 rules of every DT node in the certificate's trees.
+  dt is called once per node, including the formation premises it rebuilds,
+  so wrapping it observes every node."
+  [budget program]
+  (let [tags (atom #{})
+        dt f7/dt
+        derivation (typing/check-top budget program)
+        cert (with-redefs [f7/dt (fn [d]
+                                   (let [tree (dt d)]
+                                     (swap! tags into (cons (first tree) (tree-rules tree)))
+                                     tree))]
+               (f7/certificate budget derivation))]
+    [derivation cert @tags]))
+
+(deftest every-f7-rule-is-reached-and-decided-by-extracted-check
+  (let [results (vec (for [[rule budget program] rule-programs]
+                  (let [[derivation cert tags] (certify-recording-rules budget program)
+                        type (:type derivation)
+                        wrong (if (= type [:Bool]) [:Nat] [:Bool])]
+                    (testing (str rule " " (pr-str program))
+                      (is (true? (f7/check cert (f7/exp type))))
+                      (is (false? (f7/check cert (f7/exp wrong))))
+                      (is (contains? tags (.indexOf ^java.util.List f7-rule-names rule))
+                          "the program reaches the rule it was written for"))
+                    tags)))]
+    (testing "together the programs reach every F7 rule"
+      (is (= (set (range (count f7-rule-names))) (reduce into #{} results))))))

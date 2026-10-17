@@ -7944,3 +7944,32 @@ failures, 0 errors, in 27 s (`x8-zrules-fast-20261017T070103Z.log`).
 reached by no test program yet. Extracted `Check` decides each tree, so a
 wrong translation is rejected, never accepted. A test program per rule is
 still to come.
+
+## 2026-10-17 — ADR-0008: every F7 rule reached by extracted Check (Claude)
+
+The type-level F7 rules added in fe5d1c4 were reached by two test programs
+only. A new shell test, `every-f7-rule-is-reached-and-decided-by-extracted-check`,
+certifies one closed program per F7 rule. Each type-level rule is reached
+through an erased argument, under erased binders where it needs hypotheses
+(zVar, zConv, zAbort, zNode, zH1, zRefl). Extracted `Check` must accept
+each certificate at the program's type and reject it at another. The test
+wraps `f7/dt` to record every DT node built, including the formation
+premises the bridge rebuilds, plus the conversion and branch chains built
+without a recursive call. The union must be all 61 rules of `dt-rules`;
+the names are written out in the test, independently of the bridge.
+
+The test passed on its first run, so per LESSONS it was checked for
+failure before being counted:
+- Swapping zH1's two proof premises in a copy of the bridge makes extracted
+  `Check` reject the zH1 program (`x8-coverage-mutA-20261017T080722Z.log`).
+- Removing the zRefl program from a copy of the corpus leaves tag 28
+  unreached (`x8-coverage-mutB-20261017T080854Z.log`).
+
+A first attempt at the second mutation silently ran the unmutated test:
+the `:test` alias's extra path precedes `-Sdeps` `:paths` on the
+classpath. Running without the alias fixed that.
+
+**Evidence.** Shell suite: 25 tests, 391 assertions, 0 failures, 0 errors,
+in 48 s (`x8-coverage-first-20261017T080612Z.log`). Fast suite: 79 tests,
+865 assertions, 0 failures, 0 errors, in 25 s
+(`x8-coverage-fast-20261017T080923Z.log`).
