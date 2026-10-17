@@ -132,6 +132,38 @@
                 :else x))]
       (visit form))))
 
+(defn- memoize-recursions
+  "Ansatz lowers a recursor to `(letfn [(rec [t] body)] (rec major))` and
+  writes each use of an induction hypothesis as a fresh call `(rec child)`.
+  A recursion that returns a tuple (decT, for instance) uses the same child
+  several times per node, so the generated function is exponential in the
+  tree's depth: extracted Check did not finish on a certificate with a
+  one-step conversion chain (2026-10-17). Memoize each such recursion, per
+  call, by the identity of its argument: the IH is computed once per node,
+  as in the kernel's recursor. The functions are pure, so the result is
+  unchanged; the differential tests against kernel reduction check it."
+  [form]
+  (walk/postwalk
+    (fn [x]
+      (if (and (seq? x) (= 'letfn (first x))
+               (let [[_ bindings] x]
+                 (and (vector? bindings) (= 1 (count bindings))
+                      (let [[nm args] (first bindings)]
+                        (and (symbol? nm) (str/starts-with? (name nm) "rec_")
+                             (vector? args) (= 1 (count args)))))))
+        (let [[_ [[nm [arg] & body]] & calls] x]
+          (list 'let ['memo '(java.util.IdentityHashMap/new)]
+                (list* 'letfn
+                       [(list nm [arg]
+                              (list 'if (list 'java.util.IdentityHashMap/.containsKey 'memo arg)
+                                    (list 'java.util.IdentityHashMap/.get 'memo arg)
+                                    (list 'let ['memo_r (cons 'do body)]
+                                          (list 'java.util.IdentityHashMap/.put 'memo arg 'memo_r)
+                                          'memo_r)))]
+                       calls)))
+        x))
+    form))
+
 (defn- compile-one!
   [E name]
   (let [s (str name)
@@ -151,13 +183,15 @@
       ;; order supplies dependencies already compiled in this same encoding.
       (swap! ingest/arity-registry dissoc s)
       (if (contains? direct-surface-source name)
-        (let [emitted (compile-surface-recursion E name shape)]
-          (intern runtime-ns name (:fn emitted))
-          (swap! emitted-forms assoc s (:fn-form emitted))
+        (let [emitted (compile-surface-recursion E name shape)
+              form (memoize-recursions (:fn-form emitted))
+              f (if (= form (:fn-form emitted)) (:fn emitted) (eval form))]
+          (intern runtime-ns name f)
+          (swap! emitted-forms assoc s form)
           (swap! ingest/arity-registry assoc s
             {:sym (symbol (str (ns-name runtime-ns)) s)
              :arity (:arity shape) :erased (:erased shape)})
-          (:fn emitted))
+          f)
         (let [[form generated]
               (try
                 (let [emitted (sd/emit-direct-recursion E s value shape)]
@@ -178,7 +212,7 @@
                         [form (eval form)]))))
                 (catch Throwable t
                   (throw (ex-info "Ansatz emission failed" {:name s} t))))]
-        (let [fixed (call-nullary-data form)
+        (let [fixed (memoize-recursions (call-nullary-data form))
               generated (if (= fixed form) generated (eval fixed))]
         (swap! emitted-forms assoc s fixed)
         (intern runtime-ns name generated)

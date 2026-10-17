@@ -157,6 +157,13 @@ and kernel step checks, and the standalone-runtime test rejects any stub.
 This is another instance of #113's class: generated code that passes
 loading but is wrong.
 
+The same day, the first conversion certificate showed the generated
+recursions to be exponential: Ansatz writes each use of an induction
+hypothesis as a fresh recursive call, and tuple-valued decoders use a child
+several times per node. `memoize-recursions` memoizes every generated
+recursion by argument identity, so results are unchanged and each node is
+decoded once. A guard in the standalone-runtime test requires it.
+
 **Success.** Every production acceptance and execution decision comes from extracted, kernel-checked definitions (or the documented kernel-reduction fallback); the strict runner checks caller type and `Θₙ`, executes the decoded term, and gates erasure; all existing examples and tests pass; all translated differential cases agree; each published F7 count has a kernel check; paper/formal differences are resolved or explicitly amended; and the measured hand-written trusted core reaches zero.
 
 **Failure.** Any path executes an unchecked or different term, takes the typer's type or budget as authority, erases unchecked code, retains the old encoding for new measurements, states unproved counts, silently diverges from R4, or leaves a hand-written acceptance/evaluation decision in production. An extraction blocker must be recorded with a minimal reproducer and either a kernel-reduction fallback or an explicit unresolved failure; passing differential tests alone does not prove code generation correct.

@@ -7832,3 +7832,29 @@ Evidence:
   (`x8-stepdt-fast-20261017T062435Z.log`).
 
 The shell's Conv translation is next, and it can now be checked end to end.
+
+## 2026-10-17 — ADR-0008: extracted recursions were exponential (Claude)
+
+With conversion steps extractable, the first certificate holding a Conv
+chain did not finish: extracted `Check` ran over 5 minutes in `decT` and
+was stopped (`x8-conv-green1-20261017T062746Z.log`, interrupted). Ansatz
+lowers a recursor to `(letfn [(rec [t] body)] (rec major))` and writes every
+use of an induction hypothesis as a fresh `(rec child)` call. A recursion
+that returns a tuple uses a child several times per node, so `decT`,
+`dtCheck` and others were exponential in a tree's depth. The earlier tests
+used trees only a few nodes deep.
+
+`memoize-recursions` (`extract.clj`) memoizes each generated recursion per
+call, keyed by the identity of its argument. Each induction hypothesis is
+then computed once per node, as in the kernel's recursor. The functions
+are pure, so their results are unchanged.
+
+Evidence:
+- the `extract` suite on the lane's warm server: 11 tests / 53 assertions,
+  0 failures, 0 errors (`x8-memo-guard-20261017T063715Z.log`). It includes
+  the differential tests against kernel reduction, and a new guard that
+  every generated `letfn` recursion is memoized;
+- the conversion certificate, which did not finish before, is decided in
+  the shell test (next entry);
+- fast suite, cold: 76 tests / 712 assertions, 0 failures, 0 errors, in
+  26.6 s against 45 s before (`x8-conv-fast-20261017T063808Z.log`).

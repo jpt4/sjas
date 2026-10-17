@@ -183,6 +183,11 @@
     (testing "no generated function is a stub that throws"
       ;; Ansatz emits this stub for a recursor it cannot lower.
       (is (not (str/includes? text "unsupported rec pattern"))))
+    (testing "every generated recursion is memoized"
+      ;; Otherwise a recursion that uses a child twice is exponential in
+      ;; depth (memoize-recursions).
+      (is (pos? (count (re-seq #"\(letfn" text))))
+      (is (= (count (re-seq #"\(letfn" text)) (count (re-seq #"IdentityHashMap/new" text)))))
     (testing "loaded alone, it decides the F7 certificate as the kernel does"
       (load-string (str/replace text "lcert.extracted.runtime" "lcert.extracted.scratch"))
       (let [r (fn [s] @(ns-resolve 'lcert.extracted.scratch s))
