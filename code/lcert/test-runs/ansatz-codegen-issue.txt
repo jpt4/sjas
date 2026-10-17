@@ -73,3 +73,17 @@ Reproducers: test-runs/claude-held/ansatz-issues/ in the main checkout.
    The local bridge calls registered nullary definitions in data position,
    preserving existing function-call heads. The three kernel-checked F7
    doubler counts are the differential cases. Please file upstream.
+
+6. Found by extracted Check's first conversion certificate (2026-10-17):
+   a single-constructor inductive with fields (StepDT) lowers its recursor
+   and casesOn to (throw (ex-info "unsupported rec pattern" {})). Filed as
+   https://github.com/replikativ/ansatz/issues/117 with a standalone
+   reproducer (0.2.115 and 0.2.116). Local fix: single-constructor-types in
+   extract.clj forces the tagged representation.
+
+7. Found the same day: an induction hypothesis used k times in a recursor
+   minor is compiled as k recursive calls (ih-replacements/inline-all), so
+   tuple-valued decoders were exponential in depth. Filed as
+   https://github.com/replikativ/ansatz/issues/118 (time doubles per level
+   of a left spine). Local fix: memoize-recursions in extract.clj.
+Reproducers: test-runs/claude-held/ansatz-issues/repro2.clj in the main checkout.

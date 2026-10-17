@@ -155,14 +155,16 @@ extracted. StepDT now takes the tagged lowering (`single-constructor-types`).
 surface definitions as `nthE` is. A differential test compares extracted
 and kernel step checks, and the standalone-runtime test rejects any stub.
 This is another instance of #113's class: generated code that passes
-loading but is wrong.
+loading but is wrong. Filed upstream as
+[#117](https://github.com/replikativ/ansatz/issues/117).
 
 The same day, the first conversion certificate showed the generated
 recursions to be exponential: Ansatz writes each use of an induction
 hypothesis as a fresh recursive call, and tuple-valued decoders use a child
 several times per node. `memoize-recursions` memoizes every generated
 recursion by argument identity, so results are unchanged and each node is
-decoded once. A guard in the standalone-runtime test requires it.
+decoded once. Filed upstream as
+[#118](https://github.com/replikativ/ansatz/issues/118). A guard in the standalone-runtime test requires it.
 `cnodes` is also cached across calls (`cache-across-calls`): `restrC`
 compares the whole certificate's node count at every δ-step.
 

@@ -7973,3 +7973,17 @@ classpath. Running without the alias fixed that.
 in 48 s (`x8-coverage-first-20261017T080612Z.log`). Fast suite: 79 tests,
 865 assertions, 0 failures, 0 errors, in 25 s
 (`x8-coverage-fast-20261017T080923Z.log`).
+
+## 2026-10-17 — ADR-0008: two code-generation defects filed upstream (Claude)
+
+Both are reproduced by `test-runs/claude-held/ansatz-issues/repro2.clj`
+(main checkout), which uses only `ansatz.core`, on Ansatz 0.2.115 and 0.2.116:
+- [#117](https://github.com/replikativ/ansatz/issues/117): a
+  single-constructor inductive with fields (our `StepDT`) lowers its
+  recursor and `match` to the "unsupported rec pattern" stub.
+- [#118](https://github.com/replikativ/ansatz/issues/118): an induction
+  hypothesis used twice is compiled as two recursive calls. On a left
+  spine, time doubles per level: 2.19, 4.12, 8.86 s at depths 26, 27, 28.
+
+The local fixes in `extract.clj` (`single-constructor-types`,
+`memoize-recursions`) stay until upstream fixes land.
