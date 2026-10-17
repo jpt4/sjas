@@ -163,6 +163,8 @@ hypothesis as a fresh recursive call, and tuple-valued decoders use a child
 several times per node. `memoize-recursions` memoizes every generated
 recursion by argument identity, so results are unchanged and each node is
 decoded once. A guard in the standalone-runtime test requires it.
+`cnodes` is also cached across calls (`cache-across-calls`): `restrC`
+compares the whole certificate's node count at every δ-step.
 
 **Success.** Every production acceptance and execution decision comes from extracted, kernel-checked definitions (or the documented kernel-reduction fallback); the strict runner checks caller type and `Θₙ`, executes the decoded term, and gates erasure; all existing examples and tests pass; all translated differential cases agree; each published F7 count has a kernel check; paper/formal differences are resolved or explicitly amended; and the measured hand-written trusted core reaches zero.
 

@@ -164,6 +164,27 @@
         x))
     form))
 
+(def ^:private cached-across-calls
+  ;; Pure one-argument functions whose result is cached across calls, keyed
+  ;; by the argument value. restrC compares `cnodes` of the whole certificate
+  ;; at every δ-step, so extracted Check recounted it about 2,100 times on
+  ;; the bounded consistency statement: 277 s of its 278 s (2026-10-17).
+  #{"cnodes"})
+
+(defn- cache-across-calls
+  "Wrap the generated one-argument function `form` of `name` in a cache
+  keyed by the argument (a WeakHashMap, so an argument no longer referenced
+  can be collected). The function is pure, so its results are unchanged."
+  [name form]
+  (if (contains? cached-across-calls name)
+    (list 'let ['cache '(java.util.Collections/synchronizedMap (java.util.WeakHashMap/new))
+                'uncached form]
+          '(fn [x]
+             (if (java.util.Map/.containsKey cache x)
+               (java.util.Map/.get cache x)
+               (let [r (uncached x)] (java.util.Map/.put cache x r) r))))
+    form))
+
 (defn- compile-one!
   [E name]
   (let [s (str name)
@@ -212,7 +233,7 @@
                         [form (eval form)]))))
                 (catch Throwable t
                   (throw (ex-info "Ansatz emission failed" {:name s} t))))]
-        (let [fixed (memoize-recursions (call-nullary-data form))
+        (let [fixed (cache-across-calls s (memoize-recursions (call-nullary-data form)))
               generated (if (= fixed form) generated (eval fixed))]
         (swap! emitted-forms assoc s fixed)
         (intern runtime-ns name generated)

@@ -1097,32 +1097,42 @@
 
 (def
  cnodes
- (fn
-  self_G0
-  ([v0]
-   (let
-    [memo (java.util.IdentityHashMap/new)]
-    (letfn
-     [(rec_G1
-       [t_G2]
-       (if
-        (java.util.IdentityHashMap/.containsKey memo t_G2)
-        (java.util.IdentityHashMap/.get memo t_G2)
-        (let
-         [memo_r
-          (do
-           (case
-            (nth t_G2 0)
-            0
-            (let [fG3_0 (nth t_G2 1)] 0)
-            1
-            (let
-             [fG3_0 (nth t_G2 1) fG3_1 (nth t_G2 2) fG3_2 (nth t_G2 3)]
-             (+' 1 (+' (rec_G1 (nth t_G2 2)) (rec_G1 (nth t_G2 3)))))
-            (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G2 0))))))]
-         (java.util.IdentityHashMap/.put memo t_G2 memo_r)
-         memo_r)))]
-     (rec_G1 v0))))))
+ (let
+  [cache
+   (java.util.Collections/synchronizedMap (java.util.WeakHashMap/new))
+   uncached
+   (fn
+    self_G0
+    ([v0]
+     (let
+      [memo (java.util.IdentityHashMap/new)]
+      (letfn
+       [(rec_G1
+         [t_G2]
+         (if
+          (java.util.IdentityHashMap/.containsKey memo t_G2)
+          (java.util.IdentityHashMap/.get memo t_G2)
+          (let
+           [memo_r
+            (do
+             (case
+              (nth t_G2 0)
+              0
+              (let [fG3_0 (nth t_G2 1)] 0)
+              1
+              (let
+               [fG3_0 (nth t_G2 1) fG3_1 (nth t_G2 2) fG3_2 (nth t_G2 3)]
+               (+' 1 (+' (rec_G1 (nth t_G2 2)) (rec_G1 (nth t_G2 3)))))
+              (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G2 0))))))]
+           (java.util.IdentityHashMap/.put memo t_G2 memo_r)
+           memo_r)))]
+       (rec_G1 v0)))))]
+  (fn
+   [x]
+   (if
+    (java.util.Map/.containsKey cache x)
+    (java.util.Map/.get cache x)
+    (let [r (uncached x)] (java.util.Map/.put cache x r) r)))))
 
 (def
  cntU

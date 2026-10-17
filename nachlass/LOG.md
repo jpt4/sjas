@@ -7893,3 +7893,19 @@ Evidence:
   for two steps apart).
 - fast suite, cold, with the code: 76 tests / 712 assertions
   (`x8-conv-fast-20261017T063808Z.log`).
+
+## 2026-10-17 — ADR-0008: extracted Check recounted the certificate per δ-step (Claude)
+
+Run on a large stack, extracted `Check` accepted the tutorial's bounded
+consistency statement at budget 0, but took 268 s. Stack samples put every
+frame under `cnodes`, called through `restrC`. At every δ-step, `restrC`
+compares the call's node count with that of the whole certificate, and
+`stepCheck` computes each step's target three times. Instrumented, one
+`Check` made 2,107 `cnodes` calls, which took 277 s of the run.
+
+`cache-across-calls` (`extract.clj`) caches `cnodes` results across calls
+in a weak map keyed by the argument; the function is pure. The `extract`
+suite stays green on the lane's warm server (11 tests / 53 assertions,
+`x8-cache-extract-20261017T065849Z.log`). The shell test that checks the
+statement now takes 23 s for all 24 shell tests
+(`x8-zrules-green2-20261017T070034Z.log`, next entry).
