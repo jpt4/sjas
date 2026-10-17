@@ -7803,3 +7803,32 @@ The red step was not observed: the shell test was written with the
 function, which HEAD lacks, so it cannot pass there. No kernel definition
 changed. The fresh-JVM formal run is left for the end of the step, as in
 x8's earlier entries.
+
+## 2026-10-17 — ADR-0008: extracted Check could not run a conversion step (Claude)
+
+Starting the shell's conversion translation, Claude found that the
+extracted step checker was a stub. Ansatz lowers a recursor on a type with
+one constructor with fields (here StepDT) to a function that throws
+"unsupported rec pattern". `extract.clj` caught that only on its fallback
+path, so `stepDTCheck`, `stepDTSrc`, `stepDTTgt`, `stepDTB` and `encSt`
+were stubs in the committed runtime. Extracted `Check` would have thrown on
+any certificate with a Conv node, and no test had one.
+
+Fix: StepDT takes Ansatz's tagged lowering, like Code's two-constructor
+shape (`single-constructor-types` in `extract.clj`). The step checker's
+closure then compiles for the first time. Two of its helpers, `instL` and
+`nthB`, are checked by well-founded recursion, so they are compiled from
+their surface definitions, like `nthE`. The runtime grows by about 1,600
+lines.
+
+Evidence:
+- red on the lane's warm server: 4 errors from the stub and 1 failure of
+  the new no-stub guard (`x8-stepdt-red-20261017T062047Z.log`);
+- green there: the `extract` suite, 11 tests / 51 assertions, 0 failures,
+  0 errors (`x8-stepdt-green3-20261017T062245Z.log`), including the
+  differential test against kernel reduction and the runtime-source
+  comparison;
+- fast suite, cold: 75 tests / 703 assertions, 0 failures, 0 errors
+  (`x8-stepdt-fast-20261017T062435Z.log`).
+
+The shell's Conv translation is next, and it can now be checked end to end.

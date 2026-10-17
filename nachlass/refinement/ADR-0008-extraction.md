@@ -143,6 +143,20 @@ skipped equation lemmas. As far as we can tell from Ansatz's source, a
 skipped lemma is simply absent and admits nothing; the issue asks the
 maintainers to confirm.
 
+**A silent stub, 2026-10-17.** Ansatz lowers a recursor (or `casesOn`) on
+a type with one constructor with fields to a function that throws
+"unsupported rec pattern". `extract.clj` checked for that only on its
+fallback path, so five such stubs reached the artifact: `stepDTCheck`,
+`stepDTSrc`, `stepDTTgt`, `stepDTB` and `encSt`. Extracted `Check` would
+have thrown on every certificate with a conversion step, and because the
+stubs cut the closure short, the step checker's dependencies were never
+extracted. StepDT now takes the tagged lowering (`single-constructor-types`).
+`instL` and `nthB`, reached for the first time, are compiled from their
+surface definitions as `nthE` is. A differential test compares extracted
+and kernel step checks, and the standalone-runtime test rejects any stub.
+This is another instance of #113's class: generated code that passes
+loading but is wrong.
+
 **Success.** Every production acceptance and execution decision comes from extracted, kernel-checked definitions (or the documented kernel-reduction fallback); the strict runner checks caller type and `Θₙ`, executes the decoded term, and gates erasure; all existing examples and tests pass; all translated differential cases agree; each published F7 count has a kernel check; paper/formal differences are resolved or explicitly amended; and the measured hand-written trusted core reaches zero.
 
 **Failure.** Any path executes an unchecked or different term, takes the typer's type or budget as authority, erases unchecked code, retains the old encoding for new measurements, states unproved counts, silently diverges from R4, or leaves a hand-written acceptance/evaluation decision in production. An extraction blocker must be recorded with a minimal reproducer and either a kernel-reduction fallback or an explicit unresolved failure; passing differential tests alone does not prove code generation correct.

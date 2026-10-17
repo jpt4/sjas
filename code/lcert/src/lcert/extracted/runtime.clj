@@ -19,10 +19,12 @@
  bodyC
  bodyD
  bodyO
+ boolExp
  cLeaf
  certX
  chHead
  chTail
+ child
  chkN
  chkT
  closedF
@@ -31,6 +33,7 @@
  cntU
  codeEq
  codeOf
+ codeTerm
  concl
  consE
  consU
@@ -54,11 +57,14 @@
  djEq
  dtB
  dtCheck
+ encC
  encCert
  encCertY
  encDT
  encE
+ encHd
  encLE
+ encLN
  encLS
  encLU
  encN
@@ -69,6 +75,7 @@
  encU
  expEq
  f7BoolEq
+ f7OptCode
  f7OptExp
  f7OptSk
  f7OptU
@@ -77,11 +84,19 @@
  f7UEq
  freshF
  gTy
+ getP
+ getPF
  guardC
  hTy
+ hdB
+ hdCheck
+ hdSide
+ hdSource
+ hdTarget
  htDT
  htSkDT
  inst1
+ instL
  isBaseOrDia
  isBaseTy
  leafE
@@ -101,6 +116,7 @@
  nodeTy
  nonzero
  notE
+ nthB
  nthE
  nthS
  nthU
@@ -111,11 +127,15 @@
  sLeafI
  sNodeI
  sSucc
+ setKid
+ setP
+ setPF
  sk2
  skel
  skels
  skjCheck
  skjCheckF
+ stepCheck
  stepDTB
  stepDTCheck
  stepDTSrc
@@ -124,6 +144,7 @@
  subst
  subst1
  substF
+ substL
  thetaD
  thetaU
  uLbl
@@ -454,6 +475,8 @@
        (nth (nth (nth (nth fG2_0 1) 1) 1) 0)
        (nth (nth (nth (nth fG2_0 1) 1) 1) 1))))))))
 
+(def boolExp (fn self_G0 ([v0] (let [t_G1 v0] (if t_G1 [14] [15])))))
+
 (def cLeaf (fn self_G0 ([v0] [25 [21 v0]])))
 
 (def
@@ -511,6 +534,294 @@
      (let [fG2_0 (nth t_G1 1)] [0 0])
      1
      (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] fG2_2)
+     (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G1 0)))))))))
+
+(def
+ child
+ (fn
+  self_G0
+  ([v0] (fn [v1] (self_G0 v0 v1)))
+  ([v0 v1]
+   (let
+    [t_G1 v0]
+    (case
+     (nth t_G1 0)
+     0
+     nil
+     1
+     nil
+     2
+     nil
+     3
+     nil
+     4
+     nil
+     5
+     nil
+     6
+     nil
+     7
+     nil
+     8
+     (let [fG2_0 (nth t_G1 1)] (let [t_G3 (== v1 0)] (if t_G3 [fG2_0] nil)))
+     9
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      (let [t_G4 (== v1 0)] (if t_G4 [fG2_1] (let [t_G5 (== v1 1)] (if t_G5 [fG2_2] nil)))))
+     10
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      (let [t_G6 (== v1 0)] (if t_G6 [fG2_1] (let [t_G7 (== v1 1)] (if t_G7 [fG2_2] nil)))))
+     11
+     (let [fG2_0 (nth t_G1 1)] nil)
+     12
+     nil
+     13
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)]
+      (let [t_G8 (== v1 0)] (if t_G8 [fG2_0] (let [t_G9 (== v1 1)] (if t_G9 [fG2_1] nil)))))
+     14
+     nil
+     15
+     nil
+     16
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      (let
+       [t_G10 (== v1 0)]
+       (if
+        t_G10
+        [fG2_0]
+        (let
+         [t_G11 (== v1 1)]
+         (if t_G11 [fG2_1] (let [t_G12 (== v1 2)] (if t_G12 [fG2_2] nil)))))))
+     17
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      (let
+       [t_G13 (== v1 0)]
+       (if
+        t_G13
+        [fG2_0]
+        (let
+         [t_G14 (== v1 1)]
+         (if
+          t_G14
+          [fG2_1]
+          (let
+           [t_G15 (== v1 2)]
+           (if t_G15 [fG2_2] (let [t_G16 (== v1 3)] (if t_G16 [fG2_3] nil)))))))))
+     18
+     nil
+     19
+     (let [fG2_0 (nth t_G1 1)] (let [t_G17 (== v1 0)] (if t_G17 [fG2_0] nil)))
+     20
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      (let
+       [t_G18 (== v1 0)]
+       (if
+        t_G18
+        [fG2_0]
+        (let
+         [t_G19 (== v1 1)]
+         (if
+          t_G19
+          [fG2_1]
+          (let
+           [t_G20 (== v1 2)]
+           (if t_G20 [fG2_2] (let [t_G21 (== v1 3)] (if t_G21 [fG2_3] nil)))))))))
+     21
+     (let [fG2_0 (nth t_G1 1)] nil)
+     22
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      (let
+       [t_G22 (== v1 0)]
+       (if
+        t_G22
+        [fG2_0]
+        (let
+         [t_G23 (== v1 1)]
+         (if t_G23 [fG2_1] (let [t_G24 (== v1 2)] (if t_G24 [fG2_2] nil)))))))
+     23
+     nil
+     24
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)]
+      (let [t_G25 (== v1 0)] (if t_G25 [fG2_0] (let [t_G26 (== v1 1)] (if t_G26 [fG2_1] nil)))))
+     25
+     (let [fG2_0 (nth t_G1 1)] (let [t_G27 (== v1 0)] (if t_G27 [fG2_0] nil)))
+     26
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      (let
+       [t_G28 (== v1 0)]
+       (if
+        t_G28
+        [fG2_0]
+        (let
+         [t_G29 (== v1 1)]
+         (if t_G29 [fG2_1] (let [t_G30 (== v1 2)] (if t_G30 [fG2_2] nil)))))))
+     27
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      (let
+       [t_G31 (== v1 0)]
+       (if
+        t_G31
+        [fG2_0]
+        (let
+         [t_G32 (== v1 1)]
+         (if
+          t_G32
+          [fG2_1]
+          (let
+           [t_G33 (== v1 2)]
+           (if t_G33 [fG2_2] (let [t_G34 (== v1 3)] (if t_G34 [fG2_3] nil)))))))))
+     28
+     (let [fG2_0 (nth t_G1 1)] (let [t_G35 (== v1 0)] (if t_G35 [fG2_0] nil)))
+     29
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      (let
+       [t_G36 (== v1 0)]
+       (if
+        t_G36
+        [fG2_0]
+        (let
+         [t_G37 (== v1 1)]
+         (if
+          t_G37
+          [fG2_1]
+          (let
+           [t_G38 (== v1 2)]
+           (if t_G38 [fG2_2] (let [t_G39 (== v1 3)] (if t_G39 [fG2_3] nil)))))))))
+     30
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      (let
+       [t_G40 (== v1 0)]
+       (if
+        t_G40
+        [fG2_0]
+        (let
+         [t_G41 (== v1 1)]
+         (if
+          t_G41
+          [fG2_1]
+          (let
+           [t_G42 (== v1 2)]
+           (if t_G42 [fG2_2] (let [t_G43 (== v1 3)] (if t_G43 [fG2_3] nil)))))))))
+     31
+     (let [fG2_0 (nth t_G1 1)] (let [t_G44 (== v1 0)] (if t_G44 [fG2_0] nil)))
+     32
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      (let [t_G45 (== v1 0)] (if t_G45 [fG2_1] (let [t_G46 (== v1 1)] (if t_G46 [fG2_2] nil)))))
+     33
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)]
+      (let [t_G47 (== v1 0)] (if t_G47 [fG2_0] (let [t_G48 (== v1 1)] (if t_G48 [fG2_1] nil)))))
+     34
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      (let
+       [t_G49 (== v1 0)]
+       (if
+        t_G49
+        [fG2_0]
+        (let
+         [t_G50 (== v1 1)]
+         (if t_G50 [fG2_1] (let [t_G51 (== v1 2)] (if t_G51 [fG2_2] nil)))))))
+     35
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      (let
+       [t_G52 (== v1 0)]
+       (if
+        t_G52
+        [fG2_0]
+        (let
+         [t_G53 (== v1 1)]
+         (if t_G53 [fG2_1] (let [t_G54 (== v1 2)] (if t_G54 [fG2_2] nil)))))))
+     36
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)]
+      (let [t_G55 (== v1 0)] (if t_G55 [fG2_0] (let [t_G56 (== v1 1)] (if t_G56 [fG2_1] nil)))))
+     37
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)]
+      (let
+       [t_G57 (== v1 0)]
+       (if
+        t_G57
+        [fG2_0]
+        (let
+         [t_G58 (== v1 1)]
+         (if
+          t_G58
+          [fG2_1]
+          (let
+           [t_G59 (== v1 2)]
+           (if
+            t_G59
+            [fG2_2]
+            (let
+             [t_G60 (== v1 3)]
+             (if t_G60 [fG2_3] (let [t_G61 (== v1 4)] (if t_G61 [fG2_4] nil)))))))))))
+     38
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      (let
+       [t_G62 (== v1 0)]
+       (if
+        t_G62
+        [fG2_0]
+        (let
+         [t_G63 (== v1 1)]
+         (if t_G63 [fG2_1] (let [t_G64 (== v1 2)] (if t_G64 [fG2_2] nil)))))))
+     39
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)]
+      (let
+       [t_G65 (== v1 0)]
+       (if
+        t_G65
+        [fG2_0]
+        (let
+         [t_G66 (== v1 1)]
+         (if
+          t_G66
+          [fG2_1]
+          (let
+           [t_G67 (== v1 2)]
+           (if
+            t_G67
+            [fG2_2]
+            (let
+             [t_G68 (== v1 3)]
+             (if t_G68 [fG2_3] (let [t_G69 (== v1 4)] (if t_G69 [fG2_4] nil)))))))))))
+     40
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)] (let [t_G70 (== v1 0)] (if t_G70 [fG2_0] nil)))
      (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G1 0)))))))))
 
 (def
@@ -1189,6 +1500,25 @@
         nil)
        40
        (let [fG3_0 (nth t_G2 1) fG3_1 (nth t_G2 2)] nil)
+       (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G2 0))))))]
+    (rec_G1 v0)))))
+
+(def
+ codeTerm
+ (fn
+  self_G0
+  ([v0]
+   (letfn
+    [(rec_G1
+      [t_G2]
+      (case
+       (nth t_G2 0)
+       0
+       (let [fG3_0 (nth t_G2 1)] [25 [21 fG3_0]])
+       1
+       (let
+        [fG3_0 (nth t_G2 1) fG3_1 (nth t_G2 2) fG3_2 (nth t_G2 3)]
+        [26 [21 fG3_0] (rec_G1 (nth t_G2 2)) (rec_G1 (nth t_G2 3))])
        (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G2 0))))))]
     (rec_G1 v0)))))
 
@@ -12015,7 +12345,7 @@
                  (lcert.extracted.runtime/chTail
                   (lcert.extracted.runtime/chTail
                    (lcert.extracted.runtime/chTail [1 fG2_0 fG2_1 fG2_2])))))
-               (fn [v9] [[v6 v7 v8 v9]]))))))))
+               (fn [v9] [[0 v6 v7 v8 v9]]))))))))
         nil)))
      (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G1 0)))))))))
 
@@ -15175,6 +15505,8 @@
       (rec_G0 v1))))]
   (fn [& args] (reduce (fn [f arg] (f arg)) curried args))))
 
+(def encC (fn self_G0 ([v0] (lcert.extracted.runtime/encE (lcert.extracted.runtime/codeTerm v0)))))
+
 (def
  encCert
  (fn
@@ -17505,6 +17837,242 @@
     (rec_G1 v0)))))
 
 (def
+ encHd
+ (fn
+  self_G0
+  ([v0]
+   (let
+    [t_G1 v0]
+    (case
+     (nth t_G1 0)
+     0
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [1
+       0
+       (lcert.extracted.runtime/encU fG2_0)
+       [1
+        0
+        (lcert.extracted.runtime/encE fG2_1)
+        [1
+         0
+         (lcert.extracted.runtime/encE fG2_2)
+         [1 0 (lcert.extracted.runtime/encE fG2_3) [0 0]]]]])
+     1
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)]
+      [1
+       1
+       (lcert.extracted.runtime/encE fG2_0)
+       [1
+        0
+        (lcert.extracted.runtime/encE fG2_1)
+        [1
+         0
+         (lcert.extracted.runtime/encE fG2_2)
+         [1
+          0
+          (lcert.extracted.runtime/encE fG2_3)
+          [1 0 (lcert.extracted.runtime/encE fG2_4) [0 0]]]]]])
+     2
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)]
+      [1 2 (lcert.extracted.runtime/encE fG2_0) [1 0 (lcert.extracted.runtime/encE fG2_1) [0 0]]])
+     3
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)]
+      [1 3 (lcert.extracted.runtime/encE fG2_0) [1 0 (lcert.extracted.runtime/encE fG2_1) [0 0]]])
+     4
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      [1
+       4
+       (lcert.extracted.runtime/encE fG2_0)
+       [1
+        0
+        (lcert.extracted.runtime/encE fG2_1)
+        [1 0 (lcert.extracted.runtime/encE fG2_2) [0 0]]]])
+     5
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      [1
+       5
+       (lcert.extracted.runtime/encE fG2_0)
+       [1
+        0
+        (lcert.extracted.runtime/encE fG2_1)
+        [1 0 (lcert.extracted.runtime/encE fG2_2) [0 0]]]])
+     6
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      [1
+       6
+       (lcert.extracted.runtime/encE fG2_0)
+       [1
+        0
+        (lcert.extracted.runtime/encE fG2_1)
+        [1 0 (lcert.extracted.runtime/encE fG2_2) [0 0]]]])
+     7
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [1
+       7
+       (lcert.extracted.runtime/encE fG2_0)
+       [1
+        0
+        (lcert.extracted.runtime/encE fG2_1)
+        [1
+         0
+         (lcert.extracted.runtime/encE fG2_2)
+         [1 0 (lcert.extracted.runtime/encE fG2_3) [0 0]]]]])
+     8
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [1
+       8
+       (lcert.extracted.runtime/encE fG2_0)
+       [1
+        0
+        (lcert.extracted.runtime/encN fG2_1)
+        [1
+         0
+         (lcert.extracted.runtime/encE fG2_2)
+         [1 0 (lcert.extracted.runtime/encE fG2_3) [0 0]]]]])
+     9
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [1
+       9
+       (lcert.extracted.runtime/encE fG2_0)
+       [1
+        0
+        (lcert.extracted.runtime/encE fG2_1)
+        [1
+         0
+         (lcert.extracted.runtime/encE fG2_2)
+         [1 0 (lcert.extracted.runtime/encE fG2_3) [0 0]]]]])
+     10
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)]
+      [1
+       10
+       (lcert.extracted.runtime/encE fG2_0)
+       [1
+        0
+        (lcert.extracted.runtime/encE fG2_1)
+        [1
+         0
+         (lcert.extracted.runtime/encE fG2_2)
+         [1
+          0
+          (lcert.extracted.runtime/encE fG2_3)
+          [1
+           0
+           (lcert.extracted.runtime/encE fG2_4)
+           [1 0 (lcert.extracted.runtime/encE fG2_5) [0 0]]]]]]])
+     11
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [1
+       11
+       (lcert.extracted.runtime/encE fG2_0)
+       [1
+        0
+        (lcert.extracted.runtime/encE fG2_1)
+        [1
+         0
+         (lcert.extracted.runtime/encE fG2_2)
+         [1 0 (lcert.extracted.runtime/encE fG2_3) [0 0]]]]])
+     12
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)]
+      [1
+       12
+       (lcert.extracted.runtime/encE fG2_0)
+       [1
+        0
+        (lcert.extracted.runtime/encE fG2_1)
+        [1
+         0
+         (lcert.extracted.runtime/encE fG2_2)
+         [1
+          0
+          (lcert.extracted.runtime/encE fG2_3)
+          [1
+           0
+           (lcert.extracted.runtime/encE fG2_4)
+           [1
+            0
+            (lcert.extracted.runtime/encE fG2_5)
+            [1 0 (lcert.extracted.runtime/encE fG2_6) [0 0]]]]]]]])
+     13
+     (let [fG2_0 (nth t_G1 1)] [1 13 (lcert.extracted.runtime/encE fG2_0) [0 0]])
+     14
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [1
+       14
+       (lcert.extracted.runtime/encE fG2_0)
+       [1
+        0
+        (lcert.extracted.runtime/encE fG2_1)
+        [1
+         0
+         (lcert.extracted.runtime/encE fG2_2)
+         [1 0 (lcert.extracted.runtime/encE fG2_3) [0 0]]]]])
+     15
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [1
+       15
+       (lcert.extracted.runtime/encE fG2_0)
+       [1
+        0
+        (lcert.extracted.runtime/encE fG2_1)
+        [1
+         0
+         (lcert.extracted.runtime/encC fG2_2)
+         [1 0 (lcert.extracted.runtime/encC fG2_3) [0 0]]]]])
+     16
+     [0 16]
+     17
+     [0 17]
+     (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G1 0)))))))))
+
+(def
  encLE
  (fn
   self_G0
@@ -17518,6 +18086,22 @@
        (let
         [fG3_0 (first t_G2) fG3_1 (rest t_G2)]
         [1 1 (lcert.extracted.runtime/encE fG3_0) (rec_G1 fG3_1)])))]
+    (rec_G1 v0)))))
+
+(def
+ encLN
+ (fn
+  self_G0
+  ([v0]
+   (letfn
+    [(rec_G1
+      [t_G2]
+      (if
+       (not (seq t_G2))
+       [0 0]
+       (let
+        [fG3_0 (first t_G2) fG3_1 (rest t_G2)]
+        [1 1 (lcert.extracted.runtime/encN fG3_0) (rec_G1 fG3_1)])))]
     (rec_G1 v0)))))
 
 (def
@@ -18272,7 +18856,29 @@
        (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G2 0))))))]
     (rec_G1 v0)))))
 
-(def encSt (fn self_G0 ([v0] (let [t_G1 v0] (throw (ex-info "unsupported rec pattern" {}))))))
+(def
+ encSt
+ (fn
+  self_G0
+  ([v0]
+   (let
+    [t_G1 v0]
+    (case
+     (nth t_G1 0)
+     0
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [1
+       0
+       (lcert.extracted.runtime/encLN fG2_0)
+       [1
+        0
+        (lcert.extracted.runtime/encHd fG2_1)
+        [1
+         0
+         (lcert.extracted.runtime/encE fG2_2)
+         [1 0 (lcert.extracted.runtime/encE fG2_3) [0 0]]]]])
+     (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G1 0)))))))))
 
 (def
  encU
@@ -18304,6 +18910,16 @@
 (def
  f7BoolEq
  (fn self_G0 ([v0] (fn [v1] (self_G0 v0 v1))) ([v0 v1] (let [t_G1 v0] (if t_G1 v1 (not v1))))))
+
+(def
+ f7OptCode
+ (fn
+  self_G0
+  ([v0] (fn [v1] (self_G0 v0 v1)))
+  ([v0 v1]
+   (let
+    [t_G1 v0]
+    (if (nil? t_G1) false (let [fG2_0 (nth t_G1 0)] (lcert.extracted.runtime/codeEq fG2_0 v1)))))))
 
 (def
  f7OptExp
@@ -18656,6 +19272,32 @@
 (def gTy (fn self_G0 ([v0] [9 [2] [4] (lcert.extracted.runtime/lift 1 0 v0)])))
 
 (def
+ getP
+ (fn self_G0 ([v0] (fn [v1] (self_G0 v0 v1))) ([v0 v1] (lcert.extracted.runtime/getPF v0 v1))))
+
+(def
+ getPF
+ (let
+  [curried
+   (fn
+    [v0]
+    (letfn
+     [(rec_G0
+       [t_G1]
+       (if
+        (not (seq t_G1))
+        (fn [v1] [v1])
+        (let
+         [fG2_0 (first t_G1) fG2_1 (rest t_G1)]
+         (fn
+          [v4]
+          (let
+           [t_G3 (lcert.extracted.runtime/child v4 fG2_0)]
+           (if (nil? t_G3) nil (let [fG4_0 (nth t_G3 0)] ((rec_G0 fG2_1) fG4_0))))))))]
+     (rec_G0 v0)))]
+  (fn [& args] (reduce (fn [f arg] (f arg)) curried args))))
+
+(def
  guardC
  (fn
   self_G0
@@ -18687,6 +19329,415 @@
       [1]
       (lcert.extracted.runtime/lift 2 0 v0)
       [9 [1] (lcert.extracted.runtime/lift 3 0 v0) (lcert.extracted.runtime/lift 4 0 v0)]]]])))
+
+(def
+ hdB
+ (fn
+  self_G0
+  ([v0]
+   (let
+    [t_G1 v0]
+    (case
+     (nth t_G1 0)
+     0
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)] 0)
+     1
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)]
+      0)
+     2
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)] 0)
+     3
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)] 0)
+     4
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] 0)
+     5
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] 0)
+     6
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] 0)
+     7
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)] 0)
+     8
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)] 0)
+     9
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)] 0)
+     10
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)]
+      0)
+     11
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)] 0)
+     12
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)]
+      0)
+     13
+     (let [fG2_0 (nth t_G1 1)] 0)
+     14
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)] 0)
+     15
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      (+' (lcert.extracted.runtime/cnodes fG2_2) 1))
+     16
+     0
+     17
+     0
+     (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G1 0)))))))))
+
+(def
+ hdCheck
+ (fn
+  self_G0
+  ([v0] (fn [v1] (fn [v2] (fn [v3] (self_G0 v0 v1 v2 v3)))))
+  ([v0 v1] (fn [v2] (fn [v3] (self_G0 v0 v1 v2 v3))))
+  ([v0 v1 v2] (fn [v3] (self_G0 v0 v1 v2 v3)))
+  ([v0 v1 v2 v3]
+   (and
+    (lcert.extracted.runtime/expEq v2 (lcert.extracted.runtime/hdSource v1))
+    (and
+     (lcert.extracted.runtime/expEq v3 (lcert.extracted.runtime/hdTarget v0 v1))
+     (lcert.extracted.runtime/hdSide v1))))))
+
+(def
+ hdSide
+ (fn
+  self_G0
+  ([v0]
+   (let
+    [t_G1 v0]
+    (case
+     (nth t_G1 0)
+     0
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)] true)
+     1
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)]
+      true)
+     2
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)] true)
+     3
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)] true)
+     4
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] true)
+     5
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] true)
+     6
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] true)
+     7
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)] true)
+     8
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      (and
+       (lcert.extracted.runtime/f7OptExp (lcert.extracted.runtime/nthB fG2_2 fG2_1) fG2_3)
+       true))
+     9
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)] true)
+     10
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)]
+      true)
+     11
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)] true)
+     12
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)]
+      true)
+     13
+     (let [fG2_0 (nth t_G1 1)] true)
+     14
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)] true)
+     15
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      (and
+       (lcert.extracted.runtime/f7OptCode (lcert.extracted.runtime/codeOf fG2_0) fG2_2)
+       (and
+        (lcert.extracted.runtime/f7OptCode (lcert.extracted.runtime/codeOf fG2_1) fG2_3)
+        true)))
+     16
+     true
+     17
+     true
+     (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G1 0)))))))))
+
+(def
+ hdSource
+ (fn
+  self_G0
+  ([v0]
+   (let
+    [t_G1 v0]
+    (case
+     (nth t_G1 0)
+     0
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [33 [32 fG2_0 fG2_1 fG2_2] fG2_3])
+     1
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)]
+      [35 fG2_0 [34 fG2_1 fG2_2 fG2_3] fG2_4])
+     2
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)] [16 [14] fG2_0 fG2_1])
+     3
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)] [16 [15] fG2_0 fG2_1])
+     4
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] [17 fG2_0 [14] fG2_1 fG2_2])
+     5
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] [17 fG2_0 [15] fG2_1 fG2_2])
+     6
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] [20 fG2_0 fG2_1 fG2_2 [18]])
+     7
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [20 fG2_0 fG2_1 fG2_2 [19 fG2_3]])
+     8
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [22 fG2_0 [21 fG2_1] fG2_2])
+     9
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [27 fG2_0 fG2_1 fG2_2 [25 fG2_3]])
+     10
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)]
+      [27 fG2_0 fG2_1 fG2_2 [26 fG2_3 fG2_4 fG2_5]])
+     11
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [30 fG2_0 fG2_1 fG2_2 [28 fG2_3]])
+     12
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)]
+      [30 fG2_0 fG2_1 fG2_2 [29 fG2_3 fG2_4 fG2_5 fG2_6]])
+     13
+     (let [fG2_0 (nth t_G1 1)] [31 [28 fG2_0]])
+     14
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [31 [29 fG2_0 fG2_1 fG2_2 fG2_3]])
+     15
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [36 fG2_0 fG2_1])
+     16
+     [8 [14]]
+     17
+     [8 [15]]
+     (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G1 0)))))))))
+
+(def
+ hdTarget
+ (fn
+  self_G0
+  ([v0] (fn [v1] (self_G0 v0 v1)))
+  ([v0 v1]
+   (let
+    [t_G1 v1]
+    (case
+     (nth t_G1 0)
+     0
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      (lcert.extracted.runtime/subst1 fG2_3 fG2_2))
+     1
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)]
+      (lcert.extracted.runtime/substL
+       (clojure.core/cons fG2_3 (clojure.core/cons fG2_2 nil))
+       fG2_4))
+     2
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)] fG2_0)
+     3
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)] fG2_1)
+     4
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] fG2_1)
+     5
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] fG2_2)
+     6
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] fG2_1)
+     7
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      (lcert.extracted.runtime/substL
+       (clojure.core/cons [20 fG2_0 fG2_1 fG2_2 fG2_3] (clojure.core/cons fG2_3 nil))
+       fG2_2))
+     8
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)] fG2_3)
+     9
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      (lcert.extracted.runtime/subst1 fG2_3 fG2_1))
+     10
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)]
+      (lcert.extracted.runtime/substL
+       (clojure.core/cons
+        [27 fG2_0 fG2_1 fG2_2 fG2_5]
+        (clojure.core/cons
+         [27 fG2_0 fG2_1 fG2_2 fG2_4]
+         (clojure.core/cons fG2_5 (clojure.core/cons fG2_4 (clojure.core/cons fG2_3 nil)))))
+       fG2_2))
+     11
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [33 fG2_1 fG2_3])
+     12
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)
+       fG2_5
+       (nth t_G1 6)
+       fG2_6
+       (nth t_G1 7)]
+      [33
+       [33 [33 [33 fG2_2 fG2_3] fG2_4] [30 fG2_0 fG2_1 fG2_2 fG2_5]]
+       [30 fG2_0 fG2_1 fG2_2 fG2_6]])
+     13
+     (let [fG2_0 (nth t_G1 1)] [25 fG2_0])
+     14
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [26 fG2_1 [31 fG2_2] [31 fG2_3]])
+     15
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      (lcert.extracted.runtime/boolExp ((v0 fG2_2) fG2_3)))
+     16
+     [1]
+     17
+     [0]
+     (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G1 0)))))))))
 
 (def
  htDT
@@ -20247,6 +21298,21 @@
   ([v0 v1] (let [t_G1 v1] (if (zero? t_G1) v0 (let [fG2_0 (dec t_G1)] [11 fG2_0]))))))
 
 (def
+ instL
+ (fn
+  self_G0
+  ([v0] (fn [v1] (self_G0 v0 v1)))
+  ([v0 v1]
+   (let
+    [t_G1 v0]
+    (if
+     (not (seq t_G1))
+     [11 v1]
+     (let
+      [fG2_0 (first t_G1) fG2_1 (rest t_G1)]
+      (let [t_G3 v1] (if (zero? t_G3) fG2_0 (let [fG4_0 (dec t_G3)] (recur fG2_1 fG4_0))))))))))
+
+(def
  isBaseOrDia
  (fn
   self_G0
@@ -21544,6 +22610,124 @@
 (def notE (fn self_G0 ([v0] [16 v0 [15] [14]])))
 
 (def
+ nthB
+ (fn
+  self_G0
+  ([v0] (fn [v1] (self_G0 v0 v1)))
+  ([v0 v1]
+   (let
+    [t_G1 v0]
+    (case
+     (nth t_G1 0)
+     0
+     nil
+     1
+     nil
+     2
+     nil
+     3
+     nil
+     4
+     nil
+     5
+     nil
+     6
+     nil
+     7
+     nil
+     8
+     (let [fG2_0 (nth t_G1 1)] nil)
+     9
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] nil)
+     10
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] nil)
+     11
+     (let [fG2_0 (nth t_G1 1)] nil)
+     12
+     nil
+     13
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)] nil)
+     14
+     nil
+     15
+     nil
+     16
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] nil)
+     17
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)] nil)
+     18
+     nil
+     19
+     (let [fG2_0 (nth t_G1 1)] nil)
+     20
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)] nil)
+     21
+     (let [fG2_0 (nth t_G1 1)] nil)
+     22
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] nil)
+     23
+     nil
+     24
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)]
+      (let [t_G3 v1] (if (zero? t_G3) [fG2_0] (let [fG4_0 (dec t_G3)] (recur fG2_1 fG4_0)))))
+     25
+     (let [fG2_0 (nth t_G1 1)] nil)
+     26
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] nil)
+     27
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)] nil)
+     28
+     (let [fG2_0 (nth t_G1 1)] nil)
+     29
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)] nil)
+     30
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)] nil)
+     31
+     (let [fG2_0 (nth t_G1 1)] nil)
+     32
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] nil)
+     33
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)] nil)
+     34
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] nil)
+     35
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] nil)
+     36
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)] nil)
+     37
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)]
+      nil)
+     38
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)] nil)
+     39
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)]
+      nil)
+     40
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)] nil)
+     (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G1 0)))))))))
+
+(def
  nthE
  (fn
   self_G0
@@ -21643,6 +22827,255 @@
  (fn
   self_G0
   ([v0] (let [t_G1 v0] (if (zero? t_G1) [19 [11 0]] (let [fG2_0 (dec t_G1)] [11 (+' fG2_0 1)]))))))
+
+(def
+ setKid
+ (fn
+  self_G0
+  ([v0] (fn [v1] (fn [v2] (self_G0 v0 v1 v2))))
+  ([v0 v1] (fn [v2] (self_G0 v0 v1 v2)))
+  ([v0 v1 v2]
+   (let
+    [t_G1 v0]
+    (case
+     (nth t_G1 0)
+     0
+     [0]
+     1
+     [1]
+     2
+     [2]
+     3
+     [3]
+     4
+     [4]
+     5
+     [5]
+     6
+     [6]
+     7
+     [7]
+     8
+     (let [fG2_0 (nth t_G1 1)] [8 (let [t_G3 (== v1 0)] (if t_G3 v2 fG2_0))])
+     9
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      [9
+       fG2_0
+       (let [t_G4 (== v1 0)] (if t_G4 v2 fG2_1))
+       (let [t_G5 (== v1 1)] (if t_G5 v2 fG2_2))])
+     10
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      [10
+       fG2_0
+       (let [t_G6 (== v1 0)] (if t_G6 v2 fG2_1))
+       (let [t_G7 (== v1 1)] (if t_G7 v2 fG2_2))])
+     11
+     (let [fG2_0 (nth t_G1 1)] [11 fG2_0])
+     12
+     [12]
+     13
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)]
+      [13 (let [t_G8 (== v1 0)] (if t_G8 v2 fG2_0)) (let [t_G9 (== v1 1)] (if t_G9 v2 fG2_1))])
+     14
+     [14]
+     15
+     [15]
+     16
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      [16
+       (let [t_G10 (== v1 0)] (if t_G10 v2 fG2_0))
+       (let [t_G11 (== v1 1)] (if t_G11 v2 fG2_1))
+       (let [t_G12 (== v1 2)] (if t_G12 v2 fG2_2))])
+     17
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [17
+       (let [t_G13 (== v1 0)] (if t_G13 v2 fG2_0))
+       (let [t_G14 (== v1 1)] (if t_G14 v2 fG2_1))
+       (let [t_G15 (== v1 2)] (if t_G15 v2 fG2_2))
+       (let [t_G16 (== v1 3)] (if t_G16 v2 fG2_3))])
+     18
+     [18]
+     19
+     (let [fG2_0 (nth t_G1 1)] [19 (let [t_G17 (== v1 0)] (if t_G17 v2 fG2_0))])
+     20
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [20
+       (let [t_G18 (== v1 0)] (if t_G18 v2 fG2_0))
+       (let [t_G19 (== v1 1)] (if t_G19 v2 fG2_1))
+       (let [t_G20 (== v1 2)] (if t_G20 v2 fG2_2))
+       (let [t_G21 (== v1 3)] (if t_G21 v2 fG2_3))])
+     21
+     (let [fG2_0 (nth t_G1 1)] [21 fG2_0])
+     22
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      [22
+       (let [t_G22 (== v1 0)] (if t_G22 v2 fG2_0))
+       (let [t_G23 (== v1 1)] (if t_G23 v2 fG2_1))
+       (let [t_G24 (== v1 2)] (if t_G24 v2 fG2_2))])
+     23
+     [23]
+     24
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)]
+      [24 (let [t_G25 (== v1 0)] (if t_G25 v2 fG2_0)) (let [t_G26 (== v1 1)] (if t_G26 v2 fG2_1))])
+     25
+     (let [fG2_0 (nth t_G1 1)] [25 (let [t_G27 (== v1 0)] (if t_G27 v2 fG2_0))])
+     26
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      [26
+       (let [t_G28 (== v1 0)] (if t_G28 v2 fG2_0))
+       (let [t_G29 (== v1 1)] (if t_G29 v2 fG2_1))
+       (let [t_G30 (== v1 2)] (if t_G30 v2 fG2_2))])
+     27
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [27
+       (let [t_G31 (== v1 0)] (if t_G31 v2 fG2_0))
+       (let [t_G32 (== v1 1)] (if t_G32 v2 fG2_1))
+       (let [t_G33 (== v1 2)] (if t_G33 v2 fG2_2))
+       (let [t_G34 (== v1 3)] (if t_G34 v2 fG2_3))])
+     28
+     (let [fG2_0 (nth t_G1 1)] [28 (let [t_G35 (== v1 0)] (if t_G35 v2 fG2_0))])
+     29
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [29
+       (let [t_G36 (== v1 0)] (if t_G36 v2 fG2_0))
+       (let [t_G37 (== v1 1)] (if t_G37 v2 fG2_1))
+       (let [t_G38 (== v1 2)] (if t_G38 v2 fG2_2))
+       (let [t_G39 (== v1 3)] (if t_G39 v2 fG2_3))])
+     30
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      [30
+       (let [t_G40 (== v1 0)] (if t_G40 v2 fG2_0))
+       (let [t_G41 (== v1 1)] (if t_G41 v2 fG2_1))
+       (let [t_G42 (== v1 2)] (if t_G42 v2 fG2_2))
+       (let [t_G43 (== v1 3)] (if t_G43 v2 fG2_3))])
+     31
+     (let [fG2_0 (nth t_G1 1)] [31 (let [t_G44 (== v1 0)] (if t_G44 v2 fG2_0))])
+     32
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      [32
+       fG2_0
+       (let [t_G45 (== v1 0)] (if t_G45 v2 fG2_1))
+       (let [t_G46 (== v1 1)] (if t_G46 v2 fG2_2))])
+     33
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)]
+      [33 (let [t_G47 (== v1 0)] (if t_G47 v2 fG2_0)) (let [t_G48 (== v1 1)] (if t_G48 v2 fG2_1))])
+     34
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      [34
+       (let [t_G49 (== v1 0)] (if t_G49 v2 fG2_0))
+       (let [t_G50 (== v1 1)] (if t_G50 v2 fG2_1))
+       (let [t_G51 (== v1 2)] (if t_G51 v2 fG2_2))])
+     35
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      [35
+       (let [t_G52 (== v1 0)] (if t_G52 v2 fG2_0))
+       (let [t_G53 (== v1 1)] (if t_G53 v2 fG2_1))
+       (let [t_G54 (== v1 2)] (if t_G54 v2 fG2_2))])
+     36
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)]
+      [36 (let [t_G55 (== v1 0)] (if t_G55 v2 fG2_0)) (let [t_G56 (== v1 1)] (if t_G56 v2 fG2_1))])
+     37
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)]
+      [37
+       (let [t_G57 (== v1 0)] (if t_G57 v2 fG2_0))
+       (let [t_G58 (== v1 1)] (if t_G58 v2 fG2_1))
+       (let [t_G59 (== v1 2)] (if t_G59 v2 fG2_2))
+       (let [t_G60 (== v1 3)] (if t_G60 v2 fG2_3))
+       (let [t_G61 (== v1 4)] (if t_G61 v2 fG2_4))])
+     38
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3)]
+      [38
+       (let [t_G62 (== v1 0)] (if t_G62 v2 fG2_0))
+       (let [t_G63 (== v1 1)] (if t_G63 v2 fG2_1))
+       (let [t_G64 (== v1 2)] (if t_G64 v2 fG2_2))])
+     39
+     (let
+      [fG2_0
+       (nth t_G1 1)
+       fG2_1
+       (nth t_G1 2)
+       fG2_2
+       (nth t_G1 3)
+       fG2_3
+       (nth t_G1 4)
+       fG2_4
+       (nth t_G1 5)]
+      [39
+       (let [t_G65 (== v1 0)] (if t_G65 v2 fG2_0))
+       (let [t_G66 (== v1 1)] (if t_G66 v2 fG2_1))
+       (let [t_G67 (== v1 2)] (if t_G67 v2 fG2_2))
+       (let [t_G68 (== v1 3)] (if t_G68 v2 fG2_3))
+       (let [t_G69 (== v1 4)] (if t_G69 v2 fG2_4))])
+     40
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2)]
+      [40 (let [t_G70 (== v1 0)] (if t_G70 v2 fG2_0)) fG2_1])
+     (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G1 0)))))))))
+
+(def
+ setP
+ (fn
+  self_G0
+  ([v0] (fn [v1] (fn [v2] (self_G0 v0 v1 v2))))
+  ([v0 v1] (fn [v2] (self_G0 v0 v1 v2)))
+  ([v0 v1 v2] (lcert.extracted.runtime/setPF v0 v1 v2))))
+
+(def
+ setPF
+ (let
+  [curried
+   (fn
+    [v0]
+    (letfn
+     [(rec_G0
+       [t_G1]
+       (if
+        (not (seq t_G1))
+        (fn [v1] (fn [v2] v2))
+        (let
+         [fG2_0 (first t_G1) fG2_1 (rest t_G1)]
+         (fn
+          [v4]
+          (fn
+           [v5]
+           (let
+            [t_G3 (lcert.extracted.runtime/child v4 fG2_0)]
+            (if
+             (nil? t_G3)
+             v4
+             (let
+              [fG4_0 (nth t_G3 0)]
+              (lcert.extracted.runtime/setKid v4 fG2_0 (((rec_G0 fG2_1) fG4_0) v5))))))))))]
+     (rec_G0 v0)))]
+  (fn [& args] (reduce (fn [f arg] (f arg)) curried args))))
 
 (def
  sk2
@@ -22867,18 +24300,85 @@
      (rec_G0 v0)))]
   (fn [& args] (reduce (fn [f arg] (f arg)) curried args))))
 
-(def stepDTB (fn self_G0 ([v0] (let [t_G1 v0] (throw (ex-info "unsupported rec pattern" {}))))))
+(def
+ stepCheck
+ (fn
+  self_G0
+  ([v0] (fn [v1] (fn [v2] (fn [v3] (fn [v4] (self_G0 v0 v1 v2 v3 v4))))))
+  ([v0 v1] (fn [v2] (fn [v3] (fn [v4] (self_G0 v0 v1 v2 v3 v4)))))
+  ([v0 v1 v2] (fn [v3] (fn [v4] (self_G0 v0 v1 v2 v3 v4))))
+  ([v0 v1 v2 v3] (fn [v4] (self_G0 v0 v1 v2 v3 v4)))
+  ([v0 v1 v2 v3 v4]
+   (and
+    (lcert.extracted.runtime/f7OptExp
+     (lcert.extracted.runtime/getP v1 v3)
+     (lcert.extracted.runtime/hdSource v2))
+    (and
+     (lcert.extracted.runtime/hdCheck
+      v0
+      v2
+      (lcert.extracted.runtime/hdSource v2)
+      (lcert.extracted.runtime/hdTarget v0 v2))
+     (lcert.extracted.runtime/expEq
+      v4
+      (lcert.extracted.runtime/setP v1 v3 (lcert.extracted.runtime/hdTarget v0 v2))))))))
+
+(def
+ stepDTB
+ (fn
+  self_G0
+  ([v0]
+   (let
+    [t_G1 v0]
+    (case
+     (nth t_G1 0)
+     0
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      (lcert.extracted.runtime/hdB fG2_1))
+     (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G1 0)))))))))
 
 (def
  stepDTCheck
  (fn
   self_G0
   ([v0] (fn [v1] (self_G0 v0 v1)))
-  ([v0 v1] (let [t_G1 v1] (throw (ex-info "unsupported rec pattern" {}))))))
+  ([v0 v1]
+   (let
+    [t_G1 v1]
+    (case
+     (nth t_G1 0)
+     0
+     (let
+      [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)]
+      (lcert.extracted.runtime/stepCheck v0 fG2_0 fG2_1 fG2_2 fG2_3))
+     (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G1 0)))))))))
 
-(def stepDTSrc (fn self_G0 ([v0] (let [t_G1 v0] (throw (ex-info "unsupported rec pattern" {}))))))
+(def
+ stepDTSrc
+ (fn
+  self_G0
+  ([v0]
+   (let
+    [t_G1 v0]
+    (case
+     (nth t_G1 0)
+     0
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)] fG2_2)
+     (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G1 0)))))))))
 
-(def stepDTTgt (fn self_G0 ([v0] (let [t_G1 v0] (throw (ex-info "unsupported rec pattern" {}))))))
+(def
+ stepDTTgt
+ (fn
+  self_G0
+  ([v0]
+   (let
+    [t_G1 v0]
+    (case
+     (nth t_G1 0)
+     0
+     (let [fG2_0 (nth t_G1 1) fG2_1 (nth t_G1 2) fG2_2 (nth t_G1 3) fG2_3 (nth t_G1 4)] fG2_3)
+     (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G1 0)))))))))
 
 (def
  stepTy
@@ -23134,6 +24634,13 @@
         (throw (ex-info "no matching ctor (tagged rep)" (array-map :tag (nth t_G1 0))))))]
      (rec_G0 v0)))]
   (fn [& args] (reduce (fn [f arg] (f arg)) curried args))))
+
+(def
+ substL
+ (fn
+  self_G0
+  ([v0] (fn [v1] (self_G0 v0 v1)))
+  ([v0 v1] (lcert.extracted.runtime/subst (fn [v2] (lcert.extracted.runtime/instL v0 v2)) v1))))
 
 (def
  thetaD

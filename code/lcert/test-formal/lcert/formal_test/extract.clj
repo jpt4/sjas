@@ -145,6 +145,30 @@
      (DT.rConst (List.nil Exp) (List.nil U) Exp.star Exp.tUnit)
      (DT.fBase (List.nil Exp) Exp.tUnit)))
 
+(deftest conversion-steps-through-extracted-functions
+  ;; StepDT has one constructor. Ansatz's code generator lowers a recursor
+  ;; on such a type to a stub that throws "unsupported rec pattern", so
+  ;; extracted Check could not run a certificate with a conversion step.
+  ;; The extracted step functions must agree with kernel reduction.
+  (let [step-check (extract/compile-closure! 'stepDTCheck)
+        step-src (extract/compile-closure! 'stepDTSrc)
+        enc-st (extract/compile-closure! 'encSt)
+        dec-st (extract/compile-closure! 'decSt)
+        no-delta (fn [_ _] false)
+        ;; T(tt) ⇝ 1 at the root, and a wrong target.
+        good '(StepDT.at (List.nil Nat) HdDT.tTT (Exp.tT Exp.tt) Exp.tUnit)
+        bad '(StepDT.at (List.nil Nat) HdDT.tTT (Exp.tT Exp.tt) Exp.tBool)
+        kernel (fn [form b]
+                 (false? (b/rejects? []
+                           (list 'Eq 'Bool (list 'stepDTCheck '(fn [c :- Code, d :- Code] Bool.false) form) b)
+                           '[(rfl)])))]
+    (is (kernel good 'Bool.true))
+    (is (kernel bad 'Bool.false))
+    (is (true? (step-check no-delta (runtime-form good))))
+    (is (false? (step-check no-delta (runtime-form bad))))
+    (is (= (runtime-form '(Exp.tT Exp.tt)) (step-src (runtime-form good))))
+    (is (= [(runtime-form good)] (dec-st (enc-st (runtime-form good)))))))
+
 (deftest standalone-runtime-source
   ;; ADR-0008: the production path loads the extracted core from a source
   ;; file, with neither Ansatz nor a formal namespace at run time.
@@ -156,6 +180,9 @@
     (testing "the generated code names neither Ansatz nor a formal namespace"
       ;; Code only: the header comment names the generator.
       (is (not (re-find #"ansatz|lcert\.formal" (str/replace text #"(?m);.*$" "")))))
+    (testing "no generated function is a stub that throws"
+      ;; Ansatz emits this stub for a recursor it cannot lower.
+      (is (not (str/includes? text "unsupported rec pattern"))))
     (testing "loaded alone, it decides the F7 certificate as the kernel does"
       (load-string (str/replace text "lcert.extracted.runtime" "lcert.extracted.scratch"))
       (let [r (fn [s] @(ns-resolve 'lcert.extracted.scratch s))

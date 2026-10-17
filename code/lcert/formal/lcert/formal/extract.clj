@@ -30,7 +30,11 @@
   ;; same Ansatz path to obtain standalone generated forms.
   {'nthE "formal/lcert/formal/judgment.clj"
    'nthU "formal/lcert/formal/judgment.clj"
-   'nthS "formal/lcert/formal/conv.clj"})
+   'nthS "formal/lcert/formal/conv.clj"
+   ;; Reached once StepDT's step check compiles (2026-10-17): the redex's
+   ;; contractum and caseLb's branch lookup.
+   'instL "formal/lcert/formal/conv.clj"
+   'nthB "formal/lcert/formal/conv.clj"})
 
 ;; defonce takes no docstring argument, so the docstring is metadata.
 (defonce ^{:doc "Every generated form, by definition name, as emitted in this process: the
@@ -69,6 +73,15 @@
              (when-let [c0 (env/lookup E (aget ctors 0))]
                (pos? (.numFields c0))))))))
 
+(def ^:private single-constructor-types
+  ;; One constructor with fields: Ansatz lowers a recursor (or casesOn) on
+  ;; such a type to a stub that throws "unsupported rec pattern", so
+  ;; extracted Check failed on every conversion step (2026-10-17). Tagged,
+  ;; the type takes the general tagged lowering at every site. Listed by
+  ;; name, not by shape, so Lean's own structures (Prod, …) keep Ansatz's
+  ;; builtin lowering; the standalone-runtime test rejects any new stub.
+  #{"StepDT"})
+
 (defn- use-consistent-tags! []
   ;; All three constructor/recursor sites in Ansatz call this Var. Patching
   ;; it before compilation keeps generated values and matches consistent.
@@ -78,6 +91,7 @@
   (alter-var-root #'cg/tagged-inductive?
     (constantly (fn [E ind]
                   (or (= ind "U")
+                      (contains? single-constructor-types ind)
                       (original-tagged E ind)
                       (tagged-with-fielded-first-constructor? E ind))))))
 
