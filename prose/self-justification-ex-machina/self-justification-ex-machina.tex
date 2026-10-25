@@ -1,0 +1,982 @@
+% Self-Justification Ex Machina
+%
+% A companion to Sebastian Oberhoff, "Incompleteness Ex Machina" (2018),
+% https://www.scottaaronson.com/incompleteness.pdf
+%
+% Provenance conventions follow nachlass/codification/codified-sjas.md:
+% every Willard result is cited by paper, numbered item and page (author
+% copies in nachlass/papers/), with its proof status (full / sketch / cited /
+% stated-only) as recorded in nachlass/codification/registry/results.md.
+% Quotations marked as verbatim were checked against rendered page images.
+% The reading notes behind this essay are in
+% docs/log/2026-10-24-incompleteness-ex-machina-analysis.md.
+%
+% Build: pdflatex self-justification-ex-machina.tex (twice).
+
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{marvosym}      % \Lightning, Oberhoff's contradiction mark
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{array}       % ragged-right p{} columns in the price table
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathreplacing}  % brace under the figure's number line
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+
+% --- Notation -------------------------------------------------------------
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\Fo}{\mathcal{F}_0}
+\newcommand{\G}{\ddot{\mathsf{G}}}          % Oberhoff's computational Goedel sentence
+\newcommand{\R}{\ddot{\mathsf{R}}}          % Oberhoff's computational Rosser sentence
+\newcommand{\W}{\ddot{\mathsf{W}}}          % this essay's self-consistency sentence
+\newcommand{\Prog}[1]{\mathsf{#1}}
+% Formal sentence in Oberhoff's guillemets. In math mode it is boxed with
+% \text; in running text it is left unboxed so long sentences can line-break.
+\newcommand{\fs}[1]{\ifmmode\text{\guillemotleft#1\guillemotright}\else\guillemotleft#1\guillemotright\fi}
+\newcommand{\contra}{~\text{\Lightning}}  % tie: never wrap the mark onto its own line
+\newcommand{\Prov}{\mathrm{Prov}}
+\newcommand{\Prf}{\mathrm{Prf}}
+
+% Oberhoff's case-analysis layout: bold case heads, arrow-led steps.
+\newcommand{\Case}[1]{\par\smallskip\noindent\hspace*{1em}\textbf{#1}\par}
+\newcommand{\SubCase}[1]{\par\noindent\hspace*{3em}\textbf{#1}\par}
+\newlist{steps}{itemize}{2}
+\setlist[steps]{label=$\Rightarrow$, leftmargin=5em, itemsep=1pt, topsep=2pt}
+\newlist{topsteps}{itemize}{1}
+\setlist[topsteps]{label=$\Rightarrow$, leftmargin=3em, itemsep=2pt, topsep=3pt}
+
+\lstset{
+  basicstyle=\small\sffamily,
+  keywordstyle=\bfseries,
+  morekeywords={for,if,halt,return,true,false},
+  columns=fullflexible,
+  frame=lines,
+  mathescape=true,
+  xleftmargin=0pt,
+  aboveskip=8pt, belowskip=8pt
+}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+% Lettered, so this essay's results never collide with Oberhoff's Theorems 1-7,
+% which the text cites by number throughout.
+\renewcommand{\thetheorem}{\Alph{theorem}}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\title{Self-Justification Ex Machina}
+\author{jpt4\thanks{Draft of 24 October 2026, prepared with Claude (Anthropic)
+  in the \texttt{sjas} research repository. Willard's results are cited from
+  that repository's codification of his papers
+  (\texttt{nachlass/codification/codified-sjas.md}), with page numbers
+  referring to the author copies held there and proof statuses as recorded
+  there.}}
+\date{In memory of Dan E. Willard (1948--2023)}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+Sebastian Oberhoff's essay \emph{Incompleteness Ex Machina} proves Gödel's
+incompleteness theorems twice, once with sentences and once with programs,
+and concludes that Gödel's work divides into two parts: teaching arithmetic
+to compute, and the incompleteness theorems, which are victory laps. We look
+closely at the one step of the second theorem that Oberhoff takes ``with some
+faith''. It asks a formal system to believe that whenever it can watch a
+program halt, it can also write down a transcript of the run, and transcripts
+are bigger than what they record. That belief is a claim about how fast
+numbers grow. Dan Willard's self-justifying axiom systems are what remains
+when the belief is withheld. They watch computations as well as any
+arithmetic does, they are incomplete, and they take their own consistency as
+an axiom and are right. We retell Willard's consistency argument as a program
+in Oberhoff's style, show that the faith step cannot be proved in such a
+system (Oberhoff's own argument, run backwards), and locate where the faith
+comes back: at multiplication for proofs that never reuse a lemma, and
+already at counting for proofs that do. Gödel's work, rightly viewed, splits
+into three parts, not two.
+\end{abstract}
+
+\begin{quote}\small
+Another way to motivate the axiom system IS is to consider a philosopher's
+response to the question of whether multiplication is a function. His first
+answer would likely be ``of course yes''. But if one then asked the
+philosopher to construct a sequence of natural numbers
+$a_0, a_1, a_2, a_3, \ldots$ where $a_0 \ge 2$ and $a_{i+1} = (a_i)^2$, a hedge
+would quickly follow because $a_n$ requires at least $2^n$ bits. The expected
+response would then be that ``multiplication is a function in theory but not
+always in practice''.
+\hfill --- Dan Willard, SUNY Albany TR~93-10, p.~6
+\end{quote}
+
+% ==========================================================================
+\section{Victory Laps}
+
+Oberhoff's essay~\cite{oberhoff} does something deceptively simple. It
+writes out Gödel's first incompleteness theorem, Rosser's improvement of it,
+and the second incompleteness theorem as explicit case analyses. Then it
+replaces Gödel's sentence $\mathsf{G}$ (``I am not provable'') by
+$\G = \fs{$\Prog{P}(\Prog{P})$ doesn't halt}$, where $\Prog{P}$ is the program
+\begin{lstlisting}
+P(A) {
+  for s $\in$ all possible strings {
+    if s is a proof in $\F$ that A(A) doesn't halt {
+      halt;
+    }
+  }
+}
+\end{lstlisting}
+and observes that each case analysis can be copied almost word for word.
+The punchline (his \S5) is that $\G$ is $\mathsf{G}$ wearing Clark Kent's
+glasses: $\Prog{P}(\Prog{P})$ is searching $\F$'s proofs for a proof of $\G$,
+so $\G$ says ``I am not provable''. His moral (\S6) is a refactoring. The
+hard part of Gödel's work was teaching arithmetic to compute, packaged as
+\begin{quote}
+\textbf{Theorem 7} (Turing Completeness of Elementary Arithmetic).
+\emph{Every formal system capable of reasoning about elementary arithmetic
+can also reason about algorithms,}
+\end{quote}
+which Oberhoff leaves ``to smarter people''. The incompleteness theorems
+themselves are victory laps.
+
+For the first incompleteness theorem we accept this completely. This essay
+is about the second. Its proof in~\cite{oberhoff} contains exactly one step
+that Oberhoff marks as taken on trust (Theorem~6, third step):
+\begin{quote}
+Now we simply observe (with some faith) that there wasn't actually anything
+in the reasoning we used to prove this that we couldn't carry out just as
+well in $\F$.
+\end{quote}
+For the systems Oberhoff has in mind, that faith is well placed. But some
+formal systems can reason about algorithms in every sense the first theorem
+needs, and for them the faith is misplaced and the conclusion of Theorem~6 is
+false: they prove their own consistency, and they are consistent. Dan Willard
+constructed them between 1993 and 2021~\cite{w93tr,w01,w05,w06a,w20}. (We
+cite Willard's papers by year, as in the bibliography: ``2002a'' is
+\cite{w02a}.) This essay tells their story in Oberhoff's language. Our headline is that the
+faith step is not part of the victory lap. It is a third part of Gödel's
+work, and it has a price.
+
+% ==========================================================================
+\section{Where the Faith Lives}
+\label{sec:faith}
+
+Here is the first half of Oberhoff's proof that $\G$ is undecidable (his \S4,
+a second proof of his Theorem~4):
+
+\Case{Suppose $\G$ is provable:}
+\SubCase{Or $\neg\G$ isn't provable:}
+\begin{steps}
+\item Because $\G$ is provable $\Prog{P}(\Prog{P})$ will eventually find such
+  a proof after some sequence of steps which we can write out in $\F$.
+\item Because this sequence leads to a terminal state this gives a proof of
+  $\fs{$\Prog{P}(\Prog{P})$ halts} = \neg\G$.\contra
+\end{steps}
+
+\smallskip\noindent
+Theorem~6 asks $\F$ to run this argument on itself. Written as statements
+that $\F$ must prove, the argument has three steps.
+\begin{enumerate}[label=(\arabic*), leftmargin=2.5em]
+\item \fs{If $\Prog{P}(\Prog{P})$ halts, then $\G$ is provable.} This is
+  cheap. $\Prog{P}$ halts only after it has found a proof of $\G$. If we
+  formalize \fs{$\Prog{P}(\Prog{P})$ halts} as \fs{$\Prog{P}$'s search
+  succeeds}, which is how arithmetic usually formalizes it, the two sentences
+  are the same sentence.\footnote{If halting is formalized through execution
+  traces instead, even this step costs something: given a proof $s$, $\F$
+  must believe that the trace of the search up to $s$ exists. Willard always
+  works with proof predicates directly.}
+\item \fs{If $\G$ is provable, then $\neg\G$ is provable.} This is the step
+  ``$\Prog{P}(\Prog{P})$ will eventually find such a proof after some
+  sequence of steps which we can write out in $\F$''. Inside $\F$ it reads:
+  \emph{for every proof $s$ of $\G$ there is a proof of
+  \fs{$\Prog{P}(\Prog{P})$ halts}}, namely the proof that exhibits $s$ and
+  checks it.
+\item \fs{If $\G$ and $\neg\G$ are both provable, then $\F$ is inconsistent.}
+  This is free if ``consistent'' means that no sentence is provable together
+  with its negation. If it means that there is no proof of $0=1$, then $\F$
+  must also believe that two proofs can be combined into a third. That is
+  cheap with modus ponens and expensive without it (\S\ref{sec:price}).
+\end{enumerate}
+Chaining (1)--(3) gives $\F \vdash \fs{$\neg\G \Rightarrow \F$ is
+inconsistent}$, that is, $\F \vdash \fs{$\F$ is consistent $\Rightarrow \G$}$,
+which is what Theorem~6 needs.
+
+The only step that asks $\F$ to know something substantial about itself is
+(2). Look at its shape. In the first incompleteness theorem, ``which we can
+write out in $\F$'' was a fact \emph{about} $\F$, established by us from
+outside: we are handed a halting run and we produce the proof. In the second
+theorem it has to be a theorem \emph{of} $\F$, stated for every $s$ at once.
+The two deserve separate names.
+
+\begin{definition}[Watching]
+$\F$ \emph{watches} algorithms if, whenever a program halts, $\F$ proves
+that it halts.
+\end{definition}
+
+\begin{definition}[Knowing that one watches]
+$\F$ \emph{knows that it watches} if $\F$ proves, for programs $\Prog{A}$,
+\fs{if $\Prog{A}$ halts, then $\F$ proves that $\Prog{A}$ halts}.
+\end{definition}
+
+Watching is external $\Sigma_1$-completeness. Knowing that one watches is
+formalized $\Sigma_1$-completeness, in computational dress; the third
+Hilbert--Bernays--Löb derivability condition~\cite{hb39,lob55}, which the
+classical proof of the second theorem uses, is the special case in which the
+program is a proof search. Here is what
+each result of~\cite{oberhoff} uses:
+
+\begin{center}\small
+\begin{tabular}{@{}llccc@{}}
+\toprule
+Result in~\cite{oberhoff} & Assumes about $\F$ & Watches & Knows it watches \\
+\midrule
+Thm 4 (G1 via halting) & honest; complete (for contradiction) & --- & --- \\
+\S4, $\G$ undecidable & consistent; honest in case 2 & case 1 & --- \\
+Thm 5 (Rosser, via $\Prog{B}$) & consistent & both cases & --- \\
+Thm 6 (G2) & consistent & yes & step (2) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+Theorem 4 needs only that $\F$ can \emph{state} halting facts honestly; the
+search does the rest. Rosser's case 2 also uses the fact that a program which
+has entered \texttt{while true \{\}} never leaves it, a $\Pi_1$ fact that
+Oberhoff's footnote~12 says every respectable system can prove. Apart from
+that, every result in the essay except the second incompleteness theorem uses
+watching and nothing more. That is no accident of presentation. The
+classical proof of the second theorem runs through the derivability
+conditions; the computational retelling shows what the third condition
+\emph{says}. It says that transcripts exist.
+
+% ==========================================================================
+\section{Transcripts Are Bigger Than Runs}
+\label{sec:transcripts}
+
+Why should knowing be harder than watching? Because of a size mismatch. A
+proof of \fs{$\Prog{P}(\Prog{P})$ halts} has to contain $s$, or at least name
+it, and check it step by step. Written out, the check is bigger than $s$.
+(Replaying $\Prog{P}$'s whole search up to $s$ would be far bigger still.) So
+step~(2) asks $\F$ to prove a statement of the form ``for every $s$ there
+exists $t$'', where $t$ is a number larger than $s$, obtained from $s$
+uniformly. That is a totality claim: $\F$ must believe that the function
+taking a proof to its checked transcript is defined everywhere. A totality
+claim about a function that grows is a claim about how big numbers get.
+
+Most arithmetics accept it without blinking. Willard noticed that one can
+refuse it without refusing to compute. His first statement of the idea
+continues this essay's epigraph (TR 93-10, p.~7, verbatim):
+\begin{quote}\small
+This means there will always be adequate memory for writing $b_n$'s binary
+encoding when there is sufficient memory for storing a semantic tableaux
+proof of its existence (whereas the same is plainly not true \emph{when
+multiplication is assumed to be a function}).
+
+For instance, multiplication allows one to establish the existence of a
+number $a_{300}$ (in a proof with approximately 300 lines), whose binary
+encoding requires \emph{more digits} than the number of atoms in the
+universe.
+\end{quote}
+Here $b_{i+1} = b_i + b_i$ and $a_{i+1} = (a_i)^2$. The arithmetic is simple.
+Start both sequences at~2:
+\[
+x_n = 2^{n+1} \;(\text{doubling}), \qquad
+y_n = 2^{2^n} \;(\text{squaring}), \qquad
+\log_2 x_n = n+1, \qquad \log_2 y_n = 2^n .
+\]
+A proof that builds $x_n$ by $n$ doublings has about $n$ steps, and $x_n$
+has about $n$ binary digits: the number fits in the memory its proof
+occupies. A proof that builds $y_n$ by $n$ squarings also has about $n$
+steps, but $y_n$ has $2^n$ digits. Willard's later statement is sharper. It
+compares the Gödel number of a proof with the integer the proof shows to
+exist (Willard 2006a, Remark~3, p.~24, verbatim):
+\begin{quote}\small
+In particular, every proof of the existence of an integer $N$ using the
+additive convention will have a larger Gödel number than $N$. In contrast,
+the multiplicative convention allows for the Gödel number of such proofs to
+have a sharply smaller magnitude than $N$ (when for instance
+$N = 2^{2^k}$ and $k$ is larger than some fixed constant). In essence, this
+difference in magnitude is the reason the Second Incompleteness Theorem will
+generalize under the multiplicative naming paradigm --- while Section 4
+showed boundary-case exceptions to it exist under the additive naming
+convention.
+\end{quote}
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small]
+  \draw[->] (0,0) -- (12.4,0) node[right] {numbers};
+  \foreach \x/\l in {1.2/{$\sqrt{y}$}, 4.5/{$y^{5/6}$}, 7.0/{$y$}}
+    { \draw (\x,0.12) -- (\x,-0.12) node[below] {\l}; }
+  \draw[very thick] (0,0.55) -- (4.5,0.55);
+  \node[anchor=west] at (4.6,0.55) {doubling: everything a proof $y$ can name};
+  \draw[very thick, dashed] (0,1.25) -- (12.2,1.25);
+  \node[anchor=south east] at (12.2,1.3) {squaring: names reach far past $y$ itself};
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (0,-0.75) -- (7.0,-0.75)
+    node[midway,below=4pt] {Gödel numbers of proofs no larger than $y$};
+\end{tikzpicture}
+\caption{The horizon of a proof (schematic). In Willard's 2001 accounting,
+a tableau proof $y$ mentions only constants below $\sqrt{y}$, and with
+doubling as its fastest operation it can enlarge them by at most $y^{1/3}$
+along the branches that matter, so it names nothing beyond $y^{5/6} < y$
+(\S\ref{sec:machine}). With squaring, a few
+symbols name numbers far beyond $y$.}
+\label{fig:horizon}
+\end{figure}
+
+Put the two observations together. Step~(2) asks for transcripts, which
+are bigger than what they transcribe. In a system whose proofs cannot
+establish the existence of numbers bigger than themselves, step~(2) is in
+trouble. For now this is a heuristic; \S\ref{sec:backwards} turns it into a
+theorem, and the sections between describe systems built so that it holds.
+
+% ==========================================================================
+\section{A Machine That Says ``I Am Consistent''}
+\label{sec:genius}
+
+Oberhoff's moral for the second theorem is ``if you declare yourself a very
+stable genius, you're not''. Let us build the genius with his tools and watch
+it fall. Fix an honest base system $\Fo$ that can reason about algorithms,
+and consider
+
+\noindent\begin{minipage}{\linewidth}
+\begin{lstlisting}
+C(A) {
+  for s $\in$ all possible strings {
+    if s is a refutation of $\Fo + \fs{A(A) doesn't halt}$ {
+      halt;
+    }
+  }
+}
+\end{lstlisting}
+\end{minipage}
+A \emph{refutation} of a system is a proof of $0=1$ from it. (We picked
+$\Prog{C}$ because it is a circle that never quite closes; \S\ref{sec:machine}
+explains the joke.) Let
+\[
+\W = \fs{$\Prog{C}(\Prog{C})$ doesn't halt}, \qquad \F = \Fo + \W .
+\]
+Just as $\G$ says ``I am not provable'', $\W$ says ``nothing refutes $\Fo$
+together with me''. In other words, $\W$ says that $\F$ is consistent. So $\F$
+proves its own consistency in one line, because the claim is an axiom. This
+is the self-referential axiom of Willard's systems, built (like $\G$) by the
+recursion theorem. Willard (2016, Definition~3.4 and Example~3.5)
+remarks that constructing it is ``relatively easy, via an application of the
+Fixed Point Theorem, but this sentence is ironically typically useless!''
+
+The uselessness takes one line to prove.
+
+\begin{proposition}[The genius falls]
+Let $\Fo$ be Peano Arithmetic, or any other system strong enough that every
+effectively axiomatized extension of it knows that it watches. Then
+$\F = \Fo + \W$ is inconsistent, and $\Prog{C}(\Prog{C})$ halts.
+\end{proposition}
+
+\begin{proof}
+Suppose $\F$ is consistent.
+\begin{topsteps}
+\item $\F$ proves its own consistency, since $\W$ is one of its axioms.
+\item $\F$ satisfies every hypothesis of Oberhoff's Theorem~6, including the
+  faith step.
+\item So $\F$ cannot prove its own consistency.\contra
+\end{topsteps}
+So $\F$ is inconsistent. A refutation exists (it is Theorem~6's argument,
+written out in $\F$), and $\Prog{C}(\Prog{C})$ finds it.
+\end{proof}
+
+Willard records that ``Kleene, Rogers and Jeroslow [\ldots] each warned their readers
+that most axiom systems, similar to $\alpha^*$, were useless on account of
+their inconsistency, although they were technically well-defined''
+(2005, \S1). With faith, the genius falls on the first day.
+
+% ==========================================================================
+\section{Willard's Machine}
+\label{sec:machine}
+
+Willard keeps $\Prog{C}$ and $\W$ and changes $\Fo$. In the version that is
+easiest to explain, the tableaux line of 2001--2005, $\Fo$ has three groups
+of axioms and one restriction on proofs (codified statement~\S5.1):
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{Names.} Constants for $0$, $1$, $2$, with addition total. In the
+  2005 version, addition and $\mathit{Double}(x) = x + x$ are function
+  symbols, so every number $n$ has a name of $O(\log n)$ symbols.
+  Multiplication is \emph{not} a function. It is a three-place relation
+  $M(x,y,z)$, and $\Fo$ does not prove $\forall x \forall y \exists z\,
+  M(x,y,z)$. (Multiplication by any \emph{fixed} constant remains total; what
+  is withheld is uniform multiplication.)
+\item \textbf{Watching.} A finite set of $\Pi_1$ axioms that proves every true
+  bounded ($\Delta_0$) sentence and gives $=$ and $\le$ their usual
+  properties. ``This finite string is a halting run of $\Prog{A}$'' is a
+  bounded sentence, so $\Fo$ watches every halting program.
+\item \textbf{Inheritance.} For each $\Pi_1$ sentence $\Phi$, the axiom
+  \fs{for every $y$, if $y$ is a proof of $\Phi$ in $A$, then $\Phi$}, for a
+  chosen base theory $A$ such as Peano Arithmetic. Because $\Fo$ watches,
+  it can verify any particular $A$-proof, and so it proves every $\Pi_1$
+  theorem of $A$. That includes every fact of the form ``this program never
+  halts'' that $A$ knows, footnote~12's \texttt{while true \{\}} among them.
+\item \textbf{Proofs without lemmas.} The proof system is semantic tableaux:
+  proof by refutation tree, with no cut rule and no modus ponens. (Willard
+  2005 later admits lemmas, but only $\Pi_1$ and $\Sigma_1$ ones: subroutine
+  calls with a very simple interface.)
+\end{itemize}
+
+\begin{theorem}[Willard]
+If the $\Pi_1$ theorems of $A$ are true, then $\F = \Fo + \W$ is consistent.
+\end{theorem}
+
+\noindent
+This is Willard 2001, Theorem~4.3 (p.~20), for the system $\mathrm{IS}(A)$,
+whose $\W$ forbids proofs of $0=1$; and Willard 2005, Theorems~3 and~5
+(pp.~27, 29), for $\mathrm{IS}_D(A)$, whose $\W$ forbids proving any $\Pi_1$
+sentence together with its negation, under tableaux and under tableaux with
+$\Pi_1$/$\Sigma_1$ lemmas respectively. Both proofs are complete
+(status~\texttt{full}). Like every consistency proof, this is a theorem of
+the metatheory, proved under a hypothesis (here, that $A$'s $\Pi_1$ theorems
+are true, and that $A$'s proofs are encoded in the standard bounded way); it
+is a relative consistency result.
+
+By Oberhoff's standards, then, $\F$ is a formal system capable of reasoning
+about algorithms. It watches, and it proves every $\Pi_1$ theorem of Peano
+Arithmetic. It is honest: its base axioms are true, its added axiom $\W$ is
+$\Pi_1$, and a consistent extension of a true, $\Sigma_1$-complete base by
+$\Pi_1$ axioms proves only truths.\footnote{A false $\Pi_1$ axiom would have
+a true $\Sigma_1$ negation, which the base proves, so the extension would be
+inconsistent. See the repository note
+\texttt{docs/log/2026-09-24-soundness-of-willard-sjas.md}.} It is
+incomplete: Oberhoff's Theorem~5 goes through verbatim, because Rosser's
+program $\Prog{B}$ is watched in both cases and the loop fact is a $\Pi_1$
+theorem of Peano Arithmetic. Willard said as much in his first technical
+report: $\mathrm{IS}(A)$ is ``a class of structures, lying halfway between
+Peano Arithmetic and Presburger Arithmetic, which satisfy Godel's First but
+not Second Incompleteness Theorem'', because the predicate
+$\mathit{Turing}(x,y,z)$ is expressible in it (TR 93-10, p.~6). And yet $\F$
+proves its own consistency.
+
+Here is why it is consistent, in Oberhoff's format. This is Willard's own
+sketch (2001, Remark~4.4, pp.~20--21), put in computational words.
+
+\Case{Suppose $\F$ is inconsistent:}
+\begin{steps}
+\item Then $\Prog{C}(\Prog{C})$ halts. There exists some shortest refutation
+  $y$.
+\item $y$ is a tableau, a tree in which every branch closes. Walk down $y$,
+  always choosing a branch on which everything said so far is true of the
+  numbers named so far. Everything $\Fo$ says is true, so only $\W$ can stop
+  the walk.
+\item $\W$ says \fs{no $s$ is a refutation of $\F$}. A tableau uses a
+  universal axiom only by instantiating it at a term the branch has already
+  built. So $\W$ can stop the walk only at a number named on the branch that
+  actually bounds a refutation of $\F$.
+\item But $y$ can name only numbers smaller than itself. Its fastest
+  operation is doubling, every doubling costs symbols, and $y$ has too few
+  symbols to double its way past its own Gödel number.
+\item So $\F$ has a refutation smaller than $y$, which was the shortest
+  one.\contra
+\end{steps}
+
+\smallskip\noindent
+Hence $\F$ is consistent. Since $\W$ says exactly that, $\W$ is true, and
+$\F$ is honest.
+
+Willard compresses the argument into one sentence (2001, p.~20, verbatim):
+``any proof $y$ of $0=1$ from $\mathrm{IS}(A)$ will be automatically
+associated with an ordered pair $(p,u)$ where
+$p \le \mathrm{VALUE}(u) < y$ and $p$ represents ANOTHER proof of $0=1$''.
+He calls this a \emph{vacuous truth}, an implication whose hypothesis is never
+satisfied, and notes that once it is established ``the remainder of the proof
+of Theorem 4.3 is fairly routine and easy''. All the work is in the fourth
+arrow. The formal proof replaces the walk by an eleven-case induction over
+the tableau rules (Lemma~4.8, p.~23, \texttt{full}). The induction shows that
+the least refutation contains an ``affirmative'' branch, and such a branch
+cannot close (Lemma~4.6, p.~22, \texttt{full}). The naming bound comes from
+Lemma~4.1 (a constant mentioned in $y$ has value below $\sqrt{y}$, p.~17,
+\texttt{full}) and Lemma~4.2 (along such a branch every parameter has value
+below $y$, p.~19, \texttt{sketch}). In numbers: there are fewer than
+$\tfrac13 \log_2 y$ doublings, so values reach at most
+$y^{1/2} \cdot y^{1/3} = y^{5/6} < y$. That is Figure~\ref{fig:horizon}.
+
+Three remarks.
+
+\emph{The proof is a program.} The walk is an algorithm, later named
+$\mathit{Probe}$ (Willard 2005, Lemma~1, p.~23, \texttt{full}). It takes any
+purported refutation and returns an open branch, together with values for its
+variables that make every sentence on the branch true. Willard's consistency
+proof is therefore a machine that defeats each refutation by running it, in a
+universe barely larger than the refutation itself. That is self-justification
+ex machina in the most literal sense. (And it is why we named the searcher
+$\Prog{C}$: it hunts for a tree all of whose branches close, and the walk
+always finds one that stays open.) $\F$ cannot prove that the machine works;
+that is the external part. $\F$ has only the axiom.
+
+\emph{The encoding is part of the argument.} The horizon is measured in Gödel
+numbers, so it depends on how proofs are written. In Willard's 2001
+accounting, every addition can double a value, and the margin absorbs this
+only because writing down the sentence that introduces the sum ``requires
+substantially more than six bits'' (2001, p.~28). In the 2005 version the
+coding density $1/5$ (Eq.~20, six-bit bytes) enters the bound directly. A
+proof notation compact enough to let a proof name numbers larger than itself
+would break the argument. Encoding choices are not bookkeeping here; they
+drive self-justification. (Willard notes that on the Hilbert line his results
+survive uncompressed encodings, though less meaningfully. Density is
+load-bearing for the tableaux line in particular.)
+
+\emph{There are two horizons.} The 2005 version, with $\W$ forbidding a
+$\Pi_1$ sentence $\Psi$ and its negation, replaces the walk with a
+quantitative statement. Take a minimal pair of proofs of $\Psi$ and of
+$\neg\Psi$, and let $m$ be the larger. Below $m$, $\W$ is true. Willard's
+\emph{$\theta$-compactification} says that a proof of length $p$ can stretch
+a sentence's reach by at most a factor $p^{\theta}$, and tableaux achieve
+$\theta = 1/4$ (2005, Definition~5 and Theorem~2, pp.~19, 26,
+\texttt{full}). So the proof of the universal sentence $\Psi$ certifies it
+out to $(m-1)/m^{1/4}$, while the proof of the existential $\neg\Psi$ finds
+its counterexample below $m^{1/4}$. For $m \ge 3$ the counterexample lies
+where $\Psi$ has been certified.\contra{} (Theorem~1, p.~19,
+\texttt{full}. The printed proof treats the closing inequality as immediate;
+it needs $m \ge 3$, which always holds for the Gödel number of a proof.) A
+proof of ``always'' guarantees its claim out to its horizon, and a proof of
+``sometimes'' finds its witness inside its horizon. When horizons are short
+compared with the proofs, the two collide in the region where every axiom is
+true.
+
+% ==========================================================================
+\section{The Faith Is Not Just Missing}
+\label{sec:backwards}
+
+One might think Willard's systems are self-justifying merely because nobody
+has managed to prove step~(2) in them. In fact they cannot prove it. The
+reason is Oberhoff's Theorem~6, run backwards.
+
+\begin{proposition}\label{prop:backwards}
+Let $\F$ be consistent and effectively axiomatized. Suppose $\F$ watches,
+proves that no $\Pi_1$ sentence is provable in $\F$ together with its
+negation, and proves the fixed-point equivalence
+$\G \leftrightarrow \neg\Prov_{\F}(\ulcorner\G\urcorner)$ for its own $\G$.
+Then $\F$ does not prove step~(2):
+\[
+\F \nvdash \Prov_{\F}(\ulcorner\G\urcorner) \Rightarrow
+\Prov_{\F}(\ulcorner\neg\G\urcorner).
+\]
+\end{proposition}
+
+\begin{proof}
+Suppose $\F$ proves step~(2).
+\begin{topsteps}
+\item $\F$ proves step~(1), which is half of the fixed-point equivalence.
+  $\F$ proves step~(3), because $\G$ is a $\Pi_1$ sentence and step~(3) is an
+  instance of $\F$'s self-consistency.
+\item Chaining (1)--(3): $\F \vdash \neg\G \Rightarrow \bot$, so
+  $\F \vdash \G$. (Theorems are closed under logical consequence for every
+  complete proof system, with or without cut~\cite{w20}.)
+\item So $\Prog{P}(\Prog{P})$ finds this proof and halts.
+\item $\F$ watches $\Prog{P}(\Prog{P})$ halt: $\F \vdash \neg\G$. So $\F$ is
+  inconsistent.\contra
+\end{topsteps}
+\end{proof}
+
+Willard's $\mathrm{IS}_D(A)$ satisfies every hypothesis except possibly the
+last (2005, Eq.~6 and Theorems~3 and~5). The last, the fixed-point
+equivalence, is assumed here as for Willard's own self-referential axiom; for $A \supseteq$
+Peano Arithmetic, the uniqueness facts about the substitution function that
+it needs are true $\Pi_1$ theorems of $A$ and are therefore inherited. Hence
+\emph{a consistent system that proves its own consistency cannot know that it
+can watch its own proof-searcher halt.} Step~(2) is in fact true in such a
+system, since its antecedent is false ($\G$ is unprovable), so it is a true
+sentence that the system cannot prove. Oberhoff's faith step is the system's
+own blind spot. For systems whose $\W$ only forbids proofs of $0=1$, such as
+the 2001 $\mathrm{IS}(A)$, step~(3) also costs something (combining two
+proofs into a refutation needs a cut), so the faith fails in at least one of
+two places.
+
+The proposition is a contrapositive and claims no novelty. Willard's own 1994
+framing already sets the alternatives out: ``every axiom system either fails
+to prove its consistency or fails to meet the full Hilbert-Bernays
+conditions'' (TR 93-10, p.~6). What the computational reading adds is
+\emph{which} condition fails, at \emph{which} sentence, and the reason it
+fails. What Willard adds, and what no contrapositive can supply, is that
+systems on the far side of the alternative \emph{exist}, and are strong
+enough to prove every $\Pi_1$ theorem of Peano Arithmetic.
+
+% ==========================================================================
+\section{The Price of Faith}
+\label{sec:price}
+
+If withholding faith is what lets $\W$ survive, the second incompleteness
+theorem should return as soon as the system has enough growth to know that
+transcripts exist. Willard spent the second half of his career proving that
+it does, and pricing the faith exactly. The price depends on the proof
+system. The difference is the difference between a program that may call
+subroutines and one that may not.
+
+\subsection*{Squaring}
+
+Give the tableaux system multiplication as a total function. Then a proof can introduce
+$u_0 = 2$, $u_{i+1} = u_i \cdot u_i$, and so reach $u_n = 2^{2^n}$, in $O(n)$
+steps. Proofs
+can now establish the existence of numbers far larger than themselves, so
+transcripts fit, and the walk of \S\ref{sec:machine} fails at its fourth
+arrow. Willard located the failure precisely (2000, \S5, quoted in the
+codified statement~\S5.3):
+\begin{quote}\small
+Many readers will smile with amusement when they learn the true
+reason that the Semantic Tableaux version of the Second Incompleteness
+Theorem breaks down when Multiplication is changed from a total function into
+a 3-way relation. It is essentially that Lemma 8 and its short proof
+then become no longer valid. \ldots{} Without it, our proof of the Semantic
+Tableaux version of the Second Incompleteness Theorem collapses entirely!
+\end{quote}
+Lemma~8 is the squaring construction. With it, the second theorem comes back.
+No consistent finite extension of $Q + V$, for an explicit $\Pi_1$ sentence
+$V$, proves its own tableaux consistency (2002a, Theorem~3.5, p.~11,
+\texttt{full}). The same holds for every consistent extension of the
+textbook and Wilkie--Paris axiomatizations of $I\Sigma_0$ (2007, Theorem~6,
+p.~29, \texttt{full}), and, under a technical condition on how a system recognizes its own
+axioms, for extensions of $I\Sigma_0$ generally (2002a, Theorem~6.4, p.~25,
+\texttt{sketch}; this answers a 1981 question of Paris and Wilkie). From the positive side, the compactification engine becomes
+``impossible to satisfy'' once multiplication is admitted as a ninth function
+symbol (2005, Remark~4, p.~21).\footnote{One nuance, to keep the boundary
+honest. What multiplication destroys is the flat consistency axiom and
+canonical reflection. Willard's $\mathrm{ISM}(A)$ recognizes multiplication
+as total and is still consistent, by what Willard calls a routine
+generalization of his proof; but its self-referential axiom is weaker, and it
+cannot prove the flat statement that no proof of $0=1$ exists (2001, \S6;
+codified statement~\S7.2).}
+
+\subsection*{Subroutines}
+
+A Hilbert-style proof can prove a lemma once and use it many times. Modus
+ponens is a subroutine call. A tableau cannot do this; every use must be
+inlined. Inlining can be astronomically expensive: cut elimination preserves
+theorems, but the cut-free proof ``can certainly be super-exponentially
+longer'' (2002a, Theorem~2.2, p.~7), and Boolos gave a famous small example
+of the blowup~\cite{boolos84}. With subroutines, a little growth is
+amplified into a lot. Willard saw this in 1994 (TR 93-10, p.~7, verbatim):
+\begin{quote}\small
+These metaphors lose meaning when cuts are present because Addition can then
+be employed to \emph{implicitly define} a sequence that grows actually faster
+than $a_0, a_1, a_2, a_3 \ldots$. Solovay's proof that IS(A) is incompatible
+with deductive cuts [So94] rests on this fast growth property. (Actually,
+IS(A) can support a cut rule for $\Delta_0$ sentences, and Solovay's theorem
+relies on the cut rule for sentences with unbounded quantifiers.)
+\end{quote}
+In outline, the mechanism is the classical shortening of definable cuts.
+With lemmas, one defines a set of numbers and proves once that it is closed
+under successor; then one proves, by a short proof reusing that lemma, that a
+smaller set is closed under addition, and then that a smaller set still is
+closed under multiplication. On the last set the system, roughly speaking, knows that
+transcripts exist, and Gödel's argument runs there: Pudlák showed that a
+consistent extension of Robinson's $Q$ cannot prove even its consistency
+restricted to a definable cut~\cite{pudlak85} (Willard 2006a, Theorem~1,
+p.~4, \texttt{cited}). Solovay's
+theorem, communicated to Willard by telephone in April 1994 and never
+published by Solovay, states the conclusion (Willard 2006a, Theorem~2, p.~4,
+\texttt{cited}): no consistent system that proves successor total, together
+with the basic algebra of $+$ and $\times$, can prove its own Hilbert
+consistency. With subroutines, the price of faith is mere counting.
+
+So the Hilbert-line self-justifying systems give up successor itself. They
+name numbers with constants $C_1, C_2, \ldots$, and the naming convention
+\emph{is} the system (codified statement~\S5.5): incremental naming
+$C_i = C_{i-1} + 1$ works ($\mathrm{ISREF}(A)$, 2001, Theorem~3.4, p.~13,
+\texttt{full}); additive naming $C_i = C_{i-1} + C_{i-1}$ works and keeps
+reaching new numbers ($\mathrm{ISCE}(A)$, 2006a, Theorem~3, p.~6,
+\texttt{full}); multiplicative naming $C_i = C_{i-1} \cdot C_{i-1}$ fails
+(2006a, Theorem~4, p.~7, \texttt{full}). Remark~3, quoted in
+\S\ref{sec:transcripts}, explains why.
+
+\subsection*{Other ways to buy faith}
+
+Adding the law of excluded middle as logical axioms puts the cut back into
+tableaux by the back door. The self-justifying system then becomes
+automatically inconsistent whenever its base proves the usual algebraic laws
+of $+$ and $\times$ (2020, Theorem~4.5, p.~13, \texttt{sketch}). Letting $\W$
+say more about itself, namely consistency for a richer class of sentences
+(Willard's Level $2^{+}$), brings the second theorem back for finite systems
+(2004, Theorem~1, p.~6, \texttt{full}).
+
+\begin{center}\footnotesize
+\begin{tabular}{@{}lll>{\raggedright\arraybackslash}p{1.7cm}>{\raggedright\arraybackslash}p{4.3cm}@{}}
+\toprule
+Proof system & Growth believed & $\W$ forbids & Outcome & Source, status \\
+\midrule
+tableaux & $+$ total, $\times$ a relation & $\Psi$ and $\neg\Psi$ ($\Pi_1$) & self-justifying & 2005 Thms 3, 5, \texttt{full} \\
+tableaux & $\times$ total & $0=1$ & G2 & 2002a Thm 3.5 \texttt{full}; 6.4 \texttt{sketch}; 2007 Thm 6 \texttt{full} \\
+tableaux + LEM axioms & $+$ total & $\Psi$ and $\neg\Psi$ & inconsistent & 2020 Thm 4.5, \texttt{sketch} \\
+tableaux & $+$ total & level $2^{+}$ & G2 & 2004 Thm 1, \texttt{full} \\
+Hilbert & successor total & $0=1$ & G2 & Solovay, \texttt{cited} \\
+Hilbert & additive names only & $0=1$ & self-justifying & 2006a Thm 3, \texttt{full} \\
+Hilbert & multiplicative names & $0=1$ & G2 & 2006a Thm 4, \texttt{full} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+Read the table as Willard read it. The affirmative results are mostly
+\texttt{full}; the negative side contains sketches and one unpublished
+theorem. The boundary is sharply located in some coordinates and only
+bracketed in others (codified statement~\S8.2).
+
+% ==========================================================================
+\section{Trust Within Reach}
+
+A system \emph{trusts} its proofs if it proves reflection: \fs{if $\F$ proves
+that $\Prog{A}$ never halts, then $\Prog{A}$ never halts}, for every
+$\Pi_1$ claim at once. That is too much to ask. No consistent system of this
+kind, proving the $\Pi_1$ theorems of (a version of) Peano Arithmetic, proves
+canonical reflection for every $\Pi_1$ sentence (2001, Theorem~7.2, p.~38,
+\texttt{full}); it is Löb's theorem in Willard's setting. What Willard's
+systems can prove is \emph{tangibility reflection} (2001, Definition~1.2,
+Eq.~2):
+\[
+\forall x\;\bigl\{\,[\exists y\, \Prf_\alpha(\ulcorner\Psi\urcorner, y)
+\wedge \mathit{Tangible}(x)] \supset \Psi^{x}\,\bigr\},
+\]
+where $\Psi^x$ is $\Psi$ with its unbounded universal quantifiers bounded by
+$x$. A number is tangible when it has room above it: some $v$ with
+$x < v - 1$, or $x < v^{1/k}$. $\mathrm{ISREF}(A)$ proves the first form, given
+a condition on proof sizes (2001, Theorem~3.5, p.~14, \texttt{full}), and the
+tableaux system $\mathrm{IS}^{\lambda}(A)$ proves the second, under conditions
+on $\lambda$, $k$ and $A$ (Theorem~6.1, p.~34, and Corollary~6.2, p.~35, both
+\texttt{full}). In computational terms: \emph{I
+trust my verdicts on every input for which there is memory to spare.} For a
+$\Sigma_1$ claim the bound costs nothing. With $\Psi$ taken to be $0=1$,
+tangibility reflection gives back the flat statement that no proof of $0=1$
+exists (2001, p.~8).
+
+% ==========================================================================
+\section{Taking Off the Glasses}
+
+Oberhoff's \S5 takes the glasses off $\G$ and finds ``I am not provable''
+underneath. Take them off $\W$ and you find ``nothing refutes me'', that is,
+``I am consistent''. Over Peano Arithmetic, $\W$ is refuted, and
+$\Prog{C}(\Prog{C})$ finds the refutation: Theorem~6, written out. In
+Willard's systems that refutation would have to establish the existence of a
+refutation, a transcript-sized object, from inside a proof smaller than the
+object. The snake cannot swallow its tail, because its mouth is smaller than
+its body.
+
+So self-reference is not where the trouble lies. The recursion theorem builds
+$\W$ in Willard's systems as easily as in Peano Arithmetic. What costs
+something is \emph{self-simulation}: running yourself in your head and writing
+down the result. The second incompleteness theorem needs both. The first needs
+only self-reference and watching, which is why Willard's systems obey it.
+
+Oberhoff found that his classical and computational proofs were ``the exact
+same''. The same holds here. Willard's arithmetic (a least Gödel number $y$,
+constants below $\sqrt{y}$, fewer than $\tfrac13\log_2 y$ doublings) and the
+computational picture (a shortest refutation, the memory a proof occupies, a
+walk down the tree) are one argument. The arithmetic of Gödel numbers is the
+bookkeeping of memory.
+
+% ==========================================================================
+\section{Refactoring the Incompleteness Theorems, Again}
+
+Oberhoff's Theorem~7 is two theorems.
+
+\begin{quote}
+\textbf{Theorem 7a} (Watching). \emph{Every formal system capable of
+reasoning about elementary arithmetic proves, of each halting computation,
+that it halts.}
+
+\textbf{Theorem 7b} (Knowing that one watches). \emph{Such a system proves
+Theorem~7a about itself.}
+\end{quote}
+
+\noindent
+Theorem~7a is enough for the first incompleteness theorem in all of
+Oberhoff's forms. Theorem~7b is what Theorem~6 takes on faith, and it does
+not follow from~7a. Willard's systems satisfy~7a and prove their own
+consistency, so by Proposition~\ref{prop:backwards} they fail~7b. Read in
+Willard's results, the cost of~7b depends on the proof system. Without
+lemmas, the second incompleteness theorem returns with uniform
+multiplication; with lemmas, it returns already with successor. In both
+cases what returns is not always~7b itself but enough of it, a compressed
+proof that a big enough number exists, for Gödel's argument to run.
+
+So Gödel's work splits into three parts, not two. The first is programming
+the integers (7a). The second is teaching the integers that they have been
+programmed (7b). The third is the victory laps. Willard's self-justifying
+systems live in the gap between the first and the second. The second
+incompleteness theorem is a victory lap only for a runner who has already
+paid for~7b, and the receipt, in Willard's accounting, reads: multiplication
+if you never reuse a lemma, counting if you do.
+
+\medskip
+Moral of the story: you may declare yourself a very stable genius, provided
+you cannot multiply. If you like to reuse your lemmas, you must also be
+unable to count.
+
+% ==========================================================================
+\section{What Self-Justification Does Not Buy}
+
+Willard was more careful about the limits of his results than most of his
+readers have been, and an honest retelling must carry his caveats.
+
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{A reduced question.} Willard (2016, Remark~4.9, p.~13) splits
+  Hilbert's question in two: can a system verify its own consistency in a
+  robust sense, and can it appreciate its consistency in some reduced but not
+  immaterial sense? The answer to the first is no, by Gödel, Hilbert--Bernays
+  and Pudlák--Solovay. Everything above answers the second.
+\item \textbf{A one-line proof.} A system that proves its consistency from
+  its own axiom $\W$ has ``essentially a 1-line proof'' (2011, Remark~6.16b,
+  p.~28), which is instinctive faith rather than proof-justification. The
+  substantive justification lies outside: the theorem that $\mathit{Probe}$
+  defeats every refutation, proved in the metatheory under the hypothesis
+  that $A$'s $\Pi_1$ theorems are true.
+\item \textbf{Almost cheating.} Willard raised the objection against
+  himself: ``Is it not almost cheating when an axiom system verifies its own
+  consistency by using $\oplus$'s formalized `I am consistent' axiom as an
+  intermediate step, to verify its own consistency? After all, such a
+  technique can verify its own consistency only in a technically purely
+  legalistic sense'' (2016, \S8). His answer, \emph{Platonic Stability}, is
+  that a thinking being needs no sophisticated justification of its own
+  reasoning, only a formalism in which presuming its own consistency provably
+  will not spin it into inconsistency.
+\item \textbf{The first theorem stands.} Willard's systems are incomplete;
+  they cannot decide $\G$ or $\R$.
+\item \textbf{Interpretation versus source.} The vocabulary of watching and
+  knowing, the program $\Prog{C}$, the horizon picture and
+  Proposition~\ref{prop:backwards} are our reading, not Willard's
+  formulations. His own words for the mechanism are ``adequate memory''
+  (1994) and the comparison, in 2006a Remark~3, between a proof's Gödel
+  number and the integer the proof shows to exist.
+\end{itemize}
+
+\medskip\noindent
+{\small (The cake promised in Oberhoff's abstract is still on its way. We
+cannot prove that it exists: it is one multiplication away.)}
+
+% ==========================================================================
+\appendix
+\section{Provenance}
+
+Page numbers refer to the author copies in the repository's
+\texttt{nachlass/papers/}; statuses are those of
+\texttt{nachlass/codification/registry/results.md}. ``Verbatim, image'' marks
+quotations checked in this session against rendered page images.
+
+\begin{center}\scriptsize
+\begin{tabular}{@{}lllp{6.2cm}l@{}}
+\toprule
+Paper & Item & Page & Content used here & Status \\
+\midrule
+TR 93-10 & --- & 6 & philosopher's hedge; G1 but not G2; ``either fails \ldots{} or fails to meet'' & verbatim, image \\
+TR 93-10 & --- & 7 & adequate memory; $a_{300}$; cuts and Solovay & verbatim, image \\
+2001 & Thm 3.4 & 13 & $\mathrm{ISREF}(A)$ consistency-preserving & full \\
+2001 & Thm 3.5 & 14 & $\mathrm{ISREF}(A)$ proves $\mathit{TangPred}$ reflection (given Eq.~13) & full \\
+2001 & Lem 4.1 & 17 & constants in $y$ below $\sqrt{y}$ & full \\
+2001 & Lem 4.2 & 19 & parameters below $y$ on addition-conservative branches & sketch \\
+2001 & Thm 4.3 & 20 & $\mathrm{IS}(A)$ consistency-preserving & full \\
+2001 & Rem 4.4 & 20 & Assertion ++, vacuous truth, $p \le \mathrm{VALUE}(u) < y$ & verbatim, image \\
+2001 & Rem 4.5 & 21 & $\mathrm{ISMULT}$ has no analogue of Lem 4.2 & --- \\
+2001 & Lem 4.6, 4.8 & 22--23 & affirmative branch cannot close; least refutation has one & full \\
+2001 & Case 11 & 28 & ``substantially more than six bits'' & image (extraction record) \\
+2001 & Thm 6.1, Cor 6.2 & 34--35 & $\mathit{TangRoot}_k$ reflection, Hilbert and tableaux & full \\
+2001 & Thm 7.2 & 38 & no canonical $\Pi_1$ reflection & full \\
+2002a & Thm 2.2 & 7 & cut elimination super-exponential & --- \\
+2002a & Thm 3.5 & 11 & $Q+V$: G2 for tableaux & full \\
+2002a & Thm 6.4 & 25 & $I\Sigma_0$: G2 for tableaux & sketch \\
+2000 & \S5 & --- & ``the true reason'' (Lemma 8) & verbatim (codified \S5.3) \\
+2004 & Thm 1 & 6 & level $2^{+}$ consistency: G2 & full \\
+2005 & \S1 & --- & Kleene, Rogers, Jeroslow & verbatim (codified \S2.2) \\
+2005 & Def 5, Thm 1 & 19 & $\theta$-compactification; engine & full \\
+2005 & Rem 4 & 21 & multiplication makes Def 5 unsatisfiable & --- \\
+2005 & Lem 1 & 23 & $\mathit{Probe}$, positive branch & full \\
+2005 & Thm 2 & 26 & tableaux: $\theta = 1/4$ & full \\
+2005 & Thms 3, 5 & 27, 29 & $\mathrm{IS}_D(\cdot)$ consistency-preserving & full \\
+2006a & Thms 1, 2 & 4 & Pudlák's and Solovay's theorems & cited \\
+2006a & Thms 3, 4 & 6--7 & additive naming works; multiplicative fails & full \\
+2006a & Rem 3 & 24 & proof's Gödel number vs.\ the integer it proves exists & verbatim, image \\
+2007 & Thm 6 & 29 & $T$-1, $T$-2: G2 for tableaux & full \\
+2011 & Rem 6.16b & 28 & ``essentially a 1-line proof'' & --- \\
+2016 & Def 3.4, Ex 3.5 & --- & self-justification; ``ironically typically useless'' & verbatim (codified \S2.2) \\
+2016 & Rem 4.9; \S8 & 13; --- & the two questions; ``almost cheating'' & verbatim (codified \S1.4) \\
+2020 & Ex 3.1; Thm 4.5 & 13 & apparatus identity; Xtab inconsistent & sketch (Thm 4.5) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% ==========================================================================
+\begin{thebibliography}{Hilbert--Bernays 1939}\small
+
+\bibitem[Oberhoff 2018]{oberhoff} S.~Oberhoff, \emph{Incompleteness Ex Machina}, essay dated
+  31 December 2018, \url{https://www.scottaaronson.com/incompleteness.pdf}.
+
+\bibitem[Aaronson 2013]{aaronson} S.~Aaronson, \emph{Quantum Computing since Democritus},
+  Cambridge University Press, 2013. (Source of Oberhoff's program
+  $\Prog{B}$, per his reference [3].)
+
+\bibitem[Willard TR 93-10]{w93tr} D.~E.~Willard, \emph{Self-Verifying Axiom Systems and the
+  Incompleteness Theorem}, SUNY Albany Computer Science Technical Report
+  93-10 (a 1994 text with a 1993 series number).
+
+\bibitem[Willard 1993]{w93} D.~E.~Willard, Self-verifying axiom systems, in
+  \emph{Computational Logic and Proof Theory (KGC 3)}, LNCS 713, Springer,
+  1993, pp.~325--336.
+
+\bibitem[Willard 2000]{w00} D.~E.~Willard, The semantic tableaux version of the second
+  incompleteness theorem extends almost to Robinson's arithmetic Q, in
+  \emph{TABLEAUX 2000}, LNAI 1847, Springer, 2000, pp.~415--430.
+
+\bibitem[Willard 2001]{w01} D.~E.~Willard, Self-verifying axiom systems, the
+  incompleteness theorem and related reflection principles, \emph{Journal of
+  Symbolic Logic} 66(2) (2001), 536--596.
+
+\bibitem[Willard 2002a]{w02a} D.~E.~Willard, How to extend the semantic tableaux and
+  cut-free versions of the second incompleteness theorem almost to Robinson's
+  arithmetic Q, \emph{Journal of Symbolic Logic} 67 (2002), 465--496.
+
+\bibitem[Willard 2004]{w04} D.~E.~Willard, A version of the second incompleteness theorem
+  for axiom systems that recognize addition but not multiplication as a total
+  function, in \emph{First Order Logic Revisited}, Logos Verlag, Berlin,
+  2004, pp.~337--368.
+
+\bibitem[Willard 2005]{w05} D.~E.~Willard, An exploration of the partial respects in which
+  an axiom system recognizing solely addition as a total function can verify
+  its own consistency, \emph{Journal of Symbolic Logic} 70 (2005),
+  1171--1209.
+
+\bibitem[Willard 2006a]{w06a} D.~E.~Willard, A generalization of the second incompleteness
+  theorem and some exceptions to it, \emph{Annals of Pure and Applied Logic}
+  141 (2006), 472--496.
+
+\bibitem[Willard 2007]{w07} D.~E.~Willard, Passive induction and a solution to a
+  Paris--Wilkie open question, \emph{Annals of Pure and Applied Logic} 146
+  (2007), 124--149.
+
+\bibitem[Willard 2011]{w11} D.~E.~Willard, A detailed examination of methods for unifying,
+  simplifying and extending several results about self-justifying logics,
+  arXiv:1108.6330 (2011).
+
+\bibitem[Willard 2016]{w16} D.~E.~Willard, On how the introducing of a new $\theta$
+  function symbol into arithmetic's formalism is germane to devising axiom
+  systems that can appreciate fragments of their own Hilbert consistency,
+  arXiv:1612.08071 (2016--2017).
+
+\bibitem[Willard 2020]{w20} D.~E.~Willard, How the law of excluded middle pertains to the
+  second incompleteness theorem and its boundary-case exceptions,
+  arXiv:2006.01057 (2020).
+
+\bibitem[Hilbert--Bernays 1939]{hb39} D.~Hilbert and P.~Bernays, \emph{Grundlagen der Mathematik},
+  vol.~II, Springer, 1939.
+
+\bibitem[Löb 1955]{lob55} M.~H.~Löb, Solution of a problem of Leon Henkin,
+  \emph{Journal of Symbolic Logic} 20 (1955), 115--118.
+
+\bibitem[Pudlák 1985]{pudlak85} P.~Pudlák, Cuts, consistency statements and
+  interpretations, \emph{Journal of Symbolic Logic} 50 (1985), 423--441.
+
+\bibitem[Boolos 1984]{boolos84} G.~Boolos, Don't eliminate cut, \emph{Journal of
+  Philosophical Logic} 13 (1984), 373--378.
+
+\end{thebibliography}
+
+\end{document}
