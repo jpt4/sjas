@@ -381,3 +381,19 @@ See [the analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.m
   - Of the 13 notes under `docs/log/` that LOG.md links, only the SJexM analysis note is tracked on any branch. The other 12 links are dead on this branch.
 - **Pushed.** `sjexm-essay` goes to origin (github.com/jpt4/sjas) with this commit.
 - **Review round 2.** Grok 4.7 (Cursor CLI, read-only) reviews revision 3 against the same standard. It checks each R1 finding's disposition and then reviews the new material. Results follow in a later entry.
+
+## 2026-10-25 — SJexM round-2 review and revision 4
+- **Review.** Grok 4.7 reviewed revision 3, read-only, in about 34 minutes. Verdict: does not yet meet the standard. 16 findings: 1 critical, 8 major, 7 minor. 7 of the 15 round-1 findings were only partly resolved.
+- **Critical (R2-01).** Proposition K fed Willard's `Pair` the code of the prenex halting sentence. `Pair` takes the syntactic negation, ⌜¬f⌝ (2005 Eq. 28), whose code is different.
+  - The essay now keeps ¬G̈ and the halting sentence **H** apart, and aims steps (2) and (3) at ¬G̈.
+  - It leaves open whether Willard's systems fail knowing-that-they-watch at **H** itself.
+- **Also changed.**
+  - The hypotheses of each step are cited where they are used. (H1) is now Level(0−).
+  - Fact FP is split. G̈'s unprovability no longer needs the transposed uniqueness sentence (U); (U\*) is an explicit assumption of Cor L(b) only.
+  - The (E) argument is redone from Appendix A.
+  - §12's 7b claims are split by system.
+  - "Counting" is replaced by Solovay's actual hypotheses.
+  - Page numbers follow one convention.
+- **Two reviewer claims corrected.** Willard writes number terms with an overline (2005 p. 4, image), and 2001 App B covers tableau trees (p. 52).
+- **Found by us.** The fourth step of Willard's 2005 Theorem 6 proof uses Definition 6's q as a proof of ¬℧, but Definition 6 (p. 33, image) has q prove "∃p Prf(⌜℧⌝,p)". The essay notes this and gives a repair.
+- Revision 4: 25 pp., clean build. The disposition table and open items are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).

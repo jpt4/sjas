@@ -256,3 +256,50 @@ now Proposition K, and Willard's consistency theorem is Theorem H.
    Perspectives in Mathematical Logic) and Aaronson 2013 (CUP) were checked by
    web search on 2026-10-25. Hilbert–Bernays 1939 is from memory.
 6. How much metatheory Willard's consistency proofs use is undetermined.
+
+## Revision 4 (2026-10-25): the second adversarial review
+
+- **Request (user).** "Track LOG.md; push to remote on this branch, then review again."
+- **Review.** Grok 4.7 (Cursor CLI, read-only), run against revision 3 with the same standard. Part A rechecked every round-1 finding in the essay itself, without trusting the disposition table; Part B asked 19 questions about the new text.
+  - Workspace: `scratchpad/review-sjexm-r2/` (prompt, REPORT.md, 34 kB, about 34 minutes).
+  - Verdict: revision 3 does not meet the standard. 16 findings: 1 critical, 8 major, 7 minor.
+  - Part A: R1-04, 05, 06, 07, 10, 11, 14 and 15 resolved; R1-01, 02, 03, 08, 09, 12 and 13 partly resolved. Each partial one is reopened as an R2 finding.
+  - The declined round-1 suggestion (deriving (U) from Δ\*₀-completeness) was judged correctly declined.
+- Every finding was checked against the source texts before it was acted on. Two of the reviewer's source claims were wrong:
+  - Willard writes the U-Grounded Binary Representation with an overline, not an underline (page image, 2005 p. 4). The essay now uses Willard's overline.
+  - 2001 Appendix B does encode tableau trees, on p. 52.
+
+| ID | Sev. | Finding | Disposition |
+|---|---|---|---|
+| R2-01 | critical | Prop K(a) fed `Pair` the code of the prenex existential. Willard's `Pair` pairs ⌜f⌝ with ⌜¬f⌝, the syntactic negation (2005 Eq. 28, p. 34), and the two codes differ (Remark 5). | Fixed. ¬G̈ (syntactic) and **H** (the halting sentence) are now distinct throughout (§2). Steps (2) and (3) are aimed at c′ = ⌜¬G̈⌝, and Definition `def:know` covers both written forms. A remark after Prop K says it does not cover the transcript aimed at **H**: that needs F ⊢ Prov(⌜H⌝) ⊃ Prov(c′), which is open for Willard's systems. |
+| R2-02 | major | Lemma `lem:instances`(a) used a bounded sentence that watching does not supply; Prop K(a) cited (H2) for `Pair`. | Fixed. (a) now goes through Prov(⌜σ⌝), a true Σ₁ sentence, and Fact closure, and covers syntactic negations of Π₁ sentences. Prop K(a) cites (H3) for `Pair`. |
+| R2-03 | major | "G̈ makes step (2) true": the closure citation was wrong. Cor M contradicted Thm 4.3 without the completeness step. | Fixed. Both implications are stated as conclusions χ of Fact closure, from the theorems (3) and (FP). (H1) is now Level(0−), and Prop K(b) derives 0=1 by closure. Cor M then uses (H1) = Thm 4.3 directly. |
+| R2-04 | major | Cor L: Group-2 detachment unwritten; (U) used as a fact; correctness of SubstPrf unstated; (H4)'s reason wrong. | Fixed. Detachment is written out. (U) is the explicit assumption (U\*), and Cor L(a), G̈'s unprovability, does not use it. Correctness of SubstPrf, including Eq. 7's bound h ≤ p, is taken from Willard and needed only in the metatheory. (H4) is Eq. 8 under the definition of Prf, with Willard's `Pair`. |
+| R2-05 | major | Abstract and §1 merged the two systems' hypotheses. §12 attached the 7b failure to IS(A). §13 was unqualified. The receipt joined unlike results. | Fixed. The abstract and §1 state the 2005 and 2001 theorems separately. §12 splits IS_D(A) (Cor L, under (U\*)), IS(A) (Cor M, a disjunction) and the open **H** case. §13 is qualified. The receipt is now the four boundaries. |
+| R2-06 | major | "7a is enough for every form of G1" ignores Rosser's Π₁ loop sentence. | Fixed in §12 and §11. |
+| R2-07 | major | "Mere counting" / "counting is too much" dropped Solovay's ring laws. | Fixed in §9, §12 and the moral: successor plus the Π₁ ring laws for + and × as relations. |
+| R2-08 | major | (E) argument: wrong comparison string; lists unargued; Eq. 7's bound conflated with (E). | Fixed. First-byte bound 32·64^{N−1}; root is prenex(¬Φ) with an explicit assumption that it is at most one byte shorter than Φ; the concatenation suffix argument for lists; 2001 App B pp. 51–52; Eq. 7's h ≤ p stated separately. |
+| R2-09 | major | §11 "Theorem 6, written out". | Fixed: the metatheory shows a contradiction exists (Prop C), so the search halts. |
+| R2-10 | minor | Numerals in the 2005 language; `∀y < c̄` is not Willard's bounded-quantifier form. | Fixed. The bar is Willard's term notation in 2005 (said once in §2). The bounded sentence is `∀y ≤ c̄ ¬Prf(c̄,y)`, true by (E), with the split y ≤ c̄ ∨ c̄ ≤ y. Fact FP is split into (FP⇒), which needs no (U), and (FP). |
+| R2-11 | minor | Lemma `lem:transcript`: U-Height ≥ U-Depth unstated; 2^L misattributed. | Fixed, with the U-Length/U-Depth/U-Height definitions (p. 22) and Willard's "clearly satisfy" wording for Eq. 20. |
+| R2-12 | minor | "Fewer than four bits" should be "four or fewer"; 2006a's remark is analogous, not the same. | Fixed (footnote 5, p. 27; 2006a App A p. 37 quoted). |
+| R2-13 | minor | θ-compactification observation: a must exceed 1; "below" should be "at most"; Group-3's truth unstated. | Fixed: a = p > 1, witness ≤ p^{1/4}, Theorems 3/5, plus the prefix argument for lists. |
+| R2-14 | minor | Rosser credited PA, not PA+; "and D is sound" was not why Group-3 is true. | Fixed. |
+| R2-15 | minor | 2001 p. 39 quotation spliced; 2016 page convention mixed. | Fixed. The two clauses are quoted separately. Provenance now states one convention, printed page numbers: 2016 Conj 6.6 p. 23, Cor 8.2 p. 28; 2020 Xtab p. 10, Thm 4.5 p. 12; 2004 Thm 1 p. 342, Thm 2 p. 344. |
+| R2-16 | minor | Prop C: the IΣ₁ equivalence of the two levels was unargued. | Fixed (explosion and modus ponens for the canonical predicate). |
+
+Our own changes in this revision:
+- **Willard's Theorem 6, fourth step.** Definition 6, as printed (page image, p. 33), has q prove (25), "∃p Prf(⌜t⌝,p)". Step (31) needs q to prove ¬℧(k−1,m). These differ in code and in content: (25) lacks the substitution and the Log bound. The essay now says this in §8 and gives the repair: read Definition 6 with q a proof of ¬℧. Lemma 3's sketch is expected to cover that reading; this is our observation.
+- **Group-3 notation.** Group-3's formula is written Γ₃ with code n₃, apart from the Gödel sentence's Γ and n.
+
+Revision 4 builds clean: 25 pp., no warnings, no undefined references.
+
+## Open items (revision 4)
+
+1. (U\*), the uniqueness of `Subst` for PA+ and Δ\*₀, remains a transposition from 2001 p. 39. It is now an explicit hypothesis of Cor L(b) only.
+2. Whether IS_D(A) proves Prov(⌜H⌝) ⊃ Prov(⌜¬G̈⌝), and so whether it fails 7b at the Σ₁ sentence **H** itself, is open.
+3. The (E) argument assumes that Willard's prenex conversion never shortens ¬Φ by more than one byte relative to Φ, and, for 2005, that a sentence's code is its byte string's value.
+4. Correctness of SubstPrf in the standard model, including Eq. 7's h ≤ p, is taken from Willard.
+5. Willard's Theorem 6, step (31), needs the Definition 6 reading above. Whether Lemma 3's sketch covers it is our expectation, not Willard's statement.
+6. Carried over: Lemma 4 is stated only for NS's predicate (item 3 of the revision-3 list); O51 versus 2005 p. 40 (item 4); Hilbert–Bernays 1939 is still cited from memory; the metatheory Willard's proofs use is undetermined.
+7. A third review round has not been run on revision 4.
