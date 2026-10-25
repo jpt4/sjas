@@ -138,7 +138,7 @@ non-Willard references (Hilbert–Bernays 1939, Löb 1955, Pudlák 1985, Boolos
 1984, Aaronson 2013) is from memory and was not checked against the
 publications.
 
-## Open items
+## Open items (draft 1; superseded by the revision-2 list below)
 
 1. Verify Prop. E's fixed-point hypothesis against Willard's Group-3
    construction (2005 §3 and the 2001 Appendices B–C encoding).
@@ -149,3 +149,65 @@ publications.
    internally for Type-NS systems.
 4. Optional external read-only review of the essay (the Cursor/Grok recipe in
    memory).
+
+## Revision 2 (2026-10-25): the precision pass
+
+Draft 1 was committed on branch `sjexm-essay` (84eba77). The user then set
+the standard for revision (verbatim):
+
+> Oberhoff's work satisfies the requirements for a paper proof, at the level
+> of granularity necessary for G2; self-justification is a finer-grained
+> concept, and so SJexM must be more technically precise to meet equal
+> proof-status validity.
+
+An adversarial read-only review by Grok 4.7 (Cursor CLI, `--mode ask`) was
+launched on draft 1 against that standard. In parallel the essay was audited
+against the source texts and the extraction records. Revision 2 adds a
+Conventions section that fixes configuration, language, consistency level,
+the formalization of halting, the fixed point, the encoding and the metatheory.
+Every claim is restated against those conventions.
+
+Corrections made in the self-audit, each checked against the source text:
+
+| # | Draft 1 said | Source | Revision 2 |
+| --- | --- | --- | --- |
+| 1 | F₀ has "constants for 0, 1, 2, with addition total" | 2001 pp. 9–10: a constant `n̄` for every n, addition total by the Π⁻₂ axiom (6), seven grounding functions. 2005 pp. 4, 8: `c̄₀`, `c̄₁`, with `+` and `Double` as function symbols | the two languages are stated separately |
+| 2 | one Willard theorem: "if A's Π₁ theorems are true, F₀+Ẅ is consistent" | 2001 Thm 4.3 assumes *regular consistency* (Δ⁻₀ `Prf_A` and true Group-2), uses tableaux, Level(0−); 2005 Thms 3, 5 assume Π\*₁-truth, use tableaux and Tab-U\*₁-List, Level(1) | Theorem D(a), D(b) |
+| 3 | step (1): the two sentences are "the same sentence" | 2001 p. 39: the equivalence needs α to prove uniqueness of `SUBST(n̄, ·)`, a Π⁻₁ theorem of PAX | Fact FP; step (1) is one half of (FP) |
+| 4 | Prop. E assumes the fixed-point equivalence | 2001 Thm 7.2 proof, Eqs. (63), (66)–(67) | FP proved from (U), the order axioms, and an encoding hypothesis (E) that Willard does not state (a proof's code exceeds its conclusion's code). (E) checked against 2001 App. B p. 51 and 2005 App. A pp. 39–40 |
+| 5 | Prop. E: F does not prove step (2) | — | sharpened: given Level(1) self-consistency, step (2) and the formalized-Σ₁-completeness instance at ¬G̈ are each F-provably equivalent to G̈ |
+| 6 | §3: "§6 turns [the size heuristic] into a theorem" | Prop. E is proved through consistency, not size | false; replaced by Lemma (transcripts): under 2005 Eq. (20), a tableau proof containing a closed term of value v has code > v⁵. The exact theorem is 2005 Thm 6 |
+| 7 | case analysis = an informal "walk" (2001 Assertion ++) | 2005 Thm 1 + Thm 2 (θ = 1/4), full, with Probe (Lem 1) and non-closure (Lem 2) | Oberhoff-format proof of Thm 1 and of Thm 2 Part A; Assertion ++ kept as Willard's intuition, with its formal counterpart (cut-off at y−1, Lemmas 4.6, 4.8) |
+| 8 | (absent) | 2005 Thm 6, (27)–(33), pp. 33–36: NS^{k,m}_D(PA+) is inconsistent; (27) is step (2), bounded by n, a Π\*₁ theorem of PA; the axiom Υ(k,m) supplies n | new section, "The Faith, Bought" |
+| 9 | moral: "if you reuse your lemmas, you must be unable to count" | 2005 Thm 5 allows Π\*₁/Σ\*₁ lemmas; 2004 Thm 2 (sketch): Π\*₂/Σ\*₂ lemmas defeat Type-A at Level(0−) | the lemma dial is stated in three rungs; moral corrected |
+| 10 | "on the Hilbert line results survive uncompressed encodings; density load-bearing for tableaux" | 2005 p. 40: "All our theorems would also be valid for uncompressed encoding methods" | density is a *floor* (Eq. 20; 2001 Case 11); a more compact notation is what breaks the 2005 proof. **Discrepancy with codification obligation O51**, which says the tableaux engine "genuinely fails" without compression; not edited here (codification workstream) |
+| 11 | 2006a Thm 4: "multiplicative naming fails" | needs Willard's Concise Encoding property and PA's Π⁻₁ theorems | stated |
+| 12 | 2002a Thm 6.4 "under a technical condition" | Conventional Deciphering Property, Def. 5.1 | stated |
+| 13 | 2002a Thm 2.2 status "---" | registry: sketch | sketch |
+| 14 | 2004 Thm 1 status full | full, but one step deferred in a footnote saying it "should not be considered a formal proof" (codified §7.5) | qualified |
+| 15 | IS^λ(A) tangibility reflection | consistency only at λ = 3/4 (Thm 5.1) | stated, with k > 4 |
+| 16 | closing inequality "needs m ≥ 3" | needs m − 1 > m^{2θ}: m ≥ 4 for every θ < 1/3, m ≥ 3 at θ = 1/4 | stated |
+| 17 | abstract and §1: "they are consistent", "are right" | relative-consistency rule | qualified throughout; new "Relative consistency" paragraph |
+| 18 | Willard 2002c title from memory | 2002c text p. 1 | "Some New Exceptions for the Semantic Tableaux Version of the Second Incompleteness Theorem", LNCS 2381, pp. 281–297; the weakest/strongest rule now quoted from p. 2 |
+
+New claims that are ours in revision 2: Fact FP's proof and hypothesis (E);
+Lemmas (instances, transcripts, watching, honesty); Proposition E (a)–(c);
+Corollaries (IS_D(A); IS(A) disjunction); the observation that by
+θ-compactification any IS_D(PA+) proof of Υ(k,m) has code ≥ (2^m_k)⁴. One
+step is a transposition: Willard asserts (U) for Δ⁻₀ `SUBST` and PAX; the
+essay uses it for 2005's Δ\*₀ `Subst` and PA+.
+
+Revision 2 builds clean with pdflatex (20 pp., no warnings, no overfull boxes).
+
+## Open items (revision 2)
+
+1. Grok review findings: to be verified and integrated (separate commit).
+2. (U) for PA+ and Δ\*₀ `Subst` is assumed by transposition from 2001 p. 39.
+3. Willard states Lemma 4 of 2005 only for NS^{k,m}_D(PA+)'s proof
+   predicate; the analogous bounded faith step for IS_D(PA+)'s own predicate is
+   expected, not stated.
+4. Codification obligation O51's wording conflicts with 2005 p. 40 (item 10
+   above); raise with the codification workstream.
+5. Non-Willard bibliographic data (Hilbert–Bernays, Löb, Pudlák, Boolos,
+   Aaronson, Hájek–Pudlák) is from memory and unverified.
+6. How much metatheory Willard's consistency proofs use is undetermined.
