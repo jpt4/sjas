@@ -440,3 +440,29 @@ Revision 7 builds clean: 29 pp.
 | R5-05 | minor | The step list still called (27) a PA theorem for the redefined CheckProof. | Fixed: (27) is from PA+ for Willard's CheckProof, and is the sketched length claim for the redefined one. |
 
 Revision 8 builds clean: 29 pp. A focused sixth check of these fixes follows.
+
+## Revision 9 (2026-10-25): the focused sixth check
+
+- **Check.** Grok 4.7, read-only, verified only the round-5 fixes in revision 8.
+  - R5-01 resolved: SubstSemPrf with a real node bound and converse; quotations accurate.
+  - R5-02 resolved.
+  - R5-05 resolved.
+  - No new issue.
+  - R5-03 not resolved: the abstract put IS_D(A) under Prop K's conditions on Willard's consistency hypothesis alone. Trichotomy comes from PA+ (Cor L), and the general list omitted the true bounded sentences (which give Pair(c̄,c̄′)) and soundness and completeness of D.
+- **Revision 9.** The abstract's sentence now lists all of Prop K's conditions and says IS_D(A) meets them when its base theory has true Π₁-class theorems and proves those of PA+. 29 pp., clean.
+
+## Final status (revision 9)
+
+- **Proved in the essay**, from cited results with their statuses and the conventions fixed in §2:
+  - the fixed point (Fact B);
+  - watching, honesty and proof-predicate correctness for both systems;
+  - Lemma `lem:transcript`;
+  - Prop G (Linear witnesses) and Cor `cor:uniform` for both systems;
+  - Prop K;
+  - Cor L;
+  - Cor M (G̈ unprovable, plus the disjunction);
+  - the first incompleteness theorem for both systems.
+- **Willard's Theorem 6:** a sketch at this granularity; the step (31) repair rests on Lemma 3's sketch plus length claims for two bounded facts.
+- **Genuinely open:** Cor M's disjunction (the closed faith step for IS(A)).
+- **Outside scope:** metatheory strength; O51 (codification workstream).
+- **Reviews:** six rounds. The last full round (5) and the focused check (6) leave no unresolved finding after this revision.

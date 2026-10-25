@@ -444,3 +444,11 @@ See [the analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.m
   - The abstract's faith-step sentence names all of Prop K's conditions.
   - The step list marks (27) as the sketched claim for the redefined CheckProof.
 - Revision 8: 29 pp., clean build. Details are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).
+
+## 2026-10-25 — SJexM focused round-6 check and revision 9
+- **Check.** A focused Grok check of the round-5 fixes: three resolved, with no new issue. The abstract's faith-step sentence still under-stated Prop K's conditions; it now lists them and adds PA+ for IS_D(A).
+- **Final status.**
+  - Everything the essay claims as its own is proved from cited Willard results (with their statuses) and the conventions it fixes.
+  - Willard's Theorem 6 is a sketch at this granularity.
+  - The only genuinely open item is which of two steps fails for the 2001 system's closed faith step.
+- Revision 9: 29 pp., clean. Details are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).
