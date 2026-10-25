@@ -585,8 +585,10 @@ $\F = \Fo + \W$ is inconsistent, and $\Prog{C}(\Prog{C})$ halts.
 \begin{proof}
 Suppose $\F$ is consistent.
 \begin{topsteps}
-\item $\F$ proves its own consistency, since $\W$ is one of its axioms and
-  $I\Sigma_1$ proves the two consistency levels equivalent for $\F$.
+\item $\F$ proves its own consistency: $\W$ is one of its axioms,
+  $I\Sigma_1$ proves the fixed-point equivalence between $\W$ and the canonical
+  consistency statement of $\Fo + \W$ (the diagonal lemma), and $I\Sigma_1$
+  proves the two consistency levels equivalent for $\F$.
 \item $\F$ is a recursively axiomatized extension of $I\Sigma_1$, so the
   derivability conditions hold for its canonical provability predicate,
   provably in $I\Sigma_1$~\cite{hp93}. In Oberhoff's terms, $\F$ knows that it
@@ -687,10 +689,10 @@ logical consequence. Apply Fact~\ref{fact:closure}.
 \end{proof}
 
 \noindent
-The same holds for $\mathrm{IS}(A)$ with $A \supseteq \mathrm{PA}$, which,
-in Willard's words, ``obviously has a capacity to prove every $\Delta_0^-$
-sentence which is true'' (2001, p.~39, text layer) and names every number by a
-constant. For general programs, Willard notes that the predicate
+The same holds for $\mathrm{IS}(A)$ with $A \supseteq \mathrm{PAX}$: a system
+that verifies the $\Pi_1^-$ theorems of $\mathrm{PAX}$ ``obviously has a
+capacity to prove every $\Delta_0^-$ sentence which is true'' (2001, p.~39,
+text layer), and $\mathrm{IS}(A)$ names every number by a constant. For general programs, Willard notes that the predicate
 $\mathit{Turing}(x,y,z)$ is expressible in $\mathrm{IS}(A)$ (TR 93-10, p.~6),
 so halting of any program is a $\Sigma_1^-$ sentence there; the arguments
 below need only the proof-searchers, whose halting is formalized through
@@ -715,10 +717,11 @@ Theorem~\ref{thm:willard}. It obeys the first incompleteness theorem: by
 Oberhoff's \S4 argument (spelled out as Proposition~\ref{prop:backwards}(c)
 below), $\G$ is unprovable, and $\neg\G$ is false, hence unprovable by
 honesty. Rosser's version also goes through for $A \supseteq \mathrm{PA}{+}$
-(Peano Arithmetic with the U-Grounding function symbols, 2005, p.~32): in
-case 2, $\Prog{B}(\Prog{B})$ enters its loop at a definite step, Peano
-Arithmetic then proves the $\Pi_1^*$ sentence \fs{$\Prog{B}(\Prog{B})$ doesn't
-halt}, and Group-2 hands it to $\ISD$. Willard said so in his first technical
+(Peano Arithmetic with the U-Grounding function symbols, 2005, p.~32). In
+both cases the finite search that Oberhoff writes out is a true bounded fact,
+which Groups 0 and 1 prove; in case 2, $\Prog{B}(\Prog{B})$ enters its loop at
+a definite step, Peano Arithmetic then proves the $\Pi_1^*$ sentence
+\fs{$\Prog{B}(\Prog{B})$ doesn't halt}, and Group-2 hands it to $\ISD$. Willard said so in his first technical
 report: $\mathrm{IS}(A)$ is ``a class of structures, lying halfway between
 Peano Arithmetic and Presburger Arithmetic, which satisfy Godel's First but
 not Second Incompleteness Theorem'' (TR 93-10, p.~6, verbatim).
@@ -749,10 +752,11 @@ Here is Theorem~1 (p.~19, \texttt{full}), with $\theta = \tfrac14$:
   $m = \max(j_1, j_2)$ as small as possible.
 \item Groups 0--2 are true. Group-3 is false, but its first counterexample is
   a pair of proofs whose maximum is $m$, so it is App$\forall(m-1)$-valid.
-  Hence $\ISD$ is Normed$(m-1, 1)$.
+  Hence $\ISD$ is Normed$(m-1, 1)$, which presupposes $m - 1 > 1$; under
+  Willard's encoding every proof has Gödel number far above~3.
 \item The proof $j_1 \le m$ certifies the universal $\Phi$ out to
   $(m-1)/m^{1/4}$. The proof $j_2 \le m$ finds a witness for the existential
-  $\neg\Phi$ below $m^{1/4}$.
+  $\neg\Phi$ at most $m^{1/4}$.
 \item Since $(m-1)/m^{1/4} > m^{1/4}$, the witness for $\neg\Phi$ lies where
   $\Phi$ has been certified.\contra
 \end{steps}
@@ -761,7 +765,7 @@ Here is Theorem~1 (p.~19, \texttt{full}), with $\theta = \tfrac14$:
 The work is in the third arrow, $\theta$-compactification, and it is a
 program. For Part~A of Theorem~2 (p.~26), suppose a tableau $p$ proves a
 $\Sigma_1^*$ sentence $\Phi$ from a Normed$(a,b)$ system but $\Phi$ has no
-witness below $b\,p^{1/4}$:
+witness $\le b\,p^{1/4}$:
 
 \Case{Suppose $p$ is a tableau proof of $\Phi$ and $\Phi$ is not
 App$\exists(b\,p^{1/4})$-valid:}
@@ -803,7 +807,12 @@ the least refutation. The naming bounds are Lemma~4.1 (a constant mentioned
 in $y$ has value below $\sqrt y$, p.~17, \texttt{full}) and Lemma~4.2 (along
 such a branch every parameter has value below $y$, p.~19, \texttt{sketch}),
 whose intuition is that fewer than $\tfrac13\log_2 y$ doublings take values
-at most to $y^{1/2} \cdot y^{1/3} = y^{5/6} < y$. Willard later found this
+at most to $y^{1/2} \cdot y^{1/3} = y^{5/6} < y$ (the product is our
+unpacking of the sketch). The formal proof uses a different majorant, Part~II
+of the affirmative-branch definition, $\mathrm{VALUE}(u) < (k + \sqrt y)\cdot
+2^{\lfloor \beta_i/6\rfloor - 2}$ (Eq.~26, p.~22), where $\beta_i$ is the
+bit-length of the first $i$ levels of the branch and each doubling is paid
+for by the six bits of Case~11. Willard later found this
 proof ``hard to visualize'' and replaced it by Theorem~1 (2005, Remark~2,
 p.~21).
 
@@ -860,7 +869,8 @@ such an encoding Willard does not say, and we do not know.
 $h = m^\theta$ (p.~20). That needs $m - 1 > m^{2\theta}$, which holds for every
 $\theta < \tfrac13$ once $m \ge 4$, and for $\theta = \tfrac14$ once $m \ge 3$.
 Under Appendix~A's encoding every proof has Gödel number above $32 \cdot 64^2$,
-so the gap is harmless.
+so the gap is harmless; Theorems~3 and~5, which are corollaries of
+Theorem~1, inherit both the gap and its repair.
 
 % ==========================================================================
 \section{The Faith Is Not Just Missing}
@@ -992,8 +1002,9 @@ switch it on.
 
 Let $\mathrm{Log}^k$ be the $k$-fold base-2 logarithm, rounded down, and
 $\Upsilon(k,m)$ the true $\Sigma_1^*$ sentence $\exists z\; \mathrm{Log}^k(z) \ge
-\bar m$: \fs{a number with at least $m$ bits after $k-1$ exponentiations
-exists} (2005, Definition~2, p.~11). $\mathrm{NS}^{k,m}_D(A)$ is $\ISD$ with
+\bar m$, which says that a number at least $2^m_k$ exists, where $2^m_k$, the
+least $z$ with $\mathrm{Log}^k(z) \ge m$, is roughly a tower of $k$
+exponentials topped by $m$ (2005, Definition~2, p.~11). $\mathrm{NS}^{k,m}_D(A)$ is $\ISD$ with
 $\Upsilon(k,m)$ added to Group-0 and Group-3's ``this'' adjusted to the larger
 system (Definition~3, p.~11). Both systems prove $\Upsilon(k,m)$; only one of
 them has it as an axiom. Let $\Mho(s,b)$ be the bounded Gödel sentence ``no
@@ -1103,17 +1114,22 @@ the second theorem comes back, at Level(0$-$):
   Deciphering Property (a finite subset proves, of each axiom's canonical
   numeral, that it is an axiom: 2002a, Definition~5.1, p.~20) cannot prove
   that there is no tableau proof of $0=1$ from itself (2002a, Theorem~6.4,
-  p.~25, \texttt{sketch}). This is Willard's answer to the 1981 question of
-  Paris and Wilkie.
+  p.~25, \texttt{sketch}).
 \end{itemize}
+In 1981 Paris and Wilkie asked whether $I\Sigma_0$ satisfies the second
+incompleteness theorem for cut-free deduction. 2002a presented Theorem~6.4 as
+an answer; 2007 records that the 2002 paper covered only the textbook
+induction scheme (``which we did not examine in our year-2002 article'', of
+the Wilkie--Paris scheme: 2007, abstract, text layer), and its Theorem~6
+covers both.
 On the positive side, Definition~5 becomes ``impossible to satisfy'' once
 multiplication is admitted as a ninth function symbol (2005, Remark~4, p.~21,
 \texttt{stated-only} as to the reason: ``intuitively because multiplication
 has a faster growth property than addition'').\footnote{What multiplication
 destroys is the flat consistency axiom and canonical reflection, not every
 self-referential construction. Willard's $\mathrm{ISM}(A)$ recognizes
-multiplication as total and is consistent ``by a routine generalization'' of
-his proof, but its self-referential axiom is weaker, and it cannot prove the
+multiplication as total and is consistent whenever $A$ is regularly
+consistent, ``by a routine generalization'' of his proof, but its self-referential axiom is weaker, and it cannot prove the
 flat statement that no tableau proof of $0=1$ exists (2001, \S6, p.~36;
 codified statement~\S7.2).}
 
@@ -1138,6 +1154,10 @@ relies on the cut rule for sentences with unbounded quantifiers.)
 The boundary depends on the \emph{complexity} of the lemmas, and Willard
 mapped it:
 \begin{itemize}[leftmargin=1.5em]
+\item a cut rule for bounded ($\Delta_0$) sentences: compatible with
+  $\mathrm{IS}(A)$, as the parenthesis above says (TR 93-10, p.~7; the
+  codification records the construction in a footnote on p.~35, obligation
+  O56);
 \item lemmas with one unbounded quantifier block ($\Pi_1^*$ or $\Sigma_1^*$),
   addition total: self-justifying at Level(1) (2005, Theorem~5, \texttt{full});
 \item lemmas with two blocks ($\Pi_2^*$, respectively $\Sigma_2^*$), addition
@@ -1147,8 +1167,8 @@ mapped it:
   (resp.\ $\mathrm{Tab}{-}\Sigma_2^*$) lists (2004, Theorem~2, p.~8,
   \texttt{sketch}; stated for finite systems ``for the sake of simplifying our
   proof'');
-\item unrestricted lemmas (Hilbert deduction), successor total: Solovay's
-  theorem below.
+\item unrestricted lemmas (Hilbert deduction), successor total together
+  with the $\Pi_1$ algebra of $+$ and $\times$: Solovay's theorem below.
 \end{itemize}
 The unrestricted case runs through the classical shortening of definable
 cuts. In outline (a textbook gloss, not Willard's text): with lemmas, one
@@ -1170,8 +1190,13 @@ itself. With unrestricted subroutines, the price of faith is mere counting.
 So the Hilbert-line self-justifying systems give up successor itself. They
 name numbers with constants $C_1, C_2, \ldots$, and the naming convention
 \emph{is} the system (codified statement~\S5.5). Incremental naming
-$C_i = C_{i-1} + 1$ works ($\mathrm{ISREF}(A)$, 2001, Theorem~3.4, p.~13,
-\texttt{full}); additive naming $C_i = C_{i-1} + C_{i-1}$ works and keeps
+$C_i = C_{i-1} + 1$ is how 2006a reads 2001's $\mathrm{ISREF}(A)$, which is
+consistent when $A$ is regularly consistent (2001, Theorem~3.4, p.~13,
+\texttt{full}) and whose Group-3 is the tangibility schema (2001, Eq.~10), not
+a flat consistency axiom: ``The term `incremental naming convention' had not
+appeared in our article [46]. However, its Theorem 3.4 had implicitly presumed
+the presence of an incremental naming method'' (2006a, p.~22, text layer).
+Additive naming $C_i = C_{i-1} + C_{i-1}$ works and keeps
 reaching new numbers ($\mathrm{ISCE}(A)$, for consistent $A$ with true
 $\Pi_1^-$ theorems and $\Delta_0^-$ Hilbert proof predicate: 2006a,
 Theorem~3, p.~6, \texttt{full}); multiplicative naming
@@ -1183,8 +1208,9 @@ Remark~3, quoted in \S\ref{sec:transcripts}, explains why.
 \subsection*{Other ways to buy faith}
 
 Excluded middle as a logical axiom, $\Phi \vee \neg\Phi$ at any node for any
-$\Phi$, puts the cut back into tableaux by the back door ($\mathrm{Xtab}$;
-the definition goes back to TR 93-10, p.~33). Then
+$\Phi$ ($\mathrm{Xtab}$, 2020, p.~11), is what TR 93-10 had already defined as
+``a tableaux proof with cuts'' (printed p.~33, as recorded in codified
+statement~\S7.3). Then
 $\mathrm{IS}_{\mathrm{Xtab}}(\beta)$ is automatically inconsistent whenever
 $\beta$ proves the usual $\Pi_1^*$ associative, commutative, distributive and
 identity laws for addition and multiplication (2020, Theorem~4.5, p.~13,
@@ -1208,7 +1234,7 @@ tableaux & $\times$ total & Level(0$-$) & G2 & 2002a Thm 3.5 \texttt{full}; 6.4 
 lists of $\Pi_2^*$ or $\Sigma_2^*$ lemmas & $+$ total & Level(0$-$) & G2 & 2004 Thm 2, \texttt{sketch} \\
 tableaux & $+$ total & Level($2^+$) & G2 & 2004 Thm 1, \texttt{full} (one deferred step) \\
 tableaux + excluded middle & $+$ total, $\times$ laws & Level(1) & inconsistent & 2020 Thm 4.5, \texttt{sketch} \\
-Hilbert & successor total & Level(0$-$) & G2 & Solovay, \texttt{cited} \\
+Hilbert & successor total, $\Pi_1$ laws of $+$, $\times$ & Level(0$-$) & G2 & Solovay, \texttt{cited} \\
 Hilbert & additive names only & Level(0$-$) & self-justifying & 2006a Thm 3, \texttt{full} \\
 Hilbert & multiplicative names & Level(0$-$) & G2 & 2006a Thm 4, \texttt{full} \\
 \bottomrule
@@ -1218,8 +1244,10 @@ Hilbert & multiplicative names & Level(0$-$) & G2 & 2006a Thm 4, \texttt{full} \
 \noindent
 Read the table as Willard read it. Negative rows assert the weakest
 consistency notion and positive rows the strongest, by the rule of
-\S\ref{sec:conventions}, so each row is as strong as its side allows. The
-affirmative results are mostly \texttt{full}; the negative side contains
+\S\ref{sec:conventions}, so each row is as strong as its side allows.
+``Self-justifying'' in a positive row means that the system proves its own
+consistency and is consistent under the hypothesis on its base theory
+(Theorem~\ref{thm:willard}; 2006a, Theorem~3). The affirmative results are mostly \texttt{full}; the negative side contains
 sketches and one unpublished theorem. The boundary is sharply located in some
 coordinates and only bracketed in others (codified statement~\S8.2).
 
@@ -1280,22 +1308,27 @@ Gödel numbers is the bookkeeping of memory.
 % ==========================================================================
 \section{Refactoring the Incompleteness Theorems, Again}
 
-Oberhoff's Theorem~7 is two theorems.
+Oberhoff's Theorem~7 is two theorems. Stated as properties of a
+configuration $(\alpha, D)$, they are:
 
 \begin{quote}
-\textbf{Theorem 7a} (Watching). \emph{Every configuration capable of
-reasoning about elementary arithmetic proves every true $\Sigma_1$-class
-sentence of its language; in particular, of each halting computation, that
-it halts.}
+\textbf{7a} (Watching, Definition~\ref{def:watch}). \emph{$\alpha \vdash_D
+\sigma$ for every true $\Sigma_1$-class sentence $\sigma$; in particular, for
+the halting sentence of each halting computation.}
 
-\textbf{Theorem 7b} (Knowing that one watches). \emph{Such a configuration
-proves $\sigma \supset \Prov(\gn{\sigma})$ for every $\Sigma_1$-class sentence
-$\sigma$.}
+\textbf{7b} (Knowing that one watches, Definition~\ref{def:know}).
+\emph{$\alpha \vdash_D \sigma \supset \Prov^D_\alpha(\gn{\sigma})$ for every
+$\Sigma_1$-class sentence $\sigma$, as a schema.}
 \end{quote}
 
 \noindent
-Theorem~7a is enough for the first incompleteness theorem in all of
-Oberhoff's forms. Theorem~7b is what Theorem~6 takes on faith, and it does
+Oberhoff's Theorem~7, read as~7a, holds for every configuration in this
+essay: for extensions of Robinson's $Q$ with Hilbert deduction (standard), and
+for Willard's systems (Lemma~\ref{lem:watch}). Read as~7b, it holds for
+recursively axiomatized extensions of $I\Sigma_1$ with their canonical
+provability predicate~\cite{hp93}, and fails for Willard's systems.
+Property~7a is enough for the first incompleteness theorem in all of
+Oberhoff's forms. Property~7b is what Theorem~6 takes on faith, and it does
 not follow from~7a: Willard's systems satisfy~7a (Lemma~\ref{lem:watch}),
 prove their own Level(1) consistency, and fail~7b at one sentence, $\neg\G$,
 where the failing instance is provably equivalent to the Gödel sentence
@@ -1319,10 +1352,13 @@ may have two (\texttt{sketch}), counting if they are unrestricted
 axiom.
 
 \medskip
-Moral of the story: you may declare yourself a very stable genius, provided
-you cannot multiply. If your lemmas get more complicated, you must also be
-unable to add; if you reuse any lemma at all, you must also be unable to
-count; and you must never be told that a big enough number exists.
+Moral of the story: you may declare yourself a very stable genius, and
+Willard's theorems will vouch for you provided your teachers told you only
+truths, you cannot multiply, and you reuse only lemmas with one unbounded
+quantifier. Reuse lemmas with two, and (by a sketch of Willard's) addition
+is already too much; reuse any lemma you like, and (by Solovay's unpublished
+theorem) counting is too much; and you must never be told, as an axiom, that a
+big enough number exists.
 
 % ==========================================================================
 \section{What Self-Justification Does Not Buy}
@@ -1339,8 +1375,9 @@ readers have been, and an honest retelling must carry his caveats.
   that of Peano Arithmetic!'' (2001, p.~11, text layer).
 \item \textbf{A reduced question.} Willard (2016, Remark~4.9, p.~13) splits
   Hilbert's question in two: can a system verify its own consistency in a
-  robust sense, and can it appreciate its consistency in some reduced but not
-  immaterial sense? The answer to the first is no, by Gödel, Hilbert--Bernays
+  robust sense, and ``Can logic systems `appreciate' their own consistency in
+  some REDUCED sense, that is diluted but not fully immaterial?'' (text
+  layer). The answer to the first is no, by Gödel, Hilbert--Bernays
   and Pudlák--Solovay. Everything above answers the second.
 \item \textbf{A one-line proof.} A system that proves its consistency from
   its own axiom $\W$ has ``essentially a 1-line proof'' (2011, Remark~6.16,
@@ -1356,7 +1393,9 @@ readers have been, and an honest retelling must carry his caveats.
   legalistic sense'' (2016, \S8). His answer, \emph{Platonic Stability}, is
   that a thinking being needs no sophisticated justification of its own
   reasoning, only a formalism in which presuming its own consistency provably
-  will not spin it into inconsistency.
+  will not spin it into inconsistency. Its formal statement, Corollary~8.2
+  (p.~29), opens ``Let us assume Conjecture 6.6 is correct (as we are almost
+  100\,\% certain it is)''; Conjecture~6.6 (p.~24) is \texttt{stated-only}.
 \item \textbf{The first theorem stands.} Willard's systems are incomplete;
   they cannot decide $\G$ or $\R$.
 \item \textbf{Interpretation versus source.} The vocabulary of watching and

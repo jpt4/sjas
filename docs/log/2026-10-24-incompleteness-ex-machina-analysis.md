@@ -199,15 +199,60 @@ essay uses it for 2005's Δ\*₀ `Subst` and PA+.
 
 Revision 2 builds clean with pdflatex (20 pp., no warnings, no overfull boxes).
 
-## Open items (revision 2)
+## Revision 3 (2026-10-25): the adversarial review
 
-1. Grok review findings: to be verified and integrated (separate commit).
+Reviewer: Grok 4.7 (`grok-4.7-xhigh`) through the Cursor `agent` CLI in
+`--mode ask` (read-only). Its workspace held the draft-1 source, Oberhoff's
+text layer, twelve Willard text layers, the codified statement, the results
+registry and two notes. The prompt (numbered questions, under the user's
+standard quoted above) and the report are kept in the session scratchpad
+(`review-sjexm-r1/prompt.md`, `REPORT.md`, 48 kB), not in the repository.
+Verdict on draft 1: does not meet the standard. 15 findings: 2 critical,
+10 major, 3 minor.
+
+Each finding was checked against the source text before it was acted on.
+Several duplicated corrections already made in revision 2. Disposition:
+
+| ID | Sev. | Finding (short) | Disposition |
+| --- | --- | --- | --- |
+| R1-01 | major | Prop. C's hypotheses don't give G2; "Theorem 6's argument written out" conflates internal/external | fixed in rev 2 (IΣ₁, Hilbert, canonical Prov, derivability conditions [HP93]; phrase deleted); rev 3 names the diagonal lemma explicitly |
+| R1-02 | critical | Prop. E: same predicate unstated; step (2) is equivalent to G̈ under Level(1); fixed-point paragraph wrong for 2005 language; 2001 cut claim unproved | (1), (2) fixed in rev 2 (H4 and Cor. on Willard's own predicate; Prop. (a) proves the equivalence). (3) rev 2 uses PA+ (2005 p. 32), not PA. **Partly not adopted:** Grok proposes getting (U) from Group-1 as "a single true Δ\*₀ computation". (U) quantifies over all h and is bounded only if `Subst` bounds h by a U-Grounding term, which we have not established. We keep Willard's route (2001 p. 39: (U) inherited as a Π₁ theorem) and flag the transposition. The 2001 claim became Corollary (IS(A)): at least one of steps (2), (3) is unprovable, and we do not know which |
+| R1-03 | major | step (1) identity, "free" wording, §6 ≠ size theorem, 7a/7b imprecise | rev 2 fixed the first three; rev 3 states 7a/7b as properties of (α, D), 7b as a schema, and says where each holds |
+| R1-04 | major | merged consistency theorem | split in rev 2; rev 3 adds that Thms 3, 5 inherit Thm 1's inequality gap and its repair |
+| R1-05 | major | 2001/2005 systems conflated; watching = Δ\*₀-completeness + ∃-generalization | fixed in rev 2 (separate descriptions; Lemma (watching)); 2001's Δ⁻₀-completeness comes via PAX (2001 p. 39), not Group-1 |
+| R1-06 | major | case analysis ≠ Willard's proof; Group-3 instance fails at a proof, not a bound; y^{5/6} not the formal bound | rev 2 rebuilt it from 2005 Thms 1, 2; rev 3 marks y^{5/6} as our unpacking of Lemma 4.2's sketch and adds the formal majorant Eq. (26) with Case 11's six bits |
+| R1-07 | minor | inequality; "below" vs "≤" | rev 2 inequality; rev 3: Normed(m−1, 1) presupposes m ≥ 3, and witnesses are "≤" |
+| R1-08 | major | encoding contrast reversed | fixed in rev 2 (self-audit item 10; 2006a's Hilbert-line remark is cited too) |
+| R1-09 | critical | price slogan contradicts 2005 Thm 5 and TR Δ₀ cut; Solovay row drops algebra; incremental naming is 2006a's reading | rev 2 gave the lemma dial; rev 3 adds the Δ₀-cut rung (TR p. 7; O56), the Π₁ ring laws to Solovay's rung and table row, and 2006a p. 22's own words that 2001 never used the phrase "incremental naming", with ISREF's Group-3 = Eq. (10). Moral rewritten as a list of conditions with statuses |
+| R1-10 | major | Paris–Wilkie attribution; 2004 Thm 1; 2020 row; "back door" | rev 3: 2002a presented Thm 6.4 as the answer; 2007 (abstract) says it covered only the textbook scheme, and 2007 Thm 6 covers both. Xtab is now introduced as TR 93-10's own "tableaux proof with cuts" (printed p. 33). 2004 Thm 1 and the 2020 row were already fixed in rev 2 |
+| R1-11 | major | Thm 7.2 hypotheses; "Löb's theorem in Willard's setting"; Thm 6.1 is Hilbert | fixed in rev 2 |
+| R1-12 | major | honesty omits soundness step and hypothesis; Rosser not "verbatim"; TR cited as proof | rev 2 Lemma (honesty) with sound D and the hypothesis; rev 3 lists what Rosser's cases need (bounded search fact; Group-2 import of the Π₁\* loop sentence). The TR is quoted only as Willard's statement |
+| R1-13 | major | unqualified consistency claims | rev 2 qualified the abstract, §1 and honesty; rev 3 adds the ISM footnote hypothesis, defines "self-justifying" in the table, and rewrites the moral |
+| R1-14 | minor | Platonic Stability is conditional on Conj. 6.6; Q-2 wording; "2021" | rev 3 quotes Cor. 8.2's opening ("Let us assume Conjecture 6.6 is correct …", p. 29) and Q-2 verbatim (text layer); the date span was fixed in rev 2 |
+| R1-15 | minor | footnote 12 misquoted | fixed in rev 2 (quoted) |
+
+Checked by the reviewer and found correct: Oberhoff quotations; the TR pp. 6–7
+quotations (text-layer artifacts "cut mle", "Ag", "a399_" noted); 2006a
+Remark 3; 2001 p. 20; Lemmas 4.1, 4.6, 4.8; 2000 §5 and Lemma 8; 2002a
+Thms 2.2, 3.5; 2005 Remark 4; 2006a Thms 1–4; 2001 Def. 1.2, Thm 3.5, p. 8;
+2016 Ex. 3.5; 2005 §1.
+
+Revision 3 builds clean (21 pp., no warnings, no undefined references).
+Theorem-like items share one lettered counter, so Proposition E of draft 1 is
+now Proposition K, and Willard's consistency theorem is Theorem H.
+
+## Open items (revision 3)
+
+1. A second review round of revision 3 would test whether the fixes meet
+   the standard; not yet run.
 2. (U) for PA+ and Δ\*₀ `Subst` is assumed by transposition from 2001 p. 39.
 3. Willard states Lemma 4 of 2005 only for NS^{k,m}_D(PA+)'s proof
    predicate; the analogous bounded faith step for IS_D(PA+)'s own predicate is
    expected, not stated.
 4. Codification obligation O51's wording conflicts with 2005 p. 40 (item 10
    above); raise with the codification workstream.
-5. Non-Willard bibliographic data (Hilbert–Bernays, Löb, Pudlák, Boolos,
-   Aaronson, Hájek–Pudlák) is from memory and unverified.
+5. Bibliography: Pudlák 1985 (JSL 50(2), 423–441), Boolos 1984 (JPL 13(4),
+   373–378), Löb 1955 (JSL 20(2), 115–118), Hájek–Pudlák 1993 (Springer,
+   Perspectives in Mathematical Logic) and Aaronson 2013 (CUP) were checked by
+   web search on 2026-10-25. Hilbert–Bernays 1939 is from memory.
 6. How much metatheory Willard's consistency proofs use is undetermined.
