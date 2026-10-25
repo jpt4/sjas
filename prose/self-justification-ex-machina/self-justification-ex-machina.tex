@@ -140,10 +140,11 @@ universal axioms can only produce witnesses that grow linearly in its
 inputs, so they cannot even prove that every number has a written name. At
 the Gödel sentence itself the faith step says that if the Gödel sentence is
 provable, then so is the $\Sigma_1$ statement that the proof-searcher halts.
-In a system that proves its own Level(1) consistency, with a correct bounded
-proof predicate, our fixed point and a pairing of each sentence with its
-negation, this step is provably equivalent to the Gödel sentence, hence
-unprovable. Willard's 2005 system meets these conditions. Willard's 2005
+In a consistent system that watches, proves our fixed point, and proves its
+own Level(1) consistency for a correct bounded proof predicate and a pairing
+of each sentence with its negation, this step is provably equivalent to the
+Gödel sentence, hence unprovable. Willard's 2005 system meets these
+conditions under the hypotheses of his consistency theorem. Willard's 2005
 Theorem~6 then shows the faith being bought: a bounded transcript form of
 the step is a $\Pi_1$-class theorem of $\mathrm{PA}{+}$, and one axiom
 asserting that a single large number exists makes the system inconsistent.
@@ -680,12 +681,16 @@ I := \{\, z \in M : z \le \bar k \cdot |\vec a| \text{ for some } k \in
 \]
 The following facts hold because the sentences expressing them are true in
 $\mathbb N$, hence in $M$: $\le$ is transitive, so $I$ is an initial segment;
+$x_i \le x_1 + \cdots + x_m + \bar c_1$, so each $a_i \in I$;
 $\bar n \le \bar n \cdot u$ for $u \ge 1$, so $I$ contains every $\bar n$;
+$\bar i \cdot u \le \bar j \cdot u$ for $i \le j$, so any finitely many
+elements of $I$ lie under one bound $\bar k \cdot |\vec a|$;
 and $x \le \bar i \cdot u$, $y \le \bar j \cdot u$ imply
 $x + y \le \overline{i + j} \cdot u$ and $\mathit{Double}(x) \le
 \overline{2i} \cdot u$, so $I$ is closed under $+$ and $\mathit{Double}$.
 The six non-growth functions satisfy $F(\vec z) \le \max(\vec z)$ (2005,
-p.~4, as a true sentence of each), so $I$ is closed under them too. Hence $I$
+p.~4, as a true sentence of each), and the arguments lie under a common
+bound, so $I$ is closed under them too. Hence $I$
 is a substructure of $M$ and an initial segment. A bounded formula therefore
 has the same truth value in $I$ as in $M$ at arguments from $I$: its terms
 take the same values, and its quantifiers range over initial segments of
@@ -697,10 +702,11 @@ some $\vec y \in I$ satisfies $\delta(\vec a, \vec y)$ in $I$, hence in $M$.
 But $\vec y \le \bar k \cdot |\vec a|$ for some $k \in \mathbb N$, against the
 choice of $\vec a$.
 
-\emph{The 2001 case.} Addition is not a function symbol there, but its graph
-$z \mathbin{\dot-} x = y \wedge x \le z$ is a bounded formula, and the true
-sentences that it is total (2001, Eq.~6) and single-valued hold in every
-model of $\mathrm{Th}(\mathbb N)$. So expand $\mathbb N$ and $M$ by the
+\emph{The 2001 case.} Addition is not a function symbol there. Eq.~(6) of
+2001 asserts only that $z \mathbin{\dot-} x = y$ always has a solution $z$.
+But its functional sharpening $z \mathbin{\dot-} x = y \wedge x \le z$ is a
+bounded formula, and the true sentences that it is total and single-valued
+hold in every model of $\mathrm{Th}(\mathbb N)$. So expand $\mathbb N$ and $M$ by the
 function it defines, and write the bounds $\bar k \cdot |\vec x|$ with it.
 Each such bound is expressible by a bounded formula through the graph. The
 argument above then runs verbatim: $I$ is closed under the defined addition
@@ -1035,19 +1041,33 @@ under a sound $D$ are true.
 with $\Theta(g) := \forall y\, \neg\mathit{SubstSemPrf}_{\mathrm{UNION}(A)}(\gn{0=1},
 y, g)$, where $\mathit{SubstSemPrf}_{\mathrm{UNION}(A)}(s, y, g)$ says that $y$ is
 a tableau proof of $s$ from $\mathrm{UNION}(A)$ together with the sentence
-$h$ such that $\Subst(g, h)$ (2001, Eqs.~86--87, p.~52). Its $\Delta_0^-$
-definition is Willard's: item~25 of Theorem~C.1 and Theorem~C.2 (both
-\texttt{sketch}). His test examines each node $s$ of $y$ for being the
-Group-3 axiom, searching for $h$ with $\Subst(g,h)$ under the bound
-$h \le s$: ``We may assume that our encoding scheme is designed so that
-$h \le s$ when $h$ exists'' (Appendix~C, item~24 and p.~59, text layer). In
-2001's encoding each tableau node opens with a curly bracket followed by its
-sentence (Appendix~B, p.~52). So a node's byte string is a contiguous part
-of $y$, $s \le y$, and the bounds cover every proof that uses the axiom, by
-the node argument of~(a). Hence the formula holds in the
-standard model exactly of the tableau proofs from $\mathrm{IS}(A)$, and the
-proof predicate $\mathit{SubstSemPrf}_{\mathrm{UNION}(A)}(\cdot, \cdot,
-\bar N)$ of $\mathrm{IS}(A)$ is correct.
+$h$ such that $\Subst(g, h)$ (2001, item~(iii) and Eqs.~86--87, p.~52).
+That it has a $\Delta_0^-$ definition is Willard's Theorem~C.3 (p.~60),
+which obtains it from analogs of Theorem~C.1 and from Theorem~C.2. The
+analogs are called routine and not written out, and C.2 is a
+\texttt{sketch}. As in Eq.~(7) of 2005, write that definition as
+\[
+\mathit{SemPrf}_{\mathrm{UNION}(A)}(s, y) \vee \exists h \le y\,
+[\Subst(g, h) \wedge \mathit{SemPrf}_{\mathrm{UNION}(A) + h}(s, y)],
+\]
+where the second disjunct says that $y$ is a tableau proof of $s$ from
+$\mathrm{UNION}(A)$ together with the sentence coded $h$. This formula is
+correct in the standard model at $g = N$. A tableau proof $y$ from
+$\mathrm{IS}(A)$ that uses no Group-3 axiom satisfies the first disjunct.
+One that uses it has the sentence $\Theta(\bar N)$ as a node: the nodes
+other than the root ``are either axioms of $\alpha$ or deductions from higher
+nodes'' (2001, p.~16). In 2001's encoding each node opens
+with a curly bracket followed by its sentence (Appendix~B, p.~52), so the
+axiom's byte string is a contiguous part of $y$. By the encoding of
+\S\ref{sec:conventions}, its code $h_N$ satisfies $h_N \le y$, and the
+second disjunct holds with $h = h_N$. Conversely, the first disjunct
+describes a proof from $\mathrm{UNION}(A) \subseteq \mathrm{IS}(A)$. The
+second describes a proof from $\mathrm{UNION}(A)$ plus the sentence $h$ with
+$\Subst(\bar N, h)$, and in the standard model that is only $h_N$, so it is
+a proof from $\mathrm{IS}(A)$. Hence the proof predicate of $\mathrm{IS}(A)$
+is correct. (Willard's item~25, $\mathit{ExSemPrf}$, serves his schema
+systems through a template step, $\mathit{PseudoTransform}_2$; it is not used
+here.)
 
 \emph{Truth.} Group-0 consists of true atomic facts about the constants
 (2001, p.~10). Group-1 is true. Group-2 is true by regular consistency
@@ -1476,7 +1496,9 @@ its fourth step repaired as sketched below, it is Oberhoff's Theorem~6 with
 the faith supplied:
 
 \begin{topsteps}
-\item (27), inherited from Peano Arithmetic: the faith step, below $n$.
+\item (27), inherited from $\mathrm{PA}{+}$: the faith step, below $n$. (For
+  the redefined $\mathit{CheckProof}$ of the repair below, (27) is no longer
+  Lemma~4's theorem but the length claim the repair sketches.)
 \item (28) $\Pair(\gn{\Mho}, \gn{\neg\Mho})$, a true bounded sentence; with
   $\Pair$ as fixed in \S\ref{sec:conventions}, also
   $\Pair(\gn{\Mho}, \gn{\mathrm{dual}(\Mho)})$.

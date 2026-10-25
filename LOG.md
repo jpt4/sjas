@@ -435,3 +435,12 @@ See [the analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.m
 - **Reclassified.** Willard's Theorem 6 is a sketch at this granularity. The step-(31) repair needs no root identity now, since (28) is replaced by Pair(⌜℧⌝,⌜dual ℧⌝). It still needs length claims for two bounded facts of Lemma 3's kind.
 - **Also.** The abstract names PA+/PAX and Prop K's conditions; byte order is fixed; IS(A)'s loop sentence is in the 2001 language; 7b is the essay's own formulation.
 - **What is open.** Only Cor M's disjunction. Revision 7: 29 pp., clean build. Details are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).
+
+## 2026-10-25 — SJexM round-5 review and revision 8
+- **Review.** Grok 4.7 reviewed revision 7: 5 findings, 2 major. It confirmed Theorem 6's sketch status, the repair's tableau, the uniform code bounds and Cor L.
+- **The one substantive gap.** The 2001 proof-predicate correctness cited Willard's ExSemPrf/Group3Test (with its template step) instead of SubstSemPrf. It is now argued for SubstSemPrf from Eqs. 86–87 and Thm C.3 (sketch), with the node argument and its converse.
+- **Minor fixes.**
+  - Prop G states two more order facts (a⃗ ∈ I; coefficient comparison) and what 2001 Eq. 6 says.
+  - The abstract's faith-step sentence names all of Prop K's conditions.
+  - The step list marks (27) as the sketched claim for the redefined CheckProof.
+- Revision 8: 29 pp., clean build. Details are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).

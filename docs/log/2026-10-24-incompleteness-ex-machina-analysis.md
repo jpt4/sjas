@@ -424,3 +424,19 @@ Revision 7 builds clean: 29 pp.
 - **Willard's Theorem 6:** a sketch at this granularity (step (31) repair sketched; parts (ii), (iii) length claims).
 - **Genuinely open:** Cor M's disjunction, for the closed instance in IS(A) only.
 - **Outside scope:** metatheory strength; O51 (codification workstream).
+
+## Revision 8 (2026-10-25): the fifth adversarial review
+
+- **Review.** Grok 4.7 against revision 7, about 30 minutes. 5 findings: 2 major, 3 minor.
+  - Confirmed: Theorem 6's sketch status and its consistent reporting; the repair's tableau and code bound; the uniform code bounds and axiom classes; Cor L; the 2001 expansion argument.
+  - Part A: R4-02, 05, 06 and 07 resolved; R4-01, 03, 04 and 08 partly resolved.
+
+| ID | Sev. | Finding | Disposition |
+|---|---|---|---|
+| R5-01 | major | `lem:honest`(b) cited item 25 (ExSemPrf, with its PseudoTransform₂ template step) and the h ≤ s design bound, which are not IS(A)'s proof predicate. | Fixed. Correctness is argued for SubstSemPrf itself (2001 item (iii), Eqs. 86–87, p. 52), with its Δ⁻₀ definition from Thm C.3 (via routine analogs of C.1, and C.2, sketch), written in Eq. (7) form. The proof argues h_N ≤ y from the node fact (2001 p. 16) and the curly-bracket node encoding (p. 52), and gives the converse from Subst's uniqueness in ℕ. Item 25 and the h ≤ s sentence are no longer cited. |
+| R5-02 | minor | Prop G: a⃗ ∈ I and the coefficient comparison were unstated; Eq. 6 is not the functional graph. | Fixed: x_i ≤ x₁+⋯+x_m+1 and ī·u ≤ j̄·u (i ≤ j) are stated and used for tuples and for binary non-growth functions. The 2001 case says Eq. 6 asserts solvability of z ∸ x = y and the expansion uses its functional sharpening. |
+| R5-03 | minor | The abstract's faith-step sentence omitted watching and consistency. | Fixed: it now names consistency, watching, the fixed point and Level(1) self-consistency, and IS_D(A) "under the hypotheses of his consistency theorem". |
+| R5-04 | major | The status list called the IS(A) claims proved while R5-01 stood. | With R5-01 written, the IS(A) claims (honesty, the IS(A) half of Cor `cor:uniform`, G1 for IS(A)) rest on a proof again. Statuses are unchanged otherwise. |
+| R5-05 | minor | The step list still called (27) a PA theorem for the redefined CheckProof. | Fixed: (27) is from PA+ for Willard's CheckProof, and is the sketched length claim for the redefined one. |
+
+Revision 8 builds clean: 29 pp. A focused sixth check of these fixes follows.
