@@ -303,3 +303,40 @@ Revision 4 builds clean: 25 pp., no warnings, no undefined references.
 5. Willard's Theorem 6, step (31), needs the Definition 6 reading above. Whether Lemma 3's sketch covers it is our expectation, not Willard's statement.
 6. Carried over: Lemma 4 is stated only for NS's predicate (item 3 of the revision-3 list); O51 versus 2005 p. 40 (item 4); Hilbert–Bernays 1939 is still cited from memory; the metatheory Willard's proofs use is undetermined.
 7. A third review round has not been run on revision 4.
+
+## Revision 5 (2026-10-25): the third adversarial review
+
+- **Request (user).** "What is the 'faith step'? Run a third review." The answer was given in the conversation; the review is recorded here.
+- **Review.** Grok 4.7 (Cursor CLI, read-only), run against revision 4, with both earlier reports and the revision-4 disposition table, about 33 minutes.
+  - Workspace: `scratchpad/review-sjexm-r3/` (REPORT.md, 28 kB).
+  - Verdict: does not yet meet the standard. 10 findings: 0 critical, 8 major, 2 minor.
+  - Part A: R2-02, 03, 06, 07, 09, 10, 12, 13, 14, 15 and 16 resolved; R2-01, 04, 05, 08 and 11 partly resolved, each reopened as an R3 item.
+  - Question 6, whether IS_D(A) proves Prov(⌜H⌝) ⊃ Prov(⌜¬G̈⌝): open, but narrowed. The roots of the two tableau proofs differ by one bounded duality and possibly a double negation, and Willard's p. 6 does not fix the Prenex\* conversion.
+- One reviewer claim was rejected. R3-07 said §1's single hypothesis, "a bounded proof predicate and true Π₁-class theorems", is not 2001's regular consistency. It is: 2001 p. 12 defines regular consistency as a Δ⁻₀ proof predicate plus the Group-2 axioms valid for every Π⁻₁ sentence. §1 now names it.
+
+| ID | Sev. | Finding | Disposition |
+|---|---|---|---|
+| R3-01 | major | Fact FP's hypotheses omitted soundness and completeness, a bounded Prf, and the truth of Subst(n̄,c̄); the closing sentence was not Lemma 7.1B. | Fixed. Hypotheses added. The proof now names the theorems (trichotomy, ∀y ≤ c̄ ¬Prf(c̄,y), Subst(n̄,c̄), and (U)), shows their conjunction implies the target in every structure, and applies Lemma 7.1B. |
+| R3-02 | major | The general (E) argument fails for non-prenex sentences (stacked double negations). | Fixed. (E) is now stated for proofs of G̈ only, which is all FP uses, under two explicit assumptions: Prenex\* dualizes the prefix and negates the matrix, shortening by at most one byte; and 2005 numbers sentences by byte value, as 2001 states. The corollaries list (E) as an assumption. |
+| R3-03 | major | Cor L: "(U\*) is the one open hypothesis" is false. | Fixed. Cor L lists its assumptions: (E) under the encoding assumptions, correctness of Subst, and Willard's correctness of SubstPrf including h ≤ p. (U\*) is additional for (b) only. |
+| R3-04 | major | Cor M's (H2) stopped at Δ⁻₀-completeness. | Fixed in Cor M and in §6's IS(A) remark: the witness instance, then Fact closure. |
+| R3-05 | major | The §6 Theorem 1 retelling fed App∃ a syntactic negation; "Group-3 says exactly" identified two codes. | Fixed, and generalized. §2 now sets out Willard's two readings of `Pair`: (i) the Σ₁\* sentence representing the negation (p. 34 "represents"; Theorem 1, p. 20; Remark 5), and (ii) the string ¬Φ (Eq. 28; Level(n), p. 5). **N** is the sentence `Pair` pairs with G̈, and c′ = ⌜N⌝. Prop K, Lemma `lem:instances`, the corollaries and §12 are stated for **N**. The retelling uses Ψ, the Σ₁\* negation. A new remark says Theorems 3/5 give the truth of Group-3 under (i), and under (ii) only with a Prenex\* convention that Willard does not fix. Theorem H(a) and Lemma `lem:honest` are qualified accordingly. Under (i), the 7b failure is at a Σ₁-class sentence. |
+| R3-06 | major | Theorem 6: "(25) is the analogue of H" is wrong; the claim that Lemma 3's sketch covers the repair is unsupported. | Fixed. (27) is now the bounded literal transcript, and (25) is not equivalent to ¬℧, since ℧ speaks only of short proofs. Step (31) is a gap, with two possible repairs. The first repair is labelled a conjecture with no length estimate proved. Theorem 6 is listed "full; gap at step (31)" in its header, the table and provenance. §12's sentence is withdrawn. |
+| R3-07 | major | The abstract and §13 overstate honesty and G1 for IS(A) and drop hypotheses; "Peano Arithmetic" should be PA+; the §12 boundaries lack hypotheses. | Fixed. The abstract confines honesty and G1 to IS_D(A) with its hypotheses, says PA+, says "under stated conditions", lists the corollary's assumptions, and mentions the Theorem 6 gap. §13 cites Cor L(a) for ⊬G̈, honesty for ⊬¬G̈, and §6 for Rosser; for IS(A) only TR 93-10's statement. §12: the one-block boundary has the truth hypothesis; the two-block boundary has V_A, V_B and finiteness. The §1 objection was rejected (above). |
+| R3-08 | major | Prop K(b)'s list of what it uses was incomplete. | Fixed: (H1), (H2), (FP⇒)'s hypotheses, correctness of Prf, soundness and completeness of D; not (U) or (H4). |
+| R3-09 | minor | Lemma `lem:transcript`: the U-Depth definition dropped the node's own U-Length; the leaf case was missing. | Fixed. |
+| R3-10 | minor | Remark 5 covers only Σ₁\*; the remark needed ¬G̈ ↔ H besides (FP); 7b's syntactic clause is ours, not Oberhoff's. | Fixed. p. 5 and footnote 3 (p. 26) are cited, the remark cites both, and §12 calls 7b "our formulation". |
+
+Revision 5 builds clean: 27 pp., no warnings, no undefined references.
+
+## Open items (revision 5)
+
+1. (U\*) remains a transposition from 2001 p. 39; it is an assumption of Cor L(b) only.
+2. Encoding assumptions for (E): the Prenex\* rewriting of a prenex sentence's negation shortens it by at most one byte, and 2005 numbers sentences by byte value.
+3. Correctness of SubstPrf (h ≤ p in Eq. 7) is Willard's assertion.
+4. The reading of `Pair`. Under (ii), Willard's Theorems 3/5 give the truth of Group-3 only with an unfixed Prenex\* convention. Lemma `lem:honest`, and so ⊬¬G̈ and the honesty claims, are stated under (i) or under that convention.
+5. Prov(⌜H⌝) ⊃ Prov(⌜N⌝) for H ≠ N is open (narrowed as above).
+6. Willard's Theorem 6, step (31), is a gap. Repair (a), with a new length estimate, is conjectured.
+7. The Herbrand-style argument from the conversation is not yet in the essay: Willard's systems cannot prove the uniform formalized Σ₁-completeness, or even totality of the numeral-code function, because provably total functions of a true Π₁\*-axiomatized U-Grounding theory are linearly bounded. It awaits the user's decision.
+8. Carried over: Lemma 4 is stated only for NS's predicate; O51 versus 2005 p. 40; Hilbert–Bernays 1939 is cited from memory; the metatheory Willard's proofs use is undetermined.
+9. A fourth review round has not been run on revision 5.

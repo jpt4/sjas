@@ -397,3 +397,21 @@ See [the analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.m
 - **Two reviewer claims corrected.** Willard writes number terms with an overline (2005 p. 4, image), and 2001 App B covers tableau trees (p. 52).
 - **Found by us.** The fourth step of Willard's 2005 Theorem 6 proof uses Definition 6's q as a proof of ¬℧, but Definition 6 (p. 33, image) has q prove "∃p Prf(⌜℧⌝,p)". The essay notes this and gives a repair.
 - Revision 4: 25 pp., clean build. The disposition table and open items are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).
+
+## 2026-10-25 — SJexM round-3 review and revision 5
+- **Request (user).** "What is the 'faith step'? Run a third review." The faith step was explained in the conversation. A follow-up question asked why the transcript needs multiplication. The answer given: by Herbrand's theorem, any function a true, Π₁\*-axiomatized U-Grounding theory proves total is bounded linearly, and a transcript must outgrow that. The argument is not yet in the essay.
+- **Review.** Grok 4.7 reviewed revision 4, read-only, in about 33 minutes. Verdict: does not yet meet the standard. 10 findings: 0 critical, 8 major, 2 minor.
+- **Main change.** Willard's `Pair` admits two readings: (i) the Σ₁\* representative of the negation, as his Theorem 1 proof uses it; (ii) the string ¬Φ, as Eq. 28 writes it.
+  - Prop K, the corollaries and §12 are now stated for **N**, the sentence `Pair` pairs with G̈.
+  - Under (i) the failure of knowing-that-it-watches is at a Σ₁-class sentence.
+  - Under (ii), Willard's consistency proof itself needs a Prenex\* convention that he does not fix. The essay now says so.
+- **Also changed.**
+  - Fact FP has its full hypotheses and a proper Lemma 7.1B step.
+  - (E) is restricted to proofs of G̈, under two stated encoding assumptions.
+  - Cor L lists all its assumptions.
+  - Cor M's watching step is completed.
+  - Willard's Theorem 6, step (31), is now listed as a gap. The repair is a conjecture.
+  - The abstract and §13 are cut back to what the body proves.
+  - §12's boundaries carry their full hypotheses.
+- **Rejected.** The reviewer's claim that §1 misstates 2001's regular consistency. 2001 p. 12 matches §1.
+- Revision 5: 27 pp., clean build. The disposition table and open items are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).
