@@ -340,3 +340,48 @@ Revision 5 builds clean: 27 pp., no warnings, no undefined references.
 7. The Herbrand-style argument from the conversation is not yet in the essay: Willard's systems cannot prove the uniform formalized Σ₁-completeness, or even totality of the numeral-code function, because provably total functions of a true Π₁\*-axiomatized U-Grounding theory are linearly bounded. It awaits the user's decision.
 8. Carried over: Lemma 4 is stated only for NS's predicate; O51 versus 2005 p. 40; Hilbert–Bernays 1939 is cited from memory; the metatheory Willard's proofs use is undetermined.
 9. A fourth review round has not been run on revision 5.
+
+## Revision 6 (2026-10-25): closing the open items
+
+- **Request (user).** "Yes, add the Herbrand argument. That list of open points reads like the entire point of the essay is not yet accomplished — get it done."
+- **Approach.** Most open items came from conventions Willard leaves unspecified. The essay now fixes those conventions itself, as part of fixing the configuration, and proves what follows.
+
+| Revision-5 open item | How it is closed |
+|---|---|
+| (U\*), the transposed uniqueness of `Subst` | Eliminated. `Subst` is written in least-witness form, Subst₀(g,h) ∧ ∀h′ ≤ h [h′ = h ∨ ¬Subst₀(g,h′)]. (U) then follows by pure logic from trichotomy at c̄ and the true bounded sentence Subst(n̄,c̄) (Fact FP). |
+| (E) and its two encoding assumptions | Eliminated. G̈ drops Willard's bound h ≤ x; his own ℧ (Eq. 24) has none. So (FP⇒) is one instantiation and needs no encoding hypothesis. |
+| Correctness of SubstPrf (Eq. 7's h ≤ p) | Proved in Lemma `lem:honest`(a). It rests on the fixed encoding (sentences numbered by byte value, as 2001 p. 51 states; Appendix A for proofs), on axioms entering tableaux as nodes (p. 6), and on Willard's arithmetization (2001 Thms C.1–C.3, sketch / full given them), cited as Oberhoff's Theorem 7 is. |
+| The two readings of `Pair` | Closed by fixing the Prenex\* rewriting: pnx(¬Θ) := dual(pnx(Θ)). Then pnx(¬¬Φ) = pnx(¬dual(Φ)), so ¬Φ and dual(Φ) have the same tableau proofs (p. 6: whether a tree proves Φ depends on Φ only through the root). `Pair` accepts every θ whose tableau proofs are those of ¬Φ. Willard's Theorem 1 covers Group-3 as written, and his p. 7 says results hold even without the Prenex\* requirement. |
+| Prov(⌜H⌝) ⊃ Prov(⌜N⌝) | Dissolved. The halting sentence is now **H** := dual(G̈), a Σ₁ sentence that `Pair` pairs with G̈. Step (2) is aimed at **H** directly, which is Oberhoff's literal step. A formalization with different tableau proofs is a different sentence and outside the claims. |
+| Theorem 6, step (31) | Repaired. q proves dual(℧) and is assembled from (i) Lemma 3's object, a proof of Prf(⌜℧⌝, p̄); (ii) a proof of Log^{k−1}(p̄) < m̄; (iii) Subst(n̄, ⌜℧⌝); (iv) a closing tableau whose code has logarithm O(Log p). The repaired theorem rests on Lemma 3's sketch, applied to one more polynomial-time bounded fact. |
+| Lemma 4 for IS_D(PA+)'s own predicate | Stated, with status sketch: Lemma 3's sketch is generic in the axiom system. |
+| Herbrand argument | Added as Proposition `prop:herbrand` (Linear witnesses), with a model-theoretic proof via the linear closure of an element in a model of true arithmetic. Corollary `cor:uniform`: under Willard's consistency hypotheses, neither IS_D(A) nor IS(A) proves ∀x∃y y = x·x, nor ∀x∃y Num(x,y) ("every number has a written name"), so neither knows uniformly that it watches even x = x. The d-versus-s point is in the text. |
+| Hilbert–Bernays 1939 | Verified: vol. II, Grundlehren 50, Springer, Berlin, 1939, xii+498 pp. |
+| Metatheory strength | Reclassified as outside the essay's scope, and stated as such. |
+
+Also changed:
+- Lemma `lem:honest` now covers IS(A) as well.
+- The first incompleteness theorem is now proved for IS(A) in the essay (Cor M plus honesty), not only cited from TR 93-10.
+- Cor M also gives IS(A) ⊬ G̈.
+- §12 states 7b in closed and uniform forms. The uniform form fails for both systems; the closed form fails at **H** for IS_D(A); for IS(A) the closed form is a disjunction.
+- The abstract was rewritten to match.
+
+Revision 6 builds clean: 28 pp., no warnings, no undefined references.
+
+## Status after revision 6
+
+- **Cited, with Willard's statuses (not open):**
+  - Theorems 1–5 of 2005 (full);
+  - Lemma 3 (sketch) and so Theorem 6 as repaired;
+  - the arithmetization (2001 C.1–C.2 sketch, C.3 full given them);
+  - Eq. 20 ("clearly satisfy");
+  - 2004 Theorem 2 (sketch); Solovay (cited); 2016 Conjecture 6.6 (stated-only, quoted as such);
+  - 2002c, quoted from the codification and not in the review workspace.
+- **Conventions fixed by the essay (not open):** least-witness `Subst`; G̈ without h ≤ x; the Prenex\* rewriting; `Pair`; sentence numbering by byte value.
+- **Genuinely open, and stated as such in the text:**
+  - Cor M: which of step (2) and the Level(0−) step (3) fails for IS(A). Its uniform form fails outright.
+  - Formalizations of the halting statement with tableau proofs different from **H**'s: outside the claims.
+- **Outside scope:**
+  - metatheory strength;
+  - codification obligation O51's wording versus 2005 p. 40, which belongs to the codification workstream.
+- A fourth review round is to be run on revision 6.

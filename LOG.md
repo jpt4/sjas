@@ -415,3 +415,14 @@ See [the analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.m
   - §12's boundaries carry their full hypotheses.
 - **Rejected.** The reviewer's claim that §1 misstates 2001's regular consistency. 2001 p. 12 matches §1.
 - Revision 5: 27 pp., clean build. The disposition table and open items are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).
+
+## 2026-10-25 — SJexM revision 6: the open items closed
+- **Request (user).** "Yes, add the Herbrand argument. That list of open points reads like the entire point of the essay is not yet accomplished — get it done."
+- **Closed by fixing Willard's unspecified conventions.**
+  - A least-witness substitution formula and a fixed point without the bound h ≤ x remove the transposed uniqueness sentence and the encoding hypothesis.
+  - A fixed Prenex\* rewriting makes ¬Φ and its Σ₁\* form share their tableau proofs. A `Pair` that accepts both removes the two-readings problem. The halting sentence **H** is now exactly what `Pair` pairs with G̈.
+  - Correctness of Willard's proof predicate is proved from the fixed encoding and his arithmetization.
+- **Theorem 6.** Step (31) is repaired within the scope of Willard's Lemma 3 sketch.
+- **Added.** Proposition "Linear witnesses", with a model-theoretic proof via the linear closure of an element, and its corollary: Willard's systems cannot prove that multiplication is total, or that every number has a written name. So the uniform faith step fails for both the 2001 and 2005 systems.
+- **Also.** Hilbert–Bernays verified. Honesty and the first incompleteness theorem are now proved for IS(A) as well.
+- Revision 6: 28 pp., clean build. The status table is in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md). Round 4 of the review is next.
