@@ -385,3 +385,42 @@ Revision 6 builds clean: 28 pp., no warnings, no undefined references.
   - metatheory strength;
   - codification obligation O51's wording versus 2005 p. 40, which belongs to the codification workstream.
 - A fourth review round is to be run on revision 6.
+
+## Revision 7 (2026-10-25): the fourth adversarial review
+
+- **Review.** Grok 4.7, read-only, against revision 6 with all three earlier reports, about 30 minutes. 8 findings: 5 major, 3 minor.
+- **What it confirmed as proofs at the standard:** the least-witness `Subst` and the unbounded fixed point; Fact FP; the Prenex\* convention and `Pair` (including that Probe and Lemma 2 are insensitive to a ¬¬ in the matrix, and that dual(Φ) has the class App∃ needs); the halting sentence **H**; correctness of SubstPrf from the node argument; Prop K; Cor L; the second clause of Cor M.
+- Part A: R3-01, 03, 04, 05, 08 and 09 resolved; R3-02 moot; R3-06, 07 and 10 partly resolved (taken up as R4-02, R4-04 and R4-07).
+
+| ID | Sev. | Finding | Disposition |
+|---|---|---|---|
+| R4-01 | major | Prop G's 2001 half used + as a function symbol; Group-0 atoms are not Π₁⁻; the order facts of the 2005 half were unstated. | Fixed with full proofs. The proposition now covers sentences that are "bounded or Π₁-class". The 2005 half spells out the compactness type and the order facts (transitivity; n̄ ≤ n̄·u; closure under +, Double and the non-growth functions), each a true sentence of Th(ℕ). The 2001 half expands M by the bounded-definable addition graph z ∸ x = y ∧ x ≤ z and runs the same argument; the addition axiom holds in I. The k ≈ 2^d remark is labelled as intuition. |
+| R4-02 | major | The Theorem 6 repair does not discharge the length bounds for parts (ii)–(iv); "fixed size", "at once" and "as printed" overstate; the root-code identity is needed. | Fixed in two ways. (28) is replaced by Pair(⌜℧⌝, ⌜dual ℧⌝), so (31) follows from the new (30) by pure logic and no root identity is needed. Part (iv) now instantiates vacuous quantifiers. ⌜℧⌝ < p is argued from byte length and the encoding. The remaining length claims for (ii) and (iii) are stated as claims of Lemma 3's kind that its sketch does not address. **Theorem 6 is now counted a sketch at this granularity** (full as printed in the registry), in its header, the table, §12 and the abstract. |
+| R4-03 | major | Correctness of IS(A)'s proof predicate cited Eq. 7's argument rather than 2001 Eq. 87; Cor M's (H3) omitted ⊢ Subst(n̄,c̄). | Fixed. Lemma `lem:honest`(b) argues correctness for Θ(N̄) (Eqs. 86–87). It cites Thm C.1 item 25 and C.2 (sketch), Willard's design bound h ≤ s for the node test (App. C, item 24 and p. 59), and the node argument via 2001's curly-bracket node encoding (p. 52). Cor M's (H3) names Subst(n̄,c̄). |
+| R4-04 | major | The abstract said "Peano Arithmetic" and an unrestricted Level(1) system. | Fixed: PA+ and PAX are named, and the closed faith-step claim carries Prop K's conditions. |
+| R4-05 | minor | Byte order unstated, so 32·64^{N−1} could fail. | Fixed: the encoding fixes the first byte as the highest place. |
+| R4-06 | minor | IS(A)'s loop sentence was a U-Grounding sentence; the figure labelled the witness ¬Φ. | Fixed: a Π₁⁻ loop sentence proved by PAX; the figure now says dual(Φ). |
+| R4-07 | minor | 7b was presented as Oberhoff's. | Fixed: 7a is what the essay takes from Oberhoff's Theorem 7; 7b in both forms is the essay's formulation. |
+| R4-08 | major | The note listed three unproved closures as closed. | R4-01 and R4-03 are now written as proofs. R4-02 is reclassified: Theorem 6 is a sketch at this granularity. |
+
+Revision 7 builds clean: 29 pp.
+
+## Status after revision 7
+
+- **Proved in the essay**, from cited results with their statuses and the fixed conventions:
+  - Fact FP (no (U\*), no (E));
+  - Lemmas `lem:instances`, `lem:transcript`, `lem:watch`, `lem:honest`(a, b);
+  - Prop G (Linear witnesses) and Cor `cor:uniform`, for both systems;
+  - Prop K;
+  - Cor L;
+  - Cor M, with G̈ unprovable plus the disjunction;
+  - the first incompleteness theorem for both systems.
+- **Cited:**
+  - Willard 2005 Theorems 1–5 (full);
+  - 2001 Theorem 4.3 (full);
+  - the arithmetization (2001 C.1–C.2 sketch, C.3 full given them);
+  - Eq. 20;
+  - 2004 Theorem 2 (sketch); Solovay (cited); 2016 Conjecture 6.6 (stated-only); 2002c via the codification.
+- **Willard's Theorem 6:** a sketch at this granularity (step (31) repair sketched; parts (ii), (iii) length claims).
+- **Genuinely open:** Cor M's disjunction, for the closed instance in IS(A) only.
+- **Outside scope:** metatheory strength; O51 (codification workstream).

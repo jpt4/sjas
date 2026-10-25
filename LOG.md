@@ -426,3 +426,12 @@ See [the analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.m
 - **Added.** Proposition "Linear witnesses", with a model-theoretic proof via the linear closure of an element, and its corollary: Willard's systems cannot prove that multiplication is total, or that every number has a written name. So the uniform faith step fails for both the 2001 and 2005 systems.
 - **Also.** Hilbert–Bernays verified. Honesty and the first incompleteness theorem are now proved for IS(A) as well.
 - Revision 6: 28 pp., clean build. The status table is in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md). Round 4 of the review is next.
+
+## 2026-10-25 — SJexM round-4 review and revision 7
+- **Review.** Grok 4.7 reviewed revision 6: 8 findings, 5 major. It confirmed the redesign itself (fixed point, Prenex\* convention, `Pair`, **H**, Cor L) as proofs at the standard. It found three closures that were not yet proofs.
+- **Fixed with full proofs.**
+  - Prop G's 2001 half: the proof expands the model by the bounded-definable addition graph, and the order facts are stated.
+  - Correctness of IS(A)'s proof predicate: argued from 2001 Eq. 87, Willard's node-test bound and the node encoding.
+- **Reclassified.** Willard's Theorem 6 is a sketch at this granularity. The step-(31) repair needs no root identity now, since (28) is replaced by Pair(⌜℧⌝,⌜dual ℧⌝). It still needs length claims for two bounded facts of Lemma 3's kind.
+- **Also.** The abstract names PA+/PAX and Prop K's conditions; byte order is fixed; IS(A)'s loop sentence is in the 2001 language; 7b is the essay's own formulation.
+- **What is open.** Only Cor M's disjunction. Revision 7: 29 pp., clean build. Details are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).

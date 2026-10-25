@@ -19,7 +19,13 @@
 % Revision 4 integrates the second (R2-01..R2-16): the syntactic negation of
 % the Goedel sentence is kept apart from the halting sentence, the hypotheses
 % of each step are cited where they are used, and the transposed uniqueness
-% sentence (U) is an explicit assumption. Dispositions are in the analysis note.
+% sentence (U) is an explicit assumption.
+% Revision 5 integrates the third (R3-01..R3-10).
+% Revision 6 fixes the conventions Willard leaves open (least-witness
+% substitution, unbounded fixed point, Prenex* rewriting, Pair, sentence
+% numbering), which removes (U) and the encoding hypothesis, and adds the
+% linear-witness proposition. Revision 7 integrates the fourth review
+% (R4-01..R4-08). Dispositions are in the analysis note.
 %
 % Build: pdflatex self-justification-ex-machina.tex (twice).
 
@@ -120,9 +126,11 @@ consistency as an axiom. Willard proved, in ordinary metamathematics, that
 it is consistent whenever the $\Pi_1$-class theorems of its base theory are
 true. His 2001 system $\mathrm{IS}(A)$ asserts the weaker Level(0$-$)
 consistency and is consistent under the analogous hypothesis of regular
-consistency. Under these hypotheses both systems are honest, and, with their
-base theories proving the $\Pi_1$-class theorems of Peano Arithmetic, both
-obey the first incompleteness theorem. We state everything at the
+consistency. Under these hypotheses both systems are honest. They obey the
+first incompleteness theorem when the base theory also proves the
+$\Pi_1$-class theorems of Peano Arithmetic in the system's own language:
+$\mathrm{PA}{+}$, with Willard's 2005 function symbols, or $\mathrm{PAX}$,
+with his 2001 ones. We state everything at the
 granularity self-justification needs (language, deduction method, consistency
 notion, proof predicate, encoding), fixing the conventions Willard leaves
 open, and retell his 2005 consistency proof as a program in Oberhoff's case
@@ -130,15 +138,17 @@ format. We then show that the faith step fails in two ways. In its uniform
 form it fails for both systems for a plain reason: a proof from their
 universal axioms can only produce witnesses that grow linearly in its
 inputs, so they cannot even prove that every number has a written name. At
-the Gödel sentence itself, in a system that proves its own Level(1)
-consistency, the faith step, which says that if the Gödel sentence is
-provable then so is the $\Sigma_1$ statement that the proof-searcher halts,
-is provably equivalent to the Gödel sentence, hence unprovable. Willard's
-2005 Theorem~6 then shows the faith being bought: a bounded transcript form
-of the step is a $\Pi_1$-class theorem of Peano Arithmetic with Willard's
-function symbols, and one axiom asserting that a single large number exists
-makes the system inconsistent. Its fourth step, as printed, confuses two
-sentences, and we repair it within the scope of Willard's own proof sketch.
+the Gödel sentence itself the faith step says that if the Gödel sentence is
+provable, then so is the $\Sigma_1$ statement that the proof-searcher halts.
+In a system that proves its own Level(1) consistency, with a correct bounded
+proof predicate, our fixed point and a pairing of each sentence with its
+negation, this step is provably equivalent to the Gödel sentence, hence
+unprovable. Willard's 2005 system meets these conditions. Willard's 2005
+Theorem~6 then shows the faith being bought: a bounded transcript form of
+the step is a $\Pi_1$-class theorem of $\mathrm{PA}{+}$, and one axiom
+asserting that a single large number exists makes the system inconsistent.
+Its fourth step, as printed, confuses two sentences. We sketch a repair, so
+at this granularity the theorem has the status of a sketch.
 Gödel's work,
 viewed this way, splits into three parts, not two.
 \end{abstract}
@@ -320,10 +330,14 @@ in base~64, each of the 24 symbols coded between 32 and 55 (so with leading
 bit~1), and a tableau list encoded as the concatenation of its components.
 A sentence is numbered by the value of its own byte string, the convention
 2001 states (Appendix~B, p.~51); 2005's Appendix~A encodes only proofs, and
-we extend it in the same way. Two consequences are used below. A string of
-$N$ bytes has value at least $32 \cdot 64^{N-1}$. And a sentence that occurs
-in a proof has a Gödel number no larger than the proof's, since a substring
-of a byte string that begins with a nonzero byte has no larger value. Every
+we extend it in the same way. The first byte is the highest place, the
+natural reading of ``an integer written in base 64''. Willard does not say
+otherwise, and we fix it. Two consequences are used below. A string of $N$
+bytes that begins with a symbol byte has value at least
+$32 \cdot 64^{N-1}$; every proof and every sentence begins with one. And a
+sentence that occurs in a proof has a Gödel number no larger than the
+proof's, since a contiguous substring of a base-64 numeral has no larger
+value. Every
 axiom used in a tableau occurs in it as a node (p.~6: the nodes other than
 the root ``are either axioms of $\alpha$ or deductions from higher nodes'').
 
@@ -638,48 +652,72 @@ any function that outgrows every linear one. The reason lies in how a proof
 from universal axioms produces the numbers it claims exist.
 
 \begin{proposition}[Linear witnesses; ours]\label{prop:herbrand}
-Let $\F$ be a set of $\Pi_1^*$-class sentences of Willard's 2005 language,
-all true in the standard model, and let $\delta(\vec x, \vec y)$ be bounded.
+Let $\F$ be a set of sentences of Willard's 2005 language, each bounded or
+$\Pi_1^*$-class, all true in the standard model, and let
+$\delta(\vec x, \vec y)$ be bounded.
 If $\F \vdash \forall \vec x\, \exists \vec y\, \delta(\vec x, \vec y)$ (in
 first-order logic, hence by any sound deduction method), then there is a
 natural number $k$ such that for all $\vec x$ some
 $\vec y \le k\,(x_1 + \cdots + x_m + 1)$ satisfies $\delta$. The same holds in
-Willard's 2001 language for a set of true $\Pi_1^-$ sentences together with
-the axiom that addition is total.
+Willard's 2001 language for a set of true sentences, each bounded or
+$\Pi_1^-$-class, together with the axiom that addition is total.
 \end{proposition}
 
 \begin{proof}
-Write $|\vec x|$ for $x_1 + \cdots + x_m + 1$, and $\bar k \cdot t$ for the
-term $t + \cdots + t$ with $k$ summands. Suppose that no $k$ works. Then for
-each $k$ some $\vec x$ has no witness $\vec y \le k |\vec x|$, and by
-compactness there is a model $M$ of the true sentences of the language with
-elements $\vec a$ such that $M \models \forall \vec y \le \bar k \cdot
-|\vec a|\; \neg\delta(\vec a, \vec y)$ for every natural number $k$. Let
+\emph{The 2005 case.} Write $|\vec x|$ for $x_1 + \cdots + x_m + 1$, and
+$\bar k \cdot t$ for the term $t + \cdots + t$ with $k$ summands. Suppose that
+no $k$ works. Then for each $k$ some $\vec x$ has no witness
+$\vec y \le k |\vec x|$. So each finite subset of $\mathrm{Th}(\mathbb N)
+\cup \{\forall \vec y \le \bar k \cdot |\vec c|\; \neg\delta(\vec c, \vec y) :
+k \in \mathbb N\}$, with new constants $\vec c$, is satisfied in $\mathbb N$
+by interpreting $\vec c$ as such an $\vec x$ for the largest $k$ involved. By
+compactness there is a model $M$ of $\mathrm{Th}(\mathbb N)$ with elements
+$\vec a$ such that $M \models \forall \vec y \le \bar k \cdot |\vec a|\;
+\neg\delta(\vec a, \vec y)$ for every $k \in \mathbb N$. Let
 \[
-I := \{\, z \in M : z \le \bar k \cdot |\vec a| \text{ for some natural
-number } k \,\}.
+I := \{\, z \in M : z \le \bar k \cdot |\vec a| \text{ for some } k \in
+\mathbb N \,\}.
 \]
-$I$ is an initial segment of $M$. It contains every natural number, and it
-is closed under $+$ and $\mathit{Double}$, since the sum of two such bounds
-is another. It is closed under the non-growth functions, whose values do not
-exceed their largest argument. So $I$ is a substructure of $M$, and a
-bounded formula has the same truth value in $I$ as in $M$ at arguments
-from~$I$: its quantifiers range over initial segments of~$I$. Each sentence
-of $\F$ has the form $\forall \vec z\, \beta(\vec z)$ with $\beta$ bounded. It
-is true in $M$, so $\beta$ holds at every tuple from $I$, in $M$ and hence in
-$I$; so $I \models \F$. In the 2001 case the axiom that addition is total
-holds in $I$ as well, because $I$ is closed under addition. Hence
-$I \models \forall \vec x\, \exists \vec y\, \delta$, and some $\vec y \in I$
-satisfies $\delta(\vec a, \vec y)$ in $I$, hence in $M$. But
-$\vec y \le \bar k \cdot |\vec a|$ for some natural number $k$, against the
-choice of $\vec a$.\contra
+The following facts hold because the sentences expressing them are true in
+$\mathbb N$, hence in $M$: $\le$ is transitive, so $I$ is an initial segment;
+$\bar n \le \bar n \cdot u$ for $u \ge 1$, so $I$ contains every $\bar n$;
+and $x \le \bar i \cdot u$, $y \le \bar j \cdot u$ imply
+$x + y \le \overline{i + j} \cdot u$ and $\mathit{Double}(x) \le
+\overline{2i} \cdot u$, so $I$ is closed under $+$ and $\mathit{Double}$.
+The six non-growth functions satisfy $F(\vec z) \le \max(\vec z)$ (2005,
+p.~4, as a true sentence of each), so $I$ is closed under them too. Hence $I$
+is a substructure of $M$ and an initial segment. A bounded formula therefore
+has the same truth value in $I$ as in $M$ at arguments from $I$: its terms
+take the same values, and its quantifiers range over initial segments of
+$I$. A bounded sentence of $\F$ is true in $M$, hence in $I$. A
+$\Pi_1^*$-class sentence $\forall \vec z\, \beta(\vec z)$ of $\F$ is true in
+$M$, so $\beta$ holds at every tuple from $I$, in $M$ and hence in $I$. So $I
+\models \F$, hence $I \models \forall \vec x\, \exists \vec y\, \delta$, and
+some $\vec y \in I$ satisfies $\delta(\vec a, \vec y)$ in $I$, hence in $M$.
+But $\vec y \le \bar k \cdot |\vec a|$ for some $k \in \mathbb N$, against the
+choice of $\vec a$.
+
+\emph{The 2001 case.} Addition is not a function symbol there, but its graph
+$z \mathbin{\dot-} x = y \wedge x \le z$ is a bounded formula, and the true
+sentences that it is total (2001, Eq.~6) and single-valued hold in every
+model of $\mathrm{Th}(\mathbb N)$. So expand $\mathbb N$ and $M$ by the
+function it defines, and write the bounds $\bar k \cdot |\vec x|$ with it.
+Each such bound is expressible by a bounded formula through the graph. The
+argument above then runs verbatim: $I$ is closed under the defined addition
+and under the grounding functions, which are non-growth; it contains every
+constant $\bar n$; and the bounded and $\Pi_1^-$-class sentences of $\F$ hold
+in $I$. The axiom that addition is total holds in $I$, because for
+$x, y \in I$ the element $z = x + y$ lies in $I$ and satisfies
+$z \mathbin{\dot-} x = y$.\contra
 \end{proof}
 
 \noindent
-The constant $k$ can be large. A Herbrand-style analysis of the proof
-produces witness terms of some depth $d$, and $k$ is about $2^d$:
+The constant $k$ can be large. For intuition, though the proof above does
+not need it: Herbrand's theorem would present the witnesses as terms, and a
+term of depth $d$ built from $+$, $\mathit{Double}$ and non-growth functions
+is at most $2^d$ times its largest argument. So $k$ is like $2^d$:
 exponential in the proof, but fixed once the proof is. The input $\vec x$
-ranges over all numbers. So the witnesses grow linearly in the input, with
+ranges over all numbers, so the witnesses grow linearly in the input, with
 the proof's size in the constant. Willard's own engine makes the same
 comparison from the other side: no proof can name a number much larger than
 its own Gödel number. With multiplication as a total function, a term of
@@ -712,12 +750,14 @@ unprovability holds for every such method once the axioms are true.
 \end{corollary}
 
 \begin{proof}
-Every axiom of $\ISD$ is a true $\Pi_1^*$-class sentence: Groups 0--2 by the
-hypothesis and Willard's remark that they ``can be encoded as $\Pi_1^*$
-sentences'' (2005, p.~20), and Group-3 because Theorem~\ref{thm:willard}(a)
-makes it true (Lemma~\ref{lem:honest} below). For $\mathrm{IS}(A)$, Group-3
-is true by Theorem~\ref{thm:willard}(b), Group-2 by regular consistency, and
-its only axiom outside $\Pi_1^-$ is the totality of addition. So
+Every axiom of $\ISD$ is a true sentence, bounded or $\Pi_1^*$-class. For
+Groups 0--2 this follows from the hypothesis and Willard's remark that they
+``can be encoded as $\Pi_1^*$ sentences'' (2005, p.~20); Group-3 is true by
+Theorem~\ref{thm:willard}(a) (Lemma~\ref{lem:honest} below). Every axiom of
+$\mathrm{IS}(A)$ is true by Lemma~\ref{lem:honest}(b). Apart from the
+totality of addition, each is bounded (the Group-0 atoms, 2001, p.~10) or
+$\Pi_1^-$-class (Group-1's other axioms, Group-2, and Group-3 by Theorem~C.3).
+So
 Proposition~\ref{prop:herbrand} applies. The witness $y = x^2$ exceeds
 $k(x+1)$ once $x > 2k$. The only $y$ with $\mathrm{Num}(x, y)$ is the code of
 $\bar x = \bar x$. In 2005, $\bar x$ is a term with at least $\log_2 x$
@@ -991,11 +1031,29 @@ model'', 2005, p.~20, text layer). Group-2 is true by hypothesis. Group-3 is
 true by Theorem~\ref{thm:willard}(a), as noted there. Theorems of true axioms
 under a sound $D$ are true.
 
-(b) Group-0 consists of true atomic facts about the constants. Group-1 is
-true. Group-2 is true by regular consistency (2001, p.~12). Group-3, which
-says that no tableau proof of $0=1$ exists, is true by
-Theorem~\ref{thm:willard}(b), its proof predicate being correct by the same
-argument as in~(a). Tableaux are sound.
+(b) \emph{Correctness.} $\mathrm{IS}(A)$'s Group-3 axiom is $\Theta(\bar N)$,
+with $\Theta(g) := \forall y\, \neg\mathit{SubstSemPrf}_{\mathrm{UNION}(A)}(\gn{0=1},
+y, g)$, where $\mathit{SubstSemPrf}_{\mathrm{UNION}(A)}(s, y, g)$ says that $y$ is
+a tableau proof of $s$ from $\mathrm{UNION}(A)$ together with the sentence
+$h$ such that $\Subst(g, h)$ (2001, Eqs.~86--87, p.~52). Its $\Delta_0^-$
+definition is Willard's: item~25 of Theorem~C.1 and Theorem~C.2 (both
+\texttt{sketch}). His test examines each node $s$ of $y$ for being the
+Group-3 axiom, searching for $h$ with $\Subst(g,h)$ under the bound
+$h \le s$: ``We may assume that our encoding scheme is designed so that
+$h \le s$ when $h$ exists'' (Appendix~C, item~24 and p.~59, text layer). In
+2001's encoding each tableau node opens with a curly bracket followed by its
+sentence (Appendix~B, p.~52). So a node's byte string is a contiguous part
+of $y$, $s \le y$, and the bounds cover every proof that uses the axiom, by
+the node argument of~(a). Hence the formula holds in the
+standard model exactly of the tableau proofs from $\mathrm{IS}(A)$, and the
+proof predicate $\mathit{SubstSemPrf}_{\mathrm{UNION}(A)}(\cdot, \cdot,
+\bar N)$ of $\mathrm{IS}(A)$ is correct.
+
+\emph{Truth.} Group-0 consists of true atomic facts about the constants
+(2001, p.~10). Group-1 is true. Group-2 is true by regular consistency
+(2001, p.~12). Group-3, which by correctness says that no tableau proof of
+$0=1$ from $\mathrm{IS}(A)$ exists, is true by
+Theorem~\ref{thm:willard}(b). Tableaux are sound.
 \end{proof}
 
 \noindent
@@ -1017,8 +1075,10 @@ at a definite step, and $\mathrm{PA}{+}$ proves the $\Pi_1^*$ sentence $\Phi$
 = \fs{$\Prog{B}(\Prog{B})$ doesn't halt}. Group-2 hands it to $\ISD$ by
 detachment: $A$ proves $\Phi$ with some proof $p$, Groups 0 and 1 prove the
 true $\Delta_0^*$ sentence $\Prf_A(\gn{\Phi}, \bar p)$, and with $\Phi$'s
-Group-2 axiom Fact~\ref{fact:closure} gives $\Phi$; for $\mathrm{IS}(A)$,
-Peano Arithmetic proves it and Group-2 hands it over in the same way. Willard
+Group-2 axiom Fact~\ref{fact:closure} gives $\Phi$. For $\mathrm{IS}(A)$
+the loop sentence is the corresponding $\Pi_1^-$ sentence of the 2001
+language, which $\mathrm{PAX}$ proves; the Group-2 axiom of 2001, Eq.~(7)
+(p.~10), hands it over by the same detachment. Willard
 said so in his first technical report: $\mathrm{IS}(A)$ is ``a class of structures, lying halfway between
 Peano Arithmetic and Presburger Arithmetic, which satisfy Godel's First but
 not Second Incompleteness Theorem'' (TR 93-10, p.~6, verbatim).
@@ -1134,7 +1194,7 @@ p.~21).
   \foreach \x/\l in {2.0/{$m^{1/4}$}, 7.4/{$(m-1)/m^{1/4}$}, 11.0/{$m$}}
     { \draw (\x,0.12) -- (\x,-0.12) node[below] {\l}; }
   \draw[very thick] (0,0.55) -- (2.0,0.55);
-  \node[anchor=west] at (2.1,0.55) {a witness for $\neg\Phi$ lies here};
+  \node[anchor=west] at (2.1,0.55) {a witness for $\Psi = \mathrm{dual}(\Phi)$ lies here};
   \draw[very thick] (0,1.2) -- (7.4,1.2);
   \node[anchor=west] at (7.5,1.2) {$\Phi$ certified true};
   \draw[very thick, dashed] (0,1.85) -- (10.9,1.85);
@@ -1325,8 +1385,10 @@ Theorem~\ref{thm:willard}(b). (H2): $\mathrm{IS}(A)$ proves every true
 $\Delta_0^-$ sentence (2001, p.~39) and names every number by a constant, so
 for a true $\Sigma_1^-$ sentence it proves the true $\Delta_0^-$ instance at
 the witnesses, and Fact~\ref{fact:closure} adds the existential quantifiers.
-(H3): trichotomy is a $\Pi_1^-$ theorem of $\mathrm{PAX}$, inherited through
-Group-2. The proof predicate is correct by Lemma~\ref{lem:honest}(b). So
+(H3): $\mathrm{IS}(A)$ proves the true $\Delta_0^-$ sentences, among them
+$\Subst(\bar n, \bar c)$ (2001, p.~39), and trichotomy is a $\Pi_1^-$ theorem
+of $\mathrm{PAX}$, inherited through Group-2. The proof predicate is correct
+by Lemma~\ref{lem:honest}(b). So
 Proposition~\ref{prop:backwards}(b) gives $\mathrm{IS}(A) \nvdash \G$. If
 $\mathrm{IS}(A)$ proved both step (2) and the combination sentence, then with
 its Group-3 axiom $\forall r\,\neg\Prf(\gn{0=1}, r)$ it would prove step
@@ -1403,15 +1465,15 @@ to $\mathrm{IS}_D(\mathrm{PA}{+})$, the same construction gives the bounded
 transcript statement for that system's own proof predicate, with the same
 status, \texttt{sketch}. Willard does not state it.)
 
-\begin{theorem}[Willard 2005, Theorem~6, p.~34, \texttt{full}, Lemma~3 \texttt{sketch}; step (31) repaired below]
+\begin{theorem}[Willard 2005, Theorem~6, p.~34; \texttt{full} as printed, a \texttt{sketch} at this granularity, as explained below]
 For $D = \mathrm{Tab}{-}U_1^*{-}\mathrm{List}$ there is $k_0$ such that for
 every $k > k_0$, $\mathrm{NS}^{k,m}_D(\mathrm{PA}{+})$ is inconsistent.
 \end{theorem}
 
 \noindent
 Willard's proof is a seven-step tableau list $W$ (pp.~34--36), and, with
-its fourth step repaired as below, it is Oberhoff's Theorem~6 with the faith
-supplied:
+its fourth step repaired as sketched below, it is Oberhoff's Theorem~6 with
+the faith supplied:
 
 \begin{topsteps}
 \item (27), inherited from Peano Arithmetic: the faith step, below $n$.
@@ -1443,10 +1505,16 @@ bound $\mathrm{Log}^{k-1}(p) < m$, and a long proof of $\Mho$ makes (25)
 true and $\neg\Mho$ false. No reading of Willard's text removes this, so the
 step needs a repair.
 
-\emph{The repair (ours).} Let $q$ prove $\mathrm{dual}(\Mho)$, the sentence
-$\Pair$ pairs with $\Mho$ in its $\Sigma_1^*$ form. Given a proof $p$ of
-$\Mho = \Mho(k-1,m)$ with $\mathrm{Log}^{k-1}(p) < m$, such a $q$ is a
-tableau list of four parts:
+\emph{The repair (ours, a sketch).} Replace (28) by the true bounded
+sentence $\Pair(\gn{\Mho}, \gn{\mathrm{dual}(\Mho)})$, which $\Pair$ as fixed
+in \S\ref{sec:conventions} accepts. With (29) it gives
+$\forall p\,\forall q\,\neg[\Prf(\gn{\Mho}, p) \wedge
+\Prf(\gn{\mathrm{dual}(\Mho)}, q)]$ in place of (30). Then redefine
+$\mathit{CheckProof}(t, p, q)$ so that $q$ proves $\mathrm{dual}(\Mho)$. Now
+(31) follows from the new (30) by pure logic, since $\mathit{CheckProof}$ is
+literally its bracket. What remains is to show that such a $q$ is short.
+Given a proof $p$ of $\Mho = \Mho(k-1,m)$ with $\mathrm{Log}^{k-1}(p) < m$, a
+$q$ can be built as a tableau list of four parts:
 \begin{enumerate}[label=(\roman*), leftmargin=2.5em]
 \item a proof of the bounded sentence $\Prf(\gn{\Mho}, \bar p)$, which is
   the object Lemma~3's sketch constructs: ``$q$ is a proof that $p$ is a
@@ -1454,28 +1522,30 @@ tableau list of four parts:
 \item a proof of the bounded sentence $\mathrm{Log}^{k-1}(\bar p) < \bar m$,
   which evaluates a closed term built from the non-growth function
   $\mathit{Logarithm}$;
-\item a proof of the true bounded sentence $\Subst(\bar n, \gn{\Mho})$, of
-  fixed size;
+\item a proof of the true bounded sentence $\Subst(\bar n, \gn{\Mho})$, which
+  depends only on $k$ and $m$;
 \item a tableau whose root, $\mathrm{dual}(\mathrm{dual}(\Mho))$, is the
   Prenex$^*$ form of $\neg\,\mathrm{dual}(\Mho)$. It instantiates the two
   universal quantifiers at $\bar p$ and $\gn{\Mho}$ (rule~7), removes the
   double negation (rule~2), branches (rules 2--4), and closes every branch
-  against (i)--(iii).
+  against (i)--(iii). If (i)--(iii) are carried as $U_1^*$ intermediate
+  theorems with a vacuous universal quantifier, as Willard's own bounded
+  intermediate (28) must be, it instantiates those first (rule~7).
 \end{enumerate}
-Parts (i)--(iii) are bounded sentences. They are admissible intermediate
-theorems of a $\mathrm{Tab}{-}U_1^*{-}\mathrm{List}$, written with a vacuous
-universal quantifier if a $U_1^*$ sentence must have one. Part (iv) mentions
-$\bar p$ and $\gn{\Mho}$ a fixed number of times, and $\gn{\Mho} < p$, since
-$p$'s root $\mathrm{dual}(\Mho)$ is one byte longer than $\Mho$. So the
-logarithm of (iv)'s Gödel number is $O(\mathrm{Log}\, p)$. Lemma~3's bound
-$\mathrm{Log}(q) < O([\mathrm{Log}(p)]^C)$ therefore carries over to the
-repaired $q$, provided the construction behind the sketch handles part (ii)
-as it handles part (i). Both state polynomial-time-checkable facts about
-$p$, which is what the literature cited in the sketch supplies. With
-Definition~6 so repaired, step (31) follows at once from (30). Corollary~1,
-Lemma~4, (27) and the length estimate for $W$ then go through as printed.
-The repaired Theorem~6 rests on what the printed one rests on: Lemma~3's
-sketch, applied to one more polynomial-time bounded fact.
+Part (iv) mentions $\bar p$ and $\gn{\Mho}$ a bounded number of times. Also
+$\gn{\Mho} < p$: $p$'s last root $\mathrm{dual}(\Mho)$ is a contiguous part
+of $p$, one byte longer than $\Mho$ and beginning with a symbol byte, so by
+the encoding of \S\ref{sec:conventions}, $\gn{\Mho} < 64^{|\Mho|} \le
+\gn{\mathrm{dual}(\Mho)} \le p$. So the logarithm of (iv)'s Gödel number is
+$O(\mathrm{Log}\, p)$. The repair then needs (i)--(iii) to be short enough
+that Corollary~1's bound $F(p, t) < 2^b_a$ survives. Lemma~3's sketch
+supplies (i). Parts (ii) and (iii) are claims of the same kind, about short
+proofs of polynomial-time-checkable bounded facts, which the sketch does not
+address. At this essay's granularity, then, Willard's printed proof of
+Theorem~6 has a gap at step (31), and our repair is a sketch resting on
+Lemma~3's sketch and on the length claims for (ii) and (iii). We count
+Theorem~6 as a \texttt{sketch} here, although the registry records it as
+\texttt{full}.
 
 Willard calls the length estimate ``quite routine'' (p.~36). He measures the
 difference between the two systems by a constant: proof lengths in
@@ -1662,7 +1732,7 @@ considered a formal proof'': codified statement~\S7.5).
 Proof system & Growth & Consistency asserted & Outcome & Source, status \\
 \midrule
 tableaux, or lists of $\Pi_1^*/\Sigma_1^*$ lemmas & $+$ total, $\times$ a relation & Level(1) & self-justifying & 2005 Thms 3, 5, \texttt{full} \\
-same & same, plus one axiom $\exists z\,\mathrm{Log}^k z \ge m$ & Level(1) & inconsistent & 2005 Thm 6, \texttt{full} (Lemma 3 \texttt{sketch}; step (31) repaired, \S\ref{sec:bought}) \\
+same & same, plus one axiom $\exists z\,\mathrm{Log}^k z \ge m$ & Level(1) & inconsistent & 2005 Thm 6, \texttt{full} as printed; \texttt{sketch} here (step (31), \S\ref{sec:bought}) \\
 tableaux & $\times$ total & Level(0$-$) & G2 & 2002a Thm 3.5 \texttt{full}; 6.4 \texttt{sketch}; 2007 Thm 6 \texttt{full} \\
 lists of $\Pi_2^*$ or $\Sigma_2^*$ lemmas & $+$ total & Level(0$-$) & G2 & 2004 Thm 2, \texttt{sketch} \\
 tableaux & $+$ total & Level($2^+$) & G2 & 2004 Thm 1, \texttt{full} (one deferred step) \\
@@ -1744,7 +1814,10 @@ Gödel numbers is the bookkeeping of memory.
 \section{Refactoring the Incompleteness Theorems, Again}
 
 Oberhoff's Theorem~7 is two theorems. Stated as properties of a
-configuration $(\alpha, D)$, they are:
+configuration $(\alpha, D)$, they are as follows. Property~7a is what this
+essay takes from Oberhoff's Theorem~7. Property~7b, in both its closed and
+its uniform form, is the essay's own formulation of what his Theorem~6
+takes on faith.
 
 \begin{quote}
 \textbf{7a} (Watching, Definition~\ref{def:watch}). \emph{$\alpha \vdash_D
@@ -1788,8 +1861,9 @@ run that does not happen. The uniform failure is about writing numbers down,
 which costs more than linearly many bits. Willard's Theorem~6
 (\S\ref{sec:bought}) shows a bounded transcript form of~7b, at ``$\Mho$ is
 provable'', to be a $\Pi_1^*$ theorem of $\mathrm{PA}{+}$, inherited through
-Group-2. With Definition~6 repaired as there, its transcript reaches the
-sentence $\Pair$ pairs with $\Mho$. What the system lacks is one number large
+Group-2. With Definition~6 repaired as sketched there, its transcript
+reaches the sentence $\Pair$ pairs with $\Mho$. What the system lacks is one
+number large
 enough to switch it on, and granting that number as an axiom makes the system
 inconsistent.
 
@@ -1819,7 +1893,7 @@ boundaries (\S\ref{sec:price}):
   \texttt{cited}).
 \end{itemize}
 At the finest grain, one large number granted as an axiom is enough (2005,
-Theorem~6).
+Theorem~6, a \texttt{sketch} at this granularity).
 
 \medskip
 Moral of the story: you may declare yourself a very stable genius, and
@@ -1941,7 +2015,7 @@ TR 93-10 & --- & 33 & tableaux with $\Phi \vee \neg\Phi$ (Xtab) & via codified \
 2005 & Rem 2, 4 & 21 & 2001 proof hard to visualize; multiplication & ---; stated-only \\
 2005 & Lem 1, 2; Thm 2 & 23--26 & $\mathit{Probe}$; non-closure; $\theta = 1/4$; Eq.~20 & full \\
 2005 & fn 3; Thms 3--5; Rem 5; fn 5 & 26--29 & leading negation in neither class; $\ISD$ consistency-preserving; Part~A's U-Height demand & full; text layer \\
-2005 & Defs 2, 3, 6; Lem 3, 4; Thm 6 & 11, 33--36 & $\mathrm{NS}^{k,m}_D$; (27)--(33); Def 6's $q$ proves (25), so step (31) needs the repair of \S\ref{sec:bought} (ours) & full (Lem 3 sketch); Def 6 image \\
+2005 & Defs 2, 3, 6; Lem 3, 4; Thm 6 & 11, 33--36 & $\mathrm{NS}^{k,m}_D$; (27)--(33); Def 6's $q$ proves (25), so step (31) needs the repair sketched in \S\ref{sec:bought} (ours) & full as printed; sketch here; Def 6 image \\
 2005 & Rem 8; p.~37 & 36--37 & stronger Thm 6; $\Pi_1^*$ additions & stated-only \\
 2005 & \S2 & 6--7 & tableau rules; Prenex$^*$ root; axioms as nodes; Tab lists; ``also hold if we drop the Prenex$^*$ requirement'' & text layer \\
 2005 & App A & 39--40 & encoding; uncompressed encodings & text layer \\
