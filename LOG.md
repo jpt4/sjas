@@ -452,3 +452,20 @@ See [the analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.m
   - Willard's Theorem 6 is a sketch at this granularity.
   - The only genuinely open item is which of two steps fails for the 2001 system's closed faith step.
 - Revision 9: 29 pp., clean. Details are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).
+
+## 2026-10-26 — SJexM revision 10: streamlined to Oberhoff's register
+- **Request (user).** "This essay is littered with minutiae. The codification and refinement work ought to allow it to be streamlined, but regardless, this does not the elegance of Incompleteness Ex Machina."
+- **Rewrite.**
+  - The main text is now 13 pages and tells one story, for Willard's 2005 system, in Oberhoff's case-analysis format.
+  - Willard's consistency proof becomes a horizon case analysis plus the program Probe.
+  - Prop K becomes "Taking Off The Glasses": the faith step is the Gödel sentence in disguise.
+- **Moved.**
+  - Conventions and the proofs that depend on them → Appendix A.
+  - The 2001 system → Appendix B.
+  - The Theorem 6 repair → Appendix C.
+  - Pages and statuses → Appendix D, drawn from the codification registry.
+  - Inline status bookkeeping → a dagger.
+- **Unchanged.** Every result and proof of revision 9 is kept, and the status is the same.
+- **Corrected.** Lemma 4 proves Willard's (26), and (27) is its instance.
+- **Build.** 29 → 22 pp. (17,256 → 11,994 words), clean.
+- The label map is in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md). Review round 7 is next.

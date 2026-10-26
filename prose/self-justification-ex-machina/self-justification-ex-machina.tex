@@ -3,29 +3,16 @@
 % A companion to Sebastian Oberhoff, "Incompleteness Ex Machina" (2018),
 % https://www.scottaaronson.com/incompleteness.pdf
 %
-% Provenance conventions follow nachlass/codification/codified-sjas.md:
-% every Willard result is cited by paper, numbered item and page (author
-% copies in nachlass/papers/), with its proof status (full / sketch / cited /
-% stated-only) as recorded in nachlass/codification/registry/results.md.
-% Quotations marked as verbatim were checked against rendered page images;
-% quotations marked "text layer" were checked against the pdftotext layer only.
-% The reading notes behind this essay are in
+% Revision 10 (2026-10-26) streamlines revision 9 (commit 93ef87c) without
+% changing what is claimed or how it is proved. The main text tells one story,
+% for Willard's 2005 system, in Oberhoff's format. The conventions, and the
+% proofs that depend on them, are in Appendix A; the 2001 system is in
+% Appendix B; the gap in Willard's Theorem 6 and its repair are in Appendix C.
+% Willard's results are cited in the text by paper and item only. Their pages
+% and proof statuses are in Appendix D, taken from the repository's
+% codification (nachlass/codification/registry/results.md). The reading
+% notes, the review dispositions and the history of revisions 1-9 are in
 % docs/log/2026-10-24-incompleteness-ex-machina-analysis.md.
-%
-% Revision 2 (2026-10-25) restates every claim at the granularity at which
-% self-justification lives: language, deduction method, consistency notion,
-% formalization of provability, encoding, and hypotheses on the base theory.
-% Revision 3 integrates the first adversarial review (R1-01..R1-15).
-% Revision 4 integrates the second (R2-01..R2-16): the syntactic negation of
-% the Goedel sentence is kept apart from the halting sentence, the hypotheses
-% of each step are cited where they are used, and the transposed uniqueness
-% sentence (U) is an explicit assumption.
-% Revision 5 integrates the third (R3-01..R3-10).
-% Revision 6 fixes the conventions Willard leaves open (least-witness
-% substitution, unbounded fixed point, Prenex* rewriting, Pair, sentence
-% numbering), which removes (U) and the encoding hypothesis, and adds the
-% linear-witness proposition. Revision 7 integrates the fourth review
-% (R4-01..R4-08). Dispositions are in the analysis note.
 %
 % Build: pdflatex self-justification-ex-machina.tex (twice).
 
@@ -50,8 +37,8 @@
 \newcommand{\F}{\mathcal{F}}
 \newcommand{\Fo}{\mathcal{F}_0}
 \newcommand{\G}{\ddot{\mathsf{G}}}          % Oberhoff's computational Goedel sentence
-\newcommand{\R}{\ddot{\mathsf{R}}}          % Oberhoff's computational Rosser sentence
 \newcommand{\W}{\ddot{\mathsf{W}}}          % this essay's self-consistency sentence
+\newcommand{\Hs}{\mathsf{H}}                % the halting sentence, dual of \G
 \newcommand{\Prog}[1]{\mathsf{#1}}
 % Formal sentence in Oberhoff's guillemets. In math mode it is boxed with
 % \text; in running text it is left unboxed so long sentences can line-break.
@@ -64,6 +51,7 @@
 \newcommand{\gn}[1]{\ulcorner #1\urcorner}  % Goedel number
 \newcommand{\ISD}{\mathrm{IS}_D(A)}
 \newcommand{\Mho}{\mho}                     % Willard 2005's bounded Goedel sentence
+\newcommand{\sk}{\ensuremath{^\dagger}}    % Willard result without a complete proof
 % Oberhoff's case-analysis layout: bold case heads, arrow-led steps.
 \newcommand{\Case}[1]{\par\smallskip\noindent\hspace*{1em}\textbf{#1}\par}
 \newcommand{\SubCase}[1]{\par\noindent\hspace*{3em}\textbf{#1}\par}
@@ -75,7 +63,7 @@
 \lstset{
   basicstyle=\small\sffamily,
   keywordstyle=\bfseries,
-  morekeywords={for,if,halt,return,true,false},
+  morekeywords={for,if,else,while,halt},
   columns=fullflexible,
   frame=lines,
   mathescape=true,
@@ -85,25 +73,23 @@
 
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}
-% Lettered, so this essay's results never collide with Oberhoff's Theorems 1-7,
-% which the text cites by number throughout.
+% Lettered, so this essay's results never collide with Oberhoff's Theorems 1-7
+% or with Willard's numbered results, which the text cites by number.
 \renewcommand{\thetheorem}{\Alph{theorem}}
 \newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{fact}[theorem]{Fact}
 \theoremstyle{definition}
-\newtheorem{definition}[theorem]{Definition}
-\theoremstyle{remark}
-\newtheorem*{remark}{Remark}
+\newtheorem*{definition}{Definition}
 
 \title{Self-Justification Ex Machina}
-\author{jpt4\thanks{Revision of 25 October 2026, prepared with Claude
-  (Anthropic) in the \texttt{sjas} research repository. Willard's results are
-  cited from that repository's codification of his papers
-  (\texttt{nachlass/codification/codified-sjas.md}), with page numbers
-  referring to the author copies held there and proof statuses as recorded
-  there.}}
+\author{jpt4\thanks{Revision of 26 October 2026, prepared with Claude
+  (Anthropic) in the \texttt{sjas} research repository,
+  \url{https://github.com/jpt4/sjas}. The pages and proof statuses of
+  Willard's results are those recorded in the repository's codification of
+  his papers (\texttt{nachlass/codification}); Appendix~\ref{app:sources}
+  lists the ones used here.}}
 \date{In memory of Dan E. Willard (1948--2023)}
 
 \begin{document}
@@ -111,49 +97,24 @@
 
 \begin{abstract}
 \noindent
-Sebastian Oberhoff's essay \emph{Incompleteness Ex Machina} proves Gödel's
-incompleteness theorems twice, once with sentences and once with programs,
-and concludes that Gödel's work divides into two parts: teaching arithmetic
-to compute, and the incompleteness theorems, which are victory laps. We look
-closely at the one step of the second theorem that Oberhoff takes ``with some
-faith'': that a system which can watch any run of its own proof-searcher can
-also prove, of the run that never happens, that it would have seen it.
-Willard's self-justifying axiom systems are what remains when that step is
-withheld. His 2005 system $\mathrm{IS}_D(A)$, for semantic tableaux and for
-tableau lists with one-quantifier-block lemmas, proves every true
-$\Sigma_1$-class sentence of its language and takes its own Level(1)
-consistency as an axiom. Willard proved, in ordinary metamathematics, that
-it is consistent whenever the $\Pi_1$-class theorems of its base theory are
-true. His 2001 system $\mathrm{IS}(A)$ asserts the weaker Level(0$-$)
-consistency and is consistent under the analogous hypothesis of regular
-consistency. Under these hypotheses both systems are honest. They obey the
-first incompleteness theorem when the base theory also proves the
-$\Pi_1$-class theorems of Peano Arithmetic in the system's own language:
-$\mathrm{PA}{+}$, with Willard's 2005 function symbols, or $\mathrm{PAX}$,
-with his 2001 ones. We state everything at the
-granularity self-justification needs (language, deduction method, consistency
-notion, proof predicate, encoding), fixing the conventions Willard leaves
-open, and retell his 2005 consistency proof as a program in Oberhoff's case
-format. We then show that the faith step fails in two ways. In its uniform
-form it fails for both systems for a plain reason: a proof from their
-universal axioms can only produce witnesses that grow linearly in its
-inputs, so they cannot even prove that every number has a written name. At
-the Gödel sentence itself the faith step says that if the Gödel sentence is
-provable, then so is the $\Sigma_1$ statement that the proof-searcher halts.
-Take a system with a sound and complete deduction method that is
-consistent and watches, proves the true bounded sentences and trichotomy,
-and proves its own Level(1) consistency for a correct bounded proof predicate
-and a pairing of each sentence with its negation. In such a system this step
-is provably equivalent to the Gödel sentence, hence unprovable. Willard's
-2005 system meets these conditions when its base theory has true
-$\Pi_1$-class theorems and proves those of $\mathrm{PA}{+}$. Willard's 2005
-Theorem~6 then shows the faith being bought: a bounded transcript form of
-the step is a $\Pi_1$-class theorem of $\mathrm{PA}{+}$, and one axiom
-asserting that a single large number exists makes the system inconsistent.
-Its fourth step, as printed, confuses two sentences. We sketch a repair, so
-at this granularity the theorem has the status of a sketch.
-Gödel's work,
-viewed this way, splits into three parts, not two.
+Sebastian Oberhoff's \emph{Incompleteness Ex Machina} proves Gödel's
+incompleteness theorems twice, once with sentences and once with programs.
+It concludes that the theorems are victory laps, and that the real work was
+teaching arithmetic to compute. His proof of the second theorem takes one step
+``with some faith''. We argue that this step is a part of Gödel's work in its
+own right, and that it has a price. Our witness is Dan Willard's 2005
+self-justifying axiom system, over a base theory whose $\Pi_1$ theorems are
+true and include those of Peano arithmetic. It proves every true $\Sigma_1$
+sentence, it obeys the first incompleteness theorem, it proves its own
+consistency, and, by Willard's theorem, it is consistent. For this system the
+faith step fails twice over. In its uniform form it fails because the system
+cannot prove that every number can be written down. At the Gödel sentence it
+is provably equivalent to the Gödel sentence itself, and so it is unprovable.
+When the base theory is Peano arithmetic and lemmas are allowed, Willard's
+Theorem~6 grants the system one large enough number as an axiom. The faith
+returns, and inconsistency comes with it. The printed proof of that theorem
+has a gap, for which we sketch a repair. Gödel's work, viewed this way, has
+three parts, not two.
 \end{abstract}
 
 \begin{quote}\small
@@ -165,17 +126,17 @@ $a_0, a_1, a_2, a_3, \ldots$ where $a_0 \ge 2$ and $a_{i+1} = (a_i)^2$, a hedge
 would quickly follow because $a_n$ requires at least $2^n$ bits. The expected
 response would then be that ``multiplication is a function in theory but not
 always in practice''.
-\hfill --- Dan Willard, SUNY Albany TR~93-10, p.~6
+\hfill --- Dan Willard, SUNY Albany TR~93-10 (1994)
 \end{quote}
 
 % ==========================================================================
-\section{Victory Laps}
+\section{One Step On Faith}
 
-Oberhoff's essay~\cite{oberhoff} does something deceptively simple. It
-writes out Gödel's first incompleteness theorem, Rosser's improvement of it,
-and the second incompleteness theorem as explicit case analyses. Then it
-replaces Gödel's sentence $\mathsf{G}$ (``I am not provable'') by
-$\G = \fs{$\Prog{P}(\Prog{P})$ doesn't halt}$, where $\Prog{P}$ is the program
+Oberhoff's essay~\cite{oberhoff} writes out Gödel's first incompleteness
+theorem, Rosser's improvement of it and the second incompleteness theorem as
+explicit case analyses. Then it replaces Gödel's sentence $\mathsf{G}$ (``I am
+not provable'') by $\G = \fs{$\Prog{P}(\Prog{P})$ doesn't halt}$, where
+$\Prog{P}$ is the program
 \begin{lstlisting}
 P(A) {
   for s $\in$ all possible strings {
@@ -185,303 +146,73 @@ P(A) {
   }
 }
 \end{lstlisting}
-and observes that each case analysis can be copied almost word for word.
-The punchline (his \S5) is that $\G$ is $\mathsf{G}$ wearing Clark Kent's
-glasses: $\Prog{P}(\Prog{P})$ is searching $\F$'s proofs for a proof of $\G$,
-so $\G$ says ``I am not provable''. His moral (\S6) is a refactoring. The
-hard part of Gödel's work was teaching arithmetic to compute, packaged as
+and observes that each case analysis can be copied almost word for word. The
+punchline is that $\G$ is $\mathsf{G}$ wearing Clark Kent's glasses:
+$\Prog{P}(\Prog{P})$ is searching $\F$'s proofs for a proof of $\G$, so $\G$
+says ``I am not provable''. The moral is a refactoring. The hard part of
+Gödel's work was teaching arithmetic to compute, which Oberhoff packages as
 \begin{quote}
 \textbf{Theorem 7} (Turing Completeness of Elementary Arithmetic).
 \emph{Every formal system capable of reasoning about elementary arithmetic
 can also reason about algorithms,}
 \end{quote}
-which Oberhoff leaves ``to smarter people''. The incompleteness theorems
-themselves are victory laps.
+and leaves ``to smarter people''. The incompleteness theorems themselves are
+victory laps.
 
-For the first incompleteness theorem we accept this completely. This essay
-is about the second. Its proof in~\cite{oberhoff} contains exactly one step
-that Oberhoff marks as taken on trust (Theorem~6, third step):
+For the first incompleteness theorem we agree completely. This essay is about
+one step of the second, the only step that Oberhoff marks as taken on trust:
 \begin{quote}
 Now we simply observe (with some faith) that there wasn't actually anything
 in the reasoning we used to prove this that we couldn't carry out just as
 well in $\F$.
 \end{quote}
-For the systems Oberhoff has in mind, that faith is well placed. But some
-formal systems can reason about algorithms in every sense the first theorem
-needs, and for them the faith is misplaced: they prove their own consistency,
-and, by theorems of Willard's proved in ordinary metamathematics, they are
-consistent whenever their base theory has a bounded proof predicate and true
-$\Pi_1$-class theorems. For 2001 this is Willard's ``regular consistency''
-(2001, p.~12); Theorem~\ref{thm:willard} gives the two cases exactly. Dan
-Willard constructed them in papers from 1993 to 2020~\cite{w93tr,w01,w05,w06a,w20}.
-(We cite Willard's papers by year, as in the bibliography: ``2002a'' is
-\cite{w02a}.) This essay tells their story in Oberhoff's language. Our
-headline is that the faith step is not part of the victory lap. It is a third
-part of Gödel's work, and it has a price.
+For Peano arithmetic and its relatives the faith is well placed. But some
+formal systems reason about algorithms in every sense the first theorem
+needs, and for them it is misplaced. They prove their own consistency, and
+they are consistent, provided only that their base theory tells no lies about
+universal statements. Dan Willard built them, in papers from 1993 to
+2020~\cite{w93tr,w01,w05,w06a,w20}. This essay tells their story in
+Oberhoff's language. Our headline is that the faith step is not part of the
+victory lap. It is a third part of Gödel's work, and it has a price.
 
-\paragraph{The standard of precision.} Oberhoff's essay is a paper proof at
-the granularity the second incompleteness theorem needs: for Peano
-Arithmetic and its relatives, it does not matter which language, which proof
-system, which notion of consistency or which Gödel numbering one picks, since
-the system proves that the choices agree. Self-justification lives exactly
-where those choices stop agreeing. Willard's systems are self-justifying for
-one deduction method and inconsistent for another, consistent at one
-consistency level and not at the next, and his proofs measure Gödel numbers
-in bits. An exegesis that is to have the proof status of Oberhoff's must
-therefore fix every one of these parameters, and say where a result depends
-on them. Section~\ref{sec:conventions} fixes them. Throughout, ``Willard
-proved'' means that the result is printed with a complete proof (status
-\texttt{full}); other statuses are named where they occur. Results labelled
-\emph{ours} are proved here.
+\paragraph{Ground rules.} Oberhoff's footnote~2 lets ``$=$'' relate sentences
+that are merely logically equivalent, ``provided this is obvious''. We cannot
+afford that luxury. Willard's systems are self-justifying for one deduction
+method and inconsistent for another, and consistent under one notion of
+consistency but not the next. The proofs that tell these cases apart measure
+Gödel numbers in bits. A system may prove two sentences equivalent without
+proving that one is provable exactly when the other is. So a formal system,
+here, is always an axiom system $\F$ together with a deduction method $D$.
+Every method we use is \emph{sound and complete}: $\F$ proves $\varphi$ by $D$
+exactly when $\varphi$ holds in every model of $\F$. Proof length is what
+separates them, and self-justification is a phenomenon of length. Here is the
+fact we use most:
 
-% ==========================================================================
-\section{Conventions}
-\label{sec:conventions}
-
-\paragraph{Configurations.} Following Willard, a \emph{configuration}
-$(\alpha, D)$ is an axiom system $\alpha$ together with a deduction method
-$D$; $\alpha \vdash_D \varphi$ means that $\varphi$ has a $D$-proof from
-$\alpha$. $D$ is \emph{$\alpha$-sound} if $\alpha \vdash_D \varphi$ implies that
-$\varphi$ holds in every model of $\alpha$, and \emph{$\alpha$-complete} if the
-converse holds (2001, \S7, p.~37). All deduction methods in this essay
-(Hilbert-style deduction, semantic tableaux, and Willard's tableau lists
-below) are sound and complete in this sense. They differ in proof
-\emph{length}, and self-justification is a phenomenon of length.
-
-\begin{fact}[Willard 2001, Lemma~7.1B, p.~37, \texttt{full}]\label{fact:closure}
-If $D$ is $\alpha$-sound and $\alpha$-complete, $\alpha \vdash_D \varphi$,
-$\alpha \vdash_D \psi$, and $\varphi \wedge \psi \supset \chi$ holds in every
-model of $\alpha$, then $\alpha \vdash_D \chi$.
+\begin{fact}[Closure; Willard 2001, Lemma~7.1B]\label{fact:closure}
+If $D$ is sound and complete for $\F$, $\F$ proves $\varphi$ and $\psi$, and
+$\varphi \wedge \psi \supset \chi$ holds in every model of $\F$, then $\F$
+proves $\chi$.
 \end{fact}
 
 \noindent
-So the theorems of $(\alpha, D)$ are closed under logical consequence. What
-is not closed is the size of proofs: for a cut-free $D$, Willard notes, the
-combined proof ``could then correspond to a bit string more than
-exponentially larger than the combined lengths of the three initial proofs''
-(2001, p.~38, text layer).
-
-\paragraph{Languages.} Three languages occur.
-\begin{itemize}[leftmargin=1.5em]
-\item The language of arithmetic, with $0$, successor, $+$ and $\times$, and the
-  usual classes $\Delta_0$, $\Pi_1$, $\Sigma_1$.
-\item Willard's 2001 language: the seven \emph{grounding functions} (truncated
-  subtraction, integer division, predecessor, maximum, logarithm, root, and
-  $\mathit{Count}$, all \emph{non-growth}: $F(\vec a) \le \max(\vec a)$) and
-  one constant symbol $\bar n$ for every natural number $n$ (2001, pp.~9--10).
-  Its classes are written $\Delta_0^-$, $\Pi_1^-$, $\Sigma_1^-$. Addition is
-  not a function symbol; Group-1 of $\mathrm{IS}(A)$ asserts its totality by the
-  $\Pi_2^-$ axiom $\forall x\,\forall y\,\exists z\; z - x = y$ (2001, Eq.~6).
-\item Willard's 2005 \emph{U-Grounding} language: six grounding functions
-  plus the growth functions $+$ and $\mathit{Double}(x) = x + x$, eight
-  function symbols in all, with constants $\bar c_0$, $\bar c_1$ for $0$ and
-  $1$ (2005, \S2, p.~4, and \S3, p.~8). Every $n \ge 2$ is named by a term
-  $\overline{n}$, Willard's ``U-Grounded Binary Representation'', with at
-  most $2\log_2 n$ occurrences of $+$ and $\mathit{Double}$ applied to $1$
-  (p.~4, where the overline is Willard's notation). Its classes are
-  $\Delta_0^*$, $\Pi_1^*$, $\Sigma_1^*$; bounded quantifiers have the form
-  $\forall v \le t$ and $\exists v \le t$ (p.~5). A negation written in front
-  of unbounded quantifiers yields a sentence in neither class: for a proper
-  $\Sigma_1^*$ sentence $\Upsilon$, ``$\neg\Upsilon$'' is ``technically viewed
-  \ldots{} as not constituting a formal $\Pi_1^*$ sentence'', although it is
-  logically equivalent to one (Remark~5, II, p.~27, text layer).
-  Multiplication is not a function symbol; its graph
-  $M(x,y,z)$ is a $\Delta_0^*$ formula (2005, Eq.~4), so the system knows
-  multiplication's algebra but not its totality. Multiplication by any fixed
-  constant is total, through iterated addition; what is withheld is the
-  \emph{uniform} operation $x \cdot y$ (codified statement~\S3.1).
-\end{itemize}
-We write ``bounded'', ``$\Pi_1$-class'' and ``$\Sigma_1$-class'' for whichever
-of these classes is in force. A bar over a number, $\bar n$, denotes the
-constant for $n$ in the 2001 language and the term $\overline{n}$ in the 2005
-language; no argument below needs a constant for every number.
-
-\paragraph{Consistency notions.} For a configuration $(\alpha, D)$, Willard
-distinguishes (2005, p.~5):
-\emph{Level(0$-$)}: there is no $D$-proof of $0=1$ from $\alpha$;
-\emph{Level(1)}: there is no $\Pi_1^*$ sentence $\Psi$ such that both $\Psi$ and
-$\neg\Psi$ have $D$-proofs from $\alpha$. ``All the definitions of
-consistency, from Level(0-) up to Level(n) for any $n$, are equivalent to
-each other under strong enough models of arithmetic. However, many weak axiom
-systems do not have a mathematical strength to recognize this equivalence''
-(2005, p.~6, text layer). Willard's rule for choosing among them: ``it is
-desirable to use the weakest possible definition \ldots{} when one is seeking
-to generalize the Second Incompleteness Theorem. On the other hand, the
-opposite is true when one seeks to develop `boundary-case exceptions' ''
-(2002c, p.~2, text layer). This is why his negative results below use
-Level(0$-$) and his positive ones Level(1).
-
-\paragraph{Arithmetization.} For each configuration in this essay,
-$\Prf^D_\alpha(x, y)$ (``$y$ is the Gödel number of a $D$-proof from $\alpha$
-of the sentence with Gödel number $x$'') is a bounded formula, and
-$\Prov^D_\alpha(x) := \exists y\, \Prf^D_\alpha(x,y)$. That this and the
-other syntactic predicates below (substitution, $\Pair$, the Prenex$^*$
-rewriting) have bounded definitions in Willard's languages is his
-arithmetization of syntax. It runs through Wrathall's characterization of
-the linear-time hierarchy by bounded formulas (2001, Theorems~C.1--C.2,
-\texttt{sketch}; Theorem~C.3, \texttt{full} given them; 2005, p.~10). It is
-the part of Gödel's work that Oberhoff packages as his Theorem~7, transposed
-to languages without total multiplication. We take it as given, with that
-status. Oberhoff's \fs{$\Prog{A}(\Prog{A})$ halts}, for the proof-searching
-programs $\Prog{P}$, $\Prog{B}$, $\Prog{C}$ of this essay, is formalized as
-``the search succeeds'': an existential statement about $\Prf$, not about
-execution traces.
-
-\paragraph{Encoding.} We fix the Gödel encoding. Proofs are encoded as in
-2005, Appendix~A (pp.~39--40): a string of six-bit bytes read as an integer
-in base~64, each of the 24 symbols coded between 32 and 55 (so with leading
-bit~1), and a tableau list encoded as the concatenation of its components.
-A sentence is numbered by the value of its own byte string, the convention
-2001 states (Appendix~B, p.~51); 2005's Appendix~A encodes only proofs, and
-we extend it in the same way. The first byte is the highest place, the
-natural reading of ``an integer written in base 64''. Willard does not say
-otherwise, and we fix it. Two consequences are used below. A string of $N$
-bytes that begins with a symbol byte has value at least
-$32 \cdot 64^{N-1}$; every proof and every sentence begins with one. And a
-sentence that occurs in a proof has a Gödel number no larger than the
-proof's, since a contiguous substring of a base-64 numeral has no larger
-value. Every
-axiom used in a tableau occurs in it as a node (p.~6: the nodes other than
-the root ``are either axioms of $\alpha$ or deductions from higher nodes'').
-
-\paragraph{Prenex form.} A semantic tableau proof of $\Phi$ is a closed tree
-whose root ``stores the sentence $\neg\Phi$ (rewritten in Prenex$^*$ normal
-form)'', a Prenex$^*$ sentence being a $\Pi_i^*$ or $\Sigma_i^*$ sentence
-(2005, p.~6). So whether a tree proves $\Phi$ depends on $\Phi$ only through
-that root. Willard does not fix the rewriting, and we fix it. For a
-Prenex$^*$ sentence $\Theta = Q_1 v_1 \ldots Q_k v_k\, \delta$ with $\delta$
-bounded, let $\mathrm{dual}(\Theta) := \bar Q_1 v_1 \ldots \bar Q_k v_k\,
-\neg\delta$, with each quantifier exchanged for the other. Let
-$\mathrm{pnx}(\Theta) := \Theta$, and $\mathrm{pnx}(\neg\Theta) :=
-\mathrm{dual}(\mathrm{pnx}(\Theta))$. Willard's arguments use only that the
-root is a Prenex$^*$ sentence equivalent to $\neg\Phi$, with the class and
-validity level that sentence has (Remark~5, I, p.~27; the proof of
-Theorem~2, pp.~23--26, and Appendix~B). So they hold under this convention,
-and he adds that ``All our results will also hold if we drop the Prenex$^*$
-requirement'' (p.~7, \texttt{stated-only}). The convention has the property
-we need: for a Prenex$^*$ sentence $\Phi$,
-\[
-\mathrm{pnx}(\neg\neg\Phi) = \mathrm{dual}(\mathrm{dual}(\Phi)) =
-\mathrm{pnx}(\neg\,\mathrm{dual}(\Phi)),
-\]
-so the syntactic negation $\neg\Phi$ and the Prenex$^*$ sentence
-$\mathrm{dual}(\Phi)$ have exactly the same tableau proofs. They have the
-same tableau-list proofs too, since a list proves the conclusion of its last
-component (p.~7).
-
-\paragraph{Pairing a sentence with its negation.} Willard's consistency
-axiom uses a bounded formula $\Pair(x,y)$ for ``$x$ is the Gödel number of a
-$\Pi_1^*$ sentence and $y$ is $x$'s negation'' (2005, p.~9), ``the sentence
-that represents the negation of $x$'s formal statement'' (p.~34). His text
-uses two candidates for $y$. Eq.~(28) writes $\Pair(\gn{f}, \gn{\neg f})$,
-the string $\neg f$, which is in neither class (p.~5, and p.~26, footnote~3:
-``neither $\Sigma_1^*$ nor $\Pi_1^*$ because a negation symbol appears to the
-left of its unbounded quantifiers''). His proof of Theorem~1 uses ``the
-$\Sigma_1^*$ theorem that is $\Phi$'s negation'' (p.~20), that is,
-$\mathrm{dual}(\Phi)$. We fix $\Pair(x, y)$ to hold when $x$ codes a
-$\Pi_1^*$ sentence $\Phi$ and $y$ codes a sentence $\theta$ with
-$\mathrm{pnx}(\neg\theta) = \mathrm{pnx}(\neg\neg\Phi)$: a sentence whose
-tableau proofs are exactly those of $\neg\Phi$. Both of Willard's candidates
-qualify, and under the convention above they have the same proofs.
-
-\paragraph{The Gödel sentence and the halting sentence.} Let $\Subst_0(g,h)$
-be a bounded formula defining the graph of substitution: $h$ is the code of
-the sentence obtained by substituting the numeral of $g$ into the formula
-coded by $g$. Use it in least-witness form,
-\[
-\Subst(g,h) := \Subst_0(g,h) \wedge \forall h' \le h\,[h' = h \vee
-\neg\Subst_0(g,h')],
-\]
-which is bounded and, in the standard model, holds exactly when $\Subst_0$
-does. Let $n$ be the Gödel number of
-\[
-\Gamma(g) := \forall x\;\forall h\;\bigl[\Subst(g,h) \supset
-\neg\Prf^D_\alpha(h,x)\bigr],
-\]
-and let $\G := \Gamma(\bar n)$ and $c := \gn{\G}$. $\G$ is a $\Pi_1$-class
-sentence, and $\Subst(\bar n, \bar c)$ is a true bounded sentence. The
-\emph{halting sentence} is
-\[
-\mathsf{H} := \mathrm{dual}(\G) = \exists x\,\exists h\,\neg\bigl[\Subst(\bar
-n,h) \supset \neg\Prf^D_\alpha(h,x)\bigr],
-\]
-\fs{$\Prog{P}(\Prog{P})$ halts}: some $x$ is a proof of the sentence that
-substitution produces. It is $\Sigma_1$-class, and $\Pair(\bar c, \bar c\,')$
-is a true bounded sentence for $c' := \gn{\mathsf{H}}$.
-
-Our $\G$ differs from Willard's fixed point (2001, Eq.~63, p.~38) in two
-respects, both ours. It has no bound $h \le x$, as Willard's own bounded
-Gödel sentence $\Mho$ has none (2005, Eq.~24, p.~33). And its substitution
-formula is in least-witness form. Together these make the fixed point
-provable from trichotomy alone, with no encoding hypothesis and no inherited
-uniqueness theorem:
-
-\begin{fact}[Fixed point; after Willard 2001, proof of Theorem~7.2, p.~39]
-\label{fact:fp}
-Let $D$ be $\alpha$-sound and $\alpha$-complete, let $\Prf^D_\alpha$ be
-bounded, and let $\alpha$ prove the true bounded sentence
-$\Subst(\bar n, \bar c)$. Then
-\[
-\alpha \vdash_D \G \supset \forall y\,\neg\Prf^D_\alpha(\bar c, y).
-\tag{FP$\Rightarrow$}
-\]
-If $\alpha$ also proves trichotomy at $\bar c$,
-$\forall h\,(h \le \bar c \vee \bar c \le h)$, then $\alpha$ proves the
-uniqueness sentence $(U)\;\forall h\,[\Subst(\bar n, h) \supset h = \bar c]$
-and
-\[
-\alpha \vdash_D \G \leftrightarrow \forall y\,\neg\Prf^D_\alpha(\bar c, y).
-\tag{FP}
-\]
-\end{fact}
-
-\begin{proof}
-(FP$\Rightarrow$): $\G$ instantiated at $x = y$, $h = \bar c$, with
-$\Subst(\bar n, \bar c)$, gives $\neg\Prf(\bar c, y)$. So
-$\Subst(\bar n, \bar c)$ implies (FP$\Rightarrow$) in every structure.
-
-(U): let $\Subst(\bar n, h)$. If $h \le \bar c$, the second conjunct of
-$\Subst(\bar n, \bar c)$ at $h' = h$ gives $h = \bar c$ or
-$\neg\Subst_0(\bar n, h)$, and the first conjunct of $\Subst(\bar n, h)$
-excludes the latter. If $\bar c \le h$, the second conjunct of
-$\Subst(\bar n, h)$ at $h' = \bar c$ gives $\bar c = h$ or
-$\neg\Subst_0(\bar n, \bar c)$, and the first conjunct of
-$\Subst(\bar n, \bar c)$ excludes the latter. So trichotomy and
-$\Subst(\bar n, \bar c)$ imply (U) in every structure.
-
-(FP$\Leftarrow$): given $x$ and $h$ with $\Subst(\bar n, h)$, (U) gives
-$h = \bar c$, and the hypothesis gives $\neg\Prf(\bar c, x)$.
-
-Each implication therefore follows in every model of $\alpha$ from theorems
-of $\alpha$, and Fact~\ref{fact:closure}, applied repeatedly, gives its
-$D$-proof.
-\end{proof}
-
-\noindent
-$\mathsf{H}$ is logically equivalent to the syntactic negation $\neg\G$, and
-Fact~\ref{fact:closure} gives
-$\alpha \vdash_D \neg\G \leftrightarrow \mathsf{H}$, but that alone does not
-give $\alpha \vdash_D \Prov(\gn{\neg\G}) \leftrightarrow
-\Prov(\gn{\mathsf{H}})$: $\Prov$ is sensitive to codes, and such an
-equivalence is a derivability condition, the very thing in question. What
-our conventions give instead is that $\neg\G$ and $\mathsf{H}$ have the same
-proofs in the standard model, and that $\Pair$ pairs $\G$ with both.
-
-\paragraph{Relative consistency.} Every consistency result in this essay,
-Willard's and ours, is a theorem of ordinary metamathematics proved under a
-hypothesis, typically that the $\Pi_1$-class theorems of a base theory $A$
-are true. That hypothesis is not decidable, and no system here is ``proved
-consistent'' outright. How strong a metatheory these proofs need is a
-separate question, which this essay does not address. An example is whether
-Willard's consistency theorem is provable in elementary arithmetic from
-uniform $\Pi_1$ reflection for $A$.
+Everything else is fixed in Appendix~\ref{app:fine}: the languages, the
+Gödel numbering, how a negation is put into prenex form, and which sentence
+the consistency axiom counts as another's negation. The proofs that depend on
+these choices are there too. Every consistency result below, Willard's and
+ours, is a theorem of ordinary mathematics under a hypothesis on a base
+theory, and none shows a system consistent outright. We cite Willard's
+results by year and item, as in ``2005, Theorem~3''. Appendix~\ref{app:sources}
+gives their pages and proof statuses. A dagger, as in ``2004,
+Theorem~2\sk'', marks a result printed without a complete proof (with a
+sketch, a citation, or no proof at all), or one whose printed proof we find
+incomplete at our level of detail. Results marked \emph{ours} are proved
+here.
 
 % ==========================================================================
-\section{Where the Faith Lives}
+\section{Watching And Knowing}
 \label{sec:faith}
 
-Here is the first half of Oberhoff's proof that $\G$ is undecidable (his \S4,
-a second proof of his Theorem~4):
+Here is the first half of Oberhoff's proof that $\G$ is undecidable:
 
 \Case{Suppose $\G$ is provable:}
 \SubCase{Or $\neg\G$ isn't provable:}
@@ -493,342 +224,102 @@ a second proof of his Theorem~4):
 \end{steps}
 
 \smallskip\noindent
-Theorem~6 asks $\F$ to run this argument on itself. Fix a configuration
-$(\F, D)$ and write $\Prov$ for $\Prov^D_{\F}$. As statements that $\F$ must
-prove, the argument has three steps.
+His Theorem~6 asks $\F$ to run this argument on itself. Write $\Prov$ for
+provability in $\F$, and $\Hs$ for the $\Sigma_1$ sentence
+\fs{$\Prog{P}(\Prog{P})$ halts}, in the form that Appendix~\ref{app:fine}
+fixes.\footnote{That form has exactly the proofs of $\neg\G$, and the
+consistency axiom counts it as $\G$'s negation. Another $\Sigma_1$ rendering
+of \fs{$\Prog{P}(\Prog{P})$ halts} would be a different sentence, with
+different proofs.} As statements that $\F$ must prove, the argument has
+three steps.
 \begin{enumerate}[label=(\arabic*), leftmargin=2.5em]
-\item $\mathsf{H} \supset \Prov(\bar c)$: \fs{if $\Prog{P}(\Prog{P})$ halts,
-  then $\G$ is provable}. This is (FP$\Leftarrow$), contraposed. It is not
-  literally trivial: $\mathsf{H}$ speaks of ``the sentence $h$ with
-  $\Subst(\bar n, h)$'', and identifying $h$ with $\G$ needs the uniqueness
-  sentence (U), which costs trichotomy (Fact~\ref{fact:fp}).
-\item $\Prov(\bar c) \supset \Prov(\bar c\,')$, where $c' = \gn{\mathsf{H}}$:
-  \fs{if $\G$ is provable, then \fs{$\Prog{P}(\Prog{P})$ halts} is provable}.
-  This is the step ``$\Prog{P}(\Prog{P})$ will eventually find such a proof
-  after some sequence of steps which we can write out in $\F$''. Inside $\F$
-  it reads: \emph{for every proof $s$ of $\G$ there is a proof that
-  $\Prog{P}(\Prog{P})$ halts}, namely the proof that exhibits $s$ and checks
-  it.
-\item $\Prov(\bar c) \wedge \Prov(\bar c\,') \supset \mathit{Inc}$, where
-  $\mathit{Inc}$ is the negation of the consistency statement in use. For
-  Level(1), whose statement is
-  $\forall x\,\forall y\,\forall p\,\forall q\;\neg[\Pair(x,y) \wedge
-  \Prf(x,p) \wedge \Prf(y,q)]$ with $\Pair$ as in \S\ref{sec:conventions}
-  (2005, Eq.~6, p.~9), step (3) follows from this statement
-  and the true bounded sentence $\Pair(\bar c, \bar c\,')$ by
-  Fact~\ref{fact:closure}. For Level(0$-$) it is a formalized combination of
-  two proofs into a proof of $0=1$, which for a cut-free $D$ is the expensive
-  construction Fact~\ref{fact:closure} warns about.
+\item $\Hs \supset \Prov(\gn{\G})$: \fs{if $\Prog{P}(\Prog{P})$ halts, then
+  $\G$ is provable}.
+\item $\Prov(\gn{\G}) \supset \Prov(\gn{\Hs})$: \fs{if $\G$ is provable, then
+  so is \fs{$\Prog{P}(\Prog{P})$ halts}}.
+\item $\Prov(\gn{\G}) \wedge \Prov(\gn{\Hs}) \supset \neg\mathit{Con}$:
+  \fs{then $\F$ is inconsistent}.
 \end{enumerate}
-Chaining (1)--(3) gives $\F \vdash_D \mathsf{H} \supset \mathit{Inc}$, that is,
-$\F \vdash_D \neg\mathit{Inc} \supset \G$: \fs{$\F$ is consistent
-$\Rightarrow \G$}, which is what Theorem~6 needs.
+Chaining them gives $\F \vdash \mathit{Con} \supset \G$, which is what
+Theorem~6 needs. Step~(1) is the fixed point. $\F$ proves it once it proves
+one true bounded sentence and that $\le$ is trichotomous at one number
+(Fact~\ref{fact:fp}). Step~(3)
+comes free when $\mathit{Con}$ says that no sentence and its negation both
+have proofs. If it says only that $0 = 1$ has no proof, step~(3) is a
+formalized combination of two proofs into one, and for cut-free deduction
+that combination is expensive. Step~(2) is ``$\Prog{P}(\Prog{P})$ will
+eventually find such a proof after some sequence of steps which we can write
+out in $\F$''. Inside $\F$ it reads: \emph{for every proof $s$ of $\G$ there
+is a proof that $\Prog{P}(\Prog{P})$ halts}, namely the one that exhibits $s$
+and checks it.
 
-The only step that asks $\F$ to know something substantial about itself is
-(2). In the first incompleteness theorem, ``which we can write out in $\F$''
-was a fact \emph{about} $\F$, established by us from outside: we are handed a
-halting run and we produce the proof. In the second theorem it has to be a
-theorem \emph{of} $\F$, stated for every $s$ at once. The two deserve
-separate names.
+In the first incompleteness theorem, ``which we can write out in $\F$'' was a
+fact \emph{about} $\F$, established by us from outside: we are handed a
+halting run and we produce the proof. In the second it has to be a theorem
+\emph{of} $\F$, about every $s$ at once. The two deserve separate names.
 
-\begin{definition}[Watching]\label{def:watch}
-$(\F, D)$ \emph{watches} if $\F \vdash_D \sigma$ for every true
-$\Sigma_1$-class sentence $\sigma$ of its language.
+\begin{definition}[Watching]
+$\F$ \emph{watches} if it proves every true $\Sigma_1$ sentence.
 \end{definition}
 
-\begin{definition}[Knowing that one watches]\label{def:know}
-$(\F, D)$ \emph{knows that it watches} at a sentence $\sigma$ if
-$\F \vdash_D \sigma \supset \Prov(\gn{\sigma})$. It \emph{knows that it
-watches} if it does so at every $\Sigma_1$-class sentence.
+\begin{definition}[Knowing that one watches]
+$\F$ \emph{knows that it watches} at a sentence $\sigma$ if
+$\F \vdash \sigma \supset \Prov(\gn{\sigma})$. It knows that it watches if it
+does so at every $\Sigma_1$ sentence.
 \end{definition}
 
 \noindent
-A program halts if and only if a $\Sigma_1$ sentence about it is true, so
-watching is external $\Sigma_1$-completeness, and knowing that one watches is
-formalized $\Sigma_1$-completeness, sentence by sentence. Section~\ref{sec:transcripts}
-adds its uniform version, with a free variable. The third Hilbert--Bernays--Löb
-derivability condition~\cite{hb39,lob55}, $\Prov(\gn{\varphi}) \supset
-\Prov(\gn{\Prov(\gn{\varphi})})$, is the instance at the $\Sigma_1$ sentences
-$\sigma = \Prov(\gn{\varphi})$, the halting statements of proof searches.
+A program halts exactly when a $\Sigma_1$ sentence about it is true. So
+watching is $\Sigma_1$-completeness, and knowing that one watches is its
+formalized version, taken one sentence at a time. Section~\ref{sec:transcripts}
+adds the uniform version. The third Hilbert--Bernays--Löb derivability
+condition~\cite{hb39,lob55}, $\Prov(\gn{\varphi}) \supset
+\Prov(\gn{\Prov(\gn{\varphi})})$, is knowing that one watches at the halting
+statements of proof searches.
 
 \begin{lemma}[ours]\label{lem:instances}
-Let $(\F, D)$ watch, with $D$ $\F$-sound and $\F$-complete and $\Prf^D_\F$
-correct in the standard model (it holds of $(h, x)$ exactly when $x$ codes a
-$D$-proof from $\F$ of the sentence coded $h$).
+Let $\F$ watch, with a sound and complete deduction method and a correct
+proof predicate.
 \begin{enumerate}[label=(\alph*)]
-\item $(\F, D)$ knows that it watches at every \emph{true} $\Sigma_1$-class
-  sentence.
-\item If (FP) holds, step (2) is $\F$-provably equivalent to knowing that one
-  watches at $\mathsf{H}$: $\F \vdash_D (2) \leftrightarrow [\mathsf{H}
-  \supset \Prov(\bar c\,')]$.
+\item $\F$ knows that it watches at every \emph{true} $\Sigma_1$ sentence.
+\item If $\F$ proves the fixed point, then step~(2) is $\F$-provably
+  equivalent to knowing that it watches at $\Hs$, that is, to
+  $\Hs \supset \Prov(\gn{\Hs})$.
 \end{enumerate}
 \end{lemma}
 
 \begin{proof}
-(a) Let $\sigma$ be true. Then $\F \vdash_D \sigma$ by watching, so a
-$D$-proof of $\sigma$ exists, $\Prov(\gn{\sigma})$ is a true $\Sigma_1$-class
-sentence, and
-watching gives $\F \vdash_D \Prov(\gn{\sigma})$. Since
-$\Prov(\gn{\sigma}) \supset (\sigma \supset \Prov(\gn{\sigma}))$ is valid,
-Fact~\ref{fact:closure} gives the implication. (b) (FP) and
-$\mathsf{H} \leftrightarrow \neg\G$ are theorems of $\F$, so by soundness
-every model of $\F$ satisfies $\mathsf{H} \leftrightarrow \Prov(\bar c)$. The
-two implications differ only by
-this replacement in the antecedent, so their equivalence holds in every model
-of $\F$, and Fact~\ref{fact:closure} gives the $D$-proof.
+(a) If $\sigma$ is true, $\F$ proves it by watching. So $\Prov(\gn{\sigma})$
+is a true $\Sigma_1$ sentence, $\F$ proves that too, and
+$\sigma \supset \Prov(\gn{\sigma})$ follows by Fact~\ref{fact:closure}.
+(b) $\Hs$ is logically equivalent to $\neg\G$, and the fixed point makes
+$\neg\G$ equivalent to $\Prov(\gn{\G})$, so $\F$ proves
+$\Hs \leftrightarrow \Prov(\gn{\G})$. The two implications differ only by this
+replacement in the antecedent, so $\F$ proves them equivalent
+(Fact~\ref{fact:closure}).
 \end{proof}
 
 \noindent
 So the faith step is not a claim about runs that happen. Those a watching
 system sees, and Lemma~\ref{lem:instances}(a) gives it the knowledge for
-free. The faith is a claim about a run that does not happen: if $\G$ is
-true, $\mathsf{H}$ is false, and step (2) asserts that
-\emph{had} $\Prog{P}(\Prog{P})$ halted, $\F$ would have seen it.
+free. The faith is a claim about a run that does not happen. If $\G$ is
+true, then $\Hs$ is false, and step~(2) says that \emph{had}
+$\Prog{P}(\Prog{P})$ halted, $\F$ would have seen it.
 
-Here is what each result of~\cite{oberhoff} uses:
-
-\begin{center}\small
-\begin{tabular}{@{}llccc@{}}
-\toprule
-Result in~\cite{oberhoff} & Assumes about $\F$ & Watches & Knows it watches \\
-\midrule
-Thm 4 (G1 via halting) & honest; complete (for contradiction) & --- & --- \\
-\S4, $\G$ undecidable & consistent; honest in case 2 & case 1 & --- \\
-Thm 5 (Rosser, via $\Prog{B}$) & consistent & both cases & --- \\
-Thm 6 (G2) & consistent & yes & step (2) \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\noindent
-Theorem 4 needs only that $\F$ can \emph{state} halting facts honestly; the
-search does the rest. Case 2 of the \S4 argument uses only that $\F$'s
-$\Sigma_1$ theorems are true. Rosser's case 2 also uses a $\Pi_1$ fact, that
-a run which has entered \texttt{while true \{\}} never leaves it; Oberhoff's
-footnote~12: ``Any formal system capable of reasoning about algorithms can
-prove that `while true \{\}' runs forever; otherwise it ought to be ashamed
-of itself.'' Apart from that, every result in the essay except the second
-incompleteness theorem uses watching and nothing more. The classical proof of
-the second theorem runs through the derivability conditions; the
-computational retelling shows what the third condition \emph{says}.
+Every other result in Oberhoff's essay uses at most watching and honesty.
+Rosser's version also needs one $\Pi_1$ fact: a run stuck in
+\texttt{while true \{\}} stays stuck. As his footnote~12 says, a system that
+cannot prove this ``ought to be ashamed of itself''. The classical proof of
+the second theorem runs through the derivability conditions. The
+computational retelling shows what the third one says.
 
 % ==========================================================================
-\section{Transcripts Are Bigger Than Runs}
-\label{sec:transcripts}
-
-Why should knowing be harder than watching? The natural proof of step (2)
-takes a proof $s$ of $\G$ and produces the proof $t$ of
-\fs{$\Prog{P}(\Prog{P})$ halts} that exhibits $s$ and checks it. In a language
-whose only growth functions are $+$ and $\mathit{Double}$, exhibiting $s$
-costs a term, and terms are expensive.
-
-\begin{lemma}[ours]\label{lem:transcript}
-In Willard's 2005 language and encoding, every semantic tableau proof that
-contains a closed term of value $v \ge 2$ has Gödel number greater than
-$v^5$.
-\end{lemma}
-
-\begin{proof}
-A closed term with $L$ function symbols built from $\bar c_0$, $\bar c_1$ has
-value at most $2^L$: non-growth functions do not increase the maximum of their
-arguments, and $+$ and $\mathit{Double}$ at most double it. This is the
-doubling estimate of case (c) in Willard's proof of Lemma~1 (2005, p.~24),
-applied to a term with no parameters. So a term of value $v$ has
-$L \ge \log_2 v$ function symbols. The U-Length of a node is the number of
-U-Grounding function symbols in its sentence; its U-Depth is its own
-U-Length plus the U-Lengths of all its ancestors; and the U-Height of the
-tree is the largest U-Depth of a leaf (p.~22). So the node containing the
-term has U-Depth at least $L$. If that node is a leaf, the U-Height is at
-least its U-Depth. If not, a leaf below it has a U-Depth at least as large,
-since the nodes in between add non-negative U-Lengths. Either way the tree
-has U-Height at least $L$. Willard's Eq.~(20) (p.~26) is $\text{U-Height}(p) <
-\tfrac15 \log_2 p$, which, he says, Appendix~A's encoding ``as well as any
-other reasonable encoding methodology, will clearly satisfy'' (text layer).
-Hence $\log_2 p > 5L \ge 5\log_2 v$.
-\end{proof}
-
-\noindent
-So the transcript $t$ of step (2) is bigger than the fifth power of the run
-$s$ it records, and the natural proof of step (2) asks $\F$ to believe that
-$s \mapsto t$ is defined everywhere. Willard's systems cannot believe that of
-any function that outgrows every linear one. The reason lies in how a proof
-from universal axioms produces the numbers it claims exist.
-
-\begin{proposition}[Linear witnesses; ours]\label{prop:herbrand}
-Let $\F$ be a set of sentences of Willard's 2005 language, each bounded or
-$\Pi_1^*$-class, all true in the standard model, and let
-$\delta(\vec x, \vec y)$ be bounded.
-If $\F \vdash \forall \vec x\, \exists \vec y\, \delta(\vec x, \vec y)$ (in
-first-order logic, hence by any sound deduction method), then there is a
-natural number $k$ such that for all $\vec x$ some
-$\vec y \le k\,(x_1 + \cdots + x_m + 1)$ satisfies $\delta$. The same holds in
-Willard's 2001 language for a set of true sentences, each bounded or
-$\Pi_1^-$-class, together with the axiom that addition is total.
-\end{proposition}
-
-\begin{proof}
-\emph{The 2005 case.} Write $|\vec x|$ for $x_1 + \cdots + x_m + 1$, and
-$\bar k \cdot t$ for the term $t + \cdots + t$ with $k$ summands. Suppose that
-no $k$ works. Then for each $k$ some $\vec x$ has no witness
-$\vec y \le k |\vec x|$. So each finite subset of $\mathrm{Th}(\mathbb N)
-\cup \{\forall \vec y \le \bar k \cdot |\vec c|\; \neg\delta(\vec c, \vec y) :
-k \in \mathbb N\}$, with new constants $\vec c$, is satisfied in $\mathbb N$
-by interpreting $\vec c$ as such an $\vec x$ for the largest $k$ involved. By
-compactness there is a model $M$ of $\mathrm{Th}(\mathbb N)$ with elements
-$\vec a$ such that $M \models \forall \vec y \le \bar k \cdot |\vec a|\;
-\neg\delta(\vec a, \vec y)$ for every $k \in \mathbb N$. Let
-\[
-I := \{\, z \in M : z \le \bar k \cdot |\vec a| \text{ for some } k \in
-\mathbb N \,\}.
-\]
-The following facts hold because the sentences expressing them are true in
-$\mathbb N$, hence in $M$: $\le$ is transitive, so $I$ is an initial segment;
-$x_i \le x_1 + \cdots + x_m + \bar c_1$, so each $a_i \in I$;
-$\bar n \le \bar n \cdot u$ for $u \ge 1$, so $I$ contains every $\bar n$;
-$\bar i \cdot u \le \bar j \cdot u$ for $i \le j$, so any finitely many
-elements of $I$ lie under one bound $\bar k \cdot |\vec a|$;
-and $x \le \bar i \cdot u$, $y \le \bar j \cdot u$ imply
-$x + y \le \overline{i + j} \cdot u$ and $\mathit{Double}(x) \le
-\overline{2i} \cdot u$, so $I$ is closed under $+$ and $\mathit{Double}$.
-The six non-growth functions satisfy $F(\vec z) \le \max(\vec z)$ (2005,
-p.~4, as a true sentence of each), and the arguments lie under a common
-bound, so $I$ is closed under them too. Hence $I$
-is a substructure of $M$ and an initial segment. A bounded formula therefore
-has the same truth value in $I$ as in $M$ at arguments from $I$: its terms
-take the same values, and its quantifiers range over initial segments of
-$I$. A bounded sentence of $\F$ is true in $M$, hence in $I$. A
-$\Pi_1^*$-class sentence $\forall \vec z\, \beta(\vec z)$ of $\F$ is true in
-$M$, so $\beta$ holds at every tuple from $I$, in $M$ and hence in $I$. So $I
-\models \F$, hence $I \models \forall \vec x\, \exists \vec y\, \delta$, and
-some $\vec y \in I$ satisfies $\delta(\vec a, \vec y)$ in $I$, hence in $M$.
-But $\vec y \le \bar k \cdot |\vec a|$ for some $k \in \mathbb N$, against the
-choice of $\vec a$.
-
-\emph{The 2001 case.} Addition is not a function symbol there. Eq.~(6) of
-2001 asserts only that $z \mathbin{\dot-} x = y$ always has a solution $z$.
-But its functional sharpening $z \mathbin{\dot-} x = y \wedge x \le z$ is a
-bounded formula, and the true sentences that it is total and single-valued
-hold in every model of $\mathrm{Th}(\mathbb N)$. So expand $\mathbb N$ and $M$ by the
-function it defines, and write the bounds $\bar k \cdot |\vec x|$ with it.
-Each such bound is expressible by a bounded formula through the graph. The
-argument above then runs verbatim: $I$ is closed under the defined addition
-and under the grounding functions, which are non-growth; it contains every
-constant $\bar n$; and the bounded and $\Pi_1^-$-class sentences of $\F$ hold
-in $I$. The axiom that addition is total holds in $I$, because for
-$x, y \in I$ the element $z = x + y$ lies in $I$ and satisfies
-$z \mathbin{\dot-} x = y$.\contra
-\end{proof}
-
-\noindent
-The constant $k$ can be large. For intuition, though the proof above does
-not need it: Herbrand's theorem would present the witnesses as terms, and a
-term of depth $d$ built from $+$, $\mathit{Double}$ and non-growth functions
-is at most $2^d$ times its largest argument. So $k$ is like $2^d$:
-exponential in the proof, but fixed once the proof is. The input $\vec x$
-ranges over all numbers, so the witnesses grow linearly in the input, with
-the proof's size in the constant. Willard's own engine makes the same
-comparison from the other side: no proof can name a number much larger than
-its own Gödel number. With multiplication as a total function, a term of
-depth $d$ can grow like $x^{2^d}$ in its input and name numbers like
-$2^{2^d}$. That is the reason Willard's construction fails there
-(\S\ref{sec:price}).
-
-Write $\mathrm{Num}(x, y)$ for a bounded formula saying that $y$ is the Gödel
-number of the sentence $\bar x = \bar x$. For a bounded formula $\delta(x)$,
-say that $(\F, D)$ \emph{knows uniformly that it watches} $\delta$ if $\F
-\vdash_D \forall x\, [\delta(x) \supset \exists y\, \exists q\,
-(\mathrm{Num}_\delta(x, y) \wedge \Prf(y, q))]$, where
-$\mathrm{Num}_\delta(x,y)$ says that $y$ codes $\delta(\bar x)$. This is
-formalized $\Sigma_1$-completeness with a free variable. Recursively
-axiomatized extensions of $I\Sigma_1$ prove it for their canonical
-provability predicate, and derive the third derivability condition from
-it~\cite{hp93}.
-
-\begin{corollary}[ours]\label{cor:uniform}
-Under the hypothesis of Theorem~\ref{thm:willard}(a), with $\Pair$ as fixed
-in \S\ref{sec:conventions}, $\ISD$ does not prove
-$\forall x\, \exists y\; y = x \cdot x$ (with multiplication's bounded graph
-$M$), nor $\forall x\, \exists y\, \mathrm{Num}(x, y)$, ``every number has a
-written name''. So it does not know uniformly that it watches even the
-formula $x = x$. Under the hypothesis of Theorem~\ref{thm:willard}(b), the
-same holds for $\mathrm{IS}(A)$. The deduction method enters only through
-the truth of Group-3: since the theorems of any sound and complete method are
-the first-order consequences of the axioms (Fact~\ref{fact:closure}), the
-unprovability holds for every such method once the axioms are true.
-\end{corollary}
-
-\begin{proof}
-Every axiom of $\ISD$ is a true sentence, bounded or $\Pi_1^*$-class. For
-Groups 0--2 this follows from the hypothesis and Willard's remark that they
-``can be encoded as $\Pi_1^*$ sentences'' (2005, p.~20); Group-3 is true by
-Theorem~\ref{thm:willard}(a) (Lemma~\ref{lem:honest} below). Every axiom of
-$\mathrm{IS}(A)$ is true by Lemma~\ref{lem:honest}(b). Apart from the
-totality of addition, each is bounded (the Group-0 atoms, 2001, p.~10) or
-$\Pi_1^-$-class (Group-1's other axioms, Group-2, and Group-3 by Theorem~C.3).
-So
-Proposition~\ref{prop:herbrand} applies. The witness $y = x^2$ exceeds
-$k(x+1)$ once $x > 2k$. The only $y$ with $\mathrm{Num}(x, y)$ is the code of
-$\bar x = \bar x$. In 2005, $\bar x$ is a term with at least $\log_2 x$
-function symbols (as in Lemma~\ref{lem:transcript}), one byte each, so by the
-encoding of \S\ref{sec:conventions} the code is at least
-$32 \cdot 64^{\log_2 x - 1} = x^6/2$. In 2001, $\bar x$ is a constant of
-$\lceil \log_{32}(x+1)\rceil + 1$ bytes (Appendix~B, p.~51), and the code is
-at least $32\,(x+1)^{6/5}$. Either bound eventually exceeds $k(x+1)$. The
-uniform statement for $x = x$ implies $\forall x\, \exists y\,
-\mathrm{Num}(x, y)$.
-\end{proof}
-
-\noindent
-So the faith step fails in Willard's systems in its uniform form, for the
-plainest reason: they cannot prove that numbers can be written down, because
-writing a number down costs more than linearly many bits. Each particular
-number they can name and each particular run they can check; that is
-watching. The faith step in Oberhoff's proof, step (2), is one closed sentence
-about the Gödel sentence, though, and there the totality claim is vacuous. If
-$\G$ is true, no proof $s$ of $\G$ exists, so ``for every $s$ there is a
-transcript'' holds trivially, and Proposition~\ref{prop:herbrand} yields no
-contradiction. Section~\ref{sec:backwards} proves step (2) unprovable by a
-different route, and Section~\ref{sec:bought} shows a bounded transcript
-statement at work in a theorem of Willard's.
-
-Willard's first statement of the idea continues this essay's epigraph (TR
-93-10, p.~7, verbatim):
-\begin{quote}\small
-This means there will always be adequate memory for writing $b_n$'s binary
-encoding when there is sufficient memory for storing a semantic tableaux
-proof of its existence (whereas the same is plainly not true \emph{when
-multiplication is assumed to be a function}).
-
-For instance, multiplication allows one to establish the existence of a
-number $a_{300}$ (in a proof with approximately 300 lines), whose binary
-encoding requires \emph{more digits} than the number of atoms in the
-universe.
-\end{quote}
-Here $b_{i+1} = b_i + b_i$ and $a_{i+1} = (a_i)^2$. Starting both at~2,
-$b_n = 2^{n+1}$ and $a_n = 2^{2^n}$: a proof of $n$ doublings names a number
-of $n+1$ bits, and a proof of $n$ squarings names one of $2^n$ bits. Willard's
-later statement compares the Gödel number of a proof with the integer it
-shows to exist (2006a, Remark~3, p.~24, verbatim):
-\begin{quote}\small
-In particular, every proof of the existence of an integer $N$ using the
-additive convention will have a larger Gödel number than $N$. In contrast,
-the multiplicative convention allows for the Gödel number of such proofs to
-have a sharply smaller magnitude than $N$ (when for instance
-$N = 2^{2^k}$ and $k$ is larger than some fixed constant). In essence, this
-difference in magnitude is the reason the Second Incompleteness Theorem will
-generalize under the multiplicative naming paradigm --- while Section 4
-showed boundary-case exceptions to it exist under the additive naming
-convention.
-\end{quote}
-
-% ==========================================================================
-\section{A Machine That Says ``I Am Consistent''}
+\section{A Very Stable Genius}
 \label{sec:genius}
 
 Oberhoff's moral for the second theorem is ``if you declare yourself a very
 stable genius, you're not''. Let us build the genius with his tools. Fix a
-base system $\Fo$, a deduction method $D$, and a consistency level, and
-consider
+base system $\Fo$ with a deduction method, and consider
 
 \noindent\begin{minipage}{\linewidth}
 \begin{lstlisting}
@@ -841,382 +332,210 @@ C(A) {
 }
 \end{lstlisting}
 \end{minipage}
-where a \emph{contradiction} is a $D$-proof of $0=1$ (Level(0$-$)) or a pair
-of $D$-proofs of a $\Pi_1$-class sentence and of its syntactic negation
-(Level(1)).
-(We picked $\Prog{C}$ because it is a circle that never quite closes;
-\S\ref{sec:machine} explains the joke.) Let
+where a \emph{contradiction} is either a proof of $0 = 1$ or proofs of a
+$\Pi_1$ sentence and of its negation. Willard calls the two corresponding
+notions of consistency \emph{Level(0$-$)} and
+\emph{Level(1)}.\footnote{We picked $\Prog{C}$ for consistency, and because
+it is a circle that never quite closes. Section~\ref{sec:machine} explains
+the joke.} Let
 \[
 \W = \fs{$\Prog{C}(\Prog{C})$ doesn't halt}, \qquad \F = \Fo + \W .
 \]
-Just as $\G$ says ``I am not provable'', $\W$ says that $\F$ is consistent at
-the chosen level. So $\F$ proves its own consistency in one line: the claim is
-an axiom.
-
-$\Prog{C}$ is not an analogy. It is Willard's construction read as a program.
-In 2005 (pp.~9--10), $\mathit{ExPrf}^D_{\mathrm{UNION}(A)}(h,t,p)$ says that
-$p$ is a $D$-proof of $t$ from Groups 0--2 plus the sentence coded $h$, and
-$\mathit{SubstPrf}^D_{\mathrm{UNION}(A)}(g,t,p)$, his Eq.~(7), combines it
-with $\Subst(g,h)$: the input $\Prog{A}$ is $g$, and \fs{$\Prog{A}(\Prog{A})$
-doesn't halt} is the sentence $h$ with $\Subst(g,h)$. His Group-3 axiom,
-Eq.~(8), is $\Gamma_3(\bar n_3)$, where $n_3$ is the Gödel number of
-\[
-\Gamma_3(g) := \forall x\,\forall y\,\forall p\,\forall q\;\neg\bigl[\Pair(x,y)
-\wedge \mathit{SubstPrf}^D_{\mathrm{UNION}(A)}(g,x,p) \wedge
-\mathit{SubstPrf}^D_{\mathrm{UNION}(A)}(g,y,q)\bigr]
-\]
-(Willard writes $\Gamma$ and $n$; we add the subscript to keep it apart from
-the Gödel sentence's $\Gamma$ and $n$ of \S\ref{sec:conventions}). This is
-\fs{$\Prog{C}(\Prog{C})$ doesn't halt} at Level(1); 2001's
-Appendix~B does the same at Level(0$-$). Willard (2016, Definition~3.4 and
-Example~3.5) remarks that constructing such a sentence is ``relatively easy,
-via an application of the Fixed Point Theorem, but this sentence is
-ironically typically useless!''
+Just as $\G$ says ``I am not provable'', $\W$ says ``$\F$ is consistent''. So
+$\F$ proves its own consistency in one line, because the claim is an axiom.
 
 \begin{proposition}[The genius falls; standard]\label{prop:genius}
-Let $\Fo$ be a recursively axiomatized extension of $I\Sigma_1$ in the
-language of arithmetic, $D$ Hilbert-style deduction, $\Prov$ the canonical
-$\Sigma_1$ provability predicate, and $\W$ as above at either level. Then
-$\F = \Fo + \W$ is inconsistent, and $\Prog{C}(\Prog{C})$ halts.
+Let $\Fo$ be a recursively axiomatized extension of $I\Sigma_1$, with
+Hilbert-style deduction and the canonical provability predicate. Then, at
+either level, $\F = \Fo + \W$ is inconsistent and $\Prog{C}(\Prog{C})$
+halts.
 \end{proposition}
 
 \begin{proof}
 Suppose $\F$ is consistent.
 \begin{topsteps}
-\item $\F$ proves its own consistency: $\W$ is one of its axioms, and by the
-  diagonal lemma $I\Sigma_1$ proves $\W$ equivalent to the consistency
-  statement of $\Fo + \W$ at the chosen level, for the canonical proof
-  predicate. $I\Sigma_1$ also proves the two levels equivalent for $\F$: it
-  proves explosion for the canonical Hilbert proof predicate, so a proof of
-  $0=1$ yields proofs of every sentence, and it proves that proofs of a
-  sentence and of its negation combine, by modus ponens, into a proof of
-  $0=1$.
-\item $\F$ is a recursively axiomatized extension of $I\Sigma_1$, so the
-  derivability conditions hold for its canonical provability predicate,
-  provably in $I\Sigma_1$~\cite{hp93}. In Oberhoff's terms, $\F$ knows that it
-  watches, and steps (1)--(3) are theorems of $\F$.
-\item So by the second incompleteness theorem (Oberhoff's Theorem~6, with
-  its faith step now a theorem), $\F$ cannot prove its own
-  consistency.\contra
+\item $\F$ proves its own consistency. $\W$ is an axiom, and by the diagonal
+  lemma $I\Sigma_1$ proves $\W$ equivalent to $\F$'s consistency. It also
+  proves the two levels equivalent: explosion turns a proof of $0=1$ into
+  proofs of everything, and modus ponens turns proofs of a sentence and its
+  negation into a proof of $0=1$.
+\item The derivability conditions hold for $\F$, provably in
+  $I\Sigma_1$~\cite{hp93}. In our terms $\F$ knows that it watches, and
+  steps (1)--(3) are theorems of $\F$.
+\item So Oberhoff's Theorem~6 applies, with its faith step now a theorem, and
+  $\F$ cannot prove its own consistency.\contra
 \end{topsteps}
-So $\F$ is inconsistent. A contradiction from $\F$ is then a finite object
-that exists, and $\Prog{C}(\Prog{C})$ finds it.
+So $\F$ is inconsistent. A contradiction in $\F$ is then a finite object, and
+$\Prog{C}(\Prog{C})$ finds it.
 \end{proof}
 
-Willard records that ``Kleene, Rogers and Jeroslow [\ldots] each warned
-their readers that most axiom systems, similar to $\alpha^*$, were useless on
-account of their inconsistency, although they were technically
-well-defined'' (2005, \S1). Two of his own theorems are instances in his own
-languages. $\mathrm{XIS}^\lambda(\mathrm{PAX})$, his tableau system with
-multiplication total and a reflection-style Group-3 axiom, ``is inconsistent''
-for every $\lambda$ (2001, Theorem~7.3, p.~40, \texttt{full}). And
-Section~\ref{sec:bought} describes the finest instance, where the system
-falls because of one added axiom saying that one number exists.
+Willard records the old verdict on such systems: ``Kleene, Rogers and
+Jeroslow [\ldots] each warned their readers that most axiom systems, similar
+to $\alpha^*$, were useless on account of their inconsistency, although they
+were technically well-defined'' (2005, \S1). Constructing $\W$, he adds, is
+``relatively easy, via an application of the Fixed Point Theorem, but this
+sentence is ironically typically useless!'' (2016, Example~3.5). To make it
+useful, he changed everything else.
 
 % ==========================================================================
 \section{Willard's Machine}
 \label{sec:machine}
 
-Willard keeps $\Prog{C}$ and $\W$ and changes $\Fo$ and $D$. We describe the
-2005 system $\ISD$ and note where the 2001 system $\mathrm{IS}(A)$ differs.
+Willard keeps $\Prog{C}$ and $\W$, and changes the language, the deduction
+method and the base. We describe his 2005 system $\ISD$. His 2001 system,
+which asserts only Level(0$-$) consistency, is in Appendix~\ref{app:2001}.
 
-\paragraph{The system $\ISD$ (2005, \S3, pp.~8--10).} $A$ is any axiom system
-in the U-Grounding language whose proof predicate $\Prf_A$ is $\Delta_0^*$, and
-$D$ is a deduction method.
+\paragraph{The language.} There are constants for $0$ and $1$, two growth
+functions, $+$ and $\mathit{Double}(x) = x + x$, and six functions that
+never exceed their largest argument: truncated subtraction, division, roots,
+maximum, logarithm and a bit count. Every number $n \ge 2$ has a name
+$\bar n$ with at most $2\log_2 n$ growth symbols, which is its binary
+notation. Multiplication is not a function symbol. Its graph is a bounded
+formula, so the system knows the laws of multiplication but not that every
+product exists. ``Bounded'', ``$\Pi_1$'' and ``$\Sigma_1$'' mean what they
+usually mean, for these function symbols.
+
+\paragraph{The axioms.} $A$ is any axiom system in this language with a
+bounded proof predicate, and $D$ is a deduction method. The axioms of $\ISD$
+fall into four groups (2005, \S3).
 \begin{itemize}[leftmargin=1.5em]
-\item \textbf{Group-0} (names): four axioms fixing $\bar c_0$, $\bar c_1$, $+$
-  and $\mathit{Double}$, so that every $n \ge 2$ has the name
-  $\overline{n}$ of $O(\log n)$ symbols.
-\item \textbf{Group-1} (watching): a finite set of true $\Pi_1^*$ sentences
-  which, with Group-0, proves every $\Delta_0^*$ sentence true in the
-  standard model. Willard's Table~I (2001, pp.~63--64) is one such set.
-\item \textbf{Group-2} (inheritance): for each $\Pi_1^*$ sentence $\Phi$, the
-  axiom $\forall p\,\{\Prf_A(\gn{\Phi}, p) \to \Phi\}$ (2005, Eq.~5). The
-  schema is indexed by all $\Pi_1^*$ sentences, not by $A$'s theorems; for
-  $\Phi$ that $A$ does not prove, the axiom is vacuously true.
-\item \textbf{Group-3} (self-reference): the single $\Pi_1^*$ sentence
-  $\Gamma_3(\bar n_3)$ of \S\ref{sec:genius}, Level(1) consistency of $\ISD$
-  under $D$, with $\Prf^D_{\ISD}(t,p)$ encoded as
-  $\mathit{SubstPrf}^D_{\mathrm{UNION}(A)}(\bar n_3, t, p)$ (p.~10). Willard
-  stresses that the $\Pi_1^*$ form is essential (2005, p.~10).
+\item \textbf{Group-0} (names) defines $0$, $1$, $+$ and $\mathit{Double}$.
+\item \textbf{Group-1} (watching) is a finite set of true $\Pi_1$ sentences
+  that proves every true bounded sentence.
+\item \textbf{Group-2} (inheritance) is
+  $\forall p\,[\Prf_A(\gn{\Phi}, p) \supset \Phi]$, for every $\Pi_1$ sentence
+  $\Phi$. Whatever $\Pi_1$ sentence $A$ proves, $\ISD$ proves too.
+\item \textbf{Group-3} (self-reference) is $\W$ at Level(1): no $\Pi_1$
+  sentence and its negation both have $D$-proofs from $\ISD$. It is built by
+  the same fixed point as $\G$ (Appendix~\ref{app:fine}).
 \end{itemize}
-The deduction methods are \emph{semantic tableaux} (2005, \S2, pp.~6--7: a
-tree rooted at $\neg\Phi$ in prenex form, with elimination rules only and no
-cut, every branch closed by some $\Upsilon$ and $\neg\Upsilon$) and
-\emph{$\mathrm{Tab}{-}U_1^*{-}\mathrm{List}$}: a list of tableau proofs, each
-of which may use the earlier conclusions as axioms, all intermediate
-conclusions being $\Pi_1^*$ or $\Sigma_1^*$ (2005, p.~7). The latter is a
-restricted modus ponens: lemmas are allowed, provided each has at most one
-unbounded quantifier block.
 
-$\mathrm{IS}(A)$ of 2001 differs in three respects: its language is the 2001
-grounding language, with a constant for every number and addition total by
-an axiom rather than a function symbol; $D$ is semantic tableaux; and its
-Group-3 axiom asserts Level(0$-$) consistency,
-$\forall y\,\neg\mathit{SemPrf}_{\mathrm{IS}(A)}(\gn{0=1}, y)$ (2001,
-Eq.~8), with a $\Pi_1^-$ encoding (2001, Theorem~C.3, p.~60). Willard assumes
-throughout that $A$ extends Peano Arithmetic (2001, p.~9).
+\paragraph{The deduction methods.} A \emph{semantic tableau} proof of $\Phi$
+is a tree whose root is $\neg\Phi$ in prenex form. It grows by elimination
+rules alone, with no cut, and every branch closes with some sentence and its
+negation. A \emph{tableau list} is a list of tableau proofs, each of which may
+use the earlier conclusions as axioms, all of them $\Pi_1$ or $\Sigma_1$. This
+is modus ponens restricted to lemmas with one unbounded quantifier block.
 
-\begin{theorem}[Willard]\label{thm:willard}
-\leavevmode
-\begin{enumerate}[label=(\alph*)]
-\item (2005, Theorems~3 and~5, pp.~27, 29, \texttt{full}.) If every
-  $\Pi_1^*$ theorem of $A$ is true in the standard model, then $\ISD$ is
-  consistent, both for $D$ = semantic tableaux and for $D$ =
-  $\mathrm{Tab}{-}U_1^*{-}\mathrm{List}$. The proof (via Theorem~1) rules out
-  $D$-proofs of a $\Pi_1^*$ sentence $\Phi$ and of ``the $\Sigma_1^*$ theorem
-  that is $\Phi$'s negation'' (p.~20), $\mathrm{dual}(\Phi)$. With $\Pair$ as
-  fixed in \S\ref{sec:conventions}, a proof of any $\theta$ with
-  $\Pair(\gn{\Phi}, \gn{\theta})$ is a proof of $\mathrm{dual}(\Phi)$, so
-  Group-3 is true: Level(1) consistency.
-\item (2001, Theorem~4.3, p.~20, \texttt{full}.) If $A$ is \emph{regularly
-  consistent}, meaning that $\Prf_A$ has a $\Delta_0^-$ encoding and every
-  Group-2 axiom of $\mathrm{IS}(A)$ is true (2001, p.~12), then
-  $\mathrm{IS}(A)$ is consistent: there is no tableau proof of $0=1$, which
-  is Level(0$-$).
-\end{enumerate}
+\begin{theorem}[Willard 2005, Theorems 3 and 5]\label{thm:willard}
+If every $\Pi_1$ theorem of $A$ is true, then $\ISD$ is consistent, both for
+semantic tableaux and for tableau lists. In fact its Group-3 axiom is true.
 \end{theorem}
 
 \noindent
-Both are relative consistency theorems in the sense of
-\S\ref{sec:conventions}. Willard also states that IS's construction fails for
-Hilbert deduction: by Pudlák and Solovay, ``if $D$ denotes Hilbert deduction
-then our $\mathrm{IS}_D(A)$ system will be automatically inconsistent'' (2005,
-p.~8, text layer).
+With Hilbert-style deduction the same construction ``will be automatically
+inconsistent'', by theorems of Pudlák and Solovay (2005, \S3) that
+Section~\ref{sec:price} returns to. Meanwhile $\ISD$ reasons about algorithms
+perfectly well.
 
 \begin{lemma}[ours]\label{lem:watch}
-For $D$ = semantic tableaux or $\mathrm{Tab}{-}U_1^*{-}\mathrm{List}$,
-$(\ISD, D)$ watches.
+For either deduction method, $\ISD$ watches. If every $\Pi_1$ theorem of $A$
+is true, then every theorem of $\ISD$ is true, and its Group-3 formula is a
+correct proof predicate for $\ISD$.
 \end{lemma}
 
 \begin{proof}
-Let $\sigma = \exists \vec x\,\delta(\vec x)$ be a true $\Sigma_1^*$ sentence
-with witnesses $\vec k$. Then $\delta(\overline{\vec k})$ is a true
-$\Delta_0^*$ sentence, which Groups 0 and 1 prove, and $\sigma$ is its
-logical consequence. Apply Fact~\ref{fact:closure}.
+A true $\Sigma_1$ sentence $\exists\vec x\,\delta(\vec x)$ with witnesses
+$\vec k$ follows by logic from the true bounded sentence
+$\delta(\bar{\vec k})$, which Groups 0 and 1 prove, and
+Fact~\ref{fact:closure} does the rest. Truth and correctness are proved in
+Appendix~\ref{app:fine}.
 \end{proof}
 
 \noindent
-The same holds for $\mathrm{IS}(A)$ with $A \supseteq \mathrm{PAX}$: a system
-that verifies the $\Pi_1^-$ theorems of $\mathrm{PAX}$ ``obviously has a
-capacity to prove every $\Delta_0^-$ sentence which is true'' (2001, p.~39,
-text layer), and $\mathrm{IS}(A)$ names every number by a constant. So a true
-$\Sigma_1^-$ sentence $\exists \vec x\, \delta(\vec x)$, with witnesses $\vec
-k$, has the true $\Delta_0^-$ instance $\delta(\bar{\vec k})$, which
-$\mathrm{IS}(A)$ proves, and Fact~\ref{fact:closure} adds the existential
-quantifiers, as in Lemma~\ref{lem:watch}. For general programs, Willard notes that the predicate
-$\mathit{Turing}(x,y,z)$ is expressible in $\mathrm{IS}(A)$ (TR 93-10, p.~6),
-so halting of any program is a $\Sigma_1^-$ sentence there; the arguments
-below need only the proof-searchers, whose halting is formalized through
-$\Prf$ directly.
+Suppose, then, that every $\Pi_1$ theorem of $A$ is true and that $A$ proves
+the $\Pi_1$ theorems of Peano arithmetic. Then $\ISD$ obeys the first
+incompleteness theorem, in Rosser's form as well. $\G$ is unprovable by
+Corollary~\ref{cor:isd}, $\neg\G$ is false and so unprovable, and Rosser's
+loop fact is inherited from Peano arithmetic through Group-2
+(Appendix~\ref{app:fine}). In 1994 Willard described his first system in
+these terms, as ``a class of structures, lying halfway between Peano
+Arithmetic and Presburger Arithmetic, which satisfy Godel's First but not
+Second Incompleteness Theorem'' (TR 93-10).
 
-\begin{lemma}[ours]\label{lem:honest}
-\leavevmode
-\begin{enumerate}[label=(\alph*)]
-\item If every $\Pi_1^*$ theorem of $A$ is true, then every theorem of $\ISD$
-  is true in the standard model, and its proof predicate
-  $\mathit{SubstPrf}^D_{\mathrm{UNION}(A)}(\bar n_3, \cdot, \cdot)$ is correct
-  there.
-\item If $A$ is regularly consistent, then every theorem of $\mathrm{IS}(A)$
-  is true in the standard model.
-\end{enumerate}
-\end{lemma}
+\subsection*{Why the genius survives}
 
-\begin{proof}
-(a) \emph{Correctness.} By Willard's arithmetization (\S\ref{sec:conventions}),
-$\Subst$, $\Prf^D_{\mathrm{UNION}(A)}$ and $\mathit{ExPrf}^D_{\mathrm{UNION}(A)}$
-are correct bounded definitions. A $D$-proof $p$ from $\ISD$ either uses
-Group-3 or not. If not, it satisfies the first disjunct of Eq.~(7). If it
-does, Group-3 occurs in it as a node, so by the encoding of
-\S\ref{sec:conventions} Group-3's code $h_3$ satisfies $h_3 \le p$, and the
-second disjunct holds with $h = h_3$. Conversely each disjunct describes a
-$D$-proof from $\ISD$, given that $\Subst(\bar n_3, h)$ holds only for
-$h = h_3$.
-
-\emph{Truth.} Groups 0 and 1 are true (Willard: ``It is obvious that all
-$\mathrm{IS}_D(A)$'s Group-0 and 1 axioms are valid under the standard
-model'', 2005, p.~20, text layer). Group-2 is true by hypothesis. Group-3 is
-true by Theorem~\ref{thm:willard}(a), as noted there. Theorems of true axioms
-under a sound $D$ are true.
-
-(b) \emph{Correctness.} $\mathrm{IS}(A)$'s Group-3 axiom is $\Theta(\bar N)$,
-with $\Theta(g) := \forall y\, \neg\mathit{SubstSemPrf}_{\mathrm{UNION}(A)}(\gn{0=1},
-y, g)$, where $\mathit{SubstSemPrf}_{\mathrm{UNION}(A)}(s, y, g)$ says that $y$ is
-a tableau proof of $s$ from $\mathrm{UNION}(A)$ together with the sentence
-$h$ such that $\Subst(g, h)$ (2001, item~(iii) and Eqs.~86--87, p.~52).
-That it has a $\Delta_0^-$ definition is Willard's Theorem~C.3 (p.~60),
-which obtains it from analogs of Theorem~C.1 and from Theorem~C.2. The
-analogs are called routine and not written out, and C.2 is a
-\texttt{sketch}. As in Eq.~(7) of 2005, write that definition as
-\[
-\mathit{SemPrf}_{\mathrm{UNION}(A)}(s, y) \vee \exists h \le y\,
-[\Subst(g, h) \wedge \mathit{SemPrf}_{\mathrm{UNION}(A) + h}(s, y)],
-\]
-where the second disjunct says that $y$ is a tableau proof of $s$ from
-$\mathrm{UNION}(A)$ together with the sentence coded $h$. This formula is
-correct in the standard model at $g = N$. A tableau proof $y$ from
-$\mathrm{IS}(A)$ that uses no Group-3 axiom satisfies the first disjunct.
-One that uses it has the sentence $\Theta(\bar N)$ as a node: the nodes
-other than the root ``are either axioms of $\alpha$ or deductions from higher
-nodes'' (2001, p.~16). In 2001's encoding each node opens
-with a curly bracket followed by its sentence (Appendix~B, p.~52), so the
-axiom's byte string is a contiguous part of $y$. By the encoding of
-\S\ref{sec:conventions}, its code $h_N$ satisfies $h_N \le y$, and the
-second disjunct holds with $h = h_N$. Conversely, the first disjunct
-describes a proof from $\mathrm{UNION}(A) \subseteq \mathrm{IS}(A)$. The
-second describes a proof from $\mathrm{UNION}(A)$ plus the sentence $h$ with
-$\Subst(\bar N, h)$, and in the standard model that is only $h_N$, so it is
-a proof from $\mathrm{IS}(A)$. Hence the proof predicate of $\mathrm{IS}(A)$
-is correct. (Willard's item~25, $\mathit{ExSemPrf}$, serves his schema
-systems through a template step, $\mathit{PseudoTransform}_2$; it is not used
-here.)
-
-\emph{Truth.} Group-0 consists of true atomic facts about the constants
-(2001, p.~10). Group-1 is true. Group-2 is true by regular consistency
-(2001, p.~12). Group-3, which by correctness says that no tableau proof of
-$0=1$ from $\mathrm{IS}(A)$ exists, is true by
-Theorem~\ref{thm:willard}(b). Tableaux are sound.
-\end{proof}
-
-\noindent
-So $\ISD$ and $\mathrm{IS}(A)$ are honest in Oberhoff's sense, under the
-hypotheses of Lemma~\ref{lem:honest}. If in addition $A$ proves the
-$\Pi_1^*$ theorems of $\mathrm{PA}{+}$ (Peano Arithmetic with the U-Grounding
-function symbols, 2005, p.~32), $\ISD$ obeys the first incompleteness
-theorem. By Oberhoff's \S4 argument, spelled out as
-Proposition~\ref{prop:backwards}(b) and Corollary~\ref{cor:isd}(a) below,
-$\G$ is unprovable; $\neg\G$ and $\mathsf{H}$ are false, hence unprovable by
-honesty. Rosser's version also goes through. The same holds for
-$\mathrm{IS}(A)$ with $A \supseteq \mathrm{PAX}$ regularly consistent: the
-proof of Proposition~\ref{prop:backwards}(b) needs only Level(0$-$)
-consistency, watching and $\Subst(\bar n, \bar c)$ (Corollary~\ref{cor:is}
-below), and honesty is Lemma~\ref{lem:honest}(b). In both
-cases the finite search that Oberhoff writes out is a true bounded fact,
-which Groups 0 and 1 prove. In case 2, $\Prog{B}(\Prog{B})$ enters its loop
-at a definite step, and $\mathrm{PA}{+}$ proves the $\Pi_1^*$ sentence $\Phi$
-= \fs{$\Prog{B}(\Prog{B})$ doesn't halt}. Group-2 hands it to $\ISD$ by
-detachment: $A$ proves $\Phi$ with some proof $p$, Groups 0 and 1 prove the
-true $\Delta_0^*$ sentence $\Prf_A(\gn{\Phi}, \bar p)$, and with $\Phi$'s
-Group-2 axiom Fact~\ref{fact:closure} gives $\Phi$. For $\mathrm{IS}(A)$
-the loop sentence is the corresponding $\Pi_1^-$ sentence of the 2001
-language, which $\mathrm{PAX}$ proves; the Group-2 axiom of 2001, Eq.~(7)
-(p.~10), hands it over by the same detachment. Willard
-said so in his first technical report: $\mathrm{IS}(A)$ is ``a class of structures, lying halfway between
-Peano Arithmetic and Presburger Arithmetic, which satisfy Godel's First but
-not Second Incompleteness Theorem'' (TR 93-10, p.~6, verbatim).
-
-\paragraph{Why it is consistent, in Oberhoff's format.} Willard's 2005 proof
-needs two definitions. A $\Pi_1^*$ sentence $\forall\vec x\,\psi$ is
-\emph{App$\forall(a)$-valid} if $\psi$ holds for all $\vec x \le a$; a
-$\Sigma_1^*$ sentence $\exists\vec x\,\psi$ is \emph{App$\exists(b)$-valid} if
-it has a witness $\vec x \le b$ (Eqs.~16--17; bounded quantifiers are left
-alone). For $a > b \ge 1$, $\alpha$ is \emph{Normed$(a,b)$} if every axiom is a
-$\Pi_1^*$ sentence with App$\forall(a)$ validity or a $\Sigma_1^*$ sentence
-with App$\exists(b)$ validity, in the U-Grounding language with no other
-function symbol (Definition~4, p.~19). $D$ is
-\emph{$\theta$-compactified}, for a constant $0 < \theta < 1/3$, if whenever
-$p \le \lceil a/b\rceil + 1$ is a $D$-proof of $\Phi$ from a Normed$(a,b)$
-system, a $\Sigma_1^*$ $\Phi$ is App$\exists(b \cdot p^\theta)$-valid and a
-$\Pi_1^*$ $\Phi$ is App$\forall(a / p^\theta)$-valid (Definition~5, p.~19). In
-words: a proof $p$ can push an existential witness out by at most a factor
-$p^\theta$, and can shrink a universal's certified range by at most the same
-factor. Tableaux are $\tfrac14$-compactified (Theorem~2, p.~26,
-\texttt{full}), and so are tableau lists (Theorem~4, p.~28, \texttt{full}).
-Here is Theorem~1 (p.~19, \texttt{full}), with $\theta = \tfrac14$:
+Willard's 2005 consistency proof rests on one idea, \emph{horizons}. Call a
+universal sentence $\forall\vec x\,\psi$ \emph{true up to} $a$ if $\psi$
+holds whenever every $x_i \le a$. Call an existential sentence
+$\exists\vec x\,\psi$ \emph{witnessed below} $b$ if some $\vec x \le b$
+satisfies $\psi$. Bounded quantifiers inside $\psi$ are left alone. For
+$a > b \ge 1$, a system is \emph{Normed}$(a,b)$ if each axiom is a universal
+sentence true up to $a$ or an existential sentence witnessed below $b$
+(Definition~4). A deduction method is \emph{$\theta$-compactified} if proofs
+cannot see much past their axioms. Suppose $p \le \lceil a/b\rceil + 1$ is a
+proof of $\Phi$ from a Normed$(a,b)$ system. Then an existential $\Phi$ must be
+witnessed below $b\,p^\theta$, and a universal $\Phi$ must be true up to
+$a/p^\theta$ (Definition~5). Tableaux and tableau lists are
+$\tfrac14$-compactified (Theorems~2 and~4). Here is Theorem~1 with
+$\theta = \tfrac14$ (Figure~\ref{fig:horizon}).
 
 \Case{Suppose $\ISD$ is inconsistent:}
 \begin{steps}
-\item Then $\Prog{C}(\Prog{C})$ halts: there are $D$-proofs $j_1$ of a
-  $\Pi_1^*$ sentence $\Phi$ and $j_2$ of a sentence $\theta$ with
-  $\Pair(\gn{\Phi}, \gn{\theta})$. By \S\ref{sec:conventions}, $j_2$ is also a
-  proof of $\Psi := \mathrm{dual}(\Phi)$, ``the $\Sigma_1^*$ theorem that is
-  $\Phi$'s negation'' (p.~20). Choose the pair with $m = \max(j_1, j_2)$ as
-  small as possible.
-\item Groups 0--2 are true. Group-3 is false, but its first counterexample is
-  a pair of proofs whose maximum is $m$, so it is App$\forall(m-1)$-valid.
-  Hence $\ISD$ is Normed$(m-1, 1)$, which presupposes $m - 1 > 1$; under
-  Willard's encoding every proof has Gödel number far above~3.
-\item The proof $j_1 \le m$ certifies the universal $\Phi$ out to
-  $(m-1)/m^{1/4}$. The proof $j_2 \le m$ finds a witness for the existential
-  $\Psi$ at most $m^{1/4}$.
-\item Since $(m-1)/m^{1/4} > m^{1/4}$, the witness for $\Psi$ lies where
-  $\Phi$ has been certified.\contra
+\item Then $\Prog{C}(\Prog{C})$ halts. There are proofs $j_1$ of a $\Pi_1$
+  sentence $\Phi$ and $j_2$ of its negation, and by Appendix~\ref{app:fine}
+  $j_2$ also proves the $\Sigma_1$ sentence $\Psi$ that negates $\Phi$.
+  Choose such a pair with $m = \max(j_1, j_2)$ as small as possible.
+\item Groups 0--2 are true. Group-3 is false, but its least counterexample is
+  this pair, so it is true up to $m - 1$. Hence $\ISD$ is
+  Normed$(m-1, 1)$.
+\item So $j_1$ certifies $\Phi$ true up to $(m-1)/m^{1/4}$, and $j_2$ finds a
+  witness for $\Psi$ below $m^{1/4}$.
+\item But $(m-1)/m^{1/4} > m^{1/4}$, so the witness for $\Psi$ lies where
+  $\Phi$ has been certified.\footnote{The inequality needs $m \ge 3$. Every
+  proof's Gödel number is far larger, since it is at least $32 \cdot
+  64^2$.}\contra
 \end{steps}
 
-\smallskip\noindent
-The work is in the third arrow, $\theta$-compactification, and it is a
-program. For Part~A of Theorem~2 (p.~26), suppose a tableau $p$ proves a
-$\Sigma_1^*$ sentence $\Phi$ from a Normed$(a,b)$ system but $\Phi$ has no
-witness $\le b\,p^{1/4}$:
+\noindent
+The work is in the third arrow, and it is a program. Suppose a tableau $p$
+proves an existential sentence $\Phi$ from a Normed$(a,b)$ system, but $\Phi$
+has no witness below $b\,p^{1/4}$. Then the root $\neg\Phi$ is a universal
+sentence true up to $b\,p^{1/4}$, so the axioms together with the root form a
+Normed$(b\,p^{1/4}, b)$ system. Now walk down the tree (Lemma~1):
 
-\Case{Suppose $p$ is a tableau proof of $\Phi$ and $\Phi$ is not
-App$\exists(b\,p^{1/4})$-valid:}
-\begin{steps}
-\item Then the root $\neg\Phi$ is App$\forall(b\,p^{1/4})$-valid, and the
-  axioms together with the root form a Normed$(b\,p^{1/4}, b)$ system.
-\item Run $\mathit{Probe}$ (Lemma~1, p.~23, \texttt{full}): walk down $p$ from
-  the root; at a fork take a child that still satisfies the branch condition
-  (each universal valid up to $b\,p^{1/4}$, each existential witnessed below
-  $b$, each bounded sentence true) under the current valuation; when an existential is eliminated, give its new parameter the
-  least value that keeps the branch true. Every parameter introduced at a node
-  of U-Depth $\Delta$ gets a value at most $b \cdot 2^\Delta$ (Eq.~19), because
-  terms grow at most by doubling.
-\item The walk succeeds if the tree's U-Height is below
-  $\log_2(b\,p^{1/4}) - \log_2 b = \tfrac14\log_2 p$, which Eq.~(20) guarantees.
-\item A branch found by $\mathit{Probe}$ cannot close (Lemma~2, p.~25,
-  \texttt{full}): a closing pair must be bounded sentences (footnote~3), and
-  both would be true under the valuation.
-\item So $p$ has an open branch, and is not a proof.\contra
-\end{steps}
+\noindent\begin{minipage}{\linewidth}
+\begin{lstlisting}
+Probe(p) {
+  N := the root of p;
+  while N is not a leaf {
+    if N has two children {
+      N := its left child if that is true, else its right child;
+    } else {
+      N := its only child;
+      if N introduces a parameter u, give u the least value that makes N true;
+    }
+  }
+}
+\end{lstlisting}
+\end{minipage}
+Here a node is \emph{true} if its sentence holds under the values given so
+far, read with the horizons: universals up to $b\,p^{1/4}$, existentials below
+$b$, bounded sentences outright. Each function symbol at most doubles a
+value, so a parameter gets a value at most $b \cdot 2^\Delta$. Here $\Delta$
+counts the function symbols in the sentences on the branch down to that node
+(Eq.~19). So the walk never gets stuck while every branch carries fewer than
+$\log_2(b\,p^{1/4}) - \log_2 b = \tfrac14 \log_2 p$ function symbols. Willard's
+encoding spends more than five bits on each one, so a branch carries fewer
+than $\tfrac15\log_2 p$ (Eq.~20).\footnote{Larger Gödel numbers only widen
+the margin. Willard notes that his theorems ``would also be valid for
+uncompressed encoding methods'' (2005, Appendix~A). What would break this
+proof is a notation more compact than it allows, with four bits or fewer per
+function symbol along the deepest branch.} The branch it finds cannot close,
+because a closing pair would be two bounded sentences that are both true
+(Lemma~2). So $p$ has an open branch, and it is not a proof.\contra{}
+Universal sentences are handled by permuting the quantifiers (2005,
+Appendix~B). Theorem~3 follows, and Theorem~5 follows in the same way from
+Theorem~4.
 
-\smallskip\noindent
-Part~B, for $\Pi_1^*$ sentences, permutes the quantifiers (Appendix~B,
-pp.~40--41). Theorem~3, for tableaux, is then immediate, and Theorem~5, for
-tableau lists, follows the same way from Theorem~4.
-
-\emph{Why $\Pair$ is fixed as it is.} Theorem~1 is about a $\Pi_1^*$
-sentence and its $\Sigma_1^*$ negation, because App$\exists$ validity is
-defined for $\Sigma_1^*$ sentences (Definition~5). Willard's Eq.~(28),
-though, pairs $f$ with the string $\neg f$. With an unspecified Prenex$^*$
-rewriting, a proof of $\neg\Phi$ need not be a proof of
-$\mathrm{dual}(\Phi)$, and Willard's ``If $\mathrm{IS}_D(A)$ is inconsistent,
-then such a triple $(j_1, j_2, m)$ will clearly exist'' (p.~20, text layer)
-would pass over that step. The convention and the $\Pair$ of
-\S\ref{sec:conventions} close it: every sentence $\Pair$ accepts has exactly
-the tableau proofs of $\mathrm{dual}(\Phi)$.
-
-Willard's earlier intuition for the 2001 system, his ``Assertion ++'', is the
-same horizon argument seen from the other side (2001, Remark~4.4, p.~20,
-verbatim): ``any proof $y$ of $0=1$ from $\mathrm{IS}(A)$ will be
-automatically associated with an ordered pair $(p,u)$ where
-$p \le \mathrm{VALUE}(u) < y$ and $p$ represents ANOTHER proof of $0=1$''. He
-calls this a \emph{vacuous truth}, an implication whose hypothesis is never
-satisfied. The 2001 proof replaces it by an eleven-case induction showing that
-the least tableau proof $y$ of $0=1$ contains a branch on which every sentence
-is true once its unbounded quantifiers are cut off at $y-1$ (Lemma~4.8,
-p.~23, \texttt{full}), which cannot close (Lemma~4.6, p.~22, \texttt{full}).
-The Group-3 axiom is false, but its cut-off at $y-1$ is true, because $y$ is
-the least refutation. The naming bounds are Lemma~4.1 (a constant mentioned
-in $y$ has value below $\sqrt y$, p.~17, \texttt{full}) and Lemma~4.2 (along
-such a branch every parameter has value below $y$, p.~19, \texttt{sketch}),
-whose intuition is that fewer than $\tfrac13\log_2 y$ doublings take values
-at most to $y^{1/2} \cdot y^{1/3} = y^{5/6} < y$ (the product is our
-unpacking of the sketch). The formal proof uses a different majorant, Part~II
-of the affirmative-branch definition, $\mathrm{VALUE}(u) < (k + \sqrt y)\cdot
-2^{\lfloor \beta_i/6\rfloor - 2}$ (Eq.~26, p.~22), where $\beta_i$ is the
-bit-length of the first $i$ levels of the branch and each doubling is paid
-for by the six bits of Case~11. Willard later found this
-proof ``hard to visualize'' and replaced it by Theorem~1 (2005, Remark~2,
-p.~21).
-
-\begin{figure}[t]
+\begin{figure}[tb]
 \centering
 \begin{tikzpicture}[x=1cm,y=1cm,font=\small]
   \draw[->] (0,0) -- (12.4,0) node[right] {numbers};
   \foreach \x/\l in {2.0/{$m^{1/4}$}, 7.4/{$(m-1)/m^{1/4}$}, 11.0/{$m$}}
     { \draw (\x,0.12) -- (\x,-0.12) node[below] {\l}; }
   \draw[very thick] (0,0.55) -- (2.0,0.55);
-  \node[anchor=west] at (2.1,0.55) {a witness for $\Psi = \mathrm{dual}(\Phi)$ lies here};
+  \node[anchor=west] at (2.1,0.55) {a witness for $\Psi$, the negation of $\Phi$, lies here};
   \draw[very thick] (0,1.2) -- (7.4,1.2);
   \node[anchor=west] at (7.5,1.2) {$\Phi$ certified true};
   \draw[very thick, dashed] (0,1.85) -- (10.9,1.85);
@@ -1224,838 +543,1012 @@ p.~21).
   \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (0,-0.75) -- (11.0,-0.75)
     node[midway,below=4pt] {Gödel numbers of the two proofs, at most $m$};
 \end{tikzpicture}
-\caption{The two horizons in the proof of Willard's 2005 Theorem~1
-(schematic, not to scale). A universal theorem is certified out to its
-horizon, an existential one finds its witness inside its horizon, and when
-horizons are short compared with the proofs, the two collide in the region
-where every axiom is true.}
+\caption{The two horizons in Willard's proof (schematic, not to scale). A
+universal theorem is certified out to its horizon, and an existential one
+finds its witness inside its horizon. When the horizons are short compared
+with the proofs, the two collide in the region where every axiom is true.}
 \label{fig:horizon}
 \end{figure}
 
-Three remarks.
-
-\emph{The proof is a program.} $\mathit{Probe}$ takes any purported proof and
-returns an open branch together with values for its parameters. Willard's
-consistency proof is therefore a machine that defeats each refutation by
-running it, in a universe barely larger than the refutation itself. That is
-self-justification ex machina in the most literal sense. (And it is why we
-named the searcher $\Prog{C}$: it hunts for a tree all of whose branches
-close, and the walk always finds one that stays open.) $\F$ does not prove
-that the machine works; that is the external part. $\F$ has only the axiom.
-
-\emph{The encoding enters as a floor.} The horizon is measured in Gödel
-numbers, so the argument needs every symbol to cost bits: Eq.~(20) requires
-on average more than five bits per U-Grounding function symbol along the
-deepest branch, and 2001's Case~11 needs the sentence introducing a sum to require
-``substantially more than six bits'' (2001, p.~28). Larger Gödel numbers only
-widen the margin, and Willard says so: ``All our theorems would also be valid
-for uncompressed encoding methods. However, they are more meaningful when
-one uses an efficiently compressed B-adic encoding method'' (2005, p.~40,
-text layer). 2006a makes the analogous remark for the Hilbert line: its
-theorems ``have analogs under such uncompressed encoding methods, but they are
-substantially more meaningful'' when compressed (Appendix~A, p.~37, text
-layer). What would break the 2005 proof of Theorem~2 is a notation
-\emph{more} compact than its argument allows. Part~A needs
-$\text{U-Height}(p) < \tfrac14 \log_2 p$ (footnote~5, p.~27), so the third
-arrow fails once there are on average four or fewer bits per U-Grounding
-function symbol along the deepest branch. Whether Theorem~3 itself fails for
-such an encoding Willard does not say, and we do not know.
-
-\emph{The closing inequality.} Willard closes the proof of Theorem~1 with
-``since $\theta < \tfrac13$ implies $g > h$'', where $g = (m-1)/m^\theta$ and
-$h = m^\theta$ (p.~20). That needs $m - 1 > m^{2\theta}$, which holds for every
-$\theta < \tfrac13$ once $m \ge 4$, and for $\theta = \tfrac14$ once $m \ge 3$.
-Under Appendix~A's encoding every proof has Gödel number above $32 \cdot 64^2$,
-so the gap is harmless; Theorems~3 and~5, which are corollaries of
-Theorem~1, inherit both the gap and its repair.
+$\Prog{Probe}$ takes any purported refutation of the system and returns an
+open branch, with values for its parameters. Willard's consistency proof is
+therefore a machine that defeats each refutation by running it, in a universe
+barely larger than the refutation itself. That is self-justification ex
+machina in the most literal sense. It is also the joke in the name
+$\Prog{C}$. The searcher hunts for a tree all of whose branches close, and the
+walk always finds one that stays open. $\ISD$ does not prove that the machine
+works. That part is external, and the system has only the axiom.
 
 % ==========================================================================
-\section{The Faith Is Not Just Missing}
+\section{Transcripts Are Bigger Than Runs}
+\label{sec:transcripts}
+
+Why should knowing be harder than watching? The natural proof of step~(2)
+takes a proof $s$ of $\G$ and produces the proof $t$ of
+\fs{$\Prog{P}(\Prog{P})$ halts} that exhibits $s$ and checks it. In a
+language whose only growth functions are $+$ and $\mathit{Double}$,
+exhibiting $s$ costs a term, and terms are expensive.
+
+\begin{lemma}[ours]\label{lem:transcript}
+In Willard's 2005 language and encoding, every tableau proof that contains a
+closed term of value $v \ge 2$ has a Gödel number greater than $v^5$.
+\end{lemma}
+
+\begin{proof}
+A closed term with $L$ function symbols has value at most $2^L$, because $+$
+and $\mathit{Double}$ at most double their largest argument and the other
+functions do not increase it. So a term of value $v$ has at least $\log_2 v$
+function symbols, and every branch through the node that contains it
+carries at least that many. Willard's encoding guarantees that every branch
+of a proof $p$ carries fewer than $\tfrac15 \log_2 p$ function symbols
+(Eq.~20). Hence $\log_2 p > 5 \log_2 v$.
+\end{proof}
+
+\noindent
+So the transcript $t$ is bigger than the fifth power of the run $s$ it
+records. The natural proof of step~(2) asks $\F$ to believe that
+$s \mapsto t$ is defined everywhere. Willard's systems cannot believe that of
+any function that outgrows every linear one. The reason lies in how a proof
+from universal axioms produces the numbers it claims exist.
+
+\begin{proposition}[Linear witnesses; ours]\label{prop:herbrand}
+Let $\F$ be a set of true sentences of Willard's 2005 language, each bounded
+or $\Pi_1$, and let $\delta(\vec x, \vec y)$ be bounded. If $\F$ proves
+$\forall\vec x\,\exists\vec y\,\delta(\vec x, \vec y)$ by any sound
+deduction method, then there is a number $k$ such that every $\vec x$ has a
+witness $\vec y \le k\,(x_1 + \cdots + x_m + 1)$.
+\end{proposition}
+
+\noindent
+The proof, by compactness and an initial segment closed under the function
+symbols, is in Appendix~\ref{app:fine}. For intuition, Herbrand's theorem
+would present the witnesses as terms in $\vec x$. A term of depth $d$ built
+from $+$, $\mathit{Double}$ and the non-growth functions is at most $2^d$
+times its largest argument. So $k$ is like $2^d$. That is exponential in the
+size of the proof, but it is fixed once the proof is, while $\vec x$ ranges
+over all numbers. With multiplication, a term of depth $d$ can grow like
+$x^{2^d}$. That is the whole difference.
+
+Write $\mathrm{Num}(x,y)$ for a bounded formula saying that $y$ is the Gödel
+number of the sentence $\bar x = \bar x$. For a bounded formula $\delta(x)$,
+let $\mathrm{Num}_\delta(x,y)$ say that $y$ codes $\delta(\bar x)$. Say that
+$\F$ \emph{knows uniformly that it watches} $\delta$ if
+\[
+\F \vdash \forall x\,[\delta(x) \supset \exists y\,\exists
+q\,(\mathrm{Num}_\delta(x,y) \wedge \Prf(y,q))].
+\]
+This is $\Sigma_1$-completeness formalized with a free variable. Recursively
+axiomatized extensions of $I\Sigma_1$ prove it for their canonical
+provability predicate, and they derive the third derivability condition from
+it~\cite{hp93}. Willard's systems do not.
+
+\begin{corollary}[ours]\label{cor:uniform}
+Suppose every $\Pi_1$ theorem of $A$ is true. Then $\ISD$ proves neither
+$\forall x\,\exists y\; y = x \cdot x$ nor
+$\forall x\,\exists y\,\mathrm{Num}(x,y)$. It cannot prove that every number
+has a written name, so it does not know uniformly that it watches even the
+formula $x = x$. The deduction method matters only through the truth of the
+axioms, so no sound method proves these sentences from them.
+\end{corollary}
+
+\begin{proof}
+Every axiom of $\ISD$ is true and is bounded or $\Pi_1$. For Groups 0--2 this
+follows from the hypothesis and Willard's remark that they ``can be encoded
+as $\Pi_1^*$ sentences'' (2005, \S5). For Group-3 it is
+Theorem~\ref{thm:willard}. So Proposition~\ref{prop:herbrand} applies, and
+only linear witnesses are available. But $x^2$ exceeds $k(x+1)$ once $x > 2k$.
+And the code of $\bar x = \bar x$ is at least $x^6/2$: the term $\bar x$ has
+at least $\log_2 x$ function symbols, one byte each, so the code is at least
+$32 \cdot 64^{\log_2 x - 1}$ (Appendix~\ref{app:fine}). Finally, knowing
+uniformly that it watches $x = x$ implies $\forall x\,\exists
+y\,\mathrm{Num}(x,y)$.
+\end{proof}
+
+\noindent
+Willard saw this in 1994 (TR 93-10):
+\begin{quote}\small
+This means there will always be adequate memory for writing $b_n$'s binary
+encoding when there is sufficient memory for storing a semantic tableaux
+proof of its existence (whereas the same is plainly not true \emph{when
+multiplication is assumed to be a function}). For instance, multiplication
+allows one to establish the existence of a number $a_{300}$ (in a proof with
+approximately 300 lines), whose binary encoding requires \emph{more digits}
+than the number of atoms in the universe.
+\end{quote}
+Here $b_{i+1} = b_i + b_i$ and $a_{i+1} = (a_i)^2$. A proof of $n$ doublings
+names a number of about $n$ bits, and a proof of $n$ squarings names one of
+about $2^n$ bits. Later he put it as a comparison between a proof's Gödel
+number and the integer the proof shows to exist. Under additive naming the
+proof is always the bigger of the two, and under multiplicative naming it can
+be far smaller (2006a, Remark~3).
+
+The faith step in Oberhoff's proof is a single closed sentence about the
+Gödel sentence, though, and there the totality claim is vacuous. If $\G$ is
+true, no proof of $\G$ exists, so ``for every $s$ there is a transcript''
+holds trivially. Proposition~\ref{prop:herbrand} cannot catch step~(2)
+failing, so something else must.
+
+% ==========================================================================
+\section{Taking Off The Glasses}
 \label{sec:backwards}
 
-One might think Willard's systems are self-justifying merely because nobody
-has managed to prove step (2) in them. In fact they cannot prove it, and the
-reason is Oberhoff's Theorem~6 run backwards.
+Oberhoff's \S5 takes the glasses off $\G$ and finds ``I am not provable''
+underneath. Let us take them off the faith step. One might think that
+Willard's system is self-justifying merely because nobody has managed to
+prove step~(2) in it. In fact it cannot prove it, and the reason is
+Oberhoff's Theorem~6 run backwards.
 
 \begin{proposition}[ours]\label{prop:backwards}
-Let $(\F, D)$ be a configuration with $D$ $\F$-sound and $\F$-complete, and
-$\Prf^D_{\F}$ a bounded formula that is correct in the standard model (it
-holds of $(h, x)$ exactly when $x$ codes a $D$-proof from $\F$ of the
-sentence coded $h$), with $\Subst$ likewise correct. Let $\G$, $\mathsf{H}$,
-$c$ and $c'$ be as in \S\ref{sec:conventions}. Suppose:
+Let $\F$ have a sound and complete deduction method and a correct bounded
+proof predicate, and build $\G$ and $\Hs$ from them as in
+Appendix~\ref{app:fine}. Suppose:
 \begin{enumerate}[label=(H\arabic*), leftmargin=3em]
-\item $\F$ is Level(0$-$) consistent: there is no $D$-proof of $0=1$ from
-  $\F$;
-\item $(\F, D)$ watches;
-\item $\F$ proves the true bounded sentences and trichotomy at $\bar c$, so
-  that (FP) holds (Fact~\ref{fact:fp});
-\item $\F$ proves its own Level(1) consistency,
-  $\F \vdash_D \forall x\,\forall y\,\forall p\,\forall q\;
-  \neg[\Pair(x,y) \wedge \Prf^D_{\F}(x,p) \wedge \Prf^D_{\F}(y,q)]$, for a
-  bounded $\Pair$ with $\Pair(\bar c, \bar c\,')$ true.
+\item $\F$ is Level(0$-$) consistent;
+\item $\F$ watches;
+\item $\F$ proves the true bounded sentences, and that $\le$ is trichotomous at
+  $\gn{\G}$;
+\item $\F$ proves its own Level(1) consistency, for a bounded pairing of
+  sentences with their negations that pairs $\G$ with $\Hs$.
 \end{enumerate}
-Then:
-\begin{enumerate}[label=(\alph*)]
-\item $\F \vdash_D (2) \leftrightarrow \G$ and
-  $\F \vdash_D [\mathsf{H} \supset \Prov(\bar c\,')] \leftrightarrow \G$;
-\item $\F \nvdash_D \G$;
-\item hence $\F$ proves neither step (2) nor the instance of knowing that it
-  watches at the $\Sigma_1$-class sentence $\mathsf{H}$, and both are true.
-\end{enumerate}
-Part~(b) uses only (H1), (H2), $\F \vdash_D \Subst(\bar n, \bar c)$, the
-correctness of $\Prf^D_\F$, and the soundness and completeness of $D$.
+Then $\F$ proves that step~(2) is equivalent to $\G$, and so is knowing that
+it watches at $\Hs$. Yet $\F$ does not prove $\G$. So $\F$ proves neither
+step~(2) nor $\Hs \supset \Prov(\gn{\Hs})$, although both are true. That $\F$
+does not prove $\G$ uses only (H1), (H2) and the one true bounded sentence
+that sets up $\G$'s fixed point.
 \end{proposition}
 
 \begin{proof}
-(a) By (H3), $\F$ proves the true bounded sentence $\Pair(\bar c, \bar c\,')$.
-With (H4), Fact~\ref{fact:closure} gives step (3): $\F \vdash_D
-\neg[\Prov(\bar c) \wedge \Prov(\bar c\,')]$. Now take the two directions.
-Step (3) and (FP) together imply $(2) \supset \G$ in every model: from (2)
-and (3), $\neg\Prov(\bar c)$, and then (FP) gives $\G$. (FP) alone implies
-$\G \supset (2)$ in every model: $\G$ gives $\neg\Prov(\bar c)$, which makes
-the antecedent of (2) false. Since $\F$ proves (3) and (FP),
-Fact~\ref{fact:closure}, applied with these two implications as its
-conclusion $\chi$, gives $\F \vdash_D (2) \leftrightarrow \G$. The second
-equivalence follows by Lemma~\ref{lem:instances}(b).
+First, $\F$ proves step~(3). By (H3) it proves that the pairing pairs $\G$
+with $\Hs$, and by (H4) two paired sentences never both have proofs. By (H3)
+and Fact~\ref{fact:fp}, $\F$ also proves the fixed point
+$\G \leftrightarrow \neg\Prov(\gn{\G})$. Now argue inside $\F$.
 
-(b) This is Oberhoff's \S4, case 1:
-\begin{topsteps}
-\item Suppose $\F \vdash_D \G$, by a proof $m$.
-\item Since $\Prf^D_\F$ is correct, $\Prov(\bar c)$ is a true $\Sigma_1$-class
-  sentence (with witness $m$), so $\F \vdash_D \Prov(\bar c)$ by (H2): $\F$
-  watches $\Prog{P}(\Prog{P})$ halt.
-\item By (FP$\Rightarrow$) and Fact~\ref{fact:closure}, $\F \vdash_D \neg\G$.
-  Then $\F$ proves both $\G$ and $\neg\G$, and Fact~\ref{fact:closure} gives
-  $\F \vdash_D 0=1$, against (H1).\contra
-\end{topsteps}
+\Case{Suppose step (2):}
+\begin{steps}
+\item If $\G$ had a proof, then so would $\Hs$, by step~(2), and step~(3)
+  forbids that.
+\item So $\neg\Prov(\gn{\G})$, which by the fixed point is $\G$.
+\end{steps}
+\Case{Suppose $\G$:}
+\begin{steps}
+\item By the fixed point, $\G$ has no proof. So step~(2), whose antecedent is
+  $\Prov(\gn{\G})$, holds vacuously.
+\end{steps}
 
-(c) By (a) and (b). Truth: since no proof of $\G$ exists and $\Prf^D_\F$ and
-$\Subst$ are correct, $\G$ is true in the standard model, step (2) is true
-because its antecedent is false, and the instance is true because
-$\mathsf{H}$ is false.
+\smallskip\noindent
+Both arguments use only theorems of $\F$ and logic, so
+Fact~\ref{fact:closure} turns them into a proof in $\F$ that step~(2) is
+equivalent to $\G$. Lemma~\ref{lem:instances}(b) does the same for
+$\Hs \supset \Prov(\gn{\Hs})$. That $\F$ does not prove $\G$ is Oberhoff's
+\S4, case~1.
+
+\Case{Suppose $\F$ proves $\G$:}
+\begin{steps}
+\item The proof predicate is correct, so $\Prov(\gn{\G})$ is a true $\Sigma_1$
+  sentence, and $\F$ proves it by watching. $\F$ sees $\Prog{P}(\Prog{P})$
+  halt.
+\item By the fixed point $\F$ proves $\neg\G$ as well, and hence $0 = 1$
+  (Fact~\ref{fact:closure}), against (H1).\contra
+\end{steps}
+
+\smallskip\noindent
+Finally, $\G$ has no proof and the proof predicate is correct, so $\G$ is
+true. Step~(2) is true because its antecedent is false, and
+$\Hs \supset \Prov(\gn{\Hs})$ is true because $\Hs$ is false.
 \end{proof}
 
 \noindent
-In a system that meets these hypotheses, then, the faith step \emph{is} the
-Gödel sentence, up to provable equivalence, and is true and unprovable for
-the same reason. It fails at a $\Sigma_1$-class sentence that says
-$\Prog{P}(\Prog{P})$ halts, and at every sentence with the same tableau
-proofs, $\neg\G$ among them, since $\Pair$ accepts those too. A $\Sigma_1$
-formalization of the halting statement with \emph{different} tableau proofs,
-such as $\exists x\,\exists h\,[\Subst(\bar n, h) \wedge \Prf(h, x)]$, is a
-different sentence, because $\Prov$ is sensitive to codes. The proposition
-says nothing about it, and the essay's claims do not need it.
+So the faith step is the Gödel sentence wearing glasses. The two are provably
+equivalent, and they are true and unprovable for the same reason. The step
+fails at the $\Sigma_1$ sentence that says $\Prog{P}(\Prog{P})$ halts, and at
+every sentence with the same proofs.\footnote{A $\Sigma_1$ rendering of
+\fs{$\Prog{P}(\Prog{P})$ halts} with \emph{different} proofs, such as
+$\exists x\,\exists h\,[\Subst(\bar n, h) \wedge \Prf(h, x)]$ in the notation
+of Appendix~\ref{app:fine}, is a different sentence, because provability is
+sensitive to codes. The proposition says nothing about it.} Willard's system
+meets every hypothesis.
 
 \begin{corollary}[ours]\label{cor:isd}
-Let $A$ prove every $\Pi_1^*$ theorem of $\mathrm{PA}{+}$, let every $\Pi_1^*$
-theorem of $A$ be true, and let $D$ be semantic tableaux or
-$\mathrm{Tab}{-}U_1^*{-}\mathrm{List}$. Take $\Prf^D_{\ISD}$ to be Willard's
-$\mathit{SubstPrf}^D_{\mathrm{UNION}(A)}(\bar n_3, \cdot, \cdot)$, with
-$\Pair$, the Prenex$^*$ convention and the encoding as fixed in
-\S\ref{sec:conventions}, and $\G$ and $\mathsf{H}$ built from it. Then:
-\begin{enumerate}[label=(\alph*)]
-\item $\ISD$ does not prove $\G$;
-\item $\ISD$ proves neither step (2) nor the instance of knowing that it
-  watches at $\mathsf{H}$.
-\end{enumerate}
+Let $A$ prove the $\Pi_1$ theorems of Peano arithmetic, let every $\Pi_1$
+theorem of $A$ be true, and build $\G$ and $\Hs$ from Willard's own proof
+predicate for $\ISD$. Then, for semantic tableaux and for tableau lists,
+$\ISD$ proves neither $\G$, nor step~(2), nor $\Hs \supset \Prov(\gn{\Hs})$.
 \end{corollary}
 
 \begin{proof}
-\emph{The proof predicate.} Willard's Eq.~(7) is $\Delta_0^*$ (2005, p.~10),
-so $\Prf^D_{\ISD}$ is bounded, and it is correct by
-Lemma~\ref{lem:honest}(a).
-
-\emph{Group-2 detachment.} If $A$ proves a $\Pi_1^*$ sentence $\Phi$ by a
-proof $p$, then Groups 0 and 1 prove the true $\Delta_0^*$ sentence
-$\Prf_A(\gn{\Phi}, \bar p)$, and with $\Phi$'s Group-2 axiom
-$\forall p\,\{\Prf_A(\gn{\Phi}, p) \to \Phi\}$ (Eq.~5),
-Fact~\ref{fact:closure} gives $\ISD \vdash_D \Phi$.
-
-\emph{The hypotheses.} (H1): by Theorem~\ref{thm:willard}(a), Group-3 is
-true, so no $\Pi_1^*$ sentence and its $\Sigma_1^*$ negation both have
-proofs; a $D$-proof of $0=1$ would, by Fact~\ref{fact:closure}, yield proofs
-of every sentence, including such a pair. (H2) is Lemma~\ref{lem:watch}.
-(H3): Groups 0 and 1 prove the true bounded sentences, $\Subst(\bar n, \bar
-c)$ and $\Pair(\bar c, \bar c\,')$ among them. Trichotomy is a $\Pi_1$
-theorem of Peano Arithmetic, and so a $\Pi_1^*$ theorem of $\mathrm{PA}{+}$,
-which detachment hands to $\ISD$. (H4) is literally the Group-3 axiom,
-Eq.~(8). Part (a) is Proposition~\ref{prop:backwards}(b), part (b) is
-Proposition~\ref{prop:backwards}(c).
+(H1) follows from Theorem~\ref{thm:willard}, and (H2) is
+Lemma~\ref{lem:watch}. For (H3), Groups 0 and 1 prove the true bounded
+sentences, and trichotomy is a $\Pi_1$ theorem of Peano arithmetic, which
+Group-2 hands down. (H4) is the Group-3 axiom itself. The proof predicate is
+correct by Lemma~\ref{lem:watch}. Appendix~\ref{app:fine} gives the details.
 \end{proof}
 
-\noindent
-Nothing in this corollary is assumed beyond what is cited: Willard's
-consistency theorem and arithmetization, with their stated statuses, and the
-conventions fixed in \S\ref{sec:conventions}. $\ISD$ is never asked to prove
-that its Group-3 formula is its own proof predicate; that correctness is used
-in the metatheory only.
-
-\begin{corollary}[ours]\label{cor:is}
-Let $A \supseteq \mathrm{PAX}$ be regularly consistent and $D$ semantic
-tableaux, and let $\G$ and $\mathsf{H}$ be built from the proof predicate of
-$\mathrm{IS}(A)$'s Group-3 axiom, with the conventions of
-\S\ref{sec:conventions}. Then $\mathrm{IS}(A)$ does not prove $\G$, and does
-not prove both step (2) and the Level(0$-$) form of step (3),
-$\forall p\,\forall q\,[\Prf(\bar c, p) \wedge \Prf(\bar c\,', q) \supset
-\exists r\,\Prf(\gn{0=1}, r)]$.
-\end{corollary}
-
-\begin{proof}
-The hypotheses of Proposition~\ref{prop:backwards} other than (H4) hold in
-the setting of Willard's own Theorem~7.2. (H1) is
-Theorem~\ref{thm:willard}(b). (H2): $\mathrm{IS}(A)$ proves every true
-$\Delta_0^-$ sentence (2001, p.~39) and names every number by a constant, so
-for a true $\Sigma_1^-$ sentence it proves the true $\Delta_0^-$ instance at
-the witnesses, and Fact~\ref{fact:closure} adds the existential quantifiers.
-(H3): $\mathrm{IS}(A)$ proves the true $\Delta_0^-$ sentences, among them
-$\Subst(\bar n, \bar c)$ (2001, p.~39), and trichotomy is a $\Pi_1^-$ theorem
-of $\mathrm{PAX}$, inherited through Group-2. The proof predicate is correct
-by Lemma~\ref{lem:honest}(b). So
-Proposition~\ref{prop:backwards}(b) gives $\mathrm{IS}(A) \nvdash \G$. If
-$\mathrm{IS}(A)$ proved both step (2) and the combination sentence, then with
-its Group-3 axiom $\forall r\,\neg\Prf(\gn{0=1}, r)$ it would prove step
-(3), $\neg[\Prov(\bar c) \wedge \Prov(\bar c\,')]$, which is all the proof of
-Proposition~\ref{prop:backwards}(a) uses of (H4). That proof would then give
-$\mathrm{IS}(A) \vdash \G$.\contra
-\end{proof}
-
-\noindent
-So for the 2001 system the closed faith step fails in at least one of two
-places, and we do not know which. Its uniform form fails outright
-(Corollary~\ref{cor:uniform}).
-
-The proposition is a contrapositive and claims no novelty of method. Its
-sibling in Willard is 2001 Theorem~7.2 (p.~38, \texttt{full}): no consistent
-$\alpha$ with a $\Delta_0^-$ proof predicate, an $\alpha$-sound and
-$\alpha$-complete $D$, and all $\Pi_1^-$ theorems of $\mathrm{PAX}$ can prove
-the canonical reflection principle $\forall y\,\{\Prf^D_\alpha(\gn{\Upsilon}, y)
-\supset \Upsilon\}$ for every $\Pi_1^-$ sentence $\Upsilon$. Its proof uses the
-same fixed point and the same Fact~\ref{fact:closure} in place of the
-derivability conditions; ``The above result is different from Löb's Theorem
-\ldots{} chiefly because we do not assume that $\alpha$ recognizes either
-Addition or Multiplication as total functions'' (p.~38, text layer).
-Willard's 1994 framing already sets out the alternatives: ``every axiom system
-either fails to prove its consistency or fails to meet the full
-Hilbert-Bernays conditions'' (TR 93-10, p.~6, verbatim). What the
-computational reading adds is \emph{which} condition fails, at \emph{which}
-sentence, and that the failing instance is the Gödel sentence in disguise.
-What Willard adds, and no contrapositive can supply, is that systems on the
-far side of the alternative \emph{exist} (Theorem~\ref{thm:willard}).
+The proposition is a contrapositive and claims no new method. Its sibling in
+Willard is 2001, Theorem~7.2: by the same fixed point, no consistent system of
+this kind proves canonical reflection for all its $\Pi_1$ sentences. In 1994
+Willard had already set out the alternatives: ``every axiom system either
+fails to prove its consistency or fails to meet the full Hilbert-Bernays
+conditions'' (TR 93-10). The computational reading adds \emph{which}
+condition fails, at \emph{which} sentence, and that the failing instance is
+the Gödel sentence in disguise. What Willard adds, and no contrapositive can
+supply, is that systems on the far side of the alternative \emph{exist}.
 
 % ==========================================================================
-\section{The Faith, Bought: Willard's Theorem 6}
-\label{sec:bought}
+\section{The Price Of Faith}
+\label{sec:price}
 
-Willard's 2005 paper ends by doing the experiment. Take the transcript
-statement of \S\ref{sec:transcripts}, bound it, and see what it costs to
-switch it on.
+If withholding faith is what lets $\W$ survive, the second theorem should
+return as soon as the system can afford the transcripts. Willard spent the
+second half of his career proving that it does.
 
-Let $\mathrm{Log}^k$ be the $k$-fold base-2 logarithm, rounded down, and
-$\Upsilon(k,m)$ the true $\Sigma_1^*$ sentence $\exists z\; \mathrm{Log}^k(z) \ge
-\bar m$, which says that a number at least $2^m_k$ exists, where $2^m_k$, the
-least $z$ with $\mathrm{Log}^k(z) \ge m$, is roughly a tower of $k$
-exponentials topped by $m$ (2005, Definition~2, p.~11). $\mathrm{NS}^{k,m}_D(A)$ is $\ISD$ with
-$\Upsilon(k,m)$ added to Group-0 and Group-3's ``this'' adjusted to the larger
-system (Definition~3, p.~11). Both systems prove $\Upsilon(k,m)$; only one of
-them has it as an axiom. Let $\Mho(s,b)$ be the bounded Gödel sentence ``no
-proof $p$ of me with $\mathrm{Log}^s(p) < b$'' (Eq.~24, p.~33), and
-$\mathit{CheckProof}(t,p,q)$ the $\Delta_0^*$ formula ``$p$ proves $t$, and
-$q$ proves $\exists p\,\Prf(t,p)$'' (Definition~6, p.~33). Lemma~4 (p.~33,
-\texttt{full}, resting on Lemma~3, a proof \texttt{sketch} that checking a
-proof is quasi-polynomially cheap) says that for $k$ large Peano Arithmetic
-proves the $\Pi_1^*$ sentence (Willard writes Peano Arithmetic; the sentence is
-in the U-Grounding language, so the theory meant is $\mathrm{PA}{+}$)
-\begin{multline*}
-\forall p\,\forall n\,\exists q < n\,\bigl\{[\mathrm{Log}^{k-1} p < m \wedge
-\mathrm{Log}^k n \ge m \wedge \Prf(\gn{\Mho(k-1,m)}, p)] \\ \to
-\mathit{CheckProof}(\gn{\Mho(k-1,m)}, p, q)\bigr\}. \tag{27}
-\end{multline*}
-This is the literal transcript of step (2), bounded. For every short proof
-$p$ of the Gödel sentence and every number $n$ that is big enough, a
-transcript $q$ exists below $n$, and $q$ proves the $\Sigma_1^*$ sentence
-(25), $\exists p\,\Prf(\gn{\Mho(k-1,m)}, p)$: ``$\Mho$ is provable''. Unlike
-the halting sentence for $\G$, this is not equivalent to the negation of the
-Gödel sentence. $\Mho$ speaks only of short proofs, so $\neg\Mho$ says that a
-short proof exists, while (25) says that some proof exists. Because the
-transcript is bounded by $n$, the statement is
-$\Pi_1^*$, and the system inherits it from $\mathrm{PA}{+}$ through Group-2.
-What is missing is $n$. (Willard states Lemma~4 for the proof predicate of
-$\mathrm{NS}^{k,m}_D(\mathrm{PA}{+})$. Lemma~3's sketch is generic in the
-axiom system: the cited literature treats ``an axiom system $\alpha$'', and
-``an analogous construction'' is to apply it to $\mathrm{NS}$ (p.~33). Applied
-to $\mathrm{IS}_D(\mathrm{PA}{+})$, the same construction gives the bounded
-transcript statement for that system's own proof predicate, with the same
-status, \texttt{sketch}. Willard does not state it.)
+\subsection*{One big number}
 
-\begin{theorem}[Willard 2005, Theorem~6, p.~34; \texttt{full} as printed, a \texttt{sketch} at this granularity, as explained below]
-For $D = \mathrm{Tab}{-}U_1^*{-}\mathrm{List}$ there is $k_0$ such that for
-every $k > k_0$, $\mathrm{NS}^{k,m}_D(\mathrm{PA}{+})$ is inconsistent.
+Willard's 2005 paper ends with the experiment. Let $2^m_k$ be the least $z$
+whose $k$-fold base-2 logarithm is at least $m$, roughly a tower of $k$
+exponentials topped by $m$. Let $\Upsilon(k,m)$ be the true $\Sigma_1$
+sentence ``a number at least $2^m_k$ exists''. $\mathrm{NS}^{k,m}_D(A)$ is
+$\ISD$ with $\Upsilon(k,m)$ added to Group-0, and with Group-3 adjusted to the
+larger system (Definitions~2 and~3). Both systems prove $\Upsilon(k,m)$, but
+only one has it for free.
+
+Let $\Mho$ be the bounded Gödel sentence ``I have no short proof'', that is,
+no proof $p$ with $\mathrm{Log}^{k-1}(p) < m$ (Eq.~24). Lemma~4 is the faith
+step, bounded. For large $k$, Peano arithmetic in this language,
+$\mathrm{PA}{+}$, proves a $\Pi_1$ sentence whose instance in Willard's proof
+is (27). It says that for every short proof $p$ of $\Mho$ and every $n$ with
+$\mathrm{Log}^k(n) \ge m$ there is a transcript $q < n$ that checks $p$ and
+proves ``$\Mho$ is provable''.
+Lemma~4 rests on Lemma~3\sk, a sketch showing that checking a proof is
+cheap. Because the transcript is bounded by $n$, (27) is $\Pi_1$, and the
+system inherits it through Group-2. What is missing is $n$, and
+$\Upsilon(k,m)$ supplies it.
+
+\begin{theorem}[Willard 2005, Theorem~6\sk]\label{thm:ns}
+For tableau lists there is a $k_0$ such that, for every $k > k_0$,
+$\mathrm{NS}^{k,m}_D(\mathrm{PA}{+})$ is inconsistent.
 \end{theorem}
 
 \noindent
-Willard's proof is a seven-step tableau list $W$ (pp.~34--36), and, with
-its fourth step repaired as sketched below, it is Oberhoff's Theorem~6 with
-the faith supplied:
-
+Willard's proof is a tableau list $W$ of seven steps, and it is Oberhoff's
+Theorem~6 with the faith supplied:
 \begin{topsteps}
-\item (27), inherited from $\mathrm{PA}{+}$: the faith step, below $n$. (For
-  the redefined $\mathit{CheckProof}$ of the repair below, (27) is no longer
-  Lemma~4's theorem but the length claim the repair sketches.)
-\item (28) $\Pair(\gn{\Mho}, \gn{\neg\Mho})$, a true bounded sentence; with
-  $\Pair$ as fixed in \S\ref{sec:conventions}, also
-  $\Pair(\gn{\Mho}, \gn{\mathrm{dual}(\Mho)})$.
-\item (29) the Group-3 axiom, and (30) its instance: step (3).
-\item (31), a step Willard calls ``mostly notational'': no $p$, $q$ satisfy
-  $\mathit{CheckProof}(\gn{\Mho}, p, q)$. Then (32), chaining with (27): no
-  short proof of $\Mho$ coexists with a big $n$.
-\item (33) $\Upsilon(k,m)$, an axiom, supplies $n$: no short proof of $\Mho$
-  exists. This is $\Mho(k-1,m)$ itself, which the seventh step derives.
-\item Because $\Upsilon(k,m)$ cost nothing, $W$ is short: for $k > k_0$ its
-  Gödel number is below $2^m_{k-1}$, so $W$ is itself one of the short proofs
-  that $\Mho(k-1,m)$ says do not exist. The system watches $W$ and refutes
+\item (27), inherited from $\mathrm{PA}{+}$: the faith step, below $n$.
+\item The Group-3 axiom, at $\Mho$ and its negation: step~(3).
+\item Chaining the two: no short proof of $\Mho$ coexists with a number $n$
+  that large.
+\item $\Upsilon(k,m)$, an axiom, supplies $n$, so no short proof of $\Mho$
+  exists. That is $\Mho$ itself.
+\item Because $\Upsilon(k,m)$ cost nothing, $W$ is short. For $k > k_0$ its
+  Gödel number is below $2^m_{k-1}$, so $W$ is one of the short proofs that
+  $\Mho$ says do not exist. The system watches $W$ and refutes
   $\Mho$.\contra
 \end{topsteps}
 
 \noindent
-Willard's fourth step meets the distinction drawn after
-Proposition~\ref{prop:backwards}. He derives (31) from (30) on the ground
-that ``the definitions of CheckProof and $\Mho(k-1,m)$ imply that
-CheckProof$(\gn{\Mho}, p, q)$ is logically equivalent to Equation (30)'s
-curly bracket expression'' (p.~35, text layer), that is, to
-$\Prf(\gn{\Mho}, p) \wedge \Prf(\gn{\neg\Mho}, q)$. By Definition~6, as
-printed (we checked the page image), $q$ proves (25), which is no sentence
-that $\Pair$ pairs with $\Mho$. (25) has neither the substitution nor the
-bound $\mathrm{Log}^{k-1}(p) < m$, and a long proof of $\Mho$ makes (25)
-true and $\neg\Mho$ false. No reading of Willard's text removes this, so the
-step needs a repair.
+The dagger is ours. At our level of detail, the step from Group-3 to ``no
+transcript exists'' needs the transcript to prove the sentence that the
+consistency axiom pairs with $\Mho$. As printed, it proves a different one.
+Appendix~\ref{app:ns} sketches a repair, so we count the theorem as a sketch,
+although Willard prints a full proof. He also states, without proof,
+versions for semantic tableaux and other cut-free methods, for an empty base
+theory, and without the axioms that make addition and doubling total
+(Remark~8\sk).
 
-\emph{The repair (ours, a sketch).} Replace (28) by the true bounded
-sentence $\Pair(\gn{\Mho}, \gn{\mathrm{dual}(\Mho)})$, which $\Pair$ as fixed
-in \S\ref{sec:conventions} accepts. With (29) it gives
-$\forall p\,\forall q\,\neg[\Prf(\gn{\Mho}, p) \wedge
-\Prf(\gn{\mathrm{dual}(\Mho)}, q)]$ in place of (30). Then redefine
-$\mathit{CheckProof}(t, p, q)$ so that $q$ proves $\mathrm{dual}(\Mho)$. Now
-(31) follows from the new (30) by pure logic, since $\mathit{CheckProof}$ is
-literally its bracket. What remains is to show that such a $q$ is short.
-Given a proof $p$ of $\Mho = \Mho(k-1,m)$ with $\mathrm{Log}^{k-1}(p) < m$, a
-$q$ can be built as a tableau list of four parts:
-\begin{enumerate}[label=(\roman*), leftmargin=2.5em]
-\item a proof of the bounded sentence $\Prf(\gn{\Mho}, \bar p)$, which is
-  the object Lemma~3's sketch constructs: ``$q$ is a proof that $p$ is a
-  $M$-encoded proof'' (p.~33);
-\item a proof of the bounded sentence $\mathrm{Log}^{k-1}(\bar p) < \bar m$,
-  which evaluates a closed term built from the non-growth function
-  $\mathit{Logarithm}$;
-\item a proof of the true bounded sentence $\Subst(\bar n, \gn{\Mho})$, which
-  depends only on $k$ and $m$;
-\item a tableau whose root, $\mathrm{dual}(\mathrm{dual}(\Mho))$, is the
-  Prenex$^*$ form of $\neg\,\mathrm{dual}(\Mho)$. It instantiates the two
-  universal quantifiers at $\bar p$ and $\gn{\Mho}$ (rule~7), removes the
-  double negation (rule~2), branches (rules 2--4), and closes every branch
-  against (i)--(iii). If (i)--(iii) are carried as $U_1^*$ intermediate
-  theorems with a vacuous universal quantifier, as Willard's own bounded
-  intermediate (28) must be, it instantiates those first (rule~7).
-\end{enumerate}
-Part (iv) mentions $\bar p$ and $\gn{\Mho}$ a bounded number of times. Also
-$\gn{\Mho} < p$: $p$'s last root $\mathrm{dual}(\Mho)$ is a contiguous part
-of $p$, one byte longer than $\Mho$ and beginning with a symbol byte, so by
-the encoding of \S\ref{sec:conventions}, $\gn{\Mho} < 64^{|\Mho|} \le
-\gn{\mathrm{dual}(\Mho)} \le p$. So the logarithm of (iv)'s Gödel number is
-$O(\mathrm{Log}\, p)$. The repair then needs (i)--(iii) to be short enough
-that Corollary~1's bound $F(p, t) < 2^b_a$ survives. Lemma~3's sketch
-supplies (i). Parts (ii) and (iii) are claims of the same kind, about short
-proofs of polynomial-time-checkable bounded facts, which the sketch does not
-address. At this essay's granularity, then, Willard's printed proof of
-Theorem~6 has a gap at step (31), and our repair is a sketch resting on
-Lemma~3's sketch and on the length claims for (ii) and (iii). We count
-Theorem~6 as a \texttt{sketch} here, although the registry records it as
-\texttt{full}.
-
-Willard calls the length estimate ``quite routine'' (p.~36). He measures the
-difference between the two systems by a constant: proof lengths in
-$\mathrm{NS}^{k,m}_D(A)$ and $\ISD$ differ by at most some $C > 2^m_k$, ``an
-enormous quantity'' (p.~31). Why the argument does not transfer to $\ISD$ can
-be seen with Willard's own engine (our observation). Under the hypothesis of
-Theorem~\ref{thm:willard}(a) with $A = \mathrm{PA}{+}$, all axioms of
-$\mathrm{IS}_D(\mathrm{PA}{+})$ are true $\Pi_1^*$ sentences: Group-3 by
-Theorems~3 and~5. So the system is Normed$(a,1)$ for every $a > 1$.
-$\mathrm{IS}_D(\mathrm{PA}{+})$ must prove $\Upsilon(k,m)$ as a lemma. Let $p >
-1$ be a proof of it, and take $a = p$. Then $p \le \lceil a/1\rceil + 1$, and
-$\theta$-compactification with $\theta = \tfrac14$ (Theorems~2 and~4) makes
-$\Upsilon(k,m)$ App$\exists(p^{1/4})$-valid: it has a witness at most
-$p^{1/4}$. The least witness is $2^m_k$, so $p \ge (2^m_k)^4$. In a tableau
-list, the components up to the lemma form a list proof of it, and they are a
-prefix of the whole list's byte string, so the whole list has a Gödel number
-at least $p$. That lies far beyond the bound $2^m_{k-1}$ of which
-$\Mho(k-1,m)$ speaks. ``A Kleene-like
-Group-3 axiom has a different connotation when it refers to a short proof,
-referencing itself, than when it refers to a long such proof'' (p.~32, text
-layer). The asymmetry is exact: adding a true $\Pi_1^*$ sentence instead of
-the $\Sigma_1^*$ sentence $\Upsilon(k,m)$ preserves consistency (p.~37,
-stated as a generalization of Theorem~5). A universal axiom constrains; an
-existential axiom supplies a number, and the number is what the faith step
-was missing. Remark~8 (p.~36, \texttt{stated-only}) extends the theorem to
-semantic tableaux and other cut-free methods, to empty $A$, and to systems
-that drop the two Group-zero axioms declaring addition and doubling total.
-
-% ==========================================================================
-\section{The Price of Faith}
-\label{sec:price}
-
-If withholding faith is what lets $\W$ survive, the second incompleteness
-theorem should return as soon as the system can afford the transcripts.
-Willard spent the second half of his career proving that it does. The price
-depends on the language and on how much the proof system may reuse.
+Why does the argument not run in $\mathrm{IS}_D(\mathrm{PA}{+})$, which
+proves $\Upsilon(k,m)$ too? Willard's own engine answers; the observation is
+ours. All axioms of $\mathrm{IS}_D(\mathrm{PA}{+})$ are true $\Pi_1$
+sentences, so it is Normed$(a, 1)$ for every $a > 1$. Let $p > 1$ be a proof
+of $\Upsilon(k,m)$, and take $a = p$. Then $\tfrac14$-compactification puts a
+witness for $\Upsilon(k,m)$ at or below $p^{1/4}$. The least witness is
+$2^m_k$, so $p \ge (2^m_k)^4$. A list that uses $\Upsilon(k,m)$ as a lemma
+begins with such a proof, so its Gödel number is at least as large. That is
+far beyond the short proofs that $\Mho$ speaks of. In Willard's words, ``a
+Kleene-like Group-3 axiom has a different connotation when it refers to a
+short proof, referencing itself, than when it refers to a long such proof''
+(2005, \S6). The asymmetry is exact. Adding a true $\Pi_1$ sentence instead
+of $\Upsilon(k,m)$ preserves consistency (2005, \S6\sk). A universal axiom
+constrains. An existential axiom supplies a number, and the number is what
+the faith step was missing.
 
 \subsection*{Squaring}
 
-Give a tableau system multiplication as a total function. Then a proof can
-introduce $u_0 = 2$, $u_{i+1} = u_i \cdot u_i$, and so reach $u_n = 2^{2^n}$, in
-$O(n)$ steps. The 2001 system with multiplication added, $\mathrm{ISMULT}(A)$,
-``satisfies an analogue of'' Assertion ++ but has no analogue of Lemma~4.2,
-for exactly this reason (2001, Remark~4.5, p.~21). On the negative side
-Willard located the failure precisely (2000, \S5, quoted in the codified
-statement~\S5.3):
+Give a tableau system multiplication as a total function, and a proof of $n$
+lines can name $2^{2^n}$, by $u_0 = 2$ and $u_{i+1} = u_i \cdot u_i$.
+Transcripts become affordable, and the second theorem returns. Willard
+located the mechanism himself (2000, \S5):
 \begin{quote}\small
-Many readers will smile with amusement when they learn the true
-reason that the Semantic Tableaux version of the Second Incompleteness
-Theorem breaks down when Multiplication is changed from a total function into
-a 3-way relation. It is essentially that Lemma 8 and its short proof
-then become no longer valid. \ldots{} Without it, our proof of the Semantic
-Tableaux version of the Second Incompleteness Theorem collapses entirely!
+Many readers will smile with amusement when they learn the true reason that
+the Semantic Tableaux version of the Second Incompleteness Theorem breaks
+down when Multiplication is changed from a total function into a 3-way
+relation. It is essentially that Lemma 8 and its short proof then become no
+longer valid. \ldots{} Without it, our proof of the Semantic Tableaux version
+of the Second Incompleteness Theorem collapses entirely!
 \end{quote}
-Lemma~8 (2000, p.~11, \texttt{full}) is the squaring construction: a tableau
-proof from $Q + V$, of length $O([\log\log z]^C)$, that a number about as
-large as $z$ exists. With it,
-the second theorem comes back, at Level(0$-$):
-\begin{itemize}[leftmargin=1.5em]
-\item no consistent \emph{finite} extension of $Q + V$, for an explicit
-  $\Pi_1$ sentence $V$ with $Q + V$ consistent, proves its own semantic
-  tableaux consistency (2002a, Theorems~3.4--3.5, p.~11, \texttt{full});
-\item every consistent extension of $T$-1 or $T$-2, the textbook and
-  Wilkie--Paris axiomatizations of $I\Sigma_0$, is unable to prove its own
-  semantic tableaux consistency (2007, Theorem~6, p.~29, \texttt{full});
-\item any consistent extension of $I\Sigma_0$ with the Conventional
-  Deciphering Property (a finite subset proves, of each axiom's canonical
-  numeral, that it is an axiom: 2002a, Definition~5.1, p.~20) cannot prove
-  that there is no tableau proof of $0=1$ from itself (2002a, Theorem~6.4,
-  p.~25, \texttt{sketch}).
-\end{itemize}
-In 1981 Paris and Wilkie asked whether $I\Sigma_0$ satisfies the second
-incompleteness theorem for cut-free deduction. 2002a presented Theorem~6.4 as
-an answer; 2007 records that the 2002 paper covered only the textbook
-induction scheme (``which we did not examine in our year-2002 article'', of
-the Wilkie--Paris scheme: 2007, abstract, text layer), and its Theorem~6
-covers both.
-On the positive side, Definition~5 becomes ``impossible to satisfy'' once
-multiplication is admitted as a ninth function symbol (2005, Remark~4, p.~21,
-\texttt{stated-only} as to the reason: ``intuitively because multiplication
-has a faster growth property than addition'').\footnote{What multiplication
-destroys is the flat consistency axiom and canonical reflection, not every
-self-referential construction. Willard's $\mathrm{ISM}(A)$ recognizes
-multiplication as total and is consistent whenever $A$ is regularly
-consistent, ``by a routine generalization'' of his proof, but its self-referential axiom is weaker, and it cannot prove the
-flat statement that no tableau proof of $0=1$ exists (2001, \S6, p.~36;
-codified statement~\S7.2).}
+His Lemma~8 is the squaring construction: a short tableau proof that a
+number about as large as $z$ exists. With it, the second theorem holds for
+semantic tableaux at Level(0$-$). It holds for consistent finite extensions
+of $Q + V$, for an explicit $\Pi_1$ sentence $V$ (2002a, Theorems~3.4
+and~3.5). It also holds for every consistent extension of $I\Sigma_0$ in
+either of its two standard axiomatizations (2007, Theorem~6). That answers a
+question Paris and Wilkie asked in 1981. On the positive side,
+$\theta$-compactification becomes ``impossible to satisfy'' once
+multiplication is a function symbol (2005, Remark~4\sk).
 
 \subsection*{Subroutines}
 
-A Hilbert-style proof can prove a lemma once and use it many times. Modus
-ponens is a subroutine call. A tableau cannot do this; every use must be
-inlined. Inlining can be astronomically expensive: by Gentzen, the tableau
-proof exists, but ``$t$'s length can certainly be super-exponentially longer''
-than the proofs it combines (2002a, Theorem~2.2, p.~7, \texttt{sketch}), and
-Boolos gave a famous small example of the blowup~\cite{boolos84}. With
-subroutines, a little growth is amplified into a lot. Willard saw this in 1994
-(TR 93-10, p.~7, verbatim):
+A Hilbert-style proof can prove a lemma once and use it many times, so modus
+ponens is a subroutine call. A tableau must inline every use, and inlining can
+be astronomically expensive~\cite{boolos84} (2002a, Theorem~2.2\sk). With
+subroutines a little growth is amplified into a lot, as Willard saw early (TR
+93-10):
 \begin{quote}\small
 These metaphors lose meaning when cuts are present because Addition can then
 be employed to \emph{implicitly define} a sequence that grows actually faster
 than $a_0, a_1, a_2, a_3 \ldots$. Solovay's proof that IS(A) is incompatible
-with deductive cuts [So94] rests on this fast growth property. (Actually,
-IS(A) can support a cut rule for $\Delta_0$ sentences, and Solovay's theorem
-relies on the cut rule for sentences with unbounded quantifiers.)
+with deductive cuts [So94] rests on this fast growth property.
 \end{quote}
-The boundary depends on the \emph{complexity} of the lemmas, and Willard
-mapped it:
-\begin{itemize}[leftmargin=1.5em]
-\item a cut rule for bounded ($\Delta_0$) sentences: compatible with
-  $\mathrm{IS}(A)$, as the parenthesis above says (TR 93-10, p.~7; the
-  codification records the construction in a footnote on p.~35, obligation
-  O56);
-\item lemmas with one unbounded quantifier block ($\Pi_1^*$ or $\Sigma_1^*$),
-  addition total: self-justifying at Level(1) (2005, Theorem~5, \texttt{full});
-\item lemmas with two blocks ($\Pi_2^*$, respectively $\Sigma_2^*$), addition
-  total: for explicit $\Pi_1^*$ theorems $V_A$, $V_B$ of Peano Arithmetic, no
-  consistent system in the U-Grounding language containing $V_A$ (resp.\ $V_B$)
-  proves its own Level(0$-$) consistency under $\mathrm{Tab}{-}\Pi_2^*$
-  (resp.\ $\mathrm{Tab}{-}\Sigma_2^*$) lists (2004, Theorem~2, p.~344,
-  \texttt{sketch}; stated for finite systems ``for the sake of simplifying our
-  proof'');
-\item unrestricted lemmas (Hilbert deduction), successor total together
-  with the $\Pi_1$ algebra of $+$ and $\times$: Solovay's theorem below.
-\end{itemize}
-The unrestricted case runs through the classical shortening of definable
-cuts. In outline (a textbook gloss, not Willard's text): with lemmas, one
-defines a set of numbers and proves once that it is closed under successor;
-then, by a short proof reusing that lemma, that a smaller set is closed under
-addition, and then that a smaller set still is closed under multiplication.
-On the last set the system can afford transcripts, and Gödel's argument runs
-there. Pudlák showed that a consistent extension of Robinson's $Q$ proves
-neither its Hilbert consistency nor its consistency restricted to any
-definable cut~\cite{pudlak85} (Willard 2006a, Theorem~1, p.~4, \texttt{cited}).
-Solovay's theorem, communicated to Willard by telephone in April 1994 and
-never published by Solovay, states the conclusion (2006a, Theorem~2, p.~4,
-\texttt{cited}): a consistent system that formalizes arithmetic with
-three-place predicates for $+$ and $\times$, proves successor total, and
-proves the $\Pi_1$ associative, commutative, distributive and identity laws for
-those predicates cannot prove that there is no Hilbert proof of $0=1$ from
-itself. With unrestricted subroutines, the price of faith falls to successor
-together with the ring laws for $+$ and $\times$ as relations: neither
-addition nor multiplication need be total.
+He mapped the boundary by the complexity of the lemmas. Bounded lemmas are
+harmless (TR 93-10). Lemmas with one unbounded quantifier block are
+self-justifying (2005, Theorem~5). Lemmas with two blocks bring the second
+theorem back at Level(0$-$), for finite systems containing an explicit
+$\Pi_1$ theorem of Peano arithmetic (2004, Theorem~2\sk). With unrestricted
+lemmas, that is, Hilbert deduction, the price falls to almost nothing.
+Solovay's theorem was communicated to Willard in 1994 and never published by
+Solovay (2006a, Theorem~2\sk). Consider a consistent system that proves
+successor total and proves the $\Pi_1$ associative, commutative, distributive
+and identity laws for $+$ and $\times$ as relations. Solovay's theorem says
+that such a system cannot prove the absence of a Hilbert proof of $0 = 1$ from
+itself. The proof shortens definable cuts~\cite{pudlak85}. A cut closed under
+successor yields, by short proofs that reuse lemmas, cuts closed under
+addition and then under multiplication, and on the last one the transcripts
+are affordable. So the Hilbert-style self-justifying systems give up
+successor itself. They name numbers by constants $C_1, C_2, \ldots$, and the
+naming convention is the system. Additive naming, $C_i = C_{i-1} + C_{i-1}$,
+works over a base with true $\Pi_1$ theorems and a bounded Hilbert proof
+predicate (2006a, Theorem~3).
+Multiplicative naming, $C_i = C_{i-1} \cdot C_{i-1}$, fails for every system
+that proves the $\Pi_1$ theorems of Peano arithmetic and meets Willard's
+concise-encoding condition (2006a, Theorem~4).
 
-So the Hilbert-line self-justifying systems give up successor itself. They
-name numbers with constants $C_1, C_2, \ldots$, and the naming convention
-\emph{is} the system (codified statement~\S5.5). Incremental naming
-$C_i = C_{i-1} + 1$ is how 2006a reads 2001's $\mathrm{ISREF}(A)$, which is
-consistent when $A$ is regularly consistent (2001, Theorem~3.4, p.~13,
-\texttt{full}) and whose Group-3 is the tangibility schema (2001, Eq.~10), not
-a flat consistency axiom: ``The term `incremental naming convention' had not
-appeared in our article [46]. However, its Theorem 3.4 had implicitly presumed
-the presence of an incremental naming method'' (2006a, p.~22, text layer).
-Additive naming $C_i = C_{i-1} + C_{i-1}$ works and keeps
-reaching new numbers ($\mathrm{ISCE}(A)$, for consistent $A$ with true
-$\Pi_1^-$ theorems and $\Delta_0^-$ Hilbert proof predicate: 2006a,
-Theorem~3, p.~6, \texttt{full}); multiplicative naming
-$C_i = C_{i-1} \cdot C_{i-1}$ fails for any system that contains the
-convention's axioms, proves Peano Arithmetic's $\Pi_1^-$ theorems and has
-Willard's Concise Encoding property (2006a, Theorem~4, p.~7, \texttt{full}).
-Remark~3, quoted in \S\ref{sec:transcripts}, explains why.
-
-\subsection*{Other ways to buy faith}
-
-Excluded middle as a logical axiom, $\Phi \vee \neg\Phi$ at any node for any
-$\Phi$ ($\mathrm{Xtab}$, 2020, p.~10), is what TR 93-10 had already defined as
-``a tableaux proof with cuts'' (printed p.~33, as recorded in codified
-statement~\S7.3). Then
-$\mathrm{IS}_{\mathrm{Xtab}}(\beta)$ is automatically inconsistent whenever
-$\beta$ proves the usual $\Pi_1^*$ associative, commutative, distributive and
-identity laws for addition and multiplication (2020, Theorem~4.5, p.~12,
-\texttt{sketch}). And letting $\W$ say more about itself brings the second
-theorem back: there is a $\Pi_1^*$ theorem $W$ of Peano Arithmetic such that
-no consistent finite system in the U-Grounding language containing $W$ can
-prove its own Level($2^+$) tableaux consistency, the absence of proofs of a
-Boolean combination of $\Pi_2^*$ and $\Sigma_2^*$ sentences together with its
-negation (2004, Theorem~1, p.~342, \texttt{full}, although the codification
-records that one step is deferred, in a footnote saying it ``should not be
-considered a formal proof'': codified statement~\S7.5).
+Two more prices complete the list. Excluded middle as a logical axiom at any
+node is a cut in disguise, and it makes the system inconsistent once its base
+proves the $\Pi_1$ ring laws (2020, Theorem~4.5\sk). And letting $\W$
+assert more about itself, at Level($2^+$), brings the second theorem back
+with addition alone, for finite systems containing an explicit $\Pi_1$
+theorem of Peano arithmetic (2004, Theorem~1\sk).
 
 \begin{center}\footnotesize
-\begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}p{2.1cm}>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{4.3cm}@{}}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{1.6cm}>{\raggedright\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}p{3.3cm}@{}}
 \toprule
-Proof system & Growth & Consistency asserted & Outcome & Source, status \\
+Proof system & Growth & Asserts & Outcome & Source \\
 \midrule
-tableaux, or lists of $\Pi_1^*/\Sigma_1^*$ lemmas & $+$ total, $\times$ a relation & Level(1) & self-justifying & 2005 Thms 3, 5, \texttt{full} \\
-same & same, plus one axiom $\exists z\,\mathrm{Log}^k z \ge m$ & Level(1) & inconsistent & 2005 Thm 6, \texttt{full} as printed; \texttt{sketch} here (step (31), \S\ref{sec:bought}) \\
-tableaux & $\times$ total & Level(0$-$) & G2 & 2002a Thm 3.5 \texttt{full}; 6.4 \texttt{sketch}; 2007 Thm 6 \texttt{full} \\
-lists of $\Pi_2^*$ or $\Sigma_2^*$ lemmas & $+$ total & Level(0$-$) & G2 & 2004 Thm 2, \texttt{sketch} \\
-tableaux & $+$ total & Level($2^+$) & G2 & 2004 Thm 1, \texttt{full} (one deferred step) \\
-tableaux + excluded middle & $+$ total, $\times$ laws & Level(1) & inconsistent & 2020 Thm 4.5, \texttt{sketch} \\
-Hilbert & successor total, $\Pi_1$ laws of $+$, $\times$ & Level(0$-$) & G2 & Solovay, \texttt{cited} \\
-Hilbert & additive names only & Level(0$-$) & self-justifying & 2006a Thm 3, \texttt{full} \\
-Hilbert & multiplicative names & Level(0$-$) & G2 & 2006a Thm 4, \texttt{full} \\
+tableaux, or lists of $\Pi_1$/$\Sigma_1$ lemmas & $+$ total, $\times$ a relation & Level(1) & self-justifying & 2005, Thms 3, 5 \\
+same & same, plus the axiom $\Upsilon(k,m)$ & Level(1) & inconsistent & 2005, Thm 6\sk \\
+tableaux & $\times$ total & Level(0$-$) & second theorem & 2002a, Thm 3.5; 2007, Thm 6 \\
+lists of $\Pi_2$/$\Sigma_2$ lemmas & $+$ total & Level(0$-$) & second theorem & 2004, Thm 2\sk \\
+tableaux & $+$ total & Level($2^+$) & second theorem & 2004, Thm 1\sk \\
+tableaux with excluded middle & $+$ total, ring laws for $\times$ & Level(1) & inconsistent & 2020, Thm 4.5\sk \\
+Hilbert & successor total, ring laws for $+$, $\times$ & Level(0$-$) & second theorem & Solovay\sk \\
+Hilbert & additive names only & Level(0$-$) & self-justifying & 2006a, Thm 3 \\
+Hilbert & multiplicative names & Level(0$-$) & second theorem & 2006a, Thm 4 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
 \noindent
-Read the table as Willard read it. Negative rows assert the weakest
-consistency notion and positive rows the strongest, by the rule of
-\S\ref{sec:conventions}, so each row is as strong as its side allows.
-``Self-justifying'' in a positive row means that the system proves its own
-consistency and is consistent under the hypothesis on its base theory
-(Theorem~\ref{thm:willard}; 2006a, Theorem~3). The affirmative results are mostly \texttt{full}; the negative side contains
-sketches and one unpublished theorem. The boundary is sharply located in some
-coordinates and only bracketed in others (codified statement~\S8.2).
+Willard's rule is to assert the weakest consistency in a negative result and
+the strongest in a positive one, so each row is as strong as its side allows.
+``Self-justifying'' means that the system proves its own consistency and is
+consistent, given the hypothesis on its base theory.
 
 % ==========================================================================
-\section{Trust Within Reach}
+\section{Refactoring The Incompleteness Theorems, Again}
 
-A system \emph{trusts} its proofs if it proves canonical reflection,
-$\forall y\,\{\Prf_\alpha(\gn{\Psi}, y) \supset \Psi\}$, for every $\Pi_1$-class
-$\Psi$. That is too much to ask: 2001 Theorem~7.2 (\S\ref{sec:backwards})
-forbids it for any consistent system with a bounded proof predicate that
-inherits the $\Pi_1^-$ theorems of $\mathrm{PAX}$. What Willard's systems can
-prove is \emph{tangibility reflection} (2001, Definition~1.2, p.~4, Eq.~2):
-\[
-\forall x\;\bigl\{\,[\exists y\, \Prf_\alpha(\gn{\Psi}, y)
-\wedge \mathit{Tangible}(x)] \supset \Psi^{x}\,\bigr\},
-\]
-where $\Psi^x$ is $\Psi$ with its unbounded universal quantifiers bounded by
-$x$, and $\mathit{Tangible}$ is one of $\mathit{TangPred}(x) \equiv \exists v\,
-x < v - 1$, $\mathit{TangDiv}_k(x) \equiv \exists v\, x < v/k$, or
-$\mathit{TangRoot}_k(x) \equiv \exists v\, x < v^{1/k}$. $\mathrm{ISREF}(A)$,
-a Hilbert-style system without addition total, proves the $\mathit{TangPred}$
-form for every prenex$^*$ $\Psi$, given that $\forall y\,\mathit{Size}(y) <
-y - 1$ (2001, Theorem~3.5, p.~14, \texttt{full}). The tableau system
-$\mathrm{IS}^\lambda(A)$ has a Hilbert proof of the $\mathit{TangRoot}_k$ form
-when $0 < \lambda < 1$, $k > 1/(1-\lambda)$, and $A$ proves a stated $\Pi_1^-$
-sentence (Theorem~6.1, p.~34, \texttt{full}), and a tableau proof by cut
-elimination (Corollary~6.2, p.~35, \texttt{full}); its consistency is proved
-for $\lambda = 3/4$ (Theorem~5.1, p.~28, \texttt{full}), where the condition
-reads $k > 4$. In computational terms: \emph{I trust my verdicts on every
-input for which there is memory to spare.} For a $\Sigma_1$-class claim the
-bound costs nothing, since $\Psi \equiv \Psi^0$; taking $\Psi$ to be $0=1$
-gives back the flat statement that no proof of $0=1$ exists (2001, p.~8).
-
-% ==========================================================================
-\section{Taking Off the Glasses}
-
-Oberhoff's \S5 takes the glasses off $\G$ and finds ``I am not provable''
-underneath. Take them off $\W$ and you find ``nothing refutes me'', that is,
-``I am consistent''. Over extensions of $I\Sigma_1$ with Hilbert deduction,
-the metatheory shows that $\Fo + \W$ derives a contradiction
-(Proposition~\ref{prop:genius}), so $\Prog{C}(\Prog{C})$ halts. In
-Willard's systems that refutation would have to establish the existence of a
-transcript-sized object from inside a proof smaller than the object. The
-snake cannot swallow its tail, because its mouth is smaller than its body.
-
-So self-reference is not where the trouble lies. The fixed point builds $\W$
-in Willard's systems as easily as in Peano Arithmetic. What costs something is
-\emph{self-simulation}: running yourself in your head and writing down the
-result. The second incompleteness theorem needs both. The first needs
-self-reference and watching, and, in Rosser's form, one $\Pi_1$ fact about a
-loop. That is why Willard's systems obey it.
-
-Oberhoff found that his classical and computational proofs were ``the exact
-same''. The same holds here. Willard's arithmetic (a least pair of
-contradictory proofs, values below $b \cdot 2^{\text{U-Depth}}$, five bits per
-symbol) and the computational picture (a shortest refutation, the memory a
-proof occupies, a walk down the tree) are one argument. The arithmetic of
-Gödel numbers is the bookkeeping of memory.
-
-% ==========================================================================
-\section{Refactoring the Incompleteness Theorems, Again}
-
-Oberhoff's Theorem~7 is two theorems. Stated as properties of a
-configuration $(\alpha, D)$, they are as follows. Property~7a is what this
-essay takes from Oberhoff's Theorem~7. Property~7b, in both its closed and
-its uniform form, is the essay's own formulation of what his Theorem~6
-takes on faith.
+Oberhoff's Theorem~7 is two theorems. Stated as properties of a system,
+they are these.
 
 \begin{quote}
-\textbf{7a} (Watching, Definition~\ref{def:watch}). \emph{$\alpha \vdash_D
-\sigma$ for every true $\Sigma_1$-class sentence $\sigma$; in particular, for
-the halting sentence of each halting computation.}
+\textbf{7a} (Watching). \emph{$\F$ proves every true $\Sigma_1$ sentence; in
+particular, the halting sentence of every halting computation.}
 
-\textbf{7b} (Knowing that one watches, Definition~\ref{def:know} and
-\S\ref{sec:transcripts}). \emph{$\alpha \vdash_D \sigma \supset
-\Prov^D_\alpha(\gn{\sigma})$ for every $\Sigma_1$-class sentence $\sigma$; and
-uniformly, $\alpha \vdash_D \forall x\,[\delta(x) \supset \Prov^D_\alpha(\text{the
-code of } \delta(\bar x))]$ for bounded $\delta$.}
+\textbf{7b} (Knowing that one watches). \emph{$\F \vdash \sigma \supset
+\Prov(\gn{\sigma})$ for every $\Sigma_1$ sentence $\sigma$; and, uniformly,
+$\F$ knows that it watches every bounded formula.}
 \end{quote}
 
 \noindent
-Property~7a holds for every configuration in this essay: for extensions of
-Robinson's $Q$ with Hilbert deduction (standard), for $\ISD$
-(Lemma~\ref{lem:watch}), and for $\mathrm{IS}(A)$ with $A \supseteq
-\mathrm{PAX}$ (\S\ref{sec:machine}). Property~7b, in both forms, holds for
-recursively axiomatized extensions of $I\Sigma_1$ with their canonical
-provability predicate~\cite{hp93}. Property~7a gives Oberhoff's Theorem~4 and
-the $\G$ half of his \S4. Rosser's form also needs the $\Pi_1$ loop sentence
-of footnote~12, which Willard's systems get from their base theory
-(\S\ref{sec:machine}). Property~7b is what Theorem~6 takes on faith, and it
-does not follow from~7a:
+7a is what we take from Oberhoff's Theorem~7. 7b, in both its forms, is our
+formulation of what his Theorem~6 takes on faith. 7a holds for every system
+in this essay. 7b holds for recursively axiomatized extensions of
+$I\Sigma_1$~\cite{hp93}. 7a gives the first incompleteness theorem, and
+Rosser's form also needs the loop fact, which Willard's systems inherit from
+their base. 7b is what the second theorem takes on faith, and it does not
+follow from 7a. For Willard's 2005 system over a base whose $\Pi_1$ theorems
+are true:
 \begin{itemize}[leftmargin=1.5em]
-\item In its uniform form, 7b fails for both of Willard's systems, under the
-  hypotheses of their consistency theorems: they cannot prove even that every
-  number has a written name (Corollary~\ref{cor:uniform}).
-\item At a closed sentence, 7b fails for $\ISD$ under the hypotheses of
-  Corollary~\ref{cor:isd}. The sentence is $\mathsf{H}$, the $\Sigma_1$
-  statement that $\Prog{P}(\Prog{P})$ halts, and the failing instance is
-  provably equivalent to the Gödel sentence
-  (Proposition~\ref{prop:backwards}).
-\item For $\mathrm{IS}(A)$, under the hypotheses of Corollary~\ref{cor:is},
-  either step (2), and with it 7b at $\mathsf{H}$, fails, or the Level(0$-$)
-  form of step (3) does. We do not know which.
+\item the uniform form of 7b fails, since the system cannot prove that every
+  number has a written name (Corollary~\ref{cor:uniform});
+\item when the base also proves the $\Pi_1$ theorems of Peano arithmetic, 7b
+  fails at the sentence $\Hs$, \fs{$\Prog{P}(\Prog{P})$ halts}, and the
+  failing instance is provably the Gödel sentence (Corollary~\ref{cor:isd});
+\item yet 7b holds at every \emph{true} $\Sigma_1$ sentence
+  (Lemma~\ref{lem:instances}), so the failure is confined to a run that does
+  not happen.
 \end{itemize}
-By Lemma~\ref{lem:instances}(a) these systems satisfy~7b at every
-\emph{true} $\Sigma_1$-class sentence, so the closed failure is confined to a
-run that does not happen. The uniform failure is about writing numbers down,
-which costs more than linearly many bits. Willard's Theorem~6
-(\S\ref{sec:bought}) shows a bounded transcript form of~7b, at ``$\Mho$ is
-provable'', to be a $\Pi_1^*$ theorem of $\mathrm{PA}{+}$, inherited through
-Group-2. With Definition~6 repaired as sketched there, its transcript
-reaches the sentence $\Pair$ pairs with $\Mho$. What the system lacks is one
-number large
-enough to switch it on, and granting that number as an axiom makes the system
-inconsistent.
+Willard's 2001 system behaves the same way, except at the closed sentence,
+where our argument leaves open which of two steps fails
+(Appendix~\ref{app:2001}).
 
 So Gödel's work splits into three parts, not two. The first is programming
 the integers (7a). The second is teaching the integers that they have been
 programmed (7b). The third is the victory laps. Willard's self-justifying
-systems live in the gap between the first and the second. The second
-incompleteness theorem is a victory lap only for a runner who has already
-paid for~7b. Willard's accounting does not give one price. It gives four
-boundaries (\S\ref{sec:price}):
-\begin{itemize}[leftmargin=1.5em]
-\item tableaux without lemmas, multiplication total: the second theorem holds
-  at Level(0$-$) for consistent finite extensions of $Q + V$ and for
-  consistent extensions of $I\Sigma_0$'s two axiomatizations (2002a,
-  Theorem~3.5; 2007, Theorem~6; \texttt{full});
-\item lemmas with one unbounded quantifier block, addition total and
-  multiplication a relation: $\ISD$ is self-justifying at Level(1), and
-  consistent whenever $A$'s $\Pi_1^*$ theorems are true (2005, Theorem~5,
-  \texttt{full});
-\item lemmas with two blocks, addition total: for explicit $\Pi_1^*$ theorems
-  $V_A$, $V_B$ of Peano Arithmetic, no consistent finite system containing
-  $V_A$ (respectively $V_B$) proves its own Level(0$-$) consistency under
-  $\Pi_2^*$ (respectively $\Sigma_2^*$) lemma lists (2004, Theorem~2,
-  \texttt{sketch}; finiteness ``for the sake of simplifying our proof'');
-\item unrestricted lemmas: successor total together with the $\Pi_1$ ring
-  laws for $+$ and $\times$ as relations already suffices (Solovay,
-  \texttt{cited}).
-\end{itemize}
-At the finest grain, one large number granted as an axiom is enough (2005,
-Theorem~6, a \texttt{sketch} at this granularity).
+systems live in the gap between the first part and the second, and the
+second theorem is a victory lap only for a runner who has already paid
+for~7b.
+
+Self-reference is not where the trouble lies. The fixed point builds $\W$ in
+Willard's systems as easily as in Peano arithmetic. What costs something is
+\emph{self-simulation}: running yourself in your head and writing down the
+result. The second incompleteness theorem needs both. The first needs only
+self-reference and watching, which is why Willard's systems obey it.
+Oberhoff found his classical and computational proofs ``the exact same'', and
+the same holds here. Willard's arithmetic (a least pair of contradictory
+proofs, values below $b \cdot 2^\Delta$, five bits per symbol) and the
+computational picture (a shortest refutation, the memory a proof occupies, a
+walk down a tree) are one argument. The arithmetic of Gödel numbers is the
+bookkeeping of memory. A refutation of $\W$ would have to establish the
+existence of a transcript-sized object inside a proof smaller than the
+object. The snake cannot swallow its tail, because its mouth is smaller than
+its body.
 
 \medskip
 Moral of the story: you may declare yourself a very stable genius, and
-Willard's theorems will vouch for you provided your teachers told you only
-truths, you cannot multiply, and you reuse only lemmas with one unbounded
-quantifier block. Learn to multiply, and (for the theories Willard treats)
-even proofs without lemmas are too much. Reuse lemmas with two blocks, and
-(by a sketch of Willard's) addition is already too much. Reuse any lemma you
-like, and (by Solovay's unpublished theorem) successor with the ring laws for
-$+$ and $\times$ is too much. And you must never be told, as an axiom, that a
-big enough number exists.
+Willard's theorems will vouch for you, provided that your teachers told you
+only truths, you cannot multiply, and you reuse only lemmas with one
+unbounded quantifier block. Learn to multiply and, for the theories Willard
+treats, even proofs without lemmas are too much. Reuse lemmas with two
+blocks, and (by a sketch of Willard's) addition is already too much. Reuse
+any lemma you like, and (by Solovay's unpublished theorem) successor with the
+ring laws is too much. And you must never be told, as an axiom, that a big
+enough number exists.
 
-% ==========================================================================
-\section{What Self-Justification Does Not Buy}
-
-Willard was more careful about the limits of his results than most of his
-readers have been, and an honest retelling must carry his caveats.
-
+\paragraph{What it does not buy.} Willard was more careful about the limits
+of his results than most of his readers have been.
 \begin{itemize}[leftmargin=1.5em]
-\item \textbf{Relative consistency.} Theorem~\ref{thm:willard} assumes that
-  the base theory's $\Pi_1$-class theorems are true. Nothing here shows any
-  system consistent outright; the systems are as trustworthy as their base.
-  Willard: ``if $A$ = Peano Arithmetic, IS(A) can prove all the $\Pi_1^-$
-  theorems of Peano Arithmetic, and its consistency will be as certain as
-  that of Peano Arithmetic!'' (2001, p.~11, text layer).
-\item \textbf{A reduced question.} Willard (2016, Remark~4.9, p.~13) splits
-  Hilbert's question in two: can a system verify its own consistency in a
-  robust sense, and ``Can logic systems `appreciate' their own consistency in
-  some REDUCED sense, that is diluted but not fully immaterial?'' (text
-  layer). The answer to the first is no, by Gödel, Hilbert--Bernays
-  and Pudlák--Solovay. Everything above answers the second.
-\item \textbf{A one-line proof.} A system that proves its consistency from
-  its own axiom $\W$ has ``essentially a 1-line proof'' (2011, Remark~6.16,
-  p.~28), which is instinctive faith rather than proof-justification. The
-  substantive justification lies outside: the theorem that $\mathit{Probe}$
-  defeats every refutation, proved in the metatheory under the hypothesis on
-  $A$.
-\item \textbf{Almost cheating.} Willard raised the objection against
-  himself: ``Is it not almost cheating when an axiom system verifies its own
-  consistency by using $\oplus$'s formalized `I am consistent' axiom as an
-  intermediate step, to verify its own consistency? After all, such a
-  technique can verify its own consistency only in a technically purely
-  legalistic sense'' (2016, \S8). His answer, \emph{Platonic Stability}, is
-  that a thinking being needs no sophisticated justification of its own
-  reasoning, only a formalism in which presuming its own consistency provably
-  will not spin it into inconsistency. Its formal statement, Corollary~8.2
-  (p.~28), opens ``Let us assume Conjecture 6.6 is correct (as we are almost
-  100\,\% certain it is)''; Conjecture~6.6 (p.~23) is \texttt{stated-only}.
-\item \textbf{The first theorem stands.} Under the hypothesis of
-  Theorem~\ref{thm:willard}(a), with $A$ proving the $\Pi_1^*$ theorems of
-  $\mathrm{PA}{+}$, $\ISD$ decides neither $\G$ nor $\R$. $\G$ is unprovable
-  by Corollary~\ref{cor:isd}(a), $\neg\G$ by honesty
-  (Lemma~\ref{lem:honest}(a)), and Rosser's form holds by
-  \S\ref{sec:machine}. The same holds for $\mathrm{IS}(A)$ with $A \supseteq
-  \mathrm{PAX}$ regularly consistent (Corollary~\ref{cor:is},
-  Lemma~\ref{lem:honest}(b)), as Willard said in 1994: it satisfies
-  ``Godel's First but not Second Incompleteness Theorem'' (TR 93-10, p.~6).
-\item \textbf{Interpretation versus source.} The vocabulary of watching and
-  knowing, the conventions of \S\ref{sec:conventions} (the least-witness
-  substitution, the unbounded fixed point, the Prenex$^*$ rewriting, $\Pair$
-  and the numbering of sentences), Proposition~\ref{prop:herbrand} and its
-  corollary, the program
-  $\Prog{C}$ as a reading of Willard's Group-3, the horizon picture,
-  Lemmas~\ref{lem:instances}--\ref{lem:honest},
-  Proposition~\ref{prop:backwards} and its corollaries, the reading of
-  Willard's Theorem~6 as Oberhoff's Theorem~6 with the faith supplied, and the
-  repair of its fourth step are ours, not Willard's formulations. His own words for the mechanism are
-  ``adequate memory'' (1994) and the comparison, in 2006a Remark~3, between a
-  proof's Gödel number and the integer the proof shows to exist.
+\item \emph{The consistency is relative.} The systems are exactly as
+  trustworthy as their base. In Willard's words, if $A$ is Peano arithmetic,
+  ``its consistency will be as certain as that of Peano Arithmetic!''
+  (2001, \S2).
+\item \emph{The proof is one line.} A system that proves its consistency from
+  its own axiom $\W$ has ``essentially a 1-line proof'' (2011, Remark~6.16).
+  That is faith, not justification. The justification is $\Prog{Probe}$,
+  which lives outside, in the metatheory. Willard put the objection against
+  himself: ``Is it not almost cheating \ldots?'' (2016, \S8). His answer,
+  Platonic Stability, rests on a conjecture (2016, Conjecture~6.6\sk).
+\item \emph{The words are ours.} Watching and knowing, the conventions of
+  Appendix~\ref{app:fine}, Lemmas~\ref{lem:instances}, \ref{lem:watch}
+  and~\ref{lem:transcript}, Propositions~\ref{prop:herbrand}
+  and~\ref{prop:backwards} and their corollaries, the program $\Prog{C}$ as a
+  reading of Willard's Group-3, the
+  horizon picture, and the repair in Appendix~\ref{app:ns} are ours. Willard's
+  own words for the mechanism are ``adequate memory'', and the comparison
+  between a proof's Gödel number and the integer it proves to exist.
 \end{itemize}
 
 \medskip\noindent
 {\small (The cake promised in Oberhoff's abstract is still on its way. We
-cannot prove that it exists: it is one multiplication away.)}
+cannot prove that it exists, because it is one multiplication away.)}
 
 % ==========================================================================
 \appendix
-\section{Provenance}
 
-Page numbers are the printed page numbers of the author copies held in
-\texttt{nachlass/papers/} in the repository; for 2004 they are the volume's. The
-PDF page index differs for TR 93-10 (by 2), for 2011, 2016 and 2020 (by 1)
-and for 2004, and the codification sometimes cites the index instead.
-Statuses are those of
-\texttt{nachlass/codification/registry/results.md}. ``Verbatim, image''
-marks quotations checked against rendered page images; ``text layer'' marks
-quotations checked only against the extracted text.
+\section{The Fine Print}
+\label{app:fine}
 
-\begin{center}\scriptsize
-\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{2.3cm}l>{\raggedright\arraybackslash}p{6.0cm}>{\raggedright\arraybackslash}p{2.6cm}@{}}
-\toprule
-Paper & Item & Page & Content used here & Status \\
-\midrule
-TR 93-10 & --- & 6 & philosopher's hedge; G1 but not G2; ``either fails \ldots{} or fails to meet''; $\mathit{Turing}(x,y,z)$ & verbatim, image \\
-TR 93-10 & --- & 7 & adequate memory; $a_{300}$; cuts and Solovay & verbatim, image \\
-TR 93-10 & --- & 33 & tableaux with $\Phi \vee \neg\Phi$ (Xtab) & via codified \S7.3 \\
-2000 & Lem 8; \S5 & 11; --- & squaring construction; ``the true reason'' & full; verbatim (codified \S5.3) \\
-2001 & Def 1.2 & 4 & tangibility predicates, Eq.~2 & --- \\
-2001 & \S2 & 9--12 & grounding functions; IS(A) groups; regular consistency & text layer \\
-2001 & Thm 3.4, 3.5 & 13--14 & $\mathrm{ISREF}(A)$ consistency; $\mathit{TangPred}$ reflection & full \\
-2001 & Lem 4.1, 4.2 & 17, 19 & constants below $\sqrt{y}$; parameters below $y$ & full; sketch \\
-2001 & Thm 4.3; Rem 4.4 & 20 & IS(A) consistency; Assertion ++ & full; verbatim, image \\
-2001 & Rem 4.5 & 21 & $\mathrm{ISMULT}(A)$ has no analogue of Lem 4.2 & --- \\
-2001 & Lem 4.6, 4.8 & 22--23 & affirmative branch cannot close; least refutation has one & full \\
-2001 & Case 11 & 28 & ``substantially more than six bits'' & image (extraction record) \\
-2001 & Thm 5.1, 6.1; Cor 6.2 & 28, 34--35 & $\mathrm{IS}^\lambda(A)$ at $\lambda = 3/4$; $\mathit{TangRoot}_k$ reflection & full \\
-2001 & \S6 & 36 & $\mathrm{ISM}(A)$ & routine generalization (Willard) \\
-2001 & Lem 7.1; Thm 7.2, 7.3 & 37--40 & closure; no canonical reflection, fixed point (63), (67), (U); $\mathrm{XIS}^\lambda$ & full; text layer \\
-2001 & App B & 51--52 & byte encoding of proofs; sentences numbered by byte value; constants & text layer \\
-2001 & Thm C.1--C.3 & 56--60 & arithmetization via LinH & sketch; full given C.1--C.2 \\
-2002a & Thm 2.2 & 7 & cut elimination, super-exponential length & sketch \\
-2002a & Thm 3.4, 3.5 & 11 & $Q+V$: G2 for finite extensions, tableaux & full \\
-2002a & Def 5.1; Thm 6.4 & 20, 25 & Conventional Deciphering; $I\Sigma_0$ & ---; sketch \\
-2002c & --- & 2 & weakest notion for G2, strongest for exceptions & via obligation O59 \\
-2004 & Thm 1, 2 & 342, 344 & Level($2^+$) G2; $\Pi_2^*/\Sigma_2^*$ lemmas & full (deferred step); sketch \\
-2005 & \S1 & --- & Kleene, Rogers, Jeroslow & verbatim (codified \S2.2) \\
-2005 & \S2--3 & 4--10 & U-Grounding language; Level notions; tableaux; Tab lists; $\ISD$; Eqs.~5--8 & text layer \\
-2005 & Def 4, 5; Thm 1 & 19--20 & Normed, $\theta$-compactification; engine; $j_2$ proves ``the $\Sigma_1^*$ theorem that is $\Phi$'s negation'' & full; text layer \\
-2005 & Rem 2, 4 & 21 & 2001 proof hard to visualize; multiplication & ---; stated-only \\
-2005 & Lem 1, 2; Thm 2 & 23--26 & $\mathit{Probe}$; non-closure; $\theta = 1/4$; Eq.~20 & full \\
-2005 & fn 3; Thms 3--5; Rem 5; fn 5 & 26--29 & leading negation in neither class; $\ISD$ consistency-preserving; Part~A's U-Height demand & full; text layer \\
-2005 & Defs 2, 3, 6; Lem 3, 4; Thm 6 & 11, 33--36 & $\mathrm{NS}^{k,m}_D$; (27)--(33); Def 6's $q$ proves (25), so step (31) needs the repair sketched in \S\ref{sec:bought} (ours) & full as printed; sketch here; Def 6 image \\
-2005 & Rem 8; p.~37 & 36--37 & stronger Thm 6; $\Pi_1^*$ additions & stated-only \\
-2005 & \S2 & 6--7 & tableau rules; Prenex$^*$ root; axioms as nodes; Tab lists; ``also hold if we drop the Prenex$^*$ requirement'' & text layer \\
-2005 & App A & 39--40 & encoding; uncompressed encodings & text layer \\
-2006a & Thms 1, 2 & 4 & Pudlák's and Solovay's theorems & cited \\
-2006a & Thms 3, 4 & 6--7 & additive naming works; multiplicative fails & full \\
-2006a & Rem 3 & 24 & proof's Gödel number vs.\ the integer it proves exists & verbatim, image \\
-2006a & App A & 37 & uncompressed encodings ``have analogs'' & text layer \\
-2007 & Thm 6 & 29 & $T$-1, $T$-2: G2 for tableaux & full \\
-2011 & Rem 6.16 & 28 & ``essentially a 1-line proof'' & --- \\
-2016 & Def 3.4, Ex 3.5 & 7 & self-justification; ``ironically typically useless'' & verbatim (codified \S2.2) \\
-2016 & Rem 4.9; \S8 & 13; --- & the two questions; ``almost cheating'' & verbatim (codified \S1.4) \\
-2016 & Conj 6.6; Cor 8.2 & 23; 28 & Platonic Stability, conditional & stated-only; text layer \\
-2020 & Xtab; Thm 4.5 & 10; 12 & excluded middle; $\mathrm{IS}_{\mathrm{Xtab}}$ inconsistent & sketch \\
-\bottomrule
-\end{tabular}
-\end{center}
+\subsection{Languages, consistency and arithmetization}
+
+\paragraph{The 2005 language.} Willard's \emph{U-Grounding} language has
+constants $\bar c_0$ and $\bar c_1$ for $0$ and $1$, the growth functions $+$
+and $\mathit{Double}$, and six \emph{grounding} functions with
+$F(\vec a) \le \max(\vec a)$. These are truncated subtraction, integer
+division, $\mathit{Root}$, $\mathit{Maximum}$, $\mathit{Logarithm}$ and
+$\mathit{Count}$ (2005, \S2). Each $n \ge 2$ is named by its \emph{U-Grounded
+Binary Representation} $\bar n$. This is a term with at most $2\log_2 n$
+occurrences of $+$ and $\mathit{Double}$, applied to $1$. Bounded quantifiers
+have the forms $\forall v \le t$ and $\exists v \le t$. Willard's classes
+$\Delta_0^*$, $\Pi_1^*$ and $\Sigma_1^*$ are written ``bounded'', $\Pi_1$ and
+$\Sigma_1$ in the main text. A negation in front of unbounded quantifiers
+yields a sentence in neither class, although it is logically equivalent to
+one (2005, Remark~5). The graph of multiplication is a $\Delta_0^*$ formula
+(Eq.~4). Multiplication by any fixed constant is total, through iterated
+addition. What is withheld is the uniform operation $x \cdot y$.
+$\mathrm{PA}{+}$ is Peano arithmetic with the U-Grounding function symbols
+(2005, \S6). The 2001 language is in Appendix~\ref{app:2001}.
+
+\paragraph{Consistency.} For an axiom system $\alpha$ with deduction method
+$D$, Level(0$-$) consistency means that there is no $D$-proof of $0 = 1$ from
+$\alpha$. Level(1) consistency means that no $\Pi_1^*$ sentence and its
+negation both have $D$-proofs from $\alpha$ (2005, \S2). The negation is
+made precise by $\Pair$ below. The levels agree in strong systems and come
+apart in weak ones. Willard asserts the weakest level in his negative results
+and the strongest in his positive ones (2002c).
+
+\paragraph{Arithmetization.} In each configuration here,
+$\Prf^D_\alpha(x,y)$, ``$y$ codes a $D$-proof from $\alpha$ of the sentence
+coded $x$'', is a bounded formula, and $\Prov^D_\alpha(x) := \exists
+y\,\Prf^D_\alpha(x,y)$. The other syntactic predicates used here also have
+bounded definitions: substitution, $\mathrm{Num}$, the prenex rewriting and
+$\Pair$. This is Willard's arithmetization of syntax. It runs through
+Wrathall's characterization of the linear-time hierarchy (2001,
+Theorems~C.1--C.2\sk{} and~C.3; 2005, \S3). It is Oberhoff's Theorem~7
+transposed to languages without total multiplication, and, like him, we take
+it as given. For the proof-searching programs of this essay,
+\fs{$\Prog{A}(\Prog{A})$ halts} is formalized as ``the search succeeds''. That
+is an existential statement about $\Prf$.
+
+\subsection{Encoding, prenex form and negation}
+
+\paragraph{Encoding.} Proofs are encoded as in 2005, Appendix~A. A proof is a
+string of six-bit bytes read as an integer in base 64. Each of the 24 symbols
+has a code between 32 and 55, so its leading bit is 1. A tableau list is the
+concatenation of its components. A sentence is numbered by the value of its
+own byte string, as in 2001, Appendix~B, with the first byte in the highest
+place. Two consequences are used throughout. First, a string of $N$ bytes that
+begins with a symbol byte has value at least $32 \cdot 64^{N-1}$, and every
+proof and every sentence begins with one. Second, a sentence that occurs in a
+proof has a Gödel number no larger than the proof's, because a contiguous
+substring of a base-64 numeral has no larger value. Every axiom used in a
+tableau occurs in it as a node (2005, \S2).
+
+\paragraph{Prenex form.} The root of a tableau proof of $\Phi$ ``stores the
+sentence $\neg\Phi$ (rewritten in Prenex$^*$ normal form)'' (2005, \S2).
+Willard does not fix the rewriting, so we fix it. Let
+$\Theta = Q_1v_1\ldots Q_kv_k\,\delta$ be a prenex sentence with $\delta$
+bounded. Let $\mathrm{dual}(\Theta) := \bar Q_1v_1\ldots\bar Q_kv_k\,
+\neg\delta$, where each quantifier is exchanged for the other. Let
+$\mathrm{pnx}(\Theta) := \Theta$ and
+$\mathrm{pnx}(\neg\Theta) := \mathrm{dual}(\mathrm{pnx}(\Theta))$. Willard's
+arguments use only that the root is a prenex sentence equivalent to
+$\neg\Phi$, in the class of that sentence, so they hold under this convention.
+He also states that they hold without the prenex requirement (2005, \S2\sk).
+For a prenex $\Phi$,
+\[
+\mathrm{pnx}(\neg\neg\Phi) = \mathrm{dual}(\mathrm{dual}(\Phi)) =
+\mathrm{pnx}(\neg\,\mathrm{dual}(\Phi)).
+\]
+So the syntactic negation $\neg\Phi$ and the prenex sentence
+$\mathrm{dual}(\Phi)$ have exactly the same tableau proofs. They also have the
+same tableau-list proofs, since a list proves the conclusion of its last
+component.
+
+\paragraph{Negation in the consistency axiom.} Level(1) consistency is
+stated with a bounded formula $\Pair(x,y)$, ``$x$ is the Gödel number of a
+$\Pi_1^*$ sentence and $y$ is $x$'s negation'' (2005, \S3):
+\[
+\forall x\,\forall y\,\forall p\,\forall q\;\neg[\Pair(x,y) \wedge \Prf(x,p)
+\wedge \Prf(y,q)].
+\]
+Willard's text uses two candidates for the negation. One is the string
+$\neg f$ (his Eq.~28). The other is ``the $\Sigma_1^*$ theorem that is $\Phi$'s
+negation'' in the proof of Theorem~1, that is, $\mathrm{dual}(\Phi)$. We let
+$\Pair(x,y)$ hold when $x$ codes a $\Pi_1^*$ sentence $\Phi$ and $y$ codes a
+sentence $\theta$ with $\mathrm{pnx}(\neg\theta) = \mathrm{pnx}(\neg\neg\Phi)$.
+Both candidates qualify, and every sentence $\Pair$ accepts has exactly the
+tableau proofs of $\mathrm{dual}(\Phi)$. The first arrow of Theorem~1's proof
+in \S\ref{sec:machine} needs this, because witnesses are defined only for
+$\Sigma_1^*$ sentences. With the rewriting left open, Willard's ``such a
+triple $(j_1, j_2, m)$ will clearly exist'' would pass over the step.
+
+\subsection{The Gödel sentence and the fixed point}
+
+Let $\Subst_0(g,h)$ be a bounded formula defining the graph of substitution:
+$h$ codes the result of substituting the numeral of $g$ into the formula
+coded $g$. We use it in least-witness form,
+\[
+\Subst(g,h) := \Subst_0(g,h) \wedge \forall h' \le h\,[h' = h \vee
+\neg\Subst_0(g,h')].
+\]
+This formula is bounded, and in the standard model it holds exactly when
+$\Subst_0$ does. Let $n$ be the Gödel number of
+\[
+\Gamma(g) := \forall x\,\forall h\,[\Subst(g,h) \supset \neg\Prf(h,x)],
+\]
+and let $\G := \Gamma(\bar n)$ and $c := \gn{\G}$. So $\G$ is $\Pi_1$, and
+$\Subst(\bar n, \bar c)$ is a true bounded sentence. The \emph{halting
+sentence} is the $\Sigma_1$ sentence
+\[
+\Hs := \mathrm{dual}(\G) = \exists x\,\exists h\,\neg[\Subst(\bar n,h)
+\supset \neg\Prf(h,x)].
+\]
+It says that some $x$ proves the sentence that substitution produces. With
+$c' := \gn{\Hs}$, $\Pair(\bar c, \bar c\,')$ is a true bounded sentence, and
+$\Hs$ has exactly the proofs of $\neg\G$.
+
+Our $\G$ differs from Willard's fixed point (2001, Eq.~63) in two ways. It has
+no bound $h \le x$, just as his own bounded Gödel sentence $\Mho$ has none
+(2005, Eq.~24). And its substitution formula is in least-witness form.
+Together these make the fixed point provable from trichotomy alone.
+
+\begin{fact}[Fixed point; after Willard 2001, Theorem~7.2]\label{fact:fp}
+Let $D$ be sound and complete for $\alpha$, let $\Prf$ be bounded, and let
+$\alpha$ prove $\Subst(\bar n, \bar c)$. Then
+\[
+\alpha \vdash \G \supset \forall y\,\neg\Prf(\bar c, y).
+\tag{FP$\Rightarrow$}
+\]
+If $\alpha$ also proves $\forall h\,(h \le \bar c \vee \bar c \le h)$, then it
+proves $(U)\;\forall h\,[\Subst(\bar n, h) \supset h = \bar c]$ and
+\[
+\alpha \vdash \G \leftrightarrow \forall y\,\neg\Prf(\bar c, y).
+\tag{FP}
+\]
+\end{fact}
+
+\begin{proof}
+(FP$\Rightarrow$): instantiate $\G$ at $x = y$ and $h = \bar c$. With
+$\Subst(\bar n, \bar c)$ this gives $\neg\Prf(\bar c, y)$.
+
+(U): suppose $\Subst(\bar n, h)$. If $h \le \bar c$, the second conjunct of
+$\Subst(\bar n, \bar c)$ at $h' = h$ gives $h = \bar c$ or
+$\neg\Subst_0(\bar n, h)$, and the first conjunct of $\Subst(\bar n, h)$
+excludes the latter. If $\bar c \le h$, the second conjunct of
+$\Subst(\bar n, h)$ at $h' = \bar c$ gives $\bar c = h$ or
+$\neg\Subst_0(\bar n, \bar c)$, and the first conjunct of
+$\Subst(\bar n, \bar c)$ excludes the latter.
+
+(FP$\Leftarrow$): given $x$ and $h$ with $\Subst(\bar n, h)$, (U) gives
+$h = \bar c$, and the hypothesis gives $\neg\Prf(\bar c, x)$.
+
+Each implication holds in every model of $\alpha$, given theorems of
+$\alpha$. Applying Fact~\ref{fact:closure} repeatedly gives its proof.
+\end{proof}
+
+\noindent
+$\Hs$ is logically equivalent to $\neg\G$, so $\alpha$ proves them
+equivalent. That does not give $\alpha \vdash \Prov(\gn{\neg\G})
+\leftrightarrow \Prov(\gn{\Hs})$, which would be a derivability condition, the
+very thing in question. What the conventions give instead is that $\neg\G$
+and $\Hs$ have the same proofs, and that $\Pair$ pairs $\G$ with both.
+
+\subsection{Willard's 2005 system: proofs for Sections 4 to 6}
+
+\paragraph{The proof predicate.} Let $\mathrm{UNION}(A)$ be Groups 0--2.
+$\mathit{ExPrf}^D_{\mathrm{UNION}(A)}(h,t,p)$ says that $p$ is a $D$-proof of
+$t$ from $\mathrm{UNION}(A)$ plus the sentence coded $h$. Willard's Eq.~(7) is
+\[
+\mathit{SubstPrf}(g,t,p) := \Prf^D_{\mathrm{UNION}(A)}(t,p) \vee \exists h \le
+p\,[\Subst(g,h) \wedge \mathit{ExPrf}^D_{\mathrm{UNION}(A)}(h,t,p)].
+\]
+Group-3, his Eq.~(8), is $\Gamma_3(\bar n_3)$, where $n_3$ is the Gödel number
+of
+\[
+\Gamma_3(g) := \forall x\,\forall y\,\forall p\,\forall q\;\neg[\Pair(x,y)
+\wedge \mathit{SubstPrf}(g,x,p) \wedge \mathit{SubstPrf}(g,y,q)].
+\]
+This is \fs{$\Prog{C}(\Prog{C})$ doesn't halt}, with $g$ standing for
+$\Prog{C}$. The proof predicate of $\ISD$ is
+$\mathit{SubstPrf}(\bar n_3, \cdot, \cdot)$, which is bounded (2005, \S3).
+
+\paragraph{Lemma~\ref{lem:watch}: correctness.} By the arithmetization,
+$\Subst$, $\Prf^D_{\mathrm{UNION}(A)}$ and $\mathit{ExPrf}$ are correct. A
+$D$-proof $p$ from $\ISD$ that does not use Group-3 satisfies the first
+disjunct of Eq.~(7). One that does use it contains Group-3 as a node. So by
+the encoding, Group-3's code $h_3$ is at most $p$, and the second disjunct
+holds with $h = h_3$. Conversely, each disjunct describes a $D$-proof from
+$\ISD$, since in the standard model $\Subst(\bar n_3, h)$ holds only for
+$h = h_3$.
+
+\paragraph{Lemma~\ref{lem:watch}: truth.} Groups 0 and 1 are true. In
+Willard's words, ``it is obvious that all $\mathrm{IS}_D(A)$'s Group-0 and 1
+axioms are valid under the standard model'' (2005, \S5). Group-2 is true by
+hypothesis, and Group-3 is true by Theorem~\ref{thm:willard}. That theorem's
+proof rules out $D$-proofs of $\Phi$ and $\mathrm{dual}(\Phi)$, and by the
+conventions above, every sentence that $\Pair$ accepts has the proofs of
+$\mathrm{dual}(\Phi)$. A sound method proves only truths from true axioms.
+
+\begin{fact}[Inheritance]\label{fact:detach}
+If $A$ proves a $\Pi_1$ sentence $\Phi$, then so does $\ISD$.
+\end{fact}
+
+\begin{proof}
+Let $p$ be the proof. Groups 0 and 1 prove the true bounded sentence
+$\Prf_A(\gn{\Phi}, \bar p)$, and with $\Phi$'s Group-2 axiom,
+Fact~\ref{fact:closure} gives $\Phi$.
+\end{proof}
+
+\paragraph{The first incompleteness theorem.} Let $A$ prove the $\Pi_1$
+theorems of $\mathrm{PA}{+}$, and let every $\Pi_1$ theorem of $A$ be true.
+Then $\G$ is unprovable by Corollary~\ref{cor:isd}. $\neg\G$ and $\Hs$ are
+false, so they are unprovable, because $\ISD$ is honest. Rosser's version
+goes through as in Oberhoff. The finite searches he writes out are true
+bounded facts, which Groups 0 and 1 prove. In case~2, $\Prog{B}(\Prog{B})$
+enters its loop at a definite step, so $\mathrm{PA}{+}$ proves the $\Pi_1$
+sentence \fs{$\Prog{B}(\Prog{B})$ doesn't halt}, and Fact~\ref{fact:detach}
+hands it to $\ISD$.
+
+\paragraph{Corollary~\ref{cor:isd}: the hypotheses.} The proof predicate is
+bounded and correct. (H1): a proof of $0 = 1$ would yield proofs of every
+sentence, by Fact~\ref{fact:closure}, and in particular of a $\Pi_1$ sentence
+and its negation. Group-3 is true, so no such pair exists. (H2) is
+Lemma~\ref{lem:watch}. (H3): Groups 0 and 1 prove the true bounded sentences,
+among them $\Subst(\bar n, \bar c)$ and $\Pair(\bar c, \bar c\,')$.
+Trichotomy is a $\Pi_1$ theorem of Peano arithmetic and so of
+$\mathrm{PA}{+}$, and Fact~\ref{fact:detach} hands it down. (H4) is
+literally Eq.~(8). $\ISD$ is never asked to prove that its Group-3 formula is
+its own proof predicate. That correctness is used only in the metatheory.
+
+\paragraph{Proposition~\ref{prop:herbrand}: proof.} Write $|\vec x|$ for
+$x_1 + \cdots + x_m + 1$, and $\bar k \cdot t$ for the term $t + \cdots + t$
+with $k$ summands. Suppose that no $k$ works. Then for each $k$ some $\vec x$
+has no witness $\vec y \le k|\vec x|$. Add new constants $\vec c$, and
+consider every finite subset of
+\[
+\mathrm{Th}(\mathbb N) \cup \{\forall \vec y \le \bar k \cdot |\vec c|\;
+\neg\delta(\vec c, \vec y) : k \in \mathbb N\}.
+\]
+$\mathbb N$ satisfies it, if $\vec c$ is interpreted as such an $\vec x$ for
+the largest $k$ involved. By compactness there is a model $M$ of
+$\mathrm{Th}(\mathbb N)$ with elements $\vec a$ such that
+$M \models \forall \vec y \le \bar k \cdot |\vec a|\; \neg\delta(\vec a,
+\vec y)$ for every $k \in \mathbb N$. Let
+\[
+I := \{\, z \in M : z \le \bar k \cdot |\vec a| \text{ for some } k \in
+\mathbb N \,\}.
+\]
+The following facts hold in $M$, because the sentences that express them are
+true in $\mathbb N$.
+\begin{itemize}[leftmargin=1.5em]
+\item $\le$ is transitive, so $I$ is an initial segment.
+\item $x_i \le x_1 + \cdots + x_m + \bar c_1$, so each $a_i$ is in $I$.
+\item $\bar n \le \bar n \cdot u$ for $u \ge 1$, so $I$ contains every
+  $\bar n$.
+\item $\bar i \cdot u \le \bar j \cdot u$ for $i \le j$, so any finitely many
+  elements of $I$ lie under one bound $\bar k \cdot |\vec a|$.
+\item If $x \le \bar i \cdot u$ and $y \le \bar j \cdot u$, then
+  $x + y \le \overline{i + j} \cdot u$ and
+  $\mathit{Double}(x) \le \overline{2i} \cdot u$. So $I$ is closed under $+$
+  and $\mathit{Double}$.
+\end{itemize}
+The grounding functions satisfy $F(\vec z) \le \max(\vec z)$, and their
+arguments lie under a common bound, so $I$ is closed under them too. Hence
+$I$ is a substructure of $M$ and an initial segment of it. A bounded formula
+therefore has the same truth value in $I$ as in $M$, at arguments from $I$.
+Its terms take the same values, and its quantifiers range over initial
+segments of $I$. So a bounded sentence of $\F$ is true in $M$, and hence in
+$I$. A $\Pi_1$ sentence $\forall \vec z\,\beta(\vec z)$ of $\F$ is true in
+$M$, so $\beta$ holds at every tuple from $I$, in $M$ and hence in $I$. So
+$I \models \F$, hence $I \models \forall\vec x\,\exists\vec y\,\delta$. Then
+some $\vec y \in I$ satisfies $\delta(\vec a, \vec y)$ in $I$, and hence in
+$M$. But $\vec y \le \bar k \cdot |\vec a|$ for some $k \in \mathbb N$, which
+contradicts the choice of $\vec a$.\contra
+
+% ==========================================================================
+\section{The 2001 System}
+\label{app:2001}
+
+\paragraph{The system.} Willard's 2001 system $\mathrm{IS}(A)$ is written in a
+different language. It has a constant $\bar n$ for every number $n$, and seven
+grounding functions: truncated subtraction, integer division, predecessor,
+maximum, logarithm, root and $\mathit{Count}$. Its classes are written
+$\Delta_0^-$, $\Pi_1^-$ and $\Sigma_1^-$ (2001, \S2). Addition is not a
+function symbol. Group-1 asserts that addition is total by the $\Pi_2^-$ axiom
+$\forall x\,\forall y\,\exists z\; z \mathbin{\dot-} x = y$ (Eq.~6). The
+deduction method is semantic tableaux. Group-3 asserts Level(0$-$)
+consistency. It is $\Theta(\bar N)$, with
+\[
+\Theta(g) := \forall y\,\neg\mathit{SubstSemPrf}_{\mathrm{UNION}(A)}(\gn{0=1},
+y, g).
+\]
+Here $\mathit{SubstSemPrf}_{\mathrm{UNION}(A)}(s,y,g)$ says that $y$ is a
+tableau proof of $s$ from $\mathrm{UNION}(A)$ together with the sentence $h$
+such that $\Subst(g,h)$ (2001, Appendix~B, Eqs.~86--87). Its $\Delta_0^-$
+definition is Theorem~C.3. That theorem obtains it from analogs of
+Theorem~C.1, which are called routine and are not written out, and from
+Theorem~C.2\sk. Willard assumes throughout that $A$ extends Peano arithmetic.
+$A$ is \emph{regularly consistent} if $\Prf_A$ has a $\Delta_0^-$ encoding and
+every Group-2 axiom is true (2001, \S2).
+
+\begin{theorem}[Willard 2001, Theorem~4.3]\label{thm:is}
+If $A$ is regularly consistent, then $\mathrm{IS}(A)$ is Level(0$-$)
+consistent.
+\end{theorem}
+
+\noindent
+Willard's proof is an eleven-case induction, which he later found ``hard to
+visualize'' and replaced with the engine of \S\ref{sec:machine} (2005,
+Remark~2).
+
+\paragraph{What carries over.} Let $A \supseteq \mathrm{PAX}$ be regularly
+consistent, where $\mathrm{PAX}$ is Peano arithmetic in the 2001 language. Let
+$\G$ and $\Hs$ be built from the proof predicate of $\mathrm{IS}(A)$'s
+Group-3 axiom, under the conventions of Appendix~\ref{app:fine}.
+\begin{itemize}[leftmargin=1.5em]
+\item \emph{Watching.} $\mathrm{IS}(A)$ ``obviously has a capacity to prove
+  every $\Delta_0^-$ sentence which is true'' (2001, \S7). It also names every
+  number by a constant. So it proves the true $\Delta_0^-$ instance of a true
+  $\Sigma_1^-$ sentence at its witnesses, and Fact~\ref{fact:closure} adds the
+  quantifiers.
+\item \emph{Correctness.} Write the $\Delta_0^-$ definition in the form of
+  2005's Eq.~(7):
+  \[
+  \mathit{SemPrf}_{\mathrm{UNION}(A)}(s,y) \vee \exists h \le y\,[\Subst(g,h)
+  \wedge \mathit{SemPrf}_{\mathrm{UNION}(A)+h}(s,y)].
+  \]
+  A proof $y$ that uses no Group-3 axiom satisfies the first disjunct. A proof
+  that uses Group-3 has $\Theta(\bar N)$ as a node: the nodes other than the
+  root ``are either axioms of $\alpha$ or deductions from higher nodes''
+  (2001, \S4). Each node is written as a curly bracket followed by its
+  sentence (2001, Appendix~B), so the axiom's byte string is a contiguous part
+  of $y$. So its code $h_N$ is at most $y$, and the second disjunct holds with
+  $h = h_N$. Conversely, the first disjunct describes a proof from
+  $\mathrm{UNION}(A) \subseteq \mathrm{IS}(A)$. The second describes a proof
+  from $\mathrm{UNION}(A)$ plus the sentence $h$ with $\Subst(\bar N, h)$, and
+  in the standard model that sentence is only $h_N$.
+\item \emph{Honesty.} Group-0 consists of true atomic facts, Group-1 is true,
+  and Group-2 is true by regular consistency. Group-3 says, by correctness,
+  that no tableau proof of $0 = 1$ exists, and this is true by
+  Theorem~\ref{thm:is}.
+\item \emph{The first incompleteness theorem.} The argument that $\F$ does
+  not prove $\G$, in Proposition~\ref{prop:backwards}, needs only Level(0$-$)
+  consistency, watching, $\Subst(\bar n, \bar c)$ and correctness. So
+  $\mathrm{IS}(A)$ does not prove $\G$. Honesty excludes $\neg\G$. Rosser's
+  loop sentence is a $\Pi_1^-$ theorem of $\mathrm{PAX}$, handed down by the
+  Group-2 axiom of 2001 (Eq.~7). This is what TR 93-10 means by ``Godel's
+  First but not Second''.
+\item \emph{Linear witnesses.} Proposition~\ref{prop:herbrand} holds for true
+  bounded and $\Pi_1^-$ sentences together with Eq.~(6). Eq.~(6) says only
+  that $z \mathbin{\dot-} x = y$ has a solution, but its sharpening
+  $z \mathbin{\dot-} x = y \wedge x \le z$ is bounded. The true sentences
+  saying that the sharpening is total and single-valued hold in every model of
+  $\mathrm{Th}(\mathbb N)$. So expand $\mathbb N$ and $M$ by the function it
+  defines, and write the bounds $\bar k \cdot |\vec x|$ with it. The argument
+  then runs verbatim. $I$ is closed under the defined addition and under the
+  non-growth functions, and contains every constant. Eq.~(6) holds in $I$,
+  because $z = x + y$ lies in $I$ when $x$ and $y$ do.
+\item \emph{The uniform faith step fails.} All axioms are true, and each is
+  bounded, $\Pi_1^-$ (Group-3 by Theorem~C.3), or Eq.~(6). The constant
+  $\bar x$ takes $\lceil\log_{32}(x+1)\rceil + 1$ bytes (2001, Appendix~B), so
+  the code of $\bar x = \bar x$ is at least $32\,(x+1)^{6/5}$. That
+  eventually exceeds $k(x+1)$, as in Corollary~\ref{cor:uniform}.
+\end{itemize}
+
+\paragraph{What does not carry over.} Group-3 asserts only Level(0$-$)
+consistency, so step~(3) is no longer free.
+
+\begin{corollary}[ours]\label{cor:is}
+$\mathrm{IS}(A)$ does not prove both step~(2) and the Level(0$-$) form of
+step~(3),
+\[
+\forall p\,\forall q\,[\Prf(\bar c, p) \wedge \Prf(\bar c\,', q) \supset
+\exists r\,\Prf(\gn{0=1}, r)].
+\]
+\end{corollary}
+
+\begin{proof}
+With Group-3, $\forall r\,\neg\Prf(\gn{0=1}, r)$, these two sentences would
+give step~(3), $\neg[\Prov(\bar c) \wedge \Prov(\bar c\,')]$. That is all
+that the proof of Proposition~\ref{prop:backwards} uses of (H4). So that
+proof would give $\mathrm{IS}(A) \vdash \G$, against the first incompleteness
+theorem above.\contra
+\end{proof}
+
+\noindent
+So for the 2001 system the closed faith step fails in at least one of two
+places, and we do not know which. Its uniform form fails outright.
+
+% ==========================================================================
+\section{The Fourth Step of Willard's Theorem 6}
+\label{app:ns}
+
+Willard's Definition~6 lets $\mathit{CheckProof}(t,p,q)$ say that $p$ proves
+$t$ and that $q$ proves the $\Sigma_1$ sentence (25),
+$\exists p\,\Prf(t,p)$, ``$t$ is provable''. Lemma~4 says that
+$\mathrm{PA}{+}$ proves Willard's (26) for large $k$, and (27) is its instance
+at $(k, m)$:
+\[
+\forall p\,\forall n\,\exists q < n\,\bigl\{[\mathrm{Log}^{k-1} p < m \wedge
+\mathrm{Log}^k n \ge m \wedge \Prf(\gn{\Mho}, p)] \supset
+\mathit{CheckProof}(\gn{\Mho}, p, q)\bigr\}.
+\]
+Willard writes ``Peano Arithmetic'' here. The sentence is in the U-Grounding
+language, so the theory meant is $\mathrm{PA}{+}$. The proof $W$ continues
+as follows. Step (28) is $\Pair(\gn{\Mho}, \gn{\neg\Mho})$, a true bounded
+sentence. Steps (29) and (30) are the Group-3 axiom and its instance,
+$\forall p\,\forall q\,\neg[\Prf(\gn{\Mho},p) \wedge \Prf(\gn{\neg\Mho},q)]$.
+In step (31), no $p$ and $q$ satisfy $\mathit{CheckProof}(\gn{\Mho}, p, q)$.
+Step (32), chained with (27), says that no short proof of $\Mho$ coexists
+with a large $n$. In step (33), $\Upsilon(k,m)$ supplies the large $n$.
+
+\paragraph{The gap.} Willard derives (31) from (30), because ``the
+definitions of CheckProof and $\Mho(k-1,m)$ imply that
+CheckProof$(\gn{\Mho}, p, q)$ is logically equivalent to Equation (30)'s
+curly bracket expression''. But by Definition~6 as printed, $q$ proves (25),
+and (25) is not a sentence that $\Pair$ pairs with $\Mho$. It has neither the
+substitution nor the bound $\mathrm{Log}^{k-1}(p) < m$. A long proof of
+$\Mho$ makes (25) true and $\neg\Mho$ false. So (30) does not yield (31).
+
+\paragraph{The repair (ours, a sketch).} Replace (28) by the true bounded
+sentence $\Pair(\gn{\Mho}, \gn{\mathrm{dual}(\Mho)})$, which $\Pair$ accepts.
+With (29) it gives $\forall p\,\forall q\,\neg[\Prf(\gn{\Mho}, p) \wedge
+\Prf(\gn{\mathrm{dual}(\Mho)}, q)]$ in place of (30). Then redefine
+$\mathit{CheckProof}$ so that $q$ proves $\mathrm{dual}(\Mho)$. Now (31)
+follows from the new (30) by pure logic, since $\mathit{CheckProof}$ is
+literally its bracket. It remains to show that such a $q$ is short. Let $p$ be
+a proof of $\Mho = \Mho(k-1,m)$ with $\mathrm{Log}^{k-1}(p) < m$. Then $q$ can
+be built as a tableau list of four parts:
+\begin{enumerate}[label=(\roman*), leftmargin=2.5em]
+\item a proof of the bounded sentence $\Prf(\gn{\Mho}, \bar p)$, which is the
+  object that Lemma~3's sketch constructs;
+\item a proof of the bounded sentence $\mathrm{Log}^{k-1}(\bar p) < \bar m$;
+\item a proof of the true bounded sentence $\Subst(\bar n, \gn{\Mho})$, which
+  depends only on $k$ and $m$;
+\item a tableau whose root, $\mathrm{dual}(\mathrm{dual}(\Mho))$, is the
+  prenex form of $\neg\,\mathrm{dual}(\Mho)$. It instantiates the two
+  universal quantifiers at $\bar p$ and $\gn{\Mho}$, removes the double
+  negation, branches, and closes every branch against (i)--(iii). If
+  (i)--(iii) are carried as intermediate theorems with a vacuous universal
+  quantifier, as Willard's own bounded intermediate (28) must be, the tableau
+  instantiates those first.
+\end{enumerate}
+Part (iv) mentions $\bar p$ and $\gn{\Mho}$ a bounded number of times. Also
+$\gn{\Mho} < p$. The last root of $p$, $\mathrm{dual}(\Mho)$, is a contiguous
+part of $p$, one byte longer than $\Mho$, and it begins with a symbol byte. So
+$\gn{\Mho} < 64^{|\Mho|} \le \gn{\mathrm{dual}(\Mho)} \le p$. Hence the
+logarithm of (iv)'s Gödel number is $O(\mathrm{Log}\,p)$. The repair then
+needs (i)--(iii) to be short enough for Corollary~1's bound
+$F(p,t) < 2^b_a$ to survive. Lemma~3's sketch supplies (i). Parts (ii) and
+(iii) are claims of the same kind, about short proofs of bounded facts that
+can be checked in polynomial time, and the sketch does not address them. For
+the redefined $\mathit{CheckProof}$, (27) is no longer Lemma~4's theorem. It
+is this length claim. So at our level of detail, Willard's printed proof has
+a gap at (31), and our repair is a sketch resting on Lemma~3's sketch and on
+the length claims for (ii) and (iii). We therefore count Theorem~6 as a
+sketch, although the codification records it as full.
+
+% ==========================================================================
+\section{Sources}
+\label{app:sources}
+
+Page numbers are the printed page numbers of the author copies in the
+repository's \nolinkurl{nachlass/papers/}. For the 2004 chapter they are the
+volume's. The PDF page index differs by 2 for TR 93-10 and by 1 for 2011,
+2016 and 2020. Proof statuses are those of the codification's results
+registry (\nolinkurl{nachlass/codification/registry/results.md}), except where
+this essay revises one. Quotations were checked against the author copies.
+The essay's analysis note
+(\nolinkurl{docs/log/2026-10-24-incompleteness-ex-machina-analysis.md}) records
+which were checked against page images and which against the extracted text.
+
+\begin{itemize}[leftmargin=1.5em, itemsep=1pt, label={}]\small
+\item[] \textbf{TR 93-10.} Quotations: pp.~6--7.
+\item[] \textbf{2000.} Lemma~8, p.~11, full; \S5, p.~15.
+\item[] \textbf{2001.} \S2, the system $\mathrm{IS}(A)$ and regular
+  consistency, pp.~9--12. Theorem~4.3, p.~20, full. Lemma~7.1B and
+  Theorems~7.2--7.3, pp.~37--40, full. Appendix~B, the encoding and
+  Eqs.~86--87, pp.~51--52. Theorems~C.1--C.3, pp.~56--60: C.1--C.2 sketch,
+  C.3 full given them.
+\item[] \textbf{2002a.} Theorem~2.2, p.~7, sketch. Theorems~3.4--3.5, p.~11,
+  full.
+\item[] \textbf{2002c.} Weakest and strongest notions, p.~2.
+\item[] \textbf{2004.} Theorem~1, p.~342, full with one step deferred.
+  Theorem~2, p.~344, sketch.
+\item[] \textbf{2005.} \S\S2--3, the language, the Levels, tableaux, $\ISD$
+  and Eqs.~4--8, pp.~4--10; the prenex remark there is stated-only.
+  Definitions~4--5 and Theorem~1, pp.~19--20, full. Remarks~2 and~4, p.~21;
+  Remark~4 is stated-only. Lemmas~1--2, Theorem~2 and Eqs.~19--20,
+  pp.~23--26, full. Theorems~3--5, pp.~27--29, full; Remark~5, p.~27,
+  stated-only. Definitions~2, 3 and~6, pp.~11 and~33. Lemma~3, p.~33,
+  sketch; Lemma~4 and Corollary~1, p.~33, full. Theorem~6, pp.~34--36, full
+  as printed and a sketch here (Appendix~\ref{app:ns}). Remark~8 and the
+  $\Pi_1^*$ contrast, pp.~36--37, stated-only. Appendix~A, pp.~39--40.
+\item[] \textbf{2006a.} Theorems~1--2, Pudlák's and Solovay's, p.~4, cited.
+  Theorems~3--4, pp.~6--7, full. Remark~3, p.~24.
+\item[] \textbf{2007.} Theorem~6, p.~29, full.
+\item[] \textbf{2011.} Remark~6.16, p.~28.
+\item[] \textbf{2016.} Example~3.5, p.~7; \S8; Conjecture~6.6, p.~23,
+  stated-only.
+\item[] \textbf{2020.} Theorem~4.5, p.~12, sketch.
+\end{itemize}
 
 % ==========================================================================
 \begin{thebibliography}{Hilbert--Bernays 1939}\small
@@ -2063,17 +1556,9 @@ TR 93-10 & --- & 33 & tableaux with $\Phi \vee \neg\Phi$ (Xtab) & via codified \
 \bibitem[Oberhoff 2018]{oberhoff} S.~Oberhoff, \emph{Incompleteness Ex Machina}, essay dated
   31 December 2018, \url{https://www.scottaaronson.com/incompleteness.pdf}.
 
-\bibitem[Aaronson 2013]{aaronson} S.~Aaronson, \emph{Quantum Computing since Democritus},
-  Cambridge University Press, 2013. (Source of Oberhoff's program
-  $\Prog{B}$, per his reference [3].)
-
 \bibitem[Willard TR 93-10]{w93tr} D.~E.~Willard, \emph{Self-Verifying Axiom Systems and the
   Incompleteness Theorem}, SUNY Albany Computer Science Technical Report
   93-10 (a 1994 text with a 1993 series number).
-
-\bibitem[Willard 1993]{w93} D.~E.~Willard, Self-verifying axiom systems, in
-  \emph{Computational Logic and Proof Theory (KGC 3)}, LNCS 713, Springer,
-  1993, pp.~325--336.
 
 \bibitem[Willard 2000]{w00} D.~E.~Willard, The semantic tableaux version of the second
   incompleteness theorem extends almost to Robinson's arithmetic Q, in
@@ -2122,6 +1607,9 @@ TR 93-10 & --- & 33 & tableaux with $\Phi \vee \neg\Phi$ (Xtab) & via codified \
   second incompleteness theorem and its boundary-case exceptions,
   arXiv:2006.01057 (2020).
 
+\bibitem[Boolos 1984]{boolos84} G.~Boolos, Don't eliminate cut, \emph{Journal of
+  Philosophical Logic} 13 (1984), 373--378.
+
 \bibitem[Hájek--Pudlák 1993]{hp93} P.~Hájek and P.~Pudlák, \emph{Metamathematics of
   First-Order Arithmetic}, Springer, 1993.
 
@@ -2134,9 +1622,6 @@ TR 93-10 & --- & 33 & tableaux with $\Phi \vee \neg\Phi$ (Xtab) & via codified \
 
 \bibitem[Pudlák 1985]{pudlak85} P.~Pudlák, Cuts, consistency statements and
   interpretations, \emph{Journal of Symbolic Logic} 50 (1985), 423--441.
-
-\bibitem[Boolos 1984]{boolos84} G.~Boolos, Don't eliminate cut, \emph{Journal of
-  Philosophical Logic} 13 (1984), 373--378.
 
 \end{thebibliography}
 

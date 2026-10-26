@@ -466,3 +466,73 @@ Revision 8 builds clean: 29 pp. A focused sixth check of these fixes follows.
 - **Genuinely open:** Cor M's disjunction (the closed faith step for IS(A)).
 - **Outside scope:** metatheory strength; O51 (codification workstream).
 - **Reviews:** six rounds. The last full round (5) and the focused check (6) leave no unresolved finding after this revision.
+
+## Revision 10 (2026-10-26): streamlining
+
+**Request (verbatim).** "This essay is littered with minutiae. The codification and refinement work ought to allow it to be streamlined, but regardless, this does not the elegance of Incompleteness Ex Machina."
+
+**Diagnosis.** Oberhoff's essay is 9 pages. Revision 9 was 29 pages, with about 16,100 words before its provenance appendix. The precision the user asked for on 2026-10-25 had been delivered as bookkeeping in the running text:
+- inline page numbers, proof statuses and quotation-check marks ("text layer", "verbatim, image");
+- defensive asides that answered reviewers, such as the two readings of `Pair`, the closing inequality and the encoding floor;
+- every result stated twice, once for the 2001 system and once for the 2005 system;
+- the repair of Willard's Theorem 6 inline;
+- hypotheses repeated in the closing sections;
+- a tangential section on tangibility reflection.
+
+**Design.** Precision lives in the definitions and statements, not in the narration.
+- **Main text** (§§1–8, 13 pp., about 7,450 words). One story, told in Oberhoff's format and about the 2005 system IS_D(A) only:
+  1. the faith step;
+  2. watching versus knowing;
+  3. the genius program C;
+  4. Willard's machine, with the horizon proof as a case analysis and Probe as a program listing;
+  5. transcripts and linear witnesses;
+  6. "Taking Off The Glasses", where Prop K (now Prop I) shows the faith step is the Gödel sentence in disguise;
+  7. the price of faith;
+  8. refactoring.
+- **Citations.** Willard is cited by year and item only. A dagger marks results without a complete proof, as printed or at our granularity.
+- **Appendix A** (the fine print): languages, levels, arithmetization, encoding, the Prenex\* convention, `Pair`, the Gödel and halting sentences, and Fact L (the fixed point). It also holds the proofs of honesty and correctness, of inheritance, of the first incompleteness theorem, of Cor J's hypotheses, and of Prop G.
+- **Appendix B:** the 2001 system and what carries over, with Cor O's open disjunction.
+- **Appendix C:** the gap in Willard's Theorem 6 step (31), and its repair.
+- **Appendix D:** pages and statuses, as a compact list per paper taken from `nachlass/codification/registry/results.md`.
+
+**Nothing claimed or proved was dropped.** Old label → new label:
+
+| Revision 9 | Revision 10 |
+| --- | --- |
+| Fact A (closure) | Fact A |
+| Fact B (fixed point) | Fact L |
+| Lemma E (instances) | Lemma B |
+| Prop C (genius) | Prop C |
+| Theorem H (Willard) | Theorem D |
+| Lemmas watch and honest(a) | Lemma E, proved in App. A |
+| Lemma F (transcripts) | Lemma F |
+| Prop G (linear witnesses) | Prop G; 2005 proof in App. A, 2001 case in App. B |
+| Cor uniform | Cor H; 2001 case in App. B |
+| Prop K | Prop I |
+| Cor L | Cor J; hypotheses checked in App. A |
+| Lemma honest(b) and Cor M | App. B; Cor M is now Cor O |
+| Willard Theorem 6 | Theorem K; repair in App. C |
+| Group-2 detachment | Fact M |
+| Willard 2001 Thm 4.3 | Theorem N |
+
+**Removed.** No claim of the essay depended on any of these:
+- the "Trust within reach" section (2001 Thms 3.5, 5.1, 6.1, Cor 6.2);
+- the ISM(A) footnote;
+- the Assertion ++ and Lemma 4.1/4.2 detail of the 2001 proof, now one sentence;
+- the 2002a Thm 6.4 and Conventional Deciphering bullet;
+- 2001 Thm 7.3 (XIS);
+- the 2016 Remark 4.9 quotation;
+- the Aaronson and KGC 1993 bibliography entries, no longer cited.
+
+The closing-inequality and encoding-floor remarks became footnotes.
+
+**Corrected in passing.** Lemma 4 of 2005 proves Willard's (26); (27) is its instance at (k, m). Revision 9 had called (27) Lemma 4's sentence.
+
+**Build.** 22 pp., with 0 warnings and no undefined references. Total words fell from 17,256 to 11,994.
+
+**Status.** The status is unchanged from revision 9:
+- everything the essay claims as its own is proved from cited results and the fixed conventions;
+- Willard's Theorem 6 is a sketch at this granularity;
+- the one open item is Cor O's disjunction.
+
+**Next.** Review round 7 on revision 10, focused on regressions from streamlining: lost hypotheses, proofs no longer complete, and the main text drifting from the appendices.
