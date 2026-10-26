@@ -536,3 +536,28 @@ The closing-inequality and encoding-floor remarks became footnotes.
 - the one open item is Cor O's disjunction.
 
 **Next.** Review round 7 on revision 10, focused on regressions from streamlining: lost hypotheses, proofs no longer complete, and the main text drifting from the appendices.
+
+## Revision 11 (2026-10-26): the seventh adversarial review
+
+Grok 4.7 reviewed revision 10 against revision 9 (workspace `review-sjexm-r7`, about 26 minutes). It found 12 issues, 6 major and 6 minor, and no broken proof.
+- Each finding is a hypothesis or qualifier that streamlining had dropped, mostly in summary sentences and in Appendix B.
+- It confirmed that every other result in the label map is unchanged, and it confirmed the (26)/(27) correction.
+
+| # | Severity | Disposition |
+| --- | --- | --- |
+| R7-01 | major | Accepted. Lemma E now names the proof predicate it proves correct: Willard's SubstPrf(n̄₃,·,·), not "the Group-3 formula". |
+| R7-02 | major | Accepted. PA+ is defined in §4. "Every Π₁ theorem of PA+" now appears in four places: Cor J, §4's first-incompleteness paragraph, the §8 bullet and Appendix A's G1 paragraph. The (H3) check says A proves trichotomy by hypothesis. The abstract says "Peano arithmetic in Willard's language". |
+| R7-03 | major | Accepted. The abstract names IS_D(A) with tableaux or tableau lists, the PA+ hypothesis and "built with the conventions we fix". It now says Theorem 6 is about the tableau-list system over Peano arithmetic. §1 says their proofs are cut-free or reuse only simple lemmas. The moral's Theorem 6 clause carries PA+, lemmas and the sketch status. |
+| R7-04 | major | Accepted in part. **Rejected:** the claim that 2001 §7 says "Δ₀" rather than "Δ₀⁻". The page image of p. 39 shows Δ₀⁻; the text layer prints the superscript on the line above. **Accepted:** the quotation's subject is a system that proves PAX's Π₁⁻ theorems. Appendix B now derives that from A ⊇ PAX via Group-2. A new item, "The fixed point", gives (H3) and (FP) for IS(A), with trichotomy from PAX via Group-2, and Cor O's proof cites it. |
+| R7-05 | major | Accepted. The IS_D(PA+) observation now assumes that PA+'s Π₁ theorems are true, as Theorem D with A = PA+. It cites the Π₁\* encoding remark, checks p ≤ ⌈a/1⌉+1, and argues from the prefix of the list up to the lemma. |
+| R7-06 | major | Accepted. The table row is now "tableau lists, base PA+, plus Υ(k,m), k large". |
+| R7-07 | minor | Accepted. Prop I's "uses only" sentence lists (H1), (H2), soundness and completeness, correctness and (FP⇒). The unprovability case cites (FP⇒). |
+| R7-08 | minor | Accepted. "True" is Willard's condition II. "Positive" adds Eq. 19's bound, his condition I. Probe assigns the least value that keeps the branch positive, and its success is attributed to Lemma 1's nine-case induction. |
+| R7-09 | minor | Accepted. The proof summary gives (31) its own arrow, marked as the step that does not follow as printed. "Watching W" is kept as our gloss of Willard's "precluded". |
+| R7-10 | minor | Accepted. The text quotes Remark 2's "quite difficult to visualize" and "had this problem". |
+| R7-11 | minor | Accepted. 2002a Thm 3.5 is cited for the second theorem and Thm 3.4 for the consistency of Q+V. The 2020 row has the ring laws for + and ×. The 2004 rows say "finite systems". |
+| R7-12 | minor | Accepted. 7a is now claimed only for Willard's 2005 and 2001 systems and for every extension of Q. |
+
+**Build.** Revision 11 is 22 pp., clean, with the main text on pp. 1–13.
+
+**Next.** A focused round-8 check of these fixes.

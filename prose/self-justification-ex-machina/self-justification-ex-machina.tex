@@ -103,18 +103,20 @@ It concludes that the theorems are victory laps, and that the real work was
 teaching arithmetic to compute. His proof of the second theorem takes one step
 ``with some faith''. We argue that this step is a part of Gödel's work in its
 own right, and that it has a price. Our witness is Dan Willard's 2005
-self-justifying axiom system, over a base theory whose $\Pi_1$ theorems are
-true and include those of Peano arithmetic. It proves every true $\Sigma_1$
-sentence, it obeys the first incompleteness theorem, it proves its own
-consistency, and, by Willard's theorem, it is consistent. For this system the
-faith step fails twice over. In its uniform form it fails because the system
-cannot prove that every number can be written down. At the Gödel sentence it
-is provably equivalent to the Gödel sentence itself, and so it is unprovable.
-When the base theory is Peano arithmetic and lemmas are allowed, Willard's
-Theorem~6 grants the system one large enough number as an axiom. The faith
-returns, and inconsistency comes with it. The printed proof of that theorem
-has a gap, for which we sketch a repair. Gödel's work, viewed this way, has
-three parts, not two.
+self-justifying axiom system $\mathrm{IS}_D(A)$, with semantic tableaux or
+tableau lists as its deduction method $D$. Its base theory $A$ has true
+$\Pi_1$ theorems, which include those of Peano arithmetic in Willard's
+language. The system proves every true $\Sigma_1$ sentence, it obeys the
+first incompleteness theorem, it proves its own consistency, and, by
+Willard's theorem, it is consistent. For this system the faith step fails
+twice over. In its uniform form it fails because the system cannot prove
+that every number can be written down. At the Gödel sentence, built with the
+conventions we fix, the step is provably equivalent to the Gödel sentence
+itself, and so it is unprovable. Willard's Theorem~6 takes the tableau-list
+system over Peano arithmetic and grants it one large enough number as an
+axiom. The faith returns, and inconsistency comes with it. The printed proof
+of that theorem has a gap, for which we sketch a repair. Gödel's work, viewed
+this way, has three parts, not two.
 \end{abstract}
 
 \begin{quote}\small
@@ -168,8 +170,9 @@ well in $\F$.
 \end{quote}
 For Peano arithmetic and its relatives the faith is well placed. But some
 formal systems reason about algorithms in every sense the first theorem
-needs, and for them it is misplaced. They prove their own consistency, and
-they are consistent, provided only that their base theory tells no lies about
+needs, and for them it is misplaced. Their proofs are cut-free, or reuse
+only simple lemmas. They prove their own consistency, and they are
+consistent, provided only that their base theory tells no lies about
 universal statements. Dan Willard built them, in papers from 1993 to
 2020~\cite{w93tr,w01,w05,w06a,w20}. This essay tells their story in
 Oberhoff's language. Our headline is that the faith step is not part of the
@@ -393,7 +396,8 @@ $\bar n$ with at most $2\log_2 n$ growth symbols, which is its binary
 notation. Multiplication is not a function symbol. Its graph is a bounded
 formula, so the system knows the laws of multiplication but not that every
 product exists. ``Bounded'', ``$\Pi_1$'' and ``$\Sigma_1$'' mean what they
-usually mean, for these function symbols.
+usually mean, for these function symbols. Peano arithmetic in this language
+is called $\mathrm{PA}{+}$.
 
 \paragraph{The axioms.} $A$ is any axiom system in this language with a
 bounded proof predicate, and $D$ is a deduction method. The axioms of $\ISD$
@@ -419,7 +423,8 @@ is modus ponens restricted to lemmas with one unbounded quantifier block.
 
 \begin{theorem}[Willard 2005, Theorems 3 and 5]\label{thm:willard}
 If every $\Pi_1$ theorem of $A$ is true, then $\ISD$ is consistent, both for
-semantic tableaux and for tableau lists. In fact its Group-3 axiom is true.
+semantic tableaux and for tableau lists. With the conventions of
+Appendix~\ref{app:fine}, its Group-3 axiom is in fact true.
 \end{theorem}
 
 \noindent
@@ -430,8 +435,9 @@ perfectly well.
 
 \begin{lemma}[ours]\label{lem:watch}
 For either deduction method, $\ISD$ watches. If every $\Pi_1$ theorem of $A$
-is true, then every theorem of $\ISD$ is true, and its Group-3 formula is a
-correct proof predicate for $\ISD$.
+is true, then every theorem of $\ISD$ is true, and the proof predicate that
+its Group-3 axiom uses, Willard's $\mathit{SubstPrf}(\bar n_3, \cdot, \cdot)$
+(Appendix~\ref{app:fine}), is a correct bounded proof predicate for $\ISD$.
 \end{lemma}
 
 \begin{proof}
@@ -444,10 +450,10 @@ Appendix~\ref{app:fine}.
 
 \noindent
 Suppose, then, that every $\Pi_1$ theorem of $A$ is true and that $A$ proves
-the $\Pi_1$ theorems of Peano arithmetic. Then $\ISD$ obeys the first
+every $\Pi_1$ theorem of $\mathrm{PA}{+}$. Then $\ISD$ obeys the first
 incompleteness theorem, in Rosser's form as well. $\G$ is unprovable by
 Corollary~\ref{cor:isd}, $\neg\G$ is false and so unprovable, and Rosser's
-loop fact is inherited from Peano arithmetic through Group-2
+loop fact is inherited from $\mathrm{PA}{+}$ through Group-2
 (Appendix~\ref{app:fine}). In 1994 Willard described his first system in
 these terms, as ``a class of structures, lying halfway between Peano
 Arithmetic and Presburger Arithmetic, which satisfy Godel's First but not
@@ -503,7 +509,9 @@ Probe(p) {
       N := its left child if that is true, else its right child;
     } else {
       N := its only child;
-      if N introduces a parameter u, give u the least value that makes N true;
+      if N introduces a parameter u {
+        give u the least value that keeps the branch positive;
+      }
     }
   }
 }
@@ -511,13 +519,15 @@ Probe(p) {
 \end{minipage}
 Here a node is \emph{true} if its sentence holds under the values given so
 far, read with the horizons: universals up to $b\,p^{1/4}$, existentials below
-$b$, bounded sentences outright. Each function symbol at most doubles a
-value, so a parameter gets a value at most $b \cdot 2^\Delta$. Here $\Delta$
-counts the function symbols in the sentences on the branch down to that node
-(Eq.~19). So the walk never gets stuck while every branch carries fewer than
-$\log_2(b\,p^{1/4}) - \log_2 b = \tfrac14 \log_2 p$ function symbols. Willard's
-encoding spends more than five bits on each one, so a branch carries fewer
-than $\tfrac15\log_2 p$ (Eq.~20).\footnote{Larger Gödel numbers only widen
+$b$, bounded sentences outright (Willard's condition~II). The branch is
+\emph{positive} if its nodes are true and each parameter has a value at most
+$b \cdot 2^\Delta$, where $\Delta$ counts the function symbols on the branch
+down to the node that introduced it (Eq.~19). Each function symbol at most
+doubles a value. So, by a nine-case induction with one case per rule, the
+walk never gets stuck while every branch carries fewer than
+$\log_2(b\,p^{1/4}) - \log_2 b = \tfrac14 \log_2 p$ function symbols
+(Lemma~1). Willard's encoding spends more than five bits on each one, so a
+branch carries fewer than $\tfrac15\log_2 p$ (Eq.~20).\footnote{Larger Gödel numbers only widen
 the margin. Willard notes that his theorems ``would also be valid for
 uncompressed encoding methods'' (2005, Appendix~A). What would break this
 proof is a notation more compact than it allows, with four bits or fewer per
@@ -693,8 +703,10 @@ Appendix~\ref{app:fine}. Suppose:
 Then $\F$ proves that step~(2) is equivalent to $\G$, and so is knowing that
 it watches at $\Hs$. Yet $\F$ does not prove $\G$. So $\F$ proves neither
 step~(2) nor $\Hs \supset \Prov(\gn{\Hs})$, although both are true. That $\F$
-does not prove $\G$ uses only (H1), (H2) and the one true bounded sentence
-that sets up $\G$'s fixed point.
+does not prove $\G$ uses only (H1), (H2), the soundness and completeness of
+the method, the correctness of the proof predicate, and the half of the fixed
+point that follows from one true bounded sentence ((FP$\Rightarrow$) of
+Fact~\ref{fact:fp}).
 \end{proposition}
 
 \begin{proof}
@@ -727,7 +739,7 @@ $\Hs \supset \Prov(\gn{\Hs})$. That $\F$ does not prove $\G$ is Oberhoff's
 \item The proof predicate is correct, so $\Prov(\gn{\G})$ is a true $\Sigma_1$
   sentence, and $\F$ proves it by watching. $\F$ sees $\Prog{P}(\Prog{P})$
   halt.
-\item By the fixed point $\F$ proves $\neg\G$ as well, and hence $0 = 1$
+\item By (FP$\Rightarrow$), $\F$ proves $\neg\G$ as well, and hence $0 = 1$
   (Fact~\ref{fact:closure}), against (H1).\contra
 \end{steps}
 
@@ -749,18 +761,20 @@ sensitive to codes. The proposition says nothing about it.} Willard's system
 meets every hypothesis.
 
 \begin{corollary}[ours]\label{cor:isd}
-Let $A$ prove the $\Pi_1$ theorems of Peano arithmetic, let every $\Pi_1$
+Let $A$ prove every $\Pi_1$ theorem of $\mathrm{PA}{+}$, let every $\Pi_1$
 theorem of $A$ be true, and build $\G$ and $\Hs$ from Willard's own proof
-predicate for $\ISD$. Then, for semantic tableaux and for tableau lists,
-$\ISD$ proves neither $\G$, nor step~(2), nor $\Hs \supset \Prov(\gn{\Hs})$.
+predicate for $\ISD$, with the conventions of Appendix~\ref{app:fine}. Then,
+for semantic tableaux and for tableau lists, $\ISD$ proves neither $\G$, nor
+step~(2), nor $\Hs \supset \Prov(\gn{\Hs})$.
 \end{corollary}
 
 \begin{proof}
 (H1) follows from Theorem~\ref{thm:willard}, and (H2) is
 Lemma~\ref{lem:watch}. For (H3), Groups 0 and 1 prove the true bounded
-sentences, and trichotomy is a $\Pi_1$ theorem of Peano arithmetic, which
-Group-2 hands down. (H4) is the Group-3 axiom itself. The proof predicate is
-correct by Lemma~\ref{lem:watch}. Appendix~\ref{app:fine} gives the details.
+sentences. Trichotomy is a $\Pi_1$ theorem of $\mathrm{PA}{+}$, so $A$ proves
+it, and Group-2 hands it down. (H4) is the Group-3 axiom itself. The proof
+predicate is correct by Lemma~\ref{lem:watch}. Appendix~\ref{app:fine} gives
+the details.
 \end{proof}
 
 The proposition is a contrapositive and claims no new method. Its sibling in
@@ -814,20 +828,22 @@ Theorem~6 with the faith supplied:
 \begin{topsteps}
 \item (27), inherited from $\mathrm{PA}{+}$: the faith step, below $n$.
 \item The Group-3 axiom, at $\Mho$ and its negation: step~(3).
-\item Chaining the two: no short proof of $\Mho$ coexists with a number $n$
-  that large.
-\item $\Upsilon(k,m)$, an axiom, supplies $n$, so no short proof of $\Mho$
+\item So no transcript exists: no $p$ and $q$ satisfy
+  $\mathit{CheckProof}(\gn{\Mho}, p, q)$. As printed, this step does not
+  follow from the one before; see below.
+\item With (27), no short proof of $\Mho$ coexists with a number $n$ that
+  large. $\Upsilon(k,m)$, an axiom, supplies $n$, so no short proof of $\Mho$
   exists. That is $\Mho$ itself.
 \item Because $\Upsilon(k,m)$ cost nothing, $W$ is short. For $k > k_0$ its
   Gödel number is below $2^m_{k-1}$, so $W$ is one of the short proofs that
-  $\Mho$ says do not exist. The system watches $W$ and refutes
-  $\Mho$.\contra
+  $\Mho$ says do not exist. Watching $W$, the system proves that such a proof
+  exists, and so it refutes $\Mho$.\contra
 \end{topsteps}
 
 \noindent
-The dagger is ours. At our level of detail, the step from Group-3 to ``no
-transcript exists'' needs the transcript to prove the sentence that the
-consistency axiom pairs with $\Mho$. As printed, it proves a different one.
+The dagger is ours. At our level of detail, the third arrow needs the
+transcript to prove the sentence that the consistency axiom pairs with
+$\Mho$. As printed, it proves a different one.
 Appendix~\ref{app:ns} sketches a repair, so we count the theorem as a sketch,
 although Willard prints a full proof. He also states, without proof,
 versions for semantic tableaux and other cut-free methods, for an empty base
@@ -836,13 +852,19 @@ theory, and without the axioms that make addition and doubling total
 
 Why does the argument not run in $\mathrm{IS}_D(\mathrm{PA}{+})$, which
 proves $\Upsilon(k,m)$ too? Willard's own engine answers; the observation is
-ours. All axioms of $\mathrm{IS}_D(\mathrm{PA}{+})$ are true $\Pi_1$
-sentences, so it is Normed$(a, 1)$ for every $a > 1$. Let $p > 1$ be a proof
-of $\Upsilon(k,m)$, and take $a = p$. Then $\tfrac14$-compactification puts a
+ours. Assume, as Theorem~\ref{thm:willard} does with $A = \mathrm{PA}{+}$,
+that every $\Pi_1$ theorem of $\mathrm{PA}{+}$ is true. Then every axiom of
+$\mathrm{IS}_D(\mathrm{PA}{+})$ is a true $\Pi_1$ sentence. Groups 0--2 ``can
+be encoded as $\Pi_1^*$ sentences'' (2005, \S5), and Group-3 is true by
+Theorem~\ref{thm:willard}. So the system is Normed$(a, 1)$ for every
+$a > 1$. Let $p > 1$ be a proof of $\Upsilon(k,m)$, and take $a = p$, so
+that $p \le \lceil a/1 \rceil + 1$. Then $\tfrac14$-compactification puts a
 witness for $\Upsilon(k,m)$ at or below $p^{1/4}$. The least witness is
-$2^m_k$, so $p \ge (2^m_k)^4$. A list that uses $\Upsilon(k,m)$ as a lemma
-begins with such a proof, so its Gödel number is at least as large. That is
-far beyond the short proofs that $\Mho$ speaks of. In Willard's words, ``a
+$2^m_k$, so $p \ge (2^m_k)^4$. In a list that uses $\Upsilon(k,m)$ as a
+lemma, the components up to the lemma form a list proof of it, and their
+bytes begin the whole list. So the whole list's Gödel number is at least
+$(2^m_k)^4$ too. That is far beyond the short proofs that $\Mho$ speaks of.
+In Willard's words, ``a
 Kleene-like Group-3 axiom has a different connotation when it refers to a
 short proof, referencing itself, than when it refers to a long such proof''
 (2005, \S6). The asymmetry is exact. Adding a true $\Pi_1$ sentence instead
@@ -867,8 +889,8 @@ of the Second Incompleteness Theorem collapses entirely!
 His Lemma~8 is the squaring construction: a short tableau proof that a
 number about as large as $z$ exists. With it, the second theorem holds for
 semantic tableaux at Level(0$-$). It holds for consistent finite extensions
-of $Q + V$, for an explicit $\Pi_1$ sentence $V$ (2002a, Theorems~3.4
-and~3.5). It also holds for every consistent extension of $I\Sigma_0$ in
+of $Q + V$, for an explicit $\Pi_1$ sentence $V$ (2002a, Theorem~3.5;
+Theorem~3.4 shows that $Q + V$ is consistent). It also holds for every consistent extension of $I\Sigma_0$ in
 either of its two standard axiomatizations (2007, Theorem~6). That answers a
 question Paris and Wilkie asked in 1981. On the positive side,
 $\theta$-compactification becomes ``impossible to satisfy'' once
@@ -912,7 +934,8 @@ concise-encoding condition (2006a, Theorem~4).
 
 Two more prices complete the list. Excluded middle as a logical axiom at any
 node is a cut in disguise, and it makes the system inconsistent once its base
-proves the $\Pi_1$ ring laws (2020, Theorem~4.5\sk). And letting $\W$
+proves the $\Pi_1$ ring laws for $+$ and $\times$ (2020, Theorem~4.5\sk).
+And letting $\W$
 assert more about itself, at Level($2^+$), brings the second theorem back
 with addition alone, for finite systems containing an explicit $\Pi_1$
 theorem of Peano arithmetic (2004, Theorem~1\sk).
@@ -923,11 +946,11 @@ theorem of Peano arithmetic (2004, Theorem~1\sk).
 Proof system & Growth & Asserts & Outcome & Source \\
 \midrule
 tableaux, or lists of $\Pi_1$/$\Sigma_1$ lemmas & $+$ total, $\times$ a relation & Level(1) & self-justifying & 2005, Thms 3, 5 \\
-same & same, plus the axiom $\Upsilon(k,m)$ & Level(1) & inconsistent & 2005, Thm 6\sk \\
+tableau lists, base $\mathrm{PA}{+}$ & the same, plus the axiom $\Upsilon(k,m)$, $k$ large & Level(1) & inconsistent & 2005, Thm 6\sk \\
 tableaux & $\times$ total & Level(0$-$) & second theorem & 2002a, Thm 3.5; 2007, Thm 6 \\
-lists of $\Pi_2$/$\Sigma_2$ lemmas & $+$ total & Level(0$-$) & second theorem & 2004, Thm 2\sk \\
-tableaux & $+$ total & Level($2^+$) & second theorem & 2004, Thm 1\sk \\
-tableaux with excluded middle & $+$ total, ring laws for $\times$ & Level(1) & inconsistent & 2020, Thm 4.5\sk \\
+lists of $\Pi_2$/$\Sigma_2$ lemmas, finite systems & $+$ total & Level(0$-$) & second theorem & 2004, Thm 2\sk \\
+tableaux, finite systems & $+$ total & Level($2^+$) & second theorem & 2004, Thm 1\sk \\
+tableaux with excluded middle & $+$ total, ring laws for $+$ and $\times$ & Level(1) & inconsistent & 2020, Thm 4.5\sk \\
 Hilbert & successor total, ring laws for $+$, $\times$ & Level(0$-$) & second theorem & Solovay\sk \\
 Hilbert & additive names only & Level(0$-$) & self-justifying & 2006a, Thm 3 \\
 Hilbert & multiplicative names & Level(0$-$) & second theorem & 2006a, Thm 4 \\
@@ -958,18 +981,19 @@ $\F$ knows that it watches every bounded formula.}
 
 \noindent
 7a is what we take from Oberhoff's Theorem~7. 7b, in both its forms, is our
-formulation of what his Theorem~6 takes on faith. 7a holds for every system
-in this essay. 7b holds for recursively axiomatized extensions of
-$I\Sigma_1$~\cite{hp93}. 7a gives the first incompleteness theorem, and
-Rosser's form also needs the loop fact, which Willard's systems inherit from
-their base. 7b is what the second theorem takes on faith, and it does not
-follow from 7a. For Willard's 2005 system over a base whose $\Pi_1$ theorems
-are true:
+formulation of what his Theorem~6 takes on faith. 7a holds for Willard's
+2005 and 2001 systems (Lemma~\ref{lem:watch} and Appendix~\ref{app:2001}) and
+for every extension of Robinson's $Q$. 7b holds for recursively axiomatized
+extensions of $I\Sigma_1$~\cite{hp93}. 7a gives the first incompleteness
+theorem, and Rosser's form also needs the loop fact, which Willard's systems
+inherit from their base. 7b is what the second theorem takes on faith, and
+it does not follow from 7a. Take Willard's 2005 system, with tableaux or
+tableau lists, over a base whose $\Pi_1$ theorems are true:
 \begin{itemize}[leftmargin=1.5em]
 \item the uniform form of 7b fails, since the system cannot prove that every
   number has a written name (Corollary~\ref{cor:uniform});
-\item when the base also proves the $\Pi_1$ theorems of Peano arithmetic, 7b
-  fails at the sentence $\Hs$, \fs{$\Prog{P}(\Prog{P})$ halts}, and the
+\item when the base also proves every $\Pi_1$ theorem of $\mathrm{PA}{+}$,
+  7b fails at the sentence $\Hs$, \fs{$\Prog{P}(\Prog{P})$ halts}, and the
   failing instance is provably the Gödel sentence (Corollary~\ref{cor:isd});
 \item yet 7b holds at every \emph{true} $\Sigma_1$ sentence
   (Lemma~\ref{lem:instances}), so the failure is confined to a run that does
@@ -1009,8 +1033,9 @@ unbounded quantifier block. Learn to multiply and, for the theories Willard
 treats, even proofs without lemmas are too much. Reuse lemmas with two
 blocks, and (by a sketch of Willard's) addition is already too much. Reuse
 any lemma you like, and (by Solovay's unpublished theorem) successor with the
-ring laws is too much. And you must never be told, as an axiom, that a big
-enough number exists.
+ring laws is too much. And if your teachers taught you Peano arithmetic and
+you reuse lemmas, you must never be told, as an axiom, that a big enough
+number exists (by Willard's Theorem~6, which we count as a sketch).
 
 \paragraph{What it does not buy.} Willard was more careful about the limits
 of his results than most of his readers have been.
@@ -1256,8 +1281,8 @@ $\Prf_A(\gn{\Phi}, \bar p)$, and with $\Phi$'s Group-2 axiom,
 Fact~\ref{fact:closure} gives $\Phi$.
 \end{proof}
 
-\paragraph{The first incompleteness theorem.} Let $A$ prove the $\Pi_1$
-theorems of $\mathrm{PA}{+}$, and let every $\Pi_1$ theorem of $A$ be true.
+\paragraph{The first incompleteness theorem.} Let $A$ prove every $\Pi_1$
+theorem of $\mathrm{PA}{+}$, and let every $\Pi_1$ theorem of $A$ be true.
 Then $\G$ is unprovable by Corollary~\ref{cor:isd}. $\neg\G$ and $\Hs$ are
 false, so they are unprovable, because $\ISD$ is honest. Rosser's version
 goes through as in Oberhoff. The finite searches he writes out are true
@@ -1273,7 +1298,8 @@ and its negation. Group-3 is true, so no such pair exists. (H2) is
 Lemma~\ref{lem:watch}. (H3): Groups 0 and 1 prove the true bounded sentences,
 among them $\Subst(\bar n, \bar c)$ and $\Pair(\bar c, \bar c\,')$.
 Trichotomy is a $\Pi_1$ theorem of Peano arithmetic and so of
-$\mathrm{PA}{+}$, and Fact~\ref{fact:detach} hands it down. (H4) is
+$\mathrm{PA}{+}$. So $A$ proves it, by hypothesis, and Fact~\ref{fact:detach}
+hands it down. (H4) is
 literally Eq.~(8). $\ISD$ is never asked to prove that its Group-3 formula is
 its own proof predicate. That correctness is used only in the metatheory.
 
@@ -1354,20 +1380,29 @@ consistent.
 \end{theorem}
 
 \noindent
-Willard's proof is an eleven-case induction, which he later found ``hard to
-visualize'' and replaced with the engine of \S\ref{sec:machine} (2005,
-Remark~2).
+Willard's proof is an eleven-case induction by contradiction. He later wrote
+that such proofs are ``quite difficult to visualize'', that this one ``had
+this problem'', and he replaced it with the engine of \S\ref{sec:machine}
+(2005, Remark~2).
 
 \paragraph{What carries over.} Let $A \supseteq \mathrm{PAX}$ be regularly
 consistent, where $\mathrm{PAX}$ is Peano arithmetic in the 2001 language. Let
 $\G$ and $\Hs$ be built from the proof predicate of $\mathrm{IS}(A)$'s
 Group-3 axiom, under the conventions of Appendix~\ref{app:fine}.
 \begin{itemize}[leftmargin=1.5em]
-\item \emph{Watching.} $\mathrm{IS}(A)$ ``obviously has a capacity to prove
-  every $\Delta_0^-$ sentence which is true'' (2001, \S7). It also names every
-  number by a constant. So it proves the true $\Delta_0^-$ instance of a true
-  $\Sigma_1^-$ sentence at its witnesses, and Fact~\ref{fact:closure} adds the
-  quantifiers.
+\item \emph{Watching.} Since $A \supseteq \mathrm{PAX}$, Group-2 (2001,
+  Eq.~7) hands $\mathrm{IS}(A)$ every $\Pi_1^-$ theorem of $\mathrm{PAX}$.
+  Willard notes that a system that can prove all of these ``obviously has a
+  capacity to prove every $\Delta_0^-$ sentence which is true'' (2001, \S7).
+  $\mathrm{IS}(A)$ also names every number by a constant. So it proves the
+  true $\Delta_0^-$ instance of a true $\Sigma_1^-$ sentence at its witnesses,
+  and Fact~\ref{fact:closure} adds the quantifiers.
+\item \emph{The fixed point.} Among the true $\Delta_0^-$ sentences that
+  $\mathrm{IS}(A)$ proves is $\Subst(\bar n, \bar c)$. Trichotomy at $\bar c$
+  is a $\Pi_1^-$ theorem
+  of $\mathrm{PAX}$, which Group-2 hands down. So Fact~\ref{fact:fp} gives
+  (FP) in $\mathrm{IS}(A)$, and (H3) of Proposition~\ref{prop:backwards}
+  holds.
 \item \emph{Correctness.} Write the $\Delta_0^-$ definition in the form of
   2005's Eq.~(7):
   \[
@@ -1390,8 +1425,9 @@ Group-3 axiom, under the conventions of Appendix~\ref{app:fine}.
   Theorem~\ref{thm:is}.
 \item \emph{The first incompleteness theorem.} The argument that $\F$ does
   not prove $\G$, in Proposition~\ref{prop:backwards}, needs only Level(0$-$)
-  consistency, watching, $\Subst(\bar n, \bar c)$ and correctness. So
-  $\mathrm{IS}(A)$ does not prove $\G$. Honesty excludes $\neg\G$. Rosser's
+  consistency (Theorem~\ref{thm:is}), watching, correctness, the soundness and
+  completeness of tableaux, and (FP$\Rightarrow$). So $\mathrm{IS}(A)$ does
+  not prove $\G$. Honesty excludes $\neg\G$. Rosser's
   loop sentence is a $\Pi_1^-$ theorem of $\mathrm{PAX}$, handed down by the
   Group-2 axiom of 2001 (Eq.~7). This is what TR 93-10 means by ``Godel's
   First but not Second''.
@@ -1427,9 +1463,10 @@ step~(3),
 \begin{proof}
 With Group-3, $\forall r\,\neg\Prf(\gn{0=1}, r)$, these two sentences would
 give step~(3), $\neg[\Prov(\bar c) \wedge \Prov(\bar c\,')]$. That is all
-that the proof of Proposition~\ref{prop:backwards} uses of (H4). So that
-proof would give $\mathrm{IS}(A) \vdash \G$, against the first incompleteness
-theorem above.\contra
+that the proof of Proposition~\ref{prop:backwards} uses of (H4), and (H3) and
+(FP) hold by the fixed-point item above. So that proof would give
+$\mathrm{IS}(A) \vdash \G$, against the first incompleteness theorem
+above.\contra
 \end{proof}
 
 \noindent

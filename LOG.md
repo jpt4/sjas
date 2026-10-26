@@ -469,3 +469,12 @@ See [the analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.m
 - **Corrected.** Lemma 4 proves Willard's (26), and (27) is its instance.
 - **Build.** 29 → 22 pp. (17,256 → 11,994 words), clean.
 - The label map is in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md). Review round 7 is next.
+
+## 2026-10-26 — SJexM round-7 review and revision 11
+- **Review.** Grok 4.7 compared revision 10 with revision 9: 12 findings (6 major, 6 minor), and no broken proof. Each finding is a hypothesis or qualifier lost in streamlining:
+  - PA+ had become "Peano arithmetic";
+  - the abstract no longer named the deduction method;
+  - Appendix B no longer derived (H3) for IS(A);
+  - the IS_D(PA+) bound had lost its hypothesis.
+- **Fixed.** All 12 are fixed. One sub-claim was rejected: page image p. 39 of 2001 shows Δ₀⁻, not Δ₀.
+- **Build.** Revision 11: 22 pp., clean. Dispositions are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md). A focused round-8 check is next.
