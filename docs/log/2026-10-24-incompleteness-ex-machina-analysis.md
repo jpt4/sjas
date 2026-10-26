@@ -561,3 +561,12 @@ Grok 4.7 reviewed revision 10 against revision 9 (workspace `review-sjexm-r7`, a
 **Build.** Revision 11 is 22 pp., clean, with the main text on pp. 1–13.
 
 **Next.** A focused round-8 check of these fixes.
+
+## Revision 12 (2026-10-26): the focused round-8 check
+
+Grok 4.7 checked revision 11's fixes (workspace `review-sjexm-r8`, about 20 minutes). Ten of the twelve round-7 findings are resolved. It also accepted the rejected part of R7-04, the Δ₀⁻ reading. Three summary-level points remained, and all are fixed:
+- **R7-03 / R8-01 (major).** The abstract said only that "A has true Π₁ theorems". It now states both hypotheses as Corollary J does: every Π₁ theorem of A is true, and A proves every Π₁ theorem of PA+. Theorem 6 is described as the tableau-list system over PA+. The moral now cites Theorem K, whose statement carries tableau lists, PA+ and k > k₀.
+- **R7-11 (minor).** The 2020 table row now says Π₁ ring laws.
+- **R8-02 (minor).** Lemma 1's nine cases are now described as the axiom case plus the eight elimination rules.
+
+**Status.** No finding remains unresolved. Willard's Theorem 6 is a sketch at this granularity. The one open item is Cor O's disjunction. Revision 12: 22 pp., clean build, main text pp. 1–13.

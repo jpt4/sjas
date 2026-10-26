@@ -104,17 +104,19 @@ teaching arithmetic to compute. His proof of the second theorem takes one step
 ``with some faith''. We argue that this step is a part of Gödel's work in its
 own right, and that it has a price. Our witness is Dan Willard's 2005
 self-justifying axiom system $\mathrm{IS}_D(A)$, with semantic tableaux or
-tableau lists as its deduction method $D$. Its base theory $A$ has true
-$\Pi_1$ theorems, which include those of Peano arithmetic in Willard's
-language. The system proves every true $\Sigma_1$ sentence, it obeys the
+tableau lists as its deduction method $D$. Every $\Pi_1$ theorem of its base
+theory $A$ is true, and $A$ proves every $\Pi_1$ theorem of Peano arithmetic
+in Willard's language. The system proves every true $\Sigma_1$ sentence, it
+obeys the
 first incompleteness theorem, it proves its own consistency, and, by
 Willard's theorem, it is consistent. For this system the faith step fails
 twice over. In its uniform form it fails because the system cannot prove
 that every number can be written down. At the Gödel sentence, built with the
 conventions we fix, the step is provably equivalent to the Gödel sentence
 itself, and so it is unprovable. Willard's Theorem~6 takes the tableau-list
-system over Peano arithmetic and grants it one large enough number as an
-axiom. The faith returns, and inconsistency comes with it. The printed proof
+system over Peano arithmetic in his language and grants it, as an axiom, that
+one large enough number exists. The faith returns, and inconsistency comes
+with it. The printed proof
 of that theorem has a gap, for which we sketch a repair. Gödel's work, viewed
 this way, has three parts, not two.
 \end{abstract}
@@ -523,8 +525,9 @@ $b$, bounded sentences outright (Willard's condition~II). The branch is
 \emph{positive} if its nodes are true and each parameter has a value at most
 $b \cdot 2^\Delta$, where $\Delta$ counts the function symbols on the branch
 down to the node that introduced it (Eq.~19). Each function symbol at most
-doubles a value. So, by a nine-case induction with one case per rule, the
-walk never gets stuck while every branch carries fewer than
+doubles a value. So, by a nine-case induction, with one case for axioms and
+one for each of the eight elimination rules, the walk never gets stuck while
+every branch carries fewer than
 $\log_2(b\,p^{1/4}) - \log_2 b = \tfrac14 \log_2 p$ function symbols
 (Lemma~1). Willard's encoding spends more than five bits on each one, so a
 branch carries fewer than $\tfrac15\log_2 p$ (Eq.~20).\footnote{Larger Gödel numbers only widen
@@ -950,7 +953,7 @@ tableau lists, base $\mathrm{PA}{+}$ & the same, plus the axiom $\Upsilon(k,m)$,
 tableaux & $\times$ total & Level(0$-$) & second theorem & 2002a, Thm 3.5; 2007, Thm 6 \\
 lists of $\Pi_2$/$\Sigma_2$ lemmas, finite systems & $+$ total & Level(0$-$) & second theorem & 2004, Thm 2\sk \\
 tableaux, finite systems & $+$ total & Level($2^+$) & second theorem & 2004, Thm 1\sk \\
-tableaux with excluded middle & $+$ total, ring laws for $+$ and $\times$ & Level(1) & inconsistent & 2020, Thm 4.5\sk \\
+tableaux with excluded middle & $+$ total, $\Pi_1$ ring laws for $+$ and $\times$ & Level(1) & inconsistent & 2020, Thm 4.5\sk \\
 Hilbert & successor total, ring laws for $+$, $\times$ & Level(0$-$) & second theorem & Solovay\sk \\
 Hilbert & additive names only & Level(0$-$) & self-justifying & 2006a, Thm 3 \\
 Hilbert & multiplicative names & Level(0$-$) & second theorem & 2006a, Thm 4 \\
@@ -1035,7 +1038,7 @@ blocks, and (by a sketch of Willard's) addition is already too much. Reuse
 any lemma you like, and (by Solovay's unpublished theorem) successor with the
 ring laws is too much. And if your teachers taught you Peano arithmetic and
 you reuse lemmas, you must never be told, as an axiom, that a big enough
-number exists (by Willard's Theorem~6, which we count as a sketch).
+number exists (Theorem~\ref{thm:ns}, which we count as a sketch).
 
 \paragraph{What it does not buy.} Willard was more careful about the limits
 of his results than most of his readers have been.

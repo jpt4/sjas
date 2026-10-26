@@ -478,3 +478,8 @@ See [the analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.m
   - the IS_D(PA+) bound had lost its hypothesis.
 - **Fixed.** All 12 are fixed. One sub-claim was rejected: page image p. 39 of 2001 shows Δ₀⁻, not Δ₀.
 - **Build.** Revision 11: 22 pp., clean. Dispositions are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md). A focused round-8 check is next.
+
+## 2026-10-26 — SJexM focused round-8 check and revision 12
+- **Check.** A focused Grok check of revision 11: 10 of 12 round-7 fixes confirmed, and the Δ₀⁻ rejection accepted.
+- **Fixed.** Three summary-level points: the abstract's two base-theory hypotheses, the Π₁ ring laws in the 2020 row, and Lemma 1's case count. The moral now points to Theorem K's exact statement.
+- **Status.** No unresolved finding. Revision 12: 22 pp., clean. Details are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).
