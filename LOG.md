@@ -501,3 +501,12 @@ See [the analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.m
   - §9 makes the certified programs straight-line, with no induction; Parikh's theorem is added to Appendix A.
   - §10 defines a gate and says "reflection".
 - **Build.** 27 pp., main text pp. 1–17, clean. Details are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).
+
+## 2026-10-27 — SJexM revision 15: the witness bound, proved
+- **Request (user).** Explain "a tableau proof p that some number ≥ v exists has a witness no bigger than p^{1/4}, so p ≥ v⁴." Follow-ups were answered in chat: the faith step versus universal functions, Herbrand extraction, induction through a new predicate, and reflection versus metatheoretic soundness.
+- **Found.** The hypothesis was too weak: the axioms must be true *universal* sentences, since a true existential axiom hands a proof a large number for free. Willard's exponent ¼ (2005, Thms 2 and 4) is his chosen constant; with true universal axioms, a single tableau's witness lies below p^{1/5}.
+- **Changes.**
+  - §5 states the hypothesis and gives the example «some y has Log(y) ≥ n» (p ≥ 2^{4n}).
+  - Appendix A proves the bound by the walk.
+  - §9 says why a new predicate cannot bring induction in; Appendix A extends Prop G's first proof to new predicates.
+- **Build.** 28 pp., main text pp. 1–18 (revision 14's main text also ended on p. 18, not p. 17), clean. Details are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).

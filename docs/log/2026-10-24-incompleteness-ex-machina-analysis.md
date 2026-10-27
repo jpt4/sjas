@@ -645,3 +645,37 @@ Grok 4.7 checked revision 11's fixes (workspace `review-sjexm-r8`, about 20 minu
 - **Abstract.** It now says that two of the three steps are theorems and the faith step is not, that the price is measured in bits of proof, and that what is not gained is the reflection principle.
 
 **Status.** Clean build: 27 pp., main text pp. 1–17. Not yet reviewed.
+
+## Revision 15 (2026-10-27): the witness bound, proved
+
+**Request (user, verbatim).**
+
+> If the axioms are true, a tableau proof p that some number ≥ v exists has a witness no bigger than p^{1/4}, so p ≥ v⁴. <- Explain this.
+
+Follow-ups, sent while the edit was in progress, were answered in chat:
+
+> How does "no single proof satisfies the uniform faith step" compare with "no total function is a universal function for the total functions"? How does Herbrand's theorem extract proofs? If the PI-1 theorems are sufficient to simulate arbitrary Turing Machines, why cannot Willard's system just specify a new predicate that does perform induction?
+
+> So the Willard system never proves its own reflection principle, but meta-theoretically the system is known sound.
+
+**Found.** The sentence's hypothesis was too weak, both in the essay and in the revision-14 chat answer. The axioms must be true *universal* sentences. A true existential axiom can hand a proof a large number for free, as Υ(k,m) does in Theorem K.
+
+**Source check.** The bound is Willard 2005 Definition 5, Part A, with θ = ¼ (Theorem 2 for tableaux, Theorem 4 for tableau lists). The proof uses Lemma 1 (Probe), Eq. 19 (a parameter is at most b·2^Δ), Eq. 20 (U-Height(p) < ⅕·log₂p) and Lemma 2 (closing pairs are bounded sentences). Theorem 2 needs U-Height(p) < θ·log₂p, which Eq. 20 supplies for any θ ≥ ⅕, and Definition 5 requires θ < ⅓. So ¼ is Willard's chosen constant. With true universal axioms (b = 1), the walk gives a witness below p^{1/5} for a single tableau.
+
+**Changes.**
+- **§5.**
+  - States the hypothesis: true universal axioms, as Willard's are over a base whose Π₁ theorems are true.
+  - Says what the claim means: a tableau proof of an existential sentence writes down a term whose value is a witness, at most p^{1/4}.
+  - Gives the example «some y has Log(y) ≥ n». It names only n, but every tableau proof of it has p ≥ 2^{4n}.
+- **Appendix A, "Witnesses in tableau proofs".** The direct walk proves the bound.
+  - The root is false. Every other sentence on the walk stays true until it reaches an instance ¬φ(t) whose term t has a witness as its value. The closing pair is bounded (Lemma 2), so the walk must reach one.
+  - Universal axioms give only bounded parameters, so the value is at most 2^L < p^{1/5}.
+  - Willard's θ = ¼ covers horizons, existential axioms witnessed below b, and tableau lists.
+- **§9.**
+  - Says why a new predicate cannot bring induction in. True universal axioms about any predicate still hold in Prop G's initial segment, where squaring fails.
+  - An axiom proving squaring total must assert existence, and so hands the proof numbers that nothing written in it bounds, which rule 3 forbids.
+- **Appendix A, Parikh paragraph.** Prop G's first proof survives new predicate symbols, with Th(ℕ) taken in the larger language.
+
+**Correction.** Revision 14's main text ended on p. 18, not p. 17 as recorded above.
+
+**Status.** Clean build: 28 pp. Main text pp. 1–18, the same extent as revision 14; the added page is in the appendices. Not yet reviewed.

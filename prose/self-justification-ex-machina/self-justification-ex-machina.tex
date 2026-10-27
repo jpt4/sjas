@@ -3,6 +3,10 @@
 % A companion to Sebastian Oberhoff, "Incompleteness Ex Machina" (2018),
 % https://www.scottaaronson.com/incompleteness.pdf
 %
+% Revision 15 (2026-10-27) states the witness bound of Section 5 with its
+% hypothesis (true universal axioms) and an example, proves it in Appendix A
+% by the walk, and says in Section 9 why a new predicate cannot add induction.
+%
 % Revision 14 (2026-10-27) makes the vocabulary exact. Section 2 names the
 % bridge (Con implies G) and tabulates which step fails where; Section 3 says
 % what C(C) searches; Section 5 defines cost in bits of proof (one doubling
@@ -645,10 +649,14 @@ his encoding every function symbol occupies more than five bits. So each
 doubling costs more than five bits, and a term for a number $v$, which needs
 at least $\log_2 v$ doublings, costs more than $5\log_2 v$ bits. The
 language and the encoding set this price. The deduction method makes it
-unavoidable. When the axioms are true, a tableau proof $p$ that some number
-at least $v$ exists has a witness at or below $p^{1/4}$
-(Sections~\ref{sec:machine} and~\ref{sec:price}), so even a number that a
-proof never names costs it at least four bits per doubling.
+unavoidable, even for a number that a proof never names. Let the axioms be
+true universal sentences, as Willard's are over a base whose $\Pi_1$
+theorems are true. Then a tableau proof $p$ of an existential sentence
+writes down a term whose value is a witness, and that value is at most
+$p^{1/4}$ (Appendix~\ref{app:fine}). Take
+\fs{some $y$ has $\mathrm{Log}(y) \ge n$}. It names only $n$, but its
+witnesses are all at least $2^n$, so each of its tableau proofs has
+$p \ge 2^{4n}$: at least four bits for each doubling.
 Only lemmas reused through cut could avoid the cost (Section~\ref{sec:price}).
 Nothing receives the bits. The price is a lower bound on the length of every
 proof that names the number or proves that it exists.
@@ -1192,7 +1200,12 @@ itself $x$ times squares $x$. But to certify that such a loop halts on every
 input takes induction on an unbounded formula, and the machine has no
 induction at all. It inherits the $\Pi_1$ theorems of its base, not the
 base's induction axioms. Induction on bounded formulas would not help
-either, by Parikh's theorem (Appendix~\ref{app:fine}). A transcript lies
+either, by Parikh's theorem (Appendix~\ref{app:fine}). Nor can a new
+predicate bring induction in. A true universal axiom, about any predicate,
+still holds in the initial segment built in Proposition~\ref{prop:herbrand}'s
+first proof, where squaring fails (Appendix~\ref{app:fine}). An axiom that proves squaring
+total must assert that numbers exist. It then hands the proof numbers that
+nothing written in the proof bounds, which rule~3 forbids. A transcript lies
 beyond the bound, and so does a name. The code of
 $\bar x = \bar x$ is at least $x^6/2$, so the machine cannot prove that every
 number can be written down (Corollary~\ref{cor:uniform}). It writes down any
@@ -1634,6 +1647,26 @@ hands it down. (H4) is
 literally Eq.~(8). $\ISD$ is never asked to prove that its Group-3 formula is
 its own proof predicate. That correctness is used only in the metatheory.
 
+\paragraph{Witnesses in tableau proofs.} Let the axioms be true universal
+sentences, and let $p$ be a tableau proof of $\exists y\,\varphi(y)$, with
+$\varphi$ bounded. Walk down $p$ as $\Prog{Probe}$ does: at each fork step to
+a true child, and give each new parameter the least value that makes its
+sentence true. Axioms are true, and each rule turns true sentences into true
+ones. The root, which says that no witness exists, is false, and its instance
+$\neg\varphi(t)$ is false exactly when the value of $t$ is a witness. The walk
+must meet such an instance, because its branch closes with a bounded sentence
+and its negation (2005, Lemma~2), and these cannot both be true. Because the
+axioms and the root are universal, every parameter is introduced by a bounded
+quantifier, \fs{some $z \le s$ has $\psi$}, and its value is at most that of
+$s$, which is written higher on the branch. Each function symbol at most
+doubles. So the value of $t$ is at most $2^L$, where $L$ counts the function
+symbols on the branch (2005, Eq.~19), and $2^L < p^{1/5}$ (Eq.~20). For a
+single tableau, then, a number that the proof never names costs as much as
+one it names (Lemma~\ref{lem:transcript}). Willard's Theorems~2 and~4 give the
+bound $b\,p^{1/4}$ for tableaux and for tableau lists, with axioms true only
+up to a horizon and existential axioms witnessed below $b$. Section~\ref{sec:price}
+applies them with $b = 1$.
+
 \paragraph{Proposition~\ref{prop:herbrand}: proof.} Write $|\vec x|$ for
 $x_1 + \cdots + x_m + 1$, and $\bar k \cdot t$ for the term $t + \cdots + t$
 with $k$ summands. Suppose that no $k$ works. Then for each $k$ some $\vec x$
@@ -1687,7 +1720,9 @@ $z \in I$. Its least failure in $M$ exists, because $M \models
 \mathrm{Th}(\mathbb N)$. That failure is at most $z$, so it lies in $I$. It
 is not $0$, so it is the successor of an element of $I$ at which the formula
 holds, and the formula passes to the successor.\contra{} This is Parikh's
-theorem~\cite{parikh71}. Induction on $\Sigma_1$ formulas is another
+theorem~\cite{parikh71}. The proof also survives new predicate symbols. Take
+$\mathrm{Th}(\mathbb N)$ in the larger language, and true universal axioms
+about the new predicates hold in $I$ as before. Induction on $\Sigma_1$ formulas is another
 matter. Added to $\ISD$, it proves $\forall x\,\exists y\; y = x \cdot x$ by
 induction on $x$, because $(x+1)\cdot(x+1) = x \cdot x +
 \mathit{Double}(x) + 1$.
