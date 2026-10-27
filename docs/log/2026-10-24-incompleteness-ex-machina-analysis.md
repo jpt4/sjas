@@ -570,3 +570,48 @@ Grok 4.7 checked revision 11's fixes (workspace `review-sjexm-r8`, about 20 minu
 - **R8-02 (minor).** Lemma 1's nine cases are now described as the axiom case plus the eight elimination rules.
 
 **Status.** No finding remains unresolved. Willard's Theorem 6 is a sketch at this granularity. The one open item is Cor O's disjunction. Revision 12: 22 pp., clean build, main text pp. 1–13.
+
+## Revision 13 (2026-10-27): a path to building the machine
+
+**Request (verbatim).**
+
+> The point of explaining Self-Justification in terms of Undecidability is to provide a path to building machines (and languages which program them) which possess computational analogues of self-justification. The exploration thus far does not seem to accomplish that.
+
+**What was missing.** Revisions 1–12 found the step of Oberhoff's proof that fails, priced it and mapped the boundary. They never turned that into instructions. Nor did they say what a program gains from running on a self-justifying machine.
+
+**Added.**
+- **§9, "How To Build A Stable Genius".**
+  - *The explanation in terms of halting.* Every consistent system that watches cannot prove that P(P) never halts. The faith step is a bridge into that blind spot from C(C), the system's contradiction search. Prop I shows that no system meeting (H1)–(H3) has both the axiom and the bridge. Prop C shows the IΣ₁ case.
+  - *Four rules, each tied to the result that requires it.*
+    1. Refer to yourself (Fact N).
+    2. Watch (Lemma E).
+    3. Do not afford transcripts (Lemma F). Willard's machine meets this with an encoding of more than five bits per function symbol and three prohibitions: no multiplication; no lemmas with two quantifier blocks or excluded middle; no free large number. §7's table shows each is load-bearing.
+    4. Add the axiom at Level(1) and no higher (2004, Thm 1†).
+  - *Descent.* Rule 3 with a true base makes rule 4 safe, as in §4.
+  - *The instruction-set reading of Prop G.* Herbrand's theorem presents certified total functions as term programs over the function symbols and bounded searches. So the machine cannot prove that every number can be written down.
+- **§10, "What The Genius Can Do".**
+  - *Cert(Φ) and the program Gate.*
+  - *Prop L (ours).* (a) IS_D(A) proves that no two requests with the same key and different sides both pass Gate's test. (b) No consistent, recursively axiomatized, Hilbert-style extension of IΣ₁ proves this of its own gate. That sentence is its Level(1) consistency, which implies Level(0−), so G2 applies.
+  - *The self-improvement reading.* Searches can be replaced at will. The guarantee concerns only the checker, so its proof does not grow.
+  - *Cor M (ours).* (a) Self-consistency plus knowing that one watches at dual(Φ) gives reflection at Φ. (b) Reflection at G is true and unprovable, because by (FP) it is equivalent to G. So at G, reflection is the product of self-consistency and faith: ordinary systems keep the faith, Willard's keep self-consistency.
+  - *The signature table,* with the result behind each line.
+  - *Accounting instead of growth,* with a pointer to λᶜᵉʳᵗ (R4). The paragraph claims only what R4 §0–§1 state.
+- **Appendix A.** A second proof of Prop G, by Herbrand's theorem for universal theories, after Skolemizing bounded quantifiers with bounded-search functions. Each term s satisfies s(x) ≤ 2^d·max(x, 1). The witnesses are computed by trying the terms.
+- **Moved and updated.**
+  - The abstract and §1 now state the purpose.
+  - The moral closes §9. "What it does not buy" and the cake close §10.
+  - §5's Herbrand remark now points to the new proof.
+  - "The words are ours" now lists Prop L, the bridge, the recipe and Gate.
+
+**Label shift.** The appendix results are now Fact N (fixed point), Fact O (inheritance), Theorem P (2001 consistency) and Cor Q (2001 disjunction). They were L, M, N and O.
+
+**Sources reused.**
+- The certificate gate: `docs/log/2026-09-04-self-justification-and-rsi-motivation.md`.
+- The error-elimination reading: `docs/log/2026-09-22-computational-use-of-self-consistency.md`.
+- λᶜᵉʳᵗ: `nachlass/refinement/R4-certificate-calculus.md` §0–§1.
+
+**Status.**
+- Revision 13 builds clean: 26 pp., main text pp. 1–17.
+- Prop L and Cor M are proved in full from results already in the essay.
+- The Herbrand proof cites the standard theorem (Buss 1998). Its bibliographic data is from memory.
+- The new sections have not yet had an adversarial review.

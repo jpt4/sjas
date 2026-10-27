@@ -483,3 +483,11 @@ See [the analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.m
 - **Check.** A focused Grok check of revision 11: 10 of 12 round-7 fixes confirmed, and the Δ₀⁻ rejection accepted.
 - **Fixed.** Three summary-level points: the abstract's two base-theory hypotheses, the Π₁ ring laws in the 2020 row, and Lemma 1's case count. The moral now points to Theorem K's exact statement.
 - **Status.** No unresolved finding. Revision 12: 22 pp., clean. Details are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).
+
+## 2026-10-27 — SJexM revision 13: a path to building the machine
+- **Request (user).** "The point of explaining Self-Justification in terms of Undecidability is to provide a path to building machines (and languages which program them) which possess computational analogues of self-justification. The exploration thus far does not seem to accomplish that."
+- **Added.**
+  - **§9.** It explains the result in terms of halting: the faith step is a bridge from C(C) into P(P)'s blind spot. It then gives four design rules, each tied to a theorem, the descent argument, and the instruction-set (Herbrand) reading of Prop G.
+  - **§10.** The Gate program. Prop L: IS_D(A) certifies coordination-free gates, and no consistent Hilbert-style extension of IΣ₁ can certify its own. Cor M: reflection = self-consistency × faith, and is unprovable at G. A signature table, and the accounting route (λᶜᵉʳᵗ).
+  - **Appendix A.** A Herbrand proof of Prop G.
+- **Build.** 26 pp., main text pp. 1–17, clean. Not yet reviewed. Details are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).

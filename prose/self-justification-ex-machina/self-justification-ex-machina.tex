@@ -3,6 +3,12 @@
 % A companion to Sebastian Oberhoff, "Incompleteness Ex Machina" (2018),
 % https://www.scottaaronson.com/incompleteness.pdf
 %
+% Revision 13 (2026-10-27) turns the analysis into a path to building
+% machines that prove their own consistency. Section 9 reads Oberhoff's
+% Theorem 6 as a bridge into the halting blind spot, and Willard's construction as four
+% design rules; Section 10 says what programs gain (Proposition L) and do not
+% gain (Corollary M). Appendix A adds a Herbrand proof of Proposition G.
+%
 % Revision 10 (2026-10-26) streamlines revision 9 (commit 93ef87c) without
 % changing what is claimed or how it is proved. The main text tells one story,
 % for Willard's 2005 system, in Oberhoff's format. The conventions, and the
@@ -84,7 +90,7 @@
 \newtheorem*{definition}{Definition}
 
 \title{Self-Justification Ex Machina}
-\author{jpt4\thanks{Revision of 26 October 2026, prepared with Claude
+\author{jpt4\thanks{Revision of 27 October 2026, prepared with Claude
   (Anthropic) in the \texttt{sjas} research repository,
   \url{https://github.com/jpt4/sjas}. The pages and proof statuses of
   Willard's results are those recorded in the repository's codification of
@@ -99,26 +105,32 @@
 \noindent
 Sebastian Oberhoff's \emph{Incompleteness Ex Machina} proves Gödel's
 incompleteness theorems twice, once with sentences and once with programs.
-It concludes that the theorems are victory laps, and that the real work was
-teaching arithmetic to compute. His proof of the second theorem takes one step
-``with some faith''. We argue that this step is a part of Gödel's work in its
-own right, and that it has a price. Our witness is Dan Willard's 2005
+His proof of the second theorem takes one step ``with some faith''. We argue
+that this step is a part of Gödel's work in its own right, that it has a
+price, and that the price list is a recipe for machines that know they are
+consistent. A consistent system that proves every true $\Sigma_1$ sentence
+cannot prove that Oberhoff's program $\mathsf{P}(\mathsf{P})$ never halts. The
+faith step is a bridge into that blind spot from a second run, the system's
+search for a contradiction in itself, so a system that proves its own
+consistency cannot have the bridge. Our witness is Dan Willard's 2005
 self-justifying axiom system $\mathrm{IS}_D(A)$, with semantic tableaux or
 tableau lists as its deduction method $D$. Every $\Pi_1$ theorem of its base
 theory $A$ is true, and $A$ proves every $\Pi_1$ theorem of Peano arithmetic
 in Willard's language. The system proves every true $\Sigma_1$ sentence, it
-obeys the
-first incompleteness theorem, it proves its own consistency, and, by
-Willard's theorem, it is consistent. For this system the faith step fails
-twice over. In its uniform form it fails because the system cannot prove
-that every number can be written down. At the Gödel sentence, built with the
-conventions we fix, the step is provably equivalent to the Gödel sentence
-itself, and so it is unprovable. Willard's Theorem~6 takes the tableau-list
-system over Peano arithmetic in his language and grants it, as an axiom, that
-one large enough number exists. The faith returns, and inconsistency comes
-with it. The printed proof
-of that theorem has a gap, for which we sketch a repair. Gödel's work, viewed
-this way, has three parts, not two.
+obeys the first incompleteness theorem, it proves its own consistency, and,
+by Willard's theorem, it is consistent. At the Gödel sentence, built with the
+conventions we fix, the faith step is provably equivalent to the Gödel
+sentence itself. In its uniform form it fails because the system cannot
+prove that every number can be written down. We read Willard's construction
+as four design rules, each backed by a theorem. A program running on the
+resulting machine gains a certified guarantee that no two certificates the
+machine accepts contradict each other, which no consistent, recursively
+axiomatized extension of $I\Sigma_1$ can prove of its own checker. It does
+not gain trust in what is certified, because at the Gödel sentence that
+would take the bridge as well. Granted, as an axiom, that one large enough
+number exists, Willard's tableau-list system over Peano arithmetic in his
+language becomes inconsistent (his Theorem~6). The printed proof of that
+theorem has a gap, for which we sketch a repair.
 \end{abstract}
 
 \begin{quote}\small
@@ -178,7 +190,11 @@ consistent, provided only that their base theory tells no lies about
 universal statements. Dan Willard built them, in papers from 1993 to
 2020~\cite{w93tr,w01,w05,w06a,w20}. This essay tells their story in
 Oberhoff's language. Our headline is that the faith step is not part of the
-victory lap. It is a third part of Gödel's work, and it has a price.
+victory lap. It is a third part of Gödel's work, and it has a price. The
+price list is also a recipe. Section~\ref{sec:build} reads Willard's
+construction as instructions for building a machine that knows it is
+consistent, and Section~\ref{sec:program} says what a program gains by
+running on one, and what it does not.
 
 \paragraph{Ground rules.} Oberhoff's footnote~2 lets ``$=$'' relate sentences
 that are merely logically equivalent, ``provided this is obvious''. We cannot
@@ -613,11 +629,12 @@ witness $\vec y \le k\,(x_1 + \cdots + x_m + 1)$.
 \end{proposition}
 
 \noindent
-The proof, by compactness and an initial segment closed under the function
-symbols, is in Appendix~\ref{app:fine}. For intuition, Herbrand's theorem
-would present the witnesses as terms in $\vec x$. A term of depth $d$ built
-from $+$, $\mathit{Double}$ and the non-growth functions is at most $2^d$
-times its largest argument. So $k$ is like $2^d$. That is exponential in the
+Appendix~\ref{app:fine} has two proofs. One uses compactness and an initial
+segment closed under the function symbols. The other uses Herbrand's
+theorem, which presents the witnesses as terms in $\vec x$, built from the
+function symbols and from bounded searches. A term of depth $d$ built from
+$+$, $\mathit{Double}$ and the non-growth functions is at most $2^d$ times
+its largest argument. So $k$ is like $2^d$. That is exponential in the
 size of the proof, but it is fixed once the proof is, while $\vec x$ ranges
 over all numbers. With multiplication, a term of depth $d$ can grow like
 $x^{2^d}$. That is the whole difference.
@@ -1028,6 +1045,87 @@ existence of a transcript-sized object inside a proof smaller than the
 object. The snake cannot swallow its tail, because its mouth is smaller than
 its body.
 
+% ==========================================================================
+\section{How To Build A Stable Genius}
+\label{sec:build}
+
+Here is the story in terms of halting. A consistent system that watches,
+with a correct proof predicate, has a blind spot. It does not prove
+\fs{$\Prog{P}(\Prog{P})$ doesn't halt}, because if it did,
+$\Prog{P}(\Prog{P})$ would halt, and the system, watching, would prove that
+too (the last part of Proposition~\ref{prop:backwards}). The genius's axiom
+is about a different run, that of $\Prog{C}(\Prog{C})$. The faith step is a
+bridge between the two runs. Given the bridge, steps (1)--(3) turn
+\fs{$\Prog{C}(\Prog{C})$ doesn't halt}, at Level(1), into
+\fs{$\Prog{P}(\Prog{P})$ doesn't halt}, which lies in the blind spot. So no
+system that meets (H1)--(H3) of Proposition~\ref{prop:backwards} has both
+the axiom and the bridge. The extensions of $I\Sigma_1$ in
+Proposition~\ref{prop:genius} have the bridge, because they can simulate
+themselves, and so the axiom makes them inconsistent. Willard's systems have
+the axiom, and so they cannot have the bridge.
+
+Read as instructions, this is a recipe. To build a machine that knows it is
+consistent, keep what the first incompleteness theorem needs, and take away
+the bridge. Here are the ingredients, each with the result that requires it.
+\begin{enumerate}[label=\arabic*., leftmargin=2em, itemsep=2pt]
+\item \emph{Let it refer to itself.} This costs nothing. The fixed point
+  needs one true bounded sentence and trichotomy at one number
+  (Fact~\ref{fact:fp}).
+\item \emph{Let it watch.} Give it a finite set of true universal axioms
+  that proves every true bounded sentence. Then it proves every true halting
+  statement (Lemma~\ref{lem:watch}), and it reasons about algorithms in
+  every sense the first incompleteness theorem needs. Over a base whose
+  $\Pi_1$ theorems are true and include those of $\mathrm{PA}{+}$, it obeys
+  that theorem.
+\item \emph{Do not let it afford transcripts.} The natural proof of the
+  bridge is a program, $s \mapsto t$, that turns a proof of $\G$ into the
+  transcript that checks it, and $t$ is bigger than $s^5$
+  (Lemma~\ref{lem:transcript}). So every number that a proof shows to exist
+  must fit in the memory that the proof occupies, or, as
+  Section~\ref{sec:machine} measures it, lie below about the fourth root of
+  the proof's Gödel number. Willard's machine meets this rule with an
+  encoding that spends more than five bits on each function symbol, and
+  with three prohibitions:
+  \begin{itemize}[leftmargin=1.2em, itemsep=0pt, topsep=1pt]
+  \item no function symbol that more than doubles its largest argument, so
+    no multiplication;
+  \item no lemma with more than one unbounded quantifier block, and no
+    excluded middle, which is a cut in disguise;
+  \item no axiom that hands it a large number for free.
+  \end{itemize}
+  Section~\ref{sec:price} shows that breaking any of the three, in the
+  configurations treated there, brings back the second theorem or
+  inconsistency.
+\item \emph{Then add the axiom}, at Level(1) and no higher. For finite
+  systems containing an explicit $\Pi_1$ theorem of Peano arithmetic,
+  asserting Level($2^+$) brings the second theorem back with addition alone
+  (2004, Theorem~1\sk).
+\end{enumerate}
+Followed in Willard's language, the recipe produces $\ISD$, which is
+consistent whenever the $\Pi_1$ theorems of $A$ are true
+(Theorem~\ref{thm:willard}). Rule~3, with the truth of the base, is what
+makes rule~4 safe. Take a shortest refutation. Below the larger of its two
+Gödel numbers every axiom is true, the self-consistency axiom included,
+because the refutation is that axiom's least counterexample. And the
+refutation's two proofs cannot see far past their axioms. The existential
+one finds its witness close by, where the universal one has already
+certified everything. That is the collision of Section~\ref{sec:machine},
+and $\Prog{Probe}$ is the program that finds it.
+
+Rule~3 also fixes which programs the machine can certify. From a proof that
+every $\vec x$ has a $\vec y$ with $\delta(\vec x, \vec y)$, Herbrand's
+theorem extracts finitely many terms, built from the function symbols and
+from bounded searches, such that at every input one of them is a witness
+(Appendix~\ref{app:fine}). A program can try them in turn. So the function
+symbols are the instruction set of the machine's certified programs, and
+with $+$ and $\mathit{Double}$ no such program returns more than a fixed
+multiple of its input. That is Proposition~\ref{prop:herbrand}, read as a
+program. A transcript is bigger than that, and so is a name. The code of
+$\bar x = \bar x$ is at least $x^6/2$, so the machine cannot prove that every
+number can be written down (Corollary~\ref{cor:uniform}). It writes down any
+number you hand it, by watching. It cannot prove that it could write them
+all. That is rule~3 in one line.
+
 \medskip
 Moral of the story: you may declare yourself a very stable genius, and
 Willard's theorems will vouch for you, provided that your teachers told you
@@ -1039,6 +1137,154 @@ any lemma you like, and (by Solovay's unpublished theorem) successor with the
 ring laws is too much. And if your teachers taught you Peano arithmetic and
 you reuse lemmas, you must never be told, as an axiom, that a big enough
 number exists (Theorem~\ref{thm:ns}, which we count as a sketch).
+
+% ==========================================================================
+\section{What The Genius Can Do}
+\label{sec:program}
+
+A program runs the same on a machine with the axiom as on one without it.
+What the axiom changes is what the machine will certify. Write
+$\mathrm{Cert}(\Phi)$ for the set of proofs that the checker of $\ISD$
+accepts for $\Phi$, that is, the $q$ with
+$\mathit{SubstPrf}(\bar n_3, \gn{\Phi}, q)$. Group-3 gives programs one new
+law: if $\Phi$ is $\Pi_1$ and $\Pair$ pairs it with $\theta$, then
+$\mathrm{Cert}(\Phi)$ and $\mathrm{Cert}(\theta)$ are not both inhabited.
+Here is a program whose safety rests on that law and on nothing else.
+
+\noindent\begin{minipage}{\linewidth}
+\begin{lstlisting}
+Gate(x, y, side, q) {
+  z := x if side = 0, else y;
+  if Pair(x, y) and q $\in$ Cert(z) {
+    emit (x, y, side);
+  }
+}
+\end{lstlisting}
+\end{minipage}
+Read $x$ as \fs{transaction $T$ never breaks the invariant}, a $\Pi_1$
+sentence, and $y$ as its negation. Side~0 commits $T$ and side~1 aborts it.
+Any number of copies of $\Prog{Gate}$ may run, anywhere, with no shared
+state, on requests from any source: the machine's own searches, a rewritten
+successor's, an adversary's. A gate must honor every request that passes its
+test, since otherwise a gate that never emits anything would be safe for
+free.
+
+\begin{proposition}[ours]\label{prop:gate}
+\leavevmode
+\begin{enumerate}[label=(\alph*)]
+\item $\ISD$ proves that no two requests with the same key $(x, y)$ and
+  different sides both pass $\Prog{Gate}$'s test.
+\item Let $T$ be a consistent, recursively axiomatized extension of
+  $I\Sigma_1$ with Hilbert-style deduction, its canonical proof predicate,
+  and a bounded pairing of $\Pi_1$ sentences with their negations. Let
+  $\Prog{Gate}_T$ test proofs in $T$. Then $T$ does not prove the same of
+  $\Prog{Gate}_T$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) Two such requests would be a counterexample to Group-3, which is an
+axiom. (b) The sentence is $T$'s Level(1) consistency, and $I\Sigma_1$
+proves that it implies $T$'s Level(0$-$) consistency: by explosion, a proof
+of $0 = 1$ yields proofs of both sentences of a pair, as in the proof of
+Proposition~\ref{prop:genius}. By the second incompleteness theorem, $T$ does
+not prove its Level(0$-$) consistency.
+\end{proof}
+
+So the stable genius can certify, from inside, a commit protocol that needs
+no coordination, and an ordinary system cannot certify its own copy of it at
+all. For a system that improves itself, this is the shape of the gain. A
+parent that approves its successors in advance, before it sees any of their
+proofs, knows that, as long as they keep its checker, no two certificates
+produced by any of them, or by itself, prove a $\Pi_1$ sentence and its
+negation. The searches can be replaced at will, by anything that produces
+certificates, and the proof of the guarantee does not grow with the number
+of replacements, because the guarantee concerns only the checker. Part~(a)
+contains nothing beyond Group-3: the program is the axiom, read as a
+program. What is not trivial is that the machine survives the axiom
+(Theorem~\ref{thm:willard}).
+
+What the genius does not gain is trust in what it certifies. Reflection at
+$\Phi$, $\Prov(\gn{\Phi}) \supset \Phi$, would let a program act on a
+certified claim as on a fact. For a $\Pi_1$ sentence $\Phi$ the natural
+argument runs as follows. If $\Phi$ failed, a finite counterexample would
+exist. The machine would see it, so $\mathrm{dual}(\Phi)$ would have a
+certificate too, and the law above forbids two. The middle step is knowing
+that it watches at $\mathrm{dual}(\Phi)$, which is the faith step again.
+
+\begin{corollary}[ours]\label{cor:reflect}
+\leavevmode
+\begin{enumerate}[label=(\alph*)]
+\item For every $\Pi_1$ sentence $\Phi$, $\ISD$ proves
+  $[\mathrm{dual}(\Phi) \supset \Prov(\gn{\mathrm{dual}(\Phi)})] \supset
+  [\Prov(\gn{\Phi}) \supset \Phi]$.
+\item Under the hypotheses of Corollary~\ref{cor:isd}, $\ISD$ does not prove
+  $\Prov(\gn{\G}) \supset \G$, although it is true.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(a) Assume $\mathrm{dual}(\Phi) \supset \Prov(\gn{\mathrm{dual}(\Phi)})$,
+$\Prov(\gn{\Phi})$ and $\neg\Phi$. Then $\mathrm{dual}(\Phi)$ holds, being
+logically equivalent to $\neg\Phi$, and so does
+$\Prov(\gn{\mathrm{dual}(\Phi)})$. Groups 0 and 1 prove the true bounded
+sentence $\Pair(\gn{\Phi}, \gn{\mathrm{dual}(\Phi)})$, and Group-3 forbids
+the two proofs. So $\Phi$. The argument is valid in every model of $\ISD$,
+and Fact~\ref{fact:closure} turns it into a proof. (b) By (H3) and
+Fact~\ref{fact:fp}, $\ISD$ proves (FP), which says that $\G$ is equivalent
+to $\neg\Prov(\gn{\G})$. So it proves $\Prov(\gn{\G}) \supset \G$ equivalent
+to $\Prov(\gn{\G}) \supset \neg\Prov(\gn{\G})$, hence to
+$\neg\Prov(\gn{\G})$, hence to $\G$, which it does not prove
+(Corollary~\ref{cor:isd}). $\G$ is true, so the implication is true.
+\end{proof}
+
+\noindent
+So at the Gödel sentence, reflection is the product of self-consistency and
+faith, and the product is forbidden. In every consistent system that
+watches, with a correct proof predicate, and proves the fixed point,
+reflection at $\G$ is equivalent to $\G$, and so it is unprovable. Ordinary
+systems keep the faith and give up self-consistency. Willard's keep
+self-consistency and give up the faith. A stable genius trusts that its
+certificates agree, but not, in general, that they are true.
+
+Put together, here is what the machine offers the programs that run on it,
+with the result behind each line.
+
+\begin{center}\footnotesize
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{6.9cm}>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}p{3.8cm}@{}}
+\toprule
+Claim & Certified & Source \\
+\midrule
+$q \in \mathrm{Cert}(\Phi)$, or $q \notin \mathrm{Cert}(\Phi)$, for a given
+$q$ & yes & Groups 0 and 1; the proof predicate is bounded \\
+$\mathrm{Cert}(\Phi)$ and $\mathrm{Cert}(\theta)$ are not both inhabited,
+when $\Pair$ pairs them & yes & Group-3; Theorem~\ref{thm:willard} \\
+a given halting run halts & yes, run by run & Lemma~\ref{lem:watch} \\
+$\bar x = \bar x$ has a proof, uniformly in $x$ & no &
+Corollary~\ref{cor:uniform} \\
+every number has a square; every number has a written name & neither &
+Corollary~\ref{cor:uniform} \\
+had $\Prog{P}(\Prog{P})$ halted, a proof of that would exist & no &
+Corollary~\ref{cor:isd} \\
+a proof of $\G$ makes $\G$ true & no & Corollary~\ref{cor:reflect} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+Willard enforces rule~3 by limiting growth. It can also be enforced by
+accounting. Let each node of a certificate cost one unit of a resource that
+programs can neither copy nor create, so that a program can hold no
+certificate larger than its budget. A refutation on a budget of $n$ that
+uses the axiom must hand it a certificate of a refutation. That certificate
+has at most $n$ nodes and must name every unit that the refutation it
+describes spends, so it describes a refutation on a smaller budget. A least
+refutation therefore cannot use the axiom, which is safe if the rest of the
+system is consistent. The calculus
+$\lambda^{\mathrm{cert}}_0$ in the \texttt{sjas} repository is built on this
+plan~\cite{lcert}. There the restriction falls on certificates alone,
+ordinary data keep the strength of arithmetic in all finite types, and the
+axiom speaks of the certificates that a program holds.
 
 \paragraph{What it does not buy.} Willard was more careful about the limits
 of his results than most of his readers have been.
@@ -1055,10 +1301,11 @@ of his results than most of his readers have been.
   Platonic Stability, rests on a conjecture (2016, Conjecture~6.6\sk).
 \item \emph{The words are ours.} Watching and knowing, the conventions of
   Appendix~\ref{app:fine}, Lemmas~\ref{lem:instances}, \ref{lem:watch}
-  and~\ref{lem:transcript}, Propositions~\ref{prop:herbrand}
-  and~\ref{prop:backwards} and their corollaries, the program $\Prog{C}$ as a
-  reading of Willard's Group-3, the
-  horizon picture, and the repair in Appendix~\ref{app:ns} are ours. Willard's
+  and~\ref{lem:transcript}, Propositions~\ref{prop:herbrand},
+  \ref{prop:backwards} and~\ref{prop:gate} and their corollaries, the
+  program $\Prog{C}$ as a reading of Willard's Group-3, the horizon picture,
+  the bridge and the recipe of Section~\ref{sec:build}, the program
+  $\Prog{Gate}$, and the repair in Appendix~\ref{app:ns} are ours. Willard's
   own words for the mechanism are ``adequate memory'', and the comparison
   between a proof's Gödel number and the integer it proves to exist.
 \end{itemize}
@@ -1350,6 +1597,35 @@ $I \models \F$, hence $I \models \forall\vec x\,\exists\vec y\,\delta$. Then
 some $\vec y \in I$ satisfies $\delta(\vec a, \vec y)$ in $I$, and hence in
 $M$. But $\vec y \le \bar k \cdot |\vec a|$ for some $k \in \mathbb N$, which
 contradicts the choice of $\vec a$.\contra
+
+\paragraph{Proposition~\ref{prop:herbrand}: a second proof, by Herbrand's
+theorem.} This proof computes the witnesses. Write each bounded quantifier
+as $\exists v \le t\,\varphi(v, \vec z)$, a universal one as
+$\neg\exists v \le t\,\neg\varphi$. Working from the innermost quantifier
+of $\F$ and $\delta$ outwards, add for each one a function symbol
+$\mu(\vec z)$, read as the least $v \le t(\vec z)$ with $\varphi$, or $0$ if
+there is none, together with the true universal axioms
+$\mu(\vec z) \le t(\vec z)$ and $v \le t(\vec z) \wedge \varphi(v, \vec z)
+\supset \varphi(\mu(\vec z), \vec z)$. They make $\exists v \le t\,\varphi$
+provably equivalent to the quantifier-free
+$\mu \le t \wedge \varphi(\mu)$. So $\F$ becomes a universal theory $U$,
+true in $\mathbb N$, which proves $\forall\vec x\,\exists\vec y\,\delta^*$
+for a quantifier-free $\delta^*$ equivalent to $\delta$. By Herbrand's
+theorem for universal theories~\cite{buss98}, there are tuples of terms
+$\vec t_1, \ldots, \vec t_n$ with
+\[
+U \vdash \forall\vec x\,[\delta^*(\vec x, \vec t_1(\vec x)) \vee \cdots \vee
+\delta^*(\vec x, \vec t_n(\vec x))].
+\]
+$U$ is true in $\mathbb N$, so at every input one of the
+$\vec t_i(\vec x)$ is a witness. The symbols $+$ and $\mathit{Double}$ at
+most double their largest argument, the grounding functions do not exceed
+it, and each $\mu$ is bounded by a term of the original language in its
+arguments. So, by induction on terms, each term $s$ has a $d$ with
+$s(\vec x) \le 2^d \max(\vec x, 1)$ for all $\vec x$. The program that
+evaluates $\vec t_1(\vec x), \ldots, \vec t_n(\vec x)$ in turn and returns
+the first that satisfies $\delta$ finds a witness within the bound of the
+proposition, with $k = 2^d$ for the largest of these $d$.
 
 % ==========================================================================
 \section{The 2001 System}
@@ -1650,6 +1926,10 @@ which were checked against page images and which against the extracted text.
 \bibitem[Boolos 1984]{boolos84} G.~Boolos, Don't eliminate cut, \emph{Journal of
   Philosophical Logic} 13 (1984), 373--378.
 
+\bibitem[Buss 1998]{buss98} S.~R.~Buss, An introduction to proof theory, in
+  S.~R.~Buss (ed.), \emph{Handbook of Proof Theory}, Elsevier, 1998,
+  pp.~1--78.
+
 \bibitem[Hájek--Pudlák 1993]{hp93} P.~Hájek and P.~Pudlák, \emph{Metamathematics of
   First-Order Arithmetic}, Springer, 1993.
 
@@ -1662,6 +1942,12 @@ which were checked against page images and which against the extracted text.
 
 \bibitem[Pudlák 1985]{pudlak85} P.~Pudlák, Cuts, consistency statements and
   interpretations, \emph{Journal of Symbolic Logic} 50 (1985), 423--441.
+
+\bibitem[sjas 2026]{lcert} The \texttt{sjas} repository,
+  \url{https://github.com/jpt4/sjas}:
+  \nolinkurl{nachlass/refinement/R4-certificate-calculus.md}, a draft of the
+  certificate calculus $\lambda^{\mathrm{cert}}$, and
+  \nolinkurl{nachlass/refinement/R4-metatheory.md}, its metatheory (2026).
 
 \end{thebibliography}
 
