@@ -491,3 +491,13 @@ See [the analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.m
   - **§10.** The Gate program. Prop L: IS_D(A) certifies coordination-free gates, and no consistent Hilbert-style extension of IΣ₁ can certify its own. Cor M: reflection = self-consistency × faith, and is unprovable at G. A signature table, and the accounting route (λᶜᵉʳᵗ).
   - **Appendix A.** A Herbrand proof of Prop G.
 - **Build.** 26 pp., main text pp. 1–17, clean. Not yet reviewed. Details are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).
+
+## 2026-10-27 — SJexM revision 14: exact vocabulary
+- **Request (user).** The failing steps were unclear, and "C(C)", "bridge", "cost" (unit, payer, receiver, price-setter) and "gates" were fuzzy. Certified programs need an explicit no-induction caveat. "Certified but not necessarily true" is reflection.
+- **Changes.**
+  - §2 defines the bridge (Con ⊃ G) and tabulates the steps: IS_D(A) proves (1) and (3), not (2).
+  - §3 says what C(C) searches.
+  - §5 measures cost in bits of proof (a doubling costs more than five bits; nothing receives it; it is a lower bound).
+  - §9 makes the certified programs straight-line, with no induction; Parikh's theorem is added to Appendix A.
+  - §10 defines a gate and says "reflection".
+- **Build.** 27 pp., main text pp. 1–17, clean. Details are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).

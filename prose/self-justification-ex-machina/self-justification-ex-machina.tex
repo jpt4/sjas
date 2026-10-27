@@ -3,6 +3,13 @@
 % A companion to Sebastian Oberhoff, "Incompleteness Ex Machina" (2018),
 % https://www.scottaaronson.com/incompleteness.pdf
 %
+% Revision 14 (2026-10-27) makes the vocabulary exact. Section 2 names the
+% bridge (Con implies G) and tabulates which step fails where; Section 3 says
+% what C(C) searches; Section 5 defines cost in bits of proof (one doubling
+% costs more than five bits); Section 9 stresses that certified programs are
+% straight-line, with no induction (Parikh's theorem added to Appendix A);
+% Section 10 defines a gate and says "reflection" where it said "trust".
+%
 % Revision 13 (2026-10-27) turns the analysis into a path to building
 % machines that prove their own consistency. Section 9 reads Oberhoff's
 % Theorem 6 as a bridge into the halting blind spot, and Willard's construction as four
@@ -105,20 +112,22 @@
 \noindent
 Sebastian Oberhoff's \emph{Incompleteness Ex Machina} proves Gödel's
 incompleteness theorems twice, once with sentences and once with programs.
-His proof of the second theorem takes one step ``with some faith''. We argue
-that this step is a part of Gödel's work in its own right, that it has a
-price, and that the price list is a recipe for machines that know they are
-consistent. A consistent system that proves every true $\Sigma_1$ sentence
-cannot prove that Oberhoff's program $\mathsf{P}(\mathsf{P})$ never halts. The
-faith step is a bridge into that blind spot from a second run, the system's
-search for a contradiction in itself, so a system that proves its own
-consistency cannot have the bridge. Our witness is Dan Willard's 2005
+His proof of the second theorem has three steps, and he takes one of them
+``with some faith''. We argue that this step is a part of Gödel's work in its
+own right, that it has a price, measured in bits of proof, and that the price
+list is a recipe for machines that know they are consistent. A consistent
+system that proves every true $\Sigma_1$ sentence cannot prove that
+Oberhoff's program $\mathsf{P}(\mathsf{P})$ never halts. His three steps
+together turn the system's consistency into exactly that claim, so a system
+that proves its own consistency must fail one of them. Our witness is Dan
+Willard's 2005
 self-justifying axiom system $\mathrm{IS}_D(A)$, with semantic tableaux or
 tableau lists as its deduction method $D$. Every $\Pi_1$ theorem of its base
 theory $A$ is true, and $A$ proves every $\Pi_1$ theorem of Peano arithmetic
 in Willard's language. The system proves every true $\Sigma_1$ sentence, it
 obeys the first incompleteness theorem, it proves its own consistency, and,
-by Willard's theorem, it is consistent. At the Gödel sentence, built with the
+by Willard's theorem, it is consistent. Two of the three steps are theorems
+of it, and the faith step is not. At the Gödel sentence, built with the
 conventions we fix, the faith step is provably equivalent to the Gödel
 sentence itself. In its uniform form it fails because the system cannot
 prove that every number can be written down. We read Willard's construction
@@ -126,8 +135,8 @@ as four design rules, each backed by a theorem. A program running on the
 resulting machine gains a certified guarantee that no two certificates the
 machine accepts contradict each other, which no consistent, recursively
 axiomatized extension of $I\Sigma_1$ can prove of its own checker. It does
-not gain trust in what is certified, because at the Gödel sentence that
-would take the bridge as well. Granted, as an axiom, that one large enough
+not gain the reflection principle, which at the Gödel sentence would need
+the faith step as well. Granted, as an axiom, that one large enough
 number exists, Willard's tableau-list system over Peano arithmetic in his
 language becomes inconsistent (his Theorem~6). The printed proof of that
 theorem has a gap, for which we sketch a repair.
@@ -190,7 +199,8 @@ consistent, provided only that their base theory tells no lies about
 universal statements. Dan Willard built them, in papers from 1993 to
 2020~\cite{w93tr,w01,w05,w06a,w20}. This essay tells their story in
 Oberhoff's language. Our headline is that the faith step is not part of the
-victory lap. It is a third part of Gödel's work, and it has a price. The
+victory lap. It is a third part of Gödel's work, and it has a price, which
+Section~\ref{sec:transcripts} measures in bits of proof. The
 price list is also a recipe. Section~\ref{sec:build} reads Willard's
 construction as instructions for building a machine that knows it is
 consistent, and Section~\ref{sec:program} says what a program gains by
@@ -262,17 +272,45 @@ three steps.
   \fs{then $\F$ is inconsistent}.
 \end{enumerate}
 Chaining them gives $\F \vdash \mathit{Con} \supset \G$, which is what
-Theorem~6 needs. Step~(1) is the fixed point. $\F$ proves it once it proves
-one true bounded sentence and that $\le$ is trichotomous at one number
-(Fact~\ref{fact:fp}). Step~(3)
-comes free when $\mathit{Con}$ says that no sentence and its negation both
-have proofs. If it says only that $0 = 1$ has no proof, step~(3) is a
-formalized combination of two proofs into one, and for cut-free deduction
-that combination is expensive. Step~(2) is ``$\Prog{P}(\Prog{P})$ will
+Theorem~6 needs. We call this implication the \emph{bridge}. It leads from
+$\F$'s consistency to the Gödel sentence, and the three steps are its parts.
+Step~(1) is the fixed point. $\F$ proves it once it proves one true bounded
+sentence and that $\le$ is trichotomous at one number (Fact~\ref{fact:fp}).
+Step~(3) comes free when $\mathit{Con}$ says that no sentence and its
+negation both have proofs. If it says only that $0 = 1$ has no proof,
+step~(3) is a formalized combination of two proofs into one, and for
+cut-free deduction the combined proof can be far longer than the two
+(Section~\ref{sec:price}). Step~(2) is ``$\Prog{P}(\Prog{P})$ will
 eventually find such a proof after some sequence of steps which we can write
 out in $\F$''. Inside $\F$ it reads: \emph{for every proof $s$ of $\G$ there
 is a proof that $\Prog{P}(\Prog{P})$ halts}, namely the one that exhibits $s$
 and checks it.
+
+Here, in advance, is where the three steps stand. The first row is the
+systems of Proposition~\ref{prop:genius}, Peano arithmetic among them. The
+second is Willard's 2005 system $\ISD$ of Section~\ref{sec:machine}, under
+the hypotheses of Corollary~\ref{cor:isd}.
+
+\begin{center}\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+ & Step (1) & Step (2) & Step (3) \\
+\midrule
+Extensions of $I\Sigma_1$ & theorem & theorem & theorem \\
+$\ISD$ & theorem & \textbf{not a theorem} & theorem \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+In $\ISD$, step~(1) follows from the fixed point, and step~(3) is its
+consistency axiom read at $\G$ and its negation. So exactly one step fails,
+the faith step, and it fails in two forms. Its uniform form fails for
+reasons of growth (Section~\ref{sec:transcripts}). At $\G$ itself it is
+provably equivalent to $\G$, and so it is unprovable for the reason $\G$ is
+(Section~\ref{sec:backwards}). For Willard's 2001 system, step~(2) and the
+Level(0$-$) form of step~(3) are not both theorems, and we do not know which
+one fails (Appendix~\ref{app:2001}).
 
 In the first incompleteness theorem, ``which we can write out in $\F$'' was a
 fact \emph{about} $\F$, established by us from outside: we are handed a
@@ -362,8 +400,11 @@ the joke.} Let
 \[
 \W = \fs{$\Prog{C}(\Prog{C})$ doesn't halt}, \qquad \F = \Fo + \W .
 \]
-Just as $\G$ says ``I am not provable'', $\W$ says ``$\F$ is consistent''. So
-$\F$ proves its own consistency in one line, because the claim is an axiom.
+$\Prog{C}(\Prog{C})$ is $\Prog{C}$ run on its own text. So it searches for a
+contradiction in $\Fo + \fs{$\Prog{C}(\Prog{C})$ doesn't halt}$, which is
+$\F$, and it halts exactly when $\F$ is inconsistent. Just as $\G$ says ``I
+am not provable'', $\W$ says ``$\F$ is consistent'', and $\W$ is one of
+$\F$'s own axioms. So $\F$ proves its own consistency in one line.
 
 \begin{proposition}[The genius falls; standard]\label{prop:genius}
 Let $\Fo$ be a recursively axiomatized extension of $I\Sigma_1$, with
@@ -594,9 +635,23 @@ works. That part is external, and the system has only the axiom.
 
 Why should knowing be harder than watching? The natural proof of step~(2)
 takes a proof $s$ of $\G$ and produces the proof $t$ of
-\fs{$\Prog{P}(\Prog{P})$ halts} that exhibits $s$ and checks it. In a
-language whose only growth functions are $+$ and $\mathit{Double}$,
-exhibiting $s$ costs a term, and terms are expensive.
+\fs{$\Prog{P}(\Prog{P})$ halts} that exhibits $s$ and checks it. Exhibiting
+$s$ takes a term, and in Willard's system terms have a definite cost.
+
+We measure cost in bits of proof. In Willard's language every function
+symbol at most doubles the largest of its arguments: $+$ and
+$\mathit{Double}$ at most double it, and the other six never exceed it. In
+his encoding every function symbol occupies more than five bits. So each
+doubling costs more than five bits, and a term for a number $v$, which needs
+at least $\log_2 v$ doublings, costs more than $5\log_2 v$ bits. The
+language and the encoding set this price. The deduction method makes it
+unavoidable. When the axioms are true, a tableau proof $p$ that some number
+at least $v$ exists has a witness at or below $p^{1/4}$
+(Sections~\ref{sec:machine} and~\ref{sec:price}), so even a number that a
+proof never names costs it at least four bits per doubling.
+Only lemmas reused through cut could avoid the cost (Section~\ref{sec:price}).
+Nothing receives the bits. The price is a lower bound on the length of every
+proof that names the number or proves that it exists.
 
 \begin{lemma}[ours]\label{lem:transcript}
 In Willard's 2005 language and encoding, every tableau proof that contains a
@@ -637,7 +692,10 @@ $+$, $\mathit{Double}$ and the non-growth functions is at most $2^d$ times
 its largest argument. So $k$ is like $2^d$. That is exponential in the
 size of the proof, but it is fixed once the proof is, while $\vec x$ ranges
 over all numbers. With multiplication, a term of depth $d$ can grow like
-$x^{2^d}$. That is the whole difference.
+$x^{2^d}$. That is the whole difference. In the units above, a proof that
+every input has an output buys a fixed number of doublings, the same for
+every input. A function that outgrows every linear one needs more doublings
+as its input grows, and no single proof has them.
 
 Write $\mathrm{Num}(x,y)$ for a bounded formula saying that $y$ is the Gödel
 number of the sentence $\bar x = \bar x$. For a bounded formula $\delta(x)$,
@@ -1054,15 +1112,18 @@ with a correct proof predicate, has a blind spot. It does not prove
 \fs{$\Prog{P}(\Prog{P})$ doesn't halt}, because if it did,
 $\Prog{P}(\Prog{P})$ would halt, and the system, watching, would prove that
 too (the last part of Proposition~\ref{prop:backwards}). The genius's axiom
-is about a different run, that of $\Prog{C}(\Prog{C})$. The faith step is a
-bridge between the two runs. Given the bridge, steps (1)--(3) turn
-\fs{$\Prog{C}(\Prog{C})$ doesn't halt}, at Level(1), into
-\fs{$\Prog{P}(\Prog{P})$ doesn't halt}, which lies in the blind spot. So no
-system that meets (H1)--(H3) of Proposition~\ref{prop:backwards} has both
-the axiom and the bridge. The extensions of $I\Sigma_1$ in
-Proposition~\ref{prop:genius} have the bridge, because they can simulate
-themselves, and so the axiom makes them inconsistent. Willard's systems have
-the axiom, and so they cannot have the bridge.
+$\W$ is about a different run, that of $\Prog{C}(\Prog{C})$, the search for
+a contradiction in the genius itself. The bridge of Section~\ref{sec:faith},
+$\W \supset \G$, leads from the one run to the other: if
+$\Prog{C}(\Prog{C})$ doesn't halt, then $\Prog{P}(\Prog{P})$ doesn't halt.
+A system with both the axiom and the bridge would prove $\G$, inside its
+blind spot. So no system that meets (H1)--(H3) of
+Proposition~\ref{prop:backwards} has both. The extensions of $I\Sigma_1$ in
+Proposition~\ref{prop:genius} prove all three steps of the bridge, because
+they can simulate themselves, and so the axiom makes them inconsistent.
+Willard's system has the axiom. Of the bridge's three steps it proves the
+first and the third, and the faith step is the one it lacks
+(Corollary~\ref{cor:isd}).
 
 Read as instructions, this is a recipe. To build a machine that knows it is
 consistent, keep what the first incompleteness theorem needs, and take away
@@ -1078,11 +1139,12 @@ the bridge. Here are the ingredients, each with the result that requires it.
   $\Pi_1$ theorems are true and include those of $\mathrm{PA}{+}$, it obeys
   that theorem.
 \item \emph{Do not let it afford transcripts.} The natural proof of the
-  bridge is a program, $s \mapsto t$, that turns a proof of $\G$ into the
-  transcript that checks it, and $t$ is bigger than $s^5$
-  (Lemma~\ref{lem:transcript}). So every number that a proof shows to exist
-  must fit in the memory that the proof occupies, or, as
-  Section~\ref{sec:machine} measures it, lie below about the fourth root of
+  faith step is a program, $s \mapsto t$, that turns a proof of $\G$ into
+  the transcript that checks it, and $t$ has more than five times the bits
+  of $s$ (Lemma~\ref{lem:transcript}). So doublings must cost bits, in the
+  units of Section~\ref{sec:transcripts}: every number that a proof shows to
+  exist must fit in the memory that the proof occupies, or, as
+  Section~\ref{sec:machine} measures it, lie at or below the fourth root of
   the proof's Gödel number. Willard's machine meets this rule with an
   encoding that spends more than five bits on each function symbol, and
   with three prohibitions:
@@ -1118,9 +1180,20 @@ theorem extracts finitely many terms, built from the function symbols and
 from bounded searches, such that at every input one of them is a witness
 (Appendix~\ref{app:fine}). A program can try them in turn. So the function
 symbols are the instruction set of the machine's certified programs, and
-with $+$ and $\mathit{Double}$ no such program returns more than a fixed
-multiple of its input. That is Proposition~\ref{prop:herbrand}, read as a
-program. A transcript is bigger than that, and so is a name. The code of
+the programs are straight-line. Each makes a fixed number of calls, fixed by
+the proof and not by the input, and none has a loop whose length depends on
+the input. Bounded searches do loop, but they return nothing larger than
+their bounds. So with $+$ and $\mathit{Double}$ no certified program returns
+more than a fixed multiple of its input. That is
+Proposition~\ref{prop:herbrand}, read as a program.
+
+A loop of input-dependent length would escape the bound: adding $x$ to
+itself $x$ times squares $x$. But to certify that such a loop halts on every
+input takes induction on an unbounded formula, and the machine has no
+induction at all. It inherits the $\Pi_1$ theorems of its base, not the
+base's induction axioms. Induction on bounded formulas would not help
+either, by Parikh's theorem (Appendix~\ref{app:fine}). A transcript lies
+beyond the bound, and so does a name. The code of
 $\bar x = \bar x$ is at least $x^6/2$, so the machine cannot prove that every
 number can be written down (Corollary~\ref{cor:uniform}). It writes down any
 number you hand it, by watching. It cannot prove that it could write them
@@ -1149,7 +1222,10 @@ accepts for $\Phi$, that is, the $q$ with
 $\mathit{SubstPrf}(\bar n_3, \gn{\Phi}, q)$. Group-3 gives programs one new
 law: if $\Phi$ is $\Pi_1$ and $\Pair$ pairs it with $\theta$, then
 $\mathrm{Cert}(\Phi)$ and $\mathrm{Cert}(\theta)$ are not both inhabited.
-Here is a program whose safety rests on that law and on nothing else.
+A \emph{gate} is a program that guards an action. It takes a request, which
+is a claim together with a proof of it, checks the proof with the machine's
+own checker, and performs the action attached to the claim only if the check
+passes. Here is a gate whose safety rests on that law and on nothing else.
 
 \noindent\begin{minipage}{\linewidth}
 \begin{lstlisting}
@@ -1162,7 +1238,8 @@ Gate(x, y, side, q) {
 \end{lstlisting}
 \end{minipage}
 Read $x$ as \fs{transaction $T$ never breaks the invariant}, a $\Pi_1$
-sentence, and $y$ as its negation. Side~0 commits $T$ and side~1 aborts it.
+sentence, and $y$ as its negation. The pair $(x, y)$ is the key that names
+$T$. Side~0 commits $T$, and side~1 aborts it.
 Any number of copies of $\Prog{Gate}$ may run, anywhere, with no shared
 state, on requests from any source: the machine's own searches, a rewritten
 successor's, an adversary's. A gate must honor every request that passes its
@@ -1204,9 +1281,12 @@ contains nothing beyond Group-3: the program is the axiom, read as a
 program. What is not trivial is that the machine survives the axiom
 (Theorem~\ref{thm:willard}).
 
-What the genius does not gain is trust in what it certifies. Reflection at
-$\Phi$, $\Prov(\gn{\Phi}) \supset \Phi$, would let a program act on a
-certified claim as on a fact. For a $\Pi_1$ sentence $\Phi$ the natural
+What the genius does not gain is reflection. Everything it certifies is
+true, given the hypothesis on its base (Lemma~\ref{lem:watch}), but that is
+our theorem, not its own. Its own version would be the reflection principle
+at $\Phi$, $\Prov(\gn{\Phi}) \supset \Phi$, which would let a program act on
+\fs{$\Phi$ has a certificate} as on $\Phi$. For a $\Pi_1$ sentence $\Phi$ the
+natural
 argument runs as follows. If $\Phi$ failed, a finite counterexample would
 exist. The machine would see it, so $\mathrm{dual}(\Phi)$ would have a
 certificate too, and the law above forbids two. The middle step is knowing
@@ -1244,8 +1324,9 @@ faith, and the product is forbidden. In every consistent system that
 watches, with a correct proof predicate, and proves the fixed point,
 reflection at $\G$ is equivalent to $\G$, and so it is unprovable. Ordinary
 systems keep the faith and give up self-consistency. Willard's keep
-self-consistency and give up the faith. A stable genius trusts that its
-certificates agree, but not, in general, that they are true.
+self-consistency and give up the faith. A stable genius proves that its
+certificates agree. It does not, in general, prove that they are true,
+although they are.
 
 Put together, here is what the machine offers the programs that run on it,
 with the result behind each line.
@@ -1598,6 +1679,19 @@ some $\vec y \in I$ satisfies $\delta(\vec a, \vec y)$ in $I$, and hence in
 $M$. But $\vec y \le \bar k \cdot |\vec a|$ for some $k \in \mathbb N$, which
 contradicts the choice of $\vec a$.\contra
 
+\paragraph{Induction on bounded formulas.} The proposition stays true if
+$\F$ also contains the induction axioms for bounded formulas, because $I$
+satisfies them. Suppose a bounded formula, with parameters in $I$, holds at
+$0$, passes from each element of $I$ to its successor, and fails at some
+$z \in I$. Its least failure in $M$ exists, because $M \models
+\mathrm{Th}(\mathbb N)$. That failure is at most $z$, so it lies in $I$. It
+is not $0$, so it is the successor of an element of $I$ at which the formula
+holds, and the formula passes to the successor.\contra{} This is Parikh's
+theorem~\cite{parikh71}. Induction on $\Sigma_1$ formulas is another
+matter. Added to $\ISD$, it proves $\forall x\,\exists y\; y = x \cdot x$ by
+induction on $x$, because $(x+1)\cdot(x+1) = x \cdot x +
+\mathit{Double}(x) + 1$.
+
 \paragraph{Proposition~\ref{prop:herbrand}: a second proof, by Herbrand's
 theorem.} This proof computes the witnesses. Write each bounded quantifier
 as $\exists v \le t\,\varphi(v, \vec z)$, a universal one as
@@ -1939,6 +2033,9 @@ which were checked against page images and which against the extracted text.
 
 \bibitem[Löb 1955]{lob55} M.~H.~Löb, Solution of a problem of Leon Henkin,
   \emph{Journal of Symbolic Logic} 20 (1955), 115--118.
+
+\bibitem[Parikh 1971]{parikh71} R.~Parikh, Existence and feasibility in
+  arithmetic, \emph{Journal of Symbolic Logic} 36 (1971), 494--508.
 
 \bibitem[Pudlák 1985]{pudlak85} P.~Pudlák, Cuts, consistency statements and
   interpretations, \emph{Journal of Symbolic Logic} 50 (1985), 423--441.

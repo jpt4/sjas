@@ -615,3 +615,33 @@ Grok 4.7 checked revision 11's fixes (workspace `review-sjexm-r8`, about 20 minu
 - Prop L and Cor M are proved in full from results already in the essay.
 - The Herbrand proof cites the standard theorem (Buss 1998). Its bibliographic data is from memory.
 - The new sections have not yet had an adversarial review.
+
+## Revision 14 (2026-10-27): exact vocabulary
+
+**Request (user, verbatim).**
+
+> The steps that fail in Willard's system are also not made especially clear. This summary of section 9 is the first time it has come into view, and there are still several fuzzy elements like what C(C) is, what a "bridge" is, what "cost" means (if this were rigorous, it should be cost _in terms of some unit_, and what demands that cost be paid - what receives those units, and sets the price?). "A program built from its function symbols" needs to emphasize that this is without induction, or some other way of writing recursive functions that exceed the growth of the primitives. What are "gates"? With regards to "certified but not necessarily true", this is the role of reflection, no?
+
+**Changes.**
+- **§2.**
+  - *The bridge* is now defined where the chain is built: the implication Con ⊃ G, with steps (1)–(3) as its parts.
+  - *A table states up front* where each step stands. For extensions of IΣ₁, all three are theorems. For IS_D(A), (1) and (3) are theorems and (2) is not.
+  - *The faith step fails in two forms:* the uniform form by growth (§5), and the closed form at G, where it is equivalent to G (§6). The 2001 disjunction is also stated.
+  - "Expensive" is replaced by "the combined proof can be far longer".
+- **§3.** C(C) is C run on its own text. It searches for a contradiction in F₀ + «C(C) doesn't halt», which is F, so it halts exactly when F is inconsistent.
+- **§5. Cost now has a unit: bits of proof.**
+  - *Who sets the price:* the language and the encoding. Each function symbol is at most one doubling, and occupies more than five bits. So a doubling costs more than five bits, and a term for v costs more than 5·log₂v bits.
+  - *What enforces it:* the deduction method. With true axioms, a tableau proof p that a number ≥ v exists has p ≥ v⁴. Only lemmas reused through cut avoid the cost.
+  - *What receives it:* nothing. The price is a lower bound on proof length.
+  - *After Prop G:* a totality proof buys a fixed number of doublings.
+- **§9.**
+  - *The opening* now says outright that IS_D(A) proves steps (1) and (3) and lacks (2).
+  - *Rule 3* is now restated in these units.
+  - *The program paragraph* now says certified programs are straight-line: a fixed number of calls, fixed by the proof. Squaring needs an input-dependent loop, whose totality needs Σ₁ induction. The machine has no induction; it inherits the base's Π₁ theorems, not its induction axioms.
+- **Appendix A.** Parikh's theorem, with its proof. Prop G survives adding bounded induction, since the least failure in M lies in I. Σ₁ induction would prove squaring total, by (x+1)² = x² + Double(x) + 1.
+- **§10.**
+  - *A gate* is defined as a program that guards an action and acts only on a request whose proof the machine's own checker accepts. The key (x, y) names the transaction.
+  - *"Trust in what it certifies"* becomes *reflection.* Everything IS_D(A) certifies is true, by Lemma E under the base hypothesis, but that is our theorem, not its own. It proves that its certificates agree, not that they are true.
+- **Abstract.** It now says that two of the three steps are theorems and the faith step is not, that the price is measured in bits of proof, and that what is not gained is the reflection principle.
+
+**Status.** Clean build: 27 pp., main text pp. 1–17. Not yet reviewed.
