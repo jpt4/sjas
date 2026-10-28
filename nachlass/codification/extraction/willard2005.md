@@ -127,7 +127,7 @@ proof), `n/a` (definitional).
 | Definition 3 | 11 | **`NS^{k,m}_D(A)`.** As `IS_D(A)` but (a) Group-0 gains `Υ(k,m)`; (b) Group-3's "this" is sensitive to (a) | n/a | §3 `IS_D(A)`, Def. 2 |
 | Definition 4 | 19 | **Normed(a,b).** For `a > b ≥ 1`, α is Normed(a,b) iff (1) every axiom of α is a Π\*₁ sentence satisfying `App∀(a)` or a Σ\*₁ sentence satisfying `App∃(b)`; **(2) α's language employs the eight U-Grounding function symbols and absolutely no other function symbols** — "designed to preclude α from employing a multiplication function symbol — or any of its many functional equivalents" | n/a | App∀/App∃ (Eqs. 16–17, p. 18) |
 | Definition 5 | 19 | **θ-Compactified.** For α Normed(a,b) with `a > b ≥ 1`, Φ a Π\*₁ or Σ\*₁ sentence, `p` the Gödel number of a D-proof of Φ from α, θ < 1/3 a positive constant, and `p ≤ ⌈a/b⌉ + 1` (Eq. 18): D is θ-compactified iff every such tuple `(α,Φ,p,a,b)` satisfies **(A)** if Φ is Σ\*₁ then Φ has `App∃(b·p^θ)` validity, and **(B)** if Φ is Π\*₁ then Φ has `App∀(a/p^θ)` validity. Willard: "the main engine used to prove `IS_D(·)`'s consistency preservation property… It did not exist in our prior papers" | n/a | Def. 4 |
-| Definition 6 | 33 | **CheckProof / F.** `CheckProof(t,p,q)` is a ∆\*₀ formula stating that `Prf_{NS^{k,m}_D(PA+)}(t,p)` holds and `q` is a D-proof of `∃p Prf_{NS^{k,m}_D(PA+)}(t,p)` (Eq. 25) from `NS^{k,m}_D(PA+)`. `F(t,p)` = the minimal `q` satisfying `CheckProof(t,p,q)` | n/a | §6.2 f(s,b) |
+| Definition 6 | 33 | **CheckProof / F.** `CheckProof(t,p,q)` is a ∆\*₀ formula stating that `Prf_{NS^{k,m}_D(PA+)}(t,p)` holds and `q` is a D-proof of `∃p Prf_{NS^{k,m}_D(PA+)}(t̄,p)` (Eq. 25) from `NS^{k,m}_D(PA+)`. `F(t,p)` = the minimal `q` satisfying `CheckProof(t,p,q)`. Eq. (25) says "`t` is provable"; it is not the negation of `t`, which is where Theorem 6's fourth step fails (E7) | n/a | §6.2 `℧(s,b)`, Eq. (24) |
 
 ### Theorems
 
@@ -139,7 +139,7 @@ proof), `n/a` (definitional).
 | Theorem 3 | 27 | `IS_D(·)` is consistency-preserving when D = semantic tableaux | full (immediate) | Thms. 1, 2 |
 | Theorem 4 | 28 | Tab−U\*₁−List deduction satisfies θ-compactification **when θ = 1/4** | full (induction on the proof list, reducing to Thm. 2) | Thm. 2; Eqs. (21)–(23) |
 | Theorem 5 | 29 | **Main positive result.** `IS_D(·)` is consistency-preserving when D = Tab−U\*₁ deduction: `IS_D(A)` is automatically consistent whenever all `A`'s Π\*₁ theorems hold in the standard model | full (immediate) | Thms. 1, 4 |
-| Theorem 6 | 34 | **Main negative result.** For D = Tab−U\*₁−List (stated to generalize to all cut-free methods, e.g. semantic tableaux, Herbrand), there exists `k₀` such that for every `k > k₀`, `NS^{k,m}_D(PA+)` is **inconsistent** | full for the stated Tab−U\*₁−List variant; the "generalizes to all cut-free methods" clause is stated-only | Lemma 4, Cor. 1, Def. 6, Def. 3 |
+| Theorem 6 | 34 | **Main negative result.** For D = Tab−U\*₁−List (stated to generalize to all cut-free methods, e.g. semantic tableaux, Herbrand), there exists `k₀` such that for every `k > k₀`, `NS^{k,m}_D(PA+)` is **inconsistent** | full for the stated Tab−U\*₁−List variant; the "generalizes to all cut-free methods" clause is stated-only; the fourth step, (30) to (31), does not follow as printed (E7) | Lemma 4, Cor. 1, Def. 6, Def. 3 |
 
 ### Lemmas and corollary
 
@@ -147,9 +147,9 @@ proof), `n/a` (definitional).
 | --- | --- | --- | --- | --- |
 | Lemma 1 | 23 | **Positive Branch.** For `a > b ≥ 1`, Z Normed(a,b), T a Z-based deduction tree whose **U-Height < Log₂a − Log₂b**: T possesses at least one Positive(a,b) branch. Proved by the greedy `Probe(a,b,T)` algorithm (4 steps) plus induction with **nine subcases (a)–(i)**, one per rule: axiom, ∃-elim unbounded (rule 5), ∃-elim bounded (rule 6), ∀-elim unbounded (rule 7), ∀-elim bounded (rule 8), ∧-elim, ¬-elim, ∨-elim, →-elim | full | Positive(a,b) defn. (Conditions I–II, p. 22), Def. 4 |
 | Lemma 2 | 25 | **Non-Closure.** No Positive(a,b) branch of a Z-based deduction tree T can be closed by containing both a sentence Υ and its negation. Turns on footnote 3: in Normed systems, Υ and the strict form `¬Υ` can co-occur on a branch only if both are ∆\*₀, and Condition II-c forces ∆\*₀ sentences to be true under the valuation | full | Cond. II-c; footnote 3 |
-| Lemma 3 | 33 | There is a constant `C > 0` such that if `q = F(t,p)` then `Log(q) < O{[Log(p)]^C}` — i.e. verifying a proof is quasi-polynomially cheap in the proof's bit-length | **sketch** ("Proof Sketch"; asserts an analogous construction to the prior literature [1, 4, 8, 14, 20, 38, 40, 41, 50, 61, 64], with Appendix A as the encoding) | Def. 6, Appendix A |
+| Lemma 3 | 33 | There is a constant `C > 0` such that if `q = F(t,p)` then `Log(q) < O{[Log(p)]^C}` — i.e. the system's own proof that `t` is provable, built from `p`, has bit-length polynomial in `p`'s bit-length, so `q` is at most quasi-polynomial in `p`. Corollary 1 needs far less (drift **D85**) | **sketch** ("Proof Sketch"; asserts an analogous construction to the prior literature [1, 4, 8, 14, 20, 38, 40, 41, 50, 61, 64], with Appendix A as the encoding) | Def. 6, Appendix A |
 | Corollary 1 | 33 | There is `a₀ > 0` such that if `a > a₀` and `p < 2^b_{a−1}` is a proof of an arbitrary theorem `t` from `NS^{k,m}_D(PA+)`, then `F(p,t) < 2^b_a` | full (immediate from Lemma 3) | Lemma 3 |
-| Lemma 4 | 33 | There is `a₀ > 0` such that for `a > a₀` and any constant `b`, the Π\*₁ sentence Eq. (26) is both true **and provable from Peano Arithmetic** — the formalized Π\*₁ rendering of Corollary 1 for `t = f(a−1,b)` | full (immediate from Cor. 1 + PA formalization) | Cor. 1 |
+| Lemma 4 | 33 | There is `a₀ > 0` such that for `a > a₀` and any constant `b`, the Π\*₁ sentence Eq. (26) is both true **and provable from Peano Arithmetic** — the formalized Π\*₁ rendering of Corollary 1 for `t = ℧(a−1,b)`. "Peano Arithmetic" is Willard's wording; (26) is a U-Grounding sentence, so the theory is `PA+`, PA with the U-Grounding function symbols (p. 32, item i), whose Π\*₁ theorems Group-2 imports | full (immediate from Cor. 1 + PA formalization) | Cor. 1 |
 
 ### Remarks
 
@@ -244,6 +244,21 @@ de-duplication map's first entries:
 - **E5 (internal notation drift).** `Tab−U\*₁−List` (Theorems 4, 6) and
   `Tab−U\*₁` (Theorems 5, Remark 6) are used interchangeably for the same
   method.
+- **E7 (Theorem 6's fourth step does not follow as printed).** Step 4 (p. 35)
+  derives (31) from the Group-3 instance (30) on the ground that "The
+  definitions of CheckProof and ℧(k−1, m) imply that CheckProof(⌈℧(k−1, m)⌉,
+  p, q) is logically equivalent to Equation (30)'s curly bracket expression".
+  By Definition 6 (p. 33), `q` proves Eq. (25), `∃p Prf(t̄, p)`, which says
+  "`℧(k−1,m)` is provable". (30)'s bracket instead needs `q` to prove
+  `¬℧(k−1,m)`, the sentence `Pair` pairs with `℧(k−1,m)` at (28), and that
+  sentence also carries `Subst` and the bound `Log^{k−1}(p) < m̄`. A tab-list
+  proves one sentence, so no `q` satisfies both conditions, and (31) does not
+  follow from (30). The repair lets `q` prove the `Pair` partner, as
+  `Willard2007-APAL` Lemma 7 does for its own Gödel sentence; the repaired `q`
+  also needs short proofs of `Log^{k−1}(p̄) < m̄` and `Subst(n̄,
+  ⌜℧(k−1,m)⌝)`, which Lemma 3 does not cover. Theorem 6 stays `full`, since a
+  complete proof is printed. Image-verified pp. 33–35, 2026-10-28; drift
+  **D85**.
 
 **Cross-paper (seed entries for the drift ledger).**
 

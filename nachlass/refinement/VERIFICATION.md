@@ -346,6 +346,8 @@ Rule 5. Every growth or size claim, with the computation.
 | **Why `2J` logical symbols "thus employ at least `5J` bits"** (`Willard2011` footnote 23, printed p. 39) | `R6-g2-via-lawvere.md` §7.4 | The step counts a **sequence**, not a count: `2J` symbols over an alphabet of size `k` admit `k^{2J}` strings and need `2J·log₂k` bits. `Willard1993-TR` printed p. 15 fixes six logical connectives (`∧ ∨ ¬ ⊃ ∀ ∃`), and `2J·log₂6 = 2J(2.585) ≈ 5.17J ≥ 5J`. The constant is `log₂32 = 5`, matching the `32^J` form. **Willard states the conclusion without the computation; this derivation is the Refinement's.** Note it does *not* justify D.1(iv) as a theorem — counting bounds the aggregate (pigeonhole over all proofs with `J` function symbols), while D.1(iv) demands the bound of every individual proof. Willard calls it a "minor stipulation", which is the correct status |
 | **`64·⌜¬⊥⌝·t·p` covers the glued proof's code** (`Willard1993-TR` Lemma 7.1, printed p. 24) | `R6-g2-via-lawvere.md` §7.4 | Concatenating byte-strings multiplies: `t` followed by `p` has value `N_t·32^{|p|} + N_p`. With no leading zero byte, `N_p ≥ 32^{|p|−1}`, so `32^{|p|} ≤ 32·N_p` and the concatenation is `≤ 32·N_t·N_p + N_p ≤ 33·N_t·N_p`. A constant factor of `64·⌜¬⊥⌝` therefore covers the concatenation plus the root sentence `{¬⊥}` and a separator byte. **The missing operation is left shift by a variable amount, `x·32^y`**; `G₀`'s `Shift(x,y) = x/2^y` (printed p. 3) is the shrinking direction and is total |
 | **No U-Grounding term exceeds a constant multiple of its largest argument** | `R6-g2-via-lawvere.md` §7.4; the 2026-09-07 log entry on shift-and-add | Induction on term structure, over Willard's own classification (`../codification/registry/notation.md`: six **non-growth** Grounding functions — Subtraction, Division, Root, Maximum, Logarithm, Count — plus the two **growth** functions Addition and Double). Base: a variable or constant is `≤ max(x⃗)` or `≤ c`. Non-growth step: each of the six maps arguments bounded by `M` to a value bounded by `M` (`x−y ≤ x`, `⌊x/y⌋ ≤ x`, `⌈x^{1/y}⌉ ≤ x` for `y ≥ 1`, `max ≤ M`, `Log x ≤ x`, `Count x ≤ x`). Growth step: `x+y ≤ 2·max(x,y)` and `2x`. So a term `t` containing `a_t` occurrences of Addition/Double satisfies `t(x⃗) ≤ 2^{a_t}·max(x⃗)`, with `a_t` fixed **by the term**. Hence no term majorizes `x·y`, nor the composed code `≈ N_t·N_p`, for variable arguments. **The Refinement's derivation, resting on Willard's classification, not a corpus theorem.** Edge conventions (`x/0 = 0`, truncated subtraction, `Root` at `y = 0`) are as the corpus fixes them and do not affect the bound |
+| **`Willard2005` Lemma 3's bound puts the checking proof below `ω₁^K(p)` for a fixed `K`** | `../codification/concordance/drift-ledger.md` D85 | `Log` is `⌊log₂⌋`, so `Log(q) ≤ c·(Log p)^C` gives `q < 2^{c(Log p)^C + 1}`. With `Willard2007-APAL`'s `ω₁(x) = x^{Log x}` (drift D82): `x ≥ 2^{Log x}` gives `ω₁(x) ≥ 2^{(Log x)²}`, and applying this at `y = ω₁^K(x)`, where `Log y ≥ (Log x)^{2^K}`, gives `ω₁^{K+1}(x) ≥ 2^{(Log x)^{2^{K+1}}}` by induction. Take `2^K > C`; then `(Log p)^{2^K} ≥ (c+1)(Log p)^C ≥ c(Log p)^C + 1` once `(Log p)^{2^K−C} ≥ c+1`. So `q ≤ ω₁^K(p)` for all large `p`. **The Codification's derivation, not a corpus theorem** |
+| **`Willard2005` Corollary 1 needs only `Log(q) ≤ p` for large `p`** | `../codification/concordance/drift-ledger.md` D85 | `2^b_s` is the least `z` with `Log^s(z) ≥ b` (Def. 2), and `Log` is non-decreasing, so `p < 2^b_s` iff `Log^s(p) < b`. If `Log(q) ≤ p` then `Log^a(q) = Log^{a−1}(Log q) ≤ Log^{a−1}(p) < b`, so `q < 2^b_a`. The finitely many smaller `p` have a largest `q`, whose `a`-fold `Log` is `0` once `a` is large, which is what `a₀` absorbs; `b = 0` makes the hypothesis vacuous. Lemma 3's bound implies `Log(q) ≤ p` for large `p` with room to spare. A bound only of the form `Log(Log q) ≤ p` gives `q < 2^b_{a+1}` instead; Theorem 6's proof absorbs that by using `℧(k−2,m)`, with `W`'s size against `2^m_{k−2}` the same "quite routine" claim as p. 36's. **The Codification's derivation, not a corpus theorem** |
 
 ## Corrections applied 2026-09-02
 
@@ -945,3 +947,32 @@ Relabelling made the register honest; it wrote nothing. R6's findings F5–F19 a
 the same absences seen from the ledger's side. **G39** still stands: no Pudlák
 witness is held. Those are writing and acquisition tasks, and calling them
 bookkeeping would be the error this pass exists to correct.
+
+## Corrections applied 2026-10-28, thirty-fourth pass — `Willard2005` Theorem 6 and Lemma 3
+
+Found by reviewing the Codification against the appendix of the essay
+*Self-Justification Ex Machina* (branch `sjexm-essay`) on the fourth step of
+`Willard2005` Theorem 6. Every claim below was re-read from page images:
+`Willard2005` pp. 6–9 and 31–36, `Willard2007-APAL` pp. 20–26.
+
+| # | Defect | Where it was |
+| --- | --- | --- |
+| 143 | **`Willard2005` Theorem 6's fourth step does not follow, and nothing recorded it.** Step 4 (p. 35) calls `CheckProof(⌈℧(k−1, m)⌉, p, q)` "logically equivalent to Equation (30)'s curly bracket expression". Definition 6 makes `q` prove "`℧(k−1,m)` is provable", while (30) concerns proofs of `¬℧(k−1,m)`, the sentence `Pair` (28) pairs with it. Now erratum E7 and drift D85, carried by the registry row, the extraction record and §7.3. Theorem 6 stays `full`, since a complete proof is printed; the repair is `Willard2007-APAL` Lemma 7's construction | `../codification/registry/results.md`, `../codification/extraction/willard2005.md`, `../codification/codified-sjas.md` §7.3 |
+| 144 | **§7.3 cited Theorem 6 as `full` without the `sketch` it rests on**, Lemma 3 through Corollary 1 and Lemma 4, against the statement's own rule that proof status is never rounded up | `../codification/codified-sjas.md` §7.3 |
+| 145 | **Lemma 3's gloss misstated its complexity class.** It read "quasi-polynomially cheap in the proof's bit-length". `Log(q) < O{[Log(p)]^C}` makes `q`'s bit-length *polynomial* in `p`'s, and `q` quasi-polynomial in `p`'s value. `q` is also the system's own proof of "`t` is provable", not a verification | `../codification/extraction/willard2005.md`, Lemma 3 row |
+| 146 | **The text layer's `f` for `℧` survived in three places**, the substitution that the record's own §8.1 documents: "W of f(k-1,m)", "§6.2 f(s,b)" and "t = f(a−1,b)". Definition 6's Eq. (25) had also lost the overbar of `t̄` | `../codification/registry/results.md`, Thm6 row; `../codification/extraction/willard2005.md`, Def. 6 and Lemma 4 rows |
+| 147 | **Lemma 4's "provable from Peano Arithmetic" needed its reading.** (26) is a U-Grounding sentence and Group-2 imports `PA+`'s theorems, so the theory is `PA+`. Willard's wording is kept and glossed | the same two files, Lemma 4 rows |
+| 148 | **§5.4 rounded up twice.** "`IS_D(A)` is consistent" dropped Theorem 5's hypothesis on `A`, and "inconsistent for most `(k,m,D,A)`" put Willard's p. 32 claim in the statement's own voice, although Theorem 6 proves it only for `PA+` under `Tab-U*₁-List` and the rest is Remark 8, `stated-only` | `../codification/codified-sjas.md` §5.4 |
+| 149 | **The drift index had stopped at D80.** §10.2.1 claimed to be exhaustive over 67 ids while D81–D84 existed, and §10.2's tally, the ledger's reading-order note and the README's range were stale with it. D81–D85 are now indexed, D81 and D85 under a new row, "Arithmetization and the diagonal step" | `../codification/codified-sjas.md` §§10.2, 10.2.1; `../codification/concordance/drift-ledger.md`; `../codification/README.md` |
+
+**Recorded as computed, not corrected.** Two claims in D85 are the
+Codification's own derivations and are entered under Computed claims: Lemma 3's
+bound is the `ω₁^K` bound `Willard2007-APAL` p. 21 attributes to "nearly all
+axiom systems", and Corollary 1 needs only `Log(q) ≤ p`. Together they mean the
+strength Lemma 3 claims is not what Theorem 6 turns on, which is also what
+`Willard2007-APAL` Remark 2 says of its own bound.
+
+**Not fixed, because it is not bookkeeping.** The repaired fourth step needs
+short proofs of `Log^{k−1}(p̄) < m̄` and `Subst(n̄, ⌜℧(k−1,m)⌝)`, which no printed
+lemma supplies; `Willard2007-APAL`'s analogues, Lemmas 5 and 6, are `sketch` and
+`stated-only`.

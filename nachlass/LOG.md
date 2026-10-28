@@ -6330,3 +6330,48 @@ checker modified to accept two leaf certificates at `D` and `neg D`.
 
 The pair form is thus strictly stronger as a postulate. Reviewed by the Claude
 subagent: no breaking finding, five minor wording fixes.
+
+## 2026-10-28 — `Willard2005` Theorem 6: the fourth step does not follow
+
+A review of the codification against the appendix of *Self-Justification Ex
+Machina* (branch `sjexm-essay`), which counts Theorem 6 as a sketch where the
+registry says `full`. Every finding was re-read from page images: `Willard2005`
+pp. 6–9 and 31–36, `Willard2007-APAL` pp. 20–26.
+
+**The gap is real.** Step 4 (p. 35) derives (31) from the Group-3 instance (30)
+because `CheckProof(⌈℧(k−1, m)⌉, p, q)` "is logically equivalent to Equation
+(30)'s curly bracket expression". Definition 6 makes `q` prove (25), "`℧(k−1,m)`
+is provable", while (30) concerns proofs of `¬℧(k−1,m)`, which also carries the
+length bound and `Subst`. A tab-list proves one sentence, so the two conditions
+never hold together. Recorded as erratum E7 and drift D85.
+
+**Willard repaired it himself, two years later.** `Willard2007-APAL` Lemma 7
+builds a checking proof of its Gödel sentence's *negation* (Eq. 38). Its three
+leaves, (43) `Subst`, (44) the proof check and (45) the length bound, are the
+essay's repair parts (iii), (i) and (ii). Lemmas 4–6 close them, and are
+`sketch`, `sketch` and `stated-only`.
+
+**Status kept at `full`.** The registry's `full` means a complete proof is
+printed, and one is; Theorem 1's glossed `m ≥ 3` is the precedent. The essay's
+dagger also covers printed proofs it finds incomplete, so its "sketch" and the
+registry's `full` are both right once the defect is on record. §7.3 now says
+that the theorem rests on Lemma 3's `sketch`.
+
+**Lemma 3's strength is not load-bearing.** Corollary 1 needs only
+`Log(q) ≤ p` for large `p`, and a weaker bound costs only a shift in `℧`'s
+index, which is what `Willard2007-APAL` Remark 2 says of its own bound. Both
+computations are entered under Computed claims in `refinement/VERIFICATION.md`.
+
+**Also corrected:**
+- Lemma 3's gloss said "quasi-polynomially cheap in the proof's bit-length";
+  the bound is polynomial in bit-length.
+- Three text-layer `f`s for `℧` survived, and Eq. (25) had lost the overbar of
+  `t̄`.
+- Lemma 4's "Peano Arithmetic" is glossed as `PA+`.
+- §5.4 rounded up twice.
+- The drift index had stopped at D80; D81–D85 are now indexed.
+
+Corrections #143–#149 in `refinement/VERIFICATION.md`. `audit.sh` green and
+`audit-tests.sh` 13/13. Made on `sjas-codification`, because `f6-p5`'s audit is
+red for an unrelated reason: `refinement/ADR-0008-extraction.md` cites
+`TUTORIAL.md` bare, since 4748f11. That file was not touched.

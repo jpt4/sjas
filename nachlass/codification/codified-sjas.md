@@ -677,8 +677,11 @@ as proving it. Three results turn on this.
 the `Σ*₁` sentence `Υ(k,m)` is added to Group-0. **Both systems prove
 `Υ(k,m)`.** But in `NS` it is an axiom, which shortens proofs by a constant
 `C > 2^m_k` and thereby changes what the word "this" in the Group-3 axiom
-refers to. `IS_D(A)` is consistent; `NS^{k,m}_D(A)` is **inconsistent** for
-most `(k,m,D,A)`.
+refers to. `IS_D(A)` is consistent whenever `A`'s `Π*₁` theorems are true
+(Theorem 5). `NS^{k,m}_D(PA+)` is **inconsistent** for every `k` above a
+threshold when `D` is `Tab-U*₁-List` (Theorem 6, §7.3). Willard asserts the
+same "for most inputs `(k, m, D, A)`" (p. 32), and the rest of that claim is
+Remark 8, `stated-only`.
 
 `Willard2007-APAL` p. 29 states the distinction most sharply, of
 `Willard2009`'s system:
@@ -1137,14 +1140,26 @@ Each affirmative result is paired with a minimally different system that fails.
 The controls isolate exactly one variable, and they are as load-bearing as the
 theorems.
 
-**Axiom versus theorem.** `Willard2005` Theorem 6 (p. 34, `full`):
-`NS^{k,m}_D(PA+)` is **inconsistent** for `k` above a threshold. It differs
-from the consistent `IS_D(PA+)` only in holding `Υ(k,m)` as an axiom rather
-than proving it (§5.4). The proof exhibits an explicit **seven-step
-`Tab-U*₁-List` proof `W`** of the Gödel sentence `℧(k−1,m)`, short enough that
-its own existence is precluded by what `℧(k−1,m)` asserts. Remark 8 lists three
-strengthenings; the "generalizes to all cut-free methods" clause is
-`stated-only`.
+**Axiom versus theorem.** `Willard2005` Theorem 6 (p. 34, `full` as printed,
+resting on Lemma 3, a `sketch`): `NS^{k,m}_D(PA+)` is **inconsistent** for `k`
+above a threshold. It differs from the consistent `IS_D(PA+)` only in holding
+`Υ(k,m)` as an axiom rather than proving it (§5.4). The proof exhibits an
+explicit **seven-step `Tab-U*₁-List` proof `W`** of the Gödel sentence
+`℧(k−1,m)`, short enough that its own existence is precluded by what
+`℧(k−1,m)` asserts. Remark 8 lists three strengthenings; the "generalizes to
+all cut-free methods" clause is `stated-only`.
+
+**One printed step does not follow** (drift **D85**). Step (31) is derived from
+the Group-3 instance (30) because `CheckProof(⌈℧(k−1, m)⌉, p, q)` "is logically
+equivalent to Equation (30)'s curly bracket expression" (p. 35). By
+Definition 6, though, `q` proves "`℧(k−1,m)` is provable", while (30) concerns
+proofs of `¬℧(k−1,m)`, which also carries the length bound and the
+substitution. A proof proves one sentence, so the two conditions never hold
+together. The repair is Willard's own later construction: `Willard2007-APAL`
+Lemma 7 (p. 24, `full`), for `T-i` under semantic tableaux, has its checking
+proof prove its Gödel sentence's **negation**, closing three bounded facts by
+Lemmas 4–6 (`sketch`, `sketch`, `stated-only`). Lemma 3 reaches Theorem 6 through Corollary 1 and Lemma 4, and
+its bound is far stronger than Corollary 1 needs.
 
 **Multiplication.** `Willard2001`'s `ISMULT(A)`, and `Willard2020`'s
 `IS^M_Tab(β)`.
@@ -1494,14 +1509,14 @@ And the two concordance registers this document cites by id:
 
 | Register | Contents |
 | --- | --- |
-| [`concordance/drift-ledger.md`](concordance/drift-ledger.md) | **68 entries under 67 ids.** Ids run **D1–D51, D53–D57, D70–D80**; **D52 and D58–D69 were never issued**, so id continuity may not be assumed. The 68th entry is `D1-supplement`, a later corroboration filed against D1 |
+| [`concordance/drift-ledger.md`](concordance/drift-ledger.md) | **73 entries under 72 ids.** Ids run **D1–D51, D53–D57, D70–D85**; **D52 and D58–D69 were never issued**, so id continuity may not be assumed. The 73rd entry is `D1-supplement`, a later corroboration filed against D1 |
 | [`concordance/composition-obligations.md`](concordance/composition-obligations.md) | 87 obligations; ids O1–O80 and O90–O96, with O81–O89 never issued (§10.4) |
 
 ### 10.2.1 Drift by concept: the index
 
 The ledger's own order is chronological, by the extraction pass that found each
 entry, so it cannot be read by subject. This index supplies the subject order,
-and it is **exhaustive**: every one of the 67 ids appears below exactly once,
+and it is **exhaustive**: every one of the 72 ids appears below exactly once,
 under the concept it primarily concerns. A reader asked to enumerate all known
 drift for a concept should read the row, then read those entries in the ledger.
 
@@ -1510,20 +1525,22 @@ drift for a concept should read the row, then read those entries in the ledger.
 | **Bibliographic and witness identity** — which artifact is which, and what the page actually shows | D1 (+ `D1-supplement`), D2, D20, D22, D27, D37, D57, D70, D71, D72, D73, D77, D78 |
 | **The Solovay communication** and its formulations | D4, D19 |
 | **System identity and naming** | D5, D8, D18, D21, D33, D51, D75, **D76** |
-| **Language: grounding functions and signature** | D10, D11, **D23**, **D35**, **D53**, **D80** |
+| **Language: grounding functions and signature** | D10, D11, **D23**, **D35**, **D53**, **D80**, D83, D84 |
 | **Formula classes** | D9, **D50**, D74 |
 | **Deductive apparatus, tableaux rules, and "cut"** | D7, D17, **D30**, **D32**, **D42**, D48, **D54** |
-| **Totality, growth, and axiom-versus-theorem** | D12, D15, D16, **D29** |
+| **Totality, growth, and axiom-versus-theorem** | D12, D15, D16, **D29**, D82 |
 | **The envelope and its constants** | **D3**, **D6**, D25, D26, D41, D45, **D56** |
 | **Consistency notion, reflection, and admission conditions** | **D24**, D31, **D55**, D79 |
+| **Arithmetization and the diagonal step** — bounded proof predicates and the checking proof | D81, **D85** |
 | **Boundary dials, the two branches, and the frontier** | **D34**, **D38**, **D39**, D43, D44, **D46**, **D47**, **D49** |
 | **Corpus architecture and the downstream lines** (§10.5) | D13, D14, D28, D36, D40 |
 
-Ids in **bold** are the twenty-two this document cites at their point of use;
-the rest are recorded in the ledger and not needed by the statement above. Four
+Ids in **bold** are the twenty-three this document cites at their point of use;
+the rest are recorded in the ledger and not needed by the statement above. Five
 entries bear on a second concept and should be read from both rows: **D29**
 (also Type-Almost-M, §3.1), **D32** (also "cut", §4.3), **D42** (also the `Z`
-dial, §7.3), and **D46** (also system naming, §8.1).
+dial, §7.3), **D46** (also system naming, §8.1), and **D85** (also axiom versus
+theorem, §7.3).
 
 Worked example, for the concept T5 of the acceptance suite probes. *Semantic
 tableaux*: the row above gives D7, D17, D30, D32, D42, D48, D54, and this

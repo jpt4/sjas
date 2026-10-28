@@ -19,11 +19,11 @@ back.
 
 **Reading order.** Entries are in the order they were written, not in numeric
 order: D1, D7–D14, D2–D6, D15–D48, D51, D49, D1-supplement, D50, D53–D57,
-D70–D82. Two consequences a reader should not have to reconstruct (finding
+D70–D85. Two consequences a reader should not have to reconstruct (finding
 F-L5, stated 2026-09-05):
 
 - **Ids 52 and 58–69 were never issued.** Their absence is a deliberate gap in
-  the numbering, not a misfiled or deleted entry. Every other id from D1 to D82
+  the numbering, not a misfiled or deleted entry. Every other id from D1 to D85
   is present exactly once.
 - **`D1-supplement`** is a distinct entry, not a second D1. It corroborates
   D1's Solovay dating from `Willard2016` and is filed next to the entries it
@@ -1481,3 +1481,48 @@ different notations" — which is how the letters came to drift.
 - Distinct from **D83**, which is a difference *between* papers; this is a
   difference *within* one page.
 - Status: open (Refinement R4; bears on `code/tabt`).
+
+---
+
+## D85 — the checking proof in the diagonal step: `Willard2005` proves "`℧` is provable", `Willard2007-APAL` proves the negation
+
+| Source | What the checking proof `q` proves | How it meets the consistency axiom |
+| --- | --- | --- |
+| `Willard2005` Definition 6, p. 33, and Theorem 6's proof, pp. 34–35 (image-verified) | Eq. (25), `∃p Prf_{NS^{k,m}_D(PA+)}(t̄, p)` with `t = ⌜℧(k−1,m)⌝`: "`℧(k−1,m)` is provable" | Through step 4, p. 35: "The definitions of CheckProof and ℧(k−1, m) imply that CheckProof(⌈℧(k−1, m)⌉, p, q) is logically equivalent to Equation (30)'s curly bracket expression". (30) is the Group-3 axiom (29) at `Pair(⌈℧(k−1,m)⌉, ⌈¬℧(k−1,m)⌉)` (28) |
+| `Willard2007-APAL` Lemma 7, p. 24 (image-verified) | Eq. (38), `SemPrf_{α_i}(¬D²(i), q)`: the Gödel sentence's **negation** | Directly. `q`'s tree (pp. 25–26) instantiates `D²(i)` at `p`, `U_p` and `M` and ends in three leaves, each closed by Lemmas 4–6: (43) `Subst`, (44) the proof check, (45) the length bound `p ≤ LogLog(U_p)` |
+
+- **The 2005 step does not follow as printed.** `℧(k−1,m)` is `Γ(n̄)` for
+  Eq. (24), so `¬℧(k−1,m)` says that `℧(k−1,m)` has a proof `p` with
+  `Log^{k−1}(p) < m̄`, located through `Subst`. Eq. (25) carries neither the
+  bound nor `Subst`. A tab-list proves one sentence, its last, so no `q` proves
+  both, and the claimed equivalence fails at every pair `(p, q)` satisfying
+  either side. (31) therefore does not follow from (30). Erratum E7 in
+  [`../extraction/willard2005.md`](../extraction/willard2005.md) §7.
+- **The repair is the 2007 construction.** Let `CheckProof` require that `q`
+  prove the sentence `Pair` pairs with `℧(k−1,m)`; then (31) is (30)'s instance
+  verbatim. The repaired `q` needs short proofs of three bounded sentences —
+  `Prf(⌜℧(k−1,m)⌝, p̄)`, `Log^{k−1}(p̄) < m̄` and `Subst(n̄, ⌜℧(k−1,m)⌝)` —
+  which are 2007's leaves (44), (45) and (43). Lemma 3 covers only the first.
+  2007's Lemmas 4–6, which close its three leaves, are `sketch`, `sketch` and
+  `stated-only`. The same repair was sketched, without the 2007 precedent, in
+  the essay *Self-Justification Ex Machina* (branch `sjexm-essay`, appendix
+  "The Fourth Step of Willard's Theorem 6").
+- **The length bound is not load-bearing.** *(Computed here; the computation is
+  recorded in [`../../refinement/VERIFICATION.md`](../../refinement/VERIFICATION.md)'s
+  Computed claims.)* Lemma 3's
+  `Log(q) < O{[Log(p)]^C}` puts `q` below `ω₁^K(p)` for a fixed `K`, in
+  `Willard2007-APAL`'s notation (**D82**) — the bound 2007 p. 21 says "nearly
+  all axiom systems" achieve. Corollary 1 needs far less. `Log` is monotone and
+  `p < 2^b_{a−1}` iff `Log^{a−1}(p) < b`, so it suffices that `Log(q) ≤ p` for
+  all large `p`. A weaker bound costs only a shift in `℧`'s index, which `k₀`
+  absorbs. 2007 says the same of its own bound (Remark 2, p. 22): "the reader
+  should truthfully not pay too much attention to the details of Equation
+  (33)'s inequality", since any tower of 2s serves once `K` is adjusted.
+- Found 2026-10-28, reviewing the codification against the essay's appendix.
+  `Willard2005` pp. 6–9 and 31–36 and `Willard2007-APAL` pp. 20–26 were re-read
+  as page images for this entry. `Willard2005` Theorem 6 stays `full` in the
+  registry, since a complete proof is printed; its row, its extraction record
+  and the codified statement now carry the defect.
+- Status: resolved 2026-10-28 — discharged at
+  [`../codified-sjas.md`](../codified-sjas.md) §7.3, which states the defect,
+  the repair and the `sketch` the theorem rests on.
