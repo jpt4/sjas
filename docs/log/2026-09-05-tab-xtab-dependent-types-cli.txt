@@ -1,0 +1,191 @@
+TAB AND XTAB AS INDUCTIVE FAMILIES -- CLI EDITION
+Date: 2026-09-05
+
+ASCII rendering of:
+  docs/log/2026-09-05-tab-xtab-dependent-types.md
+
+Notation conversion only. Sources: Willard 2020 Appendix (six rules +
+hybrids + Xtab LEM); Willard 2001/2018 (eight-rule partition);
+Defs 7.1-7.2 for Z-enrichments.
+
+NOTATION
+--------
+
+Form             object-language sentences (possibly with parameters)
+List(Form)       branch context Gamma = formulas on the current path
+phi :: Gamma     extend the branch by writing phi at the tip
+phi in Gamma     membership
+Tab_a(Gamma)     inductive family: branch Gamma is Tab-closable from axioms a
+Xtab_a(Gamma)    same family plus LEM/cut constructor
+TabProof_a(Psi)  = Tab_a([not Psi])
+Fresh p          parameter p not already in the ambient parameter list
+
+
+1. BRANCHES AND CLOSURE
+-----------------------
+
+A branch is a finite list of sentences. Willard's printed trees store one
+sentence per node; the list is that path. Closure is complementary pair:
+
+  Closed(Gamma)  <=>  exists phi.  phi in Gamma  and  (not phi) in Gamma
+
+
+2. TAB CONSTRUCTORS (2020 SIX-RULE PROFILE)
+-------------------------------------------
+
+Fix axiom set a. Constructors of Tab_a(Gamma):
+
+  close :
+    phi in Gamma ->
+    (not phi) in Gamma ->
+    Tab_a(Gamma)
+
+  ax :
+    phi in a ->
+    Tab_a(phi :: Gamma) ->
+    Tab_a(Gamma)
+
+  and1 :
+    (Y and G) in D ->
+    Tab_a(Y :: D) ->
+    Tab_a(D)
+
+  and2 :
+    (Y and G) in D ->
+    Tab_a(G :: D) ->
+    Tab_a(D)
+
+  dnn :
+    (not (not Y)) in D ->
+    Tab_a(Y :: D) ->
+    Tab_a(D)
+
+  neg-or, neg-imp, neg-and, neg-exists, neg-forall :
+    same shape as dnn; push negation per Willard Rule 2
+
+  or :
+    (Y or G) in D ->
+    Tab_a(Y :: D) ->
+    Tab_a(G :: D) ->
+    Tab_a(D)
+
+  imp :
+    (Y -> G) in D ->
+    Tab_a((not Y) :: D) ->
+    Tab_a(G :: D) ->
+    Tab_a(D)
+
+  all :
+    (forall v. Y(v)) in D ->
+    (t a term) ->
+    Tab_a(Y(t) :: D) ->
+    Tab_a(D)
+
+  ex :
+    (exists v. Y(v)) in D ->
+    (p fresh) ->
+    Tab_a(Y(p) :: D) ->
+    Tab_a(D)
+
+  ball :
+    (forall v <= s. Y(v)) in D ->
+    (t a term) ->
+    Tab_a((t <= s -> Y(t)) :: D) ->
+    Tab_a(D)
+
+  bex :
+    (exists v <= s. Y(v)) in D ->
+    (p fresh) ->
+    Tab_a((p <= s and Y(p)) :: D) ->
+    Tab_a(D)
+
+Disjunctive rules take BOTH child proofs: every sibling branch closes.
+In type theory that is a product of subderivations, not a sum.
+
+Theorem proofs:
+
+  TabProof_a(Psi)  =  Tab_a([not Psi])
+
+2020 does not require prenex* roots; 2001 does. Keep the profiles distinct.
+
+
+3. XTAB = TAB + LEM
+-------------------
+
+Xtab has every Tab constructor, plus:
+
+  lem :
+    (mho : Form) ->
+    Xtab_a((mho or not mho) :: Gamma) ->
+    Xtab_a(Gamma)
+
+Equivalently: Xtab_a = Tab_a + lem.
+
+Z-Enriched: restrict mho to a set Z.
+Z-Base-Variable-Enriched: also allow
+  (forall x. Y(x)) or not Y(x)
+for Y(x) in Z free in x.
+
+Ordinary Xtab is Z = all sentences.
+
+
+4. EIGHT-RULE PROFILE
+---------------------
+
+Same inductive family. 2001/2018 numbering:
+
+  1 and     2 negation pushes     3 or     4 imp
+  5 ex      6 bex                 7 all    8 ball
+
+Admissible-term side conditions (parameter terms / U-Grounded terms)
+are extra indices on `all`/`ball`, not a different family shape.
+
+
+5. THREE DISTINCT OBJECTS
+-------------------------
+
+  p : Num                     encoded proof number for Prf_S
+  t : TabProof_a(Psi)         inductive Tab (or Xtab) inhabitant
+  u : Tr(Psi)                 PTS theorem witness under the negative translation
+
+The families above are the middle row: the deduction apparatus d in
+{Tab, Xtab} as a dependent type. They are not SemPrf, and not Tr(-).
+
+Paper-level bridges (not proved here as theorems of S):
+
+  - TabProof soundness => classical consequence
+  - arithmeticization => SemPrf matches finite inhabitation
+  - PTS note equation (8) transports theorem sets once d is fixed
+
+
+6. LEAN-SHAPED SKETCH (UNCHECKED)
+---------------------------------
+
+inductive Tab (a : Form -> Prop) : List Form -> Type where
+  | close : phi in G -> (not phi) in G -> Tab a G
+  | ax    : a phi -> Tab a (phi :: G) -> Tab a G
+  | and1  : (Y and G) in D -> Tab a (Y :: D) -> Tab a D
+  | and2  : (Y and G) in D -> Tab a (G :: D) -> Tab a D
+  | dnn   : (not (not Y)) in D -> Tab a (Y :: D) -> Tab a D
+  | or    : (Y or G) in D ->
+            Tab a (Y :: D) -> Tab a (G :: D) -> Tab a D
+  | imp   : (Y -> G) in D ->
+            Tab a ((not Y) :: D) -> Tab a (G :: D) -> Tab a D
+  | all   : (forall Y) in D -> Tab a (Y t :: D) -> Tab a D
+  | ex    : (exists Y) in D -> Tab a (Y p :: D) -> Tab a D
+  -- ball, bex, neg* omitted
+
+inductive Xtab (a : Form -> Prop) : List Form -> Type where
+  | ofTab : Tab a G -> Xtab a G
+  | lem   : Xtab a ((mho or not mho) :: G) -> Xtab a G
+
+def TabProof  a Psi := Tab  a [not Psi]
+def XtabProof a Psi := Xtab a [not Psi]
+
+
+7. STATUS
+---------
+
+Paper construction only. Rule tables checked against local Willard text
+layers. Lean sketch not kernel-checked. No Codification registry change.
+No Proflog tableau-proof/3 change.

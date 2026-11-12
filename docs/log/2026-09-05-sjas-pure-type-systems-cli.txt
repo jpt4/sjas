@@ -1,0 +1,316 @@
+SJAS IN A PURE TYPE SYSTEM -- CLI EDITION
+Date: 2026-09-05
+
+ASCII rendering of the preceding response. This changes notation, not the
+construction or its proof status. The longer mathematical note is:
+2026-09-05-sjas-pure-type-systems.md
+
+The construction is a conservative presentation of SJAS in lambda-P. Its
+self-consistency type retains the original proof predicate; it does not
+silently substitute the PTS's own typing predicate.
+
+NOTATION
+--------
+
+Type             the PTS sort previously written as a star
+Kind             the upper PTS sort previously written as a square
+Num              the source arithmetic domain, previously written iota
+False            the target falsity type, not arithmetic zero
+Base             the selected source base theory B^xi
+Tr(A)            the type translating source formula A
+R_raw            the type family for a source atomic relation R
+t : A            term t has type A
+A -> B           function type; arrows associate to the right
+Pi x:A. B(x)     dependent function type
+lambda x:A. t    lambda abstraction
+forall x. A      source-level universal quantification
+exists x. A      existential quantification
+code(A)          original source-syntax Godel code of A
+bar(n)           original source numeral denoting number n
+Gamma |- t : A   typing judgment under context Gamma
+
+Grouped binders abbreviate successive binders:
+  Pi x,y:Num. T  means  Pi x:Num. Pi y:Num. T
+
+Juxtaposition is application:
+  f x y  means  (f x) y
+
+1. THE PURE TYPE SYSTEM
+-----------------------
+
+Use the ordinary lambda-P specification:
+
+  Sorts    = {Type, Kind}
+  Axioms   = {(Type, Kind)}
+  Products = {
+    (Type, Type, Type),
+    (Type, Kind, Kind)
+  }
+
+An axiom pair (s1,s2) permits s1 : s2.
+A product triple (s1,s2,s3) permits Pi x:A. B : s3 when
+A : s1 and, under x:A, B : s2.
+
+Use ordinary abstraction, application, dependent products, and beta
+conversion. There are no affine restrictions or new reduction rules.
+
+Begin the signature with:
+
+  Num   : Type
+  False : Type
+
+Translate the arithmetic symbols according to their original arities.
+Do not make Num an inductive natural-number type. Supply no recursor or
+induction beyond what the original theory provides.
+
+If multiplication is represented relationally, declare:
+
+  Mult_raw : Num -> Num -> Num -> Type
+
+Do not replace it by a multiplication function returning a Num.
+
+Church-numeral multiplication does not automatically prove multiplication
+total on Num. Church numerals have a different type:
+
+  ChurchNum = (Num -> Num) -> Num -> Num
+
+No conversion from arbitrary source numbers to their Church iterators is
+supplied.
+
+2. TRANSLATING CLASSICAL SJAS
+----------------------------
+
+Use this negative translation. "bottom" denotes source logical falsity.
+
+  Tr(bottom)
+    = False
+
+  Tr(R(t1,...,tn))
+    = (R_raw(t1,...,tn) -> False) -> False
+
+  Tr(A -> B)
+    = Tr(A) -> Tr(B)
+
+  Tr(forall x. A)
+    = Pi x:Num. Tr(A)
+
+  Tr(A and B)
+    = (Tr(A) -> Tr(B) -> False) -> False
+
+  Tr(A or B)
+    = (Tr(A) -> False) -> (Tr(B) -> False) -> False
+
+  Tr(exists x. A)
+    = (Pi x:Num. Tr(A) -> False) -> False
+
+Source terms are translated homomorphically. Negation means implication
+to falsity. For a three-way conjunction use the corresponding encoding:
+
+  Tr(A and B and C)
+    = (Tr(A) -> Tr(B) -> Tr(C) -> False) -> False
+
+Every translated formula is stable: the following type has a lambda-term
+inhabitant, constructed inductively on A.
+
+  stable_A : ((Tr(A) -> False) -> False) -> Tr(A)
+
+Thus classical reasoning translates into ordinary lambda terms without a
+global double-negation-elimination constant.
+
+For each source axiom A, add:
+
+  a_A : Tr(A)
+
+Include the original first-order equality axioms, not unrestricted
+host-type equality elimination. Call this signature Sigma_S.
+
+Existential proofs become continuations, not pairs exposing numerical
+witnesses. This supports the negative safety guarantee below; it does not
+promise general constructive witness extraction.
+
+3. THE SELF-JUSTIFYING AXIOM
+---------------------------
+
+Fix the same Willard system as before, with its EA-stable configuration:
+
+  S = Base + {H}
+  H = SelfCons_1(Base, d)
+
+Define abbreviations by translating the original arithmetic formulas:
+
+  N(x,y) = Tr(Neg_1(x,y))
+  C(x,p) = Tr(Prf_S(x,p))
+
+These are not newly assumed, uninterpreted checking relations.
+
+The source axiom is:
+
+  H =
+    forall x,y,p,q.
+      not (
+        Neg_1(x,y)
+        and Prf_S(x,p)
+        and Prf_S(y,q)
+      )
+
+Set:
+
+  F(x,y,p,q) = N(x,y) -> C(x,p) -> C(y,q) -> False
+
+The translated source axiom is:
+
+  h :
+    Pi x,y,p,q:Num.
+      (F(x,y,p,q) -> False) -> False
+
+Define the actual lambda term:
+
+  self =
+    lambda x,y,p,q:Num.
+    lambda nxy:N(x,y).
+    lambda cp:C(x,p).
+    lambda cq:C(y,q).
+      h x y p q
+        (lambda k:F(x,y,p,q). k nxy cp cq)
+
+Its type is:
+
+  self :
+    Pi x,y,p,q:Num.
+      N(x,y) -> C(x,p) -> C(y,q) -> False
+
+This is the type-theoretic form of Level(1) self-consistency: a dependent
+rejection function for precisely the forbidden certificate tuple.
+
+There is no recursive type. Willard's finite construction uses:
+
+  n = code(Gamma1(g))
+  H = Gamma1(bar(n))
+
+The source-checker abbreviation expands to:
+
+  Prf_S(x,p) = SubstPrf_Base_d(bar(n), x, p)
+
+Here n codes the open template Gamma1(g), not H itself. The type of h
+contains a fixed numeral, not the variable h. Self-reference is carried
+by sentence-code data inside the type, not by circular type formation.
+
+As an axiom parameter, h has no reduction equation. The resulting term
+excludes contradictory certificates; it does not execute a
+consistency-testing algorithm.
+
+4. WHAT THE TRANSLATION PRESERVES
+--------------------------------
+
+For a source sentence A, the paper-level equivalence is:
+
+  S |-d A
+
+    iff
+
+  exists t. Sigma_S |-lambdaP t : Tr(A)
+
+Forward: translate the source proof through classical natural deduction
+and then the negative translation.
+
+Backward: normalize the PTS term. With exactly this signature, normal
+individual terms are source first-order terms, and normal proof spines
+decode into first-order deductions. Read the negative translation
+classically to recover A.
+
+Assuming the selected source apparatus's ordinary completeness:
+
+  Consistent(S)
+
+    implies
+
+  not exists t. Sigma_S |-lambdaP t : False
+
+This preserves theorem inhabitation, not raw proof representations or
+their sizes. These remain three different things:
+
+  p  : Num       an encoded source proof
+  cp : C(x,p)    evidence that p passes the source checker
+  t  : Tr(A)     a target proof term for the translation of A
+
+Ordinary PTS application composes target proofs. It does not automatically
+construct, or prove the existence of, a corresponding encoded source
+certificate.
+
+5. THE BRIDGE NEEDED FOR A DIFFERENT CHECKER
+------------------------------------------
+
+Define translated source provability:
+
+  Box_S(x) =
+    (Pi p:Num. C(x,p) -> False) -> False
+
+This is the negative existential translation of "there exists an accepted
+source proof", not a primitive modal type.
+
+The term self yields:
+
+  separate :
+    Pi x,y:Num.
+      N(x,y) -> Box_S(x) -> Box_S(y) -> False
+
+Here is its definition, with binder types inferred from that signature:
+
+  separate x y nxy u v =
+    u (lambda p cp.
+      v (lambda q cq.
+        self x y p q nxy cp cq))
+
+Suppose K(x,r) represents another checker, potentially a PTS checker for
+translated source formulas. The additional internal theorem needed is:
+
+  lower :
+    Pi x,r:Num.
+      Tr(K(x,r)) -> Box_S(x)
+
+Given lower, pairwise consistency transfers by:
+
+  separateK x y r s nxy a b =
+    separate x y nxy (lower x r a) (lower y s b)
+
+The type of this function is:
+
+  separateK :
+    Pi x,y,r,s:Num.
+      N(x,y) ->
+      Tr(K(x,r)) ->
+      Tr(K(y,s)) ->
+      False
+
+The lower theorem requires internally justified existence of a source
+certificate, not necessarily a program extracting its code. A certified
+compiler is sufficient, but stronger than this particular transfer needs.
+
+If requests already carry p and cp:C(x,p), the requisite existence term is:
+
+  lambda f:(Pi q:Num. C(x,q) -> False).
+    f p cp
+
+This term has type Box_S(x).
+
+That is the certificate-carrying computational realization. For
+unrestricted PTS typing derivations, lower remains unestablished.
+External normalization or theorem-set equivalence cannot substitute
+for it.
+
+Follow-up: 2026-09-05-lower-resolution.md specializes the source to Type-A
+and specifies a checker accepting PTS derivations and Hilbert macros for
+them. For that certificate format, even lower at 0=1 is unprovable,
+conditional on the cited Hilbert-incompleteness boundary. A checker that
+accepts only fully expanded typing trees is a separate case.
+
+RESULT AND STATUS
+-----------------
+
+This is a concrete, conservative PTS presentation of SJAS, with typed
+self-consistency and gate terms. It is not yet a PTS certifying its entire
+typing kernel.
+
+The source formulas were checked against rendered PDFs during the
+preceding work. The new preservation proof is not mechanized. This CLI
+edition changes notation only; it performs no additional proof checking.

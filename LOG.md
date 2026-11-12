@@ -1,0 +1,591 @@
+# SJAS development log
+
+## 2026-09-11 — G2 and representations of syntax without arithmetization
+
+Recorded the question and answer on whether Gödel's second incompleteness theorem
+can be proved using explicit representations of syntax without reducing to
+arithmetization, including finite-set, expression-tree, and concatenation
+approaches. The conversation preserves all six literature citations and the
+distinctions between completed formalizations, proof sketches, and
+undecidability results.
+
+See [the conversation record](docs/log/2026-09-11-g2-without-arithmetization-conversation.md).
+
+## 2026-09-22 — Continuing the first-principles analysis of SJAS program typing
+
+Recovered the question about programs typable with an SJAS as their logic and
+the instruction to reason from first principles and the literature. Derived a
+bounded-witness lemma and, using Willard's extension theorem, an exact
+characterization across the specified additive family of bounded-graph native
+function specifications. Applied it to bounded search, native pairing, and
+explicit execution-trace certificates. The distinction between a provable
+specification, its computable realizer, and a particular type checker's accepted
+terms remains explicit. Source theorem statements were checked as PDF images;
+the new arguments are paper proofs, not mechanized results.
+
+See [the research continuation](docs/log/2026-09-22-sjas-program-typing-continuation.md).
+
+## 2026-09-22 — Correcting the focus to programs using self-consistency
+
+The user clarified that the central question is what programs gain from access
+to the self-consistency statement itself. Recorded explicit uses: eliminating
+an impossible error branch, certifying a constant-result optimization of the
+contradiction-proof checker, deriving safety from a certified reduction of bad
+executions to contradictions, and transporting consistency through a supplied
+proof transformation. Checked Willard's actual translated-reflection theorem
+and its standard-model versus internal-equivalence distinction against page
+images.
+
+See [the self-consistency interface analysis](docs/log/2026-09-22-computational-use-of-self-consistency.md).
+
+## 2026-09-22 — Comparing internal consistency with external verification
+
+Reviewed the literature independently of the repository's proposed interfaces.
+Derived an exact implementation whose totality is equivalent to the specified
+checker's consistency, then gave a direct proof of the relevant case of
+Kreisel's observation: adding true Pi_1 sentences to PA does not enlarge its
+extensional class of provably recursive functions. Distinguished native
+certificate availability from external program guarantees, and consistency of
+the current checker from consistency of a predecessor. Compared the result with
+Willard's restricted reflection, foundational proof-carrying code, and CakeML's
+externally verified self-compilation. The arguments are paper proofs under
+explicit assumptions, not a verified SJAS programming implementation.
+
+See [the internal-versus-external comparison](docs/log/2026-09-22-internal-versus-external-consistency.md).
+
+## 2026-09-23 — The lower boundary of self-justification
+
+Investigated sub-Turing self-justification while separating executable
+computation, representation of finite computations, and decidability of
+theoremhood. Derived a halting reduction from the representation and
+Sigma_1-completeness requirements of Willard's 2011 generic configurations.
+Checked Pakhomov's independent Hilbert-style self-consistency theorem and its
+mutual interpretability with Robinson R; this gives a weak positive benchmark
+but not a decidable proof theory. Distinguished that result from Presburger,
+bounded consistency, and typed-code reflection. No least system or natural
+decidable self-justifying calculus was established by this review.
+
+See [the lower-boundary analysis](docs/log/2026-09-23-lower-boundary-of-self-justification.md).
+
+## 2026-09-23 — Execution and finite-computation representation
+
+Resumed the interrupted request to distinguish both computational boundaries.
+Separated terminating trace checking from unbounded existential descriptions
+and execution, gave explicit hypotheses and a proof of halting-complete
+theoremhood, and derived the independent diagonal limit on effective sound
+totality certification. Located Pakhomov's R interpretation above the universal
+finite-computation representation boundary. Added a direct PRA/G2 citation to
+Simpson's Theorem 6.6.7 and checked the limitations of Presburger and
+automaton-predicate self-verification. Runtime restriction is compatible with
+an existing SJAS; a natural decidable instance of the entire self-justifying
+proof apparatus remains unestablished by this review. The derivations are
+paper proofs, not a programming-language implementation.
+
+See [the two-boundary comparison](docs/log/2026-09-23-two-computational-boundaries.md).
+
+## 2026-09-24 — Standard-model soundness of Willard's constructions
+
+Answered whether the self-justifying systems only prove true sentences.
+Derived full external soundness from the true Sigma_1-complete base,
+Pi_1 added axioms, sound deduction, and established consistency. Checked that
+the self-consistency axiom belongs to the required class. Distinguished this
+soundness consequence from the bare definition of self-justification and from
+unrestricted internal reflection.
+
+See [the soundness argument](docs/log/2026-09-24-soundness-of-willard-sjas.md).
+
+## 2026-09-24 — Completeness and intended truth
+
+Clarified that syntactic completeness plus consistency need not give truth in
+an intended model. Proved that consistency plus completeness for that model
+does imply soundness, with syntactic completeness redundant. Distinguished
+this condition from the usual semantic completeness of a logical calculus,
+and gave a one-atom propositional counterexample. Added the derivation to the
+[soundness note](docs/log/2026-09-24-soundness-of-willard-sjas.md#completeness-consistency-and-intended-model-truth).
+
+## 2026-09-24 — Expressing soundness through reflection
+
+Distinguished local and uniform reflection schemas from a single global
+reflection formula using a truth predicate. Explained the role of Tarski's
+undefinability theorem, restricted partial truth, and consistency as the
+False instance of reflection. Recorded the conditional Lob obstruction and
+a direct Godel-sentence derivation with its hypotheses. Checked Willard's
+translated reflection theorem and the distinction between external and
+internal equivalence against the rendered paper pages.
+
+See [the soundness-reflection note](docs/log/2026-09-24-soundness-reflection.md).
+
+## 2026-09-25 — Identifying the missing translation equivalences
+
+Made the soundness-reflection distinction explicit: the relevant equivalence
+is between A and the assertion that the original base B has no proof of
+not A. Distinguished provable individual instances from the unavailable
+whole family. Derived the unprovability of the reverse implication at the
+Godel sentence under the stated fixed-point and proof-internalization
+hypotheses, and identified its relationship to formalized Sigma_1 completeness.
+
+See [the clarification](docs/log/2026-09-24-soundness-reflection.md#clarification-which-equivalences-fail-internally).
+
+## 2026-09-25 — Godel-sentence independence
+
+Separated unprovability from independence. For the ordinary Godel sentence,
+consistency gives unprovability; Sigma_1 soundness or omega-consistency also
+excludes its negation. Rosser obtains independence under consistency by
+changing the sentence, with the usual arithmetic and representation
+hypotheses. Connected this distinction to the sound SJAS instances and the
+weaker assumptions needed by the preceding reflection obstruction.
+
+See [the independence clarification](docs/log/2026-09-24-soundness-reflection.md#clarification-independence-of-godel-sentences).
+
+## 2026-09-25 — Native constructive SJAS and program extraction
+
+The user clarified that constructive means a constructive logic suitable for
+program extraction. Recovered the earlier inherited-axiom and paired-certificate
+constructions, then developed a native intuitionistic Hilbert variant whose
+consistency axiom concerns its own full checker. Adapted Willard's finite-model
+argument, made the proof-size requirements explicit, and supplied bounded-axiom
+realizers and a witness-extraction argument. The result is a paper construction
+using the cited bounded arithmetization; implementation and machine-checked
+metatheory are not claimed. Existing prototypes and concurrent refinement files
+were left untouched.
+
+See [the native constructive construction](docs/log/2026-09-25-native-constructive-sjas.md).
+
+## 2026-09-25 — Explicit realizers for the arithmetic axioms
+
+Expanded the constructive SJAS note with concrete realizers for every axiom
+in its illustrative finite arithmetic base, the named-number axioms, and
+its self-consistency sentence. Specified the atomic-evidence convention,
+bounded witness construction, and quantifier guards. Clarified that constant
+negative realizers are valid by the external absence of antecedent evidence;
+their program text does not independently establish consistency. Checked the
+atomic realizability definition and Willard's addition graph on rendered
+source pages. This is a paper clarification, with no checker or extractor
+implementation added.
+
+See [the realizer assignments](docs/log/2026-09-25-native-constructive-sjas.md#explicit-arithmetic-realizer-assignments).
+
+## 2026-09-25 — Meaning and informational content of realizers
+
+Clarified why the constant arithmetic realizers carry little information:
+the selected interpretation assigns a unit-like value to each true atom,
+and the substantive correctness claim is the external realizability
+relation. Contrasted two formulas assigned the same candidate program,
+explained how existential witnesses and disjunction choices retain
+computational content, and distinguished this interpretation from a full
+proof term or a native dependent type checker. No new consistency or
+implementation claim is made.
+
+See [the explanation of constant realizers](docs/log/2026-09-25-native-constructive-sjas.md#why-a-constant-realizer-can-carry-almost-no-information).
+
+## 2026-09-26 — A PTS presentation of the constructive SJAS
+
+Specified a lambda-P logical-framework signature for the constructive
+Hilbert system, with explicit intuitionistic rule constants, arithmetic
+axiom declarations, a fully displayed division proof, and its extracted
+program. Gave the external proof-correspondence argument and distinguished
+pure kernel beta reduction from object-proof normalization and numerical
+execution. Preserved the original self-consistency predicate; no internal
+translation theorem or self-consistency of a new standalone PTS checker
+is claimed. This is a paper specification, leaving concurrent implementation
+work untouched.
+
+See [the PTS presentation](docs/log/2026-09-26-pts-presentation-of-constructive-sjas.md).
+
+## 2026-09-26 — PTS computation and the internal consistency bridge
+
+Clarified that opaque native arithmetic in the chosen LF encoding is a
+design choice, and that an external proof normalizer need not extend the
+kernel. Explained the effect of adding logical or arithmetic rewrites to
+definitional equality. Distinguished Con_H from Con_K, gave the explicit
+intuitionistic derivation transferring consistency from an internal bridge
+restricted to FALSE, and identified the standard-versus-internal quantifier
+boundary. Also derived the existing source theory's no-FALSE guarantee for
+an interface requiring both PTS and Hilbert certificates.
+
+See the [computation clarification](docs/log/2026-09-26-pts-presentation-of-constructive-sjas.md#clarification-extraction-external-normalization-and-conversion)
+and the [consistency clarification](docs/log/2026-09-26-pts-presentation-of-constructive-sjas.md#clarification-exactly-which-consistency-statement-is-available).
+
+## 2026-09-26 — Cirquents, deep inference, and graph deduction for SJAS
+
+Examined cirquent calculi, first-order intuitionistic deep inference, proof
+nets, and interaction nets as SJAS components. Gave a conditional extension
+of the native finite-model consistency proof to sound finite-support graph
+certificates with bounded checking and explicit coding bounds. Distinguished
+that positive argument from a completed arithmetization of any particular
+graph checker, and separated proof compression, constructive extraction,
+execution, and internally certified proof transformations. Checked published
+proof-complexity results and Willard's explicit allowance for some pointer
+sharing. No implementation, benchmark, or mechanized result is claimed.
+
+See [the alternative deduction methods analysis](docs/log/2026-09-26-alternative-deduction-methods-for-sjas.md).
+
+## 2026-10-20 — Stewart's LtU remarks on SJAS and the Dialectica interpretation
+
+Found the LtU thread the user remembered, on giving a proof system a
+consumable budget (node 3076, 2008), and Charles Stewart's remarks there on
+Willard's systems and his 2004 Advogato note. Stewart doubted, but did not
+prove, that SJAS have a Dialectica interpretation. Assessment: Willard's
+tableaux systems are Π₁-axiomatized without induction, so a Shoenfield-style
+interpretation into recursor-free typed λ-terms exists and yields linearly
+bounded Herbrand terms. What fails is self-justification on the functional
+side: the target keeps the cut and proves successor total, which is the
+cell where Solovay's theorem is negative. Also covered: why a total
+self-interpreter fails there by growth alone. The argument is ours and
+unpublished; no formal result is claimed.
+
+See [the note](docs/log/2026-10-20-dialectica-interpretation-of-sjas.md).
+
+## 2026-10-20 to 2026-10-22 — Codex lanes: limit waits, network failures, the S3 lane
+
+Phase 2's Codex lanes run unattended from `code/lcert/test-runs` (gitignored;
+`HANDOFF.md` there is the guide).
+- **Limit waits (v4.3, 2026-10-20).** At the user's request, the supervisor
+  now waits until the reset time that Codex's `/status` reports, read
+  through the app server's read-only `account/rateLimits/read`
+  (`codex-limits.sh`). It checks the wall clock, so a suspend no longer
+  stretches the wait. The fixed 5 h wait it replaced had overshot the reset
+  by up to an hour, and a suspend had added 2 h 17 min more.
+- **Limits observed.** "Workspace out of credits" means the 5-hour window is
+  used up and the workspace has no credits to spend. Three high-effort lanes
+  used up the window in 25–60 minutes.
+- **Network outage, 10-20 to 10-22.** On 10-20, three attempts failed at once
+  on "workspace routing discovery" errors and cost a 5 h back-off. From 10-21
+  15:22, both sessions hung on "waiting for network" until a reboot at 10-22
+  04:45. The lanes stayed down until 17:38. v4.4 waits for the network
+  instead of counting a failure, and stops a session that has shown only
+  network errors for 30 minutes.
+- **Disk.** Free space fell to 3.0 GB, below the lanes' 4 GB floor. Deleting
+  superseded Codex releases (`~/.codex/packages/*/releases`, keeping the
+  current one and one prior) freed 9 GB.
+- **New lane s3.** It holds ADR-0007's W26–W30 and W31's general part: S3,
+  E-PA^ω conservative over PA, by negative translation and HEO. It runs in
+  the w10 worktree on branch `p2-s3`, from `p2-w10`'s df08bf9, since S3 needs
+  only W16–W17. Only the instance at `conL` waits for W5.
+- **Progress meanwhile.** W10, W16 and W17 are complete (cold gates green).
+  W3c gate 1 is merged into `adr-0007-phase2` (bb114e1), and gate 2 is under
+  way. W3b has 19 definitions left.
+- **Tests.** The supervisor's new behaviour has tests: `test-codex-limits.sh`
+  (9/9), `test-supervisor-limit-wait.sh` (9/9) and
+  `test-supervisor-network.sh` (8/8). Each was run red against the earlier
+  version first.
+
+## 2026-10-22 — ADR-0007's work plan reduced to what P5 requires
+
+At the user's request ("make certain all items are actually required, not
+process or ceremony"), audited ADR-0007's work items against P5's deduction.
+The deduction needs S1, S3, Int-6.1 and Int-6.4 at concrete natural `conL`
+and `conPA`, with (A1) and (A3) beneath them.
+- **Growth.** The plan grew from 19 items to 37. Apart from W3b and W3c, the
+  growth subdivided the same content into gates, each with its own cold run,
+  records, merge request and merge. Lane branches all edited the ADR, LOG and
+  LESSONS, so every merge conflicted three ways.
+- **Dropped.** The optional direct-PA route (W15, W20, W21). It would change
+  R4 §6's argument, whereas the fidelity directive keeps the paper's route:
+  Int-6.4 in E-PA^ω, then S3.
+- **Merged.** The rest became one gate per statement of the paper: 29 open
+  items to 15 gates, with no content lost.
+- **Process.** One cold run per gate. Only the integrating p2 lane writes the
+  ADR, LOG and LESSONS, at merge. Lanes merge only when a consumer needs the
+  work.
+- **Where.** The decision text is `code/lcert/test-runs/plan-2026-10-22.md`.
+  p2 inserts it into ADR-0007 at its next commit. The w3c, s3 and p2 prompts
+  now follow it.
+
+## 2026-10-22 — Codex lanes switched to medium effort
+
+- **Why.** On 2026-10-22 three lanes at effort high used up each 5-hour window in 24 minutes, and each window used about 15% of the weekly window. That window resets at 2026-10-29 21:38Z and stood at 31%, so the remaining allowance would have lasted about 4½ windows. That is roughly 2½ hours of three-lane work a week.
+- **Decision (user).** "Switch Codex's effort to medium."
+- **Change.** The effort field of the p2, w3c and s3 tasks went from high to medium in their queues. The supervisor re-reads its queue between attempts, so the change applies from each lane's next session with no restart. The main lane's x8 was already medium.
+- **Watch.** Medium effort may struggle on the hardest proofs. If a lane stalls on them, raise that one task back to high in its queue.
+
+## 2026-10-23 — W3b's loads waited on desktop memory; memory notifier
+
+- **What happened.** p2's W3b test load needs about 6 GB, behind an 8 GiB gate that protects the desktop.
+  - The 22-10 23:07 run grew to about 6 GB. Its watchdog stopped it at `decSkDT` once the machine had only 2.4 GB left.
+  - Its next waiters never saw 8 GiB free (about 6.8 GB with every lane idle), so each gave up after 90 minutes.
+  - Each new waiter cost a Codex session, and `cold-run.hold` paused w3c and s3 meanwhile.
+  - The user freed memory at 10:28 and the load started within a minute.
+- **Decision (user).** "Codex time is higher priority" than desktop memory. Claude does not order p2 to cut the load's memory.
+- **Change.**
+  - `test-runs/memory-notify.sh` sends the user a desktop notification when a waiter logs `gate-wait=`, at most once every 30 minutes. Its tests are `test-memory-notify.sh`: 10/10, and 5 fail against a no-op script.
+  - p2's prompt has order 6: keep the gate, spend no session cutting memory, and on a timeout start one new waiter and end the session.
+
+## 2026-10-23 — s3 blocked on a W17 presentation gap; resolved as a fidelity repair
+
+- **Gap (s3, 11:17).** W17's `EPAwPrf.pa` admits a PA axiom only when every variable of the finite-type environment is nat (`epawprf.clj:180-183`). `pfToEPAwCtx` has the same restriction, and no constructor weakens the context. So a PA axiom cannot be used under a higher-type variable it does not mention, although F6.2 and P5 §3's E-PA^ω allow it. s3 stopped W26–W31, as its prompt says to do for any W17/F6.2 difference.
+- **Resolution (Claude).** This is a technical repair for fidelity to F6.2, not a route choice, so it is within the lanes' authority.
+  - s3 repairs W17 on `p2-s3`: a PA axiom then needs only its own free variables to be nat. No new constructor is added.
+  - s3 proves the weakening lemma the repair needs, includes W17's tests in the S3 (i) cold run, and files a merge request for the repair early, because Lemma 6.2 consumes W17.
+- **Records.** The decision is in `test-runs/s3.blocked.resolved` and `s3-prompt.md`; p2 records it in ADR-0007 at merge.
+
+## 2026-10-23 — Supervisor v4.5: Codex priority for p2
+
+- **Decision (user).** "Prioritize p2, if it is blocking the other lanes." It is:
+  - W3b gates W5 and every later gate.
+  - The main lane stays paused until W3b's cold run.
+  - On 2026-10-23 a green p2 result (`prf_checkNatHistLookup`, 15:39) sat uncommitted for 3 h, because w3c and s3 had used up the 5-hour window by 15:43.
+- **Measure.** Each session costs about 9% of a 5-hour window: about 100k tokens of the roughly 1.1M a window allowed that day. p2 drew about 29% of that window.
+- **Change.**
+  - `supervisor-codex-v4.5.sh` adds `CAP=<percent>`: a capped lane starts no attempt while the 5-hour window is used to CAP% or more. The cap lifts 45 minutes (`CAP_RELEASE`) before the reset, so p2's unused reserve is not wasted.
+  - `codex-limits.sh --window 300` reads the window's percentage and reset time below 100% too.
+  - w3c and s3 run with `CAP=60`; so will main, once p2 restarts it. p2 is uncapped.
+  - The cap is checked only before an attempt, so running sessions finish; by the per-session figure above, the capped lanes overshoot by about two sessions at most.
+- **Tests.**
+  - `test-supervisor-cap.sh`: 11/11. Against v4.4, 10 fail.
+  - `test-codex-limits.sh`: 14/14. The 5 new cases failed before the change.
+  - The limit-wait and network tests pass against v4.5.
+- **Switch-over.** The three supervisors moved to v4.5 at 17:23, while all three waited for the 18:43 reset; no session was interrupted. HANDOFF's commands now start v4.5 with the caps.
+
+## 2026-10-23 — Claude worked p2's W3b while Codex was limited
+
+- **Request (user).** "Use your own usage, up to 90%, to work on p2 until Codex refreshes."
+- **Finding.** p2's green lookup piece (15:39) would have failed a cold run. `prf_checkNatHistLookup` was generated only by p2's dev probe, not by the `p2-pr-gate5` namespace.
+- **Change.** 5ecf271 on `adr-0007-phase2` generates it at load. The namespace now requires `p2-pr-defs` and `p2-pr-ho` instead of `p2-pr-mach`.
+- **Check.** A dev-only check (`code/lcert/test-runs/p2-w3b-gate5-ns-check.log` in the p2 worktree) loaded the whole namespace and passed the lookup test 3/3 (28 min). The name check passes.
+- **Handoff.** p2's red test for the final target stays uncommitted in its worktree. A handoff entry is in `p2.progress`. Claude stopped at 18:22 rather than start a second 28-minute load, which would have delayed p2's 18:44 session.
+
+## 2026-10-24 00:22 — Lanes restarted after a power-off
+The machine powered off cleanly at 21:37 on 10-23 (logind "System is powering down", right after xfce4-power-manager's suspend request was refused by polkit; no out-of-memory event) and booted at 23:52. Claude deleted the stale PID files and cold-run.hold per HANDOFF.md, restarted the p2, w3c and s3 supervisors (v4.5, reniced to 19) and the memory notifier at 00:22. p2's step-body green check (started 21:11) was killed by the shutdown; p2 reruns it. 5h window 0%, weekly 28%.
+
+## 2026-10-24 10:04 — Claude takes the p2 lane
+Codex reached its 5-hour limit at 09:59 (weekly 56%). The user: "Codex has hit its credit limit; use yours, up to 90% of your 5-hour usage." Claude works p2 (W3b) itself from now on, so that p2 and a Codex session never share the worktree: `supervisor-codex-p2.stop` paused p2's Codex supervisor. The 60% priority cap on w3c and s3 existed only to reserve Codex for p2, so their supervisors were restarted with `CAP=` (no cap). Claude reads its own 5-hour usage from `~/.claude/statusline-input.json`, which the user's statusline script now saves (8% at 10:03).
+
+## 2026-10-24 — Incompleteness Ex Machina analysed; Self-Justification Ex Machina drafted
+The user asked for an analysis of Oberhoff's essay *Incompleteness Ex Machina* (2018) and, if possible, a computational exegesis of Willard's self-justification on the same lines. All 9 pages were read as text and as page images; the text layer drops the overbar on the halting lemma's program H̄ (hazard H2).
+
+Finding: every result in Oberhoff's essay except G2 uses only external Σ₁-completeness ("watching"). His G2 step taken "with some faith" is formalized Σ₁-completeness ("knowing that one watches"). Willard's systems keep the first and lack the second, and by Theorem 6 run backwards, a consistent system that proves its own Level(1) consistency cannot prove the second. The essay retells Willard 2001's Assertion ++ as an Oberhoff-style case analysis about a refutation-searching program, prices the faith step with Willard's boundary results (squaring without cuts, successor with cuts), and refactors Oberhoff's Theorem 7 into 7a/7b.
+
+The proposition and the interpretive vocabulary are ours, labelled as such. Willard quotations were checked against page images (TR 93-10 pp. 6–7, 2001 p. 20, 2006a p. 24), and proof statuses come from the codification registry.
+
+See [the analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md) and the essay, [`prose/self-justification-ex-machina/`](prose/self-justification-ex-machina/self-justification-ex-machina.tex) (13 pp., PDF beside it).
+
+## 2026-10-25 — Self-Justification Ex Machina committed, reviewed, revised twice
+- **Request (user).** "Commit this to a new branch; run an adversarial read-only review. Oberhoff's work satisfies the requirements for a paper proof, at the level of granularity necessary for G2; self-justification is a finer-grained concept, and so SJexM must be more technically precise to meet equal proof-status validity."
+- **Branch.** `sjexm-essay`, from master, in worktree `.claude/worktrees/sjexm`. The main worktree stays on `f6-p5`. Commits: 84eba77 (draft 1), e4c736e (revision 2, the self-audit), 79be6a7 (revision 3, review fixes). Not pushed. LOG.md stays untracked, as before.
+- **Review.** Grok 4.7 through the Cursor CLI, read-only, run against draft 1 with the standard above. Verdict: does not meet it; 15 findings (2 critical). Each finding was checked against the source text. One suggestion was not adopted, and the reason is recorded.
+- **What changed.**
+  - A Conventions section fixes the configuration, language, consistency level, fixed point, encoding, and relative consistency.
+  - Willard's 2001 and 2005 consistency theorems are stated separately.
+  - The consistency proof is retold from 2005 Thms 1–2 (Probe).
+  - Prop. E now shows that, given Level(1) self-consistency, the faith step is provably equivalent to the Gödel sentence.
+  - New section on 2005 Thm 6: the faith step bounded, as a Π\*₁ theorem of PA, switched on by one Σ\*₁ axiom.
+  - Lemma dial: Δ₀ cut and Π\*₁/Σ\*₁ lemmas are compatible; Π\*₂/Σ\*₂ lemmas are not (sketch); unrestricted lemmas are not (Solovay, cited).
+- **Discrepancy.** 2005 p. 40 (theorems valid for uncompressed encodings) conflicts with the wording of codification obligation O51. Not edited here.
+- See the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md), revision sections and disposition table, and the essay (21 pp.). The copies in this worktree match the branch.
+
+## 2026-10-25 — LOG.md tracked; `sjexm-essay` pushed; second review of SJexM
+- **Request (user).** "Track LOG.md; push to remote on this branch, then review again."
+- **Tracked.** This commit adds LOG.md to `sjexm-essay`. It is the main worktree's file, which was untracked, copied as it stood, plus this entry.
+  - Two older, disjoint LOG.md files exist on unmerged branches: `adr-0001-affine-tree-sjas` (2026-07-29 entries) and `adr-0003-alsjas-paper-first` (2026-09-01 to 09-02). Neither is in this file. Merging either branch will conflict on LOG.md.
+  - Of the 13 notes under `docs/log/` that LOG.md links, only the SJexM analysis note is tracked on any branch. The other 12 links are dead on this branch.
+- **Pushed.** `sjexm-essay` goes to origin (github.com/jpt4/sjas) with this commit.
+- **Review round 2.** Grok 4.7 (Cursor CLI, read-only) reviews revision 3 against the same standard. It checks each R1 finding's disposition and then reviews the new material. Results follow in a later entry.
+
+## 2026-10-25 — SJexM round-2 review and revision 4
+- **Review.** Grok 4.7 reviewed revision 3, read-only, in about 34 minutes. Verdict: does not yet meet the standard. 16 findings: 1 critical, 8 major, 7 minor. 7 of the 15 round-1 findings were only partly resolved.
+- **Critical (R2-01).** Proposition K fed Willard's `Pair` the code of the prenex halting sentence. `Pair` takes the syntactic negation, ⌜¬f⌝ (2005 Eq. 28), whose code is different.
+  - The essay now keeps ¬G̈ and the halting sentence **H** apart, and aims steps (2) and (3) at ¬G̈.
+  - It leaves open whether Willard's systems fail knowing-that-they-watch at **H** itself.
+- **Also changed.**
+  - The hypotheses of each step are cited where they are used. (H1) is now Level(0−).
+  - Fact FP is split. G̈'s unprovability no longer needs the transposed uniqueness sentence (U); (U\*) is an explicit assumption of Cor L(b) only.
+  - The (E) argument is redone from Appendix A.
+  - §12's 7b claims are split by system.
+  - "Counting" is replaced by Solovay's actual hypotheses.
+  - Page numbers follow one convention.
+- **Two reviewer claims corrected.** Willard writes number terms with an overline (2005 p. 4, image), and 2001 App B covers tableau trees (p. 52).
+- **Found by us.** The fourth step of Willard's 2005 Theorem 6 proof uses Definition 6's q as a proof of ¬℧, but Definition 6 (p. 33, image) has q prove "∃p Prf(⌜℧⌝,p)". The essay notes this and gives a repair.
+- Revision 4: 25 pp., clean build. The disposition table and open items are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).
+
+## 2026-10-25 — SJexM round-3 review and revision 5
+- **Request (user).** "What is the 'faith step'? Run a third review." The faith step was explained in the conversation. A follow-up question asked why the transcript needs multiplication. The answer given: by Herbrand's theorem, any function a true, Π₁\*-axiomatized U-Grounding theory proves total is bounded linearly, and a transcript must outgrow that. The argument is not yet in the essay.
+- **Review.** Grok 4.7 reviewed revision 4, read-only, in about 33 minutes. Verdict: does not yet meet the standard. 10 findings: 0 critical, 8 major, 2 minor.
+- **Main change.** Willard's `Pair` admits two readings: (i) the Σ₁\* representative of the negation, as his Theorem 1 proof uses it; (ii) the string ¬Φ, as Eq. 28 writes it.
+  - Prop K, the corollaries and §12 are now stated for **N**, the sentence `Pair` pairs with G̈.
+  - Under (i) the failure of knowing-that-it-watches is at a Σ₁-class sentence.
+  - Under (ii), Willard's consistency proof itself needs a Prenex\* convention that he does not fix. The essay now says so.
+- **Also changed.**
+  - Fact FP has its full hypotheses and a proper Lemma 7.1B step.
+  - (E) is restricted to proofs of G̈, under two stated encoding assumptions.
+  - Cor L lists all its assumptions.
+  - Cor M's watching step is completed.
+  - Willard's Theorem 6, step (31), is now listed as a gap. The repair is a conjecture.
+  - The abstract and §13 are cut back to what the body proves.
+  - §12's boundaries carry their full hypotheses.
+- **Rejected.** The reviewer's claim that §1 misstates 2001's regular consistency. 2001 p. 12 matches §1.
+- Revision 5: 27 pp., clean build. The disposition table and open items are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).
+
+## 2026-10-25 — SJexM revision 6: the open items closed
+- **Request (user).** "Yes, add the Herbrand argument. That list of open points reads like the entire point of the essay is not yet accomplished — get it done."
+- **Closed by fixing Willard's unspecified conventions.**
+  - A least-witness substitution formula and a fixed point without the bound h ≤ x remove the transposed uniqueness sentence and the encoding hypothesis.
+  - A fixed Prenex\* rewriting makes ¬Φ and its Σ₁\* form share their tableau proofs. A `Pair` that accepts both removes the two-readings problem. The halting sentence **H** is now exactly what `Pair` pairs with G̈.
+  - Correctness of Willard's proof predicate is proved from the fixed encoding and his arithmetization.
+- **Theorem 6.** Step (31) is repaired within the scope of Willard's Lemma 3 sketch.
+- **Added.** Proposition "Linear witnesses", with a model-theoretic proof via the linear closure of an element, and its corollary: Willard's systems cannot prove that multiplication is total, or that every number has a written name. So the uniform faith step fails for both the 2001 and 2005 systems.
+- **Also.** Hilbert–Bernays verified. Honesty and the first incompleteness theorem are now proved for IS(A) as well.
+- Revision 6: 28 pp., clean build. The status table is in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md). Round 4 of the review is next.
+
+## 2026-10-25 — SJexM round-4 review and revision 7
+- **Review.** Grok 4.7 reviewed revision 6: 8 findings, 5 major. It confirmed the redesign itself (fixed point, Prenex\* convention, `Pair`, **H**, Cor L) as proofs at the standard. It found three closures that were not yet proofs.
+- **Fixed with full proofs.**
+  - Prop G's 2001 half: the proof expands the model by the bounded-definable addition graph, and the order facts are stated.
+  - Correctness of IS(A)'s proof predicate: argued from 2001 Eq. 87, Willard's node-test bound and the node encoding.
+- **Reclassified.** Willard's Theorem 6 is a sketch at this granularity. The step-(31) repair needs no root identity now, since (28) is replaced by Pair(⌜℧⌝,⌜dual ℧⌝). It still needs length claims for two bounded facts of Lemma 3's kind.
+- **Also.** The abstract names PA+/PAX and Prop K's conditions; byte order is fixed; IS(A)'s loop sentence is in the 2001 language; 7b is the essay's own formulation.
+- **What is open.** Only Cor M's disjunction. Revision 7: 29 pp., clean build. Details are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).
+
+## 2026-10-25 — SJexM round-5 review and revision 8
+- **Review.** Grok 4.7 reviewed revision 7: 5 findings, 2 major. It confirmed Theorem 6's sketch status, the repair's tableau, the uniform code bounds and Cor L.
+- **The one substantive gap.** The 2001 proof-predicate correctness cited Willard's ExSemPrf/Group3Test (with its template step) instead of SubstSemPrf. It is now argued for SubstSemPrf from Eqs. 86–87 and Thm C.3 (sketch), with the node argument and its converse.
+- **Minor fixes.**
+  - Prop G states two more order facts (a⃗ ∈ I; coefficient comparison) and what 2001 Eq. 6 says.
+  - The abstract's faith-step sentence names all of Prop K's conditions.
+  - The step list marks (27) as the sketched claim for the redefined CheckProof.
+- Revision 8: 29 pp., clean build. Details are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).
+
+## 2026-10-25 — SJexM focused round-6 check and revision 9
+- **Check.** A focused Grok check of the round-5 fixes: three resolved, with no new issue. The abstract's faith-step sentence still under-stated Prop K's conditions; it now lists them and adds PA+ for IS_D(A).
+- **Final status.**
+  - Everything the essay claims as its own is proved from cited Willard results (with their statuses) and the conventions it fixes.
+  - Willard's Theorem 6 is a sketch at this granularity.
+  - The only genuinely open item is which of two steps fails for the 2001 system's closed faith step.
+- Revision 9: 29 pp., clean. Details are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).
+
+## 2026-10-26 — SJexM revision 10: streamlined to Oberhoff's register
+- **Request (user).** "This essay is littered with minutiae. The codification and refinement work ought to allow it to be streamlined, but regardless, this does not the elegance of Incompleteness Ex Machina."
+- **Rewrite.**
+  - The main text is now 13 pages and tells one story, for Willard's 2005 system, in Oberhoff's case-analysis format.
+  - Willard's consistency proof becomes a horizon case analysis plus the program Probe.
+  - Prop K becomes "Taking Off The Glasses": the faith step is the Gödel sentence in disguise.
+- **Moved.**
+  - Conventions and the proofs that depend on them → Appendix A.
+  - The 2001 system → Appendix B.
+  - The Theorem 6 repair → Appendix C.
+  - Pages and statuses → Appendix D, drawn from the codification registry.
+  - Inline status bookkeeping → a dagger.
+- **Unchanged.** Every result and proof of revision 9 is kept, and the status is the same.
+- **Corrected.** Lemma 4 proves Willard's (26), and (27) is its instance.
+- **Build.** 29 → 22 pp. (17,256 → 11,994 words), clean.
+- The label map is in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md). Review round 7 is next.
+
+## 2026-10-26 — SJexM round-7 review and revision 11
+- **Review.** Grok 4.7 compared revision 10 with revision 9: 12 findings (6 major, 6 minor), and no broken proof. Each finding is a hypothesis or qualifier lost in streamlining:
+  - PA+ had become "Peano arithmetic";
+  - the abstract no longer named the deduction method;
+  - Appendix B no longer derived (H3) for IS(A);
+  - the IS_D(PA+) bound had lost its hypothesis.
+- **Fixed.** All 12 are fixed. One sub-claim was rejected: page image p. 39 of 2001 shows Δ₀⁻, not Δ₀.
+- **Build.** Revision 11: 22 pp., clean. Dispositions are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md). A focused round-8 check is next.
+
+## 2026-10-26 — SJexM focused round-8 check and revision 12
+- **Check.** A focused Grok check of revision 11: 10 of 12 round-7 fixes confirmed, and the Δ₀⁻ rejection accepted.
+- **Fixed.** Three summary-level points: the abstract's two base-theory hypotheses, the Π₁ ring laws in the 2020 row, and Lemma 1's case count. The moral now points to Theorem K's exact statement.
+- **Status.** No unresolved finding. Revision 12: 22 pp., clean. Details are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).
+
+## 2026-10-27 — SJexM revision 13: a path to building the machine
+- **Request (user).** "The point of explaining Self-Justification in terms of Undecidability is to provide a path to building machines (and languages which program them) which possess computational analogues of self-justification. The exploration thus far does not seem to accomplish that."
+- **Added.**
+  - **§9.** It explains the result in terms of halting: the faith step is a bridge from C(C) into P(P)'s blind spot. It then gives four design rules, each tied to a theorem, the descent argument, and the instruction-set (Herbrand) reading of Prop G.
+  - **§10.** The Gate program. Prop L: IS_D(A) certifies coordination-free gates, and no consistent Hilbert-style extension of IΣ₁ can certify its own. Cor M: reflection = self-consistency × faith, and is unprovable at G. A signature table, and the accounting route (λᶜᵉʳᵗ).
+  - **Appendix A.** A Herbrand proof of Prop G.
+- **Build.** 26 pp., main text pp. 1–17, clean. Not yet reviewed. Details are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).
+
+## 2026-10-27 — SJexM revision 14: exact vocabulary
+- **Request (user).** The failing steps were unclear, and "C(C)", "bridge", "cost" (unit, payer, receiver, price-setter) and "gates" were fuzzy. Certified programs need an explicit no-induction caveat. "Certified but not necessarily true" is reflection.
+- **Changes.**
+  - §2 defines the bridge (Con ⊃ G) and tabulates the steps: IS_D(A) proves (1) and (3), not (2).
+  - §3 says what C(C) searches.
+  - §5 measures cost in bits of proof (a doubling costs more than five bits; nothing receives it; it is a lower bound).
+  - §9 makes the certified programs straight-line, with no induction; Parikh's theorem is added to Appendix A.
+  - §10 defines a gate and says "reflection".
+- **Build.** 27 pp., main text pp. 1–17, clean. Details are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).
+
+## 2026-10-27 — SJexM revision 15: the witness bound, proved
+- **Request (user).** Explain "a tableau proof p that some number ≥ v exists has a witness no bigger than p^{1/4}, so p ≥ v⁴." Follow-ups were answered in chat: the faith step versus universal functions, Herbrand extraction, induction through a new predicate, and reflection versus metatheoretic soundness.
+- **Found.** The hypothesis was too weak: the axioms must be true *universal* sentences, since a true existential axiom hands a proof a large number for free. Willard's exponent ¼ (2005, Thms 2 and 4) is his chosen constant; with true universal axioms, a single tableau's witness lies below p^{1/5}.
+- **Changes.**
+  - §5 states the hypothesis and gives the example «some y has Log(y) ≥ n» (p ≥ 2^{4n}).
+  - Appendix A proves the bound by the walk.
+  - §9 says why a new predicate cannot bring induction in; Appendix A extends Prop G's first proof to new predicates.
+- **Build.** 28 pp., main text pp. 1–18 (revision 14's main text also ended on p. 18, not p. 17), clean. Details are in the [analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.md).
+
+## 2026-10-27 — Chaitin's theorem, Chaitin→Gödel, and self-justification
+- **Question (user).** How can self-justification be characterized in Chaitin's terms, and where does the Chaitin→Gödel proof break? Sources: Zisselman (arXiv:2302.08619) and Calude, *Incompleteness and the Halting Problem*. Kritchman–Raz (arXiv:1011.4974) and Coquand's 2026 Agda formalization of KR (arXiv:2606.12462) were added. All four were read as text layers only.
+- **Finding.** Removing the fixed point does not remove the derivability conditions. KR's (1) and (2), Coquand's Gandy–Howard fuel term, and Zisselman's "Chaitin inside M_i" plus the arithmetized completeness theorem are all the "knowing that one watches" step.
+- **Chaitin terms.** A self-justifying system has external blindness, external sight and internal blindness. It lacks internal sight.
+- **Break.** Under trace-based K, the faith step costs w′ ↦ ~2^{4w′}: exponential, against the Gödel route's polynomial. Calude's Theorem 5 lists only external hypotheses, which Willard's IS_D(A) appears to meet.
+- **Open items.** (i)–(vi) are in the [note](docs/log/2026-10-27-chaitin-and-self-justification.md). Among them: a KR-style, self-reference-free proof of Willard 2005 Thm 6.
+
+## 2026-10-28 — The essence of self-justification, at Lawvere's generality
+- **Question (user).** State the essence of self-justification as generally as Lawvere's fixed point theorem.
+- **Articulation.** Self-justification is infinite descent with the trust axiom as the step. In a guarded configuration, where a proof cannot refute axioms that all hold below it, any refutation must expose T's failure below itself, which is a smaller refutation.
+- **Theorem and corollary.** True universal axioms + T + guard ⟹ consistent, with a three-line least-refutation proof that is the skeleton of Willard 2001 Thm 4.3 and 2005 Thm 1. Corollary: with a Σ₁-complete base, D2 ∧ D3 cannot hold internally, so the failures of the derivability conditions are forced.
+- **Lawvere.** Lawvere's theorem concerns names, which are free. G2 needs a second diagonal, on evidence (self-simulation). The guard blocks only the second.
+- **Arithmetic.** The guard is a bits exchange rate. Each claim coordinate (base, language, D, encoding; consistency level and proof predicate) is a place it can break.
+- **Status.** Theorem and corollary are mine, relative to the metatheory, and not machine-checked. The converse is open. Details are in the [note](docs/log/2026-10-28-essence-of-self-justification.md).
+
+## 2026-10-29 — Self-justification after the Löb paper: trust by well-founded recursion
+- **Input (user).** Gross, Gallagher and Fallenstein, "Löb's Theorem: A functional pearl of dependently typed quining" (nightly PDF, all 13 pp. read as page images), to inform the 2026-10-28 answer.
+- **Articulation.** Löb hands a term its own syntax and is safe under *local* explanations (paper §6). Trust runs syntax: it is the interpreter at ⊥, the type §7's `incompleteness = löb` empties. It is safe under *guarded* explanations, where ‘□’ at level n is syntax below n. The two theorems differ only in that reading of ‘□’. Together they give §2's loop.
+- **Theorem.** A guarded explanation + `con` ⟹ consistent, by strong induction on the level; the `con` clause is the induction hypothesis. Instances: the 2026-10-28 theorem (Willard), and λᶜᵉʳᵗ₀'s T1.
+- **Lean check.** [`docs/log/2026-10-29-guarded-trust.lean`](docs/log/2026-10-29-guarded-trust.lean) (Lean 4.32.1 core) is green.
+  - Soundness of a syntax with λ, D1, `con` and the Gödel sentence.
+  - Three negative checks fail where they should: no size bound; internal quotation of a variable; the paper's `Löb`.
+  - With D2 and D3 at a variable, §8's construction turns `con` into ⊥.
+- **Paper pin-down.** In §8, the λ in ‘□‘H’→□‘X’’ rebuilds the enclosing term from its quotation and hands it to ‘f’. Applying h to ⌜h⌝ is harmless (D1).
+- **Three exits.** Give up trust (Löb's languages), naming (F_ω, λ□), or self-simulation (Willard, λᶜᵉʳᵗ₀).
+- **Status.** The toy-level theorem and the type-theoretic corollary are checked. The arithmetic corollary and the identification of qualitative and quantitative guards are not. The converse is open. Details are in the [note](docs/log/2026-10-29-essence-of-self-justification-after-lob.md).
+
+## 2026-10-29 — Artemov's selector proofs and guarded trust
+- **Question (user).** How does the guarded-trust articulation compare to Artemov's selector proofs?
+- **Sources.** The following were checked against page images: Artemov 2019 (p. 8), Artemov 2024 (pp. 4, 15), and Gadsby 2025 (pp. 3–4, 6–7, 9). None of them engages Willard's systems technically.
+- **One line.** Artemov changes what consistency means (the scheme {¬x:⊥}) and keeps PA. Willard keeps ∀x ¬x:⊥ and weakens the system, so that each refutation consumes only finitely many members of the scheme, all below itself.
+- **Swap.** PA ⊢ CCon and PA ⊬ Con. IS_D(A) ⊢ Con, and, by my sketch, IS_D(A) ⊬ CCon: by Herbrand, its terms grow linearly, while numeral codes grow faster than x⁵. So the guard excludes every internal selector.
+- **Recursion.** Guarded soundness is a recursive selector proof. `soundAt` is the Lean instance, and `con` is the recursive call. The expected arithmetic form is a PA selector for Con(IS(PA)) via Willard 2001 Thm 4.3. Artemov's strata are by complexity (Tarski); Willard's are by value (T).
+- **Contentuality.** Instantiating Group 3 is a non-contentual selector by Artemov's criterion. The contentual part has to stay outside.
+- **Status.** The IS_D(A) ⊬ CCon sketch and the PA selector are unchecked. Details are in the [note](docs/log/2026-10-29-selector-proofs-and-guarded-trust.md).
+
+## 2026-10-29 — Nonstandard numbers, definable cuts, and relative horizons
+- **Question (user).** Evaluate a speculation: the nonstandard naturals are those outside every computable definable cut, G2 evasions all work as lower bounds, and standardness should be relativized to a theory's number-constructing power.
+- **Verdict.** The intuition is right: G2 lives in Con's quantifier's reach past what the theory can verify. Read literally, the definition makes nothing nonstandard, because the whole domain is a definable cut. Repaired as "outside some cut", it is sound but incomplete: in PA every definable cut is the whole model, and by compactness a nonstandard element can lie in every definable cut.
+- **Evasions.** A cut alone does not evade G2 (Pudlák 1985, Hilbert). A cut plus cut-free deduction does (Kreisel–Takeuti, Nelson, Pudlák), by the subformula property. Willard explicitly does not localize to a cut.
+- **Repair.** Call an element T-standard if it lies in every T-definable cut. My claim, from the cited theorems: for a finitely axiomatized sequential T ⊇ Q, no T-standard element codes a cut-free refutation, but some model has a T-standard Hilbert refutation. This makes the speculation's "well-behaved prefix" exact. Horizons move outward in models of stronger theories and inward under interpretation (Q interprets S¹₂ on a cut). The sequential frame does not reach Q, which is not sequential (Visser, Jeřábek). Willard's systems are incomparable with Q, not below it.
+- **Revision (adversarial review, same day).** Corrected the first version: the definition fails in one direction, not two; Q's ∞-model is well-ordered (ω+1); a cut does restrict Con's domain for cut-free deduction; only the successor denial disables cut shortening; the large-cardinal directions differ. All ten corrections are in the note's revision record.
+- **Follow-up (user).** Can decidability ground the standard/nonstandard distinction? Not for elements: standardness is the external halting of a countdown, so it is semi-decidable and the reduction is circular. For whole models, Tennenbaum characterizes ℕ by computability down to IE₁, but this fails for IOpen (Shepherdson) and Q. What G2 turns on is Σ₁-unsoundness (phantom halting), not nonstandardness. Button & Smith (2012) argue that no reduction to computability can ground the distinction. See note §8.
+- **Follow-up (user): phantom halting.** e phantom-halts in M if M ⊨ ∃t Run(e,t) but e diverges, so t is nonstandard. A phantom run is valid at every step, and no finite path joins its start and end, so local checks cannot see it. Gap(T) is nonempty by G1, and G2 says r_T ∈ Gap(T). G2 turns a phantom halt into a phantom refutation through D3, at a growth cost f(t). Willard denies f's totality, so beyond I_f phantom halts stay inert. See note §9.
+- **Status.** Standard facts plus registry-cited results. The §4 relatively-nonstandard argument and the §5 T-standard claim are mine and unchecked. Whether IS_D(A) interprets Q is open here. Details are in the [note](docs/log/2026-10-29-nonstandard-numbers-and-definable-cuts.md).
+
+## 2026-11-05 — The trust horizon: EA-stability for computational self-justification
+- **Question (user).** Why does Willard call E/A-stability interesting in itself, and what is its analogue for computational systems with an analogue of self-justification?
+- **Answer.** A certified program may use an unchecked contract. If holding a value costs its size, a certificate reaches only values smaller than itself, so it behaves as if the contract were true unless a counterexample lies in reach.
+- **Lean check.** [`docs/log/2026-11-05-trust-horizon.lean`](docs/log/2026-11-05-trust-horizon.lean) (Lean 4.32.1 core) is green. It adds a possibly false contract and `abort` to the guarded syntax of 2026-10-29.
+- **Ansatz check.** [`docs/log/2026-11-05-trust-horizon.clj`](docs/log/2026-11-05-trust-horizon.clj) ports it to Ansatz 0.2.115: 36 theorems, 5 refused negative checks. The core theorems reach no axiom there. Ansatz's `omega` reaches `Classical.choice` when its goal is not `False`, so the port avoids it on such goals; λᶜᵉʳᵗ₀'s development has not been audited for this.
+- **Result.** `blame`: with no hypothesis on the contract, every refutation runs to a real counterexample smaller than itself. Tightness and the A- and E-analogues are corollaries, the horizon is sharp to within 3, and taking the contract to be consistency recovers self-justification by descent.
+- **Correction.** My first statement had program and input share a budget, as an analogue of Willard's ½. The toy needs no split.
+- **Status.** Toy only, relative to the metatheory (Lean, Ansatz's kernel): one contract shape, a size guard, no tokens or data. That λᶜᵉʳᵗ₀ is stable on held certificates and not on `Nat` is still my expectation. Details are in the [note](docs/log/2026-11-05-trust-horizon.md).
+
+## 2026-11-07 — Can G2 be proved using Rice's Theorem?
+- **Question (user).** Can G2 be proved using Rice's Theorem?
+- **Answer.** Not with Rice as a black box. G1 follows for sound theories: a complete, sound theory would decide a nontrivial semantic property by proof search. For G2, the needed implication "T ⊢ Con(T) gives a decider" is false without the derivability conditions (Feferman's α*, Willard's IS_D(A)), and with them G2 already follows and Rice does no work. T proving Rice's theorem gives only "T is not both complete and honest", which T can afford. What works is running the diagonal argument inside T, which is Gödel's proof, and Oberhoff's Theorem 6, in program terms.
+- **Same finding as the Chaitin note.** [`docs/log/2026-10-27-chaitin-and-self-justification.md`](docs/log/2026-10-27-chaitin-and-self-justification.md): the cost is internal sight, however the proof is arranged.
+- **Follow-up (user, 11-08).** Would a proof that "e never halts" itself be a halting program? Yes: it is finite and checking it terminates, and that is why e, which searches for such a proof, would halt if one existed (G1). For G2 the theory must prove this for every run, nonstandard ones included, which is D3; Willard's systems lack the growth D3 needs. A paper argument, unchecked.
+- **Status.** A paper argument, unchecked. Feferman is cited from memory. One web search found no Rice-based proof of G2, which does not show there is none.
+
+## 2026-11-09 — Nonstandard models, names and denotations, and what G2 and Löb forbid
+- **Questions (user, 11-08 to 11-09).** Nonstandard models outside arithmetic; why PA cannot exclude nonstandard numbers; compactness; names against denotations; full against Henkin semantics; Herbrand semantics as the only intended model. Then the aim: what a self-reflective, self-modifying system can know and guarantee of itself, and what G2 and Löb's theorem mean computationally.
+- **Observation (user).** An axiom schema against a second-order quantifier is a difference in the resources needed to name and to use sets of formulas.
+- **Answer.** Right about proofs: every use of second-order induction goes through a named formula. The single model comes from full semantics, which no finite process checks. Nonstandard models live between the sets that can be named and all sets.
+- **Herbrand semantics.** PA's term model is ℕ. Admitting only it makes ∀ the ω-rule, and the consequences become true arithmetic, which no finitary proof system generates.
+- **Synthesis (mine).** One finite proof that all proofs in a class are sound needs a finite invariant. Two things defeat it: the invariant's size (truth predicates, Tarski) and value growth (cuts). G2 forbids paying once for all sizes, not paying per size. A machine holds only standard proofs, so what it needs is affordable; its own standardness is the one fact it takes from outside.
+- **Status.** The model theory is textbook material stated from memory. The synthesis is unchecked; Pudlák 1986 and Kreisel–Lévy were recalled, not read; the bounded-Löb claim was corrected on 11-11. Details are in the [note](docs/log/2026-11-09-nonstandard-models-names-and-what-g2-forbids.md) and the verbatim [transcript](docs/log/2026-11-09-nonstandard-models-names-and-what-g2-forbids-transcript.md).
+
+## 2026-11-12 — Artemov, Willard, selector proofs and λᶜᵉʳᵗ₀ as facilitators of self-improvement
+- **Questions (user, 11-11 to 11-12).** Who showed Artemov's selector proofs converge to earlier results; what a schema loses against a uniform consistency sentence for programs; whether selector proofs can be made executable; the deep difference between Willard and Artemov and where λᶜᵉʳᵗ fits; whether λᶜᵉʳᵗ serves a self-improving agent, and what would serve it better.
+- **Commentary.** Gadsby 2025, Prop. 4.1: T selector-proves Con(W) iff T ⊢ Con(T) → Con(W). The ceiling binds contentual selectors too. For W = T the notion is empty: PA + ¬Con(PA) selector-proves its own consistency (my derivation), so Artemov's informal contentual requirement carries the claim.
+- **Schema against sentence.** The schema lacks one step of reflection at a variable, so trust cannot be used about proofs not yet held. The theory's own consistency is held from outside: falsifiable, never verified. Consistency covers safety claims, not termination.
+- **Willard against Artemov.** PA can operate on its proofs and certify a faster checker, with consistency held outside. Willard-type systems hold consistency as a sentence and cannot operate on their proofs. λᶜᵉʳᵗ₀ has the first on free codes and the second on held certificates. Certified checker changes add speed, never strength; strength is always a new assumption.
+- **λᶜᵉʳᵗ₀ evaluated.** It meets its design objective and gives a self-improving agent little: trust descends on size, so a lineage's holdings shrink (Yudkowsky–Herreshoff's "telomere"). Proposal: guard self-replacement by time (`become : □A → ▷A`, Fallenstein's T_κ as a typing rule), keep paid certificates within a step, make `chk′` transparent, and hold bets as contracts with blame.
+- **Backtracks.** The user sent one answer back and rejected another as couched; both were rewritten. A forced pairing of forms to steps was withdrawn. The note lists them.
+- **Status.** Sources read are listed in the note. The derivations and the whole proposal are mine and not machine-checked; the Lean toy for the time guard was not run. Details are in the [note](docs/log/2026-11-12-artemov-willard-selectors-and-lambda-cert.md) and the verbatim [transcript](docs/log/2026-11-12-artemov-willard-selectors-and-lambda-cert-transcript.md).
