@@ -176,6 +176,29 @@ transcript.
   - Pudlák's bounds are as recalled. The limit on a certified speed-up is his 2020
     Theorem 4.1 plus my transfer to checkers.
 
+## 7. Building TSLC, and its self-justification (2026-11-13)
+
+The user asked what prevents implementing the time-and-space calculus (TSLC), given
+Fallenstein and Kumar's proof; whether TSLC has H₀ and H₁; and noted that assuming
+t+1 inaccessible cardinals is non-constructive. Full reply in the transcript.
+
+- **What Fallenstein and Kumar proved.** The HOL counterpart of T_κ, in HOL4, with
+  t nested inaccessibles in κ's place; not T_κ, and nothing about TSLC.
+- **Self-replacement under one checker needs no time guard.** Agent type by the
+  diagonal on codes; the runner runs the accepted code next. Lineage theorem by
+  induction on rounds over Lemma 3.6, T4 and Lemmas 2.6–2.8.
+- **The time guard.** Needed only to use, inside proofs, what successors will do.
+  Consistency, T2 and P5 carry over by reading "later X" as the one-element type
+  (Yudkowsky–Herreshoff's base case κ = 0). The new theorem needs a model counting
+  rounds left, by induction on rounds, then budget.
+- **H₀ and H₁.** Kept unchanged, about the logic every round runs. The runner must
+  count handed-over certificates in a round's budget.
+- **`become` on codes.** Gives only "falsehood next round" forms, true under the
+  one-element reading: T_κ's κ > 0 → Con(T_κ), not self-justification.
+- **Large cardinals.** Fallenstein and Kumar need them to verify HOL inside HOL. TSLC
+  adds no assumption to its metatheory.
+- **Status.** All of the above beyond the cited statements is mine and unchecked.
+
 ## Backtracks
 
 - 11-11 20:16: the caveat was first stated as limiting Gadsby's collapse. It limits

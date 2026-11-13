@@ -711,3 +711,81 @@ The token is not destroyed. It stays in the node it built. Taking the tree apart
 "Holding" is in contrast with having code. The same tree written in the type `Syn` takes no tokens and can be copied freely. `H` and `reflect` accept only the `R` version.
 
 **What the two add up to.** At every moment of a run, the certificates a program has contain in total no more internal nodes than the tokens it was given. The consistency proof rests on that count. For example, the certificate of `not`'s derivation has 35 internal nodes, so a run needs 35 tokens to build it and is rejected with 34.
+
+### 2026-11-13 06:22 UTC — User
+
+If Fallenstein and Kumar have already proven the correctness of the Tk axiom, what prevents us from implementing this time-space-lambda-cert? And, be very careful, does TSLC in fact have an analogue of self-justification? Namely, does it have an H1, as well as H0? Also, assuming t+1 inaccessible cardinals seems highly non-constructive.
+
+### 2026-11-13 06:22 UTC — Claude
+
+Nothing known prevents it, and the self-replacing part can be built on results already proved. TSLC has both H₀ (the project's `H`) and H₁: they are λᶜᵉʳᵗ₀'s two constants, now about TSLC's own derivations, and the time guard adds no self-justification of its own. TSLC needs no large cardinals: Fallenstein and Kumar need them because they verify HOL inside HOL, not because of the time guard.
+
+## What Fallenstein and Kumar proved
+
+They proved in HOL4: for every system v, if HOL proves `∀t. LCA t ⇒ Safe t v`, then `∀t. LCA (t+1) ⇒ Safe t v`.
+- `Safe t v` reads "v and the updates it permits behave safely for t updates".
+- `LCA t` says that t nested strongly inaccessible cardinals exist.
+
+That is the HOL counterpart of T_κ, with the number of inaccessibles in κ's place. They leave the self-replacing system itself to future work. T_κ's own soundness is Yudkowsky and Herreshoff's paper proof (§4.2).
+
+Neither result is about a language with tokens, certificates and a checker of its own derivations, so neither proves anything about TSLC. What they supply is the shape of the proof.
+
+## What building it takes
+
+**Self-replacement under one checker needs no time guard.**
+- *The agent type:* functions from an input to an output paired with a code that the checker accepts at this same type. λᶜᵉʳᵗ₀ has no recursive types, but this one can be defined by the usual diagonal on codes (substituting a code into itself).
+- *The runner:* runs the program, then runs the accepted code as the next round, with as many fresh tokens as its derivation declares.
+- *The theorem:* for every k, the first k rounds' outputs have the output type. It is an induction on k over three proved results:
+  - λᶜᵉʳᵗ₀'s soundness lemma (Lemma 3.6) puts each round's value in its type;
+  - adequacy (T4) says the evaluator computes that value;
+  - decoding (Lemmas 2.6–2.8) says an accepted code is the code of a derivation, so the next round's program is again an agent.
+- *What may change:* the successor may differ from its parent in anything the type allows, including how it chooses its own successor. Only the checker and the agent type stay fixed.
+
+**The time guard is needed only for an agent to use, inside its own proofs, what its successors will do.** It adds four things.
+1. *Rules.*
+   - A type "later X" (▷X), and `next : X ⊸ ▷X`.
+   - Applying a later function to a later argument.
+   - Guarded recursion `fix : (▷X → X) → X`, whose function holds no tokens.
+   - The hand-over rule `become`, from a code the checker accepts at X to ▷X.
+   - The checker gets cases for these, keeping the property that a certificate has more nodes than the tokens its derivation declares.
+2. *Consistency, self-justification, and G2 for codes (P5).* These carry over from λᶜᵉʳᵗ₀ by reading "later X" as the type with one element. Every new rule then holds trivially: `become` and `next` return the one element, and `fix f` is `f` applied to it.
+   - This is Yudkowsky and Herreshoff's base case: "if κ=0 then the antecedent of every extra axiom is false and so the extra axiom schema is trivially true."
+   - The syntactic lemmas the proofs use must be redone for the new rules.
+3. *Termination.* Evaluation never unfolds `fix` within a round; the next round does. T4 must be redone.
+4. *One new theorem.* For every k, in the first k rounds, a value of type ▷X that a round hands over is a value of X in the next round.
+   - Its model counts the rounds left: ▷X with r rounds left means X with r − 1 left.
+   - The induction is on rounds left, then on budget. The hand-over case uses the round before, at whatever budget the successor declares. The H, H₁ and `reflect` cases use the same round at a smaller budget, as in λᶜᵉʳᵗ₀.
+   - This is the T_κ induction placed over λᶜᵉʳᵗ₀'s budget induction.
+
+Then an ADR, the interpreter in `code/lcert`, and the Ansatz proofs. A lineage that changes its checker is a further step that neither part needs. The induction for one checker, and items 2 and 4, are mine and unchecked.
+
+## H₀ and H₁ in TSLC
+
+TSLC keeps `H` and `H₁` with their types unchanged. The checker now checks TSLC derivations, so they say:
+- no certificate a round holds is a TSLC refutation;
+- no two certificates a round holds prove a type and its negation.
+
+Every round runs the same logic, so these are statements about the logic of every successor too; Yudkowsky and Herreshoff's phrase for a T_κ lineage is "syntactically identical theories". They cover the proofs held in the current round.
+
+Their soundness is λᶜᵉʳᵗ₀'s Lemma 3.6 unchanged. In the H₁ case, the two certificates are decoded, and the proof of the negation is applied to the proof of the type. The result is a refutation whose budget m₁ + m₂ is below the round's budget n, and the induction hypothesis at that smaller budget rules it out. The decoded derivations may use the new rules, which the one-element reading covers. With consistency, both clauses of Willard's definition hold for TSLC as for λᶜᵉʳᵗ₀: the system proves a statement of its own consistency, and it is consistent. This is unchecked.
+
+This needs one constraint on the runner: a round's budget counts every certificate the round holds, including any handed over from the round before. The descent in the H₁ and `reflect` cases rests on a round holding no more certificate nodes than its budget.
+
+## What the hand-over rule says about codes
+
+- At type 0, `become` says: a code refutation of TSLC gives falsehood next round.
+- For a type A and its negation, code proofs of both give falsehood next round. This follows type by type; a version over all codes at once would have to be added as its own constant.
+
+Neither is self-justification. Under the one-element reading, every statement whose conclusion is "later X" holds, whatever TSLC proves. A constant of type ▷A for every type A could be added and TSLC would stay consistent; only the theorem of item 4 would fail.
+
+These statements are T_κ's κ > 0 → Con(T_κ), its axiom at φ = ⊥: consistency for as long as the clock runs. T_κ cannot prove κ > 0 (Yudkowsky and Herreshoff, note 25). The content of `become` lies only in the theorem of item 4, about what successors do.
+
+## The large cardinals
+
+Fallenstein and Kumar give the reason themselves: by G2, "there must always be a stronger assumption in outer HOL than in inner HOL". They prove the reflection theorem inside HOL itself, about proofs in HOL. So each round of reflection costs one more inaccessible, and all rounds together are covered by assuming a Mahlo cardinal. That is a strong existence assumption, which ZFC cannot prove.
+
+TSLC's justification lives in its metatheory, Lean's type theory as Ansatz implements it, which is already far stronger than TSLC, as it is for λᶜᵉʳᵗ₀. The rounds are a natural-number index in one model, so TSLC adds no assumption to that metatheory. In T_κ itself the corresponding assumption is κ > 0, a statement about a natural number. The price is the one λᶜᵉʳᵗ₀ already pays: the guarantee holds relative to the metatheory, outside the agent.
+
+## Recommendation
+
+Build the one-checker part first: an ADR, the agent type and runner, and the lineage theorem. It rests on proved results and gives a working self-replacing agent. The cheapest check of the time guard is a Lean toy: the guarded-trust toy of 2026-10-29 with a round index, `become` on unbounded codes, `con` and its pair form on size-bounded ones, and a negative check that `become` without the delay is inconsistent.
