@@ -684,3 +684,30 @@ My sentence was about how the theorem is proved. For λᶜᵉʳᵗ₀ the proof 
 - **Not read.** Ignjatović 1994 and Kreisel–Lévy 1968 are behind publishers' logins, and I found no free copy. Of Krajíček–Pudlák 1989 I read only the introduction; the statement I used is Theorem 4.1 above.
 
 (The reply closed with a report on the logs: the 2026-11-09 thread logged, and `LOG.md` and `docs/log` tracked, committed and pushed.)
+
+### 2026-11-13 00:27 UTC — User
+
+"Paid tokens to hold" - paid to whom? Held where? Clarify what these mean.
+
+### 2026-11-13 00:27 UTC — Claude
+
+Paid to no one, and held in the running program's own memory. Both words are figures of speech for a typing rule.
+
+**What a token is.** A token is a value of the type `◇`. The language has no way to make one, so a program has exactly the tokens the runner passes it at the start, as the variables `$1 … $n`.
+
+**What "paying" is.** A certificate is a tree. `node`, the constructor for an internal node, takes a token as its first argument, and the type checker lets each token variable be used at most once. So "paying a token" means writing it as the argument of one `node`. Nothing receives it. The program has one unused token fewer and one node more. Leaves take no token.
+
+```clojure
+(lc/run 2 '(print (node $1 :a (leaf :b) (node $2 :c (leaf :b) (leaf :b)))))
+;; two tokens, two internal nodes: accepted
+(lc/run 1 '(node $1 :a (leaf :b) (node $1 :c (leaf :b) (leaf :b))))
+;; => :type-error   ($1 is used twice)
+```
+
+The token is not destroyed. It stays in the node it built. Taking the tree apart with `itr` hands each node's token back, to build one new node. `print`, which turns the certificate into code, discards them. Hofmann, whose type `◇` is, reads a token as memory; the design records this in §8.2.
+
+**What "holding" is.** A program holds a certificate when a tree of type `R`, built this way during this run, is a value it still has: bound to a variable or passed as an argument. It is kept nowhere else. It can be in only one place at a time, because the type checker rejects a program that uses a certificate variable twice.
+
+"Holding" is in contrast with having code. The same tree written in the type `Syn` takes no tokens and can be copied freely. `H` and `reflect` accept only the `R` version.
+
+**What the two add up to.** At every moment of a run, the certificates a program has contain in total no more internal nodes than the tokens it was given. The consistency proof rests on that count. For example, the certificate of `not`'s derivation has 35 internal nodes, so a run needs 35 tokens to build it and is rejected with 34.

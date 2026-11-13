@@ -162,6 +162,11 @@ transcript.
   the supplement); Pudlák 1986 (§1, Theorems 3.1 and 5.5); Pudlák 2020 (§4);
   Yudkowsky–Herreshoff §4.2 again. Not obtained: Ignjatović 1994, Kreisel–Lévy 1968.
   Krajíček–Pudlák 1989: introduction only. The Milawa papers: not read.
+- **Paid and held (follow-up, 2026-11-13 UTC).** "Paying" a token is writing it as the
+  argument of one `node`; nothing receives it, and it stays in the node. "Holding" a
+  certificate is having a tree of type `R`, built in this run, as a value the
+  program still has. The count that results: a program's certificates never contain
+  more internal nodes than the tokens it was given.
 - **What the reading changed.**
   - The guard in both tiling papers counts updates, not clock time.
   - Fallenstein and Kumar prove the reflection theorems in HOL4 and leave the
