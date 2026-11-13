@@ -789,3 +789,81 @@ TSLC's justification lives in its metatheory, Lean's type theory as Ansatz imple
 ## Recommendation
 
 Build the one-checker part first: an ADR, the agent type and runner, and the lineage theorem. It rests on proved results and gives a working self-replacing agent. The cheapest check of the time guard is a Lean toy: the guarded-trust toy of 2026-10-29 with a round index, `become` on unbounded codes, `con` and its pair form on size-bounded ones, and a negative check that `become` without the delay is inconsistent.
+
+### 2026-11-13 10:38 UTC — User
+
+Let's plan out the entire build. Also, it is not clear that TSLC does what we want it to, and supply self-improving agents with self-justification for safe self-modification. Walk through the reasoning for TSLC is the detail necessary to verify its result, but also demonstrate their validity.
+
+### 2026-11-13 10:38 UTC — User
+
+Also, use Ansatz and Clojure, not Lean.
+
+### 2026-11-13 10:38 UTC — Claude
+
+TSLC does not give an agent an internal, unconditional proof that adopting a successor found as code is safe. No consistent language in which code is free can give one: trust in code without the delay derives ⊥ by Löb's argument. TSLC does give safe self-modification, the agent's own consistency (H₀ and H₁), and unconditional trust in successors the agent holds as certificates. Each of these is now kernel-checked in Ansatz on a toy calculus with both guards. The build plan is ADR-0009, proposed.
+
+## What an agent gets
+
+| What the agent needs | In TSLC | Checked in the toy |
+| --- | --- | --- |
+| Every action in every round is safe, whatever successors it adopts | yes: a theorem about the language, proved outside it | `sLineageSafe` |
+| It decides each adoption with its own checker | yes: the successor's code must check at the agent type | the agent type |
+| Trust, inside, in a successor it holds | yes, unconditional, up to its budget | `reflA`, `sAdoptHeldRun` |
+| Trust, inside, in a successor given as code of any size | from the next round on only | `sBecomeSpec`, `sLaterBotSucc` |
+| Its own consistency, H₀ and H₁ | yes, unchanged, now about the logic every round runs | `sSelfJustifying` |
+| Unconditional trust in code it has found | impossible | `sNoSoundReading` |
+
+So self-justification reaches self-modification only through what the agent holds. The safety of the whole lineage is a theorem about the language, which the agent's checker applies and the agent does not prove.
+
+## The reasoning
+
+**The toy.** It has two kinds of evidence, the time guard, and agents:
+- *Held certificates* (`held A`) are closed terms of A smaller than the budget, as in λᶜᵉʳᵗ₀.
+- *Codes* (`code A`) are closed terms of A of any size. They are free, and the toy can quote them and apply them to each other at a variable (D2 and D3).
+- *The time guard:* `later A` is A next round, and `become : code A → later A` hands a code over to the next round.
+- *Agents:* an agent is handed its own code. It emits a safe action and the code of its successor.
+
+Each type is read as a set at r rounds left and budget n. For example:
+- `later A` with no rounds left has a single element;
+- with s + 1 rounds left, it is a budget m together with an element of A read at (s, m);
+- `⊥` is the empty set.
+
+**Soundness.** Every term of size at most n has a reading at (r, n). The proof is by induction on rounds, then budget, then the term. The cases that use the induction hypothesis are these.
+- **H₀** (`con`). A held refutation is smaller than n, so the hypothesis at its own size puts its reading in the empty set. The case never arises.
+- **H₁** (`con1`). Both held certificates fit at budget n − 1. Read both there and apply one to the other: the result is in the empty set.
+- **`become` on a code of any size.** With s + 1 rounds left, the result is the code's own reading with s rounds left. The hypothesis for fewer rounds covers every budget.
+- **`reflA`, a held agent.** It is read at its own size. An agent's set does not depend on the budget.
+
+H₀, H₁ and `reflA` look back in budget within a round, and `become` looks back in rounds at any budget. Ordering rounds first and budget second serves both; the other order fails at `become`.
+
+**The theorems that follow.**
+- *Consistency:* no closed term of ⊥.
+- *Self-justification:* H₀ and H₁ are closed terms, and the calculus is consistent. Those are Willard's two clauses.
+- *What `become` means:* with a round left, a handed-over code is its own reading one round later. The kernel checks this by computation.
+- *The time guard is conditional:* "falsehood next round" is empty while rounds are left, and has an element when none are. So the time-guarded H₀ and H₁ hold no matter what, and assert no consistency. This is T_κ's κ > 0 → Con(T_κ).
+- *Lineage safety:* each round runs a closed agent at its own size as budget, and its reading gives a safe action and a closed successor. The kernel runs an agent that acts 0, then hands over to a different agent that acts 2.
+- *The limit:* adding `code ⊥ → ⊥`, trust in code at ⊥ without the delay, derives ⊥. Take G ≅ (code G → ⊥), build h by `fold` from D2 and D3, and apply `unfold h` to the code of h.
+
+No theorem uses an axiom. The kernel refuses three statements:
+- that a code's size bounds what it holds;
+- that falsehood next round is refuted with no rounds left;
+- that H for the next round can be read the way H₀ is.
+
+## What the real build must still prove
+
+The toy leaves out five things, each now a phase or an item of ADR-0009:
+- **Tokens.** λᶜᵉʳᵗ₀'s H₁ needs its two certificates to share one budget. That is already kernel-checked as T2.
+- **The checker.** `become`'s premise is `chk′(c, ⌜A⌝) = tt`.
+- **Further rules:** `next`, application under `later`, and guarded recursion. These need functions that keep working as rounds run down.
+- **Agents with inputs.** `reflect` at function types is open.
+- **A runner constraint.** The runner must count handed-over certificates in a round's budget.
+
+## The plan (ADR-0009, proposed)
+
+- **Phase A: agents and lineages.** An `Agent(I, O)` type by name, its cases in Lemma 3.6 and Theorem 4′, and the lineage theorem in Ansatz. Also a runner, `lc/run-agent`, that checks each successor with the extracted `Check`. It waits for x8's extracted `Check`; until then, the current checker serves as its test oracle.
+- **Phase B: held adoption.** `reflect` at `Agent(I, O)` for base I and O; this is the conjecture to prove or refute.
+- **Phase C: the time guard.** Rules and checker cases. Then consistency via the one-element reading, the meaning theorem via the reading by rounds, and termination again.
+- **Phase D: experiments.** The same candidate successors run through four agents: adoption by type, held adoption, reasoning under `later`, and an H₁ gate. This measures what each mechanism buys.
+- **Later ADRs:** a checker the calculus can reason about, and bets with blame.
+
+Your decisions: whether to accept the plan; whether the agent type is by name (my recommendation) or by the diagonal on codes; and whether Phase A starts now on its own worktree or after x8 or p2.

@@ -199,6 +199,22 @@ t+1 inaccessible cardinals is non-constructive. Full reply in the transcript.
   adds no assumption to its metatheory.
 - **Status.** All of the above beyond the cited statements is mine and unchecked.
 
+## 8. What TSLC gives an agent, checked; the build plan (2026-11-13)
+
+The user asked for a plan of the whole build, doubted that TSLC gives self-improving
+agents self-justification for safe self-modification, and asked for the reasoning in
+verifiable detail, demonstrated in Ansatz and Clojure. The reasoning and its checks
+are in the [walkthrough](2026-11-13-tslc-walkthrough.md), the toy is
+[`2026-11-13-tslc-toy.clj`](2026-11-13-tslc-toy.clj), and the plan is
+[ADR-0009](../../nachlass/refinement/ADR-0009-tslc.md), proposed.
+
+- **Verdict.** No consistent language with free code gives unconditional internal
+  trust in found code (Löb). TSLC gives lineage safety (outside the agent), H₀ and
+  H₁, unconditional trust in held successors, and trust in code from the next round on.
+- **Checked in Ansatz, toy level:** consistency, self-justification, the meaning of
+  `become`, the conditional time guard, lineage safety, held adoption, the Löb limit,
+  three refusals; no axioms.
+
 ## Backtracks
 
 - 11-11 20:16: the caveat was first stated as limiting Gadsby's collapse. It limits
