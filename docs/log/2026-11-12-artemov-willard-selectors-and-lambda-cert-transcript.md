@@ -867,3 +867,60 @@ The toy leaves out five things, each now a phase or an item of ADR-0009:
 - **Later ADRs:** a checker the calculus can reason about, and bets with blame.
 
 Your decisions: whether to accept the plan; whether the agent type is by name (my recommendation) or by the diagonal on codes; and whether Phase A starts now on its own worktree or after x8 or p2.
+
+### 2026-11-13 11:08 UTC — User
+
+Assess the "five things" and see whether they cannot actually be accomplished sooner, in fewer fell swoops.
+
+### 2026-11-13 11:08 UTC — Claude
+
+Yes. Three of the five need no work, and the other two are optional. The part that gives agents safe self-modification needs no change to λᶜᵉʳᵗ₀ at all. A probe in the current implementation shows this: a self-replacing agent type type-checks, checks its own successors, and runs a lineage.
+
+## The five items
+
+1. **Tokens: nothing to do.** H₁'s shared budget is already kernel-checked (T2), and nothing below changes the calculus.
+2. **The checker: nothing to do.** The agent type needs no new rule:
+
+   `Agent = Π(d :ω Syn). Π(self :ω Syn). Π(i :ω I). O × Σ(c :ω Syn). Σ(b :ω Bool). T(if b (chk c d) tt)`
+
+   - The agent checks its candidate successor with `chk` itself, at run time, when the codes are closed and `chk` computes. The evidence comes from case analysis on the verdict.
+   - The runner ties the knot by passing `d = ⌜Agent⌝` and the agent's own code, so the type never mentions itself.
+3. **`next`, application under `later`, and guarded recursion: not needed.** They serve static reasoning, inside the language, about the unbounded future. Safe self-modification does not need that:
+   - the type carries each round's guarantee;
+   - a goal that spans rounds becomes an invariant on state passed to the successor;
+   - the lineage theorem covers every round.
+
+   A code paired with its check is already a run-time "later". Defer these rules; the toy keeps the theoretical result.
+4. **Agents with inputs: optional.** Self-improvement by trial needs no held adoption. Every candidate that checks at the agent type is safe to run, so the agent can try it for a round, measure it, and hand back. For certified use within a round, `reflect` at base types already works per input. Extending `reflect` to first-order types would only save that per-input certificate.
+5. **The runner's count: nothing to prove.** Hand codes across rounds, never certificates; a successor pays for what it holds.
+
+## What remains: one step
+
+- the agent type, as a library definition;
+- the runner, `lc/run-agent`;
+- the lineage theorem in Ansatz, an induction over results already proved:
+  - Lemma 3.6 at `Check`;
+  - CheckSpec's decoding;
+  - Theorem 4′'s agreement at base types, since the output, the successor code and the verdict are all base data;
+- tests, then experiments.
+
+## The probe
+
+`docs/log/2026-11-13-agent-probe.clj` runs in 13 s.
+- Two agents type-check, `stay2` and `adopt`, with derivations of 1,819 and 1,751 nodes.
+- `adopt`, offered `stay2`'s code: output 0, its own verdict true, and the runner's re-check true.
+- `adopt`, offered junk or the code of `Nat`: its verdict false, and the runner's re-check false.
+- A lineage in which the runner decodes each accepted code and runs that term gives outputs 0, 2, 2, 2. Offered junk, it outputs 0 and stops.
+
+The probe also found a constraint. When a candidate's code is written into program text as a literal, the program's derivation records it again at every node, and certifying such a program ran out of a 1.5 GB heap. Candidates must travel as data, as input or state, which is how found code arrives anyway.
+
+## Revised plan
+
+ADR-0009 now has:
+- **Phase A:** the agent layer above.
+- **Phase D, after A:** experiments on self-improvement by trial, and on held commitments with H₁.
+- **Phases B and C, optional:** B extends `reflect` to first-order types, and C is the static time guard. Each is taken up only if D shows a need.
+
+Phase A can start now; it touches nothing that p2, s3 or x8 work on.
+
+Your decisions: whether to accept the revised plan, and whether to start Phase A now or later.

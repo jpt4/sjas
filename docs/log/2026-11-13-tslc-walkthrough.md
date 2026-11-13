@@ -214,3 +214,39 @@ This remark is mine and is not checked.
   - Kripke-style `next`, application under `later` and guarded recursion;
   - `reflect` at first-order types with inputs;
   - the remark on the delay.
+
+## The five items, reassessed (later on 2026-11-13)
+
+The user asked whether the five items above could be done sooner, in fewer steps.
+None needs a change to λᶜᵉʳᵗ₀ for safe self-modification. The probe
+[`2026-11-13-agent-probe.clj`](2026-11-13-agent-probe.clj) runs the agent layer in
+the current implementation.
+
+1. **Tokens.** H₁'s shared budget is already kernel-checked (T2).
+2. **The checker.** The agent type
+   `Π(d :ω Syn). Π(self :ω Syn). Π(i :ω I). O × Σ(c :ω Syn). Σ(b :ω Bool). T(if b (chk c d) tt)`
+   uses existing rules only. The agent checks its candidate with `chk` at run
+   time, and the runner ties the knot by passing ⌜Agent⌝ and the agent's own code.
+3. **`next`, application under `later`, guarded recursion.** These are needed only
+   for static reasoning about the unbounded future. A goal that spans rounds
+   becomes an invariant on passed state, and the lineage theorem covers all
+   rounds. Deferred.
+4. **Inputs.** Trial adoption needs no held adoption, since any candidate that
+   checks at the agent type is safe to run. `reflect` at base types already
+   serves certified use per input; extending it is an optimization.
+5. **The runner's count.** Hand codes across rounds, never certificates.
+
+**The probe's results.**
+- The agents type-check, with derivations of 1,819 and 1,751 nodes.
+- The agent's own verdict and the runner's re-check agree on a real successor, on
+  junk, and on a type code.
+- A decode-and-run lineage gives the outputs 0, 2, 2, 2, and stops on junk.
+- It took 13 s at 174 MB.
+
+**The constraint found.** A code literal in program text is recorded again at
+every node of the derivation, and certifying such a program exhausted a 1.5 GB
+heap. Candidates travel as data.
+
+**Consequence.** ADR-0009's Phase A is the whole agent layer. Its lineage theorem
+is an induction over Lemma 3.6, CheckSpec and Theorem 4′. Phases B and C are
+optional.
