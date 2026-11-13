@@ -130,6 +130,47 @@ it.
   hold outright across changes of proof search, and a size bound on the damage of a
   false bet.
 
+## 6. Follow-up: plain terms, ticks and tokens, bets, G2 for codes (2026-11-12 23:42 UTC)
+
+The user found §5's proposal full of unexplained terms, asked how supplying ticks
+differs from supplying tokens, asked whether G2 for codes is wanted, and required
+that every paper known only from its abstract be read. The full reply is in the
+transcript.
+
+- **Plain terms.** An agent runs in rounds and names the program for the next
+  round. The hand-over rule (`become`) says "the next round runs this code" for any
+  accepted code, at no cost in tokens; its result (type ▷) cannot be used in the
+  current round. Tokens are renewed each round. The language is given the checker's
+  defining equations. Unproved assumptions are named.
+- **When the hand-over rule is needed.** With a fixed checker no new rule is needed:
+  the program outputs a replacement whose derivation it tested as code, the runner
+  runs it, and that every round is well typed is proved once, outside. The rule is
+  needed when the language itself is to derive that its successors are agents, and
+  when a replacement brings a different checker accepted on a proof of its soundness
+  (Fallenstein–Kumar §8).
+- **Ticks and tokens.** A token is held and spent by the program, and the runner
+  fixes the number. A tick is one hand-over; nothing supplies it, and its count
+  appears only in the soundness induction. The outside supplies as much as before.
+  What changes is that the program, not the runner, names the successor.
+- **Bet.** An assumption acted on without proof because none is available, such as
+  the consistency of one's own checker or of a stronger one.
+- **G2 for codes.** It is Proposition 5 (`R4-metatheory.md` §6). It is wanted as a
+  theorem: it gives `H°` its meaning, and it is the test each new rule must pass. A
+  direct proof by Löb's argument is expected for a language that can reason about
+  its own checker. It would not change λᶜᵉʳᵗ₀'s Proposition 5 or phase 2.
+- **Read for this reply.** Fallenstein–Kumar 2015 (all); Spies et al. 2022 (all, not
+  the supplement); Pudlák 1986 (§1, Theorems 3.1 and 5.5); Pudlák 2020 (§4);
+  Yudkowsky–Herreshoff §4.2 again. Not obtained: Ignjatović 1994, Kreisel–Lévy 1968.
+  Krajíček–Pudlák 1989: introduction only. The Milawa papers: not read.
+- **What the reading changed.**
+  - The guard in both tiling papers counts updates, not clock time.
+  - Fallenstein and Kumar prove the reflection theorems in HOL4 and leave the
+    self-replacing system as future work.
+  - Later credits are earned one per program step; a rule granting more is unsound
+    in the standard model (§6.2).
+  - Pudlák's bounds are as recalled. The limit on a certified speed-up is his 2020
+    Theorem 4.1 plus my transfer to checkers.
+
 ## Backtracks
 
 - 11-11 20:16: the caveat was first stated as limiting Gadsby's collapse. It limits
@@ -154,7 +195,7 @@ it.
   total; everything in §5's proposal (reading `become` as T_κ's axiom, consistency of
   the combined calculus, erased derivations, a transparent `chk′` keeping T1, G2
   inside the calculus, the horizon carrying to tokens).
-- **Search results only.** Fallenstein–Kumar 2015; Spies et al., "Later Credits"
+- **Search results only, as of §5 (read since; see §6).** Fallenstein–Kumar 2015; Spies et al., "Later Credits"
   (2022); Krajíček–Pudlák as stated by Joosten.
 - **Checks not run.** A Lean toy with a time index, `become` on an unbounded box and
   `con` on the size-bounded box; the adopt-only-if-proved comparison of a PA kernel
@@ -169,3 +210,11 @@ it.
 - Critch, arXiv:1602.04184. Joosten, arXiv:2004.05431. Pudlák, arXiv:2007.14835.
 - Yudkowsky and Herreshoff, "Tiling Agents for Self-Modifying AI, and the Löbian
   Obstacle", 2013 draft, https://intelligence.org/files/TilingAgentsDraft.pdf.
+- Fallenstein and Kumar, "Proof-producing reflection for HOL, with an application to
+  model polymorphism", ITP 2015, https://intelligence.org/files/ProofProducingReflection.pdf.
+- Spies et al., "Later Credits: Resourceful Reasoning for the Later Modality", ICFP
+  2022, https://plv.mpi-sws.org/later-credits/paper-later-credits.pdf.
+- Pudlák, "On the length of proofs of finitistic consistency statements in first
+  order theories", Logic Colloquium '84 (1986), https://users.math.cas.cz/~pudlak/fin-con.pdf.
+- Krajíček and Pudlák, "Propositional proof systems, the consistency of first order
+  theories and the complexity of computations", JSL 54(3), 1989.

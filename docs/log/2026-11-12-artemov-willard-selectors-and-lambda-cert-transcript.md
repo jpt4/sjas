@@ -595,3 +595,92 @@ Sources:
 - [Fallenstein and Kumar, "Proof-producing reflection for HOL" (ITP 2015), MIRI summary](https://intelligence.org/2015/12/04/new-paper-proof-producing-reflection-for-hol/)
 - [Spies et al., "Later Credits: Resourceful Reasoning for the Later Modality" (ICFP 2022)](https://plv.mpi-sws.org/later-credits/)
 
+
+### 2026-11-12 23:42 UTC — User
+
+Your proposal has a lot of jargon without sufficient explanation - what is a "bet", how is providing more clock ticks from outside different than providing more tokens, what is a "bet", etc. Anything for which you read the abstract, you should read the paper. The "G2 for codes" seems to come out of nowhere - do we want this? Not want this?
+
+### 2026-11-12 23:43 UTC — User
+
+Log the 2026-11-09 exchange; track, commit, and push all these logs.
+
+### 2026-11-13 00:20 UTC — Claude
+
+Ticks are not supplied by anything, a bet is an assumption adopted without proof, and G2 for codes is a limit we want proved, not a capability we add. Below: the proposal in plain terms, those three points, and what the papers say now that I have read them.
+
+## The proposal in plain terms
+
+An agent runs in **rounds**. In each round it reads input, produces output, and names the program that runs the next round: itself or a replacement.
+
+λᶜᵉʳᵗ₀ gives a program three things.
+- **Code**: a proof or program written out as data. It is free to build and copy, and the checker tests any code at no cost in tokens.
+- **Tokens**: each is permission to build one node of a certificate. The **runner**, the harness outside the language that starts a run, fixes their number beforehand.
+- **Certificates**: proofs the program has paid tokens to hold. Only a held certificate can be used: `reflect` runs its program and returns the result, and `H` says it is no refutation.
+
+`reflect` runs the certified program inside the current run, with fewer tokens than its certificate has nodes. A replacement that needs as many tokens as its parent cannot be adopted that way. Otherwise the runner starts the replacement as a fresh run, and the language has no rule for that and proves nothing about it.
+
+The proposal makes four additions.
+
+1. **A hand-over rule** (I wrote `become`). It says "the next round runs this code", for any code the checker accepts at the agent's type, and it costs no tokens. Its result has the type "an agent, from the next round on" (I wrote ▷). Such a value cannot be used in the current round; it can only be returned as the next round's program.
+   - The delay is what keeps it consistent. The same rule without the delay would let the language derive its own consistency over codes (see G2 below).
+   - It is sound by induction on the number of rounds: an accepted program behaves correctly for k+1 rounds because its own round is well typed and it hands over to an accepted program, which behaves correctly for k rounds. That holds for every k. This is the argument Yudkowsky and Herreshoff give for Fallenstein's T_κ; carrying it to types is mine and unchecked.
+2. **Fresh tokens each round.** The budget is renewed at each hand-over, so a replacement can be as large as its parent. Within a round everything works as in λᶜᵉʳᵗ₀.
+3. **A checker the language can reason about.** In λᶜᵉʳᵗ₀ the checker `chk′` computes only on a fully known code. About `chk′` applied to a variable the language knows nothing, so it cannot prove "every code the new checker accepts, the old one accepts after this translation". Giving the language the checker's defining equations lets it prove such statements by induction on codes, and so certify a faster checker.
+4. **Named assumptions**, described under bets.
+
+Reading Fallenstein and Kumar sharpened when addition 1 is needed. With a checker that never changes, no new rule is needed: the program tests the replacement's derivation as code, outputs it, and the runner runs it. That every round is then well typed is proved once, outside the language. The rule is needed in two cases: when the language itself is to derive that its successors are agents, and when a replacement brings a different checker, accepted on a proof that the new checker is sound.
+
+## Ticks and tokens
+
+A tick is one hand-over. Nothing supplies it.
+
+| | Token | Tick |
+| --- | --- | --- |
+| What it is | permission to build one certificate node | one hand-over from a program to its successor |
+| Where it comes from | the runner, as a number fixed before the run | nowhere; it has happened when the successor starts |
+| What uses it up | building a node | nothing |
+| Where the count appears | in the program, which holds the tokens | only in the proof that hand-over is sound |
+| A shortage means | larger certificates cannot be held | nothing; the proof covers every count |
+
+In the proposal the outside supplies as much as before: tokens each round, input, and being kept running. What changes is who decides. In λᶜᵉʳᵗ₀ the runner chooses what runs next, and no theorem connects one run to the next. With the hand-over rule the program names its successor and the language's own rule accepts it. My phrase "a clock that delivers input" was wrong: there is no clock.
+
+The sources treat the count the same way.
+- **Yudkowsky and Herreshoff (§4.2).** The domains of future time "are known to us outside the system to be effectively infinite (because κ could mean any natural number) but the agents within the system are reasoning as though the domains of future time have some unknown finite bound."
+- **Later Credits.** One step of the program removes one "later". The right can be saved as a credit, but a rule granting any number of credits per step proves a false statement in the standard model (§6.2). So the right to treat "next round" as "now" cannot be handed out the way tokens can.
+- **Fallenstein and Kumar.** In their version for HOL the outside pays once, with an assumption: for every t, at least t+1 nested inaccessible cardinals exist.
+- **The passage I quoted about "observation of an increasing time".** It concerns Willard's systems, where the observed number plays the part tokens play here. It corresponds to addition 2, not to the tick.
+
+## Bets
+
+A **bet** is an assumption the agent acts on without proof, because no proof is available to it. The standard case is consistency. By G2 the agent's checker cannot prove its own consistency, and a checker that proves it is stronger, so the old one cannot certify it. Every gain in logical strength is adopted this way. I said "bet" because the assumption can be false and the agent bears the cost.
+
+Addition 4 writes such an assumption into the language as a named hypothesis about held certificates, for example "no certificate I hold that the stronger checker accepts is a refutation". Three terms came with it.
+- **Label** (proposed): each result records the names of the assumptions it used, so refuting one shows which results to discard.
+- **Blame** (a theorem of the 2026-11-05 toy, not yet of λᶜᵉʳᵗ₀): if a certified run under a false assumption reaches a contradiction, the run passes through an actual counterexample to the assumption, smaller than the certificate that was run.
+- **Horizon** (same toy): the size of the smallest counterexample. Certificates below that size give the results they would give if the assumption were true.
+
+## G2 for codes
+
+It is the project's Proposition 5: at no budget does λᶜᵉʳᵗ₀ derive `Con′`, the statement "no code is a checked proof of the empty type". `H°` says the same about held certificates, and λᶜᵉʳᵗ₀ derives that.
+
+We want it, as a theorem. No design can opt out of it: a consistent language with free codes and this much ordinary computation cannot derive `Con′`. It does two jobs.
+- **It gives `H°` its meaning.** One checker and one statement: derivable for proofs the program has paid for, underivable for proofs it only names.
+- **It is the test each new rule must pass.** A rule that turns codes into certificates for free yields `Con′`, and the language is then inconsistent (design §8.3). The hand-over rule yields only "a code proof of falsehood gives falsehood next round". That the extended language still cannot derive `Con′` is unchecked.
+
+My sentence was about how the theorem is proved. For λᶜᵉʳᵗ₀ the proof goes through PA and ends in Gödel's theorem for PA. That is the one place the project's result uses arithmetization, and it is what phase 2 formalizes, with D2 and D3 for PA as cited hypotheses. In a language that can reason about its own checker (addition 3), I expect the theorem to be provable directly, by Löb's argument on the language's own codes. That would be a proof for the new language only: it changes nothing for λᶜᵉʳᵗ₀'s Proposition 5 or for phase 2, and the agent does not need it. It is unchecked.
+
+## What the papers say
+
+- **Fallenstein and Kumar 2015** (all 16 pages).
+  - They prove in HOL4: if HOL proves `∀t. LCA t ⇒ Safe t v`, then `∀t. LCA (t+1) ⇒ Safe t v`. `Safe t v` reads "system v and the updates it permits behave safely for t updates"; `LCA t` says t nested inaccessible cardinals exist.
+  - The self-replacing system itself is left as future work.
+  - An iterable reflection rule is needed when an update may change the replacement mechanism itself, proof checker included. With a fixed mechanism, soundness is established once.
+  - They cite Milawa as replacing its checker on a proof that the new one accepts only what the old one proves. I have not read the Milawa papers.
+- **Spies et al., "Later Credits", 2022** (all 29 pages, not the supplement). A credit does not give the delayed fact outright: soundness is that a run of n steps removes at most n laters. The paper does not treat self-trust.
+- **Pudlák 1986** (§1, and Theorems 3.1 and 5.5 with their proofs, of 32 pages). For T containing Q, every T-proof that T has no refutation of length ≤ n has length at least n^ε. For sequential theories, PA and ZF included, one exists of length at most n^k. The scan's text layer drops the displayed formulas.
+- **Pudlák 2020** (§4 of the survey).
+  - Theorem 4.1: when a theory proves a propositional proof system sound, the theory's own proof system simulates it with polynomial overhead. Applying this to a certified faster checker is my transfer.
+  - He conjectures, and does not prove, that T has no polynomial-size proofs of the bounded consistency of T + Con(T).
+- **Not read.** Ignjatović 1994 and Kreisel–Lévy 1968 are behind publishers' logins, and I found no free copy. Of Krajíček–Pudlák 1989 I read only the introduction; the statement I used is Theorem 4.1 above.
+
+(The reply closed with a report on the logs: the 2026-11-09 thread logged, and `LOG.md` and `docs/log` tracked, committed and pushed.)
