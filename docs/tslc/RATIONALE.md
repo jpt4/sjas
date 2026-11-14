@@ -428,7 +428,7 @@ data codes: its codes are typed terms. The transfer needs:
 
 | Capability | Mechanism | Inside the agent? | Status |
 | --- | --- | --- | --- |
-| **Safe** in every round | agent type, runner, lineage theorem | no: a theorem about the language | ingredients [K]; induction [A]; projection lemma [O] |
+| **Safe** in every round | agent type, runner, lineage theorem | no: a theorem about the language | ingredients [K]; induction [A]; P1 and P2 [O] |
 | **Justified** adoption | the agent computes `chk c d` | yes | [E] |
 | **Auditable** adoption | each acceptance has a derivation (35k–99k nodes in the probes) that anyone can re-check; the runner logs certificates | the record is outside | [E] with the current checker; [O] with the extracted one (ADR-0008) |
 | **Self-extension** within a run | `reflect` on held base-type certificates | yes: complete, cost known in advance | [R][K]; [E] for supplied programs |
@@ -480,8 +480,8 @@ right object.
    - stated memory ceilings.
 2. **The agent type** of §5.1, as a library definition, with a variant that passes
    state.
-3. **The lineage theorem in Ansatz**, with hypotheses (h1)–(h5) and the projection
-   lemma.
+3. **The lineage theorem in Ansatz**, with hypotheses (h1)–(h6), the projection
+   lemma P1, and runner correctness P2 (§5.2).
 4. **The gate:** a probe in which the agent evaluates a candidate's own behaviour on a
    test input (§5.3). It is a go/no-go gate for Phase D.
 5. **Documents:** an R4 section and a tutorial section.
@@ -538,7 +538,7 @@ not only `Check`.
 | `reflect` runs held base-type programs at a smaller budget | [R][K] |
 | No paradox from self-application through `reflect` | [R] (R4 §3.2) |
 | The agent type needs no new rule | [E] |
-| Lineage theorem | [A] over [K] ingredients; projection lemma [O] |
+| Lineage theorem | [A] over [K] ingredients; P1 (projections) and P2 (runner correctness) [O] |
 | `reflect` used in an adoption decision | [E] |
 | Evaluation of the candidate's own behaviour | [E] small candidate (`probe-candidate-evaluation.clj`); [O] at agent scale |
 | Time guard: consistency, meaning, conditionality | [K] toy; transfer [O] |
@@ -574,6 +574,20 @@ All findings were accepted. The ones that changed the answer:
 | Codex TSLC-04; Opus M7 | "Exactly two options" and "the limit is sharp" | scoped; exhaustiveness not claimed |
 
 **After round 1**, the gate probe was run and passed at toy size (§5.3).
+
+**Round 3** (2026-11-13, on revision 3): Cursor's GPT-5.3 Codex Extra High,
+[`reviews/round3-cursor-gpt-5.3-codex-xhigh.md`](reviews/round3-cursor-gpt-5.3-codex-xhigh.md).
+- It found the round-2 findings resolved, except where §9 still listed (h1)–(h5).
+  It added one major and two minor findings, all about consistency, and all fixed:
+  - §9 item 3 now reads (h1)–(h6);
+  - P2 is named in §7 and §10;
+  - ADR-0009's context no longer says candidate evaluation is unshown.
+- It checked the gate probe and found no false-accept path in its code equality. The
+  root-term extractor's agreement with the decoder is the remaining proof
+  obligation.
+- **Its verdict:** "mostly correct and honestly scoped", and the plan "sound as a
+  plan" and "acceptable for proceeding", with formal closure depending on P1, P2 and
+  gate soundness.
 
 **Round 2** (2026-11-13, on revision 2): Cursor's GPT-5.3 Codex Extra High,
 [`reviews/round2-cursor-gpt-5.3-codex-xhigh.md`](reviews/round2-cursor-gpt-5.3-codex-xhigh.md).

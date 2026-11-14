@@ -24,8 +24,9 @@ The rationale establishes four points:
   types, whose ⊥-instance is `H`. It lets a running program extend itself with code
   received at run time, with completion guaranteed and the cost known in advance.
 - **What remains open.** It is not yet shown that this helps an agent improve itself
-  beyond what trial or wrapper adoption already gives. Nor is it shown that an agent
-  can evaluate a candidate's own behaviour this way.
+  beyond what trial or wrapper adoption already gives. An agent can evaluate a small
+  function candidate's own behaviour this way (the gate probe); doing so for agent
+  candidates, at scale, is not yet shown.
 
 ## Decision
 
