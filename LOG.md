@@ -608,3 +608,19 @@ See [the analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.m
 - **Answer.** Three of them need no work: tokens (T2 already covers H₁), the checker, and the runner's count of handed-over certificates. The other two are optional: the static time guard, and `reflect` at function types. The agent type `Π d. Π self. Π i. O × Σ c. Σ b. T(if b (chk c d) tt)` uses existing rules. The agent checks its candidate with `chk` at run time, and the runner ties the knot by passing ⌜Agent⌝ and the agent's own code. The lineage theorem is an induction over Lemma 3.6, CheckSpec and Theorem 4′.
 - **Probe.** [`docs/log/2026-11-13-agent-probe.clj`](docs/log/2026-11-13-agent-probe.clj) runs in 13 s. Two agents type-check, the agent's verdict and the runner's re-check agree, and a decode-and-run lineage outputs 0, 2, 2, 2 and stops on junk. Constraint found: a code literal in program text is recorded again at every derivation node, and certifying such a program exhausted a 1.5 GB heap, so candidates travel as data.
 - **Plan.** [ADR-0009](nachlass/refinement/ADR-0009-tslc.md) revised: Phase A is the agent layer, Phase D the experiments, and B and C are optional.
+
+## 2026-11-13 — TSLC rationale, adversarially reviewed; ADR-0009 revised
+- **Request (user, /goal).** Refine the TSLC plan and present it with pedagogical rigour: what TSLC does, why it is an executable instantiation of self-justification, and what it gives a self-improving system. Use adversarial reviews; finding an error or a better approach also counts.
+- **Document.** [`docs/tslc/RATIONALE.md`](docs/tslc/RATIONALE.md), revision 3, with every claim marked as kernel-checked, R4-proved, executed, cited, argued or open.
+- **Findings that changed the answer.**
+  - Safe self-modification is ordinary proof-carrying code and needs no self-justification.
+  - λᶜᵉʳᵗ₀'s self-justification is the postulates `H` and `H₁`, shown safe by budget descent; they never run.
+  - The executable principle is `reflect`, bounded local reflection at base types. It lets a running program extend itself with code received at run time, with completion guaranteed and the cost known in advance; no fuel bound computable inside the language works for every program.
+  - Whether `reflect` helps self-improvement beyond trial or wrapper adoption is a hypothesis, which Phase D tests with a pre-registered protocol.
+- **Evidence.** Four probes in λᶜᵉʳᵗ₀ unchanged, under `docs/tslc/`: adoption by check; the supply passed in as an argument; `reflect` inside an adoption decision; and the gate. In the gate, the agent verifies by code equality that a supplied certificate is the candidate applied to its test input, then runs it, and gets the candidate's real output.
+- **Reviews.** Round 1: Cursor's GPT-5.3 Codex Extra High (11 findings, 1 critical) and a Claude Opus subagent (1 critical, 9 major); round 2: Codex (6 new, no critical). All are under `docs/tslc/reviews/`, with their dispositions in the rationale's §11. Grok and GPT-5.6 Sol were unavailable through Cursor.
+- **Plan.** [ADR-0009](nachlass/refinement/ADR-0009-tslc.md), revision 3:
+  - Phase A: the agent layer on λᶜᵉʳᵗ₀ as it stands, with the lineage theorem pending the projection lemma P1 and runner correctness P2, gate soundness, and engineering gates.
+  - Phase D: the experiment.
+  - Phases B and C: optional.
+- **Context.** The machine rebooted at 20:01, which cleared the scratchpad; the lanes and the memory notifier were restarted.

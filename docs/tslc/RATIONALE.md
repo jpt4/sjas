@@ -32,8 +32,8 @@ Every claim carries a status mark:
    fixed agent type is safe in every round. This is ordinary proof-carrying code.
    It runs on λᶜᵉʳᵗ₀ as it stands, with no new rule **[E]**. Its safety is a theorem
    about the language, proved outside the agent by induction on rounds. The
-   theorem's ingredients are proved **[R][K]**; the induction and one lemma about
-   projections are still to be done **[A][O]**.
+   theorem's ingredients are proved **[R][K]**. The induction and two lemmas are still
+   to be done **[A][O]**: P1 on projections, and P2 on runner correctness (§5.2).
 2. **Self-justification in λᶜᵉʳᵗ₀ is two postulates and a proof that they are
    safe.**
    - `H` says no certificate the program holds proves ⊥.
