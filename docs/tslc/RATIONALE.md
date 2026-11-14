@@ -1,20 +1,23 @@
-# TSLC: self-justification you can run, and what it gives a self-improving agent
+# TSLC: what self-justification is, what it does in a running system, and what it does for a self-improving agent
 
-Date: 2026-11-13. Status: draft for adversarial review.
+Date: 2026-11-13. Revision 2, after two adversarial reviews (§11).
 
 Companion files:
-- [`probe-reflect-adoption.clj`](probe-reflect-adoption.clj), with its log;
-- [`../log/2026-11-13-agent-probe.clj`](../log/2026-11-13-agent-probe.clj);
-- [`../log/2026-11-13-tslc-toy.clj`](../log/2026-11-13-tslc-toy.clj), the Ansatz toy;
-- [ADR-0009](../../nachlass/refinement/ADR-0009-tslc.md), the build plan;
-- [R4-metatheory](../../nachlass/refinement/R4-metatheory.md), λᶜᵉʳᵗ₀'s proofs.
+- probes [`probe-supply-income.clj`](probe-supply-income.clj),
+  [`probe-reflect-adoption.clj`](probe-reflect-adoption.clj) and
+  [`../log/2026-11-13-agent-probe.clj`](../log/2026-11-13-agent-probe.clj), with their logs;
+- the Ansatz toy [`../log/2026-11-13-tslc-toy.clj`](../log/2026-11-13-tslc-toy.clj);
+- the plan, [ADR-0009](../../nachlass/refinement/ADR-0009-tslc.md);
+- λᶜᵉʳᵗ₀'s design [R4-certificate-calculus](../../nachlass/refinement/R4-certificate-calculus.md) and
+  metatheory [R4-metatheory](../../nachlass/refinement/R4-metatheory.md);
+- the reviews, in [`reviews/`](reviews/).
 
 Every claim carries a status mark:
 
 | Mark | Meaning |
 | --- | --- |
 | **[K]** | kernel-checked in Ansatz |
-| **[R]** | proved in R4, a reviewed paper proof, with its core kernel-checked (ADR-0006) |
+| **[R]** | proved in R4, a reviewed paper proof (its core [K] under ADR-0006) |
 | **[E]** | executed: a probe ran in the λᶜᵉʳᵗ₀ implementation |
 | **[C]** | a cited result, read in its source |
 | **[A]** | an argument given here, not machine-checked |
@@ -22,510 +25,506 @@ Every claim carries a status mark:
 
 ---
 
-## 0. The short version
+## 0. The answer
 
-1. **Two walls.** A language cannot completely evaluate all of its own programs
-   given as data: the diagonal argument **[C]**. It cannot trust all of its own
-   proofs given as data: Löb's argument **[K]**. Both walls are self-application
-   with nothing that decreases.
-2. **The way through is a guard.** Let self-application consume something
-   well-founded:
-   - *size*: a program may evaluate or trust only code it has paid for, and nested
-     use pays from a smaller budget;
-   - *time*: code may take effect only one step later.
+1. **Safe self-modification does not come from self-justification.** An agent
+   that adopts a successor only after checking the successor's code against a
+   fixed agent type is safe in every round. This is ordinary proof-carrying code.
+   It runs on λᶜᵉʳᵗ₀ as it stands, with no new rule **[E]**. Its safety is a theorem
+   about the language, proved outside the agent by induction on rounds. The
+   theorem's ingredients are proved **[R][K]**; the induction and one lemma about
+   projections are still to be done **[A][O]**.
+2. **Self-justification in λᶜᵉʳᵗ₀ is two postulates and a proof that they are
+   safe.**
+   - `H` says no certificate the program holds proves ⊥.
+   - `H₁` says no two held certificates prove a type and its negation.
+   - The language derives these statements of its own consistency because they are
+     constants of the language, in certificate form only. "No *code* proves ⊥" is
+     not derivable (P5, Gödel's second theorem for codes) **[R]**.
+   - The language stays consistent because every use of them descends to a strictly
+     smaller budget **[R][K]**.
+   - They never run (Theorem 5.2) **[R][K]**.
+3. **The executable principle is `reflect`, bounded local reflection.**
+   - `reflect` takes a held certificate of a base-data-type program, such as a
+     `Nat` program, and runs that program to completion inside the current run
+     **[R][K]**.
+   - `H` is its instance at ⊥, where there is nothing to run.
+   - What `reflect` buys: a fixed program can extend its own computation with code
+     it receives at run time, and the computation is guaranteed to finish.
+   - The cost is the certificate's size, in tokens, computable from the code before
+     running it. No fuel bound computable inside the language works for every
+     program (the diagonal argument, §2.1) **[C][A]**.
+4. **For an agent with an external runner, `reflect` is not needed for safety or
+   for adoption.** Two other routes adopt candidates safely:
+   - *trial:* hand over to a candidate for a round;
+   - *composition:* hand over to a checked wrapper that runs the candidate and can
+     revert.
 
-   λᶜᵉʳᵗ₀ implements the size guard. The time guard is Fallenstein's T_κ, written as
-   a type.
-3. **Self-justification, executable.** λᶜᵉʳᵗ₀'s `reflect` runs any program whose
-   certificate the running program holds, to completion, with no fuel bound
-   **[R]**. No program can do this for all programs given as data (§2.1). The
-   paid size is what stops the diagonal: to run itself on itself, the diagonal
-   program would have to pay for a certificate larger than its own budget. `H`
-   ("no held certificate proves ⊥") is `reflect` at the empty type. That is why
-   λᶜᵉʳᵗ₀ derives its own consistency (Willard's definition) and stays consistent
-   **[R][K]**.
-4. **Safe self-modification needs no self-justification.** An agent that adopts
-   a successor only if the successor's code checks at the agent type is safe in
-   every round. This is a theorem about the language, proved outside it by
-   induction on rounds **[A]**, and the ingredients are proved **[R][K]**. Ordinary
-   proof-carrying code gets this too.
-5. **What self-justification adds.** The agent can evaluate, to completion and
-   inside its own typed computation, code it has just found: a candidate's score,
-   or a candidate's behaviour on test inputs. It does so before adopting the
-   candidate, and with no external trusted runner in the loop **[E]**. With H₁
-   it also keeps the certified commitments it holds mutually consistent.
-6. **The limit is sharp.** What an agent can know of itself, by itself:
-   - unconditionally, only about what it holds now;
-   - about its future, only from the next step on (the time guard);
-   - the lineage's safety as a whole, only as a theorem about the language.
-
-   More is impossible: the two walls **[K][C]**.
-7. **The plan.** Build the agent layer on λᶜᵉʳᵗ₀ as it stands: no new rule, a
-   runner, and the lineage theorem in Ansatz. Then run experiments that measure what
-   each mechanism buys. Two optional extensions: `reflect` at function types, and
-   the time guard inside the language.
+   Both are safe by the type alone. What `reflect` might add is choosing among
+   candidates by running them inside one run, before giving up control. That is a
+   **hypothesis**. The plan tests it against both routes, with a criterion that
+   can refute it (§9).
+5. **Where `reflect` is necessary: self-containment.** A single run with no external
+   runner can execute new code to completion only through a guard. λᶜᵉʳᵗ₀'s guard
+   is size **[A]**. So self-justification is the mechanism by which a running
+   system extends and vouches for itself without an outside executor. It is not
+   what makes the system safe.
+6. **The limits** apply among the mechanisms known here. No theorem says the list is
+   exhaustive **[A]**.
+   - Unconditional internal knowledge reaches only what the agent holds.
+   - Knowledge of its future is available only conditionally, through a time guard,
+     and only at the toy level so far.
+   - The lineage's safety is available only as an external theorem.
+   - Unguarded trust in code is inconsistent: Löb's argument in the toy **[K]**,
+     and P5 for λᶜᵉʳᵗ₀ **[R]**. Unguarded complete evaluation of code is impossible
+     **[C]**.
+7. **The plan.**
+   - **Phase A** builds the agent layer: the agent type, a runner, the lineage
+     theorem in Ansatz, and a gating probe that checks whether an agent can
+     evaluate a *candidate's own behaviour* before adopting it. The earlier draft
+     wrongly claimed this was already shown (§11).
+   - **Phase D** runs a falsifiable experiment: does in-run evaluation beat trial
+     and composition?
+   - **Phases B and C** (reflect at function types, the time guard in the language)
+     wait on Phase D or on the research aim.
 
 ---
 
 ## 1. The question
 
-**An agent** is a program that runs in **rounds**. In each round it:
-1. reads an input;
-2. emits an output (an action);
-3. names the program that runs the next round, its **successor**.
+**Terms.**
+- **An agent** runs in **rounds**. In each round it reads an input, emits an
+  output, and names the program for the next round, its **successor**.
+- **The lineage** is the sequence of programs. **Self-modification** is naming a
+  different successor; **self-improvement** is naming a better one.
+- **A runner** is the program outside the language that starts each round.
 
-The successor may be itself, or a different program. The sequence of programs is
-the agent's **lineage**. Choosing a different successor is **self-modification**.
-Choosing a better one is **self-improvement**.
+**Candidates arrive as data.** Candidate successors come from search, from a
+learned proposer, or from outside. The agent receives them as **code**: trees it can
+inspect, copy and check, not terms written in its own text.
 
-**Candidates arrive as data.** A self-improving agent finds candidate successors:
-by search over programs, from a learned proposer, or from outside. The agent did
-not write them in its own text. It receives them as code: trees it can inspect,
-copy, transform, and check. This assumption decides most of what follows.
-
-**What we want.** For each item, what it would mean to have it "by itself" (inside
-the agent's own logic):
+**What one might want.** For each item, what it would mean to have it "by itself":
 
 | | Property | By itself means |
 | --- | --- | --- |
-| **S** | *Safe:* every output of every round satisfies a fixed specification | the agent proves it |
-| **J** | *Justified:* each adoption is decided by a check the agent performs | the check is the agent's own |
-| **E** | *Evaluated:* before adopting, the agent can run a candidate and use the results | complete, and typed in the agent's own computation |
-| **K** | *Self-known:* the agent's logic proves that what it accepts is sound, i.e. its own consistency | Willard's self-justification |
+| **S** | *Safe:* every output of every round meets a fixed specification | the agent proves it |
+| **J** | *Justified:* each adoption follows a check | the agent performs the check |
+| **E** | *Evaluated:* before adopting, the agent runs a candidate and uses the results | the run is inside the agent's own computation and completes |
+| **K** | *Self-consistent:* the agent's logic states its own consistency | Willard's self-justification |
+
+E is a form of *reflection*: trusting what a checked proof computes. K is
+reflection at ⊥.
 
 ## 2. Two walls
 
-### 2.1 No complete self-evaluation
+### 2.1 No complete self-evaluation in a total language
 
-**Claim [C].** A language whose programs all terminate cannot contain a program `u`
-such that `u(code of f, n) = f(n)` for every program f of the language. Brown and
-Palsberg (POPL 2016, §3.1, Theorems 3.1–3.2) state this as "a total universal
-function for the total computable functions is impossible".
+**Claim [C].** Brown and Palsberg (POPL 2016, §3.1, Theorems 3.1–3.2) state that "a
+total universal function for the total computable functions is impossible". In a
+language whose programs all terminate (λᶜᵉʳᵗ₀ is one, by T4), no program
+`u : Syn → Syn → Nat` can satisfy `u(⌜f⌝, x) = f(x)` for every program `f : Syn → Nat`
+of the language.
 
-**Proof, as a program.** Suppose u exists. Define `p(x) := u(x, x) + 1`. Then p is a
-program of the language, so `p(n) = u(⌜p⌝, n)` for every n. At `n = ⌜p⌝`:
-`p(⌜p⌝) = u(⌜p⌝, ⌜p⌝) + 1 = p(⌜p⌝) + 1`. No number equals itself plus one.
+**Proof.** Let `p(x) := u(x, x) + 1`. Then p is a program, so
+`p(x) = u(⌜p⌝, x)` for every x. At `x = ⌜p⌝`, `p(⌜p⌝) = p(⌜p⌝) + 1`, which no number
+satisfies. Here ⌜p⌝ is p's code, written outside the language. p needs only to pass
+its argument to u twice.
 
-**Consequence for fuel.** An interpreter with a fuel bound always terminates: it
-returns a result or "out of fuel". So it would be universal if fuel were
-sufficient. Any fuel function the language could compute, `F(code)`, sufficient
-for every program, would yield such a u. So no program of the language can compute
-a fuel bound that works for every candidate it might receive. An agent that runs
-found code with fuel must sometimes give up.
+**Fuel [A].** Suppose the language contained:
+- an interpreter `run(c, x, k)` that runs program c on input x for k steps, covering
+  everything the language has, including `chk`, `inspect`, `reflect` and tokens;
+- a fuel function `F(c, x)`, computed inside the language, enough for every program.
 
-**How the wall is escaped elsewhere [C].** Brown and Palsberg's self-interpreter
-for System Fω escapes by typing: their representations are typed, and "static
-type checking in Fω can exclude the proof's diagonalization gadget". Their quoter
-is outside the language. A program cannot turn untyped data into a representation,
-so it cannot form `u(x, x)` for an arbitrary code x.
+Then `run(c, x, F(c, x))` would be such a u. So no fuel bound computed inside works
+for every candidate. A runner outside can supply fuel, but nothing tells the agent
+in advance how much a candidate needs.
 
-### 2.2 No complete self-trust
+### 2.2 No complete trust in code
 
-**Claim [K].** Consider a syntax whose codes are free data, with:
-- quotation of closed terms (D1);
-- quotation and application of codes at a variable (D3, D2);
-- a self-referential sentence G ≅ (code G → ⊥).
+**In the toy [K].** The toy's syntax has:
+- codes as free data, with D1, and D2 and D3 at a variable;
+- a built-in self-referential type G ≅ (code G → ⊥).
 
-Adding `code ⊥ → ⊥` ("no code is a proof of ⊥", consistency over codes) to it
-yields a closed proof of ⊥. This is Löb's argument (`sNoSoundReading` in the Ansatz
-toy). Trust in code at every type, `code A → A`, includes the case A = ⊥, so it
-fails too.
+Adding `code ⊥ → ⊥` to it yields a closed proof of ⊥, `sViaQuine`; hence no reading
+sends ⊥ to the empty set, `sNoSoundReading`. Trust in code at every type,
+`code A → A`, includes A = ⊥.
 
-**How it is escaped elsewhere [C].** In Davies and Pfenning's modal calculus
-(JACM 2001, §2):
-- `eval : □A → A` is definable at every type, and code can be composed
-  (`□(A→B) → □A → □B`) and quoted (`□A → □□A`);
-- the opposite coercion `A → □A` "cannot be well-typed", and the calculus has no
-  construct for examining code. They contrast it with a system that adds primitive
-  recursion over code.
+**For λᶜᵉʳᵗ₀ itself [R].** P5: no form of "no code proves ⊥" is derivable at any
+budget. The proof is a reduction to Gödel's theorem for PA, from three cited
+standard results; ADR-0007 is formalizing it.
 
-So the self-referential sentence cannot be built.
-
-### 2.3 The common cause
+### 2.3 The common cause, and how it is escaped
 
 Both walls are a program applied to its own code, with nothing that decreases from
-the caller to the callee. Every way around them either:
-- forbids building the self-application (no inspection of code, no import from
-  data); or
-- makes something decrease along it (size or time); or
-- gives up completeness (fuel), or internality (trust held outside the language).
+caller to callee. The escapes known here:
+- **External trust.** The trust lives outside the language, in its metatheory.
+- **Well-founded descent.** Self-application consumes something that decreases:
+  *size* (paid certificates), *time* (one round later), or *strength* (an
+  interpreter for a weaker language).
+- **No inspection.** The self-application cannot be built at all.
+- **Fuel.** Gives up completeness.
 
-## 3. Five ways around, and which a self-improving agent can use
+## 3. The escapes, side by side
 
-| Way | What is evaluated or trusted | Complete? | Inside the agent? | Candidates as data? | Status |
-| --- | --- | --- | --- | --- | --- |
-| **External trust** (proof-carrying code, a proof assistant's kernel) | code that an outside checker accepts, run by an outside runner | yes | no: trust lives in the metatheory | yes | standard |
-| **Fuel** | any code, for a bounded number of steps | no (§2.1) | yes | yes | standard |
-| **No inspection** (Davies–Pfenning □; Brown–Palsberg) | typed code built by composition | yes | yes | **no**: data cannot become □A | [C] |
-| **Size guard** (λᶜᵉʳᵗ₀; Willard's systems) | code the agent holds as a paid certificate | yes, within what it holds | yes | yes | [R][K] |
-| **Time guard** (T_κ; ▷ in TSLC) | any accepted code, from the next round on | yes, one round later | yes, conditional on a next round | yes | [C] T_κ; [K] toy |
+| Escape | What is run or trusted | Complete? | Inside? | Candidates as data? | Cost known in advance? | Status |
+| --- | --- | --- | --- | --- | --- | --- |
+| **External trust** (proof-carrying code; a proof assistant's kernel) | code an outside checker accepts, run by an outside runner | yes | no | yes | n/a | standard |
+| **Fuel** | any code, for k steps | no (§2.1) | yes | yes | no | standard |
+| **No inspection** (Davies–Pfenning's `eval : □A → A`; Brown–Palsberg's Fω self-interpreter) | typed code built by composition | yes | yes | no: data never becomes □A ("λx:A. box x cannot be well-typed", DP §2) | n/a | [C] |
+| **Strength** (an interpreter for a weaker language) | code of the weaker language | yes, for that language | yes | yes, if in the weaker language | yes | standard; λᶜᵉʳᵗ₀'s budgets form such a tower |
+| **Size** (λᶜᵉʳᵗ₀ `reflect`; in arithmetic form, Willard's systems) | held certificates of base-type programs | yes, if the tokens are there | yes | yes: `chk` checks data | **yes**: the certificate's node count | [R][K] |
+| **Time** (T_κ; ▷ and `become`) | any accepted code, as a program that runs next round | its result arrives next round, not now | trust inside, conditional on a next round | design: yes, via `chk`; toy: no, its codes are typed terms | n/a | [C] T_κ; [K] toy |
 
-An agent whose candidates arrive as data, and which wants complete evaluation
-inside its own computation, has exactly two options: the size guard, now, and the
-time guard, next round. TSLC is λᶜᵉʳᵗ₀ (the size guard), plus agents that hand over
-to successors, plus, optionally, the time guard inside the language.
+**What size buys over fuel** is predictability, not unlimited power. Both depend on
+what the runner supplies. But the tokens a candidate needs are its certificate's
+node count, which the agent can compute before deciding. Once paid, completion is
+guaranteed (T4), however long the run takes. The fuel a candidate needs cannot be
+computed in advance by any program of the language (§2.1).
 
-## 4. The size guard: λᶜᵉʳᵗ₀
-
-λᶜᵉʳᵗ₀ is already built, and its consistency is kernel-checked.
+## 4. λᶜᵉʳᵗ₀: the size guard, already built
 
 ### 4.1 Codes, tokens, certificates
 
-- **A code** is a tree, of type `Syn`. It is free to build, copy and inspect.
-  `chk c d` decides whether c is a valid derivation whose conclusion has the type
-  with code d; it is an ordinary total function **[R]**.
-- **A token** is a value of a type `◇` with no constructors. A run is given n of
-  them by the runner, and each can be used once.
-- **A certificate** is a tree of type `R` whose every internal node holds a token.
-  `print` turns a certificate into the code of the same tree, and nothing turns a
-  code into a certificate for free.
+- **A code** (`Syn`) is a tree, free to build, copy and inspect. `chk c d` decides
+  whether c is a valid derivation whose conclusion has the type with code d; it is a
+  total primitive recursive function **[R]**.
+- **A token** is a value of a type with no constructors. A run is typed in a context
+  of n tokens, Θₙ, and uses each at most once.
+- **A certificate** (`R`) is a tree whose every internal node holds a token. `print`
+  turns it into the code of the same tree; nothing turns a code into a certificate
+  for free.
 
-So **holding** a certificate of N nodes means having spent N of the run's tokens,
-and a program never holds more certificate nodes than it was given tokens
-(T3, size soundness) **[R][K]**.
+**Holding.** A program holds a certificate of N nodes only after spending N tokens.
+At run time this is T3 together with Theorem 4′ for the erasing evaluator
+**[R][K]**. A program can spend only tokens its text names, or a certificate
+supply passed to it (R4 §1.1a).
 
-### 4.2 `reflect`: complete evaluation, paid by size
+### 4.2 `reflect`: bounded local reflection at base types
 
 `reflect D r e` takes:
 - a held certificate r;
-- evidence e that r checks at a base data type D (`Nat`, `Bool`, `Syn`, `R`, …).
+- evidence e that r checks at a **base data type** D (`Nat`, `Bool`, `Syn`, `R`, …).
 
-It decodes r into the derivation of a program t, with `Θₘ ⊢ t : D`, and runs t to
-completion on m of r's own tokens. The checker guarantees `m < ‖r‖`, so the
-callee's budget is strictly smaller than the certificate it came from **[R]**. It
-is universal and complete for what is held:
-- no fuel is chosen;
-- t may be any λᶜᵉʳᵗ₀ program, however long it runs;
-- termination is λᶜᵉʳᵗ₀'s Theorem 4 **[R][K]**.
+It decodes `Θₘ ⊢ t : D` from r, with m < ‖r‖ (Lemma 2.7), and runs t to completion on
+m of r's own tokens **[R][K]**. If r has more nodes than the current budget, it
+returns a default value. For higher types the soundness of `reflect` is open, since
+Lemma 3.4 fails there **[O]**.
 
-**Why the diagonal of §2.1 fails against it [A].** Let p be a diagonal program: on
-input x, it pays for a certificate of "x applied to x", runs it with `reflect`, and
-adds one. If the payment or the check fails, it takes a fallback branch, say 0.
-1. The certificate of "x applied to x" contains a certificate of x, plus more. So
-   for x = ⌜p⌝ it is larger than p's own certificate.
-2. Run at top level with enough tokens, p(⌜p⌝) can pay. `reflect` then runs the
-   inner copy of p on fewer tokens than p's certificate has nodes.
-3. That inner copy must pay for the same certificate again, which is larger than
-   its whole budget. Its payment fails, and it returns 0, so the outer run returns
-   1.
-4. The two sides of `p(⌜p⌝) = p(⌜p⌝) + 1` are runs at different budgets, and they
-   are not equal. No contradiction forms.
+**Why self-application causes no paradox [R].** The model reads `reflect` at budget n
+by recursion to a budget m < ‖r‖ ≤ n (R4 §3.2), so no equation between two runs
+ever holds at a single budget. Take a diagonal program that, given its own code and a
+supply, pays for a certificate of "itself applied to itself, with a smaller supply"
+and reflects it. It simply recurses as deep as its supply allows, a recursion that is
+well-founded on the supply's size. The two sides of `p(⌜p⌝) = p(⌜p⌝) + 1` are runs at
+different budgets.
 
-This is the whole idea: **the guard turns a time bound, which no program can
-compute in advance, into a size bound, which the program pays and knows.** Within
-what it has paid for, evaluation is complete.
+### 4.3 `H`, `H₁`, and what "self-justification" means here
 
-### 4.3 `H`, `H₁`, and self-justification
+- `H` is `reflect` at the empty type, a constant of the language (R4 §1.3).
+- `H₁` is a separate constant. It does not follow from `H` (Prop. 4.10′), while `H`
+  follows from `H₁` at a constant budget (Prop. 4.10) **[R][K]**.
+- Both are derivable because they are postulated, as Willard postulates his
+  consistency axiom. What the metatheory proves is that postulating them is safe
+  **[R][K]**:
+  - read every type at a budget n;
+  - by strong induction on n, every typed program has a value of its type;
+  - in the `H`, `H₁` and `reflect` cases, the held certificate encodes a derivation at
+    a budget smaller than n, so the hypothesis applies, and at ⊥ there is no value.
 
-- `H : Π(r :₁ R). T(chk′(print r, c⊥)) ⊸ 0` says: no certificate the program holds
-  proves ⊥. It is `reflect` at the empty type, where there is nothing to run
-  (R4 §2.5).
-- `H₁` says: no two certificates the program holds prove a type and its negation.
+**Willard's two clauses.** The language states its own consistency, and it is
+consistent. Clause (ii) is T1 **[R][K]**. Clause (i) is a reading of `H°`'s type,
+which R4 §3.9 calls informal **[R]**. The statement is about certificates, not codes.
 
-Both are constants of the language, so λᶜᵉʳᵗ₀ derives its own consistency
-statements H° and H₁°. With consistency (T1), these are the two clauses of Willard's
-definition of a self-justifying system (Willard 2016, Definition 3.4, as read in
-R4 §3.9) **[R][K]**.
+### 4.4 What runs and what only types
 
-**Why it is consistent (R4 Lemma 3.6, in short) [R][K].** Read every type at a
-budget n, so that a certificate at budget n is a tree with at most n nodes. Prove
-by strong induction on n that every program typed at budget n has a value of its
-type. In the `reflect`, `H` and `H₁` cases:
-1. The checker accepts the held certificate, so it encodes a derivation at a budget
-   m < n (Lemma 2.7: a certificate always has more nodes than the tokens its
-   derivation declares).
-2. The induction hypothesis at m gives that derivation's program a value of its
-   type.
-3. At ⊥ there is no such value, so the `H` case never arises. In the `H₁` case,
-   the two derivations combine into a refutation at budget m₁ + m₂ < n, and the
-   same applies.
+- `reflect` at a base type D ≠ 0 runs. Its ⊥-instance is `H`.
+- `H` and `H₁` never run (Theorem 5.2). They let a program drop branches that are
+  reachable only through a held refutation or a held contradiction.
+- `Check` rejects every refutation and every contradictory pair anyway, with or
+  without `H₁` (Corollary 3.7).
 
-Nothing assumes consistency at the current budget. The induction is the descent.
-
-### 4.4 What runs, and what only types
-
-- `reflect` runs: it is the executable content of self-justification.
-- `H` and `H₁` never run (Theorem 5.2, **[R][K]**). They change what the type
-  checker accepts: a program may drop a branch that can only be reached through a
-  held refutation, or a held pair of contradicting certificates.
-
-So the computational instantiation of self-justification is **complete certified
-self-evaluation of held code**. Self-consistency is its degenerate case, which
-licenses programs without changing any run.
-
-### 4.5 What is proved, and where
-
-| Result | Status |
-| --- | --- |
-| T1, consistency: no derivable `Θₙ ⊢ t : 0` for any n | [R][K], relative to the metatheory (Lean's type theory as Ansatz implements it) |
-| T2, self-justification: H°, H₁° derivable, and T1 | [R][K] |
-| T3, size soundness | [R][K] |
-| T4, termination, and the evaluator computes the model | [R][K] |
-| P5, G2 for codes: no form of "no code proves ⊥" is derivable | [R], by reduction to Gödel's theorem for PA from three cited standard results; ADR-0007 is formalizing it |
+So `H₁` changes which programs type-check, not what any run does **[R][K]**.
 
 ## 5. Agents on λᶜᵉʳᵗ₀ as it stands
 
-### 5.1 The agent type, with no new rule
+### 5.1 The agent type and the runner
 
 ```
 Agent := Π(d :ω Syn). Π(self :ω Syn). Π(i :ω I). Π(r :₁ R).
            O ⊗ Σ(c :ω Syn). Σ(b :ω Bool). T(if b then chk c d else tt)
 ```
 
-- **d** is the code of the type `Agent` itself, and **self** is the agent's own
-  code. The runner passes both, so the type never mentions itself, and the
-  calculus needs no self-referential type.
-- **r is the round's supply:** a certificate the runner builds from the round's
-  fresh tokens and hands in. The agent pays for any certificate it wants to hold
-  from r, so its own text names no token, and each round gets new tokens. This is
-  token income per round with no new rule.
-- **The output** is in O. To make it safe, take O := `Σ(a :ω Nat). T(safe a)`:
-  every output is an action a with `safe a = tt`.
-- **The successor part** is a code c, the agent's own verdict b, and evidence. If
-  b is true, the evidence certifies `chk c d = tt`. The agent produces it by
-  computing `chk c d` at run time, when c and d are closed codes and `chk`
-  computes, and doing case analysis on the result. A false verdict means "stop".
+- **d and self.** The runner passes the code of the type `Agent` and the agent's own
+  code. So the type never mentions itself, and no rule is added.
+- **I** is a base data type.
+- **r** is the round's supply of tokens.
+- **The output** has type O. For safety take `O := Σ(a :₁ Nat). T(safe a)`, with
+  `safe` closed and containing no `reflect`.
+- **The successor part.** The agent computes `chk c d` at run time (c and d are then
+  closed codes) and does case analysis on the result. A true verdict comes with
+  evidence that c checks at d; false means "stop".
 
-**The runner** is outside the language, small, and trusted. In round k it:
-1. decodes the current code (which checks at `Agent`) into a program and its
-   declared budget m;
-2. runs the program on (⌜Agent⌝, the code, the input, a supply of k fresh tokens),
-   where k is the round's budget, chosen by the runner;
-3. if the verdict is true, re-checks the successor code with `Check` and continues
-   with it; otherwise it stops.
+**The runner** (outside the language; trusted). In round k it:
+1. decodes the current code into `Θₘ ⊢ t : Agent`;
+2. runs t on (⌜Agent⌝, the code, the input, a supply built from k′ fresh tokens) in
+   Θ_{m+k′}, so the supply's tokens are distinct from the agent's m;
+3. if the verdict is true, re-checks the successor with the same `Check` and
+   continues; otherwise it stops.
 
-It passes only codes and data between rounds, never certificates.
+The runner has two policies:
+- a **budget policy**, since a successor's text can declare any budget m′ and the
+  runner would mint it: cap m′ + k′, or charge m′ against the supply;
+- a **log** of every certificate a round builds, because `reflect` consumes them.
+
+Only codes and data cross rounds.
 
 ### 5.2 The lineage theorem
 
-**Statement [A].** If `Check(code₀, ⌜Agent⌝) = tt`, then for every input sequence
-and every round k that the runner reaches:
+**Hypotheses.**
+- (h1) `Check(code₀, ⌜Agent⌝) = tt`, where ⌜Agent⌝ is the canonical code of a closed,
+  well-formed type.
+- (h2) The runner evaluates exactly the term decoded from the checked code, at
+  budget m + k′, with distinct supply tokens.
+- (h3) The literals passed are values of Syn and I.
+- (h4) The runner's `Check` and the model's reading of `chk` are the same `Check`, the
+  one Lemma 3.6 is proved for. In the implementation that requires ADR-0008's
+  extracted `Check`.
+- (h5) `safe` is closed and free of `reflect`.
+
+**Statement [A].** For every input sequence and every round k the runner reaches:
 - round k's run terminates;
-- its output lies in O's semantic set: with O as above, it is a safe action;
-- if its verdict is true, then `Check(c_k, ⌜Agent⌝) = tt`. So the runner's re-check
-  never fails, and round k + 1 runs a program that again checks at `Agent`.
+- its action satisfies `safe`;
+- if its verdict is true, `Check(c_k, ⌜Agent⌝) = tt`, so round k + 1 again runs a
+  checked agent.
 
-**Proof** by induction on k, using only proved results:
-1. *CheckSpec* **[K]**: the code decodes to a derivation `Θₘ ⊢ t : Agent` with
-   `m < ‖code‖`.
-2. *Lemma 3.6* **[K]**: t's value lies in Agent's semantic set. Applied to the
-   literals, which lie in Syn's and I's sets, it gives a value whose components
-   are:
-   - an output in O's set;
-   - a code c;
-   - a Boolean b;
-   - evidence in the set of `T(if b then chk c d else tt)`.
+**Proof.** By induction on k:
+1. CheckSpec decodes the code into a derivation with m < ‖code‖ **[K]**.
+2. Lemma 3.6 puts t's value in Agent's semantic set. Applied to the literals and a
+   supply in R's set at footprint k′ (the Π₁ clause needs m + k′ ≤ n), it gives:
+   - an action whose `safe` holds;
+   - a code c and a Boolean b;
+   - non-empty evidence for `T(if b then Check(c, ⌜Agent⌝) else tt)`.
+3. Theorems 4 and 4′ make the runner's computed values the model's **[K]**.
 
-   That set is non-empty only if `b = tt` implies `Check(c, ⌜Agent⌝) = tt`, since
-   the model reads `chk` as `Check`.
-3. *Theorems 4 and 4′* **[K]**: the evaluator terminates and computes the model's
-   value at base types. Applied to the three projections, the runner's output, code
-   and verdict are the model's.
+**Proof work that remains [O].** Theorem 4′ is stated for derivable programs of base
+type. The runner reads three projections: the action (`Nat`), the code (`Syn`), the
+verdict (`Bool`). So step 3 needs either derivations of the projection programs in
+Θ_{m+k′} (by weakening and typing the literals), or the Π-clause of 4′'s relation. The
+latter appears in 4′'s proof but not its statement. Either is a lemma to prove.
 
-**What remains to formalize** is the induction over rounds and the glue for the
-projections. That is Phase A's formal item.
+**Trusted base.** `Check`, the decoder, the evaluator and the runner. The probes'
+runner also re-types each round's application with the typer. The production runner
+should evaluate the decoded derivation directly, with the literals in its
+environment.
 
-**Note that this theorem is external.** It is proved about the language, in the
-metatheory. Inside, the agent knows only that `chk c d = tt`, a computed fact, and
-not that its successor will act safely. By §2 that cannot be known inside
-unconditionally (§6.2).
+**The theorem is about the language.** Inside, the agent knows only that
+`chk c d = tt`. For a successor given as code it cannot know more unconditionally
+(§2.2). For a successor it holds as a certificate it can know more, through `reflect`,
+if `reflect` works at the agent's type (Phase B; the toy's `reflA`).
 
-### 5.3 The probes [E]
+### 5.3 What the probes show, and what they do not [E]
 
-- **Adoption by check** (`docs/log/2026-11-13-agent-probe.clj`, 13 s). Two agents
-  type-check, with derivations of 1,819 and 1,751 nodes.
-  - `adopt`, offered `stay2`'s code, outputs 0. Its verdict is true, and the
-    runner's re-check agrees.
-  - Offered junk or the code of `Nat`, its verdict is false.
-  - A lineage in which the runner decodes and runs each accepted code outputs
-    0, 2, 2, 2. Offered junk, it stops.
-- **Token income per round** (`docs/tslc/probe-supply-income.clj`, 12 s). The
-  supply is an argument, so the evaluating agent's derivation is token-free
-  (budget 0, 34,922 nodes). Results:
-  - with a score program computing 2 and 40 tokens, it adopts;
-  - with the same program and only 5 tokens, it cannot pay for the certificate, so
-    it keeps itself: the size guard at work;
-  - with a score of 0, it keeps itself.
-- **Adoption by certified evaluation, with the supply in the agent's own text**
-  (`docs/tslc/probe-reflect-adoption.clj`, 35 s). The agent receives a candidate successor and the code of a "score"
-  program, then:
-  1. pays for a certificate of the score program from a 40-token supply written
-     into its own text;
-  2. checks it at `Nat` with `inspect`;
-  3. runs it to completion with `reflect`;
-  4. adopts the candidate iff the score is positive, and otherwise keeps itself.
+**Shown:**
+- **Adoption by check** (`2026-11-13-agent-probe.clj`).
+  - Agents type-check, with derivations of about 1,800 nodes.
+  - An agent's verdict and the runner's re-check agree on a real successor, on junk,
+    and on a type code.
+  - A lineage in which each accepted code is decoded and run outputs 0, 2, 2, 2, and
+    stops on junk.
+- **A supply passed in** (`probe-supply-income.clj`).
+  - The agent's derivation names no token: budget 0, 34,922 nodes.
+  - With 40 tokens it pays for a certificate, `inspect`s it and `reflect`s it.
+  - With 5 tokens it cannot pay, and it keeps itself.
+- **`reflect` inside an adoption decision** (both reflect probes). The decision used
+  the result of running a held certificate.
 
-  Results:
-  - with a score program computing 2, it adopts;
-  - with one computing 0, a `Bool` program, or junk, it keeps itself;
-  - its verdicts and the runner's re-checks agree in all four cases.
+**Not shown:** *evaluation of the candidate itself*. In both reflect probes, the
+reflected program is a score program the proposer supplied, unrelated to the
+candidate, so the proposer chose the score **[O]**.
 
-  No rule was added to λᶜᵉʳᵗ₀.
+**The gate (Phase A item 4).** The agent fixes a test input i. The proposer supplies
+a derivation code D. The agent then:
+1. checks D at the output's base type;
+2. computes the expected root term, the candidate's term applied to i's literal,
+   from the candidate's code;
+3. compares it with D's root term by a code-equality function written in λᶜᵉʳᵗ₀
+   (`rec-syn`);
+4. only then pays for D and `reflect`s it.
 
-### 5.4 Costs and constraints found
+No new rule and no derivation builder are needed. The cost is at least the
+candidate's derivation plus the literal.
 
-- **Literals blow up derivations.** A candidate's code written into a program's
-  text as a literal is recorded again at every node of that program's derivation,
-  because each node records its whole judgment. Certifying such a program exhausted
-  a 1.5 GB heap. Candidates therefore travel as data: as input or state.
-- **Tokens in program text blow up derivations.** Tokens are recorded in every
-  judgment's context. The evaluating agent with a 40-token supply in its own text
-  has a derivation of 98,593 nodes, against 34,922 when the supply is an argument
-  (and 2,180 for an agent that evaluates nothing). Hence the supply argument. This is a cost of the current full-judgment
-  encoding, not of soundness. R4 discusses a relative encoding as a possible
-  alternative.
-- **Usage discipline.** A value computed from tokens may be used once. The probe
-  duplicates its score by iteration (`rec-nat` into a pair) to use it as both
-  output and decision. Linear pairs (`tensor`) are needed where a component comes
-  from tokens.
+### 5.4 Costs found
 
-## 6. The time guard (optional; checked on a toy)
+- **A literal in program text** is recorded again at every ancestor node of the
+  program's derivation. Certifying a program with a candidate's code as a literal
+  exhausted a 1.5 GB heap. Candidates must travel as data.
+- **Tokens named in program text** are recorded in every judgment's context: the
+  derivation has 98,593 nodes at 40 tokens, against 34,922 with the supply passed in.
+- **Re-typing every round** took 12–35 s and up to 1.7 GB for three toy rounds.
 
-**The construction.** Add a type ▷A, "A from the next round on", and the hand-over
-rule:
+## 6. The time guard: toy level only
 
-`become : Π(c :ω Syn). T(chk c ⌜A⌝) → ▷A`
+**What the toy checks [K].** The toy adds a type ▷A ("A next round") and
+`become : code A → ▷A`.
+- *Consistency:* the syntax is consistent, by induction on rounds, then budget.
+- *Meaning:* with a round left, `become` of a code is that code's own reading one
+  round later.
+- *Conditionality:* "falsehood next round" is empty while rounds remain and inhabited
+  when none do.
 
-A value of ▷A cannot be used in the current round. This is Fallenstein's T_κ
-(Yudkowsky and Herreshoff 2013, §4.2, eq. 4.6) as a typing rule. Their soundness
-proof is an induction on κ over standard models **[C]**.
+This is Fallenstein's T_κ (Yudkowsky and Herreshoff 2013, §4.2) as a typing rule
+**[C]**.
 
-**What the Ansatz toy checks [K].**
-- *Consistency:* a syntax with held certificates, free codes with D2 and D3,
-  `become`, and agents has no closed proof of ⊥. It is read at (rounds left,
-  budget), by induction on rounds and then budget. The reading with no rounds left
-  already suffices: there ▷A has one element.
-- *The meaning of `become`:* with a round left, `become` of a code is that code's
-  own reading one round later.
-- *Conditionality:* "falsehood next round" is empty while rounds remain, and
-  inhabited when none do.
-- *Held certificates are unaffected:* H₀ and H₁ hold as before.
+**What it would give.** Internal, conditional statements about successors. It gives
+trust that the next round's program has its type, never a result now. It is not
+needed for safety (§5.2).
 
-**What it adds, and what it does not.**
-- **It adds** an *internal* statement about the lineage. The agent can derive
-  ▷Agent from its successor's code, and ▷P for properties P of the next round.
-  Only with the time guard does the lineage theorem have an internal counterpart.
-- **It never adds** an unconditional consistency claim: every "later" statement
-  holds trivially when no round is left (Yudkowsky and Herreshoff's base case
-  κ = 0). T_κ proves κ > 0 → Con(T_κ), never Con(T_κ).
-- **It is not needed for safety:** §5.2 is proved without it.
-
-So the time guard matters exactly when the goal is the agent's self-knowledge of
-its future, not its safety.
+**What transferring it to λᶜᵉʳᵗ₀ needs [O].** The toy has no tokens, no `chk` and no
+data codes: its codes are typed terms. The transfer needs:
+- the rules for ▷ and `become`, with `become`'s premise `chk c ⌜A⌝`;
+- `Check` extended to the new rules;
+- the reading by rounds with Kripke-style functions;
+- termination again.
 
 ## 7. What a self-improving agent gets
 
-| Capability | Mechanism | By itself? | Status |
+| Capability | Mechanism | Inside the agent? | Status |
 | --- | --- | --- | --- |
-| **Safe** self-modification: every output in every round meets the specification | the agent type and the runner; lineage theorem | no: a theorem about the language | ingredients [K]; the induction [A], Phase A |
-| **Justified** adoption | the agent computes `chk c d` itself | yes | [E] |
-| **Verifiable** adoption | every accepted successor carries a derivation that anyone can re-check with the small checker `Check`, extracted from proofs under ADR-0008 | the check is reproducible | [R][E] |
-| **Interpretable** modification | the type is the full specification of every successor; each acceptance has an inspectable derivation; each evaluation has a certificate | the reasons are explicit objects | [E] |
-| **Evaluated** before adoption: complete runs of found code, typed results | `reflect` on held certificates | yes, unconditional, within the budget | [R][E] |
-| **Coherent** commitments | `H₁` over held certificates | yes, unconditional | [R][K] |
-| **Foresight** about successors | `become`, ▷ | yes, conditional on a next round | [K] toy; Phase C |
+| **Safe** in every round | agent type, runner, lineage theorem | no: a theorem about the language | ingredients [K]; induction [A]; projection lemma [O] |
+| **Justified** adoption | the agent computes `chk c d` | yes | [E] |
+| **Auditable** adoption | each acceptance has a derivation (35k–99k nodes in the probes) that anyone can re-check; the runner logs certificates | the record is outside | [E] with the current checker; [O] with the extracted one (ADR-0008) |
+| **Self-extension** within a run | `reflect` on held base-type certificates | yes: complete, cost known in advance | [R][K]; [E] for supplied programs |
+| **Evaluation of a candidate** before adoption | `reflect` on the candidate's application, after root-term verification | yes | [O]: the gate |
+| **Dead-branch elimination** | `H`, `H₁` | yes, at type-checking only | [R][K] |
+| **Foresight** about successors | ▷, `become` | yes, conditional | [K] toy only |
 
-**The pipeline these compose into:**
-
-```
-untrusted proposer ──code + derivations──▶ agent:
-    chk     (does it type?)           — free, decidable
-    hold    (pay tokens)               — the size guard
-    reflect (run it, to completion)    — self-justification, executable
-    decide  (compare results)          — ordinary computation
-    hand over (successor + verdict)    — the runner runs it next round
-```
-
-**What the agent does not get, and why:**
-- *An unconditional internal proof that its lineage is safe.* It would need complete
-  evaluation or trust of code as data (§2).
-- *Stronger logic by its own certification.* A checker that proves the old checker's
-  consistency cannot be certified by the old one (G2). Adopting it is an assumption.
-- *Measuring its own speed.* λᶜᵉʳᵗ₀ programs have no clock. Speed is visible only
-  to the runner.
+**What is not claimed:**
+- *Interpretability* beyond auditable records.
+- *Coherence enforcement* beyond what `Check` already does.
+- *Unconditional internal knowledge of the lineage.*
+- *Stronger logic by self-certification*: G2.
+- *Measuring one's own speed*: there is no clock.
 
 ## 8. Is this the right approach?
 
-**Alternatives considered:**
-- **Proof-carrying code alone,** with external trust. It gives safe and justified
-  adoption, but not complete evaluation of found code inside the agent. If safety
-  were the whole goal, this would be the right choice, and it is the baseline in
-  the experiments.
-- **No inspection (□, Brown–Palsberg).** It gives complete internal evaluation, but
-  only of code built by composition. Candidates that arrive as data cannot be used.
-- **Fuel.** Internal and works on data, but incomplete (§2.1).
-- **Willard's arithmetic systems.** They are self-justifying, but they cannot prove
-  that the operations on proofs are total, so they cannot compose or transform
-  proofs. That is a poor fit for an agent that manipulates code.
-- **HOL with nested inaccessible cardinals** (Fallenstein and Kumar, ITP 2015)
-  **[C]**. It gives internal, conditional reasoning about successors, paid for with
-  large-cardinal assumptions, because HOL is reflected into HOL. In TSLC the
-  metatheory is already stronger than the language, so nothing of the kind is
-  needed.
+**For building safe self-improving agents:** typed hand-over with a fixed checker,
+i.e. proof-carrying code. It is the simplest correct design, and Phase A builds it.
+λᶜᵉʳᵗ₀ is a good host, because its ordinary layer computes on codes at full strength
+and its checker is kernel-verified. Self-justification is not needed here.
 
-**Verdict [A].** For an agent whose candidates arrive as data and which should know
-what it can about itself: the size guard (λᶜᵉʳᵗ₀, built) for unconditional knowledge
-of what it holds, and the time guard (optional) for conditional knowledge of its
-future. Safety itself comes from the type and the runner. Self-justification earns
-its place by what it lets the agent compute and know inside, not by making the
-agent safe.
+**For the research aim**, what a running system can know and guarantee about itself
+by itself, without an outside executor: λᶜᵉʳᵗ₀'s bounded local reflection is the
+right object.
+- It is the only escape in §3 that is complete, internal, works on data, and has a
+  cost known in advance.
+- Whether it also improves self-improvement is the hypothesis of Phase D.
+
+**Alternatives:**
+- *No inspection* cannot accept candidates as data.
+- *Fuel* is incomplete and its cost is unpredictable.
+- *A weaker-language interpreter* bounds what candidates may be.
+- *Willard's arithmetic* restricts the whole system. λᶜᵉʳᵗ₀ restricts only
+  certificates, and it does not compose certificates uniformly either (Thm. 4.6).
+  Its codes, which agents manipulate, stay at full strength.
+- *HOL with large cardinals* (Fallenstein and Kumar, ITP 2015) **[C]** buys
+  conditional internal reasoning with set-theoretic assumptions. That is the time
+  guard's role here, without them.
 
 ## 9. The plan
 
-The plan is ADR-0009's phases, in order.
-
-**Phase A — the agent layer on λᶜᵉʳᵗ₀ as it stands.**
-1. The agent type of §5.1 as a library definition, plus a variant that passes
+**Phase A — the agent layer.**
+1. **Engineering gates:**
+   - candidates as data;
+   - the supply passed in, at budget m + k′;
+   - a runner that evaluates decoded derivations directly;
+   - the budget policy and the certificate log;
+   - stated memory ceilings.
+2. **The agent type** of §5.1, as a library definition, with a variant that passes
    state.
-2. The runner `lc/run-agent` (§5.1). It uses the extracted `Check` once ADR-0008
-   lands, and the current checker until then.
-3. The lineage theorem of §5.2 in Ansatz: an induction over CheckSpec, Lemma 3.6 and
-   Theorems 4 and 4′.
-4. Tests, red then green: the probes' cases, including adoption after `reflect`
-   scoring.
-5. An R4 section and a tutorial section.
+3. **The lineage theorem in Ansatz**, with hypotheses (h1)–(h5) and the projection
+   lemma.
+4. **The gate:** a probe in which the agent evaluates a candidate's own behaviour on a
+   test input (§5.3). It is a go/no-go gate for Phase D.
+5. **Documents:** an R4 section and a tutorial section.
 
-*Success:* the theorem is kernel-checked and the tests pass. *Failure:* the theorem
-needs a rule change. Record what it needs.
+*Failure:* the theorem needs a rule change, or a metatheorem beyond the projection
+lemma; or the gate is infeasible at practical sizes. Each is recorded with what it
+costs the agent.
 
-**Phase D — experiments, after A.**
-- Self-improvement under each regime, on the same candidate stream:
-  1. adoption by check alone;
-  2. check plus `reflect` scoring;
-  3. trial for a round and hand back;
-  4. an H₁-guarded commitment.
-- Measure what each accepts and what it costs.
+**Phase D — the experiment.**
+- *Task:* candidate programs for a fixed scored task. The score is computed by the
+  agent's own fixed scorer from the candidate's outputs on held-out inputs.
+- *Proposer:* the same untrusted stream of candidates, with derivations, for every
+  regime.
+- *Regimes:*
+  - (b1) adopt by check alone;
+  - (b2) trial for a round, revert by state;
+  - (b3) hand over to a checked wrapper that runs the candidate and reverts;
+  - (t) evaluate in-run with `reflect`, then adopt.
+- *Metrics:* the score of the adopted program after N rounds; rounds run under worse
+  programs; tokens and time spent.
+- *Hypothesis:* (t) reaches a higher score, or wastes fewer rounds, than (b2) and
+  (b3) at equal tokens and time. *Refuted* if not, in which case self-justification
+  adds nothing measurable to self-improvement in this architecture, and that is
+  reported.
 
-**Phase B (optional) — `reflect` at functions between base types.** It lets an
-agent evaluate a candidate *agent* on test inputs without a certificate per input.
-The conjecture: the decoded program runs on its input at budget n − (‖v‖ − m)
-**[O]**. Take it up if Phase D shows per-input certificates are the bottleneck.
+**Phase B (optional): `reflect` at functions between base types.** It removes the
+per-input certificate. Take it up if the gate succeeds and per-input cost dominates.
 
-**Phase C (optional, research) — the time guard inside the language.** The rules,
-the checker's cases, consistency by the one-element reading, the meaning theorem by
-the reading over rounds, and termination. Take it up if the goal of internal
-foresight is pursued.
+**Phase C (optional): the time guard in the language** (§6). Take it up for the
+research aim of internal foresight.
 
-**Not planned:** unconditional internal lineage knowledge, which is impossible.
-**Later ADRs:** a checker the language can reason about, and assumptions with blame.
+**ADR-0008's scope** should include the decoder, the evaluator and the runner path,
+not only `Check`.
 
 ## 10. Status of every claim
 
-| Claim | Status | Where |
-| --- | --- | --- |
-| No complete self-evaluator (diagonal) | [C] | Brown–Palsberg 2016 §3.1 |
-| No fuel bound computable inside works for all candidates | [A] | §2.1, from the above |
-| Trust in code at ⊥ with D1–D3 ⇒ ⊥ | [K] | toy `sNoSoundReading` |
-| □ evaluates all types without inspection; no `A → □A` | [C] | Davies–Pfenning 2001 §2 |
-| λᶜᵉʳᵗ₀ T1–T4, T2 = Willard's two clauses | [R][K] | R4 §§3, 5; ADR-0006 |
-| `reflect` runs held code to completion at a smaller budget | [R][K] | R4 §3.2, §4.8 |
-| The diagonal cannot pay for its own certificate | [A] | §4.2 |
-| The agent type needs no new rule | [E] | probes |
-| Lineage theorem | [A] over [K] ingredients | §5.2; Phase A |
-| Evaluation before adoption inside λᶜᵉʳᵗ₀ | [E] | `probe-reflect-adoption.clj` |
-| The time guard is consistent, conditional, and means hand-over | [K] toy | `2026-11-13-tslc-toy.clj` |
-| `reflect` at first-order types | [O] | Phase B |
+| Claim | Status |
+| --- | --- |
+| No total universal function in a total language | [C] Brown–Palsberg §3.1 |
+| No internal fuel bound works for all candidates | [A] |
+| Trust in code at ⊥, with D1–D3 and a fixed point ⇒ ⊥ | [K] toy (`sViaQuine`, `sNoSoundReading`) |
+| P5: λᶜᵉʳᵗ₀ derives no form of code consistency | [R] |
+| □ evaluates at all types; no `A → □A`; no inspection | [C] Davies–Pfenning §2 |
+| T1–T4 | [R][K] |
+| T2's clause (i) as Willard's "states" | [R], informal |
+| `reflect` runs held base-type programs at a smaller budget | [R][K] |
+| No paradox from self-application through `reflect` | [R] (R4 §3.2) |
+| The agent type needs no new rule | [E] |
+| Lineage theorem | [A] over [K] ingredients; projection lemma [O] |
+| `reflect` used in an adoption decision | [E] |
+| Evaluation of the candidate's own behaviour | [O] (Phase A gate) |
+| Time guard: consistency, meaning, conditionality | [K] toy; transfer [O] |
+| `reflect` at first-order types | [O] |
+| The list of escapes is exhaustive | not claimed |
 
 ## 11. Reviews
 
-To be filled in: each review's findings and their disposition.
+**Round 1** (2026-11-13) was two independent reviews of revision 1:
+- Cursor's GPT-5.3 Codex Extra High:
+  [`reviews/round1-cursor-gpt-5.3-codex-xhigh.md`](reviews/round1-cursor-gpt-5.3-codex-xhigh.md),
+  with 11 findings, one critical;
+- a Claude Opus subagent:
+  [`reviews/round1-claude-opus-subagent.md`](reviews/round1-claude-opus-subagent.md),
+  with 1 critical, 9 major and 9 minor findings.
+
+All findings were accepted. The ones that changed the answer:
+
+| Finding | What was wrong | Now |
+| --- | --- | --- |
+| Opus C1 | Candidate evaluation was claimed shown; the probes reflected a proposer-supplied score program | §5.3, §7: [O], with the gate in Phase A |
+| Opus M9(d) | The draft did not consider that trial and wrapper adoption are safe without `reflect` | §0.4, §9: they are baselines; the claim for `reflect` is a falsifiable hypothesis |
+| Opus M2 | It said self-justification's executable content is `reflect`, and that `H₁` comes from it | §4.3: `H` and `H₁` are postulates shown safe; `reflect` is bounded local reflection, with `H` as its ⊥-instance |
+| Opus M6 | It claimed H₁ gives coherence | §4.4: `Check` already enforces it; H₁ only affects typing |
+| Codex TSLC-01; Opus M4 | The lineage theorem used Theorem 4′ beyond base types, and its hypotheses were missing | §5.2: (h1)–(h5) and the projection lemma |
+| Opus M1; Codex TSLC-05 | The diagonal-against-`reflect` steps were wrong | §4.2: the R4 §3.2 argument |
+| Opus M3, M8 | The supply's budget and the free minting of successor budgets were unspecified | §5.1: Θ_{m+k′}, budget policy |
+| Opus M5 | Size was said to be complete where fuel is not | §3: the difference is cost known in advance |
+| Codex TSLC-02 | `reflect` was described as running any program | base types only |
+| Codex TSLC-03; Opus m9 | "No external runner" | "no round-trip outside the run" (§0.3) |
+| Codex TSLC-07; Opus M6 | "Verifiable" with an unextracted checker | "auditable", status split |
+| Codex TSLC-08; Opus M5(c) | The time guard read as established for λᶜᵉʳᵗ₀ | §6: toy level only, transfer obligations |
+| Codex TSLC-04; Opus M7 | "Exactly two options" and "the limit is sharp" | scoped; exhaustiveness not claimed |
+
+**Round 2** (on this revision): pending.
