@@ -1,0 +1,8 @@
+evaluator type-checks at budget 40 : true
+derivation nodes: evaluator 98593 (budget 40 ), stay2 2180
+offered stay2 with a score program computing 2 -> score 2 | adopts stay2: true | keeps itself: false | verdict true | re-check true
+offered stay2 with a score program computing 0 -> score 0 | adopts stay2: false | keeps itself: true | verdict true | re-check true
+offered stay2 with a Bool program -> score 0 | adopts stay2: false | keeps itself: true | verdict true | re-check true
+offered stay2 with junk -> score 0 | adopts stay2: false | keeps itself: true | verdict true | re-check true
+PROBE-REFLECT-ADOPTION-OK
+elapsed 0:34.81 maxrss 1688612KB

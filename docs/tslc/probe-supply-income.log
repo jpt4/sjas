@@ -1,0 +1,6 @@
+evaluator: budget 0 , derivation nodes 34922 ; stay2 nodes 2570
+score 2, supply 40 -> output 2 | adopts stay2: true | keeps itself: false | verdict true | re-check true
+score 2, supply 5 (too small to pay) -> output 0 | adopts stay2: false | keeps itself: true | verdict true | re-check true
+score 0, supply 40 -> output 0 | adopts stay2: false | keeps itself: true | verdict true | re-check true
+PROBE-SUPPLY-INCOME-OK
+elapsed 0:11.62 maxrss 859496KB
