@@ -1,6 +1,6 @@
 # TSLC: what self-justification is, what it does in a running system, and what it does for a self-improving agent
 
-Date: 2026-11-13. Revision 2, after two adversarial reviews (§11).
+Date: 2026-11-14. Revision 4, after four rounds of adversarial review (§11).
 
 Companion files:
 - probes [`probe-supply-income.clj`](probe-supply-income.clj),
@@ -52,23 +52,50 @@ Every claim carries a status mark:
    - What `reflect` buys: a fixed program can extend its own computation with code
      it receives at run time, and the computation is guaranteed to finish.
    - The cost is the certificate's size, in tokens, computable from the code before
-     running it. No fuel bound computable inside the language works for every
-     program (the diagonal argument, §2.1) **[C][A]**.
-4. **For an agent with an external runner, `reflect` is not needed for safety or
-   for adoption.** Two other routes adopt candidates safely:
-   - *trial:* hand over to a candidate for a round;
-   - *composition:* hand over to a checked wrapper that runs the candidate and can
-     revert.
+     running it. Tokens bound the certificate, **not the running time**: the
+     language's ordinary layer has the strength of Gödel's System T, so a small
+     certificate can run for an astronomically long time **[R]**.
+   - **The competitor it must beat** is a *step-limited evaluator* written in
+     λᶜᵉʳᵗ₀ itself: a program `run(c, x, k)` that runs code c on input x for at most
+     k steps and returns either the result or "out of steps". The ordinary layer
+     computes on codes with System T's strength, so it can define one (Kleene's
+     step-counting predicate is primitive recursive) **[A]**; it is not built yet.
+     - It needs no certificate, spends no tokens, works on any input the agent
+       picks during the run, and bounds time.
+     - What it lacks is completeness: it can answer "out of steps". No step bound
+       computable inside the language suffices for every program (§2.1) **[C][A]**.
+   - So `reflect`'s advantages over it are **completeness** and lesser ones: a result
+     of type D rather than "D or out of steps"; reuse of the evaluator R4 already
+     proves correct, where the step-limited one needs its own proof; native speed,
+     unless the implementation adds a native step-limited primitive (which is safe,
+     because such a function is already definable); and a logged certificate per
+     evaluation. Its disadvantages are a certificate per (candidate, input) and no
+     time bound **[A]** (round-4 review).
+4. **For a self-improving agent, self-justification is not needed for any
+   capability shown so far.**
+   - *Safety and adoption* come from typed hand-over (point 1). Trial for a round,
+     and hand-over to a checked wrapper that runs the candidate and reverts, are
+     also safe by the type alone.
+   - *Evaluating found code inside the run* comes from the step-limited evaluator,
+     which needs no self-justification.
 
-   Both are safe by the type alone. What `reflect` might add is choosing among
-   candidates by running them inside one run, before giving up control. That is a
-   **hypothesis**. The plan tests it against both routes, with a criterion that
-   can refute it (§9).
-5. **Where `reflect` is necessary: self-containment.** A single run with no external
-   runner can execute new code to completion only through a guard. λᶜᵉʳᵗ₀'s guard
-   is size **[A]**. So self-justification is the mechanism by which a running
-   system extends and vouches for itself without an outside executor. It is not
-   what makes the system safe.
+   Whether `reflect`'s completeness gives a measurable gain over all three is a
+   **hypothesis**. The plan tests it with a criterion that can refute it (§9), and
+   the predicted outcome is that it does not.
+5. **What self-justification is for: knowing where self-trust stops.**
+   - λᶜᵉʳᵗ₀ shows that a running system can state its own consistency (in
+     certificate form) and completely evaluate its own certified extensions,
+     without contradiction **[R][K]**.
+   - It also shows the boundary: not for codes (P5), not at higher types without new
+     proof (Lemma 3.4), not unguarded (§2) **[R][K][C]**.
+   - That is a result about the limits of self-knowledge, which is the research aim.
+     It is not a tool that makes agents safer or better.
+   - The capability an agent would want from self-trust is different: using a
+     *proof of a universal statement* received at run time, such as "this successor
+     is safe on every input", in its own reasoning. That needs reflection at
+     function types, which is open **[O]**. Even its practical value is
+     unestablished, because typed hand-over already routes every such guarantee
+     through `chk` and the external theorem.
 6. **The limits** apply among the mechanisms known here. No theorem says the list is
    exhaustive **[A]**.
    - Unconditional internal knowledge reaches only what the agent holds.
@@ -84,10 +111,10 @@ Every claim carries a status mark:
      evaluate a *candidate's own behaviour* before adopting it. The earlier draft
      wrongly claimed this was already shown (§11). It has since passed at toy size
      **[E]** (§5.3).
-   - **Phase D** runs a falsifiable experiment: does in-run evaluation beat trial
-     and composition?
-   - **Phases B and C** (reflect at function types, the time guard in the language)
-     wait on Phase D or on the research aim.
+   - **Phase D** runs a falsifiable experiment: does in-run evaluation with
+     `reflect` beat trial, wrapper hand-over and the step-limited evaluator?
+   - **Phases B and C** (reflection beyond base types, the time guard in the
+     language) are research on the limits of self-trust, not agent engineering.
 
 ---
 
@@ -170,17 +197,20 @@ caller to callee. The escapes known here:
 | Escape | What is run or trusted | Complete? | Inside? | Candidates as data? | Cost known in advance? | Status |
 | --- | --- | --- | --- | --- | --- | --- |
 | **External trust** (proof-carrying code; a proof assistant's kernel) | code an outside checker accepts, run by an outside runner | yes | no | yes | n/a | standard |
-| **Fuel** | any code, for k steps | no (§2.1) | yes | yes | no | standard |
+| **Fuel** (e.g. a step-limited evaluator written in λᶜᵉʳᵗ₀) | any code, for k steps | no (§2.1) | yes | yes | fuel needed: no; time: bounded by k | standard; [A] for λᶜᵉʳᵗ₀ |
 | **No inspection** (Davies–Pfenning's `eval : □A → A`; Brown–Palsberg's Fω self-interpreter) | typed code built by composition | yes | yes | no: data never becomes □A ("λx:A. box x cannot be well-typed", DP §2) | n/a | [C] |
 | **Strength** (an interpreter for a weaker language) | code of the weaker language | yes, for that language | yes | yes, if in the weaker language | yes | standard; λᶜᵉʳᵗ₀'s budgets form such a tower |
-| **Size** (λᶜᵉʳᵗ₀ `reflect`; in arithmetic form, Willard's systems) | held certificates of base-type programs | yes, if the tokens are there | yes | yes: `chk` checks data | **yes**: the certificate's node count | [R][K] |
+| **Size** (λᶜᵉʳᵗ₀ `reflect`; in arithmetic form, Willard's systems) | held certificates of base-type programs | yes, if the tokens are there | yes | yes: `chk` checks data | tokens: yes, the certificate's node count; time: no | [R][K] |
 | **Time** (T_κ; ▷ and `become`) | any accepted code, as a program that runs next round | its result arrives next round, not now | trust inside, conditional on a next round | design: yes, via `chk`; toy: no, its codes are typed terms | n/a | [C] T_κ; [K] toy |
 
-**What size buys over fuel** is predictability, not unlimited power. Both depend on
-what the runner supplies. But the tokens a candidate needs are its certificate's
-node count, which the agent can compute before deciding. Once paid, completion is
-guaranteed (T4), however long the run takes. The fuel a candidate needs cannot be
-computed in advance by any program of the language (§2.1).
+**What size buys over fuel** is completeness, not speed or a time bound. The tokens
+a candidate needs are its certificate's node count, which the agent can compute
+before deciding, and once they are paid, completion is guaranteed (T4). But tokens
+bound the certificate's size, not the running time, which can be astronomically
+long. Fuel bounds time and may give no answer; the fuel a candidate needs cannot be
+computed in advance by any program of the language (§2.1). Neither dominates.
+Earlier revisions called the token cost "predictable" as if that were an operational
+advantage; round 4 corrected this (§0.3, §11).
 
 ## 4. λᶜᵉʳᵗ₀: the size guard, already built
 
@@ -431,7 +461,8 @@ data codes: its codes are typed terms. The transfer needs:
 | **Safe** in every round | agent type, runner, lineage theorem | no: a theorem about the language | ingredients [K]; induction [A]; P1 and P2 [O] |
 | **Justified** adoption | the agent computes `chk c d` | yes | [E] |
 | **Auditable** adoption | each acceptance has a derivation (35k–99k nodes in the probes) that anyone can re-check; the runner logs certificates | the record is outside | [E] with the current checker; [O] with the extracted one (ADR-0008) |
-| **Self-extension** within a run | `reflect` on held base-type certificates | yes: complete, cost known in advance | [R][K]; [E] for supplied programs |
+| **Self-extension** within a run | `reflect` on held base-type certificates | yes: complete; token cost known, time not | [R][K]; [E] for supplied programs |
+| **Evaluation of received code** within a run, without self-justification | a step-limited evaluator written in λᶜᵉʳᵗ₀ | yes: any input, time-bounded, may run out of steps | [A]; not built |
 | **Evaluation of a candidate** before adoption | `reflect` on the candidate's application, after root-term verification | yes | [E] for a small `Nat → Nat` candidate; [O] for agent candidates at scale |
 | **Dead-branch elimination** | `H`, `H₁` | yes, at type-checking only | [R][K] |
 | **Foresight** about successors | ▷, `become` | yes, conditional | [K] toy only |
@@ -453,14 +484,18 @@ and its checker is kernel-verified. Self-justification is not needed here.
 **For the research aim**, what a running system can know and guarantee about itself
 by itself, without an outside executor: λᶜᵉʳᵗ₀'s bounded local reflection is the
 right object.
-- Among the escapes in §3, it is the only one that is complete, internal, accepts
-  full-language candidates as data, and has a
-  cost known in advance.
-- Whether it also improves self-improvement is the hypothesis of Phase D.
+- Among the escapes in §3, it is the only one that is complete, internal, and
+  accepts full-language candidates as data, with its cost in tokens known in
+  advance.
+- What it establishes is where sound self-trust stops (§0.5). Whether it also
+  improves self-improvement is Phase D's hypothesis, and the prediction is that it
+  does not beat the step-limited evaluator.
 
 **Alternatives:**
 - *No inspection* cannot accept candidates as data.
-- *Fuel* is incomplete and its cost is unpredictable.
+- *Fuel*, as a step-limited evaluator, is incomplete but time-bounded. For agent
+  engineering it is the practical way to evaluate found code inside a run, and
+  Phase A builds it.
 - *A weaker-language interpreter* bounds what candidates may be.
 - *Willard's arithmetic* restricts the whole system. λᶜᵉʳᵗ₀ restricts only
   certificates, and it does not compose certificates uniformly either (Thm. 4.6).
@@ -484,7 +519,10 @@ right object.
    lemma P1, and runner correctness P2 (§5.2).
 4. **The gate:** a probe in which the agent evaluates a candidate's own behaviour on a
    test input (§5.3). It is a go/no-go gate for Phase D.
-5. **Documents:** an R4 section and a tutorial section.
+5. **The step-limited evaluator** of §0.3, written in λᶜᵉʳᵗ₀, with its correctness
+   proved and tested on the gate's candidates. It is the practical route for
+   in-run evaluation, and Phase D's decisive baseline.
+6. **Documents:** an R4 section and a tutorial section.
 
 *Failure:* the theorem needs a rule change, or a metatheorem beyond the projection
 lemma; or the gate is infeasible at practical sizes. Each is recorded with what it
@@ -501,22 +539,29 @@ costs the agent.
     at the agent type, and revert needs the parent's code in the state;
   - (b3) hand over to a checked wrapper that runs the candidate and reverts: safe
     because the wrapper itself checks at the agent type;
+  - (b4) evaluate in-run with the step-limited evaluator, then adopt;
   - (t) evaluate in-run with `reflect`, then adopt.
 - *Metrics:* the score of the adopted program after N rounds; rounds run under worse
   programs; tokens and time spent.
-- *Hypothesis:* (t) reaches a higher score, or wastes fewer rounds, than (b2) and
-  (b3) at equal tokens and time.
+- *Hypothesis:* (t) reaches a higher score, or wastes fewer rounds, than (b2), (b3)
+  and (b4) at equal tokens and time.
+- *Prediction:* (t) does not beat (b4). (b4) needs no per-input certificate and can
+  reject slow candidates at a deadline; (t)'s only edge is that it never runs out
+  of steps. A pass would be a surprise to explain.
 - *Protocol,* to be fixed in writing before any run:
   - the candidate streams: a seeded generator, with the same seeds for every regime;
   - N, the per-round token budget, and how the runner measures time;
-  - the decision rule: (t) passes only if it beats both (b2) and (b3) on the
+  - the decision rule: (t) passes only if it beats (b2), (b3) and (b4) on the
     pre-registered metric by a pre-registered margin, consistently across seeds; a
     tie counts as a failure.
 - *Refuted* otherwise. Then self-justification adds nothing measurable to
   self-improvement in this architecture, and that is reported.
 
-**Phase B (optional): `reflect` at functions between base types.** It removes the
-per-input certificate. Take it up if the gate succeeds and per-input cost dominates.
+**Phase B (research): reflection beyond base types.** This means `reflect` at
+function types, and at types `Π(x : D). T(b)` with b free of `reflect`. Lemma 3.4
+fails for `T(b)` only because a `reflect` inside b makes its value depend on the
+budget. Phase B asks how far sound self-trust extends to proofs of universal
+statements. It is research on the limits of self-knowledge, not agent engineering.
 
 **Phase C (optional): the time guard in the language** (§6). Take it up for the
 research aim of internal foresight.
@@ -540,6 +585,9 @@ not only `Check`.
 | The agent type needs no new rule | [E] |
 | Lineage theorem | [A] over [K] ingredients; P1 (projections) and P2 (runner correctness) [O] |
 | `reflect` used in an adoption decision | [E] |
+| `reflect`'s token cost bounds certificate size, not running time | [R] (System T strength, R4 design) |
+| A step-limited evaluator written in λᶜᵉʳᵗ₀ evaluates received code in-run without self-justification | [A]; not built |
+| Self-justification adds a practical capability beyond typed hand-over and a step-limited evaluator | not shown; predicted not (Phase D) |
 | Evaluation of the candidate's own behaviour | [E] small candidate (`probe-candidate-evaluation.clj`); [O] at agent scale |
 | Time guard: consistency, meaning, conditionality | [K] toy; transfer [O] |
 | `reflect` at first-order types | [O] |
@@ -574,6 +622,24 @@ All findings were accepted. The ones that changed the answer:
 | Codex TSLC-04; Opus M7 | "Exactly two options" and "the limit is sharp" | scoped; exhaustiveness not claimed |
 
 **After round 1**, the gate probe was run and passed at toy size (§5.3).
+
+**Round 4** (2026-11-14, on revision 3; one question): Cursor's GPT-5.3 Codex Extra
+High, [`reviews/round4-cursor-gpt-5.3-codex-xhigh.md`](reviews/round4-cursor-gpt-5.3-codex-xhigh.md).
+- **The question.** After round 3, I found that every revision had missed the
+  obvious competitor to `reflect`: a step-limited evaluator written in λᶜᵉʳᵗ₀. I
+  had also called token cost "predictable" as if it bounded time.
+- **The review's verdicts:**
+  - the evaluator is definable: yes in principle, but not built;
+  - it needs no certificate and bounds time: holds;
+  - tokens do not bound time: holds;
+  - `reflect` is dominated: partly, because completeness and a total result type
+    can matter;
+  - "no practical capability": overstated;
+  - Phase D lacked the decisive baseline: holds.
+- **Applied:** §0.3–§0.5, §3, §7–§10. The practical advantages it listed (no
+  out-of-steps branch, reuse of the proved evaluator, native speed, logged
+  certificates) are stated in §0.3. The claim is now that no practical gain is
+  shown and none is predicted, not that none exists.
 
 **Round 3** (2026-11-13, on revision 3): Cursor's GPT-5.3 Codex Extra High,
 [`reviews/round3-cursor-gpt-5.3-codex-xhigh.md`](reviews/round3-cursor-gpt-5.3-codex-xhigh.md).

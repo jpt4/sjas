@@ -624,3 +624,11 @@ See [the analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.m
   - Phase D: the experiment.
   - Phases B and C: optional.
 - **Context.** The machine rebooted at 20:01, which cleared the scratchpad; the lanes and the memory notifier were restarted.
+
+## 2026-11-14 — TSLC rationale, round 4: the missing competitor
+- **The error.** After round 3, I found an error that all three earlier reviews had missed. The rationale compared `reflect` only with trial and wrapper hand-over. It never compared it with a step-limited evaluator written in λᶜᵉʳᵗ₀ itself. It also called `reflect`'s token cost "predictable" as if tokens bounded time; they bound certificate size, and System T strength allows astronomically long runs.
+- **Review.** A round-4 review (Cursor's GPT-5.3 Codex Extra High; `docs/tslc/reviews/round4-…`) confirmed the error. It found "no practical capability" overstated: completeness, a total result type, reuse of the proved evaluator and logged certificates are real but minor advantages.
+- **Revision 4 of RATIONALE and ADR-0009.**
+  - Self-justification is needed for no agent capability shown so far. Safety comes from typed hand-over; in-run evaluation comes from the step-limited evaluator, which Phase A now builds.
+  - Phase D adds baseline (b4) and predicts that `reflect` does not beat it.
+  - Self-justification's value is showing where sound self-trust stops, which is the research aim. Phase B is reframed as research on reflection beyond base types.

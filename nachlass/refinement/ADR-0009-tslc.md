@@ -1,7 +1,7 @@
 # ADR-0009 — TSLC: self-modifying agents in λᶜᵉʳᵗ
 
-**Status.** Proposed 2026-11-13. Awaiting the user's decision. Revision 3, after two
-adversarial reviews.
+**Status.** Proposed 2026-11-13. Awaiting the user's decision. Revision 4
+(2026-11-14), after four rounds of adversarial review.
 
 **Branch.** Recorded on `f6-p5`. Each phase gets its own branch when it starts.
 
@@ -22,7 +22,14 @@ The rationale establishes four points:
   shown safe by budget descent. They never run.
 - **The executable principle.** It is `reflect`: bounded local reflection at base
   types, whose ⊥-instance is `H`. It lets a running program extend itself with code
-  received at run time, with completion guaranteed and the cost known in advance.
+  received at run time, with completion guaranteed. Its token cost is known in
+  advance; its running time is not.
+- **The competitor.** A step-limited evaluator written in λᶜᵉʳᵗ₀ evaluates received
+  code during a run without self-justification. It needs no certificate, works on
+  any input and bounds time, but can run out of steps. `reflect`'s edge over it is
+  completeness and some lesser conveniences (round 4).
+- **Hence.** Self-justification is not needed for any agent capability shown so far.
+  Its value is in showing where sound self-trust stops, which is the research aim.
 - **What remains open.** It is not yet shown that this helps an agent improve itself
   beyond what trial or wrapper adoption already gives. An agent can evaluate a small
   function candidate's own behaviour this way (the gate probe); doing so for agent
@@ -63,7 +70,9 @@ The rationale establishes four points:
 
    Its target term is defined in the rationale §5.3. Gate soundness (extractor
    correctness plus the Reflect case) is a proof obligation of this phase.
-   This is go/no-go for Phase D's regime (t). It passed at toy size on 2026-11-13
+   This is go/no-go for Phase D's regime (t). Alongside it, write the step-limited
+   evaluator in λᶜᵉʳᵗ₀, prove it correct, and test it on the same candidates. It is
+   the practical route for in-run evaluation and Phase D's baseline (b4). It passed at toy size on 2026-11-13
    ([`probe-candidate-evaluation.clj`](../../docs/tslc/probe-candidate-evaluation.clj)):
    a `Nat → Nat` candidate evaluated on 3 gives its real output, and a certificate of
    any other program gives the fallback. What remains is to apply it to the
@@ -91,11 +100,13 @@ Each is recorded with what the agent loses.
   - (b1) adopt by check alone;
   - (b2) trial for a round, and revert by state;
   - (b3) hand over to a checked wrapper that runs the candidate and reverts;
+  - (b4) evaluate in-run with the step-limited evaluator, then adopt;
   - (t) evaluate in-run with `reflect`, then adopt.
 - **Metrics:** the score of the adopted program after N rounds; the number of rounds
   run under a worse program; tokens and time.
-- **Hypothesis:** at equal tokens and time, (t) reaches a higher score than (b2) and
-  (b3), or wastes fewer rounds.
+- **Hypothesis:** at equal tokens and time, (t) reaches a higher score than (b2), (b3)
+  and (b4), or wastes fewer rounds.
+- **Prediction:** it does not beat (b4). A pass would be a surprise to explain.
 - **Pre-registration:** before any run, fix in this ADR:
   - the seeds of the candidate streams;
   - N, the per-round budget and the timing method;
@@ -107,8 +118,8 @@ Each is recorded with what the agent loses.
 
 ### Optional
 
-- **Phase B — `reflect` at functions between base types,** removing the per-input
-  certificate. Take it up if the gate succeeds and per-input cost dominates.
+- **Phase B — reflection beyond base types** (function types; `Π(x : D). T(b)` with b
+  free of `reflect`). This is research on how far sound self-trust reaches.
 - **Phase C — the time guard in the language:** ▷, `become` with premise `chk c ⌜A⌝`,
   the checker's cases, the reading by rounds, and termination. Take it up for the
   research aim of internal foresight.
