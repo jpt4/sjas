@@ -57,7 +57,11 @@ The rationale establishes four points:
      is the candidate's term applied to the input;
    - then it pays for the derivation and runs it with `reflect`.
 
-   This is go/no-go for Phase D's regime (t).
+   This is go/no-go for Phase D's regime (t). It passed at toy size on 2026-11-13
+   ([`probe-candidate-evaluation.clj`](../../docs/tslc/probe-candidate-evaluation.clj)):
+   a `Nat → Nat` candidate evaluated on 3 gives its real output, and a certificate of
+   any other program gives the fallback. What remains is to apply it to the
+   projections of agent candidates, at stated sizes.
 6. **Documents:** an R4 section on agents, and a tutorial section.
 
 **Success:**

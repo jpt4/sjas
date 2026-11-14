@@ -82,7 +82,8 @@ Every claim carries a status mark:
    - **Phase A** builds the agent layer: the agent type, a runner, the lineage
      theorem in Ansatz, and a gating probe that checks whether an agent can
      evaluate a *candidate's own behaviour* before adopting it. The earlier draft
-     wrongly claimed this was already shown (§11).
+     wrongly claimed this was already shown (§11). It has since passed at toy size
+     **[E]** (§5.3).
    - **Phase D** runs a falsifiable experiment: does in-run evaluation beat trial
      and composition?
    - **Phases B and C** (reflect at function types, the time guard in the language)
@@ -338,9 +339,9 @@ if `reflect` works at the agent's type (Phase B; the toy's `reflA`).
 - **`reflect` inside an adoption decision** (both reflect probes). The decision used
   the result of running a held certificate.
 
-**Not shown:** *evaluation of the candidate itself*. In both reflect probes, the
-reflected program is a score program the proposer supplied, unrelated to the
-candidate, so the proposer chose the score **[O]**.
+**Not shown by those two probes:** *evaluation of the candidate itself*. In both,
+the reflected program is a score program the proposer supplied, unrelated to the
+candidate, so the proposer chose the score. The gate below closes this.
 
 **The gate (Phase A item 4).** The agent fixes a test input i. The proposer supplies
 a derivation code D. The agent then:
@@ -353,6 +354,19 @@ a derivation code D. The agent then:
 
 No new rule and no derivation builder are needed. The cost is at least the
 candidate's derivation plus the literal.
+
+**The gate, run** (`probe-candidate-evaluation.clj`, 13 s) **[E]**. The candidate is
+`λx. x + 2`; the test input is 3.
+- With the proposer's derivation of "the candidate applied to 3" (66 nodes), the
+  agent verifies the root term, pays from a 160-token supply, and gets **5**, the
+  candidate's own output.
+- With a derivation of the candidate applied to 4, of another function applied to 3,
+  or of an unrelated `Nat` program, the root terms differ and it gets the fallback 0.
+
+So in-run evaluation of a candidate's behaviour works in λᶜᵉʳᵗ₀ as it stands, at one
+certificate per (candidate, input). Applying it to full agent candidates means
+reflecting the base-type projections of an agent's output; that, and the sizes it
+reaches, are Phase A work.
 
 ### 5.4 Costs found
 
@@ -395,7 +409,7 @@ data codes: its codes are typed terms. The transfer needs:
 | **Justified** adoption | the agent computes `chk c d` | yes | [E] |
 | **Auditable** adoption | each acceptance has a derivation (35k–99k nodes in the probes) that anyone can re-check; the runner logs certificates | the record is outside | [E] with the current checker; [O] with the extracted one (ADR-0008) |
 | **Self-extension** within a run | `reflect` on held base-type certificates | yes: complete, cost known in advance | [R][K]; [E] for supplied programs |
-| **Evaluation of a candidate** before adoption | `reflect` on the candidate's application, after root-term verification | yes | [O]: the gate |
+| **Evaluation of a candidate** before adoption | `reflect` on the candidate's application, after root-term verification | yes | [E] for a small `Nat → Nat` candidate; [O] for agent candidates at scale |
 | **Dead-branch elimination** | `H`, `H₁` | yes, at type-checking only | [R][K] |
 | **Foresight** about successors | ▷, `become` | yes, conditional | [K] toy only |
 
@@ -494,7 +508,7 @@ not only `Check`.
 | The agent type needs no new rule | [E] |
 | Lineage theorem | [A] over [K] ingredients; projection lemma [O] |
 | `reflect` used in an adoption decision | [E] |
-| Evaluation of the candidate's own behaviour | [O] (Phase A gate) |
+| Evaluation of the candidate's own behaviour | [E] small candidate (`probe-candidate-evaluation.clj`); [O] at agent scale |
 | Time guard: consistency, meaning, conditionality | [K] toy; transfer [O] |
 | `reflect` at first-order types | [O] |
 | The list of escapes is exhaustive | not claimed |
@@ -526,5 +540,7 @@ All findings were accepted. The ones that changed the answer:
 | Codex TSLC-07; Opus M6 | "Verifiable" with an unextracted checker | "auditable", status split |
 | Codex TSLC-08; Opus M5(c) | The time guard read as established for λᶜᵉʳᵗ₀ | §6: toy level only, transfer obligations |
 | Codex TSLC-04; Opus M7 | "Exactly two options" and "the limit is sharp" | scoped; exhaustiveness not claimed |
+
+**After round 1**, the gate probe was run and passed at toy size (§5.3).
 
 **Round 2** (on this revision): pending.

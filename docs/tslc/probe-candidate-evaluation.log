@@ -1,0 +1,11 @@
+evaluate type-checks: true
+   (supplied derivation: 66 nodes)
+D = the candidate applied to 3 -> 5
+   (supplied derivation: 75 nodes)
+D = the candidate applied to 4 (wrong input) -> 0
+   (supplied derivation: 56 nodes)
+D = another function applied to 3 -> 0
+   (supplied derivation: 71 nodes)
+D = an unrelated Nat program -> 0
+PROBE-CANDIDATE-EVALUATION-OK
+elapsed 0:12.96 maxrss 1120712KB
