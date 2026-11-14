@@ -47,9 +47,12 @@ The rationale establishes four points:
    `reflect`. Add a variant that passes state.
 3. **The runner** `lc/run-agent`, with the gates above. Until ADR-0008 lands, it uses
    the current checker as the test oracle.
-4. **The lineage theorem in Ansatz**, under hypotheses (h1)–(h5) of the rationale
-   §5.2, with the projection lemma: Theorem 4′'s agreement for the three base-type
-   projections of an agent's output.
+4. **The lineage theorem in Ansatz**, under hypotheses (h1)–(h6) of the rationale
+   §5.2. It needs two lemmas:
+   - P1, the projection lemma: Theorem 4′'s agreement for the three base-type
+     projections of an agent's output;
+   - P2, runner correctness: the runner implements the formal decoder, evaluator
+     and `Check`. This is met by extraction.
 5. **The gate probe.** An agent evaluates a candidate's own behaviour on a fixed test
    input:
    - it checks a proposer-supplied derivation at the base output type;
@@ -57,6 +60,8 @@ The rationale establishes four points:
      is the candidate's term applied to the input;
    - then it pays for the derivation and runs it with `reflect`.
 
+   Its target term is defined in the rationale §5.3. Gate soundness (extractor
+   correctness plus the Reflect case) is a proof obligation of this phase.
    This is go/no-go for Phase D's regime (t). It passed at toy size on 2026-11-13
    ([`probe-candidate-evaluation.clj`](../../docs/tslc/probe-candidate-evaluation.clj)):
    a `Nat → Nat` candidate evaluated on 3 gives its real output, and a certificate of
@@ -89,7 +94,13 @@ Each is recorded with what the agent loses.
 - **Metrics:** the score of the adopted program after N rounds; the number of rounds
   run under a worse program; tokens and time.
 - **Hypothesis:** at equal tokens and time, (t) reaches a higher score than (b2) and
-  (b3), or wastes fewer rounds. **Refuted** if it does not. A refutation is reported
+  (b3), or wastes fewer rounds.
+- **Pre-registration:** before any run, fix in this ADR:
+  - the seeds of the candidate streams;
+  - N, the per-round budget and the timing method;
+  - the metric, the margin and the decision rule (consistent across seeds; a tie
+    fails).
+- **Refuted** if (t) fails that rule. A refutation is reported
   as the finding that self-justification adds nothing measurable to self-improvement
   in this architecture.
 

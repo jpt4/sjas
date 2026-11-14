@@ -291,6 +291,8 @@ Only codes and data cross rounds.
   one Lemma 3.6 is proved for. In the implementation that requires ADR-0008's
   extracted `Check`.
 - (h5) `safe` is closed and free of `reflect`.
+- (h6) In every round the runner passes d = ⌜Agent⌝ and self = the current code, and
+  on a true verdict the next round's code is exactly the returned c.
 
 **Statement [A].** For every input sequence and every round k the runner reaches:
 - round k's run terminates;
@@ -298,20 +300,26 @@ Only codes and data cross rounds.
 - if its verdict is true, `Check(c_k, ⌜Agent⌝) = tt`, so round k + 1 again runs a
   checked agent.
 
-**Proof.** By induction on k:
+**Proof plan** (the theorem is *pending* until P1 and P2 below are proved). By
+induction on k:
 1. CheckSpec decodes the code into a derivation with m < ‖code‖ **[K]**.
 2. Lemma 3.6 puts t's value in Agent's semantic set. Applied to the literals and a
    supply in R's set at footprint k′ (the Π₁ clause needs m + k′ ≤ n), it gives:
    - an action whose `safe` holds;
    - a code c and a Boolean b;
    - non-empty evidence for `T(if b then Check(c, ⌜Agent⌝) else tt)`.
-3. Theorems 4 and 4′ make the runner's computed values the model's **[K]**.
+3. *Given P1 and P2,* Theorems 4 and 4′ make the runner's computed values the
+   model's.
 
-**Proof work that remains [O].** Theorem 4′ is stated for derivable programs of base
-type. The runner reads three projections: the action (`Nat`), the code (`Syn`), the
-verdict (`Bool`). So step 3 needs either derivations of the projection programs in
-Θ_{m+k′} (by weakening and typing the literals), or the Π-clause of 4′'s relation. The
-latter appears in 4′'s proof but not its statement. Either is a lemma to prove.
+**Proof work that remains [O].**
+- **P1, the projection lemma.** Theorem 4′ is stated for derivable programs of base
+  type. The runner reads three projections: the action (`Nat`), the code (`Syn`),
+  the verdict (`Bool`). Step 3 needs either derivations of the projection programs in
+  Θ_{m+k′} (by weakening and typing the literals), or the Π-clause of 4′'s relation,
+  which appears in 4′'s proof but not its statement.
+- **P2, runner correctness.** The runner's operational steps (decode, build the
+  supply, evaluate, re-check) implement the formal decoder, evaluator and `Check`
+  under (h2) and (h6). This is to be met by extracting them (ADR-0008's scope).
 
 **Trusted base.** `Check`, the decoder, the evaluator and the runner. The probes'
 runner also re-types each round's application with the typer. The production runner
@@ -354,6 +362,21 @@ a derivation code D. The agent then:
 
 No new rule and no derivation builder are needed. The cost is at least the
 candidate's derivation plus the literal.
+
+**The target term, exactly.**
+- For a function candidate `t : I → D`, it is `app(t, ⌜i⌝)`.
+- For an agent candidate, it is the action projection of `t ⌜Agent⌝ ⌜c⌝ ⌜i⌝ s₀`.
+  Here c is the candidate's code, and s₀ is a supply term built inside the
+  certificate from its own tokens; the agent checks every component but s₀.
+
+**Gate soundness, a proof obligation [O]:** if `Check(D, ⌜D⌝) = tt` and
+`termof(D)` equals the target, then `reflect` on a certificate of D returns the
+target's value. It needs two lemmas:
+- *extractor correctness:* `termof` returns the encoding of the term that the
+  decoder reads from an accepted D;
+- *the Reflect case of Lemma 3.6 with Theorem 4′.*
+
+The context of D's root judgment is only tokens, so it constrains nothing else.
 
 **The gate, run** (`probe-candidate-evaluation.clj`, 13 s) **[E]**. The candidate is
 `λx. x + 2`; the test input is 3.
@@ -430,7 +453,8 @@ and its checker is kernel-verified. Self-justification is not needed here.
 **For the research aim**, what a running system can know and guarantee about itself
 by itself, without an outside executor: λᶜᵉʳᵗ₀'s bounded local reflection is the
 right object.
-- It is the only escape in §3 that is complete, internal, works on data, and has a
+- Among the escapes in §3, it is the only one that is complete, internal, accepts
+  full-language candidates as data, and has a
   cost known in advance.
 - Whether it also improves self-improvement is the hypothesis of Phase D.
 
@@ -473,15 +497,23 @@ costs the agent.
   regime.
 - *Regimes:*
   - (b1) adopt by check alone;
-  - (b2) trial for a round, revert by state;
-  - (b3) hand over to a checked wrapper that runs the candidate and reverts;
+  - (b2) trial for a round, revert by state: safe because every candidate checks
+    at the agent type, and revert needs the parent's code in the state;
+  - (b3) hand over to a checked wrapper that runs the candidate and reverts: safe
+    because the wrapper itself checks at the agent type;
   - (t) evaluate in-run with `reflect`, then adopt.
 - *Metrics:* the score of the adopted program after N rounds; rounds run under worse
   programs; tokens and time spent.
 - *Hypothesis:* (t) reaches a higher score, or wastes fewer rounds, than (b2) and
-  (b3) at equal tokens and time. *Refuted* if not, in which case self-justification
-  adds nothing measurable to self-improvement in this architecture, and that is
-  reported.
+  (b3) at equal tokens and time.
+- *Protocol,* to be fixed in writing before any run:
+  - the candidate streams: a seeded generator, with the same seeds for every regime;
+  - N, the per-round token budget, and how the runner measures time;
+  - the decision rule: (t) passes only if it beats both (b2) and (b3) on the
+    pre-registered metric by a pre-registered margin, consistently across seeds; a
+    tie counts as a failure.
+- *Refuted* otherwise. Then self-justification adds nothing measurable to
+  self-improvement in this architecture, and that is reported.
 
 **Phase B (optional): `reflect` at functions between base types.** It removes the
 per-input certificate. Take it up if the gate succeeds and per-input cost dominates.
@@ -543,4 +575,19 @@ All findings were accepted. The ones that changed the answer:
 
 **After round 1**, the gate probe was run and passed at toy size (§5.3).
 
-**Round 2** (on this revision): pending.
+**Round 2** (2026-11-13, on revision 2): Cursor's GPT-5.3 Codex Extra High,
+[`reviews/round2-cursor-gpt-5.3-codex-xhigh.md`](reviews/round2-cursor-gpt-5.3-codex-xhigh.md).
+- It judged most round-1 findings resolved, and five partly resolved. A Grok review
+  was stopped after its connection to Cursor kept failing.
+- It added six findings, five of them major. All were accepted:
+  - the gate's target term was unspecified for agents: now "the target term,
+    exactly" (§5.3);
+  - root-term equality needed a soundness argument: the gate-soundness obligation;
+  - the per-round runner invariants were missing: (h6);
+  - the proof read as finished: it is now a proof plan, pending P1 and P2;
+  - Phase D was not pre-registered: the protocol in §9;
+  - the safety preconditions of b2 and b3 were missing, and "the only escape" was
+    unscoped: both stated (§8, §9).
+- Its verdict: no critical issue remains. The account cannot yet be accepted as
+  complete end to end until the pending proofs P1 and P2 and gate soundness are done
+  and Phase D is run. Those are exactly Phase A's and Phase D's work.
