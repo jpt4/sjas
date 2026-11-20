@@ -632,3 +632,8 @@ See [the analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.m
   - Self-justification is needed for no agent capability shown so far. Safety comes from typed hand-over; in-run evaluation comes from the step-limited evaluator, which Phase A now builds.
   - Phase D adds baseline (b4) and predicts that `reflect` does not beat it.
   - Self-justification's value is showing where sound self-trust stops, which is the research aim. Phase B is reframed as research on reflection beyond base types.
+
+## 2026-11-20 — The TSLC rationale as an HTML page
+- At the user's request, `docs/tslc/RATIONALE.md` (revision 4) is now also `docs/tslc/RATIONALE.html`, generated with pandoc. The text is unchanged. The page adds coloured chips for the status marks, links for the document's own § references, and a contents rail. Relative repository links become labels whose tooltip gives the repository path. The Markdown file stays the source.
+- The same page is published as a private Claude artifact so the user can read it away from this machine; `f6-p5` is not pushed.
+- **Lanes.** The machine rebooted on 2026-11-19 at 15:00. On 2026-11-20 the p2, s3 and main supervisors and the memory notifier were restarted per HANDOFF.md. Codex's weekly limit had reset.

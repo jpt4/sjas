@@ -1,0 +1,1010 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TSLC Rationale</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=STIX+Two+Text&family=Noto+Sans+Math&display=swap">
+<style>
+/* Layout: one reading column (~70ch) with a sticky contents rail on wide screens.
+   Status marks are coloured chips whose colour encodes the epistemic status. */
+:root {
+  --bg: #f4f6f9;
+  --surface: #ffffff;
+  --ink: #151922;
+  --muted: #576072;
+  --rule: #d7dce5;
+  --accent: #2c4ea0;
+  --code-bg: #e9edf3;
+  --k-bg: #d9efe0; --k-fg: #1b5b31;
+  --r-bg: #dce5f7; --r-fg: #23458c;
+  --e-bg: #d6ecee; --e-fg: #155a60;
+  --c-bg: #ebe2f4; --c-fg: #593983;
+  --a-bg: #f5e8cc; --a-fg: #774f0c;
+  --o-bg: #f7dede; --o-fg: #8c2828;
+  --font-head: "IBM Plex Sans", "Helvetica Neue", Arial, "Noto Sans Math", sans-serif;
+  --font-body: "Source Serif 4", "STIX Two Text", Georgia, "Noto Sans Math", serif;
+  --font-mono: "JetBrains Mono", "DejaVu Sans Mono", Menlo, Consolas, "Noto Sans Math", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1217; --surface: #161b23; --ink: #e2e6ed; --muted: #9aa3b4; --rule: #2a313d;
+    --accent: #93aef2; --code-bg: #1d232d;
+    --k-bg: #183824; --k-fg: #9fdcb2;
+    --r-bg: #1c2a4a; --r-fg: #a9c0f3;
+    --e-bg: #15363a; --e-fg: #95d6dc;
+    --c-bg: #2d2342; --c-fg: #cdb6ef;
+    --a-bg: #3b2d12; --a-fg: #ecc982;
+    --o-bg: #421c1c; --o-fg: #f1a9a9;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1217; --surface: #161b23; --ink: #e2e6ed; --muted: #9aa3b4; --rule: #2a313d;
+  --accent: #93aef2; --code-bg: #1d232d;
+  --k-bg: #183824; --k-fg: #9fdcb2;
+  --r-bg: #1c2a4a; --r-fg: #a9c0f3;
+  --e-bg: #15363a; --e-fg: #95d6dc;
+  --c-bg: #2d2342; --c-fg: #cdb6ef;
+  --a-bg: #3b2d12; --a-fg: #ecc982;
+  --o-bg: #421c1c; --o-fg: #f1a9a9;
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.62;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  -webkit-text-size-adjust: 100%;
+}
+
+.page {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding-block: 40px 64px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px;
+}
+@media (min-width: 1100px) {
+  .page {
+    grid-template-columns: 230px minmax(0, 1fr);
+    column-gap: 56px;
+  }
+  .masthead { grid-column: 2; }
+  .rail { grid-column: 1; grid-row: 1 / span 2; }
+  .doc { grid-column: 2; }
+  .toc-mobile { display: none; }
+}
+@media (max-width: 1099px) {
+  .rail { display: none; }
+}
+
+/* ---------- header ---------- */
+.masthead { display: grid; gap: 14px; min-width: 0; }
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-head);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+h1 {
+  margin: 0;
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: clamp(1.6rem, 1.1rem + 2vw, 2.35rem);
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  max-width: 30ch;
+}
+.meta { margin: 0; color: var(--muted); font-family: var(--font-head); font-size: 0.92rem; }
+
+.front {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+  margin-top: 10px;
+  padding-block: 20px;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+@media (min-width: 760px) {
+  .front { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 40px; }
+}
+h2.small {
+  margin: 0 0 8px;
+  font-family: var(--font-head);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.companions ul { margin: 0; padding-left: 1.1em; font-size: 0.93rem; line-height: 1.5; }
+.companions li + li { margin-top: 4px; }
+.legend { display: grid; gap: 7px; font-size: 0.9rem; line-height: 1.4; }
+.leg { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; align-items: baseline; }
+
+/* ---------- status marks ---------- */
+.mks { display: inline-flex; gap: 3px; vertical-align: 0.08em; white-space: nowrap; }
+.mk {
+  display: inline-block;
+  min-width: 1.45em;
+  padding: 0 0.32em;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.72em;
+  font-weight: 500;
+  line-height: 1.55;
+  text-align: center;
+  cursor: help;
+}
+.mk-K { background: var(--k-bg); color: var(--k-fg); }
+.mk-R { background: var(--r-bg); color: var(--r-fg); }
+.mk-E { background: var(--e-bg); color: var(--e-fg); }
+.mk-C { background: var(--c-bg); color: var(--c-fg); }
+.mk-A { background: var(--a-bg); color: var(--a-fg); }
+.mk-O { background: var(--o-bg); color: var(--o-fg); }
+.leg .mk { font-size: 0.8rem; }
+
+/* ---------- contents ---------- */
+.toc { list-style: none; margin: 0; padding: 0; font-family: var(--font-head); font-size: 0.84rem; line-height: 1.35; }
+.toc li { margin: 0; }
+.toc a {
+  display: grid;
+  grid-template-columns: 2.4em minmax(0, 1fr);
+  padding: 4px 0;
+  color: var(--ink);
+  text-decoration: none;
+}
+.toc li.l3 a { color: var(--muted); font-size: 0.95em; }
+.toc a:hover { color: var(--accent); }
+.tnum { font-family: var(--font-mono); font-size: 0.86em; color: var(--muted); }
+.toc li.l2 { margin-top: 6px; }
+.toc li.l2 a { font-weight: 500; }
+
+.rail {
+  position: sticky;
+  top: calc(env(safe-area-inset-top, 0px) + 24px);
+  align-self: start;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  padding-right: 6px;
+}
+.rail-head, .toc-mobile summary {
+  margin: 0 0 6px;
+  font-family: var(--font-head);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.toc-mobile { border-bottom: 1px solid var(--rule); padding-bottom: 12px; }
+.toc-mobile summary { cursor: pointer; margin: 0; padding: 4px 0; }
+.toc-mobile .toc { margin-top: 8px; }
+
+/* ---------- document ---------- */
+.doc { min-width: 0; max-width: 760px; }
+.doc > p, .doc > ul, .doc > ol, .answer > p, .answer > ol { max-width: 70ch; }
+h2, h3 { font-family: var(--font-head); text-wrap: balance; scroll-margin-top: 20px; }
+.doc h2 {
+  margin: 56px 0 14px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.005em;
+}
+.doc h3 { margin: 34px 0 10px; font-size: 1.12rem; font-weight: 600; line-height: 1.3; }
+.num { font-family: var(--font-mono); font-weight: 500; color: var(--accent); margin-right: 0.35em; font-size: 0.86em; }
+.doc hr { display: none; }
+p { margin: 0 0 14px; }
+ul, ol { margin: 0 0 14px; padding-left: 1.35em; }
+li { margin: 4px 0; }
+li > ul, li > ol { margin: 6px 0 4px; }
+li::marker { color: var(--muted); }
+strong { font-weight: 600; }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+a.xref { text-decoration: none; border-bottom: 1px dotted currentColor; }
+.path { border-bottom: 1px dotted var(--muted); cursor: help; }
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.84em;
+  background: var(--code-bg);
+  padding: 0.08em 0.3em;
+  border-radius: 4px;
+}
+pre {
+  margin: 0 0 16px;
+  padding: 16px 18px;
+  background: var(--code-bg);
+  border-radius: 8px;
+  overflow-x: auto;
+  line-height: 1.55;
+}
+pre code { background: none; padding: 0; font-size: 0.86rem; }
+
+/* The answer: section 0, set apart as the place to start. */
+.answer {
+  margin-top: 36px;
+  padding: 4px 28px 14px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+}
+.answer h2 { margin-top: 22px; }
+.answer > ol > li { margin: 14px 0; padding-left: 4px; }
+.answer > ol > li::marker { font-family: var(--font-mono); font-weight: 500; color: var(--accent); }
+.answer > ol > li:target { background: var(--code-bg); border-radius: 6px; }
+@media (max-width: 560px) {
+  .answer { padding: 2px 16px 10px; margin-inline: -4px; }
+}
+
+/* Tables scroll inside their own box. */
+.table-wrap { overflow-x: auto; margin: 6px 0 20px; -webkit-overflow-scrolling: touch; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-head);
+  font-size: 0.86rem;
+  line-height: 1.42;
+}
+th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--rule); }
+th { font-weight: 600; font-size: 0.8rem; color: var(--muted); border-bottom: 1.5px solid var(--ink); white-space: nowrap; }
+td code { font-size: 0.82em; }
+.table-wrap.wide table { min-width: 860px; }
+tbody tr:hover { background: var(--surface); }
+
+.foot {
+  margin-top: 56px;
+  padding-top: 14px;
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-head);
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+</style>
+<!-- Generated from docs/tslc/RATIONALE.md at commit 88ef8e94. The Markdown file is the source;
+     this page changes only presentation (status-mark chips, section links, contents). -->
+</head>
+<body>
+<div class="page">
+  <header class="masthead">
+    <p class="eyebrow">TSLC · λᶜᵉʳᵗ₀ · rationale for ADR-0009</p>
+    <h1>What self-justification is, what it does in a running system, and what it does for a self-improving agent</h1>
+    <p class="meta">2026-11-14. Revision 4, after four rounds of adversarial review (§11).</p>
+    <div class="front">
+      <div class="companions">
+        <h2 class="small">Companion files</h2>
+        <ul>
+<li>probes <span class="path" title="In the repository: docs/tslc/probe-supply-income.clj"><code>probe-supply-income.clj</code></span>, <span class="path" title="In the repository: docs/tslc/probe-reflect-adoption.clj"><code>probe-reflect-adoption.clj</code></span> and <span class="path" title="In the repository: docs/log/2026-11-13-agent-probe.clj"><code>../log/2026-11-13-agent-probe.clj</code></span>, with their logs;</li>
+<li>the Ansatz toy <span class="path" title="In the repository: docs/log/2026-11-13-tslc-toy.clj"><code>../log/2026-11-13-tslc-toy.clj</code></span>;</li>
+<li>the plan, <span class="path" title="In the repository: nachlass/refinement/ADR-0009-tslc.md">ADR-0009</span>;</li>
+<li>λᶜᵉʳᵗ₀'s design <span class="path" title="In the repository: nachlass/refinement/R4-certificate-calculus.md">R4-certificate-calculus</span> and metatheory <span class="path" title="In the repository: nachlass/refinement/R4-metatheory.md">R4-metatheory</span>;</li>
+<li>the reviews, in <span class="path" title="In the repository: docs/tslc/reviews"><code>reviews/</code></span>.</li>
+</ul>
+
+      </div>
+      <div class="legend">
+        <h2 class="small">Every claim carries a status mark</h2>
+        <div class="leg"><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span><span>kernel-checked in Ansatz</span></div><div class="leg"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span><span>proved in R4, a reviewed paper proof (its core [K] under ADR-0006)</span></div><div class="leg"><span class="mk mk-E" title="[E] executed: a probe ran in the λᶜᵉʳᵗ₀ implementation">E</span><span>executed: a probe ran in the λᶜᵉʳᵗ₀ implementation</span></div><div class="leg"><span class="mk mk-C" title="[C] a cited result, read in its source">C</span><span>a cited result, read in its source</span></div><div class="leg"><span class="mk mk-A" title="[A] an argument given here, not machine-checked">A</span><span>an argument given here, not machine-checked</span></div><div class="leg"><span class="mk mk-O" title="[O] open">O</span><span>open</span></div>
+      </div>
+    </div>
+    <details class="toc-mobile">
+      <summary>Contents</summary>
+      <ol class="toc"><li class="l2"><a href="#s0"><span class="tnum">0</span>The answer</a></li><li class="l2"><a href="#s1"><span class="tnum">1</span>The question</a></li><li class="l2"><a href="#s2"><span class="tnum">2</span>Two walls</a></li><li class="l3"><a href="#s2-1"><span class="tnum">2.1</span>No complete self-evaluation in a total language</a></li><li class="l3"><a href="#s2-2"><span class="tnum">2.2</span>No complete trust in code</a></li><li class="l3"><a href="#s2-3"><span class="tnum">2.3</span>The common cause, and how it is escaped</a></li><li class="l2"><a href="#s3"><span class="tnum">3</span>The escapes, side by side</a></li><li class="l2"><a href="#s4"><span class="tnum">4</span>λᶜᵉʳᵗ₀: the size guard, already built</a></li><li class="l3"><a href="#s4-1"><span class="tnum">4.1</span>Codes, tokens, certificates</a></li><li class="l3"><a href="#s4-2"><span class="tnum">4.2</span>reflect: bounded local reflection at base types</a></li><li class="l3"><a href="#s4-3"><span class="tnum">4.3</span>H, H₁, and what "self-justification" means here</a></li><li class="l3"><a href="#s4-4"><span class="tnum">4.4</span>What runs and what only types</a></li><li class="l2"><a href="#s5"><span class="tnum">5</span>Agents on λᶜᵉʳᵗ₀ as it stands</a></li><li class="l3"><a href="#s5-1"><span class="tnum">5.1</span>The agent type and the runner</a></li><li class="l3"><a href="#s5-2"><span class="tnum">5.2</span>The lineage theorem</a></li><li class="l3"><a href="#s5-3"><span class="tnum">5.3</span>What the probes show, and what they do not</a></li><li class="l3"><a href="#s5-4"><span class="tnum">5.4</span>Costs found</a></li><li class="l2"><a href="#s6"><span class="tnum">6</span>The time guard: toy level only</a></li><li class="l2"><a href="#s7"><span class="tnum">7</span>What a self-improving agent gets</a></li><li class="l2"><a href="#s8"><span class="tnum">8</span>Is this the right approach?</a></li><li class="l2"><a href="#s9"><span class="tnum">9</span>The plan</a></li><li class="l2"><a href="#s10"><span class="tnum">10</span>Status of every claim</a></li><li class="l2"><a href="#s11"><span class="tnum">11</span>Reviews</a></li></ol>
+    </details>
+  </header>
+  <aside class="rail" aria-label="Contents">
+    <p class="rail-head">Contents</p>
+    <ol class="toc"><li class="l2"><a href="#s0"><span class="tnum">0</span>The answer</a></li><li class="l2"><a href="#s1"><span class="tnum">1</span>The question</a></li><li class="l2"><a href="#s2"><span class="tnum">2</span>Two walls</a></li><li class="l3"><a href="#s2-1"><span class="tnum">2.1</span>No complete self-evaluation in a total language</a></li><li class="l3"><a href="#s2-2"><span class="tnum">2.2</span>No complete trust in code</a></li><li class="l3"><a href="#s2-3"><span class="tnum">2.3</span>The common cause, and how it is escaped</a></li><li class="l2"><a href="#s3"><span class="tnum">3</span>The escapes, side by side</a></li><li class="l2"><a href="#s4"><span class="tnum">4</span>λᶜᵉʳᵗ₀: the size guard, already built</a></li><li class="l3"><a href="#s4-1"><span class="tnum">4.1</span>Codes, tokens, certificates</a></li><li class="l3"><a href="#s4-2"><span class="tnum">4.2</span>reflect: bounded local reflection at base types</a></li><li class="l3"><a href="#s4-3"><span class="tnum">4.3</span>H, H₁, and what "self-justification" means here</a></li><li class="l3"><a href="#s4-4"><span class="tnum">4.4</span>What runs and what only types</a></li><li class="l2"><a href="#s5"><span class="tnum">5</span>Agents on λᶜᵉʳᵗ₀ as it stands</a></li><li class="l3"><a href="#s5-1"><span class="tnum">5.1</span>The agent type and the runner</a></li><li class="l3"><a href="#s5-2"><span class="tnum">5.2</span>The lineage theorem</a></li><li class="l3"><a href="#s5-3"><span class="tnum">5.3</span>What the probes show, and what they do not</a></li><li class="l3"><a href="#s5-4"><span class="tnum">5.4</span>Costs found</a></li><li class="l2"><a href="#s6"><span class="tnum">6</span>The time guard: toy level only</a></li><li class="l2"><a href="#s7"><span class="tnum">7</span>What a self-improving agent gets</a></li><li class="l2"><a href="#s8"><span class="tnum">8</span>Is this the right approach?</a></li><li class="l2"><a href="#s9"><span class="tnum">9</span>The plan</a></li><li class="l2"><a href="#s10"><span class="tnum">10</span>Status of every claim</a></li><li class="l2"><a href="#s11"><span class="tnum">11</span>Reviews</a></li></ol>
+  </aside>
+  <main class="doc">
+<section class="answer"><h2 id="s0"><span class="num">§0</span> The answer</h2>
+<ol type="1">
+<li id="s0-1"><p><strong>Safe self-modification does not come from self-justification.</strong> An agent that adopts a successor only after checking the successor's code against a fixed agent type is safe in every round. This is ordinary proof-carrying code. It runs on λᶜᵉʳᵗ₀ as it stands, with no new rule <span class="mks"><span class="mk mk-E" title="[E] executed: a probe ran in the λᶜᵉʳᵗ₀ implementation">E</span></span>. Its safety is a theorem about the language, proved outside the agent by induction on rounds. The theorem's ingredients are proved <span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span>. The induction and two lemmas are still to be done <span class="mks"><span class="mk mk-A" title="[A] an argument given here, not machine-checked">A</span><span class="mk mk-O" title="[O] open">O</span></span>: P1 on projections, and P2 on runner correctness (<a class="xref" href="#s5-2">§5.2</a>).</p></li>
+<li id="s0-2"><p><strong>Self-justification in λᶜᵉʳᵗ₀ is two postulates and a proof that they are safe.</strong></p>
+<ul>
+<li><code>H</code> says no certificate the program holds proves ⊥.</li>
+<li><code>H₁</code> says no two held certificates prove a type and its negation.</li>
+<li>The language derives these statements of its own consistency because they are constants of the language, in certificate form only. "No <em>code</em> proves ⊥" is not derivable (P5, Gödel's second theorem for codes) <span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span></span>.</li>
+<li>The language stays consistent because every use of them descends to a strictly smaller budget <span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span>.</li>
+<li>They never run (Theorem 5.2) <span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span>.</li>
+</ul></li>
+<li id="s0-3"><p><strong>The executable principle is <code>reflect</code>, bounded local reflection.</strong></p>
+<ul>
+<li><code>reflect</code> takes a held certificate of a base-data-type program, such as a <code>Nat</code> program, and runs that program to completion inside the current run <span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span>.</li>
+<li><code>H</code> is its instance at ⊥, where there is nothing to run.</li>
+<li>What <code>reflect</code> buys: a fixed program can extend its own computation with code it receives at run time, and the computation is guaranteed to finish.</li>
+<li>The cost is the certificate's size, in tokens, computable from the code before running it. Tokens bound the certificate, <strong>not the running time</strong>: the language's ordinary layer has the strength of Gödel's System T, so a small certificate can run for an astronomically long time <span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span></span>.</li>
+<li><strong>The competitor it must beat</strong> is a <em>step-limited evaluator</em> written in λᶜᵉʳᵗ₀ itself: a program <code>run(c, x, k)</code> that runs code c on input x for at most k steps and returns either the result or "out of steps". The ordinary layer computes on codes with System T's strength, so it can define one (Kleene's step-counting predicate is primitive recursive) <span class="mks"><span class="mk mk-A" title="[A] an argument given here, not machine-checked">A</span></span>; it is not built yet.
+<ul>
+<li>It needs no certificate, spends no tokens, works on any input the agent picks during the run, and bounds time.</li>
+<li>What it lacks is completeness: it can answer "out of steps". No step bound computable inside the language suffices for every program (<a class="xref" href="#s2-1">§2.1</a>) <span class="mks"><span class="mk mk-C" title="[C] a cited result, read in its source">C</span><span class="mk mk-A" title="[A] an argument given here, not machine-checked">A</span></span>.</li>
+</ul></li>
+<li>So <code>reflect</code>'s advantages over it are <strong>completeness</strong> and lesser ones: a result of type D rather than "D or out of steps"; reuse of the evaluator R4 already proves correct, where the step-limited one needs its own proof; native speed, unless the implementation adds a native step-limited primitive (which is safe, because such a function is already definable); and a logged certificate per evaluation. Its disadvantages are a certificate per (candidate, input) and no time bound <span class="mks"><span class="mk mk-A" title="[A] an argument given here, not machine-checked">A</span></span> (round-4 review).</li>
+</ul></li>
+<li id="s0-4"><p><strong>For a self-improving agent, self-justification is not needed for any capability shown so far.</strong></p>
+<ul>
+<li><em>Safety and adoption</em> come from typed hand-over (point 1). Trial for a round, and hand-over to a checked wrapper that runs the candidate and reverts, are also safe by the type alone.</li>
+<li><em>Evaluating found code inside the run</em> comes from the step-limited evaluator, which needs no self-justification.</li>
+</ul>
+<p>Whether <code>reflect</code>'s completeness gives a measurable gain over all three is a <strong>hypothesis</strong>. The plan tests it with a criterion that can refute it (<a class="xref" href="#s9">§9</a>), and the predicted outcome is that it does not.</p></li>
+<li id="s0-5"><p><strong>What self-justification is for: knowing where self-trust stops.</strong></p>
+<ul>
+<li>λᶜᵉʳᵗ₀ shows that a running system can state its own consistency (in certificate form) and completely evaluate its own certified extensions, without contradiction <span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span>.</li>
+<li>It also shows the boundary: not for codes (P5), not at higher types without new proof (Lemma 3.4), not unguarded (<a class="xref" href="#s2">§2</a>) <span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span><span class="mk mk-C" title="[C] a cited result, read in its source">C</span></span>.</li>
+<li>That is a result about the limits of self-knowledge, which is the research aim. It is not a tool that makes agents safer or better.</li>
+<li>The capability an agent would want from self-trust is different: using a <em>proof of a universal statement</em> received at run time, such as "this successor is safe on every input", in its own reasoning. That needs reflection at function types, which is open <span class="mks"><span class="mk mk-O" title="[O] open">O</span></span>. Even its practical value is unestablished, because typed hand-over already routes every such guarantee through <code>chk</code> and the external theorem.</li>
+</ul></li>
+<li id="s0-6"><p><strong>The limits</strong> apply among the mechanisms known here. No theorem says the list is exhaustive <span class="mks"><span class="mk mk-A" title="[A] an argument given here, not machine-checked">A</span></span>.</p>
+<ul>
+<li>Unconditional internal knowledge reaches only what the agent holds.</li>
+<li>Knowledge of its future is available only conditionally, through a time guard, and only at the toy level so far.</li>
+<li>The lineage's safety is available only as an external theorem.</li>
+<li>Unguarded trust in code is inconsistent: Löb's argument in the toy <span class="mks"><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span>, and P5 for λᶜᵉʳᵗ₀ <span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span></span>. Unguarded complete evaluation of code is impossible <span class="mks"><span class="mk mk-C" title="[C] a cited result, read in its source">C</span></span>.</li>
+</ul></li>
+<li id="s0-7"><p><strong>The plan.</strong></p>
+<ul>
+<li><strong>Phase A</strong> builds the agent layer: the agent type, a runner, the lineage theorem in Ansatz, and a gating probe that checks whether an agent can evaluate a <em>candidate's own behaviour</em> before adopting it. The earlier draft wrongly claimed this was already shown (<a class="xref" href="#s11">§11</a>). It has since passed at toy size <span class="mks"><span class="mk mk-E" title="[E] executed: a probe ran in the λᶜᵉʳᵗ₀ implementation">E</span></span> (<a class="xref" href="#s5-3">§5.3</a>).</li>
+<li><strong>Phase D</strong> runs a falsifiable experiment: does in-run evaluation with <code>reflect</code> beat trial, wrapper hand-over and the step-limited evaluator?</li>
+<li><strong>Phases B and C</strong> (reflection beyond base types, the time guard in the language) are research on the limits of self-trust, not agent engineering.</li>
+</ul></li>
+</ol>
+<hr />
+</section><h2 id="s1"><span class="num">§1</span> The question</h2>
+<p><strong>Terms.</strong></p>
+<ul>
+<li><strong>An agent</strong> runs in <strong>rounds</strong>. In each round it reads an input, emits an output, and names the program for the next round, its <strong>successor</strong>.</li>
+<li><strong>The lineage</strong> is the sequence of programs. <strong>Self-modification</strong> is naming a different successor; <strong>self-improvement</strong> is naming a better one.</li>
+<li><strong>A runner</strong> is the program outside the language that starts each round.</li>
+</ul>
+<p><strong>Candidates arrive as data.</strong> Candidate successors come from search, from a learned proposer, or from outside. The agent receives them as <strong>code</strong>: trees it can inspect, copy and check, not terms written in its own text.</p>
+<p><strong>What one might want.</strong> For each item, what it would mean to have it "by itself":</p>
+<div class="table-wrap"><table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Property</th>
+<th>By itself means</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>S</strong></td>
+<td><em>Safe:</em> every output of every round meets a fixed specification</td>
+<td>the agent proves it</td>
+</tr>
+<tr class="even">
+<td><strong>J</strong></td>
+<td><em>Justified:</em> each adoption follows a check</td>
+<td>the agent performs the check</td>
+</tr>
+<tr class="odd">
+<td><strong>E</strong></td>
+<td><em>Evaluated:</em> before adopting, the agent runs a candidate and uses the results</td>
+<td>the run is inside the agent's own computation and completes</td>
+</tr>
+<tr class="even">
+<td><strong>K</strong></td>
+<td><em>Self-consistent:</em> the agent's logic states its own consistency</td>
+<td>Willard's self-justification</td>
+</tr>
+</tbody>
+</table></div>
+<p>E is a form of <em>reflection</em>: trusting what a checked proof computes. K is reflection at ⊥.</p>
+<h2 id="s2"><span class="num">§2</span> Two walls</h2>
+<h3 id="s2-1"><span class="num">2.1</span> No complete self-evaluation in a total language</h3>
+<p><strong>Claim <span class="mks"><span class="mk mk-C" title="[C] a cited result, read in its source">C</span></span>.</strong> Brown and Palsberg (POPL 2016, §3.1, Theorems 3.1–3.2) state that "a total universal function for the total computable functions is impossible". In a language whose programs all terminate (λᶜᵉʳᵗ₀ is one, by T4), no program <code>u : Syn → Syn → Nat</code> can satisfy <code>u(⌜f⌝, x) = f(x)</code> for every program <code>f : Syn → Nat</code> of the language.</p>
+<p><strong>Proof.</strong> Let <code>p(x) := u(x, x) + 1</code>. Then p is a program, so <code>p(x) = u(⌜p⌝, x)</code> for every x. At <code>x = ⌜p⌝</code>, <code>p(⌜p⌝) = p(⌜p⌝) + 1</code>, which no number satisfies. Here ⌜p⌝ is p's code, written outside the language. p needs only to pass its argument to u twice.</p>
+<p><strong>Fuel <span class="mks"><span class="mk mk-A" title="[A] an argument given here, not machine-checked">A</span></span>.</strong> Suppose the language contained:</p>
+<ul>
+<li>an interpreter <code>run(c, x, k)</code> that runs program c on input x for k steps, covering everything the language has, including <code>chk</code>, <code>inspect</code>, <code>reflect</code> and tokens;</li>
+<li>a fuel function <code>F(c, x)</code>, computed inside the language, enough for every program.</li>
+</ul>
+<p>Then <code>run(c, x, F(c, x))</code> would be such a u. So no fuel bound computed inside works for every candidate. A runner outside can supply fuel, but nothing tells the agent in advance how much a candidate needs.</p>
+<h3 id="s2-2"><span class="num">2.2</span> No complete trust in code</h3>
+<p><strong>In the toy <span class="mks"><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span>.</strong> The toy's syntax has:</p>
+<ul>
+<li>codes as free data, with D1, and D2 and D3 at a variable;</li>
+<li>a built-in self-referential type G ≅ (code G → ⊥).</li>
+</ul>
+<p>Adding <code>code ⊥ → ⊥</code> to it yields a closed proof of ⊥, <code>sViaQuine</code>; hence no reading sends ⊥ to the empty set, <code>sNoSoundReading</code>. Trust in code at every type, <code>code A → A</code>, includes A = ⊥.</p>
+<p><strong>For λᶜᵉʳᵗ₀ itself <span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span></span>.</strong> P5: no form of "no code proves ⊥" is derivable at any budget. The proof is a reduction to Gödel's theorem for PA, from three cited standard results; ADR-0007 is formalizing it.</p>
+<h3 id="s2-3"><span class="num">2.3</span> The common cause, and how it is escaped</h3>
+<p>Both walls are a program applied to its own code, with nothing that decreases from caller to callee. The escapes known here:</p>
+<ul>
+<li><strong>External trust.</strong> The trust lives outside the language, in its metatheory.</li>
+<li><strong>Well-founded descent.</strong> Self-application consumes something that decreases: <em>size</em> (paid certificates), <em>time</em> (one round later), or <em>strength</em> (an interpreter for a weaker language).</li>
+<li><strong>No inspection.</strong> The self-application cannot be built at all.</li>
+<li><strong>Fuel.</strong> Gives up completeness.</li>
+</ul>
+<h2 id="s3"><span class="num">§3</span> The escapes, side by side</h2>
+<div class="table-wrap wide"><table>
+<thead>
+<tr class="header">
+<th>Escape</th>
+<th>What is run or trusted</th>
+<th>Complete?</th>
+<th>Inside?</th>
+<th>Candidates as data?</th>
+<th>Cost known in advance?</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>External trust</strong> (proof-carrying code; a proof assistant's kernel)</td>
+<td>code an outside checker accepts, run by an outside runner</td>
+<td>yes</td>
+<td>no</td>
+<td>yes</td>
+<td>n/a</td>
+<td>standard</td>
+</tr>
+<tr class="even">
+<td><strong>Fuel</strong> (e.g. a step-limited evaluator written in λᶜᵉʳᵗ₀)</td>
+<td>any code, for k steps</td>
+<td>no (<a class="xref" href="#s2-1">§2.1</a>)</td>
+<td>yes</td>
+<td>yes</td>
+<td>fuel needed: no; time: bounded by k</td>
+<td>standard; <span class="mks"><span class="mk mk-A" title="[A] an argument given here, not machine-checked">A</span></span> for λᶜᵉʳᵗ₀</td>
+</tr>
+<tr class="odd">
+<td><strong>No inspection</strong> (Davies–Pfenning's <code>eval : □A → A</code>; Brown–Palsberg's Fω self-interpreter)</td>
+<td>typed code built by composition</td>
+<td>yes</td>
+<td>yes</td>
+<td>no: data never becomes □A ("λx:A. box x cannot be well-typed", DP §2)</td>
+<td>n/a</td>
+<td><span class="mks"><span class="mk mk-C" title="[C] a cited result, read in its source">C</span></span></td>
+</tr>
+<tr class="even">
+<td><strong>Strength</strong> (an interpreter for a weaker language)</td>
+<td>code of the weaker language</td>
+<td>yes, for that language</td>
+<td>yes</td>
+<td>yes, if in the weaker language</td>
+<td>yes</td>
+<td>standard; λᶜᵉʳᵗ₀'s budgets form such a tower</td>
+</tr>
+<tr class="odd">
+<td><strong>Size</strong> (λᶜᵉʳᵗ₀ <code>reflect</code>; in arithmetic form, Willard's systems)</td>
+<td>held certificates of base-type programs</td>
+<td>yes, if the tokens are there</td>
+<td>yes</td>
+<td>yes: <code>chk</code> checks data</td>
+<td>tokens: yes, the certificate's node count; time: no</td>
+<td><span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span></td>
+</tr>
+<tr class="even">
+<td><strong>Time</strong> (T_κ; ▷ and <code>become</code>)</td>
+<td>any accepted code, as a program that runs next round</td>
+<td>its result arrives next round, not now</td>
+<td>trust inside, conditional on a next round</td>
+<td>design: yes, via <code>chk</code>; toy: no, its codes are typed terms</td>
+<td>n/a</td>
+<td><span class="mks"><span class="mk mk-C" title="[C] a cited result, read in its source">C</span></span> T_κ; <span class="mks"><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span> toy</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>What size buys over fuel</strong> is completeness, not speed or a time bound. The tokens a candidate needs are its certificate's node count, which the agent can compute before deciding, and once they are paid, completion is guaranteed (T4). But tokens bound the certificate's size, not the running time, which can be astronomically long. Fuel bounds time and may give no answer; the fuel a candidate needs cannot be computed in advance by any program of the language (<a class="xref" href="#s2-1">§2.1</a>). Neither dominates. Earlier revisions called the token cost "predictable" as if that were an operational advantage; round 4 corrected this (<a class="xref" href="#s0-3">§0.3</a>, <a class="xref" href="#s11">§11</a>).</p>
+<h2 id="s4"><span class="num">§4</span> λᶜᵉʳᵗ₀: the size guard, already built</h2>
+<h3 id="s4-1"><span class="num">4.1</span> Codes, tokens, certificates</h3>
+<ul>
+<li><strong>A code</strong> (<code>Syn</code>) is a tree, free to build, copy and inspect. <code>chk c d</code> decides whether c is a valid derivation whose conclusion has the type with code d; it is a total primitive recursive function <span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span></span>.</li>
+<li><strong>A token</strong> is a value of a type with no constructors. A run is typed in a context of n tokens, Θₙ, and uses each at most once.</li>
+<li><strong>A certificate</strong> (<code>R</code>) is a tree whose every internal node holds a token. <code>print</code> turns it into the code of the same tree; nothing turns a code into a certificate for free.</li>
+</ul>
+<p><strong>Holding.</strong> A program holds a certificate of N nodes only after spending N tokens. At run time this is T3 together with Theorem 4′ for the erasing evaluator <span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span>. A program can spend only tokens its text names, or a certificate supply passed to it (R4 §1.1a).</p>
+<h3 id="s4-2"><span class="num">4.2</span> <code>reflect</code>: bounded local reflection at base types</h3>
+<p><code>reflect D r e</code> takes:</p>
+<ul>
+<li>a held certificate r;</li>
+<li>evidence e that r checks at a <strong>base data type</strong> D (<code>Nat</code>, <code>Bool</code>, <code>Syn</code>, <code>R</code>, …).</li>
+</ul>
+<p>It decodes <code>Θₘ ⊢ t : D</code> from r, with m &lt; ‖r‖ (Lemma 2.7), and runs t to completion on m of r's own tokens <span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span>. If r has more nodes than the current budget, it returns a default value. For higher types the soundness of <code>reflect</code> is open, since Lemma 3.4 fails there <span class="mks"><span class="mk mk-O" title="[O] open">O</span></span>.</p>
+<p><strong>Why self-application causes no paradox <span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span></span>.</strong> The model reads <code>reflect</code> at budget n by recursion to a budget m &lt; ‖r‖ ≤ n (R4 §3.2), so no equation between two runs ever holds at a single budget. Take a diagonal program that, given its own code and a supply, pays for a certificate of "itself applied to itself, with a smaller supply" and reflects it. It simply recurses as deep as its supply allows, a recursion that is well-founded on the supply's size. The two sides of <code>p(⌜p⌝) = p(⌜p⌝) + 1</code> are runs at different budgets.</p>
+<h3 id="s4-3"><span class="num">4.3</span> <code>H</code>, <code>H₁</code>, and what "self-justification" means here</h3>
+<ul>
+<li><code>H</code> is <code>reflect</code> at the empty type, a constant of the language (R4 §1.3).</li>
+<li><code>H₁</code> is a separate constant. It does not follow from <code>H</code> (Prop. 4.10′), while <code>H</code> follows from <code>H₁</code> at a constant budget (Prop. 4.10) <span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span>.</li>
+<li>Both are derivable because they are postulated, as Willard postulates his consistency axiom. What the metatheory proves is that postulating them is safe <span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span>:
+<ul>
+<li>read every type at a budget n;</li>
+<li>by strong induction on n, every typed program has a value of its type;</li>
+<li>in the <code>H</code>, <code>H₁</code> and <code>reflect</code> cases, the held certificate encodes a derivation at a budget smaller than n, so the hypothesis applies, and at ⊥ there is no value.</li>
+</ul></li>
+</ul>
+<p><strong>Willard's two clauses.</strong> The language states its own consistency, and it is consistent. Clause (ii) is T1 <span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span>. Clause (i) is a reading of <code>H°</code>'s type, which R4 §3.9 calls informal <span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span></span>. The statement is about certificates, not codes.</p>
+<h3 id="s4-4"><span class="num">4.4</span> What runs and what only types</h3>
+<ul>
+<li><code>reflect</code> at a base type D ≠ 0 runs. Its ⊥-instance is <code>H</code>.</li>
+<li><code>H</code> and <code>H₁</code> never run (Theorem 5.2). They let a program drop branches that are reachable only through a held refutation or a held contradiction.</li>
+<li><code>Check</code> rejects every refutation and every contradictory pair anyway, with or without <code>H₁</code> (Corollary 3.7).</li>
+</ul>
+<p>So <code>H₁</code> changes which programs type-check, not what any run does <span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span>.</p>
+<h2 id="s5"><span class="num">§5</span> Agents on λᶜᵉʳᵗ₀ as it stands</h2>
+<h3 id="s5-1"><span class="num">5.1</span> The agent type and the runner</h3>
+<pre><code>Agent := Π(d :ω Syn). Π(self :ω Syn). Π(i :ω I). Π(r :₁ R).
+           O ⊗ Σ(c :ω Syn). Σ(b :ω Bool). T(if b then chk c d else tt)</code></pre>
+<ul>
+<li><strong>d and self.</strong> The runner passes the code of the type <code>Agent</code> and the agent's own code. So the type never mentions itself, and no rule is added.</li>
+<li><strong>I</strong> is a base data type.</li>
+<li><strong>r</strong> is the round's supply of tokens.</li>
+<li><strong>The output</strong> has type O. For safety take <code>O := Σ(a :₁ Nat). T(safe a)</code>, with <code>safe</code> closed and containing no <code>reflect</code>.</li>
+<li><strong>The successor part.</strong> The agent computes <code>chk c d</code> at run time (c and d are then closed codes) and does case analysis on the result. A true verdict comes with evidence that c checks at d; false means "stop".</li>
+</ul>
+<p><strong>The runner</strong> (outside the language; trusted). In round k it:</p>
+<ol type="1">
+<li>decodes the current code into <code>Θₘ ⊢ t : Agent</code>;</li>
+<li>runs t on (⌜Agent⌝, the code, the input, a supply built from k′ fresh tokens) in Θ_{m+k′}, so the supply's tokens are distinct from the agent's m;</li>
+<li>if the verdict is true, re-checks the successor with the same <code>Check</code> and continues; otherwise it stops.</li>
+</ol>
+<p>The runner has two policies:</p>
+<ul>
+<li>a <strong>budget policy</strong>, since a successor's text can declare any budget m′ and the runner would mint it: cap m′ + k′, or charge m′ against the supply;</li>
+<li>a <strong>log</strong> of every certificate a round builds, because <code>reflect</code> consumes them.</li>
+</ul>
+<p>Only codes and data cross rounds.</p>
+<h3 id="s5-2"><span class="num">5.2</span> The lineage theorem</h3>
+<p><strong>Hypotheses.</strong></p>
+<ul>
+<li>(h1) <code>Check(code₀, ⌜Agent⌝) = tt</code>, where ⌜Agent⌝ is the canonical code of a closed, well-formed type.</li>
+<li>(h2) The runner evaluates exactly the term decoded from the checked code, at budget m + k′, with distinct supply tokens.</li>
+<li>(h3) The literals passed are values of Syn and I.</li>
+<li>(h4) The runner's <code>Check</code> and the model's reading of <code>chk</code> are the same <code>Check</code>, the one Lemma 3.6 is proved for. In the implementation that requires ADR-0008's extracted <code>Check</code>.</li>
+<li>(h5) <code>safe</code> is closed and free of <code>reflect</code>.</li>
+<li>(h6) In every round the runner passes d = ⌜Agent⌝ and self = the current code, and on a true verdict the next round's code is exactly the returned c.</li>
+</ul>
+<p><strong>Statement <span class="mks"><span class="mk mk-A" title="[A] an argument given here, not machine-checked">A</span></span>.</strong> For every input sequence and every round k the runner reaches:</p>
+<ul>
+<li>round k's run terminates;</li>
+<li>its action satisfies <code>safe</code>;</li>
+<li>if its verdict is true, <code>Check(c_k, ⌜Agent⌝) = tt</code>, so round k + 1 again runs a checked agent.</li>
+</ul>
+<p><strong>Proof plan</strong> (the theorem is <em>pending</em> until P1 and P2 below are proved). By induction on k:</p>
+<ol type="1">
+<li>CheckSpec decodes the code into a derivation with m &lt; ‖code‖ <span class="mks"><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span>.</li>
+<li>Lemma 3.6 puts t's value in Agent's semantic set. Applied to the literals and a supply in R's set at footprint k′ (the Π₁ clause needs m + k′ ≤ n), it gives:
+<ul>
+<li>an action whose <code>safe</code> holds;</li>
+<li>a code c and a Boolean b;</li>
+<li>non-empty evidence for <code>T(if b then Check(c, ⌜Agent⌝) else tt)</code>.</li>
+</ul></li>
+<li><em>Given P1 and P2,</em> Theorems 4 and 4′ make the runner's computed values the model's.</li>
+</ol>
+<p><strong>Proof work that remains <span class="mks"><span class="mk mk-O" title="[O] open">O</span></span>.</strong></p>
+<ul>
+<li><strong>P1, the projection lemma.</strong> Theorem 4′ is stated for derivable programs of base type. The runner reads three projections: the action (<code>Nat</code>), the code (<code>Syn</code>), the verdict (<code>Bool</code>). Step 3 needs either derivations of the projection programs in Θ_{m+k′} (by weakening and typing the literals), or the Π-clause of 4′'s relation, which appears in 4′'s proof but not its statement.</li>
+<li><strong>P2, runner correctness.</strong> The runner's operational steps (decode, build the supply, evaluate, re-check) implement the formal decoder, evaluator and <code>Check</code> under (h2) and (h6). This is to be met by extracting them (ADR-0008's scope).</li>
+</ul>
+<p><strong>Trusted base.</strong> <code>Check</code>, the decoder, the evaluator and the runner. The probes' runner also re-types each round's application with the typer. The production runner should evaluate the decoded derivation directly, with the literals in its environment.</p>
+<p><strong>The theorem is about the language.</strong> Inside, the agent knows only that <code>chk c d = tt</code>. For a successor given as code it cannot know more unconditionally (<a class="xref" href="#s2-2">§2.2</a>). For a successor it holds as a certificate it can know more, through <code>reflect</code>, if <code>reflect</code> works at the agent's type (Phase B; the toy's <code>reflA</code>).</p>
+<h3 id="s5-3"><span class="num">5.3</span> What the probes show, and what they do not <span class="mks"><span class="mk mk-E" title="[E] executed: a probe ran in the λᶜᵉʳᵗ₀ implementation">E</span></span></h3>
+<p><strong>Shown:</strong></p>
+<ul>
+<li><strong>Adoption by check</strong> (<code>2026-11-13-agent-probe.clj</code>).
+<ul>
+<li>Agents type-check, with derivations of about 1,800 nodes.</li>
+<li>An agent's verdict and the runner's re-check agree on a real successor, on junk, and on a type code.</li>
+<li>A lineage in which each accepted code is decoded and run outputs 0, 2, 2, 2, and stops on junk.</li>
+</ul></li>
+<li><strong>A supply passed in</strong> (<code>probe-supply-income.clj</code>).
+<ul>
+<li>The agent's derivation names no token: budget 0, 34,922 nodes.</li>
+<li>With 40 tokens it pays for a certificate, <code>inspect</code>s it and <code>reflect</code>s it.</li>
+<li>With 5 tokens it cannot pay, and it keeps itself.</li>
+</ul></li>
+<li><strong><code>reflect</code> inside an adoption decision</strong> (both reflect probes). The decision used the result of running a held certificate.</li>
+</ul>
+<p><strong>Not shown by those two probes:</strong> <em>evaluation of the candidate itself</em>. In both, the reflected program is a score program the proposer supplied, unrelated to the candidate, so the proposer chose the score. The gate below closes this.</p>
+<p><strong>The gate (Phase A item 4).</strong> The agent fixes a test input i. The proposer supplies a derivation code D. The agent then:</p>
+<ol type="1">
+<li>checks D at the output's base type;</li>
+<li>computes the expected root term, the candidate's term applied to i's literal, from the candidate's code;</li>
+<li>compares it with D's root term by a code-equality function written in λᶜᵉʳᵗ₀ (<code>rec-syn</code>);</li>
+<li>only then pays for D and <code>reflect</code>s it.</li>
+</ol>
+<p>No new rule and no derivation builder are needed. The cost is at least the candidate's derivation plus the literal.</p>
+<p><strong>The target term, exactly.</strong></p>
+<ul>
+<li>For a function candidate <code>t : I → D</code>, it is <code>app(t, ⌜i⌝)</code>.</li>
+<li>For an agent candidate, it is the action projection of <code>t ⌜Agent⌝ ⌜c⌝ ⌜i⌝ s₀</code>. Here c is the candidate's code, and s₀ is a supply term built inside the certificate from its own tokens; the agent checks every component but s₀.</li>
+</ul>
+<p><strong>Gate soundness, a proof obligation <span class="mks"><span class="mk mk-O" title="[O] open">O</span></span>:</strong> if <code>Check(D, ⌜D⌝) = tt</code> and <code>termof(D)</code> equals the target, then <code>reflect</code> on a certificate of D returns the target's value. It needs two lemmas:</p>
+<ul>
+<li><em>extractor correctness:</em> <code>termof</code> returns the encoding of the term that the decoder reads from an accepted D;</li>
+<li><em>the Reflect case of Lemma 3.6 with Theorem 4′.</em></li>
+</ul>
+<p>The context of D's root judgment is only tokens, so it constrains nothing else.</p>
+<p><strong>The gate, run</strong> (<code>probe-candidate-evaluation.clj</code>, 13 s) <span class="mks"><span class="mk mk-E" title="[E] executed: a probe ran in the λᶜᵉʳᵗ₀ implementation">E</span></span>. The candidate is <code>λx. x + 2</code>; the test input is 3.</p>
+<ul>
+<li>With the proposer's derivation of "the candidate applied to 3" (66 nodes), the agent verifies the root term, pays from a 160-token supply, and gets <strong>5</strong>, the candidate's own output.</li>
+<li>With a derivation of the candidate applied to 4, of another function applied to 3, or of an unrelated <code>Nat</code> program, the root terms differ and it gets the fallback 0.</li>
+</ul>
+<p>So in-run evaluation of a candidate's behaviour works in λᶜᵉʳᵗ₀ as it stands, at one certificate per (candidate, input). Applying it to full agent candidates means reflecting the base-type projections of an agent's output; that, and the sizes it reaches, are Phase A work.</p>
+<h3 id="s5-4"><span class="num">5.4</span> Costs found</h3>
+<ul>
+<li><strong>A literal in program text</strong> is recorded again at every ancestor node of the program's derivation. Certifying a program with a candidate's code as a literal exhausted a 1.5 GB heap. Candidates must travel as data.</li>
+<li><strong>Tokens named in program text</strong> are recorded in every judgment's context: the derivation has 98,593 nodes at 40 tokens, against 34,922 with the supply passed in.</li>
+<li><strong>Re-typing every round</strong> took 12–35 s and up to 1.7 GB for three toy rounds.</li>
+</ul>
+<h2 id="s6"><span class="num">§6</span> The time guard: toy level only</h2>
+<p><strong>What the toy checks <span class="mks"><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span>.</strong> The toy adds a type ▷A ("A next round") and <code>become : code A → ▷A</code>.</p>
+<ul>
+<li><em>Consistency:</em> the syntax is consistent, by induction on rounds, then budget.</li>
+<li><em>Meaning:</em> with a round left, <code>become</code> of a code is that code's own reading one round later.</li>
+<li><em>Conditionality:</em> "falsehood next round" is empty while rounds remain and inhabited when none do.</li>
+</ul>
+<p>This is Fallenstein's T_κ (Yudkowsky and Herreshoff 2013, §4.2) as a typing rule <span class="mks"><span class="mk mk-C" title="[C] a cited result, read in its source">C</span></span>.</p>
+<p><strong>What it would give.</strong> Internal, conditional statements about successors. It gives trust that the next round's program has its type, never a result now. It is not needed for safety (<a class="xref" href="#s5-2">§5.2</a>).</p>
+<p><strong>What transferring it to λᶜᵉʳᵗ₀ needs <span class="mks"><span class="mk mk-O" title="[O] open">O</span></span>.</strong> The toy has no tokens, no <code>chk</code> and no data codes: its codes are typed terms. The transfer needs:</p>
+<ul>
+<li>the rules for ▷ and <code>become</code>, with <code>become</code>'s premise <code>chk c ⌜A⌝</code>;</li>
+<li><code>Check</code> extended to the new rules;</li>
+<li>the reading by rounds with Kripke-style functions;</li>
+<li>termination again.</li>
+</ul>
+<h2 id="s7"><span class="num">§7</span> What a self-improving agent gets</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr class="header">
+<th>Capability</th>
+<th>Mechanism</th>
+<th>Inside the agent?</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Safe</strong> in every round</td>
+<td>agent type, runner, lineage theorem</td>
+<td>no: a theorem about the language</td>
+<td>ingredients <span class="mks"><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span>; induction <span class="mks"><span class="mk mk-A" title="[A] an argument given here, not machine-checked">A</span></span>; P1 and P2 <span class="mks"><span class="mk mk-O" title="[O] open">O</span></span></td>
+</tr>
+<tr class="even">
+<td><strong>Justified</strong> adoption</td>
+<td>the agent computes <code>chk c d</code></td>
+<td>yes</td>
+<td><span class="mks"><span class="mk mk-E" title="[E] executed: a probe ran in the λᶜᵉʳᵗ₀ implementation">E</span></span></td>
+</tr>
+<tr class="odd">
+<td><strong>Auditable</strong> adoption</td>
+<td>each acceptance has a derivation (35k–99k nodes in the probes) that anyone can re-check; the runner logs certificates</td>
+<td>the record is outside</td>
+<td><span class="mks"><span class="mk mk-E" title="[E] executed: a probe ran in the λᶜᵉʳᵗ₀ implementation">E</span></span> with the current checker; <span class="mks"><span class="mk mk-O" title="[O] open">O</span></span> with the extracted one (ADR-0008)</td>
+</tr>
+<tr class="even">
+<td><strong>Self-extension</strong> within a run</td>
+<td><code>reflect</code> on held base-type certificates</td>
+<td>yes: complete; token cost known, time not</td>
+<td><span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span>; <span class="mks"><span class="mk mk-E" title="[E] executed: a probe ran in the λᶜᵉʳᵗ₀ implementation">E</span></span> for supplied programs</td>
+</tr>
+<tr class="odd">
+<td><strong>Evaluation of received code</strong> within a run, without self-justification</td>
+<td>a step-limited evaluator written in λᶜᵉʳᵗ₀</td>
+<td>yes: any input, time-bounded, may run out of steps</td>
+<td><span class="mks"><span class="mk mk-A" title="[A] an argument given here, not machine-checked">A</span></span>; not built</td>
+</tr>
+<tr class="even">
+<td><strong>Evaluation of a candidate</strong> before adoption</td>
+<td><code>reflect</code> on the candidate's application, after root-term verification</td>
+<td>yes</td>
+<td><span class="mks"><span class="mk mk-E" title="[E] executed: a probe ran in the λᶜᵉʳᵗ₀ implementation">E</span></span> for a small <code>Nat → Nat</code> candidate; <span class="mks"><span class="mk mk-O" title="[O] open">O</span></span> for agent candidates at scale</td>
+</tr>
+<tr class="odd">
+<td><strong>Dead-branch elimination</strong></td>
+<td><code>H</code>, <code>H₁</code></td>
+<td>yes, at type-checking only</td>
+<td><span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span></td>
+</tr>
+<tr class="even">
+<td><strong>Foresight</strong> about successors</td>
+<td>▷, <code>become</code></td>
+<td>yes, conditional</td>
+<td><span class="mks"><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span> toy only</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>What is not claimed:</strong></p>
+<ul>
+<li><em>Interpretability</em> beyond auditable records.</li>
+<li><em>Coherence enforcement</em> beyond what <code>Check</code> already does.</li>
+<li><em>Unconditional internal knowledge of the lineage.</em></li>
+<li><em>Stronger logic by self-certification</em>: G2.</li>
+<li><em>Measuring one's own speed</em>: there is no clock.</li>
+</ul>
+<h2 id="s8"><span class="num">§8</span> Is this the right approach?</h2>
+<p><strong>For building safe self-improving agents:</strong> typed hand-over with a fixed checker, i.e. proof-carrying code. It is the simplest correct design, and Phase A builds it. λᶜᵉʳᵗ₀ is a good host, because its ordinary layer computes on codes at full strength and its checker is kernel-verified. Self-justification is not needed here.</p>
+<p><strong>For the research aim</strong>, what a running system can know and guarantee about itself by itself, without an outside executor: λᶜᵉʳᵗ₀'s bounded local reflection is the right object.</p>
+<ul>
+<li>Among the escapes in <a class="xref" href="#s3">§3</a>, it is the only one that is complete, internal, and accepts full-language candidates as data, with its cost in tokens known in advance.</li>
+<li>What it establishes is where sound self-trust stops (<a class="xref" href="#s0-5">§0.5</a>). Whether it also improves self-improvement is Phase D's hypothesis, and the prediction is that it does not beat the step-limited evaluator.</li>
+</ul>
+<p><strong>Alternatives:</strong></p>
+<ul>
+<li><em>No inspection</em> cannot accept candidates as data.</li>
+<li><em>Fuel</em>, as a step-limited evaluator, is incomplete but time-bounded. For agent engineering it is the practical way to evaluate found code inside a run, and Phase A builds it.</li>
+<li><em>A weaker-language interpreter</em> bounds what candidates may be.</li>
+<li><em>Willard's arithmetic</em> restricts the whole system. λᶜᵉʳᵗ₀ restricts only certificates, and it does not compose certificates uniformly either (Thm. 4.6). Its codes, which agents manipulate, stay at full strength.</li>
+<li><em>HOL with large cardinals</em> (Fallenstein and Kumar, ITP 2015) <span class="mks"><span class="mk mk-C" title="[C] a cited result, read in its source">C</span></span> buys conditional internal reasoning with set-theoretic assumptions. That is the time guard's role here, without them.</li>
+</ul>
+<h2 id="s9"><span class="num">§9</span> The plan</h2>
+<p><strong>Phase A — the agent layer.</strong></p>
+<ol type="1">
+<li><strong>Engineering gates:</strong>
+<ul>
+<li>candidates as data;</li>
+<li>the supply passed in, at budget m + k′;</li>
+<li>a runner that evaluates decoded derivations directly;</li>
+<li>the budget policy and the certificate log;</li>
+<li>stated memory ceilings.</li>
+</ul></li>
+<li><strong>The agent type</strong> of <a class="xref" href="#s5-1">§5.1</a>, as a library definition, with a variant that passes state.</li>
+<li><strong>The lineage theorem in Ansatz</strong>, with hypotheses (h1)–(h6), the projection lemma P1, and runner correctness P2 (<a class="xref" href="#s5-2">§5.2</a>).</li>
+<li><strong>The gate:</strong> a probe in which the agent evaluates a candidate's own behaviour on a test input (<a class="xref" href="#s5-3">§5.3</a>). It is a go/no-go gate for Phase D.</li>
+<li><strong>The step-limited evaluator</strong> of <a class="xref" href="#s0-3">§0.3</a>, written in λᶜᵉʳᵗ₀, with its correctness proved and tested on the gate's candidates. It is the practical route for in-run evaluation, and Phase D's decisive baseline.</li>
+<li><strong>Documents:</strong> an R4 section and a tutorial section.</li>
+</ol>
+<p><em>Failure:</em> the theorem needs a rule change, or a metatheorem beyond the projection lemma; or the gate is infeasible at practical sizes. Each is recorded with what it costs the agent.</p>
+<p><strong>Phase D — the experiment.</strong></p>
+<ul>
+<li><em>Task:</em> candidate programs for a fixed scored task. The score is computed by the agent's own fixed scorer from the candidate's outputs on held-out inputs.</li>
+<li><em>Proposer:</em> the same untrusted stream of candidates, with derivations, for every regime.</li>
+<li><em>Regimes:</em>
+<ul>
+<li>(b1) adopt by check alone;</li>
+<li>(b2) trial for a round, revert by state: safe because every candidate checks at the agent type, and revert needs the parent's code in the state;</li>
+<li>(b3) hand over to a checked wrapper that runs the candidate and reverts: safe because the wrapper itself checks at the agent type;</li>
+<li>(b4) evaluate in-run with the step-limited evaluator, then adopt;</li>
+<li>(t) evaluate in-run with <code>reflect</code>, then adopt.</li>
+</ul></li>
+<li><em>Metrics:</em> the score of the adopted program after N rounds; rounds run under worse programs; tokens and time spent.</li>
+<li><em>Hypothesis:</em> (t) reaches a higher score, or wastes fewer rounds, than (b2), (b3) and (b4) at equal tokens and time.</li>
+<li><em>Prediction:</em> (t) does not beat (b4). (b4) needs no per-input certificate and can reject slow candidates at a deadline; (t)'s only edge is that it never runs out of steps. A pass would be a surprise to explain.</li>
+<li><em>Protocol,</em> to be fixed in writing before any run:
+<ul>
+<li>the candidate streams: a seeded generator, with the same seeds for every regime;</li>
+<li>N, the per-round token budget, and how the runner measures time;</li>
+<li>the decision rule: (t) passes only if it beats (b2), (b3) and (b4) on the pre-registered metric by a pre-registered margin, consistently across seeds; a tie counts as a failure.</li>
+</ul></li>
+<li><em>Refuted</em> otherwise. Then self-justification adds nothing measurable to self-improvement in this architecture, and that is reported.</li>
+</ul>
+<p><strong>Phase B (research): reflection beyond base types.</strong> This means <code>reflect</code> at function types, and at types <code>Π(x : D). T(b)</code> with b free of <code>reflect</code>. Lemma 3.4 fails for <code>T(b)</code> only because a <code>reflect</code> inside b makes its value depend on the budget. Phase B asks how far sound self-trust extends to proofs of universal statements. It is research on the limits of self-knowledge, not agent engineering.</p>
+<p><strong>Phase C (optional): the time guard in the language</strong> (<a class="xref" href="#s6">§6</a>). Take it up for the research aim of internal foresight.</p>
+<p><strong>ADR-0008's scope</strong> should include the decoder, the evaluator and the runner path, not only <code>Check</code>.</p>
+<h2 id="s10"><span class="num">§10</span> Status of every claim</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr class="header">
+<th>Claim</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No total universal function in a total language</td>
+<td><span class="mks"><span class="mk mk-C" title="[C] a cited result, read in its source">C</span></span> Brown–Palsberg §3.1</td>
+</tr>
+<tr class="even">
+<td>No internal fuel bound works for all candidates</td>
+<td><span class="mks"><span class="mk mk-A" title="[A] an argument given here, not machine-checked">A</span></span></td>
+</tr>
+<tr class="odd">
+<td>Trust in code at ⊥, with D1–D3 and a fixed point ⇒ ⊥</td>
+<td><span class="mks"><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span> toy (<code>sViaQuine</code>, <code>sNoSoundReading</code>)</td>
+</tr>
+<tr class="even">
+<td>P5: λᶜᵉʳᵗ₀ derives no form of code consistency</td>
+<td><span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span></span></td>
+</tr>
+<tr class="odd">
+<td>□ evaluates at all types; no <code>A → □A</code>; no inspection</td>
+<td><span class="mks"><span class="mk mk-C" title="[C] a cited result, read in its source">C</span></span> Davies–Pfenning §2</td>
+</tr>
+<tr class="even">
+<td>T1–T4</td>
+<td><span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span></td>
+</tr>
+<tr class="odd">
+<td>T2's clause (i) as Willard's "states"</td>
+<td><span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span></span>, informal</td>
+</tr>
+<tr class="even">
+<td><code>reflect</code> runs held base-type programs at a smaller budget</td>
+<td><span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span></td>
+</tr>
+<tr class="odd">
+<td>No paradox from self-application through <code>reflect</code></td>
+<td><span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span></span> (R4 §3.2)</td>
+</tr>
+<tr class="even">
+<td>The agent type needs no new rule</td>
+<td><span class="mks"><span class="mk mk-E" title="[E] executed: a probe ran in the λᶜᵉʳᵗ₀ implementation">E</span></span></td>
+</tr>
+<tr class="odd">
+<td>Lineage theorem</td>
+<td><span class="mks"><span class="mk mk-A" title="[A] an argument given here, not machine-checked">A</span></span> over <span class="mks"><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span> ingredients; P1 (projections) and P2 (runner correctness) <span class="mks"><span class="mk mk-O" title="[O] open">O</span></span></td>
+</tr>
+<tr class="even">
+<td><code>reflect</code> used in an adoption decision</td>
+<td><span class="mks"><span class="mk mk-E" title="[E] executed: a probe ran in the λᶜᵉʳᵗ₀ implementation">E</span></span></td>
+</tr>
+<tr class="odd">
+<td><code>reflect</code>'s token cost bounds certificate size, not running time</td>
+<td><span class="mks"><span class="mk mk-R" title="[R] proved in R4, a reviewed paper proof (its core [K] under ADR-0006)">R</span></span> (System T strength, R4 design)</td>
+</tr>
+<tr class="even">
+<td>A step-limited evaluator written in λᶜᵉʳᵗ₀ evaluates received code in-run without self-justification</td>
+<td><span class="mks"><span class="mk mk-A" title="[A] an argument given here, not machine-checked">A</span></span>; not built</td>
+</tr>
+<tr class="odd">
+<td>Self-justification adds a practical capability beyond typed hand-over and a step-limited evaluator</td>
+<td>not shown; predicted not (Phase D)</td>
+</tr>
+<tr class="even">
+<td>Evaluation of the candidate's own behaviour</td>
+<td><span class="mks"><span class="mk mk-E" title="[E] executed: a probe ran in the λᶜᵉʳᵗ₀ implementation">E</span></span> small candidate (<code>probe-candidate-evaluation.clj</code>); <span class="mks"><span class="mk mk-O" title="[O] open">O</span></span> at agent scale</td>
+</tr>
+<tr class="odd">
+<td>Time guard: consistency, meaning, conditionality</td>
+<td><span class="mks"><span class="mk mk-K" title="[K] kernel-checked in Ansatz">K</span></span> toy; transfer <span class="mks"><span class="mk mk-O" title="[O] open">O</span></span></td>
+</tr>
+<tr class="even">
+<td><code>reflect</code> at first-order types</td>
+<td><span class="mks"><span class="mk mk-O" title="[O] open">O</span></span></td>
+</tr>
+<tr class="odd">
+<td>The list of escapes is exhaustive</td>
+<td>not claimed</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="s11"><span class="num">§11</span> Reviews</h2>
+<p><strong>Round 1</strong> (2026-11-13) was two independent reviews of revision 1:</p>
+<ul>
+<li>Cursor's GPT-5.3 Codex Extra High: <span class="path" title="In the repository: docs/tslc/reviews/round1-cursor-gpt-5.3-codex-xhigh.md"><code>reviews/round1-cursor-gpt-5.3-codex-xhigh.md</code></span>, with 11 findings, one critical;</li>
+<li>a Claude Opus subagent: <span class="path" title="In the repository: docs/tslc/reviews/round1-claude-opus-subagent.md"><code>reviews/round1-claude-opus-subagent.md</code></span>, with 1 critical, 9 major and 9 minor findings.</li>
+</ul>
+<p>All findings were accepted. The ones that changed the answer:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr class="header">
+<th>Finding</th>
+<th>What was wrong</th>
+<th>Now</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Opus C1</td>
+<td>Candidate evaluation was claimed shown; the probes reflected a proposer-supplied score program</td>
+<td><a class="xref" href="#s5-3">§5.3</a>, <a class="xref" href="#s7">§7</a>: <span class="mks"><span class="mk mk-O" title="[O] open">O</span></span>, with the gate in Phase A</td>
+</tr>
+<tr class="even">
+<td>Opus M9(d)</td>
+<td>The draft did not consider that trial and wrapper adoption are safe without <code>reflect</code></td>
+<td><a class="xref" href="#s0-4">§0.4</a>, <a class="xref" href="#s9">§9</a>: they are baselines; the claim for <code>reflect</code> is a falsifiable hypothesis</td>
+</tr>
+<tr class="odd">
+<td>Opus M2</td>
+<td>It said self-justification's executable content is <code>reflect</code>, and that <code>H₁</code> comes from it</td>
+<td><a class="xref" href="#s4-3">§4.3</a>: <code>H</code> and <code>H₁</code> are postulates shown safe; <code>reflect</code> is bounded local reflection, with <code>H</code> as its ⊥-instance</td>
+</tr>
+<tr class="even">
+<td>Opus M6</td>
+<td>It claimed H₁ gives coherence</td>
+<td><a class="xref" href="#s4-4">§4.4</a>: <code>Check</code> already enforces it; H₁ only affects typing</td>
+</tr>
+<tr class="odd">
+<td>Codex TSLC-01; Opus M4</td>
+<td>The lineage theorem used Theorem 4′ beyond base types, and its hypotheses were missing</td>
+<td><a class="xref" href="#s5-2">§5.2</a>: (h1)–(h5) and the projection lemma</td>
+</tr>
+<tr class="even">
+<td>Opus M1; Codex TSLC-05</td>
+<td>The diagonal-against-<code>reflect</code> steps were wrong</td>
+<td><a class="xref" href="#s4-2">§4.2</a>: the R4 §3.2 argument</td>
+</tr>
+<tr class="odd">
+<td>Opus M3, M8</td>
+<td>The supply's budget and the free minting of successor budgets were unspecified</td>
+<td><a class="xref" href="#s5-1">§5.1</a>: Θ_{m+k′}, budget policy</td>
+</tr>
+<tr class="even">
+<td>Opus M5</td>
+<td>Size was said to be complete where fuel is not</td>
+<td><a class="xref" href="#s3">§3</a>: the difference is cost known in advance</td>
+</tr>
+<tr class="odd">
+<td>Codex TSLC-02</td>
+<td><code>reflect</code> was described as running any program</td>
+<td>base types only</td>
+</tr>
+<tr class="even">
+<td>Codex TSLC-03; Opus m9</td>
+<td>"No external runner"</td>
+<td>"no round-trip outside the run" (<a class="xref" href="#s0-3">§0.3</a>)</td>
+</tr>
+<tr class="odd">
+<td>Codex TSLC-07; Opus M6</td>
+<td>"Verifiable" with an unextracted checker</td>
+<td>"auditable", status split</td>
+</tr>
+<tr class="even">
+<td>Codex TSLC-08; Opus M5(c)</td>
+<td>The time guard read as established for λᶜᵉʳᵗ₀</td>
+<td><a class="xref" href="#s6">§6</a>: toy level only, transfer obligations</td>
+</tr>
+<tr class="odd">
+<td>Codex TSLC-04; Opus M7</td>
+<td>"Exactly two options" and "the limit is sharp"</td>
+<td>scoped; exhaustiveness not claimed</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>After round 1</strong>, the gate probe was run and passed at toy size (<a class="xref" href="#s5-3">§5.3</a>).</p>
+<p><strong>Round 4</strong> (2026-11-14, on revision 3; one question): Cursor's GPT-5.3 Codex Extra High, <span class="path" title="In the repository: docs/tslc/reviews/round4-cursor-gpt-5.3-codex-xhigh.md"><code>reviews/round4-cursor-gpt-5.3-codex-xhigh.md</code></span>.</p>
+<ul>
+<li><strong>The question.</strong> After round 3, I found that every revision had missed the obvious competitor to <code>reflect</code>: a step-limited evaluator written in λᶜᵉʳᵗ₀. I had also called token cost "predictable" as if it bounded time.</li>
+<li><strong>The review's verdicts:</strong>
+<ul>
+<li>the evaluator is definable: yes in principle, but not built;</li>
+<li>it needs no certificate and bounds time: holds;</li>
+<li>tokens do not bound time: holds;</li>
+<li><code>reflect</code> is dominated: partly, because completeness and a total result type can matter;</li>
+<li>"no practical capability": overstated;</li>
+<li>Phase D lacked the decisive baseline: holds.</li>
+</ul></li>
+<li><strong>Applied:</strong> <a class="xref" href="#s0-3">§0.3</a>–<a class="xref" href="#s0-5">§0.5</a>, <a class="xref" href="#s3">§3</a>, <a class="xref" href="#s7">§7</a>–<a class="xref" href="#s10">§10</a>. The practical advantages it listed (no out-of-steps branch, reuse of the proved evaluator, native speed, logged certificates) are stated in <a class="xref" href="#s0-3">§0.3</a>. The claim is now that no practical gain is shown and none is predicted, not that none exists.</li>
+</ul>
+<p><strong>Round 3</strong> (2026-11-13, on revision 3): Cursor's GPT-5.3 Codex Extra High, <span class="path" title="In the repository: docs/tslc/reviews/round3-cursor-gpt-5.3-codex-xhigh.md"><code>reviews/round3-cursor-gpt-5.3-codex-xhigh.md</code></span>.</p>
+<ul>
+<li>It found the round-2 findings resolved, except where <a class="xref" href="#s9">§9</a> still listed (h1)–(h5). It added one major and two minor findings, all about consistency, and all fixed:
+<ul>
+<li><a class="xref" href="#s9">§9</a> item 3 now reads (h1)–(h6);</li>
+<li>P2 is named in <a class="xref" href="#s7">§7</a> and <a class="xref" href="#s10">§10</a>;</li>
+<li>ADR-0009's context no longer says candidate evaluation is unshown.</li>
+</ul></li>
+<li>It checked the gate probe and found no false-accept path in its code equality. The root-term extractor's agreement with the decoder is the remaining proof obligation.</li>
+<li><strong>Its verdict:</strong> "mostly correct and honestly scoped", and the plan "sound as a plan" and "acceptable for proceeding", with formal closure depending on P1, P2 and gate soundness.</li>
+</ul>
+<p><strong>Round 2</strong> (2026-11-13, on revision 2): Cursor's GPT-5.3 Codex Extra High, <span class="path" title="In the repository: docs/tslc/reviews/round2-cursor-gpt-5.3-codex-xhigh.md"><code>reviews/round2-cursor-gpt-5.3-codex-xhigh.md</code></span>.</p>
+<ul>
+<li>It judged most round-1 findings resolved, and five partly resolved. A Grok review was stopped after its connection to Cursor kept failing.</li>
+<li>It added six findings, five of them major. All were accepted:
+<ul>
+<li>the gate's target term was unspecified for agents: now "the target term, exactly" (<a class="xref" href="#s5-3">§5.3</a>);</li>
+<li>root-term equality needed a soundness argument: the gate-soundness obligation;</li>
+<li>the per-round runner invariants were missing: (h6);</li>
+<li>the proof read as finished: it is now a proof plan, pending P1 and P2;</li>
+<li>Phase D was not pre-registered: the protocol in <a class="xref" href="#s9">§9</a>;</li>
+<li>the safety preconditions of b2 and b3 were missing, and "the only escape" was unscoped: both stated (<a class="xref" href="#s8">§8</a>, <a class="xref" href="#s9">§9</a>).</li>
+</ul></li>
+<li>Its verdict: no critical issue remains. The account cannot yet be accepted as complete end to end until the pending proofs P1 and P2 and gate soundness are done and Phase D is run. Those are exactly Phase A's and Phase D's work.</li>
+</ul>
+
+    <footer class="foot">Generated from <code>docs/tslc/RATIONALE.md</code> at commit <code>88ef8e94</code>. The Markdown file is the source; this page changes only its presentation.</footer>
+  </main>
+</div>
+</body>
+</html>
