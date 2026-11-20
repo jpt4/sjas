@@ -66,6 +66,12 @@
   [f pred]
   (first (filter #(pred (form-at f %)) (subpaths f))))
 
+(defn answer-expr
+  "The expression inside the agent's (answer-fn ...), or nil if it has none."
+  [code]
+  (when-let [p (find-path code #(and (seq? %) (= 'answer-fn (first %))))]
+    (second (form-at code p))))
+
 (defn node-count [f] (if (or (seq? f) (vector? f)) (reduce + 1 (map node-count f)) 1))
 
 ;; ---------------------------------------------------------------------------

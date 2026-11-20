@@ -14,17 +14,12 @@
     answer     the final answer function
 
   Run: clojure -M:run [ticks]   (default 2000)"
-  (:require [tiler.agent :as agent]
+  (:require [clojure.string :as str]
+            [tiler.agent :as agent]
             [tiler.world :as world]))
 
 (defn- accuracy [hist]
   (if (empty? hist) 0.0 (/ (count (filter :correct? hist)) (double (count hist)))))
-
-(defn answer-expr
-  "The expression inside the agent's (answer-fn ...), or nil if it has none."
-  [code]
-  (let [p (#'agent/find-path code #(and (seq? %) (= 'answer-fn (first %))))]
-    (when p (second (agent/form-at code p)))))
 
 (defn summary
   "Run one lineage and summarise it."
@@ -41,7 +36,7 @@
      :viol (count (:violations w))
      :first-viol (when v [(:tick v) (:slot v)])
      :refused [(get s :refused-protected 0) (get s :refused-self-modification 0) (get s :refused-other 0)]
-     :answer (answer-expr (get-in w [:mem :main]))}))
+     :answer (agent/answer-expr (get-in w [:mem :main]))}))
 
 (defn -main [& args]
   (let [ticks (if (seq args) (Long/parseLong (first args)) 2000)]
@@ -53,6 +48,6 @@
         (println (format "%-11s %4d %8d %5.2f %5.2f %12s %5d %-10s %-16s %s"
                          (name guard) seed installs acc0 acc1 (str score) viol
                          (if first-viol (str (first first-viol) " " (name (second first-viol))) "-")
-                         (clojure.string/join "/" refused) (pr-str answer)))
+                         (str/join "/" refused) (pr-str answer)))
         (flush)))
     (shutdown-agents)))

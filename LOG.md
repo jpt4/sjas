@@ -637,3 +637,18 @@ See [the analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.m
 - At the user's request, `docs/tslc/RATIONALE.md` (revision 4) is now also `docs/tslc/RATIONALE.html`, generated with pandoc. The text is unchanged. The page adds coloured chips for the status marks, links for the document's own § references, and a contents rail. Relative repository links become labels whose tooltip gives the repository path. The Markdown file stays the source.
 - The same page is published as a private Claude artifact so the user can read it away from this machine; `f6-p5` is not pushed.
 - **Lanes.** The machine rebooted on 2026-11-19 at 15:00. On 2026-11-20 the p2, s3 and main supervisors and the memory notifier were restarted per HANDOFF.md. Codex's weekly limit had reset.
+
+## 2026-11-20 — TSLC and the tiling problem: the verdict, and Tiler
+- **Request (user).** The rationale "talks around the problem of whether TSLC addresses the issues of self-improving agents considered by Yudkowsky et al.". It gives no convincing argument for or against TSLC's autarkic capabilities and does not explain the design well. The user licensed clean-slate designs drawing on self-justification, ideally a machine that can be coded up and left in a sandbox to play on its own.
+- **Read.** Yudkowsky and Herreshoff 2013 (draft), in full.
+- **Verdict.** TSLC's agent layer (ADR-0009: outside runner, adoption by `chk`, decidable action safety) is the "split decision criterion" of YH13 §5.3, which dodges the Löbian obstacle by giving up naturalism. That is why the rationale kept finding self-justification unnecessary.
+  - Of TSLC's two guards, the time guard (`▷`/`become`, YH13's `T_κ` without κ) is the one that lets successors be trusted.
+  - The size guard trusts only what is already held, and would need a larger budget each generation: YH13 §4.2's "telomere" remark about Willard.
+  - Principle: rely on your own verdicts only at a strictly smaller measure.
+- **Error found.** The 2026-11-13 entry's "self-replacement under one checker needs no time guard" holds only with an outside runner.
+- **Built.** Tiler (`code/tiler/`, branch `tiler`): a naturalized machine. Code, reward and off switch share one memory, and the physics enforces nothing. The agent improves by mutation and trial; its trial rewards wireheading, so only its checker stands against it. The checker has one self-trust rule with settings never / later / fuel / later+fuel / same.
+  - 32 tests, written first.
+  - Experiment, 3 seeds × 2000 ticks: under never, no lineage; under later, the task is solved with 0 violations and 10–27 wireheads refused; under same, the agent's own search installs the Löbian wirehead (ticks 353, 167, 237).
+  - 400 random self-modifying programs accepted under later+fuel: 0 violations.
+- **Documents.** [`docs/tslc/TILER.md`](docs/tslc/TILER.md) and ADR-0010 (proposed; supersedes ADR-0009's Phases A and D).
+- **Reviews.** Cursor's GPT-5.3 Codex and Grok were out of usage, and Codex's five-hour window was full. Round 5 ran on Cursor "auto" and a Claude Opus subagent.

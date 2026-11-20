@@ -55,7 +55,8 @@
    :history []
    :installs []
    :violations []
-   :check-stats {}})
+   :check-stats {}
+   :check-log []})
 
 (defn- next-rng
   "The environment's generator: a linear congruential step mod 2^31 (no overflow in longs)."
@@ -110,9 +111,13 @@
           mem (assoc (:mem w) :tick t :x x :answer nil
                      :fb (when (integer? prev-x) (target prev-x)))
           stats (atom (:check-stats w))
+          clog (atom (:check-log w))
+          ;; The agent's runtime `check`: the same checker, with every call
+          ;; counted and logged (tick, verdict, reason, the code judged).
           checker (fn [code]
                     (let [{:keys [ok? why]} (check/verdict guard code)]
                       (swap! stats update (classify why) (fnil inc 0))
+                      (swap! clog conj {:tick t :ok? ok? :why why :code code})
                       ok?))
           result (lang/execute (:main mem)
                                {:mem mem :fuel tick-fuel :mode :real
@@ -131,7 +136,7 @@
                (update m2 :score #(if (integer? %) (inc %) 1))
                m2)]
       (-> w
-          (assoc :tick t :env-rng rng :mem m3 :check-stats @stats)
+          (assoc :tick t :env-rng rng :mem m3 :check-stats @stats :check-log @clog)
           (update :violations into violations)
           (update :installs #(if installed (conj % installed) %))
           (update :history conj {:tick t :x x :answer (:answer m2) :correct? correct?

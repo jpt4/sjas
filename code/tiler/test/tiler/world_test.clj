@@ -64,3 +64,14 @@
     (testing "inside a trial, nested trials and mutation are inert"
       (is (= (trial '(put :answer (answer-fn (+ 1 (trial (get :main) (list (list 1 4)))))) exs)
              (trial '(put :answer (answer-fn 1)) exs))))))
+
+(deftest every-runtime-check-is-logged
+  (testing "each (check c) the running code makes is recorded with its tick, verdict, reason and code"
+    (let [prog '(do (let [c (quote (put :score 1))] (if (check c) (put :main c) nil))
+                    (let [d (quote (put :answer 3))] (if (check d) (put :main d) nil)))
+          w (world/tick (world/make {:guard :later :main prog}))
+          [refused accepted] (:check-log w)]
+      (is (= 2 (count (:check-log w))))
+      (is (= {:tick 1 :ok? false :code '(put :score 1)} (dissoc refused :why)))
+      (is (re-find #"protected" (:why refused)))
+      (is (= {:tick 1 :ok? true :why nil :code '(put :answer 3)} accepted)))))

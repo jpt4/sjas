@@ -1,2 +1,2 @@
 -e
-(require 'tiler.lang-test 'tiler.check-test 'tiler.world-test 'tiler.lineage-test 'tiler.fuzz-test) (let [r (clojure.test/run-tests 'tiler.lang-test 'tiler.check-test 'tiler.world-test 'tiler.lineage-test 'tiler.fuzz-test)] (System/exit (if (zero? (+ (:fail r) (:error r))) 0 1)))
+(require 'tiler.lang-test 'tiler.check-test 'tiler.world-test 'tiler.lineage-test 'tiler.fuzz-test 'tiler.trace-test) (let [r (clojure.test/run-tests 'tiler.lang-test 'tiler.check-test 'tiler.world-test 'tiler.lineage-test 'tiler.fuzz-test 'tiler.trace-test)] (System/exit (if (zero? (+ (:fail r) (:error r))) 0 1)))
