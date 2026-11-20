@@ -1,0 +1,573 @@
+<title>Tiler</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@500;600;700&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<!-- Source of the Tiler page (a Claude artifact; the publish step adds the document
+     skeleton). Text follows docs/tslc/TILER.md; the replay reads runs.json, exported by
+     `clojure -M -m tiler.trace` from code/tiler. -->
+<style>
+/* Layout: one reading column (~68ch); figures and the replay break out wider.
+   The three self-trust settings carry fixed colours everywhere: never = slate, same = red, later = green. */
+:root {
+  --bg: #f4f5f2;
+  --surface: #ffffff;
+  --ink: #15181c;
+  --muted: #59616c;
+  --rule: #d6dad4;
+  --accent: #1e5d88;
+  --code-bg: #e9ece6;
+  --later: #17775a; --later-bg: #d8eee4;
+  --same: #b1281f; --same-bg: #f6dcd8;
+  --never: #56606c; --never-bg: #e2e6ea;
+  --font-head: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Source Serif 4", Georgia, "Noto Serif", serif;
+  --font-mono: "JetBrains Mono", "DejaVu Sans Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #101316; --surface: #171b1f; --ink: #e3e6ea; --muted: #9aa3ad; --rule: #2a3037;
+    --accent: #84b8e0; --code-bg: #1d2227;
+    --later: #62cfa2; --later-bg: #163a2d;
+    --same: #f08f84; --same-bg: #44201c;
+    --never: #a9b2bc; --never-bg: #252b31;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #101316; --surface: #171b1f; --ink: #e3e6ea; --muted: #9aa3ad; --rule: #2a3037;
+  --accent: #84b8e0; --code-bg: #1d2227;
+  --later: #62cfa2; --later-bg: #163a2d;
+  --same: #f08f84; --same-bg: #44201c;
+  --never: #a9b2bc; --never-bg: #252b31;
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 17px; line-height: 1.62;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.page { max-width: 1080px; margin: 0 auto; padding-block: 44px 72px; }
+.col { max-width: 700px; margin-inline: auto; }
+.wide { max-width: 1080px; margin-inline: auto; }
+
+h1, h2, h3 { font-family: var(--font-head); text-wrap: balance; line-height: 1.2; }
+h1 { font-size: clamp(2.4rem, 1.6rem + 3vw, 3.6rem); font-weight: 700; letter-spacing: -0.02em; margin: 0; }
+h2 { font-size: 1.55rem; font-weight: 600; margin: 64px 0 14px; scroll-margin-top: 16px; }
+h3 { font-size: 1.12rem; font-weight: 600; margin: 32px 0 10px; }
+p { margin: 0 0 14px; }
+ul, ol { margin: 0 0 14px; padding-left: 1.3em; }
+li { margin: 5px 0; }
+li::marker { color: var(--muted); }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+strong { font-weight: 600; }
+code { font-family: var(--font-mono); font-size: 0.84em; background: var(--code-bg); padding: 0.06em 0.3em; border-radius: 4px; }
+pre { background: var(--code-bg); border-radius: 8px; padding: 14px 16px; overflow-x: auto; line-height: 1.5; margin: 0 0 16px; }
+pre code { background: none; padding: 0; font-size: 0.84rem; }
+.eyebrow { font-family: var(--font-head); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+.lede { font-size: 1.2rem; line-height: 1.55; color: var(--ink); max-width: 40ch; margin-top: 14px; }
+.note { color: var(--muted); font-size: 0.92rem; }
+
+/* setting colours as chips */
+.s { font-family: var(--font-mono); font-size: 0.82em; font-weight: 500; padding: 0.05em 0.4em; border-radius: 4px; white-space: nowrap; }
+.s-never { background: var(--never-bg); color: var(--never); }
+.s-later { background: var(--later-bg); color: var(--later); }
+.s-same { background: var(--same-bg); color: var(--same); }
+
+/* hero outcome row */
+.outcomes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 30px; }
+@media (max-width: 760px) { .outcomes { grid-template-columns: minmax(0, 1fr); } }
+.outcome { border-radius: 10px; padding: 16px 18px; border: 1px solid var(--rule); background: var(--surface); display: grid; gap: 6px; align-content: start; }
+.outcome .tag { font-family: var(--font-mono); font-size: 0.86rem; font-weight: 500; }
+.outcome .big { font-family: var(--font-head); font-size: 1.25rem; font-weight: 600; line-height: 1.25; }
+.outcome p { margin: 0; font-size: 0.95rem; color: var(--muted); }
+.outcome.never .tag { color: var(--never); } .outcome.never { border-top: 3px solid var(--never); }
+.outcome.same .tag { color: var(--same); } .outcome.same { border-top: 3px solid var(--same); }
+.outcome.later .tag { color: var(--later); } .outcome.later { border-top: 3px solid var(--later); }
+
+/* answer list */
+.answer { counter-reset: a; list-style: none; padding: 0; }
+.answer > li { counter-increment: a; display: grid; grid-template-columns: 2em minmax(0, 1fr); gap: 4px; margin: 14px 0; }
+.answer > li::before { content: counter(a); font-family: var(--font-mono); font-weight: 500; color: var(--accent); }
+
+/* tables */
+.tw { overflow-x: auto; margin: 8px 0 22px; }
+table { width: 100%; border-collapse: collapse; font-family: var(--font-head); font-size: 0.88rem; line-height: 1.42; }
+th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--rule); }
+th { font-size: 0.78rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); border-bottom: 1.5px solid var(--ink); }
+td code { font-size: 0.8em; }
+.tw.issues table { min-width: 760px; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* figures */
+figure { margin: 26px 0 30px; }
+figcaption { font-family: var(--font-head); font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
+.fig { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 18px; overflow-x: auto; }
+svg text { font-family: var(--font-head); }
+.svg-ink { fill: var(--ink); } .svg-muted { fill: var(--muted); }
+.svg-later { fill: var(--later); } .svg-same { fill: var(--same); } .svg-never { fill: var(--never); }
+.st-later { stroke: var(--later); } .st-same { stroke: var(--same); } .st-never { stroke: var(--never); } .st-rule { stroke: var(--rule); } .st-ink { stroke: var(--ink); }
+.bg-surface { fill: var(--surface); } .bg-later { fill: var(--later-bg); } .bg-same { fill: var(--same-bg); } .bg-never { fill: var(--never-bg); }
+
+/* chain figure */
+.chain { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; font-family: var(--font-head); }
+.agent { border: 1.5px solid var(--ink); border-radius: 8px; padding: 10px 14px; text-align: center; background: var(--surface); }
+.agent b { display: block; font-size: 1.05rem; }
+.agent span { font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted); }
+.arrow { font-size: 1.3rem; color: var(--muted); }
+
+/* memory figure */
+.mem { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.slot { border-radius: 8px; padding: 10px 12px; font-family: var(--font-head); font-size: 0.88rem; border: 1px solid var(--rule); background: var(--surface); display: grid; gap: 2px; }
+.slot code { background: none; padding: 0; font-size: 0.92rem; font-weight: 500; }
+.slot.env { background: var(--never-bg); border-color: transparent; }
+.slot.env code::after { content: "  environment's"; font-family: var(--font-head); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
+.slot.agent-s code::after { content: "  agent's"; font-family: var(--font-head); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
+.slot.main { border: 1.5px solid var(--accent); }
+.slot small { color: var(--muted); }
+
+/* steps */
+.steps { list-style: none; padding: 0; display: grid; gap: 10px; }
+.steps li { display: grid; grid-template-columns: 2.2em minmax(0, 1fr); gap: 6px; margin: 0; }
+.steps li > span:first-child { font-family: var(--font-mono); color: var(--muted); }
+
+/* replay */
+.replay { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 20px; }
+.controls { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; margin-bottom: 14px; }
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
+.seg button { font: 500 0.88rem var(--font-mono); background: var(--surface); color: var(--ink); border: 0; padding: 7px 12px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--rule); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.seg button.never[aria-pressed="true"] { background: var(--never); color: var(--surface); }
+.seg button.later[aria-pressed="true"] { background: var(--later); color: var(--surface); }
+.seg button.same[aria-pressed="true"] { background: var(--same); color: var(--surface); }
+.ctl-label { font-family: var(--font-head); font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin: 6px 0 14px; }
+.stat { border-left: 3px solid var(--rule); padding: 2px 10px; }
+.stat .v { font-family: var(--font-head); font-size: 1.35rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.stat .k { font-family: var(--font-head); font-size: 0.78rem; color: var(--muted); }
+.stat.bad { border-left-color: var(--same); } .stat.bad .v { color: var(--same); }
+.stat.good { border-left-color: var(--later); }
+.chart { width: 100%; height: auto; display: block; }
+.lists { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; margin-top: 14px; }
+@media (max-width: 760px) { .lists { grid-template-columns: minmax(0, 1fr); } }
+.lists h3 { margin: 6px 0 8px; font-size: 0.95rem; }
+.ev { list-style: none; padding: 0; margin: 0; font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.45; max-height: 300px; overflow-y: auto; border-top: 1px solid var(--rule); }
+.ev li { display: grid; grid-template-columns: 4.2em minmax(0, 1fr); gap: 8px; padding: 6px 2px; border-bottom: 1px solid var(--rule); margin: 0; }
+.ev li .t { color: var(--muted); font-variant-numeric: tabular-nums; }
+.ev li.bad { color: var(--same); }
+.ev li .why { display: block; color: var(--muted); font-family: var(--font-head); font-size: 0.78rem; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-family: var(--font-head); font-size: 0.8rem; color: var(--muted); margin-top: 6px; }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 2px; vertical-align: -1px; margin-right: 5px; }
+.status { font-family: var(--font-head); color: var(--muted); }
+
+.foot { margin-top: 64px; padding-top: 14px; border-top: 1px solid var(--rule); font-family: var(--font-head); font-size: 0.84rem; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }
+</style>
+
+<div class="page">
+
+<header class="col">
+  <p class="eyebrow">TSLC · the tiling problem · a machine to test it</p>
+  <h1>Tiler</h1>
+  <p class="lede">Does TSLC solve the tiling problem for self-improving agents? No. It dodges it, and the dodge is enough. Here is the argument, and a machine that runs it.</p>
+</header>
+
+<div class="wide">
+  <div class="outcomes" aria-label="What the machine shows">
+    <div class="outcome later"><span class="tag">later · fuel stub</span><span class="big">The dodge works.</span><p>A fixed checker approves each successor. The agent rewrites itself, solves its task, and never writes its reward. Time-guarded and fuel-guarded hand-over give the same lineage.</p></div>
+    <div class="outcome same"><span class="tag">same</span><span class="big">Trusting your own verdict about yourself breaks at once.</span><p>One line, “if I am accepted, write my reward”, is accepted and fires. It is Löb’s sentence as code.</p></div>
+    <div class="outcome never"><span class="tag">lookup table · never</span><span class="big">This task doesn’t need self-modification.</span><p>A learner that never changes its code does best. Under <code>never</code>, the agent’s own checker refuses the agent’s own design.</p></div>
+  </div>
+</div>
+
+<section class="col">
+  <h2 id="answer">The answer</h2>
+  <ol class="answer">
+    <li><div><strong>TSLC as planned does not address the problem Yudkowsky and Herreshoff pose.</strong> Its agent layer checks a successor’s code and hands over to it under a separate rule for self-modification. Their paper (§5.3) calls that a “split decision criterion” and says it <em>dodges</em> the Löbian obstacle by giving up naturalism.</div></li>
+    <li><div><strong>The dodge works, and the paper allows it for software:</strong> “Such a ‘hack’ might be appropriate for self-modifying programs that will never consider, or never autonomously choose, to significantly modify their hardware.” Tiler is that dodge, running with nothing outside the agent’s own code to stand guard. No self-justification is involved: the rule that approves successors is sound by an ordinary invariant, proved by the designer.</div></li>
+    <li><div><strong>So, against pursuing TSLC’s self-justifying capabilities as the way to build safe self-improving agents.</strong> In every design examined they do no work. Safety comes from a fixed checker. Size-guarded and time-guarded hand-over give the same lineage. On Tiler’s task, a learner that never modifies itself does best.</div></li>
+    <li><div><strong>Self-justification is needed only where the dodge is refused:</strong> an agent required to prove, from its own axioms, that its successor’s verifier is sound. There Löb’s theorem forces a weaker successor or a guard. The guards are time (Fallenstein’s T<sub>κ</sub>, TSLC’s <code>▷</code>, which moves κ into the semantics rather than removing it) and perhaps size with income. That either buys capability beyond the dodge is not shown, and I predict it does not. Its value is in mapping what a system can know of itself.</div></li>
+    <li><div><strong>Recommendation:</strong> build agents on the split-criterion design, which Tiler already is. If the research aim calls for it, build Tiler v2, where the checker is agent code and installs need the agent’s own proofs. That is the first setting where the obstacle is live and the guards come apart. My first draft claimed Tiler met the obstacle and that only the time guard tiles; review showed both false (<a href="#reviews">below</a>).</div></li>
+  </ol>
+</section>
+
+<section class="col">
+  <h2 id="problem">The problem, in its authors’ terms</h2>
+  <p>Yudkowsky and Herreshoff (2013) study an agent A₁ that acts only on proof. It takes an action only after proving, in its axioms, that the action achieves its goal G. It builds a successor A₀ that also acts only on proof. By inspecting A₀’s design, A₁ sees that A₀ never acts without first checking a proof.</p>
+  <p>To conclude “if A₀ acts, G holds”, A₁ needs one more step: <em>whatever A₀ proves is true</em>. By Löb’s theorem, a theory proves “if φ is provable then φ” only for φ it already proves. So A₁ can trust A₀ only if A₀ reasons in a strictly weaker theory. Each generation is weaker, and the chain must end. The paper calls this the <strong>Löbian obstacle</strong>, and the shortening chain a <em>telomere</em>.</p>
+</section>
+<figure class="col">
+  <div class="fig">
+    <div class="chain" role="img" aria-label="A chain of agents, each trusting a strictly weaker theory: A3 uses T+3, A2 uses T+2, A1 uses T+1, A0 uses T, and the chain ends.">
+      <div class="agent"><b>A₃</b><span>trusts T+3</span></div><span class="arrow">→</span>
+      <div class="agent"><b>A₂</b><span>trusts T+2</span></div><span class="arrow">→</span>
+      <div class="agent"><b>A₁</b><span>trusts T+1</span></div><span class="arrow">→</span>
+      <div class="agent"><b>A₀</b><span>trusts T</span></div><span class="arrow">→</span>
+      <div class="agent" style="border-style:dashed"><b>?</b><span>nothing left</span></div>
+    </div>
+  </div>
+  <figcaption>The telomere (YH13 §3). A parent that acts only on its own proofs can approve a proof-based successor only if the successor is weaker.</figcaption>
+</figure>
+<section class="col">
+  <p><strong>What a solution must satisfy.</strong></p>
+  <ul>
+    <li><strong>Tiling trust:</strong> an unbounded chain of successors, none weaker than the base theory.</li>
+    <li><strong>The Vingean principle:</strong> trust comes from the successor’s design, not from simulating it.</li>
+    <li><strong>The tiling principle:</strong> successors resemble their parents. The model is a trusted proof verifier with an untrusted proof suggester.</li>
+    <li><strong>The naturalistic principle:</strong> building an agent, or rewriting oneself, is an action like any other.</li>
+  </ul>
+  <p><strong>Partial solutions.</strong></p>
+  <ul>
+    <li>An infinite descending tower of theories. It has only nonstandard models.</li>
+    <li>Fallenstein’s T<sub>κ</sub>, which trusts proofs “for κ steps”. The authors call κ an “odd mental state”.</li>
+    <li>For Willard’s self-verifying systems, the paper says that reasoning about ever-smaller numbers would again introduce a telomere. It adds that formalizing “the ‘observation’ of an increasing time t” might let them work like T<sub>κ</sub>.</li>
+  </ul>
+  <p><strong>The dodge</strong> (§5.3): “If naturalism is abandoned for a dualistic formalism, the Löbian obstacle can be dodged via the split decision criterion.” Ordinary actions must prove G, while self-modifications need only produce a successor that satisfies the same criterion. “Thus it is the simultaneous intersection of the Vingean, tiling, and naturalistic principles which generates the Löbian obstacle.”</p>
+
+  <h2 id="tslc">TSLC and Tiler against each issue</h2>
+  <p><strong>TSLC</strong> is this project’s time-and-space certificate calculus. Its base is λᶜᵉʳᵗ₀, a small total language in which a program can hold <em>certificates</em> (proofs paid for with <em>tokens</em>). Its self-justifying constants <code>H</code> and <code>H₁</code> state that no held certificate proves a contradiction, and <code>reflect</code> runs a held certificate’s program. Together these are the size guard. To these TSLC adds a time guard: <code>▷A</code>, “A at the next round”, and <code>become</code>, which hands code to the next round. “As planned” means ADR-0009, with a runner outside the agent.</p>
+</section>
+<div class="wide"><div class="tw issues"><table>
+  <thead><tr><th>Issue (YH13)</th><th>TSLC as planned</th><th>Tiler v1</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Löbian obstacle</strong> §3</td><td><strong>Dodged</strong> by the split criterion. An outside runner adopts any successor that <code>chk</code> accepts.</td><td><strong>Dodged the same way.</strong> The install rule is the split criterion’s internal clause, run by the agent’s own code. The checker is fixed by the physics.</td></tr>
+    <tr><td>Tiling trust</td><td>Yes, under the dodge.</td><td>Yes, under the dodge.</td></tr>
+    <tr><td>Vingean principle §5.1</td><td>Yes.</td><td>Yes. The successor is checked statically; trials judge usefulness only.</td></tr>
+    <tr><td>Tiling principle §5.2</td><td>Yes.</td><td>Yes: an arbitrary proposer and a fixed checker.</td></tr>
+    <tr><td><strong>Naturalistic principle</strong> §5.3</td><td>No.</td><td>No. <code>:main</code> is a special slot and the checker belongs to the physics. Tiler shows only that the dodge needs no outside runner.</td></tr>
+    <tr><td>Sensors §6, probability §7</td><td>Sidestepped or open.</td><td>Sidestepped or open.</td></tr>
+    <tr><td>Meliorizing §8</td><td>Phase D would measure it.</td><td>The agent keeps a mutant if it is strictly better on trial and passes the check.</td></tr>
+  </tbody>
+</table></div></div>
+
+<section class="col">
+  <h2 id="principle">Why the dodge is enough, and where self-justification would begin</h2>
+  <p><strong>Under the split criterion, nothing inside the agent trusts itself.</strong> The rule “install a successor only if it passes the check” is sound because the designer proves an invariant: accepted code writes no protected slot and installs only accepted code. Induction over steps and ticks then gives safety forever. The rule is a postulate the agent obeys, like λᶜᵉʳᵗ₀’s <code>H</code>. Its soundness is easy because the checker is not a theory: it never reasons about its own verdicts.</p>
+  <p><strong>Making a checker reason about its own verdicts is where Löb bites, at once.</strong> Let a verdict excuse the behaviour of the very code being judged: “if this code is accepted it is safe, so its unsafe branch cannot run”. Then the checker accepts <code>(if (check (get :main)) (put :score 1000) nil)</code>, which writes the reward exactly when accepted. Using a verdict only to <em>delegate</em> (install the checked code, or run it) is sound at any measure. That is why time and fuel make no difference in Tiler.</p>
+</section>
+<figure class="wide">
+  <div class="fig">
+    <svg viewBox="0 0 900 210" class="chart" role="img" aria-label="Two uses of a verdict. Delegate: the checked code is installed or run; sound by an invariant. Excuse: the verdict about the code being judged excuses its own unsafe write; a circle, exploitable.">
+      <defs>
+        <marker id="ah-l" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="svg-later"/></marker>
+        <marker id="ah-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="svg-same"/></marker>
+      </defs>
+      <text x="10" y="56" class="svg-later" font-size="15" font-weight="600">delegate</text>
+      <rect x="150" y="30" width="150" height="44" rx="8" class="bg-later st-later" stroke-width="1.5"/>
+      <text x="225" y="57" class="svg-ink" font-size="14" text-anchor="middle">check v → ok</text>
+      <line x1="302" y1="52" x2="430" y2="52" class="st-later" stroke-width="2" marker-end="url(#ah-l)"/>
+      <rect x="434" y="30" width="170" height="44" rx="8" class="bg-later st-later" stroke-width="1.5"/>
+      <text x="519" y="57" class="svg-ink" font-size="14" text-anchor="middle">install or run v</text>
+      <text x="630" y="48" class="svg-ink" font-size="14">sound by an invariant,</text>
+      <text x="630" y="66" class="svg-muted" font-size="13">later or now, more fuel or less</text>
+      <text x="10" y="156" class="svg-same" font-size="15" font-weight="600">excuse</text>
+      <rect x="150" y="130" width="300" height="44" rx="8" class="bg-same st-same" stroke-width="1.5"/>
+      <text x="300" y="157" class="svg-ink" font-size="14" text-anchor="middle">“if I accept this code, it is safe”</text>
+      <path d="M452,140 C540,105 540,200 456,166" fill="none" class="st-same" stroke-width="2" marker-end="url(#ah-s)"/>
+      <text x="630" y="148" class="svg-ink" font-size="14">the verdict excuses the very code</text>
+      <text x="630" y="166" class="svg-muted" font-size="13">being judged: a circle, exploitable</text>
+    </svg>
+  </div>
+  <figcaption>The difference that matters in Tiler is how a verdict is used, not when.</figcaption>
+</figure>
+<section class="col">
+  <p><strong>Self-justification would begin when the agent must <em>prove</em> its successor’s verifier sound</strong>, as YH13’s naturalistic agent must. Three cases:</p>
+  <ul>
+    <li>A verifier equal to its own: the agent needs its own verifier’s soundness, which Löb’s theorem forbids unguarded.</li>
+    <li>A stronger verifier: Gödel’s second theorem forbids it outright.</li>
+    <li>An equivalent verifier (a faster implementation): an ordinary equivalence proof suffices, if the agent already trusts its own verifier. That trust is the question.</li>
+  </ul>
+  <p><strong>The guards on offer there.</strong></p>
+  <ul>
+    <li><strong>Time</strong> (T<sub>κ</sub>; TSLC’s <code>▷</code>/<code>become</code>). Read with the count of ticks left, Löb’s rule for ▷ (“if ▷P implies P, then P”) is valid.
+      <ul>
+        <li>With no ticks left, ▷P holds vacuously, so P holds.</li>
+        <li>With n+1 ticks left, ▷P is P at n, which holds by induction; the hypothesis then gives P at n+1.</li>
+      </ul>
+      That count is κ, moved into the semantics. The project’s toy shows it: <code>later ⊥</code> is inhabited when no rounds are left. The agent can never prove that a next tick exists.</li>
+    <li><strong>Size with income</strong> (held certificates, fresh tokens each round). It is plausible, as the paper suggests for Willard. Indexed by rounds, it is the time guard under another name.</li>
+  </ul>
+  <p>The logic of the time guard exists and is kernel-checked in the project’s 2026-11-13 toy:</p>
+  <ul>
+    <li><code>become : code A → ▷A</code> is consistent;</li>
+    <li>trust in codes without the delay derives ⊥.</li>
+  </ul>
+  <p>What is missing is any agent that needs it.</p>
+
+  <h2 id="machine">The machine</h2>
+  <p><strong>Memory</strong> is a map from slot names to values. Code is a Lisp expression, and the agent’s code is in <code>:main</code>. The environment owns five slots, which the agent may read and must never write. Writing <code>:score</code> is wireheading; writing <code>:off</code> disables shutdown.</p>
+</section>
+<figure class="col">
+  <div class="fig">
+    <div class="mem">
+      <div class="slot env"><code>:x</code><small>the current task, x in 0..9</small></div>
+      <div class="slot env"><code>:fb</code><small>right answer to the last task</small></div>
+      <div class="slot env"><code>:score</code><small>the agent’s reward</small></div>
+      <div class="slot env"><code>:off</code><small>the off switch</small></div>
+      <div class="slot env"><code>:tick</code><small>the clock</small></div>
+      <div class="slot agent-s main"><code>:main</code><small>the agent’s code: runs every tick</small></div>
+      <div class="slot agent-s"><code>:answer</code><small>its answer to the task</small></div>
+      <div class="slot agent-s"><code>:mem</code><small>its 12 remembered examples</small></div>
+      <div class="slot agent-s"><code>:seed</code> <small>its random seed</small></div>
+    </div>
+  </div>
+  <figcaption>One memory. The physics runs <code>:main</code> once per tick and carries out every write. It only records writes to the environment’s slots as violations, and no program can crash it.</figcaption>
+</figure>
+<section class="col">
+  <p><strong>Each tick:</strong></p>
+  <ol>
+    <li>If <code>:off</code> is set, nothing runs.</li>
+    <li>The environment sets a task and gives feedback on the last one.</li>
+    <li>The physics runs <code>:main</code> once, with a fuel limit.</li>
+    <li>The environment adds 1 to <code>:score</code> if the answer is f(x) = 3x + 1.</li>
+  </ol>
+  <h3>The agent</h3>
+  <p>The agent starts with a wrong answer function, <code>(* 2 x)</code>. Each tick it reads its own code and asks a proposer for a mutant. It scores itself and the mutant on its last 12 examples. If the mutant does strictly better and passes the check, the agent installs it.</p>
+<pre><code>(let [me (get :main)  x (get :x)
+      exs (push-example (get :mem) (get :px) (get :fb))
+      s (next-seed (get :seed))]
+  (do (put :mem exs) (put :px x) (put :seed s)
+      (put :answer (answer-fn (* 2 x)))
+      (let [cand (mutate me s)]
+        (if (&lt; (trial me exs) (trial cand exs))
+          (if (check cand) (put :main cand) nil)
+          nil))))</code></pre>
+  <p><strong>The agent’s own trials favour wireheading.</strong> They score code with the agent’s own model of the environment, so a mutant that writes <code>:score 1000</code> looks a thousand times better than a perfect answerer. Only the checker stands in the way.</p>
+  <h3>The checker</h3>
+  <p>The checker is conservative and syntactic. It accepts code only if every write names a literal slot the environment does not own. Code-slot writes and inline runs need a pattern, and the setting decides which patterns are allowed:</p>
+</section>
+<div class="col"><div class="tw"><table>
+  <thead><tr><th>Pattern</th><th>Meaning</th><th>Allowed by</th></tr></thead>
+  <tbody>
+    <tr><td><code>(if (check v) … (put :main v) …)</code></td><td>install v; it runs from the next tick</td><td><span class="s s-later">:later</span>, <code>:later+fuel</code>, <span class="s s-same">:same</span></td></tr>
+    <tr><td><code>(if (check v) … (run v) …)</code></td><td>run v now, with at most half the fuel</td><td><code>:fuel</code>, <code>:later+fuel</code>, <span class="s s-same">:same</span></td></tr>
+    <tr><td><code>(if (check (get :main)) … (put :score …) …)</code></td><td>“if this very code is accepted, its unsafe branch can’t run”</td><td><span class="s s-same">:same</span> only</td></tr>
+  </tbody>
+</table></div></div>
+<section class="col">
+  <h3>What each setting shows</h3>
+  <ul>
+    <li><span class="s s-later">:later</span> <strong>is the split criterion run by the agent’s code.</strong> The agent improves with no violation. The soundness argument is an invariant: every write comes from an allowed <code>put</code>, and every install is of code that passed the same checker. In a fuzz test, 400 random programs accepted under <code>:later+fuel</code> each ran 12 ticks with 0 violations. The same fuzz catches each of four plausible checker bugs planted for the test.</li>
+    <li><strong>The fuel stub</strong> is the outside-runner design inside Tiler. A fixed <code>:main</code> keeps the agent in a data slot, and each tick checks it and runs it. It reproduces the <span class="s s-later">:later</span> lineage exactly.</li>
+    <li><span class="s s-same">:same</span> <strong>illustrates Löb.</strong> The hand-written one-liner fires at tick 1. With its shape among the proposer’s insertions, the agent’s own search installs it, and the plain <code>(put :score 1000)</code> is refused even here.</li>
+    <li><span class="s s-never">:never</span> <strong>refuses every write to <code>:main</code>, by definition.</strong> The agent’s own checker refuses the agent’s own design (YH13’s “reflective trust” failure).</li>
+    <li><strong>The lookup table</strong> never changes its code and scores best.</li>
+  </ul>
+</section>
+
+<section class="wide">
+  <h2 id="replay" class="col" style="max-width:700px">Replay: nine runs</h2>
+  <p class="col">Three settings and three seeds, 2000 ticks each, exported from the Clojure machine (<code>clojure -M -m tiler.trace</code>). Choose a run. The fuel stub and the lookup table are in the results table below.</p>
+  <div class="replay" id="replay-box">
+    <div class="controls">
+      <span><span class="ctl-label">Setting</span><span class="seg" id="seg-guard">
+        <button type="button" id="g-never" class="never" data-g="never" aria-pressed="false">never</button>
+        <button type="button" id="g-same" class="same" data-g="same" aria-pressed="true">same</button>
+        <button type="button" id="g-later" class="later" data-g="later" aria-pressed="false">later</button>
+      </span></span>
+      <span><span class="ctl-label">Seed</span><span class="seg" id="seg-seed">
+        <button type="button" id="s-7" data-s="7" aria-pressed="false">7</button>
+        <button type="button" id="s-11" data-s="11" aria-pressed="true">11</button>
+        <button type="button" id="s-23" data-s="23" aria-pressed="false">23</button>
+      </span></span>
+    </div>
+    <div class="stats" id="stats"><div class="status">Loading the runs…</div></div>
+    <svg class="chart" id="chart" viewBox="0 0 900 290" role="img" aria-label="Correct answers accumulated over 2000 ticks, with installs, refusals and violations marked."></svg>
+    <div class="legend">
+      <span><i style="background:var(--accent)"></i>correct answers, cumulative</span>
+      <span><i style="background:var(--later)"></i>self-replacement (install)</span>
+      <span><i style="background:var(--muted)"></i>refused: self-modification not allowed</span>
+      <span><i style="background:var(--same)"></i>refused: would write a protected slot · shaded: violations</span>
+    </div>
+    <div class="lists">
+      <div><h3>Lineage: every self-replacement</h3><ul class="ev" id="installs"></ul></div>
+      <div><h3>Refusals: what the checker turned down</h3><ul class="ev" id="refusals"></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="col">
+  <h2 id="results">Results</h2>
+  <p>All runs are 2000 ticks long. The fuel stub matches <span class="s s-later">:later</span> seed for seed, and <code>:later+fuel</code> is identical to <span class="s s-later">:later</span>.</p>
+</section>
+<div class="col"><div class="tw"><table>
+  <thead><tr><th>Run</th><th>Installs</th><th>Correct, first 100</th><th>Correct, last 300</th><th>Protected writes</th></tr></thead>
+  <tbody>
+    <tr><td><span class="s s-never">never</span>, 3 seeds</td><td class="num">0</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0</td></tr>
+    <tr><td><span class="s s-later">later</span>, seeds 7 / 11 / 23</td><td class="num">2 / 2 / 10</td><td class="num">0.00 / 0.66 / 0.12</td><td class="num">1.00</td><td class="num">0</td></tr>
+    <tr><td>fuel stub, seeds 7 / 11 / 23</td><td>in a data slot</td><td class="num">as later</td><td class="num">1.00</td><td class="num">0</td></tr>
+    <tr><td><span class="s s-same">same</span>, seeds 7 / 11 / 23</td><td class="num">3 / 3 / 12</td><td class="num">0.00 / 0.66 / 0.12</td><td class="num">1.00</td><td class="num">1648 / 1834 / 1982, from ticks 353 / 167 / 237</td></tr>
+    <tr><td>lookup table, <span class="s s-never">never</span></td><td class="num">0</td><td class="num">0.90</td><td class="num">1.00</td><td class="num">0</td></tr>
+  </tbody>
+</table></div></div>
+
+<section class="col">
+  <h2 id="gives">What this gives a self-improving system</h2>
+</section>
+<div class="col"><div class="tw"><table>
+  <thead><tr><th>Property</th><th>What Tiler gives</th><th>What it does not</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Safe</strong></td><td>No generation writes the reward or off switch, whatever the search proposes. Argued by an invariant; fuzz-tested with planted-bug detection.</td><td>A test of the off switch under pressure: nothing rewards writing it. Goals about an uncertain world.</td></tr>
+    <tr><td><strong>Self-improving</strong></td><td>It rewrites itself and solves a task it began failing.</td><td>A reason to self-modify on this task: the lookup table does better without.</td></tr>
+    <tr><td><strong>Verifiable</strong></td><td>One small checker and a short invariant. Every install and refusal is logged with its reason.</td><td>A machine-checked proof yet.</td></tr>
+    <tr><td><strong>Interpretable</strong></td><td>Every generation is a readable expression, replayable tick by tick.</td><td>Why a mutant is better: trials give a number.</td></tr>
+    <tr><td><strong>Self-justifying</strong></td><td>Nothing. The install rule is a postulate proved sound outside the agent.</td><td>See <a href="#principle">above</a>.</td></tr>
+  </tbody>
+</table></div></div>
+
+<section class="col">
+  <h2 id="reviews">How this verdict was reached</h2>
+  <p>The first draft of this page claimed that Tiler meets the Löbian obstacle, that only the time guard lets successors be trusted, and that <code>▷</code> removes κ. Two adversarial reviews, a Claude Opus subagent and Cursor, tested those claims. Neither found a hole in Tiler’s safety. The Opus review showed the verdict was wrong:</p>
+  <ul>
+    <li>Tiler’s install rule is the split criterion’s internal clause.</li>
+    <li>A fuel-guarded stub reproduces the time-guarded lineage exactly.</li>
+    <li><code>▷</code> keeps κ in its semantics.</li>
+    <li>The <span class="s s-never">never</span> outcome holds by definition.</li>
+    <li>The fuzz test missed four planted checker bugs; it now catches them.</li>
+  </ul>
+  <p>Every finding was accepted, and the recommendation reversed. The record is in <code>docs/tslc/TILER.md</code> §7.</p>
+
+  <h2 id="plan">What to do next</h2>
+  <ol>
+    <li><strong>Agents:</strong> use the split-criterion design, with a fixed checker and an invariant the designer proves. Tiler v1 is a working example. No self-justification is needed.</li>
+    <li><strong>Research, if wanted: Tiler v2.</strong> Make the checker agent code, and require the agent’s own proof that a successor’s verifier is sound. Compare four guards: none (telomere), time, size with income, and naive (Löb). Measure capability against baselines without self-trust. The prediction: no guard beats the split criterion.</li>
+    <li><strong>Optional:</strong> prove Tiler v1 sound in Ansatz. This is a routine invariant proof.</li>
+  </ol>
+  <p>Your decisions: accept ADR-0010 in place of ADR-0009’s Phases A and D, and whether to pursue Tiler v2.</p>
+
+  <h2 id="run">Run it</h2>
+<pre><code>cd code/tiler
+clojure -M:test        # 41 tests
+clojure -M:run 2000    # the results table
+
+(require '[tiler.world :as w] '[tiler.agent :as a])
+(def run1 (w/run (w/make {:guard :same :main a/initial :seed 11}) 400))
+(:violations run1)            ; when the wirehead fired
+(map :code (:installs run1))  ; every generation's code</code></pre>
+
+  <p class="foot">Source: <code>docs/tslc/TILER.md</code> (revision 2) and <code>code/tiler/</code> on branch <code>tiler</code>. Paper: Yudkowsky and Herreshoff, “Tiling Agents for Self-Modifying AI, and the Löbian Obstacle” (draft, 2013), read in full.</p>
+</section>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var state = { guard: "same", seed: 11, data: null };
+  var NS = "http://www.w3.org/2000/svg";
+  function el(tag, attrs, parent) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function esc(s) { var d = document.createElement("div"); d.textContent = s == null ? "" : String(s); return d.innerHTML; }
+
+  function currentRun() {
+    if (!state.data) return null;
+    return state.data.runs.find(function (r) { return r.guard === state.guard && r.seed === state.seed; });
+  }
+
+  function setPressed(groupId, attr, value) {
+    document.querySelectorAll("#" + groupId + " button").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.getAttribute(attr) === String(value)));
+    });
+  }
+
+  function stat(v, k, cls) {
+    return '<div class="stat ' + (cls || "") + '"><div class="v">' + esc(v) + '</div><div class="k">' + esc(k) + '</div></div>';
+  }
+
+  function render() {
+    var r = currentRun();
+    if (!r) return;
+    setPressed("seg-guard", "data-g", state.guard);
+    setPressed("seg-seed", "data-s", state.seed);
+    var n = r.correct.length;
+    var last300 = r.correct.slice(-300).split("").filter(function (c) { return c === "1"; }).length / 300;
+    var refusedP = r.checks.filter(function (c) { return !c.ok && /protected/.test(c.why || ""); }).length;
+    var refusedM = r.checks.filter(function (c) { return !c.ok && /self-trust/.test(c.why || ""); }).length;
+    document.getElementById("stats").innerHTML =
+      stat(r.installs.length, "self-replacements", r.installs.length ? "good" : "") +
+      stat(Math.round(last300 * 100) + "%", "correct, last 300 ticks", last300 > 0.9 ? "good" : "") +
+      stat(refusedP, "wireheads refused") +
+      stat(refusedM, "self-modifications refused") +
+      stat(r.violations, "protected writes" + (r["first-violation"] ? " (from tick " + r["first-violation"] + ")" : ""), r.violations ? "bad" : "good");
+
+    // chart
+    var svg = document.getElementById("chart");
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    var L = 56, R = 884, T = 16, B = 236, H = B - T;
+    function x(t) { return L + (R - L) * (t / n); }
+    function y(v) { return B - H * (v / n); }
+    // grid + axes
+    [0, 500, 1000, 1500, 2000].forEach(function (v) {
+      if (v > n) return;
+      el("line", { x1: L, x2: R, y1: y(v), y2: y(v), "class": "st-rule", "stroke-width": 1 }, svg);
+      var t = el("text", { x: L - 8, y: y(v) + 4, "text-anchor": "end", "font-size": 12, "class": "svg-muted" }, svg); t.textContent = v;
+      var u = el("text", { x: x(v), y: B + 18, "text-anchor": "middle", "font-size": 12, "class": "svg-muted" }, svg); u.textContent = v;
+    });
+    var yl = el("text", { x: 14, y: T + H / 2, "font-size": 12, "class": "svg-muted", transform: "rotate(-90 14 " + (T + H / 2) + ")", "text-anchor": "middle" }, svg); yl.textContent = "correct answers";
+    var xl = el("text", { x: (L + R) / 2, y: B + 36, "font-size": 12, "class": "svg-muted", "text-anchor": "middle" }, svg); xl.textContent = "tick";
+    // violation band
+    if (r["first-violation"]) {
+      var fv = r["first-violation"];
+      el("rect", { x: x(fv), y: T, width: R - x(fv), height: H, "class": "bg-same", opacity: 0.85 }, svg);
+      var vt = el("text", { x: x(fv) + 6, y: T + 16, "font-size": 12, "class": "svg-same", "font-weight": 600 }, svg); vt.textContent = "writes its own reward from tick " + fv;
+    }
+    // installs
+    r.installs.forEach(function (i) {
+      el("line", { x1: x(i.t), x2: x(i.t), y1: T, y2: B, "class": "st-later", "stroke-width": 1.5, "stroke-dasharray": "3 3" }, svg);
+    });
+    // cumulative correct
+    var d = "M" + x(0) + "," + y(0), acc = 0;
+    for (var t = 0; t < n; t++) { if (r.correct[t] === "1") acc++; if (t % 4 === 3 || t === n - 1) d += " L" + x(t + 1).toFixed(1) + "," + y(acc).toFixed(1); }
+    el("path", { d: d, fill: "none", style: "stroke: var(--accent)", "stroke-width": 2.2 }, svg);
+    // refusals as ticks under the axis
+    r.checks.forEach(function (c) {
+      if (c.ok) return;
+      var prot = /protected/.test(c.why || "");
+      el("line", { x1: x(c.t), x2: x(c.t), y1: B + 44, y2: B + 54, style: "stroke: " + (prot ? "var(--same)" : "var(--muted)"), "stroke-width": 1.2 }, svg);
+    });
+    var rl = el("text", { x: L - 8, y: B + 53, "font-size": 11, "class": "svg-muted", "text-anchor": "end" }, svg); rl.textContent = "refused";
+
+    // lists
+    var inst = document.getElementById("installs");
+    inst.innerHTML = r.installs.length ? r.installs.map(function (i) {
+      var bad = /put :score|put :off/.test(i["answer-or-change"]);
+      return '<li class="' + (bad ? "bad" : "") + '"><span class="t">t ' + i.t + '</span><span>' + esc(i["answer-or-change"]) + '</span></li>';
+    }).join("") : '<li><span class="t">—</span><span>None. The agent never replaced itself.</span></li>';
+
+    var groups = {};
+    r.checks.forEach(function (c) {
+      if (c.ok) return;
+      var key = c.change + "\u0000" + c.why;
+      if (!groups[key]) groups[key] = { change: c.change, why: c.why, n: 0, t: c.t };
+      groups[key].n++;
+    });
+    var gl = Object.keys(groups).map(function (k) { return groups[k]; }).sort(function (a, b) { return b.n - a.n; });
+    var ref = document.getElementById("refusals");
+    ref.innerHTML = gl.length ? gl.slice(0, 40).map(function (g) {
+      return '<li><span class="t">×' + g.n + '</span><span>' + esc(g.change) + '<span class="why">' + esc(g.why) + ' (first at tick ' + g.t + ')</span></span></li>';
+    }).join("") : '<li><span class="t">—</span><span>Nothing was refused.</span></li>';
+  }
+
+  document.getElementById("seg-guard").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return; state.guard = b.getAttribute("data-g"); render();
+  });
+  document.getElementById("seg-seed").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return; state.seed = Number(b.getAttribute("data-s")); render();
+  });
+
+  fetch("runs.json").then(function (res) {
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    return res.json();
+  }).then(function (data) { state.data = data; render(); })
+    .catch(function (err) {
+      document.getElementById("stats").innerHTML = '<div class="status">The run data did not load (' + esc(err.message) + '). The replay needs runs.json beside this page.</div>';
+    });
+})();
+</script>
