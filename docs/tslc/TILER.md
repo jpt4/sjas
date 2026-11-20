@@ -47,9 +47,19 @@ Löbian Obstacle* (draft, 2013), cited as YH13 with section and equation numbers
      removing it;
    - possibly size with observed income, which YH13 §4.2 suggests for Willard's systems.
 
-   That either guard buys an agent any capability beyond the dodge is not shown, and I predict
-   neither does. Its value is in mapping the limits of self-knowledge, which is the project's
-   research aim.
+   Self-justification is an *epistemic* capability: it extends what a system can know and
+   guarantee of itself, by itself. `H` and `▷` let a system derive true statements about its own
+   soundness that it could not otherwise derive. That is the project's research aim.
+
+   What is not shown is an *operational* capability: in every design built so far, the designer
+   already holds every guarantee, so the agent acts the same whether or not it can derive them.
+   Self-knowledge becomes operational only where no designer stands behind a decision, and the
+   agent's own proof is what licenses it. Three such places:
+   - approving a change the designer did not anticipate;
+   - certifying itself to others;
+   - acting only on its own proofs.
+
+   Tiler v2 tests exactly that. I predict no operational gain over the dodge.
 5. **Recommendation.**
    - For agents, use the split-criterion design. Tiler v1 already is one, and works.
    - For the research aim, if pursued, build Tiler v2: the checker as agent code, and installs
@@ -272,7 +282,7 @@ code they test.
 | Self-improving | The agent rewrites itself and solves a task it began failing. | A reason to self-modify on this task: the lookup table does better without. A guarantee of improvement. |
 | Verifiable | One small checker and a short invariant. Every install and every refusal is logged with its reason. | A machine-checked proof (ADR-0010). |
 | Interpretable | Every generation is a readable expression; the lineage replays tick by tick. | Why a mutant is better: trials give a number. |
-| Self-justifying | Nothing here. The install rule is a postulate proved sound outside the agent. | See §3. |
+| Self-justifying | Nothing here. The install rule is a postulate proved sound outside the agent; the agent cannot derive its own safety, only the designer can. | The epistemic capability of §0.4: the agent knowing, by itself, that its lineage is safe. |
 
 ## 7. Reviews
 
@@ -335,4 +345,5 @@ clojure -M:run 2000   # the table of §5
 | Fuel and time give the same lineage in Tiler | [E] |
 | The `:same` rule admits a one-line Löbian wirehead | [E] |
 | `become` is consistent; undelayed code trust derives ⊥ | [K] toy |
-| Self-justification adds agent capability beyond the dodge | not shown; predicted not |
+| Self-justification extends what a system can derive about itself (epistemic) | [K] toy; [R][K] λᶜᵉʳᵗ₀ `H` |
+| Self-justification adds operational capability beyond the dodge | not shown; predicted not (Tiler v2 tests it) |

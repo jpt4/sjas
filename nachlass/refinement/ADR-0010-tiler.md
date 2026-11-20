@@ -29,7 +29,9 @@
   - the time guard, `T_κ` or `▷`, with κ moved into the semantics;
   - possibly size with income.
 
-  Nothing shown so far suggests this adds capability.
+  Self-justification extends what a system can know of itself (an epistemic capability). Nothing
+  shown so far makes it change what an agent can do. That happens only where the agent's own proof,
+  not the designer's theorem, must license a decision.
 
 ## Decision
 
@@ -42,8 +44,8 @@
    - Compare the guards: none, which gives the telomere; time; size with income; and the naive
      rule, which gives Löb.
    - Include a capability test against baselines without self-trust.
-   - Prediction: no guard adds capability over the split-criterion baseline. A pass would need
-     explaining.
+   - Prediction: no guard adds operational capability over the split-criterion baseline. A
+     pass would need explaining.
 4. **Optional: the soundness of Tiler v1 in Ansatz.** It is a routine invariant proof that
    checks the machine; it is not progress on the obstacle.
 
