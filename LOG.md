@@ -652,3 +652,24 @@ See [the analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.m
   - 400 random self-modifying programs accepted under later+fuel: 0 violations.
 - **Documents.** [`docs/tslc/TILER.md`](docs/tslc/TILER.md) and ADR-0010 (proposed; supersedes ADR-0009's Phases A and D).
 - **Reviews.** Cursor's GPT-5.3 Codex and Grok were out of usage, and Codex's five-hour window was full. Round 5 ran on Cursor "auto" and a Claude Opus subagent.
+
+## 2026-11-20 — Review round 5 reverses the Tiler verdict
+- **Reviews.** A Claude Opus subagent and Cursor "auto" reviewed TILER.md revision 1 and the code. Neither found a counterexample to Tiler's soundness under `:later`/`:fuel`. The Opus review found the verdict wrong:
+  - Tiler is YH13's §5.3 split criterion too: the install rule is the criterion's internal clause, and the checker is fixed by the physics.
+  - A fuel-guarded check-then-run stub reproduces the `:later` lineage exactly.
+  - `▷` moves κ into the semantics; it does not remove it.
+  - Tiler's soundness rests on an invariant, not on a measure.
+  - `:never`'s outcome holds by definition, and a lookup-table learner that never modifies itself does best on the task.
+  - The fuzz test caught none of four planted checker bugs.
+- **Accepted, all of it.** TILER.md revision 2 now says:
+  - against TSLC's self-justifying capabilities as the way to build safe self-improving agents;
+  - the split-criterion design suffices, and YH13 allow it for software; Tiler v1 is it;
+  - self-justification is needed only for an agent that must prove its successor's verifier sound;
+  - Tiler v2, offered as optional research, is the first setting where that is live.
+- **Correction to the previous entry.** "Error found" was itself the error. The 2026-11-13 claim that self-replacement under one checker needs no time guard stands.
+- **Code.**
+  - No accepted program can crash the world.
+  - Two baselines: the fuel stub and the lookup table.
+  - The fuzz test now catches the four planted bugs.
+  - 41 tests.
+- ADR-0010 is at revision 2.

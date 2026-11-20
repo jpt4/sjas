@@ -1,75 +1,62 @@
-# ADR-0010 — Tiler: self-modifying agents on TSLC's time guard
+# ADR-0010 — Tiler, and what to build for self-modifying agents
 
-**Status.** Proposed 2026-11-20. Supersedes ADR-0009's Phase A agent layer and its Phase D.
-The prototype (item 1) was built under the user's license of 2026-11-20 to design and
-build "something that could be immediately coded up and played with".
+**Status.** Proposed 2026-11-20, revision 2 (after review round 5).
+- Supersedes ADR-0009's Phase A agent layer and its Phase D.
+- The prototype (item 1) was built under the user's 2026-11-20 license to build "something that
+  could be immediately coded up and played with".
 
 **Branch.** `tiler`.
 
-**Rationale.** [`docs/tslc/TILER.md`](../../docs/tslc/TILER.md). This ADR records only the
-decision.
+**Rationale.** [`docs/tslc/TILER.md`](../../docs/tslc/TILER.md).
 
 ## Context
 
-- ADR-0009 placed the trusted runner outside the agent. Yudkowsky and Herreshoff (2013,
-  §5.3) name that move, a split decision criterion, as a way to dodge the Löbian obstacle
-  by giving up naturalism. Under it no self-trust is needed, which is why the TSLC
-  rationale kept finding self-justification unnecessary.
-- In a naturalized agent, with nothing outside its own code to stand guard, self-trust
-  is unavoidable: approving a self-modifying successor relies on the successor's future
-  checks. The trust is sound only at a strictly smaller measure. For successors, the
-  measure that never runs out is time, which is TSLC's `▷`/`become` (YH13 §4.2's `T_κ`,
-  without κ). The size guard (`reflect`) trusts only what is already held, and would
-  shorten the lineage at every generation.
-- Tiler v1 shows this. Under `:never` the lineage never starts. Under `:same` the
-  agent's own search installs the Löbian wirehead. Under `:later` the agent solves its
-  task with no write to the reward or the off switch, and 400 random self-modifying
-  programs make none either.
+- **ADR-0009's agent layer.** It is the split decision criterion of Yudkowsky and Herreshoff
+  (2013, §5.3): a separate rule approves a successor that satisfies the same check. It dodges
+  the Löbian obstacle rather than meeting it. YH13 allow the dodge for software that does not
+  rebuild its own hardware.
+- **Tiler v1.**
+  - It is the same dodge, executed by the agent's own code, with no runner outside the agent.
+  - The agent improves itself and never writes its reward, although its own trials favour doing
+    so.
+  - No self-justification is involved: the install rule is sound by an invariant the designer
+    proves.
+  - A fuel-guarded check-then-run stub gives the same lineage as the time-guarded install.
+  - A learner that never modifies itself does best on the task.
+- **Where self-justification would be needed.** Only when an agent must prove, from its own
+  axioms, that its successor's verifier is sound. There, Löb's theorem forces a weaker successor
+  or a guard:
+  - the time guard, `T_κ` or `▷`, with κ moved into the semantics;
+  - possibly size with income.
+
+  Nothing shown so far suggests this adds capability.
 
 ## Decision
 
-1. **Tiler v1, the sandbox** (done). `code/tiler/`: interpreter, checker with the
-   self-trust settings, world, agent, proposer, experiment; 32 tests.
-2. **Soundness in Ansatz.** Model Tiler's language and checker in Ansatz. Prove that
-   accepted code never writes an environment slot at any tick, by induction on ticks
-   and on fuel. Kernel-check the `:same` counterexample. Relate the install rule to the
-   toy's `become` (`sBecomeSpec`).
-3. **Tiler v2, proofs for semantic safety.** The checker accepts code together with a
-   certificate of a safety property, rather than by syntax alone. λᶜᵉʳᵗ₀'s `chk` and its
-   certificates are the format, and `become` is install. Repeat the three-setting
-   experiment at the level of proofs.
-4. **Naturalism.** Add executors in other slots. Test that building an agent elsewhere
-   and rewriting oneself pass one rule, and that no special case is needed.
-5. **Checker replacement.** Allow installing a stricter checker. Show that a looser one
-   cannot be approved.
-6. **Dropped from ADR-0009.** Phase D's comparison of `reflect` with a step-limited
-   evaluator. Also the outside-runner agent type as the vehicle for self-justification
-   research. The size guard stays, as the `:fuel` rule and as a result about held
-   certificates.
+1. **Tiler v1** (done): `code/tiler/`, 41 tests, the experiment of TILER.md §5.
+2. **Self-modifying agents use the split-criterion design**, with a fixed checker and a
+   designer-proved invariant. No self-justification is built for agents.
+3. **Optional research, the user's decision: Tiler v2.**
+   - The checker becomes agent code.
+   - Installs require the agent's own proof that the successor's verifier is sound.
+   - Compare the guards: none, which gives the telomere; time; size with income; and the naive
+     rule, which gives Löb.
+   - Include a capability test against baselines without self-trust.
+   - Prediction: no guard adds capability over the split-criterion baseline. A pass would need
+     explaining.
+4. **Optional: the soundness of Tiler v1 in Ansatz.** It is a routine invariant proof that
+   checks the machine; it is not progress on the obstacle.
 
-**Success:**
-- Item 2 kernel-checked.
-- Item 3 reproduces the three outcomes with proofs in place of syntax.
-- Item 4 needs no new rule.
+**Success (item 3):**
+- the obstacle is live: the naive rule is exploitable and no guard yields a telomere;
+- each guard's lineage and capability are measured against the baselines.
 
-**Failure:**
-- The Ansatz proof needs a hypothesis Tiler's code does not meet. Record it and fix the
-  checker.
-- Item 3's proof checker cannot express the install rule without making `:same`
-  derivable. Record what separates them.
-
-## Order and resources
-
-- Items 2 and 4 are independent and can run in parallel.
-- Item 3 follows item 2.
-- Item 5 is small.
-- Claude does items 1, 4 and 5 and drafts item 2. A Codex lane for the Ansatz proof is
-  the user's decision.
+**Failure (item 3):** the setting cannot be made live without stipulating the outcome. Record why.
 
 ## Open decisions for the user
 
-1. Accept this ADR in place of ADR-0009's Phase A and D.
-2. Whether to start a Codex lane for item 2.
+1. Accept this ADR in place of ADR-0009's Phases A and D.
+2. Whether to pursue item 3.
 
 ## After-action report
 
