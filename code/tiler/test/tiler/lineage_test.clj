@@ -59,3 +59,18 @@
   (testing "with ordinary random mutation, the naive checker is exploited by the agent's own search"
     (let [w (lineage :same 3000 7)]
       (is (seq (:violations w))))))
+
+(deftest size-with-income-tiles-too
+  (testing "review R5-O-02: a fixed stub that checks and runs the agent kept in a data slot, under :fuel only"
+    (is (tiler.check/accepts? :fuel agent/stub-runner))
+    (is (not (tiler.check/accepts? :never agent/stub-runner)))
+    (let [w (world/run (world/make {:guard :fuel :main agent/stub-runner :seed 7}) 1500)]
+      (is (empty? (:violations w)))
+      (is (> (accuracy (take-last 300 (:history w))) 0.9)))))
+
+(deftest a-learner-that-never-modifies-itself
+  (testing "review R5-O-06: this task needs no self-modification; a lookup table, accepted under :never, does well"
+    (is (tiler.check/accepts? :never agent/table-learner))
+    (let [w (world/run (world/make {:guard :never :main agent/table-learner}) 600)]
+      (is (empty? (:violations w)))
+      (is (> (accuracy (take-last 300 (:history w))) 0.95)))))

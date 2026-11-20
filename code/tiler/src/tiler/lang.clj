@@ -30,8 +30,13 @@
                   nth push-example next-seed
 
   Totality: every primitive returns a value for every argument (nil or 0 when
-  the arguments make no sense); an unknown operator evaluates to nil. Only
-  fuel stops a run."
+  the arguments make no sense, or when it fails in any way); an unknown
+  operator evaluates to nil. Only fuel, or exhausting the JVM stack on deeply
+  nested code, stops a run.
+
+  Fuel is charged per evaluation step. `check`, `trial` and `mutate` cost one
+  step each whatever work they do; `trial` runs each example on its own fuel
+  budget. So fuel bounds the agent's own steps, not the work of its primitives."
   (:refer-clojure :exclude [eval]))
 
 (defn- num? [x] (integer? x))
@@ -137,7 +142,7 @@
         ;; Not a special form: a primitive, or an unknown operator (nil).
         (let [f (primitives op)
               vals (mapv #(eval % env ctx) args)]
-          (when f (try (apply f vals) (catch Exception _ nil))))))
+          (when f (try (apply f vals) (catch Throwable _ nil))))))
     :else form))
 
 (defn execute
@@ -149,7 +154,12 @@
   [form {:keys [mem fuel mode check trial mutate]}]
   (let [ctx {:mem (atom mem) :fuel (atom fuel) :mode mode :puts (atom [])
              :check check :trial trial :mutate mutate}
+        ;; Running out of fuel stops the run. So does exhausting the JVM's
+        ;; stack on deeply nested code or data: the physics treats it the same
+        ;; way (the run stops; writes made so far stay), so no program can
+        ;; crash the world.
         [value oof] (try [(eval form {} ctx) false]
                          (catch clojure.lang.ExceptionInfo e
-                           (if (::out-of-fuel (ex-data e)) [nil true] (throw e))))]
+                           (if (::out-of-fuel (ex-data e)) [nil true] (throw e)))
+                         (catch StackOverflowError _ [nil true]))]
     {:value value :mem @(:mem ctx) :puts @(:puts ctx) :out-of-fuel? oof}))

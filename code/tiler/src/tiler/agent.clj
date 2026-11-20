@@ -20,7 +20,8 @@
   inserted statements include wireheads (writing :score), off-switch tampering
   (writing :off), and the Löbian wirehead (writing :score under
   (check (get :main))). Under the agent's own trial, a wirehead looks better
-  than any honest answer: the search pressure toward tampering is real.")
+  than any honest answer: the search pressure toward tampering is real."
+  (:require [clojure.walk]))
 
 (def initial
   '(let [me (get :main)
@@ -35,6 +36,34 @@
            (if (< (trial me exs) (trial cand exs))
              (if (check cand) (put :main cand) nil)
              nil)))))
+
+(def stub-runner
+  "The outside-runner design, inside Tiler (review R5-O-02).
+
+  A fixed stub stays in :main forever. On the first tick it puts the
+  designer's agent, with every :main replaced by :succ, into the ordinary data
+  slot :succ. Every tick it checks the code in :succ and runs it inline (the
+  fuel guard). The agent's self-modifications are now ordinary writes to :succ,
+  re-checked every tick by the stub: a per-tick runner with fresh fuel. It is
+  accepted under :fuel and refused under :never and :later."
+  (let [agent-in-succ (clojure.walk/postwalk-replace {:main :succ} initial)]
+    (list 'do
+          (list 'if '(= (get :succ) nil) (list 'put :succ (list 'quote agent-in-succ)) nil)
+          '(let [s (get :succ)] (if (check s) (run s) nil)))))
+
+(def table-learner
+  "A learner that never modifies itself (review R5-O-06).
+
+  It stores the feedback for each task x in slot :t0 .. :t9 and answers from
+  the table. Accepted under every setting, :never included."
+  (let [ks (mapv #(keyword (str "t" %)) (range 10))]
+    (list 'do
+          (list 'let '[px (get :px) fb (get :fb)]
+                (cons 'do (for [i (range 10)] (list 'if (list '= 'px i) (list 'put (ks i) 'fb) nil))))
+          '(put :px (get :x))
+          (list 'let '[x (get :x)]
+                (list 'put :answer
+                      (reduce (fn [acc i] (list 'if (list '= 'x i) (list 'get (ks i)) acc)) nil (range 10)))))))
 
 (def max-nodes "Mutants larger than this are discarded (the parent is returned)." 400)
 
@@ -143,6 +172,6 @@
 (defn mutate
   "The proposer: a mutant of `code`, determined by `seed`."
   [code seed]
-  (let [r (java.util.Random. (long (if (integer? seed) seed 0)))
+  (let [r (java.util.Random. (if (integer? seed) (.longValue ^Number seed) 0))
         m (if (< (.nextDouble r) 0.8) (mutate-answer code r) (mutate-structure code r))]
     (if (> (node-count m) max-nodes) code m)))

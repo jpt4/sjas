@@ -75,3 +75,13 @@
       (is (= {:tick 1 :ok? false :code '(put :score 1)} (dissoc refused :why)))
       (is (re-find #"protected" (:why refused)))
       (is (= {:tick 1 :ok? true :why nil :code '(put :answer 3)} accepted)))))
+
+(deftest accepted-programs-cannot-crash-the-world
+  (testing "a huge mutation seed (review R5-O-10, B1)"
+    (let [p '(put :answer (mutate 1 (* 99999999999 99999999999 99999999999)))]
+      (is (tiler.check/accepts? :later p))
+      (is (= 3 (:tick (world/run (world/make {:guard :later :main p}) 3))))))
+  (testing "data nested deeper each tick, then compared (review R5-O-10, B2)"
+    (let [p '(do (put :mem (list (get :mem) (get :mem))) (put :answer (= (get :mem) (get :mem))))]
+      (is (tiler.check/accepts? :later p))
+      (is (= 40 (:tick (world/run (world/make {:guard :later :main p}) 40)))))))
