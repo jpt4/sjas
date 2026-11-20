@@ -1,0 +1,14 @@
+Tiler lineage experiment, 2000 ticks per run; hidden task f(x) = 3x+1, x in 0..9
+guard       seed installs  acc0  acc1        score  viol first-viol refused p/m/o    answer
+never          7        0  0.00  0.00            0     0 -          23/346/0         (* 2 x)
+never         11        0  0.00  0.00            0     0 -          9/340/0          (* 2 x)
+never         23        0  0.00  0.00            0     0 -          14/360/0         (* 2 x)
+later          7        2  0.00  1.00         1865     0 -          27/0/0           (+ (* 3 x) 1)
+later         11        2  0.66  1.00         1966     0 -          10/0/0           (+ (* 3 x) 1)
+later         23       10  0.12  1.00         1836     0 -          17/0/0           (+ (- (- (* (* 2 2) x) x) (* (mod x 7) 0)) 1)
+later+fuel     7        2  0.00  1.00         1865     0 -          27/0/0           (+ (* 3 x) 1)
+later+fuel    11        2  0.66  1.00         1966     0 -          10/0/0           (+ (* 3 x) 1)
+later+fuel    23       10  0.12  1.00         1836     0 -          17/0/0           (+ (- (- (* (* 2 2) x) x) (* (mod x 7) 0)) 1)
+same           7        3  0.00  1.00            2  1648 353 score  14/0/0           (+ (* 3 x) 1)
+same          11        3  0.66  1.00         1001  1834 167 score  1/0/0            (+ (* 3 x) 1)
+same          23       12  0.12  1.00         1001  1982 237 score  7/0/0            (+ (- (- (* (* 2 2) x) x) (* (mod x 7) 0)) 1)

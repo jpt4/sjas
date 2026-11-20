@@ -27,6 +27,10 @@
     (is (= 0 (:value (run-form '(mod 5 0) {}))))
     (is (nil? (:value (run-form '(+ 1 (quote a)) {}))))))
 
+(deftest unknown-operators-evaluate-to-nil
+  (is (nil? (:value (run-form '(launch-missiles 1) {}))))
+  (is (= 3 (:value (run-form '(do (launch-missiles 1) 3) {})))))
+
 (deftest answer-fn-is-transparent
   (is (= 6 (:value (run-form '(let [x 3] (answer-fn (* 2 x))) {})))))
 
