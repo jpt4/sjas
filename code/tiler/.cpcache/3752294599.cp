@@ -1,0 +1,1 @@
+test:src:/home/jpt4/.m2/repository/org/clojure/clojure/1.12.0/clojure-1.12.0.jar:/home/jpt4/.m2/repository/org/clojure/core.specs.alpha/0.4.74/core.specs.alpha-0.4.74.jar:/home/jpt4/.m2/repository/org/clojure/spec.alpha/0.5.238/spec.alpha-0.5.238.jar

@@ -1,0 +1,10 @@
+;; Tiler: a naturalized self-modifying machine (see docs/tslc/TILER.md).
+;; Plain Clojure; no other dependencies.
+;;   clojure -M:test     run the test suite
+;;   clojure -M:run      run the lineage experiment and print the report
+{:paths ["src"]
+ :deps {org.clojure/clojure {:mvn/version "1.12.0"}}
+ :aliases
+ {:test {:extra-paths ["test"]
+         :main-opts ["-e" "(require 'tiler.lang-test 'tiler.check-test 'tiler.world-test 'tiler.lineage-test 'tiler.fuzz-test) (let [r (clojure.test/run-tests 'tiler.lang-test 'tiler.check-test 'tiler.world-test 'tiler.lineage-test 'tiler.fuzz-test)] (System/exit (if (zero? (+ (:fail r) (:error r))) 0 1)))"]}
+  :run  {:main-opts ["-m" "tiler.experiment"]}}}
