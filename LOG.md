@@ -673,3 +673,9 @@ See [the analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.m
   - The fuzz test now catches the four planted bugs.
   - 41 tests.
 - ADR-0010 is at revision 2.
+
+## 2026-11-20 — Cost and the second incompleteness theorem
+
+- **Question (user).** Can a cost-aware logical framework perspective grasp the essence of G2, given Beklemishev–Shamkanov on contraction, Willard on compositionality, and λᶜᵉʳᵗ's size cost for trust?
+- **Answer.** G2's proof composes, verifies and copies evidence at a variable (L1, L2, and B–S's □-contraction). It holds whenever those uniform operations are free. Tracking cost changes nothing provable (calf's noninterference) but gives G2's quantitative form (Pudlák; GL read as budgets). Restricting the reuse of formulas fails for arithmetic, because □-contraction returns. Restricting evidence works for the charged notion only (Willard's growth bounds; λᶜᵉʳᵗ₀'s tokens). Restricting time (▷) keeps G2.
+- **Sources.** B–S arXiv:1602.05728 read in full; calf only its phase/noninterference passages. Details: [note](docs/log/2026-11-20-cost-and-g2.md).
