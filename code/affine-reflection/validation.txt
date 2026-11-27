@@ -1,0 +1,61 @@
+ADR-0011 validation 2026-11-27T22:43:36.414524+00:00
+
+$ /home/jpt4/.elan/bin/lean +leanprover/lean4:v4.32.1 -o Decrease.olean Decrease.lean
+'AffineReflection.decrease' depends on axioms: [propext, Quot.sound]
+'AffineReflection.stronglyNormalizing' depends on axioms: [propext, Quot.sound]
+'AffineReflection.infinite_unsafe_run' depends on axioms: [propext, Quot.sound]
+exit=0
+
+$ /home/jpt4/.elan/bin/lean +leanprover/lean4:v4.32.1 Soundness.lean
+'AffineReflection.preservation' depends on axioms: [propext, Quot.sound]
+'AffineReflection.consistency' depends on axioms: [propext, Quot.sound]
+'AffineReflection.h0' depends on axioms: [propext, Quot.sound]
+'AffineReflection.h1' does not depend on any axioms
+'AffineReflection.pair_consistency' depends on axioms: [propext, Quot.sound]
+exit=0
+
+$ python3 -m coverage run --branch -m unittest -v test_machine
+test_affine_abstraction_refuses_duplication_and_open_quotes (test_machine.MachineTests.test_affine_abstraction_refuses_duplication_and_open_quotes) ... ok
+test_affine_basis (test_machine.MachineTests.test_affine_basis) ... ok
+test_all_root_rules_strictly_decrease (test_machine.MachineTests.test_all_root_rules_strictly_decrease) ... ok
+test_checker_rejects_malformed_target_types (test_machine.MachineTests.test_checker_rejects_malformed_target_types) ... ok
+test_consistency_and_pair_consistency_types (test_machine.MachineTests.test_consistency_and_pair_consistency_types) ... ok
+test_decidable_checker_rejects_bad_inputs (test_machine.MachineTests.test_decidable_checker_rejects_bad_inputs) ... ok
+test_duplication_gives_a_typed_exact_cycle (test_machine.MachineTests.test_duplication_gives_a_typed_exact_cycle) ... ok
+test_enumerated_preservation_and_no_bottom (test_machine.MachineTests.test_enumerated_preservation_and_no_bottom) ... ok
+test_naming_fixed_point_is_present (test_machine.MachineTests.test_naming_fixed_point_is_present) ... ok
+test_quotes_are_inert_but_cover_the_whole_language (test_machine.MachineTests.test_quotes_are_inert_but_cover_the_whole_language) ... ok
+test_reflection_and_internal_code_operators (test_machine.MachineTests.test_reflection_and_internal_code_operators) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 13.356s
+
+OK
+exit=0
+
+$ python3 -m coverage report -m
+Name              Stmts   Miss Branch BrPart  Cover   Missing
+-------------------------------------------------------------
+machine.py          233     31    118      6    87%   57-58, 232, 236, 284, 306, 326-333, 337-353
+test_machine.py      95      1     32      1    98%   134
+-------------------------------------------------------------
+TOTAL               328     32    150      7    90%
+exit=0
+
+$ python3 machine.py
+Evaluate an interpreter and run composed code through it:
+   12 nodes  ((E <E>) ((M <I>) <star>))
+    9 nodes  (E ((M <I>) <star>))
+    6 nodes  (E <(I star)>)
+    3 nodes  (I star)
+    1 nodes  star
+H0 type checks: True
+H1 type checks: True
+With W, a checked Bot term repeats after four steps:
+  checked Bot: True
+   22 nodes  ((U (F (W ((B U) E)))) <(F (W ((B U) E)))>)
+   18 nodes  ((W ((B U) E)) <(F (W ((B U) E)))>)
+   27 nodes  ((((B U) E) <(F (W ((B U) E)))>) <(F (W ((B U) E)))>)
+   25 nodes  ((U (E <(F (W ((B U) E)))>)) <(F (W ((B U) E)))>)
+   22 nodes  ((U (F (W ((B U) E)))) <(F (W ((B U) E)))>)
+exit=0

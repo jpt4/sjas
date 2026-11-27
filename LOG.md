@@ -679,3 +679,32 @@ See [the analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.m
 - **Question (user).** Can a cost-aware logical framework perspective grasp the essence of G2, given Beklemishev–Shamkanov on contraction, Willard on compositionality, and λᶜᵉʳᵗ's size cost for trust?
 - **Answer.** G2's proof composes, verifies and copies evidence at a variable (L1, L2, and B–S's □-contraction). It holds whenever those uniform operations are free. Tracking cost changes nothing provable (calf's noninterference) but gives G2's quantitative form (Pudlák; GL read as budgets). Restricting the reuse of formulas fails for arithmetic, because □-contraction returns. Restricting evidence works for the charged notion only (Willard's growth bounds; λᶜᵉʳᵗ₀'s tokens). Restricting time (▷) keeps G2.
 - **Sources.** B–S arXiv:1602.05728 read in full; calf only its phase/noninterference passages. Details: [note](docs/log/2026-11-20-cost-and-g2.md).
+
+## 2026-11-27 — Affine combinators with executable self-justification
+
+- **Goal.** Take a fresh approach to an extremely concrete computational
+  analogue of self-justification. Current TSLC/Tiler notes were reconciled
+  first; their agent checkers do not supply the requested operational role.
+- **Construction.** BCKI plus quotation, evaluation E, internal quotation D,
+  internal application M, and fold/unfold for `G = Box G -o Bot`. All eight
+  reduction rules strictly decrease tree size. `H0 = E` and
+  `H1 = B (C E) E` are executable typed consistency combinators.
+- **Kernel evidence.** Lean 4.32.1 core checks strong normalization,
+  preservation, progress, whole-calculus consistency, H0, and H1's
+  type-indexed schema. Axioms: propext and Quot.sound only; H1 uses none.
+  No classical choice, reflection axiom, or sorry.
+- **Boundary.** Adding just `W f x -> f x x` admits a Bot-typed term with
+  a four-step cycle, of sizes 22, 18, 27, 25, 22. The infinite cycle is
+  kernel-checked; its unsafe type derivation is explicit and Python-tested.
+- **Prototype.** Eleven Python tests, written red first, plus an executable
+  self-interpretation demo. All 3,050 trees through five nodes over the ten
+  constants are regression-tested; 665 type-check. A malformed target-type
+  arity/None bug was found and fixed with a regression. Python's checker
+  correspondence to the formal relation is not proved.
+- **Limit.** Typed quotations and a type-indexed H1 schema are not the full
+  H0/H1 over an internally represented raw-code checker. That research
+  obligation remains open; no safe-agent capability is claimed.
+- **Artifacts.** [Research note](docs/log/2026-11-27-affine-reflection.md),
+  [ADR-0011](nachlass/refinement/ADR-0011-affine-reflection.md),
+  [code and proofs](code/affine-reflection/README.md).
+  Work isolated on `research/affine-reflection`.
