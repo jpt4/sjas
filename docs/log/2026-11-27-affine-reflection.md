@@ -4,6 +4,12 @@ Date: 2026-11-27. Branch: `research/affine-reflection`.
 Decision record: [ADR-0011](../../nachlass/refinement/ADR-0011-affine-reflection.md).
 Executable artifact: [code/affine-reflection](../../code/affine-reflection/).
 
+**Continuation:** the [raw-code machine](2026-11-27-raw-self-justifying-machine.md)
+now implements its own checker instruction and one uniform H1 package,
+with whole-checker consistency and evaluator proofs. The open obligations
+below describe this initial core experiment; the continuation records which
+were closed and the exact scope of that result.
+
 ## Result and scope
 
 There is a small, total combinator calculus with a primitive evaluator for

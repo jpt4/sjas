@@ -1,0 +1,87 @@
+ADR-0011 raw-machine final validation 2026-11-28T03:50:34.775079+00:00
+RawChecks: 35 kernel-checked examples; universal theorems audited below.
+
+$ /home/jpt4/.elan/bin/lean +leanprover/lean4:v4.32.1 -DwarningAsError=true -o Decrease.olean Decrease.lean
+'AffineReflection.decrease' depends on axioms: [propext, Quot.sound]
+'AffineReflection.stronglyNormalizing' depends on axioms: [propext, Quot.sound]
+'AffineReflection.infinite_unsafe_run' depends on axioms: [propext, Quot.sound]
+exit=0
+
+$ /home/jpt4/.elan/bin/lean +leanprover/lean4:v4.32.1 -DwarningAsError=true Soundness.lean
+'AffineReflection.preservation' depends on axioms: [propext, Quot.sound]
+'AffineReflection.consistency' depends on axioms: [propext, Quot.sound]
+'AffineReflection.h0' depends on axioms: [propext, Quot.sound]
+'AffineReflection.h1' does not depend on any axioms
+'AffineReflection.pair_consistency' depends on axioms: [propext, Quot.sound]
+exit=0
+
+$ /home/jpt4/.elan/bin/lean +leanprover/lean4:v4.32.1 -DwarningAsError=true -o RawMachine.olean RawMachine.lean
+exit=0
+
+$ /home/jpt4/.elan/bin/lean +leanprover/lean4:v4.32.1 -DwarningAsError=true -o RawChecks.olean RawChecks.lean
+RawReflection.Term.tt
+RawReflection.Term.atom (RawReflection.Op.star)
+RawReflection.Term.some (RawReflection.Term.quote (RawReflection.Term.atom (RawReflection.Op.h1)))
+RawReflection.Term.tt
+'RawReflection.consistency' depends on axioms: [propext, Quot.sound]
+'RawReflection.checker_h0' depends on axioms: [propext, Quot.sound]
+'RawReflection.checker_h1' depends on axioms: [propext, Quot.sound]
+'RawReflection.step_decrease' depends on axioms: [propext, Quot.sound]
+'RawReflection.step_preservation' depends on axioms: [propext, Quot.sound]
+'RawReflection.run_value' depends on axioms: [propext, Quot.sound]
+'RawReflection.box_representation' depends on axioms: [propext]
+'RawReflection.opposed_representation' depends on axioms: [propext]
+'RawReflection.h0_reading' depends on axioms: [propext]
+'RawReflection.h1_reading' depends on axioms: [propext]
+'RawReflection.check_exec' depends on axioms: [propext, Quot.sound]
+'RawReflection.seal_exec' depends on axioms: [propext, Quot.sound]
+'RawReflection.pair_exec' depends on axioms: [propext, Quot.sound]
+'RawReflection.h1_exec' depends on axioms: [propext, Quot.sound]
+exit=0
+
+$ /home/jpt4/.elan/bin/lean +leanprover/lean4:v4.32.1 -DwarningAsError=true --run RawDemo.lean
+Check the checker's own instruction
+  accepted input: true
+  result: RawReflection.Term.tt
+  syntax nodes: 6 -> 1
+Seal the uniform H1 instruction
+  accepted input: true
+  result: RawReflection.Term.some (RawReflection.Term.quote (RawReflection.Term.atom (RawReflection.Op.h1)))
+  syntax nodes: 4 -> 3
+Check, seal, then execute the checker on H1
+  accepted input: true
+  result: RawReflection.Term.tt
+  syntax nodes: 19 -> 1
+Use checked code in an object-language option branch
+  accepted input: true
+  result: RawReflection.Term.atom (RawReflection.Op.star)
+  syntax nodes: 12 -> 1
+Reject a purported Bot certificate
+  accepted input: true
+  result: RawReflection.Term.none (RawReflection.Ty.box (RawReflection.Ty.bot))
+  syntax nodes: 4 -> 1
+exit=0
+
+$ python3 -m unittest -v test_machine
+test_affine_abstraction_refuses_duplication_and_open_quotes (test_machine.MachineTests.test_affine_abstraction_refuses_duplication_and_open_quotes) ... ok
+test_affine_basis (test_machine.MachineTests.test_affine_basis) ... ok
+test_all_root_rules_strictly_decrease (test_machine.MachineTests.test_all_root_rules_strictly_decrease) ... ok
+test_checker_rejects_malformed_target_types (test_machine.MachineTests.test_checker_rejects_malformed_target_types) ... ok
+test_consistency_and_pair_consistency_types (test_machine.MachineTests.test_consistency_and_pair_consistency_types) ... ok
+test_decidable_checker_rejects_bad_inputs (test_machine.MachineTests.test_decidable_checker_rejects_bad_inputs) ... ok
+test_duplication_gives_a_typed_exact_cycle (test_machine.MachineTests.test_duplication_gives_a_typed_exact_cycle) ... ok
+test_enumerated_preservation_and_no_bottom (test_machine.MachineTests.test_enumerated_preservation_and_no_bottom) ... ok
+test_naming_fixed_point_is_present (test_machine.MachineTests.test_naming_fixed_point_is_present) ... ok
+test_quotes_are_inert_but_cover_the_whole_language (test_machine.MachineTests.test_quotes_are_inert_but_cover_the_whole_language) ... ok
+test_reflection_and_internal_code_operators (test_machine.MachineTests.test_reflection_and_internal_code_operators) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 1.830s
+
+OK
+exit=0
+
+$ git diff --check
+exit=0
+
+All commands passed. Dependency audit passed.

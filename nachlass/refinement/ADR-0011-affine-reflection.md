@@ -1,6 +1,7 @@
 # ADR-0011 — Affine combinators with executable self-interpretation
 
-Date: 2026-11-27. Status: typed-core experiment complete; raw-checker extension open.
+Date: 2026-11-27. Status: complete for the specified finite-tree machine,
+including the raw-code extension and its constructive metatheory.
 
 The current goal asks for a fresh, extremely concrete computational analogue
 of self-justification. Previous TSLC/Tiler experiments did not make their
@@ -61,3 +62,83 @@ are open obligations for the broader research goal, documented in the
 [research note](../../docs/log/2026-11-27-affine-reflection.md). No Tiler or
 lambda-cert implementation was changed, and no agent-performance claim is
 made.
+
+## Raw-code extension (2026-11-27 continuation; completed)
+
+The preceding goal turn made concrete progress (commit ceb9e3d2, with green
+kernel and runtime evidence). The next experiment adds arbitrary raw syntax,
+runtime type codes, and a primitive structural checker to the *same object
+language*. Use annotated primitive instances so checking needs no unifier.
+Lean's executable checker, rather than the Python prototype, will be the
+authoritative algorithm for the extension.
+
+`Box A` values store raw programs accepted at A. Add `Opposed`, whose values
+store a runtime type code A and raw programs accepted at A and A -o Bot.
+This is one dependent package type, representing the finite witnesses to
+failure of H1; it is not a metatheoretic family of input types. H1 has the
+single type `Opposed -o Bot` and executes the packaged application. Raw
+checking and packaging must cover these very instructions. Neither a
+blacklist of bad conclusions nor an assumed consistency theorem may be used
+by the checker.
+
+Add executable `check`, `seal A`, and `checkPair`, plus Boolean/option
+eliminators so an object program can use their results. A successful seal
+moves the checked code into a quotation. A successful pair check moves both
+codes and the type into an opposed package. All rules must decrease expanded
+term size; host checking is a structurally recursive computation, not an
+oracle. Count macro-reductions separately from checker runtime.
+
+Acceptance gates for this extension:
+
+1. Raw constructors admit ill-typed programs and rejected W, with tests.
+2. An executable checker and its primitive `check` agree by definition;
+   prove preservation, progress, and consistency for acceptance by that
+   actual checker, including the new instructions.
+3. Prove the representation equations: quoted/packaged code is accepted
+   exactly when the contained raw certificates satisfy the full checker.
+   Interpret the two negative package types explicitly as H0/H1. Do not
+   claim a general dependent type theory or arbitrary first-order quantifiers.
+4. Execute checking of the checker's own instruction, checking/quoting the
+   uniform H1 instruction, valid/invalid sealing, and an object program
+   using a successfully sealed program.
+5. Kernel-check termination of the implemented evaluator, and acceptance
+   implies no Bot for arbitrary inputs and types, with no classical choice,
+   assumed reflection, or sorry. Retain the earlier duplication counterexample.
+6. Document whether the claimed raw-code representation really closes the
+   gap or merely relocates it. Keep compiler/host trust explicit.
+
+### Raw-code after-action report
+
+All six gates pass. `RawMachine.lean` defines both the executed checker and
+the checked typing relation; no external unifier or correspondence conjecture
+is needed for this model. It contains a finite table of annotated primitive
+types and a structural checker, including raw data, its own check opcode,
+seal, uniform H1, and the dependent opposed package. The implemented
+evaluator returns proof-carrying steps and is proved terminating, complete
+for finding a reduction, type-preserving, and value-producing on accepted
+inputs.
+
+Kernel-checked representation equations and constructive currying identify
+the negative package types with the full raw H0/H1 counterexample predicates.
+The uniform H1 argument holds a runtime type code, so it is not the first
+experiment's externally indexed family. The scope is these specialized
+packages; a general dependent quantifier language is not claimed.
+
+The checker is an object primitive with a fully specified algorithm, not
+source code compiled into BCKI. Its runtime agreement with the checker used
+in the theorem holds for every raw input and type. That is the precise sense
+in which the raw-code gap is closed. The finite-tree machine meets the user's
+request for a concrete executable analogue; no further implementation is
+required to exhibit that model.
+
+Behavioral examples include checking the checker, sealing H1, and executing
+a checked checker to check H1. The axiom audit exposed classical choice in
+one automated representation proof; explicit Boolean cases removed it. All
+reported theorems now use only propext and Quot.sound. No source contains a
+proof placeholder or native-decide shortcut. The old duplication-cycle
+counterexample remains available.
+
+The [scope audit and evidence](../../docs/log/2026-11-27-raw-self-justifying-machine.md)
+record the whole result. The original core's historical open-obligation
+paragraph above is superseded for the raw machine, not retroactively
+reinterpreted as a proof about the Python checker.

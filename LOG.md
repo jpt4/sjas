@@ -708,3 +708,32 @@ See [the analysis note](docs/log/2026-10-24-incompleteness-ex-machina-analysis.m
   [ADR-0011](nachlass/refinement/ADR-0011-affine-reflection.md),
   [code and proofs](code/affine-reflection/README.md).
   Work isolated on `research/affine-reflection`.
+
+## 2026-11-27 — Raw-code extension closes the representation gap
+
+- **Continuation.** The previous goal turn was concrete progress: the affine
+  core, checked metatheory, runtime examples, and pushed commit ceb9e3d2.
+  The remaining question was H0/H1 for the machine's own raw-code checker.
+- **Built.** `RawMachine.lean`: finite annotated syntax, arbitrary raw data,
+  runtime type codes, the actual structural checker as an object instruction,
+  seal, code evaluation, and one H1 instruction accepting an opposed package.
+  The checker covers all of those instructions. Python inference is not used.
+- **Meaning.** Kernel representation equations identify Box A with a raw
+  program accepted at A, and Opposed with a runtime A and two programs
+  accepted at A and A -o Bot. Constructive packaging/currying gives the
+  raw universal H0/H1 meanings. This is a specialized package encoding,
+  not a claim to implement arbitrary dependent quantifiers.
+- **Verified.** Whole-checker H0/H1, preservation, progress, strict size
+  decrease, and the actual evaluator's termination, step completeness,
+  preservation, and value production. Primitive execution equations hold
+  for arbitrary raw inputs. No theorem assumes the old fragment sound.
+- **Executed.** The checker checks itself; H1 is sealed; an object program
+  checks and seals the checker and executes it on H1; checked identity code
+  executes through an option branch; fake Bot evidence is refused.
+- **Audit.** All printed theorem dependencies are propext/Quot.sound only.
+  An initially choice-dependent simplification proof was replaced by direct
+  Boolean cases. The checker is a primitive algorithm, not BCKI source-level
+  self-hosting. The concrete-model goal is met within this explicit scope.
+- **Artifacts.** [Result and completion audit](docs/log/2026-11-27-raw-self-justifying-machine.md),
+  [runnable instructions](code/affine-reflection/README.md),
+  [validation record](code/affine-reflection/validation-raw.txt).
